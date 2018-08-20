@@ -1,7 +1,8 @@
 {
   "name": "tiptap",
   "version": "0.1.0",
-  "description": "",
+  "description": "A rich-text editor for Vue.js",
+  "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
     "start": "babel-node webpack/server.js --env=development",
