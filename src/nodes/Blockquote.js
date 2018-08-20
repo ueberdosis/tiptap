@@ -1,5 +1,5 @@
-import { Node } from 'vue-mirror/utils'
-import { wrappingInputRule, setBlockType, wrapIn } from 'vue-mirror/helpers'
+import { Node } from 'tiptap/utils'
+import { wrappingInputRule, setBlockType, wrapIn } from 'tiptap/helpers'
 
 export default class BlockquoteNode extends Node {
 

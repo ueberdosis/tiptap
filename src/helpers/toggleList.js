@@ -1,5 +1,5 @@
-import { nodeIsActive } from 'vue-mirror/utils'
-import { wrapInList, liftListItem } from 'vue-mirror/helpers'
+import { nodeIsActive } from 'tiptap/utils'
+import { wrapInList, liftListItem } from 'tiptap/helpers'
 
 export default function toggleList(type, itemType) {
   return (state, dispatch, view) => {

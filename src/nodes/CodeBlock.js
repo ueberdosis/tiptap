@@ -1,5 +1,5 @@
-import { Node } from 'vue-mirror/utils'
-import { toggleBlockType, setBlockType, textblockTypeInputRule } from 'vue-mirror/helpers'
+import { Node } from 'tiptap/utils'
+import { toggleBlockType, setBlockType, textblockTypeInputRule } from 'tiptap/helpers'
 
 export default class CodeBlockNode extends Node {
 

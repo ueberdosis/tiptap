@@ -1,7 +1,7 @@
 import { lift, selectParentNode } from 'prosemirror-commands'
 import { undo, redo } from 'prosemirror-history'
 import { undoInputRule } from 'prosemirror-inputrules'
-import { isMac } from 'vue-mirror/utils'
+import { isMac } from 'tiptap/utils'
 
 const keymap = {
 	'Mod-z': undo,

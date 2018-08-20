@@ -1,5 +1,5 @@
-import { Node } from 'vue-mirror/utils'
-import { setBlockType, textblockTypeInputRule, toggleBlockType } from 'vue-mirror/helpers'
+import { Node } from 'tiptap/utils'
+import { setBlockType, textblockTypeInputRule, toggleBlockType } from 'tiptap/helpers'
 
 export default class HeadingNode extends Node {
 

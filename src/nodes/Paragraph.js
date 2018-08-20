@@ -1,5 +1,5 @@
-import { Node } from 'vue-mirror/utils'
-import { setBlockType } from 'vue-mirror/helpers'
+import { Node } from 'tiptap/utils'
+import { setBlockType } from 'tiptap/helpers'
 
 export default class ParagraphNode extends Node {
 

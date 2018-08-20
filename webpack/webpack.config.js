@@ -9,22 +9,22 @@ import ImageminWebpackPlugin from 'imagemin-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import { ifDev, ifProd, removeEmpty } from './utilities'
-import { rootPath, srcPath, buildPath } from './paths'
+import { rootPath, srcPath, examplesSrcPath, examplesBuildPath, buildPath } from './paths'
 
 export default {
 
 	mode: ifDev('development', 'production'),
 
 	entry: {
-		app: removeEmpty([
+		examples: removeEmpty([
 			ifDev('webpack-hot-middleware/client?reload=true'),
-			`${srcPath}/assets/sass/main.scss`,
-			`${srcPath}/main.js`,
+			`${examplesSrcPath}/assets/sass/main.scss`,
+			`${examplesSrcPath}/main.js`,
 		]),
 	},
 
 	output: {
-		path: `${buildPath}/`,
+		path: `${examplesBuildPath}/`,
 		filename: `assets/js/[name]${ifProd('.[hash]', '')}.js`,
 		chunkFilename: `assets/js/[name]${ifProd('.[chunkhash]', '')}.js`,
 		publicPath: '/',
@@ -36,15 +36,15 @@ export default {
 			vue$: 'vue/dist/vue.esm.js',
 			modernizr: path.resolve(rootPath, '../.modernizr'),
 			modules: path.resolve(rootPath, '../node_modules'),
-			images: `${srcPath}/assets/images`,
-			fonts: `${srcPath}/assets/fonts`,
-			variables: `${srcPath}/assets/sass/variables`,
-			settings: `${srcPath}/assets/sass/1-settings/index`,
-			utilityFunctions: `${srcPath}/assets/sass/2-utility-functions/index`,
-			'vue-mirror': path.resolve(rootPath, '../src'),
+			images: `${examplesSrcPath}/assets/images`,
+			fonts: `${examplesSrcPath}/assets/fonts`,
+			variables: `${examplesSrcPath}/assets/sass/variables`,
+			settings: `${examplesSrcPath}/assets/sass/1-settings/index`,
+			utilityFunctions: `${examplesSrcPath}/assets/sass/2-utility-functions/index`,
+			tiptap: path.resolve(rootPath, '../src'),
 		},
 		modules: [
-			srcPath,
+			examplesSrcPath,
 			path.resolve(rootPath, '../node_modules'),
 		],
 	},
@@ -129,46 +129,16 @@ export default {
 		}),
 
 		// define env
-		new webpack.DefinePlugin({
-			'process.env': {
-				API_BASEURL: ifDev(
-					JSON.stringify('http://local.app.scrumpy.io/api/'),
-					JSON.stringify('https://app.scrumpy.io/api/'),
-				),
-				SOCKET_KEY: ifDev(
-					JSON.stringify('981d87f7695904cec025e4039dd4048b'),
-					JSON.stringify('981d87f7695904cec025e4039dd4048b'),
-				),
-				SOCKET_HOST: ifDev(
-					JSON.stringify('http://local.socket.scrumpy.io/'),
-					JSON.stringify('https://socket.scrumpy.io/'),
-				),
-				SUBSCRIPTIONS_HOST: ifDev(
-					JSON.stringify('ws://local.subscriptions.scrumpy.io/'),
-					JSON.stringify('wss://subscriptions.scrumpy.io/'),
-				),
-				STRIPE_KEY: ifDev(
-					JSON.stringify('pk_test_yU17swZxi2a289XgEI9F20qS'),
-					JSON.stringify('pk_live_XWgEzw9TgxpY8Tsf7PKXzk1k'),
-				),
-				CRISP_WEBSITE_ID: ifDev(
-					null,
-					JSON.stringify('463813ad-c274-4da1-8045-f5ceac88832b'),
-				),
-				ANALYTICS_ID: ifDev(
-					null,
-					JSON.stringify('UA-93829826-2'),
-				),
-				BUILD_VERSION: JSON.stringify(new Date().valueOf()),
-			},
-		}),
+		// new webpack.DefinePlugin({
+		// 	'process.env': {},
+		// }),
 
 		// copy static files
 		new CopyWebpackPlugin([
 			{
-				context: `${srcPath}/assets/static`,
+				context: `${examplesSrcPath}/assets/static`,
 				from: { glob: '**/*', dot: false },
-				to: `${buildPath}/assets`,
+				to: `${examplesBuildPath}/assets`,
 			},
 		]),
 
@@ -186,7 +156,7 @@ export default {
 		// html
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			template: `${srcPath}/index.html`,
+			template: `${examplesSrcPath}/index.html`,
 			inject: true,
 			minify: ifProd({
 				removeComments: true,

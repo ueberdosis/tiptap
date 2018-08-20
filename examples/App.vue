@@ -64,7 +64,7 @@
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor } from 'vue-mirror'
+import { Editor } from 'tiptap'
 import MentionPlugin from './plugins/Mention.js'
 
 export default {

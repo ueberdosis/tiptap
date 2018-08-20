@@ -1,5 +1,5 @@
-import { Node } from 'vue-mirror/utils'
-import { splitListItem, liftListItem, sinkListItem } from 'vue-mirror/helpers'
+import { Node } from 'tiptap/utils'
+import { splitListItem, liftListItem, sinkListItem } from 'tiptap/helpers'
 
 export default class OrderedListNode extends Node {
 

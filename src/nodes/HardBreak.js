@@ -1,5 +1,5 @@
-import { Node } from 'vue-mirror/utils'
-import { chainCommands, exitCode } from 'vue-mirror/helpers'
+import { Node } from 'tiptap/utils'
+import { chainCommands, exitCode } from 'tiptap/helpers'
 
 export default class HardBreakNode extends Node {
 

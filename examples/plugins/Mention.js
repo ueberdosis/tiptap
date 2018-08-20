@@ -1,4 +1,4 @@
-import { Node } from 'vue-mirror/utils'
+import { Node } from 'tiptap/utils'
 
 export default class MentionNode extends Node {
 

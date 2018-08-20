@@ -1,5 +1,5 @@
-import { Mark } from 'vue-mirror/utils'
-import { toggleMark } from 'vue-mirror/helpers'
+import { Mark } from 'tiptap/utils'
+import { toggleMark } from 'tiptap/helpers'
 
 export default class BoldMark extends Mark {
 

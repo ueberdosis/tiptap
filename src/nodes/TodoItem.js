@@ -1,5 +1,5 @@
-import { Node } from 'vue-mirror/utils'
-import { splitListItem, liftListItem } from 'vue-mirror/helpers'
+import { Node } from 'tiptap/utils'
+import { splitListItem, liftListItem } from 'tiptap/helpers'
 
 export default class TodoItemNode extends Node {
 

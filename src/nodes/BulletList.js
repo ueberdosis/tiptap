@@ -1,5 +1,5 @@
-import { Node } from 'vue-mirror/utils'
-import { wrappingInputRule, wrapInList, toggleList } from 'vue-mirror/helpers'
+import { Node } from 'tiptap/utils'
+import { wrappingInputRule, wrapInList, toggleList } from 'tiptap/helpers'
 
 export default class BulletNode extends Node {
 

@@ -1,5 +1,5 @@
-import { Mark } from 'vue-mirror/utils'
-import { updateMark, removeMark } from 'vue-mirror/helpers'
+import { Mark } from 'tiptap/utils'
+import { updateMark, removeMark } from 'tiptap/helpers'
 
 export default class LinkMark extends Mark {
 
