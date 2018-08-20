@@ -27,7 +27,7 @@ export default {
 		path: `${examplesBuildPath}/`,
 		filename: `assets/js/[name]${ifProd('.[hash]', '')}.js`,
 		chunkFilename: `assets/js/[name]${ifProd('.[chunkhash]', '')}.js`,
-		publicPath: '/',
+		publicPath: '',
 	},
 
 	resolve: {
