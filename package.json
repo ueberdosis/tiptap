@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "babel-node webpack/server.js --env=development",
-    "build": ".babel-node webpack/build.js --env=production"
+    "build": "babel-node webpack/build.js --env=production"
   },
   "babel": {
     "presets": [
