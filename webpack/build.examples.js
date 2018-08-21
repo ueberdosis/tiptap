@@ -1,6 +1,6 @@
 import ora from 'ora'
 import webpack from 'webpack'
-import config from './webpack.config'
+import config from './webpack.examples.config'
 
 const spinner = ora('Building …')
 

@@ -9,7 +9,7 @@ import ImageminWebpackPlugin from 'imagemin-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import { ifDev, ifProd, removeEmpty } from './utilities'
-import { rootPath, srcPath, examplesSrcPath, examplesBuildPath, buildPath } from './paths'
+import { rootPath, examplesSrcPath, examplesBuildPath } from './paths'
 
 export default {
 
@@ -27,7 +27,7 @@ export default {
 		path: `${examplesBuildPath}/`,
 		filename: `assets/js/[name]${ifProd('.[hash]', '')}.js`,
 		chunkFilename: `assets/js/[name]${ifProd('.[chunkhash]', '')}.js`,
-		publicPath: '',
+		publicPath: '/',
 	},
 
 	resolve: {
@@ -53,10 +53,6 @@ export default {
 
 	module: {
 		rules: [
-			{
-				test: /\.modernizr$/,
-				loader: 'modernizr-loader',
-			},
 			{
 				test: /\.vue$/,
 				loader: 'vue-loader',
@@ -144,14 +140,6 @@ export default {
 
 		// enable hot reloading
 		ifDev(new webpack.HotModuleReplacementPlugin()),
-
-		// make some packages available everywhere
-		new webpack.ProvidePlugin({
-			// $: 'jquery',
-			// jQuery: 'jquery',
-			// 'window.jQuery': 'jquery',
-			collect: 'collect.js',
-		}),
 
 		// html
 		new HtmlWebpackPlugin({

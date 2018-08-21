@@ -3,10 +3,19 @@
   "version": "0.1.0",
   "description": "A rich-text editor for Vue.js",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/tiptap.min.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyscrumpy/tiptap.git"
+  },
   "scripts": {
     "start": "babel-node webpack/server.js --env=development",
-    "build": "babel-node webpack/build.js --env=production"
+    "build:package": "babel-node webpack/build.package.js --env=production",
+    "build:examples": "babel-node webpack/build.examples.js --env=production"
   },
   "babel": {
     "presets": [
@@ -53,7 +62,6 @@
     "imagemin-webpack-plugin": "^2.1.5",
     "mini-css-extract-plugin": "^0.4.1",
     "minimist": "^1.2.0",
-    "modernizr-loader": "1.0.1",
     "node-sass": "^4.9.1",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
     "ora": "^3.0.0",
@@ -62,6 +70,7 @@
     "postcss-scss": "^2.0.0",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.22.1",
+    "vue": "^2.5.17",
     "vue-loader": "^15.2.4",
     "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.13",
@@ -85,7 +94,6 @@
     "prosemirror-state": "^1.2.1",
     "prosemirror-tables": "^0.7.6",
     "prosemirror-utils": "^0.6.5",
-    "prosemirror-view": "^1.4.3",
-    "vue": "^2.5.17"
+    "prosemirror-view": "^1.4.3"
   }
 }
