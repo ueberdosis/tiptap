@@ -161,8 +161,7 @@ export default {
 		},
 
 		getPlugins() {
-			return [
-				menuBubble(this.menububbleNode),
+			const plugins = [
 				inputRules({
 					rules: this.inputRules,
 				}),
@@ -178,6 +177,12 @@ export default {
 					},
 				}),
 			]
+
+			if (this.menububbleNode) {
+				plugins.push(menuBubble(this.menububbleNode))
+			}
+
+			return plugins
 		},
 
 		createView() {
