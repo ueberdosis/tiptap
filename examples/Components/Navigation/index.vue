@@ -26,6 +26,9 @@
 			<router-link class="navigation__link" to="/todo-list">
 				Todo List
 			</router-link>
+			<router-link class="navigation__link" to="/markdown-shortcuts">
+				Markdown Shortcuts
+			</router-link>
 		</div>
 
 	</div>

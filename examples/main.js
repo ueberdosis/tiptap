@@ -8,6 +8,7 @@ import RouteMenuBubble from 'Components/Routes/MenuBubble'
 import RouteLinks from 'Components/Routes/Links'
 import RouteHidingMenuBar from 'Components/Routes/HidingMenuBar'
 import RouteTodoList from 'Components/Routes/TodoList'
+import RouteMarkdownShortcuts from 'Components/Routes/MarkdownShortcuts'
 
 const __svg__ = { path: './assets/images/icons/*.svg', name: 'assets/images/[hash].sprite.svg' }
 svgSpriteLoader(__svg__.filename)
@@ -36,6 +37,10 @@ const routes = [
   {
     path: '/todo-list',
     component: RouteTodoList,
+  },
+  {
+    path: '/markdown-shortcuts',
+    component: RouteMarkdownShortcuts,
   },
 ]
 
