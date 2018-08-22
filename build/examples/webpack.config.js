@@ -9,7 +9,7 @@ import ImageminWebpackPlugin from 'imagemin-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import { ifDev, ifProd, removeEmpty } from './utilities'
-import { rootPath, examplesSrcPath, examplesBuildPath } from './paths'
+import { rootPath, srcPath, buildPath } from './paths'
 
 export default {
 
@@ -18,13 +18,13 @@ export default {
 	entry: {
 		examples: removeEmpty([
 			ifDev('webpack-hot-middleware/client?reload=true'),
-			`${examplesSrcPath}/assets/sass/main.scss`,
-			`${examplesSrcPath}/main.js`,
+			`${srcPath}/assets/sass/main.scss`,
+			`${srcPath}/main.js`,
 		]),
 	},
 
 	output: {
-		path: `${examplesBuildPath}/`,
+		path: `${buildPath}/`,
 		filename: `assets/js/[name]${ifProd('.[hash]', '')}.js`,
 		chunkFilename: `assets/js/[name]${ifProd('.[chunkhash]', '')}.js`,
 		publicPath: '/',
@@ -36,15 +36,15 @@ export default {
 			vue$: 'vue/dist/vue.esm.js',
 			modernizr: path.resolve(rootPath, '../.modernizr'),
 			modules: path.resolve(rootPath, '../node_modules'),
-			images: `${examplesSrcPath}/assets/images`,
-			fonts: `${examplesSrcPath}/assets/fonts`,
-			variables: `${examplesSrcPath}/assets/sass/variables`,
-			settings: `${examplesSrcPath}/assets/sass/1-settings/index`,
-			utilityFunctions: `${examplesSrcPath}/assets/sass/2-utility-functions/index`,
+			images: `${srcPath}/assets/images`,
+			fonts: `${srcPath}/assets/fonts`,
+			variables: `${srcPath}/assets/sass/variables`,
+			settings: `${srcPath}/assets/sass/1-settings/index`,
+			utilityFunctions: `${srcPath}/assets/sass/2-utility-functions/index`,
 			tiptap: path.resolve(rootPath, '../src'),
 		},
 		modules: [
-			examplesSrcPath,
+			srcPath,
 			path.resolve(rootPath, '../node_modules'),
 		],
 	},
@@ -132,9 +132,9 @@ export default {
 		// copy static files
 		new CopyWebpackPlugin([
 			{
-				context: `${examplesSrcPath}/assets/static`,
+				context: `${srcPath}/assets/static`,
 				from: { glob: '**/*', dot: false },
-				to: `${examplesBuildPath}/assets`,
+				to: `${buildPath}/assets`,
 			},
 		]),
 
@@ -144,7 +144,7 @@ export default {
 		// html
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			template: `${examplesSrcPath}/index.html`,
+			template: `${srcPath}/index.html`,
 			inject: true,
 			minify: ifProd({
 				removeComments: true,

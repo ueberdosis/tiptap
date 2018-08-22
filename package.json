@@ -13,10 +13,9 @@
     "url": "git+https://github.com/heyscrumpy/tiptap.git"
   },
   "scripts": {
-    "r": "rollup -c",
-    "start": "./node_modules/@babel/node/bin/babel-node.js webpack/server.js --env=development",
-    "build:package": "./node_modules/@babel/node/bin/babel-node.js webpack/build.package.js --env=production",
-    "build:examples": "./node_modules/@babel/node/bin/babel-node.js webpack/build.examples.js --env=production"
+    "start": "./node_modules/@babel/node/bin/babel-node.js build/examples/server.js --env=development",
+    "build:package": "rollup --config build/package/rollup.config.js",
+    "build:examples": "./node_modules/@babel/node/bin/babel-node.js build/examples/build.js --env=production"
   },
   "babel": {
     "presets": [
