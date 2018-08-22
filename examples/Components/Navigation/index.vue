@@ -5,7 +5,7 @@
 			<h1 class="navigation__logo">
 				tiptap
 			</h1>
-			<a href="https://github.com/heyscrumpy/tiptap">
+			<a href="https://github.com/heyscrumpy/tiptap" target="_blank">
 				<icon class="navigation__icon" name="github" />
 			</a>
 		</div>
