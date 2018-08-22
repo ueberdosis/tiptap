@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<editor :editable="true" class="editor" @update="onUpdate">
+		<editor class="editor" @update="onUpdate">
 
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h1>

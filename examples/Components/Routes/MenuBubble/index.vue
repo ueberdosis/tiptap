@@ -50,20 +50,20 @@ import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
 
 export default {
-  components: {
-    Editor,
-    Icon,
-  },
-  data() {
-    return {
-      linkUrl: null,
-      linkMenuIsActive: false,
-    }
-  },
-  methods: {
-    onUpdate(state) {
-      // console.log(state.doc.toJSON())
-    },
-  },
+	components: {
+		Editor,
+		Icon,
+	},
+	data() {
+		return {
+			linkUrl: null,
+			linkMenuIsActive: false,
+		}
+	},
+	methods: {
+		onUpdate(state) {
+			// console.log(state.doc.toJSON())
+		},
+	},
 }
 </script>

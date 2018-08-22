@@ -41,36 +41,36 @@ import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
 
 export default {
-  components: {
-    Editor,
-    Icon,
+	components: {
+		Editor,
+		Icon,
 	},
 	data() {
-    return {
-      linkUrl: null,
+		return {
+			linkUrl: null,
 			linkMenuIsActive: false,
 		}
 	},
-  methods: {
-    showLinkMenu(type) {
-      this.linkUrl = type.attrs.href
-      this.linkMenuIsActive = true
-      this.$nextTick(() => {
-        this.$refs.linkInput.focus()
-      })
-    },
-    hideLinkMenu() {
-      this.linkUrl = null
-      this.linkMenuIsActive = false
-    },
-    setLinkUrl(url, type, focus) {
-      type.command({ href: url })
-      this.hideLinkMenu()
-      focus()
-    },
-    onUpdate(state) {
-      // console.log(state.doc.toJSON())
-    },
-  },
+	methods: {
+		showLinkMenu(type) {
+			this.linkUrl = type.attrs.href
+			this.linkMenuIsActive = true
+			this.$nextTick(() => {
+				this.$refs.linkInput.focus()
+			})
+		},
+		hideLinkMenu() {
+			this.linkUrl = null
+			this.linkMenuIsActive = false
+		},
+		setLinkUrl(url, type, focus) {
+			type.command({ href: url })
+			this.hideLinkMenu()
+			focus()
+		},
+		onUpdate(state) {
+			// console.log(state.doc.toJSON())
+		},
+	},
 }
 </script>

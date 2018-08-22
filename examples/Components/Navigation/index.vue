@@ -34,6 +34,9 @@
 			<router-link class="navigation__link" to="/markdown-shortcuts">
 				Markdown Shortcuts
 			</router-link>
+			<router-link class="navigation__link" to="/read-only">
+				Read-Only
+			</router-link>
 		</div>
 
 	</div>

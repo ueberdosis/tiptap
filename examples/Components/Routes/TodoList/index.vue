@@ -6,34 +6,34 @@
 				<div v-if="nodes && marks">
 
 					<button
-            class="menubar__button"
-            :class="{ 'is-active': nodes.heading.active({ level: 1 }) }"
-            @click="nodes.heading.command({ level: 1 })"
-          >
+						class="menubar__button"
+						:class="{ 'is-active': nodes.heading.active({ level: 1 }) }"
+						@click="nodes.heading.command({ level: 1 })"
+					>
 						H1
 					</button>
 
 					<button
-            class="menubar__button"
-            :class="{ 'is-active': nodes.heading.active({ level: 2 }) }"
-            @click="nodes.heading.command({ level: 2 })"
-          >
+						class="menubar__button"
+						:class="{ 'is-active': nodes.heading.active({ level: 2 }) }"
+						@click="nodes.heading.command({ level: 2 })"
+					>
 						H2
 					</button>
 
 					<button
-            class="menubar__button"
-            :class="{ 'is-active': nodes.heading.active({ level: 3 }) }"
-            @click="nodes.heading.command({ level: 3 })"
-          >
+						class="menubar__button"
+						:class="{ 'is-active': nodes.heading.active({ level: 3 }) }"
+						@click="nodes.heading.command({ level: 3 })"
+					>
 						H3
 					</button>
 
 					<button
-            class="menubar__button"
-            :class="{ 'is-active': nodes.todo_list.active() }"
-            @click="nodes.todo_list.command"
-          >
+						class="menubar__button"
+						:class="{ 'is-active': nodes.todo_list.active() }"
+						@click="nodes.todo_list.command"
+					>
 						<icon name="checklist" />
 					</button>
 
@@ -41,10 +41,10 @@
 			</div>
 
 			<div class="editor__content" slot="content" slot-scope="props">
-        <h1>
-          Todo List
-        </h1>
-        <ul data-type="todo_list">
+				<h1>
+					Todo List
+				</h1>
+				<ul data-type="todo_list">
 					<li data-type="todo_item" data-done="true">
 						Buy beer
 					</li>
@@ -58,7 +58,7 @@
 						Call mom
 					</li>
 				</ul>
-      </div>
+			</div>
 
 		</editor>
 	</div>
@@ -69,14 +69,14 @@ import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
 
 export default {
-  components: {
-    Editor,
-    Icon,
-  },
-  methods: {
-    onUpdate(state) {
-      // console.log(state.doc.toJSON())
-    },
-  },
+	components: {
+		Editor,
+		Icon,
+	},
+	methods: {
+		onUpdate(state) {
+			// console.log(state.doc.toJSON())
+		},
+	},
 }
 </script>
