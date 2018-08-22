@@ -292,6 +292,12 @@
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-rc.2"
 
+"@babel/plugin-syntax-dynamic-import@^7.0.0-rc.2":
+  version "7.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.0.0-rc.2.tgz#a21957616ee59691d57de45d18e8e40b8855fa7e"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-rc.2"
+
 "@babel/plugin-syntax-json-strings@7.0.0-rc.2":
   version "7.0.0-rc.2"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-json-strings/-/plugin-syntax-json-strings-7.0.0-rc.2.tgz#6c16304a379620034190c06b50da3812351967f2"
@@ -8694,6 +8700,10 @@ vue-loader@^15.2.4:
     loader-utils "^1.1.0"
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
+
+vue-router@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
 
 vue-style-loader@^4.1.0:
   version "4.1.2"

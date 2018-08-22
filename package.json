@@ -34,9 +34,10 @@
   },
   "babel": {
     "presets": [
-      [
-        "@babel/preset-env"
-      ]
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "@babel/plugin-syntax-dynamic-import"
     ]
   },
   "postcss": {
@@ -52,6 +53,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-rc.2",
     "@babel/node": "^7.0.0-rc.2",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0-rc.2",
     "@babel/plugin-transform-runtime": "^7.0.0-rc.2",
     "@babel/polyfill": "^7.0.0-rc.2",
     "@babel/preset-env": "^7.0.0-rc.2",
@@ -94,6 +96,7 @@
     "uglify-js": "^3.4.7",
     "vue": "^2.5.17",
     "vue-loader": "^15.2.4",
+    "vue-router": "^3.0.1",
     "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.15.1",
