@@ -1,5 +1,5 @@
 <template>
-	<div class="icon" :class="[`icon--${name}`, `icon--${size}`, modifierClasses('icon'), { 'has-align-fix': fixAlign }]">
+	<div class="icon" :class="[`icon--${name}`, `icon--${size}`, { 'has-align-fix': fixAlign }]">
 		<svg class="icon__svg">
 			<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#icon--' + name"></use>
 		</svg>

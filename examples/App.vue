@@ -65,11 +65,7 @@
 <script>
 import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
-// import tiptap from 'tiptap'
-// import tiptap from '../dist/tiptap.min.js'
 import MentionPlugin from './plugins/Mention.js'
-
-// console.log(tiptap)
 
 export default {
   components: {

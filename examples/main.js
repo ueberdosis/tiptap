@@ -8,20 +8,6 @@ svgSpriteLoader(__svg__.filename)
 
 Vue.config.productionTip = false
 
-Vue.mixin({
-	methods: {
-		modifierClasses(base, modifier = this.modifier) {
-			const classList = [modifier].flatten()
-
-			if (classList.length === 0) {
-				return null
-			}
-
-			return `${base}--${classList.join(` ${base}--`)}`
-    },
-  },
-})
-
 new Vue({
   render: h => h(App),
 }).$mount('#app')
