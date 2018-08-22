@@ -1,12 +1,23 @@
 {
   "name": "tiptap",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A rich-text editor for Vue.js",
   "license": "MIT",
-  "main": "dist/tiptap.min.js",
+  "main": "dist/tiptap.common.js",
+  "module": "dist/tiptap.esm.js",
+  "unpkg": "dist/tiptap.js",
+  "jsdelivr": "dist/tiptap.js",
+  "sideEffects": false,
   "files": [
     "src",
     "dist"
+  ],
+  "keywords": [
+    "vue",
+    "editor",
+    "rich-text",
+    "prosemirror",
+    "wysiwyg"
   ],
   "repository": {
     "type": "git",
@@ -14,7 +25,7 @@
   },
   "scripts": {
     "start": "./node_modules/@babel/node/bin/babel-node.js build/examples/server.js --env=development",
-    "build:package": "rollup --config build/package/rollup.config.js",
+    "build:package": "./node_modules/@babel/node/bin/babel-node.js build/package/build.js",
     "build:examples": "./node_modules/@babel/node/bin/babel-node.js build/examples/build.js --env=production"
   },
   "babel": {
