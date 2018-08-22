@@ -12,7 +12,7 @@
 
 		<div class="navigation__links">
 			<router-link class="navigation__link" to="/">
-				Default
+				Menu Bar
 			</router-link>
 			<router-link class="navigation__link" to="/menu-bubble">
 				Menu Bubble

@@ -3,7 +3,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import svgSpriteLoader from 'helpers/svg-sprite-loader'
 import App from 'Components/App'
-import RouteDefault from 'Components/Routes/Default'
+import RouteMenuBar from 'Components/Routes/MenuBar'
 import RouteMenuBubble from 'Components/Routes/MenuBubble'
 import RouteLinks from 'Components/Routes/Links'
 
@@ -17,7 +17,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    component: RouteDefault,
+    component: RouteMenuBar,
   },
   {
     path: '/menu-bubble',
