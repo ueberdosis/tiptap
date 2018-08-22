@@ -85,7 +85,7 @@ export default [
   },
   {
     input: resolve('src/helpers/index.js'),
-    file: resolve('dist/helpers.js'),
+    file: resolve('dist/helpers.min.js'),
     format: 'umd',
     env: 'development',
     external: id => !/^[\.\/]/.test(id),
