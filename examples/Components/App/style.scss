@@ -3,7 +3,7 @@
 .page {
 
 	&__content {
-		padding: 2rem;
+		padding: 4rem 1rem;
 	}
 
 }
@@ -90,9 +90,12 @@
 
   display: flex;
   margin-bottom: 1rem;
-  visibility: hidden;
-  opacity: 0;
   transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
+
+  &.is-hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
 
   &.is-focused {
     visibility: visible;

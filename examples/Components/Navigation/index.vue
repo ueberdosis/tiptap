@@ -20,6 +20,9 @@
 			<router-link class="navigation__link" to="/links">
 				Links
 			</router-link>
+			<router-link class="navigation__link" to="/hiding-menu-bar">
+				Hiding Menu Bar
+			</router-link>
 		</div>
 
 	</div>

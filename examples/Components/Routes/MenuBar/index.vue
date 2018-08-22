@@ -2,7 +2,7 @@
 	<div>
 		<editor :editable="true" class="editor" @update="onUpdate">
 
-			<div class="menubar" :class="{ 'is-focused': focused }" slot="menubar" slot-scope="{ nodes, marks, focused }">
+			<div class="menubar" slot="menubar" slot-scope="{ nodes, marks }">
 				<div v-if="nodes && marks">
 
           <button

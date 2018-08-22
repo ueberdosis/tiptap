@@ -6,6 +6,7 @@ import App from 'Components/App'
 import RouteMenuBar from 'Components/Routes/MenuBar'
 import RouteMenuBubble from 'Components/Routes/MenuBubble'
 import RouteLinks from 'Components/Routes/Links'
+import RouteHidingMenuBar from 'Components/Routes/HidingMenuBar'
 
 const __svg__ = { path: './assets/images/icons/*.svg', name: 'assets/images/[hash].sprite.svg' }
 svgSpriteLoader(__svg__.filename)
@@ -26,6 +27,10 @@ const routes = [
   {
     path: '/links',
     component: RouteLinks,
+  },
+  {
+    path: '/hiding-menu-bar',
+    component: RouteHidingMenuBar,
   },
 ]
 
