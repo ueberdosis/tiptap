@@ -21,7 +21,7 @@ const resolve = _path => path.resolve(__dirname, '../../', _path)
 function genConfig(opts) {
   const config = {
     input: {
-      input: resolve('src/index.js'),
+      input: opts.input,
       plugins: [
 				flow(),
         node(),
@@ -36,8 +36,8 @@ function genConfig(opts) {
         buble({
 					objectAssign: 'Object.assign',
 				}),
-			],
-			external: ['vue'],
+      ],
+      external: opts.external,
     },
     output: {
       file: opts.file,
@@ -58,21 +58,36 @@ function genConfig(opts) {
 
 export default [
   {
+    input: resolve('src/index.js'),
     file: resolve('dist/tiptap.js'),
     format: 'umd',
     env: 'development',
+    external: ['vue'],
   },
   {
+    input: resolve('src/index.js'),
     file: resolve('dist/tiptap.min.js'),
     format: 'umd',
     env: 'production',
+    external: ['vue'],
   },
   {
+    input: resolve('src/index.js'),
     file: resolve('dist/tiptap.common.js'),
     format: 'cjs',
+    external: ['vue'],
   },
   {
+    input: resolve('src/index.js'),
     file: resolve('dist/tiptap.esm.js'),
     format: 'es',
+    external: ['vue'],
+  },
+  {
+    input: resolve('src/helpers/index.js'),
+    file: resolve('dist/helpers.js'),
+    format: 'umd',
+    env: 'development',
+    external: id => !/^[\.\/]/.test(id),
   },
 ].map(genConfig)
