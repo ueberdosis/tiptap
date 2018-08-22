@@ -69,7 +69,7 @@ export default {
       focus()
     },
     onUpdate(state) {
-      console.log(state.doc.toJSON())
+      // console.log(state.doc.toJSON())
     },
   },
 }

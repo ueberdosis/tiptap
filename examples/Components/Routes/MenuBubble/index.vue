@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     onUpdate(state) {
-      console.log(state.doc.toJSON())
+      // console.log(state.doc.toJSON())
     },
   },
 }
