@@ -58,7 +58,7 @@ export default {
 			{
 				test: /\.js$/,
 				loader: ifDev('babel-loader?cacheDirectory=true', 'babel-loader'),
-				exclude: /node_modules(?!\/quill)/,
+				exclude: /node_modules/,
 			},
 			{
 				test: /\.css$/,
