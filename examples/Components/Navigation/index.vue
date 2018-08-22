@@ -14,8 +14,8 @@
 			<router-link class="navigation__link" to="/">
 				Default
 			</router-link>
-			<router-link class="navigation__link" to="/bubble-menu">
-				Bubble Menu
+			<router-link class="navigation__link" to="/menu-bubble">
+				Menu Bubble
 			</router-link>
 			<router-link class="navigation__link" to="/links">
 				Links
