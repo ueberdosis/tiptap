@@ -7,6 +7,30 @@
 
 					<button
             class="menubar__button"
+            :class="{ 'is-active': nodes.heading.active({ level: 1 }) }"
+            @click="nodes.heading.command({ level: 1 })"
+          >
+						H1
+					</button>
+
+					<button
+            class="menubar__button"
+            :class="{ 'is-active': nodes.heading.active({ level: 2 }) }"
+            @click="nodes.heading.command({ level: 2 })"
+          >
+						H2
+					</button>
+
+					<button
+            class="menubar__button"
+            :class="{ 'is-active': nodes.heading.active({ level: 3 }) }"
+            @click="nodes.heading.command({ level: 3 })"
+          >
+						H3
+					</button>
+
+					<button
+            class="menubar__button"
             :class="{ 'is-active': nodes.todo_list.active() }"
             @click="nodes.todo_list.command"
           >
