@@ -21,7 +21,7 @@
 				Links
 			</router-link>
 		</div>
-		
+
 	</div>
 </template>
 
