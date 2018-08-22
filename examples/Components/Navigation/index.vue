@@ -37,6 +37,9 @@
 			<router-link class="navigation__link" to="/read-only">
 				Read-Only
 			</router-link>
+			<router-link class="navigation__link" to="/embeds">
+				Embeds
+			</router-link>
 		</div>
 
 	</div>

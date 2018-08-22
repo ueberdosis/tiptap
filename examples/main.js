@@ -10,6 +10,7 @@ import RouteHidingMenuBar from 'Components/Routes/HidingMenuBar'
 import RouteTodoList from 'Components/Routes/TodoList'
 import RouteMarkdownShortcuts from 'Components/Routes/MarkdownShortcuts'
 import RouteReadOnly from 'Components/Routes/ReadOnly'
+import RouteEmbeds from 'Components/Routes/Embeds'
 
 const __svg__ = { path: './assets/images/icons/*.svg', name: 'assets/images/[hash].sprite.svg' }
 svgSpriteLoader(__svg__.filename)
@@ -66,6 +67,13 @@ const routes = [
     component: RouteReadOnly,
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/ReadOnly',
+    },
+  },
+  {
+    path: '/embeds',
+    component: RouteEmbeds,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds',
     },
   },
 ]
