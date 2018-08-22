@@ -23,6 +23,9 @@
 			<router-link class="navigation__link" to="/hiding-menu-bar">
 				Hiding Menu Bar
 			</router-link>
+			<router-link class="navigation__link" to="/todo-list">
+				Todo List
+			</router-link>
 		</div>
 
 	</div>
