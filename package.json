@@ -2,6 +2,7 @@
   "name": "tiptap",
   "version": "0.1.4",
   "description": "A rich-text editor for Vue.js",
+  "homepage": "https://tiptap.scrumpy.io",
   "license": "MIT",
   "main": "dist/tiptap.common.js",
   "module": "dist/tiptap.esm.js",
@@ -22,6 +23,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/heyscrumpy/tiptap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/heyscrumpy/tiptap/issues"
   },
   "scripts": {
     "start": "./node_modules/@babel/node/bin/babel-node.js build/examples/server.js --env=development",
