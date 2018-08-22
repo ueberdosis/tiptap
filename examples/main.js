@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import svgSpriteLoader from 'helpers/svg-sprite-loader'
 import App from 'Components/App'
 import RouteDefault from 'Components/Routes/Default'
-import RouteBubbleNavigation from 'Components/Routes/BubbleNavigation'
+import RouteBubbleMenu from 'Components/Routes/BubbleMenu'
 import RouteLinks from 'Components/Routes/Links'
 
 const __svg__ = { path: './assets/images/icons/*.svg', name: 'assets/images/[hash].sprite.svg' }
@@ -20,8 +20,8 @@ const routes = [
     component: RouteDefault,
   },
   {
-    path: '/bubble-navigation',
-    component: RouteBubbleNavigation,
+    path: '/bubble-menu',
+    component: RouteBubbleMenu,
   },
   {
     path: '/links',
