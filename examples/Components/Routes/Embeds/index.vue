@@ -7,7 +7,7 @@
 					Embeds
 				</h1>
 				<p>
-					This is an example of a custom iframe node. This iframe is rendered as a vue component. You can change its source with the input below.
+					This is an example of a custom iframe node. This iframe is rendered as a vue component. This makes it possible to render some additional markup to change its source.
 				</p>
 				<iframe src="https://www.youtube.com/embed/XIMLoLxmTDw" frameborder="0" allowfullscreen></iframe>
 			</div>
