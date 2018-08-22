@@ -7,6 +7,34 @@ A rich-text editor for Vue.js
 	<a href="https://www.npmjs.com/package/tiptap"><img src="https://img.shields.io/npm/l/tiptap.svg" alt="License"></a>
 </p>
 
+## Installation
+```
+npm install tiptap
+```
+
+## Setup
+```vue
+<template>
+  <editor>
+    <!-- Add HTML to the scoped slot called "content" -->
+    <div slot="content" slot-scope="props">
+      <p>Hello world</p>
+    </div>
+  </editor>
+</template>
+
+<script>
+// Import the editor
+import { Editor } from 'tiptap'
+
+export default {
+  components: {
+    Editor,
+  },
+}
+</script>
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
