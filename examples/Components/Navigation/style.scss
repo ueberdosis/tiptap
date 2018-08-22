@@ -2,9 +2,33 @@
 
 .navigation {
 
-	background: $color-black;
 	text-align: center;
-	padding: 0.5rem;
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.75rem;
+		background-color: $color-black;
+		color: $color-white;
+	}
+
+	&__logo {
+		font-size: 1.1rem;
+		font-weight: bold;
+		margin: 0;
+	}
+
+	&__icon {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	&__links {
+		padding: 0.5rem;
+		background-color: rgba($color-black, 0.9);
+		color: $color-white;
+	}
 
 	&__link {
 		display: inline-block;
