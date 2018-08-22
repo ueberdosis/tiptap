@@ -1,5 +1,5 @@
-import { Node } from 'tiptap/utils'
-import { wrappingInputRule, setBlockType, wrapIn } from 'tiptap/helpers'
+import { Node } from '../utils'
+import { wrappingInputRule, setBlockType, wrapIn } from '../helpers'
 
 export default class BlockquoteNode extends Node {
 

@@ -1,5 +1,5 @@
-import { Node } from 'tiptap/utils'
-import { splitListItem, liftListItem, sinkListItem } from 'tiptap/helpers'
+import { Node } from '../utils'
+import { splitListItem, liftListItem, sinkListItem } from '../helpers'
 
 export default class OrderedListNode extends Node {
 

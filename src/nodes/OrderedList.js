@@ -1,5 +1,5 @@
-import { Node } from 'tiptap/utils'
-import { wrappingInputRule, wrapInList, toggleList } from 'tiptap/helpers'
+import { Node } from '../utils'
+import { wrappingInputRule, wrapInList, toggleList } from '../helpers'
 
 export default class OrderedListNode extends Node {
 

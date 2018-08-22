@@ -1,3 +1,3 @@
-import Editor from './components/editor.vue'
+import Editor from './components/editor'
 
 export { Editor }

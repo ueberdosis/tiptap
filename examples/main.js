@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import Vue from 'vue'
 import svgSpriteLoader from 'helpers/svg-sprite-loader'
 import App from './App.vue'

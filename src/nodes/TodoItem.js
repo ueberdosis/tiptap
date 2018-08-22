@@ -1,5 +1,5 @@
-import { Node } from 'tiptap/utils'
-import { splitListItem, liftListItem } from 'tiptap/helpers'
+import { Node } from '../utils'
+import { splitListItem, liftListItem } from '../helpers'
 
 export default class TodoItemNode extends Node {
 

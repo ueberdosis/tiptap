@@ -1,5 +1,5 @@
-import { Mark } from 'tiptap/utils'
-import { toggleMark } from 'tiptap/helpers'
+import { Mark } from '../utils'
+import { toggleMark } from '../helpers'
 
 export default class ItalicMark extends Mark {
 
