@@ -30,7 +30,6 @@ export default class TodoItemNode extends Node {
 	}
 
 	get schema() {
-		console.log('schema')
 		return {
 			attrs: {
 				done: {
