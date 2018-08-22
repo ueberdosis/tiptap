@@ -16,7 +16,7 @@ export default {
 	mode: ifDev('development', 'production'),
 
 	entry: {
-		examples: removeEmpty([
+		app: removeEmpty([
 			ifDev('webpack-hot-middleware/client?reload=true'),
 			`${srcPath}/assets/sass/main.scss`,
 			`${srcPath}/main.js`,
@@ -34,13 +34,11 @@ export default {
 		extensions: ['.js', '.scss', '.vue'],
 		alias: {
 			vue$: 'vue/dist/vue.esm.js',
-			modernizr: path.resolve(rootPath, '../.modernizr'),
 			modules: path.resolve(rootPath, '../node_modules'),
 			images: `${srcPath}/assets/images`,
 			fonts: `${srcPath}/assets/fonts`,
 			variables: `${srcPath}/assets/sass/variables`,
 			settings: `${srcPath}/assets/sass/1-settings/index`,
-			utilityFunctions: `${srcPath}/assets/sass/2-utility-functions/index`,
 			tiptap: path.resolve(rootPath, '../src'),
 		},
 		modules: [
@@ -61,11 +59,6 @@ export default {
 				test: /\.js$/,
 				loader: ifDev('babel-loader?cacheDirectory=true', 'babel-loader'),
 				exclude: /node_modules(?!\/quill)/,
-			},
-			{
-				test: /\.(graphql|gql)$/,
-				loader: 'graphql-tag/loader',
-				exclude: /node_modules/,
 			},
 			{
 				test: /\.css$/,
@@ -128,15 +121,6 @@ export default {
 		// new webpack.DefinePlugin({
 		// 	'process.env': {},
 		// }),
-
-		// copy static files
-		new CopyWebpackPlugin([
-			{
-				context: `${srcPath}/assets/static`,
-				from: { glob: '**/*', dot: false },
-				to: `${buildPath}/assets`,
-			},
-		]),
 
 		// enable hot reloading
 		ifDev(new webpack.HotModuleReplacementPlugin()),
