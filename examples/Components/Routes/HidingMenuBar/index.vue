@@ -29,6 +29,62 @@
             <icon name="code" />
           </button>
 
+					<button
+            class="menubar__button"
+            :class="{ 'is-active': nodes.paragraph.active() }"
+            @click="nodes.paragraph.command"
+          >
+						<icon name="paragraph" />
+					</button>
+
+					<button
+            class="menubar__button"
+            :class="{ 'is-active': nodes.heading.active({ level: 1 }) }"
+            @click="nodes.heading.command({ level: 1 })"
+          >
+						H1
+					</button>
+
+					<button
+            class="menubar__button"
+            :class="{ 'is-active': nodes.heading.active({ level: 2 }) }"
+            @click="nodes.heading.command({ level: 2 })"
+          >
+						H2
+					</button>
+
+					<button
+            class="menubar__button"
+            :class="{ 'is-active': nodes.heading.active({ level: 3 }) }"
+            @click="nodes.heading.command({ level: 3 })"
+          >
+						H3
+					</button>
+
+					<button
+            class="menubar__button"
+            :class="{ 'is-active': nodes.bullet_list.active() }"
+            @click="nodes.bullet_list.command"
+          >
+						<icon name="ul" />
+					</button>
+
+					<button
+            class="menubar__button"
+            :class="{ 'is-active': nodes.ordered_list.active() }"
+            @click="nodes.ordered_list.command"
+          >
+						<icon name="ol" />
+					</button>
+
+					<button
+            class="menubar__button"
+            :class="{ 'is-active': nodes.code_block.active() }"
+            @click="nodes.code_block.command"
+          >
+						<icon name="code" />
+					</button>
+
 				</div>
 			</div>
 

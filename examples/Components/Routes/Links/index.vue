@@ -26,7 +26,7 @@
 			</div>
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h1>
-					Add links inside of a bubble menu
+					Links
 				</h1>
 				<p>
 					Try to add some links to the <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>.

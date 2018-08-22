@@ -42,7 +42,7 @@
 
 			<div class="editor__content" slot="content" slot-scope="props">
         <h1>
-          Todo Lists
+          Todo List
         </h1>
         <ul data-type="todo_list">
 					<li data-type="todo_item" data-done="true">
