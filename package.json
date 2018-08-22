@@ -8,7 +8,6 @@
   "module": "dist/tiptap.esm.js",
   "unpkg": "dist/tiptap.js",
   "jsdelivr": "dist/tiptap.js",
-  "sideEffects": false,
   "files": [
     "src",
     "dist"
