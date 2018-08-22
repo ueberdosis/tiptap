@@ -58,7 +58,7 @@
       <div class="editor__content" slot="content" slot-scope="props"></div>
     </editor>
 
-    <pre>{{ data }}</pre>
+    <!-- <pre>{{ data }}</pre> -->
   </div>
 </template>
 
