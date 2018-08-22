@@ -79,7 +79,6 @@
     "postcss-loader": "^3.0.0",
     "postcss-scss": "^2.0.0",
     "rollup": "^0.64.1",
-    "rollup-plugin-babel": "^4.0.0-beta.8",
     "rollup-plugin-buble": "^0.19.2",
     "rollup-plugin-commonjs": "^9.1.5",
     "rollup-plugin-flow-no-whitespace": "^1.0.0",
