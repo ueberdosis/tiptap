@@ -12,7 +12,11 @@
 					</form>
 
 					<template v-else>
-						<button class="menububble__button" @click="showLinkMenu(marks.link)" :class="{ 'is-active': marks.link.active() }">
+						<button
+							class="menububble__button"
+							@click="showLinkMenu(marks.link)"
+							:class="{ 'is-active': marks.link.active() }"
+						>
 							<span>Add Link</span>
 							<icon name="link" />
 						</button>
