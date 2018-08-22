@@ -26,6 +26,16 @@
       }
     }
 
+    p code {
+      display: inline-block;
+      padding: 0 0.4rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      background: rgba($color-black, 0.1);
+      color: rgba($color-black, 0.8);
+    }
+
     ul,
     ol {
       padding-left: 1rem;
@@ -33,6 +43,17 @@
 
     a {
       color: inherit;
+    }
+
+    blockquote {
+      border-left: 3px solid rgba($color-black, 0.1);
+      color: rgba($color-black, 0.8);
+      padding-left: 0.8rem;
+      font-style: italic;
+
+      p {
+        margin: 0;
+      }
     }
   }
 }

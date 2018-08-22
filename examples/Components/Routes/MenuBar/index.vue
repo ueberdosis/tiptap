@@ -104,9 +104,11 @@
             With regular items
           </li>
         </ul>
-        <p>
+        <blockquote>
           It's amazing 👏
-        </p>
+          <br />
+          – mom
+        </blockquote>
       </div>
 
 		</editor>
