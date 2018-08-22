@@ -13,14 +13,15 @@ export default {
 	},
 	sourcemap: true,
 	plugins: [
+		resolve(),
+		cjs(),
 		vue({
 			css: true,
 			compileTemplate: true,
 		}),
-		cjs(),
 		buble({
 			objectAssign: 'Object.assign',
 		}),
-		resolve(),
 	],
+	external: ['vue'],
 }
