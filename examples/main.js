@@ -21,26 +21,44 @@ const routes = [
   {
     path: '/',
     component: RouteMenuBar,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/MenuBar',
+    },
   },
   {
     path: '/menu-bubble',
     component: RouteMenuBubble,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/MenuBubble',
+    },
   },
   {
     path: '/links',
     component: RouteLinks,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Links',
+    },
   },
   {
     path: '/hiding-menu-bar',
     component: RouteHidingMenuBar,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/HidingMenuBar',
+    },
   },
   {
     path: '/todo-list',
     component: RouteTodoList,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/TodoList',
+    },
   },
   {
     path: '/markdown-shortcuts',
     component: RouteMarkdownShortcuts,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/MarkdownShortcuts',
+    },
   },
 ]
 

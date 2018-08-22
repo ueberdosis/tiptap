@@ -4,7 +4,23 @@
 
 	&__content {
 		padding: 4rem 1rem;
-	}
+  }
+
+  &__footer {
+    text-align: center;
+  }
+
+  &__source-link {
+    display: inline-block;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.8rem;
+    background-color: rgba($color-black, 0.1);
+    color: $color-black;
+    border-radius: 5px;
+    padding: 0.2rem 0.5rem;
+  }
 
 }
 
