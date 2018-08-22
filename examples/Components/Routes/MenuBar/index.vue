@@ -124,7 +124,7 @@ export default {
   },
   methods: {
     onUpdate(state) {
-      this.data = state.doc.toJSON()
+      console.log(state.doc.toJSON())
     },
   },
 }
