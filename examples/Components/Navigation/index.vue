@@ -3,7 +3,7 @@
 
 		<div class="navigation__header">
 			<h1 class="navigation__logo">
-				tiptap
+				tiptap <span class="navigation__beta">beta</span>
 			</h1>
 			<a href="https://github.com/heyscrumpy/tiptap" target="_blank">
 				<icon class="navigation__icon" name="github" />
