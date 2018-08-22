@@ -1,0 +1,29 @@
+@import "~variables";
+
+.navigation {
+
+	background: $color-black;
+	text-align: center;
+	padding: 0.5rem;
+
+	&__link {
+		display: inline-block;
+		color: rgba($color-white, 0.5);
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 0.9rem;
+		padding: 0.1rem 0.5rem;
+		border-radius: 3px;
+
+		&:hover {
+			color: $color-white;
+      background-color: rgba($color-white, 0.1);
+    }
+
+    &.is-exact-active {
+			color: $color-white;
+      background-color: rgba($color-white, 0.2);
+    }
+	}
+
+}

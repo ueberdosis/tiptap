@@ -2,7 +2,10 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import svgSpriteLoader from 'helpers/svg-sprite-loader'
-import App from './App.vue'
+import App from 'Components/App'
+import RouteDefault from 'Components/Routes/Default'
+import RouteBubbleNavigation from 'Components/Routes/BubbleNavigation'
+import RouteLinks from 'Components/Routes/Links'
 
 const __svg__ = { path: './assets/images/icons/*.svg', name: 'assets/images/[hash].sprite.svg' }
 svgSpriteLoader(__svg__.filename)
@@ -14,12 +17,22 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    component: () => import('Components/Routes/Default'),
+    component: RouteDefault,
+  },
+  {
+    path: '/bubble-navigation',
+    component: RouteBubbleNavigation,
+  },
+  {
+    path: '/links',
+    component: RouteLinks,
   },
 ]
 
 const router = new VueRouter({
   routes,
+  linkActiveClass: 'is-active',
+  linkExactActiveClass: 'is-exact-active',
 })
 
 new Vue({

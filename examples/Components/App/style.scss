@@ -1,17 +1,12 @@
-<template>
-  <div id="app" spellcheck="false">
-    <router-view></router-view>
-  </div>
-</template>
+@import "~variables";
 
-<script>
-export default {
+.page {
+
+	&__content {
+		padding: 2rem;
+	}
 
 }
-</script>
-
-<style lang="scss">
-@import "~variables";
 
 .editor {
   position: relative;
@@ -174,4 +169,3 @@ li[data-done="true"] .todo-checkbox {
 li[data-done="false"] {
   text-decoration: none;
 }
-</style>
