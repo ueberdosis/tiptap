@@ -3,9 +3,9 @@
 		<editor class="editor" :extensions="extensions" @update="onUpdate">
 
 			<div class="editor__content" slot="content" slot-scope="props">
-				<h1>
+				<h2>
 					Embeds
-				</h1>
+				</h2>
 				<p>
 					This is an example of a custom iframe node. This iframe is rendered as a vue component. This makes it possible to render some additional markup to change its source.
 				</p>

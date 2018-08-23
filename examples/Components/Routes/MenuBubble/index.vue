@@ -33,9 +33,9 @@
 			</div>
 
 			<div class="editor__content" slot="content" slot-scope="props">
-				<h1>
+				<h2>
 					Menu Bubble
-				</h1>
+				</h2>
 				<p>
 					Hey, try to select some text.
 				</p>

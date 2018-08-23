@@ -89,9 +89,9 @@
 			</div>
 
 			<div class="editor__content" slot="content" slot-scope="props">
-				<h1>
+				<h2>
 					Hiding Menu Bar
-				</h1>
+				</h2>
 				<p>
 					Try to focus the editor to see the menu. It's like magic. 🔮
 				</p>

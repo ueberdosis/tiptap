@@ -3,9 +3,9 @@
 		<editor class="editor" @update="onUpdate">
 
 			<div class="editor__content" slot="content" slot-scope="props">
-				<h1>
+				<h2>
 					Markdown Shortcuts
-				</h1>
+				</h2>
 				<p>
 					Start a new line and type <code>#</code> followed by a space and you will get an H1 headline. 🤯
 				</p>

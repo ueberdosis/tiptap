@@ -25,9 +25,9 @@
 				</template>
 			</div>
 			<div class="editor__content" slot="content" slot-scope="props">
-				<h1>
+				<h2>
 					Links
-				</h1>
+				</h2>
 				<p>
 					Try to add some links to the <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>.
 				</p>
