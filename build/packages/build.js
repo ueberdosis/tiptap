@@ -5,10 +5,6 @@ import uglify from 'uglify-js'
 import { rollup } from 'rollup'
 import config from './config'
 
-if (!fs.existsSync('dist')) {
-  fs.mkdirSync('dist')
-}
-
 function getSize(code) {
   return `${(code.length / 1024).toFixed(2)}kb`
 }

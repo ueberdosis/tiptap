@@ -1,32 +1,24 @@
 {
-  "name": "tiptap-packages",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {
-    "start": "./node_modules/@babel/node/bin/babel-node.js build/examples/server.js --env=development",
-    "build:packages": "./node_modules/@babel/node/bin/babel-node.js build/packages/build.js",
-    "build:examples": "./node_modules/@babel/node/bin/babel-node.js build/examples/build.js --env=production"
+  "name": "tiptap",
+  "version": "0.1.5",
+  "description": "A rich-text editor for Vue.js",
+  "homepage": "https://tiptap.scrumpy.io",
+  "license": "MIT",
+  "main": "dist/tiptap.common.js",
+  "module": "dist/tiptap.esm.js",
+  "unpkg": "dist/tiptap.js",
+  "jsdelivr": "dist/tiptap.js",
+  "files": [
+    "src",
+    "dist"
+	],
+	"repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyscrumpy/tiptap.git"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ],
-    "plugins": [
-      "@babel/plugin-syntax-dynamic-import"
-    ]
+  "bugs": {
+    "url": "https://github.com/heyscrumpy/tiptap/issues"
   },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "ie >= 9"
-  ],
   "devDependencies": {
     "@babel/core": "^7.0.0-rc.2",
     "@babel/node": "^7.0.0-rc.2",

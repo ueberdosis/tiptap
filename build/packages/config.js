@@ -58,36 +58,36 @@ function genConfig(opts) {
 
 export default [
   {
-    input: resolve('src/index.js'),
-    file: resolve('dist/tiptap.js'),
+    input: resolve('packages/tiptap/src/index.js'),
+    file: resolve('packages/tiptap/dist/tiptap.js'),
     format: 'umd',
     env: 'development',
     external: ['vue'],
   },
   {
-    input: resolve('src/index.js'),
-    file: resolve('dist/tiptap.min.js'),
+    input: resolve('packages/tiptap/src/index.js'),
+    file: resolve('packages/tiptap/dist/tiptap.min.js'),
     format: 'umd',
     env: 'production',
     external: ['vue'],
   },
   {
-    input: resolve('src/index.js'),
-    file: resolve('dist/tiptap.common.js'),
+    input: resolve('packages/tiptap/src/index.js'),
+    file: resolve('packages/tiptap/dist/tiptap.common.js'),
     format: 'cjs',
     external: ['vue'],
   },
   {
-    input: resolve('src/index.js'),
-    file: resolve('dist/tiptap.esm.js'),
+    input: resolve('packages/tiptap/src/index.js'),
+    file: resolve('packages/tiptap/dist/tiptap.esm.js'),
     format: 'es',
     external: ['vue'],
   },
-  {
-    input: resolve('src/helpers/index.js'),
-    file: resolve('dist/helpers.min.js'),
-    format: 'umd',
-    env: 'development',
-    external: id => !/^[\.\/]/.test(id),
-  },
+  // {
+  //   input: resolve('packages/tiptap/src/helpers/index.js'),
+  //   file: resolve('packages/tiptap/dist/helpers.min.js'),
+  //   format: 'umd',
+  //   env: 'development',
+  //   external: id => !/^[\.\/]/.test(id),
+  // },
 ].map(genConfig)
