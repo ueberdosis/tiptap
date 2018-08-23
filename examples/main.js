@@ -3,7 +3,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import svgSpriteLoader from 'helpers/svg-sprite-loader'
 import App from 'Components/App'
-import RouteMenuBar from 'Components/Routes/MenuBar'
+import RouteBasic from 'Components/Routes/Basic'
 import RouteMenuBubble from 'Components/Routes/MenuBubble'
 import RouteLinks from 'Components/Routes/Links'
 import RouteHidingMenuBar from 'Components/Routes/HidingMenuBar'
@@ -22,9 +22,9 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    component: RouteMenuBar,
+    component: RouteBasic,
     meta: {
-      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/MenuBar',
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Basic',
     },
   },
   {

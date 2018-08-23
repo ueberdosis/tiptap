@@ -1,7 +1,7 @@
 <template>
 	<div class="subnavigation">
 		<router-link class="subnavigation__link" to="/">
-			Menu Bar
+			Basic
 		</router-link>
 		<router-link class="subnavigation__link" to="/menu-bubble">
 			Menu Bubble
