@@ -1,6 +1,6 @@
 import { keymap } from 'prosemirror-keymap'
 
-export default class PluginManager {
+export default class ExtensionManager {
 
 	constructor(plugins = []) {
 		this.plugins = plugins

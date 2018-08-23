@@ -10,7 +10,7 @@ import { inputRules } from 'prosemirror-inputrules'
 
 import {
 	buildMenuActions,
-	PluginManager,
+	ExtensionManager,
 	initNodeViews,
 	menuBubble,
 	builtInKeymap,
@@ -37,7 +37,7 @@ export default {
 	},
 
 	data() {
-		const plugins = new PluginManager([
+		const plugins = new ExtensionManager([
 			...builtInNodes,
 			...this.extensions,
 		])
