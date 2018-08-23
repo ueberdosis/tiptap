@@ -59,8 +59,18 @@ export default {
 			},
 			{
 				test: /\.js$/,
-				loader: ifDev('babel-loader?cacheDirectory=true', 'babel-loader'),
-				exclude: [/node_modules/, /packages/],
+				exclude: [/node_modules/],
+				use: {
+					loader: ifDev('babel-loader?cacheDirectory=true', 'babel-loader'),
+					options: {
+						presets: [
+							'@babel/preset-env',
+						],
+						plugins: [
+							'@babel/plugin-syntax-dynamic-import',
+						],
+					},
+				},
 			},
 			{
 				test: /\.css$/,
