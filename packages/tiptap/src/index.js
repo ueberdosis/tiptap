@@ -1,5 +1,3 @@
-import Editor from './components/editor'
-import Node from './utils/node'
-import Mark from './utils/mark'
-
-export { Editor, Node, Mark }
+export { default as Editor } from './components/editor'
+export { default as Node } from './utils/node'
+export { default as Mark } from './utils/mark'

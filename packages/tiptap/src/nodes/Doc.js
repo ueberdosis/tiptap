@@ -1,4 +1,4 @@
-import { Node } from 'tiptap-models'
+import Node from '../utils/node'
 
 export default class DocNode extends Node {
 
