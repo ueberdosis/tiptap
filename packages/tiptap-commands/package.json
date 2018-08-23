@@ -11,8 +11,8 @@
   "files": [
     "src",
     "dist"
-	],
-	"repository": {
+  ],
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/heyscrumpy/tiptap.git"
   },
@@ -22,6 +22,7 @@
   "dependencies": {
     "prosemirror-commands": "^1.0.7",
     "prosemirror-inputrules": "^1.0.1",
-    "prosemirror-schema-list": "^1.0.1"
+    "prosemirror-schema-list": "^1.0.1",
+    "tiptap-utils": "^0.1.1"
   }
 }

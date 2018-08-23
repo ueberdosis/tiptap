@@ -38,10 +38,10 @@ import {
 	textblockTypeInputRule,
 } from 'prosemirror-inputrules'
 
-import removeMark from './helpers/removeMark'
-import toggleBlockType from './helpers/toggleBlockType'
-import toggleList from './helpers/toggleList'
-import updateMark from './helpers/updateMark'
+import removeMark from './commands/removeMark'
+import toggleBlockType from './commands/toggleBlockType'
+import toggleList from './commands/toggleList'
+import updateMark from './commands/updateMark'
 
 export {
 	// prosemirror-commands

@@ -1,5 +1,5 @@
-import { nodeIsActive } from '../utils'
-import { wrapInList, liftListItem } from '..'
+import { nodeIsActive } from 'tiptap-utils'
+import { wrapInList, liftListItem } from 'prosemirror-schema-list'
 
 export default function toggleList(type, itemType) {
   return (state, dispatch, view) => {
