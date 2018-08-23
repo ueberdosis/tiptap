@@ -35,6 +35,20 @@ export default {
 </script>
 ```
 
+## Editor Properties
+
+| Property | Type | Default | Description |
+| - | :-: | :-: | - | 
+| editable | Boolean | `true` | When set to `false` the editor is read-only. |
+| doc | Object | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
+| extensions | Array | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
+| @update | Function | `undefined` | This will return the current `state` of Prosemirror on every change. |
+
+## Extensions
+
+Soon …
+Until then you can take a look at the [embed example](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds).
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
