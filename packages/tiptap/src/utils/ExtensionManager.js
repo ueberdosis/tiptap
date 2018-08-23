@@ -2,13 +2,13 @@ import { keymap } from 'prosemirror-keymap'
 
 export default class ExtensionManager {
 
-	constructor(plugins = []) {
-		this.plugins = plugins
+	constructor(extensions = []) {
+		this.extensions = extensions
 	}
 
 	get nodes() {
-		return this.plugins
-			.filter(plugin => plugin.type === 'node')
+		return this.extensions
+			.filter(extension => extension.type === 'node')
 			.reduce((nodes, { name, schema }) => ({
 				...nodes,
 				[name]: schema,
@@ -16,17 +16,17 @@ export default class ExtensionManager {
 	}
 
 	get marks() {
-		return this.plugins
-			.filter(plugin => plugin.type === 'mark')
+		return this.extensions
+			.filter(extension => extension.type === 'mark')
 			.reduce((marks, { name, schema }) => ({
 				...marks,
 				[name]: schema,
 			}), {})
 	}
 
-	get pluginplugins() {
-		return this.plugins
-			.filter(plugin => plugin.plugins)
+	get plugins() {
+		return this.extensions
+			.filter(extension => extension.plugins)
 			.reduce((allPlugins, { plugins }) => ([
 				...allPlugins,
 				...plugins,
@@ -34,8 +34,8 @@ export default class ExtensionManager {
 	}
 
 	get views() {
-		return this.plugins
-			.filter(plugin => plugin.view)
+		return this.extensions
+			.filter(extension => extension.view)
 			.reduce((views, { name, view }) => ({
 				...views,
 				[name]: view,
@@ -43,20 +43,20 @@ export default class ExtensionManager {
 	}
 
 	keymaps({ schema }) {
-		return this.plugins
-			.filter(plugin => plugin.keys)
-			.map(plugin => plugin.keys({
-				type: schema[`${plugin.type}s`][plugin.name],
+		return this.extensions
+			.filter(extension => extension.keys)
+			.map(extension => extension.keys({
+				type: schema[`${extension.type}s`][extension.name],
 				schema,
 			}))
 			.map(keys => keymap(keys))
 	}
 
 	inputRules({ schema }) {
-		return this.plugins
-			.filter(plugin => plugin.inputRules)
-			.map(plugin => plugin.inputRules({
-				type: schema[`${plugin.type}s`][plugin.name],
+		return this.extensions
+			.filter(extension => extension.inputRules)
+			.map(extension => extension.inputRules({
+				type: schema[`${extension.type}s`][extension.name],
 				schema,
 			}))
 			.reduce((allInputRules, inputRules) => ([
@@ -66,8 +66,8 @@ export default class ExtensionManager {
 	}
 
 	commands({ schema, view }) {
-		return this.plugins
-			.filter(plugin => plugin.command)
+		return this.extensions
+			.filter(extension => extension.command)
 			.reduce((commands, { name, type, command }) => ({
 				...commands,
 				[name]: attrs => {

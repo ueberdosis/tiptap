@@ -46,7 +46,7 @@ export default {
 		return {
 			state: null,
 			view: null,
-			pluginplugins: [],
+			extensionPlugins: [],
 			plugins,
 			schema: null,
 			nodes,
@@ -94,7 +94,7 @@ export default {
 	methods: {
 		initEditor() {
 			this.schema = this.createSchema()
-			this.pluginplugins = this.createPlugins()
+			this.extensionPlugins = this.createPlugins()
 			this.keymaps = this.createKeymaps()
 			this.inputRules = this.createInputRules()
 			this.state = this.createState()
@@ -112,7 +112,7 @@ export default {
 		},
 
 		createPlugins() {
-			return this.plugins.pluginplugins
+			return this.plugins.plugins
 		},
 
 		createKeymaps() {
@@ -139,7 +139,7 @@ export default {
 				schema: this.schema,
 				doc: this.getDocument(),
 				plugins: [
-					...this.pluginplugins,
+					...this.extensionPlugins,
 					...this.getPlugins(),
 				],
 			})
