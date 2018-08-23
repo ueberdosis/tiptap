@@ -39,7 +39,8 @@ export default {
 			fonts: `${srcPath}/assets/fonts`,
 			variables: `${srcPath}/assets/sass/variables`,
 			tiptap: path.resolve(rootPath, '../packages/tiptap/src'),
-			'tiptap-helpers': path.resolve(rootPath, '../packages/tiptap-helpers/src'),
+			'tiptap-commands': path.resolve(rootPath, '../packages/tiptap-commands/src'),
+			'tiptap-utils': path.resolve(rootPath, '../packages/tiptap-utils/src'),
 		},
 		modules: [
 			srcPath,
