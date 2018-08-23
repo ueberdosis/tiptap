@@ -1,0 +1,26 @@
+{
+  "name": "tiptap-extensions",
+  "version": "0.1.0",
+  "description": "Extensions for tiptap",
+  "homepage": "https://tiptap.scrumpy.io",
+  "license": "MIT",
+  "main": "dist/extensions.common.js",
+  "module": "dist/extensions.esm.js",
+  "unpkg": "dist/extensions.js",
+  "jsdelivr": "dist/extensions.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyscrumpy/tiptap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/heyscrumpy/tiptap/issues"
+  },
+  "dependencies": {
+    "tiptap": "^0.2.1",
+    "tiptap-commands": "^0.1.1"
+  }
+}

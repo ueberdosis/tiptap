@@ -1,4 +1,4 @@
-import { Mark } from 'tiptap-models'
+import { Mark } from 'tiptap'
 import { toggleMark } from 'tiptap-commands'
 
 export default class CodeMark extends Mark {

@@ -23,10 +23,4 @@ export default class ParagraphNode extends Node {
 		return setBlockType(type)
 	}
 
-	keys({ type }) {
-		return {
-			'Shift-Ctrl-0': setBlockType(type),
-		}
-	}
-
 }

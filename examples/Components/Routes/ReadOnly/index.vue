@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<editor :editable="false" class="editor" @update="onUpdate">
+		<editor :editable="false" :extensions="extensions" class="editor" @update="onUpdate">
 
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h2>
@@ -18,11 +18,45 @@
 <script>
 import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
+import {
+	Blockquote,
+	BulletList,
+	CodeBlock,
+	HardBreak,
+	Heading,
+	ListItem,
+	OrderedList,
+	TodoItem,
+	TodoList,
+	Bold,
+	Code,
+	Italic,
+	Link,
+} from 'tiptap-extensions'
 
 export default {
 	components: {
 		Editor,
 		Icon,
+	},
+	data() {
+		return {
+			extensions: [
+				new Blockquote(),
+				new BulletList(),
+				new CodeBlock(),
+				new HardBreak(),
+				new Heading(),
+				new ListItem(),
+				new OrderedList(),
+				new TodoItem(),
+				new TodoList(),
+				new Bold(),
+				new Code(),
+				new Italic(),
+				new Link(),
+			],
+		}
 	},
 	methods: {
 		onUpdate(state) {

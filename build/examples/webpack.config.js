@@ -42,6 +42,7 @@ export default {
 			'tiptap-commands': path.resolve(rootPath, '../packages/tiptap-commands/src'),
 			'tiptap-utils': path.resolve(rootPath, '../packages/tiptap-utils/src'),
 			'tiptap-models': path.resolve(rootPath, '../packages/tiptap-models/src'),
+			'tiptap-extensions': path.resolve(rootPath, '../packages/tiptap-extensions/src'),
 		},
 		modules: [
 			srcPath,

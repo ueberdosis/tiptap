@@ -16,7 +16,6 @@ import {
 	builtInKeymap,
 } from '../utils'
 import builtInNodes from '../nodes'
-import builtInMarks from '../marks'
 
 export default {
 
@@ -40,7 +39,6 @@ export default {
 	data() {
 		const plugins = new PluginManager([
 			...builtInNodes,
-			...builtInMarks,
 			...this.extensions,
 		])
 		const { nodes, marks, views } = plugins

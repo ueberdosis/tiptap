@@ -1,4 +1,4 @@
-import { Node } from 'tiptap-models'
+import { Node } from 'tiptap'
 import { chainCommands, exitCode } from 'tiptap-commands'
 
 export default class HardBreakNode extends Node {

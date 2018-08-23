@@ -1,4 +1,4 @@
-import { Node } from 'tiptap-models'
+import { Node } from 'tiptap'
 import { splitListItem, liftListItem } from 'tiptap-commands'
 
 export default class TodoItemNode extends Node {

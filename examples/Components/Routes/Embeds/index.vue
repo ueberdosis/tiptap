@@ -19,6 +19,21 @@
 <script>
 import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
+import {
+	Blockquote,
+	BulletList,
+	CodeBlock,
+	HardBreak,
+	Heading,
+	ListItem,
+	OrderedList,
+	TodoItem,
+	TodoList,
+	Bold,
+	Code,
+	Italic,
+	Link,
+} from 'tiptap-extensions'
 import Iframe from './Iframe.js'
 
 export default {
@@ -28,7 +43,23 @@ export default {
 	},
 	data() {
 		return {
-			extensions: [new Iframe()],
+			extensions: [
+				new Blockquote(),
+				new BulletList(),
+				new CodeBlock(),
+				new HardBreak(),
+				new Heading(),
+				new ListItem(),
+				new OrderedList(),
+				new TodoItem(),
+				new TodoList(),
+				new Bold(),
+				new Code(),
+				new Italic(),
+				new Link(),
+				// custom extension
+				new Iframe(),
+			],
 		}
 	},
 	methods: {
