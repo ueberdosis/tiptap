@@ -1,6 +1,6 @@
 {
   "name": "tiptap-models",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Models for tiptap",
   "homepage": "https://tiptap.scrumpy.io",
   "license": "MIT",
@@ -11,8 +11,8 @@
   "files": [
     "src",
     "dist"
-	],
-	"repository": {
+  ],
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/heyscrumpy/tiptap.git"
   },
