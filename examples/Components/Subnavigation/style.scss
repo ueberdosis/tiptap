@@ -2,13 +2,16 @@
 
 .subnavigation {
 
-	position: sticky;
-	top: 0;
-	z-index: 1000;
 	padding: 0.5rem;
 	background-color: rgba($color-black, 0.9);
 	color: $color-white;
 	text-align: center;
+
+	@media (min-width: 600px) {
+		position: sticky;
+		top: 0;
+		z-index: 1000;
+	}
 
 	&__link {
 		display: inline-block;
