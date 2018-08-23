@@ -165,6 +165,32 @@ export default [
     external: [],
   },
 
+  {
+    input: resolve('packages/tiptap-extensions/src/index.js'),
+    file: resolve('packages/tiptap-extensions/dist/extensions.js'),
+    format: 'umd',
+    env: 'development',
+    external: [],
+  },
+  {
+    input: resolve('packages/tiptap-extensions/src/index.js'),
+    file: resolve('packages/tiptap-extensions/dist/extensions.min.js'),
+    format: 'umd',
+    env: 'production',
+    external: [],
+  },
+  {
+    input: resolve('packages/tiptap-extensions/src/index.js'),
+    file: resolve('packages/tiptap-extensions/dist/extensions.common.js'),
+    format: 'cjs',
+    external: [],
+  },
+  {
+    input: resolve('packages/tiptap-extensions/src/index.js'),
+    file: resolve('packages/tiptap-extensions/dist/extensions.esm.js'),
+    format: 'es',
+    external: [],
+  },
 
   // {
   //   input: resolve('packages/tiptap/src/helpers/index.js'),
