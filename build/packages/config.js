@@ -83,6 +83,62 @@ export default [
     format: 'es',
     external: ['vue'],
   },
+
+  {
+    input: resolve('packages/tiptap-commands/src/index.js'),
+    file: resolve('packages/tiptap-commands/dist/commands.js'),
+    format: 'umd',
+    env: 'development',
+    external: [],
+  },
+  {
+    input: resolve('packages/tiptap-commands/src/index.js'),
+    file: resolve('packages/tiptap-commands/dist/commands.min.js'),
+    format: 'umd',
+    env: 'production',
+    external: [],
+  },
+  {
+    input: resolve('packages/tiptap-commands/src/index.js'),
+    file: resolve('packages/tiptap-commands/dist/commands.common.js'),
+    format: 'cjs',
+    external: [],
+  },
+  {
+    input: resolve('packages/tiptap-commands/src/index.js'),
+    file: resolve('packages/tiptap-commands/dist/commands.esm.js'),
+    format: 'es',
+    external: [],
+  },
+
+  {
+    input: resolve('packages/tiptap-utils/src/index.js'),
+    file: resolve('packages/tiptap-utils/dist/utils.js'),
+    format: 'umd',
+    env: 'development',
+    external: [],
+  },
+  {
+    input: resolve('packages/tiptap-utils/src/index.js'),
+    file: resolve('packages/tiptap-utils/dist/utils.min.js'),
+    format: 'umd',
+    env: 'production',
+    external: [],
+  },
+  {
+    input: resolve('packages/tiptap-utils/src/index.js'),
+    file: resolve('packages/tiptap-utils/dist/utils.common.js'),
+    format: 'cjs',
+    external: [],
+  },
+  {
+    input: resolve('packages/tiptap-utils/src/index.js'),
+    file: resolve('packages/tiptap-utils/dist/utils.esm.js'),
+    format: 'es',
+    external: [],
+  },
+
+
   // {
   //   input: resolve('packages/tiptap/src/helpers/index.js'),
   //   file: resolve('packages/tiptap/dist/helpers.min.js'),

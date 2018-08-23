@@ -1,0 +1,26 @@
+{
+  "name": "tiptap-utils",
+  "version": "0.1.0",
+  "description": "Utility functions for tiptap",
+  "homepage": "https://tiptap.scrumpy.io",
+  "license": "MIT",
+  "main": "dist/utils.common.js",
+  "module": "dist/utils.esm.js",
+  "unpkg": "dist/utils.js",
+  "jsdelivr": "dist/utils.js",
+  "files": [
+    "src",
+    "dist"
+	],
+	"repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyscrumpy/tiptap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/heyscrumpy/tiptap/issues"
+  },
+  "dependencies": {
+    "prosemirror-utils": "^0.6.5",
+    "prosemirror-tables": "^0.7.6"
+  }
+}

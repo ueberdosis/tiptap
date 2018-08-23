@@ -1,0 +1,27 @@
+{
+  "name": "tiptap-commands",
+  "version": "0.1.0",
+  "description": "Commands for tiptap",
+  "homepage": "https://tiptap.scrumpy.io",
+  "license": "MIT",
+  "main": "dist/commands.common.js",
+  "module": "dist/commands.esm.js",
+  "unpkg": "dist/commands.js",
+  "jsdelivr": "dist/commands.js",
+  "files": [
+    "src",
+    "dist"
+	],
+	"repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyscrumpy/tiptap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/heyscrumpy/tiptap/issues"
+  },
+  "dependencies": {
+    "prosemirror-commands": "^1.0.7",
+    "prosemirror-inputrules": "^1.0.1",
+    "prosemirror-schema-list": "^1.0.1"
+  }
+}
