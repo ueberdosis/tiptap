@@ -1,5 +1,5 @@
-import Node from '../utils/node'
 import { setBlockType } from 'tiptap-commands'
+import Node from '../utils/node'
 
 export default class ParagraphNode extends Node {
 
