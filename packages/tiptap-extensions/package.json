@@ -20,7 +20,7 @@
     "url": "https://github.com/heyscrumpy/tiptap/issues"
   },
   "dependencies": {
-    "tiptap": "^0.2.1",
+    "tiptap": "^0.3.0",
     "tiptap-commands": "^0.1.1"
   }
 }
