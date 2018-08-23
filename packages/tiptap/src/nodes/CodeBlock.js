@@ -1,5 +1,5 @@
 import { Node } from '../utils'
-import { toggleBlockType, setBlockType, textblockTypeInputRule } from '../helpers'
+import { toggleBlockType, setBlockType, textblockTypeInputRule } from 'tiptap-commands'
 
 export default class CodeBlockNode extends Node {
 

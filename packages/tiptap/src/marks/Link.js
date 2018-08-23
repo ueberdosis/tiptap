@@ -1,5 +1,5 @@
 import { Mark } from '../utils'
-import { updateMark, removeMark } from '../helpers'
+import { updateMark, removeMark } from 'tiptap-commands'
 
 export default class LinkMark extends Mark {
 

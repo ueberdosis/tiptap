@@ -1,5 +1,5 @@
 import { Mark } from '../utils'
-import { toggleMark } from '../helpers'
+import { toggleMark } from 'tiptap-commands'
 
 export default class BoldMark extends Mark {
 
