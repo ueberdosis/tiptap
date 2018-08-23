@@ -191,12 +191,4 @@ export default [
     format: 'es',
     external: [],
   },
-
-  // {
-  //   input: resolve('packages/tiptap/src/helpers/index.js'),
-  //   file: resolve('packages/tiptap/dist/helpers.min.js'),
-  //   format: 'umd',
-  //   env: 'development',
-  //   external: id => !/^[\.\/]/.test(id),
-  // },
 ].map(genConfig)
