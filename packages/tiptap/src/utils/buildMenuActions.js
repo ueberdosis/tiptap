@@ -1,4 +1,4 @@
-import { markIsActive, nodeIsActive, getMarkAttrs } from '.'
+import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
 
 export default function ({ schema, state, commands }) {
 

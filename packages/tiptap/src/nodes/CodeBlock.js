@@ -1,4 +1,4 @@
-import { Node } from '../utils'
+import { Node } from 'tiptap-models'
 import { toggleBlockType, setBlockType, textblockTypeInputRule } from 'tiptap-commands'
 
 export default class CodeBlockNode extends Node {

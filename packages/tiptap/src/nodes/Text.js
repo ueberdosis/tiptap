@@ -1,4 +1,4 @@
-import { Node } from '../utils'
+import { Node } from 'tiptap-models'
 
 export default class TextNode extends Node {
 

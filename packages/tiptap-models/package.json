@@ -1,0 +1,22 @@
+{
+  "name": "tiptap-models",
+  "version": "0.1.1",
+  "description": "Models for tiptap",
+  "homepage": "https://tiptap.scrumpy.io",
+  "license": "MIT",
+  "main": "dist/models.common.js",
+  "module": "dist/models.esm.js",
+  "unpkg": "dist/models.js",
+  "jsdelivr": "dist/models.js",
+  "files": [
+    "src",
+    "dist"
+	],
+	"repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyscrumpy/tiptap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/heyscrumpy/tiptap/issues"
+  }
+}

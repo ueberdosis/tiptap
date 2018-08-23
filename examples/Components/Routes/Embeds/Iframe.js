@@ -1,4 +1,4 @@
-import { Node } from 'tiptap/utils'
+import { Node } from 'tiptap-models'
 
 export default class IframeNode extends Node {
 

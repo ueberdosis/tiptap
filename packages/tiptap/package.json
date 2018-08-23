@@ -91,6 +91,7 @@
     "prosemirror-utils": "^0.6.5",
     "prosemirror-view": "^1.4.3",
     "tiptap-commands": "^0.1.0",
-    "tiptap-utils": "^0.1.1"
+    "tiptap-models": "^0.1.0",
+    "tiptap-utils": "^0.2.0"
   }
 }

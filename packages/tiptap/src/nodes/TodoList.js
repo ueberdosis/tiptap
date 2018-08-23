@@ -1,4 +1,4 @@
-import { Node } from '../utils'
+import { Node } from 'tiptap-models'
 import { wrapInList, wrappingInputRule } from 'tiptap-commands'
 
 export default class BulletNode extends Node {
