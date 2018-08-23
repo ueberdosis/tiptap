@@ -37,17 +37,17 @@ export default {
 	},
 
 	data() {
-		const plugins = new ExtensionManager([
+		const allExtensions = new ExtensionManager([
 			...builtInNodes,
 			...this.extensions,
 		])
-		const { nodes, marks, views } = plugins
+		const { nodes, marks, views } = allExtensions
 
 		return {
 			state: null,
 			view: null,
-			extensionPlugins: [],
-			plugins,
+			plugins: [],
+			allExtensions,
 			schema: null,
 			nodes,
 			marks,
@@ -94,7 +94,7 @@ export default {
 	methods: {
 		initEditor() {
 			this.schema = this.createSchema()
-			this.extensionPlugins = this.createPlugins()
+			this.plugins = this.createPlugins()
 			this.keymaps = this.createKeymaps()
 			this.inputRules = this.createInputRules()
 			this.state = this.createState()
@@ -112,23 +112,23 @@ export default {
 		},
 
 		createPlugins() {
-			return this.plugins.plugins
+			return this.allExtensions.plugins
 		},
 
 		createKeymaps() {
-			return this.plugins.keymaps({
+			return this.allExtensions.keymaps({
 				schema: this.schema,
 			})
 		},
 
 		createInputRules() {
-			return this.plugins.inputRules({
+			return this.allExtensions.inputRules({
 				schema: this.schema,
 			})
 		},
 
 		createCommands() {
-			return this.plugins.commands({
+			return this.allExtensions.commands({
 				schema: this.schema,
 				view: this.view,
 			})
@@ -139,7 +139,7 @@ export default {
 				schema: this.schema,
 				doc: this.getDocument(),
 				plugins: [
-					...this.extensionPlugins,
+					...this.plugins,
 					...this.getPlugins(),
 				],
 			})
