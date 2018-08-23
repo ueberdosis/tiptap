@@ -38,8 +38,8 @@ export default {
 			images: `${srcPath}/assets/images`,
 			fonts: `${srcPath}/assets/fonts`,
 			variables: `${srcPath}/assets/sass/variables`,
-			settings: `${srcPath}/assets/sass/1-settings/index`,
-			tiptap: path.resolve(rootPath, '../src'),
+			tiptap: path.resolve(rootPath, '../packages/tiptap/src'),
+			'tiptap-helpers': path.resolve(rootPath, '../packages/tiptap-helpers/src'),
 		},
 		modules: [
 			srcPath,
@@ -58,7 +58,7 @@ export default {
 			{
 				test: /\.js$/,
 				loader: ifDev('babel-loader?cacheDirectory=true', 'babel-loader'),
-				exclude: /node_modules/,
+				exclude: [/node_modules/, /packages/],
 			},
 			{
 				test: /\.css$/,
