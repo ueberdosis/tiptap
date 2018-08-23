@@ -89,11 +89,11 @@
 			</div>
 
 			<div class="editor__content" slot="content" slot-scope="props">
-				<h1>
-					A renderless rich-text editor for Vue.js
-				</h1>
+				<h2>
+					Menu Bar
+				</h2>
 				<p>
-					This editor is based on <a href="https://prosemirror.net">Prosemirror</a>, <em>fully extendable</em> and renderless. There is a plugin system that lets you render each node as <strong>a vue component</strong>.
+					This is a very <em>basic</em> example of tiptap.
 				</p>
 				<pre><code>body { display: none; }</code></pre>
 				<ul>

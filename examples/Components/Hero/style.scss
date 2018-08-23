@@ -1,0 +1,15 @@
+@import "~variables";
+
+.hero {
+
+	background-color: $color-black;
+	color: $color-white;
+	text-align: center;
+	padding: 3rem 1rem;
+
+	&__inner {
+		margin: 0 auto;
+		max-width: 30rem;
+	}
+
+}

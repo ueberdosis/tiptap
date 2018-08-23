@@ -38,6 +38,7 @@ a {
 
 h1,
 h2,
+h3,
 p,
 ul,
 ol,
@@ -52,4 +53,10 @@ blockquote {
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+h1,
+h2,
+h3 {
+	line-height: 1.3;
 }

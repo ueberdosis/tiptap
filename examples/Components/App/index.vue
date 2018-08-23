@@ -2,6 +2,9 @@
   <div class="page" spellcheck="false">
 
     <navigation />
+
+    <hero />
+
     <subnavigation />
 
     <div class="page__content">
@@ -24,6 +27,7 @@
 
 <script>
 import Navigation from 'Components/Navigation'
+import Hero from 'Components/Hero'
 import Subnavigation from 'Components/Subnavigation'
 import Icon from 'Components/Icon'
 import Ad from 'Components/Ad'
@@ -31,6 +35,7 @@ import Ad from 'Components/Ad'
 export default {
   components: {
     Navigation,
+    Hero,
     Subnavigation,
     Icon,
     Ad,
