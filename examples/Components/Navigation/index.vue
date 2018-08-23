@@ -1,45 +1,17 @@
 <template>
 	<div class="navigation">
 
-		<div class="navigation__header">
-			<h1 class="navigation__logo">
-				tiptap <span class="navigation__beta">beta</span>
-			</h1>
-			<div>
-				<a class="navigation__link" href="https://github.com/heyscrumpy/tiptap/blob/master/CONTRIBUTING.md" target="_blank">
-					Contribute
-				</a>
-				<a class="navigation__github-link" href="https://github.com/heyscrumpy/tiptap" target="_blank">
-					<icon class="navigation__icon" name="github" />
-				</a>
-			</div>
-		</div>
+		<h1 class="navigation__logo">
+			tiptap <span class="navigation__beta">beta</span>
+		</h1>
 
-		<div class="navigation__links">
-			<router-link class="navigation__link" to="/">
-				Menu Bar
-			</router-link>
-			<router-link class="navigation__link" to="/menu-bubble">
-				Menu Bubble
-			</router-link>
-			<router-link class="navigation__link" to="/links">
-				Links
-			</router-link>
-			<router-link class="navigation__link" to="/hiding-menu-bar">
-				Hiding Menu Bar
-			</router-link>
-			<router-link class="navigation__link" to="/todo-list">
-				Todo List
-			</router-link>
-			<router-link class="navigation__link" to="/markdown-shortcuts">
-				Markdown Shortcuts
-			</router-link>
-			<router-link class="navigation__link" to="/read-only">
-				Read-Only
-			</router-link>
-			<router-link class="navigation__link" to="/embeds">
-				Embeds
-			</router-link>
+		<div>
+			<a class="navigation__link" href="https://github.com/heyscrumpy/tiptap/blob/master/CONTRIBUTING.md" target="_blank">
+				Contribute
+			</a>
+			<a class="navigation__github-link" href="https://github.com/heyscrumpy/tiptap" target="_blank">
+				<icon class="navigation__icon" name="github" />
+			</a>
 		</div>
 
 	</div>

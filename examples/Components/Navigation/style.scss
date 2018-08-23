@@ -2,16 +2,12 @@
 
 .navigation {
 
-	text-align: center;
-
-	&__header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 0.75rem;
-		background-color: $color-black;
-		color: $color-white;
-	}
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.75rem;
+	background-color: $color-black;
+	color: $color-white;
 
 	&__logo {
 		font-size: 1.1rem;
@@ -37,12 +33,6 @@
 		border-radius: 5px;
 	}
 
-	&__links {
-		padding: 0.5rem;
-		background-color: rgba($color-black, 0.9);
-		color: $color-white;
-	}
-
 	&__link {
 		display: inline-block;
 		color: rgba($color-white, 0.5);
@@ -55,11 +45,6 @@
 		&:hover {
 			color: $color-white;
       background-color: rgba($color-white, 0.1);
-    }
-
-    &.is-exact-active {
-			color: $color-white;
-      background-color: rgba($color-white, 0.2);
     }
 	}
 

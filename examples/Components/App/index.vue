@@ -2,6 +2,7 @@
   <div class="page" spellcheck="false">
 
     <navigation />
+    <subnavigation />
 
     <div class="page__content">
       <router-view />
@@ -23,12 +24,14 @@
 
 <script>
 import Navigation from 'Components/Navigation'
+import Subnavigation from 'Components/Subnavigation'
 import Icon from 'Components/Icon'
 import Ad from 'Components/Ad'
 
 export default {
   components: {
     Navigation,
+    Subnavigation,
     Icon,
     Ad,
   },

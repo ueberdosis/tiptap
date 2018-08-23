@@ -1,0 +1,30 @@
+<template>
+	<div class="subnavigation">
+		<router-link class="subnavigation__link" to="/">
+			Menu Bar
+		</router-link>
+		<router-link class="subnavigation__link" to="/menu-bubble">
+			Menu Bubble
+		</router-link>
+		<router-link class="subnavigation__link" to="/links">
+			Links
+		</router-link>
+		<router-link class="subnavigation__link" to="/hiding-menu-bar">
+			Hiding Menu Bar
+		</router-link>
+		<router-link class="subnavigation__link" to="/todo-list">
+			Todo List
+		</router-link>
+		<router-link class="subnavigation__link" to="/markdown-shortcuts">
+			Markdown Shortcuts
+		</router-link>
+		<router-link class="subnavigation__link" to="/read-only">
+			Read-Only
+		</router-link>
+		<router-link class="subnavigation__link" to="/embeds">
+			Embeds
+		</router-link>
+	</div>
+</template>
+
+<style lang="scss" src="./style.scss" scoped></style>
