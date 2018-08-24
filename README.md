@@ -41,7 +41,7 @@ export default {
 
 ## Editor Properties
 
-| Property | Type | Default | Description |
+| **Property** | **Type** | **Default** | **Description** |
 | - | :-: | :-: | - | 
 | editable | Boolean | `true` | When set to `false` the editor is read-only. |
 | doc | Object | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
@@ -52,7 +52,7 @@ export default {
 
 By default the editor will only support some boring paragraphs. Other nodes and marks are available as **extensions**. There is a package called `tiptap-extensions` with the most basic nodes, marks and plugins.
 
-#### Available Extensions 
+### Available Extensions 
 
 ```vue
 <template>
@@ -109,10 +109,17 @@ export default {
 </script>
 ```
 
-#### Create Custom Extensions 
+### Create Custom Extensions 
 
-Soon …
-Until then you can take a look at the [embed example](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds).
+The most powerful feature of tiptap is that you can create you own extensions. There are 3 basic types of extensions.
+
+| **Type** | **Description** |
+| - | - | 
+| Extension | The most basic type. It's useful to register some [Prosemirror plugins](https://prosemirror.net/docs/guide/) or some input rules. |
+| Node | Add a custom node. Nodes are basically block elements like a headline or a paragraph. |
+| Mark | Add a custom mark. Marks are used to add extra styling or other information to inline content like a strong tag or links. |
+
+For a live example you can take a look at the [embed example](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds).
 
 ## Contributing
 
