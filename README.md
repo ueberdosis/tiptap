@@ -43,10 +43,10 @@ export default {
 
 | **Property** | **Type** | **Default** | **Description** |
 | - | :-: | :-: | - | 
-| editable | Boolean | `true` | When set to `false` the editor is read-only. |
-| doc | Object | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
-| extensions | Array | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
-| @update | Function | `undefined` | This will return the current `state` of Prosemirror on every change. |
+| `editable` | `Boolean` | `true` | When set to `false` the editor is read-only. |
+| `doc` | `Object` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
+| `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
+| `@update` | `Function` | `undefined` | This will return the current `state` of Prosemirror on every change. |
 
 ## Extensions
 
@@ -115,9 +115,31 @@ The most powerful feature of tiptap is that you can create you own extensions. T
 
 | **Type** | **Description** |
 | - | - | 
-| Extension | The most basic type. It's useful to register some [Prosemirror plugins](https://prosemirror.net/docs/guide/) or some input rules. |
-| Node | Add a custom node. Nodes are basically block elements like a headline or a paragraph. |
-| Mark | Add a custom mark. Marks are used to add extra styling or other information to inline content like a strong tag or links. |
+| `Extension` | The most basic type. It's useful to register some [Prosemirror plugins](https://prosemirror.net/docs/guide/) or some input rules. |
+| `Node` | Add a custom node. Nodes are basically block elements like a headline or a paragraph. |
+| `Mark` | Add a custom mark. Marks are used to add extra styling or other information to inline content like a strong tag or links. |
+
+### Extension Class
+
+| **Method** | **Type** | **Default** | **Description** |
+| - | :-: | :-: | - | 
+| `get name()` | `String` | `null` | Define a name for your extension. |
+| `get defaultOptions()` | `Object` | `{}` | Define some default options. The options are available as `this.$options`. |
+| `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
+| `get inputRules()` | `Array` | `[]` | Define a list of input rules. |
+
+### Node|Mark Class
+
+| **Method** | **Type** | **Default** | **Description** |
+| - | :-: | :-: | - | 
+| `get name()` | `String` | `null` | Define a name for your node or mark. |
+| `get defaultOptions()` | `Object` | `{}` | Define some default options. The options are available as `this.$options`. |
+| `get schema()` | `Object` | `null` | Define a [schema](https://prosemirror.net/docs/guide/#schema). |
+| `get view()` | `Object` | `null` | Define a node view as a vue component. |
+| `keys({ type, schema })` | `Object` | `null` | Define some keybindings. |
+| `command({ type, schema, attrs })` | `Object` | `null` | Define a command. This is used for menus to convert to this node or mark. |
+| `inputRules({ schema })` | `Array` | `[]` | Define a list of input rules. |
+| `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
 
 For a live example you can take a look at the [embed example](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds).
 
