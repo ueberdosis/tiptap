@@ -5,7 +5,7 @@
 				tiptap – a renderless rich-text editor toolkit for Vue.js
 			</h1>
 			<p>
-				This editor is based on <a href="https://prosemirror.net">Prosemirror</a>, <em>fully extendable</em> and renderless. There is a plugin system that lets you render each node as <strong>a vue component</strong>.
+				This editor is based on <a href="https://prosemirror.net">Prosemirror</a>, <em>fully extendable</em> and renderless. You can easily add custom nodes as <strong>Vue components</strong>.
 			</p>
 		</div>
 	</div>

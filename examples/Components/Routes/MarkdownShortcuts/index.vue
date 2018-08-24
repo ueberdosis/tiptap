@@ -7,10 +7,10 @@
 					Markdown Shortcuts
 				</h2>
 				<p>
-					Start a new line and type <code>#</code> followed by a space and you will get an H1 headline. 🤯
+					Start a new line and type <code>#</code> followed by a <code>space</code> and you will get an H1 headline.
 				</p>
 				<p>
-					This feature is called <strong>input rules</strong>. There are some of these shortcuts for the most basic nodes available by default. Try <code>#, ##, ###, …</code> for headlines, <code>></code> for blockquotes, <code>- or +</code> for bullet lists. And of course you can add your own input rules.
+					This feature is called <strong>input rules</strong>. There are some of these shortcuts for the most basic nodes enabled by default. Try <code>#, ##, ###, …</code> for headlines, <code>></code> for blockquotes, <code>- or +</code> for bullet lists. And of course you can add your own input rules.
 				</p>
 			</div>
 

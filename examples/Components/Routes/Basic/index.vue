@@ -90,10 +90,10 @@
 
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h2>
-					Menu Bar
+					Hi there,
 				</h2>
 				<p>
-					This is a very <em>basic</em> example of tiptap.
+					this is a very <em>basic</em> example of tiptap.
 				</p>
 				<pre><code>body { display: none; }</code></pre>
 				<ul>

@@ -37,7 +37,7 @@
 					Menu Bubble
 				</h2>
 				<p>
-					Hey, try to select some text.
+					Hey, try to select some text here. There will popup a menu for selecting some inline styles. <em>Remember:</em> you have full control about content and styling of this menu.
 				</p>
 			</div>
 

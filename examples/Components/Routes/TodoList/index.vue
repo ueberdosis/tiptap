@@ -7,26 +7,26 @@
 
 					<button
 						class="menubar__button"
-						:class="{ 'is-active': nodes.heading.active({ level: 1 }) }"
-						@click="nodes.heading.command({ level: 1 })"
+						:class="{ 'is-active': marks.bold.active() }"
+						@click="marks.bold.command"
 					>
-						H1
+						<icon name="bold" />
 					</button>
 
 					<button
 						class="menubar__button"
-						:class="{ 'is-active': nodes.heading.active({ level: 2 }) }"
-						@click="nodes.heading.command({ level: 2 })"
+						:class="{ 'is-active': marks.italic.active() }"
+						@click="marks.italic.command"
 					>
-						H2
+						<icon name="italic" />
 					</button>
 
 					<button
 						class="menubar__button"
-						:class="{ 'is-active': nodes.heading.active({ level: 3 }) }"
-						@click="nodes.heading.command({ level: 3 })"
+						:class="{ 'is-active': marks.code.active() }"
+						@click="marks.code.command"
 					>
-						H3
+						<icon name="code" />
 					</button>
 
 					<button
@@ -44,6 +44,9 @@
 				<h2>
 					Todo List
 				</h2>
+				<p>
+					There is always something to do. Thankfully, there are checklists for that. Don't forget to call mom.
+				</p>
 				<ul data-type="todo_list">
 					<li data-type="todo_item" data-done="true">
 						Buy beer
@@ -51,7 +54,7 @@
 					<li data-type="todo_item" data-done="true">
 						Buy meat
 					</li>
-					<li data-type="todo_item" data-done="false">
+					<li data-type="todo_item" data-done="true">
 						Buy milk
 					</li>
 					<li data-type="todo_item" data-done="false">

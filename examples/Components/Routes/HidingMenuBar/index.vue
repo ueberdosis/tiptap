@@ -93,7 +93,7 @@
 					Hiding Menu Bar
 				</h2>
 				<p>
-					Try to focus the editor to see the menu. It's like magic. 🔮
+					Click into this text to see the menu. Click outside and the menu will disappear. It's like magic.
 				</p>
 			</div>
 

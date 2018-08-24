@@ -29,7 +29,7 @@
 					Links
 				</h2>
 				<p>
-					Try to add some links to the <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>.
+					Try to add some links to the <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>. By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute.
 				</p>
 			</div>
 		</editor>
