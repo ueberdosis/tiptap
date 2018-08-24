@@ -95,7 +95,7 @@ export default {
 				new BulletList(),
 				new CodeBlock(),
 				new HardBreak(),
-				new Heading(),
+				new Heading({ maxLevel: 3 }),
 				new ListItem(),
 				new OrderedList(),
 				new TodoItem(),
