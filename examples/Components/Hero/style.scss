@@ -12,4 +12,13 @@
 		max-width: 30rem;
 	}
 
+	&__logo {
+		width: 4rem;
+		height: 4rem;
+
+		path {
+			fill: $color-white;
+		}
+	}
+
 }
