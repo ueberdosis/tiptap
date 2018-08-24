@@ -21,7 +21,7 @@ export default class BlockquoteNode extends Node {
 	}
 
 	command({ type }) {
-		return setBlockType(type)
+		return wrapIn(type)
 	}
 
 	keys({ type }) {
