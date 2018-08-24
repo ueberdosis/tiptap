@@ -65,7 +65,6 @@ By default the editor will only support some boring paragraphs. Other nodes and 
 </template>
 
 <script>
-// Import the editor
 import { Editor } from 'tiptap'
 import {
   Blockquote,
@@ -94,7 +93,7 @@ export default {
         new BulletList(),
         new CodeBlock(),
         new HardBreak(),
-        new Heading(),
+        new Heading({ maxLevel: 3 }),
         new ListItem(),
         new OrderedList(),
         new TodoItem(),
