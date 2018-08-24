@@ -138,7 +138,7 @@ The most powerful feature of tiptap is that you can create you own extensions. T
 | `get view()` | `Object` | `null` | Define a node view as a vue component. |
 | `keys({ type, schema })` | `Object` | `null` | Define some keybindings. |
 | `command({ type, schema, attrs })` | `Object` | `null` | Define a command. This is used for menus to convert to this node or mark. |
-| `inputRules({ schema })` | `Array` | `[]` | Define a list of input rules. |
+| `inputRules({ type, schema })` | `Array` | `[]` | Define a list of input rules. |
 | `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
 
 For a live example you can take a look at the [embed example](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds).
