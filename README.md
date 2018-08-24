@@ -2,7 +2,7 @@
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
 
 | **Package** | **Version** | **Downloads** | **Description** |
-| - | - | - | - |
+| --- | --- | --- | --- |
 | [`tiptap`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap) | [![](https://img.shields.io/npm/v/tiptap.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap) | [![](https://img.shields.io/npm/dm/tiptap.svg?colorB=000000)](https://npmcharts.com/compare/tiptap?minimal=true) | The core package including the vue component. |
 | [`tiptap-extensions`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap-extensions) | [![](https://img.shields.io/npm/v/tiptap-extensions.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap-extensions) | [![](https://img.shields.io/npm/dm/tiptap-extensions.svg?colorB=000000)](https://npmcharts.com/compare/tiptap-extensions?minimal=true) | A collection of some basic extensions for tiptap. |
 | [`tiptap-commands`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap-commands) | [![](https://img.shields.io/npm/v/tiptap-commands.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap-commands) | [![](https://img.shields.io/npm/dm/tiptap-commands.svg?colorB=000000)](https://npmcharts.com/compare/tiptap-commands?minimal=true) | A collection of commands. These are mostly used for extensions. |
@@ -42,7 +42,7 @@ export default {
 ## Editor Properties
 
 | **Property** | **Type** | **Default** | **Description** |
-| - | :-: | :-: | - | 
+| --- | :---: | :---: | --- | 
 | `editable` | `Boolean` | `true` | When set to `false` the editor is read-only. |
 | `doc` | `Object` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
@@ -114,7 +114,7 @@ export default {
 The most powerful feature of tiptap is that you can create you own extensions. There are 3 basic types of extensions.
 
 | **Type** | **Description** |
-| - | - | 
+| --- | --- | 
 | `Extension` | The most basic type. It's useful to register some [Prosemirror plugins](https://prosemirror.net/docs/guide/) or some input rules. |
 | `Node` | Add a custom node. Nodes are basically block elements like a headline or a paragraph. |
 | `Mark` | Add a custom mark. Marks are used to add extra styling or other information to inline content like a strong tag or links. |
@@ -122,7 +122,7 @@ The most powerful feature of tiptap is that you can create you own extensions. T
 ### Extension Class
 
 | **Method** | **Type** | **Default** | **Description** |
-| - | :-: | :-: | - | 
+| --- | :---: | :---: | --- | 
 | `get name()` | `String` | `null` | Define a name for your extension. |
 | `get defaultOptions()` | `Object` | `{}` | Define some default options. The options are available as `this.$options`. |
 | `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
@@ -131,7 +131,7 @@ The most powerful feature of tiptap is that you can create you own extensions. T
 ### Node|Mark Class
 
 | **Method** | **Type** | **Default** | **Description** |
-| - | :-: | :-: | - | 
+| --- | :---: | :---: | --- | 
 | `get name()` | `String` | `null` | Define a name for your node or mark. |
 | `get defaultOptions()` | `Object` | `{}` | Define some default options. The options are available as `this.$options`. |
 | `get schema()` | `Object` | `null` | Define a [schema](https://prosemirror.net/docs/guide/#schema). |
