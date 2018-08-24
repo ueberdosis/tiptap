@@ -1,11 +1,14 @@
 # tiptap
-A rich-text editor for Vue.js
+A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
 
-<p>
-	<a href="https://npmcharts.com/compare/tiptap?minimal=true"><img src="https://img.shields.io/npm/dm/tiptap.svg" alt="Downloads"></a>
-	<a href="https://www.npmjs.com/package/tiptap"><img src="https://img.shields.io/npm/v/tiptap.svg" alt="Version"></a>
-	<a href="https://www.npmjs.com/package/tiptap"><img src="https://img.shields.io/npm/l/tiptap.svg" alt="License"></a>
-</p>
+| **Package** | **Version** | **Downloads** | **Description** |
+| - | - | - | - |
+| [`tiptap`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap) | [![](https://img.shields.io/npm/v/tiptap.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap) | [![](https://img.shields.io/npm/dm/tiptap.svg?colorB=000000)](https://npmcharts.com/compare/tiptap?minimal=true) | The core package including the vue component. |
+| [`tiptap-extensions`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap-extensions) | [![](https://img.shields.io/npm/v/tiptap-extensions.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap-extensions) | [![](https://img.shields.io/npm/dm/tiptap-extensions.svg?colorB=000000)](https://npmcharts.com/compare/tiptap-extensions?minimal=true) | A collection of some basic extensions for tiptap. |
+| [`tiptap-commands`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap-commands) | [![](https://img.shields.io/npm/v/tiptap-commands.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap-commands) | [![](https://img.shields.io/npm/dm/tiptap-commands.svg?colorB=000000)](https://npmcharts.com/compare/tiptap-commands?minimal=true) | A collection of commands. These are mostly used for extensions. |
+| [`tiptap-utils`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap-utils) | [![](https://img.shields.io/npm/v/tiptap-utils.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap-utils) | [![](https://img.shields.io/npm/dm/tiptap-utils.svg?colorB=000000)](https://npmcharts.com/compare/tiptap-utils?minimal=true) | A collection of utility functions. |
+
+[![](https://img.shields.io/npm/l/tiptap.svg?colorB=000000)](https://github.com/heyscrumpy/tiptaps)
 
 ## Installation
 ```
