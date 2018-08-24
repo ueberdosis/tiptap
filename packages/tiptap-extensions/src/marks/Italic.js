@@ -1,5 +1,5 @@
 import { Mark } from 'tiptap'
-import { toggleMark } from 'tiptap-commands'
+import { toggleMark, markInputRule } from 'tiptap-commands'
 
 export default class ItalicMark extends Mark {
 
@@ -26,6 +26,12 @@ export default class ItalicMark extends Mark {
 
 	command({ type }) {
 		return toggleMark(type)
+	}
+
+	inputRules({ type }) {
+		return [
+			markInputRule(/(?:^|[^\*_])(?:\*|_)([^\*_]+)(?:\*|_)$/, type),
+		]
 	}
 
 }

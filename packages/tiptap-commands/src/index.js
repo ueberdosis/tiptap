@@ -38,6 +38,7 @@ import {
 	textblockTypeInputRule,
 } from 'prosemirror-inputrules'
 
+import markInputRule from './commands/markInputRule'
 import removeMark from './commands/removeMark'
 import toggleBlockType from './commands/toggleBlockType'
 import toggleList from './commands/toggleList'
@@ -82,6 +83,7 @@ export {
 	textblockTypeInputRule,
 
 	// custom
+	markInputRule,
 	removeMark,
 	toggleBlockType,
 	toggleList,
