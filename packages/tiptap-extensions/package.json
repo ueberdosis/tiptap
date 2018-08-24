@@ -1,6 +1,6 @@
 {
   "name": "tiptap-extensions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Extensions for tiptap",
   "homepage": "https://tiptap.scrumpy.io",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "url": "https://github.com/heyscrumpy/tiptap/issues"
   },
   "dependencies": {
-    "tiptap": "^0.3.0",
+    "tiptap": "^0.4.0",
     "tiptap-commands": "^0.1.1"
   }
 }
