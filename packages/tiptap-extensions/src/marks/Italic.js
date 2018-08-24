@@ -30,7 +30,7 @@ export default class ItalicMark extends Mark {
 
 	inputRules({ type }) {
 		return [
-			markInputRule(/(?:^|[^\*_])(?:\*|_)([^\*_]+)(?:\*|_)$/, type),
+			markInputRule(/(?:\*|_)([^\*_]+)(?:\*|_)$/, type),
 		]
 	}
 
