@@ -1,18 +1,9 @@
-export default class Node {
+import Extension from './extension'
+
+export default class Node extends Extension {
 
 	constructor(options = {}) {
-		this.options = {
-			...this.defaultOptions,
-			...options,
-		}
-	}
-
-	get name() {
-		return null
-	}
-
-	get defaultOptions() {
-		return {}
+		super(options)
 	}
 
 	get type() {
@@ -27,20 +18,12 @@ export default class Node {
 		return null
 	}
 
-	get plugins() {
-		return []
-	}
-
 	command() {
 		return () => {}
 	}
 
 	keys() {
 		return {}
-	}
-
-	inputRules() {
-		return []
 	}
 
 }

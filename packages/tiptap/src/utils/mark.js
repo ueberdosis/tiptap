@@ -1,18 +1,9 @@
-export default class Mark {
+import Extension from './extension'
+
+export default class Mark extends Extension {
 
 	constructor(options = {}) {
-		this.options = {
-			...this.defaultOptions,
-			...options,
-		}
-	}
-
-	get name() {
-		return null
-	}
-
-	get defaultOptions() {
-		return {}
+		super(options)
 	}
 
 	get type() {
@@ -27,20 +18,12 @@ export default class Mark {
 		return null
 	}
 
-	get plugins() {
-		return []
-	}
-
 	command() {
 		return () => {}
 	}
 
 	keys() {
 		return {}
-	}
-
-	inputRules() {
-		return []
 	}
 
 }
