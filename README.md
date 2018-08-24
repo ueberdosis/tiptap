@@ -8,7 +8,8 @@ A renderless and extendable rich-text editor for [Vue.js](https://github.com/vue
 | [`tiptap-commands`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap-commands) | [![](https://img.shields.io/npm/v/tiptap-commands.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap-commands) | [![](https://img.shields.io/npm/dm/tiptap-commands.svg?colorB=000000)](https://npmcharts.com/compare/tiptap-commands?minimal=true) | A collection of commands. These are mostly used for extensions. |
 | [`tiptap-utils`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap-utils) | [![](https://img.shields.io/npm/v/tiptap-utils.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap-utils) | [![](https://img.shields.io/npm/dm/tiptap-utils.svg?colorB=000000)](https://npmcharts.com/compare/tiptap-utils?minimal=true) | A collection of utility functions. |
 
-[![](https://img.shields.io/npm/l/tiptap.svg?colorB=000000)](https://github.com/heyscrumpy/tiptaps)
+## Examples
+To check out some live examples, visit [tiptap.scrumpy.io](https://tiptap.scrumpy.io/).
 
 ## Installation
 ```
