@@ -145,7 +145,7 @@ The most powerful feature of tiptap is that you can create you own extensions. T
 | `inputRules({ type, schema })` | `Array` | `[]` | Define a list of input rules. |
 | `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
 
-#### Create a Node
+### Create a Node
 
 Let's take a look at a real example. This is basically how the default `blockquote` node from [`tiptap-extensions`](https://www.npmjs.com/package/tiptap-extensions) looks like.
 
@@ -205,9 +205,84 @@ export default class BlockquoteNode extends Node {
 }
 ```
 
-#### Create a Node as a Vue Component
+### Create a Node as a Vue Component
 
-For a live example you can take a look at the [embed example](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds).
+The real power of the nodes comes in combination with Vue components. Lets build a iframe node, where you can change its url (this can also be found in our [examples](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds)).
+
+```js
+import { Node } from 'tiptap'
+
+export default class IframeNode extends Node {
+
+  get name() {
+    return 'iframe'
+  }
+
+  get schema() {
+    return {
+      // here you have to specify all values that can be stored in this node
+      attrs: {
+        src: {
+          default: null,
+        },
+      },
+      group: 'block',
+      selectable: false,
+      // parseDOM and toDOM is still required to make copy and paste work
+      parseDOM: [{
+        tag: 'iframe',
+        getAttrs: dom => ({
+          src: dom.getAttribute('src'),
+        }),
+      }],
+      toDOM: node => ['iframe', {
+        src: node.attrs.src,
+        frameborder: 0,
+        allowfullscreen: 'true',
+      }],
+    }
+  }
+  
+  // return a vue component
+  // this can be an object or an imported component
+  get view() {
+    return {
+      // there are some props available
+      // `node` is a Prosemirror Node Object
+      // `updateAttrs` is a function to update attributes defined in `schema`
+      // `editable` is the global editor prop whether the content can be edited
+      props: ['node', 'updateAttrs', 'editable'],
+      data() {
+        return {
+          url: this.node.attrs.src,
+        }
+      },
+      methods: {
+        onChange(event) {
+          // you have to check if the editor is read-only
+          if (!this.editable) {
+            return
+          }
+
+          this.url = event.target.value
+          
+          // update the iframe url
+          this.updateAttrs({
+            src: this.url,
+          })
+        },
+      },
+      template: `
+        <div class="iframe">
+          <iframe class="iframe__embed" :src="url"></iframe>
+          <input class="iframe__input" type="text" :value="url" @input="onChange" v-if="editable" />
+        </div>
+      `,
+    }
+  }
+
+}
+```
 
 ## Contributing
 
