@@ -254,6 +254,7 @@ export default class IframeNode extends Node {
       props: ['node', 'updateAttrs', 'editable'],
       data() {
         return {
+          // save the iframe src in a new variable because `this.node.attrs` is immutable
           url: this.node.attrs.src,
         }
       },
