@@ -12,9 +12,6 @@ export default class TodoItemNode extends Node {
 			props: ['node', 'updateAttrs', 'editable'],
 			methods: {
 				onChange() {
-					if (!this.editable) {
-						return
-					}
 					this.updateAttrs({
 						done: !this.node.attrs.done,
 					})
