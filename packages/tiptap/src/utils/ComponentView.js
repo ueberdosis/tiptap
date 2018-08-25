@@ -36,6 +36,10 @@ export default class ComponentView {
 	}
 
 	updateAttrs(attrs) {
+		if (!this.editable) {
+			return
+		}
+
 		const transaction = this.view.state.tr.setNodeMarkup(this.getPos(), null, {
 			...this.node.attrs,
 			...attrs,
@@ -44,6 +48,10 @@ export default class ComponentView {
 	}
 
 	updateContent(content) {
+		if (!this.editable) {
+			return
+		}
+
 		const transaction = this.view.state.tr.setNodeMarkup(this.getPos(), this.node.type, { content })
 		this.view.dispatch(transaction)
 	}
