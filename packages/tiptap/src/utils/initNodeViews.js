@@ -1,4 +1,4 @@
-import { ComponentView } from '.'
+import ComponentView from './ComponentView'
 
 export default function initNodeViews({ nodes, editable }) {
   const nodeViews = {}
