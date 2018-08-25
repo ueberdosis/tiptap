@@ -1,6 +1,6 @@
 {
   "name": "tiptap-extensions",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Extensions for tiptap",
   "homepage": "https://tiptap.scrumpy.io",
   "license": "MIT",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "prosemirror-history": "^1.0.2",
-    "tiptap": "^0.5.1",
-    "tiptap-commands": "^0.2.0"
+    "tiptap": "^0.6.0",
+    "tiptap-commands": "^0.2.1"
   }
 }
