@@ -259,11 +259,6 @@ export default class IframeNode extends Node {
       },
       methods: {
         onChange(event) {
-          // you have to check if the editor is read-only
-          if (!this.editable) {
-            return
-          }
-
           this.url = event.target.value
           
           // update the iframe url
