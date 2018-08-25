@@ -35,6 +35,7 @@ import {
 	Code,
 	Italic,
 	Link,
+	History,
 } from 'tiptap-extensions'
 
 export default {
@@ -58,6 +59,7 @@ export default {
 				new Code(),
 				new Italic(),
 				new Link(),
+				new History(),
 			],
 		}
 	},

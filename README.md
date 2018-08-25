@@ -46,7 +46,7 @@ export default {
 ## Editor Properties
 
 | **Property** | **Type** | **Default** | **Description** |
-| --- | :---: | :---: | --- | 
+| --- | :---: | :---: | --- |
 | `editable` | `Boolean` | `true` | When set to `false` the editor is read-only. |
 | `doc` | `Object` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
@@ -56,7 +56,7 @@ export default {
 
 By default the editor will only support some boring paragraphs. Other nodes and marks are available as **extensions**. There is a package called `tiptap-extensions` with the most basic nodes, marks and plugins.
 
-### Available Extensions 
+### Available Extensions
 
 ```vue
 <template>
@@ -84,6 +84,7 @@ import {
   Code,
   Italic,
   Link,
+  History,
 } from 'tiptap-extensions'
 
 export default {
@@ -106,6 +107,7 @@ export default {
         new Code(),
         new Italic(),
         new Link(),
+        new History(),
       ],
     }
   },
@@ -113,12 +115,12 @@ export default {
 </script>
 ```
 
-### Create Custom Extensions 
+### Create Custom Extensions
 
 The most powerful feature of tiptap is that you can create you own extensions. There are 3 basic types of extensions.
 
 | **Type** | **Description** |
-| --- | --- | 
+| --- | --- |
 | `Extension` | The most basic type. It's useful to register some [Prosemirror plugins](https://prosemirror.net/docs/guide/) or some input rules. |
 | `Node` | Add a custom node. Nodes are basically block elements like a headline or a paragraph. |
 | `Mark` | Add a custom mark. Marks are used to add extra styling or other information to inline content like a strong tag or links. |
@@ -126,16 +128,17 @@ The most powerful feature of tiptap is that you can create you own extensions. T
 ### Extension Class
 
 | **Method** | **Type** | **Default** | **Description** |
-| --- | :---: | :---: | --- | 
+| --- | :---: | :---: | --- |
 | `get name()` | `String` | `null` | Define a name for your extension. |
 | `get defaultOptions()` | `Object` | `{}` | Define some default options. The options are available as `this.$options`. |
 | `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
-| `get inputRules()` | `Array` | `[]` | Define a list of input rules. |
+| `keys({ schema })` | `Object` | `null` | Define some keybindings. |
+| `inputRules({ schema })` | `Array` | `[]` | Define a list of input rules. |
 
 ### Node|Mark Class
 
 | **Method** | **Type** | **Default** | **Description** |
-| --- | :---: | :---: | --- | 
+| --- | :---: | :---: | --- |
 | `get name()` | `String` | `null` | Define a name for your node or mark. |
 | `get defaultOptions()` | `Object` | `{}` | Define some default options. The options are available as `this.$options`. |
 | `get schema()` | `Object` | `null` | Define a [schema](https://prosemirror.net/docs/guide/#schema). |
@@ -154,12 +157,12 @@ import { Node } from 'tiptap'
 import { wrappingInputRule, setBlockType, wrapIn } from 'tiptap-commands'
 
 export default class BlockquoteNode extends Node {
-  
+
   // choose a unique name
   get name() {
     return 'blockquote'
   }
-  
+
   // the prosemirror schema object
   // take a look at https://prosemirror.net/docs/guide/#schema for a detailed explanation
   get schema() {
@@ -179,14 +182,14 @@ export default class BlockquoteNode extends Node {
       toDOM: () => ['blockquote', { class: 'awesome-blockquote' }, 0],
     }
   }
-  
+
   // this command will be called from menus to add a blockquote
   // `type` is the prosemirror schema object for this blockquote
   // `schema` is a collection of all registered nodes and marks
   command({ type, schema }) {
     return wrapIn(type)
   }
-  
+
   // here you can register some shortcuts
   // in this case you can create a blockquote with `ctrl` + `>`
   keys({ type }) {
@@ -194,7 +197,7 @@ export default class BlockquoteNode extends Node {
       'Ctrl->': wrapIn(type),
     }
   }
-  
+
   // a blockquote will be created when you are on a new line and type `>` followed by a space
   inputRules({ type }) {
     return [
@@ -242,7 +245,7 @@ export default class IframeNode extends Node {
       }],
     }
   }
-  
+
   // return a vue component
   // this can be an object or an imported component
   get view() {
@@ -261,7 +264,7 @@ export default class IframeNode extends Node {
       methods: {
         onChange(event) {
           this.url = event.target.value
-          
+
           // update the iframe url
           this.updateAttrs({
             src: this.url,

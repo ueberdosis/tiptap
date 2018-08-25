@@ -33,6 +33,7 @@ import {
 	Code,
 	Italic,
 	Link,
+	History,
 } from 'tiptap-extensions'
 import Iframe from './Iframe.js'
 
@@ -57,6 +58,7 @@ export default {
 				new Code(),
 				new Italic(),
 				new Link(),
+				new History(),
 				// custom extension
 				new Iframe(),
 			],

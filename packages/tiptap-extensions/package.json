@@ -20,6 +20,7 @@
     "url": "https://github.com/heyscrumpy/tiptap/issues"
   },
   "dependencies": {
+    "prosemirror-history": "^1.0.2",
     "tiptap": "^0.5.1",
     "tiptap-commands": "^0.2.0"
   }

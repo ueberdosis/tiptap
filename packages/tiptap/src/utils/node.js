@@ -22,8 +22,4 @@ export default class Node extends Extension {
 		return () => {}
 	}
 
-	keys() {
-		return {}
-	}
-
 }

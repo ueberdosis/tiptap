@@ -12,3 +12,5 @@ export { default as Bold } from './marks/Bold'
 export { default as Code } from './marks/Code'
 export { default as Italic } from './marks/Italic'
 export { default as Link } from './marks/Link'
+
+export { default as History } from './extensions/History'

@@ -2,7 +2,6 @@ import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser } from 'prosemirror-model'
 import { gapCursor } from 'prosemirror-gapcursor'
-import { history } from 'prosemirror-history'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { inputRules } from 'prosemirror-inputrules'
@@ -165,7 +164,6 @@ export default {
 				keymap(builtInKeymap),
 				keymap(baseKeymap),
 				gapCursor(),
-				history(),
 				new Plugin({
 					props: {
 						editable: () => this.editable,

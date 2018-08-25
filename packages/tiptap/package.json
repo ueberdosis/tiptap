@@ -26,7 +26,6 @@
   "dependencies": {
     "prosemirror-commands": "^1.0.7",
     "prosemirror-gapcursor": "^1.0.2",
-    "prosemirror-history": "^1.0.2",
     "prosemirror-inputrules": "^1.0.1",
     "prosemirror-keymap": "^1.0.1",
     "prosemirror-model": "^1.5.0",

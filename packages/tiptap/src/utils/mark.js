@@ -22,8 +22,4 @@ export default class Mark extends Extension {
 		return () => {}
 	}
 
-	keys() {
-		return {}
-	}
-
 }

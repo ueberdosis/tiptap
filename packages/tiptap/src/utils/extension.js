@@ -27,4 +27,8 @@ export default class Extension {
 		return []
 	}
 
+	keys() {
+		return {}
+	}
+
 }
