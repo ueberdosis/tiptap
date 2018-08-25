@@ -1,7 +1,6 @@
 import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser } from 'prosemirror-model'
-import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
 import { history } from 'prosemirror-history'
 import { keymap } from 'prosemirror-keymap'
@@ -165,7 +164,6 @@ export default {
 				...this.keymaps,
 				keymap(builtInKeymap),
 				keymap(baseKeymap),
-				dropCursor(),
 				gapCursor(),
 				history(),
 				new Plugin({
