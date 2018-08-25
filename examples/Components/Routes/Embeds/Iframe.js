@@ -46,7 +46,7 @@ export default class IframeNode extends Node {
 					this.url = event.target.value
 
 					this.updateAttrs({
-						url: this.url,
+						src: this.url,
 					})
 				},
 			},
