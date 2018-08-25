@@ -39,10 +39,6 @@ export default class IframeNode extends Node {
 			},
 			methods: {
 				onChange(event) {
-					if (!this.editable) {
-						return
-					}
-
 					this.url = event.target.value
 
 					this.updateAttrs({
