@@ -1,12 +1,12 @@
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
 
-| **Package** | **Version** | **Downloads** | **Description** |
-| --- | --- | --- | --- |
-| [`tiptap`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap) | [![](https://img.shields.io/npm/v/tiptap.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap) | [![](https://img.shields.io/npm/dm/tiptap.svg?colorB=000000)](https://npmcharts.com/compare/tiptap?minimal=true) | The core package including the vue component. |
-| [`tiptap-extensions`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap-extensions) | [![](https://img.shields.io/npm/v/tiptap-extensions.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap-extensions) | [![](https://img.shields.io/npm/dm/tiptap-extensions.svg?colorB=000000)](https://npmcharts.com/compare/tiptap-extensions?minimal=true) | A collection of some basic extensions for tiptap. |
-| [`tiptap-commands`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap-commands) | [![](https://img.shields.io/npm/v/tiptap-commands.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap-commands) | [![](https://img.shields.io/npm/dm/tiptap-commands.svg?colorB=000000)](https://npmcharts.com/compare/tiptap-commands?minimal=true) | A collection of commands. These are mostly used for extensions. |
-| [`tiptap-utils`](https://github.com/heyscrumpy/tiptap/tree/master/packages/tiptap-utils) | [![](https://img.shields.io/npm/v/tiptap-utils.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap-utils) | [![](https://img.shields.io/npm/dm/tiptap-utils.svg?colorB=000000)](https://npmcharts.com/compare/tiptap-utils?minimal=true) | A collection of utility functions. |
+[![](https://img.shields.io/npm/v/tiptap.svg?maxAge=2592000&label=version&colorB=000000)](https://www.npmjs.com/package/tiptap)
+[![](https://img.shields.io/npm/dm/tiptap.svg?colorB=000000)](https://npmcharts.com/compare/tiptap?minimal=true)
+[![](https://img.shields.io/npm/l/tiptap.svg?maxAge=2592000&colorB=000000)](https://www.npmjs.com/package/tiptap)
+
+## Why I built tiptap
+I was looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn't really satisfy me. The editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. I came across [Prosemirror](https://github.com/prosemirror) and decided to build on it. Prosemirror is a toolkit for building rich-text editors that is already in use at many well-known companies such as Atlassian or New York Times.
 
 ## Examples
 To check out some live examples, visit [tiptap.scrumpy.io](https://tiptap.scrumpy.io/).
@@ -14,6 +14,10 @@ To check out some live examples, visit [tiptap.scrumpy.io](https://tiptap.scrump
 ## Installation
 ```
 npm install tiptap
+```
+or
+```
+yarn add tiptap
 ```
 
 ## Basic Setup
