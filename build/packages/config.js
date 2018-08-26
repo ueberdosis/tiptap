@@ -62,26 +62,22 @@ export default [
     file: resolve('packages/tiptap/dist/tiptap.js'),
     format: 'umd',
     env: 'development',
-    external: ['vue'],
   },
   {
     input: resolve('packages/tiptap/src/index.js'),
     file: resolve('packages/tiptap/dist/tiptap.min.js'),
     format: 'umd',
     env: 'production',
-    external: ['vue'],
   },
   {
     input: resolve('packages/tiptap/src/index.js'),
     file: resolve('packages/tiptap/dist/tiptap.common.js'),
     format: 'cjs',
-    external: ['vue'],
   },
   {
     input: resolve('packages/tiptap/src/index.js'),
     file: resolve('packages/tiptap/dist/tiptap.esm.js'),
     format: 'es',
-    external: ['vue'],
   },
 
   {
@@ -89,26 +85,22 @@ export default [
     file: resolve('packages/tiptap-commands/dist/commands.js'),
     format: 'umd',
     env: 'development',
-    external: [],
   },
   {
     input: resolve('packages/tiptap-commands/src/index.js'),
     file: resolve('packages/tiptap-commands/dist/commands.min.js'),
     format: 'umd',
     env: 'production',
-    external: [],
   },
   {
     input: resolve('packages/tiptap-commands/src/index.js'),
     file: resolve('packages/tiptap-commands/dist/commands.common.js'),
     format: 'cjs',
-    external: [],
   },
   {
     input: resolve('packages/tiptap-commands/src/index.js'),
     file: resolve('packages/tiptap-commands/dist/commands.esm.js'),
     format: 'es',
-    external: [],
   },
 
   {
@@ -116,26 +108,22 @@ export default [
     file: resolve('packages/tiptap-utils/dist/utils.js'),
     format: 'umd',
     env: 'development',
-    external: [],
   },
   {
     input: resolve('packages/tiptap-utils/src/index.js'),
     file: resolve('packages/tiptap-utils/dist/utils.min.js'),
     format: 'umd',
     env: 'production',
-    external: [],
   },
   {
     input: resolve('packages/tiptap-utils/src/index.js'),
     file: resolve('packages/tiptap-utils/dist/utils.common.js'),
     format: 'cjs',
-    external: [],
   },
   {
     input: resolve('packages/tiptap-utils/src/index.js'),
     file: resolve('packages/tiptap-utils/dist/utils.esm.js'),
     format: 'es',
-    external: [],
   },
 
   {
@@ -143,25 +131,21 @@ export default [
     file: resolve('packages/tiptap-extensions/dist/extensions.js'),
     format: 'umd',
     env: 'development',
-    external: [],
   },
   {
     input: resolve('packages/tiptap-extensions/src/index.js'),
     file: resolve('packages/tiptap-extensions/dist/extensions.min.js'),
     format: 'umd',
     env: 'production',
-    external: [],
   },
   {
     input: resolve('packages/tiptap-extensions/src/index.js'),
     file: resolve('packages/tiptap-extensions/dist/extensions.common.js'),
     format: 'cjs',
-    external: [],
   },
   {
     input: resolve('packages/tiptap-extensions/src/index.js'),
     file: resolve('packages/tiptap-extensions/dist/extensions.esm.js'),
     format: 'es',
-    external: [],
   },
 ].map(genConfig)
