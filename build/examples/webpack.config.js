@@ -135,6 +135,20 @@ export default {
 		// 	'process.env': {},
 		// }),
 
+		// copy static files
+		new CopyWebpackPlugin([
+			{
+				context: `${srcPath}/assets/static`,
+				from: { glob: '**/*', dot: false },
+				to: `${buildPath}/assets`,
+			},
+			{
+				context: `${srcPath}/assets/static`,
+				from: { glob: '**/*', dot: false },
+				to: `${buildPath}/assets/[path][name].[hash].[ext]`,
+			},
+		]),
+
 		// enable hot reloading
 		ifDev(new webpack.HotModuleReplacementPlugin()),
 
