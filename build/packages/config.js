@@ -58,94 +58,46 @@ function genConfig(opts) {
 
 export default [
   {
-    input: resolve('packages/tiptap/src/index.js'),
-    file: resolve('packages/tiptap/dist/tiptap.js'),
+    package: 'tiptap',
+    outputFileName: 'tiptap',
+  },
+  {
+    package: 'tiptap-commands',
+    outputFileName: 'commands',
+  },
+  {
+    package: 'tiptap-utils',
+    outputFileName: 'utils',
+  },
+  {
+    package: 'tiptap-extensions',
+    outputFileName: 'extensions',
+  },
+].map(item => [
+  {
+    input: resolve(`packages/${item.package}/src/index.js`),
+    file: resolve(`packages/${item.package}/dist/${item.outputFileName}.js`),
     format: 'umd',
     env: 'development',
   },
   {
-    input: resolve('packages/tiptap/src/index.js'),
-    file: resolve('packages/tiptap/dist/tiptap.min.js'),
+    input: resolve(`packages/${item.package}/src/index.js`),
+    file: resolve(`packages/${item.package}/dist/${item.outputFileName}.min.js`),
     format: 'umd',
     env: 'production',
   },
   {
-    input: resolve('packages/tiptap/src/index.js'),
-    file: resolve('packages/tiptap/dist/tiptap.common.js'),
+    input: resolve(`packages/${item.package}/src/index.js`),
+    file: resolve(`packages/${item.package}/dist/${item.outputFileName}.common.js`),
     format: 'cjs',
   },
   {
-    input: resolve('packages/tiptap/src/index.js'),
-    file: resolve('packages/tiptap/dist/tiptap.esm.js'),
+    input: resolve(`packages/${item.package}/src/index.js`),
+    file: resolve(`packages/${item.package}/dist/${item.outputFileName}.esm.js`),
     format: 'es',
-  },
-
-  {
-    input: resolve('packages/tiptap-commands/src/index.js'),
-    file: resolve('packages/tiptap-commands/dist/commands.js'),
-    format: 'umd',
-    env: 'development',
-  },
-  {
-    input: resolve('packages/tiptap-commands/src/index.js'),
-    file: resolve('packages/tiptap-commands/dist/commands.min.js'),
-    format: 'umd',
-    env: 'production',
-  },
-  {
-    input: resolve('packages/tiptap-commands/src/index.js'),
-    file: resolve('packages/tiptap-commands/dist/commands.common.js'),
-    format: 'cjs',
-  },
-  {
-    input: resolve('packages/tiptap-commands/src/index.js'),
-    file: resolve('packages/tiptap-commands/dist/commands.esm.js'),
-    format: 'es',
-  },
-
-  {
-    input: resolve('packages/tiptap-utils/src/index.js'),
-    file: resolve('packages/tiptap-utils/dist/utils.js'),
-    format: 'umd',
-    env: 'development',
-  },
-  {
-    input: resolve('packages/tiptap-utils/src/index.js'),
-    file: resolve('packages/tiptap-utils/dist/utils.min.js'),
-    format: 'umd',
-    env: 'production',
-  },
-  {
-    input: resolve('packages/tiptap-utils/src/index.js'),
-    file: resolve('packages/tiptap-utils/dist/utils.common.js'),
-    format: 'cjs',
-  },
-  {
-    input: resolve('packages/tiptap-utils/src/index.js'),
-    file: resolve('packages/tiptap-utils/dist/utils.esm.js'),
-    format: 'es',
-  },
-
-  {
-    input: resolve('packages/tiptap-extensions/src/index.js'),
-    file: resolve('packages/tiptap-extensions/dist/extensions.js'),
-    format: 'umd',
-    env: 'development',
-  },
-  {
-    input: resolve('packages/tiptap-extensions/src/index.js'),
-    file: resolve('packages/tiptap-extensions/dist/extensions.min.js'),
-    format: 'umd',
-    env: 'production',
-  },
-  {
-    input: resolve('packages/tiptap-extensions/src/index.js'),
-    file: resolve('packages/tiptap-extensions/dist/extensions.common.js'),
-    format: 'cjs',
-  },
-  {
-    input: resolve('packages/tiptap-extensions/src/index.js'),
-    file: resolve('packages/tiptap-extensions/dist/extensions.esm.js'),
-    format: 'es',
-  },
-].map(genConfig)
+  }])
+  .reduce((allConfigs, configs) => ([
+    ...allConfigs,
+    ...configs,
+  ]), [])
+  .map(genConfig)
