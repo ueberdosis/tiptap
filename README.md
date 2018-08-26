@@ -74,7 +74,7 @@ The `menubar` and `menububble` slot will receive some properties.
 
 ## Extensions
 
-By default the editor will only support some boring paragraphs. Other nodes and marks are available as **extensions**. There is a package called `tiptap-extensions` with the most basic nodes, marks and plugins.
+By default the editor will only support paragraphs. Other nodes and marks are available as **extensions**. There is a package called `tiptap-extensions` with the most basic nodes, marks and plugins.
 
 ### Available Extensions
 
@@ -137,7 +137,7 @@ export default {
 
 ### Create Custom Extensions
 
-The most powerful feature of tiptap is that you can create you own extensions. There are 3 basic types of extensions.
+The most powerful feature of tiptap is that you can create your own extensions. There are 3 types of extensions.
 
 | **Type** | **Description** |
 | --- | --- |
@@ -230,7 +230,7 @@ export default class BlockquoteNode extends Node {
 
 ### Create a Node as a Vue Component
 
-The real power of the nodes comes in combination with Vue components. Lets build a iframe node, where you can change its url (this can also be found in our [examples](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds)).
+The real power of the nodes comes in combination with Vue components. Lets build an iframe node, where you can change its url (this can also be found in our [examples](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds)).
 
 ```js
 import { Node } from 'tiptap'
