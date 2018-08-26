@@ -53,6 +53,25 @@ export default {
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
 | `@update` | `Function` | `undefined` | This will return the current `state` of Prosemirror on every change. |
 
+## Scoped Slots
+
+| **Name** | **Description** |
+| --- | --- |
+| `editor` | Here the content will be rendered. |
+| `menubar` | Here a menu bar will be rendered. |
+| `menububble` | Here a menu bubble will be rendered. |
+
+### Slot Properties
+
+The `menubar` and `menububble` slot will receive some properties.
+
+| **Property** | **Type** | **Description** |
+| --- | :---: | --- |
+| `nodes` | `Object` | A list of available nodes with active state and command. |
+| `marks` | `Object` | A list of available marks with active state and command. |
+| `focused` | `Boolean` | Whether the editor is focused. |
+| `focus` | `Function` | A function to focus the editor. |
+
 ## Extensions
 
 By default the editor will only support some boring paragraphs. Other nodes and marks are available as **extensions**. There is a package called `tiptap-extensions` with the most basic nodes, marks and plugins.
@@ -282,6 +301,47 @@ export default class IframeNode extends Node {
   }
 
 }
+```
+
+## Building a Menu
+
+This is a basic example of building a custom menu. A more advanced menu can be found at the [examples page](https://tiptap.scrumpy.io).
+
+```vue
+<template>
+  <editor :extensions="extensions">
+    <div slot="menubar" slot-scope="{ nodes, marks }">
+      <button :class="{ 'is-active': nodes.heading.active({ level: 1 }) }" @click="nodes.heading.command({ level: 1 })">
+        H1
+      </button>
+      <button :class="{ 'is-active': marks.bold.active() }" @click="marks.bold.command()">
+        Bold
+      </button>
+    </div>
+    <div slot="content" slot-scope="props">
+      <p>This text can be made bold.</p>
+    </div>
+  </editor>
+</template>
+
+<script>
+import { Editor } from 'tiptap'
+import { Heading, Bold } from 'tiptap-extensions'
+
+export default {
+  components: {
+    Editor,
+  },
+  data() {
+    return {
+      extensions: [
+        new Heading({ maxLevel: 3 }),
+        new Bold(),
+      ],
+    }
+  },
+}
+</script>
 ```
 
 ## Contributing
