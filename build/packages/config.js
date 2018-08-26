@@ -37,7 +37,7 @@ function genConfig(opts) {
 					objectAssign: 'Object.assign',
 				}),
       ],
-      external: opts.external,
+      external(id) { return !/^[\.\/]/.test(id) },
     },
     output: {
       file: opts.file,
