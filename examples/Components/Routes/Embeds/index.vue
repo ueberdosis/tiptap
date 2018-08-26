@@ -20,22 +20,22 @@
 import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
 import {
-	Blockquote,
-	BulletList,
-	CodeBlock,
-	HardBreak,
-	Heading,
-	ListItem,
-	OrderedList,
-	TodoItem,
-	TodoList,
-	Bold,
-	Code,
-	Italic,
-	Link,
-	History,
+	BlockquoteNode,
+	BulletListNode,
+	CodeBlockNode,
+	HardBreakNode,
+	HeadingNode,
+	ListItemNode,
+	OrderedListNode,
+	TodoItemNode,
+	TodoListNode,
+	BoldMark,
+	CodeMark,
+	ItalicMark,
+	LinkMark,
+	HistoryExtension,
 } from 'tiptap-extensions'
-import Iframe from './Iframe.js'
+import IframeNode from './Iframe.js'
 
 export default {
 	components: {
@@ -45,22 +45,22 @@ export default {
 	data() {
 		return {
 			extensions: [
-				new Blockquote(),
-				new BulletList(),
-				new CodeBlock(),
-				new HardBreak(),
-				new Heading({ maxLevel: 3 }),
-				new ListItem(),
-				new OrderedList(),
-				new TodoItem(),
-				new TodoList(),
-				new Bold(),
-				new Code(),
-				new Italic(),
-				new Link(),
-				new History(),
+				new BlockquoteNode(),
+				new BulletListNode(),
+				new CodeBlockNode(),
+				new HardBreakNode(),
+				new HeadingNode({ maxLevel: 3 }),
+				new ListItemNode(),
+				new OrderedListNode(),
+				new TodoItemNode(),
+				new TodoListNode(),
+				new BoldMark(),
+				new CodeMark(),
+				new ItalicMark(),
+				new LinkMark(),
+				new HistoryExtension(),
 				// custom extension
-				new Iframe(),
+				new IframeNode(),
 			],
 		}
 	},
