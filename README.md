@@ -326,7 +326,7 @@ This is a basic example of building a custom menu. A more advanced menu can be f
 
 <script>
 import { Editor } from 'tiptap'
-import { Heading, Bold } from 'tiptap-extensions'
+import { HeadingNode, BoldMark } from 'tiptap-extensions'
 
 export default {
   components: {
@@ -335,8 +335,8 @@ export default {
   data() {
     return {
       extensions: [
-        new Heading({ maxLevel: 3 }),
-        new Bold(),
+        new HeadingNode({ maxLevel: 3 }),
+        new BoldMark(),
       ],
     }
   },
