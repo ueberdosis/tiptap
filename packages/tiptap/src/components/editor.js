@@ -179,6 +179,8 @@ export default {
 		},
 
 		createView() {
+			this.contentNode.elm.style.whiteSpace = 'pre-wrap'
+
 			return new EditorView(this.contentNode.elm, {
 				state: this.state,
 				dispatchTransaction: this.dispatchTransaction,
