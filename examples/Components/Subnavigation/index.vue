@@ -24,6 +24,9 @@
 		<router-link class="subnavigation__link" to="/embeds">
 			Embeds
 		</router-link>
+		<router-link class="subnavigation__link" to="/export">
+			Export HTML or JSON
+		</router-link>
 	</div>
 </template>
 

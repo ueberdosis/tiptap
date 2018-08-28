@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<editor class="editor" :extensions="extensions" @update="onUpdate">
+		<editor class="editor" :extensions="extensions">
 
 			<div class="menubar" slot="menubar" slot-scope="{ nodes, marks }">
 				<div v-if="nodes && marks">
@@ -159,11 +159,6 @@ export default {
 				new HistoryExtension(),
 			],
 		}
-	},
-	methods: {
-		onUpdate(state) {
-			// console.log(state.doc.toJSON())
-		},
 	},
 }
 </script>

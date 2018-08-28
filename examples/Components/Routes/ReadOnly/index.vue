@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<editor :editable="false" :extensions="extensions" class="editor" @update="onUpdate">
+		<editor :editable="false" :extensions="extensions" class="editor">
 
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h2>
@@ -59,11 +59,6 @@ export default {
 				new HistoryExtension(),
 			],
 		}
-	},
-	methods: {
-		onUpdate(state) {
-			// console.log(state.doc.toJSON())
-		},
 	},
 }
 </script>

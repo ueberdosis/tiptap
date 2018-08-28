@@ -11,6 +11,7 @@ import RouteTodoList from 'Components/Routes/TodoList'
 import RouteMarkdownShortcuts from 'Components/Routes/MarkdownShortcuts'
 import RouteReadOnly from 'Components/Routes/ReadOnly'
 import RouteEmbeds from 'Components/Routes/Embeds'
+import RouteExport from 'Components/Routes/Export'
 
 const __svg__ = { path: './assets/images/icons/*.svg', name: 'assets/images/[hash].sprite.svg' }
 svgSpriteLoader(__svg__.filename)
@@ -74,6 +75,13 @@ const routes = [
     component: RouteEmbeds,
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds',
+    },
+  },
+  {
+    path: '/export',
+    component: RouteExport,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Export',
     },
   },
 ]

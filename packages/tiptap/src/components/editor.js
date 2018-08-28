@@ -202,9 +202,22 @@ export default {
 		dispatchTransaction(transaction) {
 			this.state = this.state.apply(transaction)
 			this.view.updateState(this.state)
-			this.$emit('update', this.state)
+			this.$emit('update', {
+				getHTML: this.getHTML,
+				getJSON: this.getJSON,
+				state: this.state,
+			})
 			this.updateMenuActions()
 		},
+
+		getHTML() {
+			return this.contentNode.elm.innerHTML
+		},
+
+		getJSON() {
+			return this.state.doc.toJSON()
+		},
+
 	},
 
 	mounted() {

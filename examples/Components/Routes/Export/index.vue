@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<editor class="editor" :extensions="extensions">
+		<editor class="editor" :extensions="extensions" @update="onUpdate">
 
-			<div class="menubar is-hidden" :class="{ 'is-focused': focused }" slot="menubar" slot-scope="{ nodes, marks, focused }">
+			<div class="menubar" slot="menubar" slot-scope="{ nodes, marks }">
 				<div v-if="nodes && marks">
 
 					<button
@@ -90,14 +90,22 @@
 
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h2>
-					Hiding Menu Bar
+					Export HTML or JSON
 				</h2>
 				<p>
-					Click into this text to see the menu. Click outside and the menu will disappear. It's like magic.
+					You are able to export your data as <code>HTML</code> or <code>JSON</code>. To pass <code>HTML</code> to the editor use the <code>content</code> slot. To pass <code>JSON</code> to the editor use the <code>doc</code> prop.
 				</p>
 			</div>
 
 		</editor>
+
+		<div class="export">
+			<h3>JSON</h3>
+			<pre><code v-html="json"></code></pre>
+
+			<h3>HTML</h3>
+			<pre><code>{{ html }}</code></pre>
+		</div>
 	</div>
 </template>
 
@@ -144,7 +152,39 @@ export default {
 				new LinkMark(),
 				new HistoryExtension(),
 			],
+			json: 'Update content to see changes',
+			html: 'Update content to see changes',
 		}
+	},
+	methods: {
+		onUpdate({ getJSON, getHTML }) {
+			this.json = getJSON()
+			this.html = getHTML()
+		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+@import "~variables";
+
+.export {
+
+	max-width: 30rem;
+	margin: 0 auto 5rem auto;
+
+	pre {
+		padding: 1rem;
+		border-radius: 5px;
+		font-size: 0.8rem;
+		font-weight: bold;
+		background: rgba($color-black, 0.05);
+		color: rgba($color-black, 0.8);
+	}
+
+	code {
+		display: block;
+		white-space: pre-wrap;
+	}
+}
+</style>

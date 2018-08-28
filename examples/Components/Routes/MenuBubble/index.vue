@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<editor class="editor" :extensions="extensions" @update="onUpdate">
+		<editor class="editor" :extensions="extensions">
 
 			<div class="menububble" slot="menububble" slot-scope="{ marks, focus }">
 				<template v-if="marks">
@@ -89,11 +89,6 @@ export default {
 				new HistoryExtension(),
 			],
 		}
-	},
-	methods: {
-		onUpdate(state) {
-			// console.log(state.doc.toJSON())
-		},
 	},
 }
 </script>

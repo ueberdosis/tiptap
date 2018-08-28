@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<editor class="editor" :extensions="extensions" @update="onUpdate">
+		<editor class="editor" :extensions="extensions">
 
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h2>
@@ -63,11 +63,6 @@ export default {
 				new IframeNode(),
 			],
 		}
-	},
-	methods: {
-		onUpdate(state) {
-			// console.log(state.doc.toJSON())
-		},
 	},
 }
 </script>

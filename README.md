@@ -59,7 +59,7 @@ export default {
 | `editable` | `Boolean` | `true` | When set to `false` the editor is read-only. |
 | `doc` | `Object` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
-| `@update` | `Function` | `undefined` | This will return the current `state` of Prosemirror on every change. |
+| `@update` | `Object` | `undefined` | This will return an Object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function on every change. |
 
 ## Scoped Slots
 
