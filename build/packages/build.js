@@ -60,6 +60,12 @@ function build(builds) {
   let built = 0
   const total = builds.length
   const next = () => {
+    const distPath = path.dirname(builds[built].output.file)
+
+    if (!fs.existsSync(distPath)) {
+      fs.mkdirSync(distPath)
+    }
+
     buildEntry(builds[built]).then(() => {
       built++
       if (built < total) {
