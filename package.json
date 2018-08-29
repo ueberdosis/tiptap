@@ -7,7 +7,8 @@
   "scripts": {
     "start": "./node_modules/@babel/node/bin/babel-node.js build/examples/server.js --env=development",
     "build:packages": "./node_modules/@babel/node/bin/babel-node.js build/packages/build.js",
-    "build:examples": "./node_modules/@babel/node/bin/babel-node.js build/examples/build.js --env=production"
+    "build:examples": "./node_modules/@babel/node/bin/babel-node.js build/examples/build.js --env=production",
+    "release": "yarn build:packages && lerna publish"
   },
   "babel": {
     "presets": [
