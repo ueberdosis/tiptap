@@ -6,6 +6,7 @@ import App from 'Components/App'
 import RouteBasic from 'Components/Routes/Basic'
 import RouteMenuBubble from 'Components/Routes/MenuBubble'
 import RouteLinks from 'Components/Routes/Links'
+import RouteImages from 'Components/Routes/Images'
 import RouteHidingMenuBar from 'Components/Routes/HidingMenuBar'
 import RouteTodoList from 'Components/Routes/TodoList'
 import RouteMarkdownShortcuts from 'Components/Routes/MarkdownShortcuts'
@@ -40,6 +41,13 @@ const routes = [
     component: RouteLinks,
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Links',
+    },
+  },
+  {
+    path: '/images',
+    component: RouteImages,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Images',
     },
   },
   {

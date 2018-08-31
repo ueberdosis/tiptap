@@ -48,13 +48,13 @@
 					There is always something to do. Thankfully, there are checklists for that. Don't forget to call mom.
 				</p>
 				<ul data-type="todo_list">
-					<li data-type="todo_item" data-done="true">
+					<li data-type="todo_item" data-done="true" :custom-prop="customProp">
 						Buy beer
 					</li>
-					<li data-type="todo_item" data-done="true">
+					<li data-type="todo_item" data-done="true" :custom-prop="customProp">
 						Buy meat
 					</li>
-					<li data-type="todo_item" data-done="true">
+					<li data-type="todo_item" data-done="true" :custom-prop="customProp">
 						Buy milk
 					</li>
 					<li data-type="todo_item" data-done="false">
@@ -94,6 +94,7 @@ export default {
 	},
 	data() {
 		return {
+			customProp: 2,
 			extensions: [
 				new BlockquoteNode(),
 				new BulletListNode(),
