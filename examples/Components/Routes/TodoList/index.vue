@@ -48,13 +48,13 @@
 					There is always something to do. Thankfully, there are checklists for that. Don't forget to call mom.
 				</p>
 				<ul data-type="todo_list">
-					<li data-type="todo_item" data-done="true" :custom-prop="customProp">
+					<li data-type="todo_item" data-done="true">
 						Buy beer
 					</li>
-					<li data-type="todo_item" data-done="true" :custom-prop="customProp">
+					<li data-type="todo_item" data-done="true">
 						Buy meat
 					</li>
-					<li data-type="todo_item" data-done="true" :custom-prop="customProp">
+					<li data-type="todo_item" data-done="true">
 						Buy milk
 					</li>
 					<li data-type="todo_item" data-done="false">

@@ -21,9 +21,6 @@ export default class TodoItemNode extends Node {
 				<li data-type="todo_item" :data-done="node.attrs.done.toString()">
 					<span class="todo-checkbox" contenteditable="false" @click="onChange"></span>
 					<div class="todo-content" ref="content" :contenteditable="editable.toString()"></div>
-					<div>
-						{{ node.attrs.customProp }}
-					</DIV>
 				</li>
 			`,
 		}
@@ -35,19 +32,15 @@ export default class TodoItemNode extends Node {
 				done: {
 					default: false,
 				},
-				customProp: {
-					default: null,
-				},
 			},
 			draggable: false,
 			content: 'paragraph',
 			toDOM(node) {
-				const { done, customProp } = node.attrs
+				const { done } = node.attrs
 
 				return ['li', {
 						'data-type': 'todo_item',
 						'data-done': done.toString(),
-						'custom-prop': customProp.toString(),
 					},
 					['span', { class: 'todo-checkbox', contenteditable: 'false' }],
 					['div', { class: 'todo-content' }, 0],
@@ -58,7 +51,6 @@ export default class TodoItemNode extends Node {
 				tag: '[data-type="todo_item"]',
 				getAttrs: dom => ({
 					done: dom.getAttribute('data-done') === 'true',
-					customProp: dom.getAttribute('custom-prop'),
 				}),
 			}],
 		}
