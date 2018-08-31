@@ -40,11 +40,9 @@ export default class ImageNode extends Node {
 				props: {
 					handleDOMEvents: {
 						drop(view, event) {
-							event.preventDefault()
-
 							const hasFiles = event.dataTransfer
-								&& event.dataTransfer.files
-								&& event.dataTransfer.files.length
+							&& event.dataTransfer.files
+							&& event.dataTransfer.files.length
 
 							if (!hasFiles) {
 								return
@@ -56,6 +54,8 @@ export default class ImageNode extends Node {
 							if (images.length === 0) {
 								return
 							}
+
+							event.preventDefault()
 
 							const { schema } = view.state
 							const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY })
@@ -72,7 +72,6 @@ export default class ImageNode extends Node {
 								}
 								reader.readAsDataURL(image)
 							})
-
 						},
 					},
 				},
