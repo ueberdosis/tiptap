@@ -7,9 +7,9 @@
 					Images
 				</h2>
 				<p>
-					Nice
+					This is basic example of implementing images. Try to drop new images here. Reordering also works.
 				</p>
-				<img src="https://tiptap.scrumpy.io/assets/images/open-graph.png" />
+				<img src="https://ljdchost.com/8I2DeFn.gif" />
 			</div>
 
 		</editor>
