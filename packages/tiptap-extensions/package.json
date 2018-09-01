@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "prosemirror-history": "^1.0.2",
+    "prosemirror-state": "^1.2.2",
+    "prosemirror-view": "^1.5.1",
     "tiptap": "^0.8.0",
     "tiptap-commands": "^0.2.4"
   }
