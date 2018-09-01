@@ -354,6 +354,24 @@ export default {
 </script>
 ```
 
+## Development Setup
+
+Currently only Yarn is supported for development because of a feature called workspaces we are using here.
+
+``` bash
+# install deps
+yarn install
+
+# serve examples at localhost:3000
+yarn start
+
+# build dist files for packages
+yarn build:packages
+
+# build dist files for examples
+yarn build:examples
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
