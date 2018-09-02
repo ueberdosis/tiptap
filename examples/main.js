@@ -10,6 +10,7 @@ import RouteImages from 'Components/Routes/Images'
 import RouteHidingMenuBar from 'Components/Routes/HidingMenuBar'
 import RouteTodoList from 'Components/Routes/TodoList'
 import RouteMarkdownShortcuts from 'Components/Routes/MarkdownShortcuts'
+import RouteCodeHighlighting from 'Components/Routes/CodeHighlighting'
 import RouteReadOnly from 'Components/Routes/ReadOnly'
 import RouteEmbeds from 'Components/Routes/Embeds'
 import RouteExport from 'Components/Routes/Export'
@@ -69,6 +70,13 @@ const routes = [
     component: RouteMarkdownShortcuts,
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/MarkdownShortcuts',
+    },
+  },
+  {
+    path: '/code-highlighting',
+    component: RouteCodeHighlighting,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/CodeHighlighting',
     },
   },
   {
