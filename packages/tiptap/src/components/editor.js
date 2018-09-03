@@ -100,6 +100,10 @@ export default {
 			this.view = this.createView()
 			this.commands = this.createCommands()
 			this.updateMenuActions()
+			this.$emit('init', {
+				view: this.view,
+				state: this.state,
+			})
 		},
 
 		createSchema() {
