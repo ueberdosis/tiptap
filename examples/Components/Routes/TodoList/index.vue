@@ -94,6 +94,7 @@ export default {
 	},
 	data() {
 		return {
+			customProp: 2,
 			extensions: [
 				new BlockquoteNode(),
 				new BulletListNode(),

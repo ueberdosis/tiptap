@@ -59,6 +59,7 @@ export default {
 | `editable` | `Boolean` | `true` | When set to `false` the editor is read-only. |
 | `doc` | `Object` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
+| `@init` | `Object` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init. |
 | `@update` | `Object` | `undefined` | This will return an Object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function on every change. |
 
 ## Scoped Slots
@@ -104,6 +105,7 @@ import {
   CodeBlockNode,
   HardBreakNode,
   HeadingNode,
+  ImageNode,
   ListItemNode,
   OrderedListNode,
   TodoItemNode,
@@ -127,6 +129,7 @@ export default {
         new CodeBlockNode(),
         new HardBreakNode(),
         new HeadingNode({ maxLevel: 3 }),
+        new ImageNode(),
         new ListItemNode(),
         new OrderedListNode(),
         new TodoItemNode(),
@@ -350,6 +353,24 @@ export default {
   },
 }
 </script>
+```
+
+## Development Setup
+
+Currently only Yarn is supported for development because of a feature called workspaces we are using here.
+
+``` bash
+# install deps
+yarn install
+
+# serve examples at localhost:3000
+yarn start
+
+# build dist files for packages
+yarn build:packages
+
+# build dist files for examples
+yarn build:examples
 ```
 
 ## Contributing
