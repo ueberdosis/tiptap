@@ -41,6 +41,7 @@
     "babel-eslint": "^9.0.0",
     "babel-loader": "^8.0.2",
     "browser-sync": "^2.24.7",
+    "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",
     "eslint": "^5.5.0",
