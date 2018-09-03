@@ -100,6 +100,10 @@ export default {
 			this.view = this.createView()
 			this.commands = this.createCommands()
 			this.updateMenuActions()
+			this.$emit('init', {
+				view: this.view,
+				state: this.state,
+			})
 		},
 
 		createSchema() {
@@ -200,6 +204,10 @@ export default {
 		},
 
 		dispatchTransaction(transaction) {
+			if (!transaction.docChanged) {
+				return
+			}
+			
 			this.state = this.state.apply(transaction)
 			this.view.updateState(this.state)
 			this.$emit('update', {
