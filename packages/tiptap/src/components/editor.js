@@ -220,7 +220,7 @@ export default {
 		},
 
 		getHTML() {
-			return this.contentNode.elm.innerHTML
+			return this.view.dom.innerHTML
 		},
 
 		getJSON() {
