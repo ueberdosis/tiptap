@@ -204,6 +204,10 @@ export default {
 		},
 
 		dispatchTransaction(transaction) {
+			if (!transaction.docChanged) {
+				return
+			}
+			
 			this.state = this.state.apply(transaction)
 			this.view.updateState(this.state)
 			this.$emit('update', {
