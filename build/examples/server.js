@@ -4,12 +4,15 @@ import webpack from 'webpack'
 import httpProxyMiddleware from 'http-proxy-middleware'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
+import historyApiFallbackMiddleware from 'connect-history-api-fallback'
 import config from './webpack.config'
 import { sassImport } from './utilities'
 import { srcPath, sassImportPath } from './paths'
 
 const bundler = webpack(config)
 const middlewares = []
+
+middlewares.push(historyApiFallbackMiddleware())
 
 // add webpack stuff
 middlewares.push(webpackDevMiddleware(bundler, {
