@@ -61,15 +61,6 @@ export default class ExtensionManager {
 			...extensionKeymaps,
 			...nodeMarkKeymaps,
 		].map(keys => keymap(keys))
-
-		// return this.extensions
-		// 	.filter(extension => ['node', 'mark'].includes(extension.type))
-		// 	.filter(extension => extension.keys)
-		// 	.map(extension => extension.keys({
-		// 		type: schema[`${extension.type}s`][extension.name],
-		// 		schema,
-		// 	}))
-		// 	.map(keys => keymap(keys))
 	}
 
 	inputRules({ schema }) {

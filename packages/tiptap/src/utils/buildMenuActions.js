@@ -8,19 +8,13 @@ export default function ({ schema, state, commands }) {
 			const command = commands[name] ? commands[name] : () => {}
 			return { name, active, command }
 		})
-		.reduce((actions, { name, active, command }) => Object.assign({}, actions, {
+		.reduce((actions, { name, active, command }) => ({
+			...actions,
 			[name]: {
 				active,
 				command,
 			},
 		}), {})
-		// .reduce((actions, { name, active, command }) => ({
-		// 	...actions,
-		// 	[name]: {
-		// 		active,
-		// 		command,
-		// 	},
-		// }), {})
 
 	const marks = Object.entries(schema.marks)
 		.map(([name]) => {
@@ -34,21 +28,14 @@ export default function ({ schema, state, commands }) {
 				command,
 			}
 		})
-		.reduce((actions, { name, active, attrs, command }) => Object.assign({}, actions, {
+		.reduce((actions, { name, active, attrs, command }) => ({
+			...actions,
 			[name]: {
 				active,
 				attrs,
 				command,
 			},
 		}), {})
-		// .reduce((actions, { name, active, attrs, command }) => ({
-		// 	...actions,
-		// 	[name]: {
-		// 		active,
-		// 		attrs,
-		// 		command,
-		// 	},
-		// }), {})
 
 	return {
 		nodes,

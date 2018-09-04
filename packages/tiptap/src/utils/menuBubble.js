@@ -26,7 +26,6 @@ class Toolbar {
 			return
 		}
 
-
 		// Otherwise, reposition it and update its content
 		this.show()
 		const { from, to } = state.selection
@@ -54,6 +53,7 @@ class Toolbar {
 		if (event && event.relatedTarget) {
 			return
 		}
+
 		this.element.style.visibility = 'hidden'
 		this.element.style.opacity = 0
 	}
