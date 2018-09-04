@@ -11,7 +11,6 @@
 				</p>
 				<pre><code v-html="javascript"></code></pre>
 				<pre><code v-html="css"></code></pre>
-				<pre><code v-html="php"></code></pre>
 			</div>
 
 		</editor>
@@ -38,7 +37,7 @@ import {
 	HistoryExtension,
 } from 'tiptap-extensions'
 
-import { javascript, css, php } from './examples'
+import { javascript, css } from './examples'
 
 export default {
 	components: {
@@ -65,7 +64,6 @@ export default {
 			],
 			javascript,
 			css,
-			php,
 		}
 	},
 }
