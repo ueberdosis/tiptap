@@ -1,6 +1,7 @@
 export { default as BlockquoteNode } from './nodes/Blockquote'
 export { default as BulletListNode } from './nodes/BulletList'
 export { default as CodeBlockNode } from './nodes/CodeBlock'
+export { default as CodeBlockHighlightNode } from './nodes/CodeBlockHighlight'
 export { default as HardBreakNode } from './nodes/HardBreak'
 export { default as HeadingNode } from './nodes/Heading'
 export { default as ImageNode } from './nodes/Image'

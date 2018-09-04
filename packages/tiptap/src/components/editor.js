@@ -100,6 +100,10 @@ export default {
 			this.view = this.createView()
 			this.commands = this.createCommands()
 			this.updateMenuActions()
+			this.$emit('init', {
+				view: this.view,
+				state: this.state,
+			})
 		},
 
 		createSchema() {
@@ -202,16 +206,21 @@ export default {
 		dispatchTransaction(transaction) {
 			this.state = this.state.apply(transaction)
 			this.view.updateState(this.state)
+			this.updateMenuActions()
+
+			if (!transaction.docChanged) {
+				return
+			}
+
 			this.$emit('update', {
 				getHTML: this.getHTML,
 				getJSON: this.getJSON,
 				state: this.state,
 			})
-			this.updateMenuActions()
 		},
 
 		getHTML() {
-			return this.contentNode.elm.innerHTML
+			return this.view.dom.innerHTML
 		},
 
 		getJSON() {

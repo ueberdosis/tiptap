@@ -10,6 +10,7 @@ import RouteImages from 'Components/Routes/Images'
 import RouteHidingMenuBar from 'Components/Routes/HidingMenuBar'
 import RouteTodoList from 'Components/Routes/TodoList'
 import RouteMarkdownShortcuts from 'Components/Routes/MarkdownShortcuts'
+import RouteCodeHighlighting from 'Components/Routes/CodeHighlighting'
 import RouteReadOnly from 'Components/Routes/ReadOnly'
 import RouteEmbeds from 'Components/Routes/Embeds'
 import RouteMentions from 'Components/Routes/Mentions'
@@ -73,6 +74,13 @@ const routes = [
     },
   },
   {
+    path: '/code-highlighting',
+    component: RouteCodeHighlighting,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/CodeHighlighting',
+    },
+  },
+  {
     path: '/read-only',
     component: RouteReadOnly,
     meta: {
@@ -104,6 +112,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+  mode: 'history',
   linkActiveClass: 'is-active',
   linkExactActiveClass: 'is-exact-active',
 })

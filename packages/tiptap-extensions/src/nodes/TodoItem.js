@@ -1,5 +1,5 @@
 import { Node } from 'tiptap'
-import { splitListItem, liftListItem } from 'tiptap-commands'
+import { splitToDefaultListItem, liftListItem } from 'tiptap-commands'
 
 export default class TodoItemNode extends Node {
 
@@ -58,7 +58,7 @@ export default class TodoItemNode extends Node {
 
 	keys({ type }) {
 		return {
-			Enter: splitListItem(type),
+			Enter: splitToDefaultListItem(type),
 			'Shift-Tab': liftListItem(type),
 		}
 	}
