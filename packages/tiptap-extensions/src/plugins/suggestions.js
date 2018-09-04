@@ -8,16 +8,18 @@ import { Decoration, DecorationSet } from 'prosemirror-view';
  * @param {Boolean} allowSpaces
  * @returns {function(*)}
  */
-export function triggerCharacter(char, { allowSpaces = false }) {
+export function triggerCharacter(char, { allowSpaces = false, startOfLine = false }) {
+
   /**
    * @param {ResolvedPos} $position
    */
   return $position => {
     // Matching expressions used for later
     const suffix = new RegExp(`\\s${char}$`);
+    const prefix = startOfLine ? '^' : ''
     const regexp = allowSpaces
-      ? new RegExp(`${char}.*?(?=\\s${char}|$)`, 'g')
-      : new RegExp(`(?:^)?${char}[^\\s${char}]*`, 'g');
+      ? new RegExp(`${prefix}${char}.*?(?=\\s${char}|$)`, 'g')
+      : new RegExp(`${prefix}(?:^)?${char}[^\\s${char}]*`, 'g');
 
     // Lookup the boundaries of the current node
     const textFrom = $position.before();

@@ -45,7 +45,10 @@ export default class BlockquoteNode extends Node {
 		return [
 			suggestionsPlugin({
 				debug: true,
-				matcher: triggerCharacter('@', { allowSpaces: false }),
+				matcher: triggerCharacter('@', {
+					allowSpaces: true,
+					startOfLine: false,
+				}),
 				onEnter(args) {
 					console.log('start', args);
 				},
