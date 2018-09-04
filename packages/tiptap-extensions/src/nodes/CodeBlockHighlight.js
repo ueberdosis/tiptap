@@ -4,6 +4,63 @@ import { toggleBlockType, setBlockType, textblockTypeInputRule } from 'tiptap-co
 import { findBlockNodes } from 'prosemirror-utils'
 import low from 'lowlight'
 
+function getDecorations(doc) {
+	const decorations = []
+
+	const blocks = findBlockNodes(doc)
+		.filter(item => item.node.type.name === 'code_block')
+
+	const flatten = list => list.reduce(
+		(a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), [],
+	)
+
+	function parseNodes(nodes, className = []) {
+		return nodes.map(node => {
+
+			const classes = [
+				...className,
+				...node.properties ? node.properties.className : [],
+			]
+
+			if (node.children) {
+				return parseNodes(node.children, classes)
+			}
+
+			return {
+				text: node.value,
+				classes,
+			}
+		})
+	}
+
+	blocks.forEach(block => {
+		let startPos = block.pos + 1
+		const nodes = low.highlightAuto(block.node.textContent).value
+
+		flatten(parseNodes(nodes))
+			.map(node => {
+				const from = startPos
+				const to = from + node.text.length
+
+				startPos = to
+
+				return {
+					...node,
+					from,
+					to,
+				}
+			})
+			.forEach(node => {
+				const decoration = Decoration.inline(node.from, node.to, {
+					class: node.classes.join(' '),
+				})
+				decorations.push(decoration)
+			})
+	})
+
+	return DecorationSet.create(doc, decorations)
+}
+
 export default class CodeBlockHighlightNode extends Node {
 
 	get name() {
@@ -43,214 +100,23 @@ export default class CodeBlockHighlightNode extends Node {
 
 	get plugins() {
 		return [
-			// new Plugin({
-			// 	state: {
-			// 		init(_, { doc }) {
-			// 			const decorations = []
-
-			// 			const blocks = findBlockNodes(doc)
-			// 				.filter(item => item.node.type.name === 'code_block')
-
-			// 			const flatten = list => list.reduce(
-			// 					(a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []
-			// 			)
-
-			// 			function parseNodes(nodes, className = []) {
-			// 				return nodes.map(node => {
-
-			// 					const classes = [
-			// 						...className,
-			// 						...node.properties ? node.properties.className : [],
-			// 					]
-
-			// 					if (node.children) {
-			// 						return parseNodes(node.children, classes)
-			// 					}
-
-			// 					return {
-			// 						text: node.value,
-			// 						classes,
-			// 					}
-			// 				})
-			// 			}
-
-			// 			blocks.forEach(block => {
-			// 				let startPos = block.pos + 1
-			// 				const nodes = low.highlightAuto(block.node.textContent).value
-
-			// 				flatten(parseNodes(nodes))
-			// 					.map(node => {
-			// 						const from = startPos
-			// 						const to = from + node.text.length
-
-			// 						startPos = to
-
-			// 						return {
-			// 							...node,
-			// 							from,
-			// 							to,
-			// 						}
-			// 					})
-			// 					.forEach(node => {
-			// 						const decoration = Decoration.inline(node.from, node.to, {
-			// 							class: node.classes.join(' '),
-			// 						})
-			// 						decorations.push(decoration)
-			// 					})
-			// 			})
-
-			// 			return DecorationSet.create(doc, decorations)
-			// 		},
-			// 		apply(tr, set) {
-			// 			return set.map(tr.mapping, tr.doc)
-			// 		},
-			// 	},
-			// 	props: {
-			// 		decorations(state) {
-			// 			return this.getState(state)
-			// 		},
-			// 	},
-			// }),
-
-			// new Plugin({
-			// 	state: {
-			// 		init(_, { doc }) {
-			// 			const decorations = []
-
-			// 			const blocks = findBlockNodes(doc)
-			// 				.filter(item => item.node.type.name === 'code_block')
-
-			// 			// console.log({blocks})
-
-			// 			const flatten = list => list.reduce(
-			// 					(a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []
-			// 			)
-
-			// 			function parseNodes(nodes, className = []) {
-			// 				return nodes.map(node => {
-
-			// 					const classes = [
-			// 						...className,
-			// 						...node.properties ? node.properties.className : [],
-			// 					]
-
-			// 					if (node.children) {
-			// 						return parseNodes(node.children, classes)
-			// 					}
-
-			// 					return {
-			// 						text: node.value,
-			// 						classes,
-			// 					}
-			// 				})
-			// 			}
-
-			// 			blocks.forEach(block => {
-			// 				let startPos = block.pos + 1
-			// 				const hightlight = low.highlightAuto(block.node.textContent)
-			// 				const nodes = hightlight.value
-
-			// 				decorations.push(Decoration.node(block.pos, block.pos + block.node.nodeSize, {
-			// 					'data-language': hightlight.language,
-			// 				}))
-
-			// 				flatten(parseNodes(nodes))
-			// 					.map(node => {
-			// 						const from = startPos
-			// 						const to = from + node.text.length
-
-			// 						startPos = to
-
-			// 						return {
-			// 							...node,
-			// 							from,
-			// 							to,
-			// 						}
-			// 					})
-			// 					.forEach(node => {
-			// 						const decoration = Decoration.inline(node.from, node.to, {
-			// 							class: node.classes.join(' '),
-			// 						})
-			// 						decorations.push(decoration)
-			// 					})
-			// 			})
-
-			// 			return DecorationSet.create(doc, decorations)
-			// 		},
-			// 		apply(tr, set) {
-			// 			return set.map(tr.mapping, tr.doc)
-			// 		},
-			// 	},
-			// 	props: {
-			// 		decorations(state) {
-			// 			console.log(this.getState(state))
-			// 			return this.getState(state)
-			// 		},
-			// 	},
-			// }),
-
 			new Plugin({
-				props: {
-					decorations({ doc }) {
-						const decorations = []
-
-						const blocks = findBlockNodes(doc)
-							.filter(item => item.node.type.name === 'code_block')
-
-						const flatten = list => list.reduce(
-								(a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []
-						)
-
-						function parseNodes(nodes, className = []) {
-							return nodes.map(node => {
-
-								const classes = [
-									...className,
-									...node.properties ? node.properties.className : [],
-								]
-
-								if (node.children) {
-									return parseNodes(node.children, classes)
-								}
-
-								return {
-									text: node.value,
-									classes,
-								}
-							})
+				state: {
+					init(_, { doc }) {
+						return getDecorations(doc)
+					},
+					apply(tr, set) {
+						// TODO: find way to cache decorations
+						// see: https://discuss.prosemirror.net/t/how-to-update-multiple-inline-decorations-on-node-change/1493
+						if (tr.docChanged) {
+							return getDecorations(tr.doc)
 						}
-
-						blocks.forEach(block => {
-							let startPos = block.pos + 1
-							const hightlight = low.highlightAuto(block.node.textContent)
-							const nodes = hightlight.value
-
-							decorations.push(Decoration.node(block.pos, block.pos + block.node.nodeSize, {
-								'data-language': hightlight.language,
-							}))
-
-							flatten(parseNodes(nodes))
-								.map(node => {
-									const from = startPos
-									const to = from + node.text.length
-
-									startPos = to
-
-									return {
-										...node,
-										from,
-										to,
-									}
-								})
-								.forEach(node => {
-									const decoration = Decoration.inline(node.from, node.to, {
-										class: node.classes.join(' '),
-									})
-									decorations.push(decoration)
-								})
-						})
-
-						return DecorationSet.create(doc, decorations)
+						return set.map(tr.mapping, tr.doc)
+					},
+				},
+				props: {
+					decorations(state) {
+						return this.getState(state)
 					},
 				},
 			}),
