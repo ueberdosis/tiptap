@@ -1,10 +1,10 @@
 import { Node } from 'tiptap'
 import { triggerCharacter, suggestionsPlugin } from '../plugins/suggestions'
 
-export default class BlockquoteNode extends Node {
+export default class MentionNode extends Node {
 
 	get name() {
-		return 'blockquote'
+		return 'mention'
 	}
 
 	get schema() {
@@ -49,19 +49,10 @@ export default class BlockquoteNode extends Node {
 					allowSpaces: true,
 					startOfLine: false,
 				}),
-				onEnter(args) {
-					console.log('start', args);
-				},
-				onChange(args) {
-					console.log('change', args);
-				},
-				onExit(args) {
-					console.log('stop', args);
-				},
-				onKeyDown({ view, event }) {
-					// console.log(event.key);
-					return false;
-				},
+				onEnter: this.options.onEnter,
+				onChange: this.options.onChange,
+				onExit: this.options.onExit,
+				onKeyDown: this.options.onKeyDown,
 			}),
 		]
 	}
