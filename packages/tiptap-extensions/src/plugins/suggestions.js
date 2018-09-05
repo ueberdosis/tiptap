@@ -80,11 +80,35 @@ export function suggestionsPlugin({
           const started = !prev.active && next.active;
           const stopped = prev.active && !next.active;
           const changed = !started && !stopped && prev.text !== next.text;
+          const decorationNode = document.querySelector(`[data-decoration-id="${next.decorationId}"]`)
 
           // Trigger the hooks when necessary
-          if (stopped || moved) onExit({ view, range: prev.range, text: prev.text });
-          if (changed && !moved) onChange({ view, range: next.range, text: next.text });
-          if (started || moved) onEnter({ view, range: next.range, text: next.text });
+          if (stopped || moved) {
+            onExit({
+              view,
+              range: prev.range,
+              text: prev.text,
+              decorationNode,
+            })
+          }
+
+          if (changed && !moved) {
+            onChange({
+              view,
+              range: next.range,
+              text: next.text,
+              decorationNode,
+            })
+          }
+
+          if (started || moved) {
+            onEnter({
+              view,
+              range: next.range,
+              text: next.text,
+              decorationNode,
+            })
+          }
         },
       };
     },
@@ -125,10 +149,12 @@ export function suggestionsPlugin({
           // Try to match against where our cursor currently is
           const $position = selection.$from;
           const match = matcher($position);
+          const decorationId = (Math.random() + 1).toString(36).substr(2, 5);
 
           // If we found a match, update the current state to show it
           if (match) {
             next.active = true;
+            next.decorationId = prev.decorationId ? prev.decorationId : decorationId;
             next.range = match.range;
             next.text = match.text;
           } else {
@@ -140,6 +166,7 @@ export function suggestionsPlugin({
 
         // Make sure to empty the range if suggestion is inactive
         if (!next.active) {
+          next.decorationId = null;
           next.range = {};
           next.text = null;
         }
@@ -172,7 +199,7 @@ export function suggestionsPlugin({
        * @returns {?DecorationSet}
        */
       decorations(editorState) {
-        const { active, range } = this.getState(editorState);
+        const { active, range, decorationId } = this.getState(editorState);
 
         if (!active) return null;
 
@@ -180,6 +207,7 @@ export function suggestionsPlugin({
           Decoration.inline(range.from, range.to, {
             nodeName: 'span',
             class: suggestionClass,
+            'data-decoration-id': decorationId,
             style: debug ? 'background: rgba(0, 0, 255, 0.05); color: blue; border: 2px solid blue;' : null,
           }),
         ]);
