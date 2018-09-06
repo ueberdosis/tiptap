@@ -23,6 +23,14 @@
 
 					<button
 						class="menubar__button"
+						:class="{ 'is-active': marks.strike.active() }"
+						@click="marks.strike.command"
+					>
+						<icon name="strike" />
+					</button>
+
+					<button
+						class="menubar__button"
 						@click="marks.code.command"
 						:class="{ 'is-active': marks.code.active() }
 					">
@@ -132,6 +140,7 @@ import {
 	CodeMark,
 	ItalicMark,
 	LinkMark,
+	StrikeMark,
 	HistoryExtension,
 } from 'tiptap-extensions'
 
@@ -156,6 +165,7 @@ export default {
 				new CodeMark(),
 				new ItalicMark(),
 				new LinkMark(),
+				new StrikeMark(),
 				new HistoryExtension(),
 			],
 		}
