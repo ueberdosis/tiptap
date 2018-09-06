@@ -31,6 +31,14 @@
 
 					<button
 						class="menubar__button"
+						:class="{ 'is-active': marks.underline.active() }"
+						@click="marks.underline.command"
+					>
+						<icon name="underline" />
+					</button>
+
+					<button
+						class="menubar__button"
 						@click="marks.code.command"
 						:class="{ 'is-active': marks.code.active() }
 					">
@@ -141,6 +149,7 @@ import {
 	ItalicMark,
 	LinkMark,
 	StrikeMark,
+	UnderlineMark,
 	HistoryExtension,
 } from 'tiptap-extensions'
 
@@ -166,6 +175,7 @@ export default {
 				new ItalicMark(),
 				new LinkMark(),
 				new StrikeMark(),
+				new UnderlineMark(),
 				new HistoryExtension(),
 			],
 		}
