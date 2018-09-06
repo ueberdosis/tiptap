@@ -17,7 +17,9 @@ export default {
 	data() {
 		return {
 			extensions: [
-				new PlaceholderExtension(),
+				new PlaceholderExtension({
+					emptyNodeClass: 'is-empty',
+				}),
 			],
 		}
 	},
