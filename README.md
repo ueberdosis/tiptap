@@ -100,9 +100,11 @@ By default the editor will only support paragraphs. Other nodes and marks are av
 <script>
 import { Editor } from 'tiptap'
 import {
+  // Nodes
   BlockquoteNode,
   BulletListNode,
   CodeBlockNode,
+  CodeBlockHighlightNode,
   HardBreakNode,
   HeadingNode,
   ImageNode,
@@ -110,11 +112,17 @@ import {
   OrderedListNode,
   TodoItemNode,
   TodoListNode,
+
+  // Marks
   BoldMark,
   CodeMark,
   ItalicMark,
   LinkMark,
+  Strike,
+
+  // General Extensions
   HistoryExtension,
+  PlaceholderExtension,
 } from 'tiptap-extensions'
 
 export default {
@@ -138,7 +146,9 @@ export default {
         new CodeMark(),
         new ItalicMark(),
         new LinkMark(),
+        new StrikeMark(),
         new HistoryExtension(),
+        new PlaceholderExtension(),
       ],
     }
   },
