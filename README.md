@@ -322,12 +322,14 @@ This is a basic example of building a custom menu. A more advanced menu can be f
 <template>
   <editor :extensions="extensions">
     <div slot="menubar" slot-scope="{ nodes, marks }">
-      <button :class="{ 'is-active': nodes.heading.active({ level: 1 }) }" @click="nodes.heading.command({ level: 1 })">
-        H1
-      </button>
-      <button :class="{ 'is-active': marks.bold.active() }" @click="marks.bold.command()">
-        Bold
-      </button>
+      <div v-if="nodes && marks">
+        <button :class="{ 'is-active': nodes.heading.active({ level: 1 }) }" @click="nodes.heading.command({ level: 1 })">
+          H1
+        </button>
+        <button :class="{ 'is-active': marks.bold.active() }" @click="marks.bold.command()">
+          Bold
+        </button>
+      </div>
     </div>
     <div slot="content" slot-scope="props">
       <p>This text can be made bold.</p>
