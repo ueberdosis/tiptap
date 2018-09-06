@@ -22,6 +22,7 @@
   "dependencies": {
     "lowlight": "^1.10.0",
     "prosemirror-history": "^1.0.2",
+    "prosemirror-view": "^1.5.1",
     "tiptap": "^0.10.0",
     "tiptap-commands": "^0.3.0"
   }

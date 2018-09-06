@@ -13,6 +13,7 @@ import RouteMarkdownShortcuts from 'Components/Routes/MarkdownShortcuts'
 import RouteCodeHighlighting from 'Components/Routes/CodeHighlighting'
 import RouteReadOnly from 'Components/Routes/ReadOnly'
 import RouteEmbeds from 'Components/Routes/Embeds'
+import RoutePlaceholder from 'Components/Routes/Placeholder'
 import RouteExport from 'Components/Routes/Export'
 
 const __svg__ = { path: './assets/images/icons/*.svg', name: 'assets/images/[hash].sprite.svg' }
@@ -91,6 +92,13 @@ const routes = [
     component: RouteEmbeds,
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds',
+    },
+  },
+  {
+    path: '/placeholder',
+    component: RoutePlaceholder,
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Placeholder',
     },
   },
   {

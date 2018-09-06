@@ -17,3 +17,4 @@ export { default as LinkMark } from './marks/Link'
 export { default as StrikeMark } from './marks/Strike'
 
 export { default as HistoryExtension } from './extensions/History'
+export { default as PlaceholderExtension } from './extensions/Placeholder'
