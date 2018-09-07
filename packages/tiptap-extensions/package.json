@@ -8,6 +8,7 @@
   "module": "dist/extensions.esm.js",
   "unpkg": "dist/extensions.js",
   "jsdelivr": "dist/extensions.js",
+  "sideEffects": false,
   "files": [
     "src",
     "dist"
