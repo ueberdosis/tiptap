@@ -118,7 +118,7 @@ import {
   CodeMark,
   ItalicMark,
   LinkMark,
-  Strike,
+  StrikeMark,
 
   // General Extensions
   HistoryExtension,
