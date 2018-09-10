@@ -233,6 +233,21 @@ export default {
 			return this.state.doc.toJSON()
 		},
 
+		clearContent() {
+			this.state = EditorState.create({
+				schema: this.state.schema,
+				doc: this.state.schema.nodeFromJSON({
+					type: 'doc',
+					content: [{
+						type: 'paragraph',
+					}],
+				}),
+				plugins: this.state.plugins,
+			})
+
+			this.view.updateState(this.state)
+		},
+
 	},
 
 	mounted() {
