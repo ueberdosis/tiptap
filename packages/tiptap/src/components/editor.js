@@ -195,6 +195,12 @@ export default {
 			})
 		},
 
+		destroyEditor() {
+			if (this.view) {
+				this.view.destroy()
+			}
+		},
+
 		updateMenuActions() {
 			this.menuActions = buildMenuActions({
 				schema: this.schema,
@@ -231,6 +237,10 @@ export default {
 
 	mounted() {
 		this.initEditor()
+	},
+
+	beforeDestroy() {
+		this.destroyEditor()
 	},
 
 }
