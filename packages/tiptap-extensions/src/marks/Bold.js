@@ -38,7 +38,7 @@ export default class BoldMark extends Mark {
 
 	inputRules({ type }) {
 		return [
-			markInputRule(/\*\*([^*]+)\*\*$/, type),
+			markInputRule(/(?:\*\*|__)([^\*_]+)(?:\*\*|__)$/, type),
 		]
 	}
 
