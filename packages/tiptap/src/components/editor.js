@@ -1,6 +1,6 @@
 import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { Schema, DOMParser } from 'prosemirror-model'
+import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import { gapCursor } from 'prosemirror-gapcursor'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
@@ -226,7 +226,14 @@ export default {
 		},
 
 		getHTML() {
-			return this.view.dom.innerHTML
+			const div = document.createElement('div')
+			const fragment = DOMSerializer
+				.fromSchema(this.schema)
+				.serializeFragment(this.state.doc.content)
+
+			div.appendChild(fragment)
+
+			return div.innerHTML
 		},
 
 		getJSON() {
