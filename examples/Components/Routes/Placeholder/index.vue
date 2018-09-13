@@ -8,7 +8,11 @@
 
 <script>
 import { Editor } from 'tiptap'
-import { PlaceholderExtension } from 'tiptap-extensions'
+import {
+	BulletListNode,
+	ListItemNode,
+	PlaceholderExtension,
+} from 'tiptap-extensions'
 
 export default {
 	components: {
@@ -17,6 +21,8 @@ export default {
 	data() {
 		return {
 			extensions: [
+				new BulletListNode(),
+				new ListItemNode(),
 				new PlaceholderExtension({
 					emptyNodeClass: 'is-empty',
 				}),

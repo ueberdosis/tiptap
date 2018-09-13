@@ -17,19 +17,22 @@ export default class PlaceholderExtension extends Extension {
 		return [
 			new Plugin({
 				props: {
-					decorations: state => {
+					decorations: ({ doc }) => {
 						const decorations = []
+						const completelyEmpty = doc.textContent === '' && doc.childCount <= 1 && doc.content.size <= 2
 
-						state.doc.descendants((node, pos) => {
-							if (node.type.isBlock && node.childCount === 0) {
-								const decoration = Decoration.node(pos, pos + node.nodeSize, {
-									class: this.options.emptyNodeClass,
-								})
-								decorations.push(decoration)
+						doc.descendants((node, pos) => {
+							if (!completelyEmpty) {
+								return
 							}
+
+							const decoration = Decoration.node(pos, pos + node.nodeSize, {
+								class: this.options.emptyNodeClass,
+							})
+							decorations.push(decoration)
 						})
 
-						return DecorationSet.create(state.doc, decorations)
+						return DecorationSet.create(doc, decorations)
 					},
 				},
 			}),
