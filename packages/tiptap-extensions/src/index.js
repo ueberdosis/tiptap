@@ -15,6 +15,7 @@ export { default as CodeMark } from './marks/Code'
 export { default as ItalicMark } from './marks/Italic'
 export { default as LinkMark } from './marks/Link'
 export { default as StrikeMark } from './marks/Strike'
+export { default as UnderlineMark } from './marks/Underline'
 
 export { default as HistoryExtension } from './extensions/History'
 export { default as PlaceholderExtension } from './extensions/Placeholder'
