@@ -119,6 +119,7 @@ import {
   ItalicMark,
   LinkMark,
   StrikeMark,
+  UnderlineMark,
 
   // General Extensions
   HistoryExtension,
@@ -147,6 +148,7 @@ export default {
         new ItalicMark(),
         new LinkMark(),
         new StrikeMark(),
+        new UnderlineMark(),
         new HistoryExtension(),
         new PlaceholderExtension(),
       ],
