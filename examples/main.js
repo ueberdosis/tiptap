@@ -90,6 +90,13 @@ const routes = [
     },
   },
   {
+    path: '/alignment',
+    component: () => import('Components/Routes/Alignment'),
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Alignment',
+    },
+  },
+  {
     path: '/export',
     component: () => import('Components/Routes/Export'),
     meta: {

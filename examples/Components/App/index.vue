@@ -20,7 +20,7 @@
       </a>
     </div>
 
-    <ad />
+    <!-- <ad /> -->
 
   </div>
 </template>
