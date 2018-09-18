@@ -56,6 +56,13 @@ export default {
 		}
 	},
 
+	watch: {
+		doc () {
+			this.destroyEditor()
+			this.initEditor()
+		}
+	},
+
 	render(createElement) {
 		const slots = []
 
