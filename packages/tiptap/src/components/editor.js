@@ -56,6 +56,17 @@ export default {
 		}
 	},
 
+	watch: {
+
+		doc: {
+			deep: true,
+			handler() {
+				this.setContent(this.doc, true)
+			},
+		},
+
+	},
+
 	render(createElement) {
 		const slots = []
 
@@ -70,7 +81,7 @@ export default {
 						nodes: this.menuActions ? this.menuActions.nodes : null,
 						marks: this.menuActions ? this.menuActions.marks : null,
 						focused: this.view ? this.view.focused : false,
-						focus: () => this.view.focus(),
+						focus: this.focus,
 					})
 					slots.push(this.menubarNode)
 				} else if (name === 'menububble') {
@@ -78,7 +89,7 @@ export default {
 						nodes: this.menuActions ? this.menuActions.nodes : null,
 						marks: this.menuActions ? this.menuActions.marks : null,
 						focused: this.view ? this.view.focused : false,
-						focus: () => this.view.focus(),
+						focus: this.focus,
 					})
 					slots.push(this.menububbleNode)
 				}
@@ -218,11 +229,7 @@ export default {
 				return
 			}
 
-			this.$emit('update', {
-				getHTML: this.getHTML,
-				getJSON: this.getJSON,
-				state: this.state,
-			})
+			this.emitUpdate()
 		},
 
 		getHTML() {
@@ -240,19 +247,39 @@ export default {
 			return this.state.doc.toJSON()
 		},
 
-		clearContent() {
+		emitUpdate() {
+			this.$emit('update', {
+				getHTML: this.getHTML,
+				getJSON: this.getJSON,
+				state: this.state,
+			})
+		},
+
+		setContent(content = {}, emitUpdate = true) {
 			this.state = EditorState.create({
 				schema: this.state.schema,
-				doc: this.state.schema.nodeFromJSON({
-					type: 'doc',
-					content: [{
-						type: 'paragraph',
-					}],
-				}),
+				doc: this.schema.nodeFromJSON(content),
 				plugins: this.state.plugins,
 			})
 
 			this.view.updateState(this.state)
+
+			if (emitUpdate) {
+				this.emitUpdate()
+			}
+		},
+
+		clearContent(emitUpdate = true) {
+			this.setContent({
+				type: 'doc',
+				content: [{
+					type: 'paragraph',
+				}],
+			}, emitUpdate)
+		},
+
+		focus() {
+			this.view.focus()
 		},
 
 	},
