@@ -1,20 +1,22 @@
 <template>
 	<div>
 		<editor class="editor" :extensions="extensions">
-			<div class="menubar" slot="menubar" slot-scope="{ nodes }">
-				<div v-if="extensions">
-					<button
+			<div class="menubar" slot="menubar" slot-scope="{ nodes, state }">
+				{{ extensions  }}
+				<!-- {{ state }} -->
+				<!-- <div v-if="extensions"> -->
+					<!-- <button
 						class="menubar__button"
 						@click="this.alignment = ''">
 					Left
-					</button>
+					</button> -->
 					<button
 						class="menubar__button"
-						@click="this.alignment = 'right'">
-					Right
+						@click="align(state)">
+						Right
 					</button>
 
-				</div>
+				<!-- </div> -->
 			</div>
 
 			<div class="editor__content" slot="content" slot-scope="props">
@@ -25,10 +27,10 @@
 </template>
 
 <script>
-import { Editor } from 'tiptap'
+import { Editor } from '/home/jay/codeBase/node/tiptap/packages/tiptap/src/index.js'
 import {
-	BulletListNode,
-	ListItemNode,
+	EventFactory,
+	AlignRightNode,
 	AlignmentExtension
 } from '/home/jay/codeBase/node/tiptap/packages/tiptap-extensions/src/index.js'
 
@@ -43,12 +45,16 @@ export default {
 	},
 	data() {
 		return {
-			alignment: '',
 			extensions: [
-				new BulletListNode(),
-				new ListItemNode(),
-				new AlignmentExtension({ alignmentClass: this.alignment })
+				new AlignRightNode(),
+				new AlignmentExtension()
 			],
+		}
+	},
+	methods: {
+		...EventFactory('align'),
+		test (state) {
+			debugger
 		}
 	}
 }

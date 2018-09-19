@@ -66,9 +66,11 @@ export default {
 					this.contentNode = slot({})
 					slots.push(this.contentNode)
 				} else if (name === 'menubar') {
+					console.log(this.menuActions)
 					this.menubarNode = slot({
 						nodes: this.menuActions ? this.menuActions.nodes : null,
 						marks: this.menuActions ? this.menuActions.marks : null,
+						state: this.menuActions ? this.menuActions.state : null,
 						focused: this.view ? this.view.focused : false,
 						focus: () => this.view.focus(),
 					})
@@ -77,6 +79,7 @@ export default {
 					this.menububbleNode = slot({
 						nodes: this.menuActions ? this.menuActions.nodes : null,
 						marks: this.menuActions ? this.menuActions.marks : null,
+						state: this.menuActions ? this.menuActions.state : null,
 						focused: this.view ? this.view.focused : false,
 						focus: () => this.view.focus(),
 					})

@@ -1,37 +1,31 @@
 import { Node } from 'tiptap'
 import { wrappingInputRule, wrapInList, toggleList } from 'tiptap-commands'
+// import { EditorState } from 'prosemirror-state'
 
-export default class AlignLeft extends Node {
+export default class AlignRight extends Node {
 
 	get name() {
-		return 'align_right'
+		return 'alignRight'
+	}
+
+	set align(state) {
+		debugger
 	}
 
 	get schema() {
 		return {
-			attrs: {
-				class: "right"
-			}
-			// content: 'list_item+',
+			content: 'inline*',
 			group: 'block',
-			parseDOM: [
-				{ tag: 'p' },
-				getAttrs: dom => ({
-          src: dom.getAttribute('class'),
-        })
-			],
+			draggable: false,
+			parseDOM: [{
+				tag: 'p',
+			}],
 			toDOM: () => ['p', 0],
 		}
 	}
 
-	command({ type, schema }) {
-		return // toggleList(type, schema.nodes.list_item)
-	}
-
-	keys({ type }) {
-		return {
-			'Shift-Ctrl-8': wrapInList(type),
-		}
+	command(obj) {
+		return toggleList(type, schema.nodes.list_item)
 	}
 
 	inputRules({ type }) {

@@ -40,6 +40,7 @@ export default function ({ schema, state, commands }) {
 	return {
 		nodes,
 		marks,
+		state
 	}
 
 }

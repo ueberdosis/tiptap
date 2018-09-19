@@ -1,3 +1,4 @@
+export { default as AlignRightNode } from './nodes/AlignRight'
 export { default as BlockquoteNode } from './nodes/Blockquote'
 export { default as BulletListNode } from './nodes/BulletList'
 export { default as CodeBlockNode } from './nodes/CodeBlock'
@@ -20,3 +21,5 @@ export { default as UnderlineMark } from './marks/Underline'
 export { default as AlignmentExtension } from './extensions/Alignment'
 export { default as HistoryExtension } from './extensions/History'
 export { default as PlaceholderExtension } from './extensions/Placeholder'
+
+export { default as EventFactory } from './events/EventFactory'
