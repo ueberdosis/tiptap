@@ -1,26 +1,8 @@
-import { Decoration, DecorationSet } from 'prosemirror-view'
-
-function getSelectionObject ({ $anchor, $head }) {
-  return {
-    from: $anchor.pos <= $head.pos ? $anchor.parent : $head.parent,
-    to: $head.pos > $anchor.pos ? $head.parent : $anchor.parent,
-    fromFound: false,
-    toFound: false
-  }
-}
-
-export default function align ({ doc, selection }, decorations = []) {
-  let { from, to, fromFound, toFound } = getSelectionObject(selection)
-  doc.descendants((node, pos) => {
-    if (!node.isInline && (node === from || (fromFound && !toFound))) {
-      decorations.push(
-      	Decoration.node(pos, pos + node.nodeSize, {
-      		class: 'SANDWICH',
-      	}))
-      fromFound = true
+export default function align (state, decorations = []) {
+  for (let plugin of state.plugins) {
+    if (plugin.key.match(/alignment/)) {
+      return plugin.options.alignmentClass = 'TEST' // decorations(state, 'TEST')
+      break
     }
-    toFound = toFound || (from === to || node === to)
-  })
-  console.log(decorations)
-  DecorationSet.create(doc, decorations)
+  }
 }

@@ -58,7 +58,7 @@ export default {
 
 	render(createElement) {
 		const slots = []
-
+		// const doc = this.getDocument()
 		Object
 			.entries(this.$scopedSlots)
 			.forEach(([name, slot]) => {
@@ -66,7 +66,6 @@ export default {
 					this.contentNode = slot({})
 					slots.push(this.contentNode)
 				} else if (name === 'menubar') {
-					console.log(this.menuActions)
 					this.menubarNode = slot({
 						nodes: this.menuActions ? this.menuActions.nodes : null,
 						marks: this.menuActions ? this.menuActions.marks : null,

@@ -1,4 +1,3 @@
-export { default as AlignRightNode } from './nodes/AlignRight'
 export { default as BlockquoteNode } from './nodes/Blockquote'
 export { default as BulletListNode } from './nodes/BulletList'
 export { default as CodeBlockNode } from './nodes/CodeBlock'

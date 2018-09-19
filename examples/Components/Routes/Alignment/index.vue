@@ -2,7 +2,6 @@
 	<div>
 		<editor class="editor" :extensions="extensions">
 			<div class="menubar" slot="menubar" slot-scope="{ nodes, state }">
-				{{ extensions  }}
 				<!-- {{ state }} -->
 				<!-- <div v-if="extensions"> -->
 					<!-- <button
@@ -30,7 +29,6 @@
 import { Editor } from '/home/jay/codeBase/node/tiptap/packages/tiptap/src/index.js'
 import {
 	EventFactory,
-	AlignRightNode,
 	AlignmentExtension
 } from '/home/jay/codeBase/node/tiptap/packages/tiptap-extensions/src/index.js'
 
@@ -46,7 +44,6 @@ export default {
 	data() {
 		return {
 			extensions: [
-				new AlignRightNode(),
 				new AlignmentExtension()
 			],
 		}
