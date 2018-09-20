@@ -2,22 +2,12 @@
 	<div>
 		<editor class="editor" :extensions="extensions">
 			<div class="menubar" slot="menubar" slot-scope="{ state, view }">
-				<!-- {{ state }} -->
-				<!-- <div v-if="extensions"> -->
-					<!-- <button
-						class="menubar__button"
-						@click="this.alignment = ''">
-					Left
-					</button> -->
-					<button
-						class="menubar__button"
-						@click="align({extensions, state, view})">
-						Right
-					</button>
-
-				<!-- </div> -->
+				<button
+					class="menubar__button"
+					@click="align({extensions, state, view})">
+					Right
+				</button>
 			</div>
-
 			<div class="editor__content" slot="content" slot-scope="props">
 				<p>something</p>
 			</div>
