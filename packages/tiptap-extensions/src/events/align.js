@@ -10,6 +10,7 @@ export default function align ({
       ext.options.hasOwnProperty('alignmentClass')) {
       ext.options.alignmentClass = alignment
       const decorations = ext.decorate(state, view)
+      console.log('fired')
       break
     }
   }

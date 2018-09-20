@@ -21,4 +21,4 @@ export { default as AlignmentExtension } from './extensions/Alignment'
 export { default as HistoryExtension } from './extensions/History'
 export { default as PlaceholderExtension } from './extensions/Placeholder'
 
-export { default as EventFactory } from './events/EventFactory'
+export { default as eventMap } from './events/eventMap'

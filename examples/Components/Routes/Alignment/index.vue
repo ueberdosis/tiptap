@@ -18,7 +18,7 @@
 <script>
 import { Editor } from '/home/jay/codeBase/node/tiptap/packages/tiptap/src/index.js'
 import {
-	EventFactory,
+	eventMap,
 	AlignmentExtension
 } from '/home/jay/codeBase/node/tiptap/packages/tiptap-extensions/src/index.js'
 
@@ -36,7 +36,7 @@ export default {
 		}
 	},
 	methods: {
-		...EventFactory('align'),
+		...eventMap('align'),
 	}
 }
 </script>
