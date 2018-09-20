@@ -70,6 +70,7 @@ export default {
 						nodes: this.menuActions ? this.menuActions.nodes : null,
 						marks: this.menuActions ? this.menuActions.marks : null,
 						state: this.menuActions ? this.menuActions.state : null,
+						view: this.view || null,
 						focused: this.view ? this.view.focused : false,
 						focus: () => this.view.focus(),
 					})
@@ -80,6 +81,7 @@ export default {
 						marks: this.menuActions ? this.menuActions.marks : null,
 						state: this.menuActions ? this.menuActions.state : null,
 						focused: this.view ? this.view.focused : false,
+						view: this.view || null,
 						focus: () => this.view.focus(),
 					})
 					slots.push(this.menububbleNode)

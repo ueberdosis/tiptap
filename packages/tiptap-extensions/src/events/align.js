@@ -1,7 +1,15 @@
-export default function align (state, decorations = []) {
-  for (let plugin of state.plugins) {
-    if (plugin.key.match(/alignment/)) {
-      return plugin.options.alignmentClass = 'TEST' // decorations(state, 'TEST')
+export default function align ({
+  alignment = 'right',
+  extensions,
+  state,
+  view
+}) {
+  for (let ext of extensions) {
+    if (ext.plugins &&
+      /alignment/.test(ext.plugins[0].key) &&
+      ext.options.hasOwnProperty('alignmentClass')) {
+      ext.options.alignmentClass = alignment
+      const decorations = ext.decorate(state, view)
       break
     }
   }

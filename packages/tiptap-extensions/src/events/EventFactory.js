@@ -6,9 +6,7 @@ const events = {
 
 export default function self (...test) {
   return test.reduce(function (o, i) {
-    if (typeof i === 'string') {
-      o[i] = this[i]
-    }
+    if (typeof i === 'string') o[i] = this[i]
     return o
   }.bind(events), {})
 }

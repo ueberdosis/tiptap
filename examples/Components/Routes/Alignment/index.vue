@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<editor class="editor" :extensions="extensions">
-			<div class="menubar" slot="menubar" slot-scope="{ nodes, state }">
+			<div class="menubar" slot="menubar" slot-scope="{ state, view }">
 				<!-- {{ state }} -->
 				<!-- <div v-if="extensions"> -->
 					<!-- <button
@@ -11,7 +11,7 @@
 					</button> -->
 					<button
 						class="menubar__button"
-						@click="align(state)">
+						@click="align({extensions, state, view})">
 						Right
 					</button>
 
@@ -37,9 +37,6 @@ export default {
 		Editor
 	},
 	computed: {
-		// alignment () {
-		// 	return this.
-		// }
 	},
 	data() {
 		return {
@@ -50,9 +47,6 @@ export default {
 	},
 	methods: {
 		...EventFactory('align'),
-		test (state) {
-			debugger
-		}
 	}
 }
 </script>
