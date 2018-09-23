@@ -255,7 +255,7 @@ export default {
 			})
 		},
 
-		setContent(content = {}, emitUpdate = true) {
+		setContent(content = {}, emitUpdate = false) {
 			this.state = EditorState.create({
 				schema: this.state.schema,
 				doc: this.schema.nodeFromJSON(content),
@@ -269,7 +269,7 @@ export default {
 			}
 		},
 
-		clearContent(emitUpdate = true) {
+		clearContent(emitUpdate = false) {
 			this.setContent({
 				type: 'doc',
 				content: [{
