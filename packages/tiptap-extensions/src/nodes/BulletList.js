@@ -1,5 +1,5 @@
 import { Node } from 'tiptap'
-import { wrappingInputRule, wrapInList, toggleList } from 'tiptap-commands'
+import { wrappingInputRule, toggleList } from 'tiptap-commands'
 
 export default class BulletNode extends Node {
 
@@ -22,9 +22,9 @@ export default class BulletNode extends Node {
 		return toggleList(type, schema.nodes.list_item)
 	}
 
-	keys({ type }) {
+	keys({ type, schema }) {
 		return {
-			'Shift-Ctrl-8': wrapInList(type),
+			'Shift-Ctrl-8': toggleList(type, schema.nodes.list_item),
 		}
 	}
 
