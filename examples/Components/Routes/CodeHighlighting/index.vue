@@ -18,49 +18,34 @@
 </template>
 
 <script>
-import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
 import {
-	BlockquoteNode,
-	BulletListNode,
 	CodeBlockHighlightNode,
 	HardBreakNode,
 	HeadingNode,
-	ListItemNode,
-	OrderedListNode,
-	TodoItemNode,
-	TodoListNode,
 	BoldMark,
 	CodeMark,
 	ItalicMark,
-	LinkMark,
-	HistoryExtension,
 } from 'tiptap-extensions'
 
-import { javascript, css } from './examples'
+import {
+	javascript,
+	css,
+} from './examples'
 
 export default {
 	components: {
 		Editor,
-		Icon,
 	},
 	data() {
 		return {
 			extensions: [
-				new BlockquoteNode(),
-				new BulletListNode(),
 				new CodeBlockHighlightNode(),
 				new HardBreakNode(),
 				new HeadingNode({ maxLevel: 3 }),
-				new ListItemNode(),
-				new OrderedListNode(),
-				new TodoItemNode(),
-				new TodoListNode(),
 				new BoldMark(),
 				new CodeMark(),
 				new ItalicMark(),
-				new LinkMark(),
-				new HistoryExtension(),
 			],
 			javascript,
 			css,

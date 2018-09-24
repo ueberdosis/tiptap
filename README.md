@@ -100,9 +100,11 @@ By default the editor will only support paragraphs. Other nodes and marks are av
 <script>
 import { Editor } from 'tiptap'
 import {
+  // Nodes
   BlockquoteNode,
   BulletListNode,
   CodeBlockNode,
+  CodeBlockHighlightNode,
   HardBreakNode,
   HeadingNode,
   ImageNode,
@@ -110,11 +112,18 @@ import {
   OrderedListNode,
   TodoItemNode,
   TodoListNode,
+
+  // Marks
   BoldMark,
   CodeMark,
   ItalicMark,
   LinkMark,
+  StrikeMark,
+  UnderlineMark,
+
+  // General Extensions
   HistoryExtension,
+  PlaceholderExtension,
 } from 'tiptap-extensions'
 
 export default {
@@ -138,7 +147,10 @@ export default {
         new CodeMark(),
         new ItalicMark(),
         new LinkMark(),
+        new StrikeMark(),
+        new UnderlineMark(),
         new HistoryExtension(),
+        new PlaceholderExtension(),
       ],
     }
   },
@@ -322,12 +334,14 @@ This is a basic example of building a custom menu. A more advanced menu can be f
 <template>
   <editor :extensions="extensions">
     <div slot="menubar" slot-scope="{ nodes, marks }">
-      <button :class="{ 'is-active': nodes.heading.active({ level: 1 }) }" @click="nodes.heading.command({ level: 1 })">
-        H1
-      </button>
-      <button :class="{ 'is-active': marks.bold.active() }" @click="marks.bold.command()">
-        Bold
-      </button>
+      <div v-if="nodes && marks">
+        <button :class="{ 'is-active': nodes.heading.active({ level: 1 }) }" @click="nodes.heading.command({ level: 1 })">
+          H1
+        </button>
+        <button :class="{ 'is-active': marks.bold.active() }" @click="marks.bold.command()">
+          Bold
+        </button>
+      </div>
     </div>
     <div slot="content" slot-scope="props">
       <p>This text can be made bold.</p>

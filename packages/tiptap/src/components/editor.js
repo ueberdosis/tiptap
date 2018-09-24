@@ -1,6 +1,6 @@
 import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { Schema, DOMParser } from 'prosemirror-model'
+import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import { gapCursor } from 'prosemirror-gapcursor'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
@@ -56,6 +56,17 @@ export default {
 		}
 	},
 
+	watch: {
+
+		doc: {
+			deep: true,
+			handler() {
+				this.setContent(this.doc, true)
+			},
+		},
+
+	},
+
 	render(createElement) {
 		const slots = []
 
@@ -70,7 +81,7 @@ export default {
 						nodes: this.menuActions ? this.menuActions.nodes : null,
 						marks: this.menuActions ? this.menuActions.marks : null,
 						focused: this.view ? this.view.focused : false,
-						focus: () => this.view.focus(),
+						focus: this.focus,
 					})
 					slots.push(this.menubarNode)
 				} else if (name === 'menububble') {
@@ -78,7 +89,7 @@ export default {
 						nodes: this.menuActions ? this.menuActions.nodes : null,
 						marks: this.menuActions ? this.menuActions.marks : null,
 						focused: this.view ? this.view.focused : false,
-						focus: () => this.view.focus(),
+						focus: this.focus,
 					})
 					slots.push(this.menububbleNode)
 				}
@@ -195,6 +206,12 @@ export default {
 			})
 		},
 
+		destroyEditor() {
+			if (this.view) {
+				this.view.destroy()
+			}
+		},
+
 		updateMenuActions() {
 			this.menuActions = buildMenuActions({
 				schema: this.schema,
@@ -212,6 +229,25 @@ export default {
 				return
 			}
 
+			this.emitUpdate()
+		},
+
+		getHTML() {
+			const div = document.createElement('div')
+			const fragment = DOMSerializer
+				.fromSchema(this.schema)
+				.serializeFragment(this.state.doc.content)
+
+			div.appendChild(fragment)
+
+			return div.innerHTML
+		},
+
+		getJSON() {
+			return this.state.doc.toJSON()
+		},
+
+		emitUpdate() {
 			this.$emit('update', {
 				getHTML: this.getHTML,
 				getJSON: this.getJSON,
@@ -219,18 +255,41 @@ export default {
 			})
 		},
 
-		getHTML() {
-			return this.view.dom.innerHTML
+		setContent(content = {}, emitUpdate = false) {
+			this.state = EditorState.create({
+				schema: this.state.schema,
+				doc: this.schema.nodeFromJSON(content),
+				plugins: this.state.plugins,
+			})
+
+			this.view.updateState(this.state)
+
+			if (emitUpdate) {
+				this.emitUpdate()
+			}
 		},
 
-		getJSON() {
-			return this.state.doc.toJSON()
+		clearContent(emitUpdate = false) {
+			this.setContent({
+				type: 'doc',
+				content: [{
+					type: 'paragraph',
+				}],
+			}, emitUpdate)
+		},
+
+		focus() {
+			this.view.focus()
 		},
 
 	},
 
 	mounted() {
 		this.initEditor()
+	},
+
+	beforeDestroy() {
+		this.destroyEditor()
 	},
 
 }

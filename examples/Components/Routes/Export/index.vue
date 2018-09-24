@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<editor class="editor" :extensions="extensions" @update="onUpdate">
+		<editor class="editor" :extensions="extensions" @update="onUpdate" ref="editor">
 
 			<div class="menubar" slot="menubar" slot-scope="{ nodes, marks }">
 				<div v-if="nodes && marks">
@@ -99,6 +99,15 @@
 
 		</editor>
 
+		<div class="actions">
+			<button class="button" @click="clearContent">
+				Clear Content
+			</button>
+			<button class="button" @click="setContent">
+				Set Content
+			</button>
+		</div>
+
 		<div class="export">
 			<h3>JSON</h3>
 			<pre><code v-html="json"></code></pre>
@@ -161,6 +170,25 @@ export default {
 			this.json = getJSON()
 			this.html = getHTML()
 		},
+		clearContent() {
+			this.$refs.editor.clearContent()
+			this.$refs.editor.focus()
+		},
+		setContent() {
+			this.$refs.editor.setContent({
+				type: 'doc',
+				content: [{
+					type: 'paragraph',
+					content: [
+						{
+							type: 'text',
+							text: 'This is some inserted text. 👋',
+						},
+					],
+				}],
+			})
+			this.$refs.editor.focus()
+		},
 	},
 }
 </script>
@@ -168,10 +196,15 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
+.actions {
+	max-width: 30rem;
+	margin: 0 auto 2rem auto;
+}
+
 .export {
 
 	max-width: 30rem;
-	margin: 0 auto 5rem auto;
+	margin: 0 auto 2rem auto;
 
 	pre {
 		padding: 1rem;

@@ -33,6 +33,9 @@
 		<router-link class="subnavigation__link" to="/mentions">
 			Mentions
 		</router-link>
+		<router-link class="subnavigation__link" to="/placeholder">
+			Placeholder
+		</router-link>
 		<router-link class="subnavigation__link" to="/export">
 			Export HTML or JSON
 		</router-link>

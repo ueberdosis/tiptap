@@ -3,18 +3,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import svgSpriteLoader from 'helpers/svg-sprite-loader'
 import App from 'Components/App'
-import RouteBasic from 'Components/Routes/Basic'
-import RouteMenuBubble from 'Components/Routes/MenuBubble'
-import RouteLinks from 'Components/Routes/Links'
-import RouteImages from 'Components/Routes/Images'
-import RouteHidingMenuBar from 'Components/Routes/HidingMenuBar'
-import RouteTodoList from 'Components/Routes/TodoList'
-import RouteMarkdownShortcuts from 'Components/Routes/MarkdownShortcuts'
-import RouteCodeHighlighting from 'Components/Routes/CodeHighlighting'
-import RouteReadOnly from 'Components/Routes/ReadOnly'
-import RouteEmbeds from 'Components/Routes/Embeds'
-import RouteMentions from 'Components/Routes/Mentions'
-import RouteExport from 'Components/Routes/Export'
 
 const __svg__ = { path: './assets/images/icons/*.svg', name: 'assets/images/[hash].sprite.svg' }
 svgSpriteLoader(__svg__.filename)
@@ -26,84 +14,91 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    component: RouteBasic,
+    component: () => import('Components/Routes/Basic'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Basic',
     },
   },
   {
     path: '/menu-bubble',
-    component: RouteMenuBubble,
+    component: () => import('Components/Routes/MenuBubble'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/MenuBubble',
     },
   },
   {
     path: '/links',
-    component: RouteLinks,
+    component: () => import('Components/Routes/Links'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Links',
     },
   },
   {
     path: '/images',
-    component: RouteImages,
+    component: () => import('Components/Routes/Images'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Images',
     },
   },
   {
     path: '/hiding-menu-bar',
-    component: RouteHidingMenuBar,
+    component: () => import('Components/Routes/HidingMenuBar'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/HidingMenuBar',
     },
   },
   {
     path: '/todo-list',
-    component: RouteTodoList,
+    component: () => import('Components/Routes/TodoList'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/TodoList',
     },
   },
   {
     path: '/markdown-shortcuts',
-    component: RouteMarkdownShortcuts,
+    component: () => import('Components/Routes/MarkdownShortcuts'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/MarkdownShortcuts',
     },
   },
   {
     path: '/code-highlighting',
-    component: RouteCodeHighlighting,
+    component: () => import('Components/Routes/CodeHighlighting'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/CodeHighlighting',
     },
   },
   {
     path: '/read-only',
-    component: RouteReadOnly,
+    component: () => import('Components/Routes/ReadOnly'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/ReadOnly',
     },
   },
   {
     path: '/embeds',
-    component: RouteEmbeds,
+    component: () => import('Components/Routes/Embeds'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds',
     },
   },
   {
     path: '/mentions',
-    component: RouteMentions,
+    component: () => import('Components/Routes/Mentions'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Mentions',
     },
   },
   {
+    path: '/placeholder',
+    component: () => import('Components/Routes/Placeholder'),
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Placeholder',
+    },
+  },
+  {
     path: '/export',
-    component: RouteExport,
+    component: () => import('Components/Routes/Export'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Export',
     },

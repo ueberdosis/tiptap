@@ -7,20 +7,6 @@ export default class LinkMark extends Mark {
 		return 'link'
 	}
 
-	get view() {
-		return {
-			props: ['node'],
-			methods: {
-				onClick() {
-					console.log('click on link')
-				},
-			},
-			template: `
-				<a :href="node.attrs.href" rel="noopener noreferrer nofollow" ref="content" @click="onClick"></a>
-			`,
-		}
-	}
-
 	get schema() {
 		return {
 			attrs: {

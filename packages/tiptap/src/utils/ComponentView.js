@@ -16,12 +16,12 @@ export default class ComponentView {
 		this.editable = editable
 
 		this.dom = this.createDOM()
-		this.contentDOM = this._vm.$refs.content
+		this.contentDOM = this.vm.$refs.content
 	}
 
 	createDOM() {
 		const Component = Vue.extend(this.component)
-		this._vm = new Component({
+		this.vm = new Component({
 			propsData: {
 				node: this.node,
 				view: this.view,
@@ -32,7 +32,7 @@ export default class ComponentView {
 				updateContent: content => this.updateContent(content),
 			},
 		}).$mount()
-		return this._vm.$el
+		return this.vm.$el
 	}
 
 	updateAttrs(attrs) {
@@ -75,12 +75,12 @@ export default class ComponentView {
 
 		this.node = node
 		this.decorations = decorations
-		this._vm._props.node = node
-		this._vm._props.decorations = decorations
+		this.vm._props.node = node
+		this.vm._props.decorations = decorations
 		return true
 	}
 
 	destroy() {
-		this._vm.$destroy()
+		this.vm.$destroy()
 	}
 }
