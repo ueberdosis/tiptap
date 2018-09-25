@@ -1,4 +1,5 @@
 import { Node } from 'tiptap'
+import { setInlineBlockType } from 'tiptap-commands'
 import { triggerCharacter, suggestionsPlugin } from '../plugins/suggestions'
 
 export default class MentionNode extends Node {
@@ -39,6 +40,10 @@ export default class MentionNode extends Node {
 				},
 			],
 		}
+	}
+
+	command({ type, attrs }) {
+		return setInlineBlockType(type, attrs)
 	}
 
 	get plugins() {

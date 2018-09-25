@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<editor class="editor" :extensions="extensions">
+		<editor class="editor" :extensions="extensions" ref="editor">
 
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h2>
@@ -12,6 +12,12 @@
 			</div>
 
 		</editor>
+
+		<div class="suggestions">
+			<div v-for="user in users" :key="user.id" @click="selectUser(user)">
+				{{ user.name }}
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -51,14 +57,14 @@ export default {
 				new HeadingNode({ maxLevel: 3 }),
 				new ListItemNode(),
 				new MentionNode({
-					onEnter(args) {
-						console.log('start', args);
+					onEnter: args => {
+						console.log('start', args)
 					},
-					onChange(args) {
-						console.log('change', args);
+					onChange: args => {
+						console.log('change', args)
 					},
-					onExit(args) {
-						console.log('stop', args);
+					onExit: args => {
+						console.log('stop', args)
 					},
 				}),
 				new OrderedListNode(),
@@ -70,7 +76,26 @@ export default {
 				new LinkMark(),
 				new HistoryExtension(),
 			],
+			users: [
+				{
+					name: 'Philipp Kühn',
+					id: 1,
+				},
+				{
+					name: 'Hans Pagel',
+					id: 2,
+				},
+			],
 		}
+	},
+	methods: {
+		selectUser(user) {
+			this.$refs.editor.menuActions.nodes.mention.command({
+				type: 'user',
+				id: user.id,
+				label: user.name,
+			})
+		},
 	},
 }
 </script>
@@ -85,5 +110,10 @@ export default {
   font-weight: bold;
   border-radius: 5px;
   padding: 0.2rem 0.5rem;
+}
+
+.suggestions {
+	max-width: 30rem;
+	margin: 0 auto 2rem auto;
 }
 </style>

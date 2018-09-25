@@ -40,6 +40,7 @@ import {
 
 import markInputRule from './commands/markInputRule'
 import removeMark from './commands/removeMark'
+import setInlineBlockType from './commands/setInlineBlockType'
 import splitToDefaultListItem from './commands/splitToDefaultListItem'
 import toggleBlockType from './commands/toggleBlockType'
 import toggleList from './commands/toggleList'
@@ -86,6 +87,7 @@ export {
 	// custom
 	markInputRule,
 	removeMark,
+	setInlineBlockType,
 	splitToDefaultListItem,
 	toggleBlockType,
 	toggleList,
