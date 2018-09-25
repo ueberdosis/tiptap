@@ -17,7 +17,7 @@
 			<div v-if="query && !filteredUsers.length">
 				No users found.
 			</div>
-			<div v-for="user in filteredUsers" :key="user.id" @click="selectUser(user)">
+			<div v-else v-for="user in filteredUsers" :key="user.id" @click="selectUser(user)">
 				{{ user.name }}
 			</div>
 		</div>
@@ -99,7 +99,7 @@ export default {
 	computed: {
 		filteredUsers() {
 			if (!this.query) {
-				return this.users
+				return []
 			}
 
 			const fuse = new Fuse(this.users, {
