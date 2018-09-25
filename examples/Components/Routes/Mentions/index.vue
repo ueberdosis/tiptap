@@ -14,7 +14,10 @@
 		</editor>
 
 		<div class="suggestions">
-			<div v-for="user in users" :key="user.id" @click="selectUser(user)">
+			<div v-if="query && !filteredUsers.length">
+				No users found.
+			</div>
+			<div v-for="user in filteredUsers" :key="user.id" @click="selectUser(user)">
 				{{ user.name }}
 			</div>
 		</div>
@@ -22,6 +25,7 @@
 </template>
 
 <script>
+import Fuse from 'fuse.js'
 import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
 import {
@@ -59,12 +63,15 @@ export default {
 				new MentionNode({
 					onEnter: args => {
 						console.log('start', args)
+						this.query = args.text
 					},
 					onChange: args => {
 						console.log('change', args)
+						this.query = args.text
 					},
 					onExit: args => {
 						console.log('stop', args)
+						this.query = null
 					},
 				}),
 				new OrderedListNode(),
@@ -76,6 +83,7 @@ export default {
 				new LinkMark(),
 				new HistoryExtension(),
 			],
+			query: null,
 			users: [
 				{
 					name: 'Philipp Kühn',
@@ -87,6 +95,22 @@ export default {
 				},
 			],
 		}
+	},
+	computed: {
+		filteredUsers() {
+			if (!this.query) {
+				return this.users
+			}
+
+			const fuse = new Fuse(this.users, {
+				threshold: 0.2,
+				keys: [
+					'name',
+				],
+			})
+
+			return fuse.search(this.query)
+		},
 	},
 	methods: {
 		selectUser(user) {
