@@ -15,43 +15,43 @@ export function triggerCharacter(char, { allowSpaces = false, startOfLine = fals
    */
   return $position => {
     // Matching expressions used for later
-    const suffix = new RegExp(`\\s${char}$`);
+    const suffix = new RegExp(`\\s${char}$`)
     const prefix = startOfLine ? '^' : ''
     const regexp = allowSpaces
       ? new RegExp(`${prefix}${char}.*?(?=\\s${char}|$)`, 'g')
-      : new RegExp(`${prefix}(?:^)?${char}[^\\s${char}]*`, 'g');
+      : new RegExp(`${prefix}(?:^)?${char}[^\\s${char}]*`, 'g')
 
     // Lookup the boundaries of the current node
-    const textFrom = $position.before();
-    const textTo = $position.end();
+    const textFrom = $position.before()
+    const textTo = $position.end()
 
-    const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0');
+    const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
 
-    let match;
+    let match
 
     while ((match = regexp.exec(text))) {
       // Javascript doesn't have lookbehinds; this hacks a check that first character is " " or the line beginning
-      const prefix = match.input.slice(Math.max(0, match.index - 1), match.index);
+      const prefix = match.input.slice(Math.max(0, match.index - 1), match.index)
       if (!/^[\s\0]?$/.test(prefix)) {
-        continue;
+        continue
       }
 
       // The absolute position of the match in the document
-      const from = match.index + $position.start();
-      let to = from + match[0].length;
+      const from = match.index + $position.start()
+      let to = from + match[0].length
 
       // Edge case handling; if spaces are allowed and we're directly in between two triggers
       if (allowSpaces && suffix.test(text.slice(to - 1, to + 1))) {
-        match[0] += ' ';
-        to++;
+        match[0] += ' '
+        to++
       }
 
       // If the $position is located within the matched substring, return that range
       if (from < $position.pos && to >= $position.pos) {
-        return { range: { from, to }, text: match[0] };
+        return { range: { from, to }, text: match[0] }
       }
     }
-  };
+  }
 }
 
 /**
@@ -72,14 +72,14 @@ export function suggestionsPlugin({
     view() {
       return {
         update: (view, prevState) => {
-          const prev = this.key.getState(prevState);
-          const next = this.key.getState(view.state);
+          const prev = this.key.getState(prevState)
+          const next = this.key.getState(view.state)
 
           // See how the state changed
-          const moved = prev.active && next.active && prev.range.from !== next.range.from;
-          const started = !prev.active && next.active;
-          const stopped = prev.active && !next.active;
-          const changed = !started && !stopped && prev.text !== next.text;
+          const moved = prev.active && next.active && prev.range.from !== next.range.from
+          const started = !prev.active && next.active
+          const stopped = prev.active && !next.active
+          const changed = !started && !stopped && prev.text !== next.text
           const decorationNode = document.querySelector(`[data-decoration-id="${next.decorationId}"]`)
 
           // Trigger the hooks when necessary
@@ -124,7 +124,7 @@ export function suggestionsPlugin({
           active: false,
           range: {},
           text: null,
-        };
+        }
       },
 
       /**
@@ -136,42 +136,42 @@ export function suggestionsPlugin({
        * @returns {Object}
        */
       apply(tr, prev) {
-        const { selection } = tr;
-        const next = { ...prev };
+        const { selection } = tr
+        const next = { ...prev }
 
         // We can only be suggesting if there is no selection
         if (selection.from === selection.to) {
           // Reset active state if we just left the previous suggestion range
           if (selection.from < prev.range.from || selection.from > prev.range.to) {
-            next.active = false;
+            next.active = false
           }
 
           // Try to match against where our cursor currently is
-          const $position = selection.$from;
-          const match = matcher($position);
-          const decorationId = (Math.random() + 1).toString(36).substr(2, 5);
+          const $position = selection.$from
+          const match = matcher($position)
+          const decorationId = (Math.random() + 1).toString(36).substr(2, 5)
 
           // If we found a match, update the current state to show it
           if (match) {
-            next.active = true;
-            next.decorationId = prev.decorationId ? prev.decorationId : decorationId;
-            next.range = match.range;
-            next.text = match.text;
+            next.active = true
+            next.decorationId = prev.decorationId ? prev.decorationId : decorationId
+            next.range = match.range
+            next.text = match.text
           } else {
-            next.active = false;
+            next.active = false
           }
         } else {
-          next.active = false;
+          next.active = false
         }
 
         // Make sure to empty the range if suggestion is inactive
         if (!next.active) {
-          next.decorationId = null;
-          next.range = {};
-          next.text = null;
+          next.decorationId = null
+          next.range = {}
+          next.text = null
         }
 
-        return next;
+        return next
       },
     },
 
@@ -184,11 +184,11 @@ export function suggestionsPlugin({
        * @returns {boolean}
        */
       handleKeyDown(view, event) {
-        const { active } = this.getState(view.state);
+        const { active } = this.getState(view.state)
 
-        if (!active) return false;
+        if (!active) return false
 
-        return onKeyDown({ view, event });
+        return onKeyDown({ view, event })
       },
 
       /**
@@ -199,9 +199,9 @@ export function suggestionsPlugin({
        * @returns {?DecorationSet}
        */
       decorations(editorState) {
-        const { active, range, decorationId } = this.getState(editorState);
+        const { active, range, decorationId } = this.getState(editorState)
 
-        if (!active) return null;
+        if (!active) return null
 
         return DecorationSet.create(editorState.doc, [
           Decoration.inline(range.from, range.to, {
@@ -210,8 +210,8 @@ export function suggestionsPlugin({
             'data-decoration-id': decorationId,
             style: debug ? 'background: rgba(0, 0, 255, 0.05); color: blue; border: 2px solid blue;' : null,
           }),
-        ]);
+        ])
       },
     },
-  });
+  })
 }
