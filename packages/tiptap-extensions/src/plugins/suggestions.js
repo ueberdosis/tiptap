@@ -48,7 +48,14 @@ export function triggerCharacter(char, { allowSpaces = false, startOfLine = fals
 
       // If the $position is located within the matched substring, return that range
       if (from < $position.pos && to >= $position.pos) {
-        return { range: { from, to }, text: match[0] }
+        return {
+          range: {
+            from,
+            to,
+          },
+          text: match[0].slice(char.length),
+          fullText: match[0],
+        }
       }
     }
   }
@@ -88,6 +95,7 @@ export function suggestionsPlugin({
               view,
               range: prev.range,
               text: prev.text,
+              fullText: prev.fullText,
               decorationNode,
             })
           }
@@ -97,6 +105,7 @@ export function suggestionsPlugin({
               view,
               range: next.range,
               text: next.text,
+              fullText: next.fullText,
               decorationNode,
             })
           }
@@ -106,6 +115,7 @@ export function suggestionsPlugin({
               view,
               range: next.range,
               text: next.text,
+              fullText: next.fullText,
               decorationNode,
             })
           }
@@ -124,6 +134,7 @@ export function suggestionsPlugin({
           active: false,
           range: {},
           text: null,
+          fullText: null,
         }
       },
 
@@ -157,6 +168,7 @@ export function suggestionsPlugin({
             next.decorationId = prev.decorationId ? prev.decorationId : decorationId
             next.range = match.range
             next.text = match.text
+            next.fullText = match.fullText
           } else {
             next.active = false
           }
@@ -169,6 +181,7 @@ export function suggestionsPlugin({
           next.decorationId = null
           next.range = {}
           next.text = null
+          next.fullText = null
         }
 
         return next
