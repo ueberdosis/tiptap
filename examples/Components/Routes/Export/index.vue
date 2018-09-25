@@ -171,10 +171,11 @@ export default {
 			this.html = getHTML()
 		},
 		clearContent() {
-			this.$refs.editor.clearContent()
+			this.$refs.editor.clearContent(true)
 			this.$refs.editor.focus()
 		},
 		setContent() {
+			// you can pass a json document
 			this.$refs.editor.setContent({
 				type: 'doc',
 				content: [{
@@ -186,7 +187,11 @@ export default {
 						},
 					],
 				}],
-			})
+			}, true)
+
+			// HTML string is also supported
+			// this.$refs.editor.setContent('<p>This is some inserted text. 👋</p>')
+
 			this.$refs.editor.focus()
 		},
 	},
