@@ -34,7 +34,7 @@ export default class MentionNode extends Node {
 					getAttrs: dom => {
 						const type = dom.getAttribute('data-mention-type')
 						const id = dom.getAttribute('data-mention-id')
-						const label = dom.innerText
+						const label = dom.innerText.split('@').join('')
 						return { type, id, label }
 					},
 				},
