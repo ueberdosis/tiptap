@@ -63,36 +63,35 @@ export default {
 						},
 					],
 					onEnter: args => {
-						console.log('start', args)
 						this.query = args.query
 						this.filteredUsers = args.items
 					},
 					onChange: args => {
-						console.log('change', args)
 						this.query = args.query
 						this.filteredUsers = args.items
 					},
 					onExit: args => {
-						console.log('stop', args)
 						this.query = null
 						this.filteredUsers = args.items
 					},
 					onKeyDown: ({ event }) => {
 						// pressing up arrow
 						if (event.keyCode === 38) {
-							event.preventDefault()
 							this.upHandler()
+							return true
 						}
 						// pressing down arrow
 						if (event.keyCode === 40) {
-							event.preventDefault()
 							this.downHandler()
+							return true
 						}
 						// pressing enter
 						if (event.keyCode === 13) {
-							event.preventDefault()
 							this.enterHandler()
+							return true
 						}
+
+						return false
 					},
 					onFilter: (items, query) => {
 						if (!query) {
