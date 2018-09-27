@@ -61,17 +61,44 @@ export default {
 				new HeadingNode({ maxLevel: 3 }),
 				new ListItemNode(),
 				new MentionNode({
+					items: [
+						{
+							name: 'Philipp Kühn',
+							id: 1,
+						},
+						{
+							name: 'Hans Pagel',
+							id: 2,
+						},
+					],
 					onEnter: args => {
 						console.log('start', args)
-						this.query = args.text
+						this.query = args.query
+						this.filteredUsers = args.items
 					},
 					onChange: args => {
 						console.log('change', args)
-						this.query = args.text
+						this.query = args.query
+						this.filteredUsers = args.items
 					},
 					onExit: args => {
 						console.log('stop', args)
 						this.query = null
+						this.filteredUsers = args.items
+					},
+					onFilter: (items, query) => {
+						if (!query) {
+							return items
+						}
+
+						const fuse = new Fuse(items, {
+							threshold: 0.2,
+							keys: [
+								'name',
+							],
+						})
+
+						return fuse.search(query)
 					},
 				}),
 				new OrderedListNode(),
@@ -84,33 +111,8 @@ export default {
 				new HistoryExtension(),
 			],
 			query: null,
-			users: [
-				{
-					name: 'Philipp Kühn',
-					id: 1,
-				},
-				{
-					name: 'Hans Pagel',
-					id: 2,
-				},
-			],
+			filteredUsers: [],
 		}
-	},
-	computed: {
-		filteredUsers() {
-			if (!this.query) {
-				return []
-			}
-
-			const fuse = new Fuse(this.users, {
-				threshold: 0.2,
-				keys: [
-					'name',
-				],
-			})
-
-			return fuse.search(this.query)
-		},
 	},
 	methods: {
 		selectUser(user) {

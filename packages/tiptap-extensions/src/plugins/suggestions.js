@@ -67,10 +67,19 @@ export function triggerCharacter(char, { allowSpaces = false, startOfLine = fals
 export function suggestionsPlugin({
   matcher = triggerCharacter('#'),
   suggestionClass = 'ProseMirror-suggestion',
+  items = [],
   onEnter = () => false,
   onChange = () => false,
   onExit = () => false,
   onKeyDown = () => false,
+  onFilter = (searchItems, query) => {
+    if (!query) {
+      return searchItems
+    }
+
+    return searchItems
+      .filter(item => JSON.stringify(item).toLowerCase().includes(query.toLowerCase()))
+  },
   debug = false,
 }) {
   return new Plugin({
@@ -94,9 +103,10 @@ export function suggestionsPlugin({
             onExit({
               view,
               range: prev.range,
-              text: prev.text,
-              fullText: prev.fullText,
+              query: prev.text,
+              text: prev.fullText,
               decorationNode,
+              items: onFilter(items, prev.text),
             })
           }
 
@@ -104,9 +114,10 @@ export function suggestionsPlugin({
             onChange({
               view,
               range: next.range,
-              text: next.text,
-              fullText: next.fullText,
+              query: next.text,
+              text: next.fullText,
               decorationNode,
+              items: onFilter(items, next.text),
             })
           }
 
@@ -114,9 +125,10 @@ export function suggestionsPlugin({
             onEnter({
               view,
               range: next.range,
-              text: next.text,
-              fullText: next.fullText,
+              query: next.text,
+              text: next.fullText,
               decorationNode,
+              items: onFilter(items, next.text),
             })
           }
         },

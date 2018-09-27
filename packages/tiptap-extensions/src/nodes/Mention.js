@@ -54,10 +54,12 @@ export default class MentionNode extends Node {
 					allowSpaces: true,
 					startOfLine: false,
 				}),
+				items: this.options.items,
 				onEnter: this.options.onEnter,
 				onChange: this.options.onChange,
 				onExit: this.options.onExit,
 				onKeyDown: this.options.onKeyDown,
+				onFilter: this.options.onFilter,
 			}),
 		]
 	}
