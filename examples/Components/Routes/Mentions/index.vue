@@ -62,17 +62,17 @@ export default {
 							id: 2,
 						},
 					],
-					onEnter: args => {
-						this.query = args.query
-						this.filteredUsers = args.items
+					onEnter: ({ items, query }) => {
+						this.query = query
+						this.filteredUsers = items
 					},
-					onChange: args => {
-						this.query = args.query
-						this.filteredUsers = args.items
+					onChange: ({ items, query }) => {
+						this.query = query
+						this.filteredUsers = items
 					},
-					onExit: args => {
+					onExit: () => {
 						this.query = null
-						this.filteredUsers = args.items
+						this.filteredUsers = []
 					},
 					onKeyDown: ({ event }) => {
 						// pressing up arrow
