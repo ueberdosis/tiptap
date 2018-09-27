@@ -17,7 +17,14 @@
 			<div v-if="query && !filteredUsers.length">
 				No users found.
 			</div>
-			<div v-else v-for="user in filteredUsers" :key="user.id" @click="selectUser(user)">
+			<div
+				v-else
+				v-for="(user, index) in filteredUsers"
+				:key="user.id"
+				@click="selectUser(user)"
+				class="suggestions__item"
+				:class="{ 'is-selected': navigatedUserIndex === index }"
+			>
 				{{ user.name }}
 			</div>
 		</div>
@@ -29,21 +36,9 @@ import Fuse from 'fuse.js'
 import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
 import {
-	BlockquoteNode,
-	BulletListNode,
-	CodeBlockNode,
 	HardBreakNode,
 	HeadingNode,
-	ListItemNode,
 	MentionNode,
-	OrderedListNode,
-	TodoItemNode,
-	TodoListNode,
-	BoldMark,
-	CodeMark,
-	ItalicMark,
-	LinkMark,
-	HistoryExtension,
 } from 'tiptap-extensions'
 
 export default {
@@ -54,12 +49,8 @@ export default {
 	data() {
 		return {
 			extensions: [
-				new BlockquoteNode(),
-				new BulletListNode(),
-				new CodeBlockNode(),
 				new HardBreakNode(),
 				new HeadingNode({ maxLevel: 3 }),
-				new ListItemNode(),
 				new MentionNode({
 					items: [
 						{
@@ -86,6 +77,23 @@ export default {
 						this.query = null
 						this.filteredUsers = args.items
 					},
+					onKeyDown: ({ event }) => {
+						// pressing up arrow
+						if (event.keyCode === 38) {
+							event.preventDefault()
+							this.upHandler()
+						}
+						// pressing down arrow
+						if (event.keyCode === 40) {
+							event.preventDefault()
+							this.downHandler()
+						}
+						// pressing enter
+						if (event.keyCode === 13) {
+							event.preventDefault()
+							this.enterHandler()
+						}
+					},
 					onFilter: (items, query) => {
 						if (!query) {
 							return items
@@ -101,20 +109,23 @@ export default {
 						return fuse.search(query)
 					},
 				}),
-				new OrderedListNode(),
-				new TodoItemNode(),
-				new TodoListNode(),
-				new BoldMark(),
-				new CodeMark(),
-				new ItalicMark(),
-				new LinkMark(),
-				new HistoryExtension(),
 			],
 			query: null,
 			filteredUsers: [],
+			navigatedUserIndex: 0,
 		}
 	},
 	methods: {
+		upHandler() {
+			this.navigatedUserIndex = ((this.navigatedUserIndex + this.filteredUsers.length) - 1) % this.filteredUsers.length
+		},
+		downHandler() {
+			this.navigatedUserIndex = (this.navigatedUserIndex + 1) % this.filteredUsers.length
+		},
+		enterHandler() {
+			const user = this.filteredUsers[this.navigatedUserIndex]
+			this.selectUser(user)
+		},
 		selectUser(user) {
 			this.$refs.editor.menuActions.nodes.mention.command({
 				type: 'user',
@@ -141,5 +152,11 @@ export default {
 .suggestions {
 	max-width: 30rem;
 	margin: 0 auto 2rem auto;
+
+	&__item {
+		&.is-selected {
+			background-color: rgba($color-black, 0.1);
+		}
+	}
 }
 </style>
