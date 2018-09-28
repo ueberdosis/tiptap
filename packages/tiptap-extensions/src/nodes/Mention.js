@@ -45,7 +45,7 @@ export default class MentionNode extends Node {
 	get plugins() {
 		return [
 			suggestionsPlugin({
-				debug: true,
+				suggestionClass: 'mention-suggestion',
 				matcher: triggerCharacter('@', {
 					allowSpaces: false,
 					startOfLine: false,

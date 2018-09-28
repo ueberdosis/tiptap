@@ -66,7 +66,7 @@ export function triggerCharacter(char, { allowSpaces = false, startOfLine = fals
  */
 export function suggestionsPlugin({
   matcher = triggerCharacter('#'),
-  suggestionClass = 'ProseMirror-suggestion',
+  suggestionClass = 'suggestion',
   command = () => false,
   items = [],
   onEnter = () => false,
@@ -81,7 +81,6 @@ export function suggestionsPlugin({
     return searchItems
       .filter(item => JSON.stringify(item).toLowerCase().includes(query.toLowerCase()))
   },
-  debug = false,
 }) {
   return new Plugin({
     key: new PluginKey('suggestions'),
@@ -241,7 +240,6 @@ export function suggestionsPlugin({
             nodeName: 'span',
             class: suggestionClass,
             'data-decoration-id': decorationId,
-            style: debug ? 'background: rgba(0, 0, 255, 0.05); color: blue; border: 2px solid blue;' : null,
           }),
         ])
       },

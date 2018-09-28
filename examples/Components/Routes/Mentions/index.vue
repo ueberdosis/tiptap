@@ -13,8 +13,8 @@
 
 		</editor>
 
-		<div class="suggestions">
-			<div v-if="query && !filteredUsers.length">
+		<div class="suggestion-list" v-if="query || filteredUsers.length">
+			<div class="suggestion-list__no-results" v-if="query && !filteredUsers.length">
 				No users found.
 			</div>
 			<div
@@ -22,7 +22,7 @@
 				v-for="(user, index) in filteredUsers"
 				:key="user.id"
 				@click="selectUser(user)"
-				class="suggestions__item"
+				class="suggestion-list__item"
 				:class="{ 'is-selected': navigatedUserIndex === index }"
 			>
 				{{ user.name }}
@@ -158,13 +158,34 @@ export default {
   font-weight: bold;
   border-radius: 5px;
   padding: 0.2rem 0.5rem;
+	white-space: nowrap;
 }
 
-.suggestions {
+.mention-suggestion {
+	color: rgba($color-black, 0.6);
+}
+
+.suggestion-list {
 	max-width: 30rem;
 	margin: 0 auto 2rem auto;
+	padding: 0.2rem;
+	border-radius: 5px;
+	border: 2px solid rgba($color-black, 0.1);
+	color: rgba($color-black, 0.6);
+	font-size: 0.8rem;
+	font-weight: bold;
+
+	&__no-results {
+		padding: 0.2rem 0.5rem;
+	}
 
 	&__item {
+		color: rgba($color-black, 0.6);
+		font-size: 0.8rem;
+		font-weight: bold;
+		border-radius: 5px;
+		padding: 0.2rem 0.5rem;
+
 		&.is-selected {
 			background-color: rgba($color-black, 0.1);
 		}
