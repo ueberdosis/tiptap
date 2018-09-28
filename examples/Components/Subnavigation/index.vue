@@ -33,8 +33,8 @@
 		<router-link class="subnavigation__link" to="/embeds">
 			Embeds
 		</router-link>
-		<router-link class="subnavigation__link" to="/mentions">
-			Mentions
+		<router-link class="subnavigation__link" to="/suggestions">
+			Suggestions
 		</router-link>
 		<router-link class="subnavigation__link" to="/placeholder">
 			Placeholder

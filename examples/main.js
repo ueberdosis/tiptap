@@ -90,10 +90,10 @@ const routes = [
     },
   },
   {
-    path: '/mentions',
-    component: () => import('Components/Routes/Mentions'),
+    path: '/suggestions',
+    component: () => import('Components/Routes/Suggestions'),
     meta: {
-      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Mentions',
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Suggestions',
     },
   },
   {

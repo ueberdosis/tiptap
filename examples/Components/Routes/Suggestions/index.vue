@@ -4,10 +4,13 @@
 
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h2>
-					Mentions
+					Suggestions
 				</h2>
 				<p>
-					Yeah <span data-mention-id="1">Philipp Kühn</span> and <span data-mention-id="2">Hans Pagel</span>.
+					Sometimes it's useful to <strong>mention</strong> someone. That's a feature we're very used to. Under the hood this technique can also be used for other features likes <strong>hashtags</strong> and <strong>commands</strong> – lets call it <em>suggestions</em>.
+				</p>
+				<p>
+					This is an example how to mention some users like <span data-mention-id="1">Philipp Kühn</span> or <span data-mention-id="2">Hans Pagel</span>. Try to type <code>@</code> and a popup (rendered with tippy.js) will appear. You can navigate with arrow keys through a list of suggestions.
 				</p>
 			</div>
 
@@ -40,6 +43,9 @@ import {
 	HardBreakNode,
 	HeadingNode,
 	MentionNode,
+	CodeMark,
+	BoldMark,
+	ItalicMark,
 } from 'tiptap-extensions'
 
 export default {
@@ -62,25 +68,33 @@ export default {
 							name: 'Hans Pagel',
 							id: 2,
 						},
+						{
+							name: 'Kris Siepert',
+							id: 3,
+						},
+						{
+							name: 'Justin Schüler',
+							id: 4,
+						},
 					],
 					onEnter: ({ items, query, range, command, virtualNode }) => {
 						this.query = query
 						this.filteredUsers = items
 						this.pos = range
 						this.insertMention = command
-						this.renderDropdown(virtualNode)
+						this.renderPopup(virtualNode)
 					},
 					onChange: ({ items, query, range, virtualNode }) => {
 						this.query = query
 						this.filteredUsers = items
 						this.pos = range
-						this.renderDropdown(virtualNode)
+						this.renderPopup(virtualNode)
 					},
 					onExit: () => {
 						this.query = null
 						this.filteredUsers = []
 						this.pos = null
-						this.destroyDropdown()
+						this.destroyPopup()
 					},
 					onKeyDown: ({ event }) => {
 						// pressing up arrow
@@ -116,6 +130,9 @@ export default {
 						return fuse.search(query)
 					},
 				}),
+				new CodeMark(),
+				new BoldMark(),
+				new ItalicMark(),
 			],
 			query: null,
 			pos: null,
@@ -147,12 +164,12 @@ export default {
 				},
 			})
 		},
-		renderDropdown(node) {
-			if (this.dropdown) {
+		renderPopup(node) {
+			if (this.popup) {
 				return
 			}
 
-			this.dropdown = tippy(node, {
+			this.popup = tippy(node, {
 				content: this.$refs.suggestions,
 				trigger: 'mouseenter',
 				interactive: true,
@@ -166,10 +183,10 @@ export default {
 				arrowType: 'round',
 			})
 		},
-		destroyDropdown() {
-			if (this.dropdown) {
-				this.dropdown.destroyAll()
-				this.dropdown = null
+		destroyPopup() {
+			if (this.popup) {
+				this.popup.destroyAll()
+				this.popup = null
 			}
 		},
 	},
@@ -215,7 +232,6 @@ export default {
 }
 
 .tippy-tooltip.dark-theme {
-
 	background-color: $color-black;
 	padding: 0;
 	font-size: 1rem;
@@ -246,6 +262,5 @@ export default {
 	.tippy-popper[x-placement^=right] & .tippy-arrow {
 		border-right-color: $color-black;
 	}
-
 }
 </style>
