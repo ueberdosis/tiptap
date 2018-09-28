@@ -62,17 +62,21 @@ export default {
 							id: 2,
 						},
 					],
-					onEnter: ({ items, query }) => {
+					onEnter: ({ items, query, range, command }) => {
 						this.query = query
 						this.filteredUsers = items
+						this.pos = range
+						this.insertMention = command
 					},
-					onChange: ({ items, query }) => {
+					onChange: ({ items, query, range }) => {
 						this.query = query
 						this.filteredUsers = items
+						this.pos = range
 					},
 					onExit: () => {
 						this.query = null
 						this.filteredUsers = []
+						this.pos = null
 					},
 					onKeyDown: ({ event }) => {
 						// pressing up arrow
@@ -110,8 +114,10 @@ export default {
 				}),
 			],
 			query: null,
+			pos: null,
 			filteredUsers: [],
 			navigatedUserIndex: 0,
+			insertMention: () => {},
 		}
 	},
 	methods: {
@@ -126,10 +132,13 @@ export default {
 			this.selectUser(user)
 		},
 		selectUser(user) {
-			this.$refs.editor.menuActions.nodes.mention.command({
-				type: 'user',
-				id: user.id,
-				label: user.name,
+			this.insertMention({
+				pos: this.pos,
+				attrs: {
+					type: 'user',
+					id: user.id,
+					label: user.name,
+				},
 			})
 		},
 	},

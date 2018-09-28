@@ -67,6 +67,7 @@ export function triggerCharacter(char, { allowSpaces = false, startOfLine = fals
 export function suggestionsPlugin({
   matcher = triggerCharacter('#'),
   suggestionClass = 'ProseMirror-suggestion',
+  command = () => false,
   items = [],
   onEnter = () => false,
   onChange = () => false,
@@ -129,6 +130,13 @@ export function suggestionsPlugin({
               text: next.fullText,
               decorationNode,
               items: onFilter(items, next.text),
+              command: ({ pos, attrs }) => {
+                command({
+                  pos,
+                  attrs,
+                  schema: view.state.schema,
+                })(view.state, view.dispatch, view)
+              },
             })
           }
         },
@@ -209,11 +217,11 @@ export function suggestionsPlugin({
        * @returns {boolean}
        */
       handleKeyDown(view, event) {
-        const { active } = this.getState(view.state)
+        const { active, range } = this.getState(view.state)
 
         if (!active) return false
 
-        return onKeyDown({ view, event })
+        return onKeyDown({ view, event, range })
       },
 
       /**

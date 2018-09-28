@@ -1,5 +1,5 @@
 import { Node } from 'tiptap'
-import { setInlineBlockType } from 'tiptap-commands'
+import { replaceText } from 'tiptap-commands'
 import { triggerCharacter, suggestionsPlugin } from '../plugins/suggestions'
 
 export default class MentionNode extends Node {
@@ -42,10 +42,6 @@ export default class MentionNode extends Node {
 		}
 	}
 
-	command({ type, attrs }) {
-		return setInlineBlockType(type, attrs)
-	}
-
 	get plugins() {
 		return [
 			suggestionsPlugin({
@@ -54,6 +50,9 @@ export default class MentionNode extends Node {
 					allowSpaces: true,
 					startOfLine: false,
 				}),
+				command: ({ pos, attrs, schema }) => {
+					return replaceText(pos, schema.nodes.mention, attrs)
+				},
 				items: this.options.items,
 				onEnter: this.options.onEnter,
 				onChange: this.options.onChange,
