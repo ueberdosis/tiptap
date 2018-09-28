@@ -129,7 +129,10 @@ export default {
 		},
 		enterHandler() {
 			const user = this.filteredUsers[this.navigatedUserIndex]
-			this.selectUser(user)
+			
+			if (user) {
+				this.selectUser(user)
+			}
 		},
 		selectUser(user) {
 			this.insertMention({
