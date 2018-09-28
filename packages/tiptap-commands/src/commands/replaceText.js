@@ -8,11 +8,7 @@ export default function (pos, type, attrs = {}) {
 		}
 
 		if (dispatch) {
-			// const transform = state.tr
-			// 	.replaceWith(pos.from, pos.to, state.schema.nodes.mention.create({ id: 2, type: 'user', label: 'loool' }))
-			const transform = state.tr.replaceWith(pos.from, pos.to, type.create(attrs))
-
-			dispatch(transform)
+			dispatch(state.tr.replaceWith(pos.from, pos.to, type.create(attrs)))
 		}
 
 		return true
