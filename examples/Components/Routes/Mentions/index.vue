@@ -7,7 +7,7 @@
 					Mentions
 				</h2>
 				<p>
-					Yeah <span data-mention-type="user" data-mention-id="1">Philipp Kühn</span> and <span data-mention-type="user" data-mention-id="2">Hans Pagel</span>.
+					Yeah <span data-mention-id="1">Philipp Kühn</span> and <span data-mention-id="2">Hans Pagel</span>.
 				</p>
 			</div>
 
@@ -138,7 +138,6 @@ export default {
 			this.insertMention({
 				pos: this.pos,
 				attrs: {
-					type: 'user',
 					id: user.id,
 					label: user.name,
 				},

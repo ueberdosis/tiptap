@@ -11,7 +11,6 @@ export default class MentionNode extends Node {
 	get schema() {
 		return {
 			attrs: {
-				type: {},
 				id: {},
 				label: {},
 			},
@@ -23,19 +22,17 @@ export default class MentionNode extends Node {
 				'span',
 				{
 					class: 'mention',
-					'data-mention-type': node.attrs.type,
 					'data-mention-id': node.attrs.id,
 				},
 				`@${node.attrs.label}`,
 			],
 			parseDOM: [
 				{
-					tag: 'span[data-mention-type][data-mention-id]',
+					tag: 'span[data-mention-id]',
 					getAttrs: dom => {
-						const type = dom.getAttribute('data-mention-type')
 						const id = dom.getAttribute('data-mention-id')
 						const label = dom.innerText.split('@').join('')
-						return { type, id, label }
+						return { id, label }
 					},
 				},
 			],
