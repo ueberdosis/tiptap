@@ -129,7 +129,7 @@ export default {
 		},
 		enterHandler() {
 			const user = this.filteredUsers[this.navigatedUserIndex]
-			
+
 			if (user) {
 				this.selectUser(user)
 			}
