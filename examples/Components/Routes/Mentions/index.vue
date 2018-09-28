@@ -13,8 +13,8 @@
 
 		</editor>
 
-		<div class="suggestion-list" v-if="query || filteredUsers.length">
-			<div class="suggestion-list__no-results" v-if="query && !filteredUsers.length">
+		<div class="suggestion-list" v-show="query || filteredUsers.length" ref="suggestions">
+			<div class="suggestion-list__item" v-if="query && !filteredUsers.length">
 				No users found.
 			</div>
 			<div
@@ -33,6 +33,7 @@
 
 <script>
 import Fuse from 'fuse.js'
+import tippy from 'tippy.js'
 import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
 import {
@@ -62,21 +63,24 @@ export default {
 							id: 2,
 						},
 					],
-					onEnter: ({ items, query, range, command }) => {
+					onEnter: ({ items, query, range, command, virtualNode }) => {
 						this.query = query
 						this.filteredUsers = items
 						this.pos = range
 						this.insertMention = command
+						this.renderDropdown(virtualNode)
 					},
-					onChange: ({ items, query, range }) => {
+					onChange: ({ items, query, range, virtualNode }) => {
 						this.query = query
 						this.filteredUsers = items
 						this.pos = range
+						this.renderDropdown(virtualNode)
 					},
 					onExit: () => {
 						this.query = null
 						this.filteredUsers = []
 						this.pos = null
+						this.destroyDropdown()
 					},
 					onKeyDown: ({ event }) => {
 						// pressing up arrow
@@ -143,12 +147,38 @@ export default {
 				},
 			})
 		},
+		renderDropdown(node) {
+			if (this.dropdown) {
+				return
+			}
+
+			this.dropdown = tippy(node, {
+				content: this.$refs.suggestions,
+				trigger: 'mouseenter',
+				interactive: true,
+				theme: 'dark',
+				placement: 'top-start',
+				performance: true,
+				inertia: true,
+				duration: [400, 200],
+				showOnInit: true,
+				arrow: true,
+				arrowType: 'round',
+			})
+		},
+		destroyDropdown() {
+			if (this.dropdown) {
+				this.dropdown.destroyAll()
+				this.dropdown = null
+			}
+		},
 	},
 }
 </script>
 
 <style lang="scss">
 @import "~variables";
+@import '~modules/tippy.js/dist/tippy.css';
 
 .mention {
   background: rgba($color-black, 0.1);
@@ -165,12 +195,8 @@ export default {
 }
 
 .suggestion-list {
-	max-width: 30rem;
-	margin: 0 auto 2rem auto;
 	padding: 0.2rem;
-	border-radius: 5px;
 	border: 2px solid rgba($color-black, 0.1);
-	color: rgba($color-black, 0.6);
 	font-size: 0.8rem;
 	font-weight: bold;
 
@@ -179,15 +205,47 @@ export default {
 	}
 
 	&__item {
-		color: rgba($color-black, 0.6);
-		font-size: 0.8rem;
-		font-weight: bold;
 		border-radius: 5px;
 		padding: 0.2rem 0.5rem;
 
 		&.is-selected {
-			background-color: rgba($color-black, 0.1);
+			background-color: rgba($color-white, 0.2);
 		}
 	}
+}
+
+.tippy-tooltip.dark-theme {
+
+	background-color: $color-black;
+	padding: 0;
+	font-size: 1rem;
+	text-align: inherit;
+	color: $color-white;
+	border-radius: 5px;
+
+	.tippy-backdrop {
+		display: none;
+	}
+
+	.tippy-roundarrow {
+		fill: $color-black;
+	}
+
+	.tippy-popper[x-placement^=top] & .tippy-arrow {
+		border-top-color: $color-black;
+	}
+
+	.tippy-popper[x-placement^=bottom] & .tippy-arrow {
+		border-bottom-color: $color-black;
+	}
+
+	.tippy-popper[x-placement^=left] & .tippy-arrow {
+		border-left-color: $color-black;
+	}
+
+	.tippy-popper[x-placement^=right] & .tippy-arrow {
+		border-right-color: $color-black;
+	}
+
 }
 </style>

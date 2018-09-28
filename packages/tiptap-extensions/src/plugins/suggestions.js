@@ -97,6 +97,13 @@ export function suggestionsPlugin({
           const stopped = prev.active && !next.active
           const changed = !started && !stopped && prev.text !== next.text
           const decorationNode = document.querySelector(`[data-decoration-id="${next.decorationId}"]`)
+          const virtualNode = decorationNode ? {
+            getBoundingClientRect() {
+              return decorationNode.getBoundingClientRect()
+            },
+            clientWidth: decorationNode.clientWidth,
+            clientHeight: decorationNode.clientHeight,
+          } : null
 
           // Trigger the hooks when necessary
           if (stopped || moved) {
@@ -106,6 +113,7 @@ export function suggestionsPlugin({
               query: prev.text,
               text: prev.fullText,
               decorationNode,
+              virtualNode,
               items: onFilter(items, prev.text),
             })
           }
@@ -117,6 +125,7 @@ export function suggestionsPlugin({
               query: next.text,
               text: next.fullText,
               decorationNode,
+              virtualNode,
               items: onFilter(items, next.text),
             })
           }
@@ -128,6 +137,7 @@ export function suggestionsPlugin({
               query: next.text,
               text: next.fullText,
               decorationNode,
+              virtualNode,
               items: onFilter(items, next.text),
               command: ({ pos, attrs }) => {
                 command({

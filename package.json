@@ -74,6 +74,7 @@
     "rollup-plugin-vue": "^4.3.2",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.23.0",
+    "tippy.js": "^3.0.3",
     "uglify-js": "^3.4.9",
     "vue": "^2.5.17",
     "vue-loader": "^15.4.1",
