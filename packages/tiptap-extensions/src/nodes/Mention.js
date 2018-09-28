@@ -47,7 +47,7 @@ export default class MentionNode extends Node {
 			suggestionsPlugin({
 				debug: true,
 				matcher: triggerCharacter('@', {
-					allowSpaces: true,
+					allowSpaces: false,
 					startOfLine: false,
 				}),
 				command: ({ pos, attrs, schema }) => {
