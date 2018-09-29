@@ -1,6 +1,6 @@
 {
   "name": "tiptap-commands",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Commands for tiptap",
   "homepage": "https://tiptap.scrumpy.io",
   "license": "MIT",
@@ -23,6 +23,6 @@
     "prosemirror-commands": "^1.0.7",
     "prosemirror-inputrules": "^1.0.1",
     "prosemirror-schema-list": "^1.0.1",
-    "tiptap-utils": "^0.2.4"
+    "tiptap-utils": "^0.3.0"
   }
 }
