@@ -27,8 +27,8 @@
 					{{ user.name }}
 				</div>
 			</template>
-			<div v-else class="suggestion-list__item">
-				No users found.
+			<div v-else class="suggestion-list__item is-empty">
+				No users found
 			</div>
 		</div>
 
@@ -266,6 +266,10 @@ export default {
 		&.is-selected,
 		&:hover {
 			background-color: rgba($color-white, 0.2);
+		}
+
+		&.is-empty {
+			opacity: 0.5;
 		}
 	}
 }
