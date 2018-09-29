@@ -47,8 +47,8 @@ function triggerCharacter({
 						from,
 						to,
 					},
-					text: match[0].slice(char.length),
-					fullText: match[0],
+					query: match[0].slice(char.length),
+					text: match[0],
 				}
 			}
 		}
@@ -90,7 +90,7 @@ export default function SuggestionsPlugin({
 					const moved = prev.active && next.active && prev.range.from !== next.range.from
 					const started = !prev.active && next.active
 					const stopped = prev.active && !next.active
-					const changed = !started && !stopped && prev.text !== next.text
+					const changed = !started && !stopped && prev.query !== next.query
 					const handleStart = started || moved
 					const handleChange = changed && !moved
 					const handleExit = stopped || moved
@@ -116,11 +116,11 @@ export default function SuggestionsPlugin({
 					const props = {
 						view,
 						range: state.range,
-						query: state.text,
-						text: state.fullText,
+						query: state.query,
+						text: state.text,
 						decorationNode,
 						virtualNode,
-						items: onFilter(items, state.text),
+						items: onFilter(items, state.query),
 						command: ({ range, attrs }) => {
 							command({
 								range,
@@ -153,8 +153,8 @@ export default function SuggestionsPlugin({
 				return {
 					active: false,
 					range: {},
+					query: null,
 					text: null,
-					fullText: null,
 				}
 			},
 
@@ -180,8 +180,8 @@ export default function SuggestionsPlugin({
 						next.active = true
 						next.decorationId = prev.decorationId ? prev.decorationId : decorationId
 						next.range = match.range
+						next.query = match.query
 						next.text = match.text
-						next.fullText = match.fullText
 					} else {
 						next.active = false
 					}
@@ -193,8 +193,8 @@ export default function SuggestionsPlugin({
 				if (!next.active) {
 					next.decorationId = null
 					next.range = {}
+					next.query = null
 					next.text = null
-					next.fullText = null
 				}
 
 				return next
