@@ -103,7 +103,20 @@ export default function SuggestionsPlugin({
 					const started = !prev.active && next.active
 					const stopped = prev.active && !next.active
 					const changed = !started && !stopped && prev.text !== next.text
-					const decorationNode = document.querySelector(`[data-decoration-id="${next.decorationId}"]`)
+					const handleStart = started || moved
+					const handleChange = changed && !moved
+					const handleExit = stopped || moved
+
+					// Cancel when suggestion isn't active
+					if (!handleStart && !handleChange && !handleExit) {
+						return
+					}
+
+					const state = handleExit ? prev : next
+					const decorationNode = document.querySelector(`[data-decoration-id="${state.decorationId}"]`)
+
+					// build a virtual node for popper.js or tippy.js
+					// this can be used for building popups without a DOM node
 					const virtualNode = decorationNode ? {
 						getBoundingClientRect() {
 							return decorationNode.getBoundingClientRect()
@@ -112,48 +125,34 @@ export default function SuggestionsPlugin({
 						clientHeight: decorationNode.clientHeight,
 					} : null
 
+					const props = {
+						view,
+						range: state.range,
+						query: state.text,
+						text: state.fullText,
+						decorationNode,
+						virtualNode,
+						items: onFilter(items, state.text),
+						command: ({ range, attrs }) => {
+							command({
+								range,
+								attrs,
+								schema: view.state.schema,
+							})(view.state, view.dispatch, view)
+						},
+					}
+
 					// Trigger the hooks when necessary
-					if (stopped || moved) {
-						onExit({
-							view,
-							range: prev.range,
-							query: prev.text,
-							text: prev.fullText,
-							decorationNode,
-							virtualNode,
-							items: onFilter(items, prev.text),
-						})
+					if (handleExit) {
+						onExit(props)
 					}
 
-					if (changed && !moved) {
-						onChange({
-							view,
-							range: next.range,
-							query: next.text,
-							text: next.fullText,
-							decorationNode,
-							virtualNode,
-							items: onFilter(items, next.text),
-						})
+					if (handleChange) {
+						onChange(props)
 					}
 
-					if (started || moved) {
-						onEnter({
-							view,
-							range: next.range,
-							query: next.text,
-							text: next.fullText,
-							decorationNode,
-							virtualNode,
-							items: onFilter(items, next.text),
-							command: ({ range, attrs }) => {
-								command({
-									range,
-									attrs,
-									schema: view.state.schema,
-								})(view.state, view.dispatch, view)
-							},
-						})
+					if (handleStart) {
+						onEnter(props)
 					}
 				},
 			};
