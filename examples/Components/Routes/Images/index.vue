@@ -2,6 +2,19 @@
 	<div>
 		<editor class="editor" :extensions="extensions">
 
+			<div class="menubar" slot="menubar" slot-scope="{ nodes }">
+				<div v-if="nodes">
+
+					<button
+						class="menubar__button"
+						@click="showImagePrompt(nodes.image.command)"
+					>
+						<icon name="image" />
+					</button>
+
+				</div>
+			</div>
+
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h2>
 					Images
@@ -17,6 +30,7 @@
 </template>
 
 <script>
+import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
 import {
 	HardBreakNode,
@@ -29,6 +43,7 @@ import {
 
 export default {
 	components: {
+		Icon,
 		Editor,
 	},
 	data() {
@@ -42,6 +57,14 @@ export default {
 				new ItalicMark(),
 			],
 		}
+	},
+	methods: {
+		showImagePrompt(command) {
+			const src = prompt('Enter the url of your image here')
+			if (src !== null) {
+				command({ src })
+			}
+		},
 	},
 }
 </script>

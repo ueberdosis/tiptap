@@ -34,6 +34,16 @@ export default class ImageNode extends Node {
 		}
 	}
 
+	command({ type, attrs }) {
+		return (state, dispatch) => {
+			const { selection } = state
+			const position = selection.$cursor ? selection.$cursor.pos : selection.$to.pos
+			const node = type.create(attrs)
+			const transaction = state.tr.insert(position, node)
+			dispatch(transaction)
+		}
+	}
+
 	get plugins() {
 		return [
 			new Plugin({
