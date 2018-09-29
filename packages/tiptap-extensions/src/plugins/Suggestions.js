@@ -8,7 +8,7 @@ import { Decoration, DecorationSet } from 'prosemirror-view';
  * @param {Boolean} allowSpaces
  * @returns {function(*)}
  */
-export function triggerCharacter({
+function triggerCharacter({
   char = '@',
   allowSpaces = false,
   startOfLine = false,
@@ -67,7 +67,7 @@ export function triggerCharacter({
 /**
  * @returns {Plugin}
  */
-export function suggestionsPlugin({
+export default function SuggestionsPlugin({
   matcher = {
     char: '@',
     allowSpaces: false,

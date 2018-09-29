@@ -1,6 +1,6 @@
 import { Node } from 'tiptap'
 import { replaceText } from 'tiptap-commands'
-import { suggestionsPlugin } from '../plugins/suggestions'
+import SuggestionsPlugin from '../plugins/Suggestions'
 
 export default class MentionNode extends Node {
 
@@ -41,7 +41,7 @@ export default class MentionNode extends Node {
 
 	get plugins() {
 		return [
-			suggestionsPlugin({
+			SuggestionsPlugin({
 				suggestionClass: 'mention-suggestion',
 				matcher: {
 					char: '@',
