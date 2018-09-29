@@ -8,6 +8,18 @@ export default class MentionNode extends Node {
 		return 'mention'
 	}
 
+	get defaultOptions() {
+		return {
+			matcher: {
+				char: '@',
+				allowSpaces: false,
+				startOfLine: false,
+			},
+			mentionClass: 'mention',
+			suggestionClass: 'mention-suggestion',
+		}
+	}
+
 	get schema() {
 		return {
 			attrs: {
@@ -21,7 +33,7 @@ export default class MentionNode extends Node {
 			toDOM: node => [
 				'span',
 				{
-					class: 'mention',
+					class: this.options.mentionClass,
 					'data-mention-id': node.attrs.id,
 				},
 				`@${node.attrs.label}`,
@@ -42,21 +54,17 @@ export default class MentionNode extends Node {
 	get plugins() {
 		return [
 			SuggestionsPlugin({
-				suggestionClass: 'mention-suggestion',
-				matcher: {
-					char: '@',
-					allowSpaces: false,
-					startOfLine: false,
-				},
 				command: ({ range, attrs, schema }) => {
 					return replaceText(range, schema.nodes.mention, attrs)
 				},
+				matcher: this.options.matcher,
 				items: this.options.items,
 				onEnter: this.options.onEnter,
 				onChange: this.options.onChange,
 				onExit: this.options.onExit,
 				onKeyDown: this.options.onKeyDown,
 				onFilter: this.options.onFilter,
+				suggestionClass: this.options.suggestionClass,
 			}),
 		]
 	}
