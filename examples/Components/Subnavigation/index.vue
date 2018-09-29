@@ -21,6 +21,9 @@
 		<router-link class="subnavigation__link" to="/todo-list">
 			Todo List
 		</router-link>
+		<router-link class="subnavigation__link" to="/suggestions">
+			Suggestions
+		</router-link>
 		<router-link class="subnavigation__link" to="/markdown-shortcuts">
 			Markdown Shortcuts
 		</router-link>
@@ -32,9 +35,6 @@
 		</router-link>
 		<router-link class="subnavigation__link" to="/embeds">
 			Embeds
-		</router-link>
-		<router-link class="subnavigation__link" to="/suggestions">
-			Suggestions
 		</router-link>
 		<router-link class="subnavigation__link" to="/placeholder">
 			Placeholder
