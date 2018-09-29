@@ -1,4 +1,4 @@
-export default function (pos, type, attrs = {}) {
+export default function (range, type, attrs = {}) {
 	return (state, dispatch) => {
 		const { $from } = state.selection
 		const index = $from.index()
@@ -8,7 +8,7 @@ export default function (pos, type, attrs = {}) {
 		}
 
 		if (dispatch) {
-			dispatch(state.tr.replaceWith(pos.from, pos.to, type.create(attrs)))
+			dispatch(state.tr.replaceWith(range.from, range.to, type.create(attrs)))
 		}
 
 		return true

@@ -184,7 +184,7 @@ export default {
 		// so it's important to pass also the position of your suggestion text
 		selectUser(user) {
 			this.insertMention({
-				replaceRange: this.suggestionRange,
+				range: this.suggestionRange,
 				attrs: {
 					id: user.id,
 					label: user.name,
