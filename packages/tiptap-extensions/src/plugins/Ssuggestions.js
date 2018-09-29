@@ -8,7 +8,11 @@ import { Decoration, DecorationSet } from 'prosemirror-view';
  * @param {Boolean} allowSpaces
  * @returns {function(*)}
  */
-export function triggerCharacter(char, { allowSpaces = false, startOfLine = false }) {
+export function triggerCharacter({
+  char = '@',
+  allowSpaces = false,
+  startOfLine = false,
+}) {
 
   /**
    * @param {ResolvedPos} $position
@@ -24,7 +28,6 @@ export function triggerCharacter(char, { allowSpaces = false, startOfLine = fals
     // Lookup the boundaries of the current node
     const textFrom = $position.before()
     const textTo = $position.end()
-
     const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
 
     let match
@@ -65,7 +68,11 @@ export function triggerCharacter(char, { allowSpaces = false, startOfLine = fals
  * @returns {Plugin}
  */
 export function suggestionsPlugin({
-  matcher = triggerCharacter('#'),
+  matcher = {
+    char: '@',
+    allowSpaces: false,
+		startOfLine: false,
+  },
   suggestionClass = 'suggestion',
   command = () => false,
   items = [],
@@ -188,7 +195,7 @@ export function suggestionsPlugin({
 
           // Try to match against where our cursor currently is
           const $position = selection.$from
-          const match = matcher($position)
+          const match = triggerCharacter(matcher)($position)
           const decorationId = (Math.random() + 1).toString(36).substr(2, 5)
 
           // If we found a match, update the current state to show it

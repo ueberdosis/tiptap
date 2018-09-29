@@ -1,6 +1,6 @@
 import { Node } from 'tiptap'
 import { replaceText } from 'tiptap-commands'
-import { triggerCharacter, suggestionsPlugin } from '../plugins/suggestions'
+import { suggestionsPlugin } from '../plugins/suggestions'
 
 export default class MentionNode extends Node {
 
@@ -43,10 +43,11 @@ export default class MentionNode extends Node {
 		return [
 			suggestionsPlugin({
 				suggestionClass: 'mention-suggestion',
-				matcher: triggerCharacter('@', {
+				matcher: {
+					char: '@',
 					allowSpaces: false,
 					startOfLine: false,
-				}),
+				},
 				command: ({ position, attrs, schema }) => {
 					return replaceText(position, schema.nodes.mention, attrs)
 				},

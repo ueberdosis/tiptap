@@ -20,3 +20,5 @@ export { default as UnderlineMark } from './marks/Underline'
 
 export { default as HistoryExtension } from './extensions/History'
 export { default as PlaceholderExtension } from './extensions/Placeholder'
+
+export { default as SuggestionsPlugin } from './plugins/Suggestions'
