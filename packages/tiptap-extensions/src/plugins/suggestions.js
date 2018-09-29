@@ -139,9 +139,9 @@ export function suggestionsPlugin({
               decorationNode,
               virtualNode,
               items: onFilter(items, next.text),
-              command: ({ pos, attrs }) => {
+              command: ({ position, attrs }) => {
                 command({
-                  pos,
+                  position,
                   attrs,
                   schema: view.state.schema,
                 })(view.state, view.dispatch, view)

@@ -16,19 +16,20 @@
 
 		</editor>
 
-		<div class="suggestion-list" v-show="query || filteredUsers.length" ref="suggestions">
-			<div class="suggestion-list__item" v-if="query && !filteredUsers.length">
+		<div class="suggestion-list" v-show="showSuggestions" ref="suggestions">
+			<template v-if="hasResults">
+				<div
+					v-for="(user, index) in filteredUsers"
+					:key="user.id"
+					class="suggestion-list__item"
+					:class="{ 'is-selected': navigatedUserIndex === index }"
+					@click="selectUser(user)"
+				>
+					{{ user.name }}
+				</div>
+			</template>
+			<div v-else class="suggestion-list__item">
 				No users found.
-			</div>
-			<div
-				v-else
-				v-for="(user, index) in filteredUsers"
-				:key="user.id"
-				@click="selectUser(user)"
-				class="suggestion-list__item"
-				:class="{ 'is-selected': navigatedUserIndex === index }"
-			>
-				{{ user.name }}
 			</div>
 		</div>
 	</div>
@@ -60,40 +61,30 @@ export default {
 				new HeadingNode({ maxLevel: 3 }),
 				new MentionNode({
 					items: [
-						{
-							name: 'Philipp Kühn',
-							id: 1,
-						},
-						{
-							name: 'Hans Pagel',
-							id: 2,
-						},
-						{
-							name: 'Kris Siepert',
-							id: 3,
-						},
-						{
-							name: 'Justin Schüler',
-							id: 4,
-						},
+						{ id: 1, name: 'Philipp Kühn' },
+						{ id: 2, name: 'Hans Pagel' },
+						{ id: 3, name: 'Kris Siepert' },
+						{ id: 4, name: 'Justin Schueler' },
 					],
 					onEnter: ({ items, query, range, command, virtualNode }) => {
 						this.query = query
 						this.filteredUsers = items
-						this.pos = range
+						this.mentionPosition = range
 						this.insertMention = command
 						this.renderPopup(virtualNode)
 					},
 					onChange: ({ items, query, range, virtualNode }) => {
 						this.query = query
 						this.filteredUsers = items
-						this.pos = range
+						this.mentionPosition = range
+						this.navigatedUserIndex = 0
 						this.renderPopup(virtualNode)
 					},
 					onExit: () => {
 						this.query = null
 						this.filteredUsers = []
-						this.pos = null
+						this.mentionPosition = null
+						this.navigatedUserIndex = 0
 						this.destroyPopup()
 					},
 					onKeyDown: ({ event }) => {
@@ -135,11 +126,19 @@ export default {
 				new ItalicMark(),
 			],
 			query: null,
-			pos: null,
+			mentionPosition: null,
 			filteredUsers: [],
 			navigatedUserIndex: 0,
 			insertMention: () => {},
 		}
+	},
+	computed: {
+		hasResults() {
+			return this.filteredUsers.length
+		},
+		showSuggestions() {
+			return this.query || this.hasResults
+		},
 	},
 	methods: {
 		upHandler() {
@@ -157,7 +156,7 @@ export default {
 		},
 		selectUser(user) {
 			this.insertMention({
-				pos: this.pos,
+				position: this.mentionPosition,
 				attrs: {
 					id: user.id,
 					label: user.name,

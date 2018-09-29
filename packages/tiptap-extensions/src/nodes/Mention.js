@@ -47,8 +47,8 @@ export default class MentionNode extends Node {
 					allowSpaces: false,
 					startOfLine: false,
 				}),
-				command: ({ pos, attrs, schema }) => {
-					return replaceText(pos, schema.nodes.mention, attrs)
+				command: ({ position, attrs, schema }) => {
+					return replaceText(position, schema.nodes.mention, attrs)
 				},
 				items: this.options.items,
 				onEnter: this.options.onEnter,
