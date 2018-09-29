@@ -1,5 +1,5 @@
-import { Plugin, PluginKey } from 'prosemirror-state';
-import { Decoration, DecorationSet } from 'prosemirror-view';
+import { Plugin, PluginKey } from 'prosemirror-state'
+import { Decoration, DecorationSet } from 'prosemirror-view'
 
 // Create a matcher that matches when a specific character is typed. Useful for @mentions and #tags.
 function triggerCharacter({
@@ -143,7 +143,7 @@ export default function SuggestionsPlugin({
 						onEnter(props)
 					}
 				},
-			};
+			}
 		},
 
 		state: {
