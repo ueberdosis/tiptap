@@ -223,8 +223,15 @@ export default {
 	&__item {
 		border-radius: 5px;
 		padding: 0.2rem 0.5rem;
+		margin-bottom: 0.2rem;
+		cursor: pointer;
 
-		&.is-selected {
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		&.is-selected,
+		&:hover {
 			background-color: rgba($color-white, 0.2);
 		}
 	}

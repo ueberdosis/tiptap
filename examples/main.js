@@ -62,6 +62,13 @@ const routes = [
     },
   },
   {
+    path: '/suggestions',
+    component: () => import('Components/Routes/Suggestions'),
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Suggestions',
+    },
+  },
+  {
     path: '/markdown-shortcuts',
     component: () => import('Components/Routes/MarkdownShortcuts'),
     meta: {
@@ -87,13 +94,6 @@ const routes = [
     component: () => import('Components/Routes/Embeds'),
     meta: {
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds',
-    },
-  },
-  {
-    path: '/suggestions',
-    component: () => import('Components/Routes/Suggestions'),
-    meta: {
-      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Suggestions',
     },
   },
   {
