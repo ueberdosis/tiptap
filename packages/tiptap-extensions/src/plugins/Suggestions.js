@@ -1,22 +1,13 @@
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 
-/**
- * Create a matcher that matches when a specific character is typed. Useful for @mentions and #tags.
- *
- * @param {String} char
- * @param {Boolean} allowSpaces
- * @returns {function(*)}
- */
+// Create a matcher that matches when a specific character is typed. Useful for @mentions and #tags.
 function triggerCharacter({
 	char = '@',
 	allowSpaces = false,
 	startOfLine = false,
 }) {
 
-	/**
-	 * @param {ResolvedPos} $position
-	 */
 	return $position => {
 		// Matching expressions used for later
 		const suffix = new RegExp(`\\s${char}$`)
@@ -64,9 +55,6 @@ function triggerCharacter({
 	}
 }
 
-/**
- * @returns {Plugin}
- */
 export default function SuggestionsPlugin({
 	matcher = {
 		char: '@',
@@ -159,11 +147,8 @@ export default function SuggestionsPlugin({
 		},
 
 		state: {
-			/**
-			 * Initialize the plugin's internal state.
-			 *
-			 * @returns {Object}
-			 */
+
+			// Initialize the plugin's internal state.
 			init() {
 				return {
 					active: false,
@@ -173,14 +158,7 @@ export default function SuggestionsPlugin({
 				}
 			},
 
-			/**
-			 * Apply changes to the plugin state from a view transaction.
-			 *
-			 * @param {Transaction} tr
-			 * @param {Object} prev
-			 *
-			 * @returns {Object}
-			 */
+			// Apply changes to the plugin state from a view transaction.
 			apply(tr, prev) {
 				const { selection } = tr
 				const next = { ...prev }
@@ -224,13 +202,8 @@ export default function SuggestionsPlugin({
 		},
 
 		props: {
-			/**
-			 * Call the keydown hook if suggestion is active.
-			 *
-			 * @param view
-			 * @param event
-			 * @returns {boolean}
-			 */
+
+			// Call the keydown hook if suggestion is active.
 			handleKeyDown(view, event) {
 				const { active, range } = this.getState(view.state)
 
@@ -239,13 +212,7 @@ export default function SuggestionsPlugin({
 				return onKeyDown({ view, event, range })
 			},
 
-			/**
-			 * Setup decorator on the currently active suggestion.
-			 *
-			 * @param {EditorState} editorState
-			 *
-			 * @returns {?DecorationSet}
-			 */
+			// Setup decorator on the currently active suggestion.
 			decorations(editorState) {
 				const { active, range, decorationId } = this.getState(editorState)
 
