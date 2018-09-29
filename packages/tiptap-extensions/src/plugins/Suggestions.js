@@ -146,9 +146,9 @@ export default function SuggestionsPlugin({
 							decorationNode,
 							virtualNode,
 							items: onFilter(items, next.text),
-							command: ({ position, attrs }) => {
+							command: ({ replaceRange, attrs }) => {
 								command({
-									position,
+									range: replaceRange,
 									attrs,
 									schema: view.state.schema,
 								})(view.state, view.dispatch, view)

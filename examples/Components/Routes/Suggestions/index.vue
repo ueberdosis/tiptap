@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<editor class="editor" :extensions="extensions" ref="editor">
 
+		<editor class="editor" :extensions="extensions" ref="editor">
 			<div class="editor__content" slot="content" slot-scope="props">
 				<h2>
 					Suggestions
@@ -13,7 +13,6 @@
 					This is an example how to mention some users like <span data-mention-id="1">Philipp Kühn</span> or <span data-mention-id="2">Hans Pagel</span>. Try to type <code>@</code> and a popup (rendered with tippy.js) will appear. You can navigate with arrow keys through a list of suggestions.
 				</p>
 			</div>
-
 		</editor>
 
 		<div class="suggestion-list" v-show="showSuggestions" ref="suggestions">
@@ -32,6 +31,7 @@
 				No users found.
 			</div>
 		</div>
+
 	</div>
 </template>
 
@@ -50,43 +50,54 @@ import {
 } from 'tiptap-extensions'
 
 export default {
+
 	components: {
 		Editor,
 		Icon,
 	},
+
 	data() {
 		return {
 			extensions: [
 				new HardBreakNode(),
 				new HeadingNode({ maxLevel: 3 }),
 				new MentionNode({
+					// a list of all suggested items
 					items: [
 						{ id: 1, name: 'Philipp Kühn' },
 						{ id: 2, name: 'Hans Pagel' },
 						{ id: 3, name: 'Kris Siepert' },
 						{ id: 4, name: 'Justin Schueler' },
 					],
+					// is called when a suggestion starts
 					onEnter: ({ items, query, range, command, virtualNode }) => {
 						this.query = query
 						this.filteredUsers = items
-						this.mentionPosition = range
-						this.insertMention = command
+						this.suggestionRange = range
 						this.renderPopup(virtualNode)
+						// we save the command for inserting a selected mention
+						// this allows us to call it inside of our custom popup
+						// via keyboard navigation and on click
+						this.insertMention = command
 					},
+					// is called when a suggestion has changed
 					onChange: ({ items, query, range, virtualNode }) => {
 						this.query = query
 						this.filteredUsers = items
-						this.mentionPosition = range
+						this.suggestionRange = range
 						this.navigatedUserIndex = 0
 						this.renderPopup(virtualNode)
 					},
+					// is called when a suggestion is cancelled
 					onExit: () => {
+						// reset all saved values
 						this.query = null
 						this.filteredUsers = []
-						this.mentionPosition = null
+						this.suggestionRange = null
 						this.navigatedUserIndex = 0
 						this.destroyPopup()
 					},
+					// is called on every keyDown event while a suggestion is active
 					onKeyDown: ({ event }) => {
 						// pressing up arrow
 						if (event.keyCode === 38) {
@@ -106,6 +117,10 @@ export default {
 
 						return false
 					},
+					// is called when a suggestion has changed
+					// this function is optional because there is basic filtering built-in
+					// you can overwrite it if you prefer your own filtering
+					// in this example we use fuse.js with support for fuzzy search
 					onFilter: (items, query) => {
 						if (!query) {
 							return items
@@ -113,9 +128,7 @@ export default {
 
 						const fuse = new Fuse(items, {
 							threshold: 0.2,
-							keys: [
-								'name',
-							],
+							keys: ['name'],
 						})
 
 						return fuse.search(query)
@@ -126,27 +139,39 @@ export default {
 				new ItalicMark(),
 			],
 			query: null,
-			mentionPosition: null,
+			suggestionRange: null,
 			filteredUsers: [],
 			navigatedUserIndex: 0,
 			insertMention: () => {},
 		}
 	},
+
 	computed: {
+
 		hasResults() {
 			return this.filteredUsers.length
 		},
+
 		showSuggestions() {
 			return this.query || this.hasResults
 		},
+
 	},
+
 	methods: {
+
+		// navigate to the previous item
+		// if it's the first item, navigate to the last one
 		upHandler() {
 			this.navigatedUserIndex = ((this.navigatedUserIndex + this.filteredUsers.length) - 1) % this.filteredUsers.length
 		},
+
+		// navigate to the next item
+		// if it's the last item, navigate to the first one
 		downHandler() {
 			this.navigatedUserIndex = (this.navigatedUserIndex + 1) % this.filteredUsers.length
 		},
+
 		enterHandler() {
 			const user = this.filteredUsers[this.navigatedUserIndex]
 
@@ -154,15 +179,21 @@ export default {
 				this.selectUser(user)
 			}
 		},
+
+		// we have to replace our suggestion text with a mention
+		// so it's important to pass also the position of your suggestion text
 		selectUser(user) {
 			this.insertMention({
-				position: this.mentionPosition,
+				replaceRange: this.suggestionRange,
 				attrs: {
 					id: user.id,
 					label: user.name,
 				},
 			})
 		},
+
+		// renders a popup with suggestions
+		// tiptap provides a virtualNode object for using popper.js (or tippy.js) for popups
 		renderPopup(node) {
 			if (this.popup) {
 				return
@@ -182,12 +213,14 @@ export default {
 				arrowType: 'round',
 			})
 		},
+
 		destroyPopup() {
 			if (this.popup) {
 				this.popup.destroyAll()
 				this.popup = null
 			}
 		},
+
 	},
 }
 </script>
