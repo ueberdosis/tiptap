@@ -5,9 +5,9 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "./node_modules/@babel/node/bin/babel-node.js build/examples/server.js --env=development",
-    "build:packages": "./node_modules/@babel/node/bin/babel-node.js build/packages/build.js",
-    "build:examples": "./node_modules/@babel/node/bin/babel-node.js build/examples/build.js --env=production",
+    "start": "cross-env ./node_modules/@babel/node/bin/babel-node.js ./build/examples/server.js --env=development",
+    "build:packages": "cross-env ./node_modules/@babel/node/bin/babel-node.js ./build/packages/build.js",
+    "build:examples": "cross-env ./node_modules/@babel/node/bin/babel-node.js ./build/examples/build.js --env=production",
     "release": "yarn build:packages && lerna publish"
   },
   "babel": {
@@ -43,6 +43,7 @@
     "browser-sync": "^2.24.7",
     "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^4.5.2",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.6.1",
     "eslint-config-airbnb-base": "^13.0.0",
