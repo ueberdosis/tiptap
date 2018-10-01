@@ -58,7 +58,8 @@ export default class ImageNode extends Node {
 								return
 							}
 
-							const images = [...event.dataTransfer.files]
+							const images = Array
+								.from(event.dataTransfer.files)
 								.filter(file => (/image/i).test(file.type))
 
 							if (images.length === 0) {
