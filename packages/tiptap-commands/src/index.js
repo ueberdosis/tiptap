@@ -38,6 +38,7 @@ import {
 	textblockTypeInputRule,
 } from 'prosemirror-inputrules'
 
+import insertText from './commands/insertText'
 import markInputRule from './commands/markInputRule'
 import removeMark from './commands/removeMark'
 import replaceText from './commands/replaceText'
@@ -86,6 +87,7 @@ export {
 	textblockTypeInputRule,
 
 	// custom
+	insertText,
 	markInputRule,
 	removeMark,
 	replaceText,
