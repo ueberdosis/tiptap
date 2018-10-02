@@ -190,6 +190,7 @@ export default {
 					label: user.name,
 				},
 			})
+			this.$refs.editor.focus()
 		},
 
 		// renders a popup with suggestions
