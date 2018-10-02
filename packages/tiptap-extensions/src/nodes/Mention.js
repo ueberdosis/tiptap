@@ -55,6 +55,7 @@ export default class MentionNode extends Node {
 		return [
 			SuggestionsPlugin({
 				command: ({ range, attrs, schema }) => replaceText(range, schema.nodes.mention, attrs),
+				appendText: ' ',
 				matcher: this.options.matcher,
 				items: this.options.items,
 				onEnter: this.options.onEnter,

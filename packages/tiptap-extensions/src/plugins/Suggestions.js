@@ -1,5 +1,6 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
+import { insertText } from 'tiptap-commands'
 
 // Create a matcher that matches when a specific character is typed. Useful for @mentions and #tags.
 function triggerCharacter({
@@ -61,6 +62,7 @@ export default function SuggestionsPlugin({
 		allowSpaces: false,
 		startOfLine: false,
 	},
+	appendText = null,
 	suggestionClass = 'suggestion',
 	command = () => false,
 	items = [],
@@ -127,6 +129,10 @@ export default function SuggestionsPlugin({
 								attrs,
 								schema: view.state.schema,
 							})(view.state, view.dispatch, view)
+
+							if (appendText) {
+								insertText(appendText)(view.state, view.dispatch, view)
+							}
 						},
 					}
 
