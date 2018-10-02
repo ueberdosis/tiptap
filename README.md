@@ -7,7 +7,7 @@ A renderless and extendable rich-text editor for [Vue.js](https://github.com/vue
 [![](https://img.badgesize.io/https://unpkg.com/tiptap/dist/tiptap.min.js?compression=gzip&label=size&colorB=000000)](https://www.npmjs.com/package/tiptap)
 
 ## Why I built tiptap
-I was looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn't really satisfy me. The editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. I came across [Prosemirror](https://github.com/prosemirror) and decided to build on it. Prosemirror is a toolkit for building rich-text editors that is already in use at many well-known companies such as *Atlassian* or *New York Times*.
+I was looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn't really satisfy me. The editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. I came across [Prosemirror](https://github.com/prosemirror) and decided to build on it. Prosemirror is a toolkit for building rich-text editors that are already in use at many well-known companies such as *Atlassian* or *New York Times*.
 
 ### What means `renderless`?
 
@@ -15,7 +15,7 @@ Will renderless components you'll have (almost) full control over markup and sty
 
 ### How is the data stored under the hood?
 
-You can save your data as a raw `HTML` string or can get a `JSON`-serializeable representation of your document. And of course you can pass these two types back to the editor.
+You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can pass these two types back to the editor.
 
 ## Examples
 To check out some live examples, visit [tiptap.scrumpy.io](https://tiptap.scrumpy.io/).
@@ -83,7 +83,7 @@ The `menubar` and `menububble` slot will receive some properties.
 
 ## Extensions
 
-By default the editor will only support paragraphs. Other nodes and marks are available as **extensions**. There is a package called `tiptap-extensions` with the most basic nodes, marks and plugins.
+By default, the editor will only support paragraphs. Other nodes and marks are available as **extensions**. There is a package called `tiptap-extensions` with the most basic nodes, marks, and plugins.
 
 ### Available Extensions
 
@@ -165,7 +165,7 @@ The most powerful feature of tiptap is that you can create your own extensions. 
 | **Type** | **Description** |
 | --- | --- |
 | `Extension` | The most basic type. It's useful to register some [Prosemirror plugins](https://prosemirror.net/docs/guide/) or some input rules. |
-| `Node` | Add a custom node. Nodes are basically block elements like a headline or a paragraph. |
+| `Node` | Add a custom node. Nodes are block elements like a headline or a paragraph. |
 | `Mark` | Add a custom mark. Marks are used to add extra styling or other information to inline content like a strong tag or links. |
 
 ### Extension Class
@@ -253,7 +253,7 @@ export default class BlockquoteNode extends Node {
 
 ### Create a Node as a Vue Component
 
-The real power of the nodes comes in combination with Vue components. Lets build an iframe node, where you can change its url (this can also be found in our [examples](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds)).
+The real power of the nodes comes in combination with Vue components. Let us build an iframe node, where you can change its URL (this can also be found in our [examples](https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Embeds)).
 
 ```js
 import { Node } from 'tiptap'
@@ -371,10 +371,10 @@ export default {
 
 ## Development Setup
 
-Currently only Yarn is supported for development because of a feature called workspaces we are using here.
+Currently, only Yarn is supported for development because of a feature called workspaces we are using here.
 
 ``` bash
-# install deps
+# install dependencies
 yarn install
 
 # serve examples at localhost:3000
