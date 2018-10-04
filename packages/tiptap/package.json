@@ -19,10 +19,6 @@
   "bugs": {
     "url": "https://github.com/heyscrumpy/tiptap/issues"
   },
-  "devDependencies": {
-    "vue": "^2.5.17",
-    "vue-template-compiler": "^2.5.17"
-  },
   "dependencies": {
     "prosemirror-commands": "^1.0.7",
     "prosemirror-gapcursor": "^1.0.2",
@@ -33,5 +29,9 @@
     "prosemirror-view": "^1.6.0",
     "tiptap-commands": "^0.5.0",
     "tiptap-utils": "^0.3.0"
+  },
+  "peerDependencies": {
+    "vue": "^2.5.17",
+    "vue-template-compiler": "^2.5.17"
   }
 }
