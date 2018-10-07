@@ -60,8 +60,11 @@ export default class ComponentView {
 		return true
 	}
 
-	stopEvent() {
-		return true
+	stopEvent(event) {
+		// TODO: find a way to pass full extensions to ComponentView
+		// so we could check for schema.draggable
+		// for now we're allowing all drag events for node views
+		return !/drag/.test(event.type)
 	}
 
 	update(node, decorations) {
