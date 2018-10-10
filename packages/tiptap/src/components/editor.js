@@ -32,6 +32,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		watchDoc: {
+			type: Boolean,
+			default: true,
+		},
 	},
 
 	data() {
@@ -61,7 +65,9 @@ export default {
 		doc: {
 			deep: true,
 			handler() {
-				this.setContent(this.doc, true)
+				if (this.watchDoc) {
+					this.setContent(this.doc, true)
+				}
 			},
 		},
 
