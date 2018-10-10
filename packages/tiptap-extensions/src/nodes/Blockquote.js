@@ -1,5 +1,5 @@
-import { Node, Plugin } from 'tiptap'
-import { wrappingInputRule, wrapIn } from 'tiptap-commands'
+import { Node } from 'tiptap'
+import { wrappingInputRule, toggleWrap } from 'tiptap-commands'
 
 export default class BlockquoteNode extends Node {
 
@@ -9,7 +9,7 @@ export default class BlockquoteNode extends Node {
 
 	get schema() {
 		return {
-			content: 'block+',
+			content: 'block*',
 			group: 'block',
 			defining: true,
 			draggable: false,
@@ -20,13 +20,13 @@ export default class BlockquoteNode extends Node {
 		}
 	}
 
-	command({ type }) {
-		return wrapIn(type)
+	command({ type, schema }) {
+		return toggleWrap(type, schema.nodes.paragraph)
 	}
 
 	keys({ type }) {
 		return {
-			'Ctrl->': wrapIn(type),
+			'Ctrl->': toggleWrap(type),
 		}
 	}
 

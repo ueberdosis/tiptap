@@ -46,6 +46,7 @@ import setInlineBlockType from './commands/setInlineBlockType'
 import splitToDefaultListItem from './commands/splitToDefaultListItem'
 import toggleBlockType from './commands/toggleBlockType'
 import toggleList from './commands/toggleList'
+import toggleWrap from './commands/toggleWrap'
 import updateMark from './commands/updateMark'
 
 export {
@@ -95,5 +96,6 @@ export {
 	splitToDefaultListItem,
 	toggleBlockType,
 	toggleList,
+	toggleWrap,
 	updateMark,
 }
