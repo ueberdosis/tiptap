@@ -15,7 +15,7 @@ export default class BoldMark extends Mark {
 				},
 				{
 					tag: 'b',
-					getAttrs: node => node.style.fontWeight != 'normal' && null,
+					getAttrs: node => node.style.fontWeight !== 'normal' && null,
 				},
 				{
 					style: 'font-weight',
@@ -38,7 +38,7 @@ export default class BoldMark extends Mark {
 
 	inputRules({ type }) {
 		return [
-			markInputRule(/(?:\*\*|__)([^\*_]+)(?:\*\*|__)$/, type),
+			markInputRule(/(?:\*\*|__)([^*_]+)(?:\*\*|__)$/, type),
 		]
 	}
 
