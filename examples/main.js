@@ -27,6 +27,13 @@ const routes = [
     },
   },
   {
+    path: '/floating-menu',
+    component: () => import('Components/Routes/FloatingMenu'),
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/FloatingMenu',
+    },
+  },
+  {
     path: '/links',
     component: () => import('Components/Routes/Links'),
     meta: {

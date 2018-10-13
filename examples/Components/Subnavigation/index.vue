@@ -6,6 +6,9 @@
 		<router-link class="subnavigation__link" to="/menu-bubble">
 			Menu Bubble
 		</router-link>
+		<router-link class="subnavigation__link" to="/floating-menu">
+			Floating Menu
+		</router-link>
 		<router-link class="subnavigation__link" to="/links">
 			Links
 		</router-link>

@@ -11,6 +11,7 @@ import {
 	ExtensionManager,
 	initNodeViews,
 	menuBubble,
+	floatingMenu,
 	builtInKeymap,
 } from '../utils'
 import builtInNodes from '../nodes'
@@ -98,6 +99,14 @@ export default {
 						focus: this.focus,
 					})
 					slots.push(this.menububbleNode)
+				} else if (name === 'floatingMenu') {
+					this.floatingMenuNode = slot({
+						nodes: this.menuActions ? this.menuActions.nodes : null,
+						marks: this.menuActions ? this.menuActions.marks : null,
+						focused: this.view ? this.view.focused : false,
+						focus: this.focus,
+					})
+					slots.push(this.floatingMenuNode)
 				}
 			})
 
@@ -194,6 +203,10 @@ export default {
 
 			if (this.menububbleNode) {
 				plugins.push(menuBubble(this.menububbleNode))
+			}
+
+			if (this.floatingMenuNode) {
+				plugins.push(floatingMenu(this.floatingMenuNode))
 			}
 
 			return plugins
