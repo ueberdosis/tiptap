@@ -1,4 +1,4 @@
-export const javascript = `function $initHighlight(block, flags) {
+export const JavaScriptExample = `function $initHighlight(block, flags) {
   try {
     if (block.className.search(/\bno\-highlight\b/) != -1)
       return processBlock(block, true, 0x0F) + ' class=""';
@@ -11,7 +11,7 @@ export const javascript = `function $initHighlight(block, flags) {
   }
 }`
 
-export const css = `@font-face {
+export const CSSExample = `@font-face {
   font-family: Chunkfive; src: url('Chunkfive.otf');
 }
 
@@ -28,12 +28,12 @@ body, .usertext {
 }`
 
 
-export const explicitImportExample = `import javascript from 'highlight.js/lib/languages/javascript'
+export const ExplicitImportExample = `import javascript from 'highlight.js/lib/languages/javascript'
 import { Editor } from 'tiptap'
 
 export default {
   components: {
-    Editor
+    Editor,
   },
   data() {
     return {
@@ -41,8 +41,8 @@ export default {
         new CodeBlockHighlightNode({
           languages: {
             javascript,
-            css
-          }
+            css,
+          },
         })
       ]
     }

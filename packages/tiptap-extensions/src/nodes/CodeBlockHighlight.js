@@ -12,7 +12,7 @@ function getDecorations(doc) {
 
 	const flatten = list => list.reduce(
 		(a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), [],
-    )
+		)
 
 	function parseNodes(nodes, className = []) {
 		return nodes.map(node => {
@@ -63,23 +63,22 @@ function getDecorations(doc) {
 
 export default class CodeBlockHighlightNode extends Node {
 
-    constructor(options = {}) {
-        super(options)
-        try {
-            Object.entries(this.options.languages).forEach(entry => {
-                const [name, mapping] = entry
-                low.registerLanguage(name, mapping)
-            })
-        } catch (err) {
-            throw new Error('Invalid syntax highlight definitions: define at least one highlight.js language mapping')
-        }
-    }
+	constructor(options = {}) {
+		super(options)
+		try {
+			Object.entries(this.options.languages).forEach(([name, mapping]) => {
+				low.registerLanguage(name, mapping)
+			})
+		} catch (err) {
+			throw new Error('Invalid syntax highlight definitions: define at least one highlight.js language mapping')
+		}
+	}
 
-    get defaultOptions() {
-        return {
-            languages: {},
-        }
-    }
+	get defaultOptions() {
+		return {
+			languages: {},
+		}
+	}
 
 	get name() {
 		return 'code_block'
