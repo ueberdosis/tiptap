@@ -26,3 +26,25 @@ body, .usertext {
     content: attr(href)
   }
 }`
+
+
+export const explicitImportExample = `import javascript from 'highlight.js/lib/languages/javascript'
+import { Editor } from 'tiptap'
+
+export default {
+  components: {
+    Editor
+  },
+  data() {
+    return {
+      extensions: [
+        new CodeBlockHighlightNode({
+          languages: {
+            javascript,
+            css
+          }
+        })
+      ]
+    }
+  }
+}`;
