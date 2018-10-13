@@ -28,7 +28,9 @@ export default function ({ schema, state, commands }) {
 				command,
 			}
 		})
-		.reduce((actions, { name, active, attrs, command }) => ({
+		.reduce((actions, {
+ name, active, attrs, command,
+}) => ({
 			...actions,
 			[name]: {
 				active,

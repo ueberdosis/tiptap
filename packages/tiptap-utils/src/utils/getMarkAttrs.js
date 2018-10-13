@@ -6,7 +6,7 @@ export default function (state, type) {
 		marks = [...marks, ...node.marks]
 	})
 
-	const mark = marks.find(mark => mark.type.name === type.name)
+	const mark = marks.find(markItem => markItem.type.name === type.name)
 
 	if (mark) {
 		return mark.attrs
