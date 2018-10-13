@@ -9,8 +9,14 @@
 				<p>
 					These are code blocks with <strong>automatic syntax highlighting</strong> based on highlight.js.
 				</p>
-				<pre><code v-html="javascript"></code></pre>
-				<pre><code v-html="css"></code></pre>
+				<pre><code v-html="jsExample"></code></pre>
+				<pre><code v-html="cssExample"></code></pre>
+
+				<p>
+					Note: tiptap doesn't import syntax highlighting language definitions from highlight.js. You
+					<strong>must</strong> import them and initialize the extension with all languages you want to support:
+				</p>
+				<pre><code v-html="explicitImportExample"></code></pre>
 			</div>
 
 		</editor>
@@ -18,6 +24,9 @@
 </template>
 
 <script>
+import javascript from 'highlight.js/lib/languages/javascript'
+import css from 'highlight.js/lib/languages/css'
+
 import { Editor } from 'tiptap'
 import {
 	CodeBlockHighlightNode,
@@ -29,8 +38,9 @@ import {
 } from 'tiptap-extensions'
 
 import {
-	javascript,
-	css,
+	javascript as jsExample,
+	css as cssExample,
+	explicitImportExample
 } from './examples'
 
 export default {
@@ -40,15 +50,21 @@ export default {
 	data() {
 		return {
 			extensions: [
-				new CodeBlockHighlightNode(),
+				new CodeBlockHighlightNode({
+					languages: {
+						javascript,
+						css
+					}
+				}),
 				new HardBreakNode(),
 				new HeadingNode({ maxLevel: 3 }),
 				new BoldMark(),
 				new CodeMark(),
 				new ItalicMark(),
 			],
-			javascript,
-			css,
+			jsExample,
+			cssExample,
+			explicitImportExample,
 		}
 	},
 }
