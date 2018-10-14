@@ -119,6 +119,7 @@ export default {
 	&__floating-menu {
 		position: absolute;
 		margin-top: -0.25rem;
+		transition: opacity 0.2s, visibility 0.2s;
 	}
 
 }
