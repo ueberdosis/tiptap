@@ -45,6 +45,22 @@
 						<icon name="ol" />
 					</button>
 
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.blockquote.active() }"
+						@click="nodes.blockquote.command"
+					>
+						<icon name="quote" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.code_block.active() }"
+						@click="nodes.code_block.command"
+					>
+						<icon name="code" />
+					</button>
+
 				</template>
 			</div>
 
