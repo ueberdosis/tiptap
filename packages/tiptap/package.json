@@ -8,9 +8,11 @@
   "module": "dist/tiptap.esm.js",
   "unpkg": "dist/tiptap.js",
   "jsdelivr": "dist/tiptap.js",
+  "types": "types/index.d.ts",
   "files": [
     "src",
-    "dist"
+    "dist",
+    "types/*.d.ts"
   ],
   "repository": {
     "type": "git",
@@ -20,6 +22,7 @@
     "url": "https://github.com/heyscrumpy/tiptap/issues"
   },
   "dependencies": {
+    "@types/prosemirror-state": "^1.2.0",
     "prosemirror-commands": "^1.0.7",
     "prosemirror-gapcursor": "^1.0.3",
     "prosemirror-inputrules": "^1.0.1",
