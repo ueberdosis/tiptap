@@ -1,5 +1,7 @@
-export { default as Editor } from './components/editor'
-export { default as Extension } from './utils/extension'
-export { default as Node } from './utils/node'
-export { default as Mark } from './utils/mark'
-export { default as Plugin } from './utils/plugin'
+export { default as Editor } from './Utils/Editor'
+export { default as EditorContent } from './Components/EditorContent'
+
+export { default as Extension } from './Utils/Extension'
+export { default as Node } from './Utils/Node'
+export { default as Mark } from './Utils/Mark'
+export { default as Plugin } from './Utils/Plugin'

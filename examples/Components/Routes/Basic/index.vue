@@ -1,6 +1,11 @@
 <template>
 	<div>
-		<editor class="editor" :extensions="extensions">
+
+		<div class="editor">
+			<editor-content class="editor__content" :editor="editor" />
+		</div>
+
+		<!-- <editor class="editor" :extensions="extensions">
 
 			<div class="menubar" slot="menubar" slot-scope="{ nodes, marks }">
 				<div v-if="nodes && marks">
@@ -135,57 +140,71 @@
 				</blockquote>
 			</div>
 
-		</editor>
+		</editor> -->
 	</div>
 </template>
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor } from 'tiptap'
-import {
-	BlockquoteNode,
-	BulletListNode,
-	CodeBlockNode,
-	HardBreakNode,
-	HeadingNode,
-	ListItemNode,
-	OrderedListNode,
-	TodoItemNode,
-	TodoListNode,
-	BoldMark,
-	CodeMark,
-	ItalicMark,
-	LinkMark,
-	StrikeMark,
-	UnderlineMark,
-	HistoryExtension,
-} from 'tiptap-extensions'
+import { Editor, EditorContent } from 'tiptap'
+// import {
+// 	BlockquoteNode,
+// 	BulletListNode,
+// 	CodeBlockNode,
+// 	HardBreakNode,
+// 	HeadingNode,
+// 	ListItemNode,
+// 	OrderedListNode,
+// 	TodoItemNode,
+// 	TodoListNode,
+// 	BoldMark,
+// 	CodeMark,
+// 	ItalicMark,
+// 	LinkMark,
+// 	StrikeMark,
+// 	UnderlineMark,
+// 	HistoryExtension,
+// } from 'tiptap-extensions'
 
 export default {
 	components: {
-		Editor,
+		EditorContent,
 		Icon,
 	},
 	data() {
 		return {
-			extensions: [
-				new BlockquoteNode(),
-				new BulletListNode(),
-				new CodeBlockNode(),
-				new HardBreakNode(),
-				new HeadingNode({ maxLevel: 3 }),
-				new ListItemNode(),
-				new OrderedListNode(),
-				new TodoItemNode(),
-				new TodoListNode(),
-				new BoldMark(),
-				new CodeMark(),
-				new ItalicMark(),
-				new LinkMark(),
-				new StrikeMark(),
-				new UnderlineMark(),
-				new HistoryExtension(),
-			],
+			editor: new Editor({
+				extensions: [
+					// new BlockquoteNode(),
+					// new BulletListNode(),
+					// new CodeBlockNode(),
+					// new HardBreakNode(),
+					// new HeadingNode({ maxLevel: 3 }),
+					// new ListItemNode(),
+					// new OrderedListNode(),
+					// new TodoItemNode(),
+					// new TodoListNode(),
+					// new BoldMark(),
+					// new CodeMark(),
+					// new ItalicMark(),
+					// new LinkMark(),
+					// new StrikeMark(),
+					// new UnderlineMark(),
+					// new HistoryExtension(),
+				],
+				content: {
+					type: 'doc',
+					content: [{
+						type: 'paragraph',
+						content: [
+							{
+								type: 'text',
+								text: 'This is some inserted text. 👋',
+							},
+						],
+					}],
+				},
+			}),
 		}
 	},
 }

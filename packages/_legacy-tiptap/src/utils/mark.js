@@ -1,4 +1,4 @@
-import Extension from './Extension'
+import Extension from './extension'
 
 export default class Mark extends Extension {
 

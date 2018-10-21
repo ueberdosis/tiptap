@@ -1,4 +1,4 @@
-import Node from '../Utils/Node'
+import Node from '../utils/node'
 
 export default class TextNode extends Node {
 
