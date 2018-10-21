@@ -137,9 +137,7 @@ export default class Editor {
 	}
 
 	createView() {
-		this.element.style.whiteSpace = 'pre-wrap'
-
-		return new EditorView(this.element, {
+		const view = new EditorView(this.element, {
 			state: this.state,
 			dispatchTransaction: this.dispatchTransaction.bind(this),
 			nodeViews: initNodeViews({
@@ -147,6 +145,10 @@ export default class Editor {
 				editable: this.options.editable,
 			}),
 		})
+
+		view.dom.style.whiteSpace = 'pre-wrap'
+
+		return view
 	}
 
 	dispatchTransaction(transaction) {
