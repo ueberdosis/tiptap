@@ -8,7 +8,7 @@ import { baseKeymap } from 'prosemirror-commands'
 import { inputRules } from 'prosemirror-inputrules'
 
 import {
-	// buildMenuActions,
+	buildMenuActions,
 	ExtensionManager,
 	initNodeViews,
 	// menuBubble,
@@ -36,6 +36,7 @@ export default class Editor {
 		this.state = this.createState()
 		this.view = this.createView()
 		this.commands = this.createCommands()
+		this.updateMenuActions()
 
 		this.emit('init')
 	}
@@ -151,7 +152,7 @@ export default class Editor {
 	dispatchTransaction(transaction) {
 		this.state = this.state.apply(transaction)
 		this.view.updateState(this.state)
-		// this.updateMenuActions()
+		this.updateMenuActions()
 
 		if (!transaction.docChanged) {
 			return
@@ -220,6 +221,14 @@ export default class Editor {
 				type: 'paragraph',
 			}],
 		}, emitUpdate)
+	}
+
+	updateMenuActions() {
+		this.menuActions = buildMenuActions({
+			schema: this.schema,
+			state: this.view.state,
+			commands: this.commands,
+		})
 	}
 
 	focus() {

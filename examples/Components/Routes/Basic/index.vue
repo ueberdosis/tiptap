@@ -2,6 +2,117 @@
 	<div>
 
 		<div class="editor">
+
+			<menu-bar class="menubar" :editor="editor">
+				<template slot-scope="{ nodes, marks }">
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': marks.bold.active() }"
+						@click="marks.bold.command"
+					>
+						<icon name="bold" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': marks.italic.active() }"
+						@click="marks.italic.command"
+					>
+						<icon name="italic" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': marks.strike.active() }"
+						@click="marks.strike.command"
+					>
+						<icon name="strike" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': marks.underline.active() }"
+						@click="marks.underline.command"
+					>
+						<icon name="underline" />
+					</button>
+
+					<button
+						class="menubar__button"
+						@click="marks.code.command"
+						:class="{ 'is-active': marks.code.active() }
+					">
+						<icon name="code" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.paragraph.active() }"
+						@click="nodes.paragraph.command"
+					>
+						<icon name="paragraph" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.heading.active({ level: 1 }) }"
+						@click="nodes.heading.command({ level: 1 })"
+					>
+						H1
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.heading.active({ level: 2 }) }"
+						@click="nodes.heading.command({ level: 2 })"
+					>
+						H2
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.heading.active({ level: 3 }) }"
+						@click="nodes.heading.command({ level: 3 })"
+					>
+						H3
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.bullet_list.active() }"
+						@click="nodes.bullet_list.command"
+					>
+						<icon name="ul" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.ordered_list.active() }"
+						@click="nodes.ordered_list.command"
+					>
+						<icon name="ol" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.blockquote.active() }"
+						@click="nodes.blockquote.command"
+					>
+						<icon name="quote" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.code_block.active() }"
+						@click="nodes.code_block.command"
+					>
+						<icon name="code" />
+					</button>
+
+				</template>
+			</menu-bar>
+
 			<editor-content class="editor__content" :editor="editor" />
 		</div>
 
@@ -146,7 +257,7 @@
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor, EditorContent } from 'tiptap'
+import { Editor, EditorContent, MenuBar } from 'tiptap'
 import {
 	BlockquoteNode,
 	BulletListNode,
@@ -169,6 +280,7 @@ import {
 export default {
 	components: {
 		EditorContent,
+		MenuBar,
 		Icon,
 	},
 	data() {
