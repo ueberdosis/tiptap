@@ -10,10 +10,10 @@ import { inputRules } from 'prosemirror-inputrules'
 import {
 	// buildMenuActions,
 	ExtensionManager,
-	// initNodeViews,
+	initNodeViews,
 	// menuBubble,
 	// floatingMenu,
-	// builtInKeymap,
+	builtInKeymap,
 } from '../Utils'
 
 import builtInNodes from '../Nodes'
@@ -21,8 +21,6 @@ import builtInNodes from '../Nodes'
 export default class Editor {
 
 	constructor(options = {}) {
-		console.log('construct editor')
-
 		this.element = document.createElement('div')
 		this.bus = new Vue()
 
@@ -30,14 +28,16 @@ export default class Editor {
 		this.extensions = this.createExtensions()
 		this.nodes = this.createNodes()
 		this.marks = this.createMarks()
+		this.views = this.createViews()
 		this.schema = this.createSchema()
+		this.plugins = this.createPlugins()
+		this.keymaps = this.createKeymaps()
+		this.inputRules = this.createInputRules()
 		this.state = this.createState()
 		this.view = this.createView()
+		this.commands = this.createCommands()
 
-		console.log('emit init')
 		this.emit('init')
-
-		console.log(this.view)
 	}
 
 	createExtensions() {
@@ -47,13 +47,39 @@ export default class Editor {
 		])
 	}
 
+	createPlugins() {
+		return this.extensions.plugins
+	}
+
+	createKeymaps() {
+		return this.extensions.keymaps({
+			schema: this.schema,
+		})
+	}
+
+	createInputRules() {
+		return this.extensions.inputRules({
+			schema: this.schema,
+		})
+	}
+
+	createCommands() {
+		return this.extensions.commands({
+			schema: this.schema,
+			view: this.view,
+		})
+	}
+
 	createNodes() {
-		const { nodes } = this.extensions
-		return nodes
+		return this.extensions.nodes
 	}
 
 	createMarks() {
-		return []
+		return this.extensions.marks
+	}
+
+	createViews() {
+		return this.extensions.views
 	}
 
 	createSchema() {
@@ -67,7 +93,38 @@ export default class Editor {
 		return EditorState.create({
 			schema: this.schema,
 			doc: this.createDocument(this.options.content),
+			plugins: [
+				...this.plugins,
+				...this.getPlugins(),
+			],
 		})
+	}
+
+	getPlugins() {
+		const plugins = [
+			inputRules({
+				rules: this.inputRules,
+			}),
+			...this.keymaps,
+			keymap(builtInKeymap),
+			keymap(baseKeymap),
+			gapCursor(),
+			new Plugin({
+				props: {
+					editable: () => this.options.editable,
+				},
+			}),
+		]
+
+		// if (this.menububbleNode) {
+		// 	plugins.push(menuBubble(this.menububbleNode))
+		// }
+
+		// if (this.floatingMenuNode) {
+		// 	plugins.push(floatingMenu(this.floatingMenuNode))
+		// }
+
+		return plugins
 	}
 
 	createDocument(content) {
@@ -84,10 +141,10 @@ export default class Editor {
 		return new EditorView(this.element, {
 			state: this.state,
 			dispatchTransaction: this.dispatchTransaction.bind(this),
-			// nodeViews: initNodeViews({
-			// 	nodes: this.views,
-			// 	editable: this.editable,
-			// }),
+			nodeViews: initNodeViews({
+				nodes: this.views,
+				editable: this.options.editable,
+			}),
 		})
 	}
 
@@ -123,12 +180,66 @@ export default class Editor {
 		return div.innerHTML
 	}
 
+	getJSON() {
+		return this.state.doc.toJSON()
+	}
+
+	getDocFromContent(content) {
+		if (typeof content === 'object') {
+			return this.schema.nodeFromJSON(content)
+		}
+
+		if (typeof content === 'string') {
+			const element = document.createElement('div')
+			element.innerHTML = content.trim()
+
+			return DOMParser.fromSchema(this.schema).parse(element)
+		}
+
+		return false
+	}
+
+	setContent(content = {}, emitUpdate = false) {
+		this.state = EditorState.create({
+			schema: this.state.schema,
+			doc: this.getDocFromContent(content),
+			plugins: this.state.plugins,
+		})
+
+		this.view.updateState(this.state)
+
+		if (emitUpdate) {
+			this.emitUpdate()
+		}
+	}
+
+	clearContent(emitUpdate = false) {
+		this.setContent({
+			type: 'doc',
+			content: [{
+				type: 'paragraph',
+			}],
+		}, emitUpdate)
+	}
+
+	focus() {
+		this.view.focus()
+	}
+
 	emit(event, ...data) {
 		this.bus.$emit(event, ...data)
 	}
 
 	on(event, callback) {
 		this.bus.$on(event, callback)
+	}
+
+	destroy() {
+		this.emit('destroy')
+
+		if (this.view) {
+			this.view.destroy()
+		}
 	}
 
 }

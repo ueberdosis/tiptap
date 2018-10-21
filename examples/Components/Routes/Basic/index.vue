@@ -147,24 +147,24 @@
 <script>
 import Icon from 'Components/Icon'
 import { Editor, EditorContent } from 'tiptap'
-// import {
-// 	BlockquoteNode,
-// 	BulletListNode,
-// 	CodeBlockNode,
-// 	HardBreakNode,
-// 	HeadingNode,
-// 	ListItemNode,
-// 	OrderedListNode,
-// 	TodoItemNode,
-// 	TodoListNode,
-// 	BoldMark,
-// 	CodeMark,
-// 	ItalicMark,
-// 	LinkMark,
-// 	StrikeMark,
-// 	UnderlineMark,
-// 	HistoryExtension,
-// } from 'tiptap-extensions'
+import {
+	BlockquoteNode,
+	BulletListNode,
+	CodeBlockNode,
+	HardBreakNode,
+	HeadingNode,
+	ListItemNode,
+	OrderedListNode,
+	TodoItemNode,
+	TodoListNode,
+	BoldMark,
+	CodeMark,
+	ItalicMark,
+	LinkMark,
+	StrikeMark,
+	UnderlineMark,
+	HistoryExtension,
+} from 'tiptap-extensions'
 
 export default {
 	components: {
@@ -174,23 +174,24 @@ export default {
 	data() {
 		return {
 			editor: new Editor({
+				editable: true,
 				extensions: [
-					// new BlockquoteNode(),
-					// new BulletListNode(),
-					// new CodeBlockNode(),
-					// new HardBreakNode(),
-					// new HeadingNode({ maxLevel: 3 }),
-					// new ListItemNode(),
-					// new OrderedListNode(),
-					// new TodoItemNode(),
-					// new TodoListNode(),
-					// new BoldMark(),
-					// new CodeMark(),
-					// new ItalicMark(),
-					// new LinkMark(),
-					// new StrikeMark(),
-					// new UnderlineMark(),
-					// new HistoryExtension(),
+					new BlockquoteNode(),
+					new BulletListNode(),
+					new CodeBlockNode(),
+					new HardBreakNode(),
+					new HeadingNode({ maxLevel: 3 }),
+					new ListItemNode(),
+					new OrderedListNode(),
+					new TodoItemNode(),
+					new TodoListNode(),
+					new BoldMark(),
+					new CodeMark(),
+					new ItalicMark(),
+					new LinkMark(),
+					new StrikeMark(),
+					new UnderlineMark(),
+					new HistoryExtension(),
 				],
 				content: {
 					type: 'doc',
