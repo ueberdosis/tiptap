@@ -1,9 +1,8 @@
 <template>
-	<div>
-		<editor class="editor" :extensions="extensions">
-
-			<div class="menubar is-hidden" :class="{ 'is-focused': focused }" slot="menubar" slot-scope="{ nodes, marks, focused }">
-				<div v-if="nodes && marks">
+	<div class="editor">
+		<menu-bar :editor="editor">
+			<template slot-scope="{ nodes, marks, focused }">
+				<div class="menubar is-hidden" :class="{ 'is-focused': focused }">
 
 					<button
 						class="menubar__button"
@@ -19,6 +18,22 @@
 						@click="marks.italic.command"
 					>
 						<icon name="italic" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': marks.strike.active() }"
+						@click="marks.strike.command"
+					>
+						<icon name="strike" />
+					</button>
+
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': marks.underline.active() }"
+						@click="marks.underline.command"
+					>
+						<icon name="underline" />
 					</button>
 
 					<button
@@ -79,6 +94,14 @@
 
 					<button
 						class="menubar__button"
+						:class="{ 'is-active': nodes.blockquote.active() }"
+						@click="nodes.blockquote.command"
+					>
+						<icon name="quote" />
+					</button>
+
+					<button
+						class="menubar__button"
 						:class="{ 'is-active': nodes.code_block.active() }"
 						@click="nodes.code_block.command"
 					>
@@ -86,24 +109,16 @@
 					</button>
 
 				</div>
-			</div>
+			</template>
+		</menu-bar>
 
-			<div class="editor__content" slot="content" slot-scope="props">
-				<h2>
-					Hiding Menu Bar
-				</h2>
-				<p>
-					Click into this text to see the menu. Click outside and the menu will disappear. It's like magic.
-				</p>
-			</div>
-
-		</editor>
+		<editor-content class="editor__content" :editor="editor" />
 	</div>
 </template>
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor } from 'tiptap'
+import { Editor, EditorContent, MenuBar } from 'tiptap'
 import {
 	BlockquoteNode,
 	BulletListNode,
@@ -118,33 +133,51 @@ import {
 	CodeMark,
 	ItalicMark,
 	LinkMark,
+	StrikeMark,
+	UnderlineMark,
 	HistoryExtension,
 } from 'tiptap-extensions'
 
 export default {
 	components: {
-		Editor,
+		EditorContent,
+		MenuBar,
 		Icon,
 	},
 	data() {
 		return {
-			extensions: [
-				new BlockquoteNode(),
-				new BulletListNode(),
-				new CodeBlockNode(),
-				new HardBreakNode(),
-				new HeadingNode({ maxLevel: 3 }),
-				new ListItemNode(),
-				new OrderedListNode(),
-				new TodoItemNode(),
-				new TodoListNode(),
-				new BoldMark(),
-				new CodeMark(),
-				new ItalicMark(),
-				new LinkMark(),
-				new HistoryExtension(),
-			],
+			editor: new Editor({
+				extensions: [
+					new BlockquoteNode(),
+					new BulletListNode(),
+					new CodeBlockNode(),
+					new HardBreakNode(),
+					new HeadingNode({ maxLevel: 3 }),
+					new ListItemNode(),
+					new OrderedListNode(),
+					new TodoItemNode(),
+					new TodoListNode(),
+					new BoldMark(),
+					new CodeMark(),
+					new ItalicMark(),
+					new LinkMark(),
+					new StrikeMark(),
+					new UnderlineMark(),
+					new HistoryExtension(),
+				],
+				content: `
+					<h2>
+						Hiding Menu Bar
+					</h2>
+					<p>
+						Click into this text to see the menu. Click outside and the menu will disappear. It's like magic.
+					</p>
+				`,
+			}),
 		}
+	},
+	beforeDestroy() {
+		this.editor.destroy()
 	},
 }
 </script>

@@ -1,23 +1,11 @@
 <template>
-	<div>
-		<editor class="editor" :extensions="extensions">
-
-			<div class="editor__content" slot="content" slot-scope="props">
-				<h2>
-					Embeds
-				</h2>
-				<p>
-					This is an example of a custom iframe node. This iframe is rendered as a <strong>vue component</strong>. This makes it possible to render the input below to change its source.
-				</p>
-				<iframe src="https://www.youtube.com/embed/XIMLoLxmTDw" frameborder="0" allowfullscreen></iframe>
-			</div>
-
-		</editor>
+	<div class="editor">
+		<editor-content class="editor__content" :editor="editor" />
 	</div>
 </template>
 
 <script>
-import { Editor } from 'tiptap'
+import { Editor, EditorContent } from 'tiptap'
 import {
 	HardBreakNode,
 	HeadingNode,
@@ -29,20 +17,34 @@ import IframeNode from './Iframe.js'
 
 export default {
 	components: {
-		Editor,
+		EditorContent,
 	},
 	data() {
 		return {
-			extensions: [
-				new HardBreakNode(),
-				new HeadingNode({ maxLevel: 3 }),
-				new BoldMark(),
-				new ItalicMark(),
-				new HistoryExtension(),
-				// custom extension
-				new IframeNode(),
-			],
+			editor: new Editor({
+				extensions: [
+					new HardBreakNode(),
+					new HeadingNode({ maxLevel: 3 }),
+					new BoldMark(),
+					new ItalicMark(),
+					new HistoryExtension(),
+					// custom extension
+					new IframeNode(),
+				],
+				content: `
+					<h2>
+						Embeds
+					</h2>
+					<p>
+						This is an example of a custom iframe node. This iframe is rendered as a <strong>vue component</strong>. This makes it possible to render the input below to change its source.
+					</p>
+					<iframe src="https://www.youtube.com/embed/XIMLoLxmTDw" frameborder="0" allowfullscreen></iframe>
+				`,
+			}),
 		}
+	},
+	beforeDestroy() {
+		this.editor.destroy()
 	},
 }
 </script>
