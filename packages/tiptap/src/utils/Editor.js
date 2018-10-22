@@ -21,10 +21,21 @@ import builtInNodes from '../Nodes'
 export default class Editor {
 
 	constructor(options = {}) {
+
+		const defaultOptions = {
+			content: '',
+			on: {
+				update: () => {},
+			},
+		}
+
 		this.element = document.createElement('div')
 		this.bus = new Vue()
 
-		this.options = options
+		this.options = {
+			...defaultOptions,
+			...options,
+		}
 		this.extensions = this.createExtensions()
 		this.nodes = this.createNodes()
 		this.marks = this.createMarks()
@@ -171,12 +182,11 @@ export default class Editor {
 	}
 
 	emitUpdate() {
-		console.log(this.getHTML())
-		// this.$emit('update', {
-		// 	getHTML: this.getHTML,
-		// 	getJSON: this.getJSON,
-		// 	state: this.state,
-		// })
+		this.emit('update', {
+			getHTML: this.getHTML,
+			getJSON: this.getJSON,
+			state: this.state,
+		})
 	}
 
 	getHTML() {
