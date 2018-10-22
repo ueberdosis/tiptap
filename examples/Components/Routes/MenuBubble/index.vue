@@ -1,6 +1,6 @@
 <template>
 	<div class="editor">
-		<menu-bubble class="menubar" :editor="editor">
+		<menu-bubble class="menububble" :editor="editor">
 			<template slot-scope="{ nodes, marks }">
 
 				<button
