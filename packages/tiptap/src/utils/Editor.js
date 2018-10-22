@@ -133,7 +133,14 @@ export default class Editor {
 			return this.schema.nodeFromJSON(content)
 		}
 
-		// return DOMParser.fromSchema(this.schema).parse(this.contentNode.elm)
+		if (typeof content === 'string') {
+			const element = document.createElement('div')
+			element.innerHTML = content.trim()
+
+			return DOMParser.fromSchema(this.schema).parse(element)
+		}
+
+		return false
 	}
 
 	createView() {
@@ -187,25 +194,10 @@ export default class Editor {
 		return this.state.doc.toJSON()
 	}
 
-	getDocFromContent(content) {
-		if (typeof content === 'object') {
-			return this.schema.nodeFromJSON(content)
-		}
-
-		if (typeof content === 'string') {
-			const element = document.createElement('div')
-			element.innerHTML = content.trim()
-
-			return DOMParser.fromSchema(this.schema).parse(element)
-		}
-
-		return false
-	}
-
 	setContent(content = {}, emitUpdate = false) {
 		this.state = EditorState.create({
 			schema: this.state.schema,
-			doc: this.getDocFromContent(content),
+			doc: this.createDocument(content),
 			plugins: this.state.plugins,
 		})
 
