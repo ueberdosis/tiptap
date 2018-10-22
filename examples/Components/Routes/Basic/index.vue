@@ -145,7 +145,6 @@ export default {
 	data() {
 		return {
 			editor: new Editor({
-				editable: true,
 				extensions: [
 					new BlockquoteNode(),
 					new BulletListNode(),

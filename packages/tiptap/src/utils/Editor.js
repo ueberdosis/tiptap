@@ -23,6 +23,7 @@ export default class Editor {
 	constructor(options = {}) {
 
 		const defaultOptions = {
+			editable: true,
 			content: '',
 			on: {
 				update: () => {},
@@ -229,6 +230,7 @@ export default class Editor {
 
 	updateMenuActions() {
 		this.menuActions = buildMenuActions({
+			editable: this.options.editable,
 			schema: this.schema,
 			state: this.view.state,
 			commands: this.commands,
