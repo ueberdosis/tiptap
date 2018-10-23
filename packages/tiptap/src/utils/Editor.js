@@ -29,9 +29,7 @@ export default class Editor {
 		const defaultOptions = {
 			editable: true,
 			content: '',
-			on: {
-				update: () => {},
-			},
+			onUpdate: () => {},
 		}
 
 		this.options = {
@@ -189,9 +187,9 @@ export default class Editor {
 	}
 
 	emitUpdate() {
-		this.emit('update', {
-			getHTML: this.getHTML,
-			getJSON: this.getJSON,
+		this.options.onUpdate({
+			getHTML: this.getHTML.bind(this),
+			getJSON: this.getJSON.bind(this),
 			state: this.state,
 		})
 	}

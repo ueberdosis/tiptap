@@ -1,9 +1,8 @@
 <template>
 	<div>
-		<editor class="editor" :extensions="extensions" @update="onUpdate" ref="editor">
-
-			<div class="menubar" slot="menubar" slot-scope="{ nodes, marks }">
-				<div v-if="nodes && marks">
+		<div class="editor">
+			<menu-bar class="menubar" :editor="editor">
+				<template slot-scope="{ nodes, marks }">
 
 					<button
 						class="menubar__button"
@@ -85,19 +84,12 @@
 						<icon name="code" />
 					</button>
 
-				</div>
-			</div>
+				</template>
+			</menu-bar>
 
-			<div class="editor__content" slot="content" slot-scope="props">
-				<h2>
-					Export HTML or JSON
-				</h2>
-				<p>
-					You are able to export your data as <code>HTML</code> or <code>JSON</code>. To pass <code>HTML</code> to the editor use the <code>content</code> slot. To pass <code>JSON</code> to the editor use the <code>doc</code> prop.
-				</p>
-			</div>
+			<editor-content class="editor__content" :editor="editor" />
 
-		</editor>
+		</div>
 
 		<div class="actions">
 			<button class="button" @click="clearContent">
@@ -120,7 +112,7 @@
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor } from 'tiptap'
+import { Editor, EditorContent, MenuBar } from 'tiptap'
 import {
 	BlockquoteNode,
 	BulletListNode,
@@ -140,43 +132,54 @@ import {
 
 export default {
 	components: {
-		Editor,
+		EditorContent,
+		MenuBar,
 		Icon,
 	},
 	data() {
 		return {
-			extensions: [
-				new BlockquoteNode(),
-				new BulletListNode(),
-				new CodeBlockNode(),
-				new HardBreakNode(),
-				new HeadingNode({ maxLevel: 3 }),
-				new ListItemNode(),
-				new OrderedListNode(),
-				new TodoItemNode(),
-				new TodoListNode(),
-				new BoldMark(),
-				new CodeMark(),
-				new ItalicMark(),
-				new LinkMark(),
-				new HistoryExtension(),
-			],
+			editor: new Editor({
+				extensions: [
+					new BlockquoteNode(),
+					new BulletListNode(),
+					new CodeBlockNode(),
+					new HardBreakNode(),
+					new HeadingNode({ maxLevel: 3 }),
+					new ListItemNode(),
+					new OrderedListNode(),
+					new TodoItemNode(),
+					new TodoListNode(),
+					new BoldMark(),
+					new CodeMark(),
+					new ItalicMark(),
+					new LinkMark(),
+					new HistoryExtension(),
+				],
+				content: `
+					<h2>
+						Export HTML or JSON
+					</h2>
+					<p>
+						You are able to export your data as <code>HTML</code> or <code>JSON</code>. To pass <code>HTML</code> to the editor use the <code>content</code> slot. To pass <code>JSON</code> to the editor use the <code>doc</code> prop.
+					</p>
+				`,
+				onUpdate: ({ getJSON, getHTML }) => {
+					this.json = getJSON()
+					this.html = getHTML()
+				},
+			}),
 			json: 'Update content to see changes',
 			html: 'Update content to see changes',
 		}
 	},
 	methods: {
-		onUpdate({ getJSON, getHTML }) {
-			this.json = getJSON()
-			this.html = getHTML()
-		},
 		clearContent() {
-			this.$refs.editor.clearContent(true)
-			this.$refs.editor.focus()
+			this.editor.clearContent(true)
+			this.editor.focus()
 		},
 		setContent() {
 			// you can pass a json document
-			this.$refs.editor.setContent({
+			this.editor.setContent({
 				type: 'doc',
 				content: [{
 					type: 'paragraph',
@@ -190,9 +193,9 @@ export default {
 			}, true)
 
 			// HTML string is also supported
-			// this.$refs.editor.setContent('<p>This is some inserted text. 👋</p>')
+			// this.editor.setContent('<p>This is some inserted text. 👋</p>')
 
-			this.$refs.editor.focus()
+			this.editor.focus()
 		},
 	},
 }
