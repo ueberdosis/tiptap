@@ -21,7 +21,11 @@ import builtInNodes from '../Nodes'
 export default class Editor {
 
 	constructor(options = {}) {
+		this.setOptions(options)
+		this.init()
+	}
 
+	setOptions(options) {
 		const defaultOptions = {
 			editable: true,
 			content: '',
@@ -30,13 +34,15 @@ export default class Editor {
 			},
 		}
 
-		this.element = document.createElement('div')
-		this.bus = new Vue()
-
 		this.options = {
 			...defaultOptions,
 			...options,
 		}
+	}
+
+	init() {
+		this.bus = new Vue()
+		this.element = document.createElement('div')
 		this.extensions = this.createExtensions()
 		this.nodes = this.createNodes()
 		this.marks = this.createMarks()
@@ -51,7 +57,7 @@ export default class Editor {
 		this.updateMenuActions()
 
 		this.emit('init')
-	}
+	} 
 
 	createExtensions() {
 		return new ExtensionManager([
