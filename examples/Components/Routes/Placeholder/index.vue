@@ -1,13 +1,11 @@
 <template>
-	<div>
-		<editor class="editor" :extensions="extensions">
-			<div class="editor__content" slot="content" slot-scope="props"></div>
-		</editor>
+	<div class="editor">
+		<editor-content class="editor__content" :editor="editor" />
 	</div>
 </template>
 
 <script>
-import { Editor } from 'tiptap'
+import { Editor, EditorContent } from 'tiptap'
 import {
 	BulletListNode,
 	ListItemNode,
@@ -16,18 +14,23 @@ import {
 
 export default {
 	components: {
-		Editor,
+		EditorContent,
 	},
 	data() {
 		return {
-			extensions: [
-				new BulletListNode(),
-				new ListItemNode(),
-				new PlaceholderExtension({
-					emptyNodeClass: 'is-empty',
-				}),
-			],
+			editor: new Editor({
+				extensions: [
+					new BulletListNode(),
+					new ListItemNode(),
+					new PlaceholderExtension({
+						emptyNodeClass: 'is-empty',
+					}),
+				],
+			}),
 		}
+	},
+	beforeDestroy() {
+		this.editor.destroy()
 	},
 }
 </script>
