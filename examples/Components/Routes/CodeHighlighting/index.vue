@@ -1,33 +1,11 @@
 <template>
-	<div>
-		<editor class="editor" :extensions="extensions">
-
-			<div class="editor__content" slot="content" slot-scope="props">
-				<h2>
-					Code Highlighting
-				</h2>
-				<p>
-					These are code blocks with <strong>automatic syntax highlighting</strong> based on highlight.js.
-				</p>
-				<pre><code v-html="JavaScriptExample"></code></pre>
-				<pre><code v-html="CSSExample"></code></pre>
-
-				<p>
-					Note: tiptap doesn't import syntax highlighting language definitions from highlight.js. You
-					<strong>must</strong> import them and initialize the extension with all languages you want to support:
-				</p>
-				<pre><code v-html="ExplicitImportExample"></code></pre>
-			</div>
-
-		</editor>
+	<div class="editor">
+		<editor-content class="editor__content" :editor="editor" />
 	</div>
 </template>
 
 <script>
-import javascript from 'highlight.js/lib/languages/javascript'
-import css from 'highlight.js/lib/languages/css'
-
-import { Editor } from 'tiptap'
+import { Editor, EditorContent } from 'tiptap'
 import {
 	CodeBlockHighlightNode,
 	HardBreakNode,
@@ -37,6 +15,9 @@ import {
 	ItalicMark,
 } from 'tiptap-extensions'
 
+import javascript from 'highlight.js/lib/languages/javascript'
+import css from 'highlight.js/lib/languages/css'
+
 import {
 	JavaScriptExample,
 	CSSExample,
@@ -45,26 +26,41 @@ import {
 
 export default {
 	components: {
-		Editor,
+		EditorContent,
 	},
 	data() {
 		return {
-			extensions: [
-				new CodeBlockHighlightNode({
-					languages: {
-						javascript,
-						css,
-					},
-				}),
-				new HardBreakNode(),
-				new HeadingNode({ maxLevel: 3 }),
-				new BoldMark(),
-				new CodeMark(),
-				new ItalicMark(),
-			],
-			JavaScriptExample,
-			CSSExample,
-			ExplicitImportExample,
+			editor: new Editor({
+				extensions: [
+					new CodeBlockHighlightNode({
+						languages: {
+							javascript,
+							css,
+						},
+					}),
+					new HardBreakNode(),
+					new HeadingNode({ maxLevel: 3 }),
+					new BoldMark(),
+					new CodeMark(),
+					new ItalicMark(),
+				],
+				content: `
+					<h2>
+						Code Highlighting
+					</h2>
+					<p>
+						These are code blocks with <strong>automatic syntax highlighting</strong> based on highlight.js.
+					</p>
+					<pre><code>${JavaScriptExample}</code></pre>
+					<pre><code>${CSSExample}</code></pre>
+
+					<p>
+						Note: tiptap doesn't import syntax highlighting language definitions from highlight.js. You
+						<strong>must</strong> import them and initialize the extension with all languages you want to support:
+					</p>
+					<pre><code>${ExplicitImportExample}</code></pre>
+				`,
+			}),
 		}
 	},
 }
