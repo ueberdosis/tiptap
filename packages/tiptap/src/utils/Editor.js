@@ -255,9 +255,8 @@ export default class Editor {
 
 	registerPlugin(plugin = null) {
 		if (plugin) {
-			this.plugins = this.plugins.concat([plugin])
 			this.state = this.state.reconfigure({
-				plugins: this.plugins,
+				plugins: this.state.plugins.concat([plugin]),
 			})
 			this.view.updateState(this.state)
 		}

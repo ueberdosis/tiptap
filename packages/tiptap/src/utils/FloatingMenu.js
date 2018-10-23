@@ -28,7 +28,7 @@ class Toolbar {
 
 		const isActive = currentDom.node.innerHTML === '<br>'
 			&& currentDom.node.tagName === 'P'
-			// && currentDom.node.parentNode === view.dom
+			&& currentDom.node.parentNode === view.dom
 
 		if (!isActive) {
 			this.hide()
