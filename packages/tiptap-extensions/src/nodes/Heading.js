@@ -9,12 +9,8 @@ export default class Heading extends Node {
 
 	get defaultOptions() {
 		return {
-			maxLevel: 6,
+			levels: [1, 2, 3, 4, 5, 6],
 		}
-	}
-
-	get levels() {
-		return Array.from(new Array(this.options.maxLevel), (value, index) => index + 1)
 	}
 
 	get schema() {
@@ -28,7 +24,7 @@ export default class Heading extends Node {
 			group: 'block',
 			defining: true,
 			draggable: false,
-			parseDOM: this.levels.map(level => ({ tag: `h${level}`, attrs: { level } })),
+			parseDOM: this.options.levels.map(level => ({ tag: `h${level}`, attrs: { level } })),
 			toDOM: node => [`h${node.attrs.level}`, 0],
 		}
 	}
@@ -38,7 +34,7 @@ export default class Heading extends Node {
 	}
 
 	keys({ type }) {
-		return this.levels.reduce((items, level) => ({
+		return this.options.levels.reduce((items, level) => ({
 			...items,
 			...{
 				[`Shift-Ctrl-${level}`]: setBlockType(type, { level }),
@@ -47,9 +43,18 @@ export default class Heading extends Node {
 	}
 
 	inputRules({ type }) {
+		return this.options.levels.map(level => {
+			return textblockTypeInputRule(
+				new RegExp(`^(#{1,${level}})\\s$`),
+				type,
+				match => ({ level }),
+			)
+		})
+
+
 		return [
 			textblockTypeInputRule(
-				new RegExp(`^(#{1,${this.options.maxLevel}})\\s$`),
+				new RegExp(`^(#{1,${this.options.levels}})\\s$`),
 				type,
 				match => ({ level: match[1].length }),
 			),

@@ -39,7 +39,7 @@ export default {
 						},
 					}),
 					new HardBreak(),
-					new Heading({ maxLevel: 3 }),
+					new Heading({ levels: [1, 2, 3] }),
 					new Bold(),
 					new Code(),
 					new Italic(),

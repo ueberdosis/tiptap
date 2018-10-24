@@ -38,7 +38,7 @@ export default {
 			editor: new Editor({
 				extensions: [
 					new HardBreak(),
-					new Heading({ maxLevel: 3 }),
+					new Heading({ levels: [1, 2, 3] }),
 					new Image(),
 					new Bold(),
 					new Code(),

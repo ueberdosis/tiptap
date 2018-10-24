@@ -68,7 +68,7 @@ export default {
 				extensions: [
 					new CodeBlock(),
 					new HardBreak(),
-					new Heading({ maxLevel: 3 }),
+					new Heading({ levels: [1, 2, 3] }),
 					new TodoItem(),
 					new TodoList(),
 					new Bold(),
