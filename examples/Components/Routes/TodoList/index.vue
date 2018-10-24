@@ -46,14 +46,14 @@
 import Icon from 'Components/Icon'
 import { Editor, EditorContent, MenuBar } from 'tiptap'
 import {
-	CodeBlockNode,
-	HardBreakNode,
-	HeadingNode,
-	TodoItemNode,
-	TodoListNode,
-	BoldMark,
-	CodeMark,
-	ItalicMark,
+	CodeBlock,
+	HardBreak,
+	Heading,
+	TodoItem,
+	TodoList,
+	Bold,
+	Code,
+	Italic,
 } from 'tiptap-extensions'
 
 export default {
@@ -66,14 +66,14 @@ export default {
 		return {
 			editor: new Editor({
 				extensions: [
-					new CodeBlockNode(),
-					new HardBreakNode(),
-					new HeadingNode({ maxLevel: 3 }),
-					new TodoItemNode(),
-					new TodoListNode(),
-					new BoldMark(),
-					new CodeMark(),
-					new ItalicMark(),
+					new CodeBlock(),
+					new HardBreak(),
+					new Heading({ maxLevel: 3 }),
+					new TodoItem(),
+					new TodoList(),
+					new Bold(),
+					new Code(),
+					new Italic(),
 				],
 				content: `
 					<h2>

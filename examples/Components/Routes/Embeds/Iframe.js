@@ -1,6 +1,6 @@
 import { Node } from 'tiptap'
 
-export default class IframeNode extends Node {
+export default class Iframe extends Node {
 
 	get name() {
 		return 'iframe'

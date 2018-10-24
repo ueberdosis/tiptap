@@ -7,13 +7,13 @@
 <script>
 import { Editor, EditorContent } from 'tiptap'
 import {
-	HardBreakNode,
-	HeadingNode,
-	BoldMark,
-	ItalicMark,
-	HistoryExtension,
+	HardBreak,
+	Heading,
+	Bold,
+	Italic,
+	History,
 } from 'tiptap-extensions'
-import IframeNode from './Iframe.js'
+import Iframe from './Iframe.js'
 
 export default {
 	components: {
@@ -23,13 +23,13 @@ export default {
 		return {
 			editor: new Editor({
 				extensions: [
-					new HardBreakNode(),
-					new HeadingNode({ maxLevel: 3 }),
-					new BoldMark(),
-					new ItalicMark(),
-					new HistoryExtension(),
+					new HardBreak(),
+					new Heading({ maxLevel: 3 }),
+					new Bold(),
+					new Italic(),
+					new History(),
 					// custom extension
-					new IframeNode(),
+					new Iframe(),
 				],
 				content: `
 					<h2>

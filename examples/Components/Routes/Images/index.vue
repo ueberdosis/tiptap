@@ -19,12 +19,12 @@
 import Icon from 'Components/Icon'
 import { Editor, EditorContent, MenuBar } from 'tiptap'
 import {
-	HardBreakNode,
-	HeadingNode,
-	ImageNode,
-	BoldMark,
-	CodeMark,
-	ItalicMark,
+	HardBreak,
+	Heading,
+	Image,
+	Bold,
+	Code,
+	Italic,
 } from 'tiptap-extensions'
 
 export default {
@@ -37,12 +37,12 @@ export default {
 		return {
 			editor: new Editor({
 				extensions: [
-					new HardBreakNode(),
-					new HeadingNode({ maxLevel: 3 }),
-					new ImageNode(),
-					new BoldMark(),
-					new CodeMark(),
-					new ItalicMark(),
+					new HardBreak(),
+					new Heading({ maxLevel: 3 }),
+					new Image(),
+					new Bold(),
+					new Code(),
+					new Italic(),
 				],
 				content: `
 					<h2>

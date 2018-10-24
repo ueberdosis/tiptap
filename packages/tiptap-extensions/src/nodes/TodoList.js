@@ -1,7 +1,7 @@
 import { Node } from 'tiptap'
 import { wrapInList, wrappingInputRule } from 'tiptap-commands'
 
-export default class TodoListNode extends Node {
+export default class TodoList extends Node {
 
 	get name() {
 		return 'todo_list'

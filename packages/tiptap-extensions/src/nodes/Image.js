@@ -1,6 +1,6 @@
 import { Node, Plugin } from 'tiptap'
 
-export default class ImageNode extends Node {
+export default class Image extends Node {
 
 	get name() {
 		return 'image'

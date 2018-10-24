@@ -38,10 +38,10 @@
 import Icon from 'Components/Icon'
 import { Editor, EditorContent, MenuBar } from 'tiptap'
 import {
-	HardBreakNode,
-	CodeMark,
+	HardBreak,
+	Code,
 } from 'tiptap-extensions'
-import ParagraphAlignmentNode from './Paragraph.js'
+import ParagraphAlignment from './Paragraph.js'
 
 export default {
 	components: {
@@ -53,9 +53,9 @@ export default {
 		return {
 			editor: new Editor({
 				extensions: [
-					new HardBreakNode(),
-					new CodeMark(),
-					new ParagraphAlignmentNode(),
+					new HardBreak(),
+					new Code(),
+					new ParagraphAlignment(),
 				],
 				content: `
 					<p style="text-align: left">

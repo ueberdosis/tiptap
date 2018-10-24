@@ -1,7 +1,7 @@
 import { Extension } from 'tiptap'
 import { history, undo, redo } from 'prosemirror-history'
 
-export default class HistoryExtension extends Extension {
+export default class History extends Extension {
 
 	get name() {
 		return 'history'

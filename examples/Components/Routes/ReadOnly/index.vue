@@ -7,12 +7,12 @@
 <script>
 import { Editor, EditorContent } from 'tiptap'
 import {
-	HardBreakNode,
-	HeadingNode,
-	BoldMark,
-	CodeMark,
-	ItalicMark,
-	LinkMark,
+	HardBreak,
+	Heading,
+	Bold,
+	Code,
+	Italic,
+	Link,
 } from 'tiptap-extensions'
 
 export default {
@@ -24,12 +24,12 @@ export default {
 			editor: new Editor({
 				editable: false,
 				extensions: [
-					new HardBreakNode(),
-					new HeadingNode({ maxLevel: 3 }),
-					new BoldMark(),
-					new CodeMark(),
-					new ItalicMark(),
-					new LinkMark(),
+					new HardBreak(),
+					new Heading({ maxLevel: 3 }),
+					new Bold(),
+					new Code(),
+					new Italic(),
+					new Link(),
 				],
 				content: `
 					<h2>

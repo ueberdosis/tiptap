@@ -1,7 +1,7 @@
 import { Node } from 'tiptap'
 import { wrappingInputRule, toggleList } from 'tiptap-commands'
 
-export default class OrderedListNode extends Node {
+export default class OrderedList extends Node {
 
 	get name() {
 		return 'ordered_list'

@@ -1,7 +1,7 @@
 import { Mark } from 'tiptap'
 import { updateMark, removeMark } from 'tiptap-commands'
 
-export default class LinkMark extends Mark {
+export default class Link extends Mark {
 
 	get name() {
 		return 'link'

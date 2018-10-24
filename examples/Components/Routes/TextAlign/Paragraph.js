@@ -1,7 +1,7 @@
 import { setBlockType } from 'tiptap-commands'
 import { Node } from 'tiptap'
 
-export default class ParagraphNode extends Node {
+export default class Paragraph extends Node {
 
 	get name() {
 		return 'paragraph'

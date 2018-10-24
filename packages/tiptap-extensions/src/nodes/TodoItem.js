@@ -1,7 +1,7 @@
 import { Node } from 'tiptap'
 import { splitToDefaultListItem, liftListItem } from 'tiptap-commands'
 
-export default class TodoItemNode extends Node {
+export default class TodoItem extends Node {
 
 	get name() {
 		return 'todo_item'

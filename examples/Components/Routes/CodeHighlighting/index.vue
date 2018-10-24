@@ -7,12 +7,12 @@
 <script>
 import { Editor, EditorContent } from 'tiptap'
 import {
-	CodeBlockHighlightNode,
-	HardBreakNode,
-	HeadingNode,
-	BoldMark,
-	CodeMark,
-	ItalicMark,
+	CodeBlockHighlight,
+	HardBreak,
+	Heading,
+	Bold,
+	Code,
+	Italic,
 } from 'tiptap-extensions'
 
 import javascript from 'highlight.js/lib/languages/javascript'
@@ -32,17 +32,17 @@ export default {
 		return {
 			editor: new Editor({
 				extensions: [
-					new CodeBlockHighlightNode({
+					new CodeBlockHighlight({
 						languages: {
 							javascript,
 							css,
 						},
 					}),
-					new HardBreakNode(),
-					new HeadingNode({ maxLevel: 3 }),
-					new BoldMark(),
-					new CodeMark(),
-					new ItalicMark(),
+					new HardBreak(),
+					new Heading({ maxLevel: 3 }),
+					new Bold(),
+					new Code(),
+					new Italic(),
 				],
 				content: `
 					<h2>

@@ -61,7 +61,7 @@ function getDecorations(doc) {
 	return DecorationSet.create(doc, decorations)
 }
 
-export default class CodeBlockHighlightNode extends Node {
+export default class CodeBlockHighlight extends Node {
 
 	constructor(options = {}) {
 		super(options)

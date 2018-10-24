@@ -1,6 +1,6 @@
 import Node from '../Utils/Node'
 
-export default class TextNode extends Node {
+export default class Text extends Node {
 
 	get name() {
 		return 'text'

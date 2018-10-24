@@ -1,7 +1,7 @@
 import { Mark } from 'tiptap'
 import { toggleMark } from 'tiptap-commands'
 
-export default class UnderlineMark extends Mark {
+export default class Underline extends Mark {
 
 	get name() {
 		return 'underline'

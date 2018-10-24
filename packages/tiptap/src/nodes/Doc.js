@@ -1,6 +1,6 @@
 import Node from '../Utils/Node'
 
-export default class DocNode extends Node {
+export default class Doc extends Node {
 
 	get name() {
 		return 'doc'

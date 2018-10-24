@@ -1,7 +1,7 @@
 import { Mark } from 'tiptap'
 import { toggleMark, markInputRule } from 'tiptap-commands'
 
-export default class CodeMark extends Mark {
+export default class Code extends Mark {
 
 	get name() {
 		return 'code'

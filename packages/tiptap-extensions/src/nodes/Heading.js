@@ -1,7 +1,7 @@
 import { Node } from 'tiptap'
 import { setBlockType, textblockTypeInputRule, toggleBlockType } from 'tiptap-commands'
 
-export default class HeadingNode extends Node {
+export default class Heading extends Node {
 
 	get name() {
 		return 'heading'

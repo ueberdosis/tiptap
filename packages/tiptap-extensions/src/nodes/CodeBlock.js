@@ -1,7 +1,7 @@
 import { Node } from 'tiptap'
 import { toggleBlockType, setBlockType, textblockTypeInputRule } from 'tiptap-commands'
 
-export default class CodeBlockNode extends Node {
+export default class CodeBlock extends Node {
 
 	get name() {
 		return 'code_block'

@@ -8,20 +8,20 @@
 import Icon from 'Components/Icon'
 import { Editor, EditorContent } from 'tiptap'
 import {
-	BlockquoteNode,
-	BulletListNode,
-	CodeBlockNode,
-	HardBreakNode,
-	HeadingNode,
-	ListItemNode,
-	OrderedListNode,
-	TodoItemNode,
-	TodoListNode,
-	BoldMark,
-	CodeMark,
-	ItalicMark,
-	LinkMark,
-	HistoryExtension,
+	Blockquote,
+	BulletList,
+	CodeBlock,
+	HardBreak,
+	Heading,
+	ListItem,
+	OrderedList,
+	TodoItem,
+	TodoList,
+	Bold,
+	Code,
+	Italic,
+	Link,
+	History,
 } from 'tiptap-extensions'
 
 export default {
@@ -33,24 +33,24 @@ export default {
 		return {
 			editor: new Editor({
 				extensions: [
-					new BlockquoteNode(),
-					new BulletListNode(),
-					new CodeBlockNode(),
-					new HardBreakNode(),
-					new HeadingNode({ maxLevel: 3 }),
-					new ListItemNode(),
-					new OrderedListNode(),
-					new TodoItemNode(),
-					new TodoListNode(),
-					new BoldMark(),
-					new CodeMark(),
-					new ItalicMark(),
-					new LinkMark(),
-					new HistoryExtension(),
+					new Blockquote(),
+					new BulletList(),
+					new CodeBlock(),
+					new HardBreak(),
+					new Heading({ maxLevel: 3 }),
+					new ListItem(),
+					new OrderedList(),
+					new TodoItem(),
+					new TodoList(),
+					new Bold(),
+					new Code(),
+					new Italic(),
+					new Link(),
+					new History(),
 				],
 				content: `
 					<h2>
-						Markdown Shortcuts
+						down Shortcuts
 					</h2>
 					<p>
 						Start a new line and type <code>#</code> followed by a <code>space</code> and you will get an H1 headline.

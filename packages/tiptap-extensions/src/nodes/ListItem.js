@@ -1,7 +1,7 @@
 import { Node } from 'tiptap'
 import { splitListItem, liftListItem, sinkListItem } from 'tiptap-commands'
 
-export default class ListItemNode extends Node {
+export default class ListItem extends Node {
 
 	get name() {
 		return 'list_item'

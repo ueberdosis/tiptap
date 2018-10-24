@@ -30,12 +30,12 @@ import Fuse from 'fuse.js'
 import tippy from 'tippy.js'
 import { Editor, EditorContent } from 'tiptap'
 import {
-	HardBreakNode,
-	HeadingNode,
-	MentionNode,
-	CodeMark,
-	BoldMark,
-	ItalicMark,
+	HardBreak,
+	Heading,
+	Mention,
+	Code,
+	Bold,
+	Italic,
 } from 'tiptap-extensions'
 
 export default {
@@ -48,9 +48,9 @@ export default {
 		return {
 			editor: new Editor({
 				extensions: [
-					new HardBreakNode(),
-					new HeadingNode({ maxLevel: 3 }),
-					new MentionNode({
+					new HardBreak(),
+					new Heading({ maxLevel: 3 }),
+					new Mention({
 						// a list of all suggested items
 						items: [
 							{ id: 1, name: 'Philipp Kühn' },
@@ -123,9 +123,9 @@ export default {
 							return fuse.search(query)
 						},
 					}),
-					new CodeMark(),
-					new BoldMark(),
-					new ItalicMark(),
+					new Code(),
+					new Bold(),
+					new Italic(),
 				],
 				content: `
 					<h2>

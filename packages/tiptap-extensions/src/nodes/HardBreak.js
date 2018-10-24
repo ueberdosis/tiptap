@@ -1,7 +1,7 @@
 import { Node } from 'tiptap'
 import { chainCommands, exitCode } from 'tiptap-commands'
 
-export default class HardBreakNode extends Node {
+export default class HardBreak extends Node {
 
 	get name() {
 		return 'hard_break'

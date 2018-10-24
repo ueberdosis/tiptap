@@ -1,7 +1,7 @@
 import { Node } from 'tiptap'
 import { wrappingInputRule, toggleWrap } from 'tiptap-commands'
 
-export default class BlockquoteNode extends Node {
+export default class Blockquote extends Node {
 
 	get name() {
 		return 'blockquote'
