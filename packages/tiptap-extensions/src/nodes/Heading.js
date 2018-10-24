@@ -24,7 +24,11 @@ export default class Heading extends Node {
 			group: 'block',
 			defining: true,
 			draggable: false,
-			parseDOM: this.options.levels.map(level => ({ tag: `h${level}`, attrs: { level } })),
+			parseDOM: this.options.levels
+				.map(level => ({
+					tag: `h${level}`,
+					attrs: { level },
+				})),
 			toDOM: node => [`h${node.attrs.level}`, 0],
 		}
 	}
@@ -50,15 +54,6 @@ export default class Heading extends Node {
 				match => ({ level }),
 			)
 		})
-
-
-		return [
-			textblockTypeInputRule(
-				new RegExp(`^(#{1,${this.options.levels}})\\s$`),
-				type,
-				match => ({ level: match[1].length }),
-			),
-		]
 	}
 
 }
