@@ -24,8 +24,8 @@ export default class Italic extends Mark {
 		}
 	}
 
-	command({ type }) {
-		return toggleMark(type)
+	commands({ type }) {
+		return () => toggleMark(type)
 	}
 
 	inputRules({ type }) {

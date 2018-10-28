@@ -33,8 +33,8 @@ export default class Heading extends Node {
 		}
 	}
 
-	command({ type, schema, attrs }) {
-		return toggleBlockType(type, schema.nodes.paragraph, attrs)
+	commands({ type, schema }) {
+		return attrs => toggleBlockType(type, schema.nodes.paragraph, attrs)
 	}
 
 	keys({ type }) {
@@ -47,13 +47,11 @@ export default class Heading extends Node {
 	}
 
 	inputRules({ type }) {
-		return this.options.levels.map(level => {
-			return textblockTypeInputRule(
+		return this.options.levels.map(level => textblockTypeInputRule(
 				new RegExp(`^(#{1,${level}})\\s$`),
 				type,
 				match => ({ level }),
-			)
-		})
+			))
 	}
 
 }

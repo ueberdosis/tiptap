@@ -34,8 +34,8 @@ export default class Image extends Node {
 		}
 	}
 
-	command({ type, attrs }) {
-		return (state, dispatch) => {
+	commands({ type }) {
+		return attrs => (state, dispatch) => {
 			const { selection } = state
 			const position = selection.$cursor ? selection.$cursor.pos : selection.$to.pos
 			const node = type.create(attrs)

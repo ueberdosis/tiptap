@@ -28,8 +28,8 @@ export default class Underline extends Mark {
 		}
 	}
 
-	command({ type }) {
-		return toggleMark(type)
+	commands({ type }) {
+		return () => toggleMark(type)
 	}
 
 }

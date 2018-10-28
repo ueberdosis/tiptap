@@ -1,6 +1,5 @@
 import { Extension } from 'tiptap'
 import { history, undo, redo } from 'prosemirror-history'
-import { setBlockType, textblockTypeInputRule, toggleBlockType } from 'tiptap-commands'
 
 export default class History extends Extension {
 

@@ -19,8 +19,8 @@ export default class TodoList extends Node {
 		}
 	}
 
-	command({ type }) {
-		return wrapInList(type)
+	commands({ type }) {
+		return () => wrapInList(type)
 	}
 
 	inputRules({ type }) {

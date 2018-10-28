@@ -22,8 +22,8 @@ export default class CodeBlock extends Node {
 		}
 	}
 
-	command({ type, schema }) {
-		return toggleBlockType(type, schema.nodes.paragraph)
+	commands({ type, schema }) {
+		return () => toggleBlockType(type, schema.nodes.paragraph)
 	}
 
 	keys({ type }) {

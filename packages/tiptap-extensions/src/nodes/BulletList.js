@@ -18,8 +18,8 @@ export default class Bullet extends Node {
 		}
 	}
 
-	command({ type, schema }) {
-		return toggleList(type, schema.nodes.list_item)
+	commands({ type, schema }) {
+		return () => toggleList(type, schema.nodes.list_item)
 	}
 
 	keys({ type, schema }) {

@@ -30,12 +30,14 @@ export default class Link extends Mark {
 		}
 	}
 
-	command({ type, attrs }) {
-		if (attrs.href) {
-			return updateMark(type, attrs)
-		}
+	commands({ type }) {
+		return attrs => {
+			if (attrs.href) {
+				return updateMark(type, attrs)
+			}
 
-		return removeMark(type)
+			return removeMark(type)
+		}
 	}
 
 }
