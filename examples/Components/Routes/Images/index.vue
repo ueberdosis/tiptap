@@ -1,10 +1,10 @@
 <template>
 	<div class="editor">
 		<menu-bar class="menubar" :editor="editor">
-			<template slot-scope="{ nodes }">
+			<template slot-scope="{ commands }">
 				<button
 					class="menubar__button"
-					@click="showImagePrompt(nodes.image.command)"
+					@click="showImagePrompt(commands.image)"
 				>
 					<icon name="image" />
 				</button>

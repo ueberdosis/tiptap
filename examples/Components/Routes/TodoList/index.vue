@@ -1,12 +1,12 @@
 <template>
 	<div class="editor">
 		<menu-bar class="menubar" :editor="editor">
-			<template slot-scope="{ nodes, marks }">
+			<template slot-scope="{ nodes, marks, commands }">
 
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': marks.bold.active() }"
-					@click="marks.bold.command"
+					@click="commands.bold"
 				>
 					<icon name="bold" />
 				</button>
@@ -14,7 +14,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': marks.italic.active() }"
-					@click="marks.italic.command"
+					@click="commands.italic"
 				>
 					<icon name="italic" />
 				</button>
@@ -22,7 +22,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': marks.code.active() }"
-					@click="marks.code.command"
+					@click="commands.code"
 				>
 					<icon name="code" />
 				</button>
@@ -30,7 +30,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.todo_list.active() }"
-					@click="nodes.todo_list.command"
+					@click="commands.todo_list"
 				>
 					<icon name="checklist" />
 				</button>

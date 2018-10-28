@@ -1,12 +1,12 @@
 <template>
 	<div class="editor">
 		<menu-bar class="menubar" :editor="editor">
-			<template slot-scope="{ nodes, marks }">
+			<template slot-scope="{ nodes, marks, commands }">
 
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.paragraph.active({ textAlign: 'left' }) }"
-					@click="nodes.paragraph.command({ textAlign: 'left' })"
+					@click="commands.paragraph({ textAlign: 'left' })"
 				>
 					<icon name="align-left" />
 				</button>
@@ -14,7 +14,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.paragraph.active({ textAlign: 'center' }) }"
-					@click="nodes.paragraph.command({ textAlign: 'center' })"
+					@click="commands.paragraph({ textAlign: 'center' })"
 				>
 					<icon name="align-center" />
 				</button>
@@ -22,7 +22,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.paragraph.active({ textAlign: 'right' }) }"
-					@click="nodes.paragraph.command({ textAlign: 'right' })"
+					@click="commands.paragraph({ textAlign: 'right' })"
 				>
 					<icon name="align-right" />
 				</button>

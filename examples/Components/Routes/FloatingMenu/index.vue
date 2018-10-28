@@ -1,12 +1,12 @@
 <template>
 	<div class="editor">
 		<floating-menu class="editor__floating-menu" :editor="editor">
-			<template slot-scope="{ nodes, marks }">
+			<template slot-scope="{ nodes, marks, commands }">
 
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.heading.active({ level: 1 }) }"
-					@click="nodes.heading.command({ level: 1 })"
+					@click="commands.heading({ level: 1 })"
 				>
 					H1
 				</button>
@@ -14,7 +14,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.heading.active({ level: 2 }) }"
-					@click="nodes.heading.command({ level: 2 })"
+					@click="commands.heading({ level: 2 })"
 				>
 					H2
 				</button>
@@ -22,7 +22,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.heading.active({ level: 3 }) }"
-					@click="nodes.heading.command({ level: 3 })"
+					@click="commands.heading({ level: 3 })"
 				>
 					H3
 				</button>
@@ -30,7 +30,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.bullet_list.active() }"
-					@click="nodes.bullet_list.command"
+					@click="commands.bullet_list"
 				>
 					<icon name="ul" />
 				</button>
@@ -38,7 +38,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.ordered_list.active() }"
-					@click="nodes.ordered_list.command"
+					@click="commands.ordered_list"
 				>
 					<icon name="ol" />
 				</button>
@@ -46,7 +46,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.blockquote.active() }"
-					@click="nodes.blockquote.command"
+					@click="commands.blockquote"
 				>
 					<icon name="quote" />
 				</button>
@@ -54,7 +54,7 @@
 				<button
 					class="menubar__button"
 					:class="{ 'is-active': nodes.code_block.active() }"
-					@click="nodes.code_block.command"
+					@click="commands.code_block"
 				>
 					<icon name="code" />
 				</button>

@@ -50,7 +50,7 @@ export default {
 				],
 				content: `
 					<h2>
-						down Shortcuts
+						Markdown Shortcuts
 					</h2>
 					<p>
 						Start a new line and type <code>#</code> followed by a <code>space</code> and you will get an H1 headline.

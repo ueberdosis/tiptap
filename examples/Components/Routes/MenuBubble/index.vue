@@ -1,12 +1,12 @@
 <template>
 	<div class="editor">
 		<menu-bubble class="menububble" :editor="editor">
-			<template slot-scope="{ nodes, marks }">
+			<template slot-scope="{ nodes, marks, commands }">
 
 				<button
 					class="menububble__button"
 					:class="{ 'is-active': marks.bold.active() }"
-					@click="marks.bold.command"
+					@click="commands.bold"
 				>
 					<icon name="bold" />
 				</button>
@@ -14,7 +14,7 @@
 				<button
 					class="menububble__button"
 					:class="{ 'is-active': marks.italic.active() }"
-					@click="marks.italic.command"
+					@click="commands.italic"
 				>
 					<icon name="italic" />
 				</button>
@@ -22,7 +22,7 @@
 				<button
 					class="menububble__button"
 					:class="{ 'is-active': marks.code.active() }"
-					@click="marks.code.command"
+					@click="commands.code"
 				>
 					<icon name="code" />
 				</button>

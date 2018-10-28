@@ -17,7 +17,7 @@ export default {
 					})
 				}
 			},
-		}
+		},
 	},
 	render(createElement) {
 		if (this.editor) {
@@ -26,6 +26,7 @@ export default {
 				marks: this.editor.menuActions.marks,
 				focused: this.editor.view.focused,
 				focus: this.editor.focus,
+				commands: this.editor.commands,
 			}))
 		}
 	},
