@@ -88,29 +88,11 @@ export default class ExtensionManager {
 
 	commands({ schema, view }) {
 		return this.extensions
-			.filter(extension => ['node', 'mark'].includes(extension.type))
-			.filter(extension => extension.command)
-			.reduce((commands, { name, type, command }) => ({
-				...commands,
-				[name]: attrs => {
-					view.focus()
-
-					const provider = command({
-						type: schema[`${type}s`][name],
-						attrs,
-						schema,
-					})
-					const callbacks = Array.isArray(provider) ? provider : [provider]
-
-					callbacks.forEach(callback => callback(view.state, view.dispatch, view))
-				},
-			}), {})
-	}
-
-	newCommands({ schema, view }) {
-		return this.extensions
 			.filter(extension => extension.commands)
 			.reduce((allCommands, { name, type, commands: provider }) => {
+
+				// TODO
+				// view.focus()
 
 				const commands = {}
 				const value = provider({

@@ -53,13 +53,6 @@ export default class Editor {
 		this.view = this.createView()
 		this.commands = this.createCommands()
 
-		this.newCommands = this.extensions.newCommands({
-			schema: this.schema,
-			view: this.view,
-		})
-
-		console.log(this.newCommands)
-
 		this.updateMenuActions()
 
 		this.emit('init')

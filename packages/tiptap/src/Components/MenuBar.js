@@ -12,7 +12,7 @@ export default {
 				marks: this.editor.menuActions.marks,
 				focused: this.editor.view.focused,
 				focus: this.editor.focus,
-				newCommands: this.editor.newCommands,
+				commands: this.editor.commands,
 			}))
 		}
 	},
