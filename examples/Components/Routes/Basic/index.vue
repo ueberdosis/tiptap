@@ -5,16 +5,7 @@
 
 				<button
 					class="menubar__button"
-					@click="commands.history"
-					v-if="commands.history"
-				>
-					⬅
-				</button>
-
-				<button
-					class="menubar__button"
 					@click="commands.undo"
-					v-if="commands.undo"
 				>
 					⬅
 				</button>
@@ -22,17 +13,8 @@
 				<button
 					class="menubar__button"
 					@click="commands.redo"
-					v-if="commands.redo"
 				>
 					➡
-				</button>
-
-				<button
-					class="menubar__button"
-					@click="commands.undoRedo"
-					v-if="commands.undoRedo"
-				>
-					undoredo
 				</button>
 
 				<button
