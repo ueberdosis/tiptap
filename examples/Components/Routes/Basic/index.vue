@@ -1,7 +1,39 @@
 <template>
 	<div class="editor">
 		<menu-bar class="menubar" :editor="editor">
-			<template slot-scope="{ nodes, marks }">
+			<template slot-scope="{ nodes, marks, newCommands }">
+
+				<button
+					class="menubar__button"
+					@click="newCommands.history"
+					v-if="newCommands.history"
+				>
+					⬅
+				</button>
+
+				<button
+					class="menubar__button"
+					@click="newCommands.undo"
+					v-if="newCommands.undo"
+				>
+					⬅
+				</button>
+
+				<button
+					class="menubar__button"
+					@click="newCommands.redo"
+					v-if="newCommands.redo"
+				>
+					➡
+				</button>
+
+				<button
+					class="menubar__button"
+					@click="newCommands.undoRedo"
+					v-if="newCommands.undoRedo"
+				>
+					undoredo
+				</button>
 
 				<button
 					class="menubar__button"

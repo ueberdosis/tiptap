@@ -14,7 +14,7 @@ import {
 	// menuBubble,
 	// floatingMenu,
 	builtInKeymap,
-} from '../Utils'
+} from '.'
 
 import builtInNodes from '../Nodes'
 
@@ -52,10 +52,18 @@ export default class Editor {
 		this.state = this.createState()
 		this.view = this.createView()
 		this.commands = this.createCommands()
+
+		this.newCommands = this.extensions.newCommands({
+			schema: this.schema,
+			view: this.view,
+		})
+
+		console.log(this.newCommands)
+
 		this.updateMenuActions()
 
 		this.emit('init')
-	} 
+	}
 
 	createExtensions() {
 		return new ExtensionManager([
