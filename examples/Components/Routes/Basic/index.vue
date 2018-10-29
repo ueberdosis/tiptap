@@ -1,7 +1,7 @@
 <template>
 	<div class="editor">
 		<menu-bar class="menubar" :editor="editor">
-			<template slot-scope="{ nodes, marks, commands }">
+			<template slot-scope="{ nodes, marks, commands, isActive }">
 
 				<button
 					class="menubar__button"
@@ -19,7 +19,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': marks.bold.active() }"
+					:class="{ 'is-active': isActive('bold') }"
 					@click="commands.bold"
 				>
 					<icon name="bold" />
@@ -27,7 +27,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': marks.italic.active() }"
+					:class="{ 'is-active': isActive('italic') }"
 					@click="commands.italic"
 				>
 					<icon name="italic" />
@@ -35,7 +35,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': marks.strike.active() }"
+					:class="{ 'is-active': isActive('strike') }"
 					@click="commands.strike"
 				>
 					<icon name="strike" />
@@ -43,7 +43,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': marks.underline.active() }"
+					:class="{ 'is-active': isActive('underline') }"
 					@click="commands.underline"
 				>
 					<icon name="underline" />
@@ -51,7 +51,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': marks.code.active() }"
+					:class="{ 'is-active': isActive('code') }"
 					@click="commands.code"
 				>
 					<icon name="code" />
@@ -59,7 +59,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': nodes.paragraph.active() }"
+					:class="{ 'is-active': isActive('paragraph') }"
 					@click="commands.paragraph"
 				>
 					<icon name="paragraph" />
@@ -67,7 +67,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': nodes.heading.active({ level: 1 }) }"
+					:class="{ 'is-active': isActive('heading', { level: 1 }) }"
 					@click="commands.heading({ level: 1 })"
 				>
 					H1
@@ -75,7 +75,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': nodes.heading.active({ level: 2 }) }"
+					:class="{ 'is-active': isActive('heading', { level: 2 }) }"
 					@click="commands.heading({ level: 2 })"
 				>
 					H2
@@ -83,7 +83,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': nodes.heading.active({ level: 3 }) }"
+					:class="{ 'is-active': isActive('heading', { level: 3 }) }"
 					@click="commands.heading({ level: 3 })"
 				>
 					H3
@@ -91,7 +91,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': nodes.bullet_list.active() }"
+					:class="{ 'is-active': isActive('bullet_list') }"
 					@click="commands.bullet_list"
 				>
 					<icon name="ul" />
@@ -99,7 +99,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': nodes.ordered_list.active() }"
+					:class="{ 'is-active': isActive('ordered_list') }"
 					@click="commands.ordered_list"
 				>
 					<icon name="ol" />
@@ -107,7 +107,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': nodes.blockquote.active() }"
+					:class="{ 'is-active': isActive('blockquote') }"
 					@click="commands.blockquote"
 				>
 					<icon name="quote" />
@@ -115,7 +115,7 @@
 
 				<button
 					class="menubar__button"
-					:class="{ 'is-active': nodes.code_block.active() }"
+					:class="{ 'is-active': isActive('code_block') }"
 					@click="commands.code_block"
 				>
 					<icon name="code" />

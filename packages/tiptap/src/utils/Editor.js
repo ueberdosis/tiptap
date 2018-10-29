@@ -6,9 +6,9 @@ import { gapCursor } from 'prosemirror-gapcursor'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { inputRules } from 'prosemirror-inputrules'
+import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
 
 import {
-	buildMenuActions,
 	ExtensionManager,
 	initNodeViews,
 	// menuBubble,
@@ -52,9 +52,7 @@ export default class Editor {
 		this.state = this.createState()
 		this.view = this.createView()
 		this.commands = this.createCommands()
-
-		this.updateMenuActions()
-
+		this.getActiveNodesAndMarks()
 		this.emit('init')
 	}
 
@@ -178,7 +176,7 @@ export default class Editor {
 	dispatchTransaction(transaction) {
 		this.state = this.state.apply(transaction)
 		this.view.updateState(this.state)
-		this.updateMenuActions()
+		this.getActiveNodesAndMarks()
 
 		if (!transaction.docChanged) {
 			return
@@ -233,13 +231,20 @@ export default class Editor {
 		}, emitUpdate)
 	}
 
-	updateMenuActions() {
-		this.menuActions = buildMenuActions({
-			editable: this.options.editable,
-			schema: this.schema,
-			state: this.view.state,
-			commands: this.commands,
-		})
+	getActiveNodesAndMarks() {
+		this.activeMarks = Object
+			.entries(this.schema.marks)
+			.reduce((marks, [name, mark]) => ({
+				...marks,
+				[name]: (attrs = {}) => markIsActive(this.state, mark, attrs),
+			}), {})
+
+		this.activeNodes = Object
+			.entries(this.schema.nodes)
+			.reduce((nodes, [name, node]) => ({
+				...nodes,
+				[name]: (attrs = {}) => nodeIsActive(this.state, node, attrs),
+			}), {})
 	}
 
 	focus() {
@@ -261,6 +266,19 @@ export default class Editor {
 			})
 			this.view.updateState(this.state)
 		}
+	}
+
+	isActive(type = null, attrs = {}) {
+		const types = {
+			...this.activeMarks,
+			...this.activeNodes,
+		}
+
+		if (!types[type]) {
+			return false
+		}
+
+		return types[type](attrs)
 	}
 
 	destroy() {

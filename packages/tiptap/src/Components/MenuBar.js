@@ -13,6 +13,7 @@ export default {
 				focused: this.editor.view.focused,
 				focus: this.editor.focus,
 				commands: this.editor.commands,
+				isActive: this.editor.isActive.bind(this.editor),
 			}))
 		}
 	},

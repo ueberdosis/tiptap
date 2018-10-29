@@ -1,6 +1,8 @@
 import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
 
-export default function ({ schema, state, commands, editable }) {
+export default function ({
+ schema, state, commands, editable,
+}) {
 
 	const nodes = Object.entries(schema.nodes)
 		.map(([name]) => {
@@ -10,7 +12,7 @@ export default function ({ schema, state, commands, editable }) {
 			return {
 				name,
 				active,
-				command: editable ? command : () => {}
+				command: editable ? command : () => {},
 			}
 		})
 		.reduce((actions, { name, active, command }) => ({
@@ -31,7 +33,7 @@ export default function ({ schema, state, commands, editable }) {
 				name,
 				active,
 				attrs,
-				command: editable ? command : () => {}
+				command: editable ? command : () => {},
 			}
 		})
 		.reduce((actions, {
