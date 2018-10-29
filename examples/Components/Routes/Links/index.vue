@@ -1,11 +1,11 @@
 <template>
 	<div class="editor">
 		<menu-bubble class="menububble" :editor="editor">
-			<template slot-scope="{ nodes, marks }">
+			<template slot-scope="{ commands, isActive, markAttrs }">
 
-				<form class="menububble__form" v-if="linkMenuIsActive" @submit.prevent="setLinkUrl(linkUrl, marks.link)">
+				<form class="menububble__form" v-if="linkMenuIsActive" @submit.prevent="setLinkUrl(commands.link, linkUrl)">
 					<input class="menububble__input" type="text" v-model="linkUrl" placeholder="https://" ref="linkInput" @keydown.esc="hideLinkMenu"/>
-					<button class="menububble__button" @click="setLinkUrl(null, marks.link)" type="button">
+					<button class="menububble__button" @click="setLinkUrl(commands.link, null)" type="button">
 						<icon name="remove" />
 					</button>
 				</form>
@@ -13,8 +13,8 @@
 				<template v-else>
 					<button
 						class="menububble__button"
-						@click="showLinkMenu(marks.link)"
-						:class="{ 'is-active': marks.link.active() }"
+						@click="showLinkMenu(markAttrs('link'))"
+						:class="{ 'is-active': isActive('link') }"
 					>
 						<span>Add Link</span>
 						<icon name="link" />
@@ -87,8 +87,8 @@ export default {
 		}
 	},
 	methods: {
-		showLinkMenu(type) {
-			this.linkUrl = type.attrs.href
+		showLinkMenu(attrs) {
+			this.linkUrl = attrs.href
 			this.linkMenuIsActive = true
 			this.$nextTick(() => {
 				this.$refs.linkInput.focus()
@@ -98,8 +98,8 @@ export default {
 			this.linkUrl = null
 			this.linkMenuIsActive = false
 		},
-		setLinkUrl(url, type, focus) {
-			type.command({ href: url })
+		setLinkUrl(command, url) {
+			command({ href: url })
 			this.hideLinkMenu()
 			this.editor.focus()
 		},

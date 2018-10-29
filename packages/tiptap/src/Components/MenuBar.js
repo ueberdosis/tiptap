@@ -12,6 +12,7 @@ export default {
 				focus: this.editor.focus,
 				commands: this.editor.commands,
 				isActive: this.editor.isActive.bind(this.editor),
+				markAttrs: this.editor.markAttrs.bind(this.editor),
 			}))
 		}
 	},

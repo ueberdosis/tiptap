@@ -239,6 +239,13 @@ export default class Editor {
 				[name]: (attrs = {}) => markIsActive(this.state, mark, attrs),
 			}), {})
 
+		this.activeMarkAttrs = Object
+			.entries(this.schema.marks)
+			.reduce((marks, [name, mark]) => ({
+				...marks,
+				[name]: getMarkAttrs(this.state, mark),
+			}), {})
+
 		this.activeNodes = Object
 			.entries(this.schema.nodes)
 			.reduce((nodes, [name, node]) => ({
@@ -266,6 +273,10 @@ export default class Editor {
 			})
 			this.view.updateState(this.state)
 		}
+	}
+
+	markAttrs(type = null) {
+		return this.activeMarkAttrs[type]
 	}
 
 	isActive(type = null, attrs = {}) {
