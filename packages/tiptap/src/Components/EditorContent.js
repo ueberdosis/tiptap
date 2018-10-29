@@ -13,7 +13,7 @@ export default {
 					this.$nextTick(() => this.$el.append(element.firstChild))
 				}
 			},
-		}
+		},
 	},
 	render(createElement) {
 		return createElement('div')

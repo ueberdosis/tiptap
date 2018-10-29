@@ -1,7 +1,7 @@
 <template>
 	<div class="editor">
 		<menu-bar class="menubar" :editor="editor">
-			<template slot-scope="{ nodes, marks, commands, isActive }">
+			<template slot-scope="{ commands, isActive }">
 
 				<button
 					class="menubar__button"
