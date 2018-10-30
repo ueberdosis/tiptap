@@ -91,9 +91,6 @@ export default class ExtensionManager {
 			.filter(extension => extension.commands)
 			.reduce((allCommands, { name, type, commands: provider }) => {
 
-				// TODO
-				// view.focus()
-
 				const commands = {}
 				const value = provider({
 					schema,
@@ -108,6 +105,7 @@ export default class ExtensionManager {
 							if (!editable) {
 								return false
 							}
+							view.focus()
 							return callback(attrs)(view.state, view.dispatch, view)
 						})
 				} else if (typeof value === 'function') {
@@ -115,6 +113,7 @@ export default class ExtensionManager {
 						if (!editable) {
 							return false
 						}
+						view.focus()
 						return value(attrs)(view.state, view.dispatch, view)
 					}
 				} else if (typeof value === 'object') {
@@ -125,6 +124,7 @@ export default class ExtensionManager {
 									if (!editable) {
 										return false
 									}
+									view.focus()
 									return callback(attrs)(view.state, view.dispatch, view)
 								})
 						} else {
@@ -132,6 +132,7 @@ export default class ExtensionManager {
 								if (!editable) {
 									return false
 								}
+								view.focus()
 								return commandValue(attrs)(view.state, view.dispatch, view)
 							}
 						}
