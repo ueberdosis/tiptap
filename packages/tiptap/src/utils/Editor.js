@@ -11,8 +11,6 @@ import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
 import {
 	ExtensionManager,
 	initNodeViews,
-	// menuBubble,
-	// floatingMenu,
 	builtInKeymap,
 } from '.'
 
@@ -112,36 +110,20 @@ export default class Editor {
 			doc: this.createDocument(this.options.content),
 			plugins: [
 				...this.plugins,
-				...this.getPlugins(),
+				inputRules({
+					rules: this.inputRules,
+				}),
+				...this.keymaps,
+				keymap(builtInKeymap),
+				keymap(baseKeymap),
+				gapCursor(),
+				new Plugin({
+					props: {
+						editable: () => this.options.editable,
+					},
+				}),
 			],
 		})
-	}
-
-	getPlugins() {
-		const plugins = [
-			inputRules({
-				rules: this.inputRules,
-			}),
-			...this.keymaps,
-			keymap(builtInKeymap),
-			keymap(baseKeymap),
-			gapCursor(),
-			new Plugin({
-				props: {
-					editable: () => this.options.editable,
-				},
-			}),
-		]
-
-		// if (this.menububbleNode) {
-		// 	plugins.push(menuBubble(this.menububbleNode))
-		// }
-
-		// if (this.floatingMenuNode) {
-		// 	plugins.push(floatingMenu(this.floatingMenuNode))
-		// }
-
-		return plugins
 	}
 
 	createDocument(content) {
