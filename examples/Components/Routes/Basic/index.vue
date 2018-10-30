@@ -5,20 +5,6 @@
 
 				<button
 					class="menubar__button"
-					@click="commands.undo"
-				>
-					⬅
-				</button>
-
-				<button
-					class="menubar__button"
-					@click="commands.redo"
-				>
-					➡
-				</button>
-
-				<button
-					class="menubar__button"
 					:class="{ 'is-active': isActive('bold') }"
 					@click="commands.bold"
 				>
@@ -119,6 +105,20 @@
 					@click="commands.code_block"
 				>
 					<icon name="code" />
+				</button>
+
+				<button
+					class="menubar__button"
+					@click="commands.undo"
+				>
+					<icon name="undo" />
+				</button>
+
+				<button
+					class="menubar__button"
+					@click="commands.redo"
+				>
+					<icon name="redo" />
 				</button>
 
 			</template>
