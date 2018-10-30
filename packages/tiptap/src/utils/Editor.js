@@ -83,6 +83,7 @@ export default class Editor {
 		return this.extensions.commands({
 			schema: this.schema,
 			view: this.view,
+			editable: this.options.editable,
 		})
 	}
 

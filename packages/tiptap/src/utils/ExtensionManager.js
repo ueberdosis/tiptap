@@ -86,7 +86,7 @@ export default class ExtensionManager {
 		]), [])
 	}
 
-	commands({ schema, view }) {
+	commands({ schema, view, editable }) {
 		return this.extensions
 			.filter(extension => extension.commands)
 			.reduce((allCommands, { name, type, commands: provider }) => {
@@ -104,16 +104,36 @@ export default class ExtensionManager {
 
 				if (Array.isArray(value)) {
 					commands[name] = attrs => value
-						.forEach(callback => callback(attrs)(view.state, view.dispatch, view))
+						.forEach(callback => {
+							if (!editable) {
+								return false
+							}
+							return callback(attrs)(view.state, view.dispatch, view)
+						})
 				} else if (typeof value === 'function') {
-					commands[name] = attrs => value(attrs)(view.state, view.dispatch, view)
+					commands[name] = attrs => {
+						if (!editable) {
+							return false
+						}
+						return value(attrs)(view.state, view.dispatch, view)
+					}
 				} else if (typeof value === 'object') {
 					Object.entries(value).forEach(([commandName, commandValue]) => {
 						if (Array.isArray(commandValue)) {
 							commands[commandName] = attrs => commandValue
-								.forEach(callback => callback(attrs)(view.state, view.dispatch, view))
+								.forEach(callback => {
+									if (!editable) {
+										return false
+									}
+									return callback(attrs)(view.state, view.dispatch, view)
+								})
 						} else {
-							commands[commandName] = attrs => commandValue(attrs)(view.state, view.dispatch, view)
+							commands[commandName] = attrs => {
+								if (!editable) {
+									return false
+								}
+								return commandValue(attrs)(view.state, view.dispatch, view)
+							}
 						}
 					})
 				}
