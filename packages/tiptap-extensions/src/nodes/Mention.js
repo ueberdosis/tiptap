@@ -36,14 +36,14 @@ export default class MentionNode extends Node {
 					class: this.options.mentionClass,
 					'data-mention-id': node.attrs.id,
 				},
-				`@${node.attrs.label}`,
+				`${this.options.matcher.char}${node.attrs.label}`,
 			],
 			parseDOM: [
 				{
 					tag: 'span[data-mention-id]',
 					getAttrs: dom => {
 						const id = dom.getAttribute('data-mention-id')
-						const label = dom.innerText.split('@').join('')
+						const label = dom.innerText.split(this.options.matcher.char).join('')
 						return { id, label }
 					},
 				},
