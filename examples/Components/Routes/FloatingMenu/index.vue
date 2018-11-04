@@ -1,7 +1,12 @@
 <template>
 	<div class="editor">
-		<floating-menu class="editor__floating-menu" :editor="editor">
-			<template slot-scope="{ commands, isActive }">
+		<floating-menu  :editor="editor">
+			<div
+				slot-scope="{ commands, isActive, menu }"
+				class="editor__floating-menu"
+				:class="{ 'is-active': menu.isActive }"
+				:style="`top: ${menu.top}px`"
+			>
 
 				<button
 					class="menubar__button"
@@ -59,7 +64,7 @@
 					<icon name="code" />
 				</button>
 
-			</template>
+			</div>
 		</floating-menu>
 
 		<editor-content class="editor__content" :editor="editor" />
@@ -138,6 +143,11 @@ export default {
 		visibility: hidden;
 		opacity: 0;
 		transition: opacity 0.2s, visibility 0.2s;
+
+		&.is-active {
+			opacity: 1;
+			visibility: visible;
+		}
 	}
 
 }

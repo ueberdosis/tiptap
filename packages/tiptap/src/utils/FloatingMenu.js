@@ -1,12 +1,18 @@
 import { Plugin } from 'prosemirror-state'
 
-class Toolbar {
+class Menu {
 
-	constructor({ element, editorView }) {
+	constructor({ options, editorView }) {
+		this.options = {
+			...{
+				element: null,
+				onUpdate: () => false,
+			},
+			...options,
+		}
 		this.editorView = editorView
-		this.element = element
-		this.element.style.visibility = 'hidden'
-		this.element.style.opacity = 0
+		this.isActive = false
+		this.top = 0
 
 		this.editorView.dom.addEventListener('blur', this.hide.bind(this))
 	}
@@ -35,17 +41,21 @@ class Toolbar {
 			return
 		}
 
-		const editorBoundings = this.element.offsetParent.getBoundingClientRect()
+		const editorBoundings = this.options.element.offsetParent.getBoundingClientRect()
 		const cursorBoundings = view.coordsAtPos(state.selection.$anchor.pos)
 		const top = cursorBoundings.top - editorBoundings.top
 
-		this.element.style.top = `${top}px`
-		this.show()
+		this.isActive = true
+		this.top = top
+
+		this.sendUpdate()
 	}
 
-	show() {
-		this.element.style.visibility = 'visible'
-		this.element.style.opacity = 1
+	sendUpdate() {
+		this.options.onUpdate({
+			isActive: this.isActive,
+			top: this.top,
+		})
 	}
 
 	hide(event) {
@@ -53,8 +63,8 @@ class Toolbar {
 			return
 		}
 
-		this.element.style.visibility = 'hidden'
-		this.element.style.opacity = 0
+		this.isActive = false
+		this.sendUpdate()
 	}
 
 	destroy() {
@@ -63,10 +73,10 @@ class Toolbar {
 
 }
 
-export default function (element) {
+export default function (options) {
 	return new Plugin({
 		view(editorView) {
-			return new Toolbar({ editorView, element })
+			return new Menu({ editorView, options })
 		},
 	})
 }
