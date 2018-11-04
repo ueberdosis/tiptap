@@ -1,7 +1,12 @@
 <template>
 	<div class="editor">
 		<menu-bubble class="menububble" :editor="editor">
-			<template slot-scope="{ commands, isActive, markAttrs }">
+			<div
+				slot-scope="{ commands, isActive, markAttrs, menu }"
+				class="menububble"
+				:class="{ 'is-active': menu.isActive }"
+				:style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
+			>
 
 				<form class="menububble__form" v-if="linkMenuIsActive" @submit.prevent="setLinkUrl(commands.link, linkUrl)">
 					<input class="menububble__input" type="text" v-model="linkUrl" placeholder="https://" ref="linkInput" @keydown.esc="hideLinkMenu"/>
@@ -21,7 +26,7 @@
 					</button>
 				</template>
 
-			</template>
+			</div>
 		</menu-bubble>
 
 		<editor-content class="editor__content" :editor="editor" />
