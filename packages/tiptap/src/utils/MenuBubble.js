@@ -1,12 +1,19 @@
 import { Plugin } from 'prosemirror-state'
 
-class Toolbar {
+class Menu {
 
-	constructor({ element, editorView }) {
+	constructor({ options, editorView }) {
+		this.options = {
+			...{
+				element: null,
+				onUpdate: () => false,
+			},
+			...options,
+		}
 		this.editorView = editorView
-		this.element = element
-		this.element.style.visibility = 'hidden'
-		this.element.style.opacity = 0
+		this.isActive = false
+		this.left = 0
+		this.bottom = 0
 
 		this.editorView.dom.addEventListener('blur', this.hide.bind(this))
 	}
@@ -26,7 +33,6 @@ class Toolbar {
 		}
 
 		// Otherwise, reposition it and update its content
-		this.show()
 		const { from, to } = state.selection
 
 		// These are in screen coordinates
@@ -34,18 +40,25 @@ class Toolbar {
 		const end = view.coordsAtPos(to)
 
 		// The box in which the tooltip is positioned, to use as base
-		const box = this.element.offsetParent.getBoundingClientRect()
+		const box = this.options.element.offsetParent.getBoundingClientRect()
 
 		// Find a center-ish x position from the selection endpoints (when
 		// crossing lines, end may be more to the left)
 		const left = Math.max((start.left + end.left) / 2, start.left + 3)
-		this.element.style.left = `${left - box.left}px`
-		this.element.style.bottom = `${box.bottom - start.top}px`
+
+		this.isActive = true
+		this.left = parseInt(left - box.left, 10)
+		this.bottom = parseInt(box.bottom - start.top, 10)
+
+		this.sendUpdate()
 	}
 
-	show() {
-		this.element.style.visibility = 'visible'
-		this.element.style.opacity = 1
+	sendUpdate() {
+		this.options.onUpdate({
+			isActive: this.isActive,
+			left: this.left,
+			bottom: this.bottom,
+		})
 	}
 
 	hide(event) {
@@ -53,8 +66,8 @@ class Toolbar {
 			return
 		}
 
-		this.element.style.visibility = 'hidden'
-		this.element.style.opacity = 0
+		this.isActive = false
+		this.sendUpdate()
 	}
 
 	destroy() {
@@ -63,10 +76,10 @@ class Toolbar {
 
 }
 
-export default function (element) {
+export default function (options) {
 	return new Plugin({
 		view(editorView) {
-			return new Toolbar({ editorView, element })
+			return new Menu({ editorView, options })
 		},
 	})
 }

@@ -1,7 +1,12 @@
 <template>
 	<div class="editor">
-		<menu-bubble class="menububble" :editor="editor">
-			<template slot-scope="{ commands, isActive }">
+		<menu-bubble :editor="editor">
+			<div
+				slot-scope="{ commands, isActive, menu }"
+				class="menububble"
+				:class="{ 'is-active': menu.isActive }"
+				:style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
+			>
 
 				<button
 					class="menububble__button"
@@ -27,7 +32,7 @@
 					<icon name="code" />
 				</button>
 
-			</template>
+			</div>
 		</menu-bubble>
 
 		<editor-content class="editor__content" :editor="editor" />
