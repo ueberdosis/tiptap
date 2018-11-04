@@ -1,14 +1,14 @@
 <template>
 	<div class="editor">
-		<menu-bar class="menubar" :editor="editor">
-			<template slot-scope="{ commands }">
+		<menu-bar :editor="editor">
+			<div class="menubar" slot-scope="{ commands }">
 				<button
 					class="menubar__button"
 					@click="showImagePrompt(commands.image)"
 				>
 					<icon name="image" />
 				</button>
-			</template>
+			</div>
 		</menu-bar>
 		
 		<editor-content class="editor__content" :editor="editor" />

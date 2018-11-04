@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div class="editor">
-			<menu-bar class="menubar" :editor="editor">
-				<template slot-scope="{ commands, isActive }">
+			<menu-bar :editor="editor">
+				<div class="menubar" slot-scope="{ commands, isActive }">
 
 					<button
 						class="menubar__button"
@@ -84,7 +84,7 @@
 						<icon name="code" />
 					</button>
 
-				</template>
+				</div>
 			</menu-bar>
 
 			<editor-content class="editor__content" :editor="editor" />
