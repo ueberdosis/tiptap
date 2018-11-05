@@ -2,12 +2,14 @@ import Vue from 'vue'
 
 export default class ComponentView {
 	constructor(component, {
+		parent,
 		node,
 		view,
 		getPos,
 		decorations,
 		editable,
 	}) {
+		this.parent = parent
 		this.component = component
 		this.node = node
 		this.view = view
@@ -22,6 +24,7 @@ export default class ComponentView {
 	createDOM() {
 		const Component = Vue.extend(this.component)
 		this.vm = new Component({
+			parent: this.parent,
 			propsData: {
 				node: this.node,
 				view: this.view,

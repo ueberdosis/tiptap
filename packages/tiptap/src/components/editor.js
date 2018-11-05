@@ -219,6 +219,7 @@ export default {
 				state: this.state,
 				dispatchTransaction: this.dispatchTransaction,
 				nodeViews: initNodeViews({
+					parent: this,
 					nodes: this.views,
 					editable: this.editable,
 				}),

@@ -1,6 +1,6 @@
 import ComponentView from './ComponentView'
 
-export default function initNodeViews({ nodes, editable }) {
+export default function initNodeViews({ parent, nodes, editable }) {
   const nodeViews = {}
 
   Object.keys(nodes).forEach(nodeName => {
@@ -8,6 +8,7 @@ export default function initNodeViews({ nodes, editable }) {
       const component = nodes[nodeName]
 
       return new ComponentView(component, {
+        parent,
         node,
         view,
         getPos,
