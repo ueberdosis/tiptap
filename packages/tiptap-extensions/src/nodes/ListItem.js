@@ -10,7 +10,6 @@ export default class ListItemNode extends Node {
 	get schema() {
 		return {
 			content: 'paragraph block*',
-			group: 'block',
 			defining: true,
 			draggable: false,
 			parseDOM: [
