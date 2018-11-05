@@ -23,12 +23,12 @@ import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
 import {
 	BlockquoteNode,
-	BulletListNode,
 	CodeBlockNode,
 	HardBreakNode,
 	HeadingNode,
-	ListItemNode,
 	OrderedListNode,
+	BulletListNode,
+	ListItemNode,
 	TodoItemNode,
 	TodoListNode,
 	BoldMark,

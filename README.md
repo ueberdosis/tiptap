@@ -103,14 +103,14 @@ import { Editor } from 'tiptap'
 import {
   // Nodes
   BlockquoteNode,
-  BulletListNode,
   CodeBlockNode,
   CodeBlockHighlightNode,
   HardBreakNode,
   HeadingNode,
   ImageNode,
-  ListItemNode,
   OrderedListNode,
+  BulletListNode,
+  ListItemNode,
   TodoItemNode,
   TodoListNode,
 
