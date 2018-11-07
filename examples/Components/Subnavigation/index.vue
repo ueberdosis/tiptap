@@ -45,6 +45,9 @@
 		<router-link class="subnavigation__link" to="/export">
 			Export HTML or JSON
 		</router-link>
+		<router-link class="subnavigation__link" to="/font-family">
+			Font Family
+		</router-link>
 	</div>
 </template>
 

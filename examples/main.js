@@ -117,6 +117,13 @@ const routes = [
       githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Export',
     },
   },
+  {
+    path: '/font-family',
+    component: () => import('Components/Routes/FontFamily'),
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/FontFamily',
+    },
+  },
 ]
 
 const router = new VueRouter({
