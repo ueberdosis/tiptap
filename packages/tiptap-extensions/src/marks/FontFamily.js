@@ -1,5 +1,5 @@
 import { Mark } from 'tiptap'
-import { toggleMark,  updateMark} from 'tiptap-commands'
+import { toggleMark, updateMark } from 'tiptap-commands'
 
 export default class FontFamilyMark extends Mark {
 
@@ -9,7 +9,7 @@ export default class FontFamilyMark extends Mark {
 
 	get defaultOptions() {
 		return {
-			fonts: ["Times New Roman", "Courier"],
+			fonts: ['Times New Roman', 'Courier'],
 		}
 	}
 
@@ -20,28 +20,23 @@ export default class FontFamilyMark extends Mark {
 					default: 'Times',
 				},
 			},
-			parseDOM:[{
-				
+			parseDOM: [{
 				style: 'font-family',
 				getAttrs: value => {
-					if(this.options.fonts.length == 0) return null;
-					var foundIndex = this.options.fonts.findIndex(font => {
-						return font == value;
-					});
-					if(foundIndex > -1) return value;
+					if (this.options.fonts.length === 0) return null;
+					let foundIndex = this.options.fonts.findIndex(font => font == value);
+					if (foundIndex > -1) return value;
 					return false;
 				},
-				
 			}],
-			toDOM: node => [`span`, {style:'font-family : '+node.attrs.font, 'data-font-family':node.attrs.font}, 0],
+			toDOM: node => ['span', {style: `font-family : ${node.attrs.font}`, 'data-font-family': node.attrs.font }, 0],
 		}
 	}
 
-	command({ type, attrs}) {
-		if(attrs.currentFont && attrs.currentFont != attrs.font){
-			return updateMark(type, {font: attrs.font});
+	command({ type, attrs }) {
+		if (attrs.currentFont && attrs.currentFont !== attrs.font){
+			return updateMark(type, { font: attrs.font });
 		}
-		return toggleMark(type, {font: attrs.font});
+		return toggleMark(type, { font: attrs.font });
 	}
-
 }
