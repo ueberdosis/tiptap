@@ -24,17 +24,17 @@ export default class FontFamilyMark extends Mark {
 				style: 'font-family',
 				getAttrs: value => {
 					if (this.options.fonts.length === 0) return null;
-					let foundIndex = this.options.fonts.findIndex(font => font == value);
+					const foundIndex = this.options.fonts.findIndex(font => font === value);
 					if (foundIndex > -1) return value;
 					return false;
 				},
 			}],
-			toDOM: node => ['span', {style: `font-family : ${node.attrs.font}`, 'data-font-family': node.attrs.font }, 0],
+			toDOM: node => ['span', { style: `font-family : ${node.attrs.font}`, 'data-font-family': node.attrs.font }, 0],
 		}
 	}
 
 	command({ type, attrs }) {
-		if (attrs.currentFont && attrs.currentFont !== attrs.font){
+		if (attrs.currentFont && attrs.currentFont !== attrs.font) {
 			return updateMark(type, { font: attrs.font });
 		}
 		return toggleMark(type, { font: attrs.font });
