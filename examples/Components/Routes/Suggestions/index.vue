@@ -63,7 +63,7 @@ export default {
 				new HeadingNode({ maxLevel: 3 }),
 				new MentionNode({
 					// a list of all suggested items
-					items: [
+					items: () => [
 						{ id: 1, name: 'Philipp Kühn' },
 						{ id: 2, name: 'Hans Pagel' },
 						{ id: 3, name: 'Kris Siepert' },

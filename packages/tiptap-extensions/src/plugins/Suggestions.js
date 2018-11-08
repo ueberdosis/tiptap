@@ -127,7 +127,7 @@ export default function SuggestionsPlugin({
 						text: state.text,
 						decorationNode,
 						virtualNode,
-						items: onFilter(items, state.query),
+						items: onFilter(Array.isArray(items) ? items : items(), state.query),
 						command: ({ range, attrs }) => {
 							command({
 								range,
