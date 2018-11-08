@@ -32,6 +32,12 @@
       padding-left: 1rem;
     }
 
+    li > p,
+    li > ol,
+    li > ul {
+      margin: 0;
+    }
+
     a {
       color: inherit;
     }
