@@ -15,13 +15,10 @@ module.exports = {
     document: false,
     navigator: false,
     window: false,
-    Echo: false,
     collect: false,
     cy: false,
     it: false,
     describe: false,
-    FileReader: false,
-    atob: false,
   },
 
   extends: [
@@ -30,7 +27,7 @@ module.exports = {
 
   rules: {
     // required semicolons
-    'semi': 'off',
+    'semi': ['error', 'never'],
 
     // indent
     'no-tabs': 'off',
