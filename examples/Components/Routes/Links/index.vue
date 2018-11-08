@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <menu-bubble class="menububble" :editor="editor">
+    <editor-menu-bubble class="menububble" :editor="editor">
       <div
         slot-scope="{ commands, isActive, markAttrs, menu }"
         class="menububble"
@@ -27,7 +27,7 @@
         </template>
 
       </div>
-    </menu-bubble>
+    </editor-menu-bubble>
 
     <editor-content class="editor__content" :editor="editor" />
   </div>
@@ -35,7 +35,7 @@
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor, EditorContent, MenuBubble } from 'tiptap'
+import { Editor, EditorContent, EditorMenuBubble } from 'tiptap'
 import {
   Blockquote,
   BulletList,
@@ -56,7 +56,7 @@ import {
 export default {
   components: {
     EditorContent,
-    MenuBubble,
+    EditorMenuBubble,
     Icon,
   },
   data() {

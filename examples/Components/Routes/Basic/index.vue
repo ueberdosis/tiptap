@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <menu-bar :editor="editor">
+    <editor-menu-bar :editor="editor">
       <div class="menubar" slot-scope="{ commands, isActive }">
 
         <button
@@ -122,7 +122,7 @@
         </button>
 
       </div>
-    </menu-bar>
+    </editor-menu-bar>
 
     <editor-content class="editor__content" :editor="editor" />
   </div>
@@ -130,7 +130,7 @@
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor, EditorContent, MenuBar } from 'tiptap'
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
   CodeBlock,
@@ -153,7 +153,7 @@ import {
 export default {
   components: {
     EditorContent,
-    MenuBar,
+    EditorMenuBar,
     Icon,
   },
   data() {

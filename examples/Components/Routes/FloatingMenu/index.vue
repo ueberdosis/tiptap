@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <floating-menu  :editor="editor">
+    <editor-floating-menu :editor="editor">
       <div
         slot-scope="{ commands, isActive, menu }"
         class="editor__floating-menu"
@@ -65,7 +65,7 @@
         </button>
 
       </div>
-    </floating-menu>
+    </editor-floating-menu>
 
     <editor-content class="editor__content" :editor="editor" />
   </div>
@@ -73,7 +73,7 @@
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor, EditorContent, FloatingMenu } from 'tiptap'
+import { Editor, EditorContent, EditorFloatingMenu } from 'tiptap'
 import {
   Blockquote,
   BulletList,
@@ -94,7 +94,7 @@ import {
 export default {
   components: {
     EditorContent,
-    FloatingMenu,
+    EditorFloatingMenu,
     Icon,
   },
   data() {
