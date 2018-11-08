@@ -1,34 +1,34 @@
 export default class Extension {
 
-	constructor(options = {}) {
-		this.options = {
-			...this.defaultOptions,
-			...options,
-		}
-	}
+  constructor(options = {}) {
+    this.options = {
+      ...this.defaultOptions,
+      ...options,
+    }
+  }
 
-	get name() {
-		return null
-	}
+  get name() {
+    return null
+  }
 
-	get type() {
-		return 'extension'
-	}
+  get type() {
+    return 'extension'
+  }
 
-	get defaultOptions() {
-		return {}
-	}
+  get defaultOptions() {
+    return {}
+  }
 
-	get plugins() {
-		return []
-	}
+  get plugins() {
+    return []
+  }
 
-	inputRules() {
-		return []
-	}
+  inputRules() {
+    return []
+  }
 
-	keys() {
-		return {}
-	}
+  keys() {
+    return {}
+  }
 
 }

@@ -3,39 +3,39 @@ import { toggleBlockType, setBlockType, textblockTypeInputRule } from 'tiptap-co
 
 export default class CodeBlock extends Node {
 
-	get name() {
-		return 'code_block'
-	}
+  get name() {
+    return 'code_block'
+  }
 
-	get schema() {
-		return {
-			content: 'text*',
-			marks: '',
-			group: 'block',
-			code: true,
-			defining: true,
-			draggable: false,
-			parseDOM: [
-				{ tag: 'pre', preserveWhitespace: 'full' },
-			],
-			toDOM: () => ['pre', ['code', 0]],
-		}
-	}
+  get schema() {
+    return {
+      content: 'text*',
+      marks: '',
+      group: 'block',
+      code: true,
+      defining: true,
+      draggable: false,
+      parseDOM: [
+        { tag: 'pre', preserveWhitespace: 'full' },
+      ],
+      toDOM: () => ['pre', ['code', 0]],
+    }
+  }
 
-	commands({ type, schema }) {
-		return () => toggleBlockType(type, schema.nodes.paragraph)
-	}
+  commands({ type, schema }) {
+    return () => toggleBlockType(type, schema.nodes.paragraph)
+  }
 
-	keys({ type }) {
-		return {
-			'Shift-Ctrl-\\': setBlockType(type),
-		}
-	}
+  keys({ type }) {
+    return {
+      'Shift-Ctrl-\\': setBlockType(type),
+    }
+  }
 
-	inputRules({ type }) {
-		return [
-			textblockTypeInputRule(/^```$/, type),
-		]
-	}
+  inputRules({ type }) {
+    return [
+      textblockTypeInputRule(/^```$/, type),
+    ]
+  }
 
 }

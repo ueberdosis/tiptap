@@ -1,93 +1,93 @@
 <template>
-	<div class="editor">
-		<menu-bar :editor="editor">
-			<div class="menubar" slot-scope="{ commands, isActive }">
+  <div class="editor">
+    <menu-bar :editor="editor">
+      <div class="menubar" slot-scope="{ commands, isActive }">
 
-				<button
-					class="menubar__button"
-					:class="{ 'is-active': isActive('paragraph', { textAlign: 'left' }) }"
-					@click="commands.paragraph({ textAlign: 'left' })"
-				>
-					<icon name="align-left" />
-				</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive('paragraph', { textAlign: 'left' }) }"
+          @click="commands.paragraph({ textAlign: 'left' })"
+        >
+          <icon name="align-left" />
+        </button>
 
-				<button
-					class="menubar__button"
-					:class="{ 'is-active': isActive('paragraph', { textAlign: 'center' }) }"
-					@click="commands.paragraph({ textAlign: 'center' })"
-				>
-					<icon name="align-center" />
-				</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive('paragraph', { textAlign: 'center' }) }"
+          @click="commands.paragraph({ textAlign: 'center' })"
+        >
+          <icon name="align-center" />
+        </button>
 
-				<button
-					class="menubar__button"
-					:class="{ 'is-active': isActive('paragraph', { textAlign: 'right' }) }"
-					@click="commands.paragraph({ textAlign: 'right' })"
-				>
-					<icon name="align-right" />
-				</button>
-			
-			</div>
-		</menu-bar>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive('paragraph', { textAlign: 'right' }) }"
+          @click="commands.paragraph({ textAlign: 'right' })"
+        >
+          <icon name="align-right" />
+        </button>
 
-		<editor-content class="editor__content" :editor="editor" />
-	</div>
+      </div>
+    </menu-bar>
+
+    <editor-content class="editor__content" :editor="editor" />
+  </div>
 </template>
 
 <script>
 import Icon from 'Components/Icon'
 import { Editor, EditorContent, MenuBar } from 'tiptap'
 import {
-	HardBreak,
-	Code,
+  HardBreak,
+  Code,
 } from 'tiptap-extensions'
 import ParagraphAlignment from './Paragraph.js'
 
 export default {
-	components: {
-		EditorContent,
-		MenuBar,
-		Icon,
-	},
-	data() {
-		return {
-			editor: new Editor({
-				extensions: [
-					new HardBreak(),
-					new Code(),
-					new ParagraphAlignment(),
-				],
-				content: `
-					<p style="text-align: left">
-						Maybe you want to implement text alignment. If so, you're able to overwrite the default <code>ParagraphNode</code>. You can define some classes oder inline styles in your schema to achive that.
-					</p>
-					<p style="text-align: right">
-						Have fun! 🙌
-					</p>
-				`,
-			}),
-		}
-	},
-	beforeDestroy() {
-		this.editor.destroy()
-	},
+  components: {
+    EditorContent,
+    MenuBar,
+    Icon,
+  },
+  data() {
+    return {
+      editor: new Editor({
+        extensions: [
+          new HardBreak(),
+          new Code(),
+          new ParagraphAlignment(),
+        ],
+        content: `
+          <p style="text-align: left">
+            Maybe you want to implement text alignment. If so, you're able to overwrite the default <code>ParagraphNode</code>. You can define some classes oder inline styles in your schema to achive that.
+          </p>
+          <p style="text-align: right">
+            Have fun! 🙌
+          </p>
+        `,
+      }),
+    }
+  },
+  beforeDestroy() {
+    this.editor.destroy()
+  },
 }
 </script>
 
 <style lang="scss">
 .text-align {
 
-	&--left {
-		text-align: left;
-	}
+  &--left {
+    text-align: left;
+  }
 
-	&--center {
-		text-align: center;
-	}
+  &--center {
+    text-align: center;
+  }
 
-	&--right {
-		text-align: right;
-	}
+  &--right {
+    text-align: right;
+  }
 
 }
 </style>

@@ -2,24 +2,24 @@ import Extension from './Extension'
 
 export default class Mark extends Extension {
 
-	constructor(options = {}) {
-		super(options)
-	}
+  constructor(options = {}) {
+    super(options)
+  }
 
-	get type() {
-		return 'mark'
-	}
+  get type() {
+    return 'mark'
+  }
 
-	get view() {
-		return null
-	}
+  get view() {
+    return null
+  }
 
-	get schema() {
-		return null
-	}
+  get schema() {
+    return null
+  }
 
-	command() {
-		return () => {}
-	}
+  command() {
+    return () => {}
+  }
 
 }

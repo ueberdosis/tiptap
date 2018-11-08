@@ -9,7 +9,7 @@ import packagejson from '../../package.json'
 
 const { version } = packagejson
 const banner = `
-	/*!
+  /*!
   * tiptap v${version}
   * (c) ${new Date().getFullYear()} Scrumpy UG (limited liability)
   * @license MIT
@@ -23,19 +23,19 @@ function genConfig(opts) {
     input: {
       input: opts.input,
       plugins: [
-				flow(),
+        flow(),
         node(),
         cjs(),
-				vue({
-					css: true,
-					compileTemplate: true,
-				}),
+        vue({
+          css: true,
+          compileTemplate: true,
+        }),
         replace({
           __VERSION__: version,
         }),
         buble({
-					objectAssign: 'Object.assign',
-				}),
+          objectAssign: 'Object.assign',
+        }),
       ],
       external(id) { return !/^[\.\/]/.test(id) },
     },
@@ -44,7 +44,7 @@ function genConfig(opts) {
       format: opts.format,
       banner,
       name: 'tiptap',
-		},
+    },
   }
 
   if (opts.env) {

@@ -1,108 +1,108 @@
 <template>
-	<div class="editor">
-		<menu-bar :editor="editor">
-			<div class="menubar" slot-scope="{ commands, isActive }">
+  <div class="editor">
+    <menu-bar :editor="editor">
+      <div class="menubar" slot-scope="{ commands, isActive }">
 
-				<button
-					class="menubar__button"
-					:class="{ 'is-active': isActive('bold') }"
-					@click="commands.bold"
-				>
-					<icon name="bold" />
-				</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive('bold') }"
+          @click="commands.bold"
+        >
+          <icon name="bold" />
+        </button>
 
-				<button
-					class="menubar__button"
-					:class="{ 'is-active': isActive('italic') }"
-					@click="commands.italic"
-				>
-					<icon name="italic" />
-				</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive('italic') }"
+          @click="commands.italic"
+        >
+          <icon name="italic" />
+        </button>
 
-				<button
-					class="menubar__button"
-					:class="{ 'is-active': isActive('code') }"
-					@click="commands.code"
-				>
-					<icon name="code" />
-				</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive('code') }"
+          @click="commands.code"
+        >
+          <icon name="code" />
+        </button>
 
-				<button
-					class="menubar__button"
-					:class="{ 'is-active': isActive('todo_list') }"
-					@click="commands.todo_list"
-				>
-					<icon name="checklist" />
-				</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive('todo_list') }"
+          @click="commands.todo_list"
+        >
+          <icon name="checklist" />
+        </button>
 
-			</div>
-		</menu-bar>
+      </div>
+    </menu-bar>
 
-		<editor-content class="editor__content" :editor="editor" />
-	</div>
+    <editor-content class="editor__content" :editor="editor" />
+  </div>
 </template>
 
 <script>
 import Icon from 'Components/Icon'
 import { Editor, EditorContent, MenuBar } from 'tiptap'
 import {
-	CodeBlock,
-	HardBreak,
-	Heading,
-	TodoItem,
-	TodoList,
-	Bold,
-	Code,
-	Italic,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  TodoItem,
+  TodoList,
+  Bold,
+  Code,
+  Italic,
 } from 'tiptap-extensions'
 
 export default {
-	components: {
-		EditorContent,
-		MenuBar,
-		Icon,
-	},
-	data() {
-		return {
-			editor: new Editor({
-				extensions: [
-					new CodeBlock(),
-					new HardBreak(),
-					new Heading({ levels: [1, 2, 3] }),
-					new TodoItem(),
-					new TodoList(),
-					new Bold(),
-					new Code(),
-					new Italic(),
-				],
-				content: `
-					<h2>
-						Todo List
-					</h2>
-					<p>
-						There is always something to do. Thankfully, there are checklists for that. Don't forget to call mom.
-					</p>
-					<ul data-type="todo_list">
-						<li data-type="todo_item" data-done="true">
-							Buy beer
-						</li>
-						<li data-type="todo_item" data-done="true">
-							Buy meat
-						</li>
-						<li data-type="todo_item" data-done="true">
-							Buy milk
-						</li>
-						<li data-type="todo_item" data-done="false">
-							Call mom
-						</li>
-					</ul>
-				`,
-			}),
-		}
-	},
-	beforeDestroy() {
-		this.editor.destroy()
-	},
+  components: {
+    EditorContent,
+    MenuBar,
+    Icon,
+  },
+  data() {
+    return {
+      editor: new Editor({
+        extensions: [
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new TodoItem(),
+          new TodoList(),
+          new Bold(),
+          new Code(),
+          new Italic(),
+        ],
+        content: `
+          <h2>
+            Todo List
+          </h2>
+          <p>
+            There is always something to do. Thankfully, there are checklists for that. Don't forget to call mom.
+          </p>
+          <ul data-type="todo_list">
+            <li data-type="todo_item" data-done="true">
+              Buy beer
+            </li>
+            <li data-type="todo_item" data-done="true">
+              Buy meat
+            </li>
+            <li data-type="todo_item" data-done="true">
+              Buy milk
+            </li>
+            <li data-type="todo_item" data-done="false">
+              Call mom
+            </li>
+          </ul>
+        `,
+      }),
+    }
+  },
+  beforeDestroy() {
+    this.editor.destroy()
+  },
 }
 </script>
 
