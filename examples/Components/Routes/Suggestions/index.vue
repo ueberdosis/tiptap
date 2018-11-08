@@ -70,7 +70,9 @@ export default {
 						{ id: 4, name: 'Justin Schueler' },
 					],
 					// is called when a suggestion starts
-					onEnter: ({ items, query, range, command, virtualNode }) => {
+					onEnter: ({
+						items, query, range, command, virtualNode,
+					}) => {
 						this.query = query
 						this.filteredUsers = items
 						this.suggestionRange = range
@@ -81,7 +83,9 @@ export default {
 						this.insertMention = command
 					},
 					// is called when a suggestion has changed
-					onChange: ({ items, query, range, virtualNode }) => {
+					onChange: ({
+						items, query, range, virtualNode,
+					}) => {
 						this.query = query
 						this.filteredUsers = items
 						this.suggestionRange = range
