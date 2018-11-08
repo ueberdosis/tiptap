@@ -83,6 +83,13 @@ const routes = [
     },
   },
   {
+    path: '/history',
+    component: () => import('Components/Routes/History'),
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/History',
+    },
+  },
+  {
     path: '/read-only',
     component: () => import('Components/Routes/ReadOnly'),
     meta: {
