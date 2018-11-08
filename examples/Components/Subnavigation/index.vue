@@ -15,9 +15,6 @@
     <router-link class="subnavigation__link" to="/images">
       Images
     </router-link>
-    <router-link class="subnavigation__link" to="/text-align">
-      Text Align
-    </router-link>
     <router-link class="subnavigation__link" to="/hiding-menu-bar">
       Hiding Menu Bar
     </router-link>

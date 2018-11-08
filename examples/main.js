@@ -48,13 +48,6 @@ const routes = [
     },
   },
   {
-    path: '/text-align',
-    component: () => import('Components/Routes/TextAlign'),
-    meta: {
-      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/TextAlign',
-    },
-  },
-  {
     path: '/hiding-menu-bar',
     component: () => import('Components/Routes/HidingMenuBar'),
     meta: {
