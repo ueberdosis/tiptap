@@ -115,12 +115,12 @@ import Icon from 'Components/Icon'
 import { Editor, EditorContent, MenuBar } from 'tiptap'
 import {
 	Blockquote,
-	BulletList,
 	CodeBlock,
 	HardBreak,
 	Heading,
-	ListItem,
 	OrderedList,
+	BulletList,
+	ListItem,
 	TodoItem,
 	TodoList,
 	Bold,

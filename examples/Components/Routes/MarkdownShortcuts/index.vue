@@ -9,12 +9,12 @@ import Icon from 'Components/Icon'
 import { Editor, EditorContent } from 'tiptap'
 import {
 	Blockquote,
-	BulletList,
 	CodeBlock,
 	HardBreak,
 	Heading,
-	ListItem,
 	OrderedList,
+	BulletList,
+	ListItem,
 	TodoItem,
 	TodoList,
 	Bold,

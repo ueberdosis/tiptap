@@ -1,10 +1,10 @@
 import { findParentNode } from 'prosemirror-utils'
 
-export default function (state, type, attrs) {
+export default function (state, type, attrs = {}) {
 	const predicate = node => node.type === type
 	const parent = findParentNode(predicate)(state.selection)
 
-	if (attrs === {} || !parent) {
+	if (!Object.keys(attrs).length || !parent) {
 		return !!parent
 	}
 
