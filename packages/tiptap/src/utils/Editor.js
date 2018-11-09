@@ -26,6 +26,7 @@ export default class Editor {
   setOptions(options) {
     const defaultOptions = {
       editable: true,
+      extensions: [],
       content: '',
       onUpdate: () => {},
     }

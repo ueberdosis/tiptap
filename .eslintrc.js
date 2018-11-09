@@ -17,8 +17,11 @@ module.exports = {
     window: false,
     collect: false,
     cy: false,
+    test: false,
+    expect: false,
     it: false,
     describe: false,
+    FileReader: false,
   },
 
   extends: [
