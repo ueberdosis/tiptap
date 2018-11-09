@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 export default class ComponentView {
   constructor(component, {
+    extension,
     parent,
     node,
     view,
@@ -9,6 +10,7 @@ export default class ComponentView {
     decorations,
     editable,
   }) {
+    this.extension = extension
     this.parent = parent
     this.component = component
     this.node = node
@@ -63,11 +65,14 @@ export default class ComponentView {
     return true
   }
 
-  stopEvent(event) {
-    // TODO: find a way to pass full extensions to ComponentView
-    // so we could check for schema.draggable
-    // for now we're allowing all drag events for node views
-    return !/drag/.test(event.type)
+  stopEvent() {
+    const draggable = !!this.extension.schema.draggable
+
+    if (draggable) {
+      return false
+    }
+
+    return true
   }
 
   update(node, decorations) {

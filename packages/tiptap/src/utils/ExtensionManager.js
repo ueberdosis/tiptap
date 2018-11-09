@@ -33,16 +33,6 @@ export default class ExtensionManager {
       ]), [])
   }
 
-  get views() {
-    return this.extensions
-      .filter(extension => ['node', 'mark'].includes(extension.type))
-      .filter(extension => extension.view)
-      .reduce((views, { name, view }) => ({
-        ...views,
-        [name]: view,
-      }), {})
-  }
-
   keymaps({ schema }) {
     const extensionKeymaps = this.extensions
       .filter(extension => ['extension'].includes(extension.type))

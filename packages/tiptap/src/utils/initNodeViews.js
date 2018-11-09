@@ -1,22 +1,27 @@
 import ComponentView from './ComponentView'
 
-export default function initNodeViews({ parent, nodes, editable }) {
-  const nodeViews = {}
+export default function initNodeViews({ parent, extensions, editable }) {
+  return extensions
+    .filter(extension => ['node', 'mark'].includes(extension.type))
+    .filter(extension => extension.view)
+    .reduce((nodeViews, extension) => {
+      const nodeView = (node, view, getPos, decorations) => {
+        const component = extension.view
 
-  Object.keys(nodes).forEach(nodeName => {
-    nodeViews[nodeName] = (node, view, getPos, decorations) => {
-      const component = nodes[nodeName]
+        return new ComponentView(component, {
+          extension,
+          parent,
+          node,
+          view,
+          getPos,
+          decorations,
+          editable,
+        })
+      }
 
-      return new ComponentView(component, {
-        parent,
-        node,
-        view,
-        getPos,
-        decorations,
-        editable,
-      })
-    }
-  })
-
-  return nodeViews
+      return {
+        ...nodeViews,
+        [extension.name]: nodeView,
+      }
+    }, {})
 }

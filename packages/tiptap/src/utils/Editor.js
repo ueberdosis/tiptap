@@ -42,7 +42,6 @@ export default class Editor {
     this.extensions = this.createExtensions()
     this.nodes = this.createNodes()
     this.marks = this.createMarks()
-    this.views = this.createViews()
     this.schema = this.createSchema()
     this.plugins = this.createPlugins()
     this.keymaps = this.createKeymaps()
@@ -91,10 +90,6 @@ export default class Editor {
 
   createMarks() {
     return this.extensions.marks
-  }
-
-  createViews() {
-    return this.extensions.views
   }
 
   createSchema() {
@@ -146,7 +141,10 @@ export default class Editor {
       state: this.state,
       dispatchTransaction: this.dispatchTransaction.bind(this),
       nodeViews: initNodeViews({
-        nodes: this.views,
+        extensions: [
+          ...builtInNodes,
+          ...this.options.extensions,
+        ],
         editable: this.options.editable,
       }),
     })
