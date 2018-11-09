@@ -48,10 +48,10 @@ export default class Heading extends Node {
 
   inputRules({ type }) {
     return this.options.levels.map(level => textblockTypeInputRule(
-        new RegExp(`^(#{1,${level}})\\s$`),
-        type,
-        match => ({ level }),
-      ))
+      new RegExp(`^(#{1,${level}})\\s$`),
+      type,
+      () => ({ level }),
+    ))
   }
 
 }
