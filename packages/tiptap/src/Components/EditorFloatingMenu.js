@@ -1,4 +1,4 @@
-import FloatingMenu from '../Utils/FloatingMenu'
+import FloatingMenu from '../Plugins/FloatingMenu'
 
 export default {
   props: {
