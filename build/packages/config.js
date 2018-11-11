@@ -1,6 +1,6 @@
 import path from 'path'
 import vue from 'rollup-plugin-vue'
-import buble from 'rollup-plugin-buble'
+import babel from 'rollup-plugin-babel'
 import flow from 'rollup-plugin-flow-no-whitespace'
 import cjs from 'rollup-plugin-commonjs'
 import node from 'rollup-plugin-node-resolve'
@@ -33,8 +33,8 @@ function genConfig(opts) {
         replace({
           __VERSION__: version,
         }),
-        buble({
-          objectAssign: 'Object.assign',
+        babel({
+          exclude: 'node_modules/**',
         }),
       ],
       external(id) { return !/^[\.\/]/.test(id) },

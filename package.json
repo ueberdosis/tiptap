@@ -64,7 +64,7 @@
     "postcss-scss": "^2.0.0",
     "regenerator-runtime": "^0.12.1",
     "rollup": "^0.67.0",
-    "rollup-plugin-buble": "^0.19.4",
+    "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-flow-no-whitespace": "^1.0.0",
     "rollup-plugin-node-resolve": "^3.4.0",
