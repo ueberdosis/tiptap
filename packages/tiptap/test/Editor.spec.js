@@ -1,4 +1,4 @@
-import Editor from './Editor'
+import Editor from '../src/Utils/Editor'
 
 test('can create editor', () => {
   const editor = new Editor()
