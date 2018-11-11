@@ -6,11 +6,14 @@ export default {
     },
   },
   watch: {
-    'editor.element': {
+    editor: {
       immediate: true,
-      handler(element) {
-        if (element) {
-          this.$nextTick(() => this.$el.append(element.firstChild))
+      handler(editor) {
+        if (editor.element) {
+          this.$nextTick(() => {
+            this.$el.append(editor.element.firstChild)
+            editor.setParent(this)
+          })
         }
       },
     },

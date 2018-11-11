@@ -86,5 +86,8 @@
     "webpack-svgstore-plugin": "^4.1.0",
     "zlib": "^1.0.5"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "resolutions": {
+    "prosemirror-view": "git+https://git@github.com/ProseMirror/prosemirror-view.git"
+  }
 }

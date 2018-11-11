@@ -155,6 +155,23 @@ export default class Editor {
     return view
   }
 
+  setParent(component = null) {
+    if (!component) {
+      return
+    }
+
+    this.view.setProps({
+      nodeViews: initNodeViews({
+        parent: component,
+        extensions: [
+          ...builtInNodes,
+          ...this.options.extensions,
+        ],
+        editable: this.options.editable,
+      }),
+    })
+  }
+
   dispatchTransaction(transaction) {
     this.state = this.state.apply(transaction)
     this.view.updateState(this.state)
