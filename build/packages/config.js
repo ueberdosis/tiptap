@@ -5,20 +5,18 @@ import flow from 'rollup-plugin-flow-no-whitespace'
 import cjs from 'rollup-plugin-commonjs'
 import node from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
-import packagejson from '../../package.json'
-
-const { version } = packagejson
-const banner = `
-  /*!
-  * tiptap v${version}
-  * (c) ${new Date().getFullYear()} Scrumpy UG (limited liability)
-  * @license MIT
-  */
-`
 
 const resolve = _path => path.resolve(__dirname, '../../', _path)
 
 function genConfig(opts) {
+  const { version } = require(opts.package)
+  const banner = `
+    /*!
+    * ${opts.name} v${version}
+    * (c) ${new Date().getFullYear()} Scrumpy UG (limited liability)
+    * @license MIT
+    */
+  `
   const config = {
     input: {
       input: opts.input,
@@ -75,23 +73,31 @@ export default [
   },
 ].map(item => [
   {
+    name: item.package,
+    package: resolve(`packages/${item.package}/package.json`),
     input: resolve(`packages/${item.package}/src/index.js`),
     file: resolve(`packages/${item.package}/dist/${item.outputFileName}.js`),
     format: 'umd',
     env: 'development',
   },
   {
+    name: item.package,
+    package: resolve(`packages/${item.package}/package.json`),
     input: resolve(`packages/${item.package}/src/index.js`),
     file: resolve(`packages/${item.package}/dist/${item.outputFileName}.min.js`),
     format: 'umd',
     env: 'production',
   },
   {
+    name: item.package,
+    package: resolve(`packages/${item.package}/package.json`),
     input: resolve(`packages/${item.package}/src/index.js`),
     file: resolve(`packages/${item.package}/dist/${item.outputFileName}.common.js`),
     format: 'cjs',
   },
   {
+    name: item.package,
+    package: resolve(`packages/${item.package}/package.json`),
     input: resolve(`packages/${item.package}/src/index.js`),
     file: resolve(`packages/${item.package}/dist/${item.outputFileName}.esm.js`),
     format: 'es',
