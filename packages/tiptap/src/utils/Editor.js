@@ -39,7 +39,6 @@ export default class Editor {
   }
 
   init() {
-    this.bus = new Vue()
     this.element = document.createElement('div')
     this.extensions = this.createExtensions()
     this.nodes = this.createNodes()
@@ -261,14 +260,6 @@ export default class Editor {
     this.view.focus()
   }
 
-  emit(event, ...data) {
-    this.bus.$emit(event, ...data)
-  }
-
-  on(event, callback) {
-    this.bus.$on(event, callback)
-  }
-
   registerPlugin(plugin = null) {
     if (plugin) {
       this.state = this.state.reconfigure({
@@ -296,8 +287,6 @@ export default class Editor {
   }
 
   destroy() {
-    this.emit('destroy')
-
     if (this.view) {
       this.view.destroy()
     }
