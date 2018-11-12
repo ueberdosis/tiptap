@@ -28,6 +28,7 @@ export default class Editor {
       editable: true,
       extensions: [],
       content: '',
+      onInit: () => {},
       onUpdate: () => {},
     }
 
@@ -51,7 +52,10 @@ export default class Editor {
     this.view = this.createView()
     this.commands = this.createCommands()
     this.getActiveNodesAndMarks()
-    this.emit('init')
+    this.options.onInit({
+      view: this.view,
+      state: this.state,
+    })
   }
 
   createExtensions() {
