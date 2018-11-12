@@ -20,19 +20,6 @@
     height: 1.5rem;
   }
 
-  &__beta {
-    display: inline-block;
-    vertical-align: middle;
-    background-color: $color-white;
-    color: $color-black;
-    font-size: 0.6rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.05rem;
-    padding: 0.1rem 0.2rem;
-    border-radius: 5px;
-  }
-
   &__link {
     display: inline-block;
     color: rgba($color-white, 0.5);

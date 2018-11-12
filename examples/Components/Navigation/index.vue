@@ -2,7 +2,7 @@
   <div class="navigation">
 
     <h1 class="navigation__logo">
-      tiptap <span class="navigation__beta">beta</span>
+      tiptap
     </h1>
 
     <div>
