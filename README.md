@@ -45,10 +45,13 @@ export default {
   },
   data() {
     return {
-      editor: new Editor({
-        content: '<p>Hi, I'm just a boring paragraph</p>',
-      }),
+      editor: null,
     }
+  },
+  mounted() {
+    this.editor = new Editor({
+      content: '<p>Hi, I'm just a boring paragraph</p>',
+    }),
   },
   beforeDestroy() {
     this.editor.destroy()
