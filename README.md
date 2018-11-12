@@ -32,27 +32,32 @@ yarn add tiptap
 ## Basic Setup
 ```vue
 <template>
-  <editor>
-    <!-- Add HTML to the scoped slot called `content` -->
-    <div slot="content" slot-scope="props">
-      <p>Hi, I'm just a boring paragraph</p>
-    </div>
-  </editor>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
 // Import the editor
-import { Editor } from 'tiptap'
+import { Editor, EditorContent } from 'tiptap'
 
 export default {
   components: {
-    Editor,
+    EditorContent,
+  },
+  data() {
+    return {
+      editor: new Editor({
+        content: '<p>Hi, I'm just a boring paragraph</p>',
+      }),
+    }
+  },
+  beforeDestroy() {
+    this.editor.destroy()
   },
 }
 </script>
 ```
 
-## Editor Properties
+<!-- ## Editor Properties
 
 | **Property** | **Type** | **Default** | **Description** |
 | --- | :---: | :---: | --- |
@@ -61,26 +66,104 @@ export default {
 | `watchDoc` | `Boolean` | `true` | If set to `true` the content gets updated whenever `doc` changes. |
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
 | `@init` | `Object` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init. |
-| `@update` | `Object` | `undefined` | This will return an Object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function on every change. |
+| `@update` | `Object` | `undefined` | This will return an Object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function on every change. | -->
 
-## Scoped Slots
+## Components
 
 | **Name** | **Description** |
 | --- | --- |
-| `editor` | Here the content will be rendered. |
-| `menubar` | Here a menu bar will be rendered. |
-| `menububble` | Here a menu bubble will be rendered. |
+| `<editor-content />` | Here the content will be rendered. |
+| `<editor-menu-bar />` | Here a menu bar will be rendered. |
+| `<editor-menu-bubble />` | Here a menu bubble will be rendered. |
+| `<editor-floating-menu />` | Here a floating menu will be rendered. |
 
-### Slot Properties
+### EditorMenuBar
 
-The `menubar` and `menububble` slot will receive some properties.
+The `<editor-menu-bar />` component is renderless and will receive some properties through a scoped slot.
 
 | **Property** | **Type** | **Description** |
 | --- | :---: | --- |
-| `nodes` | `Object` | A list of available nodes with active state and command. |
-| `marks` | `Object` | A list of available marks with active state and command. |
+| `commands` | `Array` | A list of all commands. |
+| `isActive` | `Function` | A function to check if your selected text is a node or mark. `isActive({node|mark}, attrs)` |
+| `markAttrs` | `Function` | A function to get all mark attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
+
+#### Example
+
+```vue
+<template>
+  <editor-menu-bar :editor="editor">
+    <div slot-scope="{ commands, isActive }">
+      <button :class="{ 'is-active': isActive('bold') }" @click="commands.bold">
+        Bold
+      </button>
+    </div>
+  </editor-menu-bar>
+</template>
+```
+
+### EditorMenuBubble
+
+The `<editor-menu-bubble />` component is renderless and will receive some properties through a scoped slot.
+
+| **Property** | **Type** | **Description** |
+| --- | :---: | --- |
+| `commands` | `Array` | A list of all commands. |
+| `isActive` | `Function` | A function to check if your selected text is a node or mark. `isActive({node|mark}, attrs)` |
+| `markAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `focused` | `Boolean` | Whether the editor is focused. |
+| `focus` | `Function` | A function to focus the editor. |
+| `menu` | `Object` | An object for positioning your menu. |
+
+#### Example
+
+```vue
+<template>
+  <editor-menu-bubble :editor="editor">
+    <div
+      slot-scope="{ commands, isActive, menu }"
+      :class="{ 'is-active': menu.isActive }"
+      :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
+    >
+      <button :class="{ 'is-active': isActive('bold') }" @click="commands.bold">
+        Bold
+      </button>
+    </div>
+  </editor-menu-bubble>
+</template>
+```
+
+### EditorFloatingMenu
+
+The `<editor-floating-menu />` component is renderless and will receive some properties through a scoped slot.
+
+| **Property** | **Type** | **Description** |
+| --- | :---: | --- |
+| `commands` | `Array` | A list of all commands. |
+| `isActive` | `Function` | A function to check if your selected text is a node or mark. `isActive({node|mark}, attrs)` |
+| `markAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `focused` | `Boolean` | Whether the editor is focused. |
+| `focus` | `Function` | A function to focus the editor. |
+| `menu` | `Object` | An object for positioning your menu. |
+
+#### Example
+
+```vue
+<template>
+  <editor-floating-menu :editor="editor">
+    <div
+      slot-scope="{ commands, isActive, menu }"
+      :class="{ 'is-active': menu.isActive }"
+      :style="`top: ${menu.top}px`"
+    >
+      <button :class="{ 'is-active': isActive('bold') }" @click="commands.bold">
+        Bold
+      </button>
+    </div>
+  </editor-floating-menu>
+</template>
+```
 
 ## Extensions
 
@@ -90,70 +173,74 @@ By default, the editor will only support paragraphs. Other nodes and marks are a
 
 ```vue
 <template>
-  <editor :extensions="extensions">
-    <div slot="content" slot-scope="props">
-      <h1>Yay Headlines!</h1>
-      <p>All these <strong>cool tags</strong> are working now.</p>
-    </div>
-  </editor>
+  <div>
+    <editor-menu-bar :editor="editor">
+      <div slot-scope="{ commands, isActive }">
+        <button :class="{ 'is-active': isActive('bold') }" @click="commands.bold">
+          Bold
+        </button>
+      </div>
+    </editor-menu-bar>
+    <editor-content :editor="editor" />
+  </div>
 </template>
 
 <script>
-import { Editor } from 'tiptap'
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
-  // Nodes
-  BlockquoteNode,
-  CodeBlockNode,
-  CodeBlockHighlightNode,
-  HardBreakNode,
-  HeadingNode,
-  ImageNode,
-  OrderedListNode,
-  BulletListNode,
-  ListItemNode,
-  TodoItemNode,
-  TodoListNode,
-
-  // Marks
-  BoldMark,
-  CodeMark,
-  ItalicMark,
-  LinkMark,
-  StrikeMark,
-  UnderlineMark,
-
-  // General Extensions
-  HistoryExtension,
-  PlaceholderExtension,
+  Blockquote,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  OrderedList,
+  BulletList,
+  ListItem,
+  TodoItem,
+  TodoList,
+  Bold,
+  Code,
+  Italic,
+  Link,
+  Strike,
+  Underline,
+  History,
 } from 'tiptap-extensions'
 
 export default {
   components: {
-    Editor,
+    EditorMenuBar,
+    EditorContent,
   },
   data() {
     return {
-      extensions: [
-        new BlockquoteNode(),
-        new BulletListNode(),
-        new CodeBlockNode(),
-        new HardBreakNode(),
-        new HeadingNode({ maxLevel: 3 }),
-        new ImageNode(),
-        new ListItemNode(),
-        new OrderedListNode(),
-        new TodoItemNode(),
-        new TodoListNode(),
-        new BoldMark(),
-        new CodeMark(),
-        new ItalicMark(),
-        new LinkMark(),
-        new StrikeMark(),
-        new UnderlineMark(),
-        new HistoryExtension(),
-        new PlaceholderExtension(),
-      ],
+      editor: new Editor({
+        extensions: [
+          new Blockquote(),
+          new BulletList(),
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new ListItem(),
+          new OrderedList(),
+          new TodoItem(),
+          new TodoList(),
+          new Bold(),
+          new Code(),
+          new Italic(),
+          new Link(),
+          new Strike(),
+          new Underline(),
+          new History(),
+        ],
+        content: `
+          <h1>Yay Headlines!</h1>
+          <p>All these <strong>cool tags</strong> are working now.</p>
+        `,
+      }),
     }
+  },
+  beforeDestroy() {
+    this.editor.destroy()
   },
 }
 </script>
@@ -230,7 +317,7 @@ export default class BlockquoteNode extends Node {
   // this command will be called from menus to add a blockquote
   // `type` is the prosemirror schema object for this blockquote
   // `schema` is a collection of all registered nodes and marks
-  command({ type, schema }) {
+  commands({ type, schema }) {
     return wrapIn(type)
   }
 
@@ -325,49 +412,6 @@ export default class IframeNode extends Node {
   }
 
 }
-```
-
-## Building a Menu
-
-This is a basic example of building a custom menu. A more advanced menu can be found at the [examples page](https://tiptap.scrumpy.io).
-
-```vue
-<template>
-  <editor :extensions="extensions">
-    <div slot="menubar" slot-scope="{ nodes, marks }">
-      <div v-if="nodes && marks">
-        <button :class="{ 'is-active': nodes.heading.active({ level: 1 }) }" @click="nodes.heading.command({ level: 1 })">
-          H1
-        </button>
-        <button :class="{ 'is-active': marks.bold.active() }" @click="marks.bold.command()">
-          Bold
-        </button>
-      </div>
-    </div>
-    <div slot="content" slot-scope="props">
-      <p>This text can be made bold.</p>
-    </div>
-  </editor>
-</template>
-
-<script>
-import { Editor } from 'tiptap'
-import { HeadingNode, BoldMark } from 'tiptap-extensions'
-
-export default {
-  components: {
-    Editor,
-  },
-  data() {
-    return {
-      extensions: [
-        new HeadingNode({ maxLevel: 3 }),
-        new BoldMark(),
-      ],
-    }
-  },
-}
-</script>
 ```
 
 ## Development Setup
