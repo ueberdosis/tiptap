@@ -109,6 +109,14 @@
 						<icon name="code" />
 					</button>
 
+					<button
+						class="menubar__button"
+						:class="{ 'is-active': nodes.table.active() }"
+						@click="nodes.table.command"
+					>
+						<icon name="table" />
+					</button>
+
 				</div>
 			</div>
 
@@ -133,6 +141,12 @@
 					<br />
 					– mom
 				</blockquote>
+				<p>The table:</p>
+			  <table>
+			    <tr><th colspan=3 data-colwidth="100,0,0">Wide header</th></tr>
+			    <tr><td>One</td><td>Two</td><td>Three</td></tr>
+			    <tr><td>Four</td><td>Five</td><td>Six</td></tr>
+			  </table>
 			</div>
 
 		</editor>
@@ -142,6 +156,7 @@
 <script>
 import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
+import Table from '../../Custom/Table.js'
 import {
 	BlockquoteNode,
 	CodeBlockNode,
@@ -185,6 +200,7 @@ export default {
 				new StrikeMark(),
 				new UnderlineMark(),
 				new HistoryExtension(),
+				new Table(),
 			],
 		}
 	},
