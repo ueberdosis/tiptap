@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
@@ -30,6 +29,8 @@ export default class Editor {
       content: '',
       onInit: () => {},
       onUpdate: () => {},
+      onFocus: () => {},
+      onBlur: () => {},
     }
 
     this.options = {
@@ -154,6 +155,16 @@ export default class Editor {
     })
 
     view.dom.style.whiteSpace = 'pre-wrap'
+
+    view.dom.addEventListener('focus', () => this.options.onFocus({
+      state: this.state,
+      view: this.view,
+    }))
+
+    view.dom.addEventListener('blur', () => this.options.onBlur({
+      state: this.state,
+      view: this.view,
+    }))
 
     return view
   }
