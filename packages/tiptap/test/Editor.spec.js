@@ -199,3 +199,16 @@ test('clear content', () => {
 
   expect(editor.getHTML()).toEqual('<p></p>')
 })
+
+test('init callback', done => {
+  const editor = new Editor({
+    content: '<p>Foo</p>',
+    onInit: ({ state, view }) => {
+      expect(state).toBeDefined()
+      expect(view).toBeDefined()
+      done()
+    },
+  })
+
+  editor.destroy()
+})
