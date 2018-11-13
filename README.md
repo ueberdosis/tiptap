@@ -220,12 +220,12 @@ export default {
       editor: new Editor({
         extensions: [
           new Blockquote(),
-          new BulletList(),
           new CodeBlock(),
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
-          new ListItem(),
+          new BulletList(),
           new OrderedList(),
+          new ListItem(),
           new TodoItem(),
           new TodoList(),
           new Bold(),
