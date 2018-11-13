@@ -60,16 +60,17 @@ export default {
 </script>
 ```
 
-<!-- ## Editor Properties
+## Editor Properties
 
 | **Property** | **Type** | **Default** | **Description** |
 | --- | :---: | :---: | --- |
+| `content` | `Object|String` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
 | `editable` | `Boolean` | `true` | When set to `false` the editor is read-only. |
-| `doc` | `Object` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
-| `watchDoc` | `Boolean` | `true` | If set to `true` the content gets updated whenever `doc` changes. |
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
-| `@init` | `Object` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init. |
-| `@update` | `Object` | `undefined` | This will return an Object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function on every change. | -->
+| `onInit` | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init. |
+| `onFocus` | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on focus. |
+| `onBlur` | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on blur. |
+| `onUpdate` | `Function` | `undefined` | This will return an Object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function on every change. |
 
 ## Components
 
@@ -267,6 +268,7 @@ The most powerful feature of tiptap is that you can create your own extensions. 
 | `get defaultOptions()` | `Object` | `{}` | Define some default options. The options are available as `this.$options`. |
 | `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
 | `keys({ schema })` | `Object` | `null` | Define some keybindings. |
+| `commands({ schema, attrs })` | `Object` | `null` | Define a command. |
 | `inputRules({ schema })` | `Array` | `[]` | Define a list of input rules. |
 
 ### Node|Mark Class
@@ -278,7 +280,7 @@ The most powerful feature of tiptap is that you can create your own extensions. 
 | `get schema()` | `Object` | `null` | Define a [schema](https://prosemirror.net/docs/guide/#schema). |
 | `get view()` | `Object` | `null` | Define a node view as a vue component. |
 | `keys({ type, schema })` | `Object` | `null` | Define some keybindings. |
-| `command({ type, schema, attrs })` | `Object` | `null` | Define a command. This is used for menus to convert to this node or mark. |
+| `commands({ type, schema, attrs })` | `Object` | `null` | Define a command. For example this is used for menus to convert to this node or mark. |
 | `inputRules({ type, schema })` | `Array` | `[]` | Define a list of input rules. |
 | `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
 
