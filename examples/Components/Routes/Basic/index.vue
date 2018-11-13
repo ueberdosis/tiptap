@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<editor class="editor" :extensions="extensions">
+		<editor class="editor" :extensions="extensions" @update="onUpdate" ref="editor">
 
 			<div class="menubar" slot="menubar" slot-scope="{ nodes, marks }">
 				<div v-if="nodes && marks">
-
+						
 					<button
 						class="menubar__button"
 						:class="{ 'is-active': marks.bold.active() }"
@@ -112,22 +112,15 @@
 					<button
 						class="menubar__button"
 						:class="{ 'is-active': nodes.table.active() }"
-						@click="nodes.table.command"
+						@click="nodes.table.command({rows: 3,cols: 4, headerRow: false})"
 					>
-						<icon name="table" />
+						insert Table
 					</button>
 
 				</div>
 			</div>
 
 			<div class="editor__content" slot="content" slot-scope="props">
-				<h2>
-					Hi there,
-				</h2>
-				<p>
-					this is a very <em>basic</em> example of tiptap.
-				</p>
-				<pre><code>body { display: none; }</code></pre>
 				<ul>
 					<li>
 						A regular list
@@ -136,11 +129,6 @@
 						With regular items
 					</li>
 				</ul>
-				<blockquote>
-					It's amazing 👏
-					<br />
-					– mom
-				</blockquote>
 				<p>The table:</p>
 			  <table>
 			    <tr><th colspan=3 data-colwidth="100,0,0">Wide header</th></tr>
@@ -148,15 +136,29 @@
 			    <tr><td>Four</td><td>Five</td><td>Six</td></tr>
 			  </table>
 			</div>
-
 		</editor>
+		<div class="actions">
+			<button class="button" @click="clearContent">
+				Clear Content
+			</button>
+			<button class="button" @click="setContent">
+				Set Content
+			</button>
+		</div>
+		<div class="export">
+			<h3>JSON</h3>
+			<pre><code v-html="json"></code></pre>
+
+			<h3>HTML</h3>
+			<pre><code>{{ html }}</code></pre>
+		</div>
 	</div>
 </template>
 
 <script>
 import Icon from 'Components/Icon'
 import { Editor } from 'tiptap'
-import Table from '../../Custom/Table.js'
+import TableNode from '../../custom/tables'
 import {
 	BlockquoteNode,
 	CodeBlockNode,
@@ -200,9 +202,77 @@ export default {
 				new StrikeMark(),
 				new UnderlineMark(),
 				new HistoryExtension(),
-				new Table(),
+				...TableNode
 			],
+			json: 'Update content to see changes',
+			html: 'Update content to see changes',
 		}
+	},
+	created () {
+		document.execCommand("enableObjectResizing", false, false)
+		document.execCommand("enableInlineTableEditing", false, false)
+	},
+	mounted () {
+		console.log('----sds--->', this.$refs.editor.schema.nodes)
+	},
+	methods: {
+		onUpdate({ getJSON, getHTML }) {
+			this.json = getJSON()
+			this.html = getHTML()
+		},
+		clearContent() {
+			this.$refs.editor.clearContent(true)
+			this.$refs.editor.focus()
+		},
+		setContent() {
+			// you can pass a json document
+			this.$refs.editor.setContent({
+				type: 'doc',
+				content: [{
+					type: 'paragraph',
+					content: [
+						{
+							type: 'text',
+							text: 'This is some inserted text. 👋',
+						},
+					],
+				}],
+			}, true)
+
+			// HTML string is also supported
+			// this.$refs.editor.setContent('<p>This is some inserted text. 👋</p>')
+
+			this.$refs.editor.focus()
+		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+@import "~variables";
+
+.actions {
+	max-width: 30rem;
+	margin: 0 auto 2rem auto;
+}
+
+.export {
+
+	max-width: 30rem;
+	margin: 0 auto 2rem auto;
+
+	pre {
+		padding: 1rem;
+		border-radius: 5px;
+		font-size: 0.8rem;
+		font-weight: bold;
+		background: rgba($color-black, 0.05);
+		color: rgba($color-black, 0.8);
+	}
+
+	code {
+		display: block;
+		white-space: pre-wrap;
+	}
+}
+</style>

@@ -8959,6 +8959,13 @@ prosemirror-model@^1.6.2:
   dependencies:
     orderedmap "^1.0.0"
 
+prosemirror-schema-basic@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/prosemirror-schema-basic/-/prosemirror-schema-basic-1.0.0.tgz#240516a52637e1a5b9d6d0bde0708906f2f51397"
+  integrity sha512-xTFjtuLZgcRS4MoDbUyI9NSk/k/ACLGKZQcDXH18ctM9BOmP4z5rGZcA014fCF2FnMFOU+lKwusL0JjVrEectQ==
+  dependencies:
+    prosemirror-model "^1.0.0"
+
 prosemirror-schema-list@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/prosemirror-schema-list/-/prosemirror-schema-list-1.0.1.tgz#f216e0cf4809b6074aa27912449ac89897f1ae94"
