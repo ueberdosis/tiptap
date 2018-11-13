@@ -212,3 +212,29 @@ test('init callback', done => {
 
   editor.destroy()
 })
+
+test('update callback', done => {
+  const editor = new Editor({
+    content: '<p>Foo</p>',
+    onUpdate: ({ getHTML, getJSON }) => {
+      expect(getHTML()).toEqual('<p>Bar</p>')
+      expect(getJSON()).toEqual({
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'Bar',
+              },
+            ],
+          },
+        ],
+      })
+      done()
+    },
+  })
+
+  editor.setContent('<p>Bar</p>', true)
+})
