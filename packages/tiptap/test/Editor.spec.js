@@ -26,26 +26,20 @@ test('can create editor', () => {
 })
 
 test('set HTML, get HTML', () => {
-  const result = '<p>Lorem <strong>ipsum</strong> dolor sit amet.</p>'
+  const content = '<p>Lorem <strong>ipsum</strong> dolor sit amet.</p>'
 
   const editor = new Editor({
-    content: result,
+    content,
     extensions: [
       new Bold(),
     ],
   })
 
-  expect(editor.getHTML()).toEqual(result)
+  expect(editor.getHTML()).toEqual(content)
 })
 
 test('set HTML, get JSON', () => {
-  const editor = new Editor({
-    content: '<p>Lorem <strong>ipsum</strong> dolor sit amet.</p>',
-    extensions: [
-      new Bold(),
-    ],
-  })
-
+  const content = '<p>Lorem <strong>ipsum</strong> dolor sit amet.</p>'
   const result = {
     type: 'doc',
     content: [
@@ -73,12 +67,19 @@ test('set HTML, get JSON', () => {
       },
     ],
   }
+
+  const editor = new Editor({
+    content,
+    extensions: [
+      new Bold(),
+    ],
+  })
 
   expect(editor.getJSON()).toEqual(result)
 })
 
 test('set JSON, get JSON', () => {
-  const result = {
+  const content = {
     type: 'doc',
     content: [
       {
@@ -107,13 +108,13 @@ test('set JSON, get JSON', () => {
   }
 
   const editor = new Editor({
-    content: result,
+    content,
     extensions: [
       new Bold(),
     ],
   })
 
-  expect(editor.getJSON()).toEqual(result)
+  expect(editor.getJSON()).toEqual(content)
 })
 
 test('set JSON, get HTML', () => {
@@ -154,4 +155,47 @@ test('set JSON, get HTML', () => {
   })
 
   expect(editor.getHTML()).toEqual(result)
+})
+
+test('set content (HTML)', () => {
+  const editor = new Editor({
+    content: '<p>Foo</p>',
+  })
+
+  editor.setContent('<p>Bar</p>')
+
+  expect(editor.getHTML()).toEqual('<p>Bar</p>')
+})
+
+test('set content (JSON)', () => {
+  const editor = new Editor({
+    content: '<p>Foo</p>',
+  })
+
+  editor.setContent({
+    type: 'doc',
+    content: [
+      {
+        type: 'paragraph',
+        content: [
+          {
+            type: 'text',
+            text: 'Bar',
+          },
+        ],
+      },
+    ],
+  })
+
+  expect(editor.getHTML()).toEqual('<p>Bar</p>')
+})
+
+test('clear content', () => {
+  const editor = new Editor({
+    content: '<p>Foo</p>',
+  })
+
+  editor.clearContent()
+
+  expect(editor.getHTML()).toEqual('<p></p>')
 })
