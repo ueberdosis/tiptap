@@ -87,8 +87,11 @@ export default class ComponentView {
 
     this.node = node
     this.decorations = decorations
-    this.vm._props.node = node
-    this.vm._props.decorations = decorations
+
+    // TODO: should be update props? maybe this is required for the collab plugin
+    // this.vm._props.node = node
+    // this.vm._props.decorations = decorations
+
     return true
   }
 
