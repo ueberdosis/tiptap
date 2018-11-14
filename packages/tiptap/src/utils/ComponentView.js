@@ -11,9 +11,9 @@ export default class ComponentView {
     decorations,
     editable,
   }) {
+    this.component = component
     this.extension = extension
     this.parent = parent
-    this.component = component
     this.node = node
     this.view = view
     this.getPos = getPos
@@ -41,6 +41,30 @@ export default class ComponentView {
     return this.vm.$el
   }
 
+  update(node, decorations) {
+    if (node.type !== this.node.type) {
+      return false
+    }
+
+    if (node === this.node && this.decorations === decorations) {
+      return true
+    }
+
+    this.node = node
+    this.decorations = decorations
+
+    // Update props in component
+    // TODO: Avoid mutating a prop directly.
+    // Maybe there is a better way to do this?
+    const originalSilent = Vue.config.silent
+    Vue.config.silent = true
+    this.vm._props.node = node
+    this.vm._props.decorations = decorations
+    Vue.config.silent = originalSilent
+
+    return true
+  }
+
   updateAttrs(attrs) {
     if (!this.editable) {
       return
@@ -62,40 +86,19 @@ export default class ComponentView {
     this.view.dispatch(transaction)
   }
 
+  // prevent a full re-render of the vue component on update
+  // we'll handle prop updates in `update()`
   ignoreMutation() {
     return true
   }
 
+  // disable (almost) all prosemirror event listener for node views
   stopEvent() {
     const draggable = !!this.extension.schema.draggable
 
     if (draggable) {
       return false
     }
-
-    return true
-  }
-
-  update(node, decorations) {
-    if (node.type !== this.node.type) {
-      return false
-    }
-
-    if (node === this.node && this.decorations === decorations) {
-      return true
-    }
-
-    this.node = node
-    this.decorations = decorations
-
-    // Update props in component
-    // TODO: Avoid mutating a prop directly.
-    // Maybe there is a better way to do this?
-    const originalSilent = Vue.config.silent
-    Vue.config.silent = true
-    this.vm._props.node = node
-    this.vm._props.decorations = decorations
-    Vue.config.silent = originalSilent
 
     return true
   }
