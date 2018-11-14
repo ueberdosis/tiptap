@@ -88,7 +88,7 @@ The `<editor-menu-bar />` component is renderless and will receive some properti
 | **Property** | **Type** | **Description** |
 | --- | :---: | --- |
 | `commands` | `Array` | A list of all commands. |
-| `isActive` | `Function` | A function to check if your selected text is a node or mark. `isActive({node|mark}, attrs)` |
+| `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
 | `markAttrs` | `Function` | A function to get all mark attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
@@ -99,8 +99,11 @@ The `<editor-menu-bar />` component is renderless and will receive some properti
 <template>
   <editor-menu-bar :editor="editor">
     <div slot-scope="{ commands, isActive }">
-      <button :class="{ 'is-active': isActive('bold') }" @click="commands.bold">
+      <button :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
         Bold
+      </button>
+      <button :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click="commands.heading({ level: 2 })">
+        H2
       </button>
     </div>
   </editor-menu-bar>
@@ -114,7 +117,7 @@ The `<editor-menu-bubble />` component is renderless and will receive some prope
 | **Property** | **Type** | **Description** |
 | --- | :---: | --- |
 | `commands` | `Array` | A list of all commands. |
-| `isActive` | `Function` | A function to check if your selected text is a node or mark. `isActive({node|mark}, attrs)` |
+| `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
 | `markAttrs` | `Function` | A function to get all mark attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
@@ -130,8 +133,11 @@ The `<editor-menu-bubble />` component is renderless and will receive some prope
       :class="{ 'is-active': menu.isActive }"
       :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
     >
-      <button :class="{ 'is-active': isActive('bold') }" @click="commands.bold">
+      <button :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
         Bold
+      </button>
+      <button :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click="commands.heading({ level: 2 })">
+        H2
       </button>
     </div>
   </editor-menu-bubble>
@@ -145,7 +151,7 @@ The `<editor-floating-menu />` component is renderless and will receive some pro
 | **Property** | **Type** | **Description** |
 | --- | :---: | --- |
 | `commands` | `Array` | A list of all commands. |
-| `isActive` | `Function` | A function to check if your selected text is a node or mark. `isActive({node|mark}, attrs)` |
+| `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
 | `markAttrs` | `Function` | A function to get all mark attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
@@ -161,8 +167,11 @@ The `<editor-floating-menu />` component is renderless and will receive some pro
       :class="{ 'is-active': menu.isActive }"
       :style="`top: ${menu.top}px`"
     >
-      <button :class="{ 'is-active': isActive('bold') }" @click="commands.bold">
+      <button :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
         Bold
+      </button>
+      <button :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click="commands.heading({ level: 2 })">
+        H2
       </button>
     </div>
   </editor-floating-menu>
@@ -180,7 +189,7 @@ By default, the editor will only support paragraphs. Other nodes and marks are a
   <div>
     <editor-menu-bar :editor="editor">
       <div slot-scope="{ commands, isActive }">
-        <button :class="{ 'is-active': isActive('bold') }" @click="commands.bold">
+        <button :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
           Bold
         </button>
       </div>
@@ -391,26 +400,23 @@ export default class IframeNode extends Node {
       // `updateAttrs` is a function to update attributes defined in `schema`
       // `editable` is the global editor prop whether the content can be edited
       props: ['node', 'updateAttrs', 'editable'],
-      data() {
-        return {
-          // save the iframe src in a new variable because `this.node.attrs` is immutable
-          url: this.node.attrs.src,
-        }
-      },
-      methods: {
-        onChange(event) {
-          this.url = event.target.value
-
-          // update the iframe url
-          this.updateAttrs({
-            src: this.url,
-          })
+      computed: {
+        src: {
+          get() {
+            return this.node.attrs.src
+          },
+          set(src) {
+            // we cannot update `src` itself because `this.node.attrs` is immutable
+            this.updateAttrs({
+              src,
+            })
+          },
         },
       },
       template: `
         <div class="iframe">
-          <iframe class="iframe__embed" :src="url"></iframe>
-          <input class="iframe__input" type="text" :value="url" @input="onChange" v-if="editable" />
+          <iframe class="iframe__embed" :src="src"></iframe>
+          <input class="iframe__input" type="text" v-model="src" v-if="editable" />
         </div>
       `,
     }
