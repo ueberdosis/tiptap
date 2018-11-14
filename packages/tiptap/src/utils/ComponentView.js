@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 export default class ComponentView {
+
   constructor(component, {
     extension,
     parent,
@@ -94,4 +95,5 @@ export default class ComponentView {
   destroy() {
     this.vm.$destroy()
   }
+
 }

@@ -18,8 +18,27 @@ import builtInNodes from '../Nodes'
 export default class Editor {
 
   constructor(options = {}) {
+    this.init(options)
+  }
+
+  init(options = {}) {
     this.setOptions(options)
-    this.init()
+    this.element = document.createElement('div')
+    this.extensions = this.createExtensions()
+    this.nodes = this.createNodes()
+    this.marks = this.createMarks()
+    this.schema = this.createSchema()
+    this.plugins = this.createPlugins()
+    this.keymaps = this.createKeymaps()
+    this.inputRules = this.createInputRules()
+    this.state = this.createState()
+    this.view = this.createView()
+    this.commands = this.createCommands()
+    this.setActiveNodesAndMarks()
+    this.options.onInit({
+      view: this.view,
+      state: this.state,
+    })
   }
 
   setOptions(options) {
@@ -37,25 +56,6 @@ export default class Editor {
       ...defaultOptions,
       ...options,
     }
-  }
-
-  init() {
-    this.element = document.createElement('div')
-    this.extensions = this.createExtensions()
-    this.nodes = this.createNodes()
-    this.marks = this.createMarks()
-    this.schema = this.createSchema()
-    this.plugins = this.createPlugins()
-    this.keymaps = this.createKeymaps()
-    this.inputRules = this.createInputRules()
-    this.state = this.createState()
-    this.view = this.createView()
-    this.commands = this.createCommands()
-    this.setActiveNodesAndMarks()
-    this.options.onInit({
-      view: this.view,
-      state: this.state,
-    })
   }
 
   createExtensions() {
@@ -169,7 +169,7 @@ export default class Editor {
     return view
   }
 
-  setParent(component = null) {
+  setParentComponent(component = null) {
     if (!component) {
       return
     }
@@ -204,6 +204,10 @@ export default class Editor {
       getJSON: this.getJSON.bind(this),
       state: this.state,
     })
+  }
+
+  focus() {
+    this.view.focus()
   }
 
   getHTML() {
@@ -267,19 +271,6 @@ export default class Editor {
       }), {})
   }
 
-  focus() {
-    this.view.focus()
-  }
-
-  registerPlugin(plugin = null) {
-    if (plugin) {
-      this.state = this.state.reconfigure({
-        plugins: this.state.plugins.concat([plugin]),
-      })
-      this.view.updateState(this.state)
-    }
-  }
-
   getMarkAttrs(type = null) {
     return this.activeMarkAttrs[type]
   }
@@ -296,10 +287,23 @@ export default class Editor {
       }), {})
   }
 
-  destroy() {
-    if (this.view) {
-      this.view.destroy()
+  registerPlugin(plugin = null) {
+    if (!plugin) {
+      return
     }
+
+    this.state = this.state.reconfigure({
+      plugins: this.state.plugins.concat([plugin]),
+    })
+    this.view.updateState(this.state)
+  }
+
+  destroy() {
+    if (!this.view) {
+      return
+    }
+
+    this.view.destroy()
   }
 
 }

@@ -19,7 +19,7 @@ import {
   History,
 } from '../../tiptap-extensions'
 
-test('can create editor', () => {
+test('create editor', () => {
   const editor = new Editor()
 
   expect(editor).toBeDefined()

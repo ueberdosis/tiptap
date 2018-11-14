@@ -14,7 +14,7 @@ export default {
         if (editor.element) {
           this.$nextTick(() => {
             this.$el.append(editor.element.firstChild)
-            editor.setParent(this)
+            editor.setParentComponent(this)
           })
         }
       },
