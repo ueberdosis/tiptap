@@ -2,8 +2,8 @@ language: node_js
 node_js:
   - "10"
 cache: yarn
-install:
-  - yarn
+before_script:
+  - yarn install
 script:
   - yarn lint
   - yarn test
