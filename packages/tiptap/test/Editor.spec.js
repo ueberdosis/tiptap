@@ -1,4 +1,4 @@
-import Editor from '../src/Editor'
+import { Editor } from 'tiptap'
 
 import {
   Blockquote,
