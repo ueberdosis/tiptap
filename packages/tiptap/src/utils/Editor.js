@@ -280,23 +280,20 @@ export default class Editor {
     }
   }
 
-  markAttrs(type = null) {
+  getMarkAttrs(type = null) {
     return this.activeMarkAttrs[type]
   }
 
   get isActive() {
-    const types = {
-      ...this.activeMarks,
-      ...this.activeNodes,
-    }
-
-    Object
-      .entries(types)
-      .forEach(([name, value]) => {
-        types[name] = (attrs = {}) => value(attrs)
+    return Object
+      .entries({
+        ...this.activeMarks,
+        ...this.activeNodes,
       })
-
-    return types
+      .reduce((types, [name, value]) => ({
+        ...types,
+        [name]: (attrs = {}) => value(attrs),
+      }), {})
   }
 
   destroy() {

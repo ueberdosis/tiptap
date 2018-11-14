@@ -43,7 +43,7 @@ export default {
       focus: this.editor.focus,
       commands: this.editor.commands,
       isActive: this.editor.isActive,
-      markAttrs: this.editor.markAttrs.bind(this.editor),
+      getMarkAttrs: this.editor.getMarkAttrs.bind(this.editor),
       menu: this.menu,
     })
   },

@@ -2,7 +2,7 @@
   <div class="editor">
     <editor-menu-bubble class="menububble" :editor="editor">
       <div
-        slot-scope="{ commands, isActive, markAttrs, menu }"
+        slot-scope="{ commands, isActive, getMarkAttrs, menu }"
         class="menububble"
         :class="{ 'is-active': menu.isActive }"
         :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
@@ -18,7 +18,7 @@
         <template v-else>
           <button
             class="menububble__button"
-            @click="showLinkMenu(markAttrs('link'))"
+            @click="showLinkMenu(getMarkAttrs('link'))"
             :class="{ 'is-active': isActive.link() }"
           >
             <span>Add Link</span>
