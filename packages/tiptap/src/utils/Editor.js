@@ -51,7 +51,7 @@ export default class Editor {
     this.state = this.createState()
     this.view = this.createView()
     this.commands = this.createCommands()
-    this.getActiveNodesAndMarks()
+    this.setActiveNodesAndMarks()
     this.options.onInit({
       view: this.view,
       state: this.state,
@@ -189,7 +189,7 @@ export default class Editor {
   dispatchTransaction(transaction) {
     this.state = this.state.apply(transaction)
     this.view.updateState(this.state)
-    this.getActiveNodesAndMarks()
+    this.setActiveNodesAndMarks()
 
     if (!transaction.docChanged) {
       return
@@ -244,7 +244,7 @@ export default class Editor {
     }, emitUpdate)
   }
 
-  getActiveNodesAndMarks() {
+  setActiveNodesAndMarks() {
     this.activeMarks = Object
       .entries(this.schema.marks)
       .reduce((marks, [name, mark]) => ({
