@@ -50,7 +50,7 @@ export default {
   },
   mounted() {
     this.editor = new Editor({
-      content: '<p>Hi, I'm just a boring paragraph</p>',
+      content: '<p>This is just a boring paragraph</p>',
     })
   },
   beforeDestroy() {
