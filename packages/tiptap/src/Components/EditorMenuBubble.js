@@ -1,12 +1,14 @@
 import MenuBubble from '../Plugins/MenuBubble'
 
 export default {
+
   props: {
     editor: {
       default: null,
       type: Object,
     },
   },
+
   data() {
     return {
       menu: {
@@ -16,6 +18,7 @@ export default {
       },
     }
   },
+
   watch: {
     editor: {
       immediate: true,
@@ -33,6 +36,7 @@ export default {
       },
     },
   },
+
   render() {
     if (!this.editor) {
       return null
@@ -47,4 +51,5 @@ export default {
       menu: this.menu,
     })
   },
+
 }

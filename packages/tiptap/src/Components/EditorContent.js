@@ -1,10 +1,12 @@
 export default {
+
   props: {
     editor: {
       default: null,
       type: Object,
     },
   },
+
   watch: {
     editor: {
       immediate: true,
@@ -18,7 +20,9 @@ export default {
       },
     },
   },
+
   render(createElement) {
     return createElement('div')
   },
+
 }

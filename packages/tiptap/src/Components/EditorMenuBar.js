@@ -1,10 +1,12 @@
 export default {
+
   props: {
     editor: {
       default: null,
       type: Object,
     },
   },
+
   render() {
     if (!this.editor) {
       return null
@@ -18,4 +20,5 @@ export default {
       getMarkAttrs: this.editor.getMarkAttrs.bind(this.editor),
     })
   },
+
 }
