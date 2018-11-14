@@ -11,7 +11,7 @@ before_install:
 
 install:
   - yarn install
-  - ls -la node_modules
+  - yarn build:packages
 
 script:
   - yarn lint
