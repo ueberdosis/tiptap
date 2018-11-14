@@ -88,9 +88,14 @@ export default class ComponentView {
     this.node = node
     this.decorations = decorations
 
-    // TODO: should be update props? maybe this is required for the collab plugin
-    // this.vm._props.node = node
-    // this.vm._props.decorations = decorations
+    // Update props in component
+    // TODO: Avoid mutating a prop directly.
+    // Maybe there is a better way to do this?
+    const originalSilent = Vue.config.silent
+    Vue.config.silent = true
+    this.vm._props.node = node
+    this.vm._props.decorations = decorations
+    Vue.config.silent = originalSilent
 
     return true
   }

@@ -32,24 +32,22 @@ export default class Iframe extends Node {
   get view() {
     return {
       props: ['node', 'updateAttrs', 'editable'],
-      data() {
-        return {
-          url: this.node.attrs.src,
-        }
-      },
-      methods: {
-        onChange(event) {
-          this.url = event.target.value
-
-          this.updateAttrs({
-            src: this.url,
-          })
+      computed: {
+        src: {
+          get() {
+            return this.node.attrs.src
+          },
+          set(src) {
+            this.updateAttrs({
+              src,
+            })
+          },
         },
       },
       template: `
         <div class="iframe">
-          <iframe class="iframe__embed" :src="url"></iframe>
-          <input class="iframe__input" type="text" :value="url" @input="onChange" v-if="editable" />
+          <iframe class="iframe__embed" :src="src"></iframe>
+          <input class="iframe__input" type="text" v-model="src" v-if="editable" />
         </div>
       `,
     }
