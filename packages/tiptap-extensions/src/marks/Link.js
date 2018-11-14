@@ -1,5 +1,6 @@
-import { Mark } from 'tiptap'
+import { Mark, Plugin, TextSelection } from 'tiptap'
 import { updateMark, removeMark } from 'tiptap-commands'
+import { getMarkRange } from 'tiptap-utils'
 
 export default class Link extends Mark {
 
@@ -38,6 +39,29 @@ export default class Link extends Mark {
 
       return removeMark(type)
     }
+  }
+
+  get plugins() {
+    return [
+      new Plugin({
+        props: {
+          handleClick(view, pos) {
+            const { schema, doc, tr } = view.state
+            const range = getMarkRange(doc.resolve(pos), schema.marks.link)
+
+            if (!range) {
+              return
+            }
+
+            const $start = doc.resolve(range.from)
+            const $end = doc.resolve(range.to)
+            const transaction = tr.setSelection(new TextSelection($start, $end))
+
+            view.dispatch(transaction)
+          },
+        },
+      }),
+    ]
   }
 
 }

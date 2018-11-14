@@ -4,4 +4,9 @@ export { default as EditorContent } from './Components/EditorContent'
 export { default as EditorMenuBar } from './Components/EditorMenuBar'
 export { default as EditorMenuBubble } from './Components/EditorMenuBubble'
 export { default as EditorFloatingMenu } from './Components/EditorFloatingMenu'
-export { Plugin, PluginKey } from 'prosemirror-state'
+export {
+  Plugin,
+  PluginKey,
+  TextSelection,
+  NodeSelection,
+} from 'prosemirror-state'
