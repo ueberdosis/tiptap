@@ -2,7 +2,9 @@ language: node_js
 node_js:
   - "10"
 cache: yarn
-before_script:
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.10.1
+install:
   - yarn install
 script:
   - yarn lint
