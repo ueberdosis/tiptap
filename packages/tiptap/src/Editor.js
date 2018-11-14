@@ -3,17 +3,11 @@ import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import { gapCursor } from 'prosemirror-gapcursor'
 import { keymap } from 'prosemirror-keymap'
-import { baseKeymap } from 'prosemirror-commands'
-import { inputRules } from 'prosemirror-inputrules'
+import { baseKeymap, selectParentNode } from 'prosemirror-commands'
+import { inputRules, undoInputRule } from 'prosemirror-inputrules'
 import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
-
-import {
-  ExtensionManager,
-  initNodeViews,
-  builtInKeymap,
-} from '.'
-
-import builtInNodes from '../Nodes'
+import { ExtensionManager, ComponentView } from './Utils'
+import builtInNodes from './Nodes'
 
 export default class Editor {
 
@@ -114,7 +108,10 @@ export default class Editor {
           rules: this.inputRules,
         }),
         ...this.keymaps,
-        keymap(builtInKeymap),
+        keymap({
+          Backspace: undoInputRule,
+          Escape: selectParentNode,
+        }),
         keymap(baseKeymap),
         gapCursor(),
         new Plugin({
@@ -145,7 +142,7 @@ export default class Editor {
     const view = new EditorView(this.element, {
       state: this.state,
       dispatchTransaction: this.dispatchTransaction.bind(this),
-      nodeViews: initNodeViews({
+      nodeViews: this.initNodeViews({
         extensions: [
           ...builtInNodes,
           ...this.options.extensions,
@@ -175,7 +172,7 @@ export default class Editor {
     }
 
     this.view.setProps({
-      nodeViews: initNodeViews({
+      nodeViews: this.initNodeViews({
         parent: component,
         extensions: [
           ...builtInNodes,
@@ -184,6 +181,32 @@ export default class Editor {
         editable: this.options.editable,
       }),
     })
+  }
+
+  initNodeViews({ parent, extensions, editable }) {
+    return extensions
+      .filter(extension => ['node', 'mark'].includes(extension.type))
+      .filter(extension => extension.view)
+      .reduce((nodeViews, extension) => {
+        const nodeView = (node, view, getPos, decorations) => {
+          const component = extension.view
+
+          return new ComponentView(component, {
+            extension,
+            parent,
+            node,
+            view,
+            getPos,
+            decorations,
+            editable,
+          })
+        }
+
+        return {
+          ...nodeViews,
+          [extension.name]: nodeView,
+        }
+      }, {})
   }
 
   dispatchTransaction(transaction) {

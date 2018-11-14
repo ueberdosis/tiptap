@@ -1,4 +1,4 @@
-import Editor from '../src/Utils/Editor'
+import Editor from '../src/Editor'
 
 import {
   Blockquote,
