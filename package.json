@@ -23,12 +23,12 @@
     "ie >= 9"
   ],
   "devDependencies": {
-    "@babel/core": "^7.1.5",
+    "@babel/core": "^7.1.6",
     "@babel/node": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.1.5",
+    "@babel/preset-env": "^7.1.6",
     "@babel/preset-stage-2": "^7.0.0",
     "@babel/runtime": "^7.1.5",
     "autoprefixer": "^9.3.1",
@@ -42,7 +42,7 @@
     "css-loader": "^1.0.1",
     "eslint": "^5.8.0",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-html": "^4.0.6",
+    "eslint-plugin-html": "^5.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-vue": "4.7.1",
     "file-loader": "^2.0.0",
