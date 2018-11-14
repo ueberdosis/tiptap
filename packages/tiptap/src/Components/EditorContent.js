@@ -11,7 +11,7 @@ export default {
     editor: {
       immediate: true,
       handler(editor) {
-        if (editor.element) {
+        if (editor && editor.element) {
           this.$nextTick(() => {
             this.$el.append(editor.element.firstChild)
             editor.setParentComponent(this)
