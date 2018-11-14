@@ -9,7 +9,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('bold') }"
+          :class="{ 'is-active': isActive.bold() }"
           @click="commands.bold"
         >
           <icon name="bold" />
@@ -17,7 +17,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('italic') }"
+          :class="{ 'is-active': isActive.italic() }"
           @click="commands.italic"
         >
           <icon name="italic" />
@@ -25,7 +25,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('strike') }"
+          :class="{ 'is-active': isActive.strike() }"
           @click="commands.strike"
         >
           <icon name="strike" />
@@ -33,7 +33,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('underline') }"
+          :class="{ 'is-active': isActive.underline() }"
           @click="commands.underline"
         >
           <icon name="underline" />
@@ -41,7 +41,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('code') }"
+          :class="{ 'is-active': isActive.code() }"
           @click="commands.code"
         >
           <icon name="code" />
@@ -49,7 +49,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('paragraph') }"
+          :class="{ 'is-active': isActive.paragraph() }"
           @click="commands.paragraph"
         >
           <icon name="paragraph" />
@@ -57,7 +57,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('heading', { level: 1 }) }"
+          :class="{ 'is-active': isActive.heading({ level: 1 }) }"
           @click="commands.heading({ level: 1 })"
         >
           H1
@@ -65,7 +65,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('heading', { level: 2 }) }"
+          :class="{ 'is-active': isActive.heading({ level: 2 }) }"
           @click="commands.heading({ level: 2 })"
         >
           H2
@@ -73,7 +73,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('heading', { level: 3 }) }"
+          :class="{ 'is-active': isActive.heading({ level: 3 }) }"
           @click="commands.heading({ level: 3 })"
         >
           H3
@@ -81,7 +81,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('bullet_list') }"
+          :class="{ 'is-active': isActive.bullet_list() }"
           @click="commands.bullet_list"
         >
           <icon name="ul" />
@@ -89,7 +89,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('ordered_list') }"
+          :class="{ 'is-active': isActive.ordered_list() }"
           @click="commands.ordered_list"
         >
           <icon name="ol" />
@@ -97,7 +97,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('blockquote') }"
+          :class="{ 'is-active': isActive.blockquote() }"
           @click="commands.blockquote"
         >
           <icon name="quote" />
@@ -105,7 +105,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('code_block') }"
+          :class="{ 'is-active': isActive.code_block() }"
           @click="commands.code_block"
         >
           <icon name="code" />

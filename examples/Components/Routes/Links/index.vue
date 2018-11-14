@@ -19,7 +19,7 @@
           <button
             class="menububble__button"
             @click="showLinkMenu(markAttrs('link'))"
-            :class="{ 'is-active': isActive('link') }"
+            :class="{ 'is-active': isActive.link() }"
           >
             <span>Add Link</span>
             <icon name="link" />

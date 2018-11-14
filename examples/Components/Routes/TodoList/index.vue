@@ -5,7 +5,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('bold') }"
+          :class="{ 'is-active': isActive.bold() }"
           @click="commands.bold"
         >
           <icon name="bold" />
@@ -13,7 +13,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('italic') }"
+          :class="{ 'is-active': isActive.italic() }"
           @click="commands.italic"
         >
           <icon name="italic" />
@@ -21,7 +21,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('code') }"
+          :class="{ 'is-active': isActive.code() }"
           @click="commands.code"
         >
           <icon name="code" />
@@ -29,7 +29,7 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive('todo_list') }"
+          :class="{ 'is-active': isActive.todo_list() }"
           @click="commands.todo_list"
         >
           <icon name="checklist" />
