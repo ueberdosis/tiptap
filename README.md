@@ -65,7 +65,7 @@ export default {
 
 | **Property** | **Type** | **Default** | **Description** |
 | --- | :---: | :---: | --- |
-| `content` | `Object|String` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
+| `content` | `Object\|String` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
 | `editable` | `Boolean` | `true` | When set to `false` the editor is read-only. |
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
 | `onInit` | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init. |
