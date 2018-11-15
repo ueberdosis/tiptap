@@ -94,13 +94,11 @@ export default class ExtensionManager {
 				...commands,
 				[name]: attrs => {
 					view.focus()
-					console.log('----1---->', schema, type, name, schema[`${type}s`][name])
 					const provider = command({
 						type: schema[`${type}s`][name],
 						attrs,
 						schema,
 					})
-					console.log('-----2---->', provider)
 					const callbacks = Array.isArray(provider) ? provider : [provider]
 
 					callbacks.forEach(callback => callback(view.state, view.dispatch, view))

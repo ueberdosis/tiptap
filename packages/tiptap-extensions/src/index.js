@@ -10,6 +10,7 @@ export { default as MentionNode } from './nodes/Mention'
 export { default as OrderedListNode } from './nodes/OrderedList'
 export { default as TodoItemNode } from './nodes/TodoItem'
 export { default as TodoListNode } from './nodes/TodoList'
+export { default as TableNode } from './nodes/table'
 
 export { default as BoldMark } from './marks/Bold'
 export { default as CodeMark } from './marks/Code'
