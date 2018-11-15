@@ -41,7 +41,6 @@ export default class TableNodes extends Node {
   }) {
     return (state, dispatch) => {
       const { selection } = state
-      console.log('------->', attrs.type)
       switch (attrs.type) {
         case 'insert':
           let rows = attrs.options && attrs.options.rows

@@ -25,14 +25,14 @@
               </label>
             </template>
             <div v-if="item.commandType === 'insertTable'" class="menu_item table_insert">
-              <table @mouseover="selectTable">
-                <tr v-for="i in 10" :key="i">
-                  <td v-for="j in 10" :key="j" ref="tableTd">
-                    <a></a>
+              <table @mouseleave="initTableSel" @click="insertTable">
+                <tr v-for="col in 10" :key="col">
+                  <td v-for="row in 10" :key="row" ref="tableTd" @mouseover="selectTable(col, row)">
+                    <a :class="{'sel_active': (row <= tableRows && col <= tableCols)}"></a>
                   </td>
                 </tr>
               </table>
-              <p class="alg_c">10 x 10</p>
+              <p class="alg_c">{{tableRows}} x {{tableCols}}</p>
             </div>
             <template v-if="item.child">
               <div class="menu_item">
@@ -61,7 +61,9 @@ export default {
   props: ['name', 'list', 'arrow', 'type', 'current', 'nodes', 'marks'],
   data () {
     return {
-      active: false
+      active: false,
+      tableRows: 1,
+      tableCols: 1
     }
   },
   computed: {
@@ -100,14 +102,17 @@ export default {
         console.log('domClickHandle:error', err)
       }
     },
-    selectTable (e) {
-      console.log('-------', e)
-      // this.$refs.tableTd.forEach(item => {
-      //   console.log(item.offsetTop)
-      // })
+    selectTable (col, row) {
+      this.tableRows = row
+      this.tableCols = col
     },
-    clickHandle () {
-      console.log('command null')
+    initTableSel () {
+      this.tableRows = 1
+      this.tableCols = 1
+    },
+    insertTable () {
+      this.nodes.table.command({type: 'insert', options: {rows: this.tableRows, cols: this.tableCols, headerRow: false}})
+      this.initTableSel()
     }
   },
   watch: {
@@ -264,6 +269,9 @@ export default {
         height: 1em;
         padding: 3px 5px;
         cursor: pointer;
+        &.sel_active{
+          background: #9df1ef;
+        }
       }
     }
     p {
