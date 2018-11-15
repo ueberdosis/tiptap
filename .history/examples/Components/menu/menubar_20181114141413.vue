@@ -1,3 +1,0 @@
-<template>
-  <idv></idv>
-</template>
