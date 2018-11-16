@@ -52,5 +52,6 @@ module.exports = {
     'class-methods-use-this': 'off',
 
     'global-require': 'off',
+    "no-param-reassign": 0,
   }
 }

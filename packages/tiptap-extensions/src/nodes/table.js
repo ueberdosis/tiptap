@@ -1,6 +1,4 @@
-import {
-  Node
-} from 'tiptap'
+import { Node } from 'tiptap'
 import {
   tableEditing,
   columnResizing,
@@ -17,11 +15,9 @@ import {
   toggleHeaderColumn,
   toggleHeaderRow,
   toggleHeaderCell,
-  setCellAttr
+  setCellAttr,
 } from 'prosemirror-tables'
-import {
-  createTable,
-} from 'prosemirror-utils'
+import { createTable } from 'prosemirror-utils'
 import TableNodes from './TableNodes'
 
 export default class Table extends Node {
@@ -34,76 +30,101 @@ export default class Table extends Node {
     return TableNodes.table
   }
 
-  commands({ type, schema }) {
+  commands({ schema }) {
     return attrs => (state, dispatch) => {
-      const { selection } = state
-      switch (attrs.type) {
-        case 'insert':
-          let rows = attrs.options && attrs.options.rows
-          let cols = attrs.options && attrs.options.cols
-          let headerRow = attrs.options && attrs.options.headerRow
-          const nodes = createTable(schema, rows, cols, headerRow)
-          const transaction = state.tr.replaceSelectionWith(nodes).scrollIntoView()
-          dispatch(transaction)
-          break;
-        case 'addColumnBefore':
-          addColumnBefore(state, dispatch)
-          break;
-        case 'addColumnAfter':
-          addColumnAfter(state, dispatch)
-          break;
-        case 'deleteColumn':
-          deleteColumn(state, dispatch)
-          break;
-        case 'addRowBefore':
-          addRowBefore(state, dispatch)
-          break;
-        case 'addRowAfter':
-          addRowAfter(state, dispatch)
-          break;
-        case 'deleteRow':
-          deleteRow(state, dispatch)
-          break;
-        case 'deleteTable':
-          deleteTable(state, dispatch)
-          break;
-        case 'mergeCells':
-          mergeCells(state, dispatch)
-          break;
-        case 'splitCell':
-          splitCell(state, dispatch)
-          break;
-        case 'toggleHeaderColumn':
-          toggleHeaderColumn(state, dispatch)
-          break;
-        case 'toggleHeaderRow':
-          toggleHeaderRow(state, dispatch)
-          break;
-        case 'toggleHeaderCell':
-          toggleHeaderCell(state, dispatch)
-          break;
-        case 'setCellBackground':
-          let color = (attrs.options && attrs.options.color) || '#dfd'
-          setCellAttr("background", color)(state, dispatch)
-          break;
-        case 'setCellBackgroundNull':
-          setCellAttr("background", null)(state, dispatch)
-          break;
+      if (attrs.type) {
+        switch (attrs.type) {
+          case 'insert': {
+            const rows = attrs.options && attrs.options.rows
+            const cols = attrs.options && attrs.options.cols
+            const headerRow = attrs.options && attrs.options.headerRow
+            const nodes = createTable(schema, rows, cols, headerRow)
+            const transaction = state.tr.replaceSelectionWith(nodes).scrollIntoView()
+            dispatch(transaction)
+            break
+          }
+          case 'addColumnBefore': {
+            addColumnBefore(state, dispatch)
+            break
+          }
+          case 'addColumnAfter': {
+            addColumnAfter(state, dispatch)
+            break
+          }
+          case 'deleteColumn': {
+            deleteColumn(state, dispatch)
+            break
+          }
+          case 'addRowBefore': {
+            addRowBefore(state, dispatch)
+            break
+          }
+          case 'addRowAfter': {
+            addRowAfter(state, dispatch)
+            break
+          }
+          case 'deleteRow': {
+            deleteRow(state, dispatch)
+            break
+          }
+          case 'deleteTable': {
+            deleteTable(state, dispatch)
+            break
+          }
+          case 'mergeCells': {
+            mergeCells(state, dispatch)
+            break
+          }
+          case 'splitCell': {
+            splitCell(state, dispatch)
+            break
+          }
+          case 'toggleHeaderColumn': {
+            toggleHeaderColumn(state, dispatch)
+            break
+          }
+          case 'toggleHeaderRow': {
+            toggleHeaderRow(state, dispatch)
+            break
+          }
+          case 'toggleHeaderCell': {
+            toggleHeaderCell(state, dispatch)
+            break
+          }
+          case 'setCellBackground': {
+            const color = (attrs.options && attrs.options.color) || '#dfd'
+            setCellAttr('background', color)(state, dispatch)
+            break
+          }
+          case 'setCellBackgroundNull': {
+            setCellAttr('background', null)(state, dispatch)
+            break
+          }
+          default: {
+            const rows = attrs.options && attrs.options.rows
+            const cols = attrs.options && attrs.options.cols
+            const headerRow = attrs.options && attrs.options.headerRow
+            const nodes = createTable(schema, rows, cols, headerRow)
+            const transaction = state.tr.replaceSelectionWith(nodes).scrollIntoView()
+            dispatch(transaction)
+            break
+          }
+        }
       }
     }
   }
 
-  keys({ type }) {
+  keys() {
     return {
-      'Tab': goToNextCell(1),
-      'Shift-Tab': goToNextCell(-1)
+      Tab: goToNextCell(1),
+      'Shift-Tab': goToNextCell(-1),
     }
   }
 
   get plugins() {
     return [
       columnResizing(),
-      tableEditing()
+      tableEditing(),
     ]
   }
 

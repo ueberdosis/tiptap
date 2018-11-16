@@ -86,15 +86,18 @@ export default class Editor {
 
   createNodes() {
     const table = tableNodes({
-      tableGroup: "block",
-      cellContent: "block+",
+      tableGroup: 'block',
+      cellContent: 'block+',
       cellAttributes: {
         background: {
           default: null,
           getFromDOM(dom) { return dom.style.backgroundColor || null },
-          setDOMAttr(value, attrs) { if (value) attrs.style = (attrs.style || "") + `background-color: ${value};` }
-        }
-      }
+          setDOMAttr(value, attrs) {
+            attrs.style = attrs.style || {}
+            if (value) attrs.style['background-color'] = value
+          },
+        },
+      },
     })
     return Object.assign(this.extensions.nodes, table)
   }
@@ -134,8 +137,8 @@ export default class Editor {
       ],
     })
     // table handle history
-    let fix = fixTables(state)
-    if (fix) state = state.apply(fix.setMeta("addToHistory", false))
+    const fix = fixTables(state)
+    if (fix) state = state.apply(fix.setMeta('addToHistory', false))
     return state
   }
 
