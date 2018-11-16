@@ -13,7 +13,7 @@ export default {
       handler(editor) {
         if (editor && editor.element) {
           this.$nextTick(() => {
-            this.$el.append(editor.element.firstChild)
+            this.$el.appendChild(editor.element.firstChild)
             editor.setParentComponent(this)
           })
         }
