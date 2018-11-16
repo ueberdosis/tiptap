@@ -153,13 +153,6 @@ export default class Editor {
     const view = new EditorView(this.element, {
       state: this.state,
       dispatchTransaction: this.dispatchTransaction.bind(this),
-      nodeViews: this.initNodeViews({
-        extensions: [
-          ...builtInNodes,
-          ...this.options.extensions,
-        ],
-        editable: this.options.editable,
-      }),
     })
 
     view.dom.style.whiteSpace = 'pre-wrap'
