@@ -1,146 +1,135 @@
 <template>
   <div class="tiptap_menu_bar">
     <template v-for="(item,index) in menuBar">
-      <tip-select class="item" :name="item.name" :type="item.type" :current="currentType" @active="activeSelect" :key="index" :list="item.list" :nodes="nodes" :marks="marks"></tip-select>
+      <tip-select class="item" :name="item.name" :type="item.type" :current="currentType" @active="activeSelect" :key="index" :list="item.list" :commands="commands" :isActive="isActive"></tip-select>
     </template>
   </div>
 </template>
 <script>
-import tipSelect from './select'
+import tipSelect from './tip.select'
 export default {
-  props: ['nodes', 'marks', 'modules'],
+  props: ['commands', 'isActive'],
   data () {
     return {
       currentType: '',
       menuBar: [
         {
-          name: '文件',
-          type: 'file',
-          list: [
-            {
-              name: '打印',
-              type: 'print',
-              icon: 'icon-print'
-            }
-          ]
-        },
-        {
-          name: '编辑',
+          name: 'edit',
           type: 'edit',
           list: [
             {
-              name: '撤销',
-              type: 'undo',
-              commandType: 'history',
+              name: 'undo',
+              command: this.commands.undo,
               icon: 'icon-undo'
             },
             {
-              name: '恢复',
-              type: 'redo',
-              commandType: 'history',
+              name: 'redo',
+              command: this.commands.redo,
               icon: 'icon-redo'
             }
           ]
         },
         {
-          name: '插入',
+          name: 'insert',
           type: 'insert',
           list: [
             {
-              name: '插入表格',
+              name: 'insert table',
+              command: 'table',
               commandType: 'insertTable',
               icon: 'icon-inserttable'
             }
           ]
         },
         {
-          name: '表格',
+          name: 'table',
           type: 'table',
           list: [
             {
-              name: '插入表格',
+              name: 'insert table',
+              command: 'table',
               commandType: 'insertTable',
               icon: 'icon-inserttable'
             },
             {
-              name: '删除表格',
-              nodes: 'table',
+              name: 'delete table',
+              command: 'table',
               commandType: 'deleteTable',
               icon: ''
             },
             {
-              name: '行',
+              name: 'Row',
               child: true,
               list: [
                 {
                   name: 'add row before',
-                  nodes: 'table',
+                  command: 'table',
                   commandType: 'addRowBefore'
                 },
                 {
                   name: 'add row after',
-                  nodes: 'table',
+                  command: 'table',
                   commandType: 'addRowAfter'
                 },
                 {
                   name: 'toggle header row',
-                  nodes: 'table',
+                  command: 'table',
                   commandType: 'toggleHeaderRow'
                 },
                 {
                   name: 'delete row',
-                  nodes: 'table',
+                  command: 'table',
                   commandType: 'deleteRow'
                 }
               ]
             },
             {
-              name: '列',
+              name: 'Col',
               child: true,
               list: [
                 {
                   name: 'add column before',
-                  nodes: 'table',
+                  command: 'table',
                   commandType: 'addColumnBefore'
                 },
                 {
                   name: 'add column after',
-                  nodes: 'table',
+                  command: 'table',
                   commandType: 'addColumnAfter'
                 },
                 {
                   name: 'toggle header column',
-                  nodes: 'table',
+                  command: 'table',
                   commandType: 'toggleHeaderColumn'
                 },
                 {
                   name: 'delete column',
-                  nodes: 'table',
+                  command: 'table',
                   commandType: 'deleteColumn'
                 }
               ]
             },
             {
-              name: '合并单元格',
-              nodes: 'table',
+              name: 'mergeCells',
+              command: 'table',
               commandType: 'mergeCells',
               icon: ''
             },
             {
-              name: '拆分单元格',
-              nodes: 'table',
+              name: 'splitCell',
+              command: 'table',
               commandType: 'splitCell',
               icon: ''
             },
             {
-              name: '设置单元格背景',
-              nodes: 'table',
+              name: 'setCellBackground',
+              command: 'table',
               commandType: 'setCellBackground',
               icon: ''
             },
             {
-              name: '删除单元格背景',
-              nodes: 'table',
+              name: 'removeCellBackground',
+              command: 'table',
               commandType: 'setCellBackgroundNull',
               icon: ''
             }

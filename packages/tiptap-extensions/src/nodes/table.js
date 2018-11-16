@@ -22,24 +22,20 @@ import {
 import {
   createTable,
 } from 'prosemirror-utils'
-import Table from './table.nodes'
+import TableNodes from './TableNodes'
 
-export default class TableNodes extends Node {
+export default class Table extends Node {
 
   get name() {
     return 'table'
   }
 
   get schema() {
-    return Table.table
+    return TableNodes.table
   }
 
-  command({
-    type,
-    schema,
-    attrs
-  }) {
-    return (state, dispatch) => {
+  commands({ type, schema }) {
+    return attrs => (state, dispatch) => {
       const { selection } = state
       switch (attrs.type) {
         case 'insert':
@@ -87,8 +83,8 @@ export default class TableNodes extends Node {
           toggleHeaderCell(state, dispatch)
           break;
         case 'setCellBackground':
-					let color = (attrs.options && attrs.options.color) || '#dfd'
-					setCellAttr("background", color)(state, dispatch)
+          let color = (attrs.options && attrs.options.color) || '#dfd'
+          setCellAttr("background", color)(state, dispatch)
           break;
         case 'setCellBackgroundNull':
           setCellAttr("background", null)(state, dispatch)
@@ -97,9 +93,7 @@ export default class TableNodes extends Node {
     }
   }
 
-  keys({
-    type
-  }) {
+  keys({ type }) {
     return {
       'Tab': goToNextCell(1),
       'Shift-Tab': goToNextCell(-1)

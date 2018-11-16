@@ -8,16 +8,16 @@
       <div class="sel_option" :class="{arrow: arrow}" v-if="active">
         <ul class="ul_list">
           <li class="col" v-for="(item,index) in list" :class="{child: item.child}" :key="index">
-            <template v-if="item.nodes === 'table' && item.commandType">
-              <label>
+            <template v-if="item.command === 'table' && item.commandType">
+              <label @click="commands.table({type: item.commandType})">
                 <em class="font_midd">
                   <i v-if="item.icon" :class="'iconfont ' + item.icon"></i>
                 </em>
-                <span class="font_midd" @click="nodes.table.command({type: item.commandType})">{{item.name}}</span>
+                <span class="font_midd">{{item.name}}</span>
               </label>
             </template>
             <template v-else>
-              <label>
+              <label @click="commandHandle(item.command)">
                 <em class="font_midd">
                   <i v-if="item.icon" :class="'iconfont ' + item.icon"></i>
                 </em>
@@ -40,8 +40,8 @@
                 <ul class="ul_list">
                   <template v-for="(sitem,sindex) in item.list">
                     <!-- table handle -->
-                    <template v-if="sitem.nodes === 'table' && sitem.commandType">
-                      <li class="col" :class="{'is-active': nodes.table.active()}" @click="nodes.table.command({type: sitem.commandType})">{{sitem.name}}</li>
+                    <template v-if="sitem.command === 'table' && sitem.commandType">
+                      <li class="col" :class="{'is-active': isActive.table()}" @click="commands.table({type: sitem.commandType})">{{sitem.name}}</li>
                     </template>
                     <template v-else>
                       <li class="col" :class="{'is-active': item.active}">{{sitem.name}}</li>
@@ -60,7 +60,7 @@
 
 <script>
 export default {
-  props: ['name', 'list', 'arrow', 'type', 'current', 'nodes', 'marks'],
+  props: ['name', 'list', 'arrow', 'type', 'current', 'commands', 'isActive'],
   data () {
     return {
       active: false,
@@ -73,7 +73,7 @@ export default {
       if (['file', 'edit', 'insert'].includes(this.type)) {
         return true
       } else {
-        return this.nodes[this.type].active()
+        return this.isActive[this.type]()
       }
     }
   },
@@ -83,6 +83,9 @@ export default {
     })
   },
   methods: {
+    commandHandle (command) {
+      if (command) return command()
+    },
     activeClass () {
       this.active = !this.active
       if (this.active) {
@@ -113,7 +116,7 @@ export default {
       this.tableCols = 1
     },
     insertTable () {
-      this.nodes.table.command({type: 'insert', options: {rows: this.tableRows, cols: this.tableCols, headerRow: false}})
+      this.commands.table({type: 'insert', options: {rows: this.tableRows, cols: this.tableCols, headerRow: false}})
       this.initTableSel()
     }
   },
@@ -188,6 +191,7 @@ export default {
           em {
             width: 20px;
           }
+          cursor: pointer;
         }
         .iconfont {
           margin-right: 5px;

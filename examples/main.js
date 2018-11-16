@@ -48,6 +48,13 @@ const routes = [
     },
   },
   {
+    path: '/table',
+    component: () => import('Components/Routes/Table'),
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Table',
+    },
+  },
+  {
     path: '/hiding-menu-bar',
     component: () => import('Components/Routes/HidingMenuBar'),
     meta: {
