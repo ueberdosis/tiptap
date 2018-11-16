@@ -8,7 +8,7 @@
     "start": "node ./node_modules/@babel/node/bin/babel-node.js ./build/examples/server.js --env=development",
     "build:packages": "node ./node_modules/@babel/node/bin/babel-node.js ./build/packages/build.js",
     "build:examples": "node ./node_modules/@babel/node/bin/babel-node.js ./build/examples/build.js --env=production",
-    "release": "yarn lint && yarn test && yarn build:packages && lerna publish",
+    "release": "yarn build:packages && yarn lint && yarn test && lerna publish",
     "lint": "eslint ./packages/**/src/**",
     "test": "jest"
   },
@@ -86,8 +86,5 @@
     "webpack-svgstore-plugin": "^4.1.0",
     "zlib": "^1.0.5"
   },
-  "dependencies": {},
-  "resolutions": {
-    "prosemirror-view": "git+https://git@github.com/ProseMirror/prosemirror-view.git"
-  }
+  "dependencies": {}
 }
