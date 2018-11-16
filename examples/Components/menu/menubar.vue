@@ -19,7 +19,26 @@ export default {
           list: [
             {
               name: '打印',
+              type: 'print',
               icon: 'icon-print'
+            }
+          ]
+        },
+        {
+          name: '编辑',
+          type: 'edit',
+          list: [
+            {
+              name: '撤销',
+              type: 'undo',
+              commandType: 'history',
+              icon: 'icon-undo'
+            },
+            {
+              name: '恢复',
+              type: 'redo',
+              commandType: 'history',
+              icon: 'icon-redo'
             }
           ]
         },

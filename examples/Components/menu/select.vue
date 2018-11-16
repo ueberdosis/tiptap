@@ -24,20 +24,22 @@
                 <span class="font_midd">{{item.name}}</span>
               </label>
             </template>
+            <!-- insert table -->
             <div v-if="item.commandType === 'insertTable'" class="menu_item table_insert">
               <table @mouseleave="initTableSel" @click="insertTable">
-                <tr v-for="col in 10" :key="col">
-                  <td v-for="row in 10" :key="row" ref="tableTd" @mouseover="selectTable(col, row)">
+                <tr v-for="row in 10" :key="row">
+                  <td v-for="col in 10" :key="col" ref="tableTd" @mouseover="selectTable(row, col)">
                     <a :class="{'sel_active': (row <= tableRows && col <= tableCols)}"></a>
                   </td>
                 </tr>
               </table>
-              <p class="alg_c">{{tableRows}} x {{tableCols}}</p>
+              <p class="alg_c">{{tableCols}} x {{tableRows}}</p>
             </div>
             <template v-if="item.child">
               <div class="menu_item">
                 <ul class="ul_list">
                   <template v-for="(sitem,sindex) in item.list">
+                    <!-- table handle -->
                     <template v-if="sitem.nodes === 'table' && sitem.commandType">
                       <li class="col" :class="{'is-active': nodes.table.active()}" @click="nodes.table.command({type: sitem.commandType})">{{sitem.name}}</li>
                     </template>
@@ -68,7 +70,7 @@ export default {
   },
   computed: {
     itemShow () {
-      if (['file', 'insert'].includes(this.type)) {
+      if (['file', 'edit', 'insert'].includes(this.type)) {
         return true
       } else {
         return this.nodes[this.type].active()
@@ -102,7 +104,7 @@ export default {
         console.log('domClickHandle:error', err)
       }
     },
-    selectTable (col, row) {
+    selectTable (row, col) {
       this.tableRows = row
       this.tableCols = col
     },
