@@ -94,7 +94,6 @@ export default class ExtensionManager {
 				...commands,
 				[name]: attrs => {
 					view.focus()
-
 					const provider = command({
 						type: schema[`${type}s`][name],
 						attrs,

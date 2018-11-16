@@ -5,6 +5,7 @@ import { gapCursor } from 'prosemirror-gapcursor'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { inputRules } from 'prosemirror-inputrules'
+import { tableNodes, fixTables }  from 'prosemirror-tables'
 
 import {
 	buildMenuActions,
@@ -40,12 +41,23 @@ export default {
 	},
 
 	data() {
+		const Table = tableNodes({
+		    tableGroup: "block",
+		    cellContent: "block+",
+		    cellAttributes: {
+		      	background: {
+		        	default: null,
+		        	getFromDOM(dom) { return dom.style.backgroundColor || null },
+		        	setDOMAttr(value, attrs) { if (value) attrs.style = (attrs.style || "") + `background-color: ${value};` }
+		      	}
+		    }
+		})
 		const allExtensions = new ExtensionManager([
 			...builtInNodes,
 			...this.extensions,
 		])
-		const { nodes, marks, views } = allExtensions
-
+		let { nodes, marks, views } = allExtensions
+		nodes = Object.assign(nodes, Table)
 		return {
 			state: null,
 			view: null,
@@ -163,7 +175,7 @@ export default {
 		},
 
 		createState() {
-			return EditorState.create({
+			let state = EditorState.create({
 				schema: this.schema,
 				doc: this.getDocument(),
 				plugins: [
@@ -171,6 +183,10 @@ export default {
 					...this.getPlugins(),
 				],
 			})
+			// table handle history
+			let fix = fixTables(state)
+			if (fix) state = state.apply(fix.setMeta("addToHistory", false))
+			return state
 		},
 
 		getDocument() {
