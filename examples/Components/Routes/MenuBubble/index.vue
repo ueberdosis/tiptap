@@ -1,94 +1,106 @@
 <template>
-	<div>
-		<editor class="editor" :extensions="extensions">
+  <div class="editor">
+    <editor-menu-bubble :editor="editor">
+      <div
+        slot-scope="{ commands, isActive, menu }"
+        class="menububble"
+        :class="{ 'is-active': menu.isActive }"
+        :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
+      >
 
-			<div class="menububble" slot="menububble" slot-scope="{ marks, focus }">
-				<template v-if="marks">
+        <button
+          class="menububble__button"
+          :class="{ 'is-active': isActive.bold() }"
+          @click="commands.bold"
+        >
+          <icon name="bold" />
+        </button>
 
-					<button
-						class="menububble__button"
-						:class="{ 'is-active': marks.bold.active() }"
-						@click="marks.bold.command"
-					>
-						<icon name="bold" />
-					</button>
+        <button
+          class="menububble__button"
+          :class="{ 'is-active': isActive.italic() }"
+          @click="commands.italic"
+        >
+          <icon name="italic" />
+        </button>
 
-					<button
-						class="menububble__button"
-						:class="{ 'is-active': marks.italic.active() }"
-						@click="marks.italic.command"
-					>
-						<icon name="italic" />
-					</button>
+        <button
+          class="menububble__button"
+          :class="{ 'is-active': isActive.code() }"
+          @click="commands.code"
+        >
+          <icon name="code" />
+        </button>
 
-					<button
-						class="menububble__button"
-						:class="{ 'is-active': marks.code.active() }"
-						@click="marks.code.command"
-					>
-						<icon name="code" />
-					</button>
+      </div>
+    </editor-menu-bubble>
 
-				</template>
-			</div>
-
-			<div class="editor__content" slot="content" slot-scope="props">
-				<h2>
-					Menu Bubble
-				</h2>
-				<p>
-					Hey, try to select some text here. There will popup a menu for selecting some inline styles. <em>Remember:</em> you have full control about content and styling of this menu.
-				</p>
-			</div>
-
-		</editor>
-	</div>
+    <editor-content class="editor__content" :editor="editor" />
+  </div>
 </template>
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor } from 'tiptap'
+import { Editor, EditorContent, EditorMenuBubble } from 'tiptap'
 import {
-	BlockquoteNode,
-	BulletListNode,
-	CodeBlockNode,
-	HardBreakNode,
-	HeadingNode,
-	ListItemNode,
-	OrderedListNode,
-	TodoItemNode,
-	TodoListNode,
-	BoldMark,
-	CodeMark,
-	ItalicMark,
-	LinkMark,
-	HistoryExtension,
+  Blockquote,
+  BulletList,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  ListItem,
+  OrderedList,
+  TodoItem,
+  TodoList,
+  Bold,
+  Code,
+  Italic,
+  Link,
+  Strike,
+  Underline,
+  History,
 } from 'tiptap-extensions'
 
 export default {
-	components: {
-		Editor,
-		Icon,
-	},
-	data() {
-		return {
-			extensions: [
-				new BlockquoteNode(),
-				new BulletListNode(),
-				new CodeBlockNode(),
-				new HardBreakNode(),
-				new HeadingNode({ maxLevel: 3 }),
-				new ListItemNode(),
-				new OrderedListNode(),
-				new TodoItemNode(),
-				new TodoListNode(),
-				new BoldMark(),
-				new CodeMark(),
-				new ItalicMark(),
-				new LinkMark(),
-				new HistoryExtension(),
-			],
-		}
-	},
+  components: {
+    EditorContent,
+    EditorMenuBubble,
+    Icon,
+  },
+  data() {
+    return {
+      editor: new Editor({
+        extensions: [
+          new Blockquote(),
+          new BulletList(),
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new ListItem(),
+          new OrderedList(),
+          new TodoItem(),
+          new TodoList(),
+          new Bold(),
+          new Code(),
+          new Italic(),
+          new Link(),
+          new Strike(),
+          new Underline(),
+          new History(),
+        ],
+        content: `
+          <h2>
+            Menu Bubble
+          </h2>
+          <p>
+            Hey, try to select some text here. There will popup a menu for selecting some inline styles. <em>Remember:</em> you have full control about content and styling of this menu.
+          </p>
+        `,
+      }),
+    }
+  },
+  beforeDestroy() {
+    this.editor.destroy()
+  },
 }
 </script>

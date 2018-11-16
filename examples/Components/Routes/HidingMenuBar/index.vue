@@ -1,150 +1,185 @@
 <template>
-	<div>
-		<editor class="editor" :extensions="extensions">
+  <div class="editor">
+    <editor-menu-bar :editor="editor">
+      <div
+        class="menubar is-hidden"
+        :class="{ 'is-focused': focused }"
+        slot-scope="{ commands, isActive, focused }"
+      >
 
-			<div class="menubar is-hidden" :class="{ 'is-focused': focused }" slot="menubar" slot-scope="{ nodes, marks, focused }">
-				<div v-if="nodes && marks">
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.bold() }"
+          @click="commands.bold"
+        >
+          <icon name="bold" />
+        </button>
 
-					<button
-						class="menubar__button"
-						:class="{ 'is-active': marks.bold.active() }"
-						@click="marks.bold.command"
-					>
-						<icon name="bold" />
-					</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.italic() }"
+          @click="commands.italic"
+        >
+          <icon name="italic" />
+        </button>
 
-					<button
-						class="menubar__button"
-						:class="{ 'is-active': marks.italic.active() }"
-						@click="marks.italic.command"
-					>
-						<icon name="italic" />
-					</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.strike() }"
+          @click="commands.strike"
+        >
+          <icon name="strike" />
+        </button>
 
-					<button
-						class="menubar__button"
-						@click="marks.code.command"
-						:class="{ 'is-active': marks.code.active() }
-					">
-						<icon name="code" />
-					</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.underline() }"
+          @click="commands.underline"
+        >
+          <icon name="underline" />
+        </button>
 
-					<button
-						class="menubar__button"
-						:class="{ 'is-active': nodes.paragraph.active() }"
-						@click="nodes.paragraph.command"
-					>
-						<icon name="paragraph" />
-					</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.code() }"
+          @click="commands.code"
+        >
+          <icon name="code" />
+        </button>
 
-					<button
-						class="menubar__button"
-						:class="{ 'is-active': nodes.heading.active({ level: 1 }) }"
-						@click="nodes.heading.command({ level: 1 })"
-					>
-						H1
-					</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.paragraph() }"
+          @click="commands.paragraph"
+        >
+          <icon name="paragraph" />
+        </button>
 
-					<button
-						class="menubar__button"
-						:class="{ 'is-active': nodes.heading.active({ level: 2 }) }"
-						@click="nodes.heading.command({ level: 2 })"
-					>
-						H2
-					</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.heading({ level: 1 }) }"
+          @click="commands.heading({ level: 1 })"
+        >
+          H1
+        </button>
 
-					<button
-						class="menubar__button"
-						:class="{ 'is-active': nodes.heading.active({ level: 3 }) }"
-						@click="nodes.heading.command({ level: 3 })"
-					>
-						H3
-					</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.heading({ level: 2 }) }"
+          @click="commands.heading({ level: 2 })"
+        >
+          H2
+        </button>
 
-					<button
-						class="menubar__button"
-						:class="{ 'is-active': nodes.bullet_list.active() }"
-						@click="nodes.bullet_list.command"
-					>
-						<icon name="ul" />
-					</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.heading({ level: 3 }) }"
+          @click="commands.heading({ level: 3 })"
+        >
+          H3
+        </button>
 
-					<button
-						class="menubar__button"
-						:class="{ 'is-active': nodes.ordered_list.active() }"
-						@click="nodes.ordered_list.command"
-					>
-						<icon name="ol" />
-					</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.bullet_list() }"
+          @click="commands.bullet_list"
+        >
+          <icon name="ul" />
+        </button>
 
-					<button
-						class="menubar__button"
-						:class="{ 'is-active': nodes.code_block.active() }"
-						@click="nodes.code_block.command"
-					>
-						<icon name="code" />
-					</button>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.ordered_list() }"
+          @click="commands.ordered_list"
+        >
+          <icon name="ol" />
+        </button>
 
-				</div>
-			</div>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.blockquote() }"
+          @click="commands.blockquote"
+        >
+          <icon name="quote" />
+        </button>
 
-			<div class="editor__content" slot="content" slot-scope="props">
-				<h2>
-					Hiding Menu Bar
-				</h2>
-				<p>
-					Click into this text to see the menu. Click outside and the menu will disappear. It's like magic.
-				</p>
-			</div>
+        <button
+          class="menubar__button"
+          :class="{ 'is-active': isActive.code_block() }"
+          @click="commands.code_block"
+        >
+          <icon name="code" />
+        </button>
 
-		</editor>
-	</div>
+      </div>
+    </editor-menu-bar>
+
+    <editor-content class="editor__content" :editor="editor" />
+  </div>
 </template>
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor } from 'tiptap'
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
-	BlockquoteNode,
-	BulletListNode,
-	CodeBlockNode,
-	HardBreakNode,
-	HeadingNode,
-	ListItemNode,
-	OrderedListNode,
-	TodoItemNode,
-	TodoListNode,
-	BoldMark,
-	CodeMark,
-	ItalicMark,
-	LinkMark,
-	HistoryExtension,
+  Blockquote,
+  BulletList,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  ListItem,
+  OrderedList,
+  TodoItem,
+  TodoList,
+  Bold,
+  Code,
+  Italic,
+  Link,
+  Strike,
+  Underline,
+  History,
 } from 'tiptap-extensions'
 
 export default {
-	components: {
-		Editor,
-		Icon,
-	},
-	data() {
-		return {
-			extensions: [
-				new BlockquoteNode(),
-				new BulletListNode(),
-				new CodeBlockNode(),
-				new HardBreakNode(),
-				new HeadingNode({ maxLevel: 3 }),
-				new ListItemNode(),
-				new OrderedListNode(),
-				new TodoItemNode(),
-				new TodoListNode(),
-				new BoldMark(),
-				new CodeMark(),
-				new ItalicMark(),
-				new LinkMark(),
-				new HistoryExtension(),
-			],
-		}
-	},
+  components: {
+    EditorContent,
+    EditorMenuBar,
+    Icon,
+  },
+  data() {
+    return {
+      editor: new Editor({
+        extensions: [
+          new Blockquote(),
+          new BulletList(),
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new ListItem(),
+          new OrderedList(),
+          new TodoItem(),
+          new TodoList(),
+          new Bold(),
+          new Code(),
+          new Italic(),
+          new Link(),
+          new Strike(),
+          new Underline(),
+          new History(),
+        ],
+        content: `
+          <h2>
+            Hiding Menu Bar
+          </h2>
+          <p>
+            Click into this text to see the menu. Click outside and the menu will disappear. It's like magic.
+          </p>
+        `,
+      }),
+    }
+  },
+  beforeDestroy() {
+    this.editor.destroy()
+  },
 }
 </script>

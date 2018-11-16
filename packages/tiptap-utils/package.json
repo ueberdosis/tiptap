@@ -1,6 +1,6 @@
 {
   "name": "tiptap-utils",
-  "version": "0.4.1",
+  "version": "1.0.1",
   "description": "Utility functions for tiptap",
   "homepage": "https://tiptap.scrumpy.io",
   "license": "MIT",
@@ -20,8 +20,9 @@
     "url": "https://github.com/heyscrumpy/tiptap/issues"
   },
   "dependencies": {
-    "prosemirror-schema-basic": "^1.0.0",
-    "prosemirror-tables": "^0.7.7",
-    "prosemirror-utils": "^0.6.6"
+    "prosemirror-model": "^1.6.3",
+    "prosemirror-state": "^1.2.2",
+    "prosemirror-tables": "^0.7.9",
+    "prosemirror-utils": "^0.7.2"
   }
 }

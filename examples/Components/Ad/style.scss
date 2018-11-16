@@ -1,42 +1,42 @@
 @import "~variables";
 
 .ad {
-	display: block;
-	padding: 1rem;
-	transition: 0.2s transform;
-	margin: 3rem auto 0 auto;
-	width: 15rem;
+  display: block;
+  padding: 1rem;
+  transition: 0.2s transform;
+  margin: 3rem auto 0 auto;
+  width: 15rem;
 
-	@media (min-width: 1020px) {
-		position: fixed;
-		left: 0;
-		bottom: 0;
-		margin-top: 0;
-	}
+  @media (min-width: 1020px) {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    margin-top: 0;
+  }
 
-	&__image {
-		display: block;
-		width: 100%;
-		height: auto;
-		border-radius: 5px;
-		overflow: hidden;
-		transition: 0.2s box-shadow;
-		box-shadow:
-			0 2px 4px 0 rgba(black, 0.05),
-			0 2px 10px 0 rgba(black, 0.07)
-		;
-	}
+  &__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: 0.2s box-shadow;
+    box-shadow:
+      0 2px 4px 0 rgba(black, 0.05),
+      0 2px 10px 0 rgba(black, 0.07)
+    ;
+  }
 
-	&:hover {
-		transform: translateY(-5px);
-	}
+  &:hover {
+    transform: translateY(-5px);
+  }
 
-	&:hover &__image {
-		box-shadow:
-			0 2px 1px 0 rgba(black, 0.07),
-			0 5px 20px 0 rgba(black, 0.06),
-			0 8px 40px 0 rgba(black, 0.04)
-		;
-	}
+  &:hover &__image {
+    box-shadow:
+      0 2px 1px 0 rgba(black, 0.07),
+      0 5px 20px 0 rgba(black, 0.06),
+      0 8px 40px 0 rgba(black, 0.04)
+    ;
+  }
 
 }

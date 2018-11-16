@@ -1,105 +1,113 @@
 <template>
-	<div>
-		<editor class="editor" :extensions="extensions">
-			<div class="menububble" slot="menububble" slot-scope="{ marks, focus }">
-				<template v-if="marks">
+  <div class="editor">
+    <editor-menu-bubble class="menububble" :editor="editor">
+      <div
+        slot-scope="{ commands, isActive, getMarkAttrs, menu }"
+        class="menububble"
+        :class="{ 'is-active': menu.isActive }"
+        :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
+      >
 
-					<form class="menububble__form" v-if="linkMenuIsActive" @submit.prevent="setLinkUrl(linkUrl, marks.link, focus)">
-						<input class="menububble__input" type="text" v-model="linkUrl" placeholder="https://" ref="linkInput" @keydown.esc="hideLinkMenu"/>
-						<button class="menububble__button" @click="setLinkUrl(null, marks.link, focus)" type="button">
-							<icon name="remove" />
-						</button>
-					</form>
+        <form class="menububble__form" v-if="linkMenuIsActive" @submit.prevent="setLinkUrl(commands.link, linkUrl)">
+          <input class="menububble__input" type="text" v-model="linkUrl" placeholder="https://" ref="linkInput" @keydown.esc="hideLinkMenu"/>
+          <button class="menububble__button" @click="setLinkUrl(commands.link, null)" type="button">
+            <icon name="remove" />
+          </button>
+        </form>
 
-					<template v-else>
-						<button
-							class="menububble__button"
-							@click="showLinkMenu(marks.link)"
-							:class="{ 'is-active': marks.link.active() }"
-						>
-							<span>Add Link</span>
-							<icon name="link" />
-						</button>
-					</template>
+        <template v-else>
+          <button
+            class="menububble__button"
+            @click="showLinkMenu(getMarkAttrs('link'))"
+            :class="{ 'is-active': isActive.link() }"
+          >
+            <span>Add Link</span>
+            <icon name="link" />
+          </button>
+        </template>
 
-				</template>
-			</div>
-			<div class="editor__content" slot="content" slot-scope="props">
-				<h2>
-					Links
-				</h2>
-				<p>
-					Try to add some links to the <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>. By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute.
-				</p>
-			</div>
-		</editor>
-	</div>
+      </div>
+    </editor-menu-bubble>
+
+    <editor-content class="editor__content" :editor="editor" />
+  </div>
 </template>
 
 <script>
 import Icon from 'Components/Icon'
-import { Editor } from 'tiptap'
+import { Editor, EditorContent, EditorMenuBubble } from 'tiptap'
 import {
-	BlockquoteNode,
-	BulletListNode,
-	CodeBlockNode,
-	HardBreakNode,
-	HeadingNode,
-	ListItemNode,
-	OrderedListNode,
-	TodoItemNode,
-	TodoListNode,
-	BoldMark,
-	CodeMark,
-	ItalicMark,
-	LinkMark,
-	HistoryExtension,
+  Blockquote,
+  BulletList,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  ListItem,
+  OrderedList,
+  TodoItem,
+  TodoList,
+  Bold,
+  Code,
+  Italic,
+  Link,
+  History,
 } from 'tiptap-extensions'
 
 export default {
-	components: {
-		Editor,
-		Icon,
-	},
-	data() {
-		return {
-			extensions: [
-				new BlockquoteNode(),
-				new BulletListNode(),
-				new CodeBlockNode(),
-				new HardBreakNode(),
-				new HeadingNode({ maxLevel: 3 }),
-				new ListItemNode(),
-				new OrderedListNode(),
-				new TodoItemNode(),
-				new TodoListNode(),
-				new BoldMark(),
-				new CodeMark(),
-				new ItalicMark(),
-				new LinkMark(),
-				new HistoryExtension(),
-			],
-			linkUrl: null,
-			linkMenuIsActive: false,
-		}
-	},
-	methods: {
-		showLinkMenu(type) {
-			this.linkUrl = type.attrs.href
-			this.linkMenuIsActive = true
-			this.$nextTick(() => {
-				this.$refs.linkInput.focus()
-			})
-		},
-		hideLinkMenu() {
-			this.linkUrl = null
-			this.linkMenuIsActive = false
-		},
-		setLinkUrl(url, type, focus) {
-			type.command({ href: url })
-			this.hideLinkMenu()
-			focus()
-		},
-	},
+  components: {
+    EditorContent,
+    EditorMenuBubble,
+    Icon,
+  },
+  data() {
+    return {
+      editor: new Editor({
+        extensions: [
+          new Blockquote(),
+          new BulletList(),
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new ListItem(),
+          new OrderedList(),
+          new TodoItem(),
+          new TodoList(),
+          new Bold(),
+          new Code(),
+          new Italic(),
+          new Link(),
+          new History(),
+        ],
+        content: `
+          <h2>
+            Links
+          </h2>
+          <p>
+            Try to add some links to the <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>. By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute.
+          </p>
+        `,
+      }),
+      linkUrl: null,
+      linkMenuIsActive: false,
+    }
+  },
+  methods: {
+    showLinkMenu(attrs) {
+      this.linkUrl = attrs.href
+      this.linkMenuIsActive = true
+      this.$nextTick(() => {
+        this.$refs.linkInput.focus()
+      })
+    },
+    hideLinkMenu() {
+      this.linkUrl = null
+      this.linkMenuIsActive = false
+    },
+    setLinkUrl(command, url) {
+      command({ href: url })
+      this.hideLinkMenu()
+      this.editor.focus()
+    },
+  },
 }
 </script>

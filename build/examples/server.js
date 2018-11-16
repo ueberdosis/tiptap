@@ -16,11 +16,11 @@ middlewares.push(historyApiFallbackMiddleware())
 
 // add webpack stuff
 middlewares.push(webpackDevMiddleware(bundler, {
-	publicPath: config.output.publicPath,
-	stats: {
-		colors: true,
-		chunks: false,
-	},
+  publicPath: config.output.publicPath,
+  stats: {
+    colors: true,
+    chunks: false,
+  },
 }))
 
 // add hot reloading
@@ -30,25 +30,25 @@ middlewares.push(webpackHotMiddleware(bundler))
 const url = 'http://localhost'
 const bs = browserSync.create()
 const server = bs.init({
-	server: {
-		baseDir: `${srcPath}/`,
-		middleware: middlewares,
-	},
-	files: [],
-	logLevel: 'silent',
-	open: false,
-	notify: false,
-	injectChanges: false,
-	ghostMode: {
-		clicks: false,
-		forms: false,
-		scroll: false,
-	},
+  server: {
+    baseDir: `${srcPath}/`,
+    middleware: middlewares,
+  },
+  files: [],
+  logLevel: 'silent',
+  open: false,
+  notify: false,
+  injectChanges: false,
+  ghostMode: {
+    clicks: false,
+    forms: false,
+    scroll: false,
+  },
 })
 
 console.log(`${url}:${server.options.get('port')}`)
 
 // sass import
 bs.watch(path.join(sassImportPath, '**/!(index|index_sub).scss'), { ignoreInitial: true }, () => {
-	sassImport(sassImportPath)
+  sassImport(sassImportPath)
 })

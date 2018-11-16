@@ -2,23 +2,23 @@
 
 .hero {
 
-	background-color: $color-black;
-	color: $color-white;
-	text-align: center;
-	padding: 3rem 1rem;
+  background-color: $color-black;
+  color: $color-white;
+  text-align: center;
+  padding: 3rem 1rem;
 
-	&__inner {
-		margin: 0 auto;
-		max-width: 30rem;
-	}
+  &__inner {
+    margin: 0 auto;
+    max-width: 30rem;
+  }
 
-	&__logo {
-		width: 4rem;
-		height: 4rem;
+  &__logo {
+    width: 4rem;
+    height: 4rem;
 
-		path {
-			fill: $color-white;
-		}
-	}
+    path {
+      fill: $color-white;
+    }
+  }
 
 }

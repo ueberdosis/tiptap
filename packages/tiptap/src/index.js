@@ -1,5 +1,12 @@
-export { default as Editor } from './components/editor'
-export { default as Extension } from './utils/extension'
-export { default as Node } from './utils/node'
-export { default as Mark } from './utils/mark'
-export { default as Plugin } from './utils/plugin'
+export { default as Editor } from './Editor'
+export { Extension, Node, Mark } from './Utils'
+export { default as EditorContent } from './Components/EditorContent'
+export { default as EditorMenuBar } from './Components/EditorMenuBar'
+export { default as EditorMenuBubble } from './Components/EditorMenuBubble'
+export { default as EditorFloatingMenu } from './Components/EditorFloatingMenu'
+export {
+  Plugin,
+  PluginKey,
+  TextSelection,
+  NodeSelection,
+} from 'prosemirror-state'
