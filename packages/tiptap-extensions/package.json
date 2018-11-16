@@ -24,7 +24,7 @@
     "lowlight": "^1.11.0",
     "prosemirror-history": "^1.0.3",
     "prosemirror-state": "^1.2.2",
-    "prosemirror-view": "^1.6.5",
+    "prosemirror-view": "^1.6.6",
     "tiptap": "^1.0.2",
     "tiptap-commands": "^1.0.1"
   },
