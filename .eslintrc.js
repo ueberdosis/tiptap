@@ -32,6 +32,9 @@ module.exports = {
     // required semicolons
     'semi': ['error', 'never'],
 
+    // error handling
+    'no-console': ['error', { allow: ['warn', 'error'] }],
+
     // indent
     'no-tabs': 'off',
     'indent': 'off',

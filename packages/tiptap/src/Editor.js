@@ -40,6 +40,12 @@ export default class Editor {
       editable: true,
       extensions: [],
       content: '',
+      emptyDocument: {
+        type: 'doc',
+        content: [{
+          type: 'paragraph',
+        }],
+      },
       onInit: () => {},
       onUpdate: () => {},
       onFocus: () => {},
@@ -125,7 +131,12 @@ export default class Editor {
 
   createDocument(content) {
     if (typeof content === 'object') {
-      return this.schema.nodeFromJSON(content)
+      try {
+        return this.schema.nodeFromJSON(content)
+      } catch (error) {
+        console.warn('[tiptap warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
+        return this.schema.nodeFromJSON(this.options.emptyDocument)
+      }
     }
 
     if (typeof content === 'string') {
@@ -263,12 +274,7 @@ export default class Editor {
   }
 
   clearContent(emitUpdate = false) {
-    this.setContent({
-      type: 'doc',
-      content: [{
-        type: 'paragraph',
-      }],
-    }, emitUpdate)
+    this.setContent(this.options.emptyDocument, emitUpdate)
   }
 
   setActiveNodesAndMarks() {

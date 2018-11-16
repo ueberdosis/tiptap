@@ -25,6 +25,38 @@ test('create editor', () => {
   expect(editor).toBeDefined()
 })
 
+test('check invalid content (JSON)', () => {
+  const editor = new Editor({
+    content: { thisIsNotAValidDocument: true },
+  })
+
+  expect(editor.getHTML()).toEqual('<p></p>')
+})
+
+test('check invalid content (HTML)', () => {
+  const editor = new Editor({
+    content: '</>',
+  })
+
+  expect(editor.getHTML()).toEqual('<p></p>')
+})
+
+test('check invalid content (unsupported format: Function)', () => {
+  const editor = new Editor({
+    content: () => false,
+  })
+
+  expect(editor.getHTML()).toEqual('<p></p>')
+})
+
+test('check invalid content (unsupported format: Array)', () => {
+  const editor = new Editor({
+    content: [],
+  })
+
+  expect(editor.getHTML()).toEqual('<p></p>')
+})
+
 test('set HTML, get HTML', () => {
   const content = '<p>Lorem <strong>ipsum</strong> dolor sit amet.</p>'
 
