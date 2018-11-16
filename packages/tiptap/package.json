@@ -1,6 +1,6 @@
 {
   "name": "tiptap",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A rich-text editor for Vue.js",
   "homepage": "https://tiptap.scrumpy.io",
   "license": "MIT",
