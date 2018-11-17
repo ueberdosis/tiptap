@@ -27,10 +27,11 @@
 
 .editor {
   position: relative;
-  max-width: 30rem;
+  max-width: 40rem;
   margin: 0 auto 5rem auto;
 
   &__content {
+    padding: 10px;
     pre {
       padding: 0.7rem 1rem;
       border-radius: 5px;
@@ -77,6 +78,53 @@
     img {
       max-width: 100%;
       border-radius: 3px;
+    }
+
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 100%;
+      margin: 0;
+      overflow: hidden;
+      td, th {
+        min-width: 1em;
+        border: 1px solid #ddd;
+        padding: 3px 5px;
+        vertical-align: top;
+        box-sizing: border-box;
+        position: relative;
+        p {
+          margin: 0;
+        }
+      }
+      th {
+        font-weight: bold;
+        text-align: left;
+      }
+      .selectedCell:after {
+        z-index: 2;
+        position: absolute;
+        content: "";
+        left: 0; right: 0; top: 0; bottom: 0;
+        background: rgba(200, 200, 255, 0.4);
+        pointer-events: none;
+      }
+      .column-resize-handle {
+        position: absolute;
+        right: -2px; top: 0; bottom: 0;
+        width: 4px;
+        z-index: 20;
+        background-color: #adf;
+        pointer-events: none;
+      }
+    }
+    .tableWrapper {
+      margin: 1em 0;
+      overflow-x: auto;
+    }
+    .resize-cursor {
+      cursor: ew-resize;
+      cursor: col-resize;
     }
 
   }
@@ -138,7 +186,6 @@
 
 .menubar {
 
-  display: flex;
   margin-bottom: 1rem;
   transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
 

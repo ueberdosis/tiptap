@@ -44,3 +44,4 @@ export default {
 </script>
 
 <style lang="scss" src="./style.scss"></style>
+<style src="../../assets/iconfont/iconfont.css"></style>

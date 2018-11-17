@@ -1,8 +1,8 @@
 .menubar {
 
-  display: flex;
   margin-bottom: 1rem;
   transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
+  border-bottom: 1px solid #ccc;
 
   &.is-hidden {
     visibility: hidden;
