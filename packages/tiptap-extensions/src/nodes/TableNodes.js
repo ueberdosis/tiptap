@@ -8,7 +8,10 @@ const Table = tableNodes({
 			default: null,
 			getFromDOM(dom) { return dom.style.backgroundColor || null },
 			setDOMAttr(value, attrs) {
-				if (value) attrs.style = `${(attrs.style || '')}background-color: ${value};`
+				if (value) {
+          const style = { style: `${(attrs.style || '')}background-color: ${value};` }
+          Object.assign(attrs, style)
+        }
 			},
 		},
 	},
