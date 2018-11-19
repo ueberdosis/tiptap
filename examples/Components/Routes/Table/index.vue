@@ -148,6 +148,9 @@ import {
   Italic,
   Link,
   Table,
+  TableHeader,
+  TableCell,
+  TableRow,
   Strike,
   Underline,
   History,
@@ -181,6 +184,9 @@ export default {
           new Underline(),
           new History(),
           new Table(),
+          new TableHeader(),
+          new TableCell(),
+          new TableRow(),
         ],
         content: `
           <h2>

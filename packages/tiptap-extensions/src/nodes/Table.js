@@ -16,6 +16,7 @@ import {
   toggleHeaderRow,
   toggleHeaderCell,
   setCellAttr,
+  fixTables,
 } from 'prosemirror-tables'
 import { createTable } from 'prosemirror-utils'
 import TableNodes from './TableNodes'
@@ -39,8 +40,11 @@ export default class Table extends Node {
             const cols = attrs.options && attrs.options.cols
             const headerRow = attrs.options && attrs.options.headerRow
             const nodes = createTable(schema, rows, cols, headerRow)
-            const transaction = state.tr.replaceSelectionWith(nodes).scrollIntoView()
-            dispatch(transaction)
+            const tr = state.tr.replaceSelectionWith(nodes).scrollIntoView()
+            dispatch(tr)
+            // table handle history
+            const fix = fixTables(state)
+            if (fix) Object.assign(state, state.apply(fix.setMeta('addToHistory', false)))
             break
           }
           case 'addColumnBefore': {
@@ -101,11 +105,7 @@ export default class Table extends Node {
             break
           }
           default: {
-            const rows = attrs.options && attrs.options.rows
-            const cols = attrs.options && attrs.options.cols
-            const headerRow = attrs.options && attrs.options.headerRow
-            const nodes = createTable(schema, rows, cols, headerRow)
-            const transaction = state.tr.replaceSelectionWith(nodes).scrollIntoView()
+            const transaction = state.tr
             dispatch(transaction)
             break
           }

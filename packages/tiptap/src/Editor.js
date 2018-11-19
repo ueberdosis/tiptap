@@ -6,7 +6,6 @@ import { keymap } from 'prosemirror-keymap'
 import { baseKeymap, selectParentNode } from 'prosemirror-commands'
 import { inputRules, undoInputRule } from 'prosemirror-inputrules'
 import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
-import { tableNodes, fixTables } from 'prosemirror-tables'
 import { ExtensionManager, ComponentView } from './Utils'
 import builtInNodes from './Nodes'
 
@@ -91,23 +90,7 @@ export default class Editor {
   }
 
   createNodes() {
-    const table = tableNodes({
-      tableGroup: 'block',
-      cellContent: 'block+',
-      cellAttributes: {
-        background: {
-          default: null,
-          getFromDOM(dom) { return dom.style.backgroundColor || null },
-          setDOMAttr(value, attrs) {
-            if (value) {
-              const style = { style: `${(attrs.style || '')}background-color: ${value};` }
-              Object.assign(attrs, style)
-            }
-          },
-        },
-      },
-    })
-    return Object.assign(this.extensions.nodes, table)
+    return this.extensions.nodes
   }
 
   createMarks() {
@@ -122,7 +105,7 @@ export default class Editor {
   }
 
   createState() {
-    let state = EditorState.create({
+    return EditorState.create({
       schema: this.schema,
       doc: this.createDocument(this.options.content),
       plugins: [
@@ -144,10 +127,6 @@ export default class Editor {
         }),
       ],
     })
-    // table handle history
-    const fix = fixTables(state)
-    if (fix) state = state.apply(fix.setMeta('addToHistory', false))
-    return state
   }
 
   createDocument(content) {
