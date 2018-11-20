@@ -300,7 +300,7 @@ Let's take a look at a real example. This is basically how the default `blockquo
 
 ```js
 import { Node } from 'tiptap'
-import { wrappingInputRule, setBlockType, wrapIn } from 'tiptap-commands'
+import { wrappingInputRule, setBlockType, toggleWrap } from 'tiptap-commands'
 
 export default class BlockquoteNode extends Node {
 
@@ -333,14 +333,14 @@ export default class BlockquoteNode extends Node {
   // `type` is the prosemirror schema object for this blockquote
   // `schema` is a collection of all registered nodes and marks
   commands({ type, schema }) {
-    return wrapIn(type)
+    return () => toggleWrap(type)
   }
 
   // here you can register some shortcuts
   // in this case you can create a blockquote with `ctrl` + `>`
   keys({ type }) {
     return {
-      'Ctrl->': wrapIn(type),
+      'Ctrl->': toggleWrap(type),
     }
   }
 
