@@ -333,7 +333,7 @@ export default class BlockquoteNode extends Node {
   // `type` is the prosemirror schema object for this blockquote
   // `schema` is a collection of all registered nodes and marks
   commands({ type, schema }) {
-    return toggleWrap(type)
+    return () => toggleWrap(type)
   }
 
   // here you can register some shortcuts
