@@ -2,6 +2,14 @@
   <div>
 
     <div class="editor">
+      <editor-menu-bar :editor="editor">
+        <div class="menubar" slot-scope="{ commands }">
+          <button class="menubar__button" @click="commands.mention({ id: 1, label: 'Philipp Kühn' })">
+            <icon name="mention" />
+            <span>Insert Mention</span>
+          </button>
+        </div>
+      </editor-menu-bar>
       <editor-content class="editor__content" :editor="editor" />
     </div>
 
@@ -28,7 +36,8 @@
 <script>
 import Fuse from 'fuse.js'
 import tippy from 'tippy.js'
-import { Editor, EditorContent } from 'tiptap'
+import Icon from 'Components/Icon'
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   HardBreak,
   Heading,
@@ -41,7 +50,9 @@ import {
 export default {
 
   components: {
+    Icon,
     EditorContent,
+    EditorMenuBar,
   },
 
   data() {
