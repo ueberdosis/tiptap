@@ -51,6 +51,10 @@ export default class Mention extends Node {
     }
   }
 
+  commands({ schema }) {
+    return attrs => replaceText(null, schema.nodes.mention, attrs)
+  }
+
   get plugins() {
     return [
       SuggestionsPlugin({
