@@ -1,9 +1,3 @@
-import Doc from './Doc'
-import Paragraph from './Paragraph'
-import Text from './Text'
-
-export default [
-  new Doc(),
-  new Text(),
-  new Paragraph(),
-]
+export { default as Doc } from './Doc'
+export { default as Paragraph } from './Paragraph'
+export { default as Text } from './Text'

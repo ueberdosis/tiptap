@@ -7,7 +7,7 @@ import { baseKeymap, selectParentNode } from 'prosemirror-commands'
 import { inputRules, undoInputRule } from 'prosemirror-inputrules'
 import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
 import { ExtensionManager, ComponentView } from './Utils'
-import builtInNodes from './Nodes'
+import { Doc, Paragraph, Text } from './Nodes'
 
 export default class Editor {
 
@@ -46,6 +46,7 @@ export default class Editor {
           type: 'paragraph',
         }],
       },
+      useBuiltInExtensions: true,
       onInit: () => {},
       onUpdate: () => {},
       onFocus: () => {},
@@ -58,9 +59,21 @@ export default class Editor {
     }
   }
 
+  get builtInExtensions() {
+    if (!this.options.useBuiltInExtensions) {
+      return []
+    }
+
+    return [
+      new Doc(),
+      new Text(),
+      new Paragraph(),
+    ]
+  }
+
   createExtensions() {
     return new ExtensionManager([
-      ...builtInNodes,
+      ...this.builtInExtensions,
       ...this.options.extensions,
     ])
   }
@@ -179,7 +192,7 @@ export default class Editor {
       nodeViews: this.initNodeViews({
         parent: component,
         extensions: [
-          ...builtInNodes,
+          ...this.builtInExtensions,
           ...this.options.extensions,
         ],
         editable: this.options.editable,
