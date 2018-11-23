@@ -93,7 +93,7 @@ The `<editor-menu-bar />` component is renderless and will receive some properti
 | --- | :---: | --- |
 | `commands` | `Array` | A list of all commands. |
 | `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
-| `markAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
 
@@ -122,7 +122,7 @@ The `<editor-menu-bubble />` component is renderless and will receive some prope
 | --- | :---: | --- |
 | `commands` | `Array` | A list of all commands. |
 | `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
-| `markAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
 | `menu` | `Object` | An object for positioning your menu. |
@@ -156,7 +156,7 @@ The `<editor-floating-menu />` component is renderless and will receive some pro
 | --- | :---: | --- |
 | `commands` | `Array` | A list of all commands. |
 | `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
-| `markAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
 | `menu` | `Object` | An object for positioning your menu. |
