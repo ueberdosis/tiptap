@@ -40,6 +40,7 @@ import {
 
 import insertText from './commands/insertText'
 import markInputRule from './commands/markInputRule'
+import pasteRule from './commands/pasteRule'
 import removeMark from './commands/removeMark'
 import replaceText from './commands/replaceText'
 import setInlineBlockType from './commands/setInlineBlockType'
@@ -48,7 +49,6 @@ import toggleBlockType from './commands/toggleBlockType'
 import toggleList from './commands/toggleList'
 import toggleWrap from './commands/toggleWrap'
 import updateMark from './commands/updateMark'
-import wrappingPasteRule from './commands/wrappingPasteRule'
 
 export {
   // prosemirror-commands
@@ -91,6 +91,7 @@ export {
   // custom
   insertText,
   markInputRule,
+  pasteRule,
   removeMark,
   replaceText,
   setInlineBlockType,
@@ -99,5 +100,4 @@ export {
   toggleList,
   toggleWrap,
   updateMark,
-  wrappingPasteRule,
 }
