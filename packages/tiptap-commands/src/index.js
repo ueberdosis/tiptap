@@ -48,6 +48,7 @@ import toggleBlockType from './commands/toggleBlockType'
 import toggleList from './commands/toggleList'
 import toggleWrap from './commands/toggleWrap'
 import updateMark from './commands/updateMark'
+import wrappingPasteRule from './commands/wrappingPasteRule'
 
 export {
   // prosemirror-commands
@@ -98,4 +99,5 @@ export {
   toggleList,
   toggleWrap,
   updateMark,
+  wrappingPasteRule,
 }

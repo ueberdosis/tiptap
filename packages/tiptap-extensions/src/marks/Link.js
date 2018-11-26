@@ -1,5 +1,5 @@
 import { Mark, Plugin, TextSelection } from 'tiptap'
-import { updateMark, removeMark } from 'tiptap-commands'
+import { updateMark, removeMark, wrappingPasteRule } from 'tiptap-commands'
 import { getMarkRange } from 'tiptap-utils'
 
 export default class Link extends Mark {
@@ -39,6 +39,16 @@ export default class Link extends Mark {
 
       return removeMark(type)
     }
+  }
+
+  pasteRules({ type }) {
+    return [
+      wrappingPasteRule(
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
+        type,
+        url => ({ href: url }),
+      ),
+    ]
   }
 
   get plugins() {

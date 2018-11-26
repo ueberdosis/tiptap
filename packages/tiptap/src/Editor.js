@@ -25,6 +25,7 @@ export default class Editor {
     this.plugins = this.createPlugins()
     this.keymaps = this.createKeymaps()
     this.inputRules = this.createInputRules()
+    this.pasteRules = this.createPasteRules()
     this.state = this.createState()
     this.view = this.createView()
     this.commands = this.createCommands()
@@ -94,6 +95,12 @@ export default class Editor {
     })
   }
 
+  createPasteRules() {
+    return this.extensions.pasteRules({
+      schema: this.schema,
+    })
+  }
+
   createCommands() {
     return this.extensions.commands({
       schema: this.schema,
@@ -126,6 +133,7 @@ export default class Editor {
         inputRules({
           rules: this.inputRules,
         }),
+        ...this.pasteRules,
         ...this.keymaps,
         keymap({
           Backspace: undoInputRule,
