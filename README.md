@@ -283,6 +283,7 @@ The most powerful feature of tiptap is that you can create your own extensions. 
 | `keys({ schema })` | `Object` | `null` | Define some keybindings. |
 | `commands({ schema, attrs })` | `Object` | `null` | Define a command. |
 | `inputRules({ schema })` | `Array` | `[]` | Define a list of input rules. |
+| `pasteRules({ schema })` | `Array` | `[]` | Define a list of paste rules. |
 
 ### Node|Mark Class
 
@@ -295,6 +296,7 @@ The most powerful feature of tiptap is that you can create your own extensions. 
 | `keys({ type, schema })` | `Object` | `null` | Define some keybindings. |
 | `commands({ type, schema, attrs })` | `Object` | `null` | Define a command. For example this is used for menus to convert to this node or mark. |
 | `inputRules({ type, schema })` | `Array` | `[]` | Define a list of input rules. |
+| `pasteRules({ type, schema })` | `Array` | `[]` | Define a list of paste rules. |
 | `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
 
 ### Create a Node
