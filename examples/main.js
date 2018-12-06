@@ -55,6 +55,13 @@ const routes = [
     },
   },
   {
+    path: '/table',
+    component: () => import('Components/Routes/Table'),
+    meta: {
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Table',
+    },
+  },
+  {
     path: '/todo-list',
     component: () => import('Components/Routes/TodoList'),
     meta: {
