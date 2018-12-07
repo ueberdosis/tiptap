@@ -131,6 +131,12 @@
 					<span v-if="isActive.table()">
 						<button
 							class="menubar__button"
+							@click="commands.deleteTable"
+						>
+							<icon name="delete_table" />
+						</button>
+						<button
+							class="menubar__button"
 							@click="commands.addColumnBefore"
 						>
 							<icon name="add_col_before" />
