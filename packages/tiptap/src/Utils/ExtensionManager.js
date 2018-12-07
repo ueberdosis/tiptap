@@ -102,10 +102,10 @@ export default class ExtensionManager {
   commands({ schema, view, editable }) {
     return this.extensions
       .filter(extension => extension.commands)
-      .reduce((allCommands, { name, type, commands: provider }) => {
-
+      .reduce((allCommands, extension) => {
+        const { name, type } = extension
         const commands = {}
-        const value = provider({
+        const value = extension.commands({
           schema,
           ...['node', 'mark'].includes(type) ? {
             type: schema[`${type}s`][name],
