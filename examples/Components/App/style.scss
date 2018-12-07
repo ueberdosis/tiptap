@@ -92,8 +92,8 @@
         vertical-align: top;
         box-sizing: border-box;
         position: relative;
-        p {
-          margin: 0;
+        > * {
+          margin-bottom: 0;
         }
       }
       th {
