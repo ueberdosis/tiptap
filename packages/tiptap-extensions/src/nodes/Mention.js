@@ -5,7 +5,7 @@ import SuggestionsPlugin from '../plugins/Suggestions'
 export default class Mention extends Node {
 
   get name() {
-    return 'mention'
+    return `mention-${this.options.matcher.char}`
   }
 
   get defaultOptions() {
