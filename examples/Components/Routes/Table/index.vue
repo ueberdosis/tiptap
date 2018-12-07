@@ -173,7 +173,7 @@
 						</button>
 						<button
 							class="menubar__button"
-							@click="commands.mergeCells"
+							@click="commands.toggleCellMerge"
 						>
 							<icon name="combine_cells" />
 						</button>

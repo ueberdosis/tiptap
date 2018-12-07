@@ -47,6 +47,14 @@ export default class Table extends Node {
       addRowAfter: () => addRowAfter,
       deleteRow: () => deleteRow,
       deleteTable: () => deleteTable,
+      toggleCellMerge: () => (
+          (state, dispatch) => {
+            if (mergeCells(state, dispatch)) {
+              return
+            }
+            splitCell(state, dispatch)
+          }
+      ),
       mergeCells: () => mergeCells,
       splitCell: () => splitCell,
       toggleHeaderColumn: () => toggleHeaderColumn,
