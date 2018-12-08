@@ -55,10 +55,10 @@ const routes = [
     },
   },
   {
-    path: '/table',
-    component: () => import('Components/Routes/Table'),
+    path: '/tables',
+    component: () => import('Components/Routes/Tables'),
     meta: {
-      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Table',
+      githubUrl: 'https://github.com/heyscrumpy/tiptap/tree/master/examples/Components/Routes/Tables',
     },
   },
   {

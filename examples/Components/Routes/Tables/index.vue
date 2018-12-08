@@ -245,12 +245,11 @@
 					],
 					content: `
           <h2>
-            Example content
+            Tables
           </h2>
-          <p>The table:</p>
           <table>
             <tr>
-              <th colspan=3 data-colwidth="100,0,0">Wide header</th>
+              <th colspan="3" data-colwidth="100,0,0">Wide header</th>
             </tr>
             <tr>
               <td>One</td>
