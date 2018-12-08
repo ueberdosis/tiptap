@@ -5,7 +5,7 @@ import SuggestionsPlugin from '../plugins/Suggestions'
 export default class Mention extends Node {
 
   get name() {
-    return `mention-${this.options.matcher.char}`
+    return this.options.tag === 'default' ? 'mention' : `mention_${this.options.tag}`
   }
 
   get defaultOptions() {
@@ -15,6 +15,7 @@ export default class Mention extends Node {
         allowSpaces: false,
         startOfLine: false,
       },
+      tag: 'default',
       mentionClass: 'mention',
       suggestionClass: 'mention-suggestion',
     }
@@ -35,16 +36,18 @@ export default class Mention extends Node {
         {
           class: this.options.mentionClass,
           'data-mention-id': node.attrs.id,
+          'data-mention-tag': this.options.tag,
         },
         `${this.options.matcher.char}${node.attrs.label}`,
       ],
       parseDOM: [
         {
-          tag: 'span[data-mention-id]',
+          tag: `span[data-mention-tag=${this.options.tag}]`,
           getAttrs: dom => {
             const id = dom.getAttribute('data-mention-id')
+            const tag = dom.getAttribute('data-mention-tag')
             const label = dom.innerText.split(this.options.matcher.char).join('')
-            return { id, label }
+            return { id, label, tag }
           },
         },
       ],
