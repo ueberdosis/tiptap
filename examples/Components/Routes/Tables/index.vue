@@ -247,6 +247,9 @@
             <h2>
               Tables
             </h2>
+            <p>
+              Tables come with some useful commands like adding, removing or merging rows and columns. Navigate with <code>tab</code> or arrow keys. Resizing is also supported.
+            </p>
             <table>
               <tr>
                 <th colspan="3" data-colwidth="100,0,0">Wide header</th>
