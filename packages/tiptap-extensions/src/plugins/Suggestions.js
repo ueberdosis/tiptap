@@ -11,11 +11,12 @@ function triggerCharacter({
 
   return $position => {
     // Matching expressions used for later
-    const suffix = new RegExp(`\\s${char}$`)
+    const escapedChar = `\\${char}`
+    const suffix = new RegExp(`\\s${escapedChar}$`)
     const prefix = startOfLine ? '^' : ''
     const regexp = allowSpaces
-      ? new RegExp(`${prefix}${char}.*?(?=\\s${char}|$)`, 'gm')
-      : new RegExp(`${prefix}(?:^)?${char}[^\\s${char}]*`, 'gm')
+      ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
+      : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
 
     // Lookup the boundaries of the current node
     const textFrom = $position.before()

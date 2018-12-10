@@ -52,13 +52,13 @@ export default class Mention extends Node {
   }
 
   commands({ schema }) {
-    return attrs => replaceText(null, schema.nodes.mention, attrs)
+    return attrs => replaceText(null, schema.nodes[this.name], attrs)
   }
 
   get plugins() {
     return [
       SuggestionsPlugin({
-        command: ({ range, attrs, schema }) => replaceText(range, schema.nodes.mention, attrs),
+        command: ({ range, attrs, schema }) => replaceText(range, schema.nodes[this.name], attrs),
         appendText: ' ',
         matcher: this.options.matcher,
         items: this.options.items,
