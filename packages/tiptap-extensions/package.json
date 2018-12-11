@@ -15,10 +15,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/heyscrumpy/tiptap.git"
+    "url": "git+https://github.com/scrumpy/tiptap.git"
   },
   "bugs": {
-    "url": "https://github.com/heyscrumpy/tiptap/issues"
+    "url": "https://github.com/scrumpy/tiptap/issues"
   },
   "dependencies": {
     "lowlight": "^1.11.0",
