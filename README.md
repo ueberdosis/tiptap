@@ -456,6 +456,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [Philipp Kühn](https://github.com/philippkuehn)
+- [Christoph Flathmann](https://github.com/Chrissi2812)
 - [All Contributors](../../contributors)
 
 ## License
