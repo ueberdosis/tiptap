@@ -10,6 +10,7 @@ export default class Placeholder extends Extension {
   get defaultOptions() {
     return {
       emptyNodeClass: 'is-empty',
+      placeholderText: 'Start typing...',
     }
   }
 
@@ -28,6 +29,7 @@ export default class Placeholder extends Extension {
 
               const decoration = Decoration.node(pos, pos + node.nodeSize, {
                 class: this.options.emptyNodeClass,
+                'data-placeholder': this.options.placeholderText,
               })
               decorations.push(decoration)
             })

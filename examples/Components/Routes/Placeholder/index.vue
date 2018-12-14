@@ -24,6 +24,7 @@ export default {
           new ListItem(),
           new Placeholder({
             emptyClass: 'is-empty',
+            placeholderText: 'Start typing...'
           }),
         ],
       }),
@@ -37,7 +38,7 @@ export default {
 
 <style lang="scss">
 .editor p.is-empty:first-child::before {
-  content: 'Start typing…';
+  content: attr(data-placeholder);
   float: left;
   color: #aaa;
   pointer-events: none;
