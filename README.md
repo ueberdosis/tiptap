@@ -459,6 +459,10 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [Christoph Flathmann](https://github.com/Chrissi2812)
 - [All Contributors](../../contributors)
 
+## Packages Using Tiptap
+
+- [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
