@@ -10,7 +10,7 @@ A renderless and extendable rich-text editor for [Vue.js](https://github.com/vue
 ## Why I built tiptap
 I was looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn't really satisfy me. The editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. I came across [Prosemirror](https://github.com/prosemirror) and decided to build on it. Prosemirror is a toolkit for building rich-text editors that are already in use at many well-known companies such as *Atlassian* or *New York Times*.
 
-### What means `renderless`?
+### What does `renderless` mean?
 
 With renderless components you'll have (almost) full control over markup and styling. I don't want to tell you what a menu should look like or where it should be rendered in the DOM. That's all up to you. There is also a [good article](https://adamwathan.me/renderless-components-in-vuejs/) about renderless components by Adam Wathan.
 
