@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "prosemirror-commands": "^1.0.7",
+    "prosemirror-dropcursor": "^1.1.1",
     "prosemirror-gapcursor": "^1.0.3",
     "prosemirror-inputrules": "^1.0.1",
     "prosemirror-keymap": "^1.0.1",

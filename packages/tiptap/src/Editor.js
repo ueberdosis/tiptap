@@ -1,6 +1,7 @@
 import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
+import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap, selectParentNode } from 'prosemirror-commands'
@@ -140,6 +141,7 @@ export default class Editor {
           Escape: selectParentNode,
         }),
         keymap(baseKeymap),
+        dropCursor(),
         gapCursor(),
         new Plugin({
           props: {
