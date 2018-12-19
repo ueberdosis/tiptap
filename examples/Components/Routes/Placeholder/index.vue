@@ -24,7 +24,7 @@ export default {
           new ListItem(),
           new Placeholder({
             emptyClass: 'is-empty',
-            emptyNodeText: 'Write something cool or die!'
+            emptyNodeText: 'Write something …',
           }),
         ],
       }),
