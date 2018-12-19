@@ -42,6 +42,7 @@ export default class Editor {
       editable: true,
       extensions: [],
       content: '',
+      dropCursor: {},
       emptyDocument: {
         type: 'doc',
         content: [{
@@ -141,7 +142,7 @@ export default class Editor {
           Escape: selectParentNode,
         }),
         keymap(baseKeymap),
-        dropCursor(),
+        dropCursor(this.options.dropCursor),
         gapCursor(),
         new Plugin({
           props: {
