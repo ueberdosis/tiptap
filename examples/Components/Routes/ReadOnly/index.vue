@@ -1,5 +1,10 @@
 <template>
   <div class="editor">
+    <div class="checkbox">
+      <input type="checkbox" id="editable" v-model="editable" />
+      <label for="editable">editable</label>
+    </div>
+
     <editor-content class="editor__content" :editor="editor" />
   </div>
 </template>
@@ -40,10 +45,24 @@ export default {
           </p>
         `,
       }),
+      editable: false,
     }
+  },
+  watch: {
+    editable() {
+      this.editor.setOptions({
+        editable: this.editable,
+      })
+    },
   },
   beforeDestroy() {
     this.editor.destroy()
   },
 }
 </script>
+
+<style lang="scss">
+.checkbox {
+  margin-bottom: 1rem;
+}
+</style>
