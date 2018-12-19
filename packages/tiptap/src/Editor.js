@@ -12,11 +12,31 @@ import { Doc, Paragraph, Text } from './Nodes'
 export default class Editor {
 
   constructor(options = {}) {
+    this.defaultOptions = {
+      editable: true,
+      extensions: [],
+      content: '',
+      emptyDocument: {
+        type: 'doc',
+        content: [{
+          type: 'paragraph',
+        }],
+      },
+      useBuiltInExtensions: true,
+      onInit: () => {},
+      onUpdate: () => {},
+      onFocus: () => {},
+      onBlur: () => {},
+    }
+
     this.init(options)
   }
 
   init(options = {}) {
-    this.setOptions(options)
+    this.setOptions({
+      ...this.defaultOptions,
+      ...options,
+    })
     this.element = document.createElement('div')
     this.extensions = this.createExtensions()
     this.nodes = this.createNodes()
@@ -37,26 +57,13 @@ export default class Editor {
   }
 
   setOptions(options) {
-    const defaultOptions = {
-      editable: true,
-      extensions: [],
-      content: '',
-      emptyDocument: {
-        type: 'doc',
-        content: [{
-          type: 'paragraph',
-        }],
-      },
-      useBuiltInExtensions: true,
-      onInit: () => {},
-      onUpdate: () => {},
-      onFocus: () => {},
-      onBlur: () => {},
+    this.options = {
+      ...this.options,
+      ...options,
     }
 
-    this.options = {
-      ...defaultOptions,
-      ...options,
+    if (this.view && this.state) {
+      this.view.updateState(this.state)
     }
   }
 
