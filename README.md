@@ -72,8 +72,8 @@ useBuiltInExtensions
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
 | `useBuiltInExtensions` | `Boolean` | `true` | By default tiptap adds a `Doc`, `Paragraph` and `Text` node to the Prosemirror schema. |
 | `onInit` | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init. |
-| `onFocus` | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on focus. |
-| `onBlur` | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on blur. |
+| `onFocus` | `Function` | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on focus. |
+| `onBlur` | `Function` | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on blur. |
 | `onUpdate` | `Function` | `undefined` | This will return an Object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function on every change. |
 
 ## Components

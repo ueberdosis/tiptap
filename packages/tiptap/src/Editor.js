@@ -185,12 +185,14 @@ export default class Editor {
 
     view.dom.style.whiteSpace = 'pre-wrap'
 
-    view.dom.addEventListener('focus', () => this.options.onFocus({
+    view.dom.addEventListener('focus', event => this.options.onFocus({
+      event,
       state: this.state,
       view: this.view,
     }))
 
-    view.dom.addEventListener('blur', () => this.options.onBlur({
+    view.dom.addEventListener('blur', event => this.options.onBlur({
+      event,
       state: this.state,
       view: this.view,
     }))
