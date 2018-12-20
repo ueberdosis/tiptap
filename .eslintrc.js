@@ -1,8 +1,8 @@
 module.exports = {
   plugins: ['html'],
 
-  parser: 'babel-eslint',
   parserOptions: {
+    parser: 'babel-eslint',
     sourceType: 'module',
   },
 
@@ -25,6 +25,7 @@ module.exports = {
   },
 
   extends: [
+    'plugin:vue/base',
     'airbnb-base',
   ],
 

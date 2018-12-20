@@ -13,11 +13,32 @@ import { Doc, Paragraph, Text } from './Nodes'
 export default class Editor {
 
   constructor(options = {}) {
+    this.defaultOptions = {
+      editable: true,
+      extensions: [],
+      content: '',
+      emptyDocument: {
+        type: 'doc',
+        content: [{
+          type: 'paragraph',
+        }],
+      },
+      useBuiltInExtensions: true,
+      dropCursor: {},
+      onInit: () => {},
+      onUpdate: () => {},
+      onFocus: () => {},
+      onBlur: () => {},
+    }
+
     this.init(options)
   }
 
   init(options = {}) {
-    this.setOptions(options)
+    this.setOptions({
+      ...this.defaultOptions,
+      ...options,
+    })
     this.element = document.createElement('div')
     this.extensions = this.createExtensions()
     this.nodes = this.createNodes()
@@ -38,27 +59,13 @@ export default class Editor {
   }
 
   setOptions(options) {
-    const defaultOptions = {
-      editable: true,
-      extensions: [],
-      content: '',
-      dropCursor: {},
-      emptyDocument: {
-        type: 'doc',
-        content: [{
-          type: 'paragraph',
-        }],
-      },
-      useBuiltInExtensions: true,
-      onInit: () => {},
-      onUpdate: () => {},
-      onFocus: () => {},
-      onBlur: () => {},
+    this.options = {
+      ...this.options,
+      ...options,
     }
 
-    this.options = {
-      ...defaultOptions,
-      ...options,
+    if (this.view && this.state) {
+      this.view.updateState(this.state)
     }
   }
 
@@ -181,12 +188,14 @@ export default class Editor {
 
     view.dom.style.whiteSpace = 'pre-wrap'
 
-    view.dom.addEventListener('focus', () => this.options.onFocus({
+    view.dom.addEventListener('focus', event => this.options.onFocus({
+      event,
       state: this.state,
       view: this.view,
     }))
 
-    view.dom.addEventListener('blur', () => this.options.onBlur({
+    view.dom.addEventListener('blur', event => this.options.onBlur({
+      event,
       state: this.state,
       view: this.view,
     }))
