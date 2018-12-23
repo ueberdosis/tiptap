@@ -146,7 +146,7 @@ export default {
             matcher: {
               char: '#',
             },
-            tag: 'hashtag',
+            type: 'hashtag',
             // a list of all suggested items
             items: () => [
               { id: 1, name: 'Dogs' },
