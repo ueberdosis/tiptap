@@ -19,6 +19,7 @@ export default class ComponentView {
     this.getPos = getPos
     this.decorations = decorations
     this.editable = editable
+    this.selected = false
 
     this.dom = this.createDOM()
     this.contentDOM = this.vm.$refs.content
@@ -34,6 +35,7 @@ export default class ComponentView {
         getPos: this.getPos,
         decorations: this.decorations,
         editable: this.editable,
+        selected: false,
         updateAttrs: attrs => this.updateAttrs(attrs),
         updateContent: content => this.updateContent(content),
       },
@@ -53,16 +55,27 @@ export default class ComponentView {
     this.node = node
     this.decorations = decorations
 
+    this.updateComponentProps({
+      node,
+      decorations,
+    })
+
+    return true
+  }
+
+  updateComponentProps(props) {
     // Update props in component
     // TODO: Avoid mutating a prop directly.
     // Maybe there is a better way to do this?
     const originalSilent = Vue.config.silent
     Vue.config.silent = true
-    this.vm._props.node = node
-    this.vm._props.decorations = decorations
-    Vue.config.silent = originalSilent
 
-    return true
+    Object.entries(props).forEach(([key, value]) => {
+      this.vm._props[key] = value
+    })
+    // this.vm._props.node = node
+    // this.vm._props.decorations = decorations
+    Vue.config.silent = originalSilent
   }
 
   updateAttrs(attrs) {
@@ -101,6 +114,18 @@ export default class ComponentView {
     }
 
     return true
+  }
+
+  selectNode() {
+    this.updateComponentProps({
+      selected: true,
+    })
+  }
+
+  deselectNode() {
+    this.updateComponentProps({
+      selected: false,
+    })
   }
 
   destroy() {

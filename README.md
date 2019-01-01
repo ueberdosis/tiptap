@@ -406,6 +406,7 @@ export default class IframeNode extends Node {
       // `node` is a Prosemirror Node Object
       // `updateAttrs` is a function to update attributes defined in `schema`
       // `editable` is the global editor prop whether the content can be edited
+      // `selected`
       props: ['node', 'updateAttrs', 'editable'],
       computed: {
         src: {
