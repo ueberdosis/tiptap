@@ -255,14 +255,15 @@ export default class Editor {
       return
     }
 
-    this.emitUpdate()
+    this.emitUpdate(transaction)
   }
 
-  emitUpdate() {
+  emitUpdate(transaction) {
     this.options.onUpdate({
       getHTML: this.getHTML.bind(this),
       getJSON: this.getJSON.bind(this),
       state: this.state,
+      transaction,
     })
   }
 
