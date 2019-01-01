@@ -15,6 +15,7 @@ export default class Editor {
   constructor(options = {}) {
     this.defaultOptions = {
       editable: true,
+      autoFocus: false,
       extensions: [],
       content: '',
       emptyDocument: {
@@ -52,6 +53,13 @@ export default class Editor {
     this.view = this.createView()
     this.commands = this.createCommands()
     this.setActiveNodesAndMarks()
+
+    if (this.options.autoFocus) {
+      setTimeout(() => {
+        this.focus()
+      }, 10)
+    }
+
     this.options.onInit({
       view: this.view,
       state: this.state,
