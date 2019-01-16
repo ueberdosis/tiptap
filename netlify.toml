@@ -1,4 +1,9 @@
 [[redirects]]
+  from = "/docs/*"
+  to = "https://tiptap-docs.netlify.com/:splat"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
