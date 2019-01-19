@@ -162,6 +162,9 @@ export default class Editor {
         new Plugin({
           props: {
             editable: () => this.options.editable,
+            attributes: {
+              tabindex: 0,
+            },
           },
         }),
       ],
