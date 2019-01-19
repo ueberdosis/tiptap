@@ -22,7 +22,7 @@ export default function ($pos = null, type = null) {
     startPos -= $pos.parent.child(startIndex).nodeSize
   }
 
-  const endIndex = $pos.indexAfter()
+  // const endIndex = $pos.indexAfter()
   const endPos = startPos + start.node.nodeSize
 
   // disable for now. see #156
