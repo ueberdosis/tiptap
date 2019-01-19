@@ -109,6 +109,13 @@
 
         <button
           class="menubar__button"
+          @click="commands.horizontal_rule"
+        >
+          <icon name="hr" />
+        </button>
+
+        <button
+          class="menubar__button"
           @click="commands.undo"
         >
           <icon name="undo" />
@@ -136,6 +143,7 @@ import {
   CodeBlock,
   HardBreak,
   Heading,
+  HorizontalRule,
   OrderedList,
   BulletList,
   ListItem,
@@ -165,6 +173,7 @@ export default {
           new CodeBlock(),
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
+          new HorizontalRule(),
           new ListItem(),
           new OrderedList(),
           new TodoItem(),
