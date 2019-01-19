@@ -20,7 +20,7 @@ function blue(str) {
 function write(dest, code, zip) {
   return new Promise((resolve, reject) => {
     function report(extra) {
-      console.log(`${blue(path.relative(process.cwd(), dest)) } ${getSize(code) }${extra || ''}`)
+      console.log(`${blue(path.relative(process.cwd(), dest))} ${getSize(code)}${extra || ''}`)
       resolve()
     }
 
@@ -42,9 +42,10 @@ function buildEntry({ input, output }) {
   const isProd = /min\.js$/.test(output.file)
   return rollup(input)
     .then(bundle => bundle.generate(output))
-    .then(({ code }) => {
+    .then(response => {
+      // console.log({ bla })
       if (isProd) {
-        const minified = uglify.minify(code, {
+        const minified = uglify.minify(response.output[0].code, {
           output: {
             preamble: output.banner,
             ascii_only: true,
@@ -52,7 +53,9 @@ function buildEntry({ input, output }) {
         }).code
         return write(output.file, minified, true)
       }
-      return write(output.file, code)
+      // console.log({ isProd })
+      // console.dir(response, { depth: null })
+      return write(output.file, response.output[0].code)
     })
 }
 
