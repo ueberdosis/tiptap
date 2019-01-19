@@ -25,9 +25,9 @@
     "prosemirror-gapcursor": "^1.0.3",
     "prosemirror-inputrules": "^1.0.1",
     "prosemirror-keymap": "^1.0.1",
-    "prosemirror-model": "^1.6.3",
+    "prosemirror-model": "^1.6.4",
     "prosemirror-state": "^1.2.1",
-    "prosemirror-view": "^1.6.7",
+    "prosemirror-view": "^1.6.8",
     "tiptap-commands": "^1.3.0",
     "tiptap-utils": "^1.1.0"
   },
