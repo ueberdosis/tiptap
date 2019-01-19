@@ -4,6 +4,9 @@
   margin: 0 auto 5rem auto;
 
   &__content {
+
+    word-wrap: break-word;
+
     pre {
       padding: 0.7rem 1rem;
       border-radius: 5px;
