@@ -7,6 +7,10 @@
 
     word-wrap: break-word;
 
+    * {
+      caret-color: currentColor;
+    }
+
     pre {
       padding: 0.7rem 1rem;
       border-radius: 5px;
