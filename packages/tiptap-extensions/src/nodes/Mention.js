@@ -5,7 +5,7 @@ import SuggestionsPlugin from '../plugins/Suggestions'
 export default class Mention extends Node {
 
   get name() {
-    return 'mention'
+    return this.options.mentionClass
   }
 
   get defaultOptions() {
@@ -17,6 +17,7 @@ export default class Mention extends Node {
       },
       mentionClass: 'mention',
       suggestionClass: 'mention-suggestion',
+      htmlNode: 'a',
     }
   }
 
@@ -31,7 +32,7 @@ export default class Mention extends Node {
       selectable: false,
       atom: true,
       toDOM: node => [
-        'span',
+        this.options.htmlNode,
         {
           class: this.options.mentionClass,
           'data-mention-id': node.attrs.id,
@@ -40,7 +41,7 @@ export default class Mention extends Node {
       ],
       parseDOM: [
         {
-          tag: 'span[data-mention-id]',
+          tag: this.options.htmlNode + '[data-mention-id]',
           getAttrs: dom => {
             const id = dom.getAttribute('data-mention-id')
             const label = dom.innerText.split(this.options.matcher.char).join('')
