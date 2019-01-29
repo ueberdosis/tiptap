@@ -68,6 +68,7 @@ useBuiltInExtensions
 | **Property** | **Type** | **Default** | **Description** |
 | --- | :---: | :---: | --- |
 | `content` | `Object\|String` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
+| `editorProps` | `Object` | `{}` | A list of [Prosemirror editorProps](https://prosemirror.net/docs/ref/#view.EditorProps). |
 | `editable` | `Boolean` | `true` | When set to `false` the editor is read-only. |
 | `autoFocus` | `Boolean` | `false` | Focus the editor on init. |
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |

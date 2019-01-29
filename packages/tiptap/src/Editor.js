@@ -14,6 +14,7 @@ export default class Editor {
 
   constructor(options = {}) {
     this.defaultOptions = {
+      editorProps: {},
       editable: true,
       autoFocus: false,
       extensions: [],
@@ -166,6 +167,9 @@ export default class Editor {
               tabindex: 0,
             },
           },
+        }),
+        new Plugin({
+          props: this.options.editorProps,
         }),
       ],
     })
