@@ -107,10 +107,11 @@ export default class ComponentView {
   }
 
   // disable (almost) all prosemirror event listener for node views
-  stopEvent() {
+  stopEvent(event) {
+    const isPaste = event.type === 'paste'
     const draggable = !!this.extension.schema.draggable
 
-    if (draggable) {
+    if (draggable || isPaste) {
       return false
     }
 
