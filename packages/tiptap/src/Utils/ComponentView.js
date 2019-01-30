@@ -36,6 +36,7 @@ export default class ComponentView {
         decorations: this.decorations,
         editable: this.editable,
         selected: false,
+        options: this.extension.options,
         updateAttrs: attrs => this.updateAttrs(attrs),
         updateContent: content => this.updateContent(content),
       },
