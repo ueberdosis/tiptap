@@ -27,6 +27,10 @@ export default class Extension {
     return []
   }
 
+  pasteRules() {
+    return []
+  }
+
   keys() {
     return {}
   }
