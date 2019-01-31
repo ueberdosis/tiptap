@@ -40,6 +40,7 @@ import {
 
 import insertText from './commands/insertText'
 import markInputRule from './commands/markInputRule'
+import nodeInputRule from './commands/nodeInputRule'
 import pasteRule from './commands/pasteRule'
 import removeMark from './commands/removeMark'
 import replaceText from './commands/replaceText'
@@ -91,6 +92,7 @@ export {
   // custom
   insertText,
   markInputRule,
+  nodeInputRule,
   pasteRule,
   removeMark,
   replaceText,
