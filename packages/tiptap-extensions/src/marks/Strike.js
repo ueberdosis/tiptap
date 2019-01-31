@@ -1,5 +1,5 @@
 import { Mark } from 'tiptap'
-import { toggleMark, markInputRule } from 'tiptap-commands'
+import { toggleMark, markInputRule, markPasteRule } from 'tiptap-commands'
 
 export default class Strike extends Mark {
 
@@ -41,6 +41,12 @@ export default class Strike extends Mark {
   inputRules({ type }) {
     return [
       markInputRule(/~([^~]+)~$/, type),
+    ]
+  }
+
+  pasteRules({ type }) {
+    return [
+      markPasteRule(/~([^~]+)~/g, type),
     ]
   }
 
