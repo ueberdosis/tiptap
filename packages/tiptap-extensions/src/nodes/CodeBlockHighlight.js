@@ -122,13 +122,16 @@ export default class CodeBlockHighlight extends Node {
           init(_, { doc }) {
             return getDecorations(doc)
           },
-          apply(tr, set) {
+          apply(transaction, decorationSet, oldState) {
             // TODO: find way to cache decorations
             // see: https://discuss.prosemirror.net/t/how-to-update-multiple-inline-decorations-on-node-change/1493
-            if (tr.docChanged) {
-              return getDecorations(tr.doc)
+
+            const previousNodeName = oldState.selection.$head.parent.type.name
+            if (transaction.docChanged && previousNodeName === 'code_block') {
+              return getDecorations(transaction.doc)
             }
-            return set.map(tr.mapping, tr.doc)
+
+            return decorationSet.map(transaction.mapping, transaction.doc)
           },
         },
         props: {

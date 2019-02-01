@@ -29,7 +29,11 @@ body, .usertext {
 
 
 export const ExplicitImportExample = `import javascript from 'highlight.js/lib/languages/javascript'
+import css from 'highlight.js/lib/languages/css'
 import { Editor } from 'tiptap'
+import {
+  CodeBlockHighlight,
+} from 'tiptap-extensions'
 
 export default {
   components: {
@@ -38,7 +42,7 @@ export default {
   data() {
     return {
       extensions: [
-        new CodeBlockHighlightNode({
+        new CodeBlockHighlight({
           languages: {
             javascript,
             css,

@@ -1,4 +1,5 @@
 import { Node } from 'tiptap'
+import { nodeInputRule } from 'tiptap-commands'
 
 export default class HorizontalRule extends Node {
   get name() {
@@ -15,5 +16,11 @@ export default class HorizontalRule extends Node {
 
   commands({ type }) {
     return () => (state, dispatch) => dispatch(state.tr.replaceSelectionWith(type.create()))
+  }
+
+  inputRules({ type }) {
+    return [
+      nodeInputRule(/^(?:---|___\s|\*\*\*\s)$/, type),
+    ]
   }
 }
