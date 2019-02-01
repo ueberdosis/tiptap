@@ -31,6 +31,7 @@ export default class Editor {
       onUpdate: () => {},
       onFocus: () => {},
       onBlur: () => {},
+      onPaste: () => {},
     }
 
     this.init(options)
@@ -198,6 +199,8 @@ export default class Editor {
   createView() {
     const view = new EditorView(this.element, {
       state: this.state,
+      handlePaste: this.options.onPaste,
+      handleDrop: this.options.onPaste,
       dispatchTransaction: this.dispatchTransaction.bind(this),
     })
 
