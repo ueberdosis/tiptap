@@ -63,8 +63,6 @@ export default {
 
 ## Editor Properties
 
-useBuiltInExtensions
-
 | **Property** | **Type** | **Default** | **Description** |
 | --- | :---: | :---: | --- |
 | `content` | `Object\|String` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
