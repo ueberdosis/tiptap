@@ -77,6 +77,19 @@ export default {
 | `onBlur` | `Function` | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on blur. |
 | `onUpdate` | `Function` | `undefined` | This will return an Object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function and the `transaction` on every change. |
 
+## Editor Methods
+
+| **Method** | **Arguments**| **Description** |
+| --- | :---: | --- |
+| `setContent` | `content, emitUpdate` | Replace the current content. You can pass an HTML string or a JSON document. `emitUpdate` defaults to `false`. |
+| `clearContent` | `emitUpdate` | Clears the current content. `emitUpdate` defaults to `false`. |
+| `setOptions` | `options` | Overwrites the current editor properties. |
+| `registerPlugin` | `plugin` | Register a Prosemirror plugin. |
+| `getJSON` | – | Get the current content as JSON. |
+| `getHTML` | – | Get the current content as HTML. |
+| `focus` | — | Focus the editor |
+| `destroy` | – | Destroys the editor. |
+
 ## Components
 
 | **Name** | **Description** |
