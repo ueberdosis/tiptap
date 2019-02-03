@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <editor-content class="editor__content" :editor="editor" />
+    <editor-content class="editor__content" :editor="editor" v-if="editor" />
   </div>
 </template>
 
@@ -17,16 +17,29 @@ export default {
 
   data() {
     return {
+      editor: null,
       ws: null,
-
-      authority: {
+      clientID: Math.floor(Math.random() * 0xFFFFFFFF),
+      collabStartVersion: 0,
+      collabHistory: {
         steps: [],
-        stepClientIDs: [],
+        clientIDs: [],
       },
+    }
+  },
 
-      editor: new Editor({
-        content: 'Collaboration!',
-        extensions: [new Collab()],
+  methods: {
+    initEditor({ doc, version }) {
+      this.collabStartVersion = version + 1
+
+      this.editor = new Editor({
+        content: doc,
+        extensions: [
+          new Collab({
+            version: this.collabStartVersion,
+            clientID: this.clientID,
+          }),
+        ],
         onUpdate: ({ state }) => {
           const sendable = sendableSteps(state)
 
@@ -34,19 +47,17 @@ export default {
             this.ws.send(JSON.stringify(sendable))
           }
         },
-      }),
-    }
-  },
+      })
+    },
 
-  methods: {
     receiveData({ version, steps, clientID }) {
-      if (version !== this.authority.steps.length) {
+      if (version !== this.collabHistory.steps.length + this.collabStartVersion) {
         return
       }
 
       steps.forEach(step => {
-        this.authority.steps.push(step)
-        this.authority.stepClientIDs.push(clientID)
+        this.collabHistory.steps.push(step)
+        this.collabHistory.clientIDs.push(clientID)
       })
 
       this.updateDoc()
@@ -66,9 +77,10 @@ export default {
     },
 
     stepsSince(version) {
+      const count = version - this.collabStartVersion
       return {
-        steps: this.authority.steps.slice(version),
-        clientIDs: this.authority.stepClientIDs.slice(version),
+        steps: this.collabHistory.steps.slice(count),
+        clientIDs: this.collabHistory.clientIDs.slice(count),
       }
     },
   },
@@ -77,7 +89,13 @@ export default {
     this.ws = new WebSocket('wss://tiptap-sockets.glitch.me')
 
     this.ws.onmessage = event => {
-      this.receiveData(JSON.parse(event.data))
+      const payload = JSON.parse(event.data)
+
+      if (payload.doc) {
+        this.initEditor(payload)
+      } else {
+        this.receiveData(payload)
+      }
     }
   },
 

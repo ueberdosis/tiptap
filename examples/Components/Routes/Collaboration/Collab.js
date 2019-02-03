@@ -6,7 +6,19 @@ export default class CollabExtension extends Extension {
     return 'collab'
   }
 
+  get defaultOptions() {
+    return {
+      version: 0,
+      clientID: Math.floor(Math.random() * 0xFFFFFFFF),
+    }
+  }
+
   get plugins() {
-    return [collab()]
+    return [
+      collab({
+        version: this.options.version,
+        clientID: this.options.clientID,
+      }),
+    ]
   }
 }
