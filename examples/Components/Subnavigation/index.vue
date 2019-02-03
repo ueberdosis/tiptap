@@ -48,6 +48,9 @@
     <router-link class="subnavigation__link" to="/export">
       Export HTML or JSON
     </router-link>
+    <router-link class="subnavigation__link" to="/collaboration">
+      Collaboration
+    </router-link>
   </div>
 </template>
 

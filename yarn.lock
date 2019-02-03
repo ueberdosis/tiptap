@@ -9572,6 +9572,13 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
+prosemirror-collab@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-collab/-/prosemirror-collab-1.1.1.tgz#c8f5d951abaeac8a80818b6bd960f5a392b35b3f"
+  integrity sha512-BpXIB3WBD7UvgxuiasKOxlAZ78TTOdW+SQN4bbJan995tVx/wM/OZXtRJebS+tSWWAbRisHaO3ciFo732vuvdA==
+  dependencies:
+    prosemirror-state "^1.0.0"
+
 prosemirror-commands@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/prosemirror-commands/-/prosemirror-commands-1.0.7.tgz#e5a2ba821e29ea7065c88277fe2c3d7f6b0b9d37"
