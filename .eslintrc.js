@@ -56,5 +56,7 @@ module.exports = {
     'class-methods-use-this': 'off',
 
     'global-require': 'off',
+
+    'func-names': ['error', 'never'],
   }
 }
