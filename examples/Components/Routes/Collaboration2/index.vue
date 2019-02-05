@@ -19,8 +19,10 @@ export default {
 
   data() {
     return {
+      history: [],
       editor: null,
       socket: null,
+      newState: null,
       clientID: Math.floor(Math.random() * 0xFFFFFFFF),
     }
   },
@@ -39,6 +41,12 @@ export default {
             clientID: this.clientID,
           }),
         ],
+        // onTransaction: transaction => {
+        //   console.log('onTransaction')
+        //   this.newState = this.editor.state.apply(transaction)
+        //   this.editor.view.updateState(this.state.edit)
+        //   return false
+        // },
         onUpdate: ({ state }) => {
           this.getSendableSteps(state)
         },
@@ -48,15 +56,23 @@ export default {
     getSendableSteps: debounce(function (state) {
       const sendable = sendableSteps(state)
 
-      this.prevState = state
-
       if (sendable) {
         this.socket.emit('update', sendable)
 
+        const { steps } = sendable
+        const clientIDs = this.repeat(sendable.clientID, steps.length)
+
+        this.history.push({
+          state,
+          version: getVersion(state),
+          steps,
+          clientIDs,
+        })
+
         const transaction = receiveTransaction(
-          this.editor.state,
-          sendable.steps,
-          this.repeat(sendable.clientID, sendable.steps.length),
+          state,
+          steps,
+          clientIDs,
         )
 
         this.editor.view.dispatch(transaction)
@@ -96,27 +112,68 @@ export default {
       .on('update', data => {
         this.receiveData(data)
       })
-      .on('versionMismatch', () => {
-        // set state to the latest synced version?
-        // this.editor.view.updateState(this.prevState)
-
-        const currentVersion = getVersion(this.editor.state)
-        console.log('should poll version', currentVersion)
-
-        this.socket.emit('getVersionSteps', currentVersion)
+      .on('versionInSync', version => {
+        console.log('version in sync', version)
+        // TODO remove steps older than version
       })
-      .on('versionSteps', data => {
-        console.log('versionSteps', data)
+      .on('versionMismatch', ({ version, data }) => {
+        console.log('version mismatch', version)
+        // TODO: go back to `version`, apply `steps`, apply unmerged `steps`
+
+        console.log(this.history.length)
+
+        const history = this.history.find(item => {
+          console.log('search', item.version, version)
+          return item.version === version
+        })
+
+        console.log({ history })
+
         const { state, view, schema } = this.editor
 
-        const transaction = receiveTransaction(
-          state,
+        view.updateState(history.state)
+
+        view.dispatch(receiveTransaction(
+          history.state,
           data.map(item => Step.fromJSON(schema, item.step)),
           data.map(item => item.clientID),
-        )
+        ))
 
-        view.dispatch(transaction)
+        view.dispatch(receiveTransaction(
+          history.state,
+          history.steps,
+          history.clientIDs,
+        ))
+
+        // const transaction = receiveTransaction(
+        //   state,
+        //   steps,
+        //   clientIDs,
+        // )
+
+        // this.editor.view.dispatch(transaction)
       })
+      // .on('versionMismatch', (version, steps) => {
+      //   // set state to the latest synced version?
+      //   // this.editor.view.updateState(this.prevState)
+
+      //   const currentVersion = getVersion(this.editor.state)
+      //   console.log('should poll version', currentVersion)
+
+      //   this.socket.emit('getVersionSteps', currentVersion)
+      // })
+      // .on('versionSteps', data => {
+      //   console.log('versionSteps', data)
+      //   const { state, view, schema } = this.editor
+
+      //   const transaction = receiveTransaction(
+      //     state,
+      //     data.map(item => Step.fromJSON(schema, item.step)),
+      //     data.map(item => item.clientID),
+      //   )
+
+      //   view.dispatch(transaction)
+      // })
   },
 
   beforeDestroy() {

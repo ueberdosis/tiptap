@@ -32,6 +32,7 @@ export default class Editor {
       onFocus: () => {},
       onBlur: () => {},
       onPaste: () => {},
+      onTransaction: () => true,
     }
 
     this.init(options)
@@ -265,6 +266,10 @@ export default class Editor {
   }
 
   dispatchTransaction(transaction) {
+    if (!this.options.onTransaction(transaction)) {
+      return
+    }
+
     this.state = this.state.apply(transaction)
     this.view.updateState(this.state)
     this.setActiveNodesAndMarks()
