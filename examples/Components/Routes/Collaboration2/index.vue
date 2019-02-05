@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
 import { debounce } from 'lodash-es'
 import { Editor, EditorContent } from 'tiptap'
 import { Step } from 'prosemirror-transform'
@@ -19,25 +20,22 @@ export default {
   data() {
     return {
       editor: null,
-      ws: null,
+      socket: null,
       clientID: Math.floor(Math.random() * 0xFFFFFFFF),
-      collabStartVersion: 0,
-      collabHistory: {
-        steps: [],
-        clientIDs: [],
-      },
     }
   },
 
   methods: {
     initEditor({ doc, version }) {
-      this.collabStartVersion = version
+      if (this.editor) {
+        this.editor.destroy()
+      }
 
       this.editor = new Editor({
         content: doc,
         extensions: [
           new Collab({
-            version: this.collabStartVersion,
+            version,
             clientID: this.clientID,
           }),
         ],
@@ -51,11 +49,7 @@ export default {
       const sendable = sendableSteps(state)
 
       if (sendable) {
-        this.ws.send(JSON.stringify(sendable))
-
-
-        console.log({ sendable })
-
+        this.socket.emit('message', sendable)
 
         const transaction = receiveTransaction(
           this.editor.state,
@@ -68,28 +62,6 @@ export default {
     }, 250),
 
     receiveData({ steps }) {
-      // if (version !== this.collabHistory.steps.length + this.collabStartVersion) {
-      //   return
-      // }
-
-      // steps.forEach(step => {
-      //   this.collabHistory.steps.push(step)
-      //   this.collabHistory.clientIDs.push(clientID)
-      // })
-
-      // this.updateDoc()
-
-      // const { state, view, schema } = this.editor
-      // const version = getVersion(state)
-      // const data = this.stepsSince(version)
-      // const transaction = receiveTransaction(
-      //   state,
-      //   steps,
-      //   steps,
-      // )
-
-      // view.dispatch(transaction)
-
       const { state, view, schema } = this.editor
 
       const transaction = receiveTransaction(
@@ -106,41 +78,25 @@ export default {
       for (let i = 0; i < n; i++) result.push(val)
       return result
     },
-
-    // updateDoc() {
-    //   const { state, view, schema } = this.editor
-    //   const version = getVersion(state)
-    //   const data = this.stepsSince(version)
-    //   const transaction = receiveTransaction(
-    //     state,
-    //     data.steps.map(step => Step.fromJSON(schema, step)),
-    //     data.clientIDs,
-    //   )
-
-    //   view.dispatch(transaction)
-    // },
-
-    stepsSince(version) {
-      const count = version - this.collabStartVersion
-      return {
-        steps: this.collabHistory.steps.slice(count),
-        clientIDs: this.collabHistory.clientIDs.slice(count),
-      }
-    },
   },
 
   mounted() {
-    this.ws = new WebSocket('wss://tiptap-sockets-2.glitch.me')
+    this.socket = io('wss://tiptap-sockets-2.glitch.me')
 
-    this.ws.onmessage = event => {
-      const payload = JSON.parse(event.data)
-
-      if (payload.doc) {
-        this.initEditor(payload)
-      } else {
-        this.receiveData(payload)
-      }
-    }
+    this.socket
+      .on('connect', () => {
+        console.log('connected')
+      })
+      .on('disconnect', () => {
+        console.log('disconnected')
+      })
+      .on('message', data => {
+        if (data.doc) {
+          this.initEditor(data)
+        } else {
+          this.receiveData(data)
+        }
+      })
   },
 
   beforeDestroy() {
