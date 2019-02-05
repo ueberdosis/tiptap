@@ -48,8 +48,10 @@ export default {
     getSendableSteps: debounce(function (state) {
       const sendable = sendableSteps(state)
 
+      this.prevState = state
+
       if (sendable) {
-        this.socket.emit('message', sendable)
+        this.socket.emit('update', sendable)
 
         const transaction = receiveTransaction(
           this.editor.state,
@@ -82,20 +84,38 @@ export default {
 
   mounted() {
     this.socket = io('wss://tiptap-sockets-2.glitch.me')
-
-    this.socket
       .on('connect', () => {
         console.log('connected')
       })
       .on('disconnect', () => {
         console.log('disconnected')
       })
-      .on('message', data => {
-        if (data.doc) {
-          this.initEditor(data)
-        } else {
-          this.receiveData(data)
-        }
+      .on('document', data => {
+        this.initEditor(data)
+      })
+      .on('update', data => {
+        this.receiveData(data)
+      })
+      .on('versionMismatch', () => {
+        // set state to the latest synced version?
+        // this.editor.view.updateState(this.prevState)
+
+        const currentVersion = getVersion(this.editor.state)
+        console.log('should poll version', currentVersion)
+
+        this.socket.emit('getVersionSteps', currentVersion)
+      })
+      .on('versionSteps', data => {
+        console.log('versionSteps', data)
+        const { state, view, schema } = this.editor
+
+        const transaction = receiveTransaction(
+          state,
+          data.map(item => Step.fromJSON(schema, item.step)),
+          data.map(item => item.clientID),
+        )
+
+        view.dispatch(transaction)
       })
   },
 
