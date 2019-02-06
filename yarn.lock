@@ -9711,17 +9711,17 @@ prosemirror-model@^1.0.0, prosemirror-model@^1.1.0:
   dependencies:
     orderedmap "^1.0.0"
 
-prosemirror-model@^1.6.4:
-  version "1.6.4"
-  resolved "https://registry.yarnpkg.com/prosemirror-model/-/prosemirror-model-1.6.4.tgz#2ac37a629448a7dbfd1635450e2fdd63c3450d7d"
-  integrity sha512-C2ALle8fZsAza+6stUF9Gv28jH9XtpNeczb33bowGlnb2cpNI4FZf1HHUyZjf6ou4cEvOlbt6fAYsT4NCKmlcQ==
+prosemirror-model@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/prosemirror-model/-/prosemirror-model-1.7.0.tgz#1fde0fd7cb2f9ead0be1581ad9f04593002a65aa"
+  integrity sha512-/6ul6guiqyAl5I+0qbnL7SlmuX0DEfYqjvzeLUVEnb7nwF/vmKZuWqbjEG2tqi/9SSudvd3UxQTBDHvxy9hQwA==
   dependencies:
     orderedmap "^1.0.0"
 
-prosemirror-schema-list@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/prosemirror-schema-list/-/prosemirror-schema-list-1.0.1.tgz#f216e0cf4809b6074aa27912449ac89897f1ae94"
-  integrity sha512-AiLIX6qm6PEeDtMCKZLcSLi55WXo1ls7DnRK+4hSkoi0IIzNdxGsRlecCd3MzEu//DVz3nAEh+zEmslyW+uk8g==
+prosemirror-schema-list@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/prosemirror-schema-list/-/prosemirror-schema-list-1.0.2.tgz#8381fb0c1eaf439d848059f62e2fac517033c2ef"
+  integrity sha512-IJ4DEpUEymfO+NNA4DAgCMF39XiQqpmCoPYY3SXa1jYcVgObGpGfJlSjZYVFEpimoLI7/mLoOLDhCtpGCRhTfg==
   dependencies:
     prosemirror-model "^1.0.0"
     prosemirror-transform "^1.0.0"
@@ -9775,10 +9775,10 @@ prosemirror-view@^1.1.0:
     prosemirror-state "^1.0.0"
     prosemirror-transform "^1.1.0"
 
-prosemirror-view@^1.6.8:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.6.8.tgz#33fc1a6e2731633e5d6dc1af1967378f15810b74"
-  integrity sha512-YWX3rfji77xsU5EErt4ZoecVytYW9/4oHBYhV1MUHGMYIcppe+QZEBgRlyPMBUuu0lxdZX4m3sq7fCsDvv/MlQ==
+prosemirror-view@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.7.1.tgz#f0ea75faa6d7bd25ea22897dd5bae35708c59a28"
+  integrity sha512-UFY/h4i5H1Yen8u2ZTve0WL+nh/y1qU3geC3SrWl5yIKSgGbvllD5vr5LxmeRgVsY8hb+oDXRHk5KvLwqmu7Lg==
   dependencies:
     prosemirror-model "^1.1.0"
     prosemirror-state "^1.0.0"
