@@ -54,6 +54,9 @@
     <router-link class="subnavigation__link" to="/collaboration2">
       Collaboration 2
     </router-link>
+    <router-link class="subnavigation__link" to="/collaboration3">
+      Collaboration 3
+    </router-link>
   </div>
 </template>
 
