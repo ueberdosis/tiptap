@@ -177,6 +177,10 @@ export default class Editor {
   }
 
   createDocument(content) {
+    if (content === null) {
+      return this.schema.nodeFromJSON(this.options.emptyDocument)
+    }
+
     if (typeof content === 'object') {
       try {
         return this.schema.nodeFromJSON(content)

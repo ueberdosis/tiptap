@@ -25,6 +25,14 @@ test('create editor', () => {
   expect(editor).toBeDefined()
 })
 
+test('check empty content (null)', () => {
+  const editor = new Editor({
+    content: null,
+  })
+
+  expect(editor.getHTML()).toEqual('<p></p>')
+})
+
 test('check invalid content (JSON)', () => {
   const editor = new Editor({
     content: { thisIsNotAValidDocument: true },
