@@ -1,4 +1,4 @@
-import { EditorState, Plugin } from 'prosemirror-state'
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import { dropCursor } from 'prosemirror-dropcursor'
@@ -162,8 +162,13 @@ export default class Editor {
         dropCursor(this.options.dropCursor),
         gapCursor(),
         new Plugin({
+          key: new PluginKey('editable'),
           props: {
             editable: () => this.options.editable,
+          },
+        }),
+        new Plugin({
+          props: {
             attributes: {
               tabindex: 0,
             },

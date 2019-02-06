@@ -25,6 +25,7 @@ export default {
           new Placeholder({
             emptyClass: 'is-empty',
             emptyNodeText: 'Write something …',
+            showOnlyWhenEditable: true,
           }),
         ],
       }),
