@@ -298,6 +298,10 @@ export default class Editor {
     this.view.focus()
   }
 
+  blur() {
+    this.view.dom.blur()
+  }
+
   getHTML() {
     const div = document.createElement('div')
     const fragment = DOMSerializer

@@ -87,8 +87,9 @@ export default {
 | `registerPlugin` | `plugin` | Register a Prosemirror plugin. |
 | `getJSON` | – | Get the current content as JSON. |
 | `getHTML` | – | Get the current content as HTML. |
-| `focus` | — | Focus the editor |
-| `destroy` | – | Destroys the editor. |
+| `focus` | – | Focus the editor. |
+| `blur` | – | Blur the editor. |
+| `destroy` | – | Destroy the editor. |
 
 ## Components
 
