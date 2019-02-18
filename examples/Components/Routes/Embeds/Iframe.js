@@ -47,7 +47,7 @@ export default class Iframe extends Node {
       template: `
         <div class="iframe">
           <iframe class="iframe__embed" :src="src"></iframe>
-          <input class="iframe__input" type="text" v-model="src" v-if="editable" />
+          <input class="iframe__input" @paste.stop type="text" v-model="src" v-if="editable" />
         </div>
       `,
     }
