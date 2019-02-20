@@ -28,6 +28,12 @@ export default {
             editor.registerPlugin(MenuBubble({
               element: this.$el,
               onUpdate: menu => {
+                // the second check ensures event is fired only once
+                if (menu.isActive && this.menu.isActive === false) {
+                  this.$emit('show', menu)
+                } else if (!menu.isActive && this.menu.isActive === true) {
+                  this.$emit('hide', menu)
+                }
                 this.menu = menu
               },
             }))
