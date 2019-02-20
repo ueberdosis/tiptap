@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <editor-menu-bubble class="menububble" :editor="editor">
+    <editor-menu-bubble class="menububble" :editor="editor" @hide="hideLinkMenu">
       <div
         slot-scope="{ commands, isActive, getMarkAttrs, menu }"
         class="menububble"
