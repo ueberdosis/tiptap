@@ -21,7 +21,7 @@
             @click="showLinkMenu(getMarkAttrs('link'))"
             :class="{ 'is-active': isActive.link() }"
           >
-            <span>Add Link</span>
+            <span>{{ isActive.link() ? 'Update Link' : 'Add Link'}}</span>
             <icon name="link" />
           </button>
         </template>
