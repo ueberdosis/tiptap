@@ -15,6 +15,28 @@ export default class ExtensionManager {
       }), {})
   }
 
+  get options() {
+    const { state, view } = this
+    return this.extensions
+        // { name, options, update = () => {} }
+        .reduce((nodes, extension) => ({
+          ...nodes,
+          [extension.name]: new Proxy(extension.options, {
+            set(obj, prop, value) {
+              const changed = (obj[prop] !== value)
+
+              obj[prop] = value
+
+              if (changed) {
+                extension.update({ state, view })
+              }
+
+              return true
+            },
+          }),
+        }), {})
+  }
+
   get marks() {
     return this.extensions
       .filter(extension => extension.type === 'mark')
