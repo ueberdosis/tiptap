@@ -24,7 +24,7 @@ export default class ExtensionManager {
             set(obj, prop, value) {
               const changed = (obj[prop] !== value)
 
-              obj[prop] = value
+              Object.assign(obj, { [prop]: value })
 
               if (changed) {
                 extension.update(view)
