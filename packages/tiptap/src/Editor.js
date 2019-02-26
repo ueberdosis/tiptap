@@ -68,8 +68,7 @@ export default class Editor {
       state: this.state,
     })
 
-    // give extension manager access to our view and state
-    this.extensions.state = this.state
+    // give extension manager access to our view
     this.extensions.view = this.view
   }
 

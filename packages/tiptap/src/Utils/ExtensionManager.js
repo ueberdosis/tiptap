@@ -16,7 +16,7 @@ export default class ExtensionManager {
   }
 
   get options() {
-    const { state, view } = this
+    const { view } = this
     return this.extensions
         // { name, options, update = () => {} }
         .reduce((nodes, extension) => ({
@@ -28,7 +28,7 @@ export default class ExtensionManager {
               obj[prop] = value
 
               if (changed) {
-                extension.update({ state, view })
+                extension.update(view)
               }
 
               return true
