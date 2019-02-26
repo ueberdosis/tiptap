@@ -18,7 +18,6 @@ export default class ExtensionManager {
   get options() {
     const { view } = this
     return this.extensions
-        // { name, options, update = () => {} }
         .reduce((nodes, extension) => ({
           ...nodes,
           [extension.name]: new Proxy(extension.options, {
