@@ -16,9 +16,8 @@ export default class Placeholder extends Extension {
   }
 
   get update() {
-    return ({ state, view }) => {
-      // TODO: fix error when content is not empty
-      view.updateState(state)
+    return view => {
+      view.updateState(view.state)
     }
   }
 
