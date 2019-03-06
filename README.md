@@ -299,6 +299,7 @@ The most powerful feature of tiptap is that you can create your own extensions. 
 | `commands({ schema, attrs })` | `Object` | `null` | Define a command. |
 | `inputRules({ schema })` | `Array` | `[]` | Define a list of input rules. |
 | `pasteRules({ schema })` | `Array` | `[]` | Define a list of paste rules. |
+| `get update()` | `Function` | `undefined` | Called when options of extension are changed via `editor.extensions.options` |
 
 ### Node|Mark Class
 

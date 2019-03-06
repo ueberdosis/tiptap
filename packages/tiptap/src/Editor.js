@@ -67,6 +67,9 @@ export default class Editor {
       view: this.view,
       state: this.state,
     })
+
+    // give extension manager access to our view
+    this.extensions.view = this.view
   }
 
   setOptions(options) {

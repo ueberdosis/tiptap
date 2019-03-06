@@ -15,6 +15,12 @@ export default class Placeholder extends Extension {
     }
   }
 
+  get update() {
+    return view => {
+      view.updateState(view.state)
+    }
+  }
+
   get plugins() {
     return [
       new Plugin({
