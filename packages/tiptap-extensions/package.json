@@ -22,11 +22,11 @@
   },
   "dependencies": {
     "lowlight": "^1.11.0",
-    "prosemirror-history": "^1.0.3",
+    "prosemirror-history": "^1.0.4",
     "prosemirror-state": "^1.2.2",
     "prosemirror-tables": "^0.7.10",
-    "prosemirror-utils": "^0.7.5",
-    "prosemirror-view": "^1.7.1",
+    "prosemirror-utils": "^0.7.6",
+    "prosemirror-view": "^1.8.3",
     "tiptap": "^1.13.0",
     "tiptap-commands": "^1.6.0"
   },
