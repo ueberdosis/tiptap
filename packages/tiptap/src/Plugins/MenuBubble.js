@@ -1,5 +1,11 @@
 import { Plugin } from 'prosemirror-state'
-import { textRange } from 'prosemirror-view/src/dom'
+
+function textRange(node, from, to) {
+  const range = document.createRange()
+  range.setEnd(node, to == null ? node.nodeValue.length : to)
+  range.setStart(node, from || 0)
+  return range
+}
 
 function singleRect(object, bias) {
   const rects = object.getClientRects()
