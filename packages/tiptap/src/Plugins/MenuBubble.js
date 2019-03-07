@@ -81,6 +81,8 @@ class Menu {
     const { from, to } = state.selection
 
     // These are in screen coordinates
+    // We can't use EditorView.cordsAtPos here because it can't handle linebreaks correctly
+    // See: https://github.com/ProseMirror/prosemirror-view/pull/47
     const start = coordsAtPos(view, from)
     const end = coordsAtPos(view, to, true)
 
