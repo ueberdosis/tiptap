@@ -1,4 +1,49 @@
 import { Plugin } from 'prosemirror-state'
+import { textRange } from 'prosemirror-view/src/dom'
+
+function singleRect(object, bias) {
+  const rects = object.getClientRects()
+  return !rects.length ? object.getBoundingClientRect() : rects[bias < 0 ? 0 : rects.length - 1]
+}
+
+function coordsAtPos(view, pos, end = false) {
+  const { node, offset } = view.docView.domFromPos(pos)
+  let side
+  let rect
+  if (node.nodeType === 3) {
+    if (end && offset < node.nodeValue.length) {
+      rect = singleRect(textRange(node, offset - 1, offset), -1)
+      side = 'right'
+    } else if (offset < node.nodeValue.length) {
+      rect = singleRect(textRange(node, offset, offset + 1), -1)
+      side = 'left'
+    }
+  } else if (node.firstChild) {
+    if (offset < node.childNodes.length) {
+      const child = node.childNodes[offset]
+      rect = singleRect(child.nodeType === 3 ? textRange(child) : child, -1)
+      side = 'left'
+    }
+    if ((!rect || rect.top === rect.bottom) && offset) {
+      const child = node.childNodes[offset - 1]
+      rect = singleRect(child.nodeType === 3 ? textRange(child) : child, 1)
+      side = 'right'
+    }
+  } else {
+    rect = node.getBoundingClientRect()
+    side = 'left'
+  }
+
+  const x = rect[side]
+
+  return {
+    top: rect.top,
+    bottom: rect.bottom,
+    left: x,
+    right: x,
+  }
+}
+
 
 class Menu {
 
@@ -36,8 +81,8 @@ class Menu {
     const { from, to } = state.selection
 
     // These are in screen coordinates
-    const start = view.coordsAtPos(from)
-    const end = view.coordsAtPos(to)
+    const start = coordsAtPos(view, from)
+    const end = coordsAtPos(view, to, true)
 
     // The box in which the tooltip is positioned, to use as base
     const box = this.options.element.offsetParent.getBoundingClientRect()
