@@ -236,6 +236,7 @@ import {
   Strike,
   Underline,
   History,
+  Tooltip,
 } from 'tiptap-extensions'
 
 export default {
@@ -263,6 +264,7 @@ export default {
           new Strike(),
           new Underline(),
           new History(),
+          new Tooltip(),
         ],
         content: `
           <h1>Yay Headlines!</h1>
