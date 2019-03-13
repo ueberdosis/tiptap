@@ -24,7 +24,7 @@ export default class Tooltip extends Mark {
         },
       ],
       toDOM: node => ['span', {
-        ...node.attrs
+        ...node.attrs,
       }, 0],
     }
   }
