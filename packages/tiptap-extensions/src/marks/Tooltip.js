@@ -1,5 +1,5 @@
 import { Mark, Plugin, TextSelection } from 'tiptap'
-import { updateMark, removeMark, pasteRule } from 'tiptap-commands'
+import { updateMark, removeMark } from 'tiptap-commands'
 import { getMarkRange } from 'tiptap-utils'
 
 export default class Tooltip extends Mark {
