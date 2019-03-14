@@ -39,16 +39,6 @@ export default class Tooltip extends Mark {
     }
   }
 
-  pasteRules({ type }) {
-    return [
-      pasteRule(
-        /.+/g,
-        type,
-        content => ({ tooltip: content }),
-      ),
-    ]
-  }
-
   get plugins() {
     return [
       new Plugin({
