@@ -16,6 +16,38 @@ class Menu {
     this.bottom = 0
 
     this.editorView.dom.addEventListener('blur', this.hide.bind(this))
+    this.startObservingSize()
+  }
+
+  startObservingSize() {
+    if(window && window.ResizeObserver)
+      this.observer = new ResizeObserver(() => this.reposition(this.editorView)).observe(this.options.element)
+  }
+
+  stopObservingSize() {
+    this.observer && this.observer.unobserve(this.options.element)
+  }
+
+  reposition(view) {
+    const { state } = view
+    // Otherwise, reposition it and update its content
+    const { from, to } = state.selection
+
+    // These are in screen coordinates
+    const start = view.coordsAtPos(from)
+    const end = view.coordsAtPos(to)
+
+    // The box in which the tooltip is positioned, to use as base
+    const box = this.options.element.offsetParent.getBoundingClientRect()
+    const el = this.options.element.getBoundingClientRect()
+
+    // Find a center-ish x position from the selection endpoints (when
+    // crossing lines, end may be more to the left)
+    const left = Math.max((start.left + end.left) / 2, start.left + 3, el.width / 2)
+    // console.log(`${left} - ${box.left} > ${el.width} / 2`, left - box.left, el.width / 2)
+    this.left = parseInt(left - box.left, 10)
+    this.bottom = parseInt(box.bottom - start.top, 10)
+    this.sendUpdate()
   }
 
   update(view, lastState) {
@@ -32,23 +64,8 @@ class Menu {
       return
     }
 
-    // Otherwise, reposition it and update its content
-    const { from, to } = state.selection
-
-    // These are in screen coordinates
-    const start = view.coordsAtPos(from)
-    const end = view.coordsAtPos(to)
-
-    // The box in which the tooltip is positioned, to use as base
-    const box = this.options.element.offsetParent.getBoundingClientRect()
-
-    // Find a center-ish x position from the selection endpoints (when
-    // crossing lines, end may be more to the left)
-    const left = Math.max((start.left + end.left) / 2, start.left + 3)
-
+    this.reposition(view)
     this.isActive = true
-    this.left = parseInt(left - box.left, 10)
-    this.bottom = parseInt(box.bottom - start.top, 10)
 
     this.sendUpdate()
   }
@@ -71,6 +88,7 @@ class Menu {
   }
 
   destroy() {
+    this.stopObservingSize()
     this.editorView.dom.removeEventListener('blur', this.hide)
   }
 
