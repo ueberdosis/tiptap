@@ -21,7 +21,11 @@ class Menu {
 
   startObservingSize() {
     if(window && window.ResizeObserver)
-      this.observer = new ResizeObserver(() => this.reposition(this.editorView)).observe(this.options.element)
+      this.observer = new ResizeObserver(() => {
+        this.reposition(this.editorView)
+        this.sendUpdate()
+      })
+      this.observer.observe(this.options.element)
   }
 
   stopObservingSize() {
@@ -47,7 +51,6 @@ class Menu {
     // console.log(`${left} - ${box.left} > ${el.width} / 2`, left - box.left, el.width / 2)
     this.left = parseInt(left - box.left, 10)
     this.bottom = parseInt(box.bottom - start.top, 10)
-    this.sendUpdate()
   }
 
   update(view, lastState) {
