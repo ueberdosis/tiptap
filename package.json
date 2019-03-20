@@ -10,7 +10,8 @@
     "build:examples": "node ./node_modules/@babel/node/bin/babel-node.js ./build/examples/build.js --env=production",
     "release": "yarn build:packages && yarn lint && yarn test && lerna publish",
     "lint": "eslint ./packages/**/src/**",
-    "test": "jest"
+    "test": "jest",
+    "audit-ci": "audit-ci --high"
   },
   "postcss": {
     "plugins": {
@@ -31,6 +32,7 @@
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-stage-2": "^7.0.0",
     "@babel/runtime": "^7.3.4",
+    "audit-ci": "^1.4.1",
     "autoprefixer": "^9.4.10",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
@@ -54,7 +56,7 @@
     "http-proxy-middleware": "^0.19.1",
     "http-server": "^0.11.1",
     "imagemin-webpack-plugin": "^2.4.2",
-    "jest": "^24.1.0",
+    "jest": "^24.5.0",
     "lerna": "^3.13.1",
     "mini-css-extract-plugin": "^0.5.0",
     "minimist": "^1.2.0",

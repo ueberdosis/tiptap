@@ -14,5 +14,6 @@ install:
   - yarn build:packages
 
 script:
+  - yarn audit-ci
   - yarn lint
   - yarn test
