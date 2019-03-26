@@ -475,6 +475,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 - [Philipp Kühn](https://github.com/philippkuehn)
 - [Christoph Flathmann](https://github.com/Chrissi2812)
+- [Erick Wilder](https://github.com/erickwilder)
 - [All Contributors](../../contributors)
 
 ## Packages Using Tiptap
