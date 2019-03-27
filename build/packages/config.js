@@ -102,8 +102,5 @@ export default [
     file: resolve(`packages/${item.package}/dist/${item.outputFileName}.esm.js`),
     format: 'es',
   }])
-  .reduce((allConfigs, configs) => ([
-    ...allConfigs,
-    ...configs,
-  ]), [])
+  .reduce(concat, [])
   .map(genConfig)
