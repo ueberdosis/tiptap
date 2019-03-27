@@ -41,7 +41,7 @@ function genConfig(opts) {
       file: opts.file,
       format: opts.format,
       banner,
-      name: 'tiptap',
+      name: opts.outputName,
     },
   }
 
@@ -57,18 +57,22 @@ function genConfig(opts) {
 export default [
   {
     package: 'tiptap',
+    outputName: 'tiptap',
     outputFileName: 'tiptap',
   },
   {
     package: 'tiptap-commands',
+    outputName: 'tiptapCommands',
     outputFileName: 'commands',
   },
   {
     package: 'tiptap-utils',
+    outputName: 'tiptapUtils',
     outputFileName: 'utils',
   },
   {
     package: 'tiptap-extensions',
+    outputName: 'tiptapExtensions',
     outputFileName: 'extensions',
   },
 ].map(item => [
