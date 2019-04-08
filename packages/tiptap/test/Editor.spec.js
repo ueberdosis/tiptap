@@ -278,3 +278,52 @@ test('update callback', done => {
 
   editor.setContent('<p>Bar</p>', true)
 })
+
+test('parse options in set content', done => {
+  const editor = new Editor({
+    content: '<p>Foo</p>',
+    onUpdate: ({ getHTML, getJSON }) => {
+      expect(getHTML()).toEqual('<p>  Foo  </p>')
+      expect(getJSON()).toEqual({
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: '  Foo  ',
+              },
+            ],
+          },
+        ],
+      })
+      done()
+    },
+  })
+
+  editor.setContent('<p>  Foo  </p>', true, { preserveWhitespace: true })
+})
+
+test('parse options in constructor', () => {
+  const editor = new Editor({
+    content: '<p>  Foo  </p>',
+    parseOptions: { preserveWhitespace: true },
+  })
+
+  expect(editor.getHTML()).toEqual('<p>  Foo  </p>')
+  expect(editor.getJSON()).toEqual({
+    type: 'doc',
+    content: [
+      {
+        type: 'paragraph',
+        content: [
+          {
+            type: 'text',
+            text: '  Foo  ',
+          },
+        ],
+      },
+    ],
+  })
+})
