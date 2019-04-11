@@ -11,7 +11,7 @@
     "release": "yarn build:packages && yarn lint && yarn test && lerna publish",
     "lint": "eslint ./packages/**/src/**",
     "test": "jest",
-    "audit-ci": "audit-ci --high"
+    "audit-ci": "audit-ci --critical"
   },
   "postcss": {
     "plugins": {
