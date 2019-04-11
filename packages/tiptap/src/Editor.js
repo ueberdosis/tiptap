@@ -27,6 +27,7 @@ export default class Editor {
       },
       useBuiltInExtensions: true,
       dropCursor: {},
+      parseOptions: {},
       onInit: () => {},
       onUpdate: () => {},
       onFocus: () => {},
@@ -185,7 +186,7 @@ export default class Editor {
     })
   }
 
-  createDocument(content) {
+  createDocument(content, parseOptions = this.options.parseOptions) {
     if (content === null) {
       return this.schema.nodeFromJSON(this.options.emptyDocument)
     }
@@ -203,7 +204,7 @@ export default class Editor {
       const element = document.createElement('div')
       element.innerHTML = content.trim()
 
-      return DOMParser.fromSchema(this.schema).parse(element)
+      return DOMParser.fromSchema(this.schema).parse(element, parseOptions)
     }
 
     return false
@@ -321,10 +322,10 @@ export default class Editor {
     return this.state.doc.toJSON()
   }
 
-  setContent(content = {}, emitUpdate = false) {
+  setContent(content = {}, emitUpdate = false, parseOptions) {
     this.state = EditorState.create({
       schema: this.state.schema,
-      doc: this.createDocument(content),
+      doc: this.createDocument(content, parseOptions),
       plugins: this.state.plugins,
     })
 

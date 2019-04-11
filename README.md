@@ -72,6 +72,7 @@ export default {
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
 | `useBuiltInExtensions` | `Boolean` | `true` | By default tiptap adds a `Doc`, `Paragraph` and `Text` node to the Prosemirror schema. |
 | `dropCursor` | `Object` | `{}` | Config for `prosemirror-dropcursor`. |
+| `dropCursor` | `Object` | `{}` | A list of [Prosemirror parseOptions](https://prosemirror.net/docs/ref/#model.ParseOptions). |
 | `onInit` | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init. |
 | `onFocus` | `Function` | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on focus. |
 | `onBlur` | `Function` | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on blur. |
@@ -81,7 +82,7 @@ export default {
 
 | **Method** | **Arguments**| **Description** |
 | --- | :---: | --- |
-| `setContent` | `content, emitUpdate` | Replace the current content. You can pass an HTML string or a JSON document. `emitUpdate` defaults to `false`. |
+| `setContent` | `content, emitUpdate, parseOptions` | Replace the current content. You can pass an HTML string or a JSON document. `emitUpdate` defaults to `false`. `parseOptions` defaults to those provided in constructor. |
 | `clearContent` | `emitUpdate` | Clears the current content. `emitUpdate` defaults to `false`. |
 | `setOptions` | `options` | Overwrites the current editor properties. |
 | `registerPlugin` | `plugin` | Register a Prosemirror plugin. |
