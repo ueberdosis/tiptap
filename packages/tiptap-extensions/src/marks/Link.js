@@ -59,15 +59,13 @@ export default class Link extends Mark {
             const { schema, doc, tr } = view.state
             const range = getMarkRange(doc.resolve(pos), schema.marks.link)
 
-            if (!range) {
-              return
+            if (range) {
+              const $start = doc.resolve(range.from)
+              const $end = doc.resolve(range.to)
+              const transaction = tr.setSelection(new TextSelection($start, $end))
+
+              view.dispatch(transaction)
             }
-
-            const $start = doc.resolve(range.from)
-            const $end = doc.resolve(range.to)
-            const transaction = tr.setSelection(new TextSelection($start, $end))
-
-            view.dispatch(transaction)
           },
         },
       }),
