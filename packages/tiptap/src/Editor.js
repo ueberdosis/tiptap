@@ -1,4 +1,9 @@
-import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
+import {
+  EditorState,
+  Plugin,
+  PluginKey,
+  TextSelection,
+} from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import { dropCursor } from 'prosemirror-dropcursor'
@@ -299,7 +304,21 @@ export default class Editor {
     })
   }
 
-  focus() {
+  focus(position = null) {
+    if (position !== null) {
+      let pos = position
+
+      if (position === 'start') {
+        pos = 0
+      } else if (position === 'end') {
+        pos = this.view.state.doc.nodeSize - 2
+      }
+
+      const selection = TextSelection.near(this.view.state.doc.resolve(pos))
+      const transaction = this.view.state.tr.setSelection(selection)
+      this.view.dispatch(transaction)
+    }
+
     this.view.focus()
   }
 
