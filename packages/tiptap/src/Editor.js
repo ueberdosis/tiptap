@@ -9,7 +9,7 @@ import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
 import { keymap } from 'prosemirror-keymap'
-import { baseKeymap, selectParentNode } from 'prosemirror-commands'
+import { baseKeymap } from 'prosemirror-commands'
 import { inputRules, undoInputRule } from 'prosemirror-inputrules'
 import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
 import { ExtensionManager, ComponentView } from './Utils'
@@ -166,7 +166,6 @@ export default class Editor {
         ...this.keymaps,
         keymap({
           Backspace: undoInputRule,
-          Escape: selectParentNode,
         }),
         keymap(baseKeymap),
         dropCursor(this.options.dropCursor),
