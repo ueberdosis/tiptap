@@ -9912,10 +9912,10 @@ prosemirror-view@^1.0.0, prosemirror-view@^1.1.0:
     prosemirror-state "^1.0.0"
     prosemirror-transform "^1.1.0"
 
-prosemirror-view@^1.8.8:
-  version "1.8.8"
-  resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.8.8.tgz#e61f60ed716d4f943be2fbc3f3be765322ff891f"
-  integrity sha512-rBDmBKRPmWhF4R2k9vW7CkGo+bafjj278lFxEGVpCHlnLhhhYX1XHU59KgMCsDnNhxh8Oexup1yIPbfg99eynA==
+prosemirror-view@^1.8.9:
+  version "1.8.9"
+  resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.8.9.tgz#9303def925eba0a8ce4589e64b4a011eaccfc1e0"
+  integrity sha512-K3/z7qDR6rEMH/gKXqu5pmjmtyhtuTWeQyselK6HMp3jbn1UANU4CfdU/awQT+zbRjv4ZJXGb9lxnuNmdUQS3Q==
   dependencies:
     prosemirror-model "^1.1.0"
     prosemirror-state "^1.0.0"
