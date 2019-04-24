@@ -74,13 +74,16 @@ export default class ExtensionManager {
     ].map(keys => keymap(keys))
   }
 
-  inputRules({ schema }) {
-    const extensionInputRules = this.extensions
+  inputRules({ schema, excludedExtensions }) {
+    const allowedExtensions = this.extensions
+        .filter(extension => !excludedExtensions.includes(extension.name))
+
+    const extensionInputRules = allowedExtensions
       .filter(extension => ['extension'].includes(extension.type))
       .filter(extension => extension.inputRules)
       .map(extension => extension.inputRules({ schema }))
 
-    const nodeMarkInputRules = this.extensions
+    const nodeMarkInputRules = allowedExtensions
       .filter(extension => ['node', 'mark'].includes(extension.type))
       .filter(extension => extension.inputRules)
       .map(extension => extension.inputRules({
@@ -97,13 +100,16 @@ export default class ExtensionManager {
     ]), [])
   }
 
-  pasteRules({ schema }) {
-    const extensionPasteRules = this.extensions
+  pasteRules({ schema, excludedExtensions }) {
+    const allowedExtensions = this.extensions
+        .filter(extension => !excludedExtensions.includes(extension.name))
+
+    const extensionPasteRules = allowedExtensions
       .filter(extension => ['extension'].includes(extension.type))
       .filter(extension => extension.pasteRules)
       .map(extension => extension.pasteRules({ schema }))
 
-    const nodeMarkPasteRules = this.extensions
+    const nodeMarkPasteRules = allowedExtensions
       .filter(extension => ['node', 'mark'].includes(extension.type))
       .filter(extension => extension.pasteRules)
       .map(extension => extension.pasteRules({

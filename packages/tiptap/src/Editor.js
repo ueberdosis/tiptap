@@ -31,6 +31,8 @@ export default class Editor {
         }],
       },
       useBuiltInExtensions: true,
+      disabledInputRules: [],
+      disabledPasteRules: [],
       dropCursor: {},
       parseOptions: {},
       onInit: () => {},
@@ -121,12 +123,14 @@ export default class Editor {
   createInputRules() {
     return this.extensions.inputRules({
       schema: this.schema,
+      excludedExtensions: this.options.disabledInputRules,
     })
   }
 
   createPasteRules() {
     return this.extensions.pasteRules({
       schema: this.schema,
+      excludedExtensions: this.options.disabledPasteRules,
     })
   }
 
