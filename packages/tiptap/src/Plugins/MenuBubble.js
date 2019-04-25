@@ -57,6 +57,7 @@ class Menu {
     this.options = {
       ...{
         element: null,
+        keepInBounds: true,
         onUpdate: () => false,
       },
       ...options,
@@ -94,14 +95,17 @@ class Menu {
 
     // The box in which the tooltip is positioned, to use as base
     const box = this.options.element.offsetParent.getBoundingClientRect()
+    const el = this.options.element.getBoundingClientRect()
 
     // Find a center-ish x position from the selection endpoints (when
     // crossing lines, end may be more to the left)
-    const left = Math.max((start.left + end.left) / 2, start.left + 3)
+    const left = ((start.left + end.left) / 2) - box.left
 
+    // Keep the menuBubble in the bounding box of the offsetParent i
+    this.left = Math.round(this.options.keepInBounds
+        ? Math.min(box.width - (el.width / 2), Math.max(left, el.width / 2)) : left)
+    this.bottom = Math.round(box.bottom - start.top)
     this.isActive = true
-    this.left = parseInt(left - box.left, 10)
-    this.bottom = parseInt(box.bottom - start.top, 10)
 
     this.sendUpdate()
   }
