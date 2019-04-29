@@ -59,7 +59,7 @@ export default class Link extends Mark {
             const { schema } = view.state
             const attrs = getMarkAttrs(view.state, schema.marks.link)
 
-            if (attrs.href) {
+            if (attrs.href && event.target instanceof HTMLAnchorElement) {
               event.stopPropagation()
               window.open(attrs.href)
             }
