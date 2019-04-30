@@ -1,11 +1,63 @@
 import { Plugin } from 'prosemirror-state'
 
+function textRange(node, from, to) {
+  const range = document.createRange()
+  range.setEnd(node, to == null ? node.nodeValue.length : to)
+  range.setStart(node, from || 0)
+  return range
+}
+
+function singleRect(object, bias) {
+  const rects = object.getClientRects()
+  return !rects.length ? object.getBoundingClientRect() : rects[bias < 0 ? 0 : rects.length - 1]
+}
+
+function coordsAtPos(view, pos, end = false) {
+  const { node, offset } = view.docView.domFromPos(pos)
+  let side
+  let rect
+  if (node.nodeType === 3) {
+    if (end && offset < node.nodeValue.length) {
+      rect = singleRect(textRange(node, offset - 1, offset), -1)
+      side = 'right'
+    } else if (offset < node.nodeValue.length) {
+      rect = singleRect(textRange(node, offset, offset + 1), -1)
+      side = 'left'
+    }
+  } else if (node.firstChild) {
+    if (offset < node.childNodes.length) {
+      const child = node.childNodes[offset]
+      rect = singleRect(child.nodeType === 3 ? textRange(child) : child, -1)
+      side = 'left'
+    }
+    if ((!rect || rect.top === rect.bottom) && offset) {
+      const child = node.childNodes[offset - 1]
+      rect = singleRect(child.nodeType === 3 ? textRange(child) : child, 1)
+      side = 'right'
+    }
+  } else {
+    rect = node.getBoundingClientRect()
+    side = 'left'
+  }
+
+  const x = rect[side]
+
+  return {
+    top: rect.top,
+    bottom: rect.bottom,
+    left: x,
+    right: x,
+  }
+}
+
+
 class Menu {
 
   constructor({ options, editorView }) {
     this.options = {
       ...{
         element: null,
+        keepInBounds: true,
         onUpdate: () => false,
       },
       ...options,
@@ -36,19 +88,24 @@ class Menu {
     const { from, to } = state.selection
 
     // These are in screen coordinates
-    const start = view.coordsAtPos(from)
-    const end = view.coordsAtPos(to)
+    // We can't use EditorView.cordsAtPos here because it can't handle linebreaks correctly
+    // See: https://github.com/ProseMirror/prosemirror-view/pull/47
+    const start = coordsAtPos(view, from)
+    const end = coordsAtPos(view, to, true)
 
     // The box in which the tooltip is positioned, to use as base
     const box = this.options.element.offsetParent.getBoundingClientRect()
+    const el = this.options.element.getBoundingClientRect()
 
     // Find a center-ish x position from the selection endpoints (when
     // crossing lines, end may be more to the left)
-    const left = Math.max((start.left + end.left) / 2, start.left + 3)
+    const left = ((start.left + end.left) / 2) - box.left
 
+    // Keep the menuBubble in the bounding box of the offsetParent i
+    this.left = Math.round(this.options.keepInBounds
+        ? Math.min(box.width - (el.width / 2), Math.max(left, el.width / 2)) : left)
+    this.bottom = Math.round(box.bottom - start.top)
     this.isActive = true
-    this.left = parseInt(left - box.left, 10)
-    this.bottom = parseInt(box.bottom - start.top, 10)
 
     this.sendUpdate()
   }
