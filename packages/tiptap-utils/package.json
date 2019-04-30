@@ -22,7 +22,7 @@
   "dependencies": {
     "prosemirror-model": "^1.7.0",
     "prosemirror-state": "^1.2.2",
-    "prosemirror-tables": "^0.7.9",
+    "prosemirror-tables": "^0.7.11",
     "prosemirror-utils": "^0.7.6"
   }
 }
