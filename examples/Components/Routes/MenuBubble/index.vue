@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <editor-menu-bubble :editor="editor" :keepInBounds="keepInBounds">
+    <editor-menu-bubble :editor="editor" :keep-in-bounds="keepInBounds">
       <div
         slot-scope="{ commands, isActive, menu }"
         class="menububble"
