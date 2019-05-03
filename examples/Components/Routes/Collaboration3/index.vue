@@ -9,7 +9,9 @@ import io from 'socket.io-client'
 import { debounce } from 'lodash-es'
 import { Editor, EditorContent } from 'tiptap'
 import { Step } from 'prosemirror-transform'
-import { receiveTransaction, sendableSteps, getVersion } from 'prosemirror-collab'
+import {
+ receiveTransaction, sendableSteps, getVersion, rebaseSteps,
+} from 'prosemirror-collab'
 import Collab from './Collab'
 
 export default {
@@ -71,6 +73,7 @@ export default {
           version: getVersion(state),
           steps,
           clientIDs,
+          sendable,
         })
 
         const transaction = receiveTransaction(
@@ -125,13 +128,9 @@ export default {
         // TODO: go back to `version`, apply `steps`, apply unmerged `steps`
 
         const history = this.history.find(item => item.version === version)
-
         const { state, view, schema } = this.editor
 
-        // view.updateState(history.state)
-
-        console.log('other steps', { data })
-        // console.log(getVersion(view.state))
+        // console.log('other steps', { data })
 
         const newstate = history.state.apply(receiveTransaction(
           history.state,
@@ -139,19 +138,30 @@ export default {
           data.map(item => item.clientID),
         ))
 
+        // this.editor.state =
         view.updateState(newstate)
 
-        // const newstate2 = newstate.apply(receiveTransaction(
-        //   newstate,
-        //   history.steps,
-        //   history.clientIDs,
-        // ))
+        if (history.steps.length) {
+          view.dispatch(receiveTransaction(
+            state,
+            history.steps,
+            history.clientIDs,
+          ))
 
-        view.dispatch(receiveTransaction(
-          state,
-          history.steps,
-          history.clientIDs,
-        ))
+          // const sendable = sendableSteps(state)
+          // console.log({ sendable })
+
+          // this.socket.emit('update', {
+          //   version: getVersion(state),
+          //   steps: history.steps,
+          // })
+        }
+
+
+        // const currentVersion = getVersion(view.state)
+        // const historySteps = history.steps
+        // console.log({ currentVersion, historySteps })
+
 
         // view.updateState(newstate2)
 
