@@ -65,8 +65,8 @@ export default {
   },
 
   mounted() {
-    this.socket = io('wss://tiptap-sockets-2.glitch.me')
-      .on('document', data => this.initEditor(data))
+    this.socket = io('wss://tiptap-sockets.glitch.me')
+      .on('init', data => this.initEditor(data))
       .on('update', data => this.receiveData(data))
   },
 
