@@ -10,9 +10,7 @@
 <script>
 import io from 'socket.io-client'
 import { Editor, EditorContent } from 'tiptap'
-import { Step } from 'prosemirror-transform'
-import { receiveTransaction, getVersion } from 'prosemirror-collab'
-import Collab from './Collab'
+import { Collaboration } from 'tiptap-extensions'
 
 export default {
   components: {
@@ -38,38 +36,22 @@ export default {
       this.editor = new Editor({
         content: doc,
         extensions: [
-          new Collab({
+          new Collaboration({
             version,
             debounce: 250,
-            onSend: sendable => {
-              this.socket.emit('update', sendable)
+            onSendable: data => {
+              this.socket.emit('update', data)
             },
           }),
         ],
       })
-
-      // console.log(this.editor.extensions.options.collab.version)
-    },
-
-    onUpdate({ steps, version }) {
-      const { state, view, schema } = this.editor
-
-      if (getVersion(state) > version) {
-        return
-      }
-
-      view.dispatch(receiveTransaction(
-        state,
-        steps.map(item => Step.fromJSON(schema, item.step)),
-        steps.map(item => item.clientID),
-      ))
     },
   },
 
   mounted() {
     this.socket = io('wss://tiptap-sockets.glitch.me')
       .on('init', data => this.onInit(data))
-      .on('update', data => this.onUpdate(data))
+      .on('update', data => this.editor.extensions.options.collaboration.onUpdate(data))
   },
 
   beforeDestroy() {
