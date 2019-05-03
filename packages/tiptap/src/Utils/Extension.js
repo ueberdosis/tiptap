@@ -7,6 +7,14 @@ export default class Extension {
     }
   }
 
+  init() {
+    return null
+  }
+
+  bindEditor(editor = null) {
+    this.editor = editor
+  }
+
   get name() {
     return null
   }

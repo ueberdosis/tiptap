@@ -9,10 +9,9 @@
 
 <script>
 import io from 'socket.io-client'
-import { debounce } from 'lodash-es'
 import { Editor, EditorContent } from 'tiptap'
 import { Step } from 'prosemirror-transform'
-import { receiveTransaction, sendableSteps, getVersion } from 'prosemirror-collab'
+import { receiveTransaction, getVersion } from 'prosemirror-collab'
 import Collab from './Collab'
 
 export default {
@@ -29,7 +28,7 @@ export default {
   },
 
   methods: {
-    initEditor({ doc, version }) {
+    onInit({ doc, version }) {
       this.loading = false
 
       if (this.editor) {
@@ -39,23 +38,20 @@ export default {
       this.editor = new Editor({
         content: doc,
         extensions: [
-          new Collab({ version }),
+          new Collab({
+            version,
+            debounce: 250,
+            onSend: sendable => {
+              this.socket.emit('update', sendable)
+            },
+          }),
         ],
-        onUpdate: ({ state }) => {
-          this.getSendableSteps(state)
-        },
       })
+
+      // console.log(this.editor.extensions.options.collab.version)
     },
 
-    getSendableSteps: debounce(function (state) {
-      const sendable = sendableSteps(state)
-
-      if (sendable) {
-        this.socket.emit('update', sendable)
-      }
-    }, 250),
-
-    receiveData({ steps, version }) {
+    onUpdate({ steps, version }) {
       const { state, view, schema } = this.editor
 
       if (getVersion(state) > version) {
@@ -72,8 +68,8 @@ export default {
 
   mounted() {
     this.socket = io('wss://tiptap-sockets.glitch.me')
-      .on('init', data => this.initEditor(data))
-      .on('update', data => this.receiveData(data))
+      .on('init', data => this.onInit(data))
+      .on('update', data => this.onUpdate(data))
   },
 
   beforeDestroy() {
