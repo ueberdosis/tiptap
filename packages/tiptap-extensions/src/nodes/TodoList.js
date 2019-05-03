@@ -11,10 +11,10 @@ export default class TodoList extends Node {
     return {
       group: 'block',
       content: 'todo_item+',
-      toDOM: () => ['ul', { 'data-type': 'todo_list' }, 0],
+      toDOM: () => ['ul', { 'data-type': this.name }, 0],
       parseDOM: [{
         priority: 51,
-        tag: '[data-type="todo_list"]',
+        tag: `[data-type="${this.name}"]`,
       }],
     }
   }

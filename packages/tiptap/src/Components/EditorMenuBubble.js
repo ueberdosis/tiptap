@@ -7,6 +7,10 @@ export default {
       default: null,
       type: Object,
     },
+    keepInBounds: {
+      default: true,
+      type: Boolean,
+    },
   },
 
   data() {
@@ -27,7 +31,14 @@ export default {
           this.$nextTick(() => {
             editor.registerPlugin(MenuBubble({
               element: this.$el,
+              keepInBounds: this.keepInBounds,
               onUpdate: menu => {
+                // the second check ensures event is fired only once
+                if (menu.isActive && this.menu.isActive === false) {
+                  this.$emit('show', menu)
+                } else if (!menu.isActive && this.menu.isActive === true) {
+                  this.$emit('hide', menu)
+                }
                 this.menu = menu
               },
             }))

@@ -18,7 +18,7 @@ export default class TodoItem extends Node {
         },
       },
       template: `
-        <li data-type="todo_item" :data-done="node.attrs.done.toString()">
+        <li :data-type="node.type.name" :data-done="node.attrs.done.toString()">
           <span class="todo-checkbox" contenteditable="false" @click="onChange"></span>
           <div class="todo-content" ref="content" :contenteditable="editable.toString()"></div>
         </li>
@@ -35,11 +35,13 @@ export default class TodoItem extends Node {
       },
       draggable: true,
       content: 'paragraph',
-      toDOM(node) {
+      toDOM: node => {
         const { done } = node.attrs
 
-        return ['li', {
-            'data-type': 'todo_item',
+        return [
+          'li',
+          {
+            'data-type': this.name,
             'data-done': done.toString(),
           },
           ['span', { class: 'todo-checkbox', contenteditable: 'false' }],
@@ -48,7 +50,7 @@ export default class TodoItem extends Node {
       },
       parseDOM: [{
         priority: 51,
-        tag: '[data-type="todo_item"]',
+        tag: `[data-type="${this.name}"]`,
         getAttrs: dom => ({
           done: dom.getAttribute('data-done') === 'true',
         }),

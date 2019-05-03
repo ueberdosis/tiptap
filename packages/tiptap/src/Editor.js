@@ -1,10 +1,15 @@
-import { EditorState, Plugin } from 'prosemirror-state'
+import {
+  EditorState,
+  Plugin,
+  PluginKey,
+  TextSelection,
+} from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
 import { keymap } from 'prosemirror-keymap'
-import { baseKeymap, selectParentNode } from 'prosemirror-commands'
+import { baseKeymap } from 'prosemirror-commands'
 import { inputRules, undoInputRule } from 'prosemirror-inputrules'
 import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
 import { ExtensionManager, ComponentView } from './Utils'
@@ -27,11 +32,13 @@ export default class Editor {
       },
       useBuiltInExtensions: true,
       dropCursor: {},
+      parseOptions: {},
       onInit: () => {},
       onUpdate: () => {},
       onFocus: () => {},
       onBlur: () => {},
       onPaste: () => {},
+      onDrop: () => {},
       onTransaction: () => true,
     }
 
@@ -67,6 +74,9 @@ export default class Editor {
       view: this.view,
       state: this.state,
     })
+
+    // give extension manager access to our view
+    this.extensions.view = this.view
   }
 
   setOptions(options) {
@@ -157,14 +167,18 @@ export default class Editor {
         ...this.keymaps,
         keymap({
           Backspace: undoInputRule,
-          Escape: selectParentNode,
         }),
         keymap(baseKeymap),
         dropCursor(this.options.dropCursor),
         gapCursor(),
         new Plugin({
+          key: new PluginKey('editable'),
           props: {
             editable: () => this.options.editable,
+          },
+        }),
+        new Plugin({
+          props: {
             attributes: {
               tabindex: 0,
             },
@@ -177,7 +191,11 @@ export default class Editor {
     })
   }
 
-  createDocument(content) {
+  createDocument(content, parseOptions = this.options.parseOptions) {
+    if (content === null) {
+      return this.schema.nodeFromJSON(this.options.emptyDocument)
+    }
+
     if (typeof content === 'object') {
       try {
         return this.schema.nodeFromJSON(content)
@@ -191,7 +209,7 @@ export default class Editor {
       const element = document.createElement('div')
       element.innerHTML = content.trim()
 
-      return DOMParser.fromSchema(this.schema).parse(element)
+      return DOMParser.fromSchema(this.schema).parse(element, parseOptions)
     }
 
     return false
@@ -201,7 +219,7 @@ export default class Editor {
     const view = new EditorView(this.element, {
       state: this.state,
       handlePaste: this.options.onPaste,
-      handleDrop: this.options.onPaste,
+      handleDrop: this.options.onDrop,
       dispatchTransaction: this.dispatchTransaction.bind(this),
     })
 
@@ -290,8 +308,26 @@ export default class Editor {
     })
   }
 
-  focus() {
+  focus(position = null) {
+    if (position !== null) {
+      let pos = position
+
+      if (position === 'start') {
+        pos = 0
+      } else if (position === 'end') {
+        pos = this.view.state.doc.nodeSize - 2
+      }
+
+      const selection = TextSelection.near(this.view.state.doc.resolve(pos))
+      const transaction = this.view.state.tr.setSelection(selection)
+      this.view.dispatch(transaction)
+    }
+
     this.view.focus()
+  }
+
+  blur() {
+    this.view.dom.blur()
   }
 
   getHTML() {
@@ -309,10 +345,10 @@ export default class Editor {
     return this.state.doc.toJSON()
   }
 
-  setContent(content = {}, emitUpdate = false) {
+  setContent(content = {}, emitUpdate = false, parseOptions) {
     this.state = EditorState.create({
       schema: this.state.schema,
-      doc: this.createDocument(content),
+      doc: this.createDocument(content, parseOptions),
       plugins: this.state.plugins,
     })
 

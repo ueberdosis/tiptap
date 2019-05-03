@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <editor-menu-bubble class="menububble" :editor="editor">
+    <editor-menu-bubble class="menububble" :editor="editor" @hide="hideLinkMenu">
       <div
         slot-scope="{ commands, isActive, getMarkAttrs, menu }"
         class="menububble"
@@ -21,7 +21,7 @@
             @click="showLinkMenu(getMarkAttrs('link'))"
             :class="{ 'is-active': isActive.link() }"
           >
-            <span>Add Link</span>
+            <span>{{ isActive.link() ? 'Update Link' : 'Add Link'}}</span>
             <icon name="link" />
           </button>
         </template>

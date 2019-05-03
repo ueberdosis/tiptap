@@ -69,7 +69,7 @@ keepItem = $from.index(-1) > 0
     /* Change ends here */
 
     if (!canSplit(tr.doc, $from.pos, 2, types)) return false
-    if (dispatch) dispatch(tr.split($from.pos, 2, [{ type: state.schema.nodes.todo_item, attrs: { done: false } }]).scrollIntoView())
+    if (dispatch) dispatch(tr.split($from.pos, 2, types).scrollIntoView())
     return true
   }
 }

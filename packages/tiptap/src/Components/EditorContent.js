@@ -25,4 +25,8 @@ export default {
     return createElement('div')
   },
 
+  beforeDestroy() {
+    this.editor.element = this.$el
+  },
+
 }

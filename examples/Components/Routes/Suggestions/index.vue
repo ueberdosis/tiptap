@@ -159,6 +159,7 @@ export default {
       filteredUsers: [],
       navigatedUserIndex: 0,
       insertMention: () => {},
+      observer: null,
     }
   },
 
@@ -222,19 +223,34 @@ export default {
         interactive: true,
         theme: 'dark',
         placement: 'top-start',
-        performance: true,
         inertia: true,
         duration: [400, 200],
         showOnInit: true,
         arrow: true,
         arrowType: 'round',
       })
+
+      // we have to update tippy whenever the DOM is updated
+      if (MutationObserver) {
+        this.observer = new MutationObserver(() => {
+          this.popup.popperInstance.scheduleUpdate()
+        })
+        this.observer.observe(this.$refs.suggestions, {
+          childList: true,
+          subtree: true,
+          characterData: true,
+        })
+      }
     },
 
     destroyPopup() {
       if (this.popup) {
-        this.popup.destroyAll()
+        this.popup.destroy()
         this.popup = null
+      }
+
+      if (this.observer) {
+        this.observer.disconnect()
       }
     },
 
@@ -244,7 +260,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import '~modules/tippy.js/dist/tippy.css';
 
 .mention {
   background: rgba($color-black, 0.1);

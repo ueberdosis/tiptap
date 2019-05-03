@@ -1,65 +1,7 @@
-import { Node, Plugin } from 'tiptap'
-import { Decoration, DecorationSet } from 'prosemirror-view'
-import { toggleBlockType, setBlockType, textblockTypeInputRule } from 'tiptap-commands'
-import { findBlockNodes } from 'prosemirror-utils'
+import { Node } from 'tiptap'
 import low from 'lowlight/lib/core'
-
-function getDecorations(doc) {
-  const decorations = []
-
-  const blocks = findBlockNodes(doc)
-    .filter(item => item.node.type.name === 'code_block')
-
-  const flatten = list => list.reduce(
-    (a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), [],
-    )
-
-  function parseNodes(nodes, className = []) {
-    return nodes.map(node => {
-
-      const classes = [
-        ...className,
-        ...node.properties ? node.properties.className : [],
-      ]
-
-      if (node.children) {
-        return parseNodes(node.children, classes)
-      }
-
-      return {
-        text: node.value,
-        classes,
-      }
-    })
-  }
-
-  blocks.forEach(block => {
-    let startPos = block.pos + 1
-    const nodes = low.highlightAuto(block.node.textContent).value
-
-    flatten(parseNodes(nodes))
-      .map(node => {
-        const from = startPos
-        const to = from + node.text.length
-
-        startPos = to
-
-        return {
-          ...node,
-          from,
-          to,
-        }
-      })
-      .forEach(node => {
-        const decoration = Decoration.inline(node.from, node.to, {
-          class: node.classes.join(' '),
-        })
-        decorations.push(decoration)
-      })
-  })
-
-  return DecorationSet.create(doc, decorations)
-}
+import { toggleBlockType, setBlockType, textblockTypeInputRule } from 'tiptap-commands'
+import HighlightPlugin from '../plugins/Highlight'
 
 export default class CodeBlockHighlight extends Node {
 
@@ -74,14 +16,14 @@ export default class CodeBlockHighlight extends Node {
     }
   }
 
+  get name() {
+    return 'code_block'
+  }
+
   get defaultOptions() {
     return {
       languages: {},
     }
-  }
-
-  get name() {
-    return 'code_block'
   }
 
   get schema() {
@@ -117,29 +59,7 @@ export default class CodeBlockHighlight extends Node {
 
   get plugins() {
     return [
-      new Plugin({
-        state: {
-          init(_, { doc }) {
-            return getDecorations(doc)
-          },
-          apply(transaction, decorationSet, oldState) {
-            // TODO: find way to cache decorations
-            // see: https://discuss.prosemirror.net/t/how-to-update-multiple-inline-decorations-on-node-change/1493
-
-            const previousNodeName = oldState.selection.$head.parent.type.name
-            if (transaction.docChanged && previousNodeName === 'code_block') {
-              return getDecorations(transaction.doc)
-            }
-
-            return decorationSet.map(transaction.mapping, transaction.doc)
-          },
-        },
-        props: {
-          decorations(state) {
-            return this.getState(state)
-          },
-        },
-      }),
+      HighlightPlugin({ name: this.name }),
     ]
   }
 

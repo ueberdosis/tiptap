@@ -1,5 +1,7 @@
 import path from 'path'
 import webpack from 'webpack'
+import Fiber from 'fibers'
+import DartSass from 'dart-sass'
 import { VueLoaderPlugin } from 'vue-loader'
 import SvgStore from 'webpack-svgstore-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
@@ -87,7 +89,13 @@ export default {
           ifDev('vue-style-loader', MiniCssExtractPlugin.loader),
           'css-loader',
           'postcss-loader',
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: DartSass,
+              fiber: Fiber,
+            },
+          },
         ]),
       },
       {

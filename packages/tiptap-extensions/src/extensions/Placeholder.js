@@ -11,6 +11,13 @@ export default class Placeholder extends Extension {
     return {
       emptyNodeClass: 'is-empty',
       emptyNodeText: 'Write something...',
+      showOnlyWhenEditable: true,
+    }
+  }
+
+  get update() {
+    return view => {
+      view.updateState(view.state)
     }
   }
 
@@ -18,7 +25,15 @@ export default class Placeholder extends Extension {
     return [
       new Plugin({
         props: {
-          decorations: ({ doc }) => {
+          decorations: ({ doc, plugins }) => {
+            const editablePlugin = plugins.find(plugin => plugin.key.startsWith('editable$'))
+            const editable = editablePlugin.props.editable()
+            const active = editable || !this.options.showOnlyWhenEditable
+
+            if (!active) {
+              return false
+            }
+
             const decorations = []
             const completelyEmpty = doc.textContent === '' && doc.childCount <= 1 && doc.content.size <= 2
 

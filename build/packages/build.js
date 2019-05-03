@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import zlib from 'zlib'
-import uglify from 'uglify-js'
+import Terser from 'terser'
 import { rollup } from 'rollup'
 import config from './config'
 
@@ -43,9 +43,8 @@ function buildEntry({ input, output }) {
   return rollup(input)
     .then(bundle => bundle.generate(output))
     .then(response => {
-      // console.log({ bla })
       if (isProd) {
-        const minified = uglify.minify(response.output[0].code, {
+        const minified = Terser.minify(response.output[0].code, {
           output: {
             preamble: output.banner,
             ascii_only: true,
@@ -53,8 +52,6 @@ function buildEntry({ input, output }) {
         }).code
         return write(output.file, minified, true)
       }
-      // console.log({ isProd })
-      // console.dir(response, { depth: null })
       return write(output.file, response.output[0].code)
     })
 }

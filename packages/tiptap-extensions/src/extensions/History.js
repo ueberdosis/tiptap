@@ -7,6 +7,13 @@ export default class History extends Extension {
     return 'history'
   }
 
+  get defaultOptions() {
+    return {
+      depth: '',
+      newGroupDelay: '',
+    }
+  }
+
   keys() {
     const isMac = typeof navigator !== 'undefined' ? /Mac/.test(navigator.platform) : false
     const keymap = {
@@ -23,7 +30,10 @@ export default class History extends Extension {
 
   get plugins() {
     return [
-      history(),
+      history({
+        depth: this.options.depth,
+        newGroupDelay: this.options.newGroupDelay,
+      }),
     ]
   }
 
