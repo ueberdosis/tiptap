@@ -1,6 +1,9 @@
 <template>
   <div class="editor">
-    <editor-content class="editor__content" :editor="editor" v-if="editor" />
+    <editor-content class="editor__content" :editor="editor" v-if="editor && !loading" />
+    <em v-else>
+      Connecting to socket server …
+    </em>
   </div>
 </template>
 
@@ -19,6 +22,7 @@ export default {
 
   data() {
     return {
+      loading: true,
       editor: null,
       socket: null,
     }
@@ -26,6 +30,8 @@ export default {
 
   methods: {
     initEditor({ doc, version }) {
+      this.loading = false
+
       if (this.editor) {
         this.editor.destroy()
       }
