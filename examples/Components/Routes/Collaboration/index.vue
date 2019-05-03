@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
+import { debounce } from 'lodash-es'
 import { Editor, EditorContent } from 'tiptap'
 import { Step } from 'prosemirror-transform'
 import { receiveTransaction, sendableSteps, getVersion } from 'prosemirror-collab'
@@ -18,85 +20,54 @@ export default {
   data() {
     return {
       editor: null,
-      ws: null,
-      clientID: Math.floor(Math.random() * 0xFFFFFFFF),
-      collabStartVersion: 0,
-      collabHistory: {
-        steps: [],
-        clientIDs: [],
-      },
+      socket: null,
     }
   },
 
   methods: {
     initEditor({ doc, version }) {
-      this.collabStartVersion = version + 1
+      if (this.editor) {
+        this.editor.destroy()
+      }
 
       this.editor = new Editor({
         content: doc,
         extensions: [
-          new Collab({
-            version: this.collabStartVersion,
-            clientID: this.clientID,
-          }),
+          new Collab({ version }),
         ],
         onUpdate: ({ state }) => {
-          const sendable = sendableSteps(state)
-
-          if (sendable) {
-            this.ws.send(JSON.stringify(sendable))
-          }
+          this.getSendableSteps(state)
         },
       })
     },
 
-    receiveData({ version, steps, clientID }) {
-      if (version !== this.collabHistory.steps.length + this.collabStartVersion) {
+    getSendableSteps: debounce(function (state) {
+      const sendable = sendableSteps(state)
+
+      if (sendable) {
+        this.socket.emit('update', sendable)
+      }
+    }, 250),
+
+    receiveData({ steps, version }) {
+      const { state, view, schema } = this.editor
+
+      if (getVersion(state) > version) {
         return
       }
 
-      steps.forEach(step => {
-        this.collabHistory.steps.push(step)
-        this.collabHistory.clientIDs.push(clientID)
-      })
-
-      this.updateDoc()
-    },
-
-    updateDoc() {
-      const { state, view, schema } = this.editor
-      const version = getVersion(state)
-      const data = this.stepsSince(version)
-      const transaction = receiveTransaction(
+      view.dispatch(receiveTransaction(
         state,
-        data.steps.map(step => Step.fromJSON(schema, step)),
-        data.clientIDs,
-      )
-
-      view.dispatch(transaction)
-    },
-
-    stepsSince(version) {
-      const count = version - this.collabStartVersion
-      return {
-        steps: this.collabHistory.steps.slice(count),
-        clientIDs: this.collabHistory.clientIDs.slice(count),
-      }
+        steps.map(item => Step.fromJSON(schema, item.step)),
+        steps.map(item => item.clientID),
+      ))
     },
   },
 
   mounted() {
-    this.ws = new WebSocket('wss://tiptap-sockets.glitch.me')
-
-    this.ws.onmessage = event => {
-      const payload = JSON.parse(event.data)
-
-      if (payload.doc) {
-        this.initEditor(payload)
-      } else {
-        this.receiveData(payload)
-      }
-    }
+    this.socket = io('wss://tiptap-sockets-2.glitch.me')
+      .on('document', data => this.initEditor(data))
+      .on('update', data => this.receiveData(data))
   },
 
   beforeDestroy() {

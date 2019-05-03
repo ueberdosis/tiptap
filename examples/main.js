@@ -131,20 +131,6 @@ const routes = [
       githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Collaboration',
     },
   },
-  {
-    path: '/collaboration2',
-    component: () => import('Components/Routes/Collaboration2'),
-    meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Collaboration2',
-    },
-  },
-  {
-    path: '/collaboration3',
-    component: () => import('Components/Routes/Collaboration3'),
-    meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Collaboration3',
-    },
-  },
 ]
 
 const router = new VueRouter({
