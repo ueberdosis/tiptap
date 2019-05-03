@@ -47,14 +47,18 @@ export default {
         //   this.editor.view.updateState(this.state.edit)
         //   return false
         // },
-        onUpdate: ({ state }) => {
-          this.getSendableSteps(state)
+        onUpdate: ({ state, oldState }) => {
+          this.getSendableSteps(state, oldState)
         },
       })
     },
 
-    getSendableSteps: debounce(function (state) {
+    getSendableSteps: debounce(function (state, oldState) {
       const sendable = sendableSteps(state)
+
+      console.log('update editor', { sendable })
+
+      // console.log({ state, oldState })
 
       if (sendable) {
         this.socket.emit('update', sendable)
@@ -63,7 +67,7 @@ export default {
         const clientIDs = this.repeat(sendable.clientID, steps.length)
 
         this.history.push({
-          state,
+          state: oldState,
           version: getVersion(state),
           steps,
           clientIDs,
@@ -116,7 +120,7 @@ export default {
         console.log('version in sync', version)
         // TODO remove steps older than version
       })
-      .on('versionMismatch', ({ version, data }) => {
+      .on('versionMismatch', ({ version, data, doc }) => {
         console.log('version mismatch', version)
         // TODO: go back to `version`, apply `steps`, apply unmerged `steps`
 
@@ -124,19 +128,46 @@ export default {
 
         const { state, view, schema } = this.editor
 
-        view.updateState(history.state)
+        // view.updateState(history.state)
 
-        view.dispatch(receiveTransaction(
+        console.log('other steps', { data })
+        // console.log(getVersion(view.state))
+
+        const newstate = history.state.apply(receiveTransaction(
           history.state,
           data.map(item => Step.fromJSON(schema, item.step)),
           data.map(item => item.clientID),
         ))
 
+        view.updateState(newstate)
+
+        // const newstate2 = newstate.apply(receiveTransaction(
+        //   newstate,
+        //   history.steps,
+        //   history.clientIDs,
+        // ))
+
         view.dispatch(receiveTransaction(
-          history.state,
+          state,
           history.steps,
           history.clientIDs,
         ))
+
+        // view.updateState(newstate2)
+
+        // view.dispatch(receiveTransaction(
+        //   view.state,
+        //   data.map(item => Step.fromJSON(schema, item.step)),
+        //   data.map(item => item.clientID),
+        // ))
+
+        // console.log('own', { history })
+
+        // view.dispatch(receiveTransaction(
+        //   history.state,
+        //   history.steps,
+        //   history.clientIDs,
+        // ))
 
         // const transaction = receiveTransaction(
         //   state,
