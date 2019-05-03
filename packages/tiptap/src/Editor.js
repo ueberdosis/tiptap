@@ -288,6 +288,8 @@ export default class Editor {
       return
     }
 
+    const oldState = this.state
+
     this.state = this.state.apply(transaction)
     this.view.updateState(this.state)
     this.setActiveNodesAndMarks()
@@ -296,14 +298,15 @@ export default class Editor {
       return
     }
 
-    this.emitUpdate(transaction)
+    this.emitUpdate(transaction, oldState)
   }
 
-  emitUpdate(transaction) {
+  emitUpdate(transaction, oldState) {
     this.options.onUpdate({
       getHTML: this.getHTML.bind(this),
       getJSON: this.getJSON.bind(this),
       state: this.state,
+      oldState,
       transaction,
     })
   }
