@@ -39,7 +39,6 @@ export default class Editor {
       onBlur: () => {},
       onPaste: () => {},
       onDrop: () => {},
-      onTransaction: () => true,
     }
 
     this.init(options)
@@ -284,10 +283,6 @@ export default class Editor {
   }
 
   dispatchTransaction(transaction) {
-    if (!this.options.onTransaction(transaction)) {
-      return
-    }
-
     const oldState = this.state
 
     this.state = this.state.apply(transaction)
