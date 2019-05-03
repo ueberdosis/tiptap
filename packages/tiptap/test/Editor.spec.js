@@ -243,9 +243,10 @@ test('clear content', () => {
 test('init callback', done => {
   const editor = new Editor({
     content: '<p>Foo</p>',
-    onInit: ({ state, view }) => {
+    onInit: ({ state, view, extraProps }) => {
       expect(state).toBeDefined()
       expect(view).toBeDefined()
+      expect(extraProps).toBeDefined()
       done()
     },
   })

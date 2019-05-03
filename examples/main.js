@@ -131,6 +131,13 @@ const routes = [
       githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Export',
     },
   },
+  {
+    path: '/extra-props',
+    component: () => import('Components/Routes/ExtraProps'),
+    meta: {
+      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/ExtraProps',
+    },
+  },
 ]
 
 const router = new VueRouter({

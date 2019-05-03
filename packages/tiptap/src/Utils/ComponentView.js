@@ -10,6 +10,7 @@ export default class ComponentView {
     getPos,
     decorations,
     editable,
+    extraProps,
   }) {
     this.component = component
     this.extension = extension
@@ -20,6 +21,7 @@ export default class ComponentView {
     this.decorations = decorations
     this.editable = editable
     this.selected = false
+    this.extraProps = extraProps
 
     this.dom = this.createDOM()
     this.contentDOM = this.vm.$refs.content
@@ -35,6 +37,7 @@ export default class ComponentView {
         getPos: this.getPos,
         decorations: this.decorations,
         editable: this.editable,
+        extraProps: this.extraProps,
         selected: false,
         options: this.extension.options,
         updateAttrs: attrs => this.updateAttrs(attrs),
