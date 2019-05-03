@@ -22,14 +22,12 @@ export default function ($pos = null, type = null) {
     startPos -= $pos.parent.child(startIndex).nodeSize
   }
 
-  const endIndex = $pos.indexAfter()
-  const endPos = startPos + start.node.nodeSize
-
-  // disable for now. see #156
-  // while (endIndex < $pos.parent.childCount && link.isInSet($pos.parent.child(endIndex).marks)) {
-  //   endPos += $pos.parent.child(endIndex).nodeSize
-  //   endIndex += 1
-  // }
+  let endIndex = $pos.indexAfter()
+  let endPos = startPos + start.node.nodeSize
+  while (endIndex < $pos.parent.childCount && link.isInSet($pos.parent.child(endIndex).marks)) {
+    endPos += $pos.parent.child(endIndex).nodeSize
+    endIndex += 1
+  }
 
   return { from: startPos, to: endPos }
 
