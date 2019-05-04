@@ -51,7 +51,7 @@ export default {
   mounted() {
     this.socket = io('wss://tiptap-sockets.glitch.me')
       .on('init', data => this.onInit(data))
-      .on('update', data => this.editor.extensions.options.collaboration.onUpdate(data))
+      .on('update', data => this.editor.extensions.options.collaboration.update(data))
   },
 
   beforeDestroy() {

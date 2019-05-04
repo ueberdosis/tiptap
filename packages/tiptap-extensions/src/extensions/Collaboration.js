@@ -26,7 +26,7 @@ export default class CollaborationExtension extends Extension {
       clientID: Math.floor(Math.random() * 0xFFFFFFFF),
       debounce: 250,
       onSendable: () => {},
-      onUpdate: ({ steps, version }) => {
+      update: ({ steps, version }) => {
         const { state, view, schema } = this.editor
 
         if (getVersion(state) > version) {
