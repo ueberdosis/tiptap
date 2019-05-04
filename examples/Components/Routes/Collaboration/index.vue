@@ -38,8 +38,12 @@ export default {
         extensions: [
           new History(),
           new Collaboration({
+            // the initial version we start with
+            // version is an integer which is incremented with every change
             version,
+            // debounce changes so we can save some bandwidth
             debounce: 250,
+            // onSendable is called whenever there are changed we have to send to our server
             onSendable: data => {
               this.socket.emit('update', data)
             },
@@ -50,8 +54,11 @@ export default {
   },
 
   mounted() {
+    // server implementation: https://glitch.com/edit/#!/tiptap-sockets
     this.socket = io('wss://tiptap-sockets.glitch.me')
+      // get the current document and its version
       .on('init', data => this.onInit(data))
+      // send all updates to the collaboration extension
       .on('update', data => this.editor.extensions.options.collaboration.update(data))
   },
 
