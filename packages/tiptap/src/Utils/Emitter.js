@@ -16,9 +16,7 @@ export default class Emitter {
     const callbacks = this._callbacks[event]
 
     if (callbacks) {
-      for (const callback of callbacks) {
-        callback.apply(this, args)
-      }
+      callbacks.forEach(callback => callback.apply(this, args))
     }
 
     return this
@@ -46,7 +44,7 @@ export default class Emitter {
     }
 
     // remove specific handler
-    for (let i = 0; i < callbacks.length; i++) {
+    for (let i = 0; i < callbacks.length; i += 1) {
       const callback = callbacks[i]
       if (callback === fn) {
         callbacks.splice(i, 1)
