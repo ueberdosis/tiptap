@@ -10,7 +10,7 @@
 <script>
 import io from 'socket.io-client'
 import { Editor, EditorContent } from 'tiptap'
-import { Collaboration } from 'tiptap-extensions'
+import { History, Collaboration } from 'tiptap-extensions'
 
 export default {
   components: {
@@ -36,6 +36,7 @@ export default {
       this.editor = new Editor({
         content: doc,
         extensions: [
+          new History(),
           new Collaboration({
             version,
             debounce: 250,
