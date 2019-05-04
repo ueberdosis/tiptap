@@ -1,12 +1,16 @@
-import { findParentNode } from 'prosemirror-utils'
+import {
+  findParentNode,
+  findSelectedNodeOfType,
+} from 'prosemirror-utils'
 
 export default function (state, type, attrs = {}) {
   const predicate = node => node.type === type
-  const parent = findParentNode(predicate)(state.selection)
+  const node = findSelectedNodeOfType(type)(state.selection)
+    || findParentNode(predicate)(state.selection)
 
-  if (!Object.keys(attrs).length || !parent) {
-    return !!parent
+  if (!Object.keys(attrs).length || !node) {
+    return !!node
   }
 
-  return parent.node.hasMarkup(type, attrs)
+  return node.node.hasMarkup(type, attrs)
 }
