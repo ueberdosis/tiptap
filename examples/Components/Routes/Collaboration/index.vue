@@ -1,6 +1,14 @@
 <template>
   <div class="editor">
-    <editor-content class="editor__content" :editor="editor" v-if="editor && !loading" />
+    <div class="message">
+      With the Collaboration Extension it's possible for several users to work on a document at the same time. To make this possible, client-side and server-side code is required. This example shows this using a <a href="https://glitch.com/edit/#!/tiptap-sockets" target="_blank">socket server</a>. Try it out below:
+    </div>
+    <template v-if="editor && !loading">
+      <div class="count">
+        {{ count }} {{ count === 1 ? 'user' : 'users' }} connected
+      </div>
+      <editor-content class="editor__content" :editor="editor"  />
+    </template>
     <em v-else>
       Connecting to socket server …
     </em>
@@ -22,6 +30,7 @@ export default {
       loading: true,
       editor: null,
       socket: null,
+      count: 0,
     }
   },
 
@@ -51,6 +60,10 @@ export default {
         ],
       })
     },
+
+    setCount(count) {
+      this.count = count
+    },
   },
 
   mounted() {
@@ -60,6 +73,8 @@ export default {
       .on('init', data => this.onInit(data))
       // send all updates to the collaboration extension
       .on('update', data => this.editor.extensions.options.collaboration.update(data))
+      // get count of connected users
+      .on('getCount', count => this.setCount(count))
   },
 
   beforeDestroy() {
@@ -67,3 +82,29 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+@import "~variables";
+
+.count {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: rgba($color-black, 0.5);
+  color: #27b127;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  line-height: 1;
+
+  &:before {
+    content: '';
+    display: inline-flex;
+    background-color: #27b127;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    margin-right: 0.3rem;
+  }
+}
+</style>
