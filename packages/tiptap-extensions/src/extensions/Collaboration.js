@@ -7,7 +7,7 @@ import {
   receiveTransaction,
 } from 'prosemirror-collab'
 
-export default class CollaborationExtension extends Extension {
+export default class Collaboration extends Extension {
 
   get name() {
     return 'collaboration'
