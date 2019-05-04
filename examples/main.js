@@ -132,10 +132,10 @@ const routes = [
     },
   },
   {
-    path: '/extra-props',
-    component: () => import('Components/Routes/ExtraProps'),
+    path: '/custom-props',
+    component: () => import('Components/Routes/CustomProps'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/ExtraProps',
+      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/CustomProps',
     },
   },
 ]

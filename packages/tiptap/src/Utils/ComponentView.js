@@ -9,8 +9,7 @@ export default class ComponentView {
     view,
     getPos,
     decorations,
-    editable,
-    extraProps,
+    editor,
   }) {
     this.component = component
     this.extension = extension
@@ -19,9 +18,21 @@ export default class ComponentView {
     this.view = view
     this.getPos = getPos
     this.decorations = decorations
-    this.editable = editable
+    this.editable = editor.editable
     this.selected = false
-    this.extraProps = extraProps
+    this.componentProps = {
+      node: this.node,
+      view: this.view,
+      getPos: this.getPos,
+      decorations: this.decorations,
+      selected: this.selected,
+      options: this.extension.options,
+      updateAttrs: attrs => this.updateAttrs(attrs),
+      updateContent: content => this.updateContent(content),
+    }
+
+    this.tiptapProps = editor.tiptapProps
+    this.customProps = editor.customProps
 
     this.dom = this.createDOM()
     this.contentDOM = this.vm.$refs.content
@@ -32,16 +43,9 @@ export default class ComponentView {
     this.vm = new Component({
       parent: this.parent,
       propsData: {
-        node: this.node,
-        view: this.view,
-        getPos: this.getPos,
-        decorations: this.decorations,
-        editable: this.editable,
-        extraProps: this.extraProps,
-        selected: false,
-        options: this.extension.options,
-        updateAttrs: attrs => this.updateAttrs(attrs),
-        updateContent: content => this.updateContent(content),
+        tiptap: this.tiptapProps,
+        component: this.componentProps,
+        custom: this.customProps,
       },
     }).$mount()
     return this.vm.$el
@@ -59,27 +63,10 @@ export default class ComponentView {
     this.node = node
     this.decorations = decorations
 
-    this.updateComponentProps({
-      node,
-      decorations,
-    })
+    this.componentProps.node = node
+    this.componentProps.decorations = decorations
 
     return true
-  }
-
-  updateComponentProps(props) {
-    // Update props in component
-    // TODO: Avoid mutating a prop directly.
-    // Maybe there is a better way to do this?
-    const originalSilent = Vue.config.silent
-    Vue.config.silent = true
-
-    Object.entries(props).forEach(([key, value]) => {
-      this.vm._props[key] = value
-    })
-    // this.vm._props.node = node
-    // this.vm._props.decorations = decorations
-    Vue.config.silent = originalSilent
   }
 
   updateAttrs(attrs) {
@@ -126,15 +113,11 @@ export default class ComponentView {
   }
 
   selectNode() {
-    this.updateComponentProps({
-      selected: true,
-    })
+    this.tiptapProps.selected = true
   }
 
   deselectNode() {
-    this.updateComponentProps({
-      selected: false,
-    })
+    this.tiptapProps.selected = false
   }
 
   destroy() {

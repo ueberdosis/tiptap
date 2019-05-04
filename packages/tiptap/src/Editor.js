@@ -58,7 +58,8 @@ export default class Editor extends Emitter {
   }
 
   init(options = {}) {
-    this.extraProps = {}
+    this.customProps = {}
+    this.tiptapProps = {}
     this.setOptions({
       ...this.defaultOptions,
       ...options,
@@ -90,10 +91,10 @@ export default class Editor extends Emitter {
     this.emit('init', {
       view: this.view,
       state: this.state,
-      extraProps: this.extraProps,
+      customProps: this.customProps,
     })
 
-    this.updateExtraPropsFromEditor()
+    this.updateTiptapPropsFromEditor()
 
     // give extension manager access to our view
     this.extensions.view = this.view
@@ -105,16 +106,16 @@ export default class Editor extends Emitter {
       ...options,
     }
 
-    this.updateExtraPropsFromEditor()
+    this.updateTiptapPropsFromEditor()
 
     if (this.view && this.state) {
       this.view.updateState(this.state)
     }
   }
 
-  updateExtraPropsFromEditor() {
+  updateTiptapPropsFromEditor() {
     // update the props directly instead of exchanging the object itself
-    this.extraProps.editable = this.options.editable
+    this.tiptapProps.editable = this.options.editable
   }
 
   get builtInExtensions() {
@@ -279,13 +280,11 @@ export default class Editor extends Emitter {
           ...this.builtInExtensions,
           ...this.options.extensions,
         ],
-        editable: this.options.editable,
-        extraProps: this.extraProps,
       }),
     })
   }
 
-  initNodeViews({ parent, extensions, editable, extraProps }) {
+  initNodeViews({ parent, extensions }) {
     return extensions
       .filter(extension => ['node', 'mark'].includes(extension.type))
       .filter(extension => extension.view)
@@ -300,8 +299,7 @@ export default class Editor extends Emitter {
             view,
             getPos,
             decorations,
-            editable,
-            extraProps,
+            editor: this,
           })
         }
 

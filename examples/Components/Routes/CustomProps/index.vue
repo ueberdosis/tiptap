@@ -2,7 +2,8 @@
   <div class="editor">
     <div class="outside-the-editor">
       <h3>Outside of the editor</h3>
-      <input type="text" v-model="fromOutsideTheEditor" autofocus placeholder="Type stuff">
+      <button @click="toggleEditable">toggle editable</button>
+      <input type="text" v-model="customString" autofocus placeholder="Type stuff">
     </div>
     <editor-content class="editor__content" :editor="editor" />
   </div>
@@ -17,7 +18,7 @@ import {
   Italic,
   History,
 } from 'tiptap-extensions'
-import ExtraProps from './extra-props.js'
+import CustomProps from './custom-props.js'
 
 export default {
   components: {
@@ -29,11 +30,11 @@ export default {
     },
   },
   computed: {
-    fromOutsideTheEditor: {
-      get() { return this.editor.extraProps.fromOutsideTheEditor },
+    customString: {
+      get() { return this.editor.customProps.customString },
       set(value) {
-        this.editor.extraProps.fromOutsideTheEditor = value
-        return this.editor.extraProps.fromOutsideTheEditor
+        this.editor.customProps.customString = value
+        return this.editor.customProps.customString
       }
     }
   },
@@ -47,23 +48,20 @@ export default {
           new Italic(),
           new History(),
           // custom extension
-          new ExtraProps(),
+          new CustomProps(),
         ],
         editable: true,
-        onInit({ extraProps }) {
-          extraProps.fromOutsideTheEditor = ''
+        onInit({ customProps }) {
+          customProps.customString = ''
         },
         content: `
           <h2>
-            ExtraProps
+            Custom Props
           </h2>
           <p>
             Pass properties from outside the editor to vue components inside the tiptap editor.
           </p>
-          <extra-props></extra-props>
-          <p>
-            You can even add the Vuex store to the extraProps to get access to Vuex.
-          </p>
+          <custom-props></custom-props>
         `,
       }),
     }
