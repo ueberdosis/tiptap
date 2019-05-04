@@ -1,4 +1,3 @@
-import { debounce } from 'lodash-es'
 import { Extension } from 'tiptap'
 import { Step } from 'prosemirror-transform'
 import {
@@ -51,12 +50,25 @@ export default class CollaborationExtension extends Extension {
     ]
   }
 
-  getSendableSteps = debounce(state => {
+  getSendableSteps = this.debounce(state => {
     const sendable = sendableSteps(state)
 
     if (sendable) {
       this.options.onSendable(sendable)
     }
   }, this.options.debounce)
+
+  debounce(fn, delay) {
+    let timeout
+    return function (...args) {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+      timeout = setTimeout(() => {
+        fn(...args)
+        timeout = null
+      }, delay)
+    }
+  }
 
 }

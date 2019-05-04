@@ -21,7 +21,6 @@
     "url": "https://github.com/scrumpy/tiptap/issues"
   },
   "dependencies": {
-    "lodash-es": "^4.17.11",
     "lowlight": "^1.11.0",
     "prosemirror-collab": "^1.1.1",
     "prosemirror-history": "^1.0.4",
