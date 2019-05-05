@@ -54,7 +54,11 @@ export default class Collaboration extends Extension {
     const sendable = sendableSteps(state)
 
     if (sendable) {
-      this.options.onSendable(sendable)
+      this.options.onSendable({
+        version: sendable.version,
+        steps: sendable.steps.map(step => step.toJSON()),
+        clientID: sendable.clientID,
+      })
     }
   }, this.options.debounce)
 

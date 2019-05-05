@@ -18,7 +18,15 @@
 <script>
 import io from 'socket.io-client'
 import { Editor, EditorContent } from 'tiptap'
-import { History, Collaboration } from 'tiptap-extensions'
+import {
+  HardBreak,
+  Heading,
+  Bold,
+  Code,
+  Italic,
+  History,
+  Collaboration,
+} from 'tiptap-extensions'
 
 export default {
   components: {
@@ -45,6 +53,11 @@ export default {
       this.editor = new Editor({
         content: doc,
         extensions: [
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new Bold(),
+          new Code(),
+          new Italic(),
           new History(),
           new Collaboration({
             // the initial version we start with

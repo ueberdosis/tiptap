@@ -342,6 +342,13 @@ export default class Editor extends Emitter {
     this.view.dom.blur()
   }
 
+  getSchemaJSON() {
+    return JSON.parse(JSON.stringify({
+      nodes: this.extensions.nodes,
+      marks: this.extensions.marks,
+    }))
+  }
+
   getHTML() {
     const div = document.createElement('div')
     const fragment = DOMSerializer
