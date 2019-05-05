@@ -105,7 +105,7 @@ export default {
   font-weight: bold;
   color: rgba($color-black, 0.5);
   color: #27b127;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   text-transform: uppercase;
   font-size: 0.7rem;
   line-height: 1;
