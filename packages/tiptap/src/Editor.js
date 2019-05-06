@@ -12,12 +12,16 @@ import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { inputRules, undoInputRule } from 'prosemirror-inputrules'
 import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
-import { ExtensionManager, ComponentView } from './Utils'
+import {
+ camelCase, Emitter, ExtensionManager, ComponentView,
+} from './Utils'
 import { Doc, Paragraph, Text } from './Nodes'
 
-export default class Editor {
+export default class Editor extends Emitter {
 
   constructor(options = {}) {
+    super()
+
     this.defaultOptions = {
       editorProps: {},
       editable: true,
@@ -40,6 +44,15 @@ export default class Editor {
       onPaste: () => {},
       onDrop: () => {},
     }
+
+    this.events = [
+      'init',
+      'update',
+      'focus',
+      'blur',
+      'paste',
+      'drop',
+    ]
 
     this.init(options)
   }
@@ -69,7 +82,11 @@ export default class Editor {
       }, 10)
     }
 
-    this.options.onInit({
+    this.events.forEach(name => {
+      this.on(name, this.options[camelCase(`on ${name}`)])
+    })
+
+    this.emit('init', {
       view: this.view,
       state: this.state,
     })
@@ -105,7 +122,7 @@ export default class Editor {
     return new ExtensionManager([
       ...this.builtInExtensions,
       ...this.options.extensions,
-    ])
+    ], this)
   }
 
   createPlugins() {
@@ -217,20 +234,20 @@ export default class Editor {
   createView() {
     const view = new EditorView(this.element, {
       state: this.state,
-      handlePaste: this.options.onPaste,
-      handleDrop: this.options.onDrop,
+      handlePaste: (...args) => { this.emit('paste', ...args) },
+      handleDrop: (...args) => { this.emit('drop', ...args) },
       dispatchTransaction: this.dispatchTransaction.bind(this),
     })
 
     view.dom.style.whiteSpace = 'pre-wrap'
 
-    view.dom.addEventListener('focus', event => this.options.onFocus({
+    view.dom.addEventListener('focus', event => this.emit('focus', {
       event,
       state: this.state,
       view: this.view,
     }))
 
-    view.dom.addEventListener('blur', event => this.options.onBlur({
+    view.dom.addEventListener('blur', event => this.emit('blur', {
       event,
       state: this.state,
       view: this.view,
@@ -295,7 +312,7 @@ export default class Editor {
   }
 
   emitUpdate(transaction) {
-    this.options.onUpdate({
+    this.emit('update', {
       getHTML: this.getHTML.bind(this),
       getJSON: this.getJSON.bind(this),
       state: this.state,
@@ -323,6 +340,13 @@ export default class Editor {
 
   blur() {
     this.view.dom.blur()
+  }
+
+  getSchemaJSON() {
+    return JSON.parse(JSON.stringify({
+      nodes: this.extensions.nodes,
+      marks: this.extensions.marks,
+    }))
   }
 
   getHTML() {

@@ -2,7 +2,11 @@ import { keymap } from 'prosemirror-keymap'
 
 export default class ExtensionManager {
 
-  constructor(extensions = []) {
+  constructor(extensions = [], editor) {
+    extensions.forEach(extension => {
+      extension.bindEditor(editor)
+      extension.init()
+    })
     this.extensions = extensions
   }
 

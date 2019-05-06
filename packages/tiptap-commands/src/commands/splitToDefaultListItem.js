@@ -32,8 +32,8 @@ index = $pos.index(d)
 // this is a copy of splitListItem
 // see https://github.com/ProseMirror/prosemirror-schema-list/blob/master/src/schema-list.js
 
-export default function splitListItem(itemType) {
-  return function _splitListItem(state, dispatch) {
+export default function splitToDefaultListItem(itemType) {
+  return function (state, dispatch) {
     const { $from, $to, node } = state.selection
     if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) return false
     const grandParent = $from.node(-1)
