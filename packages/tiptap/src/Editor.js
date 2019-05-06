@@ -71,7 +71,6 @@ export default class Editor extends Emitter {
     this.keymaps = this.createKeymaps()
     this.inputRules = this.createInputRules()
     this.pasteRules = this.createPasteRules()
-    this.state = this.createState()
     this.view = this.createView()
     this.commands = this.createCommands()
     this.setActiveNodesAndMarks()
@@ -116,6 +115,10 @@ export default class Editor extends Emitter {
       new Text(),
       new Paragraph(),
     ]
+  }
+
+  get state() {
+    return this.view ? this.view.state : null
   }
 
   createExtensions() {
@@ -233,7 +236,7 @@ export default class Editor extends Emitter {
 
   createView() {
     const view = new EditorView(this.element, {
-      state: this.state,
+      state: this.createState(),
       handlePaste: (...args) => { this.emit('paste', ...args) },
       handleDrop: (...args) => { this.emit('drop', ...args) },
       dispatchTransaction: this.dispatchTransaction.bind(this),
@@ -300,8 +303,8 @@ export default class Editor extends Emitter {
   }
 
   dispatchTransaction(transaction) {
-    this.state = this.state.apply(transaction)
-    this.view.updateState(this.state)
+    const newState = this.state.apply(transaction)
+    this.view.updateState(newState)
     this.setActiveNodesAndMarks()
 
     if (!transaction.docChanged) {
@@ -365,13 +368,13 @@ export default class Editor extends Emitter {
   }
 
   setContent(content = {}, emitUpdate = false, parseOptions) {
-    this.state = EditorState.create({
+    const newState = EditorState.create({
       schema: this.state.schema,
       doc: this.createDocument(content, parseOptions),
       plugins: this.state.plugins,
     })
 
-    this.view.updateState(this.state)
+    this.view.updateState(newState)
 
     if (emitUpdate) {
       this.emitUpdate()
@@ -426,10 +429,10 @@ export default class Editor extends Emitter {
       return
     }
 
-    this.state = this.state.reconfigure({
+    const newState = this.state.reconfigure({
       plugins: this.state.plugins.concat([plugin]),
     })
-    this.view.updateState(this.state)
+    this.view.updateState(newState)
   }
 
   destroy() {
