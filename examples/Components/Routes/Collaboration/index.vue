@@ -1,5 +1,8 @@
 <template>
   <div class="editor">
+    <h2>
+      Collaborative Editing
+    </h2>
     <div class="message">
       With the Collaboration Extension it's possible for several users to work on a document at the same time. To make this possible, client-side and server-side code is required. This example shows this using a <a href="https://glitch.com/edit/#!/tiptap-sockets" target="_blank">socket server</a>. Try it out below:
     </div>
