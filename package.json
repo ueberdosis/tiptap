@@ -48,7 +48,6 @@
     "eslint-plugin-html": "^5.0.3",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-vue": "5.2.2",
-    "fibers": "^4.0.0",
     "file-loader": "^3.0.1",
     "fuse.js": "^3.4.2",
     "glob": "^7.1.3",
