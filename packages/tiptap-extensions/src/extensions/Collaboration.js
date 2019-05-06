@@ -14,6 +14,18 @@ export default class Collaboration extends Extension {
   }
 
   init() {
+    this.getSendableSteps = this.debounce(state => {
+      const sendable = sendableSteps(state)
+
+      if (sendable) {
+        this.options.onSendable({
+          version: sendable.version,
+          steps: sendable.steps.map(step => step.toJSON()),
+          clientID: sendable.clientID,
+        })
+      }
+    }, this.options.debounce)
+
     this.editor.on('update', ({ state }) => {
       this.getSendableSteps(state)
     })
@@ -49,18 +61,6 @@ export default class Collaboration extends Extension {
       }),
     ]
   }
-
-  getSendableSteps = this.debounce(state => {
-    const sendable = sendableSteps(state)
-
-    if (sendable) {
-      this.options.onSendable({
-        version: sendable.version,
-        steps: sendable.steps.map(step => step.toJSON()),
-        clientID: sendable.clientID,
-      })
-    }
-  }, this.options.debounce)
 
   debounce(fn, delay) {
     let timeout
