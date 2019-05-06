@@ -8,12 +8,14 @@ export default function (regexp, type, getAttrs) {
 
     fragment.forEach(child => {
       if (child.isText) {
-        const { text } = child
+        const { text, marks } = child
         let pos = 0
         let match
 
+        const isLink = !!marks.filter(x => x.type.name === 'link')[0]
+
         // eslint-disable-next-line
-        while ((match = regexp.exec(text)) !== null) {
+        while (!isLink && (match = regexp.exec(text)) !== null) {
           if (match[1]) {
             const start = match.index
             const end = start + match[0].length
