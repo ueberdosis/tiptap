@@ -118,6 +118,13 @@ const routes = [
     },
   },
   {
+      path: '/title',
+      component: () => import('Components/Routes/Title'),
+      meta: {
+          githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Title',
+      },
+  },
+  {
     path: '/collaboration',
     component: () => import('Components/Routes/Collaboration'),
     meta: {
