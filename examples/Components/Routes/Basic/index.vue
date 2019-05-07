@@ -1,7 +1,7 @@
 <template>
   <div class="editor">
-    <editor-menu-bar :editor="editor">
-      <div class="menubar" slot-scope="{ commands, isActive }">
+    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+      <div class="menubar">
 
         <button
           class="menubar__button"
