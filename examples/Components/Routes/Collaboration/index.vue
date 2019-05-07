@@ -4,7 +4,7 @@
       Collaborative Editing
     </h2>
     <div class="message">
-      With the Collaboration Extension it's possible for several users to work on a document at the same time. To make this possible, client-side and server-side code is required. This example shows this using a <a href="https://glitch.com/edit/#!/tiptap-sockets" target="_blank">socket server on glitch.com</a>. To keep the demo code clean, only a few nodes and marks are actived. There is also set a 250ms decounce for all changes. Try it out below:
+      With the Collaboration Extension it's possible for several users to work on a document at the same time. To make this possible, client-side and server-side code is required. This example shows this using a <a href="https://glitch.com/edit/#!/tiptap-sockets" target="_blank">socket server on glitch.com</a>. To keep the demo code clean, only a few nodes and marks are activated. There is also set a 250ms debounce for all changes. Try it out below:
     </div>
     <template v-if="editor && !loading">
       <div class="count">
