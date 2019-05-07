@@ -10,6 +10,8 @@ export default function (regexp, markType, getAttrs) {
 
     if (match[m]) {
       const matchStart = start + match[0].indexOf(match[m - 1])
+      // matchEnd index is -1 because the last matching char is not yet member of transaction
+      //   and actually never will be because it triggered the inputrule and vanishes ;)
       const matchEnd = matchStart + match[m - 1].length - 1
       const textStart = matchStart + match[m - 1].lastIndexOf(match[m])
       const textEnd = textStart + match[m].length
