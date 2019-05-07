@@ -65,6 +65,10 @@ export default class ComponentView {
   }
 
   updateComponentProps(props) {
+    if (!this.vm._props) {
+      return
+    }
+
     // Update props in component
     // TODO: Avoid mutating a prop directly.
     // Maybe there is a better way to do this?
