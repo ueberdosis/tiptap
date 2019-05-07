@@ -433,6 +433,7 @@ export default class Editor extends Emitter {
       plugins: this.state.plugins.concat([plugin]),
     })
     this.view.updateState(newState)
+    this.view.updatePluginViews()
   }
 
   destroy() {
