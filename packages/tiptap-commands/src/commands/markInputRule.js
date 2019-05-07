@@ -3,23 +3,28 @@ import { InputRule } from 'prosemirror-inputrules'
 export default function (regexp, markType, getAttrs) {
   return new InputRule(regexp, (state, match, start, end) => {
     const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
-        const { tr } = state
-        let markEnd = end
+    const { tr } = state
+    const m = match.length - 1
+    let markEnd = end
+    let markStart = start
 
-    if (match[1]) {
-      const startSpaces = match[0].search(/\S/)
-      const textStart = start + match[0].indexOf(match[1])
-      const textEnd = textStart + match[1].length
-      if (textEnd < end) {
-        tr.delete(textEnd, end)
+    if (match[m]) {
+      const matchStart = start + match[0].indexOf(match[m - 1])
+      const matchEnd = matchStart + match[m - 1].length - 1
+      const textStart = matchStart + match[m - 1].lastIndexOf(match[m])
+      const textEnd = textStart + match[m].length
+
+      if (textEnd < matchEnd) {
+        tr.delete(textEnd, matchEnd)
       }
-      if (textStart > start) {
-        tr.delete(start + startSpaces, textStart)
+      if (textStart > matchStart) {
+        tr.delete(matchStart, textStart)
       }
-      markEnd = start + startSpaces + match[1].length
+      markStart = matchStart
+      markEnd = markStart + match[m].length
     }
 
-    tr.addMark(start, markEnd, markType.create(attrs))
+    tr.addMark(markStart, markEnd, markType.create(attrs))
     tr.removeStoredMark(markType) // Do not continue with mark.
     return tr
   })
