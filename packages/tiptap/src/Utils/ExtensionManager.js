@@ -137,44 +137,28 @@ export default class ExtensionManager {
           } : {},
         })
 
-        if (Array.isArray(value)) {
-          commands[name] = attrs => value
-            .forEach(callback => {
-              if (!editable) {
-                return false
-              }
-              view.focus()
-              return callback(attrs)(view.state, view.dispatch, view)
-            })
-        } else if (typeof value === 'function') {
-          commands[name] = attrs => {
-            if (!editable) {
-              return false
-            }
-            view.focus()
-            return value(attrs)(view.state, view.dispatch, view)
+        const apply = (cb, attrs) => {
+          if (!editable) {
+            return false
           }
-        } else if (typeof value === 'object') {
+          view.focus()
+          return cb(attrs)(view.state, view.dispatch, view)
+        }
+
+        const handle = (_name, _value) => {
+          if (Array.isArray(_value)) {
+            commands[_name] = attrs => _value.forEach(callback => apply(callback, attrs))
+          } else if (typeof _value === 'function') {
+            commands[_name] = attrs => apply(_value, attrs)
+          }
+        }
+
+        if (typeof value === 'object') {
           Object.entries(value).forEach(([commandName, commandValue]) => {
-            if (Array.isArray(commandValue)) {
-              commands[commandName] = attrs => commandValue
-                .forEach(callback => {
-                  if (!editable) {
-                    return false
-                  }
-                  view.focus()
-                  return callback(attrs)(view.state, view.dispatch, view)
-                })
-            } else {
-              commands[commandName] = attrs => {
-                if (!editable) {
-                  return false
-                }
-                view.focus()
-                return commandValue(attrs)(view.state, view.dispatch, view)
-              }
-            }
+            handle(commandName, commandValue)
           })
+        } else {
+          handle(name, value)
         }
 
         return {
