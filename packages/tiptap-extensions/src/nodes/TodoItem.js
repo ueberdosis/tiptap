@@ -34,7 +34,7 @@ export default class TodoItem extends Node {
         },
       },
       draggable: true,
-      content: 'paragraph',
+      content: 'paragraph block*',
       toDOM: node => {
         const { done } = node.attrs
 
