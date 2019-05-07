@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <input type="text" v-model="placeholder">
+    <input type="text" v-model="editor.extensions.options.placeholder.emptyNodeText">
     <editor-content class="editor__content" :editor="editor" />
   </div>
 </template>
@@ -19,7 +19,6 @@ export default {
   },
   data() {
     return {
-      placeholder: 'Write something …',
       editor: new Editor({
         extensions: [
           new BulletList(),
@@ -35,11 +34,6 @@ export default {
   },
   beforeDestroy() {
     this.editor.destroy()
-  },
-  watch: {
-    placeholder(newValue) {
-      this.editor.extensions.options.placeholder.emptyNodeText = newValue
-    },
   },
 }
 </script>
