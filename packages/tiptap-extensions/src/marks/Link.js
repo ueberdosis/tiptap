@@ -44,7 +44,7 @@ export default class Link extends Mark {
   pasteRules({ type }) {
     return [
       pasteRule(
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-zA-Z]{2,}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
         type,
         url => ({ href: url }),
       ),
@@ -59,7 +59,7 @@ export default class Link extends Mark {
             const { schema } = view.state
             const attrs = getMarkAttrs(view.state, schema.marks.link)
 
-            if (attrs.href) {
+            if (attrs.href && event.target instanceof HTMLAnchorElement) {
               event.stopPropagation()
               window.open(attrs.href)
             }

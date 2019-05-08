@@ -1,8 +1,7 @@
 <template>
   <div class="editor">
-    <editor-menu-bubble :editor="editor">
+    <editor-menu-bubble :editor="editor" :keep-in-bounds="keepInBounds" v-slot="{ commands, isActive, menu }">
       <div
-        slot-scope="{ commands, isActive, menu }"
         class="menububble"
         :class="{ 'is-active': menu.isActive }"
         :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
@@ -69,6 +68,7 @@ export default {
   },
   data() {
     return {
+      keepInBounds: true,
       editor: new Editor({
         extensions: [
           new Blockquote(),

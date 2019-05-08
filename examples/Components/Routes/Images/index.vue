@@ -1,7 +1,7 @@
 <template>
   <div class="editor">
-    <editor-menu-bar :editor="editor">
-      <div class="menubar" slot-scope="{ commands }">
+    <editor-menu-bar :editor="editor" v-slot="{ commands }">
+      <div class="menubar">
         <button
           class="menubar__button"
           @click="showImagePrompt(commands.image)"

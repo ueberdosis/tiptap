@@ -2,8 +2,8 @@
   <div>
 
     <div class="editor">
-      <editor-menu-bar :editor="editor">
-        <div class="menubar" slot-scope="{ commands }">
+      <editor-menu-bar :editor="editor" v-slot="{ commands }">
+        <div class="menubar">
           <button class="menubar__button" @click="commands.mention({ id: 1, label: 'Philipp Kühn' })">
             <icon name="mention" />
             <span>Insert Mention</span>

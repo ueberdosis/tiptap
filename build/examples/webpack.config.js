@@ -1,6 +1,5 @@
 import path from 'path'
 import webpack from 'webpack'
-import Fiber from 'fibers'
 import DartSass from 'dart-sass'
 import { VueLoaderPlugin } from 'vue-loader'
 import SvgStore from 'webpack-svgstore-plugin'
@@ -93,7 +92,6 @@ export default {
             loader: 'sass-loader',
             options: {
               implementation: DartSass,
-              fiber: Fiber,
             },
           },
         ]),
