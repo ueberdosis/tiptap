@@ -95,6 +95,7 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
+    this.socket.destroy()
   },
 }
 </script>
