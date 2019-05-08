@@ -75,8 +75,10 @@ export default class ExtensionManager {
   }
 
   inputRules({ schema, excludedExtensions }) {
-    const allowedExtensions = this.extensions
-        .filter(extension => !excludedExtensions.includes(extension.name))
+    if (!(excludedExtensions instanceof Array) && excludedExtensions) return []
+
+    const allowedExtensions = (excludedExtensions instanceof Array) ? this.extensions
+        .filter(extension => !excludedExtensions.includes(extension.name)) : this.extensions
 
     const extensionInputRules = allowedExtensions
       .filter(extension => ['extension'].includes(extension.type))
@@ -101,8 +103,10 @@ export default class ExtensionManager {
   }
 
   pasteRules({ schema, excludedExtensions }) {
-    const allowedExtensions = this.extensions
-        .filter(extension => !excludedExtensions.includes(extension.name))
+    if (!(excludedExtensions instanceof Array) && excludedExtensions) return []
+
+    const allowedExtensions = (excludedExtensions instanceof Array) ? this.extensions
+        .filter(extension => !excludedExtensions.includes(extension.name)) : this.extensions
 
     const extensionPasteRules = allowedExtensions
       .filter(extension => ['extension'].includes(extension.type))
