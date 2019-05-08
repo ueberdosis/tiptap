@@ -1,10 +1,9 @@
 <template>
   <div class="editor">
-    <editor-menu-bar :editor="editor">
+    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
       <div
         class="menubar is-hidden"
         :class="{ 'is-focused': focused }"
-        slot-scope="{ commands, isActive, focused }"
       >
 
         <button

@@ -1,8 +1,7 @@
 <template>
   <div class="editor">
-    <editor-floating-menu :editor="editor">
+    <editor-floating-menu :editor="editor" v-slot="{ commands, isActive, menu }">
       <div
-        slot-scope="{ commands, isActive, menu }"
         class="editor__floating-menu"
         :class="{ 'is-active': menu.isActive }"
         :style="`top: ${menu.top}px`"

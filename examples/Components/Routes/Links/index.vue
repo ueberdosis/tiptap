@@ -1,8 +1,7 @@
 <template>
   <div class="editor">
-    <editor-menu-bubble class="menububble" :editor="editor" @hide="hideLinkMenu">
+    <editor-menu-bubble class="menububble" :editor="editor" @hide="hideLinkMenu" v-slot="{ commands, isActive, getMarkAttrs, menu }">
       <div
-        slot-scope="{ commands, isActive, getMarkAttrs, menu }"
         class="menububble"
         :class="{ 'is-active': menu.isActive }"
         :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"

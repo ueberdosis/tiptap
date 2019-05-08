@@ -117,8 +117,8 @@ The `<editor-menu-bar />` component is renderless and will receive some properti
 
 ```vue
 <template>
-  <editor-menu-bar :editor="editor">
-    <div slot-scope="{ commands, isActive }">
+  <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+    <div>
       <button :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
         Bold
       </button>
@@ -147,9 +147,8 @@ The `<editor-menu-bubble />` component is renderless and will receive some prope
 
 ```vue
 <template>
-  <editor-menu-bubble :editor="editor">
+  <editor-menu-bubble :editor="editor" v-slot="{ commands, isActive, menu }">
     <div
-      slot-scope="{ commands, isActive, menu }"
       :class="{ 'is-active': menu.isActive }"
       :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
     >
@@ -181,9 +180,8 @@ The `<editor-floating-menu />` component is renderless and will receive some pro
 
 ```vue
 <template>
-  <editor-floating-menu :editor="editor">
+  <editor-floating-menu :editor="editor" v-slot="{ commands, isActive, menu }">
     <div
-      slot-scope="{ commands, isActive, menu }"
       :class="{ 'is-active': menu.isActive }"
       :style="`top: ${menu.top}px`"
     >
@@ -207,12 +205,10 @@ By default, the editor will only support paragraphs. Other nodes and marks are a
 ```vue
 <template>
   <div>
-    <editor-menu-bar :editor="editor">
-      <div slot-scope="{ commands, isActive }">
+    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
         <button :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
           Bold
         </button>
-      </div>
     </editor-menu-bar>
     <editor-content :editor="editor" />
   </div>
