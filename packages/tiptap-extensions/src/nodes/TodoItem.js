@@ -1,5 +1,5 @@
 import { Node } from 'tiptap'
-import { sinkListItem, splitListItem, liftListItem } from 'tiptap-commands'
+import { sinkListItem, splitToDefaultListItem, liftListItem } from 'tiptap-commands'
 
 export default class TodoItem extends Node {
 
@@ -66,7 +66,7 @@ export default class TodoItem extends Node {
 
   keys({ type }) {
     return {
-      Enter: splitListItem(type),
+      Enter: splitToDefaultListItem(type),
       Tab: this.options.nested ? sinkListItem(type) : () => {},
       'Shift-Tab': liftListItem(type),
     }
