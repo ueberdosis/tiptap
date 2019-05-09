@@ -30,13 +30,15 @@ export default class Italic extends Mark {
 
   inputRules({ type }) {
     return [
-      markInputRule(/(?:^|[^*_])(?:\*|_)([^*_]+)(?:\*|_)$/, type),
+      markInputRule(/(?:^|[^_])(_([^_]+)_)$/, type),
+      markInputRule(/(?:^|[^*])(\*([^*]+)\*)$/, type),
     ]
   }
 
   pasteRules({ type }) {
     return [
-      markPasteRule(/(?:^|[^*_])(?:\*|_)([^*_]+)(?:\*|_)/g, type),
+      markPasteRule(/_([^_]+)_/g, type),
+      markPasteRule(/\*([^*]+)\*/g, type),
     ]
   }
 
