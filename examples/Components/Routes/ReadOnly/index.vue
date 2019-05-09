@@ -31,10 +31,10 @@ export default {
         extensions: [
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
+          new Link(),
           new Bold(),
           new Code(),
           new Italic(),
-          new Link(),
         ],
         content: `
           <h2>

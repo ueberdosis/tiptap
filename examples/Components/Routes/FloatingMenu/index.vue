@@ -109,10 +109,10 @@ export default {
           new OrderedList(),
           new TodoItem(),
           new TodoList(),
+          new Link(),
           new Bold(),
           new Code(),
           new Italic(),
-          new Link(),
           new History(),
         ],
         content: `
