@@ -35,6 +35,8 @@ export default class Editor extends Emitter {
         }],
       },
       useBuiltInExtensions: true,
+      disableInputRules: false,
+      disablePasteRules: false,
       dropCursor: {},
       parseOptions: {},
       onInit: () => {},
@@ -141,12 +143,14 @@ export default class Editor extends Emitter {
   createInputRules() {
     return this.extensions.inputRules({
       schema: this.schema,
+      excludedExtensions: this.options.disableInputRules,
     })
   }
 
   createPasteRules() {
     return this.extensions.pasteRules({
       schema: this.schema,
+      excludedExtensions: this.options.disablePasteRules,
     })
   }
 
