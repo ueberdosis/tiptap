@@ -1,5 +1,5 @@
 import { Node } from 'tiptap'
-import { wrapInList, wrappingInputRule } from 'tiptap-commands'
+import { toggleList, wrappingInputRule } from 'tiptap-commands'
 
 export default class TodoList extends Node {
 
@@ -19,8 +19,8 @@ export default class TodoList extends Node {
     }
   }
 
-  commands({ type }) {
-    return () => wrapInList(type)
+  commands({ type, schema }) {
+    return () => toggleList(type, schema.nodes.todo_item)
   }
 
   inputRules({ type }) {

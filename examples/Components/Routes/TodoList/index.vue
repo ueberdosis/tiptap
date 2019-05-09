@@ -69,7 +69,9 @@ export default {
           new CodeBlock(),
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
-          new TodoItem(),
+          new TodoItem({
+            nested: true,
+          }),
           new TodoList(),
           new Bold(),
           new Code(),
@@ -135,14 +137,23 @@ li[data-type="todo_item"] {
 
 .todo-content {
   flex: 1;
+  > p:last-of-type {
+    margin-bottom: 0;
+  }
+  > ul[data-type="todo_list"] {
+    margin: .5rem 0;
+  }
 }
 
 li[data-done="true"] {
-  text-decoration: line-through;
-}
-
-li[data-done="true"] .todo-checkbox {
-  background-color: $color-black;
+  > .todo-content {
+    > p {
+      text-decoration: line-through;
+    }
+  }
+  > .todo-checkbox {
+    background-color: $color-black;
+  }
 }
 
 li[data-done="false"] {

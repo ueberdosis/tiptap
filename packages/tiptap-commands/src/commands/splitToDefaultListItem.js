@@ -1,3 +1,5 @@
+import { Fragment, Slice } from 'prosemirror-model'
+
 // this is a copy of canSplit
 // see https://github.com/ProseMirror/prosemirror-transform/blob/master/src/structure.js
 
