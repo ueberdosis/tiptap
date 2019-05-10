@@ -9601,10 +9601,10 @@ prosemirror-transform@^1.0.0, prosemirror-transform@^1.1.0, prosemirror-transfor
   dependencies:
     prosemirror-model "^1.0.0"
 
-prosemirror-utils@^0.7.6:
-  version "0.7.7"
-  resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-0.7.7.tgz#a9bda2468113d34f3721ba15eaa2fd04b81d7dc8"
-  integrity sha512-0cSWive9oCOr4nnTlEQ9scr8g8kj126glAigb6cKLB4sq/eSyumVu8Ogqus6KEoLInBy6WONXJbgm/2xJ8MShw==
+prosemirror-utils@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-0.8.0.tgz#fbec60512fd8a4544e1d8d95a9706c58699c505a"
+  integrity sha512-GRhxIYosyfDNivcxOzJw42O1gS6mq7zyCGUXKMdfOk/RAcimYRzL20Z0ll38mX+xU7xRH+0a8WoPb3+XDeiyxg==
 
 prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.9.2:
   version "1.9.2"
