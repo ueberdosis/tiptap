@@ -9,6 +9,7 @@ export default class Code extends Mark {
 
   get schema() {
     return {
+      excludes: '_',
       parseDOM: [
         { tag: 'code' },
       ],
