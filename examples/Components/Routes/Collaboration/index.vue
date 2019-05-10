@@ -69,8 +69,8 @@ export default {
             // debounce changes so we can save some bandwidth
             debounce: 250,
             // onSendable is called whenever there are changed we have to send to our server
-            onSendable: data => {
-              this.socket.emit('update', data)
+            onSendable: ({ sendable }) => {
+              this.socket.emit('update', sendable)
             },
           }),
         ],
