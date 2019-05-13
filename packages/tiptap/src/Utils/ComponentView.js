@@ -106,8 +106,11 @@ export default class ComponentView {
 
   // prevent a full re-render of the vue component on update
   // we'll handle prop updates in `update()`
-  ignoreMutation() {
-    return true
+  ignoreMutation(mutation) {
+    if (!this.contentDOM) {
+      return true
+    }
+    return !this.contentDOM.contains(mutation.target)
   }
 
   // disable (almost) all prosemirror event listener for node views
