@@ -55,7 +55,7 @@ export default class Link extends Mark {
     return [
       new Plugin({
         props: {
-          handleClickOn(view, pos, node, nodePos, event) {
+          handleClick: (view, pos, event) => {
             const { schema } = view.state
             const attrs = getMarkAttrs(view.state, schema.marks.link)
 
