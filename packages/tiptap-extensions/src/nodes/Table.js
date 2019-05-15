@@ -29,7 +29,7 @@ export default class Table extends Node {
 
   get defaultOptions() {
     return {
-      resizable: true,
+      resizable: false,
     }
   }
 
