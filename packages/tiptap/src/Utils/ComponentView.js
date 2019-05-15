@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import { getMarkRange } from 'tiptap-utils'
+
 export default class ComponentView {
 
   constructor(component, {
@@ -20,9 +22,14 @@ export default class ComponentView {
     this.decorations = decorations
     this.editable = editable
     this.selected = false
-
+    this.isNode = this.node.constructor.name === 'Node'
+    this.isMark = !this.isNode
     this.dom = this.createDOM()
     this.contentDOM = this.vm.$refs.content
+
+    if (this.isMark) {
+      this.getPos = this.getMarkPos
+    }
   }
 
   createDOM() {
@@ -32,13 +39,12 @@ export default class ComponentView {
       propsData: {
         node: this.node,
         view: this.view,
-        getPos: this.getPos,
+        getPos: () => this.getPos(),
         decorations: this.decorations,
         editable: this.editable,
         selected: false,
         options: this.extension.options,
         updateAttrs: attrs => this.updateAttrs(attrs),
-        updateContent: content => this.updateContent(content),
       },
     }).$mount()
     return this.vm.$el
@@ -88,19 +94,19 @@ export default class ComponentView {
       return
     }
 
-    const transaction = this.view.state.tr.setNodeMarkup(this.getPos(), null, {
+    const { state } = this.view
+    const { type } = this.node
+    const pos = this.getPos()
+    const newAttrs = {
       ...this.node.attrs,
       ...attrs,
-    })
-    this.view.dispatch(transaction)
-  }
-
-  updateContent(content) {
-    if (!this.editable) {
-      return
     }
+    const transaction = this.isMark
+      ? state.tr
+        .removeMark(pos.from, pos.to, type)
+        .addMark(pos.from, pos.to, type.create(newAttrs))
+      : state.tr.setNodeMarkup(pos, null, newAttrs)
 
-    const transaction = this.view.state.tr.setNodeMarkup(this.getPos(), this.node.type, { content })
     this.view.dispatch(transaction)
   }
 
@@ -139,6 +145,13 @@ export default class ComponentView {
     this.updateComponentProps({
       selected: false,
     })
+  }
+
+  getMarkPos() {
+    const pos = this.view.posAtDOM(this.dom)
+    const resolvedPos = this.view.state.doc.resolve(pos)
+    const range = getMarkRange(resolvedPos, this.node.type)
+    return range
   }
 
   destroy() {
