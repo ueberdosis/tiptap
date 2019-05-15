@@ -27,6 +27,12 @@ export default class Table extends Node {
     return 'table'
   }
 
+  get defaultOptions() {
+    return {
+      resizable: false,
+    }
+  }
+
   get schema() {
     return TableNodes.table
   }
@@ -74,7 +80,7 @@ export default class Table extends Node {
 
   get plugins() {
     return [
-      columnResizing(),
+      ...(this.options.resizable ? [columnResizing()] : []),
       tableEditing(),
     ]
   }
