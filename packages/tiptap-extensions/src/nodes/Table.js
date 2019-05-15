@@ -23,14 +23,14 @@ import TableNodes from './TableNodes'
 
 export default class Table extends Node {
 
+  get name() {
+    return 'table'
+  }
+
   get defaultOptions() {
     return {
       resizable: true,
     }
-  }
-
-  get name() {
-    return 'table'
   }
 
   get schema() {
