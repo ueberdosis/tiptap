@@ -18,7 +18,7 @@ export default class ComponentView {
     this.view = view
     this.getPos = getPos
     this.decorations = decorations
-    this.editable = editor.editable
+    this.editable = editor.options.editable
     this.selected = false
     this.componentProps = {
       node: this.node,
