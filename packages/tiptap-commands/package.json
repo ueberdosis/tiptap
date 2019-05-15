@@ -20,7 +20,7 @@
     "url": "https://github.com/scrumpy/tiptap/issues"
   },
   "dependencies": {
-    "prosemirror-commands": "^1.0.7",
+    "prosemirror-commands": "^1.0.8",
     "prosemirror-inputrules": "^1.0.2",
     "prosemirror-model": "^1.7.0",
     "prosemirror-schema-list": "^1.0.3",
