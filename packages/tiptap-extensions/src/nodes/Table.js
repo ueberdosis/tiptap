@@ -23,6 +23,12 @@ import TableNodes from './TableNodes'
 
 export default class Table extends Node {
 
+  get defaultOptions() {
+    return {
+      resizable: true,
+    }
+  }
+
   get name() {
     return 'table'
   }
@@ -74,7 +80,7 @@ export default class Table extends Node {
 
   get plugins() {
     return [
-      columnResizing(),
+      ...(this.options.resizable ? [columnResizing()] : []),
       tableEditing(),
     ]
   }
