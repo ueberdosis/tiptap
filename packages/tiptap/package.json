@@ -23,11 +23,11 @@
     "prosemirror-commands": "^1.0.8",
     "prosemirror-dropcursor": "^1.1.1",
     "prosemirror-gapcursor": "^1.0.3",
-    "prosemirror-inputrules": "^1.0.2",
+    "prosemirror-inputrules": "^1.0.3",
     "prosemirror-keymap": "^1.0.1",
     "prosemirror-model": "^1.7.0",
     "prosemirror-state": "^1.2.3",
-    "prosemirror-view": "^1.9.5",
+    "prosemirror-view": "^1.9.6",
     "tiptap-commands": "^1.10.3",
     "tiptap-utils": "^1.5.2"
   },

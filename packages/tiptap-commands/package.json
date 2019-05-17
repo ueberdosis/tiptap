@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "prosemirror-commands": "^1.0.8",
-    "prosemirror-inputrules": "^1.0.2",
+    "prosemirror-inputrules": "^1.0.3",
     "prosemirror-model": "^1.7.0",
     "prosemirror-schema-list": "^1.0.3",
     "prosemirror-state": "^1.2.3",
