@@ -78,9 +78,7 @@ export default class Editor extends Emitter {
     this.setActiveNodesAndMarks()
 
     if (this.options.autoFocus) {
-      setTimeout(() => {
-        this.focus()
-      }, 10)
+      this.focus()
     }
 
     this.events.forEach(name => {
@@ -342,7 +340,9 @@ export default class Editor extends Emitter {
       this.view.dispatch(transaction)
     }
 
-    this.view.focus()
+    setTimeout(() => {
+      this.view.focus()
+    }, 10)
   }
 
   blur() {
