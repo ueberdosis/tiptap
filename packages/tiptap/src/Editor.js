@@ -205,6 +205,18 @@ export default class Editor extends Emitter {
             attributes: {
               tabindex: 0,
             },
+            handleDOMEvents: {
+              focus: event => this.emit('focus', {
+                event,
+                state: this.state,
+                view: this.view,
+              }),
+              blur: event => this.emit('blur', {
+                event,
+                state: this.state,
+                view: this.view,
+              }),
+            },
           },
         }),
         new Plugin({
@@ -247,18 +259,6 @@ export default class Editor extends Emitter {
     })
 
     view.dom.style.whiteSpace = 'pre-wrap'
-
-    view.dom.addEventListener('focus', event => this.emit('focus', {
-      event,
-      state: this.state,
-      view: this.view,
-    }))
-
-    view.dom.addEventListener('blur', event => this.emit('blur', {
-      event,
-      state: this.state,
-      view: this.view,
-    }))
 
     return view
   }
