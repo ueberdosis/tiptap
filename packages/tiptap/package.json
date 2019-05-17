@@ -23,7 +23,7 @@
     "prosemirror-commands": "^1.0.8",
     "prosemirror-dropcursor": "^1.1.1",
     "prosemirror-gapcursor": "^1.0.3",
-    "prosemirror-inputrules": "^1.0.3",
+    "prosemirror-inputrules": "^1.0.4",
     "prosemirror-keymap": "^1.0.1",
     "prosemirror-model": "^1.7.0",
     "prosemirror-state": "^1.2.3",
