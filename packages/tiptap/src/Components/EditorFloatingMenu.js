@@ -52,4 +52,8 @@ export default {
     })
   },
 
+  beforeDestroy() {
+    this.editor.unregisterPlugin('floating_menu')
+  },
+
 }

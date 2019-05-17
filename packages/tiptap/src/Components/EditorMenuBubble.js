@@ -63,4 +63,8 @@ export default {
     })
   },
 
+  beforeDestroy() {
+    this.editor.unregisterPlugin('menu_bubble')
+  },
+
 }

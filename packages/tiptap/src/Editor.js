@@ -439,6 +439,17 @@ export default class Editor extends Emitter {
     this.view.updateState(newState)
   }
 
+  unregisterPlugin(name = null) {
+    if (!name || !this.view.docView) {
+      return
+    }
+
+    const newState = this.state.reconfigure({
+      plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(`${name}$`)),
+    })
+    this.view.updateState(newState)
+  }
+
   destroy() {
     if (!this.view) {
       return

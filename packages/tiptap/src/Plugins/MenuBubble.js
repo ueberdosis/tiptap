@@ -1,4 +1,4 @@
-import { Plugin } from 'prosemirror-state'
+import { Plugin, PluginKey } from 'prosemirror-state'
 
 function textRange(node, from, to) {
   const range = document.createRange()
@@ -135,6 +135,7 @@ class Menu {
 
 export default function (options) {
   return new Plugin({
+    key: new PluginKey('menu_bubble'),
     view(editorView) {
       return new Menu({ editorView, options })
     },

@@ -1,4 +1,4 @@
-import { Plugin } from 'prosemirror-state'
+import { Plugin, PluginKey } from 'prosemirror-state'
 
 class Menu {
 
@@ -75,6 +75,7 @@ class Menu {
 
 export default function (options) {
   return new Plugin({
+    key: new PluginKey('floating_menu'),
     view(editorView) {
       return new Menu({ editorView, options })
     },
