@@ -22,7 +22,7 @@ export default class ComponentView {
     this.decorations = decorations
     this.editable = editable
     this.selected = false
-    this.isNode = this.node.constructor.name === 'Node'
+    this.isNode = !!this.node.marks
     this.isMark = !this.isNode
     this.dom = this.createDOM()
     this.contentDOM = this.vm.$refs.content
