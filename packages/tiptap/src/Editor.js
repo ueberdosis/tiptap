@@ -204,16 +204,20 @@ export default class Editor extends Emitter {
               tabindex: 0,
             },
             handleDOMEvents: {
-              focus: event => this.emit('focus', {
-                event,
-                state: this.state,
-                view: this.view,
-              }),
-              blur: event => this.emit('blur', {
-                event,
-                state: this.state,
-                view: this.view,
-              }),
+              focus: event => {
+                this.emit('focus', {
+                  event,
+                  state: this.state,
+                  view: this.view,
+                })
+              },
+              blur: event => {
+                this.emit('blur', {
+                  event,
+                  state: this.state,
+                  view: this.view,
+                })
+              },
             },
           },
         }),
