@@ -3,8 +3,8 @@ import { findParentNode } from 'prosemirror-utils'
 
 function isList(node, schema) {
   return (node.type === schema.nodes.bullet_list
-      || node.type === schema.nodes.ordered_list
-      || node.type === schema.nodes.todo_list)
+    || node.type === schema.nodes.ordered_list
+    || node.type === schema.nodes.todo_list)
 }
 
 export default function toggleList(listType, itemType) {
@@ -12,6 +12,7 @@ export default function toggleList(listType, itemType) {
     const { schema, selection } = state
     const { $from, $to } = selection
     const range = $from.blockRange($to)
+
     if (!range) {
       return false
 		}
@@ -26,7 +27,11 @@ export default function toggleList(listType, itemType) {
       if (isList(parentList.node, schema) && listType.validContent(parentList.node.content)) {
         const { tr } = state
         tr.setNodeMarkup(parentList.pos, listType)
-        if (dispatch) dispatch(tr)
+
+        if (dispatch) {
+          dispatch(tr)
+        }
+
         return false
       }
     }
