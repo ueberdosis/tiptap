@@ -10,8 +10,6 @@ function isList(node, schema) {
 export default function toggleList(listType, itemType) {
   return (state, dispatch, view) => {
     const { schema, selection } = state
-    const lift = liftListItem(itemType)
-    const wrap = wrapInList(listType)
     const { $from, $to } = selection
     const range = $from.blockRange($to)
     if (!range) {
@@ -22,7 +20,7 @@ export default function toggleList(listType, itemType) {
 
     if (range.depth >= 1 && parentList) {
       if (parentList.node.type === listType) {
-        return lift(state, dispatch, view)
+        return liftListItem(itemType)(state, dispatch, view)
       }
 
       if (isList(parentList.node, schema)) {
@@ -33,6 +31,6 @@ export default function toggleList(listType, itemType) {
       }
     }
 
-    return wrap(state, dispatch, view)
+    return wrapInList(listType)(state, dispatch, view)
   }
 }
