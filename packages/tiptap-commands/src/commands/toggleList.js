@@ -23,7 +23,7 @@ export default function toggleList(listType, itemType) {
         return liftListItem(itemType)(state, dispatch, view)
       }
 
-      if (isList(parentList.node, schema)) {
+      if (isList(parentList.node, schema) && listType.validContent(parentList.node.content)) {
         const { tr } = state
         tr.setNodeMarkup(parentList.pos, listType)
         if (dispatch) dispatch(tr)
