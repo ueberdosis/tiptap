@@ -2,13 +2,15 @@ import { wrapInList, liftListItem } from 'prosemirror-schema-list'
 import { findParentNode } from 'prosemirror-utils'
 
 function isList(node, schema) {
-  return (node.type === schema.nodes.bullet_list || node.type === schema.nodes.ordered_list)
+  return (node.type === schema.nodes.bullet_list
+      || node.type === schema.nodes.ordered_list
+      || node.type === schema.nodes.todo_list)
 }
 
-export default function toggleList(listType) {
-  return (state, dispatch) => {
+export default function toggleList(listType, itemType) {
+  return (state, dispatch, view) => {
     const { schema, selection } = state
-    const lift = liftListItem(schema.nodes.list_item)
+    const lift = liftListItem(itemType)
     const wrap = wrapInList(listType)
     const { $from, $to } = selection
     const range = $from.blockRange($to)
@@ -20,7 +22,7 @@ export default function toggleList(listType) {
 
     if (range.depth >= 1 && parentList) {
       if (parentList.node.type === listType) {
-        return lift(state, dispatch)
+        return lift(state, dispatch, view)
       }
 
       if (isList(parentList.node, schema)) {
@@ -31,6 +33,6 @@ export default function toggleList(listType) {
       }
     }
 
-    return wrap(state, dispatch)
+    return wrap(state, dispatch, view)
   }
 }
