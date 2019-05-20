@@ -10,6 +10,11 @@ function triggerCharacter({
 }) {
 
   return $position => {
+    // cancel if top level node
+    if ($position.depth <= 0) {
+      return false
+    }
+
     // Matching expressions used for later
     const escapedChar = `\\${char}`
     const suffix = new RegExp(`\\s${escapedChar}$`)
