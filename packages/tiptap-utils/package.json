@@ -23,6 +23,6 @@
     "prosemirror-model": "^1.7.0",
     "prosemirror-state": "^1.2.3",
     "prosemirror-tables": "^0.8.0",
-    "prosemirror-utils": "^0.8.1"
+    "prosemirror-utils": "^0.8.2"
   }
 }
