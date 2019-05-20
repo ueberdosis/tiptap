@@ -1,49 +1,36 @@
-import { nodeIsActive } from 'tiptap-utils'
 import { wrapInList, liftListItem } from 'prosemirror-schema-list'
+import { findParentNode } from 'prosemirror-utils'
 
-export default function toggleList(type, itemType) {
-  return (state, dispatch, view) => {
-    const isActive = nodeIsActive(state, type)
-
-    if (isActive) {
-      return liftListItem(itemType)(state, dispatch, view)
-    }
-
-    return wrapInList(type)(state, dispatch, view)
-  }
+function isList(node, schema) {
+  return (node.type === schema.nodes.bullet_list
+      || node.type === schema.nodes.ordered_list
+      || node.type === schema.nodes.todo_list)
 }
 
-// https://discuss.prosemirror.net/t/list-type-toggle/948
+export default function toggleList(listType, itemType) {
+  return (state, dispatch, view) => {
+    const { schema, selection } = state
+    const { $from, $to } = selection
+    const range = $from.blockRange($to)
+    if (!range) {
+      return false
+		}
 
-// import { wrapInList, liftListItem } from 'prosemirror-schema-list'
+    const parentList = findParentNode(node => isList(node, schema))(selection)
 
-// function isList(node, schema) {
-//   return (node.type === schema.nodes.bullet_list || node.type === schema.nodes.ordered_list)
-// }
+    if (range.depth >= 1 && parentList && range.depth - parentList.depth <= 1) {
+      if (parentList.node.type === listType) {
+        return liftListItem(itemType)(state, dispatch, view)
+      }
 
-// export default function toggleList(listType, schema) {
-//   const lift = liftListItem(schema.nodes.list_item)
-// 	const wrap = wrapInList(listType)
+      if (isList(parentList.node, schema) && listType.validContent(parentList.node.content)) {
+        const { tr } = state
+        tr.setNodeMarkup(parentList.pos, listType)
+        if (dispatch) dispatch(tr)
+        return false
+      }
+    }
 
-//   return (state, dispatch) => {
-//     const { $from, $to } = state.selection
-//     const range = $from.blockRange($to)
-//     if (!range) {
-//       return false
-// 		}
-
-//     if (range.depth >= 2 && $from.node(range.depth - 1).type === listType) {
-//       return lift(state, dispatch)
-//     } else if (range.depth >= 2 && isList($from.node(range.depth - 1), schema)) {
-//       const tr = state.tr
-// 			const node = $from.before(range.depth - 1)
-// 			console.log({node})
-//       // TODO: how do I pass the node above to `setNodeType`?
-//       // tr.setNodeType(range.start, listType);
-//       if (dispatch) dispatch(tr)
-//       return false
-//     } else {
-//       return wrap(state, dispatch)
-//     }
-//   }
-// }
+    return wrapInList(listType)(state, dispatch, view)
+  }
+}
