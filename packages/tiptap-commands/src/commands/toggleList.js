@@ -1,4 +1,5 @@
 import { wrapInList, liftListItem } from 'prosemirror-schema-list'
+import { findParentNode } from 'prosemirror-utils'
 
 function isList(node, schema) {
   return (node.type === schema.nodes.bullet_list || node.type === schema.nodes.ordered_list)
@@ -6,26 +7,28 @@ function isList(node, schema) {
 
 export default function toggleList(listType) {
   return (state, dispatch) => {
-    const { schema } = state
+    const { schema, selection } = state
     const lift = liftListItem(schema.nodes.list_item)
     const wrap = wrapInList(listType)
-    const { $from, $to } = state.selection
+    const { $from, $to } = selection
     const range = $from.blockRange($to)
-    const depthOffset = range.depth > 1 ? ((range.depth + 1) % 2) : 0
     if (!range) {
       return false
 		}
 
-    if (range.depth >= 1 && $from.node(range.depth - depthOffset).type === listType) {
-      return lift(state, dispatch)
-    }
+    const parentList = findParentNode(node => isList(node, schema))(selection)
 
-    if (range.depth >= 1 && isList($from.node(range.depth - depthOffset), schema)) {
-      const { tr } = state
-      const $insert = state.doc.resolve(range.start - depthOffset)
-      tr.setNodeMarkup(range.start - (1 + depthOffset) - $insert.parentOffset, listType)
-      if (dispatch) dispatch(tr)
-      return false
+    if (range.depth >= 1 && parentList) {
+      if (parentList.node.type === listType) {
+        return lift(state, dispatch)
+      }
+
+      if (isList(parentList.node, schema)) {
+        const { tr } = state
+        tr.setNodeMarkup(parentList.pos, listType)
+        if (dispatch) dispatch(tr)
+        return false
+      }
     }
 
     return wrap(state, dispatch)
