@@ -18,7 +18,7 @@ export default function toggleList(listType, itemType) {
 
     const parentList = findParentNode(node => isList(node, schema))(selection)
 
-    if (range.depth >= 1 && parentList) {
+    if (range.depth >= 1 && parentList && range.depth - parentList.depth <= 1) {
       if (parentList.node.type === listType) {
         return liftListItem(itemType)(state, dispatch, view)
       }
