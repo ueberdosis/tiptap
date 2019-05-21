@@ -66,7 +66,7 @@ export default {
             // the initial version we start with
             // version is an integer which is incremented with every change
             version,
-            // debounce changes so we can save some bandwidth
+            // debounce changes so we can save some requests
             debounce: 250,
             // onSendable is called whenever there are changed we have to send to our server
             onSendable: ({ sendable }) => {
