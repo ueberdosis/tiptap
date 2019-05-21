@@ -134,7 +134,8 @@ export default class ExtensionManager {
     ]), [])
   }
 
-  commands({ schema, view, editable }) {
+  commands({ schema, view }) {
+
     return this.extensions
       .filter(extension => extension.commands)
       .reduce((allCommands, extension) => {
@@ -148,7 +149,7 @@ export default class ExtensionManager {
         })
 
         const apply = (cb, attrs) => {
-          if (!editable) {
+          if (!view.editable) {
             return false
           }
           view.focus()

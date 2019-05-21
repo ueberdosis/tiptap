@@ -15,7 +15,7 @@ export default class TodoItem extends Node {
 
   get view() {
     return {
-      props: ['node', 'updateAttrs', 'editable'],
+      props: ['node', 'updateAttrs', 'view'],
       methods: {
         onChange() {
           this.updateAttrs({
@@ -26,7 +26,7 @@ export default class TodoItem extends Node {
       template: `
         <li :data-type="node.type.name" :data-done="node.attrs.done.toString()">
           <span class="todo-checkbox" contenteditable="false" @click="onChange"></span>
-          <div class="todo-content" ref="content" :contenteditable="editable.toString()"></div>
+          <div class="todo-content" ref="content" :contenteditable="view.editable.toString()"></div>
         </li>
       `,
     }

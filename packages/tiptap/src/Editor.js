@@ -156,7 +156,6 @@ export default class Editor extends Emitter {
     return this.extensions.commands({
       schema: this.schema,
       view: this.view,
-      editable: this.options.editable,
     })
   }
 
@@ -277,12 +276,11 @@ export default class Editor extends Emitter {
           ...this.builtInExtensions,
           ...this.options.extensions,
         ],
-        editable: this.options.editable,
       }),
     })
   }
 
-  initNodeViews({ parent, extensions, editable }) {
+  initNodeViews({ parent, extensions }) {
     return extensions
       .filter(extension => ['node', 'mark'].includes(extension.type))
       .filter(extension => extension.view)
@@ -291,13 +289,13 @@ export default class Editor extends Emitter {
           const component = extension.view
 
           return new ComponentView(component, {
+            editor: this,
             extension,
             parent,
             node,
             view,
             getPos,
             decorations,
-            editable,
           })
         }
 

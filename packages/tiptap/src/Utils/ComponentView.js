@@ -5,48 +5,46 @@ import { getMarkRange } from 'tiptap-utils'
 export default class ComponentView {
 
   constructor(component, {
+    editor,
     extension,
     parent,
     node,
     view,
-    getPos,
     decorations,
-    editable,
+    getPos,
   }) {
     this.component = component
+    this.editor = editor
     this.extension = extension
     this.parent = parent
     this.node = node
     this.view = view
-    this.getPos = getPos
     this.decorations = decorations
-    this.editable = editable
-    this.selected = false
     this.isNode = !!this.node.marks
     this.isMark = !this.isNode
+    this.getPos = this.isMark ? this.getMarkPos : getPos
     this.dom = this.createDOM()
     this.contentDOM = this.vm.$refs.content
-
-    if (this.isMark) {
-      this.getPos = this.getMarkPos
-    }
   }
 
   createDOM() {
     const Component = Vue.extend(this.component)
+    const props = {
+      editor: this.editor,
+      node: this.node,
+      view: this.view,
+      getPos: () => this.getPos(),
+      decorations: this.decorations,
+      selected: false,
+      options: this.extension.options,
+      updateAttrs: attrs => this.updateAttrs(attrs),
+    }
+
     this.vm = new Component({
       parent: this.parent,
-      propsData: {
-        node: this.node,
-        view: this.view,
-        getPos: () => this.getPos(),
-        decorations: this.decorations,
-        editable: this.editable,
-        selected: false,
-        options: this.extension.options,
-        updateAttrs: attrs => this.updateAttrs(attrs),
-      },
+      propsData: props,
     }).$mount()
+
     return this.vm.$el
   }
 
@@ -90,7 +88,7 @@ export default class ComponentView {
   }
 
   updateAttrs(attrs) {
-    if (!this.editable) {
+    if (!this.view.editable) {
       return
     }
 

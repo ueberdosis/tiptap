@@ -417,10 +417,10 @@ export default class IframeNode extends Node {
       // there are some props available
       // `node` is a Prosemirror Node Object
       // `updateAttrs` is a function to update attributes defined in `schema`
-      // `editable` is the global editor prop whether the content can be edited
+      // `view` is the ProseMirror view instance
       // `options` is an array of your extension options
       // `selected`
-      props: ['node', 'updateAttrs', 'editable'],
+      props: ['node', 'updateAttrs', 'view'],
       computed: {
         src: {
           get() {
@@ -437,7 +437,7 @@ export default class IframeNode extends Node {
       template: `
         <div class="iframe">
           <iframe class="iframe__embed" :src="src"></iframe>
-          <input class="iframe__input" type="text" v-model="src" v-if="editable" />
+          <input class="iframe__input" type="text" v-model="src" v-if="view.editable" />
         </div>
       `,
     }
