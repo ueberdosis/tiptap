@@ -374,10 +374,6 @@ export default class Editor extends Emitter {
   }
 
   setContent(content = {}, emitUpdate = false, parseOptions) {
-    if (!this.view.editable) {
-      return
-    }
-
     const newState = EditorState.create({
       schema: this.state.schema,
       doc: this.createDocument(content, parseOptions),

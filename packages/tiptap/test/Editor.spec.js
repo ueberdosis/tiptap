@@ -240,17 +240,6 @@ test('clear content', () => {
   expect(editor.getHTML()).toEqual('<p></p>')
 })
 
-test('clear content', () => {
-  const editor = new Editor({
-    editable: false,
-    content: '<p>Foo</p>',
-  })
-
-  editor.clearContent()
-
-  expect(editor.getHTML()).toEqual('<p>Foo</p>')
-})
-
 test('init callback', done => {
   const editor = new Editor({
     content: '<p>Foo</p>',
