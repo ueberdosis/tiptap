@@ -480,6 +480,9 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 - [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
 
+## Love our work?
+[Become a baker](paypal.me/philippkuehn) ❤️
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
