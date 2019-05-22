@@ -481,7 +481,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
 
 ## Love our work?
-[Become a baker](paypal.me/philippkuehn) ❤️
+[Become a baker](https://www.paypal.me/philippkuehn) ❤️
 
 ## License
 
