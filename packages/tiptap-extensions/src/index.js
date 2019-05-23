@@ -26,6 +26,7 @@ export { default as Underline } from './marks/Underline'
 export { default as Collaboration } from './extensions/Collaboration'
 export { default as History } from './extensions/History'
 export { default as Placeholder } from './extensions/Placeholder'
+export { default as Search } from './extensions/Search'
 
 export { default as Suggestions } from './plugins/Suggestions'
 export { default as Highlight } from './plugins/Highlight'

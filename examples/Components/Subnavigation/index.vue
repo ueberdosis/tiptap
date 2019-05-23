@@ -24,6 +24,9 @@
     <router-link class="subnavigation__link" to="/tables">
       Tables
     </router-link>
+    <router-link class="subnavigation__link" to="/search">
+      Search
+    </router-link>
     <router-link class="subnavigation__link" to="/suggestions">
       Suggestions
     </router-link>
