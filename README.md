@@ -483,7 +483,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [Quasar Tiptap Demo](https://github.com/kfields/quasar-tiptap-demo) @kfields
 
 ## Love our work?
-[Become a baker](https://www.paypal.me/philippkuehn) ❤️
+[Become a backer](https://www.paypal.me/philippkuehn) ❤️
 
 ## License
 
