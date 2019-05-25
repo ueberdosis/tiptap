@@ -479,6 +479,8 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Packages Using Tiptap
 
 - [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
+- [WYSIWYG editor for Vuetify](https://github.com/iliyaZelenko/tiptap-vuetify) by @iliyaZelenko
+- [Quasar Tiptap Demo](https://github.com/kfields/quasar-tiptap-demo) @kfields
 
 ## Love our work?
 [Become a baker](https://www.paypal.me/philippkuehn) ❤️
