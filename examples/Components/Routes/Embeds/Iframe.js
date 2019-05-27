@@ -31,7 +31,7 @@ export default class Iframe extends Node {
 
   get view() {
     return {
-      props: ['node', 'updateAttrs', 'editable'],
+      props: ['node', 'updateAttrs', 'view'],
       computed: {
         src: {
           get() {
@@ -47,7 +47,7 @@ export default class Iframe extends Node {
       template: `
         <div class="iframe">
           <iframe class="iframe__embed" :src="src"></iframe>
-          <input class="iframe__input" @paste.stop type="text" v-model="src" v-if="editable" />
+          <input class="iframe__input" @paste.stop type="text" v-model="src" v-if="view.editable" />
         </div>
       `,
     }
