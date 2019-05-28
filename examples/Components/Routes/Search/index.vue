@@ -107,7 +107,7 @@
 
         <button
             class="menubar__button"
-            @click="toggleSearch"
+            @click="editor.commands.toggleSearch"
         >
           Search
           <div
@@ -163,16 +163,6 @@ export default {
     EditorMenuBar,
     Icon,
   },
-  methods: {
-    toggleSearch() {
-      this.editor.commands.toggleSearch()
-      this.$nextTick(() => {
-        if (this.$refs.search) {
-          this.$refs.search.focus()
-        }
-      })
-    },
-  },
   data() {
     return {
       searching: false,
@@ -200,6 +190,13 @@ export default {
         ],
         onUpdate: ({ getJSON }) => {
           this.json = getJSON()
+        },
+        onToggleSearch: searching => {
+          this.$nextTick(() => {
+            if (searching) {
+              this.$refs.search.focus()
+            }
+          })
         },
         content: `
           <h2>
