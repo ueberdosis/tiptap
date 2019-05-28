@@ -95,9 +95,15 @@ export default class Search extends Extension {
       new Plugin({
         state: {
           init: (_, { doc }) => this.createDeco(doc),
-          apply: (tr, old) => (
-            (tr.docChanged || this.options.searching) ? this.createDeco(tr.doc) : old
-          ),
+          apply: (tr, old) => {
+            if (this.options.searching) {
+              return this.createDeco(tr.doc)
+            }
+            if (tr.docChanged) {
+              return old.map(tr.mapping, tr.doc)
+            }
+            return old
+          },
         },
         props: {
           decorations(state) { return this.getState(state) },
