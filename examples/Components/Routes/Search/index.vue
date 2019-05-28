@@ -105,7 +105,7 @@
           <icon name="redo" />
         </button>
 
-        <button
+        <span
             class="menubar__button"
             @click="editor.commands.toggleSearch"
         >
@@ -124,7 +124,7 @@
             >
             <button @click="editor.commands.find(searchTerm)">Find</button>
           </div>
-        </button>
+        </span>
 
       </div>
     </editor-menu-bar>
