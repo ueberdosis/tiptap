@@ -55,6 +55,8 @@ export default class Search extends Extension {
 
   _search(doc) {
     this.results = []
+    const mergedTextNodes = []
+    let index = 0
 
     if (!this.searchTerm) {
       return
@@ -64,13 +66,29 @@ export default class Search extends Extension {
 
     doc.descendants((node, pos) => {
       if (node.isText) {
-        let m
-        while (m = search.exec(node.text)) {
-          this.results.push({
-            from: pos + m.index,
-            to: pos + m.index + m[0].length,
-          })
+        if (mergedTextNodes[index]) {
+          mergedTextNodes[index] = {
+            text: mergedTextNodes[index].text + node.text,
+            pos: mergedTextNodes[index].pos,
+          }
+        } else {
+          mergedTextNodes[index] = {
+            text: node.text,
+            pos,
+          }
         }
+      } else {
+        index += 1
+      }
+    })
+
+    mergedTextNodes.forEach(({ text, pos }) => {
+      let m
+      while (m = search.exec(text)) {
+        this.results.push({
+          from: pos + m.index,
+          to: pos + m.index + m[0].length,
+        })
       }
     })
   }
