@@ -14,6 +14,10 @@ export default class Search extends Extension {
     return 'search'
   }
 
+  init() {
+    this.editor.events.push('toggleSearch')
+  }
+
   get defaultOptions() {
     return {
       autoSelectNext: true,
@@ -26,6 +30,7 @@ export default class Search extends Extension {
   toggleSearch() {
     return () => {
       this.options.searching = !this.options.searching
+      this.editor.emit('toggleSearch', this.options.searching)
       return true
     }
   }
