@@ -25,6 +25,7 @@ export default class Search extends Extension {
       searching: false,
       caseSensitive: false,
       disableRegex: true,
+      alwaysSearch: false,
     }
   }
 
@@ -121,7 +122,7 @@ export default class Search extends Extension {
         state: {
           init() { return DecorationSet.empty },
           apply: (tr, old) => {
-            if (this.options.searching) {
+            if (this.options.searching || (tr.docChanged && this.options.alwaysSearch)) {
               return this.createDeco(tr.doc)
             }
             if (tr.docChanged) {
