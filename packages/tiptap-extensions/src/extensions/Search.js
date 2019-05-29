@@ -99,17 +99,16 @@ export default class Search extends Extension {
   }
 
   find(searchTerm) {
-    return ({ doc, tr }, dispatch) => {
+    return ({ tr }, dispatch) => {
       this.options.searching = true
       this.searchTerm = searchTerm
-
-      this._search(doc)
 
       dispatch(tr)
     }
   }
 
   createDeco(doc) {
+    this._search(doc)
     return this.decorations ? DecorationSet.create(doc, this.decorations) : []
   }
 
@@ -117,7 +116,7 @@ export default class Search extends Extension {
     return [
       new Plugin({
         state: {
-          init: (_, { doc }) => this.createDeco(doc),
+          init() { return DecorationSet.empty },
           apply: (tr, old) => {
             if (this.options.searching) {
               return this.createDeco(tr.doc)
