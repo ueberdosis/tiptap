@@ -175,7 +175,9 @@ export default {
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
           new HorizontalRule(),
-          new Search(),
+          new Search({
+            disableRegex: false,
+          }),
           new ListItem(),
           new OrderedList(),
           new TodoItem(),

@@ -24,6 +24,7 @@ export default class Search extends Extension {
       findClass: 'find',
       searching: false,
       caseSensitive: false,
+      disableRegex: true,
     }
   }
 
@@ -103,7 +104,7 @@ export default class Search extends Extension {
   find(searchTerm) {
     return ({ tr }, dispatch) => {
       this.options.searching = true
-      this.searchTerm = searchTerm
+      this.searchTerm = (this.options.disableRegex) ? searchTerm.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') : searchTerm
 
       dispatch(tr)
     }
