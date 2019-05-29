@@ -8,6 +8,7 @@ export default class Search extends Extension {
 
     this.results = []
     this.searchTerm = null
+    this._updating = false
   }
 
   get name() {
@@ -104,20 +105,25 @@ export default class Search extends Extension {
   }
 
   find(searchTerm) {
-    return ({ tr }, dispatch) => {
-      this.options.searching = true
+    return (state, dispatch) => {
       this.searchTerm = (this.options.disableRegex) ? searchTerm.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') : searchTerm
 
-      dispatch(tr)
+      this.updateView(state, dispatch)
     }
   }
 
   clear() {
-    return ({ tr }, dispatch) => {
+    return (state, dispatch) => {
       this.searchTerm = null
 
-      dispatch(tr)
+      this.updateView(state, dispatch)
     }
+  }
+
+  updateView({ tr }, dispatch) {
+    this._updating = true
+    dispatch(tr)
+    this._updating = false
   }
 
   createDeco(doc) {
@@ -131,7 +137,9 @@ export default class Search extends Extension {
         state: {
           init() { return DecorationSet.empty },
           apply: (tr, old) => {
-            if (this.options.searching || (tr.docChanged && this.options.alwaysSearch)) {
+            if (this._updating
+                || this.options.searching
+                || (tr.docChanged && this.options.alwaysSearch)) {
               return this.createDeco(tr.doc)
             }
             if (tr.docChanged) {
