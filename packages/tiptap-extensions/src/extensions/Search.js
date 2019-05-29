@@ -53,7 +53,7 @@ export default class Search extends Extension {
   }
 
   get findRegExp() {
-    return RegExp(this.searchTerm, !this.options.caseSensitive ? 'gi' : 'g')
+    return RegExp(this.searchTerm, !this.options.caseSensitive ? 'gui' : 'gu')
   }
 
   get decorations() {
