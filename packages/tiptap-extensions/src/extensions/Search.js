@@ -46,6 +46,7 @@ export default class Search extends Extension {
   commands() {
     return {
       find: attrs => this.find(attrs),
+      clearSearch: () => this.clear(),
       toggleSearch: () => this.toggleSearch(),
     }
   }
@@ -106,6 +107,14 @@ export default class Search extends Extension {
     return ({ tr }, dispatch) => {
       this.options.searching = true
       this.searchTerm = (this.options.disableRegex) ? searchTerm.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') : searchTerm
+
+      dispatch(tr)
+    }
+  }
+
+  clear() {
+    return ({ tr }, dispatch) => {
+      this.searchTerm = null
 
       dispatch(tr)
     }

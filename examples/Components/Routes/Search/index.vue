@@ -123,6 +123,7 @@
                 v-model="searchTerm"
             >
             <button @click="editor.commands.find(searchTerm)">Find</button>
+            <button @click="editor.commands.clearSearch()">Clear</button>
           </div>
         </span>
 
