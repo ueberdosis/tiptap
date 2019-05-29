@@ -67,8 +67,6 @@ export default class Search extends Extension {
       return
     }
 
-    const search = this.findRegExp
-
     doc.descendants((node, pos) => {
       if (node.isText) {
         if (mergedTextNodes[index]) {
@@ -88,8 +86,12 @@ export default class Search extends Extension {
     })
 
     mergedTextNodes.forEach(({ text, pos }) => {
+      const search = this.findRegExp
       let m
       while (m = search.exec(text)) {
+        if (m[0] === '') {
+          break
+        }
         this.results.push({
           from: pos + m.index,
           to: pos + m.index + m[0].length,
