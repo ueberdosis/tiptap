@@ -84,7 +84,7 @@ export default {
 
   mounted() {
     // server implementation: https://glitch.com/edit/#!/tiptap-sockets
-    this.socket = io('wss://tiptap-sockets-dev.glitch.me')
+    this.socket = io('wss://tiptap-sockets.glitch.me')
       // get the current document and its version
       .on('init', data => this.onInit(data))
       // send all updates to the collaboration extension
