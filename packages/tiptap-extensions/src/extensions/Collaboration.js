@@ -29,7 +29,7 @@ export default class Collaboration extends Extension {
       }
     }, this.options.debounce)
 
-    this.editor.on('update', ({ state }) => {
+    this.editor.on('transaction', ({ state }) => {
       this.getSendableSteps(state)
     })
   }

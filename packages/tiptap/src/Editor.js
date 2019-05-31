@@ -40,6 +40,7 @@ export default class Editor extends Emitter {
       dropCursor: {},
       parseOptions: {},
       onInit: () => {},
+      onTransaction: () => {},
       onUpdate: () => {},
       onFocus: () => {},
       onBlur: () => {},
@@ -49,6 +50,7 @@ export default class Editor extends Emitter {
 
     this.events = [
       'init',
+      'transaction',
       'update',
       'focus',
       'blur',
@@ -310,6 +312,13 @@ export default class Editor extends Emitter {
     const newState = this.state.apply(transaction)
     this.view.updateState(newState)
     this.setActiveNodesAndMarks()
+
+    this.emit('transaction', {
+      getHTML: this.getHTML.bind(this),
+      getJSON: this.getJSON.bind(this),
+      state: this.state,
+      transaction,
+    })
 
     if (!transaction.docChanged) {
       return
