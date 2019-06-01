@@ -24,7 +24,7 @@ export default {
           new BulletList(),
           new ListItem(),
           new Placeholder({
-            emptyClass: 'is-empty',
+            emptyNodeClass: 'is-empty',
             emptyNodeText: 'Write something …',
             showOnlyWhenEditable: true,
           }),
