@@ -82,7 +82,7 @@ export default class Editor extends Emitter {
     }
 
     this.events.forEach(name => {
-      this.on(name, this.options[camelCase(`on ${name}`)])
+        this.on(name, this.options[camelCase(`on ${name}`)] || (() => {}))
     })
 
     this.emit('init', {
