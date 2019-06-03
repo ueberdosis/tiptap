@@ -94,7 +94,8 @@ export default class Search extends Extension {
     mergedTextNodes.forEach(({ text, pos }) => {
       const search = this.findRegExp
       let m
-      while (m = search.exec(text)) {
+      // eslint-disable-next-line no-cond-assign
+      while ((m = search.exec(text))) {
         if (m[0] === '') {
           break
         }
