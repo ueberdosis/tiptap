@@ -121,9 +121,16 @@
                 placeholder="Search..."
                 type="text"
                 v-model="searchTerm"
-            >
+            ><input
+              @keydown.enter.prevent="editor.commands.replace(replaceWith)"
+              placeholder="Replace..."
+              type="text"
+              v-model="replaceWith"
+          >
             <button @click="editor.commands.find(searchTerm)">Find</button>
             <button @click="editor.commands.clearSearch()">Clear</button>
+            <button @click="editor.commands.replace(replaceWith)">Replace</button>
+            <button @click="editor.commands.replaceAll(replaceWith)">Replace All</button>
           </div>
         </span>
 
@@ -168,6 +175,7 @@ export default {
     return {
       searching: false,
       searchTerm: null,
+      replaceWith: null,
       editor: new Editor({
         extensions: [
           new Blockquote(),

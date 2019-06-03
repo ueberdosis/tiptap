@@ -47,6 +47,8 @@ export default class Search extends Extension {
   commands() {
     return {
       find: attrs => this.find(attrs),
+      replace: attrs => this.replace(attrs),
+      replaceAll: attrs => this.replaceAll(attrs),
       clearSearch: () => this.clear(),
       toggleSearch: () => this.toggleSearch(),
     }
@@ -102,6 +104,40 @@ export default class Search extends Extension {
         })
       }
     })
+  }
+
+  replace(replace) {
+    return (state, dispatch) => {
+      const { from, to } = this.results[0]
+
+      dispatch(state.tr.insertText(replace, from, to))
+    }
+  }
+
+  rebaseNextResult(replace, index) {
+    const nextIndex = index + 1
+    if (!this.results[nextIndex]) return
+
+    const nextStep = this.results[nextIndex]
+    const { from, to } = nextStep
+    const offset = (to - from - replace.length) * nextIndex
+
+    this.results[nextIndex] = {
+      to: to - offset,
+      from: from - offset,
+    }
+  }
+
+  replaceAll(replace) {
+    return ({ tr }, dispatch) => {
+      this.results.forEach(({ from, to }, index) => {
+        tr.insertText(replace, from, to)
+
+        this.rebaseNextResult(replace, index)
+      })
+
+      dispatch(tr)
+    }
   }
 
   find(searchTerm) {
