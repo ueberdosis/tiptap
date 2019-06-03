@@ -115,26 +115,29 @@ export default class Search extends Extension {
     }
   }
 
-  rebaseNextResult(replace, index) {
+  rebaseNextResult(replace, index, lastOffset = 0) {
     const nextIndex = index + 1
-    if (!this.results[nextIndex]) return
+    if (!this.results[nextIndex]) return null
 
-    const nextStep = this.results[nextIndex]
-    const { from, to } = nextStep
-    const offset = (to - from - replace.length) * nextIndex
+    const { from: currentFrom, to: currentTo } = this.results[index]
+    const offset = (currentTo - currentFrom - replace.length) + lastOffset
 
+    const { from, to } = this.results[nextIndex]
     this.results[nextIndex] = {
       to: to - offset,
       from: from - offset,
     }
+
+    return offset
   }
 
   replaceAll(replace) {
     return ({ tr }, dispatch) => {
+      let offset
       this.results.forEach(({ from, to }, index) => {
         tr.insertText(replace, from, to)
 
-        this.rebaseNextResult(replace, index)
+        offset = this.rebaseNextResult(replace, index, offset)
       })
 
       dispatch(tr)
