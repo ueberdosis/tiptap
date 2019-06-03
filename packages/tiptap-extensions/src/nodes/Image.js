@@ -1,4 +1,15 @@
 import { Node, Plugin } from 'tiptap'
+import { nodeInputRule } from 'tiptap-commands'
+
+/**
+ * Matches following attributes in Markdown-typed image: [, alt, src, title]
+ *
+ * Example:
+ * ![Lorem](image.jpg) -> [, "Lorem", "image.jpg"]
+ * ![](image.jpg "Ipsum") -> [, "", "image.jpg", "Ipsum"]
+ * ![Lorem](image.jpg "Ipsum") -> [, "Lorem", "image.jpg", "Ipsum"]
+ */
+const IMAGE_INPUT_REGEX = /!\[(.+|:?)\]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
 
 export default class Image extends Node {
 
@@ -42,6 +53,19 @@ export default class Image extends Node {
       const transaction = state.tr.insert(position, node)
       dispatch(transaction)
     }
+  }
+
+  inputRules({ type }) {
+    return [
+      nodeInputRule(IMAGE_INPUT_REGEX, type, match => {
+        const [, alt, src, title] = match
+        return {
+          src,
+          alt,
+          title,
+        }
+      }),
+    ]
   }
 
   get plugins() {
