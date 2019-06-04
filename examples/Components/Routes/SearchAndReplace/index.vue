@@ -119,10 +119,18 @@
             type="text"
             v-model="replaceWith"
           />
-          <button class="button" @click="editor.commands.find(searchTerm)">Find</button>
-          <button class="button" @click="editor.commands.clearSearch()">Clear</button>
-          <button class="button" @click="editor.commands.replace(replaceWith)">Replace</button>
-          <button class="button" @click="editor.commands.replaceAll(replaceWith)">Replace All</button>
+          <button class="button" @click="editor.commands.find(searchTerm)">
+            Find
+          </button>
+          <button class="button" @click="editor.commands.clearSearch()">
+            Clear
+          </button>
+          <button class="button" @click="editor.commands.replace(replaceWith)">
+            Replace
+          </button>
+          <button class="button" @click="editor.commands.replaceAll(replaceWith)">
+            Replace All
+          </button>
         </div>
 
       </div>
@@ -192,25 +200,11 @@ export default {
         ],
         content: `
           <h2>
-            Hi there,
+            Search and Replace
           </h2>
           <p>
-            this is a very <em>basic</em> example of tiptap.
+            Search something. 🔍 Replace something. ✂️ Or replace all the things! 💥 That's it. That's how a search works. Good luck.
           </p>
-          <pre><code>body { display: none; }</code></pre>
-          <ul>
-            <li>
-              A regular list
-            </li>
-            <li>
-              With regular items
-            </li>
-          </ul>
-          <blockquote>
-            It's amazing 👏
-            <br />
-            – mom
-          </blockquote>
         `,
       }),
     }
