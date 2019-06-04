@@ -91,9 +91,15 @@ export default class Search extends Extension {
 
   replace(replace) {
     return (state, dispatch) => {
-      const { from, to } = this.results[0]
+      const firstResult = this.results[0]
 
+      if (!firstResult) {
+        return
+      }
+
+      const { from, to } = this.results[0]
       dispatch(state.tr.insertText(replace, from, to))
+      this.editor.commands.find(this.searchTerm)
     }
   }
 
@@ -119,13 +125,19 @@ export default class Search extends Extension {
   replaceAll(replace) {
     return ({ tr }, dispatch) => {
       let offset
+
+      if (!this.results.length) {
+        return
+      }
+
       this.results.forEach(({ from, to }, index) => {
         tr.insertText(replace, from, to)
-
         offset = this.rebaseNextResult(replace, index, offset)
       })
 
       dispatch(tr)
+
+      this.editor.commands.find(this.searchTerm)
     }
   }
 
