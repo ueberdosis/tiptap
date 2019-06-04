@@ -69,6 +69,13 @@ const routes = [
     },
   },
   {
+    path: '/search',
+    component: () => import('Components/Routes/Search'),
+    meta: {
+      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Search',
+    },
+  },
+  {
     path: '/suggestions',
     component: () => import('Components/Routes/Suggestions'),
     meta: {

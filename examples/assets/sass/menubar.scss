@@ -33,4 +33,8 @@
       background-color: rgba($color-black, 0.1);
     }
   }
+
+  span#{&}__button {
+    font-size: 13.3333px;
+  }
 }
