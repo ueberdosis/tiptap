@@ -15,10 +15,6 @@ export default class Search extends Extension {
     return 'search'
   }
 
-  init() {
-    this.editor.events.push('toggleSearch')
-  }
-
   get defaultOptions() {
     return {
       autoSelectNext: true,
@@ -30,27 +26,12 @@ export default class Search extends Extension {
     }
   }
 
-  toggleSearch() {
-    return () => {
-      this.options.searching = !this.options.searching
-      this.editor.emit('toggleSearch', this.options.searching)
-      return true
-    }
-  }
-
-  keys() {
-    return {
-      'Mod-f': this.toggleSearch(),
-    }
-  }
-
   commands() {
     return {
       find: attrs => this.find(attrs),
       replace: attrs => this.replace(attrs),
       replaceAll: attrs => this.replaceAll(attrs),
       clearSearch: () => this.clear(),
-      toggleSearch: () => this.toggleSearch(),
     }
   }
 

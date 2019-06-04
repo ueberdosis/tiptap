@@ -105,34 +105,25 @@
           <icon name="redo" />
         </button>
 
-        <span
-            class="menubar__button"
-            @click="editor.commands.toggleSearch"
-        >
-          Search
-          <div
-              class="search-modal"
-              @click.stop
-              v-if="editor.extensions.options.search.searching"
-          >
-            <input
-                ref="search"
-                @keydown.enter.prevent="editor.commands.find(searchTerm)"
-                placeholder="Search..."
-                type="text"
-                v-model="searchTerm"
-            ><input
-              @keydown.enter.prevent="editor.commands.replace(replaceWith)"
-              placeholder="Replace..."
-              type="text"
-              v-model="replaceWith"
-          >
-            <button @click="editor.commands.find(searchTerm)">Find</button>
-            <button @click="editor.commands.clearSearch()">Clear</button>
-            <button @click="editor.commands.replace(replaceWith)">Replace</button>
-            <button @click="editor.commands.replaceAll(replaceWith)">Replace All</button>
-          </div>
-        </span>
+        <div class="search">
+          <input
+            ref="search"
+            @keydown.enter.prevent="editor.commands.find(searchTerm)"
+            placeholder="Search …"
+            type="text"
+            v-model="searchTerm"
+          />
+          <input
+            @keydown.enter.prevent="editor.commands.replace(replaceWith)"
+            placeholder="Replace …"
+            type="text"
+            v-model="replaceWith"
+          />
+          <button class="button" @click="editor.commands.find(searchTerm)">Find</button>
+          <button class="button" @click="editor.commands.clearSearch()">Clear</button>
+          <button class="button" @click="editor.commands.replace(replaceWith)">Replace</button>
+          <button class="button" @click="editor.commands.replaceAll(replaceWith)">Replace All</button>
+        </div>
 
       </div>
     </editor-menu-bar>
@@ -173,7 +164,7 @@ export default {
   },
   data() {
     return {
-      searching: false,
+      // searching: false,
       searchTerm: null,
       replaceWith: null,
       editor: new Editor({
@@ -199,16 +190,6 @@ export default {
           new Underline(),
           new History(),
         ],
-        onUpdate: ({ getJSON }) => {
-          this.json = getJSON()
-        },
-        onToggleSearch: searching => {
-          this.$nextTick(() => {
-            if (searching) {
-              this.$refs.search.focus()
-            }
-          })
-        },
         content: `
           <h2>
             Hi there,
@@ -240,25 +221,34 @@ export default {
 }
 </script>
 
-<style>
-  .menubar__button {
-    position: relative;
+<style lang="scss">
+@import "~variables";
+
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba($color-black, 0.1);
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+
+  input {
+    padding: 0.25rem;
+    border: 0;
+    border-radius: 3px;
+    margin-right: 0.2rem;
+    font: inherit;
+    font-size: 0.8rem;
+    width: 20%;
+    flex: 1;
   }
 
-  .search-modal {
-    position: absolute;
-    top: 100%;
-    display: flex;
-    background: #fff;
-    padding: .5em;
-    box-shadow: 0 2px 4px #0003;
-    border-radius: 2px;
-    left: 0;
-    margin-top: 0.25em;
-    border: solid 2px;
-  }
+  button {
 
-  .find {
-    background: rgba(255, 213, 0, 0.5);
   }
+}
+
+.find {
+  background: rgba(255, 213, 0, 0.5);
+}
 </style>

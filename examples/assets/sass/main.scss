@@ -72,6 +72,10 @@ h3 {
   border-radius: 3px;
   cursor: pointer;
   background-color: rgba($color-black, 0.1);
+
+  &:hover {
+    background-color: rgba($color-black, 0.15);
+  }
 }
 
 .message {
