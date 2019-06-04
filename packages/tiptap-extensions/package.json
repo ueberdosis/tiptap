@@ -24,7 +24,7 @@
     "lowlight": "^1.12.1",
     "prosemirror-collab": "^1.1.2",
     "prosemirror-history": "^1.0.4",
-    "prosemirror-model": "^1.7.0",
+    "prosemirror-model": "^1.7.1",
     "prosemirror-state": "^1.2.3",
     "prosemirror-tables": "^0.8.1",
     "prosemirror-transform": "^1.1.3",
