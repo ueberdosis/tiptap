@@ -69,10 +69,10 @@ const routes = [
     },
   },
   {
-    path: '/search',
-    component: () => import('Components/Routes/Search'),
+    path: '/search-and-replace',
+    component: () => import('Components/Routes/SearchAndReplace'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Search',
+      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/SearchAndReplace',
     },
   },
   {
