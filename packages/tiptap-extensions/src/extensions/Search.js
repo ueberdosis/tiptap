@@ -41,7 +41,7 @@ export default class Search extends Extension {
 
   get decorations() {
     return this.results.map(deco => (
-        Decoration.inline(deco.from, deco.to, { class: this.options.findClass })
+      Decoration.inline(deco.from, deco.to, { class: this.options.findClass })
     ))
   }
 
@@ -80,6 +80,7 @@ export default class Search extends Extension {
         if (m[0] === '') {
           break
         }
+
         this.results.push({
           from: pos + m.index,
           to: pos + m.index + m[0].length,
@@ -98,12 +99,15 @@ export default class Search extends Extension {
 
   rebaseNextResult(replace, index, lastOffset = 0) {
     const nextIndex = index + 1
-    if (!this.results[nextIndex]) return null
+
+    if (!this.results[nextIndex]) {
+      return null
+    }
 
     const { from: currentFrom, to: currentTo } = this.results[index]
     const offset = (currentTo - currentFrom - replace.length) + lastOffset
-
     const { from, to } = this.results[nextIndex]
+
     this.results[nextIndex] = {
       to: to - offset,
       from: from - offset,
@@ -127,7 +131,9 @@ export default class Search extends Extension {
 
   find(searchTerm) {
     return (state, dispatch) => {
-      this.searchTerm = (this.options.disableRegex) ? searchTerm.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') : searchTerm
+      this.searchTerm = this.options.disableRegex
+        ? searchTerm.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+        : searchTerm
 
       this.updateView(state, dispatch)
     }
@@ -149,28 +155,37 @@ export default class Search extends Extension {
 
   createDeco(doc) {
     this._search(doc)
-    return this.decorations ? DecorationSet.create(doc, this.decorations) : []
+    return this.decorations
+      ? DecorationSet.create(doc, this.decorations)
+      : []
   }
 
   get plugins() {
     return [
       new Plugin({
         state: {
-          init() { return DecorationSet.empty },
+          init() {
+            return DecorationSet.empty
+          },
           apply: (tr, old) => {
             if (this._updating
-                || this.options.searching
-                || (tr.docChanged && this.options.alwaysSearch)) {
+              || this.options.searching
+              || (tr.docChanged && this.options.alwaysSearch)
+            ) {
               return this.createDeco(tr.doc)
             }
+
             if (tr.docChanged) {
               return old.map(tr.mapping, tr.doc)
             }
+
             return old
           },
         },
         props: {
-          decorations(state) { return this.getState(state) },
+          decorations(state) {
+            return this.getState(state)
+          },
         },
       }),
     ]
