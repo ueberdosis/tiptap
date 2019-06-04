@@ -175,9 +175,6 @@ export default {
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
           new HorizontalRule(),
-          new Search({
-            disableRegex: false,
-          }),
           new ListItem(),
           new OrderedList(),
           new TodoItem(),
@@ -189,6 +186,9 @@ export default {
           new Strike(),
           new Underline(),
           new History(),
+          new Search({
+            disableRegex: false,
+          }),
         ],
         content: `
           <h2>
