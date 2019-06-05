@@ -24,7 +24,7 @@ export default class TodoItem extends Node {
         },
       },
       template: `
-        <li :data-type="node.type.name" :data-done="node.attrs.done.toString()">
+        <li :data-type="node.type.name" :data-done="node.attrs.done.toString()" contenteditable="false">
           <span class="todo-checkbox" contenteditable="false" @click="onChange"></span>
           <div class="todo-content" ref="content" :contenteditable="view.editable.toString()"></div>
         </li>

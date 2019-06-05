@@ -11,7 +11,7 @@ export default class TodoList extends Node {
     return {
       group: 'block',
       content: 'todo_item+',
-      toDOM: () => ['ul', { 'data-type': this.name }, 0],
+      toDOM: () => ['ul', { 'data-type': this.name, contenteditable: false }, 0],
       parseDOM: [{
         priority: 51,
         tag: `[data-type="${this.name}"]`,
