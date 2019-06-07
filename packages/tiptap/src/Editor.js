@@ -346,16 +346,14 @@ export default class Editor extends Emitter {
     if (position === 'start' || position === true) {
       pos = 0
     } else if (position === 'end') {
-      pos = this.view.state.doc.nodeSize - 2
+      pos = this.state.doc.nodeSize - 2
     }
 
-    const selection = TextSelection.near(this.view.state.doc.resolve(pos))
-    const transaction = this.view.state.tr.setSelection(selection)
+    const selection = TextSelection.near(this.state.doc.resolve(pos))
+    const transaction = this.state.tr.setSelection(selection)
     this.view.dispatch(transaction)
 
-    setTimeout(() => {
-      this.view.focus()
-    }, 10)
+    setTimeout(() => this.view.focus(), 10)
   }
 
   blur() {
