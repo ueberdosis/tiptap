@@ -25,7 +25,7 @@ export default class Editor extends Emitter {
     this.defaultOptions = {
       editorProps: {},
       editable: true,
-      autoFocus: false,
+      autoFocus: null,
       extensions: [],
       content: '',
       emptyDocument: {
@@ -79,8 +79,8 @@ export default class Editor extends Emitter {
     this.commands = this.createCommands()
     this.setActiveNodesAndMarks()
 
-    if (this.options.autoFocus) {
-      this.focus()
+    if (this.options.autoFocus !== null) {
+      this.focus(this.options.autoFocus)
     }
 
     this.events.forEach(name => {
@@ -337,19 +337,21 @@ export default class Editor extends Emitter {
   }
 
   focus(position = null) {
-    if (position !== null) {
-      let pos = position
-
-      if (position === 'start') {
-        pos = 0
-      } else if (position === 'end') {
-        pos = this.view.state.doc.nodeSize - 2
-      }
-
-      const selection = TextSelection.near(this.view.state.doc.resolve(pos))
-      const transaction = this.view.state.tr.setSelection(selection)
-      this.view.dispatch(transaction)
+    if (position === null || position === false) {
+      return
     }
+
+    let pos = position
+
+    if (position === 'start' || position === true) {
+      pos = 0
+    } else if (position === 'end') {
+      pos = this.view.state.doc.nodeSize - 2
+    }
+
+    const selection = TextSelection.near(this.view.state.doc.resolve(pos))
+    const transaction = this.view.state.tr.setSelection(selection)
+    this.view.dispatch(transaction)
 
     setTimeout(() => {
       this.view.focus()
