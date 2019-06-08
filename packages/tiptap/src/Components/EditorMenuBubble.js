@@ -30,6 +30,7 @@ export default {
         if (editor) {
           this.$nextTick(() => {
             editor.registerPlugin(MenuBubble({
+              editor,
               element: this.$el,
               keepInBounds: this.keepInBounds,
               onUpdate: menu => {

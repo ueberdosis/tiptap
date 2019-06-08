@@ -26,6 +26,7 @@ export default {
         if (editor) {
           this.$nextTick(() => {
             editor.registerPlugin(FloatingMenu({
+              editor,
               element: this.$el,
               onUpdate: menu => {
                 this.menu = menu

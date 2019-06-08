@@ -67,7 +67,7 @@ class Menu {
     this.left = 0
     this.bottom = 0
 
-    this.editorView.dom.addEventListener('blur', this.hide.bind(this))
+    this.options.editor.on('blur', this.hide.bind(this))
   }
 
   update(view, lastState) {
@@ -125,10 +125,6 @@ class Menu {
 
     this.isActive = false
     this.sendUpdate()
-  }
-
-  destroy() {
-    this.editorView.dom.removeEventListener('blur', this.hide)
   }
 
 }
