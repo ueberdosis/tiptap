@@ -14,7 +14,12 @@ class Menu {
     this.isActive = false
     this.top = 0
 
-    this.options.editor.on('blur', this.hide.bind(this))
+    this.options.editor.on('focus', ({ view }) => {
+      this.update(view)
+    })
+    this.options.editor.on('blur', event => {
+      this.hide(event)
+    })
   }
 
   update(view, lastState) {
@@ -30,7 +35,7 @@ class Menu {
       return
     }
 
-    const currentDom = view.domAtPos(state.selection.$anchor.pos)
+    const currentDom = view.domAtPos(state.selection.anchor)
 
     const isActive = currentDom.node.innerHTML === '<br>'
       && currentDom.node.tagName === 'P'
@@ -42,7 +47,7 @@ class Menu {
     }
 
     const editorBoundings = this.options.element.offsetParent.getBoundingClientRect()
-    const cursorBoundings = view.coordsAtPos(state.selection.$anchor.pos)
+    const cursorBoundings = view.coordsAtPos(state.selection.anchor)
     const top = cursorBoundings.top - editorBoundings.top
 
     this.isActive = true
