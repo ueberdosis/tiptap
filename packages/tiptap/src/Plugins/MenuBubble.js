@@ -73,7 +73,7 @@ class Menu {
     this.options.editor.on('focus', ({ view }) => {
       this.update(view)
     })
-    this.options.editor.on('blur', event => {
+    this.options.editor.on('blur', ({ event }) => {
       this.hide(event)
     })
   }
