@@ -14,12 +14,19 @@ class Menu {
     this.isActive = false
     this.top = 0
 
+    // the mousedown event is fired before blur so we can prevent it
+    this.options.element.addEventListener('mousedown', this.handleClick)
+
     this.options.editor.on('focus', ({ view }) => {
       this.update(view)
     })
     this.options.editor.on('blur', event => {
       this.hide(event)
     })
+  }
+
+  handleClick(event) {
+    event.preventDefault()
   }
 
   update(view, lastState) {
@@ -70,6 +77,10 @@ class Menu {
 
     this.isActive = false
     this.sendUpdate()
+  }
+
+  destroy() {
+    this.options.element.removeEventListener('mousedown', this.handleClick)
   }
 
 }
