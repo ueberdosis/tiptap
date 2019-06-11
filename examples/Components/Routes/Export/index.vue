@@ -22,6 +22,22 @@
 
           <button
             class="menubar__button"
+            :class="{ 'is-active': isActive.strike() }"
+            @click="commands.strike"
+          >
+            <icon name="strike" />
+          </button>
+
+          <button
+            class="menubar__button"
+            :class="{ 'is-active': isActive.underline() }"
+            @click="commands.underline"
+          >
+            <icon name="underline" />
+          </button>
+
+          <button
+            class="menubar__button"
             :class="{ 'is-active': isActive.code() }"
             @click="commands.code"
           >
@@ -78,10 +94,39 @@
 
           <button
             class="menubar__button"
+            :class="{ 'is-active': isActive.blockquote() }"
+            @click="commands.blockquote"
+          >
+            <icon name="quote" />
+          </button>
+
+          <button
+            class="menubar__button"
             :class="{ 'is-active': isActive.code_block() }"
             @click="commands.code_block"
           >
             <icon name="code" />
+          </button>
+
+          <button
+            class="menubar__button"
+            @click="commands.horizontal_rule"
+          >
+            <icon name="hr" />
+          </button>
+
+          <button
+            class="menubar__button"
+            @click="commands.undo"
+          >
+            <icon name="undo" />
+          </button>
+
+          <button
+            class="menubar__button"
+            @click="commands.redo"
+          >
+            <icon name="redo" />
           </button>
 
         </div>
@@ -118,6 +163,7 @@ import {
   CodeBlock,
   HardBreak,
   Heading,
+  HorizontalRule,
   OrderedList,
   BulletList,
   ListItem,
@@ -127,6 +173,8 @@ import {
   Code,
   Italic,
   Link,
+  Strike,
+  Underline,
   History,
 } from 'tiptap-extensions'
 
@@ -145,6 +193,7 @@ export default {
           new CodeBlock(),
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
+          new HorizontalRule(),
           new ListItem(),
           new OrderedList(),
           new TodoItem(),
@@ -153,6 +202,8 @@ export default {
           new Bold(),
           new Code(),
           new Italic(),
+          new Strike(),
+          new Underline(),
           new History(),
         ],
         content: `
