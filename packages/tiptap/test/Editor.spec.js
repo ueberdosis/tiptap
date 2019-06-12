@@ -1,3 +1,5 @@
+// MutationObserver is not supported by JSDom
+import MutationObserver from 'mutation-observer'
 import Editor from '../src/Editor'
 
 import {
@@ -18,6 +20,8 @@ import {
   Underline,
   History,
 } from '../../tiptap-extensions'
+
+global.MutationObserver = MutationObserver
 
 test('create editor', () => {
   const editor = new Editor()
