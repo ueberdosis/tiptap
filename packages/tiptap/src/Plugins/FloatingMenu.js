@@ -5,6 +5,7 @@ class Menu {
   constructor({ options, editorView }) {
     this.options = {
       ...{
+        resizeObserver: true,
         element: null,
         onUpdate: () => false,
       },
@@ -20,9 +21,21 @@ class Menu {
     this.options.editor.on('focus', ({ view }) => {
       this.update(view)
     })
+
     this.options.editor.on('blur', ({ event }) => {
       this.hide(event)
     })
+
+    // sometimes we have to update the position
+    // because of a loaded images for example
+    if (this.options.resizeObserver && ResizeObserver) {
+      this.resizeObserver = new ResizeObserver(() => {
+        if (this.isActive) {
+          this.update(this.editorView)
+        }
+      })
+      this.resizeObserver.observe(this.editorView.dom)
+    }
   }
 
   handleClick(event) {
@@ -81,6 +94,10 @@ class Menu {
 
   destroy() {
     this.options.element.removeEventListener('mousedown', this.handleClick)
+
+    if (this.resizeObserver) {
+      this.resizeObserver.unobserve(this.editorView.dom)
+    }
   }
 
 }
