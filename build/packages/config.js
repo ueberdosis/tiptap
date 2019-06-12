@@ -5,6 +5,7 @@ import flow from 'rollup-plugin-flow-no-whitespace'
 import cjs from 'rollup-plugin-commonjs'
 import node from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
+import cssOnly from 'rollup-plugin-css-only'
 
 const resolve = _path => path.resolve(__dirname, '../../', _path)
 
@@ -21,6 +22,7 @@ function genConfig(opts) {
     input: {
       input: opts.input,
       plugins: [
+        cssOnly({ output: false }),
         flow(),
         node(),
         cjs(),

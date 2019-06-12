@@ -13,9 +13,14 @@ import { baseKeymap } from 'prosemirror-commands'
 import { inputRules, undoInputRule } from 'prosemirror-inputrules'
 import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
 import {
- camelCase, Emitter, ExtensionManager, ComponentView,
+  injectCSS,
+  camelCase,
+  Emitter,
+  ExtensionManager,
+  ComponentView,
 } from './Utils'
 import { Doc, Paragraph, Text } from './Nodes'
+import css from './style.css'
 
 export default class Editor extends Emitter {
 
@@ -39,6 +44,7 @@ export default class Editor extends Emitter {
       disablePasteRules: false,
       dropCursor: {},
       parseOptions: {},
+      injectCSS: true,
       onInit: () => {},
       onTransaction: () => {},
       onUpdate: () => {},
@@ -78,6 +84,10 @@ export default class Editor extends Emitter {
     this.view = this.createView()
     this.commands = this.createCommands()
     this.setActiveNodesAndMarks()
+
+    if (this.options.injectCSS) {
+      injectCSS(css)
+    }
 
     if (this.options.autoFocus !== null) {
       this.focus(this.options.autoFocus)
@@ -254,16 +264,12 @@ export default class Editor extends Emitter {
   }
 
   createView() {
-    const view = new EditorView(this.element, {
+    return new EditorView(this.element, {
       state: this.createState(),
       handlePaste: (...args) => { this.emit('paste', ...args) },
       handleDrop: (...args) => { this.emit('drop', ...args) },
       dispatchTransaction: this.dispatchTransaction.bind(this),
     })
-
-    view.dom.style.whiteSpace = 'pre-wrap'
-
-    return view
   }
 
   setParentComponent(component = null) {
