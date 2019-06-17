@@ -28,7 +28,7 @@ class Menu {
 
     // sometimes we have to update the position
     // because of a loaded images for example
-    if (this.options.resizeObserver && ResizeObserver) {
+    if (this.options.resizeObserver && window.ResizeObserver) {
       this.resizeObserver = new ResizeObserver(() => {
         if (this.isActive) {
           this.update(this.editorView)
