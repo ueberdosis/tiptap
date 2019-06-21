@@ -27,7 +27,7 @@ export default {
         ],
         content: `
           <h1>This is a fixed title.</h1>
-          <p>With ProseMirror you can force a document layout. Try to remove it. It's not possible.</p>
+          <p>With ProseMirror you can force a document layout. Try to remove this title it – it's not possible.</p>
         `,
       }),
     }
@@ -39,7 +39,8 @@ export default {
 </script>
 
 <style lang="scss">
-.editor p.is-empty:first-child::before {
+.editor h1.is-empty::before,
+.editor p.is-empty::before {
   content: attr(data-empty-text);
   float: left;
   color: #aaa;
