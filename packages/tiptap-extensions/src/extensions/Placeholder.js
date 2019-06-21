@@ -10,8 +10,9 @@ export default class Placeholder extends Extension {
   get defaultOptions() {
     return {
       emptyNodeClass: 'is-empty',
-      emptyNodeText: 'Write something...',
+      emptyNodeText: 'Write something …',
       showOnlyWhenEditable: true,
+      showOnlyCurrent: true,
     }
   }
 
@@ -25,28 +26,30 @@ export default class Placeholder extends Extension {
     return [
       new Plugin({
         props: {
-          decorations: ({ doc, plugins }) => {
+          decorations: ({ doc, plugins, selection }) => {
             const editablePlugin = plugins.find(plugin => plugin.key.startsWith('editable$'))
             const editable = editablePlugin.props.editable()
             const active = editable || !this.options.showOnlyWhenEditable
+            const { anchor } = selection
+            const decorations = []
 
             if (!active) {
               return false
             }
 
-            const decorations = []
-            const completelyEmpty = doc.textContent === '' && doc.childCount <= 1 && doc.content.size <= 2
-
             doc.descendants((node, pos) => {
-              if (!completelyEmpty) {
-                return
+              const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
+              const isEmpty = node.content.size === 0
+
+              if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
+                const decoration = Decoration.node(pos, pos + node.nodeSize, {
+                  class: this.options.emptyNodeClass,
+                  'data-empty-text': this.options.emptyNodeText,
+                })
+                decorations.push(decoration)
               }
 
-              const decoration = Decoration.node(pos, pos + node.nodeSize, {
-                class: this.options.emptyNodeClass,
-                'data-empty-text': this.options.emptyNodeText,
-              })
-              decorations.push(decoration)
+              return false
             })
 
             return DecorationSet.create(doc, decorations)
