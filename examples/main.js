@@ -131,6 +131,13 @@ const routes = [
     },
   },
   {
+    path: '/title',
+    component: () => import('Components/Routes/Title'),
+    meta: {
+      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Title',
+    },
+  },
+  {
     path: '/export',
     component: () => import('Components/Routes/Export'),
     meta: {
