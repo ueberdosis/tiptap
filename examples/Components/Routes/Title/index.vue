@@ -17,18 +17,21 @@ export default {
   data() {
     return {
       editor: new Editor({
+        autoFocus: true,
         extensions: [
           new Doc(),
           new Title(),
           new Placeholder({
-            emptyNodeClass: 'is-empty',
-            emptyNodeText: 'Write something …',
+            showOnlyCurrent: false,
+            emptyNodeText: node => {
+              if (node.type.name === 'title') {
+                return 'Give me a name'
+              }
+
+              return 'Write something'
+            },
           }),
         ],
-        content: `
-          <h1>This is a fixed title.</h1>
-          <p>With ProseMirror you can force a document layout. Try to remove this title it – it's not possible.</p>
-        `,
       }),
     }
   },
@@ -39,8 +42,8 @@ export default {
 </script>
 
 <style lang="scss">
-.editor h1.is-empty::before,
-.editor p.is-empty::before {
+.editor *.is-empty:nth-child(1)::before,
+.editor *.is-empty:nth-child(2)::before {
   content: attr(data-empty-text);
   float: left;
   color: #aaa;

@@ -44,7 +44,9 @@ export default class Placeholder extends Extension {
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const decoration = Decoration.node(pos, pos + node.nodeSize, {
                   class: this.options.emptyNodeClass,
-                  'data-empty-text': this.options.emptyNodeText,
+                  'data-empty-text': typeof this.options.emptyNodeText === 'function'
+                    ? this.options.emptyNodeText(node)
+                    : this.options.emptyNodeText,
                 })
                 decorations.push(decoration)
               }
