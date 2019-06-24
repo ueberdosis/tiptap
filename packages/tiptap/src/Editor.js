@@ -355,6 +355,10 @@ export default class Editor extends Emitter {
       pos = this.state.doc.nodeSize - 2
     }
 
+    // selection should be inside of the document range
+    pos = Math.max(0, pos)
+    pos = Math.min(this.state.doc.nodeSize - 2, pos)
+
     const selection = TextSelection.near(this.state.doc.resolve(pos))
     const transaction = this.state.tr.setSelection(selection)
     this.view.dispatch(transaction)
