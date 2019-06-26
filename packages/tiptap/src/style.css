@@ -35,6 +35,9 @@
   }
 }
 
+.ProseMirror-hideselection *::selection { background: transparent; }
+.ProseMirror-hideselection *::-moz-selection { background: transparent; }
+
 .ProseMirror-focused .ProseMirror-gapcursor {
   display: block;
 }
