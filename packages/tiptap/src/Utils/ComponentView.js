@@ -23,6 +23,7 @@ export default class ComponentView {
     this.isNode = !!this.node.marks
     this.isMark = !this.isNode
     this.getPos = this.isMark ? this.getMarkPos : getPos
+    this.captureEvents = true
     this.dom = this.createDOM()
     this.contentDOM = this.vm.$refs.content
   }
@@ -123,14 +124,31 @@ export default class ComponentView {
       return this.extension.stopEvent(event)
     }
 
-    const isPaste = event.type === 'paste'
     const draggable = !!this.extension.schema.draggable
 
-    if (draggable || isPaste) {
+    // support a custom drag handle
+    if (draggable && event.type === 'mousedown') {
+      const dragHandle = event.target.closest
+        && event.target.closest('[data-drag-handle]')
+      const isValidDragHandle = dragHandle
+        && (this.dom === dragHandle || this.dom.contains(dragHandle))
+
+      if (isValidDragHandle) {
+        this.captureEvents = false
+        document.addEventListener('dragend', () => {
+          this.captureEvents = true
+        }, { once: true })
+      }
+    }
+
+    const isPaste = event.type === 'paste'
+    const isDrag = event.type.startsWith('drag') || event.type === 'drop'
+
+    if ((draggable && isDrag) || isPaste) {
       return false
     }
 
-    return true
+    return this.captureEvents
   }
 
   selectNode() {
