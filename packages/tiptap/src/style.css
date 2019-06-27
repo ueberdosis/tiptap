@@ -43,6 +43,10 @@
   background: transparent;
 }
 
+.ProseMirror-hideselection * {
+  caret-color: transparent;
+}
+
 .ProseMirror-focused .ProseMirror-gapcursor {
   display: block;
 }
