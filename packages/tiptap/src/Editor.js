@@ -33,6 +33,7 @@ export default class Editor extends Emitter {
       autoFocus: null,
       extensions: [],
       content: '',
+      topNode: 'doc',
       emptyDocument: {
         type: 'doc',
         content: [{
@@ -181,6 +182,7 @@ export default class Editor extends Emitter {
 
   createSchema() {
     return new Schema({
+      topNode: this.options.topNode,
       nodes: this.nodes,
       marks: this.marks,
     })
