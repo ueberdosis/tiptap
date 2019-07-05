@@ -85,7 +85,7 @@ class Menu {
 
   update(view, lastState) {
     const { state } = view
-    
+
     if (view.composing) {
       return
     }
