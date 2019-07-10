@@ -86,6 +86,10 @@ class Menu {
   update(view, lastState) {
     const { state } = view
 
+    if (view.composing) {
+      return
+    }
+
     // Don't do anything if the document/selection didn't change
     if (lastState && lastState.doc.eq(state.doc) && lastState.selection.eq(state.selection)) {
       return
