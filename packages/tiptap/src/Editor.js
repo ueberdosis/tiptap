@@ -328,7 +328,7 @@ export default class Editor extends Emitter {
       transaction,
     })
 
-    if (!transaction.docChanged) {
+    if (!transaction.docChanged || transaction.getMeta('preventUpdate')) {
       return
     }
 
@@ -395,17 +395,15 @@ export default class Editor extends Emitter {
   }
 
   setContent(content = {}, emitUpdate = false, parseOptions) {
-    const newState = EditorState.create({
-      schema: this.state.schema,
-      doc: this.createDocument(content, parseOptions),
-      plugins: this.state.plugins,
-    })
+    const { doc, tr } = this.state
+    const document = this.createDocument(content, parseOptions)
+    const selection = TextSelection.create(doc, 0, doc.content.size)
+    const transaction = tr
+      .setSelection(selection)
+      .replaceSelectionWith(document, false)
+      .setMeta('preventUpdate', !emitUpdate)
 
-    this.view.updateState(newState)
-
-    if (emitUpdate) {
-      this.emitUpdate()
-    }
+    this.view.dispatch(transaction)
   }
 
   clearContent(emitUpdate = false) {
