@@ -66,7 +66,14 @@ class Menu {
       return
     }
 
-    const editorBoundings = this.options.element.offsetParent.getBoundingClientRect()
+    const parent = this.options.element.offsetParent
+
+    if (!parent) {
+      this.hide()
+      return
+    }
+
+    const editorBoundings = parent.getBoundingClientRect()
     const cursorBoundings = view.coordsAtPos(state.selection.anchor)
     const top = cursorBoundings.top - editorBoundings.top
 

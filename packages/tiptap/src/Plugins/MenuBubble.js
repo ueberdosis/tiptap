@@ -111,7 +111,14 @@ class Menu {
     const end = coordsAtPos(view, to, true)
 
     // The box in which the tooltip is positioned, to use as base
-    const box = this.options.element.offsetParent.getBoundingClientRect()
+    const parent = this.options.element.offsetParent
+
+    if (!parent) {
+      this.hide()
+      return
+    }
+
+    const box = parent.getBoundingClientRect()
     const el = this.options.element.getBoundingClientRect()
 
     // Find a center-ish x position from the selection endpoints (when
