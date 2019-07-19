@@ -344,7 +344,7 @@ export default class Editor extends Emitter {
     })
   }
 
-  focus(position = null) {
+  focus(position = 'start') {
     if (position === null || position === false) {
       return
     }
