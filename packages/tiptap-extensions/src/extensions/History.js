@@ -15,14 +15,10 @@ export default class History extends Extension {
   }
 
   keys() {
-    const isWindows = typeof navigator !== 'undefined' ? /Win/.test(navigator.platform) : false
     const keymap = {
       'Mod-z': undo,
+      'Mod-y': redo,
       'Shift-Mod-z': redo,
-    }
-
-    if (isWindows) {
-      keymap['Mod-y'] = redo
     }
 
     return keymap
