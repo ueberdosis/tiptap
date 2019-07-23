@@ -141,10 +141,12 @@ export default class ComponentView {
       }
     }
 
+    const isCopy = event.type === 'copy'
     const isPaste = event.type === 'paste'
+    const isCut = event.type === 'cut'
     const isDrag = event.type.startsWith('drag') || event.type === 'drop'
 
-    if ((draggable && isDrag) || isPaste) {
+    if ((draggable && isDrag) || isCopy || isPaste || isCut) {
       return false
     }
 
