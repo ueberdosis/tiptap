@@ -12,6 +12,7 @@ import {
   Bold,
   Italic,
   History,
+  TrailingNode,
 } from 'tiptap-extensions'
 import Iframe from './Iframe.js'
 
@@ -28,6 +29,7 @@ export default {
           new Bold(),
           new Italic(),
           new History(),
+          new TrailingNode(),
           // custom extension
           new Iframe(),
         ],
