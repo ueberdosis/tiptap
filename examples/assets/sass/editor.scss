@@ -6,7 +6,9 @@
   &__content {
 
     word-wrap: break-word;
-
+    
+    word-break: break-all;
+    
     * {
       caret-color: currentColor;
     }
