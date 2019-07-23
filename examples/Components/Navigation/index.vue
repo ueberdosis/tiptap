@@ -1,9 +1,17 @@
 <template>
   <div class="navigation">
 
-    <h1 class="navigation__logo">
-      tiptap
-    </h1>
+    <div>
+      <h1 class="navigation__logo">
+        tiptap
+      </h1>
+      <github-button
+        class="navigation__count"
+        href="https://github.com/scrumpy/tiptap"
+        data-show-count="true"
+        aria-label="Star scrumpy/tiptap on GitHub"
+      />
+    </div>
 
     <div>
       <a class="navigation__link" href="https://tiptap.scrumpy.io/docs" target="_blank">
@@ -22,10 +30,12 @@
 
 <script>
 import Icon from 'Components/Icon'
+import GithubButton from 'vue-github-button'
 
 export default {
   components: {
     Icon,
+    GithubButton,
   },
 }
 </script>

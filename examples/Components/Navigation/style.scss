@@ -8,16 +8,26 @@
   padding: 0.75rem;
   background-color: $color-black;
   color: $color-white;
+  flex-wrap: wrap;
 
   &__logo {
+    display: inline-block;
+    vertical-align: middle;
     font-size: 1.1rem;
     font-weight: bold;
     margin: 0;
+    margin-right: 0.5rem;
   }
 
   &__icon {
     width: 1.5rem;
     height: 1.5rem;
+  }
+
+  &__count {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 0.3rem;
   }
 
   &__link {

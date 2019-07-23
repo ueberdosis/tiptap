@@ -5855,6 +5855,11 @@ gitconfiglocal@^1.0.0:
   dependencies:
     ini "^1.3.2"
 
+github-buttons@^2.2.9:
+  version "2.2.10"
+  resolved "https://registry.yarnpkg.com/github-buttons/-/github-buttons-2.2.10.tgz#7ddf66679b4c23e4c4558fedbba6d8aa48241cd6"
+  integrity sha512-hkcYkzru6yq33FZleeiryFxR62uDdqHJMQeNiUeh03uHpCSGGdpq3V9RKH7+Xa0pjyce+ftNTx4C3CgO/Auw2A==
+
 glob-parent@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-3.1.0.tgz#9e6af6299d8d3bd2bd40430832bd113df906c5ae"
@@ -12673,6 +12678,13 @@ vue-eslint-parser@^5.0.0:
     espree "^4.1.0"
     esquery "^1.0.1"
     lodash "^4.17.11"
+
+vue-github-button@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/vue-github-button/-/vue-github-button-1.0.8.tgz#c8e1efa579f9cab05baba03ba7e44101a33b1baa"
+  integrity sha512-d/5E88YmdRz6lWeYdf4G+siFpDQa8wtl1sjUby8lktJDdPWxNRshIWNn5Udt/8TbgElcZCCGaIOJ6819YZkkhQ==
+  dependencies:
+    github-buttons "^2.2.9"
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"
