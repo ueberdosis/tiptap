@@ -3,7 +3,7 @@ import {
   findSelectedNodeOfType,
 } from 'prosemirror-utils'
 
-export default function (state, type, attrs = {}) {
+export default function nodeIsActive(state, type, attrs = {}) {
   const predicate = node => node.type === type
   const node = findSelectedNodeOfType(type)(state.selection)
     || findParentNode(predicate)(state.selection)

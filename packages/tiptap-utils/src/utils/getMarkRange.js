@@ -1,4 +1,4 @@
-export default function ($pos = null, type = null) {
+export default function getMarkRange($pos = null, type = null) {
 
   if (!$pos || !type) {
     return false

@@ -1,4 +1,4 @@
-export default function (state, type) {
+export default function markIsActive(state, type) {
   const {
     from,
     $from,

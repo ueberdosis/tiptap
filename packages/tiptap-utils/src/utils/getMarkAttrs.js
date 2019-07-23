@@ -1,4 +1,4 @@
-export default function (state, type) {
+export default function getMarkAttrs(state, type) {
   const { from, to } = state.selection
   let marks = []
 
