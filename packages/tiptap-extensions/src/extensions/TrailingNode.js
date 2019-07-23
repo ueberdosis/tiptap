@@ -29,15 +29,16 @@ export default class TrailingNode extends Extension {
         view: () => ({
           update: view => {
             const { state } = view
-            const { doc } = state
             const insertNodeAtEnd = plugin.getState(state)
 
             if (!insertNodeAtEnd) {
               return
             }
 
-            const type = state.schema.nodes[this.options.node]
-            view.dispatch(view.state.tr.insert(doc.content.size, type.create()))
+            const { doc, schema, tr } = state
+            const type = schema.nodes[this.options.node]
+            const transaction = tr.insert(doc.content.size, type.create())
+            view.dispatch(transaction)
           },
         }),
         state: {
@@ -45,9 +46,9 @@ export default class TrailingNode extends Extension {
             const lastNode = state.tr.doc.lastChild
             return !nodeEqualsType({ node: lastNode, types: disabledNodes })
           },
-          apply: (tr, oldState) => {
+          apply: (tr, value) => {
             if (!tr.docChanged) {
-              return oldState
+              return value
             }
 
             const lastNode = tr.doc.lastChild
