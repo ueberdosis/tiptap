@@ -119,8 +119,11 @@
       cursor: ew-resize;
       cursor: col-resize;
     }
+
     .ProseMirror-selectednode {
-      border: 1px solid currentColor;
+      border-color: #2188ff;
+      box-shadow: 0 0 0 .2em #c8e1ff;
     }
+
   }
 }
