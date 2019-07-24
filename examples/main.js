@@ -138,6 +138,13 @@ const routes = [
     },
   },
   {
+    path: '/trailing-paragraph',
+    component: () => import('Components/Routes/TrailingParagraph'),
+    meta: {
+      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/TrailingParagraph',
+    },
+  },
+  {
     path: '/export',
     component: () => import('Components/Routes/Export'),
     meta: {
