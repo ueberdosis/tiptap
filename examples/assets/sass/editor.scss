@@ -119,6 +119,8 @@
       cursor: ew-resize;
       cursor: col-resize;
     }
-
+    .ProseMirror-selectednode {
+      border: 1px solid currentColor;
+    }
   }
 }
