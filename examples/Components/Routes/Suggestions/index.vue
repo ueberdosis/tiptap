@@ -207,7 +207,6 @@ export default {
           label: user.name,
         },
       })
-      this.editor.focus()
     },
 
     // renders a popup with suggestions
