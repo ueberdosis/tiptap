@@ -73,6 +73,7 @@ export default class Editor extends Emitter {
       ...this.defaultOptions,
       ...options,
     })
+    this.selection = null
     this.element = document.createElement('div')
     this.extensions = this.createExtensions()
     this.nodes = this.createNodes()
@@ -95,7 +96,7 @@ export default class Editor extends Emitter {
     }
 
     this.events.forEach(name => {
-        this.on(name, this.options[camelCase(`on ${name}`)] || (() => {}))
+      this.on(name, this.options[camelCase(`on ${name}`)] || (() => {}))
     })
 
     this.emit('init', {
@@ -319,6 +320,10 @@ export default class Editor extends Emitter {
   dispatchTransaction(transaction) {
     const newState = this.state.apply(transaction)
     this.view.updateState(newState)
+    this.selection = {
+      from: this.state.selection.from,
+      to: this.state.selection.to,
+    }
     this.setActiveNodesAndMarks()
 
     this.emit('transaction', {
@@ -351,7 +356,9 @@ export default class Editor extends Emitter {
 
     let pos = position
 
-    if (position === 'start' || position === null) {
+    if (this.selection && position === null) {
+      pos = this.selection.from
+    } else if (position === 'start') {
       pos = 0
     } else if (position === 'end') {
       pos = this.state.doc.nodeSize - 2
@@ -359,7 +366,7 @@ export default class Editor extends Emitter {
 
     // selection should be inside of the document range
     pos = Math.max(0, pos)
-    pos = Math.min(this.state.doc.nodeSize - 2, pos)
+    pos = Math.min(this.state.doc.content.size, pos)
 
     const selection = TextSelection.near(this.state.doc.resolve(pos))
     const transaction = this.state.tr.setSelection(selection)
