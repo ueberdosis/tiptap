@@ -344,14 +344,14 @@ export default class Editor extends Emitter {
     })
   }
 
-  focus(position = 'start') {
-    if (position === null || position === false) {
+  focus(position = null) {
+    if ((this.view.focused && position === null) || position === false) {
       return
     }
 
     let pos = position
 
-    if (position === 'start' || position === true) {
+    if (position === 'start' || position === null) {
       pos = 0
     } else if (position === 'end') {
       pos = this.state.doc.nodeSize - 2
