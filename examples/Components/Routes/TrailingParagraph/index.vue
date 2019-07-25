@@ -198,7 +198,7 @@ export default {
           <p>
             In this demo we force to render a paragraph at the end of the document. This can be useful in some situations, for example after adding images.
           </p>
-          <pre><code>Also, sometimes it's hard to remeber to type \`cmd/ctrl + enter\` to leave a code block.</code></pre>
+          <pre><code>Also, sometimes it's hard to remember to type \`cmd/ctrl + enter\` to leave a code block.</code></pre>
         `,
       }),
     }
