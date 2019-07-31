@@ -73,6 +73,7 @@ export default class Editor extends Emitter {
       ...this.defaultOptions,
       ...options,
     })
+    this.focused = false
     this.selection = null
     this.element = document.createElement('div')
     this.extensions = this.createExtensions()
@@ -219,18 +220,26 @@ export default class Editor extends Emitter {
             },
             handleDOMEvents: {
               focus: (view, event) => {
+                this.focused = true
                 this.emit('focus', {
                   event,
                   state: view.state,
                   view,
                 })
+
+                const transaction = this.state.tr.setMeta('focused', true)
+                this.view.dispatch(transaction)
               },
               blur: (view, event) => {
+                this.focused = false
                 this.emit('blur', {
                   event,
                   state: view.state,
                   view,
                 })
+
+                const transaction = this.state.tr.setMeta('focused', false)
+                this.view.dispatch(transaction)
               },
             },
           },
