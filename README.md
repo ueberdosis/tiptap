@@ -446,6 +446,19 @@ export default class IframeNode extends Node {
 }
 ```
 
+#### NodeView Prop Types
+
+| **Prop** | **Type** | **Description** |
+| --- | :---: | --- |
+| `node` | `Object` | The Prosemirror node object. Common use case is to get `node.attrs` using a getter on a computed property. |
+| `updateAttrs` | `Function` | A function to update `node.attrs` defined in `schema`. Common use case is as setter on a computed property. |
+| `view` | `Object` | The Prosemirror editor view instance. |
+| `options` | `Array` | An array of your extension options. |
+| `getPos` | `Function` | A function that returns the anchored position of the node. |
+| `selection` | `Boolean` | A boolean that is set when the node is or is not selected. Common use case is using `watch` to see when the view is selected/unselected to do something, such focus an `<input>` or refocus the editor. |
+
+## Editor Methods
+
 ## Development Setup
 
 Currently, only Yarn is supported for development because of a feature called workspaces we are using here.
