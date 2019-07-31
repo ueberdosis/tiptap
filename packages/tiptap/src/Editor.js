@@ -74,7 +74,7 @@ export default class Editor extends Emitter {
       ...options,
     })
     this.focused = false
-    this.selection = null
+    this.selection = { from: 0, to: 0 }
     this.element = document.createElement('div')
     this.extensions = this.createExtensions()
     this.nodes = this.createNodes()
