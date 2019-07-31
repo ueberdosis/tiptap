@@ -124,6 +124,13 @@ const routes = [
     },
   },
   {
+    path: '/focus',
+    component: () => import('Components/Routes/Focus'),
+    meta: {
+      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Focus',
+    },
+  },
+  {
     path: '/collaboration',
     component: () => import('Components/Routes/Collaboration'),
     meta: {

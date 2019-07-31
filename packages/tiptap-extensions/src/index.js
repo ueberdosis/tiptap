@@ -24,6 +24,7 @@ export { default as Strike } from './marks/Strike'
 export { default as Underline } from './marks/Underline'
 
 export { default as Collaboration } from './extensions/Collaboration'
+export { default as Focus } from './extensions/Focus'
 export { default as History } from './extensions/History'
 export { default as Placeholder } from './extensions/Placeholder'
 export { default as Search } from './extensions/Search'
