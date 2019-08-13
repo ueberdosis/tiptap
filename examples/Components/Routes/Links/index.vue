@@ -105,7 +105,6 @@ export default {
     setLinkUrl(command, url) {
       command({ href: url })
       this.hideLinkMenu()
-      this.editor.focus()
     },
   },
 }

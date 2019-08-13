@@ -18,6 +18,7 @@ import {
   Emitter,
   ExtensionManager,
   ComponentView,
+  minMax,
 } from './Utils'
 import { Doc, Paragraph, Text } from './Nodes'
 import css from './style.css'
@@ -358,30 +359,51 @@ export default class Editor extends Emitter {
     })
   }
 
+  resolveSelection(position = null) {
+    if (this.selection && position === null) {
+      return this.selection
+    }
+
+    if (position === 'start') {
+      return {
+        from: 0,
+        to: 0,
+      }
+    }
+
+    if (position === 'end') {
+      const { doc } = this.state
+      return {
+        from: doc.content.size,
+        to: doc.content.size,
+      }
+    }
+
+    return {
+      from: position,
+      to: position,
+    }
+  }
+
   focus(position = null) {
     if ((this.view.focused && position === null) || position === false) {
       return
     }
 
-    let pos = position
+    const { from, to } = this.resolveSelection(position)
 
-    if (this.selection && position === null) {
-      pos = this.selection.from
-    } else if (position === 'start') {
-      pos = 0
-    } else if (position === 'end') {
-      pos = this.state.doc.nodeSize - 2
-    }
-
-    // selection should be inside of the document range
-    pos = Math.max(0, pos)
-    pos = Math.min(this.state.doc.content.size, pos)
-
-    const selection = TextSelection.near(this.state.doc.resolve(pos))
-    const transaction = this.state.tr.setSelection(selection)
-    this.view.dispatch(transaction)
-
+    this.setSelection(from, to)
     setTimeout(() => this.view.focus(), 10)
+  }
+
+  setSelection(from = 0, to = 0) {
+    const { doc, tr } = this.state
+    const resolvedFrom = minMax(from, 0, doc.content.size)
+    const resolvedEnd = minMax(to, 0, doc.content.size)
+    const selection = TextSelection.create(doc, resolvedFrom, resolvedEnd)
+    const transaction = tr.setSelection(selection)
+
+    this.view.dispatch(transaction)
   }
 
   blur() {
