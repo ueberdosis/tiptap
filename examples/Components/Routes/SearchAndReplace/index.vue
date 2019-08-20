@@ -104,37 +104,36 @@
         >
           <icon name="redo" />
         </button>
-
-        <div class="search">
-          <input
-            ref="search"
-            @keydown.enter.prevent="editor.commands.find(searchTerm)"
-            placeholder="Search …"
-            type="text"
-            v-model="searchTerm"
-          />
-          <input
-            @keydown.enter.prevent="editor.commands.replace(replaceWith)"
-            placeholder="Replace …"
-            type="text"
-            v-model="replaceWith"
-          />
-          <button class="button" @click="editor.commands.find(searchTerm)">
-            Find
-          </button>
-          <button class="button" @click="editor.commands.clearSearch()">
-            Clear
-          </button>
-          <button class="button" @click="editor.commands.replace(replaceWith)">
-            Replace
-          </button>
-          <button class="button" @click="editor.commands.replaceAll(replaceWith)">
-            Replace All
-          </button>
-        </div>
-
       </div>
     </editor-menu-bar>
+
+    <div class="search">
+      <input
+        ref="search"
+        @keydown.enter.prevent="editor.commands.find(searchTerm)"
+        placeholder="Search …"
+        type="text"
+        v-model="searchTerm"
+      />
+      <input
+        @keydown.enter.prevent="editor.commands.replace(replaceWith)"
+        placeholder="Replace …"
+        type="text"
+        v-model="replaceWith"
+      />
+      <button class="button" @click="editor.commands.find(searchTerm)">
+        Find
+      </button>
+      <button class="button" @click="editor.commands.clearSearch()">
+        Clear
+      </button>
+      <button class="button" @click="editor.commands.replace(replaceWith)">
+        Replace
+      </button>
+      <button class="button" @click="editor.commands.replaceAll(replaceWith)">
+        Replace All
+      </button>
+    </div>
 
     <editor-content class="editor__content" :editor="editor" />
   </div>
@@ -224,7 +223,7 @@ export default {
   background-color: rgba($color-black, 0.1);
   padding: 0.5rem;
   border-radius: 5px;
-  margin-top: 1rem;
+  margin: 1rem 0;
 
   input {
     padding: 0.25rem;
