@@ -364,7 +364,7 @@ export default class Editor extends Emitter {
       return this.selection
     }
 
-    if (position === 'start') {
+    if (position === 'start' || position === true) {
       return {
         from: 0,
         to: 0,
