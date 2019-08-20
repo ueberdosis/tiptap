@@ -24,7 +24,7 @@
     "prosemirror-inputrules": "^1.0.4",
     "prosemirror-model": "^1.7.1",
     "prosemirror-schema-list": "^1.0.3",
-    "prosemirror-state": "^1.2.3",
+    "prosemirror-state": "^1.2.4",
     "prosemirror-tables": "^0.9.1",
     "prosemirror-utils": "^0.9.6",
     "tiptap-utils": "^1.6.1"
