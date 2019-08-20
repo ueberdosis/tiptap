@@ -1,6 +1,6 @@
 {
   "name": "tiptap",
-  "version": "1.24.2",
+  "version": "1.25.0",
   "description": "A rich-text editor for Vue.js",
   "homepage": "https://tiptap.scrumpy.io",
   "license": "MIT",
@@ -28,8 +28,8 @@
     "prosemirror-model": "^1.7.1",
     "prosemirror-state": "^1.2.4",
     "prosemirror-view": "^1.10.0",
-    "tiptap-commands": "^1.10.12",
-    "tiptap-utils": "^1.6.1"
+    "tiptap-commands": "^1.11.0",
+    "tiptap-utils": "^1.7.0"
   },
   "peerDependencies": {
     "vue": "^2.5.17",
