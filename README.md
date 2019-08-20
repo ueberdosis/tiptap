@@ -455,7 +455,7 @@ export default class IframeNode extends Node {
 | `view` | `Object` | The Prosemirror editor view instance. |
 | `options` | `Array` | An array of your extension options. |
 | `getPos` | `Function` | A function that returns the anchored position of the node. |
-| `selection` | `Boolean` | A boolean that is set when the node is or is not selected. Common use case is using `watch` to see when the view is selected/unselected to do something, such focus an `<input>` or refocus the editor. |
+| `selected` | `Boolean` | A boolean that is set when the node is or is not selected. Common use case is using `watch` to see when the view is selected/unselected to do something, such focus an `<input>` or refocus the editor. |
 
 ## Editor Methods
 
