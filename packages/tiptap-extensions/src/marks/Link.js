@@ -8,6 +8,15 @@ export default class Link extends Mark {
     return 'link'
   }
 
+  get defaultOptions() {
+    return {
+      openClick: false,
+      modifier(event) {
+        return event.ctrlKey || event.metaKey
+      },
+    }
+  }
+
   get schema() {
     return {
       attrs: {
@@ -52,14 +61,17 @@ export default class Link extends Mark {
   }
 
   get plugins() {
+    if (!this.options.openClick) return []
     return [
       new Plugin({
         props: {
           handleClick: (view, pos, event) => {
             const { schema } = view.state
             const attrs = getMarkAttrs(view.state, schema.marks.link)
+            const modifier = (typeof this.options.modifier === 'boolean')
+              ? !this.options.modifier : this.options.modifier(event)
 
-            if (attrs.href && event.target instanceof HTMLAnchorElement) {
+            if (attrs.href && event.target instanceof HTMLAnchorElement && modifier) {
               event.stopPropagation()
               window.open(attrs.href)
             }
