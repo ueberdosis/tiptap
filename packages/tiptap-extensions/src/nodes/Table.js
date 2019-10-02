@@ -19,6 +19,7 @@ import {
   fixTables,
 } from 'prosemirror-tables'
 import { createTable } from 'prosemirror-utils'
+import { TextSelection } from 'prosemirror-state'
 import TableNodes from './TableNodes'
 
 export default class Table extends Node {
@@ -43,6 +44,11 @@ export default class Table extends Node {
         (state, dispatch) => {
           const nodes = createTable(schema, rowsCount, colsCount, withHeaderRow)
           const tr = state.tr.replaceSelectionWith(nodes).scrollIntoView()
+
+          // get selection for first cell
+          const resolvedPos = tr.doc.resolve(tr.selection.anchor - nodes.content.size)
+          tr.setSelection(TextSelection.near(resolvedPos))
+
           dispatch(tr)
         }
       ),
