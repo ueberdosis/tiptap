@@ -152,6 +152,13 @@ const routes = [
     },
   },
   {
+    path: '/drag-handle',
+    component: () => import('Components/Routes/DragHandle'),
+    meta: {
+      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/DragHandle',
+    },
+  },
+  {
     path: '/export',
     component: () => import('Components/Routes/Export'),
     meta: {
