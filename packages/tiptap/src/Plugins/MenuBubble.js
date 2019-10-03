@@ -66,6 +66,7 @@ class Menu {
     this.isActive = false
     this.left = 0
     this.bottom = 0
+    this.top = 0
 
     // the mousedown event is fired before blur so we can prevent it
     this.options.element.addEventListener('mousedown', this.handleClick)
@@ -129,6 +130,7 @@ class Menu {
     this.left = Math.round(this.options.keepInBounds
         ? Math.min(box.width - (el.width / 2), Math.max(left, el.width / 2)) : left)
     this.bottom = Math.round(box.bottom - start.top)
+    this.top = Math.round(end.bottom - box.top)
     this.isActive = true
 
     this.sendUpdate()
@@ -139,11 +141,15 @@ class Menu {
       isActive: this.isActive,
       left: this.left,
       bottom: this.bottom,
+      top: this.top,
     })
   }
 
   hide(event) {
-    if (event && event.relatedTarget) {
+    if (event
+      && event.relatedTarget
+      && this.options.element.parentNode.contains(event.relatedTarget)
+    ) {
       return
     }
 
