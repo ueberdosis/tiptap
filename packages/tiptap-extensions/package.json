@@ -1,6 +1,6 @@
 {
   "name": "tiptap-extensions",
-  "version": "1.28.1",
+  "version": "1.28.2",
   "description": "Extensions for tiptap",
   "homepage": "https://tiptap.scrumpy.io",
   "license": "MIT",
@@ -30,8 +30,8 @@
     "prosemirror-transform": "^1.1.5",
     "prosemirror-utils": "^0.9.6",
     "prosemirror-view": "^1.11.4",
-    "tiptap": "^1.26.1",
-    "tiptap-commands": "^1.12.0"
+    "tiptap": "^1.26.2",
+    "tiptap-commands": "^1.12.1"
   },
   "peerDependencies": {
     "vue": "^2.5.17",
