@@ -153,7 +153,6 @@ class Menu {
   }
 
   hide(event) {
-    console.log('hide', { event })
     if (event
       && event.relatedTarget
       && this.options.element.parentNode.contains(event.relatedTarget)
