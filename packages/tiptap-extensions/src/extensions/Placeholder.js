@@ -32,6 +32,7 @@ export default class Placeholder extends Extension {
             const active = editable || !this.options.showOnlyWhenEditable
             const { anchor } = selection
             const decorations = []
+            const isEmpty = doc.textContent.length === 0;
 
             if (!active) {
               return false
@@ -39,7 +40,6 @@ export default class Placeholder extends Extension {
 
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
-              const isEmpty = node.content.size === 0
 
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const decoration = Decoration.node(pos, pos + node.nodeSize, {
