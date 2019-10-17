@@ -42,11 +42,12 @@ export default class Table extends Node {
     return {
       createTable: ({ rowsCount, colsCount, withHeaderRow }) => (
         (state, dispatch) => {
+          const offset = state.tr.selection.anchor + 1
+
           const nodes = createTable(schema, rowsCount, colsCount, withHeaderRow)
           const tr = state.tr.replaceSelectionWith(nodes).scrollIntoView()
+          const resolvedPos = tr.doc.resolve(offset)
 
-          // get selection for first cell
-          const resolvedPos = tr.doc.resolve(tr.selection.anchor - nodes.content.size)
           tr.setSelection(TextSelection.near(resolvedPos))
 
           dispatch(tr)
