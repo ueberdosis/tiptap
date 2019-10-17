@@ -21,13 +21,13 @@
   },
   "dependencies": {
     "prosemirror-commands": "^1.0.8",
-    "prosemirror-dropcursor": "^1.1.2",
+    "prosemirror-dropcursor": "^1.2.0",
     "prosemirror-gapcursor": "^1.0.4",
     "prosemirror-inputrules": "^1.0.4",
-    "prosemirror-keymap": "^1.0.1",
-    "prosemirror-model": "^1.7.3",
+    "prosemirror-keymap": "^1.0.2",
+    "prosemirror-model": "^1.7.4",
     "prosemirror-state": "^1.2.4",
-    "prosemirror-view": "^1.11.4",
+    "prosemirror-view": "^1.11.7",
     "tiptap-commands": "^1.12.2",
     "tiptap-utils": "^1.8.1"
   },
