@@ -8,6 +8,12 @@ export default class Link extends Mark {
     return 'link'
   }
 
+  get defaultOptions() {
+    return {
+      openOnClick: true,
+    }
+  }
+
   get schema() {
     return {
       attrs: {
@@ -52,6 +58,10 @@ export default class Link extends Mark {
   }
 
   get plugins() {
+    if (!this.options.openOnClick) {
+      return []
+    }
+
     return [
       new Plugin({
         props: {

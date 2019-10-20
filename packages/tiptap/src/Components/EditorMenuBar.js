@@ -9,6 +9,12 @@ export default {
     },
   },
 
+  data() {
+    return {
+      focused: false,
+    }
+  },
+
   watch: {
     editor: {
       immediate: true,
@@ -19,6 +25,16 @@ export default {
               editor,
               element: this.$el,
             }))
+
+            this.focused = editor.focused
+
+            editor.on('focus', () => {
+              this.focused = true
+            })
+
+            editor.on('menubar:focusUpdate', focused => {
+              this.focused = focused
+            })
           })
         }
       },
@@ -31,7 +47,7 @@ export default {
     }
 
     return this.$scopedSlots.default({
-      focused: this.editor.view.focused,
+      focused: this.focused,
       focus: this.editor.focus,
       commands: this.editor.commands,
       isActive: this.editor.isActive,

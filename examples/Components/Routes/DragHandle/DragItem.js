@@ -21,9 +21,9 @@ export default class DragItem extends Node {
   get view() {
     return {
       template: `
-        <div data-type="drag_item">
+        <div data-type="drag_item" contenteditable="false">
           <div ref="content" contenteditable="true"></div>
-          <div data-drag-handle contenteditable="false"></div>
+          <div data-drag-handle></div>
         </div>
       `,
     }
