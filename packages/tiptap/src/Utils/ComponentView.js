@@ -116,10 +116,9 @@ export default class ComponentView {
   // prevent a full re-render of the vue component on update
   // we'll handle prop updates in `update()`
   ignoreMutation(mutation) {
-
     // allow leaf nodes to be selected
-    if (mutation.type === "selection") {
-      return false;
+    if (mutation.type === 'selection') {
+      return false
     }
 
     if (!this.contentDOM) {
