@@ -211,7 +211,7 @@ export default {
             Export HTML or JSON
           </h2>
           <p>
-            You are able to export your data as <code>HTML</code> or <code>JSON</code>. To pass <code>HTML</code> to the editor use the <code>content</code> slot. To pass <code>JSON</code> to the editor use the <code>doc</code> prop.
+            You are able to export your data as <code>HTML</code> or <code>JSON</code>.
           </p>
         `,
         onUpdate: ({ getJSON, getHTML }) => {
