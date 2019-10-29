@@ -32,7 +32,7 @@ export default class Placeholder extends Extension {
             const active = editable || !this.options.showOnlyWhenEditable
             const { anchor } = selection
             const decorations = []
-            const isEmpty = doc.textContent.length === 0;
+            const isEmpty = doc.textContent.length === 0
 
             if (!active) {
               return false
