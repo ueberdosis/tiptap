@@ -9,7 +9,7 @@ import { nodeInputRule } from 'tiptap-commands'
  * ![](image.jpg "Ipsum") -> [, "", "image.jpg", "Ipsum"]
  * ![Lorem](image.jpg "Ipsum") -> [, "Lorem", "image.jpg", "Ipsum"]
  */
-const IMAGE_INPUT_REGEX = /!\[(.+|:?)\]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
+const IMAGE_INPUT_REGEX = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
 
 export default class Image extends Node {
 
