@@ -24,9 +24,11 @@ export default {
           new BulletList(),
           new ListItem(),
           new Placeholder({
+            emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
             emptyNodeText: 'Write something …',
             showOnlyWhenEditable: true,
+            showOnlyCurrent: true,
           }),
         ],
       }),
@@ -39,7 +41,7 @@ export default {
 </script>
 
 <style lang="scss">
-.editor p.is-empty:first-child::before {
+.editor p.is-editor-empty:first-child::before {
   content: attr(data-empty-text);
   float: left;
   color: #aaa;
