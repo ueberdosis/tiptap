@@ -46,6 +46,7 @@ import markPasteRule from './commands/markPasteRule'
 import removeMark from './commands/removeMark'
 import replaceText from './commands/replaceText'
 import setInlineBlockType from './commands/setInlineBlockType'
+import setTextAlignment from './commands/setTextAlignment'
 import splitToDefaultListItem from './commands/splitToDefaultListItem'
 import toggleBlockType from './commands/toggleBlockType'
 import toggleList from './commands/toggleList'
@@ -99,6 +100,7 @@ export {
   removeMark,
   replaceText,
   setInlineBlockType,
+  setTextAlignment,
   splitToDefaultListItem,
   toggleBlockType,
   toggleList,

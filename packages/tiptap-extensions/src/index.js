@@ -23,6 +23,7 @@ export { default as Link } from './marks/Link'
 export { default as Strike } from './marks/Strike'
 export { default as Underline } from './marks/Underline'
 
+export { default as Alignment } from './extensions/Alignment'
 export { default as Collaboration } from './extensions/Collaboration'
 export { default as Focus } from './extensions/Focus'
 export { default as History } from './extensions/History'
