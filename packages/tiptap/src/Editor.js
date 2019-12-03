@@ -186,7 +186,10 @@ export default class Editor extends Emitter {
   createSchema() {
     return new Schema({
       topNode: this.options.topNode,
-      nodes: this.nodes,
+      nodes: {
+        ...this.nodes,
+        ...this.extensions.nodeExtensions,
+      },
       marks: this.marks,
     })
   }

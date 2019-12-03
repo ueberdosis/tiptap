@@ -20,6 +20,14 @@ export default class Alignment extends Extension {
     }
   }
 
+  get schema() {
+    return {
+      attrs: {
+        align: { default: 'left' },
+      },
+    }
+  }
+
   commands({ type }) {
     return attrs => setTextAlignment(type, attrs)
   }

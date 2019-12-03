@@ -49,6 +49,15 @@ export default class ExtensionManager {
       }), {})
   }
 
+  get nodeExtensions() {
+    return this.extensions
+      .filter(extension => extension.type === 'extension' && extension.name === 'alignment')
+      .reduce((extensions, { name, schema }) => ({
+        ...extensions,
+        [name]: schema,
+      }), {})
+  }
+
   get plugins() {
     return this.extensions
       .filter(extension => extension.plugins)
