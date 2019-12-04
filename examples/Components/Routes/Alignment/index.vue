@@ -180,7 +180,6 @@ import {
   Strike,
   Underline,
   Alignment,
-  Indent,
   History,
 } from 'tiptap-extensions'
 
@@ -210,7 +209,6 @@ export default {
           new Strike(),
           new Underline(),
           new Alignment(),
-          new Indent(),
           new History(),
         ],
         content: `
