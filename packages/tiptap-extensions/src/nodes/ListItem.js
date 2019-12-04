@@ -33,7 +33,6 @@ export default class ListItem extends Node {
   get schema() {
     return {
       attrs: {
-        id: { default: null },
         align: { default: null },
       },
       content: 'paragraph block*',

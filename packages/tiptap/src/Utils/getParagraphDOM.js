@@ -1,8 +1,5 @@
-import { ATTRIBUTE_INDENT } from './indent'
-
 export default function getParagraphDOM(node) {
   const {
-    id,
     align,
   } = node.attrs
 
@@ -15,10 +12,6 @@ export default function getParagraphDOM(node) {
 
   if (style) {
     attrs.style = style
-  }
-
-  if (id) {
-    attrs.id = id
   }
 
   return ['p', attrs, 0]

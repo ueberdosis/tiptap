@@ -33,7 +33,6 @@ export default class Heading extends Node {
   get schema() {
     return {
       attrs: {
-        id: { default: null },
         align: { default: null },
         level: { default: 1 },
       },

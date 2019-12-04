@@ -23,7 +23,6 @@ export default class Blockquote extends Node {
   get schema() {
     return {
       attrs: {
-        id: { default: null },
         align: { default: null },
       },
       content: 'block*',

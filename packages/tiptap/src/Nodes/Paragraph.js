@@ -20,7 +20,6 @@ export default class Paragraph extends Node {
   get schema() {
     return {
       attrs: {
-        id: { default: null },
         align: { default: null },
       },
       content: 'inline*',
