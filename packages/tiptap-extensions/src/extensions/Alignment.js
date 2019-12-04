@@ -1,5 +1,4 @@
 import { Extension } from 'tiptap'
-import { AllSelection, TextSelection } from 'prosemirror-state'
 import { setTextAlignment } from 'tiptap-commands'
 
 export default class Alignment extends Extension {
@@ -16,7 +15,7 @@ export default class Alignment extends Extension {
 
   get defaultOptions() {
     return {
-      align: ['left', 'right', 'center', 'justify'],
+      alignments: ['left', 'right', 'center', 'justify'],
     }
   }
 

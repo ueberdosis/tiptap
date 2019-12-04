@@ -18,6 +18,10 @@ export default function setTextAlignment(type, attrs = {}) {
     const types = Object.entries(schema.nodes)
       .map(([, value]) => value)
       .filter(node => ['blockquote', 'heading', 'list_item', 'paragraph'].includes(node.name))
+    if (!types.length) {
+      return false
+    }
+
     const tasks = []
     let transformation = tr
 
@@ -44,7 +48,7 @@ export default function setTextAlignment(type, attrs = {}) {
       transformation = tr.setNodeMarkup(
         pos,
         node.type,
-        { ...attrs, align: alignment || null },
+        { ...attrs, align: alignment },
         node.marks
       )
     })
