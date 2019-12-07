@@ -1,0 +1,15 @@
+{
+  "name": "@tiptap/core",
+  "private": true,
+  "version": "0.1.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-core.js",
+  "umd:main": "dist/tiptap-core.umd.js",
+  "module": "dist/tiptap-core.mjs", 
+  "unpkg": "dist/tiptap-core.js",
+  "jsdelivr": "dist/tiptap-core.js",
+  "files": [
+    "src",
+    "dist"
+  ]
+}
