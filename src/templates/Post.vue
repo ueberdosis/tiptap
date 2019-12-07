@@ -14,11 +14,22 @@ query Post ($id: ID!) {
 </page-query>
 
 <script>
-import tiptap from '@tiptap/core'
+import Editor from '@tiptap/core'
 
 export default {
   mounted() {
-    console.log(tiptap())
+    // console.log(tiptap())
+
+    // new Editor()
+    //   .registerCommand('lol', (next) => {
+    //   console.log('lol')
+    //   next()
+    // })
+    // .focus('end')
+    // .insertText('mega ')
+    // .focus('start')
+    // .command('insertText', 'giga ')
+    // .lol()
   }
 }
 </script>

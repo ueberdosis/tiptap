@@ -4,11 +4,19 @@
   "source": "index.ts",
   "main": "dist/tiptap-core.js",
   "umd:main": "dist/tiptap-core.umd.js",
-  "module": "dist/tiptap-core.mjs", 
+  "module": "dist/tiptap-core.mjs",
   "unpkg": "dist/tiptap-core.js",
   "jsdelivr": "dist/tiptap-core.js",
   "files": [
     "src",
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "prosemirror-example-setup": "^1.1.2",
+    "prosemirror-model": "^1.8.2",
+    "prosemirror-schema-basic": "^1.1.2",
+    "prosemirror-schema-list": "^1.1.2",
+    "prosemirror-state": "^1.3.2",
+    "prosemirror-view": "^1.13.4"
+  }
 }

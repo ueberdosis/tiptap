@@ -16,6 +16,14 @@
     "@gridsome/transformer-json": "^0.2.1",
     "@gridsome/vue-remark": "^0.1.9",
     "@noxify/gridsome-plugin-remark-embed": "^1.1.5",
+    "@types/prosemirror-commands": "^1.0.1",
+    "@types/prosemirror-history": "^1.0.1",
+    "@types/prosemirror-inputrules": "^1.0.2",
+    "@types/prosemirror-keymap": "^1.0.1",
+    "@types/prosemirror-model": "^1.7.2",
+    "@types/prosemirror-state": "^1.2.3",
+    "@types/prosemirror-transform": "^1.1.1",
+    "@types/prosemirror-view": "^1.11.2",
     "globby": "^10.0.1",
     "gridsome": "^0.7.0",
     "lerna": "^3.19.0",
@@ -23,5 +31,8 @@
     "parcel": "^1.12.4",
     "raw-loader": "^4.0.0",
     "typescript": "^3.7.2"
+  },
+  "devDependencies": {
+    "ts-loader": "^6.2.1"
   }
 }

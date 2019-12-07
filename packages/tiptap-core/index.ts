@@ -1,3 +1,3 @@
-export default function() {
-  return 1
-}
+import { Editor } from './src/Editor'
+
+export default Editor
