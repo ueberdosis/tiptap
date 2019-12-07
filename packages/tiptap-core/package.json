@@ -1,6 +1,5 @@
 {
   "name": "@tiptap/core",
-  "private": true,
   "version": "0.1.0",
   "source": "index.ts",
   "main": "dist/tiptap-core.js",

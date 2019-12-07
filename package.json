@@ -16,11 +16,12 @@
     "@gridsome/transformer-json": "^0.2.1",
     "@gridsome/vue-remark": "^0.1.9",
     "@noxify/gridsome-plugin-remark-embed": "^1.1.5",
+    "globby": "^10.0.1",
     "gridsome": "^0.7.0",
     "lerna": "^3.19.0",
     "microbundle": "^0.11.0",
     "parcel": "^1.12.4",
-    "typescript": "^3.7.2",
-    "raw-loader": "^4.0.0"
+    "raw-loader": "^4.0.0",
+    "typescript": "^3.7.2"
   }
 }
