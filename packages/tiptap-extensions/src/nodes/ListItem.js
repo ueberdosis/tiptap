@@ -4,9 +4,9 @@ import { splitListItem, liftListItem, sinkListItem } from 'tiptap-commands'
 
 function getAttrs(dom) {
   const { textAlign } = dom.style
-  let align = dom.getAttribute('data-align') || textAlign || ''
+  let align = dom.getAttribute('align') || textAlign || ''
 
-  align = ALIGN_PATTERN.test(align)
+  align = align && ALIGN_PATTERN.test(align)
     ? align
     : null
 
@@ -18,7 +18,7 @@ function getAttrs(dom) {
 function toDOM(node) {
     const { align } = node.attrs
     const attrs = align
-        ? { align }
+        ? { style: `text-align: ${align}` }
         : {}
 
     return ['li', attrs, 0]

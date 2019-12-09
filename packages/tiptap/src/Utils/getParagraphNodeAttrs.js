@@ -6,7 +6,7 @@ export default function getParagraphNodeAttrs(dom) {
   } = dom.style
 
   let align = dom.getAttribute('align') || textAlign || ''
-  align = ALIGN_PATTERN.test(align)
+  align = align && ALIGN_PATTERN.test(align)
     ? align
     : null
 
