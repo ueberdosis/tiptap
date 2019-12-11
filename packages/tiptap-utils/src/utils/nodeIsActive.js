@@ -13,7 +13,7 @@ function nodeSelected(selection, type, attrs) {
     return !!node
   }
 
-  if (!['blockquote', 'heading', 'paragraph', 'list_item'].includes(type.name)) {
+  if (!['paragraph', 'heading', 'blockquote', 'list_item', 'table_cell', 'table_header'].includes(type.name)) {
     return node.node.hasMarkup(type, attrs)
   }
 
@@ -21,7 +21,8 @@ function nodeSelected(selection, type, attrs) {
     .entries(node.node.attrs)
     .filter(([key]) => attrKeys.includes(key))
 
-  return nodesAttrs.length && nodesAttrs.every(([key, value]) => attrs[key] === value)
+  return nodesAttrs.length
+    && nodesAttrs.every(([key, value]) => attrs[key] === value)
 }
 
 export default function nodeIsActive({ schema, selection }, type, attrs = {}) {
@@ -29,9 +30,21 @@ export default function nodeIsActive({ schema, selection }, type, attrs = {}) {
     return nodeSelected(selection, type, attrs)
   }
 
-  return Object
-    .entries(schema.nodes)
-    .map(([, value]) => value)
-    .filter(node => ['blockquote', 'heading', 'paragraph', 'list_item'].includes(node.name))
-    .some(node => nodeSelected(selection, node, attrs))
+  const {
+    paragraph,
+    heading,
+    blockquote,
+    list_item: listItem,
+    table_cell: tableCell,
+    table_header: tableHeader,
+  } = schema.nodes
+
+  return [
+    paragraph,
+    heading,
+    blockquote,
+    listItem,
+    tableCell,
+    tableHeader,
+  ].some(node => nodeSelected(selection, node, attrs))
 }
