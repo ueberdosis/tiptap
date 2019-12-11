@@ -1,62 +1,156 @@
+import {
+  findParentNode,
+  isCellSelection,
+  setCellAttrs,
+  findCellClosestToPos,
+  findChildrenByAttr,
+} from 'prosemirror-utils'
 import { nodeEqualsType } from 'tiptap-utils'
+
+function dispatchTasks(tasks, align, selectionIsCell, tr, dispatch) {
+  if (!tasks.length) {
+    return false
+  }
+
+  let transformation = tr
+
+  tasks.forEach(({ cell, node, pos }) => {
+    if (cell) {
+      transformation = setCellAttrs(cell, { align })(transformation)
+
+      return
+    }
+
+    const attrs = { ...node.attrs }
+    attrs.align = selectionIsCell
+      ? align
+      : null
+
+    transformation = transformation.setNodeMarkup(pos, attrs.type, attrs, attrs.marks)
+  })
+
+  if (dispatch) {
+    dispatch(transformation)
+  }
+
+  return true
+}
 
 export default function setTextAlignment(type, attrs = {}) {
   return (state, dispatch) => {
     const {
       doc,
       selection,
-      schema,
-      tr,
     } = state
 
     if (!selection || !doc) {
       return false
     }
 
+    const {
+      paragraph,
+      heading,
+      blockquote,
+      list_item: listItem,
+      table_cell: tableCell,
+      table_header: tableHeader,
+    } = state.schema.nodes
+    const { ranges } = selection
+    let { tr } = state
+
     const alignment = attrs.align || null
-    const { from, to } = selection
-    const types = Object.entries(schema.nodes)
-      .map(([, value]) => value)
-      .filter(node => ['blockquote', 'heading', 'list_item', 'paragraph'].includes(node.name))
-    if (!types.length) {
-      return false
-    }
 
-    const tasks = []
-    let transformation = tr
+    // If there is no text selected, or the text is within a single node
+    if (selection.empty
+      || (ranges.length === 1
+      && ranges[0].$from.parent.eq(ranges[0].$to.parent))
+    ) {
+      const { depth, parent } = selection.$from
+      const predicateTypes = depth > 1 && nodeEqualsType({ node: parent, types: paragraph })
+        ? [blockquote, listItem, tableCell, tableHeader]
+        : parent.type
+      const predicate = node => nodeEqualsType({ node, types: predicateTypes })
 
-    doc.nodesBetween(from, to, (node, pos) => {
-      const align = node.attrs.align || null
+      const {
+        pos,
+        node: {
+          type: nType,
+          attrs: nAttrs,
+          marks: nMarks,
+        },
+      } = findParentNode(predicate)(selection)
 
-      if (align !== alignment && nodeEqualsType({ node, types })) {
-        tasks.push({
-          node,
-          pos,
-        })
+      tr = tr.setNodeMarkup(pos, nType, { ...nAttrs, align: alignment }, nMarks)
+
+      if (dispatch) {
+        dispatch(tr)
       }
 
       return true
-    })
-
-    if (!tasks.length) {
-      return false
     }
 
-    tasks.forEach(({ node, pos }) => {
-      const { attrs } = node
+    const tasks = []
 
-      transformation = tr.setNodeMarkup(
+    if (isCellSelection(selection)) {
+      const tableTypes = [tableHeader, tableCell]
+
+      ranges.forEach(range => {
+        const {
+          $from: { parent: fromParent },
+          $to: { parent: toParent },
+        } = range
+
+        if (!fromParent.eq(toParent)
+          || !range.$from.sameParent(range.$to)
+          || !nodeEqualsType({ node: fromParent, types: tableTypes })
+          || !nodeEqualsType({ node: toParent, types: tableTypes })
+        ) {
+          return
+        }
+
+        if (fromParent.attrs.align !== alignment) {
+          tasks.push({
+            node: fromParent,
+            pos: range.$from.pos,
+            cell: findCellClosestToPos(range.$from),
+          })
+        }
+
+        findChildrenByAttr(fromParent, ({ align }) => typeof align !== 'undefined' && align !== null)
+          .forEach(({ node, pos }) => {
+            if (!nodeEqualsType({ node, types: [paragraph, heading, blockquote, listItem] })) {
+              return
+            }
+
+            tasks.push({
+              node,
+              pos: range.$from.pos + pos,
+            })
+          })
+      })
+
+      return dispatchTasks(tasks, alignment, true, tr, dispatch)
+    }
+
+    doc.nodesBetween(selection.from, selection.to, (node, pos) => {
+      if (!nodeEqualsType({ node, types: [paragraph, heading, blockquote, listItem] })) {
+        return true
+      }
+
+      const align = node.attrs.align || null
+
+      if (align === alignment) {
+        return true
+      }
+
+      tasks.push({
+        node,
         pos,
-        node.type,
-        { ...attrs, align: alignment },
-        node.marks
-      )
+      })
+
+      return nodeEqualsType({ node, types: [paragraph, heading] })
     })
 
-    if (dispatch) {
-      dispatch(transformation)
-    }
-
-    return true
+    return dispatchTasks(tasks, alignment, true, tr, dispatch)
   }
 }
