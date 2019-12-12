@@ -2,15 +2,15 @@ import { Node, getParagraphNodeAttrs, getParagraphDOM } from 'tiptap'
 import { splitListItem, liftListItem, sinkListItem } from 'tiptap-commands'
 
 function getAttrs(dom) {
-    return getParagraphNodeAttrs(dom)
+  return getParagraphNodeAttrs(dom)
 }
 
 function toDOM(node) {
-    const dom = getParagraphDOM(node)
+  const dom = getParagraphDOM(node)
 
-    dom[0] = 'li'
+  dom[0] = 'li'
 
-    return dom
+  return dom
 }
 
 export default class ListItem extends Node {
