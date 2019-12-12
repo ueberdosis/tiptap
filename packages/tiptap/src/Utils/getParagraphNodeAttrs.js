@@ -4,13 +4,12 @@ export default function getParagraphNodeAttrs(dom) {
   const {
     textAlign,
   } = dom.style
+  const attrs = {}
 
-  let align = dom.getAttribute('align') || textAlign || ''
-  align = align && ALIGN_PATTERN.test(align)
-    ? align
-    : null
-
-  return {
-    align,
+  const align = dom.getAttribute('align') || textAlign || ''
+  if (align && ALIGN_PATTERN.test(align)) {
+    attrs.align = align
   }
+
+  return attrs
 }
