@@ -1,5 +1,12 @@
 export { default as Editor } from './Editor'
-export { Extension, Node, Mark } from './Utils'
+export {
+  Extension,
+  Node,
+  Mark,
+  ALIGN_PATTERN,
+  getParagraphNodeAttrs,
+  getParagraphDOM,
+} from './Utils'
 export { Doc, Paragraph, Text } from './Nodes'
 export { default as EditorContent } from './Components/EditorContent'
 export { default as EditorMenuBar } from './Components/EditorMenuBar'

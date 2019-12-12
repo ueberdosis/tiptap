@@ -1,5 +1,4 @@
-import { Node } from 'tiptap'
-import { getParagraphNodeAttrs, getParagraphDOM } from 'tiptap/Utils'
+import { Node, getParagraphNodeAttrs, getParagraphDOM } from 'tiptap'
 import { setBlockType, textblockTypeInputRule, toggleBlockType } from 'tiptap-commands'
 
 function getAttrs(dom) {

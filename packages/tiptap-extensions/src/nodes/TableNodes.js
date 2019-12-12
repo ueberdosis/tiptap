@@ -1,5 +1,5 @@
 import { tableNodes } from 'prosemirror-tables'
-import { ALIGN_PATTERN } from 'tiptap/Utils'
+import { ALIGN_PATTERN } from 'tiptap'
 
 export default tableNodes({
   tableGroup: 'block',
