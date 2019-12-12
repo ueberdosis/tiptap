@@ -58,12 +58,14 @@ export default function setTextAlignment(type, attrs = {}) {
     const { ranges } = selection
     let { tr } = state
 
+    const selectionIsCell = isCellSelection(selection)
     const alignment = attrs.align || null
 
     // If there is no text selected, or the text is within a single node
     if (selection.empty
       || (ranges.length === 1
-      && ranges[0].$from.parent.eq(ranges[0].$to.parent))
+      && ranges[0].$from.parent.eq(ranges[0].$to.parent)
+      && !selectionIsCell)
     ) {
       const { depth, parent } = selection.$from
       const predicateTypes = depth > 1 && nodeEqualsType({ node: parent, types: paragraph })
@@ -91,7 +93,7 @@ export default function setTextAlignment(type, attrs = {}) {
 
     const tasks = []
 
-    if (isCellSelection(selection)) {
+    if (selectionIsCell) {
       const tableTypes = [tableHeader, tableCell]
 
       ranges.forEach(range => {
@@ -116,7 +118,9 @@ export default function setTextAlignment(type, attrs = {}) {
           })
         }
 
-        findChildrenByAttr(fromParent, ({ align }) => typeof align !== 'undefined' && align !== null)
+        const predicate = ({ align }) => typeof align !== 'undefined' && align !== null
+
+        findChildrenByAttr(fromParent, predicate, true)
           .forEach(({ node, pos }) => {
             if (!nodeEqualsType({ node, types: [paragraph, heading, blockquote, listItem] })) {
               return
