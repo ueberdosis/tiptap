@@ -1,27 +1,17 @@
 import { Node } from 'tiptap'
-import { ALIGN_PATTERN } from 'tiptap/Utils'
+import { getParagraphNodeAttrs, getParagraphDOM } from 'tiptap/Utils'
 import { splitListItem, liftListItem, sinkListItem } from 'tiptap-commands'
 
 function getAttrs(dom) {
-  const { textAlign } = dom.style
-  let align = dom.getAttribute('align') || textAlign || ''
-
-  align = align && ALIGN_PATTERN.test(align)
-    ? align
-    : null
-
-  return align
-    ? { align }
-    : {}
+    return getParagraphNodeAttrs(dom)
 }
 
 function toDOM(node) {
-    const { align } = node.attrs
-    const attrs = align
-        ? { style: `text-align: ${align}` }
-        : {}
+    const dom = getParagraphDOM(node)
 
-    return ['li', attrs, 0]
+    dom[0] = 'li'
+
+    return dom
 }
 
 export default class ListItem extends Node {
