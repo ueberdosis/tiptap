@@ -21,12 +21,14 @@ function dispatchTasks(tasks, align, selectionIsCell, tr, dispatch) {
       return
     }
 
-    const attrs = { ...node.attrs }
-    attrs.align = selectionIsCell
-      ? align
-      : null
+    const attrs = {
+      ...node.attrs,
+      align: selectionIsCell
+        ? align
+        : null,
+    }
 
-    transformation = transformation.setNodeMarkup(pos, attrs.type, attrs, attrs.marks)
+    transformation = transformation.setNodeMarkup(pos, node.type, attrs, node.marks)
   })
 
   if (dispatch) {
