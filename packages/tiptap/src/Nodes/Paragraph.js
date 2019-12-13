@@ -1,4 +1,4 @@
-import { setBlockType } from 'tiptap-commands'
+import { toggleBlockType } from 'tiptap-commands'
 import Node from '../Utils/Node'
 import getParagraphNodeAttrs from '../Utils/getParagraphNodeAttrs'
 import getParagraphDOM from '../Utils/getParagraphDOM'
@@ -33,8 +33,8 @@ export default class Paragraph extends Node {
     }
   }
 
-  commands({ type }) {
-    return () => setBlockType(type)
+  commands({ type, schema }) {
+    return () => toggleBlockType(type, schema.nodes.paragraph)
   }
 
 }
