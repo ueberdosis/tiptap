@@ -154,7 +154,7 @@ export default function setTextAlignment(type, attrs = {}) {
         pos,
       })
 
-      return nodeEqualsType({ node, types: [paragraph, heading] })
+      return nodeEqualsType({ node, types: [blockquote, listItem] })
     })
 
     return dispatchTasks(tasks, alignment, true, tr, dispatch)
