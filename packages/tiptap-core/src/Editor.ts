@@ -9,6 +9,7 @@ import {addListNodes} from "prosemirror-schema-list"
 import {exampleSetup} from "prosemirror-example-setup" 
 
 import insertText from './commands/insertText'
+import insertHTML from './commands/insertHTML'
 import focus from './commands/focus'
 
 interface EditorOptions {
@@ -36,6 +37,7 @@ export class Editor {
     this.view = this.createView()
     this.registerCommand('focus', focus)
     this.registerCommand('insertText', insertText)
+    this.registerCommand('insertHTML', insertHTML)
   }
 
   get state() {
