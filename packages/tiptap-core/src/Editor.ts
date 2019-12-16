@@ -12,11 +12,13 @@ import insertText from './commands/insertText'
 import insertHTML from './commands/insertHTML'
 import focus from './commands/focus'
 
+type EditorContent = string | JSON
+
 interface EditorOptions {
   element: Node
-  content: string
+  content: EditorContent
 }
-  
+
 export class Editor {
 
   private lastCommand = Promise.resolve()
@@ -84,7 +86,7 @@ export class Editor {
     return this[name](...args)
   }
 
-  private createDocument(content: any): any {
+  private createDocument(content: EditorContent): any {
     // if (content === null) {
     //   return this.schema.nodeFromJSON(this.options.emptyDocument)
     // }

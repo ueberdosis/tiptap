@@ -41,10 +41,24 @@ export default {
       //   console.log(html)
       //   next()
       // })
-      .focus('start')
-      .insertText('<p>start</p>')
-      .focus('end')
-      .insertHTML('<p>end</p>')
+      // .registerCommand('insertHello', async (next, editor) => {
+      //   await editor.insertHTML('<strong>HELLO</strong>')
+      //   next()
+      // })
+      // .registerCommand('insertHello', (next, editor) => {
+      //   editor
+      //     .focus('start')
+      //     .insertHTML('<strong>HELLO</strong>')
+      //   next()
+      // })
+      // .focus('start')
+      // .insertHello()
+      // .insertText('eins')
+      // .insertText('zwei')
+      // .insertText('drei')
+      // .insertHello()
+      // .focus('end')
+      // .insertHTML('<p>end</p>')
   }
 }
 </script>
