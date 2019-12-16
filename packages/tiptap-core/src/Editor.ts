@@ -12,6 +12,8 @@ import insertText from './commands/insertText'
 import insertHTML from './commands/insertHTML'
 import focus from './commands/focus'
 
+import elementFromString from './utils/elementFromString'
+
 type EditorContent = string | JSON
 
 interface EditorOptions {
@@ -70,22 +72,6 @@ export class Editor {
     return this
   }
 
-  registerCommand(name: string, method: Function): Editor {
-    // @ts-ignore
-    this[name] = this.chainCommand((...args: any) => {
-      return new Promise(resolve => {
-        return method(resolve as Function, this as Editor, ...args as any)
-      })
-    })
-
-    return this
-  }
-
-  command(name: string, ...args: any) {
-    // @ts-ignore
-    return this[name](...args)
-  }
-
   private createDocument(content: EditorContent): any {
     // if (content === null) {
     //   return this.schema.nodeFromJSON(this.options.emptyDocument)
@@ -101,10 +87,9 @@ export class Editor {
     // }
 
     if (typeof content === 'string') {
-      const element = document.createElement('div')
-      element.innerHTML = content.trim()
-
-      return DOMParser.fromSchema(this.schema).parse(element)
+      return DOMParser
+        .fromSchema(this.schema)
+        .parse(elementFromString(content))
     }
 
     return false
@@ -131,6 +116,22 @@ export class Editor {
     }
 
     // this.emitUpdate(transaction)
+  }
+
+  public registerCommand(name: string, method: Function): Editor {
+    // @ts-ignore
+    this[name] = this.chainCommand((...args: any) => {
+      return new Promise(resolve => {
+        return method(resolve as Function, this as Editor, ...args as any)
+      })
+    })
+
+    return this
+  }
+
+  public command(name: string, ...args: any) {
+    // @ts-ignore
+    return this[name](...args)
   }
   
 }
