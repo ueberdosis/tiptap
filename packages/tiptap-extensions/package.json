@@ -11,7 +11,8 @@
   "sideEffects": false,
   "files": [
     "src",
-    "dist"
+    "dist",
+    "typings"
   ],
   "repository": {
     "type": "git",
@@ -36,5 +37,6 @@
   "peerDependencies": {
     "vue": "^2.5.17",
     "vue-template-compiler": "^2.5.17"
-  }
+  },
+  "typings": "./typings/index.d.ts"
 }

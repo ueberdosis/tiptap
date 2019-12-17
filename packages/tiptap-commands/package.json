@@ -10,7 +10,8 @@
   "jsdelivr": "dist/commands.js",
   "files": [
     "src",
-    "dist"
+    "dist",
+    "typings"
   ],
   "repository": {
     "type": "git",
@@ -28,5 +29,6 @@
     "prosemirror-tables": "1.0.0",
     "prosemirror-utils": "0.9.6",
     "tiptap-utils": "^1.8.3"
-  }
+  },
+  "typings": "./typings/index.d.ts"
 }
