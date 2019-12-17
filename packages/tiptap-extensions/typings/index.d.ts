@@ -41,7 +41,10 @@ export declare class BulletList extends Node { }
 export declare class ListItem extends Node { }
 export declare class OrderedList extends Node { }
 export declare class HardBreak extends Node { }
-
+export declare class Blockquote extends Node { }
+export declare class CodeBlock extends Node { }
+export declare class TodoItem extends Node { }
+export declare class TodoList extends Node { }
 
 
 export declare class Heading extends Node {
