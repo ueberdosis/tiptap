@@ -23,13 +23,13 @@
   "dependencies": {
     "lowlight": "1.13.0",
     "prosemirror-collab": "1.2.2",
-    "prosemirror-history": "1.1.2",
+    "prosemirror-history": "1.1.3",
     "prosemirror-model": "1.8.2",
     "prosemirror-state": "1.3.2",
     "prosemirror-tables": "1.0.0",
-    "prosemirror-transform": "1.2.2",
+    "prosemirror-transform": "1.2.3",
     "prosemirror-utils": "0.9.6",
-    "prosemirror-view": "1.13.4",
+    "prosemirror-view": "1.13.7",
     "tiptap": "^1.26.6",
     "tiptap-commands": "^1.12.5"
   },
