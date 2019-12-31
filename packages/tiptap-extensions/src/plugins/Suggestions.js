@@ -39,6 +39,12 @@ function triggerCharacter({
         // The absolute position of the match in the document
         const from = match.index + $position.start()
         let to = from + match[0].length
+        
+        // trim match to cursor position
+        if (allowSpaces) {
+            to = $position.pos;
+            match[0] = match[0].substr(0, to - from);
+        }
 
         // Edge case handling; if spaces are allowed and we're directly in between
         // two triggers
