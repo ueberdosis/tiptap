@@ -29,6 +29,39 @@ export default class TodoItem extends Node {
           <div class="todo-content" ref="content" :contenteditable="view.editable.toString()"></div>
         </li>
       `,
+      /*
+        The render function enables TodoItem to work in `runtimeonly` builds,
+        which is required for frameworks requiring strict CSP policies. For
+        example, doing this is required in Chrome Extensions. Having both
+        the template and the render function ensures there are no issues
+        converting the node to JSON and rendering the component.
+      */
+      render(h) {
+        return h('li', {
+          attrs: {
+            'data-type': this.node.type.name,
+            'data-done': this.node.attrs.done.toString(),
+            'data-drag-handle': '',
+          },
+        }, [
+          h('span', {
+            class: 'todo-checkbox',
+            attrs: {
+              contenteditable: false,
+            },
+            on: {
+              click: this.onChange,
+            },
+          }),
+          h('div', {
+            class: 'todo-content',
+            attrs: {
+              contenteditable: this.view.editable.toString(),
+            },
+            ref: 'content',
+          }),
+        ]);
+      },
     }
   }
 
