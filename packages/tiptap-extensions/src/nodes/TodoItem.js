@@ -60,7 +60,7 @@ export default class TodoItem extends Node {
             },
             ref: 'content',
           }),
-        ]);
+        ])
       },
     }
   }
