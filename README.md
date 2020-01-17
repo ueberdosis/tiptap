@@ -494,6 +494,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
 - [WYSIWYG editor for Vuetify](https://github.com/iliyaZelenko/tiptap-vuetify) by @iliyaZelenko
 - [Quasar Tiptap Demo](https://github.com/kfields/quasar-tiptap-demo) @kfields
+- [Python Library that converts tiptap JSON](https://github.com/scrolltech/tiptapy) @scrolltech
 
 ## Love our work?
 [Become a backer](https://www.paypal.me/philippkuehn) ❤️
