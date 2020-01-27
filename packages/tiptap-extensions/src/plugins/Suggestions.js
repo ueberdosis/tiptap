@@ -68,6 +68,7 @@ function triggerCharacter({
 }
 
 export default function SuggestionsPlugin({
+  // matcher allow a function
   matcher = {
     char: '@',
     allowSpaces: false,
@@ -189,7 +190,7 @@ export default function SuggestionsPlugin({
 
           // Try to match against where our cursor currently is
           const $position = selection.$from
-          const match = triggerCharacter(matcher)($position)
+          const match = typeof matcher === "function" ? matcher($position) : triggerCharacter(matcher)($position)
           const decorationId = (Math.random() + 1).toString(36).substr(2, 5)
 
           // If we found a match, update the current state to show it
