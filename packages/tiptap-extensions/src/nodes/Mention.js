@@ -25,7 +25,9 @@ export default class Mention extends Node {
       attrs: {
         id: {},
         label: {},
-        class: '',
+        class: {
+          default: this.options.mentionClass,
+        },
       },
       group: 'inline',
       inline: true,
@@ -34,7 +36,7 @@ export default class Mention extends Node {
       toDOM: node => [
         'span',
         {
-          class: node.attrs.class || this.options.mentionClass,
+          class: node.attrs.class,
           'data-mention-id': node.attrs.id,
         },
         `${this.options.matcher.char}${node.attrs.label}`,
