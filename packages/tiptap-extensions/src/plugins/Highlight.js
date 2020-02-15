@@ -62,15 +62,18 @@ export default function HighlightPlugin({ name }) {
     name: new PluginKey('highlight'),
     state: {
       init: (_, { doc }) => getDecorations({ doc, name }),
-      apply: (transaction, decorationSet, oldState, state) => {
+      apply: (transaction, decorationSet, oldState, newState) => {
         // TODO: find way to cache decorations
         // https://discuss.prosemirror.net/t/how-to-update-multiple-inline-decorations-on-node-change/1493
         const oldNodeName = oldState.selection.$head.parent.type.name
         const newNodeName = newState.selection.$head.parent.type.name
-        const oldNodes = findBlockNodes(oldState.doc).filter(item => item.node.type.name === name)
-        const newNodes = findBlockNodes(newState.doc).filter(item => item.node.type.name === name)
+        const oldNodes = findBlockNodes(oldState.doc)
+          .filter(item => item.node.type.name === name)
+        const newNodes = findBlockNodes(newState.doc)
+          .filter(item => item.node.type.name === name)
         // Apply decorations if selection includes named node, or transaction changes named node.
-        if (transaction.docChanged && ([oldNodeName, newNodeName].includes(name) || newNodes.length != oldNodes.length)) {
+        if (transaction.docChanged && ([oldNodeName, newNodeName].includes(name)
+          || newNodes.length !== oldNodes.length)) {
           return getDecorations({ doc: transaction.doc, name })
         }
         return decorationSet.map(transaction.mapping, transaction.doc)
