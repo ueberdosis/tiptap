@@ -11,6 +11,10 @@ export default {
       default: true,
       type: Boolean,
     },
+    isActiveCallback: {
+      default: undefined,
+      type: Function,
+    },
   },
 
   data() {
@@ -33,6 +37,7 @@ export default {
               editor,
               element: this.$el,
               keepInBounds: this.keepInBounds,
+              isActiveCallback: this.isActiveCallback,
               onUpdate: menu => {
                 // the second check ensures event is fired only once
                 if (menu.isActive && this.menu.isActive === false) {

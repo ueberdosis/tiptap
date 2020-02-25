@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <editor-menu-bubble class="menububble" :editor="editor" @hide="hideLinkMenu" v-slot="{ commands, isActive, getMarkAttrs, menu }">
+    <editor-menu-bubble class="menububble" :editor="editor" @hide="hideLinkMenu" :is-active-callback="({ isActive }) => isActive.link()" v-slot="{ commands, isActive, getMarkAttrs, menu }">
       <div
         class="menububble"
         :class="{ 'is-active': menu.isActive }"
@@ -15,6 +15,13 @@
         </form>
 
         <template v-else>
+          <a
+            class="menububble__link"
+            v-if="isActive.link()"
+            :href="getMarkAttrs('link').href"
+          >
+            {{ getMarkAttrs('link').href }}
+          </a>
           <button
             class="menububble__button"
             @click="showLinkMenu(getMarkAttrs('link'))"
@@ -71,7 +78,9 @@ export default {
           new OrderedList(),
           new TodoItem(),
           new TodoList(),
-          new Link(),
+          new Link({
+            openOnClick: false
+          }),
           new Bold(),
           new Code(),
           new Italic(),

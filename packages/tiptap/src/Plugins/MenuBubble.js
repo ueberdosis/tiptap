@@ -56,6 +56,7 @@ class Menu {
   constructor({ options, editorView }) {
     this.options = {
       ...{
+        isActiveCallback: undefined,
         element: null,
         keepInBounds: true,
         onUpdate: () => false,
@@ -63,7 +64,8 @@ class Menu {
       ...options,
     }
     this.editorView = editorView
-    this.isActive = false
+    this.isActive = this.options.isActiveCallback
+      ? this.options.isActiveCallback({ isActive: this.options.editor.isActive }) : false
     this.left = 0
     this.bottom = 0
     this.top = 0
@@ -103,8 +105,10 @@ class Menu {
       return
     }
 
-    // Hide the tooltip if the selection is empty
-    if (state.selection.empty) {
+    // Hide the tooltip if the selection is empty and the is active callback is not returning true
+    const manualActiveState = this.options.isActiveCallback
+      && !this.options.isActiveCallback({ isActive: this.options.editor.isActive })
+    if (state.selection.empty && (!this.options.isActiveCallback || manualActiveState)) {
       this.hide()
       return
     }
@@ -161,7 +165,8 @@ class Menu {
       return
     }
 
-    this.isActive = false
+    this.isActive = this.options.isActiveCallback
+      ? this.options.isActiveCallback({ isActive: this.options.editor.isActive }) : false
     this.sendUpdate()
   }
 
