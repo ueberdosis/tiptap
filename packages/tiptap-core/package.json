@@ -13,10 +13,10 @@
   ],
   "dependencies": {
     "prosemirror-example-setup": "^1.1.2",
-    "prosemirror-model": "^1.8.2",
+    "prosemirror-model": "^1.9.1",
     "prosemirror-schema-basic": "^1.1.2",
     "prosemirror-schema-list": "^1.1.2",
     "prosemirror-state": "^1.3.2",
-    "prosemirror-view": "^1.13.4"
+    "prosemirror-view": "^1.14.2"
   }
 }
