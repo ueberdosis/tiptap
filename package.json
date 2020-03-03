@@ -10,7 +10,9 @@
     "build:docs": "gridsome build",
     "build:packages": "yarn clean:packages && lerna exec --parallel -- microbundle --raw --compress",
     "clean:packages": "rm -rf ./packages/*/dist",
-    "test": "cypress open"
+    "test:debug": "cypress start",
+    "test": "cypress run",
+    "startandtest": "start-server-and-test start http://localhost:3000 test"
   },
   "dependencies": {
     "@gridsome/remark-prismjs": "^0.3.0",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "cypress": "^4.1.0",
+    "start-server-and-test": "^1.10.8",
     "ts-loader": "^6.2.1"
   }
 }
