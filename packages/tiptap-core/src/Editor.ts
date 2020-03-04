@@ -13,9 +13,10 @@ import injectCSS from './utils/injectCSS'
 
 type EditorContent = string | JSON
 
-interface EditorOptions {
-  element: Node
+interface Options {
+  element?: Node
   content: EditorContent
+  injectCSS: Boolean
 }
 
 export class Editor {
@@ -31,16 +32,21 @@ export class Editor {
 
   view: EditorView
 
-  options: EditorOptions
+  options: Options = {
+    content: '',
+    injectCSS: true,
+  }
 
-  constructor(options: EditorOptions) {
-    this.options = options
+  constructor(options: Options) {
+    this.options = { ...this.options, ...options }
     this.view = this.createView()
     this.registerCommand('focus', require('./commands/focus').default)
     this.registerCommand('insertText', require('./commands/insertText').default)
     this.registerCommand('insertHTML', require('./commands/insertHTML').default)
 
-    injectCSS(require('./style.css'))
+    if (this.options.injectCSS) {
+      injectCSS(require('./style.css'))
+    }
   }
 
   get state() {
@@ -95,12 +101,12 @@ export class Editor {
   }
 
   private dispatchTransaction(transaction: any): void {
-    const newState = this.state.apply(transaction)
-    this.view.updateState(newState)
-    this.selection = {
-      from: this.state.selection.from,
-      to: this.state.selection.to,
-    }
+    const state = this.state.apply(transaction)
+    this.view.updateState(state)
+
+    const { from, to } = this.state.selection
+    this.selection = { from, to }
+    
     // this.setActiveNodesAndMarks()
 
     // this.emit('transaction', {
