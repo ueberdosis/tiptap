@@ -27,6 +27,7 @@ export default {
       element: this.$refs.editor,
       content: '<p>test <strong>strong</strong></p>',
     })
+    // .setContent('<p>hey</p>')
       // .registerCommand('lol', (next) => {
       //   console.log('lol')
       //   next()

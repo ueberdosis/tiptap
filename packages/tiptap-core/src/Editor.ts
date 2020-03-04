@@ -1,4 +1,4 @@
-import {EditorState, Plugin} from "prosemirror-state"
+import {EditorState, TextSelection, Plugin} from "prosemirror-state"
 import {EditorView} from "prosemirror-view"
 import {Schema, DOMParser, DOMSerializer} from "prosemirror-model"
 // @ts-ignore
@@ -77,7 +77,7 @@ export class Editor {
     return this
   }
 
-  private createDocument(content: EditorContent): any {
+  private createDocument(content: EditorContent, parseOptions: any = {}): any {
     // if (content === null) {
     //   return this.schema.nodeFromJSON(this.options.emptyDocument)
     // }
@@ -94,10 +94,24 @@ export class Editor {
     if (typeof content === 'string') {
       return DOMParser
         .fromSchema(this.schema)
-        .parse(elementFromString(content))
+        .parse(elementFromString(content), parseOptions)
     }
 
     return false
+  }
+
+  public setContent(content: EditorContent = '', emitUpdate: Boolean = false, parseOptions: any = {}) {
+    const { doc, tr } = this.state
+    const document = this.createDocument(content, parseOptions)
+    const selection = TextSelection.create(doc, 0, doc.content.size)
+    const transaction = tr
+      .setSelection(selection)
+      .replaceSelectionWith(document, false)
+      .setMeta('preventUpdate', !emitUpdate)
+
+    this.view.dispatch(transaction)
+
+    return this
   }
 
   private dispatchTransaction(transaction: any): void {
@@ -106,7 +120,7 @@ export class Editor {
 
     const { from, to } = this.state.selection
     this.selection = { from, to }
-    
+
     // this.setActiveNodesAndMarks()
 
     // this.emit('transaction', {
