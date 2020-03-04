@@ -37,7 +37,7 @@ context('basic', () => {
   })
 
   describe('insertText', () => {
-    it('should prepend text', () => {
+    it('should prepend', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
 
@@ -46,7 +46,7 @@ context('basic', () => {
       })
     })
 
-    it('should append text', () => {
+    it('should append', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
 
@@ -54,8 +54,10 @@ context('basic', () => {
         cy.get('.ProseMirror p:first').should('contain', 'foobar')
       })
     })
+  })
 
-    it('should prepend html', () => {
+  describe('insertHTML', () => {
+    it('should prepend', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
 
@@ -65,7 +67,7 @@ context('basic', () => {
       })
     })
 
-    it('should append html', () => {
+    it('should append', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
 
