@@ -23,16 +23,16 @@ export default {
     // console.log(tiptap())
 
 
-    new Editor({
-      element: this.$refs.editor,
-      content: '<p>test <strong>strong</strong></p>',
-    })
+    // new Editor({
+    //   element: this.$refs.editor,
+    //   content: '<p>test <strong>strong</strong></p>',
+    // })
     // .setContent('<p>hey</p>')
       // .registerCommand('lol', (next) => {
       //   console.log('lol')
       //   next()
       // })
-      .focus('end')
+      // .focus('end')
       // .insertText('mega ')
       // .focus('start')
       // .command('insertText', 'giga ')
