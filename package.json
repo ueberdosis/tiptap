@@ -10,7 +10,7 @@
     "build:docs": "gridsome build",
     "build:packages": "yarn clean:packages && lerna exec --parallel -- microbundle --raw --compress",
     "clean:packages": "rm -rf ./packages/*/dist",
-    "test:debug": "cypress start",
+    "test:debug": "cypress open",
     "test": "cypress run",
     "startandtest": "start-server-and-test start http://localhost:3000 test"
   },

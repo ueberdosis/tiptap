@@ -1,6 +1,6 @@
 import {EditorState, Plugin} from "prosemirror-state"
 import {EditorView} from "prosemirror-view"
-import {Schema, DOMParser} from "prosemirror-model"
+import {Schema, DOMParser, DOMSerializer} from "prosemirror-model"
 // @ts-ignore
 import {schema} from "prosemirror-schema-basic"
 // @ts-ignore
@@ -132,6 +132,21 @@ export class Editor {
   public command(name: string, ...args: any) {
     // @ts-ignore
     return this[name](...args)
+  }
+
+  public json() {
+    return this.state.doc.toJSON()
+  }
+
+  public html() {
+    const div = document.createElement('div')
+    const fragment = DOMSerializer
+      .fromSchema(this.schema)
+      .serializeFragment(this.state.doc.content)
+
+    div.appendChild(fragment)
+
+    return div.innerHTML
   }
   
 }

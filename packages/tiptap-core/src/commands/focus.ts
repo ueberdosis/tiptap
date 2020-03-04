@@ -33,7 +33,7 @@ function resolveSelection(editor: Editor, position: Position = null): ResolvedSe
     
     return {
       from: size,
-      to: size,
+      to: size - 1, // TODO: -1 only for nodes with content
     }
   }
 
