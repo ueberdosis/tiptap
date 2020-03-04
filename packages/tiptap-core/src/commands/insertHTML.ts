@@ -8,7 +8,8 @@ declare module '../Editor' {
   }
 }
 
-export default function insertHTML(next: Function, { state, view }: Editor, value: string): void {
+export default function insertHTML(next: Function, editor: Editor, value: string): void {
+  const { view, state } = editor
   const { selection } = state
   const element = elementFromString(value)
   const slice = DOMParser.fromSchema(state.schema).parseSlice(element)

@@ -6,7 +6,8 @@ declare module '../Editor' {
   }
 }
 
-export default function insertText(next: Function, { state, view }: Editor, value: string): void {
+export default function insertText(next: Function, editor: Editor, value: string): void {
+  const { view, state } = editor
   const transaction = state.tr.insertText(value)
 
   view.dispatch(transaction)
