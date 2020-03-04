@@ -43,8 +43,6 @@ context('basic', () => {
 
         editor.insertText('bar')
         cy.get('.ProseMirror p:first').should('contain', 'barfoo')
-        //.contains('barfoo')
-        // .should('contain', 'barfoo')
       })
     })
 
@@ -57,12 +55,23 @@ context('basic', () => {
       })
     })
 
+    it('should prepend html', () => {
+      cy.get('.ProseMirror').window().then(window => {
+        const { editor } = window
+
+        editor.focus('start').insertHTML('<p>bar</p>')
+        cy.get('.ProseMirror p:first').should('contain', 'bar').should('not.contain', 'foo')
+        cy.get('.ProseMirror p:last').should('contain', 'foo').should('not.contain', 'bar')
+      })
+    })
+
     it('should append html', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
 
         editor.focus('end').insertHTML('<p>bar</p>')
-        cy.get('.ProseMirror p:first').should('contain', 'foobar')
+        cy.get('.ProseMirror p:first').should('contain', 'foo').should('not.contain', 'bar')
+        cy.get('.ProseMirror p:last').should('contain', 'bar').should('not.contain', 'foo')
       })
     })
   })
