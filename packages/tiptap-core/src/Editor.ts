@@ -9,6 +9,7 @@ import {addListNodes} from "prosemirror-schema-list"
 import {exampleSetup} from "prosemirror-example-setup" 
 
 import elementFromString from './utils/elementFromString'
+import injectCSS from './utils/injectCSS'
 
 type EditorContent = string | JSON
 
@@ -38,6 +39,8 @@ export class Editor {
     this.registerCommand('focus', require('./commands/focus').default)
     this.registerCommand('insertText', require('./commands/insertText').default)
     this.registerCommand('insertHTML', require('./commands/insertHTML').default)
+
+    injectCSS(require('./style.css'))
   }
 
   get state() {
@@ -143,6 +146,14 @@ export class Editor {
     div.appendChild(fragment)
 
     return div.innerHTML
+  }
+
+  public destroy() {
+    if (!this.view) {
+      return
+    }
+
+    this.view.destroy()
   }
   
 }
