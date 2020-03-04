@@ -29,7 +29,7 @@
     "@types/prosemirror-transform": "^1.1.1",
     "@types/prosemirror-view": "^1.11.2",
     "globby": "^11.0.0",
-    "gridsome": "^0.7.13",
+    "gridsome": "0.7.12",
     "lerna": "^3.20.2",
     "microbundle": "^0.11.0",
     "parcel": "^1.12.4",
