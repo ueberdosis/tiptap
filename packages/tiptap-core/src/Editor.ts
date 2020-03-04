@@ -8,10 +8,6 @@ import {addListNodes} from "prosemirror-schema-list"
 // @ts-ignore
 import {exampleSetup} from "prosemirror-example-setup" 
 
-import insertText from './commands/insertText'
-import insertHTML from './commands/insertHTML'
-import focus from './commands/focus'
-
 import elementFromString from './utils/elementFromString'
 
 type EditorContent = string | JSON
@@ -39,9 +35,9 @@ export class Editor {
   constructor(options: EditorOptions) {
     this.options = options
     this.view = this.createView()
-    this.registerCommand('focus', focus)
-    this.registerCommand('insertText', insertText)
-    this.registerCommand('insertHTML', insertHTML)
+    this.registerCommand('focus', require('./commands/focus').default)
+    this.registerCommand('insertText', require('./commands/insertText').default)
+    this.registerCommand('insertHTML', require('./commands/insertHTML').default)
   }
 
   get state() {

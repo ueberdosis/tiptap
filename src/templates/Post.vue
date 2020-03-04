@@ -31,7 +31,7 @@ export default {
       //   console.log('lol')
       //   next()
       // })
-      // .focus('end')
+      .focus('end')
       // .insertText('mega ')
       // .focus('start')
       // .command('insertText', 'giga ')
