@@ -14,6 +14,14 @@ export default class ExtensionManager {
     })
   }
 
+  get topNode() {
+    const topNode = this.extensions.find(extension => extension.topNode)
+
+    if (topNode) {
+      return topNode.name
+    }
+  }
+
   get nodes(): any {
     return collect(this.extensions)
       .where('type', 'node')

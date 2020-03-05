@@ -8,6 +8,8 @@ export default abstract class Node extends Extension {
 
   public type = 'node'
 
+  public topNode = false
+
   // get type() {
   //   return 'node'
   // }

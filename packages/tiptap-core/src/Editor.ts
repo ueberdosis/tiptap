@@ -57,7 +57,7 @@ export class Editor extends EventEmitter {
 
   private createSchema() {
     this.schema = new Schema({
-      // topNode: this.options.topNode,
+      topNode: this.extensionManager.topNode,
       nodes: this.extensionManager.nodes,
       marks: this.extensionManager.marks,
     })
