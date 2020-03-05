@@ -11,6 +11,8 @@ import {exampleSetup} from "prosemirror-example-setup"
 import elementFromString from './utils/elementFromString'
 import injectCSS from './utils/injectCSS'
 
+import ExtensionManager from './ExtensionManager'
+
 type EditorContent = string | JSON
 
 interface Options {
@@ -24,10 +26,12 @@ export class Editor {
 
   private lastCommand = Promise.resolve()
 
-  private schema: Schema = new Schema({
-    nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
-    marks: schema.spec.marks
-  })
+  schema: Schema
+
+  // private schema: Schema = new Schema({
+  //   nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
+  //   marks: schema.spec.marks
+  // })
   
   selection = { from: 0, to: 0 }
 
@@ -39,8 +43,12 @@ export class Editor {
     extensions: [],
   }
 
+  extensionManager: ExtensionManager
+
   constructor(options: Options) {
     this.options = { ...this.options, ...options }
+    this.extensionManager = new ExtensionManager(this.options.extensions, this)
+    this.schema = this.createSchema()
     this.view = this.createView()
     this.registerCommand('focus', require('./commands/focus').default)
     this.registerCommand('insertText', require('./commands/insertText').default)
@@ -53,6 +61,14 @@ export class Editor {
 
   get state() {
     return this.view.state
+  }
+
+  private createSchema() {
+    return new Schema({
+      // topNode: this.options.topNode,
+      nodes: this.extensionManager.nodes,
+      marks: this.extensionManager.marks,
+    })
   }
 
   private createState() {

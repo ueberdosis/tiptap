@@ -6,8 +6,9 @@
 
 <script>
 import Editor from '@tiptap/core'
-import Doc from '@tiptap/document-extension'
+import Document from '@tiptap/document-extension'
 import Paragraph from '@tiptap/paragraph-extension'
+import Text from '@tiptap/text-extension'
 
 export default {
   mounted() {
@@ -15,8 +16,9 @@ export default {
       element: this.$refs.editor,
       content: '<p>foo</p>',
       extensions: [
-        new Doc(),
+        new Document(),
         new Paragraph(),
+        new Text(),
       ],
     })
     // .focus('end')

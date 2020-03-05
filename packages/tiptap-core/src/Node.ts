@@ -6,7 +6,7 @@ export default abstract class Node extends Extension {
     super(options)
   }
 
-  // protected type = 'node'
+  public type = 'node'
 
   // get type() {
   //   return 'node'

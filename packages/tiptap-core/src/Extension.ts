@@ -23,9 +23,7 @@ export default abstract class Extension {
     this.editor = editor
   }
 
-  get type(): any {
-    return 'extension'
-  }
+  public type = 'extension'
 
   get update(): any {
     return () => {}
