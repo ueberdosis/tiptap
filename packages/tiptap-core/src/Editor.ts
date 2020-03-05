@@ -2,10 +2,6 @@ import {EditorState, TextSelection, Plugin} from "prosemirror-state"
 import {EditorView} from "prosemirror-view"
 import {Schema, DOMParser, DOMSerializer} from "prosemirror-model"
 // @ts-ignore
-import {schema} from "prosemirror-schema-basic"
-// @ts-ignore
-import {addListNodes} from "prosemirror-schema-list"
-// @ts-ignore
 import {exampleSetup} from "prosemirror-example-setup" 
 
 import elementFromString from './utils/elementFromString'
@@ -24,32 +20,24 @@ interface Options {
 
 export class Editor {
 
-  private lastCommand = Promise.resolve()
-
-  schema: Schema
-
-  // private schema: Schema = new Schema({
-  //   nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
-  //   marks: schema.spec.marks
-  // })
-  
-  selection = { from: 0, to: 0 }
-
-  view: EditorView
-
+  extensionManager!: ExtensionManager
+  schema!: Schema
+  view!: EditorView
   options: Options = {
     content: '',
     injectCSS: true,
     extensions: [],
   }
-
-  extensionManager: ExtensionManager
+  
+  private lastCommand = Promise.resolve()
+  
+  public selection = { from: 0, to: 0 }
 
   constructor(options: Options) {
     this.options = { ...this.options, ...options }
-    this.extensionManager = new ExtensionManager(this.options.extensions, this)
-    this.schema = this.createSchema()
-    this.view = this.createView()
+    this.createExtensionManager()
+    this.createSchema()
+    this.createView()
     this.registerCommand('focus', require('./commands/focus').default)
     this.registerCommand('insertText', require('./commands/insertText').default)
     this.registerCommand('insertHTML', require('./commands/insertHTML').default)
@@ -59,30 +47,26 @@ export class Editor {
     }
   }
 
-  get state() {
-    return this.view.state
+  private createExtensionManager() {
+    this.extensionManager = new ExtensionManager(this.options.extensions, this)
   }
 
   private createSchema() {
-    return new Schema({
+    this.schema = new Schema({
       // topNode: this.options.topNode,
       nodes: this.extensionManager.nodes,
       marks: this.extensionManager.marks,
     })
   }
 
-  private createState() {
-    return EditorState.create({
-      doc: this.createDocument(this.options.content),
-      plugins: [
-        ...exampleSetup({schema: this.schema}),
-      ],
-    })
-  }
-
   private createView() {
-    return new EditorView(this.options.element, {
-      state: this.createState(),
+    this.view = new EditorView(this.options.element, {
+      state: EditorState.create({
+        doc: this.createDocument(this.options.content),
+        plugins: [
+          ...exampleSetup({schema: this.schema}),
+        ],
+      }),
       dispatchTransaction: this.dispatchTransaction.bind(this),
     })
   }
@@ -118,20 +102,6 @@ export class Editor {
     return false
   }
 
-  public setContent(content: EditorContent = '', emitUpdate: Boolean = false, parseOptions: any = {}) {
-    const { doc, tr } = this.state
-    const document = this.createDocument(content, parseOptions)
-    const selection = TextSelection.create(doc, 0, doc.content.size)
-    const transaction = tr
-      .setSelection(selection)
-      .replaceSelectionWith(document, false)
-      .setMeta('preventUpdate', !emitUpdate)
-
-    this.view.dispatch(transaction)
-
-    return this
-  }
-
   private dispatchTransaction(transaction: any): void {
     const state = this.state.apply(transaction)
     this.view.updateState(state)
@@ -153,6 +123,24 @@ export class Editor {
     }
 
     // this.emitUpdate(transaction)
+  }
+
+  public get state() {
+    return this.view.state
+  }
+
+  public setContent(content: EditorContent = '', emitUpdate: Boolean = false, parseOptions: any = {}) {
+    const { doc, tr } = this.state
+    const document = this.createDocument(content, parseOptions)
+    const selection = TextSelection.create(doc, 0, doc.content.size)
+    const transaction = tr
+      .setSelection(selection)
+      .replaceSelectionWith(document, false)
+      .setMeta('preventUpdate', !emitUpdate)
+
+    this.view.dispatch(transaction)
+
+    return this
   }
 
   public registerCommand(name: string, method: Function): Editor {
