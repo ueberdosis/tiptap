@@ -1,8 +1,13 @@
 import {EditorState, TextSelection, Plugin} from "prosemirror-state"
 import {EditorView} from "prosemirror-view"
 import {Schema, DOMParser, DOMSerializer} from "prosemirror-model"
+import { inputRules, undoInputRule } from 'prosemirror-inputrules'
+import { keymap } from 'prosemirror-keymap'
+import { baseKeymap } from 'prosemirror-commands'
 // @ts-ignore
-import {exampleSetup} from "prosemirror-example-setup" 
+import { dropCursor } from 'prosemirror-dropcursor'
+// @ts-ignore
+import { gapCursor } from 'prosemirror-gapcursor'
 
 import elementFromString from './utils/elementFromString'
 import injectCSS from './utils/injectCSS'
@@ -59,13 +64,21 @@ export class Editor {
     })
   }
 
+  private get plugins() {
+    return [
+      ...this.extensionManager.plugins,
+      keymap({ Backspace: undoInputRule }),
+      keymap(baseKeymap),
+      dropCursor(),
+      gapCursor(),
+    ]
+  }
+
   private createView() {
     this.view = new EditorView(this.options.element, {
       state: EditorState.create({
         doc: this.createDocument(this.options.content),
-        plugins: [
-          ...exampleSetup({schema: this.schema}),
-        ],
+        plugins: this.plugins,
       }),
       dispatchTransaction: this.dispatchTransaction.bind(this),
     })

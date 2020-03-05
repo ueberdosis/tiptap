@@ -28,4 +28,10 @@ export default class ExtensionManager {
       .all()
   }
 
+  get plugins(): any {
+    return collect(this.extensions)
+      .flatMap(extension => extension.plugins)
+      .toArray()
+  }
+
 }
