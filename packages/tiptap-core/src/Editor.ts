@@ -1,6 +1,7 @@
-import {EditorState, TextSelection, Plugin} from "prosemirror-state"
-import {EditorView} from "prosemirror-view"
-import {Schema, DOMParser, DOMSerializer} from "prosemirror-model"
+import { EventEmitter } from 'events'
+import { EditorState, TextSelection } from 'prosemirror-state'
+import { EditorView} from 'prosemirror-view'
+import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import { inputRules, undoInputRule } from 'prosemirror-inputrules'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
@@ -11,7 +12,6 @@ import { gapCursor } from 'prosemirror-gapcursor'
 
 import elementFromString from './utils/elementFromString'
 import injectCSS from './utils/injectCSS'
-
 import ExtensionManager from './ExtensionManager'
 
 type EditorContent = string | JSON
@@ -23,7 +23,7 @@ interface Options {
   injectCSS: Boolean
 }
 
-export class Editor {
+export class Editor extends EventEmitter {
 
   extensionManager!: ExtensionManager
   schema!: Schema
@@ -39,6 +39,7 @@ export class Editor {
   public selection = { from: 0, to: 0 }
 
   constructor(options: Options) {
+    super()
     this.options = { ...this.options, ...options }
     this.createExtensionManager()
     this.createSchema()
@@ -193,6 +194,7 @@ export class Editor {
     }
 
     this.view.destroy()
+    this.removeAllListeners()
   }
   
 }
