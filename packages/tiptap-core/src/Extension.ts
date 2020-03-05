@@ -2,28 +2,26 @@ import { Editor } from './Editor'
 
 export default abstract class Extension {
 
-  public abstract name: string
-
-  editor: any
-  options: { [key: string]: any } = {}
-  defaultOptions: { [key: string]: any } = {}
-
   constructor(options = {}) {
     this.options = {
       ...this.defaultOptions,
       ...options,
     }
   }
+  
+  editor!: Editor
+  options: { [key: string]: any } = {}
+  defaultOptions: { [key: string]: any } = {}
+  
+  public abstract name: string
+  
+  public type = 'extension'
 
-  init(): any {
-    return null
-  }
+  protected init() {}
 
-  bindEditor(editor: Editor): void {
+  protected bindEditor(editor: Editor): void {
     this.editor = editor
   }
-
-  public type = 'extension'
 
   get update(): any {
     return () => {}

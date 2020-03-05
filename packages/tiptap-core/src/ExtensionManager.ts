@@ -7,11 +7,11 @@ export default class ExtensionManager {
   extensions: [any?]
 
   constructor(extensions: any = [], editor: Editor) {
-    // extensions.forEach(extension => {
-    //   extension.bindEditor(editor)
-    //   extension.init()
-    // })
     this.extensions = extensions
+    this.extensions.forEach(extension => {
+      extension.bindEditor(editor)
+      extension.init()
+    })
   }
 
   get nodes(): any {
@@ -28,7 +28,7 @@ export default class ExtensionManager {
       .all()
   }
 
-  get plugins(): any {
+  get plugins() {
     return collect(this.extensions)
       .flatMap(extension => extension.plugins)
       .toArray()
