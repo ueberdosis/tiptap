@@ -12,6 +12,7 @@
     "dist"
   ],
   "dependencies": {
+    "collect.js": "^4.20.3",
     "prosemirror-example-setup": "^1.1.2",
     "prosemirror-model": "^1.9.1",
     "prosemirror-schema-basic": "^1.1.2",

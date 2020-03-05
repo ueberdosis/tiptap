@@ -1,4 +1,5 @@
 import { keymap } from 'prosemirror-keymap'
+import collect from 'collect.js'
 import { Editor } from './Editor'
 
 export default class ExtensionManager {
@@ -13,22 +14,18 @@ export default class ExtensionManager {
     this.extensions = extensions
   }
 
-  get nodes() {
-    return this.extensions
-      .filter(extension => extension.type === 'node')
-      .reduce((nodes, { name, schema }) => ({
-        ...nodes,
-        [name]: schema,
-      }), {})
+  get nodes(): any {
+    return collect(this.extensions)
+      .where('type', 'node')
+      .mapWithKeys((extension: any) => [extension.name, extension.schema])
+      .all()
   }
 
-  get marks() {
-    return this.extensions
-      .filter(extension => extension.type === 'mark')
-      .reduce((marks, { name, schema }) => ({
-        ...marks,
-        [name]: schema,
-      }), {})
+  get marks(): any {
+    return collect(this.extensions)
+      .where('type', 'mark')
+      .mapWithKeys((extension: any) => [extension.name, extension.schema])
+      .all()
   }
 
 }
