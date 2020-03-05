@@ -5,9 +5,7 @@ import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import { inputRules, undoInputRule } from 'prosemirror-inputrules'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
-// @ts-ignore
 import { dropCursor } from 'prosemirror-dropcursor'
-// @ts-ignore
 import { gapCursor } from 'prosemirror-gapcursor'
 
 import elementFromString from './utils/elementFromString'

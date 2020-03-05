@@ -12,6 +12,8 @@
     "dist"
   ],
   "dependencies": {
+    "@types/prosemirror-dropcursor": "^1.0.0",
+    "@types/prosemirror-gapcursor": "^1.0.1",
     "collect.js": "^4.20.3",
     "events": "^3.1.0",
     "prosemirror-commands": "^1.1.3",
