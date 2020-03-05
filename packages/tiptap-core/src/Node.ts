@@ -1,6 +1,6 @@
 import Extension from './Extension'
 
-export default class Node extends Extension {
+export default abstract class Node extends Extension {
 
   constructor(options = {}) {
     super(options)
@@ -8,20 +8,22 @@ export default class Node extends Extension {
 
   // protected type = 'node'
 
-  get type() {
-    return 'node'
-  }
+  // get type() {
+  //   return 'node'
+  // }
 
-  get view(): any {
-    return null
-  }
+  // get view(): any {
+  //   return null
+  // }
 
-  get schema(): any {
-    return null
-  }
+  // get schema(): any {
+  //   return null
+  // }
 
-  command() {
-    return () => {}
-  }
+  public abstract schema: any
+
+  // command() {
+  //   return () => {}
+  // }
 
 }

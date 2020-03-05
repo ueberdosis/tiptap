@@ -16,6 +16,7 @@ type EditorContent = string | JSON
 interface Options {
   element?: Node
   content: EditorContent
+  extensions: [any?]
   injectCSS: Boolean
 }
 
@@ -35,6 +36,7 @@ export class Editor {
   options: Options = {
     content: '',
     injectCSS: true,
+    extensions: [],
   }
 
   constructor(options: Options) {
@@ -141,7 +143,7 @@ export class Editor {
     // @ts-ignore
     this[name] = this.chainCommand((...args: any) => {
       return new Promise(resolve => {
-        return method(resolve as Function, this as Editor, ...args as any)
+        return method(resolve, this, ...args)
       })
     })
 

@@ -6,12 +6,18 @@
 
 <script>
 import Editor from '@tiptap/core'
+import Doc from '@tiptap/document-extension'
+import Paragraph from '@tiptap/paragraph-extension'
 
 export default {
   mounted() {
     window.editor = new Editor({
       element: this.$refs.editor,
       content: '<p>foo</p>',
+      extensions: [
+        new Doc(),
+        new Paragraph(),
+      ],
     })
     // .focus('end')
     // .insertText('foo')

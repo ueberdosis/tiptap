@@ -1,6 +1,8 @@
 import { Editor } from './Editor'
 
-export default class Extension {
+export default abstract class Extension {
+
+  public abstract name: string
 
   editor: any
   options: { [key: string]: any } = {}
@@ -19,10 +21,6 @@ export default class Extension {
 
   bindEditor(editor: Editor): void {
     this.editor = editor
-  }
-
-  get name(): any {
-    return null
   }
 
   get type(): any {
