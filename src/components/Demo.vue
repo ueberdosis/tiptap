@@ -5,7 +5,7 @@
     </div>
     <div class="demo__source">
       <div v-for="(file, index) in files" :key="index">
-        <p>
+        <p v-if="showFileNames">
           {{ file.name }}
         </p>
         <pre :class="`language-${file.highlight}`"><code :class="`language-${file.highlight}`" v-html="$options.filters.highlight(file.content, file.highlight)"></code></pre>
@@ -44,6 +44,10 @@ export default {
       }
 
       return require(`~/demos/${file.path}`).default
+    },
+
+    showFileNames() {
+      return this.files.length > 1
     },
   },
 

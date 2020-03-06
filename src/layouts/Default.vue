@@ -47,4 +47,8 @@ body {
 *:focus {
   outline: none;
 }
+
+:not(pre) > code[class*="language-"], pre[class*="language-"] {
+  background-color: $colorBlack;
+}
 </style>

@@ -11,5 +11,9 @@
     padding: 1rem;
     background-color: $colorBlack;
     color: $colorWhite;
+
+    code, pre {
+      padding: 0;
+    }
   }
 }
