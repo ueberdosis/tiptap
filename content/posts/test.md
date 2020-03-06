@@ -3,16 +3,16 @@ title: Test
 slug: test
 ---
 
-# Super epic editor demo
+<!-- # Super epic editor demo
 
 - magic
-- epic
+- epic -->
 
-<!-- <demo name="Basic" key="basic" /> -->
+<demo name="Basic" key="basic" />
 
-# Super epic time demo
+<!-- # Super epic time demo
 
 - nice numbers
 - nice time
 
-<demo name="Time" key="time" />
+<demo name="Time" key="time" /> -->
