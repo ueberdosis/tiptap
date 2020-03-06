@@ -46,7 +46,7 @@ function resolveSelection(editor: Editor, position: Position = null): ResolvedSe
 export default async function focus(next: Function, editor: Editor, position: Position = null): Promise<void> {
   const { view, state } = editor
 
-  if ((view.hasFocus && position === null)) {
+  if ((view.hasFocus() && position === null)) {
     next()
     return
   }
