@@ -159,7 +159,8 @@ export class Editor extends EventEmitter {
     // @ts-ignore
     this[name] = this.chainCommand((...args: any) => {
       return new Promise(resolve => {
-        return method(resolve, this, ...args)
+        // return method(resolve, this, ...args)
+        return method(resolve as Function, this as Editor, ...args as any)
       })
     })
 

@@ -14,6 +14,7 @@ export default abstract class Extension {
   defaultOptions: { [key: string]: any } = {}
   
   public abstract name: string
+  // public abstract plugins: any
   
   public type = 'extension'
 

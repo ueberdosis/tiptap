@@ -9,6 +9,7 @@ import Editor from '@tiptap/core'
 import Document from '@tiptap/document-extension'
 import Paragraph from '@tiptap/paragraph-extension'
 import Text from '@tiptap/text-extension'
+import History from '@tiptap/history-extension'
 
 export default {
   mounted() {
@@ -19,10 +20,11 @@ export default {
         new Document(),
         new Paragraph(),
         new Text(),
+        new History(),
       ],
     })
-    // .focus('end')
     // .insertText('foo')
+    // .undo()
     // .insertHTML('<p>hey</p>')
       // .registerCommand('lol', (next) => {
       //   console.log('lol')

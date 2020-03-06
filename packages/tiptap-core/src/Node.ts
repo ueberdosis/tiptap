@@ -23,6 +23,7 @@ export default abstract class Node extends Extension {
   // }
 
   public abstract schema: any
+  // public abstract plugins?: any
 
   // command() {
   //   return () => {}
