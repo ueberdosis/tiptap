@@ -10,6 +10,7 @@ import {
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
     undo(): Editor,
+    undo(): Editor,
   }
 }
 
@@ -18,9 +19,13 @@ export default class History extends Extension {
   name = 'history'
 
   init() {
-    // @ts-ignore
     this.editor.registerCommand('undo', (next, { view }) => {
       undo(view.state, view.dispatch)
+      next()
+    })
+
+    this.editor.registerCommand('redo', (next, { view }) => {
+      redo(view.state, view.dispatch)
       next()
     })
   }

@@ -13,6 +13,7 @@ import injectCSS from './utils/injectCSS'
 import ExtensionManager from './ExtensionManager'
 
 type EditorContent = string | JSON
+type Command = (next: Function, editor: Editor, ...args: any) => any
 
 interface Options {
   element?: Node
@@ -155,13 +156,10 @@ export class Editor extends EventEmitter {
     return this
   }
 
-  public registerCommand(name: string, method: Function): Editor {
+  public registerCommand(name: string, callback: Command): Editor {
     // @ts-ignore
     this[name] = this.chainCommand((...args: any) => {
-      return new Promise(resolve => {
-        // return method(resolve, this, ...args)
-        return method(resolve as Function, this as Editor, ...args as any)
-      })
+      return new Promise(resolve => callback(resolve, this, ...args))
     })
 
     return this
