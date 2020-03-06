@@ -1,0 +1,20 @@
+{
+  "name": "@tiptap/starter-kit",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-starter-kit.js",
+  "umd:main": "dist/tiptap-starter-kit.umd.js",
+  "module": "dist/tiptap-starter-kit.mjs", 
+  "unpkg": "dist/tiptap-starter-kit.js",
+  "jsdelivr": "dist/tiptap-starter-kit.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "@tiptap/document-extension": "1.x",
+    "@tiptap/history-extension": "1.x",
+    "@tiptap/paragraph-extension": "1.x",
+    "@tiptap/text-extension": "1.x"
+  }
+}
