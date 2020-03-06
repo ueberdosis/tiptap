@@ -1,11 +1,15 @@
 <template>
-  <div>
-    <component :is="mainFile" v-if="mainFile" />
-    <div v-for="(file, index) in files" :key="index">
-      <p>
-        {{ file.name }}
-      </p>
-      <pre :class="`language-${file.highlight}`"><code :class="`language-${file.highlight}`" v-html="$options.filters.highlight(file.content, file.highlight)"></code></pre>
+  <div class="demo">
+    <div class="demo__preview" v-if="mainFile">
+      <component :is="mainFile" />
+    </div>
+    <div class="demo__source">
+      <div v-for="(file, index) in files" :key="index">
+        <p>
+          {{ file.name }}
+        </p>
+        <pre :class="`language-${file.highlight}`"><code :class="`language-${file.highlight}`" v-html="$options.filters.highlight(file.content, file.highlight)"></code></pre>
+      </div>
     </div>
   </div>
 </template>
@@ -59,3 +63,5 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" src="./style.scss" scoped />

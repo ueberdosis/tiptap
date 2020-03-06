@@ -17,9 +17,9 @@ query {
 }
 </static-query>
 
-<style>
+<style lang="scss">
 body {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-family: 'Inter', -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   margin:0;
   padding:0;
   line-height: 1.5;
@@ -42,5 +42,9 @@ body {
 
 .nav__link {
   margin-left: 20px;
+}
+
+*:focus {
+  outline: none;
 }
 </style>

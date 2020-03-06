@@ -1,0 +1,15 @@
+.demo {
+  background-color: $colorWhite;
+  border-radius: 0.5rem;
+  border: 2px solid $colorBlack;
+  
+  &__preview {
+    padding: 1rem;
+  }
+  
+  &__source {
+    padding: 1rem;
+    background-color: $colorBlack;
+    color: $colorWhite;
+  }
+}

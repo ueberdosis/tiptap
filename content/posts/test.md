@@ -1,18 +1,8 @@
 ---
-title: Test
-slug: test
+title: Basic Example
+slug: basic
 ---
 
-<!-- # Super epic editor demo
+This is a basic example of tiptap.
 
-- magic
-- epic -->
-
-<demo name="Basic" key="basic" />
-
-<!-- # Super epic time demo
-
-- nice numbers
-- nice time
-
-<demo name="Time" key="time" /> -->
+<demo name="Basic" />
