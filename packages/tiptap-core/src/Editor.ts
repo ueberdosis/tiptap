@@ -11,14 +11,16 @@ import { gapCursor } from 'prosemirror-gapcursor'
 import elementFromString from './utils/elementFromString'
 import injectCSS from './utils/injectCSS'
 import ExtensionManager from './ExtensionManager'
+import Extension from './Extension'
+import Node from './Node'
 
 type EditorContent = string | JSON
 type Command = (next: Function, editor: Editor, ...args: any) => any
 
 interface Options {
-  element?: Node
+  element?: globalThis.Node
   content: EditorContent
-  extensions: [any?]
+  extensions: (Extension | Node)[]
   injectCSS: Boolean
 }
 

@@ -1,12 +1,14 @@
 import { keymap } from 'prosemirror-keymap'
 import collect from 'collect.js'
 import { Editor } from './Editor'
+import Extension from './Extension'
+import Node from './Node'
 
 export default class ExtensionManager {
 
-  extensions: [any?]
+  extensions: (Extension | Node)[]
 
-  constructor(extensions: any = [], editor: Editor) {
+  constructor(extensions: (Extension | Node)[], editor: Editor) {
     this.extensions = extensions
     this.extensions.forEach(extension => {
       extension.bindEditor(editor)
@@ -15,7 +17,7 @@ export default class ExtensionManager {
   }
 
   get topNode() {
-    const topNode = this.extensions.find(extension => extension.topNode)
+    const topNode = collect(this.extensions).firstWhere('topNode', true)
 
     if (topNode) {
       return topNode.name

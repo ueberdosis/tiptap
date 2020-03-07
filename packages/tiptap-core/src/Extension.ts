@@ -18,9 +18,9 @@ export default abstract class Extension {
   
   public type = 'extension'
 
-  protected created() {}
+  public created() {}
 
-  protected bindEditor(editor: Editor): void {
+  public bindEditor(editor: Editor): void {
     this.editor = editor
   }
 
