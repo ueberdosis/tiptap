@@ -10,7 +10,7 @@ export default class ExtensionManager {
     this.extensions = extensions
     this.extensions.forEach(extension => {
       extension.bindEditor(editor)
-      extension.init()
+      extension.created()
     })
   }
 

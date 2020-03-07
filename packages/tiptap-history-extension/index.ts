@@ -18,7 +18,7 @@ export default class History extends Extension {
 
   name = 'history'
 
-  init() {
+  created() {
     this.editor.registerCommand('undo', (next, { view }) => {
       undo(view.state, view.dispatch)
       next()
