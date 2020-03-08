@@ -18,7 +18,6 @@ type EditorContent = string | JSON
 type Command = (next: Function, editor: Editor, ...args: any) => any
 
 interface Options {
-  element?: globalThis.Node
   content: EditorContent
   extensions: (Extension | Node)[]
   injectCSS: Boolean
@@ -26,6 +25,7 @@ interface Options {
 
 export class Editor extends EventEmitter {
 
+  element = document.createElement('div')
   extensionManager!: ExtensionManager
   schema!: Schema
   view!: EditorView
@@ -77,7 +77,7 @@ export class Editor extends EventEmitter {
   }
 
   private createView() {
-    this.view = new EditorView(this.options.element, {
+    this.view = new EditorView(this.element, {
       state: EditorState.create({
         doc: this.createDocument(this.options.content),
         plugins: this.plugins,
@@ -171,6 +171,22 @@ export class Editor extends EventEmitter {
     // @ts-ignore
     return this[name](...args)
   }
+
+  // public setParentComponent(component = null) {
+  //   if (!component) {
+  //     return
+  //   }
+
+  //   this.view.setProps({
+  //     nodeViews: this.initNodeViews({
+  //       parent: component,
+  //       extensions: [
+  //         ...this.builtInExtensions,
+  //         ...this.options.extensions,
+  //       ],
+  //     }),
+  //   })
+  // }
 
   public json() {
     return this.state.doc.toJSON()

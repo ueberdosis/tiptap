@@ -1,12 +1,16 @@
 <template>
-  <div ref="editor"></div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
-import Editor from '@tiptap/core'
+import { Editor, EditorContent } from '@tiptap/core'
 import extensions from '@tiptap/starter-kit'
 
 export default {
+  components: {
+    EditorContent,
+  },
+
   data() {
     return {
       editor: null,
@@ -15,7 +19,6 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      element: this.$refs.editor,
       content: '<p>foo</p>',
       extensions: extensions(),
     })
