@@ -34,6 +34,7 @@ export class Editor extends EventEmitter {
     injectCSS: true,
     extensions: [],
   }
+  commands: { [key: string]: any } = {}
   
   private lastCommand = Promise.resolve()
   
@@ -52,6 +53,26 @@ export class Editor extends EventEmitter {
     if (this.options.injectCSS) {
       injectCSS(require('./style.css'))
     }
+  }
+
+  public registerCommand(name: string, callback: Command): Editor {
+    if (this.commands[name]) {
+      throw new Error(`tiptap: command '${name}' is already defined.`)
+    }
+
+    this.commands[name] = callback
+
+    // @ts-ignore
+    this[name] = this.chainCommand((...args: any) => {
+      return new Promise(resolve => callback(resolve, this, ...args))
+    })
+
+    return this
+  }
+
+  public command(name: string, ...args: any) {
+    // @ts-ignore
+    return this[name](...args)
   }
 
   private createExtensionManager() {
@@ -156,20 +177,6 @@ export class Editor extends EventEmitter {
     this.view.dispatch(transaction)
 
     return this
-  }
-
-  public registerCommand(name: string, callback: Command): Editor {
-    // @ts-ignore
-    this[name] = this.chainCommand((...args: any) => {
-      return new Promise(resolve => callback(resolve, this, ...args))
-    })
-
-    return this
-  }
-
-  public command(name: string, ...args: any) {
-    // @ts-ignore
-    return this[name](...args)
   }
 
   // public setParentComponent(component = null) {
