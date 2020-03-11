@@ -19,7 +19,7 @@ context('basic', () => {
         const json = editor.json()
 
         expect(json).to.deep.equal({
-          type: 'doc',
+          type: 'document',
           content: [
             {
               type: 'paragraph',

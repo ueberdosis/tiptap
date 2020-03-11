@@ -1,19 +1,29 @@
 <template>
   <Layout>
-    <div ref="editor"></div>
+    <editor-content :editor="editor" />
   </Layout>
 </template>
 
 <script>
-import Editor from '@tiptap/core'
+import { Editor, EditorContent } from '@tiptap/core'
 import Document from '@tiptap/document-extension'
 import Paragraph from '@tiptap/paragraph-extension'
 import Text from '@tiptap/text-extension'
 import History from '@tiptap/history-extension'
 
 export default {
+  components: {
+    EditorContent,
+  },
+
+  data() {
+    return {
+      editor: null,
+    }
+  },
+
   mounted() {
-    window.editor = new Editor({
+    this.editor = new Editor({
       element: this.$refs.editor,
       content: '<p>foo</p>',
       extensions: [
@@ -23,41 +33,12 @@ export default {
         new History(),
       ],
     })
-    // .insertText('foo')
-    // .undo()
-    // .insertHTML('<p>hey</p>')
-      // .registerCommand('lol', (next) => {
-      //   console.log('lol')
-      //   next()
-      // })
-      // .focus('end')
-      // .insertText('mega ')
-      // .focus('start')
-      // .command('insertText', 'giga ')
-      // .lol()
 
-      // .registerCommand('insertHTML', (next, editor, html) => {
-      //   console.log(html)
-      //   next()
-      // })
-      // .registerCommand('insertHello', async (next, editor) => {
-      //   await editor.insertHTML('<strong>HELLO</strong>')
-      //   next()
-      // })
-      // .registerCommand('insertHello', (next, editor) => {
-      //   editor
-      //     .focus('start')
-      //     .insertHTML('<strong>HELLO</strong>')
-      //   next()
-      // })
-      // .focus('start')
-      // .insertHello()
-      // .insertText('eins')
-      // .insertText('zwei')
-      // .insertText('drei')
-      // .insertHello()
-      // .focus('end')
-      // .insertHTML('<p>end</p>')
-  }
+    window.editor = this.editor
+  },
+
+  beforeDestroy() {
+    this.editor.destroy()
+  },
 }
 </script>
