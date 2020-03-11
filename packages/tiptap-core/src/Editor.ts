@@ -14,6 +14,9 @@ import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
 import Node from './Node'
 
+// @ts-ignore
+import magicMethods from './utils/magicMethods'
+
 type EditorContent = string | JSON
 type Command = (next: Function, editor: Editor, ...args: any) => any
 
@@ -23,6 +26,7 @@ interface Options {
   injectCSS: Boolean
 }
 
+@magicMethods
 export class Editor extends EventEmitter {
 
   element = document.createElement('div')
@@ -55,24 +59,31 @@ export class Editor extends EventEmitter {
     }
   }
 
+  __get(name: string) {
+    const command = this.commands[name]
+
+    if (!command) {
+      throw new Error(`tiptap: command '${name}' not found.`)
+    }
+    
+    return (...args: any) => command(...args)
+  }
+
   public registerCommand(name: string, callback: Command): Editor {
     if (this.commands[name]) {
       throw new Error(`tiptap: command '${name}' is already defined.`)
     }
-
-    this.commands[name] = callback
-
-    // @ts-ignore
-    this[name] = this.chainCommand((...args: any) => {
+    
+    this.commands[name] = this.chainCommand((...args: any) => {
       return new Promise(resolve => callback(resolve, this, ...args))
     })
 
-    return this
+    // @ts-ignore
+    return this.proxy
   }
 
   public command(name: string, ...args: any) {
-    // @ts-ignore
-    return this[name](...args)
+    return this.commands[name](...args)
   }
 
   private createExtensionManager() {
@@ -112,7 +123,8 @@ export class Editor extends EventEmitter {
       .then(() => method.apply(this, args))
       .catch(console.error)
 
-    return this
+    // @ts-ignore
+    return this.proxy
   }
 
   private createDocument(content: EditorContent, parseOptions: any = {}): any {
