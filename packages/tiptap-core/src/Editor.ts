@@ -8,14 +8,12 @@ import { baseKeymap } from 'prosemirror-commands'
 import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
 
+import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
 import injectCSS from './utils/injectCSS'
 import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
 import Node from './Node'
-
-// @ts-ignore
-import magicMethods from './utils/magicMethods'
 
 type EditorContent = string | JSON
 type Command = (next: Function, editor: Editor, ...args: any) => any
@@ -29,6 +27,7 @@ interface Options {
 @magicMethods
 export class Editor extends EventEmitter {
 
+  proxy!: any
   element = document.createElement('div')
   extensionManager!: ExtensionManager
   schema!: Schema
@@ -78,7 +77,6 @@ export class Editor extends EventEmitter {
       return new Promise(resolve => callback(resolve, this, ...args))
     })
 
-    // @ts-ignore
     return this.proxy
   }
 
@@ -123,7 +121,6 @@ export class Editor extends EventEmitter {
       .then(() => method.apply(this, args))
       .catch(console.error)
 
-    // @ts-ignore
     return this.proxy
   }
 
