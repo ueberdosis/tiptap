@@ -1,6 +1,7 @@
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
 
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/scrumpy/tiptap) 
 [![](https://img.shields.io/npm/v/tiptap.svg?label=version)](https://www.npmjs.com/package/tiptap)
 [![](https://img.shields.io/npm/dm/tiptap.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
 [![](https://img.shields.io/npm/l/tiptap.svg)](https://www.npmjs.com/package/tiptap)
@@ -476,6 +477,18 @@ yarn build:packages
 # build dist files for examples
 yarn build:examples
 ```
+
+## Contribute using the online one-click setup
+
+You can use Gitpod(a free online VS Code-like IDE) for contributing. With a single click, it will launch a workspace and automatically:
+
+- clone the `tiptap` repo.
+- install the dependencies.
+- run `yarn run start`.
+
+So that anyone interested in contributing can start straight away.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/scrumpy/tiptap/)
 
 ## Contributing
 
