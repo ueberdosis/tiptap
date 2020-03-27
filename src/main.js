@@ -1,7 +1,7 @@
 import Prism from 'prismjs'
 import 'prismjs/themes/prism-okaidia.css'
 import DefaultLayout from '~/layouts/Default.vue'
-import Demo from '~/components/Demo.vue'
+import Demo from '~/components/Demo'
 
 export default function (Vue, { router, head, isClient }) {
   Vue.component('Layout', DefaultLayout)
