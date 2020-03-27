@@ -20,7 +20,7 @@
     "@gridsome/transformer-json": "^0.2.1",
     "@gridsome/vue-remark": "^0.1.10",
     "@noxify/gridsome-plugin-remark-embed": "^1.1.5",
-    "@types/node": "^12.12.31",
+    "@types/node": "^13.9.5",
     "@types/prosemirror-commands": "^1.0.1",
     "@types/prosemirror-history": "^1.0.1",
     "@types/prosemirror-inputrules": "^1.0.2",
