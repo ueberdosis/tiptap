@@ -1,3 +1,1 @@
-export default function() {
-  return 2
-}
+export { default as EditorContent } from './src/components/EditorContent'

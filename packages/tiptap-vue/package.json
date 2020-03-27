@@ -10,5 +10,8 @@
   "files": [
     "src",
     "dist"
-  ]
+  ],
+  "peerDependencies": {
+    "vue": "2.x"
+  }
 }
