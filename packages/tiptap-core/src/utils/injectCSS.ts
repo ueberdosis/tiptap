@@ -1,4 +1,4 @@
-export default function (css: string) {
+export default function injectCSS(css: string) {
   if (process.env.NODE_ENV !== 'test') {
     const style = document.createElement('style')
     style.type = 'text/css'

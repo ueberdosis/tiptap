@@ -1,4 +1,4 @@
-export default function magicMethods (clazz: any) {
+export default function magicMethods(clazz: any) {
   const classHandler = Object.create(null)
 
   classHandler.construct = (target: any, args: any) => {
