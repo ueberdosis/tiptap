@@ -489,8 +489,9 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [Marius Tolzmann](https://github.com/mariux)
 - [All Contributors](../../contributors)
 
-## Packages Using Tiptap
+## Related projects
 
+- [tiptap-svelte](https://github.com/andrewjk/tiptap-svelte) by @andrewjk
 - [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
 - [WYSIWYG editor for Vuetify](https://github.com/iliyaZelenko/tiptap-vuetify) by @iliyaZelenko
 - [Quasar Tiptap Demo](https://github.com/kfields/quasar-tiptap-demo) @kfields
