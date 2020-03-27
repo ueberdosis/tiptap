@@ -1,5 +1,5 @@
 import Prism from 'prismjs'
-import 'prismjs/themes/prism-okaidia.css'
+import 'prismjs/themes/prism-coy.css'
 import DefaultLayout from '~/layouts/Default.vue'
 import Demo from '~/components/Demo'
 

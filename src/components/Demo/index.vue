@@ -4,11 +4,19 @@
       <component :is="mainFile" />
     </div>
     <div class="demo__source">
-      <div v-for="(file, index) in files" :key="index">
-        <p v-if="showFileNames">
+      <div class="demo__tabs" v-if="showFileNames">
+        <button
+          class="demo__tab"
+          :class="{ 'is-active': currentIndex === index}"
+          v-for="(file, index) in files"
+          :key="index"
+          @click="currentIndex = index"
+        >
           {{ file.name }}
-        </p>
-        <pre :class="`language-${file.highlight}`"><code :class="`language-${file.highlight}`" v-html="$options.filters.highlight(file.content, file.highlight)"></code></pre>
+        </button>
+      </div>
+      <div class="demo__code" v-if="activeFile">
+        <pre :class="`language-${activeFile.highlight}`"><code :class="`language-${activeFile.highlight}`" v-html="$options.filters.highlight(activeFile.content, activeFile.highlight)"></code></pre>
       </div>
     </div>
   </div>
@@ -27,6 +35,7 @@ export default {
     return {
       content: null,
       files: [],
+      currentIndex: 0,
       syntax: {
         js: 'javascript',
         vue: 'markup',
@@ -48,6 +57,10 @@ export default {
 
     showFileNames() {
       return this.files.length > 1
+    },
+
+    activeFile() {
+      return this.files[this.currentIndex]
     },
   },
 

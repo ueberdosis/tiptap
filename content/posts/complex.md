@@ -1,8 +1,6 @@
 ---
-title: Complex Example
+title: Handle Extensions
 slug: complex
 ---
-
-Complex example
 
 <demo name="Time" />

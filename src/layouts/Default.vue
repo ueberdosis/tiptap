@@ -23,6 +23,7 @@ body {
   margin:0;
   padding:0;
   line-height: 1.5;
+  background-color: $colorLightGrey;
 }
 
 .layout {
@@ -48,7 +49,7 @@ body {
   outline: none;
 }
 
-:not(pre) > code[class*="language-"], pre[class*="language-"] {
-  background-color: $colorBlack;
-}
+// :not(pre) > code[class*="language-"], pre[class*="language-"] {
+//   background-color: $colorBlack;
+// }
 </style>
