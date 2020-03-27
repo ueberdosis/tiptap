@@ -1,7 +1,7 @@
-import Document from '@tiptap/document-extension'
-import History from '@tiptap/history-extension'
-import Paragraph from '@tiptap/paragraph-extension'
-import Text from '@tiptap/text-extension'
+import Document from '@tiptap/extension-document'
+import History from '@tiptap/extension-history'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 
 export default function extensions() {
   return [

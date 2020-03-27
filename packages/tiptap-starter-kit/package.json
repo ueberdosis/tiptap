@@ -12,9 +12,9 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/document-extension": "1.x",
-    "@tiptap/history-extension": "1.x",
-    "@tiptap/paragraph-extension": "1.x",
-    "@tiptap/text-extension": "1.x"
+    "@tiptap/extension-document": "1.x",
+    "@tiptap/extension-history": "1.x",
+    "@tiptap/extension-paragraph": "1.x",
+    "@tiptap/extension-text": "1.x"
   }
 }
