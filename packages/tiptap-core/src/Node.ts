@@ -10,23 +10,8 @@ export default abstract class Node extends Extension {
 
   public topNode = false
 
-  // get type() {
-  //   return 'node'
-  // }
-
-  // get view(): any {
-  //   return null
-  // }
-
-  // get schema(): any {
-  //   return null
-  // }
-
-  public abstract schema: any
-  // public abstract plugins?: any
-
-  // command() {
-  //   return () => {}
-  // }
+  schema(): any {
+    return null
+  }
 
 }

@@ -6,8 +6,10 @@ export default class Document extends Node {
 
   topNode = true
 
-  schema = {
-    content: 'block+',
+  schema() {
+    return {
+      content: 'block+',
+    }
   }
 
 }

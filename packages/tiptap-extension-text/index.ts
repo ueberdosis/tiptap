@@ -4,8 +4,10 @@ export default class Text extends Node {
 
   name = 'text'
 
-  schema = {
-    group: 'inline',
+  schema() {
+    return {
+      group: 'inline',
+    }
   }
 
 }

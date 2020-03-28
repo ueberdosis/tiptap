@@ -27,14 +27,14 @@ export default class ExtensionManager {
   get nodes(): any {
     return collect(this.extensions)
       .where('type', 'node')
-      .mapWithKeys((extension: any) => [extension.name, extension.schema])
+      .mapWithKeys((extension: any) => [extension.name, extension.schema()])
       .all()
   }
 
   get marks(): any {
     return collect(this.extensions)
       .where('type', 'mark')
-      .mapWithKeys((extension: any) => [extension.name, extension.schema])
+      .mapWithKeys((extension: any) => [extension.name, extension.schema()])
       .all()
   }
 
