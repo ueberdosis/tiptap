@@ -35,7 +35,7 @@
 
 <script>
 import Fuse from 'fuse.js'
-import tippy from 'tippy.js'
+import tippy, { roundArrow } from 'tippy.js'
 import Icon from 'Components/Icon'
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
@@ -46,6 +46,7 @@ import {
   Bold,
   Italic,
 } from 'tiptap-extensions'
+import 'tippy.js/dist/svg-arrow.css'
 
 export default {
 
@@ -159,7 +160,6 @@ export default {
       filteredUsers: [],
       navigatedUserIndex: 0,
       insertMention: () => {},
-      observer: null,
     }
   },
 
@@ -217,40 +217,27 @@ export default {
         return
       }
 
-      this.popup = tippy(node, {
-        content: this.$refs.suggestions,
-        trigger: 'mouseenter',
+      // ref: https://atomiks.github.io/tippyjs/v6/all-props/
+      this.popup = tippy('.page', {
+        // function that returns a ClientRect object
+        getReferenceClientRect: node.getBoundingClientRect,
+        appendTo: () => document.body,
         interactive: true,
+        arrow: roundArrow,
+        content: this.$refs.suggestions,
+        trigger: 'mouseenter', // manual
+        showOnCreate: true,
         theme: 'dark',
         placement: 'top-start',
         inertia: true,
         duration: [400, 200],
-        showOnInit: true,
-        arrow: true,
-        arrowType: 'round',
       })
-
-      // we have to update tippy whenever the DOM is updated
-      if (MutationObserver) {
-        this.observer = new MutationObserver(() => {
-          this.popup.popperInstance.scheduleUpdate()
-        })
-        this.observer.observe(this.$refs.suggestions, {
-          childList: true,
-          subtree: true,
-          characterData: true,
-        })
-      }
     },
 
     destroyPopup() {
       if (this.popup) {
-        this.popup.destroy()
+        this.popup[0].destroy()
         this.popup = null
-      }
-
-      if (this.observer) {
-        this.observer.disconnect()
       }
     },
 
@@ -306,7 +293,7 @@ export default {
   }
 }
 
-.tippy-tooltip.dark-theme {
+.tippy-box[data-theme~=dark] {
   background-color: $color-black;
   padding: 0;
   font-size: 1rem;
@@ -314,28 +301,28 @@ export default {
   color: $color-white;
   border-radius: 5px;
 
-  .tippy-backdrop {
-    display: none;
-  }
-
-  .tippy-roundarrow {
-    fill: $color-black;
-  }
-
-  .tippy-popper[x-placement^=top] & .tippy-arrow {
+  &[data-placement^=top]>.tippy-arrow:before {
     border-top-color: $color-black;
   }
 
-  .tippy-popper[x-placement^=bottom] & .tippy-arrow {
-    border-bottom-color: $color-black;
+  &[data-placement^=bottom]>.tippy-arrow:before {
+      border-bottom-color: $color-black;
   }
 
-  .tippy-popper[x-placement^=left] & .tippy-arrow {
-    border-left-color: $color-black;
+  &[data-placement^=left]>.tippy-arrow:before {
+      border-left-color: $color-black;
   }
 
-  .tippy-popper[x-placement^=right] & .tippy-arrow {
-    border-right-color: $color-black;
+  &[data-placement^=right]>.tippy-arrow:before {
+      border-right-color: $color-black;
+  }
+
+  &>.tippy-backdrop {
+      background-color: $color-black;
+  }
+
+  &>.tippy-svg-arrow {
+      fill: $color-black;
   }
 }
 </style>
