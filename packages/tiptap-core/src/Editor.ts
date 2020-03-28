@@ -68,6 +68,10 @@ export class Editor extends EventEmitter {
     return (...args: any) => command(...args)
   }
 
+  public get state() {
+    return this.view.state
+  }
+
   public registerCommand(name: string, callback: Command): Editor {
     if (this.commands[name]) {
       throw new Error(`tiptap: command '${name}' is already defined.`)
@@ -125,12 +129,7 @@ export class Editor extends EventEmitter {
   }
 
   private createDocument(content: EditorContent, parseOptions: any = {}): any {
-    if (content === null) {
-      // this.options.emptyDocument
-      return this.createDocument('')
-    }
-
-    if (typeof content === 'object') {
+    if (content && typeof content === 'object') {
       try {
         return this.schema.nodeFromJSON(content)
       } catch (error) {
@@ -145,15 +144,18 @@ export class Editor extends EventEmitter {
         .parse(elementFromString(content), parseOptions)
     }
 
-    return false
+    return this.createDocument('')
+  }
+
+  private storeSelection() {
+    const { from, to } = this.state.selection
+    this.selection = { from, to }
   }
 
   private dispatchTransaction(transaction: any): void {
     const state = this.state.apply(transaction)
     this.view.updateState(state)
-
-    const { from, to } = this.state.selection
-    this.selection = { from, to }
+    this.storeSelection()
 
     // this.setActiveNodesAndMarks()
 
@@ -169,10 +171,6 @@ export class Editor extends EventEmitter {
     }
 
     // this.emitUpdate(transaction)
-  }
-
-  public get state() {
-    return this.view.state
   }
 
   public setContent(content: EditorContent = '', emitUpdate: Boolean = false, parseOptions: any = {}) {
