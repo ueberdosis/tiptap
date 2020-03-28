@@ -15,7 +15,7 @@ import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
 import Node from './Node'
 
-type EditorContent = string | JSON
+type EditorContent = string | JSON | null
 type Command = (next: Function, editor: Editor, ...args: any) => any
 
 interface Options {
@@ -125,18 +125,19 @@ export class Editor extends EventEmitter {
   }
 
   private createDocument(content: EditorContent, parseOptions: any = {}): any {
-    // if (content === null) {
-    //   return this.schema.nodeFromJSON(this.options.emptyDocument)
-    // }
+    if (content === null) {
+      // this.options.emptyDocument
+      return this.createDocument('')
+    }
 
-    // if (typeof content === 'object') {
-    //   try {
-    //     return this.schema.nodeFromJSON(content)
-    //   } catch (error) {
-    //     console.warn('[tiptap warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
-    //     return this.schema.nodeFromJSON(this.options.emptyDocument)
-    //   }
-    // }
+    if (typeof content === 'object') {
+      try {
+        return this.schema.nodeFromJSON(content)
+      } catch (error) {
+        console.warn('[tiptap warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
+        return this.createDocument('')
+      }
+    }
 
     if (typeof content === 'string') {
       return DOMParser
