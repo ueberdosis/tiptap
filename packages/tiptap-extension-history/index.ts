@@ -30,7 +30,7 @@ export default class History extends Extension {
     })
   }
 
-  get plugins() {
+  plugins() {
     return [
       history()
     ]

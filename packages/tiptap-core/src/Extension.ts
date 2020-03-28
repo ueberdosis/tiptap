@@ -14,7 +14,6 @@ export default abstract class Extension {
   defaultOptions: { [key: string]: any } = {}
   
   public abstract name: string
-  // public abstract plugins: any
   
   public type = 'extension'
 
@@ -24,11 +23,11 @@ export default abstract class Extension {
     this.editor = editor
   }
 
-  get update(): any {
+  update(): any {
     return () => {}
   }
 
-  get plugins(): any {
+  plugins(): any {
     return []
   }
 

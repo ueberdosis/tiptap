@@ -40,7 +40,7 @@ export default class ExtensionManager {
 
   get plugins(): any {
     return collect(this.extensions)
-      .flatMap(extension => extension.plugins)
+      .flatMap(extension => extension.plugins())
       .toArray()
   }
 
