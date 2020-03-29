@@ -161,22 +161,20 @@ export class Editor extends EventEmitter {
     const state = this.state.apply(transaction)
     this.view.updateState(state)
     this.storeSelection()
+    this.setActiveNodesAndMarks()
 
-    // this.setActiveNodesAndMarks()
-
-    // this.emit('transaction', {
-    //   getHTML: this.getHTML.bind(this),
-    //   getJSON: this.getJSON.bind(this),
-    //   state: this.state,
-    //   transaction,
-    // })
+    this.emit('transaction', { transaction })
     
     if (!transaction.docChanged || transaction.getMeta('preventUpdate')) {
       return
     }
 
-    // this.emitUpdate(transaction)
+    this.emit('update', { transaction })
   }
+
+  public setActiveNodesAndMarks() {
+    // TODO
+  } 
 
   public setContent(content: EditorContent = '', emitUpdate: Boolean = false, parseOptions: any = {}) {
     const { doc, tr } = this.state
