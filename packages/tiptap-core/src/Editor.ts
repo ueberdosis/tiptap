@@ -53,6 +53,7 @@ export class Editor extends EventEmitter {
     this.registerCommand('focus', require('./commands/focus').default)
     this.registerCommand('insertText', require('./commands/insertText').default)
     this.registerCommand('insertHTML', require('./commands/insertHTML').default)
+    this.registerCommand('setContent', require('./commands/setContent').default)
 
     if (this.options.injectCSS) {
       injectCSS(require('./style.css'))
@@ -133,7 +134,7 @@ export class Editor extends EventEmitter {
     return this.proxy
   }
 
-  private createDocument(content: EditorContent, parseOptions: any = {}): any {
+  public createDocument = (content: EditorContent, parseOptions: any = {}): any => {
     if (content && typeof content === 'object') {
       try {
         return this.schema.nodeFromJSON(content)
@@ -174,20 +175,6 @@ export class Editor extends EventEmitter {
 
   public setActiveNodesAndMarks() {
     // TODO
-  } 
-
-  public setContent(content: EditorContent = '', emitUpdate: Boolean = false, parseOptions: any = {}) {
-    const { doc, tr } = this.state
-    const document = this.createDocument(content, parseOptions)
-    const selection = TextSelection.create(doc, 0, doc.content.size)
-    const transaction = tr
-      .setSelection(selection)
-      .replaceSelectionWith(document, false)
-      .setMeta('preventUpdate', !emitUpdate)
-
-    this.view.dispatch(transaction)
-
-    return this
   }
 
   // public setParentComponent(component = null) {
