@@ -7,7 +7,18 @@ declare module '../Editor' {
   }
 }
 
-export default function setContent(next: Function, editor: Editor, content: string, emitUpdate: Boolean = true, parseOptions: any = {}): void {
+export default function setContent(
+  next: Function,
+  editor: Editor,
+  content = null,
+  emitUpdate = true,
+  parseOptions = {},
+): void {
+  if (content === null) {
+    next()
+    return
+  }
+  
   const { view, state, createDocument } = editor
   const { doc, tr } = state
   const document = createDocument(content, parseOptions)
