@@ -54,7 +54,8 @@ export class Editor extends EventEmitter {
     this.registerCommand('insertText', require('./commands/insertText').default)
     this.registerCommand('insertHTML', require('./commands/insertHTML').default)
     this.registerCommand('setContent', require('./commands/setContent').default)
-
+    this.registerCommand('clearContent', require('./commands/clearContent').default)
+    
     if (this.options.injectCSS) {
       injectCSS(require('./style.css'))
     }
@@ -84,7 +85,7 @@ export class Editor extends EventEmitter {
     }
     
     this.commands[name] = this.chainCommand((...args: any) => {
-      return new Promise(resolve => callback(resolve, this, ...args))
+      return new Promise(resolve => callback(resolve, this.proxy, ...args))
     })
 
     return this.proxy
