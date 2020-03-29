@@ -11,6 +11,7 @@ import { gapCursor } from 'prosemirror-gapcursor'
 import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
 import injectCSS from './utils/injectCSS'
+import getAllMethodNames from './utils/getAllMethodNames'
 import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
 import Node from './Node'
@@ -75,6 +76,10 @@ export class Editor extends EventEmitter {
   public registerCommand(name: string, callback: Command): Editor {
     if (this.commands[name]) {
       throw new Error(`tiptap: command '${name}' is already defined.`)
+    }
+
+    if (getAllMethodNames(this).includes(name)) {
+      throw new Error(`tiptap: '${name}' is a protected name.`)
     }
     
     this.commands[name] = this.chainCommand((...args: any) => {
