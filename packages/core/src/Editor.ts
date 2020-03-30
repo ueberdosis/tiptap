@@ -1,3 +1,4 @@
+import collect from 'collect.js'
 import { EventEmitter } from 'events'
 import { EditorState, TextSelection } from 'prosemirror-state'
 import { EditorView} from 'prosemirror-view'
@@ -182,27 +183,17 @@ export class Editor extends EventEmitter {
   }
 
   setActiveNodesAndMarks() {
-    this.activeMarks = Object
-      .entries(this.schema.marks)
-      .reduce((marks, [name, mark]) => ({
-        ...marks,
-        // [name]: (attrs = {}) => markIsActive(this.state, mark, attrs),
-        [name]: () => markIsActive(this.state, mark),
-      }), {})
+    this.activeMarks = collect(this.schema.marks)
+      .mapWithKeys((mark: any) => [mark.name, () => markIsActive(this.state, mark)])
+      .all()
 
-    this.activeMarkAttrs = Object
-      .entries(this.schema.marks)
-      .reduce((marks, [name, mark]) => ({
-        ...marks,
-        [name]: getMarkAttrs(this.state, mark),
-      }), {})
+    this.activeMarkAttrs = collect(this.schema.marks)
+      .mapWithKeys((mark: any) => [mark.name, () => getMarkAttrs(this.state, mark)])
+      .all()
 
-    this.activeNodes = Object
-      .entries(this.schema.nodes)
-      .reduce((nodes, [name, node]) => ({
-        ...nodes,
-        [name]: (attrs = {}) => nodeIsActive(this.state, node, attrs),
-      }), {})
+    this.activeNodes = collect(this.schema.nodes)
+      .mapWithKeys((node: any) => [node.name, (attrs = {}) => nodeIsActive(this.state, node, attrs)])
+      .all()
   }
 
   getMarkAttrs(name: string) {
