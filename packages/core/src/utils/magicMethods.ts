@@ -12,8 +12,10 @@ export default function magicMethods(clazz: any) {
           return
         }
 
-        const exists = name in target || name.startsWith('_')
-        
+        const exists = name in target
+          || name.startsWith('_')
+          || ['then', 'catch'].includes(name)
+
         if (exists) {
           return target[name]
         } else {
