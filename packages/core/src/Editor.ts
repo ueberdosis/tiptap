@@ -12,6 +12,7 @@ import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
 import injectCSS from './utils/injectCSS'
 import getAllMethodNames from './utils/getAllMethodNames'
+import nodeIsActive from './utils/nodeIsActive'
 import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
 import Node from './Node'
@@ -176,6 +177,14 @@ export class Editor extends EventEmitter {
 
   public setActiveNodesAndMarks() {
     // TODO
+    // const activeNodes = Object
+    // .entries(this.schema.nodes)
+    // .reduce((nodes, [name, node]) => ({
+    //   ...nodes,
+    //   [name]: (attrs = {}) => nodeIsActive(this.state, node, attrs),
+    // }), {})
+
+    // console.log({activeNodes})
   }
 
   // public setParentComponent(component = null) {
