@@ -7,6 +7,9 @@
       <button @click="editor.redo().focus()">
         redo
       </button>
+      <button @click="editor.bold().focus()">
+        bold
+      </button>
     </div>
     <editor-content :editor="editor" />
   </div>

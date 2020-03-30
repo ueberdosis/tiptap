@@ -6,8 +6,8 @@ export default class Bold extends Mark {
   name = 'bold'
 
   created() {
-    this.editor.registerCommand('bold', next => {
-      toggleMark(this.schemaType)
+    this.editor.registerCommand('bold', (next, { view }) => {
+      toggleMark(this.schemaType)(view.state, view.dispatch)
       next()
     })
   }
