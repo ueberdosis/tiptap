@@ -7,7 +7,7 @@
       <button @click="editor.redo().focus()">
         redo
       </button>
-      <button @click="editor.bold().focus()">
+      <button @click="editor.bold().focus()" :class="{ 'is-active': editor.isActive.bold() }">
         bold
       </button>
     </div>

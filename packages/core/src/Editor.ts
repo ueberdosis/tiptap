@@ -13,6 +13,8 @@ import elementFromString from './utils/elementFromString'
 import injectCSS from './utils/injectCSS'
 import getAllMethodNames from './utils/getAllMethodNames'
 import nodeIsActive from './utils/nodeIsActive'
+import markIsActive from './utils/markIsActive'
+import getMarkAttrs from './utils/getMarkAttrs'
 import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
 import Node from './Node'
@@ -40,6 +42,9 @@ export class Editor extends EventEmitter {
     extensions: [],
   }
   commands: { [key: string]: any } = {}
+  activeNodes: { [key: string]: any } = {}
+  activeMarks: { [key: string]: any } = {}
+  activeMarkAttrs: { [key: string]: any } = {}
   
   private lastCommand = Promise.resolve()
   
@@ -51,6 +56,7 @@ export class Editor extends EventEmitter {
     this.createExtensionManager()
     this.createSchema()
     this.createView()
+    this.setActiveNodesAndMarks()
     this.registerCommand('focus', require('./commands/focus').default)
     this.registerCommand('insertText', require('./commands/insertText').default)
     this.registerCommand('insertHTML', require('./commands/insertHTML').default)
@@ -166,7 +172,6 @@ export class Editor extends EventEmitter {
     this.view.updateState(state)
     this.storeSelection()
     this.setActiveNodesAndMarks()
-
     this.emit('transaction', { transaction })
     
     if (!transaction.docChanged || transaction.getMeta('preventUpdate')) {
@@ -176,16 +181,44 @@ export class Editor extends EventEmitter {
     this.emit('update', { transaction })
   }
 
-  public setActiveNodesAndMarks() {
-    // TODO
-    // const activeNodes = Object
-    // .entries(this.schema.nodes)
-    // .reduce((nodes, [name, node]) => ({
-    //   ...nodes,
-    //   [name]: (attrs = {}) => nodeIsActive(this.state, node, attrs),
-    // }), {})
+  setActiveNodesAndMarks() {
+    this.activeMarks = Object
+      .entries(this.schema.marks)
+      .reduce((marks, [name, mark]) => ({
+        ...marks,
+        // [name]: (attrs = {}) => markIsActive(this.state, mark, attrs),
+        [name]: () => markIsActive(this.state, mark),
+      }), {})
 
-    // console.log({activeNodes})
+    this.activeMarkAttrs = Object
+      .entries(this.schema.marks)
+      .reduce((marks, [name, mark]) => ({
+        ...marks,
+        [name]: getMarkAttrs(this.state, mark),
+      }), {})
+
+    this.activeNodes = Object
+      .entries(this.schema.nodes)
+      .reduce((nodes, [name, node]) => ({
+        ...nodes,
+        [name]: (attrs = {}) => nodeIsActive(this.state, node, attrs),
+      }), {})
+  }
+
+  getMarkAttrs(name: string) {
+    return this.activeMarkAttrs[name]
+  }
+
+  get isActive() {
+    return Object
+      .entries({
+        ...this.activeMarks,
+        ...this.activeNodes,
+      })
+      .reduce((types, [name, value]) => ({
+        ...types,
+        [name]: (attrs = {}) => value(attrs),
+      }), {})
   }
 
   // public setParentComponent(component = null) {

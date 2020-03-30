@@ -49,6 +49,11 @@ body {
   outline: none;
 }
 
+.is-active {
+  background: black;
+  color: white;
+}
+
 // :not(pre) > code[class*="language-"], pre[class*="language-"] {
 //   background-color: $colorBlack;
 // }
