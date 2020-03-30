@@ -14,10 +14,10 @@ module.exports = function (api) {
           .options({ appendTsSuffixTo: [/\.vue$/] });
     
     globby.sync('./packages/*', { onlyDirectories: true })
-      .map(name => name.replace('./packages/tiptap-', ''))
+      .map(name => name.replace('./packages/', ''))
       .forEach(name => {
         config.resolve.alias
-          .set(`@tiptap/${name}`, path.resolve(`./packages/tiptap-${name}`))
+          .set(`@tiptap/${name}`, path.resolve(`./packages/${name}`))
       })
   })
 }
