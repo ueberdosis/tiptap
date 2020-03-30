@@ -10,6 +10,9 @@
       <button @click="editor.bold().focus()" :class="{ 'is-active': editor.isActive.bold() }">
         bold
       </button>
+      <button @click="editor.italic().focus()" :class="{ 'is-active': editor.isActive.italic() }">
+        italic
+      </button>
     </div>
     <editor-content :editor="editor" />
   </div>
@@ -23,6 +26,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import History from '@tiptap/extension-history'
 import Bold from '@tiptap/extension-bold'
+import Italic from '@tiptap/extension-italic'
 
 export default {
   components: {
@@ -44,6 +48,7 @@ export default {
         new Text(),
         new History(),
         new Bold(),
+        new Italic(),
       ],
     })
   },
