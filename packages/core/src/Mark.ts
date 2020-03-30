@@ -1,21 +1,19 @@
 import Extension from './Extension'
 
-export default abstract class Node extends Extension {
+export default abstract class Mark extends Extension {
 
   constructor(options = {}) {
     super(options)
   }
 
-  public type = 'node'
-
-  public topNode = false
+  public type = 'mark'
 
   schema(): any {
     return null
   }
 
   get schemaType() {
-    return this.editor.schema.nodes[this.name]
+    return this.editor.schema.marks[this.name]
   }
 
 }

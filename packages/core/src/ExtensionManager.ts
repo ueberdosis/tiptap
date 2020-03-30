@@ -12,7 +12,9 @@ export default class ExtensionManager {
     this.extensions = extensions
     this.extensions.forEach(extension => {
       extension.bindEditor(editor)
-      extension.created()
+      editor.on('schemaCreated', () => {
+        extension.created()
+      })
     })
   }
 

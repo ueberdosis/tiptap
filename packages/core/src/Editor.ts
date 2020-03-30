@@ -106,6 +106,7 @@ export class Editor extends EventEmitter {
       nodes: this.extensionManager.nodes,
       marks: this.extensionManager.marks,
     })
+    this.emit('schemaCreated')
   }
 
   private get plugins() {

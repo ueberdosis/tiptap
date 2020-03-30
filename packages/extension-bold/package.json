@@ -1,0 +1,17 @@
+{
+  "name": "@tiptap/extension-text",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-extension-text.js",
+  "umd:main": "dist/tiptap-extension-text.umd.js",
+  "module": "dist/tiptap-extension-text.mjs", 
+  "unpkg": "dist/tiptap-extension-text.js",
+  "jsdelivr": "dist/tiptap-extension-text.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "2.x"
+  }
+}

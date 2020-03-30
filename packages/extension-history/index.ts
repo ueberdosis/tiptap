@@ -38,10 +38,16 @@ export default class History extends Extension {
 
   // commands() {
   //   return {
-  //     undo: () => undo,
-  //     redo: () => redo,
-  //     undoDepth: () => undoDepth,
-  //     redoDepth: () => redoDepth,
+  //     undo: (next, { view }) => {
+  //       undo(view.state, view.dispatch)
+  //       next()
+  //     },
+  //     redo: (next, { view }) => {
+  //       redo(view.state, view.dispatch)
+  //       next()
+  //     },
+  //     // undoDepth: () => undoDepth,
+  //     // redoDepth: () => redoDepth,
   //   }
   // }
 
