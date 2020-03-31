@@ -1,6 +1,12 @@
 import { Mark } from '@tiptap/core'
 import { toggleMark } from 'prosemirror-commands'
 
+declare module '@tiptap/core/src/Editor' {
+  interface Editor {
+    bold(): Editor,
+  }
+}
+
 export default class Bold extends Mark {
 
   name = 'bold'
@@ -28,6 +34,12 @@ export default class Bold extends Mark {
         // },
       ],
       toDOM: () => ['strong', 0],
+    }
+  }
+
+  keys() {
+    return {
+      'Mod-b': () => this.editor.bold(),
     }
   }
 

@@ -54,6 +54,9 @@ export class Editor extends EventEmitter {
   constructor(options: Options) {
     super()
     this.options = { ...this.options, ...options }
+  }
+
+  private init() {
     this.createExtensionManager()
     this.createSchema()
     this.createView()
@@ -86,7 +89,7 @@ export class Editor extends EventEmitter {
     if (this.commands[name]) {
       throw new Error(`tiptap: command '${name}' is already defined.`)
     }
-
+    
     if (getAllMethodNames(this).includes(name)) {
       throw new Error(`tiptap: '${name}' is a protected name.`)
     }
@@ -103,7 +106,7 @@ export class Editor extends EventEmitter {
   }
 
   private createExtensionManager() {
-    this.extensionManager = new ExtensionManager(this.options.extensions, this)
+    this.extensionManager = new ExtensionManager(this.options.extensions, this.proxy)
   }
 
   private createSchema() {
@@ -116,8 +119,10 @@ export class Editor extends EventEmitter {
   }
 
   private get plugins() {
+    console.log(this.extensionManager.plugins)
     return [
       ...this.extensionManager.plugins,
+      ...this.extensionManager.keymaps,
       keymap({ Backspace: undoInputRule }),
       keymap(baseKeymap),
       dropCursor(),

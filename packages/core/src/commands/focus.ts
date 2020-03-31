@@ -5,7 +5,7 @@ import minMax from '../utils/minMax'
 
 declare module '../Editor' {
   interface Editor {
-    focus(position: Position): Editor
+    focus(position?: Position): Editor
   }
 }
 

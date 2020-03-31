@@ -6,9 +6,11 @@ import Node from './Node'
 
 export default class ExtensionManager {
 
+  editor: Editor
   extensions: (Extension | Node)[]
 
   constructor(extensions: (Extension | Node)[], editor: Editor) {
+    this.editor = editor
     this.extensions = extensions
     this.extensions.forEach(extension => {
       extension.bindEditor(editor)
@@ -43,6 +45,14 @@ export default class ExtensionManager {
   get plugins(): any {
     return collect(this.extensions)
       .flatMap(extension => extension.plugins())
+      .toArray()
+  }
+
+  get keymaps() {
+    return collect(this.extensions)
+      .map(extension => extension.keys())
+      .filter(keys => !!Object.keys(keys).length)
+      .map(keys => keymap(keys))
       .toArray()
   }
 

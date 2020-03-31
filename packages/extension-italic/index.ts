@@ -1,6 +1,12 @@
 import { Mark } from '@tiptap/core'
 import { toggleMark } from 'prosemirror-commands'
 
+declare module '@tiptap/core/src/Editor' {
+  interface Editor {
+    italic(): Editor,
+  }
+}
+
 export default class Italic extends Mark {
 
   name = 'italic'
@@ -20,6 +26,12 @@ export default class Italic extends Mark {
         { style: 'font-style=italic' },
       ],
       toDOM: () => ['em', 0],
+    }
+  }
+
+  keys() {
+    return {
+      'Mod-i': () => this.editor.italic(),
     }
   }
 

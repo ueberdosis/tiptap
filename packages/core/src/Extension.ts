@@ -39,8 +39,8 @@ export default abstract class Extension {
     return []
   }
 
-  keys(): any {
+  keys(): { [key: string]: any } {
     return {}
-  }
+  } 
 
 }
