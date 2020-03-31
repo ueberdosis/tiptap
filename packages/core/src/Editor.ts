@@ -228,11 +228,10 @@ export class Editor extends EventEmitter {
   }
 
   public destroy() {
-    if (!this.view) {
-      return
+    if (this.view) {
+      this.view.destroy()
     }
 
-    this.view.destroy()
     this.removeAllListeners()
     removeElement(this.css)
   }
