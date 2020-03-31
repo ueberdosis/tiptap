@@ -1,4 +1,3 @@
-import collect from 'collect.js'
 import { EventEmitter } from 'events'
 import { EditorState, TextSelection } from 'prosemirror-state'
 import { EditorView} from 'prosemirror-view'
@@ -8,7 +7,6 @@ import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
-
 import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
 import injectCSS from './utils/injectCSS'
@@ -119,7 +117,6 @@ export class Editor extends EventEmitter {
   }
 
   private get plugins() {
-    console.log(this.extensionManager.plugins)
     return [
       ...this.extensionManager.plugins,
       ...this.extensionManager.keymaps,

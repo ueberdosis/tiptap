@@ -1,4 +1,5 @@
 import Extension from './Extension'
+import { NodeSpec } from 'prosemirror-model'
 
 export default abstract class Node extends Extension {
 
@@ -10,9 +11,7 @@ export default abstract class Node extends Extension {
 
   public topNode = false
 
-  schema(): any {
-    return null
-  }
+  abstract schema(): NodeSpec
 
   get schemaType() {
     return this.editor.schema.nodes[this.name]

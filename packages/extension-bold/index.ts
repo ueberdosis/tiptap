@@ -1,5 +1,6 @@
 import { Mark } from '@tiptap/core'
 import { toggleMark } from 'prosemirror-commands'
+import { MarkSpec } from 'prosemirror-model'
 
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
@@ -18,7 +19,7 @@ export default class Bold extends Mark {
     })
   }
 
-  schema() {
+  schema(): MarkSpec {
     return {
       parseDOM: [
         {
@@ -26,12 +27,12 @@ export default class Bold extends Mark {
         },
         {
           tag: 'b',
-          getAttrs: (node: HTMLElement) => node.style.fontWeight !== 'normal' && null,
+          getAttrs: node => (node as HTMLElement).style.fontWeight !== 'normal' && null,
         },
-        // {
-        //   style: 'font-weight',
-        //   getAttrs: value => /^(bold(er)?|[5-9]\d{2,})$/.test(value) && null,
-        // },
+        {
+          style: 'font-weight',
+          getAttrs: value => /^(bold(er)?|[5-9]\d{2,})$/.test(value as string) && null,
+        },
       ],
       toDOM: () => ['strong', 0],
     }

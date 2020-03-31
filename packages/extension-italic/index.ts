@@ -1,5 +1,6 @@
 import { Mark } from '@tiptap/core'
 import { toggleMark } from 'prosemirror-commands'
+import { MarkSpec } from 'prosemirror-model'
 
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
@@ -18,7 +19,7 @@ export default class Italic extends Mark {
     })
   }
 
-  schema() {
+  schema(): MarkSpec {
     return {
       parseDOM: [
         { tag: 'i' },

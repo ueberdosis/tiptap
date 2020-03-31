@@ -1,4 +1,5 @@
 import Extension from './Extension'
+import { MarkSpec } from 'prosemirror-model'
 
 export default abstract class Mark extends Extension {
 
@@ -8,9 +9,7 @@ export default abstract class Mark extends Extension {
 
   public type = 'mark'
 
-  schema(): any {
-    return null
-  }
+  abstract schema(): MarkSpec
 
   get schemaType() {
     return this.editor.schema.marks[this.name]

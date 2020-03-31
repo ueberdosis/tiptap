@@ -1,4 +1,5 @@
 import { Node } from '@tiptap/core'
+import { NodeSpec } from 'prosemirror-model'
 
 export default class Document extends Node {
 
@@ -6,7 +7,7 @@ export default class Document extends Node {
 
   topNode = true
 
-  schema() {
+  schema(): NodeSpec {
     return {
       content: 'block+',
     }

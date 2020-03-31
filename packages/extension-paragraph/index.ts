@@ -1,10 +1,11 @@
 import { Node } from '@tiptap/core'
+import { NodeSpec } from 'prosemirror-model'
 
 export default class Paragraph extends Node {
 
   name = 'paragraph'
 
-  schema() {
+  schema(): NodeSpec {
     return {
       content: 'inline*',
       group: 'block',
