@@ -44,9 +44,6 @@ export class Editor extends EventEmitter {
     extensions: [],
   }
   commands: { [key: string]: any } = {}
-  activeNodes: { [key: string]: any } = {}
-  activeMarks: { [key: string]: any } = {}
-  activeMarkAttrs: { [key: string]: any } = {}
   
   private lastCommand = Promise.resolve()
   
