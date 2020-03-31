@@ -16,6 +16,7 @@ import getAllMethodNames from './utils/getAllMethodNames'
 import nodeIsActive from './utils/nodeIsActive'
 import markIsActive from './utils/markIsActive'
 import getMarkAttrs from './utils/getMarkAttrs'
+import getSchemaTypeByName from './utils/getSchemaTypeByName'
 import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
 import Node from './Node'
@@ -57,7 +58,6 @@ export class Editor extends EventEmitter {
     this.createExtensionManager()
     this.createSchema()
     this.createView()
-    this.setActiveNodesAndMarks()
     this.registerCommand('focus', require('./commands/focus').default)
     this.registerCommand('insertText', require('./commands/insertText').default)
     this.registerCommand('insertHTML', require('./commands/insertHTML').default)
@@ -172,7 +172,6 @@ export class Editor extends EventEmitter {
     const state = this.state.apply(transaction)
     this.view.updateState(state)
     this.storeSelection()
-    this.setActiveNodesAndMarks()
     this.emit('transaction', { transaction })
     
     if (!transaction.docChanged || transaction.getMeta('preventUpdate')) {
@@ -182,34 +181,20 @@ export class Editor extends EventEmitter {
     this.emit('update', { transaction })
   }
 
-  setActiveNodesAndMarks() {
-    this.activeMarks = collect(this.schema.marks)
-      .mapWithKeys((mark: any) => [mark.name, () => markIsActive(this.state, mark)])
-      .all()
-
-    this.activeMarkAttrs = collect(this.schema.marks)
-      .mapWithKeys((mark: any) => [mark.name, () => getMarkAttrs(this.state, mark)])
-      .all()
-
-    this.activeNodes = collect(this.schema.nodes)
-      .mapWithKeys((node: any) => [node.name, (attrs = {}) => nodeIsActive(this.state, node, attrs)])
-      .all()
-  }
-
   getMarkAttrs(name: string) {
-    return this.activeMarkAttrs[name]
+    return getMarkAttrs(this.state, this.schema.marks[name])
   }
 
-  get isActive() {
-    return Object
-      .entries({
-        ...this.activeMarks,
-        ...this.activeNodes,
-      })
-      .reduce((types, [name, value]) => ({
-        ...types,
-        [name]: (attrs = {}) => value(attrs),
-      }), {})
+  isActive(name: string, attrs = {}) {
+    const schemaType = getSchemaTypeByName(name, this.schema)
+
+    if (schemaType === 'node') {
+      return nodeIsActive(this.state, this.schema.nodes[name], attrs)
+    } else if (schemaType === 'mark') {
+      return markIsActive(this.state, this.schema.marks[name])
+    }
+
+    return false
   }
 
   // public setParentComponent(component = null) {

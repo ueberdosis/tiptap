@@ -7,10 +7,10 @@
       <button @click="editor.redo().focus()">
         redo
       </button>
-      <button @click="editor.bold().focus()" :class="{ 'is-active': editor.isActive.bold() }">
+      <button @click="editor.bold().focus()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
       </button>
-      <button @click="editor.italic().focus()" :class="{ 'is-active': editor.isActive.italic() }">
+      <button @click="editor.italic().focus()" :class="{ 'is-active': editor.isActive('italic') }">
         italic
       </button>
     </div>
