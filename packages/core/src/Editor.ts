@@ -16,6 +16,7 @@ import getAllMethodNames from './utils/getAllMethodNames'
 import nodeIsActive from './utils/nodeIsActive'
 import markIsActive from './utils/markIsActive'
 import getMarkAttrs from './utils/getMarkAttrs'
+import removeElement from './utils/removeElement'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
 import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
@@ -44,6 +45,7 @@ export class Editor extends EventEmitter {
     extensions: [],
   }
   commands: { [key: string]: any } = {}
+  css!: HTMLStyleElement
   
   private lastCommand = Promise.resolve()
   
@@ -62,7 +64,7 @@ export class Editor extends EventEmitter {
     this.registerCommand('clearContent', require('./commands/clearContent').default)
     
     if (this.options.injectCSS) {
-      injectCSS(require('./style.css'))
+      this.css = injectCSS(require('./style.css'))
     }
   }
 
@@ -232,6 +234,7 @@ export class Editor extends EventEmitter {
 
     this.view.destroy()
     this.removeAllListeners()
+    removeElement(this.css)
   }
   
 }
