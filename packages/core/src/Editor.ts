@@ -184,11 +184,11 @@ export class Editor extends EventEmitter {
     this.emit('update', { transaction })
   }
 
-  getMarkAttrs(name: string) {
+  public getMarkAttrs(name: string) {
     return getMarkAttrs(this.state, this.schema.marks[name])
   }
 
-  isActive(name: string, attrs = {}) {
+  public isActive(name: string, attrs = {}) {
     const schemaType = getSchemaTypeByName(name, this.schema)
 
     if (schemaType === 'node') {
