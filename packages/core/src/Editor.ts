@@ -1,4 +1,3 @@
-import { EventEmitter } from 'events'
 import { EditorState, TextSelection } from 'prosemirror-state'
 import { EditorView} from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
@@ -19,6 +18,7 @@ import getSchemaTypeByName from './utils/getSchemaTypeByName'
 import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
 import Node from './Node'
+import EventEmitter from './EventEmitter'
 
 type EditorContent = string | JSON | null
 type Command = (next: Function, editor: Editor, ...args: any) => any
@@ -73,7 +73,9 @@ export class Editor extends EventEmitter {
     const command = this.commands[name]
 
     if (!command) {
-      throw new Error(`tiptap: command '${name}' not found.`)
+      // TODO: prevent vue devtools to throw error
+      // throw new Error(`tiptap: command '${name}' not found.`)
+      return
     }
     
     return (...args: any) => command(...args)
