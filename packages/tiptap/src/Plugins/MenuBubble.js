@@ -71,7 +71,7 @@ class Menu {
 
     // the mousedown event is fired before blur so we can prevent it
     this.mousedownHandler = this.handleClick.bind(this)
-    this.options.element.addEventListener('mousedown', this.mousedownHandler)
+    this.options.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
 
     this.options.editor.on('focus', ({ view }) => {
       this.update(view)
