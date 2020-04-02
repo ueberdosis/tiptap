@@ -20,18 +20,20 @@ class Menu {
     this.mousedownHandler = this.handleClick.bind(this)
     this.options.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
 
-    this.options.editor.on('focus', ({ view }) => {
+    this.focusHandler = ({ view }) => {
       this.update(view)
-    })
+    }
+    this.options.editor.on('focus', this.focusHandler)
 
-    this.options.editor.on('blur', ({ event }) => {
+    this.blurHandler = ({ event }) => {
       if (this.preventHide) {
         this.preventHide = false
         return
       }
 
       this.hide(event)
-    })
+    }
+    this.options.editor.on('blur', this.blurHandler)
 
     // sometimes we have to update the position
     // because of a loaded images for example
@@ -116,6 +118,9 @@ class Menu {
     if (this.resizeObserver) {
       this.resizeObserver.unobserve(this.editorView.dom)
     }
+
+    this.options.editor.off('focus', this.focusHandler)
+    this.options.editor.off('blur', this.blurHandler)
   }
 
 }
