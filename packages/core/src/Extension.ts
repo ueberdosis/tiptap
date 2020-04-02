@@ -41,6 +41,10 @@ export default abstract class Extension {
 
   keys(): { [key: string]: any } {
     return {}
+  }
+
+  commands(): { [key: string]: any } {
+    return {}
   } 
 
 }

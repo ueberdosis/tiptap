@@ -1,7 +1,7 @@
-import { Editor } from './src/Editor'
+import { Editor, CommandSpec } from './src/Editor'
 
 export default Editor
-export { Editor }
+export { Editor, CommandSpec }
 export { default as Extension } from './src/Extension'
 export { default as Node } from './src/Node'
 export { default as Mark } from './src/Mark'

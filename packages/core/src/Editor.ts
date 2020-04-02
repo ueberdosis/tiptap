@@ -21,7 +21,10 @@ import Node from './Node'
 import EventEmitter from './EventEmitter'
 
 type EditorContent = string | JSON | null
-type Command = (next: Function, editor: Editor, ...args: any) => any
+export type Command = (next: Function, editor: Editor, ...args: any) => any
+export interface CommandSpec {
+  [key: string]: Command
+}
 
 interface Options {
   content: EditorContent
