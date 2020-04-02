@@ -1,0 +1,17 @@
+{
+  "name": "@tiptap/extension-code",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-extension-code.js",
+  "umd:main": "dist/tiptap-extension-code.umd.js",
+  "module": "dist/tiptap-extension-code.mjs", 
+  "unpkg": "dist/tiptap-extension-code.js",
+  "jsdelivr": "dist/tiptap-extension-code.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "2.x"
+  }
+}
