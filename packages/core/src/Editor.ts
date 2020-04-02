@@ -1,7 +1,7 @@
 import { EditorState, TextSelection } from 'prosemirror-state'
 import { EditorView} from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
-import { inputRules, undoInputRule } from 'prosemirror-inputrules'
+import { undoInputRule } from 'prosemirror-inputrules'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { dropCursor } from 'prosemirror-dropcursor'
@@ -121,9 +121,6 @@ export class Editor extends EventEmitter {
   private get plugins() {
     return [
       ...this.extensionManager.plugins,
-      ...this.extensionManager.keymaps,
-      ...this.extensionManager.pasteRules,
-      inputRules({ rules: this.extensionManager.inputRules }),
       keymap({ Backspace: undoInputRule }),
       keymap(baseKeymap),
       dropCursor(),

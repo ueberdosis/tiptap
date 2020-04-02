@@ -1,5 +1,6 @@
-import { keymap } from 'prosemirror-keymap'
 import collect from 'collect.js'
+import { keymap } from 'prosemirror-keymap'
+import { inputRules } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 import Extension from './Extension'
 import Node from './Node'
@@ -43,9 +44,16 @@ export default class ExtensionManager {
   }
 
   get plugins(): any {
-    return collect(this.extensions)
+    const plugins = collect(this.extensions)
       .flatMap(extension => extension.plugins())
       .toArray()
+
+    return [
+      ...plugins,
+      ...this.keymaps,
+      ...this.pasteRules,
+      inputRules({ rules: this.inputRules }),
+    ]
   }
 
   get inputRules(): any {
