@@ -44,6 +44,7 @@ export default class ComponentView {
     if (typeof this.extension.setSelection === 'function') {
       this.setSelection = this.extension.setSelection
     }
+
     if (typeof this.extension.update === 'function') {
       this.update = this.extension.update
     }
