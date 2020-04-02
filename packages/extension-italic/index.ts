@@ -1,6 +1,7 @@
 import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
 import { toggleMark } from 'prosemirror-commands'
 import { MarkSpec } from 'prosemirror-model'
+import VerEx from 'verbal-expressions'
 
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
@@ -37,17 +38,69 @@ export default class Italic extends Mark {
   }
 
   inputRules() {
-    return [
-      markInputRule(/(?:^|[^_])(_([^_]+)_)$/, this.schemaType),
-      // markInputRule(/(?:^|[^*])(\*([^*]+)\*)$/, this.schemaType),
-    ]
+    return ['*', '_'].map(character => ([
+      // match start of line
+      markInputRule(
+        VerEx()
+          .startOfLine()
+          .beginCapture()
+          .find(character)
+          .beginCapture()
+          .somethingBut(character)
+          .endCapture()
+          .find(character)
+          .endCapture()
+          .endOfLine(),
+        this.schemaType,
+      ),
+      // match before whitespace
+      markInputRule(
+        VerEx()
+          .whitespace()
+          .beginCapture()
+          .find(character)
+          .beginCapture()
+          .somethingBut(character)
+          .endCapture()
+          .find(character)
+          .endCapture()
+          .endOfLine(),
+        this.schemaType,
+      ),
+    ]))
+    .flat(1)
   }
 
   pasteRules() {
-    return [
-      markPasteRule(/_([^_]+)_/g, this.schemaType),
-      // markPasteRule(/\*([^*]+)\*/g, this.schemaType),
-    ]
+    return ['*', '_'].map(character => ([
+      // match start of line
+      markPasteRule(
+        VerEx()
+          .startOfLine()
+          .beginCapture()
+          .find(character)
+          .beginCapture()
+          .somethingBut(character)
+          .endCapture()
+          .find(character)
+          .endCapture(),
+        this.schemaType,
+      ),
+      // match before whitespace
+      markPasteRule(
+        VerEx()
+          .whitespace()
+          .beginCapture()
+          .find(character)
+          .beginCapture()
+          .somethingBut(character)
+          .endCapture()
+          .find(character)
+          .endCapture(),
+        this.schemaType,
+      ),
+    ]))
+    .flat(1)
   }
 
 }

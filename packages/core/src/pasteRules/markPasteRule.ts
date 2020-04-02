@@ -14,16 +14,19 @@ export default function (regexp: RegExp, type: MarkType, getAttrs?: Function) {
         
         // eslint-disable-next-line
         while ((match = regexp.exec(text)) !== null) {
+          const m = match.length - 1
+
           if (parent.type.allowsMarkType(type) && match[1]) {
             const start = match.index
-            const end = start + match[0].length
-            const textStart = start + match[0].indexOf(match[1])
-            const textEnd = textStart + match[1].length
+            const matchStart = start + match[0].indexOf(match[m - 1])
+            const matchEnd = matchStart + match[m - 1].length // TODO: why is there no -1
+            const textStart = matchStart + match[m - 1].lastIndexOf(match[m])
+            const textEnd = textStart + match[m].length
             const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
 
             // adding text before markdown to nodes
-            if (start > 0) {
-              nodes.push(child.cut(pos, start))
+            if (matchStart > 0) {
+              nodes.push(child.cut(pos, matchStart))
             }
 
             // adding the markdown part to nodes
@@ -32,7 +35,7 @@ export default function (regexp: RegExp, type: MarkType, getAttrs?: Function) {
               // @ts-ignore
               .mark(type.create(attrs).addToSet(child.marks)))
 
-            pos = end
+            pos = matchEnd
           }
         }
 
