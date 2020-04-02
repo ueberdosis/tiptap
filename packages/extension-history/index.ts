@@ -10,7 +10,7 @@ import {
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
     undo(): Editor,
-    undo(): Editor,
+    redo(): Editor,
   }
 }
 
@@ -28,6 +28,14 @@ export default class History extends Extension {
       redo(view.state, view.dispatch)
       next()
     })
+  }
+
+  keys() {
+    return {
+      'Mod-z': () => this.editor.undo(),
+      'Mod-y': () => this.editor.redo(),
+      'Shift-Mod-z': () => this.editor.redo(),
+    }
   }
 
   plugins() {
