@@ -51,7 +51,6 @@ export default function (regexp: RegExp, type: MarkType, getAttrs?: Function) {
   return new Plugin({
     props: {
       transformPasted: slice => {
-        console.log({slice})
         return new Slice(handler(slice.content), slice.openStart, slice.openEnd)
       },
     },
