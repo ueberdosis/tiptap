@@ -1,16 +1,16 @@
 <template>
   <div>
     <div v-if="editor">
-      <button @click="editor.undo().focus()">
+      <button @click="editor.focus().undo()">
         undo
       </button>
-      <button @click="editor.redo().focus()">
+      <button @click="editor.focus().redo()">
         redo
       </button>
-      <button @click="editor.bold().focus()" :class="{ 'is-active': editor.isActive('bold') }">
+      <button @click="editor.focus().bold()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
       </button>
-      <button @click="editor.italic().focus()" :class="{ 'is-active': editor.isActive('italic') }">
+      <button @click="editor.focus().italic()" :class="{ 'is-active': editor.isActive('italic') }">
         italic
       </button>
     </div>
