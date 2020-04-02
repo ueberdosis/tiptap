@@ -48,6 +48,18 @@ export default class ExtensionManager {
       .toArray()
   }
 
+  get inputRules(): any {
+    return collect(this.extensions)
+      .flatMap(extension => extension.inputRules())
+      .toArray()
+  }
+
+  get pasteRules(): any {
+    return collect(this.extensions)
+      .flatMap(extension => extension.pasteRules())
+      .toArray()
+  }
+
   get keymaps() {
     return collect(this.extensions)
       .map(extension => extension.keys())

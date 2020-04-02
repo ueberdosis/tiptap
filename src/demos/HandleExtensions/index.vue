@@ -27,6 +27,7 @@ import Text from '@tiptap/extension-text'
 import History from '@tiptap/extension-history'
 import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
+import CodeBlock from '@tiptap/extension-codeblock'
 
 export default {
   components: {
@@ -41,11 +42,12 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      content: '<p>foo</p>',
+      content: '<p>foo</p><pre>code **bold** _italic_</pre>',
       extensions: [
         new Document(),
         new Paragraph(),
         new Text(),
+        new CodeBlock(),
         new History(),
         new Bold(),
         new Italic(),

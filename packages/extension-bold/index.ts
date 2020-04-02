@@ -1,4 +1,4 @@
-import { Mark } from '@tiptap/core'
+import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
 import { toggleMark } from 'prosemirror-commands'
 import { MarkSpec } from 'prosemirror-model'
 
@@ -42,6 +42,18 @@ export default class Bold extends Mark {
     return {
       'Mod-b': () => this.editor.bold(),
     }
+  }
+
+  inputRules() {
+    return [
+      markInputRule(/(?:\*\*|__)([^*_]+)(?:\*\*|__)$/, this.schemaType),
+    ]
+  }
+
+  pasteRules() {
+    return [
+      markPasteRule(/(?:\*\*|__)([^*_]+)(?:\*\*|__)/g, this.schemaType),
+    ]
   }
 
 }

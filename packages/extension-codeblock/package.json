@@ -1,0 +1,17 @@
+{
+  "name": "@tiptap/extension-codeblock",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-extension-codeblock.js",
+  "umd:main": "dist/tiptap-extension-codeblock.umd.js",
+  "module": "dist/tiptap-extension-codeblock.mjs", 
+  "unpkg": "dist/tiptap-extension-codeblock.js",
+  "jsdelivr": "dist/tiptap-extension-codeblock.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "2.x"
+  }
+}

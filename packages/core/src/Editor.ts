@@ -122,6 +122,8 @@ export class Editor extends EventEmitter {
     return [
       ...this.extensionManager.plugins,
       ...this.extensionManager.keymaps,
+      ...this.extensionManager.pasteRules,
+      inputRules({ rules: this.extensionManager.inputRules }),
       keymap({ Backspace: undoInputRule }),
       keymap(baseKeymap),
       dropCursor(),
