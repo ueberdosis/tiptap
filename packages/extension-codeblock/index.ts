@@ -8,7 +8,7 @@ export default class CodeBlock extends Node {
   schema(): NodeSpec {
     return {
       content: 'text*',
-      marks: 'italic',  
+      marks: '',  
       group: 'block',
       code: true,
       defining: true,
