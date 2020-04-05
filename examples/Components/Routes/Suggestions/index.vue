@@ -35,7 +35,7 @@
 
 <script>
 import Fuse from 'fuse.js'
-import tippy, { roundArrow } from 'tippy.js'
+import tippy, { roundArrow, sticky } from 'tippy.js'
 import Icon from 'Components/Icon'
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
@@ -219,11 +219,12 @@ export default {
 
       // ref: https://atomiks.github.io/tippyjs/v6/all-props/
       this.popup = tippy('.page', {
-        // function that returns a ClientRect object
         getReferenceClientRect: node.getBoundingClientRect,
         appendTo: () => document.body,
         interactive: true,
         arrow: roundArrow,
+        sticky: true, // make sure position of tippy is updated when content changes
+        plugins: [sticky],
         content: this.$refs.suggestions,
         trigger: 'mouseenter', // manual
         showOnCreate: true,
