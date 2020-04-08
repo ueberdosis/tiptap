@@ -492,9 +492,9 @@ export default class Editor extends Emitter {
       return
     }
 
-    const newState = this.state.reconfigure({
-      plugins: this.state.plugins.concat([plugin]),
-    })
+    this.plugins.push(plugin);
+    this.state.plugins.splice(this.plugins.length, 0, plugin);
+    const newState = this.state.reconfigure({plugins: this.state.plugins});
     this.view.updateState(newState)
   }
 
