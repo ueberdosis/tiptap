@@ -8,7 +8,6 @@ import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
 import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
-import injectCSS from './utils/injectCSS'
 import getAllMethodNames from './utils/getAllMethodNames'
 import nodeIsActive from './utils/nodeIsActive'
 import markIsActive from './utils/markIsActive'
@@ -72,7 +71,7 @@ export class Editor extends EventEmitter {
     this.registerCommand('removeMarks', require('./commands/removeMarks').default)
     
     if (this.options.injectCSS) {
-      this.css = injectCSS(require('./style.css'))
+      require('./style.css')
     }
   }
 
