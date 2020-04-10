@@ -1,4 +1,4 @@
-import { EditorState, TextSelection } from 'prosemirror-state'
+import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView} from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import { undoInputRule } from 'prosemirror-inputrules'
@@ -102,6 +102,18 @@ export class Editor extends EventEmitter {
     })
 
     return this.proxy
+  }
+
+  public registerPlugin(plugin: Plugin) {
+    if (!plugin) {
+      return
+    }
+
+    const state = this.state.reconfigure({
+      plugins: [plugin, ...this.state.plugins],
+    })
+
+    this.view.updateState(state)
   }
 
   public command(name: string, ...args: any) {
