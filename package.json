@@ -21,7 +21,7 @@
     "@gridsome/vue-remark": "^0.1.10",
     "@mvasilkov/outdent": "^1.0.4",
     "@noxify/gridsome-plugin-remark-embed": "^1.1.5",
-    "@types/node": "^13.9.5",
+    "@types/node": "^13.11.1",
     "@types/prosemirror-commands": "^1.0.1",
     "@types/prosemirror-history": "^1.0.1",
     "@types/prosemirror-inputrules": "^1.0.2",
@@ -39,7 +39,7 @@
     "typescript": "^3.8.3"
   },
   "devDependencies": {
-    "cypress": "^4.2.0",
+    "cypress": "^4.3.0",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
     "start-server-and-test": "^1.10.11",
