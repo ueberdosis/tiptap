@@ -35,7 +35,7 @@
 
 <script>
 import Fuse from 'fuse.js'
-import tippy, { roundArrow, sticky } from 'tippy.js'
+import tippy, { sticky } from 'tippy.js'
 import Icon from 'Components/Icon'
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
@@ -46,7 +46,6 @@ import {
   Bold,
   Italic,
 } from 'tiptap-extensions'
-import 'tippy.js/dist/svg-arrow.css'
 
 export default {
 
@@ -222,7 +221,6 @@ export default {
         getReferenceClientRect: node.getBoundingClientRect,
         appendTo: () => document.body,
         interactive: true,
-        arrow: roundArrow,
         sticky: true, // make sure position of tippy is updated when content changes
         plugins: [sticky],
         content: this.$refs.suggestions,
@@ -301,29 +299,5 @@ export default {
   text-align: inherit;
   color: $color-white;
   border-radius: 5px;
-
-  &[data-placement^=top]>.tippy-arrow:before {
-    border-top-color: $color-black;
-  }
-
-  &[data-placement^=bottom]>.tippy-arrow:before {
-      border-bottom-color: $color-black;
-  }
-
-  &[data-placement^=left]>.tippy-arrow:before {
-      border-left-color: $color-black;
-  }
-
-  &[data-placement^=right]>.tippy-arrow:before {
-      border-right-color: $color-black;
-  }
-
-  &>.tippy-backdrop {
-      background-color: $color-black;
-  }
-
-  &>.tippy-svg-arrow {
-      fill: $color-black;
-  }
 }
 </style>
