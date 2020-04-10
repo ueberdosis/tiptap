@@ -7,11 +7,11 @@ export default abstract class Mark extends Extension {
     super(options)
   }
 
-  public type = 'mark'
+  public extensionType = 'mark'
 
   abstract schema(): MarkSpec
 
-  get schemaType() {
+  get type() {
     return this.editor.schema.marks[this.name]
   }
 

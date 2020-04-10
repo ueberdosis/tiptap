@@ -40,14 +40,14 @@ export default class ExtensionManager {
 
   get nodes(): any {
     return collect(this.extensions)
-      .where('type', 'node')
+      .where('extensionType', 'node')
       .mapWithKeys((extension: any) => [extension.name, extension.schema()])
       .all()
   }
 
   get marks(): any {
     return collect(this.extensions)
-      .where('type', 'mark')
+      .where('extensionType', 'mark')
       .mapWithKeys((extension: any) => [extension.name, extension.schema()])
       .all()
   }

@@ -27,7 +27,7 @@ export default class Italic extends Mark {
   commands(): CommandSpec {
     return {
       italic: (next, { view }) => {
-        toggleMark(this.schemaType)(view.state, view.dispatch)
+        toggleMark(this.type)(view.state, view.dispatch)
         next()
       },
     }
@@ -53,7 +53,7 @@ export default class Italic extends Mark {
           .find(character)
           .endCapture()
           .endOfLine(),
-        this.schemaType,
+        this.type,
       ),
       // match before whitespace
       markInputRule(
@@ -67,7 +67,7 @@ export default class Italic extends Mark {
           .find(character)
           .endCapture()
           .endOfLine(),
-        this.schemaType,
+        this.type,
       ),
     ]))
     .flat(1)
@@ -86,7 +86,7 @@ export default class Italic extends Mark {
           .endCapture()
           .find(character)
           .endCapture(),
-        this.schemaType,
+        this.type,
       ),
       // match before whitespace
       markPasteRule(
@@ -99,7 +99,7 @@ export default class Italic extends Mark {
           .endCapture()
           .find(character)
           .endCapture(),
-        this.schemaType,
+        this.type,
       ),
     ]))
     .flat(1)

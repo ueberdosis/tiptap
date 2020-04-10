@@ -7,13 +7,13 @@ export default abstract class Node extends Extension {
     super(options)
   }
 
-  public type = 'node'
+  public extensionType = 'node'
 
   public topNode = false
 
   abstract schema(): NodeSpec
 
-  get schemaType() {
+  get type() {
     return this.editor.schema.nodes[this.name]
   }
 

@@ -15,7 +15,7 @@ export default abstract class Extension {
   
   public abstract name: string
   
-  public type = 'extension'
+  public extensionType = 'extension'
 
   public created() {}
 

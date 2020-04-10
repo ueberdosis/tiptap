@@ -35,7 +35,7 @@ export default class Bold extends Mark {
   commands(): CommandSpec {
     return {
       bold: (next, { view }) => {
-        toggleMark(this.schemaType)(view.state, view.dispatch)
+        toggleMark(this.type)(view.state, view.dispatch)
         next()
       },
     }
@@ -61,7 +61,7 @@ export default class Bold extends Mark {
           .find(character)
           .endCapture()
           .endOfLine(),
-        this.schemaType,
+        this.type,
       ),
       // match before whitespace
       markInputRule(
@@ -75,7 +75,7 @@ export default class Bold extends Mark {
           .find(character)
           .endCapture()
           .endOfLine(),
-        this.schemaType,
+        this.type,
       ),
     ]))
     .flat(1)
@@ -94,7 +94,7 @@ export default class Bold extends Mark {
           .endCapture()
           .find(character)
           .endCapture(),
-        this.schemaType,
+        this.type,
       ),
       // match before whitespace
       markPasteRule(
@@ -107,7 +107,7 @@ export default class Bold extends Mark {
           .endCapture()
           .find(character)
           .endCapture(),
-        this.schemaType,
+        this.type,
       ),
     ]))
     .flat(1)
