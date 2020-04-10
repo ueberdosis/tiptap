@@ -22,7 +22,7 @@
   "dependencies": {
     "prosemirror-commands": "1.1.3",
     "prosemirror-dropcursor": "1.3.2",
-    "prosemirror-gapcursor": "1.1.4",
+    "prosemirror-gapcursor": "1.1.5",
     "prosemirror-inputrules": "1.1.2",
     "prosemirror-keymap": "1.1.3",
     "prosemirror-model": "1.9.1",
