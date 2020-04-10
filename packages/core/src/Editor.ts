@@ -18,17 +18,20 @@ import getSchemaTypeByName from './utils/getSchemaTypeByName'
 import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
 import Node from './Node'
+import Mark from './Mark'
 import EventEmitter from './EventEmitter'
 
-type EditorContent = string | JSON | null
 export type Command = (next: Function, editor: Editor, ...args: any) => any
+
 export interface CommandSpec {
   [key: string]: Command
 }
 
+type EditorContent = string | JSON | null
+
 interface Options {
   content: EditorContent
-  extensions: (Extension | Node)[]
+  extensions: (Extension | Node | Mark)[]
   injectCSS: Boolean
 }
 
