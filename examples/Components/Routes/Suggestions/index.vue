@@ -103,18 +103,17 @@ export default {
             },
             // is called on every keyDown event while a suggestion is active
             onKeyDown: ({ event }) => {
-              // pressing up arrow
-              if (event.keyCode === 38) {
+              if (event.key === 'ArrowUp') {
                 this.upHandler()
                 return true
               }
-              // pressing down arrow
-              if (event.keyCode === 40) {
+
+              if (event.key === 'ArrowDown') {
                 this.downHandler()
                 return true
               }
-              // pressing enter
-              if (event.keyCode === 13) {
+
+              if (event.key === 'Enter') {
                 this.enterHandler()
                 return true
               }
