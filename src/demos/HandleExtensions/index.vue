@@ -1,6 +1,9 @@
 <template>
   <div>
     <div v-if="editor">
+      <button @click="editor.focus().removeMarks()">
+        clear formatting
+      </button>
       <button @click="editor.focus().undo()">
         undo
       </button>

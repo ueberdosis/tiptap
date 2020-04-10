@@ -66,6 +66,7 @@ export class Editor extends EventEmitter {
     this.registerCommand('insertHTML', require('./commands/insertHTML').default)
     this.registerCommand('setContent', require('./commands/setContent').default)
     this.registerCommand('clearContent', require('./commands/clearContent').default)
+    this.registerCommand('removeMarks', require('./commands/removeMarks').default)
     
     if (this.options.injectCSS) {
       this.css = injectCSS(require('./style.css'))
