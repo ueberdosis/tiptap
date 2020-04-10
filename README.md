@@ -419,7 +419,10 @@ export default class IframeNode extends Node {
       // `updateAttrs` is a function to update attributes defined in `schema`
       // `view` is the ProseMirror view instance
       // `options` is an array of your extension options
-      // `selected`
+      // `selected` is a boolean which is true when selected
+      // `editor` is a reference to the TipTap editor instance
+      // `getPos` is a function to retrieve the start position of the node
+      // `decorations` is an array of decorations around the node
       props: ['node', 'updateAttrs', 'view'],
       computed: {
         src: {
