@@ -43,7 +43,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      content: '<p>foo</p><pre>code **bold** _italic_</pre>',
+      content: '<p>This editor is based on Prosemirror, fully extendable and renderless. You can easily add custom nodes as Vue components.</p>',
       extensions: [
         new Document(),
         new Paragraph(),
