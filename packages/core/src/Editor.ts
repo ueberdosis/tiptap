@@ -117,6 +117,19 @@ export class Editor extends EventEmitter {
     this.view.updateState(state)
   }
 
+  public unregisterPlugin(name: string) {
+    if (!name) {
+      return
+    }
+
+    const state = this.state.reconfigure({
+      // @ts-ignore
+      plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(`${name}$`)),
+    })
+
+    this.view.updateState(state)
+  }
+
   public command(name: string, ...args: any) {
     return this.commands[name](...args)
   }
