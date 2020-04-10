@@ -241,6 +241,10 @@ export default {
     },
 
   },
+
+  beforeDestroy() {
+    this.destroyPopup()
+  },
 }
 </script>
 
