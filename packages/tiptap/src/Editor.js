@@ -487,14 +487,10 @@ export default class Editor extends Emitter {
       }), {})
   }
 
-  registerPlugin(plugin = null) {
-    if (!plugin) {
-      return
-    }
-
-    this.plugins.push(plugin);
-    this.state.plugins.splice(this.plugins.length, 0, plugin);
-    const newState = this.state.reconfigure({plugins: this.state.plugins});
+  registerPlugin(plugin = null, handlePlugins) {
+    const plugins = typeof handlePlugins === 'function'
+      ? handlePlugins(plugin, this.state.plugins) : [...plugin, this.state.plugins]
+    const newState = this.state.reconfigure({ plugins })
     this.view.updateState(newState)
   }
 
