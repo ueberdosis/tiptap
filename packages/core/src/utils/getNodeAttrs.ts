@@ -14,7 +14,7 @@ export default function getNodeAttrs(state: EditorState, type: NodeType) {
     .find(nodeItem => nodeItem.type.name === type.name)
 
   if (node) {
-    return node.attrs
+    return { ...node.attrs }
   }
 
   return {}
