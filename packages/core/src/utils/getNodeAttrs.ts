@@ -9,7 +9,9 @@ export default function getNodeAttrs(state: EditorState, type: NodeType) {
     nodes = [...nodes, node]
   })
 
-  const node = nodes.find(nodeItem => nodeItem.type.name === type.name)
+  const node = nodes
+    .reverse()
+    .find(nodeItem => nodeItem.type.name === type.name)
 
   if (node) {
     return node.attrs
