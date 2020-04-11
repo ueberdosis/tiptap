@@ -30,6 +30,7 @@ export interface CommandSpec {
 type EditorContent = string | JSON | null
 
 interface Options {
+  element: HTMLElement,
   content: EditorContent
   extensions: (Extension | Node | Mark)[]
   injectCSS: Boolean
@@ -39,11 +40,11 @@ interface Options {
 export class Editor extends EventEmitter {
 
   proxy!: any
-  element = document.createElement('div')
   extensionManager!: ExtensionManager
   schema!: Schema
   view!: EditorView
   options: Options = {
+    element: document.createElement('div'),
     content: '',
     injectCSS: true,
     extensions: [],
@@ -161,7 +162,7 @@ export class Editor extends EventEmitter {
   }
 
   private createView() {
-    this.view = new EditorView(this.element, {
+    this.view = new EditorView(this.options.element, {
       state: EditorState.create({
         doc: this.createDocument(this.options.content),
         plugins: this.plugins,

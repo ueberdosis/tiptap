@@ -12,9 +12,9 @@ export default Vue.extend({
     editor: {
       immediate: true,
       handler(editor) {
-        if (editor && editor.element) {
+        if (editor && editor.options.element) {
           this.$nextTick(() => {
-            this.$el.appendChild(editor.element.firstChild)
+            this.$el.appendChild(editor.options.element.firstChild)
             // editor.setParentComponent(this)
           })
         }
@@ -27,6 +27,6 @@ export default Vue.extend({
   },
 
   beforeDestroy() {
-    this.editor.element = this.$el
+    this.editor.options.element = this.$el
   },
 })
