@@ -11,7 +11,12 @@ import { gapCursor } from 'prosemirror-gapcursor'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { inputRules, undoInputRule } from 'prosemirror-inputrules'
-import { markIsActive, nodeIsActive, getMarkAttrs } from 'tiptap-utils'
+import {
+ markIsActive,
+ nodeIsActive,
+ getMarkAttrs,
+ getNodeAttrs,
+} from 'tiptap-utils'
 import {
   injectCSS,
   camelCase,
@@ -473,6 +478,12 @@ export default class Editor extends Emitter {
 
   getMarkAttrs(type = null) {
     return this.activeMarkAttrs[type]
+  }
+
+  getNodeAttrs(type = null) {
+    return {
+      ...getNodeAttrs(this.state, this.schema.nodes[type]),
+    }
   }
 
   get isActive() {
