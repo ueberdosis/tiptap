@@ -11,6 +11,7 @@ import elementFromString from './utils/elementFromString'
 import getAllMethodNames from './utils/getAllMethodNames'
 import nodeIsActive from './utils/nodeIsActive'
 import markIsActive from './utils/markIsActive'
+import getNodeAttrs from './utils/getNodeAttrs'
 import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
@@ -212,6 +213,10 @@ export class Editor extends EventEmitter {
     }
 
     this.emit('update', { transaction })
+  }
+
+  public getNodeAttrs(name: string) {
+    return getNodeAttrs(this.state, this.schema.nodes[name])
   }
 
   public getMarkAttrs(name: string) {
