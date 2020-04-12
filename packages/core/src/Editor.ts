@@ -109,23 +109,17 @@ export class Editor extends EventEmitter {
     return this.proxy
   }
 
-  public registerPlugin(plugin: Plugin) {
-    if (!plugin) {
-      return
-    }
+  public registerPlugin(plugin: Plugin, handlePlugins?: (plugin: Plugin, plugins: Plugin[]) => Plugin[]) {
+    const plugins = typeof handlePlugins === 'function'
+      ? handlePlugins(plugin, this.state.plugins)
+      : [plugin, ...this.state.plugins]
 
-    const state = this.state.reconfigure({
-      plugins: [plugin, ...this.state.plugins],
-    })
+    const state = this.state.reconfigure({ plugins })
 
     this.view.updateState(state)
   }
 
   public unregisterPlugin(name: string) {
-    if (!name) {
-      return
-    }
-
     const state = this.state.reconfigure({
       // @ts-ignore
       plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(`${name}$`)),
