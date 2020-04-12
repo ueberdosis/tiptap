@@ -85,7 +85,7 @@ export default {
 | `setContent` | `content, emitUpdate, parseOptions` | Replace the current content. You can pass an HTML string or a JSON document. `emitUpdate` defaults to `false`. `parseOptions` defaults to those provided in constructor. |
 | `clearContent` | `emitUpdate` | Clears the current content. `emitUpdate` defaults to `false`. |
 | `setOptions` | `options` | Overwrites the current editor properties. |
-| `registerPlugin` | `plugin` | Register a Prosemirror plugin. |
+| `registerPlugin` | `plugin`, `handlePlugins` | Register a Prosemirror plugin. You can pass a function `handlePlugins` with parameters `(plugin, oldPlugins)` to define an order in which `newPlugins` will be called. `handlePlugins` defaults to pushing `plugin` to front of `oldPlugins`. |
 | `getJSON` | – | Get the current content as JSON. |
 | `getHTML` | – | Get the current content as HTML. |
 | `focus` | – | Focus the editor. |
