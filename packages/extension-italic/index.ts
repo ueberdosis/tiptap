@@ -40,11 +40,10 @@ export default class Italic extends Mark {
   }
 
   inputRules() {
-    return ['*', '_'].map(character => ([
-      // match start of line
-      markInputRule(
+    return ['*', '_'].map(character => {
+      return markInputRule(
         VerEx()
-          .startOfLine()
+          .add('(?:^|\\s)')
           .beginCapture()
           .find(character)
           .beginCapture()
@@ -54,31 +53,15 @@ export default class Italic extends Mark {
           .endCapture()
           .endOfLine(),
         this.type,
-      ),
-      // match before whitespace
-      markInputRule(
-        VerEx()
-          .whitespace()
-          .beginCapture()
-          .find(character)
-          .beginCapture()
-          .somethingBut(character)
-          .endCapture()
-          .find(character)
-          .endCapture()
-          .endOfLine(),
-        this.type,
-      ),
-    ]))
-    .flat(1)
+      )
+    })
   }
 
   pasteRules() {
-    return ['*', '_'].map(character => ([
-      // match start of line
-      markPasteRule(
+    return ['*', '_'].map(character => {
+      return markPasteRule(
         VerEx()
-          .startOfLine()
+          .add('(?:^|\\s)')
           .beginCapture()
           .find(character)
           .beginCapture()
@@ -87,22 +70,8 @@ export default class Italic extends Mark {
           .find(character)
           .endCapture(),
         this.type,
-      ),
-      // match before whitespace
-      markPasteRule(
-        VerEx()
-          .whitespace()
-          .beginCapture()
-          .find(character)
-          .beginCapture()
-          .somethingBut(character)
-          .endCapture()
-          .find(character)
-          .endCapture(),
-        this.type,
-      ),
-    ]))
-    .flat(1)
+      )
+    })
   }
 
 }

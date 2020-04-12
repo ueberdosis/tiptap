@@ -48,11 +48,10 @@ export default class Bold extends Mark {
   }
 
   inputRules() {
-    return ['**', '__'].map(character => ([
-      // match start of line
-      markInputRule(
+    return ['**', '__'].map(character => {
+      return markInputRule(
         VerEx()
-          .startOfLine()
+          .add('(?:^|\\s)')
           .beginCapture()
           .find(character)
           .beginCapture()
@@ -62,31 +61,15 @@ export default class Bold extends Mark {
           .endCapture()
           .endOfLine(),
         this.type,
-      ),
-      // match before whitespace
-      markInputRule(
-        VerEx()
-          .whitespace()
-          .beginCapture()
-          .find(character)
-          .beginCapture()
-          .somethingBut(character)
-          .endCapture()
-          .find(character)
-          .endCapture()
-          .endOfLine(),
-        this.type,
-      ),
-    ]))
-    .flat(1)
+      )
+    })
   }
 
   pasteRules() {
-    return ['**', '__'].map(character => ([
-      // match start of line
-      markPasteRule(
+    return ['**', '__'].map(character => {
+      return markPasteRule(
         VerEx()
-          .startOfLine()
+          .add('(?:^|\\s)')
           .beginCapture()
           .find(character)
           .beginCapture()
@@ -95,22 +78,8 @@ export default class Bold extends Mark {
           .find(character)
           .endCapture(),
         this.type,
-      ),
-      // match before whitespace
-      markPasteRule(
-        VerEx()
-          .whitespace()
-          .beginCapture()
-          .find(character)
-          .beginCapture()
-          .somethingBut(character)
-          .endCapture()
-          .find(character)
-          .endCapture(),
-        this.type,
-      ),
-    ]))
-    .flat(1)
+      )
+    })
   }
 
 }

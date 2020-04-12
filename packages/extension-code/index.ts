@@ -39,69 +39,38 @@ export default class Code extends Mark {
   }
 
   inputRules() {
-    return ['`'].map(character => ([
-      // match start of line
+    return [
       markInputRule(
         VerEx()
-          .startOfLine()
+          .add('(?:^|\\s)')
           .beginCapture()
-          .find(character)
+          .find('`')
           .beginCapture()
-          .somethingBut(character)
+          .somethingBut('`')
           .endCapture()
-          .find(character)
+          .find('`')
           .endCapture()
           .endOfLine(),
         this.type,
-      ),
-      // match before whitespace
-      markInputRule(
-        VerEx()
-          .whitespace()
-          .beginCapture()
-          .find(character)
-          .beginCapture()
-          .somethingBut(character)
-          .endCapture()
-          .find(character)
-          .endCapture()
-          .endOfLine(),
-        this.type,
-      ),
-    ]))
-    .flat(1)
+      )
+    ]
   }
 
   pasteRules() {
-    return ['`'].map(character => ([
-      // match start of line
+    return [
       markPasteRule(
         VerEx()
-          .startOfLine()
+          .add('(?:^|\\s)')
           .beginCapture()
-          .find(character)
+          .find('`')
           .beginCapture()
-          .somethingBut(character)
+          .somethingBut('`')
           .endCapture()
-          .find(character)
+          .find('`')
           .endCapture(),
         this.type,
-      ),
-      // match before whitespace
-      markPasteRule(
-        VerEx()
-          .whitespace()
-          .beginCapture()
-          .find(character)
-          .beginCapture()
-          .somethingBut(character)
-          .endCapture()
-          .find(character)
-          .endCapture(),
-        this.type,
-      ),
-    ]))
-    .flat(1)
+      )
+    ]
   }
 
 }
