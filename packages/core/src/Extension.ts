@@ -1,4 +1,4 @@
-import { Editor } from './Editor'
+import { Editor, Command } from './Editor'
 
 export default abstract class Extension {
 
@@ -39,11 +39,11 @@ export default abstract class Extension {
     return []
   }
 
-  keys(): { [key: string]: any } {
+  keys(): string | { [key: string]: Function } {
     return {}
   }
 
-  commands(): { [key: string]: any } {
+  commands(): { [key: string]: Command } {
     return {}
   } 
 

@@ -42,9 +42,7 @@ export default class Bold extends Mark {
   }
 
   keys() {
-    return {
-      'Mod-b': () => this.editor.bold(),
-    }
+    return 'Mod-b'
   }
 
   inputRules() {

@@ -33,9 +33,7 @@ export default class Code extends Mark {
   }
 
   keys() {
-    return {
-      'Mod-`': () => this.editor.code(),
-    }
+    return 'Mod-`'
   }
 
   inputRules() {

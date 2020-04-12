@@ -34,9 +34,7 @@ export default class Italic extends Mark {
   }
 
   keys() {
-    return {
-      'Mod-i': () => this.editor.italic(),
-    }
+    return 'Mod-i'
   }
 
   inputRules() {
