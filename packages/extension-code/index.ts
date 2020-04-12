@@ -39,38 +39,34 @@ export default class Code extends Mark {
   }
 
   inputRules() {
-    return [
-      markInputRule(
-        VerEx()
-          .add('(?:^|\\s)')
-          .beginCapture()
-          .find('`')
-          .beginCapture()
-          .somethingBut('`')
-          .endCapture()
-          .find('`')
-          .endCapture()
-          .endOfLine(),
-        this.type,
-      )
-    ]
+    return markInputRule(
+      VerEx()
+        .add('(?:^|\\s)')
+        .beginCapture()
+        .find('`')
+        .beginCapture()
+        .somethingBut('`')
+        .endCapture()
+        .find('`')
+        .endCapture()
+        .endOfLine(),
+      this.type,
+    )
   }
 
   pasteRules() {
-    return [
-      markPasteRule(
-        VerEx()
-          .add('(?:^|\\s)')
-          .beginCapture()
-          .find('`')
-          .beginCapture()
-          .somethingBut('`')
-          .endCapture()
-          .find('`')
-          .endCapture(),
-        this.type,
-      )
-    ]
+    return markPasteRule(
+      VerEx()
+        .add('(?:^|\\s)')
+        .beginCapture()
+        .find('`')
+        .beginCapture()
+        .somethingBut('`')
+        .endCapture()
+        .find('`')
+        .endCapture(),
+      this.type,
+    )
   }
 
 }
