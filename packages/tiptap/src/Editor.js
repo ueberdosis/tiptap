@@ -500,7 +500,8 @@ export default class Editor extends Emitter {
 
   registerPlugin(plugin = null, handlePlugins) {
     const plugins = typeof handlePlugins === 'function'
-      ? handlePlugins(plugin, this.state.plugins) : [...plugin, this.state.plugins]
+      ? handlePlugins(plugin, this.state.plugins)
+      : [plugin, ...this.state.plugins]
     const newState = this.state.reconfigure({ plugins })
     this.view.updateState(newState)
   }
