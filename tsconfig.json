@@ -11,6 +11,8 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "allowJs": true,
+    "checkJs": true,
     "types": [
       "node"
     ],
@@ -27,6 +29,9 @@
     ]
   },
   "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
     "packages/**/*.ts",
     "packages/**/*.tsx",
     "packages/**/*.vue",
