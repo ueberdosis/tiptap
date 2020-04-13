@@ -30,10 +30,10 @@ export interface CommandSpec {
 type EditorContent = string | JSON | null
 
 interface Options {
-  element: HTMLElement,
-  content: EditorContent
-  extensions: (Extension | Node | Mark)[]
-  injectCSS: Boolean
+  element?: HTMLElement,
+  content?: EditorContent
+  extensions?: (Extension | Node | Mark)[]
+  injectCSS?: Boolean
 }
 
 @magicMethods
