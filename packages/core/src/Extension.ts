@@ -4,14 +4,13 @@ export default abstract class Extension {
 
   constructor(options = {}) {
     this.options = {
-      ...this.defaultOptions,
+      ...this.defaultOptions(),
       ...options,
     }
   }
   
   editor!: Editor
   options: { [key: string]: any } = {}
-  defaultOptions: { [key: string]: any } = {}
   
   public abstract name: string
   
@@ -21,6 +20,10 @@ export default abstract class Extension {
 
   public bindEditor(editor: Editor): void {
     this.editor = editor
+  }
+
+  defaultOptions(): { [key: string]: any } {
+    return {}
   }
 
   update(): any {

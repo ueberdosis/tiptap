@@ -18,6 +18,12 @@ export default class History extends Extension {
 
   name = 'history'
 
+  defaultOptions() {
+    return {
+      historyPluginOptions: {},
+    }
+  }
+
   commands(): CommandSpec {
     return {
       undo: (next, { view }) => {
@@ -41,7 +47,7 @@ export default class History extends Extension {
 
   plugins() {
     return [
-      history()
+      history(this.options.historyPluginOptions)
     ]
   }
 
