@@ -39,7 +39,7 @@ export default abstract class Extension {
     return []
   }
 
-  keys(): string | { [key: string]: Function } {
+  keys(): { [key: string]: Function } {
     return {}
   }
 

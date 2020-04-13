@@ -79,17 +79,7 @@ export default class ExtensionManager {
 
   get keymaps() {
     return collect(this.extensions)
-      .map(extension => {
-        const keys = extension.keys()
-
-        if (typeof keys === 'string') {
-          return {
-            [keys]: () => this.editor.command(extension.name)
-          }
-        }
-
-        return keys
-      })
+      .map(extension => extension.keys())
       .filter(keys => !!Object.keys(keys).length)
       .map(keys => keymap(keys))
       .toArray()

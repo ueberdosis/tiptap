@@ -42,41 +42,41 @@ export default class Bold extends Mark {
   }
 
   keys() {
-    return 'Mod-b'
+    return {
+      'Mod-b': () => this.editor.bold()
+    }
   }
 
   inputRules() {
     return ['**', '__'].map(character => {
-      return markInputRule(
-        VerEx()
-          .add('(?:^|\\s)')
-          .beginCapture()
-          .find(character)
-          .beginCapture()
-          .somethingBut(character)
-          .endCapture()
-          .find(character)
-          .endCapture()
-          .endOfLine(),
-        this.type,
-      )
+      const regex = VerEx()
+        .add('(?:^|\\s)')
+        .beginCapture()
+        .find(character)
+        .beginCapture()
+        .somethingBut(character)
+        .endCapture()
+        .find(character)
+        .endCapture()
+        .endOfLine()
+
+      return markInputRule(regex, this.type)
     })
   }
 
   pasteRules() {
     return ['**', '__'].map(character => {
-      return markPasteRule(
-        VerEx()
-          .add('(?:^|\\s)')
-          .beginCapture()
-          .find(character)
-          .beginCapture()
-          .somethingBut(character)
-          .endCapture()
-          .find(character)
-          .endCapture(),
-        this.type,
-      )
+      const regex = VerEx()
+        .add('(?:^|\\s)')
+        .beginCapture()
+        .find(character)
+        .beginCapture()
+        .somethingBut(character)
+        .endCapture()
+        .find(character)
+        .endCapture()
+
+      return markPasteRule(regex, this.type)
     })
   }
 

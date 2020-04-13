@@ -33,38 +33,38 @@ export default class Code extends Mark {
   }
 
   keys() {
-    return 'Mod-`'
+    return {
+      'Mod-`': () => this.editor.code()
+    }
   }
 
   inputRules() {
-    return markInputRule(
-      VerEx()
-        .add('(?:^|\\s)')
-        .beginCapture()
-        .find('`')
-        .beginCapture()
-        .somethingBut('`')
-        .endCapture()
-        .find('`')
-        .endCapture()
-        .endOfLine(),
-      this.type,
-    )
+    const regex = VerEx()
+      .add('(?:^|\\s)')
+      .beginCapture()
+      .find('`')
+      .beginCapture()
+      .somethingBut('`')
+      .endCapture()
+      .find('`')
+      .endCapture()
+      .endOfLine()
+
+    return markInputRule(regex, this.type)
   }
 
   pasteRules() {
-    return markPasteRule(
-      VerEx()
-        .add('(?:^|\\s)')
-        .beginCapture()
-        .find('`')
-        .beginCapture()
-        .somethingBut('`')
-        .endCapture()
-        .find('`')
-        .endCapture(),
-      this.type,
-    )
+    const regex = VerEx()
+      .add('(?:^|\\s)')
+      .beginCapture()
+      .find('`')
+      .beginCapture()
+      .somethingBut('`')
+      .endCapture()
+      .find('`')
+      .endCapture()
+
+    return markPasteRule(regex, this.type)
   }
 
 }
