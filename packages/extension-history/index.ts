@@ -1,4 +1,4 @@
-import Editor, { Extension, CommandSpec } from '@tiptap/core'
+import { Extension, CommandSpec } from '@tiptap/core'
 import {
   history,
   undo,
@@ -44,20 +44,5 @@ export default class History extends Extension {
       history()
     ]
   }
-
-  // commands() {
-  //   return {
-  //     undo: (next, { view }) => {
-  //       undo(view.state, view.dispatch)
-  //       next()
-  //     },
-  //     redo: (next, { view }) => {
-  //       redo(view.state, view.dispatch)
-  //       next()
-  //     },
-  //     // undoDepth: () => undoDepth,
-  //     // redoDepth: () => redoDepth,
-  //   }
-  // }
 
 }
