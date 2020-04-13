@@ -14,11 +14,19 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
+interface HistoryOptions {
+  historyPluginOptions?: Object,
+}
+
 export default class History extends Extension {
 
   name = 'history'
+  
+  constructor(options: HistoryOptions) {
+    super(options)
+  }
 
-  defaultOptions() {
+  defaultOptions(): HistoryOptions {
     return {
       historyPluginOptions: {},
     }
