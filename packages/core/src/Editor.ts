@@ -29,11 +29,11 @@ export interface CommandSpec {
 
 type EditorContent = string | JSON | null
 
-interface Options {
-  element?: HTMLElement,
-  content?: EditorContent
-  extensions?: (Extension | Node | Mark)[]
-  injectCSS?: Boolean
+interface EditorOptions {
+  element: HTMLElement,
+  content: EditorContent
+  extensions: (Extension | Node | Mark)[]
+  injectCSS: Boolean,
 }
 
 @magicMethods
@@ -43,24 +43,24 @@ export class Editor extends EventEmitter {
   extensionManager!: ExtensionManager
   schema!: Schema
   view!: EditorView
-  options: Options = {
+  commands: { [key: string]: any } = {}
+  css!: HTMLStyleElement
+  options: EditorOptions = {
     element: document.createElement('div'),
     content: '',
     injectCSS: true,
     extensions: [],
   }
-  commands: { [key: string]: any } = {}
-  css!: HTMLStyleElement
   
   private lastCommand = Promise.resolve()
   
   public selection = { from: 0, to: 0 }
 
-  constructor(options: Options) {
+  constructor(options: Partial<EditorOptions> = {}) {
     super()
     this.options = { ...this.options, ...options }
   }
-
+ 
   private init() {
     this.createExtensionManager()
     this.createSchema()

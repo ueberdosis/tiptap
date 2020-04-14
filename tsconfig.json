@@ -11,11 +11,8 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "allowJs": true,
-    "checkJs": true,
-    "types": [
-      "node"
-    ],
+    "allowJs": false,
+    "checkJs": false,
     "paths": {
       "@/*": [
         "packages/*"
