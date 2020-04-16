@@ -5,15 +5,20 @@
 <script>
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ReactTestComponent from '~/components/ReactTestComponent/index.jsx'
 
 export default {
-  mounted(){
-    ReactDOM.render(React.createElement(ReactTestComponent, this.$props), this.$el)
+  props: {
+    component: {
+      required: true,
+    }
   },
 
-  beforeDestroy(){
+  mounted() {
+    ReactDOM.render(React.createElement(this.component), this.$el)
+  },
+
+  beforeDestroy() {
     ReactDOM.unmountComponentAtNode(this.$el)
-  }
+  },
 }
 </script>

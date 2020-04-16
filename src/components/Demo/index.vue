@@ -1,7 +1,8 @@
 <template>
   <div class="demo">
     <div class="demo__preview" v-if="mainFile">
-      <component :is="mainFile" />
+      <component :is="mainFile" v-if="mode === 'vue'"/>
+      <react-wrapper :component="mainFile" v-if="mode === 'react'" />
     </div>
     <div class="demo__source">
       <div class="demo__tabs" v-if="showFileNames">
@@ -23,11 +24,21 @@
 </template>
 
 <script>
+import ReactWrapper from '~/components/ReactWrapper'
+
 export default {
+  components: {
+    ReactWrapper,
+  },
   props: {
     name: {
       type: String,
       required: true,
+    },
+
+    mode: {
+      type: String,
+      default: 'vue',
     },
   },
 
@@ -38,6 +49,7 @@ export default {
       currentIndex: 0,
       syntax: {
         js: 'javascript',
+        jsx: 'jsx',
         vue: 'markup',
         css: 'css',
       },
@@ -46,7 +58,7 @@ export default {
 
   computed: {
     mainFile() {
-      const file = this.files.find(item => item.path.endsWith('.vue'))
+      const file = this.files.find(item => item.path.endsWith('.vue') || item.path.endsWith('.jsx'))
 
       if (!file) {
         return
@@ -68,7 +80,7 @@ export default {
     this.files = require.context(`~/demos/`, true)
       .keys()
       .filter(path => path.startsWith(`./${this.name}`))
-      .filter(path => path.endsWith('.vue') || path.endsWith('.js') || path.endsWith('.css'))
+      .filter(path => path.endsWith('.vue') || path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.jsx'))
       .map(path => path.replace('./', ''))
       .map(path => ({
         path,

@@ -11,7 +11,7 @@ export default class TestComponent extends Component {
   componentDidMount() {
     this.editor = new Editor({
       element: this.editorNode.current,
-      content: '<p>rendered in <strong>react</strong></p>',
+      content: '<p>rendered in <strong>react</strong>!</p>',
       extensions: extensions(),
     })
     this.forceUpdate()
