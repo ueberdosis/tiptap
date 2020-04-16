@@ -30,6 +30,7 @@ export default {
   components: {
     ReactRenderer,
   },
+
   props: {
     name: {
       type: String,
@@ -44,8 +45,8 @@ export default {
 
   data() {
     return {
-      content: null,
       files: [],
+      content: null,
       currentIndex: 0,
       syntax: {
         js: 'javascript',
@@ -58,7 +59,8 @@ export default {
 
   computed: {
     mainFile() {
-      const file = this.files.find(item => item.path.endsWith('.vue') || item.path.endsWith('.jsx'))
+      const file = this.files
+        .find(item => item.path.endsWith('.vue') || item.path.endsWith('.jsx'))
 
       if (!file) {
         return
