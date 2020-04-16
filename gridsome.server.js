@@ -11,7 +11,14 @@ module.exports = function (api) {
         .test(/\.tsx?$/)
         .use()
           .loader('ts-loader')
-          .options({ appendTsSuffixTo: [/\.vue$/] });
+          .options({ appendTsSuffixTo: [/\.vue$/] })
+
+    config.module
+      .rule('jsx')
+        .test(/\.jsx?$/)
+        .use()
+          .loader('babel-loader')
+          // .options({ appendTsSuffixTo: [/\.vue$/] })
     
     globby.sync('./packages/*', { onlyDirectories: true })
       .map(name => name.replace('./packages/', ''))

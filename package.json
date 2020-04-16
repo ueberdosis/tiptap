@@ -35,9 +35,12 @@
     "microbundle": "^0.11.0",
     "parcel": "^1.12.4",
     "raw-loader": "^4.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "typescript": "^3.8.3"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.9.4",
     "cypress": "^4.3.0",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
