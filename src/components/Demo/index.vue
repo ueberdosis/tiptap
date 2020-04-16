@@ -1,8 +1,8 @@
 <template>
   <div class="demo">
     <div class="demo__preview" v-if="mainFile">
-      <component :is="mainFile" v-if="mode === 'vue'"/>
-      <react-wrapper :component="mainFile" v-if="mode === 'react'" />
+      <component :is="mainFile" v-if="mode === 'vue'" />
+      <react-renderer :component="mainFile" v-if="mode === 'react'" />
     </div>
     <div class="demo__source">
       <div class="demo__tabs" v-if="showFileNames">
@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import ReactWrapper from '~/components/ReactWrapper'
+import ReactRenderer from '~/components/ReactRenderer'
 
 export default {
   components: {
-    ReactWrapper,
+    ReactRenderer,
   },
   props: {
     name: {
@@ -77,10 +77,9 @@ export default {
   },
 
   mounted() {
-    this.files = require.context(`~/demos/`, true)
+    this.files = require.context(`~/demos/`, true, /.+\..+$/)
       .keys()
       .filter(path => path.startsWith(`./${this.name}`))
-      .filter(path => path.endsWith('.vue') || path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.jsx'))
       .map(path => path.replace('./', ''))
       .map(path => ({
         path,
