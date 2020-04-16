@@ -1,38 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Editor } from '@tiptap/core'
+import extensions from '@tiptap/starter-kit'
 
-class Form extends Component {
+export default class TestComponent extends Component {
   constructor() {
-    super();
-
-    this.state = {
-      value: ""
-    };
-
-    this.handleChange = this.handleChange.bind(this);
+    super()
+    this.editorNode = React.createRef()
   }
-
-  handleChange(event) {
-    const { value } = event.target;
-    this.setState(() => {
-      return {
-        value
-      };
-    });
+  
+  componentDidMount() {
+    this.editor = new Editor({
+      element: this.editorNode.current,
+      content: '<p>this is rendered in react</p>',
+      extensions: extensions(),
+    })
   }
 
   render() {
     return (
-      <form>
-        <input
-          type="text"
-          value={this.state.value}
-          onChange={this.handleChange}
-        />
-        <br/>
-        value: {this.state.value}
-      </form>
-    );
+      <div>
+        <div ref={this.editorNode} />
+      </div>
+    )
   }
 }
-
-export default Form;

@@ -15,6 +15,10 @@
     "@tiptap/extension-document": "1.x",
     "@tiptap/extension-history": "1.x",
     "@tiptap/extension-paragraph": "1.x",
-    "@tiptap/extension-text": "1.x"
+    "@tiptap/extension-text": "1.x",
+    "@tiptap/extension-bold": "1.x",
+    "@tiptap/extension-italic": "1.x",
+    "@tiptap/extension-code": "1.x",
+    "@tiptap/extension-codeblock": "1.x"
   }
 }
