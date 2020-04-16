@@ -18,7 +18,6 @@ module.exports = function (api) {
         .test(/\.jsx?$/)
         .use()
           .loader('babel-loader')
-          // .options({ appendTsSuffixTo: [/\.vue$/] })
     
     globby.sync('./packages/*', { onlyDirectories: true })
       .map(name => name.replace('./packages/', ''))

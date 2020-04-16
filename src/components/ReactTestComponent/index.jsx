@@ -11,14 +11,28 @@ export default class TestComponent extends Component {
   componentDidMount() {
     this.editor = new Editor({
       element: this.editorNode.current,
-      content: '<p>this is rendered in react</p>',
+      content: '<p>rendered in <strong>react</strong></p>',
       extensions: extensions(),
     })
+    this.forceUpdate()
   }
 
   render() {
     return (
       <div>
+        {this.editor &&
+          <div>
+            <button onClick={() => this.editor.focus().removeMarks()}>
+              clear formatting
+            </button>
+            <button
+              onClick={() => this.editor.focus().bold()}
+              className={`${this.editor.isActive('bold') ? 'is-active' : ''}`}
+            >
+              bold
+            </button>
+          </div>
+        } 
         <div ref={this.editorNode} />
       </div>
     )
