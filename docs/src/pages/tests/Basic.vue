@@ -25,7 +25,6 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      element: this.$refs.editor,
       content: '<p>foo</p>',
       extensions: [
         new Document(),
