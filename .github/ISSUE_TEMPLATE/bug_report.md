@@ -17,8 +17,8 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
- Fork this or create a new Codesandbox replicating your error
- https://codesandbox.io/s/qxv5m9y6oq?fontsize=14
+Fork this or create a new Codesandbox replicating your error
+https://codesandbox.io/s/vue-issue-template-h0g28
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
