@@ -30,15 +30,8 @@ module.exports = {
             },
           ],
         ],
-      }
+      },
     },
-    // {
-    //   use: '@gridsome/source-filesystem',
-    //   options: {
-    //     path: './people/**/*.json',
-    //     typeName: 'People',
-    //   }
-    // },
   ],
   chainWebpack(config) {
     // Load variables for all vue-files
