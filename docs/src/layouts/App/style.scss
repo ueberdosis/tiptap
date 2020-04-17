@@ -1,0 +1,34 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  &__header {
+    flex: 0 0 auto;
+    padding: 2rem 0;
+  }
+
+  &__content {
+    flex: 1 1 auto;
+  }
+
+  &__content-inner {
+    display: flex;
+  }
+
+  &__sidebar {
+    flex: 0 0 auto;
+    width: 18rem;
+  }
+
+  &__main {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__inner {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+}
