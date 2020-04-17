@@ -47,4 +47,5 @@ query {
 
 <style lang="scss" src="./fonts.scss"></style>
 <style lang="scss" src="./base.scss" />
+<style lang="scss" src="./prism.scss"></style>
 <style lang="scss" src="./style.scss" scoped />

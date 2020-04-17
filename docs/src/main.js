@@ -1,6 +1,6 @@
 import Prism from 'prismjs'
-import 'prismjs/themes/prism-coy.css'
 import 'prismjs/components/prism-jsx.js'
+import 'prismjs/components/prism-scss.js'
 import App from '~/layouts/App'
 import Demo from '~/components/Demo'
 import Tab from '~/components/Tab'

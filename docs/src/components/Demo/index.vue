@@ -53,6 +53,7 @@ export default {
         jsx: 'jsx',
         vue: 'markup',
         css: 'css',
+        scss: 'scss',
       },
     }
   },
