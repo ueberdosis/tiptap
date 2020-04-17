@@ -60,6 +60,11 @@ ol {
   list-style: none;
 }
 
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
 a {
   color: inherit;
   transition: color 0.2s $ease, background-color 0.2s $ease;

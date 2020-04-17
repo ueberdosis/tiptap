@@ -18,33 +18,28 @@
   }
 
   &__tabs {
-    padding: 0 1.5rem;
-    border-bottom: 2px solid rgba($colorWhite, 0.1);
+    padding: 1rem 1.5rem 0 1.5rem;
   }
 
   &__tab {
+    display: inline-flex;
     position: relative;
-    color: rgba($colorWhite, 0.5);
-    font: inherit;
+    background-color: transparent;
+    color: rgba($colorWhite, 0.7);
+    padding: 0.1rem 0.5rem;
+    border-radius: 5px;
     font-weight: 500;
-    padding: 0.75rem 0;
-    background: none;
     border: none;
-    cursor: pointer;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
 
-    &.is-active {
+    &:first-child {
+      margin-left: -0.5rem;
+    }
+
+    &.is-active,
+    &:hover {
       color: $colorWhite;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: $colorWhite;
-      }
+      background-color: rgba($colorWhite, 0.1);
     } 
   }
   
