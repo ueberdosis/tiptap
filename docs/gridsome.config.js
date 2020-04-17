@@ -11,7 +11,7 @@ function addStyleResource(rule) {
 }
 
 module.exports = {
-  siteName: 'TipTap',
+  siteName: 'tiptap',
   port: 3000,
   plugins: [
     {

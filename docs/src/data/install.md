@@ -3,6 +3,10 @@ title: Install
 slug: install
 ---
 
-<tab>
-  npm install @tiptap/core @tiptap/vue
-</tab>
+```
+# Using npm
+npm install @tiptap/core
+
+# Using Yarn
+yarn add @tiptap/core
+```

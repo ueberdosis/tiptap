@@ -3,6 +3,27 @@
   flex-direction: column;
   min-height: 100%;
 
+  &__logo {
+    font-weight: 700;
+    font-size: 1.4rem;
+  }
+
+  &__link {
+    display: block;
+    padding: 0.1rem 0.5rem;
+    border-radius: 5px;
+    font-weight: 500;
+    color: rgba($colorBlack, 0.7);
+    margin-bottom: 0.2rem;
+    margin-left: -0.5rem;
+
+    &.active,
+    &:hover {
+      color: $colorBlack;
+      background-color: rgba($colorBlack, 0.05);
+    }
+  }
+
   &__header {
     flex: 0 0 auto;
     padding: 2rem 0;
@@ -19,6 +40,7 @@
   &__sidebar {
     flex: 0 0 auto;
     width: 18rem;
+    padding-right: 3rem;
   }
 
   &__main {
@@ -29,6 +51,6 @@
   &__inner {
     max-width: 62rem;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 2rem;
   }
 }

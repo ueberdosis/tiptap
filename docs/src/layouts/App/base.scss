@@ -55,6 +55,11 @@ body {
   outline: none;
 }
 
+ul,
+ol {
+  list-style: none;
+}
+
 a {
   color: inherit;
   transition: color 0.2s $ease, background-color 0.2s $ease;
