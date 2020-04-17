@@ -9,8 +9,8 @@
     "build:docs": "yarn --cwd ./docs build",
     "build:packages": "yarn clean:packages && lerna exec --parallel -- microbundle --raw --compress",
     "clean:packages": "rm -rf ./packages/*/dist",
-    "test:debug": "cypress open",
-    "test": "cypress run",
+    "test:debug": "cypress open --project tests",
+    "test": "cypress run --project tests",
     "startandtest": "start-server-and-test start http://localhost:3000 test"
   },
   "devDependencies": {
