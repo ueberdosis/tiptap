@@ -4,9 +4,8 @@ $codeText: #eee;
 $codeGrey: #616161;
 $codeRed: #ff6666;
 $codeOrange: #fd9170;
-$colorDarkYellow: #ffcb6b;
-$codeYellow: #f2ff00;
-$codeGreen: #a5e844;
+$colorYellow: #ffcb6b;
+$codeGreen: #b9ea80;
 $codeBlue: #89ddff;
 $codeTeal: #80cbc4;
 $codePurple: #c792ea;
@@ -86,7 +85,7 @@ pre[class*="language-"].language-css > code, pre[class*="language-"].language-sa
 }
 
 .token.attr-name {
-	color: $colorDarkYellow;
+	color: $colorYellow;
 }
 
 .token.attr-value {
@@ -102,7 +101,7 @@ pre[class*="language-"].language-css > code, pre[class*="language-"].language-sa
 }
 
 .token.builtin {
-	color: $colorDarkYellow;
+	color: $colorYellow;
 }
 
 .token.cdata {
@@ -114,11 +113,11 @@ pre[class*="language-"].language-css > code, pre[class*="language-"].language-sa
 }
 
 .token.class {
-	color: $colorDarkYellow;
+	color: $colorYellow;
 }
 
 .token.class-name {
-	color: $codeYellow;
+	color: $colorYellow;
 }
 
 .token.comment {
@@ -146,7 +145,7 @@ pre[class*="language-"].language-css > code, pre[class*="language-"].language-sa
 }
 
 .token.hexcode {
-	color: $codeYellow;
+	color: $colorYellow;
 }
 
 .token.id {
@@ -196,7 +195,7 @@ pre[class*="language-"].language-css > code, pre[class*="language-"].language-sa
 }
 
 .token.regex {
-	color: $codeYellow;
+	color: $colorYellow;
 }
 
 .token.selector {
