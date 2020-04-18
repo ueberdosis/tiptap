@@ -7,7 +7,7 @@
         :to="previousPage.link"
         v-if="previousPage"
       >
-        &larr; {{ previousPage.title }}
+        ← {{ previousPage.title }}
       </g-link>
     </div>
     <div class="page-navigation__next">
@@ -17,7 +17,7 @@
         :to="nextPage.link"
         v-if="nextPage"
       >
-        {{ nextPage.title }} &rarr;
+        {{ nextPage.title }} →
       </g-link>
     </div>
   </nav>

@@ -23,6 +23,14 @@ module.exports = {
         plugins: [
           '@gridsome/remark-prismjs',
         ],
+        remark: {
+          autolinkHeadings: {
+            content: {
+              type: 'text',
+              value: '#'
+            }
+          }
+        }
       },
     },
   ],

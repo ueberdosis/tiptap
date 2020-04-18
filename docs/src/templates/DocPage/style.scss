@@ -1,16 +1,47 @@
 .doc-page {
   &__markdown ::v-deep {
 
-    h1 {
-      font-weight: 400;
-    }
-
+    h1,
     h2,
     h3,
     h4,
     h5,
     h6 {
+      position: relative;
       font-weight: 500;
+    }
+
+    h1 {
+      font-weight: 400;
+    }
+
+    h1,
+    h4,
+    h5,
+    h6 {
+      a {
+        display: none;
+      }
+    }
+
+    h2,
+    h3 {
+      position: relative;
+
+      a {
+        position: absolute;
+        top: 0;
+        right: 100%;
+        color: rgba($colorBlack, 0.4);
+        font-weight: 400;
+        padding-right: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.1s $ease;
+      }
+
+      &:hover a {
+        opacity: 1;
+      }
     }
 
     > * + * {
