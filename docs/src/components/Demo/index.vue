@@ -49,11 +49,7 @@ export default {
       content: null,
       currentIndex: 0,
       syntax: {
-        js: 'javascript',
-        jsx: 'jsx',
         vue: 'markup',
-        css: 'css',
-        scss: 'scss',
       },
     }
   },
@@ -84,13 +80,17 @@ export default {
       .keys()
       .filter(path => path.startsWith(`./${this.name}`))
       .map(path => path.replace('./', ''))
-      .map(path => ({
-        path,
-        name: path.replace(`${this.name}/`, ''),
-        content: require(`!!raw-loader!~/demos/${path}`).default,
-        extension: path.split('.').pop(),
-        highlight: this.syntax[path.split('.').pop()] || 'markup',
-      }))
+      .map(path => {
+        const extension = path.split('.').pop()
+
+        return {
+          path,
+          name: path.replace(`${this.name}/`, ''),
+          content: require(`!!raw-loader!~/demos/${path}`).default,
+          extension,
+          highlight: this.syntax[extension] || extension,
+        }
+      })
   }
 }
 </script>
