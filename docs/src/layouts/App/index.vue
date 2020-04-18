@@ -26,6 +26,7 @@
           </nav>
           <main class="app__main">
             <slot/>
+            <page-navigation />
           </main>
         </div>
       </div>
@@ -43,13 +44,18 @@ query {
 
 <script>
 import linkGroups from '@/data/links.yaml'
+import PageNavigation from '@/components/PageNavigation'
 
 export default {
+  components: {
+    PageNavigation,
+  },
+
   data() {
     return {
-      linkGroups
+      linkGroups,
     }
-  }
+  },
 }
 </script>
 
