@@ -1,6 +1,6 @@
 ---
-title: Handle Extensions
-slug: handle-extensions
+title: Advanced Example
+slug: advanced-example
 ---
 
 Use a custom list of extensions.

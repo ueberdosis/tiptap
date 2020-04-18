@@ -1,5 +1,5 @@
 ---
-title: React Test
+title: React
 slug: react
 ---
 

@@ -8,6 +8,19 @@
     font-size: 1.4rem;
   }
 
+  &__link-group {
+    margin-bottom: 2rem;
+  }
+  
+  &__link-group-title {
+    font-weight: 700;
+    letter-spacing: 0.05rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: rgba($colorBlack, 0.4);
+    margin-bottom: 0.5rem;
+  }
+
   &__link {
     display: block;
     padding: 0.1rem 0.5rem;

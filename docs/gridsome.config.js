@@ -18,8 +18,8 @@ module.exports = {
       use: '@gridsome/vue-remark',
       options: {
         typeName: 'Post',
-        baseDir: './src/data',
-        route: '/posts/:slug',
+        baseDir: './src/data/posts',
+        route: '/:slug',
         template: './src/templates/Post.vue',
         plugins: [
           '@gridsome/remark-prismjs',
