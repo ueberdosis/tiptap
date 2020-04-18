@@ -1,24 +1,23 @@
 .demo {
   background-color: $colorWhite;
   overflow: hidden;
-  border-radius: 12px;
-  box-shadow:
-    0px 6.6501px 5.32008px rgba($colorBlack, 0.0161557),
-    0px 22.3363px 17.869px rgba($colorBlack, 0.0238443),
-    0px 100px 80px rgba($colorBlack, 0.04),
-    0 0 0 1px rgba($colorBlack, 0.05),
-  ;
-  
+  border-radius: 0.5rem;
+
   &__preview {
     padding: 1.5rem;
+    border: 1px solid rgba($colorBlack, 0.1);
+    border-bottom-width: 0;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
   }
   
   &__source {
-    background-color: $colorBlack;
+    // background-color: $colorBlack;
   }
 
   &__tabs {
     padding: 1rem 1.5rem 0 1.5rem;
+    background-color: rgba($colorBlack, 0.9);
   }
 
   &__tab {
@@ -44,10 +43,9 @@
   }
   
   &__code {
-    padding: 0.75rem 1.5rem;
-
-    code, pre {
-      padding: 0;
+    pre {
+      margin: 0;
+      border-radius: 0;
     }
   }
 }

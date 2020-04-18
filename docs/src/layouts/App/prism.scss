@@ -1,4 +1,4 @@
-$codeBg: $colorBlack;
+$codeBg: rgba($colorBlack, 0.9);
 $codeSelection: #363636;
 $codeText: #eee;
 $codeGrey: #616161;
@@ -11,217 +11,216 @@ $codeTeal: #80cbc4;
 $codePurple: #c792ea;
 
 code[class*="language-"], pre[class*="language-"] {
-	text-align: left;
-	white-space: pre;
-	word-spacing: normal;
-	word-break: normal;
-	word-wrap: normal;
-	hyphens: none;
-	color: inherit;
-	text-shadow: none;
-	font-family: 'JetBrainsMono', monospace;
-	font-size: 1em;
-	line-height: 1.8;
-	tab-size: 2;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  hyphens: none;
+  color: inherit;
+  text-shadow: none;
+  font-family: 'JetBrainsMono', monospace;
+  font-size: 1em;
+  line-height: 1.8;
+  tab-size: 2;
 }
 
 code[class*="language-"]::-moz-selection, pre[class*="language-"]::-moz-selection,
 code[class*="language-"] ::-moz-selection,
 pre[class*="language-"] ::-moz-selection {
-	text-shadow: none;
-	opacity: 1;
-	color: $codeText;
-	background: $codeSelection;
+  text-shadow: none;
+  opacity: 1;
+  color: $codeText;
+  background: $codeSelection;
 }
 
 code[class*="language-"]::selection, pre[class*="language-"]::selection,
 code[class*="language-"] ::selection,
 pre[class*="language-"] ::selection {
-	text-shadow: none;
-	opacity: 1;
-	color: $codeText;
-	background: $codeSelection;
+  text-shadow: none;
+  opacity: 1;
+  color: $codeText;
+  background: $codeSelection;
 }
 
 @media print {
-	code[class*="language-"], pre[class*="language-"] {
-		text-shadow: none !important;
-	}
+  code[class*="language-"], pre[class*="language-"] {
+    text-shadow: none !important;
+  }
 }
 
 :not(pre) > code[class*="language-"] {
-	white-space: normal;
-	color: $codeText;
-	background: $codeBg;
-	border-radius: 0.2em;
-	padding: 0.1em;
+  white-space: normal;
+  color: $codeText;
+  background: $codeBg;
+  border-radius: 0.2em;
+  padding: 0.1em;
 }
 
 pre > code[class*="language-"] {
-	background: none;
+  background: none;
 }
 
 pre[class*="language-"] {
-	overflow: auto;
-	position: relative;
-	color: $codeText;
-	background: $codeBg;
-	border-radius: 0;
-	margin: 0.5em 0;
-  padding: 1.25em 1em;
-  border-radius: 12px;
+  overflow: auto;
+  position: relative;
+  color: $codeText;
+  background: $codeBg;
+  margin: 0.5em 0;
+  padding: 1.2rem 1.5rem;
+  border-radius: 0.5rem;
 }
 
 pre[class*="language-"].language-css > code, pre[class*="language-"].language-sass > code, pre[class*="language-"].language-scss > code {
-	color: $codeOrange;
+  color: $codeOrange;
 }
 
 [class*="language-"] .namespace {
-	opacity: 0.7;
+  opacity: 0.7;
 }
 
 .token.atrule {
-	color: $codePurple;
+  color: $codePurple;
 }
 
 .token.attr-name {
-	color: $colorYellow;
+  color: $colorYellow;
 }
 
 .token.attr-value {
-	color: $codeGreen;
+  color: $codeGreen;
 }
 
 .token.attribute {
-	color: $codeGreen;
+  color: $codeGreen;
 }
 
 .token.boolean {
-	color: $codePurple;
+  color: $codePurple;
 }
 
 .token.builtin {
-	color: $colorYellow;
+  color: $colorYellow;
 }
 
 .token.cdata {
-	color: $codeTeal;
+  color: $codeTeal;
 }
 
 .token.char {
-	color: $codeTeal;
+  color: $codeTeal;
 }
 
 .token.class {
-	color: $colorYellow;
+  color: $colorYellow;
 }
 
 .token.class-name {
-	color: $colorYellow;
+  color: $colorYellow;
 }
 
 .token.comment {
-	color: $codeGrey;
+  color: $codeGrey;
 }
 
 .token.constant {
-	color: $codePurple;
+  color: $codePurple;
 }
 
 .token.deleted {
-	color: $codeRed;
+  color: $codeRed;
 }
 
 .token.doctype {
-	color: $codeGrey;
+  color: $codeGrey;
 }
 
 .token.entity {
-	color: $codeRed;
+  color: $codeRed;
 }
 
 .token.function {
-	color: $codePurple;
+  color: $codePurple;
 }
 
 .token.hexcode {
-	color: $colorYellow;
+  color: $colorYellow;
 }
 
 .token.id {
-	color: $codePurple;
-	font-weight: bold;
+  color: $codePurple;
+  font-weight: bold;
 }
 
 .token.important {
-	color: $codePurple;
-	font-weight: bold;
+  color: $codePurple;
+  font-weight: bold;
 }
 
 .token.inserted {
-	color: $codeTeal;
+  color: $codeTeal;
 }
 
 .token.keyword {
-	color: $codePurple;
+  color: $codePurple;
 }
 
 .token.number {
-	color: $codeOrange;
+  color: $codeOrange;
 }
 
 .token.operator {
-	color: $codeBlue;
+  color: $codeBlue;
 }
 
 .token.prolog {
-	color: $codeGrey;
+  color: $codeGrey;
 }
 
 .token.property {
-	color: $codeTeal;
+  color: $codeTeal;
 }
 
 .token.pseudo-class {
-	color: $codeGreen;
+  color: $codeGreen;
 }
 
 .token.pseudo-element {
-	color: $codeGreen;
+  color: $codeGreen;
 }
 
 .token.punctuation {
-	color: $codeBlue;
+  color: $codeBlue;
 }
 
 .token.regex {
-	color: $colorYellow;
+  color: $colorYellow;
 }
 
 .token.selector {
-	color: $codeRed;
+  color: $codeRed;
 }
 
 .token.string {
-	color: $codeGreen;
+  color: $codeGreen;
 }
 
 .token.symbol {
-	color: $codePurple;
+  color: $codePurple;
 }
 
 .token.tag {
-	color: $codeRed;
+  color: $codeRed;
 }
 
 .token.unit {
-	color: $codeOrange;
+  color: $codeOrange;
 }
 
 .token.url {
-	color: $codeRed;
+  color: $codeRed;
 }
 
 .token.variable {
-	color: $codeRed;
+  color: $codeRed;
 }
