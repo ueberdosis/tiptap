@@ -1,35 +1,32 @@
 <template>
   <div class="app">
     <header class="app__header">
-      <div class="app__inner">
-        <g-link class="app__logo" to="/">
-          {{ $static.metadata.siteName }}
-        </g-link>
-      </div>
+      <g-link class="app__logo" to="/">
+        {{ $static.metadata.siteName }}
+      </g-link>
+      <g-link to="https://github.com/scrumpy/tiptap">
+        <icon name="github" />
+      </g-link>
     </header>
     <div class="app__content">
-      <div class="app__inner">
-        <div class="app__content-inner">
-          <nav class="app__sidebar">
-            <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
-              <div class="app__link-group-title">
-                {{ linkGroup.title }}
-              </div>
-              <ul>
-                <li v-for="(item, j) in linkGroup.items" :key="j">
-                  <g-link class="app__link" :to="item.link">
-                    {{ item.title }}
-                  </g-link>
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <main class="app__main">
-            <slot/>
-            <page-navigation />
-          </main>
+      <nav class="app__sidebar">
+        <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
+          <div class="app__link-group-title">
+            {{ linkGroup.title }}
+          </div>
+          <ul>
+            <li v-for="(item, j) in linkGroup.items" :key="j">
+              <g-link class="app__link" :to="item.link">
+                {{ item.title }}
+              </g-link>
+            </li>
+          </ul>
         </div>
-      </div>
+      </nav>
+      <main class="app__main">
+        <slot/>
+        <page-navigation />
+      </main>
     </div>
   </div>
 </template>
@@ -44,10 +41,12 @@ query {
 
 <script>
 import linkGroups from '@/data/links.yaml'
+import Icon from '@/components/Icon'
 import PageNavigation from '@/components/PageNavigation'
 
 export default {
   components: {
+    Icon,
     PageNavigation,
   },
 

@@ -37,17 +37,26 @@
     }
   }
 
+  &__header,
+  &__content {
+    display: flex;
+    width: 100%;
+    max-width: 62rem;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
   &__header {
     flex: 0 0 auto;
-    padding: 2rem 0;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 
   &__content {
     flex: 1 1 auto;
-  }
-
-  &__content-inner {
-    display: flex;
   }
 
   &__sidebar {

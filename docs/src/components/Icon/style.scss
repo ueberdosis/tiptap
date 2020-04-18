@@ -1,0 +1,15 @@
+.icon {
+  display: inline-flex;
+  width: 1.3rem;
+  height: 1.3rem;
+
+  &::v-deep > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+
+    * {
+      fill: inherit;
+    }
+  }
+}
