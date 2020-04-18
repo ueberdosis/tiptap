@@ -503,6 +503,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [Quasar Tiptap Demo](https://github.com/kfields/quasar-tiptap-demo) @kfields
 - [Python Library that converts tiptap JSON](https://github.com/scrolltech/tiptapy) @scrolltech
 - [WYSIWYG editor for Element UI](https://github.com/Leecason/element-tiptap) by @Leecason
+- [WYSIWYG editor for Quasar Framework](https://github.com/donotebase/quasar-tiptap) by @mekery
 
 ## Love our work?
 [Become a backer](https://www.paypal.me/philippkuehn) ❤️
