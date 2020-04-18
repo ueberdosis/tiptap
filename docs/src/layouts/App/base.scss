@@ -48,7 +48,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;
   font-feature-settings: 'cv05' 1;
-  background-color: $colorLightGrey;
+  background-color: rgba($colorBlack, 0.02);
   height: 100%;
 }
 

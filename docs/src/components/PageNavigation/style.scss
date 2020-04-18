@@ -2,4 +2,13 @@
   display: flex;
   justify-content: space-between;
   padding: 3rem 0;
+
+  &__link {
+    font-weight: 500;
+    color: rgba($colorBlack, 0.6);
+
+    &:hover {
+      color: $colorBlack;
+    }
+  }
 }

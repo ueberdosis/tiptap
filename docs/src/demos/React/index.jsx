@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Editor } from '@tiptap/core'
 import extensions from '@tiptap/starter-kit'
 
-export default class TestComponent extends Component {
+export default class extends Component {
   constructor() {
     super()
     this.editorNode = React.createRef()

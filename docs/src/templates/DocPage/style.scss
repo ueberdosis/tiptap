@@ -1,6 +1,10 @@
 .doc-page {
   &__markdown ::v-deep {
 
+    a {
+      text-decoration: underline;
+    }
+
     h1,
     h2,
     h3,
@@ -33,6 +37,7 @@
         top: 0;
         right: 100%;
         color: rgba($colorBlack, 0.4);
+        text-decoration: none;
         font-weight: 400;
         padding-right: 0.5rem;
         opacity: 0;
@@ -43,6 +48,8 @@
         opacity: 1;
       }
     }
+
+    
 
     > * + * {
       margin-top: 1.5em;
