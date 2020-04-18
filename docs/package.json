@@ -12,7 +12,6 @@
     "@gridsome/transformer-json": "^0.2.1",
     "@gridsome/vue-remark": "^0.1.10",
     "@mvasilkov/outdent": "^1.0.4",
-    "@noxify/gridsome-plugin-remark-embed": "^1.1.5",
     "globby": "^11.0.0",
     "gridsome": "0.7.12",
     "raw-loader": "^4.0.0",

@@ -8,3 +8,16 @@
       link: /advanced-example/
     - title: React
       link: /react/
+
+- title: Core Concepts
+  items:
+    - title: Renderless
+      link: /renderless/
+    - title: Editor
+      link: /editor/
+    - title: Extensions
+      link: /extensions/
+    - title: Commands
+      link: /commands/
+    - title: Events
+      link: /events/

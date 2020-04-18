@@ -17,18 +17,11 @@ module.exports = {
     {
       use: '@gridsome/vue-remark',
       options: {
-        typeName: 'Post',
+        typeName: 'DocPage',
         baseDir: './src/data/posts',
-        route: '/:slug',
-        template: './src/templates/Post.vue',
+        template: './src/templates/DocPage.vue',
         plugins: [
           '@gridsome/remark-prismjs',
-          [
-            '@noxify/gridsome-plugin-remark-embed',
-            {
-              'enabledProviders' : ['Youtube', 'Twitter', 'Gist'],
-            },
-          ],
         ],
       },
     },

@@ -1,7 +1,4 @@
----
-title: Basic Example
-slug: basic-example
----
+# Basic Example
 
 This is a basic example of tiptap.
 

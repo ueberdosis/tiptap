@@ -1,7 +1,4 @@
----
-title: React
-slug: react
----
+# React
 
 This is a basic example of tiptap.
 

@@ -1,7 +1,4 @@
----
-title: Advanced Example
-slug: advanced-example
----
+# Advanced Example
 
 Use a custom list of extensions.
 
