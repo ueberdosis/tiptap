@@ -1,7 +1,10 @@
 .doc-page {
   &__markdown ::v-deep {
 
-    h1,
+    h1 {
+      font-weight: 400;
+    }
+
     h2,
     h3,
     h4,

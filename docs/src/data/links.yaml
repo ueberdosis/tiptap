@@ -1,13 +1,7 @@
 - title: Getting Started
   items:
-    - title: Install
-      link: /install/
-    - title: Basic Example
-      link: /basic-example/
-    - title: Advanced Example
-      link: /advanced-example/
-    - title: React
-      link: /react/
+    - title: Installation
+      link: /installation/
 
 - title: Core Concepts
   items:
@@ -21,3 +15,15 @@
       link: /commands/
     - title: Events
       link: /events/
+
+- title: Vue
+  items:
+    - title: Basic Example
+      link: /basic-example/
+    - title: Advanced Example
+      link: /advanced-example/
+
+- title: React
+  items:
+    - title: React
+      link: /react/

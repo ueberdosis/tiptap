@@ -72,6 +72,14 @@ a {
   text-decoration: none;
 }
 
+code {
+  font-family: 'JetBrainsMono', monospace;
+  background-color: rgba($colorBlack, 0.05);
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.25rem;
+  color: rgba($colorBlack, 0.7);
+}
+
 .is-active {
   background: black;
   color: white;

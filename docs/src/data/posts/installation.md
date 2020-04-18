@@ -1,4 +1,4 @@
-# Install
+# Installation
 
 ```bash
 # Using npm
