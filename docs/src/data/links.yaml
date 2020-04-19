@@ -1,5 +1,7 @@
 - title: Getting Started
   items:
+    - title: Introduction
+      link: /introduction/
     - title: Installation
       link: /installation/
 
