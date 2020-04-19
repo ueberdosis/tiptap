@@ -4,9 +4,11 @@
       <g-link class="app__logo" to="/">
         {{ $static.metadata.siteName }}
       </g-link>
-      <g-link to="https://github.com/scrumpy/tiptap">
-        <icon name="github" />
-      </g-link>
+      <github-button
+        href="https://github.com/scrumpy/tiptap"
+        data-show-count="true"
+        aria-label="Star scrumpy/tiptap on GitHub"
+      />
     </header>
     <div class="app__content">
       <nav class="app__sidebar">
@@ -41,13 +43,13 @@ query {
 
 <script>
 import linkGroups from '@/data/links.yaml'
-import Icon from '@/components/Icon'
 import PageNavigation from '@/components/PageNavigation'
+import GithubButton from 'vue-github-button'
 
 export default {
   components: {
-    Icon,
     PageNavigation,
+    GithubButton,
   },
 
   data() {
