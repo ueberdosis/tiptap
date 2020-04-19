@@ -1,5 +1,4 @@
-$codeBg: rgba($colorBlack, 0.9);
-$codeSelection: #363636;
+$codeBackground: rgba($colorBlack, 0.9);
 $codeText: #eee;
 $codeGrey: #616161;
 $codeRed: #ff6666;
@@ -10,7 +9,8 @@ $codeBlue: #89ddff;
 $codeTeal: #80cbc4;
 $codePurple: #c792ea;
 
-code[class*="language-"], pre[class*="language-"] {
+code[class*="language-"],
+pre[class*="language-"] {
   text-align: left;
   white-space: pre;
   word-spacing: normal;
@@ -26,34 +26,10 @@ code[class*="language-"], pre[class*="language-"] {
   padding: 0;
 }
 
-code[class*="language-"]::-moz-selection, pre[class*="language-"]::-moz-selection,
-code[class*="language-"] ::-moz-selection,
-pre[class*="language-"] ::-moz-selection {
-  text-shadow: none;
-  opacity: 1;
-  color: $codeText;
-  background: $codeSelection;
-}
-
-code[class*="language-"]::selection, pre[class*="language-"]::selection,
-code[class*="language-"] ::selection,
-pre[class*="language-"] ::selection {
-  text-shadow: none;
-  opacity: 1;
-  color: $codeText;
-  background: $codeSelection;
-}
-
-@media print {
-  code[class*="language-"], pre[class*="language-"] {
-    text-shadow: none !important;
-  }
-}
-
 :not(pre) > code[class*="language-"] {
   white-space: normal;
   color: $codeText;
-  background: $codeBg;
+  background: $codeBackground;
   border-radius: 0.2em;
   padding: 0.1em;
 }
@@ -66,12 +42,14 @@ pre[class*="language-"] {
   overflow: auto;
   position: relative;
   color: $codeText;
-  background: $codeBg;
+  background: $codeBackground;
   padding: 1.2rem 1.5rem;
   border-radius: 0.5rem;
 }
 
-pre[class*="language-"].language-css > code, pre[class*="language-"].language-sass > code, pre[class*="language-"].language-scss > code {
+pre[class*="language-"].language-css > code,
+pre[class*="language-"].language-sass > code,
+pre[class*="language-"].language-scss > code {
   color: $codeOrange;
 }
 
