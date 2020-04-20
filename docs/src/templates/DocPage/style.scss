@@ -49,10 +49,62 @@
       }
     }
 
-    
-
     > * + * {
       margin-top: 1.5em;
+    }
+
+    ul {
+      list-style-type: none;
+
+      > * + * {
+        margin-top: 0.5rem;
+      } 
+
+      li {
+        position: relative;
+        padding-left: 1.25rem;
+
+        &::before {
+          position: absolute;
+          left: 0;
+          display: inline-block;
+          margin-right: 0.75rem;
+          content: "\2022";
+          opacity: 0.2;
+        }
+      }
+    }
+
+    ol {
+      counter-reset: item;
+
+      > * + * {
+        margin-top: 0.5rem;
+      } 
+
+      li {
+        position: relative;
+        padding-left: 2.5rem;
+
+        &::before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          margin-top: 1px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 1.5rem;
+          width: 1.5rem;
+          background-color: rgba($colorBlack, 0.1);
+          border-radius: 9999px;
+          color: rgba($colorBlack, 0.4);
+          font-size: 0.75rem;
+          font-weight: 700;
+          content: counter(item);
+          counter-increment: item;
+        }
+      }
     }
   }
 }
