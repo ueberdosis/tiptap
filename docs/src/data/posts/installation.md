@@ -1,14 +1,16 @@
 # Installation
 
+tiptap has a very modular package structure and is independent of any framework. If you want to start as fast as possible, you need at least the two packages `@tiptap/core` and `@tiptap/starter-kit`.
+
 ```bash
 # Using npm
-npm install @tiptap/core
+npm install @tiptap/core @tiptap/starter-kit
 
 # Using Yarn
-yarn add @tiptap/core
+yarn add @tiptap/core @tiptap/starter-kit
 ```
 
-## Quick Start
+You can use it like this:
 
 ```js
 import { Editor } from '@tiptap/core'

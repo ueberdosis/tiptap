@@ -15,7 +15,7 @@ Although tiptap tries to hide most of the complexity of ProseMirror, it’s is b
 
 ## Contributing
 
-Please see the [`CONTRIBUTING`](https://github.com/scrumpy/tiptap/blob/master/CONTRIBUTING.md) file for details.
+Please see the [`CONTRIBUTING.md`](https://github.com/scrumpy/tiptap/blob/master/CONTRIBUTING.md) file for details.
 
 ```bash
 yarn install
