@@ -11,6 +11,7 @@
     "clean:packages": "rm -rf ./packages/*/dist",
     "test:debug": "cypress open --project tests",
     "test": "cypress run --project tests",
+    "reset": "rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install",
     "startandtest": "start-server-and-test start http://localhost:3000 test"
   },
   "devDependencies": {
