@@ -71,6 +71,7 @@ export class Editor extends EventEmitter {
     this.registerCommand('setContent', require('./commands/setContent').default)
     this.registerCommand('clearContent', require('./commands/clearContent').default)
     this.registerCommand('removeMarks', require('./commands/removeMarks').default)
+    this.registerCommand('toggleBlockType', require('./commands/toggleBlockType').default)
     
     if (this.options.injectCSS) {
       require('./style.css')

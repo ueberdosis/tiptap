@@ -16,6 +16,12 @@
       <button @click="editor.focus().italic()" :class="{ 'is-active': editor.isActive('italic') }">
         italic
       </button>
+      <button @click="editor.focus().heading({ level: 1 })" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
+        h1
+      </button>
+      <button @click="editor.focus().heading({ level: 2 })" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+        h2
+      </button>
     </div>
     <editor-content :editor="editor" />
   </div>

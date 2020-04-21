@@ -43,13 +43,13 @@ export default class Heading extends Node {
     }
   }
 
-  // commands(): CommandSpec {
-  //   return {
-  //     heading: (next, { view }) => {
-  //       toggleBlockType(this.type)(view.state, view.dispatch)
-  //       next()
-  //     },
-  //   }
-  // }
+  commands(): CommandSpec {
+    return {
+      heading: (next, editor, attrs) => {
+        editor.toggleBlockType(this.type, editor.schema.nodes.paragraph, attrs)
+        next()
+      },
+    }
+  }
 
 }
