@@ -8,7 +8,7 @@ declare module '../Editor' {
   }
 }
 
-export default (next: Function, editor: Editor, value: string): InsertText => () => {
+export default (next: Function, editor: Editor): InsertText => value => {
   const { view, state } = editor
   const transaction = state.tr.insertText(value)
 

@@ -10,7 +10,7 @@ declare module '../Editor' {
   }
 }
 
-export default (next: Function, editor: Editor, value: string): InsertHTML => () => {
+export default (next: Function, editor: Editor): InsertHTML => value => {
   const { view, state } = editor
   const { selection } = state
   const element = elementFromString(value)

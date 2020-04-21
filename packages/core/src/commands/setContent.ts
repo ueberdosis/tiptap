@@ -13,7 +13,7 @@ declare module '../Editor' {
   }
 }
 
-export default (next: Function, editor: Editor): SetContent => (content, emitUpdate, parseOptions) => {
+export default (next: Function, editor: Editor): SetContent => (content, emitUpdate = false, parseOptions = {}) => {
   if (content === null) {
     next()
     return

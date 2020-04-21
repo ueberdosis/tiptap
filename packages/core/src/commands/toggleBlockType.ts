@@ -21,10 +21,9 @@ export default (next: Function, editor: Editor): ToggleBlockType => (type, toggl
 
   if (isActive) {
     setBlockType(toggleType)(view.state, view.dispatch)
-    next()
-    return
+  } else {
+    setBlockType(type, attrs)(view.state, view.dispatch)
   }
 
-  setBlockType(type, attrs)(view.state, view.dispatch)
   next()
 }

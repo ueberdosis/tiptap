@@ -9,7 +9,7 @@ declare module '../Editor' {
   }
 }
 
-export default (next: Function, editor: Editor, emitUpdate = false): ClearContent => emitUpdate => {
+export default (next: Function, editor: Editor): ClearContent => (emitUpdate = false) => {
   editor.setContent('', emitUpdate)
   next()
 }
