@@ -47,8 +47,8 @@ export default class Heading extends Node {
 
   commands(): CommandSpec {
     return {
-      heading: (next, editor, attrs) => {
-        editor.toggleBlockType(this.type, editor.schema.nodes.paragraph, attrs)
+      heading: next => attrs => {
+        this.editor.toggleBlockType(this.type, this.editor.schema.nodes.paragraph, attrs)
         next()
       },
     }

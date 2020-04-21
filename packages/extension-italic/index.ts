@@ -26,7 +26,7 @@ export default class Italic extends Mark {
 
   commands(): CommandSpec {
     return {
-      italic: (next, { view }) => {
+      italic: (next, { view }) => () => {
         toggleMark(this.type)(view.state, view.dispatch)
         next()
       },

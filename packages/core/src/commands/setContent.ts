@@ -1,19 +1,19 @@
 import { Editor } from '../Editor'
 import { TextSelection } from 'prosemirror-state'
 
+type SetContent = (
+  content: string,
+  emitUpdate?: Boolean,
+  parseOptions?: any,
+) => any
+
 declare module '../Editor' {
   interface Editor {
-    setContent(content: string, emitUpdate?: Boolean, parseOptions?: any): Editor,
+    setContent: SetContent,
   }
 }
 
-export default function setContent(
-  next: Function,
-  editor: Editor,
-  content = null,
-  emitUpdate = false,
-  parseOptions = {},
-): void {
+export default (next: Function, editor: Editor): SetContent => (content, emitUpdate, parseOptions) => {
   if (content === null) {
     next()
     return

@@ -21,7 +21,7 @@ import Node from './Node'
 import Mark from './Mark'
 import EventEmitter from './EventEmitter'
 
-export type Command = (next: Function, editor: Editor, ...args: any) => any
+export type Command = (next: Function, editor: Editor) => (...args: any) => any
 
 export interface CommandSpec {
   [key: string]: Command
@@ -104,7 +104,7 @@ export class Editor extends EventEmitter {
     }
     
     this.commands[name] = this.chainCommand((...args: any) => {
-      return new Promise(resolve => callback(resolve, this.proxy, ...args))
+      return new Promise(resolve => callback(resolve, this.proxy)(...args))
     })
 
     return this.proxy

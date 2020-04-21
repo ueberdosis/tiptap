@@ -34,7 +34,7 @@ export default class Bold extends Mark {
 
   commands(): CommandSpec {
     return {
-      bold: (next, { view }) => {
+      bold: (next, { view }) => () => {
         toggleMark(this.type)(view.state, view.dispatch)
         next()
       },

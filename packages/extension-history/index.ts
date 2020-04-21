@@ -34,11 +34,11 @@ export default class History extends Extension {
 
   commands(): CommandSpec {
     return {
-      undo: (next, { view }) => {
+      undo: (next, { view }) => () => {
         undo(view.state, view.dispatch)
         next()
       },
-      redo: (next, { view }) => {
+      redo: (next, { view }) => () => {
         redo(view.state, view.dispatch)
         next()
       },

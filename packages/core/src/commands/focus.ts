@@ -3,9 +3,11 @@ import { TextSelection } from 'prosemirror-state'
 import sleep from '../utils/sleep'
 import minMax from '../utils/minMax'
 
+type Focus = (position?: Position) => any
+
 declare module '../Editor' {
   interface Editor {
-    focus(position?: Position): Editor
+    focus: Focus,
   }
 }
 
@@ -43,7 +45,7 @@ function resolveSelection(editor: Editor, position: Position = null): ResolvedSe
   }
 }
 
-export default async function focus(next: Function, editor: Editor, position: Position = null): Promise<void> {
+export default (next: Function, editor: Editor, position: Position = null): Focus => async () => {
   const { view, state } = editor
 
   if ((view.hasFocus() && position === null)) {

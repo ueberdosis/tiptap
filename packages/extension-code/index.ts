@@ -25,7 +25,7 @@ export default class Code extends Mark {
 
   commands(): CommandSpec {
     return {
-      code: (next, { view }) => {
+      code: (next, { view }) => () => {
         toggleMark(this.type)(view.state, view.dispatch)
         next()
       },

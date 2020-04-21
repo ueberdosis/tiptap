@@ -3,19 +3,19 @@ import { setBlockType } from 'prosemirror-commands'
 import { Editor } from '../Editor'
 import nodeIsActive from '../utils/nodeIsActive'
 
+type ToggleBlockType = (
+  type: NodeType,
+  toggleType: NodeType,
+  attrs?: {}
+) => any
+
 declare module '../Editor' {
   interface Editor {
-    toggleBlockType(type: NodeType, toggleType: NodeType, attrs?: {}): Editor,
+    toggleBlockType: ToggleBlockType,
   }
 }
 
-export default function toggleBlockType(
-  next: Function,
-  editor: Editor,
-  type: NodeType,
-  toggleType: NodeType,
-  attrs?: {},
-): void {
+export default (next: Function, editor: Editor): ToggleBlockType => (type, toggleType, attrs) => {
   const { view, state } = editor
   const isActive = nodeIsActive(state, type, attrs)
 
