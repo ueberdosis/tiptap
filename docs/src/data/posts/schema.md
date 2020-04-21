@@ -4,6 +4,6 @@ Unlike many other editors, tiptap is based on a [schema](https://prosemirror.net
 
 This schema is *very* strict. You can’t use any HTML-element or attribute that is not defined in your schema.
 
-For example if you paste something like `This is <strong>important</strong>` into tiptap and don’t have registed any extension that handles `strong` tags, you’ll only see `This is important`.
+For example if you paste something like `This is <strong>important</strong>` into tiptap and don’t have registered any extension that handles `strong` tags, you’ll only see `This is important`.
 
 
