@@ -51,26 +51,44 @@
   }
 
   &__header {
+    align-self: center;
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    top: 0;
     flex: 0 0 auto;
     align-items: center;
     justify-content: space-between;
     padding-top: 2rem;
     padding-bottom: 2rem;
+    background-color: rgba($colorBackground, 0.8);
+    backdrop-filter: blur(10px);
   }
 
   &__content {
     flex: 1 1 auto;
   }
 
-  &__sidebar {
+  &__sidebar-wrapper {
     flex: 0 0 auto;
+    align-self: flex-start;
+    position: sticky;
+    top: 0;
     width: 18rem;
+    height: 100vh;
     padding-right: 3rem;
+    padding-top: 100px;
+  }
+
+  &__sidebar {
+    overflow: auto;
+    height: 100%;
   }
 
   &__main {
     flex: 1 1 auto;
     min-width: 0;
+    padding-top: 100px;
   }
 
   &__inner {

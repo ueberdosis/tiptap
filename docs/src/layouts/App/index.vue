@@ -11,20 +11,22 @@
       />
     </header>
     <div class="app__content">
-      <nav class="app__sidebar">
-        <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
-          <div class="app__link-group-title">
-            {{ linkGroup.title }}
+      <div class="app__sidebar-wrapper">
+        <nav class="app__sidebar">
+          <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
+            <div class="app__link-group-title">
+              {{ linkGroup.title }}
+            </div>
+            <ul>
+              <li v-for="(item, j) in linkGroup.items" :key="j">
+                <g-link class="app__link" :to="item.link">
+                  {{ item.title }}
+                </g-link>
+              </li>
+            </ul>
           </div>
-          <ul>
-            <li v-for="(item, j) in linkGroup.items" :key="j">
-              <g-link class="app__link" :to="item.link">
-                {{ item.title }}
-              </g-link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+        </nav>
+      </div>
       <main class="app__main">
         <slot/>
         <page-navigation />
