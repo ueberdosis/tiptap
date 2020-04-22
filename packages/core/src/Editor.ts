@@ -69,6 +69,7 @@ export class Editor extends EventEmitter {
     this.registerCommand('focus', require('./commands/focus').default)
     this.registerCommand('insertHTML', require('./commands/insertHTML').default)
     this.registerCommand('insertText', require('./commands/insertText').default)
+    this.registerCommand('removeMark', require('./commands/removeMark').default)
     this.registerCommand('removeMarks', require('./commands/removeMarks').default)
     this.registerCommand('selectAll', require('./commands/selectAll').default)
     this.registerCommand('selectParentNode', require('./commands/selectParentNode').default)

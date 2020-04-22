@@ -16,6 +16,10 @@ Insert a string of HTML at the currently selected position.
 
 Insert a string of text at the currently selected position.
 
+## .removeMark()
+
+Remove a mark in the current selection.
+
 ## .removeMarks()
 
 Remove all marks in the current selection.
