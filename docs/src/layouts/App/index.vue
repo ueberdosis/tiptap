@@ -1,14 +1,16 @@
 <template>
   <div class="app">
     <header class="app__header">
-      <g-link class="app__logo" to="/">
-        {{ $static.metadata.siteName }}
-      </g-link>
-      <github-button
-        href="https://github.com/scrumpy/tiptap"
-        data-show-count="true"
-        aria-label="Star scrumpy/tiptap on GitHub"
-      />
+      <div class="app__header-inner">
+        <g-link class="app__logo" to="/">
+          {{ $static.metadata.siteName }}
+        </g-link>
+        <github-button
+          href="https://github.com/scrumpy/tiptap"
+          data-show-count="true"
+          aria-label="Star scrumpy/tiptap on GitHub"
+        />
+      </div>
     </header>
     <div class="app__content">
       <div class="app__sidebar-wrapper">

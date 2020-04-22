@@ -1,3 +1,5 @@
+$navHeight: 4.5rem;
+
 .app {
   display: flex;
   flex-direction: column;
@@ -40,33 +42,49 @@
     }
   }
 
-  &__header,
-  &__content {
-    display: flex;
-    width: 100%;
-    max-width: 62rem;
-    margin: 0 auto;
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-
   &__header {
     align-self: center;
     position: fixed;
-    z-index: 2;
-    width: 100%;
     top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: $navHeight;
     flex: 0 0 auto;
+    background-color: rgba($colorBackground, 0.8);
+    border-bottom: 1px solid rgba($colorBlack, 0.05);
+    backdrop-filter: blur(10px);
+  }
+  
+  &__header-inner {
+    width: 100%;
+    display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    background-color: rgba($colorBackground, 0.8);
-    backdrop-filter: blur(10px);
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    @media (min-width: 750px) {
+      padding: 0 2rem;
+    }
   }
 
   &__content {
     flex: 1 1 auto;
+    display: flex;
+    width: 100%;
+    max-width: 62rem;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    @media (min-width: 750px) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
   }
 
   &__sidebar-wrapper {
@@ -77,7 +95,7 @@
     width: 18rem;
     height: 100vh;
     padding-right: 3rem;
-    padding-top: 100px;
+    padding-top: $navHeight;
 
     @media (max-width: 750px) {
       display: none;
@@ -87,17 +105,14 @@
   &__sidebar {
     overflow: auto;
     height: 100%;
+    padding-top: 2rem;
+    padding-left: 0.5rem;
+    margin-left: -0.5rem;
   }
 
   &__main {
     flex: 1 1 auto;
     min-width: 0;
-    padding-top: 100px;
-  }
-
-  &__inner {
-    max-width: 62rem;
-    margin: 0 auto;
-    padding: 0 2rem;
+    padding-top: $navHeight + 2rem;
   }
 }
