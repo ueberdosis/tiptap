@@ -11,5 +11,5 @@ export default function nodeIsActive(state: EditorState, type: NodeType, attrs =
     return !!node
   }
 
-  return node.node.hasMarkup(type, attrs)
+  return node.node.hasMarkup(type, { ...node.node.attrs, ...attrs })
 }
