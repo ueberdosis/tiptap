@@ -8,9 +8,9 @@ interface Range {
 }
 
 type ReplaceWithNode = (
-  range: Range,
   type: NodeType,
   attrs: {},
+  range?: Range,
 ) => any
 
 declare module '../Editor' {
@@ -19,7 +19,7 @@ declare module '../Editor' {
   }
 }
 
-export default (next: Function, editor: Editor): ReplaceWithNode => (range, typeOrName, attrs) => {
+export default (next: Function, editor: Editor): ReplaceWithNode => (typeOrName, attrs, range) => {
   const { view, state, schema } = editor
   const { $from, $to } = state.selection
   const type = getNodeType(typeOrName, schema)
