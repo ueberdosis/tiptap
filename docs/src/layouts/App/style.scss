@@ -73,6 +73,8 @@ $navHeight: 4.5rem;
   }
 
   &__content {
+    position: relative;
+    z-index: 1;
     flex: 1 1 auto;
     display: flex;
     width: 100%;
@@ -88,17 +90,27 @@ $navHeight: 4.5rem;
   }
 
   &__sidebar-wrapper {
-    flex: 0 0 auto;
-    align-self: flex-start;
-    position: sticky;
-    top: 0;
-    width: 18rem;
-    height: 100vh;
-    padding-right: 3rem;
-    padding-top: $navHeight;
-
-    @media (max-width: 750px) {
-      display: none;
+    position: fixed;
+    z-index: 2;
+    top: $navHeight;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $colorBackground;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    
+    @media (min-width: 750px) {
+      position: sticky;
+      flex: 0 0 auto;
+      align-self: flex-start;
+      top: 0;
+      width: 18rem;
+      height: 100vh;
+      padding-left: 0;
+      padding-right: 0;
+      padding-right: 3rem;
+      padding-top: $navHeight;
     }
   }
 
