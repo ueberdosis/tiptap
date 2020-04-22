@@ -78,6 +78,10 @@
     height: 100vh;
     padding-right: 3rem;
     padding-top: 100px;
+
+    @media (max-width: 750px) {
+      display: none;
+    }
   }
 
   &__sidebar {
