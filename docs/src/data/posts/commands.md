@@ -24,6 +24,10 @@ Remove a mark in the current selection.
 
 Remove all marks in the current selection.
 
+## .replaceWithNode()
+
+Replace a given range with a node.
+
 ## .selectAll()
 
 Select the whole document.
