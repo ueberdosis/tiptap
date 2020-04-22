@@ -12,5 +12,5 @@ export default function nodeIsActive(state, type, attrs = {}) {
     return !!node
   }
 
-  return node.node.hasMarkup(type, attrs)
+  return node.node.hasMarkup(type, { ...node.node.attrs, ...attrs })
 }
