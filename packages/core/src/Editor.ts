@@ -77,6 +77,7 @@ export class Editor extends EventEmitter {
     this.registerCommand('setContent', require('./commands/setContent').default)
     this.registerCommand('toggleMark', require('./commands/toggleMark').default)
     this.registerCommand('toggleNode', require('./commands/toggleNode').default)
+    this.registerCommand('updateMark', require('./commands/updateMark').default)
     
     if (this.options.injectCSS) {
       require('./style.css')

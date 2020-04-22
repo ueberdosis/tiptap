@@ -47,3 +47,7 @@ Toggle a mark on and off.
 ## .toggleNode()
 
 Toggle a node with another node.
+
+## .updateMark()
+
+Update a mark with new attributes.
