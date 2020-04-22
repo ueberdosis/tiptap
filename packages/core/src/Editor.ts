@@ -66,6 +66,7 @@ export class Editor extends EventEmitter {
     this.createSchema()
     this.createView()
     this.registerCommand('clearContent', require('./commands/clearContent').default)
+    this.registerCommand('deleteSelection', require('./commands/deleteSelection').default)
     this.registerCommand('focus', require('./commands/focus').default)
     this.registerCommand('insertHTML', require('./commands/insertHTML').default)
     this.registerCommand('insertText', require('./commands/insertText').default)

@@ -4,6 +4,10 @@
 
 Clear the whole document.
 
+## .deleteSelection()
+
+Delete the selection, if there is one.
+
 ## .focus()
 
 Focus the editor at the given position.
