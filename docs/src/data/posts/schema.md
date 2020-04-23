@@ -6,4 +6,62 @@ This schema is *very* strict. You can’t use any HTML-element or attribute that
 
 For example if you paste something like `This is <strong>important</strong>` into tiptap and don’t have registered any extension that handles `strong` tags, you’ll only see `This is important`.
 
+## How a schema looks like
 
+The most simple schema for a typical *ProseMirror* editor is looking something like that.
+
+```js
+{
+  nodes: {
+    document: {
+      content: 'block+',
+    },
+    paragraph: {
+      content: 'inline*',
+      group: 'block',
+      parseDOM: [{ tag: 'p' }],
+      toDOM: () => ['p', 0],
+    },
+    text: {
+      group: 'inline',
+    },
+  },
+}
+```
+
+In tiptap we split each node into its own `Extension` class instead.
+
+```js
+class Document extends Node {
+  name = 'document'
+
+  schema() {
+    return {
+      content: 'block+',
+    }
+  }
+}
+
+class Paragraph extends Node {
+  name = 'paragraph'
+
+  schema() {
+    return {
+      content: 'inline*',
+      group: 'block',
+      parseDOM: [{ tag: 'p' }],
+      toDOM: () => ['p', 0],
+    }
+  }
+}
+
+class Text extends Node {
+  name = 'text'
+
+  schema() {
+    return {
+      group: 'inline',
+    }
+  }
+}
+```
