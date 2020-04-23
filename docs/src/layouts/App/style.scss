@@ -1,4 +1,5 @@
 $navHeight: 4.5rem;
+$menuBreakPoint: 750px;
 
 .app {
   display: flex;
@@ -67,7 +68,7 @@ $navHeight: 4.5rem;
     margin: 0 auto;
     padding: 0 1rem;
 
-    @media (min-width: 750px) {
+    @media (min-width: $menuBreakPoint) {
       padding: 0 2rem;
     }
   }
@@ -83,9 +84,21 @@ $navHeight: 4.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
 
-    @media (min-width: 750px) {
+    @media (min-width: $menuBreakPoint) {
       padding-left: 2rem;
       padding-right: 2rem;
+    }
+  }
+
+  &__menu-icon,
+  &__close-icon {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    margin-left: 1rem;
+
+    @media (min-width: $menuBreakPoint) {
+      display: none;
     }
   }
 
@@ -99,8 +112,17 @@ $navHeight: 4.5rem;
     background-color: $colorBackground;
     padding-left: 1rem;
     padding-right: 1rem;
+    visibility: hidden;
+    opacity: 0;
+
+    &.is-mobile-visible {
+      visibility: visible;
+      opacity: 1;
+    }
     
-    @media (min-width: 750px) {
+    @media (min-width: $menuBreakPoint) {
+      visibility: visible;
+      opacity: 1;
       position: sticky;
       flex: 0 0 auto;
       align-self: flex-start;
