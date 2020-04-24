@@ -29,7 +29,9 @@ The most simple schema for a typical *ProseMirror* editor is looking something l
 }
 ```
 
-In tiptap we split each node into its own `Extension` class instead.
+We register three nodes here. `document`, `paragraph` and `text`. `document` is the root node which allows multiple block nodes as children (`content: 'block+'`). Since `paragraph` is in the group of block nodes (`group: 'block'`) our document can only contain paragraphs. Our paragraphs allow zero or more inline nodes as children (`content: 'inline*'`) so there can only be `text` in it. `parseDOM` defines how a node can be parsed from pasted HTML. `toDOM` defines how it will be rendered in the DOM.
+
+In tiptap we define every node in its own `Extension` class instead. This allows us to split logic per node. Under the hood the schema will be merged together.
 
 ```js
 class Document extends Node {
