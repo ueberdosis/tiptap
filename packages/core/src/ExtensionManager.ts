@@ -1,9 +1,11 @@
 import collect from 'collect.js'
 import { keymap } from 'prosemirror-keymap'
 import { inputRules } from 'prosemirror-inputrules'
+import { NodeSpec } from 'prosemirror-model'
 import { Editor, CommandSpec } from './Editor'
 import Extension from './Extension'
 import Node from './Node'
+import ComponentView from './ComponentView'
 
 export default class ExtensionManager {
 
@@ -83,6 +85,23 @@ export default class ExtensionManager {
       .filter(keys => !!Object.keys(keys).length)
       .map(keys => keymap(keys))
       .toArray()
+  }
+
+  get nodeViews() {
+    return collect(this.nodes)
+      .filter((schema: any) => schema.toVue)
+      .map((schema: any) => {
+        // @ts-ignore
+        return (node, view, getPos, decorations) => {
+          return new ComponentView(schema.toVue, {
+            node,
+            view,
+            getPos,
+            decorations,
+          })
+        }
+      })
+      .all()
   }
 
 }
