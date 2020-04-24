@@ -36,6 +36,7 @@ In tiptap we define every node in its own `Extension` class instead. This allows
 ```js
 class Document extends Node {
   name = 'document'
+  topNode = true
 
   schema() {
     return {

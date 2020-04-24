@@ -62,7 +62,7 @@ query {
 </static-query>
 
 <script>
-import linkGroups from '@/data/links.yaml'
+import linkGroups from '@/links.yaml'
 import Icon from '@/components/Icon'
 import PageNavigation from '@/components/PageNavigation'
 import GithubButton from 'vue-github-button'
