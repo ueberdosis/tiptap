@@ -1,17 +1,20 @@
 import Vue from 'vue'
+import { ComponentRenderer } from '@tiptap/core'
 
-export default class ComponentView {
-  // @ts-ignore
-  constructor(component, options) {
+export default class Renderer extends ComponentRenderer {
+
+  static type: string = 'vue'
+
+  vm!: Vue
+  
+  constructor(component: Vue, options: any) {
+    super()
     this.mount(component)
   }
 
-  // @ts-ignore
-  mount(component) {
-    // @ts-ignore
+  mount(component: Vue) {
     const Component = Vue.extend(component)
 
-    // @ts-ignore
     this.vm = new Component({
       // parent: this.parent,
       // propsData: props,
@@ -19,12 +22,10 @@ export default class ComponentView {
   }
 
   get dom() {
-    // @ts-ignore
     return this.vm.$el
   }
 
   get contentDOM() {
-    // @ts-ignore
     return this.vm.$refs.content
   }
 

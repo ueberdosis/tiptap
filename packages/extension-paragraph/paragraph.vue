@@ -1,5 +1,5 @@
 <template>
-  <p ref="content"></p>
+  <p data-component="yeah" ref="content"></p>
 </template>
 
 <script>

@@ -12,6 +12,7 @@
     "dist"
   ],
   "peerDependencies": {
+    "@tiptap/core": "2.x",
     "vue": "2.x"
   }
 }

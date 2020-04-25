@@ -12,7 +12,7 @@ export default class Paragraph extends Node {
       group: 'block',
       parseDOM: [{ tag: 'p' }],
       toDOM: () => ['p', 0],
-      // toVue: ParagraphComponent,
+      toVue: ParagraphComponent,
     }
   }
 

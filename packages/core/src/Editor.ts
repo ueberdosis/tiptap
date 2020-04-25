@@ -34,6 +34,7 @@ interface EditorOptions {
   content: EditorContent
   extensions: (Extension | Node | Mark)[]
   injectCSS: Boolean,
+  renderer: any,
 }
 
 @magicMethods
@@ -50,6 +51,7 @@ export class Editor extends EventEmitter {
     content: '',
     injectCSS: true,
     extensions: [],
+    renderer: null,
   }
   
   private lastCommand = Promise.resolve()
