@@ -97,18 +97,20 @@ export default class ExtensionManager {
 
     const prop = `to${capitalize(Renderer.type)}`
 
-    return collect(this.nodes)
-      .filter((schema: any) => schema[prop])
-      .map((schema: any) => {
+    return collect(this.extensions)
+      .where('extensionType', 'node')
+      .filter((extension: any) => extension.schema()[prop])
+      .map((extension: any) => {
         return (
           node: ProsemirrorNode,
           view: EditorView,
           getPos: (() => number) | boolean,
           decorations: Decoration[],
         ) => {
-          return new Renderer(schema[prop], {
+          return new Renderer(extension.schema()[prop], {
+            extension,
+            editor: this.editor,
             node,
-            view,
             getPos,
             decorations,
           })
