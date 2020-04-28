@@ -1,40 +1,69 @@
-import React, { Component } from 'react'
-import { Editor } from '@tiptap/core'
+import React, { useState } from 'react'
+import { useEditor, Editor } from './components/Editor'
 import extensions from '@tiptap/starter-kit'
 
-export default class extends Component {
-  constructor() {
-    super()
-    this.editorNode = React.createRef()
-  }
-  
-  componentDidMount() {
-    this.editor = new Editor({
-      element: this.editorNode.current,
-      content: '<p>rendered in <strong>react</strong>!</p>',
-      extensions: extensions(),
-    })
-    this.forceUpdate()
-  }
+// Menu bar example component
+// useEditor only works for child components of <Editor />
+const MenuBar = () => {
+  const editor = useEditor()
 
-  render() {
-    return (
-      <div>
-        {this.editor &&
-          <div>
-            <button onClick={() => this.editor.focus().removeMarks()}>
-              clear formatting
-            </button>
-            <button
-              onClick={() => this.editor.focus().bold()}
-              className={`${this.editor.isActive('bold') ? 'is-active' : ''}`}
-            >
-              bold
-            </button>
-          </div>
-        } 
-        <div ref={this.editorNode} />
-      </div>
-    )
-  }
+  return (
+    <>
+      <button onClick={() => editor.focus().removeMarks()}>
+        Clear formatting
+      </button>
+      <button
+        className={`${editor.isActive('bold') ? 'is-active' : ''}`}
+        onClick={() => editor.focus().bold()}
+      >
+        Bold
+      </button>
+    </>
+  )
+}
+
+export default () => {
+  const [value, setValue] = useState({
+    'type': 'document',
+    'content': [
+       {
+          'type': 'paragraph',
+          'content': [
+             {
+                'type': 'text',
+                'text': 'rendered in '
+             },
+             {
+                'type': 'text',
+                'marks': [
+                   {
+                      'type': 'bold'
+                   }
+                ],
+                'text': 'react'
+             },
+             {
+                'type': 'text',
+                'text': '!'
+             }
+          ]
+       }
+    ]
+ })
+
+  return (
+    <>
+      <p>
+        <button onClick={() => alert(JSON.stringify(value))}>Alert state</button>
+      </p>
+      <hr style={{ margin: '0.85rem 0'}} />
+      <Editor 
+        value={value}
+        onChange={setValue}
+        extensions={extensions()}
+      >
+        <MenuBar />
+      </Editor>
+    </>
+  )
 }
