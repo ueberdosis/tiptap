@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import collect from 'collect.js'
 import ReactRenderer from '~/components/ReactRenderer'
 
 export default {
@@ -76,8 +77,7 @@ export default {
   },
 
   mounted() {
-    this.files = require.context(`~/demos/`, true, /.+\..+$/)
-      .keys()
+    this.files = collect(require.context(`~/demos/`, true, /.+\..+$/).keys())
       .filter(path => path.startsWith(`./${this.name}`))
       .map(path => path.replace('./', ''))
       .map(path => {
@@ -91,6 +91,8 @@ export default {
           highlight: this.syntax[extension] || extension,
         }
       })
+      .sortBy(item => item.path.split('/').length)
+      .toArray()
   }
 }
 </script>

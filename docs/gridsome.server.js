@@ -5,6 +5,7 @@ module.exports = function (api) {
   api.chainWebpack(config => {
     config.resolve.extensions
       .add('.ts')
+      .add('.jsx')
 
     config.module
       .rule('typescript')
