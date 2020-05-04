@@ -16,7 +16,7 @@ export default function (regexp, type, getAttrs) {
 
         // eslint-disable-next-line
         while (!isLink && (match = regexp.exec(text)) !== null) {
-          if (parent.type.allowsMarkType(type) && match[1]) {
+          if (parent && parent.type.allowsMarkType(type) && match[1]) {
             const start = match.index
             const end = start + match[0].length
             const textStart = start + match[0].indexOf(match[1])
