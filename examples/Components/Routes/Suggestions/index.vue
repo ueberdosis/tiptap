@@ -134,7 +134,12 @@ export default {
                 keys: ['name'],
               })
 
-              return fuse.search(query)
+              const queriedUsers = fuse.search(query);
+              const matchedUsers = queriedUsers.reduce((acc, queriedUser) => {
+                return acc.concat(queriedUser.item);
+              }, []);
+
+              return matchedUsers;
             },
           }),
           new Code(),
