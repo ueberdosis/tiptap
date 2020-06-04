@@ -2,7 +2,7 @@
     <div class="editor">
         <editor-menu-bar :editor="editor" v-slot="{ commands }">
             <div class="menubar">
-                <button class="menubar__button" @click="showImagePrompt(commands.video)">
+                <button class="menubar__button" @click="showVideoPrompt(commands.video)">
                     <icon name="image" />
                 </button>
             </div>
@@ -53,7 +53,7 @@ export default {
         }
     },
     methods: {
-        showImagePrompt(command) {
+        showVideoPrompt(command) {
             const src = prompt('Enter the url of your video here')
             if (src !== null) {
                 command({ src })
