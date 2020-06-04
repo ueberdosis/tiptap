@@ -48,7 +48,6 @@ export default {
           <p>
             This is basic example of implementing videos. Try to drop new videos here. Reordering also works.
           </p>
-          <video controls style="width: 100%;"><source src="https://sscmscontent.s3-us-west-2.amazonaws.com/videos/js+Else+If+Statements.mov"></video>
         `,
             }),
         }
