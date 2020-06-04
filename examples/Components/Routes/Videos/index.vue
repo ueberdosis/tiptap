@@ -54,7 +54,7 @@ export default {
     },
     methods: {
         showImagePrompt(command) {
-            const src = prompt('Enter the url of your image here')
+            const src = prompt('Enter the url of your video here')
             if (src !== null) {
                 command({ src })
             }
