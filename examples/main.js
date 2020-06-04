@@ -47,6 +47,13 @@ const routes = [
     },
   },
   {
+    path: '/videos',
+    component: () => import('Components/Routes/Videos'),
+    meta: {
+      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Images',
+    },
+  },
+  {
     path: '/hiding-menu-bar',
     component: () => import('Components/Routes/HidingMenuBar'),
     meta: {
