@@ -16,7 +16,7 @@ function triggerCharacter({
     }
 
     // Allow only text nodes after the current caret position
-    if (!$position.nodeAfter.isText) return false
+    if ($position.nodeAfter && !$position.nodeAfter.isText) return false
 
     // Matching expressions used for later
     const escapedChar = `\\${char}`
