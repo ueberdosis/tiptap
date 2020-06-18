@@ -15,6 +15,9 @@ function triggerCharacter({
       return false
     }
 
+    // Allow only text nodes after the current caret position
+    if (!$position.nodeAfter.isText) return false
+
     // Matching expressions used for later
     const escapedChar = `\\${char}`
     const suffix = new RegExp(`\\s${escapedChar}$`)
