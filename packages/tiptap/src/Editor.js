@@ -4,18 +4,18 @@ import {
   PluginKey,
   TextSelection,
 } from 'prosemirror-state'
-import {EditorView} from 'prosemirror-view'
-import {Schema, DOMParser, DOMSerializer} from 'prosemirror-model'
-import {dropCursor} from 'prosemirror-dropcursor'
-import {gapCursor} from 'prosemirror-gapcursor'
-import {keymap} from 'prosemirror-keymap'
-import {baseKeymap} from 'prosemirror-commands'
-import {inputRules, undoInputRule} from 'prosemirror-inputrules'
+import { EditorView } from 'prosemirror-view'
+import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
+import { dropCursor } from 'prosemirror-dropcursor'
+import { gapCursor } from 'prosemirror-gapcursor'
+import { keymap } from 'prosemirror-keymap'
+import { baseKeymap } from 'prosemirror-commands'
+import { inputRules, undoInputRule } from 'prosemirror-inputrules'
 import {
-  markIsActive,
-  nodeIsActive,
-  getMarkAttrs,
-  getNodeAttrs,
+ markIsActive,
+ nodeIsActive,
+ getMarkAttrs,
+ getNodeAttrs,
 } from 'tiptap-utils'
 import {
   injectCSS,
@@ -25,7 +25,7 @@ import {
   ComponentView,
   minMax,
 } from './Utils'
-import {Doc, Paragraph, Text} from './Nodes'
+import { Doc, Paragraph, Text } from './Nodes'
 import css from './style.css'
 
 export default class Editor extends Emitter {
@@ -52,20 +52,13 @@ export default class Editor extends Emitter {
       dropCursor: {},
       parseOptions: {},
       injectCSS: true,
-      onInit: () => {
-      },
-      onTransaction: () => {
-      },
-      onUpdate: () => {
-      },
-      onFocus: () => {
-      },
-      onBlur: () => {
-      },
-      onPaste: () => {
-      },
-      onDrop: () => {
-      },
+      onInit: () => {},
+      onTransaction: () => {},
+      onUpdate: () => {},
+      onFocus: () => {},
+      onBlur: () => {},
+      onPaste: () => {},
+      onDrop: () => {},
     }
 
     this.events = [
@@ -87,7 +80,7 @@ export default class Editor extends Emitter {
       ...options,
     })
     this.focused = false
-    this.selection = {from: 0, to: 0}
+    this.selection = { from: 0, to: 0 }
     this.element = document.createElement('div')
     this.extensions = this.createExtensions()
     this.nodes = this.createNodes()
@@ -110,8 +103,7 @@ export default class Editor extends Emitter {
     }
 
     this.events.forEach(name => {
-      this.on(name, this.options[camelCase(`on ${name}`)] || (() => {
-      }))
+      this.on(name, this.options[camelCase(`on ${name}`)] || (() => {}))
     })
 
     this.emit('init', {
@@ -283,7 +275,6 @@ export default class Editor extends Emitter {
       const htmlString = `<div>${content}</div>`;
       const parser = new window.DOMParser;
       const element = parser.parseFromString(htmlString, "text/html").body.firstChild;
-
       return DOMParser.fromSchema(this.schema).parse(element, parseOptions)
     }
 
@@ -293,12 +284,8 @@ export default class Editor extends Emitter {
   createView() {
     return new EditorView(this.element, {
       state: this.createState(),
-      handlePaste: (...args) => {
-        this.emit('paste', ...args)
-      },
-      handleDrop: (...args) => {
-        this.emit('drop', ...args)
-      },
+      handlePaste: (...args) => { this.emit('paste', ...args) },
+      handleDrop: (...args) => { this.emit('drop', ...args) },
       dispatchTransaction: this.dispatchTransaction.bind(this),
     })
   }
@@ -319,7 +306,7 @@ export default class Editor extends Emitter {
     })
   }
 
-  initNodeViews({parent, extensions}) {
+  initNodeViews({ parent, extensions }) {
     return extensions
       .filter(extension => ['node', 'mark'].includes(extension.type))
       .filter(extension => extension.view)
@@ -390,7 +377,7 @@ export default class Editor extends Emitter {
     }
 
     if (position === 'end') {
-      const {doc} = this.state
+      const { doc } = this.state
       return {
         from: doc.content.size,
         to: doc.content.size,
@@ -408,14 +395,14 @@ export default class Editor extends Emitter {
       return
     }
 
-    const {from, to} = this.resolveSelection(position)
+    const { from, to } = this.resolveSelection(position)
 
     this.setSelection(from, to)
     setTimeout(() => this.view.focus(), 10)
   }
 
   setSelection(from = 0, to = 0) {
-    const {doc, tr} = this.state
+    const { doc, tr } = this.state
     const resolvedFrom = minMax(from, 0, doc.content.size)
     const resolvedEnd = minMax(to, 0, doc.content.size)
     const selection = TextSelection.create(doc, resolvedFrom, resolvedEnd)
@@ -451,7 +438,7 @@ export default class Editor extends Emitter {
   }
 
   setContent(content = {}, emitUpdate = false, parseOptions) {
-    const {doc, tr} = this.state
+    const { doc, tr } = this.state
     const document = this.createDocument(content, parseOptions)
     const selection = TextSelection.create(doc, 0, doc.content.size)
     const transaction = tr
@@ -515,7 +502,7 @@ export default class Editor extends Emitter {
     const plugins = typeof handlePlugins === 'function'
       ? handlePlugins(plugin, this.state.plugins)
       : [plugin, ...this.state.plugins]
-    const newState = this.state.reconfigure({plugins})
+    const newState = this.state.reconfigure({ plugins })
     this.view.updateState(newState)
   }
 
