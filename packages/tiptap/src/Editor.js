@@ -274,7 +274,7 @@ export default class Editor extends Emitter {
     if (typeof content === 'string') {
       const htmlString = `<div>${content}</div>`;
       const parser = new window.DOMParser;
-      const element = parser.parseFromString(htmlString, "text/html").body.firstChild;
+      const element = parser.parseFromString(htmlString, "text/html").body;
       return DOMParser.fromSchema(this.schema).parse(element, parseOptions)
     }
 
