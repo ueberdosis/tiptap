@@ -11,6 +11,7 @@ export default class Link extends Mark {
   get defaultOptions() {
     return {
       openOnClick: true,
+      target: null,
     }
   }
 
@@ -20,6 +21,9 @@ export default class Link extends Mark {
         href: {
           default: null,
         },
+        target: {
+            default: null,
+        },
       },
       inclusive: false,
       parseDOM: [
@@ -27,12 +31,14 @@ export default class Link extends Mark {
           tag: 'a[href]',
           getAttrs: dom => ({
             href: dom.getAttribute('href'),
+            target: dom.getAttribute('target'),
           }),
         },
       ],
       toDOM: node => ['a', {
         ...node.attrs,
         rel: 'noopener noreferrer nofollow',
+        target: this.options.target,
       }, 0],
     }
   }
@@ -71,7 +77,7 @@ export default class Link extends Mark {
 
             if (attrs.href && event.target instanceof HTMLAnchorElement) {
               event.stopPropagation()
-              window.open(attrs.href)
+              window.open(attrs.href, attrs.target)
             }
           },
         },
