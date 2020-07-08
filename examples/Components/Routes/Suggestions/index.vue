@@ -134,7 +134,7 @@ export default {
                 keys: ['name'],
               })
 
-              return fuse.search(query)
+              return fuse.search(query).map( it => item);
             },
           }),
           new Code(),

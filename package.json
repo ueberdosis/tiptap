@@ -47,7 +47,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-vue": "6.0.1",
     "file-loader": "^5.0.2",
-    "fuse.js": "^3.4.6",
+    "fuse.js": "^6.0.0",
     "glob": "^7.1.6",
     "html-webpack-plugin": "^3.2.0",
     "http-proxy-middleware": "^0.20.0",
