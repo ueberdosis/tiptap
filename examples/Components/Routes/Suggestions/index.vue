@@ -63,12 +63,17 @@ export default {
           new Heading({ levels: [1, 2, 3] }),
           new Mention({
             // a list of all suggested items
-            items: () => [
-              { id: 1, name: 'Philipp Kühn' },
-              { id: 2, name: 'Hans Pagel' },
-              { id: 3, name: 'Kris Siepert' },
-              { id: 4, name: 'Justin Schueler' },
-            ],
+            items: async () => {
+              await new Promise(resolve => {
+                setTimeout(resolve, 500)
+              })
+              return [
+                { id: 1, name: 'Philipp Kühn' },
+                { id: 2, name: 'Hans Pagel' },
+                { id: 3, name: 'Kris Siepert' },
+                { id: 4, name: 'Justin Schueler' },
+              ]
+            },
             // is called when a suggestion starts
             onEnter: ({
               items, query, range, command, virtualNode,
@@ -124,10 +129,14 @@ export default {
             // this function is optional because there is basic filtering built-in
             // you can overwrite it if you prefer your own filtering
             // in this example we use fuse.js with support for fuzzy search
-            onFilter: (items, query) => {
+            onFilter: async (items, query) => {
               if (!query) {
                 return items
               }
+
+              await new Promise(resolve => {
+                setTimeout(resolve, 500)
+              })
 
               const fuse = new Fuse(items, {
                 threshold: 0.2,
