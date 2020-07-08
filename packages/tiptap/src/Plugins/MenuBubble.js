@@ -50,7 +50,6 @@ function coordsAtPos(view, pos, end = false) {
   }
 }
 
-
 class Menu {
 
   constructor({ options, editorView }) {
