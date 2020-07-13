@@ -1,0 +1,29 @@
+name: run-tests
+
+on:
+  push:
+    pull_request:
+    schedule:
+      - cron: '0 0 * * *'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: build:packages
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: audit-ci
+    - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: lint
+    - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: test
