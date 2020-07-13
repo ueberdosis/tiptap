@@ -506,7 +506,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [WYSIWYG editor for Quasar Framework](https://github.com/donotebase/quasar-tiptap) by @mekery
 
 ## Love our work?
-[Become a backer](https://www.paypal.me/philippkuehn) ❤️
+[Sponsor us](https://github.com/sponsors/ueberdosis) ❤️
 
 ## License
 
