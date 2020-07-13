@@ -7,3 +7,8 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "https://tiptap.scrumpy.io/*"
+  to = "https://www.tiptap.dev/:splat"
+  status = 301
