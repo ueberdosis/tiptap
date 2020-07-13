@@ -19,7 +19,7 @@ With renderless components you'll have (almost) full control over markup and sty
 You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can pass these two types back to the editor.
 
 ## Examples
-To check out some live examples, visit [tiptap.scrumpy.io](https://tiptap.scrumpy.io/).
+To check out some live examples, visit [tiptap.dev](https://tiptap.dev/).
 
 ## Installation
 ```

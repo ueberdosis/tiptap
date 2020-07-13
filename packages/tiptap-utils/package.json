@@ -2,7 +2,7 @@
   "name": "tiptap-utils",
   "version": "1.10.0",
   "description": "Utility functions for tiptap",
-  "homepage": "https://tiptap.scrumpy.io",
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
   "main": "dist/utils.common.js",
   "module": "dist/utils.esm.js",

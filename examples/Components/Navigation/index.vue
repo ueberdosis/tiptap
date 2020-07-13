@@ -14,7 +14,7 @@
     </div>
 
     <div>
-      <a class="navigation__link" href="https://tiptap.scrumpy.io/docs" target="_blank">
+      <a class="navigation__link" href="https://tiptap.dev/docs" target="_blank">
         Documentation
       </a>
       <a class="navigation__link" href="https://github.com/scrumpy/tiptap/blob/master/CONTRIBUTING.md" target="_blank">

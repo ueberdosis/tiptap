@@ -2,7 +2,7 @@
   "name": "tiptap-commands",
   "version": "1.14.0",
   "description": "Commands for tiptap",
-  "homepage": "https://tiptap.scrumpy.io",
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
   "main": "dist/commands.common.js",
   "module": "dist/commands.esm.js",

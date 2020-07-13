@@ -2,7 +2,7 @@
   "name": "tiptap",
   "version": "1.29.0",
   "description": "A rich-text editor for Vue.js",
-  "homepage": "https://tiptap.scrumpy.io",
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
   "main": "dist/tiptap.common.js",
   "module": "dist/tiptap.esm.js",

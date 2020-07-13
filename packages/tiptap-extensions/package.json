@@ -2,7 +2,7 @@
   "name": "tiptap-extensions",
   "version": "1.31.0",
   "description": "Extensions for tiptap",
-  "homepage": "https://tiptap.scrumpy.io",
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
   "main": "dist/extensions.common.js",
   "module": "dist/extensions.esm.js",
