@@ -14,10 +14,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scrumpy/tiptap.git"
+    "url": "git+https://github.com/ueberdosis/tiptap.git"
   },
   "bugs": {
-    "url": "https://github.com/scrumpy/tiptap/issues"
+    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "dependencies": {
     "prosemirror-commands": "^1.1.4",

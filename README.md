@@ -5,7 +5,7 @@ A renderless and extendable rich-text editor for [Vue.js](https://github.com/vue
 [![](https://img.shields.io/npm/dm/tiptap.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
 [![](https://img.shields.io/npm/l/tiptap.svg)](https://www.npmjs.com/package/tiptap)
 [![](https://img.badgesize.io/https://unpkg.com/tiptap/dist/tiptap.min.js?compression=gzip&label=size&colorB=000000)](https://www.npmjs.com/package/tiptap)
-[![Build Status](https://travis-ci.org/scrumpy/tiptap.svg?branch=master)](https://travis-ci.org/scrumpy/tiptap)
+[![Build Status](https://travis-ci.org/ueberdosis/tiptap.svg?branch=master)](https://travis-ci.org/ueberdosis/tiptap)
 
 ## Why I built tiptap
 I was looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn't really satisfy me. The editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. I came across [Prosemirror](https://github.com/prosemirror) and decided to build on it. Prosemirror is a toolkit for building rich-text editors that are already in use at many well-known companies such as *Atlassian* or *New York Times*.
@@ -377,7 +377,7 @@ export default class BlockquoteNode extends Node {
 
 ### Create a Node as a Vue Component
 
-The real power of the nodes comes in combination with Vue components. Let us build an iframe node, where you can change its URL (this can also be found in our [examples](https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Embeds)).
+The real power of the nodes comes in combination with Vue components. Let us build an iframe node, where you can change its URL (this can also be found in our [examples](https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Embeds)).
 
 ```js
 import { Node } from 'tiptap'

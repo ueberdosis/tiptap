@@ -7,9 +7,9 @@
       </h1>
       <github-button
         class="navigation__count"
-        href="https://github.com/scrumpy/tiptap"
+        href="https://github.com/ueberdosis/tiptap"
         data-show-count="true"
-        aria-label="Star scrumpy/tiptap on GitHub"
+        aria-label="Star ueberdosis/tiptap on GitHub"
       />
     </div>
 
@@ -17,13 +17,13 @@
       <a class="navigation__link" href="https://tiptap.dev/docs" target="_blank">
         Documentation
       </a>
-      <a class="navigation__link" href="https://github.com/scrumpy/tiptap/blob/master/CONTRIBUTING.md" target="_blank">
+      <a class="navigation__link" href="https://github.com/ueberdosis/tiptap/blob/master/CONTRIBUTING.md" target="_blank">
         Contribute
       </a>
       <a class="navigation__link" href="https://github.com/sponsors/ueberdosis" target="_blank">
         Sponsor
       </a>
-      <a class="navigation__github-link" href="https://github.com/scrumpy/tiptap" target="_blank">
+      <a class="navigation__github-link" href="https://github.com/ueberdosis/tiptap" target="_blank">
         <icon class="navigation__icon" name="github" />
       </a>
     </div>
