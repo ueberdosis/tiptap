@@ -21,9 +21,9 @@ jobs:
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: audit-ci
-    - uses: borales/actions-yarn@v2.0.0
+      - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: lint
-    - uses: borales/actions-yarn@v2.0.0
+      - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: test
