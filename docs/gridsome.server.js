@@ -5,6 +5,7 @@ module.exports = function (api) {
   api.chainWebpack(config => {
     config.resolve.extensions
       .add('.ts')
+      .add('.jsx')
 
     config.module
       .rule('typescript')
@@ -18,12 +19,12 @@ module.exports = function (api) {
         .test(/\.jsx?$/)
         .use()
           .loader('babel-loader')
-    
-    globby.sync('./packages/*', { onlyDirectories: true })
-      .map(name => name.replace('./packages/', ''))
+
+    globby.sync('../packages/*', { onlyDirectories: true })
+      .map(name => name.replace('../packages/', ''))
       .forEach(name => {
         config.resolve.alias
-          .set(`@tiptap/${name}`, path.resolve(`./packages/${name}`))
+          .set(`@tiptap/${name}`, path.resolve(`../packages/${name}`))
       })
   })
 }

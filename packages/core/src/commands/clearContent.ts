@@ -1,13 +1,15 @@
 import { Editor } from '../Editor'
 import { TextSelection } from 'prosemirror-state'
 
+type ClearContent = (emitUpdate?: Boolean) => any
+
 declare module '../Editor' {
   interface Editor {
-    clearContent(emitUpdate?: Boolean): Editor,
+    clearContent: ClearContent,
   }
 }
 
-export default function clearContent(next: Function, editor: Editor, emitUpdate = false): void {
+export default (next: Function, editor: Editor): ClearContent => (emitUpdate = false) => {
   editor.setContent('', emitUpdate)
   next()
 }

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import linkGroups from '@/data/links.yaml'
+import linkGroups from '@/links.yaml'
 
 export default {
   data() {

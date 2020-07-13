@@ -1,5 +1,6 @@
 import { Node } from '@tiptap/core'
 import { NodeSpec } from 'prosemirror-model'
+// import ParagraphComponent from './paragraph.vue'
 
 export default class Paragraph extends Node {
 
@@ -9,9 +10,9 @@ export default class Paragraph extends Node {
     return {
       content: 'inline*',
       group: 'block',
-      draggable: false,
       parseDOM: [{ tag: 'p' }],
       toDOM: () => ['p', 0],
+      // toVue: ParagraphComponent,
     }
   }
 

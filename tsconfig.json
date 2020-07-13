@@ -25,6 +25,9 @@
       "scripthost"
     ]
   },
+  "files": [
+    "./shims/vue.d.ts"
+  ],
   "include": [
     "docs/src/**/*.ts",
     "docs/src/**/*.tsx",

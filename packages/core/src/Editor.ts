@@ -21,7 +21,7 @@ import Node from './Node'
 import Mark from './Mark'
 import EventEmitter from './EventEmitter'
 
-export type Command = (next: Function, editor: Editor, ...args: any) => any
+export type Command = (next: Function, editor: Editor) => (...args: any) => any
 
 export interface CommandSpec {
   [key: string]: Command
@@ -30,10 +30,11 @@ export interface CommandSpec {
 type EditorContent = string | JSON | null
 
 interface EditorOptions {
-  element: HTMLElement,
+  element: Element,
   content: EditorContent
   extensions: (Extension | Node | Mark)[]
   injectCSS: Boolean,
+  renderer: any,
 }
 
 @magicMethods
@@ -50,6 +51,7 @@ export class Editor extends EventEmitter {
     content: '',
     injectCSS: true,
     extensions: [],
+    renderer: null,
   }
   
   private lastCommand = Promise.resolve()
@@ -65,12 +67,20 @@ export class Editor extends EventEmitter {
     this.createExtensionManager()
     this.createSchema()
     this.createView()
-    this.registerCommand('focus', require('./commands/focus').default)
-    this.registerCommand('insertText', require('./commands/insertText').default)
-    this.registerCommand('insertHTML', require('./commands/insertHTML').default)
-    this.registerCommand('setContent', require('./commands/setContent').default)
     this.registerCommand('clearContent', require('./commands/clearContent').default)
+    this.registerCommand('deleteSelection', require('./commands/deleteSelection').default)
+    this.registerCommand('focus', require('./commands/focus').default)
+    this.registerCommand('insertHTML', require('./commands/insertHTML').default)
+    this.registerCommand('insertText', require('./commands/insertText').default)
+    this.registerCommand('removeMark', require('./commands/removeMark').default)
     this.registerCommand('removeMarks', require('./commands/removeMarks').default)
+    this.registerCommand('replaceWithNode', require('./commands/replaceWithNode').default)
+    this.registerCommand('selectAll', require('./commands/selectAll').default)
+    this.registerCommand('selectParentNode', require('./commands/selectParentNode').default)
+    this.registerCommand('setContent', require('./commands/setContent').default)
+    this.registerCommand('toggleMark', require('./commands/toggleMark').default)
+    this.registerCommand('toggleNode', require('./commands/toggleNode').default)
+    this.registerCommand('updateMark', require('./commands/updateMark').default)
     
     if (this.options.injectCSS) {
       require('./style.css')
@@ -103,7 +113,7 @@ export class Editor extends EventEmitter {
     }
     
     this.commands[name] = this.chainCommand((...args: any) => {
-      return new Promise(resolve => callback(resolve, this.proxy, ...args))
+      return new Promise(resolve => callback(resolve, this.proxy)(...args))
     })
 
     return this.proxy
@@ -162,6 +172,8 @@ export class Editor extends EventEmitter {
         plugins: this.plugins,
       }),
       dispatchTransaction: this.dispatchTransaction.bind(this),
+      // @ts-ignore
+      nodeViews: this.extensionManager.nodeViews,
     })
   }
 

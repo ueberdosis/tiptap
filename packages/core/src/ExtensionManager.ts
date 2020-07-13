@@ -1,9 +1,12 @@
 import collect from 'collect.js'
 import { keymap } from 'prosemirror-keymap'
 import { inputRules } from 'prosemirror-inputrules'
+import { EditorView, Decoration } from 'prosemirror-view'
+import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Editor, CommandSpec } from './Editor'
 import Extension from './Extension'
 import Node from './Node'
+import capitalize from './utils/capitalize'
 
 export default class ExtensionManager {
 
@@ -83,6 +86,37 @@ export default class ExtensionManager {
       .filter(keys => !!Object.keys(keys).length)
       .map(keys => keymap(keys))
       .toArray()
+  }
+
+  get nodeViews() {
+    const { renderer: Renderer } = this.editor.options
+
+    if (!Renderer || !Renderer.type) {
+      return {}
+    }
+
+    const prop = `to${capitalize(Renderer.type)}`
+
+    return collect(this.extensions)
+      .where('extensionType', 'node')
+      .filter((extension: any) => extension.schema()[prop])
+      .map((extension: any) => {
+        return (
+          node: ProsemirrorNode,
+          view: EditorView,
+          getPos: (() => number) | boolean,
+          decorations: Decoration[],
+        ) => {
+          return new Renderer(extension.schema()[prop], {
+            extension,
+            editor: this.editor,
+            node,
+            getPos,
+            decorations,
+          })
+        }
+      })
+      .all()
   }
 
 }

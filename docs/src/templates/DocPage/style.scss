@@ -106,5 +106,41 @@
         }
       }
     }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th,
+      td {
+        text-align: left;
+        font-size: 0.75rem;
+        padding: 0.5rem;
+      }
+
+      th {
+        font-weight: 600;
+        background-color: rgba($colorBlack, 0.05);
+
+        &:first-child {
+          border-top-left-radius: 5px;
+          border-bottom-left-radius: 5px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 5px;
+          border-bottom-right-radius: 5px;
+        }
+      }
+
+      td {
+        border-bottom: 1px solid rgba($colorBlack, 0.05);
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+    }
+
   }
 }

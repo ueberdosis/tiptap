@@ -6,6 +6,7 @@ import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
 import Code from '@tiptap/extension-code'
 import CodeBlock from '@tiptap/extension-codeblock'
+import Heading from '@tiptap/extension-heading'
 
 export default function extensions() {
   return [
@@ -17,5 +18,6 @@ export default function extensions() {
     new Italic(),
     new Code(),
     new CodeBlock(),
+    new Heading(),
   ]
 }

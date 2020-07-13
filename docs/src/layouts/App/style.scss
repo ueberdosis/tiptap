@@ -1,3 +1,6 @@
+$navHeight: 4.5rem;
+$menuBreakPoint: 750px;
+
 .app {
   display: flex;
   flex-direction: column;
@@ -40,42 +43,110 @@
     }
   }
 
-  &__header,
+  &__header {
+    align-self: center;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: $navHeight;
+    flex: 0 0 auto;
+    background-color: rgba($colorBackground, 0.8);
+    border-bottom: 1px solid rgba($colorBlack, 0.05);
+    backdrop-filter: blur(10px);
+  }
+  
+  &__header-inner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    @media (min-width: $menuBreakPoint) {
+      padding: 0 2rem;
+    }
+  }
+
   &__content {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 auto;
     display: flex;
     width: 100%;
     max-width: 62rem;
     margin: 0 auto;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    @media (min-width: $menuBreakPoint) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
   }
 
-  &__header {
-    flex: 0 0 auto;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+  &__menu-icon,
+  &__close-icon {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    margin-left: 1rem;
+
+    @media (min-width: $menuBreakPoint) {
+      display: none;
+    }
   }
 
-  &__content {
-    flex: 1 1 auto;
+  &__sidebar-wrapper {
+    position: fixed;
+    z-index: 2;
+    top: $navHeight;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $colorBackground;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    visibility: hidden;
+    opacity: 0;
+
+    &.is-mobile-visible {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    @media (min-width: $menuBreakPoint) {
+      visibility: visible;
+      opacity: 1;
+      position: sticky;
+      flex: 0 0 auto;
+      align-self: flex-start;
+      top: 0;
+      width: 18rem;
+      height: 100vh;
+      padding-left: 0;
+      padding-right: 0;
+      padding-right: 3rem;
+      padding-top: $navHeight;
+    }
   }
 
   &__sidebar {
-    flex: 0 0 auto;
-    width: 18rem;
-    padding-right: 3rem;
+    overflow: auto;
+    height: 100%;
+    padding-top: 2rem;
+    padding-left: 0.5rem;
+    margin-left: -0.5rem;
   }
 
   &__main {
     flex: 1 1 auto;
     min-width: 0;
-  }
-
-  &__inner {
-    max-width: 62rem;
-    margin: 0 auto;
-    padding: 0 2rem;
+    padding-top: $navHeight + 2rem;
   }
 }

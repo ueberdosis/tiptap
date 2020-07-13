@@ -1,5 +1,4 @@
 import { Mark, markInputRule, markPasteRule, CommandSpec } from '@tiptap/core'
-import { toggleMark } from 'prosemirror-commands'
 import { MarkSpec } from 'prosemirror-model'
 import VerEx from 'verbal-expressions'
 
@@ -25,8 +24,8 @@ export default class Code extends Mark {
 
   commands(): CommandSpec {
     return {
-      code: (next, { view }) => {
-        toggleMark(this.type)(view.state, view.dispatch)
+      code: next => () => {
+        this.editor.toggleMark(this.name)
         next()
       },
     }

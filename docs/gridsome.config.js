@@ -19,7 +19,7 @@ module.exports = {
       use: '@gridsome/vue-remark',
       options: {
         typeName: 'DocPage',
-        baseDir: './src/data/posts',
+        baseDir: './src/docPages',
         template: './src/templates/DocPage',
         plugins: [
           '@gridsome/remark-prismjs',

@@ -2,13 +2,15 @@ import { DOMParser } from 'prosemirror-model'
 import { Editor } from '../Editor'
 import elementFromString from '../utils/elementFromString'
 
+type InsertHTML = (value: string) => any
+
 declare module '../Editor' {
   interface Editor {
-    insertHTML(value: string): Editor,
+    insertHTML: InsertHTML,
   }
 }
 
-export default function insertHTML(next: Function, editor: Editor, value: string): void {
+export default (next: Function, editor: Editor): InsertHTML => value => {
   const { view, state } = editor
   const { selection } = state
   const element = elementFromString(value)

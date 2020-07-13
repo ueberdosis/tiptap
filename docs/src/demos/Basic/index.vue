@@ -4,7 +4,7 @@
 
 <script>
 import { Editor } from '@tiptap/core'
-import { EditorContent } from '@tiptap/vue'
+import { EditorContent, Renderer } from '@tiptap/vue'
 import extensions from '@tiptap/starter-kit'
 
 export default {
@@ -22,6 +22,7 @@ export default {
     this.editor = new Editor({
       content: '<p>foo</p>',
       extensions: extensions(),
+      renderer: Renderer,
     })
   },
 
