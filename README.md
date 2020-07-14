@@ -1,4 +1,4 @@
-> This repository has been migrated to a new organization (Read more: https://github.com/ueberdosis/tiptap/issues/759)
+> This repository has been migrated to a new organization. Read more: https://github.com/ueberdosis/tiptap/issues/759
 
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
@@ -14,11 +14,15 @@ I was looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and f
 
 ### What does `renderless` mean?
 
-With renderless components you'll have (almost) full control over markup and styling. I don't want to tell you what a menu should look like or where it should be rendered in the DOM. That's all up to you. There is also a [good article](https://adamwathan.me/renderless-components-in-vuejs/) about renderless components by Adam Wathan.
+With renderless components you'll have (almost) full control over markup and styling. I don't want to tell you what a menu should look like or where it should be rendered in the DOM. That's all up to you. There is also a [good article about renderless components](https://adamwathan.me/renderless-components-in-vuejs/) by Adam Wathan.
 
 ### How is the data stored under the hood?
 
 You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can pass these two types back to the editor.
+
+## 💖 Sponsor the development 
+
+Are you using tiptap in production? We need your sponsorship to maintain, update and develop tiptap. [Become a Sponsor now!](https://github.com/sponsors/ueberdosis)
 
 ## Examples
 To check out some live examples, visit [tiptap.dev](https://tiptap.dev/).
@@ -492,6 +496,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [Philipp Kühn](https://github.com/philippkuehn)
+- [Hans Pagel](https://github.com/hanspagel)
 - [Christoph Flathmann](https://github.com/Chrissi2812)
 - [Erick Wilder](https://github.com/erickwilder)
 - [Marius Tolzmann](https://github.com/mariux)
@@ -499,6 +504,8 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Related projects
 
+- [html-to-prosemirror](https://github.com/ueberdosis/html-to-prosemirror) by @hanspagel
+- [prosemirror-to-html](https://github.com/ueberdosis/prosemirror-to-html) by @hanspagel
 - [tiptap-svelte](https://github.com/andrewjk/tiptap-svelte) by @andrewjk
 - [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
 - [WYSIWYG editor for Vuetify](https://github.com/iliyaZelenko/tiptap-vuetify) by @iliyaZelenko
