@@ -22,7 +22,7 @@ You can save your data as a raw `HTML` string or can get a `JSON`-serializable r
 
 ## 💖 Sponsor the development 
 
-Are you using tiptap in production? We need your sponsorship to maintain, update and develop tiptap. [Become a Sponsor now](https://github.com/sponsors/ueberdosis)
+Are you using tiptap in production? We need your sponsorship to maintain, update and develop tiptap. [Become a Sponsor now!](https://github.com/sponsors/ueberdosis)
 
 ## Examples
 To check out some live examples, visit [tiptap.dev](https://tiptap.dev/).
