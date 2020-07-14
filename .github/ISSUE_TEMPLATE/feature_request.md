@@ -1,7 +1,6 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-url: https://github.com/ueberdosis/tiptap/discussions/new
 title: ''
 labels: feature request
 assignees: ''

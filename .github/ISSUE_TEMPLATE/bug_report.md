@@ -13,9 +13,9 @@ A clear and concise description of what the bug is.
 
 **Steps to Reproduce / Codesandbox Example**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+1. Go to '…'
+2. Click on '…'
+3. Scroll down to '…'
 4. See error
 
 Fork this or create a new Codesandbox replicating your error
