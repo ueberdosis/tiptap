@@ -492,6 +492,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [Philipp Kühn](https://github.com/philippkuehn)
+- [Hans Pagel](https://github.com/hanspagel)
 - [Christoph Flathmann](https://github.com/Chrissi2812)
 - [Erick Wilder](https://github.com/erickwilder)
 - [Marius Tolzmann](https://github.com/mariux)
@@ -499,6 +500,8 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Related projects
 
+- [html-to-prosemirror](https://github.com/ueberdosis/html-to-prosemirror) by @hanspagel
+- [prosemirror-to-html](https://github.com/ueberdosis/prosemirror-to-html) by @hanspagel
 - [tiptap-svelte](https://github.com/andrewjk/tiptap-svelte) by @andrewjk
 - [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
 - [WYSIWYG editor for Vuetify](https://github.com/iliyaZelenko/tiptap-vuetify) by @iliyaZelenko
