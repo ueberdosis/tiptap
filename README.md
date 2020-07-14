@@ -20,6 +20,10 @@ With renderless components you'll have (almost) full control over markup and sty
 
 You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can pass these two types back to the editor.
 
+## 💖 Sponsor the development 
+
+Are you using tiptap in production? We need your sponsorship to maintain, update and develop tiptap. [Become a Sponsor now](https://github.com/sponsors/ueberdosis)
+
 ## Examples
 To check out some live examples, visit [tiptap.dev](https://tiptap.dev/).
 
