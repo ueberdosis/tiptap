@@ -14,7 +14,7 @@ I was looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and f
 
 ### What does `renderless` mean?
 
-With renderless components you'll have (almost) full control over markup and styling. I don't want to tell you what a menu should look like or where it should be rendered in the DOM. That's all up to you. There is also a [good article](https://adamwathan.me/renderless-components-in-vuejs/) about renderless components by Adam Wathan.
+With renderless components you'll have (almost) full control over markup and styling. I don't want to tell you what a menu should look like or where it should be rendered in the DOM. That's all up to you. There is also a [good article about renderless components](https://adamwathan.me/renderless-components-in-vuejs/) by Adam Wathan.
 
 ### How is the data stored under the hood?
 
