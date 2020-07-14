@@ -1,4 +1,4 @@
-> This repository has been migrated to a new organization (Read more: https://github.com/ueberdosis/tiptap/issues/759)
+> This repository has been migrated to a new organization. Read more: https://github.com/ueberdosis/tiptap/issues/759
 
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
