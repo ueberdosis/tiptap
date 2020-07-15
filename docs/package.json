@@ -14,7 +14,7 @@
     "@mvasilkov/outdent": "^1.0.4",
     "collect.js": "^4.25.0",
     "globby": "^11.0.0",
-    "gridsome": "0.7.14",
+    "gridsome": "0.7.19",
     "raw-loader": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
