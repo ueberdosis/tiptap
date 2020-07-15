@@ -84,6 +84,7 @@ export default class ExtensionManager {
     return collect(this.extensions)
       .map(extension => extension.keys())
       .filter(keys => !!Object.keys(keys).length)
+      // @ts-ignore
       .map(keys => keymap(keys))
       .toArray()
   }

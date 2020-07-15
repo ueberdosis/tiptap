@@ -15,19 +15,19 @@
     "startandtest": "start-server-and-test start http://localhost:3000 test"
   },
   "devDependencies": {
-    "@types/prosemirror-commands": "^1.0.1",
+    "@types/prosemirror-commands": "^1.0.3",
     "@types/prosemirror-history": "^1.0.1",
     "@types/prosemirror-inputrules": "^1.0.2",
-    "@types/prosemirror-keymap": "^1.0.1",
+    "@types/prosemirror-keymap": "^1.0.3",
     "@types/prosemirror-model": "^1.7.2",
-    "@types/prosemirror-state": "^1.2.3",
+    "@types/prosemirror-state": "^1.2.5",
     "@types/prosemirror-transform": "^1.1.1",
-    "@types/prosemirror-view": "^1.11.2",
-    "cypress": "^4.3.0",
-    "lerna": "^3.20.2",
-    "microbundle": "^0.11.0",
-    "sass-loader": "^8.0.2",
-    "start-server-and-test": "^1.10.11",
-    "typescript": "^3.8.3"
+    "@types/prosemirror-view": "^1.15.0",
+    "cypress": "^4.10.0",
+    "lerna": "^3.22.1",
+    "microbundle": "^0.12.3",
+    "sass-loader": "^9.0.2",
+    "start-server-and-test": "^1.11.2",
+    "typescript": "^3.9.6"
   }
 }
