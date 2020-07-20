@@ -501,7 +501,7 @@ You can use Gitpod(a free online VS Code-like IDE) for contributing. With a sing
 
 So that anyone interested in contributing can start straight away.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/scrumpy/tiptap/)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ueberdosis/tiptap/)
 
 ## Contributing
 
