@@ -50,7 +50,6 @@ function coordsAtPos(view, pos, end = false) {
   }
 }
 
-
 class Menu {
 
   constructor({ options, editorView }) {
@@ -71,20 +70,22 @@ class Menu {
 
     // the mousedown event is fired before blur so we can prevent it
     this.mousedownHandler = this.handleClick.bind(this)
-    this.options.element.addEventListener('mousedown', this.mousedownHandler)
+    this.options.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
 
-    this.options.editor.on('focus', ({ view }) => {
+    this.focusHandler = ({ view }) => {
       this.update(view)
-    })
+    }
+    this.options.editor.on('focus', this.focusHandler)
 
-    this.options.editor.on('blur', ({ event }) => {
+    this.blurHandler = ({ event }) => {
       if (this.preventHide) {
         this.preventHide = false
         return
       }
 
       this.hide(event)
-    })
+    }
+    this.options.editor.on('blur', this.blurHandler)
   }
 
   handleClick() {
@@ -155,6 +156,7 @@ class Menu {
   hide(event) {
     if (event
       && event.relatedTarget
+      && this.options.element.parentNode
       && this.options.element.parentNode.contains(event.relatedTarget)
     ) {
       return
@@ -166,6 +168,8 @@ class Menu {
 
   destroy() {
     this.options.element.removeEventListener('mousedown', this.mousedownHandler)
+    this.options.editor.off('focus', this.focusHandler)
+    this.options.editor.off('blur', this.blurHandler)
   }
 
 }

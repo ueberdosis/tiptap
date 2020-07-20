@@ -1,26 +1,33 @@
+> This repository has been migrated to a new organization. Read more: https://github.com/ueberdosis/tiptap/issues/759
+
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
 
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/scrumpy/tiptap) 
-[![](https://img.shields.io/npm/v/tiptap.svg?label=version)](https://www.npmjs.com/package/tiptap)
-[![](https://img.shields.io/npm/dm/tiptap.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
-[![](https://img.shields.io/npm/l/tiptap.svg)](https://www.npmjs.com/package/tiptap)
-[![](https://img.badgesize.io/https://unpkg.com/tiptap/dist/tiptap.min.js?compression=gzip&label=size&colorB=000000)](https://www.npmjs.com/package/tiptap)
-[![Build Status](https://travis-ci.org/scrumpy/tiptap.svg?branch=master)](https://travis-ci.org/scrumpy/tiptap)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/ueberdosis/tiptap) 
+[![Version](https://img.shields.io/npm/v/tiptap.svg?label=version)](https://www.npmjs.com/package/tiptap)
+[![Downloads](https://img.shields.io/npm/dm/tiptap.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
+[![License](https://img.shields.io/npm/l/tiptap.svg)](https://www.npmjs.com/package/tiptap)
+[![Filesize](https://img.badgesize.io/https://unpkg.com/tiptap/dist/tiptap.min.js?compression=gzip&label=size&colorB=000000)](https://www.npmjs.com/package/tiptap)
+[![Build Status](https://github.com/ueberdosis/tiptap/workflows/ci/badge.svg)](https://github.com/ueberdosis/tiptap/actions)
+[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 ## Why I built tiptap
 I was looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn't really satisfy me. The editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. I came across [Prosemirror](https://github.com/prosemirror) and decided to build on it. Prosemirror is a toolkit for building rich-text editors that are already in use at many well-known companies such as *Atlassian* or *New York Times*.
 
 ### What does `renderless` mean?
 
-With renderless components you'll have (almost) full control over markup and styling. I don't want to tell you what a menu should look like or where it should be rendered in the DOM. That's all up to you. There is also a [good article](https://adamwathan.me/renderless-components-in-vuejs/) about renderless components by Adam Wathan.
+With renderless components you'll have (almost) full control over markup and styling. I don't want to tell you what a menu should look like or where it should be rendered in the DOM. That's all up to you. There is also a [good article about renderless components](https://adamwathan.me/renderless-components-in-vuejs/) by Adam Wathan.
 
 ### How is the data stored under the hood?
 
 You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can pass these two types back to the editor.
 
+## 💖 Sponsor the development 
+
+Are you using tiptap in production? We need your sponsorship to maintain, update and develop tiptap. [Become a Sponsor now!](https://github.com/sponsors/ueberdosis)
+
 ## Examples
-To check out some live examples, visit [tiptap.scrumpy.io](https://tiptap.scrumpy.io/).
+To check out some live examples, visit [tiptap.dev](https://tiptap.dev/).
 
 ## Installation
 ```
@@ -86,7 +93,7 @@ export default {
 | `setContent` | `content, emitUpdate, parseOptions` | Replace the current content. You can pass an HTML string or a JSON document. `emitUpdate` defaults to `false`. `parseOptions` defaults to those provided in constructor. |
 | `clearContent` | `emitUpdate` | Clears the current content. `emitUpdate` defaults to `false`. |
 | `setOptions` | `options` | Overwrites the current editor properties. |
-| `registerPlugin` | `plugin` | Register a Prosemirror plugin. |
+| `registerPlugin` | `plugin`, `handlePlugins` | Register a Prosemirror plugin. You can pass a function `handlePlugins` with parameters `(plugin, oldPlugins)` to define an order in which `newPlugins` will be called. `handlePlugins` defaults to pushing `plugin` to front of `oldPlugins`. |
 | `getJSON` | – | Get the current content as JSON. |
 | `getHTML` | – | Get the current content as HTML. |
 | `focus` | – | Focus the editor. |
@@ -111,6 +118,7 @@ The `<editor-menu-bar />` component is renderless and will receive some properti
 | `commands` | `Array` | A list of all commands. |
 | `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
 | `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
 
@@ -140,6 +148,7 @@ The `<editor-menu-bubble />` component is renderless and will receive some prope
 | `commands` | `Array` | A list of all commands. |
 | `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
 | `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
 | `menu` | `Object` | An object for positioning your menu. |
@@ -173,6 +182,7 @@ The `<editor-floating-menu />` component is renderless and will receive some pro
 | `commands` | `Array` | A list of all commands. |
 | `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
 | `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
 | `menu` | `Object` | An object for positioning your menu. |
@@ -375,7 +385,7 @@ export default class BlockquoteNode extends Node {
 
 ### Create a Node as a Vue Component
 
-The real power of the nodes comes in combination with Vue components. Let us build an iframe node, where you can change its URL (this can also be found in our [examples](https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Embeds)).
+The real power of the nodes comes in combination with Vue components. Let us build an iframe node, where you can change its URL (this can also be found in our [examples](https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Embeds)).
 
 ```js
 import { Node } from 'tiptap'
@@ -420,7 +430,10 @@ export default class IframeNode extends Node {
       // `updateAttrs` is a function to update attributes defined in `schema`
       // `view` is the ProseMirror view instance
       // `options` is an array of your extension options
-      // `selected`
+      // `selected` is a boolean which is true when selected
+      // `editor` is a reference to the TipTap editor instance
+      // `getPos` is a function to retrieve the start position of the node
+      // `decorations` is an array of decorations around the node
       props: ['node', 'updateAttrs', 'view'],
       computed: {
         src: {
@@ -497,20 +510,26 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [Philipp Kühn](https://github.com/philippkuehn)
+- [Hans Pagel](https://github.com/hanspagel)
 - [Christoph Flathmann](https://github.com/Chrissi2812)
 - [Erick Wilder](https://github.com/erickwilder)
 - [Marius Tolzmann](https://github.com/mariux)
 - [All Contributors](../../contributors)
 
-## Packages Using Tiptap
+## Related projects
 
+- [html-to-prosemirror](https://github.com/ueberdosis/html-to-prosemirror) by @hanspagel
+- [prosemirror-to-html](https://github.com/ueberdosis/prosemirror-to-html) by @hanspagel
+- [tiptap-svelte](https://github.com/andrewjk/tiptap-svelte) by @andrewjk
 - [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
 - [WYSIWYG editor for Vuetify](https://github.com/iliyaZelenko/tiptap-vuetify) by @iliyaZelenko
 - [Quasar Tiptap Demo](https://github.com/kfields/quasar-tiptap-demo) @kfields
 - [Python Library that converts tiptap JSON](https://github.com/scrolltech/tiptapy) @scrolltech
+- [WYSIWYG editor for Element UI](https://github.com/Leecason/element-tiptap) by @Leecason
+- [WYSIWYG editor for Quasar Framework](https://github.com/donotebase/quasar-tiptap) by @mekery
 
 ## Love our work?
-[Become a backer](https://www.paypal.me/philippkuehn) ❤️
+[Sponsor us](https://github.com/sponsors/ueberdosis) ❤️
 
 ## License
 

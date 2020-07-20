@@ -1,8 +1,9 @@
 ---
 name: Bug report
 about: Create a report to help us improve
+url: https://github.com/ueberdosis/tiptap/issues/new
 title: ''
-labels: 'bug'
+labels: bug
 assignees: ''
 
 ---
@@ -12,13 +13,13 @@ A clear and concise description of what the bug is.
 
 **Steps to Reproduce / Codesandbox Example**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+1. Go to '…'
+2. Click on '…'
+3. Scroll down to '…'
 4. See error
 
- Fork this or create a new Codesandbox replicating your error
- https://codesandbox.io/s/qxv5m9y6oq?fontsize=14
+Fork this or create a new Codesandbox replicating your error
+https://codesandbox.io/s/vue-issue-template-h0g28
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.

@@ -31,7 +31,7 @@ export default class ExtensionManager {
               Object.assign(obj, { [prop]: value })
 
               if (changed) {
-                extension.update(view)
+                view.updateState(view.state)
               }
 
               return true
