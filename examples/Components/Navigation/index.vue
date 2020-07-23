@@ -17,9 +17,6 @@
       <a class="navigation__link" href="https://tiptap.dev/docs" target="_blank">
         Documentation
       </a>
-      <a class="navigation__link" href="https://github.com/ueberdosis/tiptap/blob/master/CONTRIBUTING.md" target="_blank">
-        Contribute
-      </a>
       <a class="navigation__link" href="https://github.com/sponsors/ueberdosis" target="_blank">
         Sponsor
       </a>
