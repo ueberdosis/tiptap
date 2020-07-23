@@ -14,7 +14,7 @@ function genConfig(opts) {
   const banner = `
     /*!
     * ${opts.name} v${version}
-    * (c) ${new Date().getFullYear()} Scrumpy UG (limited liability)
+    * (c) ${new Date().getFullYear()} überdosis GbR (limited liability)
     * @license MIT
     */
   `
