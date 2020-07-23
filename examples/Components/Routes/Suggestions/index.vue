@@ -64,10 +64,14 @@ export default {
           new Mention({
             // a list of all suggested items
             items: () => [
-              { id: 1, name: 'Philipp Kühn' },
-              { id: 2, name: 'Hans Pagel' },
-              { id: 3, name: 'Kris Siepert' },
-              { id: 4, name: 'Justin Schueler' },
+              { id: 1, name: 'Sven Adlung' },
+              { id: 2, name: 'Patrick Baber' },
+              { id: 3, name: 'Nick Hirche' },
+              { id: 4, name: 'Philip Isik' },
+              { id: 5, name: 'Timo Isik' },
+              { id: 6, name: 'Philipp Kühn' },
+              { id: 7, name: 'Hans Pagel' },
+              { id: 8, name: 'Sebastian Schrama' },
             ],
             // is called when a suggestion starts
             onEnter: ({
