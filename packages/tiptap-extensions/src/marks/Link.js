@@ -56,7 +56,7 @@ export default class Link extends Mark {
   pasteRules({ type }) {
     return [
       pasteRule(
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-zA-Z]{2,}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gi,
         type,
         url => ({ href: url }),
       ),
