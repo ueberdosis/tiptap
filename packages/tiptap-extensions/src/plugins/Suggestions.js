@@ -95,7 +95,7 @@ export default function SuggestionsPlugin({
 
     view() {
       return {
-        update: (view, prevState) => {
+        update: async (view, prevState) => {
           const prev = this.key.getState(prevState)
           const next = this.key.getState(view.state)
 
@@ -133,7 +133,9 @@ export default function SuggestionsPlugin({
             text: state.text,
             decorationNode,
             virtualNode,
-            items: onFilter(Array.isArray(items) ? items : items(), state.query),
+            items: (handleChange || handleStart)
+              ? await onFilter(Array.isArray(items) ? items : await items(), state.query)
+              : [],
             command: ({ range, attrs }) => {
               command({
                 range,
