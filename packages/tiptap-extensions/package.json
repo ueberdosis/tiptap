@@ -1,6 +1,6 @@
 {
   "name": "tiptap-extensions",
-  "version": "1.31.3",
+  "version": "1.32.0",
   "description": "Extensions for tiptap",
   "homepage": "https://tiptap.dev",
   "license": "MIT",
@@ -30,8 +30,8 @@
     "prosemirror-transform": "^1.2.7",
     "prosemirror-utils": "^0.9.6",
     "prosemirror-view": "^1.15.2",
-    "tiptap": "^1.29.3",
-    "tiptap-commands": "^1.14.3"
+    "tiptap": "^1.29.4",
+    "tiptap-commands": "^1.14.4"
   },
   "peerDependencies": {
     "vue": "^2.5.17",
