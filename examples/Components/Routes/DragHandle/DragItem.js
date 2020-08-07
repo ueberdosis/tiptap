@@ -17,7 +17,7 @@ export default class DragItem extends Node {
       }],
     }
   }
-
+  // Attention! For the data-drag-handle to work, the component must contain another element with `ref="content"` somewhere (it can be invisible).
   get view() {
     return {
       template: `
