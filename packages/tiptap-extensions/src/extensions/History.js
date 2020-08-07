@@ -21,6 +21,9 @@ export default class History extends Extension {
       'Mod-z': undo,
       'Mod-y': redo,
       'Shift-Mod-z': redo,
+      // Russian language
+      'Mod-я': undo,
+      'Shift-Mod-я': redo,
     }
 
     return keymap

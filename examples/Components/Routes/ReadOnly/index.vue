@@ -41,7 +41,7 @@ export default {
             Read-Only
           </h2>
           <p>
-            This text is <strong>read-only</strong>. You are not able to edit something. <a href="https://scrumpy.io/">Links to fancy websites</a> are still working.
+            This text is <strong>read-only</strong>. You are not able to edit something. <a href="https://ueber.io/">Links to fancy websites</a> are still working.
           </p>
         `,
       }),
