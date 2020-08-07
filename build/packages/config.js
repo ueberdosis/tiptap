@@ -35,6 +35,7 @@ function genConfig(opts) {
         }),
         babel({
           exclude: 'node_modules/**',
+          runtimeHelpers: true,
         }),
       ],
       external(id) { return !/^[\.\/]/.test(id) },
