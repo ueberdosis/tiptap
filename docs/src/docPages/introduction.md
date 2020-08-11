@@ -11,11 +11,11 @@ Although tiptap tries to hide most of the complexity of ProseMirror, it’s is b
 - [ApostropheCMS](https://apostrophecms.com)
 - [Directus CMS](https://directus.io)
 - [Nextcloud](https://apps.nextcloud.com/apps/text)
-- [and many more →](https://github.com/scrumpy/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D)
+- [and many more →](https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D)
 
 ## Contributing
 
-Please see the [`CONTRIBUTING.md`](https://github.com/scrumpy/tiptap/blob/master/CONTRIBUTING.md) file for details.
+Please see the [`CONTRIBUTING.md`](https://github.com/ueberdosis/tiptap/blob/master/CONTRIBUTING.md) file for details.
 
 ```bash
 yarn install
