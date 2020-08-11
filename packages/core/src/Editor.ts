@@ -53,16 +53,16 @@ export class Editor extends EventEmitter {
     extensions: [],
     renderer: null,
   }
-  
+
   private lastCommand = Promise.resolve()
-  
+
   public selection = { from: 0, to: 0 }
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
     this.options = { ...this.options, ...options }
   }
- 
+
   private init() {
     this.createExtensionManager()
     this.createSchema()
@@ -81,7 +81,7 @@ export class Editor extends EventEmitter {
     this.registerCommand('toggleMark', require('./commands/toggleMark').default)
     this.registerCommand('toggleNode', require('./commands/toggleNode').default)
     this.registerCommand('updateMark', require('./commands/updateMark').default)
-    
+
     if (this.options.injectCSS) {
       require('./style.css')
     }
@@ -95,7 +95,7 @@ export class Editor extends EventEmitter {
       // throw new Error(`tiptap: command '${name}' not found.`)
       return
     }
-    
+
     return (...args: any) => command(...args)
   }
 
@@ -107,11 +107,11 @@ export class Editor extends EventEmitter {
     if (this.commands[name]) {
       throw new Error(`tiptap: command '${name}' is already defined.`)
     }
-    
+
     if (getAllMethodNames(this).includes(name)) {
       throw new Error(`tiptap: '${name}' is a protected name.`)
     }
-    
+
     this.commands[name] = this.chainCommand((...args: any) => {
       return new Promise(resolve => callback(resolve, this.proxy)(...args))
     })
@@ -214,7 +214,7 @@ export class Editor extends EventEmitter {
     this.view.updateState(state)
     this.storeSelection()
     this.emit('transaction', { transaction })
-    
+
     if (!transaction.docChanged || transaction.getMeta('preventUpdate')) {
       return
     }
@@ -281,5 +281,5 @@ export class Editor extends EventEmitter {
     this.removeAllListeners()
     removeElement(this.css)
   }
-  
+
 }
