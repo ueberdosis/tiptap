@@ -25,36 +25,35 @@ new Editor({
 })
 ```
 
-→ codesandbox
+* Play with tiptap on [CodeSandbox](https://codesandbox.io/s/vue-issue-template-h0g28)
 
 ## Vue.js
 
-```js
-import { Editor } from '@tiptap/core'
-import extensions from '@tiptap/starter-kit'
+To use tiptap with Vue.js and tools that are based on Vue.js install the Vue.js adapter in your project:
 
-new Editor({
-  element: document.getElementsByClassName('element'),
-  extensions: extensions(),
-  content: '<p>Hey there.</p>',
-})
+```bash
+# Using npm
+npm install @tiptap/core @tiptap/starter-kit @tiptap/vue
+
+# Using Yarn
+yarn add @tiptap/core @tiptap/starter-kit @tiptap/vue
 ```
 
-→ codesandbox
+Create a new component and add the following content to get a basic version of tiptap:
 
-## react
+<demo name="VueSetup" />
+
+* Read more about [Using tiptap with Vue.js](/basic-vue-example/)
+* Play with tiptap on [CodeSandbox](https://codesandbox.io/s/vue-issue-template-h0g28)
+
+## React
 
 ```js
-import { Editor } from '@tiptap/core'
-import extensions from '@tiptap/starter-kit'
-
-new Editor({
-  element: document.getElementsByClassName('element'),
-  extensions: extensions(),
-  content: '<p>Hey there.</p>',
-})
+// TODO
 ```
 
-→ codesandbox
+* Play with tiptap on [CodeSandbox](https://codesandbox.io/s/vue-issue-template-h0g28)
 
-## cdn?
+## CDN
+
+// TODO

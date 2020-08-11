@@ -1,29 +1,29 @@
 - title: Getting Started
   items:
-    - title: Introduction
+    - title: Introduction 🚧
       link: /introduction/
-    - title: Installation
+    - title: Installation 🚧
       link: /installation/
 
 - title: Guide
   items:
-    - title: First Steps
-      link: /first-steps/
-    - title: Configuration
+    - title: Getting started 🚧
+      link: /getting-started/
+    - title: Configuration 🚧
       link: /configuration/
-    - title: Build your editor
+    - title: Build your editor ❌
       link: /build-your-editor/
-    - title: Custom styling
+    - title: Custom styling ❌
       link: /custom-styling/
-    - title: Get content
+    - title: Get content ❌
       link: /get-content/
-    - title: "Advanced nodes"
+    - title: Advanced nodes ❌
       link: /advanced-notes/
 
 - title: Vue
   items:
-    - title: Use tiptap with Vue.js
-      link: /basic-example/
+    - title: Use tiptap with Vue.js 🚧
+      link: /basic-vue-example/
     - title: Advanced Example
       link: /advanced-vue-example/
     - title: Render Vue Components
