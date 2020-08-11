@@ -29,7 +29,6 @@
     "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-stage-2": "^7.0.0",
-    "@babel/runtime": "^7.7.4",
     "audit-ci": "^2.4.2",
     "autoprefixer": "^9.7.3",
     "babel-core": "^7.0.0-bridge.0",
