@@ -32,6 +32,10 @@
     </header>
     <div class="app__content">
       <div class="app__sidebar-wrapper" :class="{ 'is-mobile-visible': menuIsVisible }">
+        <select name="" id="">
+          <option value="vue">Vue.js</option>
+          <option value="react">React</option>
+        </select>
         <nav class="app__sidebar">
           <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
             <div class="app__link-group-title">
