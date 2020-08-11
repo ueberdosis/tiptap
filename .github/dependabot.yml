@@ -1,9 +1,9 @@
----
-    version: 2
-    updates:
-      - package-ecosystem: "github-actions"
-        directory: "/"
-        schedule:
-          interval: "weekly"
-        default_reviewers:
-          - "hanspagel"
+version: 2
+updates:
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "hanspagel"
