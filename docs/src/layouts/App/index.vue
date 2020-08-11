@@ -9,9 +9,9 @@
           Algolia Search |
           Sponsor
           <github-button
-            href="https://github.com/scrumpy/tiptap"
+            href="https://github.com/ueberdosis/tiptap"
             data-show-count="true"
-            aria-label="Star scrumpy/tiptap on GitHub"
+            aria-label="Star ueberdosis/tiptap on GitHub"
           />
           <button
             class="app__menu-icon"
