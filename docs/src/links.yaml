@@ -36,15 +36,62 @@
     - title: Render React Components
       link: /advanced-react-example/
 
+- title: Examples
+  items:
+    - title: Basic
+      link: basic
+    - title: Menu Bubble
+      link: /Menu Bubble/
+    - title: Floating Menu
+      link: /Floating Menu/
+    - title: Links
+      link: /Links/
+    - title: Images
+      link: /Images/
+    - title: Hiding Menu Bar
+      link: /Menu Bar/
+    - title: Todo List
+      link: /Todo List/
+    - title: Tables
+      link: /Tables/
+    - title: Search and Replace
+      link: /and Replace/
+    - title: Suggestions
+      link: /Suggestions/
+    - title: Markdown Shortcuts
+      link: /Markdown Shortcuts/
+    - title: Code Highlighting
+      link: /Code Highlighting/
+    - title: History
+      link: /History/
+    - title: Read-Only
+      link: /-Only/
+    - title: Embeds
+      link: /Embeds/
+    - title: Placeholder
+      link: /Placeholder/
+    - title: Focus
+      link: /Focus/
+    - title: Collaboration
+      link: /Collaboration/
+    - title: Title
+      link: /Title/
+    - title: Trailing Paragraph
+      link: /Trailing Paragraph/
+    - title: Drag Handle
+      link: /Drag Handle/
+    - title: Export HTML or JSON
+      link: /export-html-or-json/
+
 - title: API
   items:
-  - title: Editor
-    link: /editor/
-  - title: Extensions
-    link: /extensions/
-  - title: Commands
-    link: /commands/
-  - title: Events
-    link: /events/
-  - title: Schema
-    link: /schema/
+    - title: Editor
+      link: /editor/
+    - title: Extensions
+      link: /extensions/
+    - title: Commands
+      link: /commands/
+    - title: Events
+      link: /events/
+    - title: Schema
+      link: /schema/
