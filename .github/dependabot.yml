@@ -5,3 +5,5 @@
         directory: "/"
         schedule:
           interval: "weekly"
+        default_reviewers:
+          - "hanspagel"
