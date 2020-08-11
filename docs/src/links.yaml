@@ -22,7 +22,7 @@
 
 - title: Vue
   items:
-    - title: Basic Example
+    - title: Use tiptap with Vue.js
       link: /basic-example/
     - title: Advanced Example
       link: /advanced-vue-example/
