@@ -213,8 +213,8 @@ export default class Editor extends Emitter {
           Backspace: undoInputRule,
         }),
         keymap(baseKeymap),
-        ...(enableDropCursor ? [dropCursor(this.options.dropCursor)] : []),
-        ...(enableGapCursor ? [gapCursor()] : []),
+        ...(this.options.enableDropCursor ? [dropCursor(this.options.dropCursor)] : []),
+        ...(this.options.enableGapCursor ? [gapCursor()] : []),
         new Plugin({
           key: new PluginKey('editable'),
           props: {
