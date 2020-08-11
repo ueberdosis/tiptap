@@ -4,6 +4,4 @@ In its basic version tiptap comes very raw. There is no menu, no buttons, no sty
 
 Let’s start to add a few basic things to the configuration.
 
-// TODO: EditorMenuBar missing
-
 <demo name="BasicConfiguration" />

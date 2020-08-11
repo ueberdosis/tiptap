@@ -1,18 +1,16 @@
 <template>
   <div class="editor">
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-        <div class="menubar">
+    <div class="menubar" v-if="editor">
 
-          <button
-            class="menubar__button"
-            :class="{ 'is-active': isActive.bold() }"
-            @click="commands.bold"
-          >
-            <icon name="bold" />
-          </button>
+      <button
+        class="menubar__button"
+        :class="{ 'is-active': editor.isActive('bold') }"
+        @click="editor.commands.bold"
+      >
+        Bold
+      </button>
 
-        </div>
-      </editor-menu-bar>
+    </div>
 
     <editor-content :editor="editor" />
   </div>
@@ -20,13 +18,16 @@
 
 <script>
 import { Editor } from '@tiptap/core'
-import { EditorContent, Renderer, EditorMenuBar } from '@tiptap/vue'
-import extensions, { Bold } from '@tiptap/starter-kit'
+import { EditorContent, Renderer } from '@tiptap/vue'
+import extensions from '@tiptap/starter-kit'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Bold from '@tiptap/extension-bold'
 
 export default {
   components: {
     EditorContent,
-    EditorMenuBar,
   },
 
   data() {
@@ -38,9 +39,12 @@ export default {
   mounted() {
     this.editor = new Editor({
       content: '<p>I’m running tiptap with Vue.js. This demo is interactive, try to edit the text.</p>',
-      extensions: extensions([
-        new Bold,
-      ]),
+      extensions: [
+        new Document(),
+        new Paragraph(),
+        new Text(),
+        new Bold(),
+      ],
       renderer: Renderer,
     })
   },
