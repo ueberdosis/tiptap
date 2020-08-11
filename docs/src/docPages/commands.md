@@ -1,5 +1,10 @@
 # Commands
 
+- menus
+- buttons
+- commands
+
+
 ## .clearContent()
 
 Clear the whole document.

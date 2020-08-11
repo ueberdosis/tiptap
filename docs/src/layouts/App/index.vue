@@ -6,6 +6,8 @@
           {{ $static.metadata.siteName }}
         </g-link>
         <div>
+          Algolia Search |
+          Sponsor
           <github-button
             href="https://github.com/scrumpy/tiptap"
             data-show-count="true"

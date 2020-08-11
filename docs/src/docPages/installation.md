@@ -12,6 +12,8 @@ yarn add @tiptap/core @tiptap/starter-kit
 
 You can use it like this:
 
+## Vanilla JavaScript
+
 ```js
 import { Editor } from '@tiptap/core'
 import extensions from '@tiptap/starter-kit'
@@ -22,3 +24,37 @@ new Editor({
   content: '<p>Hey there.</p>',
 })
 ```
+
+→ codesandbox
+
+## Vue.js
+
+```js
+import { Editor } from '@tiptap/core'
+import extensions from '@tiptap/starter-kit'
+
+new Editor({
+  element: document.getElementsByClassName('element'),
+  extensions: extensions(),
+  content: '<p>Hey there.</p>',
+})
+```
+
+→ codesandbox
+
+## react
+
+```js
+import { Editor } from '@tiptap/core'
+import extensions from '@tiptap/starter-kit'
+
+new Editor({
+  element: document.getElementsByClassName('element'),
+  extensions: extensions(),
+  content: '<p>Hey there.</p>',
+})
+```
+
+→ codesandbox
+
+## cdn?

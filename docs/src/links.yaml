@@ -5,29 +5,46 @@
     - title: Installation
       link: /installation/
 
-- title: Core Concepts
+- title: Guide
   items:
-    - title: Renderless
-      link: /renderless/
-    - title: Schema
-      link: /schema/
-    - title: Editor
-      link: /editor/
-    - title: Extensions
-      link: /extensions/
-    - title: Commands
-      link: /commands/
-    - title: Events
-      link: /events/
+    - title: First Steps
+      link: /first-steps/
+    - title: Configuration
+      link: /configuration/
+    - title: Build your editor
+      link: /build-your-editor/
+    - title: Custom styling
+      link: /custom-styling/
+    - title: Get content
+      link: /get-content/
+    - title: "Advanced nodes"
+      link: /advanced-notes/
 
 - title: Vue
   items:
     - title: Basic Example
       link: /basic-example/
     - title: Advanced Example
-      link: /advanced-example/
+      link: /advanced-vue-example/
+    - title: Render Vue Components
+      link: /render-vue-components/
 
 - title: React
   items:
     - title: React
       link: /react/
+    - title: Render React Components
+      link: /advanced-react-example/
+
+- title: API
+  items:
+  - title: Editor
+    link: /editor/
+  - title: Extensions
+    link: /extensions/
+  - title: Commands
+    link: /commands/
+  - title: Events
+    link: /events/
+  - title: Schema
+    link: /schema/
