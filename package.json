@@ -23,11 +23,11 @@
     "@types/prosemirror-state": "^1.2.5",
     "@types/prosemirror-transform": "^1.1.1",
     "@types/prosemirror-view": "^1.15.0",
-    "cypress": "^4.10.0",
+    "cypress": "^4.12.1",
     "lerna": "^3.22.1",
     "microbundle": "^0.12.3",
-    "sass-loader": "^9.0.2",
-    "start-server-and-test": "^1.11.2",
-    "typescript": "^3.9.6"
+    "sass-loader": "^9.0.3",
+    "start-server-and-test": "^1.11.3",
+    "typescript": "^3.9.7"
   }
 }
