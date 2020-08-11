@@ -50,6 +50,8 @@ export default class Editor extends Emitter {
       disableInputRules: false,
       disablePasteRules: false,
       dropCursor: {},
+      enableDropCursor: true,
+      enableGapCursor: true,
       parseOptions: {},
       injectCSS: true,
       onInit: () => {},
@@ -211,8 +213,8 @@ export default class Editor extends Emitter {
           Backspace: undoInputRule,
         }),
         keymap(baseKeymap),
-        dropCursor(this.options.dropCursor),
-        gapCursor(),
+        ...(enableDropCursor ? [dropCursor(this.options.dropCursor)] : []),
+        ...(enableGapCursor ? [gapCursor()] : []),
         new Plugin({
           key: new PluginKey('editable'),
           props: {
