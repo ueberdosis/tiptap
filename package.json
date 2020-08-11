@@ -20,7 +20,9 @@
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions"
+    "last 2 versions",
+    "not IE <= 11",
+    "not IE_Mob <= 11"
   ],
   "devDependencies": {
     "@babel/core": "^7.7.4",

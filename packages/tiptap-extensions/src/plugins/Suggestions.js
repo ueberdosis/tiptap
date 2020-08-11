@@ -1,7 +1,6 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { insertText } from 'tiptap-commands'
-import 'regenerator-runtime/runtime'
 
 // Create a matcher that matches when a specific character is typed. Useful for @mentions and #tags.
 function triggerCharacter({

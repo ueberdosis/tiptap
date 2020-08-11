@@ -30,7 +30,6 @@
     "prosemirror-transform": "^1.2.7",
     "prosemirror-utils": "^0.9.6",
     "prosemirror-view": "^1.15.2",
-    "regenerator-runtime": "^0.13.7",
     "tiptap": "^1.29.4",
     "tiptap-commands": "^1.14.4"
   },
