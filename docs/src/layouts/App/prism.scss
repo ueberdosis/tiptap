@@ -11,6 +11,7 @@ $codePurple: #c792ea;
 
 code[class*="language-"],
 pre[class*="language-"] {
+  position: relative;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
@@ -35,6 +36,8 @@ pre[class*="language-"] {
 }
 
 pre > code[class*="language-"] {
+  display: inline-block;
+  min-width: 100%;
   background: none;
 }
 
@@ -205,7 +208,9 @@ pre[class*="language-"].language-scss > code {
 
 .line-highlight {
   background: rgba($colorWhite, 0.1) !important;
-  padding: 0 0 0.3rem 0;
+  left: -1.5rem !important;
+  right: -1.5rem !important;
+  margin: 0 !important;
 
   &::before,
   &::after {
