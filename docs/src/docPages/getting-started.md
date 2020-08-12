@@ -18,11 +18,11 @@ Create a new Vue component (e. g. `<Tiptap />`) and add the following content. T
 
 <demo name="GettingStarted" />
 
-Does that work for you? There are a few common pitfalls here, if you have trouble getting started, try to read the related links down here.
+Does that work for you? There are a few common pitfalls here, depending on your setup. If you have trouble getting started, try to read the related links down here.
 
 Otherwise: Congrats! You’ve got it! Let’s start with the confiuration in the next step.
 
 ### Related links
 
-* [tiptap doesn’t have a default styling](#)
 * [Use tiptap with Nuxt.js](#)
+* [tiptap doesn’t have a default styling](#)
