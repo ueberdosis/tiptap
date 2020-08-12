@@ -33,7 +33,6 @@ export default {
 
   methods: {
     highlightCode() {
-
       Prism.highlightAllUnder(this.$el)
     }
   },
@@ -41,13 +40,5 @@ export default {
   mounted() {
     this.highlightCode()
   },
-
-  beforeDestroy() {
-    console.log('JOOOO')
-  },
 }
 </script>
-
-<style>
-
-</style>
