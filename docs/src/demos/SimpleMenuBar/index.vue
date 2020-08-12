@@ -34,7 +34,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      content: '<p>I’m running tiptap with Vue.js. This demo is interactive, try to edit the text.</p>',
+      content: '<p>Hi! 👋 I’m a text editor with just one button. Select some text and press the button to see what it does. Yes, it’s marking text <strong>bold</strong>. Amazing, isn’t it?</p>',
       extensions: extensions(),
       renderer: Renderer,
     })
