@@ -24,7 +24,7 @@ Create a new Vue component (e. g. `<Tiptap />`) and add the following content. T
 
 > **Doesn’t work for you?** There are a few common pitfalls here, depending on your setup. If you have trouble getting started, try to read the related links down here.
 
-Congrats! You’ve got it! 🎉 Let’s start with the configuration in the next step.
+Congrats! You’ve got it! 🎉 Let’s start to build your editor in the next step.
 
 ### Related links
 
