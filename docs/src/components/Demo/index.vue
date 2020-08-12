@@ -17,7 +17,7 @@
         </button>
       </div>
       <div class="demo__code" v-if="activeFile">
-        <pre :class="`language-${activeFile.highlight}`"><code :class="`language-${activeFile.highlight}`" v-html="$options.filters.highlight(activeFile.content, activeFile.highlight)"></code></pre>
+        <prism :code="activeFile.content" :language="activeFile.highlight" :highlight="highlight" />
       </div>
     </div>
   </div>
@@ -26,10 +26,12 @@
 <script>
 import collect from 'collect.js'
 import ReactRenderer from '~/components/ReactRenderer'
+import Prism from '~/components/Prism'
 
 export default {
   components: {
     ReactRenderer,
+    Prism,
   },
 
   props: {
@@ -41,6 +43,11 @@ export default {
     mode: {
       type: String,
       default: 'vue',
+    },
+
+    highlight: {
+      type: String,
+      default: null,
     },
   },
 

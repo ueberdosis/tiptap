@@ -7,12 +7,10 @@
 <script>
 import { Editor } from '@tiptap/core'
 import { EditorContent, Renderer } from '@tiptap/vue'
-// <- Highlight --> //
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Bold from '@tiptap/extension-bold'
-// <- /Highlight --> //
 
 export default {
   components: {
@@ -29,12 +27,10 @@ export default {
     this.editor = new Editor({
       content: '<p>I’m running tiptap with Vue.js. This demo is interactive, try to edit the text.</p>',
       extensions: [
-        // <- Highlight --> //
         new Document(),
         new Paragraph(),
         new Text(),
         new Bold(),
-        // <- /Highlight --> //
       ],
       renderer: Renderer,
     })

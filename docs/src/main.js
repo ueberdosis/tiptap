@@ -11,7 +11,4 @@ export default function (Vue, { router, head, isClient }) {
   Vue.component('Demo', Demo)
   Vue.component('Tab', Tab)
   Vue.component('ReactRenderer', ReactRenderer)
-  Vue.filter('highlight', (code, lang = 'javascript') => {
-    return Prism.highlight(code, Prism.languages[lang], lang)
-  })
 }

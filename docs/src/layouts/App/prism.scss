@@ -20,7 +20,7 @@ pre[class*="language-"] {
   color: inherit;
   text-shadow: none;
   font-family: 'JetBrainsMono', monospace;
-  font-size: 0.95em;
+  font-size: 0.9rem;
   line-height: 1.8;
   tab-size: 2;
   padding: 0;
@@ -43,7 +43,7 @@ pre[class*="language-"] {
   position: relative;
   color: $codeText;
   background: $codeBackground;
-  padding: 1.2rem 1.5rem;
+  padding: 1.2rem 1.5rem !important;
   border-radius: 0.5rem;
 }
 
@@ -201,4 +201,14 @@ pre[class*="language-"].language-scss > code {
 
 .token.variable {
   color: $codeRed;
+}
+
+.line-highlight {
+  background: rgba($colorWhite, 0.1) !important;
+  padding: 0 0 0.3rem 0;
+
+  &::before,
+  &::after {
+    display: none;
+  }
 }

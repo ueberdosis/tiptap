@@ -2,7 +2,6 @@
   <div class="editor">
     <div class="menubar" v-if="editor">
 
-      <!-- Highlight -->
       <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('bold') }"
@@ -10,7 +9,6 @@
       >
         Bold
       </button>
-      <!-- /Highlight -->
 
     </div>
 
