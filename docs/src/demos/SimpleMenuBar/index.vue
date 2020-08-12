@@ -5,7 +5,7 @@
       <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('bold') }"
-        @click="editor.commands.bold"
+        @click="editor.focus().bold()"
       >
         Bold
       </button>
