@@ -16,7 +16,7 @@
           {{ file.name }}
         </button>
       </div>
-      <div class="demo__code" v-if="activeFile">
+      <div class="demo__code" v-if="activeFile" :key="activeFile.path">
         <prism :code="activeFile.content" :language="activeFile.highlight" :highlight="highlight" />
       </div>
     </div>
