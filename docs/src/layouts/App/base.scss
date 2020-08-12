@@ -85,6 +85,11 @@ code {
   font-size: 0.9rem;
 }
 
+blockquote {
+  padding-left: 1rem;
+  border-left: 3px solid rgba($colorBlack, 0.1);
+}
+
 .is-active {
   background: black;
   color: white;
