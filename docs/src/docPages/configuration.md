@@ -8,7 +8,7 @@ Let’s start to add your first button to the editor.
 
 <demo name="SimpleMenuBar" highlight="5-11" />
 
-Once initiated the editor has a powerful API. So called commands allow you to modify the text. In this example `this.editor.commands.bold` marks the selected text bold. There a ton of other commands (see the [list of available commands](/commands/)) and you can even chain them to do multiple things at once.
+Once initiated the editor has a powerful API. So called commands allow you to modify the text. In this example `this.editor.bold` marks the selected text bold. There a ton of other commands (see the [list of available commands](/commands/)) and you can even chain them to do multiple things at once.
 
 For most use cases you want to
 
