@@ -80,8 +80,8 @@ export default {
 | `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
 | `useBuiltInExtensions` | `Boolean` | `true` | By default tiptap adds a `Doc`, `Paragraph` and `Text` node to the Prosemirror schema. |
 | `dropCursor` | `Object` | `{}` | Config for `prosemirror-dropcursor`. |
-| `enableDropCursor` | `Boolean` | `true` | Option to enable / disable the dropCursor plugin`. |
-| `enableGapCursor` | `Boolean` | `true` | Option to enable / disable the gapCursor plugin`. |
+| `enableDropCursor` | `Boolean` | `true` | Option to enable / disable the dropCursor plugin. |
+| `enableGapCursor` | `Boolean` | `true` | Option to enable / disable the gapCursor plugin. |
 | `parseOptions` | `Object` | `{}` | A list of [Prosemirror parseOptions](https://prosemirror.net/docs/ref/#model.ParseOptions). |
 | `onInit` | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init. |
 | `onFocus` | `Function` | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on focus. |
