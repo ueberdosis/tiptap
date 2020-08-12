@@ -26,16 +26,21 @@ Note that `Document`, `Paragraph` and `Text` are required. Otherwise you won’t
 
 That’s also the place where you can register custom extensions, which you or someone else built for tiptap.
 
+### Related links
+
+* [List of available commands](/commands/)
+* [List of available extensions](/extensions/)
+* Build custom extensions
+
 ## Difference between nodes and marks
 
 tiptap used a JSON schema under the hood. Every part of the text is stored as a specific type. There is a `Document` type (it’s needed, but invisible – like the `<body>` in HTML).
 
-**Nodes** are like blocks of content, for example a paragraph or a headline.
+*Nodes* are like blocks of content, for example a paragraph or a headline. Yes, this paragraph is a node.
 
-**Marks** can apply a different style to parts of text inside a node. A good example is **bold text**. That’s a mark. Italic, inline code or links are marks too.
+*Marks* can apply a different style to parts of text inside a node. A good example is **bold text**. That’s a mark. *Italic*, `inline code` or [links](#) are marks too.
 
-## Related links
+### Related links
 
-* List of all available Commands
-* List of all available Extensions
-* Build custom Extensions
+* [Learn more about the schema](/schema/)
+* [List of available extensions](/extensions/)
