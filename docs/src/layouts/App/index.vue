@@ -55,9 +55,7 @@
         <slot/>
         <p>
           <a :href="editLink" target="_blank">
-            <span>Edit this page on GitHub</span><br />
-            {{ currentPath }}<br />
-            {{ editLink }}
+            <span>Edit this page on GitHub</span>
           </a>
         </p>
         <page-navigation />
