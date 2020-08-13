@@ -3,9 +3,7 @@
 </template>
 
 <script>
-import { Editor } from '@tiptap/core'
-import { EditorContent, Renderer } from '@tiptap/vue'
-import extensions from '@tiptap/starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 export default {
   components: {
@@ -21,8 +19,6 @@ export default {
   mounted() {
     this.editor = new Editor({
       content: '<p>I’m running tiptap with Vue.js. 🎉</p>',
-      extensions: extensions(),
-      renderer: Renderer,
     })
   },
 
