@@ -387,7 +387,7 @@ export default class BlockquoteNode extends Node {
 
 ### Create a Node as a Vue Component
 
-The real power of the nodes comes in combination with Vue components. Let us build an iframe node, where you can change its URL (this can also be found in our [examples](https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Embeds)).
+The real power of the nodes comes in combination with Vue components. Let us build an iframe node, where you can change its URL (this can also be found in our [examples](https://github.com/ueberdosis/tiptap/tree/main/examples/Components/Routes/Embeds)).
 
 ```js
 import { Node } from 'tiptap'

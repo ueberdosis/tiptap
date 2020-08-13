@@ -1,7 +1,7 @@
 import { Fragment, Slice } from 'prosemirror-model'
 
 // this is a copy of canSplit
-// see https://github.com/ProseMirror/prosemirror-transform/blob/master/src/structure.js
+// see https://github.com/ProseMirror/prosemirror-transform/blob/main/src/structure.js
 
 // Since this piece of code was "borrowed" from prosemirror, ESLint rules are ignored.
 /* eslint-disable max-len, no-plusplus, no-undef, eqeqeq */
@@ -32,7 +32,7 @@ index = $pos.index(d)
 }
 
 // this is a copy of splitListItem
-// see https://github.com/ProseMirror/prosemirror-schema-list/blob/master/src/schema-list.js
+// see https://github.com/ProseMirror/prosemirror-schema-list/blob/main/src/schema-list.js
 
 export default function splitToDefaultListItem(itemType) {
   return function (state, dispatch) {
