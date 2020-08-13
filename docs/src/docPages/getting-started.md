@@ -22,7 +22,11 @@ Create a new Vue component (you can call it `<Tiptap />`) and add the following 
 
 <demo name="GettingStarted" />
 
-> If you are using Nuxt.js, note that tiptap needs to run in the client, not on the server. Wrapping the editor in a `<client-only>` tag is required.
+<Hint type="warning">
+
+If you are using **Nuxt.js**, note that tiptap needs to run in the client, not on the server. Wrapping the editor in a `<client-only>` tag is **required**.
+
+</Hint>
 
 Congrats! You’ve got it! 🎉 Let’s start to build your editor in the next step.
 
