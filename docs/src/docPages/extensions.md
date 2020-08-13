@@ -19,7 +19,7 @@ Allows you to use the `<blockquote>` HTML tag in the editor.
 | blockquote | none | Wrap content in a blockquote. |
 
 #### Keybindings
-`Ctrl->`
+* `Control` + `→`
 
 #### Example
 ```markup
@@ -82,8 +82,8 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 | bold | none | Mark text as bold. |
 
 #### Keybindings
-`Ctrl-b` (on Windows/Linux)
-`Cmd-b` (on macOS)
+* Windows & Linux: `Control` + `B`
+* macOS: `Command` + `B`
 
 #### Example
 
@@ -149,7 +149,7 @@ This extensions is intended to be used with the `ListItem` extension.
 | bullet_list | none | Toggle a bullet list. |
 
 #### Keybindings
-`Shift-Ctrl-8`
+* `Control` + `Shift` + `8`
 
 #### Example
 
@@ -209,7 +209,7 @@ Allows you to use the `<code>` HTML tag in the editor.
 | code | none | Mark text as code. |
 
 #### Keybindings
-`Mod-``
+* `Alt` + `
 
 #### Example
 ```markup
@@ -269,7 +269,8 @@ Allows you to use the `<br>` HTML tag in the editor.
 *None*
 
 #### Keybindings
-`Mod-Enter`, `Shift-Enter`
+* New CodeBlock: `Shift` + `Enter` + `
+* Leave CodeBlock: `Command` + `Enter`
 
 ## Heading
 Allows you to use the headline HTML tags in the editor.
@@ -285,12 +286,12 @@ Allows you to use the headline HTML tags in the editor.
 | heading | level | Creates a heading node. |
 
 #### Keybindings
-`Shift-Ctrl-1` → H1
-`Shift-Ctrl-2` → H2
-`Shift-Ctrl-3` → H3
-`Shift-Ctrl-4` → H4
-`Shift-Ctrl-5` → H5
-`Shift-Ctrl-6` → H6
+* `Control` + `Shift` + `1` → H1
+* `Control` + `Shift` + `2` → H2
+* `Control` + `Shift` + `3` → H3
+* `Control` + `Shift` + `4` → H4
+* `Control` + `Shift` + `5` → H5
+* `Control` + `Shift` + `6` → H6
 
 #### Example
 ```markup
@@ -353,8 +354,10 @@ Enables history support.
 | redo | none | Redo the latest change. |
 
 #### Keybindings
-`Mod-z` → Undo
-`Shift-Mod-z` → Redo
+* Windows & Linux: `Control` + `Z` → Undo
+* Windows & Linux: `Shift` + `Control` + `Z` → Redo
+* macOS: `Command` + `Z` → Undo
+* macOS: `Shift` + `Command` + `Z` → Redo
 
 #### Example
 ```markup
@@ -470,8 +473,8 @@ Allows you to use the `<em>` HTML tag in the editor.
 | italic | none | Mark text as italic. |
 
 #### Keybindings
-`Ctrl-i` (on Windows/Linux)
-`Cmd-i` (on macOS)
+* Windows & Linux: `Control` + `I`
+* macOS: `Command` + `I`
 
 #### Example
 ```markup
@@ -550,7 +553,7 @@ This extensions is intended to be used with the `ListItem` extension.
 | ordered_list | none | Toggle an ordered list. |
 
 #### Keybindings
-`Shift-Ctrl-9`
+* `Control` + `Shift` + `9`
 
 #### Example
 ```markup
@@ -614,8 +617,8 @@ Each `<TableCell>` includes a single `<Paragraph>`.
 | resizable | Boolean | false | Enables the resizing of columns |
 
 #### Keybindings
-`Tab` → Next Cell
-`Shift-Tab` → Previous Cell
+* `Tab` → Next Cell
+* `Shift` + `Tab` + ` → Previous Cell
 
 #### Commands
 | command | options | description |
@@ -805,8 +808,8 @@ Allows you to use the `<s>` HTML tag in the editor.
 | strike | none | Mark text as strikethrough. |
 
 #### Keybindings
-`Ctrl-d` (on Windows/Linux)
-`Cmd-d` (on macOS)
+* Windows & Linux: `Control` + `D`
+* macOS: `Command` + `D`
 
 #### Example
 
@@ -866,8 +869,8 @@ Allows you to use the `<u>` HTML tag in the editor.
 | underline | none | Mark text as underlined. |
 
 #### Keybindings
-`Ctrl-u` (on Windows/Linux)
-`Cmd-u` (on macOS)
+* Windows & Linux: `Control` + `U`
+* macOS: `Command` + `U`
 
 #### Example
 
