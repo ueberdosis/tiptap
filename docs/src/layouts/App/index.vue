@@ -53,6 +53,13 @@
       </div>
       <main class="app__main">
         <slot/>
+        <p>
+          <a :href="editLink" target="_blank">
+            <span>Edit this page on GitHub</span><br />
+            {{ currentPath }}<br />
+            {{ editLink }}
+          </a>
+        </p>
         <page-navigation />
       </main>
     </div>
@@ -86,6 +93,23 @@ export default {
       menuIsVisible: false,
     }
   },
+
+  computed: {
+    currentPath () {
+      return this.$route.matched[0].path
+    },
+    editLink () {
+      let path = this.currentPath
+
+      if (path === '') {
+        path = 'docs/src/pages/Index.vue'
+      } else {
+        path = `docs/src/docPages${path}.md`
+      }
+
+      return `https://github.com/ueberdosis/tiptap-next/blob/main/${path}`
+    },
+  }
 }
 </script>
 
