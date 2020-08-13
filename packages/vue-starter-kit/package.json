@@ -1,0 +1,24 @@
+{
+  "name": "@tiptap/vue-starter-kit",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-vue-starter-kit.js",
+  "umd:main": "dist/tiptap-vue-starter-kit.umd.js",
+  "module": "dist/tiptap-vue-starter-kit.mjs", 
+  "unpkg": "dist/tiptap-vue-starter-kit.js",
+  "jsdelivr": "dist/tiptap-vue-starter-kit.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "@tiptap/extension-document": "1.x",
+    "@tiptap/extension-history": "1.x",
+    "@tiptap/extension-paragraph": "1.x",
+    "@tiptap/extension-text": "1.x",
+    "@tiptap/extension-bold": "1.x",
+    "@tiptap/extension-italic": "1.x",
+    "@tiptap/extension-code": "1.x",
+    "@tiptap/extension-codeblock": "1.x"
+  }
+}

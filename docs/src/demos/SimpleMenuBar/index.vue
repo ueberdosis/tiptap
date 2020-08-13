@@ -17,9 +17,7 @@
 </template>
 
 <script>
-import { Editor } from '@tiptap/core'
-import { EditorContent, Renderer } from '@tiptap/vue'
-import extensions from '@tiptap/starter-kit'
+import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
 
 export default {
   components: {
@@ -35,8 +33,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       content: '<p>Hi! 👋 I’m a text editor with just one button. Select some text and press the button to see what it does. Yes, it’s marking text <strong>bold</strong>. Amazing, isn’t it?</p>',
-      extensions: extensions(),
-      renderer: Renderer,
+      extensions: defaultExtensions(),
     })
   },
 

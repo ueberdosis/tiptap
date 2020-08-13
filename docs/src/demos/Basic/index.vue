@@ -4,7 +4,7 @@
 
 <script>
 import { Editor } from '@tiptap/core'
-import { EditorContent, Renderer } from '@tiptap/vue'
+import { EditorContent, Renderer } from '@tiptap/vue-starter-kit'
 import extensions from '@tiptap/starter-kit'
 
 export default {
