@@ -14,7 +14,7 @@ $menuBreakPoint: 750px;
   &__link-group {
     margin-bottom: 2rem;
   }
-  
+
   &__link-group-title {
     font-weight: 700;
     letter-spacing: 0.025rem;
@@ -58,7 +58,7 @@ $menuBreakPoint: 750px;
     border-bottom: 1px solid rgba($colorBlack, 0.05);
     backdrop-filter: blur(10px);
   }
-  
+
   &__header-inner {
     width: 100%;
     display: flex;
@@ -119,7 +119,7 @@ $menuBreakPoint: 750px;
       visibility: visible;
       opacity: 1;
     }
-    
+
     @media (min-width: $menuBreakPoint) {
       visibility: visible;
       opacity: 1;
