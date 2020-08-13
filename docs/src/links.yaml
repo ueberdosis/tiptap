@@ -19,22 +19,24 @@
       link: /get-content/
     - title: Custom extensions ❌
       link: /advanced-notes/
-
-- title: Vue
-  items:
-    - title: Use tiptap with Vue.js 🚧
-      link: /basic-vue-example/
-    - title: Advanced Example
-      link: /advanced-vue-example/
-    - title: Render Vue Components
+    - title: Use Vue Components ❌
       link: /render-vue-components/
 
-- title: React
-  items:
-    - title: React
-      link: /react/
-    - title: Render React Components
-      link: /advanced-react-example/
+# - title: Vue
+#   items:
+#     - title: Use tiptap with Vue.js 🚧
+#       link: /basic-vue-example/
+#     - title: Advanced Example
+#       link: /advanced-vue-example/
+#     - title: Render Vue Components
+#       link: /render-vue-components/
+
+# - title: React
+#   items:
+#     - title: React
+#       link: /react/
+#     - title: Render React Components
+#       link: /advanced-react-example/
 
 - title: Examples
   items:
@@ -87,7 +89,7 @@
   items:
     - title: Editor
       link: /editor/
-    - title: Extensions
+    - title: Extensions 🚧
       link: /extensions/
     - title: Commands
       link: /commands/
