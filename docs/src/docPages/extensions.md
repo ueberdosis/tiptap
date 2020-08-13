@@ -916,5 +916,4 @@ export default {
 </script>
 ```
 
-[@tiptap-contrib]: https://github.com/ueberdosis/tiptap/blob/master/CONTRIBUTING.md
 [@npmjs-tiptap-commands]: https://npmjs.org/package/tiptap-commands
