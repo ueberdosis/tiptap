@@ -4,6 +4,8 @@
       link: /introduction/
     - title: Installation ✅
       link: /installation/
+    - title: Upgrade Guide ❌
+      link: /upgrade-guide/
 
 - title: Guide
   items:
