@@ -1,18 +1,20 @@
 # Installation
 
-tiptap has a very modular package structure and is independent of any framework. If you want to start as fast as possible, you need at least the two packages `@tiptap/core` and `@tiptap/starter-kit`.
+tiptap has a very modular package structure and is independent of any framework. Depending on what you want to do with tiptap there are a few different ways to install tiptap in your project. Choose the way that fits your project best.
+
+## Vanilla JavaScript
+
+Use tiptap with vanilla JavaScript for a very lightweight and raw experience. If you feel like it, you can even use it to connect the tiptap core with other frameworks not mentioned here.
 
 ```bash
-# Using npm
+# Use npm
 npm install @tiptap/core @tiptap/starter-kit
 
-# Using Yarn
+# Or: Use Yarn
 yarn add @tiptap/core @tiptap/starter-kit
 ```
 
-You can use it like this:
-
-## Vanilla JavaScript
+Great, that should be enough to start. Here is the most essential code you need to get a running instance of tiptap:
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -21,39 +23,38 @@ import extensions from '@tiptap/starter-kit'
 new Editor({
   element: document.getElementsByClassName('element'),
   extensions: extensions(),
-  content: '<p>Hey there.</p>',
+  content: '<p>Your content.</p>',
 })
 ```
 
-* Play with tiptap on [CodeSandbox](https://codesandbox.io/s/vue-issue-template-h0g28)
-
 ## Vue.js
 
-To use tiptap with Vue.js and tools that are based on Vue.js install the Vue.js adapter in your project:
+To use tiptap with Vue.js (and tools that are based on Vue.js) install the Vue.js adapter in your project:
 
 ```bash
 # Using npm
-npm install @tiptap/core @tiptap/starter-kit @tiptap/vue
+npm install @tiptap/vue @tiptap/vue-starter-kit
 
 # Using Yarn
-yarn add @tiptap/core @tiptap/starter-kit @tiptap/vue
+yarn add @tiptap/vue @tiptap/vue-starter-kit
 ```
 
-Create a new component and add the following content to get a basic version of tiptap:
+We even prepared a Vue.js starter kit for you. That should give you a good headstart. Create a new component and add the following content to get a basic version of tiptap:
 
 <demo name="VueSetup" />
 
-* Read more about [Using tiptap with Vue.js](/basic-vue-example/)
-* Play with tiptap on [CodeSandbox](https://codesandbox.io/s/vue-issue-template-h0g28)
+## CodeSandbox
 
-## React
+CodeSandbox is an online coding environment. It’s great to fiddle around without setting up a local project and it’s great to share your code with others.
 
-```js
-// TODO
-```
+It’s also amazing for bug reports. Try to recreate a bug there and share it with us before you [file an issue on GitHub](https://github.com/ueberdosis/tiptap-next/issues/new). This helps a ton to fix bugs faster.
 
-* Play with tiptap on [CodeSandbox](https://codesandbox.io/s/vue-issue-template-h0g28)
+* [Vue.js/tiptap on CodeSandbox](https://codesandbox.io/s/vue-issue-template-h0g28)
 
 ## CDN
 
-// TODO
+> ⚠️ This is broken and doesn’t work. Don’t use it. We are working on it.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/tiptap@1.29.4/dist/tiptap.min.js"></script>
+```
