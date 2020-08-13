@@ -4,7 +4,7 @@
 
 By default, the editor will only support paragraphs. Other nodes and marks are available as **extensions**. You must
 install `tiptap-extensions` package separately so that you can use basic Nodes, Marks, or Plugins. An extension is
-usually tied to a [Command](../commands/basics.md). The official set of commands are part of the
+usually tied to a Command. The official set of commands are part of the
 [`tiptap-commands`][@npmjs-tiptap-commands] package.
 
 ## Blockquote
@@ -22,7 +22,7 @@ Allows you to use the `<blockquote>` HTML tag in the editor.
 `Ctrl->`
 
 #### Example
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -87,7 +87,7 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 
 #### Example
 
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -153,7 +153,7 @@ This extensions is intended to be used with the `ListItem` extension.
 
 #### Example
 
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -212,7 +212,7 @@ Allows you to use the `<code>` HTML tag in the editor.
 `Mod-``
 
 #### Example
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -293,7 +293,7 @@ Allows you to use the headline HTML tags in the editor.
 `Shift-Ctrl-6` → H6
 
 #### Example
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -357,7 +357,7 @@ Enables history support.
 `Shift-Mod-z` → Redo
 
 #### Example
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -415,7 +415,7 @@ Allows you to use the `<hr>` HTML tag in the editor.
 *None*
 
 #### Example
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -474,7 +474,7 @@ Allows you to use the `<em>` HTML tag in the editor.
 `Cmd-i` (on macOS)
 
 #### Example
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -553,7 +553,7 @@ This extensions is intended to be used with the `ListItem` extension.
 `Shift-Ctrl-9`
 
 #### Example
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -608,7 +608,7 @@ This enables support for tables in your editor.
 Tables can be nested and allow all blocks to be used inside.
 Each `<TableCell>` includes a single `<Paragraph>`.
 
-#### Options <Badge text="1.19.3"/>
+#### Options
 | option | type | default | description |
 | ------ | ---- | ---- | ----- |
 | resizable | Boolean | false | Enables the resizing of columns |
@@ -641,7 +641,7 @@ Each `<TableCell>` includes a single `<Paragraph>`.
 You have to include all table extensions (`TableHeader`, `TableCell` & `TableRow`)
 :::
 
-```vue
+```markup
   <template>
     <div>
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -742,7 +742,7 @@ This extensions is intended to be used with the `TodoItem` extension.
 *None*
 
 #### Example
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -810,7 +810,7 @@ Allows you to use the `<s>` HTML tag in the editor.
 
 #### Example
 
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -871,7 +871,7 @@ Allows you to use the `<u>` HTML tag in the editor.
 
 #### Example
 
-```vue
+```markup
 <template>
   <div>
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
