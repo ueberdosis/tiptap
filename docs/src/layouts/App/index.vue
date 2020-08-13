@@ -6,7 +6,7 @@
           {{ $static.metadata.siteName }}
         </g-link>
         <div>
-          Search |
+          <input class="search" type="search" placeholder="Search" />
           <a href="https://github.com/sponsors/ueberdosis">
             Sponsor
           </a>
@@ -109,7 +109,22 @@ export default {
 
       return `https://github.com/ueberdosis/tiptap-next/blob/main/${path}`
     },
-  }
+  },
+
+  methods: {
+    initSearch() {
+      docsearch({
+        apiKey: '1abe7fb0f0dac150d0e963d2eda930fe',
+        indexName: 'ueberdosis_tiptap',
+        inputSelector: '.search',
+        debug: false,
+      })
+    }
+  },
+
+  mounted() {
+    this.initSearch()
+  },
 }
 </script>
 
