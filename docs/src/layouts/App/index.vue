@@ -6,8 +6,10 @@
           {{ $static.metadata.siteName }}
         </g-link>
         <div>
-          Algolia Search |
-          Sponsor
+          Search |
+          <a href="https://github.com/sponsors/ueberdosis">
+            Sponsor
+          </a>
           <github-button
             href="https://github.com/ueberdosis/tiptap"
             data-show-count="true"
