@@ -1,5 +1,4 @@
 import { Editor } from '../Editor'
-import { TextSelection } from 'prosemirror-state'
 
 type ClearContent = (emitUpdate?: Boolean) => any
 
