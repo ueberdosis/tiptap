@@ -24,6 +24,8 @@ export default {
       extensions: extensions(),
       renderer: Renderer,
     })
+
+    window.editor = this.editor
   },
 
   beforeDestroy() {

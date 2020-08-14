@@ -1,6 +1,6 @@
 context('basic', () => {
   beforeEach(() => {
-    cy.visit('/tests/basic')
+    cy.visit('/basic')
   })
 
   describe('export', () => {
@@ -12,7 +12,7 @@ context('basic', () => {
         expect(html).to.equal('<p>foo</p>')
       })
     })
-    
+
     it('should return json', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
