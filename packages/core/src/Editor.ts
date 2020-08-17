@@ -172,7 +172,6 @@ export class Editor extends EventEmitter {
         plugins: this.plugins,
       }),
       dispatchTransaction: this.dispatchTransaction.bind(this),
-      // @ts-ignore
       nodeViews: this.extensionManager.nodeViews,
     })
   }
