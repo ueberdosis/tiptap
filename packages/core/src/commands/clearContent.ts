@@ -1,14 +1,14 @@
 import { Editor } from '../Editor'
 
-type ClearContent = (emitUpdate?: Boolean) => any
+type ClearContentCommand = (emitUpdate?: Boolean) => Editor
 
 declare module '../Editor' {
   interface Editor {
-    clearContent: ClearContent,
+    clearContent: ClearContentCommand,
   }
 }
 
-export default (next: Function, editor: Editor): ClearContent => (emitUpdate = false) => {
+export default (next: Function, editor: Editor) => (emitUpdate = false) => {
   editor.setContent('', emitUpdate)
   next()
 }

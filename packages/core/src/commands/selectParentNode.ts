@@ -1,15 +1,15 @@
 import { Editor } from '../Editor'
 import { selectParentNode } from 'prosemirror-commands'
 
-type SelectParentNode = () => any
+type SelectParentNodeCommand = () => Editor
 
 declare module '../Editor' {
   interface Editor {
-    selectParentNode: SelectParentNode,
+    selectParentNode: SelectParentNodeCommand,
   }
 }
 
-export default (next: Function, { state, view }: Editor): SelectParentNode => () => {
+export default (next: Function, { state, view }: Editor) => () => {
   selectParentNode(state, view.dispatch)
   next()
 }

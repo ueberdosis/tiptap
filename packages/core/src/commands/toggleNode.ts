@@ -4,19 +4,19 @@ import { Editor } from '../Editor'
 import nodeIsActive from '../utils/nodeIsActive'
 import getNodeType from '../utils/getNodeType'
 
-type ToggleNode = (
-  type: string | NodeType,
+type ToggleNodeCommand = (
+  typeOrName: string | NodeType,
   toggleType: string | NodeType,
   attrs?: {}
-) => any
+) => Editor
 
 declare module '../Editor' {
   interface Editor {
-    toggleNode: ToggleNode,
+    toggleNode: ToggleNodeCommand,
   }
 }
 
-export default (next: Function, editor: Editor): ToggleNode => (typeOrName, toggleTypeOrName, attrs) => {
+export default (next: Function, editor: Editor) => (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attrs = {}) => {
   const { view, state, schema } = editor
   const type = getNodeType(typeOrName, schema)
   const toggleType = getNodeType(toggleTypeOrName, schema)

@@ -1,14 +1,14 @@
 import { Editor } from '../Editor'
 
-type RemoveMarks = () => any
+type RemoveMarksCommand = () => Editor
 
 declare module '../Editor' {
   interface Editor {
-    removeMarks: RemoveMarks,
+    removeMarks: RemoveMarksCommand,
   }
 }
 
-export default (next: Function, editor: Editor): RemoveMarks => () => {
+export default (next: Function, editor: Editor) => () => {
   const { state, view, schema } = editor
   const { selection, tr } = state
   const { from, to, empty } = selection

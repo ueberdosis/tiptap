@@ -3,18 +3,18 @@ import { MarkType } from 'prosemirror-model'
 import getMarkType from '../utils/getMarkType'
 import getMarkRange from '../utils/getMarkRange'
 
-type UpdateMark = (
-  type: string | MarkType,
+type UpdateMarkCommand = (
+  typeOrName: string | MarkType,
   attrs: {},
-) => any
+) => Editor
 
 declare module '../Editor' {
   interface Editor {
-    updateMark: UpdateMark,
+    updateMark: UpdateMarkCommand,
   }
 }
 
-export default (next: Function, editor: Editor): UpdateMark => (typeOrName, attrs) => {
+export default (next: Function, editor: Editor) => (typeOrName: string | MarkType, attrs = {}) => {
   const { view, state, schema } = editor
   const { tr, selection, doc } = state
   let { from, to, $from, empty } = selection

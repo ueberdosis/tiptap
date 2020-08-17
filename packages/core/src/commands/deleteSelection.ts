@@ -1,15 +1,15 @@
 import { Editor } from '../Editor'
 import { deleteSelection } from 'prosemirror-commands'
 
-type DeleteSelection = () => any
+type DeleteSelectionCommand = () => Editor
 
 declare module '../Editor' {
   interface Editor {
-    deleteSelection: DeleteSelection,
+    deleteSelection: DeleteSelectionCommand,
   }
 }
 
-export default (next: Function, { state, view }: Editor): DeleteSelection => () => {
+export default (next: Function, { state, view }: Editor) => () => {
   deleteSelection(state, view.dispatch)
   next()
 }

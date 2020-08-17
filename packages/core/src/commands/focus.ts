@@ -3,9 +3,11 @@ import { TextSelection } from 'prosemirror-state'
 import sleep from '../utils/sleep'
 import minMax from '../utils/minMax'
 
+type FocusCommand = (position?: Position) => Editor
+
 declare module '../Editor' {
   interface Editor {
-    focus(position?: Position): Editor,
+    focus: FocusCommand
   }
 }
 
