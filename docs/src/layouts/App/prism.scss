@@ -36,7 +36,7 @@ pre[class*="language-"] {
 }
 
 pre > code[class*="language-"] {
-  display: inline-block;
+  display: inline-block; // TODO: breaks on mobile safari
   min-width: 100%;
   background: none;
 }
