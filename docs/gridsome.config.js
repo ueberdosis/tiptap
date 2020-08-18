@@ -23,6 +23,7 @@ module.exports = {
         template: './src/templates/DocPage',
         plugins: [
           '@gridsome/remark-prismjs',
+          'remark-container',
         ],
         remark: {
           autolinkHeadings: {

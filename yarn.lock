@@ -11191,6 +11191,11 @@ remark-autolink-headings@^5.0.0:
     extend "^3.0.2"
     unist-util-visit "^1.0.1"
 
+remark-container@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/remark-container/-/remark-container-0.1.2.tgz#02a54ed7b44365d863bcf31a672d397f9db3d8ac"
+  integrity sha512-E+G7dSALm3aMqyi15N4DxnRFQmBbHwxVc+9GrbijqwbdHzagUDvi2A3oI27y/PwLkSDRjwMfoc1rCIZayZ2PFg==
+
 remark-external-links@^3.0.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/remark-external-links/-/remark-external-links-3.1.1.tgz#a8d2aead51639daffae5e2255469fce4a86c09bb"
