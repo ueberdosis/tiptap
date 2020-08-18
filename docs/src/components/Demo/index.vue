@@ -98,6 +98,9 @@ export default {
           highlight: this.syntax[extension] || extension,
         }
       })
+      .filter((item) => {
+        return ['vue', 'jsx', 'scss'].includes(item.extension)
+      })
       .sortBy(item => item.path.split('/').length)
       .toArray()
   }
