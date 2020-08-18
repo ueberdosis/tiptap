@@ -10,7 +10,6 @@ import ReactRenderer from '~/components/ReactRenderer'
 export default function (Vue, { router, head, isClient }) {
   Vue.component('Layout', App)
   Vue.component('Demo', Demo)
-  Vue.component('Hint', Hint)
   Vue.component('Tab', Tab)
   Vue.component('ReactRenderer', ReactRenderer)
 }
