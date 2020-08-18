@@ -40,23 +40,21 @@ interface EditorOptions {
 @magicMethods
 export class Editor extends EventEmitter {
 
-  proxy!: any
-  extensionManager!: ExtensionManager
-  schema!: Schema
-  view!: EditorView
-  commands: { [key: string]: any } = {}
-  css!: HTMLStyleElement
-  options: EditorOptions = {
+  private proxy!: any
+  private extensionManager!: ExtensionManager
+  private commands: { [key: string]: any } = {}
+  private css!: HTMLStyleElement
+  private lastCommand = Promise.resolve()
+  public schema!: Schema
+  public view!: EditorView
+  public selection = { from: 0, to: 0 }
+  private options: EditorOptions = {
     element: document.createElement('div'),
     content: '',
     injectCSS: true,
     extensions: [],
     renderer: null,
   }
-
-  private lastCommand = Promise.resolve()
-
-  public selection = { from: 0, to: 0 }
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
@@ -87,7 +85,7 @@ export class Editor extends EventEmitter {
     }
   }
 
-  __get(name: string) {
+  private __get(name: string) {
     const command = this.commands[name]
 
     if (!command) {
