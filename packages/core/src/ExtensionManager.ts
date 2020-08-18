@@ -90,7 +90,7 @@ export default class ExtensionManager {
   }
 
   get nodeViews() {
-    const { renderer: Renderer } = this.editor.options
+    const { renderer: Renderer } = this.editor
 
     if (!Renderer || !Renderer.type) {
       return {}

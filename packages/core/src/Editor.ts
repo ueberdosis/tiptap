@@ -20,6 +20,7 @@ import Extension from './Extension'
 import Node from './Node'
 import Mark from './Mark'
 import EventEmitter from './EventEmitter'
+import ComponentRenderer from './ComponentRenderer'
 
 export type Command = (next: Function, editor: Editor) => (...args: any) => any
 
@@ -34,13 +35,13 @@ interface EditorOptions {
   content: EditorContent
   extensions: (Extension | Node | Mark)[]
   injectCSS: Boolean,
-  renderer: any,
 }
 
 @magicMethods
 export class Editor extends EventEmitter {
 
-  private proxy!: any
+  public renderer!: any
+  private proxy!: Editor
   private extensionManager!: ExtensionManager
   private commands: { [key: string]: any } = {}
   private css!: HTMLStyleElement
@@ -53,7 +54,6 @@ export class Editor extends EventEmitter {
     content: '',
     injectCSS: true,
     extensions: [],
-    renderer: null,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {

@@ -5,8 +5,7 @@
 </template>
 
 <script>
-import { Editor } from '@tiptap/core'
-import { EditorContent, Renderer } from '@tiptap/vue'
+import { Editor, EditorContent } from '@tiptap/vue'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -32,7 +31,6 @@ export default {
         new Text(),
         new Bold(),
       ],
-      renderer: Renderer,
     })
   },
 
