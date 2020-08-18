@@ -15,161 +15,161 @@ const routes = [
     path: '/',
     component: () => import('Components/Routes/Basic'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Basic',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Basic',
     },
   },
   {
     path: '/menu-bubble',
     component: () => import('Components/Routes/MenuBubble'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/MenuBubble',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/MenuBubble',
     },
   },
   {
     path: '/floating-menu',
     component: () => import('Components/Routes/FloatingMenu'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/FloatingMenu',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/FloatingMenu',
     },
   },
   {
     path: '/links',
     component: () => import('Components/Routes/Links'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Links',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Links',
     },
   },
   {
     path: '/images',
     component: () => import('Components/Routes/Images'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Images',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Images',
     },
   },
   {
     path: '/hiding-menu-bar',
     component: () => import('Components/Routes/HidingMenuBar'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/HidingMenuBar',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/HidingMenuBar',
     },
   },
   {
     path: '/alignment',
     component: () => import('Components/Routes/Alignment'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Alignment',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Alignment',
     },
   },
   {
     path: '/tables',
     component: () => import('Components/Routes/Tables'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Tables',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Tables',
     },
   },
   {
     path: '/todo-list',
     component: () => import('Components/Routes/TodoList'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/TodoList',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/TodoList',
     },
   },
   {
     path: '/search-and-replace',
     component: () => import('Components/Routes/SearchAndReplace'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/SearchAndReplace',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/SearchAndReplace',
     },
   },
   {
     path: '/suggestions',
     component: () => import('Components/Routes/Suggestions'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Suggestions',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Suggestions',
     },
   },
   {
     path: '/markdown-shortcuts',
     component: () => import('Components/Routes/MarkdownShortcuts'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/MarkdownShortcuts',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/MarkdownShortcuts',
     },
   },
   {
     path: '/code-highlighting',
     component: () => import('Components/Routes/CodeHighlighting'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/CodeHighlighting',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/CodeHighlighting',
     },
   },
   {
     path: '/history',
     component: () => import('Components/Routes/History'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/History',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/History',
     },
   },
   {
     path: '/read-only',
     component: () => import('Components/Routes/ReadOnly'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/ReadOnly',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/ReadOnly',
     },
   },
   {
     path: '/embeds',
     component: () => import('Components/Routes/Embeds'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Embeds',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Embeds',
     },
   },
   {
     path: '/placeholder',
     component: () => import('Components/Routes/Placeholder'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Placeholder',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Placeholder',
     },
   },
   {
     path: '/focus',
     component: () => import('Components/Routes/Focus'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Focus',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Focus',
     },
   },
   {
     path: '/collaboration',
     component: () => import('Components/Routes/Collaboration'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Collaboration',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Collaboration',
     },
   },
   {
     path: '/title',
     component: () => import('Components/Routes/Title'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Title',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Title',
     },
   },
   {
     path: '/trailing-paragraph',
     component: () => import('Components/Routes/TrailingParagraph'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/TrailingParagraph',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/TrailingParagraph',
     },
   },
   {
     path: '/drag-handle',
     component: () => import('Components/Routes/DragHandle'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/DragHandle',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/DragHandle',
     },
   },
   {
     path: '/export',
     component: () => import('Components/Routes/Export'),
     meta: {
-      githubUrl: 'https://github.com/scrumpy/tiptap/tree/master/examples/Components/Routes/Export',
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/master/examples/Components/Routes/Export',
     },
   },
 ]
