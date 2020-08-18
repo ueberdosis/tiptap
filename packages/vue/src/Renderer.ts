@@ -3,7 +3,7 @@ import { ComponentRenderer } from '@tiptap/core'
 
 export default class Renderer extends ComponentRenderer {
 
-  static type: string = 'vue'
+  static type = 'vue'
 
   vm!: Vue
   
