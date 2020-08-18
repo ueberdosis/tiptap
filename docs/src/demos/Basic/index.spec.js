@@ -1,6 +1,6 @@
 context('basic', () => {
   beforeEach(() => {
-    cy.visit('/basic')
+    cy.visit('/examples/basic')
   })
 
   describe('export', () => {

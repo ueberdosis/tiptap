@@ -1,49 +1,33 @@
 - title: Getting Started
   items:
     - title: Introduction 🚧
-      link: /introduction/
+      link: /getting-started/introduction/
     - title: Installation ✅
-      link: /installation/
+      link: /getting-started/installation/
     - title: Upgrade Guide ❌
-      link: /upgrade-guide/
+      link: /getting-started/upgrade-guide/
 
 - title: Guide
   items:
     - title: Getting started ✅
-      link: /getting-started/
+      link: /guide/getting-started/
     - title: Configuration 🚧
-      link: /configuration/
+      link: /guide/configuration/
     - title: Build your editor 🚧
-      link: /build-your-editor/
+      link: /guide/build-your-editor/
     - title: Custom styling ❌
-      link: /custom-styling/
+      link: /guide/custom-styling/
     - title: Get content 🚧
-      link: /get-content/
+      link: /guide/get-content/
     - title: Custom extensions ❌
-      link: /advanced-notes/
+      link: /guide/custom-extensions/
     - title: Use Vue Components ❌
-      link: /render-vue-components/
-
-# - title: Vue
-#   items:
-#     - title: Use tiptap with Vue.js 🚧
-#       link: /basic-vue-example/
-#     - title: Advanced Example
-#       link: /advanced-vue-example/
-#     - title: Render Vue Components
-#       link: /render-vue-components/
-
-# - title: React
-#   items:
-#     - title: React
-#       link: /react/
-#     - title: Render React Components
-#       link: /advanced-react-example/
+      link: /guide/use-vue-components/
 
 - title: Examples
   items:
     - title: Basic
-      link: basic
+      link: /examples/basic
     - title: Menu Bubble
       link: /Menu Bubble/
     - title: Floating Menu
@@ -90,9 +74,9 @@
 - title: API
   items:
     - title: Editor
-      link: /editor/
+      link: /api/editor/
     - title: Extensions 🚧
-      link: /extensions/
+      link: /api/extensions/
       items:
         - title: Blockquote
           link: /api/extensions/blockquote
@@ -137,8 +121,8 @@
         - title: Underline
           link: /api/extensions/underline
     - title: Commands
-      link: /commands/
+      link: /api/commands/
     - title: Events
-      link: /events/
+      link: /api/events/
     - title: Schema
-      link: /schema/
+      link: /api/schema/
