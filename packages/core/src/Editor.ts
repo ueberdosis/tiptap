@@ -48,7 +48,7 @@ export class Editor extends EventEmitter {
   public schema!: Schema
   public view!: EditorView
   public selection = { from: 0, to: 0 }
-  private options: EditorOptions = {
+  public options: EditorOptions = {
     element: document.createElement('div'),
     content: '',
     injectCSS: true,
