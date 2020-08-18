@@ -93,6 +93,49 @@
       link: /editor/
     - title: Extensions 🚧
       link: /extensions/
+      items:
+        - title: Blockquote
+          link: /api/extensions/blockquote
+        - title: Bold
+          link: /api/extensions/bold
+        - title: BulletList
+          link: /api/extensions/bulletlist
+        - title: Code
+          link: /api/extensions/code
+        - title: CodeBlock
+          link: /api/extensions/codeblock
+        - title: Heading
+          link: /api/extensions/heading
+        - title: History
+          link: /api/extensions/history
+        - title: HorizontalRule
+          link: /api/extensions/horizontalrule
+        - title: Italic
+          link: /api/extensions/italic
+        - title: Link
+          link: /api/extensions/link
+        - title: ListItem
+          link: /api/extensions/listitem
+        - title: Mention
+          link: /api/extensions/mention
+        - title: OrderedList
+          link: /api/extensions/orderedlist
+        - title: Placeholder
+          link: /api/extensions/placeholder
+        - title: Strike
+          link: /api/extensions/strike
+        - title: TableCell
+          link: /api/extensions/tablecell
+        - title: TableHeader
+          link: /api/extensions/tableheader
+        - title: TableRow
+          link: /api/extensions/tablerow
+        - title: TodoItem
+          link: /api/extensions/todoitem
+        - title: TodoList
+          link: /api/extensions/todolist
+        - title: Underline
+          link: /api/extensions/underline
     - title: Commands
       link: /commands/
     - title: Events

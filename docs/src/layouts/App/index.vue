@@ -48,6 +48,14 @@
                 <g-link class="app__link" :to="item.link">
                   {{ item.title }}
                 </g-link>
+
+                <ul v-if="item.items">
+                  <li v-for="(item, k) in item.items" :key="k">
+                    <g-link class="app__link" :to="item.link">
+                      ‒ {{ item.title }}
+                    </g-link>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
