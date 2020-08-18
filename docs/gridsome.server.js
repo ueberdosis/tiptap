@@ -11,6 +11,7 @@ const packages = globby.sync('../packages/*', { onlyDirectories: true })
     app.options.addReader(new TypeDoc.TSConfigReader())
     app.options.addReader(new TypeDoc.TypeDocReader())
     app.bootstrap({
+      mode: 'file',
       ignoreCompilerErrors: true,
       experimentalDecorators: true,
       excludeExternals: true,
