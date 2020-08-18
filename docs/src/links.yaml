@@ -29,47 +29,47 @@
     - title: Basic
       link: /examples/basic
     - title: Menu Bubble
-      link: /Menu Bubble/
+      link: /examples/menu-bubble
     - title: Floating Menu
-      link: /Floating Menu/
+      link: /examples/floating-menu
     - title: Links
-      link: /Links/
+      link: /examples/links
     - title: Images
-      link: /Images/
+      link: /examples/images
     - title: Hiding Menu Bar
-      link: /Menu Bar/
+      link: /examples/hiding-menu-bar
     - title: Todo List
-      link: /Todo List/
+      link: /examples/todo-list
     - title: Tables
-      link: /Tables/
+      link: /examples/tables
     - title: Search and Replace
-      link: /and Replace/
+      link: /examples/search-and-replace
     - title: Suggestions
-      link: /Suggestions/
+      link: /examples/suggestions
     - title: Markdown Shortcuts
-      link: /Markdown Shortcuts/
+      link: /examples/markdown-shortcuts
     - title: Code Highlighting
-      link: /Code Highlighting/
+      link: /examples/code-highlighting
     - title: History
-      link: /History/
+      link: /examples/history
     - title: Read-Only
-      link: /-Only/
+      link: /examples/read-only
     - title: Embeds
-      link: /Embeds/
+      link: /examples/embeds
     - title: Placeholder
-      link: /Placeholder/
+      link: /examples/placeholder
     - title: Focus
-      link: /Focus/
+      link: /examples/focus
     - title: Collaboration
-      link: /Collaboration/
+      link: /examples/collaboration
     - title: Title
-      link: /Title/
+      link: /examples/title
     - title: Trailing Paragraph
-      link: /Trailing Paragraph/
+      link: /examples/trailing-paragraph
     - title: Drag Handle
-      link: /Drag Handle/
+      link: /examples/drag-handle
     - title: Export HTML or JSON
-      link: /export-html-or-json/
+      link: /examples/export-html-or-json
 
 - title: API
   items:
