@@ -11,10 +11,31 @@ jobs:
         node-version: [14.x]
 
     steps:
+
     - uses: actions/checkout@v2.3.2
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2.1.1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn install
-    - run: yarn run startandtest
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Cypress run
+      uses: cypress-io/github-action@v2
+      with:
+        browser: chrome
+        command: yarn run startandtest
+
+    - uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: cypress/screenshots
+
+    - uses: actions/upload-artifact@v1
+      if: always()
+      with:
+        name: cypress-videos
+        path: cypress/videos
