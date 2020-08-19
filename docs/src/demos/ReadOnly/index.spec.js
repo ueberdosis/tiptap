@@ -4,17 +4,6 @@ context('read-only', () => {
   })
 
   describe('editable', () => {
-    it('should be editable', () => {
-      cy.get('.ProseMirror').window().then(window => {
-        cy.get('#editable').check()
-
-        const { editor } = window
-        editor.insertText('Edited: ')
-
-        cy.get('.ProseMirror p:first').should('contain', 'Edited: ')
-      })
-    })
-
     it('should be read-only', () => {
       cy.get('.ProseMirror').window().then(window => {
         cy.get('#editable').uncheck()
@@ -26,5 +15,15 @@ context('read-only', () => {
       })
     })
 
+    it('should be editable', () => {
+      cy.get('.ProseMirror').window().then(window => {
+        cy.get('#editable').check()
+
+        const { editor } = window
+        editor.insertText('Edited: ')
+
+        cy.get('.ProseMirror p:first').should('contain', 'Edited: ')
+      })
+    })
   })
 })
