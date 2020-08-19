@@ -1,4 +1,4 @@
-context('read-only', () => {
+context('focus', () => {
   beforeEach(() => {
     cy.visit('/examples/focus')
   })
