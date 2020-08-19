@@ -22,3 +22,4 @@ yarn-error.log*
 .rts2_cache_umd
 
 tests/cypress/videos
+/tests/cypress/screenshots
