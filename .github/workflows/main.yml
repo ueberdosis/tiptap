@@ -3,7 +3,7 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  audit:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
