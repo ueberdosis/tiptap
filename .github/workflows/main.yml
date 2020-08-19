@@ -28,14 +28,16 @@ jobs:
         browser: chrome
         command: yarn run startandtest
 
-    - uses: actions/upload-artifact@v1
+    - name: Export screenshots of failed tests
+      uses: actions/upload-artifact@v1
       if: failure()
       with:
         name: cypress-screenshots
-        path: cypress/screenshots
+        path: tests/cypress/screenshots
 
-    - uses: actions/upload-artifact@v1
+    - name: Export screen recording of executed tests
+      uses: actions/upload-artifact@v1
       if: always()
       with:
         name: cypress-videos
-        path: cypress/videos
+        path: tests/cypress/videos
