@@ -23,9 +23,9 @@ jobs:
       uses: cypress-io/github-action@v2
       with:
         cache-key: node-v${{ matrix.node }}-on-${{ runner.os }}-hash-${{ hashFiles('yarn.lock') }}
-        config-file: tests/cypress.json
         start: yarn start
         wait-on: 'http://localhost:3000'
+        command: yarn test
         browser: chrome
 
     - name: Export screenshots (on failure only)
