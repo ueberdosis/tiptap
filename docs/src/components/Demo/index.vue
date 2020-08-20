@@ -21,8 +21,13 @@
           <prism :code="activeFile.content" :language="activeFile.highlight" :highlight="highlight" />
         </div>
       </div>
-      <div class="demo__link">
-        <a :href="githubUrl" target="_blank">Edit on GitHub</a>
+      <div class="demo__meta">
+        <div class="demo__name">
+          {{ this.name }}
+        </div>
+        <a class="demo__link" :href="githubUrl" target="_blank">
+          Edit on GitHub →
+        </a>
       </div>
     </template>
     <div v-else class="demo__error">
