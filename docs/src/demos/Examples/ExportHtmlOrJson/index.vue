@@ -40,9 +40,6 @@ export default {
   mounted() {
     this.editor = new Editor({
       content: `
-        <h2>
-          Export HTML or JSON
-        </h2>
         <p>
           You are able to export your data as <code>HTML</code> or <code>JSON</code>.
         </p>
