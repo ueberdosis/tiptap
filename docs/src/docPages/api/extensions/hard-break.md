@@ -5,5 +5,5 @@ Enables you to use the `<br>` HTML tag in the editor.
 *None*
 
 ## Keybindings
-* New CodeBlock: `Shift` + `Enter` + `
-* Leave CodeBlock: `Command` + `Enter`
+* `Command` + `Enter`
+* `Shift` + `Enter`

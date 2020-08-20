@@ -14,7 +14,6 @@ Enables you to use the `<s>` HTML tag in the editor.
 * macOS: `Command` + `D`
 
 ## Usage
-
 ```markup
 <template>
   <div>

@@ -1,10 +1,10 @@
 # Heading
-Enables you to use the headline HTML tags in the editor.
+Enables you to use headline HTML tags in the editor.
 
 ## Options
-| option | type | default | description |
+| Option | Type | Default | Description |
 | ------ | ---- | ---- | ----- |
-| levels | Array | [1, 2, 3, 4, 5, 6] | Specifies which headlines are to be supported. |
+| levels | Array | [1, 2, 3, 4, 5, 6] | Specifies which headlines are supported. |
 
 ## Commands
 | Command | Options | Description |

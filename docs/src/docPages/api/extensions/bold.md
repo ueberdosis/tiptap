@@ -18,7 +18,6 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 * macOS: `Command` + `B`
 
 ## Usage
-
 ```markup
 <template>
   <div>

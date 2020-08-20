@@ -14,7 +14,6 @@ Enables you to use the `<u>` HTML tag in the editor.
 * macOS: `Command` + `U`
 
 ## Usage
-
 ```markup
 <template>
   <div>

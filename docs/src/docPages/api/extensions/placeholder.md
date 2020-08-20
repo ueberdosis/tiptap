@@ -7,7 +7,7 @@ Tables can be nested and allow all blocks to be used inside.
 Each `<TableCell>` includes a single `<Paragraph>`.
 
 ## Options
-| option | type | default | description |
+| Option | Type | Default | Description |
 | ------ | ---- | ---- | ----- |
 | resizable | Boolean | false | Enables the resizing of columns |
 

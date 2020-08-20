@@ -17,7 +17,6 @@ It’s intended to be used with the `ListItem` extension.
 * `Control` + `Shift` + `8`
 
 ## Usage
-
 ```markup
 <template>
   <div>

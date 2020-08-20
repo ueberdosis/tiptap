@@ -83,47 +83,47 @@
         - title: Bold
           link: /api/extensions/bold
         - title: BulletList
-          link: /api/extensions/bulletlist
+          link: /api/extensions/bullet-list
         - title: Code
           link: /api/extensions/code
         - title: CodeBlock
-          link: /api/extensions/codeblock
-        - title: CodeBlockHeighlight
-          link: /api/extensions/codeblockheighlight
+          link: /api/extensions/code-block
+        - title: CodeBlockHighlight
+          link: /api/extensions/code-block-highlight
         - title: Collaboration
           link: /api/extensions/collaboration
         - title: Hardbreak
-          link: /api/extensions/hardbreak
+          link: /api/extensions/hard-break
         - title: Heading
           link: /api/extensions/heading
         - title: History
           link: /api/extensions/history
         - title: HorizontalRule
-          link: /api/extensions/horizontalrule
+          link: /api/extensions/horizontal-rule
         - title: Italic
           link: /api/extensions/italic
         - title: Link
           link: /api/extensions/link
         - title: ListItem
-          link: /api/extensions/listitem
+          link: /api/extensions/list-item
         - title: Mention
           link: /api/extensions/mention
         - title: OrderedList
-          link: /api/extensions/orderedlist
+          link: /api/extensions/ordered-list
         - title: Placeholder
           link: /api/extensions/placeholder
         - title: Strike
           link: /api/extensions/strike
         - title: TableCell
-          link: /api/extensions/tablecell
+          link: /api/extensions/table-cell
         - title: TableHeader
-          link: /api/extensions/tableheader
+          link: /api/extensions/table-header
         - title: TableRow
-          link: /api/extensions/tablerow
+          link: /api/extensions/table-row
         - title: TodoItem
-          link: /api/extensions/todoitem
+          link: /api/extensions/todo-item
         - title: TodoList
-          link: /api/extensions/todolist
+          link: /api/extensions/todo-list
         - title: Underline
           link: /api/extensions/underline
     - title: Commands

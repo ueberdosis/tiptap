@@ -2,6 +2,6 @@
 Enables you to use the `<a>` HTML tag in the editor.
 
 ## Options
-| option | type | default | description |
+| Option | Type | Default | Description |
 | ------ | ---- | ---- | ----- |
 | openOnClick | Boolean | true | Specifies if links will be opened on click. |
