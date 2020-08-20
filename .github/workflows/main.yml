@@ -24,6 +24,7 @@ jobs:
       with:
         group: Tests on Node v${{ matrix.node }}
         cache-key: node-v${{ matrix.node }}-on-${{ runner.os }}-hash-${{ hashFiles('yarn.lock') }}
+        config-file: tests/cypress.json
         start: yarn start
         wait-on: 'http://localhost:3000'
         browser: chrome
