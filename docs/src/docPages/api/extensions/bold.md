@@ -18,7 +18,7 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 * macOS: `Command` + `B`
 
 ## Source Code
-[packages/extension-bold/index.ts](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/index.ts)
+[packages/extension-bold/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/)
 
 ## Usage
 <Demo name="Extensions/Bold" highlight="3-5,17,36" />

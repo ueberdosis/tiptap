@@ -18,7 +18,7 @@ The extension will generate the corresponding `<em>` HTML tags when reading cont
 * macOS: `Command` + `I`
 
 ## Source Code
-[packages/extension-italic/index.ts](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/index.ts)
+[packages/extension-italic/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)
 
 ## Usage
 <Demo name="Extensions/Italic" highlight="3-5,17,36" />
