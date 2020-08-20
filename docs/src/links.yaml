@@ -1,27 +1,27 @@
 - title: Getting Started
   items:
-    - title: Introduction 🚧
+    - title: Introduction
       link: /getting-started/introduction/
-    - title: Installation ✅
+    - title: Installation
       link: /getting-started/installation/
-    - title: Upgrade Guide ❌
+    - title: Upgrade Guide
       link: /getting-started/upgrade-guide/
 
 - title: Guide
   items:
-    - title: Getting started ✅
+    - title: Getting started
       link: /guide/getting-started/
-    - title: Configuration 🚧
+    - title: Configuration
       link: /guide/configuration/
-    - title: Build your editor 🚧
+    - title: Build your editor
       link: /guide/build-your-editor/
-    - title: Custom styling ❌
+    - title: Custom styling
       link: /guide/custom-styling/
-    - title: Get content 🚧
+    - title: Get content
       link: /guide/get-content/
-    - title: Custom extensions ❌
+    - title: Custom extensions
       link: /guide/custom-extensions/
-    - title: Use Vue Components ❌
+    - title: Use Vue Components
       link: /guide/use-vue-components/
 
 - title: Examples
@@ -75,7 +75,7 @@
   items:
     - title: Editor
       link: /api/editor/
-    - title: Extensions 🚧
+    - title: Extensions
       link: /api/extensions/
       items:
         - title: Blockquote
