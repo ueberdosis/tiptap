@@ -10,7 +10,7 @@
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
   }
-  
+
   &__source {
     // background-color: $colorBlack;
   }
@@ -39,13 +39,34 @@
     &:hover {
       color: $colorWhite;
       background-color: rgba($colorWhite, 0.1);
-    } 
+    }
   }
-  
+
   &__code {
     pre {
       margin: 0;
       border-radius: 0;
     }
+  }
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: 1px solid rgba($colorBlack, 0.1);
+    border-top-width: 0;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
+
+  &__link {
+    text-align: right;
+  }
+
+  &__error {
+    padding: 1rem 1.5rem;
+    color: $colorRed;
+    background-color: rgba($colorRed, 0.1);
   }
 }

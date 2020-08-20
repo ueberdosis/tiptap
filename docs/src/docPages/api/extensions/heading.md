@@ -1,17 +1,17 @@
 # Heading
-Allows you to use the headline HTML tags in the editor.
+Enables you to use headline HTML tags in the editor.
 
-#### Options
-| option | type | default | description |
+## Options
+| Option | Type | Default | Description |
 | ------ | ---- | ---- | ----- |
-| levels | Array | [1, 2, 3, 4, 5, 6] | Specifies which headlines are to be supported. |
+| levels | Array | [1, 2, 3, 4, 5, 6] | Specifies which headlines are supported. |
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
 | heading | level | Creates a heading node. |
 
-#### Keybindings
+## Keybindings
 * `Control` + `Shift` + `1` → H1
 * `Control` + `Shift` + `2` → H2
 * `Control` + `Shift` + `3` → H3
@@ -19,7 +19,7 @@ Allows you to use the headline HTML tags in the editor.
 * `Control` + `Shift` + `5` → H5
 * `Control` + `Shift` + `6` → H6
 
-#### Example
+## Usage
 ```markup
 <template>
   <div>

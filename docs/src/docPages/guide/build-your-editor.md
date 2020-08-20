@@ -14,7 +14,7 @@ You might wonder what features tiptap supports out of the box. In the above exam
 
 ### Related Links
 
-* [List of available commands](/commands/)
+* [List of available commands](/api/commands)
 
 ## Configure extensions
 
@@ -28,8 +28,8 @@ That’s also the place where you can register custom extensions, which you or s
 
 ### Related links
 
-* [List of available commands](/commands/)
-* [List of available extensions](/extensions/)
+* [List of available commands](/api/commands)
+* [List of available extensions](/api/extensions)
 * Build custom extensions
 
 ## Difference between nodes and marks
@@ -42,5 +42,5 @@ tiptap used a JSON schema under the hood. Every part of the text is stored as a 
 
 ### Related links
 
-* [Learn more about the schema](/schema/)
-* [List of available extensions](/extensions/)
+* [Learn more about the schema](/api/schema)
+* [List of available extensions](/api/extensions)

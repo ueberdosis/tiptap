@@ -1,18 +1,18 @@
 # Code
-Allows you to use the `<code>` HTML tag in the editor.
+The Code extensions enables you to use the `<code>` HTML tag in the editor.
 
-#### Options
+## Options
 *None*
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
-| code | none | Mark text as code. |
+| code | — | Mark text as code. |
 
-#### Keybindings
+## Keybindings
 * `Alt` + `
 
-#### Example
+## Usage
 ```markup
 <template>
   <div>

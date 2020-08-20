@@ -1,20 +1,19 @@
 # Underline
-Allows you to use the `<u>` HTML tag in the editor.
+Enables you to use the `<u>` HTML tag in the editor.
 
-#### Options
+## Options
 *None*
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
-| underline | none | Mark text as underlined. |
+| underline | — | Mark text as underlined. |
 
-#### Keybindings
+## Keybindings
 * Windows & Linux: `Control` + `U`
 * macOS: `Command` + `U`
 
-#### Example
-
+## Usage
 ```markup
 <template>
   <div>

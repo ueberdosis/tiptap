@@ -1,27 +1,27 @@
 - title: Getting Started
   items:
-    - title: Introduction 🚧
+    - title: Introduction
       link: /getting-started/introduction/
-    - title: Installation ✅
+    - title: Installation
       link: /getting-started/installation/
-    - title: Upgrade Guide ❌
+    - title: Upgrade Guide
       link: /getting-started/upgrade-guide/
 
 - title: Guide
   items:
-    - title: Getting started ✅
+    - title: Getting started
       link: /guide/getting-started/
-    - title: Configuration 🚧
+    - title: Configuration
       link: /guide/configuration/
-    - title: Build your editor 🚧
+    - title: Build your editor
       link: /guide/build-your-editor/
-    - title: Custom styling ❌
+    - title: Custom styling
       link: /guide/custom-styling/
-    - title: Get content 🚧
+    - title: Get content
       link: /guide/get-content/
-    - title: Custom extensions ❌
+    - title: Custom extensions
       link: /guide/custom-extensions/
-    - title: Use Vue Components ❌
+    - title: Use Vue Components
       link: /guide/use-vue-components/
 
 - title: Examples
@@ -75,7 +75,7 @@
   items:
     - title: Editor
       link: /api/editor/
-    - title: Extensions 🚧
+    - title: Extensions
       link: /api/extensions/
       items:
         - title: Blockquote
@@ -83,41 +83,47 @@
         - title: Bold
           link: /api/extensions/bold
         - title: BulletList
-          link: /api/extensions/bulletlist
+          link: /api/extensions/bullet-list
         - title: Code
           link: /api/extensions/code
         - title: CodeBlock
-          link: /api/extensions/codeblock
+          link: /api/extensions/code-block
+        - title: CodeBlockHighlight
+          link: /api/extensions/code-block-highlight
+        - title: Collaboration
+          link: /api/extensions/collaboration
+        - title: Hardbreak
+          link: /api/extensions/hard-break
         - title: Heading
           link: /api/extensions/heading
         - title: History
           link: /api/extensions/history
         - title: HorizontalRule
-          link: /api/extensions/horizontalrule
+          link: /api/extensions/horizontal-rule
         - title: Italic
           link: /api/extensions/italic
         - title: Link
           link: /api/extensions/link
         - title: ListItem
-          link: /api/extensions/listitem
+          link: /api/extensions/list-item
         - title: Mention
           link: /api/extensions/mention
         - title: OrderedList
-          link: /api/extensions/orderedlist
+          link: /api/extensions/ordered-list
         - title: Placeholder
           link: /api/extensions/placeholder
         - title: Strike
           link: /api/extensions/strike
         - title: TableCell
-          link: /api/extensions/tablecell
+          link: /api/extensions/table-cell
         - title: TableHeader
-          link: /api/extensions/tableheader
+          link: /api/extensions/table-header
         - title: TableRow
-          link: /api/extensions/tablerow
+          link: /api/extensions/table-row
         - title: TodoItem
-          link: /api/extensions/todoitem
+          link: /api/extensions/todo-item
         - title: TodoList
-          link: /api/extensions/todolist
+          link: /api/extensions/todo-list
         - title: Underline
           link: /api/extensions/underline
     - title: Commands

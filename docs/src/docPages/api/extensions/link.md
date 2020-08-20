@@ -1,7 +1,7 @@
 # Link
-Allows you to use the `<a>` HTML tag in the editor.
+Enables you to use the `<a>` HTML tag in the editor.
 
-#### Options
-| option | type | default | description |
+## Options
+| Option | Type | Default | Description |
 | ------ | ---- | ---- | ----- |
 | openOnClick | Boolean | true | Specifies if links will be opened on click. |

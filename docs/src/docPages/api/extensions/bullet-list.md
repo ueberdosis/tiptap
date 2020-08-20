@@ -1,23 +1,22 @@
 # BulletList
-Allows you to use the `<ul>` HTML tag in the editor.
+This extension enables you to use the `<ul>` HTML tag in the editor.
 
 ::: warning Restrictions
-This extensions is intended to be used with the `ListItem` extension.
+It’s intended to be used with the `ListItem` extension.
 :::
 
-#### Options
+## Options
 *None*
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
-| bullet_list | none | Toggle a bullet list. |
+| bullet_list | — | Toggle a bullet list. |
 
-#### Keybindings
+## Keybindings
 * `Control` + `Shift` + `8`
 
-#### Example
-
+## Usage
 ```markup
 <template>
   <div>

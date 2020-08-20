@@ -3,18 +3,63 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  audit:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [14]
 
     steps:
-    - uses: actions/checkout@v2.3.2
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2.1.1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn install
-    - run: yarn run startandtest
+
+    - uses: actions/checkout@v2.3.2
+
+    - name: Run tests with Cypress
+      uses: cypress-io/github-action@v2
+      with:
+        cache-key: node-v${{ matrix.node }}-on-${{ runner.os }}-hash-${{ hashFiles('yarn.lock') }}
+        start: yarn start
+        wait-on: 'http://localhost:3000'
+        project: ./tests
+        browser: chrome
+
+    - name: Export screenshots (on failure only)
+      uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: tests/cypress/screenshots
+
+    - name: Export screen recordings (on failure only)
+      uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: cypress-videos
+        path: tests/cypress/videos
+
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14]
+
+    steps:
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2.1.1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - uses: actions/checkout@v2.3.2
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Build packages dependencies
+      run: yarn build:packages

@@ -1,3 +1,3 @@
 # Basic
 
-<demo name="Basic" />
+<demo name="Examples/Basic" />

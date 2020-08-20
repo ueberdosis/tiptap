@@ -1,18 +1,18 @@
 # Blockquote
-Allows you to use the `<blockquote>` HTML tag in the editor.
+The Blockquote extension enables you to use the `<blockquote>` HTML tag in the editor.
 
-#### Options
+## Options
 *None*
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
-| blockquote | none | Wrap content in a blockquote. |
+| blockquote | — | Wrap content in a blockquote. |
 
-#### Keybindings
+## Keybindings
 * `Control` + `→`
 
-#### Example
+## Usage
 ```markup
 <template>
   <div>

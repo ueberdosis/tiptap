@@ -25,11 +25,8 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      editable: false,
+      editable: this.editable,
       content: `
-        <h2>
-          Read-Only
-        </h2>
         <p>
           This text is <strong>read-only</strong>. You are not able to edit something. <a href="https://ueber.io/">Links to fancy websites</a> are still working.
         </p>

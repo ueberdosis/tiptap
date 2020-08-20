@@ -15,10 +15,8 @@
     "build:docs": "yarn --cwd ./docs build",
     "build:packages": "yarn clean:packages && lerna exec --parallel -- microbundle --compress",
     "clean:packages": "rm -rf ./packages/*/dist",
-    "test:debug": "cypress open --project tests",
-    "test": "cypress run --project tests",
-    "reset": "rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install",
-    "startandtest": "start-server-and-test start http://localhost:3000 test"
+    "test": "cypress open --project tests",
+    "reset": "rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.11.0",
@@ -34,7 +32,6 @@
     "lerna": "^3.22.1",
     "microbundle": "^0.12.3",
     "sass-loader": "^9.0.3",
-    "start-server-and-test": "^1.11.3",
     "typedoc": "^0.18.0",
     "typescript": "^3.9.7",
     "vue": "^2.6.12"
