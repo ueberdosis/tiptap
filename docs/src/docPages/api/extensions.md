@@ -7,4 +7,26 @@ install `tiptap-extensions` package separately so that you can use basic Nodes, 
 usually tied to a Command. The official set of commands are part of the
 [`tiptap-commands`][@npmjs-tiptap-commands] package.
 
+## Default extensions
+
+Starterkits have defaultExtensions, that include ...
+
+## A minimalist set of extensions
+
+Document, Paragraph, Text
+
+## List of extensions
+
+* Bold
+* Italic
+...
+
+## Community extensions
+
+How does that work?
+
+## Your custom extensions
+
+Link to the Guide
+
 [@npmjs-tiptap-commands]: https://npmjs.org/package/tiptap-commands
