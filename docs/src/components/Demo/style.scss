@@ -10,7 +10,7 @@
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
   }
-  
+
   &__source {
     // background-color: $colorBlack;
   }
@@ -39,9 +39,9 @@
     &:hover {
       color: $colorWhite;
       background-color: rgba($colorWhite, 0.1);
-    } 
+    }
   }
-  
+
   &__code {
     pre {
       margin: 0;
