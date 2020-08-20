@@ -16,7 +16,7 @@
     "build:packages": "yarn clean:packages && lerna exec --parallel -- microbundle --compress",
     "clean:packages": "rm -rf ./packages/*/dist",
     "test": "cypress open --project tests",
-    "reset": "rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
+    "reset": "clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.11.0",
