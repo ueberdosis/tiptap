@@ -1,3 +1,3 @@
 # Focus
 
-<demo name="Focus" highlight="18,43-46,48" />
+<demo name="Examples/Focus" highlight="18,43-46,48" />
