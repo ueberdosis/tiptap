@@ -1,19 +1,19 @@
 # History
 Enables history support.
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
 | undo | none | Undo the latest change. |
 | redo | none | Redo the latest change. |
 
-#### Keybindings
+## Keybindings
 * Windows & Linux: `Control` + `Z` → Undo
 * Windows & Linux: `Shift` + `Control` + `Z` → Redo
 * macOS: `Command` + `Z` → Undo
 * macOS: `Shift` + `Command` + `Z` → Redo
 
-#### Example
+## Usage
 ```markup
 <template>
   <div>

@@ -1,19 +1,19 @@
 # Strike
-Allows you to use the `<s>` HTML tag in the editor.
+Enables you to use the `<s>` HTML tag in the editor.
 
-#### Options
+## Options
 *None*
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
 | strike | none | Mark text as strikethrough. |
 
-#### Keybindings
+## Keybindings
 * Windows & Linux: `Control` + `D`
 * macOS: `Command` + `D`
 
-#### Example
+## Usage
 
 ```markup
 <template>

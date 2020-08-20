@@ -1,19 +1,19 @@
 # Italic
-Allows you to use the `<em>` HTML tag in the editor.
+Enables you to use the `<em>` HTML tag in the editor.
 
-#### Options
+## Options
 *None*
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
 | italic | none | Mark text as italic. |
 
-#### Keybindings
+## Keybindings
 * Windows & Linux: `Control` + `I`
 * macOS: `Command` + `I`
 
-#### Example
+## Usage
 ```markup
 <template>
   <div>

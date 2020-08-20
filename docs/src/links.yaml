@@ -88,6 +88,12 @@
           link: /api/extensions/code
         - title: CodeBlock
           link: /api/extensions/codeblock
+        - title: CodeBlockHeighlight
+          link: /api/extensions/codeblockheighlight
+        - title: Collaboration
+          link: /api/extensions/collaboration
+        - title: Hardbreak
+          link: /api/extensions/hardbreak
         - title: Heading
           link: /api/extensions/heading
         - title: History

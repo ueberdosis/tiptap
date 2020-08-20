@@ -1,18 +1,18 @@
 # HorizontalRule
-Allows you to use the `<hr>` HTML tag in the editor.
+Enables you to use the `<hr>` HTML tag in the editor.
 
-#### Options
+## Options
 *None*
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
 | horizontal_rule | none | Create a horizontal rule. |
 
-#### Keybindings
+## Keybindings
 *None*
 
-#### Example
+## Usage
 ```markup
 <template>
   <div>

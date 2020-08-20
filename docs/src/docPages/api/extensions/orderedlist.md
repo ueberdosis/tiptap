@@ -1,22 +1,22 @@
 # OrderedList
-Allows you to use the `<ol>` HTML tag in the editor.
+Enables you to use the `<ol>` HTML tag in the editor.
 
 ::: warning Restrictions
 This extensions is intended to be used with the `ListItem` extension.
 :::
 
-#### Options
+## Options
 *None*
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
 | ordered_list | none | Toggle an ordered list. |
 
-#### Keybindings
+## Keybindings
 * `Control` + `Shift` + `9`
 
-#### Example
+## Usage
 ```markup
 <template>
   <div>

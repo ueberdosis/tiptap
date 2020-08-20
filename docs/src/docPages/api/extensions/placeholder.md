@@ -1,22 +1,22 @@
 # Placeholder
-Allows you to show placeholders on empty paragraphs.
+Enables you to show placeholders on empty paragraphs.
 
 ## Table
 This enables support for tables in your editor.
 Tables can be nested and allow all blocks to be used inside.
 Each `<TableCell>` includes a single `<Paragraph>`.
 
-#### Options
+## Options
 | option | type | default | description |
 | ------ | ---- | ---- | ----- |
 | resizable | Boolean | false | Enables the resizing of columns |
 
-#### Keybindings
+## Keybindings
 * `Tab` → Next Cell
 * `Shift` + `Tab` + ` → Previous Cell
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
 | createTable | ```{ rowsCount, colsCount, withHeaderRow }``` | Returns a table node of a given size. `withHeaderRow` defines whether the first row of the table will be a header row. |
 | deleteTable | none | Deletes the complete table which is active |
@@ -34,7 +34,7 @@ Each `<TableCell>` includes a single `<Paragraph>`.
 | setCellAttr | none | Returns a command that sets the given attribute to the given value, and is only available when the currently selected cell doesn't already have that attribute set to that value. |
 | fixTables | none | Inspect all tables in the given state's document and return a transaction that fixes them, if necessary. |
 
-#### Example
+## Usage
 ::: warning
 You have to include all table extensions (`TableHeader`, `TableCell` & `TableRow`)
 :::

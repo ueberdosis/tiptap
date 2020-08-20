@@ -5,13 +5,13 @@ It renders a single toggleable item of a list.
 This extensions is intended to be used with the `TodoList` extension.
 :::
 
-#### Options
+## Options
 | option | type | default | description |
 | ------ | ---- | ---- | ----- |
 | nested | Boolean | false | Specifies if you can nest todo lists. |
 
-#### Commands
+## Commands
 *None*
 
-#### Keybindings
+## Keybindings
 *None*

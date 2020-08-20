@@ -1,23 +1,23 @@
 # Bold
-Renders text in **bold** text weight. If you pass `<strong>`, or `<b>` tags, or text with inline `style` attributes setting the `font-weight` CSS rule in the editor's initial content, they will be rendered accordingly.
+Renders text in **bold** text weight. If you pass `<strong>`, `<b>` tags, or text with inline `style` attributes setting the `font-weight` CSS rule in the editor’s initial content, they all will be rendered accordingly.
 
 ::: warning Restrictions
-The extension will generate the corresponding `<strong>` HTML tags when reading contents of the `Editor` instance. All text marked as bold, regardless of method will be normalized to `<strong>` HTML tags.
+The extension will generate the corresponding `<strong>` HTML tags when reading contents of the `Editor` instance. All text marked as bold, regardless of the method will be normalized to `<strong>` HTML tags.
 :::
 
-#### Options
+## Options
 *None*
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
 | bold | none | Mark text as bold. |
 
-#### Keybindings
+## Keybindings
 * Windows & Linux: `Control` + `B`
 * macOS: `Command` + `B`
 
-#### Example
+## Usage
 
 ```markup
 <template>

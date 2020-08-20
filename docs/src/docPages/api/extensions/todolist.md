@@ -5,18 +5,18 @@ Renders a toggleable list of items.
 This extensions is intended to be used with the `TodoItem` extension.
 :::
 
-#### Options
+## Options
 *None*
 
-#### Commands
-| command | options | description |
+## Commands
+| Command | Options | Description |
 | ------ | ---- | ---------------- |
 | todo_list | none | Toggle todo list. |
 
-#### Keybindings
+## Keybindings
 *None*
 
-#### Example
+## Usage
 ```markup
 <template>
   <div>
