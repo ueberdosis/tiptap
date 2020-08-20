@@ -52,4 +52,10 @@
   &__link {
     padding: 1rem 1.5rem;
   }
+
+  &__error {
+    padding: 1rem 1.5rem;
+    color: $colorRed;
+    background-color: rgba($colorRed, 0.1);
+  }
 }

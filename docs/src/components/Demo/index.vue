@@ -1,27 +1,32 @@
 <template>
   <div class="demo">
-    <div class="demo__preview" v-if="mainFile">
-      <component :is="mainFile" v-if="mode === 'vue'" />
-      <react-renderer :component="mainFile" v-if="mode === 'react'" />
-    </div>
-    <div class="demo__source">
-      <div class="demo__tabs" v-if="showFileNames">
-        <button
-          class="demo__tab"
-          :class="{ 'is-active': currentIndex === index}"
-          v-for="(file, index) in files"
-          :key="index"
-          @click="currentIndex = index"
-        >
-          {{ file.name }}
-        </button>
+    <template v-if="mainFile">
+      <div class="demo__preview">
+        <component :is="mainFile" v-if="mode === 'vue'" />
+        <react-renderer :component="mainFile" v-if="mode === 'react'" />
       </div>
-      <div class="demo__code" v-if="activeFile" :key="activeFile.path">
-        <prism :code="activeFile.content" :language="activeFile.highlight" :highlight="highlight" />
+      <div class="demo__source">
+        <div class="demo__tabs" v-if="showFileNames">
+          <button
+            class="demo__tab"
+            :class="{ 'is-active': currentIndex === index}"
+            v-for="(file, index) in files"
+            :key="index"
+            @click="currentIndex = index"
+          >
+            {{ file.name }}
+          </button>
+        </div>
+        <div class="demo__code" v-if="activeFile" :key="activeFile.path">
+          <prism :code="activeFile.content" :language="activeFile.highlight" :highlight="highlight" />
+        </div>
       </div>
-    </div>
-    <div class="demo__link">
-      <a :href="githubUrl" target="_blank">Edit on GitHub</a>
+      <div class="demo__link">
+        <a :href="githubUrl" target="_blank">Edit on GitHub</a>
+      </div>
+    </template>
+    <div v-else class="demo__error">
+      Could not find a demo called “{{ this.name }}”.
     </div>
   </div>
 </template>
