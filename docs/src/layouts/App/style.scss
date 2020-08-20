@@ -24,6 +24,13 @@ $menuBreakPoint: 750px;
     margin-bottom: 0.5rem;
   }
 
+  &__link-list &__link-list {
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 2px solid rgba($colorBlack, 0.1);
+  }
+
   &__link {
     display: block;
     padding: 0.1rem 0.5rem;

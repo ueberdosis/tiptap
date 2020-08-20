@@ -43,16 +43,16 @@
             <div class="app__link-group-title">
               {{ linkGroup.title }}
             </div>
-            <ul>
+            <ul class="app__link-list">
               <li v-for="(item, j) in linkGroup.items" :key="j">
                 <g-link class="app__link" :to="item.link">
                   {{ item.title }}
                 </g-link>
 
-                <ul v-if="item.items">
+                <ul v-if="item.items" class="app__link-list">
                   <li v-for="(item, k) in item.items" :key="k">
                     <g-link class="app__link" :to="item.link">
-                      ‒ {{ item.title }}
+                      {{ item.title }}
                     </g-link>
                   </li>
                 </ul>
