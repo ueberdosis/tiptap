@@ -25,7 +25,7 @@ jobs:
         cache-key: node-v${{ matrix.node }}-on-${{ runner.os }}-hash-${{ hashFiles('yarn.lock') }}
         start: yarn start
         wait-on: 'http://localhost:3000'
-        command: yarn test
+        project: ./tests
         browser: chrome
 
     - name: Export screenshots (on failure only)
