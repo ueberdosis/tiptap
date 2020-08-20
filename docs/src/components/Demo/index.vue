@@ -23,7 +23,7 @@
       </div>
       <div class="demo__meta">
         <div class="demo__name">
-          {{ this.name }}
+          Demo/{{ this.name }}
         </div>
         <a class="demo__link" :href="githubUrl" target="_blank">
           Edit on GitHub →
