@@ -18,48 +18,5 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 * macOS: `Command` + `B`
 
 ## Usage
-```markup
-<template>
-  <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <button type="button" :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
-        Bold
-      </button>
-    </editor-menu-bar>
 
-    <editor-content :editor="editor" />
-  </div>
-</template>
-
-<script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { Bold } from 'tiptap-extensions'
-
-export default {
-  components: {
-    EditorMenuBar,
-    EditorContent,
-  },
-  data() {
-    return {
-      editor: new Editor({
-        extensions: [
-          new Bold(),
-        ],
-        content: `
-          <p><strong>This is strong</strong></p>
-          <p><b>And this</b></p>
-          <p style="font-weight: bold">This as well</p>
-          <p style="font-weight: bolder">Oh! and this</p>
-          <p style="font-weight: 500">Cool! Right!?</p>
-          <p style="font-weight: 999">Up to 999!!!</p>
-        `,
-      }),
-    }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
-  }
-}
-</script>
-```
+<Demo name="Extensions/Bold" />
