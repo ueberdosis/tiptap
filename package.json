@@ -28,12 +28,12 @@
     "@types/prosemirror-state": "^1.2.5",
     "@types/prosemirror-transform": "^1.1.1",
     "@types/prosemirror-view": "^1.15.0",
-    "cypress": "^4.12.1",
+    "cypress": "^5.0.0",
     "lerna": "^3.22.1",
     "microbundle": "^0.12.3",
     "sass-loader": "^9.0.3",
     "typedoc": "^0.18.0",
-    "typescript": "^3.9.7",
+    "typescript": "^4.0.2",
     "vue": "^2.6.12"
   }
 }

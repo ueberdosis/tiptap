@@ -7,19 +7,19 @@
     "build": "gridsome build"
   },
   "dependencies": {
-    "@gridsome/remark-prismjs": "^0.3.0",
+    "@gridsome/remark-prismjs": "^0.4.0",
     "@gridsome/source-filesystem": "^0.6.2",
     "@gridsome/transformer-json": "^0.2.1",
     "@gridsome/vue-remark": "^0.2.0",
     "@mvasilkov/outdent": "^1.0.4",
     "collect.js": "^4.28.2",
     "globby": "^11.0.0",
-    "gridsome": "0.7.19",
+    "gridsome": "0.7.20",
     "raw-loader": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "remark-container": "^0.1.2",
-    "typescript": "^3.9.7",
+    "typescript": "^4.0.2",
     "vue-github-button": "^1.1.2"
   },
   "devDependencies": {
