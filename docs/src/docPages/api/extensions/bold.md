@@ -18,5 +18,8 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 * macOS: `Command` + `B`
 
 ## Usage
-
 <Demo name="Extensions/Bold" />
+
+## Source Code
+
+[packages/extension-bold/index.ts](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/index.ts)
