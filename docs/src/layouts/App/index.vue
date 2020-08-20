@@ -64,6 +64,7 @@
       <main class="app__main">
         <slot/>
         <p>
+          <br />
           <a :href="editLink" target="_blank">
             <span>Edit this page on GitHub</span>
           </a>
