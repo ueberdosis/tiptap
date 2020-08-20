@@ -20,6 +20,9 @@
         <prism :code="activeFile.content" :language="activeFile.highlight" :highlight="highlight" />
       </div>
     </div>
+    <div class="demo__link">
+      <a :href="githubUrl" target="_blank">Edit on GitHub</a>
+    </div>
   </div>
 </template>
 
@@ -80,6 +83,10 @@ export default {
 
     activeFile() {
       return this.files[this.currentIndex]
+    },
+
+    githubUrl() {
+      return `https://github.com/ueberdosis/tiptap-next/tree/main/docs/src/demos/${this.name}`
     },
   },
 
