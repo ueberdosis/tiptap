@@ -4,10 +4,16 @@
     "docs",
     "packages/*"
   ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not IE <= 11",
+    "not IE_Mob <= 11"
+  ],
   "scripts": {
     "start": "yarn --cwd ./docs start",
     "build:docs": "yarn --cwd ./docs build",
-    "build:packages": "yarn clean:packages && lerna exec --parallel -- microbundle --raw --compress",
+    "build:packages": "yarn clean:packages && lerna exec --parallel -- microbundle --compress",
     "clean:packages": "rm -rf ./packages/*/dist",
     "test:debug": "cypress open --project tests",
     "test": "cypress run --project tests",
@@ -15,6 +21,7 @@
     "startandtest": "start-server-and-test start http://localhost:3000 test"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.11.0",
     "@types/prosemirror-commands": "^1.0.3",
     "@types/prosemirror-history": "^1.0.1",
     "@types/prosemirror-inputrules": "^1.0.2",
@@ -29,6 +36,7 @@
     "sass-loader": "^9.0.3",
     "start-server-and-test": "^1.11.3",
     "typedoc": "^0.18.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "vue": "^2.6.12"
   }
 }

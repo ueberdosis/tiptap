@@ -22,6 +22,21 @@ import Mark from './Mark'
 import EventEmitter from './EventEmitter'
 import ComponentRenderer from './ComponentRenderer'
 
+import clearContent from './commands/clearContent'
+import deleteSelection from './commands/deleteSelection'
+import focus from './commands/focus'
+import insertHTML from './commands/insertHTML'
+import insertText from './commands/insertText'
+import removeMark from './commands/removeMark'
+import removeMarks from './commands/removeMarks'
+import replaceWithNode from './commands/replaceWithNode'
+import selectAll from './commands/selectAll'
+import selectParentNode from './commands/selectParentNode'
+import setContent from './commands/setContent'
+import toggleMark from './commands/toggleMark'
+import toggleNode from './commands/toggleNode'
+import updateMark from './commands/updateMark'
+
 export type Command = (next: Function, editor: Editor) => (...args: any) => any
 
 export interface CommandSpec {
@@ -65,20 +80,20 @@ export class Editor extends EventEmitter {
     this.createExtensionManager()
     this.createSchema()
     this.createView()
-    this.registerCommand('clearContent', require('./commands/clearContent').default)
-    this.registerCommand('deleteSelection', require('./commands/deleteSelection').default)
-    this.registerCommand('focus', require('./commands/focus').default)
-    this.registerCommand('insertHTML', require('./commands/insertHTML').default)
-    this.registerCommand('insertText', require('./commands/insertText').default)
-    this.registerCommand('removeMark', require('./commands/removeMark').default)
-    this.registerCommand('removeMarks', require('./commands/removeMarks').default)
-    this.registerCommand('replaceWithNode', require('./commands/replaceWithNode').default)
-    this.registerCommand('selectAll', require('./commands/selectAll').default)
-    this.registerCommand('selectParentNode', require('./commands/selectParentNode').default)
-    this.registerCommand('setContent', require('./commands/setContent').default)
-    this.registerCommand('toggleMark', require('./commands/toggleMark').default)
-    this.registerCommand('toggleNode', require('./commands/toggleNode').default)
-    this.registerCommand('updateMark', require('./commands/updateMark').default)
+    this.registerCommand('clearContent', clearContent)
+    this.registerCommand('deleteSelection', deleteSelection)
+    this.registerCommand('focus', focus)
+    this.registerCommand('insertHTML', insertHTML)
+    this.registerCommand('insertText', insertText)
+    this.registerCommand('removeMark', removeMark)
+    this.registerCommand('removeMarks', removeMarks)
+    this.registerCommand('replaceWithNode', replaceWithNode)
+    this.registerCommand('selectAll', selectAll)
+    this.registerCommand('selectParentNode', selectParentNode)
+    this.registerCommand('setContent', setContent)
+    this.registerCommand('toggleMark', toggleMark)
+    this.registerCommand('toggleNode', toggleNode)
+    this.registerCommand('updateMark', updateMark)
 
     if (this.options.injectCSS) {
       require('./style.css')

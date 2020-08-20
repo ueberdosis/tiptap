@@ -28,17 +28,9 @@
   "files": [
     "./shims/vue.d.ts"
   ],
-  "include": [
-    "docs/src/**/*.ts",
-    "docs/src/**/*.tsx",
-    "docs/src/**/*.vue",
-    "packages/**/*.ts",
-    "packages/**/*.tsx",
-    "packages/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
-  ],
+
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }

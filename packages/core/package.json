@@ -26,5 +26,8 @@
     "prosemirror-utils": "^0.9.6",
     "prosemirror-view": "^1.15.3",
     "verbal-expressions": "^1.0.2"
+  },
+  "scripts": {
+    "build": "microbundle"
   }
 }

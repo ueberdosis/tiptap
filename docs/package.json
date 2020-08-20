@@ -23,6 +23,7 @@
     "vue-github-button": "^1.1.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "html-loader": "^1.1.0",
     "node-sass": "^4.14.1",
