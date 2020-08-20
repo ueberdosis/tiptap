@@ -4,8 +4,8 @@ Enables history support.
 ## Commands
 | Command | Options | Description |
 | ------ | ---- | ---------------- |
-| undo | none | Undo the latest change. |
-| redo | none | Redo the latest change. |
+| undo | — | Undo the latest change. |
+| redo | — | Redo the latest change. |
 
 ## Keybindings
 * Windows & Linux: `Control` + `Z` → Undo

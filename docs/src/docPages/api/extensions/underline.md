@@ -7,7 +7,7 @@ Enables you to use the `<u>` HTML tag in the editor.
 ## Commands
 | Command | Options | Description |
 | ------ | ---- | ---------------- |
-| underline | none | Mark text as underlined. |
+| underline | — | Mark text as underlined. |
 
 ## Keybindings
 * Windows & Linux: `Control` + `U`

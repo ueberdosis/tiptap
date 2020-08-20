@@ -7,7 +7,7 @@ The Code extensions enables you to use the `<code>` HTML tag in the editor.
 ## Commands
 | Command | Options | Description |
 | ------ | ---- | ---------------- |
-| code | none | Mark text as code. |
+| code | — | Mark text as code. |
 
 ## Keybindings
 * `Alt` + `

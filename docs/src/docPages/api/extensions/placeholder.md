@@ -19,20 +19,20 @@ Each `<TableCell>` includes a single `<Paragraph>`.
 | Command | Options | Description |
 | ------ | ---- | ---------------- |
 | createTable | ```{ rowsCount, colsCount, withHeaderRow }``` | Returns a table node of a given size. `withHeaderRow` defines whether the first row of the table will be a header row. |
-| deleteTable | none | Deletes the complete table which is active |
-| addColumnBefore | none | Add a column before the selection. |
-| addColumnAfter | none | Add a column after the selection. |
-| deleteColumn | none | Removes the selected columns. |
-| addRowBefore | none | Add a table row before the selection. |
-| addRowAfter | none | Add a table row after the selection. |
-| toggleCellMerge | none | See mergeCells and splitCells |
-| mergeCells | none | Merge the selected cells into a single cell. Only available when the selected cells' outline forms a rectangle. |
-| splitCell | none | Split a selected cell, whose rowspan or colspan is greater than one into smaller cells. |
-| toggleHeaderColumn | none | Toggles whether the selected column contains header cells. |
-| toggleHeaderRow | none | Toggles whether the selected row contains header cells. |
-| toggleHeaderCell | none | Toggles whether the selected column contains header cells. |
-| setCellAttr | none | Returns a command that sets the given attribute to the given value, and is only available when the currently selected cell doesn't already have that attribute set to that value. |
-| fixTables | none | Inspect all tables in the given state's document and return a transaction that fixes them, if necessary. |
+| deleteTable | — | Deletes the complete table which is active |
+| addColumnBefore | — | Add a column before the selection. |
+| addColumnAfter | — | Add a column after the selection. |
+| deleteColumn | — | Removes the selected columns. |
+| addRowBefore | — | Add a table row before the selection. |
+| addRowAfter | — | Add a table row after the selection. |
+| toggleCellMerge | — | See mergeCells and splitCells |
+| mergeCells | — | Merge the selected cells into a single cell. Only available when the selected cells' outline forms a rectangle. |
+| splitCell | — | Split a selected cell, whose rowspan or colspan is greater than one into smaller cells. |
+| toggleHeaderColumn | — | Toggles whether the selected column contains header cells. |
+| toggleHeaderRow | — | Toggles whether the selected row contains header cells. |
+| toggleHeaderCell | — | Toggles whether the selected column contains header cells. |
+| setCellAttr | — | Returns a command that sets the given attribute to the given value, and is only available when the currently selected cell doesn't already have that attribute set to that value. |
+| fixTables | — | Inspect all tables in the given state's document and return a transaction that fixes them, if necessary. |
 
 ## Usage
 ::: warning

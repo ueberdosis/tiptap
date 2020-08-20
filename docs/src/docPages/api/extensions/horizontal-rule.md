@@ -7,7 +7,7 @@ Enables you to use the `<hr>` HTML tag in the editor.
 ## Commands
 | Command | Options | Description |
 | ------ | ---- | ---------------- |
-| horizontal_rule | none | Create a horizontal rule. |
+| horizontal_rule | — | Create a horizontal rule. |
 
 ## Keybindings
 *None*

@@ -11,7 +11,7 @@ This extensions is intended to be used with the `TodoItem` extension.
 ## Commands
 | Command | Options | Description |
 | ------ | ---- | ---------------- |
-| todo_list | none | Toggle todo list. |
+| todo_list | — | Toggle todo list. |
 
 ## Keybindings
 *None*

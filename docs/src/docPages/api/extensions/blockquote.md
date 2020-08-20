@@ -7,7 +7,7 @@ The Blockquote extension enables you to use the `<blockquote>` HTML tag in the e
 ## Commands
 | Command | Options | Description |
 | ------ | ---- | ---------------- |
-| blockquote | none | Wrap content in a blockquote. |
+| blockquote | — | Wrap content in a blockquote. |
 
 ## Keybindings
 * `Control` + `→`

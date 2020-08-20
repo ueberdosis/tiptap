@@ -7,7 +7,7 @@ Enables you to use the `<s>` HTML tag in the editor.
 ## Commands
 | Command | Options | Description |
 | ------ | ---- | ---------------- |
-| strike | none | Mark text as strikethrough. |
+| strike | — | Mark text as strikethrough. |
 
 ## Keybindings
 * Windows & Linux: `Control` + `D`

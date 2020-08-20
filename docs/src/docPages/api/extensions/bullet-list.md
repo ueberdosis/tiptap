@@ -11,7 +11,7 @@ It’s intended to be used with the `ListItem` extension.
 ## Commands
 | Command | Options | Description |
 | ------ | ---- | ---------------- |
-| bullet_list | none | Toggle a bullet list. |
+| bullet_list | — | Toggle a bullet list. |
 
 ## Keybindings
 * `Control` + `Shift` + `8`

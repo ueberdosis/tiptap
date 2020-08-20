@@ -1,5 +1,9 @@
 # Italic
-Enables you to use the `<em>` HTML tag in the editor.
+This extension is used to render text in *italic*. If you pass `<em>`, `<i>` tags, or text with inline `style` attributes setting `font-style: italic` in the editor’s initial content, they will all be rendered accordingly.
+
+::: warning Restrictions
+The extension will generate the corresponding `<em>` HTML tags when reading contents of the `Editor` instance. All text marked italic, regardless of the method will be normalized to `<em>` HTML tags.
+:::
 
 ## Options
 *None*
@@ -7,52 +11,14 @@ Enables you to use the `<em>` HTML tag in the editor.
 ## Commands
 | Command | Options | Description |
 | ------ | ---- | ---------------- |
-| italic | none | Mark text as italic. |
+| italic | — | Mark text italic. |
 
 ## Keybindings
 * Windows & Linux: `Control` + `I`
 * macOS: `Command` + `I`
 
+## Source Code
+[packages/extension-italic/index.ts](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/index.ts)
+
 ## Usage
-```markup
-<template>
-  <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <button type="button" :class="{ 'is-active': isActive.italic() }" @click="commands.italic">
-        Italic
-      </button>
-    </editor-menu-bar>
-
-    <editor-content :editor="editor" />
-  </div>
-</template>
-
-<script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { Italic } from 'tiptap-extensions'
-
-export default {
-  components: {
-    EditorMenuBar,
-    EditorContent,
-  },
-  data() {
-    return {
-      editor: new Editor({
-        extensions: [
-          new Italic(),
-        ],
-        content: `
-          <p><em>This is italic</em></p>
-          <p><i>And this</i></p>
-          <p style="font-style: italic">This as well</p>
-        `,
-      }),
-    }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
-  }
-}
-</script>
-```
+<Demo name="Extensions/Italic" highlight="3-5,17,36" />
