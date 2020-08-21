@@ -6,14 +6,17 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Editor, CommandSpec } from './Editor'
 import Extension from './Extension'
 import Node from './Node'
+import Mark from './Mark'
 import capitalize from './utils/capitalize'
+
+type Extensions = (Extension | Node | Mark)[]
 
 export default class ExtensionManager {
 
   editor: Editor
-  extensions: (Extension | Node)[]
+  extensions: Extensions
 
-  constructor(extensions: (Extension | Node)[], editor: Editor) {
+  constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
     this.extensions = extensions
     this.extensions.forEach(extension => {
