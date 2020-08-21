@@ -61,6 +61,7 @@ export class Editor extends EventEmitter {
   constructor(options: Partial<EditorOptions> = {}) {
     super()
     this.options = { ...this.options, ...options }
+    this.on('createdProxy', this.init)
   }
 
   /**

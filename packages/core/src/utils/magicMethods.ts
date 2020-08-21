@@ -25,7 +25,7 @@ export default function magicMethods(clazz: any) {
     }
 
     instance.proxy = new Proxy(instance, instanceHandler)
-    instance.init()
+    instance.emit('createdProxy')
 
     return instance.proxy
   }
