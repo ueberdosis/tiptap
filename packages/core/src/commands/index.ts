@@ -1,3 +1,4 @@
+export { default as blur } from './blur'
 export { default as clearContent } from './clearContent'
 export { default as deleteSelection } from './deleteSelection'
 export { default as focus } from './focus'
