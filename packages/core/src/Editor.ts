@@ -1,11 +1,7 @@
 import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView} from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
-import { undoInputRule } from 'prosemirror-inputrules'
-import { keymap } from 'prosemirror-keymap'
-import { baseKeymap } from 'prosemirror-commands'
-import { dropCursor } from 'prosemirror-dropcursor'
-import { gapCursor } from 'prosemirror-gapcursor'
+
 import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
 import getAllMethodNames from './utils/getAllMethodNames'
@@ -21,6 +17,7 @@ import Node from './Node'
 import Mark from './Mark'
 import EventEmitter from './EventEmitter'
 import ComponentRenderer from './ComponentRenderer'
+import defaultPlugins from './plugins'
 
 // commands
 import clearContent from './commands/clearContent'
@@ -37,9 +34,6 @@ import setContent from './commands/setContent'
 import toggleMark from './commands/toggleMark'
 import toggleNode from './commands/toggleNode'
 import updateMark from './commands/updateMark'
-
-// plugins
-import focusPlugin from './plugins/focus'
 
 export type Command = (next: Function, editor: Editor) => (...args: any) => any
 
@@ -181,11 +175,7 @@ export class Editor extends EventEmitter {
   private get plugins() {
     return [
       ...this.extensionManager.plugins,
-      keymap({ Backspace: undoInputRule }),
-      keymap(baseKeymap),
-      dropCursor(),
-      gapCursor(),
-      focusPlugin(this.proxy),
+      ...defaultPlugins.map(plugin => plugin(this.proxy)),
     ]
   }
 
