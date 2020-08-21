@@ -19,18 +19,10 @@ export default class ExtensionManager {
     this.extensions.forEach(extension => {
       extension.bindEditor(editor)
       editor.on('schemaCreated', () => {
-        this.registerCommands(extension.commands())
+        this.editor.registerCommands(extension.commands())
         extension.created()
       })
     })
-  }
-
-  registerCommands(commands: CommandSpec) {
-    Object
-      .entries(commands)
-      .forEach(([name, command]) => {
-        this.editor.registerCommand(name, command)
-      })
   }
 
   get topNode() {
