@@ -15,7 +15,7 @@ import Italic from '@tiptap/extension-italic'
 import Code from '@tiptap/extension-code'
 import CodeBlock from '@tiptap/extension-codeblock'
 import Heading from '@tiptap/extension-heading'
-// import Focus from '@tiptap/extension-focus'
+import Focus from '@tiptap/extension-focus'
 
 export default {
   components: {
@@ -40,12 +40,12 @@ export default {
         new Code(),
         new CodeBlock(),
         new Heading(),
-        // new Focus({
-        //   className: 'has-focus',
-        //   nested: true,
-        // }),
+        new Focus({
+          className: 'has-focus',
+          nested: true,
+        }),
       ],
-      // autoFocus: true,
+      autoFocus: true,
       content: `
         <p>
           With the focus extension you can add custom classes to focused nodes. Default options:
@@ -63,14 +63,6 @@ export default {
     })
 
     window.editor = this.editor
-  },
-
-  watch: {
-    editable() {
-      this.editor.setOptions({
-        editable: this.editable,
-      })
-    },
   },
 
   beforeDestroy() {

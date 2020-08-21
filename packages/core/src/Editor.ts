@@ -22,6 +22,7 @@ import Mark from './Mark'
 import EventEmitter from './EventEmitter'
 import ComponentRenderer from './ComponentRenderer'
 
+// commands
 import clearContent from './commands/clearContent'
 import deleteSelection from './commands/deleteSelection'
 import focus from './commands/focus'
@@ -36,6 +37,9 @@ import setContent from './commands/setContent'
 import toggleMark from './commands/toggleMark'
 import toggleNode from './commands/toggleNode'
 import updateMark from './commands/updateMark'
+
+// plugins
+import focusPlugin from './plugins/focus'
 
 export type Command = (next: Function, editor: Editor) => (...args: any) => any
 
@@ -70,6 +74,8 @@ export class Editor extends EventEmitter {
     injectCSS: true,
     extensions: [],
   }
+  public isFocused = false
+  public isEditable = true
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
@@ -175,6 +181,7 @@ export class Editor extends EventEmitter {
       keymap(baseKeymap),
       dropCursor(),
       gapCursor(),
+      focusPlugin(this.proxy),
     ]
   }
 
