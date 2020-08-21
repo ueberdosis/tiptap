@@ -54,6 +54,7 @@ interface EditorOptions {
   content: EditorContent
   extensions: (Extension | Node | Mark)[]
   injectCSS: Boolean,
+  autoFocus: 'start' | 'end' | number | boolean | null
 }
 
 @magicMethods
@@ -73,6 +74,7 @@ export class Editor extends EventEmitter {
     content: '',
     injectCSS: true,
     extensions: [],
+    autoFocus: false,
   }
   public isFocused = false
   public isEditable = true
@@ -104,6 +106,8 @@ export class Editor extends EventEmitter {
     if (this.options.injectCSS) {
       require('./style.css')
     }
+    
+    this.proxy.focus(this.options.autoFocus)
   }
 
   private __get(name: string) {

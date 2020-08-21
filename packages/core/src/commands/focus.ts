@@ -16,14 +16,14 @@ interface ResolvedSelection {
   to: number,
 }
 
-type Position = 'start' | 'end' | number | null
+type Position = 'start' | 'end' | number | boolean | null
 
 function resolveSelection(editor: Editor, position: Position = null): ResolvedSelection {
   if (position === null) {
     return editor.selection
   }
 
-  if (position === 'start') {
+  if (position === 'start' || position === true) {
     return {
       from: 0,
       to: 0,
@@ -48,7 +48,7 @@ function resolveSelection(editor: Editor, position: Position = null): ResolvedSe
 export default (next: Function, editor: Editor) => async (position = null) => {
   const { view, state } = editor
 
-  if ((view.hasFocus() && position === null)) {
+  if ((view.hasFocus() && position === null) || position === false) {
     next()
     return
   }
