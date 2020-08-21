@@ -22,7 +22,7 @@ export default class History extends Extension {
 
   name = 'history'
   
-  constructor(options?: HistoryOptions) {
+  constructor(options: Partial<HistoryOptions> = {}) {
     super(options)
   }
 

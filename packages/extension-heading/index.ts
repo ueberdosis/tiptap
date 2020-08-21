@@ -6,7 +6,7 @@ import { textblockTypeInputRule } from 'prosemirror-inputrules'
 type Level = 1 | 2 | 3 | 4 | 5 | 6
 
 interface HeadingOptions {
-  levels?: Level[],
+  levels: Level[],
 }
 
 declare module '@tiptap/core/src/Editor' {
@@ -18,6 +18,10 @@ declare module '@tiptap/core/src/Editor' {
 export default class Heading extends Node {
 
   name = 'heading'
+
+  constructor(options: Partial<HeadingOptions> = {}) {
+    super(options)
+  }
 
   defaultOptions(): HeadingOptions {
     return {

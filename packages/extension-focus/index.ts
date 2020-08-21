@@ -2,7 +2,7 @@ import { Extension } from '@tiptap/core'
 import { Plugin } from 'prosemirror-state'
 import { DecorationSet, Decoration } from 'prosemirror-view'
 
-type FocusOptions = {
+interface FocusOptions {
   className: string,
   nested: boolean,
 }
@@ -11,8 +11,8 @@ export default class Focus extends Extension {
 
   name = 'focus'
 
-  constructor(focusOptions: FocusOptions) {
-    super(focusOptions)
+  constructor(options: Partial<FocusOptions> = {}) {
+    super(options)
   }
 
   defaultOptions(): FocusOptions {

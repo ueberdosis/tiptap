@@ -51,10 +51,10 @@ type EditorContent = string | JSON | null
 
 interface EditorOptions {
   element: Element,
-  content: EditorContent
-  extensions: (Extension | Node | Mark)[]
+  content: EditorContent,
+  extensions: (Extension | Node | Mark)[],
   injectCSS: Boolean,
-  autoFocus: 'start' | 'end' | number | boolean | null
+  autoFocus: 'start' | 'end' | number | boolean | null,
 }
 
 @magicMethods
