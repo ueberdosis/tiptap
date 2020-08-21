@@ -1,9 +1,10 @@
 import collect from 'collect.js'
+import { Plugin } from 'prosemirror-state'
 import { keymap } from 'prosemirror-keymap'
 import { inputRules } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { Editor, CommandSpec } from './Editor'
+import { Editor } from './Editor'
 import Extension from './Extension'
 import Node from './Node'
 import Mark from './Mark'
@@ -39,18 +40,18 @@ export default class ExtensionManager {
   get nodes(): any {
     return collect(this.extensions)
       .where('extensionType', 'node')
-      .mapWithKeys((extension: any) => [extension.name, extension.schema()])
+      .mapWithKeys((extension: Node) => [extension.name, extension.schema()])
       .all()
   }
 
   get marks(): any {
     return collect(this.extensions)
       .where('extensionType', 'mark')
-      .mapWithKeys((extension: any) => [extension.name, extension.schema()])
+      .mapWithKeys((extension: Mark) => [extension.name, extension.schema()])
       .all()
   }
 
-  get plugins(): any {
+  get plugins(): Plugin[] {
     const plugins = collect(this.extensions)
       .flatMap(extension => extension.plugins())
       .toArray()

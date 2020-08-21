@@ -1,3 +1,4 @@
+import { Plugin } from 'prosemirror-state'
 import { Editor, Command } from './Editor'
 
 export default abstract class Extension {
@@ -30,7 +31,7 @@ export default abstract class Extension {
     return () => {}
   }
 
-  plugins(): any {
+  plugins(): Plugin[] {
     return []
   }
 
