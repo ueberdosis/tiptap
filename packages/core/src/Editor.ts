@@ -32,8 +32,9 @@ interface EditorOptions {
   element: Element,
   content: EditorContent,
   extensions: (Extension | Node | Mark)[],
-  injectCSS: Boolean,
+  injectCSS: boolean,
   autoFocus: 'start' | 'end' | number | boolean | null,
+  editable: boolean,
 }
 
 @magicMethods
@@ -54,6 +55,7 @@ export class Editor extends EventEmitter {
     injectCSS: true,
     extensions: [],
     autoFocus: false,
+    editable: true,
   }
   public isFocused = false
   public isEditable = true
@@ -88,11 +90,19 @@ export class Editor extends EventEmitter {
     return (...args: any) => command(...args)
   }
 
+  public setOptions(options: Partial<EditorOptions> = {}) {
+    this.options = { ...this.options, ...options }
+
+    if (this.view && this.state) {
+      this.view.updateState(this.state)
+    }
+  }
+
   public get state() {
     return this.view.state
   }
 
-  public registerCommands(commands: CommandSpec): void {
+  public registerCommands(commands: CommandSpec) {
     Object
       .entries(commands)
       .forEach(([name, command]) => this.registerCommand(name, command))
