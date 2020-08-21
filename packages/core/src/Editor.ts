@@ -49,6 +49,7 @@ export class Editor extends EventEmitter {
   public schema!: Schema
   public view!: EditorView
   public selection = { from: 0, to: 0 }
+  public isFocused = false
   public options: EditorOptions = {
     element: document.createElement('div'),
     content: '',
@@ -57,8 +58,6 @@ export class Editor extends EventEmitter {
     autoFocus: false,
     editable: true,
   }
-  public isFocused = false
-  public isEditable = true
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
@@ -96,6 +95,10 @@ export class Editor extends EventEmitter {
     if (this.view && this.state) {
       this.view.updateState(this.state)
     }
+  }
+
+  public get isEditable() {
+    return this.view && this.view.editable
   }
 
   public get state() {

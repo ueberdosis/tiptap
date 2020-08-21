@@ -26,13 +26,12 @@ export default class Focus extends Extension {
     return [
       new Plugin({
         props: {
-          decorations: ({ doc, plugins, selection }) => {
-            const { isFocused, isEditable } = this.editor
-            const isActive = isEditable && this.options.className
+          decorations: ({ doc, selection }) => {
+            const { isEditable, isFocused } = this.editor
             const { anchor } = selection
             const decorations: Decoration[] = []
 
-            if (!isActive || !isFocused) {
+            if (!isEditable || !isFocused) {
               return
             }
 
