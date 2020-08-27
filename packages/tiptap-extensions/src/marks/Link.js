@@ -22,7 +22,7 @@ export default class Link extends Mark {
           default: null,
         },
         target: {
-            default: null,
+          default: null,
         },
       },
       inclusive: false,
