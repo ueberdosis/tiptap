@@ -35,6 +35,12 @@ module.exports = {
         }
       },
     },
+    {
+      use: 'gridsome-plugin-simple-analytics',
+      options: {
+        domain: 'data.tiptap.dev',
+      },
+    },
   ],
   chainWebpack(config) {
     // Load variables for all vue-files
