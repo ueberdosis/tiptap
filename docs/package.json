@@ -15,6 +15,7 @@
     "collect.js": "^4.28.2",
     "globby": "^11.0.0",
     "gridsome": "0.7.20",
+    "gridsome-plugin-simple-analytics": "^1.1.0",
     "raw-loader": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
