@@ -69,6 +69,9 @@
             <span>Edit this page on GitHub</span>
           </a>
         </p>
+        <p>
+          Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
+        </p>
         <page-navigation />
       </main>
     </div>

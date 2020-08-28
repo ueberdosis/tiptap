@@ -1,28 +1,28 @@
-- title: Getting Started
+- title: General
   items:
     - title: Introduction
-      link: /getting-started/introduction/
+      link: /
     - title: Installation
-      link: /getting-started/installation/
+      link: /general/installation
     - title: Upgrade Guide
-      link: /getting-started/upgrade-guide/
+      link: /general/upgrade-guide
 
 - title: Guide
   items:
     - title: Getting started
-      link: /guide/getting-started/
+      link: /guide/getting-started
     - title: Configuration
-      link: /guide/configuration/
+      link: /guide/configuration
     - title: Build your editor
-      link: /guide/build-your-editor/
+      link: /guide/build-your-editor
     - title: Custom styling
-      link: /guide/custom-styling/
+      link: /guide/custom-styling
     - title: Get content
-      link: /guide/get-content/
+      link: /guide/get-content
     - title: Custom extensions
-      link: /guide/custom-extensions/
+      link: /guide/custom-extensions
     - title: Use Vue Components
-      link: /guide/use-vue-components/
+      link: /guide/use-vue-components
 
 - title: Examples
   items:

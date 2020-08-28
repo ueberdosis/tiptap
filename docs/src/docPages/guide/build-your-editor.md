@@ -22,7 +22,7 @@ You are free to choose which parts of tiptap you want to use. Tiptap has support
 
 Note that `Document`, `Paragraph` and `Text` are required. Otherwise you won’t be able to add any plain text.
 
-<demo name="ExtensionConfiguration" highlight="10-13,30-33" />
+<demo name="Guide/BuildYourEditor" highlight="10-13,30-33" />
 
 That’s also the place where you can register custom extensions, which you or someone else built for tiptap.
 

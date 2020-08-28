@@ -21,6 +21,7 @@ module.exports = {
         typeName: 'DocPage',
         baseDir: './src/docPages',
         template: './src/templates/DocPage',
+        index: './getting-started/introduction',
         plugins: [
           '@gridsome/remark-prismjs',
           'remark-container',
