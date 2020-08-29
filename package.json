@@ -1,6 +1,7 @@
 {
   "name": "tiptap-packages",
   "private": true,
+  "types": "./index.d.ts",
   "workspaces": [
     "packages/*"
   ],
@@ -78,6 +79,11 @@
     "style-loader": "^1.0.1",
     "terser": "^4.4.2",
     "tippy.js": "^6.1.0",
+    "@types/prosemirror-dropcursor": "^1.0.0",
+    "@types/prosemirror-inputrules": "^1.0.2",
+    "@types/prosemirror-schema-basic": "^1.0.1",
+    "@types/prosemirror-state": "^1.2.5",
+    "@types/prosemirror-view": "^1.15.1",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.2",
     "vue-router": "^3.1.3",
