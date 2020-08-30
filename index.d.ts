@@ -10,10 +10,10 @@
 /// <reference types="prosemirror-dropcursor" />
 /// <reference types="prosemirror-inputrules" />
 
-declare module tiptap {
+declare module 'tiptap' {
 
     import Vue                                                from 'vue';
-    import { Plugin, EditorState }                            from "@types/prosemirror-state";
+    import { Plugin }                                         from "@types/prosemirror-state";
     import { EditorProps }                                    from "@types/prosemirror-view";
     import { ProsemirrorNode, ProsemirrorMark, ParseOptions } from "@types/prosemirror-model"
     import { Schema }                                         from "@types/prosemirror-schema-basic";
@@ -21,7 +21,7 @@ declare module tiptap {
     import { InputRule }                                      from "@types/prosemirror-inputrules";
 
     export interface EditorConfig {
-        content?              : string | EditorState | null,
+        content?              : string | ProsemirrorNode | null,
         editorProps?          : EditorProps,
         editable?             : boolean,
         autoFocus?            : boolean,
