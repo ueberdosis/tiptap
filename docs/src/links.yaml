@@ -75,7 +75,6 @@
       draft: true
     - title: History
       link: /examples/history
-      draft: true
     - title: Read-Only
       link: /examples/read-only
     - title: Embeds
