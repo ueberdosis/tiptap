@@ -96,6 +96,8 @@
           link: /api/extensions/code-block-highlight
         - title: Collaboration
           link: /api/extensions/collaboration
+        - title: Document
+          link: /api/extensions/document
         - title: Hardbreak
           link: /api/extensions/hard-break
         - title: Heading
@@ -114,10 +116,14 @@
           link: /api/extensions/mention
         - title: OrderedList
           link: /api/extensions/ordered-list
+        - title: Paragraph
+          link: /api/extensions/paragraph
         - title: Placeholder
           link: /api/extensions/placeholder
         - title: Strike
           link: /api/extensions/strike
+        - title: Text
+          link: /api/extensions/text
         - title: TableCell
           link: /api/extensions/table-cell
         - title: TableHeader

@@ -10,7 +10,7 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 
 ## Commands
 | Command | Options | Description |
-| ------ | ---- | ---------------- |
+| ------- | ------- | ----------- |
 | bold | — | Mark text bold. |
 
 ## Keybindings

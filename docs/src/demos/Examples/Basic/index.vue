@@ -2,13 +2,7 @@
   <div>
     <div v-if="editor">
       <button @click="editor.focus().removeMarks()">
-        clear formatting
-      </button>
-      <button @click="editor.focus().undo()">
-        undo
-      </button>
-      <button @click="editor.focus().redo()">
-        redo
+        clear format
       </button>
       <button @click="editor.focus().bold()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
@@ -19,7 +13,7 @@
       <button @click="editor.focus().code()" :class="{ 'is-active': editor.isActive('code') }">
         code
       </button>
-      <button @click="editor.focus().code_block()" :class="{ 'is-active': editor.isActive('code_block') }">
+      <button @click="editor.focus().codeBlock()" :class="{ 'is-active': editor.isActive('code_block') }">
         code_block
       </button>
       <button @click="editor.focus().heading({ level: 1 })" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
@@ -39,6 +33,12 @@
       </button>
       <button @click="editor.focus().heading({ level: 6 })" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
         h6
+      </button>
+      <button @click="editor.focus().undo()">
+        undo
+      </button>
+      <button @click="editor.focus().redo()">
+        redo
       </button>
     </div>
     <editor-content :editor="editor" />
@@ -67,6 +67,8 @@ export default {
       `,
       extensions: defaultExtensions(),
     })
+
+    window.editor = this.editor
   },
 
   beforeDestroy() {
