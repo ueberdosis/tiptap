@@ -30,6 +30,8 @@
   items:
     - title: Basic
       link: /examples/basic
+    - title: Simple
+      link: /examples/simple
     - title: Menu Bubble
       link: /examples/menu-bubble
     - title: Floating Menu
