@@ -6,8 +6,10 @@
       link: /general/installation
     - title: Upgrade Guide
       link: /general/upgrade-guide
+      draft: true
     - title: Roadmap
       link: /general/roadmap
+      draft: true
 
 - title: Guide
   items:
@@ -15,16 +17,22 @@
       link: /guide/getting-started
     - title: Configuration
       link: /guide/configuration
+      draft: true
     - title: Build your editor
       link: /guide/build-your-editor
+      draft: true
     - title: Custom styling
       link: /guide/custom-styling
+      draft: true
     - title: Get content
       link: /guide/get-content
+      draft: true
     - title: Custom extensions
       link: /guide/custom-extensions
+      draft: true
     - title: Use Vue Components
       link: /guide/use-vue-components
+      draft: true
 
 - title: Examples
   items:
@@ -34,44 +42,62 @@
       link: /examples/simple
     - title: Menu Bubble
       link: /examples/menu-bubble
+      draft: true
     - title: Floating Menu
       link: /examples/floating-menu
+      draft: true
     - title: Links
       link: /examples/links
+      draft: true
     - title: Images
       link: /examples/images
+      draft: true
     - title: Hiding Menu Bar
       link: /examples/hiding-menu-bar
+      draft: true
     - title: Todo List
       link: /examples/todo-list
+      draft: true
     - title: Tables
       link: /examples/tables
+      draft: true
     - title: Search and Replace
       link: /examples/search-and-replace
+      draft: true
     - title: Suggestions
       link: /examples/suggestions
+      draft: true
     - title: Markdown Shortcuts
       link: /examples/markdown-shortcuts
+      draft: true
     - title: Code Highlighting
       link: /examples/code-highlighting
+      draft: true
     - title: History
       link: /examples/history
+      draft: true
     - title: Read-Only
       link: /examples/read-only
     - title: Embeds
       link: /examples/embeds
+      draft: true
     - title: Placeholder
       link: /examples/placeholder
+      draft: true
     - title: Focus
       link: /examples/focus
     - title: Collaboration
       link: /examples/collaboration
+      draft: true
     - title: Title
       link: /examples/title
+      draft: true
     - title: Trailing Paragraph
       link: /examples/trailing-paragraph
+      draft: true
     - title: Drag Handle
       link: /examples/drag-handle
+      draft: true
     - title: Export HTML or JSON
       link: /examples/export-html-or-json
 
@@ -79,66 +105,95 @@
   items:
     - title: Editor
       link: /api/editor/
+      draft: true
     - title: Extensions
       link: /api/extensions/
       items:
         - title: Blockquote
           link: /api/extensions/blockquote
+          draft: true
         - title: Bold
           link: /api/extensions/bold
         - title: BulletList
           link: /api/extensions/bullet-list
+          draft: true
         - title: Code
           link: /api/extensions/code
+          draft: true
         - title: CodeBlock
           link: /api/extensions/code-block
+          draft: true
         - title: CodeBlockHighlight
           link: /api/extensions/code-block-highlight
+          draft: true
         - title: Collaboration
           link: /api/extensions/collaboration
+          draft: true
         - title: Document
           link: /api/extensions/document
+          draft: true
         - title: Hardbreak
           link: /api/extensions/hard-break
+          draft: true
         - title: Heading
           link: /api/extensions/heading
+          draft: true
         - title: History
           link: /api/extensions/history
+          draft: true
         - title: HorizontalRule
           link: /api/extensions/horizontal-rule
+          draft: true
         - title: Italic
           link: /api/extensions/italic
         - title: Link
           link: /api/extensions/link
+          draft: true
         - title: ListItem
           link: /api/extensions/list-item
+          draft: true
         - title: Mention
           link: /api/extensions/mention
+          draft: true
         - title: OrderedList
           link: /api/extensions/ordered-list
+          draft: true
         - title: Paragraph
           link: /api/extensions/paragraph
+          draft: true
         - title: Placeholder
           link: /api/extensions/placeholder
+          draft: true
         - title: Strike
           link: /api/extensions/strike
+          draft: true
         - title: Text
           link: /api/extensions/text
+          draft: true
         - title: TableCell
           link: /api/extensions/table-cell
+          draft: true
         - title: TableHeader
           link: /api/extensions/table-header
+          draft: true
         - title: TableRow
           link: /api/extensions/table-row
+          draft: true
         - title: TodoItem
           link: /api/extensions/todo-item
+          draft: true
         - title: TodoList
           link: /api/extensions/todo-list
+          draft: true
         - title: Underline
           link: /api/extensions/underline
+          draft: true
     - title: Commands
       link: /api/commands/
+      draft: true
     - title: Events
       link: /api/events/
+      draft: true
     - title: Schema
       link: /api/schema/
+      draft: true

@@ -53,6 +53,10 @@ $menuBreakPoint: 750px;
       color: $colorBlack;
       background-color: rgba($colorBlack, 0.05);
     }
+
+    &--draft {
+      color: rgba($colorBlack, 0.2);
+    }
   }
 
   &__header {
