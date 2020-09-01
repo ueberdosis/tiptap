@@ -12,7 +12,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 
 ## List of supported extensions
 
-| Title | Default Extensions | Source Code |
+| Title | Default Extension | Source Code |
 | ----- | ------- | ----------- |
 | [Blockquote](/api/extensions/blockquote) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-blockquote/)
 | [Bold](/api/extensions/bold) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/)
