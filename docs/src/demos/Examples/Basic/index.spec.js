@@ -9,12 +9,6 @@ context('basic', () => {
   })
 
   describe('export', () => {
-    it('set the content to something simple', () => {
-      cy.get('.ProseMirror').window().then(window => {
-        const { editor } = window
-      })
-    })
-
     it('should return html', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
