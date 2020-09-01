@@ -45,13 +45,13 @@
             </div>
             <ul class="app__link-list">
               <li v-for="(item, j) in linkGroup.items" :key="j">
-                <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true }" :to="item.link">
+                <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true }" :to="item.link" :exact="item.link === '/'">
                   {{ item.title }}
                 </g-link>
 
                 <ul v-if="item.items" class="app__link-list">
                   <li v-for="(item, k) in item.items" :key="k">
-                    <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true }" :to="item.link">
+                    <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true }" :to="item.link" exact>
                       {{ item.title }}
                     </g-link>
                   </li>
