@@ -1,13 +1,23 @@
 context('basic', () => {
   beforeEach(() => {
     cy.visit('/examples/basic')
+
+    cy.get('.ProseMirror').window().then(window => {
+      const { editor } = window
+      editor.setContent('<p>foo</p>')
+    })
   })
 
   describe('export', () => {
+    it('set the content to something simple', () => {
+      cy.get('.ProseMirror').window().then(window => {
+        const { editor } = window
+      })
+    })
+
     it('should return html', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
-        editor.setContent('<p>foo</p>')
         const html = editor.html()
 
         expect(html).to.equal('<p>foo</p>')
@@ -17,7 +27,6 @@ context('basic', () => {
     it('should return json', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
-        editor.setContent('<p>foo</p>')
         const json = editor.json()
 
         expect(json).to.deep.equal({
@@ -43,7 +52,7 @@ context('basic', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
 
-        editor.insertText('bar')
+        editor.focus(1).insertText('bar')
         cy.get('.ProseMirror p:first').should('contain', 'barfoo')
       })
     })
@@ -62,7 +71,6 @@ context('basic', () => {
     it('should prepend', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
-        editor.setContent('<p>foo</p>')
 
         editor.focus('start').insertHTML('<p>bar</p>')
         cy.get('.ProseMirror p:first').should('contain', 'bar').should('not.contain', 'foo')
@@ -73,7 +81,6 @@ context('basic', () => {
     it('should append', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
-        editor.setContent('<p>foo</p>')
 
         editor.focus('end').insertHTML('<p>bar</p>')
         cy.get('.ProseMirror p:first').should('contain', 'foo').should('not.contain', 'bar')
