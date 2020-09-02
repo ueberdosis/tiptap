@@ -1,0 +1,51 @@
+<template>
+  <div v-if="editor">
+    <button @click="editor.focus().code()" :class="{ 'is-active': editor.isActive('code') }">
+      code
+    </button>
+
+    <editor-content :editor="editor" />
+  </div>
+</template>
+
+<script>
+import { Editor } from '@tiptap/core'
+import { EditorContent } from '@tiptap/vue'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Code from '@tiptap/extension-code'
+
+export default {
+  components: {
+    EditorContent,
+  },
+
+  data() {
+    return {
+      editor: null,
+    }
+  },
+
+  mounted() {
+    this.editor = new Editor({
+      extensions: [
+        new Document(),
+        new Paragraph(),
+        new Text(),
+        new Code(),
+      ],
+      content: `
+        <p>This isn’t code.</p>
+        <p><code>This is code.</code></p>
+      `,
+    })
+
+    window.editor = this.editor
+  },
+
+  beforeDestroy() {
+    this.editor.destroy()
+  }
+}
+</script>

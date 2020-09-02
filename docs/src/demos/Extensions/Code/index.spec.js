@@ -1,6 +1,6 @@
-context('/api/extensions/italic', () => {
+context('/api/extensions/code', () => {
   beforeEach(() => {
-    cy.visit('/api/extensions/italic')
+    cy.visit('/api/extensions/code')
 
     cy.get('.ProseMirror').window().then(window => {
       const { editor } = window
@@ -9,15 +9,15 @@ context('/api/extensions/italic', () => {
     })
   })
 
-  describe('italic', () => {
-    it('should make the selected text italic', () => {
+  describe('code', () => {
+    it('should mark the selected text as inline code', () => {
       cy.get('.demo__preview button:first').click({ force: true })
-      cy.get('.ProseMirror').contains('em', 'Example Text')
+      cy.get('.ProseMirror').contains('code', 'Example Text')
     })
 
-    it('should toggle the selected text italic', () => {
+    it('should toggle the selected text as inline code', () => {
       cy.get('.demo__preview button:first').dblclick({ force: true })
-      cy.get('.ProseMirror em').should('not.exist')
+      cy.get('.ProseMirror code').should('not.exist')
     })
   })
 })

@@ -10,7 +10,7 @@ The extension will generate the corresponding `<em>` HTML tags when reading cont
 
 ## Commands
 | Command | Options | Description |
-| ------ | ---- | ---------------- |
+| ------- | ------- | ----------- |
 | italic | — | Mark text italic. |
 
 ## Keybindings
