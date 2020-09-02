@@ -137,7 +137,6 @@
           draft: true
         - title: History
           link: /api/extensions/history
-          draft: true
         - title: HorizontalRule
           link: /api/extensions/horizontal-rule
           draft: true
