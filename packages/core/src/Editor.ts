@@ -76,13 +76,13 @@ export class Editor extends EventEmitter {
     if (this.options.injectCSS) {
       require('./style.css')
     }
-    
+
     this.proxy.focus(this.options.autoFocus)
   }
 
   /**
    * A magic method to call commands.
-   * 
+   *
    * @param name The name of the command
    */
   private __get(name: string) {
@@ -99,7 +99,7 @@ export class Editor extends EventEmitter {
 
   /**
    * Update editor options.
-   * 
+   *
    * @param options A list of options
    */
   public setOptions(options: Partial<EditorOptions> = {}) {
@@ -109,7 +109,7 @@ export class Editor extends EventEmitter {
       this.view.updateState(this.state)
     }
   }
-  
+
   /**
    * Returns whether the editor is editable.
    */
@@ -126,7 +126,7 @@ export class Editor extends EventEmitter {
 
   /**
    * Register a list of commands.
-   * 
+   *
    * @param commands A list of commands
    */
   public registerCommands(commands: CommandSpec) {
@@ -137,7 +137,7 @@ export class Editor extends EventEmitter {
 
   /**
    * Register a command.
-   * 
+   *
    * @param name The name of your command
    * @param callback The method of your command
    */
@@ -159,7 +159,7 @@ export class Editor extends EventEmitter {
 
   /**
    * Register a ProseMirror plugin.
-   * 
+   *
    * @param plugin A ProseMirror plugin
    * @param handlePlugins Control how to merge the plugin into the existing plugins.
    */
@@ -175,7 +175,7 @@ export class Editor extends EventEmitter {
 
   /**
    * Unregister a ProseMirror plugin.
-   * 
+   *
    * @param name The plugins name
    */
   public unregisterPlugin(name: string) {
@@ -189,7 +189,7 @@ export class Editor extends EventEmitter {
 
   /**
    * Call a command.
-   * 
+   *
    * @param name The name of the command you want to call.
    * @param options The options of the command.
    */
@@ -199,8 +199,8 @@ export class Editor extends EventEmitter {
 
   /**
    * Wraps a command to make it chainable.
-   * 
-   * @param method 
+   *
+   * @param method
    */
   private chainCommand = (method: Function) => (...args: any) => {
     this.lastCommand = this.lastCommand
@@ -278,7 +278,7 @@ export class Editor extends EventEmitter {
 
   /**
    * The callback over which to send transactions (state updates) produced by the view.
-   * 
+   *
    * @param transaction An editor state transaction
    */
   private dispatchTransaction(transaction: Transaction) {
@@ -296,7 +296,7 @@ export class Editor extends EventEmitter {
 
   /**
    * Get attributes of the currently selected node.
-   * 
+   *
    * @param name Name of the node
    */
   public getNodeAttrs(name: string) {
@@ -305,7 +305,7 @@ export class Editor extends EventEmitter {
 
   /**
    * Get attributes of the currently selected mark.
-   * 
+   *
    * @param name Name of the mark
    */
   public getMarkAttrs(name: string) {
@@ -314,7 +314,7 @@ export class Editor extends EventEmitter {
 
   /**
    * Returns if the currently selected node or mark is active.
-   * 
+   *
    * @param name Name of the node or mark
    * @param attrs Attributes of the node or mark
    */
