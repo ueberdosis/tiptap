@@ -1,5 +1,19 @@
 # Schema
 
+## Get the ProseMirror schema without initializing the editor
+
+```js
+import { getSchema } from '@tiptap/core'
+
+const schema = getSchema(extensions)
+```
+
+## Generate HTML from ProseMirror JSON without initializing the editor
+
+<demo name="Api/Schema" />
+
+## Old Content
+
 :::warning Out of date
 This content is written for tiptap 1 and needs an update.
 :::
