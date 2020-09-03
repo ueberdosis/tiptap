@@ -1,5 +1,9 @@
 # Roadmap
 
+## New features
+
+* generate schema without initializing tiptap, to make SSR easier (e. g. `getSchema([new Doc(), new Paragraph()])`)
+
 ## Requested features
 
 * Basic Styling
