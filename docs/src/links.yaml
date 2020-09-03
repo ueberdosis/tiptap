@@ -185,11 +185,11 @@
           link: /api/extensions/underline
           draft: true
     - title: Commands
-      link: /api/commands/
+      link: /api/commands
       draft: true
     - title: Events
-      link: /api/events/
+      link: /api/events
       draft: true
     - title: Schema
-      link: /api/schema/
+      link: /api/schema
       draft: true
