@@ -804,7 +804,7 @@ class ExtensionTest<Options, Extends extends ExtensionExtends> {
   configs: any = {}
   options: Partial<Options> = {}
 
-  public storeConfig(key: string, value: any, stategy: ('extend' | 'overwrite')) {
+  protected storeConfig(key: string, value: any, stategy: ('extend' | 'overwrite')) {
     const item = {
       stategy,
       value,
@@ -826,13 +826,13 @@ class ExtensionTest<Options, Extends extends ExtensionExtends> {
     this.storeConfig('name', value, 'overwrite')
     return this
   }
-  
+
   public extend<T extends Extract<keyof Extends, string>>(key: T, value: Extends[T]) {
     this.storeConfig(key, value, 'extend')
     return this
   }
 
-  create(options?: Partial<Options>) {
+  public create(options?: Partial<Options>) {
     const self = this
     
     return function<Options2 = Options>(options2?: Partial<Options>): ExtensionTest<Options2, Extends> {
