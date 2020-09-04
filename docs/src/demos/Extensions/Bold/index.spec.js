@@ -10,13 +10,23 @@ context('/api/extensions/bold', () => {
   })
 
   describe('bold', () => {
-    it('should make the selected text bold', () => {
+    it('the button should make the selected text bold', () => {
       cy.get('.demo__preview button:first').click({ force: true })
       cy.get('.ProseMirror').contains('strong', 'Example Text')
     })
 
-    it('should toggle the selected text bold', () => {
+    it('the button should toggle the selected text bold', () => {
       cy.get('.demo__preview button:first').dblclick({ force: true })
+      cy.get('.ProseMirror strong').should('not.exist')
+    })
+
+    it('the keyboard shortcut should make the selected text bold', () => {
+      cy.get('.ProseMirror').type('{meta}b', {force: true})
+      cy.get('.ProseMirror').contains('strong', 'Example Text')
+    })
+
+    it('the button should toggle the selected text bold', () => {
+      cy.get('.ProseMirror').type('{meta}b', {force: true}).type('{meta}b', {force: true})
       cy.get('.ProseMirror strong').should('not.exist')
     })
   })
