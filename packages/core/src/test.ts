@@ -1,7 +1,8 @@
 import { NodeSpec } from "prosemirror-model";
 import deepmerge from 'deepmerge'
-import { merge } from 'merge-anything'
 import collect from 'collect.js'
+import { Editor, CommandSpec } from '@tiptap/core'
+import cloneDeep from 'clone-deep'
 
 // type RecursivePartial<T> = {
 //   [P in keyof T]?:
@@ -778,33 +779,23 @@ let three = copyProperties(one, two)
 
 
 
-
-
-function cloneInstance<T>(instance: T): T {
-  return Object.assign(
-    Object.create(
-      Object.getPrototypeOf(instance),
-    ),
-    JSON.parse(JSON.stringify(instance)),
-  )
-}
-
-
-type Bla = {
+interface ExtensionCallback {
+  editor: Editor
   name: string
-  options: any
 }
 
 interface ExtensionExtends {
   name: string
+  options: AnyObject
+  commands: (params: ExtensionCallback) => CommandSpec
 }
 
 class ExtensionTest<Options, Extends extends ExtensionExtends> {
   type = 'extension'
   configs: any = {}
-  options: Partial<Options> = {}
+  usedOptions: Partial<Options> = {}
 
-  protected storeConfig(key: string, value: any, stategy: ('extend' | 'overwrite')) {
+  protected storeConfig(key: string, value: any, stategy: 'extend' | 'overwrite') {
     const item = {
       stategy,
       value,
@@ -817,13 +808,23 @@ class ExtensionTest<Options, Extends extends ExtensionExtends> {
     }
   }
 
-  private storeOptions(options: Partial<Options>) {
-    this.options = { ...this.options, ...options }
+  private useOptions(options: Partial<Options>) {
+    this.usedOptions = { ...this.usedOptions, ...options }
     return this
   }
 
   public name(value: Extends['name']) {
     this.storeConfig('name', value, 'overwrite')
+    return this
+  }
+
+  public options(value: Options) {
+    this.storeConfig('options', value, 'overwrite')
+    return this
+  }
+
+  public commands(value: NodeExtends['commands']) {
+    this.storeConfig('commands', value, 'overwrite')
     return this
   }
 
@@ -836,14 +837,14 @@ class ExtensionTest<Options, Extends extends ExtensionExtends> {
     const self = this
     
     return function<Options2 = Options>(options2?: Partial<Options>): ExtensionTest<Options2, Extends> {
-      return cloneInstance(self as unknown as ExtensionTest<Options2, Extends>)
-        .storeOptions({...options, ...options2} as Options2)
+      return cloneDeep(self as unknown as ExtensionTest<Options2, Extends>, true)
+        .useOptions({...options, ...options2} as Options2)
     }
   }
 }
 
 interface NodeExtends extends ExtensionExtends {
-  schema: (bla: Bla) => NodeSpec
+  schema: (params: ExtensionCallback) => NodeSpec
 }
 
 class NodeTest<Options> extends ExtensionTest<Options, NodeExtends> {
@@ -860,32 +861,43 @@ interface TestOptions {
 }
 
 const Suggestion = new NodeTest<TestOptions>()
+  .name('suggestion')
+  .options({
+    trigger: '@'
+  })
   .schema(() => ({
     toDOM: () => ['div', 0]
   }))
-  .name('suggestion')
+  .commands(({ editor, name }) => ({
+    [name]: next => () => {
+      editor.toggleMark(name)
+      next()
+    },
+  }))
   .extend('schema', () => ({
-    toDOM: () => ['div', 0],
+    toDOM: () => ['span', 0],
   }))
   .create()
 
-interface MentionOptions {
-  trigger: string
-  foo: string
-}
+console.log(Suggestion(), Suggestion().name('bla').create()())
 
-const Mention = Suggestion<MentionOptions>()
-  .name('mention')
-  .create({
-    trigger: '@'
-  })
+// interface MentionOptions {
+//   trigger: string
+//   foo: string
+// }
 
-const Hashtag = Suggestion({
-  trigger: '#'
-})
-.create()
+// const Mention = Suggestion<MentionOptions>()
+//   .name('mention')
+//   .create({
+//     trigger: '@'
+//   })
 
-console.log(Mention(), Hashtag())
+// const Hashtag = Suggestion({
+//   trigger: '#'
+// })
+// .create()
+
+// console.log(Mention(), Hashtag())
 
 
 

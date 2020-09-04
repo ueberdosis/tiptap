@@ -12,8 +12,10 @@
     "dist"
   ],
   "dependencies": {
+    "@types/clone-deep": "^4.0.1",
     "@types/prosemirror-dropcursor": "^1.0.0",
     "@types/prosemirror-gapcursor": "^1.0.1",
+    "clone-deep": "^4.0.1",
     "collect.js": "^4.28.2",
     "deepmerge": "^4.2.2",
     "prosemirror-commands": "^1.1.3",
