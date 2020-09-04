@@ -795,17 +795,11 @@ type Bla = {
   options: any
 }
 
-type TypeName = "name" | "schema"; 
+interface ExtensionExtends {
+  name: string
+}
 
-type ObjectType<T> = 
-  T extends "name" ? string :
-  T extends "schema" ? (bla: Bla) => NodeSpec :
-  never;
-
-
-
-
-class ExtensionTest<Options> {
+class ExtensionTest<Options, Extends extends ExtensionExtends> {
   type = 'extension'
   configs: any = {}
   options: Partial<Options> = {}
@@ -828,12 +822,12 @@ class ExtensionTest<Options> {
     return this
   }
 
-  public name(value: string) {
+  public name(value: Extends['name']) {
     this.storeConfig('name', value, 'overwrite')
     return this
   }
-
-  public extend<T extends TypeName>(key: T, value: ObjectType<T>) {
+  
+  public extend<T extends Extract<keyof Extends, string>>(key: T, value: Extends[T]) {
     this.storeConfig(key, value, 'extend')
     return this
   }
@@ -841,17 +835,21 @@ class ExtensionTest<Options> {
   create(options?: Partial<Options>) {
     const self = this
     
-    return function<Options2 = Options>(options2?: Partial<Options>): ExtensionTest<Options2> {
-      return cloneInstance(self as unknown as ExtensionTest<Options2>)
+    return function<Options2 = Options>(options2?: Partial<Options>): ExtensionTest<Options2, Extends> {
+      return cloneInstance(self as unknown as ExtensionTest<Options2, Extends>)
         .storeOptions({...options, ...options2} as Options2)
     }
   }
 }
 
-class NodeTest<Options> extends ExtensionTest<Options> {
+interface NodeExtends extends ExtensionExtends {
+  schema: (bla: Bla) => NodeSpec
+}
+
+class NodeTest<Options> extends ExtensionTest<Options, NodeExtends> {
   type = 'node'
 
-  public schema(value: (bla: Bla) => NodeSpec) {
+  public schema(value: NodeExtends['schema']) {
     this.storeConfig('schema', value, 'overwrite')
     return this
   }
@@ -866,6 +864,9 @@ const Suggestion = new NodeTest<TestOptions>()
     toDOM: () => ['div', 0]
   }))
   .name('suggestion')
+  .extend('schema', () => ({
+    toDOM: () => ['div', 0],
+  }))
   .create()
 
 interface MentionOptions {
