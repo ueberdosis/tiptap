@@ -5,12 +5,13 @@ import { inputRules } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Editor } from './Editor'
-import Extension from './Extension'
 import Node from './Node'
 import Mark from './Mark'
 import capitalize from './utils/capitalize'
-
-type Extensions = (Extension | Node | Mark)[]
+import { Extensions } from './types'
+import getTopNodeFromExtensions from './getTopNodeFromExtensions'
+import getNodesFromExtensions from './getNodesFromExtensions'
+import getMarksFromExtensions from './getMarksFromExtensions'
 
 export default class ExtensionManager {
 
@@ -30,25 +31,15 @@ export default class ExtensionManager {
   }
 
   get topNode() {
-    const topNode = collect(this.extensions).firstWhere('topNode', true)
-
-    if (topNode) {
-      return topNode.name
-    }
+    return getTopNodeFromExtensions(this.extensions)
   }
 
   get nodes(): any {
-    return collect(this.extensions)
-      .where('extensionType', 'node')
-      .mapWithKeys((extension: Node) => [extension.name, extension.schema()])
-      .all()
+    return getNodesFromExtensions(this.extensions)
   }
 
   get marks(): any {
-    return collect(this.extensions)
-      .where('extensionType', 'mark')
-      .mapWithKeys((extension: Mark) => [extension.name, extension.schema()])
-      .all()
+    return getMarksFromExtensions(this.extensions)
   }
 
   get plugins(): Plugin[] {
