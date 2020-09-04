@@ -12,6 +12,7 @@ export { default as markPasteRule } from './src/pasteRules/markPasteRule'
 
 export { default as getSchema } from './src/utils/getSchema'
 export { default as generateHtml } from './src/utils/generateHtml'
+export { default as getHtmlFromFragment } from './src/utils/getHtmlFromFragment'
 export { default as getTopNodeFromExtensions } from './src/utils/getTopNodeFromExtensions'
 export { default as getNodesFromExtensions } from './src/utils/getNodesFromExtensions'
 export { default as getMarksFromExtensions } from './src/utils/getMarksFromExtensions'

@@ -10,6 +10,7 @@ import getNodeAttrs from './utils/getNodeAttrs'
 import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
+import getHtmlFromFragment from './utils/getHtmlFromFragment'
 import ExtensionManager from './ExtensionManager'
 import Extension from './Extension'
 import Node from './Node'
@@ -357,14 +358,7 @@ export class Editor extends EventEmitter {
    * Get the document as HTML.
    */
   public html() {
-    const div = document.createElement('div')
-    const fragment = DOMSerializer
-      .fromSchema(this.schema)
-      .serializeFragment(this.state.doc.content)
-
-    div.appendChild(fragment)
-
-    return div.innerHTML
+    return getHtmlFromFragment(this.state.doc, this.schema)
   }
 
   /**
