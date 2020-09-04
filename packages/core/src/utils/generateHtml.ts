@@ -1,10 +1,8 @@
-import Extension from '../Extension'
-import Node from '../Node'
-import Mark from '../Mark'
 import getSchema from './getSchema'
-import { Node as ProseMirrorNode, DOMSerializer } from "prosemirror-model"
+import { Node as ProseMirrorNode, DOMSerializer } from 'prosemirror-model'
+import { Extensions } from '../types'
 
-export default function generateHtml(doc: object, extensions: (Extension | Node | Mark)[]): string {
+export default function generateHtml(doc: object, extensions: Extensions): string {
   const schema = getSchema(extensions)
 
   let contentNode = ProseMirrorNode.fromJSON(schema, doc)

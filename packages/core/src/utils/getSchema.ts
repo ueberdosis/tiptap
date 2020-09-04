@@ -3,8 +3,9 @@ import Node from '../Node'
 import Mark from '../Mark'
 import { Schema } from 'prosemirror-model'
 import collect from 'collect.js'
+import { Extensions } from '../types'
 
-export default function getSchema(extensions: (Extension | Node | Mark)[]): Schema {
+export default function getSchema(extensions: Extensions): Schema {
   return new Schema({
     topNode: getTopNodeFromExtensions(extensions),
     nodes: getNodesFromExtensions(extensions),
