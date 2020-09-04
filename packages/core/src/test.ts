@@ -879,6 +879,27 @@ const Suggestion = new NodeTest<TestOptions>()
   }))
   .create()
 
+// const Suggestion2 = new NodeTesttt({
+//   name: 'suggestion',
+//   options: {
+//     trigger: '@',
+//   },
+//   schema: () => ({
+//     toDOM: () => ['div', 0]
+//   }),
+//   commands: (({ editor, name }) => ({
+//     [name]: next => () => {
+//       editor.toggleMark(name)
+//       next()
+//     },
+//   }))
+// })
+// .extend({
+//   schema: () => ({
+//     toDOM: () => ['span', 0],
+//   }),
+// })
+
 console.log(Suggestion(), Suggestion().name('bla').create()())
 
 // interface MentionOptions {
