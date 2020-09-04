@@ -27,7 +27,7 @@ context('/api/extensions/bold', () => {
       cy.get('.ProseMirror').contains('strong', 'Example Text')
     })
 
-    it('the button should toggle the selected text bold', () => {
+    it('the keyboard shortcut should toggle the selected text bold', () => {
       const shortcut = Cypress.platform === 'darwin' ? '{meta}b' : '{ctrl}b'
 
       cy.get('.ProseMirror').type(shortcut, {force: true}).type(shortcut, {force: true})
