@@ -4,7 +4,9 @@
 
 <script>
 import { generateHtml } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/vue-starter-kit'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 
 export default {
 
@@ -19,7 +21,7 @@ export default {
           },
           'content': [{
             'type': 'text',
-            'text': 'My sample text'
+            'text': 'Example Text'
           }]
         }]
       }
@@ -28,9 +30,11 @@ export default {
 
   computed: {
     html() {
-      const extensions = defaultExtensions()
-
-      return generateHtml(this.doc, extensions)
+      return generateHtml(this.doc, [
+        new Document(),
+        new Paragraph(),
+        new Text(),
+      ])
     }
   }
 
