@@ -2,9 +2,11 @@
 
 If you need to render the content on the server side, e. g. for a blog post that was written with tiptap, you’ll probably need a way to do just that without an actual editor instance.
 
-<demo name="Api/Schema" />
+:::warning Work in progress
+Currently, that works only in the browser (client side), but we’re working on making this available to Node.js (to use it on the server side).
+:::
 
-That should work in the browser (client side) and in Node.js (browser side).
+<demo name="Api/Schema" />
 
 ## Converting JSON<>HTML with PHP
 
