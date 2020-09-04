@@ -33,6 +33,7 @@
 
 ## Ideas
 
+* A `@tiptap/extensions` package would be helpful to make imports easier.
 * Add more shorcuts:
     * Ctrl+I → Italic ✅
     * Ctrl+B → Bold ✅
