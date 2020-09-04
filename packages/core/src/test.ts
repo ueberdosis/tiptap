@@ -1,5 +1,7 @@
 import { NodeSpec } from "prosemirror-model";
 import deepmerge from 'deepmerge'
+import { merge } from 'merge-anything'
+import collect from 'collect.js'
 
 // type RecursivePartial<T> = {
 //   [P in keyof T]?:
@@ -286,7 +288,12 @@ import deepmerge from 'deepmerge'
 
 
 
-
+type RecursivePartial<T> = {
+  [P in keyof T]?:
+    T[P] extends (infer U)[] ? RecursivePartial<U>[] :
+    T[P] extends object ? RecursivePartial<T[P]> :
+    T[P];
+}
 
 type AnyObject = {
   [key: string]: any
@@ -294,7 +301,7 @@ type AnyObject = {
 
 type ExtensionConfig<Options = AnyObject> = {
   name: string
-  defaultOptions: Options
+  defaultOptions: Options | (() => Options)
 }
 
 type NodeConfig<Options = AnyObject> = ExtensionConfig<Options> & {
@@ -304,7 +311,7 @@ type NodeConfig<Options = AnyObject> = ExtensionConfig<Options> & {
 
 
 class BaseExtension<Options, Config> {
-  options!: Options
+  options!: Partial<Options>
 
   defaultConfig = {
     name: 'extension',
@@ -336,13 +343,10 @@ class BaseExtension<Options, Config> {
   }
 
   set(options: Partial<Options>) {
-    // this.options = {
-    //   ...this.options,
-    //   ...options,
-    // }
+    this.options = options
   }
 
-  extend(config: Partial<Config>) {
+  extend(config: RecursivePartial<Config>) {
     this.storeConfig(config, 'extend')
 
     return this
@@ -382,11 +386,13 @@ class Node<Options> extends BaseExtension<Options, NodeConfig<Options>> {
 
 type HeadingOptions = {
   levels: number[]
+  bla: string
 }
 
 const Headingg = new Node<HeadingOptions>({
   name: 'heading',
   defaultOptions: {
+    bla: 'hey',
     levels: [1, 2, 3, 4, 5, 6]
   },
 })
@@ -395,8 +401,560 @@ const Headingg = new Node<HeadingOptions>({
 //   levels: [1, 2]
 // })
 
-Headingg.extend({
+const h2 = Headingg.extend({
   name: 'headliiiine',
+  defaultOptions() {
+    console.log('this:', this)
+    return {
+      levels: [5, 6]
+    }
+  },
 })
 
-console.log(Headingg)
+const h3 = h2.extend({
+  name: 'wtf',
+})
+
+h3.set({
+  levels: [1, 2]
+})
+
+// const entries = Object
+//   .entries(h3.configs)
+//   .map(([key, value]) => {
+
+//     const mergedValue = value.reduce((acc: any, item: any) => {
+//       const { stategy, value } = item
+//       const called = typeof value === 'function' ? value() : value
+//       const isObject = called !== null && typeof called === 'object'
+
+//       if (isObject && stategy === 'extend') {
+//         return deepmerge(acc, called, {
+//           arrayMerge: (destinationArray, sourceArray, options) => sourceArray
+//         })
+//       }
+
+//       return called
+//     }, {})
+
+//     return [key, mergedValue]
+//   })
+
+//   console.log(entries)
+
+// const bla = Object.fromEntries(entries)
+
+// console.log(h3, bla)
+
+// interface Testi {
+//   name: string
+//   defaultOptions: {
+//     levels: number
+//   }
+// }
+
+// class Test implements Testi {
+
+//   name = '12'
+
+//   defaultOptions = {
+//     le
+//   }
+
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const Heading = Extension(options => ({
+//   defaultOptions: {
+//     name: 'heading',
+//   },
+//   schema: {
+//     parseDOM: options.levels
+//       .map(level => ({
+//         tag: `h${level}`,
+//         attrs: { level },
+//       })),
+//   },
+// }))
+
+// const Heading = new Node()
+//   .name('heading')
+//   .options({
+//     levels: [1, 2, 3]
+//   })
+//   .config(({ options }) => ({
+//     schema: {
+//       parseDOM: options.levels
+//         .map(level => ({
+//           tag: `h${level}`,
+//           attrs: { level },
+//         })),
+//       toDOM: node => [`h${node.attrs.level}`, 0],
+//     },
+//     plugins: {
+//       get() {
+
+
+//       },
+//     },
+//   }))
+
+// Heading
+//   .extendOptions({
+//     class: 'my-heading'
+//   })
+//   .extendConfig(({ options }) => ({
+//     schema: {
+//       toDOM: node => [`h${node.attrs.level}`, { class: options.class }, 0],
+//     },
+//   }))
+
+// @ts-ignore
+function copyProperties(target, source) {
+  Object.getOwnPropertyNames(source).forEach(name => {
+      Object.defineProperty(
+          target,
+          name,
+          // @ts-ignore
+          Object.getOwnPropertyDescriptor(source, name)
+      );
+  });
+  return target;
+}
+
+// @ts-ignore
+// function mix (...sources) {
+//   const result = {}
+//   for (const source of sources) {
+//     const props = Object.keys(source)
+//     for (const prop of props) {
+//       const descriptor = Object.getOwnPropertyDescriptor(source, prop)
+//       // @ts-ignore
+//       Object.defineProperty(result, prop, descriptor)
+//     }
+//   }
+//   return result
+// }
+
+let one = {
+  count: 1,
+  // arr: [1],
+  get multiply() {
+    // console.log(this.count)
+    return this.count * 2
+  },
+  // nested: {
+  //   foo: 'bar',
+  // },
+  // get nested() {
+  //   return {
+  //     foo: 'bar'
+  //   }
+  // }
+}
+
+let two = {
+  count: 2,
+  // arr: [2],
+  get multiply() {
+    // console.log(this.count)
+    return this.count * 3
+  },
+}
+
+// let three = {
+//   ...one,
+//   ...two
+// }
+
+// let three = copyProperties(one, two)
+let three = copyProperties(one, two)
+// let three = deepmerge(one, two, {clone: false})
+// let three = merge(one, two)
+// console.log(three)
+
+
+
+// class Test {
+//   constructor() {
+//     // this.op = config
+//     // @ts-ignore
+//     this.name = 'test'
+//   }
+
+//   config(fn: any) {
+//     this.config = fn.bind(this)()
+
+//     return this
+//   }
+
+//   extend(fn: any) {
+//     this.config = deepmerge(this.config, fn.bind(this)())
+
+//     return this
+//   }
+// }
+
+
+// const bla = new Test()
+//   .config(function() {
+//     //@ts-ignore
+//     // console.log(this)
+//     return {
+//       schema: {
+//         one: 1,
+//         //@ts-ignore
+//         foo: this.name + ' bar',
+//       },
+//     }
+//   })
+//   .extend(function() {
+//     //@ts-ignore
+//     // console.log(this)
+//     return {
+//       schema: {
+//         two: 2,
+//         //@ts-ignore
+//         foo: this.name + ' barrrrr',
+//       },
+//     }
+//   })
+//   // .extend(() => ({
+//   //   schema: {
+//   //     two: 2,
+//   //     //@ts-ignore
+//   //     foo: this.name + ' barrrrr',
+//   //   },
+//   // }))
+
+// console.log(bla.config)
+
+
+
+
+// const Heading = new Node()
+//   .name('heading')
+//   .options({
+//     levels: [1, 2, 3]
+//   })
+//   .config(({ name, options }) => ({
+//     schema: {
+//       parseDOM: options.levels.map(level => ({
+//         tag: `h${level}`,
+//         attrs: { level },
+//       })),
+//       toDOM: node => [`h${node.attrs.level}`, 0],
+//     },
+//   }))
+
+// const CustomHeading = Heading.extend(({ name, options }) => ({
+//   schema: {
+//     toDOM: node => [`h${node.attrs.level}`, { class: 'custom-class' }, 0],
+//   },
+// }))
+
+
+// const Heading = new Node()
+//   .name('heading')
+//   .options({
+//     levels: [1, 2, 3]
+//   })
+//   .schema(options => ({
+//     parseDOM: options.levels.map(level => ({
+//       tag: `h${level}`,
+//       attrs: { level },
+//     })),
+//     toDOM: node => [`h${node.attrs.level}`, 0],
+//   }))
+
+// const CustomHeading = Heading.extend('schema', options => ({
+//   toDOM: node => [`h${node.attrs.level}`, { class: 'custom-class' }, 0],
+// }))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// type Bla = {
+//   name: string
+//   options: any
+// }
+
+// type TypeName = "name" | "schema"; 
+
+// type ObjectType<T> = 
+//   T extends "name" ? string :
+//   T extends "schema" ? (bla: Bla) => NodeSpec :
+//   never;
+
+// class Test {
+//   configs: any = {}
+
+//   storeConfig(key: string, value: any, stategy: ('extend' | 'overwrite')) {
+//     const item = {
+//       stategy,
+//       value,
+//     }
+
+//     if (this.configs[key]) {
+//       this.configs[key].push(item)
+//     } else {
+//       this.configs[key] = [item]
+//     }
+//   }
+
+//   name(value: string) {
+//     this.storeConfig('name', value, 'overwrite')
+//     return this
+//   }
+
+//   schema(value: (bla: Bla) => NodeSpec) {
+//     this.storeConfig('schema', value, 'overwrite')
+//     return this
+//   }
+
+//   extend<T extends TypeName>(key: T, value: ObjectType<T>) {
+//     this.storeConfig(key, value, 'extend')
+//     return this
+//   }
+
+//   clone() {
+//     return Object.assign(
+//       Object.create(
+//         // Set the prototype of the new object to the prototype of the instance.
+//         // Used to allow new object behave like class instance.
+//         Object.getPrototypeOf(this),
+//       ),
+//       // Prevent shallow copies of nested structures like arrays, etc
+//       JSON.parse(JSON.stringify(this)),
+//     )
+//   }
+// }
+
+// const Bla = new Test()
+//   .name('hey')
+  
+// const Bla2 = Bla
+//   .clone()
+//   .name('ho')
+
+// console.log(Bla, Bla2)
+
+
+
+
+
+
+
+
+function cloneInstance<T>(instance: T): T {
+  return Object.assign(
+    Object.create(
+      Object.getPrototypeOf(instance),
+    ),
+    JSON.parse(JSON.stringify(instance)),
+  )
+}
+
+
+type Bla = {
+  name: string
+  options: any
+}
+
+type TypeName = "name" | "schema"; 
+
+type ObjectType<T> = 
+  T extends "name" ? string :
+  T extends "schema" ? (bla: Bla) => NodeSpec :
+  never;
+
+
+
+
+class ExtensionTest<Options> {
+  type = 'extension'
+  configs: any = {}
+  options: Partial<Options> = {}
+
+  public storeConfig(key: string, value: any, stategy: ('extend' | 'overwrite')) {
+    const item = {
+      stategy,
+      value,
+    }
+
+    if (this.configs[key]) {
+      this.configs[key].push(item)
+    } else {
+      this.configs[key] = [item]
+    }
+  }
+
+  private storeOptions(options: Partial<Options>) {
+    this.options = { ...this.options, ...options }
+    return this
+  }
+
+  public name(value: string) {
+    this.storeConfig('name', value, 'overwrite')
+    return this
+  }
+
+  public extend<T extends TypeName>(key: T, value: ObjectType<T>) {
+    this.storeConfig(key, value, 'extend')
+    return this
+  }
+
+  create(options?: Partial<Options>) {
+    const self = this
+    
+    return function<Options2 = Options>(options2?: Partial<Options>): ExtensionTest<Options2> {
+      return cloneInstance(self as unknown as ExtensionTest<Options2>)
+        .storeOptions({...options, ...options2} as Options2)
+    }
+  }
+}
+
+class NodeTest<Options> extends ExtensionTest<Options> {
+  type = 'node'
+
+  public schema(value: (bla: Bla) => NodeSpec) {
+    this.storeConfig('schema', value, 'overwrite')
+    return this
+  }
+}
+
+interface TestOptions {
+  trigger: string
+}
+
+const Suggestion = new NodeTest<TestOptions>()
+  .schema(() => ({
+    toDOM: () => ['div', 0]
+  }))
+  .name('suggestion')
+  .create()
+
+interface MentionOptions {
+  trigger: string
+  foo: string
+}
+
+const Mention = Suggestion<MentionOptions>()
+  .name('mention')
+  .create({
+    trigger: '@'
+  })
+
+const Hashtag = Suggestion({
+  trigger: '#'
+})
+.create()
+
+console.log(Mention(), Hashtag())
+
+
+
+
+
+// // create extension
+// const Suggestion = new Node()
+//   .name('suggestion')
+//   .options({
+//     trigger: '@',
+//   })
+//   .create()
+
+// // use extension
+// new Editor({
+//   extensions: [
+//     Suggestion(),
+//   ],
+// })
+
+// // use extension with setting options
+// new Editor({
+//   extensions: [
+//     Suggestion({
+//       trigger: '@',
+//     }),
+//   ],
+// })
+
+// // create extended nodes
+// const Mention = Suggestion()
+//   .name('mention')
+//   .create({
+//     trigger: '@'
+//   })
+// const Hashtag = Suggestion()
+//   .name('hashtag')
+//   .create({
+//     trigger: '#'
+//   })
+
+// new Editor({
+//   extensions: [
+//     Mention(),
+//     Hashtag(),
+//   ],
+// })
+
+// // extend nodes
+// const Whatever = Suggestion()
+//   .extend('options', {
+//     foo: 'bar',
+//   })
+//   .create()
+
+// // btw: this...
+// Suggestion({
+//   trigger: '@'
+// })
+
+// // ...is equivalent to
+// Suggestion().create({
+//   trigger: '@'
+// })
+
+// Suggestion()
+//   .name('mention')
+
+// // would be the same
+// Suggestion()
+//   .override('name', 'mention')
+
+
