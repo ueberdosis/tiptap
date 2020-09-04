@@ -7,13 +7,13 @@ export default function generateHtml(doc: object, extensions: Extensions): strin
 
   let contentNode = ProseMirrorNode.fromJSON(schema, doc)
   let temporaryDocument = document.implementation.createHTMLDocument()
-  const div = temporaryDocument.createElement('div')
+  const container = temporaryDocument.createElement('div')
 
   const fragment = DOMSerializer
     .fromSchema(schema)
     .serializeFragment(contentNode.content)
 
-  div.appendChild(fragment)
+  container.appendChild(fragment)
 
-  return div.innerHTML
+  return container.innerHTML
 }
