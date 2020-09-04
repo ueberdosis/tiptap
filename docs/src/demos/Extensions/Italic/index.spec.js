@@ -19,5 +19,15 @@ context('/api/extensions/italic', () => {
       cy.get('.demo__preview button:first').dblclick({ force: true })
       cy.get('.ProseMirror em').should('not.exist')
     })
+
+    it('the keyboard shortcut should make the selected text italic', () => {
+      cy.get('.ProseMirror').type('{meta}i', {force: true})
+      cy.get('.ProseMirror').contains('em', 'Example Text')
+    })
+
+    it('the button should toggle the selected text italic', () => {
+      cy.get('.ProseMirror').type('{meta}i', {force: true}).type('{meta}i', {force: true})
+      cy.get('.ProseMirror em').should('not.exist')
+    })
   })
 })
