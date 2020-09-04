@@ -1,14 +1,28 @@
 # Schema
 
-## Get the ProseMirror schema without initializing the editor
+Tiptap is based on ProseMirror and just like ProseMirror does, tiptap works with an underlying schema. This schema has all the information about nodes, marks and your custom extension. It’s used to convert your content to HTML and vice-versa. Tiptap handles the schema for you, but there are a few use cases where you need the schema, without an actual editor.
+
+## Get the underlying ProseMirror schema
+
+If you just want to have the schema without initializing an actual editor, you can use the `getSchema` function. This function needs an array of available extensions and generates a ProseMirror schema for you:
 
 ```js
 import { getSchema } from '@tiptap/core'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 
-const schema = getSchema(extensions)
+const schema = getSchema([
+  new Document,
+  new Paragraph,
+  new Text,
+  // add more extensions here
+])
 ```
 
-## Generate HTML from ProseMirror JSON without initializing the editor
+You might need this on the server side, if you’re using the collaborative text editing features of tiptap.
+
+## Generate HTML from ProseMirror JSON
 
 <demo name="Api/Schema" />
 
