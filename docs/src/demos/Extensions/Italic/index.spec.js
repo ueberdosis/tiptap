@@ -21,12 +21,16 @@ context('/api/extensions/italic', () => {
     })
 
     it('the keyboard shortcut should make the selected text italic', () => {
-      cy.get('.ProseMirror').type('{meta}i', {force: true})
+      const shortcut = Cypress.platform === 'darwin' ? '{meta}i' : '{ctrl}i'
+
+      cy.get('.ProseMirror').type(shortcut, {force: true})
       cy.get('.ProseMirror').contains('em', 'Example Text')
     })
 
     it('the button should toggle the selected text italic', () => {
-      cy.get('.ProseMirror').type('{meta}i', {force: true}).type('{meta}i', {force: true})
+      const shortcut = Cypress.platform === 'darwin' ? '{meta}i' : '{ctrl}i'
+
+      cy.get('.ProseMirror').type(shortcut, {force: true}).type(shortcut, {force: true})
       cy.get('.ProseMirror em').should('not.exist')
     })
   })

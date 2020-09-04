@@ -21,12 +21,16 @@ context('/api/extensions/bold', () => {
     })
 
     it('the keyboard shortcut should make the selected text bold', () => {
-      cy.get('.ProseMirror').type('{meta}b', {force: true})
+      const shortcut = Cypress.platform === 'darwin' ? '{meta}b' : '{ctrl}b'
+
+      cy.get('.ProseMirror').type(shortcut, {force: true})
       cy.get('.ProseMirror').contains('strong', 'Example Text')
     })
 
     it('the button should toggle the selected text bold', () => {
-      cy.get('.ProseMirror').type('{meta}b', {force: true}).type('{meta}b', {force: true})
+      const shortcut = Cypress.platform === 'darwin' ? '{meta}b' : '{ctrl}b'
+
+      cy.get('.ProseMirror').type(shortcut, {force: true}).type(shortcut, {force: true})
       cy.get('.ProseMirror strong').should('not.exist')
     })
   })
