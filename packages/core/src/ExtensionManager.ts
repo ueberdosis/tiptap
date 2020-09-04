@@ -9,9 +9,9 @@ import Node from './Node'
 import Mark from './Mark'
 import capitalize from './utils/capitalize'
 import { Extensions } from './types'
-import getTopNodeFromExtensions from './getTopNodeFromExtensions'
-import getNodesFromExtensions from './getNodesFromExtensions'
-import getMarksFromExtensions from './getMarksFromExtensions'
+import getTopNodeFromExtensions from './utils/getTopNodeFromExtensions'
+import getNodesFromExtensions from './utils/getNodesFromExtensions'
+import getMarksFromExtensions from './utils/getMarksFromExtensions'
 
 export default class ExtensionManager {
 
