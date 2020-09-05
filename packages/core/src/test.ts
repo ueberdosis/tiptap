@@ -808,7 +808,7 @@ class ExtensionTest<Options, Extends extends ExtensionExtends> {
     }
   }
 
-  private useOptions(options: Partial<Options>) {
+  public options(options: Partial<Options>) {
     this.usedOptions = { ...this.usedOptions, ...options }
     return this
   }
@@ -818,8 +818,8 @@ class ExtensionTest<Options, Extends extends ExtensionExtends> {
     return this
   }
 
-  public options(value: Options) {
-    this.storeConfig('options', value, 'overwrite')
+  public defaultOptions(value: Options) {
+    this.storeConfig('defaultOptions', value, 'overwrite')
     return this
   }
 
@@ -833,12 +833,12 @@ class ExtensionTest<Options, Extends extends ExtensionExtends> {
     return this
   }
 
-  public create(options?: Partial<Options>) {
+  public create() {
     const self = this
     
-    return function<Options2 = Options>(options2?: Partial<Options>): ExtensionTest<Options2, Extends> {
+    return function<Options2 = Options>(options?: Partial<Options2>): ExtensionTest<Options2, Extends> {
       return cloneDeep(self as unknown as ExtensionTest<Options2, Extends>, true)
-        .useOptions({...options, ...options2} as Options2)
+        .options(options as Options2)
     }
   }
 }
@@ -862,7 +862,7 @@ interface TestOptions {
 
 const Suggestion = new NodeTest<TestOptions>()
   .name('suggestion')
-  .options({
+  .defaultOptions({
     trigger: '@'
   })
   .schema(() => ({
@@ -879,28 +879,8 @@ const Suggestion = new NodeTest<TestOptions>()
   }))
   .create()
 
-// const Suggestion2 = new NodeTesttt({
-//   name: 'suggestion',
-//   options: {
-//     trigger: '@',
-//   },
-//   schema: () => ({
-//     toDOM: () => ['div', 0]
-//   }),
-//   commands: (({ editor, name }) => ({
-//     [name]: next => () => {
-//       editor.toggleMark(name)
-//       next()
-//     },
-//   }))
-// })
-// .extend({
-//   schema: () => ({
-//     toDOM: () => ['span', 0],
-//   }),
-// })
-
-console.log(Suggestion(), Suggestion().name('bla').create()())
+// console.log(Suggestion(), Suggestion().name('bla'))
+console.log(Suggestion().options({ trigger: 'jo' }))
 
 // interface MentionOptions {
 //   trigger: string
