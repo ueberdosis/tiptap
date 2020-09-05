@@ -777,7 +777,7 @@ let three = copyProperties(one, two)
 
 
 
-
+type NoInfer<T> = [T][T extends any ? 0 : never];
 
 interface ExtensionCallback {
   editor: Editor
@@ -832,13 +832,17 @@ class ExtensionTest<Options, Extends extends ExtensionExtends> {
     this.storeConfig(key, value, 'extend')
     return this
   }
-
+  
   public create() {
-    const self = this
     
-    return function<Options2 = Options>(options?: Partial<Options2>): ExtensionTest<Options2, Extends> {
-      return cloneDeep(self as unknown as ExtensionTest<Options2, Extends>, true)
-        .options(options as Options2)
+    const self = this
+
+    // type ParentOptions = NoInfer<Options>
+    type ParentOptions = Options
+    
+    return function<Options = ParentOptions>(options?: Partial<NoInfer<Options>>): ExtensionTest<Options, Extends> {
+      return cloneDeep(self as unknown as ExtensionTest<Options, Extends>, true)
+        .options(options as Options)
     }
   }
 }
@@ -879,7 +883,6 @@ const Suggestion = new NodeTest<TestOptions>()
   }))
   .create()
 
-// console.log(Suggestion(), Suggestion().name('bla'))
 console.log(Suggestion().options({ trigger: 'jo' }))
 
 // interface MentionOptions {
