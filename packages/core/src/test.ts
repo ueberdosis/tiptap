@@ -834,25 +834,26 @@ class ExtensionTest<Options, Extends extends ExtensionExtends> {
   }
   
   public create() {
-    
-    const self = this
-
-    // type ParentOptions = NoInfer<Options>
     type ParentOptions = Options
-    
-    return function<Options = ParentOptions>(options?: Partial<NoInfer<Options>>): ExtensionTest<Options, Extends> {
-      return cloneDeep(self as unknown as ExtensionTest<Options, Extends>, true)
-        .options(options as Options)
+
+    return <Options = ParentOptions>(options?: Partial<NoInfer<Options>>) => {
+      return cloneDeep(this, true).options(options as Options)
     }
   }
 }
 
 interface NodeExtends extends ExtensionExtends {
+  topNode: boolean
   schema: (params: ExtensionCallback) => NodeSpec
 }
 
 class NodeTest<Options> extends ExtensionTest<Options, NodeExtends> {
   type = 'node'
+
+  public topNode(value: NodeExtends['topNode'] = true) {
+    this.storeConfig('topNode', value, 'overwrite')
+    return this
+  }
 
   public schema(value: NodeExtends['schema']) {
     this.storeConfig('schema', value, 'overwrite')
@@ -883,7 +884,11 @@ const Suggestion = new NodeTest<TestOptions>()
   }))
   .create()
 
-console.log(Suggestion().options({ trigger: 'jo' }))
+// const Blub = new ExtensionTest<TestOptions, ExtensionExtends>()
+//   .name('blub')
+//   .create()
+
+console.log(Suggestion(), Suggestion().topNode().options({ trigger: 'jo' }))
 
 // interface MentionOptions {
 //   trigger: string
