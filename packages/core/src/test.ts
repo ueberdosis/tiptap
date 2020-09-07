@@ -784,13 +784,13 @@ interface ExtensionCallback {
   name: string
 }
 
-interface ExtensionExtends {
+type ExtensionExtends = {
   name: string
   options: AnyObject
   commands: (params: ExtensionCallback) => CommandSpec
 }
 
-class ExtensionTest<Options, Extends extends ExtensionExtends> {
+class ExtensionTest<Options, Extends extends ExtensionExtends = ExtensionExtends> {
   type = 'extension'
   configs: any = {}
   usedOptions: Partial<Options> = {}
@@ -823,7 +823,7 @@ class ExtensionTest<Options, Extends extends ExtensionExtends> {
     return this
   }
 
-  public commands(value: NodeExtends['commands']) {
+  public commands(value: Extends['commands']) {
     this.storeConfig('commands', value, 'overwrite')
     return this
   }
@@ -884,9 +884,9 @@ const Suggestion = new NodeTest<TestOptions>()
   }))
   .create()
 
-// const Blub = new ExtensionTest<TestOptions, ExtensionExtends>()
-//   .name('blub')
-//   .create()
+const Blub = new ExtensionTest<TestOptions>()
+  .name('bla')
+  .create()
 
 console.log(Suggestion(), Suggestion().topNode().options({ trigger: 'jo' }))
 
