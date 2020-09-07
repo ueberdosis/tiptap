@@ -1,6 +1,4 @@
-> We’re hiring a frontend developer for our agency! 🎉
->
-> Read more: https://ueberdosis.io/frontend-entwicklerin-gesucht (fluent German required)
+> We need your support to maintain this package. 💖 https://github.com/sponsors/ueberdosis
 
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
