@@ -1,4 +1,4 @@
-import { NodeSpec } from "prosemirror-model";
+import { NodeSpec, NodeType } from "prosemirror-model";
 import deepmerge from 'deepmerge'
 import collect from 'collect.js'
 import { Editor, CommandSpec } from '@tiptap/core'
@@ -780,14 +780,14 @@ let three = copyProperties(one, two)
 type NoInfer<T> = [T][T extends any ? 0 : never];
 
 interface ExtensionCallback {
-  editor: Editor
   name: string
+  editor: Editor
 }
 
-type ExtensionExtends = {
+interface ExtensionExtends<Callback = ExtensionCallback> {
   name: string
   options: AnyObject
-  commands: (params: ExtensionCallback) => CommandSpec
+  commands: (params: Callback) => CommandSpec
 }
 
 class ExtensionTest<Options, Extends extends ExtensionExtends = ExtensionExtends> {
@@ -842,9 +842,14 @@ class ExtensionTest<Options, Extends extends ExtensionExtends = ExtensionExtends
   }
 }
 
-interface NodeExtends extends ExtensionExtends {
+interface NodeCallback extends ExtensionCallback {
+  // TODO: fix optional
+  type?: NodeType
+}
+
+interface NodeExtends<Callback = NodeCallback> extends ExtensionExtends<Callback> {
   topNode: boolean
-  schema: (params: ExtensionCallback) => NodeSpec
+  schema: (params: Callback) => NodeSpec
 }
 
 class NodeTest<Options> extends ExtensionTest<Options, NodeExtends> {
