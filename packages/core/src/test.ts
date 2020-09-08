@@ -789,6 +789,11 @@ interface ExtensionExtends<Callback = ExtensionCallback> {
   name: string
   options: AnyObject
   commands: (params: Callback) => CommandSpec
+  inputRules: (params: Callback) => any[]
+  pasteRules: (params: Callback) => any[]
+  keys: (params: Callback) => {
+    [key: string]: Function
+  }
   plugins: (params: Callback) => Plugin[]
 }
 
@@ -827,6 +832,21 @@ class ExtensionTest<Options, Extends extends ExtensionExtends = ExtensionExtends
 
   public commands(value: Extends['commands']) {
     this.storeConfig('commands', value, 'overwrite')
+    return this
+  }
+
+  public keys(value: Extends['keys']) {
+    this.storeConfig('keys', value, 'overwrite')
+    return this
+  }
+
+  public inputRules(value: Extends['inputRules']) {
+    this.storeConfig('inputRules', value, 'overwrite')
+    return this
+  }
+
+  public pasteRules(value: Extends['pasteRules']) {
+    this.storeConfig('pasteRules', value, 'overwrite')
     return this
   }
 
@@ -884,6 +904,9 @@ const Suggestion = new NodeTest<TestOptions>()
   })
   .schema(() => ({
     toDOM: () => ['div', 0]
+  }))
+  .keys(({ editor }) => ({
+    'Mod-i': () => editor.italic(),
   }))
   .commands(({ editor, name }) => ({
     [name]: next => () => {
