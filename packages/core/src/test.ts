@@ -3,6 +3,7 @@ import deepmerge from 'deepmerge'
 import collect from 'collect.js'
 import { Editor, CommandSpec } from '@tiptap/core'
 import cloneDeep from 'clone-deep'
+import { Plugin } from "prosemirror-state";
 
 // type RecursivePartial<T> = {
 //   [P in keyof T]?:
@@ -788,6 +789,7 @@ interface ExtensionExtends<Callback = ExtensionCallback> {
   name: string
   options: AnyObject
   commands: (params: Callback) => CommandSpec
+  plugins: (params: Callback) => Plugin[]
 }
 
 class ExtensionTest<Options, Extends extends ExtensionExtends = ExtensionExtends> {
@@ -825,6 +827,11 @@ class ExtensionTest<Options, Extends extends ExtensionExtends = ExtensionExtends
 
   public commands(value: Extends['commands']) {
     this.storeConfig('commands', value, 'overwrite')
+    return this
+  }
+
+  public plugins(value: Extends['plugins']) {
+    this.storeConfig('plugins', value, 'overwrite')
     return this
   }
 
@@ -884,6 +891,9 @@ const Suggestion = new NodeTest<TestOptions>()
       next()
     },
   }))
+  .plugins(() => [
+    new Plugin({}),
+  ])
   .extend('schema', () => ({
     toDOM: () => ['span', 0],
   }))
