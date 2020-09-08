@@ -1,7 +1,10 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.focus().italic()" :class="{ 'is-active': editor.isActive('italic') }">
-      italic
+    <button @click="editor.focus().undo()">
+      undo
+    </button>
+    <button @click="editor.focus().redo()">
+      redo
     </button>
 
     <editor-content :editor="editor" />
@@ -14,7 +17,7 @@ import { EditorContent } from '@tiptap/vue'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import Italic from '@tiptap/extension-italic'
+import History from '@tiptap/extension-history'
 
 export default {
   components: {
@@ -33,13 +36,10 @@ export default {
         new Document(),
         new Paragraph(),
         new Text(),
-        new Italic(),
+        new History(),
       ],
       content: `
-        <p>This isn’t italic.</p>
-        <p><em>This is italic.</em></p>
-        <p><i>And this.</i></p>
-        <p style="font-style: italic">This as well.</p>
+        <p>Edit this text and press undo to test this extension.</p>
       `,
     })
 

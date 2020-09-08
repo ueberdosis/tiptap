@@ -25,10 +25,15 @@ $menuBreakPoint: 750px;
   }
 
   &__link-list &__link-list {
+    display: none;
     padding-left: 1rem;
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
     border-left: 2px solid rgba($colorBlack, 0.1);
+  }
+
+  .active + &__link-list {
+    display: block;
   }
 
   &__link {
@@ -47,6 +52,10 @@ $menuBreakPoint: 750px;
     &.active {
       color: $colorBlack;
       background-color: rgba($colorBlack, 0.05);
+    }
+
+    &--draft {
+      color: rgba($colorBlack, 0.2);
     }
   }
 

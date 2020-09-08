@@ -45,6 +45,8 @@ export default {
         <p style="font-weight: 999">Up to font weight 999!!!</p>
       `,
     })
+
+    window.editor = this.editor
   },
 
   beforeDestroy() {

@@ -10,7 +10,7 @@ The extension will generate the corresponding `<em>` HTML tags when reading cont
 
 ## Commands
 | Command | Options | Description |
-| ------ | ---- | ---------------- |
+| ------- | ------- | ----------- |
 | italic | — | Mark text italic. |
 
 ## Keybindings
@@ -21,4 +21,4 @@ The extension will generate the corresponding `<em>` HTML tags when reading cont
 [packages/extension-italic/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)
 
 ## Usage
-<Demo name="Extensions/Italic" highlight="3-5,17,36" />
+<demo name="Extensions/Italic" highlight="3-5,17,36" />

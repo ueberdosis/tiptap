@@ -1,55 +1,19 @@
 # Code
-The Code extensions enables you to use the `<code>` HTML tag in the editor.
+The Code extensions enables you to use the `<code>` HTML tag in the editor. If you paste in text with `<code>` tags it will rendered accordingly.
 
 ## Options
 *None*
 
 ## Commands
 | Command | Options | Description |
-| ------ | ---- | ---------------- |
-| code | — | Mark text as code. |
+| ------- | ------- | ----------- |
+| code | — | Mark text as inline code. |
 
 ## Keybindings
 * `Alt` + `
 
+## Source Code
+[packages/extension-code/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code/)
+
 ## Usage
-```markup
-<template>
-  <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <button type="button" :class="{ 'is-active': isActive.code() }" @click="commands.code">
-        Code
-      </button>
-    </editor-menu-bar>
-
-    <editor-content :editor="editor" />
-  </div>
-</template>
-
-<script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { Code } from 'tiptap-extensions'
-
-export default {
-  components: {
-    EditorMenuBar,
-    EditorContent,
-  },
-  data() {
-    return {
-      editor: new Editor({
-        extensions: [
-          new Code(),
-        ],
-        content: `
-          <p>This is some <code>inline code.</code></p>
-        `,
-      }),
-    }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
-  }
-}
-</script>
-```
+<demo name="Extensions/Code" highlight="3-5,17,36" />

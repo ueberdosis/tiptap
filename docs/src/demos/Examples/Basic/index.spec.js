@@ -1,6 +1,11 @@
 context('basic', () => {
   beforeEach(() => {
     cy.visit('/examples/basic')
+
+    cy.get('.ProseMirror').window().then(window => {
+      const { editor } = window
+      editor.setContent('<p>foo</p>')
+    })
   })
 
   describe('export', () => {
@@ -41,7 +46,7 @@ context('basic', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
 
-        editor.insertText('bar')
+        editor.focus(1).insertText('bar')
         cy.get('.ProseMirror p:first').should('contain', 'barfoo')
       })
     })

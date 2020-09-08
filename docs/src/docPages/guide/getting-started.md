@@ -20,7 +20,7 @@ The `@tiptap/vue-starter-kit` includes a few basics you would probably need anyw
 
 Create a new Vue component (you can call it `<Tiptap />`) and add the following content. This is the fastest way to get tiptap up and running with Vue.js. It will give you a very basic version of tiptap, without any buttons. No worries, you will be able to add more functionality soon.
 
-<demo name="GettingStarted" />
+<demo name="Guide/GettingStarted" />
 
 ::: warning Using with Nuxt.js
 If you are using Nuxt.js, note that tiptap needs to run in the client, not on the server. It’s required to wrap the editor in a `<client-only>` tag.

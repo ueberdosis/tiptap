@@ -21,6 +21,7 @@ module.exports = {
         typeName: 'DocPage',
         baseDir: './src/docPages',
         template: './src/templates/DocPage',
+        index: './introduction',
         plugins: [
           '@gridsome/remark-prismjs',
           'remark-container',
@@ -33,6 +34,12 @@ module.exports = {
             }
           }
         }
+      },
+    },
+    {
+      use: 'gridsome-plugin-simple-analytics',
+      options: {
+        domain: 'data.tiptap.dev',
       },
     },
   ],

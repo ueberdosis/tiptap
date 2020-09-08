@@ -10,7 +10,7 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 
 ## Commands
 | Command | Options | Description |
-| ------ | ---- | ---------------- |
+| ------- | ------- | ----------- |
 | bold | — | Mark text bold. |
 
 ## Keybindings
@@ -21,4 +21,4 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 [packages/extension-bold/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/)
 
 ## Usage
-<Demo name="Extensions/Bold" highlight="3-5,17,36" />
+<demo name="Extensions/Bold" highlight="3-5,17,36" />

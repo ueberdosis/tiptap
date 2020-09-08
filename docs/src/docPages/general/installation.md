@@ -41,7 +41,7 @@ yarn add @tiptap/vue @tiptap/vue-starter-kit
 
 We even prepared a Vue.js starter kit for you. That should give you a good headstart. Create a new component and add the following content to get a basic version of tiptap:
 
-<demo name="VueSetup" />
+<demo name="General/Installation" />
 
 ## CodeSandbox
 

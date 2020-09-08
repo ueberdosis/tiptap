@@ -1,58 +1,25 @@
 # History
-Enables history support.
+This extension provides history support. All changes to the document will be tracked and can be removed with `undo`. Undone changes can be applied with `redo` again.
+
+## Options
+*None*
 
 ## Commands
 | Command | Options | Description |
-| ------ | ---- | ---------------- |
-| undo | — | Undo the latest change. |
-| redo | — | Redo the latest change. |
+| ------- | ------- | ----------- |
+| undo | — | Undo the last change. |
+| redo | — | Redo the last change. |
 
 ## Keybindings
-* Windows & Linux: `Control` + `Z` → Undo
-* Windows & Linux: `Shift` + `Control` + `Z` → Redo
-* macOS: `Command` + `Z` → Undo
-* macOS: `Shift` + `Command` + `Z` → Redo
+* Windows & Linux: `Control` + `Z`
+* macOS: `Command` + `Z`
+
+### Redo
+* Windows & Linux: `Shift` + `Control` + `Z`
+* macOS: `Shift` + `Command` + `Z`
+
+## Source Code
+[packages/extension-history/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)
 
 ## Usage
-```markup
-<template>
-  <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <div>
-        <button type="button" @click="commands.undo">
-          Undo
-        </button>
-        <button type="button" @click="commands.redo">
-          Redo
-        </button>
-      </div>
-    </editor-menu-bar>
-
-    <editor-content :editor="editor" />
-  </div>
-</template>
-
-<script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { History } from 'tiptap-extensions'
-
-export default {
-  components: {
-    EditorMenuBar,
-    EditorContent,
-  },
-  data() {
-    return {
-      editor: new Editor({
-        extensions: [
-          new History(),
-        ],
-      }),
-    }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
-  }
-}
-</script>
-```
+<demo name="Extensions/History" highlight="3-8,20,39" />
