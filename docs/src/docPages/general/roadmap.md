@@ -1,5 +1,12 @@
 # Roadmap
 
+## Tasks
+
+1. Refactoring the API & Extension Manager
+2. Improve testing: Add editor instance to the DOM element
+3. Building the first batch of basic extensions (bold, italic), writing tests
+4. Building more complex examples from the extensions
+
 ## New features
 
 * generate schema without initializing tiptap, to make SSR easier (e. g. `getSchema([new Doc(), new Paragraph()])`)
