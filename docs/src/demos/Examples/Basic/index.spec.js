@@ -1,4 +1,4 @@
-context('basic', () => {
+context('/examples/basic', () => {
   beforeEach(() => {
     cy.visit('/examples/basic')
 

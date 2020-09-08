@@ -1,4 +1,4 @@
-context('focus', () => {
+context('/examples/focus', () => {
   beforeEach(() => {
     cy.visit('/examples/focus')
   })
