@@ -36,7 +36,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 | [Strike](/api/extensions/strike) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)
 | [TableCell](/api/extensions/table-cell) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-table-cell/)
 | [TableHeader](/api/extensions/table-header) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-table-header/)
-| [TableTow](/api/extensions/table-row) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-table-row/)
+| [TableRow](/api/extensions/table-row) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-table-row/)
 | [Text](/api/extensions/text) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text/)
 | [TodoItem](/api/extensions/todo-item) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-todo-item/)
 | [TodoList](/api/extensions/todo-list) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-todo-list/)
