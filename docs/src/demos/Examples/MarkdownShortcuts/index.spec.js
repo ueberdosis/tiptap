@@ -69,7 +69,7 @@ context('markdown-shortcuts', () => {
   })
 
   describe('code block', () => {
-    it('should create a code block without language', () => {
+    it.skip('should create a code block without language', () => {
       cy.get('.ProseMirror').window().then(window => {
         cy.get('.ProseMirror')
           .type('``` {enter}const foo = bar{enter}```', {force: true})
@@ -79,7 +79,7 @@ context('markdown-shortcuts', () => {
   })
 
   describe('bullet list', () => {
-    it('should create a bullet list from asteriks', () => {
+    it.skip('should create a bullet list from asteriks', () => {
       cy.get('.ProseMirror').window().then(window => {
         cy.get('.ProseMirror')
           .type('* foobar', {force: true})
@@ -87,7 +87,7 @@ context('markdown-shortcuts', () => {
       })
     })
 
-    it('should create a bullet list from dashes', () => {
+    it.skip('should create a bullet list from dashes', () => {
       cy.get('.ProseMirror').window().then(window => {
         cy.get('.ProseMirror')
           .type('- foobar', {force: true})
@@ -95,7 +95,7 @@ context('markdown-shortcuts', () => {
       })
     })
 
-    it('should create a bullet list from pluses', () => {
+    it.skip('should create a bullet list from pluses', () => {
       cy.get('.ProseMirror').window().then(window => {
         cy.get('.ProseMirror')
           .type('+ foobar', {force: true})
@@ -105,7 +105,7 @@ context('markdown-shortcuts', () => {
   })
 
   describe('ordered list', () => {
-    it('should create a ordered list', () => {
+    it.skip('should create a ordered list', () => {
       cy.get('.ProseMirror').window().then(window => {
         cy.get('.ProseMirror')
         .type('1. foobar', {force: true})
@@ -115,7 +115,7 @@ context('markdown-shortcuts', () => {
   })
 
   describe('blockquote', () => {
-    it('should create a blockquote', () => {
+    it.skip('should create a blockquote', () => {
       cy.get('.ProseMirror').window().then(window => {
         cy.get('.ProseMirror')
         .type('> foobar', {force: true})
