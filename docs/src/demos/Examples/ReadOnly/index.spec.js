@@ -1,4 +1,4 @@
-context('read-only', () => {
+context('/examples/read-only', () => {
   beforeEach(() => {
     cy.visit('/examples/read-only')
   })
