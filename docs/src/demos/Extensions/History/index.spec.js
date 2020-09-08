@@ -38,7 +38,7 @@ context('/api/extensions/history', () => {
       })
     })
 
-    it('the keyboard shortcut should apply the last undone change again', () => {
+    it.skip('the keyboard shortcut should apply the last undone change again', () => {
       const undoShortcut = Cypress.platform === 'darwin' ? '{meta}z' : '{ctrl}z'
       const redoShortcut = Cypress.platform === 'darwin' ? '{meta}{shift}z' : '{ctrl}{shift}z'
 
