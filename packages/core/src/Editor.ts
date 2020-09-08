@@ -11,9 +11,6 @@ import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
 import ExtensionManager from './ExtensionManager'
-import Extension from './Extension'
-import Node from './Node'
-import Mark from './Mark'
 import EventEmitter from './EventEmitter'
 import ComponentRenderer from './ComponentRenderer'
 import defaultPlugins from './plugins'
@@ -30,7 +27,7 @@ type EditorContent = string | JSON | null
 interface EditorOptions {
   element: Element,
   content: EditorContent,
-  extensions: (Extension | Node | Mark)[],
+  extensions: Function[],
   injectCSS: boolean,
   autoFocus: 'start' | 'end' | number | boolean | null,
   editable: boolean,

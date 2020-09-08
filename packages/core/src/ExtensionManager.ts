@@ -10,7 +10,8 @@ import Node from './Node'
 import Mark from './Mark'
 import capitalize from './utils/capitalize'
 
-type Extensions = (Extension | Node | Mark)[]
+// type Extensions = (Extension | Node | Mark)[]
+type Extensions = Function[]
 
 export default class ExtensionManager {
 
@@ -21,11 +22,12 @@ export default class ExtensionManager {
     this.editor = editor
     this.extensions = extensions
     this.extensions.forEach(extension => {
-      extension.bindEditor(editor)
-      editor.on('schemaCreated', () => {
-        this.editor.registerCommands(extension.commands())
-        extension.created()
-      })
+      console.log({extension})
+      // extension.bindEditor(editor)
+      // editor.on('schemaCreated', () => {
+      //   this.editor.registerCommands(extension.commands())
+      //   extension.created()
+      // })
     })
   }
 
@@ -38,82 +40,92 @@ export default class ExtensionManager {
   }
 
   get nodes(): any {
-    return collect(this.extensions)
-      .where('extensionType', 'node')
-      .mapWithKeys((extension: Node) => [extension.name, extension.schema()])
-      .all()
+    // return collect(this.extensions)
+    //   .where('extensionType', 'node')
+    //   .mapWithKeys((extension: Node) => [extension.name, extension.schema()])
+    //   .all()
+    return []
   }
 
   get marks(): any {
-    return collect(this.extensions)
-      .where('extensionType', 'mark')
-      .mapWithKeys((extension: Mark) => [extension.name, extension.schema()])
-      .all()
+    // return collect(this.extensions)
+    //   .where('extensionType', 'mark')
+    //   .mapWithKeys((extension: Mark) => [extension.name, extension.schema()])
+    //   .all()
+    return []
   }
 
   get plugins(): Plugin[] {
-    const plugins = collect(this.extensions)
-      .flatMap(extension => extension.plugins())
-      .toArray()
+    // const plugins = collect(this.extensions)
+    //   .flatMap(extension => extension.plugins())
+    //   .toArray()
 
-    return [
-      ...plugins,
-      ...this.keymaps,
-      ...this.pasteRules,
-      inputRules({ rules: this.inputRules }),
-    ]
+    // return [
+    //   ...plugins,
+    //   ...this.keymaps,
+    //   ...this.pasteRules,
+    //   inputRules({ rules: this.inputRules }),
+    // ]
+
+    return []
   }
 
   get inputRules(): any {
-    return collect(this.extensions)
-      .flatMap(extension => extension.inputRules())
-      .toArray()
+    // return collect(this.extensions)
+    //   .flatMap(extension => extension.inputRules())
+    //   .toArray()
+
+    return {}
   }
 
   get pasteRules(): any {
-    return collect(this.extensions)
-      .flatMap(extension => extension.pasteRules())
-      .toArray()
+    // return collect(this.extensions)
+    //   .flatMap(extension => extension.pasteRules())
+    //   .toArray()
+    return {}
   }
 
   get keymaps() {
-    return collect(this.extensions)
-      .map(extension => extension.keys())
-      .filter(keys => !!Object.keys(keys).length)
-      // @ts-ignore
-      .map(keys => keymap(keys))
-      .toArray()
+    // return collect(this.extensions)
+    //   .map(extension => extension.keys())
+    //   .filter(keys => !!Object.keys(keys).length)
+    //   // @ts-ignore
+    //   .map(keys => keymap(keys))
+    //   .toArray()
+    return []
   }
 
   get nodeViews() {
-    const { renderer: Renderer } = this.editor
+    // const { renderer: Renderer } = this.editor
 
-    if (!Renderer || !Renderer.type) {
-      return {}
-    }
+    // if (!Renderer || !Renderer.type) {
+    //   return {}
+    // }
 
-    const prop = `to${capitalize(Renderer.type)}`
+    // const prop = `to${capitalize(Renderer.type)}`
 
-    return collect(this.extensions)
-      .where('extensionType', 'node')
-      .filter((extension: any) => extension.schema()[prop])
-      .map((extension: any) => {
-        return (
-          node: ProsemirrorNode,
-          view: EditorView,
-          getPos: (() => number) | boolean,
-          decorations: Decoration[],
-        ) => {
-          return new Renderer(extension.schema()[prop], {
-            extension,
-            editor: this.editor,
-            node,
-            getPos,
-            decorations,
-          })
-        }
-      })
-      .all()
+    // return collect(this.extensions)
+    //   .where('extensionType', 'node')
+    //   .filter((extension: any) => extension.schema()[prop])
+    //   .map((extension: any) => {
+    //     return (
+    //       node: ProsemirrorNode,
+    //       view: EditorView,
+    //       getPos: (() => number) | boolean,
+    //       decorations: Decoration[],
+    //     ) => {
+    //       return new Renderer(extension.schema()[prop], {
+    //         extension,
+    //         editor: this.editor,
+    //         node,
+    //         getPos,
+    //         decorations,
+    //       })
+    //     }
+    //   })
+    //   .all()
+
+    return {}
   }
 
 }
