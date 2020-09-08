@@ -15,60 +15,44 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-export default class Heading extends Node {
-
-  name = 'heading'
-
-  constructor(options: Partial<HeadingOptions> = {}) {
-    super(options)
-  }
-
-  defaultOptions(): HeadingOptions {
-    return {
-      levels: [1, 2, 3, 4, 5, 6],
-    }
-  }
-
-  schema(): NodeSpec {
-    return {
-      attrs: {
-        level: {
-          default: 1,
-        },
+export default new Node<HeadingOptions>()
+  .name('heading')
+  .defaults({
+    levels: [1, 2, 3, 4, 5, 6],
+  })
+  .schema(({ options }) => ({
+    attrs: {
+      level: {
+        default: 1,
       },
-      content: 'inline*',
-      group: 'block',
-      defining: true,
-      draggable: false,
-      parseDOM: this.options.levels
-        .map((level: Level) => ({
-          tag: `h${level}`,
-          attrs: { level },
-        })),
-      toDOM: node => [`h${node.attrs.level}`, 0],
-    }
-  }
+    },
+    content: 'inline*',
+    group: 'block',
+    defining: true,
+    draggable: false,
+    parseDOM: options.levels
+      .map((level: Level) => ({
+        tag: `h${level}`,
+        attrs: { level },
+      })),
+    toDOM: node => [`h${node.attrs.level}`, 0],
+  }))
+  .commands(({ editor, name }) => ({
+    [name]: next => attrs => {
+      editor.toggleNode(name, 'paragraph', attrs)
+      next()
+    },
+  }))
+  // .inputRules(({ options, type }) => {
+  //   return options.levels.map((level: Level) => {
+  //     const regex = VerEx()
+  //       .startOfLine()
+  //       .find('#')
+  //       .repeatPrevious(level)
+  //       .whitespace()
+  //       .endOfLine()
 
-  commands(): CommandSpec {
-    return {
-      heading: next => attrs => {
-        this.editor.toggleNode(this.name, 'paragraph', attrs)
-        next()
-      },
-    }
-  }
-
-  inputRules() {
-    return this.options.levels.map((level: Level) => {
-      const regex = VerEx()
-        .startOfLine()
-        .find('#')
-        .repeatPrevious(level)
-        .whitespace()
-        .endOfLine()
-
-      return textblockTypeInputRule(regex, this.type, { level })
-    })
-  }
-
-}
+  //     return textblockTypeInputRule(regex, type, { level })
+  //   })
+  // })
+  .create()

@@ -1,7 +1,7 @@
 import { NodeSpec, NodeType } from "prosemirror-model";
 import deepmerge from 'deepmerge'
 import collect from 'collect.js'
-import { Editor, CommandSpec } from '@tiptap/core'
+import { Editor, CommandSpec, ComponentRenderer } from '@tiptap/core'
 import cloneDeep from 'clone-deep'
 import { Plugin } from "prosemirror-state";
 
@@ -815,7 +815,7 @@ class ExtensionTest<Options, Extends extends ExtensionExtends = ExtensionExtends
     }
   }
 
-  public options(options: Partial<Options>) {
+  public configure(options: Partial<Options>) {
     this.usedOptions = { ...this.usedOptions, ...options }
     return this
   }
@@ -864,7 +864,7 @@ class ExtensionTest<Options, Extends extends ExtensionExtends = ExtensionExtends
     type ParentOptions = Options
 
     return <Options = ParentOptions>(options?: Partial<NoInfer<Options>>) => {
-      return cloneDeep(this, true).options(options as Options)
+      return cloneDeep(this, true).configure(options as Options)
     }
   }
 }
@@ -922,11 +922,83 @@ const Suggestion = new NodeTest<TestOptions>()
   }))
   .create()
 
-const Blub = new ExtensionTest<TestOptions>()
-  .name('bla')
-  .create()
+// TODO: Erweitern
+// const CustomHeadlineAligned = new Headline()
+//   .name('custom_headline')
+//   .extend('defaults', {
+//     levels: [1, 2, 3],
+//     class: 'font-xs text-outline text-center',
+//     alignments: ['left', 'center', 'right'],
+//   })
 
-console.log(Suggestion(), Suggestion().topNode().options({ trigger: 'jo' }))
+// const CustomHeadlineTag = new Headline()
+//   .name('custom_headline')
+//   .configure({
+//     class: 'custom-headline',
+//   })
+//   .schema(() => ({
+//     toDOM: () => ['h1', 0],
+//     toVue: Component,
+//   }))
+//   .merge('schema', () => ({
+//     parseDOM: [
+//       {
+//         tag: 'x-custom-headline',
+//       }
+//     ],
+//   }))
+
+
+
+
+
+// const Blub = new ExtensionTest<TestOptions>()
+//   .name('bla')
+//   .create()
+
+console.log(Suggestion())
+
+
+
+
+
+// export const Suggestion = new Suggestion()
+//   .name('suggestion')
+//   .defaults({
+//     trigger: '@',
+//     levels: [1, 2, 3],
+//   })
+//   .extend('schema', ({ editor, name, type}) => ({
+//     // levels: [1, 2, 3, 4, 5, 6],
+//     toDOM: () => ['strong', 0],
+//   }))
+//   .create()
+
+
+// const Mention = Suggestion()
+//   .name('mention')
+//   .configure({
+//     trigger: '@'
+//   })
+//   .create()
+
+// const Hashtag = Suggestion()
+//   .name('hashtag')
+//   .options({
+//     trigger: '#'
+//   })
+//   .create()
+
+
+// new Editor({
+//   extensions: [
+//     // Mention({}),
+//     // Hashtag(),
+//     // Suggestion({ trigger: '#'}).name('hashtag'),
+
+//     // Suggestion.option({ trigger: '@'}).name('mention'),
+//   ]
+// })
 
 // interface MentionOptions {
 //   trigger: string

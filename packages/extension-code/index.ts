@@ -1,5 +1,4 @@
-import { Mark, markInputRule, markPasteRule, CommandSpec } from '@tiptap/core'
-import { MarkSpec } from 'prosemirror-model'
+import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
 import VerEx from 'verbal-expressions'
 
 declare module '@tiptap/core/src/Editor' {
@@ -8,62 +7,49 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-export default class Code extends Mark {
+export default new Mark()
+  .name('code')
+  .schema(() => ({
+    excludes: '_',
+    parseDOM: [
+      { tag: 'code' },
+    ],
+    toDOM: () => ['code', 0],
+  }))
+  .commands(({ editor, name }) => ({
+    code: next => () => {
+      editor.toggleMark(name)
+      next()
+    },
+  }))
+  .keys(({ editor }) => ({
+    'Mod-`': () => editor.code()
+  }))
+  // .inputRules(({ type }) => {
+  //   const regex = VerEx()
+  //     .add('(?:^|\\s)')
+  //     .beginCapture()
+  //     .find('`')
+  //     .beginCapture()
+  //     .somethingBut('`')
+  //     .endCapture()
+  //     .find('`')
+  //     .endCapture()
+  //     .endOfLine()
 
-  name = 'code'
+  //   return [markInputRule(regex, type)]
+  // })
+  // .pasteRules(({ type }) => {
+  //   const regex = VerEx()
+  //     .add('(?:^|\\s)')
+  //     .beginCapture()
+  //     .find('`')
+  //     .beginCapture()
+  //     .somethingBut('`')
+  //     .endCapture()
+  //     .find('`')
+  //     .endCapture()
 
-  schema(): MarkSpec {
-    return {
-      excludes: '_',
-      parseDOM: [
-        { tag: 'code' },
-      ],
-      toDOM: () => ['code', 0],
-    }
-  }
-
-  commands(): CommandSpec {
-    return {
-      code: next => () => {
-        this.editor.toggleMark(this.name)
-        next()
-      },
-    }
-  }
-
-  keys() {
-    return {
-      'Mod-`': () => this.editor.code()
-    }
-  }
-
-  inputRules() {
-    const regex = VerEx()
-      .add('(?:^|\\s)')
-      .beginCapture()
-      .find('`')
-      .beginCapture()
-      .somethingBut('`')
-      .endCapture()
-      .find('`')
-      .endCapture()
-      .endOfLine()
-
-    return markInputRule(regex, this.type)
-  }
-
-  pasteRules() {
-    const regex = VerEx()
-      .add('(?:^|\\s)')
-      .beginCapture()
-      .find('`')
-      .beginCapture()
-      .somethingBut('`')
-      .endCapture()
-      .find('`')
-      .endCapture()
-
-    return markPasteRule(regex, this.type)
-  }
-
-}
+  //   return [markPasteRule(regex, type)]
+  // })
+  .create()

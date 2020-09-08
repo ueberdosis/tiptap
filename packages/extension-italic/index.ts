@@ -1,5 +1,4 @@
-import { Mark, markInputRule, markPasteRule, CommandSpec } from '@tiptap/core'
-import { MarkSpec } from 'prosemirror-model'
+import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
 import VerEx from 'verbal-expressions'
 
 declare module '@tiptap/core/src/Editor' {
@@ -8,67 +7,54 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-export default class Italic extends Mark {
+export default new Mark()
+  .name('italic')
+  .schema(() => ({
+    parseDOM: [
+      { tag: 'i' },
+      { tag: 'em' },
+      { style: 'font-style=italic' },
+    ],
+    toDOM: () => ['em', 0],
+  }))
+  .commands(({ editor, name }) => ({
+    italic: next => () => {
+      editor.toggleMark(name)
+      next()
+    },
+  }))
+  .keys(({ editor }) => ({
+    'Mod-i': () => editor.italic()
+  }))
+  // .inputRules(({ type }) => {
+  //   return ['*', '_'].map(character => {
+  //     const regex = VerEx()
+  //       .add('(?:^|\\s)')
+  //       .beginCapture()
+  //       .find(character)
+  //       .beginCapture()
+  //       .somethingBut(character)
+  //       .endCapture()
+  //       .find(character)
+  //       .endCapture()
+  //       .endOfLine()
 
-  name = 'italic'
+  //     return markInputRule(regex, type)
+  //   })
+  // })
+  // .pasteRules(({ type }) => {
+  //   return ['*', '_'].map(character => {
+  //     const regex = VerEx()
+  //       .add('(?:^|\\s)')
+  //       .beginCapture()
+  //       .find(character)
+  //       .beginCapture()
+  //       .somethingBut(character)
+  //       .endCapture()
+  //       .find(character)
+  //       .endCapture()
 
-  schema(): MarkSpec {
-    return {
-      parseDOM: [
-        { tag: 'i' },
-        { tag: 'em' },
-        { style: 'font-style=italic' },
-      ],
-      toDOM: () => ['em', 0],
-    }
-  }
-
-  commands(): CommandSpec {
-    return {
-      italic: next => () => {
-        this.editor.toggleMark(this.name)
-        next()
-      },
-    }
-  }
-
-  keys() {
-    return {
-      'Mod-i': () => this.editor.italic()
-    }
-  }
-
-  inputRules() {
-    return ['*', '_'].map(character => {
-      const regex = VerEx()
-        .add('(?:^|\\s)')
-        .beginCapture()
-        .find(character)
-        .beginCapture()
-        .somethingBut(character)
-        .endCapture()
-        .find(character)
-        .endCapture()
-        .endOfLine()
-
-      return markInputRule(regex, this.type)
-    })
-  }
-
-  pasteRules() {
-    return ['*', '_'].map(character => {
-      const regex = VerEx()
-        .add('(?:^|\\s)')
-        .beginCapture()
-        .find(character)
-        .beginCapture()
-        .somethingBut(character)
-        .endCapture()
-        .find(character)
-        .endCapture()
-
-      return markPasteRule(regex, this.type)
-    })
-  }
-
-}
+  //     return markPasteRule(regex, type)
+  //   })
+  // })
+  .create()

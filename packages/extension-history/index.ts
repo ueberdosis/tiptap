@@ -1,4 +1,4 @@
-import { Extension, CommandSpec } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 import {
   history,
   undo,
@@ -15,48 +15,30 @@ declare module '@tiptap/core/src/Editor' {
 }
 
 interface HistoryOptions {
-  historyPluginOptions?: Object,
+  historyPluginOptions: Object,
 }
 
-export default class History extends Extension {
-
-  name = 'history'
-  
-  constructor(options: Partial<HistoryOptions> = {}) {
-    super(options)
-  }
-
-  defaultOptions(): HistoryOptions {
-    return {
-      historyPluginOptions: {},
-    }
-  }
-
-  commands(): CommandSpec {
-    return {
-      undo: (next, { view }) => () => {
-        undo(view.state, view.dispatch)
-        next()
-      },
-      redo: (next, { view }) => () => {
-        redo(view.state, view.dispatch)
-        next()
-      },
-    }
-  }
-
-  keys() {
-    return {
-      'Mod-z': () => this.editor.undo(),
-      'Mod-y': () => this.editor.redo(),
-      'Shift-Mod-z': () => this.editor.redo(),
-    }
-  }
-
-  plugins() {
-    return [
-      history(this.options.historyPluginOptions)
-    ]
-  }
-
-}
+export default new Extension<HistoryOptions>()
+  .name('history')
+  .defaults({
+    historyPluginOptions: {},
+  })
+  .commands(() => ({
+    undo: (next, { view }) => () => {
+      undo(view.state, view.dispatch)
+      next()
+    },
+    redo: (next, { view }) => () => {
+      redo(view.state, view.dispatch)
+      next()
+    },
+  }))
+  .keys(({ editor }) => ({
+    'Mod-z': () => editor.undo(),
+    'Mod-y': () => editor.redo(),
+    'Shift-Mod-z': () => editor.redo(),
+  }))
+  .plugins(({ options }) => [
+    history(options.historyPluginOptions)
+  ])
+  .create()
