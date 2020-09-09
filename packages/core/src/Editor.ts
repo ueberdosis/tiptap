@@ -71,6 +71,7 @@ export class Editor extends EventEmitter {
   private init() {
     this.createExtensionManager()
     this.createSchema()
+    this.extensionManager.resolveConfigs()
     this.createView()
     this.registerCommands(commands)
 
@@ -222,12 +223,7 @@ export class Editor extends EventEmitter {
    * Creates a ProseMirror schema.
    */
   private createSchema() {
-    this.schema = new Schema({
-      topNode: this.extensionManager.topNode,
-      nodes: this.extensionManager.nodes,
-      marks: this.extensionManager.marks,
-    })
-    this.emit('schemaCreated')
+    this.schema = this.extensionManager.schema
   }
 
   /**

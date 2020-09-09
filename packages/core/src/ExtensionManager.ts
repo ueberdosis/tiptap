@@ -2,19 +2,18 @@ import deepmerge from 'deepmerge'
 import collect from 'collect.js'
 import { Plugin } from 'prosemirror-state'
 import { keymap } from 'prosemirror-keymap'
+import { Schema } from 'prosemirror-model'
 import { inputRules } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Editor } from './Editor'
-import Extension from './Extension'
-import Node from './Node'
-import Mark from './Mark'
 import capitalize from './utils/capitalize'
 import { Extensions } from './types'
 import getTopNodeFromExtensions from './utils/getTopNodeFromExtensions'
 import getNodesFromExtensions from './utils/getNodesFromExtensions'
 import getMarksFromExtensions from './utils/getMarksFromExtensions'
 import resolveExtensionConfig from './utils/resolveExtensionConfig'
+import getSchema from './utils/getSchema'
 
 export default class ExtensionManager {
 
@@ -24,33 +23,31 @@ export default class ExtensionManager {
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
     this.extensions = extensions
+  }
 
+  resolveConfigs() {
     this.extensions.forEach(extension => {
-      resolveExtensionConfig(extension, 'name')
-      resolveExtensionConfig(extension, 'defaults')
-      resolveExtensionConfig(extension, 'topNode')
-
+      const { editor } = this
       const name = extension.config.name
       const options = deepmerge(extension.config.defaults, extension.options)
+      const type = extension.type === 'node'
+        ? editor.schema.nodes[name]
+        : editor.schema.marks[name]
 
-      resolveExtensionConfig(extension, 'schema', { name, options })
+      resolveExtensionConfig(extension, 'commands', { name, options, editor, type })
+      resolveExtensionConfig(extension, 'inputRules', { name, options, editor, type })
+      resolveExtensionConfig(extension, 'pasteRules', { name, options, editor, type })
+      resolveExtensionConfig(extension, 'keys', { name, options, editor, type })
+      resolveExtensionConfig(extension, 'plugins', { name, options, editor, type })
 
-      editor.on('schemaCreated', () => {
-        const type = extension.type === 'node'
-          ? editor.schema.nodes[extension.config.name]
-          : editor.schema.marks[extension.config.name]
-
-        resolveExtensionConfig(extension, 'commands', { name, options, editor, type })
-        resolveExtensionConfig(extension, 'inputRules', { name, options, editor, type })
-        resolveExtensionConfig(extension, 'pasteRules', { name, options, editor, type })
-        resolveExtensionConfig(extension, 'keys', { name, options, editor, type })
-        resolveExtensionConfig(extension, 'plugins', { name, options, editor, type })
-
-        if (extension.config.commands) {
-          editor.registerCommands(extension.config.commands)
-        }
-      })
+      if (extension.config.commands) {
+        editor.registerCommands(extension.config.commands)
+      }
     })
+  }
+
+  get schema(): Schema {
+    return getSchema(this.extensions)
   }
 
   get topNode(): any {
