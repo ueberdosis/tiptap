@@ -9,12 +9,7 @@ import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import History from '@tiptap/extension-history'
-import Bold from '@tiptap/extension-bold'
-import Italic from '@tiptap/extension-italic'
 import Code from '@tiptap/extension-code'
-import CodeBlock from '@tiptap/extension-codeblock'
-import Heading from '@tiptap/extension-heading'
 import Focus from '@tiptap/extension-focus'
 
 export default {
@@ -31,16 +26,11 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        new Document(),
-        new History(),
-        new Paragraph(),
-        new Text(),
-        new Bold(),
-        new Italic(),
-        new Code(),
-        new CodeBlock(),
-        new Heading(),
-        new Focus({
+        Document(),
+        Paragraph(),
+        Text(),
+        Code(),
+        Focus({
           className: 'has-focus',
           nested: true,
         }),
@@ -48,16 +38,12 @@ export default {
       autoFocus: true,
       content: `
         <p>
-          With the focus extension you can add custom classes to focused nodes. Default options:
+          The focus extension adds custom classes to focused nodes. By default, it’ll add a <code>has-focus</code> class, even to nested nodes:
         </p>
-        <pre><code>{\n  className: 'has-focus',\n  nested: true,\n}</code></pre>
+        <pre><code>{ className: 'has-focus', nested: true }</code></pre>
         <ul>
-          <li>
-            When set <code>nested</code> to <code>true</code> also nested elements like this list item will be captured.
-          </li>
-          <li>
-            Otherwise only the wrapping list will get this class.
-          </li>
+          <li>With <code>nested: true</code> nested elements like this list item will be focused.</li>
+          <li>Otherwise the whole list will get the focus class, even if only a single list item is selected.</li>
         </ul>
       `,
     })

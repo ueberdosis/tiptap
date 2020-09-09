@@ -1,13 +1,15 @@
 <template>
-  <editor-content :editor="editor" />
+  <div v-if="editor">
+    <editor-content :editor="editor" />
+  </div>
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
+import { Editor } from '@tiptap/core'
+import { EditorContent } from '@tiptap/vue'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-
 
 export default {
   components: {
@@ -22,12 +24,14 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      content: '<p>This is a radically reduced version of tiptap for minimalisits. It has only support for a document, paragraphs and text, that’s it.</p>',
       extensions: [
         Document(),
         Paragraph(),
         Text(),
       ],
+      content: `
+        <p>The Paragraph extension is not required, but it’s very likely you want to use it. It’s needed to write paragraphs of text. 🤓</p>
+      `,
     })
 
     window.editor = this.editor
@@ -35,6 +39,6 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
-  },
+  }
 }
 </script>

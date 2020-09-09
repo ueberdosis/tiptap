@@ -1,6 +1,4 @@
-import { Mark, markInputRule, markPasteRule, CommandSpec } from '@tiptap/core'
-import { MarkSpec } from 'prosemirror-model'
-import VerEx from 'verbal-expressions'
+import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
 
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
@@ -8,62 +6,31 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-export default class Code extends Mark {
+export const inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/gm
+export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/gm
 
-  name = 'code'
-
-  schema(): MarkSpec {
-    return {
-      excludes: '_',
-      parseDOM: [
-        { tag: 'code' },
-      ],
-      toDOM: () => ['code', 0],
-    }
-  }
-
-  commands(): CommandSpec {
-    return {
-      code: next => () => {
-        this.editor.toggleMark(this.name)
-        next()
-      },
-    }
-  }
-
-  keys() {
-    return {
-      'Mod-`': () => this.editor.code()
-    }
-  }
-
-  inputRules() {
-    const regex = VerEx()
-      .add('(?:^|\\s)')
-      .beginCapture()
-      .find('`')
-      .beginCapture()
-      .somethingBut('`')
-      .endCapture()
-      .find('`')
-      .endCapture()
-      .endOfLine()
-
-    return markInputRule(regex, this.type)
-  }
-
-  pasteRules() {
-    const regex = VerEx()
-      .add('(?:^|\\s)')
-      .beginCapture()
-      .find('`')
-      .beginCapture()
-      .somethingBut('`')
-      .endCapture()
-      .find('`')
-      .endCapture()
-
-    return markPasteRule(regex, this.type)
-  }
-
-}
+export default new Mark()
+  .name('code')
+  .schema(() => ({
+    excludes: '_',
+    parseDOM: [
+      { tag: 'code' },
+    ],
+    toDOM: () => ['code', 0],
+  }))
+  .commands(({ editor, name }) => ({
+    code: next => () => {
+      editor.toggleMark(name)
+      next()
+    },
+  }))
+  .keys(({ editor }) => ({
+    'Mod-`': () => editor.code()
+  }))
+  .inputRules(({ type }) => [
+    markInputRule(inputRegex, type)
+  ])
+  .pasteRules(({ type }) => [
+    markPasteRule(inputRegex, type)
+  ])
+  .create()

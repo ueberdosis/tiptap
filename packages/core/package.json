@@ -12,9 +12,12 @@
     "dist"
   ],
   "dependencies": {
+    "@types/clone-deep": "^4.0.1",
     "@types/prosemirror-dropcursor": "^1.0.0",
     "@types/prosemirror-gapcursor": "^1.0.1",
+    "clone-deep": "^4.0.1",
     "collect.js": "^4.28.2",
+    "deepmerge": "^4.2.2",
     "prosemirror-commands": "^1.1.3",
     "prosemirror-dropcursor": "^1.3.2",
     "prosemirror-gapcursor": "^1.1.5",
@@ -24,8 +27,7 @@
     "prosemirror-state": "^1.3.3",
     "prosemirror-tables": "^1.1.1",
     "prosemirror-utils": "^0.9.6",
-    "prosemirror-view": "^1.15.6",
-    "verbal-expressions": "^1.0.2"
+    "prosemirror-view": "^1.15.6"
   },
   "scripts": {
     "build": "microbundle"

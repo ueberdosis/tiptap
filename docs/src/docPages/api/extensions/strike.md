@@ -2,7 +2,9 @@
 Enables you to use the `<s>` HTML tag in the editor.
 
 ## Options
-*None*
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| class | string | – | Add a custom class to the rendered HTML tag. |
 
 ## Commands
 | Command | Options | Description |
@@ -40,7 +42,7 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new Strike(),
+          Strike(),
         ],
         content: `
           <p><s>That's strikethrough.</s></p>

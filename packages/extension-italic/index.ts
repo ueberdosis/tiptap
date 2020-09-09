@@ -1,6 +1,4 @@
-import { Mark, markInputRule, markPasteRule, CommandSpec } from '@tiptap/core'
-import { MarkSpec } from 'prosemirror-model'
-import VerEx from 'verbal-expressions'
+import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
 
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
@@ -8,67 +6,36 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-export default class Italic extends Mark {
+export const starInputRegex = /(?:^|\s)((?:\*)((?:[^\*]+))(?:\*))$/gm
+export const starPasteRegex = /(?:^|\s)((?:\*)((?:[^\*]+))(?:\*))/gm
+export const underscoreInputRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))$/gm
+export const underscorePasteRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))/gm
 
-  name = 'italic'
-
-  schema(): MarkSpec {
-    return {
-      parseDOM: [
-        { tag: 'i' },
-        { tag: 'em' },
-        { style: 'font-style=italic' },
-      ],
-      toDOM: () => ['em', 0],
-    }
-  }
-
-  commands(): CommandSpec {
-    return {
-      italic: next => () => {
-        this.editor.toggleMark(this.name)
-        next()
-      },
-    }
-  }
-
-  keys() {
-    return {
-      'Mod-i': () => this.editor.italic()
-    }
-  }
-
-  inputRules() {
-    return ['*', '_'].map(character => {
-      const regex = VerEx()
-        .add('(?:^|\\s)')
-        .beginCapture()
-        .find(character)
-        .beginCapture()
-        .somethingBut(character)
-        .endCapture()
-        .find(character)
-        .endCapture()
-        .endOfLine()
-
-      return markInputRule(regex, this.type)
-    })
-  }
-
-  pasteRules() {
-    return ['*', '_'].map(character => {
-      const regex = VerEx()
-        .add('(?:^|\\s)')
-        .beginCapture()
-        .find(character)
-        .beginCapture()
-        .somethingBut(character)
-        .endCapture()
-        .find(character)
-        .endCapture()
-
-      return markPasteRule(regex, this.type)
-    })
-  }
-
-}
+export default new Mark()
+  .name('italic')
+  .schema(() => ({
+    parseDOM: [
+      { tag: 'i' },
+      { tag: 'em' },
+      { style: 'font-style=italic' },
+    ],
+    toDOM: () => ['em', 0],
+  }))
+  .commands(({ editor, name }) => ({
+    italic: next => () => {
+      editor.toggleMark(name)
+      next()
+    },
+  }))
+  .keys(({ editor }) => ({
+    'Mod-i': () => editor.italic()
+  }))
+  .inputRules(({ type }) => [
+    markInputRule(starInputRegex, type),
+    markInputRule(underscoreInputRegex, type),
+  ])
+  .pasteRules(({ type }) => [
+    markPasteRule(starPasteRegex, type),
+    markPasteRule(underscorePasteRegex, type),
+  ])
+  .create()

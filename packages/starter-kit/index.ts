@@ -10,14 +10,14 @@ import Heading from '@tiptap/extension-heading'
 
 export default function defaultExtensions() {
   return [
-    new Document(),
-    new History(),
-    new Paragraph(),
-    new Text(),
-    new Bold(),
-    new Italic(),
-    new Code(),
-    new CodeBlock(),
-    new Heading(),
+    Document(),
+    History(),
+    Paragraph(),
+    Text(),
+    Bold(),
+    Italic(),
+    Code(),
+    CodeBlock(),
+    Heading(),
   ]
 }

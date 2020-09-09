@@ -1,18 +1,28 @@
-import Extension from './Extension'
-import { MarkSpec } from 'prosemirror-model'
+import { MarkSpec, MarkType } from 'prosemirror-model'
+import Extension, { ExtensionCallback, ExtensionExtends } from './Extension'
+import { Editor } from './Editor'
 
-export default abstract class Mark extends Extension {
+export interface MarkCallback<Options> {
+  name: string
+  editor: Editor
+  options: Options
+  type: MarkType
+}
 
-  constructor(options = {}) {
-    super(options)
+export interface MarkExtends<Callback, Options> extends ExtensionExtends<Callback, Options> {
+  topMark: boolean
+  schema: (params: Omit<Callback, 'type' | 'editor'>) => MarkSpec
+}
+
+export default class Mark<
+  Options = {},
+  Callback = MarkCallback<Options>,
+  Extends extends MarkExtends<Callback, Options> = MarkExtends<Callback, Options>
+> extends Extension<Options, Callback, Extends> {
+  type = 'mark'
+
+  public schema(value: Extends['schema']) {
+    this.storeConfig('schema', value, 'overwrite')
+    return this
   }
-
-  public extensionType = 'mark'
-
-  abstract schema(): MarkSpec
-
-  get type() {
-    return this.editor.schema.marks[this.name]
-  }
-
 }

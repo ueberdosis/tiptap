@@ -6,7 +6,9 @@ The extension will generate the corresponding `<em>` HTML tags when reading cont
 :::
 
 ## Options
-*None*
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| class | string | – | Add a custom class to the rendered HTML tag. |
 
 ## Commands
 | Command | Options | Description |

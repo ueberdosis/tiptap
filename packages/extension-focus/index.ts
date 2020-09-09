@@ -2,57 +2,45 @@ import { Extension } from '@tiptap/core'
 import { Plugin } from 'prosemirror-state'
 import { DecorationSet, Decoration } from 'prosemirror-view'
 
-interface FocusOptions {
+export interface FocusOptions {
   className: string,
   nested: boolean,
 }
 
-export default class Focus extends Extension {
+export default new Extension<FocusOptions>()
+  .name('focus')
+  .defaults({
+    className: 'has-focus',
+    nested: false,
+  })
+  .plugins(({ editor, options }) => [
+    new Plugin({
+      props: {
+        decorations: ({ doc, selection }) => {
+          const { isEditable, isFocused } = editor
+          const { anchor } = selection
+          const decorations: Decoration[] = []
 
-  name = 'focus'
+          if (!isEditable || !isFocused) {
+            return
+          }
 
-  constructor(options: Partial<FocusOptions> = {}) {
-    super(options)
-  }
+          doc.descendants((node, pos) => {
+            const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
 
-  defaultOptions(): FocusOptions {
-    return {
-      className: 'has-focus',
-      nested: false,
-    }
-  }
-
-  plugins() {
-    return [
-      new Plugin({
-        props: {
-          decorations: ({ doc, selection }) => {
-            const { isEditable, isFocused } = this.editor
-            const { anchor } = selection
-            const decorations: Decoration[] = []
-
-            if (!isEditable || !isFocused) {
-              return
+            if (hasAnchor && !node.isText) {
+              const decoration = Decoration.node(pos, pos + node.nodeSize, {
+                class: options.className,
+              })
+              decorations.push(decoration)
             }
 
-            doc.descendants((node, pos) => {
-              const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
+            return options.nested
+          })
 
-              if (hasAnchor && !node.isText) {
-                const decoration = Decoration.node(pos, pos + node.nodeSize, {
-                  class: this.options.className,
-                })
-                decorations.push(decoration)
-              }
-
-              return this.options.nested
-            })
-
-            return DecorationSet.create(doc, decorations)
-          },
+          return DecorationSet.create(doc, decorations)
         },
-      }),
-    ]
-  }
-
-}
+      },
+    }),
+  ])
+  .create()

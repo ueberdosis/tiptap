@@ -2,7 +2,9 @@
 The Blockquote extension enables you to use the `<blockquote>` HTML tag in the editor.
 
 ## Options
-*None*
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| class | string | – | Add a custom class to the rendered HTML tag. |
 
 ## Commands
 | Command | Options | Description |
@@ -39,7 +41,7 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new Blockquote(),
+          Blockquote(),
         ],
         content: `
           <blockquote>

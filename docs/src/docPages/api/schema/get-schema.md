@@ -13,9 +13,9 @@ import Text from '@tiptap/extension-text'
 
 const editor = new Editor({
   extensions: [
-    new Document,
-    new Paragraph,
-    new Text,
+    Document(),
+    Paragraph(),
+    Text(),
     // add more extensions here
   ])
 })
@@ -33,9 +33,9 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 
 const schema = getSchema([
-  new Document,
-  new Paragraph,
-  new Text,
+  Document(),
+  Paragraph(),
+  Text(),
   // add more extensions here
 ])
 ```

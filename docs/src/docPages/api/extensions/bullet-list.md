@@ -6,7 +6,9 @@ It’s intended to be used with the `ListItem` extension.
 :::
 
 ## Options
-*None*
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| class | string | – | Add a custom class to the rendered HTML tag. |
 
 ## Commands
 | Command | Options | Description |
@@ -43,7 +45,7 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new BulletList(),
+          BulletList(),
         ],
         content: `
           <ul>

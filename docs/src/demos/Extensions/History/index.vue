@@ -33,10 +33,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        new Document(),
-        new Paragraph(),
-        new Text(),
-        new History(),
+        Document(),
+        Paragraph(),
+        Text(),
+        History(),
       ],
       content: `
         <p>Edit this text and press undo to test this extension.</p>
