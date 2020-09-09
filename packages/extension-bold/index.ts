@@ -1,11 +1,15 @@
 import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
-import VerEx from 'verbal-expressions'
 
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
     bold(): Editor,
   }
 }
+
+export const starInputRegex = /(?:^|\s)((?:\*\*)((?:[^\*\*]+))(?:\*\*))$/gm
+export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^\*\*]+))(?:\*\*))/gm
+export const underscoreInputRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))$/gm
+export const underscorePasteRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))/gm
 
 export default new Mark()
   .name('bold')
@@ -34,35 +38,12 @@ export default new Mark()
   .keys(({ editor }) => ({
     'Mod-b': () => editor.bold()
   }))
-  .inputRules(({ type }) => {
-    return ['**', '__'].map(character => {
-      const regex = VerEx()
-        .add('(?:^|\\s)')
-        .beginCapture()
-        .find(character)
-        .beginCapture()
-        .somethingBut(character)
-        .endCapture()
-        .find(character)
-        .endCapture()
-        .endOfLine()
-
-      return markInputRule(regex, type)
-    })
-  })
-  .pasteRules(({ type }) => {
-    return ['**', '__'].map(character => {
-      const regex = VerEx()
-        .add('(?:^|\\s)')
-        .beginCapture()
-        .find(character)
-        .beginCapture()
-        .somethingBut(character)
-        .endCapture()
-        .find(character)
-        .endCapture()
-
-      return markPasteRule(regex, type)
-    })
-  })
+  .inputRules(({ type }) => [
+    markInputRule(starInputRegex, type),
+    markInputRule(underscoreInputRegex, type),
+  ])
+  .pasteRules(({ type }) => [
+    markPasteRule(starPasteRegex, type),
+    markPasteRule(underscorePasteRegex, type),
+  ])
   .create()

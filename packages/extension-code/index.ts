@@ -1,11 +1,13 @@
 import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
-import VerEx from 'verbal-expressions'
 
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
     code(): Editor,
   }
 }
+
+export const inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/gm
+export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/gm
 
 export default new Mark()
   .name('code')
@@ -25,31 +27,10 @@ export default new Mark()
   .keys(({ editor }) => ({
     'Mod-`': () => editor.code()
   }))
-  .inputRules(({ type }) => {
-    const regex = VerEx()
-      .add('(?:^|\\s)')
-      .beginCapture()
-      .find('`')
-      .beginCapture()
-      .somethingBut('`')
-      .endCapture()
-      .find('`')
-      .endCapture()
-      .endOfLine()
-
-    return [markInputRule(regex, type)]
-  })
-  .pasteRules(({ type }) => {
-    const regex = VerEx()
-      .add('(?:^|\\s)')
-      .beginCapture()
-      .find('`')
-      .beginCapture()
-      .somethingBut('`')
-      .endCapture()
-      .find('`')
-      .endCapture()
-
-    return [markPasteRule(regex, type)]
-  })
+  .inputRules(({ type }) => [
+    markInputRule(inputRegex, type)
+  ])
+  .pasteRules(({ type }) => [
+    markPasteRule(inputRegex, type)
+  ])
   .create()
