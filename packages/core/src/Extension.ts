@@ -60,15 +60,15 @@ type AnyObject = {
 
 type NoInfer<T> = [T][T extends any ? 0 : never]
 
-export interface ExtensionCallback {
+export interface ExtensionCallback<Options> {
   name: string
   editor: Editor
-  options: any
+  options: Options
 }
 
-export interface ExtensionExtends<Callback> {
+export interface ExtensionExtends<Callback, Options> {
   name: string
-  options: AnyObject
+  options: Options
   commands: (params: Callback) => CommandSpec
   inputRules: (params: Callback) => any[]
   pasteRules: (params: Callback) => any[]
@@ -78,7 +78,11 @@ export interface ExtensionExtends<Callback> {
   plugins: (params: Callback) => Plugin[]
 }
 
-export default class Extension<Options = {}, Callback = ExtensionCallback, Extends extends ExtensionExtends<Callback> = ExtensionExtends<Callback>> {
+export default class Extension<
+  Options = {},
+  Callback = ExtensionCallback<Options>,
+  Extends extends ExtensionExtends<Callback, Options> = ExtensionExtends<Callback, Options>
+> {
   type = 'extension'
   config: any = {}
   configs: {

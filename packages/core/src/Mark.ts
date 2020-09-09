@@ -2,22 +2,26 @@ import { MarkSpec, MarkType } from 'prosemirror-model'
 import Extension, { ExtensionCallback, ExtensionExtends } from './Extension'
 import { Editor } from './Editor'
 
-interface Callback {
+interface MarkCallback<Options> {
   name: string
   editor: Editor
-  options: any
+  options: Options
   type: MarkType
 }
 
-export interface MarkExtends extends ExtensionExtends<Callback> {
+export interface MarkExtends<Callback, Options> extends ExtensionExtends<Callback, Options> {
   topMark: boolean
   schema: (params: Callback) => MarkSpec
 }
 
-export default class Mark<Options = {}> extends Extension<Options, Callback, MarkExtends> {
+export default class Mark<
+  Options = {},
+  Callback = MarkCallback<Options>,
+  Extends extends MarkExtends<Callback, Options> = MarkExtends<Callback, Options>
+> extends Extension<Options, Callback, Extends> {
   type = 'mark'
 
-  public schema(value: MarkExtends['schema']) {
+  public schema(value: Extends['schema']) {
     this.storeConfig('schema', value, 'overwrite')
     return this
   }
