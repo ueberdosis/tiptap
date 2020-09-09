@@ -6,7 +6,9 @@ This extensions is intended to be used with the `ListItem` extension.
 :::
 
 ## Options
-*None*
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| class | string | – | Add a custom class to the rendered HTML tag. |
 
 ## Commands
 | Command | Options | Description |

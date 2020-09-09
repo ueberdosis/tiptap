@@ -2,7 +2,9 @@
 Enables you to use the `<s>` HTML tag in the editor.
 
 ## Options
-*None*
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| class | string | – | Add a custom class to the rendered HTML tag. |
 
 ## Commands
 | Command | Options | Description |
