@@ -66,7 +66,7 @@ export interface ExtensionCallback {
   options: any
 }
 
-export interface ExtensionExtends<Callback = ExtensionCallback> {
+export interface ExtensionExtends<Callback> {
   name: string
   options: AnyObject
   commands: (params: Callback) => CommandSpec
@@ -78,7 +78,7 @@ export interface ExtensionExtends<Callback = ExtensionCallback> {
   plugins: (params: Callback) => Plugin[]
 }
 
-export default class Extension<Options = {}, Extends extends ExtensionExtends = ExtensionExtends> {
+export default class Extension<Options = {}, Callback = ExtensionCallback, Extends extends ExtensionExtends<Callback> = ExtensionExtends<Callback>> {
   type = 'extension'
   config: any = {}
   configs: {

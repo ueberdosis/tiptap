@@ -34,22 +34,23 @@ export default new Mark()
   .keys(({ editor }) => ({
     'Mod-b': () => editor.bold()
   }))
-  // .inputRules(({ type }) => {
-  //   return ['**', '__'].map(character => {
-  //     const regex = VerEx()
-  //       .add('(?:^|\\s)')
-  //       .beginCapture()
-  //       .find(character)
-  //       .beginCapture()
-  //       .somethingBut(character)
-  //       .endCapture()
-  //       .find(character)
-  //       .endCapture()
-  //       .endOfLine()
+  .inputRules(({ type }) => {
+    console.log(type)
+    return ['**', '__'].map(character => {
+      const regex = VerEx()
+        .add('(?:^|\\s)')
+        .beginCapture()
+        .find(character)
+        .beginCapture()
+        .somethingBut(character)
+        .endCapture()
+        .find(character)
+        .endCapture()
+        .endOfLine()
 
-  //     return markInputRule(regex, type)
-  //   })
-  // })
+      return markInputRule(regex, type)
+    })
+  })
   // .pasteRules(({ type }) => {
   //   return ['**', '__'].map(character => {
   //     const regex = VerEx()

@@ -36,6 +36,7 @@ export default class ExtensionManager {
               : {
                 editor,
                 options: deepmerge(extension.config.defaults, extension.usedOptions),
+                // TODO: type is not available here
                 // get type() {
                 //   console.log('called', editor.schema)
 

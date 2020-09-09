@@ -1,35 +1,20 @@
 import { NodeSpec, NodeType } from 'prosemirror-model'
 import Extension, { ExtensionCallback, ExtensionExtends } from './Extension'
+import { Editor } from './Editor'
 
-// export default abstract class Node extends Extension {
-
-//   constructor(options = {}) {
-//     super(options)
-//   }
-
-//   public extensionType = 'node'
-
-//   public topNode = false
-
-//   abstract schema(): NodeSpec
-
-//   get type() {
-//     return this.editor.schema.nodes[this.name]
-//   }
-
-// }
-
-export interface NodeCallback extends ExtensionCallback {
-  // TODO: fix optional
-  type?: NodeType
+interface Callback {
+  name: string
+  editor: Editor
+  options: any
+  type: NodeType
 }
 
-export interface NodeExtends<Callback = NodeCallback> extends ExtensionExtends<Callback> {
+export interface NodeExtends extends ExtensionExtends<Callback> {
   topNode: boolean
   schema: (params: Callback) => NodeSpec
 }
 
-export default class Node<Options = {}> extends Extension<Options, NodeExtends> {
+export default class Node<Options = {}> extends Extension<Options, Callback, NodeExtends> {
   type = 'node'
 
   public topNode(value: NodeExtends['topNode'] = true) {
