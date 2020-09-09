@@ -10,6 +10,7 @@ import Extension from './Extension'
 import Node from './Node'
 import Mark from './Mark'
 import capitalize from './utils/capitalize'
+import resolveExtensionConfig from './utils/resolveExtensionConfig'
 
 type Extensions = (Extension | Node | Mark)[]
 
@@ -23,74 +24,31 @@ export default class ExtensionManager {
     this.extensions = extensions
 
     this.extensions.forEach(extension => {
-      this.resolveConfig(extension, 'name')
-      this.resolveConfig(extension, 'defaults')
-      this.resolveConfig(extension, 'topNode')
-      this.resolveConfig(extension, 'schema', ['name', 'options'])
+      resolveExtensionConfig(extension, 'name')
+      resolveExtensionConfig(extension, 'defaults')
+      resolveExtensionConfig(extension, 'topNode')
+
+      const name = extension.config.name
+      const options = deepmerge(extension.config.defaults, extension.options)
+
+      resolveExtensionConfig(extension, 'schema', { name, options })
 
       editor.on('schemaCreated', () => {
-        this.resolveConfig(extension, 'commands', ['name', 'options', 'editor', 'type'])
-        this.resolveConfig(extension, 'inputRules', ['name', 'options', 'editor', 'type'])
-        this.resolveConfig(extension, 'pasteRules', ['name', 'options', 'editor', 'type'])
-        this.resolveConfig(extension, 'keys', ['name', 'options', 'editor', 'type'])
-        this.resolveConfig(extension, 'plugins', ['name', 'options', 'editor', 'type'])
+        const type = extension.type === 'node'
+          ? this.editor.schema.nodes[extension.config.name]
+          : this.editor.schema.marks[extension.config.name]
+
+        resolveExtensionConfig(extension, 'commands', { name, options, editor, type })
+        resolveExtensionConfig(extension, 'inputRules', { name, options, editor, type })
+        resolveExtensionConfig(extension, 'pasteRules', { name, options, editor, type })
+        resolveExtensionConfig(extension, 'keys', { name, options, editor, type })
+        resolveExtensionConfig(extension, 'plugins', { name, options, editor, type })
 
         if (extension.config.commands) {
           this.editor.registerCommands(extension.config.commands)
         }
       })
     })
-  }
-
-  resolveConfig(
-    extension: Extension | Node | Mark,
-    name: string,
-    propValues: ('name' | 'options' | 'editor' | 'type')[] = []
-  ) {
-    if (!extension.configs[name]) {
-      return
-    }
-
-    extension.config[name] = extension.configs[name]
-      .reduce((accumulator, { stategy, value: rawValue }) => {
-        const props: any = {}
-
-        if (propValues.includes('name')) {
-          props.name = extension.config.name
-        }
-
-        if (propValues.includes('options')) {
-          props.options = deepmerge(extension.config.defaults, extension.options)
-        }
-
-        if (propValues.includes('editor')) {
-          props.editor = this.editor
-        }
-
-        if (propValues.includes('type')) {
-          props.type = extension.type === 'node'
-            ? this.editor.schema.nodes[extension.config.name]
-            : this.editor.schema.marks[extension.config.name]
-        }
-
-        const value = typeof rawValue === 'function'
-          ? rawValue(props)
-          : rawValue
-
-        if (accumulator === undefined) {
-          return value
-        }
-
-        if (stategy === 'overwrite') {
-          return value
-        }
-
-        if (stategy === 'extend') {
-          return deepmerge(accumulator, value)
-        }
-
-        return accumulator
-      }, undefined)
   }
 
   get topNode() {
