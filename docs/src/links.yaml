@@ -7,6 +7,12 @@
     - title: Upgrade Guide
       link: /overview/upgrade-guide
       draft: true
+    - title: Contributing
+      link: /overview/contributing
+      draft: true
+    - title: Sponsoring
+      link: /overview/sponsoring
+      draft: true
     - title: Roadmap
       link: /overview/roadmap
       draft: true
@@ -155,7 +161,6 @@
           draft: true
         - title: Paragraph
           link: /api/extensions/paragraph
-          draft: true
         # - title: Placeholder
         #   link: /api/extensions/placeholder
         #   draft: true
