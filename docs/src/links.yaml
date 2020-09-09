@@ -128,7 +128,6 @@
         #   draft: true
         - title: Document
           link: /api/extensions/document
-          draft: true
         - title: Hardbreak
           link: /api/extensions/hard-break
           draft: true
