@@ -4,7 +4,7 @@ import { Extensions } from '../types'
 
 export default function getNodesFromExtensions(extensions: Extensions): any {
   return collect(extensions)
-    .where('extensionType', 'node')
-    .mapWithKeys((extension: Node) => [extension.name, extension.schema()])
+    .where('type', 'node')
+    .mapWithKeys((extension: Node) => [extension.config.name, extension.config.schema])
     .all()
 }

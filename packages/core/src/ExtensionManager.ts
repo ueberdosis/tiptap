@@ -53,38 +53,16 @@ export default class ExtensionManager {
     })
   }
 
-  // get topNode() {
-  //   return getTopNodeFromExtensions(this.extensions)
-  // }
-
-  // get nodes(): any {
-  //   return getNodesFromExtensions(this.extensions)
-  // }
-  
-  // get marks(): any {
-  //   return getMarksFromExtensions(this.extensions)
-  // }
-
   get topNode(): any {
-    const topNode = collect(this.extensions).firstWhere('config.topNode', true)
-
-    if (topNode) {
-      return topNode.config.name
-    }
+    return getTopNodeFromExtensions(this.extensions)
   }
 
   get nodes(): any {
-    return collect(this.extensions)
-      .where('type', 'node')
-      .mapWithKeys((extension: Node) => [extension.config.name, extension.config.schema])
-      .all()
+    return getNodesFromExtensions(this.extensions)
   }
-
+  
   get marks(): any {
-    return collect(this.extensions)
-      .where('type', 'mark')
-      .mapWithKeys((extension: Mark) => [extension.config.name, extension.config.schema])
-      .all()
+    return getMarksFromExtensions(this.extensions)
   }
 
   get plugins(): Plugin[] {

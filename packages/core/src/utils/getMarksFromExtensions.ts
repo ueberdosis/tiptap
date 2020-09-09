@@ -4,7 +4,7 @@ import { Extensions } from '../types'
 
 export default function getMarksFromExtensions(extensions: Extensions): any {
   return collect(extensions)
-    .where('extensionType', 'mark')
-    .mapWithKeys((extension: Mark) => [extension.name, extension.schema()])
+    .where('type', 'mark')
+    .mapWithKeys((extension: Mark) => [extension.config.name, extension.config.schema])
     .all()
 }
