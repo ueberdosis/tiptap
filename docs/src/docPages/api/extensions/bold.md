@@ -6,7 +6,9 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 :::
 
 ## Options
-*None*
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| class | string | – | Add a custom class to the rendered HTML tag. |
 
 ## Commands
 | Command | Options | Description |

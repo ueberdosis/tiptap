@@ -3,7 +3,8 @@ Enables you to use headline HTML tags in the editor.
 
 ## Options
 | Option | Type | Default | Description |
-| ------ | ---- | ---- | ----- |
+| ------ | ---- | ------- | ----------- |
+| class | string | – | Add a custom class to the rendered HTML tag. |
 | levels | Array | [1, 2, 3, 4, 5, 6] | Specifies which headlines are supported. |
 
 ## Commands
