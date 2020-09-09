@@ -1,5 +1,5 @@
 # Paragraph
-Enables you to use paragraphs in the editor.
+Yes, the schema is very strict. Without this extension you won’t even be able to use paragraphs in the editor.
 
 ## Options
 | Option | Type | Default | Description |
