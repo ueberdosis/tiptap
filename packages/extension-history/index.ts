@@ -14,7 +14,7 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-interface HistoryOptions {
+export interface HistoryOptions {
   historyPluginOptions: Object,
 }
 

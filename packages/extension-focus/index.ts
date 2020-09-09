@@ -2,7 +2,7 @@ import { Extension } from '@tiptap/core'
 import { Plugin } from 'prosemirror-state'
 import { DecorationSet, Decoration } from 'prosemirror-view'
 
-interface FocusOptions {
+export interface FocusOptions {
   className: string,
   nested: boolean,
 }

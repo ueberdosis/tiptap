@@ -3,7 +3,7 @@ import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6
 
-interface HeadingOptions {
+export interface HeadingOptions {
   levels: Level[],
 }
 

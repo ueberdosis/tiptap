@@ -2,7 +2,7 @@ import { NodeSpec, NodeType } from 'prosemirror-model'
 import Extension, { ExtensionCallback, ExtensionExtends } from './Extension'
 import { Editor } from './Editor'
 
-interface NodeCallback<Options> {
+export interface NodeCallback<Options> {
   name: string
   editor: Editor
   options: Options

@@ -2,7 +2,7 @@ import { MarkSpec, MarkType } from 'prosemirror-model'
 import Extension, { ExtensionCallback, ExtensionExtends } from './Extension'
 import { Editor } from './Editor'
 
-interface MarkCallback<Options> {
+export interface MarkCallback<Options> {
   name: string
   editor: Editor
   options: Options
