@@ -35,7 +35,6 @@ export default new Mark()
     'Mod-b': () => editor.bold()
   }))
   .inputRules(({ type }) => {
-    console.log(type)
     return ['**', '__'].map(character => {
       const regex = VerEx()
         .add('(?:^|\\s)')
