@@ -25,31 +25,31 @@ export default new Mark()
   .keys(({ editor }) => ({
     'Mod-`': () => editor.code()
   }))
-  // .inputRules(({ type }) => {
-  //   const regex = VerEx()
-  //     .add('(?:^|\\s)')
-  //     .beginCapture()
-  //     .find('`')
-  //     .beginCapture()
-  //     .somethingBut('`')
-  //     .endCapture()
-  //     .find('`')
-  //     .endCapture()
-  //     .endOfLine()
+  .inputRules(({ type }) => {
+    const regex = VerEx()
+      .add('(?:^|\\s)')
+      .beginCapture()
+      .find('`')
+      .beginCapture()
+      .somethingBut('`')
+      .endCapture()
+      .find('`')
+      .endCapture()
+      .endOfLine()
 
-  //   return [markInputRule(regex, type)]
-  // })
-  // .pasteRules(({ type }) => {
-  //   const regex = VerEx()
-  //     .add('(?:^|\\s)')
-  //     .beginCapture()
-  //     .find('`')
-  //     .beginCapture()
-  //     .somethingBut('`')
-  //     .endCapture()
-  //     .find('`')
-  //     .endCapture()
+    return [markInputRule(regex, type)]
+  })
+  .pasteRules(({ type }) => {
+    const regex = VerEx()
+      .add('(?:^|\\s)')
+      .beginCapture()
+      .find('`')
+      .beginCapture()
+      .somethingBut('`')
+      .endCapture()
+      .find('`')
+      .endCapture()
 
-  //   return [markPasteRule(regex, type)]
-  // })
+    return [markPasteRule(regex, type)]
+  })
   .create()

@@ -23,61 +23,74 @@ export default class ExtensionManager {
     this.extensions = extensions
 
     this.extensions.forEach(extension => {
-      const simpleConfigs = ['name', 'defaults']
-
-      Object
-        .entries(extension.configs)
-        .sort(([name]) => simpleConfigs.includes(name) ? -1 : 1)
-        .forEach(([name, configs]) => {
-          extension.config[name] = configs.reduce((accumulator, { stategy, value: rawValue }) => {
-            const isSimpleConfig = simpleConfigs.includes(name)
-            const props = isSimpleConfig
-              ? undefined
-              : {
-                editor,
-                options: deepmerge(extension.config.defaults, extension.options),
-                // TODO: type is not available here
-                // get type() {
-                //   console.log('called', editor.schema)
-
-                //   if (!editor.schema) {
-                //     return
-                //   }
-
-                //   if (extension.type === 'node') {
-                //     return editor.schema.nodes[extension.config.name]
-                //   }
-
-                //   return editor.schema.marks[extension.config.name]
-                // },
-                name: extension.config.name,
-              }
-            const value = typeof rawValue === 'function'
-              ? rawValue(props)
-              : rawValue
-
-            if (accumulator === undefined) {
-              return value
-            }
-
-            if (stategy === 'overwrite') {
-              return value
-            }
-
-            if (stategy === 'extend') {
-              return deepmerge(accumulator, value)
-            }
-
-            return accumulator
-          }, undefined)
-        })
+      this.resolveConfig(extension, 'name')
+      this.resolveConfig(extension, 'defaults')
+      this.resolveConfig(extension, 'topNode')
+      this.resolveConfig(extension, 'schema', ['name', 'options'])
 
       editor.on('schemaCreated', () => {
+        this.resolveConfig(extension, 'commands', ['name', 'options', 'editor', 'type'])
+        this.resolveConfig(extension, 'inputRules', ['name', 'options', 'editor', 'type'])
+        this.resolveConfig(extension, 'pasteRules', ['name', 'options', 'editor', 'type'])
+        this.resolveConfig(extension, 'keys', ['name', 'options', 'editor', 'type'])
+        this.resolveConfig(extension, 'plugins', ['name', 'options', 'editor', 'type'])
+
         if (extension.config.commands) {
           this.editor.registerCommands(extension.config.commands)
         }
       })
     })
+  }
+
+  resolveConfig(
+    extension: Extension | Node | Mark,
+    name: string,
+    propValues: ('name' | 'options' | 'editor' | 'type')[] = []
+  ) {
+    if (!extension.configs[name]) {
+      return
+    }
+
+    extension.config[name] = extension.configs[name]
+      .reduce((accumulator, { stategy, value: rawValue }) => {
+        const props: any = {}
+
+        if (propValues.includes('name')) {
+          props.name = extension.config.name
+        }
+
+        if (propValues.includes('options')) {
+          props.options = deepmerge(extension.config.defaults, extension.options)
+        }
+
+        if (propValues.includes('editor')) {
+          props.editor = this.editor
+        }
+
+        if (propValues.includes('type')) {
+          props.type = extension.type === 'node'
+            ? this.editor.schema.nodes[extension.config.name]
+            : this.editor.schema.marks[extension.config.name]
+        }
+
+        const value = typeof rawValue === 'function'
+          ? rawValue(props)
+          : rawValue
+
+        if (accumulator === undefined) {
+          return value
+        }
+
+        if (stategy === 'overwrite') {
+          return value
+        }
+
+        if (stategy === 'extend') {
+          return deepmerge(accumulator, value)
+        }
+
+        return accumulator
+      }, undefined)
   }
 
   get topNode() {

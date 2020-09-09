@@ -43,16 +43,16 @@ export default new Node<HeadingOptions>()
       next()
     },
   }))
-  // .inputRules(({ options, type }) => {
-  //   return options.levels.map((level: Level) => {
-  //     const regex = VerEx()
-  //       .startOfLine()
-  //       .find('#')
-  //       .repeatPrevious(level)
-  //       .whitespace()
-  //       .endOfLine()
+  .inputRules(({ options, type }) => {
+    return options.levels.map((level: Level) => {
+      const regex = VerEx()
+        .startOfLine()
+        .find('#')
+        .repeatPrevious(level)
+        .whitespace()
+        .endOfLine()
 
-  //     return textblockTypeInputRule(regex, type, { level })
-  //   })
-  // })
+      return textblockTypeInputRule(regex, type, { level })
+    })
+  })
   .create()
