@@ -37,8 +37,8 @@ export default class ExtensionManager {
 
       editor.on('schemaCreated', () => {
         const type = extension.type === 'node'
-          ? this.editor.schema.nodes[extension.config.name]
-          : this.editor.schema.marks[extension.config.name]
+          ? editor.schema.nodes[extension.config.name]
+          : editor.schema.marks[extension.config.name]
 
         resolveExtensionConfig(extension, 'commands', { name, options, editor, type })
         resolveExtensionConfig(extension, 'inputRules', { name, options, editor, type })
@@ -47,7 +47,7 @@ export default class ExtensionManager {
         resolveExtensionConfig(extension, 'plugins', { name, options, editor, type })
 
         if (extension.config.commands) {
-          this.editor.registerCommands(extension.config.commands)
+          editor.registerCommands(extension.config.commands)
         }
       })
     })
