@@ -25,7 +25,7 @@ export default new Mark()
     ],
     toDOM: () => ['strong', 0],
   }))
-  .commands(({ editor, name }) => ({
+  .commands(({ editor, name, type }) => ({
     bold: next => () => {
       editor.toggleMark(name)
       next()

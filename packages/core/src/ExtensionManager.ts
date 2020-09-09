@@ -21,6 +21,7 @@ export default class ExtensionManager {
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
     this.extensions = extensions
+
     this.extensions.forEach(extension => {
       const simpleConfigs = ['name', 'defaults']
 
@@ -35,8 +36,20 @@ export default class ExtensionManager {
               : {
                 editor,
                 options: deepmerge(extension.config.defaults, extension.usedOptions),
-                type: {},
-                name: '',
+                // get type() {
+                //   console.log('called', editor.schema)
+
+                //   if (!editor.schema) {
+                //     return
+                //   }
+
+                //   if (extension.type === 'node') {
+                //     return editor.schema.nodes[extension.config.name]
+                //   }
+
+                //   return editor.schema.marks[extension.config.name]
+                // },
+                name: extension.config.name,
               }
             const value = typeof rawValue === 'function'
               ? rawValue(props)

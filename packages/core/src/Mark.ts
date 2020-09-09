@@ -28,7 +28,7 @@ export interface MarkExtends<Callback = MarkCallback> extends ExtensionExtends<C
 }
 
 export default class Mark<Options = {}> extends Extension<Options, MarkExtends> {
-  type = 'node'
+  type = 'mark'
 
   public schema(value: MarkExtends['schema']) {
     this.storeConfig('schema', value, 'overwrite')
