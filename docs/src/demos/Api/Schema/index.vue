@@ -31,9 +31,9 @@ export default {
   computed: {
     html() {
       return generateHtml(this.doc, [
-        new Document(),
-        new Paragraph(),
-        new Text(),
+        Document(),
+        Paragraph(),
+        Text(),
       ])
     }
   }
