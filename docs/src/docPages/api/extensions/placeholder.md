@@ -66,10 +66,10 @@ You have to include all table extensions (`TableHeader`, `TableCell` & `TableRow
       return {
         editor: new Editor({
           extensions: [
-            new Table(),
-            new TableCell(),
-            new TableHeader(),
-            new TableRow(),
+            Table(),
+            TableCell(),
+            TableHeader(),
+            TableRow(),
           ],
           content: ''
         }),

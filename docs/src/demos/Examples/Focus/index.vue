@@ -31,16 +31,16 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        new Document(),
-        new History(),
-        new Paragraph(),
-        new Text(),
-        new Bold(),
-        new Italic(),
-        new Code(),
-        new CodeBlock(),
-        new Heading(),
-        new Focus({
+        Document(),
+        History(),
+        Paragraph(),
+        Text(),
+        Bold(),
+        Italic(),
+        Code(),
+        CodeBlock(),
+        Heading(),
+        Focus({
           className: 'has-focus',
           nested: true,
         }),

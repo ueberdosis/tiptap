@@ -1,9 +1,294 @@
-import { NodeSpec, NodeType } from "prosemirror-model";
-import deepmerge from 'deepmerge'
-import collect from 'collect.js'
-import { Editor, CommandSpec, ComponentRenderer } from '@tiptap/core'
-import cloneDeep from 'clone-deep'
-import { Plugin } from "prosemirror-state";
+// import { NodeSpec, NodeType } from "prosemirror-model";
+// import deepmerge from 'deepmerge'
+// import collect from 'collect.js'
+// import { Editor, CommandSpec, ComponentRenderer } from '@tiptap/core'
+// import cloneDeep from 'clone-deep'
+// import { Plugin } from "prosemirror-state";
+
+// // type RecursivePartial<T> = {
+// //   [P in keyof T]?:
+// //     T[P] extends (infer U)[] ? RecursivePartial<U>[] :
+// //     T[P] extends object ? RecursivePartial<T[P]> :
+// //     T[P];
+// // }
+
+// // type Extension<Options = any> = {
+// //   name: string
+// //   defaultOptions?: Options | (() => Options)
+// //   bla?: number[] | ((this: ExtensionOptions<Options>) => number[])
+// //   blub?: number[] | (() => number[])
+// //   schema?: () => NodeSpec
+// // }
+
+// // type ExtensionOptions<T> = {
+// //   options: T
+// // }
+
+// // function Extension<Options>(config: Extension<Options>) {
+// //   const instance = (options: Options) => {
+// //     const extensionInstance = {
+// //       ...config,
+// //       options,
+// //     }
+
+// //     if (typeof extensionInstance.name === 'function') {
+// //       // @ts-ignore
+// //       extensionInstance.name()
+// //     }
+
+// //     return extensionInstance
+// //   }
+
+// //   instance.extend = (extendConfig: RecursivePartial<Extension>) => {
+// //     return Extension<Options>(deepmerge({...config}, {...extendConfig}) as Extension)
+// //   }
+
+// //   return instance
+// // }
+
+// // type HeadingOptions = {
+// //   levels?: number[]
+// // }
+
+// // const Heading = Extension<HeadingOptions>({
+// //   name: 'heading',
+// //   defaultOptions: {
+// //     levels: [1, 2, 3, 4, 5, 6],
+// //   },
+// //   schema() {
+// //     return {
+// //       defining: true
+// //     }
+// //   }
+// // })
+
+// // // Heading
+// // const h = Heading.extend({
+// //   name: '123',
+// // })({
+// //   levels: [1, 2]
+// // })
+
+// // console.log({h})
+
+
+
+
+
+
+
+
+
+
+
+// // const bla = Extension(options => {
+// //   name: 'heading',
+// //   bla: () => {
+// //     return [1, 2]
+// //   },
+// // })
+
+// // const Heading1 = Heading.extend({
+// //   name: 'heading 1'
+// // })
+
+// // console.log(Heading(1), Heading1(2))
+
+
+
+
+// // interface ExtenstionClass<T> {
+// //   new (options?: T): ExtenstionClass<T>
+// //   name?: string
+// //   bla?: number[] | (() => number[])
+// // }
+
+// // // class ExtenstionClass implements ExtenstionClass {
+// // class ExtenstionClass<T> {
+// //   // name: '124'
+
+// //   // bla() {
+// //   //   return [1, 2]
+// //   // }
+// // }
+
+// // class Whatever extends ExtenstionClass<HeadingOptions> {
+// //   name: '1243'
+// // }
+
+// // new Whatever({
+// //   bla: 124,
+// // })
+
+
+
+
+
+// // interface ExxxtensionConstructor<T> {
+// //   new (options: Partial<T>): any
+// // }
+
+// // interface Exxxtension {
+// //   name: string
+// // }
+
+// // const Exxxtension: ExxxtensionConstructor<HeadingOptions> = class Exxxtension implements Exxxtension {
+// //   name = '1'
+// // };
+
+// // new Exxxtension({
+// //   levels: [1, 2],
+// //   // test: 'bla',
+// // })
+
+
+
+
+// // interface ExxxtensionConstructor<T> {
+// //   new (options: Partial<T>): any
+// // }
+
+// // interface Exxxtension {
+// //   name: string
+// // }
+
+// // interface NodeExtension extends Exxxtension {
+// //   schema(): NodeSpec
+// //   what: number
+// // }
+
+// // class Exxxtension implements Exxxtension {
+// //   // public topNode = false
+// // }
+
+// // class NodeExtension implements NodeExtension {
+// //   // public topNode = false
+// // }
+
+// // const HeadingNode: ExxxtensionConstructor<HeadingOptions> = class HeadingNode extends NodeExtension implements NodeExtension {
+// //   name = 'heading'
+
+// //   // what = 's'
+
+// //   schema() {
+// //     return {
+// //       defining: true
+// //     }
+// //   }
+// // }
+
+// // new HeadingNode({
+// //   levels: [1, 2],
+// //   // test: 'bla',
+// // })
+
+
+
+
+// // interface ExtenstionClass {
+// //   // new (options?: T): ExtenstionClass<T>
+// //   name?: string
+// //   schema?: () => NodeSpec
+// // }
+
+
+
+
+
+
+
+
+
+
+// // type ExtensionConfig<Options = any> = {
+// //   name: string
+// //   defaultOptions: Options
+// // }
+
+// // type NodeConfig<Options = any> = ExtensionConfig<Options> & {
+// //   schema?: () => NodeSpec
+// // }
+
+// // class BaseExtension<Options, Config> {
+// //   // config: Config 
+// //   options!: Options
+
+// //   // config = {
+// //   //   name: 'extension',
+// //   //   defaultOptions: {},
+// //   // }
+
+// //   // defaultConfig = {
+// //   //   name: 'extension',
+// //   //   defaultOptions: {},
+// //   // }
+
+// //   // get defaultConfig(): Config {
+// //   //   return {
+// //   //     name: 'extension',
+// //   //     // defaultOptions: {},
+// //   //   }
+// //   // }
+
+// //   config: Config
+
+// //   constructor(config: Config) {
+// //     this.config = {
+// //       // ...this.defaultConfig,
+// //       ...{
+// //         name: 'extension',
+// //         defaultOptions: {},
+// //       },
+// //       ...config,
+// //     }
+// //     this.options = this.config.defaultOptions
+// //   }
+
+// //   set(options: Partial<Options>) {
+// //     console.log(this.config.defaultOptions)
+// //     this.options = {
+// //       ...this.config.defaultOptions,
+// //       ...options,
+// //     } as Options
+
+// //     console.log(this)
+// //   }
+// // }
+
+// // // class Extension<Options> extends BaseExtension<Options, ExtensionConfig<Options>> {
+// // //   defaultConfig: ExtensionConfig<Options> = {
+// // //     name: 'extension',
+// // //     defaultOptions: {},
+// // //   }
+// // // }
+
+// // class Node<Options> extends BaseExtension<Options, NodeConfig<Options>> {
+// //   // defaultConfig: NodeConfig<Options> = {
+// //   //   name: 'extension',
+// //   //   defaultOptions: {},
+// //   //   schema() {
+// //   //     return {}
+// //   //   }
+// //   // }
+// // }
+
+// // type HeadingOptions = {
+// //   levels: number[]
+// // }
+
+// // const Headingg = new Node<HeadingOptions>({
+// //   name: 'heading',
+// //   defaultOptions: {
+// //     levels: [1, 2, 3, 4, 5, 6]
+// //   },
+// // })
+
+// // Headingg.set({
+// //   levels: [1, 2]
+// // })
+
+
+
 
 // type RecursivePartial<T> = {
 //   [P in keyof T]?:
@@ -12,689 +297,401 @@ import { Plugin } from "prosemirror-state";
 //     T[P];
 // }
 
-// type Extension<Options = any> = {
+// type AnyObject = {
+//   [key: string]: any
+// }
+
+// type ExtensionConfig<Options = AnyObject> = {
 //   name: string
-//   defaultOptions?: Options | (() => Options)
-//   bla?: number[] | ((this: ExtensionOptions<Options>) => number[])
-//   blub?: number[] | (() => number[])
-//   schema?: () => NodeSpec
+//   defaultOptions: Options | (() => Options)
 // }
 
-// type ExtensionOptions<T> = {
-//   options: T
-// }
-
-// function Extension<Options>(config: Extension<Options>) {
-//   const instance = (options: Options) => {
-//     const extensionInstance = {
-//       ...config,
-//       options,
-//     }
-
-//     if (typeof extensionInstance.name === 'function') {
-//       // @ts-ignore
-//       extensionInstance.name()
-//     }
-
-//     return extensionInstance
-//   }
-
-//   instance.extend = (extendConfig: RecursivePartial<Extension>) => {
-//     return Extension<Options>(deepmerge({...config}, {...extendConfig}) as Extension)
-//   }
-
-//   return instance
-// }
-
-// type HeadingOptions = {
-//   levels?: number[]
-// }
-
-// const Heading = Extension<HeadingOptions>({
-//   name: 'heading',
-//   defaultOptions: {
-//     levels: [1, 2, 3, 4, 5, 6],
-//   },
-//   schema() {
-//     return {
-//       defining: true
-//     }
-//   }
-// })
-
-// // Heading
-// const h = Heading.extend({
-//   name: '123',
-// })({
-//   levels: [1, 2]
-// })
-
-// console.log({h})
-
-
-
-
-
-
-
-
-
-
-
-// const bla = Extension(options => {
-//   name: 'heading',
-//   bla: () => {
-//     return [1, 2]
-//   },
-// })
-
-// const Heading1 = Heading.extend({
-//   name: 'heading 1'
-// })
-
-// console.log(Heading(1), Heading1(2))
-
-
-
-
-// interface ExtenstionClass<T> {
-//   new (options?: T): ExtenstionClass<T>
-//   name?: string
-//   bla?: number[] | (() => number[])
-// }
-
-// // class ExtenstionClass implements ExtenstionClass {
-// class ExtenstionClass<T> {
-//   // name: '124'
-
-//   // bla() {
-//   //   return [1, 2]
-//   // }
-// }
-
-// class Whatever extends ExtenstionClass<HeadingOptions> {
-//   name: '1243'
-// }
-
-// new Whatever({
-//   bla: 124,
-// })
-
-
-
-
-
-// interface ExxxtensionConstructor<T> {
-//   new (options: Partial<T>): any
-// }
-
-// interface Exxxtension {
-//   name: string
-// }
-
-// const Exxxtension: ExxxtensionConstructor<HeadingOptions> = class Exxxtension implements Exxxtension {
-//   name = '1'
-// };
-
-// new Exxxtension({
-//   levels: [1, 2],
-//   // test: 'bla',
-// })
-
-
-
-
-// interface ExxxtensionConstructor<T> {
-//   new (options: Partial<T>): any
-// }
-
-// interface Exxxtension {
-//   name: string
-// }
-
-// interface NodeExtension extends Exxxtension {
-//   schema(): NodeSpec
-//   what: number
-// }
-
-// class Exxxtension implements Exxxtension {
-//   // public topNode = false
-// }
-
-// class NodeExtension implements NodeExtension {
-//   // public topNode = false
-// }
-
-// const HeadingNode: ExxxtensionConstructor<HeadingOptions> = class HeadingNode extends NodeExtension implements NodeExtension {
-//   name = 'heading'
-
-//   // what = 's'
-
-//   schema() {
-//     return {
-//       defining: true
-//     }
-//   }
-// }
-
-// new HeadingNode({
-//   levels: [1, 2],
-//   // test: 'bla',
-// })
-
-
-
-
-// interface ExtenstionClass {
-//   // new (options?: T): ExtenstionClass<T>
-//   name?: string
+// type NodeConfig<Options = AnyObject> = ExtensionConfig<Options> & {
 //   schema?: () => NodeSpec
 // }
 
 
-
-
-
-
-
-
-
-
-// type ExtensionConfig<Options = any> = {
-//   name: string
-//   defaultOptions: Options
-// }
-
-// type NodeConfig<Options = any> = ExtensionConfig<Options> & {
-//   schema?: () => NodeSpec
-// }
 
 // class BaseExtension<Options, Config> {
-//   // config: Config 
-//   options!: Options
+//   options!: Partial<Options>
 
-//   // config = {
-//   //   name: 'extension',
-//   //   defaultOptions: {},
-//   // }
+//   defaultConfig = {
+//     name: 'extension',
+//     defaultOptions: {},
+//   }
 
-//   // defaultConfig = {
-//   //   name: 'extension',
-//   //   defaultOptions: {},
-//   // }
+//   configs: AnyObject = {}
 
-//   // get defaultConfig(): Config {
-//   //   return {
-//   //     name: 'extension',
-//   //     // defaultOptions: {},
-//   //   }
-//   // }
-
-//   config: Config
-
-//   constructor(config: Config) {
-//     this.config = {
-//       // ...this.defaultConfig,
-//       ...{
-//         name: 'extension',
-//         defaultOptions: {},
-//       },
+//   constructor(config: AnyObject) {
+//     this.storeConfig({
+//       ...this.defaultConfig,
 //       ...config,
-//     }
-//     this.options = this.config.defaultOptions
+//     }, 'overwrite')
+//   }
+
+//   storeConfig(config: AnyObject, stategy: ('extend' | 'overwrite')) {
+//     Object.entries(config).forEach(([key, value]) => {
+//       const item = {
+//         stategy,
+//         value,
+//       }
+
+//       if (this.configs[key]) {
+//         this.configs[key].push(item)
+//       } else {
+//         this.configs[key] = [item]
+//       }
+//     })
 //   }
 
 //   set(options: Partial<Options>) {
-//     console.log(this.config.defaultOptions)
-//     this.options = {
-//       ...this.config.defaultOptions,
-//       ...options,
-//     } as Options
+//     this.options = options
+//   }
 
-//     console.log(this)
+//   extend(config: RecursivePartial<Config>) {
+//     this.storeConfig(config, 'extend')
+
+//     return this
+//   }
+
+//   overwrite(config: Partial<Config>) {
+//     this.storeConfig(config, 'overwrite')
+
+//     return this
 //   }
 // }
 
-// // class Extension<Options> extends BaseExtension<Options, ExtensionConfig<Options>> {
-// //   defaultConfig: ExtensionConfig<Options> = {
+// // class Extension<Options> extends BaseExtension<Options> {
+// //   defaultConfig: ExtensionConfig = {
 // //     name: 'extension',
 // //     defaultOptions: {},
+// //   }
+
+// //   constructor(config: ExtensionConfig<Options>) {
+// //     super(config)
 // //   }
 // // }
 
 // class Node<Options> extends BaseExtension<Options, NodeConfig<Options>> {
-//   // defaultConfig: NodeConfig<Options> = {
-//   //   name: 'extension',
-//   //   defaultOptions: {},
-//   //   schema() {
-//   //     return {}
-//   //   }
-//   // }
+//   defaultConfig: NodeConfig = {
+//     name: 'extension',
+//     defaultOptions: {},
+//     schema() {
+//       return {}
+//     }
+//   }
+
+//   constructor(config: NodeConfig<Options>) {
+//     super(config)
+//   }
 // }
 
 // type HeadingOptions = {
 //   levels: number[]
+//   bla: string
 // }
 
 // const Headingg = new Node<HeadingOptions>({
 //   name: 'heading',
 //   defaultOptions: {
+//     bla: 'hey',
 //     levels: [1, 2, 3, 4, 5, 6]
 //   },
 // })
 
-// Headingg.set({
-//   levels: [1, 2]
-// })
-
-
-
-
-type RecursivePartial<T> = {
-  [P in keyof T]?:
-    T[P] extends (infer U)[] ? RecursivePartial<U>[] :
-    T[P] extends object ? RecursivePartial<T[P]> :
-    T[P];
-}
-
-type AnyObject = {
-  [key: string]: any
-}
-
-type ExtensionConfig<Options = AnyObject> = {
-  name: string
-  defaultOptions: Options | (() => Options)
-}
-
-type NodeConfig<Options = AnyObject> = ExtensionConfig<Options> & {
-  schema?: () => NodeSpec
-}
-
-
-
-class BaseExtension<Options, Config> {
-  options!: Partial<Options>
-
-  defaultConfig = {
-    name: 'extension',
-    defaultOptions: {},
-  }
-
-  configs: AnyObject = {}
-
-  constructor(config: AnyObject) {
-    this.storeConfig({
-      ...this.defaultConfig,
-      ...config,
-    }, 'overwrite')
-  }
-
-  storeConfig(config: AnyObject, stategy: ('extend' | 'overwrite')) {
-    Object.entries(config).forEach(([key, value]) => {
-      const item = {
-        stategy,
-        value,
-      }
-
-      if (this.configs[key]) {
-        this.configs[key].push(item)
-      } else {
-        this.configs[key] = [item]
-      }
-    })
-  }
-
-  set(options: Partial<Options>) {
-    this.options = options
-  }
-
-  extend(config: RecursivePartial<Config>) {
-    this.storeConfig(config, 'extend')
-
-    return this
-  }
-
-  overwrite(config: Partial<Config>) {
-    this.storeConfig(config, 'overwrite')
-
-    return this
-  }
-}
-
-// class Extension<Options> extends BaseExtension<Options> {
-//   defaultConfig: ExtensionConfig = {
-//     name: 'extension',
-//     defaultOptions: {},
-//   }
-
-//   constructor(config: ExtensionConfig<Options>) {
-//     super(config)
-//   }
-// }
-
-class Node<Options> extends BaseExtension<Options, NodeConfig<Options>> {
-  defaultConfig: NodeConfig = {
-    name: 'extension',
-    defaultOptions: {},
-    schema() {
-      return {}
-    }
-  }
-
-  constructor(config: NodeConfig<Options>) {
-    super(config)
-  }
-}
-
-type HeadingOptions = {
-  levels: number[]
-  bla: string
-}
-
-const Headingg = new Node<HeadingOptions>({
-  name: 'heading',
-  defaultOptions: {
-    bla: 'hey',
-    levels: [1, 2, 3, 4, 5, 6]
-  },
-})
-
-// Headingg.set({
-//   levels: [1, 2]
-// })
-
-const h2 = Headingg.extend({
-  name: 'headliiiine',
-  defaultOptions() {
-    console.log('this:', this)
-    return {
-      levels: [5, 6]
-    }
-  },
-})
-
-const h3 = h2.extend({
-  name: 'wtf',
-})
-
-h3.set({
-  levels: [1, 2]
-})
-
-// const entries = Object
-//   .entries(h3.configs)
-//   .map(([key, value]) => {
-
-//     const mergedValue = value.reduce((acc: any, item: any) => {
-//       const { stategy, value } = item
-//       const called = typeof value === 'function' ? value() : value
-//       const isObject = called !== null && typeof called === 'object'
-
-//       if (isObject && stategy === 'extend') {
-//         return deepmerge(acc, called, {
-//           arrayMerge: (destinationArray, sourceArray, options) => sourceArray
-//         })
-//       }
-
-//       return called
-//     }, {})
-
-//     return [key, mergedValue]
-//   })
-
-//   console.log(entries)
-
-// const bla = Object.fromEntries(entries)
-
-// console.log(h3, bla)
-
-// interface Testi {
-//   name: string
-//   defaultOptions: {
-//     levels: number
-//   }
-// }
-
-// class Test implements Testi {
-
-//   name = '12'
-
-//   defaultOptions = {
-//     le
-//   }
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const Heading = Extension(options => ({
-//   defaultOptions: {
-//     name: 'heading',
-//   },
-//   schema: {
-//     parseDOM: options.levels
-//       .map(level => ({
-//         tag: `h${level}`,
-//         attrs: { level },
-//       })),
-//   },
-// }))
-
-// const Heading = new Node()
-//   .name('heading')
-//   .options({
-//     levels: [1, 2, 3]
-//   })
-//   .config(({ options }) => ({
-//     schema: {
-//       parseDOM: options.levels
-//         .map(level => ({
-//           tag: `h${level}`,
-//           attrs: { level },
-//         })),
-//       toDOM: node => [`h${node.attrs.level}`, 0],
-//     },
-//     plugins: {
-//       get() {
-
-
-//       },
-//     },
-//   }))
-
-// Heading
-//   .extendOptions({
-//     class: 'my-heading'
-//   })
-//   .extendConfig(({ options }) => ({
-//     schema: {
-//       toDOM: node => [`h${node.attrs.level}`, { class: options.class }, 0],
-//     },
-//   }))
-
-// @ts-ignore
-function copyProperties(target, source) {
-  Object.getOwnPropertyNames(source).forEach(name => {
-      Object.defineProperty(
-          target,
-          name,
-          // @ts-ignore
-          Object.getOwnPropertyDescriptor(source, name)
-      );
-  });
-  return target;
-}
-
-// @ts-ignore
-// function mix (...sources) {
-//   const result = {}
-//   for (const source of sources) {
-//     const props = Object.keys(source)
-//     for (const prop of props) {
-//       const descriptor = Object.getOwnPropertyDescriptor(source, prop)
-//       // @ts-ignore
-//       Object.defineProperty(result, prop, descriptor)
+// // Headingg.set({
+// //   levels: [1, 2]
+// // })
+
+// const h2 = Headingg.extend({
+//   name: 'headliiiine',
+//   defaultOptions() {
+//     console.log('this:', this)
+//     return {
+//       levels: [5, 6]
 //     }
-//   }
-//   return result
+//   },
+// })
+
+// const h3 = h2.extend({
+//   name: 'wtf',
+// })
+
+// h3.set({
+//   levels: [1, 2]
+// })
+
+// // const entries = Object
+// //   .entries(h3.configs)
+// //   .map(([key, value]) => {
+
+// //     const mergedValue = value.reduce((acc: any, item: any) => {
+// //       const { stategy, value } = item
+// //       const called = typeof value === 'function' ? value() : value
+// //       const isObject = called !== null && typeof called === 'object'
+
+// //       if (isObject && stategy === 'extend') {
+// //         return deepmerge(acc, called, {
+// //           arrayMerge: (destinationArray, sourceArray, options) => sourceArray
+// //         })
+// //       }
+
+// //       return called
+// //     }, {})
+
+// //     return [key, mergedValue]
+// //   })
+
+// //   console.log(entries)
+
+// // const bla = Object.fromEntries(entries)
+
+// // console.log(h3, bla)
+
+// // interface Testi {
+// //   name: string
+// //   defaultOptions: {
+// //     levels: number
+// //   }
+// // }
+
+// // class Test implements Testi {
+
+// //   name = '12'
+
+// //   defaultOptions = {
+// //     le
+// //   }
+
+// // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // const Heading = Extension(options => ({
+// //   defaultOptions: {
+// //     name: 'heading',
+// //   },
+// //   schema: {
+// //     parseDOM: options.levels
+// //       .map(level => ({
+// //         tag: `h${level}`,
+// //         attrs: { level },
+// //       })),
+// //   },
+// // }))
+
+// // const Heading = new Node()
+// //   .name('heading')
+// //   .options({
+// //     levels: [1, 2, 3]
+// //   })
+// //   .config(({ options }) => ({
+// //     schema: {
+// //       parseDOM: options.levels
+// //         .map(level => ({
+// //           tag: `h${level}`,
+// //           attrs: { level },
+// //         })),
+// //       toDOM: node => [`h${node.attrs.level}`, 0],
+// //     },
+// //     plugins: {
+// //       get() {
+
+
+// //       },
+// //     },
+// //   }))
+
+// // Heading
+// //   .extendOptions({
+// //     class: 'my-heading'
+// //   })
+// //   .extendConfig(({ options }) => ({
+// //     schema: {
+// //       toDOM: node => [`h${node.attrs.level}`, { class: options.class }, 0],
+// //     },
+// //   }))
+
+// // @ts-ignore
+// function copyProperties(target, source) {
+//   Object.getOwnPropertyNames(source).forEach(name => {
+//       Object.defineProperty(
+//           target,
+//           name,
+//           // @ts-ignore
+//           Object.getOwnPropertyDescriptor(source, name)
+//       );
+//   });
+//   return target;
 // }
 
-let one = {
-  count: 1,
-  // arr: [1],
-  get multiply() {
-    // console.log(this.count)
-    return this.count * 2
-  },
-  // nested: {
-  //   foo: 'bar',
-  // },
-  // get nested() {
-  //   return {
-  //     foo: 'bar'
-  //   }
-  // }
-}
+// // @ts-ignore
+// // function mix (...sources) {
+// //   const result = {}
+// //   for (const source of sources) {
+// //     const props = Object.keys(source)
+// //     for (const prop of props) {
+// //       const descriptor = Object.getOwnPropertyDescriptor(source, prop)
+// //       // @ts-ignore
+// //       Object.defineProperty(result, prop, descriptor)
+// //     }
+// //   }
+// //   return result
+// // }
 
-let two = {
-  count: 2,
-  // arr: [2],
-  get multiply() {
-    // console.log(this.count)
-    return this.count * 3
-  },
-}
-
-// let three = {
-//   ...one,
-//   ...two
+// let one = {
+//   count: 1,
+//   // arr: [1],
+//   get multiply() {
+//     // console.log(this.count)
+//     return this.count * 2
+//   },
+//   // nested: {
+//   //   foo: 'bar',
+//   // },
+//   // get nested() {
+//   //   return {
+//   //     foo: 'bar'
+//   //   }
+//   // }
 // }
 
+// let two = {
+//   count: 2,
+//   // arr: [2],
+//   get multiply() {
+//     // console.log(this.count)
+//     return this.count * 3
+//   },
+// }
+
+// // let three = {
+// //   ...one,
+// //   ...two
+// // }
+
+// // let three = copyProperties(one, two)
 // let three = copyProperties(one, two)
-let three = copyProperties(one, two)
-// let three = deepmerge(one, two, {clone: false})
-// let three = merge(one, two)
-// console.log(three)
+// // let three = deepmerge(one, two, {clone: false})
+// // let three = merge(one, two)
+// // console.log(three)
 
 
 
-// class Test {
-//   constructor() {
-//     // this.op = config
-//     // @ts-ignore
-//     this.name = 'test'
-//   }
+// // class Test {
+// //   constructor() {
+// //     // this.op = config
+// //     // @ts-ignore
+// //     this.name = 'test'
+// //   }
 
-//   config(fn: any) {
-//     this.config = fn.bind(this)()
+// //   config(fn: any) {
+// //     this.config = fn.bind(this)()
 
-//     return this
-//   }
+// //     return this
+// //   }
 
-//   extend(fn: any) {
-//     this.config = deepmerge(this.config, fn.bind(this)())
+// //   extend(fn: any) {
+// //     this.config = deepmerge(this.config, fn.bind(this)())
 
-//     return this
-//   }
-// }
-
-
-// const bla = new Test()
-//   .config(function() {
-//     //@ts-ignore
-//     // console.log(this)
-//     return {
-//       schema: {
-//         one: 1,
-//         //@ts-ignore
-//         foo: this.name + ' bar',
-//       },
-//     }
-//   })
-//   .extend(function() {
-//     //@ts-ignore
-//     // console.log(this)
-//     return {
-//       schema: {
-//         two: 2,
-//         //@ts-ignore
-//         foo: this.name + ' barrrrr',
-//       },
-//     }
-//   })
-//   // .extend(() => ({
-//   //   schema: {
-//   //     two: 2,
-//   //     //@ts-ignore
-//   //     foo: this.name + ' barrrrr',
-//   //   },
-//   // }))
-
-// console.log(bla.config)
+// //     return this
+// //   }
+// // }
 
 
+// // const bla = new Test()
+// //   .config(function() {
+// //     //@ts-ignore
+// //     // console.log(this)
+// //     return {
+// //       schema: {
+// //         one: 1,
+// //         //@ts-ignore
+// //         foo: this.name + ' bar',
+// //       },
+// //     }
+// //   })
+// //   .extend(function() {
+// //     //@ts-ignore
+// //     // console.log(this)
+// //     return {
+// //       schema: {
+// //         two: 2,
+// //         //@ts-ignore
+// //         foo: this.name + ' barrrrr',
+// //       },
+// //     }
+// //   })
+// //   // .extend(() => ({
+// //   //   schema: {
+// //   //     two: 2,
+// //   //     //@ts-ignore
+// //   //     foo: this.name + ' barrrrr',
+// //   //   },
+// //   // }))
 
-
-// const Heading = new Node()
-//   .name('heading')
-//   .options({
-//     levels: [1, 2, 3]
-//   })
-//   .config(({ name, options }) => ({
-//     schema: {
-//       parseDOM: options.levels.map(level => ({
-//         tag: `h${level}`,
-//         attrs: { level },
-//       })),
-//       toDOM: node => [`h${node.attrs.level}`, 0],
-//     },
-//   }))
-
-// const CustomHeading = Heading.extend(({ name, options }) => ({
-//   schema: {
-//     toDOM: node => [`h${node.attrs.level}`, { class: 'custom-class' }, 0],
-//   },
-// }))
-
-
-// const Heading = new Node()
-//   .name('heading')
-//   .options({
-//     levels: [1, 2, 3]
-//   })
-//   .schema(options => ({
-//     parseDOM: options.levels.map(level => ({
-//       tag: `h${level}`,
-//       attrs: { level },
-//     })),
-//     toDOM: node => [`h${node.attrs.level}`, 0],
-//   }))
-
-// const CustomHeading = Heading.extend('schema', options => ({
-//   toDOM: node => [`h${node.attrs.level}`, { class: 'custom-class' }, 0],
-// }))
+// // console.log(bla.config)
 
 
 
+
+// // const Heading = new Node()
+// //   .name('heading')
+// //   .options({
+// //     levels: [1, 2, 3]
+// //   })
+// //   .config(({ name, options }) => ({
+// //     schema: {
+// //       parseDOM: options.levels.map(level => ({
+// //         tag: `h${level}`,
+// //         attrs: { level },
+// //       })),
+// //       toDOM: node => [`h${node.attrs.level}`, 0],
+// //     },
+// //   }))
+
+// // const CustomHeading = Heading.extend(({ name, options }) => ({
+// //   schema: {
+// //     toDOM: node => [`h${node.attrs.level}`, { class: 'custom-class' }, 0],
+// //   },
+// // }))
+
+
+// // const Heading = new Node()
+// //   .name('heading')
+// //   .options({
+// //     levels: [1, 2, 3]
+// //   })
+// //   .schema(options => ({
+// //     parseDOM: options.levels.map(level => ({
+// //       tag: `h${level}`,
+// //       attrs: { level },
+// //     })),
+// //     toDOM: node => [`h${node.attrs.level}`, 0],
+// //   }))
+
+// // const CustomHeading = Heading.extend('schema', options => ({
+// //   toDOM: node => [`h${node.attrs.level}`, { class: 'custom-class' }, 0],
+// // }))
 
 
 
@@ -710,22 +707,102 @@ let three = copyProperties(one, two)
 
 
 
-// type Bla = {
+
+
+
+// // type Bla = {
+// //   name: string
+// //   options: any
+// // }
+
+// // type TypeName = "name" | "schema"; 
+
+// // type ObjectType<T> = 
+// //   T extends "name" ? string :
+// //   T extends "schema" ? (bla: Bla) => NodeSpec :
+// //   never;
+
+// // class Test {
+// //   configs: any = {}
+
+// //   storeConfig(key: string, value: any, stategy: ('extend' | 'overwrite')) {
+// //     const item = {
+// //       stategy,
+// //       value,
+// //     }
+
+// //     if (this.configs[key]) {
+// //       this.configs[key].push(item)
+// //     } else {
+// //       this.configs[key] = [item]
+// //     }
+// //   }
+
+// //   name(value: string) {
+// //     this.storeConfig('name', value, 'overwrite')
+// //     return this
+// //   }
+
+// //   schema(value: (bla: Bla) => NodeSpec) {
+// //     this.storeConfig('schema', value, 'overwrite')
+// //     return this
+// //   }
+
+// //   extend<T extends TypeName>(key: T, value: ObjectType<T>) {
+// //     this.storeConfig(key, value, 'extend')
+// //     return this
+// //   }
+
+// //   clone() {
+// //     return Object.assign(
+// //       Object.create(
+// //         // Set the prototype of the new object to the prototype of the instance.
+// //         // Used to allow new object behave like class instance.
+// //         Object.getPrototypeOf(this),
+// //       ),
+// //       // Prevent shallow copies of nested structures like arrays, etc
+// //       JSON.parse(JSON.stringify(this)),
+// //     )
+// //   }
+// // }
+
+// // const Bla = new Test()
+// //   .name('hey')
+  
+// // const Bla2 = Bla
+// //   .clone()
+// //   .name('ho')
+
+// // console.log(Bla, Bla2)
+
+
+
+
+// type NoInfer<T> = [T][T extends any ? 0 : never];
+
+// interface ExtensionCallback {
 //   name: string
-//   options: any
+//   editor: Editor
 // }
 
-// type TypeName = "name" | "schema"; 
+// interface ExtensionExtends<Callback = ExtensionCallback> {
+//   name: string
+//   options: AnyObject
+//   commands: (params: Callback) => CommandSpec
+//   inputRules: (params: Callback) => any[]
+//   pasteRules: (params: Callback) => any[]
+//   keys: (params: Callback) => {
+//     [key: string]: Function
+//   }
+//   plugins: (params: Callback) => Plugin[]
+// }
 
-// type ObjectType<T> = 
-//   T extends "name" ? string :
-//   T extends "schema" ? (bla: Bla) => NodeSpec :
-//   never;
-
-// class Test {
+// class ExtensionTest<Options, Extends extends ExtensionExtends = ExtensionExtends> {
+//   type = 'extension'
 //   configs: any = {}
+//   usedOptions: Partial<Options> = {}
 
-//   storeConfig(key: string, value: any, stategy: ('extend' | 'overwrite')) {
+//   protected storeConfig(key: string, value: any, stategy: 'extend' | 'overwrite') {
 //     const item = {
 //       stategy,
 //       value,
@@ -738,355 +815,278 @@ let three = copyProperties(one, two)
 //     }
 //   }
 
-//   name(value: string) {
+//   public configure(options: Partial<Options>) {
+//     this.usedOptions = { ...this.usedOptions, ...options }
+//     return this
+//   }
+
+//   public name(value: Extends['name']) {
 //     this.storeConfig('name', value, 'overwrite')
 //     return this
 //   }
 
-//   schema(value: (bla: Bla) => NodeSpec) {
-//     this.storeConfig('schema', value, 'overwrite')
+//   public defaultOptions(value: Options) {
+//     this.storeConfig('defaultOptions', value, 'overwrite')
 //     return this
 //   }
 
-//   extend<T extends TypeName>(key: T, value: ObjectType<T>) {
+//   public commands(value: Extends['commands']) {
+//     this.storeConfig('commands', value, 'overwrite')
+//     return this
+//   }
+
+//   public keys(value: Extends['keys']) {
+//     this.storeConfig('keys', value, 'overwrite')
+//     return this
+//   }
+
+//   public inputRules(value: Extends['inputRules']) {
+//     this.storeConfig('inputRules', value, 'overwrite')
+//     return this
+//   }
+
+//   public pasteRules(value: Extends['pasteRules']) {
+//     this.storeConfig('pasteRules', value, 'overwrite')
+//     return this
+//   }
+
+//   public plugins(value: Extends['plugins']) {
+//     this.storeConfig('plugins', value, 'overwrite')
+//     return this
+//   }
+
+//   public extend<T extends Extract<keyof Extends, string>>(key: T, value: Extends[T]) {
 //     this.storeConfig(key, value, 'extend')
 //     return this
 //   }
+  
+//   public create() {
+//     type ParentOptions = Options
 
-//   clone() {
-//     return Object.assign(
-//       Object.create(
-//         // Set the prototype of the new object to the prototype of the instance.
-//         // Used to allow new object behave like class instance.
-//         Object.getPrototypeOf(this),
-//       ),
-//       // Prevent shallow copies of nested structures like arrays, etc
-//       JSON.parse(JSON.stringify(this)),
-//     )
+//     return <Options = ParentOptions>(options?: Partial<NoInfer<Options>>) => {
+//       return cloneDeep(this, true).configure(options as Options)
+//     }
 //   }
 // }
 
-// const Bla = new Test()
-//   .name('hey')
-  
-// const Bla2 = Bla
-//   .clone()
-//   .name('ho')
-
-// console.log(Bla, Bla2)
-
-
-
-
-type NoInfer<T> = [T][T extends any ? 0 : never];
-
-interface ExtensionCallback {
-  name: string
-  editor: Editor
-}
-
-interface ExtensionExtends<Callback = ExtensionCallback> {
-  name: string
-  options: AnyObject
-  commands: (params: Callback) => CommandSpec
-  inputRules: (params: Callback) => any[]
-  pasteRules: (params: Callback) => any[]
-  keys: (params: Callback) => {
-    [key: string]: Function
-  }
-  plugins: (params: Callback) => Plugin[]
-}
-
-class ExtensionTest<Options, Extends extends ExtensionExtends = ExtensionExtends> {
-  type = 'extension'
-  configs: any = {}
-  usedOptions: Partial<Options> = {}
-
-  protected storeConfig(key: string, value: any, stategy: 'extend' | 'overwrite') {
-    const item = {
-      stategy,
-      value,
-    }
-
-    if (this.configs[key]) {
-      this.configs[key].push(item)
-    } else {
-      this.configs[key] = [item]
-    }
-  }
-
-  public configure(options: Partial<Options>) {
-    this.usedOptions = { ...this.usedOptions, ...options }
-    return this
-  }
-
-  public name(value: Extends['name']) {
-    this.storeConfig('name', value, 'overwrite')
-    return this
-  }
-
-  public defaultOptions(value: Options) {
-    this.storeConfig('defaultOptions', value, 'overwrite')
-    return this
-  }
-
-  public commands(value: Extends['commands']) {
-    this.storeConfig('commands', value, 'overwrite')
-    return this
-  }
-
-  public keys(value: Extends['keys']) {
-    this.storeConfig('keys', value, 'overwrite')
-    return this
-  }
-
-  public inputRules(value: Extends['inputRules']) {
-    this.storeConfig('inputRules', value, 'overwrite')
-    return this
-  }
-
-  public pasteRules(value: Extends['pasteRules']) {
-    this.storeConfig('pasteRules', value, 'overwrite')
-    return this
-  }
-
-  public plugins(value: Extends['plugins']) {
-    this.storeConfig('plugins', value, 'overwrite')
-    return this
-  }
-
-  public extend<T extends Extract<keyof Extends, string>>(key: T, value: Extends[T]) {
-    this.storeConfig(key, value, 'extend')
-    return this
-  }
-  
-  public create() {
-    type ParentOptions = Options
-
-    return <Options = ParentOptions>(options?: Partial<NoInfer<Options>>) => {
-      return cloneDeep(this, true).configure(options as Options)
-    }
-  }
-}
-
-interface NodeCallback extends ExtensionCallback {
-  // TODO: fix optional
-  type?: NodeType
-}
-
-interface NodeExtends<Callback = NodeCallback> extends ExtensionExtends<Callback> {
-  topNode: boolean
-  schema: (params: Callback) => NodeSpec
-}
-
-class NodeTest<Options> extends ExtensionTest<Options, NodeExtends> {
-  type = 'node'
-
-  public topNode(value: NodeExtends['topNode'] = true) {
-    this.storeConfig('topNode', value, 'overwrite')
-    return this
-  }
-
-  public schema(value: NodeExtends['schema']) {
-    this.storeConfig('schema', value, 'overwrite')
-    return this
-  }
-}
-
-interface TestOptions {
-  trigger: string
-}
-
-const Suggestion = new NodeTest<TestOptions>()
-  .name('suggestion')
-  .defaultOptions({
-    trigger: '@'
-  })
-  .schema(() => ({
-    toDOM: () => ['div', 0]
-  }))
-  .keys(({ editor }) => ({
-    'Mod-i': () => editor.italic(),
-  }))
-  .commands(({ editor, name }) => ({
-    [name]: next => () => {
-      editor.toggleMark(name)
-      next()
-    },
-  }))
-  .plugins(() => [
-    new Plugin({}),
-  ])
-  .extend('schema', () => ({
-    toDOM: () => ['span', 0],
-  }))
-  .create()
-
-// TODO: Erweitern
-// const CustomHeadlineAligned = new Headline()
-//   .name('custom_headline')
-//   .extend('defaults', {
-//     levels: [1, 2, 3],
-//     class: 'font-xs text-outline text-center',
-//     alignments: ['left', 'center', 'right'],
-//   })
-
-// const CustomHeadlineTag = new Headline()
-//   .name('custom_headline')
-//   .configure({
-//     class: 'custom-headline',
-//   })
-//   .schema(() => ({
-//     toDOM: () => ['h1', 0],
-//     toVue: Component,
-//   }))
-//   .merge('schema', () => ({
-//     parseDOM: [
-//       {
-//         tag: 'x-custom-headline',
-//       }
-//     ],
-//   }))
-
-
-
-
-
-// const Blub = new ExtensionTest<TestOptions>()
-//   .name('bla')
-//   .create()
-
-console.log(Suggestion())
-
-
-
-
-
-// export const Suggestion = new Suggestion()
-//   .name('suggestion')
-//   .defaults({
-//     trigger: '@',
-//     levels: [1, 2, 3],
-//   })
-//   .extend('schema', ({ editor, name, type}) => ({
-//     // levels: [1, 2, 3, 4, 5, 6],
-//     toDOM: () => ['strong', 0],
-//   }))
-//   .create()
-
-
-// const Mention = Suggestion()
-//   .name('mention')
-//   .configure({
-//     trigger: '@'
-//   })
-//   .create()
-
-// const Hashtag = Suggestion()
-//   .name('hashtag')
-//   .options({
-//     trigger: '#'
-//   })
-//   .create()
-
-
-// new Editor({
-//   extensions: [
-//     // Mention({}),
-//     // Hashtag(),
-//     // Suggestion({ trigger: '#'}).name('hashtag'),
-
-//     // Suggestion.option({ trigger: '@'}).name('mention'),
-//   ]
-// })
-
-// interface MentionOptions {
-//   trigger: string
-//   foo: string
+// interface NodeCallback extends ExtensionCallback {
+//   // TODO: fix optional
+//   type?: NodeType
 // }
 
-// const Mention = Suggestion<MentionOptions>()
-//   .name('mention')
-//   .create({
-//     trigger: '@'
-//   })
+// interface NodeExtends<Callback = NodeCallback> extends ExtensionExtends<Callback> {
+//   topNode: boolean
+//   schema: (params: Callback) => NodeSpec
+// }
 
-// const Hashtag = Suggestion({
-//   trigger: '#'
-// })
-// .create()
+// class NodeTest<Options> extends ExtensionTest<Options, NodeExtends> {
+//   type = 'node'
 
-// console.log(Mention(), Hashtag())
+//   public topNode(value: NodeExtends['topNode'] = true) {
+//     this.storeConfig('topNode', value, 'overwrite')
+//     return this
+//   }
 
+//   public schema(value: NodeExtends['schema']) {
+//     this.storeConfig('schema', value, 'overwrite')
+//     return this
+//   }
+// }
 
+// interface TestOptions {
+//   trigger: string
+// }
 
-
-
-// // create extension
-// const Suggestion = new Node()
+// const Suggestion = new NodeTest<TestOptions>()
 //   .name('suggestion')
-//   .options({
-//     trigger: '@',
-//   })
-//   .create()
-
-// // use extension
-// new Editor({
-//   extensions: [
-//     Suggestion(),
-//   ],
-// })
-
-// // use extension with setting options
-// new Editor({
-//   extensions: [
-//     Suggestion({
-//       trigger: '@',
-//     }),
-//   ],
-// })
-
-// // create extended nodes
-// const Mention = Suggestion()
-//   .name('mention')
-//   .create({
+//   .defaultOptions({
 //     trigger: '@'
 //   })
-// const Hashtag = Suggestion()
-//   .name('hashtag')
-//   .create({
-//     trigger: '#'
-//   })
-
-// new Editor({
-//   extensions: [
-//     Mention(),
-//     Hashtag(),
-//   ],
-// })
-
-// // extend nodes
-// const Whatever = Suggestion()
-//   .extend('options', {
-//     foo: 'bar',
-//   })
+//   .schema(() => ({
+//     toDOM: () => ['div', 0]
+//   }))
+//   .keys(({ editor }) => ({
+//     'Mod-i': () => editor.italic(),
+//   }))
+//   .commands(({ editor, name }) => ({
+//     [name]: next => () => {
+//       editor.toggleMark(name)
+//       next()
+//     },
+//   }))
+//   .plugins(() => [
+//     new Plugin({}),
+//   ])
+//   .extend('schema', () => ({
+//     toDOM: () => ['span', 0],
+//   }))
 //   .create()
 
-// // btw: this...
-// Suggestion({
-//   trigger: '@'
-// })
+// // TODO: Erweitern
+// // const CustomHeadlineAligned = new Headline()
+// //   .name('custom_headline')
+// //   .extend('defaults', {
+// //     levels: [1, 2, 3],
+// //     class: 'font-xs text-outline text-center',
+// //     alignments: ['left', 'center', 'right'],
+// //   })
 
-// // ...is equivalent to
-// Suggestion().create({
-//   trigger: '@'
-// })
+// // const CustomHeadlineTag = new Headline()
+// //   .name('custom_headline')
+// //   .configure({
+// //     class: 'custom-headline',
+// //   })
+// //   .schema(() => ({
+// //     toDOM: () => ['h1', 0],
+// //     toVue: Component,
+// //   }))
+// //   .merge('schema', () => ({
+// //     parseDOM: [
+// //       {
+// //         tag: 'x-custom-headline',
+// //       }
+// //     ],
+// //   }))
 
-// Suggestion()
-//   .name('mention')
 
-// // would be the same
-// Suggestion()
-//   .override('name', 'mention')
+
+
+
+// // const Blub = new ExtensionTest<TestOptions>()
+// //   .name('bla')
+// //   .create()
+
+// console.log(Suggestion())
+
+
+
+
+
+// // export const Suggestion = new Suggestion()
+// //   .name('suggestion')
+// //   .defaults({
+// //     trigger: '@',
+// //     levels: [1, 2, 3],
+// //   })
+// //   .extend('schema', ({ editor, name, type}) => ({
+// //     // levels: [1, 2, 3, 4, 5, 6],
+// //     toDOM: () => ['strong', 0],
+// //   }))
+// //   .create()
+
+
+// // const Mention = Suggestion()
+// //   .name('mention')
+// //   .configure({
+// //     trigger: '@'
+// //   })
+// //   .create()
+
+// // const Hashtag = Suggestion()
+// //   .name('hashtag')
+// //   .options({
+// //     trigger: '#'
+// //   })
+// //   .create()
+
+
+// // new Editor({
+// //   extensions: [
+// //     // Mention({}),
+// //     // Hashtag(),
+// //     // Suggestion({ trigger: '#'}).name('hashtag'),
+
+// //     // Suggestion.option({ trigger: '@'}).name('mention'),
+// //   ]
+// // })
+
+// // interface MentionOptions {
+// //   trigger: string
+// //   foo: string
+// // }
+
+// // const Mention = Suggestion<MentionOptions>()
+// //   .name('mention')
+// //   .create({
+// //     trigger: '@'
+// //   })
+
+// // const Hashtag = Suggestion({
+// //   trigger: '#'
+// // })
+// // .create()
+
+// // console.log(Mention(), Hashtag())
+
+
+
+
+
+// // // create extension
+// // const Suggestion = new Node()
+// //   .name('suggestion')
+// //   .options({
+// //     trigger: '@',
+// //   })
+// //   .create()
+
+// // // use extension
+// // new Editor({
+// //   extensions: [
+// //     Suggestion(),
+// //   ],
+// // })
+
+// // // use extension with setting options
+// // new Editor({
+// //   extensions: [
+// //     Suggestion({
+// //       trigger: '@',
+// //     }),
+// //   ],
+// // })
+
+// // // create extended nodes
+// // const Mention = Suggestion()
+// //   .name('mention')
+// //   .create({
+// //     trigger: '@'
+// //   })
+// // const Hashtag = Suggestion()
+// //   .name('hashtag')
+// //   .create({
+// //     trigger: '#'
+// //   })
+
+// // new Editor({
+// //   extensions: [
+// //     Mention(),
+// //     Hashtag(),
+// //   ],
+// // })
+
+// // // extend nodes
+// // const Whatever = Suggestion()
+// //   .extend('options', {
+// //     foo: 'bar',
+// //   })
+// //   .create()
+
+// // // btw: this...
+// // Suggestion({
+// //   trigger: '@'
+// // })
+
+// // // ...is equivalent to
+// // Suggestion().create({
+// //   trigger: '@'
+// // })
+
+// // Suggestion()
+// //   .name('mention')
+
+// // // would be the same
+// // Suggestion()
+// //   .override('name', 'mention')
 
 

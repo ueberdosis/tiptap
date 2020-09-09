@@ -39,7 +39,7 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new HorizontalRule(),
+          HorizontalRule(),
         ],
         content: `
           <p>Some text.</p>

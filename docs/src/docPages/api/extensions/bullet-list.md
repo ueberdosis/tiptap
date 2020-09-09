@@ -43,7 +43,7 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new BulletList(),
+          BulletList(),
         ],
         content: `
           <ul>

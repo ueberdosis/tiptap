@@ -2,7 +2,7 @@
 
 ## New features
 
-* generate schema without initializing tiptap, to make SSR easier (e. g. `getSchema([new Doc(), new Paragraph()])`)
+* generate schema without initializing tiptap, to make SSR easier (e. g. `getSchema([Doc(), Paragraph()])`)
 
 ## Requested features
 

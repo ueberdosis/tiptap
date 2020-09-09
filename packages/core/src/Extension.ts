@@ -78,9 +78,15 @@ export interface ExtensionExtends<Callback = ExtensionCallback> {
   plugins: (params: Callback) => Plugin[]
 }
 
-export default class Extension<Options, Extends extends ExtensionExtends = ExtensionExtends> {
+export default class Extension<Options = {}, Extends extends ExtensionExtends = ExtensionExtends> {
   type = 'extension'
-  configs: any = {}
+  config: any = {}
+  configs: {
+    [key: string]: {
+      stategy: 'extend' | 'overwrite'
+      value: any
+    }[]
+  } = {} 
   usedOptions: Partial<Options> = {}
 
   protected storeConfig(key: string, value: any, stategy: 'extend' | 'overwrite') {

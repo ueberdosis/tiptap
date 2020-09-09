@@ -24,9 +24,9 @@ export default {
     this.editor = new Editor({
       content: '<p>This is a radically reduced version of tiptap for minimalisits. It has only support for a document, paragraphs and text, that’s it.</p>',
       extensions: [
-        new Document(),
-        new Paragraph(),
-        new Text(),
+        Document(),
+        Paragraph(),
+        Text(),
       ],
     })
 

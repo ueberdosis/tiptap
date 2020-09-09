@@ -39,7 +39,7 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new Blockquote(),
+          Blockquote(),
         ],
         content: `
           <blockquote>

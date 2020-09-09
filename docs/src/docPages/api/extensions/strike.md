@@ -40,7 +40,7 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new Strike(),
+          Strike(),
         ],
         content: `
           <p><s>That's strikethrough.</s></p>

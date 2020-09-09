@@ -40,7 +40,7 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new Underline(),
+          Underline(),
         ],
         content: `
           <p><u>This is underlined.</u></p>
