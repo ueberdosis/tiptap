@@ -11,7 +11,7 @@ interface NodeCallback<Options> {
 
 export interface NodeExtends<Callback, Options> extends ExtensionExtends<Callback, Options> {
   topNode: boolean
-  schema: (params: Callback) => NodeSpec
+  schema: (params: Omit<Callback, 'type' | 'editor'>) => NodeSpec
 }
 
 export default class Node<

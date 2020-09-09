@@ -11,7 +11,7 @@ interface MarkCallback<Options> {
 
 export interface MarkExtends<Callback, Options> extends ExtensionExtends<Callback, Options> {
   topMark: boolean
-  schema: (params: Callback) => MarkSpec
+  schema: (params: Omit<Callback, 'type' | 'editor'>) => MarkSpec
 }
 
 export default class Mark<
