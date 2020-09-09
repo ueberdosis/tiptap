@@ -43,7 +43,7 @@ export default new Node<HeadingOptions>()
   }))
   .inputRules(({ options, type }) => {
     return options.levels.map((level: Level) => {
-      return textblockTypeInputRule(new RegExp(`^(?:#){${level}}\s$/gm`), type, { level })
+      return textblockTypeInputRule(new RegExp(`^(#{1,${level}})\\s$`), type, { level })
     })
   })
   .create()
