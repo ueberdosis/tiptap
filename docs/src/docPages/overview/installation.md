@@ -10,7 +10,7 @@ Use tiptap with vanilla JavaScript for a very lightweight and raw experience. If
 # With npm
 npm install @tiptap/core @tiptap/starter-kit
 
-# With yarn
+# Or: With Yarn
 yarn add @tiptap/core @tiptap/starter-kit
 ```
 
@@ -32,10 +32,10 @@ new Editor({
 To use tiptap with Vue.js (and tools that are based on Vue.js) install the Vue.js adapter in your project:
 
 ```bash
-# Using npm
+# With npm
 npm install @tiptap/vue @tiptap/vue-starter-kit
 
-# Using Yarn
+# Or: With Yarn
 yarn add @tiptap/vue @tiptap/vue-starter-kit
 ```
 

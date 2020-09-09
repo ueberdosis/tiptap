@@ -1,14 +1,14 @@
-- title: General
+- title: Overview
   items:
     - title: Introduction
       link: /
     - title: Installation
-      link: /general/installation
+      link: /overview/installation
     - title: Upgrade Guide
-      link: /general/upgrade-guide
+      link: /overview/upgrade-guide
       draft: true
     - title: Roadmap
-      link: /general/roadmap
+      link: /overview/roadmap
       draft: true
 
 - title: Guide
