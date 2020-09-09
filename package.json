@@ -15,7 +15,8 @@
     "build:docs": "yarn --cwd ./docs build",
     "build:packages": "yarn clean:packages && lerna exec --parallel -- microbundle --compress",
     "clean:packages": "rm -rf ./packages/*/dist",
-    "test": "cypress open --project tests",
+    "test:open": "cypress open --project tests",
+    "test": "cypress run --project tests",
     "reset": "clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
   },
   "devDependencies": {
