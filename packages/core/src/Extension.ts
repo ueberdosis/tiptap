@@ -2,63 +2,20 @@ import cloneDeep from 'clone-deep'
 import { Plugin } from 'prosemirror-state'
 import { Editor, CommandSpec } from './Editor'
 
-// export default abstract class Extension {
-
-//   constructor(options = {}) {
-//     this.options = {
-//       ...this.defaultOptions(),
-//       ...options,
-//     }
-//   }
-  
-//   editor!: Editor
-//   options: { [key: string]: any } = {}
-  
-//   public abstract name: string
-  
-//   public extensionType = 'extension'
-
-//   public created() {}
-
-//   public bindEditor(editor: Editor): void {
-//     this.editor = editor
-//   }
-
-//   defaultOptions(): { [key: string]: any } {
-//     return {}
-//   }
-
-//   update(): any {
-//     return () => {}
-//   }
-
-//   plugins(): Plugin[] {
-//     return []
-//   }
-
-//   inputRules(): any {
-//     return []
-//   }
-
-//   pasteRules(): any {
-//     return []
-//   }
-
-//   keys(): { [key: string]: Function } {
-//     return {}
-//   }
-
-//   commands(): { [key: string]: Command } {
-//     return {}
-//   } 
-
-// }
-
 type AnyObject = {
   [key: string]: any
 }
 
 type NoInfer<T> = [T][T extends any ? 0 : never]
+
+type MergeStrategy = 'extend' | 'overwrite'
+
+type Configs = {
+  [key: string]: {
+    stategy: MergeStrategy
+    value: any
+  }[]
+}
 
 export interface ExtensionCallback<Options> {
   name: string
@@ -84,16 +41,11 @@ export default class Extension<
   Extends extends ExtensionExtends<Callback, Options> = ExtensionExtends<Callback, Options>
 > {
   type = 'extension'
-  config: any = {}
-  configs: {
-    [key: string]: {
-      stategy: 'extend' | 'overwrite'
-      value: any
-    }[]
-  } = {} 
-  usedOptions: Partial<Options> = {}
+  config: AnyObject = {}
+  configs: Configs = {} 
+  options: Partial<Options> = {}
 
-  protected storeConfig(key: string, value: any, stategy: 'extend' | 'overwrite') {
+  protected storeConfig(key: string, value: any, stategy: MergeStrategy) {
     const item = {
       stategy,
       value,
@@ -107,7 +59,7 @@ export default class Extension<
   }
 
   public configure(options: Partial<Options>) {
-    this.usedOptions = { ...this.usedOptions, ...options }
+    this.options = { ...this.options, ...options }
     return this
   }
 
