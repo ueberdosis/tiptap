@@ -1,5 +1,5 @@
 # Bold
-This extension is used to render text in **bold**. If you pass `<strong>`, `<b>` tags, or text with inline `style` attributes setting the `font-weight` CSS rule in the editor’s initial content, they will all be rendered accordingly.
+This extension is used to render text in **bold**. If you pass `<strong>`, `<b>` tags, or text with inline `style` attributes setting the `font-weight` CSS rule in the editor’s initial content, they all will be rendered accordingly.
 
 Type `**two asterisks**` or `__two underlines__` and the it will be magically transformed to **bold** text while you type.
 

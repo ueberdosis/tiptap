@@ -1,5 +1,11 @@
 # Strike
-Enables you to use the `<s>` HTML tag in the editor.
+This extension is used to render ~~striked text~~. If you pass `<s>`, `<del>`, `<strike>` tags, or text with inline `style` attributes setting `text-decoration: line-through` in the editor’s initial content, they all will be rendered accordingly.
+
+Type `~~two tildes~~` and the it will be magically ~~striked through~~ while you type.
+
+::: warning Restrictions
+The extension will generate the corresponding `<s>` HTML tags when reading contents of the `Editor` instance. All text striked through, regardless of the method will be normalized to `<s>` HTML tags.
+:::
 
 ## Options
 | Option | Type   | Default | Description                                  |
@@ -15,47 +21,8 @@ Enables you to use the `<s>` HTML tag in the editor.
 * Windows & Linux: `Control` + `D`
 * macOS: `Command` + `D`
 
+## Source Code
+[packages/extension-strike/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)
+
 ## Usage
-```markup
-<template>
-  <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <button type="button" :class="{ 'is-active': isActive.strike() }" @click="commands.strike">
-        Strike
-      </button>
-    </editor-menu-bar>
-
-    <editor-content :editor="editor" />
-  </div>
-</template>
-
-<script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { Strike } from 'tiptap-extensions'
-
-export default {
-  components: {
-    EditorMenuBar,
-    EditorContent,
-  },
-  data() {
-    return {
-      editor: new Editor({
-        extensions: [
-          Strike(),
-        ],
-        content: `
-          <p><s>That's strikethrough.</s></p>
-          <p><del>This too.</del></p>
-          <p><strike>And this.</strike></p>
-          <p style="text-decoration: line-through">This as well.</p>
-        `,
-      }),
-    }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
-  }
-}
-</script>
-```
+<demo name="Extensions/Strike" highlight="3-5,17,36" />
