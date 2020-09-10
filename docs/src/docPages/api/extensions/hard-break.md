@@ -18,4 +18,4 @@ The HardBreak extensions adds support for the `<br>` HTML tag, which forces a li
 [packages/extension-hard-break/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-hard-break/)
 
 ## Usage
-<demo name="Extensions/HardBreak" highlight="13,32" />
+<demo name="Extensions/HardBreak" highlight="3-5,17,36" />

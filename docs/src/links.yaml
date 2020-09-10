@@ -133,9 +133,8 @@
         #   draft: true
         - title: Document
           link: /api/extensions/document
-        - title: Hardbreak
+        - title: HardBreak
           link: /api/extensions/hard-break
-          draft: true
         - title: Heading
           link: /api/extensions/heading
           draft: true
@@ -165,7 +164,6 @@
         #   draft: true
         - title: Strike
           link: /api/extensions/strike
-          draft: true
         # - title: TableCell
         #   link: /api/extensions/table-cell
         #   draft: true
