@@ -22,7 +22,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      content: '<p>This is a radically reduced version of tiptap for minimalisits. It has only support for a document, paragraphs and text, that’s it.</p>',
+      content: '<p>This is a radically reduced version of tiptap for minimalisits. It has only support for a document, paragraphs and text. That’s it.</p>',
       extensions: [
         Document(),
         Paragraph(),
