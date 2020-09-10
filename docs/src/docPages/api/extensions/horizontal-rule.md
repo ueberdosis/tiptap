@@ -1,5 +1,7 @@
 # HorizontalRule
-Enables you to use the `<hr>` HTML tag in the editor.
+Use this extension to render a `<hr>` HTML tag. If you pass `<hr>` in the editor’s initial content, it’ll be rendered accordingly.
+
+Type `---` (three dashes) or `___ ` (three underscores and a space) at the beginning of a new line and it will be magically transformed to a horizontal rule.
 
 ## Options
 | Option | Type   | Default | Description                                  |
@@ -9,10 +11,16 @@ Enables you to use the `<hr>` HTML tag in the editor.
 ## Commands
 | Command         | Options | Description               |
 | --------------- | ------- | ------------------------- |
-| horizontal_rule | —       | Create a horizontal rule. |
+| horizontalRule | —       | Create a horizontal rule. |
 
 ## Keyboard shortcuts
 *None*
+
+## Source Code
+[packages/extension-horizontal-rule/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/)
+
+## Usage
+<demo name="Extensions/HorizontalRule" highlight="3-5,17,36" />
 
 ## Usage
 ```markup
