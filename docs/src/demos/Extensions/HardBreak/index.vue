@@ -1,5 +1,9 @@
 <template>
   <div v-if="editor">
+    <button @click="editor.focus().hardBreak()">
+      hardBreak
+    </button>
+
     <editor-content :editor="editor" />
   </div>
 </template>

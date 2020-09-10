@@ -135,7 +135,6 @@
           link: /api/extensions/document
         - title: Hardbreak
           link: /api/extensions/hard-break
-          draft: true
         - title: Heading
           link: /api/extensions/heading
           draft: true
