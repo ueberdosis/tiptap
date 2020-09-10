@@ -133,7 +133,7 @@
         #   draft: true
         - title: Document
           link: /api/extensions/document
-        - title: Hardbreak
+        - title: HardBreak
           link: /api/extensions/hard-break
         - title: Heading
           link: /api/extensions/heading
