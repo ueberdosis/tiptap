@@ -142,7 +142,6 @@
           link: /api/extensions/history
         - title: HorizontalRule
           link: /api/extensions/horizontal-rule
-          draft: true
         - title: Italic
           link: /api/extensions/italic
         - title: Link
