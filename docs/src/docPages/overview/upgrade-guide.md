@@ -33,3 +33,6 @@ In case you’ve built some custom extensions for your project, you’ll need to
 ```js
 const CustomExtension = …
 ```
+
+### Blockquotes must not be nested anymore
+

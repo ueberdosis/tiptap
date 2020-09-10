@@ -10,6 +10,12 @@
       <button @click="editor.focus().italic()" :class="{ 'is-active': editor.isActive('italic') }">
         italic
       </button>
+      <button @click="editor.focus().underline()" :class="{ 'is-active': editor.isActive('underline') }">
+        underline
+      </button>
+      <button @click="editor.focus().strike()" :class="{ 'is-active': editor.isActive('strike') }">
+        strike
+      </button>
       <button @click="editor.focus().code()" :class="{ 'is-active': editor.isActive('code') }">
         code
       </button>
@@ -33,6 +39,15 @@
       </button>
       <button @click="editor.focus().heading({ level: 6 })" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
         h6
+      </button>
+      <button @click="editor.focus().blockquote()" :class="{ 'is-active': editor.isActive('blockquote') }">
+        blockquote
+      </button>
+      <button @click="editor.focus().horizontalRule()">
+        horizontal rule
+      </button>
+      <button @click="editor.focus().hardBreak()">
+        hard break
       </button>
       <button @click="editor.focus().undo()">
         undo
@@ -61,11 +76,11 @@ export default {
 
   mounted() {
     this.editor = new Editor({
+      extensions: defaultExtensions(),
       content: `
         <h2>Hey there!</h2>
         <p>This editor is based on Prosemirror, fully extendable and renderless. You can easily add custom nodes as Vue components.</p>
       `,
-      extensions: defaultExtensions(),
     })
 
     window.editor = this.editor
