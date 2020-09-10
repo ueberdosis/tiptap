@@ -13,6 +13,7 @@ import HardBreak from '@tiptap/extension-hard-break'
 import Strike from '@tiptap/extension-strike'
 import Underline from '@tiptap/extension-underline'
 import Blockquote from '@tiptap/extension-blockquote'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
 
 export function defaultExtensions() {
   return [
@@ -29,5 +30,6 @@ export function defaultExtensions() {
     Strike(),
     Underline(),
     Blockquote(),
+    HorizontalRule(),
   ]
 }

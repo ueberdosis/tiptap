@@ -11,6 +11,7 @@ import HardBreak from '@tiptap/extension-hard-break'
 import Strike from '@tiptap/extension-strike'
 import Underline from '@tiptap/extension-underline'
 import Blockquote from '@tiptap/extension-blockquote'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
 
 export default function defaultExtensions() {
   return [
@@ -27,5 +28,6 @@ export default function defaultExtensions() {
     Strike(),
     Underline(),
     Blockquote(),
+    HorizontalRule(),
   ]
 }

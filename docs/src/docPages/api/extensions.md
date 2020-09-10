@@ -22,7 +22,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 | [HardBreak](/api/extensions/hard-break)           | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-hard-break/)      |
 | [Heading](/api/extensions/heading)                | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-heading/)         |
 | [History](/api/extensions/history)                | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)         |
-| [HorizontalRule](/api/extensions/horizontal-rule) | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/) |
+| [HorizontalRule](/api/extensions/horizontal-rule) | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/) |
 | [Italic](/api/extensions/italic)                  | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)          |
 | [Link](/api/extensions/link)                      | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-link/)            |
 | [OrderedList](/api/extensions/ordered-list)       | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-ordered-list/)    |
