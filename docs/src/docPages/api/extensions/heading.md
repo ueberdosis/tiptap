@@ -1,5 +1,7 @@
 # Heading
-Enables you to use headline HTML tags in the editor.
+The Heading extension adds support for headlines. Headlines are rendered with `<h1>` to `<h6>` HTML tags. By default six headline levels are enabled, but you can pass an array to only allow a few levels, see an example below.
+
+Type `# ​` at the beginning of a new line and it will be magically transformed to a headline, same for `## ​`, `### ​`, `#### ​`, `##### ​` and `###### ​`.
 
 ## Options
 | Option | Type   | Default            | Description                                  |
