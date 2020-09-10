@@ -12,24 +12,24 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 
 ## List of supported extensions
 
-| Title | Default Extension | Source Code |
-| ----- | ------- | ----------- |
-| [Blockquote](/api/extensions/blockquote) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-blockquote/)
-| [Bold](/api/extensions/bold) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/)
-| [BulletList](/api/extensions/bullet-list) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/)
-| [Code](/api/extensions/code) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code/)
-| [Document](/api/extensions/document) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-document/)
-| [HardBreak](/api/extensions/hard-break) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-hard-break/)
-| [Heading](/api/extensions/heading) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-heading/)
-| [History](/api/extensions/history) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)
-| [HorizontalRule](/api/extensions/horizontal-rule) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/)
-| [Italic](/api/extensions/italic) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)
-| [Link](/api/extensions/link) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-link/)
-| [OrderedList](/api/extensions/ordered-list) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-ordered-list/)
-| [Paragraph](/api/extensions/paragraph) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-paragraph/)
-| [Strike](/api/extensions/strike) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)
-| [Text](/api/extensions/text) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text/)
-| [Underline](/api/extensions/underline) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)
+| Title                                             | Default Extension | Source Code                                                                                       |
+| ------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------- |
+| [Blockquote](/api/extensions/blockquote)          | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-blockquote/)      |
+| [Bold](/api/extensions/bold)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/)            |
+| [BulletList](/api/extensions/bullet-list)         | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/)     |
+| [Code](/api/extensions/code)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code/)            |
+| [Document](/api/extensions/document)              | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-document/)        |
+| [HardBreak](/api/extensions/hard-break)           | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-hard-break/)      |
+| [Heading](/api/extensions/heading)                | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-heading/)         |
+| [History](/api/extensions/history)                | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)         |
+| [HorizontalRule](/api/extensions/horizontal-rule) | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/) |
+| [Italic](/api/extensions/italic)                  | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)          |
+| [Link](/api/extensions/link)                      | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-link/)            |
+| [OrderedList](/api/extensions/ordered-list)       | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-ordered-list/)    |
+| [Paragraph](/api/extensions/paragraph)            | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-paragraph/)       |
+| [Strike](/api/extensions/strike)                  | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)          |
+| [Text](/api/extensions/text)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text/)            |
+| [Underline](/api/extensions/underline)            | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)       |
 
 <!-- | [CodeBlock](/api/extensions/code-block) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code-block/) -->
 <!-- | [CodeBlockHighlight](/api/extensions/code-block-highlight) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packagescode-block-highlight/extension-/) -->

@@ -6,14 +6,14 @@ It’s intended to be used with the `ListItem` extension.
 :::
 
 ## Options
-| Option | Type | Default | Description |
-| ------ | ---- | ------- | ----------- |
-| class | string | – | Add a custom class to the rendered HTML tag. |
+| Option | Type   | Default | Description                                  |
+| ------ | ------ | ------- | -------------------------------------------- |
+| class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command | Options | Description |
-| ------ | ---- | ---------------- |
-| bullet_list | — | Toggle a bullet list. |
+| Command     | Options | Description           |
+| ----------- | ------- | --------------------- |
+| bullet_list | —       | Toggle a bullet list. |
 
 ## Keybindings
 * `Control` + `Shift` + `8`

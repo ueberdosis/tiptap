@@ -6,6 +6,6 @@ This extensions is intended to be used with the `BulletList` or `OrderedList` ex
 :::
 
 ## Options
-| Option | Type | Default | Description |
-| ------ | ---- | ------- | ----------- |
-| class | string | – | Add a custom class to the rendered HTML tag. |
+| Option | Type   | Default | Description                                  |
+| ------ | ------ | ------- | -------------------------------------------- |
+| class  | string | –       | Add a custom class to the rendered HTML tag. |

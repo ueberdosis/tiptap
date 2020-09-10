@@ -6,14 +6,14 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 :::
 
 ## Options
-| Option | Type | Default | Description |
-| ------ | ---- | ------- | ----------- |
-| class | string | – | Add a custom class to the rendered HTML tag. |
+| Option | Type   | Default | Description                                  |
+| ------ | ------ | ------- | -------------------------------------------- |
+| class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command | Options | Description |
-| ------- | ------- | ----------- |
-| bold | — | Mark text bold. |
+| Command | Options | Description     |
+| ------- | ------- | --------------- |
+| bold    | —       | Mark text bold. |
 
 ## Keybindings
 * Windows & Linux: `Control` + `B`

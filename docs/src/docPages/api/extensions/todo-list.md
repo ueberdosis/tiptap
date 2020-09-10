@@ -9,9 +9,9 @@ This extensions is intended to be used with the `TodoItem` extension.
 *None*
 
 ## Commands
-| Command | Options | Description |
-| ------ | ---- | ---------------- |
-| todo_list | — | Toggle todo list. |
+| Command   | Options | Description       |
+| --------- | ------- | ----------------- |
+| todo_list | —       | Toggle todo list. |
 
 ## Keybindings
 *None*

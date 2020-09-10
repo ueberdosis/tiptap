@@ -5,10 +5,10 @@ This extension provides history support. All changes to the document will be tra
 *None*
 
 ## Commands
-| Command | Options | Description |
-| ------- | ------- | ----------- |
-| undo | — | Undo the last change. |
-| redo | — | Redo the last change. |
+| Command | Options | Description           |
+| ------- | ------- | --------------------- |
+| undo    | —       | Undo the last change. |
+| redo    | —       | Redo the last change. |
 
 ## Keybindings
 * Windows & Linux: `Control` + `Z`

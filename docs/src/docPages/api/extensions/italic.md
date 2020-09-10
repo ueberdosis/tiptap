@@ -6,14 +6,14 @@ The extension will generate the corresponding `<em>` HTML tags when reading cont
 :::
 
 ## Options
-| Option | Type | Default | Description |
-| ------ | ---- | ------- | ----------- |
-| class | string | – | Add a custom class to the rendered HTML tag. |
+| Option | Type   | Default | Description                                  |
+| ------ | ------ | ------- | -------------------------------------------- |
+| class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command | Options | Description |
-| ------- | ------- | ----------- |
-| italic | — | Mark text italic. |
+| Command | Options | Description       |
+| ------- | ------- | ----------------- |
+| italic  | —       | Mark text italic. |
 
 ## Keybindings
 * Windows & Linux: `Control` + `I`

@@ -6,14 +6,14 @@ This extensions is intended to be used with the `ListItem` extension.
 :::
 
 ## Options
-| Option | Type | Default | Description |
-| ------ | ---- | ------- | ----------- |
-| class | string | – | Add a custom class to the rendered HTML tag. |
+| Option | Type   | Default | Description                                  |
+| ------ | ------ | ------- | -------------------------------------------- |
+| class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command | Options | Description |
-| ------ | ---- | ---------------- |
-| ordered_list | — | Toggle an ordered list. |
+| Command      | Options | Description             |
+| ------------ | ------- | ----------------------- |
+| ordered_list | —       | Toggle an ordered list. |
 
 ## Keybindings
 * `Control` + `Shift` + `9`

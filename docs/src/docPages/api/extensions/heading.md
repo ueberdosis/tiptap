@@ -2,15 +2,15 @@
 Enables you to use headline HTML tags in the editor.
 
 ## Options
-| Option | Type | Default | Description |
-| ------ | ---- | ------- | ----------- |
-| class | string | – | Add a custom class to the rendered HTML tag. |
-| levels | Array | [1, 2, 3, 4, 5, 6] | Specifies which headlines are supported. |
+| Option | Type   | Default            | Description                                  |
+| ------ | ------ | ------------------ | -------------------------------------------- |
+| class  | string | –                  | Add a custom class to the rendered HTML tag. |
+| levels | Array  | [1, 2, 3, 4, 5, 6] | Specifies which headlines are supported.     |
 
 ## Commands
-| Command | Options | Description |
-| ------ | ---- | ---------------- |
-| heading | level | Creates a heading node. |
+| Command | Options | Description             |
+| ------- | ------- | ----------------------- |
+| heading | level   | Creates a heading node. |
 
 ## Keybindings
 * `Control` + `Shift` + `1` → H1

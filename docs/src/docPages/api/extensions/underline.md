@@ -2,14 +2,14 @@
 Enables you to use the `<u>` HTML tag in the editor.
 
 ## Options
-| Option | Type | Default | Description |
-| ------ | ---- | ------- | ----------- |
-| class | string | – | Add a custom class to the rendered HTML tag. |
+| Option | Type   | Default | Description                                  |
+| ------ | ------ | ------- | -------------------------------------------- |
+| class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command | Options | Description |
-| ------ | ---- | ---------------- |
-| underline | — | Mark text as underlined. |
+| Command   | Options | Description              |
+| --------- | ------- | ------------------------ |
+| underline | —       | Mark text as underlined. |
 
 ## Keybindings
 * Windows & Linux: `Control` + `U`
