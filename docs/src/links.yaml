@@ -184,7 +184,6 @@
         #   draft: true
         - title: Underline
           link: /api/extensions/underline
-          draft: true
     - title: Commands
       link: /api/commands
       draft: true
