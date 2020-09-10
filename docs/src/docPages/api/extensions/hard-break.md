@@ -5,13 +5,13 @@ The HardBreak extensions adds support for the `<br>` HTML tag, which forces a li
 *None*
 
 ## Commands
-## Commands
 | Command   | Options | Description       |
 | --------- | ------- | ----------------- |
 | hardBreak | —       | Add a line break. |
 
 ## Keyboard shortcuts
-* Windows & Linux: `Shift` + `Enter`
+* `Shift` + `Enter`
+* Windows & Linux: `Control` + `Enter`
 * macOS: `Command` + `Enter`
 
 ## Source Code
