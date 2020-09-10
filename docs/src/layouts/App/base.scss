@@ -99,4 +99,17 @@ blockquote {
   p {
     margin: 0.5rem 0;
   }
+
+  pre {
+    background: rgba($colorBlack, 0.9);
+    color: rgba($colorWhite, 0.9);
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 0.25rem;
+
+    code {
+      color: inherit;
+      background: none;
+    }
+  }
 }

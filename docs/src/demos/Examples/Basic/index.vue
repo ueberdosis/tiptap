@@ -19,8 +19,8 @@
       <button @click="editor.focus().code()" :class="{ 'is-active': editor.isActive('code') }">
         code
       </button>
-      <button @click="editor.focus().codeBlock()" :class="{ 'is-active': editor.isActive('code_block') }">
-        code_block
+      <button @click="editor.focus().codeBlock()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+        code block
       </button>
       <button @click="editor.focus().heading({ level: 1 })" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
         h1
