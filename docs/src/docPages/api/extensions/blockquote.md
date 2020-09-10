@@ -1,5 +1,7 @@
 # Blockquote
-The Blockquote extension enables you to use the `<blockquote>` HTML tag in the editor.
+The Blockquote extension enables you to use the `<blockquote>` HTML tag in the editor. This is great – you might have guessed – to use quotes in the editor.
+
+Type `> ` on the beginning of a new line and it will be magically transformed to a blockquote.
 
 ## Options
 | Option | Type   | Default | Description                                  |
@@ -12,49 +14,11 @@ The Blockquote extension enables you to use the `<blockquote>` HTML tag in the e
 | blockquote | —       | Wrap content in a blockquote. |
 
 ## Keybindings
-* `Control` + `→`
+* Windows & Linux: `Control` + `Shift` + `9`
+* macOS: `Command` + `Shift` + `9`
+
+## Source Code
+[packages/extension-blockquote/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-blockquote/)
 
 ## Usage
-```markup
-<template>
-  <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <button type="button" :class="{ 'is-active': isActive.blockquote() }" @click="commands.blockquote">
-        Blockquote
-      </button>
-    </editor-menu-bar>
-
-    <editor-content :editor="editor" />
-  </div>
-</template>
-
-<script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { Blockquote } from 'tiptap-extensions'
-
-export default {
-  components: {
-    EditorMenuBar,
-    EditorContent,
-  },
-  data() {
-    return {
-      editor: new Editor({
-        extensions: [
-          Blockquote(),
-        ],
-        content: `
-          <blockquote>
-            Life is like riding a bycicle. To keep your balance, you must keep moving.
-          </blockquote>
-          <p>Albert Einstein</p>
-        `,
-      }),
-    }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
-  }
-}
-</script>
-```
+<demo name="Extensions/Blockquote" highlight="3-5,17,36" />
