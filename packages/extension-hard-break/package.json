@@ -1,12 +1,12 @@
 {
-  "name": "@tiptap/extension-hardbreak",
+  "name": "@tiptap/extension-hard-break",
   "version": "1.0.0",
   "source": "index.ts",
-  "main": "dist/tiptap-extension-hardbreak.js",
-  "umd:main": "dist/tiptap-extension-hardbreak.umd.js",
-  "module": "dist/tiptap-extension-hardbreak.mjs", 
-  "unpkg": "dist/tiptap-extension-hardbreak.js",
-  "jsdelivr": "dist/tiptap-extension-hardbreak.js",
+  "main": "dist/tiptap-extension-hard-break.js",
+  "umd:main": "dist/tiptap-extension-hard-break.umd.js",
+  "module": "dist/tiptap-extension-hard-break.mjs",
+  "unpkg": "dist/tiptap-extension-hard-break.js",
+  "jsdelivr": "dist/tiptap-extension-hard-break.js",
   "files": [
     "src",
     "dist"
