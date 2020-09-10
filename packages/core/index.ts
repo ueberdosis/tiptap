@@ -8,6 +8,7 @@ export { default as Node } from './src/Node'
 export { default as Mark } from './src/Mark'
 export { Extensions } from './src/types'
 
+export { default as nodeInputRule } from './src/inputRules/nodeInputRule'
 export { default as markInputRule } from './src/inputRules/markInputRule'
 export { default as markPasteRule } from './src/pasteRules/markPasteRule'
 
