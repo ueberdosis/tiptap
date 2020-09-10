@@ -10,7 +10,7 @@ This extension provides history support. All changes to the document will be tra
 | undo    | —       | Undo the last change. |
 | redo    | —       | Redo the last change. |
 
-## Keybindings
+## Keyboard shortcuts
 * Windows & Linux: `Control` + `Z`
 * macOS: `Command` + `Z`
 

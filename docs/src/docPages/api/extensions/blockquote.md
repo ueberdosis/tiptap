@@ -11,7 +11,7 @@ The Blockquote extension enables you to use the `<blockquote>` HTML tag in the e
 | ---------- | ------- | ----------------------------- |
 | blockquote | —       | Wrap content in a blockquote. |
 
-## Keybindings
+## Keyboard shortcuts
 * `Control` + `→`
 
 ## Usage

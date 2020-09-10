@@ -15,7 +15,7 @@ The extension will generate the corresponding `<em>` HTML tags when reading cont
 | ------- | ------- | ----------------- |
 | italic  | —       | Mark text italic. |
 
-## Keybindings
+## Keyboard shortcuts
 * Windows & Linux: `Control` + `I`
 * macOS: `Command` + `I`
 
