@@ -32,7 +32,7 @@ context('/api/extensions/strike', () => {
 
     it('should make a striked text from the markdown shortcut', () => {
       cy.get('.ProseMirror')
-        .type('~~Strike~~', {force: true})
+        .type('~Strike~', {force: true})
         .contains('s', 'Strike')
     })
   })
