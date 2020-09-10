@@ -124,7 +124,6 @@
           link: /api/extensions/code
         - title: CodeBlock
           link: /api/extensions/code-block
-          draft: true
         # - title: CodeBlockHighlight
         #   link: /api/extensions/code-block-highlight
         #   draft: true

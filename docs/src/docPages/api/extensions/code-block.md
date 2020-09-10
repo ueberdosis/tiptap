@@ -1,5 +1,11 @@
 # CodeBlock
-Enables you to use the `<pre>` HTML tag in the editor.
+With the CodeBlock extension you can add fenced code blocks to your documents. It’ll wrap the code in `<pre>` and `<code>` HTML tags.
+
+Type three backticks and a space (`\`` ) and a code block is instantly added for you.
+
+::: warning Restrictions
+The CodeBlock extension doesn’t come with styling and has no syntax highlighting built-in. It’s on our roadmap though.
+:::
 
 ## Options
 | Option | Type   | Default | Description                                  |
