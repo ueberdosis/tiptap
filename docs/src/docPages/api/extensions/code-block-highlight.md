@@ -7,5 +7,5 @@ Enables you to use the `<pre>` HTML tag with auto-detected syntax highlighting i
 ## Commands
 *None*
 
-## Keybindings
+## Keyboard shortcuts
 *None*

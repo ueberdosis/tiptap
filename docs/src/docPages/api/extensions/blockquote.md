@@ -13,7 +13,7 @@ Type `> ` on the beginning of a new line and it will be magically transformed to
 | ---------- | ------- | ----------------------------- |
 | blockquote | —       | Wrap content in a blockquote. |
 
-## Keybindings
+## Keyboard shortcuts
 * Windows & Linux: `Control` + `Shift` + `9`
 * macOS: `Command` + `Shift` + `9`
 

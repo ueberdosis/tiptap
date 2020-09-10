@@ -19,9 +19,7 @@ context('/api/extensions/history', () => {
     })
 
     it('the keyboard shortcut should make the last change undone', () => {
-      const shortcut = Cypress.platform === 'darwin' ? '{meta}z' : '{ctrl}z'
-
-      cy.get('.ProseMirror').type(shortcut, {force: true})
+      cy.get('.ProseMirror').type('{meta}z', {force: true})
       cy.get('.ProseMirror').should('not.contain', 'Mistake')
     })
   })
@@ -39,13 +37,10 @@ context('/api/extensions/history', () => {
     })
 
     it.skip('the keyboard shortcut should apply the last undone change again', () => {
-      const undoShortcut = Cypress.platform === 'darwin' ? '{meta}z' : '{ctrl}z'
-      const redoShortcut = Cypress.platform === 'darwin' ? '{meta}{shift}z' : '{ctrl}{shift}z'
-
-      cy.get('.ProseMirror').type(undoShortcut, {force: true})
+      cy.get('.ProseMirror').type('{meta}z', {force: true})
       cy.get('.ProseMirror').should('not.contain', 'Mistake')
 
-      cy.get('.ProseMirror').type(redoShortcut, {force: true})
+      cy.get('.ProseMirror').type('{meta}{shift}z', {force: true})
       cy.get('.ProseMirror').should('contain', 'Mistake')
     })
   })

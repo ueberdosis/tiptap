@@ -7,5 +7,5 @@ Enables you to use the `<pre>` HTML tag in the editor.
 ## Commands
 *None*
 
-## Keybindings
+## Keyboard shortcuts
 *None*

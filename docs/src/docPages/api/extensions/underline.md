@@ -11,7 +11,7 @@ Enables you to use the `<u>` HTML tag in the editor.
 | --------- | ------- | ------------------------ |
 | underline | —       | Mark text as underlined. |
 
-## Keybindings
+## Keyboard shortcuts
 * Windows & Linux: `Control` + `U`
 * macOS: `Command` + `U`
 

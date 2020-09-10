@@ -15,7 +15,7 @@ It’s intended to be used with the `ListItem` extension.
 | ----------- | ------- | --------------------- |
 | bullet_list | —       | Toggle a bullet list. |
 
-## Keybindings
+## Keyboard shortcuts
 * `Control` + `Shift` + `8`
 
 ## Usage

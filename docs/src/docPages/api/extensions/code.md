@@ -11,7 +11,7 @@ The Code extensions enables you to use the `<code>` HTML tag in the editor. If y
 | ------- | ------- | ------------------------- |
 | code    | —       | Mark text as inline code. |
 
-## Keybindings
+## Keyboard shortcuts
 * `Alt` + `
 
 ## Source Code

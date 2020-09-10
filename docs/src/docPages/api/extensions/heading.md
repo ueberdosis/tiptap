@@ -12,7 +12,7 @@ Enables you to use headline HTML tags in the editor.
 | ------- | ------- | ----------------------- |
 | heading | level   | Creates a heading node. |
 
-## Keybindings
+## Keyboard shortcuts
 * `Control` + `Shift` + `1` → H1
 * `Control` + `Shift` + `2` → H2
 * `Control` + `Shift` + `3` → H3

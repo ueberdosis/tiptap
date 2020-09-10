@@ -9,7 +9,7 @@ Yes, the schema is very strict. Without this extension you won’t even be able 
 ## Commands
 *None*
 
-## Keybindings
+## Keyboard shortcuts
 *None*
 
 ## Source Code

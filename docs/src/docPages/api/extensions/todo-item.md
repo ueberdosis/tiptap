@@ -13,5 +13,5 @@ This extensions is intended to be used with the `TodoList` extension.
 ## Commands
 *None*
 
-## Keybindings
+## Keyboard shortcuts
 *None*
