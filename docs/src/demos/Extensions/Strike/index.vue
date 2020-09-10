@@ -14,7 +14,7 @@ import { EditorContent } from '@tiptap/vue'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-// import Strike from '@tiptap/extension-strike'
+import Strike from '@tiptap/extension-strike'
 
 export default {
   components: {
@@ -33,7 +33,7 @@ export default {
         Document(),
         Paragraph(),
         Text(),
-        // Strike(),
+        Strike(),
       ],
       content: `
           <p>This isn’t striked through.</s></p>

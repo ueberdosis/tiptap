@@ -164,7 +164,6 @@
         #   draft: true
         - title: Strike
           link: /api/extensions/strike
-          draft: true
         # - title: TableCell
         #   link: /api/extensions/table-cell
         #   draft: true
