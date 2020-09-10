@@ -34,7 +34,7 @@ context('/api/extensions/blockquote', () => {
       cy.get('.ProseMirror blockquote').should('not.exist')
     })
 
-    it('should make a blockquote form markdown shortcuts', () => {
+    it('should make a blockquote from markdown shortcuts', () => {
       cy.get('.ProseMirror').window().then(window => {
         const { editor } = window
         editor.clearContent()
