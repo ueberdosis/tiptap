@@ -115,7 +115,6 @@
       items:
         - title: Blockquote
           link: /api/extensions/blockquote
-          draft: true
         - title: Bold
           link: /api/extensions/bold
         - title: BulletList
