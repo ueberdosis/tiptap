@@ -7,6 +7,9 @@ import Italic from '@tiptap/extension-italic'
 import Code from '@tiptap/extension-code'
 import CodeBlock from '@tiptap/extension-codeblock'
 import Heading from '@tiptap/extension-heading'
+import HardBreak from '@tiptap/extension-hard-break'
+import Strike from '@tiptap/extension-strike'
+import Underline from '@tiptap/extension-underline'
 
 export default function defaultExtensions() {
   return [
@@ -19,5 +22,8 @@ export default function defaultExtensions() {
     Code(),
     CodeBlock(),
     Heading(),
+    HardBreak(),
+    Strike(),
+    Underline(),
   ]
 }
