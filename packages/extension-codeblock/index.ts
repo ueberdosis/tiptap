@@ -1,4 +1,11 @@
 import { Node } from '@tiptap/core'
+import { textblockTypeInputRule } from 'prosemirror-inputrules'
+
+declare module '@tiptap/core/src/Editor' {
+  interface Editor {
+    codeBlock(): Editor,
+  }
+}
 
 export default new Node()
   .name('codeBlock')
@@ -20,4 +27,10 @@ export default new Node()
       next()
     },
   }))
+  .keys(({ editor }) => ({
+    'Shift-Ctrl-\\': () => editor.codeBlock()
+  }))
+  .inputRules(({ type }) => [
+    textblockTypeInputRule(/^```$/, type),
+  ])
   .create()
