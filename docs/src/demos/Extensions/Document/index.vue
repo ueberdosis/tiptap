@@ -25,9 +25,9 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        new Document(),
-        new Paragraph(),
-        new Text(),
+        Document(),
+        Paragraph(),
+        Text(),
       ],
       content: `
         <p>The Document extension is required. Though, you can write your own implementation, e. g. to give it custom name.</p>

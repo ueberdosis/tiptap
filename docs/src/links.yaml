@@ -196,4 +196,8 @@
       draft: true
     - title: Schema
       link: /api/schema
-      draft: true
+      items:
+        - title: getSchema
+          link: /api/schema/get-schema
+        - title: generateHtml
+          link: /api/schema/generate-html

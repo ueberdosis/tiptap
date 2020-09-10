@@ -10,6 +10,7 @@ import getNodeAttrs from './utils/getNodeAttrs'
 import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
+import getHtmlFromFragment from './utils/getHtmlFromFragment'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
 import Extension from './Extension'
@@ -70,6 +71,7 @@ export class Editor extends EventEmitter {
   private init() {
     this.createExtensionManager()
     this.createSchema()
+    this.extensionManager.resolveConfigs()
     this.createView()
     this.registerCommands(commands)
 
@@ -221,12 +223,7 @@ export class Editor extends EventEmitter {
    * Creates a ProseMirror schema.
    */
   private createSchema() {
-    this.schema = new Schema({
-      topNode: this.extensionManager.topNode,
-      nodes: this.extensionManager.nodes,
-      marks: this.extensionManager.marks,
-    })
-    this.emit('schemaCreated')
+    this.schema = this.extensionManager.schema
   }
 
   /**
@@ -357,14 +354,7 @@ export class Editor extends EventEmitter {
    * Get the document as HTML.
    */
   public html() {
-    const div = document.createElement('div')
-    const fragment = DOMSerializer
-      .fromSchema(this.schema)
-      .serializeFragment(this.state.doc.content)
-
-    div.appendChild(fragment)
-
-    return div.innerHTML
+    return getHtmlFromFragment(this.state.doc, this.schema)
   }
 
   /**

@@ -1,0 +1,15 @@
+{
+  "name": "@tiptap/html",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "@tiptap/core": "2.x",
+    "@types/jsdom": "^16.2.4",
+    "jsdom": "^16.4.0",
+    "prosemirror-model": "^1.11.0"
+  }
+}
