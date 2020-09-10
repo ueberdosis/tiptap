@@ -1,5 +1,9 @@
 # Underline
-Enables you to use the `<u>` HTML tag in the editor.
+Use this extension to render text <u>underlined</u>. If you pass `<u>` tags, or text with inline `style` attributes setting `text-decoration: underline` in the editor’s initial content, they all will be rendered accordingly.
+
+::: warning Restrictions
+The extension will generate the corresponding `<u>` HTML tags when reading contents of the `Editor` instance. All text marked underlined, regardless of the method will be normalized to `<u>` HTML tags.
+:::
 
 ## Options
 | Option | Type   | Default | Description                                  |
@@ -15,45 +19,8 @@ Enables you to use the `<u>` HTML tag in the editor.
 * Windows & Linux: `Control` + `U`
 * macOS: `Command` + `U`
 
+## Source Code
+[packages/extension-underline/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)
+
 ## Usage
-```markup
-<template>
-  <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <button type="button" :class="{ 'is-active': isActive.underline() }" @click="commands.underline">
-        Underline
-      </button>
-    </editor-menu-bar>
-
-    <editor-content :editor="editor" />
-  </div>
-</template>
-
-<script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { Underline } from 'tiptap-extensions'
-
-export default {
-  components: {
-    EditorMenuBar,
-    EditorContent,
-  },
-  data() {
-    return {
-      editor: new Editor({
-        extensions: [
-          Underline(),
-        ],
-        content: `
-          <p><u>This is underlined.</u></p>
-          <p style="text-decoration: underline">This as well.</p>
-        `,
-      }),
-    }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
-  }
-}
-</script>
-```
+<demo name="Extensions/Underline" highlight="3-5,17,36" />

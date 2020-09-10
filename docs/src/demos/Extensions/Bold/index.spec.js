@@ -29,5 +29,17 @@ context('/api/extensions/bold', () => {
       cy.get('.ProseMirror').type('{meta}b', {force: true}).type('{meta}b', {force: true})
       cy.get('.ProseMirror strong').should('not.exist')
     })
+
+    it('should make a bold text from the default markdown shortcut', () => {
+      cy.get('.ProseMirror')
+        .type('**Bold**', {force: true})
+        .contains('strong', 'Bold')
+    })
+
+    it('should make a bold text from the alternative markdown shortcut', () => {
+      cy.get('.ProseMirror')
+        .type('__Bold__', {force: true})
+        .contains('strong', 'Bold')
+    })
   })
 })
