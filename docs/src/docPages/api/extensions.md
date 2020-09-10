@@ -18,6 +18,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 | [Bold](/api/extensions/bold)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/)            |
 | [BulletList](/api/extensions/bullet-list)         | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/)     |
 | [Code](/api/extensions/code)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code/)            |
+| [CodeBlock](/api/extensions/code-block)           | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code-block/)      |
 | [Document](/api/extensions/document)              | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-document/)        |
 | [HardBreak](/api/extensions/hard-break)           | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-hard-break/)      |
 | [Heading](/api/extensions/heading)                | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-heading/)         |
@@ -31,7 +32,6 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 | [Text](/api/extensions/text)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text/)            |
 | [Underline](/api/extensions/underline)            | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)       |
 
-<!-- | [CodeBlock](/api/extensions/code-block) | Yes | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code-block/) -->
 <!-- | [CodeBlockHighlight](/api/extensions/code-block-highlight) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packagescode-block-highlight/extension-/) -->
 <!-- | [Collaboration](/api/extensions/collaboration) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration/) -->
 <!-- | [ListItem](/api/extensions/list-item) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-list-item/) -->
