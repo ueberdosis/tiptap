@@ -12,6 +12,8 @@ import Strike from '@tiptap/extension-strike'
 import Underline from '@tiptap/extension-underline'
 import Blockquote from '@tiptap/extension-blockquote'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
+import BulletList from '@tiptap/extension-bullet-list'
+import ListItem from '@tiptap/extension-list-item'
 
 export default function defaultExtensions() {
   return [
@@ -29,5 +31,7 @@ export default function defaultExtensions() {
     Underline(),
     Blockquote(),
     HorizontalRule(),
+    BulletList(),
+    ListItem(),
   ]
 }
