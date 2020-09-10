@@ -3,12 +3,12 @@ import { chainCommands, exitCode } from 'prosemirror-commands'
 
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
-    hardbreak(): Editor,
+    hardBreak(): Editor,
   }
 }
 
 export default new Node()
-  .name('hardbreak')
+  .name('hardBreak')
   .schema(() => ({
     inline: true,
     group: 'inline',
@@ -19,7 +19,7 @@ export default new Node()
     toDOM: () => ['br'],
   }))
   .commands(({ editor, type }) => ({
-    hardbreak: next => () => {
+    hardBreak: next => () => {
       const { state, view } = editor
       const { dispatch } = view
 
@@ -32,7 +32,7 @@ export default new Node()
     },
   }))
   .keys(({ editor }) => ({
-    'Mod-Enter': () => editor.hardbreak(),
-    'Shift-Enter': () => editor.hardbreak(),
+    'Mod-Enter': () => editor.hardBreak(),
+    'Shift-Enter': () => editor.hardBreak(),
   }))
   .create()

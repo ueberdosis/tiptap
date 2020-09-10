@@ -9,7 +9,7 @@ import Italic from '@tiptap/extension-italic'
 import Code from '@tiptap/extension-code'
 import CodeBlock from '@tiptap/extension-codeblock'
 import Heading from '@tiptap/extension-heading'
-import Hardbreak from '@tiptap/extension-hardbreak'
+import HardBreak from '@tiptap/extension-hard-break'
 import Strike from '@tiptap/extension-strike'
 import Underline from '@tiptap/extension-underline'
 
@@ -24,7 +24,7 @@ export function defaultExtensions() {
     Code(),
     CodeBlock(),
     Heading(),
-    Hardbreak(),
+    HardBreak(),
     Strike(),
     Underline(),
   ]
