@@ -17,7 +17,7 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 | ------- | ------- | --------------- |
 | bold    | —       | Mark text bold. |
 
-## Keybindings
+## Keyboard shortcuts
 * Windows & Linux: `Control` + `B`
 * macOS: `Command` + `B`
 

@@ -11,7 +11,7 @@ Enables you to use the `<hr>` HTML tag in the editor.
 | --------------- | ------- | ------------------------- |
 | horizontal_rule | —       | Create a horizontal rule. |
 
-## Keybindings
+## Keyboard shortcuts
 *None*
 
 ## Usage

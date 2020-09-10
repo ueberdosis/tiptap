@@ -4,6 +4,6 @@ Enables you to use the `<br>` HTML tag in the editor.
 ## Options
 *None*
 
-## Keybindings
+## Keyboard shortcuts
 * `Command` + `Enter`
 * `Shift` + `Enter`

@@ -15,7 +15,7 @@ This extensions is intended to be used with the `ListItem` extension.
 | ------------ | ------- | ----------------------- |
 | ordered_list | —       | Toggle an ordered list. |
 
-## Keybindings
+## Keyboard shortcuts
 * `Control` + `Shift` + `9`
 
 ## Usage

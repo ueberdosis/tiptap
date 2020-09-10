@@ -13,7 +13,7 @@ This extensions is intended to be used with the `TodoItem` extension.
 | --------- | ------- | ----------------- |
 | todo_list | —       | Toggle todo list. |
 
-## Keybindings
+## Keyboard shortcuts
 *None*
 
 ## Usage

@@ -11,7 +11,7 @@ Enables you to use the `<s>` HTML tag in the editor.
 | ------- | ------- | --------------------------- |
 | strike  | —       | Mark text as strikethrough. |
 
-## Keybindings
+## Keyboard shortcuts
 * Windows & Linux: `Control` + `D`
 * macOS: `Command` + `D`
 
