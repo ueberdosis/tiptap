@@ -12,6 +12,8 @@ jobs:
     strategy:
       matrix:
         node-version: [14]
+        
+    container: cypress/browsers:node12.13.0-chrome78-ff70
 
     steps:
 
