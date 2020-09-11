@@ -61,5 +61,8 @@ export default (next: Function, editor: Editor) => (position = null) => {
 
   view.dispatch(transaction)
   view.focus()
+  //@ts-ignore
+  // console.log(bla)
+  // return 'FOCUS'
   next()
 }

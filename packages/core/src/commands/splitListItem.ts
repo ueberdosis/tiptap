@@ -15,6 +15,6 @@ export default (next: Function, editor: Editor) => (typeOrName: string | NodeTyp
   const { view, state, schema } = editor
   const type = getNodeType(typeOrName, schema)
 
-  splitListItem(type)(state, view.dispatch)
-  next()
+  return splitListItem(type)(state, view.dispatch)
+  // next()
 }
