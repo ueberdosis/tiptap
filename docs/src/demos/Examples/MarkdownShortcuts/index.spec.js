@@ -1,12 +1,9 @@
 context('/examples/markdown-shortcuts', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/examples/markdown-shortcuts')
-  })
 
-  beforeEach((done) => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.clearContent()
-      done()
     })
   })
 

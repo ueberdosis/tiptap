@@ -1,9 +1,7 @@
 context('/api/extensions/history', () => {
-  before(() => {
-    cy.visit('/api/extensions/history')
-  })
-
   beforeEach(() => {
+    cy.visit('/api/extensions/history')
+
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Mistake</p>')
     })

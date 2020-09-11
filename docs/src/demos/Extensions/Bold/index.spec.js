@@ -1,13 +1,10 @@
 context('/api/extensions/bold', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/api/extensions/bold')
-  })
 
-  beforeEach((done) => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p>')
       editor.selectAll()
-      done()
     })
   })
 
@@ -36,7 +33,8 @@ context('/api/extensions/bold', () => {
 
     cy.get('.ProseMirror')
       .type('{meta}b', { force: true })
-      .should('not.exist')
+
+    cy.get('.ProseMirror strong').should('not.exist')
   })
 
   it('should make a bold text from the default markdown shortcut', () => {
