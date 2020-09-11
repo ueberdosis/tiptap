@@ -3,12 +3,12 @@ context('/api/extensions/bold', () => {
     cy.visit('/api/extensions/bold')
   })
 
-  beforeEach(() => {
+  beforeEach((done) => {
     cy.get('.ProseMirror').window().then(window => {
       const { editor } = window
       editor.setContent('<p>Example Text</p>')
       editor.selectAll()
-      cy.wait(10)
+      done()
     })
   })
 
@@ -25,13 +25,19 @@ context('/api/extensions/bold', () => {
   })
 
   it('the keyboard shortcut should make the selected text bold', () => {
-    cy.get('.ProseMirror').type('{meta}b', { force: true })
-    cy.get('.ProseMirror').contains('strong', 'Example Text')
+    cy.get('.ProseMirror')
+      .type('{meta}b', { force: true })
+      .contains('strong', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text bold', () => {
-    cy.get('.ProseMirror').type('{meta}b', { force: true }).type('{meta}b', { force: true })
-    cy.get('.ProseMirror strong').should('not.exist')
+    cy.get('.ProseMirror')
+      .type('{meta}b', { force: true })
+      .contains('strong', 'Example Text')
+
+    cy.get('.ProseMirror')
+      .type('{meta}b', { force: true })
+      .should('not.exist')
   })
 
   it('should make a bold text from the default markdown shortcut', () => {

@@ -3,11 +3,11 @@ context('/examples/basic', () => {
     cy.visit('/examples/basic')
   })
 
-  beforeEach(() => {
+  beforeEach((done) => {
     cy.get('.ProseMirror').window().then(window => {
       const { editor } = window
       editor.setContent('<p>foo</p>')
-      cy.wait(10)
+      done()
     })
   })
 

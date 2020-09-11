@@ -3,12 +3,12 @@ context('/api/extensions/blockquote', () => {
     cy.visit('/api/extensions/blockquote')
   })
 
-  beforeEach(() => {
+  beforeEach((done) => {
     cy.get('.ProseMirror').window().then(window => {
       const { editor } = window
       editor.setContent('<p>Example Text</p>')
       editor.selectAll()
-      cy.wait(10)
+      done()
     })
   })
 

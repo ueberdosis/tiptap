@@ -3,11 +3,11 @@ context('/examples/markdown-shortcuts', () => {
     cy.visit('/examples/markdown-shortcuts')
   })
 
-  beforeEach(() => {
+  beforeEach((done) => {
     cy.get('.ProseMirror').window().then(window => {
       const { editor } = window
       editor.clearContent()
-      cy.wait(10)
+      done()
     })
   })
 
