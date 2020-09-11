@@ -24,12 +24,13 @@ context('/api/extensions/italic', () => {
   })
 
   it('the keyboard shortcut should make the selected text italic', () => {
-    cy.get('.ProseMirror').type('{meta}i', { force: true })
+    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, keyCode: 73 })
     cy.get('.ProseMirror').find('em').should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text italic', () => {
-    cy.get('.ProseMirror').type('{meta}i', { force: true }).type('{meta}i', { force: true })
+    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, keyCode: 73 })
+    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, keyCode: 73 })
     cy.get('.ProseMirror em').should('not.exist')
   })
 })

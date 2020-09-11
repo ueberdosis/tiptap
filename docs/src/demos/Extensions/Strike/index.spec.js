@@ -24,12 +24,13 @@ context('/api/extensions/strike', () => {
   })
 
   it('the keyboard shortcut should strike the selected text', () => {
-    cy.get('.ProseMirror').type('{meta}d', { force: true })
+    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, keyCode: 68 })
     cy.get('.ProseMirror').find('s').should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text striked', () => {
-    cy.get('.ProseMirror').type('{meta}d', { force: true }).type('{meta}d', { force: true })
+    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, keyCode: 68 })
+    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, keyCode: 68 })
     cy.get('.ProseMirror s').should('not.exist')
   })
 

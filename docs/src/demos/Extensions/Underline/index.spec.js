@@ -24,12 +24,13 @@ context('/api/extensions/underline', () => {
   })
 
   it('the keyboard shortcut should underline the selected text', () => {
-    cy.get('.ProseMirror').type('{meta}u', { force: true })
+    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, keyCode: 85 })
     cy.get('.ProseMirror').find('u').should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text underline', () => {
-    cy.get('.ProseMirror').type('{meta}u', { force: true }).type('{meta}u', { force: true })
+    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, keyCode: 85 })
+    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, keyCode: 85 })
     cy.get('.ProseMirror u').should('not.exist')
   })
 })
