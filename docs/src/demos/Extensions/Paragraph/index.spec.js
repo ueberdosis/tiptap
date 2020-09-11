@@ -1,13 +1,10 @@
 context('/api/extensions/paragraph', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/api/extensions/paragraph')
-  })
 
-  beforeEach((done) => {
     cy.get('.ProseMirror').window().then(window => {
       const { editor } = window
       editor.clearContent()
-      done()
     })
   })
 

@@ -1,13 +1,10 @@
 context('/api/extensions/hard-break', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/api/extensions/hard-break')
-  })
 
-  beforeEach((done) => {
     cy.get('.ProseMirror').window().then(window => {
       const { editor } = window
       editor.setContent('<p>Example Text</p>')
-      done()
     })
   })
 

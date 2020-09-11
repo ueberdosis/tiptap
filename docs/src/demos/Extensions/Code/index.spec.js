@@ -1,14 +1,11 @@
 context('/api/extensions/code', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/api/extensions/code')
-  })
 
-  beforeEach((done) => {
     cy.get('.ProseMirror').window().then(window => {
       const { editor } = window
       editor.setContent('<p>Example Text</p>')
       editor.selectAll()
-      done()
     })
   })
 

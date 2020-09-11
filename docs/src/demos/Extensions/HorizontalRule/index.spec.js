@@ -1,9 +1,7 @@
 context('/api/extensions/horizontal-rule', () => {
-  before(() => {
-    cy.visit('/api/extensions/horizontal-rule')
-  })
-
   beforeEach(() => {
+    cy.visit('/api/extensions/horizontal-rule')
+
     cy.get('.ProseMirror').window().then(window => {
       const { editor } = window
       editor.setContent('<p>Example Text</p>')
