@@ -1,5 +1,7 @@
 {
   "baseUrl": "http://localhost:3000",
   "integrationFolder": "../docs/src/",
-  "testFiles": "**/*.spec.js"
+  "testFiles": "**/*.spec.js",
+  "viewportWidth": 1280,
+  "viewportHeight": 1280
 }
