@@ -3,15 +3,16 @@ context('/api/extensions/history', () => {
     cy.visit('/api/extensions/history')
   })
 
-  beforeEach(() => {
+  beforeEach(done => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.focus()
       editor.setContent('<p>Mistake</p>')
+      done()
     })
   })
 
   it('should make the last change undone', () => {
-    cy.get('.ProseMirror').should('contain', 'Mistake')
-
+    cy.get('.ProseMirror').contains('Mistake')
     cy.get('.demo__preview button:first').click({ force: true })
     cy.get('.ProseMirror').should('not.contain', 'Mistake')
   })
@@ -22,12 +23,11 @@ context('/api/extensions/history', () => {
   })
 
   it('should apply the last undone change again', () => {
-    cy.get('.ProseMirror').should('contain', 'Mistake')
-
+    cy.get('.ProseMirror').contains('Mistake')
     cy.get('.demo__preview button:first').click({ force: true })
     cy.get('.ProseMirror').should('not.contain', 'Mistake')
     cy.get('.demo__preview button:nth-child(2)').click({ force: true })
-    cy.get('.ProseMirror').should('contain', 'Mistake')
+    cy.get('.ProseMirror').contains('Mistake')
   })
 
   it.skip('the keyboard shortcut should apply the last undone change again', () => {
@@ -35,6 +35,6 @@ context('/api/extensions/history', () => {
     cy.get('.ProseMirror').should('not.contain', 'Mistake')
 
     cy.get('.ProseMirror').type('{meta}{shift}z', { force: true })
-    cy.get('.ProseMirror').should('contain', 'Mistake')
+    cy.get('.ProseMirror').contains('Mistake')
   })
 })
