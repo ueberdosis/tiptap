@@ -47,7 +47,7 @@ jobs:
         path: tests/cypress/videos
 
     - name: Send Slack notifications
-        uses: act10ns/slack@v1
+      uses: act10ns/slack@v1
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
