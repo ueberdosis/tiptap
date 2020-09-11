@@ -46,7 +46,8 @@ jobs:
         name: cypress-videos
         path: tests/cypress/videos
 
-    - uses: act10ns/slack@v1
+    - name: Send Slack notifications
+        uses: act10ns/slack@v1
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
@@ -77,7 +78,8 @@ jobs:
       id: build-packages
       run: yarn build:packages
 
-    - uses: act10ns/slack@v1
+    - name: Send Slack notifications
+      uses: act10ns/slack@v1
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
