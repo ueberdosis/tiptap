@@ -5,6 +5,7 @@ context('/examples/markdown-shortcuts', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.focus()
       editor.clearContent()
     })
   })
@@ -77,13 +78,13 @@ context('/examples/markdown-shortcuts', () => {
 
   it.skip('should create a ordered list', () => {
     cy.get('.ProseMirror')
-    .type('1. foobar', { force: true })
-    .contains('ol', 'foobar')
+      .type('1. foobar', { force: true })
+      .contains('ol', 'foobar')
   })
 
   it.skip('should create a blockquote', () => {
     cy.get('.ProseMirror')
-    .type('> foobar', { force: true })
-    .contains('blockquote', 'foobar')
+      .type('> foobar', { force: true })
+      .contains('blockquote', 'foobar')
   })
 })
