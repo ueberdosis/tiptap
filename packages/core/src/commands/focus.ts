@@ -1,6 +1,5 @@
 import { Editor } from '../Editor'
 import { TextSelection } from 'prosemirror-state'
-import sleep from '../utils/sleep'
 import minMax from '../utils/minMax'
 
 type FocusCommand = (position?: Position) => Editor
@@ -45,7 +44,7 @@ function resolveSelection(editor: Editor, position: Position = null): ResolvedSe
   }
 }
 
-export default (next: Function, editor: Editor) => async (position = null) => {
+export default (next: Function, editor: Editor) => (position = null) => {
   const { view, state } = editor
 
   if ((view.hasFocus() && position === null) || position === false) {
@@ -61,7 +60,6 @@ export default (next: Function, editor: Editor) => async (position = null) => {
   const transaction = tr.setSelection(selection)
 
   view.dispatch(transaction)
-  await sleep(10)
   view.focus()
   next()
 }
