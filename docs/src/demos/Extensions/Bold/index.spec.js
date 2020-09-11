@@ -3,11 +3,12 @@ context('/api/extensions/bold', () => {
     cy.visit('/api/extensions/bold')
   })
 
-  beforeEach(() => {
+  beforeEach(done => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p>')
       editor.focus()
       editor.selectAll()
+      done()
     })
   })
 
