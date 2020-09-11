@@ -22,12 +22,12 @@
     "@tiptap/extension-code": "1.x",
     "@tiptap/extension-code-block": "1.x",
     "@tiptap/extension-heading": "1.x",
-    "@tiptap/extension-hard-break": "1x",
-    "@tiptap/extension-strike": "1x",
-    "@tiptap/extension-underline": "1x",
-    "@tiptap/extension-blockquote": "1x",
-    "@tiptap/extension-horizontal-rule": "1x",
-    "@tiptap/extension-bullet-list": "1x",
-    "@tiptap/extension-list-item": "1x"
+    "@tiptap/extension-hard-break": "1.x",
+    "@tiptap/extension-strike": "1.x",
+    "@tiptap/extension-underline": "1.x",
+    "@tiptap/extension-blockquote": "1.x",
+    "@tiptap/extension-horizontal-rule": "1.x",
+    "@tiptap/extension-bullet-list": "1.x",
+    "@tiptap/extension-list-item": "1.x"
   }
 }
