@@ -20,6 +20,8 @@ context('/api/extensions/blockquote', () => {
       cy.get('.ProseMirror blockquote').should('not.exist')
       cy.get('.demo__preview button:first').click({ force: true })
       cy.get('.ProseMirror').contains('blockquote', 'Example Text')
+
+      cy.get('.ProseMirror').type('{selectall}', {force: true})
       cy.get('.demo__preview button:first').click({ force: true })
       cy.get('.ProseMirror blockquote').should('not.exist')
     })
@@ -33,6 +35,8 @@ context('/api/extensions/blockquote', () => {
       cy.get('.ProseMirror blockquote').should('not.exist')
       cy.get('.ProseMirror').type('{meta}{shift}9', {force: true})
       cy.get('.ProseMirror').contains('blockquote', 'Example Text')
+
+      cy.get('.ProseMirror').type('{selectall}', {force: true})
       cy.get('.ProseMirror').type('{meta}{shift}9', {force: true})
       cy.get('.ProseMirror blockquote').should('not.exist')
     })

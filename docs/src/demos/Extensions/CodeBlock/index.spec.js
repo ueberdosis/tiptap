@@ -18,6 +18,8 @@ context('/api/extensions/code-block', () => {
     it('the button should toggle the code block', () => {
       cy.get('.demo__preview button:first').click({ force: true })
       cy.get('.ProseMirror').contains('pre', 'Example Text')
+
+      cy.get('.ProseMirror').type('{selectall}', {force: true})
       cy.get('.demo__preview button:first').click({ force: true })
       cy.get('.ProseMirror pre').should('not.exist')
     })
@@ -30,6 +32,8 @@ context('/api/extensions/code-block', () => {
     it('the keyboard shortcut should toggle the code block', () => {
       cy.get('.ProseMirror').type('{control}{shift}\\', {force: true})
       cy.get('.ProseMirror').contains('pre', 'Example Text')
+
+      cy.get('.ProseMirror').type('{selectall}', {force: true})
       cy.get('.ProseMirror').type('{control}{shift}\\', {force: true})
       cy.get('.ProseMirror pre').should('not.exist')
     })
