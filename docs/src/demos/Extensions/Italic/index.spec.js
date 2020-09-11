@@ -3,18 +3,17 @@ context('/api/extensions/italic', () => {
     cy.visit('/api/extensions/italic')
   })
 
-  beforeEach(done => {
+  beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p>')
       editor.focus()
       editor.selectAll()
-      done()
     })
   })
 
   it('the button should make the selected text italic', () => {
     cy.get('.demo__preview button:first').click({ force: true })
-    cy.get('.ProseMirror').contains('em', 'Example Text')
+    cy.get('.ProseMirror').find('em').should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text italic', () => {
@@ -26,7 +25,7 @@ context('/api/extensions/italic', () => {
 
   it('the keyboard shortcut should make the selected text italic', () => {
     cy.get('.ProseMirror').type('{meta}i', { force: true })
-    cy.get('.ProseMirror').contains('em', 'Example Text')
+    cy.get('.ProseMirror').find('em').should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text italic', () => {

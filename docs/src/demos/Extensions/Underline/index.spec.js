@@ -3,18 +3,17 @@ context('/api/extensions/underline', () => {
     cy.visit('/api/extensions/underline')
   })
 
-  beforeEach(done => {
+  beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p>')
       editor.focus()
       editor.selectAll()
-      done()
     })
   })
 
   it('the button should underline the selected text', () => {
     cy.get('.demo__preview button:first').click({ force: true })
-    cy.get('.ProseMirror').contains('u', 'Example Text')
+    cy.get('.ProseMirror').find('u').should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text underline', () => {
@@ -26,7 +25,7 @@ context('/api/extensions/underline', () => {
 
   it('the keyboard shortcut should underline the selected text', () => {
     cy.get('.ProseMirror').type('{meta}u', { force: true })
-    cy.get('.ProseMirror').contains('u', 'Example Text')
+    cy.get('.ProseMirror').find('u').should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text underline', () => {

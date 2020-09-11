@@ -3,18 +3,17 @@ context('/api/extensions/bold', () => {
     cy.visit('/api/extensions/bold')
   })
 
-  beforeEach(done => {
+  beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p>')
       editor.focus()
       editor.selectAll()
-      done()
     })
   })
 
   it('the button should make the selected text bold', () => {
     cy.get('.demo__preview button:first').click({ force: true })
-    cy.get('.ProseMirror').contains('strong', 'Example Text')
+    cy.get('.ProseMirror').find('strong').should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text bold', () => {
@@ -27,13 +26,15 @@ context('/api/extensions/bold', () => {
   it('the keyboard shortcut should make the selected text bold', () => {
     cy.get('.ProseMirror')
       .type('{meta}b', { force: true })
-      .contains('strong', 'Example Text')
+      .find('strong')
+      .should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text bold', () => {
     cy.get('.ProseMirror')
       .type('{meta}b', { force: true })
-      .contains('strong', 'Example Text')
+      .find('strong')
+      .should('contain', 'Example Text')
 
     cy.get('.ProseMirror')
       .type('{meta}b', { force: true })
@@ -44,12 +45,14 @@ context('/api/extensions/bold', () => {
   it('should make a bold text from the default markdown shortcut', () => {
     cy.get('.ProseMirror')
       .type('**Bold**', { force: true })
-      .contains('strong', 'Bold')
+      .find('strong')
+      .should('contain', 'Bold')
   })
 
   it('should make a bold text from the alternative markdown shortcut', () => {
     cy.get('.ProseMirror')
       .type('__Bold__', { force: true })
-      .contains('strong', 'Bold')
+      .find('strong')
+      .should('contain', 'Bold')
   })
 })
