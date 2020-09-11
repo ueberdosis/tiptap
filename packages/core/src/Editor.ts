@@ -56,6 +56,7 @@ export class Editor extends EventEmitter {
   private commands: { [key: string]: any } = {}
   private css!: HTMLStyleElement
   private lastCommand = Promise.resolve()
+  public lastCommandValue: any = undefined
   public schema!: Schema
   public view!: EditorView
   public selection = { from: 0, to: 0 }
@@ -68,6 +69,7 @@ export class Editor extends EventEmitter {
     autoFocus: false,
     editable: true,
   }
+
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
@@ -163,8 +165,46 @@ export class Editor extends EventEmitter {
     }
 
     this.commands[name] = this.chainCommand((...args: any) => {
-      return new Promise(resolve => callback(resolve, this.proxy)(...args))
+      // console.log('command', this.lastCommandValue)
+      const commandValue = callback(() => {}, this.proxy)(...args)
+
+      // if (commandValue !== undefined) {
+        this.lastCommandValue = commandValue
+      // }
+
+      return this.proxy
     })
+
+    return this.proxy
+  }
+
+  /**
+   * Call a command.
+   *
+   * @param name The name of the command you want to call.
+   * @param options The options of the command.
+   */
+  public command(name: string, ...options: any) {
+    return this.commands[name](...options)
+  }
+
+  /**
+   * Wraps a command to make it chainable.
+   *
+   * @param method
+   */
+  private chainCommand = (method: Function) => (...args: any) => {
+    // console.log('chain', this.lastCommandValue)
+    // this.lastCommand = this.lastCommand
+    //   .then(() => {
+        
+    //     const jo = method.apply(this, args)
+
+    //     console.log({jo})
+    //   })
+    //   // .then(method.apply(this, args))
+    //   .catch(console.error)
+    method.apply(this, args)
 
     return this.proxy
   }
@@ -197,29 +237,6 @@ export class Editor extends EventEmitter {
     })
 
     this.view.updateState(state)
-  }
-
-  /**
-   * Call a command.
-   *
-   * @param name The name of the command you want to call.
-   * @param options The options of the command.
-   */
-  public command(name: string, ...options: any) {
-    return this.commands[name](...options)
-  }
-
-  /**
-   * Wraps a command to make it chainable.
-   *
-   * @param method
-   */
-  private chainCommand = (method: Function) => (...args: any) => {
-    this.lastCommand = this.lastCommand
-      .then(() => method.apply(this, args))
-      .catch(console.error)
-
-    return this.proxy
   }
 
   /**
