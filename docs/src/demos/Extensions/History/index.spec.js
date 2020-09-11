@@ -3,10 +3,11 @@ context('/api/extensions/history', () => {
     cy.visit('/api/extensions/history')
   })
 
-  beforeEach(() => {
+  beforeEach((done) => {
     cy.get('.ProseMirror').window().then(window => {
       const { editor } = window
       editor.setContent('<p>Mistake</p>')
+      done()
     })
   })
 
