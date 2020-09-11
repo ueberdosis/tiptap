@@ -3,10 +3,9 @@ context('/api/extensions/hard-break', () => {
     cy.visit('/api/extensions/hard-break')
   })
 
-  beforeEach((done) => {
+  beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p>')
-      done()
     })
   })
 

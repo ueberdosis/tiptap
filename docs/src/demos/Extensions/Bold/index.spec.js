@@ -3,11 +3,11 @@ context('/api/extensions/bold', () => {
     cy.visit('/api/extensions/bold')
   })
 
-  beforeEach((done) => {
+  beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p>')
+      editor.focus()
       editor.selectAll()
-      done()
     })
   })
 
@@ -36,7 +36,6 @@ context('/api/extensions/bold', () => {
 
     cy.get('.ProseMirror')
       .type('{meta}b', { force: true })
-      .should('not.exist')
 
     cy.get('.ProseMirror strong').should('not.exist')
   })
