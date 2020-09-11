@@ -1,5 +1,5 @@
 context('/api/extensions/document', () => {
-  beforeEach(() => {
+  before(() => {
     cy.visit('/api/extensions/document')
   })
 })
