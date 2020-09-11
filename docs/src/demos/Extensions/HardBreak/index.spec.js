@@ -24,7 +24,7 @@ context('/api/extensions/hard-break', () => {
 
   it('the alternative keyboard shortcut should add a line break', () => {
     cy.get('.ProseMirror br').should('not.exist')
-    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, keyCode: 13 })
+    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, key: 'Enter' })
     cy.get('.ProseMirror br').should('exist')
   })
 })

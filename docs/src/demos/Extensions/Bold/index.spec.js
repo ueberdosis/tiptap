@@ -25,19 +25,19 @@ context('/api/extensions/bold', () => {
 
   it('the keyboard shortcut should make the selected text bold', () => {
     cy.get('.ProseMirror')
-      .type('{meta}b', { force: true })
+      .trigger('keydown', { metaKey: true, key: 'b' })
       .find('strong')
       .should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text bold', () => {
     cy.get('.ProseMirror')
-      .type('{meta}b', { force: true })
+      .trigger('keydown', { metaKey: true, key: 'b' })
       .find('strong')
       .should('contain', 'Example Text')
 
     cy.get('.ProseMirror')
-      .type('{meta}b', { force: true })
+      .trigger('keydown', { metaKey: true, key: 'b' })
 
     cy.get('.ProseMirror strong').should('not.exist')
   })

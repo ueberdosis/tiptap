@@ -26,16 +26,16 @@ context('/api/extensions/code-block', () => {
   })
 
   it('the keyboard shortcut should make the selected line a code block', () => {
-    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, ctrlKey: true, keyCode: 220 })
+    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, ctrlKey: true, key: '\\' })
     cy.get('.ProseMirror').find('pre').should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the code block', () => {
-    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, ctrlKey: true, keyCode: 220 })
+    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, ctrlKey: true, key: '\\' })
     cy.get('.ProseMirror').find('pre').should('contain', 'Example Text')
 
     cy.get('.ProseMirror').type('{selectall}', { force: true })
-    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, ctrlKey: true, keyCode: 220 })
+    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, ctrlKey: true, key: '\\' })
     cy.get('.ProseMirror pre').should('not.exist')
   })
 
