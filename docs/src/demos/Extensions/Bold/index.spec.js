@@ -33,9 +33,9 @@ context('/api/extensions/bold', () => {
       .contains('strong', 'Example Text')
 
     cy.get('.ProseMirror')
-      .type('{selectall}', { force: true })
       .type('{meta}b', { force: true })
-      .should('not.exist')
+
+    cy.get('.ProseMirror strong').should('not.exist')
   })
 
   it('should make a bold text from the default markdown shortcut', () => {
