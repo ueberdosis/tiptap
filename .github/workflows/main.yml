@@ -57,6 +57,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
     strategy:
       matrix:
         node-version: [14]
