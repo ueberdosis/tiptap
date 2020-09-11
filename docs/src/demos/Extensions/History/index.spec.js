@@ -17,7 +17,7 @@ context('/api/extensions/history', () => {
   })
 
   it('the keyboard shortcut should make the last change undone', () => {
-    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, key: 'z' })
+    cy.get('.ProseMirror').trigger('keydown', { modKey: true, key: 'z' })
     cy.get('.ProseMirror').should('not.contain', 'Mistake')
   })
 
@@ -30,10 +30,10 @@ context('/api/extensions/history', () => {
   })
 
   it.skip('the keyboard shortcut should apply the last undone change again', () => {
-    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, key: 'z' })
+    cy.get('.ProseMirror').trigger('keydown', { modKey: true, key: 'z' })
     cy.get('.ProseMirror').should('not.contain', 'Mistake')
 
-    cy.get('.ProseMirror').trigger('keydown', { metaKey: true, shiftKey: true, key: 'z' })
+    cy.get('.ProseMirror').trigger('keydown', { modKey: true, shiftKey: true, key: 'z' })
     cy.get('.ProseMirror').should('contain', 'Mistake')
   })
 })

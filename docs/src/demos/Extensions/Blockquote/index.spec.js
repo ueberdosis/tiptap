@@ -28,17 +28,17 @@ context('/api/extensions/blockquote', () => {
   })
 
   it('the keyboard shortcut should make the selected line a blockquote', () => {
-    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, metaKey: true, key: '9' })
+    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, modKey: true, key: '9' })
     cy.get('.ProseMirror').find('blockquote').should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the blockquote', () => {
     cy.get('.ProseMirror blockquote').should('not.exist')
-    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, metaKey: true, key: '9' })
+    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, modKey: true, key: '9' })
     cy.get('.ProseMirror').find('blockquote').should('contain', 'Example Text')
 
     cy.get('.ProseMirror').type('{selectall}', { force: true })
-    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, metaKey: true, key: '9' })
+    cy.get('.ProseMirror').trigger('keydown', { shiftKey: true, modKey: true, key: '9' })
     cy.get('.ProseMirror blockquote').should('not.exist')
   })
 

@@ -23,3 +23,21 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.overwrite('trigger', (originalFn, element, text, options) => {
+  if (text === 'keydown') {
+    const isMac = Cypress.platform === 'darwin'
+    const { modKey, ...rest } = options
+
+    if (modKey) {
+      const newOptions = {
+        ...rest,
+        ...(isMac ? { metaKey: modKey } : { ctrlKey: modKey }),
+      }
+
+      return originalFn(element, text, newOptions)
+    }
+  }
+
+  return originalFn(element, text, options)
+})
