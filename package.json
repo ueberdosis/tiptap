@@ -17,7 +17,7 @@
     "clean:packages": "rm -rf ./packages/*/dist",
     "test:open": "cypress open --project tests",
     "test": "cypress run --project tests",
-    "reset": "clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
+    "reset": "yarn clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.11.5",
