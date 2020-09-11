@@ -4,8 +4,7 @@ context('/examples/export-html-or-json', () => {
   })
 
   it('should return json', () => {
-    cy.get('.ProseMirror').window().then(window => {
-      const { editor } = window
+    cy.get('.ProseMirror').then(([{ editor }]) => {
       const json = editor.json()
 
       expect(json).to.deep.equal({
@@ -52,8 +51,7 @@ context('/examples/export-html-or-json', () => {
   })
 
   it('should return html', () => {
-    cy.get('.ProseMirror').window().then(window => {
-      const { editor } = window
+    cy.get('.ProseMirror').then(([{ editor }]) => {
       const html = editor.html()
 
       expect(html).to.equal('<p>You are able to export your data as <code>HTML</code> or <code>JSON</code>.</p>')

@@ -4,8 +4,7 @@ context('/api/extensions/horizontal-rule', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').window().then(window => {
-      const { editor } = window
+    cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p>')
     })
   })
@@ -17,8 +16,7 @@ context('/api/extensions/horizontal-rule', () => {
   })
 
   it('the default markdown shortcut should add a horizontal rule', () => {
-    cy.get('.ProseMirror').window().then(window => {
-      const { editor } = window
+    cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.clearContent()
 
       cy.get('.ProseMirror hr').should('not.exist')
@@ -28,8 +26,7 @@ context('/api/extensions/horizontal-rule', () => {
   })
 
   it('the alternative markdown shortcut should add a horizontal rule', () => {
-    cy.get('.ProseMirror').window().then(window => {
-      const { editor } = window
+    cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.clearContent()
 
       cy.get('.ProseMirror hr').should('not.exist')

@@ -28,6 +28,16 @@ export interface CommandSpec {
 
 type EditorContent = string | JSON | null
 
+// interface Element {
+//   editor?: Editor
+// }
+
+interface HTMLElement {
+  editor?: Editor
+}
+
+// Element.prototype.editor = Editor
+
 interface EditorOptions {
   element: Element,
   content: EditorContent,
@@ -241,6 +251,10 @@ export class Editor extends EventEmitter {
       dispatchTransaction: this.dispatchTransaction.bind(this),
       nodeViews: this.extensionManager.nodeViews,
     })
+
+    // store editor in dom element for better testing
+    const dom = this.view.dom as HTMLElement
+    dom.editor = this.proxy
   }
 
   /**

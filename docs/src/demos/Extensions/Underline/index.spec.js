@@ -4,8 +4,7 @@ context('/api/extensions/underline', () => {
   })
 
   beforeEach((done) => {
-    cy.get('.ProseMirror').window().then(window => {
-      const { editor } = window
+    cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p>')
       editor.selectAll()
       done()
