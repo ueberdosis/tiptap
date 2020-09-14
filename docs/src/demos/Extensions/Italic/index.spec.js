@@ -11,25 +11,40 @@ context('/api/extensions/italic', () => {
   })
 
   it('the button should make the selected text italic', () => {
-    cy.get('.demo__preview button:first').click({ force: true })
-    cy.get('.ProseMirror').find('em').should('contain', 'Example Text')
+    cy.get('.demo__preview button:first')
+      .click({ force: true })
+
+    cy.get('.ProseMirror')
+      .find('em')
+      .should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text italic', () => {
-    cy.get('.demo__preview button:first').click({ force: true })
-    cy.get('.ProseMirror').type('{selectall}', { force: true })
-    cy.get('.demo__preview button:first').click({ force: true })
-    cy.get('.ProseMirror em').should('not.exist')
+    cy.get('.demo__preview button:first')
+      .click({ force: true })
+
+    cy.get('.ProseMirror')
+      .type('{selectall}', { force: true })
+
+    cy.get('.demo__preview button:first')
+      .click({ force: true })
+
+    cy.get('.ProseMirror em')
+      .should('not.exist')
   })
 
   it('the keyboard shortcut should make the selected text italic', () => {
-    cy.get('.ProseMirror').trigger('keydown', { modKey: true, key: 'i' })
-    cy.get('.ProseMirror').find('em').should('contain', 'Example Text')
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, key: 'i' })
+      .find('em')
+      .should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text italic', () => {
-    cy.get('.ProseMirror').trigger('keydown', { modKey: true, key: 'i' })
-    cy.get('.ProseMirror').trigger('keydown', { modKey: true, key: 'i' })
-    cy.get('.ProseMirror em').should('not.exist')
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, key: 'i' })
+      .trigger('keydown', { modKey: true, key: 'i' })
+      .find('em')
+      .should('not.exist')
   })
 })

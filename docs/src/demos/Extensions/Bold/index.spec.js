@@ -12,7 +12,9 @@ context('/api/extensions/bold', () => {
 
   it('the button should make the selected text bold', () => {
     cy.get('.demo__preview button:first').click({ force: true })
-    cy.get('.ProseMirror').find('strong').should('contain', 'Example Text')
+    cy.get('.ProseMirror')
+      .find('strong')
+      .should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text bold', () => {

@@ -10,18 +10,28 @@ context('/api/extensions/horizontal-rule', () => {
   })
 
   it('the button should add a horizontal rule', () => {
-    cy.get('.ProseMirror hr').should('not.exist')
-    cy.get('.demo__preview button:first').click({ force: true })
-    cy.get('.ProseMirror hr').should('exist')
+    cy.get('.ProseMirror hr')
+      .should('not.exist')
+
+    cy.get('.demo__preview button:first')
+      .click({ force: true })
+
+    cy.get('.ProseMirror hr')
+      .should('exist')
   })
 
   it('the default markdown shortcut should add a horizontal rule', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.clearContent()
 
-      cy.get('.ProseMirror hr').should('not.exist')
-      cy.get('.ProseMirror').type('---', { force: true })
-      cy.get('.ProseMirror hr').should('exist')
+      cy.get('.ProseMirror hr')
+        .should('not.exist')
+
+      cy.get('.ProseMirror')
+        .type('---', { force: true })
+
+      cy.get('.ProseMirror hr')
+        .should('exist')
     })
   })
 
@@ -29,9 +39,14 @@ context('/api/extensions/horizontal-rule', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.clearContent()
 
-      cy.get('.ProseMirror hr').should('not.exist')
-      cy.get('.ProseMirror').type('___ ', { force: true })
-      cy.get('.ProseMirror hr').should('exist')
+      cy.get('.ProseMirror hr')
+        .should('not.exist')
+
+      cy.get('.ProseMirror')
+        .type('___ ', { force: true })
+
+      cy.get('.ProseMirror hr')
+        .should('exist')
     })
   })
 })
