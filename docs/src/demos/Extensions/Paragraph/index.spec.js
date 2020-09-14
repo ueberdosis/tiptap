@@ -5,7 +5,6 @@ context('/api/extensions/paragraph', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.focus()
       editor.clearContent()
     })
   })

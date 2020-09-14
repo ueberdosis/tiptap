@@ -5,7 +5,6 @@ context('/api/extensions/history', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.focus()
       editor.setContent('<p>Mistake</p>')
     })
   })

@@ -6,7 +6,6 @@ context('/api/extensions/italic', () => {
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p>')
-      editor.focus()
       editor.selectAll()
     })
   })

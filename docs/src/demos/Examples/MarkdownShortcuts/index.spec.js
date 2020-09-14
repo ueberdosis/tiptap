@@ -5,7 +5,6 @@ context('/examples/markdown-shortcuts', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.focus()
       editor.clearContent()
     })
   })
