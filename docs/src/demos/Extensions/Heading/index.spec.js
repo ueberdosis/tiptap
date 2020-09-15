@@ -45,4 +45,33 @@ context('/api/extensions/heading', () => {
       .find('h3')
       .should('contain', 'Example Text')
   })
+
+  it('the button should toggle the headline', () => {
+    cy.get('.ProseMirror h1')
+      .should('not.exist')
+
+    cy.get('.demo__preview button:nth-child(1)')
+      .click()
+
+    cy.get('.ProseMirror')
+      .find('h1')
+      .should('contain', 'Example Text')
+
+    cy.get('.demo__preview button:nth-child(1)')
+      .click()
+
+    cy.get('.ProseMirror h1')
+      .should('not.exist')
+  })
+
+  it('should make a headline from the default markdown shortcut', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.clearContent()
+    })
+
+    cy.get('.ProseMirror')
+      .type('# Headline')
+      .find('h1')
+      .should('contain', 'Headline')
+  })
 })

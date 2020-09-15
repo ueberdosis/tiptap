@@ -136,7 +136,6 @@
           link: /api/extensions/hard-break
         - title: Heading
           link: /api/extensions/heading
-          draft: true
         - title: History
           link: /api/extensions/history
         - title: HorizontalRule

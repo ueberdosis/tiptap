@@ -41,6 +41,7 @@ export default new Node<HeadingOptions>()
       next()
     },
   }))
+  // TODO: Keyboard Shortcuts
   .inputRules(({ options, type }) => {
     return options.levels.map((level: Level) => {
       return textblockTypeInputRule(new RegExp(`^(#{1,${level}})\\s$`), type, { level })
