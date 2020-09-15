@@ -50,11 +50,3 @@ CodeSandbox is an online coding environment. It’s great to fiddle around witho
 It’s also amazing for bug reports. Try to recreate a bug there and share it with us before you [file an issue on GitHub](https://github.com/ueberdosis/tiptap-next/issues/new). This helps a ton to fix bugs faster.
 
 * [Vue.js/tiptap on CodeSandbox](https://codesandbox.io/s/vue-issue-template-h0g28)
-
-## CDN
-
-> ⚠️ This is broken and doesn’t work. Don’t use it. We are working on it.
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/tiptap@1.29.4/dist/tiptap.min.js"></script>
-```
