@@ -77,9 +77,27 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: defaultExtensions(),
-      content: `
-        <h2>Hey there!</h2>
-        <p>This editor is based on Prosemirror, fully extendable and renderless. You can easily add custom nodes as Vue components.</p>
+      content:  `
+        <h2>
+          Hi there,
+        </h2>
+        <p>
+          this is a very <em>basic</em> example of tiptap.
+        </p>
+        <pre><code>body { display: none; }</code></pre>
+        <ul>
+          <li>
+            A regular list
+          </li>
+          <li>
+            With regular items
+          </li>
+        </ul>
+        <blockquote>
+          It's amazing 👏
+          <br />
+          – mom
+        </blockquote>
       `,
     })
   },
