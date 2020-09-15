@@ -1,8 +1,10 @@
 # BulletList
-This extension enables you to use the `<ul>` HTML tag in the editor.
+This extension enables you to use bullet lists in the editor. They are rendered as `<ul>` HTML tags,
 
-::: warning Restrictions
-It’s intended to be used with the `ListItem` extension.
+Type `* ​`, `- ​` or `+ ​` at the beginning of a new line and it will be magically transformed to a bullet list.
+
+::: warning Use with ListItem
+The `BulletList` extension is intended to be used with the [`ListItem`](/api/extensions/list-item) extension. Make sure to import that one too, otherwise you’ll get a SyntaxError.
 :::
 
 ## Options
