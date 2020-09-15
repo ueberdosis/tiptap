@@ -18,47 +18,8 @@ It’s intended to be used with the `ListItem` extension.
 ## Keyboard shortcuts
 * `Control` + `Shift` + `8`
 
+## Source Code
+[packages/extension-bullet-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/)
+
 ## Usage
-```markup
-<template>
-  <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <button type="button" :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list">
-        Bullet List
-      </button>
-    </editor-menu-bar>
-
-    <editor-content :editor="editor" />
-  </div>
-</template>
-
-<script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { BulletList } from 'tiptap-extensions'
-
-export default {
-  components: {
-    EditorMenuBar,
-    EditorContent,
-  },
-  data() {
-    return {
-      editor: new Editor({
-        extensions: [
-          BulletList(),
-        ],
-        content: `
-          <ul>
-            <li>A list item</li>
-            <li>And another one</li>
-          </ul>
-        `,
-      }),
-    }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
-  }
-}
-</script>
-```
+<demo name="Extensions/BulletList" highlight="3-5,17-18,37-38" />
