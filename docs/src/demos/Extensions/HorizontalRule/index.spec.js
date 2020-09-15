@@ -14,7 +14,7 @@ context('/api/extensions/horizontal-rule', () => {
       .should('not.exist')
 
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror hr')
       .should('exist')
@@ -28,7 +28,7 @@ context('/api/extensions/horizontal-rule', () => {
         .should('not.exist')
 
       cy.get('.ProseMirror')
-        .type('---', { force: true })
+        .type('---')
 
       cy.get('.ProseMirror hr')
         .should('exist')
@@ -43,7 +43,7 @@ context('/api/extensions/horizontal-rule', () => {
         .should('not.exist')
 
       cy.get('.ProseMirror')
-        .type('___ ', { force: true })
+        .type('___ ')
 
       cy.get('.ProseMirror hr')
         .should('exist')

@@ -12,7 +12,7 @@ context('/api/extensions/code-block', () => {
 
   it('the button should make the selected line a code block', () => {
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('pre')
@@ -21,17 +21,17 @@ context('/api/extensions/code-block', () => {
 
   it('the button should toggle the code block', () => {
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('pre')
       .should('contain', 'Example Text')
 
     cy.get('.ProseMirror')
-      .type('{selectall}', { force: true })
+      .type('{selectall}')
 
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror pre')
       .should('not.exist')
@@ -51,7 +51,7 @@ context('/api/extensions/code-block', () => {
       .should('contain', 'Example Text')
 
     cy.get('.ProseMirror')
-      .type('{selectall}', { force: true })
+      .type('{selectall}')
       .trigger('keydown', { shiftKey: true, ctrlKey: true, key: '\\' })
 
     cy.get('.ProseMirror pre')
@@ -60,7 +60,7 @@ context('/api/extensions/code-block', () => {
 
   it('should make a code block from markdown shortcuts', () => {
     cy.get('.ProseMirror')
-      .type('``` {enter}Code', { force: true })
+      .type('``` {enter}Code')
       .find('pre')
       .should('contain', 'Code')
   })

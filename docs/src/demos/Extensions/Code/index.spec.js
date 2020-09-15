@@ -12,7 +12,7 @@ context('/api/extensions/code', () => {
 
   it('should mark the selected text as inline code', () => {
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('code')
@@ -21,13 +21,13 @@ context('/api/extensions/code', () => {
 
   it('should toggle the selected text as inline code', () => {
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
-      .type('{selectall}', { force: true })
+      .type('{selectall}')
 
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror code')
       .should('not.exist')

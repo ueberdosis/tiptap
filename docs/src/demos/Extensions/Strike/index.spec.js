@@ -12,7 +12,7 @@ context('/api/extensions/strike', () => {
 
   it('the button should strike the selected text', () => {
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('s')
@@ -21,13 +21,13 @@ context('/api/extensions/strike', () => {
 
   it('the button should toggle the selected text striked', () => {
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
-      .type('{selectall}', { force: true })
+      .type('{selectall}')
 
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('s')
@@ -51,7 +51,7 @@ context('/api/extensions/strike', () => {
 
   it('should make a striked text from the markdown shortcut', () => {
     cy.get('.ProseMirror')
-      .type('~Strike~', { force: true })
+      .type('~Strike~')
       .find('s')
       .should('contain', 'Strike')
   })

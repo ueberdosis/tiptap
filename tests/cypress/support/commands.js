@@ -24,6 +24,23 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+function defaults(object, name, value) {
+  if (!object) {
+    return {
+      [name]: value,
+    }
+  }
+
+  if (object[name] === undefined) {
+    return {
+      ...object,
+      [name]: value,
+    }
+  }
+
+  return object
+}
+
 Cypress.Commands.overwrite('trigger', (originalFn, element, text, options) => {
   if (text === 'keydown') {
     const isMac = Cypress.platform === 'darwin'
@@ -31,7 +48,7 @@ Cypress.Commands.overwrite('trigger', (originalFn, element, text, options) => {
 
     if (modKey) {
       const newOptions = {
-        ...rest,
+        ...defaults(rest, 'force', true),
         ...(isMac ? { metaKey: modKey } : { ctrlKey: modKey }),
       }
 
@@ -40,4 +57,16 @@ Cypress.Commands.overwrite('trigger', (originalFn, element, text, options) => {
   }
 
   return originalFn(element, text, options)
+})
+
+Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
+  const newOptions = defaults(options, 'force', true)
+
+  return originalFn(element, text, newOptions)
+})
+
+Cypress.Commands.overwrite('click', (originalFn, element, text, options) => {
+  const newOptions = defaults(options, 'force', true)
+
+  return originalFn(element, text, newOptions)
 })

@@ -12,7 +12,7 @@ context('/api/extensions/italic', () => {
 
   it('the button should make the selected text italic', () => {
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('em')
@@ -21,13 +21,13 @@ context('/api/extensions/italic', () => {
 
   it('the button should toggle the selected text italic', () => {
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
-      .type('{selectall}', { force: true })
+      .type('{selectall}')
 
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror em')
       .should('not.exist')

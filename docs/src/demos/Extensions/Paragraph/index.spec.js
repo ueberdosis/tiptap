@@ -11,14 +11,14 @@ context('/api/extensions/paragraph', () => {
 
   it('text should be wrapped in a paragraph by default', () => {
     cy.get('.ProseMirror')
-      .type('Example Text', { force: true })
+      .type('Example Text')
       .find('p')
       .should('contain', 'Example Text')
   })
 
   it('enter should make a new paragraph', () => {
     cy.get('.ProseMirror')
-      .type('First Paragraph{enter}Second Paragraph', { force: true })
+      .type('First Paragraph{enter}Second Paragraph')
       .find('p')
       .should('have.length', 2)
 
@@ -33,12 +33,12 @@ context('/api/extensions/paragraph', () => {
 
   it('backspace should remove the second paragraph', () => {
     cy.get('.ProseMirror')
-      .type('{enter}', { force: true })
+      .type('{enter}')
       .find('p')
       .should('have.length', 2)
 
     cy.get('.ProseMirror')
-      .type('{backspace}', { force: true })
+      .type('{backspace}')
       .find('p')
       .should('have.length', 1)
   })

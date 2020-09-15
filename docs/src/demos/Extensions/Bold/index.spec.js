@@ -11,16 +11,18 @@ context('/api/extensions/bold', () => {
   })
 
   it('the button should make the selected text bold', () => {
-    cy.get('.demo__preview button:first').click({ force: true })
+    cy.get('.demo__preview button:first')
+      .click()
+
     cy.get('.ProseMirror')
       .find('strong')
       .should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text bold', () => {
-    cy.get('.demo__preview button:first').click({ force: true })
-    cy.get('.ProseMirror').type('{selectall}', { force: true })
-    cy.get('.demo__preview button:first').click({ force: true })
+    cy.get('.demo__preview button:first').click()
+    cy.get('.ProseMirror').type('{selectall}')
+    cy.get('.demo__preview button:first').click()
     cy.get('.ProseMirror strong').should('not.exist')
   })
 
@@ -45,14 +47,14 @@ context('/api/extensions/bold', () => {
 
   it('should make a bold text from the default markdown shortcut', () => {
     cy.get('.ProseMirror')
-      .type('**Bold**', { force: true })
+      .type('**Bold**')
       .find('strong')
       .should('contain', 'Bold')
   })
 
   it('should make a bold text from the alternative markdown shortcut', () => {
     cy.get('.ProseMirror')
-      .type('__Bold__', { force: true })
+      .type('__Bold__')
       .find('strong')
       .should('contain', 'Bold')
   })

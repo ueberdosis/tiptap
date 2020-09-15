@@ -15,7 +15,7 @@ context('/api/extensions/heading', () => {
       .should('not.exist')
 
     cy.get('.demo__preview button:nth-child(1)')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('h1')
@@ -27,7 +27,7 @@ context('/api/extensions/heading', () => {
       .should('not.exist')
 
     cy.get('.demo__preview button:nth-child(2)')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('h2')
@@ -39,7 +39,7 @@ context('/api/extensions/heading', () => {
       .should('not.exist')
 
     cy.get('.demo__preview button:nth-child(3)')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('h3')

@@ -15,7 +15,7 @@ context('/api/extensions/blockquote', () => {
       .should('not.exist')
 
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('blockquote')
@@ -27,17 +27,17 @@ context('/api/extensions/blockquote', () => {
       .should('not.exist')
 
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('blockquote')
       .should('contain', 'Example Text')
 
     cy.get('.ProseMirror')
-      .type('{selectall}', { force: true })
+      .type('{selectall}')
 
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror blockquote')
       .should('not.exist')
@@ -60,7 +60,7 @@ context('/api/extensions/blockquote', () => {
       .should('contain', 'Example Text')
 
     cy.get('.ProseMirror')
-      .type('{selectall}', { force: true })
+      .type('{selectall}')
       .trigger('keydown', { shiftKey: true, modKey: true, key: '9' })
 
     cy.get('.ProseMirror blockquote')
@@ -69,7 +69,7 @@ context('/api/extensions/blockquote', () => {
 
   it('should make a blockquote from markdown shortcuts', () => {
     cy.get('.ProseMirror')
-      .type('> Quote', { force: true })
+      .type('> Quote')
       .find('blockquote')
       .should('contain', 'Quote')
   })

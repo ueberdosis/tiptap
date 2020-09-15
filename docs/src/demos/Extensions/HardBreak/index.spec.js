@@ -14,7 +14,7 @@ context('/api/extensions/hard-break', () => {
       .should('not.exist')
 
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror br')
       .should('exist')

@@ -12,7 +12,7 @@ context('/api/extensions/underline', () => {
 
   it('the button should underline the selected text', () => {
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('u')
@@ -21,13 +21,13 @@ context('/api/extensions/underline', () => {
 
   it('the button should toggle the selected text underline', () => {
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
-      .type('{selectall}', { force: true })
+      .type('{selectall}')
 
     cy.get('.demo__preview button:first')
-      .click({ force: true })
+      .click()
 
     cy.get('.ProseMirror')
       .find('u')
