@@ -42,8 +42,6 @@ export default {
         <p>Edit this text and press undo to test this extension.</p>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

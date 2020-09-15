@@ -38,8 +38,6 @@ export default {
       `,
       extensions: defaultExtensions(),
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

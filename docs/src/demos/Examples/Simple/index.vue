@@ -29,8 +29,6 @@ export default {
         Text(),
       ],
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

@@ -47,8 +47,6 @@ export default {
         </ul>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

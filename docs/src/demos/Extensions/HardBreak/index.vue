@@ -48,8 +48,6 @@ export default {
         </p>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

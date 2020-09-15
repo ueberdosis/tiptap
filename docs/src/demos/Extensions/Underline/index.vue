@@ -41,8 +41,6 @@ export default {
         <p style="text-decoration: underline">And this as well.</p>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

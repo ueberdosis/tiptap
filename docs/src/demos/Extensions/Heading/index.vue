@@ -50,8 +50,6 @@ export default {
         <h4>This headline will be converted to a paragraph, because it's not defined in the levels option.</h4>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

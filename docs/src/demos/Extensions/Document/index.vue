@@ -33,8 +33,6 @@ export default {
         <p>The Document extension is required. Though, you can write your own implementation, e. g. to give it custom name.</p>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

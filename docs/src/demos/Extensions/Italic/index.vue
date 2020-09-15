@@ -42,8 +42,6 @@ export default {
         <p style="font-style: italic">This as well.</p>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

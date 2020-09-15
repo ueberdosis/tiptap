@@ -42,8 +42,6 @@ export default {
           <p>Albert Einstein</p>
         `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

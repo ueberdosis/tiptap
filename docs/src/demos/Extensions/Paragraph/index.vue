@@ -33,8 +33,6 @@ export default {
         <p>The Paragraph extension is not required, but it’s very likely you want to use it. It’s needed to write paragraphs of text. 🤓</p>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

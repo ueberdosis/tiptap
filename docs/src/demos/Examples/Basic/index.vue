@@ -82,8 +82,6 @@ export default {
         <p>This editor is based on Prosemirror, fully extendable and renderless. You can easily add custom nodes as Vue components.</p>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

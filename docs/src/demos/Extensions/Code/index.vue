@@ -40,8 +40,6 @@ export default {
         <p><code>This is code.</code></p>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

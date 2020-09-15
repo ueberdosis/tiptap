@@ -43,8 +43,6 @@ export default {
         <p>But between those paragraphs are horizontal rules.</p>
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

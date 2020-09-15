@@ -43,8 +43,6 @@ export default {
           <p style="text-decoration: line-through">This as well.</p>
         `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

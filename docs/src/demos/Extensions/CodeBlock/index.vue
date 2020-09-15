@@ -51,8 +51,6 @@ export default {
         <p>Press Command/Ctrl + Enter to leave the fenced code block and continue typing in boring paragraphs.
       `,
     })
-
-    window.editor = this.editor
   },
 
   beforeDestroy() {

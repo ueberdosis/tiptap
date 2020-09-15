@@ -54,8 +54,6 @@ export default {
       this.json = this.editor.json()
       this.html = this.editor.html()
     })
-
-    window.editor = this.editor
   },
 
   methods: {
