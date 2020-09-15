@@ -65,21 +65,21 @@ context('/examples/markdown-shortcuts', () => {
       .should('contain', 'const foo = bar')
   })
 
-  it.skip('should create a bullet list from asteriks', () => {
+  it('should create a bullet list from asteriks', () => {
     cy.get('.ProseMirror')
       .type('* foobar')
       .find('ul')
       .should('contain', 'foobar')
   })
 
-  it.skip('should create a bullet list from dashes', () => {
+  it('should create a bullet list from dashes', () => {
     cy.get('.ProseMirror')
       .type('- foobar')
       .find('ul')
       .should('contain', 'foobar')
   })
 
-  it.skip('should create a bullet list from pluses', () => {
+  it('should create a bullet list from pluses', () => {
     cy.get('.ProseMirror')
       .type('+ foobar')
       .find('ul')
