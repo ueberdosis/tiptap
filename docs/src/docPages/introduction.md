@@ -1,5 +1,5 @@
 # Introduction
-tiptap is a <g-link to="/renderless">renderless</g-link> wrapper around [ProseMirror](https://ProseMirror.net) – a toolkit for building rich-text editors that are already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
+tiptap is a renderless wrapper around [ProseMirror](https://ProseMirror.net) – a toolkit for building rich-text editors that are already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
 
 Although tiptap tries to hide most of the complexity of ProseMirror, it’s is built on top of its APIs and we strongly recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/). You’ll have a better understanding of how everything works under the hood and get familiar with many terms and jargon used by tiptap.
 
