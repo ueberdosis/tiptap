@@ -172,7 +172,6 @@
         #   draft: true
         - title: Text
           link: /api/extensions/text
-          draft: true
         # - title: TodoItem
         #   link: /api/extensions/todo-item
         #   draft: true
