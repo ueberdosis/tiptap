@@ -16,7 +16,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 | ------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------- |
 | [Blockquote](/api/extensions/blockquote)          | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-blockquote/)      |
 | [Bold](/api/extensions/bold)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/)            |
-| [BulletList](/api/extensions/bullet-list)         | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/)     |
+| [BulletList](/api/extensions/bullet-list)         | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/)     |
 | [Code](/api/extensions/code)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code/)            |
 | [CodeBlock](/api/extensions/code-block)           | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code-block/)      |
 | [Document](/api/extensions/document)              | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-document/)        |
@@ -26,6 +26,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 | [HorizontalRule](/api/extensions/horizontal-rule) | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/) |
 | [Italic](/api/extensions/italic)                  | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)          |
 | [Link](/api/extensions/link)                      | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-link/)            |
+| [ListItem](/api/extensions/list-item)             | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-list-item/)       |
 | [OrderedList](/api/extensions/ordered-list)       | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-ordered-list/)    |
 | [Paragraph](/api/extensions/paragraph)            | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-paragraph/)       |
 | [Strike](/api/extensions/strike)                  | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)          |
@@ -34,7 +35,6 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 
 <!-- | [CodeBlockHighlight](/api/extensions/code-block-highlight) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packagescode-block-highlight/extension-/) -->
 <!-- | [Collaboration](/api/extensions/collaboration) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration/) -->
-<!-- | [ListItem](/api/extensions/list-item) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-list-item/) -->
 <!-- | [Mention](/api/extensions/mention) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-mention/) -->
 <!-- | [Placeholder](/api/extensions/placeholder) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-placeholder/) -->
 <!-- | [TableCell](/api/extensions/table-cell) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-table-cell/) -->
@@ -46,7 +46,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 ## Community extensions
 
 :::warning Work in Progress
-This section is not ready yet. Meanwhile, [search through the GitHub issues](https://github.com/ueberdosis/tiptap/issues) to find code snippets.
+This section is not ready yet. Meanwhile, [search through GitHub issues](https://github.com/ueberdosis/tiptap/issues) to find code snippets.
 :::
 
 ## Your custom extensions
