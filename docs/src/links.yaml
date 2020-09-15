@@ -6,16 +6,8 @@
       link: /overview/installation
     - title: Upgrade Guide
       link: /overview/upgrade-guide
-      draft: true
     - title: Contributing
       link: /overview/contributing
-      draft: true
-    - title: Sponsoring
-      link: /overview/sponsoring
-      draft: true
-    - title: Roadmap
-      link: /overview/roadmap
-      draft: true
 
 - title: Guide
   items:
@@ -23,7 +15,6 @@
       link: /guide/getting-started
     - title: Configuration
       link: /guide/configuration
-      draft: true
     - title: Build your editor
       link: /guide/build-your-editor
       draft: true

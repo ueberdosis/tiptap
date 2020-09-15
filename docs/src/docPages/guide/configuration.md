@@ -8,18 +8,16 @@ See an example with `autoFocus: true` here:
 
 ```js
 import { Editor } from '@tiptap/core'
-import extensions from '@tiptap/starter-kit'
+import defaultExtensions from '@tiptap/starter-kit'
 
 new Editor({
   element: document.getElementsByClassName('element'),
-  extensions: extensions(),
+  extensions: defaultExtensions(),
   content: '<p>Hey there!</p>',
   autoFocus: true,
 })
 ```
 
-This will set the focus to tiptap after the editor is initialized. Of course, there are way more options available. Read about all of them in the related links.
+This will set the focus to tiptap after the editor is initialized. Of course, there are way more options available.
 
-### Related links
-
-* [See available options](#)
+Check out the API documentation to see [all available options](/api/editor/).

@@ -1,15 +1,15 @@
 # Upgrade Guide
 
-The new API will look pretty familiar too you, but there are a ton of changes though. To make the upgrade a little bit easier, here is everything you need to know:
-
 ## Reasons to upgrade to tiptap 2.x
-* TypeScript: auto complete, less bugs, generated API documentation
-* Amazing documentation with 100+ pages
-* Active maintenance, no more updates to 1.x
-* Tons of new extensions planned
-* Less bugs, tested code based
+* autocomplete in your IDE (thanks to TypeScript)
+* an amazing documentation with 100+ pages
+* active development, new features in the making
+* tons of new extensions planned
+* well-tested code base
 
 ## Upgrading from 1.x to 2.x
+
+The new API will look pretty familiar too you, but there are a ton of changes though. To make the upgrade a little bit easier, here is everything you need to know:
 
 ### 1. Explicitly register the Document, Text and Paragraph extensions
 
@@ -55,3 +55,6 @@ const CustomExtension = …
 
 ### 4. Blockquotes must not be nested anymore
 
+:::warning Breaking Change
+Currently, blockquotes must not be nested anymore. That said, we’re working on bringing it back. If you use nested blockquotes in your app, don’t upgrade yet.
+:::
