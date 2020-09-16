@@ -20,10 +20,8 @@
       draft: true
     - title: Custom styling
       link: /guide/custom-styling
-      draft: true
     - title: Get content
       link: /guide/get-content
-      draft: true
     - title: Custom extensions
       link: /guide/custom-extensions
       draft: true

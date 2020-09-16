@@ -1,7 +1,7 @@
 # Blockquote
 The Blockquote extension enables you to use the `<blockquote>` HTML tag in the editor. This is great – you might have guessed – to use quotes in the editor.
 
-Type `> ` at the beginning of a new line and it will be magically transformed to a blockquote.
+Type `> ​` at the beginning of a new line and it will be magically transformed to a blockquote.
 
 ## Options
 | Option | Type   | Default | Description                                  |

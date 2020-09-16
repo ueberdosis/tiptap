@@ -58,3 +58,20 @@ const CustomExtension = …
 :::warning Breaking Change
 Currently, blockquotes must not be nested anymore. That said, we’re working on bringing it back. If you use nested blockquotes in your app, don’t upgrade yet.
 :::
+
+### 5. Renamed API methods
+
+[We renamed a lot of commands](/api/commands), hopefully you can migrate to the new API with search & replace. Here is a list of what changed:
+
+| Old method name | New method name |
+| --------------- | --------------- |
+| ~~`getHTML`~~   | `html`          |
+| ~~`getJSON`~~   | `json`          |
+
+### 6. .focus() isn’t called on every command anymore
+
+We tried to hide the `.focus()` command from you with tiptap 1 and executed that on every other command. That led to issues in specific use cases, where you want to run a command, but don’t want to focus the editor. With tiptap 2.x you have to explicitly call the `focus()` and you probably want to do that in a lot of places. Here is an example:
+
+```js
+editor.focus().bold()
+```
