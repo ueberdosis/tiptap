@@ -17,28 +17,28 @@ type Configs = {
   }[]
 }
 
-export interface ExtensionCallback<Options> {
+export interface ExtensionProps<Options> {
   name: string
   editor: Editor
   options: Options
 }
 
-export interface ExtensionExtends<Callback, Options> {
+export interface ExtensionMethods<Props, Options> {
   name: string
   options: Options
-  commands: (params: Callback) => CommandSpec
-  inputRules: (params: Callback) => any[]
-  pasteRules: (params: Callback) => any[]
-  keys: (params: Callback) => {
+  commands: (params: Props) => CommandSpec
+  inputRules: (params: Props) => any[]
+  pasteRules: (params: Props) => any[]
+  keys: (params: Props) => {
     [key: string]: Function
   }
-  plugins: (params: Callback) => Plugin[]
+  plugins: (params: Props) => Plugin[]
 }
 
 export default class Extension<
   Options = {},
-  Callback = ExtensionCallback<Options>,
-  Extends extends ExtensionExtends<Callback, Options> = ExtensionExtends<Callback, Options>
+  Props = ExtensionProps<Options>,
+  Methods extends ExtensionMethods<Props, Options> = ExtensionMethods<Props, Options>
 > {
   type = 'extension'
   config: AnyObject = {}
@@ -63,7 +63,7 @@ export default class Extension<
     return this
   }
 
-  public name(value: Extends['name']) {
+  public name(value: Methods['name']) {
     this.storeConfig('name', value, 'overwrite')
     return this
   }
@@ -73,32 +73,32 @@ export default class Extension<
     return this
   }
 
-  public commands(value: Extends['commands']) {
+  public commands(value: Methods['commands']) {
     this.storeConfig('commands', value, 'overwrite')
     return this
   }
 
-  public keys(value: Extends['keys']) {
+  public keys(value: Methods['keys']) {
     this.storeConfig('keys', value, 'overwrite')
     return this
   }
 
-  public inputRules(value: Extends['inputRules']) {
+  public inputRules(value: Methods['inputRules']) {
     this.storeConfig('inputRules', value, 'overwrite')
     return this
   }
 
-  public pasteRules(value: Extends['pasteRules']) {
+  public pasteRules(value: Methods['pasteRules']) {
     this.storeConfig('pasteRules', value, 'overwrite')
     return this
   }
 
-  public plugins(value: Extends['plugins']) {
+  public plugins(value: Methods['plugins']) {
     this.storeConfig('plugins', value, 'overwrite')
     return this
   }
 
-  public extend<T extends Extract<keyof Extends, string>>(key: T, value: Extends[T]) {
+  public extend<T extends Extract<keyof Methods, string>>(key: T, value: Methods[T]) {
     this.storeConfig(key, value, 'extend')
     return this
   }

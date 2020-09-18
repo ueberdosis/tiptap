@@ -1,32 +1,32 @@
 import { NodeSpec, NodeType } from 'prosemirror-model'
-import Extension, { ExtensionCallback, ExtensionExtends } from './Extension'
+import Extension, { ExtensionMethods } from './Extension'
 import { Editor } from './Editor'
 
-export interface NodeCallback<Options> {
+export interface NodeProps<Options> {
   name: string
   editor: Editor
   options: Options
   type: NodeType
 }
 
-export interface NodeExtends<Callback, Options> extends ExtensionExtends<Callback, Options> {
+export interface NodeMethods<Props, Options> extends ExtensionMethods<Props, Options> {
   topNode: boolean
-  schema: (params: Omit<Callback, 'type' | 'editor'>) => NodeSpec
+  schema: (params: Omit<Props, 'type' | 'editor'>) => NodeSpec
 }
 
 export default class Node<
   Options = {},
-  Callback = NodeCallback<Options>,
-  Extends extends NodeExtends<Callback, Options> = NodeExtends<Callback, Options>
-> extends Extension<Options, Callback, Extends> {
+  Props = NodeProps<Options>,
+  Methods extends NodeMethods<Props, Options> = NodeMethods<Props, Options>
+> extends Extension<Options, Props, Methods> {
   type = 'node'
 
-  public topNode(value: Extends['topNode'] = true) {
+  public topNode(value: Methods['topNode'] = true) {
     this.storeConfig('topNode', value, 'overwrite')
     return this
   }
 
-  public schema(value: Extends['schema']) {
+  public schema(value: Methods['schema']) {
     this.storeConfig('schema', value, 'overwrite')
     return this
   }
