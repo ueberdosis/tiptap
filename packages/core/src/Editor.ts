@@ -20,7 +20,13 @@ import ComponentRenderer from './ComponentRenderer'
 import defaultPlugins from './plugins'
 import * as commands from './commands'
 
-export type Command = (next: Function, editor: Editor) => (...args: any) => any
+// export type Command = (next: Function, editor: Editor) => (...args: any) => any
+
+// export type Command = (...args: any) => ({ editor: Editor }) => boolean
+export type Command = (props: {
+  editor: Editor
+  tr: Transaction
+}) => boolean
 
 export interface CommandSpec {
   [key: string]: Command
@@ -108,7 +114,42 @@ export class Editor extends EventEmitter {
       return
     }
 
-    return (...args: any) => command(...args)
+    return (...args: any) => {
+      const { tr } = this.state
+      const callback = command(...args)({ editor: this.proxy, tr })
+      this.view.dispatch(tr)
+
+      return callback
+    }
+  }
+
+  public chain() {
+    // const { tr } = this.state
+    const tr = this.state.tr
+    const callbacks = []
+
+    return new Proxy({}, {
+      get: (target, name: string, proxy) => {
+        if (name === 'run') {
+          this.view.dispatch(tr)
+
+          return () => callbacks.every(callback => callback === true)
+        }
+
+        const command = this.commands[name]
+
+        if (!command) {
+          throw new Error(`tiptap: command '${name}' not found.`)
+        }
+
+        return (...args: any) => {
+          const callback = command(...args)({ editor: this.proxy, tr })
+          callbacks.push(callback)
+
+          return proxy
+        }
+      }
+    })
   }
 
   /**
@@ -155,7 +196,7 @@ export class Editor extends EventEmitter {
    * @param name The name of your command
    * @param callback The method of your command
    */
-  public registerCommand(name: string, callback: Command): Editor {
+  public registerCommand(name: string, callback: (bla?: any) => Command): Editor {
     if (this.commands[name]) {
       throw new Error(`tiptap: command '${name}' is already defined.`)
     }
@@ -164,16 +205,32 @@ export class Editor extends EventEmitter {
       throw new Error(`tiptap: '${name}' is a protected name.`)
     }
 
-    this.commands[name] = this.chainCommand((...args: any) => {
-      // console.log('command', this.lastCommandValue)
-      const commandValue = callback(() => {}, this.proxy)(...args)
+    // this.commands[name] = this.chainCommand((...args: any) => {
+    //   // console.log('command', this.lastCommandValue)
+    //   const commandValue = callback(() => {}, this.proxy)(...args)
 
-      // if (commandValue !== undefined) {
-        this.lastCommandValue = commandValue
-      // }
+    //   // if (commandValue !== undefined) {
+    //     this.lastCommandValue = commandValue
+    //   // }
 
-      return this.proxy
-    })
+    //   return this.proxy
+    // })
+
+    
+    // this.commands[name] = (...args: any) => {
+    //   const tr = this.state.tr
+    //   callback(...args)({ editor: this.proxy, tr })
+    //   this.view.dispatch(tr)
+    // }
+
+    this.commands[name] = callback
+
+    //   // if (commandValue !== undefined) {
+    //     this.lastCommandValue = commandValue
+    //   // }
+
+    //   return this.proxy
+    // })
 
     return this.proxy
   }
