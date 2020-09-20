@@ -26,6 +26,8 @@ import * as commands from './commands'
 export type Command = (props: {
   editor: Editor
   tr: Transaction
+  // TODO: find correct type
+  commands: any
 }) => boolean
 
 export interface CommandSpec {
@@ -143,7 +145,22 @@ export class Editor extends EventEmitter {
         }
 
         return (...args: any) => {
-          const callback = command(...args)({ editor: this.proxy, tr })
+          const props = {
+            editor: this.proxy,
+            tr,
+          }
+
+          Object.defineProperty(props, 'commands', {
+            get: function() {
+              return Object.fromEntries(Object
+                .entries(this.commands)
+                .map(([name, command]) => {
+                  return [name, (...args) => command(...args)(props)]
+                }))
+            }.bind(this)
+          });
+
+          const callback = command(...args)(props)
           callbacks.push(callback)
 
           return proxy

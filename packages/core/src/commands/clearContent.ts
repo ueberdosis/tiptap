@@ -8,9 +8,6 @@ declare module '../Editor' {
   }
 }
 
-export const clearContent: ClearContentCommand = (emitUpdate = false) => ({ editor }) => {
-  // TODO: doesn’t work, we have to re-use `tr`
-  editor.setContent('', emitUpdate)
-
-  return true
+export const clearContent: ClearContentCommand = (emitUpdate = false) => ({ commands }) => {
+  return commands.setContent('', emitUpdate)
 }
