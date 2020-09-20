@@ -2,8 +2,9 @@
   <div>
     <button @click="() => console.log(editor.focus())">focus</button>
     <button @click="() => console.log(editor.insertText('hello'))">insert</button>
-    <button @click="editor.chain().focus().insertText('wat').insertHTML('<p>2</p>').run()">chain</button>
-    <button @click="editor.chain().insertText('1').focus().run()">chain</button>
+    <button @click="editor.chain().focus().insertText('wat').insertHTML('<p>2</p>').run()">chain 1</button>
+    <button @click="editor.chain().insertText('1').focus().run()">chain 2</button>
+    <button @click="editor.chain().setContent('reset').insertText('1').clearContent().run()">setContent</button>
     <editor-content :editor="editor" />
   </div>
 </template>

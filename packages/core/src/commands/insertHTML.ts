@@ -25,14 +25,12 @@ function selectionToInsertionEnd(tr, startLen, bias) {
 }
 
 export const insertHTML: InsertHTMLCommand = value => ({ tr, editor }) => {
-  console.log({tr })
   const { state } = editor
   const { selection } = tr
   const element = elementFromString(value)
   const slice = DOMParser.fromSchema(state.schema).parseSlice(element)
 
   tr.insert(selection.anchor, slice.content)
-  // TODO: set correct bias by content
   selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
 
   return true

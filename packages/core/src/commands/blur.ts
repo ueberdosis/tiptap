@@ -1,6 +1,6 @@
-import { Editor } from '../Editor'
+import { Command } from '../Editor'
 
-type BlurCommand = () => Editor
+type BlurCommand = () => Command
 
 declare module '../Editor' {
   interface Editor {
@@ -8,9 +8,10 @@ declare module '../Editor' {
   }
 }
 
-export default (next: Function, { view }: Editor) => () => {
-  const element = view.dom as HTMLElement
+export const blur: BlurCommand = () => ({ editor }) => {
+  const element = editor.view.dom as HTMLElement
 
   element.blur()
-  next()
+
+  return true
 }
