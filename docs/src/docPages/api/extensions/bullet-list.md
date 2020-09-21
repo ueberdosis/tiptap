@@ -1,7 +1,7 @@
 # BulletList
 This extension enables you to use bullet lists in the editor. They are rendered as `<ul>` HTML tags,
 
-Type `* ​`, `- ​` or `+ ​` at the beginning of a new line and it will be magically transformed to a bullet list.
+Type `* ​`, `- ​` or `+ ​` at the beginning of a new line and it will magically transform to a bullet list.
 
 ::: warning Use with ListItem
 The `BulletList` extension is intended to be used with the [`ListItem`](/api/extensions/list-item) extension. Make sure to import that one too, otherwise you’ll get a SyntaxError.
@@ -20,7 +20,7 @@ The `BulletList` extension is intended to be used with the [`ListItem`](/api/ext
 ## Keyboard shortcuts
 * `Control` + `Shift` + `8`
 
-## Source Code
+## Source code
 [packages/extension-bullet-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/)
 
 ## Usage

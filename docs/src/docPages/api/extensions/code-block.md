@@ -20,7 +20,7 @@ The CodeBlock extension doesn’t come with styling and has no syntax highlighti
 ## Keyboard shortcuts
 * `Shift` + `Control` + `\`
 
-## Source Code
+## Source code
 [packages/extension-code-block/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code-block/)
 
 ## Usage

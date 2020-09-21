@@ -1,6 +1,28 @@
 # Installation
 
-tiptap has a very modular package structure and is independent of any framework. Depending on what you want to do with tiptap there are a few different ways to install tiptap in your project. Choose the way that fits your project best.
+tiptap has a modular package structure and is independent of any framework. Depending on what you want to do with tiptap there are a few different ways to install tiptap in your project. Choose the way that fits your project best.
+
+## Vue.js
+
+To use tiptap with Vue.js (and tools that are based on Vue.js) install tiptap together with the Vue.js rendering adapter in your project. We even prepared a Vue.js starter kit, which gives you a good headstart.
+
+```bash
+# With npm
+npm install @tiptap/core @tiptap/vue @tiptap/vue-starter-kit
+
+# Or: With Yarn
+yarn add @tiptap/core @tiptap/vue @tiptap/vue-starter-kit
+```
+
+| Package                                                                          | Description                         |
+| -------------------------------------------------------------------------------- | ----------------------------------- |
+| [@tiptap/core](https://www.npmjs.com/package/@tiptap/core)                       | The actual editor                   |
+| [@tiptap/vue](https://www.npmjs.com/package/@tiptap/vue)                         | Rendering for Vue.js                |
+| [@tiptap/vue-starter-kit](https://www.npmjs.com/package/@tiptap/vue-starter-kit) | Installs the most common extensions |
+
+Create a new component and add the following content to get a basic version of tiptap:
+
+<demo name="General/Installation" />
 
 ## Plain JavaScript
 
@@ -26,22 +48,6 @@ new Editor({
   content: '<p>Your content.</p>',
 })
 ```
-
-## Vue.js
-
-To use tiptap with Vue.js (and tools that are based on Vue.js) install the Vue.js adapter in your project:
-
-```bash
-# With npm
-npm install @tiptap/vue @tiptap/vue-starter-kit
-
-# Or: With Yarn
-yarn add @tiptap/vue @tiptap/vue-starter-kit
-```
-
-We even prepared a Vue.js starter kit for you. That should give you a good headstart. Create a new component and add the following content to get a basic version of tiptap:
-
-<demo name="General/Installation" />
 
 ## CodeSandbox
 

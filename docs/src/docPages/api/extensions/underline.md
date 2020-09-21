@@ -19,7 +19,7 @@ The extension will generate the corresponding `<u>` HTML tags when reading conte
 * Windows & Linux: `Control` + `U`
 * macOS: `Command` + `U`
 
-## Source Code
+## Source code
 [packages/extension-underline/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)
 
 ## Usage
