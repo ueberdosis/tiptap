@@ -13,7 +13,7 @@ The new API will look pretty familiar too you, but there are a ton of changes th
 
 ### 1. Explicitly register the Document, Text and Paragraph extensions
 
-Tiptap 1 tried to hide a few required extensions from you. Be sure to explicitly import the [Document](/api/extensions/document), [Paragraph](/api/extensions/paragraph) and [Text](/api/extensions/text) extensions.
+Tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. Be sure to explicitly import the [Document](/api/extensions/document), [Paragraph](/api/extensions/paragraph) and [Text](/api/extensions/text) extensions.
 
 ```js
 import Document from '@tiptap/extension-document'
@@ -29,6 +29,8 @@ new Editor({
   ]
 })
 ```
+
+The `useBuiltInExtensions` setting has been removed.
 
 ### 2. New document type
 **We renamed the default `Document` type from `doc` to `document`.** To keep it like that, use your own implementation of the `Document` node or migrate the stored JSON to use the new name.
