@@ -123,7 +123,7 @@ export class Editor extends EventEmitter {
         editor: this.proxy,
         state: this.chainableEditorState(tr, this.state),
         view: this.view,
-        dispatch: () => {},
+        dispatch: () => false,
         tr,
       })
 
@@ -156,7 +156,7 @@ export class Editor extends EventEmitter {
             editor: this.proxy,
             state: this.chainableEditorState(tr, this.state),
             view: this.view,
-            dispatch: () => {},
+            dispatch: () => false,
             tr,
           }
 
