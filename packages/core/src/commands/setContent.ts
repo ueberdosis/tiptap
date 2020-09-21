@@ -13,11 +13,7 @@ declare module '../Editor' {
   }
 }
 
-export const setContent: SetContentCommand = (content = null, emitUpdate = false, parseOptions = {}) => ({ tr, editor }) => {
-  if (content === null) {
-    return false
-  }
-
+export const setContent: SetContentCommand = (content = '', emitUpdate = false, parseOptions = {}) => ({ tr, editor }) => {
   const { createDocument } = editor
   const { doc } = tr
   const document = createDocument(content, parseOptions)

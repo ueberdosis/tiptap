@@ -71,7 +71,7 @@ module.exports = function (api) {
         .test(/\.tsx?$/)
         .use()
           .loader('ts-loader')
-          .options({ transpileOnly: true, appendTsSuffixTo: [/\.vue$/] })
+          .options({ transpileOnly: false, appendTsSuffixTo: [/\.vue$/] })
 
     config.module
       .rule('jsx')

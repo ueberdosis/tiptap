@@ -134,15 +134,16 @@ export class Editor extends EventEmitter {
         tr,
       }
 
+      const self = this
       Object.defineProperty(props, 'commands', {
         get: function() {
           return Object.fromEntries(Object
-            .entries(this.commands)
+            .entries(self.commands)
             .map(([name, command]) => {
-              return [name, (...args) => command(...args)(props)]
+              return [name, (...args: any[]) => command(...args)(props)]
             }))
         }.bind(this)
-      });
+      })
 
       const callback = command(...args)(props)
 
@@ -154,7 +155,7 @@ export class Editor extends EventEmitter {
 
   public chain() {
     const { tr } = this.state
-    const callbacks = []
+    const callbacks: boolean[] = []
 
     return new Proxy({}, {
       get: (target, name: string, proxy) => {
@@ -179,12 +180,13 @@ export class Editor extends EventEmitter {
             tr,
           }
 
+          const self = this
           Object.defineProperty(props, 'commands', {
             get: function() {
               return Object.fromEntries(Object
-                .entries(this.commands)
+                .entries(self.commands)
                 .map(([name, command]) => {
-                  return [name, (...args) => command(...args)(props)]
+                  return [name, (...args: any[]) => command(...args)(props)]
                 }))
             }.bind(this)
           });
