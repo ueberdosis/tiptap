@@ -21,12 +21,12 @@ export default new Node()
     ],
     toDOM: () => ['blockquote', 0],
   }))
-  .commands(({ editor, name }) => ({
-    [name]: next => attrs => {
-      editor.toggleNode(name, 'paragraph', attrs)
-      next()
-    },
-  }))
+  // .commands(({ editor, name }) => ({
+  //   [name]: next => attrs => {
+  //     editor.toggleNode(name, 'paragraph', attrs)
+  //     next()
+  //   },
+  // }))
   .keys(({ editor }) => ({
     'Shift-Mod-9': () => editor.blockquote(),
   }))

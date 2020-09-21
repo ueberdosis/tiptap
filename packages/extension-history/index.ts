@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Command, Extension } from '@tiptap/core'
 import {
   history,
   undo,
@@ -9,8 +9,8 @@ import {
 
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
-    undo(): Editor,
-    redo(): Editor,
+    undo: () => Command,
+    redo: () => Command,
   }
 }
 
@@ -24,13 +24,11 @@ export default new Extension<HistoryOptions>()
     historyPluginOptions: {},
   })
   .commands(() => ({
-    undo: (next, { view }) => () => {
-      undo(view.state, view.dispatch)
-      next()
+    undo: () => ({ state, dispatch }) => {
+      return undo(state, dispatch)
     },
-    redo: (next, { view }) => () => {
-      redo(view.state, view.dispatch)
-      next()
+    redo: () => ({ state, dispatch }) => {
+      return redo(state, dispatch)
     },
   }))
   .keys(({ editor }) => ({

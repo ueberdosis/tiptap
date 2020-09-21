@@ -18,12 +18,12 @@ export default new Mark()
     ],
     toDOM: () => ['code', 0],
   }))
-  .commands(({ editor, name }) => ({
-    code: next => () => {
-      editor.toggleMark(name)
-      next()
-    },
-  }))
+  // .commands(({ editor, name }) => ({
+  //   code: next => () => {
+  //     editor.toggleMark(name)
+  //     next()
+  //   },
+  // }))
   .keys(({ editor }) => ({
     'Mod-`': () => editor.code()
   }))

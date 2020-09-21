@@ -18,19 +18,19 @@ export default new Node()
     ],
     toDOM: () => ['br'],
   }))
-  .commands(({ editor, type }) => ({
-    hardBreak: next => () => {
-      const { state, view } = editor
-      const { dispatch } = view
+  // .commands(({ editor, type }) => ({
+  //   hardBreak: next => () => {
+  //     const { state, view } = editor
+  //     const { dispatch } = view
 
-      chainCommands(exitCode, () => {
-        dispatch(state.tr.replaceSelectionWith(type.create()).scrollIntoView())
-        return true
-      })(state, dispatch, view)
+  //     chainCommands(exitCode, () => {
+  //       dispatch(state.tr.replaceSelectionWith(type.create()).scrollIntoView())
+  //       return true
+  //     })(state, dispatch, view)
 
-      next()
-    },
-  }))
+  //     next()
+  //   },
+  // }))
   .keys(({ editor }) => ({
     'Mod-Enter': () => editor.hardBreak(),
     'Shift-Enter': () => editor.hardBreak(),

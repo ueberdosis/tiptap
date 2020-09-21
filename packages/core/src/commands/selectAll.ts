@@ -1,7 +1,7 @@
-import { Editor } from '../Editor'
-import { selectAll } from 'prosemirror-commands'
+import { Command } from '../Editor'
+import { selectAll as originalSelectAll } from 'prosemirror-commands'
 
-type SelectAllCommand = () => Editor
+type SelectAllCommand = () => Command
 
 declare module '../Editor' {
   interface Editor {
@@ -9,7 +9,6 @@ declare module '../Editor' {
   }
 }
 
-export default (next: Function, { state, view }: Editor) => () => {
-  selectAll(state, view.dispatch)
-  next()
+export const selectAll: SelectAllCommand = () => ({ state, dispatch }) => {
+  return originalSelectAll(state, dispatch)
 }

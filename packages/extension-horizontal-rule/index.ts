@@ -13,15 +13,15 @@ export default new Node()
     parseDOM: [{ tag: 'hr' }],
     toDOM: () => ['hr'],
   }))
-  .commands(({ editor, type }) => ({
-    horizontalRule: next => () => {
-      const { state, view } = editor
-      const { dispatch } = view
+  // .commands(({ editor, type }) => ({
+  //   horizontalRule: next => () => {
+  //     const { state, view } = editor
+  //     const { dispatch } = view
 
-      dispatch(state.tr.replaceSelectionWith(type.create()))
-      next()
-    },
-  }))
+  //     dispatch(state.tr.replaceSelectionWith(type.create()))
+  //     next()
+  //   },
+  // }))
   .inputRules(({ type }) => [
     nodeInputRule(/^(?:---|___\s|\*\*\*\s)$/, type),
   ])

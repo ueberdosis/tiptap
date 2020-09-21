@@ -21,19 +21,18 @@ import defaultPlugins from './plugins'
 import * as commands from './commands'
 import { deleteSelection } from 'prosemirror-commands'
 
-// export type Command = (next: Function, editor: Editor) => (...args: any) => any
-
-// export type Command = (...args: any) => ({ editor: Editor }) => boolean
 export type Command = (props: {
   editor: Editor
   tr: Transaction
   // TODO: find correct type
   commands: any
-  state: EditorState
+  state: EditorState,
+  view: EditorView,
+  dispatch: () => any
 }) => boolean
 
 export interface CommandSpec {
-  [key: string]: Command
+  [key: string]: (...args: any[]) => Command
 }
 
 export interface Commands {}
@@ -126,13 +125,26 @@ export class Editor extends EventEmitter {
 
     return (...args: any) => {
       const { tr } = this.state
-      const callback = command(...args)({
+
+      const props = {
         editor: this.proxy,
         state: this.chainableEditorState(tr, this.state),
         view: this.view,
         dispatch: () => false,
         tr,
-      })
+      }
+
+      Object.defineProperty(props, 'commands', {
+        get: function() {
+          return Object.fromEntries(Object
+            .entries(this.commands)
+            .map(([name, command]) => {
+              return [name, (...args) => command(...args)(props)]
+            }))
+        }.bind(this)
+      });
+
+      const callback = command(...args)(props)
 
       this.view.dispatch(tr)
 

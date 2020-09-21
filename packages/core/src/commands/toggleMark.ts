@@ -1,9 +1,9 @@
-import { Editor } from '../Editor'
-import { toggleMark } from 'prosemirror-commands'
+import { Command } from '../Editor'
+import { toggleMark as originalToggleMark } from 'prosemirror-commands'
 import { MarkType } from 'prosemirror-model'
 import getMarkType from '../utils/getMarkType'
 
-type ToggleMarkCommand = (typeOrName: string | MarkType) => Editor
+type ToggleMarkCommand = (typeOrName: string | MarkType) => Command
 
 declare module '../Editor' {
   interface Editor {
@@ -11,10 +11,8 @@ declare module '../Editor' {
   }
 }
 
-export default (next: Function, editor: Editor) => (typeOrName: string | MarkType) => {
-  const { view, state, schema } = editor
-  const type = getMarkType(typeOrName, schema)
+export const toggleMark: ToggleMarkCommand = (typeOrName) => ({ state, dispatch }) => {
+  const type = getMarkType(typeOrName, state.schema)
 
-  toggleMark(type)(state, view.dispatch)
-  next()
+  return originalToggleMark(type)(state, dispatch)
 }
