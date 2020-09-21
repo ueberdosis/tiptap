@@ -5,6 +5,7 @@
     <button @click="editor.chain().focus().insertText('wat').insertHTML('<p>2</p>').run()">chain 1</button>
     <button @click="editor.chain().insertText('1').focus().run()">chain 2</button>
     <button @click="editor.chain().setContent('reset').insertText('1').clearContent().run()">setContent</button>
+    <button @click="editor.chain().deleteSelection().run()">deleteSelection</button>
     <editor-content :editor="editor" />
   </div>
 </template>

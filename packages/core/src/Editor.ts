@@ -28,6 +28,7 @@ export type Command = (props: {
   tr: Transaction
   // TODO: find correct type
   commands: any
+  state: EditorState
 }) => boolean
 
 export interface CommandSpec {
@@ -118,7 +119,14 @@ export class Editor extends EventEmitter {
 
     return (...args: any) => {
       const { tr } = this.state
-      const callback = command(...args)({ editor: this.proxy, tr })
+      const callback = command(...args)({
+        editor: this.proxy,
+        state: this.chainableEditorState(tr, this.state),
+        view: this.view,
+        dispatch: () => {},
+        tr,
+      })
+
       this.view.dispatch(tr)
 
       return callback
@@ -126,8 +134,7 @@ export class Editor extends EventEmitter {
   }
 
   public chain() {
-    // const { tr } = this.state
-    const tr = this.state.tr
+    const { tr } = this.state
     const callbacks = []
 
     return new Proxy({}, {
@@ -147,6 +154,9 @@ export class Editor extends EventEmitter {
         return (...args: any) => {
           const props = {
             editor: this.proxy,
+            state: this.chainableEditorState(tr, this.state),
+            view: this.view,
+            dispatch: () => {},
             tr,
           }
 
@@ -167,6 +177,38 @@ export class Editor extends EventEmitter {
         }
       }
     })
+  }
+
+  protected chainableEditorState(tr: Transaction, state: EditorState): EditorState {
+    let selection = tr.selection
+    let doc = tr.doc
+    let storedMarks = tr.storedMarks
+
+    return {
+      ...state,
+      schema: state.schema,
+      plugins: state.plugins,
+      apply: state.apply.bind(state),
+      applyTransaction: state.applyTransaction.bind(state),
+      reconfigure: state.reconfigure.bind(state),
+      toJSON: state.toJSON.bind(state),
+      get storedMarks() {
+        return storedMarks
+      },
+      get selection() {
+        return selection
+      },
+      get doc() {
+        return doc
+      },
+      get tr() {
+        selection = tr.selection
+        doc = tr.doc
+        storedMarks = tr.storedMarks
+
+        return tr
+      },
+    };
   }
 
   /**

@@ -1,6 +1,6 @@
 export { blur } from './blur'
 export { clearContent } from './clearContent'
-// export { default as deleteSelection } from './deleteSelection'
+export { deleteSelection } from './deleteSelection'
 export { focus } from './focus'
 export { insertHTML } from './insertHTML'
 export { insertText } from './insertText'
