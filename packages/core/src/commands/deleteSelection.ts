@@ -9,6 +9,12 @@ declare module '../Editor' {
   }
 }
 
+// declare module '../Editor' {
+//   interface Commands {
+//     deleteSelection: DeleteSelectionCommand,
+//   }
+// }
+
 export const deleteSelection: DeleteSelectionCommand = () => ({ state, dispatch }) => {
   return originalDeleteSelection(state, dispatch)
 }

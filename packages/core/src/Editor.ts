@@ -19,6 +19,7 @@ import Mark from './Mark'
 import ComponentRenderer from './ComponentRenderer'
 import defaultPlugins from './plugins'
 import * as commands from './commands'
+import { deleteSelection } from 'prosemirror-commands'
 
 // export type Command = (next: Function, editor: Editor) => (...args: any) => any
 
@@ -35,17 +36,23 @@ export interface CommandSpec {
   [key: string]: Command
 }
 
-type EditorContent = string | JSON | null
+export interface Commands {}
 
-// interface Element {
-//   editor?: Editor
-// }
+// export type CommandNames = Extract<keyof Commands, string>
+
+export type ChainedCommands = {
+  [Command in keyof Commands]: Commands[Command] extends (...args: any[]) => any
+  ? (...args: Parameters<Commands[Command]>) => ChainedCommands
+  : never
+} & {
+  run: () => boolean
+}
+
+type EditorContent = string | JSON | null
 
 interface HTMLElement {
   editor?: Editor
 }
-
-// Element.prototype.editor = Editor
 
 interface EditorOptions {
   element: Element,
@@ -176,7 +183,7 @@ export class Editor extends EventEmitter {
           return proxy
         }
       }
-    })
+    }) as ChainedCommands
   }
 
   protected chainableEditorState(tr: Transaction, state: EditorState): EditorState {
