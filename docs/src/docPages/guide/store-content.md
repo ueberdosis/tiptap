@@ -1,16 +1,16 @@
-# Get content
-You can store your content as JSON or you can get a good old HTML string. Both work fine. And of course, you can pass both formats to the editor to restore your content.
+# Store content
+You can store your content as a JSON object or as a good old HTML string. Both work fine. And of course, you can pass both formats to the editor to restore your content.
 
-Funfact: You can store your content as JSON and restore the content from HTML, or the other way around. I don’t know why you would want to do that, but tiptap wouldn’t care.
+You can store your content as JSON and restore the content from HTML, or the other way around. I don’t know why you would do that, but tiptap wouldn’t care.
 
-## Option 1: Work with JSON
-JSON is probably easier to loop through, for example to look for a mention and it’s more like what tiptap uses under the hood. Anyway, if you want to use JSON to store the content we provide a method to retrieve JSON:
+## Option 1: JSON
+JSON is probably easier to loop through, for example to look for a mention and it’s more like what tiptap uses under the hood. Anyway, if you want to use JSON to store the content we provide a method to retrieve the content as JSON:
 
 ```js
 const json = editor.json()
 ```
 
-You can store that in your database or send it to an API and restore the document initially like that:
+You can store that in your database (or send it to an API) and restore the document initially like that:
 
 ```js
 new Editor({
@@ -51,7 +51,7 @@ editor.setContent({
 })
 ```
 
-## Option 2: Work with HTML
+## Option 2: HTML
 HTML can be easily rendered in other places, for example in emails and it’s wildly used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
 
 ```js
@@ -74,9 +74,13 @@ editor.setContent(`<p>Example Text</p>`)
 
 ## Not an option: Markdown
 
-Unfortunately, tiptap doesn’t support Markdown as input/output format. We considered to add support for it, but there are a few limitations:
+Unfortunately, **tiptap doesn’t support Markdown as an input or output format**. We considered to add support for it, but there are a few limitations:
 
 * HTML and JSON can both have deeply nested structures, Markdown can’t have those
 * Tables are not part of the Markdown standard, and can’t easily be stored and restored from Markdown
 
-You should really consider to work with HTML or JSON to store your content. If you still think you need Markdown, [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap to work with Markdown. Their code is open source, so maybe you can learn from them.
+You should really consider to work with HTML or JSON to store your content, they are perfectly fine for most use cases.
+
+If you still think you need Markdown, [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap to work with Markdown. Their code is open source, so maybe you can learn from them.
+
+That said, tiptap **does** support Markdown shortcuts to format your content. Try typing `**two asterisk**` to make your text bold for example.

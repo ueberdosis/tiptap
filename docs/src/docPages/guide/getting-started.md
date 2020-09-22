@@ -27,7 +27,3 @@ If you are using Nuxt.js, note that tiptap needs to run in the client, not on th
 :::
 
 Congrats! You’ve got it! 🎉 Let’s start to configure your editor in the next step.
-
-### Related links
-
-* [tiptap doesn’t have a default styling](#)
