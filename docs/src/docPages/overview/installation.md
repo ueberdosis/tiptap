@@ -10,7 +10,7 @@ You’re free to use tiptap with the framework of your choice. Depending on what
 
 ## Option 1: Vanilla JavaScript
 
-Use tiptap with vanilla JavaScript for a very lightweight and raw experience. If you feel like it, you can even use it to connect the tiptap core with other frameworks (Svelte 👋) not mentioned here.
+Use tiptap with vanilla JavaScript for a very lightweight and raw experience. If you feel like it, you can even use it to connect tiptap with other frameworks not mentioned here.
 
 ```bash
 # With npm
