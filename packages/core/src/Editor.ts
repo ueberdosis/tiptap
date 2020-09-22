@@ -11,6 +11,7 @@ import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
 import getHtmlFromFragment from './utils/getHtmlFromFragment'
+import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
 import Extension from './Extension'
@@ -76,6 +77,7 @@ export class Editor extends EventEmitter {
 
   public renderer!: any
   private proxy!: Editor
+  private commandManager!: CommandManager
   private extensionManager!: ExtensionManager
   private commands: { [key: string]: any } = {}
   private css!: HTMLStyleElement
@@ -107,6 +109,7 @@ export class Editor extends EventEmitter {
     this.extensionManager.resolveConfigs()
     this.createView()
     this.registerCommands(commands)
+    this.createCommandManager()
 
     if (this.options.injectCSS) {
       require('./style.css')
@@ -121,123 +124,14 @@ export class Editor extends EventEmitter {
    * @param name The name of the command
    */
   private __get(name: string) {
-    const command = this.commands[name]
-
-    if (!command) {
-      // TODO: prevent vue devtools to throw error
-      // throw new Error(`tiptap: command '${name}' not found.`)
-      return
-    }
-
-    return (...args: any) => {
-      const { tr } = this.state
-
-      const props = {
-        editor: this.proxy,
-        state: this.chainableEditorState(tr, this.state),
-        view: this.view,
-        dispatch: () => false,
-        // chain: this.chain.bind(this),
-        tr,
-      }
-
-      const self = this
-      Object.defineProperty(props, 'commands', {
-        get: function() {
-          return Object.fromEntries(Object
-            .entries(self.commands)
-            .map(([name, command]) => {
-              return [name, (...args: any[]) => command(...args)(props)]
-            }))
-        }.bind(this)
-      })
-
-      const callback = command(...args)(props)
-
-      this.view.dispatch(tr)
-
-      return callback
-    }
+    return this.commandManager.runSingleCommand(name)
   }
 
+  /**
+   * Create a command chain to call multiple commands at once.
+   */
   public chain() {
-    const { tr } = this.state
-    const callbacks: boolean[] = []
-
-    return new Proxy({}, {
-      get: (target, name: string, proxy) => {
-        if (name === 'run') {
-          this.view.dispatch(tr)
-
-          return () => callbacks.every(callback => callback === true)
-        }
-
-        const command = this.commands[name]
-
-        if (!command) {
-          throw new Error(`tiptap: command '${name}' not found.`)
-        }
-
-        return (...args: any) => {
-          const props = {
-            editor: this.proxy,
-            state: this.chainableEditorState(tr, this.state),
-            view: this.view,
-            dispatch: () => false,
-            // chain: this.chain.bind(this),
-            tr,
-          }
-
-          const self = this
-          Object.defineProperty(props, 'commands', {
-            get: function() {
-              return Object.fromEntries(Object
-                .entries(self.commands)
-                .map(([name, command]) => {
-                  return [name, (...args: any[]) => command(...args)(props)]
-                }))
-            }.bind(this)
-          });
-
-          const callback = command(...args)(props)
-          callbacks.push(callback)
-
-          return proxy
-        }
-      }
-    }) as ChainedCommands
-  }
-
-  protected chainableEditorState(tr: Transaction, state: EditorState): EditorState {
-    let selection = tr.selection
-    let doc = tr.doc
-    let storedMarks = tr.storedMarks
-
-    return {
-      ...state,
-      schema: state.schema,
-      plugins: state.plugins,
-      apply: state.apply.bind(state),
-      applyTransaction: state.applyTransaction.bind(state),
-      reconfigure: state.reconfigure.bind(state),
-      toJSON: state.toJSON.bind(state),
-      get storedMarks() {
-        return storedMarks
-      },
-      get selection() {
-        return selection
-      },
-      get doc() {
-        return doc
-      },
-      get tr() {
-        selection = tr.selection
-        doc = tr.doc
-        storedMarks = tr.storedMarks
-
-        return tr
-      },
-    };
+    return this.commandManager.createChain()
   }
 
   /**
@@ -343,6 +237,13 @@ export class Editor extends EventEmitter {
    */
   private createExtensionManager() {
     this.extensionManager = new ExtensionManager(this.options.extensions, this.proxy)
+  }
+
+  /**
+   * Creates an command manager.
+   */
+  private createCommandManager() {
+    this.commandManager = new CommandManager(this.proxy, this.commands)
   }
 
   /**
