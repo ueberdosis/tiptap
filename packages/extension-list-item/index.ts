@@ -12,7 +12,7 @@ export default new Node()
     toDOM: () => ['li', 0],
   }))
   .keys(({ editor, name }) => ({
-    // Enter: () => editor.chain().focus().splitListItem(name).run()
+    Enter: () => editor.splitListItem(name),
     // Tab: () => editor.sinkListItem(name),
     // 'Shift-Tab': () => editor.liftListItem(name),
   }))

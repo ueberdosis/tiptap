@@ -94,18 +94,7 @@ export default class ExtensionManager {
     return collect(this.extensions)
       .map(extension => extension.config.keys)
       .filter(keys => keys)
-      .map(keys => {
-        const values = Object.entries(keys).map(([key, action]) => {
-          return [key, () => {
-            this.editor.lastCommandValue = undefined
-            // @ts-ignore
-            const bla = action().lastCommandValue
-            // console.log({bla})
-            return bla
-          }]
-        })
-        return keymap(Object.fromEntries(values))
-      })
+      .map(keys => keymap(keys))
       .toArray()
   }
 

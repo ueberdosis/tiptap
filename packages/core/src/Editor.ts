@@ -79,8 +79,6 @@ export class Editor extends EventEmitter {
   private extensionManager!: ExtensionManager
   private commands: { [key: string]: any } = {}
   private css!: HTMLStyleElement
-  private lastCommand = Promise.resolve()
-  public lastCommandValue: any = undefined
   public schema!: Schema
   public view!: EditorView
   public selection = { from: 0, to: 0 }
@@ -295,32 +293,7 @@ export class Editor extends EventEmitter {
       throw new Error(`tiptap: '${name}' is a protected name.`)
     }
 
-    // this.commands[name] = this.chainCommand((...args: any) => {
-    //   // console.log('command', this.lastCommandValue)
-    //   const commandValue = callback(() => {}, this.proxy)(...args)
-
-    //   // if (commandValue !== undefined) {
-    //     this.lastCommandValue = commandValue
-    //   // }
-
-    //   return this.proxy
-    // })
-
-    
-    // this.commands[name] = (...args: any) => {
-    //   const tr = this.state.tr
-    //   callback(...args)({ editor: this.proxy, tr })
-    //   this.view.dispatch(tr)
-    // }
-
     this.commands[name] = callback
-
-    //   // if (commandValue !== undefined) {
-    //     this.lastCommandValue = commandValue
-    //   // }
-
-    //   return this.proxy
-    // })
 
     return this.proxy
   }
@@ -333,27 +306,6 @@ export class Editor extends EventEmitter {
    */
   public command(name: string, ...options: any) {
     return this.commands[name](...options)
-  }
-
-  /**
-   * Wraps a command to make it chainable.
-   *
-   * @param method
-   */
-  private chainCommand = (method: Function) => (...args: any) => {
-    // console.log('chain', this.lastCommandValue)
-    // this.lastCommand = this.lastCommand
-    //   .then(() => {
-        
-    //     const jo = method.apply(this, args)
-
-    //     console.log({jo})
-    //   })
-    //   // .then(method.apply(this, args))
-    //   .catch(console.error)
-    method.apply(this, args)
-
-    return this.proxy
   }
 
   /**
