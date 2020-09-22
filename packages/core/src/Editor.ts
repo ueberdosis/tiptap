@@ -19,16 +19,14 @@ import Mark from './Mark'
 import ComponentRenderer from './ComponentRenderer'
 import defaultPlugins from './plugins'
 import * as commands from './commands'
-import { deleteSelection } from 'prosemirror-commands'
 
 export type Command = (props: {
-  editor: Editor
-  tr: Transaction
-  // TODO: find correct type
-  commands: any
+  editor: Editor,
+  tr: Transaction,
+  commands: SingleCommands,
   state: EditorState,
   view: EditorView,
-  dispatch: (args?: any) => any
+  dispatch: (args?: any) => any,
 }) => boolean
 
 export interface CommandSpec {

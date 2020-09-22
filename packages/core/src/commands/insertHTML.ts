@@ -25,8 +25,7 @@ function selectionToInsertionEnd(tr: Transaction, startLen: number, bias: number
   tr.setSelection(Selection.near(tr.doc.resolve(end as unknown as number), bias))
 }
 
-export const insertHTML: InsertHTMLCommand = value => ({ tr, editor }) => {
-  const { state } = editor
+export const insertHTML: InsertHTMLCommand = value => ({ tr, state }) => {
   const { selection } = tr
   const element = elementFromString(value)
   const slice = DOMParser.fromSchema(state.schema).parseSlice(element)

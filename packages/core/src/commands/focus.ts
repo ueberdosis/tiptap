@@ -44,33 +44,7 @@ function resolveSelection(editor: Editor, position: Position = null): ResolvedSe
   }
 }
 
-// export default (next: Function, editor: Editor) => (position = null) => {
-//   const { view, state } = editor
-
-//   if ((view.hasFocus() && position === null) || position === false) {
-//     next()
-//     return
-//   }
-
-//   const { from, to } = resolveSelection(editor, position)
-//   const { doc, tr } = state
-//   const resolvedFrom = minMax(from, 0, doc.content.size)
-//   const resolvedEnd = minMax(to, 0, doc.content.size)
-//   const selection = TextSelection.create(doc, resolvedFrom, resolvedEnd)
-//   const transaction = tr.setSelection(selection)
-
-//   view.dispatch(transaction)
-//   view.focus()
-//   //@ts-ignore
-//   // console.log(bla)
-//   // return 'FOCUS'
-//   next()
-// }
-
-
-export const focus: FocusCommand = (position = null) => ({ editor, tr }) => {
-  const { view } = editor
-
+export const focus: FocusCommand = (position = null) => ({ editor, view, tr }) => {
   if ((view.hasFocus() && position === null) || position === false) {
     return true
   }

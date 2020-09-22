@@ -8,8 +8,8 @@ declare module '../Editor' {
   }
 }
 
-export const blur: BlurCommand = () => ({ editor }) => {
-  const element = editor.view.dom as HTMLElement
+export const blur: BlurCommand = () => ({ view }) => {
+  const element = view.dom as HTMLElement
 
   element.blur()
 
