@@ -1,8 +1,8 @@
 # Contributing
 
-Tiptap would be nothing, without its lively community. Contributions have always been and will always be welcome. Here is a little bit you should know, before you send your contributions:
+Tiptap would be nothing without its lively community. Contributions have always been and will always be welcome. Here is a little bit you should know, before you send your contribution:
 
-## What kind of contributions are welcome
+## Examples
 
 * Improved documentation, e. g. fixing typos, new sections, further explanation …)
 * New features for existing extensions, e. g. a new option

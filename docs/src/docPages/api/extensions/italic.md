@@ -19,7 +19,7 @@ The extension will generate the corresponding `<em>` HTML tags when reading cont
 * Windows & Linux: `Control` + `I`
 * macOS: `Command` + `I`
 
-## Source Code
+## Source code
 [packages/extension-italic/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)
 
 ## Usage

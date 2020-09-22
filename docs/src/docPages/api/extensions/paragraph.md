@@ -12,7 +12,7 @@ Yes, the schema is very strict. Without this extension you won’t even be able 
 ## Keyboard shortcuts
 *None*
 
-## Source Code
+## Source code
 [packages/extension-paragraph/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-paragraph/)
 
 ## Usage

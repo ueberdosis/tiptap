@@ -1,10 +1,16 @@
 # Installation
 
-tiptap has a very modular package structure and is independent of any framework. Depending on what you want to do with tiptap there are a few different ways to install tiptap in your project. Choose the way that fits your project best.
+You’re free to use tiptap with the framework of your choice. Depending on what you want to do, there are a few different ways to install tiptap in your project. Choose the way that fits your workflow.
 
-## Plain JavaScript
+## Overview <!-- omit in toc -->
 
-Use tiptap with vanilla JavaScript for a very lightweight and raw experience. If you feel like it, you can even use it to connect the tiptap core with other frameworks not mentioned here.
+- [Option 1: Vanilla JavaScript](#option-1-vanilla-javascript)
+- [Option 2: Vue.js](#option-2-vuejs)
+- [Option 3: CodeSandbox](#option-3-codesandbox)
+
+## Option 1: Vanilla JavaScript
+
+Use tiptap with vanilla JavaScript for a very lightweight and raw experience. If you feel like it, you can even use it to connect tiptap with other frameworks not mentioned here.
 
 ```bash
 # With npm
@@ -13,6 +19,11 @@ npm install @tiptap/core @tiptap/starter-kit
 # Or: With Yarn
 yarn add @tiptap/core @tiptap/starter-kit
 ```
+
+| Package                                                                      | Description                |
+| ---------------------------------------------------------------------------- | -------------------------- |
+| [@tiptap/core](https://www.npmjs.com/package/@tiptap/core)                   | The actual editor          |
+| [@tiptap/starter-kit](https://www.npmjs.com/package/@tiptap/vue-starter-kit) | The most common extensions |
 
 Great, that should be enough to start. Here is the most essential code you need to get a running instance of tiptap:
 
@@ -27,26 +38,32 @@ new Editor({
 })
 ```
 
-## Vue.js
+## Option 2: Vue.js
 
-To use tiptap with Vue.js (and tools that are based on Vue.js) install the Vue.js adapter in your project:
+To use tiptap with Vue.js (and tools that are based on Vue.js) install tiptap together with the Vue.js rendering adapter in your project. We even prepared a Vue.js starter kit, which gives you a good headstart.
 
 ```bash
 # With npm
-npm install @tiptap/vue @tiptap/vue-starter-kit
+npm install @tiptap/core @tiptap/vue @tiptap/vue-starter-kit
 
 # Or: With Yarn
-yarn add @tiptap/vue @tiptap/vue-starter-kit
+yarn add @tiptap/core @tiptap/vue @tiptap/vue-starter-kit
 ```
 
-We even prepared a Vue.js starter kit for you. That should give you a good headstart. Create a new component and add the following content to get a basic version of tiptap:
+| Package                                                                          | Description                                   |
+| -------------------------------------------------------------------------------- | --------------------------------------------- |
+| [@tiptap/core](https://www.npmjs.com/package/@tiptap/core)                       | The actual editor                             |
+| [@tiptap/vue](https://www.npmjs.com/package/@tiptap/vue)                         | Rendering for Vue.js                          |
+| [@tiptap/vue-starter-kit](https://www.npmjs.com/package/@tiptap/vue-starter-kit) | The most common extensions wrapped for Vue.js |
+
+Create a new component and add the following content to get a basic version of tiptap:
 
 <demo name="General/Installation" />
 
-## CodeSandbox
+## Option 3: CodeSandbox
 
-CodeSandbox is an online coding environment. It’s great to fiddle around without setting up a local project and it’s great to share your code with others.
+CodeSandbox is an online coding environment. It’s great to fiddle around without setting up a local project and to share your code with others.
 
-It’s also amazing for bug reports. Try to recreate a bug there and share it with us before you [file an issue on GitHub](https://github.com/ueberdosis/tiptap-next/issues/new). This helps a ton to fix bugs faster.
+It’s also amazing for bug reports. Found it a bug? Try to recreate it there and share it with us before you [file an issue on GitHub](https://github.com/ueberdosis/tiptap-next/issues/new). That helps to fix bugs faster.
 
 * [Vue.js/tiptap on CodeSandbox](https://codesandbox.io/s/vue-issue-template-h0g28)

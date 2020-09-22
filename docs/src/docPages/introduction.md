@@ -1,16 +1,25 @@
+:::warning Don’t try this at home
+This version of tiptap is not production-ready, don’t use it anywhere.
+:::
+
 # Introduction
-tiptap is a renderless wrapper around [ProseMirror](https://ProseMirror.net) – a toolkit for building rich-text editors that are already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
 
-Although tiptap tries to hide most of the complexity of ProseMirror, it’s is built on top of its APIs and we strongly recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/). You’ll have a better understanding of how everything works under the hood and get familiar with many terms and jargon used by tiptap.
+[![Version](https://img.shields.io/npm/v/@tiptap/core.svg?label=version)](https://www.npmjs.com/package/@tiptap/core)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/core.svg)](https://npmcharts.com/compare/@tiptap/core?minimal=true)
+[![License](https://img.shields.io/npm/l/@tiptap/core.svg)](https://www.npmjs.com/package/@tiptap/core)
+[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
-## Renderless
-The implementation of a text editor can be very specific for each use case. We don’t want to tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is renderless and comes without any CSS. You’ll have full control over markup and styling.
+tiptap is a renderless wrapper around [ProseMirror](https://ProseMirror.net) – a toolkit for building rich-text editors that is already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
 
-## TypeScript
-Tiptap 2 is written in TypeScript. That gives you a nice autocomplete for the API (if your IDE supports those), helps us to find bugs early and makes it possible to generate [a complete API documentation](#) on top of the extensive human written documentation.
+Although tiptap tries to hide most of the complexity of ProseMirror, it’s built on top of its APIs and we recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/) for advanced usage. You’ll have a better understanding of how everything works under the hood and get more familiar with many terms and jargon used by tiptap.
 
-## Framework-agnostic
-We don’t care what framework you use. Tiptap is ready to be used with plain JavaScript, Vue.js or React. That makes it even possible to write a renderer for Svelte and others.
+## Features
+
+**Renderless.** We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is renderless and comes without any CSS. You are in full control over markup and styling.
+
+**Framework-agnostic.** We don’t care what framework you use. Tiptap is ready to be used with plain JavaScript, Vue.js or React. That makes it even possible to write a renderer for Svelte and others.
+
+**TypeScript.** Tiptap 2 is written in TypeScript. That gives you a nice autocomplete for the API (if your IDE for it), helps to find bugs early and makes it possible to generate [a complete API documentation](#) on top of the extensive human written documentation.
 
 ## Who uses tiptap?
 - [GitLab](https://gitlab.com)
@@ -19,5 +28,4 @@ We don’t care what framework you use. Tiptap is ready to be used with plain Ja
 - [ApostropheCMS](https://apostrophecms.com)
 - [Directus CMS](https://directus.io)
 - [Nextcloud](https://apps.nextcloud.com/apps/text)
-- [Craft CMS](https://craftcms.com/)
 - [and many more →](https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D)

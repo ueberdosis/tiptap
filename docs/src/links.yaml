@@ -20,8 +20,8 @@
       draft: true
     - title: Custom styling
       link: /guide/custom-styling
-    - title: Get content
-      link: /guide/get-content
+    - title: Store content
+      link: /guide/store-content
     - title: Custom extensions
       link: /guide/custom-extensions
       draft: true
@@ -98,7 +98,6 @@
   items:
     - title: Editor
       link: /api/editor/
-      draft: true
     - title: Extensions
       link: /api/extensions/
       items:

@@ -11,9 +11,9 @@ const editor = new Editor({
   onInit: () => {
     // editor is initialized
   },
-  onUpdate: ({ getHTML }) => {
+  onUpdate: ({ html }) => {
     // get new content on update
-    const newContent = getHTML()
+    const newContent = html()
   },
 })
 ```
@@ -27,8 +27,8 @@ editor.on('init', () => {
   // editor is initialized
 })
 
-editor.on('update', ({ getHTML }) => {
+editor.on('update', ({ html }) => {
   // get new content on update
-  const newContent = getHTML()
+  const newContent = html()
 })
 ```

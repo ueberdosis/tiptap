@@ -14,7 +14,7 @@ The HardBreak extensions adds support for the `<br>` HTML tag, which forces a li
 * Windows & Linux: `Control` + `Enter`
 * macOS: `Command` + `Enter`
 
-## Source Code
+## Source code
 [packages/extension-hard-break/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-hard-break/)
 
 ## Usage

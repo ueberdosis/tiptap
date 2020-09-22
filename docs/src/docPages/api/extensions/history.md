@@ -18,7 +18,7 @@ This extension provides history support. All changes to the document will be tra
 * Windows & Linux: `Shift` + `Control` + `Z`
 * macOS: `Shift` + `Command` + `Z`
 
-## Source Code
+## Source code
 [packages/extension-history/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)
 
 ## Usage

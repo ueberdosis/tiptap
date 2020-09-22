@@ -107,15 +107,10 @@ export default {
       return this.$route.matched[0].path
     },
     editLink () {
-      let path = this.currentPath
+      const currentPath = this.currentPath
+      const filePath = currentPath === '' ? '/introduction' : currentPath
 
-      if (path === '') {
-        path = 'docs/src/pages/Index.vue'
-      } else {
-        path = `docs/src/docPages${path}.md`
-      }
-
-      return `https://github.com/ueberdosis/tiptap-next/blob/main/${path}`
+      return `https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/docPages${filePath}.md`
     },
   },
 

@@ -10,6 +10,17 @@ A renderless and extendable rich-text editor for [Vue.js](https://github.com/vue
 [![Build Status](https://github.com/ueberdosis/tiptap-next/workflows/build/badge.svg)](https://github.com/ueberdosis/tiptap-next/actions)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
+## Roadmap
+- [x] Proof of concept
+- [ ] Building out the editor
+- [ ] Adding a bunch of extensions
+- [ ] Creating a few examples
+- [ ] Giving sponsors access to gather feedback
+- [ ] Incorporate feedback
+- [ ] Publicly release version 2.0-beta
+- [ ] Squash bugs, build more extensions
+- [ ] Release version 2.0
+
 ## Why we built tiptap
 We were looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn’t really satisfy me. The editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. I came across [ProseMirror](https://github.com/prosemirror) and decided to build on it. ProseMirror is a toolkit for building rich-text editors that are already in use at many well-known companies such as *Atlassian* or *New York Times*.
 

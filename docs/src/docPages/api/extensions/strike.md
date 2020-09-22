@@ -21,7 +21,7 @@ The extension will generate the corresponding `<s>` HTML tags when reading conte
 * Windows & Linux: `Control` + `D`
 * macOS: `Command` + `D`
 
-## Source Code
+## Source code
 [packages/extension-strike/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)
 
 ## Usage

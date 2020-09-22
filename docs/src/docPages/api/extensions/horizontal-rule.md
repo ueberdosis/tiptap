@@ -1,7 +1,7 @@
 # HorizontalRule
 Use this extension to render a `<hr>` HTML tag. If you pass `<hr>` in the editor’s initial content, it’ll be rendered accordingly.
 
-Type three dashes (`---`) or three underscores and a space (`___ ​`) at the beginning of a new line and it will be magically transformed to a horizontal rule.
+Type three dashes (`---`) or three underscores and a space (`___ ​`) at the beginning of a new line and it will magically transform to a horizontal rule.
 
 ## Options
 | Option | Type   | Default | Description                                  |
@@ -16,7 +16,7 @@ Type three dashes (`---`) or three underscores and a space (`___ ​`) at the be
 ## Keyboard shortcuts
 *None*
 
-## Source Code
+## Source code
 [packages/extension-horizontal-rule/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/)
 
 ## Usage
