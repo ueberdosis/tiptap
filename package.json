@@ -20,6 +20,7 @@
     "reset": "yarn clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@babel/preset-env": "^7.11.5",
     "@types/prosemirror-commands": "^1.0.3",
     "@types/prosemirror-history": "^1.0.1",
