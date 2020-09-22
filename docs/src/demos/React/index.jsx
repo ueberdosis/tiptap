@@ -57,7 +57,7 @@ export default () => {
         <button onClick={() => alert(JSON.stringify(value))}>Alert state</button>
       </p>
       <hr style={{ margin: '0.85rem 0'}} />
-      <Editor 
+      <Editor
         value={value}
         onChange={setValue}
         extensions={extensions()}
