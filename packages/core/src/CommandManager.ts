@@ -33,16 +33,23 @@ export default class CommandManager {
     }
   }
 
-  public createChain() {
+  public createChain(startTr?: Transaction) {
     const { commands, editor } = this
     const { state, view } = editor
-    const { tr } = state
     const callbacks: boolean[] = []
+    const hasStartTransaction = !!startTr
+    const tr = hasStartTransaction ? startTr : state.tr
+
+    if (!tr) {
+      return
+    }
 
     return new Proxy({}, {
       get: (_, name: string, proxy) => {
         if (name === 'run') {
-          view.dispatch(tr)
+          if (!hasStartTransaction) {
+            view.dispatch(tr)
+          }
 
           return () => callbacks.every(callback => callback === true)
         }
@@ -69,12 +76,12 @@ export default class CommandManager {
     const { state, view } = editor
 
     const props = {
-      editor,
-      state: this.chainableState(tr, state),
-      view,
-      dispatch: () => false,
-      // chain: this.chain.bind(this),
       tr,
+      editor,
+      view,
+      state: this.chainableState(tr, state),
+      dispatch: () => false,
+      chain: () => this.createChain(tr),
       get commands() {
         return Object.fromEntries(Object
           .entries(commands)

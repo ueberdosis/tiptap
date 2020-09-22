@@ -25,7 +25,7 @@ export type Command = (props: {
   editor: Editor,
   tr: Transaction,
   commands: SingleCommands,
-  // chain: () => ChainedCommands,
+  chain: () => ChainedCommands,
   state: EditorState,
   view: EditorView,
   dispatch: (args?: any) => any,
