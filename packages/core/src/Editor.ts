@@ -24,6 +24,7 @@ export type Command = (props: {
   editor: Editor,
   tr: Transaction,
   commands: SingleCommands,
+  // chain: () => ChainedCommands,
   state: EditorState,
   view: EditorView,
   dispatch: (args?: any) => any,
@@ -138,6 +139,7 @@ export class Editor extends EventEmitter {
         state: this.chainableEditorState(tr, this.state),
         view: this.view,
         dispatch: () => false,
+        // chain: this.chain.bind(this),
         tr,
       }
 
@@ -184,6 +186,7 @@ export class Editor extends EventEmitter {
             state: this.chainableEditorState(tr, this.state),
             view: this.view,
             dispatch: () => false,
+            // chain: this.chain.bind(this),
             tr,
           }
 
