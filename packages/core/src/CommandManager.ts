@@ -24,26 +24,7 @@ export default class CommandManager {
     
     return (...args: any) => {
       const { tr } = state
-
-      const props = {
-        editor: this.editor,
-        state: this.chainableEditorState(tr, state),
-        view,
-        dispatch: () => false,
-        // chain: this.chain.bind(this),
-        tr,
-      }
-
-      Object.defineProperty(props, 'commands', {
-        get: function() {
-          return Object.fromEntries(Object
-            .entries(commands)
-            .map(([name, command]) => {
-              return [name, (...args: any[]) => command(...args)(props)]
-            }))
-        }
-      })
-
+      const props = this.buildProps(tr)
       const callback = command(...args)(props)
 
       view.dispatch(tr)
@@ -59,7 +40,7 @@ export default class CommandManager {
     const callbacks: boolean[] = []
 
     return new Proxy({}, {
-      get: (target, name: string, proxy) => {
+      get: (_, name: string, proxy) => {
         if (name === 'run') {
           view.dispatch(tr)
 
@@ -73,26 +54,7 @@ export default class CommandManager {
         }
 
         return (...args: any) => {
-          const props = {
-            editor: editor,
-            state: this.chainableEditorState(tr, state),
-            view: view,
-            dispatch: () => false,
-            // chain: this.chain.bind(this),
-            tr,
-          }
-
-          // const self = this.editor
-          Object.defineProperty(props, 'commands', {
-            get: function() {
-              return Object.fromEntries(Object
-                .entries(commands)
-                .map(([name, command]) => {
-                  return [name, (...args: any[]) => command(...args)(props)]
-                }))
-            }
-          });
-
+          const props = this.buildProps(tr)
           const callback = command(...args)(props)
           callbacks.push(callback)
 
@@ -102,7 +64,30 @@ export default class CommandManager {
     }) as ChainedCommands
   }
 
-  public chainableEditorState(tr: Transaction, state: EditorState): EditorState {
+  public buildProps(tr: Transaction) {
+    const { editor, commands } = this
+    const { state, view } = editor
+
+    const props = {
+      editor,
+      state: this.chainableState(tr, state),
+      view,
+      dispatch: () => false,
+      // chain: this.chain.bind(this),
+      tr,
+      get commands() {
+        return Object.fromEntries(Object
+          .entries(commands)
+          .map(([name, command]) => {
+            return [name, (...args: any[]) => command(...args)(props)]
+          }))
+      }
+    }
+
+    return props
+  }
+
+  public chainableState(tr: Transaction, state: EditorState): EditorState {
     let selection = tr.selection
     let doc = tr.doc
     let storedMarks = tr.storedMarks
