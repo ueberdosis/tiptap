@@ -19,11 +19,11 @@ export default new Node()
     ],
     toDOM: () => ['ul', 0],
   }))
-  // .commands(({ editor, type }) => ({
-  //   bulletList: () => ({ commands }) => {
-  //     return commands.toggleList(type, editor.schema.nodes.list_item)
-  //   },
-  // }))
+  .commands(({ name }) => ({
+    bulletList: () => ({ commands }) => {
+      return commands.toggleList(name, 'list_item')
+    },
+  }))
   .keys(({ editor }) => ({
     'Shift-Ctrl-8': () => editor.bulletList(),
   }))

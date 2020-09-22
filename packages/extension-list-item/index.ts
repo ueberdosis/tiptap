@@ -6,14 +6,12 @@ export default new Node()
     content: 'paragraph block*',
     defining: true,
     draggable: false,
-    parseDOM: [
-      { tag: 'li' },
-    ],
+    parseDOM: [{ tag: 'li' }],
     toDOM: () => ['li', 0],
   }))
   .keys(({ editor, name }) => ({
     Enter: () => editor.splitListItem(name),
-    // Tab: () => editor.sinkListItem(name),
-    // 'Shift-Tab': () => editor.liftListItem(name),
+    Tab: () => editor.sinkListItem(name),
+    'Shift-Tab': () => editor.liftListItem(name),
   }))
   .create()
