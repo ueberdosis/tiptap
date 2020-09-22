@@ -3,7 +3,7 @@ import { Command, Mark, markInputRule, markPasteRule } from '@tiptap/core'
 type StrikeCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
+  interface Commands {
     strike: StrikeCommand,
   }
 }

@@ -4,7 +4,7 @@ import { selectAll as originalSelectAll } from 'prosemirror-commands'
 type SelectAllCommand = () => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     selectAll: SelectAllCommand,
   }
 }

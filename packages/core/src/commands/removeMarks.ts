@@ -3,7 +3,7 @@ import { Command } from '../Editor'
 type RemoveMarksCommand = () => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     removeMarks: RemoveMarksCommand,
   }
 }

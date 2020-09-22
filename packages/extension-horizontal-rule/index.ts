@@ -3,7 +3,7 @@ import { Command, Node, nodeInputRule } from '@tiptap/core'
 export type HorizontalRuleCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
+  interface Commands {
     horizontalRule: HorizontalRuleCommand,
   }
 }

@@ -8,7 +8,7 @@ type SetContentCommand = (
 ) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     setContent: SetContentCommand,
   }
 }

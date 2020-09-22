@@ -6,7 +6,7 @@ import getMarkRange from '../utils/getMarkRange'
 type RemoveMarkCommand = (typeOrName: string | MarkType) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     toggleMark: RemoveMarkCommand,
   }
 }

@@ -3,7 +3,7 @@ import { Command } from '../Editor'
 type InsertTextCommand = (value: string) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     insertText: InsertTextCommand,
   }
 }

@@ -5,7 +5,7 @@ import minMax from '../utils/minMax'
 type FocusCommand = (position?: Position) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     focus: FocusCommand
   }
 }

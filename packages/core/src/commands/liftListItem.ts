@@ -6,7 +6,7 @@ import getNodeType from '../utils/getNodeType'
 type LiftListItem = (typeOrName: string | NodeType) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     liftListItem: LiftListItem,
   }
 }

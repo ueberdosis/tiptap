@@ -3,7 +3,7 @@ import { Command } from '../Editor'
 type ClearContentCommand = (emitUpdate?: Boolean) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     clearContent: ClearContentCommand,
   }
 }

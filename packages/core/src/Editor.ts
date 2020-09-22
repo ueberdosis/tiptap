@@ -37,7 +37,13 @@ export interface CommandSpec {
 
 export interface Commands {}
 
-// export type CommandNames = Extract<keyof Commands, string>
+export type CommandNames = Extract<keyof Commands, string>
+
+export type SingleCommands = {
+  [Command in keyof Commands]: Commands[Command] extends (...args: any[]) => any
+  ? (...args: Parameters<Commands[Command]>) => boolean
+  : never
+}
 
 export type ChainedCommands = {
   [Command in keyof Commands]: Commands[Command] extends (...args: any[]) => any
@@ -62,6 +68,10 @@ interface EditorOptions {
   editable: boolean,
 }
 
+declare module './Editor' {
+  interface Editor extends SingleCommands {}
+}
+
 @magicMethods
 export class Editor extends EventEmitter {
 
@@ -84,7 +94,6 @@ export class Editor extends EventEmitter {
     autoFocus: false,
     editable: true,
   }
-
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()

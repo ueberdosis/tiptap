@@ -11,7 +11,7 @@ type ToggleNodeCommand = (
 ) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     toggleNode: ToggleNodeCommand,
   }
 }

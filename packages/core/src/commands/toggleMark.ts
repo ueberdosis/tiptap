@@ -6,7 +6,7 @@ import getMarkType from '../utils/getMarkType'
 type ToggleMarkCommand = (typeOrName: string | MarkType) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     toggleMark: ToggleMarkCommand,
   }
 }

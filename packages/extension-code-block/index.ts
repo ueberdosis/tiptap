@@ -4,7 +4,7 @@ import { textblockTypeInputRule } from 'prosemirror-inputrules'
 export type CodeBlockCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
+  interface Commands {
     codeBlock: CodeBlockCommand,
   }
 }

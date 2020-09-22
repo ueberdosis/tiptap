@@ -4,7 +4,7 @@ import { wrappingInputRule } from 'prosemirror-inputrules'
 export type BulletListCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
+  interface Commands {
     bulletList: BulletListCommand,
   }
 }

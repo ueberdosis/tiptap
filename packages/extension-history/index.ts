@@ -8,7 +8,7 @@ import {
 } from 'prosemirror-history'
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
+  interface Commands {
     undo: () => Command,
     redo: () => Command,
   }

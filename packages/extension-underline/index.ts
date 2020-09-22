@@ -3,7 +3,7 @@ import { Command, Mark } from '@tiptap/core'
 export type UnderlineCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
+  interface Commands {
     underline: UnderlineCommand,
   }
 }

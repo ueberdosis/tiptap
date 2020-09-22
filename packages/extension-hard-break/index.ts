@@ -4,7 +4,7 @@ import { chainCommands, exitCode } from 'prosemirror-commands'
 export type HardBreakCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
+  interface Commands {
     hardBreak: HardBreakCommand,
   }
 }

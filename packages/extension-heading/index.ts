@@ -10,7 +10,7 @@ export interface HeadingOptions {
 export type HeadingCommand = (level: Level) => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
+  interface Commands {
     heading: HeadingCommand,
   }
 }

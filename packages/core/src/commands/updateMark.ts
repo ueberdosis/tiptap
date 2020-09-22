@@ -9,7 +9,7 @@ type UpdateMarkCommand = (
 ) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     updateMark: UpdateMarkCommand,
   }
 }

@@ -7,7 +7,7 @@ import {ReplaceStep, ReplaceAroundStep} from "prosemirror-transform"
 type InsertHTMLCommand = (value: string) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     insertHTML: InsertHTMLCommand,
   }
 }

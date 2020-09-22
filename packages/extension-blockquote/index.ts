@@ -4,7 +4,7 @@ import { textblockTypeInputRule } from 'prosemirror-inputrules'
 export type BlockquoteCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
+  interface Commands {
     blockquote: BlockquoteCommand,
   }
 }

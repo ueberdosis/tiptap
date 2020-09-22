@@ -6,7 +6,7 @@ import getNodeType from '../utils/getNodeType'
 type SinkListItem = (typeOrName: string | NodeType) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     sinkListItem: SinkListItem,
   }
 }

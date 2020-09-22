@@ -4,7 +4,7 @@ import { selectParentNode as originalSelectParentNode } from 'prosemirror-comman
 type SelectParentNodeCommand = () => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     selectParentNode: SelectParentNodeCommand,
   }
 }
