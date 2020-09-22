@@ -1,6 +1,6 @@
 import cloneDeep from 'clone-deep'
 import { Plugin } from 'prosemirror-state'
-import { Editor, CommandSpec } from './Editor'
+import { Editor, CommandsSpec } from './Editor'
 
 type AnyObject = {
   [key: string]: any
@@ -26,7 +26,7 @@ export interface ExtensionProps<Options> {
 export interface ExtensionMethods<Props, Options> {
   name: string
   options: Options
-  commands: (params: Props) => CommandSpec
+  commands: (params: Props) => CommandsSpec
   inputRules: (params: Props) => any[]
   pasteRules: (params: Props) => any[]
   keys: (params: Props) => {

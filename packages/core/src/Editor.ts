@@ -31,8 +31,10 @@ export type Command = (props: {
   dispatch: (args?: any) => any,
 }) => boolean
 
-export interface CommandSpec {
-  [key: string]: (...args: any[]) => Command
+export type CommandSpec = (...args: any[]) => Command
+
+export interface CommandsSpec {
+  [key: string]: CommandSpec
 }
 
 export interface Commands {}
@@ -79,7 +81,7 @@ export class Editor extends EventEmitter {
   private proxy!: Editor
   private commandManager!: CommandManager
   private extensionManager!: ExtensionManager
-  private commands: { [key: string]: any } = {}
+  private commands: CommandsSpec = {}
   private css!: HTMLStyleElement
   public schema!: Schema
   public view!: EditorView
@@ -166,7 +168,7 @@ export class Editor extends EventEmitter {
    *
    * @param commands A list of commands
    */
-  public registerCommands(commands: CommandSpec) {
+  public registerCommands(commands: CommandsSpec) {
     Object
       .entries(commands)
       .forEach(([name, command]) => this.registerCommand(name, command))
@@ -178,7 +180,7 @@ export class Editor extends EventEmitter {
    * @param name The name of your command
    * @param callback The method of your command
    */
-  public registerCommand(name: string, callback: (bla?: any) => Command): Editor {
+  public registerCommand(name: string, callback: CommandSpec): Editor {
     if (this.commands[name]) {
       throw new Error(`tiptap: command '${name}' is already defined.`)
     }
