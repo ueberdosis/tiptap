@@ -1,6 +1,6 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.focus().horizontalRule()">
+    <button @click="editor.chain().focus().horizontalRule().run()">
       horizontalRule
     </button>
 

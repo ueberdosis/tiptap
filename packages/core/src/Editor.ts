@@ -28,7 +28,7 @@ export type Command = (props: {
   commands: any
   state: EditorState,
   view: EditorView,
-  dispatch: () => any
+  dispatch: (args?: any) => any
 }) => boolean
 
 export interface CommandSpec {

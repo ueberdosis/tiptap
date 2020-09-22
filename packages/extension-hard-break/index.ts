@@ -1,9 +1,11 @@
-import { Node } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { chainCommands, exitCode } from 'prosemirror-commands'
+
+export type HardBreakCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
   interface Editor {
-    hardBreak(): Editor,
+    hardBreak: HardBreakCommand,
   }
 }
 
@@ -18,19 +20,14 @@ export default new Node()
     ],
     toDOM: () => ['br'],
   }))
-  // .commands(({ editor, type }) => ({
-  //   hardBreak: next => () => {
-  //     const { state, view } = editor
-  //     const { dispatch } = view
-
-  //     chainCommands(exitCode, () => {
-  //       dispatch(state.tr.replaceSelectionWith(type.create()).scrollIntoView())
-  //       return true
-  //     })(state, dispatch, view)
-
-  //     next()
-  //   },
-  // }))
+  .commands(({ editor, type }) => ({
+    hardBreak: () => ({ tr, state, dispatch, view }) => {
+      return chainCommands(exitCode, () => {
+        dispatch(tr.replaceSelectionWith(type.create()).scrollIntoView())
+        return true
+      })(state, dispatch, view)
+    },
+  }))
   .keys(({ editor }) => ({
     'Mod-Enter': () => editor.hardBreak(),
     'Shift-Enter': () => editor.hardBreak(),
