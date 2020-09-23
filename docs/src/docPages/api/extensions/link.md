@@ -15,3 +15,18 @@ yarn add @tiptap/extension-link
 | ----------- | ------- | ------- | -------------------------------------------- |
 | class       | string  | –       | Add a custom class to the rendered HTML tag. |
 | openOnClick | Boolean | true    | Specifies if links will be opened on click.  |
+
+## Commands
+| Command | Options | Description             |
+| ------- | ------- | ----------------------- |
+| link    | —       | Link the selected text. |
+
+## Keyboard shortcuts
+* Windows & Linux: `Control` + `K`
+* macOS: `Command` + `K`
+
+## Source code
+[packages/extension-link/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-link/)
+
+## Usage
+<demo name="Extensions/Link" highlight="" />
