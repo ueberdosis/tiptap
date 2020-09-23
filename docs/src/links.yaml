@@ -107,7 +107,6 @@
           link: /api/extensions/bold
         - title: BulletList
           link: /api/extensions/bullet-list
-          draft: true
         - title: Code
           link: /api/extensions/code
         - title: CodeBlock
@@ -135,13 +134,11 @@
           draft: true
         - title: ListItem
           link: /api/extensions/list-item
-          draft: true
         # - title: Mention
         #   link: /api/extensions/mention
         #   draft: true
         - title: OrderedList
           link: /api/extensions/ordered-list
-          draft: true
         - title: Paragraph
           link: /api/extensions/paragraph
         # - title: Placeholder

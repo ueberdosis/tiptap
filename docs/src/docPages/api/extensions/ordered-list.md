@@ -1,5 +1,7 @@
 # OrderedList
-Enables you to use the `<ol>` HTML tag in the editor.
+This extension enables you to use ordered lists in the editor. They are rendered as `<ol>` HTML tags,
+
+Type <code>1.&nbsp;</code> (or any other number followed by a dot) at the beginning of a new line and it will magically transform to a ordered list.
 
 ## Installation
 ::: warning Use with ListItem
@@ -20,57 +22,15 @@ yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command      | Options | Description             |
-| ------------ | ------- | ----------------------- |
-| ordered_list | —       | Toggle an ordered list. |
+| Command     | Options | Description           |
+| ----------- | ------- | --------------------- |
+| ordered_list | —       | Toggle a ordered list. |
 
 ## Keyboard shortcuts
 * `Control` + `Shift` + `9`
 
+## Source code
+[packages/extension-ordered-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-ordered-list/)
+
 ## Usage
-```markup
-<template>
-  <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <button type="button" :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list">
-        Ordered List
-      </button>
-    </editor-menu-bar>
-
-    <editor-content :editor="editor" />
-  </div>
-</template>
-
-<script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { OrderedList } from 'tiptap-extensions'
-
-export default {
-  components: {
-    EditorMenuBar,
-    EditorContent,
-  },
-  data() {
-    return {
-      editor: new Editor({
-        extensions: [
-          OrderedList(),
-        ],
-        content: `
-          <ol>
-            <li>A list item</li>
-            <li>And another one</li>
-          </ol>
-          <ol start="3">
-            <li>This list begins with 3.</li>
-          </ol>
-        `,
-      }),
-    }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
-  }
-}
-</script>
-```
+<demo name="Extensions/OrderedList" highlight="3-5,17-18,37-38" />
