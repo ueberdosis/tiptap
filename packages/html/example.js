@@ -4,18 +4,19 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 
+// eslint-disable-next-line
 const html = generateHtml({
-  'type': 'document',
-  'content': [{
-    'type': 'paragraph',
-    'attrs': {
-      'align': 'left'
+  type: 'document',
+  content: [{
+    type: 'paragraph',
+    attrs: {
+      align: 'left',
     },
-    'content': [{
-      'type': 'text',
-      'text': 'Example Text'
-    }]
-  }]
+    content: [{
+      type: 'text',
+      text: 'Example Text',
+    }],
+  }],
 }, [
   new Document(),
   new Paragraph(),

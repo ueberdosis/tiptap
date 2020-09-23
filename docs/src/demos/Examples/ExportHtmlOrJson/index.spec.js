@@ -8,44 +8,44 @@ context('/examples/export-html-or-json', () => {
       const json = editor.json()
 
       expect(json).to.deep.equal({
-        'type': 'document',
-        'content': [
+        type: 'document',
+        content: [
           {
-            'type': 'paragraph',
-            'content': [
+            type: 'paragraph',
+            content: [
               {
-                'type': 'text',
-                'text': 'You are able to export your data as '
+                type: 'text',
+                text: 'You are able to export your data as ',
               },
               {
-                'type': 'text',
-                'marks': [
+                type: 'text',
+                marks: [
                   {
-                    'type': 'code'
-                  }
+                    type: 'code',
+                  },
                 ],
-                'text': 'HTML'
+                text: 'HTML',
               },
               {
-                'type': 'text',
-                'text': ' or '
+                type: 'text',
+                text: ' or ',
               },
               {
-                'type': 'text',
-                'marks': [
+                type: 'text',
+                marks: [
                   {
-                    'type': 'code'
-                  }
+                    type: 'code',
+                  },
                 ],
-                'text': 'JSON'
+                text: 'JSON',
               },
               {
-                'type': 'text',
-                'text': '.'
-              }
-            ]
-          }
-        ]
+                type: 'text',
+                text: '.',
+              },
+            ],
+          },
+        ],
       })
     })
   })

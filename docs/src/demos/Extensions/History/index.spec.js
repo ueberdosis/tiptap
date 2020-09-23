@@ -37,7 +37,7 @@ context('/api/extensions/history', () => {
       .should('not.contain', 'Mistake')
 
     cy.get('.demo__preview button:nth-child(2)')
-        .click()
+      .click()
 
     cy.get('.ProseMirror')
       .should('contain', 'Mistake')

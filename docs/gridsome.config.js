@@ -30,10 +30,10 @@ module.exports = {
           autolinkHeadings: {
             content: {
               type: 'text',
-              value: '#'
-            }
-          }
-        }
+              value: '#',
+            },
+          },
+        },
       },
     },
     {

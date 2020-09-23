@@ -20,9 +20,9 @@ const packages = globby.sync('../packages/*', { onlyDirectories: true })
       excludePrivate: true,
       // excludeNotDocumented: true,
       exclude: [
-        "**/*.test.ts",
-        "**/__tests__/*",
-        "**/__mocks__/*"
+        '**/*.test.ts',
+        '**/__tests__/*',
+        '**/__mocks__/*',
       ],
     })
 
@@ -68,16 +68,16 @@ module.exports = function (api) {
 
     config.module
       .rule('typescript')
-        .test(/\.tsx?$/)
-        .use()
-          .loader('ts-loader')
-          .options({ transpileOnly: false, appendTsSuffixTo: [/\.vue$/] })
+      .test(/\.tsx?$/)
+      .use()
+      .loader('ts-loader')
+      .options({ transpileOnly: false, appendTsSuffixTo: [/\.vue$/] })
 
     config.module
       .rule('jsx')
-        .test(/\.jsx?$/)
-        .use()
-          .loader('babel-loader')
+      .test(/\.jsx?$/)
+      .use()
+      .loader('babel-loader')
 
     globby.sync('../packages/*', { onlyDirectories: true })
       .map(name => name.replace('../packages/', ''))
