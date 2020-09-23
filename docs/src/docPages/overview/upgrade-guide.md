@@ -44,7 +44,7 @@ const CustomDocument = Document.name('doc').create()
 new Editor({
   extensions: [
     CustomDocument(),
-    …
+    // …
   ]
 })
 ```
