@@ -150,11 +150,17 @@
       &.warning {
         border-color:#ffd8a8;
         background-color: #fff4e6;
+        color: #ca9c63;
+      }
+
+      &.info {
+        border-color:#a5d8ff;
+        background-color: #e7f5ff;
+        color: #228be6;
       }
 
       .remark-container-title {
         font-weight: 600;
-        color: #ca9c63;
       }
     }
 

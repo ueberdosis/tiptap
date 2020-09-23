@@ -1,5 +1,5 @@
 # Events
-Events are a great way to run code when the editor has been initialized, the content has changed, the editor is in focus or the editor isn’t in focus anymore. There are two ways to add code to those events.
+Events are a great way to run code when the editor has been initialized, the content has changed, the editor is in focus or the editor isn’t in focus anymore. There are two ways to add code that is executed at those events:
 
 ## Option 1: Use hooks
 Hooks can be assigned to the editor on initialization. Pass a function that gets called in case of those events.
@@ -34,10 +34,14 @@ editor.on('update', ({ html }) => {
 })
 ```
 
-## List of available hooks & events
-| Hook       | Event    | Description                                                                                                                        |
-| ---------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `onBlur`   | `blur`   | Returns an object with the `event` and current `state` and `view` of Prosemirror on blur.                                          |
-| `onFocus`  | `focus`  | Returns an object with the `event` and current `state` and `view` of Prosemirror on focus.                                         |
-| `onInit`   | `init`   | Returns an object with the current `state` and `view` of Prosemirror on init.                                                      |
-| `onUpdate` | `update` | Returns an object with the current `state` of Prosemirror, a `json()` and `html()` function and the `transaction` on every change. |
+## List of events
+| Event    | Description                   | Parameters                           |
+| -------- | ----------------------------- | ------------------------------------ |
+| `blur`   | Editor isn’t focused anymore. | `{ event, state, view }`             |
+| `focus`  | Editor is in focus.           | `{ event, state, view }`             |
+| `init`   | Editor has been initialized.  | `{ state, view }`                    |
+| `update` | Content has been changed.     | `{ state, json, html, transaction }` |
+
+:::info List of hooks
+The according hooks are called `onBlur`, `onFocus`, `onInit` and `onUpdate`.
+:::

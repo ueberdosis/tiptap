@@ -14,7 +14,7 @@ npm install @tiptap/extension-list-item
 yarn add @tiptap/extension-list-item
 ```
 
-## Options
+## Settings
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |
 | class  | string | –       | Add a custom class to the rendered HTML tag. |

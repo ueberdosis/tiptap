@@ -1,20 +1,20 @@
 # OrderedList
 Enables you to use the `<ol>` HTML tag in the editor.
 
-::: warning Restrictions
-This extensions is intended to be used with the `ListItem` extension.
+## Installation
+::: warning Use with ListItem
+The `OrderedList` extension is intended to be used with the [`ListItem`](/api/extensions/list-item) extension. Make sure to import that one too, otherwise you’ll get a SyntaxError.
 :::
 
-## Installation
 ```bash
 # With npm
-npm install @tiptap/extension-ordered-list
+npm install @tiptap/extension-ordered-list @tiptap/extension-list-item
 
 # Or: With Yarn
-yarn add @tiptap/extension-ordered-list
+yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 ```
 
-## Options
+## Settings
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |
 | class  | string | –       | Add a custom class to the rendered HTML tag. |

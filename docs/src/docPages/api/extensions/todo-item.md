@@ -5,7 +5,7 @@ It renders a single toggleable item of a list.
 This extensions is intended to be used with the `TodoList` extension.
 :::
 
-## Options
+## Settings
 | Option | Type    | Default | Description                           |
 | ------ | ------- | ------- | ------------------------------------- |
 | nested | Boolean | false   | Specifies if you can nest todo lists. |

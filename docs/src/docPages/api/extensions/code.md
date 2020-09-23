@@ -12,7 +12,7 @@ npm install @tiptap/extension-code
 yarn add @tiptap/extension-code
 ```
 
-## Options
+## Settings
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |
 | class  | string | –       | Add a custom class to the rendered HTML tag. |

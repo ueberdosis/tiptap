@@ -12,7 +12,7 @@ npm install @tiptap/extension-blockquote
 yarn add @tiptap/extension-blockquote
 ```
 
-## Options
+## Settings
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |
 | class  | string | –       | Add a custom class to the rendered HTML tag. |

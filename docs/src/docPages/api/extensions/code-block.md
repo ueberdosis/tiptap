@@ -16,7 +16,7 @@ npm install @tiptap/extension-code-block
 yarn add @tiptap/extension-code-block
 ```
 
-## Options
+## Settings
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |
 | class  | string | –       | Add a custom class to the rendered HTML tag. |

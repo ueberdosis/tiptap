@@ -10,8 +10,10 @@ npm install @tiptap/extension-history
 yarn add @tiptap/extension-history
 ```
 
-## Options
-*None*
+## Settings
+| Option               | Type   | Default | Description                                                                                                                                                                                                                                                                                                                                                                    |
+| -------------------- | ------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| historyPluginOptions | Object | {}       | Supports the following configuration options:<br /><br />**depth:** The amount of history events that are collected before the oldest events are discarded. Defaults to 100.<br /><br />**newGroupDelay:** The delay between changes after which a new group should be started. Defaults to 500 (milliseconds). Note that when changes aren't adjacent, a new group is always started. |
 
 ## Commands
 | Command | Options | Description           |
@@ -20,6 +22,7 @@ yarn add @tiptap/extension-history
 | redo    | —       | Redo the last change. |
 
 ## Keyboard shortcuts
+### Undo
 * Windows & Linux: `Control` + `Z`
 * macOS: `Command` + `Z`
 

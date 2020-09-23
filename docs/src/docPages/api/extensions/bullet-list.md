@@ -1,22 +1,22 @@
 # BulletList
 This extension enables you to use bullet lists in the editor. They are rendered as `<ul>` HTML tags,
 
-Type `* ​`, `- ​` or `+ ​` at the beginning of a new line and it will magically transform to a bullet list.
+Type <code>*&nbsp;</code>, <code>-&nbsp;</code> or <code>+&nbsp;</code> at the beginning of a new line and it will magically transform to a bullet list.
 
+## Installation
 ::: warning Use with ListItem
 The `BulletList` extension is intended to be used with the [`ListItem`](/api/extensions/list-item) extension. Make sure to import that one too, otherwise you’ll get a SyntaxError.
 :::
 
-## Installation
 ```bash
 # With npm
-npm install @tiptap/extension-bullet-list
+npm install @tiptap/extension-bullet-list @tiptap/extension-list-item
 
 # Or: With Yarn
-yarn add @tiptap/extension-bullet-list
+yarn add @tiptap/extension-bullet-list @tiptap/extension-list-item
 ```
 
-## Options
+## Settings
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |
 | class  | string | –       | Add a custom class to the rendered HTML tag. |

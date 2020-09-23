@@ -10,7 +10,7 @@ npm install @tiptap/extension-hard-break
 yarn add @tiptap/extension-hard-break
 ```
 
-## Options
+## Settings
 *None*
 
 ## Commands

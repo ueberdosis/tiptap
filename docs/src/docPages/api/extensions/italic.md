@@ -1,6 +1,8 @@
 # Italic
 Use this extension to render text in *italic*. If you pass `<em>`, `<i>` tags, or text with inline `style` attributes setting `font-style: italic` in the editor’s initial content, they all will be rendered accordingly.
 
+Type `*one asterisk*` or `_one underline_` and it will magically transform to *italic* text while you type.
+
 ::: warning Restrictions
 The extension will generate the corresponding `<em>` HTML tags when reading contents of the `Editor` instance. All text marked italic, regardless of the method will be normalized to `<em>` HTML tags.
 :::
@@ -14,7 +16,7 @@ npm install @tiptap/extension-italic
 yarn add @tiptap/extension-italic
 ```
 
-## Options
+## Settings
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |
 | class  | string | –       | Add a custom class to the rendered HTML tag. |

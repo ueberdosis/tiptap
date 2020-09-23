@@ -16,7 +16,7 @@ npm install @tiptap/extension-bold
 yarn add @tiptap/extension-bold
 ```
 
-## Options
+## Settings
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
