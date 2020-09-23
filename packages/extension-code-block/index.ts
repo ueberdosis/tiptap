@@ -1,14 +1,16 @@
-import { Node } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
+export type CodeBlockCommand = () => Command
+
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
-    codeBlock(): Editor,
+  interface Commands {
+    codeBlock: CodeBlockCommand,
   }
 }
 
 export default new Node()
-  .name('codeBlock')
+  .name('code_block')
   .schema(() => ({
     content: 'text*',
     marks: '',
@@ -21,10 +23,9 @@ export default new Node()
     ],
     toDOM: () => ['pre', ['code', 0]],
   }))
-  .commands(({ editor, name }) => ({
-    [name]: next => attrs => {
-      editor.toggleNode(name, 'paragraph', attrs)
-      next()
+  .commands(({ name }) => ({
+    codeBlock: attrs => ({ commands }) => {
+      return commands.toggleNode(name, 'paragraph', attrs)
     },
   }))
   .keys(({ editor }) => ({

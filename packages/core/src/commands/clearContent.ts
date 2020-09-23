@@ -1,14 +1,13 @@
-import { Editor } from '../Editor'
+import { Command } from '../Editor'
 
-type ClearContentCommand = (emitUpdate?: Boolean) => Editor
+type ClearContentCommand = (emitUpdate?: Boolean) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     clearContent: ClearContentCommand,
   }
 }
 
-export default (next: Function, editor: Editor) => (emitUpdate = false) => {
-  editor.setContent('', emitUpdate)
-  next()
+export const clearContent: ClearContentCommand = (emitUpdate = false) => ({ commands }) => {
+  return commands.setContent('', emitUpdate)
 }

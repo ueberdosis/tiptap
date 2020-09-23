@@ -1,11 +1,11 @@
-import { Editor } from '../Editor'
+import { Editor, Command } from '../Editor'
 import { TextSelection } from 'prosemirror-state'
 import minMax from '../utils/minMax'
 
-type FocusCommand = (position?: Position) => Editor
+type FocusCommand = (position?: Position) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     focus: FocusCommand
   }
 }
@@ -44,25 +44,19 @@ function resolveSelection(editor: Editor, position: Position = null): ResolvedSe
   }
 }
 
-export default (next: Function, editor: Editor) => (position = null) => {
-  const { view, state } = editor
-
+export const focus: FocusCommand = (position = null) => ({ editor, view, tr }) => {
   if ((view.hasFocus() && position === null) || position === false) {
-    next()
-    return
+    return true
   }
 
   const { from, to } = resolveSelection(editor, position)
-  const { doc, tr } = state
+  const { doc } = tr
   const resolvedFrom = minMax(from, 0, doc.content.size)
   const resolvedEnd = minMax(to, 0, doc.content.size)
   const selection = TextSelection.create(doc, resolvedFrom, resolvedEnd)
-  const transaction = tr.setSelection(selection)
-
-  view.dispatch(transaction)
+  
+  tr.setSelection(selection)
   view.focus()
-  //@ts-ignore
-  // console.log(bla)
-  // return 'FOCUS'
-  next()
+
+  return true
 }

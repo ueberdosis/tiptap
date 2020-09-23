@@ -1,25 +1,25 @@
 <template>
   <div>
     <div v-if="editor">
-      <button @click="editor.focus().removeMarks()">
+      <button @click="editor.chain().focus().removeMarks().run()">
         clear formatting
       </button>
-      <button @click="editor.focus().undo()">
+      <button @click="editor.chain().focus().undo().run()">
         undo
       </button>
-      <button @click="editor.focus().redo()">
+      <button @click="editor.chain().focus().redo().run()">
         redo
       </button>
-      <button @click="editor.focus().bold()" :class="{ 'is-active': editor.isActive('bold') }">
+      <button @click="editor.chain().focus().bold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
       </button>
-      <button @click="editor.focus().italic()" :class="{ 'is-active': editor.isActive('italic') }">
+      <button @click="editor.chain().focus().italic().run()" :class="{ 'is-active': editor.isActive('italic') }">
         italic
       </button>
-      <button @click="editor.focus().heading({ level: 1 })" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
+      <button @click="editor.chain().focus().heading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
         h1
       </button>
-      <button @click="editor.focus().heading({ level: 2 })" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+      <button @click="editor.chain().focus().heading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
         h2
       </button>
     </div>

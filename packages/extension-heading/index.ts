@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6
@@ -7,9 +7,11 @@ export interface HeadingOptions {
   levels: Level[],
 }
 
+export type HeadingCommand = (level: Level) => Command
+
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
-    heading(level: Level): Editor,
+  interface Commands {
+    heading: HeadingCommand,
   }
 }
 
@@ -35,10 +37,9 @@ export default new Node<HeadingOptions>()
       })),
     toDOM: node => [`h${node.attrs.level}`, 0],
   }))
-  .commands(({ editor, name }) => ({
-    [name]: next => attrs => {
-      editor.toggleNode(name, 'paragraph', attrs)
-      next()
+  .commands(({ name }) => ({
+    [name]: attrs => ({ commands }) => {
+      return commands.toggleNode(name, 'paragraph', attrs)
     },
   }))
   // TODO: Keyboard Shortcuts

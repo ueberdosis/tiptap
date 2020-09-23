@@ -1,12 +1,12 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.focus().heading({ level: 1 })" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
+    <button @click="editor.chain().focus().heading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
       h1
     </button>
-    <button @click="editor.focus().heading({ level: 2 })" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+    <button @click="editor.chain().focus().heading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
       h2
     </button>
-    <button @click="editor.focus().heading({ level: 3 })" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
+    <button @click="editor.chain().focus().heading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
       h3
     </button>
 

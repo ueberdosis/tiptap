@@ -9,12 +9,12 @@ const MenuBar = () => {
 
   return (
     <>
-      <button onClick={() => editor.focus().removeMarks()}>
+      <button onClick={() => editor.chain().focus().removeMarks().run()}>
         Clear formatting
       </button>
       <button
         className={`${editor.isActive('bold') ? 'is-active' : ''}`}
-        onClick={() => editor.focus().bold()}
+        onClick={() => editor.chain().focus().bold().run()}
       >
         Bold
       </button>

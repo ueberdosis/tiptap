@@ -16,7 +16,7 @@ context('/api/extensions/bullet-list', () => {
     })
 
     cy.get('.ProseMirror')
-      .type('* List Item 1{enter}+ List Item 2{enter}- List Item 3')
+      .type('* List Item 1{enter}{enter}+ List Item 2{enter}{enter}- List Item 3')
 
     cy.get('.ProseMirror')
       .find('li:nth-child(1)')

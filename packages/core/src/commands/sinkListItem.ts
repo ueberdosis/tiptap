@@ -1,20 +1,18 @@
-import { Editor } from '../Editor'
-import { sinkListItem } from 'prosemirror-schema-list'
+import { Command } from '../Editor'
+import { sinkListItem as originalSinkListItem } from 'prosemirror-schema-list'
 import { NodeType } from 'prosemirror-model'
 import getNodeType from '../utils/getNodeType'
 
-type SinkListItem = (typeOrName: string | NodeType) => Editor
+type SinkListItem = (typeOrName: string | NodeType) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     sinkListItem: SinkListItem,
   }
 }
 
-export default (next: Function, editor: Editor) => (typeOrName: string | NodeType) => {
-  const { view, state, schema } = editor
-  const type = getNodeType(typeOrName, schema)
+export const sinkListItem: SinkListItem = (typeOrName) => ({ state, dispatch }) => {
+  const type = getNodeType(typeOrName, state.schema)
 
-  sinkListItem(type)(state, view.dispatch)
-  next()
+  return originalSinkListItem(type)(state, dispatch)
 }

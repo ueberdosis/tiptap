@@ -1,8 +1,10 @@
-import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
+import { Command, Mark, markInputRule, markPasteRule } from '@tiptap/core'
+
+export type ItalicCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
-    italic(): Editor,
+  interface Commands {
+    italic: ItalicCommand,
   }
 }
 
@@ -21,10 +23,9 @@ export default new Mark()
     ],
     toDOM: () => ['em', 0],
   }))
-  .commands(({ editor, name }) => ({
-    italic: next => () => {
-      editor.toggleMark(name)
-      next()
+  .commands(({ name }) => ({
+    italic: () => ({ commands }) => {
+      return commands.toggleMark(name)
     },
   }))
   .keys(({ editor }) => ({

@@ -1,6 +1,6 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.focus().codeBlock()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+    <button @click="editor.chain().focus().codeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
       code block
     </button>
 

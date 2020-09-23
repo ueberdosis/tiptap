@@ -1,8 +1,10 @@
-import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
+import { Command, Mark, markInputRule, markPasteRule } from '@tiptap/core'
+
+type StrikeCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
-    strike(): Editor,
+  interface Commands {
+    strike: StrikeCommand,
   }
 }
 
@@ -29,10 +31,9 @@ export default new Mark()
     ],
     toDOM: () => ['s', 0],
   }))
-  .commands(({ editor, name }) => ({
-    strike: next => () => {
-      editor.toggleMark(name)
-      next()
+  .commands(({ name }) => ({
+    strike: () => ({ commands }) => {
+      return commands.toggleMark(name)
     },
   }))
   .keys(({ editor }) => ({

@@ -1,8 +1,10 @@
-import { Node, nodeInputRule } from '@tiptap/core'
+import { Command, Node, nodeInputRule } from '@tiptap/core'
+
+export type HorizontalRuleCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
-    horizontalRule(): Editor,
+  interface Commands {
+    horizontalRule: HorizontalRuleCommand,
   }
 }
 
@@ -13,13 +15,11 @@ export default new Node()
     parseDOM: [{ tag: 'hr' }],
     toDOM: () => ['hr'],
   }))
-  .commands(({ editor, type }) => ({
-    horizontalRule: next => () => {
-      const { state, view } = editor
-      const { dispatch } = view
+  .commands(({ type }) => ({
+    horizontalRule: () => ({ tr }) => {
+      tr.replaceSelectionWith(type.create())
 
-      dispatch(state.tr.replaceSelectionWith(type.create()))
-      next()
+      return true
     },
   }))
   .inputRules(({ type }) => [

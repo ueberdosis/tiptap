@@ -4,7 +4,7 @@ import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
 import editable from './editable'
 import focus from './focus'
-import undoInputRule from '../utils/undoInputRule'
+import { undoInputRule } from 'prosemirror-inputrules'
 
 export default [
   () => dropCursor(),

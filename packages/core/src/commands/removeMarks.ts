@@ -1,30 +1,26 @@
-import { Editor } from '../Editor'
+import { Command } from '../Editor'
 
-type RemoveMarksCommand = () => Editor
+type RemoveMarksCommand = () => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     removeMarks: RemoveMarksCommand,
   }
 }
 
-export default (next: Function, editor: Editor) => () => {
-  const { state, view, schema } = editor
-  const { selection, tr } = state
+export const removeMarks: RemoveMarksCommand = () => ({ tr, state, view }) => {
+  const { selection } = tr
   const { from, to, empty } = selection
-  let transaction = tr
 
   if (empty) {
-    next()
-    return
+    return true
   }
 
   Object
-    .entries(schema.marks)
+    .entries(state.schema.marks)
     .forEach(([name, mark]) => {
-      transaction.removeMark(from, to, mark)
+      tr.removeMark(from, to, mark as any)
     })
 
-  view.dispatch(transaction)
-  next()
+  return true
 }

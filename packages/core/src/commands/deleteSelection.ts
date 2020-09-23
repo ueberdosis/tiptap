@@ -1,15 +1,14 @@
-import { Editor } from '../Editor'
-import { deleteSelection } from 'prosemirror-commands'
+import { Command } from '../Editor'
+import { deleteSelection as originalDeleteSelection } from 'prosemirror-commands'
 
-type DeleteSelectionCommand = () => Editor
+type DeleteSelectionCommand = () => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     deleteSelection: DeleteSelectionCommand,
   }
 }
 
-export default (next: Function, { state, view }: Editor) => () => {
-  deleteSelection(state, view.dispatch)
-  next()
+export const deleteSelection: DeleteSelectionCommand = () => ({ state, dispatch }) => {
+  return originalDeleteSelection(state, dispatch)
 }

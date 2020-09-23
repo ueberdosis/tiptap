@@ -1,9 +1,11 @@
-import { Node } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
+export type BulletListCommand = () => Command
+
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
-    bulletList(): Editor,
+  interface Commands {
+    bulletList: BulletListCommand,
   }
 }
 
@@ -17,10 +19,9 @@ export default new Node()
     ],
     toDOM: () => ['ul', 0],
   }))
-  .commands(({ editor, type }) => ({
-    [name]: next => attrs => {
-      // editor.toggleList(type, editor.schema.nodes.list_item)
-      next()
+  .commands(({ name }) => ({
+    bulletList: () => ({ commands }) => {
+      return commands.toggleList(name, 'list_item')
     },
   }))
   .keys(({ editor }) => ({

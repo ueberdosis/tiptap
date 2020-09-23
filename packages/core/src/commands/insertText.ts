@@ -1,17 +1,15 @@
-import { Editor } from '../Editor'
+import { Command } from '../Editor'
 
-type InsertTextCommand = (value: string) => Editor
+type InsertTextCommand = (value: string) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     insertText: InsertTextCommand,
   }
 }
 
-export default (next: Function, editor: Editor) => (value: string) => {
-  const { view, state } = editor
-  const transaction = state.tr.insertText(value)
+export const insertText: InsertTextCommand = value => ({ tr }) => {
+  tr.insertText(value)
 
-  view.dispatch(transaction)
-  next()
+  return true
 }

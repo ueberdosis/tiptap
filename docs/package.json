@@ -10,26 +10,27 @@
     "@gridsome/remark-prismjs": "^0.4.0",
     "@gridsome/source-filesystem": "^0.6.2",
     "@gridsome/transformer-json": "^0.2.1",
-    "@gridsome/vue-remark": "^0.2.4",
+    "@gridsome/vue-remark": "^0.2.5",
     "@mvasilkov/outdent": "^1.0.4",
     "collect.js": "^4.28.2",
     "globby": "^11.0.0",
-    "gridsome": "0.7.20",
+    "gridsome": "0.7.21",
     "gridsome-plugin-simple-analytics": "^1.1.0",
     "raw-loader": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "remark-container": "^0.1.2",
-    "typescript": "^4.0.2",
+    "typescript": "^4.0.3",
     "vue-github-button": "^1.1.2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
-    "html-loader": "^1.1.0",
+    "html-loader": "^1.3.1",
     "node-sass": "^4.14.1",
     "sass-loader": "^9.0.3",
     "style-resources-loader": "^1.3.3",
-    "ts-loader": "^8.0.3"
+    "ts-loader": "^8.0.4"
   }
 }

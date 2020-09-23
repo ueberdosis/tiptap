@@ -1,4 +1,4 @@
-import { Editor } from '../Editor'
+import { Command } from '../Editor'
 import { MarkType } from 'prosemirror-model'
 import getMarkType from '../utils/getMarkType'
 import getMarkRange from '../utils/getMarkRange'
@@ -6,19 +6,18 @@ import getMarkRange from '../utils/getMarkRange'
 type UpdateMarkCommand = (
   typeOrName: string | MarkType,
   attrs: {},
-) => Editor
+) => Command
 
 declare module '../Editor' {
-  interface Editor {
+  interface Commands {
     updateMark: UpdateMarkCommand,
   }
 }
 
-export default (next: Function, editor: Editor) => (typeOrName: string | MarkType, attrs = {}) => {
-  const { view, state, schema } = editor
-  const { tr, selection, doc } = state
+export const updateMark: UpdateMarkCommand = (typeOrName, attrs = {}) => ({ tr, state }) => {
+  const { selection, doc } = tr
   let { from, to, $from, empty } = selection
-  const type = getMarkType(typeOrName, schema)
+  const type = getMarkType(typeOrName, state.schema)
 
   if (empty) {
     const range = getMarkRange($from, type)
@@ -36,6 +35,6 @@ export default (next: Function, editor: Editor) => (typeOrName: string | MarkTyp
   }
 
   tr.addMark(from, to, type.create(attrs))
-  view.dispatch(tr)
-  next()
+
+  return true
 }

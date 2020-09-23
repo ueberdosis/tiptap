@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="editor">
-      <button @click="editor.focus().undo()">
+      <button @click="editor.chain().focus().undo().run()">
         undo
       </button>
-      <button @click="editor.focus().redo()">
+      <button @click="editor.chain().focus().redo().run()">
         redo
       </button>
     </div>

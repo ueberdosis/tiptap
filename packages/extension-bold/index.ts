@@ -1,8 +1,10 @@
-import { Mark, markInputRule, markPasteRule } from '@tiptap/core'
+import { Command, Mark, markInputRule, markPasteRule } from '@tiptap/core'
+
+export type BoldCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
-    bold(): Editor,
+  interface Commands {
+    bold: BoldCommand,
   }
 }
 
@@ -29,10 +31,9 @@ export default new Mark()
     ],
     toDOM: () => ['strong', 0],
   }))
-  .commands(({ editor, name }) => ({
-    bold: next => () => {
-      editor.toggleMark(name)
-      next()
+  .commands(({ name }) => ({
+    bold: () => ({ commands }) => {
+      return commands.toggleMark(name)
     },
   }))
   .keys(({ editor }) => ({

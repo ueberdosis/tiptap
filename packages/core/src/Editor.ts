@@ -3,7 +3,6 @@ import { EditorView} from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
-import getAllMethodNames from './utils/getAllMethodNames'
 import nodeIsActive from './utils/nodeIsActive'
 import markIsActive from './utils/markIsActive'
 import getNodeAttrs from './utils/getNodeAttrs'
@@ -11,6 +10,7 @@ import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
 import getHtmlFromFragment from './utils/getHtmlFromFragment'
+import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
 import Extension from './Extension'
@@ -20,23 +20,45 @@ import ComponentRenderer from './ComponentRenderer'
 import defaultPlugins from './plugins'
 import * as commands from './commands'
 
-export type Command = (next: Function, editor: Editor) => (...args: any) => any
+export type Command = (props: {
+  editor: Editor,
+  tr: Transaction,
+  commands: SingleCommands,
+  chain: () => ChainedCommands,
+  state: EditorState,
+  view: EditorView,
+  dispatch: (args?: any) => any,
+}) => boolean
 
-export interface CommandSpec {
-  [key: string]: Command
+export type CommandSpec = (...args: any[]) => Command
+
+export interface CommandsSpec {
+  [key: string]: CommandSpec
+}
+
+export interface Commands {}
+
+export type CommandNames = Extract<keyof Commands, string>
+
+export type SingleCommands = {
+  [Command in keyof Commands]: Commands[Command] extends (...args: any[]) => any
+  ? (...args: Parameters<Commands[Command]>) => boolean
+  : never
+}
+
+export type ChainedCommands = {
+  [Command in keyof Commands]: Commands[Command] extends (...args: any[]) => any
+  ? (...args: Parameters<Commands[Command]>) => ChainedCommands
+  : never
+} & {
+  run: () => boolean
 }
 
 type EditorContent = string | JSON | null
 
-// interface Element {
-//   editor?: Editor
-// }
-
 interface HTMLElement {
   editor?: Editor
 }
-
-// Element.prototype.editor = Editor
 
 interface EditorOptions {
   element: Element,
@@ -47,16 +69,18 @@ interface EditorOptions {
   editable: boolean,
 }
 
+declare module './Editor' {
+  interface Editor extends SingleCommands {}
+}
+
 @magicMethods
 export class Editor extends EventEmitter {
 
   public renderer!: any
   private proxy!: Editor
+  private commandManager!: CommandManager
   private extensionManager!: ExtensionManager
-  private commands: { [key: string]: any } = {}
   private css!: HTMLStyleElement
-  private lastCommand = Promise.resolve()
-  public lastCommandValue: any = undefined
   public schema!: Schema
   public view!: EditorView
   public selection = { from: 0, to: 0 }
@@ -70,7 +94,6 @@ export class Editor extends EventEmitter {
     editable: true,
   }
 
-
   constructor(options: Partial<EditorOptions> = {}) {
     super()
     this.options = { ...this.options, ...options }
@@ -81,6 +104,7 @@ export class Editor extends EventEmitter {
    * This method is called after the proxy is initialized.
    */
   private init() {
+    this.createCommandManager()
     this.createExtensionManager()
     this.createSchema()
     this.extensionManager.resolveConfigs()
@@ -100,15 +124,14 @@ export class Editor extends EventEmitter {
    * @param name The name of the command
    */
   private __get(name: string) {
-    const command = this.commands[name]
+    return this.commandManager.runSingleCommand(name)
+  }
 
-    if (!command) {
-      // TODO: prevent vue devtools to throw error
-      // throw new Error(`tiptap: command '${name}' not found.`)
-      return
-    }
-
-    return (...args: any) => command(...args)
+  /**
+   * Create a command chain to call multiple commands at once.
+   */
+  public chain() {
+    return this.commandManager.createChain()
   }
 
   /**
@@ -143,7 +166,7 @@ export class Editor extends EventEmitter {
    *
    * @param commands A list of commands
    */
-  public registerCommands(commands: CommandSpec) {
+  public registerCommands(commands: CommandsSpec) {
     Object
       .entries(commands)
       .forEach(([name, command]) => this.registerCommand(name, command))
@@ -155,56 +178,8 @@ export class Editor extends EventEmitter {
    * @param name The name of your command
    * @param callback The method of your command
    */
-  public registerCommand(name: string, callback: Command): Editor {
-    if (this.commands[name]) {
-      throw new Error(`tiptap: command '${name}' is already defined.`)
-    }
-
-    if (getAllMethodNames(this).includes(name)) {
-      throw new Error(`tiptap: '${name}' is a protected name.`)
-    }
-
-    this.commands[name] = this.chainCommand((...args: any) => {
-      // console.log('command', this.lastCommandValue)
-      const commandValue = callback(() => {}, this.proxy)(...args)
-
-      // if (commandValue !== undefined) {
-        this.lastCommandValue = commandValue
-      // }
-
-      return this.proxy
-    })
-
-    return this.proxy
-  }
-
-  /**
-   * Call a command.
-   *
-   * @param name The name of the command you want to call.
-   * @param options The options of the command.
-   */
-  public command(name: string, ...options: any) {
-    return this.commands[name](...options)
-  }
-
-  /**
-   * Wraps a command to make it chainable.
-   *
-   * @param method
-   */
-  private chainCommand = (method: Function) => (...args: any) => {
-    // console.log('chain', this.lastCommandValue)
-    // this.lastCommand = this.lastCommand
-    //   .then(() => {
-        
-    //     const jo = method.apply(this, args)
-
-    //     console.log({jo})
-    //   })
-    //   // .then(method.apply(this, args))
-    //   .catch(console.error)
-    method.apply(this, args)
+  public registerCommand(name: string, callback: CommandSpec): Editor {
+    this.commandManager.registerCommand(name, callback)
 
     return this.proxy
   }
@@ -244,6 +219,13 @@ export class Editor extends EventEmitter {
    */
   private createExtensionManager() {
     this.extensionManager = new ExtensionManager(this.options.extensions, this.proxy)
+  }
+
+  /**
+   * Creates an command manager.
+   */
+  private createCommandManager() {
+    this.commandManager = new CommandManager(this.proxy)
   }
 
   /**
@@ -399,5 +381,5 @@ export class Editor extends EventEmitter {
     this.removeAllListeners()
     removeElement(this.css)
   }
-
+  
 }

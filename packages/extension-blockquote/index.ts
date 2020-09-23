@@ -1,9 +1,11 @@
-import { Node } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
+export type BlockquoteCommand = () => Command
+
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
-    blockquote(): Editor,
+  interface Commands {
+    blockquote: BlockquoteCommand,
   }
 }
 
@@ -21,10 +23,9 @@ export default new Node()
     ],
     toDOM: () => ['blockquote', 0],
   }))
-  .commands(({ editor, name }) => ({
-    [name]: next => attrs => {
-      editor.toggleNode(name, 'paragraph', attrs)
-      next()
+  .commands(({ name }) => ({
+    [name]: attrs => ({ commands }) => {
+      return commands.toggleNode(name, 'paragraph', attrs)
     },
   }))
   .keys(({ editor }) => ({

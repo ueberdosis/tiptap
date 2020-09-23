@@ -20,6 +20,7 @@
     "reset": "yarn clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@babel/preset-env": "^7.11.5",
     "@types/prosemirror-commands": "^1.0.3",
     "@types/prosemirror-history": "^1.0.1",
@@ -29,12 +30,12 @@
     "@types/prosemirror-state": "^1.2.5",
     "@types/prosemirror-transform": "^1.1.1",
     "@types/prosemirror-view": "^1.15.0",
-    "cypress": "^5.1.0",
+    "cypress": "^5.2.0",
     "lerna": "^3.22.1",
     "microbundle": "^0.12.3",
     "sass-loader": "^9.0.3",
     "typedoc": "^0.18.0",
-    "typescript": "^4.0.2",
+    "typescript": "^4.0.3",
     "vue": "^2.6.12"
   }
 }

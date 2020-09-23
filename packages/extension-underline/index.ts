@@ -1,8 +1,10 @@
-import { Mark } from '@tiptap/core'
+import { Command, Mark } from '@tiptap/core'
+
+export type UnderlineCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
-  interface Editor {
-    underline(): Editor,
+  interface Commands {
+    underline: UnderlineCommand,
   }
 }
 
@@ -21,9 +23,8 @@ export default new Mark()
     toDOM: () => ['u', 0],
   }))
   .commands(({ editor, name }) => ({
-    underline: next => () => {
-      editor.toggleMark(name)
-      next()
+    underline: () => ({ commands }) => {
+      return commands.toggleMark(name)
     },
   }))
   .keys(({ editor }) => ({
