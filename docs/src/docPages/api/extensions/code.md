@@ -1,7 +1,7 @@
 # Code
 The Code extensions enables you to use the `<code>` HTML tag in the editor. If you paste in text with `<code>` tags it will rendered accordingly.
 
-Type something with \`back-ticks around\` and it will magically transform to `inline code` while you type.
+Type something with <code>\`back-ticks around\`</code> and it will magically transform to `inline code` while you type.
 
 ## Options
 | Option | Type   | Default | Description                                  |

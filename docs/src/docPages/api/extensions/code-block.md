@@ -1,7 +1,7 @@
 # CodeBlock
 With the CodeBlock extension you can add fenced code blocks to your documents. It’ll wrap the code in `<pre>` and `<code>` HTML tags.
 
-Type three backticks and a space (`\`` ) and a code block is instantly added for you.
+Type three backticks and a space <code>&grave;&grave;&grave;</code> and a code block is instantly added for you.
 
 ::: warning Restrictions
 The CodeBlock extension doesn’t come with styling and has no syntax highlighting built-in. It’s on our roadmap though.
