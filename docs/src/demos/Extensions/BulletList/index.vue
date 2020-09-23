@@ -1,6 +1,6 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus().bulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
+    <button @click="editor.chain().focus().bulletList().run()" :class="{ 'is-active': editor.isActive('bullet_list') }">
       bullet list
     </button>
 

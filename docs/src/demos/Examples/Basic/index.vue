@@ -19,6 +19,12 @@
       <button @click="editor.chain().focus().code().run()" :class="{ 'is-active': editor.isActive('code') }">
         code
       </button>
+      <button @click="editor.chain().focus().bulletList().run()" :class="{ 'is-active': editor.isActive('bullet_list') }">
+        bullet list
+      </button>
+      <button @click="editor.chain().focus().orderedList().run()" :class="{ 'is-active': editor.isActive('ordered_list') }">
+        ordered list
+      </button>
       <button @click="editor.chain().focus().codeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
         code block
       </button>
