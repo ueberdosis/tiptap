@@ -5,6 +5,15 @@
 Tiptap 1 tried to hide that node from you, but it has always been there.
 :::
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-text
+
+# Or: With Yarn
+yarn add @tiptap/extension-text
+```
+
 ## Source code
 [packages/extension-text/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text/)
 

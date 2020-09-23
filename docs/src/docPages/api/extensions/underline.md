@@ -5,6 +5,15 @@ Use this extension to render text <u>underlined</u>. If you pass `<u>` tags, or 
 The extension will generate the corresponding `<u>` HTML tags when reading contents of the `Editor` instance. All text marked underlined, regardless of the method will be normalized to `<u>` HTML tags.
 :::
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-underline
+
+# Or: With Yarn
+yarn add @tiptap/extension-underline
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |

@@ -5,6 +5,15 @@ Enables you to use the `<li>` HTML tag in the editor.
 This extensions is intended to be used with the `BulletList` or `OrderedList` extension.
 :::
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-list-item
+
+# Or: With Yarn
+yarn add @tiptap/extension-list-item
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |

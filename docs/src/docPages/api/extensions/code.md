@@ -3,6 +3,15 @@ The Code extensions enables you to use the `<code>` HTML tag in the editor. If y
 
 Type something with <code>\`back-ticks around\`</code> and it will magically transform to `inline code` while you type.
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-code
+
+# Or: With Yarn
+yarn add @tiptap/extension-code
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |

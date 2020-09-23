@@ -1,6 +1,15 @@
 # Link
 Enables you to use the `<a>` HTML tag in the editor.
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-link
+
+# Or: With Yarn
+yarn add @tiptap/extension-link
+```
+
 ## Options
 | Option      | Type    | Default | Description                                  |
 | ----------- | ------- | ------- | -------------------------------------------- |

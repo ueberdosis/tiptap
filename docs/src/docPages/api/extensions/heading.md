@@ -3,6 +3,15 @@ The Heading extension adds support for headings of different levels. Headings ar
 
 Type `# ​` at the beginning of a new line and it will magically transform to a headline, same for `## ​`, `### ​`, `#### ​`, `##### ​` and `###### ​`.
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-heading
+
+# Or: With Yarn
+yarn add @tiptap/extension-heading
+```
+
 ## Options
 | Option | Type   | Default            | Description                                  |
 | ------ | ------ | ------------------ | -------------------------------------------- |

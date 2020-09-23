@@ -7,6 +7,15 @@ Type `~text between tildes~` and it will be magically ~~striked through~~ while 
 The extension will generate the corresponding `<s>` HTML tags when reading contents of the `Editor` instance. All text striked through, regardless of the method will be normalized to `<s>` HTML tags.
 :::
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-strike
+
+# Or: With Yarn
+yarn add @tiptap/extension-strike
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |

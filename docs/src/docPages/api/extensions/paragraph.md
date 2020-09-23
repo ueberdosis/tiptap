@@ -1,6 +1,15 @@
 # Paragraph
 Yes, the schema is very strict. Without this extension you won’t even be able to use paragraphs in the editor.
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-paragraph
+
+# Or: With Yarn
+yarn add @tiptap/extension-paragraph
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |

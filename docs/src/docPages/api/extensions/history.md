@@ -1,6 +1,15 @@
 # History
 This extension provides history support. All changes to the document will be tracked and can be removed with `undo`. Undone changes can be applied with `redo` again.
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-history
+
+# Or: With Yarn
+yarn add @tiptap/extension-history
+```
+
 ## Options
 *None*
 

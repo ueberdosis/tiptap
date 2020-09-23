@@ -7,6 +7,15 @@ Type three backticks and a space <code>&grave;&grave;&grave;</code> and a code b
 The CodeBlock extension doesn’t come with styling and has no syntax highlighting built-in. It’s on our roadmap though.
 :::
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-code-block
+
+# Or: With Yarn
+yarn add @tiptap/extension-code-block
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |

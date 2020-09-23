@@ -5,6 +5,15 @@ Enables you to use the `<ol>` HTML tag in the editor.
 This extensions is intended to be used with the `ListItem` extension.
 :::
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-ordered-list
+
+# Or: With Yarn
+yarn add @tiptap/extension-ordered-list
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |

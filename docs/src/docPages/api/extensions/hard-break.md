@@ -1,6 +1,15 @@
 # HardBreak
 The HardBreak extensions adds support for the `<br>` HTML tag, which forces a line break.
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-hard-break
+
+# Or: With Yarn
+yarn add @tiptap/extension-hard-break
+```
+
 ## Options
 *None*
 

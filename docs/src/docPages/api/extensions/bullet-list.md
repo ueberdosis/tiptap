@@ -7,6 +7,15 @@ Type `* ​`, `- ​` or `+ ​` at the beginning of a new line and it will magi
 The `BulletList` extension is intended to be used with the [`ListItem`](/api/extensions/list-item) extension. Make sure to import that one too, otherwise you’ll get a SyntaxError.
 :::
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-bullet-list
+
+# Or: With Yarn
+yarn add @tiptap/extension-bullet-list
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |

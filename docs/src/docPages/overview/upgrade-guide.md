@@ -13,7 +13,6 @@ Yes, it’s tedious work to upgrade your favorite text editor to a new API, but 
 The new API will look pretty familiar too you, but there are a ton of changes though. To make the upgrade a little bit easier, here is everything you need to know:
 
 ### 1. Explicitly register the Document, Text and Paragraph extensions
-
 Tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [Document](/api/extensions/document), [Paragraph](/api/extensions/paragraph) and [Text](/api/extensions/text) extensions.
 
 ```js
@@ -30,8 +29,6 @@ new Editor({
   ]
 })
 ```
-
-
 
 ### 2. New document type
 **We renamed the default `Document` type from `doc` to `document`.** To keep it like that, use your own implementation of the `Document` node or migrate the stored JSON to use the new name.
@@ -81,13 +78,11 @@ const CustomExtension = new Node()
 Don’t forget to call `create()` in the end! Read more about [all the nifty details building custom extensions](/guide/custom-extensions) in our guide.
 
 ### 4. Blockquotes must not be nested anymore
-
 :::warning Breaking Change
 Currently, blockquotes must not be nested anymore. That said, we’re working on bringing it back. If you use nested blockquotes in your app, don’t upgrade yet.
 :::
 
 ### 5. Renamed API methods
-
 [We renamed a lot of commands](/api/commands), hopefully you can migrate to the new API with search & replace. Here is a list of what changed:
 
 | Old method name | New method name |
@@ -96,7 +91,6 @@ Currently, blockquotes must not be nested anymore. That said, we’re working on
 | ~~`getJSON`~~   | `json`          |
 
 ### 6. .focus() isn’t called on every command anymore
-
 We tried to hide the `.focus()` command from you with tiptap 1 and executed that on every other command. That led to issues in specific use cases, where you want to run a command, but don’t want to focus the editor. With tiptap 2.x you have to explicitly call the `focus()` and you probably want to do that in a lot of places. Here is an example:
 
 ```js

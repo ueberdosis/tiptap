@@ -5,6 +5,15 @@ Use this extension to render text in *italic*. If you pass `<em>`, `<i>` tags, o
 The extension will generate the corresponding `<em>` HTML tags when reading contents of the `Editor` instance. All text marked italic, regardless of the method will be normalized to `<em>` HTML tags.
 :::
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-italic
+
+# Or: With Yarn
+yarn add @tiptap/extension-italic
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |

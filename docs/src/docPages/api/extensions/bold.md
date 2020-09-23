@@ -7,6 +7,15 @@ Type `**two asterisks**` or `__two underlines__` and it will magically transform
 The extension will generate the corresponding `<strong>` HTML tags when reading contents of the `Editor` instance. All text marked bold, regardless of the method will be normalized to `<strong>` HTML tags.
 :::
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-bold
+
+# Or: With Yarn
+yarn add @tiptap/extension-bold
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |
