@@ -10,8 +10,8 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-export const starInputRegex = /(?:^|\s)((?:\*\*)((?:[^\*\*]+))(?:\*\*))$/gm
-export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^\*\*]+))(?:\*\*))/gm
+export const starInputRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))$/gm
+export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))$/gm
 export const underscorePasteRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))/gm
 

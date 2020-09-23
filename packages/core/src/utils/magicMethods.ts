@@ -1,7 +1,7 @@
 export default function magicMethods(Clazz: any) {
   const classHandler = Object.create(null)
 
-  classHandler.construct = (_, args: any) => {
+  classHandler.construct = (_: any, args: any) => {
     const instance = new Clazz(...args)
     const instanceHandler = Object.create(null)
     const get = Object.getOwnPropertyDescriptor(Clazz.prototype, '__get')

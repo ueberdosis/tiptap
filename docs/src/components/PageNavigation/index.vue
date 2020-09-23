@@ -35,7 +35,7 @@ export default {
 
   computed: {
     items() {
-      return this.linkGroups.reduce((acc, group) => (acc.push(...group.items), acc), [])
+      return this.linkGroups.reduce((acc, group) => ((acc.push(...group.items), acc)), [])
     },
 
     currentIndex() {
