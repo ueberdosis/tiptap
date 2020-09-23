@@ -1,5 +1,5 @@
 module.exports = {
-  plugins: ['html', 'cypress'],
+  plugins: ['html', 'cypress', '@typescript-eslint'],
 
   parserOptions: {
     parser: '@typescript-eslint/parser',
@@ -33,6 +33,7 @@ module.exports = {
     'class-methods-use-this': 'off',
     'global-require': 'off',
     'func-names': ['error', 'never'],
+    'arrow-body-style': 'off',
     'vue/this-in-template': ['error', 'never'],
     'vue/max-attributes-per-line': ['error', {
       singleline: 3,
@@ -41,5 +42,7 @@ module.exports = {
         allowFirstLine: false,
       },
     }],
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
   },
 }
