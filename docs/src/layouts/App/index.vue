@@ -6,7 +6,7 @@
           {{ $static.metadata.siteName }}
         </g-link>
         <div>
-          <input class="search" type="search" placeholder="Search" />
+          <input class="search" type="search" placeholder="Search">
           <a href="https://github.com/sponsors/ueberdosis">
             Sponsor
           </a>
@@ -58,9 +58,9 @@
         </nav>
       </div>
       <main class="app__main">
-        <slot/>
+        <slot />
         <p>
-          <br />
+          <br>
           <a :href="editLink" target="_blank">
             <span>Edit this page on GitHub</span>
           </a>
@@ -103,11 +103,11 @@ export default {
   },
 
   computed: {
-    currentPath () {
+    currentPath() {
       return this.$route.matched[0].path
     },
-    editLink () {
-      const currentPath = this.currentPath
+    editLink() {
+      const { currentPath } = this
       const filePath = currentPath === '' ? '/introduction' : currentPath
 
       return `https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/docPages${filePath}.md`
@@ -116,13 +116,14 @@ export default {
 
   methods: {
     initSearch() {
+      // eslint-disable-next-line
       docsearch({
         apiKey: '1abe7fb0f0dac150d0e963d2eda930fe',
         indexName: 'ueberdosis_tiptap',
         inputSelector: '.search',
         debug: false,
       })
-    }
+    },
   },
 
   mounted() {

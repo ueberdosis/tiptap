@@ -1,5 +1,5 @@
-import { Command } from '../Editor'
 import { TextSelection } from 'prosemirror-state'
+import { Command } from '../Editor'
 
 type SetContentCommand = (
   content: string,
@@ -18,7 +18,7 @@ export const setContent: SetContentCommand = (content = '', emitUpdate = false, 
   const { doc } = tr
   const document = createDocument(content, parseOptions)
   const selection = TextSelection.create(doc, 0, doc.content.size)
-  
+
   tr.setSelection(selection)
     .replaceSelectionWith(document, false)
     .setMeta('preventUpdate', !emitUpdate)

@@ -1,4 +1,6 @@
-import { Command, Mark, markInputRule, markPasteRule } from '@tiptap/core'
+import {
+  Command, Mark, markInputRule, markPasteRule,
+} from '@tiptap/core'
 
 export type BoldCommand = () => Command
 
@@ -37,7 +39,7 @@ export default new Mark()
     },
   }))
   .keys(({ editor }) => ({
-    'Mod-b': () => editor.bold()
+    'Mod-b': () => editor.bold(),
   }))
   .inputRules(({ type }) => [
     markInputRule(starInputRegex, type),

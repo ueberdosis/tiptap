@@ -41,8 +41,11 @@ export default class Extension<
   Methods extends ExtensionMethods<Props, Options> = ExtensionMethods<Props, Options>
 > {
   type = 'extension'
+
   config: AnyObject = {}
-  configs: Configs = {} 
+
+  configs: Configs = {}
+
   options: Partial<Options> = {}
 
   protected storeConfig(key: string, value: any, stategy: MergeStrategy) {
@@ -102,12 +105,10 @@ export default class Extension<
     this.storeConfig(key, value, 'extend')
     return this
   }
-  
-  public create() {
-    type ParentOptions = Options
 
-    return <Options = ParentOptions>(options?: Partial<NoInfer<Options>>) => {
-      return cloneDeep(this, true).configure(options as Options)
+  public create() {
+    return <NewOptions = Options>(options?: Partial<NoInfer<NewOptions>>) => {
+      return cloneDeep(this, true).configure(options as NewOptions)
     }
   }
 }

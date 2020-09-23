@@ -8,7 +8,7 @@ declare module '../Editor' {
   }
 }
 
-export const removeMarks: RemoveMarksCommand = () => ({ tr, state, view }) => {
+export const removeMarks: RemoveMarksCommand = () => ({ tr, state }) => {
   const { selection } = tr
   const { from, to, empty } = selection
 
@@ -18,7 +18,7 @@ export const removeMarks: RemoveMarksCommand = () => ({ tr, state, view }) => {
 
   Object
     .entries(state.schema.marks)
-    .forEach(([name, mark]) => {
+    .forEach(([, mark]) => {
       tr.removeMark(from, to, mark as any)
     })
 

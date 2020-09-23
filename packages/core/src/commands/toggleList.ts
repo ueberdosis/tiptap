@@ -1,7 +1,7 @@
-import { Command } from '../Editor'
 import { wrapInList, liftListItem } from 'prosemirror-schema-list'
 import { findParentNode } from 'prosemirror-utils'
 import { Node, NodeType, Schema } from 'prosemirror-model'
+import { Command } from '../Editor'
 import getNodeType from '../utils/getNodeType'
 
 type ToggleListCommand = (

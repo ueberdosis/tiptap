@@ -1,5 +1,5 @@
-import { Command } from '../Editor'
 import { selectParentNode as originalSelectParentNode } from 'prosemirror-commands'
+import { Command } from '../Editor'
 
 type SelectParentNodeCommand = () => Command
 

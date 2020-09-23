@@ -1,5 +1,5 @@
 import { EditorState, Plugin, Transaction } from 'prosemirror-state'
-import { EditorView} from 'prosemirror-view'
+import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
@@ -18,7 +18,7 @@ import Node from './Node'
 import Mark from './Mark'
 import ComponentRenderer from './ComponentRenderer'
 import defaultPlugins from './plugins'
-import * as commands from './commands'
+import * as coreCommands from './commands'
 
 export type Command = (props: {
   editor: Editor,
@@ -77,14 +77,23 @@ declare module './Editor' {
 export class Editor extends EventEmitter {
 
   public renderer!: any
+
   private proxy!: Editor
+
   private commandManager!: CommandManager
+
   private extensionManager!: ExtensionManager
+
   private css!: HTMLStyleElement
+
   public schema!: Schema
+
   public view!: EditorView
+
   public selection = { from: 0, to: 0 }
+
   public isFocused = false
+
   public options: EditorOptions = {
     element: document.createElement('div'),
     content: '',
@@ -109,7 +118,7 @@ export class Editor extends EventEmitter {
     this.createSchema()
     this.extensionManager.resolveConfigs()
     this.createView()
-    this.registerCommands(commands)
+    this.registerCommands(coreCommands)
 
     if (this.options.injectCSS) {
       require('./style.css')
@@ -190,7 +199,7 @@ export class Editor extends EventEmitter {
    * @param plugin A ProseMirror plugin
    * @param handlePlugins Control how to merge the plugin into the existing plugins.
    */
-  public registerPlugin(plugin: Plugin, handlePlugins?: (plugin: Plugin, plugins: Plugin[]) => Plugin[]) {
+  public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]) {
     const plugins = typeof handlePlugins === 'function'
       ? handlePlugins(plugin, this.state.plugins)
       : [plugin, ...this.state.plugins]
@@ -333,7 +342,7 @@ export class Editor extends EventEmitter {
 
     if (schemaType === 'node') {
       return nodeIsActive(this.state, this.schema.nodes[name], attrs)
-    } else if (schemaType === 'mark') {
+    } if (schemaType === 'mark') {
       return markIsActive(this.state, this.schema.marks[name])
     }
 
@@ -381,5 +390,5 @@ export class Editor extends EventEmitter {
     this.removeAllListeners()
     removeElement(this.css)
   }
-  
+
 }

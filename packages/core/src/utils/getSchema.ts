@@ -12,7 +12,7 @@ export default function getSchema(extensions: Extensions): Schema {
     resolveExtensionConfig(extension, 'defaults')
     resolveExtensionConfig(extension, 'topNode')
 
-    const name = extension.config.name
+    const { name } = extension.config
     const options = deepmerge(extension.config.defaults, extension.options)
 
     resolveExtensionConfig(extension, 'schema', { name, options })

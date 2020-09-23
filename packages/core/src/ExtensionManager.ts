@@ -2,10 +2,10 @@ import deepmerge from 'deepmerge'
 import collect from 'collect.js'
 import { Plugin } from 'prosemirror-state'
 import { keymap } from 'prosemirror-keymap'
-import { Schema } from 'prosemirror-model'
+import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { inputRules } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
-import { Node as ProsemirrorNode } from 'prosemirror-model'
+
 import { Editor } from './Editor'
 import capitalize from './utils/capitalize'
 import { Extensions } from './types'
@@ -18,6 +18,7 @@ import getSchema from './utils/getSchema'
 export default class ExtensionManager {
 
   editor: Editor
+
   extensions: Extensions
 
   constructor(extensions: Extensions, editor: Editor) {
@@ -28,17 +29,27 @@ export default class ExtensionManager {
   resolveConfigs() {
     this.extensions.forEach(extension => {
       const { editor } = this
-      const name = extension.config.name
+      const { name } = extension.config
       const options = deepmerge(extension.config.defaults, extension.options)
       const type = extension.type === 'node'
         ? editor.schema.nodes[name]
         : editor.schema.marks[name]
 
-      resolveExtensionConfig(extension, 'commands', { name, options, editor, type })
-      resolveExtensionConfig(extension, 'inputRules', { name, options, editor, type })
-      resolveExtensionConfig(extension, 'pasteRules', { name, options, editor, type })
-      resolveExtensionConfig(extension, 'keys', { name, options, editor, type })
-      resolveExtensionConfig(extension, 'plugins', { name, options, editor, type })
+      resolveExtensionConfig(extension, 'commands', {
+        name, options, editor, type,
+      })
+      resolveExtensionConfig(extension, 'inputRules', {
+        name, options, editor, type,
+      })
+      resolveExtensionConfig(extension, 'pasteRules', {
+        name, options, editor, type,
+      })
+      resolveExtensionConfig(extension, 'keys', {
+        name, options, editor, type,
+      })
+      resolveExtensionConfig(extension, 'plugins', {
+        name, options, editor, type,
+      })
 
       if (extension.config.commands) {
         editor.registerCommands(extension.config.commands)
@@ -57,7 +68,7 @@ export default class ExtensionManager {
   get nodes(): any {
     return getNodesFromExtensions(this.extensions)
   }
-  
+
   get marks(): any {
     return getMarksFromExtensions(this.extensions)
   }

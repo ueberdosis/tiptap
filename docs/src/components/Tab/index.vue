@@ -8,18 +8,18 @@ import { outdent } from '@mvasilkov/outdent'
 export default {
   data() {
     return {
-      formattedCode: null
+      formattedCode: null,
     }
   },
 
   methods: {
     updateCode() {
-      const text = this.$slots.default[0].text
+      const { text } = this.$slots.default[0]
 
       if (text) {
         this.formattedCode = outdent(text)
       }
-    }
+    },
   },
 
   beforeUpdate() {

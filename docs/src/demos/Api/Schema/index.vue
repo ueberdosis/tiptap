@@ -1,5 +1,5 @@
 <template>
-  <pre>{{ this.html }}</pre>
+  <pre>{{ html }}</pre>
 </template>
 
 <script>
@@ -9,22 +9,21 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 
 export default {
-
   data() {
     return {
       doc: {
-        'type': 'document',
-        'content': [{
-          'type': 'paragraph',
-          'attrs': {
-            'align': 'left'
+        type: 'document',
+        content: [{
+          type: 'paragraph',
+          attrs: {
+            align: 'left',
           },
-          'content': [{
-            'type': 'text',
-            'text': 'Example Text'
-          }]
-        }]
-      }
+          content: [{
+            type: 'text',
+            text: 'Example Text',
+          }],
+        }],
+      },
     }
   },
 
@@ -35,8 +34,7 @@ export default {
         Paragraph(),
         Text(),
       ])
-    }
-  }
-
+    },
+  },
 }
 </script>

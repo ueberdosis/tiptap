@@ -1,11 +1,15 @@
-import React, { useState, useRef, useEffect, createContext, useContext } from 'react'
+import {
+  useState, useRef, useEffect, createContext, useContext,
+} from 'react'
 import { Editor as Tiptap } from '@tiptap/core'
 
 export const EditorContext = createContext({})
 
 export const useEditor = () => useContext(EditorContext)
 
-export const Editor = ({ value, onChange, children, ...props }) => {
+export const Editor = ({
+  value, onChange, children, ...props
+}) => {
   const [editor, setEditor] = useState(null)
   const editorRef = useRef(null)
 

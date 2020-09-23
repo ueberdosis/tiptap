@@ -34,7 +34,7 @@ export default {
   methods: {
     highlightCode() {
       Prism.highlightAllUnder(this.$el)
-    }
+    },
   },
 
   mounted() {

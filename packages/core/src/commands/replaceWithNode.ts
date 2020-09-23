@@ -1,5 +1,5 @@
-import { Command } from '../Editor'
 import { NodeType } from 'prosemirror-model'
+import { Command } from '../Editor'
 import getNodeType from '../utils/getNodeType'
 
 interface Range {
@@ -29,7 +29,7 @@ export const replaceWithNode: ReplaceWithNodeCommand = (typeOrName, attrs = {}, 
   if (!$from.parent.canReplaceWith(index, index, type)) {
     return false
   }
-  
+
   view.dispatch(tr.replaceWith(from, to, type.create(attrs)))
 
   return true

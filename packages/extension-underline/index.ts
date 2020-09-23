@@ -17,17 +17,17 @@ export default new Mark()
       },
       {
         style: 'text-decoration',
-        getAttrs: node => node === 'underline' ? {} : false,
+        getAttrs: node => (node === 'underline' ? {} : false),
       },
     ],
     toDOM: () => ['u', 0],
   }))
-  .commands(({ editor, name }) => ({
+  .commands(({ name }) => ({
     underline: () => ({ commands }) => {
       return commands.toggleMark(name)
     },
   }))
   .keys(({ editor }) => ({
-    'Mod-u': () => editor.underline()
+    'Mod-u': () => editor.underline(),
   }))
   .create()

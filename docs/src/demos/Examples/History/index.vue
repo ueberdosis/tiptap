@@ -28,7 +28,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      content:  `
+      content: `
         <h2>
           History
         </h2>

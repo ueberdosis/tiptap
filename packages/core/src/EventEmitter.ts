@@ -8,7 +8,7 @@ export default class EventEmitter {
     }
 
     this._callbacks[event].push(fn)
-    
+
     return this
   }
 

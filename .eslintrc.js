@@ -34,6 +34,7 @@ module.exports = {
     'global-require': 'off',
     'func-names': ['error', 'never'],
     'arrow-body-style': 'off',
+    'max-len': 'off',
     'vue/this-in-template': ['error', 'never'],
     'vue/max-attributes-per-line': ['error', {
       singleline: 3,
@@ -42,6 +43,9 @@ module.exports = {
         allowFirstLine: false,
       },
     }],
+    'no-param-reassign': 'off',
+    'import/prefer-default-export': 'off',
+    'consistent-return': 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
   },

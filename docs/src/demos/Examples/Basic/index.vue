@@ -83,7 +83,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: defaultExtensions(),
-      content:  `
+      content: `
         <h2>
           Hi there,
         </h2>

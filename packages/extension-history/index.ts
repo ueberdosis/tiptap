@@ -3,8 +3,6 @@ import {
   history,
   undo,
   redo,
-  undoDepth,
-  redoDepth,
 } from 'prosemirror-history'
 
 declare module '@tiptap/core/src/Editor' {
@@ -37,6 +35,6 @@ export default new Extension<HistoryOptions>()
     'Shift-Mod-z': () => editor.redo(),
   }))
   .plugins(({ options }) => [
-    history(options.historyPluginOptions)
+    history(options.historyPluginOptions),
   ])
   .create()

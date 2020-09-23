@@ -51,7 +51,7 @@ export default {
     previousPage() {
       return this.items[this.currentIndex - 1]
     },
-  }
+  },
 }
 </script>
 
