@@ -1,9 +1,7 @@
 # Custom Extensions
-
 Let’s extend tiptap with a custom extension!
 
 ## Option 1: Change defaults
-
 Let’s say you want to change the keyboard shortcuts for the bullet list. You should start by looking at [the source code of the `Bold` extension](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/index.ts) and find the default you’d like to change. In that case, the keyboard shortcut.
 
 ```js

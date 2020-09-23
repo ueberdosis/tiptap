@@ -3,6 +3,15 @@ Use this extension to render a `<hr>` HTML tag. If you pass `<hr>` in the editor
 
 Type three dashes (`---`) or three underscores and a space (`___ ​`) at the beginning of a new line and it will magically transform to a horizontal rule.
 
+## Installation
+```bash
+# With npm
+npm install @tiptap/extension-horizontal-rule
+
+# Or: With Yarn
+yarn add @tiptap/extension-horizontal-rule
+```
+
 ## Options
 | Option | Type   | Default | Description                                  |
 | ------ | ------ | ------- | -------------------------------------------- |
