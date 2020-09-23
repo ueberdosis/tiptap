@@ -173,7 +173,6 @@
       draft: true
     - title: Events
       link: /api/events
-      draft: true
     - title: Schema
       link: /api/schema
       items:

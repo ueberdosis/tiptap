@@ -16,13 +16,3 @@ All of the listed settings can be set during initialization, read and updated du
 | `enableGapCursor`  | `Boolean`       | `true`  | Option to enable / disable the gapCursor plugin.                                                                                               |
 | `extensions`       | `Array`         | `[]`    | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`.                                                           |
 | `parseOptions`     | `Object`        | `{}`    | A list of [Prosemirror parseOptions](https://prosemirror.net/docs/ref/#model.ParseOptions).                                                    |
-
-## Hooks
-The editor provides a few hooks to react to specific [events](/api/events). Pass a function that get’s called in case of those events.
-
-| Hook       | Type       | Default     | Description                                                                                                                                 |
-| ---------- | ---------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `onBlur`   | `Function` | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on blur.                                          |
-| `onFocus`  | `Function` | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on focus.                                         |
-| `onInit`   | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init.                                                      |
-| `onUpdate` | `Function` | `undefined` | This will return an Object with the current `state` of Prosemirror, a `json()` and `html()` function and the `transaction` on every change. |
