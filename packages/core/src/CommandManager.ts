@@ -1,14 +1,34 @@
-import { EditorState, Transaction } from "prosemirror-state";
-import { ChainedCommands, Editor } from "./Editor";
+import { EditorState, Transaction } from "prosemirror-state"
+import { ChainedCommands, Editor, CommandSpec } from "./Editor"
+import getAllMethodNames from './utils/getAllMethodNames'
 
 export default class CommandManager {
 
   editor: Editor
   commands: { [key: string]: any } = {}
 
-  constructor(editor: Editor, commands: any) {
+  constructor(editor: Editor) {
     this.editor = editor
-    this.commands = commands
+  }
+
+  /**
+   * Register a command.
+   *
+   * @param name The name of your command
+   * @param callback The method of your command
+   */
+  public registerCommand(name: string, callback: CommandSpec): Editor {
+    if (this.commands[name]) {
+      throw new Error(`tiptap: command '${name}' is already defined.`)
+    }
+
+    if (getAllMethodNames(this.editor).includes(name)) {
+      throw new Error(`tiptap: '${name}' is a protected name.`)
+    }
+
+    this.commands[name] = callback
+
+    return this.editor
   }
 
   public runSingleCommand(name: string) {

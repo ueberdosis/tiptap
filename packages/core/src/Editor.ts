@@ -3,7 +3,6 @@ import { EditorView} from 'prosemirror-view'
 import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model'
 import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
-import getAllMethodNames from './utils/getAllMethodNames'
 import nodeIsActive from './utils/nodeIsActive'
 import markIsActive from './utils/markIsActive'
 import getNodeAttrs from './utils/getNodeAttrs'
@@ -81,7 +80,6 @@ export class Editor extends EventEmitter {
   private proxy!: Editor
   private commandManager!: CommandManager
   private extensionManager!: ExtensionManager
-  private commands: CommandsSpec = {}
   private css!: HTMLStyleElement
   public schema!: Schema
   public view!: EditorView
@@ -106,12 +104,12 @@ export class Editor extends EventEmitter {
    * This method is called after the proxy is initialized.
    */
   private init() {
+    this.createCommandManager()
     this.createExtensionManager()
     this.createSchema()
     this.extensionManager.resolveConfigs()
     this.createView()
     this.registerCommands(commands)
-    this.createCommandManager()
 
     if (this.options.injectCSS) {
       require('./style.css')
@@ -181,27 +179,9 @@ export class Editor extends EventEmitter {
    * @param callback The method of your command
    */
   public registerCommand(name: string, callback: CommandSpec): Editor {
-    if (this.commands[name]) {
-      throw new Error(`tiptap: command '${name}' is already defined.`)
-    }
-
-    if (getAllMethodNames(this).includes(name)) {
-      throw new Error(`tiptap: '${name}' is a protected name.`)
-    }
-
-    this.commands[name] = callback
+    this.commandManager.registerCommand(name, callback)
 
     return this.proxy
-  }
-
-  /**
-   * Call a command.
-   *
-   * @param name The name of the command you want to call.
-   * @param options The options of the command.
-   */
-  public command(name: string, ...options: any) {
-    return this.commands[name](...options)
   }
 
   /**
@@ -245,7 +225,7 @@ export class Editor extends EventEmitter {
    * Creates an command manager.
    */
   private createCommandManager() {
-    this.commandManager = new CommandManager(this.proxy, this.commands)
+    this.commandManager = new CommandManager(this.proxy)
   }
 
   /**
@@ -401,5 +381,5 @@ export class Editor extends EventEmitter {
     this.removeAllListeners()
     removeElement(this.css)
   }
-
+  
 }
