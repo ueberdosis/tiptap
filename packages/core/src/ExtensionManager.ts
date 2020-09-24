@@ -1,4 +1,3 @@
-import deepmerge from 'deepmerge'
 import collect from 'collect.js'
 import { Plugin } from 'prosemirror-state'
 import { keymap } from 'prosemirror-keymap'
