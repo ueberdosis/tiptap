@@ -16,7 +16,7 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-export const pasteRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gi
+export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%_+.~#?&//=]*)/gi
 
 export default new Mark<LinkOptions>()
   .name('link')
@@ -55,7 +55,7 @@ export default new Mark<LinkOptions>()
     },
   }))
   .pasteRules(({ type }) => [
-    markPasteRule(pasteRegex, type),
+    markPasteRule(pasteRegex, type, (url: string) => ({ href: url })),
   ])
   .plugins(({ options }) => {
     if (!options.openOnClick) {

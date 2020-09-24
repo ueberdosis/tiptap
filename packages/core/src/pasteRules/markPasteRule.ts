@@ -14,14 +14,15 @@ export default function (regexp: RegExp, type: MarkType, getAttrs?: Function) {
 
         // eslint-disable-next-line
         while ((match = regexp.exec(text)) !== null) {
-          const m = match.length - 1
+          const outerMatch = Math.max(match.length - 2, 0)
+          const innerMatch = Math.max(match.length - 1, 0)
 
-          if (parent.type.allowsMarkType(type) && match[1]) {
+          if (parent.type.allowsMarkType(type)) {
             const start = match.index
-            const matchStart = start + match[0].indexOf(match[m - 1])
-            const matchEnd = matchStart + match[m - 1].length // TODO: why is there no -1
-            const textStart = matchStart + match[m - 1].lastIndexOf(match[m])
-            const textEnd = textStart + match[m].length
+            const matchStart = start + match[0].indexOf(match[outerMatch])
+            const matchEnd = matchStart + match[outerMatch].length
+            const textStart = matchStart + match[outerMatch].lastIndexOf(match[innerMatch])
+            const textEnd = textStart + match[innerMatch].length
             const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
 
             // adding text before markdown to nodes
