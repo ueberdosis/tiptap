@@ -10,7 +10,7 @@ import { EditorContent } from '@tiptap/vue'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-// import Link from '@tiptap/extension-link'
+import Link from '@tiptap/extension-link'
 
 export default {
   components: {
@@ -29,7 +29,7 @@ export default {
         Document(),
         Paragraph(),
         Text(),
-        // Link(),
+        Link(),
       ],
       content: `
         <p>
