@@ -2,7 +2,7 @@
 
 There are a few use cases where you need to work with the underlying schema. You’ll need that if you’re using the tiptap collaborative text editing features or if you want to manually render your content as HTML.
 
-## With an Editor
+## Option 1: With an Editor
 If you need this on the client side and need an editor instance anyway, it’s available through the editor:
 
 ```js
@@ -23,7 +23,7 @@ const editor = new Editor({
 const schema = editor.schema
 ```
 
-## Without an Editor
+## Option 2: Without an Editor
 If you just want to have the schema *without* initializing an actual editor, you can use the `getSchema` helper function. It needs an array of available extensions and conveniently generates a ProseMirror schema for you:
 
 ```js

@@ -173,9 +173,9 @@
     - title: Schema
       link: /api/schema
       items:
-        - title: getSchema
+        - title: Get Schema
           link: /api/schema/get-schema
-        - title: generateHtml
+        - title: Generate HTML
           link: /api/schema/generate-html
     - title: Keyboard Shortcuts
       link: /api/keyboard-shortcuts
