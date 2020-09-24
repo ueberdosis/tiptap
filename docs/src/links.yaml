@@ -105,10 +105,12 @@
 
 - title: API
   items:
+    - title: Overview
+      link: /api/overview
     - title: Editor
-      link: /api/editor/
+      link: /api/editor
     - title: Extensions
-      link: /api/extensions/
+      link: /api/extensions
       items:
         - title: Blockquote
           link: /api/extensions/blockquote
@@ -176,7 +178,6 @@
           link: /api/extensions/underline
     - title: Commands
       link: /api/commands
-      draft: true
     - title: Events
       link: /api/events
     - title: Schema
