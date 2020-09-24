@@ -27,8 +27,8 @@ yarn add @tiptap/extension-bold
 | bold    | —       | Mark text bold. |
 
 ## Keyboard shortcuts
-* Windows & Linux: `Control` + `B`
-* macOS: `Command` + `B`
+* Windows & Linux: `Control ` `B`
+* macOS: `Command ` `B`
 
 ## Source code
 [packages/extension-bold/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/)

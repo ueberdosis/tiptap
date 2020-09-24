@@ -25,7 +25,7 @@ yarn add @tiptap/extension-list-item
 ## Keyboard shortcuts
 * New list item: `Enter`
 * Sink a list item: `Tab`
-* Lift a list item: `Shift` + `Tab`
+* Lift a list item: `Shift ` `Tab`
 
 ## Source code
 [packages/extension-list-item/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-list-item/)

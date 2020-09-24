@@ -22,8 +22,8 @@ yarn add @tiptap/extension-link
 | link    | —       | Link the selected text. |
 
 ## Keyboard shortcuts
-* Windows & Linux: `Control` + `K`
-* macOS: `Command` + `K`
+* Windows & Linux: `Control ` `K`
+* macOS: `Command ` `K`
 
 ## Source code
 [packages/extension-link/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-link/)
