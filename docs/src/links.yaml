@@ -177,15 +177,5 @@
           link: /api/schema/get-schema
         - title: generateHtml
           link: /api/schema/generate-html
-
-- title: Best Practices
-  items:
-    - title: Overview
-      link: /best-practices/overview/
-      draft: true
-    - title: Menus
-      link: /best-practices/menus/
-      draft: true
     - title: Keyboard Shortcuts
-      link: /best-practices/keyboard-shortcuts/
-      draft: true
+      link: /api/keyboard-shortcuts

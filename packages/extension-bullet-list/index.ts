@@ -25,7 +25,7 @@ export default new Node()
     },
   }))
   .keys(({ editor }) => ({
-    'Shift-Ctrl-8': () => editor.bulletList(),
+    'Shift-Control-8': () => editor.bulletList(),
   }))
   .inputRules(({ type }) => [
     wrappingInputRule(/^\s*([-+*])\s$/, type),

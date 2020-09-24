@@ -38,7 +38,7 @@ export default new Node()
     },
   }))
   .keys(({ editor }) => ({
-    'Shift-Ctrl-9': () => editor.orderedList(),
+    'Shift-Control-9': () => editor.orderedList(),
   }))
   .inputRules(({ type }) => [
     wrappingInputRule(
