@@ -44,15 +44,12 @@ export default {
       this.items.forEach(({ title, link, items }) => {
         flattenedItems.push({
           title,
-          link
+          link,
         })
 
         if (items) {
-          items.forEach(({ title, link }) => {
-            flattenedItems.push({
-              title,
-              link
-            })
+          items.forEach(child => {
+            flattenedItems.push(child)
           })
         }
       })
