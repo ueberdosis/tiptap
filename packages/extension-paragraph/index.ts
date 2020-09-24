@@ -10,4 +10,14 @@ export default new Node()
     toDOM: () => ['p', 0],
     // toVue: ParagraphComponent,
   }))
+  .commands(({ name }) => ({
+    [name]: () => ({ commands }) => {
+      return commands.toggleNode(name, 'paragraph')
+    },
+  }))
+  .keys(({ editor, name }) => ({
+    // Exception: TS2339: Property 'paragraph' does not exist on type 'Editor'.
+    // 'Mod-Alt-0': () => editor.paragraph(),
+    'Mod-Alt-0': () => editor.toggleNode(name, 'paragraph'),
+  }))
   .create()
