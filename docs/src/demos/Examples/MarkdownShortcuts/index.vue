@@ -22,13 +22,13 @@ export default {
     this.editor = new Editor({
       content: `
         <p>
-          Start a new line and type <code>#</code> followed by a space to get a headline. Try <code>#</code>, <code>##</code>, <code>###</code>, <code>####</code>, <code>#####</code>, <code>######</code> for different levels.
+          Start a new line and type <code>#</code> followed by a space to get a heading. Try <code>#</code>, <code>##</code>, <code>###</code>, <code>####</code>, <code>#####</code>, <code>######</code> for different levels.
         </p>
         <p>
-          Those conventions are called <strong>input rules</strong> in tiptap. Some of those shortcuts are enabled by default. Try <code>></code> for blockquotes, <code>*</code>, <code>-</code> or <code>+</code> for bullet lists, <code>\`foobar\`</code> to highlight code.
+          Those conventions are called <strong>input rules</strong> in tiptap. Some of them are enabled by default. Try <code>></code> for blockquotes, <code>*</code>, <code>-</code> or <code>+</code> for bullet lists, or <code>\`foobar\`</code> to highlight code.
         </p>
         <p>
-          You can add your own input rules through adding the <code>inputRules()</code> method in your nodes and marks.
+          You can add your own input rules to your Nodes and Marks or even to the default ones.
         </p>
       `,
       extensions: defaultExtensions(),

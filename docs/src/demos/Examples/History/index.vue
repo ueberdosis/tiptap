@@ -29,11 +29,11 @@ export default {
   mounted() {
     this.editor = new Editor({
       content: `
-        <h2>
-          History
-        </h2>
         <p>
-          Try to change some content here. With the <code>History</code> extension you are able to undo and redo your changes. You can also use keyboard shortcuts for this (<code>Control/Command + Z</code> and <code>Control/Command + Shift + Z</code>).
+          With the <code>History</code> extension the Editor will keep track of your changes. And if you think you made a mistake, you can redo your changes. Try it out, change the content and hit the undo button!
+        </p>
+        <p>
+          And yes, you can also use a keyboard shortcut to undo changes (<code>Control/Cmd</code> <code>Z</code>) or redo changes (<code>Control/Cmd</code> <code>Shift</code> <code>Z</code>).
         </p>
       `,
       extensions: defaultExtensions(),

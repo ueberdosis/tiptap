@@ -1,6 +1,12 @@
 context('/examples/export-html-or-json', () => {
-  beforeEach(() => {
+  before(() => {
     cy.visit('/examples/export-html-or-json')
+  })
+
+  beforeEach(() => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<p>Example Text</p>')
+    })
   })
 
   it('should return json', () => {
@@ -15,33 +21,7 @@ context('/examples/export-html-or-json', () => {
             content: [
               {
                 type: 'text',
-                text: 'You are able to export your data as ',
-              },
-              {
-                type: 'text',
-                marks: [
-                  {
-                    type: 'code',
-                  },
-                ],
-                text: 'HTML',
-              },
-              {
-                type: 'text',
-                text: ' or ',
-              },
-              {
-                type: 'text',
-                marks: [
-                  {
-                    type: 'code',
-                  },
-                ],
-                text: 'JSON',
-              },
-              {
-                type: 'text',
-                text: '.',
+                text: 'Example Text',
               },
             ],
           },
@@ -54,7 +34,7 @@ context('/examples/export-html-or-json', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       const html = editor.html()
 
-      expect(html).to.equal('<p>You are able to export your data as <code>HTML</code> or <code>JSON</code>.</p>')
+      expect(html).to.equal('<p>Example Text</p>')
     })
   })
 })

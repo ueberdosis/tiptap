@@ -4,7 +4,7 @@ Extensions are the way to add functionality to tiptap. By default tiptap comes b
 
 ## A minimalist set of extensions
 
-You’ll need at least three extensions: Document, Paragraph and Text. See [an example of a tiptap version for minimalists](/examples/simple).
+You’ll need at least three extensions: Document, Paragraph and Text. See [an example of a tiptap version for minimalists](/examples/minimalist).
 
 ## Default extensions
 

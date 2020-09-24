@@ -33,8 +33,6 @@
   items:
     - title: Basic
       link: /examples/basic
-    - title: Simple
-      link: /examples/simple
     # - title: Menu Bubble
     #   link: /examples/menu-bubble
     #   draft: true
@@ -77,8 +75,8 @@
     # - title: Placeholder
     #   link: /examples/placeholder
     #   draft: true
-    - title: Focus
-      link: /examples/focus
+    # - title: Focus
+    #   link: /examples/focus
     # - title: Collaboration
     #   link: /examples/collaboration
     #   draft: true
@@ -91,6 +89,8 @@
     # - title: Drag Handle
     #   link: /examples/drag-handle
     #   draft: true
+    - title: Minimalist
+      link: /examples/minimalist
     - title: Export HTML or JSON
       link: /examples/export-html-or-json
 

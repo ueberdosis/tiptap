@@ -1,7 +1,5 @@
 <template>
   <div>
-    <editor-content :editor="editor" />
-
     <div class="actions">
       <button class="button" @click="clearContent">
         Clear Content
@@ -11,12 +9,13 @@
       </button>
     </div>
 
-    <div class="export">
-      <h3>JSON</h3>
-      <pre><code v-html="json"></code></pre>
+    <editor-content :editor="editor" />
 
+    <div class="export">
       <h3>HTML</h3>
       <pre><code>{{ html }}</code></pre>
+      <h3>JSON</h3>
+      <pre><code v-html="json" /></pre>
     </div>
   </div>
 </template>
@@ -41,7 +40,10 @@ export default {
     this.editor = new Editor({
       content: `
         <p>
-          You are able to export your data as <code>HTML</code> or <code>JSON</code>.
+          What would be a text editor without content. At some point you want to get the content out of the editor and yes, we got you covered. There are two methods to export the current document as <code>HTML</code> or <code>JSON</code>.
+        </p>
+        <p>
+          You can hook into the <code>update</code> event to get the content after every single change. How cool is that?
         </p>
       `,
       extensions: defaultExtensions(),
