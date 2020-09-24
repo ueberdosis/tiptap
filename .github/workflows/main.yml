@@ -6,8 +6,45 @@ name: build
 on: [push]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    strategy:
+      matrix:
+        node-version: [14]
+
+    steps:
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2.1.1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - uses: actions/checkout@v2.3.3
+
+    - name: Install dependencies
+      id: install-dependencies
+      run: yarn install
+
+    - name: Lint code
+      id: lint
+      run: yarn lint
+
+    - name: Send Slack notifications
+      uses: act10ns/slack@v1
+      with:
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+        channel: '#tiptap-next'
+      if: failure()
+
   test:
     runs-on: ubuntu-latest
+
+    needs: lint
 
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
