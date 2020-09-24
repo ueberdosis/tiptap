@@ -38,18 +38,40 @@ export default {
       return this.linkGroups.reduce((acc, group) => ((acc.push(...group.items), acc)), [])
     },
 
+    flattenedItems() {
+      const flattenedItems = []
+
+      this.items.forEach(({ title, link, items }) => {
+        flattenedItems.push({
+          title,
+          link
+        })
+
+        if (items) {
+          items.forEach(({ title, link }) => {
+            flattenedItems.push({
+              title,
+              link
+            })
+          })
+        }
+      })
+
+      return flattenedItems
+    },
+
     currentIndex() {
-      return this.items.findIndex(item => {
+      return this.flattenedItems.findIndex(item => {
         return item.link.replace(/\/$/, '') === this.$route.path.replace(/\/$/, '')
       })
     },
 
     nextPage() {
-      return this.items[this.currentIndex + 1]
+      return this.flattenedItems[this.currentIndex + 1]
     },
 
     previousPage() {
-      return this.items[this.currentIndex - 1]
+      return this.flattenedItems[this.currentIndex - 1]
     },
   },
 }
