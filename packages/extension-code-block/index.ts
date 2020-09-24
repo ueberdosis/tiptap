@@ -29,7 +29,7 @@ export default new Node()
     },
   }))
   .keys(({ editor }) => ({
-    'Shift-Ctrl-\\': () => editor.codeBlock()
+    'Shift-Ctrl-\\': () => editor.codeBlock(),
   }))
   .inputRules(({ type }) => [
     textblockTypeInputRule(/^```$/, type),

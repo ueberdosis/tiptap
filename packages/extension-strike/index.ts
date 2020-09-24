@@ -1,4 +1,6 @@
-import { Command, Mark, markInputRule, markPasteRule } from '@tiptap/core'
+import {
+  Command, Mark, markInputRule, markPasteRule,
+} from '@tiptap/core'
 
 type StrikeCommand = () => Command
 
@@ -26,7 +28,7 @@ export default new Mark()
       },
       {
         style: 'text-decoration',
-        getAttrs: node => node === 'line-through' ? {} : false,
+        getAttrs: node => (node === 'line-through' ? {} : false),
       },
     ],
     toDOM: () => ['s', 0],
@@ -37,12 +39,12 @@ export default new Mark()
     },
   }))
   .keys(({ editor }) => ({
-    'Mod-d': () => editor.strike()
+    'Mod-d': () => editor.strike(),
   }))
   .inputRules(({ type }) => [
-    markInputRule(inputRegex, type)
+    markInputRule(inputRegex, type),
   ])
   .pasteRules(({ type }) => [
-    markPasteRule(inputRegex, type)
+    markPasteRule(inputRegex, type),
   ])
   .create()

@@ -1,5 +1,5 @@
-import { Node, DOMSerializer } from 'prosemirror-model'
-import { Schema } from 'prosemirror-model'
+import { Node, DOMSerializer, Schema } from 'prosemirror-model'
+
 import { JSDOM } from 'jsdom'
 
 export default function getHtmlFromFragment(doc: Node, schema: Schema): string {
@@ -7,7 +7,7 @@ export default function getHtmlFromFragment(doc: Node, schema: Schema): string {
     .fromSchema(schema)
     .serializeFragment(doc.content)
 
-  const temporaryDocument = new JSDOM(`<!DOCTYPE html>`).window.document
+  const temporaryDocument = new JSDOM('<!DOCTYPE html>').window.document
   const container = temporaryDocument.createElement('div')
   container.appendChild(fragment)
 

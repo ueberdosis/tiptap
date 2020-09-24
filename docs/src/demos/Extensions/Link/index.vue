@@ -41,6 +41,6 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
-  }
+  },
 }
 </script>

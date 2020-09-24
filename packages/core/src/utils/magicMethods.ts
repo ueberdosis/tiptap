@@ -1,10 +1,10 @@
-export default function magicMethods(clazz: any) {
+export default function magicMethods(Clazz: any) {
   const classHandler = Object.create(null)
 
-  classHandler.construct = (target: any, args: any) => {
-    const instance = new clazz(...args)
+  classHandler.construct = (_: any, args: any) => {
+    const instance = new Clazz(...args)
     const instanceHandler = Object.create(null)
-    const get = Object.getOwnPropertyDescriptor(clazz.prototype, '__get')
+    const get = Object.getOwnPropertyDescriptor(Clazz.prototype, '__get')
 
     if (get) {
       instanceHandler.get = (target: any, name: any) => {
@@ -18,9 +18,9 @@ export default function magicMethods(clazz: any) {
 
         if (exists) {
           return target[name]
-        } else {
-          return get.value.call(target, name)
         }
+
+        return get.value.call(target, name)
       }
     }
 
@@ -30,5 +30,5 @@ export default function magicMethods(clazz: any) {
     return instance.proxy
   }
 
-  return new Proxy(clazz, classHandler)
+  return new Proxy(Clazz, classHandler)
 }

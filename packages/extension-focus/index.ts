@@ -22,7 +22,7 @@ export default new Extension<FocusOptions>()
           const decorations: Decoration[] = []
 
           if (!isEditable || !isFocused) {
-            return
+            return DecorationSet.create(doc, [])
           }
 
           doc.descendants((node, pos) => {

@@ -5,13 +5,13 @@ export default function (regexp: RegExp, type: MarkType, getAttrs?: Function) {
 
   const handler = (fragment: Fragment, parent?: any) => {
     const nodes: any[] = []
-    
+
     fragment.forEach(child => {
       if (child.isText && child.text) {
         const { text } = child
         let pos = 0
         let match
-        
+
         // eslint-disable-next-line
         while ((match = regexp.exec(text)) !== null) {
           const m = match.length - 1

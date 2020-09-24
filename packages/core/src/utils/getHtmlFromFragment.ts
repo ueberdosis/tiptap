@@ -1,5 +1,4 @@
-import { Node, DOMSerializer } from 'prosemirror-model'
-import { Schema } from 'prosemirror-model'
+import { Node, DOMSerializer, Schema } from 'prosemirror-model'
 
 export default function getHtmlFromFragment(doc: Node, schema: Schema): string {
   const fragment = DOMSerializer

@@ -4,7 +4,7 @@ context('/examples/history', () => {
   })
 
   it('should not have a mistake', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.ProseMirror').then(() => {
       cy.get('.ProseMirror h2:first').should('not.contain', 'Mistake')
     })
   })

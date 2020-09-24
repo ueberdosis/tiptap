@@ -1,14 +1,18 @@
-import { EditorState, Transaction } from "prosemirror-state"
-import { ChainedCommands, Editor, CommandSpec } from "./Editor"
+import { EditorState, Transaction } from 'prosemirror-state'
+import { ChainedCommands, Editor, CommandSpec } from './Editor'
 import getAllMethodNames from './utils/getAllMethodNames'
 
 export default class CommandManager {
 
   editor: Editor
+
   commands: { [key: string]: any } = {}
+
+  methodNames: string[] = []
 
   constructor(editor: Editor) {
     this.editor = editor
+    this.methodNames = getAllMethodNames(this.editor)
   }
 
   /**
@@ -22,7 +26,7 @@ export default class CommandManager {
       throw new Error(`tiptap: command '${name}' is already defined.`)
     }
 
-    if (getAllMethodNames(this.editor).includes(name)) {
+    if (this.methodNames.includes(name)) {
       throw new Error(`tiptap: '${name}' is a protected name.`)
     }
 
@@ -35,13 +39,13 @@ export default class CommandManager {
     const { commands, editor } = this
     const { state, view } = editor
     const command = commands[name]
-    
+
     if (!command) {
       // TODO: prevent vue devtools to throw error
       // throw new Error(`tiptap: command '${name}' not found.`)
       return
     }
-    
+
     return (...args: any) => {
       const { tr } = state
       const props = this.buildProps(tr)
@@ -87,7 +91,7 @@ export default class CommandManager {
 
           return proxy
         }
-      }
+      },
     }) as ChainedCommands
   }
 
@@ -108,16 +112,16 @@ export default class CommandManager {
           .map(([name, command]) => {
             return [name, (...args: any[]) => command(...args)(props)]
           }))
-      }
+      },
     }
 
     return props
   }
 
   public chainableState(tr: Transaction, state: EditorState): EditorState {
-    let selection = tr.selection
-    let doc = tr.doc
-    let storedMarks = tr.storedMarks
+    let { selection } = tr
+    let { doc } = tr
+    let { storedMarks } = tr
 
     return {
       ...state,
@@ -143,7 +147,7 @@ export default class CommandManager {
 
         return tr
       },
-    };
+    }
   }
 
 }

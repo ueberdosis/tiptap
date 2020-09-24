@@ -1,5 +1,5 @@
-import { Command } from '../Editor'
 import { selectAll as originalSelectAll } from 'prosemirror-commands'
+import { Command } from '../Editor'
 
 type SelectAllCommand = () => Command
 

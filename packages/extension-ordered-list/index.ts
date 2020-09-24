@@ -23,7 +23,7 @@ export default new Node()
       tag: 'ol',
       getAttrs: node => ({
         order: (node as HTMLElement).hasAttribute('start')
-          ? parseInt((node as HTMLElement).getAttribute('start') || '')
+          ? parseInt((node as HTMLElement).getAttribute('start') || '', 10)
           : 1,
       }),
     }],

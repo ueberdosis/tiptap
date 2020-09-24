@@ -20,8 +20,10 @@ export default new Node()
     ],
     toDOM: () => ['br'],
   }))
-  .commands(({ editor, type }) => ({
-    hardBreak: () => ({ tr, state, dispatch, view }) => {
+  .commands(({ type }) => ({
+    hardBreak: () => ({
+      tr, state, dispatch, view,
+    }) => {
       return chainCommands(exitCode, () => {
         dispatch(tr.replaceSelectionWith(type.create()).scrollIntoView())
         return true

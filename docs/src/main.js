@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import Prism from 'prismjs'
 import 'prismjs/components/prism-jsx.js'
 import 'prismjs/components/prism-scss.js'
@@ -6,7 +7,7 @@ import Demo from '~/components/Demo'
 import Tab from '~/components/Tab'
 import ReactRenderer from '~/components/ReactRenderer'
 
-export default function (Vue, { router, head, isClient }) {
+export default function (Vue) {
   Vue.component('Layout', App)
   Vue.component('Demo', Demo)
   Vue.component('Tab', Tab)

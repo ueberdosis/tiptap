@@ -23,7 +23,7 @@ export const toggleNode: ToggleNodeCommand = (typeOrName, toggleTypeOrName, attr
 
   if (isActive) {
     return setBlockType(toggleType)(state, dispatch)
-  } else {
-    return setBlockType(type, attrs)(state, dispatch)
   }
+  return setBlockType(type, attrs)(state, dispatch)
+
 }

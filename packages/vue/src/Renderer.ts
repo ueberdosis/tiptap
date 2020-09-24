@@ -6,8 +6,8 @@ export default class Renderer extends ComponentRenderer {
   static type = 'vue'
 
   vm!: Vue
-  
-  constructor(component: Vue, options: any) {
+
+  constructor(component: Vue) {
     super()
     this.mount(component)
   }
@@ -30,4 +30,3 @@ export default class Renderer extends ComponentRenderer {
   }
 
 }
-

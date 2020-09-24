@@ -2,9 +2,9 @@ import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
+import { undoInputRule } from 'prosemirror-inputrules'
 import editable from './editable'
 import focus from './focus'
-import { undoInputRule } from 'prosemirror-inputrules'
 
 export default [
   () => dropCursor(),

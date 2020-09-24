@@ -1,5 +1,5 @@
-import Mark from '../Mark'
 import collect from 'collect.js'
+import Mark from '../Mark'
 import { Extensions } from '../types'
 
 export default function getMarksFromExtensions(extensions: Extensions): any {

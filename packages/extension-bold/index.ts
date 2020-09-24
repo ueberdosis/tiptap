@@ -1,4 +1,6 @@
-import { Command, Mark, markInputRule, markPasteRule } from '@tiptap/core'
+import {
+  Command, Mark, markInputRule, markPasteRule,
+} from '@tiptap/core'
 
 export type BoldCommand = () => Command
 
@@ -8,8 +10,8 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-export const starInputRegex = /(?:^|\s)((?:\*\*)((?:[^\*\*]+))(?:\*\*))$/gm
-export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^\*\*]+))(?:\*\*))/gm
+export const starInputRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))$/gm
+export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))$/gm
 export const underscorePasteRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))/gm
 
@@ -37,7 +39,7 @@ export default new Mark()
     },
   }))
   .keys(({ editor }) => ({
-    'Mod-b': () => editor.bold()
+    'Mod-b': () => editor.bold(),
   }))
   .inputRules(({ type }) => [
     markInputRule(starInputRegex, type),

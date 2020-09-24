@@ -20,7 +20,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      content:  `
+      content: `
         <p>
           Start a new line and type <code>#</code> followed by a space to get a headline. Try <code>#</code>, <code>##</code>, <code>###</code>, <code>####</code>, <code>#####</code>, <code>######</code> for different levels.
         </p>

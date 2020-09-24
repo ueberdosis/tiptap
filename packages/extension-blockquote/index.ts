@@ -35,5 +35,3 @@ export default new Node()
     textblockTypeInputRule(inputRegex, type),
   ])
   .create()
-
-

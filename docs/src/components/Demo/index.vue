@@ -23,7 +23,7 @@
       </div>
       <div class="demo__meta">
         <div class="demo__name">
-          Demo/{{ this.name }}
+          Demo/{{ name }}
         </div>
         <a class="demo__link" :href="githubUrl" target="_blank">
           Edit on GitHub →
@@ -31,7 +31,7 @@
       </div>
     </template>
     <div v-else class="demo__error">
-      Could not find a demo called “{{ this.name }}”.
+      Could not find a demo called “{{ name }}”.
     </div>
   </div>
 </template>
@@ -66,7 +66,7 @@ export default {
     hideSourceCode: {
       type: Boolean,
       default: false,
-    }
+    },
   },
 
   data() {
@@ -106,7 +106,7 @@ export default {
   },
 
   mounted() {
-    this.files = collect(require.context(`~/demos/`, true, /.+\..+$/).keys())
+    this.files = collect(require.context('~/demos/', true, /.+\..+$/).keys())
       .filter(path => path.startsWith(`./${this.name}`))
       .map(path => path.replace('./', ''))
       .map(path => {
@@ -120,12 +120,12 @@ export default {
           highlight: this.syntax[extension] || extension,
         }
       })
-      .filter((item) => {
+      .filter(item => {
         return ['vue', 'jsx', 'scss'].includes(item.extension)
       })
       .sortBy(item => item.path.split('/').length)
       .toArray()
-  }
+  },
 }
 </script>
 

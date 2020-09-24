@@ -1,5 +1,5 @@
-import { Command } from '../Editor'
 import { MarkType } from 'prosemirror-model'
+import { Command } from '../Editor'
 import getMarkType from '../utils/getMarkType'
 import getMarkRange from '../utils/getMarkRange'
 
@@ -11,10 +11,11 @@ declare module '../Editor' {
   }
 }
 
-export const removeMark: RemoveMarkCommand = (typeOrName) => ({ tr, state }) => {
+export const removeMark: RemoveMarkCommand = typeOrName => ({ tr, state }) => {
   const { selection } = tr
   const type = getMarkType(typeOrName, state.schema)
-  let { from, to, $from, empty } = selection
+  let { from, to } = selection
+  const { $from, empty } = selection
 
   if (empty) {
     const range = getMarkRange($from, type)

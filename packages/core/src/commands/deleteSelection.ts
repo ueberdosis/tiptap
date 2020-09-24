@@ -1,5 +1,5 @@
-import { Command } from '../Editor'
 import { deleteSelection as originalDeleteSelection } from 'prosemirror-commands'
+import { Command } from '../Editor'
 
 type DeleteSelectionCommand = () => Command
 
