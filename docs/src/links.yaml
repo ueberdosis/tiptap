@@ -24,7 +24,6 @@
       link: /guide/store-content
     - title: Custom extensions
       link: /guide/custom-extensions
-      draft: true
       items:
         - title: Change defaults
           link: /guide/custom-extensions/change-defaults
