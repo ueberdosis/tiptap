@@ -1,3 +1,6 @@
+# Automate, customize, and execute your software development workflows right in your repository with GitHub Actions.
+# Documentation: https://docs.github.com/en/actions
+
 name: build
 
 on: [push, pull_request]

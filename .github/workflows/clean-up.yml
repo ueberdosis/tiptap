@@ -1,3 +1,6 @@
+# GitHub Action to remove old artifacts
+# Documentation: https://github.com/c-hive/gha-remove-artifacts
+
 name: clean-up
 
 on:
