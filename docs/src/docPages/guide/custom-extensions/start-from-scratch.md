@@ -7,6 +7,6 @@ Although tiptap tries to hide most of the complexity of ProseMirror, it’s buil
 
 ## 3. Get started
 
-## 4. Asking questions
+## 4. Ask questions
 
-## 5. Publishing a community extension
+## 5. Publish a community extension
