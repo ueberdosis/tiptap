@@ -22,8 +22,8 @@ yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command     | Options | Description           |
-| ----------- | ------- | --------------------- |
+| Command      | Options | Description            |
+| ------------ | ------- | ---------------------- |
 | ordered_list | —       | Toggle a ordered list. |
 
 ## Keyboard shortcuts
