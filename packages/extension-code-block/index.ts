@@ -25,7 +25,7 @@ export default new Node()
   }))
   .commands(({ name }) => ({
     codeBlock: attrs => ({ commands }) => {
-      return commands.toggleNode(name, 'paragraph', attrs)
+      return commands.toggleBlockType(name, 'paragraph', attrs)
     },
   }))
   .keys(({ editor }) => ({

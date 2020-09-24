@@ -24,7 +24,7 @@ editor.chain().focus().bold().run()
 | .replaceWithNode()  | Replace a given range with a node.         |
 | .selectParentNode() | Select the parent node.                    |
 | .toggleMark()       | Toggle a mark on and off.                  |
-| .toggleNode()       | Toggle a node with another node.           |
+| .toggleBlockType()  | Toggle a node with another node.           |
 | .updateMark()       | Update a mark with new attributes.         |
 
 ### Selection

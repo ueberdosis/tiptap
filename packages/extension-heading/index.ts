@@ -39,7 +39,7 @@ export default new Node<HeadingOptions>()
   }))
   .commands(({ name }) => ({
     [name]: attrs => ({ commands }) => {
-      return commands.toggleNode(name, 'paragraph', attrs)
+      return commands.toggleBlockType(name, 'paragraph', attrs)
     },
   }))
   // TODO: Keyboard Shortcuts

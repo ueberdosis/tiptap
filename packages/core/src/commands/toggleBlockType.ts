@@ -4,7 +4,7 @@ import { Command } from '../Editor'
 import nodeIsActive from '../utils/nodeIsActive'
 import getNodeType from '../utils/getNodeType'
 
-type ToggleNodeCommand = (
+type ToggleBlockTypeCommand = (
   typeOrName: string | NodeType,
   toggleType: string | NodeType,
   attrs?: {}
@@ -12,11 +12,11 @@ type ToggleNodeCommand = (
 
 declare module '../Editor' {
   interface Commands {
-    toggleNode: ToggleNodeCommand,
+    toggleBlockType: ToggleBlockTypeCommand,
   }
 }
 
-export const toggleNode: ToggleNodeCommand = (typeOrName, toggleTypeOrName, attrs = {}) => ({ state, dispatch }) => {
+export const toggleBlockType: ToggleBlockTypeCommand = (typeOrName, toggleTypeOrName, attrs = {}) => ({ state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const toggleType = getNodeType(toggleTypeOrName, state.schema)
   const isActive = nodeIsActive(state, type, attrs)

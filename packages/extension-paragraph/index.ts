@@ -20,7 +20,7 @@ export default new Node()
   }))
   .commands(({ name }) => ({
     [name]: () => ({ commands }) => {
-      return commands.toggleNode(name, 'paragraph')
+      return commands.toggleBlockType(name, 'paragraph')
     },
   }))
   .keys(({ editor }) => ({

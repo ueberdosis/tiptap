@@ -47,7 +47,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 const CustomParagraph = Paragraph()
   .commands(() => ({
     paragraph: () => ({ commands }) => {
-      return commands.toggleNode(name, 'paragraph')
+      return commands.toggleBlockType(name, 'paragraph')
     },
   }))
   .create()
