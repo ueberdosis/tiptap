@@ -4,7 +4,7 @@
   "source": "index.ts",
   "main": "dist/tiptap-starter-kit.js",
   "umd:main": "dist/tiptap-starter-kit.umd.js",
-  "module": "dist/tiptap-starter-kit.mjs", 
+  "module": "dist/tiptap-starter-kit.mjs",
   "unpkg": "dist/tiptap-starter-kit.js",
   "jsdelivr": "dist/tiptap-starter-kit.js",
   "files": [

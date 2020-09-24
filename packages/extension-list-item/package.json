@@ -4,7 +4,7 @@
   "source": "index.ts",
   "main": "dist/tiptap-extension-list-item.js",
   "umd:main": "dist/tiptap-extension-list-item.umd.js",
-  "module": "dist/tiptap-extension-list-item.mjs", 
+  "module": "dist/tiptap-extension-list-item.mjs",
   "unpkg": "dist/tiptap-extension-list-item.js",
   "jsdelivr": "dist/tiptap-extension-list-item.js",
   "files": [

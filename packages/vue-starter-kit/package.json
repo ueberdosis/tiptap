@@ -4,7 +4,7 @@
   "source": "index.ts",
   "main": "dist/tiptap-vue-starter-kit.js",
   "umd:main": "dist/tiptap-vue-starter-kit.umd.js",
-  "module": "dist/tiptap-vue-starter-kit.mjs", 
+  "module": "dist/tiptap-vue-starter-kit.mjs",
   "unpkg": "dist/tiptap-vue-starter-kit.js",
   "jsdelivr": "dist/tiptap-vue-starter-kit.js",
   "files": [

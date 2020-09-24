@@ -4,7 +4,7 @@
   "source": "index.ts",
   "main": "dist/tiptap-extension-focus.js",
   "umd:main": "dist/tiptap-extension-focus.umd.js",
-  "module": "dist/tiptap-extension-focus.mjs", 
+  "module": "dist/tiptap-extension-focus.mjs",
   "unpkg": "dist/tiptap-extension-focus.js",
   "jsdelivr": "dist/tiptap-extension-focus.js",
   "files": [

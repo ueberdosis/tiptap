@@ -4,7 +4,7 @@
   "source": "index.ts",
   "main": "dist/tiptap-vue.js",
   "umd:main": "dist/tiptap-vue.umd.js",
-  "module": "dist/tiptap-vue.mjs", 
+  "module": "dist/tiptap-vue.mjs",
   "unpkg": "dist/tiptap-vue.js",
   "jsdelivr": "dist/tiptap-vue.js",
   "files": [

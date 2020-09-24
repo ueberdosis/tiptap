@@ -4,7 +4,7 @@
   "source": "index.ts",
   "main": "dist/tiptap-extension-strike.js",
   "umd:main": "dist/tiptap-extension-strike.umd.js",
-  "module": "dist/tiptap-extension-strike.mjs", 
+  "module": "dist/tiptap-extension-strike.mjs",
   "unpkg": "dist/tiptap-extension-strike.js",
   "jsdelivr": "dist/tiptap-extension-strike.js",
   "files": [

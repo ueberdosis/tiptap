@@ -4,7 +4,7 @@
   "source": "index.ts",
   "main": "dist/tiptap-extension-paragraph.js",
   "umd:main": "dist/tiptap-extension-paragraph.umd.js",
-  "module": "dist/tiptap-extension-paragraph.mjs", 
+  "module": "dist/tiptap-extension-paragraph.mjs",
   "unpkg": "dist/tiptap-extension-paragraph.js",
   "jsdelivr": "dist/tiptap-extension-paragraph.js",
   "files": [

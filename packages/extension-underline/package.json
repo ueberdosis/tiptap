@@ -4,7 +4,7 @@
   "source": "index.ts",
   "main": "dist/tiptap-extension-underline.js",
   "umd:main": "dist/tiptap-extension-underline.umd.js",
-  "module": "dist/tiptap-extension-underline.mjs", 
+  "module": "dist/tiptap-extension-underline.mjs",
   "unpkg": "dist/tiptap-extension-underline.js",
   "jsdelivr": "dist/tiptap-extension-underline.js",
   "files": [

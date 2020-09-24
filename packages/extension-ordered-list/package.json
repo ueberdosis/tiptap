@@ -4,7 +4,7 @@
   "source": "index.ts",
   "main": "dist/tiptap-extension-ordered-list.js",
   "umd:main": "dist/tiptap-extension-ordered-list.umd.js",
-  "module": "dist/tiptap-extension-ordered-list.mjs", 
+  "module": "dist/tiptap-extension-ordered-list.mjs",
   "unpkg": "dist/tiptap-extension-ordered-list.js",
   "jsdelivr": "dist/tiptap-extension-ordered-list.js",
   "files": [
