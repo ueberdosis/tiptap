@@ -473,7 +473,11 @@ export default class IframeNode extends Node {
 | `getPos` | `Function` | A function that returns the anchored position of the node. |
 | `selected` | `Boolean` | A boolean that is set when the node is or is not selected. Common use case is using `watch` to see when the view is selected/unselected to do something, such focus an `<input>` or refocus the editor. |
 
-## Editor Methods
+## Browser Support
+
+![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Opera](https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)
+--- | --- | --- | --- | --- |
+Last 2 Versions ✔ | Last 2 Versions ✔ | Last 2 Versions ✔ | Last 2 Versions ✔ | Last 2 Versions ✔ |
 
 ## Development Setup
 
