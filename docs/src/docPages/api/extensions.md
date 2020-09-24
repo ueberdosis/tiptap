@@ -1,17 +1,13 @@
 # Extensions
-
 Extensions are the way to add functionality to tiptap. By default tiptap comes bare, without any of them, but we have a long list of extensions that are ready to be used with tiptap.
 
 ## A minimalist set of extensions
-
-You’ll need at least three extensions: Document, Paragraph and Text. See [an example of a tiptap version for minimalists](/examples/minimalist).
+You’ll need at least three extensions: `Document`, `Paragraph` and `Text`. See [an example of a tiptap version for minimalists](/examples/minimalist).
 
 ## Default extensions
-
 You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which includes the most common extensions. See [how you can use the `defaultExtensions()`](/examples/basic).
 
 ## List of supported extensions
-
 | Title                                             | Default Extension | Source Code                                                                                       |
 | ------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------- |
 | [Blockquote](/api/extensions/blockquote)          | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-blockquote/)      |
@@ -44,13 +40,9 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 <!-- | [TodoList](/api/extensions/todo-list) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-todo-list/) -->
 
 ## Community extensions
-
 :::warning Work in Progress
 This section is not ready yet. Meanwhile, [search through GitHub issues](https://github.com/ueberdosis/tiptap/issues) to find code snippets.
 :::
 
 ## Your custom extensions
-
 Didn’t find what you’re looking for? No worries, [you can build your own extensions](/guide/custom-extensions).
-
-[@npmjs-tiptap-commands]: https://npmjs.org/package/tiptap-commands
