@@ -11,30 +11,26 @@ import Text from '@tiptap/extension-text'
 export default {
   data() {
     return {
-      doc: {
+      json: {
         type: 'document',
         content: [{
           type: 'paragraph',
-          attrs: {
-            align: 'left',
-          },
           content: [{
             type: 'text',
             text: 'Example Text',
           }],
         }],
       },
+      html: '',
     }
   },
 
-  computed: {
-    html() {
-      return generateHtml(this.doc, [
-        Document(),
-        Paragraph(),
-        Text(),
-      ])
-    },
+  mounted() {
+    this.html = generateHtml(this.json, [
+      Document(),
+      Paragraph(),
+      Text(),
+    ])
   },
 }
 </script>

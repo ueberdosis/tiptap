@@ -71,3 +71,9 @@ class Text extends Node {
   }
 }
 ```
+
+## Difference between a Node and a Mark
+
+*Nodes* are like blocks of content, for example paragraphs, headlines, code blocks, blockquotes and many more.
+
+*Marks* can apply a different style to specific parts of text inside a *Node*. That’s the case for **bold**, *italic* or ~~striked~~ text. [Links](#) are *Marks*, too.
