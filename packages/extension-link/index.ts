@@ -1,5 +1,5 @@
 import {
-  Command, Mark, markPasteRule, getMarkAttrs,
+  Command, Mark, markPasteRule,
 } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 
@@ -57,7 +57,7 @@ export default new Mark<LinkOptions>()
   .pasteRules(({ type }) => [
     markPasteRule(pasteRegex, type, (url: string) => ({ href: url })),
   ])
-  .plugins(({ options }) => {
+  .plugins(({ editor, options, name }) => {
     if (!options.openOnClick) {
       return []
     }
@@ -67,8 +67,7 @@ export default new Mark<LinkOptions>()
         key: new PluginKey('handleClick'),
         props: {
           handleClick: (view, pos, event) => {
-            const { schema } = view.state
-            const attrs = getMarkAttrs(view.state, schema.marks.link)
+            const attrs = editor.getMarkAttrs(name)
 
             if (attrs.href && event.target instanceof HTMLAnchorElement) {
               window.open(attrs.href, attrs.target)
