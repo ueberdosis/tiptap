@@ -8,8 +8,11 @@ export default class CommandManager {
 
   commands: { [key: string]: any } = {}
 
+  methodNames: string[] = []
+
   constructor(editor: Editor) {
     this.editor = editor
+    this.methodNames = getAllMethodNames(this.editor)
   }
 
   /**
@@ -23,7 +26,7 @@ export default class CommandManager {
       throw new Error(`tiptap: command '${name}' is already defined.`)
     }
 
-    if (getAllMethodNames(this.editor).includes(name)) {
+    if (this.methodNames.includes(name)) {
       throw new Error(`tiptap: '${name}' is a protected name.`)
     }
 

@@ -40,14 +40,14 @@ export interface Commands {}
 export type CommandNames = Extract<keyof Commands, string>
 
 export type SingleCommands = {
-  [Command in keyof Commands]: Commands[Command] extends (...args: any[]) => any
-  ? (...args: Parameters<Commands[Command]>) => boolean
+  [Item in keyof Commands]: Commands[Item] extends (...args: any[]) => any
+  ? (...args: Parameters<Commands[Item]>) => boolean
   : never
 }
 
 export type ChainedCommands = {
-  [Command in keyof Commands]: Commands[Command] extends (...args: any[]) => any
-  ? (...args: Parameters<Commands[Command]>) => ChainedCommands
+  [Item in keyof Commands]: Commands[Item] extends (...args: any[]) => any
+  ? (...args: Parameters<Commands[Item]>) => ChainedCommands
   : never
 } & {
   run: () => boolean
