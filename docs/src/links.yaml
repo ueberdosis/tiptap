@@ -25,6 +25,16 @@
     - title: Custom extensions
       link: /guide/custom-extensions
       draft: true
+      items:
+        - title: Change defaults
+          link: /guide/custom-extensions/change-defaults
+          draft: true
+        - title: Extend extensions
+          link: /guide/custom-extensions/extend-extensions
+          draft: true
+        - title: Start from scratch
+          link: /guide/custom-extensions/start-from-scratch
+          draft: true
     - title: Use Vue Components
       link: /guide/use-vue-components
       draft: true

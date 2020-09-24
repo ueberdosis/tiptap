@@ -49,9 +49,11 @@ export default {
       extensions: defaultExtensions(),
     })
 
+    // Get the initial content …
     this.json = this.editor.json()
     this.html = this.editor.html()
 
+    // … and get the content after every change.
     this.editor.on('update', () => {
       this.json = this.editor.json()
       this.html = this.editor.html()
@@ -65,7 +67,7 @@ export default {
     },
 
     setContent() {
-      // you can pass a json document
+      // You can pass a JSON document …
       this.editor.setContent({
         type: 'document',
         content: [{
@@ -78,8 +80,11 @@ export default {
           ],
         }],
       }, true)
-      // HTML string is also supported
+
+      // … but HTML strings are also supported.
       // this.editor.setContent('<p>This is some inserted text. 👋</p>')
+
+      // It’s likely that you’d like to focus the Editor after most commands.
       this.editor.focus()
     },
   },
