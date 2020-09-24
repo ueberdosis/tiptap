@@ -131,6 +131,7 @@ export class Editor extends EventEmitter {
    *
    * @param name The name of the command
    */
+  // eslint-disable-next-line
   private __get(name: string) {
     return this.commandManager.runSingleCommand(name)
   }

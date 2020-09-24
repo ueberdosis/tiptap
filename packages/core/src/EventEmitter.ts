@@ -1,19 +1,19 @@
 export default class EventEmitter {
 
-  _callbacks: { [key: string]: Function[] } = {}
+  private callbacks: { [key: string]: Function[] } = {}
 
-  on(event: string, fn: Function) {
-    if (!this._callbacks[event]) {
-      this._callbacks[event] = []
+  public on(event: string, fn: Function) {
+    if (!this.callbacks[event]) {
+      this.callbacks[event] = []
     }
 
-    this._callbacks[event].push(fn)
+    this.callbacks[event].push(fn)
 
     return this
   }
 
-  emit(event: string, ...args: any) {
-    const callbacks = this._callbacks[event]
+  protected emit(event: string, ...args: any) {
+    const callbacks = this.callbacks[event]
 
     if (callbacks) {
       callbacks.forEach(callback => callback.apply(this, args))
@@ -22,21 +22,21 @@ export default class EventEmitter {
     return this
   }
 
-  off(event: string, fn?: Function) {
-    const callbacks = this._callbacks[event]
+  public off(event: string, fn?: Function) {
+    const callbacks = this.callbacks[event]
 
     if (callbacks) {
       if (fn) {
-        this._callbacks[event] = callbacks.filter(callback => callback !== fn)
+        this.callbacks[event] = callbacks.filter(callback => callback !== fn)
       } else {
-        delete this._callbacks[event]
+        delete this.callbacks[event]
       }
     }
 
     return this
   }
 
-  removeAllListeners() {
-    this._callbacks = {}
+  protected removeAllListeners() {
+    this.callbacks = {}
   }
 }
