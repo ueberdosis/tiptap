@@ -23,12 +23,12 @@ yarn add @tiptap/extension-history
 
 ## Keyboard shortcuts
 ### Undo
-* Windows & Linux: `Control ` `Z`
-* macOS: `Command ` `Z`
+* Windows/Linux: `Control` `Z`
+* macOS: `Cmd` `Z`
 
 ### Redo
-* Windows & Linux: `Shift ` `Control ` `Z`
-* macOS: `Shift ` `Command ` `Z`
+* Windows/Linux: `Shift` `Control` `Z`
+* macOS: `Shift` `Cmd` `Z`
 
 ## Source code
 [packages/extension-history/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)

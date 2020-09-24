@@ -1,5 +1,5 @@
 # Keyboard Shortcuts
-Keyboard shortcuts may be strings like `Shift-Control-Enter`. Keys are based on the strings that can appear in `event.key`. There is a little tool called [keycode.info](https://keycode.info/), which shows the `event.key` interactively. Multiple keys should be concatenated with a `-`.
+Keyboard shortcuts may be strings like `'Shift-Control-Enter'`. Keys are based on the strings that can appear in `event.key`, concatenated with a `-`. There is a little tool called [keycode.info](https://keycode.info/), which shows the `event.key` interactively.
 
 Use lowercase letters to refer to letter keys (or uppercase letters if you want shift to be held). You may use `Space` as an alias for the <code>&nbsp;</code>.
 

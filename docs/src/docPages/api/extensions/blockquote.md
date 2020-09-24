@@ -23,8 +23,8 @@ yarn add @tiptap/extension-blockquote
 | blockquote | —       | Wrap content in a blockquote. |
 
 ## Keyboard shortcuts
-* Windows & Linux: `Control ` `Shift ` `9`
-* macOS: `Command ` `Shift ` `9`
+* Windows/Linux: `Control` `Shift` `9`
+* macOS: `Cmd` `Shift` `9`
 
 ## Source code
 [packages/extension-blockquote/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-blockquote/)
