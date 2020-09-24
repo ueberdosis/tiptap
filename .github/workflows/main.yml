@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - uses: actions/checkout@v2.3.2
+    - uses: actions/checkout@v2.3.3
 
     - name: Run tests with Cypress
       id: cypress
@@ -76,7 +76,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - uses: actions/checkout@v2.3.2
+    - uses: actions/checkout@v2.3.3
 
     - name: Install dependencies
       id: install-dependencies
