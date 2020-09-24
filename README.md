@@ -1,4 +1,4 @@
-> We need your support to maintain this package. 💖 https://github.com/sponsors/ueberdosis
+> Tiptap 2 is in development and we need your support to make this possible! 💖 https://github.com/sponsors/ueberdosis
 
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
