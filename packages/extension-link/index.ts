@@ -55,7 +55,7 @@ export default new Mark<LinkOptions>()
     },
   }))
   .pasteRules(({ type }) => [
-    markPasteRule(pasteRegex, type, (url: string) => ({ href: url })),
+    markPasteRule(pasteRegex, type),
   ])
   .plugins(({ options }) => {
     if (!options.openOnClick) {
