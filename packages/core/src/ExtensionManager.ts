@@ -31,7 +31,10 @@ export default class ExtensionManager {
     this.extensions.forEach(extension => {
       const { editor } = this
       const { name } = extension.config
-      const options = deepmerge(extension.config.defaults, extension.options)
+      const options = {
+        ...extension.config.defaults,
+        ...extension.options,
+      }
       const type = extension.type === 'node'
         ? editor.schema.nodes[name]
         : editor.schema.marks[name]
