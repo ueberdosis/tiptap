@@ -1,9 +1,7 @@
 <template>
   <div>
+    BUG: Headings can’t be transformed to a bullet or ordered list.
     <div v-if="editor">
-      <button @click="editor.chain().focus().removeMarks().run()">
-        clear format
-      </button>
       <button @click="editor.chain().focus().bold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
       </button>
@@ -19,14 +17,8 @@
       <button @click="editor.chain().focus().code().run()" :class="{ 'is-active': editor.isActive('code') }">
         code
       </button>
-      <button @click="editor.chain().focus().bulletList().run()" :class="{ 'is-active': editor.isActive('bullet_list') }">
-        bullet list
-      </button>
-      <button @click="editor.chain().focus().orderedList().run()" :class="{ 'is-active': editor.isActive('ordered_list') }">
-        ordered list
-      </button>
-      <button @click="editor.chain().focus().codeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-        code block
+      <button @click="editor.chain().focus().removeMarks().run()">
+        clear format
       </button>
       <button @click="editor.chain().focus().paragraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
         paragraph
@@ -48,6 +40,15 @@
       </button>
       <button @click="editor.chain().focus().heading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
         h6
+      </button>
+      <button @click="editor.chain().focus().bulletList().run()" :class="{ 'is-active': editor.isActive('bullet_list') }">
+        bullet list
+      </button>
+      <button @click="editor.chain().focus().orderedList().run()" :class="{ 'is-active': editor.isActive('ordered_list') }">
+        ordered list
+      </button>
+      <button @click="editor.chain().focus().codeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+        code block
       </button>
       <button @click="editor.chain().focus().blockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
         blockquote
