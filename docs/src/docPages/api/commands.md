@@ -21,10 +21,10 @@ editor.chain().focus().bold().run()
 | ------------------- | ------------------------------------------ |
 | .removeMark()       | Remove a mark in the current selection.    |
 | .removeMarks()      | Remove all marks in the current selection. |
-| .replaceWithNode()  | Replace a given range with a node.         |
 | .selectParentNode() | Select the parent node.                    |
 | .toggleMark()       | Toggle a mark on and off.                  |
 | .toggleBlockType()  | Toggle a node with another node.           |
+| .setBlockType()     | Replace a given range with a node.         |
 | .updateMark()       | Update a mark with new attributes.         |
 
 ### Selection
