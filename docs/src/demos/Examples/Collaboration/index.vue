@@ -22,19 +22,23 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      content: `
-        <p>
-          This is a radically reduced version of tiptap. It has only support for a document, paragraphs and text. That’s it. It’s probably too much for real minimalists though.
-        </p>
-        <p>
-          The paragraph extension is not literally required, but you need at least one node. That node can be something different, for example to render a task list and only that task list.
-        </p>
-      `,
+      // TODO: This is added by every new user.
+      // content: `
+      //   <p>
+      //     This is a radically reduced version of tiptap. It has only support for a document, paragraphs and text. That’s it. It’s probably too much for real minimalists though.
+      //   </p>
+      //   <p>
+      //     The paragraph extension is not literally required, but you need at least one node. That node can be something different, for example to render a task list and only that task list.
+      //   </p>
+      // `,
       extensions: [
         Document(),
         Paragraph(),
         Text(),
-        Yjs(),
+        Yjs({
+          name: 'Other User',
+          color: '#d6336c',
+        }),
       ],
     })
   },
@@ -44,3 +48,5 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" src="./style.scss">
