@@ -8,6 +8,71 @@
       link: /overview/upgrade-guide
     - title: Contributing
       link: /overview/contributing
+    - title: Examples
+      link: /examples
+      items:
+        - title: Basic
+          link: /examples/basic
+        # - title: Menu Bubble
+        #   link: /examples/menu-bubble
+        #   draft: true
+        # - title: Floating Menu
+        #   link: /examples/floating-menu
+        #   draft: true
+        # - title: Links
+        #   link: /examples/links
+        #   draft: true
+        # - title: Images
+        #   link: /examples/images
+        #   draft: true
+        # - title: Hiding Menu Bar
+        #   link: /examples/hiding-menu-bar
+        #   draft: true
+        # - title: Todo List
+        #   link: /examples/todo-list
+        #   draft: true
+        # - title: Tables
+        #   link: /examples/tables
+        #   draft: true
+        # - title: Search and Replace
+        #   link: /examples/search-and-replace
+        #   draft: true
+        # - title: Suggestions
+        #   link: /examples/suggestions
+        #   draft: true
+        - title: Markdown Shortcuts
+          link: /examples/markdown-shortcuts
+        # - title: Code Highlighting
+        #   link: /examples/code-highlighting
+        #   draft: true
+        - title: History
+          link: /examples/history
+        - title: Read-Only
+          link: /examples/read-only
+        # - title: Embeds
+        #   link: /examples/embeds
+        #   draft: true
+        # - title: Placeholder
+        #   link: /examples/placeholder
+        #   draft: true
+        # - title: Focus
+        #   link: /examples/focus
+        # - title: Collaboration
+        #   link: /examples/collaboration
+        #   draft: true
+        # - title: Title
+        #   link: /examples/title
+        #   draft: true
+        # - title: Trailing Paragraph
+        #   link: /examples/trailing-paragraph
+        #   draft: true
+        # - title: Drag Handle
+        #   link: /examples/drag-handle
+        #   draft: true
+        - title: Minimalist
+          link: /examples/minimalist
+        - title: Export HTML or JSON
+          link: /examples/export-html-or-json
 
 - title: Guide
   items:
@@ -37,71 +102,9 @@
     - title: Use Vue Components
       link: /guide/use-vue-components
       draft: true
-
-- title: Examples
-  items:
-    - title: Basic
-      link: /examples/basic
-    # - title: Menu Bubble
-    #   link: /examples/menu-bubble
+    # - title: Collaborative editing
+    #   link: /guide/use-vue-components
     #   draft: true
-    # - title: Floating Menu
-    #   link: /examples/floating-menu
-    #   draft: true
-    # - title: Links
-    #   link: /examples/links
-    #   draft: true
-    # - title: Images
-    #   link: /examples/images
-    #   draft: true
-    # - title: Hiding Menu Bar
-    #   link: /examples/hiding-menu-bar
-    #   draft: true
-    # - title: Todo List
-    #   link: /examples/todo-list
-    #   draft: true
-    # - title: Tables
-    #   link: /examples/tables
-    #   draft: true
-    # - title: Search and Replace
-    #   link: /examples/search-and-replace
-    #   draft: true
-    # - title: Suggestions
-    #   link: /examples/suggestions
-    #   draft: true
-    - title: Markdown Shortcuts
-      link: /examples/markdown-shortcuts
-    # - title: Code Highlighting
-    #   link: /examples/code-highlighting
-    #   draft: true
-    - title: History
-      link: /examples/history
-    - title: Read-Only
-      link: /examples/read-only
-    # - title: Embeds
-    #   link: /examples/embeds
-    #   draft: true
-    # - title: Placeholder
-    #   link: /examples/placeholder
-    #   draft: true
-    # - title: Focus
-    #   link: /examples/focus
-    # - title: Collaboration
-    #   link: /examples/collaboration
-    #   draft: true
-    # - title: Title
-    #   link: /examples/title
-    #   draft: true
-    # - title: Trailing Paragraph
-    #   link: /examples/trailing-paragraph
-    #   draft: true
-    # - title: Drag Handle
-    #   link: /examples/drag-handle
-    #   draft: true
-    - title: Minimalist
-      link: /examples/minimalist
-    - title: Export HTML or JSON
-      link: /examples/export-html-or-json
 
 - title: API
   items:

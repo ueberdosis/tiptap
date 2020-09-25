@@ -14,7 +14,7 @@ You can use `Mod` as a shorthand for `Cmd` on Mac and `Control` on other platfor
 import BulletList from '@tiptap/extension-bullet-list'
 
 // 2. Overwrite the keyboard shortcuts
-const CustomBulletList = new Node()
+const CustomBulletList = BulletList()
   .keys(({ editor }) => ({
     // ↓ your new keyboard shortcut
     'Mod-l': () => editor.bulletList(),
