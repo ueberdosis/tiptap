@@ -8,7 +8,7 @@ export interface LinkOptions {
   target: string,
 }
 
-export type LinkCommand = () => Command
+export type LinkCommand = (url?: string) => Command
 
 declare module '@tiptap/core/src/Editor' {
   interface Commands {
@@ -50,8 +50,14 @@ export default new Mark<LinkOptions>()
     }, 0],
   }))
   .commands(({ name }) => ({
-    link: () => ({ commands }) => {
-      return commands.toggleMark(name)
+    link: url => ({ commands }) => {
+      if (!url) {
+        return commands.removeMark(name)
+      }
+
+      return commands.updateMark(name, {
+        href: url,
+      })
     },
   }))
   .pasteRules(({ type }) => [

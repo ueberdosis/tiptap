@@ -35,6 +35,7 @@ module.exports = {
         'airbnb-base',
       ],
       rules: {
+        'no-alert': 'off',
         semi: ['error', 'never'],
         'import/extensions': 'off',
         'import/no-extraneous-dependencies': 'off',

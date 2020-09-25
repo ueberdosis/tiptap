@@ -7,7 +7,7 @@ type RemoveMarkCommand = (typeOrName: string | MarkType) => Command
 
 declare module '../Editor' {
   interface Commands {
-    toggleMark: RemoveMarkCommand,
+    removeMark: RemoveMarkCommand,
   }
 }
 

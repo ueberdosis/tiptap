@@ -1,5 +1,8 @@
 <template>
   <div v-if="editor">
+    <button @click="addLink">
+      link
+    </button>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -37,6 +40,14 @@ export default {
         </p>
       `,
     })
+  },
+
+  methods: {
+    addLink() {
+      const url = window.prompt('Link:')
+
+      this.editor.link(url)
+    },
   },
 
   beforeDestroy() {
