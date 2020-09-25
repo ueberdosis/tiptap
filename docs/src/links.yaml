@@ -56,9 +56,8 @@
         #   draft: true
         # - title: Focus
         #   link: /examples/focus
-        # - title: Collaboration
-        #   link: /examples/collaboration
-        #   draft: true
+        - title: Collaboration
+          link: /examples/collaboration
         # - title: Title
         #   link: /examples/title
         #   draft: true
@@ -117,8 +116,9 @@
         # - title: CodeBlockHighlight
         #   link: /api/extensions/code-block-highlight
         #   draft: true
-        - title: Collaboration
-          link: /api/extensions/collaboration
+        # - title: Collaboration
+        #   link: /api/extensions/collaboration
+        #   draft: true
         - title: Document
           link: /api/extensions/document
         - title: HardBreak
