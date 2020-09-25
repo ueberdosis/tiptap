@@ -117,9 +117,8 @@
         # - title: CodeBlockHighlight
         #   link: /api/extensions/code-block-highlight
         #   draft: true
-        # - title: Collaboration
-        #   link: /api/extensions/collaboration
-        #   draft: true
+        - title: Collaboration
+          link: /api/extensions/collaboration
         - title: Document
           link: /api/extensions/document
         - title: HardBreak
