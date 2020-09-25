@@ -5,7 +5,7 @@
         <component :is="mainFile" v-if="mode === 'vue'" />
         <react-renderer :component="mainFile" v-if="mode === 'react'" />
       </div>
-      <div class="demo__source" v-if="!hideSourceCode">
+      <div class="demo__source" v-if="showSource">
         <div class="demo__tabs" v-if="showFileNames">
           <button
             class="demo__tab"
@@ -63,9 +63,9 @@ export default {
       default: null,
     },
 
-    hideSourceCode: {
+    showSource: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
 
