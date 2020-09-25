@@ -36,4 +36,4 @@ This extension doesn’t bind a specific keyboard shortcut. You would probably o
 [packages/extension-link/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-link/)
 
 ## Usage
-<demo name="Extensions/Link" highlight="3-8,19,38,52" />
+<demo name="Extensions/Link" highlight="3-8,19,38,55" />

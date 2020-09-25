@@ -1,57 +1,66 @@
 # Events
-Events are a great way to run code when the editor has been initialized, the content has changed, the editor is in focus or the editor isn’t in focus anymore. There are two ways to add code that is executed at those events:
+The editor fires a few different events that you can hook into. There are two ways to register event listeners:
 
-## Option 1: Hook into events
-Hooks can be assigned to the editor on initialization. Pass a function that gets called in case of those events.
+## Option 1: Right-away
+You can define your event listeners on a new editor instance right-away:
 
 ```js
 const editor = new Editor({
   onInit: () => {
-    // the editor is ready
+    // The editor is ready.
   },
   onUpdate: () => {
-    // the content has been changed
+    // The content has changed.
+  },
+  onFocus: () => {
+    // The editor is focused.
+  },
+  onBlur: () => {
+    // The editor isn’t focused anymore.
+  },
+  onTransaction: ({ transaction }) => {
+    // The editor state has changed.
   },
 })
 ```
 
-## Option 2: Listen for events
-You can even register event listeners later. Here is the same example with event listeners:
+## Option 2: Later
+Or you can register your event listeners on a running editor instance:
 
 ```js
-const editor = new Editor({
-  // …
-})
-
 editor.on('init', () => {
-  // the editor is ready
-})
+  // The editor is ready.
+}
 
 editor.on('update', () => {
-  // the content has been changed
-})
+  // The content has changed.
+}
+
+editor.on('focus', () => {
+  // The editor is focused.
+}
+
+editor.on('blur', () => {
+  // The editor isn’t focused anymore.
+}
+
+editor.on('transaction', ({ transaction }) => {
+  // The editor state has changed.
+}
 ```
 
 ### Unbind event listeners
 
+If you need to unbind those event listeners at some point, you should register your event listeners with `.on()` and unbind them with `.off()` then.
+
 ```js
-const callback = () => {
-  // the content has been changed
+const onUpdate = () => {
+  // The content has changed.
 }
 
-editor.on('update', callback)
-editor.off('update', callback)
+// Bind …
+editor.on('update', onUpdate)
+
+// … and unbind.
+editor.off('update', onUpdate)
 ```
-
-## List of events
-| Event         | Description                   | Parameters        |
-| ------------- | ----------------------------- | ----------------- |
-| `blur`        | Editor isn’t focused anymore. | `{ event }`       |
-| `focus`       | Editor is in focus.           | `{ event }`       |
-| `init`        | Editor has been initialized.  | *None*            |
-| `transaction` | State has changed.            | `{ transaction }` |
-| `update`      | Content has changed.          | *None*            |
-
-:::info List of hooks
-The according hooks are called `onBlur`, `onFocus`, `onInit`, `onUpdate` and `onTransaction`.
-:::

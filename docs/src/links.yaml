@@ -88,16 +88,6 @@
       link: /guide/store-content
     - title: Custom extensions
       link: /guide/custom-extensions
-      items:
-        - title: Change defaults
-          link: /guide/custom-extensions/change-defaults
-          draft: true
-        - title: Extend extensions
-          link: /guide/custom-extensions/extend-extensions
-          draft: true
-        - title: Start from scratch
-          link: /guide/custom-extensions/start-from-scratch
-          draft: true
     - title: Use Vue Components
       link: /guide/use-vue-components
       draft: true
@@ -183,10 +173,5 @@
       link: /api/events
     - title: Schema
       link: /api/schema
-      items:
-        - title: Get Schema
-          link: /api/schema/get-schema
-        - title: Generate HTML
-          link: /api/schema/generate-html
     - title: Keyboard Shortcuts
       link: /api/keyboard-shortcuts
