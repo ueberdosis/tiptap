@@ -19,9 +19,9 @@
         # - title: Floating Menu
         #   link: /examples/floating-menu
         #   draft: true
-        # - title: Links
-        #   link: /examples/links
-        #   draft: true
+        - title: Links
+          link: /examples/links
+          draft: true
         # - title: Images
         #   link: /examples/images
         #   draft: true
@@ -145,7 +145,6 @@
           link: /api/extensions/italic
         - title: Link
           link: /api/extensions/link
-          draft: true
         - title: ListItem
           link: /api/extensions/list-item
         # - title: Mention

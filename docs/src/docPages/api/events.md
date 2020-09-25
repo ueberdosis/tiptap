@@ -44,13 +44,13 @@ editor.off('update', callback)
 ```
 
 ## List of events
-| Event    | Description                   | Parameters                           |
-| -------- | ----------------------------- | ------------------------------------ |
-| `blur`   | Editor isn’t focused anymore. | `{ event }`             |
-| `focus`  | Editor is in focus.           | `{ event }`             |
-| `init`   | Editor has been initialized.  | *None*                    |
-| `update` | Content has changed.     | *None* |
-| `transaction` | State has changed.     | `{ transaction }` |
+| Event         | Description                   | Parameters        |
+| ------------- | ----------------------------- | ----------------- |
+| `blur`        | Editor isn’t focused anymore. | `{ event }`       |
+| `focus`       | Editor is in focus.           | `{ event }`       |
+| `init`        | Editor has been initialized.  | *None*            |
+| `transaction` | State has changed.            | `{ transaction }` |
+| `update`      | Content has changed.          | *None*            |
 
 :::info List of hooks
 The according hooks are called `onBlur`, `onFocus`, `onInit`, `onUpdate` and `onTransaction`.

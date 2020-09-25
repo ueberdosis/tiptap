@@ -6,9 +6,10 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 export interface LinkOptions {
   openOnClick: boolean,
   target: string,
+  rel: string,
 }
 
-export type LinkCommand = (url?: string) => Command
+export type LinkCommand = (options: {href?: string, target?: string}) => Command
 
 declare module '@tiptap/core/src/Editor' {
   interface Commands {
@@ -22,7 +23,8 @@ export default new Mark<LinkOptions>()
   .name('link')
   .defaults({
     openOnClick: true,
-    target: '',
+    target: '_self',
+    rel: 'noopener noreferrer nofollow',
   })
   .schema(({ options }) => ({
     attrs: {
@@ -45,19 +47,17 @@ export default new Mark<LinkOptions>()
     ],
     toDOM: node => ['a', {
       ...node.attrs,
-      rel: 'noopener noreferrer nofollow',
-      target: options.target,
+      rel: options.rel,
+      target: node.attrs.target ? node.attrs.target : options.target,
     }, 0],
   }))
   .commands(({ name }) => ({
-    link: url => ({ commands }) => {
-      if (!url) {
+    link: attributes => ({ commands }) => {
+      if (!attributes.href) {
         return commands.removeMark(name)
       }
 
-      return commands.updateMark(name, {
-        href: url,
-      })
+      return commands.updateMark(name, attributes)
     },
   }))
   .pasteRules(({ type }) => [

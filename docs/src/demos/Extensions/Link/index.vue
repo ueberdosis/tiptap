@@ -1,7 +1,10 @@
 <template>
   <div v-if="editor">
-    <button @click="addLink">
+    <button @click="addLink" :class="{ 'is-active': editor.isActive('link') }">
       link
+    </button>
+    <button @click="editor.chain().focus().removeMark('link').run()" v-if="editor.isActive('link')">
+      remove
     </button>
     <editor-content :editor="editor" />
   </div>
@@ -36,7 +39,7 @@ export default {
       ],
       content: `
         <p>
-          Try to add some links to the <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>. By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute.
+          Try to add some links to the <a href="https://en.wikipedia.org/wiki/World_Wide_Web" target="_self">world wide web</a>. By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute.
         </p>
       `,
     })
@@ -44,9 +47,9 @@ export default {
 
   methods: {
     addLink() {
-      const url = window.prompt('Link:')
+      const url = window.prompt('URL')
 
-      this.editor.link(url)
+      this.editor.chain().focus().link({ href: url }).run()
     },
   },
 
