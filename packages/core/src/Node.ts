@@ -17,7 +17,7 @@ export interface NodeMethods<Props, Options> extends ExtensionMethods<Props, Opt
 export default class Node<
   Options = {},
   Props = NodeProps<Options>,
-  Methods extends NodeMethods<Props, Options> = NodeMethods<Props, Options>
+  Methods extends NodeMethods<Props, Options> = NodeMethods<Props, Options>,
 > extends Extension<Options, Props, Methods> {
   type = 'node'
 

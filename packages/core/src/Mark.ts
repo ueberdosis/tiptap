@@ -17,7 +17,7 @@ export interface MarkMethods<Props, Options> extends ExtensionMethods<Props, Opt
 export default class Mark<
   Options = {},
   Props = MarkProps<Options>,
-  Methods extends MarkMethods<Props, Options> = MarkMethods<Props, Options>
+  Methods extends MarkMethods<Props, Options> = MarkMethods<Props, Options>,
 > extends Extension<Options, Props, Methods> {
   type = 'mark'
 

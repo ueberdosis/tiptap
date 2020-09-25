@@ -38,7 +38,7 @@ export interface ExtensionMethods<Props, Options> {
 export default class Extension<
   Options = {},
   Props = ExtensionProps<Options>,
-  Methods extends ExtensionMethods<Props, Options> = ExtensionMethods<Props, Options>
+  Methods extends ExtensionMethods<Props, Options> = ExtensionMethods<Props, Options>,
 > {
   type = 'extension'
 
