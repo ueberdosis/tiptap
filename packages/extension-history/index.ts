@@ -13,7 +13,7 @@ declare module '@tiptap/core/src/Editor' {
 }
 
 export interface HistoryOptions {
-  historyPluginOptions: Object,
+  historyPluginOptions: Record<string, unknown>,
 }
 
 export default new Extension<HistoryOptions>()

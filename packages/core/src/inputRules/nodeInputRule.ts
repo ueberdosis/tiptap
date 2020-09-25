@@ -1,7 +1,7 @@
 import { InputRule } from 'prosemirror-inputrules'
 import { NodeType } from 'prosemirror-model'
 
-export default function (regexp: RegExp, type: NodeType, getAttrs?: Function) {
+export default function (regexp: RegExp, type: NodeType, getAttrs?: (match: any) => any): InputRule {
   return new InputRule(regexp, (state, match, start, end) => {
     const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
     const { tr } = state

@@ -1,7 +1,7 @@
 import { Plugin } from 'prosemirror-state'
 import { Slice, Fragment, MarkType } from 'prosemirror-model'
 
-export default function (regexp: RegExp, type: MarkType, getAttrs?: Function) {
+export default function (regexp: RegExp, type: MarkType, getAttrs?: (match: any) => any): Plugin {
 
   const handler = (fragment: Fragment, parent?: any) => {
     const nodes: any[] = []
