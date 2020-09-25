@@ -7,7 +7,7 @@ export interface HeadingOptions {
   levels: Level[],
 }
 
-export type HeadingCommand = (level: Level) => Command
+export type HeadingCommand = (options: { level: Level }) => Command
 
 declare module '@tiptap/core/src/Editor' {
   interface Commands {
@@ -38,11 +38,18 @@ export default new Node<HeadingOptions>()
     toDOM: node => [`h${node.attrs.level}`, 0],
   }))
   .commands(({ name }) => ({
-    [name]: attrs => ({ commands }) => {
+    heading: attrs => ({ commands }) => {
       return commands.toggleBlockType(name, 'paragraph', attrs)
     },
   }))
-  // TODO: Keyboard Shortcuts
+  .keys(({ name, options, editor }) => {
+    return options.levels.reduce((items, level) => ({
+      ...items,
+      ...{
+        [`Mod-Alt-${level}`]: () => editor.setBlockType(name, { level }),
+      },
+    }), {})
+  })
   .inputRules(({ options, type }) => {
     return options.levels.map((level: Level) => {
       return textblockTypeInputRule(new RegExp(`^(#{1,${level}})\\s$`), type, { level })

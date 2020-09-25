@@ -33,3 +33,4 @@ editor.chain().focus().bold().run()
 | .deleteSelection() | Delete the selection, if there is one.  |
 | .focus()           | Focus the editor at the given position. |
 | .selectAll()       | Select the whole document.              |
+| .scrollIntoView()  | …                                       |
