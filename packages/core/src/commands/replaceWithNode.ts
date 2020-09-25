@@ -15,7 +15,7 @@ type ReplaceWithNodeCommand = (
 
 declare module '../Editor' {
   interface Commands {
-    replaceText: ReplaceWithNodeCommand,
+    replaceWithNode: ReplaceWithNodeCommand,
   }
 }
 
