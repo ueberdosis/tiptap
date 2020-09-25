@@ -24,13 +24,27 @@ context('/api/extensions/link', () => {
     })
   })
 
-  it.skip('links should be auto detected', () => {
-    cy.get('.ProseMirror')
-      .then($span => {
-        $span.text('https://example.com')
-      })
-      .find('a')
-      .should('contain', 'https://example.com')
-      .should('have.attr', 'href', 'https://example.com')
+  const validUrls = [
+    'https://example.com',
+    'https://example.com/with-path',
+    'http://example.com/with-http',
+    'https://www.example.com/with-www',
+    'https://www.example.com/with-numbers-123',
+    'https://www.example.com/with-parameters?var=true',
+    'https://www.example.com/with-multiple-parameters?var=true&foo=bar',
+    'https://www.example.com/with-spaces?var=true&foo=bar+3',
+    // TODO: 'https://www.example.com/with,comma',
+    'http://thelongestdomainnameintheworldandthensomeandthensomemoreandmore.com/',
+    'https://example.longtopleveldomain',
+    'https://example-with-dashes.com',
+  ]
+
+  validUrls.forEach(url => {
+    it(`url should be detected: ${url}`, () => {
+      cy.get('.ProseMirror').paste({ pastePayload: url, pasteType: 'text/plain' })
+        .find('a')
+        .should('contain', url)
+        .should('have.attr', 'href', url)
+    })
   })
 })

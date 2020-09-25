@@ -70,3 +70,26 @@ Cypress.Commands.overwrite('click', (originalFn, element, text, options) => {
 
   return originalFn(element, text, newOptions)
 })
+
+Cypress.Commands.add(
+  'paste',
+  { prevSubject: true },
+  (subject, pasteOptions) => {
+    const { pastePayload, pasteType } = pasteOptions
+    const data = pasteType === 'application/json' ? JSON.stringify(pastePayload) : pastePayload
+    // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer
+    const clipboardData = new DataTransfer()
+    clipboardData.setData(pasteType, data)
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event
+    const pasteEvent = new ClipboardEvent('paste', {
+      bubbles: true,
+      cancelable: true,
+      dataType: pasteType,
+      data,
+      clipboardData,
+    })
+    subject[0].dispatchEvent(pasteEvent)
+
+    return subject
+  },
+)
