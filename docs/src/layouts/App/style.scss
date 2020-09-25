@@ -57,6 +57,11 @@ $menuBreakPoint: 750px;
     &--draft {
       color: rgba($colorBlack, 0.2);
     }
+
+    &--with-children::after {
+        content: '→';
+        color: rgba($colorBlack, 0.2);
+    }
   }
 
   &__header {

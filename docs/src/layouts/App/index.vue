@@ -41,7 +41,7 @@
             </div>
             <ul class="app__link-list">
               <li v-for="(item, j) in linkGroup.items" :key="j">
-                <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true }" :to="item.link" :exact="item.link === '/'">
+                <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true, 'app__link--with-children': item.items }" :to="item.link" :exact="item.link === '/'">
                   {{ item.title }}
                 </g-link>
 
