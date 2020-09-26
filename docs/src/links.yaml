@@ -13,6 +13,10 @@
       items:
         - title: Basic
           link: /examples/basic
+        - title: Collaborative editing
+          link: /examples/collaborative-editing
+        - title: Markdown shortcuts
+          link: /examples/markdown-shortcuts
         # - title: Menu Bubble
         #   link: /examples/menu-bubble
         #   draft: true
@@ -39,14 +43,12 @@
         # - title: Suggestions
         #   link: /examples/suggestions
         #   draft: true
-        - title: Markdown Shortcuts
-          link: /examples/markdown-shortcuts
         # - title: Code Highlighting
         #   link: /examples/code-highlighting
         #   draft: true
         - title: History
           link: /examples/history
-        - title: Read-Only
+        - title: Read-only
           link: /examples/read-only
         # - title: Embeds
         #   link: /examples/embeds
@@ -56,8 +58,6 @@
         #   draft: true
         # - title: Focus
         #   link: /examples/focus
-        - title: Collaboration
-          link: /examples/collaboration
         # - title: Title
         #   link: /examples/title
         #   draft: true
