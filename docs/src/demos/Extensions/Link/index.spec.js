@@ -17,6 +17,8 @@ context('/api/extensions/link', () => {
       cy.get('.demo__preview button:first')
         .click()
 
+      cy.window().its('prompt').should('be.called')
+
       cy.get('.ProseMirror')
         .find('a')
         .should('contain', 'Example Text')
