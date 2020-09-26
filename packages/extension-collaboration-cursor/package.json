@@ -1,0 +1,22 @@
+{
+  "name": "@tiptap/extension-collaboration-cursor",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-extension-collaboration-cursor.js",
+  "umd:main": "dist/tiptap-extension-collaboration-cursor.umd.js",
+  "module": "dist/tiptap-extension-collaboration-cursor.mjs",
+  "unpkg": "dist/tiptap-extension-collaboration-cursor.js",
+  "jsdelivr": "dist/tiptap-extension-collaboration-cursor.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "2.x"
+  },
+  "dependencies": {
+    "y-prosemirror": "^0.3.7",
+    "y-webrtc": "^10.1.6",
+    "yjs": "^13.3.2"
+  }
+}
