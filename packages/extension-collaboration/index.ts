@@ -6,33 +6,40 @@ import {
 import { WebrtcProvider } from 'y-webrtc'
 import { keymap } from 'prosemirror-keymap'
 
-export interface YjsOptions {
+export interface CollaborationOptions {
   name: string,
   color: string,
+  provider?: any,
+  type?: any,
 }
 
 const ydoc = new Y.Doc()
 const provider = new WebrtcProvider('example', ydoc)
 const type = ydoc.getXmlFragment('prosemirror')
 
-export default new Extension<YjsOptions>()
-  .name('yjs')
+export default new Extension<CollaborationOptions>()
+  .name('collaboration')
   .defaults({
     name: 'Someone',
     color: '#cccccc',
+    provider: null,
+    type: null,
   })
   .plugins(({ options }) => [
+    // Collaboration
     ySyncPlugin(type),
-    yCursorPlugin((() => {
-      provider.awareness.setLocalStateField('user', { name: options.name, color: options.color })
-
-      return provider.awareness
-    })()),
     yUndoPlugin(),
     keymap({
       'Mod-z': undo,
       'Mod-y': redo,
       'Mod-Shift-z': redo,
     }),
+
+    // CollaborationCursor
+    yCursorPlugin((() => {
+      provider.awareness.setLocalStateField('user', { name: options.name, color: options.color })
+
+      return provider.awareness
+    })()),
   ])
   .create()
