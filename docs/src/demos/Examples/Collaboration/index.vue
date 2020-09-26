@@ -36,15 +36,15 @@ export default {
   },
 
   mounted() {
-    const name = 'example'
+    const documentName = 'example'
 
     this.ydoc = new Y.Doc()
-    this.provider = new WebrtcProvider(name, this.ydoc)
+    this.provider = new WebrtcProvider(documentName, this.ydoc)
     this.type = this.ydoc.getXmlFragment('prosemirror')
-    this.indexdb = new IndexeddbPersistence(name, this.ydoc)
+    this.indexdb = new IndexeddbPersistence(documentName, this.ydoc)
 
-    this.provider.on('peers', ({ bcPeers, webrtcPeers }) => {
-      this.numberOfConnectedUsers = bcPeers.length + webrtcPeers.length
+    this.provider.on('peers', ({ webrtcPeers }) => {
+      this.numberOfConnectedUsers = webrtcPeers.length
     })
 
     this.editor = new Editor({
