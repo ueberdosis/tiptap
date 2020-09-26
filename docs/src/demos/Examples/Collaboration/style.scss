@@ -1,12 +1,12 @@
 /* this is a rough fix for the first cursor position when the first paragraph is empty */
-.ProseMirror > .ProseMirror-yjs-cursor:first-child {
+.ProseMirror > .collaboration-cursor:first-child {
   margin-top: 16px;
 }
 .ProseMirror p:first-child, .ProseMirror h1:first-child, .ProseMirror h2:first-child, .ProseMirror h3:first-child, .ProseMirror h4:first-child, .ProseMirror h5:first-child, .ProseMirror h6:first-child {
   margin-top: 16px
 }
 /* This gives the remote user caret. The colors are automatically overwritten*/
-.ProseMirror-yjs-cursor {
+.collaboration-cursor {
   position: relative;
   margin-left: -1px;
   margin-right: -1px;
@@ -16,7 +16,7 @@
   pointer-events: none;
 }
 /* This renders the username above the caret */
-.ProseMirror-yjs-cursor > div {
+.collaboration-cursor > div {
   position: absolute;
   top: -1.05em;
   left: -1px;
