@@ -8,7 +8,7 @@
     </button>
 
     <div class="collaboration-status">
-      {{ users.length }} user{{ numberOfConnectedUsers === 1 ? '' : 's' }}
+      {{ users.length }} user{{ users.length === 1 ? '' : 's' }}
     </div>
     <div class="collaboration-users">
       <div
@@ -43,7 +43,8 @@ export default {
 
   data() {
     return {
-      name: 'Other User',
+      documentName: 'tiptap-collaboration-example',
+      name: this.getRandomName(),
       color: this.getRandomColor(),
       ydoc: null,
       provider: null,
@@ -55,12 +56,10 @@ export default {
   },
 
   mounted() {
-    const documentName = 'tiptap-collaboration-example'
-
     this.ydoc = new Y.Doc()
-    this.provider = new WebrtcProvider(documentName, this.ydoc)
+    this.provider = new WebrtcProvider(this.documentName, this.ydoc)
     this.type = this.ydoc.getXmlFragment('prosemirror')
-    this.indexdb = new IndexeddbPersistence(documentName, this.ydoc)
+    this.indexdb = new IndexeddbPersistence(this.documentName, this.ydoc)
 
     this.provider.awareness.on('change', this.updateState)
 
@@ -123,6 +122,12 @@ export default {
       ]
 
       return colors[Math.floor(Math.random() * colors.length)]
+    },
+
+    getRandomName() {
+      const names = ['🙈', '🙉', '🙊', '💥', '💫', '💦', '💨', '🐵', '🐒', '🦍', '🦧', '🐶', '🐕', '🦮', '🐕‍🦺', '🐩', '🐺', '🦊', '🦝', '🐱', '🐈', '🦁', '🐯', '🐅', '🐆', '🐴', '🐎', '🦄', '🦓', '🦌', '🐮', '🐂', '🐃', '🐄', '🐷', '🐖', '🐗', '🐽', '🐏', '🐑', '🐐', '🐪', '🐫', '🦙', '🦒', '🐘', '🦏', '🦛', '🐭', '🐁', '🐀', '🐹', '🐰', '🐇', '🐿', '🦔', '🦇', '🐻', '🐨', '🐼', '🦥', '🦦', '🦨', '🦘', '🦡', '🐾', '🦃', '🐔', '🐓', '🐣', '🐤', '🐥', '🐦', '🐧', '🕊', '🦅', '🦆', '🦢', '🦉', '🦩', '🦚', '🦜', '🐸', '🐊', '🐢', '🦎', '🐍', '🐲', '🐉', '🦕', '🦖', '🐳', '🐋', '🐬', '🐟', '🐠', '🐡', '🦈', '🐙', '🐚', '🐌', '🦋', '🐛', '🐜', '🐝', '🐞', '🦗', '🕷', '🕸', '🦂', '🦟', '🦠']
+
+      return names[Math.floor(Math.random() * names.length)]
     },
 
     updateState() {
