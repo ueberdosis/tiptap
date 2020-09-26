@@ -36,7 +36,7 @@ export default {
   },
 
   mounted() {
-    const documentName = 'example'
+    const documentName = 'tiptap-collaboration-example'
 
     this.ydoc = new Y.Doc()
     this.provider = new WebrtcProvider(documentName, this.ydoc)
