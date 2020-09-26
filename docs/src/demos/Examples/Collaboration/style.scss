@@ -1,3 +1,21 @@
+.collaboration-status {
+  background: #eee;
+  color: #666;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+
+  &::before {
+    content: ' ';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: green;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
+}
+
 /* this is a rough fix for the first cursor position when the first paragraph is empty */
 .ProseMirror > .collaboration-cursor:first-child {
   margin-top: 16px;

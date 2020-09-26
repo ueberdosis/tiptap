@@ -1,5 +1,11 @@
 <template>
-  <editor-content :editor="editor" />
+  <div>
+    <editor-content :editor="editor" />
+
+    <div class="collaboration-status">
+      {{ numberOfConnectedUsers }} user{{ numberOfConnectedUsers === 1 ? '' : 's' }}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -22,6 +28,7 @@ export default {
       ydoc: null,
       provider: null,
       type: null,
+      numberOfConnectedUsers: 0,
       editor: null,
     }
   },
@@ -30,6 +37,9 @@ export default {
     this.ydoc = new Y.Doc()
     this.provider = new WebrtcProvider('example', this.ydoc)
     this.type = this.ydoc.getXmlFragment('prosemirror')
+    this.provider.on('peers', ({ bcPeers, webrtcPeers }) => {
+      this.numberOfConnectedUsers = bcPeers.length + webrtcPeers.length
+    })
 
     this.editor = new Editor({
       // TODO: This is added by every new user.
