@@ -21,7 +21,9 @@
     "react-dom": "^16.13.1",
     "remark-container": "^0.1.2",
     "typescript": "^4.0.3",
-    "vue-github-button": "^1.1.2"
+    "vue-github-button": "^1.1.2",
+    "y-webrtc": "^10.1.6",
+    "yjs": "^13.3.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",

@@ -2,7 +2,6 @@ import { Extension } from '@tiptap/core'
 import {
   redo, undo, ySyncPlugin, yUndoPlugin,
 } from 'y-prosemirror'
-import { keymap } from 'prosemirror-keymap'
 
 export interface CollaborationOptions {
   provider: any,
@@ -18,10 +17,12 @@ export default new Extension<CollaborationOptions>()
   .plugins(({ options }) => [
     ySyncPlugin(options.type),
     yUndoPlugin(),
-    keymap({
+  ])
+  .keys(() => {
+    return {
       'Mod-z': undo,
       'Mod-y': redo,
       'Mod-Shift-z': redo,
-    }),
-  ])
+    }
+  })
   .create()
