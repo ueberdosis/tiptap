@@ -22,13 +22,6 @@
     </div>
 
     <editor-content :editor="editor" />
-
-    <div class="collaboration-debug">
-      name: {{ name }};
-      color: {{ color }};
-      bcPeers: {{ numberOfBcPeers }};
-      webRtcPeers: {{ numberOfWebRtcPeers }};
-    </div>
   </div>
 </template>
 
@@ -56,9 +49,6 @@ export default {
       provider: null,
       type: null,
       indexdb: null,
-      numberOfConnectedUsers: 0,
-      numberOfBcPeers: 0,
-      numberOfWebRtcPeers: 0,
       editor: null,
       users: [],
     }
