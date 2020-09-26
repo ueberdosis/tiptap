@@ -1,0 +1,20 @@
+{
+  "name": "@tiptap/extension-collaboration",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-extension-collaboration.js",
+  "umd:main": "dist/tiptap-extension-collaboration.umd.js",
+  "module": "dist/tiptap-extension-collaboration.mjs",
+  "unpkg": "dist/tiptap-extension-collaboration.js",
+  "jsdelivr": "dist/tiptap-extension-collaboration.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "2.x"
+  },
+  "dependencies": {
+    "y-prosemirror": "^0.3.7"
+  }
+}
