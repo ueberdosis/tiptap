@@ -1,3 +1,23 @@
+.collaboration-users {
+  margin-top: 0.5rem;
+  &__item {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 0.25rem 0.5rem;
+    color: white;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.collaboration-debug {
+  background: #eee;
+  color: #666;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+
 .collaboration-status {
   background: #eee;
   color: #666;

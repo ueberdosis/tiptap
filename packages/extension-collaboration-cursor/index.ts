@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension, Command } from '@tiptap/core'
 import { yCursorPlugin } from 'y-prosemirror'
 
 export interface CollaborationCursorOptions {
@@ -8,8 +8,26 @@ export interface CollaborationCursorOptions {
   render (user: { name: string, color: string }): HTMLElement,
 }
 
+export type UserCommand = (attributes: {
+  name: string,
+  color: string,
+}) => Command
+
+declare module '@tiptap/core/src/Editor' {
+  interface Commands {
+    user: UserCommand,
+  }
+}
+
 export default new Extension<CollaborationCursorOptions>()
   .name('collaboration_cursor')
+  .commands(({ options }) => ({
+    user: attributes => () => {
+      options.provider.awareness.setLocalStateField('user', attributes)
+
+      return true
+    },
+  }))
   .defaults({
     provider: null,
     name: 'Someone',
