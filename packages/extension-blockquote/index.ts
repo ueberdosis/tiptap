@@ -1,5 +1,5 @@
 import { Command, Node } from '@tiptap/core'
-import { textblockTypeInputRule } from 'prosemirror-inputrules'
+import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export type BlockquoteCommand = () => Command
 
@@ -14,7 +14,7 @@ export const inputRegex = /^\s*>\s$/gm
 export default new Node()
   .name('blockquote')
   .schema(() => ({
-    content: 'inline*',
+    content: 'block*',
     group: 'block',
     defining: true,
     draggable: false,
@@ -24,14 +24,14 @@ export default new Node()
     toDOM: () => ['blockquote', 0],
   }))
   .commands(({ name }) => ({
-    [name]: attrs => ({ commands }) => {
-      return commands.toggleBlockType(name, 'paragraph', attrs)
+    [name]: () => ({ commands }) => {
+      return commands.toggleWrap(name)
     },
   }))
   .keys(({ editor }) => ({
     'Shift-Mod-9': () => editor.blockquote(),
   }))
   .inputRules(({ type }) => [
-    textblockTypeInputRule(inputRegex, type),
+    wrappingInputRule(inputRegex, type),
   ])
   .create()
