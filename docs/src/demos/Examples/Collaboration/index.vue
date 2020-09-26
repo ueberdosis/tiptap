@@ -17,6 +17,7 @@ import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import * as Y from 'yjs'
 import { WebrtcProvider } from 'y-webrtc'
+import { IndexeddbPersistence } from 'y-indexeddb'
 
 export default {
   components: {
@@ -28,15 +29,20 @@ export default {
       ydoc: null,
       provider: null,
       type: null,
+      indexdb: null,
       numberOfConnectedUsers: 0,
       editor: null,
     }
   },
 
   mounted() {
+    const name = 'example'
+
     this.ydoc = new Y.Doc()
-    this.provider = new WebrtcProvider('example', this.ydoc)
+    this.provider = new WebrtcProvider(name, this.ydoc)
     this.type = this.ydoc.getXmlFragment('prosemirror')
+    this.indexdb = new IndexeddbPersistence(name, this.ydoc)
+
     this.provider.on('peers', ({ bcPeers, webrtcPeers }) => {
       this.numberOfConnectedUsers = bcPeers.length + webrtcPeers.length
     })
