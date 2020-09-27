@@ -23,7 +23,7 @@ export default new Mark<LinkOptions>()
   .name('link')
   .defaults({
     openOnClick: true,
-    target: '_self',
+    target: '_blank',
     rel: 'noopener noreferrer nofollow',
   })
   .schema(({ options }) => ({
