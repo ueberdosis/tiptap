@@ -25,6 +25,7 @@ module.exports = {
         plugins: [
           '@gridsome/remark-prismjs',
           'remark-container',
+          'remark-toc',
         ],
         remark: {
           autolinkHeadings: {

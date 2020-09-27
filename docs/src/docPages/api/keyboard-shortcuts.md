@@ -7,6 +7,8 @@ Modifiers can be given in any order. `Shift`, `Alt`, `Control` and `Cmd` are rec
 
 You can use `Mod` as a shorthand for `Cmd` on Mac and `Control` on other platforms.
 
+## Table of Contents
+
 ## Overwrite keyboard shortcuts
 
 ```js

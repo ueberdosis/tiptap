@@ -1,6 +1,8 @@
 # Editor
 This class is a central building block of tiptap. It does most of the heavy lifting of creating a working  [ProseMirror](https://ProseMirror.net/) editor such as creating the [`EditorView`](https://ProseMirror.net/docs/ref/#view.EditorView), setting the initial [`EditorState`](https://ProseMirror.net/docs/ref/#state.Editor_State) and so on.
 
+## Table of Contents
+
 ## Configuration
 | Setting            | Type            | Default     | Description                                                                                                                                                                         |
 | ------------------ | --------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

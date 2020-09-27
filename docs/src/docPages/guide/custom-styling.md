@@ -1,6 +1,8 @@
 # Custom styling
 Tiptap is renderless, that doesn’t mean there is no styling provided. You can decided how your editor should look like.
 
+## Table of Contents
+
 ## Option 1: Style the plain HTML
 The whole editor is rendered inside of a container with the class `.ProseMirror`. You can use that to scope your styling to the editor content:
 

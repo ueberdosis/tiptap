@@ -1,6 +1,8 @@
 # Installation
 You’re free to use tiptap with the framework of your choice. Depending on what you want to do, there are a few different ways to install tiptap in your project. Choose the way that fits your workflow.
 
+## Table of Contents
+
 ## Option 1: Vanilla JavaScript
 Use tiptap with vanilla JavaScript for a very lightweight and raw experience. If you feel like it, you can even use it to connect tiptap with other frameworks not mentioned here.
 
@@ -49,7 +51,7 @@ yarn add @tiptap/core @tiptap/vue @tiptap/vue-starter-kit
 
 Create a new component and add the following content to get a basic version of tiptap:
 
-<demo name="General/Installation" />
+<demo name="Overview/Installation" />
 
 <!-- ## Option 3: CodeSandbox
 

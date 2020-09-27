@@ -1,6 +1,8 @@
 # Extensions
 Extensions are the way to add functionality to tiptap. By default tiptap comes bare, without any of them, but we have a long list of extensions that are ready to be used with tiptap.
 
+## Table of Contents
+
 ## A minimalist set of extensions
 You’ll need at least three extensions: `Document`, `Paragraph` and `Text`. See [an example of a tiptap version for minimalists](/examples/minimalist).
 

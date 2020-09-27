@@ -5,6 +5,8 @@ This schema is *very* strict. You can’t use any HTML element or attribute that
 
 Let me give you one example: If you paste something like `This is <strong>important</strong>` into tiptap, don’t have any extension that handles `strong` tags registered, you’ll only see `This is important` – without the strong tags.
 
+## Table of Contents
+
 ## How a schema looks like
 
 The most simple schema for a typical *ProseMirror* editor is looking something like that:
