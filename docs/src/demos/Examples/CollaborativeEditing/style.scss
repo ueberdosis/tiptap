@@ -1,5 +1,6 @@
 .collaboration-users {
   margin-top: 0.5rem;
+
   &__item {
     display: inline-block;
     border-radius: 5px;
@@ -28,15 +29,8 @@
   }
 }
 
-/* this is a rough fix for the first cursor position when the first paragraph is empty */
-.ProseMirror > .collaboration-cursor:first-child {
-  margin-top: 16px;
-}
-.ProseMirror p:first-child, .ProseMirror h1:first-child, .ProseMirror h2:first-child, .ProseMirror h3:first-child, .ProseMirror h4:first-child, .ProseMirror h5:first-child, .ProseMirror h6:first-child {
-  margin-top: 16px
-}
-/* This gives the remote user caret. The colors are automatically overwritten*/
-.collaboration-cursor {
+/* This gives the remote user caret */
+.collaboration-cursor__caret {
   position: relative;
   margin-left: -1px;
   margin-right: -1px;
@@ -45,10 +39,11 @@
   word-break: normal;
   pointer-events: none;
 }
+
 /* This renders the username above the caret */
-.collaboration-cursor > div {
+.collaboration-cursor__label {
   position: absolute;
-  top: -1.05em;
+  top: -1.6em;
   left: -1px;
   font-size: 13px;
   font-style: normal;
