@@ -9,9 +9,16 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
+export const inputRegex = /^```(?<language>[a-z]*)? $/
+
 export default new Node()
   .name('code_block')
   .schema(() => ({
+    attrs: {
+      language: {
+        default: null,
+      },
+    },
     content: 'text*',
     marks: '',
     group: 'block',
@@ -21,7 +28,7 @@ export default new Node()
     parseDOM: [
       { tag: 'pre', preserveWhitespace: 'full' },
     ],
-    toDOM: () => ['pre', ['code', 0]],
+    toDOM: node => ['pre', ['code', { class: node.attrs.language && `language-${node.attrs.language}` }, 0]],
   }))
   .commands(({ name }) => ({
     codeBlock: attrs => ({ commands }) => {
@@ -32,6 +39,6 @@ export default new Node()
     'Shift-Control-\\': () => editor.codeBlock(),
   }))
   .inputRules(({ type }) => [
-    textblockTypeInputRule(/^```$/, type),
+    textblockTypeInputRule(inputRegex, type, ({ groups }: any) => groups),
   ])
   .create()
