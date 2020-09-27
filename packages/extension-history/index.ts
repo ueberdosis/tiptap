@@ -13,8 +13,8 @@ declare module '@tiptap/core/src/Editor' {
 }
 
 export interface HistoryOptions {
-  depth: any,
-  newGroupDelay: any,
+  depth: number,
+  newGroupDelay: number,
 }
 
 export default new Extension<HistoryOptions>()
@@ -37,9 +37,6 @@ export default new Extension<HistoryOptions>()
     'Shift-Mod-z': () => editor.redo(),
   }))
   .plugins(({ options }) => [
-    history({
-      ...options.depth,
-      ...options.newGroupDelay,
-    }),
+    history(options),
   ])
   .create()
