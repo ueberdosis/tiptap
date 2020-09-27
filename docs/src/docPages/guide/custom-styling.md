@@ -8,7 +8,7 @@ The whole editor is rendered inside of a container with the class `.ProseMirror`
 
 ```css
 /* Scoped to the editor */
-.ProseMirror p {
+.ProseMirror p&nbsp;{
   margin: 1em 0;
 }
 ```
@@ -17,7 +17,7 @@ If you’re rendering the stored content somewhere, there won’t be a `.ProseMi
 
 ```css
 /* Global styling */
-p {
+p&nbsp;{
   margin: 1em 0;
 }
 ```

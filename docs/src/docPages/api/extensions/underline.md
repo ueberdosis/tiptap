@@ -27,8 +27,8 @@ yarn add @tiptap/extension-underline
 | underline | —       | Mark text as underlined. |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control` `U`
-* macOS: `Cmd` `U`
+* Windows/Linux: `Control`&nbsp;`U`
+* macOS: `Cmd`&nbsp;`U`
 
 ## Source code
 [packages/extension-underline/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)

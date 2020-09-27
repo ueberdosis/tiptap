@@ -27,7 +27,7 @@ yarn add @tiptap/extension-bullet-list @tiptap/extension-list-item
 | bullet_list | —       | Toggle a bullet list. |
 
 ## Keyboard shortcuts
-* `Control` `Shift` `8`
+* `Control`&nbsp;`Shift`&nbsp;`8`
 
 ## Source code
 [packages/extension-bullet-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/)

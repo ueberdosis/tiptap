@@ -25,8 +25,8 @@ yarn add @tiptap/extension-paragraph
 | paragraph | —       | Transforms all selected nodes to paragraphs. |
 
 ## Keyboard shortcuts
-* Windows & Linux: `Control` `Alt` `0`
-* macOS: `Cmd` `Alt` `0`
+* Windows & Linux: `Control`&nbsp;`Alt`&nbsp;`0`
+* macOS: `Cmd`&nbsp;`Alt`&nbsp;`0`
 
 ## Source code
 [packages/extension-paragraph/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-paragraph/)

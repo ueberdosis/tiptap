@@ -27,8 +27,8 @@ yarn add @tiptap/extension-italic
 | italic  | —       | Mark text italic. |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control` `I`
-* macOS: `Cmd` `I`
+* Windows/Linux: `Control`&nbsp;`I`
+* macOS: `Cmd`&nbsp;`I`
 
 ## Source code
 [packages/extension-italic/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)

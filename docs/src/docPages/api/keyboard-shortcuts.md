@@ -37,66 +37,66 @@ new Editor({
 ### Essentials
 | Action                   | Windows/Linux         | macOS             |
 | ------------------------ | --------------------- | ----------------- |
-| Copy                     | `Control` `C`         | `Cmd` `C`         |
-| Cut                      | `Control` `X`         | `Cmd` `X`         |
-| Paste                    | `Control` `V`         | `Cmd` `V`         |
-| Paste without formatting | `Control` `Shift` `V` | `Cmd` `Shift` `V` |
-| Undo                     | `Control` `Z`         | `Cmd` `Z`         |
-| Redo                     | `Control` `Shift` `Z` | `Cmd` `Shift` `Z` |
-| Insert or edit link      | `Control` `K`         | `Cmd` `K`         |
-| Open link                | `Alt` `Enter`         | `Alt` `Enter`     |
-| Find                     | `Control` `F`         | `Cmd` `F`         |
-| Find and replace         | `Control` `H`         | `Cmd` `Shift` `H` |
-| Find again               | `Control` `G`         | `Cmd` `G`         |
-| Find previous            | `Control` `Shift` `G` | `Cmd` `Shift` `G` |
-| Repeat last action       | `Control` `Y`         | `Cmd` `Y`         |
-| Add a line break         | `Shift` `Enter`       | `Shift` `Enter`   |
+| Copy                     | `Control`&nbsp;`C`         | `Cmd`&nbsp;`C`         |
+| Cut                      | `Control`&nbsp;`X`         | `Cmd`&nbsp;`X`         |
+| Paste                    | `Control`&nbsp;`V`         | `Cmd`&nbsp;`V`         |
+| Paste without formatting | `Control`&nbsp;`Shift`&nbsp;`V` | `Cmd`&nbsp;`Shift`&nbsp;`V` |
+| Undo                     | `Control`&nbsp;`Z`         | `Cmd`&nbsp;`Z`         |
+| Redo                     | `Control`&nbsp;`Shift`&nbsp;`Z` | `Cmd`&nbsp;`Shift`&nbsp;`Z` |
+| Insert or edit link      | `Control`&nbsp;`K`         | `Cmd`&nbsp;`K`         |
+| Open link                | `Alt`&nbsp;`Enter`         | `Alt`&nbsp;`Enter`     |
+| Find                     | `Control`&nbsp;`F`         | `Cmd`&nbsp;`F`         |
+| Find and replace         | `Control`&nbsp;`H`         | `Cmd`&nbsp;`Shift`&nbsp;`H` |
+| Find again               | `Control`&nbsp;`G`         | `Cmd`&nbsp;`G`         |
+| Find previous            | `Control`&nbsp;`Shift`&nbsp;`G` | `Cmd`&nbsp;`Shift`&nbsp;`G` |
+| Repeat last action       | `Control`&nbsp;`Y`         | `Cmd`&nbsp;`Y`         |
+| Add a line break         | `Shift`&nbsp;`Enter`       | `Shift`&nbsp;`Enter`   |
 
 ### Text Formatting
 | Action                | Windows/Linux                                 | macOS             |
 | --------------------- | --------------------------------------------- | ----------------- |
-| Bold                  | `Control` `B`                                 | `Cmd` `B`         |
-| Italicize             | `Control` `I`                                 | `Cmd` `I`         |
-| Underline             | `Control` `U`                                 | `Cmd` `U`         |
-| Strikethrough         | `Alt` `Shift` `5`                             | `Cmd` `Shift` `X` |
-| Superscript           | `Control` `.`                                 | `Cmd` `.`         |
-| Subscript             | `Control` `,`                                 | `Cmd` `,`         |
-| Copy text formatting  | `Control` `Alt` `C`                           | `Cmd` `Alt` `C`   |
-| Paste text formatting | `Control` `Alt` `V`                           | `Cmd` `Alt` `V`   |
-| Clear text formatting | `Control` <code>\</code><br>`Control` `Space` | `Cmd` `\`         |
-| Increase font size    | `Control` `Shift` `>`                         | `Cmd` `Shift` `>` |
-| Decrease font size    | `Control` `Shift` `<`                         | `Cmd` `Shift` `<` |
+| Bold                  | `Control`&nbsp;`B`                                 | `Cmd`&nbsp;`B`         |
+| Italicize             | `Control`&nbsp;`I`                                 | `Cmd`&nbsp;`I`         |
+| Underline             | `Control`&nbsp;`U`                                 | `Cmd`&nbsp;`U`         |
+| Strikethrough         | `Alt`&nbsp;`Shift`&nbsp;`5`                             | `Cmd`&nbsp;`Shift`&nbsp;`X` |
+| Superscript           | `Control`&nbsp;`.`                                 | `Cmd`&nbsp;`.`         |
+| Subscript             | `Control`&nbsp;`,`                                 | `Cmd`&nbsp;`,`         |
+| Copy text formatting  | `Control`&nbsp;`Alt`&nbsp;`C`                           | `Cmd`&nbsp;`Alt`&nbsp;`C`   |
+| Paste text formatting | `Control`&nbsp;`Alt`&nbsp;`V`                           | `Cmd`&nbsp;`Alt`&nbsp;`V`   |
+| Clear text formatting | `Control`&nbsp;<code>\</code><br>`Control`&nbsp;`Space` | `Cmd`&nbsp;`\`         |
+| Increase font size    | `Control`&nbsp;`Shift`&nbsp;`>`                         | `Cmd`&nbsp;`Shift`&nbsp;`>` |
+| Decrease font size    | `Control`&nbsp;`Shift`&nbsp;`<`                         | `Cmd`&nbsp;`Shift`&nbsp;`<` |
 
 ### Paragraph Formatting
 | Action                         | Windows/Linux         | macOS                 |
 | ------------------------------ | --------------------- | --------------------- |
-| Increase paragraph indentation | `Control` `]`         | `Cmd` `]`             |
-| Decrease paragraph indentation | `Control` `[`         | `Cmd` `[`             |
-| Apply normal text style        | `Control` `Alt` `0`   | `Cmd` `Alt` `0`       |
-| Apply heading style 1          | `Control` `Alt` `1`   | `Cmd` `Alt` `1`       |
-| Apply heading style 2          | `Control` `Alt` `2`   | `Cmd` `Alt` `2`       |
-| Apply heading style 3          | `Control` `Alt` `3`   | `Cmd` `Alt` `3`       |
-| Apply heading style 4          | `Control` `Alt` `4`   | `Cmd` `Alt` `4`       |
-| Apply heading style 5          | `Control` `Alt` `5`   | `Cmd` `Alt` `5`       |
-| Apply heading style 6          | `Control` `Alt` `6`   | `Cmd` `Alt` `6`       |
-| Left align                     | `Control` `Shift` `L` | `Cmd` `Shift` `L`     |
-| Center align                   | `Control` `Shift` `E` | `Cmd` `Shift` `E`     |
-| Right align                    | `Control` `Shift` `R` | `Cmd` `Shift` `R`     |
-| Justify                        | `Control` `Shift` `J` | `Cmd` `Shift` `J`     |
-| Numbered list                  | `Control` `Shift` `7` | `Cmd` `Shift` `7`     |
-| Bulleted list                  | `Control` `Shift` `8` | `Cmd` `Shift` `8`     |
-| Move paragraph up              | `Control` `Shift` `↑` | `Control` `Shift` `↑` |
-| Move paragraph down            | `Control` `Shift` `↓` | `Control` `Shift` `↓` |
+| Increase paragraph indentation | `Control`&nbsp;`]`         | `Cmd`&nbsp;`]`             |
+| Decrease paragraph indentation | `Control`&nbsp;`[`         | `Cmd`&nbsp;`[`             |
+| Apply normal text style        | `Control`&nbsp;`Alt`&nbsp;`0`   | `Cmd`&nbsp;`Alt`&nbsp;`0`       |
+| Apply heading style 1          | `Control`&nbsp;`Alt`&nbsp;`1`   | `Cmd`&nbsp;`Alt`&nbsp;`1`       |
+| Apply heading style 2          | `Control`&nbsp;`Alt`&nbsp;`2`   | `Cmd`&nbsp;`Alt`&nbsp;`2`       |
+| Apply heading style 3          | `Control`&nbsp;`Alt`&nbsp;`3`   | `Cmd`&nbsp;`Alt`&nbsp;`3`       |
+| Apply heading style 4          | `Control`&nbsp;`Alt`&nbsp;`4`   | `Cmd`&nbsp;`Alt`&nbsp;`4`       |
+| Apply heading style 5          | `Control`&nbsp;`Alt`&nbsp;`5`   | `Cmd`&nbsp;`Alt`&nbsp;`5`       |
+| Apply heading style 6          | `Control`&nbsp;`Alt`&nbsp;`6`   | `Cmd`&nbsp;`Alt`&nbsp;`6`       |
+| Left align                     | `Control`&nbsp;`Shift`&nbsp;`L` | `Cmd`&nbsp;`Shift`&nbsp;`L`     |
+| Center align                   | `Control`&nbsp;`Shift`&nbsp;`E` | `Cmd`&nbsp;`Shift`&nbsp;`E`     |
+| Right align                    | `Control`&nbsp;`Shift`&nbsp;`R` | `Cmd`&nbsp;`Shift`&nbsp;`R`     |
+| Justify                        | `Control`&nbsp;`Shift`&nbsp;`J` | `Cmd`&nbsp;`Shift`&nbsp;`J`     |
+| Numbered list                  | `Control`&nbsp;`Shift`&nbsp;`7` | `Cmd`&nbsp;`Shift`&nbsp;`7`     |
+| Bulleted list                  | `Control`&nbsp;`Shift`&nbsp;`8` | `Cmd`&nbsp;`Shift`&nbsp;`8`     |
+| Move paragraph up              | `Control`&nbsp;`Shift`&nbsp;`↑` | `Control`&nbsp;`Shift`&nbsp;`↑` |
+| Move paragraph down            | `Control`&nbsp;`Shift`&nbsp;`↓` | `Control`&nbsp;`Shift`&nbsp;`↓` |
 
 ### Text Selection
 | Action                                            | Windows/Linux         | macOS             |
 | ------------------------------------------------- | --------------------- | ----------------- |
-| Select all                                        | `Control` `A`         | `Cmd` `A`         |
-| Extend selection one character to left            | `Shift` `←`           | `Shift` `←`       |
-| Extend selection one character to right           | `Shift` `→`           | `Shift` `→`       |
-| Extend selection one line up                      | `Shift` `↑`           | `Shift` `↑`       |
-| Extend selection one line down                    | `Shift` `↓`           | `Shift` `↓`       |
-| Extend selection one paragraph up                 | `Alt` `Shift` `↑`     | `Alt` `Shift` `↑` |
-| Extend selection one paragraph down               | `Alt` `Shift` `↓`     | `Alt` `Shift` `↓` |
-| Extend selection to the beginning of the document | `Control` `Shift` `↑` | `Cmd` `Shift` `↑` |
-| Extend selection to the end of the document       | `Control` `Shift` `↓` | `Cmd` `Shift` `↓` |
+| Select all                                        | `Control`&nbsp;`A`         | `Cmd`&nbsp;`A`         |
+| Extend selection one character to left            | `Shift`&nbsp;`←`           | `Shift`&nbsp;`←`       |
+| Extend selection one character to right           | `Shift`&nbsp;`→`           | `Shift`&nbsp;`→`       |
+| Extend selection one line up                      | `Shift`&nbsp;`↑`           | `Shift`&nbsp;`↑`       |
+| Extend selection one line down                    | `Shift`&nbsp;`↓`           | `Shift`&nbsp;`↓`       |
+| Extend selection one paragraph up                 | `Alt`&nbsp;`Shift`&nbsp;`↑`     | `Alt`&nbsp;`Shift`&nbsp;`↑` |
+| Extend selection one paragraph down               | `Alt`&nbsp;`Shift`&nbsp;`↓`     | `Alt`&nbsp;`Shift`&nbsp;`↓` |
+| Extend selection to the beginning of the document | `Control`&nbsp;`Shift`&nbsp;`↑` | `Cmd`&nbsp;`Shift`&nbsp;`↑` |
+| Extend selection to the end of the document       | `Control`&nbsp;`Shift`&nbsp;`↓` | `Cmd`&nbsp;`Shift`&nbsp;`↓` |

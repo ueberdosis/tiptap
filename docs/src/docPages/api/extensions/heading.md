@@ -24,8 +24,8 @@ yarn add @tiptap/extension-heading
 | heading | level   | Creates a heading node. |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control` `Alt` `1-6`
-* macOS: `Cmd` `Alt` `1-6`
+* Windows/Linux: `Control`&nbsp;`Alt`&nbsp;`1-6`
+* macOS: `Cmd`&nbsp;`Alt`&nbsp;`1-6`
 
 ## Source code
 [packages/extension-heading/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-heading/)

@@ -27,8 +27,8 @@ yarn add @tiptap/extension-strike
 | strike  | —       | Mark text as strikethrough. |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control` `D`
-* macOS: `Cmd` `D`
+* Windows/Linux: `Control`&nbsp;`D`
+* macOS: `Cmd`&nbsp;`D`
 
 ## Source code
 [packages/extension-strike/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)

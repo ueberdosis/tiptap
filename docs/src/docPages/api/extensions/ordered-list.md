@@ -27,7 +27,7 @@ yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 | ordered_list | —       | Toggle a ordered list. |
 
 ## Keyboard shortcuts
-* `Control` `Shift` `9`
+* `Control`&nbsp;`Shift`&nbsp;`9`
 
 ## Source code
 [packages/extension-ordered-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-ordered-list/)
