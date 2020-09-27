@@ -22,6 +22,20 @@ context('/api/extensions/blockquote', () => {
       .should('contain', 'Example Text')
   })
 
+  it('the button should wrap all nodes in a blockquote', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<p>Example Text</p><p>Example Text</p>')
+      editor.selectAll()
+    })
+
+    cy.get('.demo__preview button:first')
+      .click()
+
+    cy.get('.ProseMirror')
+      .find('blockquote')
+      .should('have.length', 1)
+  })
+
   it('the button should toggle the blockquote', () => {
     cy.get('.ProseMirror blockquote')
       .should('not.exist')

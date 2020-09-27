@@ -59,9 +59,24 @@ context('/api/extensions/code-block', () => {
   })
 
   it('should make a code block from markdown shortcuts', () => {
-    cy.get('.ProseMirror')
-      .type('``` {enter}Code')
-      .find('pre')
-      .should('contain', 'Code')
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.clearContent()
+
+      cy.get('.ProseMirror')
+        .type('``` Code')
+        .find('pre>code')
+        .should('contain', 'Code')
+    })
+  })
+
+  it('should make a code block for js', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.clearContent()
+
+      cy.get('.ProseMirror')
+        .type('```js Code')
+        .find('pre>code.language-js')
+        .should('contain', 'Code')
+    })
   })
 })
