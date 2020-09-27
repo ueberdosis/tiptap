@@ -46,7 +46,7 @@ context('/api/extensions/heading', () => {
       .should('contain', 'Example Text')
   })
 
-  it('the button should toggle the headline', () => {
+  it('the button should toggle the heading', () => {
     cy.get('.ProseMirror h1')
       .should('not.exist')
 
@@ -64,7 +64,7 @@ context('/api/extensions/heading', () => {
       .should('not.exist')
   })
 
-  it('should make a headline from the default markdown shortcut', () => {
+  it('should make a heading from the default markdown shortcut', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.clearContent()
     })
