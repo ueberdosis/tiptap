@@ -22,7 +22,7 @@ context('/api/extensions/blockquote', () => {
       .should('contain', 'Example Text')
   })
 
-  it('the button should wrap all nodes in a blockquote', () => {
+  it('the button should wrap all nodes in one blockquote', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p><p>Example Text</p>')
       editor.selectAll()
