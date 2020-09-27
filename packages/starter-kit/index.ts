@@ -9,7 +9,6 @@ import CodeBlock from '@tiptap/extension-code-block'
 import Heading from '@tiptap/extension-heading'
 import HardBreak from '@tiptap/extension-hard-break'
 import Strike from '@tiptap/extension-strike'
-import Underline from '@tiptap/extension-underline'
 import Blockquote from '@tiptap/extension-blockquote'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import BulletList from '@tiptap/extension-bullet-list'
@@ -29,7 +28,6 @@ export default function defaultExtensions() {
     Heading(),
     HardBreak(),
     Strike(),
-    Underline(),
     Blockquote(),
     HorizontalRule(),
     BulletList(),

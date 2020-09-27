@@ -31,7 +31,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 | [Paragraph](/api/extensions/paragraph)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-paragraph/)            |
 | [Strike](/api/extensions/strike)                            | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)               |
 | [Text](/api/extensions/text)                                | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text/)                 |
-| [Underline](/api/extensions/underline)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)            |
+| [Underline](/api/extensions/underline)                      | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)            |
 
 <!-- | [CodeBlockHighlight](/api/extensions/code-block-highlight) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packagescode-block-highlight/extension-/) -->
 <!-- | [Mention](/api/extensions/mention) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-mention/) -->

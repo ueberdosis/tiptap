@@ -8,9 +8,6 @@
       <button @click="editor.chain().focus().italic().run()" :class="{ 'is-active': editor.isActive('italic') }">
         italic
       </button>
-      <button @click="editor.chain().focus().underline().run()" :class="{ 'is-active': editor.isActive('underline') }">
-        underline
-      </button>
       <button @click="editor.chain().focus().strike().run()" :class="{ 'is-active': editor.isActive('strike') }">
         strike
       </button>
