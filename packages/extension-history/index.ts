@@ -13,13 +13,15 @@ declare module '@tiptap/core/src/Editor' {
 }
 
 export interface HistoryOptions {
-  historyPluginOptions: Record<string, unknown>,
+  depth: number,
+  newGroupDelay: number,
 }
 
 export default new Extension<HistoryOptions>()
   .name('history')
   .defaults({
-    historyPluginOptions: {},
+    depth: 100,
+    newGroupDelay: 500,
   })
   .commands(() => ({
     undo: () => ({ state, dispatch }) => {
@@ -35,6 +37,6 @@ export default new Extension<HistoryOptions>()
     'Shift-Mod-z': () => editor.redo(),
   }))
   .plugins(({ options }) => [
-    history(options.historyPluginOptions),
+    history(options),
   ])
   .create()
