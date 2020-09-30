@@ -10,6 +10,7 @@ import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
 import getHtmlFromFragment from './utils/getHtmlFromFragment'
+import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
@@ -18,6 +19,7 @@ import Node from './Node'
 import Mark from './Mark'
 import defaultPlugins from './plugins'
 import * as coreCommands from './commands'
+import style from './style'
 
 export type Command = (props: {
   editor: Editor,
@@ -118,10 +120,7 @@ export class Editor extends EventEmitter {
     this.extensionManager.resolveConfigs()
     this.createView()
     this.registerCommands(coreCommands)
-
-    if (this.options.injectCSS) {
-      require('./style.css')
-    }
+    this.injectCSS()
 
     this.proxy.focus(this.options.autoFocus)
   }
@@ -141,6 +140,15 @@ export class Editor extends EventEmitter {
    */
   public chain() {
     return this.commandManager.createChain()
+  }
+
+  /**
+   * Inject CSS styles.
+   */
+  private injectCSS() {
+    if (this.options.injectCSS && document) {
+      this.css = createStyleTag(style)
+    }
   }
 
   /**
