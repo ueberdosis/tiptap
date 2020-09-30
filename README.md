@@ -22,7 +22,7 @@ With renderless components you'll have (almost) full control over markup and sty
 
 You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can pass these two types back to the editor.
 
-## Should I start to integrate tiptap 1 or wait for tiptap 2?
+### Should I start to integrate tiptap 1 or wait for tiptap 2?
 
 Good question! Tiptap 2 is about to come in the next months and we’re going to provide an upgrade guide for you. Sure, there are a lot of things that will change, but you should be able to refactor everything in an hour so (depending on the size of your project).
 
