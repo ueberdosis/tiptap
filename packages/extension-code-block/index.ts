@@ -36,14 +36,8 @@ export default new Node<CodeBlockOptions>()
       {
         tag: 'pre',
         preserveWhitespace: 'full',
-        getAttrs(dom) {
-          const code = (dom as HTMLElement).firstChild
-
-          if (!code) {
-            return null
-          }
-
-          const classAttribute = ((code as HTMLElement).getAttribute('class') as string)
+        getAttrs(node) {
+          const classAttribute = (node as Element).firstElementChild?.getAttribute('class')
 
           if (!classAttribute) {
             return null
@@ -55,7 +49,9 @@ export default new Node<CodeBlockOptions>()
         },
       },
     ],
-    toDOM: node => ['pre', ['code', { class: node.attrs.language && options.languageClassPrefix + node.attrs.language }, 0]],
+    toDOM: node => ['pre', ['code', {
+      class: node.attrs.language && options.languageClassPrefix + node.attrs.language,
+    }, 0]],
   }))
   .commands(({ name }) => ({
     codeBlock: attrs => ({ commands }) => {
