@@ -107,7 +107,7 @@ export default {
         </p>
         <pre><code class="language-css">body { display: none; }</code></pre>
         <p>
-          I know, I know, it’s impressive. Give it a try and click a little bit around.
+          I know, I know, it’s impressive. Give it a try and click a little bit around. But don’t forget to check the other examples too.
         </p>
         <blockquote>
           Wow, that’s amazing. Good work, boy! 👏
