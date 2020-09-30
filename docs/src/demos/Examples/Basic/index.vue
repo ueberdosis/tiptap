@@ -89,21 +89,30 @@ export default {
           Hi there,
         </h2>
         <p>
-          this is a very <em>basic</em> example of tiptap.
+          this is a basic <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the bullet lists:
         </p>
-        <pre><code>body { display: none; }</code></pre>
         <ul>
           <li>
-            A regular list
+            With one …
           </li>
           <li>
-            With regular items
+            … or two list items.
+          </li>
+          <li>
+            And yes, even more.
           </li>
         </ul>
+        <p>
+          Isn’t that great? But wait, there’s more. Let’s try a code block:
+        </p>
+        <pre><code class="language-css">body { display: none; }</code></pre>
+        <p>
+          I know, I know, it’s impressive. Give it a try and click a little bit around.
+        </p>
         <blockquote>
-          It's amazing 👏
+          Wow, that’s amazing. Good work, boy! 👏
           <br />
-          – mom
+          — Mom
         </blockquote>
       `,
     })
