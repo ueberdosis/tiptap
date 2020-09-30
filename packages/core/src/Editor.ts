@@ -159,7 +159,7 @@ export class Editor extends EventEmitter {
   public setOptions(options: Partial<EditorOptions> = {}) {
     this.options = { ...this.options, ...options }
 
-    if (this.view && this.state) {
+    if (this.view && this.state && !this.isDestroyed) {
       this.view.updateState(this.state)
     }
   }
@@ -397,6 +397,14 @@ export class Editor extends EventEmitter {
 
     this.removeAllListeners()
     removeElement(this.css)
+  }
+
+  /**
+   * Check if the editor is already destroyed.
+   */
+  private get isDestroyed() {
+    // @ts-ignore
+    return !this.view?.docView
   }
 
 }

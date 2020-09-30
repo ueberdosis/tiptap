@@ -29,6 +29,8 @@ export default Vue.extend({
   },
 
   beforeDestroy() {
-    this.editor.options.element = this.$el
+    this.editor.setOptions({
+      element: this.$el,
+    })
   },
 })
