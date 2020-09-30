@@ -26,7 +26,25 @@ export default new Node()
     defining: true,
     draggable: false,
     parseDOM: [
-      { tag: 'pre', preserveWhitespace: 'full' },
+      {
+        tag: 'pre',
+        preserveWhitespace: 'full',
+        getAttrs(dom) {
+          const code = (dom as HTMLElement).firstChild
+
+          if (!code) {
+            return null
+          }
+
+          const classAttribute = ((code as HTMLElement).getAttribute('class') as string)
+
+          if (!classAttribute) {
+            return null
+          }
+
+          return { language: classAttribute.replace(/^(language-)/, '') }
+        },
+      },
     ],
     toDOM: node => ['pre', ['code', { class: node.attrs.language && `language-${node.attrs.language}` }, 0]],
   }))
