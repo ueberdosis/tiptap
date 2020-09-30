@@ -14,9 +14,6 @@ module.exports = {
         './**/*.js',
         './**/*.vue',
       ],
-      excludedFiles: [
-        'dist/**',
-      ],
       plugins: [
         'html',
         'cypress',
