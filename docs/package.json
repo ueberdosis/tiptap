@@ -23,6 +23,7 @@
     "remark-toc": "^7.0.0",
     "typescript": "^4.0.3",
     "vue-github-button": "^1.1.2",
+    "vue-live": "^1.14.0",
     "y-indexeddb": "^9.0.5",
     "y-webrtc": "^10.1.6",
     "yjs": "^13.3.2"

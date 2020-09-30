@@ -1,6 +1,8 @@
 import Vue from 'vue'
 
 export default Vue.extend({
+  name: 'EditorContent',
+
   props: {
     editor: {
       default: null,

@@ -9,6 +9,13 @@ $codeBlue: #89ddff;
 $codeTeal: #80cbc4;
 $codePurple: #c792ea;
 
+.prism-editor__textarea {
+  background: transparent;
+  border: 0;
+}
+
+.prism-editor__textarea,
+.prism-editor__editor,
 code[class*="language-"],
 pre[class*="language-"] {
   position: relative;
