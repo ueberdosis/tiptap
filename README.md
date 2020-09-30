@@ -3,7 +3,7 @@
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
 
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/ueberdosis/tiptap) 
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/ueberdosis/tiptap)
 [![Version](https://img.shields.io/npm/v/tiptap.svg?label=version)](https://www.npmjs.com/package/tiptap)
 [![Downloads](https://img.shields.io/npm/dm/tiptap.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
 [![License](https://img.shields.io/npm/l/tiptap.svg)](https://www.npmjs.com/package/tiptap)
@@ -22,7 +22,15 @@ With renderless components you'll have (almost) full control over markup and sty
 
 You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can pass these two types back to the editor.
 
-## 💖 Sponsor the development 
+## Should I start to integrate tiptap 1 or wait for tiptap 2?
+
+Good question! Tiptap 2 is about to come in the next months and we’re going to provide an upgrade guide for you. Sure, there are a lot of things that will change, but you should be able to refactor everything in an hour so (depending on the size of your project).
+
+The extension API will have a lot of breaking changes. So if you’re up to write a lot of custom extensions, expect to rewrite them for tiptap 2. You’ll likely reuse all the single parts (schema, inputRules, pasteRules, keyboard shortcuts …), but the API to register them will be different.
+
+**In other words: No need to wait for tiptap 2.** Start your project, you’ll be able to upgrade in a reasonable amount of time.
+
+## 💖 Sponsor the development
 
 Are you using tiptap in production? We need your sponsorship to maintain, update and develop tiptap. [Become a Sponsor now!](https://github.com/sponsors/ueberdosis)
 
