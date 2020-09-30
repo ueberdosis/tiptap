@@ -1,4 +1,4 @@
-.ProseMirror {
+const style = `.ProseMirror {
   position: relative;
 }
 
@@ -49,4 +49,6 @@
 
 .ProseMirror-focused .ProseMirror-gapcursor {
   display: block;
-}
+}`
+
+export default style

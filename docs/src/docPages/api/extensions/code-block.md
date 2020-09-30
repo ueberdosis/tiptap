@@ -17,9 +17,10 @@ yarn add @tiptap/extension-code-block
 ```
 
 ## Settings
-| Option | Type   | Default | Description                                  |
-| ------ | ------ | ------- | -------------------------------------------- |
-| class  | string | –       | Add a custom class to the rendered HTML tag. |
+| Option              | Type   | Default   | Description                                                      |
+| ------------------- | ------ | --------- | ---------------------------------------------------------------- |
+| class               | string | –         | Add a custom class to the rendered HTML tag.                     |
+| languageClassPrefix | string | language- | Adds a prefix to language classes that are applied to code tags. |
 
 ## Commands
 | Command   | Options | Description                   |

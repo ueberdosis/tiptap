@@ -7,10 +7,10 @@ tiptap is framework-agnostic and works with Vue.js and React. It even works with
 We assume you already have a [Vue.js](https://cli.vuejs.org/) (or [Nuxt.js](https://nuxtjs.org/)) project. To connect tiptap with Vue.js you are going to need an adapter. You can install tiptap for Vue.js as a dependency in your project:
 
 ```bash
-# Install Vue.js adapter with npm
+# Install the Vue.js adapter with npm
 npm install @tiptap/vue @tiptap/vue-starter-kit
 
-# Or: Install Vue.js adapter with Yarn
+# Or: Install the Vue.js adapter with Yarn
 yarn add @tiptap/vue @tiptap/vue-starter-kit
 ```
 
@@ -21,8 +21,8 @@ Create a new Vue component (you can call it `<Tiptap />`) and add the following 
 
 <demo name="Guide/GettingStarted" />
 
-::: warning Using with Nuxt.js
-If you are using Nuxt.js, note that tiptap needs to run in the client, not on the server. It’s required to wrap the editor in a `<client-only>` tag.
+::: warning Nuxt.js
+If you use Nuxt.js, note that tiptap needs to run in the client, not on the server. It’s required to wrap the editor in a `<client-only>` tag.
 :::
 
 Congrats! You’ve got it! 🎉 Let’s start to configure your editor in the next step.

@@ -69,6 +69,16 @@ context('/api/extensions/code-block', () => {
     })
   })
 
+  it('should parse the language from a HTML code block', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<pre><code class="language-css">body { display: none; }</code></pre>')
+
+      cy.get('.ProseMirror')
+        .find('pre>code.language-css')
+        .should('have.length', 1)
+    })
+  })
+
   it('should make a code block for js', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.clearContent()

@@ -1,7 +1,9 @@
 # Installation
-You’re free to use tiptap with the framework of your choice. Depending on what you want to do, there are a few different ways to install tiptap in your project. Choose the way that fits your workflow.
 
 ## Table of Contents
+
+## Introduction
+You’re free to use tiptap with the framework of your choice. Depending on what you want to do, there are a few different ways to install tiptap in your project. Choose the way that fits your workflow.
 
 ## Option 1: Vanilla JavaScript
 Use tiptap with vanilla JavaScript for a very lightweight and raw experience. If you feel like it, you can even use it to connect tiptap with other frameworks not mentioned here.
@@ -13,11 +15,6 @@ npm install @tiptap/core @tiptap/starter-kit
 # Or: With Yarn
 yarn add @tiptap/core @tiptap/starter-kit
 ```
-
-| Package                                                                      | Description                |
-| ---------------------------------------------------------------------------- | -------------------------- |
-| [@tiptap/core](https://www.npmjs.com/package/@tiptap/core)                   | The actual editor          |
-| [@tiptap/starter-kit](https://www.npmjs.com/package/@tiptap/vue-starter-kit) | The most common extensions |
 
 Great, that should be enough to start. Here is the most essential code you need to get a running instance of tiptap:
 
@@ -33,7 +30,7 @@ new Editor({
 ```
 
 ## Option 2: Vue.js
-To use tiptap with Vue.js (and tools that are based on Vue.js) install tiptap together with the Vue.js rendering adapter in your project. We even prepared a Vue.js starter kit, which gives you a good headstart.
+To use tiptap with Vue.js (and tools that are based on Vue.js) install tiptap together with the Vue.js adapter in your project. We even prepared a Vue.js starter kit, which gives you a good headstart.
 
 ```bash
 # With npm
@@ -43,15 +40,13 @@ npm install @tiptap/core @tiptap/vue @tiptap/vue-starter-kit
 yarn add @tiptap/core @tiptap/vue @tiptap/vue-starter-kit
 ```
 
-| Package                                                                          | Description                                   |
-| -------------------------------------------------------------------------------- | --------------------------------------------- |
-| [@tiptap/core](https://www.npmjs.com/package/@tiptap/core)                       | The actual editor                             |
-| [@tiptap/vue](https://www.npmjs.com/package/@tiptap/vue)                         | Rendering for Vue.js                          |
-| [@tiptap/vue-starter-kit](https://www.npmjs.com/package/@tiptap/vue-starter-kit) | The most common extensions wrapped for Vue.js |
-
 Create a new component and add the following content to get a basic version of tiptap:
 
 <demo name="Overview/Installation" />
+
+::: warning Nuxt.js
+If you use Nuxt.js, note that tiptap needs to run in the client, not on the server. It’s required to wrap the editor in a `<client-only>` tag.
+:::
 
 <!-- ## Option 3: CodeSandbox
 
