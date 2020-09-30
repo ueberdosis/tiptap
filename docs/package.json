@@ -25,7 +25,7 @@
     "vue-github-button": "^1.1.2",
     "y-indexeddb": "^9.0.5",
     "y-webrtc": "^10.1.6",
-    "yjs": "^13.3.2"
+    "yjs": "^13.4.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
