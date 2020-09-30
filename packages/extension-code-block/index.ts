@@ -1,6 +1,10 @@
 import { Command, Node } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
+export interface CodeBlockOptions {
+  languageClassPrefix: string,
+}
+
 export type CodeBlockCommand = () => Command
 
 declare module '@tiptap/core/src/Editor' {
@@ -11,9 +15,12 @@ declare module '@tiptap/core/src/Editor' {
 
 export const inputRegex = /^```(?<language>[a-z]*)? $/
 
-export default new Node()
+export default new Node<CodeBlockOptions>()
   .name('code_block')
-  .schema(() => ({
+  .defaults({
+    languageClassPrefix: 'language-',
+  })
+  .schema(({ options }) => ({
     attrs: {
       language: {
         default: null,
@@ -42,11 +49,13 @@ export default new Node()
             return null
           }
 
-          return { language: classAttribute.replace(/^(language-)/, '') }
+          const regexLanguageClassPrefix = new RegExp(`^(${options.languageClassPrefix})`)
+
+          return { language: classAttribute.replace(regexLanguageClassPrefix, '') }
         },
       },
     ],
-    toDOM: node => ['pre', ['code', { class: node.attrs.language && `language-${node.attrs.language}` }, 0]],
+    toDOM: node => ['pre', ['code', { class: node.attrs.language && options.languageClassPrefix + node.attrs.language }, 0]],
   }))
   .commands(({ name }) => ({
     codeBlock: attrs => ({ commands }) => {
