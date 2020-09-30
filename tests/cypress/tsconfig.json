@@ -2,10 +2,12 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "noEmit": false,
-    "sourceMap": false
+    "sourceMap": false,
+    "types": [
+      "cypress",
+    ],
   },
   "include": [
-    "../node_modules/cypress",
     "./*/*.ts"
   ]
 }
