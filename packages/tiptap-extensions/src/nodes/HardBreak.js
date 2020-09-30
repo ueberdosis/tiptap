@@ -19,6 +19,13 @@ export default class HardBreak extends Node {
     }
   }
 
+  commands({ type }) {
+    return () => chainCommands(exitCode, (state, dispatch) => {
+      dispatch(state.tr.replaceSelectionWith(type.create()).scrollIntoView())
+      return true
+    })
+  }
+
   keys({ type }) {
     const command = chainCommands(exitCode, (state, dispatch) => {
       dispatch(state.tr.replaceSelectionWith(type.create()).scrollIntoView())
