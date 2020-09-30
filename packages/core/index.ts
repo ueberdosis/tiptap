@@ -12,6 +12,7 @@ export { default as nodeInputRule } from './src/inputRules/nodeInputRule'
 export { default as markInputRule } from './src/inputRules/markInputRule'
 export { default as markPasteRule } from './src/pasteRules/markPasteRule'
 
+export { default as capitalize } from './src/utils/capitalize'
 export { default as getSchema } from './src/utils/getSchema'
 export { default as generateHtml } from './src/utils/generateHtml'
 export { default as getHtmlFromFragment } from './src/utils/getHtmlFromFragment'
