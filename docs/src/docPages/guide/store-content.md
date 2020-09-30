@@ -83,4 +83,4 @@ You should really consider to work with HTML or JSON to store your content, they
 
 If you still think you need Markdown, [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap to work with Markdown. Their code is open source, so maybe you can learn from them.
 
-That said, tiptap **does** support Markdown shortcuts to format your content. Try typing `**two asterisk**` to make your text bold for example.
+That said, tiptap **does** support Markdown shortcuts to format your content. Try typing `**two asterisks**` to make your text bold for example.
