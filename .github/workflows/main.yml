@@ -54,8 +54,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    needs: lint
-
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
@@ -107,7 +105,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    needs: test
+    needs: [lint, test]
 
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
