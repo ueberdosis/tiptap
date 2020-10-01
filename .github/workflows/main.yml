@@ -66,6 +66,7 @@ jobs:
     strategy:
       matrix:
         node-version: [14]
+        containers: [1, 2, 3]
 
     steps:
 
@@ -80,6 +81,7 @@ jobs:
       id: cypress
       uses: cypress-io/github-action@v2
       with:
+        parallel: true
         cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
         start: yarn start
         wait-on: 'http://localhost:3000'
