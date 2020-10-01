@@ -1,4 +1,8 @@
 # Store content
+
+## Table of Contents
+
+## Introduction
 You can store your content as a JSON object or as a good old HTML string. Both work fine. And of course, you can pass both formats to the editor to restore your content.
 
 You can store your content as JSON and restore the content from HTML, or the other way around. I don’t know why you would do that, but tiptap wouldn’t care.

@@ -1,7 +1,9 @@
 # Custom Extensions
-Let’s extend tiptap with a custom extension!
 
 ## Table of Contents
+
+## Introduction
+Let’s extend tiptap with a custom extension!
 
 ## Option 1: Change defaults
 

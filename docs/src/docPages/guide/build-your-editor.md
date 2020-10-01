@@ -1,7 +1,9 @@
-# Configuration
-In its simplest version tiptap comes very raw. There is no menu, no buttons, no styling. That’s intended. See tiptap as your building blocks to build exactly the editor you would like to have.
+# Build your editor
 
 ## Table of Contents
+
+## Introduction
+In its simplest version tiptap comes very raw. There is no menu, no buttons, no styling. That’s intended. See tiptap as your building blocks to build exactly the editor you would like to have.
 
 ## Adding a menu
 Let’s start to add your first button to the editor. Once initiated the editor has a powerful API. The so called *commands* allow you to modify selected text (and tons of other things). Here is an example with one single button:
