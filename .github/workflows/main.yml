@@ -27,6 +27,7 @@ jobs:
 
     - name: Load cached dependencies
       uses: actions/cache@v2
+      id: cache
       with:
         path: |
           **/node_modules
@@ -35,6 +36,7 @@ jobs:
 
     - name: Install dependencies
       id: install-dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
 
     - name: Lint code
@@ -72,6 +74,7 @@ jobs:
 
     - name: Load cached dependencies
       uses: actions/cache@v2
+      id: cache
       with:
         path: |
           **/node_modules
@@ -133,6 +136,7 @@ jobs:
 
     - name: Load cached dependencies
       uses: actions/cache@v2
+      id: cache
       with:
         path: |
           **/node_modules
@@ -141,6 +145,7 @@ jobs:
 
     - name: Install dependencies
       id: install-dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
 
     - name: Build packages dependencies
