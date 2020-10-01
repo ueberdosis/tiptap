@@ -31,7 +31,7 @@ jobs:
         path: |
           **/node_modules
           /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install dependencies
       id: install-dependencies
@@ -76,7 +76,7 @@ jobs:
         path: |
           **/node_modules
           /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
 
     - name: Run tests with Cypress
       id: cypress
@@ -137,7 +137,7 @@ jobs:
         path: |
           **/node_modules
           /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install dependencies
       id: install-dependencies
