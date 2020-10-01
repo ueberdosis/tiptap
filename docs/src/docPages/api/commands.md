@@ -1,5 +1,9 @@
 # Commands
 
+## Table of Contents
+
+## Introduction
+
 ## Chain commands
 
 ```js

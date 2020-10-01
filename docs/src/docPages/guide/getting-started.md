@@ -1,7 +1,9 @@
 # Getting started
-tiptap is framework-agnostic and works with Vue.js and React. It even works with plain JavaScript, if that’s your thing. To keep everything as small as possible, we put the code to use tiptap with those frameworks in different packages.
 
 ## Table of Contents
+
+## Introduction
+tiptap is framework-agnostic and works with Vue.js and React. It even works with plain JavaScript, if that’s your thing. To keep everything as small as possible, we put the code to use tiptap with those frameworks in different packages.
 
 ## 1. Install the dependencies
 We assume you already have a [Vue.js](https://cli.vuejs.org/) (or [Nuxt.js](https://nuxtjs.org/)) project. To connect tiptap with Vue.js you are going to need an adapter. You can install tiptap for Vue.js as a dependency in your project:

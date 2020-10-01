@@ -21,6 +21,7 @@
     "reset": "yarn clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.6",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@babel/preset-env": "^7.11.5",

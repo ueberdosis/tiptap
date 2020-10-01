@@ -1,4 +1,8 @@
 # Keyboard Shortcuts
+
+## Table of Contents
+
+## Introduction
 Keyboard shortcuts may be strings like `'Shift-Control-Enter'`. Keys are based on the strings that can appear in `event.key`, concatenated with a `-`. There is a little tool called [keycode.info](https://keycode.info/), which shows the `event.key` interactively.
 
 Use lowercase letters to refer to letter keys (or uppercase letters if you want shift to be held). You may use `Space` as an alias for the <code>&nbsp;</code>.
@@ -6,8 +10,6 @@ Use lowercase letters to refer to letter keys (or uppercase letters if you want 
 Modifiers can be given in any order. `Shift`, `Alt`, `Control` and `Cmd` are recognized. For characters that are created by holding shift, the `Shift` prefix is implied, and should not be added explicitly.
 
 You can use `Mod` as a shorthand for `Cmd` on Mac and `Control` on other platforms.
-
-## Table of Contents
 
 ## Overwrite keyboard shortcuts
 

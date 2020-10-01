@@ -1,7 +1,9 @@
 # Events
-The editor fires a few different events that you can hook into. There are two ways to register event listeners:
 
 ## Table of Contents
+
+## Introduction
+The editor fires a few different events that you can hook into. There are two ways to register event listeners:
 
 ## Option 1: Right-away
 You can define your event listeners on a new editor instance right-away:

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import extensions from '@tiptap/starter-kit'
 import { useEditor, Editor } from './components/Editor'
 
