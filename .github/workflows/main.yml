@@ -28,7 +28,9 @@ jobs:
     - name: Load cached dependencies
       uses: actions/cache@v2
       with:
-        path: '**/node_modules'
+        path: |
+          **/node_modules
+          /home/runner/.cache/Cypress
         key: ${{ runner.os }}-node-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install dependencies
@@ -71,7 +73,9 @@ jobs:
     - name: Load cached dependencies
       uses: actions/cache@v2
       with:
-        path: '**/node_modules'
+        path: |
+          **/node_modules
+          /home/runner/.cache/Cypress
         key: ${{ runner.os }}-node-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: Run tests with Cypress
@@ -130,7 +134,9 @@ jobs:
     - name: Load cached dependencies
       uses: actions/cache@v2
       with:
-        path: '**/node_modules'
+        path: |
+          **/node_modules
+          /home/runner/.cache/Cypress
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install dependencies
