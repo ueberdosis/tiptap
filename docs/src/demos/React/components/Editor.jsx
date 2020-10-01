@@ -1,4 +1,4 @@
-import {
+import React, {
   useState, useRef, useEffect, createContext, useContext,
 } from 'react'
 import { Editor as Tiptap } from '@tiptap/core'

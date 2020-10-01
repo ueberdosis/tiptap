@@ -75,7 +75,7 @@ module.exports = function (api) {
 
     config.module
       .rule('jsx')
-      .test(/\.jsx?$/)
+      .test(/\.jsx$/)
       .use()
       .loader('babel-loader')
 
