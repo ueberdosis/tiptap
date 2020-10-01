@@ -52,6 +52,9 @@ module.exports = {
       tls: 'empty',
       net: 'empty',
     },
+    externals: {
+      canvas: 'commonjs canvas',
+    },
   },
   chainWebpack(config) {
     // Load variables for all vue-files
