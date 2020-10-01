@@ -18,12 +18,18 @@ jobs:
 
     steps:
 
+    - uses: actions/checkout@v2.3.3
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2.1.1
       with:
         node-version: ${{ matrix.node-version }}
 
-    - uses: actions/checkout@v2.3.3
+    - name: Load cached dependencies
+      uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install dependencies
       id: install-dependencies
@@ -55,12 +61,18 @@ jobs:
 
     steps:
 
+    - uses: actions/checkout@v2.3.3
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2.1.1
       with:
         node-version: ${{ matrix.node-version }}
 
-    - uses: actions/checkout@v2.3.3
+    - name: Load cached dependencies
+      uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: Run tests with Cypress
       id: cypress
@@ -108,12 +120,18 @@ jobs:
 
     steps:
 
+    - uses: actions/checkout@v2.3.3
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2.1.1
       with:
         node-version: ${{ matrix.node-version }}
 
-    - uses: actions/checkout@v2.3.3
+    - name: Load cached dependencies
+      uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install dependencies
       id: install-dependencies
