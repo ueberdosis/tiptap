@@ -45,6 +45,14 @@ module.exports = {
     },
   ],
   runtimeCompiler: true,
+  configureWebpack: {
+    node: {
+      fs: 'empty',
+      child_process: 'empty',
+      tls: 'empty',
+      net: 'empty',
+    },
+  },
   chainWebpack(config) {
     // Load variables for all vue-files
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
