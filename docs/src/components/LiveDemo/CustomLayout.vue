@@ -1,9 +1,9 @@
 <template>
-  <div class="live-editor">
-    <div class="live-editor__preview">
+  <div class="live-demo-template">
+    <div class="live-demo-template__preview">
       <slot name="preview" />
     </div>
-    <div class="live-editor__editor">
+    <div class="live-demo-template__editor">
       <slot name="editor" />
     </div>
   </div>
@@ -40,10 +40,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.live-editor {
+.live-demo-template {
   background-color: $colorWhite;
   overflow: hidden;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
 
   &__preview {
     padding: 1.5rem;
