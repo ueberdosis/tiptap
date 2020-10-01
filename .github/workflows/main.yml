@@ -72,20 +72,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Load cached dependencies
-      uses: actions/cache@v2
-      id: cache
-      with:
-        path: |
-          **/node_modules
-          /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
-
     - name: Run tests with Cypress
       id: cypress
       uses: cypress-io/github-action@v2
       with:
-        cache-key: node-v${{ matrix.node }}-on-${{ runner.os }}-hash-${{ hashFiles('yarn.lock') }}
+        cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
         start: yarn start
         wait-on: 'http://localhost:3000'
         project: ./tests
