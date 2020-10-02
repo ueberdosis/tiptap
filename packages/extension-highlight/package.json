@@ -1,0 +1,17 @@
+{
+  "name": "@tiptap/extension-highlight",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-extension-highlight.js",
+  "umd:main": "dist/tiptap-extension-highlight.umd.js",
+  "module": "dist/tiptap-extension-highlight.mjs",
+  "unpkg": "dist/tiptap-extension-highlight.js",
+  "jsdelivr": "dist/tiptap-extension-highlight.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "2.x"
+  }
+}

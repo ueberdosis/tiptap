@@ -24,6 +24,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 | [Document](/api/extensions/document)                        | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-document/)             |
 | [HardBreak](/api/extensions/hard-break)                     | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-hard-break/)           |
 | [Heading](/api/extensions/heading)                          | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-heading/)              |
+| [Highlight](/api/extensions/highlight)                      | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-highlight/)            |
 | [History](/api/extensions/history)                          | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)              |
 | [HorizontalRule](/api/extensions/horizontal-rule)           | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/)      |
 | [Italic](/api/extensions/italic)                            | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)               |

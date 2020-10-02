@@ -128,6 +128,8 @@
           link: /api/extensions/hard-break
         - title: Heading
           link: /api/extensions/heading
+        - title: Highlight
+          link: /api/extensions/highlight
         - title: History
           link: /api/extensions/history
         - title: HorizontalRule
