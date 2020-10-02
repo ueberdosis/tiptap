@@ -122,7 +122,7 @@ export class Editor extends EventEmitter {
     this.registerCommands(coreCommands)
     this.injectCSS()
 
-    this.proxy.focus(this.options.autoFocus)
+    window.setTimeout(() => this.proxy.focus(this.options.autoFocus), 0)
   }
 
   /**

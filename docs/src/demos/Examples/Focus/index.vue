@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div>
     <editor-content :editor="editor" />
   </div>
 </template>
