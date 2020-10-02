@@ -42,7 +42,7 @@ import Prism from '~/components/Prism'
 
 export default {
   components: {
-    ReactRenderer: () => import('~/components/ReactRenderer'),
+    ReactRenderer: () => import(/* webpackChunkName: "react-renderer" */ '~/components/ReactRenderer'),
     Prism,
   },
 

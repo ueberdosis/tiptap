@@ -6,6 +6,6 @@ import App from '~/layouts/App'
 
 export default function (Vue) {
   Vue.component('Layout', App)
-  Vue.component('Demo', () => import('~/components/Demo'))
-  Vue.component('LiveDemo', () => import('~/components/LiveDemo'))
+  Vue.component('Demo', () => import(/* webpackChunkName: "demo" */ '~/components/Demo'))
+  Vue.component('LiveDemo', () => import(/* webpackChunkName: "live-demo" */ '~/components/LiveDemo'))
 }
