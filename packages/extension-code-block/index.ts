@@ -13,7 +13,8 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-export const inputRegex = /^```(?<language>[a-z]*)? $/
+export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
+export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
 
 export default new Node<CodeBlockOptions>()
   .name('code_block')
@@ -62,6 +63,7 @@ export default new Node<CodeBlockOptions>()
     'Shift-Control-\\': () => editor.codeBlock(),
   }))
   .inputRules(({ type }) => [
-    textblockTypeInputRule(inputRegex, type, ({ groups }: any) => groups),
+    textblockTypeInputRule(backtickInputRegex, type, ({ groups }: any) => groups),
+    textblockTypeInputRule(tildeInputRegex, type, ({ groups }: any) => groups),
   ])
   .create()
