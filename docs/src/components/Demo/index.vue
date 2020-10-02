@@ -38,12 +38,11 @@
 
 <script>
 import collect from 'collect.js'
-import ReactRenderer from '~/components/ReactRenderer'
 import Prism from '~/components/Prism'
 
 export default {
   components: {
-    ReactRenderer,
+    ReactRenderer: () => import('~/components/ReactRenderer'),
     Prism,
   },
 
