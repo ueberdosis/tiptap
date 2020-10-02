@@ -122,7 +122,14 @@ export class Editor extends EventEmitter {
     this.registerCommands(coreCommands)
     this.injectCSS()
 
+    // TODO: The autoFocus option has no impact
+    // Doesn’t work
     this.proxy.focus(this.options.autoFocus)
+    // Does work
+    // window.setTimeout(() => {
+    //   console.log(this.options.autoFocus)
+    //   this.proxy.focus(this.options.autoFocus)
+    // }, 100)
   }
 
   /**

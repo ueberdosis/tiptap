@@ -56,8 +56,8 @@
         # - title: Placeholder
         #   link: /examples/placeholder
         #   draft: true
-        # - title: Focus
-        #   link: /examples/focus
+        - title: Focus
+          link: /examples/focus
         # - title: Title
         #   link: /examples/title
         #   draft: true
