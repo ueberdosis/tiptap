@@ -10,8 +10,8 @@ declare module '@tiptap/core/src/Editor' {
   }
 }
 
-export const inputRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))$/gm
-export const pasteRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))/gm
+export const inputRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))$/gm
+export const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/gm
 
 export default new Mark()
   .name('strike')
