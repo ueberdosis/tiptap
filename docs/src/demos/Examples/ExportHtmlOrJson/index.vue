@@ -95,4 +95,21 @@ export default {
 }
 </script>
 
-<style lang="scss" src="./style.scss">
+<style lang="scss">
+.export {
+  h3 {
+    margin: 0.5rem 0;
+  }
+  pre {
+    border-radius: 5px;
+    color: #333;
+  }
+
+  code {
+    display: block;
+    white-space: pre-wrap;
+    font-size: 0.8rem;
+    padding: 1rem;
+  }
+}
+</style>

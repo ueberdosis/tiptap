@@ -1,7 +1,7 @@
 <template>
   <div class="editor">
     <div class="checkbox">
-      <input type="checkbox" id="editable" v-model="editable" />
+      <input type="checkbox" id="editable" v-model="editable">
       <label for="editable">editable</label>
     </div>
     <editor-content :editor="editor" />
@@ -49,4 +49,16 @@ export default {
 }
 </script>
 
-<style lang="scss" src="./style.scss">
+<style lang="scss">
+.checkbox {
+  margin-bottom: 1rem;
+
+  input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+}
+
+[contenteditable=false] {
+  color: #999;
+}
+</style>

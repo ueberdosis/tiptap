@@ -55,4 +55,9 @@ export default {
 }
 </script>
 
-<style lang="scss" src="./style.scss">
+<style lang="scss">
+.has-focus {
+  border-radius: 3px;
+  box-shadow: 0 0 0 3px #3ea4ffe6;
+}
+</style>
