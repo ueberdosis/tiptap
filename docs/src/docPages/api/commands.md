@@ -27,7 +27,10 @@ When a user clicks on a button outside of the content, the editor isn’t in foc
 
 All chained commands are kind of queued up. They are combined to one single transaction. That means, the content is only updated once, also the `update` event is only triggered once.
 
-## Content
+## List of commands
+Have a look at all of the core commands listed below. They should give you a good first impression of what’s possible.
+
+### Content
 | Command         | Description                                                 |
 | --------------- | ----------------------------------------------------------- |
 | .clearContent() | Clear the whole document.                                   |
@@ -35,7 +38,7 @@ All chained commands are kind of queued up. They are combined to one single tran
 | .insertText()   | Insert a string of text at the currently selected position. |
 | .setContent()   | Replace the whole document with new content.                |
 
-## Nodes & Marks
+### Nodes & Marks
 | Command             | Description                                            |
 | ------------------- | ------------------------------------------------------ |
 | .removeMark()       | Remove a mark in the current selection.                |
@@ -46,7 +49,7 @@ All chained commands are kind of queued up. They are combined to one single tran
 | .setBlockType()     | Replace a given range with a node.                     |
 | .updateMark()       | Update a mark with new attributes.                     |
 
-## Lists
+### Lists
 | Command             | Description                                            |
 | ------------------- | ------------------------------------------------------ |
 | .liftListItem()     | Lift the list item into a wrapping list.               |
@@ -54,7 +57,7 @@ All chained commands are kind of queued up. They are combined to one single tran
 | .splitListItem()    | Splits a textblock of a list item into two list items. |
 | .toggleList()       | Toggle between different list styles.                  |
 
-## Selection
+### Selection
 | Command            | Description                             |
 | ------------------ | --------------------------------------- |
 | .blur()            | Blurs the editor.                       |
@@ -63,5 +66,5 @@ All chained commands are kind of queued up. They are combined to one single tran
 | .scrollIntoView()  | Scroll the selection into view.         |
 | .selectAll()       | Select the whole document.              |
 
-## Extensions
+### Extensions
 All extension can add additional commands (and most do), check out the specific [documentation for the provided extensions](/api/extensions) to learn more about that. Of course, you can [add your custom extensions](/guide/custom-extensions) with custom commands aswell.
