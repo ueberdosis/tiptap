@@ -4,8 +4,6 @@ context('/examples/focus', () => {
   })
 
   it('should have class', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
-      cy.get('.ProseMirror p:first').should('have.class', 'has-focus')
-    })
+    cy.get('.ProseMirror p:first').should('have.class', 'has-focus')
   })
 })
