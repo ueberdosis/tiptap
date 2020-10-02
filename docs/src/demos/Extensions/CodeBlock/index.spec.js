@@ -58,17 +58,6 @@ context('/api/extensions/code-block', () => {
       .should('not.exist')
   })
 
-  it('should make a code block from markdown shortcuts', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
-
-      cy.get('.ProseMirror')
-        .type('``` Code')
-        .find('pre>code')
-        .should('contain', 'Code')
-    })
-  })
-
   it('should parse the language from a HTML code block', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<pre><code class="language-css">body { display: none; }</code></pre>')
@@ -79,12 +68,45 @@ context('/api/extensions/code-block', () => {
     })
   })
 
-  it('should make a code block for js', () => {
+  it('should make a code block from backtick markdown shortcuts', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.clearContent()
+
+      cy.get('.ProseMirror')
+        .type('``` Code')
+        .find('pre>code')
+        .should('contain', 'Code')
+    })
+  })
+
+  it('should make a code block from tilde markdown shortcuts', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.clearContent()
+
+      cy.get('.ProseMirror')
+        .type('~~~ Code')
+        .find('pre>code')
+        .should('contain', 'Code')
+    })
+  })
+
+  it('should make a code block for js with backticks', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.clearContent()
 
       cy.get('.ProseMirror')
         .type('```js Code')
+        .find('pre>code.language-js')
+        .should('contain', 'Code')
+    })
+  })
+
+  it('should make a code block for js with tildes', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.clearContent()
+
+      cy.get('.ProseMirror')
+        .type('~~~js Code')
         .find('pre>code.language-js')
         .should('contain', 'Code')
     })
