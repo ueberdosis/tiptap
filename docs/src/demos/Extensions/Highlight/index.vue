@@ -38,6 +38,7 @@ export default {
       content: `
           <p>This isn’t highlighted.</s></p>
           <p><mark>But this one is.</mark></p>
+          <p><mark style="background-color: pink;">And this is highlighted too, but in a different color.</mark></p>
         `,
     })
   },
