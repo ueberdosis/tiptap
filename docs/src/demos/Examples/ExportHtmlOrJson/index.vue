@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="actions">
-      <button class="button" @click="clearContent">
-        Clear Content
-      </button>
       <button class="button" @click="setContent">
         Set Content
+      </button>
+      <button class="button" @click="clearContent">
+        Clear Content
       </button>
     </div>
 
@@ -61,11 +61,6 @@ export default {
   },
 
   methods: {
-    clearContent() {
-      this.editor.clearContent(true)
-      this.editor.focus()
-    },
-
     setContent() {
       // You can pass a JSON document …
       this.editor.setContent({
@@ -85,6 +80,11 @@ export default {
       // this.editor.setContent('<p>This is some inserted text. 👋</p>')
 
       // It’s likely that you’d like to focus the Editor after most commands.
+      this.editor.focus()
+    },
+
+    clearContent() {
+      this.editor.clearContent(true)
       this.editor.focus()
     },
   },

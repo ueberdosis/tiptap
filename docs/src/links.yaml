@@ -90,9 +90,9 @@
     - title: Use Vue Components
       link: /guide/use-vue-components
       draft: true
-    # - title: Collaborative editing
-    #   link: /guide/use-vue-components
-    #   draft: true
+    - title: Collaborative editing
+      link: /guide/collaborative-editing
+      draft: true
 
 - title: API
   items:
