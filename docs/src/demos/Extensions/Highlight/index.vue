@@ -1,7 +1,22 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().highlight().run()" :class="{ 'is-active': editor.isActive('highlight') }">
-      highlight
+      highlight (default)
+    </button>
+    <button @click="editor.chain().focus().highlight({ color: 'red' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'red' }) }">
+      red
+    </button>
+    <button @click="editor.chain().focus().highlight({ color: 'orange' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'orange' }) }">
+      orange
+    </button>
+    <button @click="editor.chain().focus().highlight({ color: 'green' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'green' }) }">
+      green
+    </button>
+    <button @click="editor.chain().focus().highlight({ color: 'blue' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'blue' }) }">
+      blue
+    </button>
+    <button @click="editor.chain().focus().highlight({ color: 'purple' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'purple' }) }">
+      purple
     </button>
 
     <editor-content :editor="editor" />
@@ -37,7 +52,7 @@ export default {
       ],
       content: `
           <p>This isn’t highlighted.</s></p>
-          <p><mark>But this one is.</mark></p>
+          <p><mark>But that one is.</mark></p>
           <p><mark style="background-color: pink;">And this is highlighted too, but in a different color.</mark></p>
         `,
     })

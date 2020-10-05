@@ -34,8 +34,8 @@ export default new Mark()
     }, 0],
   }))
   .commands(({ name }) => ({
-    highlight: () => ({ commands }) => {
-      return commands.toggleMark(name)
+    highlight: attrs => ({ commands }) => {
+      return commands.toggleMark(name, attrs)
     },
   }))
   .keys(({ editor }) => ({
