@@ -1,7 +1,7 @@
 # Strike
 Use this extension to render ~~striked text~~. If you pass `<s>`, `<del>`, `<strike>` tags, or text with inline `style` attributes setting `text-decoration: line-through` in the editor’s initial content, they all will be rendered accordingly.
 
-Type <code>~text between tildes~</code> and it will be magically ~~striked through~~ while you type.
+Type <code>&Tilde;&Tilde;text between tildes&Tilde;&Tilde;</code> and it will be magically ~~striked through~~ while you type.
 
 ::: warning Restrictions
 The extension will generate the corresponding `<s>` HTML tags when reading contents of the `Editor` instance. All text striked through, regardless of the method will be normalized to `<s>` HTML tags.
