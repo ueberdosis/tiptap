@@ -1,6 +1,11 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus().highlight().run()" :class="{ 'is-active': editor.isActive('highlight') }">
+    <button
+      @click="editor.chain().focus().highlight().run()"
+      :class="{ 'is-active': editor.isActive('highlight', {
+        color: ''
+      }) }"
+    >
       highlight (default)
     </button>
     <button @click="editor.chain().focus().highlight({ color: 'red' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'red' }) }">
@@ -53,7 +58,7 @@ export default {
       content: `
           <p>This isn’t highlighted.</s></p>
           <p><mark>But that one is.</mark></p>
-          <p><mark style="background-color: pink;">And this is highlighted too, but in a different color.</mark></p>
+          <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
         `,
     })
   },
