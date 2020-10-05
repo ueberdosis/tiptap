@@ -92,6 +92,7 @@ jobs:
       with:
         name: cypress-screenshots
         path: tests/cypress/screenshots
+        retention-days: 7
 
     - name: Export screen recordings (on failure only)
       uses: actions/upload-artifact@v2.2.0
@@ -99,6 +100,7 @@ jobs:
       with:
         name: cypress-videos
         path: tests/cypress/videos
+        retention-days: 7
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
