@@ -87,14 +87,14 @@ jobs:
         browser: chrome
 
     - name: Export screenshots (on failure only)
-      uses: actions/upload-artifact@v2.1.4
+      uses: actions/upload-artifact@v2.2.0
       if: failure()
       with:
         name: cypress-screenshots
         path: tests/cypress/screenshots
 
     - name: Export screen recordings (on failure only)
-      uses: actions/upload-artifact@v2.1.4
+      uses: actions/upload-artifact@v2.2.0
       if: failure()
       with:
         name: cypress-videos
