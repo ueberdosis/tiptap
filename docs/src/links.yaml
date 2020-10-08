@@ -87,9 +87,9 @@
       link: /guide/store-content
     - title: Custom extensions
       link: /guide/custom-extensions
-    - title: Use Vue Components
-      link: /guide/use-vue-components
-      draft: true
+    # - title: Use Vue Components
+    #   link: /guide/use-vue-components
+    #   draft: true
     - title: Collaborative editing
       link: /guide/collaborative-editing
       draft: true
