@@ -10,19 +10,19 @@
     >
       highlight (default)
     </button>
-    <button @click="editor.chain().focus().highlight({ color: 'red' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'red' }) }">
+    <button @click="editor.chain().focus().highlight({ color: '#ffa8a8' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffa8a8' }) }">
       red
     </button>
-    <button @click="editor.chain().focus().highlight({ color: 'orange' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'orange' }) }">
+    <button @click="editor.chain().focus().highlight({ color: '#ffc078' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffc078' }) }">
       orange
     </button>
-    <button @click="editor.chain().focus().highlight({ color: 'green' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'green' }) }">
+    <button @click="editor.chain().focus().highlight({ color: '#8ce99a' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#8ce99a' }) }">
       green
     </button>
-    <button @click="editor.chain().focus().highlight({ color: 'blue' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'blue' }) }">
+    <button @click="editor.chain().focus().highlight({ color: '#74c0fc' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#74c0fc' }) }">
       blue
     </button>
-    <button @click="editor.chain().focus().highlight({ color: 'purple' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'purple' }) }">
+    <button @click="editor.chain().focus().highlight({ color: '#b197fc' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#b197fc' }) }">
       purple
     </button>
 
@@ -60,7 +60,7 @@ export default {
       content: `
           <p>This isn’t highlighted.</s></p>
           <p><mark>But that one is.</mark></p>
-          <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
+          <p><mark style="background-color: #ffa8a8;">And this is highlighted too, but in a different color.</mark></p>
         `,
     })
   },
@@ -70,3 +70,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+mark {
+  background-color: #ffe066;
+}
+</style>
