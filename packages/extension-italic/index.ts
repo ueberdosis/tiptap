@@ -19,9 +19,16 @@ export default new Mark()
   .name('italic')
   .schema(() => ({
     parseDOM: [
-      { tag: 'i' },
-      { tag: 'em' },
-      { style: 'font-style=italic' },
+      {
+        tag: 'em',
+      },
+      {
+        tag: 'i',
+        getAttrs: node => (node as HTMLElement).style.fontStyle !== 'normal' && null,
+      },
+      {
+        style: 'font-style=italic',
+      },
     ],
     toDOM: () => ['em', 0],
   }))
