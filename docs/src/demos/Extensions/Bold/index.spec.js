@@ -10,6 +10,36 @@ context('/api/extensions/bold', () => {
     })
   })
 
+  it('b tags should be transformed to strong tags', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<p><b>Example Text</b></p>')
+      expect(editor.html()).to.eq('<p><strong>Example Text</strong></p>')
+    })
+  })
+
+  it('b tags with normal font weight inline style should be omitted', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<p><b style="font-weight: normal">Example Text</b></p>')
+      expect(editor.html()).to.eq('<p>Example Text</p>')
+    })
+  })
+
+  it('generic tags with bold inline style should be transformed to strong tags', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<p><span style="font-weight: bold">Example Text</span></p>')
+      expect(editor.html()).to.eq('<p><strong>Example Text</strong></p>')
+
+      editor.setContent('<p><span style="font-weight: bolder">Example Text</span></p>')
+      expect(editor.html()).to.eq('<p><strong>Example Text</strong></p>')
+
+      editor.setContent('<p><span style="font-weight: 500">Example Text</span></p>')
+      expect(editor.html()).to.eq('<p><strong>Example Text</strong></p>')
+
+      editor.setContent('<p><span style="font-weight: 900">Example Text</span></p>')
+      expect(editor.html()).to.eq('<p><strong>Example Text</strong></p>')
+    })
+  })
+
   it('the button should make the selected text bold', () => {
     cy.get('.demo__preview button:first')
       .click()
