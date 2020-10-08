@@ -15,7 +15,11 @@ declare module '../Editor' {
 export const toggleMark: ToggleMarkCommand = (typeOrName, attrs) => ({ state, dispatch, commands }) => {
   const type = getMarkType(typeOrName, state.schema)
 
-  if (markIsActive(state, type) && !markIsActive(state, type, attrs)) {
+  const hasMarkWithDifferentAttributes = attrs
+    && markIsActive(state, type)
+    && !markIsActive(state, type, attrs)
+
+  if (hasMarkWithDifferentAttributes) {
     // @ts-ignore
     return commands.updateMark(type, attrs)
   }
