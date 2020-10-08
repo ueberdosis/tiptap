@@ -1,5 +1,5 @@
 # Highlight
-Use this extension to render highlighted text with `<mark>`.
+Use this extension to render highlighted text with `<mark>`. You can use only default `<mark>` HTML tag, which has a yellow background color by default, or apply different colors.
 
 ## Installation
 ```bash
