@@ -26,39 +26,39 @@ export default class ExtensionManager {
     this.extensions = extensions
   }
 
-  resolveConfigs() {
-    this.extensions.forEach(extension => {
-      const { editor } = this
-      const { name } = extension.config
-      const options = {
-        ...extension.config.defaults,
-        ...extension.options,
-      }
-      const type = extension.type === 'node'
-        ? editor.schema.nodes[name]
-        : editor.schema.marks[name]
+  // resolveConfigs() {
+  //   this.extensions.forEach(extension => {
+  //     const { editor } = this
+  //     const { name } = extension.config
+  //     const options = {
+  //       ...extension.config.defaults,
+  //       ...extension.options,
+  //     }
+  //     const type = extension.type === 'node'
+  //       ? editor.schema.nodes[name]
+  //       : editor.schema.marks[name]
 
-      resolveExtensionConfig(extension, 'commands', {
-        name, options, editor, type,
-      })
-      resolveExtensionConfig(extension, 'inputRules', {
-        name, options, editor, type,
-      })
-      resolveExtensionConfig(extension, 'pasteRules', {
-        name, options, editor, type,
-      })
-      resolveExtensionConfig(extension, 'keys', {
-        name, options, editor, type,
-      })
-      resolveExtensionConfig(extension, 'plugins', {
-        name, options, editor, type,
-      })
+  //     resolveExtensionConfig(extension, 'commands', {
+  //       name, options, editor, type,
+  //     })
+  //     resolveExtensionConfig(extension, 'inputRules', {
+  //       name, options, editor, type,
+  //     })
+  //     resolveExtensionConfig(extension, 'pasteRules', {
+  //       name, options, editor, type,
+  //     })
+  //     resolveExtensionConfig(extension, 'keys', {
+  //       name, options, editor, type,
+  //     })
+  //     resolveExtensionConfig(extension, 'plugins', {
+  //       name, options, editor, type,
+  //     })
 
-      if (extension.config.commands) {
-        editor.registerCommands(extension.config.commands)
-      }
-    })
-  }
+  //     if (extension.config.commands) {
+  //       editor.registerCommands(extension.config.commands)
+  //     }
+  //   })
+  // }
 
   get schema(): Schema {
     return getSchema(this.extensions)
@@ -77,13 +77,13 @@ export default class ExtensionManager {
   }
 
   get plugins(): Plugin[] {
-    const plugins = collect(this.extensions)
-      .flatMap(extension => extension.config.plugins)
-      .filter(plugin => plugin)
-      .toArray()
+    // const plugins = collect(this.extensions)
+    //   .flatMap(extension => extension.config.plugins)
+    //   .filter(plugin => plugin)
+    //   .toArray()
 
     return [
-      ...plugins,
+      // ...plugins,
       ...this.keymaps,
       ...this.pasteRules,
       inputRules({ rules: this.inputRules }),
@@ -91,25 +91,28 @@ export default class ExtensionManager {
   }
 
   get inputRules(): any {
-    return collect(this.extensions)
-      .flatMap(extension => extension.config.inputRules)
-      .filter(plugin => plugin)
-      .toArray()
+    return []
+    // return collect(this.extensions)
+    //   .flatMap(extension => extension.config.inputRules)
+    //   .filter(plugin => plugin)
+    //   .toArray()
   }
 
   get pasteRules(): any {
-    return collect(this.extensions)
-      .flatMap(extension => extension.config.pasteRules)
-      .filter(plugin => plugin)
-      .toArray()
+    return []
+    // return collect(this.extensions)
+    //   .flatMap(extension => extension.config.pasteRules)
+    //   .filter(plugin => plugin)
+    //   .toArray()
   }
 
   get keymaps() {
-    return collect(this.extensions)
-      .map(extension => extension.config.keys)
-      .filter(keys => keys)
-      .map(keys => keymap(keys))
-      .toArray()
+    return []
+    // return collect(this.extensions)
+    //   .map(extension => extension.config.keys)
+    //   .filter(keys => keys)
+    //   .map(keys => keymap(keys))
+    //   .toArray()
   }
 
   get nodeViews() {

@@ -1,7 +1,8 @@
-import originalDefaultExtensions from '@tiptap/starter-kit'
+// import originalDefaultExtensions from '@tiptap/starter-kit'
 
 export * from '@tiptap/vue'
 
 export function defaultExtensions() {
-  return originalDefaultExtensions()
+  return []
+  // return originalDefaultExtensions()
 }

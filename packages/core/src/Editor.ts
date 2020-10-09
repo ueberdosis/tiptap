@@ -117,7 +117,7 @@ export class Editor extends EventEmitter {
     this.createCommandManager()
     this.createExtensionManager()
     this.createSchema()
-    this.extensionManager.resolveConfigs()
+    // this.extensionManager.resolveConfigs()
     this.createView()
     this.registerCommands(coreCommands)
     this.injectCSS()
