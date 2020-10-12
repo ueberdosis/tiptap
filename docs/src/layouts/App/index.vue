@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <!-- <div class="app">
     <header class="app__header">
       <div class="app__header-inner">
         <g-link class="app__logo" to="/">
@@ -71,6 +71,56 @@
         <page-navigation />
       </main>
     </div>
+  </div> -->
+
+  <div class="app">
+    <div class="app__sidebar">
+      <nav class="app__navigation">
+        <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
+          <div class="app__link-group-title">
+            {{ linkGroup.title }}
+          </div>
+          <ul class="app__link-list">
+            <li v-for="(item, j) in linkGroup.items" :key="j">
+              <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true, 'app__link--with-children': item.items }" :to="item.link" :exact="item.link === '/'">
+                {{ item.title }}
+              </g-link>
+
+              <ul v-if="item.items" class="app__link-list">
+                <li v-for="(item, k) in item.items" :key="k">
+                  <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true }" :to="item.link" exact>
+                    {{ item.title }}
+                  </g-link>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="app__content">
+      <div class="app__top-bar">
+        <div class="app__inner">
+          <input class="app__search" type="search" placeholder="Search">
+        </div>
+      </div>
+      <div class="app__inner">
+        <main class="app__main">
+          <slot />
+          <p>
+            <br>
+            <a :href="editLink" target="_blank">
+              <span>Edit this page on GitHub</span>
+            </a>
+          </p>
+          <p>
+            Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
+          </p>
+          <page-navigation />
+        </main>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -120,7 +170,7 @@ export default {
       docsearch({
         apiKey: '1abe7fb0f0dac150d0e963d2eda930fe',
         indexName: 'ueberdosis_tiptap',
-        inputSelector: '.search',
+        inputSelector: '.app__search',
         debug: false,
       })
     },
