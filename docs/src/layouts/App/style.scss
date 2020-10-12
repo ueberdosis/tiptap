@@ -1,4 +1,5 @@
 $navHeight: 4.5rem;
+$mobileBreakPoint: 600px;
 $menuBreakPoint: 800px;
 
 .app {
@@ -36,6 +37,7 @@ $menuBreakPoint: 800px;
     font: inherit;
     color: $colorWhite;
     padding: 0.5rem 0.75rem;
+    -webkit-appearance: none;
   }
 
   &__sidebar {
@@ -72,6 +74,10 @@ $menuBreakPoint: 800px;
     top: 0;
     backdrop-filter: blur(10px);
     max-height: 100vh;
+
+    @media (min-width: $menuBreakPoint) {
+      padding: 1.5rem 0;
+    }
 
     &::after {
       content: '';
@@ -117,11 +123,19 @@ $menuBreakPoint: 800px;
   &__inner {
     margin: 0 auto;
     max-width: 50rem;
-    padding: 0 2rem;
+    padding: 0 1rem;
+
+    @media (min-width: $mobileBreakPoint) {
+      padding: 0 2rem;
+    }
   }
 
   &__link-group {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+
+    @media (min-width: $mobileBreakPoint) {
+      margin-bottom: 2rem;
+    }
   }
 
   &__link-group-title {
@@ -152,6 +166,7 @@ $menuBreakPoint: 800px;
     border-radius: 5px;
     font-size: 0.85rem;
     margin-left: -0.5rem;
+    white-space: nowrap;
 
     &:hover {
       color: $colorWhite;
@@ -173,7 +188,11 @@ $menuBreakPoint: 800px;
   }
 
   &__main {
-    padding: 2rem 0;
+    padding: 1rem 0;
+
+    @media (min-width: $mobileBreakPoint) {
+      padding: 2rem 0;
+    }
   }
 
   &__page-navigation {
@@ -181,11 +200,15 @@ $menuBreakPoint: 800px;
   }
 
   &__mobile-nav {
-    padding: 1rem 2rem;
+    padding: 1rem;
     flex: 1 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+
+    @media (min-width: $mobileBreakPoint) {
+      padding: 2rem;
+    }
   }
 }
