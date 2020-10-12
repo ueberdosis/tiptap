@@ -1,6 +1,12 @@
 <template>
   <div v-if="editor">
     <button
+      @click="editor.chain().focus().highlight().run()"
+      :class="{ 'is-active': editor.isActive('highlight') }"
+    >
+      highlight (any)
+    </button>
+    <button
       @click="editor.chain().focus().highlight({
         color: ''
       }).run()"
@@ -9,6 +15,9 @@
       }) }"
     >
       highlight (default)
+    </button>
+    <button @click="editor.chain().focus().highlight({ color: 'red' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'red' }) }">
+      "red"
     </button>
     <button @click="editor.chain().focus().highlight({ color: '#ffa8a8' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffa8a8' }) }">
       red
