@@ -8,6 +8,10 @@
   outline: none;
 }
 
+*:focus {
+  outline: none;
+}
+
 ::-webkit-scrollbar {
   width: 14px;
   height: 14px;
@@ -43,7 +47,6 @@
 
 html {
   scroll-behavior: smooth;
-  height: 100%;
 }
 
 body {
@@ -54,16 +57,6 @@ body {
   font-feature-settings: 'cv05' 1;
   background-color: $colorBlack;
   color: $colorText;
-  height: 100%;
-}
-
-*:focus {
-  outline: none;
-}
-
-ul,
-ol {
-  list-style: none;
 }
 
 button {
@@ -86,11 +79,6 @@ code {
   padding: 0.1rem 0.3rem;
   border-radius: 0.25rem;
   font-size: 0.9rem;
-}
-
-blockquote {
-  padding-left: 1rem;
-  border-left: 3px solid rgba($colorBlack, 0.1);
 }
 
 .is-active {
@@ -120,17 +108,9 @@ blockquote {
   hr {
     margin: 1rem 0;
   }
-}
 
-#table-of-contents {
-  display: none;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 500;
+  blockquote {
+    padding-left: 1rem;
+    border-left: 3px solid rgba($colorBlack, 0.1);
+  }
 }
