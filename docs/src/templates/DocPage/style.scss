@@ -79,6 +79,7 @@
 
     > p code,
     > li code,
+    > table code,
     > .remark-container code {
       color: $colorPurple;
       background-color: rgba($colorPurple, 0.1);
@@ -86,6 +87,7 @@
 
     > p a,
     > li a,
+    > table a,
     > .remark-container a {
       text-decoration: underline;
     }
@@ -147,17 +149,27 @@
     > table {
       width: 100%;
       border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+      color: rgba($colorWhite, 0.8);
 
       th,
       td {
-        text-align: left;
-        font-size: 0.75rem;
         padding: 0.5rem;
+
+        &:first-child {
+          padding-left: 0;
+        }
+
+        &:last-child {
+          padding-right: 0;
+        }
       }
 
       th {
-        font-weight: 600;
-        background-color: rgba($colorWhite, 0.05);
+        color: $colorWhite;
+        font-weight: 500;
+        border-bottom: 1px solid rgba($colorWhite, 0.2);
 
         &:first-child {
           border-top-left-radius: 5px;
@@ -171,7 +183,7 @@
       }
 
       td {
-        border-bottom: 1px solid rgba($colorWhite, 0.05);
+        border-bottom: 1px solid rgba($colorWhite, 0.1);
       }
 
       tr:last-child td {

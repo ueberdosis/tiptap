@@ -64,10 +64,6 @@ export default {
       overflow: auto;
       max-height: unquote("max(300px, 60vh)");
       padding: 1.5rem;
-
-      &::-webkit-scrollbar-thumb {
-        background-color: rgba($colorWhite, 0.25);
-      }
     }
 
     .prism-editor__container {
