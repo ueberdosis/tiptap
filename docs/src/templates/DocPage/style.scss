@@ -84,6 +84,7 @@
     > .remark-container code {
       color: $colorPurple;
       background-color: rgba($colorPurple, 0.1);
+      box-decoration-break: clone;
     }
 
     > p a,
@@ -119,11 +120,6 @@
         ul {
           margin-left: 1rem;
         }
-
-        // a::before {
-        //   content: '→ ';
-        //   opacity: 0.2;
-        // }
       }
     }
 
