@@ -123,6 +123,10 @@
       }
     }
 
+    p a img[src^="https://img.shields.io"] {
+      margin-right: 0.5rem;
+    }
+
     > ul {
       list-style-type: none;
 
