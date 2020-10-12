@@ -16,6 +16,7 @@
     "globby": "^11.0.0",
     "gridsome": "0.7.21",
     "gridsome-plugin-simple-analytics": "^1.1.0",
+    "portal-vue": "^2.1.7",
     "raw-loader": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

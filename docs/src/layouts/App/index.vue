@@ -96,34 +96,30 @@
         </g-link>
       </div>
 
-      <nav class="app__navigation">
-        <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
-          <div class="app__link-group-title">
-            {{ linkGroup.title }}
-          </div>
-          <ul class="app__link-list">
-            <li v-for="(item, j) in linkGroup.items" :key="j">
-              <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true, 'app__link--with-children': item.items }" :to="item.link" :exact="item.link === '/'">
-                {{ item.title }}
-              </g-link>
-
-              <ul v-if="item.items" class="app__link-list">
-                <li v-for="(item, k) in item.items" :key="k">
-                  <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true }" :to="item.link" exact>
-                    {{ item.title }}
-                  </g-link>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <portal-target name="desktop-nav" />
     </div>
 
     <div class="app__content">
       <div class="app__top-bar">
-        <div class="app__inner">
+        <div class="app__inner app__top-bar-inner">
           <input class="app__search" type="search" placeholder="Search">
+          <button
+            class="app__menu-icon"
+            @click="menuIsVisible = true"
+            v-if="!menuIsVisible"
+          >
+            <icon name="menu" />
+          </button>
+          <button
+            class="app__close-icon"
+            @click="menuIsVisible = false"
+            v-if="menuIsVisible"
+          >
+            <icon name="close" />
+          </button>
+        </div>
+        <div class="app__mobile-nav" v-if="menuIsVisible">
+          <portal-target name="mobile-nav" />
         </div>
       </div>
       <main class="app__main">
@@ -146,6 +142,31 @@
         </div>
       </div>
     </div>
+
+    <portal :to="portal">
+      <nav class="app__navigation">
+        <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
+          <div class="app__link-group-title">
+            {{ linkGroup.title }}
+          </div>
+          <ul class="app__link-list">
+            <li v-for="(item, j) in linkGroup.items" :key="j">
+              <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true, 'app__link--with-children': item.items }" :to="item.link" :exact="item.link === '/'">
+                {{ item.title }}
+              </g-link>
+
+              <ul v-if="item.items" class="app__link-list">
+                <li v-for="(item, k) in item.items" :key="k">
+                  <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true }" :to="item.link" exact>
+                    {{ item.title }}
+                  </g-link>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </portal>
   </div>
 </template>
 
@@ -159,13 +180,13 @@ query {
 
 <script>
 import linkGroups from '@/links.yaml'
-// import Icon from '@/components/Icon'
+import Icon from '@/components/Icon'
 import PageNavigation from '@/components/PageNavigation'
 // import GithubButton from 'vue-github-button'
 
 export default {
   components: {
-    // Icon,
+    Icon,
     PageNavigation,
     // GithubButton,
   },
@@ -174,18 +195,34 @@ export default {
     return {
       linkGroups,
       menuIsVisible: false,
+      windowWidth: null,
     }
   },
 
   computed: {
+    portal() {
+      if (this.windowWidth && this.windowWidth < 800) {
+        return 'mobile-nav'
+      }
+
+      return 'desktop-nav'
+    },
+
     currentPath() {
       return this.$route.matched[0].path
     },
+
     editLink() {
       const { currentPath } = this
       const filePath = currentPath === '' ? '/introduction' : currentPath
 
       return `https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/docPages${filePath}.md`
+    },
+  },
+
+  watch: {
+    $route() {
+      this.menuIsVisible = false
     },
   },
 
@@ -199,10 +236,21 @@ export default {
         debug: false,
       })
     },
+
+    handleResize() {
+      this.windowWidth = window.innerWidth
+    },
   },
 
   mounted() {
     this.initSearch()
+    this.handleResize()
+
+    window.addEventListener('resize', this.handleResize)
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize)
   },
 }
 </script>

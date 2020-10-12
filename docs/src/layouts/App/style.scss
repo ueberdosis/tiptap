@@ -1,5 +1,5 @@
 $navHeight: 4.5rem;
-$menuBreakPoint: 750px;
+$menuBreakPoint: 800px;
 
 .app {
   display: flex;
@@ -30,8 +30,8 @@ $menuBreakPoint: 750px;
   &__search {
     display: block;
     width: 100%;
-    background-color: rgba($colorWhite, 0.08);
-    border: 1px solid rgba($colorWhite, 0.08);
+    background-color: transparent;
+    border: 1px solid rgba($colorWhite, 0.1);
     border-radius: 0.5rem;
     font: inherit;
     color: $colorWhite;
@@ -39,16 +39,23 @@ $menuBreakPoint: 750px;
   }
 
   &__sidebar {
-    width: 20rem;
-    flex: 0 0 auto;
-    position: sticky;
-    top: 0;
-    align-self: flex-start;
-    padding: 2rem;
-    height: 100vh;
-    overflow: auto;
-    overscroll-behavior: contain;
-    border-right: 1px solid rgba($colorWhite, 0.1);
+    display: none;
+
+    @media (min-width: $menuBreakPoint) {
+      display: block;
+      width: 20rem;
+      flex: 0 0 auto;
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      padding: 2rem;
+      height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      border-right: 1px solid rgba($colorWhite, 0.1);
+    }
   }
 
   &__content {
@@ -57,11 +64,14 @@ $menuBreakPoint: 750px;
   }
 
   &__top-bar {
+    display: flex;
+    flex-direction: column;
     padding: 1rem 0;
     position: sticky;
     z-index: 2;
     top: 0;
     backdrop-filter: blur(10px);
+    max-height: 100vh;
 
     &::after {
       content: '';
@@ -75,6 +85,32 @@ $menuBreakPoint: 750px;
       opacity: 0.8;
       transform: translate3d(0,0,0);
       pointer-events: none;
+    }
+  }
+
+  &__top-bar-inner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  &__menu-icon,
+  &__close-icon {
+    display: flex;
+    flex: 0 0 auto;
+    background: transparent;
+    border: 0;
+    color: $colorText;
+    margin-left: 1rem;
+    transition: color 0.2s $ease;
+
+    &:hover {
+      color: $colorWhite;
+    }
+
+    @media (min-width: $menuBreakPoint) {
+      display: none;
     }
   }
 
@@ -123,7 +159,7 @@ $menuBreakPoint: 750px;
 
     &.active {
       color: $colorWhite;
-      background-color: rgba($colorWhite, 0.08);
+      background-color: rgba($colorWhite, 0.05);
     }
 
     &--draft {
@@ -142,5 +178,14 @@ $menuBreakPoint: 750px;
 
   &__page-navigation {
     border-top: 1px solid rgba($colorWhite, 0.1);
+  }
+
+  &__mobile-nav {
+    padding: 1rem 2rem;
+    flex: 1 1 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 }
