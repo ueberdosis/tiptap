@@ -1,14 +1,16 @@
 .page-navigation {
   display: flex;
   justify-content: space-between;
-  padding: 3rem 0;
+  padding: 2rem 0;
 
   &__link {
-    font-weight: 500;
     color: rgba($colorWhite, 0.6);
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
 
     &:hover {
       color: $colorWhite;
+      background-color: rgba($colorWhite, 0.1);
     }
   }
 }

@@ -126,8 +126,8 @@
           <input class="app__search" type="search" placeholder="Search">
         </div>
       </div>
-      <div class="app__inner">
-        <main class="app__main">
+      <main class="app__main">
+        <div class="app__inner">
           <slot />
           <p>
             <br>
@@ -138,8 +138,12 @@
           <p>
             Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
           </p>
+        </div>
+      </main>
+      <div class="app__page-navigation">
+        <div class="app__inner">
           <page-navigation />
-        </main>
+        </div>
       </div>
     </div>
   </div>
