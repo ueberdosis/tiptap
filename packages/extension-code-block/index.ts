@@ -60,7 +60,7 @@ export default new Node<CodeBlockOptions>()
     },
   }))
   .keys(({ editor }) => ({
-    'Shift-Control-\\': () => editor.codeBlock(),
+    'Mod-Shift-c': () => editor.codeBlock(),
   }))
   .inputRules(({ type }) => [
     textblockTypeInputRule(backtickInputRegex, type, ({ groups }: any) => groups),

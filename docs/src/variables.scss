@@ -1,7 +1,14 @@
 $colorWhite: #FFF;
-$colorBlack: #000;
-$colorRed: #fa5252;
-$colorBackground: mix($colorBlack, $colorWhite, 2%);
+$colorBlack: #0D0D0D;
+$colorText: rgba($colorWhite, 0.75);
+$colorGrey: #616161;
+$colorPurple: #A975FF;
+$colorRed: #FB5151;
+$colorOrange: #fd9170;
+$colorYellow: #FFCB6B;
+$colorBlue: #68CEF8;
+$colorTeal: #80cbc4;
+$colorGreen: #9DEF8F;
 
 /* Default Equations */
 $linear: cubic-bezier(0.250, 0.250, 0.750, 0.750);

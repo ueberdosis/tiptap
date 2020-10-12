@@ -34,7 +34,7 @@ context('/api/extensions/hard-break', () => {
       .should('exist')
   })
 
-  it('the default keyboard shortcut should add a line break', () => {
+  it.skip('the default keyboard shortcut should add a line break', () => {
     cy.get('.ProseMirror br')
       .should('not.exist')
 

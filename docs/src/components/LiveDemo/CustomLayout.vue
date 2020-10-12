@@ -47,15 +47,15 @@ export default {
 
   &__preview {
     padding: 1.5rem;
-    border: 1px solid rgba($colorBlack, 0.1);
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
     border-bottom-width: 0;
+    color: $colorBlack;
   }
 
   &__editor {
-    background-color: rgba($colorBlack, 0.9);
-    color: rgba($colorWhite, 0.7);
+    border: 1px solid rgba($colorWhite, 0.1);
+    background-color: $colorBlack;
   }
 
   &__editor ::v-deep {
@@ -63,10 +63,6 @@ export default {
       overflow: auto;
       max-height: unquote("max(300px, 60vh)");
       padding: 1.5rem;
-
-      &::-webkit-scrollbar-thumb {
-        background-color: rgba($colorWhite, 0.25);
-      }
     }
 
     .prism-editor__container {

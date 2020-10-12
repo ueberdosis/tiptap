@@ -1,5 +1,5 @@
-import deepmerge from 'deepmerge'
 import { NodeSpec, Schema } from 'prosemirror-model'
+
 import { Extensions } from '../types'
 import getTopNodeFromExtensions from './getTopNodeFromExtensions'
 import getNodesFromExtensions from './getNodesFromExtensions'

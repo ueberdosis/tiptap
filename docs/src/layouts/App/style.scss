@@ -1,18 +1,141 @@
 $navHeight: 4.5rem;
-$menuBreakPoint: 750px;
+$mobileBreakPoint: 600px;
+$menuBreakPoint: 800px;
 
 .app {
   display: flex;
-  flex-direction: column;
-  min-height: 100%;
 
-  &__logo {
-    font-weight: 700;
-    font-size: 1.4rem;
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  &__name {
+    font-weight: 600;
+    color: $colorWhite;
+    font-size: 1.5rem;
+  }
+
+  &__github {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  ::v-deep .algolia-autocomplete {
+    display: block;
+    width: 100%;
+  }
+
+  &__search {
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid rgba($colorWhite, 0.1);
+    border-radius: 0.5rem;
+    font: inherit;
+    color: $colorWhite;
+    padding: 0.5rem 0.75rem;
+    -webkit-appearance: none;
+  }
+
+  &__sidebar {
+    display: none;
+
+    @media (min-width: $menuBreakPoint) {
+      display: block;
+      width: 20rem;
+      flex: 0 0 auto;
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      padding: 2rem;
+      height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      border-right: 1px solid rgba($colorWhite, 0.1);
+    }
+  }
+
+  &__content {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__top-bar {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    backdrop-filter: blur(10px);
+    max-height: 100vh;
+
+    @media (min-width: $menuBreakPoint) {
+      padding: 1.5rem 0;
+    }
+
+    &::after {
+      content: '';
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $colorBlack;
+      opacity: 0.8;
+      transform: translate3d(0,0,0);
+      pointer-events: none;
+    }
+  }
+
+  &__top-bar-inner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  &__menu-icon,
+  &__close-icon {
+    display: flex;
+    flex: 0 0 auto;
+    background: transparent;
+    border: 0;
+    color: $colorText;
+    margin-left: 1rem;
+    transition: color 0.2s $ease;
+
+    &:hover {
+      color: $colorWhite;
+    }
+
+    @media (min-width: $menuBreakPoint) {
+      display: none;
+    }
+  }
+
+  &__inner {
+    margin: 0 auto;
+    max-width: 50rem;
+    padding: 0 1rem;
+
+    @media (min-width: $mobileBreakPoint) {
+      padding: 0 2rem;
+    }
   }
 
   &__link-group {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+
+    @media (min-width: $mobileBreakPoint) {
+      margin-bottom: 2rem;
+    }
   }
 
   &__link-group-title {
@@ -20,16 +143,18 @@ $menuBreakPoint: 750px;
     letter-spacing: 0.025rem;
     font-size: 0.75rem;
     text-transform: uppercase;
-    color: rgba($colorBlack, 0.3);
+    color: rgba($colorWhite, 0.3);
     margin-bottom: 0.5rem;
+  }
+
+  &__link-list {
+    list-style: none;
   }
 
   &__link-list &__link-list {
     display: none;
     padding-left: 1rem;
     margin-top: 0.5rem;
-    margin-bottom: 1.5rem;
-    border-left: 2px solid rgba($colorBlack, 0.1);
   }
 
   .active + &__link-list {
@@ -37,137 +162,55 @@ $menuBreakPoint: 750px;
   }
 
   &__link {
-    display: block;
-    padding: 0.1rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem;
     border-radius: 5px;
-    font-weight: 500;
-    color: rgba($colorBlack, 0.6);
-    margin-bottom: 0.2rem;
+    font-size: 0.85rem;
     margin-left: -0.5rem;
+    white-space: nowrap;
 
     &:hover {
-      color: $colorBlack;
+      color: $colorWhite;
     }
 
-    &.active {
-      color: $colorBlack;
-      background-color: rgba($colorBlack, 0.05);
+    &.active--exact {
+      color: $colorWhite;
+      background-color: rgba($colorWhite, 0.05);
     }
 
     &--draft {
-      color: rgba($colorBlack, 0.2);
+      color: rgba($colorWhite, 0.2);
     }
 
     &--with-children::after {
-        content: '→';
-        color: rgba($colorBlack, 0.2);
+      content: '↓';
+      color: rgba($colorWhite, 0.2);
     }
-  }
-
-  &__header {
-    align-self: center;
-    position: fixed;
-    top: 0;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: $navHeight;
-    flex: 0 0 auto;
-    background-color: rgba($colorBackground, 0.8);
-    border-bottom: 1px solid rgba($colorBlack, 0.05);
-    backdrop-filter: blur(10px);
-  }
-
-  &__header-inner {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 62rem;
-    margin: 0 auto;
-    padding: 0 1rem;
-
-    @media (min-width: $menuBreakPoint) {
-      padding: 0 2rem;
-    }
-  }
-
-  &__content {
-    position: relative;
-    z-index: 1;
-    flex: 1 1 auto;
-    display: flex;
-    width: 100%;
-    max-width: 62rem;
-    margin: 0 auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-
-    @media (min-width: $menuBreakPoint) {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-  }
-
-  &__menu-icon,
-  &__close-icon {
-    border: none;
-    padding: 0;
-    background-color: transparent;
-    margin-left: 1rem;
-
-    @media (min-width: $menuBreakPoint) {
-      display: none;
-    }
-  }
-
-  &__sidebar-wrapper {
-    position: fixed;
-    z-index: 2;
-    top: $navHeight;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: $colorBackground;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    visibility: hidden;
-    opacity: 0;
-
-    &.is-mobile-visible {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    @media (min-width: $menuBreakPoint) {
-      visibility: visible;
-      opacity: 1;
-      position: sticky;
-      flex: 0 0 auto;
-      align-self: flex-start;
-      top: 0;
-      width: 18rem;
-      height: 100vh;
-      padding-left: 0;
-      padding-right: 0;
-      padding-right: 3rem;
-      padding-top: $navHeight;
-    }
-  }
-
-  &__sidebar {
-    overflow: auto;
-    height: 100%;
-    padding-top: 2rem;
-    padding-left: 0.5rem;
-    margin-left: -0.5rem;
   }
 
   &__main {
+    padding: 1rem 0;
+
+    @media (min-width: $mobileBreakPoint) {
+      padding: 2rem 0;
+    }
+  }
+
+  &__page-navigation {
+    border-top: 1px solid rgba($colorWhite, 0.1);
+  }
+
+  &__mobile-nav {
+    padding: 1rem;
     flex: 1 1 auto;
-    min-width: 0;
-    padding-top: $navHeight + 2rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+
+    @media (min-width: $mobileBreakPoint) {
+      padding: 2rem;
+    }
   }
 }

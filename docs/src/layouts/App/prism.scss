@@ -1,13 +1,4 @@
-$codeBackground: rgba($colorBlack, 0.9);
-$codeText: #eee;
-$codeGrey: #616161;
-$codeRed: #ff6666;
-$codeOrange: #fd9170;
-$colorYellow: #ffcb6b;
-$codeGreen: #b9ea80;
-$codeBlue: #89ddff;
-$codeTeal: #80cbc4;
-$codePurple: #c792ea;
+$codeBackground: $colorBlack;
 
 .prism-editor__textarea {
   background: transparent;
@@ -36,14 +27,14 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"] {
   white-space: normal;
-  color: $codeText;
+  color: $colorWhite;
   background: $codeBackground;
   border-radius: 0.2em;
   padding: 0.1em;
 }
 
 pre > code[class*="language-"] {
-  display: inline-block; // TODO: breaks on mobile safari
+  display: block;
   min-width: 100%;
   background: none;
 }
@@ -51,21 +42,17 @@ pre > code[class*="language-"] {
 pre[class*="language-"] {
   overflow: auto;
   position: relative;
-  color: $codeText;
+  color: $colorWhite;
   background: $codeBackground;
   padding: 1.2rem 1.5rem !important;
   border-radius: 0.5rem;
   max-height: unquote("max(300px, 60vh)");
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba($colorWhite, 0.25);
-  }
 }
 
 pre[class*="language-"].language-css > code,
 pre[class*="language-"].language-sass > code,
 pre[class*="language-"].language-scss > code {
-  color: $codeOrange;
+  color: $colorOrange;
 }
 
 [class*="language-"] .namespace {
@@ -73,7 +60,7 @@ pre[class*="language-"].language-scss > code {
 }
 
 .token.atrule {
-  color: $codePurple;
+  color: $colorPurple;
 }
 
 .token.attr-name {
@@ -81,15 +68,15 @@ pre[class*="language-"].language-scss > code {
 }
 
 .token.attr-value {
-  color: $codeGreen;
+  color: $colorGreen;
 }
 
 .token.attribute {
-  color: $codeGreen;
+  color: $colorGreen;
 }
 
 .token.boolean {
-  color: $codePurple;
+  color: $colorPurple;
 }
 
 .token.builtin {
@@ -97,11 +84,11 @@ pre[class*="language-"].language-scss > code {
 }
 
 .token.cdata {
-  color: $codeTeal;
+  color: $colorTeal;
 }
 
 .token.char {
-  color: $codeTeal;
+  color: $colorTeal;
 }
 
 .token.class {
@@ -113,27 +100,27 @@ pre[class*="language-"].language-scss > code {
 }
 
 .token.comment {
-  color: $codeGrey;
+  color: $colorGrey;
 }
 
 .token.constant {
-  color: $codePurple;
+  color: $colorPurple;
 }
 
 .token.deleted {
-  color: $codeRed;
+  color: $colorRed;
 }
 
 .token.doctype {
-  color: $codeGrey;
+  color: $colorGrey;
 }
 
 .token.entity {
-  color: $codeRed;
+  color: $colorRed;
 }
 
 .token.function {
-  color: $codePurple;
+  color: $colorPurple;
 }
 
 .token.hexcode {
@@ -141,49 +128,49 @@ pre[class*="language-"].language-scss > code {
 }
 
 .token.id {
-  color: $codePurple;
+  color: $colorPurple;
   font-weight: bold;
 }
 
 .token.important {
-  color: $codePurple;
+  color: $colorPurple;
   font-weight: bold;
 }
 
 .token.inserted {
-  color: $codeTeal;
+  color: $colorTeal;
 }
 
 .token.keyword {
-  color: $codePurple;
+  color: $colorPurple;
 }
 
 .token.number {
-  color: $codeOrange;
+  color: $colorOrange;
 }
 
 .token.operator {
-  color: $codeBlue;
+  color: $colorBlue;
 }
 
 .token.prolog {
-  color: $codeGrey;
+  color: $colorGrey;
 }
 
 .token.property {
-  color: $codeTeal;
+  color: $colorTeal;
 }
 
 .token.pseudo-class {
-  color: $codeGreen;
+  color: $colorGreen;
 }
 
 .token.pseudo-element {
-  color: $codeGreen;
+  color: $colorGreen;
 }
 
 .token.punctuation {
-  color: $codeBlue;
+  color: $colorBlue;
 }
 
 .token.regex {
@@ -191,35 +178,39 @@ pre[class*="language-"].language-scss > code {
 }
 
 .token.selector {
-  color: $codeRed;
+  color: $colorRed;
 }
 
 .token.string {
-  color: $codeGreen;
+  color: $colorGreen;
 }
 
 .token.symbol {
-  color: $codePurple;
+  color: $colorPurple;
 }
 
 .token.tag {
-  color: $codeRed;
+  color: $colorRed;
 }
 
 .token.unit {
-  color: $codeOrange;
+  color: $colorOrange;
 }
 
 .token.url {
-  color: $codeRed;
+  color: $colorRed;
 }
 
 .token.variable {
-  color: $codeRed;
+  color: $colorRed;
 }
 
 .line-highlight {
-  background: rgba($colorWhite, 0.1) !important;
+  background: linear-gradient(
+    to right,
+    rgba($colorWhite, 0.1),
+    rgba($colorWhite, 0),
+  ) !important;
   left: -1.5rem !important;
   right: -1.5rem !important;
   margin: 0 !important;

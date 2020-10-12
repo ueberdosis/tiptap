@@ -14,9 +14,6 @@ context('/api/extensions/heading', () => {
     '<h1>Example Text</h1>',
     '<h2>Example Text</h2>',
     '<h3>Example Text</h3>',
-    '<h4>Example Text</h4>',
-    '<h5>Example Text</h5>',
-    '<h6>Example Text</h6>',
   ]
 
   headings.forEach(html => {
@@ -28,9 +25,9 @@ context('/api/extensions/heading', () => {
     })
   })
 
-  it('should omit invalid headings', () => {
+  it('should omit disabled heading levels', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<h7>Example Text</h7>')
+      editor.setContent('<h4>Example Text</h4>')
       expect(editor.html()).to.eq('<p>Example Text</p>')
     })
   })
