@@ -75,6 +75,10 @@ a {
   color: inherit;
   transition: color 0.2s $ease, background-color 0.2s $ease;
   text-decoration: none;
+
+  &:hover {
+    color: $colorWhite;
+  }
 }
 
 code {

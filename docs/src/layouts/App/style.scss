@@ -175,6 +175,24 @@ $menuBreakPoint: 750px;
 .app {
   display: flex;
 
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  &__name {
+    font-weight: 600;
+    color: $colorWhite;
+    font-size: 1.5rem;
+  }
+
+  &__github {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
   ::v-deep .algolia-autocomplete {
     display: block;
     width: 100%;
