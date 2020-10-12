@@ -155,15 +155,15 @@ query {
 
 <script>
 import linkGroups from '@/links.yaml'
-import Icon from '@/components/Icon'
+// import Icon from '@/components/Icon'
 import PageNavigation from '@/components/PageNavigation'
-import GithubButton from 'vue-github-button'
+// import GithubButton from 'vue-github-button'
 
 export default {
   components: {
-    Icon,
+    // Icon,
     PageNavigation,
-    GithubButton,
+    // GithubButton,
   },
 
   data() {
