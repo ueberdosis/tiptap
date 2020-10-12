@@ -1,28 +1,28 @@
 .doc-page {
   &__markdown ::v-deep {
-
     $spacing: 0.75em;
 
     > div,
     > p,
-    ul,
-    ol,
-    blockquote {
+    > ul,
+    > ol,
+    > blockquote {
       margin-top: 2 * $spacing;
       margin-bottom: 2 * $spacing;
     }
 
-    li {
+    > ul li,
+    > ol li {
       margin-top: $spacing;
       margin-bottom: $spacing;
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    > h1,
+    > h2,
+    > h3,
+    > h4,
+    > h5,
+    > h6 {
       margin-top: 3 * $spacing;
       margin-bottom: $spacing;
 
@@ -31,17 +31,17 @@
       }
     }
 
-    h1,
-    h4,
-    h5,
-    h6 {
+    > h1,
+    > h4,
+    > h5,
+    > h6 {
       a {
         display: none;
       }
     }
 
-    h2,
-    h3 {
+    > h2,
+    > h3 {
       position: relative;
 
       a {
@@ -61,11 +61,11 @@
       }
     }
 
-    :first-child {
+    > :first-child {
       margin-top: 0;
     }
 
-    :last-child {
+    > :last-child {
       margin-bottom: 0;
     }
 
@@ -77,16 +77,20 @@
       border: 1px solid rgba($colorWhite, 0.1);
     }
 
-    p code {
+    > p code,
+    > li code,
+    > .remark-container code {
       color: $colorPurple;
       background-color: rgba($colorPurple, 0.1);
     }
 
-    a {
+    > p a,
+    > li a,
+    > .remark-container a {
       text-decoration: underline;
     }
 
-    ul {
+    > ul {
       list-style-type: none;
 
       > * + * {
@@ -108,7 +112,7 @@
       }
     }
 
-    ol {
+    > ol {
       counter-reset: item;
 
       > * + * {
@@ -140,7 +144,7 @@
       }
     }
 
-    table {
+    > table {
       width: 100%;
       border-collapse: collapse;
 
@@ -175,7 +179,7 @@
       }
     }
 
-    .remark-container {
+    > .remark-container {
       padding: 1rem;
       border: 1px solid rgba($colorWhite, 0.1);
       border-radius: 0.5rem;
