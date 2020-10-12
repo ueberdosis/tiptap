@@ -28,7 +28,8 @@ yarn add @tiptap/extension-code-block
 | codeBlock | —       | Wrap content in a code block. |
 
 ## Keyboard shortcuts
-* `Shift`&nbsp;`Control`&nbsp;`\`
+* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`C`
+* macOS: `Cmd`&nbsp;`Shift`&nbsp;`C`
 
 ## Source code
 [packages/extension-code-block/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code-block/)
