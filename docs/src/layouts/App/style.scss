@@ -215,8 +215,21 @@ $menuBreakPoint: 750px;
     position: sticky;
     z-index: 2;
     top: 0;
-    background-color: rgba($colorBlack, 0.8);
     backdrop-filter: blur(10px);
+
+    &::after {
+      content: '';
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $colorBlack;
+      opacity: 0.8;
+      transform: translate3d(0,0,0);
+      pointer-events: none;
+    }
   }
 
   &__inner {
