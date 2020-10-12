@@ -99,6 +99,7 @@
       display: none;
 
       & + ul {
+        list-style: none;
         border: 1px solid rgba($colorWhite, 0.1);
         padding: 1.2rem 1.5rem !important;
         border-radius: 0.5rem;
@@ -122,6 +123,7 @@
           }
 
           ul {
+            list-style: none;
             margin-left: 1rem;
           }
         }
@@ -133,7 +135,7 @@
     }
 
     > ul {
-      list-style-type: none;
+      list-style: none;
 
       li {
         position: relative;
