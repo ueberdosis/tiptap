@@ -20,7 +20,7 @@ $menuBreakPoint: 750px;
     letter-spacing: 0.025rem;
     font-size: 0.75rem;
     text-transform: uppercase;
-    color: rgba($colorBlack, 0.3);
+    color: rgba($colorWhite, 0.3);
     margin-bottom: 0.5rem;
   }
 
@@ -29,7 +29,7 @@ $menuBreakPoint: 750px;
     padding-left: 1rem;
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
-    border-left: 2px solid rgba($colorBlack, 0.1);
+    border-left: 2px solid rgba($colorWhite, 0.1);
   }
 
   .active + &__link-list {
@@ -41,26 +41,26 @@ $menuBreakPoint: 750px;
     padding: 0.1rem 0.5rem;
     border-radius: 5px;
     font-weight: 500;
-    color: rgba($colorBlack, 0.6);
+    color: rgba($colorWhite, 0.6);
     margin-bottom: 0.2rem;
     margin-left: -0.5rem;
 
     &:hover {
-      color: $colorBlack;
+      color: $colorWhite;
     }
 
     &.active {
-      color: $colorBlack;
-      background-color: rgba($colorBlack, 0.05);
+      color: $colorWhite;
+      background-color: rgba($colorWhite, 0.05);
     }
 
     &--draft {
-      color: rgba($colorBlack, 0.2);
+      color: rgba($colorWhite, 0.2);
     }
 
     &--with-children::after {
-        content: '→';
-        color: rgba($colorBlack, 0.2);
+      content: '→';
+      color: rgba($colorWhite, 0.2);
     }
   }
 
@@ -75,8 +75,8 @@ $menuBreakPoint: 750px;
     width: 100%;
     height: $navHeight;
     flex: 0 0 auto;
-    background-color: rgba($colorBackground, 0.8);
-    border-bottom: 1px solid rgba($colorBlack, 0.05);
+    background-color: rgba($colorBlack, 0.7);
+    border-bottom: 1px solid rgba($colorWhite, 0.05);
     backdrop-filter: blur(10px);
   }
 
@@ -130,7 +130,7 @@ $menuBreakPoint: 750px;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: $colorBackground;
+    // background-color: $colorBackground;
     padding-left: 1rem;
     padding-right: 1rem;
     visibility: hidden;

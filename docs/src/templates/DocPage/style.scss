@@ -1,8 +1,20 @@
 .doc-page {
   &__markdown ::v-deep {
 
-    a {
-      text-decoration: underline;
+    $spacing: 0.75em;
+
+    > div,
+    > p,
+    ul,
+    ol,
+    blockquote {
+      margin-top: 2 * $spacing;
+      margin-bottom: 2 * $spacing;
+    }
+
+    li {
+      margin-top: $spacing;
+      margin-bottom: $spacing;
     }
 
     h1,
@@ -11,12 +23,12 @@
     h4,
     h5,
     h6 {
-      position: relative;
-      font-weight: 500;
-    }
+      margin-top: 3 * $spacing;
+      margin-bottom: $spacing;
 
-    h1 {
-      font-weight: 400;
+      & + * {
+        margin-top: 0;
+      }
     }
 
     h1,
@@ -36,7 +48,7 @@
         position: absolute;
         top: 0;
         right: 100%;
-        color: rgba($colorBlack, 0.4);
+        color: rgba($colorWhite, 0.4);
         text-decoration: none;
         font-weight: 400;
         padding-right: 0.5rem;
@@ -49,8 +61,29 @@
       }
     }
 
-    > * + * {
-      margin-top: 1.5em;
+    :first-child {
+      margin-top: 0;
+    }
+
+    :last-child {
+      margin-bottom: 0;
+    }
+
+    > p {
+      color: rgba($colorWhite, 0.8);
+    }
+
+    > pre {
+      border: 1px solid rgba($colorWhite, 0.1);
+    }
+
+    p code {
+      color: $colorPurple;
+      background-color: rgba($colorPurple, 0.1);
+    }
+
+    a {
+      text-decoration: underline;
     }
 
     ul {
@@ -96,9 +129,9 @@
           justify-content: center;
           height: 1.5rem;
           width: 1.5rem;
-          background-color: rgba($colorBlack, 0.1);
+          background-color: rgba($colorWhite, 0.1);
           border-radius: 9999px;
-          color: rgba($colorBlack, 0.4);
+          color: rgba($colorWhite, 0.4);
           font-size: 0.75rem;
           font-weight: 700;
           content: counter(item);
@@ -120,7 +153,7 @@
 
       th {
         font-weight: 600;
-        background-color: rgba($colorBlack, 0.05);
+        background-color: rgba($colorWhite, 0.05);
 
         &:first-child {
           border-top-left-radius: 5px;
@@ -134,7 +167,7 @@
       }
 
       td {
-        border-bottom: 1px solid rgba($colorBlack, 0.05);
+        border-bottom: 1px solid rgba($colorWhite, 0.05);
       }
 
       tr:last-child td {
@@ -144,19 +177,25 @@
 
     .remark-container {
       padding: 1rem;
-      border: 2px solid rgba($colorBlack, 0.1);
-      border-radius: 0.25rem;
+      border: 1px solid rgba($colorWhite, 0.1);
+      border-radius: 0.5rem;
 
       &.warning {
-        border-color:#ffd8a8;
-        background-color: #fff4e6;
-        color: #ca9c63;
+        border-color: rgba($colorYellow, 0.1);
+        background-color: rgba($colorYellow, 0.1);
+        color: $colorYellow;
       }
 
       &.info {
-        border-color:#a5d8ff;
-        background-color: #e7f5ff;
-        color: #228be6;
+        border-color: rgba($colorBlue, 0.1);
+        background-color: rgba($colorBlue, 0.1);
+        color: $colorBlue;
+      }
+
+      &.error {
+        border-color: rgba($colorRed, 0.1);
+        background-color: rgba($colorRed, 0.1);
+        color: $colorRed;
       }
 
       .remark-container-title {

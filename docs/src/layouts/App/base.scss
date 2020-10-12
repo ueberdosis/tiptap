@@ -24,11 +24,11 @@
   border: 4px solid rgba(0, 0, 0, 0);
   background-clip: padding-box;
   border-radius: 8px;
-  background-color: rgba($colorBlack, 0);
+  background-color: rgba($colorWhite, 0);
 }
 
 :hover::-webkit-scrollbar-thumb {
-  background-color: rgba($colorBlack, 0.1);
+  background-color: rgba($colorWhite, 0.1);
 }
 
 ::-webkit-scrollbar-button {
@@ -52,7 +52,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;
   font-feature-settings: 'cv05' 1;
-  background-color: $colorBackground;
+  background-color: $colorBlack;
+  color: $colorWhite;
   height: 100%;
 }
 
@@ -78,10 +79,8 @@ a {
 
 code {
   font-family: 'JetBrainsMono', monospace;
-  background-color: rgba($colorBlack, 0.05);
   padding: 0.1rem 0.3rem;
   border-radius: 0.25rem;
-  color: rgba($colorBlack, 0.7);
   font-size: 0.9rem;
 }
 
@@ -121,4 +120,13 @@ blockquote {
 
 #table-of-contents {
   display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
 }

@@ -9,15 +9,6 @@
     border-bottom-width: 0;
   }
 
-  &__source {
-    // background-color: $colorBlack;
-  }
-
-  &__tabs {
-    padding: 1rem 1.5rem 0 1.5rem;
-    background-color: rgba($colorBlack, 0.9);
-  }
-
   &__tab {
     display: inline-flex;
     position: relative;
@@ -53,11 +44,10 @@
     width: 100%;
     padding: 0.5rem 1.5rem;
     border: 1px solid rgba($colorWhite, 0.1);
-    border: 1px solid rgba($colorBlack, 0.1);
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
     border-top-width: 0;
-    background-color: rgba($colorBlack, 0.9);
+    background-color: $colorBlack;
     color: $colorWhite;
   }
 
