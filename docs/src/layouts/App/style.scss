@@ -201,19 +201,21 @@ $menuBreakPoint: 750px;
     height: 100vh;
     overflow: auto;
     overscroll-behavior: contain;
+    border-right: 1px solid rgba($colorWhite, 0.1);
   }
 
   &__content {
     flex: 1 1 auto;
+    min-width: 0;
     padding: 0 2rem 2rem 2rem;
   }
 
   &__top-bar {
-    padding: 2rem;
+    padding: 1rem 0;
     position: sticky;
     z-index: 2;
     top: 0;
-    background-color: rgba($colorBlack, 0.7);
+    background-color: rgba($colorBlack, 0.8);
     backdrop-filter: blur(10px);
   }
 
@@ -248,12 +250,11 @@ $menuBreakPoint: 750px;
   }
 
   &__link {
-    display: block;
-    padding: 0.1rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem;
     border-radius: 5px;
-    font-weight: 500;
-    color: rgba($colorWhite, 0.6);
-    margin-bottom: 0.2rem;
+    font-size: 0.85rem;
     margin-left: -0.5rem;
 
     &:hover {
@@ -262,7 +263,7 @@ $menuBreakPoint: 750px;
 
     &.active {
       color: $colorWhite;
-      background-color: rgba($colorWhite, 0.05);
+      background-color: rgba($colorWhite, 0.08);
     }
 
     &--draft {
@@ -270,8 +271,12 @@ $menuBreakPoint: 750px;
     }
 
     &--with-children::after {
-      content: '→';
+      content: '↓';
       color: rgba($colorWhite, 0.2);
     }
+  }
+
+  &__main {
+    margin-top: 2rem;
   }
 }

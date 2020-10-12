@@ -56,7 +56,6 @@ export default {
   &__editor {
     border: 1px solid rgba($colorWhite, 0.1);
     background-color: $colorBlack;
-    color: $colorText;
   }
 
   &__editor ::v-deep {

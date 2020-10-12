@@ -12,9 +12,13 @@
     }
 
     > ul li,
-    > ol li {
-      margin-top: $spacing;
-      margin-bottom: $spacing;
+    > ol li,
+    > ul ul,
+    > ul ol,
+    > ol ol,
+    > ol ul {
+      margin-top: 0.5 * $spacing;
+      margin-bottom: 0.5 * $spacing;
     }
 
     > h1,
@@ -23,6 +27,7 @@
     > h4,
     > h5,
     > h6 {
+      color: $colorWhite;
       margin-top: 3 * $spacing;
       margin-bottom: $spacing;
 
@@ -61,16 +66,12 @@
       }
     }
 
-    > :first-child {
+    :first-child {
       margin-top: 0;
     }
 
-    > :last-child {
+    :last-child {
       margin-bottom: 0;
-    }
-
-    > p {
-      color: rgba($colorWhite, 0.8);
     }
 
     > pre {
@@ -92,12 +93,31 @@
       text-decoration: underline;
     }
 
+    #table-of-contents + ul {
+      border: 1px solid rgba($colorWhite, 0.1);
+      padding: 1.2rem 1.5rem !important;
+      border-radius: 0.5rem;
+
+      li {
+        padding-left: 0;
+
+        &::before {
+          display: none;
+        }
+
+        ul {
+          margin-left: 1rem;
+        }
+
+        // a::before {
+        //   content: '→ ';
+        //   opacity: 0.2;
+        // }
+      }
+    }
+
     > ul {
       list-style-type: none;
-
-      > * + * {
-        margin-top: 0.5rem;
-      }
 
       li {
         position: relative;
@@ -116,10 +136,6 @@
 
     > ol {
       counter-reset: item;
-
-      > * + * {
-        margin-top: 0.5rem;
-      }
 
       li {
         position: relative;
@@ -151,7 +167,6 @@
       border-collapse: collapse;
       font-size: 0.85rem;
       text-align: left;
-      color: rgba($colorWhite, 0.8);
 
       th,
       td {

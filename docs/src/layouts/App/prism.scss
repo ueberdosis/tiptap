@@ -27,7 +27,7 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"] {
   white-space: normal;
-  color: $colorText;
+  color: $colorWhite;
   background: $codeBackground;
   border-radius: 0.2em;
   padding: 0.1em;
@@ -42,7 +42,7 @@ pre > code[class*="language-"] {
 pre[class*="language-"] {
   overflow: auto;
   position: relative;
-  color: $colorText;
+  color: $colorWhite;
   background: $codeBackground;
   padding: 1.2rem 1.5rem !important;
   border-radius: 0.5rem;
