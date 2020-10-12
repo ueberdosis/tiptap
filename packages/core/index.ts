@@ -5,6 +5,7 @@ export { Editor, Command, CommandsSpec }
 export { default as ComponentRenderer } from './src/ComponentRenderer'
 export { default as Extension } from './src/Extension'
 export { default as Node } from './src/Node'
+export * from './src/Node'
 export { default as Mark } from './src/Mark'
 export { Extensions } from './src/types'
 

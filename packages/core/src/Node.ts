@@ -32,9 +32,20 @@
 //   }
 // }
 
+import { DOMOutputSpec, DOMOutputSpecArray } from 'prosemirror-model'
 import Extension from './Extension'
 
-export default class Node<Options = {}> extends Extension<Options> {
+export interface INode {
+  type: string
+  topNode: boolean
+  group: string
+  content: string
+  createAttributes(): any
+  parseHTML(): any
+  renderHTML(props: number): DOMOutputSpec
+}
+
+export default class Node<Options = {}> extends Extension<Options> implements INode {
 
   type = 'node'
 
@@ -53,7 +64,7 @@ export default class Node<Options = {}> extends Extension<Options> {
   }
 
   renderHTML() {
-    return []
+    return null
   }
 
 }

@@ -1,4 +1,5 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, Node, INode } from '@tiptap/core'
+import { DOMOutputSpecArray } from 'prosemirror-model'
 // import ParagraphComponent from './paragraph.vue'
 
 // export type ParagraphCommand = () => Command
@@ -28,13 +29,22 @@ import { Command, Node } from '@tiptap/core'
 //   }))
 //   .create()
 
-export default class Paragraph extends Node {
+export default class Paragraph extends Node implements INode {
 
   name = 'paragraph'
 
   group = 'block'
 
   content = 'inline*'
+
+  createAttributes() {
+    return {
+      // default rendering
+      class: {
+        default: 'jooo',
+      },
+    }
+  }
 
   parseHTML() {
     return [
@@ -43,7 +53,7 @@ export default class Paragraph extends Node {
   }
 
   renderHTML() {
-    return ['p', 0]
+    return ['p', 0] as const
   }
 
 }

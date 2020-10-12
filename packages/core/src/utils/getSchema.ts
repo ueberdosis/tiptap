@@ -14,15 +14,18 @@ export default function getSchema(extensions: Extensions): Schema {
   const nodeExtensions = extensions.filter(extension => extension.type === 'node') as Node[]
   const markExtensions = extensions.filter(extension => extension.type === 'mark') as Mark[]
 
-  const nodes = Object.fromEntries(nodeExtensions.map(node => {
+  const nodes = Object.fromEntries(nodeExtensions.map(extension => {
+
+    const schema: NodeSpec = {
+      content: extension.content,
+      group: extension.group,
+      parseDOM: extension.parseHTML(),
+      toDOM: node => extension.renderHTML({ node, attributes: { class: 'hee' } }),
+    }
+
     return [
-      node.name,
-      {
-        content: node.content,
-        group: node.group,
-        parseDOM: node.parseHTML(),
-        toDOM: node.renderHTML,
-      } as unknown as NodeSpec,
+      extension.name,
+      schema,
     ]
   }))
 
