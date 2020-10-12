@@ -20,26 +20,24 @@ context('/api/extensions/highlight', () => {
   })
 
   it('should highlight the text in a specific color', () => {
-    cy.get('.demo__preview button:nth-child(2)')
-      .click()
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.highlight({ color: 'rgb(255, 0, 0)' })
 
-    cy.get('.ProseMirror')
-      .find('mark')
-      .should('contain', 'Example Text')
-      .should('have.css', 'background-color', 'rgb(255, 0, 0)')
+      cy.get('.ProseMirror')
+        .find('mark')
+        .should('contain', 'Example Text')
+        .should('have.css', 'background-color', 'rgb(255, 0, 0)')
+    })
   })
 
   it('should update the attributes of existing marks', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><mark style="background-color: blue;">Example Text</mark></p>')
-      editor.selectAll()
-
-      cy.get('.ProseMirror')
-        .find('mark')
-        .should('have.css', 'background-color', 'rgb(0, 0, 255)')
-
-      cy.get('.demo__preview button:nth-child(2)')
-        .click()
+      editor
+        .chain()
+        .setContent('<p><mark style="background-color: blue;">Example Text</mark></p>')
+        .selectAll()
+        .highlight({ color: 'rgb(255, 0, 0)' })
+        .run()
 
       cy.get('.ProseMirror')
         .find('mark')
@@ -49,29 +47,50 @@ context('/api/extensions/highlight', () => {
 
   it('should remove existing marks with the same attributes', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><mark style="background-color: red;">Example Text</mark></p>')
+      editor.setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
       editor.selectAll()
 
-      cy.get('.ProseMirror')
-        .find('mark')
-        .should('have.css', 'background-color', 'rgb(255, 0, 0)')
-
-      cy.get('.demo__preview button:nth-child(2)')
-        .click()
+      editor.highlight({ color: 'rgb(255, 0, 0)' })
 
       cy.get('.ProseMirror')
         .find('mark')
         .should('not.exist')
+
+      editor.isActive('highlight', {
+        color: 'rgb(255, 0, 0)',
+      })
     })
   })
 
-  it('the button should highlight the selected text', () => {
-    cy.get('.demo__preview button:first')
-      .click()
+  it.only('is active for mark with any attributes', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
+      editor.selectAll()
 
-    cy.get('.ProseMirror')
-      .find('mark')
-      .should('contain', 'Example Text')
+      expect(editor.isActive('highlight')).to.eq(1)
+    })
+  })
+
+  it.only('is active for mark with same attributes', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
+      editor.selectAll()
+
+      expect(editor.isActive('highlight', {
+        color: 'rgb(255, 0, 0)',
+      })).to.eq(1)
+    })
+  })
+
+  it.only('isn’t active for mark with other attributes', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
+      editor.selectAll()
+
+      expect(editor.isActive('highlight', {
+        color: 'rgb(0, 0, 0)',
+      })).to.eq(0)
+    })
   })
 
   it('the button should toggle the selected text highlighted', () => {
