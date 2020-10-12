@@ -152,7 +152,6 @@ $menuBreakPoint: 800px;
     padding-left: 1rem;
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
-    border-left: 2px solid rgba($colorWhite, 0.1);
   }
 
   .active + &__link-list {
@@ -172,7 +171,7 @@ $menuBreakPoint: 800px;
       color: $colorWhite;
     }
 
-    &.active {
+    &.active--exact {
       color: $colorWhite;
       background-color: rgba($colorWhite, 0.05);
     }
