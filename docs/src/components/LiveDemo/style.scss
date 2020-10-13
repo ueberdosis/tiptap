@@ -42,7 +42,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1.25rem;
     border: 1px solid rgba($colorWhite, 0.1);
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
@@ -51,7 +51,7 @@
   }
 
   &__error {
-    padding: 1rem 1.5rem;
+    padding: 1.25rem;
     color: $colorRed;
     background-color: rgba($colorRed, 0.1);
   }
