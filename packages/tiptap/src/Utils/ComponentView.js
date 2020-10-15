@@ -2,9 +2,9 @@ import Vue from 'vue'
 
 import { getMarkRange } from 'tiptap-utils'
 import { EditorView, EditorState } from 'prosemirror-view'
-import { keymap } from "prosemirror-keymap"
-import { undo, redo } from "prosemirror-history"
-import { StepMap } from "prosemirror-transform"
+import { keymap } from 'prosemirror-keymap'
+import { undo, redo } from 'prosemirror-history'
+import { StepMap } from 'prosemirror-transform'
 
 export default class ComponentView {
 
@@ -95,9 +95,9 @@ export default class ComponentView {
     if (!tr.getMeta('fromOutside')) {
       const outerTr = this.outerView.state.tr
       const offsetMap = StepMap.offset(this.getPos() + 1)
-      for (let i = 0; i < transactions.length; i = i + 1) {
-        const steps = transactions[i].steps
-        for (let j = 0; j < steps.length; j = j + 1) {
+      for (let i = 0; i < transactions.length; i += 1) {
+        const { steps } = transactions[i]
+        for (let j = 0; j < steps.length; j += 1) {
           outerTr.step(steps[j].map(offsetMap))
         }
       }
