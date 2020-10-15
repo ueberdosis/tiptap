@@ -2,6 +2,9 @@ import Vue from 'vue'
 
 import { getMarkRange } from 'tiptap-utils'
 import { EditorView, EditorState } from 'prosemirror-view'
+import { keymap } from "prosemirror-keymap"
+import { undo, redo } from "prosemirror-history"
+import { StepMap } from "prosemirror-transform"
 
 export default class ComponentView {
 
@@ -58,14 +61,16 @@ export default class ComponentView {
     }).$mount()
 
     this.innerView = null
-    if(this.innerDOM) {
+    if (this.innerDOM) {
       this.innerView = new EditorView(this.innerDOM, {
         state: EditorState.create({
           doc: this.node,
-          plugins: [keymap({
-            "Mod-z": () => undo(this.view.state, this.view.dispatch),
-            "Mod-y": () => redo(this.view.state, this.view.dispatch)
-          })]
+          plugins: [
+            keymap({
+              'Mod-z': () => undo(this.view.state, this.view.dispatch),
+              'Mod-y': () => redo(this.view.state, this.view.dispatch),
+            }),
+          ],
         }),
         // This is the magic part
         dispatchTransaction: this.dispatchInner.bind(this),
@@ -75,8 +80,8 @@ export default class ComponentView {
             // footnote is node-selected (and thus DOM-selected) when
             // the parent editor is focused.
             if (this.view.hasFocus()) this.innerView.focus()
-          }
-        }
+          },
+        },
       })
     }
 
@@ -84,15 +89,17 @@ export default class ComponentView {
   }
 
   dispatchInner(tr) {
-    let {state, transactions} = this.innerView.state.applyTransaction(tr)
+    const { state, transactions } = this.innerView.state.applyTransaction(tr)
     this.innerView.updateState(state)
 
-    if (!tr.getMeta("fromOutside")) {
-      let outerTr = this.outerView.state.tr, offsetMap = StepMap.offset(this.getPos() + 1)
-      for (let i = 0; i < transactions.length; i++) {
-        let steps = transactions[i].steps
-        for (let j = 0; j < steps.length; j++)
+    if (!tr.getMeta('fromOutside')) {
+      const outerTr = this.outerView.state.tr
+      const offsetMap = StepMap.offset(this.getPos() + 1)
+      for (let i = 0; i < transactions.length; i = i + 1) {
+        const steps = transactions[i].steps
+        for (let j = 0; j < steps.length; j = j + 1) {
           outerTr.step(steps[j].map(offsetMap))
+        }
       }
       if (outerTr.docChanged) this.view.dispatch(outerTr)
     }
@@ -116,16 +123,17 @@ export default class ComponentView {
     })
 
     if (this.innerView) {
-      let state = this.innerView.state
-      let start = node.content.findDiffStart(state.doc.content)
+      const { state } = this.innerView
+      const start = node.content.findDiffStart(state.doc.content)
       if (start != null) {
-        let {a: endA, b: endB} = node.content.findDiffEnd(state.doc.content)
-        let overlap = start - Math.min(endA, endB)
+        let { a: endA, b: endB } = node.content.findDiffEnd(state.doc.content)
+        const overlap = start - Math.min(endA, endB)
         if (overlap > 0) { endA += overlap; endB += overlap }
         this.innerView.dispatch(
           state.tr
             .replace(start, endB, node.slice(start, endA))
-            .setMeta("fromOutside", true))
+            .setMeta('fromOutside', true)
+        )
       }
     }
 
@@ -188,8 +196,8 @@ export default class ComponentView {
 
   // disable (almost) all prosemirror event listener for node views
   stopEvent(event) {
-    if(this.innerView && this.innerView.dom.contains(event.target)) {
-      return true;
+    if (this.innerView && this.innerView.dom.contains(event.target)) {
+      return true
     }
 
     if (typeof this.extension.stopEvent === 'function') {
@@ -246,7 +254,7 @@ export default class ComponentView {
 
   destroy() {
     this.vm.$destroy()
-    if(this.innerView) this.innerView.destroy();
+    if (this.innerView) this.innerView.destroy()
   }
 
 }
