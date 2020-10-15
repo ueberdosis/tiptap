@@ -1,5 +1,6 @@
 import { Node } from 'tiptap'
 import { replaceText } from 'tiptap-commands'
+import { Fragment } from 'prosemirror-model'
 import SuggestionsPlugin from '../plugins/Suggestions'
 
 export default class Mention extends Node {
@@ -20,6 +21,10 @@ export default class Mention extends Node {
     }
   }
 
+  getLabel(dom) {
+    return dom.innerText.split(this.options.matcher.char).join('')
+  }
+
   get schema() {
     return {
       attrs: {
@@ -28,6 +33,7 @@ export default class Mention extends Node {
       },
       group: 'inline',
       inline: true,
+      content: 'inline*',
       selectable: false,
       atom: true,
       toDOM: node => [
@@ -43,8 +49,15 @@ export default class Mention extends Node {
           tag: 'span[data-mention-id]',
           getAttrs: dom => {
             const id = dom.getAttribute('data-mention-id')
-            const label = dom.innerText.split(this.options.matcher.char).join('')
+            const label = this.getLabel(dom)
             return { id, label }
+          },
+          getContent: (dom, schema) => {
+            const label = this.getLabel(dom)
+            return Fragment.fromJSON(schema, [{
+              type: 'text',
+              text: `${this.options.matcher.char}${label}`,
+            }])
           },
         },
       ],
