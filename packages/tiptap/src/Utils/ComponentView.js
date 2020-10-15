@@ -1,7 +1,8 @@
 import Vue from 'vue'
 
 import { getMarkRange } from 'tiptap-utils'
-import { EditorView, EditorState } from 'prosemirror-view'
+import { EditorView } from 'prosemirror-view'
+import { EditorState } from 'prosemirror-state'
 import { keymap } from 'prosemirror-keymap'
 import { undo, redo } from 'prosemirror-history'
 import { StepMap } from 'prosemirror-transform'
