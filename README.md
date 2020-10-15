@@ -79,58 +79,58 @@ export default {
 
 ## Editor Properties
 
-| **Property** | **Type** | **Default** | **Description** |
-| --- | :---: | :---: | --- |
-| `content` | `Object\|String` | `null` | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored. |
-| `editorProps` | `Object` | `{}` | A list of [Prosemirror editorProps](https://prosemirror.net/docs/ref/#view.EditorProps). |
-| `editable` | `Boolean` | `true` | When set to `false` the editor is read-only. |
-| `autoFocus` | `Boolean` | `false` | Focus the editor on init. |
-| `extensions` | `Array` | `[]` | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`. |
-| `useBuiltInExtensions` | `Boolean` | `true` | By default tiptap adds a `Doc`, `Paragraph` and `Text` node to the Prosemirror schema. |
-| `dropCursor` | `Object` | `{}` | Config for `prosemirror-dropcursor`. |
-| `enableDropCursor` | `Boolean` | `true` | Option to enable / disable the dropCursor plugin. |
-| `enableGapCursor` | `Boolean` | `true` | Option to enable / disable the gapCursor plugin. |
-| `parseOptions` | `Object` | `{}` | A list of [Prosemirror parseOptions](https://prosemirror.net/docs/ref/#model.ParseOptions). |
-| `onInit` | `Function` | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init. |
-| `onFocus` | `Function` | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on focus. |
-| `onBlur` | `Function` | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on blur. |
-| `onUpdate` | `Function` | `undefined` | This will return an Object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function and the `transaction` on every change. |
+| **Property**           |     **Type**     | **Default** | **Description**                                                                                                                                   |
+| ---------------------- | :--------------: | :---------: | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `content`              | `Object\|String` |   `null`    | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored.    |
+| `editorProps`          |     `Object`     |    `{}`     | A list of [Prosemirror editorProps](https://prosemirror.net/docs/ref/#view.EditorProps).                                                          |
+| `editable`             |    `Boolean`     |   `true`    | When set to `false` the editor is read-only.                                                                                                      |
+| `autoFocus`            |    `Boolean`     |   `false`   | Focus the editor on init.                                                                                                                         |
+| `extensions`           |     `Array`      |    `[]`     | A list of extensions used, by the editor. This can be `Nodes`, `Marks` or `Plugins`.                                                              |
+| `useBuiltInExtensions` |    `Boolean`     |   `true`    | By default tiptap adds a `Doc`, `Paragraph` and `Text` node to the Prosemirror schema.                                                            |
+| `dropCursor`           |     `Object`     |    `{}`     | Config for `prosemirror-dropcursor`.                                                                                                              |
+| `enableDropCursor`     |    `Boolean`     |   `true`    | Option to enable / disable the dropCursor plugin.                                                                                                 |
+| `enableGapCursor`      |    `Boolean`     |   `true`    | Option to enable / disable the gapCursor plugin.                                                                                                  |
+| `parseOptions`         |     `Object`     |    `{}`     | A list of [Prosemirror parseOptions](https://prosemirror.net/docs/ref/#model.ParseOptions).                                                       |
+| `onInit`               |    `Function`    | `undefined` | This will return an Object with the current `state` and `view` of Prosemirror on init.                                                            |
+| `onFocus`              |    `Function`    | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on focus.                                               |
+| `onBlur`               |    `Function`    | `undefined` | This will return an Object with the `event` and current `state` and `view` of Prosemirror on blur.                                                |
+| `onUpdate`             |    `Function`    | `undefined` | This will return an Object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function and the `transaction` on every change. |
 
 ## Editor Methods
 
-| **Method** | **Arguments**| **Description** |
-| --- | :---: | --- |
-| `setContent` | `content, emitUpdate, parseOptions` | Replace the current content. You can pass an HTML string or a JSON document. `emitUpdate` defaults to `false`. `parseOptions` defaults to those provided in constructor. |
-| `clearContent` | `emitUpdate` | Clears the current content. `emitUpdate` defaults to `false`. |
-| `setOptions` | `options` | Overwrites the current editor properties. |
-| `registerPlugin` | `plugin`, `handlePlugins` | Register a Prosemirror plugin. You can pass a function `handlePlugins` with parameters `(plugin, oldPlugins)` to define an order in which `newPlugins` will be called. `handlePlugins` defaults to pushing `plugin` to front of `oldPlugins`. |
-| `getJSON` | – | Get the current content as JSON. |
-| `getHTML` | – | Get the current content as HTML. |
-| `focus` | – | Focus the editor. |
-| `blur` | – | Blur the editor. |
-| `destroy` | – | Destroy the editor. |
+| **Method**       |            **Arguments**            | **Description**                                                                                                                                                                                                                               |
+| ---------------- | :---------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `setContent`     | `content, emitUpdate, parseOptions` | Replace the current content. You can pass an HTML string or a JSON document. `emitUpdate` defaults to `false`. `parseOptions` defaults to those provided in constructor.                                                                      |
+| `clearContent`   |            `emitUpdate`             | Clears the current content. `emitUpdate` defaults to `false`.                                                                                                                                                                                 |
+| `setOptions`     |              `options`              | Overwrites the current editor properties.                                                                                                                                                                                                     |
+| `registerPlugin` |      `plugin`, `handlePlugins`      | Register a Prosemirror plugin. You can pass a function `handlePlugins` with parameters `(plugin, oldPlugins)` to define an order in which `newPlugins` will be called. `handlePlugins` defaults to pushing `plugin` to front of `oldPlugins`. |
+| `getJSON`        |                  –                  | Get the current content as JSON.                                                                                                                                                                                                              |
+| `getHTML`        |                  –                  | Get the current content as HTML.                                                                                                                                                                                                              |
+| `focus`          |                  –                  | Focus the editor.                                                                                                                                                                                                                             |
+| `blur`           |                  –                  | Blur the editor.                                                                                                                                                                                                                              |
+| `destroy`        |                  –                  | Destroy the editor.                                                                                                                                                                                                                           |
 
 ## Components
 
-| **Name** | **Description** |
-| --- | --- |
-| `<editor-content />` | Here the content will be rendered. |
-| `<editor-menu-bar />` | Here a menu bar will be rendered. |
-| `<editor-menu-bubble />` | Here a menu bubble will be rendered. |
+| **Name**                   | **Description**                        |
+| -------------------------- | -------------------------------------- |
+| `<editor-content />`       | Here the content will be rendered.     |
+| `<editor-menu-bar />`      | Here a menu bar will be rendered.      |
+| `<editor-menu-bubble />`   | Here a menu bubble will be rendered.   |
 | `<editor-floating-menu />` | Here a floating menu will be rendered. |
 
 ### EditorMenuBar
 
 The `<editor-menu-bar />` component is renderless and will receive some properties through a scoped slot.
 
-| **Property** | **Type** | **Description** |
-| --- | :---: | --- |
-| `commands` | `Array` | A list of all commands. |
-| `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
-| `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
-| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection. |
-| `focused` | `Boolean` | Whether the editor is focused. |
-| `focus` | `Function` | A function to focus the editor. |
+| **Property**   |  **Type**  | **Description**                                                                                        |
+| -------------- | :--------: | ------------------------------------------------------------------------------------------------------ |
+| `commands`     |  `Array`   | A list of all commands.                                                                                |
+| `isActive`     |  `Object`  | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
+| `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection.                                               |
+| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection.                                               |
+| `focused`      | `Boolean`  | Whether the editor is focused.                                                                         |
+| `focus`        | `Function` | A function to focus the editor.                                                                        |
 
 #### Example
 
@@ -153,15 +153,15 @@ The `<editor-menu-bar />` component is renderless and will receive some properti
 
 The `<editor-menu-bubble />` component is renderless and will receive some properties through a scoped slot.
 
-| **Property** | **Type** | **Description** |
-| --- | :---: | --- |
-| `commands` | `Array` | A list of all commands. |
-| `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
-| `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
-| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection. |
-| `focused` | `Boolean` | Whether the editor is focused. |
-| `focus` | `Function` | A function to focus the editor. |
-| `menu` | `Object` | An object for positioning your menu. |
+| **Property**   |  **Type**  | **Description**                                                                                        |
+| -------------- | :--------: | ------------------------------------------------------------------------------------------------------ |
+| `commands`     |  `Array`   | A list of all commands.                                                                                |
+| `isActive`     |  `Object`  | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
+| `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection.                                               |
+| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection.                                               |
+| `focused`      | `Boolean`  | Whether the editor is focused.                                                                         |
+| `focus`        | `Function` | A function to focus the editor.                                                                        |
+| `menu`         |  `Object`  | An object for positioning your menu.                                                                   |
 
 #### Example
 
@@ -187,15 +187,15 @@ The `<editor-menu-bubble />` component is renderless and will receive some prope
 
 The `<editor-floating-menu />` component is renderless and will receive some properties through a scoped slot.
 
-| **Property** | **Type** | **Description** |
-| --- | :---: | --- |
-| `commands` | `Array` | A list of all commands. |
-| `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
-| `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
-| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection. |
-| `focused` | `Boolean` | Whether the editor is focused. |
-| `focus` | `Function` | A function to focus the editor. |
-| `menu` | `Object` | An object for positioning your menu. |
+| **Property**   |  **Type**  | **Description**                                                                                        |
+| -------------- | :--------: | ------------------------------------------------------------------------------------------------------ |
+| `commands`     |  `Array`   | A list of all commands.                                                                                |
+| `isActive`     |  `Object`  | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
+| `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection.                                               |
+| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection.                                               |
+| `focused`      | `Boolean`  | Whether the editor is focused.                                                                         |
+| `focus`        | `Function` | A function to focus the editor.                                                                        |
+| `menu`         |  `Object`  | An object for positioning your menu.                                                                   |
 
 #### Example
 
@@ -300,38 +300,38 @@ export default {
 
 The most powerful feature of tiptap is that you can create your own extensions. There are 3 types of extensions.
 
-| **Type** | **Description** |
-| --- | --- |
+| **Type**    | **Description**                                                                                                                   |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | `Extension` | The most basic type. It's useful to register some [Prosemirror plugins](https://prosemirror.net/docs/guide/) or some input rules. |
-| `Node` | Add a custom node. Nodes are block elements like a headline or a paragraph. |
-| `Mark` | Add a custom mark. Marks are used to add extra styling or other information to inline content like a strong tag or links. |
+| `Node`      | Add a custom node. Nodes are block elements like a headline or a paragraph.                                                       |
+| `Mark`      | Add a custom mark. Marks are used to add extra styling or other information to inline content like a strong tag or links.         |
 
 ### Extension Class
 
-| **Method** | **Type** | **Default** | **Description** |
-| --- | :---: | :---: | --- |
-| `get name()` | `String` | `null` | Define a name for your extension. |
-| `get defaultOptions()` | `Object` | `{}` | Define some default options. The options are available as `this.$options`. |
-| `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
-| `keys({ schema })` | `Object` | `null` | Define some keybindings. |
-| `commands({ schema, attrs })` | `Object` | `null` | Define a command. |
-| `inputRules({ schema })` | `Array` | `[]` | Define a list of input rules. |
-| `pasteRules({ schema })` | `Array` | `[]` | Define a list of paste rules. |
-| `get update()` | `Function` | `undefined` | Called when options of extension are changed via `editor.extensions.options` |
+| **Method**                    |  **Type**  | **Default** | **Description**                                                              |
+| ----------------------------- | :--------: | :---------: | ---------------------------------------------------------------------------- |
+| `get name()`                  |  `String`  |   `null`    | Define a name for your extension.                                            |
+| `get defaultOptions()`        |  `Object`  |    `{}`     | Define some default options. The options are available as `this.$options`.   |
+| `get plugins()`               |  `Array`   |    `[]`     | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
+| `keys({ schema })`            |  `Object`  |   `null`    | Define some keybindings.                                                     |
+| `commands({ schema, attrs })` |  `Object`  |   `null`    | Define a command.                                                            |
+| `inputRules({ schema })`      |  `Array`   |    `[]`     | Define a list of input rules.                                                |
+| `pasteRules({ schema })`      |  `Array`   |    `[]`     | Define a list of paste rules.                                                |
+| `get update()`                | `Function` | `undefined` | Called when options of extension are changed via `editor.extensions.options` |
 
 ### Node|Mark Class
 
-| **Method** | **Type** | **Default** | **Description** |
-| --- | :---: | :---: | --- |
-| `get name()` | `String` | `null` | Define a name for your node or mark. |
-| `get defaultOptions()` | `Object` | `{}` | Define some default options. The options are available as `this.$options`. |
-| `get schema()` | `Object` | `null` | Define a [schema](https://prosemirror.net/docs/guide/#schema). |
-| `get view()` | `Object` | `null` | Define a node view as a vue component. |
-| `keys({ type, schema })` | `Object` | `null` | Define some keybindings. |
-| `commands({ type, schema, attrs })` | `Object` | `null` | Define a command. For example this is used for menus to convert to this node or mark. |
-| `inputRules({ type, schema })` | `Array` | `[]` | Define a list of input rules. |
-| `pasteRules({ type, schema })` | `Array` | `[]` | Define a list of paste rules. |
-| `get plugins()` | `Array` | `[]` | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/). |
+| **Method**                          | **Type** | **Default** | **Description**                                                                       |
+| ----------------------------------- | :------: | :---------: | ------------------------------------------------------------------------------------- |
+| `get name()`                        | `String` |   `null`    | Define a name for your node or mark.                                                  |
+| `get defaultOptions()`              | `Object` |    `{}`     | Define some default options. The options are available as `this.$options`.            |
+| `get schema()`                      | `Object` |   `null`    | Define a [schema](https://prosemirror.net/docs/guide/#schema).                        |
+| `get view()`                        | `Object` |   `null`    | Define a node view as a vue component.                                                |
+| `keys({ type, schema })`            | `Object` |   `null`    | Define some keybindings.                                                              |
+| `commands({ type, schema, attrs })` | `Object` |   `null`    | Define a command. For example this is used for menus to convert to this node or mark. |
+| `inputRules({ type, schema })`      | `Array`  |    `[]`     | Define a list of input rules.                                                         |
+| `pasteRules({ type, schema })`      | `Array`  |    `[]`     | Define a list of paste rules.                                                         |
+| `get plugins()`                     | `Array`  |    `[]`     | Define a list of [Prosemirror plugins](https://prosemirror.net/docs/guide/).          |
 
 ### Create a Node
 
@@ -472,20 +472,20 @@ export default class IframeNode extends Node {
 
 #### NodeView Prop Types
 
-| **Prop** | **Type** | **Description** |
-| --- | :---: | --- |
-| `node` | `Object` | The Prosemirror node object. Common use case is to get `node.attrs` using a getter on a computed property. |
-| `updateAttrs` | `Function` | A function to update `node.attrs` defined in `schema`. Common use case is as setter on a computed property. |
-| `view` | `Object` | The Prosemirror editor view instance. |
-| `options` | `Array` | An array of your extension options. |
-| `getPos` | `Function` | A function that returns the anchored position of the node. |
-| `selected` | `Boolean` | A boolean that is set when the node is or is not selected. Common use case is using `watch` to see when the view is selected/unselected to do something, such focus an `<input>` or refocus the editor. |
+| **Prop**      |  **Type**  | **Description**                                                                                                                                                                                         |
+| ------------- | :--------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `node`        |  `Object`  | The Prosemirror node object. Common use case is to get `node.attrs` using a getter on a computed property.                                                                                              |
+| `updateAttrs` | `Function` | A function to update `node.attrs` defined in `schema`. Common use case is as setter on a computed property.                                                                                             |
+| `view`        |  `Object`  | The Prosemirror editor view instance.                                                                                                                                                                   |
+| `options`     |  `Array`   | An array of your extension options.                                                                                                                                                                     |
+| `getPos`      | `Function` | A function that returns the anchored position of the node.                                                                                                                                              |
+| `selected`    | `Boolean`  | A boolean that is set when the node is or is not selected. Common use case is using `watch` to see when the view is selected/unselected to do something, such focus an `<input>` or refocus the editor. |
 
 ## Browser Support
 
-![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Opera](https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)
---- | --- | --- | --- | --- |
-Last 2 Versions ✔ | Last 2 Versions ✔ | Last 2 Versions ✔ | Last 2 Versions ✔ | Last 2 Versions ✔ |
+| ![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Opera](https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png) |
+| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| Last 2 Versions ✔                                                                                   | Last 2 Versions ✔                                                                                      | Last 2 Versions ✔                                                                           | Last 2 Versions ✔                                                                                | Last 2 Versions ✔                                                                                   |
 
 ## Development Setup
 
