@@ -25,6 +25,16 @@ export default class Mention extends Node {
     return dom.innerText.split(this.options.matcher.char).join('')
   }
 
+  createFragment(schema, label) {
+    return Fragment.fromJSON(schema, [{ type: 'text', text: `${this.options.matcher.char}${label}` }])
+  }
+
+  insertMention(range, attrs, schema) {
+    const nodeType = schema.nodes[this.name]
+    const content = nodeType.create(attrs, this.createFragment(schema, attrs.label))
+    return replaceText(range, nodeType, content)
+  }
+
   get schema() {
     return {
       attrs: {
@@ -54,10 +64,7 @@ export default class Mention extends Node {
           },
           getContent: (dom, schema) => {
             const label = this.getLabel(dom)
-            return Fragment.fromJSON(schema, [{
-              type: 'text',
-              text: `${this.options.matcher.char}${label}`,
-            }])
+            return this.createFragment(schema, label)
           },
         },
       ],
@@ -65,13 +72,13 @@ export default class Mention extends Node {
   }
 
   commands({ schema }) {
-    return attrs => replaceText(null, schema.nodes[this.name], attrs)
+    return attrs => this.insertMention(null, attrs, schema)
   }
 
   get plugins() {
     return [
       SuggestionsPlugin({
-        command: ({ range, attrs, schema }) => replaceText(range, schema.nodes[this.name], attrs),
+        command: ({ range, attrs, schema }) => this.insertMention(range, attrs, schema),
         appendText: ' ',
         matcher: this.options.matcher,
         items: this.options.items,
