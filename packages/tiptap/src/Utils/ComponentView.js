@@ -31,7 +31,6 @@ export default class ComponentView {
     this.captureEvents = true
     this.dom = this.createDOM()
     this.contentDOM = this.vm.$refs.content
-    this.innerDOM = this.vm.$refs.inner
   }
 
   createDOM() {
@@ -61,6 +60,7 @@ export default class ComponentView {
       propsData: props,
     }).$mount()
 
+    this.innerDOM = this.vm.$refs.inner
     this.innerView = null
     if (this.innerDOM) {
       this.innerView = new EditorView(this.innerDOM, {
