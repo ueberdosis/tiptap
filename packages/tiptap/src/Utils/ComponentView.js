@@ -130,11 +130,7 @@ export default class ComponentView {
         let { a: endA, b: endB } = node.content.findDiffEnd(state.doc.content)
         const overlap = start - Math.min(endA, endB)
         if (overlap > 0) { endA += overlap; endB += overlap }
-        this.innerView.dispatch(
-          state.tr
-            .replace(start, endB, node.slice(start, endA))
-            .setMeta('fromOutside', true)
-        )
+        this.innerView.dispatch(state.tr.replace(start, endB, node.slice(start, endA)).setMeta('fromOutside', true))
       }
     }
 
