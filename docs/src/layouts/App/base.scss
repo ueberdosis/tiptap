@@ -59,6 +59,10 @@ body {
   color: $colorText;
 }
 
+*[id] {
+  scroll-margin-top: 6rem;
+}
+
 button {
   font: inherit;
   cursor: pointer;
