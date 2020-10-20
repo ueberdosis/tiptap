@@ -31,8 +31,8 @@ export default class Mention extends Node {
 
   insertMention(range, attrs, schema) {
     const nodeType = schema.nodes[this.name]
-    const content = nodeType.create(attrs, this.createFragment(schema, attrs.label))
-    return replaceText(range, nodeType, content)
+    const nodeFragment = this.createFragment(schema, attrs.label)
+    return replaceText(range, nodeType, attrs, nodeFragment)
   }
 
   get schema() {
