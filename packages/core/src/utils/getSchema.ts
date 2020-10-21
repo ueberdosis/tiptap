@@ -1,53 +1,42 @@
 import { NodeSpec, Schema } from 'prosemirror-model'
-
 import { Extensions } from '../types'
-import getTopNodeFromExtensions from './getTopNodeFromExtensions'
-import getNodesFromExtensions from './getNodesFromExtensions'
-import getMarksFromExtensions from './getMarksFromExtensions'
-import resolveExtensionConfig from './resolveExtensionConfig'
-import { NodeExtension } from '../Node'
-import Mark from '../Mark'
-import Extension from '../Extension'
+// import getTopNodeFromExtensions from './getTopNodeFromExtensions'
+// import getNodesFromExtensions from './getNodesFromExtensions'
+// import getMarksFromExtensions from './getMarksFromExtensions'
+// import resolveExtensionConfig from './resolveExtensionConfig'
+import splitExtensions from './splitExtensions'
 
 export default function getSchema(extensions: Extensions): Schema {
-  // const baseExtensions = extensions.filter(extension => extension.type === 'extension') as Extension[]
-  const nodeExtensions = extensions.filter(extension => extension.type === 'node') as NodeExtension[]
-  // const markExtensions = extensions.filter(extension => extension.type === 'mark') as Mark[]
+  const { nodeExtensions } = splitExtensions(extensions)
 
-  // console.log({ extensions })
+  const topNode = nodeExtensions.find(extension => extension.topNode)?.name
 
   const nodes = Object.fromEntries(nodeExtensions.map(extension => {
+    const context = {
+      options: extension.options,
+    }
+
+    const attributes = {
+      class: 'test',
+    }
+
     const schema: NodeSpec = {
       content: extension.content,
+      marks: extension.marks,
       group: extension.group,
-      parseDOM: extension.parseHTML(),
-      toDOM: node => extension.renderHTML({ node, attributes: { class: 'test' } }),
+      inline: extension.inline,
+      atom: extension.atom,
+      selectable: extension.selectable,
+      draggable: extension.draggable,
+      code: extension.code,
+      defining: extension.defining,
+      isolating: extension.isolating,
+      parseDOM: extension.parseHTML.bind(context)(),
+      toDOM: node => extension.renderHTML.bind(context)({ node, attributes }),
     }
 
     return [extension.name, schema]
   }))
-
-  const topNode = nodeExtensions.find(extension => extension.topNode)?.name
-
-  // extensions.forEach(extension => {
-  //   resolveExtensionConfig(extension, 'name')
-  //   resolveExtensionConfig(extension, 'defaults')
-  //   resolveExtensionConfig(extension, 'topNode')
-
-  //   const { name } = extension.config
-  //   const options = {
-  //     ...extension.config.defaults,
-  //     ...extension.options,
-  //   }
-
-  //   resolveExtensionConfig(extension, 'schema', { name, options })
-  // })
-
-  // return new Schema({
-  //   topNode: getTopNodeFromExtensions(extensions),
-  //   nodes: getNodesFromExtensions(extensions),
-  //   marks: getMarksFromExtensions(extensions),
-  // })
 
   return new Schema({
     topNode,
