@@ -69,6 +69,7 @@ export default createNode({
     return {
       id: {
         default: '123',
+        rendered: true,
         renderHTML: attributes => ({ class: `foo-${attributes.id}`, id: 'foo' }),
       },
     }

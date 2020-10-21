@@ -3,9 +3,10 @@ import { ExtensionAttribute } from '../types'
 
 export default function getRenderedAttributes(node: Node, attributes: ExtensionAttribute[]) {
   return attributes
-    .map(attribute => {
+    .filter(item => item.attribute.rendered)
+    .map(item => {
       // TODO: fallback if renderHTML doesn’t exist
-      return attribute.attribute.renderHTML(node.attrs)
+      return item.attribute.renderHTML(node.attrs)
     })
     .reduce((accumulator, value) => {
       // TODO: add support for "class" merge
