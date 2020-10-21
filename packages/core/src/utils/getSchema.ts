@@ -5,13 +5,13 @@ import getTopNodeFromExtensions from './getTopNodeFromExtensions'
 import getNodesFromExtensions from './getNodesFromExtensions'
 import getMarksFromExtensions from './getMarksFromExtensions'
 import resolveExtensionConfig from './resolveExtensionConfig'
-import { Node } from '../Node'
+import { NodeExtension } from '../Node'
 import Mark from '../Mark'
 import Extension from '../Extension'
 
 export default function getSchema(extensions: Extensions): Schema {
   // const baseExtensions = extensions.filter(extension => extension.type === 'extension') as Extension[]
-  const nodeExtensions = extensions.filter(extension => extension.type === 'node') as Node[]
+  const nodeExtensions = extensions.filter(extension => extension.type === 'node') as NodeExtension[]
   // const markExtensions = extensions.filter(extension => extension.type === 'mark') as Mark[]
 
   // console.log({ extensions })

@@ -113,18 +113,7 @@
 //   }
 // }
 
-export interface Extension {
-  type: string,
-  name: string,
-  options: {
-    [key: string]: any
-  },
-  createCommands(): {
-    [key: string]: any
-  },
-}
-
-export interface ExtensionSpec<Options, Commands> {
+export interface ExtensionSpec<Options = {}, Commands = {}> {
   name: string,
   defaultOptions?: Options,
   createCommands?(this: {
@@ -133,13 +122,18 @@ export interface ExtensionSpec<Options, Commands> {
   }): Commands,
 }
 
+export type Extension = Required<Omit<ExtensionSpec, 'defaultOptions'> & {
+  type: string,
+  options: {
+    [key: string]: any
+  },
+}>
+
 const defaultExtension: Extension = {
   type: 'extension',
   name: 'extension',
   options: {},
-  createCommands() {
-    return {}
-  },
+  createCommands: () => ({}),
 }
 
 export function createExtension<Options extends {}, Commands extends {}>(config: ExtensionSpec<Options, Commands>) {

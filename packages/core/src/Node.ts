@@ -70,25 +70,9 @@
 // }
 
 import { DOMOutputSpec, NodeSpec, Node } from 'prosemirror-model'
-import { Extension, ExtensionSpec } from './Extension'
+import { ExtensionSpec } from './Extension'
 
-export interface NodeExtension extends Extension {
-  topNode: boolean,
-  content: NodeSpec['content'],
-  marks: NodeSpec['marks'],
-  group: NodeSpec['group'],
-  inline: NodeSpec['inline'],
-  atom: NodeSpec['atom'],
-  parseHTML: () => NodeSpec['parseDOM'],
-  renderHTML: (props: {
-    node: Node,
-    attributes: {
-      [key: string]: any,
-    },
-  }) => DOMOutputSpec,
-}
-
-export interface NodeExtensionSpec<Options, Commands> extends ExtensionSpec<Options, Commands> {
+export interface NodeExtensionSpec<Options = {}, Commands = {}> extends ExtensionSpec<Options, Commands> {
   topNode?: boolean,
   content?: NodeSpec['content'],
   marks?: NodeSpec['marks'],
@@ -103,6 +87,13 @@ export interface NodeExtensionSpec<Options, Commands> extends ExtensionSpec<Opti
     },
   }) => DOMOutputSpec,
 }
+
+export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {
+  type: string,
+  options: {
+    [key: string]: any
+  },
+}>
 
 const defaultNode: NodeExtension = {
   type: 'node',
