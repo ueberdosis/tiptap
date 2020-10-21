@@ -46,7 +46,7 @@ export default {
   border-radius: 0.5rem 0.5rem 0 0;
 
   &__preview {
-    padding: 1.5rem;
+    padding: 1.25rem;
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
     border-bottom-width: 0;
@@ -62,7 +62,7 @@ export default {
     .prism-editor-wrapper {
       overflow: auto;
       max-height: unquote("max(300px, 60vh)");
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
 
     .prism-editor__container {
