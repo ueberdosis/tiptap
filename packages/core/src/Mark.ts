@@ -46,3 +46,73 @@
 //   }
 
 // }
+
+import { DOMOutputSpec, MarkSpec, Mark } from 'prosemirror-model'
+import { ExtensionSpec } from './Extension'
+
+export interface MarkExtensionSpec<Options = {}, Commands = {}> extends ExtensionSpec<Options, Commands> {
+  inclusive?: MarkSpec['inclusive'],
+  excludes?: MarkSpec['excludes'],
+  group?: MarkSpec['group'],
+  spanning?: MarkSpec['spanning'],
+  parseHTML?: (
+    this: {
+      options: Options,
+    },
+  ) => MarkSpec['parseDOM'],
+  renderHTML?: (
+    this: {
+      options: Options,
+    },
+    props: {
+      node: Mark,
+      attributes: {
+        [key: string]: any,
+      },
+    }
+  ) => DOMOutputSpec,
+}
+
+export type MarkExtension = Required<Omit<MarkExtensionSpec, 'defaultOptions'> & {
+  type: string,
+  options: {
+    [key: string]: any
+  },
+}>
+
+const defaultMark: MarkExtension = {
+  type: 'mark',
+  name: 'mark',
+  options: {},
+  inclusive: null,
+  excludes: null,
+  group: null,
+  spanning: null,
+  createCommands: () => ({}),
+  parseHTML: () => null,
+  renderHTML: () => null,
+}
+
+export function createMark<Options extends {}, Commands extends {}>(config: MarkExtensionSpec<Options, Commands>) {
+  const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
+    return createMark({
+      ...config,
+      ...extendedConfig,
+    } as MarkExtensionSpec<ExtendedOptions, ExtendedCommands>)
+  }
+
+  const setOptions = (options?: Partial<Options>) => {
+    const { defaultOptions, ...rest } = config
+
+    return {
+      ...defaultMark,
+      ...rest,
+      options: {
+        ...defaultOptions,
+        ...options,
+      } as Options,
+    }
+  }
+
+  return Object.assign(setOptions, { config, extend })
+}

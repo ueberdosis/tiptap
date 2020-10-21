@@ -14,9 +14,7 @@ import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
-import Extension from './Extension'
-import Node from './Node'
-import Mark from './Mark'
+import { Extensions } from './types'
 import defaultPlugins from './plugins'
 import * as coreCommands from './commands'
 import style from './style'
@@ -64,7 +62,7 @@ interface HTMLElement {
 interface EditorOptions {
   element: Element,
   content: EditorContent,
-  extensions: (Extension | Node | Mark)[],
+  extensions: Extensions[],
   injectCSS: boolean,
   autoFocus: 'start' | 'end' | number | boolean | null,
   editable: boolean,

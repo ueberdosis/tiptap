@@ -1,4 +1,4 @@
-import { NodeSpec, Schema } from 'prosemirror-model'
+import { NodeSpec, MarkSpec, Schema } from 'prosemirror-model'
 import { Extensions } from '../types'
 // import getTopNodeFromExtensions from './getTopNodeFromExtensions'
 // import getNodesFromExtensions from './getNodesFromExtensions'
@@ -7,7 +7,7 @@ import { Extensions } from '../types'
 import splitExtensions from './splitExtensions'
 
 export default function getSchema(extensions: Extensions): Schema {
-  const { nodeExtensions } = splitExtensions(extensions)
+  const { nodeExtensions, markExtensions } = splitExtensions(extensions)
 
   const topNode = nodeExtensions.find(extension => extension.topNode)?.name
 
@@ -38,9 +38,30 @@ export default function getSchema(extensions: Extensions): Schema {
     return [extension.name, schema]
   }))
 
+  const marks = Object.fromEntries(markExtensions.map(extension => {
+    const context = {
+      options: extension.options,
+    }
+
+    const attributes = {
+      class: 'test',
+    }
+
+    const schema: MarkSpec = {
+      inclusive: extension.inclusive,
+      excludes: extension.excludes,
+      group: extension.group,
+      spanning: extension.spanning,
+      parseDOM: extension.parseHTML.bind(context)(),
+      toDOM: node => extension.renderHTML.bind(context)({ node, attributes }),
+    }
+
+    return [extension.name, schema]
+  }))
+
   return new Schema({
     topNode,
     nodes,
-    marks: {},
+    marks,
   })
 }

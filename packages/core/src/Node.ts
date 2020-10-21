@@ -84,13 +84,22 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Extensio
   code?: NodeSpec['code'],
   defining?: NodeSpec['defining'],
   isolating?: NodeSpec['isolating'],
-  parseHTML?: () => NodeSpec['parseDOM'],
-  renderHTML?: (props: {
-    node: Node,
-    attributes: {
-      [key: string]: any,
+  parseHTML?: (
+    this: {
+      options: Options,
     },
-  }) => DOMOutputSpec,
+  ) => NodeSpec['parseDOM'],
+  renderHTML?: (
+    this: {
+      options: Options,
+    },
+    props: {
+      node: Node,
+      attributes: {
+        [key: string]: any,
+      },
+    }
+  ) => DOMOutputSpec,
 }
 
 export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {
