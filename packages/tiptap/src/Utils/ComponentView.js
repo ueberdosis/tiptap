@@ -94,7 +94,7 @@ export default class ComponentView {
     this.innerView.updateState(state)
 
     if (!tr.getMeta('fromOutside')) {
-      const outerTr = this.outerView.state.tr
+      const outerTr = this.view.state.tr
       const offsetMap = StepMap.offset(this.getPos() + 1)
       for (let i = 0; i < transactions.length; i += 1) {
         const { steps } = transactions[i]
