@@ -27,22 +27,22 @@
 //   }
 // }
 
-import Extension from './Extension'
+// import Extension from './Extension'
 
-export default class Node<Options = {}> extends Extension<Options> {
+// export default class Node<Options = {}> extends Extension<Options> {
 
-  type = 'mark'
+//   type = 'mark'
 
-  createAttributes() {
-    return {}
-  }
+//   createAttributes() {
+//     return {}
+//   }
 
-  parseHTML() {
-    return []
-  }
+//   parseHTML() {
+//     return []
+//   }
 
-  renderHTML() {
-    return []
-  }
+//   renderHTML() {
+//     return []
+//   }
 
-}
+// }

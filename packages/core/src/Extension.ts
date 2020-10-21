@@ -113,27 +113,55 @@
 //   }
 // }
 
-export default class Extension<Options = {}> {
+export interface Extension {
+  type: string,
+  name: string,
+  options: {
+    [key: string]: any
+  },
+  createCommands(): {
+    [key: string]: any
+  },
+}
 
-  name = 'extension'
+export interface ExtensionSpec<Options, Commands> {
+  name: string,
+  defaultOptions?: Options,
+  createCommands?(this: {
+    options: Options,
+    // editor: Editor,
+  }): Commands,
+}
 
-  type = 'extension'
+const defaultExtension: Extension = {
+  type: 'extension',
+  name: 'extension',
+  options: {},
+  createCommands() {
+    return {}
+  },
+}
 
-  options: Partial<Options> = {}
+export function createExtension<Options extends {}, Commands extends {}>(config: ExtensionSpec<Options, Commands>) {
+  const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<ExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
+    return createExtension({
+      ...config,
+      ...extendedConfig,
+    } as ExtensionSpec<ExtendedOptions, ExtendedCommands>)
+  }
 
-  constructor(options?: Partial<Options>) {
-    this.options = {
-      ...this.createDefaultOptions(),
-      ...options,
+  const setOptions = (options?: Partial<Options>) => {
+    const { defaultOptions, ...rest } = config
+
+    return {
+      ...defaultExtension,
+      ...rest,
+      options: {
+        ...defaultOptions,
+        ...options,
+      } as Options,
     }
   }
 
-  createDefaultOptions() {
-    return {}
-  }
-
-  createCommands() {
-    return {}
-  }
-
+  return Object.assign(setOptions, { config, extend })
 }

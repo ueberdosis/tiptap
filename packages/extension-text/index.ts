@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { createNode } from '@tiptap/core'
 
 // export default new Node()
 //   .name('text')
@@ -7,10 +7,16 @@ import { Node } from '@tiptap/core'
 //   }))
 //   .create()
 
-export default class Text extends Node {
+// export default class Text extends Node {
 
-  name = 'text'
+//   name = 'text'
 
-  group = 'inline'
+//   group = 'inline'
 
-}
+// }
+
+export default createNode({
+  name: 'text',
+
+  group: 'inline',
+})

@@ -32,39 +32,113 @@
 //   }
 // }
 
-import { DOMOutputSpec, DOMOutputSpecArray } from 'prosemirror-model'
-import Extension from './Extension'
+// import { DOMOutputSpec, DOMOutputSpecArray } from 'prosemirror-model'
+// import Extension from './Extension'
 
-export interface INode {
-  type: string
-  topNode: boolean
-  group: string
-  content: string
-  createAttributes(): any
-  parseHTML(): any
-  renderHTML(props: number): DOMOutputSpec
+// export interface INode {
+//   type: string
+//   topNode: boolean
+//   group: string
+//   content: string
+//   createAttributes(): any
+//   parseHTML(): any
+//   renderHTML(props: number): DOMOutputSpec
+// }
+
+// export default class Node<Options = {}> extends Extension<Options> implements INode {
+
+//   type = 'node'
+
+//   topNode = false
+
+//   group = ''
+
+//   content = ''
+
+//   createAttributes() {
+//     return {}
+//   }
+
+//   parseHTML() {
+//     return []
+//   }
+
+//   renderHTML() {
+//     return null
+//   }
+
+// }
+
+import { DOMOutputSpec, NodeSpec, Node } from 'prosemirror-model'
+import { Extension, ExtensionSpec } from './Extension'
+
+export interface NodeExtension extends Extension {
+  topNode: boolean,
+  content: NodeSpec['content'],
+  marks: NodeSpec['marks'],
+  group: NodeSpec['group'],
+  inline: NodeSpec['inline'],
+  atom: NodeSpec['atom'],
+  parseHTML: () => NodeSpec['parseDOM'],
+  renderHTML: (props: {
+    node: Node,
+    attributes: {
+      [key: string]: any,
+    },
+  }) => DOMOutputSpec,
 }
 
-export default class Node<Options = {}> extends Extension<Options> implements INode {
+export interface NodeExtensionSpec<Options, Commands> extends ExtensionSpec<Options, Commands> {
+  topNode?: boolean,
+  content?: NodeSpec['content'],
+  marks?: NodeSpec['marks'],
+  group?: NodeSpec['group'],
+  inline?: NodeSpec['inline'],
+  atom?: NodeSpec['atom'],
+  parseHTML?: () => NodeSpec['parseDOM'],
+  renderHTML?: (props: {
+    node: Node,
+    attributes: {
+      [key: string]: any,
+    },
+  }) => DOMOutputSpec,
+}
 
-  type = 'node'
+const defaultNode: NodeExtension = {
+  type: 'node',
+  name: 'node',
+  options: {},
+  topNode: false,
+  content: null,
+  marks: null,
+  group: null,
+  inline: null,
+  atom: null,
+  createCommands: () => ({}),
+  parseHTML: () => null,
+  renderHTML: () => null,
+}
 
-  topNode = false
-
-  group = ''
-
-  content = ''
-
-  createAttributes() {
-    return {}
+export function createNode<Options extends {}, Commands extends {}>(config: NodeExtensionSpec<Options, Commands>) {
+  const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<NodeExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
+    return createNode({
+      ...config,
+      ...extendedConfig,
+    } as NodeExtensionSpec<ExtendedOptions, ExtendedCommands>)
   }
 
-  parseHTML() {
-    return []
+  const setOptions = (options?: Partial<Options>) => {
+    const { defaultOptions, ...rest } = config
+
+    return {
+      ...defaultNode,
+      ...rest,
+      options: {
+        ...defaultOptions,
+        ...options,
+      } as Options,
+    }
   }
 
-  renderHTML() {
-    return null
-  }
-
+  return Object.assign(setOptions, { config, extend })
 }

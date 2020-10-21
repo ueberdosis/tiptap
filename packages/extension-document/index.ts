@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { createNode } from '@tiptap/core'
 
 // export default new Node()
 //   .name('document')
@@ -8,12 +8,20 @@ import { Node } from '@tiptap/core'
 //   }))
 //   .create()
 
-export default class Document extends Node {
+// export default class Document extends Node {
 
-  name = 'document'
+//   name = 'document'
 
-  topNode = true
+//   topNode = true
 
-  content = 'block+'
+//   content = 'block+'
 
-}
+// }
+
+export default createNode({
+  name: 'document',
+
+  topNode: true,
+
+  content: 'block+',
+})

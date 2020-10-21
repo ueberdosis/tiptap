@@ -3,10 +3,12 @@ import { Editor, Command, CommandsSpec } from './src/Editor'
 export default Editor
 export { Editor, Command, CommandsSpec }
 export { default as ComponentRenderer } from './src/ComponentRenderer'
-export { default as Extension } from './src/Extension'
-export { default as Node } from './src/Node'
+// export { default as Extension } from './src/Extension'
+// export { default as Node } from './src/Node'
+export * from './src/Extension'
 export * from './src/Node'
-export { default as Mark } from './src/Mark'
+export * from './src/Mark'
+// export { default as Mark } from './src/Mark'
 export { Extensions } from './src/types'
 
 export { default as nodeInputRule } from './src/inputRules/nodeInputRule'

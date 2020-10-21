@@ -56,6 +56,8 @@ module.exports = {
         'no-param-reassign': 'off',
         'import/prefer-default-export': 'off',
         'consistent-return': 'off',
+        'no-redeclare': 'off',
+        '@typescript-eslint/no-redeclare': ['error'],
         'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': ['error'],
         'no-use-before-define': 'off',

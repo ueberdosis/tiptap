@@ -5,31 +5,27 @@ import getTopNodeFromExtensions from './getTopNodeFromExtensions'
 import getNodesFromExtensions from './getNodesFromExtensions'
 import getMarksFromExtensions from './getMarksFromExtensions'
 import resolveExtensionConfig from './resolveExtensionConfig'
-import Node from '../Node'
+import { Node } from '../Node'
 import Mark from '../Mark'
 import Extension from '../Extension'
 
 export default function getSchema(extensions: Extensions): Schema {
-  const baseExtensions = extensions.filter(extension => extension.type === 'extension') as Extension[]
+  // const baseExtensions = extensions.filter(extension => extension.type === 'extension') as Extension[]
   const nodeExtensions = extensions.filter(extension => extension.type === 'node') as Node[]
-  const markExtensions = extensions.filter(extension => extension.type === 'mark') as Mark[]
+  // const markExtensions = extensions.filter(extension => extension.type === 'mark') as Mark[]
+
+  // console.log({ extensions })
 
   const nodes = Object.fromEntries(nodeExtensions.map(extension => {
-
     const schema: NodeSpec = {
       content: extension.content,
       group: extension.group,
       parseDOM: extension.parseHTML(),
-      toDOM: node => extension.renderHTML({ node, attributes: { class: 'hee' } }),
+      toDOM: node => extension.renderHTML({ node, attributes: { class: 'test' } }),
     }
 
-    return [
-      extension.name,
-      schema,
-    ]
+    return [extension.name, schema]
   }))
-
-  console.log({ nodes })
 
   const topNode = nodeExtensions.find(extension => extension.topNode)?.name
 
@@ -57,8 +53,5 @@ export default function getSchema(extensions: Extensions): Schema {
     topNode,
     nodes,
     marks: {},
-    // topNode: getTopNodeFromExtensions(extensions),
-    // nodes: getNodesFromExtensions(extensions),
-    // marks: getMarksFromExtensions(extensions),
   })
 }
