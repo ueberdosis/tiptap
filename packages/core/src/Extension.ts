@@ -113,9 +113,16 @@
 //   }
 // }
 
+import { GlobalAttributes } from './types'
+
 export interface ExtensionSpec<Options = {}, Commands = {}> {
   name: string,
   defaultOptions?: Options,
+  createGlobalAttributes?: (
+    this: {
+      options: Options,
+    },
+  ) => GlobalAttributes,
   createCommands?(this: {
     options: Options,
     // editor: Editor,
@@ -133,6 +140,7 @@ const defaultExtension: Extension = {
   type: 'extension',
   name: 'extension',
   options: {},
+  createGlobalAttributes: () => [],
   createCommands: () => ({}),
 }
 

@@ -65,12 +65,31 @@ export default createNode({
 
   content: 'inline*',
 
+  createGlobalAttributes() {
+    return [
+      {
+        types: ['paragraph'],
+        attributes: {
+          align: {
+            default: 'right',
+            renderHTML: attributes => ({
+              style: `text-align: ${attributes.align}`,
+            }),
+          },
+        },
+      },
+    ]
+  },
+
   createAttributes() {
     return {
       id: {
         default: '123',
         rendered: true,
-        renderHTML: attributes => ({ class: `foo-${attributes.id}`, id: 'foo' }),
+        renderHTML: attributes => ({
+          class: `foo-${attributes.id}`,
+          id: 'foo',
+        }),
       },
     }
   },

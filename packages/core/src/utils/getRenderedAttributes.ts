@@ -9,7 +9,7 @@ export default function getRenderedAttributes(node: Node, attributes: ExtensionA
       return item.attribute.renderHTML(node.attrs)
     })
     .reduce((accumulator, value) => {
-      // TODO: add support for "class" merge
+      // TODO: add support for "class" and "style" merge
       return {
         ...accumulator,
         ...value,

@@ -1,13 +1,16 @@
-import {
-  Extensions, Attributes, Attribute, ExtensionAttribute,
-} from '../types'
 import splitExtensions from './splitExtensions'
+import {
+  Extensions,
+  GlobalAttributes,
+  Attributes,
+  Attribute,
+  ExtensionAttribute,
+} from '../types'
 
 export default function getAttributesFromExtensions(extensions: Extensions) {
   const allAttributes: ExtensionAttribute[] = []
-
-  const { nodeExtensions } = splitExtensions(extensions)
-
+  const { nodeExtensions, markExtensions } = splitExtensions(extensions)
+  const nodeAndMarkExtensions = [...nodeExtensions, ...markExtensions]
   const defaultAttribute: Required<Attribute> = {
     default: null,
     rendered: true,
@@ -15,7 +18,30 @@ export default function getAttributesFromExtensions(extensions: Extensions) {
     parseHTML: () => null,
   }
 
-  nodeExtensions.forEach(extension => {
+  extensions.forEach(extension => {
+    const context = {
+      options: extension.options,
+    }
+
+    const globalAttributes = extension.createGlobalAttributes.bind(context)() as GlobalAttributes
+
+    globalAttributes.forEach(globalAttribute => {
+      globalAttribute.types.forEach(type => {
+        Object.entries(globalAttribute.attributes).forEach(([name, attribute]) => {
+          allAttributes.push({
+            type,
+            name,
+            attribute: {
+              ...defaultAttribute,
+              ...attribute,
+            },
+          })
+        })
+      })
+    })
+  })
+
+  nodeAndMarkExtensions.forEach(extension => {
     const context = {
       options: extension.options,
     }

@@ -49,6 +49,7 @@
 
 import { DOMOutputSpec, MarkSpec, Mark } from 'prosemirror-model'
 import { ExtensionSpec } from './Extension'
+import { Attributes } from './types'
 
 export interface MarkExtensionSpec<Options = {}, Commands = {}> extends ExtensionSpec<Options, Commands> {
   inclusive?: MarkSpec['inclusive'],
@@ -71,6 +72,11 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Extensio
       },
     }
   ) => DOMOutputSpec,
+  createAttributes?: (
+    this: {
+      options: Options,
+    },
+  ) => Attributes,
 }
 
 export type MarkExtension = Required<Omit<MarkExtensionSpec, 'defaultOptions'> & {
@@ -88,6 +94,7 @@ const defaultMark: MarkExtension = {
   excludes: null,
   group: null,
   spanning: null,
+  createGlobalAttributes: () => [],
   createCommands: () => ({}),
   parseHTML: () => null,
   renderHTML: () => null,

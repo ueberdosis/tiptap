@@ -14,11 +14,16 @@ export type Attribute = {
 }
 
 export type Attributes = {
-  [key: string]: Attribute
+  [key: string]: Attribute,
 }
 
 export type ExtensionAttribute = {
   type: string,
   name: string,
-  attribute: Attribute
+  attribute: Attribute,
 }
+
+export type GlobalAttributes = {
+  types: string[],
+  attributes: Attributes,
+}[]

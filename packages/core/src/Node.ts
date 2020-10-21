@@ -130,6 +130,7 @@ const defaultNode: NodeExtension = {
   code: null,
   defining: null,
   isolating: null,
+  createGlobalAttributes: () => [],
   createCommands: () => ({}),
   parseHTML: () => null,
   renderHTML: () => null,
