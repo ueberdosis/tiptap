@@ -65,6 +65,15 @@ export default createNode({
 
   content: 'inline*',
 
+  createAttributes() {
+    return {
+      id: {
+        default: '123',
+        renderHTML: attributes => ({ class: `foo-${attributes.id}`, id: 'foo' }),
+      },
+    }
+  },
+
   parseHTML() {
     return [
       { tag: 'p' },

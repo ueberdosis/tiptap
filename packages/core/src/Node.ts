@@ -71,6 +71,7 @@
 
 import { DOMOutputSpec, NodeSpec, Node } from 'prosemirror-model'
 import { ExtensionSpec } from './Extension'
+import { Attributes } from './types'
 
 export interface NodeExtensionSpec<Options = {}, Commands = {}> extends ExtensionSpec<Options, Commands> {
   topNode?: boolean,
@@ -100,6 +101,11 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Extensio
       },
     }
   ) => DOMOutputSpec,
+  createAttributes?: (
+    this: {
+      options: Options,
+    },
+  ) => Attributes,
 }
 
 export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {
@@ -127,6 +133,7 @@ const defaultNode: NodeExtension = {
   createCommands: () => ({}),
   parseHTML: () => null,
   renderHTML: () => null,
+  createAttributes: () => ({}),
 }
 
 export function createNode<Options extends {}, Commands extends {}>(config: NodeExtensionSpec<Options, Commands>) {

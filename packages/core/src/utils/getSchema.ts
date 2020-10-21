@@ -5,8 +5,12 @@ import { Extensions } from '../types'
 // import getMarksFromExtensions from './getMarksFromExtensions'
 // import resolveExtensionConfig from './resolveExtensionConfig'
 import splitExtensions from './splitExtensions'
+import getAttributesFromExtensions from './getAttributesFromExtensions'
+import getRenderedAttributes from './getRenderedAttributes'
 
 export default function getSchema(extensions: Extensions): Schema {
+  const allAttributes = getAttributesFromExtensions(extensions)
+
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
 
   const topNode = nodeExtensions.find(extension => extension.topNode)?.name
@@ -16,9 +20,7 @@ export default function getSchema(extensions: Extensions): Schema {
       options: extension.options,
     }
 
-    const attributes = {
-      class: 'test',
-    }
+    const attributes = allAttributes.filter(attribute => attribute.type === extension.name)
 
     const schema: NodeSpec = {
       content: extension.content,
@@ -32,20 +34,30 @@ export default function getSchema(extensions: Extensions): Schema {
       defining: extension.defining,
       isolating: extension.isolating,
       parseDOM: extension.parseHTML.bind(context)(),
-      toDOM: node => extension.renderHTML.bind(context)({ node, attributes }),
+      toDOM: node => {
+        return extension.renderHTML.bind(context)({
+          node,
+          attributes: getRenderedAttributes(node, attributes),
+        })
+      },
+      attrs: Object.fromEntries(attributes.map(attribute => {
+        return [attribute.name, { default: attribute?.attribute?.default }]
+      })),
     }
 
     return [extension.name, schema]
   }))
+
+  // console.log({ nodes })
 
   const marks = Object.fromEntries(markExtensions.map(extension => {
     const context = {
       options: extension.options,
     }
 
-    const attributes = {
-      class: 'test',
-    }
+    // const attributes = {
+    //   class: 'test',
+    // }
 
     const schema: MarkSpec = {
       inclusive: extension.inclusive,
@@ -53,7 +65,7 @@ export default function getSchema(extensions: Extensions): Schema {
       group: extension.group,
       spanning: extension.spanning,
       parseDOM: extension.parseHTML.bind(context)(),
-      toDOM: node => extension.renderHTML.bind(context)({ node, attributes }),
+      toDOM: node => extension.renderHTML.bind(context)({ node, attributes: {} }),
     }
 
     return [extension.name, schema]
