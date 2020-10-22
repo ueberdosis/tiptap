@@ -49,7 +49,19 @@ export default {
           new StaffMember.extensions.NodeExtension(),
         ],
         content: `
-          <p>Insert a staff list</p>
+          <staff-list>
+            <template v-slot:default="slotProps">
+              <h3>Our Staff</h3>
+              <p>We are all beautiful!</p>
+            </template>
+            <template v-slot:staff-members="slotProps">
+              <staff-member name="Mr En Jibby" avatar="enjibby-grinning.jpg">
+                <template v-slot:default="slotProps">
+                  <p>Chief Speculative Programming Officer<p>
+                </template>
+              </staff-member>
+            </template>
+          </staff-list>
         `,
       }),
     }

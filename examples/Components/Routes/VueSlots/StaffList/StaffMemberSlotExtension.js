@@ -14,7 +14,7 @@ export default class extends Node {
       selectable: false,
       draggable: false,
       parseDOM: [{
-        tag: 'template[v-slot:staff-members]',
+        tag: 'template[v-slot\\:staff-members]',
         getAttrs: dom => ({
           'v-slot:staff-members': dom.getAttribute('v-slot:staff-members'),
         }),

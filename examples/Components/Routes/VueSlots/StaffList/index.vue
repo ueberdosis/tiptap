@@ -7,6 +7,7 @@
       </slot>
     </div>
     <div class="stafflist__itemsregion">
+      <staff-member name="Mr Default Value"><p>Junior Not Meant To Be Here Clerk</p></staff-member>
     </div>
   </div>
 </template>
@@ -16,8 +17,13 @@
 import Node from './Node'
 import DefaultBlockSlotExtension from './DefaultBlockSlotExtension'
 import StaffMemberSlotExtension from './StaffMemberSlotExtension'
+import StaffMember from '../StaffMember'
 
-const component = {}
+const component = {
+  components: {
+    'staff-member': StaffMember,
+  },
+}
 
 component.extensions = {
   DefaultBlockSlotExtension,
