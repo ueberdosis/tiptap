@@ -1,4 +1,4 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, createNode } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6
@@ -7,52 +7,68 @@ export interface HeadingOptions {
   levels: Level[],
 }
 
-export type HeadingCommand = (options: { level: Level }) => Command
+// export type HeadingCommand = (options: { level: Level }) => Command
 
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    heading: HeadingCommand,
-  }
-}
+// declare module '@tiptap/core/src/Editor' {
+//   interface Commands {
+//     heading: HeadingCommand,
+//   }
+// }
 
-export default new Node<HeadingOptions>()
-  .name('heading')
-  .defaults({
+export default createNode({
+  name: 'heading',
+
+  defaultOptions: <HeadingOptions>{
     levels: [1, 2, 3, 4, 5, 6],
-  })
-  .schema(({ options }) => ({
-    attrs: {
+  },
+
+  content: 'inline*',
+
+  group: 'block',
+
+  defining: true,
+
+  addAttributes() {
+    return {
       level: {
         default: 1,
+        rendered: false,
       },
-    },
-    content: 'inline*',
-    group: 'block',
-    defining: true,
-    draggable: false,
-    parseDOM: options.levels
+    }
+  },
+
+  parseHTML() {
+    return this.options.levels
       .map((level: Level) => ({
         tag: `h${level}`,
         attrs: { level },
-      })),
-    toDOM: node => [`h${node.attrs.level}`, 0],
-  }))
-  .commands(({ name }) => ({
-    heading: attrs => ({ commands }) => {
-      return commands.toggleBlockType(name, 'paragraph', attrs)
-    },
-  }))
-  .keys(({ name, options, editor }) => {
-    return options.levels.reduce((items, level) => ({
+      }))
+  },
+
+  renderHTML({ node, attributes }) {
+    return [`h${node.attrs.level}`, attributes, 0]
+  },
+
+  addCommands() {
+    return {
+      heading: attrs => ({ commands }) => {
+        return commands.toggleBlockType('heading', 'paragraph', attrs)
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return this.options.levels.reduce((items, level) => ({
       ...items,
       ...{
-        [`Mod-Alt-${level}`]: () => editor.setBlockType(name, { level }),
+        [`Mod-Alt-${level}`]: () => this.editor.setBlockType('heading', { level }),
       },
     }), {})
-  })
-  .inputRules(({ options, type }) => {
-    return options.levels.map((level: Level) => {
-      return textblockTypeInputRule(new RegExp(`^(#{1,${level}})\\s$`), type, { level })
+  },
+
+  addInputRules() {
+    return this.options.levels.map(level => {
+      return textblockTypeInputRule(new RegExp(`^(#{1,${level}})\\s$`), this.type, { level })
     })
-  })
-  .create()
+  },
+})

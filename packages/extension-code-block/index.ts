@@ -1,69 +1,91 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, createNode } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 export interface CodeBlockOptions {
   languageClassPrefix: string,
 }
 
-export type CodeBlockCommand = () => Command
+// export type CodeBlockCommand = () => Command
 
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    codeBlock: CodeBlockCommand,
-  }
-}
+// declare module '@tiptap/core/src/Editor' {
+//   interface Commands {
+//     codeBlock: CodeBlockCommand,
+//   }
+// }
 
 export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
 export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
 
-export default new Node<CodeBlockOptions>()
-  .name('code_block')
-  .defaults({
+export default createNode({
+  name: 'code_block',
+
+  defaultOptions: <CodeBlockOptions>{
     languageClassPrefix: 'language-',
-  })
-  .schema(({ options }) => ({
-    attrs: {
+  },
+
+  content: 'text*',
+
+  marks: '',
+
+  group: 'block',
+
+  code: true,
+
+  defining: true,
+
+  addAttributes() {
+    return {
       language: {
         default: null,
+        rendered: false,
       },
-    },
-    content: 'text*',
-    marks: '',
-    group: 'block',
-    code: true,
-    defining: true,
-    draggable: false,
-    parseDOM: [
+    }
+  },
+
+  parseHTML() {
+    return [
       {
         tag: 'pre',
         preserveWhitespace: 'full',
-        getAttrs(node) {
+        getAttrs: node => {
           const classAttribute = (node as Element).firstElementChild?.getAttribute('class')
 
           if (!classAttribute) {
             return null
           }
 
-          const regexLanguageClassPrefix = new RegExp(`^(${options.languageClassPrefix})`)
+          const regexLanguageClassPrefix = new RegExp(`^(${this.options.languageClassPrefix})`)
 
           return { language: classAttribute.replace(regexLanguageClassPrefix, '') }
         },
       },
-    ],
-    toDOM: node => ['pre', ['code', {
-      class: node.attrs.language && options.languageClassPrefix + node.attrs.language,
-    }, 0]],
-  }))
-  .commands(({ name }) => ({
-    codeBlock: attrs => ({ commands }) => {
-      return commands.toggleBlockType(name, 'paragraph', attrs)
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Mod-Shift-c': () => editor.codeBlock(),
-  }))
-  .inputRules(({ type }) => [
-    textblockTypeInputRule(backtickInputRegex, type, ({ groups }: any) => groups),
-    textblockTypeInputRule(tildeInputRegex, type, ({ groups }: any) => groups),
-  ])
-  .create()
+    ]
+  },
+
+  renderHTML({ node, attributes }) {
+    return ['pre', attributes, ['code', {
+      class: node.attrs.language && this.options.languageClassPrefix + node.attrs.language,
+    }, 0]]
+  },
+
+  addCommands() {
+    return {
+      codeBlock: attrs => ({ commands }) => {
+        return commands.toggleBlockType('code_block', 'paragraph', attrs)
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-Shift-c': () => this.editor.codeBlock(),
+    }
+  },
+
+  addInputRules() {
+    return [
+      textblockTypeInputRule(backtickInputRegex, this.type, ({ groups }: any) => groups),
+      textblockTypeInputRule(tildeInputRegex, this.type, ({ groups }: any) => groups),
+    ]
+  },
+})

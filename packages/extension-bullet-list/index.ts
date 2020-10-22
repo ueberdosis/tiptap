@@ -1,33 +1,48 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, createNode } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
-export type BulletListCommand = () => Command
+// export type BulletListCommand = () => Command
 
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    bulletList: BulletListCommand,
-  }
-}
+// declare module '@tiptap/core/src/Editor' {
+//   interface Commands {
+//     bulletList: BulletListCommand,
+//   }
+// }
 
-export default new Node()
-  .name('bullet_list')
-  .schema(() => ({
-    content: 'list_item+',
-    group: 'block',
-    parseDOM: [
+export default createNode({
+  name: 'bullet_list',
+
+  content: 'list_item+',
+
+  group: 'block',
+
+  parseHTML() {
+    return [
       { tag: 'ul' },
-    ],
-    toDOM: () => ['ul', 0],
-  }))
-  .commands(({ name }) => ({
-    bulletList: () => ({ commands }) => {
-      return commands.toggleList(name, 'list_item')
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Shift-Control-8': () => editor.bulletList(),
-  }))
-  .inputRules(({ type }) => [
-    wrappingInputRule(/^\s*([-+*])\s$/, type),
-  ])
-  .create()
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['ul', attributes, 0]
+  },
+
+  addCommands() {
+    return {
+      bulletList: () => ({ commands }) => {
+        return commands.toggleList('bullet_list', 'list_item')
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Shift-Control-8': () => this.editor.bulletList(),
+    }
+  },
+
+  addInputRules() {
+    return [
+      wrappingInputRule(/^\s*([-+*])\s$/, this.type),
+    ]
+  },
+})

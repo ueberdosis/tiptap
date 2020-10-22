@@ -1,5 +1,5 @@
 import {
-  Command, Mark, markPasteRule,
+  Command, createMark, markPasteRule,
 } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 
@@ -9,34 +9,42 @@ export interface LinkOptions {
   rel: string,
 }
 
-export type LinkCommand = (options: {href?: string, target?: string}) => Command
+// export type LinkCommand = (options: {href?: string, target?: string}) => Command
 
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    link: LinkCommand,
-  }
-}
+// declare module '@tiptap/core/src/Editor' {
+//   interface Commands {
+//     link: LinkCommand,
+//   }
+// }
 
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%_+.~#?&//=]*)/gi
 
-export default new Mark<LinkOptions>()
-  .name('link')
-  .defaults({
+export default createMark({
+  name: 'link',
+
+  inclusive: false,
+
+  defaultOptions: <LinkOptions>{
     openOnClick: true,
     target: '_blank',
     rel: 'noopener noreferrer nofollow',
-  })
-  .schema(({ options }) => ({
-    attrs: {
+  },
+
+  addAttributes() {
+    return {
       href: {
         default: null,
+        rendered: false,
       },
       target: {
         default: null,
+        rendered: false,
       },
-    },
-    inclusive: false,
-    parseDOM: [
+    }
+  },
+
+  parseHTML() {
+    return [
       {
         tag: 'a[href]',
         getAttrs: node => ({
@@ -44,27 +52,44 @@ export default new Mark<LinkOptions>()
           target: (node as HTMLElement).getAttribute('target'),
         }),
       },
-    ],
-    toDOM: node => ['a', {
-      ...node.attrs,
-      rel: options.rel,
-      target: node.attrs.target ? node.attrs.target : options.target,
-    }, 0],
-  }))
-  .commands(({ name }) => ({
-    link: attributes => ({ commands }) => {
-      if (!attributes.href) {
-        return commands.removeMark(name)
-      }
+    ]
+  },
 
-      return commands.updateMark(name, attributes)
-    },
-  }))
-  .pasteRules(({ type }) => [
-    markPasteRule(pasteRegex, type, (url: string) => ({ href: url })),
-  ])
-  .plugins(({ editor, options, name }) => {
-    if (!options.openOnClick) {
+  renderHTML({ mark, attributes }) {
+    return ['a', {
+      ...attributes,
+      ...mark.attrs,
+      rel: this.options.rel,
+      target: mark.attrs.target ? mark.attrs.target : this.options.target,
+    }, 0]
+  },
+
+  addCommands() {
+    return {
+      link: attributes => ({ commands }) => {
+        if (!attributes.href) {
+          return commands.removeMark('link')
+        }
+
+        return commands.updateMark('link', attributes)
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-i': () => this.editor.italic(),
+    }
+  },
+
+  addPasteRules() {
+    return [
+      markPasteRule(pasteRegex, this.type, (url: string) => ({ href: url })),
+    ]
+  },
+
+  addProseMirrorPlugins() {
+    if (!this.options.openOnClick) {
       return []
     }
 
@@ -73,7 +98,7 @@ export default new Mark<LinkOptions>()
         key: new PluginKey('handleClick'),
         props: {
           handleClick: (view, pos, event) => {
-            const attrs = editor.getMarkAttrs(name)
+            const attrs = this.editor.getMarkAttrs('link')
 
             if (attrs.href && event.target instanceof HTMLAnchorElement) {
               window.open(attrs.href, attrs.target)
@@ -86,5 +111,5 @@ export default new Mark<LinkOptions>()
         },
       }),
     ]
-  })
-  .create()
+  },
+})

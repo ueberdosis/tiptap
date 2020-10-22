@@ -1,17 +1,18 @@
-import { Command, Mark } from '@tiptap/core'
+import { Command, createMark } from '@tiptap/core'
 
-export type UnderlineCommand = () => Command
+// export type UnderlineCommand = () => Command
 
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    underline: UnderlineCommand,
-  }
-}
+// declare module '@tiptap/core/src/Editor' {
+//   interface Commands {
+//     underline: UnderlineCommand,
+//   }
+// }
 
-export default new Mark()
-  .name('underline')
-  .schema(() => ({
-    parseDOM: [
+export default createMark({
+  name: 'underline',
+
+  parseHTML() {
+    return [
       {
         tag: 'u',
       },
@@ -19,15 +20,24 @@ export default new Mark()
         style: 'text-decoration',
         getAttrs: node => (node === 'underline' ? {} : false),
       },
-    ],
-    toDOM: () => ['u', 0],
-  }))
-  .commands(({ name }) => ({
-    underline: () => ({ commands }) => {
-      return commands.toggleMark(name)
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Mod-u': () => editor.underline(),
-  }))
-  .create()
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['u', attributes, 0]
+  },
+
+  addCommands() {
+    return {
+      underline: () => ({ commands }) => {
+        return commands.toggleMark('underline')
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-u': () => this.editor.underline(),
+    }
+  },
+})

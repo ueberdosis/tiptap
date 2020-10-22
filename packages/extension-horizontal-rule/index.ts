@@ -1,28 +1,41 @@
-import { Command, Node, nodeInputRule } from '@tiptap/core'
+import { Command, createNode, nodeInputRule } from '@tiptap/core'
 
-export type HorizontalRuleCommand = () => Command
+// export type HorizontalRuleCommand = () => Command
 
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    horizontalRule: HorizontalRuleCommand,
-  }
-}
+// declare module '@tiptap/core/src/Editor' {
+//   interface Commands {
+//     horizontalRule: HorizontalRuleCommand,
+//   }
+// }
 
-export default new Node()
-  .name('horizontalRule')
-  .schema(() => ({
-    group: 'block',
-    parseDOM: [{ tag: 'hr' }],
-    toDOM: () => ['hr'],
-  }))
-  .commands(({ type }) => ({
-    horizontalRule: () => ({ tr }) => {
-      tr.replaceSelectionWith(type.create())
+export default createNode({
+  name: 'horizontalRule',
 
-      return true
-    },
-  }))
-  .inputRules(({ type }) => [
-    nodeInputRule(/^(?:---|___\s|\*\*\*\s)$/, type),
-  ])
-  .create()
+  group: 'block',
+
+  parseHTML() {
+    return [
+      { tag: 'hr' },
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['hr', attributes]
+  },
+
+  addCommands() {
+    return {
+      horizontalRule: () => ({ tr }) => {
+        tr.replaceSelectionWith(this.type.create())
+
+        return true
+      },
+    }
+  },
+
+  addInputRules() {
+    return [
+      nodeInputRule(/^(?:---|___\s|\*\*\*\s)$/, this.type),
+    ]
+  },
+})

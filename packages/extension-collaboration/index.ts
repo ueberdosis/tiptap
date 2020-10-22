@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { createExtension } from '@tiptap/core'
 import {
   redo, undo, ySyncPlugin, yUndoPlugin,
 } from 'y-prosemirror'
@@ -8,21 +8,26 @@ export interface CollaborationOptions {
   type: any,
 }
 
-export default new Extension<CollaborationOptions>()
-  .name('collaboration')
-  .defaults({
+export default createExtension({
+  name: 'collaboration',
+
+  defaultOptions: <CollaborationOptions>{
     provider: null,
     type: null,
-  })
-  .plugins(({ options }) => [
-    ySyncPlugin(options.type),
-    yUndoPlugin(),
-  ])
-  .keys(() => {
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      ySyncPlugin(this.options.type),
+      yUndoPlugin(),
+    ]
+  },
+
+  addKeyboardShortcuts() {
     return {
       'Mod-z': undo,
       'Mod-y': redo,
       'Mod-Shift-z': redo,
     }
-  })
-  .create()
+  },
+})

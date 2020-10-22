@@ -1,37 +1,50 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, createNode } from '@tiptap/core'
 import { chainCommands, exitCode } from 'prosemirror-commands'
 
-export type HardBreakCommand = () => Command
+// export type HardBreakCommand = () => Command
 
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    hardBreak: HardBreakCommand,
-  }
-}
+// declare module '@tiptap/core/src/Editor' {
+//   interface Commands {
+//     hardBreak: HardBreakCommand,
+//   }
+// }
 
-export default new Node()
-  .name('hardBreak')
-  .schema(() => ({
-    inline: true,
-    group: 'inline',
-    selectable: false,
-    parseDOM: [
+export default createNode({
+  name: 'hardBreak',
+
+  inline: true,
+
+  group: 'inline',
+
+  selectable: false,
+
+  parseHTML() {
+    return [
       { tag: 'br' },
-    ],
-    toDOM: () => ['br'],
-  }))
-  .commands(({ type }) => ({
-    hardBreak: () => ({
-      tr, state, dispatch, view,
-    }) => {
-      return chainCommands(exitCode, () => {
-        dispatch(tr.replaceSelectionWith(type.create()).scrollIntoView())
-        return true
-      })(state, dispatch, view)
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Mod-Enter': () => editor.hardBreak(),
-    'Shift-Enter': () => editor.hardBreak(),
-  }))
-  .create()
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['br', attributes]
+  },
+
+  addCommands() {
+    return {
+      hardBreak: () => ({
+        tr, state, dispatch, view,
+      }) => {
+        return chainCommands(exitCode, () => {
+          dispatch(tr.replaceSelectionWith(this.type.create()).scrollIntoView())
+          return true
+        })(state, dispatch, view)
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-Enter': () => this.editor.hardBreak(),
+      'Shift-Enter': () => this.editor.hardBreak(),
+    }
+  },
+})

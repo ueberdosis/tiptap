@@ -16,35 +16,35 @@ export default createNode({
 
   content: 'inline*',
 
-  addGlobalAttributes() {
-    return [
-      {
-        types: ['paragraph'],
-        attributes: {
-          align: {
-            default: 'right',
-            renderHTML: attributes => ({
-              class: 'global',
-              style: `text-align: ${attributes.align}`,
-            }),
-          },
-        },
-      },
-    ]
-  },
+  // addGlobalAttributes() {
+  //   return [
+  //     {
+  //       types: ['paragraph'],
+  //       attributes: {
+  //         align: {
+  //           default: 'right',
+  //           renderHTML: attributes => ({
+  //             class: 'global',
+  //             style: `text-align: ${attributes.align}`,
+  //           }),
+  //         },
+  //       },
+  //     },
+  //   ]
+  // },
 
-  addAttributes() {
-    return {
-      id: {
-        default: '123',
-        rendered: true,
-        renderHTML: attributes => ({
-          class: `foo-${attributes.id}`,
-          id: 'foo',
-        }),
-      },
-    }
-  },
+  // addAttributes() {
+  //   return {
+  //     id: {
+  //       default: '123',
+  //       rendered: true,
+  //       renderHTML: attributes => ({
+  //         class: `foo-${attributes.id}`,
+  //         id: 'foo',
+  //       }),
+  //     },
+  //   }
+  // },
 
   parseHTML() {
     return [

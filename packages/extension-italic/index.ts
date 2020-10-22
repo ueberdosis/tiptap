@@ -1,24 +1,25 @@
 import {
-  Command, Mark, markInputRule, markPasteRule,
+  Command, createMark, markInputRule, markPasteRule,
 } from '@tiptap/core'
 
-export type ItalicCommand = () => Command
+// export type ItalicCommand = () => Command
 
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    italic: ItalicCommand,
-  }
-}
+// declare module '@tiptap/core/src/Editor' {
+//   interface Commands {
+//     italic: ItalicCommand,
+//   }
+// }
 
 export const starInputRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))$/gm
 export const starPasteRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))$/gm
 export const underscorePasteRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))/gm
 
-export default new Mark()
-  .name('italic')
-  .schema(() => ({
-    parseDOM: [
+export default createMark({
+  name: 'italic',
+
+  parseHTML() {
+    return [
       {
         tag: 'em',
       },
@@ -29,23 +30,38 @@ export default new Mark()
       {
         style: 'font-style=italic',
       },
-    ],
-    toDOM: () => ['em', 0],
-  }))
-  .commands(({ name }) => ({
-    italic: () => ({ commands }) => {
-      return commands.toggleMark(name)
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Mod-i': () => editor.italic(),
-  }))
-  .inputRules(({ type }) => [
-    markInputRule(starInputRegex, type),
-    markInputRule(underscoreInputRegex, type),
-  ])
-  .pasteRules(({ type }) => [
-    markPasteRule(starPasteRegex, type),
-    markPasteRule(underscorePasteRegex, type),
-  ])
-  .create()
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['em', attributes, 0]
+  },
+
+  addCommands() {
+    return {
+      italic: () => ({ commands }) => {
+        return commands.toggleMark('italic')
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-i': () => this.editor.italic(),
+    }
+  },
+
+  addInputRules() {
+    return [
+      markInputRule(starInputRegex, this.type),
+      markInputRule(underscoreInputRegex, this.type),
+    ]
+  },
+
+  addPasteRules() {
+    return [
+      markPasteRule(starPasteRegex, this.type),
+      markPasteRule(underscorePasteRegex, this.type),
+    ]
+  },
+})
