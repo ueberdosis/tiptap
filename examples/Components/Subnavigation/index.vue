@@ -66,6 +66,9 @@
     <router-link class="subnavigation__link" to="/export">
       Export HTML or JSON
     </router-link>
+    <router-link class="subnavigation__link" to="/vue-slots">
+      Nested Vue
+    </router-link>
   </div>
 </template>
 

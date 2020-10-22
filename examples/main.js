@@ -165,6 +165,13 @@ const routes = [
       githubUrl: 'https://github.com/ueberdosis/tiptap/tree/main/examples/Components/Routes/Export',
     },
   },
+  {
+    path: '/vue-slots',
+    component: () => import('Components/Routes/VueSlots'),
+    meta: {
+      githubUrl: 'https://github.com/ueberdosis/tiptap/tree/main/examples/Components/Routes/VueSlots',
+    },
+  },
 ]
 
 const router = new VueRouter({
