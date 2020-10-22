@@ -1,6 +1,6 @@
 import { Extension } from './Extension'
-import { NodeExtension } from './Node'
-import { MarkExtension } from './Mark'
+import { NodeExtension } from './NodeExtension'
+import { MarkExtension } from './MarkExtension'
 
 export type Extensions = (Extension | NodeExtension | MarkExtension)[]
 

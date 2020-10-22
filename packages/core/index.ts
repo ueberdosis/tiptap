@@ -5,8 +5,8 @@ export { Editor, Command, CommandsSpec }
 export { default as ComponentRenderer } from './src/ComponentRenderer'
 
 export * from './src/Extension'
-export * from './src/Node'
-export * from './src/Mark'
+export * from './src/NodeExtension'
+export * from './src/MarkExtension'
 export * from './src/types'
 
 export { default as nodeInputRule } from './src/inputRules/nodeInputRule'
