@@ -18,6 +18,7 @@
         >
           <icon name="italic" />
         </button>
+
       </div>
     </editor-menu-bar>
 
@@ -29,6 +30,7 @@
 import Icon from 'Components/Icon'
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import StaffList from './StaffList'
+import StaffMember from './StaffMember'
 
 export default {
   components: {
@@ -40,7 +42,11 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new StaffList.Extension(),
+          new StaffList.extensions.DefaultBlockSlotExtension(),
+          new StaffList.extensions.StaffMemberSlotExtension(),
+          new StaffList.extensions.NodeExtension(),
+          new StaffMember.extensions.DefaultBlockSlotExtension(),
+          new StaffMember.extensions.NodeExtension(),
         ],
         content: `
           <p>Insert a staff list</p>

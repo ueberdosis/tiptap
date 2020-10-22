@@ -13,40 +13,17 @@
 
 <script>
 
-import Node from '../../../../../packages/tiptap/src/Utils/Node'
-import toggleWrap from '../../../../../packages/tiptap-commands/src/commands/toggleWrap'
+import Node from './Node'
+import DefaultBlockSlotExtension from './DefaultBlockSlotExtension'
+import StaffMemberSlotExtension from './StaffMemberSlotExtension'
 
 const component = {}
 
-const Extension = class extends Node {
-  get name() {
-    return 'stafflist'
-  }
-
-  get schema() {
-    return {
-      content: 'defaultblockslot staffmemberslot',
-      group: 'block',
-      defining: true,
-      selectable: true,
-      draggable: true,
-      parseDOM: [{
-        tag: 'staff-list',
-      }],
-      toDOM: () => ['staff-list', 0],
-    }
-  }
-
-  get view() {
-    return component
-  }
-
-  commands({ type }) {
-    return () => toggleWrap(type)
-  }
+component.extensions = {
+  DefaultBlockSlotExtension,
+  StaffMemberSlotExtension,
+  NodeExtension: Node(component),
 }
-
-component.Extension = Extension
 
 export default component
 
