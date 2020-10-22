@@ -7,7 +7,9 @@
       </slot>
     </div>
     <div class="stafflist__itemsregion">
-      <staff-member name="Mr Default Value"><p>Junior Not Meant To Be Here Clerk</p></staff-member>
+      <slot name="staff-members">
+        <staff-member name="Mr Default Value"><p>Junior Not Meant To Be Here Clerk</p></staff-member>
+      </slot>
     </div>
   </div>
 </template>
