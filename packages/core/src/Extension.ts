@@ -119,16 +119,16 @@ import { GlobalAttributes } from './types'
 export interface ExtensionSpec<Options = {}, Commands = {}> {
   name: string,
   defaultOptions?: Options,
-  createGlobalAttributes?: (
+  addGlobalAttributes?: (
     this: {
       options: Options,
     },
   ) => GlobalAttributes,
-  createCommands?: (this: {
+  addCommands?: (this: {
     options: Options,
     editor: Editor,
   }) => Commands,
-  createShortcuts?: (this: {
+  addKeyboardShortcuts?: (this: {
     options: Options,
     editor: Editor,
   }) => {
@@ -147,8 +147,9 @@ export const defaultExtension: Extension = {
   type: 'extension',
   name: 'extension',
   options: {},
-  createGlobalAttributes: () => [],
-  createCommands: () => ({}),
+  addGlobalAttributes: () => [],
+  addCommands: () => ({}),
+  addKeyboardShortcuts: () => ({}),
 }
 
 export function createExtension<Options extends {}, Commands extends {}>(config: ExtensionSpec<Options, Commands>) {

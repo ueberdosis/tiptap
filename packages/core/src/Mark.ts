@@ -21,7 +21,7 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Extensio
       attributes: { [key: string]: any },
     }
   ) => DOMOutputSpec,
-  createAttributes?: (
+  addAttributes?: (
     this: {
       options: Options,
     },
@@ -45,7 +45,7 @@ const defaultMark: MarkExtension = {
   spanning: null,
   parseHTML: () => null,
   renderHTML: () => null,
-  createAttributes: () => ({}),
+  addAttributes: () => ({}),
 }
 
 export function createMark<Options extends {}, Commands extends {}>(config: MarkExtensionSpec<Options, Commands>) {

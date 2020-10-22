@@ -16,7 +16,7 @@ export default createNode({
 
   content: 'inline*',
 
-  createGlobalAttributes() {
+  addGlobalAttributes() {
     return [
       {
         types: ['paragraph'],
@@ -33,7 +33,7 @@ export default createNode({
     ]
   },
 
-  createAttributes() {
+  addAttributes() {
     return {
       id: {
         default: '123',
@@ -56,7 +56,7 @@ export default createNode({
     return ['p', attributes, 0]
   },
 
-  createCommands() {
+  addCommands() {
     return {
       paragraph: () => ({ commands }) => {
         return commands.toggleBlockType('paragraph', 'paragraph')
@@ -64,7 +64,7 @@ export default createNode({
     }
   },
 
-  createShortcuts() {
+  addKeyboardShortcuts() {
     return {
       'Mod-Alt-0': () => this.editor.paragraph(),
     }

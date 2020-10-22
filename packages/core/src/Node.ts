@@ -4,6 +4,10 @@ import { Attributes } from './types'
 
 export interface NodeExtensionSpec<Options = {}, Commands = {}> extends ExtensionSpec<Options, Commands> {
   topNode?: boolean,
+
+  /**
+   * content
+   */
   content?: NodeSpec['content'],
   marks?: NodeSpec['marks'],
   group?: NodeSpec['group'],
@@ -28,7 +32,7 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Extensio
       attributes: { [key: string]: any },
     }
   ) => DOMOutputSpec,
-  createAttributes?: (
+  addAttributes?: (
     this: {
       options: Options,
     },
@@ -59,7 +63,7 @@ const defaultNode: NodeExtension = {
   isolating: null,
   parseHTML: () => null,
   renderHTML: () => null,
-  createAttributes: () => ({}),
+  addAttributes: () => ({}),
 }
 
 export function createNode<Options extends {}, Commands extends {}>(config: NodeExtensionSpec<Options, Commands>) {

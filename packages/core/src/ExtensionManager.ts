@@ -89,12 +89,14 @@ export default class ExtensionManager {
   }
 
   get keymaps() {
-    return []
-    // return collect(this.extensions)
-    //   .map(extension => extension.config.keys)
-    //   .filter(keys => keys)
-    //   .map(keys => keymap(keys))
-    //   .toArray()
+    return this.extensions.map(extension => {
+      const context = {
+        options: extension.options,
+        editor: this.editor,
+      }
+
+      return keymap(extension.addKeyboardShortcuts.bind(context)())
+    })
   }
 
   get nodeViews() {

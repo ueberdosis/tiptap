@@ -23,7 +23,7 @@ export default function getAttributesFromExtensions(extensions: Extensions) {
       options: extension.options,
     }
 
-    const globalAttributes = extension.createGlobalAttributes.bind(context)() as GlobalAttributes
+    const globalAttributes = extension.addGlobalAttributes.bind(context)() as GlobalAttributes
 
     globalAttributes.forEach(globalAttribute => {
       globalAttribute.types.forEach(type => {
@@ -48,7 +48,7 @@ export default function getAttributesFromExtensions(extensions: Extensions) {
       options: extension.options,
     }
 
-    const attributes = extension.createAttributes.bind(context)() as Attributes
+    const attributes = extension.addAttributes.bind(context)() as Attributes
 
     Object
       .entries(attributes)
