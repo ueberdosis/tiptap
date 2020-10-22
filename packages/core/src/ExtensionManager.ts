@@ -1,7 +1,5 @@
-import collect from 'collect.js'
 import { Plugin } from 'prosemirror-state'
 import { keymap } from 'prosemirror-keymap'
-import { Schema } from 'prosemirror-model'
 // import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { inputRules } from 'prosemirror-inputrules'
 // import { EditorView, Decoration } from 'prosemirror-view'
@@ -9,10 +7,6 @@ import { inputRules } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 // import capitalize from './utils/capitalize'
 import { Extensions } from './types'
-import getTopNodeFromExtensions from './utils/getTopNodeFromExtensions'
-import getNodesFromExtensions from './utils/getNodesFromExtensions'
-import getMarksFromExtensions from './utils/getMarksFromExtensions'
-import resolveExtensionConfig from './utils/resolveExtensionConfig'
 import getSchema from './utils/getSchema'
 
 export default class ExtensionManager {
@@ -60,20 +54,8 @@ export default class ExtensionManager {
   //   })
   // }
 
-  get schema(): Schema {
+  get schema() {
     return getSchema(this.extensions)
-  }
-
-  get topNode(): any {
-    return getTopNodeFromExtensions(this.extensions)
-  }
-
-  get nodes(): any {
-    return getNodesFromExtensions(this.extensions)
-  }
-
-  get marks(): any {
-    return getMarksFromExtensions(this.extensions)
   }
 
   get plugins(): Plugin[] {
