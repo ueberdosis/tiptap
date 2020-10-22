@@ -1,7 +1,7 @@
-import { Node } from 'prosemirror-model'
+import { Node, Mark } from 'prosemirror-model'
 import { ExtensionAttribute } from '../types'
 
-export default function getRenderedAttributes(node: Node, attributes: ExtensionAttribute[]) {
+export default function getRenderedAttributes(node: Node | Mark, attributes: ExtensionAttribute[]) {
   return attributes
     .filter(item => item.attribute.rendered)
     .map(item => {

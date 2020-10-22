@@ -73,6 +73,7 @@ export default createNode({
           align: {
             default: 'right',
             renderHTML: attributes => ({
+              class: 'global',
               style: `text-align: ${attributes.align}`,
             }),
           },
@@ -87,7 +88,7 @@ export default createNode({
         default: '123',
         rendered: true,
         renderHTML: attributes => ({
-          class: `foo-${attributes.id}`,
+          // class: `foo-${attributes.id}`,
           id: 'foo',
         }),
       },

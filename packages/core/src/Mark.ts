@@ -1,54 +1,5 @@
-// import { MarkSpec, MarkType } from 'prosemirror-model'
-// import Extension, { ExtensionMethods } from './Extension'
-// import { Editor } from './Editor'
-
-// export interface MarkProps<Options> {
-//   name: string
-//   editor: Editor
-//   options: Options
-//   type: MarkType
-// }
-
-// export interface MarkMethods<Props, Options> extends ExtensionMethods<Props, Options> {
-//   topMark: boolean
-//   schema: (params: Omit<Props, 'type' | 'editor'>) => MarkSpec
-// }
-
-// export default class Mark<
-//   Options = {},
-//   Props = MarkProps<Options>,
-//   Methods extends MarkMethods<Props, Options> = MarkMethods<Props, Options>,
-// > extends Extension<Options, Props, Methods> {
-//   type = 'mark'
-
-//   public schema(value: Methods['schema']) {
-//     this.storeConfig('schema', value, 'overwrite')
-//     return this
-//   }
-// }
-
-// import Extension from './Extension'
-
-// export default class Node<Options = {}> extends Extension<Options> {
-
-//   type = 'mark'
-
-//   createAttributes() {
-//     return {}
-//   }
-
-//   parseHTML() {
-//     return []
-//   }
-
-//   renderHTML() {
-//     return []
-//   }
-
-// }
-
 import { DOMOutputSpec, MarkSpec, Mark } from 'prosemirror-model'
-import { ExtensionSpec } from './Extension'
+import { ExtensionSpec, defaultExtension } from './Extension'
 import { Attributes } from './types'
 
 export interface MarkExtensionSpec<Options = {}, Commands = {}> extends ExtensionSpec<Options, Commands> {
@@ -66,10 +17,8 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Extensio
       options: Options,
     },
     props: {
-      node: Mark,
-      attributes: {
-        [key: string]: any,
-      },
+      mark: Mark,
+      attributes: { [key: string]: any },
     }
   ) => DOMOutputSpec,
   createAttributes?: (
@@ -87,17 +36,16 @@ export type MarkExtension = Required<Omit<MarkExtensionSpec, 'defaultOptions'> &
 }>
 
 const defaultMark: MarkExtension = {
+  ...defaultExtension,
   type: 'mark',
   name: 'mark',
-  options: {},
   inclusive: null,
   excludes: null,
   group: null,
   spanning: null,
-  createGlobalAttributes: () => [],
-  createCommands: () => ({}),
   parseHTML: () => null,
   renderHTML: () => null,
+  createAttributes: () => ({}),
 }
 
 export function createMark<Options extends {}, Commands extends {}>(config: MarkExtensionSpec<Options, Commands>) {

@@ -48,16 +48,12 @@ export default function getSchema(extensions: Extensions): Schema {
     return [extension.name, schema]
   }))
 
-  // console.log({ nodes })
-
   const marks = Object.fromEntries(markExtensions.map(extension => {
     const context = {
       options: extension.options,
     }
 
-    // const attributes = {
-    //   class: 'test',
-    // }
+    const attributes = allAttributes.filter(attribute => attribute.type === extension.name)
 
     const schema: MarkSpec = {
       inclusive: extension.inclusive,
@@ -65,7 +61,15 @@ export default function getSchema(extensions: Extensions): Schema {
       group: extension.group,
       spanning: extension.spanning,
       parseDOM: extension.parseHTML.bind(context)(),
-      toDOM: node => extension.renderHTML.bind(context)({ node, attributes: {} }),
+      toDOM: mark => {
+        return extension.renderHTML.bind(context)({
+          mark,
+          attributes: getRenderedAttributes(mark, attributes),
+        })
+      },
+      attrs: Object.fromEntries(attributes.map(attribute => {
+        return [attribute.name, { default: attribute?.attribute?.default }]
+      })),
     }
 
     return [extension.name, schema]

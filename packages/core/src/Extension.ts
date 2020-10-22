@@ -113,6 +113,7 @@
 //   }
 // }
 
+import { Editor } from './Editor'
 import { GlobalAttributes } from './types'
 
 export interface ExtensionSpec<Options = {}, Commands = {}> {
@@ -123,10 +124,10 @@ export interface ExtensionSpec<Options = {}, Commands = {}> {
       options: Options,
     },
   ) => GlobalAttributes,
-  createCommands?(this: {
+  createCommands?: (this: {
     options: Options,
-    // editor: Editor,
-  }): Commands,
+    editor: Editor,
+  }) => Commands,
 }
 
 export type Extension = Required<Omit<ExtensionSpec, 'defaultOptions'> & {
@@ -136,7 +137,7 @@ export type Extension = Required<Omit<ExtensionSpec, 'defaultOptions'> & {
   },
 }>
 
-const defaultExtension: Extension = {
+export const defaultExtension: Extension = {
   type: 'extension',
   name: 'extension',
   options: {},
