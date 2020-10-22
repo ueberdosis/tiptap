@@ -1,28 +1,79 @@
-import { DOMOutputSpec, NodeSpec, Node } from 'prosemirror-model'
+import {
+  DOMOutputSpec, NodeSpec, Node, NodeType,
+} from 'prosemirror-model'
+import { Plugin } from 'prosemirror-state'
 import { ExtensionSpec, defaultExtension } from './Extension'
 import { Attributes } from './types'
+import { Editor } from './Editor'
 
 export interface NodeExtensionSpec<Options = {}, Commands = {}> extends ExtensionSpec<Options, Commands> {
+  /**
+   * TopNode
+   */
   topNode?: boolean,
 
   /**
-   * content
+   * Content
    */
   content?: NodeSpec['content'],
+
+  /**
+   * Marks
+   */
   marks?: NodeSpec['marks'],
+
+  /**
+   * Group
+   */
   group?: NodeSpec['group'],
+
+  /**
+   * Inline
+   */
   inline?: NodeSpec['inline'],
+
+  /**
+   * Atom
+   */
   atom?: NodeSpec['atom'],
+
+  /**
+   * Selectable
+   */
   selectable?: NodeSpec['selectable'],
+
+  /**
+   * Draggable
+   */
   draggable?: NodeSpec['draggable'],
+
+  /**
+   * Code
+   */
   code?: NodeSpec['code'],
+
+  /**
+   * Defining
+   */
   defining?: NodeSpec['defining'],
+
+  /**
+   * Isolating
+   */
   isolating?: NodeSpec['isolating'],
+
+  /**
+   * Parse HTML
+   */
   parseHTML?: (
     this: {
       options: Options,
     },
   ) => NodeSpec['parseDOM'],
+
+  /**
+   * Render HTML
+   */
   renderHTML?: (
     this: {
       options: Options,
@@ -32,11 +83,62 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Extensio
       attributes: { [key: string]: any },
     }
   ) => DOMOutputSpec,
+
+  /**
+   * Add Attributes
+   */
   addAttributes?: (
     this: {
       options: Options,
     },
   ) => Attributes,
+
+  /**
+   * Commands
+   */
+  addCommands?: (this: {
+    options: Options,
+    editor: Editor,
+    type: NodeType,
+  }) => Commands,
+
+  /**
+   * Keyboard shortcuts
+   */
+  addKeyboardShortcuts?: (this: {
+    options: Options,
+    editor: Editor,
+    type: NodeType,
+  }) => {
+    [key: string]: any
+  },
+
+  /**
+   * Input rules
+   */
+  addInputRules?: (this: {
+    options: Options,
+    editor: Editor,
+    type: NodeType,
+  }) => any[],
+
+  /**
+   * Paste rules
+   */
+  addPasteRules?: (this: {
+    options: Options,
+    editor: Editor,
+    type: NodeType,
+  }) => any[],
+
+  /**
+   * ProseMirror plugins
+   */
+  addProseMirrorPlugins?: (this: {
+    options: Options,
+    editor: Editor,
+    type: NodeType,
+  }) => Plugin[],
 }
 
 export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {

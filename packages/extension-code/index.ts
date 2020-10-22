@@ -17,7 +17,7 @@ const Code = createMark({
   },
 
   renderHTML({ attributes }) {
-    return ['strong', attributes, 0]
+    return ['code', attributes, 0]
   },
 
   addCommands() {

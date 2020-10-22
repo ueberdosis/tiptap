@@ -1,17 +1,44 @@
-import { DOMOutputSpec, MarkSpec, Mark } from 'prosemirror-model'
+import {
+  DOMOutputSpec, MarkSpec, Mark, MarkType,
+} from 'prosemirror-model'
+import { Plugin } from 'prosemirror-state'
 import { ExtensionSpec, defaultExtension } from './Extension'
 import { Attributes } from './types'
+import { Editor } from './Editor'
 
 export interface MarkExtensionSpec<Options = {}, Commands = {}> extends ExtensionSpec<Options, Commands> {
+  /**
+   * Inclusive
+   */
   inclusive?: MarkSpec['inclusive'],
+
+  /**
+   * Excludes
+   */
   excludes?: MarkSpec['excludes'],
+
+  /**
+   * Group
+   */
   group?: MarkSpec['group'],
+
+  /**
+   * Spanning
+   */
   spanning?: MarkSpec['spanning'],
+
+  /**
+   * Parse HTML
+   */
   parseHTML?: (
     this: {
       options: Options,
     },
   ) => MarkSpec['parseDOM'],
+
+  /**
+   * Render HTML
+   */
   renderHTML?: (
     this: {
       options: Options,
@@ -21,11 +48,62 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Extensio
       attributes: { [key: string]: any },
     }
   ) => DOMOutputSpec,
+
+  /**
+   * Attributes
+   */
   addAttributes?: (
     this: {
       options: Options,
     },
   ) => Attributes,
+
+  /**
+   * Commands
+   */
+  addCommands?: (this: {
+    options: Options,
+    editor: Editor,
+    type: MarkType,
+  }) => Commands,
+
+  /**
+   * Keyboard shortcuts
+   */
+  addKeyboardShortcuts?: (this: {
+    options: Options,
+    editor: Editor,
+    type: MarkType,
+  }) => {
+    [key: string]: any
+  },
+
+  /**
+   * Input rules
+   */
+  addInputRules?: (this: {
+    options: Options,
+    editor: Editor,
+    type: MarkType,
+  }) => any[],
+
+  /**
+   * Paste rules
+   */
+  addPasteRules?: (this: {
+    options: Options,
+    editor: Editor,
+    type: MarkType,
+  }) => any[],
+
+  /**
+   * ProseMirror plugins
+   */
+  addProseMirrorPlugins?: (this: {
+    options: Options,
+    editor: Editor,
+    type: MarkType,
+  }) => Plugin[],
 }
 
 export type MarkExtension = Required<Omit<MarkExtensionSpec, 'defaultOptions'> & {

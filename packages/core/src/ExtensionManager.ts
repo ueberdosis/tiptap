@@ -3,11 +3,11 @@ import { keymap } from 'prosemirror-keymap'
 // import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { inputRules } from 'prosemirror-inputrules'
 // import { EditorView, Decoration } from 'prosemirror-view'
-
 import { Editor } from './Editor'
 // import capitalize from './utils/capitalize'
 import { Extensions } from './types'
 import getSchema from './utils/getSchema'
+import getSchemaTypeByName from './utils/getSchemaTypeByName'
 
 export default class ExtensionManager {
 
@@ -18,54 +18,39 @@ export default class ExtensionManager {
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
     this.extensions = extensions
+
+    this.extensions.forEach(extension => {
+      const context = {
+        options: extension.options,
+        editor: this.editor,
+        type: getSchemaTypeByName(extension.name, this.schema),
+      }
+
+      const commands = extension.addCommands.bind(context)()
+
+      editor.registerCommands(commands)
+    })
   }
-
-  // resolveConfigs() {
-  //   this.extensions.forEach(extension => {
-  //     const { editor } = this
-  //     const { name } = extension.config
-  //     const options = {
-  //       ...extension.config.defaults,
-  //       ...extension.options,
-  //     }
-  //     const type = extension.type === 'node'
-  //       ? editor.schema.nodes[name]
-  //       : editor.schema.marks[name]
-
-  //     resolveExtensionConfig(extension, 'commands', {
-  //       name, options, editor, type,
-  //     })
-  //     resolveExtensionConfig(extension, 'inputRules', {
-  //       name, options, editor, type,
-  //     })
-  //     resolveExtensionConfig(extension, 'pasteRules', {
-  //       name, options, editor, type,
-  //     })
-  //     resolveExtensionConfig(extension, 'keys', {
-  //       name, options, editor, type,
-  //     })
-  //     resolveExtensionConfig(extension, 'plugins', {
-  //       name, options, editor, type,
-  //     })
-
-  //     if (extension.config.commands) {
-  //       editor.registerCommands(extension.config.commands)
-  //     }
-  //   })
-  // }
 
   get schema() {
     return getSchema(this.extensions)
   }
 
   get plugins(): Plugin[] {
-    // const plugins = collect(this.extensions)
-    //   .flatMap(extension => extension.config.plugins)
-    //   .filter(plugin => plugin)
-    //   .toArray()
+    const plugins = this.extensions
+      .map(extension => {
+        const context = {
+          options: extension.options,
+          editor: this.editor,
+          type: getSchemaTypeByName(extension.name, this.schema),
+        }
+
+        return extension.addProseMirrorPlugins.bind(context)()
+      })
+      .flat()
 
     return [
-      // ...plugins,
+      ...plugins,
       ...this.keymaps,
       ...this.pasteRules,
       inputRules({ rules: this.inputRules }),
@@ -73,19 +58,31 @@ export default class ExtensionManager {
   }
 
   get inputRules(): any {
-    return []
-    // return collect(this.extensions)
-    //   .flatMap(extension => extension.config.inputRules)
-    //   .filter(plugin => plugin)
-    //   .toArray()
+    return this.extensions
+      .map(extension => {
+        const context = {
+          options: extension.options,
+          editor: this.editor,
+          type: getSchemaTypeByName(extension.name, this.schema),
+        }
+
+        return extension.addInputRules.bind(context)()
+      })
+      .flat()
   }
 
   get pasteRules(): any {
-    return []
-    // return collect(this.extensions)
-    //   .flatMap(extension => extension.config.pasteRules)
-    //   .filter(plugin => plugin)
-    //   .toArray()
+    return this.extensions
+      .map(extension => {
+        const context = {
+          options: extension.options,
+          editor: this.editor,
+          type: getSchemaTypeByName(extension.name, this.schema),
+        }
+
+        return extension.addPasteRules.bind(context)()
+      })
+      .flat()
   }
 
   get keymaps() {
@@ -93,6 +90,7 @@ export default class ExtensionManager {
       const context = {
         options: extension.options,
         editor: this.editor,
+        type: getSchemaTypeByName(extension.name, this.schema),
       }
 
       return keymap(extension.addKeyboardShortcuts.bind(context)())

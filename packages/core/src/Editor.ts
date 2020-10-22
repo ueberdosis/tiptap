@@ -8,7 +8,7 @@ import markIsActive from './utils/markIsActive'
 import getNodeAttrs from './utils/getNodeAttrs'
 import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
-import getSchemaTypeByName from './utils/getSchemaTypeByName'
+import getSchemaTypeNameByName from './utils/getSchemaTypeNameByName'
 import getHtmlFromFragment from './utils/getHtmlFromFragment'
 import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
@@ -109,7 +109,6 @@ export class Editor extends EventEmitter {
     this.createCommandManager()
     this.createExtensionManager()
     this.createSchema()
-    // this.extensionManager.resolveConfigs()
     this.createView()
     this.registerCommands(coreCommands)
     this.injectCSS()
@@ -338,7 +337,7 @@ export class Editor extends EventEmitter {
    * @param attrs Attributes of the node or mark
    */
   public isActive(name: string, attrs = {}) {
-    const schemaType = getSchemaTypeByName(name, this.schema)
+    const schemaType = getSchemaTypeNameByName(name, this.schema)
 
     if (schemaType === 'node') {
       return nodeIsActive(this.state, this.schema.nodes[name], attrs)
