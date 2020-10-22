@@ -1,5 +1,4 @@
 import { createNode } from '@tiptap/core'
-// import { DOMOutputSpecArray } from 'prosemirror-model'
 // import ParagraphComponent from './paragraph.vue'
 
 // export type ParagraphCommand = () => Command
@@ -8,54 +7,6 @@ import { createNode } from '@tiptap/core'
 //   interface Commands {
 //     paragraph: ParagraphCommand,
 //   }
-// }
-
-// export default new Node()
-//   .name('paragraph')
-//   .schema(() => ({
-//     content: 'inline*',
-//     group: 'block',
-//     parseDOM: [{ tag: 'p' }],
-//     toDOM: () => ['p', 0],
-//     // toVue: ParagraphComponent,
-//   }))
-//   .commands(({ name }) => ({
-//     [name]: () => ({ commands }) => {
-//       return commands.toggleBlockType(name, 'paragraph')
-//     },
-//   }))
-//   .keys(({ editor }) => ({
-//     'Mod-Alt-0': () => editor.paragraph(),
-//   }))
-//   .create()
-
-// export default class Paragraph extends Node implements INode {
-
-//   name = 'paragraph'
-
-//   group = 'block'
-
-//   content = 'inline*'
-
-//   createAttributes() {
-//     return {
-//       // default rendering
-//       class: {
-//         default: 'jooo',
-//       },
-//     }
-//   }
-
-//   parseHTML() {
-//     return [
-//       { tag: 'p' },
-//     ]
-//   }
-
-//   renderHTML() {
-//     return ['p', 0] as const
-//   }
-
 // }
 
 export default createNode({
@@ -88,7 +39,7 @@ export default createNode({
         default: '123',
         rendered: true,
         renderHTML: attributes => ({
-          // class: `foo-${attributes.id}`,
+          class: `foo-${attributes.id}`,
           id: 'foo',
         }),
       },
@@ -103,5 +54,19 @@ export default createNode({
 
   renderHTML({ attributes }) {
     return ['p', attributes, 0]
+  },
+
+  createCommands() {
+    return {
+      paragraph: () => ({ commands }) => {
+        return commands.toggleBlockType('paragraph', 'paragraph')
+      },
+    }
+  },
+
+  createShortcuts() {
+    return {
+      'Mod-Alt-0': () => this.editor.paragraph(),
+    }
   },
 })

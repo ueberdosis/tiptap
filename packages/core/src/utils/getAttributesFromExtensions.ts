@@ -8,7 +8,7 @@ import {
 } from '../types'
 
 export default function getAttributesFromExtensions(extensions: Extensions) {
-  const allAttributes: ExtensionAttribute[] = []
+  const extensionAttributes: ExtensionAttribute[] = []
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
   const nodeAndMarkExtensions = [...nodeExtensions, ...markExtensions]
   const defaultAttribute: Required<Attribute> = {
@@ -27,16 +27,18 @@ export default function getAttributesFromExtensions(extensions: Extensions) {
 
     globalAttributes.forEach(globalAttribute => {
       globalAttribute.types.forEach(type => {
-        Object.entries(globalAttribute.attributes).forEach(([name, attribute]) => {
-          allAttributes.push({
-            type,
-            name,
-            attribute: {
-              ...defaultAttribute,
-              ...attribute,
-            },
+        Object
+          .entries(globalAttribute.attributes)
+          .forEach(([name, attribute]) => {
+            extensionAttributes.push({
+              type,
+              name,
+              attribute: {
+                ...defaultAttribute,
+                ...attribute,
+              },
+            })
           })
-        })
       })
     })
   })
@@ -48,17 +50,19 @@ export default function getAttributesFromExtensions(extensions: Extensions) {
 
     const attributes = extension.createAttributes.bind(context)() as Attributes
 
-    Object.entries(attributes).forEach(([name, attribute]) => {
-      allAttributes.push({
-        type: extension.name,
-        name,
-        attribute: {
-          ...defaultAttribute,
-          ...attribute,
-        },
+    Object
+      .entries(attributes)
+      .forEach(([name, attribute]) => {
+        extensionAttributes.push({
+          type: extension.name,
+          name,
+          attribute: {
+            ...defaultAttribute,
+            ...attribute,
+          },
+        })
       })
-    })
   })
 
-  return allAttributes
+  return extensionAttributes
 }

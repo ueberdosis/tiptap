@@ -128,6 +128,12 @@ export interface ExtensionSpec<Options = {}, Commands = {}> {
     options: Options,
     editor: Editor,
   }) => Commands,
+  createShortcuts?: (this: {
+    options: Options,
+    editor: Editor,
+  }) => {
+    [key: string]: any
+  },
 }
 
 export type Extension = Required<Omit<ExtensionSpec, 'defaultOptions'> & {
