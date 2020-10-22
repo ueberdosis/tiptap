@@ -1,6 +1,6 @@
 import { createNode } from '@tiptap/core'
 
-export default createNode({
+const ListItem = createNode({
   name: 'list_item',
 
   content: 'paragraph block*',
@@ -25,3 +25,11 @@ export default createNode({
     }
   },
 })
+
+export default ListItem
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    ListItem: typeof ListItem,
+  }
+}

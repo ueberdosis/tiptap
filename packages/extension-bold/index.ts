@@ -15,7 +15,7 @@ export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))$/gm
 export const underscorePasteRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))/gm
 
-export default createMark({
+const Bold = createMark({
   name: 'bold',
 
   parseHTML() {
@@ -40,7 +40,10 @@ export default createMark({
 
   addCommands() {
     return {
-      bold: () => ({ commands }) => {
+      /**
+       * bold command
+       */
+      bold: (): Command => ({ commands }) => {
         return commands.toggleMark('bold')
       },
     }
@@ -66,3 +69,11 @@ export default createMark({
     ]
   },
 })
+
+export default Bold
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Bold: typeof Bold,
+  }
+}

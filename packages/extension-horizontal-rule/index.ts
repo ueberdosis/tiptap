@@ -1,14 +1,6 @@
 import { Command, createNode, nodeInputRule } from '@tiptap/core'
 
-// export type HorizontalRuleCommand = () => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     horizontalRule: HorizontalRuleCommand,
-//   }
-// }
-
-export default createNode({
+const HorizontalRule = createNode({
   name: 'horizontalRule',
 
   group: 'block',
@@ -25,7 +17,7 @@ export default createNode({
 
   addCommands() {
     return {
-      horizontalRule: () => ({ tr }) => {
+      horizontalRule: (): Command => ({ tr }) => {
         tr.replaceSelectionWith(this.type.create())
 
         return true
@@ -39,3 +31,11 @@ export default createNode({
     ]
   },
 })
+
+export default HorizontalRule
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    HorizontalRule: typeof HorizontalRule,
+  }
+}

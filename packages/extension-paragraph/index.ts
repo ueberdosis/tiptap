@@ -1,15 +1,7 @@
-import { createNode } from '@tiptap/core'
+import { Command, createNode } from '@tiptap/core'
 // import ParagraphComponent from './paragraph.vue'
 
-// export type ParagraphCommand = () => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     paragraph: ParagraphCommand,
-//   }
-// }
-
-export default createNode({
+const Paragraph = createNode({
   name: 'paragraph',
 
   group: 'block',
@@ -58,7 +50,7 @@ export default createNode({
 
   addCommands() {
     return {
-      paragraph: () => ({ commands }) => {
+      paragraph: (): Command => ({ commands }) => {
         return commands.toggleBlockType('paragraph', 'paragraph')
       },
     }
@@ -70,3 +62,11 @@ export default createNode({
     }
   },
 })
+
+export default Paragraph
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Paragraph: typeof Paragraph,
+  }
+}

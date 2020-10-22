@@ -7,15 +7,7 @@ export interface HeadingOptions {
   levels: Level[],
 }
 
-// export type HeadingCommand = (options: { level: Level }) => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     heading: HeadingCommand,
-//   }
-// }
-
-export default createNode({
+const Heading = createNode({
   name: 'heading',
 
   defaultOptions: <HeadingOptions>{
@@ -51,8 +43,11 @@ export default createNode({
 
   addCommands() {
     return {
-      heading: attrs => ({ commands }) => {
-        return commands.toggleBlockType('heading', 'paragraph', attrs)
+      /**
+       * heading command
+       */
+      heading: (options: { level: Level }): Command => ({ commands }) => {
+        return commands.toggleBlockType('heading', 'paragraph', options)
       },
     }
   },
@@ -72,3 +67,11 @@ export default createNode({
     })
   },
 })
+
+export default Heading
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Heading: typeof Heading,
+  }
+}

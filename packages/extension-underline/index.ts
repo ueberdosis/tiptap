@@ -1,14 +1,6 @@
 import { Command, createMark } from '@tiptap/core'
 
-// export type UnderlineCommand = () => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     underline: UnderlineCommand,
-//   }
-// }
-
-export default createMark({
+const Underline = createMark({
   name: 'underline',
 
   parseHTML() {
@@ -29,7 +21,7 @@ export default createMark({
 
   addCommands() {
     return {
-      underline: () => ({ commands }) => {
+      underline: (): Command => ({ commands }) => {
         return commands.toggleMark('underline')
       },
     }
@@ -41,3 +33,11 @@ export default createMark({
     }
   },
 })
+
+export default Underline
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Underline: typeof Underline,
+  }
+}

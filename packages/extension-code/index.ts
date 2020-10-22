@@ -2,18 +2,10 @@ import {
   Command, createMark, markInputRule, markPasteRule,
 } from '@tiptap/core'
 
-// export type CodeCommand = () => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     code: CodeCommand,
-//   }
-// }
-
 export const inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/gm
 export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/gm
 
-export default createMark({
+const Code = createMark({
   name: 'code',
 
   excludes: '_',
@@ -30,7 +22,7 @@ export default createMark({
 
   addCommands() {
     return {
-      code: () => ({ commands }) => {
+      code: (): Command => ({ commands }) => {
         return commands.toggleMark('code')
       },
     }
@@ -54,3 +46,11 @@ export default createMark({
     ]
   },
 })
+
+export default Code
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Code: typeof Code,
+  }
+}

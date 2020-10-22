@@ -1,15 +1,7 @@
 import { Command, createNode } from '@tiptap/core'
 import { chainCommands, exitCode } from 'prosemirror-commands'
 
-// export type HardBreakCommand = () => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     hardBreak: HardBreakCommand,
-//   }
-// }
-
-export default createNode({
+const HardBreak = createNode({
   name: 'hardBreak',
 
   inline: true,
@@ -30,7 +22,7 @@ export default createNode({
 
   addCommands() {
     return {
-      hardBreak: () => ({
+      hardBreak: (): Command => ({
         tr, state, dispatch, view,
       }) => {
         return chainCommands(exitCode, () => {
@@ -48,3 +40,11 @@ export default createNode({
     }
   },
 })
+
+export default HardBreak
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    HardBreak: typeof HardBreak,
+  }
+}

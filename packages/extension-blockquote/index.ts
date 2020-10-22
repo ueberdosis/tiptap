@@ -1,17 +1,9 @@
 import { Command, createNode } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
-// export type BlockquoteCommand = () => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     blockquote: BlockquoteCommand,
-//   }
-// }
-
 export const inputRegex = /^\s*>\s$/gm
 
-export default createNode({
+const Blockquote = createNode({
   name: 'blockquote',
 
   content: 'block*',
@@ -32,7 +24,7 @@ export default createNode({
 
   addCommands() {
     return {
-      blockquote: () => ({ commands }) => {
+      blockquote: (): Command => ({ commands }) => {
         return commands.toggleWrap('blockquote')
       },
     }
@@ -50,3 +42,11 @@ export default createNode({
     ]
   },
 })
+
+export default Blockquote
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Blockquote: typeof Blockquote,
+  }
+}

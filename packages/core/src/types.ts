@@ -27,3 +27,9 @@ export type GlobalAttributes = {
   types: string[],
   attributes: Attributes,
 }[]
+
+export type PickValue<T, K extends keyof T> = T[K]
+
+export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer I)=>void)
+  ? I
+  : never

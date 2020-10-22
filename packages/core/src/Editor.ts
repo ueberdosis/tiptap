@@ -14,7 +14,7 @@ import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
-import { Extensions } from './types'
+import { Extensions, UnionToIntersection, PickValue } from './types'
 import defaultPlugins from './plugins'
 import * as coreCommands from './commands'
 import style from './style'
@@ -35,19 +35,13 @@ export interface CommandsSpec {
   [key: string]: CommandSpec
 }
 
-export interface Commands {}
+export interface AllExtensions {}
 
-export type CommandNames = Extract<keyof Commands, string>
-
-export type SingleCommands = {
-  [Item in keyof Commands]: Commands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<Commands[Item]>) => boolean
-  : never
-}
+export type SingleCommands = UnionToIntersection<ReturnType<PickValue<ReturnType<AllExtensions[keyof AllExtensions]>, 'addCommands'>>>
 
 export type ChainedCommands = {
-  [Item in keyof Commands]: Commands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<Commands[Item]>) => ChainedCommands
+  [Item in keyof SingleCommands]: SingleCommands[Item] extends (...args: any[]) => any
+  ? (...args: Parameters<SingleCommands[Item]>) => ChainedCommands
   : never
 } & {
   run: () => boolean

@@ -1,15 +1,7 @@
 import { Command, createNode } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
-// export type OrderedListCommand = () => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     orderedList: OrderedListCommand,
-//   }
-// }
-
-export default createNode({
+const OrderedList = createNode({
   name: 'ordered_list',
 
   content: 'list_item+',
@@ -46,7 +38,7 @@ export default createNode({
 
   addCommands() {
     return {
-      orderedList: () => ({ commands }) => {
+      orderedList: (): Command => ({ commands }) => {
         return commands.toggleList('ordered_list', 'list_item')
       },
     }
@@ -69,3 +61,11 @@ export default createNode({
     ]
   },
 })
+
+export default OrderedList
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    OrderedList: typeof OrderedList,
+  }
+}

@@ -5,18 +5,10 @@ export interface CodeBlockOptions {
   languageClassPrefix: string,
 }
 
-// export type CodeBlockCommand = () => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     codeBlock: CodeBlockCommand,
-//   }
-// }
-
 export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
 export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
 
-export default createNode({
+const CodeBlock = createNode({
   name: 'code_block',
 
   defaultOptions: <CodeBlockOptions>{
@@ -70,7 +62,7 @@ export default createNode({
 
   addCommands() {
     return {
-      codeBlock: attrs => ({ commands }) => {
+      codeBlock: (attrs?: CodeBlockOptions): Command => ({ commands }) => {
         return commands.toggleBlockType('code_block', 'paragraph', attrs)
       },
     }
@@ -89,3 +81,11 @@ export default createNode({
     ]
   },
 })
+
+export default CodeBlock
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    CodeBlock: typeof CodeBlock,
+  }
+}

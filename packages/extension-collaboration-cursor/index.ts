@@ -8,18 +8,7 @@ export interface CollaborationCursorOptions {
   render (user: { name: string, color: string }): HTMLElement,
 }
 
-// export type UserCommand = (attributes: {
-//   name: string,
-//   color: string,
-// }) => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     user: UserCommand,
-//   }
-// }
-
-export default createExtension({
+const CollaborationCursor = createExtension({
   name: 'collaboration_cursor',
 
   defaultOptions: <CollaborationCursorOptions>{
@@ -43,7 +32,10 @@ export default createExtension({
 
   addCommands() {
     return {
-      user: attributes => () => {
+      user: (attributes: {
+        name: string,
+        color: string,
+      }): Command => () => {
         this.options.provider.awareness.setLocalStateField('user', attributes)
 
         return true
@@ -68,3 +60,11 @@ export default createExtension({
     ]
   },
 })
+
+export default CollaborationCursor
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    CollaborationCursor: typeof CollaborationCursor,
+  }
+}

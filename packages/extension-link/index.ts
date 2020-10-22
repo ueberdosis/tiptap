@@ -9,17 +9,9 @@ export interface LinkOptions {
   rel: string,
 }
 
-// export type LinkCommand = (options: {href?: string, target?: string}) => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     link: LinkCommand,
-//   }
-// }
-
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%_+.~#?&//=]*)/gi
 
-export default createMark({
+const Link = createMark({
   name: 'link',
 
   inclusive: false,
@@ -66,12 +58,12 @@ export default createMark({
 
   addCommands() {
     return {
-      link: attributes => ({ commands }) => {
-        if (!attributes.href) {
+      link: (options: { href?: string, target?: string }): Command => ({ commands }) => {
+        if (!options.href) {
           return commands.removeMark('link')
         }
 
-        return commands.updateMark('link', attributes)
+        return commands.updateMark('link', options)
       },
     }
   },
@@ -113,3 +105,11 @@ export default createMark({
     ]
   },
 })
+
+export default Link
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Link: typeof Link,
+  }
+}

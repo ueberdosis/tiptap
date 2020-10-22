@@ -1,23 +1,12 @@
 import { Command, createExtension } from '@tiptap/core'
-import {
-  history,
-  undo,
-  redo,
-} from 'prosemirror-history'
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     undo: () => Command,
-//     redo: () => Command,
-//   }
-// }
+import { history, undo, redo } from 'prosemirror-history'
 
 export interface HistoryOptions {
   depth: number,
   newGroupDelay: number,
 }
 
-export default createExtension({
+const History = createExtension({
   name: 'history',
 
   defaultOptions: <HistoryOptions>{
@@ -27,10 +16,10 @@ export default createExtension({
 
   addCommands() {
     return {
-      undo: () => ({ state, dispatch }) => {
+      undo: (): Command => ({ state, dispatch }) => {
         return undo(state, dispatch)
       },
-      redo: () => ({ state, dispatch }) => {
+      redo: (): Command => ({ state, dispatch }) => {
         return redo(state, dispatch)
       },
     }
@@ -50,3 +39,11 @@ export default createExtension({
     }
   },
 })
+
+export default History
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    History: typeof History,
+  }
+}

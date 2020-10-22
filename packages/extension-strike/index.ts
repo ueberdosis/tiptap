@@ -2,18 +2,10 @@ import {
   Command, createMark, markInputRule, markPasteRule,
 } from '@tiptap/core'
 
-// type StrikeCommand = () => Command
-
-// declare module '@tiptap/core/src/Editor' {
-//   interface Commands {
-//     strike: StrikeCommand,
-//   }
-// }
-
 export const inputRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))$/gm
 export const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/gm
 
-export default createMark({
+const Strike = createMark({
   name: 'strike',
 
   parseHTML() {
@@ -40,7 +32,7 @@ export default createMark({
 
   addCommands() {
     return {
-      strike: () => ({ commands }) => {
+      strike: (): Command => ({ commands }) => {
         return commands.toggleMark('strike')
       },
     }
@@ -64,3 +56,11 @@ export default createMark({
     ]
   },
 })
+
+export default Strike
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Strike: typeof Strike,
+  }
+}

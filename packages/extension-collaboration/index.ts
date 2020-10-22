@@ -8,7 +8,7 @@ export interface CollaborationOptions {
   type: any,
 }
 
-export default createExtension({
+const Collaboration = createExtension({
   name: 'collaboration',
 
   defaultOptions: <CollaborationOptions>{
@@ -31,3 +31,11 @@ export default createExtension({
     }
   },
 })
+
+export default Collaboration
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Collaboration: typeof Collaboration,
+  }
+}
