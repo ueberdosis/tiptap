@@ -74,7 +74,7 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
   /**
    * Render HTML
    */
-  renderHTML?: (
+  renderHTML?: ((
     this: {
       options: Options,
     },
@@ -82,7 +82,7 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
       node: Node,
       attributes: { [key: string]: any },
     }
-  ) => DOMOutputSpec,
+  ) => DOMOutputSpec) | null,
 
   /**
    * Add Attributes
@@ -164,7 +164,7 @@ const defaultNode: NodeExtension = {
   defining: null,
   isolating: null,
   parseHTML: () => null,
-  renderHTML: () => '',
+  renderHTML: null,
   addAttributes: () => ({}),
 }
 

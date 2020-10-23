@@ -38,16 +38,18 @@ export default function getSchema(extensions: Extensions): Schema {
       code: extension.code,
       defining: extension.defining,
       isolating: extension.isolating,
-      parseDOM: extension.parseHTML.bind(context)(),
-      toDOM: node => {
-        return extension.renderHTML.bind(context)({
-          node,
-          attributes: getRenderedAttributes(node, attributes),
-        })
-      },
       attrs: Object.fromEntries(attributes.map(attribute => {
         return [attribute.name, { default: attribute?.attribute?.default }]
       })),
+      parseDOM: extension.parseHTML.bind(context)(),
+      ...(typeof extension.renderHTML === 'function') && {
+        toDOM: node => {
+          return (extension.renderHTML as Function).bind(context)({
+            node,
+            attributes: getRenderedAttributes(node, attributes),
+          })
+        },
+      },
     })
 
     return [extension.name, schema]
@@ -65,16 +67,18 @@ export default function getSchema(extensions: Extensions): Schema {
       excludes: extension.excludes,
       group: extension.group,
       spanning: extension.spanning,
-      parseDOM: extension.parseHTML.bind(context)(),
-      toDOM: mark => {
-        return extension.renderHTML.bind(context)({
-          mark,
-          attributes: getRenderedAttributes(mark, attributes),
-        })
-      },
       attrs: Object.fromEntries(attributes.map(attribute => {
         return [attribute.name, { default: attribute?.attribute?.default }]
       })),
+      parseDOM: extension.parseHTML.bind(context)(),
+      ...(typeof extension.renderHTML === 'function') && {
+        toDOM: mark => {
+          return (extension.renderHTML as Function).bind(context)({
+            mark,
+            attributes: getRenderedAttributes(mark, attributes),
+          })
+        },
+      },
     })
 
     return [extension.name, schema]

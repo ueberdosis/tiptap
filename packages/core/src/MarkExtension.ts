@@ -39,7 +39,7 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Overwrit
   /**
    * Render HTML
    */
-  renderHTML?: (
+  renderHTML?: ((
     this: {
       options: Options,
     },
@@ -47,7 +47,7 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Overwrit
       mark: Mark,
       attributes: { [key: string]: any },
     }
-  ) => DOMOutputSpec,
+  ) => DOMOutputSpec) | null,
 
   /**
    * Attributes
@@ -122,7 +122,7 @@ const defaultMark: MarkExtension = {
   group: null,
   spanning: null,
   parseHTML: () => null,
-  renderHTML: () => '',
+  renderHTML: null,
   addAttributes: () => ({}),
 }
 
