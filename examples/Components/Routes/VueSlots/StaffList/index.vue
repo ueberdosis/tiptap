@@ -27,10 +27,10 @@ const component = {
   },
 }
 
-component.extensions = {
-  DefaultBlockSlotExtension,
-  StaffMemberSlotExtension,
-  NodeExtension: Node(component),
+component.Extension = Node(component)
+component.slotExtensions = {
+  default: DefaultBlockSlotExtension,
+  'staff-members': StaffMemberSlotExtension,
 }
 
 export default component

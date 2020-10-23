@@ -32,6 +32,10 @@ import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import StaffList from './StaffList'
 import StaffMember from './StaffMember'
 
+const StaffListDefaultSlotExtension = StaffList.slotExtensions.default
+const StaffListStaffMembersSlotExtension = StaffList.slotExtensions['staff-members']
+const StaffMemberDefaultSlotExtension = StaffMember.slotExtensions.default
+
 export default {
   components: {
     EditorContent,
@@ -42,11 +46,11 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new StaffList.extensions.DefaultBlockSlotExtension(),
-          new StaffList.extensions.StaffMemberSlotExtension(),
-          new StaffList.extensions.NodeExtension(),
-          new StaffMember.extensions.DefaultBlockSlotExtension(),
-          new StaffMember.extensions.NodeExtension(),
+          new StaffListDefaultSlotExtension(),
+          new StaffListStaffMembersSlotExtension(),
+          new StaffList.Extension(),
+          new StaffMemberDefaultSlotExtension(),
+          new StaffMember.Extension(),
         ],
         content: `
           <staff-list>

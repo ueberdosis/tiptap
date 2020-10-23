@@ -21,9 +21,10 @@ const component = {
   },
 }
 
-component.extensions = {
-  DefaultBlockSlotExtension,
-  NodeExtension: Node(component),
+component.Extension = Node(component)
+
+component.slotExtensions = {
+  default: DefaultBlockSlotExtension,
 }
 
 export default component
