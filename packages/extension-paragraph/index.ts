@@ -16,7 +16,7 @@ const Paragraph = createNode({
   //         align: {
   //           default: 'right',
   //           renderHTML: attributes => ({
-  //             class: 'global',
+  //             class: 'foo',
   //             style: `text-align: ${attributes.align}`,
   //           }),
   //         },
@@ -31,8 +31,8 @@ const Paragraph = createNode({
   //       default: '123',
   //       rendered: true,
   //       renderHTML: attributes => ({
-  //         class: `foo-${attributes.id}`,
-  //         id: 'foo',
+  //         class: 'bar',
+  //         style: 'color: red',
   //       }),
   //     },
   //   }
