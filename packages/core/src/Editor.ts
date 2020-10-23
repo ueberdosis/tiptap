@@ -37,11 +37,17 @@ export interface CommandsSpec {
 
 export interface AllExtensions {}
 
-export type SingleCommands = UnionToIntersection<ReturnType<PickValue<ReturnType<AllExtensions[keyof AllExtensions]>, 'addCommands'>>>
+export type AllCommands = UnionToIntersection<ReturnType<PickValue<ReturnType<AllExtensions[keyof AllExtensions]>, 'addCommands'>>>
+
+export type SingleCommands = {
+  [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
+  ? (...args: Parameters<AllCommands[Item]>) => boolean
+  : never
+}
 
 export type ChainedCommands = {
-  [Item in keyof SingleCommands]: SingleCommands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<SingleCommands[Item]>) => ChainedCommands
+  [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
+  ? (...args: Parameters<AllCommands[Item]>) => ChainedCommands
   : never
 } & {
   run: () => boolean
