@@ -7,7 +7,7 @@ export interface FocusOptions {
   nested: boolean,
 }
 
-const Focus = createExtension({
+const FocusClasses = createExtension({
   defaultOptions: <FocusOptions>{
     className: 'has-focus',
     nested: false,
@@ -47,10 +47,10 @@ const Focus = createExtension({
   },
 })
 
-export default Focus
+export default FocusClasses
 
 declare module '@tiptap/core/src/Editor' {
   interface AllExtensions {
-    Focus: typeof Focus,
+    FocusClasses: typeof FocusClasses,
   }
 }

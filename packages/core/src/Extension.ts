@@ -1,4 +1,3 @@
-import { MarkType, NodeType } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { GlobalAttributes } from './types'
@@ -27,7 +26,6 @@ export interface ExtensionSpec<Options = {}, Commands = {}> {
   addCommands?: (this: {
     options: Options,
     editor: Editor,
-    type: NodeType | MarkType,
   }) => Commands,
 
   /**
@@ -36,7 +34,6 @@ export interface ExtensionSpec<Options = {}, Commands = {}> {
   addKeyboardShortcuts?: (this: {
     options: Options,
     editor: Editor,
-    type: NodeType | MarkType,
   }) => {
     [key: string]: any
   },
@@ -47,7 +44,6 @@ export interface ExtensionSpec<Options = {}, Commands = {}> {
   addInputRules?: (this: {
     options: Options,
     editor: Editor,
-    // type: NodeType | MarkType,
   }) => any[],
 
   /**
@@ -56,7 +52,6 @@ export interface ExtensionSpec<Options = {}, Commands = {}> {
   addPasteRules?: (this: {
     options: Options,
     editor: Editor,
-    type: NodeType | MarkType,
   }) => any[],
 
   /**
@@ -65,7 +60,6 @@ export interface ExtensionSpec<Options = {}, Commands = {}> {
   addProseMirrorPlugins?: (this: {
     options: Options,
     editor: Editor,
-    type: NodeType | MarkType,
   }) => Plugin[],
 }
 

@@ -20,7 +20,7 @@ export type Attributes = {
 export type ExtensionAttribute = {
   type: string,
   name: string,
-  attribute: Attribute,
+  attribute: Required<Attribute>,
 }
 
 export type GlobalAttributes = {
@@ -33,3 +33,8 @@ export type PickValue<T, K extends keyof T> = T[K]
 export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer I)=>void)
   ? I
   : never
+
+export type Diff<T extends keyof any, U extends keyof any> =
+  ({ [P in T]: P } & { [P in U]: never } & { [x: string]: never })[T]
+
+export type Overwrite<T, U> = Pick<T, Diff<keyof T, keyof U>> & U;

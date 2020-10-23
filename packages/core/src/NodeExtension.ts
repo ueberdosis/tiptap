@@ -3,10 +3,10 @@ import {
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { ExtensionSpec, defaultExtension } from './Extension'
-import { Attributes } from './types'
+import { Attributes, Overwrite } from './types'
 import { Editor } from './Editor'
 
-export interface NodeExtensionSpec<Options = {}, Commands = {}> extends ExtensionSpec<Options, Commands> {
+export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
   /**
    * TopNode
    */
@@ -139,7 +139,7 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Extensio
     editor: Editor,
     type: NodeType,
   }) => Plugin[],
-}
+}> {}
 
 export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {
   type: string,
@@ -164,7 +164,7 @@ const defaultNode: NodeExtension = {
   defining: null,
   isolating: null,
   parseHTML: () => null,
-  renderHTML: () => null,
+  renderHTML: () => '',
   addAttributes: () => ({}),
 }
 

@@ -3,10 +3,10 @@ import {
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { ExtensionSpec, defaultExtension } from './Extension'
-import { Attributes } from './types'
+import { Attributes, Overwrite } from './types'
 import { Editor } from './Editor'
 
-export interface MarkExtensionSpec<Options = {}, Commands = {}> extends ExtensionSpec<Options, Commands> {
+export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
   /**
    * Inclusive
    */
@@ -104,7 +104,7 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Extensio
     editor: Editor,
     type: MarkType,
   }) => Plugin[],
-}
+}> {}
 
 export type MarkExtension = Required<Omit<MarkExtensionSpec, 'defaultOptions'> & {
   type: string,
@@ -122,7 +122,7 @@ const defaultMark: MarkExtension = {
   group: null,
   spanning: null,
   parseHTML: () => null,
-  renderHTML: () => null,
+  renderHTML: () => '',
   addAttributes: () => ({}),
 }
 
