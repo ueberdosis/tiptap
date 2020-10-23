@@ -22,7 +22,7 @@ const TextAlign = createExtension({
               style: `text-align: ${attributes.textAlign}`,
             }),
             parseHTML: node => ({
-              textAlign: node.style.textAlign,
+              textAlign: node.style.textAlign || 'left',
             }),
           },
         },

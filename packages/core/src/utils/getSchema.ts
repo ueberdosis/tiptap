@@ -25,7 +25,14 @@ function injectExtensionAttributes(parseRule: ParseRule, extensionAttributes: Ex
   return {
     ...parseRule,
     getAttrs: node => {
-      const oldAttributes = parseRule.getAttrs ? parseRule.getAttrs(node) : {}
+      const oldAttributes = parseRule.getAttrs
+        ? parseRule.getAttrs(node)
+        : parseRule.attrs
+
+      if (oldAttributes === false) {
+        return false
+      }
+
       const newAttributes = extensionAttributes
         .filter(item => item.attribute.rendered)
         .reduce((items, item) => ({

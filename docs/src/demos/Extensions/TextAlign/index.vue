@@ -43,7 +43,7 @@ export default {
         TextAlign(),
       ],
       content: `
-        <h1>Heading</h1>
+        <h2>Heading</h2>
         <p style="text-align: center">first paragraph</p>
         <p style="text-align: right">second paragraph</p>
       `,
