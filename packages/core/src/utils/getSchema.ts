@@ -3,6 +3,17 @@ import { Extensions } from '../types'
 import splitExtensions from './splitExtensions'
 import getAttributesFromExtensions from './getAttributesFromExtensions'
 import getRenderedAttributes from './getRenderedAttributes'
+import isEmptyObject from './isEmptyObject'
+
+function cleanUpSchemaItem(data: any) {
+  return Object.fromEntries(Object.entries(data).filter(([key, value]) => {
+    if (key === 'attrs' && isEmptyObject(value)) {
+      return false
+    }
+
+    return value !== null && value !== undefined
+  }))
+}
 
 export default function getSchema(extensions: Extensions): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
@@ -16,7 +27,7 @@ export default function getSchema(extensions: Extensions): Schema {
 
     const attributes = allAttributes.filter(attribute => attribute.type === extension.name)
 
-    const schema: NodeSpec = {
+    const schema: NodeSpec = cleanUpSchemaItem({
       content: extension.content,
       marks: extension.marks,
       group: extension.group,
@@ -37,7 +48,7 @@ export default function getSchema(extensions: Extensions): Schema {
       attrs: Object.fromEntries(attributes.map(attribute => {
         return [attribute.name, { default: attribute?.attribute?.default }]
       })),
-    }
+    })
 
     return [extension.name, schema]
   }))
@@ -49,7 +60,7 @@ export default function getSchema(extensions: Extensions): Schema {
 
     const attributes = allAttributes.filter(attribute => attribute.type === extension.name)
 
-    const schema: MarkSpec = {
+    const schema: MarkSpec = cleanUpSchemaItem({
       inclusive: extension.inclusive,
       excludes: extension.excludes,
       group: extension.group,
@@ -64,7 +75,7 @@ export default function getSchema(extensions: Extensions): Schema {
       attrs: Object.fromEntries(attributes.map(attribute => {
         return [attribute.name, { default: attribute?.attribute?.default }]
       })),
-    }
+    })
 
     return [extension.name, schema]
   }))

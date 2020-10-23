@@ -3,6 +3,7 @@ import { keymap } from 'prosemirror-keymap'
 // import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { inputRules } from 'prosemirror-inputrules'
 // import { EditorView, Decoration } from 'prosemirror-view'
+import { Schema } from 'prosemirror-model'
 import { Editor } from './Editor'
 // import capitalize from './utils/capitalize'
 import { Extensions } from './types'
@@ -13,11 +14,14 @@ export default class ExtensionManager {
 
   editor: Editor
 
+  schema: Schema
+
   extensions: Extensions
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
     this.extensions = extensions
+    this.schema = getSchema(this.extensions)
 
     this.extensions.forEach(extension => {
       const context = {
@@ -30,10 +34,6 @@ export default class ExtensionManager {
 
       editor.registerCommands(commands)
     })
-  }
-
-  get schema() {
-    return getSchema(this.extensions)
   }
 
   get plugins(): Plugin[] {
