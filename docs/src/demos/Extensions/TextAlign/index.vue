@@ -1,12 +1,12 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus().setAttributes({ align: 'left' }).run()">
+    <button @click="editor.chain().focus().setNodeAttributes({ textAlign: 'left' }).run()">
       left
     </button>
-    <button @click="editor.chain().focus().setAttributes({ align: 'center' }).run()">
+    <button @click="editor.chain().focus().setNodeAttributes({ textAlign: 'center' }).run()">
       center
     </button>
-    <button @click="editor.chain().focus().setAttributes({ align: 'right' }).run()">
+    <button @click="editor.chain().focus().setNodeAttributes({ textAlign: 'right' }).run()">
       right
     </button>
     <editor-content :editor="editor" />
@@ -18,6 +18,7 @@ import { Editor } from '@tiptap/core'
 import { EditorContent } from '@tiptap/vue'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
+import Heading from '@tiptap/extension-heading'
 import Text from '@tiptap/extension-text'
 import TextAlign from '@tiptap/extension-text-align'
 
@@ -38,11 +39,13 @@ export default {
         Document(),
         Paragraph(),
         Text(),
+        Heading(),
         TextAlign(),
       ],
       content: `
-        <p>first paragraph</p>
-        <p>second paragraph</p>
+        <h1>Heading</h1>
+        <p style="text-align: center">first paragraph</p>
+        <p style="text-align: right">second paragraph</p>
       `,
     })
   },

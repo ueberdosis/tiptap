@@ -1,15 +1,23 @@
 import { createExtension } from '@tiptap/core'
 
+type TextAlignOptions = {
+  types: string[],
+}
+
 const TextAlign = createExtension({
+  defaultOptions: <TextAlignOptions>{
+    types: ['heading', 'paragraph'],
+  },
+
   addGlobalAttributes() {
     return [
       {
-        types: ['paragraph'],
+        types: this.options.types,
         attributes: {
-          align: {
+          textAlign: {
             default: 'left',
             renderHTML: attributes => ({
-              style: `text-align: ${attributes.align}`,
+              style: `text-align: ${attributes.textAlign}`,
             }),
           },
         },
