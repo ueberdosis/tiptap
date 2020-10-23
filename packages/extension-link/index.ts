@@ -58,19 +58,13 @@ const Link = createMark({
 
   addCommands() {
     return {
-      link: (options: { href?: string, target?: string }): Command => ({ commands }) => {
+      link: (options: { href?: string, target?: string } = {}): Command => ({ commands }) => {
         if (!options.href) {
           return commands.removeMark('link')
         }
 
         return commands.updateMark('link', options)
       },
-    }
-  },
-
-  addKeyboardShortcuts() {
-    return {
-      'Mod-i': () => this.editor.italic(),
     }
   },
 
