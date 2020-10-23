@@ -40,3 +40,12 @@ component.slotExtensions = {
 export default component
 
 </script>
+
+<style>
+.stafflist {
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #efefef;
+}
+
+</style>
