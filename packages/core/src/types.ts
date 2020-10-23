@@ -10,7 +10,9 @@ export type Attribute = {
   renderHTML?: (attributes: {
     [key: string]: any,
   }) => any,
-  parseHTML?: () => any,
+  parseHTML?: (node: HTMLElement) => {
+    [key: string]: any,
+  },
 }
 
 export type Attributes = {

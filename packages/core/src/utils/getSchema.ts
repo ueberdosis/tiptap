@@ -25,7 +25,7 @@ export default function getSchema(extensions: Extensions): Schema {
       options: extension.options,
     }
 
-    const attributes = allAttributes.filter(attribute => attribute.type === extension.name)
+    const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
 
     const schema: NodeSpec = cleanUpSchemaItem({
       content: extension.content,
@@ -38,15 +38,34 @@ export default function getSchema(extensions: Extensions): Schema {
       code: extension.code,
       defining: extension.defining,
       isolating: extension.isolating,
-      attrs: Object.fromEntries(attributes.map(attribute => {
-        return [attribute.name, { default: attribute?.attribute?.default }]
+      attrs: Object.fromEntries(extensionAttributes.map(extensionAttribute => {
+        return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
       })),
-      parseDOM: extension.parseHTML.bind(context)(),
+      parseDOM: extension.parseHTML.bind(context)()?.map(parseRule => {
+        if (parseRule.style) {
+          return parseRule
+        }
+
+        return {
+          ...parseRule,
+          getAttrs: node => {
+            const oldAttributes = parseRule.getAttrs ? parseRule.getAttrs(node) : {}
+            const newAttributes = extensionAttributes
+              .filter(item => item.attribute.rendered)
+              .reduce((items, item) => ({
+                ...items,
+                ...item.attribute.parseHTML(node as HTMLElement),
+              }), {})
+
+            return { ...oldAttributes, ...newAttributes }
+          },
+        }
+      }),
       ...(typeof extension.renderHTML === 'function') && {
         toDOM: node => {
           return (extension.renderHTML as Function).bind(context)({
             node,
-            attributes: getRenderedAttributes(node, attributes),
+            attributes: getRenderedAttributes(node, extensionAttributes),
           })
         },
       },
@@ -60,22 +79,22 @@ export default function getSchema(extensions: Extensions): Schema {
       options: extension.options,
     }
 
-    const attributes = allAttributes.filter(attribute => attribute.type === extension.name)
+    const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
 
     const schema: MarkSpec = cleanUpSchemaItem({
       inclusive: extension.inclusive,
       excludes: extension.excludes,
       group: extension.group,
       spanning: extension.spanning,
-      attrs: Object.fromEntries(attributes.map(attribute => {
-        return [attribute.name, { default: attribute?.attribute?.default }]
+      attrs: Object.fromEntries(extensionAttributes.map(extensionAttribute => {
+        return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
       })),
       parseDOM: extension.parseHTML.bind(context)(),
       ...(typeof extension.renderHTML === 'function') && {
         toDOM: mark => {
           return (extension.renderHTML as Function).bind(context)({
             mark,
-            attributes: getRenderedAttributes(mark, attributes),
+            attributes: getRenderedAttributes(mark, extensionAttributes),
           })
         },
       },

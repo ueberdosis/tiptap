@@ -21,6 +21,9 @@ const TextAlign = createExtension({
             renderHTML: attributes => ({
               style: `text-align: ${attributes.textAlign}`,
             }),
+            parseHTML: node => ({
+              textAlign: node.style.textAlign,
+            }),
           },
         },
       },

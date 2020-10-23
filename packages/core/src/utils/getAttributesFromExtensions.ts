@@ -15,7 +15,7 @@ export default function getAttributesFromExtensions(extensions: Extensions) {
     default: null,
     rendered: true,
     renderHTML: () => ({}),
-    parseHTML: () => null,
+    parseHTML: () => ({}),
   }
 
   extensions.forEach(extension => {
