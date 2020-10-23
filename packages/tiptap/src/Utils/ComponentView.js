@@ -1,6 +1,11 @@
 import Vue from 'vue'
 
 import { getMarkRange } from 'tiptap-utils'
+import { EditorView } from 'prosemirror-view'
+import { EditorState } from 'prosemirror-state'
+import { StepMap } from 'prosemirror-transform'
+import { keymap } from 'prosemirror-keymap'
+import { undo, redo } from 'prosemirror-history'
 
 export default class ComponentView {
 
@@ -24,6 +29,7 @@ export default class ComponentView {
     this.isMark = !this.isNode
     this.getPos = this.isMark ? this.getMarkPos : getPos
     this.captureEvents = true
+    this.slotViews = {}
     this.dom = this.createDOM()
     this.contentDOM = this.vm.$refs.content
   }
@@ -52,9 +58,67 @@ export default class ComponentView {
     this.vm = new Component({
       parent: this.parent,
       propsData: props,
-    }).$mount()
+    })
+
+    this.vm.$slots.default = ['Hello!']
+
+    if (this.component && this.component.slotExtensions) {
+      Object.keys(this.component.slotExtensions).every(this.initSlot.bind(this))
+    }
+
+    this.vm.$mount()
 
     return this.vm.$el
+  }
+
+  initSlot(slotName) {
+    const node = this.editor.extensions.extensions.find(this.isSlot.bind(this, slotName))
+    const el = this.vm.$createElement('template')
+    this.vm.$slots[slotName] = [el]
+
+    this.slotViews[slotName] = new EditorView(el, {
+      // You can use any node as an editor document
+      state: EditorState.create({
+        doc: node,
+        plugins: [keymap({
+          'Mod-z': () => undo(this.view.state, this.view.dispatch),
+          'Mod-y': () => redo(this.view.state, this.view.dispatch),
+        })],
+        dispatchTransaction: this.dispatchInner.bind(this, slotName),
+        handleDOMEvents: {
+          mousedown: () => {
+            // Kludge to prevent issues due to the fact that the whole
+            // footnote is node-selected (and thus DOM-selected) when
+            // the parent editor is focused.
+            if (this.view.hasFocus()) this.slotViews[slotName].focus()
+          },
+        },
+      }),
+    })
+
+    return this.slotViews[slotName]
+  }
+
+  isSlot(slotName, testExtension) {
+    return testExtension.name === (new this.component.slotExtensions[slotName]()).name
+  }
+
+  dispatchInner(slotName, tr) {
+    const view = this.slotViews[slotName]
+    const { state, transactions } = this.innerView.state.applyTransaction(tr)
+    view.updateState(state)
+
+    if (!tr.getMeta('fromOutside')) {
+      const outerTr = this.view.state.tr
+      const offsetMap = StepMap.offset(this.getPos() + 1)
+      for (let i = 0; i < transactions.length; i += 1) {
+        const { steps } = transactions[i]
+        for (let j = 0; j < steps.length; j += 1) {
+          outerTr.step(steps[j].map(offsetMap))
+        }
+      }
+      if (outerTr.docChanged) this.view.dispatch(outerTr)
+    }
   }
 
   update(node, decorations) {
