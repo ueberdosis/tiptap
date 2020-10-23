@@ -5,14 +5,14 @@ import getAttributesFromExtensions from './getAttributesFromExtensions'
 import getRenderedAttributes from './getRenderedAttributes'
 import isEmptyObject from './isEmptyObject'
 
-function cleanUpSchemaItem(data: any) {
+function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(Object.entries(data).filter(([key, value]) => {
     if (key === 'attrs' && isEmptyObject(value)) {
       return false
     }
 
     return value !== null && value !== undefined
-  }))
+  })) as T
 }
 
 export default function getSchema(extensions: Extensions): Schema {
