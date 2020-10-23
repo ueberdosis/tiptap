@@ -6,13 +6,12 @@ export type Extensions = (Extension | NodeExtension | MarkExtension)[]
 
 export type Attribute = {
   default: any,
-  rendered?: boolean,
-  renderHTML?: (attributes: {
-    [key: string]: any,
-  }) => any,
-  parseHTML?: (node: HTMLElement) => {
-    [key: string]: any,
-  },
+  rendered?: false,
+} | {
+  default: any,
+  rendered?: true,
+  renderHTML: (attributes: { [key: string]: any }) => any,
+  parseHTML: (node: HTMLElement) => { [key: string]: any },
 }
 
 export type Attributes = {
@@ -22,7 +21,12 @@ export type Attributes = {
 export type ExtensionAttribute = {
   type: string,
   name: string,
-  attribute: Required<Attribute>,
+  attribute: {
+    default: any,
+    rendered: boolean,
+    renderHTML: (attributes: { [key: string]: any }) => any,
+    parseHTML: (node: HTMLElement) => { [key: string]: any },
+  },
 }
 
 export type GlobalAttributes = {
