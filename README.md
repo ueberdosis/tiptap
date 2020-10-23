@@ -14,7 +14,7 @@ A renderless and extendable rich-text editor for [Vue.js](https://github.com/vue
 - [x] Proof of concept
 - [x] Building out the editor
 - [x] Adding a bunch of extensions
-- [ ] Creating a few examples
+- [x] Creating a few examples
 - [ ] Giving sponsors access to gather feedback
 - [ ] Incorporate feedback
 - [ ] Publicly release version 2.0-beta
