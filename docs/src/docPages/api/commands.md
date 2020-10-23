@@ -34,7 +34,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | Command         | Description                                                 |
 | --------------- | ----------------------------------------------------------- |
 | .clearContent() | Clear the whole document.                                   |
-| .insertHTML()   | Insert a string of HTML at the currently selected position. |
+| .insertgetHTML()   | Insert a string of HTML at the currently selected position. |
 | .insertText()   | Insert a string of text at the currently selected position. |
 | .setContent()   | Replace the whole document with new content.                |
 

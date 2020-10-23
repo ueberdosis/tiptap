@@ -19,7 +19,7 @@ export const Editor = ({
       content: value,
       ...props,
     }).on('transaction', () => {
-      onChange(e.json())
+      onChange(e.getJSON())
     })
 
     setEditor(e)

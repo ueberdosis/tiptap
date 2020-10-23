@@ -13,10 +13,10 @@ context('/api/extensions/code', () => {
   it('should parse code tags correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><code>Example Text</code></p>')
-      expect(editor.html()).to.eq('<p><code>Example Text</code></p>')
+      expect(editor.getHTML()).to.eq('<p><code>Example Text</code></p>')
 
       editor.setContent('<code>Example Text</code>')
-      expect(editor.html()).to.eq('<p><code>Example Text</code></p>')
+      expect(editor.getHTML()).to.eq('<p><code>Example Text</code></p>')
     })
   })
 

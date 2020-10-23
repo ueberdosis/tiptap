@@ -13,21 +13,21 @@ context('/api/extensions/italic', () => {
   it('i tags should be transformed to em tags', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><i>Example Text</i></p>')
-      expect(editor.html()).to.eq('<p><em>Example Text</em></p>')
+      expect(editor.getHTML()).to.eq('<p><em>Example Text</em></p>')
     })
   })
 
   it('i tags with normal font style should be omitted', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><i style="font-style: normal">Example Text</i></p>')
-      expect(editor.html()).to.eq('<p>Example Text</p>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
     })
   })
 
   it('generic tags with italic style should be transformed to strong tags', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><span style="font-style: italic">Example Text</span></p>')
-      expect(editor.html()).to.eq('<p><em>Example Text</em></p>')
+      expect(editor.getHTML()).to.eq('<p><em>Example Text</em></p>')
     })
   })
 

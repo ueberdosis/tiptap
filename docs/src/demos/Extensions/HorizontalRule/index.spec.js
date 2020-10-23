@@ -12,14 +12,14 @@ context('/api/extensions/horizontal-rule', () => {
   it('should parse horizontal rules correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p><hr>')
-      expect(editor.html()).to.eq('<p>Example Text</p><hr>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p><hr>')
     })
   })
 
   it('should parse horizontal rules with self-closing tag correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example Text</p><hr />')
-      expect(editor.html()).to.eq('<p>Example Text</p><hr>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p><hr>')
     })
   })
 

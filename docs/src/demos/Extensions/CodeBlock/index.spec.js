@@ -13,14 +13,14 @@ context('/api/extensions/code-block', () => {
   it('should parse code blocks correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<pre><code>Example Text</code></pre>')
-      expect(editor.html()).to.eq('<pre><code>Example Text</code></pre>')
+      expect(editor.getHTML()).to.eq('<pre><code>Example Text</code></pre>')
     })
   })
 
   it('should parse code blocks with language correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<pre><code class="language-css">Example Text</code></pre>')
-      expect(editor.html()).to.eq('<pre><code class="language-css">Example Text</code></pre>')
+      expect(editor.getHTML()).to.eq('<pre><code class="language-css">Example Text</code></pre>')
     })
   })
 

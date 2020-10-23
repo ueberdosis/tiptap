@@ -13,14 +13,14 @@ context('/api/extensions/blockquote', () => {
   it('should parse blockquote tags correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<blockquote><p>Example Text</p></blockquote>')
-      expect(editor.html()).to.eq('<blockquote><p>Example Text</p></blockquote>')
+      expect(editor.getHTML()).to.eq('<blockquote><p>Example Text</p></blockquote>')
     })
   })
 
   it('should parse blockquote tags without paragraphs correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<blockquote>Example Text</blockquote>')
-      expect(editor.html()).to.eq('<blockquote><p>Example Text</p></blockquote>')
+      expect(editor.getHTML()).to.eq('<blockquote><p>Example Text</p></blockquote>')
     })
   })
 

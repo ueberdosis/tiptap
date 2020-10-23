@@ -20,13 +20,13 @@ This class is a central building block of tiptap. It does most of the heavy lift
 | `onBlur`           | `Function`      | `undefined` | Returns an object with the `event` and current `state` and `view` of Prosemirror on blur.                                                                                           |
 | `onFocus`          | `Function`      | `undefined` | Returns an object with the `event` and current `state` and `view` of Prosemirror on focus.                                                                                          |
 | `onInit`           | `Function`      | `undefined` | Returns an object with the current `state` and `view` of Prosemirror on init.                                                                                                       |
-| `onUpdate`         | `Function`      | `undefined` | Returns an object with the current `state` of Prosemirror, a `json()` and `html()` function and the `transaction` on every change.                                                  |
+| `onUpdate`         | `Function`      | `undefined` | Returns an object with the current `state` of Prosemirror, a `getJSON()` and `getHTML()` function and the `transaction` on every change.                                                  |
 
 ## Methods
 | Method               | Parameters                                                                                                  | Description                                               |
 | -------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| `html()`             | –                                                                                                           | Returns the current content as HTML.                      |
-| `json()`             | –                                                                                                           | Returns the current content as JSON.                      |
+| `getHTML()`             | –                                                                                                           | Returns the current content as HTML.                      |
+| `getJSON()`             | –                                                                                                           | Returns the current content as JSON.                      |
 | `destroy()`          | –                                                                                                           | Stops the editor instance and unbinds all events.         |
 | `chain()`            | -                                                                                                           | Create a command chain to call multiple commands at once. |
 | `setOptions()`       | `options` A list of options                                                                                 | Update editor options.                                    |

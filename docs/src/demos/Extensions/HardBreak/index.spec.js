@@ -12,14 +12,14 @@ context('/api/extensions/hard-break', () => {
   it('should parse hard breaks correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example<br>Text</p>')
-      expect(editor.html()).to.eq('<p>Example<br>Text</p>')
+      expect(editor.getHTML()).to.eq('<p>Example<br>Text</p>')
     })
   })
 
   it('should parse hard breaks with self-closing tag correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p>Example<br />Text</p>')
-      expect(editor.html()).to.eq('<p>Example<br>Text</p>')
+      expect(editor.getHTML()).to.eq('<p>Example<br>Text</p>')
     })
   })
 

@@ -13,14 +13,14 @@ context('/api/extensions/underline', () => {
   it('should parse u tags correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><u>Example Text</u></p>')
-      expect(editor.html()).to.eq('<p><u>Example Text</u></p>')
+      expect(editor.getHTML()).to.eq('<p><u>Example Text</u></p>')
     })
   })
 
   it('should transform any tag with text decoration underline to u tags', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><span style="text-decoration: underline">Example Text</span></p>')
-      expect(editor.html()).to.eq('<p><u>Example Text</u></p>')
+      expect(editor.getHTML()).to.eq('<p><u>Example Text</u></p>')
     })
   })
 

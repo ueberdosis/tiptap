@@ -11,7 +11,7 @@ context('/api/extensions/document', () => {
 
   it('should return the document in as json', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      const json = editor.json()
+      const json = editor.getJSON()
 
       expect(json).to.deep.equal({
         type: 'document',

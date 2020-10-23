@@ -13,21 +13,21 @@ context('/api/extensions/link', () => {
   it('should parse a tags correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><a href="#">Example Text</a></p>')
-      expect(editor.html()).to.eq('<p><a href="#" target="_blank" rel="noopener noreferrer nofollow">Example Text</a></p>')
+      expect(editor.getHTML()).to.eq('<p><a href="#" target="_blank" rel="noopener noreferrer nofollow">Example Text</a></p>')
     })
   })
 
   it('should parse a tags with target attribute correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><a href="#" target="_self">Example Text</a></p>')
-      expect(editor.html()).to.eq('<p><a href="#" target="_self" rel="noopener noreferrer nofollow">Example Text</a></p>')
+      expect(editor.getHTML()).to.eq('<p><a href="#" target="_self" rel="noopener noreferrer nofollow">Example Text</a></p>')
     })
   })
 
   it('should parse a tags with rel attribute correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><a href="#" rel="follow">Example Text</a></p>')
-      expect(editor.html()).to.eq('<p><a href="#" target="_blank" rel="noopener noreferrer nofollow">Example Text</a></p>')
+      expect(editor.getHTML()).to.eq('<p><a href="#" target="_blank" rel="noopener noreferrer nofollow">Example Text</a></p>')
     })
   })
 

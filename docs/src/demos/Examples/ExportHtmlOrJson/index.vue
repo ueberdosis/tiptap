@@ -50,13 +50,13 @@ export default {
     })
 
     // Get the initial content …
-    this.json = this.editor.json()
-    this.html = this.editor.html()
+    this.json = this.editor.getJSON()
+    this.html = this.editor.getHTML()
 
     // … and get the content after every change.
     this.editor.on('update', () => {
-      this.json = this.editor.json()
-      this.html = this.editor.html()
+      this.json = this.editor.getJSON()
+      this.html = this.editor.getHTML()
     })
   },
 

@@ -20,7 +20,7 @@ context('/api/extensions/heading', () => {
     it(`should parse headings correctly (${html})`, () => {
       cy.get('.ProseMirror').then(([{ editor }]) => {
         editor.setContent(html)
-        expect(editor.html()).to.eq(html)
+        expect(editor.getHTML()).to.eq(html)
       })
     })
   })
@@ -28,7 +28,7 @@ context('/api/extensions/heading', () => {
   it('should omit disabled heading levels', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<h4>Example Text</h4>')
-      expect(editor.html()).to.eq('<p>Example Text</p>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
     })
   })
 

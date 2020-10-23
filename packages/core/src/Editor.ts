@@ -376,14 +376,14 @@ export class Editor extends EventEmitter {
   /**
    * Get the document as JSON.
    */
-  public json() {
+  public getJSON() {
     return this.state.doc.toJSON()
   }
 
   /**
    * Get the document as HTML.
    */
-  public html() {
+  public getHTML() {
     return getHtmlFromFragment(this.state.doc, this.schema)
   }
 

@@ -11,7 +11,7 @@ You can store your content as JSON and restore the content from HTML, or the oth
 JSON is probably easier to loop through, for example to look for a mention and it’s more like what tiptap uses under the hood. Anyway, if you want to use JSON to store the content we provide a method to retrieve the content as JSON:
 
 ```js
-const json = editor.json()
+const json = editor.getJSON()
 ```
 
 You can store that in your database (or send it to an API) and restore the document initially like that:
@@ -59,7 +59,7 @@ editor.setContent({
 HTML can be easily rendered in other places, for example in emails and it’s wildly used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
 
 ```js
-const html = editor.html()
+const html = editor.getHTML()
 ```
 
 This can then be used to restore the document initially:

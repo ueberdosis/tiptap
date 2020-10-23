@@ -13,14 +13,14 @@ context('/api/extensions/ordered-list', () => {
   it('should parse ordered lists correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<ol><li><p>Example Text</p></li></ol>')
-      expect(editor.html()).to.eq('<ol><li><p>Example Text</p></li></ol>')
+      expect(editor.getHTML()).to.eq('<ol><li><p>Example Text</p></li></ol>')
     })
   })
 
   it('should parse ordered lists without paragraphs correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<ol><li>Example Text</li></ol>')
-      expect(editor.html()).to.eq('<ol><li><p>Example Text</p></li></ol>')
+      expect(editor.getHTML()).to.eq('<ol><li><p>Example Text</p></li></ol>')
     })
   })
 
