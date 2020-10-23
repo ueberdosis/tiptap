@@ -36,7 +36,7 @@ query {
 </static-query>
 
 <script>
-import collect from 'collect.js'
+// import collect from 'collect.js'
 import { VueLive } from 'vue-live'
 import CustomLayout from './CustomLayout'
 
