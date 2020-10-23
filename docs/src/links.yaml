@@ -161,6 +161,8 @@
         #   draft: true
         - title: Text
           link: /api/extensions/text
+        - title: Text Align
+          link: /api/extensions/text-align
         # - title: TodoItem
         #   link: /api/extensions/todo-item
         #   draft: true

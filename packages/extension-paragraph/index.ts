@@ -8,36 +8,6 @@ const Paragraph = createNode({
 
   content: 'inline*',
 
-  // addGlobalAttributes() {
-  //   return [
-  //     {
-  //       types: ['paragraph'],
-  //       attributes: {
-  //         align: {
-  //           default: 'right',
-  //           renderHTML: attributes => ({
-  //             class: 'foo',
-  //             style: `text-align: ${attributes.align}`,
-  //           }),
-  //         },
-  //       },
-  //     },
-  //   ]
-  // },
-
-  // addAttributes() {
-  //   return {
-  //     id: {
-  //       default: '123',
-  //       rendered: true,
-  //       renderHTML: attributes => ({
-  //         class: 'bar',
-  //         style: 'color: red',
-  //       }),
-  //     },
-  //   }
-  // },
-
   parseHTML() {
     return [
       { tag: 'p' },

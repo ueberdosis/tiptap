@@ -1,0 +1,17 @@
+{
+  "name": "@tiptap/extension-text-align",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-extension-text-align.js",
+  "umd:main": "dist/tiptap-extension-text-align.umd.js",
+  "module": "dist/tiptap-extension-text-align.mjs",
+  "unpkg": "dist/tiptap-extension-text-align.js",
+  "jsdelivr": "dist/tiptap-extension-text-align.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "2.x"
+  }
+}
