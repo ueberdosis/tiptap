@@ -1,12 +1,12 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus().setNodeAttributes({ textAlign: 'left' }).run()">
+    <button @click="editor.chain().focus().textAlign('left').run()">
       left
     </button>
-    <button @click="editor.chain().focus().setNodeAttributes({ textAlign: 'center' }).run()">
+    <button @click="editor.chain().focus().textAlign('center').run()">
       center
     </button>
-    <button @click="editor.chain().focus().setNodeAttributes({ textAlign: 'right' }).run()">
+    <button @click="editor.chain().focus().textAlign('right').run()">
       right
     </button>
     <editor-content :editor="editor" />

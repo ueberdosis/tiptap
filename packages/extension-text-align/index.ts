@@ -1,12 +1,14 @@
-import { createExtension } from '@tiptap/core'
+import { Command, createExtension } from '@tiptap/core'
 
 type TextAlignOptions = {
   types: string[],
+  alignments: string[],
 }
 
 const TextAlign = createExtension({
   defaultOptions: <TextAlignOptions>{
     types: ['heading', 'paragraph'],
+    alignments: ['left', 'center', 'right'],
   },
 
   addGlobalAttributes() {
@@ -23,6 +25,18 @@ const TextAlign = createExtension({
         },
       },
     ]
+  },
+
+  addCommands() {
+    return {
+      textAlign: (alignment: string): Command => ({ commands }) => {
+        if (!this.options.alignments.includes(alignment)) {
+          return false
+        }
+
+        return commands.setNodeAttributes({ textAlign: alignment })
+      },
+    }
   },
 })
 
