@@ -1,6 +1,4 @@
-import {
-  Command, createMark, markPasteRule,
-} from '@tiptap/core'
+import { Command, createMark, markPasteRule } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 
 export interface LinkOptions {
