@@ -388,6 +388,13 @@ export class Editor extends EventEmitter {
   }
 
   /**
+   * Check if there is no content.
+   */
+  public isEmpty() {
+    return !this.state.doc.textContent.length
+  }
+
+  /**
    * Destroy the editor.
    */
   public destroy() {
