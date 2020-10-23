@@ -7,8 +7,6 @@ export interface HistoryOptions {
 }
 
 const History = createExtension({
-  name: 'history',
-
   defaultOptions: <HistoryOptions>{
     depth: 100,
     newGroupDelay: 500,

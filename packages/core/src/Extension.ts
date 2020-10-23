@@ -5,11 +5,6 @@ import { GlobalAttributes } from './types'
 
 export interface ExtensionSpec<Options = {}, Commands = {}> {
   /**
-   * The name of your extension
-   */
-  name: string,
-
-  /**
    * Default options
    */
   defaultOptions?: Options,
@@ -84,7 +79,6 @@ export type Extension = Required<Omit<ExtensionSpec, 'defaultOptions'> & {
  */
 export const defaultExtension: Extension = {
   type: 'extension',
-  name: 'extension',
   options: {},
   addGlobalAttributes: () => [],
   addCommands: () => ({}),

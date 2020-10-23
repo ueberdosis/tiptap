@@ -9,8 +9,6 @@ export interface CollaborationOptions {
 }
 
 const Collaboration = createExtension({
-  name: 'collaboration',
-
   defaultOptions: <CollaborationOptions>{
     provider: null,
     type: null,

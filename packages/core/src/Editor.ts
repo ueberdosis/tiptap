@@ -16,7 +16,7 @@ import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
 import { Extensions, UnionToIntersection, PickValue } from './types'
 import defaultPlugins from './plugins'
-import * as coreCommands from './commands'
+import * as extensions from './extensions'
 import style from './style'
 
 export type Command = (props: {
@@ -56,7 +56,7 @@ interface HTMLElement {
 interface EditorOptions {
   element: Element,
   content: EditorContent,
-  extensions: Extensions[],
+  extensions: Extensions,
   injectCSS: boolean,
   autoFocus: 'start' | 'end' | number | boolean | null,
   editable: boolean,
@@ -110,7 +110,7 @@ export class Editor extends EventEmitter {
     this.createExtensionManager()
     this.createSchema()
     this.createView()
-    this.registerCommands(coreCommands)
+    // this.registerCommands(coreCommands)
     this.injectCSS()
 
     window.setTimeout(() => this.proxy.focus(this.options.autoFocus), 0)
@@ -226,7 +226,10 @@ export class Editor extends EventEmitter {
    * Creates an extension manager.
    */
   private createExtensionManager() {
-    this.extensionManager = new ExtensionManager(this.options.extensions, this.proxy)
+    const coreExtensions = Object.entries(extensions).map(([, extension]) => extension())
+    const allExtensions = [...coreExtensions, ...this.options.extensions]
+
+    this.extensionManager = new ExtensionManager(allExtensions, this.proxy)
   }
 
   /**

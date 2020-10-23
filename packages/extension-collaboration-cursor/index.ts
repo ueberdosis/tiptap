@@ -9,8 +9,6 @@ export interface CollaborationCursorOptions {
 }
 
 const CollaborationCursor = createExtension({
-  name: 'collaboration_cursor',
-
   defaultOptions: <CollaborationCursorOptions>{
     provider: null,
     name: 'Someone',

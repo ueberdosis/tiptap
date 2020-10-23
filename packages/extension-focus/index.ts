@@ -8,8 +8,6 @@ export interface FocusOptions {
 }
 
 const Focus = createExtension({
-  name: 'focus',
-
   defaultOptions: <FocusOptions>{
     className: 'has-focus',
     nested: false,
