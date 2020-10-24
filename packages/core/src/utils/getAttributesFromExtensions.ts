@@ -14,8 +14,8 @@ export default function getAttributesFromExtensions(extensions: Extensions) {
   const defaultAttribute: Required<Attribute> = {
     default: null,
     rendered: true,
-    renderHTML: () => ({}),
-    parseHTML: () => ({}),
+    renderHTML: null,
+    parseHTML: null,
   }
 
   extensions.forEach(extension => {

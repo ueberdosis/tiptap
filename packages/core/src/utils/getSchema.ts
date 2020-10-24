@@ -1,11 +1,10 @@
-import {
-  NodeSpec, MarkSpec, Schema, ParseRule,
-} from 'prosemirror-model'
-import { ExtensionAttribute, Extensions } from '../types'
+import { NodeSpec, MarkSpec, Schema } from 'prosemirror-model'
+import { Extensions } from '../types'
 import splitExtensions from './splitExtensions'
 import getAttributesFromExtensions from './getAttributesFromExtensions'
 import getRenderedAttributes from './getRenderedAttributes'
 import isEmptyObject from './isEmptyObject'
+import injectExtensionAttributesToParseRule from './injectExtensionAttributesToParseRule'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(Object.entries(data).filter(([key, value]) => {
@@ -15,34 +14,6 @@ function cleanUpSchemaItem<T>(data: T) {
 
     return value !== null && value !== undefined
   })) as T
-}
-
-function injectExtensionAttributes(parseRule: ParseRule, extensionAttributes: ExtensionAttribute[]): ParseRule {
-  if (parseRule.style) {
-    return parseRule
-  }
-
-  return {
-    ...parseRule,
-    getAttrs: node => {
-      const oldAttributes = parseRule.getAttrs
-        ? parseRule.getAttrs(node)
-        : parseRule.attrs
-
-      if (oldAttributes === false) {
-        return false
-      }
-
-      const newAttributes = extensionAttributes
-        .filter(item => item.attribute.rendered)
-        .reduce((items, item) => ({
-          ...items,
-          ...item.attribute.parseHTML(node as HTMLElement),
-        }), {})
-
-      return { ...oldAttributes, ...newAttributes }
-    },
-  }
 }
 
 export default function getSchema(extensions: Extensions): Schema {
@@ -72,7 +43,7 @@ export default function getSchema(extensions: Extensions): Schema {
     if (extension.parseHTML) {
       schema.parseDOM = extension.parseHTML
         .bind(context)()
-        ?.map(parseRule => injectExtensionAttributes(parseRule, extensionAttributes))
+        ?.map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes))
     }
 
     if (extension.renderHTML) {
@@ -101,7 +72,7 @@ export default function getSchema(extensions: Extensions): Schema {
     if (extension.parseHTML) {
       schema.parseDOM = extension.parseHTML
         .bind(context)()
-        ?.map(parseRule => injectExtensionAttributes(parseRule, extensionAttributes))
+        ?.map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes))
     }
 
     if (extension.renderHTML) {
