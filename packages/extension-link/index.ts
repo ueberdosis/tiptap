@@ -1,4 +1,6 @@
-import { Command, createMark, markPasteRule } from '@tiptap/core'
+import {
+  Command, createMark, markPasteRule, mergeAttributes,
+} from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 
 export interface LinkOptions {
@@ -24,34 +26,31 @@ const Link = createMark({
     return {
       href: {
         default: null,
-        rendered: false,
+        renderHTML: attributes => ({
+          href: attributes.href,
+        }),
+        parseHTML: node => ({
+          href: node.getAttribute('href'),
+        }),
       },
       target: {
-        default: null,
-        rendered: false,
+        default: this.options.target,
+        renderHTML: attributes => ({
+          target: attributes.target,
+        }),
+        parseHTML: node => ({
+          target: node.getAttribute('target'),
+        }),
       },
     }
   },
 
   parseHTML() {
-    return [
-      {
-        tag: 'a[href]',
-        getAttrs: node => ({
-          href: (node as HTMLElement).getAttribute('href'),
-          target: (node as HTMLElement).getAttribute('target'),
-        }),
-      },
-    ]
+    return [{ tag: 'a[href]' }]
   },
 
-  renderHTML({ mark, attributes }) {
-    return ['a', {
-      ...attributes,
-      ...mark.attrs,
-      rel: this.options.rel,
-      target: mark.attrs.target ? mark.attrs.target : this.options.target,
-    }, 0]
+  renderHTML({ attributes }) {
+    return ['a', mergeAttributes(attributes, { rel: this.options.rel }), 0]
   },
 
   addCommands() {
