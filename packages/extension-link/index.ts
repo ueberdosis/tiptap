@@ -39,8 +39,7 @@ const Link = createMark({
           target: attributes.target,
         }),
         parseHTML: node => ({
-          // TODO: always return default value on `null` or `undefined`
-          target: node.getAttribute('target') || this.options.target,
+          target: node.getAttribute('target'),
         }),
       },
     }

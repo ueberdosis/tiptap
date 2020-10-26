@@ -26,9 +26,12 @@ export default function injectExtensionAttributesToParseRule(parseRule: ParseRul
               [item.name]: (node as HTMLElement).dataset[item.name],
             }
 
+          const filteredAttributes = Object.fromEntries(Object.entries(attributes)
+            .filter(([, value]) => value !== undefined && value !== null))
+
           return {
             ...items,
-            ...attributes,
+            ...filteredAttributes,
           }
         }, {})
 
