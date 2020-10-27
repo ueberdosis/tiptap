@@ -1,4 +1,4 @@
-import { splitListItem as originalSplitListItem } from 'prosemirror-schema-list'
+import { splitListItem } from 'prosemirror-schema-list'
 import { NodeType } from 'prosemirror-model'
 import { Command } from '../Editor'
 import { createExtension } from '../Extension'
@@ -10,7 +10,7 @@ export const SplitListItem = createExtension({
       splitListItem: (typeOrName: string | NodeType): Command => ({ state, dispatch }) => {
         const type = getNodeType(typeOrName, state.schema)
 
-        return originalSplitListItem(type)(state, dispatch)
+        return splitListItem(type)(state, dispatch)
       },
     }
   },

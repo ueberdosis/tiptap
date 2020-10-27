@@ -1,4 +1,4 @@
-import { liftListItem as originalLiftListItem } from 'prosemirror-schema-list'
+import { liftListItem } from 'prosemirror-schema-list'
 import { NodeType } from 'prosemirror-model'
 import { Command } from '../Editor'
 import { createExtension } from '../Extension'
@@ -10,7 +10,7 @@ export const LiftListItem = createExtension({
       liftListItem: (typeOrName: string | NodeType): Command => ({ state, dispatch }) => {
         const type = getNodeType(typeOrName, state.schema)
 
-        return originalLiftListItem(type)(state, dispatch)
+        return liftListItem(type)(state, dispatch)
       },
     }
   },
