@@ -132,6 +132,9 @@
           link: /api/extensions/history
         - title: HorizontalRule
           link: /api/extensions/horizontal-rule
+        - title: Image
+          link: /api/extensions/image
+          draft: true
         - title: Italic
           link: /api/extensions/italic
         - title: Link
@@ -163,6 +166,7 @@
           link: /api/extensions/text
         - title: Text Align
           link: /api/extensions/text-align
+          draft: true
         # - title: TodoItem
         #   link: /api/extensions/todo-item
         #   draft: true
