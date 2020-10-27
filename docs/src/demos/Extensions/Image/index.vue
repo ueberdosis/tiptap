@@ -43,8 +43,9 @@ export default {
         Image(),
       ],
       content: `
-        <p>This is basic example of implementing images. Try to drop new images here. Reordering also works.</p>
+        <p>This is a basic example of implementing images. Drag to re-order.</p>
         <img src="https://source.unsplash.com/8xznAGy4HcY/800x600" />
+        <img src="https://source.unsplash.com/K9QHL52rE2k/800x600" />
       `,
     })
   },
