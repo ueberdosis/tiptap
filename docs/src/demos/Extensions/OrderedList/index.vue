@@ -38,10 +38,15 @@ export default {
         ListItem(),
       ],
       content: `
-        <ul>
+        <ol>
           <li>A list item</li>
           <li>And another one</li>
-        </ul>
+        </ol>
+
+        <ol start="5">
+          <li>This item starts at 5</li>
+          <li>And another one</li>
+        </ol>
       `,
     })
   },

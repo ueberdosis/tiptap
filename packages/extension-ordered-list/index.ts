@@ -10,9 +10,13 @@ const OrderedList = createNode({
 
   addAttributes() {
     return {
-      order: {
+      start: {
         default: 1,
-        rendered: false,
+        parseHTML: element => ({
+          start: element.hasAttribute('start')
+            ? parseInt(element.getAttribute('start') || '', 10)
+            : 1,
+        }),
       },
     }
   },
@@ -21,19 +25,16 @@ const OrderedList = createNode({
     return [
       {
         tag: 'ol',
-        getAttrs: node => ({
-          order: (node as HTMLElement).hasAttribute('start')
-            ? parseInt((node as HTMLElement).getAttribute('start') || '', 10)
-            : 1,
-        }),
       },
     ]
   },
 
-  renderHTML({ node, attributes }) {
-    return node.attrs.order === 1
-      ? ['ol', attributes, 0]
-      : ['ol', { ...attributes, start: node.attrs.order }, 0]
+  renderHTML({ attributes }) {
+    const { start, ...attributesWithoutStart } = attributes
+
+    return start === 1
+      ? ['ol', attributesWithoutStart, 0]
+      : ['ol', attributes, 0]
   },
 
   addCommands() {

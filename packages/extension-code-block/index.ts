@@ -29,7 +29,28 @@ const CodeBlock = createNode({
     return {
       language: {
         default: null,
-        rendered: false,
+        parseHTML: element => {
+          const classAttribute = element.firstElementChild?.getAttribute('class')
+
+          if (!classAttribute) {
+            return null
+          }
+
+          const regexLanguageClassPrefix = new RegExp(`^(${this.options.languageClassPrefix})`)
+
+          return {
+            language: classAttribute.replace(regexLanguageClassPrefix, ''),
+          }
+        },
+        renderHTML: attributes => {
+          if (!attributes.language) {
+            return null
+          }
+
+          return {
+            class: this.options.languageClassPrefix + attributes.language,
+          }
+        },
       },
     }
   },
@@ -39,25 +60,12 @@ const CodeBlock = createNode({
       {
         tag: 'pre',
         preserveWhitespace: 'full',
-        getAttrs: node => {
-          const classAttribute = (node as Element).firstElementChild?.getAttribute('class')
-
-          if (!classAttribute) {
-            return null
-          }
-
-          const regexLanguageClassPrefix = new RegExp(`^(${this.options.languageClassPrefix})`)
-
-          return { language: classAttribute.replace(regexLanguageClassPrefix, '') }
-        },
       },
     ]
   },
 
-  renderHTML({ node, attributes }) {
-    return ['pre', attributes, ['code', {
-      class: node.attrs.language && this.options.languageClassPrefix + node.attrs.language,
-    }, 0]]
+  renderHTML({ attributes }) {
+    return ['pre', ['code', attributes, 0]]
   },
 
   addCommands() {
