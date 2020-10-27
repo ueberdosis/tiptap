@@ -15,8 +15,7 @@ export const ToggleMark = createExtension({
           && markIsActive(state, type)
           && !markIsActive(state, type, attrs)
 
-        if (hasMarkWithDifferentAttributes) {
-          // @ts-ignore
+        if (attrs && hasMarkWithDifferentAttributes) {
           return commands.updateMark(type, attrs)
         }
 
