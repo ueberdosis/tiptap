@@ -43,6 +43,14 @@ const TextAlign = createExtension({
       },
     }
   },
+
+  addKeyboardShortcuts() {
+    return {
+      // TODO: use custom splitBlock only for `this.options.types`
+      // TODO: use complete default enter handler (chainCommand) with custom splitBlock
+      Enter: () => this.editor.splitBlock(true),
+    }
+  },
 })
 
 export default TextAlign
