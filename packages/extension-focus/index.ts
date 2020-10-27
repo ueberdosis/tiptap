@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { createExtension } from '@tiptap/core'
 import { Plugin } from 'prosemirror-state'
 import { DecorationSet, Decoration } from 'prosemirror-view'
 
@@ -7,40 +7,50 @@ export interface FocusOptions {
   nested: boolean,
 }
 
-export default new Extension<FocusOptions>()
-  .name('focus')
-  .defaults({
+const FocusClasses = createExtension({
+  defaultOptions: <FocusOptions>{
     className: 'has-focus',
     nested: false,
-  })
-  .plugins(({ editor, options }) => [
-    new Plugin({
-      props: {
-        decorations: ({ doc, selection }) => {
-          const { isEditable, isFocused } = editor
-          const { anchor } = selection
-          const decorations: Decoration[] = []
+  },
 
-          if (!isEditable || !isFocused) {
-            return DecorationSet.create(doc, [])
-          }
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        props: {
+          decorations: ({ doc, selection }) => {
+            const { isEditable, isFocused } = this.editor
+            const { anchor } = selection
+            const decorations: Decoration[] = []
 
-          doc.descendants((node, pos) => {
-            const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
-
-            if (hasAnchor && !node.isText) {
-              const decoration = Decoration.node(pos, pos + node.nodeSize, {
-                class: options.className,
-              })
-              decorations.push(decoration)
+            if (!isEditable || !isFocused) {
+              return DecorationSet.create(doc, [])
             }
 
-            return options.nested
-          })
+            doc.descendants((node, pos) => {
+              const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
 
-          return DecorationSet.create(doc, decorations)
+              if (hasAnchor && !node.isText) {
+                const decoration = Decoration.node(pos, pos + node.nodeSize, {
+                  class: this.options.className,
+                })
+                decorations.push(decoration)
+              }
+
+              return this.options.nested
+            })
+
+            return DecorationSet.create(doc, decorations)
+          },
         },
-      },
-    }),
-  ])
-  .create()
+      }),
+    ]
+  },
+})
+
+export default FocusClasses
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    FocusClasses: typeof FocusClasses,
+  }
+}

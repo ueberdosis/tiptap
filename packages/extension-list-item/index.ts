@@ -1,17 +1,35 @@
-import { Node } from '@tiptap/core'
+import { createNode } from '@tiptap/core'
 
-export default new Node()
-  .name('list_item')
-  .schema(() => ({
-    content: 'paragraph block*',
-    defining: true,
-    draggable: false,
-    parseDOM: [{ tag: 'li' }],
-    toDOM: () => ['li', 0],
-  }))
-  .keys(({ editor, name }) => ({
-    Enter: () => editor.splitListItem(name),
-    Tab: () => editor.sinkListItem(name),
-    'Shift-Tab': () => editor.liftListItem(name),
-  }))
-  .create()
+const ListItem = createNode({
+  name: 'list_item',
+
+  content: 'paragraph block*',
+
+  defining: true,
+
+  parseHTML() {
+    return [
+      { tag: 'li' },
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['li', attributes, 0]
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      Enter: () => this.editor.splitListItem('list_item'),
+      Tab: () => this.editor.sinkListItem('list_item'),
+      'Shift-Tab': () => this.editor.liftListItem('list_item'),
+    }
+  },
+})
+
+export default ListItem
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    ListItem: typeof ListItem,
+  }
+}

@@ -8,6 +8,10 @@
   outline: none;
 }
 
+*:focus {
+  outline: none;
+}
+
 ::-webkit-scrollbar {
   width: 14px;
   height: 14px;
@@ -24,11 +28,11 @@
   border: 4px solid rgba(0, 0, 0, 0);
   background-clip: padding-box;
   border-radius: 8px;
-  background-color: rgba($colorBlack, 0);
+  background-color: rgba($colorWhite, 0);
 }
 
 :hover::-webkit-scrollbar-thumb {
-  background-color: rgba($colorBlack, 0.1);
+  background-color: rgba($colorWhite, 0.1);
 }
 
 ::-webkit-scrollbar-button {
@@ -43,7 +47,6 @@
 
 html {
   scroll-behavior: smooth;
-  height: 100%;
 }
 
 body {
@@ -52,17 +55,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;
   font-feature-settings: 'cv05' 1;
-  background-color: $colorBackground;
-  height: 100%;
+  background-color: $colorBlack;
+  color: $colorText;
 }
 
-*:focus {
-  outline: none;
-}
-
-ul,
-ol {
-  list-style: none;
+*[id] {
+  scroll-margin-top: 6rem;
 }
 
 button {
@@ -74,20 +72,17 @@ a {
   color: inherit;
   transition: color 0.2s $ease, background-color 0.2s $ease;
   text-decoration: none;
+
+  &:hover {
+    color: $colorWhite;
+  }
 }
 
 code {
   font-family: 'JetBrainsMono', monospace;
-  background-color: rgba($colorBlack, 0.05);
   padding: 0.1rem 0.3rem;
   border-radius: 0.25rem;
-  color: rgba($colorBlack, 0.7);
   font-size: 0.9rem;
-}
-
-blockquote {
-  padding-left: 1rem;
-  border-left: 3px solid rgba($colorBlack, 0.1);
 }
 
 .is-active {
@@ -103,21 +98,23 @@ blockquote {
   pre {
     background: rgba($colorBlack, 0.9);
     color: rgba($colorWhite, 0.9);
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     margin: 0.5rem 0;
     border-radius: 0.25rem;
 
     code {
       color: inherit;
       background: none;
+      font-size: 0.8rem;
     }
   }
 
   hr {
     margin: 1rem 0;
   }
-}
 
-#table-of-contents {
-  display: none;
+  blockquote {
+    padding-left: 1rem;
+    border-left: 3px solid rgba($colorBlack, 0.1);
+  }
 }

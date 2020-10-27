@@ -1,67 +1,99 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, createNode } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 export interface CodeBlockOptions {
   languageClassPrefix: string,
 }
 
-export type CodeBlockCommand = () => Command
+export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
+export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
 
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    codeBlock: CodeBlockCommand,
-  }
-}
+const CodeBlock = createNode({
+  name: 'code_block',
 
-export const inputRegex = /^```(?<language>[a-z]*)? $/
-
-export default new Node<CodeBlockOptions>()
-  .name('code_block')
-  .defaults({
+  defaultOptions: <CodeBlockOptions>{
     languageClassPrefix: 'language-',
-  })
-  .schema(({ options }) => ({
-    attrs: {
+  },
+
+  content: 'text*',
+
+  marks: '',
+
+  group: 'block',
+
+  code: true,
+
+  defining: true,
+
+  addAttributes() {
+    return {
       language: {
         default: null,
-      },
-    },
-    content: 'text*',
-    marks: '',
-    group: 'block',
-    code: true,
-    defining: true,
-    draggable: false,
-    parseDOM: [
-      {
-        tag: 'pre',
-        preserveWhitespace: 'full',
-        getAttrs(node) {
-          const classAttribute = (node as Element).firstElementChild?.getAttribute('class')
+        parseHTML: element => {
+          const classAttribute = element.firstElementChild?.getAttribute('class')
 
           if (!classAttribute) {
             return null
           }
 
-          const regexLanguageClassPrefix = new RegExp(`^(${options.languageClassPrefix})`)
+          const regexLanguageClassPrefix = new RegExp(`^(${this.options.languageClassPrefix})`)
 
-          return { language: classAttribute.replace(regexLanguageClassPrefix, '') }
+          return {
+            language: classAttribute.replace(regexLanguageClassPrefix, ''),
+          }
+        },
+        renderHTML: attributes => {
+          if (!attributes.language) {
+            return null
+          }
+
+          return {
+            class: this.options.languageClassPrefix + attributes.language,
+          }
         },
       },
-    ],
-    toDOM: node => ['pre', ['code', {
-      class: node.attrs.language && options.languageClassPrefix + node.attrs.language,
-    }, 0]],
-  }))
-  .commands(({ name }) => ({
-    codeBlock: attrs => ({ commands }) => {
-      return commands.toggleBlockType(name, 'paragraph', attrs)
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Shift-Control-\\': () => editor.codeBlock(),
-  }))
-  .inputRules(({ type }) => [
-    textblockTypeInputRule(inputRegex, type, ({ groups }: any) => groups),
-  ])
-  .create()
+    }
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'pre',
+        preserveWhitespace: 'full',
+      },
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['pre', ['code', attributes, 0]]
+  },
+
+  addCommands() {
+    return {
+      codeBlock: (attrs?: CodeBlockOptions): Command => ({ commands }) => {
+        return commands.toggleBlockType('code_block', 'paragraph', attrs)
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-Shift-c': () => this.editor.codeBlock(),
+    }
+  },
+
+  addInputRules() {
+    return [
+      textblockTypeInputRule(backtickInputRegex, this.type, ({ groups }: any) => groups),
+      textblockTypeInputRule(tildeInputRegex, this.type, ({ groups }: any) => groups),
+    ]
+  },
+})
+
+export default CodeBlock
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    CodeBlock: typeof CodeBlock,
+  }
+}

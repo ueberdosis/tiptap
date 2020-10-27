@@ -10,6 +10,28 @@ context('/api/extensions/heading', () => {
     })
   })
 
+  const headings = [
+    '<h1>Example Text</h1>',
+    '<h2>Example Text</h2>',
+    '<h3>Example Text</h3>',
+  ]
+
+  headings.forEach(html => {
+    it(`should parse headings correctly (${html})`, () => {
+      cy.get('.ProseMirror').then(([{ editor }]) => {
+        editor.setContent(html)
+        expect(editor.getHTML()).to.eq(html)
+      })
+    })
+  })
+
+  it('should omit disabled heading levels', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<h4>Example Text</h4>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
+    })
+  })
+
   it('the button should make the selected line a h1', () => {
     cy.get('.ProseMirror h1')
       .should('not.exist')

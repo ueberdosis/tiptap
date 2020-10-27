@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -10,6 +10,8 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Code from '@tiptap/extension-code'
+import BulletList from '@tiptap/extension-bullet-list'
+import ListItem from '@tiptap/extension-list-item'
 import Focus from '@tiptap/extension-focus'
 
 export default {
@@ -30,6 +32,8 @@ export default {
         Paragraph(),
         Text(),
         Code(),
+        BulletList(),
+        ListItem(),
         Focus({
           className: 'has-focus',
           nested: true,
@@ -38,12 +42,11 @@ export default {
       autoFocus: true,
       content: `
         <p>
-          The focus extension adds custom classes to focused nodes. By default, it’ll add a <code>has-focus</code> class, even to nested nodes:
+          The focus extension adds a class to the focused node only. That enables you to add a custom styling to just that node. By default, it’ll add <code>.has-focus</code>, even to nested nodes.
         </p>
-        <pre><code>{ className: 'has-focus', nested: true }</code></pre>
         <ul>
-          <li>With <code>nested: true</code> nested elements like this list item will be focused.</li>
-          <li>Otherwise the whole list will get the focus class, even if only a single list item is selected.</li>
+          <li>Nested elements (like this list item) will be focused with the default setting of <code>nested: true</code>.</li>
+          <li>Otherwise the whole list will get the focus class, even when just a single list item is selected.</li>
         </ul>
       `,
     })

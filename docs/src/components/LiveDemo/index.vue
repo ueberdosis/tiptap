@@ -36,7 +36,7 @@ query {
 </static-query>
 
 <script>
-import collect from 'collect.js'
+// import collect from 'collect.js'
 import { VueLive } from 'vue-live'
 import CustomLayout from './CustomLayout'
 
@@ -66,18 +66,19 @@ export default {
 
   computed: {
     requires() {
-      const names = this.$static.packages.edges
-        .map(item => item.node.name)
-        .filter(name => name !== 'html')
+      // const names = this.$static.packages.edges
+      //   .map(item => item.node.name)
+      //   .filter(name => name !== 'html')
 
-      const packages = Object.fromEntries(names.map(name => {
-        const module = require(`~/../../packages/${name}/index.ts`)
-        const onlyDefault = module.default && Object.keys(module).length === 1
+      // const packages = Object.fromEntries(names.map(name => {
+      //   const module = require(`~/../../packages/${name}/index.ts`)
+      //   const onlyDefault = module.default && Object.keys(module).length === 1
 
-        return [`@tiptap/${name}`, onlyDefault ? module.default : module]
-      }))
+      //   return [`@tiptap/${name}`, onlyDefault ? module.default : module]
+      // }))
 
-      return packages
+      // return packages
+      return {}
     },
 
     file() {
@@ -90,17 +91,17 @@ export default {
   },
 
   mounted() {
-    this.files = collect(require.context('~/demos/', true, /.+\..+$/).keys())
-      .filter(path => path.startsWith(`./${this.name}/index.vue`))
-      .map(path => path.replace('./', ''))
-      .map(path => {
-        return {
-          path,
-          name: path.replace(`${this.name}/`, ''),
-          content: require(`!!raw-loader!~/demos/${path}`).default,
-        }
-      })
-      .toArray()
+    // this.files = collect(require.context('~/demos/', true, /.+\..+$/).keys())
+    //   .filter(path => path.startsWith(`./${this.name}/index.vue`))
+    //   .map(path => path.replace('./', ''))
+    //   .map(path => {
+    //     return {
+    //       path,
+    //       name: path.replace(`${this.name}/`, ''),
+    //       content: require(`!!raw-loader!~/demos/${path}`).default,
+    //     }
+    //   })
+    //   .toArray()
   },
 }
 </script>

@@ -9,6 +9,19 @@ context('/api/extensions/paragraph', () => {
     })
   })
 
+  it('should parse paragraphs correctly', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<p>Example Text</p>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
+
+      editor.setContent('<p><x-unknown>Example Text</x-unknown></p>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
+
+      editor.setContent('<p style="display: block;">Example Text</p>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
+    })
+  })
+
   it('text should be wrapped in a paragraph by default', () => {
     cy.get('.ProseMirror')
       .type('Example Text')

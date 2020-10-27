@@ -128,7 +128,7 @@ const schema = getSchema([
 
 If you need to render the content on the server side, e. g. for a blog post that was written with tiptap, you’ll probably need a way to do just that without an actual editor instance.
 
-That’s what `generateHtml()` is for. It’s a utility function that renders HTML without an actual editor instance.
+That’s what `generategetHTML()` is for. It’s a utility function that renders HTML without an actual editor instance.
 
 :::warning Work in progress
 Currently, that works only in the browser (client side), but we plan to bring this to Node.js (to use it on the server side).

@@ -28,7 +28,10 @@ export default {
       editable: this.editable,
       content: `
         <p>
-          This text is <strong>read-only</strong>. You are not able to edit something. <a href="https://ueber.io/">Links to fancy websites</a> are still working.
+          This text is <strong>read-only</strong>. No matter what you try, you are not able to edit something. Okay, if you toggle the checkbox above you’ll be able to edit the text.
+        </p>
+        <p>
+          If you want to check the state, you can call <code>editor.isEditable()</code>.
         </p>
       `,
       extensions: defaultExtensions(),
@@ -60,5 +63,6 @@ export default {
 
 [contenteditable=false] {
   color: #999;
+  cursor: not-allowed;
 }
 </style>

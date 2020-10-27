@@ -1,8 +1,14 @@
-import { Node } from '@tiptap/core'
+import { createNode } from '@tiptap/core'
 
-export default new Node()
-  .name('text')
-  .schema(() => ({
-    group: 'inline',
-  }))
-  .create()
+const Text = createNode({
+  name: 'text',
+  group: 'inline',
+})
+
+export default Text
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Text: typeof Text,
+  }
+}

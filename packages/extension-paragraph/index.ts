@@ -1,29 +1,42 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, createNode } from '@tiptap/core'
 // import ParagraphComponent from './paragraph.vue'
 
-export type ParagraphCommand = () => Command
+const Paragraph = createNode({
+  name: 'paragraph',
+
+  group: 'block',
+
+  content: 'inline*',
+
+  parseHTML() {
+    return [
+      { tag: 'p' },
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['p', attributes, 0]
+  },
+
+  addCommands() {
+    return {
+      paragraph: (): Command => ({ commands }) => {
+        return commands.toggleBlockType('paragraph', 'paragraph')
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-Alt-0': () => this.editor.paragraph(),
+    }
+  },
+})
+
+export default Paragraph
 
 declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    paragraph: ParagraphCommand,
+  interface AllExtensions {
+    Paragraph: typeof Paragraph,
   }
 }
-
-export default new Node()
-  .name('paragraph')
-  .schema(() => ({
-    content: 'inline*',
-    group: 'block',
-    parseDOM: [{ tag: 'p' }],
-    toDOM: () => ['p', 0],
-    // toVue: ParagraphComponent,
-  }))
-  .commands(({ name }) => ({
-    [name]: () => ({ commands }) => {
-      return commands.toggleBlockType(name, 'paragraph')
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Mod-Alt-0': () => editor.paragraph(),
-  }))
-  .create()

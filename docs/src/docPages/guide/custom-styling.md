@@ -10,7 +10,7 @@ The whole editor is rendered inside of a container with the class `.ProseMirror`
 
 ```css
 /* Scoped to the editor */
-.ProseMirror p&nbsp;{
+.ProseMirror p {
   margin: 1em 0;
 }
 ```
@@ -19,7 +19,7 @@ If you’re rendering the stored content somewhere, there won’t be a `.ProseMi
 
 ```css
 /* Global styling */
-p&nbsp;{
+p {
   margin: 1em 0;
 }
 ```
@@ -29,7 +29,6 @@ p&nbsp;{
 Most extensions have a `class` option, which you can use to add a custom CSS class to the HTML tag.
 
 ```js
-/* Add custom classes */
 new Editor({
   extensions: [
     Document(),
@@ -55,7 +54,6 @@ The rendered HTML will look like that:
 You can even customize the markup for every extension. This will make a custom bold extension that doesn’t render a `<strong>` tag, but a `<b>` tag:
 
 ```js
-/* Customizing the markup */
 import Bold from '@tiptap/extension-bold'
 
 const CustomBold = Bold

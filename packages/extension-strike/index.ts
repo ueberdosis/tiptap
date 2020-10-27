@@ -1,22 +1,15 @@
 import {
-  Command, Mark, markInputRule, markPasteRule,
+  Command, createMark, markInputRule, markPasteRule,
 } from '@tiptap/core'
 
-type StrikeCommand = () => Command
+export const inputRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))$/gm
+export const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/gm
 
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    strike: StrikeCommand,
-  }
-}
+const Strike = createMark({
+  name: 'strike',
 
-export const inputRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))$/gm
-export const pasteRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))/gm
-
-export default new Mark()
-  .name('strike')
-  .schema(() => ({
-    parseDOM: [
+  parseHTML() {
+    return [
       {
         tag: 's',
       },
@@ -30,21 +23,44 @@ export default new Mark()
         style: 'text-decoration',
         getAttrs: node => (node === 'line-through' ? {} : false),
       },
-    ],
-    toDOM: () => ['s', 0],
-  }))
-  .commands(({ name }) => ({
-    strike: () => ({ commands }) => {
-      return commands.toggleMark(name)
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Mod-d': () => editor.strike(),
-  }))
-  .inputRules(({ type }) => [
-    markInputRule(inputRegex, type),
-  ])
-  .pasteRules(({ type }) => [
-    markPasteRule(inputRegex, type),
-  ])
-  .create()
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['s', attributes, 0]
+  },
+
+  addCommands() {
+    return {
+      strike: (): Command => ({ commands }) => {
+        return commands.toggleMark('strike')
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-d': () => this.editor.strike(),
+    }
+  },
+
+  addInputRules() {
+    return [
+      markInputRule(inputRegex, this.type),
+    ]
+  },
+
+  addPasteRules() {
+    return [
+      markPasteRule(inputRegex, this.type),
+    ]
+  },
+})
+
+export default Strike
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Strike: typeof Strike,
+  }
+}

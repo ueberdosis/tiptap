@@ -56,8 +56,8 @@
         # - title: Placeholder
         #   link: /examples/placeholder
         #   draft: true
-        # - title: Focus
-        #   link: /examples/focus
+        - title: Focus
+          link: /examples/focus
         # - title: Title
         #   link: /examples/title
         #   draft: true
@@ -87,12 +87,12 @@
       link: /guide/store-content
     - title: Custom extensions
       link: /guide/custom-extensions
-    - title: Use Vue Components
-      link: /guide/use-vue-components
-      draft: true
-    # - title: Collaborative editing
+    # - title: Use Vue Components
     #   link: /guide/use-vue-components
     #   draft: true
+    - title: Collaborative editing
+      link: /guide/collaborative-editing
+      draft: true
 
 - title: API
   items:
@@ -134,6 +134,9 @@
           link: /api/extensions/history
         - title: HorizontalRule
           link: /api/extensions/horizontal-rule
+        - title: Image
+          link: /api/extensions/image
+          draft: true
         - title: Italic
           link: /api/extensions/italic
         - title: Link
@@ -163,6 +166,9 @@
         #   draft: true
         - title: Text
           link: /api/extensions/text
+        - title: Text Align
+          link: /api/extensions/text-align
+          draft: true
         # - title: TodoItem
         #   link: /api/extensions/todo-item
         #   draft: true

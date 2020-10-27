@@ -1,5 +1,5 @@
 import {
-  Command, Mark, markPasteRule,
+  Command, createMark, markPasteRule, mergeAttributes,
 } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 
@@ -9,62 +9,60 @@ export interface LinkOptions {
   rel: string,
 }
 
-export type LinkCommand = (options: {href?: string, target?: string}) => Command
-
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    link: LinkCommand,
-  }
-}
-
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%_+.~#?&//=]*)/gi
 
-export default new Mark<LinkOptions>()
-  .name('link')
-  .defaults({
+const Link = createMark({
+  name: 'link',
+
+  inclusive: false,
+
+  defaultOptions: <LinkOptions>{
     openOnClick: true,
     target: '_blank',
     rel: 'noopener noreferrer nofollow',
-  })
-  .schema(({ options }) => ({
-    attrs: {
+  },
+
+  addAttributes() {
+    return {
       href: {
         default: null,
       },
       target: {
-        default: null,
+        default: this.options.target,
       },
-    },
-    inclusive: false,
-    parseDOM: [
-      {
-        tag: 'a[href]',
-        getAttrs: node => ({
-          href: (node as HTMLElement).getAttribute('href'),
-          target: (node as HTMLElement).getAttribute('target'),
-        }),
-      },
-    ],
-    toDOM: node => ['a', {
-      ...node.attrs,
-      rel: options.rel,
-      target: node.attrs.target ? node.attrs.target : options.target,
-    }, 0],
-  }))
-  .commands(({ name }) => ({
-    link: attributes => ({ commands }) => {
-      if (!attributes.href) {
-        return commands.removeMark(name)
-      }
+    }
+  },
 
-      return commands.updateMark(name, attributes)
-    },
-  }))
-  .pasteRules(({ type }) => [
-    markPasteRule(pasteRegex, type, (url: string) => ({ href: url })),
-  ])
-  .plugins(({ editor, options, name }) => {
-    if (!options.openOnClick) {
+  parseHTML() {
+    return [
+      { tag: 'a[href]' },
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['a', mergeAttributes(attributes, { rel: this.options.rel }), 0]
+  },
+
+  addCommands() {
+    return {
+      link: (options: { href?: string, target?: string } = {}): Command => ({ commands }) => {
+        if (!options.href) {
+          return commands.removeMark('link')
+        }
+
+        return commands.updateMark('link', options)
+      },
+    }
+  },
+
+  addPasteRules() {
+    return [
+      markPasteRule(pasteRegex, this.type, (url: string) => ({ href: url })),
+    ]
+  },
+
+  addProseMirrorPlugins() {
+    if (!this.options.openOnClick) {
       return []
     }
 
@@ -73,7 +71,7 @@ export default new Mark<LinkOptions>()
         key: new PluginKey('handleClick'),
         props: {
           handleClick: (view, pos, event) => {
-            const attrs = editor.getMarkAttrs(name)
+            const attrs = this.editor.getMarkAttrs('link')
 
             if (attrs.href && event.target instanceof HTMLAnchorElement) {
               window.open(attrs.href, attrs.target)
@@ -86,5 +84,13 @@ export default new Mark<LinkOptions>()
         },
       }),
     ]
-  })
-  .create()
+  },
+})
+
+export default Link
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Link: typeof Link,
+  }
+}

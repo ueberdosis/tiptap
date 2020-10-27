@@ -10,6 +10,20 @@ context('/api/extensions/code-block', () => {
     })
   })
 
+  it('should parse code blocks correctly', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<pre><code>Example Text</code></pre>')
+      expect(editor.getHTML()).to.eq('<pre><code>Example Text</code></pre>')
+    })
+  })
+
+  it('should parse code blocks with language correctly', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<pre><code class="language-css">Example Text</code></pre>')
+      expect(editor.getHTML()).to.eq('<pre><code class="language-css">Example Text</code></pre>')
+    })
+  })
+
   it('the button should make the selected line a code block', () => {
     cy.get('.demo__preview button:first')
       .click()
@@ -39,34 +53,23 @@ context('/api/extensions/code-block', () => {
 
   it('the keyboard shortcut should make the selected line a code block', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', { shiftKey: true, ctrlKey: true, key: '\\' })
+      .trigger('keydown', { shiftKey: true, modKey: true, key: 'c' })
       .find('pre')
       .should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the code block', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', { shiftKey: true, ctrlKey: true, key: '\\' })
+      .trigger('keydown', { shiftKey: true, modKey: true, key: 'c' })
       .find('pre')
       .should('contain', 'Example Text')
 
     cy.get('.ProseMirror')
       .type('{selectall}')
-      .trigger('keydown', { shiftKey: true, ctrlKey: true, key: '\\' })
+      .trigger('keydown', { shiftKey: true, modKey: true, key: 'c' })
 
     cy.get('.ProseMirror pre')
       .should('not.exist')
-  })
-
-  it('should make a code block from markdown shortcuts', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
-
-      cy.get('.ProseMirror')
-        .type('``` Code')
-        .find('pre>code')
-        .should('contain', 'Code')
-    })
   })
 
   it('should parse the language from a HTML code block', () => {
@@ -79,12 +82,45 @@ context('/api/extensions/code-block', () => {
     })
   })
 
-  it('should make a code block for js', () => {
+  it('should make a code block from backtick markdown shortcuts', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.clearContent()
+
+      cy.get('.ProseMirror')
+        .type('``` Code')
+        .find('pre>code')
+        .should('contain', 'Code')
+    })
+  })
+
+  it('should make a code block from tilde markdown shortcuts', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.clearContent()
+
+      cy.get('.ProseMirror')
+        .type('~~~ Code')
+        .find('pre>code')
+        .should('contain', 'Code')
+    })
+  })
+
+  it('should make a code block for js with backticks', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.clearContent()
 
       cy.get('.ProseMirror')
         .type('```js Code')
+        .find('pre>code.language-js')
+        .should('contain', 'Code')
+    })
+  })
+
+  it('should make a code block for js with tildes', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.clearContent()
+
+      cy.get('.ProseMirror')
+        .type('~~~js Code')
         .find('pre>code.language-js')
         .should('contain', 'Code')
     })

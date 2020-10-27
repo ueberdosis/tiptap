@@ -1,24 +1,17 @@
 import {
-  Command, Mark, markInputRule, markPasteRule,
+  Command, createMark, markInputRule, markPasteRule,
 } from '@tiptap/core'
-
-export type BoldCommand = () => Command
-
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    bold: BoldCommand,
-  }
-}
 
 export const starInputRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))$/gm
 export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))$/gm
 export const underscorePasteRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))/gm
 
-export default new Mark()
-  .name('bold')
-  .schema(() => ({
-    parseDOM: [
+const Bold = createMark({
+  name: 'bold',
+
+  parseHTML() {
+    return [
       {
         tag: 'strong',
       },
@@ -30,23 +23,49 @@ export default new Mark()
         style: 'font-weight',
         getAttrs: value => /^(bold(er)?|[5-9]\d{2,})$/.test(value as string) && null,
       },
-    ],
-    toDOM: () => ['strong', 0],
-  }))
-  .commands(({ name }) => ({
-    bold: () => ({ commands }) => {
-      return commands.toggleMark(name)
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Mod-b': () => editor.bold(),
-  }))
-  .inputRules(({ type }) => [
-    markInputRule(starInputRegex, type),
-    markInputRule(underscoreInputRegex, type),
-  ])
-  .pasteRules(({ type }) => [
-    markPasteRule(starPasteRegex, type),
-    markPasteRule(underscorePasteRegex, type),
-  ])
-  .create()
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['strong', attributes, 0]
+  },
+
+  addCommands() {
+    return {
+      /**
+       * bold command
+       */
+      bold: (): Command => ({ commands }) => {
+        return commands.toggleMark('bold')
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-b': () => this.editor.bold(),
+    }
+  },
+
+  addInputRules() {
+    return [
+      markInputRule(starInputRegex, this.type),
+      markInputRule(underscoreInputRegex, this.type),
+    ]
+  },
+
+  addPasteRules() {
+    return [
+      markPasteRule(starPasteRegex, this.type),
+      markPasteRule(underscorePasteRegex, this.type),
+    ]
+  },
+})
+
+export default Bold
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Bold: typeof Bold,
+  }
+}

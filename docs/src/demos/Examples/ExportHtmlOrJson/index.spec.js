@@ -11,7 +11,7 @@ context('/examples/export-html-or-json', () => {
 
   it('should return json', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      const json = editor.json()
+      const json = editor.getJSON()
 
       expect(json).to.deep.equal({
         type: 'document',
@@ -32,7 +32,7 @@ context('/examples/export-html-or-json', () => {
 
   it('should return html', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      const html = editor.html()
+      const html = editor.getHTML()
 
       expect(html).to.equal('<p>Example Text</p>')
     })

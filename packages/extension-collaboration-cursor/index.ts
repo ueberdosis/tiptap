@@ -1,4 +1,4 @@
-import { Extension, Command } from '@tiptap/core'
+import { createExtension, Command } from '@tiptap/core'
 import { yCursorPlugin } from 'y-prosemirror'
 
 export interface CollaborationCursorOptions {
@@ -8,27 +8,8 @@ export interface CollaborationCursorOptions {
   render (user: { name: string, color: string }): HTMLElement,
 }
 
-export type UserCommand = (attributes: {
-  name: string,
-  color: string,
-}) => Command
-
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    user: UserCommand,
-  }
-}
-
-export default new Extension<CollaborationCursorOptions>()
-  .name('collaboration_cursor')
-  .commands(({ options }) => ({
-    user: attributes => () => {
-      options.provider.awareness.setLocalStateField('user', attributes)
-
-      return true
-    },
-  }))
-  .defaults({
+const CollaborationCursor = createExtension({
+  defaultOptions: <CollaborationCursorOptions>{
     provider: null,
     name: 'Someone',
     color: '#cccccc',
@@ -45,19 +26,43 @@ export default new Extension<CollaborationCursorOptions>()
 
       return cursor
     },
-  })
-  .plugins(({ options }) => [
-    yCursorPlugin((() => {
-      options.provider.awareness.setLocalStateField('user', {
-        name: options.name,
-        color: options.color,
-      })
+  },
 
-      return options.provider.awareness
-    })(),
-    // @ts-ignore
-    {
-      cursorBuilder: options.render,
-    }),
-  ])
-  .create()
+  addCommands() {
+    return {
+      user: (attributes: {
+        name: string,
+        color: string,
+      }): Command => () => {
+        this.options.provider.awareness.setLocalStateField('user', attributes)
+
+        return true
+      },
+    }
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      yCursorPlugin((() => {
+        this.options.provider.awareness.setLocalStateField('user', {
+          name: this.options.name,
+          color: this.options.color,
+        })
+
+        return this.options.provider.awareness
+      })(),
+      // @ts-ignore
+      {
+        cursorBuilder: this.options.render,
+      }),
+    ]
+  },
+})
+
+export default CollaborationCursor
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    CollaborationCursor: typeof CollaborationCursor,
+  }
+}

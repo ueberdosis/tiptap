@@ -2,11 +2,11 @@ import { Schema } from 'prosemirror-model'
 
 export default function getSchemaTypeByName(name: string, schema: Schema) {
   if (schema.nodes[name]) {
-    return 'node'
+    return schema.nodes[name]
   }
 
   if (schema.marks[name]) {
-    return 'mark'
+    return schema.marks[name]
   }
 
   return null

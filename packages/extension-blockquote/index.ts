@@ -1,37 +1,52 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, createNode } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
-
-export type BlockquoteCommand = () => Command
-
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    blockquote: BlockquoteCommand,
-  }
-}
 
 export const inputRegex = /^\s*>\s$/gm
 
-export default new Node()
-  .name('blockquote')
-  .schema(() => ({
-    content: 'block*',
-    group: 'block',
-    defining: true,
-    draggable: false,
-    parseDOM: [
+const Blockquote = createNode({
+  name: 'blockquote',
+
+  content: 'block*',
+
+  group: 'block',
+
+  defining: true,
+
+  parseHTML() {
+    return [
       { tag: 'blockquote' },
-    ],
-    toDOM: () => ['blockquote', 0],
-  }))
-  .commands(({ name }) => ({
-    [name]: () => ({ commands }) => {
-      return commands.toggleWrap(name)
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Shift-Mod-9': () => editor.blockquote(),
-  }))
-  .inputRules(({ type }) => [
-    wrappingInputRule(inputRegex, type),
-  ])
-  .create()
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['blockquote', attributes, 0]
+  },
+
+  addCommands() {
+    return {
+      blockquote: (): Command => ({ commands }) => {
+        return commands.toggleWrap('blockquote')
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Shift-Mod-9': () => this.editor.blockquote(),
+    }
+  },
+
+  addInputRules() {
+    return [
+      wrappingInputRule(inputRegex, this.type),
+    ]
+  },
+})
+
+export default Blockquote
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Blockquote: typeof Blockquote,
+  }
+}

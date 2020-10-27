@@ -10,6 +10,16 @@ context('/api/extensions/code', () => {
     })
   })
 
+  it('should parse code tags correctly', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<p><code>Example Text</code></p>')
+      expect(editor.getHTML()).to.eq('<p><code>Example Text</code></p>')
+
+      editor.setContent('<code>Example Text</code>')
+      expect(editor.getHTML()).to.eq('<p><code>Example Text</code></p>')
+    })
+  })
+
   it('should mark the selected text as inline code', () => {
     cy.get('.demo__preview button:first')
       .click()
@@ -31,5 +41,12 @@ context('/api/extensions/code', () => {
 
     cy.get('.ProseMirror code')
       .should('not.exist')
+  })
+
+  it('should make inline code from the markdown shortcut', () => {
+    cy.get('.ProseMirror')
+      .type('`Example`')
+      .find('code')
+      .should('contain', 'Example')
   })
 })

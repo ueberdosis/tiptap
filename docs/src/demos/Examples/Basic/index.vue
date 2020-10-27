@@ -1,6 +1,5 @@
 <template>
   <div>
-    BUG: Headings can’t be transformed to a bullet or ordered list.
     <div v-if="editor">
       <button @click="editor.chain().focus().bold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
@@ -89,25 +88,24 @@ export default {
           Hi there,
         </h2>
         <p>
-          this is a basic <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the bullet lists:
+          this is a basic <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
         </p>
         <ul>
           <li>
-            With one …
+            That’s a bullet list with one …
           </li>
           <li>
             … or two list items.
           </li>
-          <li>
-            And yes, even more.
-          </li>
         </ul>
         <p>
-          Isn’t that great? But wait, there’s more. Let’s try a code block:
+          Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
         </p>
-        <pre><code class="language-css">body { display: none; }</code></pre>
+        <pre><code class="language-css">body {
+  display: none;
+}</code></pre>
         <p>
-          I know, I know, it’s impressive. Give it a try and click a little bit around. But don’t forget to check the other examples too.
+          I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
         </p>
         <blockquote>
           Wow, that’s amazing. Good work, boy! 👏

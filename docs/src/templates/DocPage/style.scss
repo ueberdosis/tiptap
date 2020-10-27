@@ -1,42 +1,60 @@
 .doc-page {
   &__markdown ::v-deep {
+    $spacing: 0.75em;
 
-    a {
-      text-decoration: underline;
+    > div,
+    > p,
+    > ul,
+    > ol,
+    > blockquote {
+      margin-top: 2 * $spacing;
+      margin-bottom: 2 * $spacing;
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      position: relative;
+    > ul li,
+    > ol li,
+    > ul ul,
+    > ul ol,
+    > ol ol,
+    > ol ul {
+      margin-top: 0.5 * $spacing;
+      margin-bottom: 0.5 * $spacing;
+    }
+
+    > h1,
+    > h2,
+    > h3,
+    > h4,
+    > h5,
+    > h6 {
       font-weight: 500;
+      color: $colorWhite;
+      margin-top: 3 * $spacing;
+      margin-bottom: $spacing;
+
+      & + * {
+        margin-top: 0;
+      }
     }
 
-    h1 {
-      font-weight: 400;
-    }
-
-    h1,
-    h4,
-    h5,
-    h6 {
+    > h1,
+    > h4,
+    > h5,
+    > h6 {
       a {
         display: none;
       }
     }
 
-    h2,
-    h3 {
+    > h2,
+    > h3 {
       position: relative;
 
       a {
         position: absolute;
         top: 0;
         right: 100%;
-        color: rgba($colorBlack, 0.4);
+        color: rgba($colorWhite, 0.4);
         text-decoration: none;
         font-weight: 400;
         padding-right: 0.5rem;
@@ -49,16 +67,75 @@
       }
     }
 
-    > * + * {
-      margin-top: 1.5em;
+    :first-child {
+      margin-top: 0;
     }
 
-    ul {
-      list-style-type: none;
+    :last-child {
+      margin-bottom: 0;
+    }
 
-      > * + * {
-        margin-top: 0.5rem;
+    > pre {
+      border: 1px solid rgba($colorWhite, 0.1);
+    }
+
+    > p code,
+    > li code,
+    > table code,
+    > .remark-container code {
+      color: $colorPurple;
+      background-color: rgba($colorPurple, 0.1);
+      box-decoration-break: clone;
+    }
+
+    > p a,
+    > li a,
+    > table a,
+    > .remark-container a {
+      text-decoration: underline;
+    }
+
+    #table-of-contents {
+      display: none;
+
+      & + ul {
+        list-style: none;
+        border: 1px solid rgba($colorWhite, 0.1);
+        padding: 1.25rem !important;
+        border-radius: 0.5rem;
+
+        &::before {
+          display: block;
+          content: 'On this page';
+          font-weight: 700;
+          letter-spacing: 0.025rem;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          color: rgba($colorWhite, 0.3);
+          margin-bottom: 0.5rem;
+        }
+
+        li {
+          padding-left: 0;
+
+          &::before {
+            display: none;
+          }
+
+          ul {
+            list-style: none;
+            margin-left: 1rem;
+          }
+        }
       }
+    }
+
+    p a img[src^="https://img.shields.io"] {
+      margin-right: 0.5rem;
+    }
+
+    > ul {
+      list-style: none;
 
       li {
         position: relative;
@@ -75,12 +152,8 @@
       }
     }
 
-    ol {
+    > ol {
       counter-reset: item;
-
-      > * + * {
-        margin-top: 0.5rem;
-      }
 
       li {
         position: relative;
@@ -96,9 +169,9 @@
           justify-content: center;
           height: 1.5rem;
           width: 1.5rem;
-          background-color: rgba($colorBlack, 0.1);
+          background-color: rgba($colorWhite, 0.1);
           border-radius: 9999px;
-          color: rgba($colorBlack, 0.4);
+          color: rgba($colorWhite, 0.4);
           font-size: 0.75rem;
           font-weight: 700;
           content: counter(item);
@@ -107,20 +180,29 @@
       }
     }
 
-    table {
+    > table {
       width: 100%;
       border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
 
       th,
       td {
-        text-align: left;
-        font-size: 0.75rem;
         padding: 0.5rem;
+
+        &:first-child {
+          padding-left: 0;
+        }
+
+        &:last-child {
+          padding-right: 0;
+        }
       }
 
       th {
-        font-weight: 600;
-        background-color: rgba($colorBlack, 0.05);
+        color: $colorWhite;
+        font-weight: 500;
+        border-bottom: 1px solid rgba($colorWhite, 0.2);
 
         &:first-child {
           border-top-left-radius: 5px;
@@ -134,7 +216,7 @@
       }
 
       td {
-        border-bottom: 1px solid rgba($colorBlack, 0.05);
+        border-bottom: 1px solid rgba($colorWhite, 0.1);
       }
 
       tr:last-child td {
@@ -142,21 +224,27 @@
       }
     }
 
-    .remark-container {
-      padding: 1rem;
-      border: 2px solid rgba($colorBlack, 0.1);
-      border-radius: 0.25rem;
+    > .remark-container {
+      padding: 1.25rem;
+      border: 1px solid rgba($colorWhite, 0.1);
+      border-radius: 0.5rem;
 
       &.warning {
-        border-color:#ffd8a8;
-        background-color: #fff4e6;
-        color: #ca9c63;
+        border-color: rgba($colorYellow, 0.1);
+        background-color: rgba($colorYellow, 0.1);
+        color: $colorYellow;
       }
 
       &.info {
-        border-color:#a5d8ff;
-        background-color: #e7f5ff;
-        color: #228be6;
+        border-color: rgba($colorBlue, 0.1);
+        background-color: rgba($colorBlue, 0.1);
+        color: $colorBlue;
+      }
+
+      &.error {
+        border-color: rgba($colorRed, 0.1);
+        background-color: rgba($colorRed, 0.1);
+        color: $colorRed;
       }
 
       .remark-container-title {

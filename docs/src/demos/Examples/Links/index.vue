@@ -39,10 +39,13 @@ export default {
       ],
       content: `
         <p>
-          Wow, this editor has support for links to the whole <a href="https://en.wikipedia.org/wiki/World_Wide_Web" target="_self">world wide web</a>. We tested a lot of URLs and I think you can add *every URL* you want. Isn’t that cool? Let’s try <a href="https://statamic.com/" target="_self">another one!</a> Yep, seems to work.
+          Wow, this editor has support for links to the whole <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>. We tested a lot of URLs and I think you can add *every URL* you want. Isn’t that cool? Let’s try <a href="https://statamic.com/">another one!</a> Yep, seems to work.
         </p>
         <p>
-          By default every link will get a \`rel="noopener noreferrer nofollow"\` attribute. It’s configurable though.
+          By default every link will get a [rel="noopener noreferrer nofollow"] attribute <a href="https://web.dev/external-anchors-use-rel-noopener/">for security reasons</a>. It’s configurable though.
+        </p>
+        <p>
+          Ah, and links open in a new tab by default, but that’s also - yes, you’ve guessed it - configurable.
         </p>
       `,
     })

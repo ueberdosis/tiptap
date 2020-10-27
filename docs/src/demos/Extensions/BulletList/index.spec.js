@@ -10,6 +10,20 @@ context('/api/extensions/bullet-list', () => {
     })
   })
 
+  it('should parse unordered lists correctly', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<ul><li><p>Example Text</p></li></ul>')
+      expect(editor.getHTML()).to.eq('<ul><li><p>Example Text</p></li></ul>')
+    })
+  })
+
+  it('should parse unordered lists without paragraphs correctly', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.setContent('<ul><li>Example Text</li></ul>')
+      expect(editor.getHTML()).to.eq('<ul><li><p>Example Text</p></li></ul>')
+    })
+  })
+
   it('the button should make the selected line a bullet list item', () => {
     cy.get('.ProseMirror ul')
       .should('not.exist')

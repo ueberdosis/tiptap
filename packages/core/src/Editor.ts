@@ -8,17 +8,15 @@ import markIsActive from './utils/markIsActive'
 import getNodeAttrs from './utils/getNodeAttrs'
 import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
-import getSchemaTypeByName from './utils/getSchemaTypeByName'
+import getSchemaTypeNameByName from './utils/getSchemaTypeNameByName'
 import getHtmlFromFragment from './utils/getHtmlFromFragment'
 import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
-import Extension from './Extension'
-import Node from './Node'
-import Mark from './Mark'
+import { Extensions, UnionToIntersection, PickValue } from './types'
 import defaultPlugins from './plugins'
-import * as coreCommands from './commands'
+import * as extensions from './extensions'
 import style from './style'
 
 export type Command = (props: {
@@ -37,19 +35,19 @@ export interface CommandsSpec {
   [key: string]: CommandSpec
 }
 
-export interface Commands {}
+export interface AllExtensions {}
 
-export type CommandNames = Extract<keyof Commands, string>
+export type AllCommands = UnionToIntersection<ReturnType<PickValue<ReturnType<AllExtensions[keyof AllExtensions]>, 'addCommands'>>>
 
 export type SingleCommands = {
-  [Item in keyof Commands]: Commands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<Commands[Item]>) => boolean
+  [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
+  ? (...args: Parameters<AllCommands[Item]>) => boolean
   : never
 }
 
 export type ChainedCommands = {
-  [Item in keyof Commands]: Commands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<Commands[Item]>) => ChainedCommands
+  [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
+  ? (...args: Parameters<AllCommands[Item]>) => ChainedCommands
   : never
 } & {
   run: () => boolean
@@ -64,7 +62,7 @@ interface HTMLElement {
 interface EditorOptions {
   element: Element,
   content: EditorContent,
-  extensions: (Extension | Node | Mark)[],
+  extensions: Extensions,
   injectCSS: boolean,
   autoFocus: 'start' | 'end' | number | boolean | null,
   editable: boolean,
@@ -117,12 +115,11 @@ export class Editor extends EventEmitter {
     this.createCommandManager()
     this.createExtensionManager()
     this.createSchema()
-    this.extensionManager.resolveConfigs()
     this.createView()
-    this.registerCommands(coreCommands)
+    // this.registerCommands(coreCommands)
     this.injectCSS()
 
-    this.proxy.focus(this.options.autoFocus)
+    window.setTimeout(() => this.proxy.focus(this.options.autoFocus), 0)
   }
 
   /**
@@ -235,7 +232,10 @@ export class Editor extends EventEmitter {
    * Creates an extension manager.
    */
   private createExtensionManager() {
-    this.extensionManager = new ExtensionManager(this.options.extensions, this.proxy)
+    const coreExtensions = Object.entries(extensions).map(([, extension]) => extension())
+    const allExtensions = [...coreExtensions, ...this.options.extensions]
+
+    this.extensionManager = new ExtensionManager(allExtensions, this.proxy)
   }
 
   /**
@@ -346,7 +346,7 @@ export class Editor extends EventEmitter {
    * @param attrs Attributes of the node or mark
    */
   public isActive(name: string, attrs = {}) {
-    const schemaType = getSchemaTypeByName(name, this.schema)
+    const schemaType = getSchemaTypeNameByName(name, this.schema)
 
     if (schemaType === 'node') {
       return nodeIsActive(this.state, this.schema.nodes[name], attrs)
@@ -376,15 +376,22 @@ export class Editor extends EventEmitter {
   /**
    * Get the document as JSON.
    */
-  public json() {
+  public getJSON() {
     return this.state.doc.toJSON()
   }
 
   /**
    * Get the document as HTML.
    */
-  public html() {
+  public getHTML() {
     return getHtmlFromFragment(this.state.doc, this.schema)
+  }
+
+  /**
+   * Check if there is no content.
+   */
+  public isEmpty() {
+    return !this.state.doc.textContent.length
   }
 
   /**
