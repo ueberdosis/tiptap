@@ -1,5 +1,8 @@
 <template>
   <div v-if="editor">
+    <button @click="addImage">
+      image
+    </button>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -21,6 +24,14 @@ export default {
     return {
       editor: null,
     }
+  },
+
+  methods: {
+    addImage() {
+      const url = window.prompt('URL')
+
+      this.editor.chain().focus().image({ src: url }).run()
+    },
   },
 
   mounted() {
