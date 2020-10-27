@@ -21,12 +21,12 @@ context('/api/extensions/highlight', () => {
 
   it('should highlight the text in a specific color', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.highlight({ color: 'rgb(255, 0, 0)' })
+      editor.highlight({ color: 'red' })
 
       cy.get('.ProseMirror')
         .find('mark')
         .should('contain', 'Example Text')
-        .should('have.css', 'background-color', 'rgb(255, 0, 0)')
+        .should('have.attr', 'data-color', 'red')
     })
   })
 
@@ -62,34 +62,34 @@ context('/api/extensions/highlight', () => {
     })
   })
 
-  it.only('is active for mark with any attributes', () => {
+  it('is active for mark with any attributes', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
+      editor.setContent('<p><mark data-color="red">Example Text</mark></p>')
       editor.selectAll()
 
-      expect(editor.isActive('highlight')).to.eq(1)
+      expect(editor.isActive('highlight')).to.eq(true)
     })
   })
 
-  it.only('is active for mark with same attributes', () => {
+  it('is active for mark with same attributes', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
       editor.selectAll()
 
       expect(editor.isActive('highlight', {
         color: 'rgb(255, 0, 0)',
-      })).to.eq(1)
+      })).to.eq(true)
     })
   })
 
-  it.only('isn’t active for mark with other attributes', () => {
+  it('isn’t active for mark with other attributes', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
       editor.selectAll()
 
       expect(editor.isActive('highlight', {
         color: 'rgb(0, 0, 0)',
-      })).to.eq(0)
+      })).to.eq(false)
     })
   })
 
