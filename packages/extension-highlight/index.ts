@@ -1,44 +1,67 @@
 import {
-  Command, Mark,
+  Command, createMark,
 } from '@tiptap/core'
 
-export type HighlightCommand = () => Command
-
-declare module '@tiptap/core/src/Editor' {
-  interface Commands {
-    highlight: HighlightCommand,
-  }
+export interface HighlightOptions {
+  color: string,
 }
 
-export default new Mark()
-  .name('highlight')
-  .schema(() => ({
-    attrs: {
+const Highlight = createMark({
+  name: 'highlight',
+
+  addAttributes() {
+    return {
       color: {
         default: null,
-      },
-    },
-    parseDOM: [
-      {
-        tag: 'mark',
-        getAttrs: node => {
+        parseHTML: element => {
           return {
-            color: (node as HTMLElement).style.backgroundColor,
+            color: element.style.backgroundColor,
+          }
+        },
+        renderHTML: attributes => {
+          if (!attributes.color) {
+            return {}
+          }
+
+          return {
+            style: `background-color: ${attributes.color}`,
           }
         },
       },
-    ],
-    toDOM: node => ['mark', {
-      ...node.attrs,
-      style: node.attrs.color && `background-color: ${node.attrs.color};`,
-    }, 0],
-  }))
-  .commands(({ name }) => ({
-    highlight: attrs => ({ commands }) => {
-      return commands.toggleMark(name, attrs)
-    },
-  }))
-  .keys(({ editor }) => ({
-    'Mod-e': () => editor.highlight(),
-  }))
-  .create()
+    }
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'mark',
+      },
+    ]
+  },
+
+  renderHTML({ attributes }) {
+    return ['mark', attributes, 0]
+  },
+
+  addCommands() {
+    return {
+      highlight: (attrs?: HighlightOptions): Command => ({ commands }) => {
+        return commands.toggleMark('highlight')
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-e': () => this.editor.highlight(),
+    }
+  },
+})
+
+export default Highlight
+
+declare module '@tiptap/core/src/Editor' {
+  interface AllExtensions {
+    Highlight: typeof Highlight,
+  }
+}
