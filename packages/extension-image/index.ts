@@ -10,6 +10,8 @@ const Image = createNode({
 
   group: 'inline',
 
+  draggable: true,
+
   addAttributes() {
     return {
       src: {
