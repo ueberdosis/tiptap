@@ -8,7 +8,7 @@ export default function getRenderedAttributes(nodeOrMark: Node | Mark, extension
     .map(item => {
       if (!item.attribute.renderHTML) {
         return {
-          [`data-${item.name}`]: nodeOrMark.attrs[item.name],
+          [item.name]: nodeOrMark.attrs[item.name],
         }
       }
 

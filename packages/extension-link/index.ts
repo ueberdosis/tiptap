@@ -26,21 +26,9 @@ const Link = createMark({
     return {
       href: {
         default: null,
-        renderHTML: attributes => ({
-          href: attributes.href,
-        }),
-        parseHTML: node => ({
-          href: node.getAttribute('href'),
-        }),
       },
       target: {
         default: this.options.target,
-        renderHTML: attributes => ({
-          target: attributes.target,
-        }),
-        parseHTML: node => ({
-          target: node.getAttribute('target'),
-        }),
       },
     }
   },
