@@ -26,6 +26,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 | [Heading](/api/extensions/heading)                          | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-heading/)              |
 | [History](/api/extensions/history)                          | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)              |
 | [HorizontalRule](/api/extensions/horizontal-rule)           | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/)      |
+| [Image](/api/extensions/image)                              | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-image/)                |
 | [Italic](/api/extensions/italic)                            | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)               |
 | [Link](/api/extensions/link)                                | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-link/)                 |
 | [ListItem](/api/extensions/list-item)                       | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-list-item/)            |
@@ -33,6 +34,7 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 | [Paragraph](/api/extensions/paragraph)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-paragraph/)            |
 | [Strike](/api/extensions/strike)                            | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)               |
 | [Text](/api/extensions/text)                                | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text/)                 |
+| [TextAlign](/api/extensions/text-align)                     | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-align/)           |
 | [Underline](/api/extensions/underline)                      | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)            |
 
 <!-- | [CodeBlockHighlight](/api/extensions/code-block-highlight) | – | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packagescode-block-highlight/extension-/) -->
