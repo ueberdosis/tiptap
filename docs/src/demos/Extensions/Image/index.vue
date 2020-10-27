@@ -1,5 +1,8 @@
 <template>
   <div v-if="editor">
+    <button @click="addImage">
+      image
+    </button>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -23,6 +26,14 @@ export default {
     }
   },
 
+  methods: {
+    addImage() {
+      const url = window.prompt('URL')
+
+      this.editor.chain().focus().image({ src: url }).run()
+    },
+  },
+
   mounted() {
     this.editor = new Editor({
       extensions: [
@@ -33,7 +44,7 @@ export default {
       ],
       content: `
         <p>This is basic example of implementing images. Try to drop new images here. Reordering also works.</p>
-        <img src="https://66.media.tumblr.com/dcd3d24b79d78a3ee0f9192246e727f1/tumblr_o00xgqMhPM1qak053o1_400.gif" />
+        <img src="https://source.unsplash.com/8xznAGy4HcY/800x600" />
       `,
     })
   },
