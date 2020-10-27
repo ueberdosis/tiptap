@@ -33,10 +33,10 @@
     "@types/prosemirror-state": "^1.2.5",
     "@types/prosemirror-transform": "^1.1.1",
     "@types/prosemirror-view": "^1.16.0",
-    "@typescript-eslint/eslint-plugin": "^4.4.1",
-    "@typescript-eslint/parser": "^4.4.1",
-    "cypress": "^5.3.0",
-    "eslint": "^7.11.0",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "cypress": "^5.5.0",
+    "eslint": "^7.12.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-html": "^6.1.0",
@@ -45,7 +45,7 @@
     "lerna": "^3.22.1",
     "microbundle": "^0.12.4",
     "typedoc": "^0.19.2",
-    "typescript": "^4.0.3",
+    "typescript": "^4.0.5",
     "vue": "^2.6.12"
   }
 }
