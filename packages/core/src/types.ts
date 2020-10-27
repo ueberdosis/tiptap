@@ -8,7 +8,7 @@ export type Attribute = {
   default: any,
   rendered?: boolean,
   renderHTML?: ((attributes: { [key: string]: any }) => any) | null,
-  parseHTML?: ((node: HTMLElement) => { [key: string]: any }) | null,
+  parseHTML?: ((element: HTMLElement) => { [key: string]: any }) | null,
 }
 
 export type Attributes = {
