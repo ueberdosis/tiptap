@@ -3,12 +3,14 @@ import { Command, createExtension } from '@tiptap/core'
 type TextAlignOptions = {
   types: string[],
   alignments: string[],
+  defaultAlignment: string,
 }
 
 const TextAlign = createExtension({
   defaultOptions: <TextAlignOptions>{
     types: ['heading', 'paragraph'],
     alignments: ['left', 'center', 'right'],
+    defaultAlignment: 'left',
   },
 
   addGlobalAttributes() {
@@ -17,12 +19,12 @@ const TextAlign = createExtension({
         types: this.options.types,
         attributes: {
           textAlign: {
-            default: 'left',
+            default: this.options.defaultAlignment,
             renderHTML: attributes => ({
               style: `text-align: ${attributes.textAlign}`,
             }),
-            parseHTML: node => ({
-              textAlign: node.style.textAlign || 'left',
+            parseHTML: element => ({
+              textAlign: element.style.textAlign || this.options.defaultAlignment,
             }),
           },
         },
