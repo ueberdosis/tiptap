@@ -13,7 +13,7 @@ export default function markHasAttributes(state: EditorState, type: MarkType, at
   // @ts-ignore
   return Object.keys(attrs).filter((key: string) => {
     // @ts-ignore
-    console.log(attrs[key], originalAttrs[key], attrs[key] === originalAttrs[key])
+    // console.log(attrs[key], originalAttrs[key], attrs[key] === originalAttrs[key])
     return attrs[key] === originalAttrs[key]
   }).length
 }

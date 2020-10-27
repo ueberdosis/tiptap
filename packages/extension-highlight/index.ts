@@ -1,10 +1,13 @@
 import {
-  Command, createMark,
+  Command, createMark, markInputRule, markPasteRule,
 } from '@tiptap/core'
 
 export interface HighlightOptions {
   color: string,
 }
+
+export const inputRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))$/gm
+export const pasteRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))/gm
 
 const Highlight = createMark({
   name: 'highlight',
@@ -14,8 +17,11 @@ const Highlight = createMark({
       color: {
         default: null,
         parseHTML: element => {
+          console.log(element.getAttribute('data-color'))
           return {
-            color: element.style.backgroundColor,
+            color:
+              element.getAttribute('data-color')
+              || element.style.backgroundColor,
           }
         },
         renderHTML: attributes => {
@@ -24,6 +30,7 @@ const Highlight = createMark({
           }
 
           return {
+            'data-color': attributes.color,
             style: `background-color: ${attributes.color}`,
           }
         },
@@ -35,6 +42,14 @@ const Highlight = createMark({
     return [
       {
         tag: 'mark',
+      },
+      {
+        style: 'background-color',
+        // getAttrs: value => {
+        //   return {
+        //     color: value,
+        //   }
+        // },
       },
     ]
   },
@@ -55,6 +70,18 @@ const Highlight = createMark({
     return {
       'Mod-e': () => this.editor.highlight(),
     }
+  },
+
+  addInputRules() {
+    return [
+      markInputRule(inputRegex, this.type),
+    ]
+  },
+
+  addPasteRules() {
+    return [
+      markPasteRule(inputRegex, this.type),
+    ]
   },
 })
 
