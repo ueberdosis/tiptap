@@ -34,7 +34,9 @@ const Link = createMark({
   },
 
   parseHTML() {
-    return [{ tag: 'a[href]' }]
+    return [
+      { tag: 'a[href]' },
+    ]
   },
 
   renderHTML({ attributes }) {
