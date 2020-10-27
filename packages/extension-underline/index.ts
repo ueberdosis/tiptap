@@ -9,8 +9,7 @@ const Underline = createMark({
         tag: 'u',
       },
       {
-        style: 'text-decoration',
-        getAttrs: node => (node === 'underline' ? {} : false),
+        style: 'text-decoration=underline',
       },
     ]
   },
