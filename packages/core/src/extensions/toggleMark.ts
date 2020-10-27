@@ -8,10 +8,9 @@ import markIsActive from '../utils/markIsActive'
 export const ToggleMark = createExtension({
   addCommands() {
     return {
-      toggleMark: (typeOrName: string | MarkType): Command => ({ state, dispatch }) => {
+      toggleMark: (typeOrName: string | MarkType, attrs?: {}): Command => ({ state, dispatch, commands }) => {
         const type = getMarkType(typeOrName, state.schema)
 
-        /* TODO:
         const hasMarkWithDifferentAttributes = attrs
           && markIsActive(state, type)
           && !markIsActive(state, type, attrs)
@@ -20,7 +19,6 @@ export const ToggleMark = createExtension({
           // @ts-ignore
           return commands.updateMark(type, attrs)
         }
-        */
 
         return originalToggleMark(type)(state, dispatch)
       },

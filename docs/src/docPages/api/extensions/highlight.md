@@ -1,6 +1,8 @@
 # Highlight
 Use this extension to render highlighted text with `<mark>`. You can use only default `<mark>` HTML tag, which has a yellow background color by default, or apply different colors.
 
+Type `==two equal signs==` and it will magically transform to <mark>highlighted</mark> text while you type.
+
 ## Installation
 ```bash
 # With npm
@@ -16,9 +18,9 @@ yarn add @tiptap/extension-highlight
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command   | Options | Description               |
-| --------- | ------- | ------------------------- |
-| highlight | —       | Mark text as highlighted. |
+| Command   | Options | Description                                                 |
+| --------- | ------- | ----------------------------------------------------------- |
+| highlight | color   | Mark text as highlighted, optionally pass a specific color. |
 
 ## Keyboard shortcuts
 * Windows/Linux: `Control`&nbsp;`E`
@@ -28,4 +30,4 @@ yarn add @tiptap/extension-highlight
 [packages/extension-highlight/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-highlight/)
 
 ## Usage
-<demo name="Extensions/Highlight" highlight="3-5,17,36" />
+<demo name="Extensions/Highlight" highlight="3-8,48,67" />

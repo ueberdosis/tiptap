@@ -17,7 +17,6 @@ const Highlight = createMark({
       color: {
         default: null,
         parseHTML: element => {
-          console.log(element.getAttribute('data-color'))
           return {
             color:
               element.getAttribute('data-color')
@@ -45,11 +44,6 @@ const Highlight = createMark({
       },
       {
         style: 'background-color',
-        // getAttrs: value => {
-        //   return {
-        //     color: value,
-        //   }
-        // },
       },
     ]
   },
@@ -61,7 +55,7 @@ const Highlight = createMark({
   addCommands() {
     return {
       highlight: (attrs?: HighlightOptions): Command => ({ commands }) => {
-        return commands.toggleMark('highlight')
+        return commands.toggleMark('highlight', attrs)
       },
     }
   },
