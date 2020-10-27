@@ -14,6 +14,9 @@ Yes, it’s tedious work to upgrade your favorite text editor to a new API, but 
 ## Upgrading from 1.x to 2.x
 The new API will look pretty familiar too you, but there are a ton of changes though. To make the upgrade a little bit easier, here is everything you need to know:
 
+### Upgrade to Vue.js 3
+…
+
 ### Explicitly register the Document, Text and Paragraph extensions
 Tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [Document](/api/extensions/document), [Paragraph](/api/extensions/paragraph) and [Text](/api/extensions/text) extensions.
 
