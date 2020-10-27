@@ -7,8 +7,8 @@ export type Extensions = (Extension | NodeExtension | MarkExtension)[]
 export type Attribute = {
   default: any,
   rendered?: boolean,
-  renderHTML?: ((attributes: { [key: string]: any }) => any) | null,
-  parseHTML?: ((element: HTMLElement) => { [key: string]: any }) | null,
+  renderHTML?: ((attributes: { [key: string]: any }) => { [key: string]: any } | null) | null,
+  parseHTML?: ((element: HTMLElement) => { [key: string]: any } | null) | null,
 }
 
 export type Attributes = {
