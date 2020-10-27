@@ -1,4 +1,4 @@
-# Text Align
+# TextAlign
 
 ## Installation
 ```bash
