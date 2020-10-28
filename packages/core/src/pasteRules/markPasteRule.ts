@@ -2,7 +2,6 @@ import { Plugin } from 'prosemirror-state'
 import { Slice, Fragment, MarkType } from 'prosemirror-model'
 
 export default function (regexp: RegExp, type: MarkType, getAttrs?: (match: any) => any): Plugin {
-
   const handler = (fragment: Fragment, parent?: any) => {
     const nodes: any[] = []
 
@@ -33,7 +32,6 @@ export default function (regexp: RegExp, type: MarkType, getAttrs?: (match: any)
             // adding the markdown part to nodes
             nodes.push(child
               .cut(textStart, textEnd)
-              // @ts-ignore
               .mark(type.create(attrs).addToSet(child.marks)))
 
             pos = matchEnd
@@ -59,5 +57,4 @@ export default function (regexp: RegExp, type: MarkType, getAttrs?: (match: any)
       },
     },
   })
-
 }
