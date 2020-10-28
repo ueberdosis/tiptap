@@ -132,12 +132,12 @@
           <page-navigation />
         </div>
       </div>
-      <!-- TODO: -->
-      <div>
-        <a :href="editLink" target="_blank">
-          <span>Edit this page on GitHub</span> &middot;
-        </a>
-        Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
+      <div class="app__page-footer">
+        <div class="app__inner">
+          <a :href="editLink" target="_blank">Edit this page on GitHub</a>
+          &middot;
+          Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
+        </div>
       </div>
     </div>
 

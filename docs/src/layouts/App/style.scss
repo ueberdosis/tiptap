@@ -212,6 +212,17 @@ $menuBreakPoint: 800px;
     border-top: 1px solid rgba($colorWhite, 0.1);
   }
 
+  &__page-footer {
+    font-size: 0.85rem;
+    padding: 1.5rem 0;
+    text-align: center;
+    border-top: 1px solid rgba($colorWhite, 0.1);
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
   &__mobile-nav {
     padding: 1rem;
     flex: 1 1 auto;
