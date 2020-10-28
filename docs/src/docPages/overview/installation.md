@@ -1,6 +1,6 @@
 # Installation
 
-## Table of Contents
+## toc
 
 ## Introduction
 You’re free to use tiptap with the framework of your choice. Depending on what you want to do, there are a few different ways to install tiptap in your project. Choose the way that fits your workflow.

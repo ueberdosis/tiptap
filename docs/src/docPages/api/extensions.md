@@ -1,6 +1,6 @@
 # Extensions
 
-## Table of Contents
+## toc
 
 ## Introduction
 Extensions are the way to add functionality to tiptap. By default tiptap comes bare, without any of them, but we have a long list of extensions that are ready to be used with tiptap.

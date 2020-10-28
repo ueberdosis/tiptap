@@ -1,6 +1,6 @@
 # Build your editor
 
-## Table of Contents
+## toc
 
 ## Introduction
 In its simplest version tiptap comes very raw. There is no menu, no buttons, no styling. That’s intended. See tiptap as your building blocks to build exactly the editor you would like to have.

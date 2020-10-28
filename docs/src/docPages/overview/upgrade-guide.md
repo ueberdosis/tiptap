@@ -1,6 +1,6 @@
 # Upgrade Guide
 
-## Table of Contents
+## toc
 
 ## Reasons to upgrade to tiptap 2.x
 Yes, it’s tedious work to upgrade your favorite text editor to a new API, but we made sure you’ve got enough reasons to upgrade to the newest version

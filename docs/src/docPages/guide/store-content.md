@@ -1,6 +1,6 @@
 # Store content
 
-## Table of Contents
+## toc
 
 ## Introduction
 You can store your content as a JSON object or as a good old HTML string. Both work fine. And of course, you can pass both formats to the editor to restore your content.

@@ -1,6 +1,6 @@
 # Collaborative editing
 
-## Table of Contents
+## toc
 
 ## Introduction
 

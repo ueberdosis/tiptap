@@ -1,6 +1,6 @@
 # Getting started
 
-## Table of Contents
+## toc
 
 ## Introduction
 tiptap is framework-agnostic and works with Vue.js and React. It even works with plain JavaScript, if that’s your thing. To keep everything as small as possible, we put the code to use tiptap with those frameworks in different packages.

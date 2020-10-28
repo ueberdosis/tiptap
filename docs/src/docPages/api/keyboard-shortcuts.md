@@ -1,6 +1,6 @@
 # Keyboard Shortcuts
 
-## Table of Contents
+## toc
 
 ## Introduction
 Keyboard shortcuts may be strings like `'Shift-Control-Enter'`. Keys are based on the strings that can appear in `event.key`, concatenated with a `-`. There is a little tool called [keycode.info](https://keycode.info/), which shows the `event.key` interactively.

@@ -1,6 +1,6 @@
 # Events
 
-## Table of Contents
+## toc
 
 ## Introduction
 The editor fires a few different events that you can hook into. There are two ways to register event listeners:

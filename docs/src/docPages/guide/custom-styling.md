@@ -1,6 +1,6 @@
 # Custom styling
 
-## Table of Contents
+## toc
 
 ## Introduction
 Tiptap is renderless, that doesn’t mean there is no styling provided. You can decided how your editor should look like.
