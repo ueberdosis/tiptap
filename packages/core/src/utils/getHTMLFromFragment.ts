@@ -1,6 +1,6 @@
 import { Node, DOMSerializer, Schema } from 'prosemirror-model'
 
-export default function getHtmlFromFragment(doc: Node, schema: Schema): string {
+export default function getHTMLFromFragment(doc: Node, schema: Schema): string {
   const fragment = DOMSerializer
     .fromSchema(schema)
     .serializeFragment(doc.content)

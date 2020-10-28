@@ -1,10 +1,10 @@
 import { Extensions, getSchema } from '@tiptap/core'
 import { Node } from 'prosemirror-model'
-import getHtmlFromFragment from './getHtmlFromFragment'
+import getHTMLFromFragment from './getHTMLFromFragment'
 
-export function generateHtml(doc: object, extensions: Extensions): string {
+export function generateHTML(doc: object, extensions: Extensions): string {
   const schema = getSchema(extensions)
   const contentNode = Node.fromJSON(schema, doc)
 
-  return getHtmlFromFragment(contentNode, schema)
+  return getHTMLFromFragment(contentNode, schema)
 }

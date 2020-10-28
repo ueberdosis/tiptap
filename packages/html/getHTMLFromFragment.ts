@@ -2,7 +2,7 @@ import { Node, DOMSerializer, Schema } from 'prosemirror-model'
 // @ts-ignore
 import { createHTMLDocument } from 'hostic-dom'
 
-export default function getHtmlFromFragment(doc: Node, schema: Schema): string {
+export default function getHTMLFromFragment(doc: Node, schema: Schema): string {
   return DOMSerializer
     .fromSchema(schema)
     .serializeFragment(doc.content, {

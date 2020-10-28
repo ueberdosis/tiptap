@@ -9,7 +9,7 @@ import getNodeAttrs from './utils/getNodeAttrs'
 import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
 import getSchemaTypeNameByName from './utils/getSchemaTypeNameByName'
-import getHtmlFromFragment from './utils/getHtmlFromFragment'
+import getHTMLFromFragment from './utils/getHTMLFromFragment'
 import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
@@ -384,7 +384,7 @@ export class Editor extends EventEmitter {
    * Get the document as HTML.
    */
   public getHTML() {
-    return getHtmlFromFragment(this.state.doc, this.schema)
+    return getHTMLFromFragment(this.state.doc, this.schema)
   }
 
   /**
