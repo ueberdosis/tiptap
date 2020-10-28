@@ -1,7 +1,7 @@
 # Collaboration Cursor
 
 :::premium Premium Extension
-Using this in production requires a **tiptap pro** license. [Read more](/tiptap-pro)
+Using this in production requires a **tiptap pro** license. [Read more](/sponsor)
 :::
 
 ## Installation

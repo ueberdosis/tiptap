@@ -1,7 +1,7 @@
 # Collaborative editing
 
 :::premium Requires Premium Extensions
-Using this example in production requires a **tiptap pro** license. [Read more](/tiptap-pro)
+Using this example in production requires a **tiptap pro** license. [Read more](/sponsor)
 :::
 
 This example shows how you can use tiptap to let different users collaboratively work on the same text in real-time.

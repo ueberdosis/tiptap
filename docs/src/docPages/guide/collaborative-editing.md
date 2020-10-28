@@ -1,7 +1,7 @@
 # Collaborative editing
 
 :::premium Requires Premium Extensions
-Using the collaborative editing in production requires a **tiptap pro** license. [Read more](/tiptap-pro)
+Using the collaborative editing in production requires a **tiptap pro** license. [Read more](/sponsor)
 :::
 
 ## toc
