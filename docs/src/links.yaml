@@ -183,3 +183,8 @@
       link: /api/schema
     - title: Keyboard Shortcuts
       link: /api/keyboard-shortcuts
+
+- title: tiptap pro
+  items:
+    - title: License
+      link: /license

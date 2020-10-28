@@ -247,6 +247,12 @@
         color: $colorRed;
       }
 
+      &.pro {
+        border-color: rgba($colorRed, 0.1);
+        background-color: rgba($colorRed, 0.1);
+        color: $colorRed;
+      }
+
       .remark-container-title {
         font-weight: 600;
       }
