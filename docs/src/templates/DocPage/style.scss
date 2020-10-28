@@ -247,10 +247,12 @@
         color: $colorRed;
       }
 
-      &.pro {
+      &.premium {
         border-color: rgba($colorRed, 0.1);
         background-color: rgba($colorRed, 0.1);
-        color: $colorRed;
+        color: $colorPurple;
+        background-color: rgba($colorPurple, 0.1);
+        border-color: rgba($colorPurple, 0.1);
       }
 
       .remark-container-title {

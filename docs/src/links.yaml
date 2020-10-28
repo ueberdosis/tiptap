@@ -15,6 +15,7 @@
           link: /examples/basic
         - title: Collaborative editing
           link: /examples/collaborative-editing
+          premium: true
         - title: Markdown shortcuts
           link: /examples/markdown-shortcuts
         # - title: Menu Bubble
@@ -93,6 +94,7 @@
     - title: Collaborative editing
       link: /guide/collaborative-editing
       draft: true
+      premium: true
 
 - title: API
   items:
@@ -118,10 +120,11 @@
         #   draft: true
         - title: Collaboration
           link: /api/extensions/collaboration
-          draft: true
+          premium: true
         - title: CollaborationCursor
           link: /api/extensions/collaboration-cursor
           draft: true
+          premium: true
         - title: Document
           link: /api/extensions/document
         - title: HardBreak
@@ -184,7 +187,7 @@
     - title: Keyboard Shortcuts
       link: /api/keyboard-shortcuts
 
-- title: tiptap pro
+- title:
   items:
-    - title: License
-      link: /license
+    - title: tiptap pro
+      link: /tiptap-pro

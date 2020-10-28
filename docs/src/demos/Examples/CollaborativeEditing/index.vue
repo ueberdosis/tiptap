@@ -197,7 +197,7 @@ export default {
 /* This renders the username above the caret */
 .collaboration-cursor__label {
   position: absolute;
-  top: -1.6em;
+  top: -1.4em;
   left: -1px;
   font-size: 13px;
   font-style: normal;

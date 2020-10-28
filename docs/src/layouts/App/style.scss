@@ -183,6 +183,17 @@ $menuBreakPoint: 800px;
       color: rgba($colorWhite, 0.2);
     }
 
+    &--premium {
+      &::after {
+        content: 'PRO';
+        color: $colorPurple;
+        background-color: rgba($colorPurple, 0.1);
+        box-decoration-break: clone;
+        padding: 0 0.5em;
+        border-radius: 5px;
+      }
+    }
+
     &--with-children::after {
       content: '↓';
       color: rgba($colorWhite, 0.2);
