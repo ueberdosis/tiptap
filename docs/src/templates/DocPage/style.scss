@@ -80,16 +80,18 @@
     }
 
     > p code,
-    > li code,
+    > ul code,
+    > ol code,
     > table code,
     > .remark-container code {
-      color: $colorPurple;
-      background-color: rgba($colorPurple, 0.1);
+      color: $colorYellow;
+      background-color: rgba($colorYellow, 0.1);
       box-decoration-break: clone;
     }
 
     > p a,
-    > li a,
+    > ul a,
+    > ol a,
     > table a,
     > .remark-container a {
       text-decoration: underline;
@@ -248,11 +250,9 @@
       }
 
       &.premium {
-        border-color: rgba($colorRed, 0.1);
-        background-color: rgba($colorRed, 0.1);
-        color: $colorPurple;
-        background-color: rgba($colorPurple, 0.1);
-        border-color: rgba($colorPurple, 0.1);
+        border-color: rgba($colorOrange, 0.1);
+        background-color: rgba($colorOrange, 0.1);
+        color: $colorOrange;
       }
 
       .remark-container-title {

@@ -186,9 +186,9 @@ $menuBreakPoint: 800px;
     &--premium {
       &::after {
         content: 'PRO';
-        color: $colorPurple;
-        background-color: rgba($colorPurple, 0.1);
-        box-decoration-break: clone;
+        font-family: 'JetBrainsMono', monospace;
+        color: $colorOrange;
+        background-color: rgba($colorOrange, 0.1);
         padding: 0 0.5em;
         border-radius: 5px;
       }
