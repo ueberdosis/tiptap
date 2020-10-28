@@ -9,7 +9,7 @@
   "dependencies": {
     "@tiptap/core": "2.x",
     "@types/jsdom": "^16.2.4",
-    "jsdom": "^16.4.0",
+    "hostic-dom": "^0.8.5",
     "prosemirror-model": "^1.12.0"
   }
 }

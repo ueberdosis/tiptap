@@ -1,15 +1,13 @@
 import { Node, DOMSerializer, Schema } from 'prosemirror-model'
-
-import { JSDOM } from 'jsdom'
+// @ts-ignore
+import { createHTMLDocument } from 'hostic-dom'
 
 export default function getHtmlFromFragment(doc: Node, schema: Schema): string {
-  const fragment = DOMSerializer
+  return DOMSerializer
     .fromSchema(schema)
-    .serializeFragment(doc.content)
-
-  const temporaryDocument = new JSDOM('<!DOCTYPE html>').window.document
-  const container = temporaryDocument.createElement('div')
-  container.appendChild(fragment)
-
-  return container.innerHTML
+    .serializeFragment(doc.content, {
+      document: createHTMLDocument(),
+    })
+    // @ts-ignore
+    .render()
 }
