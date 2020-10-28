@@ -36,48 +36,39 @@ new Editor({
 ```
 
 ### New document type
-**We renamed the default `Document` type from `doc` to `document`.** To keep it like that, use your own implementation of the `Document` node or migrate the stored JSON to use the new name.
-
-```js
-import Document from '@tiptap/extension-document'
-
-const CustomDocument = Document.name('doc').create()
-
-new Editor({
-  extensions: [
-    CustomDocument(),
-    // …
-  ]
-})
-```
+~~**We renamed the default `Document` type from `doc` to `document`.** To keep it like that, use your own implementation of the `Document` node or migrate the stored JSON to use the new name.~~
 
 ### New extension API
 In case you’ve built some custom extensions for your project, you’re required to rewrite them to fit the new API. No worries, you can keep a lot of your work though. The `schema`, `commands`, `keys`, `inputRules` and `pasteRules` all work like they did before. It’s just different how you register them.
 
 ```js
-import { Node } from '@tiptap/core'
+import { createNode } from '@tiptap/core'
 
-const CustomExtension = new Node()
-  .name('custom_extension')
-  .defaults({
-    // …
-  })
-  .schema(() => ({
-    // …
-  }))
-  .commands(({ editor, name }) => ({
-    // …
-  }))
-  .keys(({ editor }) => ({
-    // …
-  }))
-  .inputRules(({ type }) => [
-    // …
-  ])
-  .pasteRules(({ type }) => [
-    // …
-  ])
-  .create()
+const CustomExtension = createNode({
+  name: 'custom_extension'
+  defaultOptions: {
+    …
+  },
+  addAttributes() {
+    …
+  },
+  parseHTML() {
+    …
+  },
+  renderHTML({ node, attributes }) {
+    …
+  },
+  addCommands() {
+    …
+  },
+  addKeyboardShortcuts() {
+    …
+  },
+  addInputRules() {
+    …
+  },
+  // and more …
+})
 ```
 
 Don’t forget to call `create()` in the end! Read more about [all the nifty details building custom extensions](/guide/custom-extensions) in our guide.
@@ -87,8 +78,7 @@ Don’t forget to call `create()` in the end! Read more about [all the nifty det
 
 | Old method name | New method name |
 | --------------- | --------------- |
-| ~~`getHTML`~~   | `html`          |
-| ~~`getJSON`~~   | `json`          |
+| ~~`…`~~         | `…`             |
 
 ### Commands can be chained now
 
