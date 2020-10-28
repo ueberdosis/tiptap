@@ -6,7 +6,7 @@ export const inputRegex = /^\s*>\s$/gm
 const Blockquote = createNode({
   name: 'blockquote',
 
-  content: 'paragraph block*',
+  content: 'block*',
 
   group: 'block',
 
