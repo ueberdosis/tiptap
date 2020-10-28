@@ -64,7 +64,7 @@ The default `Blockquote` extension can wrap other nodes, like headings. If you w
 import Blockquote from '@tiptap/extension-blockquote'
 
 const CustomBlockquote = Blockquote.extend({
-  content: 'paragraph block*',
+  content: 'paragraph*',
 })
 ```
 
