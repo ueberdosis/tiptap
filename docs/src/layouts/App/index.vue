@@ -125,21 +125,19 @@
       <main class="app__main">
         <div class="app__inner">
           <slot />
-          <p>
-            <br>
-            <a :href="editLink" target="_blank">
-              <span>Edit this page on GitHub</span>
-            </a>
-          </p>
-          <p>
-            Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
-          </p>
         </div>
       </main>
       <div class="app__page-navigation">
         <div class="app__inner">
           <page-navigation />
         </div>
+      </div>
+      <!-- TODO: -->
+      <div>
+        <a :href="editLink" target="_blank">
+          <span>Edit this page on GitHub</span> &middot;
+        </a>
+        Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
       </div>
     </div>
 
