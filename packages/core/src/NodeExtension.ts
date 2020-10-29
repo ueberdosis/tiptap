@@ -139,6 +139,11 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
     editor: Editor,
     type: NodeType,
   }) => Plugin[],
+
+  /**
+   * Node View
+   */
+  addNodeView?: (() => any) | null,
 }> {}
 
 export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {
@@ -166,6 +171,7 @@ const defaultNode: NodeExtension = {
   parseHTML: () => null,
   renderHTML: null,
   addAttributes: () => ({}),
+  addNodeView: null,
 }
 
 export function createNode<Options extends {}, Commands extends {}>(config: NodeExtensionSpec<Options, Commands>) {

@@ -1,14 +1,14 @@
 import { Plugin } from 'prosemirror-state'
 import { keymap } from 'prosemirror-keymap'
-// import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
+import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { inputRules } from 'prosemirror-inputrules'
-// import { EditorView, Decoration } from 'prosemirror-view'
-import { Schema } from 'prosemirror-model'
+import { EditorView, Decoration } from 'prosemirror-view'
 import { Editor } from './Editor'
 // import capitalize from './utils/capitalize'
 import { Extensions } from './types'
 import getSchema from './utils/getSchema'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
+import splitExtensions from './utils/splitExtensions'
 
 export default class ExtensionManager {
 
@@ -98,6 +98,38 @@ export default class ExtensionManager {
   }
 
   get nodeViews() {
+    const { nodeExtensions } = splitExtensions(this.extensions)
+
+    return Object.fromEntries(nodeExtensions
+      .filter(extension => !!extension.addNodeView)
+      .map(extension => {
+        const context = {
+          options: extension.options,
+          editor: this.editor,
+          type: getSchemaTypeByName(extension.name, this.schema),
+        }
+
+        const renderer = extension.addNodeView?.bind(context)?.()
+
+        const nodeview = (
+          node: ProsemirrorNode,
+          view: EditorView,
+          getPos: (() => number) | boolean,
+          decorations: Decoration[],
+        ) => {
+          // @ts-ignore
+          return new renderer({
+            editor: this.editor,
+            view,
+            node,
+            getPos,
+            decorations,
+          })
+        }
+
+        return [extension.name, nodeview]
+      }))
+
     // const { renderer: Renderer } = this.editor
 
     // if (!Renderer || !Renderer.type) {

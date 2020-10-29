@@ -256,6 +256,7 @@ export class Editor extends EventEmitter {
    * Creates a ProseMirror view.
    */
   private createView() {
+    console.log('CREATE VIEW')
     this.view = new EditorView(this.options.element, {
       state: EditorState.create({
         doc: this.createDocument(this.options.content),
