@@ -157,6 +157,10 @@ $menuBreakPoint: 800px;
     margin-top: 0.5rem;
   }
 
+  &__mobile-nav &__link-list &__link-list {
+    display: block;
+  }
+
   .active + &__link-list {
     display: block;
   }
@@ -198,6 +202,10 @@ $menuBreakPoint: 800px;
       content: '↓';
       color: rgba($colorWhite, 0.2);
     }
+  }
+
+  &__mobile-nav &__link--with-children::after {
+    display: none;
   }
 
   &__main {
