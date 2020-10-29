@@ -52,4 +52,4 @@ This section is not ready yet. Meanwhile, [search through GitHub issues](https:/
 :::
 
 ## Your custom extensions
-Didn’t find what you’re looking for? No worries, [you can build your own extensions](/guide/custom-extensions).
+Didn’t find what you’re looking for? No worries, [you can build your own extensions](/guide/build-custom-extensions).

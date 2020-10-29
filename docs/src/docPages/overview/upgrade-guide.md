@@ -71,7 +71,7 @@ const CustomExtension = createNode({
 })
 ```
 
-Don’t forget to call `create()` in the end! Read more about [all the nifty details building custom extensions](/guide/custom-extensions) in our guide.
+Don’t forget to call `create()` in the end! Read more about [all the nifty details building custom extensions](/guide/build-custom-extensions) in our guide.
 
 ### Renamed API methods
 [We renamed a lot of commands](/api/commands), hopefully you can migrate to the new API with search & replace. Here is a list of what changed:
