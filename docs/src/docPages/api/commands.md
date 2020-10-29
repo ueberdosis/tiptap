@@ -67,4 +67,4 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .selectAll()       | Select the whole document.              |
 
 ### Extensions
-All extension can add additional commands (and most do), check out the specific [documentation for the provided extensions](/api/extensions) to learn more about that. Of course, you can [add your custom extensions](/guide/custom-extensions) with custom commands aswell.
+All extension can add additional commands (and most do), check out the specific [documentation for the provided extensions](/api/extensions) to learn more about that. Of course, you can [add your custom extensions](/guide/build-custom-extensions) with custom commands aswell.
