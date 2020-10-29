@@ -149,12 +149,13 @@
           display: inline-block;
           margin-right: 0.75rem;
           content: "\2022";
-          opacity: 0.2;
+          color: $colorYellow;
         }
       }
     }
 
     > ol {
+      list-style: none;
       counter-reset: item;
 
       li {
@@ -171,9 +172,9 @@
           justify-content: center;
           height: 1.5rem;
           width: 1.5rem;
-          background-color: rgba($colorWhite, 0.1);
+          background-color: rgba($colorYellow, 0.1);
           border-radius: 9999px;
-          color: rgba($colorWhite, 0.4);
+          color: $colorYellow;
           font-size: 0.75rem;
           font-weight: 700;
           content: counter(item);
