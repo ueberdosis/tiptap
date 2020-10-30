@@ -4,8 +4,7 @@ import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { inputRules } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Editor } from './Editor'
-// import capitalize from './utils/capitalize'
-import { Extensions } from './types'
+import { Extensions, NodeViewRenderer } from './types'
 import getSchema from './utils/getSchema'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
 import splitExtensions from './utils/splitExtensions'
@@ -109,57 +108,22 @@ export default class ExtensionManager {
           type: getSchemaTypeByName(extension.name, this.schema),
         }
 
-        const renderer = extension.addNodeView?.bind(context)?.()
+        const renderer = extension.addNodeView?.bind(context)?.() as NodeViewRenderer
 
         const nodeview = (
           node: ProsemirrorNode,
           view: EditorView,
           getPos: (() => number) | boolean,
           decorations: Decoration[],
-        ) => {
-          // @ts-ignore
-          return new renderer({
-            editor: this.editor,
-            view,
-            node,
-            getPos,
-            decorations,
-          })
-        }
+        ) => renderer({
+          editor: this.editor,
+          node,
+          getPos,
+          decorations,
+        })
 
         return [extension.name, nodeview]
       }))
-
-    // const { renderer: Renderer } = this.editor
-
-    // if (!Renderer || !Renderer.type) {
-    //   return {}
-    // }
-
-    // const prop = `to${capitalize(Renderer.type)}`
-
-    // return collect(this.extensions)
-    //   .where('extensionType', 'node')
-    //   .filter((extension: any) => extension.schema()[prop])
-    //   .map((extension: any) => {
-    //     return (
-    //       node: ProsemirrorNode,
-    //       view: EditorView,
-    //       getPos: (() => number) | boolean,
-    //       decorations: Decoration[],
-    //     ) => {
-    //       return new Renderer(extension.schema()[prop], {
-    //         extension,
-    //         editor: this.editor,
-    //         node,
-    //         getPos,
-    //         decorations,
-    //       })
-    //     }
-    //   })
-    //   .all()
-
-    return {}
   }
 
 }

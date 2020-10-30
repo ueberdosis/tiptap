@@ -3,7 +3,7 @@ import {
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { ExtensionSpec, defaultExtension } from './Extension'
-import { Attributes, Overwrite } from './types'
+import { Attributes, NodeViewRenderer, Overwrite } from './types'
 import { Editor } from './Editor'
 
 export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
@@ -143,7 +143,7 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
   /**
    * Node View
    */
-  addNodeView?: (() => any) | null,
+  addNodeView?: (() => NodeViewRenderer) | null,
 }> {}
 
 export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {

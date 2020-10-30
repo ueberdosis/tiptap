@@ -1,5 +1,6 @@
 import { Command, createNode, nodeInputRule } from '@tiptap/core'
 import { VueRenderer } from '@tiptap/vue'
+import Vue from 'vue'
 
 export const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
 
@@ -62,9 +63,11 @@ const Image = createNode({
   },
 
   addNodeView() {
-    return VueRenderer({
-      template: '<div>vue component</div>',
+    const Component = Vue.extend({
+      template: '<div>this is a vue component</div>',
     })
+
+    return VueRenderer(Component)
   },
 })
 
