@@ -7,12 +7,9 @@ export interface TaskItemOptions {
 const TaskItem = createNode({
   name: 'task_item',
 
-  content: 'paragraph+',
-
-  // TODO: allow content to be a callback function
-  // content() {
-  //   return this.options.nested ? '(paragraph|todo_list)+' : 'paragraph+',
-  // },
+  content() {
+    return this.options.nested ? '(paragraph|task_list)+' : 'paragraph+'
+  },
 
   defining: true,
 
