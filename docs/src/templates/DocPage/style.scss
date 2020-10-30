@@ -95,6 +95,10 @@
     > table a,
     > .remark-container a {
       text-decoration: underline;
+
+      code {
+        text-decoration: underline;
+      }
     }
 
     #toc {
