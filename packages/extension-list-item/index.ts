@@ -9,7 +9,9 @@ const ListItem = createNode({
 
   parseHTML() {
     return [
-      { tag: 'li' },
+      {
+        tag: 'li',
+      },
     ]
   },
 

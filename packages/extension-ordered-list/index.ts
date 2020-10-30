@@ -4,9 +4,9 @@ import { wrappingInputRule } from 'prosemirror-inputrules'
 const OrderedList = createNode({
   name: 'ordered_list',
 
-  content: 'list_item+',
-
   group: 'block',
+
+  content: 'list_item+',
 
   addAttributes() {
     return {

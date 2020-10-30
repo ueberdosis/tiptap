@@ -4,9 +4,9 @@ import { wrappingInputRule } from 'prosemirror-inputrules'
 const BulletList = createNode({
   name: 'bullet_list',
 
-  content: 'list_item+',
-
   group: 'block',
+
+  content: 'list_item+',
 
   parseHTML() {
     return [

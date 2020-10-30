@@ -156,6 +156,9 @@
         #   draft: true
         - title: Strike
           link: /api/extensions/strike
+        - title: TaskList
+          link: /api/extensions/task-list
+          draft: true
         # - title: TableCell
         #   link: /api/extensions/table-cell
         #   draft: true
