@@ -39,8 +39,8 @@ export default {
       ],
       content: `
         <ul data-type="task_list">
-          <li>A list item</li>
-          <li>And another one</li>
+          <li data-type="task_item" data-checked="true">A list item</li>
+          <li data-type="task_item" data-checked="false">And another one</li>
         </ul>
       `,
     })

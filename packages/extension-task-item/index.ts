@@ -22,8 +22,14 @@ const TaskItem = createNode({
 
   addAttributes() {
     return {
-      done: {
+      checked: {
         default: false,
+        parseHTML: element => ({
+          checked: element.getAttribute('data-checked') === 'true',
+        }),
+        renderHTML: attributes => ({
+          'data-checked': attributes.checked,
+        }),
       },
     }
   },
@@ -42,10 +48,53 @@ const TaskItem = createNode({
   },
 
   addKeyboardShortcuts() {
-    return {
+    const shortcuts = {
       Enter: () => this.editor.splitListItem('task_item'),
+    }
+
+    if (!this.options.nested) {
+      return shortcuts
+    }
+
+    return {
+      ...shortcuts,
       Tab: () => this.editor.sinkListItem('task_item'),
       'Shift-Tab': () => this.editor.liftListItem('task_item'),
+    }
+  },
+
+  addNodeView() {
+    return ({ attributes, getPos, editor }) => {
+      const { view } = editor
+      const listItem = document.createElement('li')
+      const checkbox = document.createElement('input')
+      const content = document.createElement('div')
+
+      checkbox.type = 'checkbox'
+      checkbox.addEventListener('change', event => {
+        const { checked } = event.target as any
+
+        if (typeof getPos === 'function') {
+          view.dispatch(view.state.tr.setNodeMarkup(getPos(), undefined, {
+            checked,
+          }))
+        }
+      })
+
+      if (attributes['data-checked'] === true) {
+        checkbox.setAttribute('checked', 'checked')
+      }
+
+      listItem.append(checkbox, content)
+
+      Object.entries(attributes).forEach(([key, value]) => {
+        listItem.setAttribute(key, value)
+      })
+
+      return {
+        dom: listItem,
+        contentDOM: content,
+      }
     }
   },
 })

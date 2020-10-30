@@ -8,6 +8,8 @@ import { Extensions, NodeViewRenderer } from './types'
 import getSchema from './utils/getSchema'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
 import splitExtensions from './utils/splitExtensions'
+import getAttributesFromExtensions from './utils/getAttributesFromExtensions'
+import getRenderedAttributes from './utils/getRenderedAttributes'
 
 export default class ExtensionManager {
 
@@ -97,14 +99,17 @@ export default class ExtensionManager {
   }
 
   get nodeViews() {
+    const { editor } = this
     const { nodeExtensions } = splitExtensions(this.extensions)
+    const allAttributes = getAttributesFromExtensions(this.extensions)
 
     return Object.fromEntries(nodeExtensions
       .filter(extension => !!extension.addNodeView)
       .map(extension => {
+        const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
         const context = {
           options: extension.options,
-          editor: this.editor,
+          editor,
           type: getSchemaTypeByName(extension.name, this.schema),
         }
 
@@ -115,12 +120,17 @@ export default class ExtensionManager {
           view: EditorView,
           getPos: (() => number) | boolean,
           decorations: Decoration[],
-        ) => renderer({
-          editor: this.editor,
-          node,
-          getPos,
-          decorations,
-        })
+        ) => {
+          const attributes = getRenderedAttributes(node, extensionAttributes)
+
+          return renderer({
+            editor,
+            node,
+            getPos,
+            decorations,
+            attributes,
+          })
+        }
 
         return [extension.name, nodeview]
       }))
