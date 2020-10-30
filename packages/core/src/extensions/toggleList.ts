@@ -1,23 +1,19 @@
 import { wrapInList, liftListItem } from 'prosemirror-schema-list'
 import { findParentNode } from 'prosemirror-utils'
-import { Node, NodeType, Schema } from 'prosemirror-model'
+import { NodeType } from 'prosemirror-model'
 import { Command } from '../Editor'
 import { createExtension } from '../Extension'
 import getNodeType from '../utils/getNodeType'
-
-function isList(node: Node, schema: Schema) {
-  return (node.type === schema.nodes.bullet_list
-    || node.type === schema.nodes.ordered_list
-    || node.type === schema.nodes.task_list)
-}
+import isList from '../utils/isList'
 
 export const ToggleList = createExtension({
   addCommands() {
     return {
       toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType): Command => ({ tr, state, dispatch }) => {
+        const { extensions } = this.editor.options
         const listType = getNodeType(listTypeOrName, state.schema)
         const itemType = getNodeType(itemTypeOrName, state.schema)
-        const { schema, selection } = state
+        const { selection } = state
         const { $from, $to } = selection
         const range = $from.blockRange($to)
 
@@ -25,14 +21,14 @@ export const ToggleList = createExtension({
           return false
         }
 
-        const parentList = findParentNode(node => isList(node, schema))(selection)
+        const parentList = findParentNode(node => isList(node.type.name, extensions))(selection)
 
         if (range.depth >= 1 && parentList && range.depth - parentList.depth <= 1) {
           if (parentList.node.type === listType) {
             return liftListItem(itemType)(state, dispatch)
           }
 
-          if (isList(parentList.node, schema) && listType.validContent(parentList.node.content)) {
+          if (isList(parentList.node.type.name, extensions) && listType.validContent(parentList.node.content)) {
             tr.setNodeMarkup(parentList.pos, listType)
 
             return false

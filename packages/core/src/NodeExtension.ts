@@ -13,6 +13,11 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
   topNode?: boolean,
 
   /**
+   * List
+   */
+  list?: boolean,
+
+  /**
    * Content
    */
   content?: NodeSpec['content'] | ((this: { options: Options }) => NodeSpec['content']),
@@ -158,6 +163,7 @@ const defaultNode: NodeExtension = {
   type: 'node',
   name: 'node',
   topNode: false,
+  list: false,
   content: null,
   marks: null,
   group: null,

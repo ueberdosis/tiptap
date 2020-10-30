@@ -4,6 +4,8 @@ import { wrappingInputRule } from 'prosemirror-inputrules'
 const BulletList = createNode({
   name: 'bullet_list',
 
+  list: true,
+
   group: 'block',
 
   content: 'list_item+',

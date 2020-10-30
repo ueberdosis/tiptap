@@ -4,6 +4,8 @@ import { wrappingInputRule } from 'prosemirror-inputrules'
 const TaskList = createNode({
   name: 'task_list',
 
+  list: true,
+
   group: 'block',
 
   content: 'task_item+',
