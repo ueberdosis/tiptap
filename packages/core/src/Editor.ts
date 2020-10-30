@@ -75,8 +75,6 @@ declare module './Editor' {
 @magicMethods
 export class Editor extends EventEmitter {
 
-  public renderer!: any
-
   private proxy!: Editor
 
   private commandManager!: CommandManager
@@ -265,10 +263,16 @@ export class Editor extends EventEmitter {
         ],
       }),
       dispatchTransaction: this.dispatchTransaction.bind(this),
+    })
+
+    // `editor.view` is not yet available at this time.
+    // Therefore we will add all node views directly afterwards.
+    this.view.setProps({
       nodeViews: this.extensionManager.nodeViews,
     })
 
-    // store editor in dom element for better testing
+    // Let’s store the editor instance in the DOM element.
+    // So we’ll have access to it for tests.
     const dom = this.view.dom as HTMLElement
     dom.editor = this.proxy
   }

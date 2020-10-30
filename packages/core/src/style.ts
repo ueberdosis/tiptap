@@ -9,6 +9,14 @@ const style = `.ProseMirror {
   font-variant-ligatures: none;
 }
 
+.ProseMirror [contenteditable="false"] {
+  white-space: normal;
+}
+
+.ProseMirror [contenteditable="false"] [contenteditable="true"] {
+  white-space: pre-wrap;
+}
+
 .ProseMirror pre {
   white-space: pre-wrap;
 }

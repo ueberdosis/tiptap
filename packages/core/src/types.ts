@@ -1,6 +1,9 @@
+import { Node } from 'prosemirror-model'
+import { Decoration, NodeView } from 'prosemirror-view'
 import { Extension } from './Extension'
 import { NodeExtension } from './NodeExtension'
 import { MarkExtension } from './MarkExtension'
+import Editor from '..'
 
 export type Extensions = (Extension | NodeExtension | MarkExtension)[]
 
@@ -40,3 +43,13 @@ export type Overwrite<T, U> = Pick<T, Diff<keyof T, keyof U>> & U;
 export type AnyObject = {
   [key: string]: any
 }
+
+export type NodeViewRendererProps = {
+  editor: Editor,
+  node: Node,
+  getPos: (() => number) | boolean,
+  decorations: Decoration[],
+  attributes: AnyObject,
+}
+
+export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView

@@ -1,13 +1,25 @@
 import { Command, createNode, nodeInputRule } from '@tiptap/core'
 
+export interface ImageOptions {
+  inline: boolean,
+}
+
 export const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
 
 const Image = createNode({
   name: 'image',
 
-  inline: true,
+  defaultOptions: <ImageOptions>{
+    inline: false,
+  },
 
-  group: 'inline',
+  inline() {
+    return this.options.inline
+  },
+
+  group() {
+    return this.options.inline ? 'inline' : 'block'
+  },
 
   draggable: true,
 

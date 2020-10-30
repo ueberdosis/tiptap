@@ -161,7 +161,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 /* A list of all available users */
 .collaboration-users {
   margin-top: 0.5rem;

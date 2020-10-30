@@ -10,22 +10,22 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Overwrit
   /**
    * Inclusive
    */
-  inclusive?: MarkSpec['inclusive'],
+  inclusive?: MarkSpec['inclusive'] | ((this: { options: Options }) => MarkSpec['inclusive']),
 
   /**
    * Excludes
    */
-  excludes?: MarkSpec['excludes'],
+  excludes?: MarkSpec['excludes'] | ((this: { options: Options }) => MarkSpec['excludes']),
 
   /**
    * Group
    */
-  group?: MarkSpec['group'],
+  group?: MarkSpec['group'] | ((this: { options: Options }) => MarkSpec['group']),
 
   /**
    * Spanning
    */
-  spanning?: MarkSpec['spanning'],
+  spanning?: MarkSpec['spanning'] | ((this: { options: Options }) => MarkSpec['spanning']),
 
   /**
    * Parse HTML

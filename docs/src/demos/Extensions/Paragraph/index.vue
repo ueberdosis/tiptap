@@ -11,26 +11,6 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 
-const CustomParagraph = Paragraph.extend({
-  addAttributes() {
-    return {
-      color: {
-        default: null,
-        parseHTML: element => {
-          return {
-            color: element.getAttribute('data-color'),
-          }
-        },
-        renderHTML: attributes => {
-          return {
-            style: `color: ${attributes.color}`,
-          }
-        },
-      },
-    }
-  },
-})
-
 export default {
   components: {
     EditorContent,
@@ -46,11 +26,11 @@ export default {
     this.editor = new Editor({
       extensions: [
         Document(),
-        CustomParagraph(),
+        Paragraph(),
         Text(),
       ],
       content: `
-        <p data-color="blue">The Paragraph extension is not required, but it’s very likely you want to use it. It’s needed to write paragraphs of text. 🤓</p>
+        <p>The Paragraph extension is not required, but it’s very likely you want to use it. It’s needed to write paragraphs of text. 🤓</p>
       `,
     })
   },
