@@ -101,7 +101,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .export {
   padding: 1rem 0 0;
 

@@ -61,7 +61,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 /* Give a remote user a caret */
 .collaboration-cursor__caret {
   position: relative;
