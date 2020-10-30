@@ -20,9 +20,9 @@ yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command     | Options | Description           |
-| ----------- | ------- | --------------------- |
-| task_list | —       | Toggle a task list. |
+| Command  | Options | Description         |
+| -------- | ------- | ------------------- |
+| taskList | —       | Toggle a task list. |
 
 ## Source code
 [packages/extension-task-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-list/)
