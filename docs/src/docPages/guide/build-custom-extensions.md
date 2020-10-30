@@ -191,11 +191,35 @@ const TextAlign = createExtension({
 })
 ```
 
+### Render HTML
+With the `renderHTML` function you can control how an extension is rendered to HTML. We pass an attributes object to it, with all local attributes, global attributes, and configured CSS classes. Here is an example from the `Bold` extension:
+
+```js
+renderHTML({ attributes }) {
+  return ['strong', attributes, 0]
+},
+```
+
+The first value in the array should be the name of HTML tag. If the second element is an object, it’s interpreted as a set of attributes. Any elements after that are rendered as children.
+
+The number zero (representing a hole) is used to indicate where the content should be inserted. Let’s look at the rendering of the `CodeBlock` extension with two nested tags:
+
+```js
+renderHTML({ attributes }) {
+  return ['pre', ['code', attributes, 0]]
+},
+```
+
+If you want to add some specific attributes there, import the `mergeAttributes` helper from `@tiptap/core`:
+
+```js
+renderHTML({ attributes }) {
+  return ['a', mergeAttributes(attributes, { rel: this.options.rel }), 0]
+},
+```
+
 ### Parse HTML
 > Associates DOM parser information with this mark (see the corresponding node spec field). The mark field in the rules is implied.
-
-### Render HTML
-> Defines the default way marks of this type should be serialized to DOM/HTML. When the resulting spec contains a hole, that is where the marked content is placed. Otherwise, it is appended to the top node.
 
 ### Commands
 
