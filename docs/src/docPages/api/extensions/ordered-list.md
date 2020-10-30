@@ -9,10 +9,10 @@ The `OrderedList` extension is intended to be used with the [`ListItem`](/api/ex
 :::
 
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-ordered-list @tiptap/extension-list-item
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 ```
 

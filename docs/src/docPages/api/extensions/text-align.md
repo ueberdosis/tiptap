@@ -2,10 +2,10 @@
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-text-align
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-text-align
 ```
 

@@ -7,10 +7,10 @@ This extensions is intended to be used with the [`BulletList`](/api/extensions/b
 :::
 
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-list-item
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-list-item
 ```
 

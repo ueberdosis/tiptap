@@ -9,10 +9,10 @@ Tiptap 1 tried to hide that node from you, but it has always been there. A tiny,
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-document
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-document
 ```
 

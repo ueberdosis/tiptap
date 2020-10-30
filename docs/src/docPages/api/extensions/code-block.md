@@ -9,10 +9,10 @@ The CodeBlock extension doesn’t come with styling and has no syntax highlighti
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-code-block
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-code-block
 ```
 

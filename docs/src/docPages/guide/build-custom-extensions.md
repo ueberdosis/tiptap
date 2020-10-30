@@ -40,7 +40,6 @@ The extension name is used in a whole lot of places and changing it isn’t too 
 The extension name is also part of the JSON. If you [store your content as JSON](http://localhost:3000/guide/store-content#option-1-json), you need to change the name in there too.
 
 ### Settings
-
 All settings can be overwritten through the extension anyway, but if you want to change the defaults, for example to provide a library on top of tiptap for other developers, you can do it like that:
 
 ```js
@@ -54,7 +53,6 @@ const CustomHeading = Heading.extend({
 ```
 
 ### Schema
-
 Tiptap works with a [strict schema](/api/schema), which configures how the content can be structured, nested, how it behaves and many more things. You can change all aspects of the schema for existing extensions. Let’s walk through a few common use cases.
 
 The default `Blockquote` extension can wrap other nodes, like headings. If you want to allow nothing but paragraphs in your blockquotes, this is how you could achieve it:
@@ -94,6 +92,9 @@ const CustomParagraph = Paragraph.extend({
   },
 })
 ```
+
+### Attributes
+
 
 ### Keyboard shortcuts
 Most core extensions come with sensible keyboard shortcut defaults. Depending on what you want to build, you’ll likely want to change them though. With the `addKeyboardShortcuts()` method you can overwrite the predefined shortcut map:

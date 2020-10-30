@@ -5,10 +5,10 @@ Type something with <code>\`back-ticks around\`</code> and it will magically tra
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-code
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-code
 ```
 

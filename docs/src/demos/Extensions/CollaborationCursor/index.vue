@@ -61,8 +61,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-/* This gives the remote user caret */
+<style lang="scss" scoped>
+/* Give a remote user a caret */
 .collaboration-cursor__caret {
   position: relative;
   margin-left: -1px;
@@ -73,7 +73,7 @@ export default {
   pointer-events: none;
 }
 
-/* This renders the username above the caret */
+/* Render the username above the caret */
 .collaboration-cursor__label {
   position: absolute;
   top: -1.4em;

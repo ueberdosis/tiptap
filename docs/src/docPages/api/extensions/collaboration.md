@@ -7,10 +7,10 @@ Using this in production requires a **tiptap pro** license. [Read more](/sponsor
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-collaboration yjs y-webrtc
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-collaboration yjs y-webrtc
 ```
 

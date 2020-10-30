@@ -3,10 +3,10 @@ This extension provides history support. All changes to the document will be tra
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-history
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-history
 ```
 

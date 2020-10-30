@@ -9,10 +9,10 @@ You’re free to use tiptap with the framework of your choice. Depending on what
 Use tiptap with vanilla JavaScript for a very lightweight and raw experience. If you feel like it, you can even use it to connect tiptap with other frameworks not mentioned here.
 
 ```bash
-# With npm
+# with npm
 npm install @tiptap/core @tiptap/starter-kit
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/core @tiptap/starter-kit
 ```
 
@@ -33,10 +33,10 @@ new Editor({
 To use tiptap with Vue.js (and tools that are based on Vue.js) install tiptap together with the Vue.js adapter in your project. We even prepared a Vue.js starter kit, which gives you a good headstart.
 
 ```bash
-# With npm
+# with npm
 npm install @tiptap/core @tiptap/vue @tiptap/vue-starter-kit
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/core @tiptap/vue @tiptap/vue-starter-kit
 ```
 
@@ -44,9 +44,10 @@ Create a new component and add the following content to get a basic version of t
 
 <demo name="Overview/Installation" />
 
-::: warning Nuxt.js
-If you use Nuxt.js, note that tiptap needs to run in the client, not on the server. It’s required to wrap the editor in a `<client-only>` tag.
-:::
+### Nuxt.js
+Note that tiptap needs to run in the client, not on the server. It’s required to wrap the editor in a `<client-only>` tag.
+
+[Read more](https://nuxtjs.org/api/components-client-only)
 
 <!-- ## Option 3: CodeSandbox
 

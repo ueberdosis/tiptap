@@ -9,10 +9,10 @@ The extension will generate the corresponding `<u>` HTML tags when reading conte
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-underline
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-underline
 ```
 
