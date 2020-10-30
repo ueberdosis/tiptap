@@ -159,7 +159,7 @@ const CustomParagraph = Paragraph.extend({
 ### Global Attributes
 Attributes can be applied to multiple extensions at once. That’s useful for text alignment, line height, color, font family, and other styling related attributes.
 
-Take a closer look at the full source code of the [`TextAlign`](/api/extensions/text-align) extension to see a more complex example. But here is how it works in a nutshell:
+Take a closer look at [the full source code](https://github.com/ueberdosis/tiptap-next/tree/main/packages/extension-text-align) of the [`TextAlign`](/api/extensions/text-align) extension to see a more complex example. But here is how it works in a nutshell:
 
 ```js
 import { createExtension } from '@tiptap/core'
