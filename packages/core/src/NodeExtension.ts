@@ -148,7 +148,11 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
   /**
    * Node View
    */
-  addNodeView?: (() => NodeViewRenderer) | null,
+  addNodeView?: ((this: {
+    options: Options,
+    editor: Editor,
+    type: NodeType,
+  }) => NodeViewRenderer) | null,
 }> {}
 
 export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {

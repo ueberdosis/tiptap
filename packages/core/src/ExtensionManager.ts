@@ -113,6 +113,7 @@ export default class ExtensionManager {
           type: getSchemaTypeByName(extension.name, this.schema),
         }
 
+        // @ts-ignore
         const renderer = extension.addNodeView?.bind(context)?.() as NodeViewRenderer
 
         const nodeview = (
