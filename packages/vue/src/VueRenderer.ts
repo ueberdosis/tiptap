@@ -8,8 +8,10 @@ class VueNodeView implements NodeView {
   vm!: Vue
 
   constructor(component: Vue | VueConstructor, props: NodeViewRendererProps) {
-    // const { node, editor, getPos } = props
-    // const { view } = editor
+    // eslint-disable-next-line
+    const { node, editor, getPos } = props
+    // eslint-disable-next-line
+    const { view } = editor
 
     this.mount(component)
   }
