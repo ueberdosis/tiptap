@@ -50,6 +50,7 @@ const TaskItem = createNode({
   addKeyboardShortcuts() {
     const shortcuts = {
       Enter: () => this.editor.splitListItem('task_item'),
+      'Shift-Tab': () => this.editor.liftListItem('task_item'),
     }
 
     if (!this.options.nested) {
@@ -59,7 +60,6 @@ const TaskItem = createNode({
     return {
       ...shortcuts,
       Tab: () => this.editor.sinkListItem('task_item'),
-      'Shift-Tab': () => this.editor.liftListItem('task_item'),
     }
   },
 
