@@ -24,6 +24,8 @@
         # - title: Floating Menu
         #   link: /examples/floating-menu
         #   draft: true
+        - title: Formatting
+          link: /examples/formatting
         - title: Links
           link: /examples/links
         # - title: Images

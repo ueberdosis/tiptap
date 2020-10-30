@@ -35,12 +35,12 @@ new Editor({
 The same applies to every aspect of an existing extension, except to the name. Let’s look at all the things that you can change through the extend method. We focus on one aspect in every example, but you can combine all those examples and change multiple aspects in one `extend()` call too.
 
 ### Name
-The extension name is used in a whole lot of places and changing it isn’t too easy. If you want to change the name of an extension, it’s recommended to copy the whole extension and change the name in all occurrences.
+The extension name is used in a whole lot of places and changing it isn’t too easy. If you want to change the name of an existing extension, we would recommended to copy the whole extension and change the name in all occurrences.
 
-The extension name is also part of the JSON. If you [store your content as JSON](http://localhost:3000/guide/store-content#option-1-json), you need to change the name in there too.
+The extension name is also part of the JSON. If you [store your content as JSON](/guide/store-content#option-1-json), you need to change the name there too.
 
 ### Settings
-All settings can be overwritten through the extension anyway, but if you want to change the defaults, for example to provide a library on top of tiptap for other developers, you can do it like that:
+All settings can be configured through the extension anyway, but if you want to change the default settings, for example to provide a library on top of tiptap for other developers, you can do it like that:
 
 ```js
 import Heading from '@tiptap/extension-heading'
@@ -52,17 +52,13 @@ const CustomHeading = Heading.extend({
 })
 ```
 
-### Node Schema
-Tiptap works with a [strict schema](/api/schema), which configures how the content can be structured, nested, how it behaves and many more things. You can change all aspects of the schema for existing extensions. Let’s walk through a few common use cases.
+### Schema
+tiptap works with a strict schema, which configures how the content can be structured, nested, how it behaves and many more things. You [can change all aspects of the schema](/api/schema) for existing extensions. Let’s walk through a few common use cases.
 
 The default `Blockquote` extension can wrap other nodes, like headings. If you want to allow nothing but paragraphs in your blockquotes, this is how you could achieve it:
 
-
-#### Content
-> The content expression for this node, as described in the schema guide. When not given, the node does not allow any content.
-
 ```js
-// blockquotes include paragraphs only
+// Blockquotes must only include paragraphs
 import Blockquote from '@tiptap/extension-blockquote'
 
 const CustomBlockquote = Blockquote.extend({
@@ -70,25 +66,7 @@ const CustomBlockquote = Blockquote.extend({
 })
 ```
 
-#### Marks
-> The marks that are allowed inside of this node. May be a space-separated string referring to mark names or groups, "_" to explicitly allow all marks, or "" to disallow marks. When not given, nodes with inline content default to allowing all marks, other nodes default to not allowing marks.
-
-#### Group
-> The group or space-separated groups to which this node belongs, which can be referred to in the content expressions for the schema.
-
-#### Inline
-> Should be set to true for inline nodes. (Implied for text nodes.)
-
-#### Atom
-> Can be set to true to indicate that, though this isn't a leaf node, it doesn't have directly editable content and should be treated as a single unit in the view.
-
-#### Selectable
-> Controls whether nodes of this type can be selected as a node selection. Defaults to true for non-text nodes.
-
-#### Draggable
-> Determines whether nodes of this type can be dragged without being selected. Defaults to false.
-
-The schema even allows to make your nodes draggable, that’s what the `draggable` option is for, which defaults to `false`. Here is an example for draggable paragraphs:
+The schema even allows to make your nodes draggable, that’s what the `draggable` option is for, which defaults to `false`.
 
 ```js
 // Draggable paragraphs
@@ -99,36 +77,15 @@ const CustomParagraph = Paragraph.extend({
 })
 ```
 
-#### Code
-> Can be used to indicate that this node contains code, which causes some commands to behave differently.
-
-#### Defining
-> Determines whether this node is considered an important parent node during replace operations (such as paste). Non-defining (the default) nodes get dropped when their entire content is replaced, whereas defining nodes persist and wrap the inserted content. Likewise, in inserted content the defining parents of the content are preserved when possible. Typically, non-default-paragraph textblock types, and possibly list items, are marked as defining.
-
-#### Isolating
-> When enabled (default is false), the sides of nodes of this type count as boundaries that regular editing operations, like backspacing or lifting, won't cross. An example of a node that should probably have this enabled is a table cell.
-
-### Mark Schema
-#### Inclusive
-> Whether this mark should be active when the cursor is positioned at its end (or at its start when that is also the start of the parent node). Defaults to true.
-
-#### Excludes
-> Determines which other marks this mark can coexist with. Should be a space-separated strings naming other marks or groups of marks When a mark is added to a set, all marks that it excludes are removed in the process. If the set contains any mark that excludes the new mark but is not, itself, excluded by the new mark, the mark can not be added an the set. You can use the value "_" to indicate that the mark excludes all marks in the schema.
-
-> Defaults to only being exclusive with marks of the same type. You can set it to an empty string (or any string not containing the mark's own name) to allow multiple marks of a given type to coexist (as long as they have different attributes).
-
-#### Group
-> The group or space-separated groups to which this mark belongs.
-
-#### Spanning
-> Determines whether marks of this type can span multiple adjacent nodes when serialized to DOM/HTML. Defaults to true.
+That’s just two tiny examples, but [the underlying ProseMirror schema](https://prosemirror.net/docs/ref/#model.SchemaSpec) is really powerful. You should definitely read the documentation to understand all the nifty details.
 
 ### Attributes
-You can use attributes to store additional information in the content. Let’s say you want to extend the default paragraph extension with a color attribute to allow paragraphs to have different colors:
+You can use attributes to store additional information in the content. Let’s say you want to extend the default paragraph extension to enable paragraphs to have different colors:
 
 ```js
 const CustomParagraph = Paragraph.extend({
   addAttributes() {
+    // Return an object with attribute configuration
     return {
       color: {
         default: 'pink',
@@ -143,7 +100,9 @@ const CustomParagraph = Paragraph.extend({
 
 That’s already enough to tell tiptap about the new attribute, and set `'pink'` as the default value. All attributes will be rendered as a data-attributes by default, and parsed as data-attributes from the content.
 
-Let’s stick with the color example and assume you’ll probably want to add an inline style to actually color the text. Add a `renderHTML` function and return the attributes that should be added to the rendered HTML. This examples adds a style attribute based on the value of color:
+Let’s stick with the color example and assume you’ll want to add an inline style to actually color the text. With the `renderHTML` function you can return HTML attributes which will be rendered in the output.
+
+This examples adds a style HTML attribute based on the value of color:
 
 ```js
 const CustomParagraph = Paragraph.extend({
@@ -151,7 +110,9 @@ const CustomParagraph = Paragraph.extend({
     return {
       color: {
         default: null,
+        // Take the attribute values
         renderHTML: attributes => {
+          // … and return an object with HTML attributes.
           return {
             style: `color: ${attributes.color}`,
           }
@@ -173,11 +134,13 @@ const CustomParagraph = Paragraph.extend({
     return {
       color: {
         default: null,
+        // Customize the HTML parsing (for example, to load the initial content)
         parseHTML: element => {
           return {
             color: element.getAttribute('data-my-fancy-color-attribute'),
           }
         },
+        // … and customize the HTML rendering.
         renderHTML: attributes => {
           return {
             'data-my-fancy-color-attribute': atttributes.color,
@@ -194,7 +157,39 @@ const CustomParagraph = Paragraph.extend({
 ```
 
 ### Global Attributes
-> TextAlign
+Attributes can be applied to multiple extensions at once. That’s useful for text alignment, line height, color, font family, and other styling related attributes.
+
+Take a closer look at the full source code of the [`TextAlign`](/api/extensions/text-align) extension to see a more complex example. But here is how it works in a nutshell:
+
+```js
+import { createExtension } from '@tiptap/core'
+
+const TextAlign = createExtension({
+  addGlobalAttributes() {
+    return [
+      {
+        // Extend the following extensions
+        types: [
+          'heading',
+          'paragraph',
+        ],
+        // … with those attributes
+        attributes: {
+          textAlign: {
+            default: 'left',
+            renderHTML: attributes => ({
+              style: `text-align: ${attributes.textAlign}`,
+            }),
+            parseHTML: element => ({
+              textAlign: element.style.textAlign || 'left',
+            }),
+          },
+        },
+      },
+    ]
+  },
+})
+```
 
 ### Parse HTML
 > Associates DOM parser information with this mark (see the corresponding node spec field). The mark field in the rules is implied.

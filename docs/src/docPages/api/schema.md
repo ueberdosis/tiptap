@@ -141,3 +141,53 @@ We needed to do the same thing in PHP at some point, so we published libraries t
 * [ueberdosis/prosemirror-php](https://github.com/ueberdosis/prosemirror-php) (PHP)
 * [ueberdosis/prosemirror-to-html](https://github.com/ueberdosis/prosemirror-to-html) (PHP)
 * [ueberdosis/html-to-prosemirror](https://github.com/ueberdosis/html-to-prosemirror) (PHP)
+
+
+### Node Schema
+
+
+#### Content
+> The content expression for this node, as described in the schema guide. When not given, the node does not allow any content.
+
+
+#### Marks
+> The marks that are allowed inside of this node. May be a space-separated string referring to mark names or groups, "_" to explicitly allow all marks, or "" to disallow marks. When not given, nodes with inline content default to allowing all marks, other nodes default to not allowing marks.
+
+#### Group
+> The group or space-separated groups to which this node belongs, which can be referred to in the content expressions for the schema.
+
+#### Inline
+> Should be set to true for inline nodes. (Implied for text nodes.)
+
+#### Atom
+> Can be set to true to indicate that, though this isn't a leaf node, it doesn't have directly editable content and should be treated as a single unit in the view.
+
+#### Selectable
+> Controls whether nodes of this type can be selected as a node selection. Defaults to true for non-text nodes.
+
+#### Draggable
+> Determines whether nodes of this type can be dragged without being selected. Defaults to false.
+
+#### Code
+> Can be used to indicate that this node contains code, which causes some commands to behave differently.
+
+#### Defining
+> Determines whether this node is considered an important parent node during replace operations (such as paste). Non-defining (the default) nodes get dropped when their entire content is replaced, whereas defining nodes persist and wrap the inserted content. Likewise, in inserted content the defining parents of the content are preserved when possible. Typically, non-default-paragraph textblock types, and possibly list items, are marked as defining.
+
+#### Isolating
+> When enabled (default is false), the sides of nodes of this type count as boundaries that regular editing operations, like backspacing or lifting, won't cross. An example of a node that should probably have this enabled is a table cell.
+
+### Mark Schema
+#### Inclusive
+> Whether this mark should be active when the cursor is positioned at its end (or at its start when that is also the start of the parent node). Defaults to true.
+
+#### Excludes
+> Determines which other marks this mark can coexist with. Should be a space-separated strings naming other marks or groups of marks When a mark is added to a set, all marks that it excludes are removed in the process. If the set contains any mark that excludes the new mark but is not, itself, excluded by the new mark, the mark can not be added an the set. You can use the value "_" to indicate that the mark excludes all marks in the schema.
+
+> Defaults to only being exclusive with marks of the same type. You can set it to an empty string (or any string not containing the mark's own name) to allow multiple marks of a given type to coexist (as long as they have different attributes).
+
+#### Group
+> The group or space-separated groups to which this mark belongs.
+
+#### Spanning
+> Determines whether marks of this type can span multiple adjacent nodes when serialized to DOM/HTML. Defaults to true.

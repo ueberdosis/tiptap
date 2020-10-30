@@ -19,9 +19,9 @@ Although tiptap tries to hide most of the complexity of ProseMirror, it’s buil
 
 **Renderless.** We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is renderless and comes without any CSS. You are in full control over markup and styling.
 
-**Framework-agnostic.** We don’t care what framework you use. Tiptap is ready to be used with plain JavaScript or Vue.js. That makes it even possible to write a renderer for React, Svelte and others.
+**Framework-agnostic.** We don’t care what framework you use. tiptap is ready to be used with plain JavaScript or Vue.js. That makes it even possible to write a renderer for React, Svelte and others.
 
-**TypeScript.** Tiptap 2 is written in TypeScript. That gives you a nice autocomplete for the API (if your IDE supports that), helps to find bugs early and makes it possible to generate [a complete API documentation](#) on top of the extensive human written documentation.
+**TypeScript.** tiptap 2 is written in TypeScript. That gives you a nice autocomplete for the API (if your IDE supports that), helps to find bugs early and makes it possible to generate [a complete API documentation](#) on top of the extensive human written documentation.
 
 ## Who uses tiptap?
 - [GitLab](https://gitlab.com)
@@ -33,4 +33,4 @@ Although tiptap tries to hide most of the complexity of ProseMirror, it’s buil
 - [and many more →](https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D)
 
 ## License
-Tiptap is licensed under MIT, so you’re free to whatever you want. Anyway, we kindly ask you to [become a sponsor](https://github.com/sponsors/ueberdosis) on GitHub to fund the development, maintenance and support of tiptap.
+tiptap is licensed under MIT, so you’re free to whatever you want. Anyway, we kindly ask you to [become a sponsor](https://github.com/sponsors/ueberdosis) on GitHub to fund the development, maintenance and support of tiptap.
