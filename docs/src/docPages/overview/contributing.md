@@ -6,8 +6,9 @@
 Tiptap would be nothing without its lively community. Contributions have always been and will always be welcome. Here is a little bit you should know, before you send your contribution:
 
 ## Welcome examples
-* Improve the documentation, e. g. fix a typo, add a section
-* New features for existing extensions, e. g. a new option
+* Failing regression tests as bug reports
+* Documentation improvements, e. g. fix a typo, add a section
+* New features for existing extensions, e. g. a new configureable option
 * New extensions, which don’t require changes to the core or other core extensions
 * Well explained, non-breaking changes to the core
 

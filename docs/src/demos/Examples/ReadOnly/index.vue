@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .checkbox {
   margin-bottom: 1rem;
 

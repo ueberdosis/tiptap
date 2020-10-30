@@ -6,10 +6,10 @@ Type <code>>&nbsp;</code> at the beginning of a new line and it will magically t
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-blockquote
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-blockquote
 ```
 

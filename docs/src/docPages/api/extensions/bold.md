@@ -9,10 +9,10 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-bold
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-bold
 ```
 

@@ -9,10 +9,10 @@ The extension will generate the corresponding `<s>` HTML tags when reading conte
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-strike
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-strike
 ```
 

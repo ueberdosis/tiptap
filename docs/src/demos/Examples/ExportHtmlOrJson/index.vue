@@ -7,6 +7,12 @@
       <button class="button" @click="clearContent">
         Clear Content
       </button>
+      <button @click="editor.chain().focus().bold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        Bold
+      </button>
+      <button @click="editor.chain().focus().italic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+        Italic
+      </button>
     </div>
 
     <editor-content :editor="editor" />
@@ -70,7 +76,7 @@ export default {
           content: [
             {
               type: 'text',
-              text: 'This is some inserted text. 👋',
+              text: 'It’s 19871. You can’t turn on a radio, or go to a mall without hearing Olivia Newton-John’s hit song, Physical.',
             },
           ],
         }],
@@ -95,11 +101,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .export {
+  padding: 1rem 0 0;
+
   h3 {
-    margin: 0.5rem 0;
+    margin: 1rem 0 0.5rem;
   }
+
   pre {
     border-radius: 5px;
     color: #333;
@@ -109,7 +118,9 @@ export default {
     display: block;
     white-space: pre-wrap;
     font-size: 0.8rem;
-    padding: 1rem;
+    padding: 0.75rem 1rem;
+    background-color:#e9ecef;
+    color: #495057;
   }
 }
 </style>

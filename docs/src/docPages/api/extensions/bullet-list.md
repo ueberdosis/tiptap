@@ -9,10 +9,10 @@ The `BulletList` extension is intended to be used with the [`ListItem`](/api/ext
 :::
 
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-bullet-list @tiptap/extension-list-item
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-bullet-list @tiptap/extension-list-item
 ```
 

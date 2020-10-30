@@ -7,10 +7,10 @@ Pasted URLs will be linked automatically.
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-link
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-link
 ```
 
