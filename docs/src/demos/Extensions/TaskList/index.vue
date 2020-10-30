@@ -51,3 +51,20 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+ul[data-type="task_list"] {
+  list-style: none;
+  padding: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+
+    > input {
+      flex: 0 0 auto;
+      margin-right: 0.5rem;
+    }
+  }
+}
+</style>
