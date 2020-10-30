@@ -1,14 +1,15 @@
 import { Plugin } from 'prosemirror-state'
 import { keymap } from 'prosemirror-keymap'
-// import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
+import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { inputRules } from 'prosemirror-inputrules'
-// import { EditorView, Decoration } from 'prosemirror-view'
-import { Schema } from 'prosemirror-model'
+import { EditorView, Decoration } from 'prosemirror-view'
 import { Editor } from './Editor'
-// import capitalize from './utils/capitalize'
-import { Extensions } from './types'
+import { Extensions, NodeViewRenderer } from './types'
 import getSchema from './utils/getSchema'
 import getSchemaTypeByName from './utils/getSchemaTypeByName'
+import splitExtensions from './utils/splitExtensions'
+import getAttributesFromExtensions from './utils/getAttributesFromExtensions'
+import getRenderedAttributes from './utils/getRenderedAttributes'
 
 export default class ExtensionManager {
 
@@ -98,36 +99,41 @@ export default class ExtensionManager {
   }
 
   get nodeViews() {
-    // const { renderer: Renderer } = this.editor
+    const { editor } = this
+    const { nodeExtensions } = splitExtensions(this.extensions)
+    const allAttributes = getAttributesFromExtensions(this.extensions)
 
-    // if (!Renderer || !Renderer.type) {
-    //   return {}
-    // }
+    return Object.fromEntries(nodeExtensions
+      .filter(extension => !!extension.addNodeView)
+      .map(extension => {
+        const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
+        const context = {
+          options: extension.options,
+          editor,
+          type: getSchemaTypeByName(extension.name, this.schema),
+        }
 
-    // const prop = `to${capitalize(Renderer.type)}`
+        const renderer = extension.addNodeView?.bind(context)?.() as NodeViewRenderer
 
-    // return collect(this.extensions)
-    //   .where('extensionType', 'node')
-    //   .filter((extension: any) => extension.schema()[prop])
-    //   .map((extension: any) => {
-    //     return (
-    //       node: ProsemirrorNode,
-    //       view: EditorView,
-    //       getPos: (() => number) | boolean,
-    //       decorations: Decoration[],
-    //     ) => {
-    //       return new Renderer(extension.schema()[prop], {
-    //         extension,
-    //         editor: this.editor,
-    //         node,
-    //         getPos,
-    //         decorations,
-    //       })
-    //     }
-    //   })
-    //   .all()
+        const nodeview = (
+          node: ProsemirrorNode,
+          view: EditorView,
+          getPos: (() => number) | boolean,
+          decorations: Decoration[],
+        ) => {
+          const attributes = getRenderedAttributes(node, extensionAttributes)
 
-    return {}
+          return renderer({
+            editor,
+            node,
+            getPos,
+            decorations,
+            attributes,
+          })
+        }
+
+        return [extension.name, nodeview]
+      }))
   }
 
 }

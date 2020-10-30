@@ -3,7 +3,7 @@ import {
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { ExtensionSpec, defaultExtension } from './Extension'
-import { Attributes, Overwrite } from './types'
+import { Attributes, NodeViewRenderer, Overwrite } from './types'
 import { Editor } from './Editor'
 
 export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
@@ -13,54 +13,59 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
   topNode?: boolean,
 
   /**
+   * List
+   */
+  list?: boolean,
+
+  /**
    * Content
    */
-  content?: NodeSpec['content'],
+  content?: NodeSpec['content'] | ((this: { options: Options }) => NodeSpec['content']),
 
   /**
    * Marks
    */
-  marks?: NodeSpec['marks'],
+  marks?: NodeSpec['marks'] | ((this: { options: Options }) => NodeSpec['marks']),
 
   /**
    * Group
    */
-  group?: NodeSpec['group'],
+  group?: NodeSpec['group'] | ((this: { options: Options }) => NodeSpec['group']),
 
   /**
    * Inline
    */
-  inline?: NodeSpec['inline'],
+  inline?: NodeSpec['inline'] | ((this: { options: Options }) => NodeSpec['inline']),
 
   /**
    * Atom
    */
-  atom?: NodeSpec['atom'],
+  atom?: NodeSpec['atom'] | ((this: { options: Options }) => NodeSpec['atom']),
 
   /**
    * Selectable
    */
-  selectable?: NodeSpec['selectable'],
+  selectable?: NodeSpec['selectable'] | ((this: { options: Options }) => NodeSpec['selectable']),
 
   /**
    * Draggable
    */
-  draggable?: NodeSpec['draggable'],
+  draggable?: NodeSpec['draggable'] | ((this: { options: Options }) => NodeSpec['draggable']),
 
   /**
    * Code
    */
-  code?: NodeSpec['code'],
+  code?: NodeSpec['code'] | ((this: { options: Options }) => NodeSpec['code']),
 
   /**
    * Defining
    */
-  defining?: NodeSpec['defining'],
+  defining?: NodeSpec['defining'] | ((this: { options: Options }) => NodeSpec['defining']),
 
   /**
    * Isolating
    */
-  isolating?: NodeSpec['isolating'],
+  isolating?: NodeSpec['isolating'] | ((this: { options: Options }) => NodeSpec['isolating']),
 
   /**
    * Parse HTML
@@ -139,6 +144,11 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
     editor: Editor,
     type: NodeType,
   }) => Plugin[],
+
+  /**
+   * Node View
+   */
+  addNodeView?: (() => NodeViewRenderer) | null,
 }> {}
 
 export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {
@@ -153,6 +163,7 @@ const defaultNode: NodeExtension = {
   type: 'node',
   name: 'node',
   topNode: false,
+  list: false,
   content: null,
   marks: null,
   group: null,
@@ -166,6 +177,7 @@ const defaultNode: NodeExtension = {
   parseHTML: () => null,
   renderHTML: null,
   addAttributes: () => ({}),
+  addNodeView: null,
 }
 
 export function createNode<Options extends {}, Commands extends {}>(config: NodeExtensionSpec<Options, Commands>) {
