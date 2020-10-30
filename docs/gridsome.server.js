@@ -52,6 +52,10 @@ const globby = require('globby')
 
 module.exports = function (api) {
 
+  api.setClientOptions({
+    cwd: process.cwd(),
+  })
+
   api.loadSource(({ addCollection }) => {
     const appCollection = addCollection({ typeName: 'Package' })
 

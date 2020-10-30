@@ -214,6 +214,10 @@ export default {
       const { currentPath } = this
       const filePath = currentPath === '' ? '/introduction' : currentPath
 
+      if (process.env.NODE_ENV === 'development') {
+        return `vscode://file${this.cwd}/src/docPages${filePath}.md`
+      }
+
       return `https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/docPages${filePath}.md`
     },
   },

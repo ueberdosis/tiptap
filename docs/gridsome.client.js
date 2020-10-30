@@ -1,5 +1,13 @@
 export default function (Vue, options, context) {
 
+  Vue.mixin({
+    data() {
+      return {
+        cwd: options.cwd,
+      }
+    },
+  })
+
   context.router.afterEach(to => {
     if (to.hash) {
       setTimeout(() => {
