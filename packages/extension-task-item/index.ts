@@ -78,6 +78,7 @@ const TaskItem = createNode({
           view.dispatch(view.state.tr.setNodeMarkup(getPos(), undefined, {
             checked,
           }))
+          editor.focus()
         }
       })
 
@@ -94,6 +95,13 @@ const TaskItem = createNode({
       return {
         dom: listItem,
         contentDOM: content,
+        update: node => {
+          if (node.type !== this.type) {
+            return false
+          }
+
+          return true
+        },
       }
     }
   },
