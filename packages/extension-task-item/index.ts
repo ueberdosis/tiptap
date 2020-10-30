@@ -1,4 +1,7 @@
 import { createNode, mergeAttributes } from '@tiptap/core'
+import { wrappingInputRule } from 'prosemirror-inputrules'
+
+export const inputRegex = /^\s*(\[([ |x])\])\s$/
 
 export interface TaskItemOptions {
   nested: boolean,
@@ -93,6 +96,18 @@ const TaskItem = createNode({
         contentDOM: content,
       }
     }
+  },
+
+  addInputRules() {
+    return [
+      wrappingInputRule(
+        inputRegex,
+        this.type,
+        match => ({
+          checked: match[match.length - 1] === 'x',
+        }),
+      ),
+    ]
   },
 })
 
