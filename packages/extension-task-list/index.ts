@@ -1,6 +1,9 @@
 import { Command, createNode, mergeAttributes } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
+// TODO: add suport for [ ] and [x]
+export const inputRegex = /^\s*(\[ \])\s$/
+
 const TaskList = createNode({
   name: 'task_list',
 
@@ -33,7 +36,7 @@ const TaskList = createNode({
 
   addInputRules() {
     return [
-      wrappingInputRule(/^\s*(\[ \])\s$/, this.type),
+      wrappingInputRule(inputRegex, this.type),
     ]
   },
 })
