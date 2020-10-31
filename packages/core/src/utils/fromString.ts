@@ -1,4 +1,8 @@
 export default function fromString(value: any) {
+  if (typeof value !== 'string') {
+    return value
+  }
+
   if (value.match(/^\d*(\.\d+)?$/)) {
     return Number(value)
   }

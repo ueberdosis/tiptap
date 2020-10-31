@@ -1,41 +1,47 @@
 /// <reference types="cypress" />
 
-import { fromString } from '@tiptap/core'
+import fromString from '@tiptap/core/src/utils/fromString'
 
 describe('fromString', () => {
-  it('parse a string', () => {
+  it('should return a string', () => {
     const value = fromString('test')
 
     expect(value).to.eq('test')
   })
 
-  it('parse a number', () => {
+  it('should convert to a number', () => {
     const value = fromString('1')
 
     expect(value).to.eq(1)
   })
 
-  it('parse a floating number', () => {
+  it('should convert to a floating number', () => {
     const value = fromString('1.2')
 
     expect(value).to.eq(1.2)
   })
 
-  it('parse not a number with exponent', () => {
+  it('should not convert to a number with exponent', () => {
     const value = fromString('1e1')
 
     expect(value).to.eq('1e1')
   })
 
-  it('parse a boolean (true)', () => {
+  it('should convert to true', () => {
     const value = fromString('true')
 
     expect(value).to.eq(true)
   })
 
-  it('parse a boolean (false)', () => {
+  it('should convert to false', () => {
     const value = fromString('false')
 
     expect(value).to.eq(false)
+  })
+
+  it('should return non-strings', () => {
+    const value = fromString(null)
+
+    expect(value).to.eq(null)
   })
 })
