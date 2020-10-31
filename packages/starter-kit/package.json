@@ -20,6 +20,8 @@
     "@tiptap/extension-italic": "1.x",
     "@tiptap/extension-code": "1.x",
     "@tiptap/extension-code-block": "1.x",
+    "@tiptap/extension-dropcursor": "1.x",
+    "@tiptap/extension-gapcursor": "1.x",
     "@tiptap/extension-heading": "1.x",
     "@tiptap/extension-hard-break": "1.x",
     "@tiptap/extension-strike": "1.x",

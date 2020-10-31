@@ -14,6 +14,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Image from '@tiptap/extension-image'
+import Dropcursor from '@tiptap/extension-dropcursor'
 
 export default {
   components: {
@@ -41,6 +42,7 @@ export default {
         Paragraph(),
         Text(),
         Image(),
+        Dropcursor(),
       ],
       content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>

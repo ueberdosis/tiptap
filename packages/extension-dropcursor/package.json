@@ -1,0 +1,21 @@
+{
+  "name": "@tiptap/extension-dropcursor",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-extension-dropcursor.js",
+  "umd:main": "dist/tiptap-extension-dropcursor.umd.js",
+  "module": "dist/tiptap-extension-dropcursor.mjs",
+  "unpkg": "dist/tiptap-extension-dropcursor.js",
+  "jsdelivr": "dist/tiptap-extension-dropcursor.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "2.x"
+  },
+  "dependencies": {
+    "@types/prosemirror-dropcursor": "^1.0.0",
+    "prosemirror-dropcursor": "^1.1.3"
+  }
+}

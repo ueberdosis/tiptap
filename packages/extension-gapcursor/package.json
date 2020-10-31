@@ -1,0 +1,21 @@
+{
+  "name": "@tiptap/extension-gapcursor",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-extension-gapcursor.js",
+  "umd:main": "dist/tiptap-extension-gapcursor.umd.js",
+  "module": "dist/tiptap-extension-gapcursor.mjs",
+  "unpkg": "dist/tiptap-extension-gapcursor.js",
+  "jsdelivr": "dist/tiptap-extension-gapcursor.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "2.x"
+  },
+  "dependencies": {
+    "@types/prosemirror-gapcursor": "^1.0.1",
+    "prosemirror-gapcursor": "^1.1.5"
+  }
+}
