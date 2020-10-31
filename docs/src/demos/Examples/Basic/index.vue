@@ -68,7 +68,6 @@
 
 <script>
 import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
-import Typography from '@tiptap/extension-typography'
 
 export default {
   components: {
@@ -83,10 +82,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        ...defaultExtensions(),
-        Typography(),
-      ],
+      extensions: defaultExtensions(),
       content: `
         <h2>
           Hi there,
