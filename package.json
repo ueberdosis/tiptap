@@ -43,6 +43,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-vue": "^7.0.1",
     "lerna": "^3.22.1",
+    "levenary": "^1.1.1",
     "microbundle": "^0.12.4",
     "typedoc": "^0.19.2",
     "typescript": "^4.0.5",
