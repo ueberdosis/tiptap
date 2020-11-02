@@ -14,7 +14,10 @@
         code
       </button>
       <button @click="editor.chain().focus().removeMarks().run()">
-        clear format
+        clear marks
+      </button>
+      <button @click="editor.chain().focus().clearNodes().run()">
+        clear nodes
       </button>
       <button @click="editor.chain().focus().paragraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
         paragraph
