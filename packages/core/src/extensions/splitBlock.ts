@@ -77,7 +77,7 @@ export const SplitBlock = createExtension({
             }
           }
 
-          dispatch(tr.scrollIntoView())
+          tr.scrollIntoView()
         }
 
         return true

@@ -9,7 +9,7 @@
     <button @click="editor.chain().focus().textAlign('right').run()">
       right
     </button>
-    <button @click="editor.chain().focus().setDefaultNodeAttributes(['textAlign']).run()">
+    <button @click="editor.chain().focus().resetNodeAttributes(['textAlign']).run()">
       set default
     </button>
     <editor-content :editor="editor" />

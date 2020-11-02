@@ -7,7 +7,7 @@ import getMarkRange from '../utils/getMarkRange'
 export const RemoveMark = createExtension({
   addCommands() {
     return {
-      removeMark: (typeOrName: string | MarkType): Command => ({ tr, state }) => {
+      removeMark: (typeOrName: string | MarkType): Command => ({ tr, state, dispatch }) => {
         const { selection } = tr
         const type = getMarkType(typeOrName, state.schema)
         let { from, to } = selection
@@ -22,7 +22,9 @@ export const RemoveMark = createExtension({
           }
         }
 
-        tr.removeMark(from, to, type)
+        if (dispatch) {
+          tr.removeMark(from, to, type)
+        }
 
         return true
       },

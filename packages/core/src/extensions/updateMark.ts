@@ -7,7 +7,7 @@ import getMarkRange from '../utils/getMarkRange'
 export const UpdateMark = createExtension({
   addCommands() {
     return {
-      updateMark: (typeOrName: string | MarkType, attrs: {}): Command => ({ tr, state }) => {
+      updateMark: (typeOrName: string | MarkType, attrs: {}): Command => ({ tr, state, dispatch }) => {
         const { selection, doc } = tr
         let { from, to } = selection
         const { $from, empty } = selection
@@ -24,11 +24,13 @@ export const UpdateMark = createExtension({
 
         const hasMark = doc.rangeHasMark(from, to, type)
 
-        if (hasMark) {
+        if (hasMark && dispatch) {
           tr.removeMark(from, to, type)
         }
 
-        tr.addMark(from, to, type.create(attrs))
+        if (dispatch) {
+          tr.addMark(from, to, type.create(attrs))
+        }
 
         return true
       },

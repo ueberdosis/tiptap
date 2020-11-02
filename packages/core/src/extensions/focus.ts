@@ -40,7 +40,9 @@ function resolveSelection(editor: Editor, position: Position = null): ResolvedSe
 export const Focus = createExtension({
   addCommands() {
     return {
-      focus: (position: Position = null): Command => ({ editor, view, tr }) => {
+      focus: (position: Position = null): Command => ({
+        editor, view, tr, dispatch,
+      }) => {
         if ((view.hasFocus() && position === null) || position === false) {
           return true
         }
@@ -51,7 +53,10 @@ export const Focus = createExtension({
         const resolvedEnd = minMax(to, 0, doc.content.size)
         const selection = TextSelection.create(doc, resolvedFrom, resolvedEnd)
 
-        tr.setSelection(selection)
+        if (dispatch) {
+          tr.setSelection(selection)
+        }
+
         view.focus()
 
         return true

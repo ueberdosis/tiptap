@@ -4,8 +4,10 @@ import { createExtension } from '../Extension'
 export const ScrollIntoView = createExtension({
   addCommands() {
     return {
-      scrollIntoView: (): Command => ({ tr }) => {
-        tr.scrollIntoView()
+      scrollIntoView: (): Command => ({ tr, dispatch }) => {
+        if (dispatch) {
+          tr.scrollIntoView()
+        }
 
         return true
       },

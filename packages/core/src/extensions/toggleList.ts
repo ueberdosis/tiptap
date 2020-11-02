@@ -31,10 +31,12 @@ export const ToggleList = createExtension({
           }
 
           // change list type
-          if (isList(parentList.node.type.name, extensions) && listType.validContent(parentList.node.content)) {
-            if (dispatch) {
-              tr.setNodeMarkup(parentList.pos, listType)
-            }
+          if (
+            isList(parentList.node.type.name, extensions)
+            && listType.validContent(parentList.node.content)
+            && dispatch
+          ) {
+            tr.setNodeMarkup(parentList.pos, listType)
 
             return true
           }

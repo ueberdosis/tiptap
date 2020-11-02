@@ -1,10 +1,10 @@
 import { Command } from '../Editor'
 import { createExtension } from '../Extension'
 
-export const SetDefaultNodeAttributes = createExtension({
+export const ResetNodeAttributes = createExtension({
   addCommands() {
     return {
-      setDefaultNodeAttributes: (attributeNames: string[] = []): Command => ({ tr, state }) => {
+      resetNodeAttributes: (attributeNames: string[] = []): Command => ({ tr, state, dispatch }) => {
         const { selection } = tr
         const { from, to } = selection
 
@@ -14,7 +14,7 @@ export const SetDefaultNodeAttributes = createExtension({
               const attribute = node.type.spec.attrs?.[name]
               const defaultValue = attribute?.default
 
-              if (attribute && defaultValue !== undefined) {
+              if (attribute && defaultValue !== undefined && dispatch) {
                 tr.setNodeMarkup(pos, undefined, {
                   [name]: defaultValue,
                 })
@@ -31,6 +31,6 @@ export const SetDefaultNodeAttributes = createExtension({
 
 declare module '../Editor' {
   interface AllExtensions {
-    SetDefaultNodeAttributes: typeof SetDefaultNodeAttributes,
+    ResetNodeAttributes: typeof ResetNodeAttributes,
   }
 }

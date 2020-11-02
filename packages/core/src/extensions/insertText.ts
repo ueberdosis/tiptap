@@ -4,8 +4,10 @@ import { createExtension } from '../Extension'
 export const InsertText = createExtension({
   addCommands() {
     return {
-      insertText: (value: string): Command => ({ tr }) => {
-        tr.insertText(value)
+      insertText: (value: string): Command => ({ tr, dispatch }) => {
+        if (dispatch) {
+          tr.insertText(value)
+        }
 
         return true
       },

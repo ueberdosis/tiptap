@@ -4,7 +4,7 @@ import { createExtension } from '../Extension'
 export const RemoveMarks = createExtension({
   addCommands() {
     return {
-      removeMarks: (): Command => ({ tr, state }) => {
+      removeMarks: (): Command => ({ tr, state, dispatch }) => {
         const { selection } = tr
         const { from, to, empty } = selection
 
@@ -12,11 +12,13 @@ export const RemoveMarks = createExtension({
           return true
         }
 
-        Object
-          .entries(state.schema.marks)
-          .forEach(([, mark]) => {
-            tr.removeMark(from, to, mark as any)
-          })
+        if (dispatch) {
+          Object
+            .entries(state.schema.marks)
+            .forEach(([, mark]) => {
+              tr.removeMark(from, to, mark as any)
+            })
+        }
 
         return true
       },

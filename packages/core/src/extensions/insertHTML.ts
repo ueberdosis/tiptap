@@ -21,13 +21,15 @@ function selectionToInsertionEnd(tr: Transaction, startLen: number, bias: number
 export const InsertHTML = createExtension({
   addCommands() {
     return {
-      insertHTML: (value: string): Command => ({ tr, state }) => {
+      insertHTML: (value: string): Command => ({ tr, state, dispatch }) => {
         const { selection } = tr
         const element = elementFromString(value)
         const slice = DOMParser.fromSchema(state.schema).parseSlice(element)
 
-        tr.insert(selection.anchor, slice.content)
-        selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
+        if (dispatch) {
+          tr.insert(selection.anchor, slice.content)
+          selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
+        }
 
         return true
       },

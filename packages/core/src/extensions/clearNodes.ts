@@ -5,7 +5,7 @@ import { createExtension } from '../Extension'
 export const ClearNodes = createExtension({
   addCommands() {
     return {
-      clearNodes: (): Command => ({ state, tr }) => {
+      clearNodes: (): Command => ({ state, tr, dispatch }) => {
         const { selection } = tr
         const { from, to } = selection
 
@@ -18,11 +18,11 @@ export const ClearNodes = createExtension({
             if (nodeRange) {
               const targetLiftDepth = liftTarget(nodeRange)
 
-              if (node.type.isTextblock) {
+              if (node.type.isTextblock && dispatch) {
                 tr.setNodeMarkup(nodeRange.start, state.schema.nodes.paragraph)
               }
 
-              if (targetLiftDepth || targetLiftDepth === 0) {
+              if ((targetLiftDepth || targetLiftDepth === 0) && dispatch) {
                 tr.lift(nodeRange, targetLiftDepth)
               }
             }
