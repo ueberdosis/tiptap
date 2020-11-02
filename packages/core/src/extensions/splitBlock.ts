@@ -26,7 +26,7 @@ export const SplitBlock = createExtension({
           }
 
           if (dispatch) {
-            dispatch(tr.split($from.pos).scrollIntoView())
+            tr.split($from.pos).scrollIntoView()
           }
 
           return true

@@ -237,7 +237,7 @@ export class Editor extends EventEmitter {
    */
   private createExtensionManager() {
     const coreExtensions = Object.entries(extensions).map(([, extension]) => extension())
-    const allExtensions = [...coreExtensions, ...this.options.extensions]
+    const allExtensions = [...this.options.extensions, ...coreExtensions]
 
     this.extensionManager = new ExtensionManager(allExtensions, this.proxy)
   }
