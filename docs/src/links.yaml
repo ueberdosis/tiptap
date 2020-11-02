@@ -104,22 +104,58 @@
       link: /api/overview
     - title: Editor
       link: /api/editor
+    - title: Nodes
+      link: /api/nodes
+      items:
+        - title: Blockquote
+          link: /api/nodes/blockquote
+        - title: BulletList
+          link: /api/nodes/bullet-list
+        - title: CodeBlock
+          link: /api/nodes/code-block
+        - title: Document
+          link: /api/nodes/document
+        - title: HardBreak
+          link: /api/nodes/hard-break
+        - title: Heading
+          link: /api/nodes/heading
+        - title: HorizontalRule
+          link: /api/nodes/horizontal-rule
+        - title: Image
+          link: /api/nodes/image
+          draft: true
+        - title: ListItem
+          link: /api/nodes/list-item
+        - title: OrderedList
+          link: /api/nodes/ordered-list
+        - title: Paragraph
+          link: /api/nodes/paragraph
+        - title: TaskList
+          link: /api/nodes/task-list
+          draft: true
+        - title: TaskItem
+          link: /api/nodes/task-item
+          draft: true
+        - title: Text
+          link: /api/nodes/text
+    - title: Marks
+      link: /api/marks
+      items:
+        - title: Bold
+          link: /api/marks/bold
+        - title: Code
+          link: /api/marks/code
+        - title: Italic
+          link: /api/marks/italic
+        - title: Link
+          link: /api/marks/link
+        - title: Strike
+          link: /api/marks/strike
+        - title: Underline
+          link: /api/marks/underline
     - title: Extensions
       link: /api/extensions
       items:
-        - title: Blockquote
-          link: /api/extensions/blockquote
-        - title: Bold
-          link: /api/extensions/bold
-        - title: BulletList
-          link: /api/extensions/bullet-list
-        - title: Code
-          link: /api/extensions/code
-        - title: CodeBlock
-          link: /api/extensions/code-block
-        # - title: CodeBlockHighlight
-        #   link: /api/extensions/code-block-highlight
-        #   draft: true
         - title: Collaboration
           link: /api/extensions/collaboration
           premium: true
@@ -127,62 +163,23 @@
           link: /api/extensions/collaboration-cursor
           draft: true
           premium: true
-        - title: Document
-          link: /api/extensions/document
-        - title: HardBreak
-          link: /api/extensions/hard-break
-        - title: Heading
-          link: /api/extensions/heading
+        - title: Dropcursor
+          link: /api/extensions/dropcursor
+          draft: true
+        - title: Focus
+          link: /api/extensions/focus
+          draft: true
+        - title: Gapcursor
+          link: /api/extensions/gapcursor
+          draft: true
         - title: History
           link: /api/extensions/history
-        - title: HorizontalRule
-          link: /api/extensions/horizontal-rule
-        - title: Image
-          link: /api/extensions/image
-          draft: true
-        - title: Italic
-          link: /api/extensions/italic
-        - title: Link
-          link: /api/extensions/link
-        - title: ListItem
-          link: /api/extensions/list-item
-        # - title: Mention
-        #   link: /api/extensions/mention
-        #   draft: true
-        - title: OrderedList
-          link: /api/extensions/ordered-list
-        - title: Paragraph
-          link: /api/extensions/paragraph
-        # - title: Placeholder
-        #   link: /api/extensions/placeholder
-        #   draft: true
-        - title: Strike
-          link: /api/extensions/strike
-        - title: TaskList
-          link: /api/extensions/task-list
-          draft: true
-        # - title: TableCell
-        #   link: /api/extensions/table-cell
-        #   draft: true
-        # - title: TableHeader
-        #   link: /api/extensions/table-header
-        #   draft: true
-        # - title: TableRow
-        #   link: /api/extensions/table-row
-        #   draft: true
-        - title: Text
-          link: /api/extensions/text
         - title: TextAlign
           link: /api/extensions/text-align
           draft: true
-        # - title: TodoItem
-        #   link: /api/extensions/todo-item
-        #   draft: true
-        # - title: TodoList
-        #   link: /api/extensions/todo-list
-        #   draft: true
-        - title: Underline
-          link: /api/extensions/underline
+        - title: Typography
+          link: /api/extensions/typography
+          draft: true
     - title: Commands
       link: /api/commands
     - title: Events

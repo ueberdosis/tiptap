@@ -3,7 +3,7 @@ The ListItem extension adds support for the `<li>` HTML tag. It’s used for bul
 
 ## Installation
 ::: warning Restrictions
-This extensions is intended to be used with the [`BulletList`](/api/extensions/bullet-list) or [`OrderedList`](/api/extensions/ordered-list) extension. It doesn’t work without at least using one of them.
+This extension is intended to be used with the [`BulletList`](/api/extensions/bullet-list) or [`OrderedList`](/api/extensions/ordered-list) extension. It doesn’t work without at least using one of them.
 :::
 
 ```bash
