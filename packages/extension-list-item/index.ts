@@ -3,7 +3,7 @@ import { createNode } from '@tiptap/core'
 const ListItem = createNode({
   name: 'list_item',
 
-  content: '(paragraph|list)+',
+  content: '(paragraph|list?)+',
 
   defining: true,
 
