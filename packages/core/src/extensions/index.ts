@@ -1,5 +1,6 @@
 export { Blur } from './blur'
 export { ClearContent } from './clearContent'
+export { ClearNodes } from './clearNodes'
 export { DeleteSelection } from './deleteSelection'
 export { Focus } from './focus'
 export { InsertHTML } from './insertHTML'

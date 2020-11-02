@@ -44,7 +44,8 @@ export const ToggleList = createExtension({
         // try to convert node to paragraph if needed
         if (!canWrapInList) {
           return chain()
-            .setBlockType('paragraph')
+            // .setBlockType('paragraph')
+            .clearNodes()
             .wrapInList(listType)
             .run()
         }
