@@ -18,43 +18,43 @@ function getMarksBetween(start: number, end: number, state: EditorState) {
 
 export default function (regexp: RegExp, markType: MarkType, getAttrs?: Function) {
   return new InputRule(regexp, (state, match, start, end) => {
-    const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
+    const attributes = getAttrs instanceof Function ? getAttrs(match) : getAttrs
     const { tr } = state
-    const m = match.length - 1
+    const captureGroup = match[match.length - 1]
+    const fullMatch = match[0]
     let markEnd = end
-    let markStart = start
 
-    if (match[m]) {
-      const matchStart = start + match[0].indexOf(match[m - 1])
-      const matchEnd = matchStart + match[m - 1].length - 1
-      const textStart = matchStart + match[m - 1].lastIndexOf(match[m])
-      const textEnd = textStart + match[m].length
+    if (captureGroup) {
+      const startSpaces = fullMatch.search(/\S/)
+      const textStart = start + fullMatch.indexOf(captureGroup)
+      const textEnd = textStart + captureGroup.length
 
       const excludedMarks = getMarksBetween(start, end, state)
         .filter(item => {
           const { excluded } = item.mark.type
           return excluded.find((type: MarkType) => type.name === markType.name)
         })
-        .filter(item => item.end > matchStart)
+        .filter(item => item.end > textStart)
 
       if (excludedMarks.length) {
         return null
       }
 
-      if (textEnd < matchEnd) {
-        tr.delete(textEnd, matchEnd)
+      if (textEnd < end) {
+        tr.delete(textEnd, end)
       }
 
-      if (textStart > matchStart) {
-        tr.delete(matchStart, textStart)
+      if (textStart > start) {
+        tr.delete(start + startSpaces, textStart)
       }
 
-      markStart = matchStart
-      markEnd = markStart + match[m].length
+      markEnd = start + startSpaces + captureGroup.length
     }
 
-    tr.addMark(markStart, markEnd, markType.create(attrs))
+    tr.addMark(start, markEnd, markType.create(attributes))
+
     tr.removeStoredMark(markType)
+
     return tr
   })
 }
