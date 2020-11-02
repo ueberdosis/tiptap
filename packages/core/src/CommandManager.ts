@@ -1,5 +1,7 @@
 import { EditorState, Transaction } from 'prosemirror-state'
-import { ChainedCommands, Editor, CommandSpec } from './Editor'
+import {
+  SingleCommands, ChainedCommands, Editor, CommandSpec,
+} from './Editor'
 import getAllMethodNames from './utils/getAllMethodNames'
 
 export default class CommandManager {
@@ -95,6 +97,30 @@ export default class CommandManager {
     }) as ChainedCommands
   }
 
+  public createCan(startTr?: Transaction) {
+    const { commands, editor } = this
+    const { state } = editor
+    const dispatch = false
+    const hasStartTransaction = !!startTr
+    const tr = hasStartTransaction ? startTr : state.tr
+
+    if (!tr) {
+      return
+    }
+
+    const props = this.buildProps(tr, dispatch)
+    const formattedCommands = Object.fromEntries(Object
+      .entries(commands)
+      .map(([name, command]) => {
+        return [name, (...args: any[]) => command(...args)({ ...props, dispatch })]
+      }))
+
+    return {
+      ...formattedCommands,
+      chain: () => this.createChain(tr, dispatch),
+    } as SingleCommands & { chain: () => ChainedCommands }
+  }
+
   public buildProps(tr: Transaction, shouldDispatch = true) {
     const { editor, commands } = this
     const { state, view } = editor
@@ -108,19 +134,7 @@ export default class CommandManager {
         ? () => true
         : undefined,
       chain: () => this.createChain(tr),
-      can: () => {
-        const dispatch = false
-        const formattedCommands = Object.fromEntries(Object
-          .entries(commands)
-          .map(([name, command]) => {
-            return [name, (...args: any[]) => command(...args)({ ...props, dispatch })]
-          }))
-
-        return {
-          ...formattedCommands,
-          chain: () => this.createChain(tr, dispatch),
-        }
-      },
+      can: () => this.createCan(tr),
       get commands() {
         return Object.fromEntries(Object
           .entries(commands)

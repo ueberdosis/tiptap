@@ -115,7 +115,6 @@ export class Editor extends EventEmitter {
     this.createExtensionManager()
     this.createSchema()
     this.createView()
-    // this.registerCommands(coreCommands)
     this.injectCSS()
 
     window.setTimeout(() => this.proxy.focus(this.options.autoFocus), 0)
@@ -136,6 +135,13 @@ export class Editor extends EventEmitter {
    */
   public chain() {
     return this.commandManager.createChain()
+  }
+
+  /**
+   * Check if a command or a command chain can be executed. Without executing it.
+   */
+  public can() {
+    return this.commandManager.createCan()
   }
 
   /**
