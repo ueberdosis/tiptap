@@ -57,7 +57,7 @@ export default class CommandManager {
     }
   }
 
-  public createChain(startTr?: Transaction) {
+  public createChain(startTr?: Transaction, shouldDispatch = true) {
     const { commands, editor } = this
     const { state, view } = editor
     const callbacks: boolean[] = []
@@ -71,7 +71,7 @@ export default class CommandManager {
     return new Proxy({}, {
       get: (_, name: string, proxy) => {
         if (name === 'run') {
-          if (!hasStartTransaction) {
+          if (!hasStartTransaction && shouldDispatch) {
             view.dispatch(tr)
           }
 
@@ -85,7 +85,7 @@ export default class CommandManager {
         }
 
         return (...args: any) => {
-          const props = this.buildProps(tr)
+          const props = this.buildProps(tr, shouldDispatch)
           const callback = command(...args)(props)
           callbacks.push(callback)
 
@@ -95,7 +95,7 @@ export default class CommandManager {
     }) as ChainedCommands
   }
 
-  public buildProps(tr: Transaction) {
+  public buildProps(tr: Transaction, shouldDispatch = true) {
     const { editor, commands } = this
     const { state, view } = editor
 
@@ -104,8 +104,23 @@ export default class CommandManager {
       editor,
       view,
       state: this.chainableState(tr, state),
-      dispatch: () => false,
+      dispatch: shouldDispatch
+        ? () => true
+        : undefined,
       chain: () => this.createChain(tr),
+      can: () => {
+        const dispatch = false
+        const formattedCommands = Object.fromEntries(Object
+          .entries(commands)
+          .map(([name, command]) => {
+            return [name, (...args: any[]) => command(...args)({ ...props, dispatch })]
+          }))
+
+        return {
+          ...formattedCommands,
+          chain: () => this.createChain(tr, dispatch),
+        }
+      },
       get commands() {
         return Object.fromEntries(Object
           .entries(commands)

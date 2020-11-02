@@ -10,7 +10,7 @@ export const ToggleList = createExtension({
   addCommands() {
     return {
       toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType): Command => ({
-        tr, state, dispatch, chain,
+        tr, state, dispatch, chain, commands, can,
       }) => {
         const { extensions } = this.editor.options
         const listType = getNodeType(listTypeOrName, state.schema)
@@ -39,18 +39,17 @@ export const ToggleList = createExtension({
           }
         }
 
-        const canWrapInList = wrapInList(listType)(state)
+        const canWrapInList = can().wrapInList(listType)
 
         // try to convert node to paragraph if needed
         if (!canWrapInList) {
           return chain()
-            // .setBlockType('paragraph')
             .clearNodes()
             .wrapInList(listType)
             .run()
         }
 
-        return wrapInList(listType)(state, dispatch)
+        return commands.wrapInList(listType)
       },
     }
   },
