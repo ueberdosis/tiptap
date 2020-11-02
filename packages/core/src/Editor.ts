@@ -15,7 +15,6 @@ import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
 import { Extensions, UnionToIntersection, PickValue } from './types'
-import defaultPlugins from './plugins'
 import * as extensions from './extensions'
 import style from './style'
 
@@ -264,10 +263,7 @@ export class Editor extends EventEmitter {
     this.view = new EditorView(this.options.element, {
       state: EditorState.create({
         doc: this.createDocument(this.options.content),
-        plugins: [
-          ...this.extensionManager.plugins,
-          ...defaultPlugins.map(plugin => plugin(this.proxy)),
-        ],
+        plugins: this.extensionManager.plugins,
       }),
       dispatchTransaction: this.dispatchTransaction.bind(this),
     })
