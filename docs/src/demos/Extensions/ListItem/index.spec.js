@@ -1,5 +1,5 @@
-context('/api/extensions/list-item', () => {
+context('/api/nodes/list-item', () => {
   before(() => {
-    cy.visit('/api/extensions/list-item')
+    cy.visit('/api/nodes/list-item')
   })
 })

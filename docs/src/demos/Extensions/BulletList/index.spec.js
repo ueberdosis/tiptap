@@ -1,6 +1,6 @@
-context('/api/extensions/bullet-list', () => {
+context('/api/nodes/bullet-list', () => {
   before(() => {
-    cy.visit('/api/extensions/bullet-list')
+    cy.visit('/api/nodes/bullet-list')
   })
 
   beforeEach(() => {

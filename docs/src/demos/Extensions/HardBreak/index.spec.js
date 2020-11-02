@@ -1,6 +1,6 @@
-context('/api/extensions/hard-break', () => {
+context('/api/nodes/hard-break', () => {
   before(() => {
-    cy.visit('/api/extensions/hard-break')
+    cy.visit('/api/nodes/hard-break')
   })
 
   beforeEach(() => {

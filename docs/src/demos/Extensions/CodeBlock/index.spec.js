@@ -1,6 +1,6 @@
-context('/api/extensions/code-block', () => {
+context('/api/nodes/code-block', () => {
   before(() => {
-    cy.visit('/api/extensions/code-block')
+    cy.visit('/api/nodes/code-block')
   })
 
   beforeEach(() => {

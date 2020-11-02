@@ -1,6 +1,6 @@
-context('/api/extensions/paragraph', () => {
+context('/api/nodes/paragraph', () => {
   before(() => {
-    cy.visit('/api/extensions/paragraph')
+    cy.visit('/api/nodes/paragraph')
   })
 
   beforeEach(() => {
