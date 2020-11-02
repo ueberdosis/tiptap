@@ -22,13 +22,19 @@ const HardBreak = createNode({
 
   addCommands() {
     return {
-      hardBreak: (): Command => ({
-        tr, state, dispatch, view,
-      }) => {
-        return chainCommands(exitCode, () => {
-          dispatch(tr.replaceSelectionWith(this.type.create()).scrollIntoView())
-          return true
-        })(state, dispatch, view)
+      hardBreak: (): Command => ({ state, dispatch, view }) => {
+        return chainCommands(
+          exitCode,
+          (_, d) => {
+            if (typeof d !== 'function') {
+              return false
+            }
+
+            d(state.tr.replaceSelectionWith(this.type.create()).scrollIntoView())
+
+            return true
+          },
+        )(state, dispatch, view)
       },
     }
   },

@@ -27,7 +27,7 @@ export type Command = (props: {
   chain: () => ChainedCommands,
   state: EditorState,
   view: EditorView,
-  dispatch: (args?: any) => any,
+  dispatch: ((args?: any) => any) | undefined,
 }) => boolean
 
 export type CommandSpec = (...args: any[]) => Command

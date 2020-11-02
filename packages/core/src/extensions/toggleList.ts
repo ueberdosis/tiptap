@@ -1,4 +1,3 @@
-import { wrapInList, liftListItem } from 'prosemirror-schema-list'
 import { findParentNode } from 'prosemirror-utils'
 import { NodeType } from 'prosemirror-model'
 import { Command } from '../Editor'
@@ -28,14 +27,16 @@ export const ToggleList = createExtension({
         if (range.depth >= 1 && parentList && range.depth - parentList.depth <= 1) {
           // remove list
           if (parentList.node.type === listType) {
-            return liftListItem(itemType)(state, dispatch)
+            return commands.liftListItem(itemType)
           }
 
           // change list type
           if (isList(parentList.node.type.name, extensions) && listType.validContent(parentList.node.content)) {
-            tr.setNodeMarkup(parentList.pos, listType)
+            if (dispatch) {
+              tr.setNodeMarkup(parentList.pos, listType)
+            }
 
-            return false
+            return true
           }
         }
 
