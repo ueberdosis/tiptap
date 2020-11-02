@@ -55,9 +55,8 @@ export const Focus = createExtension({
 
         if (dispatch) {
           tr.setSelection(selection)
+          view.focus()
         }
-
-        view.focus()
 
         return true
       },
