@@ -3,7 +3,7 @@ import { createNode } from '@tiptap/core'
 const Document = createNode({
   name: 'document',
   topNode: true,
-  content: 'block+',
+  content: '(block|list)+',
 })
 
 export default Document

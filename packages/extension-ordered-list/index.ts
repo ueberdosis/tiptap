@@ -8,7 +8,7 @@ const OrderedList = createNode({
 
   list: true,
 
-  group: 'block',
+  group: 'list',
 
   content: 'list_item+',
 

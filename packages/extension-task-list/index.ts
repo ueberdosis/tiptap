@@ -5,7 +5,7 @@ const TaskList = createNode({
 
   list: true,
 
-  group: 'block',
+  group: 'list',
 
   content: 'task_item+',
 
