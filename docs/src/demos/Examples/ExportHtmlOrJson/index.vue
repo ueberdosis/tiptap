@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="actions">
+    <div class="actions" v-if="editor">
       <button class="button" @click="setContent">
         Set Content
       </button>
