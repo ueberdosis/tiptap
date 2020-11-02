@@ -6,8 +6,6 @@ export const inputRegex = /^(\d+)\.\s$/
 const OrderedList = createNode({
   name: 'ordered_list',
 
-  list: true,
-
   group: 'list',
 
   content: 'list_item+',

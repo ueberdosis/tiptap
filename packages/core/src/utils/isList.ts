@@ -9,5 +9,5 @@ export default function isList(name: string, extensions: Extensions) {
     return false
   }
 
-  return extension.list
+  return extension.group === 'list'
 }

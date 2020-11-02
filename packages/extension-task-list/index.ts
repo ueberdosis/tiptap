@@ -3,8 +3,6 @@ import { Command, createNode, mergeAttributes } from '@tiptap/core'
 const TaskList = createNode({
   name: 'task_list',
 
-  list: true,
-
   group: 'list',
 
   content: 'task_item+',

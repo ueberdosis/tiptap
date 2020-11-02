@@ -6,8 +6,6 @@ export const inputRegex = /^\s*([-+*])\s$/
 const BulletList = createNode({
   name: 'bullet_list',
 
-  list: true,
-
   group: 'list',
 
   content: 'list_item+',
