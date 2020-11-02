@@ -113,12 +113,12 @@ export default class CommandManager {
       .entries(commands)
       .map(([name, command]) => {
         return [name, (...args: any[]) => command(...args)({ ...props, dispatch })]
-      }))
+      })) as SingleCommands
 
     return {
       ...formattedCommands,
       chain: () => this.createChain(tr, dispatch),
-    } as SingleCommands & { chain: () => ChainedCommands }
+    }
   }
 
   public buildProps(tr: Transaction, shouldDispatch = true) {
