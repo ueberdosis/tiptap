@@ -6,6 +6,7 @@
       link: /overview/installation
     - title: Upgrade Guide
       link: /overview/upgrade-guide
+      draft: true
     - title: Contributing
       link: /overview/contributing
     - title: Examples
@@ -28,6 +29,7 @@
           link: /examples/formatting
         - title: Links
           link: /examples/links
+          draft: true
         # - title: Images
         #   link: /examples/images
         #   draft: true
@@ -79,8 +81,10 @@
   items:
     - title: Getting started
       link: /guide/getting-started
+      draft: true
     - title: Configuration
       link: /guide/configuration
+      draft: true
     - title: Create your editor
       link: /guide/create-your-editor
       draft: true

@@ -1,5 +1,5 @@
 # OrderedList
-This extension enables you to use ordered lists in the editor. They are rendered as `<ol>` HTML tags,
+This extension enables you to use ordered lists in the editor. They are rendered as `<ol>` HTML tags.
 
 Type <code>1.&nbsp;</code> (or any other number followed by a dot) at the beginning of a new line and it will magically transform to a ordered list.
 

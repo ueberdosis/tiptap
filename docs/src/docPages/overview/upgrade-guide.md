@@ -5,7 +5,7 @@
 ## Reasons to upgrade to tiptap 2.x
 Yes, it’s tedious work to upgrade your favorite text editor to a new API, but we made sure you’ve got enough reasons to upgrade to the newest version
 
-* Autocomplete in your IDE (thanks to TypeScript)
+* Autocompletion in your IDE (thanks to TypeScript)
 * Amazing documentation with 100+ pages
 * Active development, new features in the making
 * Tons of new extensions planned

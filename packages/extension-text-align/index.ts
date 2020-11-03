@@ -9,7 +9,7 @@ type TextAlignOptions = {
 const TextAlign = createExtension({
   defaultOptions: <TextAlignOptions>{
     types: ['heading', 'paragraph'],
-    alignments: ['left', 'center', 'right'],
+    alignments: ['left', 'center', 'right', 'justify'],
     defaultAlignment: 'left',
   },
 

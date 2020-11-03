@@ -1,5 +1,5 @@
 # BulletList
-This extension enables you to use bullet lists in the editor. They are rendered as `<ul>` HTML tags,
+This extension enables you to use bullet lists in the editor. They are rendered as `<ul>` HTML tags.
 
 Type <code>*&nbsp;</code>, <code>-&nbsp;</code> or <code>+&nbsp;</code> at the beginning of a new line and it will magically transform to a bullet list.
 
