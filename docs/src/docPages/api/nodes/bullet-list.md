@@ -5,7 +5,7 @@ Type <code>*&nbsp;</code>, <code>-&nbsp;</code> or <code>+&nbsp;</code> at the b
 
 ## Installation
 ::: warning Use with ListItem
-The `BulletList` extension is intended to be used with the [`ListItem`](/api/extensions/list-item) extension. Make sure to import that one too, otherwise you’ll get a SyntaxError.
+This extension requires the [`ListItem`](/api/nodes/list-item) extension.
 :::
 
 ```bash

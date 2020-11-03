@@ -5,7 +5,7 @@ Type <code>1.&nbsp;</code> (or any other number followed by a dot) at the beginn
 
 ## Installation
 ::: warning Use with ListItem
-The `OrderedList` extension is intended to be used with the [`ListItem`](/api/extensions/list-item) extension. Make sure to import that one too, otherwise you’ll get a SyntaxError.
+This extension requires the [`ListItem`](/api/nodes/list-item) extension.
 :::
 
 ```bash
@@ -22,9 +22,9 @@ yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command     | Parameters | Description            |
-| ----------- | ---------- | ---------------------- |
-| orderedList | —          | Toggle a ordered list. |
+| Command     | Parameters | Description             |
+| ----------- | ---------- | ----------------------- |
+| orderedList | —          | Toggle an ordered list. |
 
 ## Keyboard shortcuts
 * `Control`&nbsp;`Shift`&nbsp;`9`

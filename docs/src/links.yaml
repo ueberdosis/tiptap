@@ -135,7 +135,6 @@
           link: /api/nodes/paragraph
         - title: TaskList
           link: /api/nodes/task-list
-          draft: true
         - title: TaskItem
           link: /api/nodes/task-item
           draft: true
