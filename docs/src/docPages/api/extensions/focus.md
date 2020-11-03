@@ -10,7 +10,10 @@ yarn add @tiptap/extension-focus
 ```
 
 ## Settings
-*None*
+| Option    | Type    | Default   | Description                                            |
+| --------- | ------- | --------- | ------------------------------------------------------ |
+| className | string  | has-focus | The class that is applied to the focused element.      |
+| nested    | boolean | true      | When enabled nested elements get the focus class, too. |
 
 ## Commands
 *None*
@@ -22,4 +25,4 @@ yarn add @tiptap/extension-focus
 [packages/extension-focus/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-focus/)
 
 ## Usage
-<demo name="Extensions/Focus" highlight="" />
+<demo name="Extensions/Focus" highlight="31-34,12" />

@@ -1,16 +1,18 @@
 # TaskList
-This extension enables you to use task lists in the editor. They are rendered as `<ul>` HTML tags.
+This extension enables you to use task lists in the editor. They are rendered as `<ul data-type="task_list">`. This implementation doesn’t require any framework, it’s using plain JavaScript only.
+
+Type <code>[ ]&nbsp;</code> or <code>[x]&nbsp;</code> at the beginning of a new line and it will magically transform to a task list.
 
 ## Installation
 ::: warning Use with TaskItem
-The `TaskList` extension is intended to be used with the [`TaskItem`](/api/extensions/task-item) extension. Make sure to import that one too, otherwise you’ll get a SyntaxError.
+This extension requires the [`TaskItem`](/api/nodes/task-item) extension.
 :::
 
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-task-list @tiptap/extension-task-item
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 ```
 
@@ -20,12 +22,12 @@ yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command  | Options | Description         |
-| -------- | ------- | ------------------- |
-| taskList | —       | Toggle a task list. |
+| Command  | Parameters | Description         |
+| -------- | ---------- | ------------------- |
+| taskList | —          | Toggle a task list. |
 
 ## Source code
 [packages/extension-task-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-list/)
 
 ## Usage
-<demo name="Extensions/TaskList" />
+<demo name="Nodes/TaskList" highlight="3-5,17-18,37-38" />

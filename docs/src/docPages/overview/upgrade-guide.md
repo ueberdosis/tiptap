@@ -5,7 +5,7 @@
 ## Reasons to upgrade to tiptap 2.x
 Yes, it’s tedious work to upgrade your favorite text editor to a new API, but we made sure you’ve got enough reasons to upgrade to the newest version
 
-* Autocomplete in your IDE (thanks to TypeScript)
+* Autocompletion in your IDE (thanks to TypeScript)
 * Amazing documentation with 100+ pages
 * Active development, new features in the making
 * Tons of new extensions planned
@@ -18,7 +18,7 @@ The new API will look pretty familiar too you, but there are a ton of changes th
 …
 
 ### Explicitly register the Document, Text and Paragraph extensions
-tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [Document](/api/extensions/document), [Paragraph](/api/extensions/paragraph) and [Text](/api/extensions/text) extensions.
+tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [Document](/api/nodes/document), [Paragraph](/api/nodes/paragraph) and [Text](/api/nodes/text) extensions.
 
 ```js
 import Document from '@tiptap/extension-document'

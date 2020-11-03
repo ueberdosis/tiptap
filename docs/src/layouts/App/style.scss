@@ -184,7 +184,16 @@ $menuBreakPoint: 800px;
     }
 
     &--draft {
-      color: rgba($colorWhite, 0.2);
+      color: rgba($colorWhite, 0.4);
+
+      &::after {
+        content: 'draft';
+        font-family: 'JetBrainsMono', monospace;
+        color: $colorGrey;
+        background-color: rgba($colorGrey, 0.1);
+        padding: 0 0.5em;
+        border-radius: 5px;
+      }
     }
 
     &--premium {

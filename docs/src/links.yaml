@@ -6,6 +6,7 @@
       link: /overview/installation
     - title: Upgrade Guide
       link: /overview/upgrade-guide
+      draft: true
     - title: Contributing
       link: /overview/contributing
     - title: Examples
@@ -28,6 +29,7 @@
           link: /examples/formatting
         - title: Links
           link: /examples/links
+          draft: true
         # - title: Images
         #   link: /examples/images
         #   draft: true
@@ -79,8 +81,10 @@
   items:
     - title: Getting started
       link: /guide/getting-started
+      draft: true
     - title: Configuration
       link: /guide/configuration
+      draft: true
     - title: Create your editor
       link: /guide/create-your-editor
       draft: true
@@ -123,7 +127,6 @@
           link: /api/nodes/horizontal-rule
         - title: Image
           link: /api/nodes/image
-          draft: true
         - title: ListItem
           link: /api/nodes/list-item
         - title: OrderedList
@@ -132,7 +135,6 @@
           link: /api/nodes/paragraph
         - title: TaskList
           link: /api/nodes/task-list
-          draft: true
         - title: TaskItem
           link: /api/nodes/task-item
           draft: true

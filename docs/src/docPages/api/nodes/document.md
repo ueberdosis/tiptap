@@ -20,4 +20,4 @@ yarn add @tiptap/extension-document
 [packages/extension-document/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-document/)
 
 ## Usage
-<demo name="Extensions/Document" highlight="10,28" />
+<demo name="Nodes/Document" highlight="10,28" />

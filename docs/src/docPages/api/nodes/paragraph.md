@@ -20,9 +20,9 @@ yarn add @tiptap/extension-paragraph
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command   | Options | Description                                  |
-| --------- | ------- | -------------------------------------------- |
-| paragraph | —       | Transforms all selected nodes to paragraphs. |
+| Command   | Parameters | Description                                  |
+| --------- | ---------- | -------------------------------------------- |
+| paragraph | —          | Transforms all selected nodes to paragraphs. |
 
 ## Keyboard shortcuts
 * Windows & Linux: `Control`&nbsp;`Alt`&nbsp;`0`
@@ -32,4 +32,4 @@ yarn add @tiptap/extension-paragraph
 [packages/extension-paragraph/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-paragraph/)
 
 ## Usage
-<demo name="Extensions/Paragraph" highlight="11,29" />
+<demo name="Nodes/Paragraph" highlight="11,29" />

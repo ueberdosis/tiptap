@@ -2,8 +2,8 @@
 The ListItem extension adds support for the `<li>` HTML tag. It’s used for bullet lists and ordered lists and can’t really be used without them.
 
 ## Installation
-::: warning Restrictions
-This extension is intended to be used with the [`BulletList`](/api/extensions/bullet-list) or [`OrderedList`](/api/extensions/ordered-list) extension. It doesn’t work without at least using one of them.
+::: warning Use with BulletList and/or OrderedList
+This extension requires the [`BulletList`](/api/nodes/bullet-list) or [`OrderedList`](/api/nodes/ordered-list) extension.
 :::
 
 ```bash
@@ -19,9 +19,6 @@ yarn add @tiptap/extension-list-item
 | ------ | ------ | ------- | -------------------------------------------- |
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
-## Commands
-*None*
-
 ## Keyboard shortcuts
 * New list item: `Enter`
 * Sink a list item: `Tab`
@@ -31,4 +28,4 @@ yarn add @tiptap/extension-list-item
 [packages/extension-list-item/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-list-item/)
 
 ## Usage
-<demo name="Extensions/ListItem" highlight="3-8,20-22,41-43" />
+<demo name="Nodes/ListItem" highlight="3-8,20-22,41-43" />

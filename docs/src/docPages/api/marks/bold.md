@@ -22,7 +22,7 @@ yarn add @tiptap/extension-bold
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command | Options | Description     |
+| Command | Parameters | Description     |
 | ------- | ------- | --------------- |
 | bold    | —       | Mark text bold. |
 
@@ -34,4 +34,4 @@ yarn add @tiptap/extension-bold
 [packages/extension-bold/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/)
 
 ## Usage
-<demo name="Extensions/Bold" highlight="3-5,17,36" />
+<demo name="Marks/Bold" highlight="3-5,17,36" />

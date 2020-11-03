@@ -23,9 +23,9 @@ yarn add @tiptap/extension-code-block
 | languageClassPrefix | string | language- | Adds a prefix to language classes that are applied to code tags. |
 
 ## Commands
-| Command   | Options | Description                   |
-| --------- | ------- | ----------------------------- |
-| codeBlock | —       | Wrap content in a code block. |
+| Command   | Parameters | Description                   |
+| --------- | ---------- | ----------------------------- |
+| codeBlock | —          | Wrap content in a code block. |
 
 ## Keyboard shortcuts
 * Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`C`
@@ -35,4 +35,4 @@ yarn add @tiptap/extension-code-block
 [packages/extension-code-block/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code-block/)
 
 ## Usage
-<demo name="Extensions/CodeBlock" highlight="3-5,17,36" />
+<demo name="Nodes/CodeBlock" highlight="3-5,17,36" />

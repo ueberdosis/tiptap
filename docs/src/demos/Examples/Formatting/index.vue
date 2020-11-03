@@ -28,6 +28,9 @@
       <button @click="editor.chain().focus().textAlign('right').run()">
         right
       </button>
+      <button @click="editor.chain().focus().textAlign('justify').run()">
+        justify
+      </button>
     </div>
     <editor-content :editor="editor" />
   </div>
@@ -70,22 +73,40 @@ export default {
         HardBreak(),
       ],
       content: `
-        <h2>Cyndi Lauper – Girls Just Want to Have Fun</h2>
-        <p>I come home in the morning light
-        My mother says, “When you gonna live your life right?”
-        Oh mother dear we’re not the fortunate ones
-        And girls, they wanna have fun
+        <h3>Girls Just Want to Have Fun (Cyndi Lauper)</h2>
+        <p>I come home in the morning light<br>
+        My mother says, “When you gonna live your life right?”<br>
+        Oh mother dear we’re not the fortunate ones<br>
+        And girls, they wanna have fun<br>
         Oh girls just want to have fun</p>
-        <p>The phone rings in the middle of the night
-        My father yells, "What you gonna do with your life?"
-        Oh daddy dear, you know you’re still number one
-        But girls, they wanna have fun
+        <p style="text-align: center">The phone rings in the middle of the night<br>
+        My father yells, "What you gonna do with your life?"<br>
+        Oh daddy dear, you know you’re still number one<br>
+        But girls, they wanna have fun<br>
         Oh girls just want to have</p>
-        <p>That’s all they really want
+        <p style="text-align:right">That’s all they really want<br>
+        Some fun<br>
+        When the working day is done<br>
+        Oh girls, they wanna have fun<br>
+        Oh girls just wanna have fun<br>
+        (girls, they wanna, wanna have fun, girls wanna have)</p>
+        <p style="text-align:justify">Some boys take a beautiful girl
+        And hide her away from the rest of the world
+        I want to be the one to walk in the sun
+        Oh girls, they wanna have fun
+        Oh girls just wanna have</p>
+        <p style="text-align:justify">That's all they really want
         Some fun
         When the working day is done
         Oh girls, they wanna have fun
-        Oh girls just wanna have fun (girls, they wanna, wanna have fun, girls wanna have)</p>
+        Oh girls just want to have fun (girls, they wanna, wanna have fun, girls wanna have)
+        They just wanna, they just wanna (girls)
+        They just wanna, they just wanna, oh girl (girls just wanna have fun)
+        Girls just wanna have fun
+        They just wanna, they just wanna
+        They just wanna, they just wanna (girls)
+        They just wanna, they just wanna, oh girl (girls just wanna have fun)
+        Girls just want to have fun</p>
       `,
     })
   },

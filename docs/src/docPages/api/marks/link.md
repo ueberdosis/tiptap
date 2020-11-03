@@ -23,17 +23,17 @@ yarn add @tiptap/extension-link
 | target      | string  | _blank                       | Set the default `target` of links.           |
 
 ## Commands
-| Command | Options        | Description                                                 |
+| Command | Parameters     | Description                                                 |
 | ------- | -------------- | ----------------------------------------------------------- |
 | link    | href<br>target | Link the selected text. Removes a link, if `href` is empty. |
 
 ## Keyboard shortcuts
 :::warning Doesn’t have a keyboard shortcut
-This extension doesn’t bind a specific keyboard shortcut. You would probably open your UI on `Mod-k` though.
+This extension doesn’t bind a specific keyboard shortcut. You would probably open your custom UI on `Mod-k` though.
 :::
 
 ## Source code
 [packages/extension-link/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-link/)
 
 ## Usage
-<demo name="Extensions/Link" highlight="3-8,19,38,55" />
+<demo name="Marks/Link" highlight="3-8,19,38,55" />

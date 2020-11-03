@@ -1,8 +1,8 @@
 # TaskItem
 
 ## Installation
-::: warning Restrictions
-This extension is intended to be used with the [`TaskList`](/api/extensions/task-list) extension. It doesn’t work without at least using one of them.
+::: warning Use with TaskList
+This extension requires the [`TaskList`](/api/nodes/task-list) extension.
 :::
 
 ```bash
@@ -25,4 +25,4 @@ yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 [packages/extension-task-item/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-item/)
 
 ## Usage
-<demo name="Extensions/TaskItem" />
+<demo name="Nodes/TaskItem" />
