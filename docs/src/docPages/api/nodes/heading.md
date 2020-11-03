@@ -19,9 +19,9 @@ yarn add @tiptap/extension-heading
 | levels | Array  | [1, 2, 3, 4, 5, 6] | Specifies which heading levels are supported. |
 
 ## Commands
-| Command | Options | Description             |
-| ------- | ------- | ----------------------- |
-| heading | level   | Creates a heading node. |
+| Command | Parameters | Description                                      |
+| ------- | ---------- | ------------------------------------------------ |
+| heading | level      | Creates a heading node with the specified level. |
 
 ## Keyboard shortcuts
 * Windows/Linux: `Control`&nbsp;`Alt`&nbsp;`1-6`
@@ -31,4 +31,4 @@ yarn add @tiptap/extension-heading
 [packages/extension-heading/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-heading/)
 
 ## Usage
-<demo name="Extensions/Heading" highlight="3-11,23,42-44" />
+<demo name="Nodes/Heading" highlight="3-11,23,42-44" />

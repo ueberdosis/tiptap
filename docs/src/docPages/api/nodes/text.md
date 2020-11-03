@@ -18,4 +18,4 @@ yarn add @tiptap/extension-text
 [packages/extension-text/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text/)
 
 ## Usage
-<demo name="Extensions/Text" highlight="12,30" />
+<demo name="Nodes/Text" highlight="12,30" />

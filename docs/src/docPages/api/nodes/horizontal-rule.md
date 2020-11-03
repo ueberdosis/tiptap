@@ -18,9 +18,9 @@ yarn add @tiptap/extension-horizontal-rule
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command         | Options | Description               |
-| --------------- | ------- | ------------------------- |
-| horizontalRule | —       | Create a horizontal rule. |
+| Command        | Parameters | Description               |
+| -------------- | ---------- | ------------------------- |
+| horizontalRule | —          | Create a horizontal rule. |
 
 ## Keyboard shortcuts
 *None*
@@ -29,4 +29,4 @@ yarn add @tiptap/extension-horizontal-rule
 [packages/extension-horizontal-rule/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/)
 
 ## Usage
-<demo name="Extensions/HorizontalRule" highlight="3-5,17,36" />
+<demo name="Nodes/HorizontalRule" highlight="3-5,17,36" />

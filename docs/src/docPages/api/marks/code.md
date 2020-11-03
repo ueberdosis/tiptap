@@ -18,7 +18,7 @@ yarn add @tiptap/extension-code
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command | Options | Description               |
+| Command | Parameters | Description               |
 | ------- | ------- | ------------------------- |
 | code    | —       | Mark text as inline code. |
 
@@ -29,4 +29,4 @@ yarn add @tiptap/extension-code
 [packages/extension-code/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code/)
 
 ## Usage
-<demo name="Extensions/Code" highlight="3-5,17,36" />
+<demo name="Marks/Code" highlight="3-5,17,36" />

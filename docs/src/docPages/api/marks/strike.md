@@ -22,7 +22,7 @@ yarn add @tiptap/extension-strike
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command | Options | Description                 |
+| Command | Parameters | Description                 |
 | ------- | ------- | --------------------------- |
 | strike  | —       | Mark text as strikethrough. |
 
@@ -34,4 +34,4 @@ yarn add @tiptap/extension-strike
 [packages/extension-strike/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)
 
 ## Usage
-<demo name="Extensions/Strike" highlight="3-5,17,36" />
+<demo name="Marks/Strike" highlight="3-5,17,36" />

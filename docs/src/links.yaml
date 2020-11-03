@@ -127,7 +127,6 @@
           link: /api/nodes/horizontal-rule
         - title: Image
           link: /api/nodes/image
-          draft: true
         - title: ListItem
           link: /api/nodes/list-item
         - title: OrderedList

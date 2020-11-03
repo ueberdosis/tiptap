@@ -22,9 +22,9 @@ yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command      | Options | Description            |
-| ------------ | ------- | ---------------------- |
-| ordered_list | —       | Toggle a ordered list. |
+| Command     | Parameters | Description            |
+| ----------- | ---------- | ---------------------- |
+| orderedList | —          | Toggle a ordered list. |
 
 ## Keyboard shortcuts
 * `Control`&nbsp;`Shift`&nbsp;`9`
@@ -33,4 +33,4 @@ yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 [packages/extension-ordered-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-ordered-list/)
 
 ## Usage
-<demo name="Extensions/OrderedList" highlight="3-5,17-18,37-38" />
+<demo name="Nodes/OrderedList" highlight="3-5,17-18,37-38" />

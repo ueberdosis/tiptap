@@ -22,9 +22,9 @@ yarn add @tiptap/extension-bullet-list @tiptap/extension-list-item
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command     | Options | Description           |
-| ----------- | ------- | --------------------- |
-| bullet_list | —       | Toggle a bullet list. |
+| Command     | Parameters | Description           |
+| ----------- | ---------- | --------------------- |
+| bullet_list | —          | Toggle a bullet list. |
 
 ## Keyboard shortcuts
 * `Control`&nbsp;`Shift`&nbsp;`8`
@@ -33,4 +33,4 @@ yarn add @tiptap/extension-bullet-list @tiptap/extension-list-item
 [packages/extension-bullet-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/)
 
 ## Usage
-<demo name="Extensions/BulletList" highlight="3-5,17-18,37-38" />
+<demo name="Nodes/BulletList" highlight="3-5,17-18,37-38" />

@@ -19,9 +19,9 @@ yarn add @tiptap/extension-blockquote
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command    | Options | Description                   |
-| ---------- | ------- | ----------------------------- |
-| blockquote | —       | Wrap content in a blockquote. |
+| Command    | Parameters | Description                   |
+| ---------- | ---------- | ----------------------------- |
+| blockquote | —          | Wrap content in a blockquote. |
 
 ## Keyboard shortcuts
 * Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`9`
@@ -31,4 +31,4 @@ yarn add @tiptap/extension-blockquote
 [packages/extension-blockquote/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-blockquote/)
 
 ## Usage
-<demo name="Extensions/Blockquote" highlight="3-5,17,36" />
+<demo name="Nodes/Blockquote" highlight="3-5,17,36" />

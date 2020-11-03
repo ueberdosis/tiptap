@@ -31,4 +31,4 @@ yarn add @tiptap/extension-list-item
 [packages/extension-list-item/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-list-item/)
 
 ## Usage
-<demo name="Extensions/ListItem" highlight="3-8,20-22,41-43" />
+<demo name="Nodes/ListItem" highlight="3-8,20-22,41-43" />

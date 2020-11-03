@@ -20,10 +20,9 @@ yarn add @tiptap/extension-collaboration-cursor
 | type     |      |         |             |
 
 ## Commands
-*None*
-
-## Keyboard shortcuts
-*None*
+| Command | Parameters    | Description                                                              |
+| ------- | ------------- | ------------------------------------------------------------------------ |
+| user    | name<br>color | The name of the current user.<br>The color of the current user’s cursor. |
 
 ## Source code
 [packages/extension-collaboration-cursor/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration-cursor/)

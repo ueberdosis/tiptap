@@ -22,9 +22,9 @@ yarn add @tiptap/extension-underline
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command   | Options | Description              |
-| --------- | ------- | ------------------------ |
-| underline | —       | Mark text as underlined. |
+| Command   | Parameters | Description              |
+| --------- | ---------- | ------------------------ |
+| underline | —          | Mark text as underlined. |
 
 ## Keyboard shortcuts
 * Windows/Linux: `Control`&nbsp;`U`
@@ -34,4 +34,4 @@ yarn add @tiptap/extension-underline
 [packages/extension-underline/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)
 
 ## Usage
-<demo name="Extensions/Underline" highlight="3-5,17,36" />
+<demo name="Marks/Underline" highlight="3-5,17,36" />

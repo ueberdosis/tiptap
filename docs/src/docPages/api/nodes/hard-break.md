@@ -10,13 +10,10 @@ npm install @tiptap/extension-hard-break
 yarn add @tiptap/extension-hard-break
 ```
 
-## Settings
-*None*
-
 ## Commands
-| Command   | Options | Description       |
-| --------- | ------- | ----------------- |
-| hardBreak | —       | Add a line break. |
+| Command   | Parameters | Description       |
+| --------- | ---------- | ----------------- |
+| hardBreak | —          | Add a line break. |
 
 ## Keyboard shortcuts
 * `Shift`&nbsp;`Enter`
@@ -27,4 +24,4 @@ yarn add @tiptap/extension-hard-break
 [packages/extension-hard-break/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-hard-break/)
 
 ## Usage
-<demo name="Extensions/HardBreak" highlight="3-5,17,36" />
+<demo name="Nodes/HardBreak" highlight="3-5,17,36" />

@@ -22,7 +22,7 @@ yarn add @tiptap/extension-italic
 | class  | string | –       | Add a custom class to the rendered HTML tag. |
 
 ## Commands
-| Command | Options | Description       |
+| Command | Parameters | Description       |
 | ------- | ------- | ----------------- |
 | italic  | —       | Mark text italic. |
 
@@ -34,4 +34,4 @@ yarn add @tiptap/extension-italic
 [packages/extension-italic/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)
 
 ## Usage
-<demo name="Extensions/Italic" highlight="3-5,17,36" />
+<demo name="Marks/Italic" highlight="3-5,17,36" />
