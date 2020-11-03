@@ -289,6 +289,8 @@ const CustomUnderline = Underline.extend({
 })
 ```
 
+### Node views
+
 ## Option 2: Start from scratch
 
 ### Read the documentation
