@@ -12,15 +12,15 @@ context('/api/nodes/task-list', () => {
 
   it('should parse unordered lists correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<ul data-type="task_list"><li data-checked="true" data-type="task_item"><p>Example Text</p></li></ul>')
-      expect(editor.getHTML()).to.eq('<ul data-type="task_list"><li data-checked="true" data-type="task_item"><p>Example Text</p></li></ul>')
+      editor.setContent('<ul data-type="task_list"><li data-checked="true" data-type="taskItem"><p>Example Text</p></li></ul>')
+      expect(editor.getHTML()).to.eq('<ul data-type="task_list"><li data-checked="true" data-type="taskItem"><p>Example Text</p></li></ul>')
     })
   })
 
   it('should parse unordered lists without paragraphs correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<ul data-type="task_list"><li data-checked="false" data-type="task_item">Example Text</li></ul>')
-      expect(editor.getHTML()).to.eq('<ul data-type="task_list"><li data-checked="false" data-type="task_item"><p>Example Text</p></li></ul>')
+      editor.setContent('<ul data-type="task_list"><li data-checked="false" data-type="taskItem">Example Text</li></ul>')
+      expect(editor.getHTML()).to.eq('<ul data-type="task_list"><li data-checked="false" data-type="taskItem"><p>Example Text</p></li></ul>')
     })
   })
 

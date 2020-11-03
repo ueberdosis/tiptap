@@ -5,7 +5,7 @@ const TaskList = createNode({
 
   group: 'block list',
 
-  content: 'task_item+',
+  content: 'taskItem+',
 
   parseHTML() {
     return [
@@ -23,7 +23,7 @@ const TaskList = createNode({
   addCommands() {
     return {
       taskList: (): Command => ({ commands }) => {
-        return commands.toggleList('task_list', 'task_item')
+        return commands.toggleList('task_list', 'taskItem')
       },
     }
   },

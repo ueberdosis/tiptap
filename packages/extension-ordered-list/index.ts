@@ -4,11 +4,11 @@ import { wrappingInputRule } from 'prosemirror-inputrules'
 export const inputRegex = /^(\d+)\.\s$/
 
 const OrderedList = createNode({
-  name: 'ordered_list',
+  name: 'orderedList',
 
   group: 'block list',
 
-  content: 'list_item+',
+  content: 'listItem+',
 
   addAttributes() {
     return {
@@ -42,7 +42,7 @@ const OrderedList = createNode({
   addCommands() {
     return {
       orderedList: (): Command => ({ commands }) => {
-        return commands.toggleList('ordered_list', 'list_item')
+        return commands.toggleList('orderedList', 'listItem')
       },
     }
   },
