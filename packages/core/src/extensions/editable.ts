@@ -13,3 +13,10 @@ export const Editable = createExtension({
     ]
   },
 })
+
+// TODO: Editable circularly references itself!?
+// declare module '../Editor' {
+//   interface AllExtensions {
+//     Editable: typeof Editable,
+//   }
+// }
