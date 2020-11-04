@@ -1,6 +1,6 @@
 import { canSplit } from 'prosemirror-transform'
 import { ContentMatch, Fragment } from 'prosemirror-model'
-import { NodeSelection, TextSelection } from 'prosemirror-state'
+import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
 import { Command } from '../Editor'
 import { createExtension } from '../Extension'
 
@@ -13,10 +13,29 @@ function defaultBlockAt(match: ContentMatch) {
   return null
 }
 
+interface SplitBlockOptions {
+  withAttributes: boolean,
+  withMarks: boolean,
+}
+
+function keepMarks(state: EditorState) {
+  const marks = state.storedMarks
+    || (state.selection.$to.parentOffset && state.selection.$from.marks())
+
+  if (marks) {
+    state.tr.ensureMarks(marks)
+  }
+}
+
 export const SplitBlock = createExtension({
   addCommands() {
     return {
-      splitBlock: (copyAttributes = false): Command => ({ tr, dispatch }) => {
+      splitBlock: (options: Partial<SplitBlockOptions> = {}): Command => ({ tr, state, dispatch }) => {
+        const defaultOptions: SplitBlockOptions = {
+          withAttributes: false,
+          withMarks: true,
+        }
+        const config = { ...defaultOptions, ...options }
         const { selection, doc } = tr
         const { $from, $to } = selection
 
@@ -26,6 +45,10 @@ export const SplitBlock = createExtension({
           }
 
           if (dispatch) {
+            if (config.withMarks) {
+              keepMarks(state)
+            }
+
             tr.split($from.pos).scrollIntoView()
           }
 
@@ -48,7 +71,12 @@ export const SplitBlock = createExtension({
             : defaultBlockAt($from.node(-1).contentMatchAt($from.indexAfter(-1)))
 
           let types = atEnd && deflt
-            ? [{ type: deflt, attrs: copyAttributes ? $from.node().attrs : {} }]
+            ? [{
+              type: deflt,
+              attrs: config.withAttributes
+                ? $from.node().attrs
+                : {},
+            }]
             : undefined
 
           let can = canSplit(tr.doc, tr.mapping.map($from.pos), 1, types)
@@ -60,7 +88,12 @@ export const SplitBlock = createExtension({
           ) {
             can = true
             types = deflt
-              ? [{ type: deflt, attrs: copyAttributes ? $from.node().attrs : {} }]
+              ? [{
+                type: deflt,
+                attrs: config.withAttributes
+                  ? $from.node().attrs
+                  : {},
+              }]
               : undefined
           }
 
@@ -75,6 +108,10 @@ export const SplitBlock = createExtension({
             ) {
               tr.setNodeMarkup(tr.mapping.map($from.before()), deflt || undefined)
             }
+          }
+
+          if (config.withMarks) {
+            keepMarks(state)
           }
 
           tr.scrollIntoView()

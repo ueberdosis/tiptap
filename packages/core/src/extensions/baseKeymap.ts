@@ -29,11 +29,11 @@ export const BaseKeymap = createExtension({
     ])
 
     return {
-      Enter: () => this.editor.try(({ state, dispatch }) => [
+      Enter: () => this.editor.try(({ commands, state, dispatch }) => [
         () => newlineInCode(state, dispatch),
         () => createParagraphNear(state, dispatch),
         () => liftEmptyBlock(state, dispatch),
-        () => splitBlockKeepMarks(state, dispatch),
+        () => commands.splitBlock(),
       ]),
       'Mod-Enter': exitCode,
       Backspace: () => handleBackspace(),

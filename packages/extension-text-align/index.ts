@@ -49,7 +49,9 @@ const TextAlign = createExtension({
       // TODO: re-use only 'textAlign' attribute
       // TODO: use custom splitBlock only for `this.options.types`
       // TODO: use complete default enter handler (chainCommand) with custom splitBlock
-      Enter: () => this.editor.splitBlock(true),
+      Enter: () => this.editor.splitBlock({
+        withAttributes: true,
+      }),
     }
   },
 })
