@@ -1,5 +1,4 @@
 import {
-  chainCommands,
   newlineInCode,
   createParagraphNear,
   liftEmptyBlock,
@@ -16,33 +15,31 @@ import { createExtension } from '../Extension'
 
 export const BaseKeymap = createExtension({
   addKeyboardShortcuts() {
-    const enter = chainCommands(
-      newlineInCode,
-      createParagraphNear,
-      liftEmptyBlock,
-      splitBlockKeepMarks,
-    )
+    const handleBackspace = () => this.editor.try(({ state, dispatch }) => [
+      () => undoInputRule(state, dispatch),
+      () => deleteSelection(state, dispatch),
+      () => joinBackward(state, dispatch),
+      () => selectNodeBackward(state, dispatch),
+    ])
 
-    const backspace = chainCommands(
-      undoInputRule,
-      deleteSelection,
-      joinBackward,
-      selectNodeBackward,
-    )
-
-    const del = chainCommands(
-      deleteSelection,
-      joinForward,
-      selectNodeForward,
-    )
+    const handleDelete = () => this.editor.try(({ state, dispatch }) => [
+      () => deleteSelection(state, dispatch),
+      () => joinForward(state, dispatch),
+      () => selectNodeForward(state, dispatch),
+    ])
 
     return {
-      Enter: enter,
+      Enter: () => this.editor.try(({ state, dispatch }) => [
+        () => newlineInCode(state, dispatch),
+        () => createParagraphNear(state, dispatch),
+        () => liftEmptyBlock(state, dispatch),
+        () => splitBlockKeepMarks(state, dispatch),
+      ]),
       'Mod-Enter': exitCode,
-      Backspace: backspace,
-      'Mod-Backspace': backspace,
-      Delete: del,
-      'Mod-Delete': del,
+      Backspace: () => handleBackspace(),
+      'Mod-Backspace': () => handleBackspace(),
+      Delete: () => handleDelete(),
+      'Mod-Delete': () => handleDelete(),
       // we don’t need a custom `selectAll` for now
       // 'Mod-a': () => this.editor.selectAll(),
     }

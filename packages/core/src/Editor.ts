@@ -261,15 +261,20 @@ export class Editor extends EventEmitter {
    */
   private createView() {
     this.view = new EditorView(this.options.element, {
+      dispatchTransaction: this.dispatchTransaction.bind(this),
       state: EditorState.create({
         doc: this.createDocument(this.options.content),
-        plugins: this.extensionManager.plugins,
       }),
-      dispatchTransaction: this.dispatchTransaction.bind(this),
     })
 
     // `editor.view` is not yet available at this time.
-    // Therefore we will add all node views directly afterwards.
+    // Therefore we will add all plugins and node views directly afterwards.
+    const newState = this.state.reconfigure({
+      plugins: this.extensionManager.plugins,
+    })
+
+    this.view.updateState(newState)
+
     this.view.setProps({
       nodeViews: this.extensionManager.nodeViews,
     })
