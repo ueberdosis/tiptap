@@ -3,7 +3,6 @@ import { Selection, Transaction } from 'prosemirror-state'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import elementFromString from '../utils/elementFromString'
 import { Command } from '../Editor'
-import { createExtension } from '../Extension'
 
 // TODO: move to utils
 // https://github.com/ProseMirror/prosemirror-state/blob/master/src/selection.js#L466
@@ -18,27 +17,15 @@ function selectionToInsertionEnd(tr: Transaction, startLen: number, bias: number
   tr.setSelection(Selection.near(tr.doc.resolve(end as unknown as number), bias))
 }
 
-export const InsertHTML = createExtension({
-  addCommands() {
-    return {
-      insertHTML: (value: string): Command => ({ tr, state, dispatch }) => {
-        const { selection } = tr
-        const element = elementFromString(value)
-        const slice = DOMParser.fromSchema(state.schema).parseSlice(element)
+export default (value: string): Command => ({ tr, state, dispatch }) => {
+  const { selection } = tr
+  const element = elementFromString(value)
+  const slice = DOMParser.fromSchema(state.schema).parseSlice(element)
 
-        if (dispatch) {
-          tr.insert(selection.anchor, slice.content)
-          selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
-        }
-
-        return true
-      },
-    }
-  },
-})
-
-declare module '../Editor' {
-  interface AllExtensions {
-    InsertHTML: typeof InsertHTML,
+  if (dispatch) {
+    tr.insert(selection.anchor, slice.content)
+    selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
   }
+
+  return true
 }

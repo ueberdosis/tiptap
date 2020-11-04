@@ -16,9 +16,11 @@ function getMarksBetween(start: number, end: number, state: EditorState) {
   return marks
 }
 
-export default function (regexp: RegExp, markType: MarkType, getAttrs?: Function) {
+export default function (regexp: RegExp, markType: MarkType, getAttributes?: Function) {
   return new InputRule(regexp, (state, match, start, end) => {
-    const attributes = getAttrs instanceof Function ? getAttrs(match) : getAttrs
+    const attributes = getAttributes instanceof Function
+      ? getAttributes(match)
+      : getAttributes
     const { tr } = state
     const captureGroup = match[match.length - 1]
     const fullMatch = match[0]
