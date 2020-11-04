@@ -2,7 +2,6 @@ import {
   newlineInCode,
   createParagraphNear,
   liftEmptyBlock,
-  splitBlockKeepMarks,
   exitCode,
   deleteSelection,
   joinForward,
