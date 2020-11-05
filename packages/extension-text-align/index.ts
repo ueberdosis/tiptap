@@ -52,6 +52,10 @@ const TextAlign = createExtension({
       Enter: () => this.editor.splitBlock({
         withAttributes: true,
       }),
+      'Ctrl-Shift-l': () => this.editor.textAlign('left'),
+      'Ctrl-Shift-e': () => this.editor.textAlign('center'),
+      'Ctrl-Shift-r': () => this.editor.textAlign('right'),
+      'Ctrl-Shift-j': () => this.editor.textAlign('justify'),
     }
   },
 })
