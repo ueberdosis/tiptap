@@ -76,34 +76,120 @@ Marks can be applied to specific parts of a node. That’s the case for **bold**
 ### The node schema
 
 #### Content
-> The content expression for this node, as described in the schema guide. When not given, the node does not allow any content.
+The content attribute defines exactly what kind of content the node can have. ProseMirror is really strict with that. That means, content which doesn’t fit the schema is thrown away. It expects a name or group as a string. Here are a few examples:
+
+```js
+createNode({
+  // must have one ore more blocks
+  content: 'block+',
+
+  // allows all kinds of 'inline' content (text or hard breaks)
+  content: 'inline*',
+
+  // must not have anything else than 'text'
+  content: 'text*',
+
+  // can have one or more paragraphs, or lists (if lists are used)
+  content: '(paragraph|list?)+',
+})
+```
+
 
 #### Marks
 > The marks that are allowed inside of this node. May be a space-separated string referring to mark names or groups, "_" to explicitly allow all marks, or "" to disallow marks. When not given, nodes with inline content default to allowing all marks, other nodes default to not allowing marks.
 
+```js
+createNode({
+  // must contain 'bold' marks only
+  marks: 'bold',
+
+  // allows all marks
+  marks: '_',
+
+  // disallows all marks
+  marks: '',
+})
+```
+
 #### Group
 > The group or space-separated groups to which this node belongs, which can be referred to in the content expressions for the schema.
+
+```js
+createNode({
+  // add to 'block' group
+  group: 'block',
+
+  // add to 'inline' group
+  group: 'inline',
+
+  // add to 'block' and 'list' group
+  group: 'block list',
+})
+```
 
 #### Inline
 > Should be set to true for inline nodes. (Implied for text nodes.)
 
+```js
+createNode({
+  // renders nodes in line with, for example, the text
+  inline: true,
+})
+```
+
 #### Atom
 > Can be set to true to indicate that, though this isn't a leaf node, it doesn't have directly editable content and should be treated as a single unit in the view.
+
+```js
+createNode({
+  atom: true,
+})
+```
 
 #### Selectable
 > Controls whether nodes of this type can be selected as a node selection. Defaults to true for non-text nodes.
 
+```js
+createNode({
+  selectable: true,
+})
+```
+
 #### Draggable
 > Determines whether nodes of this type can be dragged without being selected. Defaults to false.
+
+```js
+createNode({
+  draggable: true,
+})
+```
 
 #### Code
 > Can be used to indicate that this node contains code, which causes some commands to behave differently.
 
+```js
+createNode({
+  code: true,
+})
+```
+
 #### Defining
 > Determines whether this node is considered an important parent node during replace operations (such as paste). Non-defining (the default) nodes get dropped when their entire content is replaced, whereas defining nodes persist and wrap the inserted content. Likewise, in inserted content the defining parents of the content are preserved when possible. Typically, non-default-paragraph textblock types, and possibly list items, are marked as defining.
 
+```js
+createNode({
+  defining: true,
+})
+```
+
 #### Isolating
 > When enabled (default is false), the sides of nodes of this type count as boundaries that regular editing operations, like backspacing or lifting, won't cross. An example of a node that should probably have this enabled is a table cell.
+
+```js
+createNode({
+  isolating: true,
+})
+```
 
 ### The mark schema
 #### Inclusive

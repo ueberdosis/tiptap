@@ -14,7 +14,7 @@ editor.bold()
 
 While that’s perfectly fine and does make the selected bold, you’d likely want to change multiple commands in one run. Let’s have a look at how that works.
 
-## Chain commands
+### Chain commands
 Most commands can be executed combined to one call. First of all, that’s shorter than separate function call in most cases. Here is an example to make the selected text bold:
 
 ```js
@@ -27,26 +27,43 @@ When a user clicks on a button outside of the content, the editor isn’t in foc
 
 All chained commands are kind of queued up. They are combined to one single transaction. That means, the content is only updated once, also the `update` event is only triggered once.
 
-## Dry run for commands
-Sometimes, you don’t want to actually run the commands, but only know if it would be possible to run commands, for example to show or hide buttons in a menu. Inside of a command you can *try* to execute other commands, without actually changing the content like this:
+### Dry run for commands
+Sometimes, you don’t want to actually run the commands, but only know if it would be possible to run commands, for example to show or hide buttons in a menu. That’s what we added `.can()` for. Everything coming after this method will be executed, without applying the changes to the document:
 
 ```js
-commands.try([
-  () => commands.splitBlock(),
-  () => commands.whatever(),
-])
+editor.can().bold()
 ```
 
-Outside of components you can do this, too. The editor exposes a try method, which passes all commands and expects an array of commands you want to try:
+And you can use it together with `.chain()`, too. Here is an example which checks if it’s possible to apply all the commands:
+
+```js
+editor.can().chain().bold().italic().run()
+```
+
+Both calls would return `true` if it’s possible to apply the commands, and `false` in case it’s not.
+
+### Try commands
+If you want to run a list of commands, but want only the first successful command to be applied, you can do this with the `.try()` method. This method runs one command after the other and stops at the first which returns `true`.
+
+For example, the backspace key tries to undo an input rule first. If that was successful, it stops there. If no input rule has been applied and thus can’t be reverted, it runs the next command and deletes the selection, if there is one. Here is the simplified example:
 
 ```js
 editor.try(({ commands }) => [
-  () => commands.splitBlock(),
-  () => commands.whatever(),
+  () => commands.undoInputRule(),
+  () => commands.deleteSelection(),
+  // …
 ])
 ```
 
-This stops at the first command which return `false`. Commands after that won’t be executed. Even if all commands would be possible to run, none of the changes are applied to the document.
+Inside of commands you can do the same thing like that:
+
+```js
+commands.try([
+  () => commands.undoInputRule(),
+  () => commands.deleteSelection(),
+  // …
+])
+```
 
 ## List of commands
 Have a look at all of the core commands listed below. They should give you a good first impression of what’s possible.
@@ -98,5 +115,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .scrollIntoView()  | Scroll the selection into view.         |
 | .selectAll()       | Select the whole document.              |
 
-### Extensions
-All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those. Of course, you can [add your custom extensions](/guide/build-custom-extensions) with custom commands aswell.
+## Add your own commands
+All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those.
+
+Of course, you can [add your custom extensions](/guide/build-custom-extensions) with custom commands aswell.
