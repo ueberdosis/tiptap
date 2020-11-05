@@ -173,7 +173,6 @@
           draft: true
         - title: Gapcursor
           link: /api/extensions/gapcursor
-          draft: true
         - title: History
           link: /api/extensions/history
         - title: TextAlign
