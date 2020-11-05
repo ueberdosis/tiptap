@@ -54,7 +54,7 @@ jobs:
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
-        channel: '#tiptap-next'
+        channel: '#tiptap-notifications'
       if: failure()
 
   test:
@@ -107,7 +107,7 @@ jobs:
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
-        channel: '#tiptap-next'
+        channel: '#tiptap-notifications'
       if: failure()
 
   build:
@@ -154,5 +154,5 @@ jobs:
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
-        channel: '#tiptap-next'
+        channel: '#tiptap-notifications'
       if: failure()
