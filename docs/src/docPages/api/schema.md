@@ -66,10 +66,6 @@ const Text = createNode({
 })
 ```
 
-### Parse HTML
-
-### Render HTML
-
 ## Nodes and marks
 
 ### Differences

@@ -16,7 +16,6 @@
           link: /examples/basic
         - title: Collaborative editing
           link: /examples/collaborative-editing
-          premium: true
         - title: Markdown shortcuts
           link: /examples/markdown-shortcuts
         # - title: Menu Bubble
@@ -165,14 +164,11 @@
           premium: true
         - title: CollaborationCursor
           link: /api/extensions/collaboration-cursor
-          draft: true
           premium: true
         - title: Dropcursor
           link: /api/extensions/dropcursor
-          draft: true
         - title: Focus
           link: /api/extensions/focus
-          draft: true
         - title: Gapcursor
           link: /api/extensions/gapcursor
         - title: History

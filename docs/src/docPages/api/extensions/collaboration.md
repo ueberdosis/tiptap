@@ -1,8 +1,8 @@
 # Collaboration
 The Collaboration extension enables you to collaborate with others on one document. The implementation is based on [Y.js by Kevin Jahns](https://github.com/yjs/yjs), which is the coolest thing to [integrate collaborative editing](/guide/collaborative-editing) in your project.
 
-:::premium Premium Extension
-Using this in production requires a **tiptap pro** license. [Read more](/sponsor)
+:::premium Pro Extension
+We kindly ask you to sponsor us, before using this extension in production. [Read more](/sponsor)
 :::
 
 ## Installation
@@ -33,4 +33,4 @@ yarn add @tiptap/extension-collaboration yjs y-webrtc
 :::warning Public
 The content of this editor is shared with other users.
 :::
-<demo name="Extensions/Collaboration" highlight="" />
+<demo name="Extensions/Collaboration" highlight="10-12,30-32,43-46,53" />

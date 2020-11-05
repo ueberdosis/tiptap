@@ -1,4 +1,7 @@
 # Dropcursor
+This extension loads the [ProseMirror Dropcursor plugin](https://github.com/ProseMirror/prosemirror-dropcursor) by Marijn Haverbeke, which shows a cursor at the drop position when something is dragged over the editor.
+
+Note that tiptap is renderless, but the dropcursor needs CSS for its appearance. The default CSS is added to the usage example below.
 
 ## Installation
 ```bash
@@ -9,17 +12,8 @@ npm install @tiptap/extension-dropcursor
 yarn add @tiptap/extension-dropcursor
 ```
 
-## Settings
-*None*
-
-## Commands
-*None*
-
-## Keyboard shortcuts
-*None*
-
 ## Source code
 [packages/extension-dropcursor/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-dropcursor/)
 
 ## Usage
-<demo name="Extensions/Dropcursor" highlight="" />
+<demo name="Extensions/Dropcursor" highlight="12,33" />

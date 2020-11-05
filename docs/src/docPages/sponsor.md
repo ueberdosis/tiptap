@@ -9,7 +9,7 @@ If you’re using tiptap in a commercial project or just want to give back to th
 * Your issues and pull requests get a `sponsor 💖` label
 * Get a sponsor badge in all your comments on GitHub
 * Show the support in your GitHub profile
-* Receive monthly reports related to our open source work
+* Receive monthly reports about to our open source work
 
 Does that sound good? [Sponsor us on GitHub!](https://github.com/sponsors/ueberdosis)
 
