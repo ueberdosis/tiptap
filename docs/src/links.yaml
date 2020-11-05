@@ -136,7 +136,6 @@
           draft: true
         - title: Typography
           link: /api/extensions/typography
-          draft: true
     - title: Commands
       link: /api/commands
     - title: Events
