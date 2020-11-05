@@ -5,6 +5,7 @@ import getAttributesFromExtensions from './getAttributesFromExtensions'
 import getRenderedAttributes from './getRenderedAttributes'
 import isEmptyObject from './isEmptyObject'
 import injectExtensionAttributesToParseRule from './injectExtensionAttributesToParseRule'
+import callOrReturn from './callOrReturn'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(Object.entries(data).filter(([key, value]) => {
@@ -25,16 +26,16 @@ export default function getSchema(extensions: Extensions): Schema {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
     const context = { options: extension.options }
     const schema: NodeSpec = cleanUpSchemaItem({
-      content: extension.content,
-      marks: extension.marks,
-      group: extension.group,
-      inline: extension.inline,
-      atom: extension.atom,
-      selectable: extension.selectable,
-      draggable: extension.draggable,
-      code: extension.code,
-      defining: extension.defining,
-      isolating: extension.isolating,
+      content: callOrReturn(extension.content, context),
+      marks: callOrReturn(extension.marks, context),
+      group: callOrReturn(extension.group, context),
+      inline: callOrReturn(extension.inline, context),
+      atom: callOrReturn(extension.atom, context),
+      selectable: callOrReturn(extension.selectable, context),
+      draggable: callOrReturn(extension.draggable, context),
+      code: callOrReturn(extension.code, context),
+      defining: callOrReturn(extension.defining, context),
+      isolating: callOrReturn(extension.isolating, context),
       attrs: Object.fromEntries(extensionAttributes.map(extensionAttribute => {
         return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
       })),
@@ -60,10 +61,10 @@ export default function getSchema(extensions: Extensions): Schema {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
     const context = { options: extension.options }
     const schema: MarkSpec = cleanUpSchemaItem({
-      inclusive: extension.inclusive,
-      excludes: extension.excludes,
-      group: extension.group,
-      spanning: extension.spanning,
+      inclusive: callOrReturn(extension.inclusive, context),
+      excludes: callOrReturn(extension.excludes, context),
+      group: callOrReturn(extension.group, context),
+      spanning: callOrReturn(extension.spanning, context),
       attrs: Object.fromEntries(extensionAttributes.map(extensionAttribute => {
         return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
       })),

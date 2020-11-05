@@ -1,6 +1,6 @@
 # Configuration
 
-## Table of Contents
+## toc
 
 ## Introduction
 tiptap is all about customization. There are a ton of options to configure the behavior and functionality of the editor. Most of those settings can be set before creating the Editor. Give tiptap a JSON with all the settings you would like to overwrite.

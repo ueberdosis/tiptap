@@ -14,7 +14,10 @@
         code
       </button>
       <button @click="editor.chain().focus().removeMarks().run()">
-        clear format
+        clear marks
+      </button>
+      <button @click="editor.chain().focus().clearNodes().run()">
+        clear nodes
       </button>
       <button @click="editor.chain().focus().paragraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
         paragraph
@@ -37,10 +40,10 @@
       <button @click="editor.chain().focus().heading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
         h6
       </button>
-      <button @click="editor.chain().focus().bulletList().run()" :class="{ 'is-active': editor.isActive('bullet_list') }">
+      <button @click="editor.chain().focus().bulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
         bullet list
       </button>
-      <button @click="editor.chain().focus().orderedList().run()" :class="{ 'is-active': editor.isActive('ordered_list') }">
+      <button @click="editor.chain().focus().orderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
         ordered list
       </button>
       <button @click="editor.chain().focus().codeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">

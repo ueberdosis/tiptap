@@ -5,18 +5,19 @@ export default function mergeAttributes(...object: AnyObject[]) {
     const mergedAttributes = { ...items }
 
     Object.entries(item).forEach(([key, value]) => {
-      if (!mergedAttributes[key]) {
+      const exists = mergedAttributes[key]
+
+      if (!exists) {
         mergedAttributes[key] = value
         return
       }
 
       if (key === 'class') {
         mergedAttributes[key] = [mergedAttributes[key], value].join(' ')
-        return
-      }
-
-      if (key === 'style') {
+      } else if (key === 'style') {
         mergedAttributes[key] = [mergedAttributes[key], value].join('; ')
+      } else {
+        mergedAttributes[key] = value
       }
     })
 

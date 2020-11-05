@@ -20,8 +20,7 @@ const Strike = createMark({
         tag: 'strike',
       },
       {
-        style: 'text-decoration',
-        getAttrs: node => (node === 'line-through' ? {} : false),
+        style: 'text-decoration=line-through',
       },
     ]
   },

@@ -1,5 +1,6 @@
 import { ParseRule } from 'prosemirror-model'
 import { ExtensionAttribute } from '../types'
+import fromString from './fromString'
 
 /**
  * This function merges extension attributes into parserule attributes (`attrs` or `getAttrs`).
@@ -29,7 +30,7 @@ export default function injectExtensionAttributesToParseRule(parseRule: ParseRul
           const attributes = item.attribute.parseHTML
             ? item.attribute.parseHTML(node as HTMLElement) || {}
             : {
-              [item.name]: (node as HTMLElement).getAttribute(item.name),
+              [item.name]: fromString((node as HTMLElement).getAttribute(item.name)),
             }
 
           const filteredAttributes = Object.fromEntries(Object.entries(attributes)

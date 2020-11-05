@@ -1,15 +1,17 @@
 import { createNode } from '@tiptap/core'
 
 const ListItem = createNode({
-  name: 'list_item',
+  name: 'listItem',
 
-  content: 'paragraph block*',
+  content: '(paragraph|list?)+',
 
   defining: true,
 
   parseHTML() {
     return [
-      { tag: 'li' },
+      {
+        tag: 'li',
+      },
     ]
   },
 
@@ -19,9 +21,9 @@ const ListItem = createNode({
 
   addKeyboardShortcuts() {
     return {
-      Enter: () => this.editor.splitListItem('list_item'),
-      Tab: () => this.editor.sinkListItem('list_item'),
-      'Shift-Tab': () => this.editor.liftListItem('list_item'),
+      Enter: () => this.editor.splitListItem('listItem'),
+      Tab: () => this.editor.sinkListItem('listItem'),
+      'Shift-Tab': () => this.editor.liftListItem('listItem'),
     }
   },
 })

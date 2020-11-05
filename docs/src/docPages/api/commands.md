@@ -1,6 +1,6 @@
 # Commands
 
-## Table of Contents
+## toc
 
 ## Introduction
 The editor provides a ton of commands to programmtically add or change content or alter the selection. If you want to build your own editor you definitely want to learn more about them.
@@ -14,7 +14,7 @@ editor.bold()
 
 While that’s perfectly fine and does make the selected bold, you’d likely want to change multiple commands in one run. Let’s have a look at how that works.
 
-## Chain commands
+### Chain commands
 Most commands can be executed combined to one call. First of all, that’s shorter than separate function call in most cases. Here is an example to make the selected text bold:
 
 ```js
@@ -27,35 +27,84 @@ When a user clicks on a button outside of the content, the editor isn’t in foc
 
 All chained commands are kind of queued up. They are combined to one single transaction. That means, the content is only updated once, also the `update` event is only triggered once.
 
+### Dry run for commands
+Sometimes, you don’t want to actually run the commands, but only know if it would be possible to run commands, for example to show or hide buttons in a menu. That’s what we added `.can()` for. Everything coming after this method will be executed, without applying the changes to the document:
+
+```js
+editor.can().bold()
+```
+
+And you can use it together with `.chain()`, too. Here is an example which checks if it’s possible to apply all the commands:
+
+```js
+editor.can().chain().bold().italic().run()
+```
+
+Both calls would return `true` if it’s possible to apply the commands, and `false` in case it’s not.
+
+### Try commands
+If you want to run a list of commands, but want only the first successful command to be applied, you can do this with the `.try()` method. This method runs one command after the other and stops at the first which returns `true`.
+
+For example, the backspace key tries to undo an input rule first. If that was successful, it stops there. If no input rule has been applied and thus can’t be reverted, it runs the next command and deletes the selection, if there is one. Here is the simplified example:
+
+```js
+editor.try(({ commands }) => [
+  () => commands.undoInputRule(),
+  () => commands.deleteSelection(),
+  // …
+])
+```
+
+Inside of commands you can do the same thing like that:
+
+```js
+commands.try([
+  () => commands.undoInputRule(),
+  () => commands.deleteSelection(),
+  // …
+])
+```
+
 ## List of commands
 Have a look at all of the core commands listed below. They should give you a good first impression of what’s possible.
 
 ### Content
-| Command         | Description                                                 |
-| --------------- | ----------------------------------------------------------- |
-| .clearContent() | Clear the whole document.                                   |
-| .insertgetHTML()   | Insert a string of HTML at the currently selected position. |
-| .insertText()   | Insert a string of text at the currently selected position. |
-| .setContent()   | Replace the whole document with new content.                |
+| Command          | Description                                                 |
+| ---------------- | ----------------------------------------------------------- |
+| .clearContent()  | Clear the whole document.                                   |
+| .insertgetHTML() | Insert a string of HTML at the currently selected position. |
+| .insertText()    | Insert a string of text at the currently selected position. |
+| .insertHTML()    |                                                             |
+| .setContent()    | Replace the whole document with new content.                |
 
 ### Nodes & Marks
-| Command             | Description                                            |
-| ------------------- | ------------------------------------------------------ |
-| .removeMark()       | Remove a mark in the current selection.                |
-| .removeMarks()      | Remove all marks in the current selection.             |
-| .selectParentNode() | Select the parent node.                                |
-| .toggleMark()       | Toggle a mark on and off.                              |
-| .toggleBlockType()  | Toggle a node with another node.                       |
-| .setBlockType()     | Replace a given range with a node.                     |
-| .updateMark()       | Update a mark with new attributes.                     |
+| Command                | Description                                |
+| ---------------------- | ------------------------------------------ |
+| .clearNodes()          |                                            |
+| .removeMark()          |                                            |
+| .removeMark()          | Remove a mark in the current selection.    |
+| .removeMarks()         |                                            |
+| .removeMarks()         | Remove all marks in the current selection. |
+| .resetNodeAttributes() |                                            |
+| .selectParentNode()    | Select the parent node.                    |
+| .setBlockType()        | Replace a given range with a node.         |
+| .setNodeAttributes()   |                                            |
+| .splitBlock()          | Forks a new node from an existing node.    |
+| .toggleBlockType()     | Toggle a node with another node.           |
+| .toggleMark()          |                                            |
+| .toggleMark()          | Toggle a mark on and off.                  |
+| .toggleWrap()          |                                            |
+| .updateMark()          |                                            |
+| .updateMark()          | Update a mark with new attributes.         |
 
 ### Lists
-| Command             | Description                                            |
-| ------------------- | ------------------------------------------------------ |
-| .liftListItem()     | Lift the list item into a wrapping list.               |
-| .sinkListItem()     | Sink the list item down into an inner list.            |
-| .splitListItem()    | Splits a textblock of a list item into two list items. |
-| .toggleList()       | Toggle between different list styles.                  |
+| Command          | Description                                            |
+| ---------------- | ------------------------------------------------------ |
+| .liftListItem()  | Lift the list item into a wrapping list.               |
+| .sinkListItem()  | Sink the list item down into an inner list.            |
+| .splitListItem() | Splits a textblock of a list item into two list items. |
+| .toggleList()    | Toggle between different list styles.                  |
+| .wrapInList()    |                                                        |
 
 ### Selection
 | Command            | Description                             |
@@ -66,5 +115,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .scrollIntoView()  | Scroll the selection into view.         |
 | .selectAll()       | Select the whole document.              |
 
-### Extensions
-All extension can add additional commands (and most do), check out the specific [documentation for the provided extensions](/api/extensions) to learn more about that. Of course, you can [add your custom extensions](/guide/custom-extensions) with custom commands aswell.
+## Add your own commands
+All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those.
+
+Of course, you can [add your custom extensions](/guide/build-custom-extensions) with custom commands aswell.

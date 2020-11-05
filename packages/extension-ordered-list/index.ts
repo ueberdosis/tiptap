@@ -1,12 +1,14 @@
 import { Command, createNode } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
+export const inputRegex = /^(\d+)\.\s$/
+
 const OrderedList = createNode({
-  name: 'ordered_list',
+  name: 'orderedList',
 
-  content: 'list_item+',
+  group: 'block list',
 
-  group: 'block',
+  content: 'listItem+',
 
   addAttributes() {
     return {
@@ -40,7 +42,7 @@ const OrderedList = createNode({
   addCommands() {
     return {
       orderedList: (): Command => ({ commands }) => {
-        return commands.toggleList('ordered_list', 'list_item')
+        return commands.toggleList('orderedList', 'listItem')
       },
     }
   },
@@ -54,7 +56,7 @@ const OrderedList = createNode({
   addInputRules() {
     return [
       wrappingInputRule(
-        /^(\d+)\.\s$/,
+        inputRegex,
         this.type,
         match => ({ order: +match[1] }),
         (match, node) => node.childCount + node.attrs.order === +match[1],

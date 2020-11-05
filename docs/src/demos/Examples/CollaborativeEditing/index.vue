@@ -1,10 +1,13 @@
 <template>
   <div>
     <button @click="setName">
-      set username
+      Set Name
+    </button>
+    <button @click="changeName">
+      Random Name
     </button>
     <button @click="changeColor">
-      change color
+      Random Color
     </button>
 
     <div class="collaboration-status">
@@ -89,7 +92,16 @@ export default {
 
   methods: {
     setName() {
-      this.name = window.prompt('Name')
+      const name = window.prompt('Name')
+
+      if (name) {
+        this.name = name
+        return this.updateUser()
+      }
+    },
+
+    changeName() {
+      this.name = this.getRandomName()
       this.updateUser()
     },
 
@@ -108,28 +120,26 @@ export default {
     },
 
     getRandomColor() {
-      const colors = [
-        '#f03e3e',
-        '#d6336c',
-        '#ae3ec9',
-        '#7048e8',
-        '#4263eb',
-        '#1c7ed6',
-        '#1098ad',
-        '#0ca678',
-        '#37b24d',
-        '#74b816',
-        '#f59f00',
-        '#f76707',
-      ]
-
-      return colors[Math.floor(Math.random() * colors.length)]
+      return this.getRandomElement([
+        '#616161',
+        '#A975FF',
+        '#FB5151',
+        '#fd9170',
+        '#FFCB6B',
+        '#68CEF8',
+        '#80cbc4',
+        '#9DEF8F',
+      ])
     },
 
     getRandomName() {
-      const names = ['🙈', '🙉', '🙊', '💥', '💫', '💦', '💨', '🐵', '🐒', '🦍', '🦧', '🐶', '🐕', '🦮', '🐕‍🦺', '🐩', '🐺', '🦊', '🦝', '🐱', '🐈', '🦁', '🐯', '🐅', '🐆', '🐴', '🐎', '🦄', '🦓', '🦌', '🐮', '🐂', '🐃', '🐄', '🐷', '🐖', '🐗', '🐽', '🐏', '🐑', '🐐', '🐪', '🐫', '🦙', '🦒', '🐘', '🦏', '🦛', '🐭', '🐁', '🐀', '🐹', '🐰', '🐇', '🐿', '🦔', '🦇', '🐻', '🐨', '🐼', '🦥', '🦦', '🦨', '🦘', '🦡', '🐾', '🦃', '🐔', '🐓', '🐣', '🐤', '🐥', '🐦', '🐧', '🕊', '🦅', '🦆', '🦢', '🦉', '🦩', '🦚', '🦜', '🐸', '🐊', '🐢', '🦎', '🐍', '🐲', '🐉', '🦕', '🦖', '🐳', '🐋', '🐬', '🐟', '🐠', '🐡', '🦈', '🐙', '🐚', '🐌', '🦋', '🐛', '🐜', '🐝', '🐞', '🦗', '🕷', '🕸', '🦂', '🦟', '🦠']
+      return this.getRandomElement([
+        'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
+      ])
+    },
 
-      return names[Math.floor(Math.random() * names.length)]
+    getRandomElement(list) {
+      return list[Math.floor(Math.random() * list.length)]
     },
 
     updateState() {
@@ -152,6 +162,7 @@ export default {
 </script>
 
 <style lang="scss">
+/* A list of all available users */
 .collaboration-users {
   margin-top: 0.5rem;
 
@@ -165,6 +176,7 @@ export default {
   }
 }
 
+/* Some information about the status */
 .collaboration-status {
   background: #eee;
   color: #666;
@@ -183,7 +195,7 @@ export default {
   }
 }
 
-/* This gives the remote user caret */
+/* Give a remote user a caret */
 .collaboration-cursor__caret {
   position: relative;
   margin-left: -1px;
@@ -194,10 +206,10 @@ export default {
   pointer-events: none;
 }
 
-/* This renders the username above the caret */
+/* Render the username above the caret */
 .collaboration-cursor__label {
   position: absolute;
-  top: -1.6em;
+  top: -1.4em;
   left: -1px;
   font-size: 13px;
   font-style: normal;

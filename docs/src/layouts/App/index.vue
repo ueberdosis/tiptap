@@ -125,20 +125,18 @@
       <main class="app__main">
         <div class="app__inner">
           <slot />
-          <p>
-            <br>
-            <a :href="editLink" target="_blank">
-              <span>Edit this page on GitHub</span>
-            </a>
-          </p>
-          <p>
-            Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
-          </p>
         </div>
       </main>
       <div class="app__page-navigation">
         <div class="app__inner">
           <page-navigation />
+        </div>
+      </div>
+      <div class="app__page-footer">
+        <div class="app__inner">
+          <a :href="editLink" target="_blank">Edit this page on GitHub</a>
+          &middot;
+          Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
         </div>
       </div>
     </div>
@@ -151,13 +149,13 @@
           </div>
           <ul class="app__link-list">
             <li v-for="(item, j) in linkGroup.items" :key="j">
-              <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true, 'app__link--with-children': item.items }" :to="item.link" :exact="item.link === '/'">
+              <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true, 'app__link--premium': item.premium === true, 'app__link--with-children': item.items }" :to="item.link" :exact="item.link === '/'">
                 {{ item.title }}
               </g-link>
 
               <ul v-if="item.items" class="app__link-list">
                 <li v-for="(item, k) in item.items" :key="k">
-                  <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true }" :to="item.link" exact>
+                  <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true, 'app__link--premium': item.premium === true }" :to="item.link" exact>
                     {{ item.title }}
                   </g-link>
                 </li>
@@ -215,6 +213,10 @@ export default {
     editLink() {
       const { currentPath } = this
       const filePath = currentPath === '' ? '/introduction' : currentPath
+
+      if (process.env.NODE_ENV === 'development') {
+        return `vscode://file${this.cwd}/src/docPages${filePath}.md`
+      }
 
       return `https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/docPages${filePath}.md`
     },

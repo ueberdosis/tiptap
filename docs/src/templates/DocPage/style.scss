@@ -80,22 +80,28 @@
     }
 
     > p code,
-    > li code,
+    > ul code,
+    > ol code,
     > table code,
     > .remark-container code {
-      color: $colorPurple;
-      background-color: rgba($colorPurple, 0.1);
+      color: $colorYellow;
+      background-color: rgba($colorYellow, 0.1);
       box-decoration-break: clone;
     }
 
     > p a,
-    > li a,
+    > ul a,
+    > ol a,
     > table a,
     > .remark-container a {
       text-decoration: underline;
+
+      code {
+        text-decoration: underline;
+      }
     }
 
-    #table-of-contents {
+    #toc {
       display: none;
 
       & + ul {
@@ -147,12 +153,13 @@
           display: inline-block;
           margin-right: 0.75rem;
           content: "\2022";
-          opacity: 0.2;
+          color: $colorYellow;
         }
       }
     }
 
     > ol {
+      list-style: none;
       counter-reset: item;
 
       li {
@@ -169,9 +176,9 @@
           justify-content: center;
           height: 1.5rem;
           width: 1.5rem;
-          background-color: rgba($colorWhite, 0.1);
+          background-color: rgba($colorYellow, 0.1);
           border-radius: 9999px;
-          color: rgba($colorWhite, 0.4);
+          color: $colorYellow;
           font-size: 0.75rem;
           font-weight: 700;
           content: counter(item);
@@ -203,16 +210,6 @@
         color: $colorWhite;
         font-weight: 500;
         border-bottom: 1px solid rgba($colorWhite, 0.2);
-
-        &:first-child {
-          border-top-left-radius: 5px;
-          border-bottom-left-radius: 5px;
-        }
-
-        &:last-child {
-          border-top-right-radius: 5px;
-          border-bottom-right-radius: 5px;
-        }
       }
 
       td {
@@ -221,6 +218,16 @@
 
       tr:last-child td {
         border-bottom: 0;
+      }
+
+      tbody tr {
+        &:last-child td {
+          border-bottom: 0;
+        }
+
+        &:hover {
+          background: rgba($colorWhite, 0.02);
+        }
       }
     }
 
@@ -247,9 +254,20 @@
         color: $colorRed;
       }
 
+      &.premium {
+        border-color: rgba($colorOrange, 0.1);
+        background-color: rgba($colorOrange, 0.1);
+        color: $colorOrange;
+      }
+
       .remark-container-title {
         font-weight: 600;
       }
+    }
+
+    > blockquote {
+      border-left: 1px solid rgba($colorGrey, 0.5);
+      padding-left: 2*$spacing;
     }
 
   }

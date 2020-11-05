@@ -14,5 +14,8 @@
   "peerDependencies": {
     "@tiptap/core": "2.x",
     "vue": "2.x"
+  },
+  "dependencies": {
+    "prosemirror-view": "^1.16.1"
   }
 }

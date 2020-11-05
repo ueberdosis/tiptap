@@ -1,0 +1,21 @@
+{
+  "name": "@tiptap/extension-typography",
+  "version": "1.0.0",
+  "source": "index.ts",
+  "main": "dist/tiptap-extension-typography.js",
+  "umd:main": "dist/tiptap-extension-typography.umd.js",
+  "module": "dist/tiptap-extension-typography.mjs",
+  "unpkg": "dist/tiptap-extension-typography.js",
+  "jsdelivr": "dist/tiptap-extension-typography.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "2.x"
+  },
+  "dependencies": {
+    "@types/prosemirror-inputrules": "^1.0.3",
+    "prosemirror-inputrules": "^1.1.3"
+  }
+}

@@ -1,13 +1,22 @@
-# Text Align
+# TextAlign
 
 ## Installation
 ```bash
-# With npm
+# with npm
 npm install @tiptap/extension-text-align
 
-# Or: With Yarn
+# with Yarn
 yarn add @tiptap/extension-text-align
 ```
+
+## Settings
+*None*
+
+## Commands
+*None*
+
+## Keyboard shortcuts
+*None*
 
 ## Source code
 [packages/extension-text-align/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-align/)

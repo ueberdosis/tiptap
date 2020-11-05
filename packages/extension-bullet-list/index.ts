@@ -1,12 +1,14 @@
 import { Command, createNode } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
+export const inputRegex = /^\s*([-+*])\s$/
+
 const BulletList = createNode({
-  name: 'bullet_list',
+  name: 'bulletList',
 
-  content: 'list_item+',
+  group: 'block list',
 
-  group: 'block',
+  content: 'listItem+',
 
   parseHTML() {
     return [
@@ -21,7 +23,7 @@ const BulletList = createNode({
   addCommands() {
     return {
       bulletList: (): Command => ({ commands }) => {
-        return commands.toggleList('bullet_list', 'list_item')
+        return commands.toggleList('bulletList', 'listItem')
       },
     }
   },
@@ -34,7 +36,7 @@ const BulletList = createNode({
 
   addInputRules() {
     return [
-      wrappingInputRule(/^\s*([-+*])\s$/, this.type),
+      wrappingInputRule(inputRegex, this.type),
     ]
   },
 })

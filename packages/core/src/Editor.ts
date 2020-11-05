@@ -9,13 +9,12 @@ import getNodeAttrs from './utils/getNodeAttrs'
 import getMarkAttrs from './utils/getMarkAttrs'
 import removeElement from './utils/removeElement'
 import getSchemaTypeNameByName from './utils/getSchemaTypeNameByName'
-import getHtmlFromFragment from './utils/getHtmlFromFragment'
+import getHTMLFromFragment from './utils/getHTMLFromFragment'
 import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
 import { Extensions, UnionToIntersection, PickValue } from './types'
-import defaultPlugins from './plugins'
 import * as extensions from './extensions'
 import style from './style'
 
@@ -23,10 +22,11 @@ export type Command = (props: {
   editor: Editor,
   tr: Transaction,
   commands: SingleCommands,
+  can: () => SingleCommands & { chain: () => ChainedCommands },
   chain: () => ChainedCommands,
   state: EditorState,
   view: EditorView,
-  dispatch: (args?: any) => any,
+  dispatch: ((args?: any) => any) | undefined,
 }) => boolean
 
 export type CommandSpec = (...args: any[]) => Command
@@ -75,8 +75,6 @@ declare module './Editor' {
 @magicMethods
 export class Editor extends EventEmitter {
 
-  public renderer!: any
-
   private proxy!: Editor
 
   private commandManager!: CommandManager
@@ -116,7 +114,6 @@ export class Editor extends EventEmitter {
     this.createExtensionManager()
     this.createSchema()
     this.createView()
-    // this.registerCommands(coreCommands)
     this.injectCSS()
 
     window.setTimeout(() => this.proxy.focus(this.options.autoFocus), 0)
@@ -137,6 +134,13 @@ export class Editor extends EventEmitter {
    */
   public chain() {
     return this.commandManager.createChain()
+  }
+
+  /**
+   * Check if a command or a command chain can be executed. Without executing it.
+   */
+  public can() {
+    return this.commandManager.createCan()
   }
 
   /**
@@ -233,7 +237,7 @@ export class Editor extends EventEmitter {
    */
   private createExtensionManager() {
     const coreExtensions = Object.entries(extensions).map(([, extension]) => extension())
-    const allExtensions = [...coreExtensions, ...this.options.extensions]
+    const allExtensions = [...this.options.extensions, ...coreExtensions]
 
     this.extensionManager = new ExtensionManager(allExtensions, this.proxy)
   }
@@ -257,18 +261,26 @@ export class Editor extends EventEmitter {
    */
   private createView() {
     this.view = new EditorView(this.options.element, {
+      dispatchTransaction: this.dispatchTransaction.bind(this),
       state: EditorState.create({
         doc: this.createDocument(this.options.content),
-        plugins: [
-          ...this.extensionManager.plugins,
-          ...defaultPlugins.map(plugin => plugin(this.proxy)),
-        ],
       }),
-      dispatchTransaction: this.dispatchTransaction.bind(this),
+    })
+
+    // `editor.view` is not yet available at this time.
+    // Therefore we will add all plugins and node views directly afterwards.
+    const newState = this.state.reconfigure({
+      plugins: this.extensionManager.plugins,
+    })
+
+    this.view.updateState(newState)
+
+    this.view.setProps({
       nodeViews: this.extensionManager.nodeViews,
     })
 
-    // store editor in dom element for better testing
+    // Let’s store the editor instance in the DOM element.
+    // So we’ll have access to it for tests.
     const dom = this.view.dom as HTMLElement
     dom.editor = this.proxy
   }
@@ -384,7 +396,7 @@ export class Editor extends EventEmitter {
    * Get the document as HTML.
    */
   public getHTML() {
-    return getHtmlFromFragment(this.state.doc, this.schema)
+    return getHTMLFromFragment(this.state.doc, this.schema)
   }
 
   /**

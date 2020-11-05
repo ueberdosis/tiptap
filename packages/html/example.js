@@ -1,11 +1,11 @@
-import { generateHtml } from '@tiptap/html'
+import { generateHTML } from '@tiptap/html'
 
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 
 // eslint-disable-next-line
-const html = generateHtml({
+const html = generateHTML({
   type: 'document',
   content: [{
     type: 'paragraph',

@@ -1,5 +1,7 @@
 import { EditorState, Transaction } from 'prosemirror-state'
-import { ChainedCommands, Editor, CommandSpec } from './Editor'
+import {
+  SingleCommands, ChainedCommands, Editor, CommandSpec,
+} from './Editor'
 import getAllMethodNames from './utils/getAllMethodNames'
 
 export default class CommandManager {
@@ -57,7 +59,7 @@ export default class CommandManager {
     }
   }
 
-  public createChain(startTr?: Transaction) {
+  public createChain(startTr?: Transaction, shouldDispatch = true) {
     const { commands, editor } = this
     const { state, view } = editor
     const callbacks: boolean[] = []
@@ -71,7 +73,7 @@ export default class CommandManager {
     return new Proxy({}, {
       get: (_, name: string, proxy) => {
         if (name === 'run') {
-          if (!hasStartTransaction) {
+          if (!hasStartTransaction && shouldDispatch) {
             view.dispatch(tr)
           }
 
@@ -85,7 +87,7 @@ export default class CommandManager {
         }
 
         return (...args: any) => {
-          const props = this.buildProps(tr)
+          const props = this.buildProps(tr, shouldDispatch)
           const callback = command(...args)(props)
           callbacks.push(callback)
 
@@ -95,7 +97,31 @@ export default class CommandManager {
     }) as ChainedCommands
   }
 
-  public buildProps(tr: Transaction) {
+  public createCan(startTr?: Transaction) {
+    const { commands, editor } = this
+    const { state } = editor
+    const dispatch = false
+    const hasStartTransaction = !!startTr
+    const tr = hasStartTransaction ? startTr : state.tr
+
+    if (!tr) {
+      return
+    }
+
+    const props = this.buildProps(tr, dispatch)
+    const formattedCommands = Object.fromEntries(Object
+      .entries(commands)
+      .map(([name, command]) => {
+        return [name, (...args: any[]) => command(...args)({ ...props, dispatch })]
+      })) as SingleCommands
+
+    return {
+      ...formattedCommands,
+      chain: () => this.createChain(tr, dispatch),
+    }
+  }
+
+  public buildProps(tr: Transaction, shouldDispatch = true) {
     const { editor, commands } = this
     const { state, view } = editor
 
@@ -104,8 +130,11 @@ export default class CommandManager {
       editor,
       view,
       state: this.chainableState(tr, state),
-      dispatch: () => false,
+      dispatch: shouldDispatch
+        ? () => undefined
+        : undefined,
       chain: () => this.createChain(tr),
+      can: () => this.createCan(tr),
       get commands() {
         return Object.fromEntries(Object
           .entries(commands)

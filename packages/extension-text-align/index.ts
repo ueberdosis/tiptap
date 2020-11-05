@@ -9,7 +9,7 @@ type TextAlignOptions = {
 const TextAlign = createExtension({
   defaultOptions: <TextAlignOptions>{
     types: ['heading', 'paragraph'],
-    alignments: ['left', 'center', 'right'],
+    alignments: ['left', 'center', 'right', 'justify'],
     defaultAlignment: 'left',
   },
 
@@ -49,7 +49,13 @@ const TextAlign = createExtension({
       // TODO: re-use only 'textAlign' attribute
       // TODO: use custom splitBlock only for `this.options.types`
       // TODO: use complete default enter handler (chainCommand) with custom splitBlock
-      Enter: () => this.editor.splitBlock(true),
+      Enter: () => this.editor.splitBlock({
+        withAttributes: true,
+      }),
+      'Ctrl-Shift-l': () => this.editor.textAlign('left'),
+      'Ctrl-Shift-e': () => this.editor.textAlign('center'),
+      'Ctrl-Shift-r': () => this.editor.textAlign('right'),
+      'Ctrl-Shift-j': () => this.editor.textAlign('justify'),
     }
   },
 })

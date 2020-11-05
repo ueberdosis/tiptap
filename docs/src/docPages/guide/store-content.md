@@ -1,6 +1,6 @@
 # Store content
 
-## Table of Contents
+## toc
 
 ## Introduction
 You can store your content as a JSON object or as a good old HTML string. Both work fine. And of course, you can pass both formats to the editor to restore your content.
@@ -85,6 +85,17 @@ Unfortunately, **tiptap doesn’t support Markdown as an input or output format*
 
 You should really consider to work with HTML or JSON to store your content, they are perfectly fine for most use cases.
 
-If you still think you need Markdown, [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap to work with Markdown. Their code is open source, so maybe you can learn from them.
+If you still think you need Markdown, [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap 1 to work with Markdown. Their code is open source, so maybe you can learn from them.
 
 That said, tiptap **does** support Markdown shortcuts to format your content. Try typing `**two asterisks**` to make your text bold for example.
+
+## Generate HTML from ProseMirror JSON
+If you need to render the content on the server side, for example to render a blog post which was written with tiptap, you’ll probably need a way to do just that without an actual editor instance.
+
+That’s what `generateHTML()` is for. It’s a utility function that renders HTML without an actual editor instance.
+
+:::info Browser-only rendering
+Import a lightweight implementation from `@tiptap/core` if you’re using the function in a browser context only.
+:::
+
+<demo name="Api/Schema/GenerateHTML" highlight="6,29-33"/>

@@ -1,6 +1,6 @@
 # Getting started
 
-## Table of Contents
+## toc
 
 ## Introduction
 tiptap is framework-agnostic and works with Vue.js and React. It even works with plain JavaScript, if that’s your thing. To keep everything as small as possible, we put the code to use tiptap with those frameworks in different packages.
@@ -19,7 +19,7 @@ yarn add @tiptap/vue @tiptap/vue-starter-kit
 The `@tiptap/vue-starter-kit` includes a few basics you would probably need anyway. Cool, you have got everything in place to set up tiptap! 🙌
 
 ## 2. Create a new component
-Create a new Vue component (you can call it `<Tiptap />`) and add the following content. This is the fastest way to get tiptap up and running with Vue.js. It will give you a very basic version of tiptap, without any buttons. No worries, you will be able to add more functionality soon.
+Create a new Vue component (you can call it `<tiptap />`) and add the following content. This is the fastest way to get tiptap up and running with Vue.js. It will give you a very basic version of tiptap, without any buttons. No worries, you will be able to add more functionality soon.
 
 <demo name="Guide/GettingStarted" />
 
