@@ -69,32 +69,29 @@ commands.try([
 Have a look at all of the core commands listed below. They should give you a good first impression of what’s possible.
 
 ### Content
-| Command          | Description                                                 |
-| ---------------- | ----------------------------------------------------------- |
-| .clearContent()  | Clear the whole document.                                   |
-| .insertgetHTML() | Insert a string of HTML at the currently selected position. |
-| .insertText()    | Insert a string of text at the currently selected position. |
-| .insertHTML()    |                                                             |
-| .setContent()    | Replace the whole document with new content.                |
+| Command         | Description                                      |
+| --------------- | ------------------------------------------------ |
+| .clearContent() | Clear the whole document.                        |
+| .insertHTML()   | Insert a string of HTML at the current position. |
+| .insertText()   | Insert a string of text at the current position. |
+| .setContent()   | Replace the whole document with new content.     |
 
 ### Nodes & Marks
-| Command                 | Description                                |
-| ----------------------- | ------------------------------------------ |
-| .clearNodes()           |                                            |
-| .removeMark()           |                                            |
-| .removeMark()           | Remove a mark in the current selection.    |
-| .removeMarks()          |                                            |
-| .removeMarks()          | Remove all marks in the current selection. |
-| .resetNodeAttributes()  |                                            |
-| .selectParentNode()     | Select the parent node.                    |
-| .setBlockType()         | Replace a given range with a node.         |
-| .updateNoteAttributes() |                                            |
-| .splitBlock()           | Forks a new node from an existing node.    |
-| .toggleBlockType()      | Toggle a node with another node.           |
-| .toggleMark()           |                                            |
-| .toggleMark()           | Toggle a mark on and off.                  |
-| .toggleWrap()           |                                            |
-| .updateMarkAttributes() | Update a mark with new attributes.         |
+| Command                 | Description                                               |
+| ----------------------- | --------------------------------------------------------- |
+| .clearNodes()           | Normalize nodes to a simple paragraph.                    |
+| .removeMark()           | Remove a mark in the current selection.                   |
+| .removeMarks()          | Remove all marks in the current selection.                |
+| .removeMarks()          | Remove all marks in the current selection.                |
+| .resetNodeAttributes()  | Resets all node attributes to the default value.          |
+| .selectParentNode()     | Select the parent node.                                   |
+| .setBlockType()         | Replace a given range with a node.                        |
+| .splitBlock()           | Forks a new node from an existing node.                   |
+| .toggleBlockType()      | Toggle a node with another node.                          |
+| .toggleMark()           | Toggle a mark on and off.                                 |
+| .toggleWrap()           | Wraps nodes in another node, or removes an existing wrap. |
+| .updateMarkAttributes() | Update a mark with new attributes.                        |
+| .updateNodeAttributes() | Update attributes of a node.                              |
 
 ### Lists
 | Command          | Description                                            |
@@ -102,8 +99,8 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .liftListItem()  | Lift the list item into a wrapping list.               |
 | .sinkListItem()  | Sink the list item down into an inner list.            |
 | .splitListItem() | Splits a textblock of a list item into two list items. |
-| .toggleList()    | Toggle between different list styles.                  |
-| .wrapInList()    |                                                        |
+| .toggleList()    | Toggle between different list types.                   |
+| .wrapInList()    | Wrap a node in a list.                                 |
 
 ### Selection
 | Command            | Description                             |

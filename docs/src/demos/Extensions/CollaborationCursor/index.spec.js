@@ -1,5 +1,5 @@
-context('/api/extensions/collaboration', () => {
+context('/api/extensions/collaboration-cursor', () => {
   before(() => {
-    cy.visit('/api/extensions/collaboration')
+    cy.visit('/api/extensions/collaboration-cursor')
   })
 })

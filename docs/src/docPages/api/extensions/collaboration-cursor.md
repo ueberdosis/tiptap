@@ -1,7 +1,14 @@
 # Collaboration Cursor
+This extension adds information about all connected users (like their name and a specified color), their current cursor position and their text selection (if there’s one).
 
-:::premium Premium Extension
-Using this in production requires a **tiptap pro** license. [Read more](/sponsor)
+Open this page in multiple browser windows to test it.
+
+:::premium 💖 Pro Extension
+We kindly ask you to sponsor us, before using this extension in production. [Read more](/sponsor)
+:::
+
+::: warning Use with Collaboration
+This extension requires the [`Collaboration`](/api/extensions/collaboration) extension.
 :::
 
 ## Installation
@@ -31,4 +38,4 @@ yarn add @tiptap/extension-collaboration-cursor
 :::warning Public
 The content of this editor is shared with other users.
 :::
-<demo name="Extensions/CollaborationCursor" highlight="" />
+<demo name="Extensions/CollaborationCursor" highlight="11,48-52" />
