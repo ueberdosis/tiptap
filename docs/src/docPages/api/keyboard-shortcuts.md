@@ -5,10 +5,15 @@
 ## Introduction
 tiptap comes with sensible keyboard shortcut defaults. Depending on what you want to use it for, you’ll probably want to change those keyboard shortcuts to your liking. Let’s have a look at what we defined for you, and show you how to change it then!
 
-Funfact: A while ago, we built a [keyboard shortcut learning app](https://mouseless.app), to which we manually added exercises for thousands of keyboard shortcuts for a bunch of tools.
+Funfact: We built a [keyboard shortcut learning app](https://mouseless.app), to which we manually added exercises for thousands of keyboard shortcuts for a bunch of tools.
 
 ## Predefined keyboard shortcuts
 Most of the core extensions register their own keyboard shortcuts. Depending on what set of extension you use, not all of the below listed keyboard shortcuts work for your editor.
+
+### Ideas
+* Task List ⌥⌘L (iaWriter)
+* Mark Task Complete ⌘. (iaWriter)
+* Text Highlight ⌘E (Paper)
 
 ### Essentials
 ❌ = untested
