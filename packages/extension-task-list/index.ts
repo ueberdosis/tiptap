@@ -1,7 +1,7 @@
 import { Command, createNode, mergeAttributes } from '@tiptap/core'
 
 const TaskList = createNode({
-  name: 'task_list',
+  name: 'taskList',
 
   group: 'block list',
 
@@ -10,20 +10,20 @@ const TaskList = createNode({
   parseHTML() {
     return [
       {
-        tag: 'ul[data-type="task_list"]',
+        tag: 'ul[data-type="taskList"]',
         priority: 51,
       },
     ]
   },
 
   renderHTML({ attributes }) {
-    return ['ul', mergeAttributes(attributes, { 'data-type': 'task_list' }), 0]
+    return ['ul', mergeAttributes(attributes, { 'data-type': 'taskList' }), 0]
   },
 
   addCommands() {
     return {
       taskList: (): Command => ({ commands }) => {
-        return commands.toggleList('task_list', 'taskItem')
+        return commands.toggleList('taskList', 'taskItem')
       },
     }
   },
