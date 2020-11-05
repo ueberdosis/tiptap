@@ -6,7 +6,10 @@ export default (attributes: {}): Command => ({ tr, state, dispatch }) => {
 
   state.doc.nodesBetween(from, to, (node, pos) => {
     if (!node.type.isText && dispatch) {
-      tr.setNodeMarkup(pos, undefined, attributes)
+      tr.setNodeMarkup(pos, undefined, {
+        ...node.attrs,
+        ...attributes,
+      })
     }
   })
 

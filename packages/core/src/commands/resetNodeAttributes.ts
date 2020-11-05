@@ -12,6 +12,7 @@ export default (attributeNames: string[] = []): Command => ({ tr, state, dispatc
 
         if (attribute && defaultValue !== undefined && dispatch) {
           tr.setNodeMarkup(pos, undefined, {
+            ...node.attrs,
             [name]: defaultValue,
           })
         }

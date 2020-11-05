@@ -11,7 +11,7 @@ const TaskItem = createNode({
   name: 'taskItem',
 
   content() {
-    return this.options.nested ? '(paragraph|task_list)+' : 'paragraph+'
+    return this.options.nested ? '(paragraph|taskList)+' : 'paragraph+'
   },
 
   defining: true,
