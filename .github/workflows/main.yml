@@ -110,49 +110,49 @@ jobs:
         channel: '#tiptap-notifications'
       if: failure()
 
-  build:
-    runs-on: ubuntu-latest
+  # build:
+  #   runs-on: ubuntu-latest
 
-    needs: lint
+  #   needs: lint
 
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  #   env:
+  #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-    strategy:
-      matrix:
-        node-version: [14]
+  #   strategy:
+  #     matrix:
+  #       node-version: [14]
 
-    steps:
+  #   steps:
 
-    - uses: actions/checkout@v2.3.3
+  #   - uses: actions/checkout@v2.3.3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.1.2
-      with:
-        node-version: ${{ matrix.node-version }}
+  #   - name: Use Node.js ${{ matrix.node-version }}
+  #     uses: actions/setup-node@v2.1.2
+  #     with:
+  #       node-version: ${{ matrix.node-version }}
 
-    - name: Load cached dependencies
-      uses: actions/cache@v2
-      id: cache
-      with:
-        path: |
-          **/node_modules
-          /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+  #   - name: Load cached dependencies
+  #     uses: actions/cache@v2
+  #     id: cache
+  #     with:
+  #       path: |
+  #         **/node_modules
+  #         /home/runner/.cache/Cypress
+  #       key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
 
-    - name: Install dependencies
-      id: install-dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn install
+  #   - name: Install dependencies
+  #     id: install-dependencies
+  #     if: steps.cache.outputs.cache-hit != 'true'
+  #     run: yarn install
 
-    - name: Build packages dependencies
-      id: build-packages
-      run: yarn build:packages
+  #   - name: Build packages dependencies
+  #     id: build-packages
+  #     run: yarn build:packages
 
-    - name: Send Slack notifications
-      uses: act10ns/slack@v1
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#tiptap-notifications'
-      if: failure()
+  #   - name: Send Slack notifications
+  #     uses: act10ns/slack@v1
+  #     with:
+  #       status: ${{ job.status }}
+  #       steps: ${{ toJson(steps) }}
+  #       channel: '#tiptap-notifications'
+  #     if: failure()
