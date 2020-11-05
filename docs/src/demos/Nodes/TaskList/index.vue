@@ -53,7 +53,7 @@ export default {
 </script>
 
 <style lang="scss">
-ul[data-type="task_list"] {
+ul[data-type="taskList"] {
   list-style: none;
   padding: 0;
 
