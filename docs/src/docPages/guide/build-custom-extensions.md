@@ -3,9 +3,16 @@
 ## toc
 
 ## Introduction
-One of the strength of tiptap is it’s extendability. You don’t depend on the provided extensions, it’s intended to extend the editor to your liking. With custom extensions you can add new content types and new functionalities, on top of what already exists or starting from scratch.
+One of the strength of tiptap is it’s extendability. You don’t depend on the provided extensions, it’s intended to extend the editor to your liking. With custom extensions you can add new content types and new functionalities, on top of what already exists or from scratch.
 
-## Option 1: Extend existing extensions
+## How extensions work
+Although tiptap tries to hide most of the complexity of ProseMirror, it’s built on top of its APIs and we recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/) for advanced usage. You’ll have a better understanding of how everything works under the hood and get more familiar with many terms and jargon used by tiptap.
+
+Existing [nodes](/api/nodes), [marks](/api/marks) and [extensions](/api/extensions) can give you a good impression on how to approach your own extensions. To make it easier to switch between the documentation and the source code, we linked to the file on GitHub from every single extension documentation page.
+
+We recommend to start with customizing existing extensions first, and create your own extensions with the gained knowledge later. That’s why all the below examples extend existing extensions, but all examples will work on newly created extensions aswell.
+
+## Customize existing extensions
 Let’s say you want to change the keyboard shortcuts for the bullet list. You should start by looking at [the source code of the `BulletList` extension](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/index.ts) and find the part you would like to change. In that case, the keyboard shortcut, and just that.
 
 Every extension has an `extend()` method, which takes an object with everything you want to change or add to it. For the bespoken example, your code could like that:
@@ -95,10 +102,10 @@ const CustomParagraph = Paragraph.extend({
 })
 
 // Result:
-// <p data-color="pink">Example Text</p>
+// <p color="pink">Example Text</p>
 ```
 
-That’s already enough to tell tiptap about the new attribute, and set `'pink'` as the default value. All attributes will be rendered as a data-attributes by default, and parsed as data-attributes from the content.
+That’s already enough to tell tiptap about the new attribute, and set `'pink'` as the default value. All attributes will be rendered as a HTML attribute by default, and parsed as attributes from the content.
 
 Let’s stick with the color example and assume you’ll want to add an inline style to actually color the text. With the `renderHTML` function you can return HTML attributes which will be rendered in the output.
 
@@ -123,10 +130,10 @@ const CustomParagraph = Paragraph.extend({
 })
 
 // Result:
-// <p data-color="pink" style="color: pink">Example Text</p>
+// <p color="pink" style="color: pink">Example Text</p>
 ```
 
-You can also control how the attribute is parsed from the HTML. Let’s say you want to store the color in an attribute called `data-my-fancy-color-attribute`. Legit, right? Anyway, here’s how you would do that:
+You can also control how the attribute is parsed from the HTML. Let’s say you want to store the color in an attribute called `data-color`, here’s how you would do that:
 
 ```js
 const CustomParagraph = Paragraph.extend({
@@ -137,13 +144,13 @@ const CustomParagraph = Paragraph.extend({
         // Customize the HTML parsing (for example, to load the initial content)
         parseHTML: element => {
           return {
-            color: element.getAttribute('data-my-fancy-color-attribute'),
+            color: element.getAttribute('data-color'),
           }
         },
         // … and customize the HTML rendering.
         renderHTML: attributes => {
           return {
-            'data-my-fancy-color-attribute': atttributes.color,
+            'data-color': atttributes.color,
             style: `color: ${attributes.color}`,
           }
         },
@@ -153,8 +160,10 @@ const CustomParagraph = Paragraph.extend({
 })
 
 // Result:
-// <p data-my-fancy-color-attribute="pink" style="color: pink">Example Text</p>
+// <p data-color="pink" style="color: pink">Example Text</p>
 ```
+
+You can disable the rendering of attributes, if you pass `rendered: false`.
 
 ### Global Attributes
 Attributes can be applied to multiple extensions at once. That’s useful for text alignment, line height, color, font family, and other styling related attributes.
@@ -219,10 +228,46 @@ renderHTML({ attributes }) {
 ```
 
 ### Parse HTML
-> Associates DOM parser information with this mark (see the corresponding node spec field). The mark field in the rules is implied.
+The `parseHTML()` function tries to load the editor document from HTML. The function gets the HTML DOM element passed as a parameter, and is expected to return an object with attributes and their values. Here is a simplified example from the [`Bold`](/api/marks/bold) mark:
+
+```js
+  parseHTML() {
+    return [
+      {
+        tag: 'strong',
+      },
+    ]
+  },
+```
+
+This defines a rule to convert all `<strong>` tags to `Bold` marks. But you can get more advanced with this, here is the full example from the extension:
+
+```js
+  parseHTML() {
+    return [
+      // <strong>
+      {
+        tag: 'strong',
+      },
+      // <b>
+      {
+        tag: 'b',
+        getAttrs: node => node.style.fontWeight !== 'normal' && null,
+      },
+      // <span style="font-weight: bold">
+      {
+        style: 'font-weight',
+        getAttrs: value => /^(bold(er)?|[5-9]\d{2,})$/.test(value as string) && null,
+      },
+    ]
+  },
+```
+
+This looks for `<strong>` and `<b>` tags, and any HTML tag with an inline style setting the `font-weight` to bold.
+
+As you can see, you can optionally pass a `getAttrs` callback, to add more complex checks, for example for specific HTML attributes. The callback gets passed the HTML DOM node, except when checking for the `style` attribute, then it’s the value.
 
 ### Commands
-
 ```js
 import Paragraph from '@tiptap/extension-paragraph'
 
@@ -254,7 +299,6 @@ const CustomBulletList = BulletList.extend({
 ```
 
 ### Input rules
-
 ```js
 // Use the ~single tilde~ markdown shortcut
 import Strike from '@tiptap/extension-strike'
@@ -272,7 +316,6 @@ const CustomStrike = Strike.extend({
 ```
 
 ### Paste rules
-
 ```js
 // Overwrite the underline regex for pasted text
 import Underline from '@tiptap/extension-underline'
@@ -289,17 +332,52 @@ const CustomUnderline = Underline.extend({
 })
 ```
 
-### Node views
+### Node views (Advanced)
+```js
+import Link from '@tiptap/extension-underline'
 
-## Option 2: Start from scratch
+const CustomLink = Link.extend({
+  addNodeView() {
+    return () => {
+      const container = document.createElement('div')
 
-### Read the documentation
-Although tiptap tries to hide most of the complexity of ProseMirror, it’s built on top of its APIs and we recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/) for advanced usage. You’ll have a better understanding of how everything works under the hood and get more familiar with many terms and jargon used by tiptap.
+      container.addEventListener('change', event => {
+        alert('clicked on the container')
+      })
 
-### Have a look at existing extensions
+      return {
+        dom: container,
+      }
+    }
+  },
+})
+```
 
-### Get started
+## Start from scratch
 
-### Ask questions
+### Create a node
+```js
+import { createNode } from '@tiptap/core'
 
-### Share your extension
+const CustomNode = createNode({
+  // Your code goes here.
+})
+```
+
+### Create a mark
+```js
+import { createMark } from '@tiptap/core'
+
+const CustomMark = createMark({
+  // Your code goes here.
+})
+```
+
+### Create an extension
+```js
+import { createExtension } from '@tiptap/core'
+
+const CustomExtension = createExtension({
+  // Your code goes here.
+})
+```
