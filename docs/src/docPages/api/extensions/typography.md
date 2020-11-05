@@ -1,5 +1,5 @@
 # Typography
-This extension tries to help with common text patterns with the correct typographic character.
+This extension tries to help with common text patterns with the correct typographic character. Under the hood all rules are input rules.
 
 ## Installation
 ```bash
@@ -19,6 +19,8 @@ yarn add @tiptap/typography
 | closeDoubleQuote | “Smart`”` closing double quotes.                       |
 | openSingleQuote  | `‘`Smart’ opening single quotes.                       |
 | closeSingleQuote | ‘Smart`’` closing single quotes.                       |
+| leftwardsArrow   | Converts <code><&dash;</code> to an arrow `←`.         |
+| leftwardsArrow   | Converts <code>&dash;></code> to an arrow `→`.         |
 
 ## Source code
 [packages/typography/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/typography/)

@@ -6,7 +6,11 @@ import {
   closeDoubleQuote,
   openSingleQuote,
   closeSingleQuote,
+  InputRule,
 } from 'prosemirror-inputrules'
+
+export const leftwardsArrow = new InputRule(/<-$/, '←')
+export const rightwardsArrow = new InputRule(/->$/, '→')
 
 const Typography = createExtension({
   addInputRules() {
@@ -17,6 +21,8 @@ const Typography = createExtension({
       closeDoubleQuote,
       openSingleQuote,
       closeSingleQuote,
+      leftwardsArrow,
+      rightwardsArrow,
     ]
   },
 })

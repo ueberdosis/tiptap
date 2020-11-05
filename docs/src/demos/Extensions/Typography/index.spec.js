@@ -44,4 +44,16 @@ context('/api/extensions/typography', () => {
       .type("'closeSingleQuote'")
       .should('contain', 'closeSingleQuote’')
   })
+
+  it('should make a leftwards arrow', () => {
+    cy.get('.ProseMirror')
+      .type('<- leftwardsArrow')
+      .should('contain', '← leftwardsArrow')
+  })
+
+  it('should make a rightwards arrow', () => {
+    cy.get('.ProseMirror')
+      .type('-> rightwardsArrow')
+      .should('contain', '→ rightwardsArrow')
+  })
 })
