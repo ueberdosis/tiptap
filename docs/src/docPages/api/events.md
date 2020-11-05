@@ -31,6 +31,7 @@ const editor = new Editor({
 ## Option 2: Later
 Or you can register your event listeners on a running editor instance:
 
+### Bind event listeners
 ```js
 editor.on('init', () => {
   // The editor is ready.
@@ -54,7 +55,6 @@ editor.on('transaction', ({ transaction }) => {
 ```
 
 ### Unbind event listeners
-
 If you need to unbind those event listeners at some point, you should register your event listeners with `.on()` and unbind them with `.off()` then.
 
 ```js

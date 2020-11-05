@@ -66,6 +66,10 @@ const Text = createNode({
 })
 ```
 
+### Parse HTML
+
+### Render HTML
+
 ## Nodes and marks
 
 ### Differences
@@ -96,12 +100,15 @@ createNode({
 
 
 #### Marks
-> The marks that are allowed inside of this node. May be a space-separated string referring to mark names or groups, "_" to explicitly allow all marks, or "" to disallow marks. When not given, nodes with inline content default to allowing all marks, other nodes default to not allowing marks.
+You can define which marks are allowed inside of a node with the `marks` setting of the schema. Add a one or more names or groups of marks, allow all or disallow all marks like this:
 
 ```js
 createNode({
-  // must contain 'bold' marks only
+  // allows only the 'bold' mark
   marks: 'bold',
+
+  // allows only the 'bold' and 'italic' marks
+  marks: 'bold italic',
 
   // allows all marks
   marks: '_',
@@ -112,7 +119,7 @@ createNode({
 ```
 
 #### Group
-> The group or space-separated groups to which this node belongs, which can be referred to in the content expressions for the schema.
+Add this node to a group of extensions, which can be referred to in the [content](#content) attribute of the schema.
 
 ```js
 createNode({
@@ -128,17 +135,17 @@ createNode({
 ```
 
 #### Inline
-> Should be set to true for inline nodes. (Implied for text nodes.)
+Nodes can be rendered inline, too. When setting `inline: true` nodes are rendered in line with the text. That’s the case for mentions. The result is more like a mark, but with the functionality of a node. One difference is the resulting JSON document. Multiple marks are applied at once, inline nodes would result in a nested structure.
 
 ```js
 createNode({
-  // renders nodes in line with, for example, the text
+  // renders nodes in line with the text, for example
   inline: true,
 })
 ```
 
 #### Atom
-> Can be set to true to indicate that, though this isn't a leaf node, it doesn't have directly editable content and should be treated as a single unit in the view.
+Nodes with `atom: true` aren’t directly editable and should be treated as a single unit. It’s not so likely to use that in a editor context, but this is how it would look like:
 
 ```js
 createNode({
@@ -156,7 +163,7 @@ createNode({
 ```
 
 #### Draggable
-> Determines whether nodes of this type can be dragged without being selected. Defaults to false.
+All nodes can be configured to be draggable (by default they aren’t) with this setting:
 
 ```js
 createNode({
@@ -165,7 +172,7 @@ createNode({
 ```
 
 #### Code
-> Can be used to indicate that this node contains code, which causes some commands to behave differently.
+Users expect code to behave very differently. For all kind of nodes containing code, you can set `code: true` to take this into account.
 
 ```js
 createNode({
@@ -183,7 +190,7 @@ createNode({
 ```
 
 #### Isolating
-> When enabled (default is false), the sides of nodes of this type count as boundaries that regular editing operations, like backspacing or lifting, won't cross. An example of a node that should probably have this enabled is a table cell.
+For nodes that should fence the cursor for regular editing operations like backspacing, for example a TableCell, set `isolating: true`.
 
 ```js
 createNode({
@@ -193,18 +200,55 @@ createNode({
 
 ### The mark schema
 #### Inclusive
-> Whether this mark should be active when the cursor is positioned at its end (or at its start when that is also the start of the parent node). Defaults to true.
+If you don’t want the mark to be active when the cursor is at its end, set inclusive to `false`. For example, that’s how it’s configured for [`Link`](/api/marks/link) marks:
+
+```js
+createMark({
+  inclusive: false,
+})
+```
 
 #### Excludes
-> Determines which other marks this mark can coexist with. Should be a space-separated strings naming other marks or groups of marks When a mark is added to a set, all marks that it excludes are removed in the process. If the set contains any mark that excludes the new mark but is not, itself, excluded by the new mark, the mark can not be added an the set. You can use the value "_" to indicate that the mark excludes all marks in the schema.
+By default all nodes can be applied at the same time. With the excludes attribute you can define which marks must not coexist with the mark. For example, the inline code mark excludes any other mark (bold, italic, and all others).
 
-> Defaults to only being exclusive with marks of the same type. You can set it to an empty string (or any string not containing the mark's own name) to allow multiple marks of a given type to coexist (as long as they have different attributes).
+```js
+createMark({
+  // must not coexist with the bold mark
+  excludes: 'bold'
+  // exclude any other mark
+  excludes: '_',
+})
+```
 
 #### Group
-> The group or space-separated groups to which this mark belongs.
+Add this mark to a group of extensions, which can be referred to in the content attribute of the schema.
+
+```js
+createMark({
+  // add this mark to the 'basic' group
+  group: 'basic',
+  // add this mark to the 'basic' and the 'foobar' group
+  group: 'foobar',
+})
+```
+
+#### Code
+Users expect code to behave very differently. For all kind of marks containing code, you can set `code: true` to take this into account.
+
+```js
+createMark({
+  code: true,
+})
+```
 
 #### Spanning
-> Determines whether marks of this type can span multiple adjacent nodes when serialized to DOM/HTML. Defaults to true.
+By default marks can span multiple nodes when rendered as HTML. Set `spanning: false` to indicate that a mark must not span multiple nodes.
+
+```js
+createMark({
+  spanning: false,
+})
+```
 
 ## Get the underlying ProseMirror schema
 There are a few use cases where you need to work with the underlying schema. You’ll need that if you’re using the tiptap collaborative text editing features or if you want to manually render your content as HTML.

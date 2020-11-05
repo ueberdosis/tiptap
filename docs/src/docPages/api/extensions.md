@@ -42,3 +42,19 @@ const editor = new Editor({
 ```
 
 Learn [more about custom extensions in our guide](/guide/build-custom-extensions).
+
+### ProseMirror plugins
+ProseMirror has a fantastic eco system with many amazing plugins. If you want to use one of them, you can register them with tiptap like that:
+
+```js
+import { history } from 'prosemirror-history'
+
+const History = createExtension({
+  addProseMirrorPlugins() {
+    return [
+      history(),
+      // …
+    ]
+  },
+})
+```
