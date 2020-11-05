@@ -9,7 +9,7 @@ import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import Gapcursor from '@tiptap/extension-gapcursor'
+import Dropcursor from '@tiptap/extension-dropcursor'
 import Image from '@tiptap/extension-image'
 
 export default {
@@ -30,10 +30,10 @@ export default {
         Paragraph(),
         Text(),
         Image(),
-        Gapcursor(),
+        Dropcursor(),
       ],
       content: `
-        <p>Try to set the cursor behind the image with your arrow keys! You should see big blinking cursor right from the image. This is the gapcursor.</p>
+        <p>Try to drag around the image. While you drag, the editor should show a decoration under your cursor. The so called dropcursor.</p>
         <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />
       `,
     })

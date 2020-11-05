@@ -167,7 +167,6 @@
           premium: true
         - title: Dropcursor
           link: /api/extensions/dropcursor
-          draft: true
         - title: Focus
           link: /api/extensions/focus
           draft: true
