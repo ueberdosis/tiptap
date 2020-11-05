@@ -77,21 +77,21 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .setContent()   | Replace the whole document with new content.     |
 
 ### Nodes & Marks
-| Command                | Description                                               |
-| ---------------------- | --------------------------------------------------------- |
-| .clearNodes()          | Normalize nodes to a simple paragraph.                    |
-| .removeMark()          | Remove a mark in the current selection.                   |
-| .removeMarks()         | Remove all marks in the current selection.                |
-| .removeMarks()         | Remove all marks in the current selection.                |
-| .resetNodeAttributes() | Resets all node attributes to the default value.          |
-| .selectParentNode()    | Select the parent node.                                   |
-| .setBlockType()        | Replace a given range with a node.                        |
-| .setNodeAttributes()   | Update attributes of a node.                              |
-| .splitBlock()          | Forks a new node from an existing node.                   |
-| .toggleBlockType()     | Toggle a node with another node.                          |
-| .toggleMark()          | Toggle a mark on and off.                                 |
-| .toggleWrap()          | Wraps nodes in another node, or removes an existing wrap. |
-| .updateMark()          | Update a mark with new attributes.                        |
+| Command                 | Description                                               |
+| ----------------------- | --------------------------------------------------------- |
+| .clearNodes()           | Normalize nodes to a simple paragraph.                    |
+| .removeMark()           | Remove a mark in the current selection.                   |
+| .removeMarks()          | Remove all marks in the current selection.                |
+| .removeMarks()          | Remove all marks in the current selection.                |
+| .resetNodeAttributes()  | Resets all node attributes to the default value.          |
+| .selectParentNode()     | Select the parent node.                                   |
+| .setBlockType()         | Replace a given range with a node.                        |
+| .splitBlock()           | Forks a new node from an existing node.                   |
+| .toggleBlockType()      | Toggle a node with another node.                          |
+| .toggleMark()           | Toggle a mark on and off.                                 |
+| .toggleWrap()           | Wraps nodes in another node, or removes an existing wrap. |
+| .updateMarkAttributes() | Update a mark with new attributes.                        |
+| .updateNodeAttributes() | Update attributes of a node.                              |
 
 ### Lists
 | Command          | Description                                            |

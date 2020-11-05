@@ -39,7 +39,7 @@ const TextAlign = createExtension({
           return false
         }
 
-        return commands.setNodeAttributes({ textAlign: alignment })
+        return commands.updateNodeAttributes({ textAlign: alignment })
       },
     }
   },

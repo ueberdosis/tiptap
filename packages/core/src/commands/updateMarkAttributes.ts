@@ -4,7 +4,7 @@ import getMarkType from '../utils/getMarkType'
 import getMarkRange from '../utils/getMarkRange'
 
 export default (typeOrName: string | MarkType, attrs: {}): Command => ({ tr, state, dispatch }) => {
-  const { selection, doc } = tr
+  const { selection } = tr
   let { from, to } = selection
   const { $from, empty } = selection
   const type = getMarkType(typeOrName, state.schema)
@@ -18,11 +18,12 @@ export default (typeOrName: string | MarkType, attrs: {}): Command => ({ tr, sta
     }
   }
 
-  const hasMark = doc.rangeHasMark(from, to, type)
+  // TODO: toggleMark?
+  // const hasMark = doc.rangeHasMark(from, to, type)
 
-  if (hasMark && dispatch) {
-    tr.removeMark(from, to, type)
-  }
+  // if (hasMark && dispatch) {
+  //   tr.removeMark(from, to, type)
+  // }
 
   if (dispatch) {
     tr.addMark(from, to, type.create(attrs))
