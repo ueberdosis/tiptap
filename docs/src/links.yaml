@@ -173,7 +173,6 @@
           draft: true
         - title: Gapcursor
           link: /api/extensions/gapcursor
-          draft: true
         - title: History
           link: /api/extensions/history
         - title: TextAlign
@@ -188,14 +187,13 @@
       link: /api/events
     - title: Schema
       link: /api/schema
+      draft: true
     - title: Keyboard Shortcuts
       link: /api/keyboard-shortcuts
 
 - title: Sponsoring
   items:
-    # - title: Benefits for sponsors
-    #   link: /benefits-for-sponsors
-    # - title: Sponsoring reports
-    #   link: /open
+    - title: Monthly reports
+      link: /open
     - title: Become a sponsor
       link: /sponsor

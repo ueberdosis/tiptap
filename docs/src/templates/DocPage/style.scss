@@ -265,5 +265,10 @@
       }
     }
 
+    > blockquote {
+      border-left: 2px solid rgba($colorGrey, 0.5);
+      padding-left: $spacing;
+    }
+
   }
 }

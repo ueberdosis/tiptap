@@ -1,5 +1,5 @@
 <template>
-  <pre>{{ html }}</pre>
+  <pre><code>{{ html }}</code></pre>
 </template>
 
 <script>
