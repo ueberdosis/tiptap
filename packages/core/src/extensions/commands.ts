@@ -15,7 +15,6 @@ import selectAll from '../commands/selectAll'
 import selectParentNode from '../commands/selectParentNode'
 import setBlockType from '../commands/setBlockType'
 import setContent from '../commands/setContent'
-import setNodeAttributes from '../commands/setNodeAttributes'
 import sinkListItem from '../commands/sinkListItem'
 import splitBlock from '../commands/splitBlock'
 import splitListItem from '../commands/splitListItem'
@@ -24,7 +23,8 @@ import toggleList from '../commands/toggleList'
 import toggleMark from '../commands/toggleMark'
 import toggleWrap from '../commands/toggleWrap'
 import tryCommand from '../commands/try'
-import updateMark from '../commands/updateMark'
+import updateMarkAttributes from '../commands/updateMarkAttributes'
+import updateNodeAttributes from '../commands/updateNodeAttributes'
 import wrapInList from '../commands/wrapInList'
 
 export const Commands = createExtension({
@@ -46,7 +46,6 @@ export const Commands = createExtension({
       selectParentNode,
       setBlockType,
       setContent,
-      setNodeAttributes,
       sinkListItem,
       splitBlock,
       splitListItem,
@@ -55,7 +54,8 @@ export const Commands = createExtension({
       toggleMark,
       toggleWrap,
       try: tryCommand,
-      updateMark,
+      updateMarkAttributes,
+      updateNodeAttributes,
       wrapInList,
     }
   },
