@@ -106,7 +106,7 @@ export default {
 
   mounted() {
     this.files = collect(require.context('~/demos/', true, /.+\..+$/).keys())
-      .filter(path => path.startsWith(`./${this.name}`))
+      .filter(path => path.startsWith(`./${this.name}/`))
       .map(path => path.replace('./', ''))
       .map(path => {
         const extension = path.split('.').pop()
