@@ -24,7 +24,7 @@ yarn add @tiptap/extension-bullet-list @tiptap/extension-list-item
 ## Commands
 | Command     | Parameters | Description           |
 | ----------- | ---------- | --------------------- |
-| bullet_list | —          | Toggle a bullet list. |
+| bulletList | —          | Toggle a bullet list. |
 
 ## Keyboard shortcuts
 * `Control`&nbsp;`Shift`&nbsp;`8`

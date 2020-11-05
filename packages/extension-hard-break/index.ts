@@ -1,5 +1,5 @@
 import { Command, createNode } from '@tiptap/core'
-import { chainCommands, exitCode } from 'prosemirror-commands'
+import { exitCode } from 'prosemirror-commands'
 
 const HardBreak = createNode({
   name: 'hardBreak',
@@ -22,19 +22,17 @@ const HardBreak = createNode({
 
   addCommands() {
     return {
-      hardBreak: (): Command => ({ state, dispatch, view }) => {
-        return chainCommands(
-          exitCode,
-          (_, d) => {
-            if (typeof d !== 'function') {
-              return false
+      hardBreak: (): Command => ({ commands, state, dispatch }) => {
+        return commands.try([
+          () => exitCode(state, dispatch),
+          () => {
+            if (dispatch) {
+              state.tr.replaceSelectionWith(this.type.create()).scrollIntoView()
             }
-
-            d(state.tr.replaceSelectionWith(this.type.create()).scrollIntoView())
 
             return true
           },
-        )(state, dispatch, view)
+        ])
       },
     }
   },

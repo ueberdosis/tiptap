@@ -131,7 +131,7 @@ export default class CommandManager {
       view,
       state: this.chainableState(tr, state),
       dispatch: shouldDispatch
-        ? () => true
+        ? () => undefined
         : undefined,
       chain: () => this.createChain(tr),
       can: () => this.createCan(tr),

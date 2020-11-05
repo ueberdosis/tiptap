@@ -4,11 +4,11 @@ import { wrappingInputRule } from 'prosemirror-inputrules'
 export const inputRegex = /^\s*([-+*])\s$/
 
 const BulletList = createNode({
-  name: 'bullet_list',
+  name: 'bulletList',
 
   group: 'block list',
 
-  content: 'list_item+',
+  content: 'listItem+',
 
   parseHTML() {
     return [
@@ -23,7 +23,7 @@ const BulletList = createNode({
   addCommands() {
     return {
       bulletList: (): Command => ({ commands }) => {
-        return commands.toggleList('bullet_list', 'list_item')
+        return commands.toggleList('bulletList', 'listItem')
       },
     }
   },

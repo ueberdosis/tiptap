@@ -8,7 +8,7 @@ export interface TaskItemOptions {
 }
 
 const TaskItem = createNode({
-  name: 'task_item',
+  name: 'taskItem',
 
   content() {
     return this.options.nested ? '(paragraph|task_list)+' : 'paragraph+'
@@ -37,20 +37,20 @@ const TaskItem = createNode({
   parseHTML() {
     return [
       {
-        tag: 'li[data-type="task_item"]',
+        tag: 'li[data-type="taskItem"]',
         priority: 51,
       },
     ]
   },
 
   renderHTML({ attributes }) {
-    return ['li', mergeAttributes(attributes, { 'data-type': 'task_item' }), 0]
+    return ['li', mergeAttributes(attributes, { 'data-type': 'taskItem' }), 0]
   },
 
   addKeyboardShortcuts() {
     const shortcuts = {
-      Enter: () => this.editor.splitListItem('task_item'),
-      'Shift-Tab': () => this.editor.liftListItem('task_item'),
+      Enter: () => this.editor.splitListItem('taskItem'),
+      'Shift-Tab': () => this.editor.liftListItem('taskItem'),
     }
 
     if (!this.options.nested) {
@@ -59,7 +59,7 @@ const TaskItem = createNode({
 
     return {
       ...shortcuts,
-      Tab: () => this.editor.sinkListItem('task_item'),
+      Tab: () => this.editor.sinkListItem('taskItem'),
     }
   },
 

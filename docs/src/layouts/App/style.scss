@@ -189,6 +189,7 @@ $menuBreakPoint: 800px;
       &::after {
         content: 'draft';
         font-family: 'JetBrainsMono', monospace;
+        text-transform: uppercase;
         color: $colorGrey;
         background-color: rgba($colorGrey, 0.1);
         padding: 0 0.5em;
@@ -200,6 +201,7 @@ $menuBreakPoint: 800px;
       &::after {
         content: 'PRO';
         font-family: 'JetBrainsMono', monospace;
+        text-transform: uppercase;
         color: $colorOrange;
         background-color: rgba($colorOrange, 0.1);
         padding: 0 0.5em;

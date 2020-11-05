@@ -1,6 +1,6 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus().orderedList().run()" :class="{ 'is-active': editor.isActive('ordered_list') }">
+    <button @click="editor.chain().focus().orderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
       ordered list
     </button>
 
