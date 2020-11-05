@@ -27,10 +27,10 @@ import Text from '@tiptap/extension-text'
 
 new Editor({
   extensions: [
-      Document(),
-      Paragraph(),
-      Text(),
-      // all your other extensions
+    Document(),
+    Paragraph(),
+    Text(),
+    // all your other extensions
   ]
 })
 ```
