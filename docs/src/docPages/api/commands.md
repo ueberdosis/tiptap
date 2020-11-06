@@ -80,6 +80,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | Command                 | Description                                               |
 | ----------------------- | --------------------------------------------------------- |
 | .clearNodes()           | Normalize nodes to a simple paragraph.                    |
+| .extendMarkRange()      | Extends the text selection to the current mark.           |
 | .removeMark()           | Remove a mark in the current selection.                   |
 | .removeMarks()          | Remove all marks in the current selection.                |
 | .removeMarks()          | Remove all marks in the current selection.                |
