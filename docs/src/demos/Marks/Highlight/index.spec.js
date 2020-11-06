@@ -5,8 +5,11 @@ context('/api/marks/highlight', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
-      editor.selectAll()
+      editor
+        .chain()
+        .setContent('<p>Example Text</p>')
+        .selectAll()
+        .run()
     })
   })
 
@@ -47,25 +50,26 @@ context('/api/marks/highlight', () => {
 
   it('should remove existing marks with the same attributes', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
-      editor.selectAll()
-
-      editor.highlight({ color: 'rgb(255, 0, 0)' })
+      editor
+        .chain()
+        .setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
+        .selectAll()
+        .highlight({ color: 'rgb(255, 0, 0)' })
+        .run()
 
       cy.get('.ProseMirror')
         .find('mark')
         .should('not.exist')
-
-      editor.isActive('highlight', {
-        color: 'rgb(255, 0, 0)',
-      })
     })
   })
 
   it('is active for mark with any attributes', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><mark data-color="red">Example Text</mark></p>')
-      editor.selectAll()
+      editor
+        .chain()
+        .setContent('<p><mark data-color="red">Example Text</mark></p>')
+        .selectAll()
+        .run()
 
       expect(editor.isActive('highlight')).to.eq(true)
     })
@@ -73,23 +77,33 @@ context('/api/marks/highlight', () => {
 
   it('is active for mark with same attributes', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
-      editor.selectAll()
+      editor
+        .chain()
+        .setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
+        .selectAll()
+        .run()
 
-      expect(editor.isActive('highlight', {
+      const isActive = editor.isActive('highlight', {
         color: 'rgb(255, 0, 0)',
-      })).to.eq(true)
+      })
+
+      expect(isActive).to.eq(true)
     })
   })
 
   it('isn’t active for mark with other attributes', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
-      editor.selectAll()
+      editor
+        .chain()
+        .setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
+        .selectAll()
+        .run()
 
-      expect(editor.isActive('highlight', {
+      const isActive = editor.isActive('highlight', {
         color: 'rgb(0, 0, 0)',
-      })).to.eq(false)
+      })
+
+      expect(isActive).to.eq(false)
     })
   })
 
