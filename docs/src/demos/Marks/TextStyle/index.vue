@@ -30,6 +30,9 @@
     >
       cursive
     </button>
+    <button @click="editor.chain().focus().fontFamily().run()">
+      Remove font-family
+    </button>
 
     <editor-content :editor="editor" />
   </div>
