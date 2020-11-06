@@ -2,6 +2,11 @@
   "name": "@tiptap/html",
   "version": "1.0.0",
   "source": "index.ts",
+  "main": "dist/tiptap-html.js",
+  "umd:main": "dist/tiptap-html.umd.js",
+  "module": "dist/tiptap-html.mjs",
+  "unpkg": "dist/tiptap-html.js",
+  "jsdelivr": "dist/tiptap-html.js",
   "files": [
     "src",
     "dist"
