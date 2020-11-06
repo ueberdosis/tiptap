@@ -22,4 +22,4 @@ yarn add @tiptap/extension-focus
 [packages/extension-focus/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-focus/)
 
 ## Usage
-<demo name="Extensions/Focus" highlight="31-34,12" />
+<demo name="Extensions/Focus" highlight="12,34-37" />

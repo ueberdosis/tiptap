@@ -39,7 +39,12 @@ export default {
         History(),
       ],
       content: `
-        <p>Edit this text and press undo to test this extension.</p>
+        <p>
+          With the History extension the Editor will keep track of your changes. And if you think you made a mistake, you can redo your changes. Try it out, change the content and hit the undo button!
+        </p>
+        <p>
+          And yes, you can also use a keyboard shortcut to undo changes (Control/Cmd Z) or redo changes (Control/Cmd Shift Z).
+        </p>
       `,
     })
   },

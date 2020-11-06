@@ -1,14 +1,83 @@
 <template>
   <div>
-    <button @click="setName">
-      Set Name
-    </button>
-    <button @click="changeName">
-      Random Name
-    </button>
-    <button @click="changeColor">
-      Random Color
-    </button>
+    <div v-if="editor">
+      <button @click="editor.chain().focus().bold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        bold
+      </button>
+      <button @click="editor.chain().focus().italic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+        italic
+      </button>
+      <button @click="editor.chain().focus().strike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+        strike
+      </button>
+      <button @click="editor.chain().focus().code().run()" :class="{ 'is-active': editor.isActive('code') }">
+        code
+      </button>
+      <button @click="editor.chain().focus().removeMarks().run()">
+        clear marks
+      </button>
+      <button @click="editor.chain().focus().clearNodes().run()">
+        clear nodes
+      </button>
+      <button @click="editor.chain().focus().paragraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
+        paragraph
+      </button>
+      <button @click="editor.chain().focus().heading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
+        h1
+      </button>
+      <button @click="editor.chain().focus().heading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+        h2
+      </button>
+      <button @click="editor.chain().focus().heading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
+        h3
+      </button>
+      <button @click="editor.chain().focus().heading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
+        h4
+      </button>
+      <button @click="editor.chain().focus().heading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
+        h5
+      </button>
+      <button @click="editor.chain().focus().heading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
+        h6
+      </button>
+      <button @click="editor.chain().focus().bulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
+        bullet list
+      </button>
+      <button @click="editor.chain().focus().orderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
+        ordered list
+      </button>
+      <button @click="editor.chain().focus().codeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+        code block
+      </button>
+      <button @click="editor.chain().focus().blockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
+        blockquote
+      </button>
+      <button @click="editor.chain().focus().horizontalRule().run()">
+        horizontal rule
+      </button>
+      <button @click="editor.chain().focus().hardBreak().run()">
+        hard break
+      </button>
+      <button @click="editor.chain().focus().undo().run()">
+        undo
+      </button>
+      <button @click="editor.chain().focus().redo().run()">
+        redo
+      </button>
+
+      <br>
+      <br>
+
+      <button @click="setName">
+        Set Name
+      </button>
+      <button @click="changeName">
+        Random Name
+      </button>
+      <button @click="changeColor">
+        Random Color
+      </button>
+    </div>
 
     <div class="collaboration-status">
       {{ users.length }} user{{ users.length === 1 ? '' : 's' }}
@@ -29,7 +98,7 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
+import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -60,21 +129,15 @@ export default {
 
   mounted() {
     this.ydoc = new Y.Doc()
-    this.provider = new WebrtcProvider(this.documentName, this.ydoc)
     this.type = this.ydoc.getXmlFragment('prosemirror')
     this.indexdb = new IndexeddbPersistence(this.documentName, this.ydoc)
 
+    this.provider = new WebrtcProvider(this.documentName, this.ydoc)
     this.provider.awareness.on('change', this.updateState)
 
     this.editor = new Editor({
-      // TODO: This is added by every new user.
-      // content: `
-      //   <p>Example Text</p>
-      // `,
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
+        ...defaultExtensions(),
         Collaboration({
           provider: this.provider,
           type: this.type,
