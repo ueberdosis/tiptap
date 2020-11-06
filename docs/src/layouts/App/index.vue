@@ -102,7 +102,10 @@
     <div class="app__content">
       <div class="app__top-bar">
         <div class="app__inner app__top-bar-inner">
-          <input class="app__search" type="search" placeholder="Search">
+          <div class="app__search">
+            <div class="app__search-button" />
+            <div class="app__search-docsearch" />
+          </div>
           <button
             class="app__menu-icon"
             @click="menuIsVisible = true"
@@ -238,7 +241,7 @@ export default {
       docsearch({
         apiKey: '1abe7fb0f0dac150d0e963d2eda930fe',
         indexName: 'ueberdosis_tiptap',
-        inputSelector: '.app__search',
+        container: '.app__search-docsearch',
         debug: false,
       })
     },

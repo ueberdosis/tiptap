@@ -29,15 +29,34 @@ $menuBreakPoint: 800px;
   }
 
   &__search {
-    display: block;
+    position: relative;
+    display: flex;
+    align-items: center;
     width: 100%;
+    height: 3rem;
+    overflow: hidden;
     background-color: transparent;
     border: 1px solid rgba($colorWhite, 0.1);
     border-radius: 0.5rem;
-    font: inherit;
-    color: $colorWhite;
     padding: 0.5rem 0.75rem;
-    -webkit-appearance: none;
+
+    &::after {
+      content: 'Search';
+      color: rgba($colorWhite, 0.5);
+    }
+  }
+
+  &__search-docsearch {
+    ::v-deep > button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+    }
   }
 
   &__sidebar {
