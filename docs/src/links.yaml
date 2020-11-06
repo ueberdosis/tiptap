@@ -114,6 +114,9 @@
           link: /api/marks/link
         - title: Strike
           link: /api/marks/strike
+        - title: Text Style
+          link: /api/marks/text-style
+          draft: true
         - title: Underline
           link: /api/marks/underline
     - title: Extensions
