@@ -12,7 +12,7 @@ function addStyleResource(rule) {
 
 module.exports = {
   siteName: 'tiptap',
-  titleTemplate: '%s',
+  titleTemplate: '%s | tiptap',
   port: 3000,
   plugins: [
     {
@@ -20,7 +20,7 @@ module.exports = {
       options: {
         typeName: 'DocPage',
         baseDir: './src/docPages',
-        template: './src/templates/DocPage',
+        template: './src/templates/DocPage/index.vue',
         index: './introduction',
         plugins: [
           '@gridsome/remark-prismjs',
