@@ -1,4 +1,4 @@
-# Text Style
+# TextStyle
 This mark renders a `<span>` HTML tag and enables you to add a list of styling related attributes, for example font-family, font-size, or font-color. The extension doesn’t add any styling attribute by default, but other extensions use it as the foundation, for example [`FontFamily`](/api/extensions/font-family).
 
 ## Installation

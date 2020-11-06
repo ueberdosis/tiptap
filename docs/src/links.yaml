@@ -112,7 +112,7 @@
           link: /api/marks/link
         - title: Strike
           link: /api/marks/strike
-        - title: Text Style
+        - title: TextStyle
           link: /api/marks/text-style
           draft: true
         - title: Underline
