@@ -10,7 +10,7 @@ See an example with `autoFocus: true` here:
 
 ```js
 import { Editor } from '@tiptap/core'
-import defaultExtensions from '@tiptap/starter-kit'
+import { defaultExtensions } from '@tiptap/starter-kit'
 
 new Editor({
   element: document.getElementsByClassName('element'),

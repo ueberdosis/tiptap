@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import extensions from '@tiptap/starter-kit'
+import { defaultExtensions } from '@tiptap/starter-kit'
 import { useEditor, Editor } from './components/Editor'
 
 // Menu bar example component
@@ -60,7 +60,7 @@ export default () => {
       <Editor
         value={value}
         onChange={setValue}
-        extensions={extensions()}
+        extensions={defaultExtensions()}
       >
         <MenuBar />
       </Editor>

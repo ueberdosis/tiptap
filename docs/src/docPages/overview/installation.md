@@ -20,7 +20,7 @@ Great, that should be enough to start. Here is the most essential code you need 
 
 ```js
 import { Editor } from '@tiptap/core'
-import defaultExtensions from '@tiptap/starter-kit'
+import { defaultExtensions } from '@tiptap/starter-kit'
 
 new Editor({
   element: document.getElementsByClassName('element'),
