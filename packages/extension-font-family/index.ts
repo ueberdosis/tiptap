@@ -1,4 +1,5 @@
 import { Command, createExtension } from '@tiptap/core'
+import '@tiptap/extension-text-style'
 
 type FontFamilyOptions = {
   types: string[],
