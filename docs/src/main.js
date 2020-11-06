@@ -5,7 +5,9 @@ import 'prismjs/components/prism-scss.js'
 import PortalVue from 'portal-vue'
 import App from '~/layouts/App'
 
-export default function (Vue) {
+export default function (Vue, { head }) {
+  head.htmlAttrs = { 'data-theme': 'dark' }
+
   Vue.use(PortalVue)
   Vue.component('Layout', App)
   Vue.component('Demo', () => import(/* webpackChunkName: "demo" */ '~/components/Demo'))
