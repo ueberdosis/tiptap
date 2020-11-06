@@ -1,5 +1,8 @@
 import {
-  Command, createMark, markInputRule, markPasteRule,
+  Command,
+  createMark,
+  markInputRule,
+  markPasteRule,
 } from '@tiptap/core'
 
 export const inputRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))$/gm
@@ -14,9 +17,7 @@ const Highlight = createMark({
         default: null,
         parseHTML: element => {
           return {
-            color:
-              element.getAttribute('data-color')
-              || element.style.backgroundColor,
+            color: element.getAttribute('data-color') || element.style.backgroundColor,
           }
         },
         renderHTML: attributes => {
@@ -37,9 +38,6 @@ const Highlight = createMark({
     return [
       {
         tag: 'mark',
-      },
-      {
-        style: 'background-color',
       },
     ]
   },
