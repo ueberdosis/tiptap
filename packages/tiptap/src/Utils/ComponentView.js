@@ -60,8 +60,6 @@ export default class ComponentView {
       propsData: props,
     })
 
-    this.vm.$slots.default = ['Hello!']
-
     if (this.component && this.component.slotExtensions) {
       Object.keys(this.component.slotExtensions).every(this.initSlot.bind(this))
     }
@@ -72,35 +70,34 @@ export default class ComponentView {
   }
 
   initSlot(slotName) {
-    const node = this.editor.extensions.extensions.find(this.isSlot.bind(this, slotName))
-    const el = this.vm.$createElement('template')
+    const el = this.vm.$createElement('div')
     this.vm.$slots[slotName] = [el]
 
-    this.slotViews[slotName] = new EditorView(el, {
+    this.slotViews[slotName] = new EditorView(el.elm, {
       // You can use any node as an editor document
       state: EditorState.create({
-        doc: node,
+        doc: this.node,
         plugins: [keymap({
           'Mod-z': () => undo(this.view.state, this.view.dispatch),
           'Mod-y': () => redo(this.view.state, this.view.dispatch),
         })],
-        dispatchTransaction: this.dispatchInner.bind(this, slotName),
-        handleDOMEvents: {
-          mousedown: () => {
-            // Kludge to prevent issues due to the fact that the whole
-            // footnote is node-selected (and thus DOM-selected) when
-            // the parent editor is focused.
-            if (this.view.hasFocus()) this.slotViews[slotName].focus()
-          },
-        },
       }),
+      dispatchTransaction: this.dispatchInner.bind(this, slotName),
+      handleDOMEvents: {
+        mousedown: () => {
+          // Kludge to prevent issues due to the fact that the whole
+          // footnote is node-selected (and thus DOM-selected) when
+          // the parent editor is focused.
+          if (this.view.hasFocus()) this.slotViews[slotName].focus()
+        },
+      },
     })
 
     return this.slotViews[slotName]
   }
 
   isSlot(slotName, testExtension) {
-    return testExtension.name === (new this.component.slotExtensions[slotName]()).name
+    return testExtension.name === (new (this.component.slotExtensions[slotName])()).name
   }
 
   dispatchInner(slotName, tr) {
