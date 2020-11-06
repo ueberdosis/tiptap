@@ -17,6 +17,7 @@ export default function getMarkRange($pos: ResolvedPos, type: MarkType): Range |
   }
 
   const link = start.node.marks.find(mark => mark.type === type)
+
   if (!link) {
     return
   }
@@ -36,5 +37,8 @@ export default function getMarkRange($pos: ResolvedPos, type: MarkType): Range |
     endIndex += 1
   }
 
-  return { from: startPos, to: endPos }
+  return {
+    from: startPos,
+    to: endPos,
+  }
 }
