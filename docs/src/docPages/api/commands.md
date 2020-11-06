@@ -18,7 +18,7 @@ While that’s perfectly fine and does make the selected bold, you’d likely wa
 Most commands can be executed combined to one call. First of all, that’s shorter than separate function call in most cases. Here is an example to make the selected text bold:
 
 ```js
-editor.chain().focus().bold().run()
+editor.chain().bold().focus().run()
 ```
 
 The `.chain()` is required to start a new chain and the `.run()` is needed to actually execute all the commands in between. Between those two functions, this example combines to different commands.

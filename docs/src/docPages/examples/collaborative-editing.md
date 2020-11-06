@@ -1,6 +1,6 @@
 # Collaborative editing
 
-:::premium Requires pro extensions
+:::premium Requires Pro Extensions
 We kindly ask you to sponsor us, before using this example in production. [Read more](/sponsor)
 :::
 
