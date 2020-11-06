@@ -5,7 +5,7 @@ Type <code>*&nbsp;</code>, <code>-&nbsp;</code> or <code>+&nbsp;</code> at the b
 
 ## Installation
 ::: warning Use with ListItem
-This extension requires the [`ListItem`](/api/nodes/list-item) extension.
+This extension requires the [`ListItem`](/api/nodes/list-item) node.
 :::
 
 ```bash
