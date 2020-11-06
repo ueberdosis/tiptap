@@ -3,7 +3,7 @@ import { Decoration, NodeView } from 'prosemirror-view'
 import { Extension } from './Extension'
 import { NodeExtension } from './NodeExtension'
 import { MarkExtension } from './MarkExtension'
-import Editor from '..'
+import { Editor } from './Editor'
 
 export type Extensions = (Extension | NodeExtension | MarkExtension)[]
 

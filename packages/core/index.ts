@@ -1,7 +1,4 @@
-import { Editor, Command, CommandsSpec } from './src/Editor'
-
-export default Editor
-export { Editor, Command, CommandsSpec }
+export { Editor, Command, CommandsSpec } from './src/Editor'
 
 export * from './src/Extension'
 export * from './src/NodeExtension'
