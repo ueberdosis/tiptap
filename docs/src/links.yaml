@@ -25,13 +25,8 @@
           draft: true
         - title: Todo App
           link: /examples/todo-app
-          draft: true
-        - title: History
-          link: /examples/history
         - title: Read-only
           link: /examples/read-only
-        - title: Focus
-          link: /examples/focus
         - title: Minimalist
           link: /examples/minimalist
         - title: Export HTML or JSON
@@ -54,13 +49,16 @@
       link: /guide/store-content
     - title: Build custom extensions
       link: /guide/build-custom-extensions
-    # - title: Use Vue Components
-    #   link: /guide/use-vue-components
-    #   draft: true
     - title: Collaborative editing
       link: /guide/collaborative-editing
       draft: true
       premium: true
+    - title: Advanced node views
+      link: /guide/advanced-node-views
+      draft: true
+    - title: Working with TypeScript
+      link: /guide/working-with-typescript
+      draft: true
 
 - title: API
   items:
@@ -140,7 +138,6 @@
           link: /api/extensions/history
         - title: TextAlign
           link: /api/extensions/text-align
-          draft: true
         - title: Typography
           link: /api/extensions/typography
     - title: Commands

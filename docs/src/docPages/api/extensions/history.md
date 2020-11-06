@@ -18,9 +18,9 @@ yarn add @tiptap/extension-history
 
 ## Commands
 | Command | Parameters | Description           |
-| ------- | ------- | --------------------- |
-| undo    | —       | Undo the last change. |
-| redo    | —       | Redo the last change. |
+| ------- | ---------- | --------------------- |
+| undo    | —          | Undo the last change. |
+| redo    | —          | Redo the last change. |
 
 ## Keyboard shortcuts
 ### Undo

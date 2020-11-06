@@ -18,6 +18,7 @@ export const plusMinus = new InputRule(/\+\/-$/, '±')
 export const notEqual = new InputRule(/!=$/, '≠')
 export const laquo = new InputRule(/<<$/, '«')
 export const raquo = new InputRule(/>>$/, '»')
+export const multiplication = new InputRule(/\d+\s?([*x])\s?\d+$/, '×')
 
 const Typography = createExtension({
   addInputRules() {
@@ -37,6 +38,7 @@ const Typography = createExtension({
       notEqual,
       laquo,
       raquo,
+      multiplication,
     ]
   },
 })

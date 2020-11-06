@@ -9,6 +9,9 @@
     <button @click="editor.chain().focus().textAlign('right').run()">
       right
     </button>
+    <button @click="editor.chain().focus().textAlign('justify').run()">
+      justify
+    </button>
     <button @click="editor.chain().focus().resetNodeAttributes(['textAlign']).run()">
       set default
     </button>

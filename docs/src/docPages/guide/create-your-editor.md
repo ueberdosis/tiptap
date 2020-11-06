@@ -1,4 +1,4 @@
-# Build your editor
+# Create your editor
 
 ## toc
 

@@ -1,6 +1,6 @@
 # Collaborative editing
 
-:::premium Requires pro extensions
+:::premium Requires Pro Extensions
 We kindly ask you to sponsor us, before using this example in production. [Read more](/sponsor)
 :::
 
@@ -10,10 +10,10 @@ It connects client with WebRTC and merges changes to the document (no matter whe
 
 If you want to learn more about collaborative text editing, [check out our guide on that topic](/guide/collaborative-editing). Anyway, it’s showtime now:
 
-:::warning The content of this editor is shared with other users from the Internet.
-Don’t share your password, credit card numbers or other things you wouldn’t make public.
+:::warning Shared Document
+Be nice! The content of this editor is shared with other users from the Internet.
 :::
 
-<!-- <demo name="Examples/Collaboration" :show-source="false"/> -->
+<!-- <demo name="Examples/CollaborativeEditing" :show-source="false"/> -->
 
 <demo name="Examples/CollaborativeEditing" />

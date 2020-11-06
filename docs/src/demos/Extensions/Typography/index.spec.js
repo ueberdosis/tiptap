@@ -98,4 +98,28 @@ context('/api/extensions/typography', () => {
       .type('>> raquorow')
       .should('contain', '» raquo')
   })
+
+  it('should make a multiplication sign from an asterisk', () => {
+    cy.get('.ProseMirror')
+      .type('1*1 multiplication')
+      .should('contain', '1×1 multiplication')
+  })
+
+  it('should make a multiplication sign from an x', () => {
+    cy.get('.ProseMirror')
+      .type('1x1 multiplication')
+      .should('contain', '1×1 multiplication')
+  })
+
+  it('should make a multiplication sign from an asterisk with spaces', () => {
+    cy.get('.ProseMirror')
+      .type('1 * 1 multiplication')
+      .should('contain', '1 × 1 multiplication')
+  })
+
+  it('should make a multiplication sign from an x with spaces', () => {
+    cy.get('.ProseMirror')
+      .type('1 x 1 multiplication')
+      .should('contain', '1 × 1 multiplication')
+  })
 })

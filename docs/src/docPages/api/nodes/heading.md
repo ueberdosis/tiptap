@@ -16,7 +16,7 @@ yarn add @tiptap/extension-heading
 | Option | Type   | Default            | Description                                   |
 | ------ | ------ | ------------------ | --------------------------------------------- |
 | class  | string | –                  | Add a custom class to the rendered HTML tag.  |
-| levels | Array  | [1, 2, 3, 4, 5, 6] | Specifies which heading levels are supported. |
+| levels | array  | [1, 2, 3, 4, 5, 6] | Specifies which heading levels are supported. |
 
 ## Commands
 | Command | Parameters | Description                                      |
