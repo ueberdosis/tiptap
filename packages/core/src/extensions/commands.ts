@@ -3,6 +3,7 @@ import blur from '../commands/blur'
 import clearContent from '../commands/clearContent'
 import clearNodes from '../commands/clearNodes'
 import deleteSelection from '../commands/deleteSelection'
+import extendMarkRange from '../commands/extendMarkRange'
 import focus from '../commands/focus'
 import insertHTML from '../commands/insertHTML'
 import insertText from '../commands/insertText'
@@ -34,6 +35,7 @@ export const Commands = createExtension({
       clearContent,
       clearNodes,
       deleteSelection,
+      extendMarkRange,
       focus,
       insertHTML,
       insertText,
