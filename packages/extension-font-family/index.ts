@@ -16,11 +16,17 @@ const FontFamily = createExtension({
         attributes: {
           fontFamily: {
             default: null,
-            renderHTML: attributes => ({
-              style: `font-family: ${attributes.fontFamily}`,
-            }),
+            renderHTML: attributes => {
+              if (!attributes.fontFamily) {
+                return {}
+              }
+
+              return {
+                style: `font-family: ${attributes.fontFamily}`,
+              }
+            },
             parseHTML: element => ({
-              fontFamily: element.style.fontFamily,
+              fontFamily: element.style.fontFamily.replace(/['"]+/g, ''),
             }),
           },
         },
@@ -30,8 +36,11 @@ const FontFamily = createExtension({
 
   addCommands() {
     return {
-      fontFamily: (fontFamily: string): Command => ({ commands }) => {
-        return commands.updateMarkAttributes('textStyle', { fontFamily })
+      fontFamily: (fontFamily: string | null = null): Command => ({ chain }) => {
+        return chain()
+          .updateMarkAttributes('textStyle', { fontFamily })
+          .removeEmptyTextStyle()
+          .run()
       },
     }
   },
