@@ -3,8 +3,17 @@
     <button @click="editor.chain().focus().fontFamily('Inter').run()">
       Inter
     </button>
-    <button @click="editor.chain().focus().fontFamily('Comic Sans MS').run()">
+    <button @click="editor.chain().focus().fontFamily('Comic Sans MS, Comic Sans').run()">
       Comic Sans
+    </button>
+    <button @click="editor.chain().focus().fontFamily('serif').run()">
+      serif
+    </button>
+    <button @click="editor.chain().focus().fontFamily('monospace').run()">
+      monospace
+    </button>
+    <button @click="editor.chain().focus().fontFamily('cursive').run()">
+      cursive
     </button>
 
     <editor-content :editor="editor" />

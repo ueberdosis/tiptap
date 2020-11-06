@@ -132,6 +132,8 @@
           link: /api/extensions/dropcursor
         - title: Focus
           link: /api/extensions/focus
+        - title: FontFamily
+          link: /api/extensions/font-family
         - title: Gapcursor
           link: /api/extensions/gapcursor
         - title: History
