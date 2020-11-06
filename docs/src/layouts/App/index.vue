@@ -134,6 +134,10 @@
       </div>
       <div class="app__page-footer">
         <div class="app__inner">
+          <a href="/impressum">Impressum</a>
+          &middot;
+          <a href="/privacy-policy">Privacy Policy</a>
+          &middot;
           <a :href="editLink" target="_blank">Edit this page on GitHub</a>
           &middot;
           Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
