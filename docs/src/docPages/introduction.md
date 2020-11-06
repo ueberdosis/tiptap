@@ -1,3 +1,7 @@
+---
+title: Renderless rich-text editor
+---
+
 :::error Don’t try this at home
 Nothing here is production-ready, don’t use it anywhere.
 :::

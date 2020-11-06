@@ -5,7 +5,7 @@ Type <code>1.&nbsp;</code> (or any other number followed by a dot) at the beginn
 
 ## Installation
 ::: warning Use with ListItem
-This extension requires the [`ListItem`](/api/nodes/list-item) extension.
+This extension requires the [`ListItem`](/api/nodes/list-item) node.
 :::
 
 ```bash

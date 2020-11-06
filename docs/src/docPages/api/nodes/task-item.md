@@ -5,7 +5,7 @@ This extension doesn’t require any JavaScript framework, it’s based on plain
 
 ## Installation
 ::: warning Use with TaskList
-This extension requires the [`TaskList`](/api/nodes/task-list) extension.
+This extension requires the [`TaskList`](/api/nodes/task-list) node.
 :::
 
 ```bash

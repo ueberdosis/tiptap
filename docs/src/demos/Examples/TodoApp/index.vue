@@ -17,6 +17,10 @@ const CustomDocument = Document.extend({
   content: 'taskList',
 })
 
+const CustomTaskItem = TaskItem.extend({
+  content: 'paragraph',
+})
+
 export default {
   components: {
     EditorContent,
@@ -35,10 +39,10 @@ export default {
         Paragraph(),
         Text(),
         TaskList(),
-        TaskItem(),
+        CustomTaskItem(),
       ],
       content: `
-        <ul data-type="task_list">
+        <ul data-type="taskList">
           <li data-type="taskItem" data-checked="true">A list item</li>
           <li data-type="taskItem" data-checked="false">And another one</li>
         </ul>

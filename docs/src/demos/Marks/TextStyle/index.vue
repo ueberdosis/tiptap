@@ -1,13 +1,34 @@
 <template>
   <div v-if="editor">
     <button
-      @click="editor.chain().focus().fontFamily('Comic Sans MS').run()"
-      :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS' }) }"
+      @click="editor.chain().focus().fontFamily('Inter').run()"
+      :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Inter' }) }"
+    >
+      Inter
+    </button>
+    <button
+      @click="editor.chain().focus().fontFamily('Comic Sans MS, Comic Sans').run()"
+      :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) }"
     >
       Comic Sans
     </button>
-    <button @click="editor.chain().focus().fontFamily().run()">
-      Remove font-family
+    <button
+      @click="editor.chain().focus().fontFamily('serif').run()"
+      :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'serif' }) }"
+    >
+      serif
+    </button>
+    <button
+      @click="editor.chain().focus().fontFamily('monospace').run()"
+      :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'monospace' }) }"
+    >
+      monospace
+    </button>
+    <button
+      @click="editor.chain().focus().fontFamily('cursive').run()"
+      :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'cursive' }) }"
+    >
+      cursive
     </button>
 
     <editor-content :editor="editor" />
@@ -44,7 +65,11 @@ export default {
         FontFamily(),
       ],
       content: `
-        <p><span style="font-family: Comic Sans MS">Welcome to the internet.</span></p>
+        <p><span style="font-family: Inter">Inter</span></p>
+        <p><span style="font-family: Comic Sans MS, Comic Sans">Comic Sans</span></p>
+        <p><span style="font-family: serif">serif</span></p>
+        <p><span style="font-family: monospace">monospace</span></p>
+        <p><span style="font-family: cursive">cursive</span></p>
       `,
     })
   },
