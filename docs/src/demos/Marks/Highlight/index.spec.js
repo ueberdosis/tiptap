@@ -1,6 +1,6 @@
-context('/api/extensions/highlight', () => {
+context('/api/marks/highlight', () => {
   before(() => {
-    cy.visit('/api/extensions/highlight')
+    cy.visit('/api/marks/highlight')
   })
 
   beforeEach(() => {
