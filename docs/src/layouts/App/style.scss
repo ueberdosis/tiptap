@@ -13,12 +13,27 @@ $menuBreakPoint: 800px;
   }
 
   &__name {
+    display: inline-flex;
+    align-items: center;
     font-weight: 600;
     color: $colorWhite;
     font-size: 1.5rem;
+
+    &::after {
+      content: '2.0 beta';
+      display: block;
+      margin-left: 0.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.05rem;
+      text-transform: uppercase;
+      border-radius: 5px;
+      border: 1px solid $colorWhite;
+      padding: 0 0.4em;
+    }
   }
 
   &__github {
+    display: block;
     width: 1.75rem;
     height: 1.75rem;
   }
