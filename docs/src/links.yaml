@@ -133,7 +133,6 @@
           link: /api/extensions/history
         - title: TextAlign
           link: /api/extensions/text-align
-          draft: true
         - title: Typography
           link: /api/extensions/typography
     - title: Commands
