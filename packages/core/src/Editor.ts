@@ -363,7 +363,7 @@ export class Editor extends EventEmitter {
     if (schemaType === 'node') {
       return nodeIsActive(this.state, this.schema.nodes[name], attrs)
     } if (schemaType === 'mark') {
-      return markIsActive(this.state, this.schema.marks[name])
+      return markIsActive(this.state, this.schema.marks[name], attrs)
     }
 
     return false

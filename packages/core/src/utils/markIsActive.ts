@@ -1,7 +1,9 @@
 import { EditorState } from 'prosemirror-state'
 import { MarkType } from 'prosemirror-model'
+import markHasAttributes from './markHasAttributes'
+import isEmptyObject from './isEmptyObject'
 
-export default function markIsActive(state: EditorState, type: MarkType) {
+export default function markIsActive(state: EditorState, type: MarkType, attributes = {}) {
   const {
     from,
     $from,
@@ -9,9 +11,13 @@ export default function markIsActive(state: EditorState, type: MarkType) {
     empty,
   } = state.selection
 
-  if (empty) {
-    return !!type.isInSet(state.storedMarks || $from.marks())
-  }
+  const hasMark = empty
+    ? !!(type.isInSet(state.storedMarks || $from.marks()))
+    : state.doc.rangeHasMark(from, to, type)
 
-  return !!state.doc.rangeHasMark(from, to, type)
+  const hasAttributes = markHasAttributes(state, type, attributes)
+
+  return isEmptyObject(attributes)
+    ? hasMark
+    : hasMark && hasAttributes
 }

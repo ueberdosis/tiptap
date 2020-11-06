@@ -104,6 +104,8 @@
           link: /api/marks/bold
         - title: Code
           link: /api/marks/code
+        - title: Highlight
+          link: /api/marks/highlight
         - title: Italic
           link: /api/marks/italic
         - title: Link

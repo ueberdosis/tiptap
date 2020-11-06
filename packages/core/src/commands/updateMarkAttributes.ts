@@ -1,32 +1,24 @@
 import { MarkType } from 'prosemirror-model'
 import { Command } from '../Editor'
 import getMarkType from '../utils/getMarkType'
-import getMarkRange from '../utils/getMarkRange'
+import getMarkAttrs from '../utils/getMarkAttrs'
 
-export default (typeOrName: string | MarkType, attrs: {}): Command => ({ tr, state, dispatch }) => {
+export default (typeOrName: string | MarkType, attributes: {}): Command => ({ tr, state, dispatch }) => {
   const { selection } = tr
-  let { from, to } = selection
-  const { $from, empty } = selection
+  const { from, to, empty } = selection
   const type = getMarkType(typeOrName, state.schema)
-
-  if (empty) {
-    const range = getMarkRange($from, type)
-
-    if (range) {
-      from = range.from
-      to = range.to
-    }
+  const oldAttributes = getMarkAttrs(state, type)
+  const newAttributes = {
+    ...oldAttributes,
+    ...attributes,
   }
 
-  // TODO: toggleMark?
-  // const hasMark = doc.rangeHasMark(from, to, type)
-
-  // if (hasMark && dispatch) {
-  //   tr.removeMark(from, to, type)
-  // }
-
   if (dispatch) {
-    tr.addMark(from, to, type.create(attrs))
+    if (empty) {
+      tr.addStoredMark(type.create(newAttributes))
+    } else {
+      tr.addMark(from, to, type.create(newAttributes))
+    }
   }
 
   return true
