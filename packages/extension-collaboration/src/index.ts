@@ -32,7 +32,7 @@ const Collaboration = createExtension({
 
 export default Collaboration
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Collaboration: typeof Collaboration,
   }

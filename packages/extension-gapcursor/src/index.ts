@@ -11,7 +11,7 @@ const Gapcursor = createExtension({
 
 export default Gapcursor
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Gapcursor: typeof Gapcursor,
   }

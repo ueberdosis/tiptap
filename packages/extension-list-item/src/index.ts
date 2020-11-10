@@ -30,7 +30,7 @@ const ListItem = createNode({
 
 export default ListItem
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     ListItem: typeof ListItem,
   }

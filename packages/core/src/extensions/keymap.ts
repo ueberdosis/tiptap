@@ -45,7 +45,7 @@ export const Keymap = createExtension({
   },
 })
 
-declare module '../Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Keymap: typeof Keymap,
   }

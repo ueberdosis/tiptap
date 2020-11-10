@@ -43,7 +43,7 @@ const BulletList = createNode({
 
 export default BulletList
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     BulletList: typeof BulletList,
   }

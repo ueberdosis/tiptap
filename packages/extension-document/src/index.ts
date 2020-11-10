@@ -8,7 +8,7 @@ const Document = createNode({
 
 export default Document
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Document: typeof Document,
   }

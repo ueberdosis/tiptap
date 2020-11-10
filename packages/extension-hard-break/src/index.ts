@@ -47,7 +47,7 @@ const HardBreak = createNode({
 
 export default HardBreak
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     HardBreak: typeof HardBreak,
   }

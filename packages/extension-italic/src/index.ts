@@ -60,7 +60,7 @@ const Italic = createMark({
 
 export default Italic
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Italic: typeof Italic,
   }

@@ -35,7 +35,7 @@ const Paragraph = createNode({
 
 export default Paragraph
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Paragraph: typeof Paragraph,
   }

@@ -67,7 +67,7 @@ const OrderedList = createNode({
 
 export default OrderedList
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     OrderedList: typeof OrderedList,
   }

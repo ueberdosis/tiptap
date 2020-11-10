@@ -121,7 +121,7 @@ const TaskItem = createNode({
 
 export default TaskItem
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     TaskItem: typeof TaskItem,
   }

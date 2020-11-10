@@ -11,7 +11,7 @@ const Dropcursor = createExtension({
 
 export default Dropcursor
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Dropcursor: typeof Dropcursor,
   }

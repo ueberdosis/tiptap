@@ -40,7 +40,7 @@ const History = createExtension({
 
 export default History
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     History: typeof History,
   }

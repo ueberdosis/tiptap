@@ -75,7 +75,7 @@ const Image = createNode({
 
 export default Image
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Image: typeof Image,
   }

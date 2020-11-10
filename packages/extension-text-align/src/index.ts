@@ -62,7 +62,7 @@ const TextAlign = createExtension({
 
 export default TextAlign
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     TextAlign: typeof TextAlign,
   }

@@ -61,7 +61,7 @@ const CollaborationCursor = createExtension({
 
 export default CollaborationCursor
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     CollaborationCursor: typeof CollaborationCursor,
   }

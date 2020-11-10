@@ -58,7 +58,7 @@ const Strike = createMark({
 
 export default Strike
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Strike: typeof Strike,
   }

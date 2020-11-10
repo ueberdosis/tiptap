@@ -89,7 +89,7 @@ const Link = createMark({
 
 export default Link
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Link: typeof Link,
   }

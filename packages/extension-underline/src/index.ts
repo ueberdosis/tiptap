@@ -35,7 +35,7 @@ const Underline = createMark({
 
 export default Underline
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Underline: typeof Underline,
   }

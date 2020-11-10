@@ -49,7 +49,7 @@ const FontFamily = createExtension({
 
 export default FontFamily
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     FontFamily: typeof FontFamily,
   }

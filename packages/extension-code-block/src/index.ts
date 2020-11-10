@@ -92,7 +92,7 @@ const CodeBlock = createNode({
 
 export default CodeBlock
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     CodeBlock: typeof CodeBlock,
   }

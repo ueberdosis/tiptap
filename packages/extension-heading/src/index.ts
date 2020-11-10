@@ -70,7 +70,7 @@ const Heading = createNode({
 
 export default Heading
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Heading: typeof Heading,
   }

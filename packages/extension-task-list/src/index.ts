@@ -31,7 +31,7 @@ const TaskList = createNode({
 
 export default TaskList
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     TaskList: typeof TaskList,
   }

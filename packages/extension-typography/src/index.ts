@@ -45,7 +45,7 @@ const Typography = createExtension({
 
 export default Typography
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Typography: typeof Typography,
   }

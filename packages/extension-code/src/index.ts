@@ -49,7 +49,7 @@ const Code = createMark({
 
 export default Code
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Code: typeof Code,
   }

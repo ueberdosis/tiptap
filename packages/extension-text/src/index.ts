@@ -7,7 +7,7 @@ const Text = createNode({
 
 export default Text
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Text: typeof Text,
   }

@@ -45,7 +45,7 @@ const Blockquote = createNode({
 
 export default Blockquote
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Blockquote: typeof Blockquote,
   }

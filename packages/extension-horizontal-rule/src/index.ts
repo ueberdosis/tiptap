@@ -34,7 +34,7 @@ const HorizontalRule = createNode({
 
 export default HorizontalRule
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     HorizontalRule: typeof HorizontalRule,
   }

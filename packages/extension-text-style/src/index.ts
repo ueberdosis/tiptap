@@ -43,7 +43,7 @@ const TextStyle = createMark({
 
 export default TextStyle
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     TextStyle: typeof TextStyle,
   }

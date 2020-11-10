@@ -50,7 +50,7 @@ const FocusClasses = createExtension({
 
 export default FocusClasses
 
-declare module '@tiptap/core/src/Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     FocusClasses: typeof FocusClasses,
   }

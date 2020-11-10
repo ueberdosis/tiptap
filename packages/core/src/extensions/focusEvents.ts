@@ -36,7 +36,7 @@ export const FocusEvents = createExtension({
   },
 })
 
-declare module '../Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     FocusEvents: typeof FocusEvents,
   }
