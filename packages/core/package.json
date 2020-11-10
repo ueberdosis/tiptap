@@ -6,6 +6,7 @@
   "umd": "dist/tiptap-core.umd.js",
   "module": "dist/tiptap-core.esm.js",
   "unpkg": "dist/tiptap-core.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

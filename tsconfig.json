@@ -14,7 +14,7 @@
     "allowJs": false,
     "checkJs": false,
     "paths": {
-      "@tiptap/*": ["*/src"]
+      "@tiptap/*": ["*/dist", "*/src"]
     },
     "lib": [
       "esnext",

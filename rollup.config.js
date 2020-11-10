@@ -50,7 +50,11 @@ async function build(commandLineArgs) {
         tsconfigOverride: {
           compilerOptions: {
             declaration: true,
+            paths: {
+              '@tiptap/*': ['*/src'],
+            },
           },
+          include: null,
         },
       }),
       vuePlugin(),
