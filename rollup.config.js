@@ -46,17 +46,6 @@ async function build(commandLineArgs) {
     const plugins = [
       resolve(),
       commonjs(),
-      typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: true,
-            paths: {
-              '@tiptap/*': ['*/src'],
-            },
-          },
-          include: null,
-        },
-      }),
       vuePlugin(),
       babel({
         babelHelpers: 'bundled',
@@ -92,7 +81,20 @@ async function build(commandLineArgs) {
         ...Object.keys(pkg.devDependencies || {}),
         ...Object.keys(pkg.peerDependencies || {}),
       ],
-      plugins,
+      plugins: [
+        ...plugins,
+        typescript({
+          tsconfigOverride: {
+            compilerOptions: {
+              declaration: true,
+              paths: {
+                '@tiptap/*': ['*/src'],
+              },
+            },
+            include: null,
+          },
+        }),
+      ],
     })
 
     if (!ci) {
@@ -114,6 +116,15 @@ async function build(commandLineArgs) {
         ],
         plugins: [
           ...plugins,
+          typescript({
+            tsconfigOverride: {
+              compilerOptions: {
+                paths: {
+                  '@tiptap/*': ['*/src'],
+                },
+              },
+            },
+          }),
           terser(),
         ],
       })
