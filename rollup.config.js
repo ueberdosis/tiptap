@@ -24,10 +24,11 @@ async function build(commandLineArgs) {
   const config = []
 
   // Support --scope and --ignore globs if passed in via commandline
-  const { scope, ignore } = minimist(process.argv.slice(2))
+  const { scope, ignore, ci } = minimist(process.argv.slice(2))
   const packages = await getSortedPackages(scope, ignore)
 
   // prevent rollup warning
+  delete commandLineArgs.ci
   delete commandLineArgs.scope
   delete commandLineArgs.ignore
 
@@ -90,27 +91,29 @@ async function build(commandLineArgs) {
       plugins,
     })
 
-    config.push({
-      input,
-      output: [
-        {
-          name,
-          file: path.join(basePath, unpkg),
-          format: 'umd',
-          sourcemap: true,
-          globals: {
-            vue: 'Vue',
+    if (!ci) {
+      config.push({
+        input,
+        output: [
+          {
+            name,
+            file: path.join(basePath, unpkg),
+            format: 'umd',
+            sourcemap: true,
+            globals: {
+              vue: 'Vue',
+            },
           },
-        },
-      ],
-      externals: [
-        'vue',
-      ],
-      plugins: [
-        ...plugins,
-        terser(),
-      ],
-    })
+        ],
+        external: [
+          'vue',
+        ],
+        plugins: [
+          ...plugins,
+          terser(),
+        ],
+      })
+    }
   })
 
   return config
