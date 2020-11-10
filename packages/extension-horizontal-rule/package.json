@@ -2,11 +2,11 @@
   "name": "@tiptap/extension-horizontal-rule",
   "version": "1.0.0",
   "source": "index.ts",
-  "main": "dist/tiptap-extension-horizontal-rule.js",
-  "umd:main": "dist/tiptap-extension-horizontal-rule.umd.js",
-  "module": "dist/tiptap-extension-horizontal-rule.mjs",
-  "unpkg": "dist/tiptap-extension-horizontal-rule.js",
-  "jsdelivr": "dist/tiptap-extension-horizontal-rule.js",
+  "main": "dist/tiptap-extension-horizontal-rule.cjs.js",
+  "umd": "dist/tiptap-extension-horizontal-rule.umd.js",
+  "module": "dist/tiptap-extension-horizontal-rule.esm.js",
+  "unpkg": "dist/tiptap-extension-horizontal-rule.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

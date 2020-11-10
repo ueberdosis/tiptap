@@ -2,11 +2,11 @@
   "name": "@tiptap/extension-highlight",
   "version": "1.0.0",
   "source": "index.ts",
-  "main": "dist/tiptap-extension-highlight.js",
-  "umd:main": "dist/tiptap-extension-highlight.umd.js",
-  "module": "dist/tiptap-extension-highlight.mjs",
-  "unpkg": "dist/tiptap-extension-highlight.js",
-  "jsdelivr": "dist/tiptap-extension-highlight.js",
+  "main": "dist/tiptap-extension-highlight.cjs.js",
+  "umd": "dist/tiptap-extension-highlight.umd.js",
+  "module": "dist/tiptap-extension-highlight.esm.js",
+  "unpkg": "dist/tiptap-extension-highlight.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

@@ -2,11 +2,11 @@
   "name": "@tiptap/extension-strike",
   "version": "1.0.0",
   "source": "index.ts",
-  "main": "dist/tiptap-extension-strike.js",
-  "umd:main": "dist/tiptap-extension-strike.umd.js",
-  "module": "dist/tiptap-extension-strike.mjs",
-  "unpkg": "dist/tiptap-extension-strike.js",
-  "jsdelivr": "dist/tiptap-extension-strike.js",
+  "main": "dist/tiptap-extension-strike.cjs.js",
+  "umd": "dist/tiptap-extension-strike.umd.js",
+  "module": "dist/tiptap-extension-strike.esm.js",
+  "unpkg": "dist/tiptap-extension-strike.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

@@ -2,11 +2,11 @@
   "name": "@tiptap/extension-italic",
   "version": "1.0.0",
   "source": "index.ts",
-  "main": "dist/tiptap-extension-italic.js",
-  "umd:main": "dist/tiptap-extension-italic.umd.js",
-  "module": "dist/tiptap-extension-italic.mjs",
-  "unpkg": "dist/tiptap-extension-italic.js",
-  "jsdelivr": "dist/tiptap-extension-italic.js",
+  "main": "dist/tiptap-extension-italic.cjs.js",
+  "umd": "dist/tiptap-extension-italic.umd.js",
+  "module": "dist/tiptap-extension-italic.esm.js",
+  "unpkg": "dist/tiptap-extension-italic.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
