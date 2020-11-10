@@ -6,6 +6,7 @@ import batchPackages from '@lerna/batch-packages'
 import typescript from 'rollup-plugin-typescript2'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
+import vuePlugin from 'rollup-plugin-vue'
 import babel from '@rollup/plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import sizes from '@atomico/rollup-plugin-sizes'
@@ -51,6 +52,7 @@ async function build(commandLineArgs) {
           },
         },
       }),
+      vuePlugin(),
       babel({
         babelHelpers: 'bundled',
       }),
@@ -96,7 +98,13 @@ async function build(commandLineArgs) {
           file: path.join(basePath, unpkg),
           format: 'umd',
           sourcemap: true,
+          globals: {
+            vue: 'Vue',
+          },
         },
+      ],
+      externals: [
+        'vue',
       ],
       plugins: [
         ...plugins,
