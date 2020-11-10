@@ -267,8 +267,6 @@ export class Editor extends EventEmitter {
       }),
     })
 
-    console.log({ plugins: this.extensionManager.plugins })
-
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.
     const newState = this.state.reconfigure({
