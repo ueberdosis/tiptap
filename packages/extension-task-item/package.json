@@ -6,7 +6,6 @@
   "umd": "dist/tiptap-extension-task-item.umd.js",
   "module": "dist/tiptap-extension-task-item.esm.js",
   "unpkg": "dist/tiptap-extension-task-item.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

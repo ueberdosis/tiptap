@@ -6,7 +6,6 @@
   "umd": "dist/tiptap-extension-hard-break.umd.js",
   "module": "dist/tiptap-extension-hard-break.esm.js",
   "unpkg": "dist/tiptap-extension-hard-break.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

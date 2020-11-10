@@ -6,7 +6,6 @@
   "umd": "dist/tiptap-vue.umd.js",
   "module": "dist/tiptap-vue.esm.js",
   "unpkg": "dist/tiptap-vue.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

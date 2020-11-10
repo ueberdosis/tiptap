@@ -9,7 +9,7 @@ export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
 export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
 
 const CodeBlock = createNode({
-  name: 'code_block',
+  name: 'codeBlock',
 
   defaultOptions: <CodeBlockOptions>{
     languageClassPrefix: 'language-',
@@ -71,7 +71,7 @@ const CodeBlock = createNode({
   addCommands() {
     return {
       codeBlock: (attrs?: CodeBlockOptions): Command => ({ commands }) => {
-        return commands.toggleBlockType('code_block', 'paragraph', attrs)
+        return commands.toggleBlockType('codeBlock', 'paragraph', attrs)
       },
     }
   },

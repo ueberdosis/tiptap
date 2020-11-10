@@ -34,7 +34,7 @@ async function build(commandLineArgs) {
 
   packages.forEach(pkg => {
     const basePath = path.relative(__dirname, pkg.location)
-    const input = path.join(basePath, 'index.ts')
+    const input = path.join(basePath, 'src/index.ts')
     const {
       name,
       main,

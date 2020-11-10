@@ -111,7 +111,7 @@ module.exports = function (api) {
       .map(name => name.replace('../packages/', ''))
       .forEach(name => {
         config.resolve.alias
-          .set(`@tiptap/${name}`, path.resolve(`../packages/${name}/index.ts`))
+          .set(`@tiptap/${name}`, path.resolve(`../packages/${name}/src/index.ts`))
       })
   })
 }

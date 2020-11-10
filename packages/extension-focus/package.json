@@ -6,7 +6,6 @@
   "umd": "dist/tiptap-extension-focus.umd.js",
   "module": "dist/tiptap-extension-focus.esm.js",
   "unpkg": "dist/tiptap-extension-focus.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

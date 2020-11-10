@@ -6,7 +6,6 @@
   "umd": "dist/tiptap-extension-collaboration.umd.js",
   "module": "dist/tiptap-extension-collaboration.esm.js",
   "unpkg": "dist/tiptap-extension-collaboration.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

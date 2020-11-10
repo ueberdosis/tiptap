@@ -6,7 +6,6 @@
   "umd": "dist/tiptap-core.umd.js",
   "module": "dist/tiptap-core.esm.js",
   "unpkg": "dist/tiptap-core.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
@@ -22,8 +21,5 @@
     "prosemirror-tables": "^1.1.1",
     "prosemirror-utils": "^1.0.0-0",
     "prosemirror-view": "^1.16.1"
-  },
-  "scripts": {
-    "build": "microbundle"
   }
 }

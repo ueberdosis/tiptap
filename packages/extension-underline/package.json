@@ -6,7 +6,6 @@
   "umd": "dist/tiptap-extension-underline.umd.js",
   "module": "dist/tiptap-extension-underline.esm.js",
   "unpkg": "dist/tiptap-extension-underline.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

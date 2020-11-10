@@ -6,7 +6,6 @@
   "umd": "dist/tiptap-extension-ordered-list.umd.js",
   "module": "dist/tiptap-extension-ordered-list.esm.js",
   "unpkg": "dist/tiptap-extension-ordered-list.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
