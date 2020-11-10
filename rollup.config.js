@@ -88,21 +88,21 @@ async function build(commandLineArgs) {
       plugins,
     })
 
-    // config.push({
-    //   input,
-    //   output: [
-    //     {
-    //       name,
-    //       file: path.join(basePath, unpkg),
-    //       format: 'umd',
-    //       sourcemap: true,
-    //     },
-    //   ],
-    //   plugins: [
-    //     ...plugins,
-    //     terser(),
-    //   ],
-    // })
+    config.push({
+      input,
+      output: [
+        {
+          name,
+          file: path.join(basePath, unpkg),
+          format: 'umd',
+          sourcemap: true,
+        },
+      ],
+      plugins: [
+        ...plugins,
+        terser(),
+      ],
+    })
   })
 
   return config
