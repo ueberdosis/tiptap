@@ -1,11 +1,11 @@
 {
   "name": "@tiptap/extension-gapcursor",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-gapcursor.cjs.js",
   "umd": "dist/tiptap-extension-gapcursor.umd.js",
   "module": "dist/tiptap-extension-gapcursor.esm.js",
   "unpkg": "dist/tiptap-extension-gapcursor.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

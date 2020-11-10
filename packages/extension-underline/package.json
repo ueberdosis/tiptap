@@ -1,11 +1,11 @@
 {
   "name": "@tiptap/extension-underline",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-underline.cjs.js",
   "umd": "dist/tiptap-extension-underline.umd.js",
   "module": "dist/tiptap-extension-underline.esm.js",
   "unpkg": "dist/tiptap-extension-underline.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

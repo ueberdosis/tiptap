@@ -1,11 +1,11 @@
 {
   "name": "@tiptap/extension-code-block",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-code-block.cjs.js",
   "umd": "dist/tiptap-extension-code-block.umd.js",
   "module": "dist/tiptap-extension-code-block.esm.js",
   "unpkg": "dist/tiptap-extension-code-block.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

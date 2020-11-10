@@ -1,11 +1,11 @@
 {
   "name": "@tiptap/html",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-html.cjs.js",
   "umd": "dist/tiptap-html.umd.js",
   "module": "dist/tiptap-html.esm.js",
   "unpkg": "dist/tiptap-html.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

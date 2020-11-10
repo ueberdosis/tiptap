@@ -1,11 +1,11 @@
 {
   "name": "@tiptap/extension-text-style",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-text-style.cjs.js",
   "umd": "dist/tiptap-extension-text-style.umd.js",
   "module": "dist/tiptap-extension-text-style.esm.js",
   "unpkg": "dist/tiptap-extension-text-style.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

@@ -1,11 +1,11 @@
 {
   "name": "@tiptap/extension-bold",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-bold.cjs.js",
   "umd": "dist/tiptap-extension-bold.umd.js",
   "module": "dist/tiptap-extension-bold.esm.js",
   "unpkg": "dist/tiptap-extension-bold.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/extension-highlight",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-highlight.cjs.js",
   "umd": "dist/tiptap-extension-highlight.umd.js",
   "module": "dist/tiptap-extension-highlight.esm.js",
