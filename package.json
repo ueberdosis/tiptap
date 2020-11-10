@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "start": "yarn --cwd ./docs start",
-    "build": "rollup -c --scope @tiptap/html",
+    "build": "yarn clean:packages && rollup -c --scope @tiptap/extension-blockquote",
+    "build:single": "yarn clean:packages && rollup -c --scope @tiptap/extension-underline",
     "build:docs": "yarn --cwd ./docs build",
     "build:packages": "yarn clean:packages && lerna exec -- microbundle --compress",
     "clean:packages": "rm -rf ./packages/*/dist",
@@ -22,6 +23,7 @@
     "reset": "yarn clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
   },
   "devDependencies": {
+    "@atomico/rollup-plugin-sizes": "^1.1.4",
     "@babel/core": "^7.11.6",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",

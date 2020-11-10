@@ -2,11 +2,11 @@
   "name": "@tiptap/extension-blockquote",
   "version": "1.0.0",
   "source": "index.ts",
-  "main": "dist/tiptap-extension-blockquote.js",
-  "umd:main": "dist/tiptap-extension-blockquote.umd.js",
-  "module": "dist/tiptap-extension-blockquote.mjs",
-  "unpkg": "dist/tiptap-extension-blockquote.js",
-  "jsdelivr": "dist/tiptap-extension-blockquote.js",
+  "main": "dist/tiptap-extension-blockquote.cjs.js",
+  "umd": "dist/tiptap-extension-blockquote.umd.js",
+  "module": "dist/tiptap-extension-blockquote.esm.js",
+  "unpkg": "dist/tiptap-extension-blockquote.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

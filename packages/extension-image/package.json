@@ -2,11 +2,11 @@
   "name": "@tiptap/extension-image",
   "version": "1.0.0",
   "source": "index.ts",
-  "main": "dist/tiptap-extension-image.js",
-  "umd:main": "dist/tiptap-extension-image.umd.js",
-  "module": "dist/tiptap-extension-image.mjs",
-  "unpkg": "dist/tiptap-extension-image.js",
-  "jsdelivr": "dist/tiptap-extension-image.js",
+  "main": "dist/tiptap-extension-image.cjs.js",
+  "umd": "dist/tiptap-extension-image.umd.js",
+  "module": "dist/tiptap-extension-image.esm.js",
+  "unpkg": "dist/tiptap-extension-image.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

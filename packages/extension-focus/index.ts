@@ -1,5 +1,5 @@
 import { createExtension } from '@tiptap/core'
-import { Plugin } from 'prosemirror-state'
+import { Plugin, PluginKey } from 'prosemirror-state'
 import { DecorationSet, Decoration } from 'prosemirror-view'
 
 export interface FocusOptions {
@@ -16,6 +16,7 @@ const FocusClasses = createExtension({
   addProseMirrorPlugins() {
     return [
       new Plugin({
+        key: new PluginKey('focus'),
         props: {
           decorations: ({ doc, selection }) => {
             const { isEditable, isFocused } = this.editor

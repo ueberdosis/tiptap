@@ -2,11 +2,11 @@
   "name": "@tiptap/core",
   "version": "2.0.0",
   "source": "index.ts",
-  "main": "dist/tiptap-core.js",
-  "umd:main": "dist/tiptap-core.umd.js",
-  "module": "dist/tiptap-core.mjs",
-  "unpkg": "dist/tiptap-core.js",
-  "jsdelivr": "dist/tiptap-core.js",
+  "main": "dist/tiptap-core.cjs.js",
+  "umd": "dist/tiptap-core.umd.js",
+  "module": "dist/tiptap-core.esm.js",
+  "unpkg": "dist/tiptap-core.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
