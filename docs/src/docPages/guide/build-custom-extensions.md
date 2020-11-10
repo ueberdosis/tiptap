@@ -130,7 +130,7 @@ const CustomParagraph = Paragraph.extend({
 })
 
 // Result:
-// <p color="pink" style="color: pink">Example Text</p>
+// <p style="color: pink">Example Text</p>
 ```
 
 You can also control how the attribute is parsed from the HTML. Let’s say you want to store the color in an attribute called `data-color`, here’s how you would do that:
