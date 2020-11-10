@@ -23,7 +23,7 @@ import { Editor } from '@tiptap/core'
 import { defaultExtensions } from '@tiptap/starter-kit'
 
 new Editor({
-  element: document.getElementsByClassName('element'),
+  element: document.querySelector('.element'),
   extensions: defaultExtensions(),
   content: '<p>Your content.</p>',
 })

@@ -28,11 +28,8 @@
   "files": [
     "./shims/vue.d.ts"
   ],
-  "filesGlob": [
-    "packages/**/*.ts"
-  ],
   "exclude": [
-    "node_modules",
-    "dist"
+    "**/node_modules",
+    "**/dist"
   ]
 }

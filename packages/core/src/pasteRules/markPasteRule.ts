@@ -1,4 +1,4 @@
-import { Plugin } from 'prosemirror-state'
+import { Plugin, PluginKey } from 'prosemirror-state'
 import { Slice, Fragment, MarkType } from 'prosemirror-model'
 
 export default function (regexp: RegExp, type: MarkType, getAttrs?: (match: any) => any): Plugin {
@@ -51,6 +51,7 @@ export default function (regexp: RegExp, type: MarkType, getAttrs?: (match: any)
   }
 
   return new Plugin({
+    key: new PluginKey('markPasteRule'),
     props: {
       transformPasted: slice => {
         return new Slice(handler(slice.content), slice.openStart, slice.openEnd)

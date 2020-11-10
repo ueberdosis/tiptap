@@ -2,11 +2,11 @@
   "name": "@tiptap/extension-focus",
   "version": "1.0.0",
   "source": "index.ts",
-  "main": "dist/tiptap-extension-focus.js",
-  "umd:main": "dist/tiptap-extension-focus.umd.js",
-  "module": "dist/tiptap-extension-focus.mjs",
-  "unpkg": "dist/tiptap-extension-focus.js",
-  "jsdelivr": "dist/tiptap-extension-focus.js",
+  "main": "dist/tiptap-extension-focus.cjs.js",
+  "umd": "dist/tiptap-extension-focus.umd.js",
+  "module": "dist/tiptap-extension-focus.esm.js",
+  "unpkg": "dist/tiptap-extension-focus.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"

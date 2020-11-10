@@ -1,4 +1,4 @@
-import { Plugin } from 'prosemirror-state'
+import { Plugin, PluginKey } from 'prosemirror-state'
 import { createExtension } from '../Extension'
 
 export const FocusEvents = createExtension({
@@ -7,6 +7,7 @@ export const FocusEvents = createExtension({
 
     return [
       new Plugin({
+        key: new PluginKey('focusEvents'),
         props: {
           attributes: {
             tabindex: '0',

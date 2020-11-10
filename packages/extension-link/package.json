@@ -2,11 +2,11 @@
   "name": "@tiptap/extension-link",
   "version": "1.0.0",
   "source": "index.ts",
-  "main": "dist/tiptap-extension-link.js",
-  "umd:main": "dist/tiptap-extension-link.umd.js",
-  "module": "dist/tiptap-extension-link.mjs",
-  "unpkg": "dist/tiptap-extension-link.js",
-  "jsdelivr": "dist/tiptap-extension-link.js",
+  "main": "dist/tiptap-extension-link.cjs.js",
+  "umd": "dist/tiptap-extension-link.umd.js",
+  "module": "dist/tiptap-extension-link.esm.js",
+  "unpkg": "dist/tiptap-extension-link.bundle.umd.min.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
