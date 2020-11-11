@@ -40,6 +40,11 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [Philipp Kühn](https://github.com/philippkuehn) (development)
 - [Hans Pagel](https://github.com/hanspagel) (documentation)
 
+## Premium Sponsors
+- [überdosis](https://ueberdosis.io/)
+- Jason Nelson from [mymind](https://mymind.com/)
+- Gordon Mickel from [DocIQ](https://www.dociq.io/)
+
 ## Credits
 - [Christoph Flathmann](https://github.com/Chrissi2812)
 - [Erick Wilder](https://github.com/erickwilder)
