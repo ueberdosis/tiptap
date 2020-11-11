@@ -43,7 +43,7 @@ async function build(commandLineArgs) {
       unpkg,
     } = pkg.toJSON()
 
-    const plugins = [
+    const basePlugins = [
       resolve(),
       commonjs(),
       vuePlugin(),
@@ -82,7 +82,7 @@ async function build(commandLineArgs) {
         ...Object.keys(pkg.peerDependencies || {}),
       ],
       plugins: [
-        ...plugins,
+        ...basePlugins,
         typescript({
           tsconfigOverride: {
             compilerOptions: {
@@ -115,7 +115,7 @@ async function build(commandLineArgs) {
           'vue',
         ],
         plugins: [
-          ...plugins,
+          ...basePlugins,
           typescript({
             tsconfigOverride: {
               compilerOptions: {
