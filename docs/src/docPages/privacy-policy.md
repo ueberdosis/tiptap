@@ -5,7 +5,7 @@
 ## Introduction
 We value your privacy and question everything that stores or processes your personal information. With that in mind, we still need a few external services to publish tiptap.
 
-We don’t provide email support for tiptap, but if you have some legal issues, privacy or security concerns, send us an email to [hans.pagel@ueber.io](mailto:hans.pagel@ueber.io). For everything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap-next/issues).
+We don’t provide email support for tiptap, but if you have some legal issues, privacy or security concerns, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev). For everything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap-next/issues).
 
 ## List of Services
 

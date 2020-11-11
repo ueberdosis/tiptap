@@ -31,6 +31,8 @@
           link: /examples/minimalist
         - title: Export HTML or JSON
           link: /examples/export-html-or-json
+    - title: Feedback
+      link: /overview/feedback
 
 - title: Guide
   items:

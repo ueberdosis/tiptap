@@ -14,10 +14,10 @@ If you’re using tiptap in a commercial project or just want to give back to th
 Does that sound good? [Sponsor us on GitHub!](https://github.com/sponsors/ueberdosis)
 
 ## I can’t use GitHub.
-If you’re a company, don’t want to use GitHub, don’t have a credit card or want a proper invoice form us, just reach out to us at [hans.pagel@ueber.io](mailto:hans.pagel@ueber.io).
+If you’re a company, don’t want to use GitHub, don’t have a credit card or want a proper invoice form us, just reach out to us at [humans@tiptap.dev](mailto:humans@tiptap.dev).
 
 ## I want consulting.
 We don’t do any calls, consulting or personal support. If you have an issue, a question, want to talk something through or anything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap-next/issues), to keep everything accessible for the whole community.
 
 ## Can we have a call?
-Nope, we are big fans of asynchronous communication. If you really need to reach out in private, send us an email to [hans.pagel@ueber.io](mailto:hans.pagel@ueber.io), but don’t expect technical email support.
+Nope, we are big fans of asynchronous communication. If you really need to reach out in private, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev), but don’t expect technical email support.
