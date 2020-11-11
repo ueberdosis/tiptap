@@ -481,6 +481,13 @@ export default class IframeNode extends Node {
 | `getPos`      | `Function` | A function that returns the anchored position of the node.                                                                                                                                              |
 | `selected`    | `Boolean`  | A boolean that is set when the node is or is not selected. Common use case is using `watch` to see when the view is selected/unselected to do something, such focus an `<input>` or refocus the editor. |
 
+## Collaborative editing
+
+Collaborative editing is a complex topic. Luckily, @naept wrote an article about [collaborative editing with tiptap](https://medium.com/@julien.aupart/easy-collaborative-editor-with-tiptap-and-prosemirror-baa3314636c6?sk=fd25b326cc148b43a0e0a46e584f40c2) and also published two helpful repositories:
+
+* [tiptap-collab-server](https://github.com/naept/tiptap-collab-server) by @naept
+* [tiptap-extension-collaboration](https://github.com/naept/tiptap-extension-collaboration) by @naept
+
 ## Browser Support
 
 | ![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Opera](https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png) |
