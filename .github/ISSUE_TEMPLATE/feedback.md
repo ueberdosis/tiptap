@@ -1,6 +1,6 @@
 ---
 name: Feedback on the documentation
-about: How can we improve the documentation?
+about: Share what we need to explain better
 url: https://github.com/ueberdosis/tiptap-next/issues/new
 title: ''
 labels: documentation
