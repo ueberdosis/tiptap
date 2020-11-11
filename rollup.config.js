@@ -3,6 +3,7 @@ import minimist from 'minimist'
 import { getPackages } from '@lerna/project'
 import filterPackages from '@lerna/filter-packages'
 import batchPackages from '@lerna/batch-packages'
+import sourcemaps from 'rollup-plugin-sourcemaps'
 import typescript from 'rollup-plugin-typescript2'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
@@ -10,6 +11,7 @@ import vuePlugin from 'rollup-plugin-vue'
 import babel from '@rollup/plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import sizes from '@atomico/rollup-plugin-sizes'
+import autoExternal from 'rollup-plugin-auto-external'
 
 async function getSortedPackages(scope, ignore) {
   const packages = await getPackages(__dirname)
@@ -44,11 +46,13 @@ async function build(commandLineArgs) {
     } = pkg.toJSON()
 
     const basePlugins = [
+      sourcemaps(),
       resolve(),
       commonjs(),
       vuePlugin(),
       babel({
         babelHelpers: 'bundled',
+        exclude: 'node_modules/**',
       }),
       sizes(),
     ]
@@ -76,12 +80,10 @@ async function build(commandLineArgs) {
           sourcemap: true,
         },
       ],
-      external: [
-        ...Object.keys(pkg.dependencies || {}),
-        ...Object.keys(pkg.devDependencies || {}),
-        ...Object.keys(pkg.peerDependencies || {}),
-      ],
       plugins: [
+        autoExternal({
+          packagePath: path.join(basePath, 'package.json'),
+        }),
         ...basePlugins,
         typescript({
           tsconfigOverride: {

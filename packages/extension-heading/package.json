@@ -12,5 +12,9 @@
   ],
   "peerDependencies": {
     "@tiptap/core": "2.x"
+  },
+  "dependencies": {
+    "@types/prosemirror-inputrules": "^1.0.3",
+    "prosemirror-inputrules": "^1.1.3"
   }
 }
