@@ -79,7 +79,7 @@
         <g-link class="app__name" to="/">
           {{ $static.metadata.siteName }}
         </g-link>
-        <g-link to="https://github.com/ueberdosis/tiptap">
+        <g-link to="https://github.com/ueberdosis/tiptap-next">
           <svg
             class="app__github"
             width="15"
