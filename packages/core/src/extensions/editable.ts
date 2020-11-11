@@ -15,7 +15,7 @@ export const Editable = createExtension({
 })
 
 // TODO: Editable circularly references itself!?
-// declare module '../Editor' {
+// declare module '@tiptap/core' {
 //   interface AllExtensions {
 //     Editable: typeof Editable,
 //   }

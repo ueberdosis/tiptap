@@ -10,13 +10,11 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": "./packages",
     "allowJs": false,
     "checkJs": false,
     "paths": {
-      "@/*": [
-        "packages/*"
-      ]
+      "@tiptap/*": ["*/dist", "*/src"]
     },
     "lib": [
       "esnext",
@@ -27,6 +25,9 @@
   },
   "files": [
     "./shims/vue.d.ts"
+  ],
+  "include": [
+    "**/*.ts"
   ],
   "exclude": [
     "**/node_modules",

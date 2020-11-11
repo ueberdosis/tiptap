@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/extension-bullet-list",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-bullet-list.cjs.js",
   "umd": "dist/tiptap-extension-bullet-list.umd.js",
   "module": "dist/tiptap-extension-bullet-list.esm.js",

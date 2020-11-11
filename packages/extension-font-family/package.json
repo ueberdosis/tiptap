@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/extension-font-family",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-font-family.cjs.js",
   "umd": "dist/tiptap-extension-font-family.umd.js",
   "module": "dist/tiptap-extension-font-family.esm.js",

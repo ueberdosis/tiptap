@@ -24,16 +24,17 @@ async function build(commandLineArgs) {
   const config = []
 
   // Support --scope and --ignore globs if passed in via commandline
-  const { scope, ignore } = minimist(process.argv.slice(2))
+  const { scope, ignore, ci } = minimist(process.argv.slice(2))
   const packages = await getSortedPackages(scope, ignore)
 
   // prevent rollup warning
+  delete commandLineArgs.ci
   delete commandLineArgs.scope
   delete commandLineArgs.ignore
 
   packages.forEach(pkg => {
     const basePath = path.relative(__dirname, pkg.location)
-    const input = path.join(basePath, 'index.ts')
+    const input = path.join(basePath, 'src/index.ts')
     const {
       name,
       main,
@@ -42,16 +43,9 @@ async function build(commandLineArgs) {
       unpkg,
     } = pkg.toJSON()
 
-    const plugins = [
+    const basePlugins = [
       resolve(),
       commonjs(),
-      typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: true,
-          },
-        },
-      }),
       vuePlugin(),
       babel({
         babelHelpers: 'bundled',
@@ -87,30 +81,54 @@ async function build(commandLineArgs) {
         ...Object.keys(pkg.devDependencies || {}),
         ...Object.keys(pkg.peerDependencies || {}),
       ],
-      plugins,
+      plugins: [
+        ...basePlugins,
+        typescript({
+          tsconfigOverride: {
+            compilerOptions: {
+              declaration: true,
+              paths: {
+                '@tiptap/*': ['*/src'],
+              },
+            },
+            include: null,
+          },
+        }),
+      ],
     })
 
-    config.push({
-      input,
-      output: [
-        {
-          name,
-          file: path.join(basePath, unpkg),
-          format: 'umd',
-          sourcemap: true,
-          globals: {
-            vue: 'Vue',
+    if (!ci) {
+      config.push({
+        input,
+        output: [
+          {
+            name,
+            file: path.join(basePath, unpkg),
+            format: 'umd',
+            sourcemap: true,
+            globals: {
+              vue: 'Vue',
+            },
           },
-        },
-      ],
-      externals: [
-        'vue',
-      ],
-      plugins: [
-        ...plugins,
-        terser(),
-      ],
-    })
+        ],
+        external: [
+          'vue',
+        ],
+        plugins: [
+          ...basePlugins,
+          typescript({
+            tsconfigOverride: {
+              compilerOptions: {
+                paths: {
+                  '@tiptap/*': ['*/src'],
+                },
+              },
+            },
+          }),
+          terser(),
+        ],
+      })
+    }
   })
 
   return config

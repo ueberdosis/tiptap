@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/extension-italic",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-italic.cjs.js",
   "umd": "dist/tiptap-extension-italic.umd.js",
   "module": "dist/tiptap-extension-italic.esm.js",

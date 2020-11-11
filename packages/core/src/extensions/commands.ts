@@ -63,7 +63,7 @@ export const Commands = createExtension({
   },
 })
 
-declare module '../Editor' {
+declare module '@tiptap/core' {
   interface AllExtensions {
     Commands: typeof Commands,
   }

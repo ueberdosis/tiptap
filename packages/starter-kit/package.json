@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/starter-kit",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-starter-kit.cjs.js",
   "umd": "dist/tiptap-starter-kit.umd.js",
   "module": "dist/tiptap-starter-kit.esm.js",

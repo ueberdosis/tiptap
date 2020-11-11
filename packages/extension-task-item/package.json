@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/extension-task-item",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-task-item.cjs.js",
   "umd": "dist/tiptap-extension-task-item.umd.js",
   "module": "dist/tiptap-extension-task-item.esm.js",

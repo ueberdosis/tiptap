@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/vue",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-vue.cjs.js",
   "umd": "dist/tiptap-vue.umd.js",
   "module": "dist/tiptap-vue.esm.js",

@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/extension-collaboration-cursor",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-collaboration-cursor.cjs.js",
   "umd": "dist/tiptap-extension-collaboration-cursor.umd.js",
   "module": "dist/tiptap-extension-collaboration-cursor.esm.js",

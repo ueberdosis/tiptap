@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/extension-hard-break",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-hard-break.cjs.js",
   "umd": "dist/tiptap-extension-hard-break.umd.js",
   "module": "dist/tiptap-extension-hard-break.esm.js",

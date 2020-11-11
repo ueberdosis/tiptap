@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/vue-starter-kit",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-vue-starter-kit.cjs.js",
   "umd": "dist/tiptap-vue-starter-kit.umd.js",
   "module": "dist/tiptap-vue-starter-kit.esm.js",

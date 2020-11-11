@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/extension-document",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-document.cjs.js",
   "umd": "dist/tiptap-extension-document.umd.js",
   "module": "dist/tiptap-extension-document.esm.js",

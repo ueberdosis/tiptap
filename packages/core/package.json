@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/core",
   "version": "2.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-core.cjs.js",
   "umd": "dist/tiptap-core.umd.js",
   "module": "dist/tiptap-core.esm.js",
@@ -22,8 +21,5 @@
     "prosemirror-tables": "^1.1.1",
     "prosemirror-utils": "^1.0.0-0",
     "prosemirror-view": "^1.16.1"
-  },
-  "scripts": {
-    "build": "microbundle"
   }
 }

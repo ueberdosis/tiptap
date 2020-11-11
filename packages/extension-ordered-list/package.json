@@ -1,7 +1,6 @@
 {
   "name": "@tiptap/extension-ordered-list",
   "version": "1.0.0",
-  "source": "index.ts",
   "main": "dist/tiptap-extension-ordered-list.cjs.js",
   "umd": "dist/tiptap-extension-ordered-list.umd.js",
   "module": "dist/tiptap-extension-ordered-list.esm.js",
