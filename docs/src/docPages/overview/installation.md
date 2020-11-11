@@ -49,6 +49,32 @@ Note that tiptap needs to run in the client, not on the server. It’s required 
 
 [Read more](https://nuxtjs.org/api/components-client-only)
 
+## Option 3: CDN
+
+To pull in tiptap for quick demos or just giving it a spin, grab the latest build via CDN:
+
+```html
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.example.com/tiptap-core.bundle.umd.min.js"></script>
+  <script src="https://cdn.example.com/tiptap-starter-kit.bundle.umd.min.js"></script>
+</head>
+<body>
+  <div class="element"></div>
+  <script>
+    const { Editor } = window['@tiptap/core']
+    const { defaultExtensions } = window['@tiptap/starter-kit']
+    const editor = new Editor({
+      element: document.querySelector('.element'),
+      extensions: defaultExtensions(),
+      content: '<p>Your content.</p>',
+    })
+  </script>
+</body>
+</html>
+```
+
 <!-- ## Option 3: CodeSandbox
 
 CodeSandbox is an online coding environment. It’s great to fiddle around without setting up a local project and to share your code with others.
