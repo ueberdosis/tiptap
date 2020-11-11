@@ -7,10 +7,10 @@ labels: bug
 assignees: ''
 ---
 
-**Describe the bug**
+**What happens?**
 A clear and concise description of what the bug is.
 
-**Steps to Reproduce / Codesandbox Example**
+**How can others reproduce the issue?**
 Steps to reproduce the behavior:
 1. Go to …
 2. Type in …
@@ -20,16 +20,16 @@ Steps to reproduce the behavior:
 Create a new Codesandbox replicating your error
 https://codesandbox.io/s/vue-issue-template-h0g28
 
-**Expected behavior**
+**What behavior did you expect?**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+**Do you have a screenshot?**
 If applicable, add screenshots to help explain your problem.
 
-**Environment**
+**What’s your environment?**
  - Operating system
  - Browser
  - Mobile/desktop
 
-**Additional context**
+**What else?**
 Add any other context about the problem here.
