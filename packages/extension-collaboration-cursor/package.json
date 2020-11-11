@@ -14,6 +14,6 @@
     "@tiptap/core": "2.x"
   },
   "dependencies": {
-    "y-prosemirror": "^0.3.7"
+    "y-prosemirror": "^1.0.0"
   }
 }
