@@ -107,11 +107,13 @@ async function build(commandLineArgs) {
             format: 'umd',
             sourcemap: true,
             globals: {
+              '@tiptap/core': '@tiptap/core',
               vue: 'Vue',
             },
           },
         ],
         external: [
+          '@tiptap/core',
           'vue',
         ],
         plugins: [
