@@ -148,6 +148,8 @@ jobs:
     - name: Try to build the packages
       id: build-packages
       run: yarn build:ci
+      env:
+        NODE_OPTIONS: --max_old_space_size=8192
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
