@@ -6,8 +6,10 @@ import { Command } from '../Editor'
 function defaultBlockAt(match: ContentMatch) {
   for (let i = 0; i < match.edgeCount; i + 1) {
     const { type } = match.edge(i)
-    // @ts-ignore
-    if (type.isTextblock && !type.hasRequiredAttrs()) return type
+
+    if (type.isTextblock && !type.hasRequiredAttrs()) {
+      return type
+    }
   }
   return null
 }
