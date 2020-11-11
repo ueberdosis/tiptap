@@ -38,7 +38,12 @@ const Heading = createNode({
   },
 
   renderHTML({ node, attributes }) {
-    return [`h${node.attrs.level}`, attributes, 0]
+    const hasLevel = this.options.levels.includes(node.attrs.level)
+    const level = hasLevel
+      ? node.attrs.level
+      : this.options.levels[0]
+
+    return [`h${level}`, attributes, 0]
   },
 
   addCommands() {
@@ -47,6 +52,10 @@ const Heading = createNode({
        * heading command
        */
       heading: (options: { level: Level }): Command => ({ commands }) => {
+        if (!this.options.levels.includes(options.level)) {
+          return false
+        }
+
         return commands.toggleBlockType('heading', 'paragraph', options)
       },
     }
