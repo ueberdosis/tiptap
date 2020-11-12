@@ -1,78 +1,4 @@
 <template>
-  <!-- <div class="app">
-    <header class="app__header">
-      <div class="app__header-inner">
-        <g-link class="app__logo" to="/">
-          {{ $static.metadata.siteName }}
-        </g-link>
-        <div>
-          <input class="search" type="search" placeholder="Search">
-          <a href="https://github.com/sponsors/ueberdosis">
-            Sponsor
-          </a>
-          <github-button
-            href="https://github.com/ueberdosis/tiptap"
-            data-show-count="true"
-            aria-label="Star ueberdosis/tiptap on GitHub"
-          />
-          <button
-            class="app__menu-icon"
-            @click="menuIsVisible = true"
-            v-if="!menuIsVisible"
-          >
-            <icon name="menu" />
-          </button>
-          <button
-            class="app__close-icon"
-            @click="menuIsVisible = false"
-            v-if="menuIsVisible"
-          >
-            <icon name="close" />
-          </button>
-        </div>
-      </div>
-    </header>
-    <div class="app__content">
-      <div class="app__sidebar-wrapper" :class="{ 'is-mobile-visible': menuIsVisible }">
-        <nav class="app__sidebar">
-          <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
-            <div class="app__link-group-title">
-              {{ linkGroup.title }}
-            </div>
-            <ul class="app__link-list">
-              <li v-for="(item, j) in linkGroup.items" :key="j">
-                <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true, 'app__link--with-children': item.items }" :to="item.link" :exact="item.link === '/'">
-                  {{ item.title }}
-                </g-link>
-
-                <ul v-if="item.items" class="app__link-list">
-                  <li v-for="(item, k) in item.items" :key="k">
-                    <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true }" :to="item.link" exact>
-                      {{ item.title }}
-                    </g-link>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-      <main class="app__main">
-        <slot />
-        <p>
-          <br>
-          <a :href="editLink" target="_blank">
-            <span>Edit this page on GitHub</span>
-          </a>
-        </p>
-        <p>
-          Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
-        </p>
-        <page-navigation />
-      </main>
-    </div>
-  </div> -->
-
   <div class="app">
     <div class="app__sidebar">
       <div class="app__title">
@@ -156,13 +82,35 @@
           </div>
           <ul class="app__link-list">
             <li v-for="(item, j) in linkGroup.items" :key="j">
-              <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true, 'app__link--premium': item.premium === true, 'app__link--with-children': item.items }" :to="item.link" :exact="item.link === '/'">
+              <g-link
+                :class="{
+                  'app__link': true,
+                  'app__link--exact': $router.currentRoute.path === item.link,
+                  'app__link--active': $router.currentRoute.path.startsWith(item.link),
+                  'app__link--draft': item.draft === true,
+                  'app__link--pro': item.pro === true,
+                  'app__link--new': item.new === true,
+                  'app__link--with-children': !!item.items
+                }"
+                :to="item.redirect || item.link"
+              >
                 {{ item.title }}
               </g-link>
 
               <ul v-if="item.items" class="app__link-list">
                 <li v-for="(item, k) in item.items" :key="k">
-                  <g-link :class="{ 'app__link': true, 'app__link--draft': item.draft === true, 'app__link--premium': item.premium === true }" :to="item.link" exact>
+                  <g-link
+                    :class="{
+                      'app__link': true,
+                      'app__link--exact': $router.currentRoute.path === item.link,
+                      'app__link--active': $router.currentRoute.path.startsWith(item.link),
+                      'app__link--draft': item.draft === true,
+                      'app__link--pro': item.pro === true,
+                      'app__link--new': item.new === true,
+                    }"
+                    :to="item.link"
+                    exact
+                  >
                     {{ item.title }}
                   </g-link>
                 </li>

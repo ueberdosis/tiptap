@@ -15,15 +15,15 @@ editor.bold()
 While that’s perfectly fine and does make the selected bold, you’d likely want to change multiple commands in one run. Let’s have a look at how that works.
 
 ### Chain commands
-Most commands can be executed combined to one call. First of all, that’s shorter than separate function call in most cases. Here is an example to make the selected text bold:
+Most commands can be combined to one call. That’s shorter than separate function calls in most cases. Here is an example to make the selected text bold:
 
 ```js
 editor.chain().bold().focus().run()
 ```
 
-The `.chain()` is required to start a new chain and the `.run()` is needed to actually execute all the commands in between. Between those two functions, this example combines to different commands.
+The `.chain()` is required to start a new chain and the `.run()` is needed to actually execute all the commands in between.
 
-When a user clicks on a button outside of the content, the editor isn’t in focus anymore. That’s why you probably want to add a `.focus()` call to most of your commands, that brings back the focus to the editor and the user can continue to type.
+In the example above two different commands are executed at once. When a user clicks on a button outside of the content, the editor isn’t in focus anymore. That’s why you probably want to add a `.focus()` call to most of your commands. It brings back the focus to the editor, so the user can continue to type.
 
 All chained commands are kind of queued up. They are combined to one single transaction. That means, the content is only updated once, also the `update` event is only triggered once.
 
