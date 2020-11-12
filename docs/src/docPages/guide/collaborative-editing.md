@@ -1,7 +1,7 @@
 # Collaborative editing
 
-:::premium Requires Premium Extensions
-Using the collaborative editing in production requires a **tiptap pro** license. [Read more](/sponsor)
+:::premium Requires Pro Extensions
+We kindly ask you to sponsor us, before using this example in production. [Read more](/sponsor)
 :::
 
 ## toc

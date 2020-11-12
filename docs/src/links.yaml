@@ -34,7 +34,7 @@
         - title: Full Editor
           link: /examples/full-editor
           draft: true
-    - title: Feedback
+    - title: Share feedback
       link: /overview/feedback
 
 - title: Guide
@@ -152,7 +152,7 @@
       link: /api/events
     - title: Schema
       link: /api/schema
-      draft: true
+      new: true
     - title: Keyboard Shortcuts
       link: /api/keyboard-shortcuts
 

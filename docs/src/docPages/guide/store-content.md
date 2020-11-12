@@ -92,7 +92,7 @@ That said, tiptap **does** support Markdown shortcuts to format your content. Tr
 ## Generate HTML from ProseMirror JSON
 If you need to render the content on the server side, for example to render a blog post which was written with tiptap, you’ll probably need a way to do just that without an actual editor instance.
 
-That’s what `generateHTML()` is for. It’s a utility function that renders HTML without an actual editor instance.
+That’s what `generateHTML()` is for. It’s a utility function that renders HTML without an actual editor instance. As an easy alternative, you can also use tiptap in a [read-only mode](/examples/read-only).
 
 :::info Browser-only rendering
 Import a lightweight implementation from `@tiptap/core` if you’re using the function in a browser context only.

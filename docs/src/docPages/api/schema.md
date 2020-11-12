@@ -150,7 +150,7 @@ createNode({
 ```
 
 #### Selectable
-> Controls whether nodes of this type can be selected as a node selection. Defaults to true for non-text nodes.
+Besides the already visible text selection, there is an invisible node selection. If you want to make your nodes selectable, you can configure it like this:
 
 ```js
 createNode({
@@ -177,7 +177,9 @@ createNode({
 ```
 
 #### Defining
-> Determines whether this node is considered an important parent node during replace operations (such as paste). Non-defining (the default) nodes get dropped when their entire content is replaced, whereas defining nodes persist and wrap the inserted content. Likewise, in inserted content the defining parents of the content are preserved when possible. Typically, non-default-paragraph textblock types, and possibly list items, are marked as defining.
+Nodes get dropped when their entire content is replaced (for example, when pasting new content) by default. If a node should be kept for such replace operations, configure them as `defining`.
+
+Typically, that applies to [`Blockquote`](/api/extensions/blockquote), [`CodeBlock`](/api/extensions/code-block), [`Heading`](/api/extensions/heading), and [`ListItem`](/api/extensions/list-item).
 
 ```js
 createNode({
