@@ -354,6 +354,9 @@ const CustomLink = Link.extend({
 ```
 
 ## Start from scratch
+You can also build your own extensions from scratch with the `createNode()`, `createMark()`, and `createExtension()` functions. Pass an option with your code and configuration.
+
+And if everything is working fine, don’t forget to [share it with the community](https://github.com/ueberdosis/tiptap-next/issues/new/choose).
 
 ### Create a node
 ```js

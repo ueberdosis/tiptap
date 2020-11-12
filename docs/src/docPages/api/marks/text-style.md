@@ -10,6 +10,11 @@ npm install @tiptap/extension-text-style
 yarn add @tiptap/extension-text-style
 ```
 
+## Commands
+| Command              | Parameters | Description                                   |
+| -------------------- | ---------- | --------------------------------------------- |
+| removeEmptyTextStyle | –          | Remove `<span>` tags without an inline style. |
+
 ## Source code
 [packages/extension-text-style/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-style/)
 
