@@ -25,7 +25,6 @@
           draft: true
         - title: Todo App
           link: /examples/todo-app
-          new: true
         - title: Read-only
           link: /examples/read-only
         - title: Minimalist
@@ -159,15 +158,15 @@
 
 - title: Sponsoring
   items:
-    - title: Monthly reports
-      link: /open
-      redirect: /open/2020-10
+    - title: Monthly updates
+      link: /updates
+      redirect: /updates/2020-10
       items:
         - title: October 2020
-          link: /open/2020-10
+          link: /updates/2020-10
         - title: September 2020
-          link: /open/2020-09
+          link: /updates/2020-09
         - title: August 2020
-          link: /open/2020-08
+          link: /updates/2020-08
     - title: Become a sponsor
       link: /sponsor
