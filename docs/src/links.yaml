@@ -6,11 +6,11 @@
       link: /overview/installation
     - title: Upgrade Guide
       link: /overview/upgrade-guide
-      draft: true
     - title: Contributing
       link: /overview/contributing
     - title: Examples
       link: /examples
+      redirect: /examples/basic
       items:
         - title: Basic
           link: /examples/basic
@@ -25,12 +25,16 @@
           draft: true
         - title: Todo App
           link: /examples/todo-app
+          new: true
         - title: Read-only
           link: /examples/read-only
         - title: Minimalist
           link: /examples/minimalist
         - title: Export HTML or JSON
           link: /examples/export-html-or-json
+        - title: Full Editor
+          link: /examples/full-editor
+          draft: true
     - title: Feedback
       link: /overview/feedback
 
@@ -54,7 +58,7 @@
     - title: Collaborative editing
       link: /guide/collaborative-editing
       draft: true
-      premium: true
+      pro: true
     - title: Advanced node views
       link: /guide/advanced-node-views
       draft: true
@@ -124,10 +128,10 @@
       items:
         - title: Collaboration
           link: /api/extensions/collaboration
-          premium: true
+          pro: true
         - title: CollaborationCursor
           link: /api/extensions/collaboration-cursor
-          premium: true
+          pro: true
         - title: Dropcursor
           link: /api/extensions/dropcursor
         - title: Focus
@@ -157,5 +161,13 @@
   items:
     - title: Monthly reports
       link: /open
+      redirect: /open/2020-10
+      items:
+        - title: October 2020
+          link: /open/2020-10
+        - title: September 2020
+          link: /open/2020-09
+        - title: August 2020
+          link: /open/2020-08
     - title: Become a sponsor
       link: /sponsor

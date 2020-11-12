@@ -195,7 +195,7 @@ $menuBreakPoint: 800px;
     display: block;
   }
 
-  .active + &__link-list {
+  .app__link--active + &__link-list {
     display: block;
   }
 
@@ -212,7 +212,7 @@ $menuBreakPoint: 800px;
       color: $colorWhite;
     }
 
-    &.active--exact {
+    &--exact {
       color: $colorWhite;
       background-color: rgba($colorWhite, 0.05);
     }
@@ -231,13 +231,25 @@ $menuBreakPoint: 800px;
       }
     }
 
-    &--premium {
+    &--pro {
       &::after {
         content: 'PRO';
         font-family: 'JetBrainsMono', monospace;
         text-transform: uppercase;
         color: $colorOrange;
         background-color: rgba($colorOrange, 0.1);
+        padding: 0 0.5em;
+        border-radius: 5px;
+      }
+    }
+
+    &--new {
+      &::after {
+        content: 'NEW';
+        font-family: 'JetBrainsMono', monospace;
+        text-transform: uppercase;
+        color: $colorGreen;
+        background-color: rgba($colorGreen, 0.1);
         padding: 0 0.5em;
         border-radius: 5px;
       }

@@ -15,7 +15,9 @@ Yes, it’s tedious work to upgrade your favorite text editor to a new API, but 
 The new API will look pretty familiar too you, but there are a ton of changes though. To make the upgrade a little bit easier, here is everything you need to know:
 
 ### Upgrade to Vue.js 3
-…
+:::warning Work in progress
+We’re waiting for Gridsome to be compatible with Vue.js 3.
+:::
 
 ### Explicitly register the Document, Text and Paragraph extensions
 tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [Document](/api/nodes/document), [Paragraph](/api/nodes/paragraph) and [Text](/api/nodes/text) extensions.
@@ -71,7 +73,7 @@ const CustomExtension = createNode({
 })
 ```
 
-Don’t forget to call `create()` in the end! Read more about [all the nifty details building custom extensions](/guide/build-custom-extensions) in our guide.
+Read more about [all the nifty details building custom extensions](/guide/build-custom-extensions) in our guide.
 
 ### Renamed API methods
 [We renamed a lot of commands](/api/commands), hopefully you can migrate to the new API with search & replace. Here is a list of what changed:
@@ -81,12 +83,29 @@ Don’t forget to call `create()` in the end! Read more about [all the nifty det
 | ~~`…`~~         | `…`             |
 
 ### Commands can be chained now
+Most commands can be combined to one call now. That’s shorter than separate function calls in most cases. Here is an example to make the selected text bold:
 
-…
+```js
+editor.chain().bold().focus().run()
+```
+
+The `.chain()` is required to start a new chain and the `.run()` is needed to actually execute all the commands in between. Read more about [the new tiptap commands](/api/commands) in our API documentation.
 
 ### .focus() isn’t called on every command anymore
-We tried to hide the `.focus()` command from you with tiptap 1 and executed that on every other command. That led to issues in specific use cases, where you want to run a command, but don’t want to focus the editor. With tiptap 2.x you have to explicitly call the `focus()` and you probably want to do that in a lot of places. Here is an example:
+We tried to hide the `.focus()` command from you with tiptap 1 and executed that on every command. That led to issues in specific use cases, where you want to run a command, but don’t want to focus the editor.
+
+With tiptap 2.x you have to explicitly call the `focus()` and you probably want to do that in a lot of places. Here is an example:
 
 ```js
 editor.chain().focus().bold().run()
 ```
+
+### Collaborative editing
+The reference implementation for collaborative editing uses Y.js now. That’s a whole different thing. You still can use the tiptap 1 extension, but it’s up to you to adapt it to the new extension API. If you’ve done this, don’t forget to share it with us so we can link to it from here!
+
+Read more about [the new collaborative editing experience](/guide/collaborative-editing) in our guide.
+
+### Become a sponsor
+tiptap wouldn’t exist without the funding of its community. If you fell in love with tiptap, don’t forget to [become a sponsor](/sponsor) and make the [maintenance, development and support](/open) sustainable.
+
+In exchange, we’ll take you into our hearts, invite you to private repositories, add a `sponsor 💖` label to your issues and pull requests and more.
