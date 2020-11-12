@@ -299,11 +299,19 @@ const CustomBulletList = BulletList.extend({
 ```
 
 ### Input rules
+With input rules you can define regular expressions to listen for user inputs. They are used for markdown shortcuts, or for example to convert text like `(c)` to a `©` (and many more) with the [`Typography`](/api/extensions/typography) extension. Use the `markInputRule` helper function for marks, and the `nodeInputRule` for nodes.
+
+By default text between two tildes on both sides is transformed to ~~striked text~~. If you want to think one tilde on each side is enough, you can overwrite the input rule like this:
+
 ```js
 // Use the ~single tilde~ markdown shortcut
 import Strike from '@tiptap/extension-strike'
 import { markInputRule } from '@tiptap/core'
 
+// Default:
+// const inputRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))$/gm
+
+// New:
 const inputRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))$/gm
 
 const CustomStrike = Strike.extend({
@@ -316,25 +324,39 @@ const CustomStrike = Strike.extend({
 ```
 
 ### Paste rules
+Paste rules work like input rules (see above) do. But instead of listening to what the user types, they are applied to pasted content.
+
+There is one tiny difference in the regular expression. Input rules typically end with a `$` dollar sign (which means “asserts position at the end of a line”), paste rules typically look through all the content and don’t have said `$` dollar sign.
+
+Taking the example from above and applying it to the paste rule would look like the following example.
+
 ```js
-// Overwrite the underline regex for pasted text
-import Underline from '@tiptap/extension-underline'
+// Check pasted content for the ~single tilde~ markdown syntax
+import Strike from '@tiptap/extension-strike'
 import { markPasteRule } from '@tiptap/core'
 
-const pasteRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))$/gm
+// Default:
+// const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/gm
 
-const CustomUnderline = Underline.extend({
+// New:
+const pasteRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))/gm
+
+const CustomStrike = Strike.extend({
   addPasteRules() {
     return [
-      markPasteRule(inputRegex, this.type),
+      markPasteRule(pasteRegex, this.type),
     ]
   },
 })
 ```
 
 ### Node views (Advanced)
+For advanced use cases, where you need to execute JavaScript inside your nodes, for example to render a sophisticated link preview, you need to learn about node views.
+
+They are really powerful, but also complex. In a nutshell, you need to return a parent DOM element, and a DOM element where the content should be rendered in. Look at the following, simplified example:
+
 ```js
-import Link from '@tiptap/extension-underline'
+import Link from '@tiptap/extension-link'
 
 const CustomLink = Link.extend({
   addNodeView() {
@@ -345,13 +367,19 @@ const CustomLink = Link.extend({
         alert('clicked on the container')
       })
 
+      const content = document.createElement('div')
+      container.append(content)
+
       return {
         dom: container,
+        contentDOM: content,
       }
     }
   },
 })
 ```
+
+There is a whole lot to learn about node views, so head over to the [dedicated section in our guide about node views](/guide/advanced-node-views) for more information. If you’re looking for a real-world example, look at the source code of the [`TaskItem`](/api/nodes/task-item) node. This is using a node view to render the checkboxes.
 
 ## Start from scratch
 You can also build your own extensions from scratch with the `createNode()`, `createMark()`, and `createExtension()` functions. Pass an option with your code and configuration.
