@@ -1,6 +1,6 @@
 <template>
   <div>
-    <full-editor v-model="content" />
+    <full-editor v-model="content" :extensions="extensions" />
     <div>
       {{ content }}
     </div>
@@ -9,6 +9,7 @@
 
 <script>
 import { FullEditor } from '@tiptap/vue'
+import { defaultExtensions } from '@tiptap/starter-kit'
 
 export default {
   components: {
@@ -18,6 +19,7 @@ export default {
   data() {
     return {
       content: '<p>full editor</p>',
+      extensions: defaultExtensions(),
     }
   },
 }
