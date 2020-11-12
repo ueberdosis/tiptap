@@ -6,7 +6,6 @@
 
 <script>
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
 import EditorContent from './EditorContent.ts'
 
 export default {
@@ -19,6 +18,12 @@ export default {
       type: [String, Object],
       default: '',
     },
+
+    extensions: {
+      type: Array,
+      required: true,
+      default: () => [],
+    },
   },
 
   data() {
@@ -29,7 +34,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: defaultExtensions(),
+      extensions: this.extensions,
       content: this.value,
     })
 
