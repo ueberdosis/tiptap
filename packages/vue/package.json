@@ -15,6 +15,7 @@
     "vue": "2.x"
   },
   "dependencies": {
-    "prosemirror-view": "^1.16.1"
+    "prosemirror-view": "^1.16.1",
+    "@tiptap/starter-kit": "1.x"
   }
 }

@@ -12,5 +12,8 @@
   ],
   "peerDependencies": {
     "@tiptap/core": "2.x"
+  },
+  "dependencies": {
+    "prosemirror-state": "^1.3.3"
   }
 }
