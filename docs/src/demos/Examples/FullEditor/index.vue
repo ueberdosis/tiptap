@@ -17,7 +17,7 @@ export default {
 
   data() {
     return {
-      content: '<p>full editor</p>',
+      content: '<p>A Vue.js wrapper component for tiptap to use <code>v-model</code>.</p>',
     }
   },
 }
