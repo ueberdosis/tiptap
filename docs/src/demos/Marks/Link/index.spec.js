@@ -57,6 +57,8 @@ context('/api/marks/link', () => {
     'https://www.example.com/with-multiple-parameters?var=true&foo=bar',
     'https://www.example.com/with-spaces?var=true&foo=bar+3',
     // TODO: 'https://www.example.com/with,comma',
+    // TODO: 'https://www.example.com/with(brackets)',
+    // TODO: 'https://www.example.com/with!exclamation!marks',
     'http://thelongestdomainnameintheworldandthensomeandthensomemoreandmore.com/',
     'https://example.longtopleveldomain',
     'https://example-with-dashes.com',
