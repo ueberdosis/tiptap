@@ -5,7 +5,7 @@
   "umd": "dist/tiptap-vue-starter-kit.umd.js",
   "module": "dist/tiptap-vue-starter-kit.esm.js",
   "unpkg": "dist/tiptap-vue-starter-kit.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/vue-starter-kit/src/index.d.ts",
   "files": [
     "src",
     "dist"

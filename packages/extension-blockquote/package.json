@@ -5,7 +5,7 @@
   "umd": "dist/tiptap-extension-blockquote.umd.js",
   "module": "dist/tiptap-extension-blockquote.esm.js",
   "unpkg": "dist/tiptap-extension-blockquote.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/extension-blockquote/src/index.d.ts",
   "files": [
     "src",
     "dist"

@@ -5,7 +5,7 @@
   "umd": "dist/tiptap-extension-typography.umd.js",
   "module": "dist/tiptap-extension-typography.esm.js",
   "unpkg": "dist/tiptap-extension-typography.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/extension-typography/src/index.d.ts",
   "files": [
     "src",
     "dist"

@@ -5,7 +5,7 @@
   "umd": "dist/tiptap-extension-dropcursor.umd.js",
   "module": "dist/tiptap-extension-dropcursor.esm.js",
   "unpkg": "dist/tiptap-extension-dropcursor.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/extension-dropcursor/src/index.d.ts",
   "files": [
     "src",
     "dist"

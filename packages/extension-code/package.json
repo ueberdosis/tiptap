@@ -5,7 +5,7 @@
   "umd": "dist/tiptap-extension-code.umd.js",
   "module": "dist/tiptap-extension-code.esm.js",
   "unpkg": "dist/tiptap-extension-code.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/extension-code/src/index.d.ts",
   "files": [
     "src",
     "dist"

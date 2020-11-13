@@ -5,7 +5,7 @@
   "umd": "dist/tiptap-extension-paragraph.umd.js",
   "module": "dist/tiptap-extension-paragraph.esm.js",
   "unpkg": "dist/tiptap-extension-paragraph.bundle.umd.min.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/extension-paragraph/src/index.d.ts",
   "files": [
     "src",
     "dist"
