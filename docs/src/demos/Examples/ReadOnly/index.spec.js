@@ -7,7 +7,7 @@ context('/examples/read-only', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       cy.get('#editable').uncheck()
 
-      editor.insertText('Edited: ')
+      editor.commands.insertText('Edited: ')
 
       cy.get('.ProseMirror p:first').should('not.contain', 'Edited: ')
     })
@@ -17,7 +17,7 @@ context('/examples/read-only', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       cy.get('#editable').check()
 
-      editor.insertText('Edited: ')
+      editor.commands.insertText('Edited: ')
 
       cy.get('.ProseMirror p:first').should('contain', 'Edited: ')
     })

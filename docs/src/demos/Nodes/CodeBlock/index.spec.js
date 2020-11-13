@@ -5,21 +5,21 @@ context('/api/nodes/code-block', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
-      editor.selectAll()
+      editor.commands.setContent('<p>Example Text</p>')
+      editor.commands.selectAll()
     })
   })
 
   it('should parse code blocks correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<pre><code>Example Text</code></pre>')
+      editor.commands.setContent('<pre><code>Example Text</code></pre>')
       expect(editor.getHTML()).to.eq('<pre><code>Example Text</code></pre>')
     })
   })
 
   it('should parse code blocks with language correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<pre><code class="language-css">Example Text</code></pre>')
+      editor.commands.setContent('<pre><code class="language-css">Example Text</code></pre>')
       expect(editor.getHTML()).to.eq('<pre><code class="language-css">Example Text</code></pre>')
     })
   })
@@ -74,7 +74,7 @@ context('/api/nodes/code-block', () => {
 
   it('should parse the language from a HTML code block', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<pre><code class="language-css">body { display: none; }</code></pre>')
+      editor.commands.setContent('<pre><code class="language-css">body { display: none; }</code></pre>')
 
       cy.get('.ProseMirror')
         .find('pre>code.language-css')
@@ -84,7 +84,7 @@ context('/api/nodes/code-block', () => {
 
   it('should make a code block from backtick markdown shortcuts', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
 
       cy.get('.ProseMirror')
         .type('``` Code')
@@ -95,7 +95,7 @@ context('/api/nodes/code-block', () => {
 
   it('should make a code block from tilde markdown shortcuts', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
 
       cy.get('.ProseMirror')
         .type('~~~ Code')
@@ -106,7 +106,7 @@ context('/api/nodes/code-block', () => {
 
   it('should make a code block for js with backticks', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
 
       cy.get('.ProseMirror')
         .type('```js Code')
@@ -117,7 +117,7 @@ context('/api/nodes/code-block', () => {
 
   it('should make a code block for js with tildes', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
 
       cy.get('.ProseMirror')
         .type('~~~js Code')

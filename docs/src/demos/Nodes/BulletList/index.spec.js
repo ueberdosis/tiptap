@@ -5,21 +5,21 @@ context('/api/nodes/bullet-list', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
-      editor.selectAll()
+      editor.commands.setContent('<p>Example Text</p>')
+      editor.commands.selectAll()
     })
   })
 
   it('should parse unordered lists correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<ul><li><p>Example Text</p></li></ul>')
+      editor.commands.setContent('<ul><li><p>Example Text</p></li></ul>')
       expect(editor.getHTML()).to.eq('<ul><li><p>Example Text</p></li></ul>')
     })
   })
 
   it('should parse unordered lists without paragraphs correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<ul><li>Example Text</li></ul>')
+      editor.commands.setContent('<ul><li>Example Text</li></ul>')
       expect(editor.getHTML()).to.eq('<ul><li><p>Example Text</p></li></ul>')
     })
   })
@@ -63,7 +63,7 @@ context('/api/nodes/bullet-list', () => {
 
   it('should leave the list with double enter', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
 
     cy.get('.ProseMirror')
@@ -81,7 +81,7 @@ context('/api/nodes/bullet-list', () => {
 
   it('should make a bullet list from an asterisk', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
 
     cy.get('.ProseMirror')
@@ -98,7 +98,7 @@ context('/api/nodes/bullet-list', () => {
 
   it('should make a bullet list from a dash', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
 
     cy.get('.ProseMirror')
@@ -115,7 +115,7 @@ context('/api/nodes/bullet-list', () => {
 
   it('should make a bullet list from a plus', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
 
     cy.get('.ProseMirror')
@@ -132,7 +132,7 @@ context('/api/nodes/bullet-list', () => {
 
   it('should remove the bullet list after pressing backspace', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
 
     cy.get('.ProseMirror')

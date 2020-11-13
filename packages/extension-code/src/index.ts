@@ -33,7 +33,7 @@ const Code = createMark({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-`': () => this.editor.code(),
+      'Mod-`': () => this.editor.commands.code(),
     }
   },
 

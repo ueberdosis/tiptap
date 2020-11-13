@@ -5,7 +5,7 @@ context('/examples/export-html-or-json', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
+      editor.commands.setContent('<p>Example Text</p>')
     })
   })
 

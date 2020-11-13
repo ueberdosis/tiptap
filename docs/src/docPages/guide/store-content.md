@@ -73,7 +73,7 @@ new Editor({
 
 Or if you want to restore the content later (e. g. after an API call has finished), you can do that too:
 ```js
-editor.setContent(`<p>Example Text</p>`)
+editor.commands.setContent(`<p>Example Text</p>`)
 ```
 
 ## Not an option: Markdown

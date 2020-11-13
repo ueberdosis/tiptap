@@ -5,8 +5,8 @@ context('/api/nodes/heading', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
-      editor.selectAll()
+      editor.commands.setContent('<p>Example Text</p>')
+      editor.commands.selectAll()
     })
   })
 
@@ -19,7 +19,7 @@ context('/api/nodes/heading', () => {
   headings.forEach(html => {
     it(`should parse headings correctly (${html})`, () => {
       cy.get('.ProseMirror').then(([{ editor }]) => {
-        editor.setContent(html)
+        editor.commands.setContent(html)
         expect(editor.getHTML()).to.eq(html)
       })
     })
@@ -27,7 +27,7 @@ context('/api/nodes/heading', () => {
 
   it('should omit disabled heading levels', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<h4>Example Text</h4>')
+      editor.commands.setContent('<h4>Example Text</h4>')
       expect(editor.getHTML()).to.eq('<p>Example Text</p>')
     })
   })
@@ -88,7 +88,7 @@ context('/api/nodes/heading', () => {
 
   it('should make a heading from the default markdown shortcut', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
 
     cy.get('.ProseMirror')

@@ -24,7 +24,7 @@ context('/api/marks/highlight', () => {
 
   it('should highlight the text in a specific color', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.highlight({ color: 'red' })
+      editor.commands.highlight({ color: 'red' })
 
       cy.get('.ProseMirror')
         .find('mark')

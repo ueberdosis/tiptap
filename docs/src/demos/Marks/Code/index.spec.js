@@ -5,17 +5,17 @@ context('/api/marks/code', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
-      editor.selectAll()
+      editor.commands.setContent('<p>Example Text</p>')
+      editor.commands.selectAll()
     })
   })
 
   it('should parse code tags correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><code>Example Text</code></p>')
+      editor.commands.setContent('<p><code>Example Text</code></p>')
       expect(editor.getHTML()).to.eq('<p><code>Example Text</code></p>')
 
-      editor.setContent('<code>Example Text</code>')
+      editor.commands.setContent('<code>Example Text</code>')
       expect(editor.getHTML()).to.eq('<p><code>Example Text</code></p>')
     })
   })

@@ -5,37 +5,37 @@ context('/api/marks/bold', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
-      editor.selectAll()
+      editor.commands.setContent('<p>Example Text</p>')
+      editor.commands.selectAll()
     })
   })
 
   it('should transform b tags to strong tags', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><b>Example Text</b></p>')
+      editor.commands.setContent('<p><b>Example Text</b></p>')
       expect(editor.getHTML()).to.eq('<p><strong>Example Text</strong></p>')
     })
   })
 
   it('sould omit b tags with normal font weight inline style', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><b style="font-weight: normal">Example Text</b></p>')
+      editor.commands.setContent('<p><b style="font-weight: normal">Example Text</b></p>')
       expect(editor.getHTML()).to.eq('<p>Example Text</p>')
     })
   })
 
   it('should transform any tag with bold inline style to strong tags', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><span style="font-weight: bold">Example Text</span></p>')
+      editor.commands.setContent('<p><span style="font-weight: bold">Example Text</span></p>')
       expect(editor.getHTML()).to.eq('<p><strong>Example Text</strong></p>')
 
-      editor.setContent('<p><span style="font-weight: bolder">Example Text</span></p>')
+      editor.commands.setContent('<p><span style="font-weight: bolder">Example Text</span></p>')
       expect(editor.getHTML()).to.eq('<p><strong>Example Text</strong></p>')
 
-      editor.setContent('<p><span style="font-weight: 500">Example Text</span></p>')
+      editor.commands.setContent('<p><span style="font-weight: 500">Example Text</span></p>')
       expect(editor.getHTML()).to.eq('<p><strong>Example Text</strong></p>')
 
-      editor.setContent('<p><span style="font-weight: 900">Example Text</span></p>')
+      editor.commands.setContent('<p><span style="font-weight: 900">Example Text</span></p>')
       expect(editor.getHTML()).to.eq('<p><strong>Example Text</strong></p>')
     })
   })

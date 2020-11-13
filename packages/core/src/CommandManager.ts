@@ -1,6 +1,9 @@
 import { EditorState, Transaction } from 'prosemirror-state'
 import {
-  SingleCommands, ChainedCommands, Editor, CommandSpec,
+  SingleCommands,
+  ChainedCommands,
+  Editor,
+  CommandSpec,
 } from './Editor'
 import getAllMethodNames from './utils/getAllMethodNames'
 
@@ -37,26 +40,25 @@ export default class CommandManager {
     return this.editor
   }
 
-  public runSingleCommand(name: string) {
+  public createCommands() {
     const { commands, editor } = this
     const { state, view } = editor
-    const command = commands[name]
 
-    if (!command) {
-      // TODO: prevent vue devtools to throw error
-      // throw new Error(`tiptap: command '${name}' not found.`)
-      return
-    }
+    return Object.fromEntries(Object
+      .entries(commands)
+      .map(([name, command]) => {
+        const method = (...args: any) => {
+          const { tr } = state
+          const props = this.buildProps(tr)
+          const callback = command(...args)(props)
 
-    return (...args: any) => {
-      const { tr } = state
-      const props = this.buildProps(tr)
-      const callback = command(...args)(props)
+          view.dispatch(tr)
 
-      view.dispatch(tr)
+          return callback
+        }
 
-      return callback
-    }
+        return [name, method]
+      })) as SingleCommands
   }
 
   public createChain(startTr?: Transaction, shouldDispatch = true) {
@@ -64,11 +66,7 @@ export default class CommandManager {
     const { state, view } = editor
     const callbacks: boolean[] = []
     const hasStartTransaction = !!startTr
-    const tr = hasStartTransaction ? startTr : state.tr
-
-    if (!tr) {
-      return
-    }
+    const tr = startTr || state.tr
 
     return new Proxy({}, {
       get: (_, name: string, proxy) => {
@@ -101,13 +99,7 @@ export default class CommandManager {
     const { commands, editor } = this
     const { state } = editor
     const dispatch = false
-    const hasStartTransaction = !!startTr
-    const tr = hasStartTransaction ? startTr : state.tr
-
-    if (!tr) {
-      return
-    }
-
+    const tr = startTr || state.tr
     const props = this.buildProps(tr, dispatch)
     const formattedCommands = Object.fromEntries(Object
       .entries(commands)

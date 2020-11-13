@@ -52,13 +52,13 @@ const TextAlign = createExtension({
       // TODO: re-use only 'textAlign' attribute
       // TODO: use custom splitBlock only for `this.options.types`
       // TODO: use complete default enter handler (chainCommand) with custom splitBlock
-      Enter: () => this.editor.splitBlock({
+      Enter: () => this.editor.commands.splitBlock({
         withAttributes: true,
       }),
-      'Ctrl-Shift-l': () => this.editor.textAlign('left'),
-      'Ctrl-Shift-e': () => this.editor.textAlign('center'),
-      'Ctrl-Shift-r': () => this.editor.textAlign('right'),
-      'Ctrl-Shift-j': () => this.editor.textAlign('justify'),
+      'Ctrl-Shift-l': () => this.editor.commands.textAlign('left'),
+      'Ctrl-Shift-e': () => this.editor.commands.textAlign('center'),
+      'Ctrl-Shift-r': () => this.editor.commands.textAlign('right'),
+      'Ctrl-Shift-j': () => this.editor.commands.textAlign('justify'),
     }
   },
 })

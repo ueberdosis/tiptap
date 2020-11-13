@@ -65,7 +65,7 @@ const Heading = createNode({
     return this.options.levels.reduce((items, level) => ({
       ...items,
       ...{
-        [`Mod-Alt-${level}`]: () => this.editor.setBlockType('heading', { level }),
+        [`Mod-Alt-${level}`]: () => this.editor.commands.setBlockType('heading', { level }),
       },
     }), {})
   },

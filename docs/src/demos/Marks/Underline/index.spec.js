@@ -5,21 +5,21 @@ context('/api/marks/underline', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
-      editor.selectAll()
+      editor.commands.setContent('<p>Example Text</p>')
+      editor.commands.selectAll()
     })
   })
 
   it('should parse u tags correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><u>Example Text</u></p>')
+      editor.commands.setContent('<p><u>Example Text</u></p>')
       expect(editor.getHTML()).to.eq('<p><u>Example Text</u></p>')
     })
   })
 
   it('should transform any tag with text decoration underline to u tags', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p><span style="text-decoration: underline">Example Text</span></p>')
+      editor.commands.setContent('<p><span style="text-decoration: underline">Example Text</span></p>')
       expect(editor.getHTML()).to.eq('<p><u>Example Text</u></p>')
     })
   })

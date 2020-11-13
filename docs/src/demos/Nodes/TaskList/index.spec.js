@@ -5,21 +5,21 @@ context('/api/nodes/task-list', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
-      editor.selectAll()
+      editor.commands.setContent('<p>Example Text</p>')
+      editor.commands.selectAll()
     })
   })
 
   it('should parse unordered lists correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<ul data-type="task_list"><li data-checked="true" data-type="taskItem"><p>Example Text</p></li></ul>')
+      editor.commands.setContent('<ul data-type="task_list"><li data-checked="true" data-type="taskItem"><p>Example Text</p></li></ul>')
       expect(editor.getHTML()).to.eq('<ul data-type="task_list"><li data-checked="true" data-type="taskItem"><p>Example Text</p></li></ul>')
     })
   })
 
   it('should parse unordered lists without paragraphs correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<ul data-type="task_list"><li data-checked="false" data-type="taskItem">Example Text</li></ul>')
+      editor.commands.setContent('<ul data-type="task_list"><li data-checked="false" data-type="taskItem">Example Text</li></ul>')
       expect(editor.getHTML()).to.eq('<ul data-type="task_list"><li data-checked="false" data-type="taskItem"><p>Example Text</p></li></ul>')
     })
   })
@@ -63,7 +63,7 @@ context('/api/nodes/task-list', () => {
 
   it('should leave the list with double enter', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
 
     cy.get('.ProseMirror')
@@ -81,7 +81,7 @@ context('/api/nodes/task-list', () => {
 
   it('should make a task list from square brackets', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
 
     cy.get('.ProseMirror')
@@ -100,7 +100,7 @@ context('/api/nodes/task-list', () => {
 
   it.only('should make a task list from checked square brackets', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
 
     cy.get('.ProseMirror')

@@ -5,34 +5,34 @@ context('/api/extensions/text-align', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
+      editor.commands.setContent('<p>Example Text</p>')
     })
   })
 
   it('should parse left align text correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p style="text-align: left">Example Text</p>')
+      editor.commands.setContent('<p style="text-align: left">Example Text</p>')
       expect(editor.getHTML()).to.eq('<p style="text-align: left">Example Text</p>')
     })
   })
 
   it('should parse center align text correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p style="text-align: center">Example Text</p>')
+      editor.commands.setContent('<p style="text-align: center">Example Text</p>')
       expect(editor.getHTML()).to.eq('<p style="text-align: center">Example Text</p>')
     })
   })
 
   it('should parse right align text correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p style="text-align: right">Example Text</p>')
+      editor.commands.setContent('<p style="text-align: right">Example Text</p>')
       expect(editor.getHTML()).to.eq('<p style="text-align: right">Example Text</p>')
     })
   })
 
   it('should parse left justify text correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p style="text-align: justify">Example Text</p>')
+      editor.commands.setContent('<p style="text-align: justify">Example Text</p>')
       expect(editor.getHTML()).to.eq('<p style="text-align: justify">Example Text</p>')
     })
   })

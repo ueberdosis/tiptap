@@ -5,7 +5,7 @@ context('/api/extensions/typography', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
   })
 
