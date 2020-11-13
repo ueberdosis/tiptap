@@ -5,7 +5,7 @@ context('/api/nodes/text', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
   })
 

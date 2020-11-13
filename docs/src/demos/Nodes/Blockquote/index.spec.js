@@ -5,21 +5,21 @@ context('/api/nodes/blockquote', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
-      editor.selectAll()
+      editor.commands.setContent('<p>Example Text</p>')
+      editor.commands.selectAll()
     })
   })
 
   it('should parse blockquote tags correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<blockquote><p>Example Text</p></blockquote>')
+      editor.commands.setContent('<blockquote><p>Example Text</p></blockquote>')
       expect(editor.getHTML()).to.eq('<blockquote><p>Example Text</p></blockquote>')
     })
   })
 
   it('should parse blockquote tags without paragraphs correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<blockquote>Example Text</blockquote>')
+      editor.commands.setContent('<blockquote>Example Text</blockquote>')
       expect(editor.getHTML()).to.eq('<blockquote><p>Example Text</p></blockquote>')
     })
   })
@@ -38,8 +38,8 @@ context('/api/nodes/blockquote', () => {
 
   it('the button should wrap all nodes in one blockquote', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p><p>Example Text</p>')
-      editor.selectAll()
+      editor.commands.setContent('<p>Example Text</p><p>Example Text</p>')
+      editor.commands.selectAll()
     })
 
     cy.get('.demo__preview button:first')

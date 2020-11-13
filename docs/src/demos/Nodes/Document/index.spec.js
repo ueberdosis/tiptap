@@ -5,7 +5,7 @@ context('/api/nodes/document', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p></p>')
+      editor.commands.setContent('<p></p>')
     })
   })
 

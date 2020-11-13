@@ -5,19 +5,19 @@ context('/api/nodes/paragraph', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.clearContent()
+      editor.commands.clearContent()
     })
   })
 
   it('should parse paragraphs correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.setContent('<p>Example Text</p>')
+      editor.commands.setContent('<p>Example Text</p>')
       expect(editor.getHTML()).to.eq('<p>Example Text</p>')
 
-      editor.setContent('<p><x-unknown>Example Text</x-unknown></p>')
+      editor.commands.setContent('<p><x-unknown>Example Text</x-unknown></p>')
       expect(editor.getHTML()).to.eq('<p>Example Text</p>')
 
-      editor.setContent('<p style="display: block;">Example Text</p>')
+      editor.commands.setContent('<p style="display: block;">Example Text</p>')
       expect(editor.getHTML()).to.eq('<p>Example Text</p>')
     })
   })
