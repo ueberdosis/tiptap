@@ -82,7 +82,7 @@ export default {
   computed: {
     mainFile() {
       const file = this.files
-        .find(item => item.path.endsWith('.vue') || item.path.endsWith('.jsx'))
+        .find(item => item.path.endsWith('index.vue') || item.path.endsWith('.jsx'))
 
       if (!file) {
         return
@@ -122,7 +122,7 @@ export default {
       .filter(item => {
         return ['vue', 'jsx', 'scss'].includes(item.extension)
       })
-      .sortBy(item => item.path.split('/').length)
+      .sortBy(item => item.path.split('/').length && !item.path.endsWith('index.vue'))
       .toArray()
   },
 }
