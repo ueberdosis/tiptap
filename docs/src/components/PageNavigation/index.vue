@@ -41,7 +41,12 @@ export default {
     flattenedItems() {
       const flattenedItems = []
 
-      this.items.forEach(({ title, link, redirect, items }) => {
+      this.items.forEach(({
+        title,
+        link,
+        redirect,
+        items,
+      }) => {
         flattenedItems.push({
           title,
           link,

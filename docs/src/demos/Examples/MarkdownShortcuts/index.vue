@@ -6,7 +6,6 @@
 
 <script>
 import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
-import Strike from '@tiptap/extension-strike'
 import Highlight from '@tiptap/extension-highlight'
 
 export default {
