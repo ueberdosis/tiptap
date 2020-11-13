@@ -22,7 +22,6 @@
           link: /examples/formatting
         - title: Links
           link: /examples/links
-          draft: true
         - title: Todo App
           link: /examples/todo-app
         - title: Read-only
@@ -31,8 +30,8 @@
           link: /examples/minimalist
         - title: Export HTML or JSON
           link: /examples/export-html-or-json
-        - title: Full Editor
-          link: /examples/full-editor
+        - title: Use v-model
+          link: /examples/v-model
           draft: true
     - title: Share feedback
       link: /overview/feedback
