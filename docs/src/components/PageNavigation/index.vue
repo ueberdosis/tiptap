@@ -14,7 +14,7 @@
       <g-link
         class="page-navigation__link"
         exact
-        :to="nextPage.link"
+        :to="nextPage.redirect || nextPage.link"
         v-if="nextPage"
       >
         {{ nextPage.title }} →
@@ -41,10 +41,11 @@ export default {
     flattenedItems() {
       const flattenedItems = []
 
-      this.items.forEach(({ title, link, items }) => {
+      this.items.forEach(({ title, link, redirect, items }) => {
         flattenedItems.push({
           title,
           link,
+          redirect,
         })
 
         if (items) {
@@ -68,7 +69,13 @@ export default {
     },
 
     previousPage() {
-      return this.flattenedItems[this.currentIndex - 1]
+      let previousIndex = this.currentIndex - 1
+
+      while (this.flattenedItems[previousIndex].redirect) {
+        previousIndex -= 1
+      }
+
+      return this.flattenedItems[previousIndex]
     },
   },
 }
