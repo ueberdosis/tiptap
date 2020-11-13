@@ -25,7 +25,7 @@ import BulletList from '@tiptap/extension-bullet-list'
 const CustomBulletList = BulletList.extend({
   addKeyboardShortcuts() {
     return {
-      'Mod-l': () => this.editor.bulletList(),
+      'Mod-l': () => this.editor.commands.bulletList(),
     }
   },
 })
@@ -292,7 +292,7 @@ import BulletList from '@tiptap/extension-bullet-list'
 const CustomBulletList = BulletList.extend({
   addKeyboardShortcuts() {
     return {
-      'Mod-l': () => this.editor.bulletList(),
+      'Mod-l': () => this.editor.commands.bulletList(),
     }
   },
 })

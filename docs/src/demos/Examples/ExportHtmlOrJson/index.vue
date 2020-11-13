@@ -69,7 +69,7 @@ export default {
   methods: {
     setContent() {
       // You can pass a JSON document …
-      this.editor.setContent({
+      this.editor.commands.setContent({
         type: 'document',
         content: [{
           type: 'paragraph',
@@ -86,12 +86,15 @@ export default {
       // this.editor.setContent('<p>This is some inserted text. 👋</p>')
 
       // It’s likely that you’d like to focus the Editor after most commands.
-      this.editor.focus()
+      this.editor.commands.focus()
     },
 
     clearContent() {
-      this.editor.clearContent(true)
-      this.editor.focus()
+      this.editor
+        .chain()
+        .clearContent(true)
+        .focus()
+        .run()
     },
   },
 
