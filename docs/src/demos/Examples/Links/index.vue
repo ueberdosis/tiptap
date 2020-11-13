@@ -18,12 +18,6 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Link from '@tiptap/extension-link'
 
-const CustomLink = Link.extend({
-  renderHTML({ attributes }) {
-    return ['strong', mergeAttributes(attributes, { rel: this.options.rel }), 0]
-  },
-})
-
 export default {
   components: {
     EditorContent,
@@ -41,7 +35,7 @@ export default {
         Document(),
         Paragraph(),
         Text(),
-        CustomLink(),
+        Link(),
       ],
       content: `
         <p>

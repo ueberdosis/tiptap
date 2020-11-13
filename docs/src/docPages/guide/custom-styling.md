@@ -3,7 +3,7 @@
 ## toc
 
 ## Introduction
-tiptap is renderless, that doesn’t mean there is no styling provided. You can decided how your editor should look like.
+tiptap is headless, that means there is no styling provided. That also means, you are in full control of how your editor looks. The following methods allow you to apply custom styles to the editor.
 
 ## Option 1: Style the plain HTML
 The whole editor is rendered inside of a container with the class `.ProseMirror`. You can use that to scope your styling to the editor content:
