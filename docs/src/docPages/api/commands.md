@@ -95,18 +95,18 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .updateNodeAttributes() | Update attributes of a node.                              |
 
 ### Lists
-| Command          | Description                                            |
-| ---------------- | ------------------------------------------------------ |
-| .liftListItem()  | Lift the list item into a wrapping list.               |
-| .sinkListItem()  | Sink the list item down into an inner list.            |
-| .splitListItem() | Splits a textblock of a list item into two list items. |
-| .toggleList()    | Toggle between different list types.                   |
-| .wrapInList()    | Wrap a node in a list.                                 |
+| Command          | Description                                 |
+| ---------------- | ------------------------------------------- |
+| .liftListItem()  | Lift the list item into a wrapping list.    |
+| .sinkListItem()  | Sink the list item down into an inner list. |
+| .splitListItem() | Splits one list item into two list items.   |
+| .toggleList()    | Toggle between different list types.        |
+| .wrapInList()    | Wrap a node in a list.                      |
 
 ### Selection
 | Command            | Description                             |
 | ------------------ | --------------------------------------- |
-| .blur()            | Blurs the editor.                       |
+| .blur()            | Removes focus from the editor.          |
 | .deleteSelection() | Delete the selection, if there is one.  |
 | .focus()           | Focus the editor at the given position. |
 | .scrollIntoView()  | Scroll the selection into view.         |

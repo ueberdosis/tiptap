@@ -29,6 +29,9 @@ const Paragraph = createNode({
 
   addCommands() {
     return {
+      /**
+       * Toggle a paragraph
+       */
       paragraph: (): Command => ({ commands }) => {
         return commands.toggleBlockType('paragraph', 'paragraph')
       },

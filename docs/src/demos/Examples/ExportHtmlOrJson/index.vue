@@ -105,6 +105,7 @@ export default {
 </script>
 
 <style lang="scss">
+/* Style the export */
 .export {
   padding: 1rem 0 0;
 
@@ -124,6 +125,51 @@ export default {
     padding: 0.75rem 1rem;
     background-color:#e9ecef;
     color: #495057;
+  }
+}
+
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
+
+  pre {
+    background: #0D0D0D;
+    color: #FFF;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+
+    code {
+      color: inherit;
+      background: none;
+      font-size: 0.8rem;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  hr {
+    margin: 1rem 0;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(#0D0D0D, 0.1);
   }
 }
 </style>

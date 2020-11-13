@@ -27,6 +27,9 @@ const HorizontalRule = createNode({
 
   addCommands() {
     return {
+      /**
+       * Add a horizontal rule
+       */
       horizontalRule: (): Command => ({ tr }) => {
         tr.replaceSelectionWith(this.type.create())
 

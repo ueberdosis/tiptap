@@ -32,6 +32,9 @@ const BulletList = createNode({
 
   addCommands() {
     return {
+      /**
+       * Toggle a bullet list
+       */
       bulletList: (): Command => ({ commands }) => {
         return commands.toggleList('bulletList', 'listItem')
       },

@@ -14,9 +14,15 @@ const History = createExtension({
 
   addCommands() {
     return {
+      /**
+       * Undo recent changes
+       */
       undo: (): Command => ({ state, dispatch }) => {
         return undo(state, dispatch)
       },
+      /**
+       * Reapply reverted changes
+       */
       redo: (): Command => ({ state, dispatch }) => {
         return redo(state, dispatch)
       },

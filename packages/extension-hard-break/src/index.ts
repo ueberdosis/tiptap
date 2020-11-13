@@ -22,6 +22,9 @@ const HardBreak = createNode({
 
   addCommands() {
     return {
+      /**
+       * Add a hard break
+       */
       hardBreak: (): Command => ({ commands, state, dispatch }) => {
         return commands.try([
           () => exitCode(state, dispatch),

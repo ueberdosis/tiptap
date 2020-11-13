@@ -34,6 +34,9 @@ const Blockquote = createNode({
 
   addCommands() {
     return {
+      /**
+       * Toggle a blockquote node
+       */
       blockquote: (): Command => ({ commands }) => {
         return commands.toggleWrap('blockquote')
       },

@@ -58,6 +58,9 @@ const Highlight = createMark({
 
   addCommands() {
     return {
+      /**
+       * Toggle a highlight mark
+       */
       highlight: (attributes?: { color: string }): Command => ({ commands }) => {
         return commands.toggleMark('highlight', attributes)
       },

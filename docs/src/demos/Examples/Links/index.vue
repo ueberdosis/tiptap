@@ -64,3 +64,17 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  a {
+    text-decoration: underline;
+    color: blue;
+  }
+}
+</style>

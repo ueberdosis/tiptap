@@ -62,7 +62,6 @@
       draft: true
     - title: Working with TypeScript
       link: /guide/working-with-typescript
-      draft: true
 
 - title: API
   items:
