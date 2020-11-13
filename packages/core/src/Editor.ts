@@ -129,6 +129,10 @@ export class Editor extends EventEmitter {
     return this.commandManager.runSingleCommand(name)
   }
 
+  public get commands() {
+    return this.commandManager.commands
+  }
+
   /**
    * Create a command chain to call multiple commands at once.
    */

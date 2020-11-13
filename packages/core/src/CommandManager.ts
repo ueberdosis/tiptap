@@ -8,7 +8,7 @@ export default class CommandManager {
 
   editor: Editor
 
-  commands: { [key: string]: any } = {}
+  rawCommands: { [key: string]: any } = {}
 
   methodNames: string[] = []
 
@@ -24,7 +24,7 @@ export default class CommandManager {
    * @param callback The method of your command
    */
   public registerCommand(name: string, callback: CommandSpec): Editor {
-    if (this.commands[name]) {
+    if (this.rawCommands[name]) {
       throw new Error(`tiptap: command '${name}' is already defined.`)
     }
 
@@ -32,15 +32,44 @@ export default class CommandManager {
       throw new Error(`tiptap: '${name}' is a protected name.`)
     }
 
-    this.commands[name] = callback
+    this.rawCommands[name] = callback
 
     return this.editor
   }
 
-  public runSingleCommand(name: string) {
-    const { commands, editor } = this
+  public get commands() {
+    return {
+      ...this.wrapCommands(),
+      chain: () => this.createChain(),
+      can: () => this.createCan(),
+    }
+  }
+
+  public wrapCommands() {
+    const { rawCommands, editor } = this
     const { state, view } = editor
-    const command = commands[name]
+
+    return Object.fromEntries(Object
+      .entries(rawCommands)
+      .map(([name, command]) => {
+        const method = (...args: any) => {
+          const { tr } = state
+          const props = this.buildProps(tr)
+          const callback = command(...args)(props)
+
+          view.dispatch(tr)
+
+          return callback
+        }
+
+        return [name, method]
+      })) as SingleCommands
+  }
+
+  public runSingleCommand(name: string) {
+    const { rawCommands, editor } = this
+    const { state, view } = editor
+    const command = rawCommands[name]
 
     if (!command) {
       // TODO: prevent vue devtools to throw error
@@ -60,15 +89,11 @@ export default class CommandManager {
   }
 
   public createChain(startTr?: Transaction, shouldDispatch = true) {
-    const { commands, editor } = this
+    const { rawCommands, editor } = this
     const { state, view } = editor
     const callbacks: boolean[] = []
     const hasStartTransaction = !!startTr
-    const tr = hasStartTransaction ? startTr : state.tr
-
-    if (!tr) {
-      return
-    }
+    const tr = startTr || state.tr
 
     return new Proxy({}, {
       get: (_, name: string, proxy) => {
@@ -80,7 +105,7 @@ export default class CommandManager {
           return () => callbacks.every(callback => callback === true)
         }
 
-        const command = commands[name]
+        const command = rawCommands[name]
 
         if (!command) {
           throw new Error(`tiptap: command '${name}' not found.`)
@@ -98,19 +123,13 @@ export default class CommandManager {
   }
 
   public createCan(startTr?: Transaction) {
-    const { commands, editor } = this
+    const { rawCommands, editor } = this
     const { state } = editor
     const dispatch = false
-    const hasStartTransaction = !!startTr
-    const tr = hasStartTransaction ? startTr : state.tr
-
-    if (!tr) {
-      return
-    }
-
+    const tr = startTr || state.tr
     const props = this.buildProps(tr, dispatch)
     const formattedCommands = Object.fromEntries(Object
-      .entries(commands)
+      .entries(rawCommands)
       .map(([name, command]) => {
         return [name, (...args: any[]) => command(...args)({ ...props, dispatch })]
       })) as SingleCommands
@@ -122,7 +141,7 @@ export default class CommandManager {
   }
 
   public buildProps(tr: Transaction, shouldDispatch = true) {
-    const { editor, commands } = this
+    const { editor, rawCommands } = this
     const { state, view } = editor
 
     const props = {
@@ -137,7 +156,7 @@ export default class CommandManager {
       can: () => this.createCan(tr),
       get commands() {
         return Object.fromEntries(Object
-          .entries(commands)
+          .entries(rawCommands)
           .map(([name, command]) => {
             return [name, (...args: any[]) => command(...args)(props)]
           }))
