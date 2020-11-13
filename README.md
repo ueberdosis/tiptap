@@ -2,7 +2,7 @@
 
 # tiptap 2 (Preview!)
 
-A renderless and extendable rich-text editor, based on [ProseMirror](https://github.com/ProseMirror/prosemirror), which is already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
+A headless and extendable rich-text editor, based on [ProseMirror](https://github.com/ProseMirror/prosemirror), which is already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
 
 <!-- [![Version](https://img.shields.io/npm/v/tiptap.svg?label=version)](https://www.npmjs.com/package/tiptap)
 [![Downloads](https://img.shields.io/npm/dm/tiptap.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
@@ -21,8 +21,8 @@ We’re looking for your feedback to improve tiptap 2 before the first public re
 ## Why we built tiptap
 We were looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn’t really satisfy us. An editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. We came across [ProseMirror](https://github.com/prosemirror) and decided to build on it. ProseMirror is a toolkit for building rich-text editors that are already in use at many well-known companies such as *Atlassian* or *New York Times*.
 
-### What does `renderless` mean?
-With renderless components you'll have (almost) full control over markup and styling. We don’t want to tell you what a menu should look like or where it should be rendered in the DOM. That’s all up to you. There is also a [great article about renderless components](https://adamwathan.me/renderless-components-in-vuejs/) by Adam Wathan.
+### What does `headless` mean?
+With headless components you'll have (almost) full control over markup and styling. We don’t want to tell you what a menu should look like or where it should be rendered in the DOM. That’s all up to you. There is also a [great article about headless components](https://adamwathan.me/headless-components-in-vuejs/) by Adam Wathan.
 
 ### How is the data stored under the hood?
 You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can also pass `HTML` or `JSON` content back to the editor.
