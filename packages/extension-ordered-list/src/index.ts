@@ -1,10 +1,20 @@
 import { Command, createNode } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
+export interface OrderedListOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
+
 export const inputRegex = /^(\d+)\.\s$/
 
 const OrderedList = createNode({
   name: 'orderedList',
+
+  defaultOptions: <OrderedListOptions>{
+    HTMLAttributes: {},
+  },
 
   group: 'block list',
 

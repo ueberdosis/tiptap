@@ -5,11 +5,21 @@ import {
   markPasteRule,
 } from '@tiptap/core'
 
+export interface HighlightOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
+
 export const inputRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))$/gm
 export const pasteRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))/gm
 
 const Highlight = createMark({
   name: 'highlight',
+
+  defaultOptions: <HighlightOptions>{
+    HTMLAttributes: {},
+  },
 
   addAttributes() {
     return {

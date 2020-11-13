@@ -1,12 +1,25 @@
 import {
-  Command, createMark, markInputRule, markPasteRule,
+  Command,
+  createMark,
+  markInputRule,
+  markPasteRule,
 } from '@tiptap/core'
+
+export interface CodeOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
 
 export const inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/gm
 export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/gm
 
 const Code = createMark({
   name: 'code',
+
+  defaultOptions: <CodeOptions>{
+    HTMLAttributes: {},
+  },
 
   excludes: '_',
 

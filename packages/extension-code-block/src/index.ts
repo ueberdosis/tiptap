@@ -3,6 +3,9 @@ import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 export interface CodeBlockOptions {
   languageClassPrefix: string,
+  HTMLAttributes: {
+    [key: string]: any
+  },
 }
 
 export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
@@ -13,6 +16,7 @@ const CodeBlock = createNode({
 
   defaultOptions: <CodeBlockOptions>{
     languageClassPrefix: 'language-',
+    HTMLAttributes: {},
   },
 
   content: 'text*',

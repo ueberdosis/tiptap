@@ -1,7 +1,17 @@
 import { createNode } from '@tiptap/core'
 
+export interface ListItemOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
+
 const ListItem = createNode({
   name: 'listItem',
+
+  defaultOptions: <ListItemOptions>{
+    HTMLAttributes: {},
+  },
 
   content: '(paragraph|list?)+',
 

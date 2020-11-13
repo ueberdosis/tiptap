@@ -1,10 +1,20 @@
 import { Command, createNode } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
+export interface BulletListOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
+
 export const inputRegex = /^\s*([-+*])\s$/
 
 const BulletList = createNode({
   name: 'bulletList',
+
+  defaultOptions: <BulletListOptions>{
+    HTMLAttributes: {},
+  },
 
   group: 'block list',
 

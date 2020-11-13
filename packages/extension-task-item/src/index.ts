@@ -1,24 +1,28 @@
 import { createNode, mergeAttributes } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
-export const inputRegex = /^\s*(\[([ |x])\])\s$/
-
 export interface TaskItemOptions {
   nested: boolean,
+  HTMLAttributes: {
+    [key: string]: any
+  },
 }
+
+export const inputRegex = /^\s*(\[([ |x])\])\s$/
 
 const TaskItem = createNode({
   name: 'taskItem',
+
+  defaultOptions: <TaskItemOptions>{
+    nested: false,
+    HTMLAttributes: {},
+  },
 
   content() {
     return this.options.nested ? '(paragraph|taskList)+' : 'paragraph+'
   },
 
   defining: true,
-
-  defaultOptions: <TaskItemOptions>{
-    nested: false,
-  },
 
   addAttributes() {
     return {

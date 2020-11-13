@@ -2,6 +2,12 @@ import {
   Command, createMark, markInputRule, markPasteRule,
 } from '@tiptap/core'
 
+export interface BoldOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
+
 export const starInputRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))$/gm
 export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))$/gm
@@ -9,6 +15,10 @@ export const underscorePasteRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))/gm
 
 const Bold = createMark({
   name: 'bold',
+
+  defaultOptions: <BoldOptions>{
+    HTMLAttributes: {},
+  },
 
   parseHTML() {
     return [
