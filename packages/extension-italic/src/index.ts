@@ -39,7 +39,7 @@ const Italic = createMark({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-i': () => this.editor.italic(),
+      'Mod-i': () => this.editor.commands.italic(),
     }
   },
 

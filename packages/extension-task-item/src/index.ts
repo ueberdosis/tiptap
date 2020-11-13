@@ -49,8 +49,8 @@ const TaskItem = createNode({
 
   addKeyboardShortcuts() {
     const shortcuts = {
-      Enter: () => this.editor.splitListItem('taskItem'),
-      'Shift-Tab': () => this.editor.liftListItem('taskItem'),
+      Enter: () => this.editor.commands.splitListItem('taskItem'),
+      'Shift-Tab': () => this.editor.commands.liftListItem('taskItem'),
     }
 
     if (!this.options.nested) {
@@ -59,7 +59,7 @@ const TaskItem = createNode({
 
     return {
       ...shortcuts,
-      Tab: () => this.editor.sinkListItem('taskItem'),
+      Tab: () => this.editor.commands.sinkListItem('taskItem'),
     }
   },
 
@@ -78,7 +78,7 @@ const TaskItem = createNode({
           view.dispatch(view.state.tr.setNodeMarkup(getPos(), undefined, {
             checked,
           }))
-          editor.focus()
+          editor.commands.focus()
         }
       })
 

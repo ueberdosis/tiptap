@@ -28,7 +28,7 @@ const Underline = createMark({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-u': () => this.editor.underline(),
+      'Mod-u': () => this.editor.commands.underline(),
     }
   },
 })

@@ -39,7 +39,7 @@ const Strike = createMark({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-d': () => this.editor.strike(),
+      'Mod-d': () => this.editor.commands.strike(),
     }
   },
 

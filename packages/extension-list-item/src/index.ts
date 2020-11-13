@@ -21,9 +21,9 @@ const ListItem = createNode({
 
   addKeyboardShortcuts() {
     return {
-      Enter: () => this.editor.splitListItem('listItem'),
-      Tab: () => this.editor.sinkListItem('listItem'),
-      'Shift-Tab': () => this.editor.liftListItem('listItem'),
+      Enter: () => this.editor.commands.splitListItem('listItem'),
+      Tab: () => this.editor.commands.sinkListItem('listItem'),
+      'Shift-Tab': () => this.editor.commands.liftListItem('listItem'),
     }
   },
 })

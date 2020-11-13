@@ -56,7 +56,7 @@ const Highlight = createMark({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-e': () => this.editor.highlight(),
+      'Mod-e': () => this.editor.commands.highlight(),
     }
   },
 

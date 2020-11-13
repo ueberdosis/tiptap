@@ -1,6 +1,9 @@
 import { EditorState, Transaction } from 'prosemirror-state'
 import {
-  SingleCommands, ChainedCommands, Editor, CommandSpec,
+  SingleCommands,
+  ChainedCommands,
+  Editor,
+  CommandSpec,
 } from './Editor'
 import getAllMethodNames from './utils/getAllMethodNames'
 
@@ -8,7 +11,7 @@ export default class CommandManager {
 
   editor: Editor
 
-  rawCommands: { [key: string]: any } = {}
+  commands: { [key: string]: any } = {}
 
   methodNames: string[] = []
 
@@ -24,7 +27,7 @@ export default class CommandManager {
    * @param callback The method of your command
    */
   public registerCommand(name: string, callback: CommandSpec): Editor {
-    if (this.rawCommands[name]) {
+    if (this.commands[name]) {
       throw new Error(`tiptap: command '${name}' is already defined.`)
     }
 
@@ -32,25 +35,17 @@ export default class CommandManager {
       throw new Error(`tiptap: '${name}' is a protected name.`)
     }
 
-    this.rawCommands[name] = callback
+    this.commands[name] = callback
 
     return this.editor
   }
 
-  public get commands() {
-    return {
-      ...this.wrapCommands(),
-      chain: () => this.createChain(),
-      can: () => this.createCan(),
-    }
-  }
-
-  public wrapCommands() {
-    const { rawCommands, editor } = this
+  public createCommands() {
+    const { commands, editor } = this
     const { state, view } = editor
 
     return Object.fromEntries(Object
-      .entries(rawCommands)
+      .entries(commands)
       .map(([name, command]) => {
         const method = (...args: any) => {
           const { tr } = state
@@ -66,30 +61,8 @@ export default class CommandManager {
       })) as SingleCommands
   }
 
-  public runSingleCommand(name: string) {
-    const { rawCommands, editor } = this
-    const { state, view } = editor
-    const command = rawCommands[name]
-
-    if (!command) {
-      // TODO: prevent vue devtools to throw error
-      // throw new Error(`tiptap: command '${name}' not found.`)
-      return
-    }
-
-    return (...args: any) => {
-      const { tr } = state
-      const props = this.buildProps(tr)
-      const callback = command(...args)(props)
-
-      view.dispatch(tr)
-
-      return callback
-    }
-  }
-
   public createChain(startTr?: Transaction, shouldDispatch = true) {
-    const { rawCommands, editor } = this
+    const { commands, editor } = this
     const { state, view } = editor
     const callbacks: boolean[] = []
     const hasStartTransaction = !!startTr
@@ -105,7 +78,7 @@ export default class CommandManager {
           return () => callbacks.every(callback => callback === true)
         }
 
-        const command = rawCommands[name]
+        const command = commands[name]
 
         if (!command) {
           throw new Error(`tiptap: command '${name}' not found.`)
@@ -123,13 +96,13 @@ export default class CommandManager {
   }
 
   public createCan(startTr?: Transaction) {
-    const { rawCommands, editor } = this
+    const { commands, editor } = this
     const { state } = editor
     const dispatch = false
     const tr = startTr || state.tr
     const props = this.buildProps(tr, dispatch)
     const formattedCommands = Object.fromEntries(Object
-      .entries(rawCommands)
+      .entries(commands)
       .map(([name, command]) => {
         return [name, (...args: any[]) => command(...args)({ ...props, dispatch })]
       })) as SingleCommands
@@ -141,7 +114,7 @@ export default class CommandManager {
   }
 
   public buildProps(tr: Transaction, shouldDispatch = true) {
-    const { editor, rawCommands } = this
+    const { editor, commands } = this
     const { state, view } = editor
 
     const props = {
@@ -156,7 +129,7 @@ export default class CommandManager {
       can: () => this.createCan(tr),
       get commands() {
         return Object.fromEntries(Object
-          .entries(rawCommands)
+          .entries(commands)
           .map(([name, command]) => {
             return [name, (...args: any[]) => command(...args)(props)]
           }))

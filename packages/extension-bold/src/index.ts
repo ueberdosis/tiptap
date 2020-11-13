@@ -43,7 +43,7 @@ const Bold = createMark({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-b': () => this.editor.bold(),
+      'Mod-b': () => this.editor.commands.bold(),
     }
   },
 

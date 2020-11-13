@@ -78,7 +78,7 @@ const CodeBlock = createNode({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-Shift-c': () => this.editor.codeBlock(),
+      'Mod-Shift-c': () => this.editor.commands.codeBlock(),
     }
   },
 

@@ -68,10 +68,6 @@ interface EditorOptions {
   editable: boolean,
 }
 
-declare module './Editor' {
-  interface Editor extends SingleCommands {}
-}
-
 @magicMethods
 export class Editor extends EventEmitter {
 
@@ -116,7 +112,7 @@ export class Editor extends EventEmitter {
     this.createView()
     this.injectCSS()
 
-    window.setTimeout(() => this.proxy.focus(this.options.autoFocus), 0)
+    window.setTimeout(() => this.commands.focus(this.options.autoFocus), 0)
   }
 
   /**
@@ -126,11 +122,14 @@ export class Editor extends EventEmitter {
    */
   // eslint-disable-next-line
   private __get(name: string) {
-    return this.commandManager.runSingleCommand(name)
+    // TODO: maybe remove proxy
   }
 
+  /**
+   * An object of all registered commands.
+   */
   public get commands() {
-    return this.commandManager.commands
+    return this.commandManager.createCommands()
   }
 
   /**

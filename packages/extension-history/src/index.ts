@@ -31,9 +31,9 @@ const History = createExtension({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-z': () => this.editor.undo(),
-      'Mod-y': () => this.editor.redo(),
-      'Shift-Mod-z': () => this.editor.redo(),
+      'Mod-z': () => this.editor.commands.undo(),
+      'Mod-y': () => this.editor.commands.redo(),
+      'Shift-Mod-z': () => this.editor.commands.redo(),
     }
   },
 })
