@@ -26,8 +26,8 @@ const Bold = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['strong', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['strong', HTMLAttributes, 0]
   },
 
   addCommands() {

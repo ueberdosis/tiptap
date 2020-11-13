@@ -16,8 +16,8 @@ const TaskList = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['ul', mergeAttributes(attributes, { 'data-type': 'taskList' }), 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['ul', mergeAttributes(HTMLAttributes, { 'data-type': 'taskList' }), 0]
   },
 
   addCommands() {

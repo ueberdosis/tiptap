@@ -45,7 +45,7 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Overwrit
     },
     props: {
       mark: Mark,
-      attributes: { [key: string]: any },
+      HTMLAttributes: { [key: string]: any },
     }
   ) => DOMOutputSpec) | null,
 

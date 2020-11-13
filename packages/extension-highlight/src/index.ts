@@ -42,8 +42,8 @@ const Highlight = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['mark', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['mark', HTMLAttributes, 0]
   },
 
   addCommands() {

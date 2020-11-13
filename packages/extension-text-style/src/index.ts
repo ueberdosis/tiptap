@@ -20,8 +20,8 @@ const TextStyle = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['span', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['span', HTMLAttributes, 0]
   },
 
   addCommands() {

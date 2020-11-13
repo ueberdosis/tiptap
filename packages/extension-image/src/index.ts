@@ -45,8 +45,8 @@ const Image = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['img', attributes]
+  renderHTML({ HTMLAttributes }) {
+    return ['img', HTMLAttributes]
   },
 
   addCommands() {

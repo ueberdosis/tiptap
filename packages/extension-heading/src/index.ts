@@ -5,6 +5,9 @@ type Level = 1 | 2 | 3 | 4 | 5 | 6
 
 export interface HeadingOptions {
   levels: Level[],
+  HTMLAttributes: {
+    [key: string]: any
+  },
 }
 
 const Heading = createNode({
@@ -12,6 +15,7 @@ const Heading = createNode({
 
   defaultOptions: <HeadingOptions>{
     levels: [1, 2, 3, 4, 5, 6],
+    HTMLAttributes: {},
   },
 
   content: 'inline*',
@@ -37,13 +41,13 @@ const Heading = createNode({
       }))
   },
 
-  renderHTML({ node, attributes }) {
+  renderHTML({ node, HTMLAttributes }) {
     const hasLevel = this.options.levels.includes(node.attrs.level)
     const level = hasLevel
       ? node.attrs.level
       : this.options.levels[0]
 
-    return [`h${level}`, attributes, 0]
+    return [`h${level}`, HTMLAttributes, 0]
   },
 
   addCommands() {

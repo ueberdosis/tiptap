@@ -25,8 +25,8 @@ const Strike = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['s', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['s', HTMLAttributes, 0]
   },
 
   addCommands() {

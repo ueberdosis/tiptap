@@ -15,8 +15,8 @@ const ListItem = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['li', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['li', HTMLAttributes, 0]
   },
 
   addKeyboardShortcuts() {

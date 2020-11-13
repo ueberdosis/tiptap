@@ -11,8 +11,8 @@ const HorizontalRule = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['hr', attributes]
+  renderHTML({ HTMLAttributes }) {
+    return ['hr', HTMLAttributes]
   },
 
   addCommands() {

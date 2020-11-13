@@ -14,8 +14,8 @@ const Underline = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['u', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['u', HTMLAttributes, 0]
   },
 
   addCommands() {

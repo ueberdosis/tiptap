@@ -18,8 +18,8 @@ const Blockquote = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['blockquote', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['blockquote', HTMLAttributes, 0]
   },
 
   addCommands() {

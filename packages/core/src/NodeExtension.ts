@@ -80,7 +80,7 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
     },
     props: {
       node: Node,
-      attributes: { [key: string]: any },
+      HTMLAttributes: { [key: string]: any },
     }
   ) => DOMOutputSpec) | null,
 

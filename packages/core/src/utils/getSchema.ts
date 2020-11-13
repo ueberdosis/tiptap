@@ -50,7 +50,7 @@ export default function getSchema(extensions: Extensions): Schema {
     if (extension.renderHTML) {
       schema.toDOM = node => (extension.renderHTML as Function)?.bind(context)({
         node,
-        attributes: getRenderedAttributes(node, extensionAttributes),
+        HTMLAttributes: getRenderedAttributes(node, extensionAttributes),
       })
     }
 
@@ -79,7 +79,7 @@ export default function getSchema(extensions: Extensions): Schema {
     if (extension.renderHTML) {
       schema.toDOM = mark => (extension.renderHTML as Function)?.bind(context)({
         mark,
-        attributes: getRenderedAttributes(mark, extensionAttributes),
+        HTMLAttributes: getRenderedAttributes(mark, extensionAttributes),
       })
     }
 

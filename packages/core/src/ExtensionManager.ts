@@ -122,14 +122,14 @@ export default class ExtensionManager {
           getPos: (() => number) | boolean,
           decorations: Decoration[],
         ) => {
-          const attributes = getRenderedAttributes(node, extensionAttributes)
+          const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
           return renderer({
             editor,
             node,
             getPos,
             decorations,
-            attributes,
+            HTMLAttributes,
           })
         }
 

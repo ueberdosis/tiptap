@@ -14,8 +14,8 @@ const Paragraph = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['p', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['p', HTMLAttributes, 0]
   },
 
   addCommands() {

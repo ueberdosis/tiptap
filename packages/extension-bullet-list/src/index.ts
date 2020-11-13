@@ -16,8 +16,8 @@ const BulletList = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['ul', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['ul', HTMLAttributes, 0]
   },
 
   addCommands() {

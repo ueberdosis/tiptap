@@ -16,8 +16,8 @@ const HardBreak = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['br', attributes]
+  renderHTML({ HTMLAttributes }) {
+    return ['br', HTMLAttributes]
   },
 
   addCommands() {

@@ -25,8 +25,8 @@ const Italic = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['em', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['em', HTMLAttributes, 0]
   },
 
   addCommands() {

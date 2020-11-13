@@ -43,8 +43,8 @@ const TaskItem = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['li', mergeAttributes(attributes, { 'data-type': 'taskItem' }), 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['li', mergeAttributes(HTMLAttributes, { 'data-type': 'taskItem' }), 0]
   },
 
   addKeyboardShortcuts() {
@@ -64,7 +64,7 @@ const TaskItem = createNode({
   },
 
   addNodeView() {
-    return ({ attributes, getPos, editor }) => {
+    return ({ HTMLAttributes, getPos, editor }) => {
       const { view } = editor
       const listItem = document.createElement('li')
       const checkbox = document.createElement('input')
@@ -82,13 +82,13 @@ const TaskItem = createNode({
         }
       })
 
-      if (attributes['data-checked'] === true) {
+      if (HTMLAttributes['data-checked'] === true) {
         checkbox.setAttribute('checked', 'checked')
       }
 
       listItem.append(checkbox, content)
 
-      Object.entries(attributes).forEach(([key, value]) => {
+      Object.entries(HTMLAttributes).forEach(([key, value]) => {
         listItem.setAttribute(key, value)
       })
 

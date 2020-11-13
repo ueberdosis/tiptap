@@ -39,8 +39,8 @@ const Link = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['a', mergeAttributes(attributes, { rel: this.options.rel }), 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['a', mergeAttributes(HTMLAttributes, { rel: this.options.rel }), 0]
   },
 
   addCommands() {
