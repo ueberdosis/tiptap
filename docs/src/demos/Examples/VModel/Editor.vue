@@ -1,12 +1,11 @@
 <template>
-  <div>
-    <editor-content :editor="editor" />
-  </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
 import { Editor } from '@tiptap/core'
-import EditorContent from './EditorContent.ts'
+import { EditorContent } from '@tiptap/vue'
+import { defaultExtensions } from '@tiptap/starter-kit'
 
 export default {
   components: {
@@ -15,14 +14,8 @@ export default {
 
   props: {
     value: {
-      type: [String, Object],
+      type: String,
       default: '',
-    },
-
-    extensions: {
-      type: Array,
-      required: true,
-      default: () => [],
     },
   },
 
@@ -32,9 +25,21 @@ export default {
     }
   },
 
+  watch: {
+    value(value) {
+      const isSame = this.editor.getHTML() === value
+
+      if (isSame) {
+        return
+      }
+
+      this.editor.commands.setContent(this.value, false)
+    },
+  },
+
   mounted() {
     this.editor = new Editor({
-      extensions: this.extensions,
+      extensions: defaultExtensions(),
       content: this.value,
     })
 

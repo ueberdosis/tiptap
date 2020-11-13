@@ -1,26 +1,50 @@
 <template>
   <div>
-    <full-editor v-model="content" :extensions="extensions" />
-    <div>
-      {{ content }}
+    <editor v-model="content" />
+
+    <div class="content">
+      <h3>Content</h3>
+      <pre><code>{{ content }}</code></pre>
     </div>
   </div>
 </template>
 
 <script>
-import { FullEditor } from '@tiptap/vue'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import Editor from './Editor'
 
 export default {
   components: {
-    FullEditor,
+    Editor,
   },
 
   data() {
     return {
-      extensions: defaultExtensions(),
       content: '<p>A Vue.js wrapper component for tiptap to use <code>v-model</code>.</p>',
     }
   },
 }
 </script>
+
+<style lang="scss">
+.content {
+  padding: 1rem 0 0;
+
+  h3 {
+    margin: 1rem 0 0.5rem;
+  }
+
+  pre {
+    border-radius: 5px;
+    color: #333;
+  }
+
+  code {
+    display: block;
+    white-space: pre-wrap;
+    font-size: 0.8rem;
+    padding: 0.75rem 1rem;
+    background-color:#e9ecef;
+    color: #495057;
+  }
+}
+</style>
