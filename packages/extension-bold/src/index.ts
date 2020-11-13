@@ -33,7 +33,7 @@ const Bold = createMark({
   addCommands() {
     return {
       /**
-       * bold command
+       * Toggle a bold mark
        */
       bold: (): Command => ({ commands }) => {
         return commands.toggleMark('bold')

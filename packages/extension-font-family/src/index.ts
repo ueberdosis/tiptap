@@ -37,6 +37,9 @@ const FontFamily = createExtension({
 
   addCommands() {
     return {
+      /**
+       * Update the font family
+       */
       fontFamily: (fontFamily: string | null = null): Command => ({ chain }) => {
         return chain()
           .updateMarkAttributes('textStyle', { fontFamily })

@@ -31,6 +31,9 @@ const Italic = createMark({
 
   addCommands() {
     return {
+      /**
+       * Toggle an italic mark
+       */
       italic: (): Command => ({ commands }) => {
         return commands.toggleMark('italic')
       },

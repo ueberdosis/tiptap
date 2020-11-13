@@ -22,6 +22,9 @@ const TaskList = createNode({
 
   addCommands() {
     return {
+      /**
+       * Toggle a task list
+       */
       taskList: (): Command => ({ commands }) => {
         return commands.toggleList('taskList', 'taskItem')
       },

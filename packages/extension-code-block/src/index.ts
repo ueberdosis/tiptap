@@ -70,6 +70,9 @@ const CodeBlock = createNode({
 
   addCommands() {
     return {
+      /**
+       * Toggle a code block
+       */
       codeBlock: (attrs?: CodeBlockOptions): Command => ({ commands }) => {
         return commands.toggleBlockType('codeBlock', 'paragraph', attrs)
       },

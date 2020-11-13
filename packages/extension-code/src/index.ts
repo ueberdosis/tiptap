@@ -22,6 +22,9 @@ const Code = createMark({
 
   addCommands() {
     return {
+      /**
+       * Toggle inline code
+       */
       code: (): Command => ({ commands }) => {
         return commands.toggleMark('code')
       },

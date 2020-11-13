@@ -30,6 +30,9 @@ const CollaborationCursor = createExtension({
 
   addCommands() {
     return {
+      /**
+       * Update details of the current user
+       */
       user: (attributes: {
         name: string,
         color: string,

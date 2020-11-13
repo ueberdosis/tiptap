@@ -26,6 +26,9 @@ const TextStyle = createMark({
 
   addCommands() {
     return {
+      /**
+       * Remove spans without inline style attributes.
+       */
       removeEmptyTextStyle: (): Command => ({ state, commands }) => {
         const attributes = getMarkAttrs(state, this.type)
         const hasStyles = Object.entries(attributes).every(([, value]) => !!value)

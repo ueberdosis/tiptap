@@ -282,6 +282,10 @@ const CustomParagraph = Paragraph.extend({
 })
 ```
 
+:::warning Use the commands parameter inside of addCommands
+All commands are also available through ~~this.editor.commands~~, but inside of `addCommands` you must use the `commands` parameter that’s passed to it.
+:::
+
 ### Keyboard shortcuts
 Most core extensions come with sensible keyboard shortcut defaults. Depending on what you want to build, you’ll likely want to change them though. With the `addKeyboardShortcuts()` method you can overwrite the predefined shortcut map:
 

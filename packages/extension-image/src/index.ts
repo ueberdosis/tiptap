@@ -51,6 +51,9 @@ const Image = createNode({
 
   addCommands() {
     return {
+      /**
+       * Add an image
+       */
       image: (options: { src: string, alt?: string, title?: string }): Command => ({ tr }) => {
         const { selection } = tr
         const node = this.type.create(options)

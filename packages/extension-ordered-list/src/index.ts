@@ -41,6 +41,9 @@ const OrderedList = createNode({
 
   addCommands() {
     return {
+      /**
+       * Toggle an ordered list
+       */
       orderedList: (): Command => ({ commands }) => {
         return commands.toggleList('orderedList', 'listItem')
       },

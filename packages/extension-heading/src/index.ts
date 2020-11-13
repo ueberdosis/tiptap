@@ -49,7 +49,7 @@ const Heading = createNode({
   addCommands() {
     return {
       /**
-       * heading command
+       * Toggle a heading node
        */
       heading: (options: { level: Level }): Command => ({ commands }) => {
         if (!this.options.levels.includes(options.level)) {

@@ -34,6 +34,9 @@ const TextAlign = createExtension({
 
   addCommands() {
     return {
+      /**
+       * Update the text align attribute
+       */
       textAlign: (alignment: string): Command => ({ commands }) => {
         if (!this.options.alignments.includes(alignment)) {
           return false
