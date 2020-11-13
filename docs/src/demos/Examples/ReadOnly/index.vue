@@ -53,6 +53,13 @@ export default {
 </script>
 
 <style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+
 .checkbox {
   margin-bottom: 1rem;
 

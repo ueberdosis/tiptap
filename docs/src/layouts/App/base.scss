@@ -90,45 +90,45 @@ code {
   color: white;
 }
 
-.ProseMirror {
+// TODO: Move to examples
+// .ProseMirror {
+//   > * + * {
+//     margin-top: 0.75em;
+//   }
 
-  > * + * {
-    margin-top: 0.75em;
-  }
+//   ul,
+//   ol {
+//     padding: 0 1rem;
+//   }
 
-  ul,
-  ol {
-    padding: 0 1rem;
-  }
+//   pre {
+//     background: $colorBlack;
+//     color: $colorWhite;
+//     font-family: 'JetBrainsMono', monospace;
+//     padding: 0.75rem 1rem;
+//     border-radius: 0.5rem;
 
-  pre {
-    background: $colorBlack;
-    color: $colorWhite;
-    font-family: 'JetBrainsMono', monospace;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
+//     code {
+//       color: inherit;
+//       background: none;
+//       font-size: 0.8rem;
+//     }
+//   }
 
-    code {
-      color: inherit;
-      background: none;
-      font-size: 0.8rem;
-    }
-  }
+//   img {
+//     max-width: 100%;
+//     height: auto;
+//   }
 
-  img {
-    max-width: 100%;
-    height: auto;
-  }
+//   hr {
+//     margin: 1rem 0;
+//   }
 
-  hr {
-    margin: 1rem 0;
-  }
-
-  blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba($colorBlack, 0.1);
-  }
-}
+//   blockquote {
+//     padding-left: 1rem;
+//     border-left: 2px solid rgba($colorBlack, 0.1);
+//   }
+// }
 
 .DocSearch {
   filter: saturate(0);

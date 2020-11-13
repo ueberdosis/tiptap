@@ -6,6 +6,8 @@
 
 <script>
 import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
+import Strike from '@tiptap/extension-strike'
+import Highlight from '@tiptap/extension-highlight'
 
 export default {
   components: {
@@ -28,10 +30,16 @@ export default {
           To test that, start a new line and type <code>#</code> followed by a space to get a heading. Try <code>#</code>, <code>##</code>, <code>###</code>, <code>####</code>, <code>#####</code>, <code>######</code> for different levels.
         </p>
         <p>
-          Those conventions are called input rules in tiptap. Some of them are enabled by default. Try <code>></code> for blockquotes, <code>*</code>, <code>-</code> or <code>+</code> for bullet lists, or <code>\`foobar\`</code> to highlight code. You can add your own input rules to existing extensions, and to your custom nodes and marks.
+          Those conventions are called input rules in tiptap. Some of them are enabled by default. Try <code>></code> for blockquotes, <code>*</code>, <code>-</code> or <code>+</code> for bullet lists, or <code>\`foobar\`</code> to highlight code, <code>~~tildes~~</code> to strike text, or <code>==equal signs==</code> to highlight text.
+        </p>
+        <p>
+          You can overwrite existing input rules or add your own to new nodes and marks.
         </p>
       `,
-      extensions: defaultExtensions(),
+      extensions: [
+        ...defaultExtensions(),
+        Highlight(),
+      ],
     })
   },
 
@@ -40,3 +48,50 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
+
+  pre {
+    background: #0D0D0D;
+    color: #FFF;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+
+    code {
+      color: inherit;
+      background: none;
+      font-size: 0.8rem;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  hr {
+    margin: 1rem 0;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+}
+</style>
