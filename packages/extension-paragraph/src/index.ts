@@ -9,9 +9,9 @@ export interface ParagraphOptions {
 const Paragraph = createNode({
   name: 'paragraph',
 
-  // defaultOptions: <ParagraphOptions>{
-  //   HTMLAttributes: {},
-  // },
+  defaultOptions: <ParagraphOptions>{
+    HTMLAttributes: {},
+  },
 
   group: 'block',
 

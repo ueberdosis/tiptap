@@ -6,7 +6,7 @@ import { ExtensionSpec, defaultExtension } from './Extension'
 import { Attributes, NodeViewRenderer, Overwrite } from './types'
 import { Editor } from './Editor'
 
-export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
+export interface NodeExtensionSpec<Options = any, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
   /**
    * TopNode
    */

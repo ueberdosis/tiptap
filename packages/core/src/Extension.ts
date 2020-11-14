@@ -2,7 +2,7 @@ import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { GlobalAttributes } from './types'
 
-export interface ExtensionSpec<Options = {}, Commands = {}> {
+export interface ExtensionSpec<Options = any, Commands = {}> {
   /**
    * Name
    */

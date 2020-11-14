@@ -6,7 +6,7 @@ import { ExtensionSpec, defaultExtension } from './Extension'
 import { Attributes, Overwrite } from './types'
 import { Editor } from './Editor'
 
-export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
+export interface MarkExtensionSpec<Options = any, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
   /**
    * Inclusive
    */
