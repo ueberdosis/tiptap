@@ -6,6 +6,7 @@ import getRenderedAttributes from './getRenderedAttributes'
 import isEmptyObject from './isEmptyObject'
 import injectExtensionAttributesToParseRule from './injectExtensionAttributesToParseRule'
 import callOrReturn from './callOrReturn'
+import mergeAttributes from './mergeAttributes'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(Object.entries(data).filter(([key, value]) => {
@@ -50,7 +51,10 @@ export default function getSchema(extensions: Extensions): Schema {
     if (extension.renderHTML) {
       schema.toDOM = node => (extension.renderHTML as Function)?.bind(context)({
         node,
-        HTMLAttributes: getRenderedAttributes(node, extensionAttributes),
+        HTMLAttributes: mergeAttributes(
+          extension.options.HTMLAttributes,
+          getRenderedAttributes(node, extensionAttributes),
+        ),
       })
     }
 
@@ -79,7 +83,10 @@ export default function getSchema(extensions: Extensions): Schema {
     if (extension.renderHTML) {
       schema.toDOM = mark => (extension.renderHTML as Function)?.bind(context)({
         mark,
-        HTMLAttributes: getRenderedAttributes(mark, extensionAttributes),
+        HTMLAttributes: mergeAttributes(
+          extension.options.HTMLAttributes,
+          getRenderedAttributes(mark, extensionAttributes),
+        ),
       })
     }
 
