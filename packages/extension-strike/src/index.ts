@@ -1,6 +1,6 @@
 import {
   Command,
-  createMark,
+  MarkExtension,
   markInputRule,
   markPasteRule,
 } from '@tiptap/core'
@@ -14,7 +14,7 @@ export interface StrikeOptions {
 export const inputRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))$/gm
 export const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/gm
 
-const Strike = createMark({
+const Strike = MarkExtension.create({
   name: 'strike',
 
   defaultOptions: <StrikeOptions>{

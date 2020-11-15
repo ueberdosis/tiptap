@@ -1,7 +1,7 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
-import { createExtension } from '../Extension'
+import { Extension } from '../Extension'
 
-export const Editable = createExtension({
+export const Editable = Extension.create({
   addProseMirrorPlugins() {
     return [
       new Plugin({

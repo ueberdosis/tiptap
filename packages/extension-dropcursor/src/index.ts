@@ -1,7 +1,7 @@
-import { createExtension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 import { dropCursor } from 'prosemirror-dropcursor'
 
-const Dropcursor = createExtension({
+const Dropcursor = Extension.create({
   addProseMirrorPlugins() {
     return [
       dropCursor(),

@@ -1,11 +1,11 @@
-import { Command, createExtension } from '@tiptap/core'
+import { Command, Extension } from '@tiptap/core'
 import '@tiptap/extension-text-style'
 
 type FontFamilyOptions = {
   types: string[],
 }
 
-const FontFamily = createExtension({
+const FontFamily = Extension.create({
   defaultOptions: <FontFamilyOptions>{
     types: ['textStyle'],
   },

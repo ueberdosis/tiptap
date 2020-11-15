@@ -1,4 +1,4 @@
-import { createNode } from '@tiptap/core'
+import { NodeExtension } from '@tiptap/core'
 
 export interface ListItemOptions {
   HTMLAttributes: {
@@ -6,7 +6,7 @@ export interface ListItemOptions {
   },
 }
 
-const ListItem = createNode({
+const ListItem = NodeExtension.create({
   name: 'listItem',
 
   defaultOptions: <ListItemOptions>{

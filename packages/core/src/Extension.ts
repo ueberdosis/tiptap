@@ -63,51 +63,93 @@ export interface ExtensionSpec<Options = any, Commands = {}> {
   }) => Plugin[],
 }
 
-/**
- * Extension interface for internal usage
- */
-export type Extension = Required<Omit<ExtensionSpec, 'defaultOptions'> & {
-  type: string,
-  options: {
-    [key: string]: any
-  },
-}>
+// /**
+//  * Extension interface for internal usage
+//  */
+// export type Extension = Required<Omit<ExtensionSpec, 'defaultOptions'> & {
+//   type: string,
+//   options: {
+//     [key: string]: any
+//   },
+// }>
 
-/**
- * Default extension
- */
-export const defaultExtension: Extension = {
-  name: 'extension',
-  type: 'extension',
-  options: {},
-  addGlobalAttributes: () => [],
-  addCommands: () => ({}),
-  addKeyboardShortcuts: () => ({}),
-  addInputRules: () => [],
-  addPasteRules: () => [],
-  addProseMirrorPlugins: () => [],
-}
+// /**
+//  * Default extension
+//  */
+// export const defaultExtension: Extension = {
+//   name: 'extension',
+//   type: 'extension',
+//   options: {},
+//   addGlobalAttributes: () => [],
+//   addCommands: () => ({}),
+//   addKeyboardShortcuts: () => ({}),
+//   addInputRules: () => [],
+//   addPasteRules: () => [],
+//   addProseMirrorPlugins: () => [],
+// }
 
-export function createExtension<Options extends {}, Commands extends {}>(config: ExtensionSpec<Options, Commands>) {
-  const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<ExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
-    return createExtension({
-      ...config,
-      ...extendedConfig,
-    } as ExtensionSpec<ExtendedOptions, ExtendedCommands>)
+// export function createExtension<Options extends {}, Commands extends {}>(config: ExtensionSpec<Options, Commands>) {
+//   const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<ExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
+//     return createExtension({
+//       ...config,
+//       ...extendedConfig,
+//     } as ExtensionSpec<ExtendedOptions, ExtendedCommands>)
+//   }
+
+//   const setOptions = (options?: Partial<Options>) => {
+//     const { defaultOptions, ...rest } = config
+
+//     return {
+//       ...defaultExtension,
+//       ...rest,
+//       options: {
+//         ...defaultOptions,
+//         ...options,
+//       } as Options,
+//     }
+//   }
+
+//   return Object.assign(setOptions, { config, extend })
+// }
+
+export class Extension<Options = any, Commands = any> {
+  config: Required<ExtensionSpec> = {
+    name: 'extension',
+    defaultOptions: {},
+    addGlobalAttributes: () => [],
+    addCommands: () => ({}),
+    addKeyboardShortcuts: () => ({}),
+    addInputRules: () => [],
+    addPasteRules: () => [],
+    addProseMirrorPlugins: () => [],
   }
 
-  const setOptions = (options?: Partial<Options>) => {
-    const { defaultOptions, ...rest } = config
+  options!: Options
 
-    return {
-      ...defaultExtension,
-      ...rest,
-      options: {
-        ...defaultOptions,
-        ...options,
-      } as Options,
+  constructor(config: ExtensionSpec<Options, Commands>) {
+    this.config = {
+      ...this.config,
+      ...config,
+    }
+
+    this.options = this.config.defaultOptions
+  }
+
+  static create<O, C>(config: ExtensionSpec<O, C>) {
+    return new Extension<O, C>(config)
+  }
+
+  set(options: Options) {
+    this.options = {
+      ...this.config.defaultOptions,
+      ...options,
     }
   }
 
-  return Object.assign(setOptions, { config, extend })
+  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<ExtensionSpec<ExtendedOptions, ExtendedCommands>>) {
+    return new Extension<ExtendedOptions, ExtendedCommands>({
+      ...this.config,
+      ...extendedConfig,
+    } as ExtensionSpec<ExtendedOptions, ExtendedCommands>)
+  }
 }

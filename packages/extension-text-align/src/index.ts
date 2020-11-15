@@ -1,4 +1,4 @@
-import { Command, createExtension } from '@tiptap/core'
+import { Command, Extension } from '@tiptap/core'
 
 type TextAlignOptions = {
   types: string[],
@@ -6,7 +6,7 @@ type TextAlignOptions = {
   defaultAlignment: string,
 }
 
-const TextAlign = createExtension({
+const TextAlign = Extension.create({
   defaultOptions: <TextAlignOptions>{
     types: ['heading', 'paragraph'],
     alignments: ['left', 'center', 'right', 'justify'],

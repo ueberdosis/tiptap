@@ -1,4 +1,4 @@
-import { createExtension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 import {
   emDash,
   ellipsis,
@@ -20,7 +20,7 @@ export const laquo = new InputRule(/<<$/, '«')
 export const raquo = new InputRule(/>>$/, '»')
 export const multiplication = new InputRule(/\d+\s?([*x])\s?\d+$/, '×')
 
-const Typography = createExtension({
+const Typography = Extension.create({
   addInputRules() {
     return [
       emDash,

@@ -2,7 +2,7 @@ import {
   DOMOutputSpec, MarkSpec, Mark, MarkType,
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
-import { ExtensionSpec, defaultExtension } from './Extension'
+import { ExtensionSpec } from './Extension'
 import { Attributes, Overwrite } from './types'
 import { Editor } from './Editor'
 
@@ -106,46 +106,95 @@ export interface MarkExtensionSpec<Options = any, Commands = {}> extends Overwri
   }) => Plugin[],
 }> {}
 
-export type MarkExtension = Required<Omit<MarkExtensionSpec, 'defaultOptions'> & {
-  type: string,
-  options: {
-    [key: string]: any
-  },
-}>
+// export type MarkExtension = Required<Omit<MarkExtensionSpec, 'defaultOptions'> & {
+//   type: string,
+//   options: {
+//     [key: string]: any
+//   },
+// }>
 
-const defaultMark: MarkExtension = {
-  ...defaultExtension,
-  type: 'mark',
-  name: 'mark',
-  inclusive: null,
-  excludes: null,
-  group: null,
-  spanning: null,
-  parseHTML: () => null,
-  renderHTML: null,
-  addAttributes: () => ({}),
-}
+// const defaultMark: MarkExtension = {
+//   ...defaultExtension,
+//   type: 'mark',
+//   name: 'mark',
+//   inclusive: null,
+//   excludes: null,
+//   group: null,
+//   spanning: null,
+//   parseHTML: () => null,
+//   renderHTML: null,
+//   addAttributes: () => ({}),
+// }
 
-export function createMark<Options extends {}, Commands extends {}>(config: MarkExtensionSpec<Options, Commands>) {
-  const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
-    return createMark({
-      ...config,
-      ...extendedConfig,
-    } as MarkExtensionSpec<ExtendedOptions, ExtendedCommands>)
+// export function createMark<Options extends {}, Commands extends {}>(config: MarkExtensionSpec<Options, Commands>) {
+//   const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
+//     return createMark({
+//       ...config,
+//       ...extendedConfig,
+//     } as MarkExtensionSpec<ExtendedOptions, ExtendedCommands>)
+//   }
+
+//   const setOptions = (options?: Partial<Options>) => {
+//     const { defaultOptions, ...rest } = config
+
+//     return {
+//       ...defaultMark,
+//       ...rest,
+//       options: {
+//         ...defaultOptions,
+//         ...options,
+//       } as Options,
+//     }
+//   }
+
+//   return Object.assign(setOptions, { config, extend })
+// }
+
+export class MarkExtension<Options = any, Commands = any> {
+  config: Required<MarkExtensionSpec> = {
+    name: 'mark',
+    defaultOptions: {},
+    addGlobalAttributes: () => [],
+    addCommands: () => ({}),
+    addKeyboardShortcuts: () => ({}),
+    addInputRules: () => [],
+    addPasteRules: () => [],
+    addProseMirrorPlugins: () => [],
+    inclusive: null,
+    excludes: null,
+    group: null,
+    spanning: null,
+    parseHTML: () => null,
+    renderHTML: null,
+    addAttributes: () => ({}),
   }
 
-  const setOptions = (options?: Partial<Options>) => {
-    const { defaultOptions, ...rest } = config
+  options!: Options
 
-    return {
-      ...defaultMark,
-      ...rest,
-      options: {
-        ...defaultOptions,
-        ...options,
-      } as Options,
+  constructor(config: MarkExtensionSpec<Options, Commands>) {
+    this.config = {
+      ...this.config,
+      ...config,
+    }
+
+    this.options = this.config.defaultOptions
+  }
+
+  static create<O, C>(config: MarkExtensionSpec<O, C>) {
+    return new MarkExtension<O, C>(config)
+  }
+
+  set(options: Options) {
+    this.options = {
+      ...this.config.defaultOptions,
+      ...options,
     }
   }
 
-  return Object.assign(setOptions, { config, extend })
+  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkExtensionSpec<ExtendedOptions, ExtendedCommands>>) {
+    return new MarkExtension<ExtendedOptions, ExtendedCommands>({
+      ...this.config,
+      ...extendedConfig,
+    } as MarkExtensionSpec<ExtendedOptions, ExtendedCommands>)
+  }
 }

@@ -1,6 +1,6 @@
-import { createNode } from '@tiptap/core'
+import { NodeExtension } from '@tiptap/core'
 
-const Document = createNode({
+const Document = NodeExtension.create({
   name: 'document',
   topNode: true,
   content: 'block+',

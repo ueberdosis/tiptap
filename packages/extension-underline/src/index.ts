@@ -1,4 +1,4 @@
-import { Command, createMark } from '@tiptap/core'
+import { Command, MarkExtension } from '@tiptap/core'
 
 export interface UnderlineOptions {
   HTMLAttributes: {
@@ -6,7 +6,7 @@ export interface UnderlineOptions {
   },
 }
 
-const Underline = createMark({
+const Underline = MarkExtension.create({
   name: 'underline',
 
   defaultOptions: <UnderlineOptions>{

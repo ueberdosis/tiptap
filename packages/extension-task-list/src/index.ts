@@ -1,4 +1,4 @@
-import { Command, createNode, mergeAttributes } from '@tiptap/core'
+import { Command, NodeExtension, mergeAttributes } from '@tiptap/core'
 
 export interface TaskListOptions {
   HTMLAttributes: {
@@ -6,7 +6,7 @@ export interface TaskListOptions {
   },
 }
 
-const TaskList = createNode({
+const TaskList = NodeExtension.create({
   name: 'taskList',
 
   defaultOptions: <TaskListOptions>{

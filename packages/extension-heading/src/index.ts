@@ -1,4 +1,4 @@
-import { Command, createNode } from '@tiptap/core'
+import { Command, NodeExtension } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6
@@ -10,7 +10,7 @@ export interface HeadingOptions {
   },
 }
 
-const Heading = createNode({
+const Heading = NodeExtension.create({
   name: 'heading',
 
   defaultOptions: <HeadingOptions>{

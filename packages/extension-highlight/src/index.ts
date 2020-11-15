@@ -1,6 +1,6 @@
 import {
   Command,
-  createMark,
+  MarkExtension,
   markInputRule,
   markPasteRule,
 } from '@tiptap/core'
@@ -14,7 +14,7 @@ export interface HighlightOptions {
 export const inputRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))$/gm
 export const pasteRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))/gm
 
-const Highlight = createMark({
+const Highlight = MarkExtension.create({
   name: 'highlight',
 
   defaultOptions: <HighlightOptions>{

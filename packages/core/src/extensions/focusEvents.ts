@@ -1,7 +1,7 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
-import { createExtension } from '../Extension'
+import { Extension } from '../Extension'
 
-export const FocusEvents = createExtension({
+export const FocusEvents = Extension.create({
   addProseMirrorPlugins() {
     const { editor } = this
 

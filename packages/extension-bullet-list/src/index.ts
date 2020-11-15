@@ -1,4 +1,4 @@
-import { Command, createNode } from '@tiptap/core'
+import { Command, NodeExtension } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface BulletListOptions {
@@ -9,7 +9,7 @@ export interface BulletListOptions {
 
 export const inputRegex = /^\s*([-+*])\s$/
 
-const BulletList = createNode({
+const BulletList = NodeExtension.create({
   name: 'bulletList',
 
   defaultOptions: <BulletListOptions>{

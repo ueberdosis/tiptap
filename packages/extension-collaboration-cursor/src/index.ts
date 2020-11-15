@@ -1,4 +1,4 @@
-import { createExtension, Command } from '@tiptap/core'
+import { Extension, Command } from '@tiptap/core'
 import { yCursorPlugin } from 'y-prosemirror'
 
 export interface CollaborationCursorOptions {
@@ -8,7 +8,7 @@ export interface CollaborationCursorOptions {
   render (user: { name: string, color: string }): HTMLElement,
 }
 
-const CollaborationCursor = createExtension({
+const CollaborationCursor = Extension.create({
   defaultOptions: <CollaborationCursorOptions>{
     provider: null,
     name: 'Someone',
