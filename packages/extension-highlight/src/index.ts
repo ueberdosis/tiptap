@@ -88,10 +88,8 @@ const Highlight = Mark.create({
 
 export default Highlight
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      Highlight: typeof Highlight,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    Highlight: typeof Highlight,
   }
 }

@@ -83,10 +83,8 @@ const Heading = Node.create({
 
 export default Heading
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      Heading: typeof Heading,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    Heading: typeof Heading,
   }
 }

@@ -147,10 +147,8 @@ export const Commands = Extension.create({
   },
 })
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      Commands: typeof Commands,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    Commands: typeof Commands,
   }
 }

@@ -74,10 +74,8 @@ const Strike = Mark.create({
 
 export default Strike
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      Strike: typeof Strike,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    Strike: typeof Strike,
   }
 }

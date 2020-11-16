@@ -14,10 +14,8 @@ export const Editable = Extension.create({
   },
 })
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      Editable: typeof Editable,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    Editable: typeof Editable,
   }
 }

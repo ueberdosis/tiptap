@@ -45,10 +45,8 @@ const Underline = Mark.create({
 
 export default Underline
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      Underline: typeof Underline,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    Underline: typeof Underline,
   }
 }

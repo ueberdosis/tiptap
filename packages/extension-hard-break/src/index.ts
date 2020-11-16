@@ -50,10 +50,8 @@ const HardBreak = Node.create({
 
 export default HardBreak
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      HardBreak: typeof HardBreak,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    HardBreak: typeof HardBreak,
   }
 }

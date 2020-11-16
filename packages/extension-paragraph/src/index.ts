@@ -47,10 +47,8 @@ const Paragraph = Node.create({
 
 export default Paragraph
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      Paragraph: typeof Paragraph,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    Paragraph: typeof Paragraph,
   }
 }

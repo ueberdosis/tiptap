@@ -64,10 +64,8 @@ const CollaborationCursor = Extension.create({
 
 export default CollaborationCursor
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      CollaborationCursor: typeof CollaborationCursor,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    CollaborationCursor: typeof CollaborationCursor,
   }
 }

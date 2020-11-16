@@ -11,10 +11,8 @@ const Dropcursor = Extension.create({
 
 export default Dropcursor
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      Dropcursor: typeof Dropcursor,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    Dropcursor: typeof Dropcursor,
   }
 }

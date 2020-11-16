@@ -125,10 +125,8 @@ const TaskItem = Node.create({
 
 export default TaskItem
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      TaskItem: typeof TaskItem,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    TaskItem: typeof TaskItem,
   }
 }

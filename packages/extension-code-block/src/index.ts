@@ -99,10 +99,8 @@ const CodeBlock = Node.create({
 
 export default CodeBlock
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      CodeBlock: typeof CodeBlock,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    CodeBlock: typeof CodeBlock,
   }
 }

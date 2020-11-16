@@ -44,10 +44,8 @@ const TaskList = Node.create({
 
 export default TaskList
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      TaskList: typeof TaskList,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    TaskList: typeof TaskList,
   }
 }

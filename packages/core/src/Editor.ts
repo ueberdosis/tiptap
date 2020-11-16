@@ -21,6 +21,8 @@ import { Extensions, UnionToIntersection } from './types'
 import * as extensions from './extensions'
 import style from './style'
 
+export { extensions }
+
 export type Command = (props: {
   editor: Editor,
   tr: Transaction,
@@ -38,25 +40,21 @@ export interface CommandsSpec {
   [key: string]: CommandSpec
 }
 
-declare global {
-  namespace Tiptap {
-    export interface AllExtensions {}
-  }
-}
+export interface AllExtensions {}
 
-type UnfilteredCommands = {
-  [Item in keyof Tiptap.AllExtensions]: Tiptap.AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
+export type UnfilteredCommands = {
+  [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
     ? ExtensionCommands
-    : Tiptap.AllExtensions[Item] extends Node<any, infer NodeCommands>
+    : AllExtensions[Item] extends Node<any, infer NodeCommands>
       ? NodeCommands
-      : Tiptap.AllExtensions[Item] extends Mark<any, infer MarkCommands>
+      : AllExtensions[Item] extends Mark<any, infer MarkCommands>
         ? MarkCommands
         : never
 }
 
-type ValuesOf<T> = T[keyof T];
-type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
-type AllCommands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
+export type ValuesOf<T> = T[keyof T];
+export type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
+export type AllCommands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
 
 export type SingleCommands = {
   [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any

@@ -1,9 +1,9 @@
 import { EditorState, Transaction } from 'prosemirror-state'
 import {
-  Editor,
-  CommandSpec,
   SingleCommands,
   ChainedCommands,
+  Editor,
+  CommandSpec,
 } from './Editor'
 import getAllMethodNames from './utils/getAllMethodNames'
 

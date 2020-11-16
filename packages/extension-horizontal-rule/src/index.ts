@@ -47,10 +47,8 @@ const HorizontalRule = Node.create({
 
 export default HorizontalRule
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      HorizontalRule: typeof HorizontalRule,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    HorizontalRule: typeof HorizontalRule,
   }
 }

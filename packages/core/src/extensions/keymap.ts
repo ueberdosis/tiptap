@@ -45,10 +45,8 @@ export const Keymap = Extension.create({
   },
 })
 
-declare global {
-  namespace Tiptap {
-    interface AllExtensions {
-      Keymap: typeof Keymap,
-    }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    Keymap: typeof Keymap,
   }
 }
