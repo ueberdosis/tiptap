@@ -136,7 +136,6 @@ export default {
       extensions: [
         ...defaultExtensions(),
         Collaboration.configure({
-          provider: this.provider,
           type: this.type,
         }),
         CollaborationCursor.configure({
