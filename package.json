@@ -13,7 +13,7 @@
   "scripts": {
     "start": "yarn --cwd ./docs start",
     "build:docs": "yarn --cwd ./docs build",
-    "build:packages": "yarn clean:packages && rollup -c",
+    "build:packages": "yarn clean:packages && node --max-old-space-size=8192 node_modules/.bin/rollup -c",
     "build:ci": "yarn clean:packages && rollup -c --ci",
     "clean:packages": "rm -rf ./packages/*/dist",
     "release": "yarn lint && yarn test && yarn build:packages && lerna publish",
