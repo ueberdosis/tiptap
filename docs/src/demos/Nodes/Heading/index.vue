@@ -39,7 +39,7 @@ export default {
         Document,
         Paragraph,
         Text,
-        Heading.set({
+        Heading.configure({
           levels: [1, 2, 3],
         }),
       ],

@@ -140,16 +140,16 @@ export class MarkExtension<Options = any, Commands = {}> {
     return new MarkExtension<O, C>(config)
   }
 
-  set(options: Partial<Options>) {
+  configure(options: Partial<Options>) {
     return MarkExtension
       .create<Options, Commands>(this.config as MarkExtensionSpec<Options, Commands>)
-      .#set({
+      .#configure({
         ...this.config.defaultOptions,
         ...options,
       })
   }
 
-  #set = (options: Partial<Options>) => {
+  #configure = (options: Partial<Options>) => {
     this.options = {
       ...this.config.defaultOptions,
       ...options,

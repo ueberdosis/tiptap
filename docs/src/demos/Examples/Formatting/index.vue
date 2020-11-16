@@ -64,7 +64,7 @@ export default {
         Document,
         Paragraph,
         Text,
-        Heading.set({
+        Heading.configure({
           level: [1, 2, 3],
         }),
         Bold,

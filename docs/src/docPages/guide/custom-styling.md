@@ -34,12 +34,12 @@ Most extensions allow you to add attributes to the rendered HTML through the `HT
 new Editor({
   extensions: [
     Document,
-    Paragraph.set({
+    Paragraph.configure({
       HTMLAttributes: {
         class: 'my-custom-paragraph',
       },
     }),
-    Heading.set({
+    Heading.configure({
       HTMLAttributes: {
         class: 'my-custom-heading',
       },

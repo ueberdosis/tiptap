@@ -90,16 +90,16 @@ export class Extension<Options = any, Commands = any> {
     return new Extension<O, C>(config)
   }
 
-  set(options: Partial<Options>) {
+  configure(options: Partial<Options>) {
     return Extension
       .create<Options, Commands>(this.config as ExtensionSpec<Options, Commands>)
-      .#set({
+      .#configure({
         ...this.config.defaultOptions,
         ...options,
       })
   }
 
-  #set = (options: Partial<Options>) => {
+  #configure = (options: Partial<Options>) => {
     this.options = {
       ...this.config.defaultOptions,
       ...options,

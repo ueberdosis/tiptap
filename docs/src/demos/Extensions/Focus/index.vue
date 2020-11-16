@@ -31,7 +31,7 @@ export default {
         Document,
         Paragraph,
         Text,
-        Focus.set({
+        Focus.configure({
           className: 'has-focus',
           nested: true,
         }),

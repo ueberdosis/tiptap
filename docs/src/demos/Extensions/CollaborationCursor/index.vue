@@ -41,11 +41,11 @@ export default {
         Document,
         Paragraph,
         Text,
-        Collaboration.set({
+        Collaboration.configure({
           provider: this.provider,
           type: this.type,
         }),
-        CollaborationCursor.set({
+        CollaborationCursor.configure({
           provider: this.provider,
           name: 'Cyndi Lauper',
           color: '#f783ac',
