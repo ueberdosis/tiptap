@@ -1,3 +1,5 @@
+export interface AllExtensions {}
+
 export * from './Editor'
 export * from './Extension'
 export * from './Node'

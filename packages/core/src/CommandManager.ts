@@ -2,6 +2,7 @@ import { EditorState, Transaction } from 'prosemirror-state'
 import {
   SingleCommands,
   ChainedCommands,
+  CanCommands,
   Editor,
   CommandSpec,
 } from './Editor'
@@ -110,7 +111,7 @@ export default class CommandManager {
     return {
       ...formattedCommands,
       chain: () => this.createChain(tr, dispatch),
-    }
+    } as CanCommands
   }
 
   public buildProps(tr: Transaction, shouldDispatch = true) {

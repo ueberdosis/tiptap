@@ -20,6 +20,7 @@ import { Mark } from './Mark'
 import { Extensions, UnionToIntersection } from './types'
 import * as extensions from './extensions'
 import style from './style'
+import { AllExtensions } from '.'
 
 export { extensions }
 
@@ -39,8 +40,6 @@ export type CommandSpec = (...args: any[]) => Command
 export interface CommandsSpec {
   [key: string]: CommandSpec
 }
-
-export interface AllExtensions {}
 
 export type UnfilteredCommands = {
   [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
@@ -69,6 +68,8 @@ export type ChainedCommands = {
 } & {
   run: () => boolean
 }
+
+export type CanCommands = SingleCommands & { chain: () => ChainedCommands }
 
 type EditorContent = string | JSON | null
 
