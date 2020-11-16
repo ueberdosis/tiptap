@@ -1,10 +1,4 @@
-export {
-  Editor,
-  Command,
-  CommandsSpec,
-  AllExtensions,
-} from './Editor'
-
+export * from './Editor'
 export * from './Extension'
 export * from './Node'
 export * from './Mark'

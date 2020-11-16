@@ -21,6 +21,8 @@ import { Extensions, UnionToIntersection } from './types'
 import * as extensions from './extensions'
 import style from './style'
 
+export { extensions }
+
 export type Command = (props: {
   editor: Editor,
   tr: Transaction,
@@ -50,9 +52,9 @@ export type UnfilteredCommands = {
         : never
 }
 
-type ValuesOf<T> = T[keyof T];
-type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
-type AllCommands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
+export type ValuesOf<T> = T[keyof T];
+export type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
+export type AllCommands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
 
 export type SingleCommands = {
   [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
