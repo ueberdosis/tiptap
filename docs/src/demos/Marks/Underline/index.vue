@@ -30,10 +30,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Underline(),
+        Document,
+        Paragraph,
+        Text,
+        Underline,
       ],
       content: `
         <p>There is no underline here.</p>

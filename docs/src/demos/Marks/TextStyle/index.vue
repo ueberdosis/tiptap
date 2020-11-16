@@ -26,10 +26,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        TextStyle(),
+        Document,
+        Paragraph,
+        Text,
+        TextStyle,
       ],
       content: `
         <p><span>This has a &lt;span&gt; tag without a style attribute, so it’s thrown away.</span></p>

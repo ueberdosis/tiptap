@@ -150,59 +150,7 @@ export interface NodeExtensionSpec<Options = any, Commands = {}> extends Overwri
   }) => NodeViewRenderer) | null,
 }> {}
 
-// export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {
-//   type: string,
-//   options: {
-//     [key: string]: any
-//   },
-// }>
-
-// const defaultNode: NodeExtension = {
-//   ...defaultExtension,
-//   type: 'node',
-//   name: 'node',
-//   topNode: false,
-//   content: null,
-//   marks: null,
-//   group: null,
-//   inline: null,
-//   atom: null,
-//   selectable: null,
-//   draggable: null,
-//   code: null,
-//   defining: null,
-//   isolating: null,
-//   parseHTML: () => null,
-//   renderHTML: null,
-//   addAttributes: () => ({}),
-//   addNodeView: null,
-// }
-
-// export function createNode<Options extends {}, Commands extends {}>(config: NodeExtensionSpec<Options, Commands>) {
-//   const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<NodeExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
-//     return createNode({
-//       ...config,
-//       ...extendedConfig,
-//     } as NodeExtensionSpec<ExtendedOptions, ExtendedCommands>)
-//   }
-
-//   const setOptions = (options?: Partial<Options>) => {
-//     const { defaultOptions, ...rest } = config
-
-//     return {
-//       ...defaultNode,
-//       ...rest,
-//       options: {
-//         ...defaultOptions,
-//         ...options,
-//       } as Options,
-//     }
-//   }
-
-//   return Object.assign(setOptions, { config, extend })
-// }
-
-export class NodeExtension<Options = any, Commands = any> {
+export class NodeExtension<Options = any, Commands = {}> {
   config: Required<NodeExtensionSpec> = {
     name: 'node',
     defaultOptions: {},
@@ -249,6 +197,8 @@ export class NodeExtension<Options = any, Commands = any> {
       ...this.config.defaultOptions,
       ...options,
     }
+
+    return this
   }
 
   extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<NodeExtensionSpec<ExtendedOptions, ExtendedCommands>>) {

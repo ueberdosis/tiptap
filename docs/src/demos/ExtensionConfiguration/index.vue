@@ -26,10 +26,10 @@ export default {
     this.editor = new Editor({
       content: '<p>I’m running tiptap with Vue.js. This demo is interactive, try to edit the text.</p>',
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Bold(),
+        Document,
+        Paragraph,
+        Text,
+        Bold,
       ],
     })
   },

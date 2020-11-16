@@ -30,10 +30,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Italic(),
+        Document,
+        Paragraph,
+        Text,
+        Italic,
       ],
       content: `
         <p>This isn’t italic.</p>

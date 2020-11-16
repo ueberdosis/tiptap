@@ -14,6 +14,9 @@ import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
+import { Extension } from './Extension'
+import { NodeExtension } from './NodeExtension'
+import { MarkExtension } from './MarkExtension'
 import { Extensions, UnionToIntersection, PickValue } from './types'
 import * as extensions from './extensions'
 import style from './style'
@@ -37,7 +40,62 @@ export interface CommandsSpec {
 
 export interface AllExtensions {}
 
-export type AllCommands = UnionToIntersection<ReturnType<PickValue<ReturnType<AllExtensions[keyof AllExtensions]>, 'addCommands'>>>
+// type names = AllExtensions[keyof AllExtensions]
+// type onlyExtensions = AllExtensions[keyof AllExtensions] extends Extension ? '1' : '0'
+// type onlyExtensions = AllExtensions[keyof AllExtensions extends Extension ? '1' : '0']
+
+// export type OnlyExtensions = {
+//   [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension
+//   ? AllExtensions[Item]
+//   : never
+// }
+
+// type ExtractCat<A> = A extends Extension ? A : never
+
+// export type OnlyExtensions = ExtractCat<Item in keyof AllExtensions>
+
+// type ExtractCommands<G> = G extends Extension<any, infer S> ? S : never
+// type Test = UnionToIntersection<ExtractCommands<OnlyExtensions[keyof OnlyExtensions]>>
+
+// type SubType<Base, Condition> = Pick<Base, {
+//   [Key in keyof Base]: Base[Key] extends Condition ? Key : never
+// }[keyof Base]>;
+
+// type OnlyExtensions = SubType<AllExtensions, Extension>
+// type ExtractCommands<G> = G extends Extension<any, infer S> ? S : never
+// type Test = ExtractCommands<OnlyExtensions[keyof OnlyExtensions]>
+
+// type ExtractCommands<G> = G extends Extension<any, infer S>
+//   ? never
+//   : G extends NodeExtension<any, infer T>
+//     ? never
+//     : G extends MarkExtension<any, infer U>
+//       ? U
+//       : never
+
+// export type Bla = {
+//   [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer S>
+//     ? S
+//     : AllExtensions[Item] extends NodeExtension<any, infer T>
+//       ? T
+//       : AllExtensions[Item] extends MarkExtension<any, infer U>
+//         ? U
+//         : never
+// }
+
+export type Bla = {
+  [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
+    ? ExtensionCommands
+    : AllExtensions[Item] extends NodeExtension<any, infer NodeExtensionCommands>
+      ? NodeExtensionCommands
+      : AllExtensions[Item] extends MarkExtension<any, infer MarkExtensionCommands>
+        ? MarkExtensionCommands
+        : never
+}
+
+type ValuesOf<T> = T[keyof T];
+type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
+type AllCommands = UnionToIntersection<ValuesOf<Pick<Bla, KeysWithTypeOf<Bla, {}>>>>
 
 export type SingleCommands = {
   [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
@@ -239,7 +297,7 @@ export class Editor extends EventEmitter {
    * Creates an extension manager.
    */
   private createExtensionManager() {
-    const coreExtensions = Object.entries(extensions).map(([, extension]) => extension())
+    const coreExtensions = Object.entries(extensions).map(([, extension]) => extension)
     const allExtensions = [...this.options.extensions, ...coreExtensions]
 
     this.extensionManager = new ExtensionManager(allExtensions, this.proxy)

@@ -27,7 +27,7 @@ export default function getAttributesFromExtensions(extensions: Extensions) {
       options: extension.options,
     }
 
-    const globalAttributes = extension.addGlobalAttributes.bind(context)() as GlobalAttributes
+    const globalAttributes = extension.config.addGlobalAttributes.bind(context)() as GlobalAttributes
 
     globalAttributes.forEach(globalAttribute => {
       globalAttribute.types.forEach(type => {
@@ -52,13 +52,13 @@ export default function getAttributesFromExtensions(extensions: Extensions) {
       options: extension.options,
     }
 
-    const attributes = extension.addAttributes.bind(context)() as Attributes
+    const attributes = extension.config.addAttributes.bind(context)() as Attributes
 
     Object
       .entries(attributes)
       .forEach(([name, attribute]) => {
         extensionAttributes.push({
-          type: extension.name,
+          type: extension.config.name,
           name,
           attribute: {
             ...defaultAttribute,

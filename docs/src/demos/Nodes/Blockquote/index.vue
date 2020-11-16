@@ -30,10 +30,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Blockquote(),
+        Document,
+        Paragraph,
+        Text,
+        Blockquote,
       ],
       content: `
           <blockquote>

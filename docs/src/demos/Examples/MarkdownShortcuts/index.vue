@@ -37,7 +37,7 @@ export default {
       `,
       extensions: [
         ...defaultExtensions(),
-        Highlight(),
+        Highlight,
       ],
     })
   },

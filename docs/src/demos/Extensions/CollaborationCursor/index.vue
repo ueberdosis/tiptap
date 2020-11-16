@@ -38,14 +38,14 @@ export default {
       //   <p>Example Text</p>
       // `,
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Collaboration({
+        Document,
+        Paragraph,
+        Text,
+        Collaboration.set({
           provider: this.provider,
           type: this.type,
         }),
-        CollaborationCursor({
+        CollaborationCursor.set({
           provider: this.provider,
           name: 'Cyndi Lauper',
           color: '#f783ac',

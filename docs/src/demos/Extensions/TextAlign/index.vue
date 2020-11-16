@@ -42,11 +42,11 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Heading(),
-        TextAlign(),
+        Document,
+        Paragraph,
+        Text,
+        Heading,
+        TextAlign,
       ],
       content: `
         <h2>Heading</h2>

@@ -19,9 +19,9 @@ describe('generateHTML', () => {
     }
 
     const html = generateHTML(json, [
-      Document(),
-      Paragraph(),
-      Text(),
+      Document,
+      Paragraph,
+      Text,
     ])
 
     expect(html).to.eq('<p>Example Text</p>')

@@ -36,10 +36,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Heading({
+        Document,
+        Paragraph,
+        Text,
+        Heading.set({
           levels: [1, 2, 3],
         }),
       ],

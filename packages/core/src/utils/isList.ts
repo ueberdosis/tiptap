@@ -4,13 +4,13 @@ import callOrReturn from './callOrReturn'
 
 export default function isList(name: string, extensions: Extensions) {
   const { nodeExtensions } = splitExtensions(extensions)
-  const extension = nodeExtensions.find(item => item.name === name)
+  const extension = nodeExtensions.find(item => item.config.name === name)
 
   if (!extension) {
     return false
   }
 
-  const groups = callOrReturn(extension.group, { options: extension.options })
+  const groups = callOrReturn(extension.config.group, { options: extension.options })
 
   if (typeof groups !== 'string') {
     return false

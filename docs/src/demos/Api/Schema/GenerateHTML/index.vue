@@ -27,9 +27,9 @@ export default {
 
   mounted() {
     this.html = generateHTML(this.json, [
-      Document(),
-      Paragraph(),
-      Text(),
+      Document,
+      Paragraph,
+      Text,
     ])
   },
 }

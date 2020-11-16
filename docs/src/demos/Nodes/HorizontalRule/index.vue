@@ -30,10 +30,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        HorizontalRule(),
+        Document,
+        Paragraph,
+        Text,
+        HorizontalRule,
       ],
       content: `
         <p>This is a paragraph.</p>

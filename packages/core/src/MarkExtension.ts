@@ -106,51 +106,7 @@ export interface MarkExtensionSpec<Options = any, Commands = {}> extends Overwri
   }) => Plugin[],
 }> {}
 
-// export type MarkExtension = Required<Omit<MarkExtensionSpec, 'defaultOptions'> & {
-//   type: string,
-//   options: {
-//     [key: string]: any
-//   },
-// }>
-
-// const defaultMark: MarkExtension = {
-//   ...defaultExtension,
-//   type: 'mark',
-//   name: 'mark',
-//   inclusive: null,
-//   excludes: null,
-//   group: null,
-//   spanning: null,
-//   parseHTML: () => null,
-//   renderHTML: null,
-//   addAttributes: () => ({}),
-// }
-
-// export function createMark<Options extends {}, Commands extends {}>(config: MarkExtensionSpec<Options, Commands>) {
-//   const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
-//     return createMark({
-//       ...config,
-//       ...extendedConfig,
-//     } as MarkExtensionSpec<ExtendedOptions, ExtendedCommands>)
-//   }
-
-//   const setOptions = (options?: Partial<Options>) => {
-//     const { defaultOptions, ...rest } = config
-
-//     return {
-//       ...defaultMark,
-//       ...rest,
-//       options: {
-//         ...defaultOptions,
-//         ...options,
-//       } as Options,
-//     }
-//   }
-
-//   return Object.assign(setOptions, { config, extend })
-// }
-
-export class MarkExtension<Options = any, Commands = any> {
+export class MarkExtension<Options = any, Commands = {}> {
   config: Required<MarkExtensionSpec> = {
     name: 'mark',
     defaultOptions: {},
@@ -189,6 +145,8 @@ export class MarkExtension<Options = any, Commands = any> {
       ...this.config.defaultOptions,
       ...options,
     }
+
+    return this
   }
 
   extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkExtensionSpec<ExtendedOptions, ExtendedCommands>>) {
