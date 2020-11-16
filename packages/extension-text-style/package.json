@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-text-style",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.0",
   "homepage": "https://tiptap.dev",
   "keywords": ["tiptap", "tiptap extension"],
   "license": "MIT",
