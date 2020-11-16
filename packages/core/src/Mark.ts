@@ -1,12 +1,15 @@
 import {
-  DOMOutputSpec, MarkSpec, Mark, MarkType,
+  DOMOutputSpec,
+  MarkSpec,
+  Mark as ProseMirrorMark,
+  MarkType,
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
-import { ExtensionSpec, defaultExtension } from './Extension'
+import { ExtensionConfig } from './Extension'
 import { Attributes, Overwrite } from './types'
 import { Editor } from './Editor'
 
-export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
+export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<ExtensionConfig<Options, Commands>, {
   /**
    * Inclusive
    */
@@ -44,8 +47,8 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Overwrit
       options: Options,
     },
     props: {
-      mark: Mark,
-      attributes: { [key: string]: any },
+      mark: ProseMirrorMark,
+      HTMLAttributes: { [key: string]: any },
     }
   ) => DOMOutputSpec) | null,
 
@@ -106,46 +109,62 @@ export interface MarkExtensionSpec<Options = {}, Commands = {}> extends Overwrit
   }) => Plugin[],
 }> {}
 
-export type MarkExtension = Required<Omit<MarkExtensionSpec, 'defaultOptions'> & {
-  type: string,
-  options: {
-    [key: string]: any
-  },
-}>
+export class Mark<Options = any, Commands = {}> {
+  config: Required<MarkConfig> = {
+    name: 'mark',
+    defaultOptions: {},
+    addGlobalAttributes: () => [],
+    addCommands: () => ({}),
+    addKeyboardShortcuts: () => ({}),
+    addInputRules: () => [],
+    addPasteRules: () => [],
+    addProseMirrorPlugins: () => [],
+    inclusive: null,
+    excludes: null,
+    group: null,
+    spanning: null,
+    parseHTML: () => null,
+    renderHTML: null,
+    addAttributes: () => ({}),
+  }
 
-const defaultMark: MarkExtension = {
-  ...defaultExtension,
-  type: 'mark',
-  name: 'mark',
-  inclusive: null,
-  excludes: null,
-  group: null,
-  spanning: null,
-  parseHTML: () => null,
-  renderHTML: null,
-  addAttributes: () => ({}),
-}
+  options!: Options
 
-export function createMark<Options extends {}, Commands extends {}>(config: MarkExtensionSpec<Options, Commands>) {
-  const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
-    return createMark({
+  constructor(config: MarkConfig<Options, Commands>) {
+    this.config = {
+      ...this.config,
       ...config,
-      ...extendedConfig,
-    } as MarkExtensionSpec<ExtendedOptions, ExtendedCommands>)
-  }
-
-  const setOptions = (options?: Partial<Options>) => {
-    const { defaultOptions, ...rest } = config
-
-    return {
-      ...defaultMark,
-      ...rest,
-      options: {
-        ...defaultOptions,
-        ...options,
-      } as Options,
     }
+
+    this.options = this.config.defaultOptions
   }
 
-  return Object.assign(setOptions, { config, extend })
+  static create<O, C>(config: MarkConfig<O, C>) {
+    return new Mark<O, C>(config)
+  }
+
+  configure(options: Partial<Options>) {
+    return Mark
+      .create<Options, Commands>(this.config as MarkConfig<Options, Commands>)
+      .#configure({
+        ...this.config.defaultOptions,
+        ...options,
+      })
+  }
+
+  #configure = (options: Partial<Options>) => {
+    this.options = {
+      ...this.config.defaultOptions,
+      ...options,
+    }
+
+    return this
+  }
+
+  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkConfig<ExtendedOptions, ExtendedCommands>>) {
+    return new Mark<ExtendedOptions, ExtendedCommands>({
+      ...this.config,
+      ...extendedConfig,
+    } as MarkConfig<ExtendedOptions, ExtendedCommands>)
+  }
 }

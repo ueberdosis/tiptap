@@ -135,11 +135,11 @@ export default {
     this.editor = new Editor({
       extensions: [
         ...defaultExtensions(),
-        Collaboration({
+        Collaboration.configure({
           provider: this.provider,
           type: this.type,
         }),
-        CollaborationCursor({
+        CollaborationCursor.configure({
           provider: this.provider,
           name: this.name,
           color: this.color,

@@ -30,10 +30,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Code(),
+        Document,
+        Paragraph,
+        Text,
+        Code,
       ],
       content: `
         <p>This isn’t code.</p>

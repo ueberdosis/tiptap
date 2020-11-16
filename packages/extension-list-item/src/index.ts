@@ -1,7 +1,17 @@
-import { createNode } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 
-const ListItem = createNode({
+export interface ListItemOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
+
+const ListItem = Node.create({
   name: 'listItem',
+
+  defaultOptions: <ListItemOptions>{
+    HTMLAttributes: {},
+  },
 
   content: '(paragraph|list?)+',
 
@@ -15,8 +25,8 @@ const ListItem = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['li', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['li', HTMLAttributes, 0]
   },
 
   addKeyboardShortcuts() {

@@ -28,23 +28,23 @@ p {
 ## Option 2: Add custom classes
 Most extensions have a `class` option, which you can use to add a custom CSS class to the HTML tag.
 
-Most extensions allow you to add attributes to the rendered HTML through the `attributes` configuration. You can use that to add a custom class (or any other attribute):
+Most extensions allow you to add attributes to the rendered HTML through the `HTMLAttributes` configuration. You can use that to add a custom class (or any other attribute):
 
 ```js
 new Editor({
   extensions: [
-    Document(),
-    Paragraph({
-      attributes: {
+    Document,
+    Paragraph.configure({
+      HTMLAttributes: {
         class: 'my-custom-paragraph',
       },
     }),
-    Heading({
-      attributes: {
+    Heading.configure({
+      HTMLAttributes: {
         class: 'my-custom-heading',
       },
     }),
-    Text(),
+    Text,
   ]
 })
 ```
@@ -65,10 +65,10 @@ You can even customize the markup for every extension. This will make a custom b
 import Bold from '@tiptap/extension-bold'
 
 const CustomBold = Bold.extend({
-  renderHTML({ attributes }) {
+  renderHTML({ HTMLAttributes }) {
     // Original:
-    // return ['strong', attributes, 0]
-    return ['b', attributes, 0]
+    // return ['strong', HTMLAttributes, 0]
+    return ['b', HTMLAttributes, 0]
   },
 })
 

@@ -1,10 +1,20 @@
-import { Command, createNode } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
+
+export interface BlockquoteOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
 
 export const inputRegex = /^\s*>\s$/gm
 
-const Blockquote = createNode({
+const Blockquote = Node.create({
   name: 'blockquote',
+
+  defaultOptions: <BlockquoteOptions>{
+    HTMLAttributes: {},
+  },
 
   content: 'block*',
 
@@ -18,8 +28,8 @@ const Blockquote = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['blockquote', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['blockquote', HTMLAttributes, 0]
   },
 
   addCommands() {

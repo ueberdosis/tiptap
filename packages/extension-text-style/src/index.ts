@@ -1,6 +1,6 @@
-import { Command, createMark, getMarkAttrs } from '@tiptap/core'
+import { Command, Mark, getMarkAttrs } from '@tiptap/core'
 
-const TextStyle = createMark({
+const TextStyle = Mark.create({
   name: 'textStyle',
 
   parseHTML() {
@@ -20,8 +20,8 @@ const TextStyle = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['span', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['span', HTMLAttributes, 0]
   },
 
   addCommands() {

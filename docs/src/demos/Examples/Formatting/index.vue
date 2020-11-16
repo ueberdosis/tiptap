@@ -61,16 +61,16 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Heading({
+        Document,
+        Paragraph,
+        Text,
+        Heading.configure({
           level: [1, 2, 3],
         }),
-        Bold(),
-        Italic(),
-        TextAlign(),
-        HardBreak(),
+        Bold,
+        Italic,
+        TextAlign,
+        HardBreak,
       ],
       content: `
         <h3>Girls Just Want to Have Fun (Cyndi Lauper)</h2>

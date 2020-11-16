@@ -14,7 +14,10 @@ import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
-import { Extensions, UnionToIntersection, PickValue } from './types'
+import { Extension } from './Extension'
+import { Node } from './Node'
+import { Mark } from './Mark'
+import { Extensions, UnionToIntersection } from './types'
 import * as extensions from './extensions'
 import style from './style'
 
@@ -37,7 +40,19 @@ export interface CommandsSpec {
 
 export interface AllExtensions {}
 
-export type AllCommands = UnionToIntersection<ReturnType<PickValue<ReturnType<AllExtensions[keyof AllExtensions]>, 'addCommands'>>>
+export type UnfilteredCommands = {
+  [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
+    ? ExtensionCommands
+    : AllExtensions[Item] extends Node<any, infer NodeCommands>
+      ? NodeCommands
+      : AllExtensions[Item] extends Mark<any, infer MarkCommands>
+        ? MarkCommands
+        : never
+}
+
+type ValuesOf<T> = T[keyof T];
+type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
+type AllCommands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
 
 export type SingleCommands = {
   [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
@@ -239,7 +254,7 @@ export class Editor extends EventEmitter {
    * Creates an extension manager.
    */
   private createExtensionManager() {
-    const coreExtensions = Object.entries(extensions).map(([, extension]) => extension())
+    const coreExtensions = Object.entries(extensions).map(([, extension]) => extension)
     const allExtensions = [...this.options.extensions, ...coreExtensions]
 
     this.extensionManager = new ExtensionManager(allExtensions, this.proxy)

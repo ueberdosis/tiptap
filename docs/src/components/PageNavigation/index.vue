@@ -41,7 +41,12 @@ export default {
     flattenedItems() {
       const flattenedItems = []
 
-      this.items.forEach(({ title, link, redirect, items }) => {
+      this.items.forEach(({
+        title,
+        link,
+        redirect,
+        items,
+      }) => {
         flattenedItems.push({
           title,
           link,
@@ -71,7 +76,7 @@ export default {
     previousPage() {
       let previousIndex = this.currentIndex - 1
 
-      while (this.flattenedItems[previousIndex].redirect) {
+      while (this.flattenedItems[previousIndex]?.redirect) {
         previousIndex -= 1
       }
 

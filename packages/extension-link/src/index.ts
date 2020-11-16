@@ -1,25 +1,26 @@
-import {
-  Command, createMark, markPasteRule, mergeAttributes,
-} from '@tiptap/core'
+import { Command, Mark, markPasteRule } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 
 export interface LinkOptions {
   openOnClick: boolean,
-  target: string,
-  rel: string,
+  HTMLAttributes: {
+    [key: string]: any
+  },
 }
 
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)/gi
 
-const Link = createMark({
+const Link = Mark.create({
   name: 'link',
 
   inclusive: false,
 
   defaultOptions: <LinkOptions>{
     openOnClick: true,
-    target: '_blank',
-    rel: 'noopener noreferrer nofollow',
+    HTMLAttributes: {
+      target: '_blank',
+      rel: 'noopener noreferrer nofollow',
+    },
   },
 
   addAttributes() {
@@ -28,7 +29,7 @@ const Link = createMark({
         default: null,
       },
       target: {
-        default: this.options.target,
+        default: this.options.HTMLAttributes.target,
       },
     }
   },
@@ -39,8 +40,8 @@ const Link = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['a', mergeAttributes(attributes, { rel: this.options.rel }), 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['a', HTMLAttributes, 0]
   },
 
   addCommands() {

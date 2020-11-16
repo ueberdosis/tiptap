@@ -1,14 +1,27 @@
 import {
-  Command, createMark, markInputRule, markPasteRule,
+  Command,
+  Mark,
+  markInputRule,
+  markPasteRule,
 } from '@tiptap/core'
+
+export interface ItalicOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
 
 export const starInputRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))$/gm
 export const starPasteRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))$/gm
 export const underscorePasteRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))/gm
 
-const Italic = createMark({
+const Italic = Mark.create({
   name: 'italic',
+
+  defaultOptions: <ItalicOptions>{
+    HTMLAttributes: {},
+  },
 
   parseHTML() {
     return [
@@ -25,8 +38,8 @@ const Italic = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['em', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['em', HTMLAttributes, 0]
   },
 
   addCommands() {

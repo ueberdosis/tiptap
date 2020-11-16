@@ -26,11 +26,11 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Image(),
-        Dropcursor(),
+        Document,
+        Paragraph,
+        Text,
+        Image,
+        Dropcursor,
       ],
       content: `
         <p>Try to drag around the image. While you drag, the editor should show a decoration under your cursor. The so called dropcursor.</p>

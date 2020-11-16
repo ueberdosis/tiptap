@@ -28,10 +28,10 @@ export default class ExtensionManager {
       const context = {
         options: extension.options,
         editor: this.editor,
-        type: getSchemaTypeByName(extension.name, this.schema),
+        type: getSchemaTypeByName(extension.config.name, this.schema),
       }
 
-      const commands = extension.addCommands.bind(context)()
+      const commands = extension.config.addCommands.bind(context)()
 
       editor.registerCommands(commands)
     })
@@ -43,10 +43,10 @@ export default class ExtensionManager {
         const context = {
           options: extension.options,
           editor: this.editor,
-          type: getSchemaTypeByName(extension.name, this.schema),
+          type: getSchemaTypeByName(extension.config.name, this.schema),
         }
 
-        return extension.addProseMirrorPlugins.bind(context)()
+        return extension.config.addProseMirrorPlugins.bind(context)()
       })
       .flat()
 
@@ -64,10 +64,10 @@ export default class ExtensionManager {
         const context = {
           options: extension.options,
           editor: this.editor,
-          type: getSchemaTypeByName(extension.name, this.schema),
+          type: getSchemaTypeByName(extension.config.name, this.schema),
         }
 
-        return extension.addInputRules.bind(context)()
+        return extension.config.addInputRules.bind(context)()
       })
       .flat()
   }
@@ -78,10 +78,10 @@ export default class ExtensionManager {
         const context = {
           options: extension.options,
           editor: this.editor,
-          type: getSchemaTypeByName(extension.name, this.schema),
+          type: getSchemaTypeByName(extension.config.name, this.schema),
         }
 
-        return extension.addPasteRules.bind(context)()
+        return extension.config.addPasteRules.bind(context)()
       })
       .flat()
   }
@@ -91,10 +91,10 @@ export default class ExtensionManager {
       const context = {
         options: extension.options,
         editor: this.editor,
-        type: getSchemaTypeByName(extension.name, this.schema),
+        type: getSchemaTypeByName(extension.config.name, this.schema),
       }
 
-      return keymap(extension.addKeyboardShortcuts.bind(context)())
+      return keymap(extension.config.addKeyboardShortcuts.bind(context)())
     })
   }
 
@@ -104,17 +104,17 @@ export default class ExtensionManager {
     const allAttributes = getAttributesFromExtensions(this.extensions)
 
     return Object.fromEntries(nodeExtensions
-      .filter(extension => !!extension.addNodeView)
+      .filter(extension => !!extension.config.addNodeView)
       .map(extension => {
-        const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
+        const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
         const context = {
           options: extension.options,
           editor,
-          type: getSchemaTypeByName(extension.name, this.schema),
+          type: getSchemaTypeByName(extension.config.name, this.schema),
         }
 
         // @ts-ignore
-        const renderer = extension.addNodeView?.bind(context)?.() as NodeViewRenderer
+        const renderer = extension.config.addNodeView?.bind(context)?.() as NodeViewRenderer
 
         const nodeview = (
           node: ProsemirrorNode,
@@ -122,18 +122,18 @@ export default class ExtensionManager {
           getPos: (() => number) | boolean,
           decorations: Decoration[],
         ) => {
-          const attributes = getRenderedAttributes(node, extensionAttributes)
+          const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
           return renderer({
             editor,
             node,
             getPos,
             decorations,
-            attributes,
+            HTMLAttributes,
           })
         }
 
-        return [extension.name, nodeview]
+        return [extension.config.name, nodeview]
       }))
   }
 

@@ -46,11 +46,11 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        TextStyle(),
-        FontFamily(),
+        Document,
+        Paragraph,
+        Text,
+        TextStyle,
+        FontFamily,
       ],
       content: `
         <p><span style="font-family: Inter">Did you know that Inter is a really nice font for interfaces?</span></p>

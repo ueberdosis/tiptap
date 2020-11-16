@@ -61,10 +61,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Highlight(),
+        Document,
+        Paragraph,
+        Text,
+        Highlight,
       ],
       content: `
           <p>This isn’t highlighted.</s></p>

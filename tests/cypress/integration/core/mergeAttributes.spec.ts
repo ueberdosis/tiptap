@@ -57,4 +57,13 @@ describe('mergeAttributes', () => {
       style: 'color: red; background: green',
     })
   })
+
+  it('should ignore falsy values', () => {
+    // @ts-expect-error
+    const value = mergeAttributes(undefined, { class: 'foo' })
+
+    expect(value).to.deep.eq({
+      class: 'foo',
+    })
+  })
 })

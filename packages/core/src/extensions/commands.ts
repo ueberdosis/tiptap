@@ -1,4 +1,4 @@
-import { createExtension } from '../Extension'
+import { Extension } from '../Extension'
 import blur from '../commands/blur'
 import clearContent from '../commands/clearContent'
 import clearNodes from '../commands/clearNodes'
@@ -28,7 +28,7 @@ import updateMarkAttributes from '../commands/updateMarkAttributes'
 import updateNodeAttributes from '../commands/updateNodeAttributes'
 import wrapInList from '../commands/wrapInList'
 
-export const Commands = createExtension({
+export const Commands = Extension.create({
   addCommands() {
     return {
       /**

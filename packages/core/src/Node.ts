@@ -1,12 +1,15 @@
 import {
-  DOMOutputSpec, NodeSpec, Node, NodeType,
+  DOMOutputSpec,
+  NodeSpec,
+  Node as ProseMirrorNode,
+  NodeType,
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
-import { ExtensionSpec, defaultExtension } from './Extension'
+import { ExtensionConfig } from './Extension'
 import { Attributes, NodeViewRenderer, Overwrite } from './types'
 import { Editor } from './Editor'
 
-export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
+export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<ExtensionConfig<Options, Commands>, {
   /**
    * TopNode
    */
@@ -79,8 +82,8 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
       options: Options,
     },
     props: {
-      node: Node,
-      attributes: { [key: string]: any },
+      node: ProseMirrorNode,
+      HTMLAttributes: { [key: string]: any },
     }
   ) => DOMOutputSpec) | null,
 
@@ -150,54 +153,70 @@ export interface NodeExtensionSpec<Options = {}, Commands = {}> extends Overwrit
   }) => NodeViewRenderer) | null,
 }> {}
 
-export type NodeExtension = Required<Omit<NodeExtensionSpec, 'defaultOptions'> & {
-  type: string,
-  options: {
-    [key: string]: any
-  },
-}>
+export class Node<Options = any, Commands = {}> {
+  config: Required<NodeConfig> = {
+    name: 'node',
+    defaultOptions: {},
+    addGlobalAttributes: () => [],
+    addCommands: () => ({}),
+    addKeyboardShortcuts: () => ({}),
+    addInputRules: () => [],
+    addPasteRules: () => [],
+    addProseMirrorPlugins: () => [],
+    topNode: false,
+    content: null,
+    marks: null,
+    group: null,
+    inline: null,
+    atom: null,
+    selectable: null,
+    draggable: null,
+    code: null,
+    defining: null,
+    isolating: null,
+    parseHTML: () => null,
+    renderHTML: null,
+    addAttributes: () => ({}),
+    addNodeView: null,
+  }
 
-const defaultNode: NodeExtension = {
-  ...defaultExtension,
-  type: 'node',
-  name: 'node',
-  topNode: false,
-  content: null,
-  marks: null,
-  group: null,
-  inline: null,
-  atom: null,
-  selectable: null,
-  draggable: null,
-  code: null,
-  defining: null,
-  isolating: null,
-  parseHTML: () => null,
-  renderHTML: null,
-  addAttributes: () => ({}),
-  addNodeView: null,
-}
+  options!: Options
 
-export function createNode<Options extends {}, Commands extends {}>(config: NodeExtensionSpec<Options, Commands>) {
-  const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<NodeExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
-    return createNode({
+  constructor(config: NodeConfig<Options, Commands>) {
+    this.config = {
+      ...this.config,
       ...config,
-      ...extendedConfig,
-    } as NodeExtensionSpec<ExtendedOptions, ExtendedCommands>)
-  }
-
-  const setOptions = (options?: Partial<Options>) => {
-    const { defaultOptions, ...rest } = config
-
-    return {
-      ...defaultNode,
-      ...rest,
-      options: {
-        ...defaultOptions,
-        ...options,
-      } as Options,
     }
+
+    this.options = this.config.defaultOptions
   }
 
-  return Object.assign(setOptions, { config, extend })
+  static create<O, C>(config: NodeConfig<O, C>) {
+    return new Node<O, C>(config)
+  }
+
+  configure(options: Partial<Options>) {
+    return Node
+      .create<Options, Commands>(this.config as NodeConfig<Options, Commands>)
+      .#configure({
+        ...this.config.defaultOptions,
+        ...options,
+      })
+  }
+
+  #configure = (options: Partial<Options>) => {
+    this.options = {
+      ...this.config.defaultOptions,
+      ...options,
+    }
+
+    return this
+  }
+
+  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<NodeConfig<ExtendedOptions, ExtendedCommands>>) {
+    return new Node<ExtendedOptions, ExtendedCommands>({
+      ...this.config,
+      ...extendedConfig,
+    } as NodeConfig<ExtendedOptions, ExtendedCommands>)
+  }
 }

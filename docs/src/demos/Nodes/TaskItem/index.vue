@@ -27,11 +27,11 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        TaskList(),
-        TaskItem(),
+        Document,
+        Paragraph,
+        Text,
+        TaskList,
+        TaskItem,
       ],
       content: `
         <ul data-type="task_list">

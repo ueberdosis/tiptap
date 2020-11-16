@@ -1,7 +1,17 @@
-import { Command, createMark } from '@tiptap/core'
+import { Command, Mark } from '@tiptap/core'
 
-const Underline = createMark({
+export interface UnderlineOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
+
+const Underline = Mark.create({
   name: 'underline',
+
+  defaultOptions: <UnderlineOptions>{
+    HTMLAttributes: {},
+  },
 
   parseHTML() {
     return [
@@ -14,8 +24,8 @@ const Underline = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['u', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['u', HTMLAttributes, 0]
   },
 
   addCommands() {

@@ -37,10 +37,10 @@ export default {
       //   <p>Example Text</p>
       // `,
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Collaboration({
+        Document,
+        Paragraph,
+        Text,
+        Collaboration.configure({
           provider: this.provider,
           type: this.type,
         }),

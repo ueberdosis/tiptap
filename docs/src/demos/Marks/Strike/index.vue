@@ -30,10 +30,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Strike(),
+        Document,
+        Paragraph,
+        Text,
+        Strike,
       ],
       content: `
           <p>This isn’t striked through.</s></p>

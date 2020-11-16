@@ -31,11 +31,11 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        OrderedList(),
-        ListItem(),
+        Document,
+        Paragraph,
+        Text,
+        OrderedList,
+        ListItem,
       ],
       content: `
         <ol>

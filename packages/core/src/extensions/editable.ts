@@ -1,7 +1,7 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
-import { createExtension } from '../Extension'
+import { Extension } from '../Extension'
 
-export const Editable = createExtension({
+export const Editable = Extension.create({
   addProseMirrorPlugins() {
     return [
       new Plugin({
@@ -14,9 +14,8 @@ export const Editable = createExtension({
   },
 })
 
-// TODO: Editable circularly references itself!?
-// declare module '@tiptap/core' {
-//   interface AllExtensions {
-//     Editable: typeof Editable,
-//   }
-// }
+declare module '@tiptap/core' {
+  interface AllExtensions {
+    Editable: typeof Editable,
+  }
+}

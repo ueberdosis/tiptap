@@ -29,9 +29,9 @@ import Text from '@tiptap/extension-text'
 
 new Editor({
   extensions: [
-    Document(),
-    Paragraph(),
-    Text(),
+    Document,
+    Paragraph,
+    Text,
     // all your other extensions
   ]
 })
@@ -44,9 +44,9 @@ new Editor({
 In case you’ve built some custom extensions for your project, you’re required to rewrite them to fit the new API. No worries, you can keep a lot of your work though. The `schema`, `commands`, `keys`, `inputRules` and `pasteRules` all work like they did before. It’s just different how you register them.
 
 ```js
-import { createNode } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 
-const CustomExtension = createNode({
+const CustomExtension = Node.create({
   name: 'custom_extension'
   defaultOptions: {
     …
@@ -57,7 +57,7 @@ const CustomExtension = createNode({
   parseHTML() {
     …
   },
-  renderHTML({ node, attributes }) {
+  renderHTML({ node, HTMLAttributes }) {
     …
   },
   addCommands() {

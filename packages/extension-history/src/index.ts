@@ -1,4 +1,4 @@
-import { Command, createExtension } from '@tiptap/core'
+import { Command, Extension } from '@tiptap/core'
 import { history, undo, redo } from 'prosemirror-history'
 
 export interface HistoryOptions {
@@ -6,7 +6,7 @@ export interface HistoryOptions {
   newGroupDelay: number,
 }
 
-const History = createExtension({
+const History = Extension.create({
   defaultOptions: <HistoryOptions>{
     depth: 100,
     newGroupDelay: 500,

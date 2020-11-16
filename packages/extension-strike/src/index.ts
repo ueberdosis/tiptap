@@ -1,12 +1,25 @@
 import {
-  Command, createMark, markInputRule, markPasteRule,
+  Command,
+  Mark,
+  markInputRule,
+  markPasteRule,
 } from '@tiptap/core'
+
+export interface StrikeOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
 
 export const inputRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))$/gm
 export const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/gm
 
-const Strike = createMark({
+const Strike = Mark.create({
   name: 'strike',
+
+  defaultOptions: <StrikeOptions>{
+    HTMLAttributes: {},
+  },
 
   parseHTML() {
     return [
@@ -25,8 +38,8 @@ const Strike = createMark({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['s', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['s', HTMLAttributes, 0]
   },
 
   addCommands() {

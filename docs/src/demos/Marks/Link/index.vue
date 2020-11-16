@@ -32,10 +32,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Link(),
+        Document,
+        Paragraph,
+        Text,
+        Link,
       ],
       content: `
         <p>

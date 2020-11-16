@@ -1,4 +1,4 @@
-import { createExtension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { DecorationSet, Decoration } from 'prosemirror-view'
 
@@ -7,7 +7,7 @@ export interface FocusOptions {
   nested: boolean,
 }
 
-const FocusClasses = createExtension({
+const FocusClasses = Extension.create({
   defaultOptions: <FocusOptions>{
     className: 'has-focus',
     nested: false,

@@ -1,4 +1,4 @@
-import { createExtension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 import {
   redo, undo, ySyncPlugin, yUndoPlugin,
 } from 'y-prosemirror'
@@ -8,7 +8,7 @@ export interface CollaborationOptions {
   type: any,
 }
 
-const Collaboration = createExtension({
+const Collaboration = Extension.create({
   defaultOptions: <CollaborationOptions>{
     provider: null,
     type: null,

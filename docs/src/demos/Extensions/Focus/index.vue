@@ -28,16 +28,16 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document(),
-        Paragraph(),
-        Text(),
-        Focus({
+        Document,
+        Paragraph,
+        Text,
+        Focus.configure({
           className: 'has-focus',
           nested: true,
         }),
-        Code(),
-        BulletList(),
-        ListItem(),
+        Code,
+        BulletList,
+        ListItem,
       ],
       autoFocus: true,
       content: `

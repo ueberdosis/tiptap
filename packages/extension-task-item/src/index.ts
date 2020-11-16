@@ -1,24 +1,28 @@
-import { createNode, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
-
-export const inputRegex = /^\s*(\[([ |x])\])\s$/
 
 export interface TaskItemOptions {
   nested: boolean,
+  HTMLAttributes: {
+    [key: string]: any
+  },
 }
 
-const TaskItem = createNode({
+export const inputRegex = /^\s*(\[([ |x])\])\s$/
+
+const TaskItem = Node.create({
   name: 'taskItem',
+
+  defaultOptions: <TaskItemOptions>{
+    nested: false,
+    HTMLAttributes: {},
+  },
 
   content() {
     return this.options.nested ? '(paragraph|taskList)+' : 'paragraph+'
   },
 
   defining: true,
-
-  defaultOptions: <TaskItemOptions>{
-    nested: false,
-  },
 
   addAttributes() {
     return {
@@ -43,8 +47,8 @@ const TaskItem = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['li', mergeAttributes(attributes, { 'data-type': 'taskItem' }), 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['li', mergeAttributes(HTMLAttributes, { 'data-type': 'taskItem' }), 0]
   },
 
   addKeyboardShortcuts() {
@@ -64,7 +68,7 @@ const TaskItem = createNode({
   },
 
   addNodeView() {
-    return ({ attributes, getPos, editor }) => {
+    return ({ HTMLAttributes, getPos, editor }) => {
       const { view } = editor
       const listItem = document.createElement('li')
       const checkbox = document.createElement('input')
@@ -82,13 +86,13 @@ const TaskItem = createNode({
         }
       })
 
-      if (attributes['data-checked'] === true) {
+      if (HTMLAttributes['data-checked'] === true) {
         checkbox.setAttribute('checked', 'checked')
       }
 
       listItem.append(checkbox, content)
 
-      Object.entries(attributes).forEach(([key, value]) => {
+      Object.entries(HTMLAttributes).forEach(([key, value]) => {
         listItem.setAttribute(key, value)
       })
 

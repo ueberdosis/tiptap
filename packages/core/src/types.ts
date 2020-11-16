@@ -1,11 +1,11 @@
-import { Node } from 'prosemirror-model'
+import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Decoration, NodeView } from 'prosemirror-view'
 import { Extension } from './Extension'
-import { NodeExtension } from './NodeExtension'
-import { MarkExtension } from './MarkExtension'
+import { Node } from './Node'
+import { Mark } from './Mark'
 import { Editor } from './Editor'
 
-export type Extensions = (Extension | NodeExtension | MarkExtension)[]
+export type Extensions = (Extension | Node | Mark)[]
 
 export type Attribute = {
   default: any,
@@ -46,10 +46,10 @@ export type AnyObject = {
 
 export type NodeViewRendererProps = {
   editor: Editor,
-  node: Node,
+  node: ProseMirrorNode,
   getPos: (() => number) | boolean,
   decorations: Decoration[],
-  attributes: AnyObject,
+  HTMLAttributes: { [key: string]: any },
 }
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView

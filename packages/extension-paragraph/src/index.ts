@@ -1,8 +1,17 @@
-import { Command, createNode } from '@tiptap/core'
-// import ParagraphComponent from './paragraph.vue'
+import { Command, Node } from '@tiptap/core'
 
-const Paragraph = createNode({
+export interface ParagraphOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
+
+const Paragraph = Node.create({
   name: 'paragraph',
+
+  defaultOptions: <ParagraphOptions>{
+    HTMLAttributes: {},
+  },
 
   group: 'block',
 
@@ -14,8 +23,8 @@ const Paragraph = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['p', attributes, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['p', HTMLAttributes, 0]
   },
 
   addCommands() {

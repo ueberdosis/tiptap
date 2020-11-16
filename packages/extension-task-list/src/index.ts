@@ -1,7 +1,17 @@
-import { Command, createNode, mergeAttributes } from '@tiptap/core'
+import { Command, Node, mergeAttributes } from '@tiptap/core'
 
-const TaskList = createNode({
+export interface TaskListOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
+
+const TaskList = Node.create({
   name: 'taskList',
+
+  defaultOptions: <TaskListOptions>{
+    HTMLAttributes: {},
+  },
 
   group: 'block list',
 
@@ -16,8 +26,8 @@ const TaskList = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['ul', mergeAttributes(attributes, { 'data-type': 'taskList' }), 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['ul', mergeAttributes(HTMLAttributes, { 'data-type': 'taskList' }), 0]
   },
 
   addCommands() {

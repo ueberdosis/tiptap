@@ -10,9 +10,9 @@ import {
   selectNodeBackward,
 } from 'prosemirror-commands'
 import { undoInputRule } from 'prosemirror-inputrules'
-import { createExtension } from '../Extension'
+import { Extension } from '../Extension'
 
-export const Keymap = createExtension({
+export const Keymap = Extension.create({
   addKeyboardShortcuts() {
     const handleBackspace = () => this.editor.commands.try(({ state, dispatch }) => [
       () => undoInputRule(state, dispatch),

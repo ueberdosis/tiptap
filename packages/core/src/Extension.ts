@@ -2,7 +2,7 @@ import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { GlobalAttributes } from './types'
 
-export interface ExtensionSpec<Options = {}, Commands = {}> {
+export interface ExtensionConfig<Options = any, Commands = {}> {
   /**
    * Name
    */
@@ -63,51 +63,55 @@ export interface ExtensionSpec<Options = {}, Commands = {}> {
   }) => Plugin[],
 }
 
-/**
- * Extension interface for internal usage
- */
-export type Extension = Required<Omit<ExtensionSpec, 'defaultOptions'> & {
-  type: string,
-  options: {
-    [key: string]: any
-  },
-}>
+export class Extension<Options = any, Commands = any> {
+  config: Required<ExtensionConfig> = {
+    name: 'extension',
+    defaultOptions: {},
+    addGlobalAttributes: () => [],
+    addCommands: () => ({}),
+    addKeyboardShortcuts: () => ({}),
+    addInputRules: () => [],
+    addPasteRules: () => [],
+    addProseMirrorPlugins: () => [],
+  }
 
-/**
- * Default extension
- */
-export const defaultExtension: Extension = {
-  name: 'extension',
-  type: 'extension',
-  options: {},
-  addGlobalAttributes: () => [],
-  addCommands: () => ({}),
-  addKeyboardShortcuts: () => ({}),
-  addInputRules: () => [],
-  addPasteRules: () => [],
-  addProseMirrorPlugins: () => [],
-}
+  options!: Options
 
-export function createExtension<Options extends {}, Commands extends {}>(config: ExtensionSpec<Options, Commands>) {
-  const extend = <ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<ExtensionSpec<ExtendedOptions, ExtendedCommands>>) => {
-    return createExtension({
+  constructor(config: ExtensionConfig<Options, Commands>) {
+    this.config = {
+      ...this.config,
       ...config,
-      ...extendedConfig,
-    } as ExtensionSpec<ExtendedOptions, ExtendedCommands>)
-  }
-
-  const setOptions = (options?: Partial<Options>) => {
-    const { defaultOptions, ...rest } = config
-
-    return {
-      ...defaultExtension,
-      ...rest,
-      options: {
-        ...defaultOptions,
-        ...options,
-      } as Options,
     }
+
+    this.options = this.config.defaultOptions
   }
 
-  return Object.assign(setOptions, { config, extend })
+  static create<O, C>(config: ExtensionConfig<O, C>) {
+    return new Extension<O, C>(config)
+  }
+
+  configure(options: Partial<Options>) {
+    return Extension
+      .create<Options, Commands>(this.config as ExtensionConfig<Options, Commands>)
+      .#configure({
+        ...this.config.defaultOptions,
+        ...options,
+      })
+  }
+
+  #configure = (options: Partial<Options>) => {
+    this.options = {
+      ...this.config.defaultOptions,
+      ...options,
+    }
+
+    return this
+  }
+
+  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<ExtensionConfig<ExtendedOptions, ExtendedCommands>>) {
+    return new Extension<ExtendedOptions, ExtendedCommands>({
+      ...this.config,
+      ...extendedConfig,
+    } as ExtensionConfig<ExtendedOptions, ExtendedCommands>)
+  }
 }

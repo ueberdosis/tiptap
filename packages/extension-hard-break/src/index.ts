@@ -1,7 +1,7 @@
-import { Command, createNode } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { exitCode } from 'prosemirror-commands'
 
-const HardBreak = createNode({
+const HardBreak = Node.create({
   name: 'hardBreak',
 
   inline: true,
@@ -16,8 +16,8 @@ const HardBreak = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['br', attributes]
+  renderHTML({ HTMLAttributes }) {
+    return ['br', HTMLAttributes]
   },
 
   addCommands() {

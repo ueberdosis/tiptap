@@ -1,18 +1,22 @@
-import { Command, createNode } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 export interface CodeBlockOptions {
   languageClassPrefix: string,
+  HTMLAttributes: {
+    [key: string]: any
+  },
 }
 
 export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
 export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
 
-const CodeBlock = createNode({
+const CodeBlock = Node.create({
   name: 'codeBlock',
 
   defaultOptions: <CodeBlockOptions>{
     languageClassPrefix: 'language-',
+    HTMLAttributes: {},
   },
 
   content: 'text*',
@@ -64,8 +68,8 @@ const CodeBlock = createNode({
     ]
   },
 
-  renderHTML({ attributes }) {
-    return ['pre', ['code', attributes, 0]]
+  renderHTML({ HTMLAttributes }) {
+    return ['pre', ['code', HTMLAttributes, 0]]
   },
 
   addCommands() {
