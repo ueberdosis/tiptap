@@ -2,7 +2,7 @@
   "name": "@tiptap/starter-kit",
   "version": "1.0.0",
   "homepage": "https://tiptap.dev",
-  "keywords": ["tiptap", "tiptap extension"],
+  "keywords": ["tiptap", "tiptap starter kit"],
   "license": "MIT",
   "funding": {
     "type": "github",

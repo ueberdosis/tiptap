@@ -2,7 +2,7 @@
   "name": "@tiptap/html",
   "version": "1.0.0",
   "homepage": "https://tiptap.dev",
-  "keywords": ["tiptap", "tiptap extension"],
+  "keywords": ["tiptap", "tiptap utility"],
   "license": "MIT",
   "funding": {
     "type": "github",

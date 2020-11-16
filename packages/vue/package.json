@@ -2,7 +2,7 @@
   "name": "@tiptap/vue",
   "version": "1.0.0",
   "homepage": "https://tiptap.dev",
-  "keywords": ["tiptap", "tiptap extension"],
+  "keywords": ["tiptap", "tiptap vue components"],
   "license": "MIT",
   "funding": {
     "type": "github",
