@@ -1,8 +1,13 @@
 {
   "name": "@tiptap/core",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "homepage": "https://tiptap.dev",
-  "keywords": ["tiptap", "headless", "wysiwyg", "text editor"],
+  "keywords": [
+    "tiptap",
+    "headless",
+    "wysiwyg",
+    "text editor"
+  ],
   "license": "MIT",
   "funding": {
     "type": "github",
