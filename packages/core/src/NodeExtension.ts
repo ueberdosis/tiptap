@@ -192,7 +192,16 @@ export class NodeExtension<Options = any, Commands = {}> {
     return new NodeExtension<O, C>(config)
   }
 
-  set(options: Options) {
+  set(options: Partial<Options>) {
+    return NodeExtension
+      .create<Options, Commands>(this.config as NodeExtensionSpec<Options, Commands>)
+      .#set({
+        ...this.config.defaultOptions,
+        ...options,
+      })
+  }
+
+  #set = (options: Partial<Options>) => {
     this.options = {
       ...this.config.defaultOptions,
       ...options,
