@@ -1,5 +1,5 @@
 import { NodeType } from 'prosemirror-model'
-import { Command } from '../Editor'
+import { Command } from '../types'
 import nodeIsActive from '../utils/nodeIsActive'
 import getNodeType from '../utils/getNodeType'
 

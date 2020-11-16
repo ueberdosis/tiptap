@@ -1,4 +1,4 @@
-import { Command } from '../Editor'
+import { Command } from '../types'
 
 export default (attributeNames: string[] = []): Command => ({ tr, state, dispatch }) => {
   const { selection } = tr

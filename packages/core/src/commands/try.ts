@@ -1,4 +1,4 @@
-import { Command } from '../Editor'
+import { Command } from '../types'
 
 export default (commands: Command[] | ((props: Parameters<Command>[0]) => Command[])): Command => props => {
   const items = typeof commands === 'function'

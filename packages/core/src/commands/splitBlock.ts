@@ -1,7 +1,7 @@
 import { canSplit } from 'prosemirror-transform'
 import { ContentMatch, Fragment } from 'prosemirror-model'
 import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
-import { Command } from '../Editor'
+import { Command } from '../types'
 
 function defaultBlockAt(match: ContentMatch) {
   for (let i = 0; i < match.edgeCount; i + 1) {

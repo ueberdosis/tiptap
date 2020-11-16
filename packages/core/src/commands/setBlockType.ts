@@ -1,6 +1,6 @@
 import { NodeType } from 'prosemirror-model'
 import { setBlockType } from 'prosemirror-commands'
-import { Command } from '../Editor'
+import { Command } from '../types'
 import getNodeType from '../utils/getNodeType'
 
 export default (typeOrName: string | NodeType, attrs = {}): Command => ({ state, dispatch }) => {

@@ -1,4 +1,4 @@
-import { Command } from '../Editor'
+import { Command } from '../types'
 
 export default (): Command => ({ tr, dispatch }) => {
   if (dispatch) {

@@ -1,5 +1,6 @@
 import { TextSelection } from 'prosemirror-state'
-import { Editor, Command } from '../Editor'
+import { Editor } from '../Editor'
+import { Command } from '../types'
 import minMax from '../utils/minMax'
 
 type Position = 'start' | 'end' | number | boolean | null

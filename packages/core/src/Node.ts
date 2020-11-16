@@ -6,7 +6,7 @@ import {
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { ExtensionConfig } from './Extension'
-import { Attributes, NodeViewRenderer, Overwrite } from './types'
+import { Attribute, NodeViewRenderer, Overwrite } from './types'
 import { Editor } from './Editor'
 
 export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<ExtensionConfig<Options, Commands>, {
@@ -94,7 +94,9 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
     this: {
       options: Options,
     },
-  ) => Attributes,
+  ) => {
+    [key: string]: Attribute
+  },
 
   /**
    * Commands

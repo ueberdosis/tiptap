@@ -1,9 +1,26 @@
 import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Decoration, NodeView } from 'prosemirror-view'
+import { EditorView, Decoration, NodeView } from 'prosemirror-view'
+import { EditorState, Transaction } from 'prosemirror-state'
 import { Extension } from './Extension'
 import { Node } from './Node'
 import { Mark } from './Mark'
 import { Editor } from './Editor'
+import { AllExtensions } from '.'
+
+export type EditorContent = string | JSON | null
+
+export type Command = (props: {
+  editor: Editor,
+  tr: Transaction,
+  commands: SingleCommands,
+  can: () => SingleCommands & { chain: () => ChainedCommands },
+  chain: () => ChainedCommands,
+  state: EditorState,
+  view: EditorView,
+  dispatch: ((args?: any) => any) | undefined,
+}) => boolean
+
+export type CommandSpec = (...args: any[]) => Command
 
 export type Extensions = (Extension | Node | Mark)[]
 
@@ -26,7 +43,9 @@ export type ExtensionAttribute = {
 
 export type GlobalAttributes = {
   types: string[],
-  attributes: Attributes,
+  attributes: {
+    [key: string]: Attribute
+  },
 }[]
 
 export type PickValue<T, K extends keyof T> = T[K]
@@ -53,3 +72,33 @@ export type NodeViewRendererProps = {
 }
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView
+
+export type UnfilteredCommands = {
+  [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
+    ? ExtensionCommands
+    : AllExtensions[Item] extends Node<any, infer NodeCommands>
+      ? NodeCommands
+      : AllExtensions[Item] extends Mark<any, infer MarkCommands>
+        ? MarkCommands
+        : never
+}
+
+export type ValuesOf<T> = T[keyof T];
+export type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
+export type AllCommands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
+
+export type SingleCommands = {
+  [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
+  ? (...args: Parameters<AllCommands[Item]>) => boolean
+  : never
+}
+
+export type ChainedCommands = {
+  [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
+  ? (...args: Parameters<AllCommands[Item]>) => ChainedCommands
+  : never
+} & {
+  run: () => boolean
+}
+
+export type CanCommands = SingleCommands & { chain: () => ChainedCommands }

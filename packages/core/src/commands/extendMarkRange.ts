@@ -1,6 +1,6 @@
 import { TextSelection } from 'prosemirror-state'
 import { MarkType } from 'prosemirror-model'
-import { Command } from '../Editor'
+import { Command } from '../types'
 import getMarkType from '../utils/getMarkType'
 import getMarkRange from '../utils/getMarkRange'
 

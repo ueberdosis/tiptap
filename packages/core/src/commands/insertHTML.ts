@@ -2,7 +2,7 @@ import { DOMParser } from 'prosemirror-model'
 import { Selection, Transaction } from 'prosemirror-state'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import elementFromString from '../utils/elementFromString'
-import { Command } from '../Editor'
+import { Command } from '../types'
 
 // TODO: move to utils
 // https://github.com/ProseMirror/prosemirror-state/blob/master/src/selection.js#L466

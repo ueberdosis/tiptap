@@ -1,5 +1,5 @@
 import { TextSelection } from 'prosemirror-state'
-import { Command } from '../Editor'
+import { Command } from '../types'
 
 export default (content: string, emitUpdate: Boolean = false, parseOptions = {}): Command => ({ tr, editor, dispatch }) => {
   const { createDocument } = editor
