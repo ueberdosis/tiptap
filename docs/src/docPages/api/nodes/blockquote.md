@@ -1,6 +1,6 @@
 # Blockquote
 
-The Blockquote extension enables you to use the `<blockquote>` HTML tag in the editor. This is great – you might have guessed – to use quotes in the editor.
+The Blockquote extension enables you to use the `<blockquote>` HTML tag in the editor. This is great to use quotes in the editor.
 
 Type <code>>&nbsp;</code> at the beginning of a new line and it will magically transform to a blockquote.
 
