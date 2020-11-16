@@ -1,4 +1,4 @@
-import { Command, NodeExtension } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface OrderedListOptions {
@@ -9,7 +9,7 @@ export interface OrderedListOptions {
 
 export const inputRegex = /^(\d+)\.\s$/
 
-const OrderedList = NodeExtension.create({
+const OrderedList = Node.create({
   name: 'orderedList',
 
   defaultOptions: <OrderedListOptions>{

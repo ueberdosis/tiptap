@@ -1,4 +1,4 @@
-import { Command, MarkExtension, markPasteRule } from '@tiptap/core'
+import { Command, Mark, markPasteRule } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 
 export interface LinkOptions {
@@ -10,7 +10,7 @@ export interface LinkOptions {
 
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)/gi
 
-const Link = MarkExtension.create({
+const Link = Mark.create({
   name: 'link',
 
   inclusive: false,

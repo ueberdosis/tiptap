@@ -1,4 +1,4 @@
-import { Command, NodeExtension } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 
 export interface ParagraphOptions {
   HTMLAttributes: {
@@ -6,7 +6,7 @@ export interface ParagraphOptions {
   },
 }
 
-const Paragraph = NodeExtension.create({
+const Paragraph = Node.create({
   name: 'paragraph',
 
   defaultOptions: <ParagraphOptions>{

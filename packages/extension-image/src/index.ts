@@ -1,4 +1,4 @@
-import { Command, NodeExtension, nodeInputRule } from '@tiptap/core'
+import { Command, Node, nodeInputRule } from '@tiptap/core'
 
 export interface ImageOptions {
   inline: boolean,
@@ -9,7 +9,7 @@ export interface ImageOptions {
 
 export const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
 
-const Image = NodeExtension.create({
+const Image = Node.create({
   name: 'image',
 
   defaultOptions: <ImageOptions>{

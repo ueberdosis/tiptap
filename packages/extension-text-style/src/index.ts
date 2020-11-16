@@ -1,6 +1,6 @@
-import { Command, MarkExtension, getMarkAttrs } from '@tiptap/core'
+import { Command, Mark, getMarkAttrs } from '@tiptap/core'
 
-const TextStyle = MarkExtension.create({
+const TextStyle = Mark.create({
   name: 'textStyle',
 
   parseHTML() {

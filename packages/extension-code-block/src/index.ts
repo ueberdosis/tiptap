@@ -1,4 +1,4 @@
-import { Command, NodeExtension } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 export interface CodeBlockOptions {
@@ -11,7 +11,7 @@ export interface CodeBlockOptions {
 export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
 export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
 
-const CodeBlock = NodeExtension.create({
+const CodeBlock = Node.create({
   name: 'codeBlock',
 
   defaultOptions: <CodeBlockOptions>{

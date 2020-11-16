@@ -1,5 +1,8 @@
 import {
-  DOMOutputSpec, NodeSpec, Node, NodeType,
+  DOMOutputSpec,
+  NodeSpec,
+  Node as ProseMirrorNode,
+  NodeType,
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { ExtensionSpec } from './Extension'
@@ -79,7 +82,7 @@ export interface NodeExtensionSpec<Options = any, Commands = {}> extends Overwri
       options: Options,
     },
     props: {
-      node: Node,
+      node: ProseMirrorNode,
       HTMLAttributes: { [key: string]: any },
     }
   ) => DOMOutputSpec) | null,
@@ -150,7 +153,7 @@ export interface NodeExtensionSpec<Options = any, Commands = {}> extends Overwri
   }) => NodeViewRenderer) | null,
 }> {}
 
-export class NodeExtension<Options = any, Commands = {}> {
+export class Node<Options = any, Commands = {}> {
   config: Required<NodeExtensionSpec> = {
     name: 'node',
     defaultOptions: {},
@@ -189,11 +192,11 @@ export class NodeExtension<Options = any, Commands = {}> {
   }
 
   static create<O, C>(config: NodeExtensionSpec<O, C>) {
-    return new NodeExtension<O, C>(config)
+    return new Node<O, C>(config)
   }
 
   configure(options: Partial<Options>) {
-    return NodeExtension
+    return Node
       .create<Options, Commands>(this.config as NodeExtensionSpec<Options, Commands>)
       .#configure({
         ...this.config.defaultOptions,
@@ -211,7 +214,7 @@ export class NodeExtension<Options = any, Commands = {}> {
   }
 
   extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<NodeExtensionSpec<ExtendedOptions, ExtendedCommands>>) {
-    return new NodeExtension<ExtendedOptions, ExtendedCommands>({
+    return new Node<ExtendedOptions, ExtendedCommands>({
       ...this.config,
       ...extendedConfig,
     } as NodeExtensionSpec<ExtendedOptions, ExtendedCommands>)

@@ -1,4 +1,4 @@
-import { Command, NodeExtension } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface BlockquoteOptions {
@@ -9,7 +9,7 @@ export interface BlockquoteOptions {
 
 export const inputRegex = /^\s*>\s$/gm
 
-const Blockquote = NodeExtension.create({
+const Blockquote = Node.create({
   name: 'blockquote',
 
   defaultOptions: <BlockquoteOptions>{

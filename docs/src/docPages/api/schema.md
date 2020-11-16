@@ -38,15 +38,15 @@ In tiptap every node, mark and extension is living in its own file. This allows 
 
 ```js
 // the tiptap schema API
-import { NodeExtension } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 
-const Document = NodeExtension.create({
+const Document = Node.create({
   name: 'document',
   topNode: true,
   content: 'block+',
 })
 
-const Paragraph = NodeExtension.create({
+const Paragraph = Node.create({
   name: 'paragraph',
   group: 'block',
   content: 'inline*',
@@ -60,7 +60,7 @@ const Paragraph = NodeExtension.create({
   },
 })
 
-const Text = NodeExtension.create({
+const Text = Node.create({
   name: 'text',
   group: 'inline',
 })
@@ -79,7 +79,7 @@ Marks can be applied to specific parts of a node. That’s the case for **bold**
 The content attribute defines exactly what kind of content the node can have. ProseMirror is really strict with that. That means, content which doesn’t fit the schema is thrown away. It expects a name or group as a string. Here are a few examples:
 
 ```js
-NodeExtension.create({
+Node.create({
   // must have one ore more blocks
   content: 'block+',
 
@@ -99,7 +99,7 @@ NodeExtension.create({
 You can define which marks are allowed inside of a node with the `marks` setting of the schema. Add a one or more names or groups of marks, allow all or disallow all marks like this:
 
 ```js
-NodeExtension.create({
+Node.create({
   // allows only the 'bold' mark
   marks: 'bold',
 
@@ -118,7 +118,7 @@ NodeExtension.create({
 Add this node to a group of extensions, which can be referred to in the [content](#content) attribute of the schema.
 
 ```js
-NodeExtension.create({
+Node.create({
   // add to 'block' group
   group: 'block',
 
@@ -134,7 +134,7 @@ NodeExtension.create({
 Nodes can be rendered inline, too. When setting `inline: true` nodes are rendered in line with the text. That’s the case for mentions. The result is more like a mark, but with the functionality of a node. One difference is the resulting JSON document. Multiple marks are applied at once, inline nodes would result in a nested structure.
 
 ```js
-NodeExtension.create({
+Node.create({
   // renders nodes in line with the text, for example
   inline: true,
 })
@@ -144,7 +144,7 @@ NodeExtension.create({
 Nodes with `atom: true` aren’t directly editable and should be treated as a single unit. It’s not so likely to use that in a editor context, but this is how it would look like:
 
 ```js
-NodeExtension.create({
+Node.create({
   atom: true,
 })
 ```
@@ -153,7 +153,7 @@ NodeExtension.create({
 Besides the already visible text selection, there is an invisible node selection. If you want to make your nodes selectable, you can configure it like this:
 
 ```js
-NodeExtension.create({
+Node.create({
   selectable: true,
 })
 ```
@@ -162,7 +162,7 @@ NodeExtension.create({
 All nodes can be configured to be draggable (by default they aren’t) with this setting:
 
 ```js
-NodeExtension.create({
+Node.create({
   draggable: true,
 })
 ```
@@ -171,7 +171,7 @@ NodeExtension.create({
 Users expect code to behave very differently. For all kind of nodes containing code, you can set `code: true` to take this into account.
 
 ```js
-NodeExtension.create({
+Node.create({
   code: true,
 })
 ```
@@ -182,7 +182,7 @@ Nodes get dropped when their entire content is replaced (for example, when pasti
 Typically, that applies to [`Blockquote`](/api/node/blockquote), [`CodeBlock`](/api/node/code-block), [`Heading`](/api/node/heading), and [`ListItem`](/api/node/list-item).
 
 ```js
-NodeExtension.create({
+Node.create({
   defining: true,
 })
 ```
@@ -191,7 +191,7 @@ NodeExtension.create({
 For nodes that should fence the cursor for regular editing operations like backspacing, for example a TableCell, set `isolating: true`.
 
 ```js
-NodeExtension.create({
+Node.create({
   isolating: true,
 })
 ```
@@ -201,7 +201,7 @@ NodeExtension.create({
 If you don’t want the mark to be active when the cursor is at its end, set inclusive to `false`. For example, that’s how it’s configured for [`Link`](/api/marks/link) marks:
 
 ```js
-MarkExtension.create({
+Mark.create({
   inclusive: false,
 })
 ```
@@ -210,7 +210,7 @@ MarkExtension.create({
 By default all nodes can be applied at the same time. With the excludes attribute you can define which marks must not coexist with the mark. For example, the inline code mark excludes any other mark (bold, italic, and all others).
 
 ```js
-MarkExtension.create({
+Mark.create({
   // must not coexist with the bold mark
   excludes: 'bold'
   // exclude any other mark
@@ -222,7 +222,7 @@ MarkExtension.create({
 Add this mark to a group of extensions, which can be referred to in the content attribute of the schema.
 
 ```js
-MarkExtension.create({
+Mark.create({
   // add this mark to the 'basic' group
   group: 'basic',
   // add this mark to the 'basic' and the 'foobar' group
@@ -234,7 +234,7 @@ MarkExtension.create({
 Users expect code to behave very differently. For all kind of marks containing code, you can set `code: true` to take this into account.
 
 ```js
-MarkExtension.create({
+Mark.create({
   code: true,
 })
 ```
@@ -243,7 +243,7 @@ MarkExtension.create({
 By default marks can span multiple nodes when rendered as HTML. Set `spanning: false` to indicate that a mark must not span multiple nodes.
 
 ```js
-MarkExtension.create({
+Mark.create({
   spanning: false,
 })
 ```

@@ -1,5 +1,5 @@
 import {
-  Command, MarkExtension, markInputRule, markPasteRule,
+  Command, Mark, markInputRule, markPasteRule,
 } from '@tiptap/core'
 
 export interface BoldOptions {
@@ -13,7 +13,7 @@ export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))$/gm
 export const underscorePasteRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))/gm
 
-const Bold = MarkExtension.create({
+const Bold = Mark.create({
   name: 'bold',
 
   defaultOptions: <BoldOptions>{

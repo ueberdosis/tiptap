@@ -1,6 +1,6 @@
 import {
   Command,
-  MarkExtension,
+  Mark,
   markInputRule,
   markPasteRule,
 } from '@tiptap/core'
@@ -14,7 +14,7 @@ export interface CodeOptions {
 export const inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/gm
 export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/gm
 
-const Code = MarkExtension.create({
+const Code = Mark.create({
   name: 'code',
 
   defaultOptions: <CodeOptions>{

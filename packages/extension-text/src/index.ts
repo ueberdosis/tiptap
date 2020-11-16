@@ -1,6 +1,6 @@
-import { NodeExtension } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 
-const Text = NodeExtension.create({
+const Text = Node.create({
   name: 'text',
   group: 'inline',
 })

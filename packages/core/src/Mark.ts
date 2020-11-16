@@ -1,5 +1,8 @@
 import {
-  DOMOutputSpec, MarkSpec, Mark, MarkType,
+  DOMOutputSpec,
+  MarkSpec,
+  Mark as ProseMirrorMark,
+  MarkType,
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { ExtensionSpec } from './Extension'
@@ -44,7 +47,7 @@ export interface MarkExtensionSpec<Options = any, Commands = {}> extends Overwri
       options: Options,
     },
     props: {
-      mark: Mark,
+      mark: ProseMirrorMark,
       HTMLAttributes: { [key: string]: any },
     }
   ) => DOMOutputSpec) | null,
@@ -106,7 +109,7 @@ export interface MarkExtensionSpec<Options = any, Commands = {}> extends Overwri
   }) => Plugin[],
 }> {}
 
-export class MarkExtension<Options = any, Commands = {}> {
+export class Mark<Options = any, Commands = {}> {
   config: Required<MarkExtensionSpec> = {
     name: 'mark',
     defaultOptions: {},
@@ -137,11 +140,11 @@ export class MarkExtension<Options = any, Commands = {}> {
   }
 
   static create<O, C>(config: MarkExtensionSpec<O, C>) {
-    return new MarkExtension<O, C>(config)
+    return new Mark<O, C>(config)
   }
 
   configure(options: Partial<Options>) {
-    return MarkExtension
+    return Mark
       .create<Options, Commands>(this.config as MarkExtensionSpec<Options, Commands>)
       .#configure({
         ...this.config.defaultOptions,
@@ -159,7 +162,7 @@ export class MarkExtension<Options = any, Commands = {}> {
   }
 
   extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkExtensionSpec<ExtendedOptions, ExtendedCommands>>) {
-    return new MarkExtension<ExtendedOptions, ExtendedCommands>({
+    return new Mark<ExtendedOptions, ExtendedCommands>({
       ...this.config,
       ...extendedConfig,
     } as MarkExtensionSpec<ExtendedOptions, ExtendedCommands>)

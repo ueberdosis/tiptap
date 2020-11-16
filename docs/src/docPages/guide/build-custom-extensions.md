@@ -386,24 +386,24 @@ const CustomLink = Link.extend({
 There is a whole lot to learn about node views, so head over to the [dedicated section in our guide about node views](/guide/advanced-node-views) for more information. If you’re looking for a real-world example, look at the source code of the [`TaskItem`](/api/nodes/task-item) node. This is using a node view to render the checkboxes.
 
 ## Start from scratch
-You can also build your own extensions from scratch with the `NodeExtension`, `MarkExtension`, and `Extension` classes. Pass an option with your code and configuration.
+You can also build your own extensions from scratch with the `Node`, `Mark`, and `Extension` classes. Pass an option with your code and configuration.
 
 And if everything is working fine, don’t forget to [share it with the community](https://github.com/ueberdosis/tiptap-next/issues/new/choose).
 
 ### Create a node
 ```js
-import { NodeExtension } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 
-const CustomNode = NodeExtension.create({
+const CustomNode = Node.create({
   // Your code goes here.
 })
 ```
 
 ### Create a mark
 ```js
-import { MarkExtension } from '@tiptap/core'
+import { Mark } from '@tiptap/core'
 
-const CustomMark = MarkExtension.create({
+const CustomMark = Mark.create({
   // Your code goes here.
 })
 ```

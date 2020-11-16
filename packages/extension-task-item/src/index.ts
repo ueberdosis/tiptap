@@ -1,4 +1,4 @@
-import { NodeExtension, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface TaskItemOptions {
@@ -10,7 +10,7 @@ export interface TaskItemOptions {
 
 export const inputRegex = /^\s*(\[([ |x])\])\s$/
 
-const TaskItem = NodeExtension.create({
+const TaskItem = Node.create({
   name: 'taskItem',
 
   defaultOptions: <TaskItemOptions>{

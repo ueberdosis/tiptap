@@ -44,9 +44,9 @@ new Editor({
 In case you’ve built some custom extensions for your project, you’re required to rewrite them to fit the new API. No worries, you can keep a lot of your work though. The `schema`, `commands`, `keys`, `inputRules` and `pasteRules` all work like they did before. It’s just different how you register them.
 
 ```js
-import { NodeExtension } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 
-const CustomExtension = NodeExtension.create({
+const CustomExtension = Node.create({
   name: 'custom_extension'
   defaultOptions: {
     …

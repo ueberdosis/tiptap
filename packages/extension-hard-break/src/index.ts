@@ -1,7 +1,7 @@
-import { Command, NodeExtension } from '@tiptap/core'
+import { Command, Node } from '@tiptap/core'
 import { exitCode } from 'prosemirror-commands'
 
-const HardBreak = NodeExtension.create({
+const HardBreak = Node.create({
   name: 'hardBreak',
 
   inline: true,

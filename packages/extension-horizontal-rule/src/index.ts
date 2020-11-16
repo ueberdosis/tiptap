@@ -1,4 +1,4 @@
-import { Command, NodeExtension, nodeInputRule } from '@tiptap/core'
+import { Command, Node, nodeInputRule } from '@tiptap/core'
 
 export interface HorizontalRuleOptions {
   HTMLAttributes: {
@@ -6,7 +6,7 @@ export interface HorizontalRuleOptions {
   },
 }
 
-const HorizontalRule = NodeExtension.create({
+const HorizontalRule = Node.create({
   name: 'horizontalRule',
 
   defaultOptions: <HorizontalRuleOptions>{

@@ -15,8 +15,8 @@ import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
 import { Extension } from './Extension'
-import { NodeExtension } from './NodeExtension'
-import { MarkExtension } from './MarkExtension'
+import { Node } from './Node'
+import { Mark } from './Mark'
 import { Extensions, UnionToIntersection } from './types'
 import * as extensions from './extensions'
 import style from './style'
@@ -43,10 +43,10 @@ export interface AllExtensions {}
 export type UnfilteredCommands = {
   [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
     ? ExtensionCommands
-    : AllExtensions[Item] extends NodeExtension<any, infer NodeExtensionCommands>
-      ? NodeExtensionCommands
-      : AllExtensions[Item] extends MarkExtension<any, infer MarkExtensionCommands>
-        ? MarkExtensionCommands
+    : AllExtensions[Item] extends Node<any, infer NodeCommands>
+      ? NodeCommands
+      : AllExtensions[Item] extends Mark<any, infer MarkCommands>
+        ? MarkCommands
         : never
 }
 
