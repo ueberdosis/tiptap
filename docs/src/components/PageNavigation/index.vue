@@ -76,7 +76,7 @@ export default {
     previousPage() {
       let previousIndex = this.currentIndex - 1
 
-      while (this.flattenedItems[previousIndex].redirect) {
+      while (this.flattenedItems[previousIndex]?.redirect) {
         previousIndex -= 1
       }
 
