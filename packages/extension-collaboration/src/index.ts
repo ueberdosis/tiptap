@@ -4,13 +4,11 @@ import {
 } from 'y-prosemirror'
 
 export interface CollaborationOptions {
-  provider: any,
   type: any,
 }
 
 const Collaboration = Extension.create({
   defaultOptions: <CollaborationOptions>{
-    provider: null,
     type: null,
   },
 
