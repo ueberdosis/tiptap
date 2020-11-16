@@ -1,6 +1,13 @@
 {
   "name": "@tiptap/vue",
   "version": "1.0.0",
+  "homepage": "https://tiptap.dev",
+  "keywords": ["tiptap", "tiptap extension"],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
   "main": "dist/tiptap-vue.cjs.js",
   "umd": "dist/tiptap-vue.umd.js",
   "module": "dist/tiptap-vue.esm.js",

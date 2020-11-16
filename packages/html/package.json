@@ -1,6 +1,13 @@
 {
   "name": "@tiptap/html",
   "version": "1.0.0",
+  "homepage": "https://tiptap.dev",
+  "keywords": ["tiptap", "tiptap extension"],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
   "main": "dist/tiptap-html.cjs.js",
   "umd": "dist/tiptap-html.umd.js",
   "module": "dist/tiptap-html.esm.js",

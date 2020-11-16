@@ -1,6 +1,13 @@
 {
   "name": "@tiptap/vue-starter-kit",
   "version": "1.0.0",
+  "homepage": "https://tiptap.dev",
+  "keywords": ["tiptap", "tiptap extension"],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
   "main": "dist/tiptap-vue-starter-kit.cjs.js",
   "umd": "dist/tiptap-vue-starter-kit.umd.js",
   "module": "dist/tiptap-vue-starter-kit.esm.js",
