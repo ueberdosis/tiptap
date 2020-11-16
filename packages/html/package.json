@@ -18,7 +18,7 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/core": "2.x",
+    "@tiptap/core": "2.0.0-alpha.3",
     "hostic-dom": "^0.8.5",
     "prosemirror-model": "^1.12.0"
   }

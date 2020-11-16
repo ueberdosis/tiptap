@@ -18,6 +18,6 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.x"
+    "@tiptap/core": "2.0.0-alpha.3"
   }
 }

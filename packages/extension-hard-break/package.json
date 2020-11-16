@@ -18,7 +18,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.x",
+    "@tiptap/core": "2.0.0-alpha.3",
     "prosemirror-commands": "^1.1.3"
   }
 }
