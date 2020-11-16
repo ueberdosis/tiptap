@@ -90,7 +90,7 @@ async function build(commandLineArgs) {
             compilerOptions: {
               declaration: true,
               paths: {
-                '@tiptap/*': ['*/src'],
+                '@tiptap/*': ['packages/*/src'],
               },
             },
             include: null,
@@ -124,7 +124,7 @@ async function build(commandLineArgs) {
             tsconfigOverride: {
               compilerOptions: {
                 paths: {
-                  '@tiptap/*': ['*/src'],
+                  '@tiptap/*': ['packages/*/src'],
                 },
               },
             },
