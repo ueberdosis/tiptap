@@ -5,8 +5,9 @@ import {
   MarkType,
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
+import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
-import { Attribute, Overwrite } from './types'
+import { Attributes, Overwrite } from './types'
 import { Editor } from './Editor'
 
 export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<ExtensionConfig<Options, Commands>, {
@@ -59,9 +60,7 @@ export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<Exte
     this: {
       options: Options,
     },
-  ) => {
-    [key: string]: Attribute
-  },
+  ) => Attributes,
 
   /**
    * Commands
@@ -90,7 +89,7 @@ export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<Exte
     options: Options,
     editor: Editor,
     type: MarkType,
-  }) => any[],
+  }) => InputRule[],
 
   /**
    * Paste rules
@@ -99,7 +98,7 @@ export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<Exte
     options: Options,
     editor: Editor,
     type: MarkType,
-  }) => any[],
+  }) => Plugin[],
 
   /**
    * ProseMirror plugins

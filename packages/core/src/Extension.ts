@@ -1,4 +1,5 @@
 import { Plugin } from 'prosemirror-state'
+import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 import { GlobalAttributes } from './types'
 
@@ -44,7 +45,7 @@ export interface ExtensionConfig<Options = any, Commands = {}> {
   addInputRules?: (this: {
     options: Options,
     editor: Editor,
-  }) => any[],
+  }) => InputRule[],
 
   /**
    * Paste rules
@@ -52,7 +53,7 @@ export interface ExtensionConfig<Options = any, Commands = {}> {
   addPasteRules?: (this: {
     options: Options,
     editor: Editor,
-  }) => any[],
+  }) => Plugin[],
 
   /**
    * ProseMirror plugins

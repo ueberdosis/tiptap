@@ -7,6 +7,17 @@ import { Mark } from './Mark'
 import { Editor } from './Editor'
 import { AllExtensions } from '.'
 
+export type Extensions = (Extension | Node | Mark)[]
+
+export interface EditorOptions {
+  element: Element,
+  content: EditorContent,
+  extensions: Extensions,
+  injectCSS: boolean,
+  autoFocus: 'start' | 'end' | number | boolean | null,
+  editable: boolean,
+}
+
 export type EditorContent = string | JSON | null
 
 export type Command = (props: {
@@ -21,8 +32,6 @@ export type Command = (props: {
 }) => boolean
 
 export type CommandSpec = (...args: any[]) => Command
-
-export type Extensions = (Extension | Node | Mark)[]
 
 export type Attribute = {
   default: any,

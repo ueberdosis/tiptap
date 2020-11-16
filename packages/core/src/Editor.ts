@@ -14,23 +14,14 @@ import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
-import { Extensions, EditorContent, CommandSpec } from './types'
+import { EditorOptions, EditorContent, CommandSpec } from './types'
 import * as extensions from './extensions'
 import style from './style'
 
 export { extensions }
 
-interface HTMLElement {
+export interface HTMLElement {
   editor?: Editor
-}
-
-interface EditorOptions {
-  element: Element,
-  content: EditorContent,
-  extensions: Extensions,
-  injectCSS: boolean,
-  autoFocus: 'start' | 'end' | number | boolean | null,
-  editable: boolean,
 }
 
 @magicMethods
