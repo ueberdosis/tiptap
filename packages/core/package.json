@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/core",
-  "version": "1.0.0",
+  "version": "2.0.0-alpha.0",
   "main": "dist/tiptap-core.cjs.js",
   "umd": "dist/tiptap-core.umd.js",
   "module": "dist/tiptap-core.esm.js",
