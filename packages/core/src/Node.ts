@@ -5,11 +5,11 @@ import {
   NodeType,
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
-import { ExtensionSpec } from './Extension'
+import { ExtensionConfig } from './Extension'
 import { Attributes, NodeViewRenderer, Overwrite } from './types'
 import { Editor } from './Editor'
 
-export interface NodeExtensionSpec<Options = any, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
+export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<ExtensionConfig<Options, Commands>, {
   /**
    * TopNode
    */
@@ -154,7 +154,7 @@ export interface NodeExtensionSpec<Options = any, Commands = {}> extends Overwri
 }> {}
 
 export class Node<Options = any, Commands = {}> {
-  config: Required<NodeExtensionSpec> = {
+  config: Required<NodeConfig> = {
     name: 'node',
     defaultOptions: {},
     addGlobalAttributes: () => [],
@@ -182,7 +182,7 @@ export class Node<Options = any, Commands = {}> {
 
   options!: Options
 
-  constructor(config: NodeExtensionSpec<Options, Commands>) {
+  constructor(config: NodeConfig<Options, Commands>) {
     this.config = {
       ...this.config,
       ...config,
@@ -191,13 +191,13 @@ export class Node<Options = any, Commands = {}> {
     this.options = this.config.defaultOptions
   }
 
-  static create<O, C>(config: NodeExtensionSpec<O, C>) {
+  static create<O, C>(config: NodeConfig<O, C>) {
     return new Node<O, C>(config)
   }
 
   configure(options: Partial<Options>) {
     return Node
-      .create<Options, Commands>(this.config as NodeExtensionSpec<Options, Commands>)
+      .create<Options, Commands>(this.config as NodeConfig<Options, Commands>)
       .#configure({
         ...this.config.defaultOptions,
         ...options,
@@ -213,10 +213,10 @@ export class Node<Options = any, Commands = {}> {
     return this
   }
 
-  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<NodeExtensionSpec<ExtendedOptions, ExtendedCommands>>) {
+  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<NodeConfig<ExtendedOptions, ExtendedCommands>>) {
     return new Node<ExtendedOptions, ExtendedCommands>({
       ...this.config,
       ...extendedConfig,
-    } as NodeExtensionSpec<ExtendedOptions, ExtendedCommands>)
+    } as NodeConfig<ExtendedOptions, ExtendedCommands>)
   }
 }

@@ -5,11 +5,11 @@ import {
   MarkType,
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
-import { ExtensionSpec } from './Extension'
+import { ExtensionConfig } from './Extension'
 import { Attributes, Overwrite } from './types'
 import { Editor } from './Editor'
 
-export interface MarkExtensionSpec<Options = any, Commands = {}> extends Overwrite<ExtensionSpec<Options, Commands>, {
+export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<ExtensionConfig<Options, Commands>, {
   /**
    * Inclusive
    */
@@ -110,7 +110,7 @@ export interface MarkExtensionSpec<Options = any, Commands = {}> extends Overwri
 }> {}
 
 export class Mark<Options = any, Commands = {}> {
-  config: Required<MarkExtensionSpec> = {
+  config: Required<MarkConfig> = {
     name: 'mark',
     defaultOptions: {},
     addGlobalAttributes: () => [],
@@ -130,7 +130,7 @@ export class Mark<Options = any, Commands = {}> {
 
   options!: Options
 
-  constructor(config: MarkExtensionSpec<Options, Commands>) {
+  constructor(config: MarkConfig<Options, Commands>) {
     this.config = {
       ...this.config,
       ...config,
@@ -139,13 +139,13 @@ export class Mark<Options = any, Commands = {}> {
     this.options = this.config.defaultOptions
   }
 
-  static create<O, C>(config: MarkExtensionSpec<O, C>) {
+  static create<O, C>(config: MarkConfig<O, C>) {
     return new Mark<O, C>(config)
   }
 
   configure(options: Partial<Options>) {
     return Mark
-      .create<Options, Commands>(this.config as MarkExtensionSpec<Options, Commands>)
+      .create<Options, Commands>(this.config as MarkConfig<Options, Commands>)
       .#configure({
         ...this.config.defaultOptions,
         ...options,
@@ -161,10 +161,10 @@ export class Mark<Options = any, Commands = {}> {
     return this
   }
 
-  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkExtensionSpec<ExtendedOptions, ExtendedCommands>>) {
+  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkConfig<ExtendedOptions, ExtendedCommands>>) {
     return new Mark<ExtendedOptions, ExtendedCommands>({
       ...this.config,
       ...extendedConfig,
-    } as MarkExtensionSpec<ExtendedOptions, ExtendedCommands>)
+    } as MarkConfig<ExtendedOptions, ExtendedCommands>)
   }
 }

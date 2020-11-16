@@ -2,7 +2,7 @@ import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { GlobalAttributes } from './types'
 
-export interface ExtensionSpec<Options = any, Commands = {}> {
+export interface ExtensionConfig<Options = any, Commands = {}> {
   /**
    * Name
    */
@@ -64,7 +64,7 @@ export interface ExtensionSpec<Options = any, Commands = {}> {
 }
 
 export class Extension<Options = any, Commands = any> {
-  config: Required<ExtensionSpec> = {
+  config: Required<ExtensionConfig> = {
     name: 'extension',
     defaultOptions: {},
     addGlobalAttributes: () => [],
@@ -77,7 +77,7 @@ export class Extension<Options = any, Commands = any> {
 
   options!: Options
 
-  constructor(config: ExtensionSpec<Options, Commands>) {
+  constructor(config: ExtensionConfig<Options, Commands>) {
     this.config = {
       ...this.config,
       ...config,
@@ -86,13 +86,13 @@ export class Extension<Options = any, Commands = any> {
     this.options = this.config.defaultOptions
   }
 
-  static create<O, C>(config: ExtensionSpec<O, C>) {
+  static create<O, C>(config: ExtensionConfig<O, C>) {
     return new Extension<O, C>(config)
   }
 
   configure(options: Partial<Options>) {
     return Extension
-      .create<Options, Commands>(this.config as ExtensionSpec<Options, Commands>)
+      .create<Options, Commands>(this.config as ExtensionConfig<Options, Commands>)
       .#configure({
         ...this.config.defaultOptions,
         ...options,
@@ -108,10 +108,10 @@ export class Extension<Options = any, Commands = any> {
     return this
   }
 
-  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<ExtensionSpec<ExtendedOptions, ExtendedCommands>>) {
+  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<ExtensionConfig<ExtendedOptions, ExtendedCommands>>) {
     return new Extension<ExtendedOptions, ExtendedCommands>({
       ...this.config,
       ...extendedConfig,
-    } as ExtensionSpec<ExtendedOptions, ExtendedCommands>)
+    } as ExtensionConfig<ExtendedOptions, ExtendedCommands>)
   }
 }
