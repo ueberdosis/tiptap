@@ -15,7 +15,7 @@
   "umd": "dist/tiptap-extension-highlight.umd.js",
   "module": "dist/tiptap-extension-highlight.esm.js",
   "unpkg": "dist/tiptap-extension-highlight.bundle.umd.min.js",
-  "types": "dist/extension-highlight/src/index.d.ts",
+  "types": "dist/packages/extension-highlight/src/index.d.ts",
   "files": [
     "src",
     "dist"

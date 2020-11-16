@@ -15,7 +15,7 @@
   "umd": "dist/tiptap-extension-code-block.umd.js",
   "module": "dist/tiptap-extension-code-block.esm.js",
   "unpkg": "dist/tiptap-extension-code-block.bundle.umd.min.js",
-  "types": "dist/extension-code-block/src/index.d.ts",
+  "types": "dist/packages/extension-code-block/src/index.d.ts",
   "files": [
     "src",
     "dist"
