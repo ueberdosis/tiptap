@@ -11,7 +11,7 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "rootDir": "./packages",
+    "rootDir": ".",
     "allowJs": false,
     "checkJs": false,
     "paths": {
