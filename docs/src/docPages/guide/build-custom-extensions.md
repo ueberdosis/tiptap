@@ -171,9 +171,9 @@ Attributes can be applied to multiple extensions at once. That’s useful for te
 Take a closer look at [the full source code](https://github.com/ueberdosis/tiptap-next/tree/main/packages/extension-text-align) of the [`TextAlign`](/api/extensions/text-align) extension to see a more complex example. But here is how it works in a nutshell:
 
 ```js
-import { createExtension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 
-const TextAlign = createExtension({
+const TextAlign = Extension.create({
   addGlobalAttributes() {
     return [
       {
@@ -204,8 +204,8 @@ const TextAlign = createExtension({
 With the `renderHTML` function you can control how an extension is rendered to HTML. We pass an attributes object to it, with all local attributes, global attributes, and configured CSS classes. Here is an example from the `Bold` extension:
 
 ```js
-renderHTML({ attributes }) {
-  return ['strong', attributes, 0]
+renderHTML({ HTMLAttributes }) {
+  return ['strong', HTMLAttributes, 0]
 },
 ```
 
@@ -214,16 +214,16 @@ The first value in the array should be the name of HTML tag. If the second eleme
 The number zero (representing a hole) is used to indicate where the content should be inserted. Let’s look at the rendering of the `CodeBlock` extension with two nested tags:
 
 ```js
-renderHTML({ attributes }) {
-  return ['pre', ['code', attributes, 0]]
+renderHTML({ HTMLAttributes }) {
+  return ['pre', ['code', HTMLAttributes, 0]]
 },
 ```
 
 If you want to add some specific attributes there, import the `mergeAttributes` helper from `@tiptap/core`:
 
 ```js
-renderHTML({ attributes }) {
-  return ['a', mergeAttributes(attributes, { rel: this.options.rel }), 0]
+renderHTML({ HTMLAttributes }) {
+  return ['a', mergeAttributes(HTMLAttributes, { rel: this.options.rel }), 0]
 },
 ```
 
@@ -386,33 +386,33 @@ const CustomLink = Link.extend({
 There is a whole lot to learn about node views, so head over to the [dedicated section in our guide about node views](/guide/advanced-node-views) for more information. If you’re looking for a real-world example, look at the source code of the [`TaskItem`](/api/nodes/task-item) node. This is using a node view to render the checkboxes.
 
 ## Start from scratch
-You can also build your own extensions from scratch with the `createNode()`, `createMark()`, and `createExtension()` functions. Pass an option with your code and configuration.
+You can also build your own extensions from scratch with the `NodeExtension`, `MarkExtension`, and `Extension` classes. Pass an option with your code and configuration.
 
 And if everything is working fine, don’t forget to [share it with the community](https://github.com/ueberdosis/tiptap-next/issues/new/choose).
 
 ### Create a node
 ```js
-import { createNode } from '@tiptap/core'
+import { NodeExtension } from '@tiptap/core'
 
-const CustomNode = createNode({
+const CustomNode = NodeExtension.create({
   // Your code goes here.
 })
 ```
 
 ### Create a mark
 ```js
-import { createMark } from '@tiptap/core'
+import { MarkExtension } from '@tiptap/core'
 
-const CustomMark = createMark({
+const CustomMark = MarkExtension.create({
   // Your code goes here.
 })
 ```
 
 ### Create an extension
 ```js
-import { createExtension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 
-const CustomExtension = createExtension({
+const CustomExtension = Extension.create({
   // Your code goes here.
 })
 ```

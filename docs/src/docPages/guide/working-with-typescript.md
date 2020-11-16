@@ -15,13 +15,13 @@ If you’re using TypeScript in your project and want to extend tiptap, there ar
 To extend or create default options for an extension, you’ll need to define a custom type, here is an example:
 
 ```js
-import { createExtension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 
 export interface CustomExtensionOptions {
   awesomeness: number,
 }
 
-const CustomExtension = createExtension({
+const CustomExtension = Extension.create({
   defaultOptions: <CustomExtensionOptions>{
     awesomeness: 100,
   },
@@ -32,9 +32,9 @@ const CustomExtension = createExtension({
 The core package also exports a `Command` type, which needs to be added to all commands that you specify in your code. Here is an example:
 
 ```js
-import { Command, createExtension } from '@tiptap/core'
+import { Command, Extension } from '@tiptap/core'
 
-const CustomExtension = createExtension({
+const CustomExtension = Extension.create({
   addCommands() {
     return {
       /**

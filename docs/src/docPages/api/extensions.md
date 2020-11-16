@@ -23,20 +23,20 @@ You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which in
 You’re free to create your own extensions for tiptap. Here is the boilerplate code that’s need to create and register your own extension:
 
 ```js
-import { createExtension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 
-const CustomExtension = createExtension({
+const CustomExtension = Extension.create({
   // Your code here
 })
 
 const editor = new Editor({
   extensions: [
     // Register your custom extension with the editor.
-    CustomExtension(),
+    CustomExtension,
     // … and don’t forget all other extensions.
-    Document(),
-    Paragraph(),
-    Text(),
+    Document,
+    Paragraph,
+    Text,
     // …
   ],
 ```
@@ -49,7 +49,7 @@ ProseMirror has a fantastic eco system with many amazing plugins. If you want to
 ```js
 import { history } from 'prosemirror-history'
 
-const History = createExtension({
+const History = Extension.create({
   addProseMirrorPlugins() {
     return [
       history(),
