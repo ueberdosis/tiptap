@@ -10,12 +10,12 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "baseUrl": "./packages",
-    "rootDir": "./packages",
+    "baseUrl": ".",
+    "rootDir": ".",
     "allowJs": false,
     "checkJs": false,
     "paths": {
-      "@tiptap/*": ["*/dist", "*/src"]
+      "@tiptap/*": ["packages/*/dist", "packages/*/src"]
     },
     "lib": [
       "esnext",
