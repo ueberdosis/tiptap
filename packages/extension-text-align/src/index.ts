@@ -65,8 +65,10 @@ const TextAlign = Extension.create({
 
 export default TextAlign
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    TextAlign: typeof TextAlign,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      TextAlign: typeof TextAlign,
+    }
   }
 }

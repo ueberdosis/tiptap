@@ -80,8 +80,10 @@ const OrderedList = Node.create({
 
 export default OrderedList
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    OrderedList: typeof OrderedList,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      OrderedList: typeof OrderedList,
+    }
   }
 }

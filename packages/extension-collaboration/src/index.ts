@@ -32,8 +32,10 @@ const Collaboration = Extension.create({
 
 export default Collaboration
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Collaboration: typeof Collaboration,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      Collaboration: typeof Collaboration,
+    }
   }
 }

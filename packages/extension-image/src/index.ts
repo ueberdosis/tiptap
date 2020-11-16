@@ -82,8 +82,10 @@ const Image = Node.create({
 
 export default Image
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Image: typeof Image,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      Image: typeof Image,
+    }
   }
 }

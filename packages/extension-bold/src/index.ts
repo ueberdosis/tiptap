@@ -74,8 +74,10 @@ const Bold = Mark.create({
 
 export default Bold
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Bold: typeof Bold,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      Bold: typeof Bold,
+    }
   }
 }

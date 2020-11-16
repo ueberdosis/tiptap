@@ -1,7 +1,5 @@
 import { EditorState, Transaction } from 'prosemirror-state'
 import {
-  SingleCommands,
-  ChainedCommands,
   Editor,
   CommandSpec,
 } from './Editor'
@@ -58,7 +56,7 @@ export default class CommandManager {
         }
 
         return [name, method]
-      })) as SingleCommands
+      })) as Tiptap.SingleCommands
   }
 
   public createChain(startTr?: Transaction, shouldDispatch = true) {
@@ -92,7 +90,7 @@ export default class CommandManager {
           return proxy
         }
       },
-    }) as ChainedCommands
+    }) as Tiptap.ChainedCommands
   }
 
   public createCan(startTr?: Transaction) {
@@ -105,7 +103,7 @@ export default class CommandManager {
       .entries(commands)
       .map(([name, command]) => {
         return [name, (...args: any[]) => command(...args)({ ...props, dispatch })]
-      })) as SingleCommands
+      })) as Tiptap.SingleCommands
 
     return {
       ...formattedCommands,

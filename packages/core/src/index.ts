@@ -2,7 +2,6 @@ export {
   Editor,
   Command,
   CommandsSpec,
-  AllExtensions,
 } from './Editor'
 
 export * from './Extension'

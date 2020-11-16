@@ -70,6 +70,8 @@ module.exports = {
         '@typescript-eslint/ban-types': 'off',
         '@typescript-eslint/comma-dangle': ['error', 'always-multiline'],
         '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/no-namespace': 'off',
+        'no-undef': 'off',
       },
     },
   ],

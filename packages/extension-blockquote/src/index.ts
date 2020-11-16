@@ -58,8 +58,10 @@ const Blockquote = Node.create({
 
 export default Blockquote
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Blockquote: typeof Blockquote,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      Blockquote: typeof Blockquote,
+    }
   }
 }

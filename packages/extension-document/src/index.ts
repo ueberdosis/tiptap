@@ -8,8 +8,10 @@ const Document = Node.create({
 
 export default Document
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Document: typeof Document,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      Document: typeof Document,
+    }
   }
 }

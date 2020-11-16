@@ -50,8 +50,10 @@ const FocusClasses = Extension.create({
 
 export default FocusClasses
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    FocusClasses: typeof FocusClasses,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      FocusClasses: typeof FocusClasses,
+    }
   }
 }

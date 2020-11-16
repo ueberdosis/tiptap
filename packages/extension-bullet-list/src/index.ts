@@ -56,8 +56,10 @@ const BulletList = Node.create({
 
 export default BulletList
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    BulletList: typeof BulletList,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      BulletList: typeof BulletList,
+    }
   }
 }

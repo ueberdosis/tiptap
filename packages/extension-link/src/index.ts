@@ -93,8 +93,10 @@ const Link = Mark.create({
 
 export default Link
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Link: typeof Link,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      Link: typeof Link,
+    }
   }
 }

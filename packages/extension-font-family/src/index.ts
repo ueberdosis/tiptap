@@ -52,8 +52,10 @@ const FontFamily = Extension.create({
 
 export default FontFamily
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    FontFamily: typeof FontFamily,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      FontFamily: typeof FontFamily,
+    }
   }
 }

@@ -7,8 +7,10 @@ const Text = Node.create({
 
 export default Text
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Text: typeof Text,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      Text: typeof Text,
+    }
   }
 }

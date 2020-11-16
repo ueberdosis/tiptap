@@ -40,8 +40,10 @@ const ListItem = Node.create({
 
 export default ListItem
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    ListItem: typeof ListItem,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      ListItem: typeof ListItem,
+    }
   }
 }

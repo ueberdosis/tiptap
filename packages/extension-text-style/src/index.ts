@@ -46,8 +46,10 @@ const TextStyle = Mark.create({
 
 export default TextStyle
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    TextStyle: typeof TextStyle,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      TextStyle: typeof TextStyle,
+    }
   }
 }

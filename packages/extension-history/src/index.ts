@@ -46,8 +46,10 @@ const History = Extension.create({
 
 export default History
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    History: typeof History,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      History: typeof History,
+    }
   }
 }

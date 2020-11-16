@@ -76,8 +76,10 @@ const Italic = Mark.create({
 
 export default Italic
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Italic: typeof Italic,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      Italic: typeof Italic,
+    }
   }
 }

@@ -24,9 +24,9 @@ import style from './style'
 export type Command = (props: {
   editor: Editor,
   tr: Transaction,
-  commands: SingleCommands,
-  can: () => SingleCommands & { chain: () => ChainedCommands },
-  chain: () => ChainedCommands,
+  commands: Tiptap.SingleCommands,
+  can: () => Tiptap.SingleCommands & { chain: () => Tiptap.ChainedCommands },
+  chain: () => Tiptap.ChainedCommands,
   state: EditorState,
   view: EditorView,
   dispatch: ((args?: any) => any) | undefined,
@@ -38,35 +38,71 @@ export interface CommandsSpec {
   [key: string]: CommandSpec
 }
 
-export interface AllExtensions {}
+declare global {
+  namespace Tiptap {
+    export interface AllExtensions {}
 
-export type UnfilteredCommands = {
-  [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
-    ? ExtensionCommands
-    : AllExtensions[Item] extends Node<any, infer NodeCommands>
-      ? NodeCommands
-      : AllExtensions[Item] extends Mark<any, infer MarkCommands>
-        ? MarkCommands
-        : never
+    export type UnfilteredCommands = {
+      [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
+        ? ExtensionCommands
+        : AllExtensions[Item] extends Node<any, infer NodeCommands>
+          ? NodeCommands
+          : AllExtensions[Item] extends Mark<any, infer MarkCommands>
+            ? MarkCommands
+            : never
+    }
+
+    type ValuesOf<T> = T[keyof T];
+    type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
+    type AllCommands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
+
+    export type SingleCommands = {
+      [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
+      ? (...args: Parameters<AllCommands[Item]>) => boolean
+      : never
+    }
+
+    export type ChainedCommands = {
+      [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
+      ? (...args: Parameters<AllCommands[Item]>) => ChainedCommands
+      : never
+    } & {
+      run: () => boolean
+    }
+  }
 }
 
-type ValuesOf<T> = T[keyof T];
-type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
-type AllCommands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
+// type blub = Tiptap.AllExtensions
 
-export type SingleCommands = {
-  [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<AllCommands[Item]>) => boolean
-  : never
-}
+// export interface AllExtensions {}
 
-export type ChainedCommands = {
-  [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<AllCommands[Item]>) => ChainedCommands
-  : never
-} & {
-  run: () => boolean
-}
+// export type UnfilteredCommands = {
+//   [Item in keyof Tiptap.AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
+//     ? ExtensionCommands
+//     : AllExtensions[Item] extends Node<any, infer NodeCommands>
+//       ? NodeCommands
+//       : AllExtensions[Item] extends Mark<any, infer MarkCommands>
+//         ? MarkCommands
+//         : never
+// }
+
+// type ValuesOf<T> = T[keyof T];
+// type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
+// type AllCommands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
+
+// export type SingleCommands = {
+//   [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
+//   ? (...args: Parameters<AllCommands[Item]>) => boolean
+//   : never
+// }
+
+// export type ChainedCommands = {
+//   [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
+//   ? (...args: Parameters<AllCommands[Item]>) => ChainedCommands
+//   : never
+// } & {
+//   run: () => boolean
+// }
 
 type EditorContent = string | JSON | null
 

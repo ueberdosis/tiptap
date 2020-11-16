@@ -65,8 +65,10 @@ const Code = Mark.create({
 
 export default Code
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Code: typeof Code,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      Code: typeof Code,
+    }
   }
 }

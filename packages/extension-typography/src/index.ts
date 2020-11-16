@@ -45,8 +45,10 @@ const Typography = Extension.create({
 
 export default Typography
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Typography: typeof Typography,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      Typography: typeof Typography,
+    }
   }
 }

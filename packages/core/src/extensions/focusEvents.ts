@@ -36,8 +36,10 @@ export const FocusEvents = Extension.create({
   },
 })
 
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    FocusEvents: typeof FocusEvents,
+declare global {
+  namespace Tiptap {
+    interface AllExtensions {
+      FocusEvents: typeof FocusEvents,
+    }
   }
 }
