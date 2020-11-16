@@ -179,7 +179,7 @@ createNode({
 #### Defining
 Nodes get dropped when their entire content is replaced (for example, when pasting new content) by default. If a node should be kept for such replace operations, configure them as `defining`.
 
-Typically, that applies to [`Blockquote`](/api/node/blockquote), [`CodeBlock`](/api/node/code-block), [`Heading`](/api/node/heading), and [`ListItem`](/api/node/list-item).
+Typically, that applies to [`Blockquote`](/api/nodes/blockquote), [`CodeBlock`](/api/nodes/code-block), [`Heading`](/api/nodes/heading), and [`ListItem`](/api/nodes/list-item).
 
 ```js
 createNode({
