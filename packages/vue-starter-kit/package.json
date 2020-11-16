@@ -1,8 +1,11 @@
 {
   "name": "@tiptap/vue-starter-kit",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "homepage": "https://tiptap.dev",
-  "keywords": ["tiptap", "tiptap starter kit"],
+  "keywords": [
+    "tiptap",
+    "tiptap starter kit"
+  ],
   "license": "MIT",
   "funding": {
     "type": "github",
@@ -18,7 +21,7 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/vue": "1.x",
-    "@tiptap/starter-kit": "1.x"
+    "@tiptap/starter-kit": "1.x",
+    "@tiptap/vue": "1.x"
   }
 }
