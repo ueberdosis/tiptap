@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/starter-kit",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -21,24 +21,24 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/extension-blockquote": "1.0.0-alpha.1",
-    "@tiptap/extension-bold": "1.0.0-alpha.1",
-    "@tiptap/extension-bullet-list": "1.0.0-alpha.1",
-    "@tiptap/extension-code": "1.0.0-alpha.1",
-    "@tiptap/extension-code-block": "1.0.0-alpha.1",
-    "@tiptap/extension-document": "1.0.0-alpha.1",
-    "@tiptap/extension-dropcursor": "1.0.0-alpha.1",
-    "@tiptap/extension-gapcursor": "1.0.0-alpha.1",
-    "@tiptap/extension-hard-break": "1.0.0-alpha.1",
-    "@tiptap/extension-heading": "1.0.0-alpha.1",
-    "@tiptap/extension-history": "1.0.0-alpha.1",
-    "@tiptap/extension-horizontal-rule": "1.0.0-alpha.1",
-    "@tiptap/extension-italic": "1.0.0-alpha.1",
-    "@tiptap/extension-list-item": "1.0.0-alpha.1",
-    "@tiptap/extension-ordered-list": "1.0.0-alpha.1",
-    "@tiptap/extension-paragraph": "1.0.0-alpha.1",
-    "@tiptap/extension-strike": "1.0.0-alpha.1",
-    "@tiptap/extension-text": "1.0.0-alpha.1",
-    "@tiptap/extension-underline": "1.0.0-alpha.1"
+    "@tiptap/extension-blockquote": "^1.0.0-alpha.2",
+    "@tiptap/extension-bold": "^1.0.0-alpha.2",
+    "@tiptap/extension-bullet-list": "^1.0.0-alpha.2",
+    "@tiptap/extension-code": "^1.0.0-alpha.2",
+    "@tiptap/extension-code-block": "^1.0.0-alpha.2",
+    "@tiptap/extension-document": "^1.0.0-alpha.2",
+    "@tiptap/extension-dropcursor": "^1.0.0-alpha.2",
+    "@tiptap/extension-gapcursor": "^1.0.0-alpha.2",
+    "@tiptap/extension-hard-break": "^1.0.0-alpha.2",
+    "@tiptap/extension-heading": "^1.0.0-alpha.2",
+    "@tiptap/extension-history": "^1.0.0-alpha.2",
+    "@tiptap/extension-horizontal-rule": "^1.0.0-alpha.2",
+    "@tiptap/extension-italic": "^1.0.0-alpha.2",
+    "@tiptap/extension-list-item": "^1.0.0-alpha.2",
+    "@tiptap/extension-ordered-list": "^1.0.0-alpha.2",
+    "@tiptap/extension-paragraph": "^1.0.0-alpha.2",
+    "@tiptap/extension-strike": "^1.0.0-alpha.2",
+    "@tiptap/extension-text": "^1.0.0-alpha.2",
+    "@tiptap/extension-underline": "^1.0.0-alpha.2"
   }
 }
