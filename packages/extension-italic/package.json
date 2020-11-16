@@ -1,6 +1,13 @@
 {
   "name": "@tiptap/extension-italic",
   "version": "1.0.0",
+  "homepage": "https://tiptap.dev",
+  "keywords": ["tiptap", "tiptap extension"],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
   "main": "dist/tiptap-extension-italic.cjs.js",
   "umd": "dist/tiptap-extension-italic.umd.js",
   "module": "dist/tiptap-extension-italic.esm.js",
