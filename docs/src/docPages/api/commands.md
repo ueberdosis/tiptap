@@ -38,9 +38,11 @@ In some cases, it’s helpful to put some more logic in a command. That’s why 
 editor
   .chain()
   .focus()
-  .command(({ commands }) => {
-    // put complex logic here
-    return commands.insertText('This is crazy.')
+  .command(({ tr }) => {
+    // manipulate the transaction
+    tr.insertText('hey, that’s cool!')
+
+    return true
   })
   .run()
 ```
