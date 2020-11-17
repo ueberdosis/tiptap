@@ -36,17 +36,29 @@ const Code = Mark.create({
   addCommands() {
     return {
       /**
+       * Set a code mark
+       */
+      setCode: (): Command => ({ commands }) => {
+        return commands.addMark('code')
+      },
+      /**
        * Toggle inline code
        */
-      code: (): Command => ({ commands }) => {
+      toggleCode: (): Command => ({ commands }) => {
         return commands.toggleMark('code')
+      },
+      /**
+       * Set a code mark
+       */
+      unsetCode: (): Command => ({ commands }) => {
+        return commands.addMark('code')
       },
     }
   },
 
   addKeyboardShortcuts() {
     return {
-      'Mod-`': () => this.editor.commands.code(),
+      'Mod-`': () => this.editor.commands.toggleCode(),
     }
   },
 

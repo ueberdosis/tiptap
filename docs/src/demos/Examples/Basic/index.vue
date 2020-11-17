@@ -10,7 +10,7 @@
       <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
         strike
       </button>
-      <button @click="editor.chain().focus().code().run()" :class="{ 'is-active': editor.isActive('code') }">
+      <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
         code
       </button>
       <button @click="editor.chain().focus().removeMarks().run()">
