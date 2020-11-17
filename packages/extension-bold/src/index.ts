@@ -43,9 +43,9 @@ const Bold = Mark.create({
   addCommands() {
     return {
       /**
-       * Set a bold mark
+       * Add a bold mark
        */
-      setBold: (): Command => ({ commands }) => {
+      addBold: (): Command => ({ commands }) => {
         return commands.addMark('bold')
       },
       /**
@@ -55,9 +55,9 @@ const Bold = Mark.create({
         return commands.toggleMark('bold')
       },
       /**
-       * Unset a bold mark
+       * Remove a bold mark
        */
-      unsetBold: (): Command => ({ commands }) => {
+      removeBold: (): Command => ({ commands }) => {
         return commands.removeMark('bold')
       },
     }

@@ -33,7 +33,7 @@ const Underline = Mark.create({
       /**
        * Set an underline mark
        */
-      setUnderline: (): Command => ({ commands }) => {
+      addUnderline: (): Command => ({ commands }) => {
         return commands.addMark('underline')
       },
       /**
@@ -45,7 +45,7 @@ const Underline = Mark.create({
       /**
        * Unset an underline mark
        */
-      unsetUnderline: (): Command => ({ commands }) => {
+      removeUnderline: (): Command => ({ commands }) => {
         return commands.addMark('underline')
       },
     }
