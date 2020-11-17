@@ -45,17 +45,29 @@ const Strike = Mark.create({
   addCommands() {
     return {
       /**
+       * Set a strike mark
+       */
+      setStrike: (): Command => ({ commands }) => {
+        return commands.addMark('strike')
+      },
+      /**
        * Toggle a strike mark
        */
-      strike: (): Command => ({ commands }) => {
+      toggleStrike: (): Command => ({ commands }) => {
         return commands.toggleMark('strike')
+      },
+      /**
+       * Set a strike mark
+       */
+      unsetStrike: (): Command => ({ commands }) => {
+        return commands.addMark('strike')
       },
     }
   },
 
   addKeyboardShortcuts() {
     return {
-      'Mod-d': () => this.editor.commands.strike(),
+      'Mod-d': () => this.editor.commands.toggleStrike(),
     }
   },
 
