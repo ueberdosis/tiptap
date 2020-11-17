@@ -63,7 +63,7 @@ editor
   .can()
   .chain()
   .toggleBold()
-  .italic()
+  .toggleItalic()
   .run()
 ```
 

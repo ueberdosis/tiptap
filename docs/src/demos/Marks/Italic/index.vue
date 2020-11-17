@@ -1,6 +1,6 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus().italic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+    <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
       italic
     </button>
 

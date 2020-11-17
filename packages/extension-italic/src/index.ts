@@ -45,17 +45,29 @@ const Italic = Mark.create({
   addCommands() {
     return {
       /**
+       * Set a italic mark
+       */
+      setItalic: (): Command => ({ commands }) => {
+        return commands.addMark('italic')
+      },
+      /**
        * Toggle an italic mark
        */
-      italic: (): Command => ({ commands }) => {
+      toggleItalic: (): Command => ({ commands }) => {
         return commands.toggleMark('italic')
+      },
+      /**
+       * Set a italic mark
+       */
+      unsetItalic: (): Command => ({ commands }) => {
+        return commands.addMark('italic')
       },
     }
   },
 
   addKeyboardShortcuts() {
     return {
-      'Mod-i': () => this.editor.commands.italic(),
+      'Mod-i': () => this.editor.commands.toggleItalic(),
     }
   },
 
