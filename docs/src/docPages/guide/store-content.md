@@ -78,24 +78,25 @@ editor.commands.setContent(`<p>Example Text</p>`)
 
 ## Not an option: Markdown
 
-Unfortunately, **tiptap doesn’t support Markdown as an input or output format**. We considered to add support for it, but there are a few limitations:
+Unfortunately, **tiptap doesn’t support Markdown as an input or output format**. We considered to add support for it, but those are the reasons why we decided to not do it:
 
-* HTML and JSON can both have deeply nested structures, Markdown can’t have those
-* Tables are not part of the Markdown standard, and can’t easily be stored and restored from Markdown
+* Both, HTML and JSON, can have deeply nested structures, Markdown is flat.
+* There are enough packages to convert HTML to Markdown and vice-versa.
+* Markdown standards vary.
 
 You should really consider to work with HTML or JSON to store your content, they are perfectly fine for most use cases.
 
-If you still think you need Markdown, [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap 1 to work with Markdown. Their code is open source, so maybe you can learn from them.
+If you still think you need Markdown, ProseMirror has an [example on how to deal with Markdown](https://prosemirror.net/examples/markdown/) and [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap 1 to work with Markdown. Maybe you can learn from them.
 
-That said, tiptap **does** support Markdown shortcuts to format your content. Try typing `**two asterisks**` to make your text bold for example.
+That said, tiptap does support [Markdown shortcuts](/examples/markdown-shortcuts) to format your content.
 
 ## Generate HTML from ProseMirror JSON
-If you need to render the content on the server side, for example to render a blog post which was written with tiptap, you’ll probably need a way to do just that without an actual editor instance.
+If you need to render the content on the server side, for example to generate the HTML for a blog post which has been written in tiptap, you’ll probably want a way to do just that without an actual editor instance.
 
-That’s what `generateHTML()` is for. It’s a utility function that renders HTML without an actual editor instance. As an easy alternative, you can also use tiptap in a [read-only mode](/examples/read-only).
+That’s what the `generateHTML()` is for. It’s a utility function that renders HTML without an actual editor instance. As an alternative, you can also use tiptap in a [read-only mode](/examples/read-only).
 
 :::info Browser-only rendering
-Import a lightweight implementation from `@tiptap/core` if you’re using the function in a browser context only.
+Import a lightweight implementation of `generateHTML()` from `@tiptap/core` if you’re using the function in a browser context only.
 :::
 
-<demo name="Api/Schema/GenerateHTML" highlight="6,29-33"/>
+<demo name="Api/Schema/GenerateHTML" highlight="6,43-48"/>

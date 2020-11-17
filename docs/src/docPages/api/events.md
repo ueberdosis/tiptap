@@ -10,20 +10,20 @@ You can define your event listeners on a new editor instance right-away:
 
 ```js
 const editor = new Editor({
-  onInit: () => {
+  onInit() {
     // The editor is ready.
   },
-  onUpdate: () => {
+  onUpdate() {
     // The content has changed.
   },
-  onFocus: () => {
+  onTransaction({ transaction }) {
+    // The editor state has changed.
+  },
+  onFocus({ event }) {
     // The editor is focused.
   },
-  onBlur: () => {
+  onBlur({ event }) {
     // The editor isn’t focused anymore.
-  },
-  onTransaction: ({ transaction }) => {
-    // The editor state has changed.
   },
 })
 ```
@@ -41,16 +41,16 @@ editor.on('update', () => {
   // The content has changed.
 }
 
+editor.on('transaction', ({ transaction }) => {
+  // The editor state has changed.
+}
+
 editor.on('focus', () => {
   // The editor is focused.
 }
 
 editor.on('blur', () => {
   // The editor isn’t focused anymore.
-}
-
-editor.on('transaction', ({ transaction }) => {
-  // The editor state has changed.
 }
 ```
 

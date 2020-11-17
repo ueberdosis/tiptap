@@ -32,10 +32,10 @@
           link: /examples/read-only
         - title: Minimalist
           link: /examples/minimalist
+        - title: Use with v-model
+          link: /examples/v-model
         - title: Export HTML or JSON
           link: /examples/export-html-or-json
-        - title: Use v-model
-          link: /examples/v-model
     - title: Share feedback
       link: /overview/feedback
 
