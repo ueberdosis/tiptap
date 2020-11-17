@@ -14,7 +14,7 @@ export interface EditorOptions {
   content: EditorContent,
   extensions: Extensions,
   injectCSS: boolean,
-  autoFocus: 'start' | 'end' | number | boolean | null,
+  autofocus: 'start' | 'end' | number | boolean | null,
   editable: boolean,
   onInit: () => void,
   onUpdate: () => void,

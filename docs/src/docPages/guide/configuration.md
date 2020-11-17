@@ -6,7 +6,7 @@
 tiptap is all about customization. There are a ton of options to configure the behavior and functionality of the editor. Most of those settings can be set before creating the Editor. Give tiptap a JSON with all the settings you would like to overwrite.
 
 ## Overwrite the default settings
-See an example with `autoFocus: true` here:
+See an example with `autofocus: true` here:
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -16,7 +16,7 @@ new Editor({
   element: document.querySelector('.element'),
   extensions: defaultExtensions(),
   content: '<p>Hey there!</p>',
-  autoFocus: true,
+  autofocus: true,
 })
 ```
 

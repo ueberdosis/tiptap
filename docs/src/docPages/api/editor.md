@@ -8,7 +8,7 @@ This class is a central building block of tiptap. It does most of the heavy lift
 ## Configuration
 | Setting            | Type            | Default     | Description                                                                                                                                                                         |
 | ------------------ | --------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `autoFocus`        | `Boolean`       | `false`     | Focus the editor on init.                                                                                                                                                           |
+| `autofocus`        | `Boolean`       | `false`     | Focus the editor on init.                                                                                                                                                           |
 | `content`          | `Object|String` | `null`      | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored.                                      |
 | `editable`         | `Boolean`       | `true`      | When set to `false` the editor is read-only.                                                                                                                                        |
 | `editorProps`      | `Object`        | `{}`        | A list of [Prosemirror editorProps](https://prosemirror.net/docs/ref/#view.EditorProps).                                                                                            |

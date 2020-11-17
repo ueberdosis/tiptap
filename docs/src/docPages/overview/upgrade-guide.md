@@ -75,12 +75,12 @@ const CustomExtension = Node.create({
 
 Read more about [all the nifty details building custom extensions](/guide/build-custom-extensions) in our guide.
 
-### Renamed API methods
-[We renamed a lot of commands](/api/commands), hopefully you can migrate to the new API with search & replace. Here is a list of what changed:
+### Renamed settings and methods
+[We renamed a lot of settings and methods](/api/editor). Hopefully you can migrate to the new API with search & replace. Here is a list of what changed:
 
-| Old method name | New method name |
-| --------------- | --------------- |
-| ~~`…`~~         | `…`             |
+| Old name        | New name    |
+| --------------- | ----------- |
+| ~~`autoFocus`~~ | `autofocus` |
 
 ### Commands can be chained now
 Most commands can be combined to one call now. That’s shorter than separate function calls in most cases. Here is an example to make the selected text bold:

@@ -48,7 +48,7 @@ export class Editor extends EventEmitter {
     content: '',
     injectCSS: true,
     extensions: [],
-    autoFocus: false,
+    autofocus: false,
     editable: true,
     onInit: () => null,
     onUpdate: () => null,
@@ -79,7 +79,7 @@ export class Editor extends EventEmitter {
     this.on('blur', this.options.onBlur)
 
     window.setTimeout(() => {
-      this.commands.focus(this.options.autoFocus)
+      this.commands.focus(this.options.autofocus)
       this.emit('init')
     }, 0)
   }

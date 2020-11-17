@@ -39,7 +39,7 @@ export default {
         BulletList,
         ListItem,
       ],
-      autoFocus: true,
+      autofocus: true,
       content: `
         <p>
           The focus extension adds a class to the focused node only. That enables you to add a custom styling to just that node. By default, it’ll add <code>.has-focus</code>, even to nested nodes.
