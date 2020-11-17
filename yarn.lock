@@ -2145,7 +2145,9 @@
     defer-to-connect "^1.0.1"
 
 "@tiptap/core@2.x":
-  version "2.0.0-alpha.3"
+  version "2.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@tiptap/core/-/core-2.0.0-alpha.4.tgz#396fab673b33749bc7567d90cd5c776f8481569c"
+  integrity sha512-AGZ23UL9mMpxYQEq3KfX8RgtiyOzAgl/IJwPJzy8cW1Bp3V5ua5JEeC6QeoWhy7V05+nXhoZSysIGK8m7VV52Q==
   dependencies:
     "@types/prosemirror-schema-list" "^1.0.1"
     prosemirror-commands "^1.1.3"

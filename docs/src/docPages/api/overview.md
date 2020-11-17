@@ -9,5 +9,3 @@ The document is stored in a state. All changes are applied as transactions to th
 
 ### Extensions
 Extensions add [nodes](/api/nodes), [marks](/api/marks) and/or [functionalities](/api/extensions) to the editor. A lot of those extensions bound their commands to common [keyboard shortcuts](/api/keyboard-shortcuts).
-
-All those concepts are explained in detail on the following pages.

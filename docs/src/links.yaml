@@ -14,7 +14,7 @@
       items:
         - title: Basic
           link: /examples/basic
-        - title: Collaborative editing (WebRTC)
+        - title: Collaborative editing
           link: /examples/collaborative-editing
           pro: true
         - title: Collaborative editing (WS)
@@ -41,30 +41,30 @@
 
 - title: Guide
   items:
-    - title: Getting started
-      link: /guide/getting-started
+    - title: Get started
+      link: /guide/get-started
       draft: true
-    - title: Configuration
+    - title: Configure the editor
       link: /guide/configuration
       draft: true
-    - title: Create your editor
+    - title: Create a new toolbar
       link: /guide/create-your-editor
       draft: true
-    - title: Custom styling
+    - title: Add custom styling
       link: /guide/custom-styling
     - title: Store content
       link: /guide/store-content
     - title: Build custom extensions
       link: /guide/build-custom-extensions
-    - title: Collaborative editing
-      link: /guide/collaborative-editing
-      draft: true
-      pro: true
     - title: Advanced node views
       link: /guide/advanced-node-views
       draft: true
     - title: Working with TypeScript
       link: /guide/working-with-typescript
+    - title: Collaborative editing
+      link: /guide/collaborative-editing
+      draft: true
+      pro: true
 
 - title: API
   items:
