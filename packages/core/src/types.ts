@@ -16,6 +16,11 @@ export interface EditorOptions {
   injectCSS: boolean,
   autoFocus: 'start' | 'end' | number | boolean | null,
   editable: boolean,
+  onInit: () => void,
+  onUpdate: () => void,
+  onTransaction: () => void,
+  onFocus: (props: { event: FocusEvent }) => void,
+  onBlur: (props: { event: FocusEvent }) => void,
 }
 
 export type EditorContent = string | JSON | null

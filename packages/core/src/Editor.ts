@@ -50,6 +50,11 @@ export class Editor extends EventEmitter {
     extensions: [],
     autoFocus: false,
     editable: true,
+    onInit: () => null,
+    onUpdate: () => null,
+    onTransaction: () => null,
+    onFocus: () => null,
+    onBlur: () => null,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -67,8 +72,16 @@ export class Editor extends EventEmitter {
     this.createSchema()
     this.createView()
     this.injectCSS()
+    this.on('init', this.options.onInit)
+    this.on('update', this.options.onUpdate)
+    this.on('transaction', this.options.onTransaction)
+    this.on('focus', this.options.onFocus)
+    this.on('blur', this.options.onBlur)
 
-    window.setTimeout(() => this.commands.focus(this.options.autoFocus), 0)
+    window.setTimeout(() => {
+      this.commands.focus(this.options.autoFocus)
+      this.emit('init')
+    }, 0)
   }
 
   /**
@@ -281,9 +294,21 @@ export class Editor extends EventEmitter {
    */
   private dispatchTransaction(transaction: Transaction) {
     const state = this.state.apply(transaction)
+
     this.view.updateState(state)
     this.storeSelection()
     this.emit('transaction', { transaction })
+
+    const focus = transaction.getMeta('focus')
+    const blur = transaction.getMeta('blur')
+
+    if (focus) {
+      this.emit('focus', { event: focus.event })
+    }
+
+    if (blur) {
+      this.emit('blur', { event: blur.event })
+    }
 
     if (!transaction.docChanged || transaction.getMeta('preventUpdate')) {
       return

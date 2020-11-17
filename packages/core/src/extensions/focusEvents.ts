@@ -13,19 +13,19 @@ export const FocusEvents = Extension.create({
             tabindex: '0',
           },
           handleDOMEvents: {
-            focus: () => {
+            focus: (view, event) => {
               editor.isFocused = true
 
-              const transaction = editor.state.tr.setMeta('focused', true)
-              editor.view.dispatch(transaction)
+              const transaction = editor.state.tr.setMeta('focus', { event })
+              view.dispatch(transaction)
 
               return true
             },
-            blur: () => {
+            blur: (view, event) => {
               editor.isFocused = false
 
-              const transaction = editor.state.tr.setMeta('focused', false)
-              editor.view.dispatch(transaction)
+              const transaction = editor.state.tr.setMeta('blur', { event })
+              view.dispatch(transaction)
 
               return true
             },
