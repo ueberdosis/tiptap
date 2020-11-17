@@ -1,4 +1,5 @@
 import { Extension } from '../Extension'
+import addMark from '../commands/addMark'
 import blur from '../commands/blur'
 import clearContent from '../commands/clearContent'
 import command from '../commands/command'
@@ -32,6 +33,10 @@ import wrapInList from '../commands/wrapInList'
 export const Commands = Extension.create({
   addCommands() {
     return {
+      /**
+       * Add a mark.
+       */
+      addMark,
       /**
        * Removes focus from the editor.
        */
