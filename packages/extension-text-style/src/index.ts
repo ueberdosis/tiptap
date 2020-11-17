@@ -1,4 +1,4 @@
-import { Command, Mark, getMarkAttrs } from '@tiptap/core'
+import { Command, Mark, getMarkAttributes } from '@tiptap/core'
 
 const TextStyle = Mark.create({
   name: 'textStyle',
@@ -30,7 +30,7 @@ const TextStyle = Mark.create({
        * Remove spans without inline style attributes.
        */
       removeEmptyTextStyle: (): Command => ({ state, commands }) => {
-        const attributes = getMarkAttrs(state, this.type)
+        const attributes = getMarkAttributes(state, this.type)
         const hasStyles = Object.entries(attributes).every(([, value]) => !!value)
 
         if (hasStyles) {

@@ -1,6 +1,6 @@
 import { EditorState } from 'prosemirror-state'
 import { MarkType } from 'prosemirror-model'
-import getMarkAttrs from './getMarkAttrs'
+import getMarkAttributes from './getMarkAttributes'
 import { AnyObject } from '../types'
 import isEmptyObject from './isEmptyObject'
 
@@ -9,7 +9,7 @@ export default function markHasAttributes(state: EditorState, type: MarkType, at
     return true
   }
 
-  const originalAttrs = getMarkAttrs(state, type)
+  const originalAttrs = getMarkAttributes(state, type)
 
   return !!Object
     .keys(attributes)

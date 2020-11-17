@@ -1,13 +1,13 @@
 import { MarkType } from 'prosemirror-model'
 import { Command } from '../types'
 import getMarkType from '../utils/getMarkType'
-import getMarkAttrs from '../utils/getMarkAttrs'
+import getMarkAttributes from '../utils/getMarkAttributes'
 
 export default (typeOrName: string | MarkType, attributes: {}): Command => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const { from, to, empty } = selection
   const type = getMarkType(typeOrName, state.schema)
-  const oldAttributes = getMarkAttrs(state, type)
+  const oldAttributes = getMarkAttributes(state, type)
   const newAttributes = {
     ...oldAttributes,
     ...attributes,

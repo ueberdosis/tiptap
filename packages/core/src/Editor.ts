@@ -10,8 +10,8 @@ import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
 import nodeIsActive from './utils/nodeIsActive'
 import markIsActive from './utils/markIsActive'
-import getNodeAttrs from './utils/getNodeAttrs'
-import getMarkAttrs from './utils/getMarkAttrs'
+import getNodeAttributes from './utils/getNodeAttributes'
+import getMarkAttributes from './utils/getMarkAttributes'
 import removeElement from './utils/removeElement'
 import getSchemaTypeNameByName from './utils/getSchemaTypeNameByName'
 import getHTMLFromFragment from './utils/getHTMLFromFragment'
@@ -333,8 +333,8 @@ export class Editor extends EventEmitter {
    *
    * @param name Name of the node
    */
-  public getNodeAttrs(name: string) {
-    return getNodeAttrs(this.state, this.schema.nodes[name])
+  public getNodeAttributes(name: string) {
+    return getNodeAttributes(this.state, this.schema.nodes[name])
   }
 
   /**
@@ -342,8 +342,8 @@ export class Editor extends EventEmitter {
    *
    * @param name Name of the mark
    */
-  public getMarkAttrs(name: string) {
-    return getMarkAttrs(this.state, this.schema.marks[name])
+  public getMarkAttributes(name: string) {
+    return getMarkAttributes(this.state, this.schema.marks[name])
   }
 
   /**

@@ -11,7 +11,7 @@ export { default as markPasteRule } from './pasteRules/markPasteRule'
 export { default as getSchema } from './utils/getSchema'
 export { default as generateHTML } from './utils/generateHTML'
 export { default as getHTMLFromFragment } from './utils/getHTMLFromFragment'
-export { default as getMarkAttrs } from './utils/getMarkAttrs'
+export { default as getMarkAttributes } from './utils/getMarkAttributes'
 export { default as mergeAttributes } from './utils/mergeAttributes'
 
 export interface AllExtensions {}

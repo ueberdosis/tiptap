@@ -75,7 +75,7 @@ const Link = Mark.create({
         key: new PluginKey('handleClick'),
         props: {
           handleClick: (view, pos, event) => {
-            const attrs = this.editor.getMarkAttrs('link')
+            const attrs = this.editor.getMarkAttributes('link')
 
             if (attrs.href && event.target instanceof HTMLAnchorElement) {
               window.open(attrs.href, attrs.target)
