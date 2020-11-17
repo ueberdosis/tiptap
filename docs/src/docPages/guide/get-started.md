@@ -3,7 +3,9 @@
 ## toc
 
 ## Introduction
-tiptap is framework-agnostic and even works with plain JavaScript, if that’s your thing. To keep everthing as small and flexible as possible, it’s all very modular. Let’s take a few basic building blocks for a test drive.
+tiptap 2 is framework-agnostic and even works with plain JavaScript, if that’s your thing. As the previous major version required Vue.js, we decided to focus on Vue.js in the first version of this guide. That said, it’s probably also helpful for developers who work with different technologies.
+
+Let’s take a few basic building blocks for a test drive.
 
 ## Requirements
 The following guide assumes you’re working with Vue.js. Hopefully, that helps to get you going with other frameworks (or without a framework at all), while we’re working on more guides. We also assume you’ve [set up Node.js](https://nodejs.org/en/download/) on your machine already.
