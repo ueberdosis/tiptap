@@ -45,8 +45,8 @@
       link: /guide/getting-started
       new: true
     - title: Configure the editor
-      link: /guide/configuration
-      draft: true
+      link: /guide/configure-the-editor
+      new: true
     - title: Create a new toolbar
       link: /guide/create-your-editor
       draft: true

@@ -22,6 +22,8 @@ We’re waiting for Gridsome to be compatible with Vue.js 3.
 ### Explicitly register the Document, Text and Paragraph extensions
 tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [Document](/api/nodes/document), [Paragraph](/api/nodes/paragraph) and [Text](/api/nodes/text) extensions.
 
+TODO: removed dropCursor, enableDropCursor, enableGapCursor
+
 ```js
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -39,6 +41,9 @@ new Editor({
 
 ### New document type
 ~~**We renamed the default `Document` type from `doc` to `document`.** To keep it like that, use your own implementation of the `Document` node or migrate the stored JSON to use the new name.~~
+
+### Removed methods
+TODO: state()
 
 ### New extension API
 In case you’ve built some custom extensions for your project, you’re required to rewrite them to fit the new API. No worries, you can keep a lot of your work though. The `schema`, `commands`, `keys`, `inputRules` and `pasteRules` all work like they did before. It’s just different how you register them.
