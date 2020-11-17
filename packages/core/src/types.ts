@@ -18,7 +18,7 @@ export interface EditorOptions {
   editable: boolean,
   onInit: () => void,
   onUpdate: () => void,
-  onTransaction: () => void,
+  onTransaction: (props: { transaction: Transaction }) => void,
   onFocus: (props: { event: FocusEvent }) => void,
   onBlur: (props: { event: FocusEvent }) => void,
 }
