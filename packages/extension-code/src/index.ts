@@ -48,7 +48,7 @@ const Code = Mark.create({
         return commands.toggleMark('code')
       },
       /**
-       * Set a code mark
+       * Unset a code mark
        */
       unsetCode: (): Command => ({ commands }) => {
         return commands.addMark('code')

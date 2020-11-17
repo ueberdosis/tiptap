@@ -59,17 +59,29 @@ const Highlight = Mark.create({
   addCommands() {
     return {
       /**
+       * Set a highlight mark
+       */
+      setHighlight: (attributes?: { color: string }): Command => ({ commands }) => {
+        return commands.addMark('highlight', attributes)
+      },
+      /**
        * Toggle a highlight mark
        */
-      highlight: (attributes?: { color: string }): Command => ({ commands }) => {
+      toggleHighlight: (attributes?: { color: string }): Command => ({ commands }) => {
         return commands.toggleMark('highlight', attributes)
+      },
+      /**
+       * Set a highlight mark
+       */
+      unsetHighlight: (): Command => ({ commands }) => {
+        return commands.removeMark('highlight')
       },
     }
   },
 
   addKeyboardShortcuts() {
     return {
-      'Mod-e': () => this.editor.commands.highlight(),
+      'Mod-e': () => this.editor.commands.toggleHighlight(),
     }
   },
 
