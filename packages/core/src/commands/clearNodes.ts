@@ -1,5 +1,5 @@
 import { liftTarget } from 'prosemirror-transform'
-import { Command } from '../Editor'
+import { Command } from '../types'
 
 export default (): Command => ({ state, tr, dispatch }) => {
   const { selection } = tr

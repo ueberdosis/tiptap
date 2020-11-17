@@ -1,11 +1,11 @@
 import { EditorState, Transaction } from 'prosemirror-state'
+import { Editor } from './Editor'
 import {
   SingleCommands,
   ChainedCommands,
   CanCommands,
-  Editor,
   CommandSpec,
-} from './Editor'
+} from './types'
 import getAllMethodNames from './utils/getAllMethodNames'
 
 export default class CommandManager {

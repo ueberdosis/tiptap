@@ -1,6 +1,6 @@
 import { findParentNode } from 'prosemirror-utils'
 import { NodeType } from 'prosemirror-model'
-import { Command } from '../Editor'
+import { Command } from '../types'
 import getNodeType from '../utils/getNodeType'
 import isList from '../utils/isList'
 

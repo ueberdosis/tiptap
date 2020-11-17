@@ -14,76 +14,14 @@ import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
-import { Extension } from './Extension'
-import { Node } from './Node'
-import { Mark } from './Mark'
-import { Extensions, UnionToIntersection } from './types'
+import { EditorOptions, EditorContent, CommandSpec } from './types'
 import * as extensions from './extensions'
 import style from './style'
-import { AllExtensions } from '.'
 
 export { extensions }
 
-export type Command = (props: {
-  editor: Editor,
-  tr: Transaction,
-  commands: SingleCommands,
-  can: () => SingleCommands & { chain: () => ChainedCommands },
-  chain: () => ChainedCommands,
-  state: EditorState,
-  view: EditorView,
-  dispatch: ((args?: any) => any) | undefined,
-}) => boolean
-
-export type CommandSpec = (...args: any[]) => Command
-
-export interface CommandsSpec {
-  [key: string]: CommandSpec
-}
-
-export type UnfilteredCommands = {
-  [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
-    ? ExtensionCommands
-    : AllExtensions[Item] extends Node<any, infer NodeCommands>
-      ? NodeCommands
-      : AllExtensions[Item] extends Mark<any, infer MarkCommands>
-        ? MarkCommands
-        : never
-}
-
-export type ValuesOf<T> = T[keyof T];
-export type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
-export type AllCommands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
-
-export type SingleCommands = {
-  [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<AllCommands[Item]>) => boolean
-  : never
-}
-
-export type ChainedCommands = {
-  [Item in keyof AllCommands]: AllCommands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<AllCommands[Item]>) => ChainedCommands
-  : never
-} & {
-  run: () => boolean
-}
-
-export type CanCommands = SingleCommands & { chain: () => ChainedCommands }
-
-type EditorContent = string | JSON | null
-
-interface HTMLElement {
+export interface HTMLElement {
   editor?: Editor
-}
-
-interface EditorOptions {
-  element: Element,
-  content: EditorContent,
-  extensions: Extensions,
-  injectCSS: boolean,
-  autoFocus: 'start' | 'end' | number | boolean | null,
-  editable: boolean,
 }
 
 @magicMethods
@@ -205,7 +143,7 @@ export class Editor extends EventEmitter {
    *
    * @param commands A list of commands
    */
-  public registerCommands(commands: CommandsSpec) {
+  public registerCommands(commands: { [key: string]: CommandSpec }) {
     Object
       .entries(commands)
       .forEach(([name, command]) => this.registerCommand(name, command))
@@ -389,22 +327,6 @@ export class Editor extends EventEmitter {
 
     return false
   }
-
-  // public setParentComponent(component = null) {
-  //   if (!component) {
-  //     return
-  //   }
-
-  //   this.view.setProps({
-  //     nodeViews: this.initNodeViews({
-  //       parent: component,
-  //       extensions: [
-  //         ...this.builtInExtensions,
-  //         ...this.options.extensions,
-  //       ],
-  //     }),
-  //   })
-  // }
 
   /**
    * Get the document as JSON.

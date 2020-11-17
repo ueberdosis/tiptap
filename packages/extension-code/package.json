@@ -1,8 +1,11 @@
 {
   "name": "@tiptap/extension-code",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.2",
   "homepage": "https://tiptap.dev",
-  "keywords": ["tiptap", "tiptap extension"],
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
   "license": "MIT",
   "funding": {
     "type": "github",
@@ -12,12 +15,12 @@
   "umd": "dist/tiptap-extension-code.umd.js",
   "module": "dist/tiptap-extension-code.esm.js",
   "unpkg": "dist/tiptap-extension-code.bundle.umd.min.js",
-  "types": "dist/extension-code/src/index.d.ts",
+  "types": "dist/packages/extension-code/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.x"
+    "@tiptap/core": "2.0.0-alpha.3"
   }
 }

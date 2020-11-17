@@ -1,8 +1,11 @@
 {
   "name": "@tiptap/vue",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.2",
   "homepage": "https://tiptap.dev",
-  "keywords": ["tiptap", "tiptap vue components"],
+  "keywords": [
+    "tiptap",
+    "tiptap vue components"
+  ],
   "license": "MIT",
   "funding": {
     "type": "github",
@@ -12,13 +15,13 @@
   "umd": "dist/tiptap-vue.umd.js",
   "module": "dist/tiptap-vue.esm.js",
   "unpkg": "dist/tiptap-vue.bundle.umd.min.js",
-  "types": "dist/vue/src/index.d.ts",
+  "types": "dist/packages/vue/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.x",
+    "@tiptap/core": "2.0.0-alpha.3",
     "vue": "2.x"
   },
   "dependencies": {

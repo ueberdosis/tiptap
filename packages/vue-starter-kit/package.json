@@ -1,8 +1,11 @@
 {
   "name": "@tiptap/vue-starter-kit",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.2",
   "homepage": "https://tiptap.dev",
-  "keywords": ["tiptap", "tiptap starter kit"],
+  "keywords": [
+    "tiptap",
+    "tiptap starter kit"
+  ],
   "license": "MIT",
   "funding": {
     "type": "github",
@@ -12,13 +15,13 @@
   "umd": "dist/tiptap-vue-starter-kit.umd.js",
   "module": "dist/tiptap-vue-starter-kit.esm.js",
   "unpkg": "dist/tiptap-vue-starter-kit.bundle.umd.min.js",
-  "types": "dist/vue-starter-kit/src/index.d.ts",
+  "types": "dist/packages/vue-starter-kit/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "dependencies": {
-    "@tiptap/vue": "1.x",
-    "@tiptap/starter-kit": "1.x"
+    "@tiptap/starter-kit": "^1.0.0-alpha.2",
+    "@tiptap/vue": "^1.0.0-alpha.2"
   }
 }

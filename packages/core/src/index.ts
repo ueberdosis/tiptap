@@ -1,5 +1,3 @@
-export interface AllExtensions {}
-
 export * from './Editor'
 export * from './Extension'
 export * from './Node'
@@ -15,3 +13,5 @@ export { default as generateHTML } from './utils/generateHTML'
 export { default as getHTMLFromFragment } from './utils/getHTMLFromFragment'
 export { default as getMarkAttrs } from './utils/getMarkAttrs'
 export { default as mergeAttributes } from './utils/mergeAttributes'
+
+export interface AllExtensions {}

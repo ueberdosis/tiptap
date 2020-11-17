@@ -5,6 +5,7 @@ import {
   NodeType,
 } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
+import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
 import { Attributes, NodeViewRenderer, Overwrite } from './types'
 import { Editor } from './Editor'
@@ -123,7 +124,7 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
     options: Options,
     editor: Editor,
     type: NodeType,
-  }) => any[],
+  }) => InputRule[],
 
   /**
    * Paste rules
@@ -132,7 +133,7 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
     options: Options,
     editor: Editor,
     type: NodeType,
-  }) => any[],
+  }) => Plugin[],
 
   /**
    * ProseMirror plugins

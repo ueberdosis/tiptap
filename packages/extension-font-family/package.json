@@ -1,8 +1,11 @@
 {
   "name": "@tiptap/extension-font-family",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.2",
   "homepage": "https://tiptap.dev",
-  "keywords": ["tiptap", "tiptap extension"],
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
   "license": "MIT",
   "funding": {
     "type": "github",
@@ -12,13 +15,13 @@
   "umd": "dist/tiptap-extension-font-family.umd.js",
   "module": "dist/tiptap-extension-font-family.esm.js",
   "unpkg": "dist/tiptap-extension-font-family.bundle.umd.min.js",
-  "types": "dist/extension-font-family/src/index.d.ts",
+  "types": "dist/packages/extension-font-family/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.x",
+    "@tiptap/core": "2.0.0-alpha.3",
     "@tiptap/extension-text-style": "2.x"
   }
 }
