@@ -50,6 +50,7 @@ export class Editor extends EventEmitter {
     extensions: [],
     autofocus: false,
     editable: true,
+    editorProps: {},
     parseOptions: {},
     onInit: () => null,
     onUpdate: () => null,
@@ -234,6 +235,7 @@ export class Editor extends EventEmitter {
    */
   private createView() {
     this.view = new EditorView(this.options.element, {
+      ...this.options.editorProps,
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: EditorState.create({
         doc: this.createDocument(this.options.content),

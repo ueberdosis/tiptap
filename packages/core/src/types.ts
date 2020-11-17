@@ -1,5 +1,10 @@
 import { Node as ProseMirrorNode, ParseOptions } from 'prosemirror-model'
-import { EditorView, Decoration, NodeView } from 'prosemirror-view'
+import {
+  EditorView,
+  Decoration,
+  NodeView,
+  EditorProps,
+} from 'prosemirror-view'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { Extension } from './Extension'
 import { Node } from './Node'
@@ -16,6 +21,7 @@ export interface EditorOptions {
   injectCSS: boolean,
   autofocus: FocusPosition,
   editable: boolean,
+  editorProps: EditorProps,
   parseOptions: ParseOptions,
   onInit: () => void,
   onUpdate: () => void,
