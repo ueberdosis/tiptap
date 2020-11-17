@@ -7,7 +7,7 @@
       highlight (any)
     </button>
     <button
-      @click="editor.chain().focus().highlight({
+      @click="editor.chain().focus().toggleHighlight({
         color: ''
       }).run()"
       :class="{ 'is-active': editor.isActive('highlight', {
@@ -16,22 +16,22 @@
     >
       highlight (default)
     </button>
-    <button @click="editor.chain().focus().highlight({ color: 'red' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'red' }) }">
+    <button @click="editor.chain().focus().toggleHighlight({ color: 'red' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'red' }) }">
       "red"
     </button>
-    <button @click="editor.chain().focus().highlight({ color: '#ffa8a8' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffa8a8' }) }">
+    <button @click="editor.chain().focus().toggleHighlight({ color: '#ffa8a8' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffa8a8' }) }">
       red
     </button>
-    <button @click="editor.chain().focus().highlight({ color: '#ffc078' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffc078' }) }">
+    <button @click="editor.chain().focus().toggleHighlight({ color: '#ffc078' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffc078' }) }">
       orange
     </button>
-    <button @click="editor.chain().focus().highlight({ color: '#8ce99a' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#8ce99a' }) }">
+    <button @click="editor.chain().focus().toggleHighlight({ color: '#8ce99a' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#8ce99a' }) }">
       green
     </button>
-    <button @click="editor.chain().focus().highlight({ color: '#74c0fc' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#74c0fc' }) }">
+    <button @click="editor.chain().focus().toggleHighlight({ color: '#74c0fc' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#74c0fc' }) }">
       blue
     </button>
-    <button @click="editor.chain().focus().highlight({ color: '#b197fc' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#b197fc' }) }">
+    <button @click="editor.chain().focus().toggleHighlight({ color: '#b197fc' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#b197fc' }) }">
       purple
     </button>
 

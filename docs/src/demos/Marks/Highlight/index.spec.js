@@ -24,7 +24,7 @@ context('/api/marks/highlight', () => {
 
   it('should highlight the text in a specific color', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.commands.highlight({ color: 'red' })
+      editor.commands.toggleHighlight({ color: 'red' })
 
       cy.get('.ProseMirror')
         .find('mark')
@@ -39,7 +39,7 @@ context('/api/marks/highlight', () => {
         .chain()
         .setContent('<p><mark style="background-color: blue;">Example Text</mark></p>')
         .selectAll()
-        .highlight({ color: 'rgb(255, 0, 0)' })
+        .toggleHighlight({ color: 'rgb(255, 0, 0)' })
         .run()
 
       cy.get('.ProseMirror')
@@ -54,7 +54,7 @@ context('/api/marks/highlight', () => {
         .chain()
         .setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
         .selectAll()
-        .highlight({ color: 'rgb(255, 0, 0)' })
+        .toggleHighlight({ color: 'rgb(255, 0, 0)' })
         .run()
 
       cy.get('.ProseMirror')
