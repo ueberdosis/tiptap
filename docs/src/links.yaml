@@ -41,9 +41,9 @@
 
 - title: Guide
   items:
-    - title: Get started
-      link: /guide/get-started
-      draft: true
+    - title: Getting started
+      link: /guide/getting-started
+      new: true
     - title: Configure the editor
       link: /guide/configuration
       draft: true
