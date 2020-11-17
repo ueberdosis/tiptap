@@ -27,6 +27,7 @@
     "vue-live": "^1.15.1",
     "y-indexeddb": "^9.0.5",
     "y-webrtc": "^10.1.6",
+    "y-websocket": "^1.3.6",
     "yjs": "^13.4.4"
   },
   "devDependencies": {
