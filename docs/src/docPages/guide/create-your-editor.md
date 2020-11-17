@@ -10,7 +10,7 @@ Let’s start to add your first button to the editor. Once initiated the editor 
 
 <demo name="SimpleMenuBar" highlight="5-11" />
 
-To mark selected text bold we can use `editor.commands.bold()`. There a ton of other commands and you can even chain them to do multiple things at once.
+To mark selected text bold we can use `editor.commands.toggleBold()`. There a ton of other commands and you can even chain them to do multiple things at once.
 
 You might wonder what features tiptap supports out of the box. In the above example we added the `@tiptap/starter-kit`. That already includes support for paragraphs, text, bold, italic, inline code and code blocks. There are a lot more, but you have to explicitly import them. You will learn how that works in the next example.
 

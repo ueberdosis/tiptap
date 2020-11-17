@@ -10,7 +10,7 @@
       <button @click="editor.chain().focus().redo().run()">
         redo
       </button>
-      <button @click="editor.chain().focus().bold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+      <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
       </button>
       <button @click="editor.chain().focus().italic().run()" :class="{ 'is-active': editor.isActive('italic') }">

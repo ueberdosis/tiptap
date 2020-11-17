@@ -43,17 +43,29 @@ const Bold = Mark.create({
   addCommands() {
     return {
       /**
+       * Set a bold mark
+       */
+      setBold: (): Command => ({ commands }) => {
+        return commands.addMark('bold')
+      },
+      /**
        * Toggle a bold mark
        */
-      bold: (): Command => ({ commands }) => {
+      toggleBold: (): Command => ({ commands }) => {
         return commands.toggleMark('bold')
+      },
+      /**
+       * Unset a bold mark
+       */
+      unsetBold: (): Command => ({ commands }) => {
+        return commands.removeMark('bold')
       },
     }
   },
 
   addKeyboardShortcuts() {
     return {
-      'Mod-b': () => this.editor.commands.bold(),
+      'Mod-b': () => this.editor.commands.toggleBold(),
     }
   },
 

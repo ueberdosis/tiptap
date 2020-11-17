@@ -91,7 +91,7 @@ Read more about [all the nifty details building custom extensions](/guide/build-
 Most commands can be combined to one call now. That’s shorter than separate function calls in most cases. Here is an example to make the selected text bold:
 
 ```js
-editor.chain().bold().focus().run()
+editor.chain().toggleBold().focus().run()
 ```
 
 The `.chain()` is required to start a new chain and the `.run()` is needed to actually execute all the commands in between. Read more about [the new tiptap commands](/api/commands) in our API documentation.
@@ -102,7 +102,7 @@ We tried to hide the `.focus()` command from you with tiptap 1 and executed that
 With tiptap 2.x you have to explicitly call the `focus()` and you probably want to do that in a lot of places. Here is an example:
 
 ```js
-editor.chain().focus().bold().run()
+editor.chain().focus().toggleBold().run()
 ```
 
 ### Collaborative editing

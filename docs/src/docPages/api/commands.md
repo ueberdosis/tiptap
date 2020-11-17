@@ -9,7 +9,7 @@ The editor provides a ton of commands to programmtically add or change content o
 All available commands are accessible through an editor instance. Let’s say you want to make text bold when a user clicks on a button. That’s how that would look like:
 
 ```js
-editor.commands.bold()
+editor.commands.toggleBold()
 ```
 
 While that’s perfectly fine and does make the selected bold, you’d likely want to change multiple commands in one run. Let’s have a look at how that works.
@@ -21,7 +21,7 @@ Most commands can be combined to one call. That’s shorter than separate functi
 editor
   .chain()
   .focus()
-  .bold()
+  .toggleBold()
   .run()
 ```
 
@@ -53,7 +53,7 @@ Sometimes, you don’t want to actually run the commands, but only know if it wo
 ```js
 editor
   .can()
-  .bold()
+  .toggleBold()
 ```
 
 And you can use it together with `.chain()`, too. Here is an example which checks if it’s possible to apply all the commands:
@@ -62,7 +62,7 @@ And you can use it together with `.chain()`, too. Here is an example which check
 editor
   .can()
   .chain()
-  .bold()
+  .toggleBold()
   .italic()
   .run()
 ```

@@ -14,7 +14,7 @@ const MenuBar = () => {
       </button>
       <button
         className={`${editor.isActive('bold') ? 'is-active' : ''}`}
-        onClick={() => editor.chain().focus().bold().run()}
+        onClick={() => editor.chain().focus().toggleBold().run()}
       >
         Bold
       </button>
