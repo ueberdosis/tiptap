@@ -27,6 +27,7 @@ import {
 } from './Utils'
 import { Doc, Paragraph, Text } from './Nodes'
 import css from './style.css'
+import NodeSlotView from './Utils/NodeSlotView'
 
 export default class Editor extends Emitter {
 
@@ -327,9 +328,35 @@ export default class Editor extends Emitter {
           })
         }
 
+        let nodeSlotViews = []
+        if (extension.view.slotExtensions) {
+          const slotExts = extension.view.slotExtensions
+          nodeSlotViews = Object.keys(slotExts).reduce((reduction, name) => {
+            const nodeSlotView = (node, view, getPos, decorations) => {
+              const parentComponent = extension.view
+              const slotExtension = slotExts[name]
+
+              return new NodeSlotView(parentComponent, {
+                editor: this,
+                extension: slotExtension,
+                node,
+                view,
+                getPos,
+                decorations,
+              })
+            }
+
+            return {
+              ...reduction,
+              [`${extension.name}_${name}`]: nodeSlotView,
+            }
+          }, {})
+        }
+
         return {
           ...nodeViews,
           [extension.name]: nodeView,
+          ...nodeSlotViews,
         }
       }, {})
   }
