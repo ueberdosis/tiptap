@@ -1,6 +1,7 @@
 import { Extension } from '../Extension'
 import blur from '../commands/blur'
 import clearContent from '../commands/clearContent'
+import command from '../commands/command'
 import clearNodes from '../commands/clearNodes'
 import deleteSelection from '../commands/deleteSelection'
 import extendMarkRange from '../commands/extendMarkRange'
@@ -43,6 +44,10 @@ export const Commands = Extension.create({
        * Normalize nodes to a simple paragraph.
        */
       clearNodes,
+      /**
+       * Define a command inline.
+       */
+      command,
       /**
        * Delete the selection, if there is one.
        */
