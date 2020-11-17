@@ -33,6 +33,7 @@ module.exports = {
       ],
       rules: {
         'no-alert': 'off',
+        'no-console': ['error', { allow: ['warn', 'error'] }],
         semi: ['error', 'never'],
         'import/extensions': 'off',
         'import/no-extraneous-dependencies': 'off',

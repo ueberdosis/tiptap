@@ -1,6 +1,11 @@
 import { EditorState, Plugin, Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { Schema, DOMParser } from 'prosemirror-model'
+import {
+  Schema,
+  DOMParser,
+  ParseOptions,
+  Node,
+} from 'prosemirror-model'
 import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
 import nodeIsActive from './utils/nodeIsActive'
@@ -260,12 +265,18 @@ export class Editor extends EventEmitter {
   /**
    * Creates a ProseMirror document.
    */
-  public createDocument = (content: EditorContent, parseOptions: any = {}): any => {
+  public createDocument = (content: EditorContent, parseOptions: ParseOptions = {}): Node => {
     if (content && typeof content === 'object') {
       try {
         return this.schema.nodeFromJSON(content)
       } catch (error) {
-        console.warn('[tiptap warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
+        console.warn(
+          '[tiptap warn]: Invalid content.',
+          'Passed value:',
+          content,
+          'Error:',
+          error,
+        )
         return this.createDocument('')
       }
     }
