@@ -226,7 +226,7 @@ Mark.create({
   // add this mark to the 'basic' group
   group: 'basic',
   // add this mark to the 'basic' and the 'foobar' group
-  group: 'foobar',
+  group: 'basic foobar',
 })
 ```
 
