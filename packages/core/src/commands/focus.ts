@@ -1,16 +1,14 @@
 import { TextSelection } from 'prosemirror-state'
 import { Editor } from '../Editor'
-import { Command } from '../types'
+import { Command, FocusPosition } from '../types'
 import minMax from '../utils/minMax'
-
-type Position = 'start' | 'end' | number | boolean | null
 
 interface ResolvedSelection {
   from: number,
   to: number,
 }
 
-function resolveSelection(editor: Editor, position: Position = null): ResolvedSelection {
+function resolveSelection(editor: Editor, position: FocusPosition = null): ResolvedSelection {
   if (position === null) {
     return editor.selection
   }
@@ -37,8 +35,11 @@ function resolveSelection(editor: Editor, position: Position = null): ResolvedSe
   }
 }
 
-export default (position: Position = null): Command => ({
-  editor, view, tr, dispatch,
+export default (position: FocusPosition = null): Command => ({
+  editor,
+  view,
+  tr,
+  dispatch,
 }) => {
   if ((view.hasFocus() && position === null) || position === false) {
     return true

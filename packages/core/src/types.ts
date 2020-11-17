@@ -14,7 +14,7 @@ export interface EditorOptions {
   content: EditorContent,
   extensions: Extensions,
   injectCSS: boolean,
-  autofocus: 'start' | 'end' | number | boolean | null,
+  autofocus: FocusPosition,
   editable: boolean,
   onInit: () => void,
   onUpdate: () => void,
@@ -116,3 +116,5 @@ export type ChainedCommands = {
 }
 
 export type CanCommands = SingleCommands & { chain: () => ChainedCommands }
+
+export type FocusPosition = 'start' | 'end' | number | boolean | null
