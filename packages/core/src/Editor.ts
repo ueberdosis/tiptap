@@ -1,11 +1,6 @@
 import { EditorState, Plugin, Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import {
-  Schema,
-  DOMParser,
-  ParseOptions,
-  Node,
-} from 'prosemirror-model'
+import { Schema, DOMParser, Node } from 'prosemirror-model'
 import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
 import nodeIsActive from './utils/nodeIsActive'
@@ -55,6 +50,7 @@ export class Editor extends EventEmitter {
     extensions: [],
     autofocus: false,
     editable: true,
+    parseOptions: {},
     onInit: () => null,
     onUpdate: () => null,
     onTransaction: () => null,
@@ -265,7 +261,7 @@ export class Editor extends EventEmitter {
   /**
    * Creates a ProseMirror document.
    */
-  public createDocument = (content: EditorContent, parseOptions: ParseOptions = {}): Node => {
+  public createDocument = (content: EditorContent, parseOptions = this.options.parseOptions): Node => {
     if (content && typeof content === 'object') {
       try {
         return this.schema.nodeFromJSON(content)
