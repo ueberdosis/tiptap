@@ -18,7 +18,11 @@ While that’s perfectly fine and does make the selected bold, you’d likely wa
 Most commands can be combined to one call. That’s shorter than separate function calls in most cases. Here is an example to make the selected text bold:
 
 ```js
-editor.chain().bold().focus().run()
+editor
+  .chain()
+  .focus()
+  .bold()
+  .run()
 ```
 
 The `.chain()` is required to start a new chain and the `.run()` is needed to actually execute all the commands in between.
@@ -27,17 +31,38 @@ In the example above two different commands are executed at once. When a user cl
 
 All chained commands are kind of queued up. They are combined to one single transaction. That means, the content is only updated once, also the `update` event is only triggered once.
 
+### Inline commands
+In some cases, it’s helpful to put some more logic in a command. That’s why you can execute commands in commands. I know, that sounds crazy, but let’s look at an example:
+
+```js
+editor
+  .chain()
+  .focus()
+  .command(({ commands }) => {
+    // put complex logic here
+    return commands.insertText('This is crazy.')
+  })
+  .run()
+```
+
 ### Dry run for commands
 Sometimes, you don’t want to actually run the commands, but only know if it would be possible to run commands, for example to show or hide buttons in a menu. That’s what we added `.can()` for. Everything coming after this method will be executed, without applying the changes to the document:
 
 ```js
-editor.can().bold()
+editor
+  .can()
+  .bold()
 ```
 
 And you can use it together with `.chain()`, too. Here is an example which checks if it’s possible to apply all the commands:
 
 ```js
-editor.can().chain().bold().italic().run()
+editor
+  .can()
+  .chain()
+  .bold()
+  .italic()
+  .run()
 ```
 
 Both calls would return `true` if it’s possible to apply the commands, and `false` in case it’s not.
