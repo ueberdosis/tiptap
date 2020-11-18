@@ -64,8 +64,8 @@ To pull in tiptap for quick demos or just giving it a spin, grab the latest buil
 <!doctype html>
 <head>
   <meta charset="utf-8">
-  <script src="https://www.unpkg.com/@tiptap/core@latest"></script>
-  <script src="https://www.unpkg.com/@tiptap/starter-kit@latest"></script>
+  <script src="https://unpkg.com/@tiptap/core@latest"></script>
+  <script src="https://unpkg.com/@tiptap/starter-kit@latest"></script>
 </head>
 <body>
   <div class="element"></div>
