@@ -49,7 +49,7 @@ const Bold = Mark.create({
        * Set a bold mark
        */
       setBold: (): Command => ({ commands }) => {
-        return commands.addMark('bold')
+        return commands.setMark('bold')
       },
       /**
        * Toggle a bold mark

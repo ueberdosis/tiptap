@@ -42,7 +42,7 @@ const FontFamily = Extension.create({
        */
       setFontFamily: (fontFamily: string): Command => ({ chain }) => {
         return chain()
-          .addMark('textStyle', { fontFamily })
+          .setMark('textStyle', { fontFamily })
           .run()
       },
       /**
@@ -50,7 +50,7 @@ const FontFamily = Extension.create({
        */
       unsetFontFamily: (): Command => ({ chain }) => {
         return chain()
-          .addMark('textStyle', { fontFamily: null })
+          .setMark('textStyle', { fontFamily: null })
           .removeEmptyTextStyle()
           .run()
       },

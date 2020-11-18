@@ -62,7 +62,7 @@ const Highlight = Mark.create({
        * Set a highlight mark
        */
       setHighlight: (attributes?: { color: string }): Command => ({ commands }) => {
-        return commands.addMark('highlight', attributes)
+        return commands.setMark('highlight', attributes)
       },
       /**
        * Toggle a highlight mark

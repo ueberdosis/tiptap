@@ -48,7 +48,7 @@ const Italic = Mark.create({
        * Set an italic mark
        */
       setItalic: (): Command => ({ commands }) => {
-        return commands.addMark('italic')
+        return commands.setMark('italic')
       },
       /**
        * Toggle an italic mark
@@ -60,7 +60,7 @@ const Italic = Mark.create({
        * Unset an italic mark
        */
       unsetItalic: (): Command => ({ commands }) => {
-        return commands.addMark('italic')
+        return commands.removeMark('italic')
       },
     }
   },

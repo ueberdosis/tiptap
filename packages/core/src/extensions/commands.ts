@@ -1,5 +1,5 @@
 import { Extension } from '../Extension'
-import * as addMark from '../commands/addMark'
+import * as setMark from '../commands/setMark'
 import * as blur from '../commands/blur'
 import * as clearContent from '../commands/clearContent'
 import * as command from '../commands/command'
@@ -34,7 +34,7 @@ import * as wrapInList from '../commands/wrapInList'
 export const Commands = Extension.create({
   addCommands() {
     return {
-      ...addMark,
+      ...setMark,
       ...blur,
       ...clearContent,
       ...clearNodes,
