@@ -51,11 +51,23 @@ jobs:
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
+      if: failure()
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#tiptap-notifications'
+
+    - name: Fix code style linting errors
+      id: lint-fix
+      run: yarn lint:fix
       if: failure()
+
+    - name: Commit fixed linting errors
+      id: commit
+      uses: stefanzweifel/git-auto-commit-action@v4
+      if: failure()
+      with:
+        commit_message: "ci: fix code style linting errors"
 
   test:
     runs-on: ubuntu-latest
@@ -104,11 +116,11 @@ jobs:
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
+      if: failure()
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#tiptap-notifications'
-      if: failure()
 
   build:
     runs-on: ubuntu-latest
@@ -151,8 +163,8 @@ jobs:
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
+      if: failure()
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#tiptap-notifications'
-      if: failure()
