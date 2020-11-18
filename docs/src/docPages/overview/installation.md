@@ -49,16 +49,23 @@ Note that tiptap needs to run in the client, not on the server. It’s required 
 
 [Read more](https://nuxtjs.org/api/components-client-only)
 
-## Option 3: CDN
+## Option 3: CodeSandbox
+CodeSandbox is an online coding environment. It’s great to fiddle around without setting up a local project and to share your code with others.
 
+It’s also amazing for bug reports. Try to recreate a bug there and share it with us before when you [file an issue on GitHub](https://github.com/ueberdosis/tiptap-next/issues/new/choose). That helps us to reproduce the bug quickly, and fix them faster.
+
+* [Vue.js/tiptap on CodeSandbox](https://codesandbox.io/s/tiptap-issue-template-b83rr?file=/src/components/Tiptap.vue)
+
+
+## Option 4: CDN
 To pull in tiptap for quick demos or just giving it a spin, grab the latest build via CDN:
 
 ```html
 <!doctype html>
 <head>
   <meta charset="utf-8">
-  <script src="https://cdn.example.com/tiptap-core.bundle.umd.min.js"></script>
-  <script src="https://cdn.example.com/tiptap-starter-kit.bundle.umd.min.js"></script>
+  <script src="https://www.unpkg.com/@tiptap/core@latest"></script>
+  <script src="https://www.unpkg.com/@tiptap/starter-kit@latest"></script>
 </head>
 <body>
   <div class="element"></div>
@@ -75,10 +82,3 @@ To pull in tiptap for quick demos or just giving it a spin, grab the latest buil
 </html>
 ```
 
-<!-- ## Option 3: CodeSandbox
-
-CodeSandbox is an online coding environment. It’s great to fiddle around without setting up a local project and to share your code with others.
-
-It’s also amazing for bug reports. Found it a bug? Try to recreate it there and share it with us before you [file an issue on GitHub](https://github.com/ueberdosis/tiptap-next/issues/new). That helps to fix bugs faster.
-
-* [Vue.js/tiptap on CodeSandbox](https://codesandbox.io/s/vue-issue-template-h0g28) -->

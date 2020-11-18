@@ -18,7 +18,7 @@ Steps to reproduce the behavior:
 4. See error message
 
 Create a new Codesandbox replicating your error
-https://codesandbox.io/s/vue-issue-template-h0g28
+https://codesandbox.io/s/tiptap-issue-template-b83rr?file=/src/components/Tiptap.vue
 
 **What behavior did you expect?**
 A clear and concise description of what you expected to happen.
