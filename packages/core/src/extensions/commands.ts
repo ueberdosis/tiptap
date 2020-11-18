@@ -26,7 +26,6 @@ import toggleList from '../commands/toggleList'
 import toggleMark from '../commands/toggleMark'
 import toggleWrap from '../commands/toggleWrap'
 import tryCommand from '../commands/try'
-import updateMarkAttributes from '../commands/updateMarkAttributes'
 import updateNodeAttributes from '../commands/updateNodeAttributes'
 import wrapInList from '../commands/wrapInList'
 
@@ -34,7 +33,7 @@ export const Commands = Extension.create({
   addCommands() {
     return {
       /**
-       * Add a mark.
+       * Add a mark with new attributes.
        */
       addMark,
       /**
@@ -141,10 +140,6 @@ export const Commands = Extension.create({
        * Runs one command after the other and stops at the first which returns true.
        */
       try: tryCommand,
-      /**
-       * Update a mark with new attributes.
-       */
-      updateMarkAttributes,
       /**
        * Update attributes of a node.
        */

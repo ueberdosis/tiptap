@@ -54,7 +54,7 @@ const Link = Mark.create({
           return commands.removeMark('link')
         }
 
-        return commands.updateMarkAttributes('link', options)
+        return commands.addMark('link', options)
       },
     }
   },

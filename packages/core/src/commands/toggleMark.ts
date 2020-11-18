@@ -12,7 +12,7 @@ export default (typeOrName: string | MarkType, attributes?: {}): Command => ({ s
     && !markIsActive(state, type, attributes)
 
   if (attributes && hasMarkWithDifferentAttributes) {
-    return commands.updateMarkAttributes(type, attributes)
+    return commands.addMark(type, attributes)
   }
 
   return toggleMark(type, attributes)(state, dispatch)

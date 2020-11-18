@@ -42,7 +42,7 @@ const FontFamily = Extension.create({
        */
       fontFamily: (fontFamily: string | null = null): Command => ({ chain }) => {
         return chain()
-          .updateMarkAttributes('textStyle', { fontFamily })
+          .addMark('textStyle', { fontFamily })
           .removeEmptyTextStyle()
           .run()
       },
