@@ -43,7 +43,7 @@
       <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
         bullet list
       </button>
-      <button @click="editor.chain().focus().orderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
+      <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
         ordered list
       </button>
       <button @click="editor.chain().focus().codeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
