@@ -31,7 +31,7 @@ export default {
     addImage() {
       const url = window.prompt('URL')
 
-      this.editor.chain().focus().image({ src: url }).run()
+      this.editor.chain().focus().setImage({ src: url }).run()
     },
   },
 
