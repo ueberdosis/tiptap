@@ -1,5 +1,4 @@
 import { Extension } from '../Extension'
-import * as setMark from '../commands/setMark'
 import * as blur from '../commands/blur'
 import * as clearContent from '../commands/clearContent'
 import * as command from '../commands/command'
@@ -20,6 +19,7 @@ import * as selectAll from '../commands/selectAll'
 import * as selectParentNode from '../commands/selectParentNode'
 import * as setBlockType from '../commands/setBlockType'
 import * as setContent from '../commands/setContent'
+import * as setMark from '../commands/setMark'
 import * as sinkListItem from '../commands/sinkListItem'
 import * as splitBlock from '../commands/splitBlock'
 import * as splitListItem from '../commands/splitListItem'
@@ -34,7 +34,6 @@ import * as wrapInList from '../commands/wrapInList'
 export const Commands = Extension.create({
   addCommands() {
     return {
-      ...setMark,
       ...blur,
       ...clearContent,
       ...clearNodes,
@@ -55,6 +54,7 @@ export const Commands = Extension.create({
       ...selectParentNode,
       ...setBlockType,
       ...setContent,
+      ...setMark,
       ...sinkListItem,
       ...splitBlock,
       ...splitListItem,
