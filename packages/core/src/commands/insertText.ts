@@ -1,6 +1,9 @@
 import { Command } from '../types'
 
-export default (value: string): Command => ({ tr, dispatch }) => {
+/**
+ * Insert a string of text at the current position.
+ */
+export const insertText = (value: string): Command => ({ tr, dispatch }) => {
   if (dispatch) {
     tr.insertText(value)
   }

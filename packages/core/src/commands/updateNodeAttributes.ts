@@ -2,7 +2,10 @@ import { NodeType } from 'prosemirror-model'
 import getNodeType from '../utils/getNodeType'
 import { Command } from '../types'
 
-export default (typeOrName: string | NodeType, attributes: {}): Command => ({ tr, state, dispatch }) => {
+/**
+ * Update attributes of a node.
+ */
+export const updateNodeAttributes = (typeOrName: string | NodeType, attributes: {}): Command => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { selection } = tr
   const { from, to } = selection

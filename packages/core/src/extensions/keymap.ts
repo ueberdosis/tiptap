@@ -14,21 +14,21 @@ import { Extension } from '../Extension'
 
 export const Keymap = Extension.create({
   addKeyboardShortcuts() {
-    const handleBackspace = () => this.editor.commands.try(({ state, dispatch }) => [
+    const handleBackspace = () => this.editor.commands.first(({ state, dispatch }) => [
       () => undoInputRule(state, dispatch),
       () => deleteSelection(state, dispatch),
       () => joinBackward(state, dispatch),
       () => selectNodeBackward(state, dispatch),
     ])
 
-    const handleDelete = () => this.editor.commands.try(({ state, dispatch }) => [
+    const handleDelete = () => this.editor.commands.first(({ state, dispatch }) => [
       () => deleteSelection(state, dispatch),
       () => joinForward(state, dispatch),
       () => selectNodeForward(state, dispatch),
     ])
 
     return {
-      Enter: () => this.editor.commands.try(({ commands, state, dispatch }) => [
+      Enter: () => this.editor.commands.first(({ commands, state, dispatch }) => [
         () => newlineInCode(state, dispatch),
         () => createParagraphNear(state, dispatch),
         () => liftEmptyBlock(state, dispatch),

@@ -4,7 +4,10 @@ import { Command } from '../types'
 import getMarkType from '../utils/getMarkType'
 import getMarkRange from '../utils/getMarkRange'
 
-export default (typeOrName: string | MarkType): Command => ({ tr, state, dispatch }) => {
+/**
+ * Extends the text selection to the current mark.
+ */
+export const extendMarkRange = (typeOrName: string | MarkType): Command => ({ tr, state, dispatch }) => {
   const type = getMarkType(typeOrName, state.schema)
   const { doc, selection } = tr
   const { $from, empty } = selection

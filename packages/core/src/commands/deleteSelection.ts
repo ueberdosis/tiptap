@@ -1,6 +1,9 @@
-import { deleteSelection } from 'prosemirror-commands'
+import { deleteSelection as originalDeleteSelection } from 'prosemirror-commands'
 import { Command } from '../types'
 
-export default (): Command => ({ state, dispatch }) => {
-  return deleteSelection(state, dispatch)
+/**
+ * Delete the selection, if there is one.
+ */
+export const deleteSelection = (): Command => ({ state, dispatch }) => {
+  return originalDeleteSelection(state, dispatch)
 }

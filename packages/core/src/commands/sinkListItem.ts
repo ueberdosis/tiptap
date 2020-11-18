@@ -3,7 +3,10 @@ import { NodeType } from 'prosemirror-model'
 import { Command } from '../types'
 import getNodeType from '../utils/getNodeType'
 
-export default (typeOrName: string | NodeType): Command => ({ state, dispatch }) => {
+/**
+ * Sink the list item down into an inner list.
+ */
+export const sinkListItem = (typeOrName: string | NodeType): Command => ({ state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
 
   return originalSinkListItem(type)(state, dispatch)

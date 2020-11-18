@@ -1,5 +1,8 @@
 import { Command } from '../types'
 
-export default (emitUpdate: Boolean = false): Command => ({ commands }) => {
+/**
+ * Clear the whole document.
+ */
+export const clearContent = (emitUpdate: Boolean = false): Command => ({ commands }) => {
   return commands.setContent('', emitUpdate)
 }

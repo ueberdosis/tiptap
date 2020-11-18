@@ -28,7 +28,10 @@ function keepMarks(state: EditorState) {
   }
 }
 
-export default (options: Partial<SplitBlockOptions> = {}): Command => ({ tr, state, dispatch }) => {
+/**
+ * Forks a new node from an existing node.
+ */
+export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command => ({ tr, state, dispatch }) => {
   const defaultOptions: SplitBlockOptions = {
     withAttributes: false,
     withMarks: true,

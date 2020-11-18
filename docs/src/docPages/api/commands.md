@@ -70,12 +70,12 @@ editor
 Both calls would return `true` if it’s possible to apply the commands, and `false` in case it’s not.
 
 ### Try commands
-If you want to run a list of commands, but want only the first successful command to be applied, you can do this with the `.try()` method. This method runs one command after the other and stops at the first which returns `true`.
+If you want to run a list of commands, but want only the first successful command to be applied, you can do this with the `.first()` method. This method runs one command after the other and stops at the first which returns `true`.
 
 For example, the backspace key tries to undo an input rule first. If that was successful, it stops there. If no input rule has been applied and thus can’t be reverted, it runs the next command and deletes the selection, if there is one. Here is the simplified example:
 
 ```js
-editor.try(({ commands }) => [
+editor.first(({ commands }) => [
   () => commands.undoInputRule(),
   () => commands.deleteSelection(),
   // …
@@ -85,7 +85,7 @@ editor.try(({ commands }) => [
 Inside of commands you can do the same thing like that:
 
 ```js
-commands.try([
+commands.first([
   () => commands.undoInputRule(),
   () => commands.deleteSelection(),
   // …

@@ -1,6 +1,9 @@
 import { Command } from '../types'
 
-export default (): Command => ({ view }) => {
+/**
+ * Removes focus from the editor.
+ */
+export const blur = (): Command => ({ view }) => {
   const element = view.dom as HTMLElement
 
   element.blur()

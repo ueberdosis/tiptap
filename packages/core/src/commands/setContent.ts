@@ -1,7 +1,10 @@
 import { TextSelection } from 'prosemirror-state'
 import { Command } from '../types'
 
-export default (content: string, emitUpdate: Boolean = false, parseOptions = {}): Command => ({ tr, editor, dispatch }) => {
+/**
+ * Replace the whole document with new content.
+ */
+export const setContent = (content: string, emitUpdate: Boolean = false, parseOptions = {}): Command => ({ tr, editor, dispatch }) => {
   const { createDocument } = editor
   const { doc } = tr
   const document = createDocument(content, parseOptions)

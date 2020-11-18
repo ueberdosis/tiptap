@@ -1,6 +1,9 @@
 import { Command } from '../types'
 
-export default (): Command => ({ tr, dispatch }) => {
+/**
+ * Scroll the selection into view.
+ */
+export const scrollIntoView = (): Command => ({ tr, dispatch }) => {
   if (dispatch) {
     tr.scrollIntoView()
   }

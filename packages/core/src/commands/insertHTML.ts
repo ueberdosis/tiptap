@@ -17,7 +17,10 @@ function selectionToInsertionEnd(tr: Transaction, startLen: number, bias: number
   tr.setSelection(Selection.near(tr.doc.resolve(end as unknown as number), bias))
 }
 
-export default (value: string): Command => ({ tr, state, dispatch }) => {
+/**
+ * Insert a string of HTML at the current position.
+ */
+export const insertHTML = (value: string): Command => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const element = elementFromString(value)
   const slice = DOMParser.fromSchema(state.schema).parseSlice(element)

@@ -1,10 +1,13 @@
-import { toggleMark } from 'prosemirror-commands'
+import { toggleMark as originalToggleMark } from 'prosemirror-commands'
 import { MarkType } from 'prosemirror-model'
 import { Command } from '../types'
 import getMarkType from '../utils/getMarkType'
 import markIsActive from '../utils/markIsActive'
 
-export default (typeOrName: string | MarkType, attributes?: {}): Command => ({ state, dispatch, commands }) => {
+/**
+ * Toggle a mark on and off.
+ */
+export const toggleMark = (typeOrName: string | MarkType, attributes?: {}): Command => ({ state, dispatch, commands }) => {
   const type = getMarkType(typeOrName, state.schema)
 
   const hasMarkWithDifferentAttributes = attributes
@@ -15,5 +18,5 @@ export default (typeOrName: string | MarkType, attributes?: {}): Command => ({ s
     return commands.addMark(type, attributes)
   }
 
-  return toggleMark(type, attributes)(state, dispatch)
+  return originalToggleMark(type, attributes)(state, dispatch)
 }
