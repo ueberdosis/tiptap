@@ -42,13 +42,13 @@ const TextAlign = Extension.create({
           return false
         }
 
-        return commands.updateNodeAttributes({ textAlign: alignment })
+        return this.options.types.every(type => commands.updateNodeAttributes(type, { textAlign: alignment }))
       },
       /**
        * Unset the text align attribute
        */
       unsetTextAlign: (): Command => ({ commands }) => {
-        return commands.updateNodeAttributes({ textAlign: null })
+        return this.options.types.every(type => commands.updateNodeAttributes(type, { textAlign: null }))
       },
     }
   },
