@@ -15,7 +15,6 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Bold from '@tiptap/extension-bold'
-import Strike from '@tiptap/extension-strike'
 
 export default {
   components: {
