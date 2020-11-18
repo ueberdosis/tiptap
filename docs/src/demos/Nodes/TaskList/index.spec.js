@@ -98,7 +98,7 @@ context('/api/nodes/task-list', () => {
       .should('have.attr', 'data-checked', 'false')
   })
 
-  it.only('should make a task list from checked square brackets', () => {
+  it('should make a task list from checked square brackets', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()
     })
