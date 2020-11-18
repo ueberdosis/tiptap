@@ -13,9 +13,9 @@ yarn add @tiptap/extension-horizontal-rule
 ```
 
 ## Settings
-| Option | Type   | Default | Description                                  |
-| ------ | ------ | ------- | -------------------------------------------- |
-| class  | string | –       | Add a custom class to the rendered HTML tag. |
+| Option         | Type     | Default | Description                                                           |
+| -------------- | -------- | ------- | --------------------------------------------------------------------- |
+| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
 | Command        | Parameters | Description               |

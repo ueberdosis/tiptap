@@ -15,9 +15,9 @@ yarn add @tiptap/extension-list-item
 ```
 
 ## Settings
-| Option | Type   | Default | Description                                  |
-| ------ | ------ | ------- | -------------------------------------------- |
-| class  | string | –       | Add a custom class to the rendered HTML tag. |
+| Option         | Type     | Default | Description                                                           |
+| -------------- | -------- | ------- | --------------------------------------------------------------------- |
+| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Keyboard shortcuts
 * New list item: `Enter`

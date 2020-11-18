@@ -17,13 +17,13 @@ yarn add @tiptap/extension-bullet-list @tiptap/extension-list-item
 ```
 
 ## Settings
-| Option | Type   | Default | Description                                  |
-| ------ | ------ | ------- | -------------------------------------------- |
-| class  | string | –       | Add a custom class to the rendered HTML tag. |
+| Option         | Type     | Default | Description                                                           |
+| -------------- | -------- | ------- | --------------------------------------------------------------------- |
+| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command     | Parameters | Description           |
-| ----------- | ---------- | --------------------- |
+| Command    | Parameters | Description           |
+| ---------- | ---------- | --------------------- |
 | bulletList | —          | Toggle a bullet list. |
 
 ## Keyboard shortcuts

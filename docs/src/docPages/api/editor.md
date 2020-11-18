@@ -95,7 +95,7 @@ new Editor({
 | --------- | ------------------------------------------------------ |
 | `'start'` | Sets the focus to the beginning of the document.       |
 | `'end'`   | Sets the focus to the end of the document.             |
-| number    | Sets the focus to a specific position in the document. |
+| `Number`    | Sets the focus to a specific position in the document. |
 | `true`    | Enables autofocus.                                     |
 | `false`   | Disables autofocus.                                    |
 | `null`    | Disables autofocus.                                    |
