@@ -60,7 +60,7 @@ This is the fastest way to get tiptap up and running with Vue. It will give you 
 ## 5. Add it to your app
 Now, let’s replace the content of `src/App.vue` with the following example code to use our new `Tiptap` component in our app.
 
-```js
+```html
 <template>
   <div id="app">
     <tiptap />

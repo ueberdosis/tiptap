@@ -74,7 +74,7 @@ export default {
       content: null,
       currentIndex: 0,
       syntax: {
-        vue: 'markup',
+        vue: 'html',
       },
     }
   },
