@@ -106,6 +106,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 ### Nodes & Marks
 | Command                 | Description                                               |
 | ----------------------- | --------------------------------------------------------- |
+| .addMark()              | Add a mark with new attributes.                           |
 | .clearNodes()           | Normalize nodes to a simple paragraph.                    |
 | .extendMarkRange()      | Extends the text selection to the current mark.           |
 | .removeMark()           | Remove a mark in the current selection.                   |
@@ -118,7 +119,6 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .toggleBlockType()      | Toggle a node with another node.                          |
 | .toggleMark()           | Toggle a mark on and off.                                 |
 | .toggleWrap()           | Wraps nodes in another node, or removes an existing wrap. |
-| .updateMarkAttributes() | Update a mark with new attributes.                        |
 | .updateNodeAttributes() | Update attributes of a node.                              |
 
 ### Lists

@@ -3,7 +3,7 @@
     <button @click="addLink" :class="{ 'is-active': editor.isActive('link') }">
       link
     </button>
-    <button @click="editor.chain().focus().removeMark('link').run()" v-if="editor.isActive('link')">
+    <button @click="editor.chain().focus().removeLink().run()" v-if="editor.isActive('link')">
       remove
     </button>
     <editor-content :editor="editor" />
@@ -55,7 +55,7 @@ export default {
     addLink() {
       const url = window.prompt('URL')
 
-      this.editor.chain().focus().link({ href: url }).run()
+      this.editor.chain().focus().addLink({ href: url }).run()
     },
   },
 

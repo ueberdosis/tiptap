@@ -104,7 +104,7 @@ const CustomBulletList = BulletList.extend({
   addKeyboardShortcuts() {
     return {
       // ↓ your new keyboard shortcut
-      'Mod-l': () => this.editor.commands.bulletList(),
+      'Mod-l': () => this.editor.commands.toggleBulletList(),
     }
   },
 })

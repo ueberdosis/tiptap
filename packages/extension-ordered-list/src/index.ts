@@ -54,7 +54,7 @@ const OrderedList = Node.create({
       /**
        * Toggle an ordered list
        */
-      orderedList: (): Command => ({ commands }) => {
+      toggleOrderedList: (): Command => ({ commands }) => {
         return commands.toggleList('orderedList', 'listItem')
       },
     }
@@ -62,7 +62,7 @@ const OrderedList = Node.create({
 
   addKeyboardShortcuts() {
     return {
-      'Shift-Control-9': () => this.editor.commands.orderedList(),
+      'Shift-Control-9': () => this.editor.commands.toggleOrderedList(),
     }
   },
 
