@@ -12,7 +12,7 @@
     <button @click="editor.chain().focus().setTextAlign('justify').run()">
       justify
     </button>
-    <button @click="editor.chain().focus().resetNodeAttributes(['textAlign']).run()">
+    <button @click="editor.chain().focus().unsetTextAlign().run()">
       set default
     </button>
     <editor-content :editor="editor" />

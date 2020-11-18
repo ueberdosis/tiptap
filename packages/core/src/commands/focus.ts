@@ -35,7 +35,10 @@ function resolveSelection(editor: Editor, position: FocusPosition = null): Resol
   }
 }
 
-export default (position: FocusPosition = null): Command => ({
+/**
+ * Focus the editor at the given position.
+ */
+export const focus = (position: FocusPosition = null): Command => ({
   editor,
   view,
   tr,

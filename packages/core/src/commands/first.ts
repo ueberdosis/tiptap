@@ -1,6 +1,9 @@
 import { Command } from '../types'
 
-export default (commands: Command[] | ((props: Parameters<Command>[0]) => Command[])): Command => props => {
+/**
+ * Runs one command after the other and stops at the first which returns true.
+ */
+export const first = (commands: Command[] | ((props: Parameters<Command>[0]) => Command[])): Command => props => {
   const items = typeof commands === 'function'
     ? commands(props)
     : commands

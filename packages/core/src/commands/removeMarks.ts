@@ -1,6 +1,9 @@
 import { Command } from '../types'
 
-export default (): Command => ({ tr, state, dispatch }) => {
+/**
+ * Remove all marks in the current selection.
+ */
+export const removeMarks = (): Command => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const { from, to, empty } = selection
 

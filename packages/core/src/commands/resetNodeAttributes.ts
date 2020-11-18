@@ -1,22 +1,19 @@
+import { NodeType } from 'prosemirror-model'
+import getNodeType from '../utils/getNodeType'
+import deleteProps from '../utils/deleteProps'
 import { Command } from '../types'
 
-export default (attributeNames: string[] = []): Command => ({ tr, state, dispatch }) => {
+/**
+ * Resets node attributes to the default value.
+ */
+export const resetNodeAttributes = (typeOrName: string | NodeType, attributes: string | string[]): Command => ({ tr, state, dispatch }) => {
+  const type = getNodeType(typeOrName, state.schema)
   const { selection } = tr
   const { from, to } = selection
 
   state.doc.nodesBetween(from, to, (node, pos) => {
-    if (!node.type.isText) {
-      attributeNames.forEach(name => {
-        const attribute = node.type.spec.attrs?.[name]
-        const defaultValue = attribute?.default
-
-        if (attribute && defaultValue !== undefined && dispatch) {
-          tr.setNodeMarkup(pos, undefined, {
-            ...node.attrs,
-            [name]: defaultValue,
-          })
-        }
-      })
+    if (node.type === type && dispatch) {
+      tr.setNodeMarkup(pos, undefined, deleteProps(node.attrs, attributes))
     }
   })
 

@@ -3,7 +3,10 @@ import { Command } from '../types'
 import getMarkType from '../utils/getMarkType'
 import getMarkAttributes from '../utils/getMarkAttributes'
 
-export default (typeOrName: string | MarkType, attributes?: {}): Command => ({ tr, state, dispatch }) => {
+/**
+ * Add a mark with new attributes.
+ */
+export const addMark = (typeOrName: string | MarkType, attributes?: {}): Command => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const { from, to, empty } = selection
   const type = getMarkType(typeOrName, state.schema)

@@ -3,7 +3,10 @@ import { Command } from '../types'
 import nodeIsActive from '../utils/nodeIsActive'
 import getNodeType from '../utils/getNodeType'
 
-export default (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attrs = {}): Command => ({ state, commands }) => {
+/**
+ * Toggle a node with another node.
+ */
+export const toggleBlockType = (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attrs = {}): Command => ({ state, commands }) => {
   const type = getNodeType(typeOrName, state.schema)
   const toggleType = getNodeType(toggleTypeOrName, state.schema)
   const isActive = nodeIsActive(state, type, attrs)

@@ -48,7 +48,7 @@ const TextAlign = Extension.create({
        * Unset the text align attribute
        */
       unsetTextAlign: (): Command => ({ commands }) => {
-        return this.options.types.every(type => commands.updateNodeAttributes(type, { textAlign: null }))
+        return this.options.types.every(type => commands.resetNodeAttributes(type, 'textAlign'))
       },
     }
   },

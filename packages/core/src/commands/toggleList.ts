@@ -4,7 +4,10 @@ import { Command } from '../types'
 import getNodeType from '../utils/getNodeType'
 import isList from '../utils/isList'
 
-export default (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType): Command => ({
+/**
+ * Toggle between different list types.
+ */
+export const toggleList = (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType): Command => ({
   editor, tr, state, dispatch, chain, commands, can,
 }) => {
   const { extensions } = editor.options

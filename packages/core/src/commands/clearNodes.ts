@@ -1,7 +1,10 @@
 import { liftTarget } from 'prosemirror-transform'
 import { Command } from '../types'
 
-export default (): Command => ({ state, tr, dispatch }) => {
+/**
+ * Normalize nodes to a simple paragraph.
+ */
+export const clearNodes = (): Command => ({ state, tr, dispatch }) => {
   const { selection } = tr
   const { from, to } = selection
 

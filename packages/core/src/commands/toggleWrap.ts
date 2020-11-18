@@ -4,7 +4,10 @@ import { Command } from '../types'
 import nodeIsActive from '../utils/nodeIsActive'
 import getNodeType from '../utils/getNodeType'
 
-export default (typeOrName: string | NodeType, attributes = {}): Command => ({ state, dispatch }) => {
+/**
+ * Wraps nodes in another node, or removes an existing wrap.
+ */
+export const toggleWrap = (typeOrName: string | NodeType, attributes = {}): Command => ({ state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const isActive = nodeIsActive(state, type, attributes)
 
