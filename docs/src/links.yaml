@@ -36,14 +36,16 @@
           link: /examples/v-model
         - title: Export HTML or JSON
           link: /examples/export-html-or-json
-    - title: Share feedback
+    - title: Feedback
       link: /overview/feedback
 
 - title: Guide
   items:
     - title: Getting started
       link: /guide/getting-started
-      new: true
+      items:
+        - title: Vue CLI
+          link: /guide/getting-started/vue-cli
     - title: Configure the editor
       link: /guide/configure-the-editor
       new: true
