@@ -17,7 +17,7 @@ const Bold = Mark.create({
   name: 'bold',
 
   defaultOptions: <BoldOptions>{
-    HTMLAttributes: {}
+    HTMLAttributes: {},
   },
 
   parseHTML() {
