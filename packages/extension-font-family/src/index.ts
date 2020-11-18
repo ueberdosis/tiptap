@@ -38,11 +38,19 @@ const FontFamily = Extension.create({
   addCommands() {
     return {
       /**
-       * Update the font family
+       * Set the font family
        */
-      fontFamily: (fontFamily: string | null = null): Command => ({ chain }) => {
+      setFontFamily: (fontFamily: string): Command => ({ chain }) => {
         return chain()
           .addMark('textStyle', { fontFamily })
+          .run()
+      },
+      /**
+       * Unset the font family
+       */
+      unsetFontFamily: (): Command => ({ chain }) => {
+        return chain()
+          .addMark('textStyle', { fontFamily: null })
           .removeEmptyTextStyle()
           .run()
       },
