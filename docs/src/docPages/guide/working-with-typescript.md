@@ -14,7 +14,7 @@ If you’re using TypeScript in your project and want to extend tiptap, there ar
 ## Options type
 To extend or create default options for an extension, you’ll need to define a custom type, here is an example:
 
-```js
+```ts
 import { Extension } from '@tiptap/core'
 
 export interface CustomExtensionOptions {
@@ -31,7 +31,7 @@ const CustomExtension = Extension.create({
 ## Command type
 The core package also exports a `Command` type, which needs to be added to all commands that you specify in your code. Here is an example:
 
-```js
+```ts
 import { Command, Extension } from '@tiptap/core'
 
 const CustomExtension = Extension.create({
