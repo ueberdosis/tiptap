@@ -53,14 +53,24 @@ const Heading = Node.create({
   addCommands() {
     return {
       /**
-       * Toggle a heading node
+       * Set a heading node
        */
-      heading: (options: { level: Level }): Command => ({ commands }) => {
-        if (!this.options.levels.includes(options.level)) {
+      setHeading: (attributes: { level: Level }): Command => ({ commands }) => {
+        if (!this.options.levels.includes(attributes.level)) {
           return false
         }
 
-        return commands.toggleBlockType('heading', 'paragraph', options)
+        return commands.setBlockType('heading', attributes)
+      },
+      /**
+       * Toggle a heading node
+       */
+      toggleHeading: (attributes: { level: Level }): Command => ({ commands }) => {
+        if (!this.options.levels.includes(attributes.level)) {
+          return false
+        }
+
+        return commands.toggleBlockType('heading', 'paragraph', attributes)
       },
     }
   },
@@ -69,7 +79,7 @@ const Heading = Node.create({
     return this.options.levels.reduce((items, level) => ({
       ...items,
       ...{
-        [`Mod-Alt-${level}`]: () => this.editor.commands.setBlockType('heading', { level }),
+        [`Mod-Alt-${level}`]: () => this.editor.commands.toggleHeading({ level }),
       },
     }), {})
   },

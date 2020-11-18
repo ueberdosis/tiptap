@@ -58,11 +58,13 @@ const Image = Node.create({
       /**
        * Add an image
        */
-      image: (options: { src: string, alt?: string, title?: string }): Command => ({ tr }) => {
+      setImage: (options: { src: string, alt?: string, title?: string }): Command => ({ tr, dispatch }) => {
         const { selection } = tr
         const node = this.type.create(options)
 
-        tr.replaceRangeWith(selection.from, selection.to, node)
+        if (dispatch) {
+          tr.replaceRangeWith(selection.from, selection.to, node)
+        }
 
         return true
       },

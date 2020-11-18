@@ -25,7 +25,7 @@ const HardBreak = Node.create({
       /**
        * Add a hard break
        */
-      hardBreak: (): Command => ({ commands, state, dispatch }) => {
+      setHardBreak: (): Command => ({ commands, state, dispatch }) => {
         return commands.try([
           () => exitCode(state, dispatch),
           () => {
@@ -42,8 +42,8 @@ const HardBreak = Node.create({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-Enter': () => this.editor.commands.hardBreak(),
-      'Shift-Enter': () => this.editor.commands.hardBreak(),
+      'Mod-Enter': () => this.editor.commands.setHardBreak(),
+      'Shift-Enter': () => this.editor.commands.setHardBreak(),
     }
   },
 })

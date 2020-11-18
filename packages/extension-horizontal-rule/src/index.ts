@@ -30,8 +30,10 @@ const HorizontalRule = Node.create({
       /**
        * Add a horizontal rule
        */
-      horizontalRule: (): Command => ({ tr }) => {
-        tr.replaceSelectionWith(this.type.create())
+      setHorizontalRule: (): Command => ({ tr, dispatch }) => {
+        if (dispatch) {
+          tr.replaceSelectionWith(this.type.create())
+        }
 
         return true
       },
