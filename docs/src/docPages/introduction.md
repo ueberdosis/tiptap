@@ -1,5 +1,5 @@
 ---
-title: Headless rich-text editor
+title: Headless rich text editor
 ---
 
 :::error Don’t try this at home
