@@ -1,5 +1,8 @@
 import {
-  Command, Mark, markInputRule, markPasteRule,
+  Command,
+  Mark,
+  markInputRule,
+  markPasteRule,
 } from '@tiptap/core'
 
 export interface BoldOptions {
