@@ -47,9 +47,9 @@ const Link = Mark.create({
   addCommands() {
     return {
       /**
-       * Add a link mark
+       * Set a link mark
        */
-      addLink: (attributes: { href?: string, target?: string } = {}): Command => ({ commands }) => {
+      setLink: (attributes: { href?: string, target?: string } = {}): Command => ({ commands }) => {
         return commands.addMark('link', attributes)
       },
       /**
@@ -59,9 +59,9 @@ const Link = Mark.create({
         return commands.toggleMark('link', attributes)
       },
       /**
-       * Remove a link mark
+       * Unset a link mark
        */
-      removeLink: (): Command => ({ commands }) => {
+      unsetLink: (): Command => ({ commands }) => {
         return commands.removeMark('link')
       },
     }

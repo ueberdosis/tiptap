@@ -59,9 +59,9 @@ const Highlight = Mark.create({
   addCommands() {
     return {
       /**
-       * Add a highlight mark
+       * Set a highlight mark
        */
-      addHighlight: (attributes?: { color: string }): Command => ({ commands }) => {
+      setHighlight: (attributes?: { color: string }): Command => ({ commands }) => {
         return commands.addMark('highlight', attributes)
       },
       /**
@@ -71,9 +71,9 @@ const Highlight = Mark.create({
         return commands.toggleMark('highlight', attributes)
       },
       /**
-       * Remove a highlight mark
+       * Unset a highlight mark
        */
-      removeHighlight: (): Command => ({ commands }) => {
+      unsetHighlight: (): Command => ({ commands }) => {
         return commands.removeMark('highlight')
       },
     }
