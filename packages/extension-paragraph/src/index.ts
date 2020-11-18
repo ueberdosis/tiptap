@@ -32,7 +32,7 @@ const Paragraph = Node.create({
       /**
        * Toggle a paragraph
        */
-      paragraph: (): Command => ({ commands }) => {
+      setParagraph: (): Command => ({ commands }) => {
         return commands.toggleBlockType('paragraph', 'paragraph')
       },
     }
@@ -40,7 +40,7 @@ const Paragraph = Node.create({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-Alt-0': () => this.editor.commands.paragraph(),
+      'Mod-Alt-0': () => this.editor.commands.setParagraph(),
     }
   },
 })
