@@ -62,7 +62,7 @@ const Link = Mark.create({
        * Unset a link mark
        */
       unsetLink: (): Command => ({ commands }) => {
-        return commands.removeMark('link')
+        return commands.unsetMark('link')
       },
     }
   },

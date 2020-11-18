@@ -74,7 +74,7 @@ const Highlight = Mark.create({
        * Unset a highlight mark
        */
       unsetHighlight: (): Command => ({ commands }) => {
-        return commands.removeMark('highlight')
+        return commands.unsetMark('highlight')
       },
     }
   },

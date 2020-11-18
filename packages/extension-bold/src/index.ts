@@ -61,7 +61,7 @@ const Bold = Mark.create({
        * Unset a bold mark
        */
       unsetBold: (): Command => ({ commands }) => {
-        return commands.removeMark('bold')
+        return commands.unsetMark('bold')
       },
     }
   },

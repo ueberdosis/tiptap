@@ -60,7 +60,7 @@ const Strike = Mark.create({
        * Unset a strike mark
        */
       unsetStrike: (): Command => ({ commands }) => {
-        return commands.removeMark('strike')
+        return commands.unsetMark('strike')
       },
     }
   },

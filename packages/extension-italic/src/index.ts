@@ -60,7 +60,7 @@ const Italic = Mark.create({
        * Unset an italic mark
        */
       unsetItalic: (): Command => ({ commands }) => {
-        return commands.removeMark('italic')
+        return commands.unsetMark('italic')
       },
     }
   },

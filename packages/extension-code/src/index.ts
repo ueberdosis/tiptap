@@ -51,7 +51,7 @@ const Code = Mark.create({
        * Unset a code mark
        */
       unsetCode: (): Command => ({ commands }) => {
-        return commands.removeMark('code')
+        return commands.unsetMark('code')
       },
     }
   },

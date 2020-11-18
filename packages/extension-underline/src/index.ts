@@ -46,7 +46,7 @@ const Underline = Mark.create({
        * Unset an underline mark
        */
       unsetUnderline: (): Command => ({ commands }) => {
-        return commands.removeMark('underline')
+        return commands.unsetMark('underline')
       },
     }
   },

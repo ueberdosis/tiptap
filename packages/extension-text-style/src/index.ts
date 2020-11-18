@@ -37,7 +37,7 @@ const TextStyle = Mark.create({
           return true
         }
 
-        return commands.removeMark('textStyle')
+        return commands.unsetMark('textStyle')
       },
     }
   },
