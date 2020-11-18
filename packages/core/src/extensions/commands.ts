@@ -91,7 +91,7 @@ export const Commands = Extension.create({
        */
       removeMarks,
       /**
-       * Resets all node attributes to the default value.
+       * Resets node attributes to the default value.
        */
       resetNodeAttributes,
       /**

@@ -3,7 +3,7 @@ import getNodeType from '../utils/getNodeType'
 import deleteProps from '../utils/deleteProps'
 import { Command } from '../types'
 
-export default (typeOrName: string | NodeType, attributes: string | string[]): Command => ({ tr, state, dispatch }) => {
+export default (typeOrName: string | NodeType, attributes: string[]): Command => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { selection } = tr
   const { from, to } = selection
