@@ -35,7 +35,7 @@ const BulletList = Node.create({
       /**
        * Toggle a bullet list
        */
-      bulletList: (): Command => ({ commands }) => {
+      toggleBulletList: (): Command => ({ commands }) => {
         return commands.toggleList('bulletList', 'listItem')
       },
     }
@@ -43,7 +43,7 @@ const BulletList = Node.create({
 
   addKeyboardShortcuts() {
     return {
-      'Shift-Control-8': () => this.editor.commands.bulletList(),
+      'Shift-Control-8': () => this.editor.commands.toggleBulletList(),
     }
   },
 
