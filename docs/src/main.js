@@ -6,6 +6,8 @@ import 'prismjs/components/prism-scss.js'
 import PortalVue from 'portal-vue'
 import App from '~/layouts/App'
 
+Prism.manual = true
+
 export default function (Vue, { head }) {
   head.htmlAttrs = { 'data-theme': 'dark' }
 
