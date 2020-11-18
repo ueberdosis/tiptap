@@ -9,7 +9,7 @@ const MenuBar = () => {
 
   return (
     <>
-      <button onClick={() => editor.chain().focus().removeMarks().run()}>
+      <button onClick={() => editor.chain().focus().unsetMarks().run()}>
         Clear formatting
       </button>
       <button

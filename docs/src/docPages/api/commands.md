@@ -106,19 +106,18 @@ Have a look at all of the core commands listed below. They should give you a goo
 ### Nodes & Marks
 | Command                 | Description                                               |
 | ----------------------- | --------------------------------------------------------- |
-| .addMark()              | Add a mark with new attributes.                           |
 | .clearNodes()           | Normalize nodes to a simple paragraph.                    |
 | .extendMarkRange()      | Extends the text selection to the current mark.           |
-| .removeMark()           | Remove a mark in the current selection.                   |
-| .removeMarks()          | Remove all marks in the current selection.                |
-| .removeMarks()          | Remove all marks in the current selection.                |
 | .resetNodeAttributes()  | Resets all node attributes to the default value.          |
 | .selectParentNode()     | Select the parent node.                                   |
 | .setBlockType()         | Replace a given range with a node.                        |
+| .setMark()              | Add a mark with new attributes.                           |
 | .splitBlock()           | Forks a new node from an existing node.                   |
 | .toggleBlockType()      | Toggle a node with another node.                          |
 | .toggleMark()           | Toggle a mark on and off.                                 |
 | .toggleWrap()           | Wraps nodes in another node, or removes an existing wrap. |
+| .unsetMark()            | Remove a mark in the current selection.                   |
+| .unsetMarks()           | Remove all marks in the current selection.                |
 | .updateNodeAttributes() | Update attributes of a node.                              |
 
 ### Lists

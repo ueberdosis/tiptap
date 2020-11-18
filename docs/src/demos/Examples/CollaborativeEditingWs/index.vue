@@ -13,7 +13,7 @@
       <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
         code
       </button>
-      <button @click="editor.chain().focus().removeMarks().run()">
+      <button @click="editor.chain().focus().unsetMarks().run()">
         clear marks
       </button>
       <button @click="editor.chain().focus().clearNodes().run()">

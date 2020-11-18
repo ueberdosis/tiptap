@@ -11,7 +11,6 @@ import * as insertHTML from '../commands/insertHTML'
 import * as insertText from '../commands/insertText'
 import * as lift from '../commands/lift'
 import * as liftListItem from '../commands/liftListItem'
-import * as removeMarks from '../commands/removeMarks'
 import * as resetNodeAttributes from '../commands/resetNodeAttributes'
 import * as scrollIntoView from '../commands/scrollIntoView'
 import * as selectAll from '../commands/selectAll'
@@ -27,6 +26,7 @@ import * as toggleList from '../commands/toggleList'
 import * as toggleMark from '../commands/toggleMark'
 import * as toggleWrap from '../commands/toggleWrap'
 import * as unsetMark from '../commands/unsetMark'
+import * as unsetMarks from '../commands/unsetMarks'
 import * as updateNodeAttributes from '../commands/updateNodeAttributes'
 import * as wrapIn from '../commands/wrapIn'
 import * as wrapInList from '../commands/wrapInList'
@@ -46,7 +46,6 @@ export const Commands = Extension.create({
       ...insertText,
       ...lift,
       ...liftListItem,
-      ...removeMarks,
       ...resetNodeAttributes,
       ...scrollIntoView,
       ...selectAll,
@@ -62,6 +61,7 @@ export const Commands = Extension.create({
       ...toggleMark,
       ...toggleWrap,
       ...unsetMark,
+      ...unsetMarks,
       ...updateNodeAttributes,
       ...wrapIn,
       ...wrapInList,
