@@ -130,6 +130,7 @@ export default class ExtensionManager {
             getPos,
             decorations,
             HTMLAttributes,
+            extension,
           })
         }
 
