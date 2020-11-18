@@ -52,7 +52,7 @@
       <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
         blockquote
       </button>
-      <button @click="editor.chain().focus().horizontalRule().run()">
+      <button @click="editor.chain().focus().setHorizontalRule().run()">
         horizontal rule
       </button>
       <button @click="editor.chain().focus().setHardBreak().run()">
