@@ -45,6 +45,16 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
 
+    - name: Fix code style linting errors
+      id: lint-fix
+      run: yarn lint:fix
+
+    - name: Commit fixed linting errors
+      id: commit
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "ci: fix code style linting errors"
+
     - name: Lint code
       id: lint
       run: yarn lint
@@ -56,18 +66,6 @@ jobs:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#tiptap-notifications'
-
-    - name: Fix code style linting errors
-      id: lint-fix
-      run: yarn lint:fix
-      if: failure()
-
-    - name: Commit fixed linting errors
-      id: commit
-      uses: stefanzweifel/git-auto-commit-action@v4
-      if: failure()
-      with:
-        commit_message: "ci: fix code style linting errors"
 
   test:
     runs-on: ubuntu-latest
