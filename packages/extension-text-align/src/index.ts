@@ -1,5 +1,4 @@
 import { Command, Extension } from '@tiptap/core'
-import { chain } from 'cypress/types/lodash'
 
 type TextAlignOptions = {
   types: string[],
