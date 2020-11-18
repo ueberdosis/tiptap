@@ -9,6 +9,7 @@ import extendMarkRange from '../commands/extendMarkRange'
 import focus from '../commands/focus'
 import insertHTML from '../commands/insertHTML'
 import insertText from '../commands/insertText'
+import lift from '../commands/lift'
 import liftListItem from '../commands/liftListItem'
 import removeMark from '../commands/removeMark'
 import removeMarks from '../commands/removeMarks'
@@ -27,6 +28,7 @@ import toggleMark from '../commands/toggleMark'
 import toggleWrap from '../commands/toggleWrap'
 import tryCommand from '../commands/try'
 import updateNodeAttributes from '../commands/updateNodeAttributes'
+import wrapIn from '../commands/wrapIn'
 import wrapInList from '../commands/wrapInList'
 
 export const Commands = Extension.create({
@@ -72,6 +74,10 @@ export const Commands = Extension.create({
        * Insert a string of text at the current position.
        */
       insertText,
+      /**
+       * Removes an existing wrap.
+       */
+      lift,
       /**
        * Lift the list item into a wrapping list.
        */
@@ -144,6 +150,10 @@ export const Commands = Extension.create({
        * Update attributes of a node.
        */
       updateNodeAttributes,
+      /**
+       * Wraps nodes in another node.
+       */
+      wrapIn,
       /**
        * Wrap a node in a list.
        */

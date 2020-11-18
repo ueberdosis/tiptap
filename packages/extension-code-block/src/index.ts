@@ -75,17 +75,23 @@ const CodeBlock = Node.create({
   addCommands() {
     return {
       /**
+       * Set a code block
+       */
+      setCodeBlock: (attributes?: { language: string }): Command => ({ commands }) => {
+        return commands.setBlockType('codeBlock', attributes)
+      },
+      /**
        * Toggle a code block
        */
-      codeBlock: (attrs?: CodeBlockOptions): Command => ({ commands }) => {
-        return commands.toggleBlockType('codeBlock', 'paragraph', attrs)
+      toggleCodeBlock: (attributes?: { language: string }): Command => ({ commands }) => {
+        return commands.toggleBlockType('codeBlock', 'paragraph', attributes)
       },
     }
   },
 
   addKeyboardShortcuts() {
     return {
-      'Mod-Shift-c': () => this.editor.commands.codeBlock(),
+      'Mod-Shift-c': () => this.editor.commands.toggleCodeBlock(),
     }
   },
 

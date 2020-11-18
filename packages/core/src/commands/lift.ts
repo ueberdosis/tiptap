@@ -1,4 +1,4 @@
-import { wrapIn, lift } from 'prosemirror-commands'
+import { lift } from 'prosemirror-commands'
 import { NodeType } from 'prosemirror-model'
 import { Command } from '../types'
 import nodeIsActive from '../utils/nodeIsActive'
@@ -8,9 +8,9 @@ export default (typeOrName: string | NodeType, attributes = {}): Command => ({ s
   const type = getNodeType(typeOrName, state.schema)
   const isActive = nodeIsActive(state, type, attributes)
 
-  if (isActive) {
-    return lift(state, dispatch)
+  if (!isActive) {
+    return false
   }
 
-  return wrapIn(type, attributes)(state, dispatch)
+  return lift(state, dispatch)
 }
