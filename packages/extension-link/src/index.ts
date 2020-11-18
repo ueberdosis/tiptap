@@ -47,14 +47,22 @@ const Link = Mark.create({
   addCommands() {
     return {
       /**
-       * Toggle or update a link mark
+       * Add a link mark
        */
-      link: (options: { href?: string, target?: string } = {}): Command => ({ commands }) => {
-        if (!options.href) {
-          return commands.removeMark('link')
-        }
-
-        return commands.addMark('link', options)
+      addLink: (attributes: { href?: string, target?: string } = {}): Command => ({ commands }) => {
+        return commands.addMark('link', attributes)
+      },
+      /**
+       * Toggle a link mark
+       */
+      toggleLink: (attributes: { href?: string, target?: string } = {}): Command => ({ commands }) => {
+        return commands.toggleMark('link', attributes)
+      },
+      /**
+       * Remove a link mark
+       */
+      removeLink: (): Command => ({ commands }) => {
+        return commands.removeMark('link')
       },
     }
   },
