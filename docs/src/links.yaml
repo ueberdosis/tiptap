@@ -43,7 +43,9 @@
   items:
     - title: Getting started
       link: /guide/getting-started
-      new: true
+      items:
+        - title: Vue CLI
+          link: /guide/getting-started/vue-cli
     - title: Configure the editor
       link: /guide/configure-the-editor
       new: true
