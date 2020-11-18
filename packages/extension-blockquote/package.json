@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-blockquote",
-  "version": "1.0.0-alpha.2",
+  "version": "2.0.0-alpha.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -21,7 +21,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.0.0-alpha.3"
+    "@tiptap/core": "^2.0.0-alpha.0"
   },
   "dependencies": {
     "prosemirror-inputrules": "^1.1.3"

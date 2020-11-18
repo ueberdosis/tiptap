@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/html",
-  "version": "1.0.0-alpha.2",
+  "version": "2.0.0-alpha.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -21,7 +21,7 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/core": "^2.0.0-alpha.4",
+    "@tiptap/core": "^2.0.0-alpha.0",
     "hostic-dom": "^0.8.5",
     "prosemirror-model": "^1.12.0"
   }
