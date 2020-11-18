@@ -1,15 +1,15 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus().textAlign('left').run()">
+    <button @click="editor.chain().focus().setTextAlign('left').run()">
       left
     </button>
-    <button @click="editor.chain().focus().textAlign('center').run()">
+    <button @click="editor.chain().focus().setTextAlign('center').run()">
       center
     </button>
-    <button @click="editor.chain().focus().textAlign('right').run()">
+    <button @click="editor.chain().focus().setTextAlign('right').run()">
       right
     </button>
-    <button @click="editor.chain().focus().textAlign('justify').run()">
+    <button @click="editor.chain().focus().setTextAlign('justify').run()">
       justify
     </button>
     <button @click="editor.chain().focus().resetNodeAttributes(['textAlign']).run()">

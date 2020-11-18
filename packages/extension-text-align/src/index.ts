@@ -35,14 +35,20 @@ const TextAlign = Extension.create({
   addCommands() {
     return {
       /**
-       * Update the text align attribute
+       * Set the text align attribute
        */
-      textAlign: (alignment: string): Command => ({ commands }) => {
+      setTextAlign: (alignment: string): Command => ({ commands }) => {
         if (!this.options.alignments.includes(alignment)) {
           return false
         }
 
         return commands.updateNodeAttributes({ textAlign: alignment })
+      },
+      /**
+       * Unset the text align attribute
+       */
+      unsetTextAlign: (): Command => ({ commands }) => {
+        return commands.updateNodeAttributes({ textAlign: null })
       },
     }
   },
@@ -55,10 +61,10 @@ const TextAlign = Extension.create({
       Enter: () => this.editor.commands.splitBlock({
         withAttributes: true,
       }),
-      'Ctrl-Shift-l': () => this.editor.commands.textAlign('left'),
-      'Ctrl-Shift-e': () => this.editor.commands.textAlign('center'),
-      'Ctrl-Shift-r': () => this.editor.commands.textAlign('right'),
-      'Ctrl-Shift-j': () => this.editor.commands.textAlign('justify'),
+      'Ctrl-Shift-l': () => this.editor.commands.setTextAlign('left'),
+      'Ctrl-Shift-e': () => this.editor.commands.setTextAlign('center'),
+      'Ctrl-Shift-r': () => this.editor.commands.setTextAlign('right'),
+      'Ctrl-Shift-j': () => this.editor.commands.setTextAlign('justify'),
     }
   },
 })
