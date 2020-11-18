@@ -13,8 +13,8 @@
   "scripts": {
     "start": "yarn --cwd ./docs start",
     "build:docs": "yarn --cwd ./docs build",
-    "build:packages": "yarn clean:packages && node --max-old-space-size=8192 node_modules/.bin/rollup -c",
-    "build:ci": "yarn clean:packages && rollup -c --ci",
+    "build:packages": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --scope @tiptap/$package; done",
+    "build:ci": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --ci --scope @tiptap/$package; done",
     "clean:packages": "rm -rf ./packages/*/dist",
     "release": "yarn lint && yarn test && yarn build:packages && lerna publish",
     "lint": "eslint --quiet --no-error-on-unmatched-pattern ./",
