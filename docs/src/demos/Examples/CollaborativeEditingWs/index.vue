@@ -49,7 +49,7 @@
       <button @click="editor.chain().focus().codeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
         code block
       </button>
-      <button @click="editor.chain().focus().blockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
+      <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
         blockquote
       </button>
       <button @click="editor.chain().focus().horizontalRule().run()">

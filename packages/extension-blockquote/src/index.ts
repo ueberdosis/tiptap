@@ -35,17 +35,29 @@ const Blockquote = Node.create({
   addCommands() {
     return {
       /**
+       * Set a blockquote node
+       */
+      setBlockquote: (): Command => ({ commands }) => {
+        return commands.wrapIn('blockquote')
+      },
+      /**
        * Toggle a blockquote node
        */
-      blockquote: (): Command => ({ commands }) => {
+      toggleBlockquote: (): Command => ({ commands }) => {
         return commands.toggleWrap('blockquote')
+      },
+      /**
+       * Unset a blockquote node
+       */
+      unsetBlockquote: (): Command => ({ commands }) => {
+        return commands.lift('blockquote')
       },
     }
   },
 
   addKeyboardShortcuts() {
     return {
-      'Shift-Mod-9': () => this.editor.commands.blockquote(),
+      'Shift-Mod-9': () => this.editor.commands.toggleBlockquote(),
     }
   },
 
