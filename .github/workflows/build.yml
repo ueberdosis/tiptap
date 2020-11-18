@@ -45,17 +45,28 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
 
+    - name: Fix code style linting errors
+      id: lint-fix
+      run: yarn lint:fix
+      continue-on-error: true
+
+    - name: Commit fixed linting errors
+      id: commit
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "ci: fix code style linting errors"
+
     - name: Lint code
       id: lint
       run: yarn lint
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
+      if: failure()
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#tiptap-notifications'
-      if: failure()
 
   test:
     runs-on: ubuntu-latest
@@ -104,11 +115,11 @@ jobs:
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
+      if: failure()
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#tiptap-notifications'
-      if: failure()
 
   build:
     runs-on: ubuntu-latest
@@ -148,13 +159,11 @@ jobs:
     - name: Try to build the packages
       id: build-packages
       run: yarn build:ci
-      env:
-        NODE_OPTIONS: --max_old_space_size=8192
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
+      if: failure()
       with:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#tiptap-notifications'
-      if: failure()
