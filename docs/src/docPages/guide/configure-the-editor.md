@@ -54,7 +54,7 @@ new Editor({
     Paragraph,
     Text,
     Heading.configure({
-      level: [1, 2, 3],
+      levels: [1, 2, 3],
     }),
   ],
 })
