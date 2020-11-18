@@ -55,7 +55,7 @@
       <button @click="editor.chain().focus().horizontalRule().run()">
         horizontal rule
       </button>
-      <button @click="editor.chain().focus().hardBreak().run()">
+      <button @click="editor.chain().focus().setHardBreak().run()">
         hard break
       </button>
       <button @click="editor.chain().focus().undo().run()">

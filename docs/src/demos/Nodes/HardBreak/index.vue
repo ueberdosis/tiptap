@@ -1,6 +1,6 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus().hardBreak().run()">
+    <button @click="editor.chain().focus().setHardBreak().run()">
       hardBreak
     </button>
 
