@@ -13,10 +13,10 @@ yarn add @tiptap/extension-focus
 ```
 
 ## Settings
-| Option    | Type    | Default   | Description                                            |
-| --------- | ------- | --------- | ------------------------------------------------------ |
-| className | string  | has-focus | The class that is applied to the focused element.      |
-| nested    | boolean | true      | When enabled nested elements get the focus class, too. |
+| Option    | Type      | Default       | Description                                            |
+| --------- | --------- | ------------- | ------------------------------------------------------ |
+| className | `String`  | `'has-focus'` | The class that is applied to the focused element.      |
+| nested    | `Boolean` | `true`        | When enabled nested elements get the focus class, too. |
 
 ## Source code
 [packages/extension-focus/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-focus/)

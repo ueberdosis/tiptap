@@ -13,14 +13,14 @@ yarn add @tiptap/extension-code
 ```
 
 ## Settings
-| Option | Type   | Default | Description                                  |
-| ------ | ------ | ------- | -------------------------------------------- |
-| class  | string | –       | Add a custom class to the rendered HTML tag. |
+| Option         | Type     | Default | Description                                                           |
+| -------------- | -------- | ------- | --------------------------------------------------------------------- |
+| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
 | Command | Parameters | Description               |
-| ------- | ------- | ------------------------- |
-| code    | —       | Mark text as inline code. |
+| ------- | ---------- | ------------------------- |
+| code    | —          | Mark text as inline code. |
 
 ## Keyboard shortcuts
 * `Alt`&nbsp;<code>`</code>

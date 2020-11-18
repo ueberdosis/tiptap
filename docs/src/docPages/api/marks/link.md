@@ -15,12 +15,10 @@ yarn add @tiptap/extension-link
 ```
 
 ## Settings
-| Option      | Type    | Default                      | Description                                  |
-| ----------- | ------- | ---------------------------- | -------------------------------------------- |
-| class       | string  | –                            | Add a custom class to the rendered HTML tag. |
-| openOnClick | boolean | true                         | If enabled, links will be opened on click.   |
-| rel         | string  | noopener noreferrer nofollow | Configure the `rel` attribute.               |
-| target      | string  | _blank                       | Set the default `target` of links.           |
+| Option         | Type      | Default                                                     | Description                                                           |
+| -------------- | --------- | ----------------------------------------------------------- | --------------------------------------------------------------------- |
+| HTMLAttributes | `Object`  | `{ target: '_blank', rel: 'noopener noreferrer nofollow' }` | Custom HTML attributes that should be added to the rendered HTML tag. |
+| openOnClick    | `Boolean` | `true`                                                      | If enabled, links will be opened on click.                            |
 
 ## Commands
 | Command | Parameters     | Description                                                 |

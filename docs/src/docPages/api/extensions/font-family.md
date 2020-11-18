@@ -15,9 +15,9 @@ yarn add @tiptap/extension-text-style @tiptap/extension-font-family
 ```
 
 ## Settings
-| Option | Type  | Default       | Description                                                              |
-| ------ | ----- | ------------- | ------------------------------------------------------------------------ |
-| types  | array | ['textStyle'] | A list of marks to which the font family attribute should be applied to. |
+| Option | Type    | Default         | Description                                                              |
+| ------ | ------- | --------------- | ------------------------------------------------------------------------ |
+| types  | `Array` | `['textStyle']` | A list of marks to which the font family attribute should be applied to. |
 
 ## Commands
 | Command    | Parameters | Description                                   |

@@ -15,6 +15,7 @@ yarn add @tiptap/extension-collaboration yjs y-webrtc
 ```
 
 ## Settings
+<!-- TODO -->
 | Option   | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
 | provider |      |         |             |
