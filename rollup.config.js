@@ -87,7 +87,6 @@ async function build(commandLineArgs) {
         }),
         ...basePlugins,
         typescript({
-          check: false,
           tsconfigOverride: {
             compilerOptions: {
               declaration: true,
@@ -123,7 +122,6 @@ async function build(commandLineArgs) {
         plugins: [
           ...basePlugins,
           typescript({
-            check: false,
             tsconfigOverride: {
               compilerOptions: {
                 paths: {
