@@ -59,7 +59,7 @@ export default {
       currentIndex: 0,
       CustomLayout,
       syntax: {
-        vue: 'markup',
+        vue: 'html',
       },
     }
   },

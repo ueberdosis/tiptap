@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/vue",
-  "version": "1.0.0-alpha.2",
+  "version": "2.0.0-alpha.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -21,8 +21,8 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.0.0-alpha.3",
-    "vue": "2.x"
+    "@tiptap/core": "^2.0.0-alpha.0",
+    "vue": "^2.6.12"
   },
   "dependencies": {
     "prosemirror-view": "^1.16.2"

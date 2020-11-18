@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-text-align",
-  "version": "1.0.0-alpha.2",
+  "version": "2.0.0-alpha.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -21,6 +21,6 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.0.0-alpha.3"
+    "@tiptap/core": "^2.0.0-alpha.0"
   }
 }

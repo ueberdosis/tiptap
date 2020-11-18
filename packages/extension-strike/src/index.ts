@@ -48,7 +48,7 @@ const Strike = Mark.create({
        * Set a strike mark
        */
       setStrike: (): Command => ({ commands }) => {
-        return commands.addMark('strike')
+        return commands.setMark('strike')
       },
       /**
        * Toggle a strike mark
@@ -60,7 +60,7 @@ const Strike = Mark.create({
        * Unset a strike mark
        */
       unsetStrike: (): Command => ({ commands }) => {
-        return commands.addMark('strike')
+        return commands.unsetMark('strike')
       },
     }
   },

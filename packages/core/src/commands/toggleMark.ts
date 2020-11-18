@@ -15,7 +15,7 @@ export const toggleMark = (typeOrName: string | MarkType, attributes?: {}): Comm
     && !markIsActive(state, type, attributes)
 
   if (attributes && hasMarkWithDifferentAttributes) {
-    return commands.addMark(type, attributes)
+    return commands.setMark(type, attributes)
   }
 
   return originalToggleMark(type, attributes)(state, dispatch)

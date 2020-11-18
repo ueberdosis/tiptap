@@ -39,7 +39,7 @@ const Code = Mark.create({
        * Set a code mark
        */
       setCode: (): Command => ({ commands }) => {
-        return commands.addMark('code')
+        return commands.setMark('code')
       },
       /**
        * Toggle inline code
@@ -51,7 +51,7 @@ const Code = Mark.create({
        * Unset a code mark
        */
       unsetCode: (): Command => ({ commands }) => {
-        return commands.addMark('code')
+        return commands.unsetMark('code')
       },
     }
   },
