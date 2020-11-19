@@ -7,6 +7,8 @@ export default Node.create({
 
   group: 'block',
 
+  content: 'inline*',
+
   draggable: true,
 
   selectable: false,
@@ -20,7 +22,7 @@ export default Node.create({
   },
 
   renderHTML() {
-    return ['div', { 'data-type': 'test' }]
+    return ['div', { 'data-type': 'test' }, 0]
   },
 
   addNodeView() {

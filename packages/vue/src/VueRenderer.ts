@@ -1,4 +1,4 @@
-import { Node, NodeViewRendererProps } from '@tiptap/core'
+import { Editor, Node, NodeViewRendererProps } from '@tiptap/core'
 import { NodeView } from 'prosemirror-view'
 
 import {
@@ -6,14 +6,21 @@ import {
 } from 'prosemirror-model'
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
+// import Inner from './components/Inner.vue'
+
+// const Inner = Vue.extend()
 
 class VueNodeView implements NodeView {
 
   vm!: Vue
 
+  editor: Editor
+
   extension!: Node
 
   node!: ProseMirrorNode
+
+  id!: string
 
   constructor(component: Vue | VueConstructor, props: NodeViewRendererProps) {
     // eslint-disable-next-line
@@ -21,6 +28,7 @@ class VueNodeView implements NodeView {
     // eslint-disable-next-line
     const { view } = editor
 
+    this.editor = props.editor
     this.extension = props.extension
     this.node = props.node
 
@@ -28,11 +36,40 @@ class VueNodeView implements NodeView {
   }
 
   mount(component: Vue | VueConstructor) {
-    const Component = Vue.extend(component)
+    this.id = `id_${Math.random().toString(36).replace('0.', '')}`
+
+    const Inner = Vue.extend({
+      functional: true,
+      render: createElement => {
+        return createElement(
+          'div', {
+            style: {
+              whiteSpace: 'pre-wrap',
+            },
+            attrs: {
+              id: this.id,
+            },
+          },
+        )
+      },
+    })
+
+    const Component = Vue
+      .extend(component)
+      .extend({
+        components: {
+          Inner,
+        },
+      })
+
+    const props = {
+      editor: this.editor,
+      inner: Inner,
+    }
 
     this.vm = new Component({
       // parent: this.parent,
-      // propsData: props,
+      propsData: props,
     }).$mount()
   }
 
@@ -41,7 +78,11 @@ class VueNodeView implements NodeView {
   }
 
   get contentDOM() {
-    return this.vm.$refs.content as Element
+    if (this.vm.$el.id === this.id) {
+      return this.vm.$el
+    }
+
+    return this.vm.$el.querySelector(`#${this.id}`)
   }
 
   stopEvent(event: Event): boolean {

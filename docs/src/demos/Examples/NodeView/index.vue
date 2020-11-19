@@ -34,10 +34,15 @@ export default {
         Test,
       ],
       content: `
-        <p>test</p>
-        <div data-type="test"></div>
-        <p>test</p>
+        <p>paragraph</p>
+        <div data-type="test">
+          text
+        </div>
+        <p>paragraph</p>
       `,
+      onUpdate: () => {
+        console.log(this.editor.getHTML())
+      },
     })
   },
 
