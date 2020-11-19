@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/vue-starter-kit",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0-alpha.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -22,6 +22,6 @@
   ],
   "dependencies": {
     "@tiptap/starter-kit": "^2.0.0-alpha.2",
-    "@tiptap/vue": "^2.0.0-alpha.2"
+    "@tiptap/vue": "^2.0.0-alpha.3"
   }
 }
