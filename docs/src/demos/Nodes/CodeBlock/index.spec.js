@@ -53,20 +53,20 @@ context('/api/nodes/code-block', () => {
 
   it('the keyboard shortcut should make the selected line a code block', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', { shiftKey: true, modKey: true, key: 'c' })
+      .trigger('keydown', { modKey: true, altKey: true, key: 'c' })
       .find('pre')
       .should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the code block', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', { shiftKey: true, modKey: true, key: 'c' })
+      .trigger('keydown', { modKey: true, altKey: true, key: 'c' })
       .find('pre')
       .should('contain', 'Example Text')
 
     cy.get('.ProseMirror')
       .type('{selectall}')
-      .trigger('keydown', { shiftKey: true, modKey: true, key: 'c' })
+      .trigger('keydown', { modKey: true, altKey: true, key: 'c' })
 
     cy.get('.ProseMirror pre')
       .should('not.exist')

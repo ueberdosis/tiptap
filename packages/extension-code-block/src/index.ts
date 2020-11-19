@@ -91,7 +91,7 @@ const CodeBlock = Node.create({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-Shift-c': () => this.editor.commands.toggleCodeBlock(),
+      'Mod-Alt-c': () => this.editor.commands.toggleCodeBlock(),
     }
   },
 

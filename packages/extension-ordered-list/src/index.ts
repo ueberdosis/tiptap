@@ -62,7 +62,7 @@ const OrderedList = Node.create({
 
   addKeyboardShortcuts() {
     return {
-      'Shift-Control-9': () => this.editor.commands.toggleOrderedList(),
+      'Mod-Shift-7': () => this.editor.commands.toggleOrderedList(),
     }
   },
 

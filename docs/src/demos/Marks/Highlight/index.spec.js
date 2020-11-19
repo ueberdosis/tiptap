@@ -124,15 +124,15 @@ context('/api/marks/highlight', () => {
 
   it('the keyboard shortcut should highlight the selected text', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', { modKey: true, key: 'e' })
+      .trigger('keydown', { modKey: true, shiftKey: true, key: 'h' })
       .find('mark')
       .should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text highlighted', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', { modKey: true, key: 'e' })
-      .trigger('keydown', { modKey: true, key: 'e' })
+      .trigger('keydown', { modKey: true, shiftKey: true, key: 'h' })
+      .trigger('keydown', { modKey: true, shiftKey: true, key: 'h' })
       .find('mark')
       .should('not.exist')
   })

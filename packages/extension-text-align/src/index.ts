@@ -61,10 +61,10 @@ const TextAlign = Extension.create({
       Enter: () => this.editor.commands.splitBlock({
         withAttributes: true,
       }),
-      'Ctrl-Shift-l': () => this.editor.commands.setTextAlign('left'),
-      'Ctrl-Shift-e': () => this.editor.commands.setTextAlign('center'),
-      'Ctrl-Shift-r': () => this.editor.commands.setTextAlign('right'),
-      'Ctrl-Shift-j': () => this.editor.commands.setTextAlign('justify'),
+      'Mod-Shift-l': () => this.editor.commands.setTextAlign('left'),
+      'Mod-Shift-e': () => this.editor.commands.setTextAlign('center'),
+      'Mod-Shift-r': () => this.editor.commands.setTextAlign('right'),
+      'Mod-Shift-j': () => this.editor.commands.setTextAlign('justify'),
     }
   },
 })

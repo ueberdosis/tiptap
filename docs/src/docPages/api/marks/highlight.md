@@ -23,8 +23,8 @@ yarn add @tiptap/extension-highlight
 | highlight | color   | Mark text as highlighted, optionally pass a specific color. |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`E`
-* macOS: `Cmd`&nbsp;`E`
+* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`H`
+* macOS: `Cmd`&nbsp;`Shift`&nbsp;`H`
 
 ## Source code
 [packages/extension-highlight/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-highlight/)
