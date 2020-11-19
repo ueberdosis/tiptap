@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-task-list",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -21,6 +21,6 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-alpha.0"
+    "@tiptap/core": "^2.0.0-alpha.6"
   }
 }

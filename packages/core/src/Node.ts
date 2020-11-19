@@ -155,6 +155,8 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
 }> {}
 
 export class Node<Options = any, Commands = {}> {
+  type = 'node'
+
   config: Required<NodeConfig> = {
     name: 'node',
     defaultOptions: {},

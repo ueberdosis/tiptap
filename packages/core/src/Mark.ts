@@ -111,6 +111,8 @@ export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<Exte
 }> {}
 
 export class Mark<Options = any, Commands = {}> {
+  type = 'mark'
+
   config: Required<MarkConfig> = {
     name: 'mark',
     defaultOptions: {},
