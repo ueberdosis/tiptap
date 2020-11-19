@@ -65,6 +65,8 @@ export interface ExtensionConfig<Options = any, Commands = {}> {
 }
 
 export class Extension<Options = any, Commands = any> {
+  type = 'extension'
+
   config: Required<ExtensionConfig> = {
     name: 'extension',
     defaultOptions: {},
