@@ -21,7 +21,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-alpha.0",
+    "@tiptap/core": "^2.0.0-alpha.6",
     "@tiptap/extension-text-style": "^2.0.0-alpha.0"
   }
 }

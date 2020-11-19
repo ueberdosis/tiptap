@@ -21,7 +21,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-alpha.0"
+    "@tiptap/core": "^2.0.0-alpha.6"
   },
   "dependencies": {
     "y-prosemirror": "^1.0.0"
