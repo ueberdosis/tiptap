@@ -7,7 +7,8 @@
     <component :is="inner" />
     <inner />
   </div> -->
-  <inner />
+  <inner as="p" class="hey" foo="bar" />
+  <!-- <component :is="inner" as="p" /> -->
 </template>
 
 <script>

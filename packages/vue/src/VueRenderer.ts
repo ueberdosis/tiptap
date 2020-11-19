@@ -38,16 +38,25 @@ class VueNodeView implements NodeView {
   mount(component: Vue | VueConstructor) {
     this.id = `id_${Math.random().toString(36).replace('0.', '')}`
 
+    const { id } = this
+
     const Inner = Vue.extend({
       functional: true,
-      render: createElement => {
+      // inheritAttrs: false,
+      props: {
+        as: {
+          type: String,
+          default: 'div',
+        },
+      },
+      render(createElement, context) {
         return createElement(
-          'div', {
+          context.props.as, {
             style: {
               whiteSpace: 'pre-wrap',
             },
             attrs: {
-              id: this.id,
+              id,
             },
           },
         )
