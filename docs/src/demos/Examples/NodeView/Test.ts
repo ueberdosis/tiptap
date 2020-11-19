@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { VueRenderer } from '@tiptap/vue'
 import Component from './Component.vue'
 
@@ -13,6 +13,16 @@ export default Node.create({
 
   selectable: false,
 
+  // atom: true,
+
+  addAttributes() {
+    return {
+      checked: {
+        default: false,
+      },
+    }
+  },
+
   parseHTML() {
     return [
       {
@@ -21,8 +31,8 @@ export default Node.create({
     ]
   },
 
-  renderHTML() {
-    return ['div', { 'data-type': 'test' }, 0]
+  renderHTML({ HTMLAttributes }) {
+    return ['div', mergeAttributes(HTMLAttributes, { 'data-type': 'test' }), 0]
   },
 
   addNodeView() {

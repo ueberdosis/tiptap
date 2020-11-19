@@ -1,5 +1,5 @@
 import { Editor, Node, NodeViewRendererProps } from '@tiptap/core'
-import { NodeView } from 'prosemirror-view'
+import { Decoration, NodeView } from 'prosemirror-view'
 
 import {
   Node as ProseMirrorNode,
@@ -20,18 +20,17 @@ class VueNodeView implements NodeView {
 
   node!: ProseMirrorNode
 
+  decorations!: Decoration[]
+
   id!: string
 
-  constructor(component: Vue | VueConstructor, props: NodeViewRendererProps) {
-    // eslint-disable-next-line
-    const { node, editor, getPos } = props
-    // eslint-disable-next-line
-    const { view } = editor
+  getPos!: any
 
+  constructor(component: Vue | VueConstructor, props: NodeViewRendererProps) {
     this.editor = props.editor
     this.extension = props.extension
     this.node = props.node
-
+    this.getPos = props.getPos
     this.mount(component)
   }
 
@@ -52,11 +51,13 @@ class VueNodeView implements NodeView {
       render(createElement, context) {
         return createElement(
           context.props.as, {
+          // this.as, {
             style: {
               whiteSpace: 'pre-wrap',
             },
             attrs: {
               id,
+              // contenteditable: true,
             },
           },
         )
@@ -74,6 +75,8 @@ class VueNodeView implements NodeView {
     const props = {
       editor: this.editor,
       inner: Inner,
+      node: this.node,
+      updateAttrs: (attrs: {}) => this.updateAttrs(attrs),
     }
 
     this.vm = new Component({
@@ -95,6 +98,8 @@ class VueNodeView implements NodeView {
   }
 
   stopEvent(event: Event): boolean {
+    // console.log(event.type)
+
     const isDraggable = this.node.type.spec.draggable
     const isCopy = event.type === 'copy'
     const isPaste = event.type === 'paste'
@@ -106,6 +111,66 @@ class VueNodeView implements NodeView {
     }
 
     return true
+  }
+
+  ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+    // return false
+    // if (mutation.type === 'selection') {
+    //   console.log({ mutation })
+    //   return true
+    // }
+    // return true
+    // console.log({ mutation })
+
+    if (!this.contentDOM) {
+      return true
+    }
+
+    return !this.contentDOM.contains(mutation.target)
+  }
+
+  update(node: ProseMirrorNode, decorations: Decoration[]) {
+    if (node.type !== this.node.type) {
+      return false
+    }
+
+    if (node === this.node && this.decorations === decorations) {
+      return true
+    }
+
+    this.node = node
+    this.decorations = decorations
+
+    this.updateComponentProps()
+
+    return true
+  }
+
+  updateComponentProps() {
+    this.vm.$props.node = this.node
+    this.vm.$props.decorations = this.decorations
+  }
+
+  updateAttrs(attrs: {}) {
+    if (!this.editor.view.editable) {
+      return
+    }
+
+    const { state } = this.editor.view
+    // const { type } = this.node
+    const pos = this.getPos()
+    const newAttrs = {
+      ...this.node.attrs,
+      ...attrs,
+    }
+    // const transaction = this.isMark
+    //   ? state.tr
+    //     .removeMark(pos.from, pos.to, type)
+    //     .addMark(pos.from, pos.to, type.create(newAttrs))
+    //   : state.tr.setNodeMarkup(pos, null, newAttrs)
+    const transaction = state.tr.setNodeMarkup(pos, undefined, newAttrs)
+
+    this.editor.view.dispatch(transaction)
   }
 
 }
