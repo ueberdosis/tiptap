@@ -13,7 +13,10 @@ export default function (Vue, options, context) {
       setTimeout(() => {
         const element = document.getElementById(to.hash.substr(1))
         const top = element.offsetTop
-        const offset = parseFloat(getComputedStyle(element).scrollMarginTop)
+        const offset = parseFloat(
+          getComputedStyle(element).scrollMarginTop
+          || getComputedStyle(element).scrollSnapMarginTop,
+        )
 
         window.scrollTo(0, top - offset)
       }, 0)
