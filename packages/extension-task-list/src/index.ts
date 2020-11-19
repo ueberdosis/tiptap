@@ -40,6 +40,12 @@ const TaskList = Node.create({
       },
     }
   },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-Shift-l': () => this.editor.commands.toggleTaskList(),
+    }
+  },
 })
 
 export default TaskList

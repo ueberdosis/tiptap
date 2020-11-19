@@ -23,10 +23,17 @@ yarn add @tiptap/extension-text-align
 | textAlign | alignment  | Set the text align to the specified value. |
 
 ## Keyboard shortcuts
+### Windows/Linux
 * `Ctrl`&nbsp;`Shift`&nbsp;`L` Left
 * `Ctrl`&nbsp;`Shift`&nbsp;`E` Center
 * `Ctrl`&nbsp;`Shift`&nbsp;`R` Right
 * `Ctrl`&nbsp;`Shift`&nbsp;`J` Justify
+
+### macOS
+* `Cmd`&nbsp;`Shift`&nbsp;`L` Left
+* `Cmd`&nbsp;`Shift`&nbsp;`E` Center
+* `Cmd`&nbsp;`Shift`&nbsp;`R` Right
+* `Cmd`&nbsp;`Shift`&nbsp;`J` Justify
 
 ## Source code
 [packages/extension-text-align/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-align/)

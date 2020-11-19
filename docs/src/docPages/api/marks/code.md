@@ -23,7 +23,8 @@ yarn add @tiptap/extension-code
 | code    | —          | Mark text as inline code. |
 
 ## Keyboard shortcuts
-* `Alt`&nbsp;<code>`</code>
+* Windows/Linux: `Control`&nbsp;`E`
+* macOS: `Cmd`&nbsp;`E`
 
 ## Source code
 [packages/extension-code/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code/)

@@ -58,7 +58,7 @@ const Code = Mark.create({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-`': () => this.editor.commands.toggleCode(),
+      'Mod-e': () => this.editor.commands.toggleCode(),
     }
   },
 

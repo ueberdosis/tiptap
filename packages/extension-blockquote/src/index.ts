@@ -57,7 +57,7 @@ const Blockquote = Node.create({
 
   addKeyboardShortcuts() {
     return {
-      'Shift-Mod-9': () => this.editor.commands.toggleBlockquote(),
+      'Mod-Shift-b': () => this.editor.commands.toggleBlockquote(),
     }
   },
 

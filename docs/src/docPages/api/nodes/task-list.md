@@ -26,6 +26,10 @@ yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 | -------- | ---------- | ------------------- |
 | taskList | —          | Toggle a task list. |
 
+## Keyboard shortcuts
+* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`L`
+* macOS: `Cmd`&nbsp;`Shift`&nbsp;`L`
+
 ## Source code
 [packages/extension-task-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-list/)
 

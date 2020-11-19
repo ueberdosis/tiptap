@@ -73,7 +73,7 @@ context('/api/nodes/blockquote', () => {
 
   it('the keyboard shortcut should make the selected line a blockquote', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', { shiftKey: true, modKey: true, key: '9' })
+      .trigger('keydown', { shiftKey: true, modKey: true, key: 'b' })
       .find('blockquote')
       .should('contain', 'Example Text')
   })
@@ -83,13 +83,13 @@ context('/api/nodes/blockquote', () => {
       .should('not.exist')
 
     cy.get('.ProseMirror')
-      .trigger('keydown', { shiftKey: true, modKey: true, key: '9' })
+      .trigger('keydown', { shiftKey: true, modKey: true, key: 'b' })
       .find('blockquote')
       .should('contain', 'Example Text')
 
     cy.get('.ProseMirror')
       .type('{selectall}')
-      .trigger('keydown', { shiftKey: true, modKey: true, key: '9' })
+      .trigger('keydown', { shiftKey: true, modKey: true, key: 'b' })
 
     cy.get('.ProseMirror blockquote')
       .should('not.exist')
