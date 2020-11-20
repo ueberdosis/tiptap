@@ -84,7 +84,7 @@ const CodeBlock = Node.create({
        * Toggle a code block
        */
       toggleCodeBlock: (attributes?: { language: string }): Command => ({ commands }) => {
-        return commands.toggleBlockType('codeBlock', 'paragraph', attributes)
+        return commands.toggleNode('codeBlock', 'paragraph', attributes)
       },
     }
   },

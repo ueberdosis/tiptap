@@ -33,7 +33,7 @@ const Paragraph = Node.create({
        * Toggle a paragraph
        */
       setParagraph: (): Command => ({ commands }) => {
-        return commands.toggleBlockType('paragraph', 'paragraph')
+        return commands.toggleNode('paragraph', 'paragraph')
       },
     }
   },

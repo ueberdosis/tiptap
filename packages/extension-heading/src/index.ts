@@ -70,7 +70,7 @@ const Heading = Node.create({
           return false
         }
 
-        return commands.toggleBlockType('heading', 'paragraph', attributes)
+        return commands.toggleNode('heading', 'paragraph', attributes)
       },
     }
   },

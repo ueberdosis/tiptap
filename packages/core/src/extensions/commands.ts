@@ -21,9 +21,9 @@ import * as setNode from '../commands/setNode'
 import * as sinkListItem from '../commands/sinkListItem'
 import * as splitBlock from '../commands/splitBlock'
 import * as splitListItem from '../commands/splitListItem'
-import * as toggleBlockType from '../commands/toggleBlockType'
 import * as toggleList from '../commands/toggleList'
 import * as toggleMark from '../commands/toggleMark'
+import * as toggleNode from '../commands/toggleNode'
 import * as toggleWrap from '../commands/toggleWrap'
 import * as unsetMark from '../commands/unsetMark'
 import * as unsetMarks from '../commands/unsetMarks'
@@ -56,9 +56,9 @@ export const Commands = Extension.create({
       ...sinkListItem,
       ...splitBlock,
       ...splitListItem,
-      ...toggleBlockType,
       ...toggleList,
       ...toggleMark,
+      ...toggleNode,
       ...toggleWrap,
       ...unsetMark,
       ...unsetMarks,
