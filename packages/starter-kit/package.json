@@ -39,6 +39,6 @@
     "@tiptap/extension-paragraph": "^2.0.0-alpha.3",
     "@tiptap/extension-strike": "^2.0.0-alpha.3",
     "@tiptap/extension-text": "^2.0.0-alpha.3",
-    "@tiptap/extension-underline": "^2.0.0-alpha3"
+    "@tiptap/extension-underline": "^2.0.0-alpha.3"
   }
 }
