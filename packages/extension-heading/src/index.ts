@@ -60,7 +60,7 @@ const Heading = Node.create({
           return false
         }
 
-        return commands.setBlockType('heading', attributes)
+        return commands.setNode('heading', attributes)
       },
       /**
        * Toggle a heading node

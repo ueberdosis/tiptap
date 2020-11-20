@@ -12,8 +12,8 @@ export const toggleBlockType = (typeOrName: string | NodeType, toggleTypeOrName:
   const isActive = nodeIsActive(state, type, attrs)
 
   if (isActive) {
-    return commands.setBlockType(toggleType)
+    return commands.setNode(toggleType)
   }
 
-  return commands.setBlockType(type, attrs)
+  return commands.setNode(type, attrs)
 }

@@ -78,7 +78,7 @@ const CodeBlock = Node.create({
        * Set a code block
        */
       setCodeBlock: (attributes?: { language: string }): Command => ({ commands }) => {
-        return commands.setBlockType('codeBlock', attributes)
+        return commands.setNode('codeBlock', attributes)
       },
       /**
        * Toggle a code block

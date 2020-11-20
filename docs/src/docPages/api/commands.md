@@ -110,7 +110,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .extendMarkRange()      | Extends the text selection to the current mark.           |
 | .resetNodeAttributes()  | Resets all node attributes to the default value.          |
 | .selectParentNode()     | Select the parent node.                                   |
-| .setBlockType()         | Replace a given range with a node.                        |
+| .setNode()              | Replace a given range with a node.                        |
 | .setMark()              | Add a mark with new attributes.                           |
 | .splitBlock()           | Forks a new node from an existing node.                   |
 | .toggleBlockType()      | Toggle a node with another node.                          |

@@ -15,9 +15,9 @@ import * as resetNodeAttributes from '../commands/resetNodeAttributes'
 import * as scrollIntoView from '../commands/scrollIntoView'
 import * as selectAll from '../commands/selectAll'
 import * as selectParentNode from '../commands/selectParentNode'
-import * as setBlockType from '../commands/setBlockType'
 import * as setContent from '../commands/setContent'
 import * as setMark from '../commands/setMark'
+import * as setNode from '../commands/setNode'
 import * as sinkListItem from '../commands/sinkListItem'
 import * as splitBlock from '../commands/splitBlock'
 import * as splitListItem from '../commands/splitListItem'
@@ -50,9 +50,9 @@ export const Commands = Extension.create({
       ...scrollIntoView,
       ...selectAll,
       ...selectParentNode,
-      ...setBlockType,
       ...setContent,
       ...setMark,
+      ...setNode,
       ...sinkListItem,
       ...splitBlock,
       ...splitListItem,
