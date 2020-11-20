@@ -52,6 +52,8 @@ export class Editor extends EventEmitter {
     editable: true,
     editorProps: {},
     parseOptions: {},
+    enableInputRules: true,
+    enablePasteRules: true,
     onInit: () => null,
     onUpdate: () => null,
     onTransaction: () => null,

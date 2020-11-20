@@ -23,6 +23,8 @@ export interface EditorOptions {
   editable: boolean,
   editorProps: EditorProps,
   parseOptions: ParseOptions,
+  enableInputRules: boolean,
+  enablePasteRules: boolean,
   onInit: () => void,
   onUpdate: () => void,
   onTransaction: (props: { transaction: Transaction }) => void,
