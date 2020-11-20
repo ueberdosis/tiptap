@@ -71,14 +71,14 @@ context('/api/nodes/blockquote', () => {
       .should('not.exist')
   })
 
-  it('the keyboard shortcut should make the selected line a blockquote', () => {
+  it('should make the selected line a blockquote when the keyboard shortcut is pressed', () => {
     cy.get('.ProseMirror')
       .trigger('keydown', { shiftKey: true, modKey: true, key: 'b' })
       .find('blockquote')
       .should('contain', 'Example Text')
   })
 
-  it('the keyboard shortcut should toggle the blockquote', () => {
+  it('should toggle the blockquote when the keyboard shortcut is pressed', () => {
     cy.get('.ProseMirror blockquote')
       .should('not.exist')
 

@@ -56,14 +56,14 @@ context('/api/marks/bold', () => {
     cy.get('.ProseMirror strong').should('not.exist')
   })
 
-  it('the keyboard shortcut should make the selected text bold', () => {
+  it('should make the selected text bold when the keyboard shortcut is pressed', () => {
     cy.get('.ProseMirror')
       .trigger('keydown', { modKey: true, key: 'b' })
       .find('strong')
       .should('contain', 'Example Text')
   })
 
-  it('the keyboard shortcut should toggle the selected text bold', () => {
+  it('should toggle the selected text bold when the keyboard shortcut is pressed', () => {
     cy.get('.ProseMirror')
       .trigger('keydown', { modKey: true, key: 'b' })
       .find('strong')

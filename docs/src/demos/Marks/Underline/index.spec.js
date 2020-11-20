@@ -48,14 +48,14 @@ context('/api/marks/underline', () => {
       .should('not.exist')
   })
 
-  it('the keyboard shortcut should underline the selected text', () => {
+  it('should underline the selected text when the keyboard shortcut is pressed', () => {
     cy.get('.ProseMirror')
       .trigger('keydown', { modKey: true, key: 'u' })
       .find('u')
       .should('contain', 'Example Text')
   })
 
-  it('the keyboard shortcut should toggle the selected text underline', () => {
+  it('should toggle the selected text underline when the keyboard shortcut is pressed', () => {
     cy.get('.ProseMirror')
       .trigger('keydown', { modKey: true, key: 'u' })
       .trigger('keydown', { modKey: true, key: 'u' })

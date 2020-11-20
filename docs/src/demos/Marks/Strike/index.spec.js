@@ -62,14 +62,14 @@ context('/api/marks/strike', () => {
       .should('not.exist')
   })
 
-  it('the keyboard shortcut should strike the selected text', () => {
+  it('should strike the selected text when the keyboard shortcut is pressed', () => {
     cy.get('.ProseMirror')
       .trigger('keydown', { modKey: true, shiftKey: true, key: 'x' })
       .find('s')
       .should('contain', 'Example Text')
   })
 
-  it('the keyboard shortcut should toggle the selected text striked', () => {
+  it('should toggle the selected text striked when the keyboard shortcut is pressed', () => {
     cy.get('.ProseMirror')
       .trigger('keydown', { modKey: true, shiftKey: true, key: 'x' })
       .trigger('keydown', { modKey: true, shiftKey: true, key: 'x' })
