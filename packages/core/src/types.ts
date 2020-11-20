@@ -32,6 +32,11 @@ export interface EditorOptions {
   onBlur: (props: { event: FocusEvent }) => void,
 }
 
+export type EditorSelection = {
+  from: number,
+  to: number,
+}
+
 export type EditorContent = string | JSON | null
 
 export type Command = (props: {

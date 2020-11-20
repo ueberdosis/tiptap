@@ -14,7 +14,12 @@ import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
-import { EditorOptions, EditorContent, CommandSpec } from './types'
+import {
+  EditorOptions,
+  EditorContent,
+  CommandSpec,
+  EditorSelection,
+} from './types'
 import * as extensions from './extensions'
 import style from './style'
 
@@ -39,7 +44,7 @@ export class Editor extends EventEmitter {
 
   public view!: EditorView
 
-  public selection = { from: 0, to: 0 }
+  public selection: EditorSelection = { from: 0, to: 0 }
 
   public isFocused = false
 
