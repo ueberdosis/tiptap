@@ -25,8 +25,8 @@ import * as toggleList from '../commands/toggleList'
 import * as toggleMark from '../commands/toggleMark'
 import * as toggleNode from '../commands/toggleNode'
 import * as toggleWrap from '../commands/toggleWrap'
+import * as unsetAllMarks from '../commands/unsetAllMarks'
 import * as unsetMark from '../commands/unsetMark'
-import * as unsetMarks from '../commands/unsetMarks'
 import * as updateNodeAttributes from '../commands/updateNodeAttributes'
 import * as wrapIn from '../commands/wrapIn'
 import * as wrapInList from '../commands/wrapInList'
@@ -61,7 +61,7 @@ export const Commands = Extension.create({
       ...toggleNode,
       ...toggleWrap,
       ...unsetMark,
-      ...unsetMarks,
+      ...unsetAllMarks,
       ...updateNodeAttributes,
       ...wrapIn,
       ...wrapInList,

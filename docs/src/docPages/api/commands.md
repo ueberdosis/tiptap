@@ -116,8 +116,8 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .toggleMark()           | Toggle a mark on and off.                                 |
 | .toggleNode()           | Toggle a node with another node.                          |
 | .toggleWrap()           | Wraps nodes in another node, or removes an existing wrap. |
+| .unsetAllMarks()        | Remove all marks in the current selection.                |
 | .unsetMark()            | Remove a mark in the current selection.                   |
-| .unsetMarks()           | Remove all marks in the current selection.                |
 | .updateNodeAttributes() | Update attributes of a node.                              |
 
 ### Lists
