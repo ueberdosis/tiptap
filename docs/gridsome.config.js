@@ -1,4 +1,5 @@
 const path = require('path')
+const visit = require('unist-util-visit')
 
 function addStyleResource(rule) {
   rule.use('style-resource')
@@ -8,6 +9,28 @@ function addStyleResource(rule) {
         path.resolve(__dirname, './src/variables.scss'),
       ],
     })
+}
+
+function tableWrapper() {
+  return async tree => {
+    visit(
+      tree,
+      'table',
+      (node, index, parent) => {
+        if (node.type === 'table' && parent.type === 'root') {
+          const original = { ...node }
+
+          node.type = 'div'
+          node.children = [original]
+          node.data = {
+            hProperties: {
+              class: 'table-wrapper',
+            },
+          }
+        }
+      },
+    )
+  }
 }
 
 module.exports = {
@@ -26,6 +49,7 @@ module.exports = {
           '@gridsome/remark-prismjs',
           'remark-container',
           'remark-toc',
+          tableWrapper,
         ],
         remark: {
           autolinkHeadings: {
