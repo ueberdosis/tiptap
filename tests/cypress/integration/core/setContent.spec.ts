@@ -17,7 +17,7 @@ describe('setContent', () => {
 
     const command = editor.commands.setContent('<p>Cindy Lauper</p>')
 
-    expect(command).to.be.true
+    expect(command).to.be.eq(true)
   })
 
   it('replaces the content when using setContent', () => {

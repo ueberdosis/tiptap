@@ -17,7 +17,7 @@ describe('clearContent', () => {
 
     const command = editor.commands.clearContent()
 
-    expect(command).to.be.true
+    expect(command).to.be.eq(true)
   })
 
   it('clears the content when using clearContent', () => {

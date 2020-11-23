@@ -17,7 +17,7 @@ describe('insertHTML', () => {
 
     const command = editor.commands.insertHTML('<p>Cindy Lauper</p>')
 
-    expect(command).to.be.true
+    expect(command).to.be.eq(true)
   })
 
   it('appends the content when using insertHTML', () => {
