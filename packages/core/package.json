@@ -33,6 +33,6 @@
     "prosemirror-tables": "^1.1.1",
     "prosemirror-transform": "^1.2.8",
     "prosemirror-utils": "^1.0.0-0",
-    "prosemirror-view": "^1.16.2"
+    "prosemirror-view": "^1.16.3"
   }
 }
