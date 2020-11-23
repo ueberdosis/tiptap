@@ -23,11 +23,18 @@ export interface EditorOptions {
   editable: boolean,
   editorProps: EditorProps,
   parseOptions: ParseOptions,
+  enableInputRules: boolean,
+  enablePasteRules: boolean,
   onInit: () => void,
   onUpdate: () => void,
   onTransaction: (props: { transaction: Transaction }) => void,
   onFocus: (props: { event: FocusEvent }) => void,
   onBlur: (props: { event: FocusEvent }) => void,
+}
+
+export type EditorSelection = {
+  from: number,
+  to: number,
 }
 
 export type EditorContent = string | JSON | null

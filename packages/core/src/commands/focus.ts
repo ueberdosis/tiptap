@@ -1,16 +1,10 @@
-import { TextSelection } from 'prosemirror-state'
-import { Editor } from '../Editor'
+import { EditorState, TextSelection } from 'prosemirror-state'
 import { Command, FocusPosition } from '../types'
 import minMax from '../utils/minMax'
 
-interface ResolvedSelection {
-  from: number,
-  to: number,
-}
-
-function resolveSelection(editor: Editor, position: FocusPosition = null): ResolvedSelection {
-  if (position === null) {
-    return editor.selection
+function resolveSelection(state: EditorState, position: FocusPosition = null) {
+  if (!position) {
+    return null
   }
 
   if (position === 'start' || position === true) {
@@ -21,17 +15,17 @@ function resolveSelection(editor: Editor, position: FocusPosition = null): Resol
   }
 
   if (position === 'end') {
-    const { size } = editor.state.doc.content
+    const { size } = state.doc.content
 
     return {
       from: size,
-      to: size - 1, // TODO: -1 only for nodes with content
+      to: size,
     }
   }
 
   return {
-    from: position as number,
-    to: position as number,
+    from: position,
+    to: position,
   }
 }
 
@@ -48,7 +42,7 @@ export const focus = (position: FocusPosition = null): Command => ({
     return true
   }
 
-  const { from, to } = resolveSelection(editor, position)
+  const { from, to } = resolveSelection(editor.state, position) || editor.selection
   const { doc } = tr
   const resolvedFrom = minMax(from, 0, doc.content.size)
   const resolvedEnd = minMax(to, 0, doc.content.size)

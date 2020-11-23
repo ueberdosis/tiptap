@@ -25,6 +25,6 @@
     "vue": "^2.6.12"
   },
   "dependencies": {
-    "prosemirror-view": "^1.16.2"
+    "prosemirror-view": "^1.16.3"
   }
 }

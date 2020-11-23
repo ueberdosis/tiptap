@@ -43,6 +43,25 @@ context('/api/marks/code', () => {
       .should('not.exist')
   })
 
+  it('should make the selected text bold when the keyboard shortcut is pressed', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, key: 'e' })
+      .find('code')
+      .should('contain', 'Example Text')
+  })
+
+  it('should toggle the selected text bold when the keyboard shortcut is pressed', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, key: 'e' })
+      .find('code')
+      .should('contain', 'Example Text')
+
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, key: 'e' })
+
+    cy.get('.ProseMirror code').should('not.exist')
+  })
+
   it('should make inline code from the markdown shortcut', () => {
     cy.get('.ProseMirror')
       .type('`Example`')

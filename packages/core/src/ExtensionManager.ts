@@ -1,4 +1,3 @@
-import { Plugin } from 'prosemirror-state'
 import { keymap } from 'prosemirror-keymap'
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { inputRules } from 'prosemirror-inputrules'
@@ -37,7 +36,7 @@ export default class ExtensionManager {
     })
   }
 
-  get plugins(): Plugin[] {
+  get plugins() {
     const plugins = this.extensions
       .map(extension => {
         const context = {
@@ -58,7 +57,11 @@ export default class ExtensionManager {
     ]
   }
 
-  get inputRules(): any {
+  get inputRules() {
+    if (!this.editor.options.enableInputRules) {
+      return []
+    }
+
     return this.extensions
       .map(extension => {
         const context = {
@@ -72,7 +75,11 @@ export default class ExtensionManager {
       .flat()
   }
 
-  get pasteRules(): any {
+  get pasteRules() {
+    if (!this.editor.options.enablePasteRules) {
+      return []
+    }
+
     return this.extensions
       .map(extension => {
         const context = {

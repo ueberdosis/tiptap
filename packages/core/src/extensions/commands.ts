@@ -15,18 +15,18 @@ import * as resetNodeAttributes from '../commands/resetNodeAttributes'
 import * as scrollIntoView from '../commands/scrollIntoView'
 import * as selectAll from '../commands/selectAll'
 import * as selectParentNode from '../commands/selectParentNode'
-import * as setBlockType from '../commands/setBlockType'
 import * as setContent from '../commands/setContent'
 import * as setMark from '../commands/setMark'
+import * as setNode from '../commands/setNode'
 import * as sinkListItem from '../commands/sinkListItem'
 import * as splitBlock from '../commands/splitBlock'
 import * as splitListItem from '../commands/splitListItem'
-import * as toggleBlockType from '../commands/toggleBlockType'
 import * as toggleList from '../commands/toggleList'
 import * as toggleMark from '../commands/toggleMark'
+import * as toggleNode from '../commands/toggleNode'
 import * as toggleWrap from '../commands/toggleWrap'
+import * as unsetAllMarks from '../commands/unsetAllMarks'
 import * as unsetMark from '../commands/unsetMark'
-import * as unsetMarks from '../commands/unsetMarks'
 import * as updateNodeAttributes from '../commands/updateNodeAttributes'
 import * as wrapIn from '../commands/wrapIn'
 import * as wrapInList from '../commands/wrapInList'
@@ -50,18 +50,18 @@ export const Commands = Extension.create({
       ...scrollIntoView,
       ...selectAll,
       ...selectParentNode,
-      ...setBlockType,
       ...setContent,
       ...setMark,
+      ...setNode,
       ...sinkListItem,
       ...splitBlock,
       ...splitListItem,
-      ...toggleBlockType,
       ...toggleList,
       ...toggleMark,
+      ...toggleNode,
       ...toggleWrap,
       ...unsetMark,
-      ...unsetMarks,
+      ...unsetAllMarks,
       ...updateNodeAttributes,
       ...wrapIn,
       ...wrapInList,

@@ -100,6 +100,10 @@ export default {
     },
 
     githubUrl() {
+      if (process.env.NODE_ENV === 'development') {
+        return `vscode://file${this.cwd}/src/demos/${this.name}/${this.files[0].name}`
+      }
+
       return `https://github.com/ueberdosis/tiptap-next/tree/main/docs/src/demos/${this.name}`
     },
   },

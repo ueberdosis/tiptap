@@ -82,7 +82,7 @@
     > p code,
     > ul code,
     > ol code,
-    > table code,
+    > .table-wrapper code,
     > .remark-container code {
       color: $colorYellow;
       background-color: rgba($colorYellow, 0.1);
@@ -92,7 +92,7 @@
     > p a,
     > ul a,
     > ol a,
-    > table a,
+    > .table-wrapper a,
     > .remark-container a {
       text-decoration: underline;
 
@@ -187,46 +187,55 @@
       }
     }
 
-    > table {
+    > .table-wrapper {
+      display: block;
       width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      text-align: left;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
 
-      th,
-      td {
-        padding: 0.5rem;
+      > table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+        text-align: left;
 
-        &:first-child {
-          padding-left: 0;
+        th,
+        td {
+          padding: 0.5rem;
+          min-width: 8rem;
+
+          &:first-child {
+            padding-left: 0;
+          }
+
+          &:last-child {
+            padding-right: 0;
+          }
         }
 
-        &:last-child {
-          padding-right: 0;
+        th {
+          white-space: nowrap;
+          color: $colorWhite;
+          font-weight: 500;
+          border-bottom: 1px solid rgba($colorWhite, 0.2);
         }
-      }
 
-      th {
-        color: $colorWhite;
-        font-weight: 500;
-        border-bottom: 1px solid rgba($colorWhite, 0.2);
-      }
+        td {
+          border-bottom: 1px solid rgba($colorWhite, 0.1);
+        }
 
-      td {
-        border-bottom: 1px solid rgba($colorWhite, 0.1);
-      }
-
-      tr:last-child td {
-        border-bottom: 0;
-      }
-
-      tbody tr {
-        &:last-child td {
+        tr:last-child td {
           border-bottom: 0;
         }
 
-        &:hover {
-          background: rgba($colorWhite, 0.02);
+        tbody tr {
+          &:last-child td {
+            border-bottom: 0;
+          }
+
+          &:hover {
+            background: rgba($colorWhite, 0.02);
+          }
         }
       }
     }
