@@ -45,7 +45,6 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-vue": "^7.0.1",
     "lerna": "^3.22.1",
-    "levenary": "^1.1.1",
     "minimist": "^1.2.5",
     "rollup": "^2.33.3",
     "rollup-plugin-auto-external": "^2.0.0",
