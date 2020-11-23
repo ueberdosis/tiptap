@@ -40,8 +40,8 @@ class VueNodeView implements NodeView {
     const { id } = this
 
     const Inner = Vue.extend({
-      functional: true,
-      // inheritAttrs: false,
+      // functional: true,
+      inheritAttrs: false,
       props: {
         as: {
           type: String,
@@ -50,8 +50,8 @@ class VueNodeView implements NodeView {
       },
       render(createElement, context) {
         return createElement(
-          context.props.as, {
-          // this.as, {
+          // context.props.as, {
+          this.as, {
             style: {
               whiteSpace: 'pre-wrap',
             },
@@ -114,19 +114,18 @@ class VueNodeView implements NodeView {
   }
 
   ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
-    // return false
-    // if (mutation.type === 'selection') {
-    //   console.log({ mutation })
-    //   return true
-    // }
-    // return true
-    // console.log({ mutation })
+    if (mutation.type === 'selection') {
+      return true
+    }
 
     if (!this.contentDOM) {
       return true
     }
 
-    return !this.contentDOM.contains(mutation.target)
+    const contentDOMHasChanged = !this.contentDOM.contains(mutation.target)
+      || this.contentDOM === mutation.target
+
+    return contentDOMHasChanged
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
