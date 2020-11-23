@@ -63,6 +63,8 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': ['error'],
         'no-use-before-define': 'off',
         '@typescript-eslint/no-use-before-define': ['error'],
+        'no-dupe-class-members': 'off',
+        '@typescript-eslint/no-dupe-class-members': ['error'],
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-empty-interface': 'off',
         '@typescript-eslint/explicit-module-boundary-type': 'off',

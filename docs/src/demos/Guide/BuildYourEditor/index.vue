@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="editor">
-      <button @click="editor.chain().focus().unsetMarks().run()">
+      <button @click="editor.chain().focus().unsetAllMarks().run()">
         clear formatting
       </button>
       <button @click="editor.chain().focus().undo().run()">

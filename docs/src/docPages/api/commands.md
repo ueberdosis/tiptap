@@ -110,14 +110,14 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .extendMarkRange()      | Extends the text selection to the current mark.           |
 | .resetNodeAttributes()  | Resets all node attributes to the default value.          |
 | .selectParentNode()     | Select the parent node.                                   |
-| .setBlockType()         | Replace a given range with a node.                        |
 | .setMark()              | Add a mark with new attributes.                           |
+| .setNode()              | Replace a given range with a node.                        |
 | .splitBlock()           | Forks a new node from an existing node.                   |
-| .toggleBlockType()      | Toggle a node with another node.                          |
 | .toggleMark()           | Toggle a mark on and off.                                 |
+| .toggleNode()           | Toggle a node with another node.                          |
 | .toggleWrap()           | Wraps nodes in another node, or removes an existing wrap. |
+| .unsetAllMarks()        | Remove all marks in the current selection.                |
 | .unsetMark()            | Remove a mark in the current selection.                   |
-| .unsetMarks()           | Remove all marks in the current selection.                |
 | .updateNodeAttributes() | Update attributes of a node.                              |
 
 ### Lists

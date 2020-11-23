@@ -100,6 +100,33 @@ new Editor({
 | `false`   | Disables autofocus.                                    |
 | `null`    | Disables autofocus.                                    |
 
+### Enable input rules
+By default, tiptap enables all [input rules](/guide/build-custom-extensions/#input-rules). With `enableInputRules` you can disable that.
+
+```js
+import { Editor } from '@tiptap/core'
+import { defaultExtensions } from '@tiptap/starter-kit'
+
+new Editor({
+  content: `<p>Example Text</p>`,
+  extensions: defaultExtensions(),
+  enableInputRules: false,
+})
+```
+
+### Enable paste rules
+By default, tiptap enables all [paste rules](/guide/build-custom-extensions/#paste-rules). With `enablePasteRules` you can disable that.
+
+```js
+import { Editor } from '@tiptap/core'
+import { defaultExtensions } from '@tiptap/starter-kit'
+
+new Editor({
+  content: `<p>Example Text</p>`,
+  extensions: defaultExtensions(),
+  enablePasteRules: false,
+})
+```
 
 ### Inject CSS
 By default, tiptap injects [a little bit of CSS](https://github.com/ueberdosis/tiptap-next/tree/main/packages/core/src/style.ts). With `injectCSS` you can disable that.

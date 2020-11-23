@@ -275,7 +275,7 @@ const CustomParagraph = Paragraph.extend({
   addCommands() {
     return {
       paragraph: () => ({ commands }) => {
-        return commands.toggleBlockType('paragraph', 'paragraph')
+        return commands.toggleNode('paragraph', 'paragraph')
       },
     }
   },
