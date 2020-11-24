@@ -6,6 +6,7 @@
     <div contenteditable="false">
       checked: {{ node.attrs.checked }}
     </div>
+    <div contenteditable="false" style="width: 20px; height: 20px; background: red" data-drag-handle />
     <node-view-content />
   </node-view-wrapper>
 </template>

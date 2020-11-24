@@ -23,6 +23,8 @@ class VueNodeView implements NodeView {
 
   getPos!: any
 
+  isDragging = false
+
   constructor(component: Vue | VueConstructor, props: NodeViewRendererProps) {
     this.editor = props.editor
     this.extension = props.extension
@@ -38,7 +40,6 @@ class VueNodeView implements NodeView {
 
   createNodeViewWrapper() {
     return Vue.extend({
-      inheritAttrs: false,
       props: {
         as: {
           type: String,
@@ -125,14 +126,32 @@ class VueNodeView implements NodeView {
     return this.vm.$el.querySelector(`#${this.id}`)
   }
 
-  stopEvent(event: Event): boolean {
+  stopEvent(event: Event) {
     const isDraggable = this.node.type.spec.draggable
-    const isCopy = event.type === 'copy'
-    const isPaste = event.type === 'paste'
-    const isCut = event.type === 'cut'
-    const isDrag = event.type.startsWith('drag') || event.type === 'drop'
+    const isCopyEvent = event.type === 'copy'
+    const isPasteEvent = event.type === 'paste'
+    const isCutEvent = event.type === 'cut'
+    const isDragEvent = event.type.startsWith('drag') || event.type === 'drop'
 
-    if ((isDraggable && isDrag) || isCopy || isPaste || isCut) {
+    if (isDragEvent && !this.isDragging) {
+      event.preventDefault()
+    }
+
+    if (isDraggable && !this.isDragging && event.type === 'mousedown') {
+      const target = (event.target as HTMLElement)
+      const dragHandle = target.closest('[data-drag-handle]')
+      const isValidDragHandle = dragHandle
+        && (this.dom === dragHandle || this.dom.contains(dragHandle))
+
+      if (isValidDragHandle) {
+        this.isDragging = true
+        document.addEventListener('dragend', () => {
+          this.isDragging = false
+        }, { once: true })
+      }
+    }
+
+    if (this.isDragging || isCopyEvent || isPasteEvent || isCutEvent) {
       return false
     }
 
