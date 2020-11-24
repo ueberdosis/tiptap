@@ -8,7 +8,8 @@ export interface LinkOptions {
   },
 }
 
-export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)/gi
+export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
+export const pasteRegexWithBrackets = /(?:\()https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)(?:\))/gi
 
 const Link = Mark.create({
   name: 'link',
@@ -70,6 +71,7 @@ const Link = Mark.create({
   addPasteRules() {
     return [
       markPasteRule(pasteRegex, this.type, (url: string) => ({ href: url })),
+      markPasteRule(pasteRegexWithBrackets, this.type, (url: string) => ({ href: url })),
     ]
   },
 
