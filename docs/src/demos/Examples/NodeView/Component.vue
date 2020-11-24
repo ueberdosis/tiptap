@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper>
+  <node-view-wrapper style="padding-left: 1rem">
     <button @click="toggleChecked" contenteditable="false">
       toggle checked
     </button>

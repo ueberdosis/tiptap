@@ -36,7 +36,10 @@ export default {
       content: `
         <p>paragraph</p>
         <div data-type="test">
-          text
+          one
+          <div data-type="test">
+            two
+          </div>
         </div>
         <p>paragraph</p>
       `,

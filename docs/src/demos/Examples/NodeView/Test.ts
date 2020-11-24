@@ -7,11 +7,12 @@ export default Node.create({
 
   group: 'block',
 
-  content: 'inline*',
+  // content: 'inline*',
+  content: 'block*',
 
   draggable: true,
 
-  selectable: false,
+  selectable: true,
 
   addAttributes() {
     return {

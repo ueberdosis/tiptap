@@ -1,9 +1,7 @@
 import { Editor, Node, NodeViewRendererProps } from '@tiptap/core'
 import { Decoration, NodeView } from 'prosemirror-view'
-
-import {
-  Node as ProseMirrorNode,
-} from 'prosemirror-model'
+import { NodeSelection } from 'prosemirror-state'
+import { Node as ProseMirrorNode } from 'prosemirror-model'
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
 
@@ -39,6 +37,10 @@ class VueNodeView implements NodeView {
   }
 
   createNodeViewWrapper() {
+    const nodeview = this
+    const { view } = this.editor
+    const { getPos } = this
+
     return Vue.extend({
       props: {
         as: {
@@ -51,6 +53,21 @@ class VueNodeView implements NodeView {
           this.as, {
             style: {
               whiteSpace: 'normal',
+            },
+            // attrs: {
+            //   // draggable: false,
+            //   contenteditable: false,
+            // },
+            on: {
+              dragstart: (event: Event) => {
+                const target = (event.target as HTMLElement)
+
+                if (nodeview.contentDOM?.contains(target)) {
+                  return
+                }
+
+                view.dispatch(view.state.tr.setSelection(NodeSelection.create(view.state.doc, getPos())))
+              },
             },
           },
           this.$slots.default,
@@ -127,6 +144,7 @@ class VueNodeView implements NodeView {
   }
 
   stopEvent(event: Event) {
+    const target = (event.target as HTMLElement)
     const isDraggable = this.node.type.spec.draggable
     const isCopyEvent = event.type === 'copy'
     const isPasteEvent = event.type === 'paste'
@@ -138,10 +156,11 @@ class VueNodeView implements NodeView {
     }
 
     if (isDraggable && !this.isDragging && event.type === 'mousedown') {
-      const target = (event.target as HTMLElement)
       const dragHandle = target.closest('[data-drag-handle]')
+      // const isValidDragHandle = dragHandle
+      //   && (this.dom === dragHandle || (this.dom.contains(dragHandle) && !this.contentDOM?.contains(dragHandle)))
       const isValidDragHandle = dragHandle
-        && (this.dom === dragHandle || this.dom.contains(dragHandle))
+        && (this.dom === dragHandle || (this.dom.contains(dragHandle)))
 
       if (isValidDragHandle) {
         this.isDragging = true
@@ -171,6 +190,18 @@ class VueNodeView implements NodeView {
       || this.contentDOM === mutation.target
 
     return contentDOMHasChanged
+  }
+
+  selectNode() {
+    // this.updateComponentProps({
+    //   selected: true,
+    // })
+  }
+
+  deselectNode() {
+    // this.updateComponentProps({
+    //   selected: false,
+    // })
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
