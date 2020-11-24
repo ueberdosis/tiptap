@@ -13,8 +13,6 @@ export default Node.create({
 
   selectable: false,
 
-  // atom: true,
-
   addAttributes() {
     return {
       checked: {

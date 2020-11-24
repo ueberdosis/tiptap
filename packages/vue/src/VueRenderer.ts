@@ -6,9 +6,6 @@ import {
 } from 'prosemirror-model'
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
-// import Inner from './components/Inner.vue'
-
-// const Inner = Vue.extend()
 
 class VueNodeView implements NodeView {
 
@@ -31,16 +28,16 @@ class VueNodeView implements NodeView {
     this.extension = props.extension
     this.node = props.node
     this.getPos = props.getPos
+    this.createUniqueId()
     this.mount(component)
   }
 
-  mount(component: Vue | VueConstructor) {
-    this.id = `id_${Math.random().toString(36).replace('0.', '')}`
+  createUniqueId() {
+    this.id = `id_${Math.floor(Math.random() * 0xFFFFFFFF)}`
+  }
 
-    const { id } = this
-
-    const Inner = Vue.extend({
-      // functional: true,
+  createNodeViewWrapper() {
+    return Vue.extend({
       inheritAttrs: false,
       props: {
         as: {
@@ -48,38 +45,69 @@ class VueNodeView implements NodeView {
           default: 'div',
         },
       },
-      render(createElement, context) {
+      render(createElement) {
         return createElement(
-          // context.props.as, {
+          this.as, {
+            style: {
+              whiteSpace: 'normal',
+            },
+          },
+          this.$slots.default,
+        )
+      },
+    })
+  }
+
+  createNodeViewContent() {
+    const { id } = this
+
+    return Vue.extend({
+      inheritAttrs: false,
+      props: {
+        as: {
+          type: String,
+          default: 'div',
+        },
+      },
+      render(createElement) {
+        return createElement(
           this.as, {
             style: {
               whiteSpace: 'pre-wrap',
             },
             attrs: {
               id,
-              // contenteditable: true,
+              contenteditable: true,
             },
           },
         )
       },
     })
+  }
+
+  mount(component: Vue | VueConstructor) {
+    const NodeViewWrapper = this.createNodeViewWrapper()
+    const NodeViewContent = this.createNodeViewContent()
 
     const Component = Vue
       .extend(component)
       .extend({
         components: {
-          Inner,
+          NodeViewWrapper,
+          NodeViewContent,
         },
       })
 
     const props = {
       editor: this.editor,
-      inner: Inner,
+      NodeViewWrapper,
+      NodeViewContent,
       node: this.node,
-      updateAttrs: (attrs: {}) => this.updateAttrs(attrs),
+      updateAttributes: (attrs: {}) => this.updateAttributes(attrs),
     }
 
     this.vm = new Component({
+      // TODO: get parent component <editor-content>
       // parent: this.parent,
       propsData: props,
     }).$mount()
@@ -98,8 +126,6 @@ class VueNodeView implements NodeView {
   }
 
   stopEvent(event: Event): boolean {
-    // console.log(event.type)
-
     const isDraggable = this.node.type.spec.draggable
     const isCopy = event.type === 'copy'
     const isPaste = event.type === 'paste'
@@ -139,7 +165,6 @@ class VueNodeView implements NodeView {
 
     this.node = node
     this.decorations = decorations
-
     this.updateComponentProps()
 
     return true
@@ -150,24 +175,17 @@ class VueNodeView implements NodeView {
     this.vm.$props.decorations = this.decorations
   }
 
-  updateAttrs(attrs: {}) {
+  updateAttributes(attributes: {}) {
     if (!this.editor.view.editable) {
       return
     }
 
     const { state } = this.editor.view
-    // const { type } = this.node
     const pos = this.getPos()
-    const newAttrs = {
+    const transaction = state.tr.setNodeMarkup(pos, undefined, {
       ...this.node.attrs,
-      ...attrs,
-    }
-    // const transaction = this.isMark
-    //   ? state.tr
-    //     .removeMark(pos.from, pos.to, type)
-    //     .addMark(pos.from, pos.to, type.create(newAttrs))
-    //   : state.tr.setNodeMarkup(pos, null, newAttrs)
-    const transaction = state.tr.setNodeMarkup(pos, undefined, newAttrs)
+      ...attributes,
+    })
 
     this.editor.view.dispatch(transaction)
   }

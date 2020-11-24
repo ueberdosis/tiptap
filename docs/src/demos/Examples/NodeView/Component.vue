@@ -1,25 +1,13 @@
 <template>
-  <!-- <div style="white-space: normal;">
-    node view
-    <button @click="editor.chain().focus().insertText('hey').run()">
-      button
-    </button>
-    <div>
-      attrs {{ node.attrs }}
-    </div>
-    <inner />
-  </div> -->
-  <!-- <inner /> -->
-  <div style="white-space: normal;">
-    <button @click="toggleChecked">
+  <node-view-wrapper>
+    <button @click="toggleChecked" contenteditable="false">
       toggle checked
     </button>
-    hey {{ node.attrs.checked }}
-    <inner />
-  </div>
-
-  <!-- <inner as="p" :class="random" foo="bar" /> -->
-  <!-- <component :is="inner" as="p" /> -->
+    <div contenteditable="false">
+      checked: {{ node.attrs.checked }}
+    </div>
+    <node-view-content />
+  </node-view-wrapper>
 </template>
 
 <script>
@@ -35,12 +23,7 @@ export default {
       required: true,
     },
 
-    inner: {
-      type: [Object, Function],
-      required: true,
-    },
-
-    updateAttrs: {
+    updateAttributes: {
       type: Function,
       required: true,
     },
@@ -48,31 +31,23 @@ export default {
 
   data() {
     return {
-      random: 'foo',
+      // random: 'foo',
     }
   },
 
   methods: {
     toggleChecked() {
-      this.editor.commands.focus()
-      this.updateAttrs({
+      // this.editor.commands.focus()
+      this.updateAttributes({
         checked: !this.node.attrs.checked,
       })
     },
   },
 
   mounted() {
-    // console.log(this.node)
-
-    console.log('mounted')
     // setInterval(() => {
     //   this.random = `foo${Math.random()}`
     // }, 1000)
-    // console.log(this)
   },
 }
 </script>
-
-<style>
-
-</style>
