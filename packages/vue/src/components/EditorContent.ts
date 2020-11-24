@@ -17,7 +17,6 @@ export default Vue.extend({
         if (editor && editor.options.element) {
           this.$nextTick(() => {
             this.$el.appendChild(editor.options.element.firstChild)
-            console.log('append')
             // editor.setParentComponent(this)
           })
         }
