@@ -55,7 +55,38 @@ To actually start using tiptap, you’ll need to add a new component to your app
 
 This is the fastest way to get tiptap up and running with Vue. It will give you a very basic version of tiptap, without any buttons. No worries, you will be able to add more functionality soon.
 
-<demo name="Guide/GettingStarted" />
+```html
+<template>
+  <editor-content :editor="editor" />
+</template>
+
+<script>
+import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
+
+export default {
+  components: {
+    EditorContent,
+  },
+
+  data() {
+    return {
+      editor: null,
+    }
+  },
+
+  mounted() {
+    this.editor = new Editor({
+      content: '<p>I’m running tiptap with Vue.js. 🎉</p>',
+      extensions: defaultExtensions(),
+    })
+  },
+
+  beforeDestroy() {
+    this.editor.destroy()
+  },
+}
+</script>
+```
 
 ## 5. Add it to your app
 Now, let’s replace the content of `src/App.vue` with the following example code to use our new `Tiptap` component in our app.

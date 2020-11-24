@@ -81,4 +81,32 @@ context('/api/extensions/text-align', () => {
       .find('p')
       .should('have.css', 'text-align', 'left')
   })
+
+  it('aligns the text left when pressing the keyboard shortcut', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, shiftKey: true, key: 'l' })
+      .find('p')
+      .should('have.css', 'text-align', 'left')
+  })
+
+  it('aligns the text center when pressing the keyboard shortcut', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, shiftKey: true, key: 'e' })
+      .find('p')
+      .should('have.css', 'text-align', 'center')
+  })
+
+  it('aligns the text right when pressing the keyboard shortcut', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, shiftKey: true, key: 'r' })
+      .find('p')
+      .should('have.css', 'text-align', 'right')
+  })
+
+  it('aligns the text justified when pressing the keyboard shortcut', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, shiftKey: true, key: 'j' })
+      .find('p')
+      .should('have.css', 'text-align', 'justify')
+  })
 })

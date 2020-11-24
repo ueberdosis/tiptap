@@ -1,8 +1,10 @@
-# Create your editor
+# Create a new toolbar
 
 ## toc
 
-## Introduction
+TODO
+
+<!-- ## Introduction
 In its simplest version tiptap comes very raw. There is no menu, no buttons, no styling. That’s intended. See tiptap as your building blocks to build exactly the editor you would like to have.
 
 ## Adding a menu
@@ -24,4 +26,4 @@ Note that `Document`, `Paragraph` and `Text` are required. Otherwise you won’t
 
 <demo name="Guide/BuildYourEditor" highlight="10-13,30-33" />
 
-That’s also the place where you can register custom extensions, which you or someone else built for tiptap.
+That’s also the place where you can register custom extensions, which you or someone else built for tiptap. -->

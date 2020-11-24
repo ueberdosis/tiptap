@@ -48,7 +48,7 @@ Most of the core extensions register their own keyboard shortcuts. Depending on 
 | Center align            | `Control`&nbsp;`Shift`&nbsp;`E` | `Cmd`&nbsp;`Shift`&nbsp;`E` |
 | Right align             | `Control`&nbsp;`Shift`&nbsp;`R` | `Cmd`&nbsp;`Shift`&nbsp;`R` |
 | Justify                 | `Control`&nbsp;`Shift`&nbsp;`J` | `Cmd`&nbsp;`Shift`&nbsp;`J` |
-| Task list               | `Control`&nbsp;`Shift`&nbsp;`L` | `Cmd`&nbsp;`Shift`&nbsp;`L` |
+| Task list               | `Control`&nbsp;`Shift`&nbsp;`L` | `Cmd`&nbsp;`Shift`&nbsp;`L` (TODO: Conflict!) |
 | Code block              | `Control`&nbsp;`Alt`&nbsp;`C`   | `Cmd`&nbsp;`Alt`&nbsp;`C`   |
 
 <!--| Toggle task| `Control`&nbsp;`Enter` | `Cmd`&nbsp;`Enter` | -->
