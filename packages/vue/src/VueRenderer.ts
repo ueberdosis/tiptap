@@ -70,6 +70,15 @@ class VueNodeView implements NodeView {
 
                 view.dispatch(view.state.tr.setSelection(NodeSelection.create(view.state.doc, getPos())))
               },
+              dragend: (event: Event) => {
+                const target = (event.target as HTMLElement)
+
+                if (nodeview.contentDOM?.contains(target)) {
+                  return
+                }
+
+                nodeview.isDragging = false
+              },
             },
           },
           this.$slots.default,
@@ -147,23 +156,20 @@ class VueNodeView implements NodeView {
 
   stopEvent(event: Event) {
     const target = (event.target as HTMLElement)
+    const isInElement = this.dom.contains(target) && !this.contentDOM?.contains(target)
     const isDraggable = this.node.type.spec.draggable
     const isCopyEvent = event.type === 'copy'
     const isPasteEvent = event.type === 'paste'
     const isCutEvent = event.type === 'cut'
     const isDragEvent = event.type.startsWith('drag') || event.type === 'drop'
 
-    const isInElement = this.dom.contains(target) && !this.contentDOM?.contains(target)
-
-    // console.log({ isInElement })
     if (!isInElement) {
       return false
     }
 
-    // console.log(this.isDragging, event.type)
-
     if (isDragEvent && !this.isDragging) {
       event.preventDefault()
+      return false
     }
 
     if (isDraggable && !this.isDragging && event.type === 'mousedown') {
@@ -175,6 +181,7 @@ class VueNodeView implements NodeView {
 
       if (isValidDragHandle) {
         this.isDragging = true
+        // this.isDragging = true
         // document.addEventListener('dragend', (e: Event) => {
         //   console.log('DRAGEEEND')
         //   // const t = (e.target as HTMLElement)
@@ -188,7 +195,7 @@ class VueNodeView implements NodeView {
         //   // // }
         //   this.isDragging = false
         // }, { once: true })
-        console.log('BIND EVENT', this.dom)
+        // console.log('BIND EVENT', this.dom)
         // document.addEventListener('dragend', this.onDragEnd, { once: true })
       }
     }
@@ -201,15 +208,15 @@ class VueNodeView implements NodeView {
   }
 
   onDragEnd(event: Event) {
-    console.log('ONDRAGEND')
-    const target = (event.target as HTMLElement)
+    // console.log('ONDRAGEND')
+    // const target = (event.target as HTMLElement)
 
-    if (target === this.dom) {
-      console.log('JEP')
-      this.isDragging = false
-    } else {
-      console.log('NOPE')
-    }
+    // if (target === this.dom) {
+    //   console.log('JEP')
+    //   this.isDragging = false
+    // } else {
+    //   console.log('NOPE')
+    // }
   }
 
   ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
