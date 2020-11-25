@@ -94,6 +94,13 @@
     </div>
 
     <editor-content :editor="editor" />
+
+    <div class="collaboration-log">
+      <div class="collaboration-log__item" v-for="(item, index) in log" :key="index">
+        [{{ item.timestamp.toLocaleString() }}]
+        {{ item.status }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -122,6 +129,7 @@ export default {
       indexdb: null,
       editor: null,
       users: [],
+      log: [],
     }
   },
 
@@ -131,8 +139,14 @@ export default {
     this.indexdb = new IndexeddbPersistence(this.documentName, this.ydoc)
 
     // this.provider = new WebrtcProvider(this.documentName, this.ydoc)
-    this.provider = new WebsocketProvider('ws://127.0.0.1:1234', 'tiptap', this.ydoc)
     // this.provider = new WebsocketProvider('wss://demos.yjs.dev', 'tiptap', this.ydoc)
+    this.provider = new WebsocketProvider('ws://127.0.0.1:1234', 'tiptap', this.ydoc)
+    this.provider.on('status', event => {
+      this.log.unshift({
+        timestamp: new Date(),
+        status: event.status,
+      })
+    })
     this.provider.awareness.on('change', this.updateState)
 
     this.editor = new Editor({
@@ -255,6 +269,15 @@ export default {
     border-radius: 50%;
     margin-right: 0.5rem;
   }
+}
+
+.collaboration-log {
+  background: #0D0D0D;
+  border-radius: 5px;
+  color: #9DEF8F;
+  font-family: monospace;
+  margin-top: 1rem;
+  padding: 0.25rem 0.5rem;
 }
 
 /* Give a remote user a caret */
