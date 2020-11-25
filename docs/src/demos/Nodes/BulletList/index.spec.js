@@ -79,6 +79,13 @@ context('/api/nodes/bullet-list', () => {
       .should('contain', 'Paragraph')
   })
 
+  it('should make the paragraph a bullet list keyboard shortcut is pressed', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, shiftKey: true, key: '8' })
+      .find('ul li')
+      .should('contain', 'Example Text')
+  })
+
   it('should make a bullet list from an asterisk', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()

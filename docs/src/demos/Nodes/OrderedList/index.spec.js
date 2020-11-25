@@ -61,6 +61,13 @@ context('/api/nodes/ordered-list', () => {
       .should('not.exist')
   })
 
+  it('should make the paragraph an ordered list keyboard shortcut is pressed', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, shiftKey: true, key: '7' })
+      .find('ol li')
+      .should('contain', 'Example Text')
+  })
+
   it('should leave the list with double enter', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()

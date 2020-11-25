@@ -1,4 +1,4 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, Node, mergeAttributes } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface BulletListOptions {
@@ -27,7 +27,7 @@ const BulletList = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['ul', HTMLAttributes, 0]
+    return ['ul', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

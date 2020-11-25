@@ -1,4 +1,9 @@
-import { Command, Mark, markPasteRule } from '@tiptap/core'
+import {
+  Command,
+  Mark,
+  markPasteRule,
+  mergeAttributes,
+} from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 
 export interface LinkOptions {
@@ -8,7 +13,8 @@ export interface LinkOptions {
   },
 }
 
-export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)/gi
+export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
+export const pasteRegexWithBrackets = /(?:\()https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)(?:\))/gi
 
 const Link = Mark.create({
   name: 'link',
@@ -41,7 +47,7 @@ const Link = Mark.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['a', HTMLAttributes, 0]
+    return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {
@@ -70,6 +76,7 @@ const Link = Mark.create({
   addPasteRules() {
     return [
       markPasteRule(pasteRegex, this.type, (url: string) => ({ href: url })),
+      markPasteRule(pasteRegexWithBrackets, this.type, (url: string) => ({ href: url })),
     ]
   },
 

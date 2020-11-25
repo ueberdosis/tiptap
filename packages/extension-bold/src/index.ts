@@ -3,6 +3,7 @@ import {
   Mark,
   markInputRule,
   markPasteRule,
+  mergeAttributes,
 } from '@tiptap/core'
 
 export interface BoldOptions {
@@ -40,7 +41,7 @@ const Bold = Mark.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['strong', HTMLAttributes, 0]
+    return ['strong', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

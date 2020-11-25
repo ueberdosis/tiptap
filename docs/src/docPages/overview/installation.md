@@ -57,8 +57,34 @@ It’s also amazing for bug reports. Try to recreate a bug there and share it wi
 * [Vue.js/tiptap on CodeSandbox](https://codesandbox.io/s/tiptap-issue-template-b83rr?file=/src/components/Tiptap.vue)
 
 
-## Option 4: CDN
-To pull in tiptap for quick demos or just giving it a spin, grab the latest build via CDN:
+## Option 4: CDN (Draft)
+To pull in tiptap for quick demos or just giving it a spin, grab the latest build via CDN. We use two different provides:
+
+### Skypack (ES Modules)
+Skypack enables you to use ES modules, which should be supported in all modern browsers. The packages are smaller, that’s great, too. So here is how to use it:
+
+```html
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <div class="element"></div>
+  <script type="module">
+    import { Editor } from 'https://cdn.skypack.dev/@tiptap/core?min'
+    import { defaultExtensions } from 'https://cdn.skypack.dev/@tiptap/starter-kit?min'
+    const editor = new Editor({
+      element: document.querySelector('.element'),
+      extensions: defaultExtensions(),
+      content: '<p>Your content.</p>',
+    })
+  </script>
+</body>
+</html>
+```
+
+### Unpkg (UMD, deprecated)
+We also have an UMD build on unpkg. Those UMD builds are larger, but should work even in older browsers. As tiptap doesn’t work in older browsers anyway, we tend to remove those builds. What do you think? Anyway, here‘s how you can use it:
 
 ```html
 <!doctype html>
@@ -81,4 +107,3 @@ To pull in tiptap for quick demos or just giving it a spin, grab the latest buil
 </body>
 </html>
 ```
-

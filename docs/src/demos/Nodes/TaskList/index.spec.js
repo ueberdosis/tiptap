@@ -61,6 +61,13 @@ context('/api/nodes/task-list', () => {
       .should('not.exist')
   })
 
+  it('should make the paragraph a task list when the keyboard shortcut is pressed', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', { modKey: true, shiftKey: true, key: 'l' })
+      .find('ul li')
+      .should('contain', 'Example Text')
+  })
+
   it('should leave the list with double enter', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()

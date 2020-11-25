@@ -48,7 +48,11 @@ const TaskItem = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['li', mergeAttributes(HTMLAttributes, { 'data-type': 'taskItem' }), 0]
+    return ['li', mergeAttributes(
+      this.options.HTMLAttributes,
+      HTMLAttributes,
+      { 'data-type': 'taskItem' },
+    ), 0]
   },
 
   addKeyboardShortcuts() {

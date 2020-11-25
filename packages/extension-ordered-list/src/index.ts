@@ -1,4 +1,4 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, Node, mergeAttributes } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface OrderedListOptions {
@@ -45,8 +45,8 @@ const OrderedList = Node.create({
     const { start, ...attributesWithoutStart } = HTMLAttributes
 
     return start === 1
-      ? ['ol', attributesWithoutStart, 0]
-      : ['ol', HTMLAttributes, 0]
+      ? ['ol', mergeAttributes(this.options.HTMLAttributes, attributesWithoutStart), 0]
+      : ['ol', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

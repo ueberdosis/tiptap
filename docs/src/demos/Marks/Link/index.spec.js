@@ -47,31 +47,23 @@ context('/api/marks/link', () => {
     })
   })
 
-  const validUrls = [
-    'https://example.com',
-    'https://example.com/with-path',
-    'http://example.com/with-http',
-    'https://www.example.com/with-www',
-    'https://www.example.com/with-numbers-123',
-    'https://www.example.com/with-parameters?var=true',
-    'https://www.example.com/with-multiple-parameters?var=true&foo=bar',
-    'https://www.example.com/with-spaces?var=true&foo=bar+3',
-    // TODO: 'https://www.example.com/with,comma',
-    // TODO: 'https://www.example.com/with(brackets)',
-    // TODO: 'https://www.example.com/with!exclamation!marks',
-    'http://thelongestdomainnameintheworldandthensomeandthensomemoreandmore.com/',
-    'https://example.longtopleveldomain',
-    'https://example-with-dashes.com',
-  ]
-
-  validUrls.forEach(url => {
-    it(`url should be detected: ${url}`, () => {
-      cy.get('.ProseMirror').paste({ pastePayload: url, pasteType: 'text/plain' })
-        .find('a')
-        .should('contain', url)
-        .should('have.attr', 'href', url)
-    })
+  it('detects a pasted URL', () => {
+    cy.get('.ProseMirror').paste({ pastePayload: 'https://example.com', pasteType: 'text/plain' })
+      .find('a')
+      .should('contain', 'https://example.com')
+      .should('have.attr', 'href', 'https://example.com')
   })
 
-  // TODO: Test invalid URLs
+  it('correctly detects multiple pasted URLs', () => {
+    cy.get('.ProseMirror').paste({ pastePayload: 'https://example1.com, https://example2.com/foobar, (http://example3.com/foobar)', pasteType: 'text/plain' })
+
+    cy.get('.ProseMirror').find('a[href="https://example1.com"]')
+      .should('contain', 'https://example1.com')
+
+    cy.get('.ProseMirror').find('a[href="https://example2.com/foobar"]')
+      .should('contain', 'https://example2.com/foobar')
+
+    cy.get('.ProseMirror').find('a[href="http://example3.com/foobar"]')
+      .should('contain', 'http://example3.com/foobar')
+  })
 })

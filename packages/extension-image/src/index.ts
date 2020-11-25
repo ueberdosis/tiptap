@@ -1,4 +1,9 @@
-import { Command, Node, nodeInputRule } from '@tiptap/core'
+import {
+  Command,
+  Node,
+  nodeInputRule,
+  mergeAttributes,
+} from '@tiptap/core'
 
 export interface ImageOptions {
   inline: boolean,
@@ -50,7 +55,7 @@ const Image = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['img', HTMLAttributes]
+    return ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
   },
 
   addCommands() {
