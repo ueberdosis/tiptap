@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
 import { keymap } from 'prosemirror-keymap'
