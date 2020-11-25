@@ -1,6 +1,9 @@
 import { Extension } from '@tiptap/core'
 import {
-  redo, undo, ySyncPlugin, yUndoPlugin,
+  redo,
+  undo,
+  ySyncPlugin,
+  yUndoPlugin,
 } from 'y-prosemirror'
 
 export interface CollaborationOptions {

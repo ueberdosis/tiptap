@@ -51,10 +51,7 @@ export default function getSchema(extensions: Extensions): Schema {
     if (extension.config.renderHTML) {
       schema.toDOM = node => (extension.config.renderHTML as Function)?.bind(context)({
         node,
-        HTMLAttributes: mergeAttributes(
-          extension.options.HTMLAttributes,
-          getRenderedAttributes(node, extensionAttributes),
-        ),
+        HTMLAttributes: getRenderedAttributes(node, extensionAttributes),
       })
     }
 
@@ -83,10 +80,7 @@ export default function getSchema(extensions: Extensions): Schema {
     if (extension.config.renderHTML) {
       schema.toDOM = mark => (extension.config.renderHTML as Function)?.bind(context)({
         mark,
-        HTMLAttributes: mergeAttributes(
-          extension.options.HTMLAttributes,
-          getRenderedAttributes(mark, extensionAttributes),
-        ),
+        HTMLAttributes: getRenderedAttributes(mark, extensionAttributes),
       })
     }
 

@@ -3,6 +3,7 @@ import {
   Mark,
   markInputRule,
   markPasteRule,
+  mergeAttributes,
 } from '@tiptap/core'
 
 export interface ItalicOptions {
@@ -39,7 +40,7 @@ const Italic = Mark.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['em', HTMLAttributes, 0]
+    return ['em', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

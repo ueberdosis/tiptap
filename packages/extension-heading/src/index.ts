@@ -1,4 +1,4 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, Node, mergeAttributes } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6
@@ -47,7 +47,7 @@ const Heading = Node.create({
       ? node.attrs.level
       : this.options.levels[0]
 
-    return [`h${level}`, HTMLAttributes, 0]
+    return [`h${level}`, mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

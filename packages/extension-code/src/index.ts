@@ -3,6 +3,7 @@ import {
   Mark,
   markInputRule,
   markPasteRule,
+  mergeAttributes,
 } from '@tiptap/core'
 
 export interface CodeOptions {
@@ -30,7 +31,7 @@ const Code = Mark.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['code', HTMLAttributes, 0]
+    return ['code', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

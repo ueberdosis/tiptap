@@ -1,7 +1,22 @@
-import { Command, Mark, getMarkAttributes } from '@tiptap/core'
+import {
+  Command,
+  Mark,
+  getMarkAttributes,
+  mergeAttributes,
+} from '@tiptap/core'
+
+export interface TextStyleOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+}
 
 const TextStyle = Mark.create({
   name: 'textStyle',
+
+  defaultOptions: <TextStyleOptions>{
+    HTMLAttributes: {},
+  },
 
   parseHTML() {
     return [
@@ -21,7 +36,7 @@ const TextStyle = Mark.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['span', HTMLAttributes, 0]
+    return ['span', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

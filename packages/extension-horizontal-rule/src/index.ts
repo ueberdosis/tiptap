@@ -1,4 +1,9 @@
-import { Command, Node, nodeInputRule } from '@tiptap/core'
+import {
+  Command,
+  Node,
+  nodeInputRule,
+  mergeAttributes,
+} from '@tiptap/core'
 
 export interface HorizontalRuleOptions {
   HTMLAttributes: {
@@ -22,7 +27,7 @@ const HorizontalRule = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['hr', HTMLAttributes]
+    return ['hr', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
   },
 
   addCommands() {

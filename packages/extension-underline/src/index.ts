@@ -1,4 +1,4 @@
-import { Command, Mark } from '@tiptap/core'
+import { Command, Mark, mergeAttributes } from '@tiptap/core'
 
 export interface UnderlineOptions {
   HTMLAttributes: {
@@ -25,7 +25,7 @@ const Underline = Mark.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['u', HTMLAttributes, 0]
+    return ['u', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

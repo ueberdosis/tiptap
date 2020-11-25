@@ -3,6 +3,7 @@ import {
   Mark,
   markInputRule,
   markPasteRule,
+  mergeAttributes,
 } from '@tiptap/core'
 
 export interface StrikeOptions {
@@ -39,7 +40,7 @@ const Strike = Mark.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['s', HTMLAttributes, 0]
+    return ['s', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

@@ -69,7 +69,7 @@ const CodeBlock = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['pre', ['code', HTMLAttributes, 0]]
+    return ['pre', this.options.HTMLAttributes, ['code', HTMLAttributes, 0]]
   },
 
   addCommands() {

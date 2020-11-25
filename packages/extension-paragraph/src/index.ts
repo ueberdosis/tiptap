@@ -1,4 +1,4 @@
-import { Command, Node } from '@tiptap/core'
+import { Command, Node, mergeAttributes } from '@tiptap/core'
 
 export interface ParagraphOptions {
   HTMLAttributes: {
@@ -24,7 +24,7 @@ const Paragraph = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['p', HTMLAttributes, 0]
+    return ['p', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

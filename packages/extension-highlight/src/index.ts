@@ -3,6 +3,7 @@ import {
   Mark,
   markInputRule,
   markPasteRule,
+  mergeAttributes,
 } from '@tiptap/core'
 
 export interface HighlightOptions {
@@ -53,7 +54,7 @@ const Highlight = Mark.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['mark', HTMLAttributes, 0]
+    return ['mark', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {

@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 
 export interface ListItemOptions {
   HTMLAttributes: {
@@ -26,7 +26,7 @@ const ListItem = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['li', HTMLAttributes, 0]
+    return ['li', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addKeyboardShortcuts() {
