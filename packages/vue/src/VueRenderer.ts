@@ -206,7 +206,11 @@ class VueNodeView implements NodeView {
 
   ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
     if (mutation.type === 'selection') {
-      return true
+      if (this.node.isLeaf) {
+        return true
+      }
+
+      return false
     }
 
     if (!this.contentDOM) {
