@@ -7,7 +7,7 @@ export default Node.create({
 
   group: 'block',
 
-  content: 'block*',
+  content: 'block+',
 
   draggable: true,
 
