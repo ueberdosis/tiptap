@@ -63,13 +63,15 @@ class VueNodeView implements NodeView {
     })
   }
 
-  handleDragStart(event: Event) {
+  handleDragStart(event: DragEvent) {
     const { view } = this.editor
     const target = (event.target as HTMLElement)
 
     if (this.contentDOM?.contains(target)) {
       return
     }
+
+    event.dataTransfer?.setDragImage(this.dom, 0, 0)
 
     const selection = NodeSelection.create(view.state.doc, this.getPos())
     const transaction = view.state.tr.setSelection(selection)
