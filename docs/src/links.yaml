@@ -34,6 +34,9 @@
           link: /examples/minimalist
         - title: Use with v-model
           link: /examples/v-model
+        - title: Drag handle
+          link: /examples/drag-handle
+          draft: true
         - title: Export HTML or JSON
           link: /examples/export-html-or-json
     - title: Feedback
