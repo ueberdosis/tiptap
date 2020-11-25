@@ -25,7 +25,6 @@ export default class NodeSlotView {
     this.getPos = getPos
     this.decorations = decorations
     this.dom = this.createDOM()
-    console.log(this)
   }
 
   createDOM() {
