@@ -6,7 +6,6 @@ import getRenderedAttributes from './getRenderedAttributes'
 import isEmptyObject from './isEmptyObject'
 import injectExtensionAttributesToParseRule from './injectExtensionAttributesToParseRule'
 import callOrReturn from './callOrReturn'
-import mergeAttributes from './mergeAttributes'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(Object.entries(data).filter(([key, value]) => {
