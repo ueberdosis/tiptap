@@ -93,6 +93,7 @@ class VueNodeView implements NodeView {
 
   createNodeViewContent() {
     const { id } = this
+    const { isEditable } = this.editor
 
     return Vue.extend({
       inheritAttrs: false,
@@ -110,7 +111,7 @@ class VueNodeView implements NodeView {
             },
             attrs: {
               id,
-              contenteditable: true,
+              contenteditable: isEditable,
             },
           },
         )
@@ -175,6 +176,7 @@ class VueNodeView implements NodeView {
       return false
     }
 
+    const { isEditable } = this.editor
     const isDraggable = this.node.type.spec.draggable
     const isCopyEvent = event.type === 'copy'
     const isPasteEvent = event.type === 'paste'
@@ -187,7 +189,7 @@ class VueNodeView implements NodeView {
     }
 
     // we have to store that dragging started
-    if (isDraggable && !this.isDragging && event.type === 'mousedown') {
+    if (isDraggable && isEditable && !this.isDragging && event.type === 'mousedown') {
       const dragHandle = target.closest('[data-drag-handle]')
       const isValidDragHandle = dragHandle
         && (this.dom === dragHandle || (this.dom.contains(dragHandle)))
