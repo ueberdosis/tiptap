@@ -11,16 +11,6 @@ export default Node.create({
 
   draggable: true,
 
-  selectable: true,
-
-  addAttributes() {
-    return {
-      checked: {
-        default: false,
-      },
-    }
-  },
-
   parseHTML() {
     return [
       {
