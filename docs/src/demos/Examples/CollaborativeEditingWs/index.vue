@@ -139,8 +139,7 @@ export default {
     this.indexdb = new IndexeddbPersistence(this.documentName, this.ydoc)
 
     // this.provider = new WebrtcProvider(this.documentName, this.ydoc)
-    // this.provider = new WebsocketProvider('wss://demos.yjs.dev', 'tiptap', this.ydoc)
-    this.provider = new WebsocketProvider('ws://127.0.0.1:1234', 'tiptap', this.ydoc)
+    this.provider = new WebsocketProvider('ws://127.0.0.1:1234', this.documentName, this.ydoc)
     this.provider.on('status', event => {
       this.log.unshift({
         timestamp: new Date(),
