@@ -5,6 +5,11 @@ import { Node as ProseMirrorNode } from 'prosemirror-model'
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
 
+interface VueRendererOptions {
+  stopEvent: ((event: Event) => boolean) | null,
+  update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
+}
+
 class VueNodeView implements NodeView {
 
   vm!: Vue
@@ -23,7 +28,13 @@ class VueNodeView implements NodeView {
 
   isDragging = false
 
-  constructor(component: Vue | VueConstructor, props: NodeViewRendererProps) {
+  options: VueRendererOptions = {
+    stopEvent: null,
+    update: null,
+  }
+
+  constructor(component: Vue | VueConstructor, props: NodeViewRendererProps, options?: Partial<VueRendererOptions>) {
+    this.options = { ...this.options, ...options }
     this.editor = props.editor
     this.extension = props.extension
     this.node = props.node
@@ -148,6 +159,10 @@ class VueNodeView implements NodeView {
   }
 
   stopEvent(event: Event) {
+    if (typeof this.options.stopEvent === 'function') {
+      return this.options.stopEvent(event)
+    }
+
     const target = (event.target as HTMLElement)
     const isInElement = this.dom.contains(target) && !this.contentDOM?.contains(target)
 
@@ -209,6 +224,10 @@ class VueNodeView implements NodeView {
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
+    if (typeof this.options.update === 'function') {
+      return this.options.update(node, decorations)
+    }
+
     if (node.type !== this.node.type) {
       return false
     }
@@ -246,6 +265,6 @@ class VueNodeView implements NodeView {
 
 }
 
-export default function VueRenderer(component: Vue | VueConstructor) {
-  return (props: NodeViewRendererProps) => new VueNodeView(component, props) as NodeView
+export default function VueRenderer(component: Vue | VueConstructor, options?: Partial<VueRendererOptions>) {
+  return (props: NodeViewRendererProps) => new VueNodeView(component, props, options) as NodeView
 }
