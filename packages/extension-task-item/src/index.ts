@@ -79,6 +79,7 @@ const TaskItem = Node.create({
       const content = document.createElement('div')
 
       checkbox.type = 'checkbox'
+      checkbox.contentEditable = 'false'
       checkbox.addEventListener('change', event => {
         const { checked } = event.target as any
 
