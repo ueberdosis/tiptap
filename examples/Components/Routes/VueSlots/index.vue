@@ -86,7 +86,7 @@ export default {
   },
   computed: {
     wrappedContent() {
-      return this.content
+      return `<div>${this.content}</div>`
     },
   },
   beforeDestroy() {
