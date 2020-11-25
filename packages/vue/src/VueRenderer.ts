@@ -132,11 +132,15 @@ class VueNodeView implements NodeView {
       })
 
     const props = {
-      editor: this.editor,
       NodeViewWrapper,
       NodeViewContent,
+      editor: this.editor,
       node: this.node,
-      updateAttributes: (attrs: {}) => this.updateAttributes(attrs),
+      decorations: this.decorations,
+      selected: false,
+      extension: this.extension,
+      getPos: () => this.getPos(),
+      updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
     }
 
     this.vm = new Component({
@@ -242,14 +246,21 @@ class VueNodeView implements NodeView {
 
     this.node = node
     this.decorations = decorations
-    this.updateComponentProps()
+    this.updateComponentProps({ node, decorations })
 
     return true
   }
 
-  updateComponentProps() {
-    this.vm.$props.node = this.node
-    this.vm.$props.decorations = this.decorations
+  updateComponentProps(data: { [key: string]: any } = {}) {
+    if (!this.vm.$props) {
+      return
+    }
+
+    Object
+      .entries(data)
+      .forEach(([key, value]) => {
+        this.vm.$props[key] = value
+      })
   }
 
   updateAttributes(attributes: {}) {
@@ -265,6 +276,18 @@ class VueNodeView implements NodeView {
     })
 
     this.editor.view.dispatch(transaction)
+  }
+
+  selectNode() {
+    this.updateComponentProps({
+      selected: true,
+    })
+  }
+
+  deselectNode() {
+    this.updateComponentProps({
+      selected: false,
+    })
   }
 
 }

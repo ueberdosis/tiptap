@@ -10,27 +10,6 @@
   </node-view-wrapper>
 </template>
 
-<script>
-export default {
-  props: {
-    editor: {
-      type: Object,
-      required: true,
-    },
-
-    node: {
-      type: Object,
-      required: true,
-    },
-
-    updateAttributes: {
-      type: Function,
-      required: true,
-    },
-  },
-}
-</script>
-
 <style lang="scss" scoped>
 .draggable-item {
   display: flex;
