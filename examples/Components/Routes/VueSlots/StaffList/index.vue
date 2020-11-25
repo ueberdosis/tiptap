@@ -7,13 +7,7 @@
       </slot>
     </div>
     <div class="stafflist__itemsregion">
-      <slot name="staff-members">
-        <staff-member name="Mr Default Value">
-          <template v-slot:default="slotProps">
-            <p>Junior Not Meant To Be Here Clerk</p>
-          </template>
-        </staff-member>
-      </slot>
+      <slot name="staff-members"></slot>
     </div>
   </div>
 </template>

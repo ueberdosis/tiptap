@@ -23,14 +23,24 @@
     </editor-menu-bar>
 
     <editor-content class="editor__content" :editor="editor" />
+
+    <pre>
+      {{ content }}
+    </pre>
+
+    <component v-bind:is="wrappedContent && {template:wrappedContent}"></component>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import Icon from 'Components/Icon'
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import StaffList from './StaffList'
 import StaffMember from './StaffMember'
+
+Vue.component('staff-list', StaffList)
+Vue.component('staff-member', StaffMember)
 
 const StaffListDefaultSlotExtension = StaffList.slotExtensions.default
 const StaffListStaffMembersSlotExtension = StaffList.slotExtensions['staff-members']
@@ -43,7 +53,22 @@ export default {
     Icon,
   },
   data() {
+    const content = `
+<staff-list>
+  <template v-slot:default="">
+    <h3>Hello there!</h3>
+  </template>
+  <template v-slot:staff-members="">
+    <staff-member name="Mr Not Default">
+      <template v-slot:default="slotProps">
+        <p>Junior Replace Default Clerk</p>
+      </template>
+    </staff-member>
+  </template>
+</staff-list>`
+
     return {
+      content,
       editor: new Editor({
         extensions: [
           new StaffListDefaultSlotExtension(),
@@ -52,26 +77,26 @@ export default {
           new StaffMemberDefaultSlotExtension(),
           new StaffMember.Extension(),
         ],
-        content: `
-          <staff-list>
-            <template v-slot:default="slotProps">
-              <h3>Our Staff</h3>
-              <p>We are all beautiful!</p>
-            </template>
-            <template v-slot:staff-members="slotProps">
-              <staff-member name="Mr En Jibby" avatar="enjibby-grinning.jpg">
-                <template v-slot:default="slotProps">
-                  <p>Chief Speculative Programming Officer<p>
-                </template>
-              </staff-member>
-            </template>
-          </staff-list>
-        `,
+        content,
+        onUpdate: ({ getHTML }) => {
+          this.content = getHTML()
+        },
       }),
     }
+  },
+  computed: {
+    wrappedContent() {
+      return this.content
+    },
   },
   beforeDestroy() {
     this.editor.destroy()
   },
 }
 </script>
+
+<style>
+div.editor pre {
+  word-wrap: normal;
+}
+</style>
