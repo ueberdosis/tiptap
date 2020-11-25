@@ -7,11 +7,11 @@
 <script>
 import { Editor } from '@tiptap/core'
 import { EditorContent } from '@tiptap/vue'
-import Dropcursor from '@tiptap/extension-dropcursor'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import Test from './Test.ts'
+import Dropcursor from '@tiptap/extension-dropcursor'
+import DraggableItem from './DraggableItem.js'
 
 export default {
   components: {
@@ -27,28 +27,28 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Dropcursor,
         Document,
         Paragraph,
         Text,
-        Test,
+        Dropcursor,
+        DraggableItem,
       ],
       content: `
         <p>paragraph</p>
-        <div data-type="test">
-          <p>paragraph</p>
-          <div data-type="test">
-            <p>paragraph</p>
-          </div>
+        <div data-type="draggable-item">
+          <p>draggable item</p>
         </div>
-        <div data-type="test">
-          <p>paragraph</p>
+        <div data-type="draggable-item">
+          <p>another one</p>
+          <div data-type="draggable-item">
+            <p>can be nested too</p>
+            <div data-type="draggable-item">
+              <p>but can we go deeper?</p>
+            </div>
+          </div>
         </div>
         <p>paragraph</p>
       `,
-      onUpdate: () => {
-        console.log(this.editor.getHTML())
-      },
     })
   },
 
@@ -57,20 +57,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-ul[data-type="taskList"] {
-  list-style: none;
-  padding: 0;
-
-  li {
-    display: flex;
-    align-items: center;
-
-    > input {
-      flex: 0 0 auto;
-      margin-right: 0.5rem;
-    }
-  }
-}
-</style>

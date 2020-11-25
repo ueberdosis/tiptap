@@ -3,11 +3,10 @@ import { VueRenderer } from '@tiptap/vue'
 import Component from './Component.vue'
 
 export default Node.create({
-  name: 'test',
+  name: 'draggableItem',
 
   group: 'block',
 
-  // content: 'inline*',
   content: 'block*',
 
   draggable: true,
@@ -25,13 +24,13 @@ export default Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div[data-type="test"]',
+        tag: 'div[data-type="draggable-item"]',
       },
     ]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(HTMLAttributes, { 'data-type': 'test' }), 0]
+    return ['div', mergeAttributes(HTMLAttributes, { 'data-type': 'draggable-item' }), 0]
   },
 
   addNodeView() {

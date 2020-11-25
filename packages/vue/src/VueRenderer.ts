@@ -71,6 +71,7 @@ class VueNodeView implements NodeView {
       return
     }
 
+    // sometimes `event.target` is not the `dom` element
     event.dataTransfer?.setDragImage(this.dom, 0, 0)
 
     const selection = NodeSelection.create(view.state.doc, this.getPos())
