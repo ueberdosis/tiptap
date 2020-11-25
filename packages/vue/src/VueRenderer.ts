@@ -30,6 +30,8 @@ class VueNodeView implements NodeView {
     this.getPos = props.getPos
     this.createUniqueId()
     this.mount(component)
+
+    document.addEventListener('dragend', this.onDragEnd)
   }
 
   createUniqueId() {
@@ -151,6 +153,15 @@ class VueNodeView implements NodeView {
     const isCutEvent = event.type === 'cut'
     const isDragEvent = event.type.startsWith('drag') || event.type === 'drop'
 
+    const isInElement = this.dom.contains(target) && !this.contentDOM?.contains(target)
+
+    // console.log({ isInElement })
+    if (!isInElement) {
+      return false
+    }
+
+    // console.log(this.isDragging, event.type)
+
     if (isDragEvent && !this.isDragging) {
       event.preventDefault()
     }
@@ -164,9 +175,21 @@ class VueNodeView implements NodeView {
 
       if (isValidDragHandle) {
         this.isDragging = true
-        document.addEventListener('dragend', () => {
-          this.isDragging = false
-        }, { once: true })
+        // document.addEventListener('dragend', (e: Event) => {
+        //   console.log('DRAGEEEND')
+        //   // const t = (e.target as HTMLElement)
+        //   // if (t === this.dom) {
+        //   //   console.log('JEP')
+        //   // } else {
+        //   //   console.log('NOPE')
+        //   // }
+        //   // // if (t === this.dom) {
+        //   // //   this.isDragging = false
+        //   // // }
+        //   this.isDragging = false
+        // }, { once: true })
+        console.log('BIND EVENT', this.dom)
+        // document.addEventListener('dragend', this.onDragEnd, { once: true })
       }
     }
 
@@ -175,6 +198,18 @@ class VueNodeView implements NodeView {
     }
 
     return true
+  }
+
+  onDragEnd(event: Event) {
+    console.log('ONDRAGEND')
+    const target = (event.target as HTMLElement)
+
+    if (target === this.dom) {
+      console.log('JEP')
+      this.isDragging = false
+    } else {
+      console.log('NOPE')
+    }
   }
 
   ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
@@ -202,6 +237,11 @@ class VueNodeView implements NodeView {
     // this.updateComponentProps({
     //   selected: false,
     // })
+  }
+
+  destroy() {
+    this.vm.$destroy()
+    document.removeEventListener('dragend', this.onDragEnd)
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {

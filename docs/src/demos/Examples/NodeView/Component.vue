@@ -46,6 +46,7 @@ export default {
   },
 
   mounted() {
+    console.log('MOUNTED')
     // setInterval(() => {
     //   this.random = `foo${Math.random()}`
     // }, 1000)
