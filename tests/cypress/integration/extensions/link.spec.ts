@@ -18,7 +18,6 @@ describe('link paste rules', () => {
     'http://thelongestdomainnameintheworldandthensomeandthensomemoreandmore.com/',
     'https://example.longtopleveldomain',
     'https://example-with-dashes.com',
-    'https://example-with-dashes.com',
   ]
 
   validUrls.forEach(url => {
