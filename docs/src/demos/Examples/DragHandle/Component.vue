@@ -23,6 +23,7 @@
   ;
 
   .drag-handle {
+    flex: 0 0 auto;
     position: relative;
     width: 1rem;
     height: 1rem;
