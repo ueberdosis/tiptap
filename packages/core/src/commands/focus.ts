@@ -42,7 +42,7 @@ export const focus = (position: FocusPosition = null): Command => ({
     return true
   }
 
-  const { from, to } = resolveSelection(editor.state, position) || editor.selection
+  const { from, to } = resolveSelection(editor.state, position) || editor.state.selection
   const { doc } = tr
   const resolvedFrom = minMax(from, 0, doc.content.size)
   const resolvedEnd = minMax(to, 0, doc.content.size)
