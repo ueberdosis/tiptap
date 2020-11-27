@@ -22,7 +22,7 @@ We’re looking for your feedback to improve tiptap 2 before the first public re
 We were looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn’t really satisfy us. An editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. We came across [ProseMirror](https://github.com/prosemirror) and decided to build on it. ProseMirror is a toolkit for building rich text editors that are already in use at many well-known companies such as *Atlassian* or *New York Times*.
 
 ### What does `headless` mean?
-With headless components you'll have (almost) full control over markup and styling. We don’t want to tell you what a menu should look like or where it should be rendered in the DOM. That’s all up to you. There is also a [great article about headless components](https://adamwathan.me/headless-components-in-vuejs/) by Adam Wathan.
+With headless components you'll have (almost) full control over markup and styling. We don’t want to tell you what a menu should look like or where it should be rendered in the DOM. That’s all up to you. There is also a [great article about headless components](https://adamwathan.me/renderless-components-in-vuejs/) by Adam Wathan.
 
 ### How is the data stored under the hood?
 You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can also pass `HTML` or `JSON` content back to the editor.
@@ -55,19 +55,20 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [Gregor](https://github.com/gambolputty)
 - [All Contributors](../../contributors)
 
-## Related Projects
-- [html-to-prosemirror](https://github.com/ueberdosis/html-to-prosemirror) by @hanspagel
-- [prosemirror-to-html](https://github.com/ueberdosis/prosemirror-to-html) by @hanspagel
-- [tiptap-svelte](https://github.com/andrewjk/tiptap-svelte) by @andrewjk
-- [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
-- [WYSIWYG editor for Vuetify](https://github.com/iliyaZelenko/tiptap-vuetify) by @iliyaZelenko
-- [Quasar Tiptap Demo](https://github.com/kfields/quasar-tiptap-demo) @kfields
-- [Python Library that converts tiptap JSON](https://github.com/scrolltech/tiptapy) @scrolltech
-- [WYSIWYG editor for Element UI](https://github.com/Leecason/element-tiptap) by @Leecason
-- [WYSIWYG editor for Quasar Framework](https://github.com/donotebase/quasar-tiptap) by @mekery
+## Links
+- https://github.com/ueberdosis/awesome-tiptap
 
-## Love our work?
-[Sponsor us](https://github.com/sponsors/ueberdosis) ❤️
+## Become a sponsor
+Your benefits as a sponsor:
+
+* Give back to the open source community
+* Get early access private repositories
+* Your issues and pull requests get a `sponsor 💖` label
+* Get a sponsor badge in all your comments on GitHub
+* Show support in your GitHub profile
+* Receive monthly reports about our open source work
+
+Does that sound good? [Sponsor us on GitHub!](https://github.com/sponsors/ueberdosis)
 
 ## License
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
