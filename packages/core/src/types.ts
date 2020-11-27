@@ -27,14 +27,10 @@ export interface EditorOptions {
   enablePasteRules: boolean,
   onInit: () => void,
   onUpdate: () => void,
+  onSelection: () => void,
   onTransaction: (props: { transaction: Transaction }) => void,
   onFocus: (props: { event: FocusEvent }) => void,
   onBlur: (props: { event: FocusEvent }) => void,
-}
-
-export type EditorSelection = {
-  from: number,
-  to: number,
 }
 
 export type EditorContent = string | JSON | null

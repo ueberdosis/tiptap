@@ -18,7 +18,6 @@ import {
   EditorOptions,
   EditorContent,
   CommandSpec,
-  EditorSelection,
 } from './types'
 import * as extensions from './extensions'
 import style from './style'
@@ -44,8 +43,6 @@ export class Editor extends EventEmitter {
 
   public view!: EditorView
 
-  public selection: EditorSelection = { from: 0, to: 0 }
-
   public isFocused = false
 
   public options: EditorOptions = {
@@ -61,6 +58,7 @@ export class Editor extends EventEmitter {
     enablePasteRules: true,
     onInit: () => null,
     onUpdate: () => null,
+    onSelection: () => null,
     onTransaction: () => null,
     onFocus: () => null,
     onBlur: () => null,
@@ -83,6 +81,7 @@ export class Editor extends EventEmitter {
     this.injectCSS()
     this.on('init', this.options.onInit)
     this.on('update', this.options.onUpdate)
+    this.on('selection', this.options.onSelection)
     this.on('transaction', this.options.onTransaction)
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
@@ -296,24 +295,20 @@ export class Editor extends EventEmitter {
   }
 
   /**
-   * Store the current selection.
-   */
-  private storeSelection() {
-    const { from, to } = this.state.selection
-    this.selection = { from, to }
-  }
-
-  /**
    * The callback over which to send transactions (state updates) produced by the view.
    *
    * @param transaction An editor state transaction
    */
   private dispatchTransaction(transaction: Transaction) {
     const state = this.state.apply(transaction)
+    const selectionHasChanged = !this.state.selection.eq(state.selection)
 
     this.view.updateState(state)
-    this.storeSelection()
     this.emit('transaction', { transaction })
+
+    if (selectionHasChanged) {
+      this.emit('selection')
+    }
 
     const focus = transaction.getMeta('focus')
     const blur = transaction.getMeta('blur')

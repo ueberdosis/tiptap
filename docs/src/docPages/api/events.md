@@ -16,6 +16,9 @@ const editor = new Editor({
   onUpdate() {
     // The content has changed.
   },
+  onSelection() {
+    // The selection has changed.
+  },
   onTransaction({ transaction }) {
     // The editor state has changed.
   },
@@ -41,15 +44,19 @@ editor.on('update', () => {
   // The content has changed.
 }
 
+editor.on('selection', () => {
+  // The selection has changed.
+}
+
 editor.on('transaction', ({ transaction }) => {
   // The editor state has changed.
 }
 
-editor.on('focus', () => {
+editor.on('focus', ({ event }) => {
   // The editor is focused.
 }
 
-editor.on('blur', () => {
+editor.on('blur', ({ event }) => {
   // The editor isn’t focused anymore.
 }
 ```
