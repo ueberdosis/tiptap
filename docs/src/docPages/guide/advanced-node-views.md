@@ -4,6 +4,13 @@
 
 ## Introduction
 
+## Simple
+
+## Without content
+
+## Advanced node views with content
+
+<!--
 ## Node views with plain JavaScript
 
 ### HTML
@@ -15,3 +22,4 @@
 ### Events
 
 ## Use Vue.js components
+ -->

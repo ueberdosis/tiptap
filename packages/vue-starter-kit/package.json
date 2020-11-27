@@ -1,5 +1,6 @@
 {
   "name": "@tiptap/vue-starter-kit",
+  "description": "Vue starter kit for tiptap",
   "version": "2.0.0-alpha.5",
   "homepage": "https://tiptap.dev",
   "keywords": [

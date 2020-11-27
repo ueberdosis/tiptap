@@ -1,5 +1,6 @@
 {
   "name": "@tiptap/starter-kit",
+  "description": "starter kit for tiptap",
   "version": "2.0.0-alpha.4",
   "homepage": "https://tiptap.dev",
   "keywords": [

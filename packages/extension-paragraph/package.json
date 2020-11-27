@@ -1,5 +1,6 @@
 {
   "name": "@tiptap/extension-paragraph",
+  "description": "paragraph extension for tiptap",
   "version": "2.0.0-alpha.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
