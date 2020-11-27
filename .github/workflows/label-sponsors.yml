@@ -7,12 +7,12 @@ on:
     types: [opened]
 
 jobs:
-  build:
-    name: is-sponsor-label
+  label:
+    name: Add Sponsor Labels
     runs-on: ubuntu-latest
     steps:
-      - uses: JasonEtco/is-sponsor-label-action@v1
+      - uses: brianlagunas/sponsor-action@v1.0
         with:
           label: sponsor 💖
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
