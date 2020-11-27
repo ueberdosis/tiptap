@@ -25,7 +25,7 @@ Create exactly the rich text editor you want out of customizable building blocks
 
 **TypeScript.** tiptap 2 is written in TypeScript. That helps us to find bugs early and gives you a nice autocomplete for the API (if your IDE supports that) on top of the extensive human written documentation.
 
-**Collaborative.** Real-time collaboration, syncing between different devices or working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of [Y.js](https://github.com/yjs/yjs). Our production-grade setup requires less than 20 lines of code.
+**Collaborative.** Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of [Y.js](https://github.com/yjs/yjs). Our production-grade setup requires less than 20 lines of code.
 
 ## Who uses tiptap?
 - [GitLab](https://gitlab.com)
