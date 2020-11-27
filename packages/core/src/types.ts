@@ -39,7 +39,7 @@ export type Command = (props: {
   editor: Editor,
   tr: Transaction,
   commands: SingleCommands,
-  can: () => SingleCommands & { chain: () => ChainedCommands },
+  can: () => CanCommands,
   chain: () => ChainedCommands,
   state: EditorState,
   view: EditorView,
