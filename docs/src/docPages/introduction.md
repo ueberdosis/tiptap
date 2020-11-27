@@ -2,8 +2,8 @@
 title: Headless rich text editor
 ---
 
-:::error Don’t try this at home
-Nothing here is production-ready, don’t use it anywhere.
+:::error Work in progress
+Nothing here is ready, don’t use it in production.
 :::
 
 # Introduction
@@ -16,14 +16,16 @@ Nothing here is production-ready, don’t use it anywhere.
 
 tiptap is a headless wrapper around [ProseMirror](https://ProseMirror.net) – a toolkit for building rich text WYSIWYG editors, which is already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
 
-Create exactly the rich text editor you want out of modular, and customizable building blocks. tiptap comes with sensible defaults, a lot of extensions and a friendly API to customize every aspect. It’s backed by a welcoming community, open source, and free.
+Create exactly the rich text editor you want out of customizable building blocks. tiptap comes with sensible defaults, a lot of extensions and a friendly API to customize every aspect. It’s backed by a welcoming community, open source, and free.
 
 ## Features
-**Headless.** We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is headless and comes without any CSS. You are in full control over markup and styling.
+**Headless.** We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is headless and comes without any CSS. You are in full control over markup, styling and behaviour.
 
-**Framework-agnostic.** We don’t care what framework you use. tiptap is ready to be used with plain JavaScript or Vue.js. That makes it even possible to write a renderer for React, Svelte and others.
+**Framework-agnostic.** No matter what framework you use, you’ll enjoy tiptap. Out of the box, it works with plain JavaScript and Vue.js, but it’s also possible to use it in React, Svelte and others.
 
-**TypeScript.** tiptap 2 is written in TypeScript. That gives you a nice autocomplete for the API (if your IDE supports that), helps to find bugs early and makes it possible to generate [a complete API documentation](#) on top of the extensive human written documentation.
+**TypeScript.** tiptap 2 is written in TypeScript. That helps us to find bugs early and gives you a nice autocomplete for the API (if your IDE supports that) on top of the extensive human written documentation.
+
+**Collaborative.** Real-time collaboration, syncing between different devices or working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of [Y.js](https://github.com/yjs/yjs). Our production-grade setup requires less than 20 lines of code.
 
 ## Who uses tiptap?
 - [GitLab](https://gitlab.com)
@@ -37,4 +39,4 @@ Create exactly the rich text editor you want out of modular, and customizable bu
 - … and [many more](https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D)
 
 ## License
-tiptap is licensed under MIT, so you’re free to whatever you want. Anyway, we kindly ask you to [become a sponsor](/sponsor) to fund the development, maintenance and support of tiptap.
+tiptap is licensed under [MIT](https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md), so you’re free to do whatever you want. If you’re using it in production, do the right thing and [become one of our wonderful sponsors](/sponsor) to fund the development, maintenance and support of tiptap and the whole ecosystem.
