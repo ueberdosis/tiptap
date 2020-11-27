@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
 import { dropCursor } from 'prosemirror-dropcursor'
 
-type DropcursorOptions = {
+export interface DropcursorOptions {
   color: string | null,
   width: number | null,
   class: string | null,

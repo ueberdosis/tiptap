@@ -97,6 +97,7 @@ export type NodeViewRendererProps = {
   getPos: (() => number) | boolean,
   decorations: Decoration[],
   HTMLAttributes: { [key: string]: any },
+  extension: Node,
 }
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView
