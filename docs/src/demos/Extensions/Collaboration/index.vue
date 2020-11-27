@@ -41,7 +41,6 @@ export default {
         Paragraph,
         Text,
         Collaboration.configure({
-          provider: this.provider,
           type: this.type,
         }),
       ],

@@ -21,10 +21,12 @@ yarn add @tiptap/extension-collaboration-cursor
 ```
 
 ## Settings
-| Option   | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-| provider |      |         |             |
-| type     |      |         |             |
+| Option   | Type       | Default     | Description                                                                         |
+| -------- | ---------- | ----------- | ----------------------------------------------------------------------------------- |
+| provider | `Object`   | `null`      | The Y.js provider, for example a WebSocket connection.                              |
+| name     | `String`   | `'Someone'` | The name of the current user.                                                       |
+| color    | `String`   | `'#cccccc'` | The current user’s cursor color.                                                    |
+| render   | `Function` | …           | A render function for the cursor, look at the extension source code for an example. |
 
 ## Commands
 | Command | Parameters    | Description                                                              |

@@ -51,7 +51,6 @@
           link: /guide/getting-started/vue-cli
     - title: Configure the editor
       link: /guide/configure-the-editor
-      new: true
     - title: Create a new toolbar
       link: /guide/create-your-editor
       draft: true
@@ -68,7 +67,6 @@
       link: /guide/working-with-typescript
     - title: Collaborative editing
       link: /guide/collaborative-editing
-      draft: true
       pro: true
 
 - title: API
