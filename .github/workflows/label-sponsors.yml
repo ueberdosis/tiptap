@@ -11,7 +11,7 @@ jobs:
     name: Add Sponsor Labels
     runs-on: ubuntu-latest
     steps:
-      - uses: brianlagunas/sponsor-action@v1.0
+      - uses: ueberdosis/sponsor-action@v1.0-alpha
         with:
           label: sponsor 💖
           github_token: ${{ secrets.GITHUB_TOKEN }}
