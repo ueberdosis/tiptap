@@ -3,12 +3,10 @@ import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, Node } from 'prosemirror-model'
 import magicMethods from './utils/magicMethods'
 import elementFromString from './utils/elementFromString'
-import nodeIsActive from './utils/nodeIsActive'
-import markIsActive from './utils/markIsActive'
 import getNodeAttributes from './utils/getNodeAttributes'
 import getMarkAttributes from './utils/getMarkAttributes'
+import isActive from './utils/isActive'
 import removeElement from './utils/removeElement'
-import getSchemaTypeNameByName from './utils/getSchemaTypeNameByName'
 import getHTMLFromFragment from './utils/getHTMLFromFragment'
 import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
@@ -350,18 +348,20 @@ export class Editor extends EventEmitter {
    * Returns if the currently selected node or mark is active.
    *
    * @param name Name of the node or mark
-   * @param attrs Attributes of the node or mark
+   * @param attributes Attributes of the node or mark
    */
-  public isActive(name: string, attrs = {}) {
-    const schemaType = getSchemaTypeNameByName(name, this.schema)
+  public isActive(name: string, attributes?: {}): boolean;
+  public isActive(attributes: {}): boolean;
+  public isActive(nameOrAttributes: string, attributesOrUndefined?: {}): boolean {
+    const name = typeof nameOrAttributes === 'string'
+      ? nameOrAttributes
+      : null
 
-    if (schemaType === 'node') {
-      return nodeIsActive(this.state, this.schema.nodes[name], attrs)
-    } if (schemaType === 'mark') {
-      return markIsActive(this.state, this.schema.marks[name], attrs)
-    }
+    const attributes = typeof nameOrAttributes === 'string'
+      ? attributesOrUndefined
+      : nameOrAttributes
 
-    return false
+    return isActive(this.state, name, attributes)
   }
 
   /**
