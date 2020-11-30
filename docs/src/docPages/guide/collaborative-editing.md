@@ -4,6 +4,12 @@
 Using collaborative editing in production? Do the right thing and [sponsor our work](/sponsor)!
 :::
 
+<!--
+TODO:
+- Pass auth token to the provider
+-
+ -->
+
 ## toc
 
 ## Introduction
@@ -27,7 +33,7 @@ npm install @tiptap/extension-collaboration yjs y-webrtc
 yarn add @tiptap/extension-collaboration yjs y-webrtc
 ```
 
-And create a new Y document, and register it with tiptap:
+Now, create a new Y document, and register it with tiptap:
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -39,15 +45,13 @@ import { WebrtcProvider } from 'y-webrtc'
 const ydoc = new Y.Doc()
 // Registered with a WebRTC provider
 const provider = new WebrtcProvider('example-document', ydoc)
-// Point to the ProseMirror schema
-const type = ydoc.getXmlFragment('prosemirror')
 
 const editor = new Editor({
   extensions: [
     // …
     // Register the document with tiptap
     Collaboration.configure({
-      type: type,
+      provider
     }),
   ],
 })
@@ -86,15 +90,13 @@ import { WebsocketProvider } from 'y-websocket'
 const ydoc = new Y.Doc()
 // Registered with a WebSocket provider
 const provider = new WebsocketProvider('ws://127.0.0.1:1234', 'example-document', ydoc)
-// Point to the ProseMirror schema
-const type = ydoc.getXmlFragment('prosemirror')
 
 const editor = new Editor({
   extensions: [
     // …
     // Register the document with tiptap
     Collaboration.configure({
-      type: type,
+      provider
     }),
   ],
 })
@@ -144,13 +146,12 @@ import { WebsocketProvider } from 'y-websocket'
 
 const ydoc = new Y.Doc()
 const provider = new WebsocketProvider('ws://127.0.0.1:1234', 'example-document', ydoc)
-const type = ydoc.getXmlFragment('prosemirror')
 
 const editor = new Editor({
   extensions: [
     // …
     Collaboration.configure({
-      type: type,
+      provider
     }),
     // Register the collaboration cursor extension
     CollaborationCursor.configure({
@@ -184,7 +185,6 @@ import * as Y from 'yjs'
 import { IndexeddbPersistence } from 'y-indexeddb'
 
 const ydoc = new Y.Doc()
-const type = ydoc.getXmlFragment('prosemirror')
 // Store the Y document in the browser
 const indexdb = new IndexeddbPersistence('example-document', ydoc)
 
@@ -192,7 +192,7 @@ const editor = new Editor({
   extensions: [
     // …
     Collaboration.configure({
-      type: type,
+      provider
     }),
   ],
 })
@@ -213,9 +213,7 @@ import { Server } from '@hocuspocus/server'
 
 const server = Server.configure({
   onJoinDocument(data, resolve, reject) {
-    const {
-      documentName, clientID, requestHeaders, clientsCount, document,
-    } = data
+    const { documentName, clientID, requestHeaders, clientsCount, document } = data
     // Your code here, for example a request to an API
 
     // If the user is authorized …
@@ -260,9 +258,7 @@ const server = Server.configure({
 
   // executed when the document is changed
   onChange(data) {
-    const {
-      documentName, clientID, requestHeaders, clientsCount, document,
-    } = data
+    const { documentName, clientID, requestHeaders, clientsCount, document } = data
 
   },
 })
