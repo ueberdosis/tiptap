@@ -87,7 +87,7 @@
         class="collaboration-users__item"
         :style="`background-color: ${user.color}`"
         v-for="user in users"
-        :key="user.id"
+        :key="user.clientId"
       >
         {{ user.name }}
       </div>
@@ -112,12 +112,9 @@ export default {
 
   data() {
     return {
-      documentName: 'tiptap-collaboration-example',
       name: this.getRandomName(),
       color: this.getRandomColor(),
-      ydoc: null,
       provider: null,
-      type: null,
       indexdb: null,
       editor: null,
       users: [],
@@ -125,28 +122,28 @@ export default {
   },
 
   mounted() {
-    this.ydoc = new Y.Doc()
-    this.type = this.ydoc.getXmlFragment('prosemirror')
-    this.indexdb = new IndexeddbPersistence(this.documentName, this.ydoc)
-
-    this.provider = new WebrtcProvider(this.documentName, this.ydoc)
-    this.provider.awareness.on('change', this.updateState)
+    const ydoc = new Y.Doc()
+    this.provider = new WebrtcProvider('tiptap-collaboration-example', ydoc)
+    this.indexdb = new IndexeddbPersistence('tiptap-collaboration-example', ydoc)
 
     this.editor = new Editor({
       extensions: [
         ...defaultExtensions(),
         Collaboration.configure({
-          type: this.type,
+          provider: this.provider,
         }),
         CollaborationCursor.configure({
           provider: this.provider,
-          name: this.name,
-          color: this.color,
+          user: {
+            name: this.name,
+            color: this.color,
+          },
+          onUpdate: users => {
+            this.users = users
+          },
         }),
       ],
     })
-
-    this.updateState()
   },
 
   methods: {
@@ -175,7 +172,7 @@ export default {
         color: this.color,
       }).run()
 
-      this.updateState()
+      // this.updateState()
     },
 
     getRandomColor() {
@@ -199,17 +196,6 @@ export default {
 
     getRandomElement(list) {
       return list[Math.floor(Math.random() * list.length)]
-    },
-
-    updateState() {
-      const { states } = this.provider.awareness
-
-      this.users = Array.from(states.entries()).map(state => {
-        return {
-          id: state[0],
-          ...state[1].user,
-        }
-      })
     },
   },
 

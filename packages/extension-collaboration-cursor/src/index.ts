@@ -2,17 +2,28 @@ import { Extension, Command } from '@tiptap/core'
 import { yCursorPlugin } from 'y-prosemirror'
 
 export interface CollaborationCursorOptions {
-  name: string,
-  color: string,
   provider: any,
-  render (user: { name: string, color: string }): HTMLElement,
+  user: { [key: string]: any },
+  render (user: { [key: string]: any }): HTMLElement,
+  onUpdate: (users: { clientId: string, [key: string]: any }[]) => null,
+}
+
+const awarenessStatesToArray = (states: Map<number, { [key: string]: any }>) => {
+  return Array.from(states.entries()).map(([key, value]) => {
+    return {
+      clientId: key,
+      ...value.user,
+    }
+  })
 }
 
 const CollaborationCursor = Extension.create({
   defaultOptions: <CollaborationCursorOptions>{
     provider: null,
-    name: 'Someone',
-    color: '#cccccc',
+    user: {
+      name: null,
+      color: null,
+    },
     render: user => {
       const cursor = document.createElement('span')
       cursor.classList.add('collaboration-cursor__caret')
@@ -26,6 +37,7 @@ const CollaborationCursor = Extension.create({
 
       return cursor
     },
+    onUpdate: () => null,
   },
 
   addCommands() {
@@ -33,11 +45,9 @@ const CollaborationCursor = Extension.create({
       /**
        * Update details of the current user
        */
-      user: (attributes: {
-        name: string,
-        color: string,
-      }): Command => () => {
+      user: (attributes: { [key: string]: any }): Command => () => {
         this.options.provider.awareness.setLocalStateField('user', attributes)
+        this.options.onUpdate(awarenessStatesToArray(this.options.provider.awareness.states))
 
         return true
       },
@@ -47,10 +57,13 @@ const CollaborationCursor = Extension.create({
   addProseMirrorPlugins() {
     return [
       yCursorPlugin((() => {
-        this.options.provider.awareness.setLocalStateField('user', {
-          name: this.options.name,
-          color: this.options.color,
+        this.options.provider.awareness.setLocalStateField('user', this.options.user)
+
+        this.options.provider.awareness.on('change', () => {
+          this.options.onUpdate(awarenessStatesToArray(this.options.provider.awareness.states))
         })
+
+        this.options.onUpdate(awarenessStatesToArray(this.options.provider.awareness.states))
 
         return this.options.provider.awareness
       })(),

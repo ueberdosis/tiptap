@@ -7,17 +7,19 @@ import {
 } from 'y-prosemirror'
 
 export interface CollaborationOptions {
-  type: any,
+  provider: any,
 }
 
 const Collaboration = Extension.create({
   defaultOptions: <CollaborationOptions>{
-    type: null,
+    provider: null,
   },
 
   addProseMirrorPlugins() {
     return [
-      ySyncPlugin(this.options.type),
+      ySyncPlugin(
+        this.options.provider.doc.getXmlFragment('prosemirror'),
+      ),
       yUndoPlugin(),
     ]
   },
