@@ -20,9 +20,6 @@
     - title: Collaborative editing
       link: /examples/collaborative-editing
       pro: true
-    - title: Collaborative editing 🚧
-      link: /examples/collaborative-editing-ws
-      draft: true
     - title: Markdown shortcuts
       link: /examples/markdown-shortcuts
     # - title: Formatting

@@ -71,29 +71,33 @@
       <button @click="setName">
         Set Name
       </button>
-      <button @click="changeName">
+      <button @click="updateCurrentUser({ name: getRandomName() })">
         Random Name
       </button>
-      <button @click="changeColor">
+      <button @click="updateCurrentUser({ color: getRandomColor() })">
         Random Color
       </button>
     </div>
 
-    <div class="collaboration-status">
-      {{ users.length }} user{{ users.length === 1 ? '' : 's' }}
-    </div>
     <div class="collaboration-users">
       <div
         class="collaboration-users__item"
-        :style="`background-color: ${user.color}`"
-        v-for="user in users"
-        :key="user.clientId"
+        :style="`background-color: ${otherUser.color}`"
+        v-for="otherUser in users"
+        :key="otherUser.clientId"
       >
-        {{ user.name }}
+        {{ otherUser.name }}
       </div>
     </div>
 
     <editor-content :editor="editor" />
+
+    <div :class="`collaboration-status collaboration-status--${status}`">
+      <template v-if="status">
+        {{ status }},
+      </template>
+      {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
+    </div>
   </div>
 </template>
 
@@ -103,7 +107,12 @@ import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import * as Y from 'yjs'
 import { WebrtcProvider } from 'y-webrtc'
+// import { WebsocketProvider } from 'y-websocket'
 import { IndexeddbPersistence } from 'y-indexeddb'
+
+const getRandomElement = list => {
+  return list[Math.floor(Math.random() * list.length)]
+}
 
 export default {
   components: {
@@ -112,18 +121,26 @@ export default {
 
   data() {
     return {
-      name: this.getRandomName(),
-      color: this.getRandomColor(),
+      currentUser: {
+        name: this.getRandomName(),
+        color: this.getRandomColor(),
+      },
       provider: null,
       indexdb: null,
       editor: null,
       users: [],
+      status: null,
     }
   },
 
   mounted() {
     const ydoc = new Y.Doc()
     this.provider = new WebrtcProvider('tiptap-collaboration-example', ydoc)
+    // this.provider = new WebsocketProvider('ws://127.0.0.1:1234', 'tiptap-collaboration-example', ydoc)
+    this.provider.on('status', event => {
+      this.status = event.status
+    })
+
     this.indexdb = new IndexeddbPersistence('tiptap-collaboration-example', ydoc)
 
     this.editor = new Editor({
@@ -134,10 +151,7 @@ export default {
         }),
         CollaborationCursor.configure({
           provider: this.provider,
-          user: {
-            name: this.name,
-            color: this.color,
-          },
+          user: this.currentUser,
           onUpdate: users => {
             this.users = users
           },
@@ -151,32 +165,19 @@ export default {
       const name = window.prompt('Name')
 
       if (name) {
-        this.name = name
-        return this.updateUser()
+        return this.updateCurrentUser({
+          name,
+        })
       }
     },
 
-    changeName() {
-      this.name = this.getRandomName()
-      this.updateUser()
-    },
-
-    changeColor() {
-      this.color = this.getRandomColor()
-      this.updateUser()
-    },
-
-    updateUser() {
-      this.editor.chain().focus().user({
-        name: this.name,
-        color: this.color,
-      }).run()
-
-      // this.updateState()
+    updateCurrentUser(attributes) {
+      this.currentUser = { ...this.currentUser, ...attributes }
+      this.editor.chain().focus().user(this.currentUser).run()
     },
 
     getRandomColor() {
-      return this.getRandomElement([
+      return getRandomElement([
         '#616161',
         '#A975FF',
         '#FB5151',
@@ -189,13 +190,9 @@ export default {
     },
 
     getRandomName() {
-      return this.getRandomElement([
+      return getRandomElement([
         'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
       ])
-    },
-
-    getRandomElement(list) {
-      return list[Math.floor(Math.random() * list.length)]
     },
   },
 
@@ -223,20 +220,26 @@ export default {
 
 /* Some information about the status */
 .collaboration-status {
-  background: #eee;
-  color: #666;
   border-radius: 5px;
-  padding: 0.5rem 1rem;
   margin-top: 1rem;
+  color: #616161;
 
   &::before {
     content: ' ';
     display: inline-block;
     width: 0.5rem;
     height: 0.5rem;
-    background: green;
+    background: #ccc;
     border-radius: 50%;
     margin-right: 0.5rem;
+  }
+
+  &--connecting::before {
+    background: #fd9170;
+  }
+
+  &--connected::before {
+    background: #9DEF8F;
   }
 }
 
