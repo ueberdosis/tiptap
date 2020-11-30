@@ -18,6 +18,9 @@ tiptap is a headless wrapper around [ProseMirror](https://ProseMirror.net) – a
 
 Create exactly the rich text editor you want out of customizable building blocks. tiptap comes with sensible defaults, a lot of extensions and a friendly API to customize every aspect. It’s backed by a welcoming community, open source, and free.
 
+## Example
+<demo name="Examples/CollaborativeEditing" :show-source="false" />
+
 ## Features
 **Headless.** We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is headless and comes without any CSS. You are in full control over markup, styling and behaviour.
 

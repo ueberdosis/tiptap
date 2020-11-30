@@ -7,6 +7,7 @@
 <script>
 import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
 import Highlight from '@tiptap/extension-highlight'
+import Typography from '@tiptap/extension-typography'
 
 export default {
   components: {
@@ -32,12 +33,16 @@ export default {
           Those conventions are called input rules in tiptap. Some of them are enabled by default. Try <code>></code> for blockquotes, <code>*</code>, <code>-</code> or <code>+</code> for bullet lists, or <code>\`foobar\`</code> to highlight code, <code>~~tildes~~</code> to strike text, or <code>==equal signs==</code> to highlight text.
         </p>
         <p>
-          You can overwrite existing input rules or add your own to new nodes and marks.
+          You can overwrite existing input rules or add your own to nodes, marks and extensions.
+        </p>
+        <p>
+          For example, we added the <code>Typography</code> extensions here. Try typing <code>(c)</code> to see how it’s converted to a proper © character. You can also try <code>-></code>, <code>>></code>, <code>1/2</code>, <code>!=</code>, or <code>--</code>.
         </p>
       `,
       extensions: [
         ...defaultExtensions(),
         Highlight,
+        Typography,
       ],
     })
   },

@@ -1,6 +1,6 @@
-context('/examples/read-only', () => {
+context('/guide/store-content', () => {
   beforeEach(() => {
-    cy.visit('/examples/read-only')
+    cy.visit('/guide/store-content')
   })
 
   it.skip('should be read-only', () => {

@@ -20,8 +20,6 @@
     <div class="export">
       <h3>HTML</h3>
       <pre><code>{{ html }}</code></pre>
-      <h3>JSON</h3>
-      <pre><code v-html="json" /></pre>
     </div>
   </div>
 </template>
@@ -37,7 +35,6 @@ export default {
   data() {
     return {
       editor: null,
-      json: null,
       html: null,
     }
   },
@@ -46,44 +43,29 @@ export default {
     this.editor = new Editor({
       content: `
         <p>
-          What would be a text editor without content. At some point you want to get the content out of the editor and yes, we got you covered. There are two methods to export the current document as <code>HTML</code> or <code>JSON</code>.
-        </p>
-        <p>
-          You can hook into the <code>update</code> event to get the content after every single change. How cool is that?
+          Wow, this editor instance exports its content as HTML.
         </p>
       `,
       extensions: defaultExtensions(),
     })
 
     // Get the initial content …
-    this.json = this.editor.getJSON()
     this.html = this.editor.getHTML()
 
     // … and get the content after every change.
     this.editor.on('update', () => {
-      this.json = this.editor.getJSON()
       this.html = this.editor.getHTML()
     })
   },
 
   methods: {
     setContent() {
-      // You can pass a JSON document …
-      this.editor.commands.setContent({
-        type: 'document',
-        content: [{
-          type: 'paragraph',
-          content: [
-            {
-              type: 'text',
-              text: 'It’s 19871. You can’t turn on a radio, or go to a mall without hearing Olivia Newton-John’s hit song, Physical.',
-            },
-          ],
-        }],
-      }, true)
-
-      // … but HTML strings are also supported.
-      // this.editor.setContent('<p>This is some inserted text. 👋</p>')
+      // You can pass a HTML document to the editor.
+      this.editor.commands.setContent(`
+        <p>
+          It’s 19871. You can’t turn on a radio, or go to a mall without hearing Olivia Newton-John’s hit song, Physical.
+        </p>
+      `, true)
 
       // It’s likely that you’d like to focus the Editor after most commands.
       this.editor.commands.focus()

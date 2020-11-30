@@ -1,6 +1,6 @@
-context('/examples/export-html-or-json', () => {
+context('/guide/store-content', () => {
   before(() => {
-    cy.visit('/examples/export-html-or-json')
+    cy.visit('/guide/store-content')
   })
 
   beforeEach(() => {
@@ -27,14 +27,6 @@ context('/examples/export-html-or-json', () => {
           },
         ],
       })
-    })
-  })
-
-  it('should return html', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
-      const html = editor.getHTML()
-
-      expect(html).to.equal('<p>Example Text</p>')
     })
   })
 })
