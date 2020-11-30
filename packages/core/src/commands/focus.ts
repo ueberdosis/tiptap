@@ -1,6 +1,6 @@
 import { EditorState, TextSelection } from 'prosemirror-state'
 import { Command, FocusPosition } from '../types'
-import minMax from '../utils/minMax'
+import minMax from '../utilities/minMax'
 
 function resolveSelection(state: EditorState, position: FocusPosition = null) {
   if (!position) {

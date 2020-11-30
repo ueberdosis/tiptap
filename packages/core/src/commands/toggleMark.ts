@@ -1,8 +1,8 @@
 import { toggleMark as originalToggleMark } from 'prosemirror-commands'
 import { MarkType } from 'prosemirror-model'
 import { Command } from '../types'
-import getMarkType from '../utils/getMarkType'
-import markIsActive from '../utils/markIsActive'
+import getMarkType from '../helpers/getMarkType'
+import markIsActive from '../helpers/markIsActive'
 
 /**
  * Toggle a mark on and off.

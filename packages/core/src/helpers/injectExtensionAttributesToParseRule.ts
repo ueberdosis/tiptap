@@ -1,6 +1,6 @@
 import { ParseRule } from 'prosemirror-model'
 import { ExtensionAttribute } from '../types'
-import fromString from './fromString'
+import fromString from '../utilities/fromString'
 
 /**
  * This function merges extension attributes into parserule attributes (`attrs` or `getAttrs`).

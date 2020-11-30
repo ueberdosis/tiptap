@@ -2,7 +2,7 @@ import { EditorState } from 'prosemirror-state'
 import { Node, Mark } from 'prosemirror-model'
 import nodeIsActive from './nodeIsActive'
 import markIsActive from './markIsActive'
-import objectIncludes from './objectIncludes'
+import objectIncludes from '../utilities/objectIncludes'
 import getSchemaTypeNameByName from './getSchemaTypeNameByName'
 
 export default function isActive(state: EditorState, name: string | null, attributes: { [key: string ]: any } = {}): boolean {

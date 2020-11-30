@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import mergeAttributes from '@tiptap/core/src/utils/mergeAttributes'
+import mergeAttributes from '@tiptap/core/src/utilities/mergeAttributes'
 
 describe('mergeAttributes', () => {
   it('should merge two objects', () => {

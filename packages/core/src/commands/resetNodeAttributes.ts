@@ -1,6 +1,6 @@
 import { NodeType } from 'prosemirror-model'
-import getNodeType from '../utils/getNodeType'
-import deleteProps from '../utils/deleteProps'
+import getNodeType from '../helpers/getNodeType'
+import deleteProps from '../utilities/deleteProps'
 import { Command } from '../types'
 
 /**

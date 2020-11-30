@@ -1,7 +1,7 @@
 import { splitListItem as originalSplitListItem } from 'prosemirror-schema-list'
 import { NodeType } from 'prosemirror-model'
 import { Command } from '../types'
-import getNodeType from '../utils/getNodeType'
+import getNodeType from '../helpers/getNodeType'
 
 /**
  * Splits one list item into two list items.

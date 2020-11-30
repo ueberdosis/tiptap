@@ -3,9 +3,9 @@ import { Extensions } from '../types'
 import splitExtensions from './splitExtensions'
 import getAttributesFromExtensions from './getAttributesFromExtensions'
 import getRenderedAttributes from './getRenderedAttributes'
-import isEmptyObject from './isEmptyObject'
+import isEmptyObject from '../utilities/isEmptyObject'
 import injectExtensionAttributesToParseRule from './injectExtensionAttributesToParseRule'
-import callOrReturn from './callOrReturn'
+import callOrReturn from '../utilities/callOrReturn'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(Object.entries(data).filter(([key, value]) => {

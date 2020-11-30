@@ -1,6 +1,6 @@
 import { Extensions } from '../types'
 import splitExtensions from './splitExtensions'
-import callOrReturn from './callOrReturn'
+import callOrReturn from '../utilities/callOrReturn'
 
 export default function isList(name: string, extensions: Extensions) {
   const { nodeExtensions } = splitExtensions(extensions)
