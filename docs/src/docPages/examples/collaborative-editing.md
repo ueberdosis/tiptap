@@ -8,6 +8,21 @@ It connects all clients to a WebSocket server and merges changes to the document
 Be nice! The content of this editor is shared with other users from the Internet.
 :::
 
-<!-- <demo name="Examples/CollaborativeEditing" :show-source="false"/> -->
-
 <demo name="Examples/CollaborativeEditing" />
+
+In case you’re wondering what kind of sorcery you need on the server to achieve this, here is the backend code for the demo:
+
+```js
+import { Server } from '@hocuspocus/server'
+import { LevelDB } from '@hocuspocus/leveldb'
+
+const server = Server.configure({
+  port: 1234,
+
+  persistence: new LevelDB({
+    path: './database',
+  }),
+})
+
+server.listen()
+```
