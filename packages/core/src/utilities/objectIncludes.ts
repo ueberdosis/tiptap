@@ -4,8 +4,13 @@
  * @param object2 Object
  */
 export default function objectIncludes(object1: { [key: string ]: any }, object2: { [key: string ]: any }): boolean {
-  return !!Object
-    .keys(object2)
+  const keys = Object.keys(object2)
+
+  if (!keys.length) {
+    return true
+  }
+
+  return !!keys
     .filter(key => object2[key] === object1[key])
     .length
 }

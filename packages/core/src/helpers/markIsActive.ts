@@ -1,20 +1,33 @@
 import { EditorState } from 'prosemirror-state'
-import { MarkType } from 'prosemirror-model'
-import markHasAttributes from './markHasAttributes'
+import { Mark, MarkType } from 'prosemirror-model'
+import objectIncludes from '../utilities/objectIncludes'
+import getMarkType from '../helpers/getMarkType'
 
-export default function markIsActive(state: EditorState, type: MarkType, attributes = {}) {
-  const {
-    from,
-    $from,
-    to,
-    empty,
-  } = state.selection
+export default function markIsActive(state: EditorState, typeOrName: MarkType | string | null, attributes = {}) {
+  const { from, to, empty } = state.selection
+  const type = typeOrName
+    ? getMarkType(typeOrName, state.schema)
+    : null
 
-  const hasMark = empty
-    ? !!(type.isInSet(state.storedMarks || $from.marks()))
-    : state.doc.rangeHasMark(from, to, type)
+  let marks: Mark[] = []
 
-  const hasAttributes = markHasAttributes(state, type, attributes)
+  if (empty) {
+    marks = state.selection.$head.marks()
+  } else {
+    state.doc.nodesBetween(from, to, node => {
+      marks = [...marks, ...node.marks]
+    })
+  }
 
-  return hasMark && hasAttributes
+  const markWithAttributes = marks
+    .filter(mark => {
+      if (!type) {
+        return true
+      }
+
+      return type.name === mark.type.name
+    })
+    .find(mark => objectIncludes(mark.attrs, attributes))
+
+  return !!markWithAttributes
 }
