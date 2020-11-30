@@ -3,9 +3,9 @@
 ## toc
 
 ## Introduction
-The editor fires a few different events that you can hook into. There are two ways to register event listeners:
+The editor fires a few different events that you can hook into. There are three ways to register event listeners:
 
-## Option 1: Right-away
+## Option 1: Configuration
 You can define your event listeners on a new editor instance right-away:
 
 ```js
@@ -29,12 +29,12 @@ const editor = new Editor({
     // The editor isn’t focused anymore.
   },
   onDestroy() {
-    // The editor is destroyed.
+    // The editor is being destroyed.
   },
 })
 ```
 
-## Option 2: Later
+## Option 2: Binding
 Or you can register your event listeners on a running editor instance:
 
 ### Bind event listeners
@@ -64,7 +64,7 @@ editor.on('blur', ({ event }) => {
 }
 
 editor.on('destroy', () => {
-  // The editor is destroyed.
+  // The editor is being destroyed.
 }
 ```
 
@@ -81,4 +81,35 @@ editor.on('update', onUpdate)
 
 // … and unbind.
 editor.off('update', onUpdate)
+```
+
+## Option 3: Extensions
+Moving your event listeners to custom extensions (or nodes, or marks) is also possible. Here’s how that would look like:
+
+```js
+import { Extension } from '@tiptap/core'
+
+const CustomExtension = Extension.create({
+  onCreate() {
+    // The editor is ready.
+  },
+  onUpdate() {
+    // The content has changed.
+  },
+  onSelection() {
+    // The selection has changed.
+  },
+  onTransaction({ transaction }) {
+    // The editor state has changed.
+  },
+  onFocus({ event }) {
+    // The editor is focused.
+  },
+  onBlur({ event }) {
+    // The editor isn’t focused anymore.
+  },
+  onDestroy() {
+    // The editor is being destroyed.
+  },
+})
 ```
