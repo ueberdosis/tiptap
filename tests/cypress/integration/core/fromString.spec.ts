@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import fromString from '@tiptap/core/src/utils/fromString'
+import fromString from '@tiptap/core/src/utilities/fromString'
 
 describe('fromString', () => {
   it('should return a string', () => {

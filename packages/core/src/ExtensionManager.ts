@@ -4,11 +4,11 @@ import { inputRules } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Editor } from './Editor'
 import { Extensions, NodeViewRenderer } from './types'
-import getSchema from './utils/getSchema'
-import getSchemaTypeByName from './utils/getSchemaTypeByName'
-import splitExtensions from './utils/splitExtensions'
-import getAttributesFromExtensions from './utils/getAttributesFromExtensions'
-import getRenderedAttributes from './utils/getRenderedAttributes'
+import getSchema from './helpers/getSchema'
+import getSchemaTypeByName from './helpers/getSchemaTypeByName'
+import splitExtensions from './helpers/splitExtensions'
+import getAttributesFromExtensions from './helpers/getAttributesFromExtensions'
+import getRenderedAttributes from './helpers/getRenderedAttributes'
 
 export default class ExtensionManager {
 

@@ -1,24 +1,18 @@
 import { EditorState, Plugin, Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, Node } from 'prosemirror-model'
-import magicMethods from './utils/magicMethods'
-import elementFromString from './utils/elementFromString'
-import nodeIsActive from './utils/nodeIsActive'
-import markIsActive from './utils/markIsActive'
-import getNodeAttributes from './utils/getNodeAttributes'
-import getMarkAttributes from './utils/getMarkAttributes'
-import removeElement from './utils/removeElement'
-import getSchemaTypeNameByName from './utils/getSchemaTypeNameByName'
-import getHTMLFromFragment from './utils/getHTMLFromFragment'
-import createStyleTag from './utils/createStyleTag'
+import magicMethods from './utilities/magicMethods'
+import elementFromString from './utilities/elementFromString'
+import getNodeAttributes from './helpers/getNodeAttributes'
+import getMarkAttributes from './helpers/getMarkAttributes'
+import isActive from './helpers/isActive'
+import removeElement from './utilities/removeElement'
+import getHTMLFromFragment from './helpers/getHTMLFromFragment'
+import createStyleTag from './utilities/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
-import {
-  EditorOptions,
-  EditorContent,
-  CommandSpec,
-} from './types'
+import { EditorOptions, EditorContent, CommandSpec } from './types'
 import * as extensions from './extensions'
 import style from './style'
 
@@ -334,7 +328,7 @@ export class Editor extends EventEmitter {
    * @param name Name of the node
    */
   public getNodeAttributes(name: string) {
-    return getNodeAttributes(this.state, this.schema.nodes[name])
+    return getNodeAttributes(this.state, name)
   }
 
   /**
@@ -343,25 +337,27 @@ export class Editor extends EventEmitter {
    * @param name Name of the mark
    */
   public getMarkAttributes(name: string) {
-    return getMarkAttributes(this.state, this.schema.marks[name])
+    return getMarkAttributes(this.state, name)
   }
 
   /**
    * Returns if the currently selected node or mark is active.
    *
    * @param name Name of the node or mark
-   * @param attrs Attributes of the node or mark
+   * @param attributes Attributes of the node or mark
    */
-  public isActive(name: string, attrs = {}) {
-    const schemaType = getSchemaTypeNameByName(name, this.schema)
+  public isActive(name: string, attributes?: {}): boolean;
+  public isActive(attributes: {}): boolean;
+  public isActive(nameOrAttributes: string, attributesOrUndefined?: {}): boolean {
+    const name = typeof nameOrAttributes === 'string'
+      ? nameOrAttributes
+      : null
 
-    if (schemaType === 'node') {
-      return nodeIsActive(this.state, this.schema.nodes[name], attrs)
-    } if (schemaType === 'mark') {
-      return markIsActive(this.state, this.schema.marks[name], attrs)
-    }
+    const attributes = typeof nameOrAttributes === 'string'
+      ? attributesOrUndefined
+      : nameOrAttributes
 
-    return false
+    return isActive(this.state, name, attributes)
   }
 
   /**

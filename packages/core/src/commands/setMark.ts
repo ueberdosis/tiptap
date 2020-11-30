@@ -1,7 +1,7 @@
 import { MarkType } from 'prosemirror-model'
 import { Command } from '../types'
-import getMarkType from '../utils/getMarkType'
-import getMarkAttributes from '../utils/getMarkAttributes'
+import getMarkType from '../helpers/getMarkType'
+import getMarkAttributes from '../helpers/getMarkAttributes'
 
 /**
  * Add a mark with new attributes.

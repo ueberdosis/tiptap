@@ -1,7 +1,7 @@
 import { wrapInList as originalWrapInList } from 'prosemirror-schema-list'
 import { NodeType } from 'prosemirror-model'
 import { Command } from '../types'
-import getNodeType from '../utils/getNodeType'
+import getNodeType from '../helpers/getNodeType'
 
 /**
  * Wrap a node in a list.

@@ -1,8 +1,8 @@
 import { wrapIn as originalWrapIn } from 'prosemirror-commands'
 import { NodeType } from 'prosemirror-model'
 import { Command } from '../types'
-import nodeIsActive from '../utils/nodeIsActive'
-import getNodeType from '../utils/getNodeType'
+import nodeIsActive from '../helpers/nodeIsActive'
+import getNodeType from '../helpers/getNodeType'
 
 /**
  * Wraps nodes in another node.

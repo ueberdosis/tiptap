@@ -1,7 +1,7 @@
 import { sinkListItem as originalSinkListItem } from 'prosemirror-schema-list'
 import { NodeType } from 'prosemirror-model'
 import { Command } from '../types'
-import getNodeType from '../utils/getNodeType'
+import getNodeType from '../helpers/getNodeType'
 
 /**
  * Sink the list item down into an inner list.

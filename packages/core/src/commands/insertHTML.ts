@@ -1,7 +1,7 @@
 import { DOMParser } from 'prosemirror-model'
 import { Selection, Transaction } from 'prosemirror-state'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
-import elementFromString from '../utils/elementFromString'
+import elementFromString from '../utilities/elementFromString'
 import { Command } from '../types'
 
 // TODO: move to utils

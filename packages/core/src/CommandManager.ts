@@ -6,7 +6,7 @@ import {
   CanCommands,
   CommandSpec,
 } from './types'
-import getAllMethodNames from './utils/getAllMethodNames'
+import getAllMethodNames from './utilities/getAllMethodNames'
 
 export default class CommandManager {
 

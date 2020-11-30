@@ -1,8 +1,8 @@
 import { findParentNode } from 'prosemirror-utils'
 import { NodeType } from 'prosemirror-model'
 import { Command } from '../types'
-import getNodeType from '../utils/getNodeType'
-import isList from '../utils/isList'
+import getNodeType from '../helpers/getNodeType'
+import isList from '../helpers/isList'
 
 /**
  * Toggle between different list types.

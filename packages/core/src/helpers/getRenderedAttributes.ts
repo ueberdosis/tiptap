@@ -1,6 +1,6 @@
 import { Node, Mark } from 'prosemirror-model'
 import { ExtensionAttribute, AnyObject } from '../types'
-import mergeAttributes from './mergeAttributes'
+import mergeAttributes from '../utilities/mergeAttributes'
 
 export default function getRenderedAttributes(nodeOrMark: Node | Mark, extensionAttributes: ExtensionAttribute[]): AnyObject {
   return extensionAttributes
