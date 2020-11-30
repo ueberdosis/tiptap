@@ -12,11 +12,7 @@ import createStyleTag from './utils/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
-import {
-  EditorOptions,
-  EditorContent,
-  CommandSpec,
-} from './types'
+import { EditorOptions, EditorContent, CommandSpec } from './types'
 import * as extensions from './extensions'
 import style from './style'
 
@@ -332,7 +328,7 @@ export class Editor extends EventEmitter {
    * @param name Name of the node
    */
   public getNodeAttributes(name: string) {
-    return getNodeAttributes(this.state, this.schema.nodes[name])
+    return getNodeAttributes(this.state, name)
   }
 
   /**
@@ -341,7 +337,7 @@ export class Editor extends EventEmitter {
    * @param name Name of the mark
    */
   public getMarkAttributes(name: string) {
-    return getMarkAttributes(this.state, this.schema.marks[name])
+    return getMarkAttributes(this.state, name)
   }
 
   /**
