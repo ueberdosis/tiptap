@@ -34,6 +34,30 @@ export default class ExtensionManager {
 
       editor.registerCommands(commands)
 
+      if (typeof extension.config.onCreate === 'function') {
+        this.editor.on('create', extension.config.onCreate.bind(context))
+      }
+
+      if (typeof extension.config.onUpdate === 'function') {
+        this.editor.on('update', extension.config.onUpdate.bind(context))
+      }
+
+      if (typeof extension.config.onSelection === 'function') {
+        this.editor.on('selection', extension.config.onSelection.bind(context))
+      }
+
+      if (typeof extension.config.onTransaction === 'function') {
+        this.editor.on('transaction', extension.config.onTransaction.bind(context))
+      }
+
+      if (typeof extension.config.onFocus === 'function') {
+        this.editor.on('focus', extension.config.onFocus.bind(context))
+      }
+
+      if (typeof extension.config.onBlur === 'function') {
+        this.editor.on('blur', extension.config.onBlur.bind(context))
+      }
+
       if (typeof extension.config.onDestroy === 'function') {
         this.editor.on('destroy', extension.config.onDestroy.bind(context))
       }

@@ -50,12 +50,13 @@ export class Editor extends EventEmitter {
     parseOptions: {},
     enableInputRules: true,
     enablePasteRules: true,
-    onInit: () => null,
+    onCreate: () => null,
     onUpdate: () => null,
     onSelection: () => null,
     onTransaction: () => null,
     onFocus: () => null,
     onBlur: () => null,
+    onDestroy: () => null,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -73,16 +74,17 @@ export class Editor extends EventEmitter {
     this.createSchema()
     this.createView()
     this.injectCSS()
-    this.on('init', this.options.onInit)
+    this.on('create', this.options.onCreate)
     this.on('update', this.options.onUpdate)
     this.on('selection', this.options.onSelection)
     this.on('transaction', this.options.onTransaction)
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
+    this.on('destroy', this.options.onDestroy)
 
     window.setTimeout(() => {
       this.commands.focus(this.options.autofocus)
-      this.emit('init')
+      this.emit('create')
     }, 0)
   }
 

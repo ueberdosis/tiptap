@@ -1,4 +1,4 @@
-import { Plugin } from 'prosemirror-state'
+import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 import { GlobalAttributes } from './types'
@@ -63,6 +63,72 @@ export interface ExtensionConfig<Options = any, Commands = {}> {
     editor: Editor,
   }) => Plugin[],
 
+  /**
+   * The editor is ready.
+   */
+  onCreate?: ((this: {
+    options: Options,
+    editor: Editor,
+  }) => void) | null,
+
+  /**
+   * The content has changed.
+   */
+  onUpdate?: ((this: {
+    options: Options,
+    editor: Editor,
+  }) => void) | null,
+
+  /**
+   * The selection has changed.
+   */
+  onSelection?: ((this: {
+    options: Options,
+    editor: Editor,
+  }) => void) | null,
+
+  /**
+   * The editor state has changed.
+   */
+  onTransaction?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+    },
+    props: {
+      transaction: Transaction,
+    },
+  ) => void) | null,
+
+  /**
+   * The editor is focused.
+   */
+  onFocus?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+    },
+    props: {
+      event: FocusEvent,
+    },
+  ) => void) | null,
+
+  /**
+   * The editor isn’t focused anymore.
+   */
+  onBlur?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+    },
+    props: {
+      event: FocusEvent,
+    },
+  ) => void) | null,
+
+  /**
+   * The editor is destroyed.
+   */
   onDestroy?: ((this: {
     options: Options,
     editor: Editor,
@@ -81,6 +147,12 @@ export class Extension<Options = any, Commands = any> {
     addInputRules: () => [],
     addPasteRules: () => [],
     addProseMirrorPlugins: () => [],
+    onCreate: null,
+    onUpdate: null,
+    onSelection: null,
+    onTransaction: null,
+    onFocus: null,
+    onBlur: null,
     onDestroy: null,
   }
 

@@ -4,7 +4,7 @@ import {
   Mark as ProseMirrorMark,
   MarkType,
 } from 'prosemirror-model'
-import { Plugin } from 'prosemirror-state'
+import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
 import { Attributes, Overwrite } from './types'
@@ -109,6 +109,78 @@ export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<Exte
     type: MarkType,
   }) => Plugin[],
 
+  /**
+   * The editor is ready.
+   */
+  onCreate?: ((this: {
+    options: Options,
+    editor: Editor,
+    type: MarkType,
+  }) => void) | null,
+
+  /**
+   * The content has changed.
+   */
+  onUpdate?: ((this: {
+    options: Options,
+    editor: Editor,
+    type: MarkType,
+  }) => void) | null,
+
+  /**
+   * The selection has changed.
+   */
+  onSelection?: ((this: {
+    options: Options,
+    editor: Editor,
+    type: MarkType,
+  }) => void) | null,
+
+  /**
+   * The editor state has changed.
+   */
+  onTransaction?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+      type: MarkType,
+    },
+    props: {
+      transaction: Transaction,
+    },
+  ) => void) | null,
+
+  /**
+   * The editor is focused.
+   */
+  onFocus?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+      type: MarkType,
+    },
+    props: {
+      event: FocusEvent,
+    },
+  ) => void) | null,
+
+  /**
+   * The editor isn’t focused anymore.
+   */
+  onBlur?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+      type: MarkType,
+    },
+    props: {
+      event: FocusEvent,
+    },
+  ) => void) | null,
+
+  /**
+   * The editor is destroyed.
+   */
   onDestroy?: ((this: {
     options: Options,
     editor: Editor,
@@ -135,6 +207,12 @@ export class Mark<Options = any, Commands = {}> {
     parseHTML: () => null,
     renderHTML: null,
     addAttributes: () => ({}),
+    onCreate: null,
+    onUpdate: null,
+    onSelection: null,
+    onTransaction: null,
+    onFocus: null,
+    onBlur: null,
     onDestroy: null,
   }
 

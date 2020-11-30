@@ -4,7 +4,7 @@ import {
   Node as ProseMirrorNode,
   NodeType,
 } from 'prosemirror-model'
-import { Plugin } from 'prosemirror-state'
+import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
 import { Attributes, NodeViewRenderer, Overwrite } from './types'
@@ -153,6 +153,78 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
     type: NodeType,
   }) => NodeViewRenderer) | null,
 
+  /**
+   * The editor is ready.
+   */
+  onCreate?: ((this: {
+    options: Options,
+    editor: Editor,
+    type: NodeType,
+  }) => void) | null,
+
+  /**
+   * The content has changed.
+   */
+  onUpdate?: ((this: {
+    options: Options,
+    editor: Editor,
+    type: NodeType,
+  }) => void) | null,
+
+  /**
+   * The selection has changed.
+   */
+  onSelection?: ((this: {
+    options: Options,
+    editor: Editor,
+    type: NodeType,
+  }) => void) | null,
+
+  /**
+   * The editor state has changed.
+   */
+  onTransaction?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+      type: NodeType,
+    },
+    props: {
+      transaction: Transaction,
+    },
+  ) => void) | null,
+
+  /**
+   * The editor is focused.
+   */
+  onFocus?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+      type: NodeType,
+    },
+    props: {
+      event: FocusEvent,
+    },
+  ) => void) | null,
+
+  /**
+   * The editor isn’t focused anymore.
+   */
+  onBlur?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+      type: NodeType,
+    },
+    props: {
+      event: FocusEvent,
+    },
+  ) => void) | null,
+
+  /**
+   * The editor is destroyed.
+   */
   onDestroy?: ((this: {
     options: Options,
     editor: Editor,
@@ -187,6 +259,12 @@ export class Node<Options = any, Commands = {}> {
     renderHTML: null,
     addAttributes: () => ({}),
     addNodeView: null,
+    onCreate: null,
+    onUpdate: null,
+    onSelection: null,
+    onTransaction: null,
+    onFocus: null,
+    onBlur: null,
     onDestroy: null,
   }
 
