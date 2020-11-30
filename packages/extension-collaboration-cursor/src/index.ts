@@ -46,7 +46,8 @@ const CollaborationCursor = Extension.create({
        * Update details of the current user
        */
       user: (attributes: { [key: string]: any }): Command => () => {
-        this.options.provider.awareness.setLocalStateField('user', attributes)
+        this.options.user = attributes
+        this.options.provider.awareness.setLocalStateField('user', this.options.user)
         this.options.onUpdate(awarenessStatesToArray(this.options.provider.awareness.states))
 
         return true
