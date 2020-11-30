@@ -111,6 +111,7 @@ export default {
   mounted() {
     this.files = collect(require.context('~/demos/', true, /.+\..+$/).keys())
       .filter(path => path.startsWith(`./${this.name}/`))
+      .filter(path => !path.endsWith('.spec.js') && !path.endsWith('.spec.ts'))
       .map(path => path.replace('./', ''))
       .map(path => {
         const extension = path.split('.').pop()

@@ -67,11 +67,11 @@ export default {
         Highlight,
       ],
       content: `
-          <p>This isn’t highlighted.</s></p>
-          <p><mark>But that one is.</mark></p>
-          <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
-          <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>
-        `,
+        <p>This isn’t highlighted.</s></p>
+        <p><mark>But that one is.</mark></p>
+        <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
+        <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>
+      `,
     })
   },
 
