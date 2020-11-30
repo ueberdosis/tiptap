@@ -51,11 +51,11 @@ export default function (regexp: RegExp, markType: MarkType, getAttributes?: Fun
       }
 
       markEnd = start + startSpaces + captureGroup.length
+
+      tr.addMark(start + startSpaces, markEnd, markType.create(attributes))
+
+      tr.removeStoredMark(markType)
     }
-
-    tr.addMark(start, markEnd, markType.create(attributes))
-
-    tr.removeStoredMark(markType)
 
     return tr
   })
