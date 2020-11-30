@@ -5,10 +5,9 @@
 ## Introduction
 You can store your content as a JSON object or as a good old HTML string. Both work fine. And of course, you can pass both formats to the editor to restore your content. Here is an interactive example, that exports the content as HTML and JSON when the document is changed:
 
-## Example
-<demo name="Guide/StoreContent" highlight="52-60"/>
+## Export
 
-## Option 1: JSON
+### Option 1: JSON
 JSON is probably easier to loop through, for example to look for a mention and it’s more like what tiptap uses under the hood. Anyway, if you want to use JSON to store the content we provide a method to retrieve the content as JSON:
 
 ```js
@@ -19,19 +18,10 @@ You can store that in your database (or send it to an API) and restore the docum
 
 ```js
 new Editor({
-  // …
   content: {
     "type": "document",
     "content": [
-      {
-        "type": "paragraph",
-        "content": [
-          {
-            "type": "text",
-            "text": "Example Text"
-          }
-        ]
-      }
+      // …
     ]
   },
 })
@@ -43,20 +33,16 @@ Or if you need to wait for something, you can do it later through the editor ins
 editor.setContent({
   "type": "document",
   "content": [
-    {
-      "type": "paragraph",
-      "content": [
-        {
-          "type": "text",
-          "text": "Example Text"
-        }
-      ]
-    }
+    // …
   ]
 })
 ```
 
-## Option 2: HTML
+Here is an interactive example where you can see that in action:
+
+<demo name="Guide/StoreContent/ExportJSON" :show-source="false"/>
+
+### Option 2: HTML
 HTML can be easily rendered in other places, for example in emails and it’s wildly used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
 
 ```js
@@ -67,7 +53,6 @@ This can then be used to restore the document initially:
 
 ```js
 new Editor({
-  // …
   content: `<p>Example Text</p>`,
 })
 ```
@@ -77,7 +62,11 @@ Or if you want to restore the content later (e. g. after an API call has finishe
 editor.commands.setContent(`<p>Example Text</p>`)
 ```
 
-## Not an option: Markdown
+Use this interactive example to fiddle around:
+
+<demo name="Guide/StoreContent/ExportHTML" :show-source="false"/>
+
+### Not an option: Markdown
 
 Unfortunately, **tiptap doesn’t support Markdown as an input or output format**. We considered to add support for it, but those are the reasons why we decided to not do it:
 
@@ -91,10 +80,18 @@ If you still think you need Markdown, ProseMirror has an [example on how to deal
 
 That said, tiptap does support [Markdown shortcuts](/examples/markdown-shortcuts) to format your content.
 
-## Generate HTML from ProseMirror JSON
-If you need to render the content on the server side, for example to generate the HTML for a blog post which has been written in tiptap, you’ll probably want a way to do just that without an actual editor instance.
+## Rendering
 
-That’s what the `generateHTML()` is for. It’s a utility function that renders HTML without an actual editor instance. As an alternative, you can also use tiptap in a [read-only mode](/examples/read-only).
+### Option 1: Read-only instance of tiptap
+
+To render the saved content, set the editor to read-only. That’s how you can achieve the exact same rendering as it’s in the editor, without duplicating your CSS and other code.
+
+<demo name="Guide/StoreContent/ReadOnly" highlight="3-6,22,28,41-47" />
+
+### Option 2: Generate HTML from ProseMirror JSON
+If you need to render the content on the server side, for example to generate the HTML for a blog post which has been written in tiptap, you’ll probably want to do just that without an actual editor instance.
+
+That’s what the `generateHTML()` is for. It’s a helper function which renders HTML without an actual editor instance.
 
 :::info Browser-only rendering
 Import a lightweight implementation of `generateHTML()` from `@tiptap/core` if you’re using the function in a browser context only.

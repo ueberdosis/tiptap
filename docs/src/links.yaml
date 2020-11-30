@@ -22,8 +22,9 @@
       pro: true
     - title: Markdown shortcuts
       link: /examples/markdown-shortcuts
-    # - title: Formatting
-    #   link: /examples/formatting
+    - title: Formatting
+      link: /examples/formatting
+      draft: true
     - title: Todo app
       link: /examples/todo-app
     - title: Write a book

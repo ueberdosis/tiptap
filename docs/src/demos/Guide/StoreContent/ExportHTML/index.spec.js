@@ -9,27 +9,6 @@ context('/guide/store-content', () => {
     })
   })
 
-  it('should return json', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
-      const json = editor.getJSON()
-
-      expect(json).to.deep.equal({
-        type: 'document',
-        content: [
-          {
-            type: 'paragraph',
-            content: [
-              {
-                type: 'text',
-                text: 'Example Text',
-              },
-            ],
-          },
-        ],
-      })
-    })
-  })
-
   it('should return html', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       const html = editor.getHTML()
