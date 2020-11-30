@@ -28,6 +28,8 @@ TODO
 </div>
 ```
 
+<demo name="Guide/NodeViews/TableOfContents" />
+
 ### Advanced node views with content
 
 ```html
