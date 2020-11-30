@@ -47,7 +47,7 @@ new Editor({
   extensions: [
     ...defaultExtensions(),
     Highlight,
-  ]
+  ],
 })
 ```
 
