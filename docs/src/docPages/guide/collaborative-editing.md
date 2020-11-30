@@ -163,7 +163,7 @@ const editor = new Editor({
 })
 ```
 
-As you can see, you can pass a name and color for every user. Look at the [collaborative editing example](/exmplaes/collaborative-editing), to see a more advanced example.
+As you can see, you can pass a name and color for every user. Look at the [collaborative editing example](/examples/collaborative-editing), to see a more advanced example.
 
 ### Offline support
 Adding offline support to your collaborative editor is basically a one-liner, thanks to the fantastic [Y IndexedDB adapter](https://github.com/yjs/y-indexeddb). Install it:
