@@ -62,6 +62,11 @@ export interface ExtensionConfig<Options = any, Commands = {}> {
     options: Options,
     editor: Editor,
   }) => Plugin[],
+
+  onDestroy?: ((this: {
+    options: Options,
+    editor: Editor,
+  }) => void) | null,
 }
 
 export class Extension<Options = any, Commands = any> {
@@ -76,6 +81,7 @@ export class Extension<Options = any, Commands = any> {
     addInputRules: () => [],
     addPasteRules: () => [],
     addProseMirrorPlugins: () => [],
+    onDestroy: null,
   }
 
   options!: Options

@@ -152,6 +152,12 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
     editor: Editor,
     type: NodeType,
   }) => NodeViewRenderer) | null,
+
+  onDestroy?: ((this: {
+    options: Options,
+    editor: Editor,
+    type: NodeType,
+  }) => void) | null,
 }> {}
 
 export class Node<Options = any, Commands = {}> {
@@ -181,6 +187,7 @@ export class Node<Options = any, Commands = {}> {
     renderHTML: null,
     addAttributes: () => ({}),
     addNodeView: null,
+    onDestroy: null,
   }
 
   options!: Options

@@ -125,7 +125,6 @@ export default {
         name: this.getRandomName(),
         color: this.getRandomColor(),
       },
-      provider: null,
       indexdb: null,
       editor: null,
       users: [],
@@ -135,9 +134,9 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
-    this.provider = new WebrtcProvider('tiptap-collaboration-example', ydoc)
-    // this.provider = new WebsocketProvider('ws://127.0.0.1:1234', 'tiptap-collaboration-example', ydoc)
-    this.provider.on('status', event => {
+    const provider = new WebrtcProvider('tiptap-collaboration-example', ydoc)
+    // const provider = new WebsocketProvider('ws://127.0.0.1:1234', 'tiptap-collaboration-example', ydoc)
+    provider.on('status', event => {
       this.status = event.status
     })
 
@@ -147,10 +146,10 @@ export default {
       extensions: [
         ...defaultExtensions(),
         Collaboration.configure({
-          provider: this.provider,
+          provider,
         }),
         CollaborationCursor.configure({
-          provider: this.provider,
+          provider,
           user: this.currentUser,
           onUpdate: users => {
             this.users = users
@@ -198,7 +197,6 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
-    this.provider.destroy()
   },
 }
 </script>
