@@ -10,7 +10,7 @@ You can define your event listeners on a new editor instance right-away:
 
 ```js
 const editor = new Editor({
-  onInit() {
+  onCreate() {
     // The editor is ready.
   },
   onUpdate() {
@@ -28,6 +28,9 @@ const editor = new Editor({
   onBlur({ event }) {
     // The editor isn’t focused anymore.
   },
+  onDestroy() {
+    // The editor is destroyed.
+  },
 })
 ```
 
@@ -36,7 +39,7 @@ Or you can register your event listeners on a running editor instance:
 
 ### Bind event listeners
 ```js
-editor.on('init', () => {
+editor.on('create', () => {
   // The editor is ready.
 }
 
@@ -58,6 +61,10 @@ editor.on('focus', ({ event }) => {
 
 editor.on('blur', ({ event }) => {
   // The editor isn’t focused anymore.
+}
+
+editor.on('destroy', () => {
+  // The editor is destroyed.
 }
 ```
 
