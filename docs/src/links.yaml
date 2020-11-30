@@ -15,7 +15,7 @@
   link: /examples
   redirect: /examples/basic
   items:
-    - title: Basic
+    - title: Basic text editor
       link: /examples/basic
     - title: Collaborative editing
       link: /examples/collaborative-editing
@@ -24,21 +24,16 @@
       link: /examples/markdown-shortcuts
     # - title: Formatting
     #   link: /examples/formatting
-    # - title: Links
-    #   link: /examples/links
-    - title: Todo App
+    - title: Todo app
       link: /examples/todo-app
+    - title: A whole book
+      link: /examples/book
     # - title: Read-only
     #   link: /examples/read-only
     # - title: Minimalist
     #   link: /examples/minimalist
     # - title: Use with v-model
     #   link: /examples/v-model
-    # - title: Drag handle
-    #   link: /examples/drag-handle
-    #   draft: true
-    # - title: Export HTML or JSON
-    #   link: /examples/export-html-or-json
 
 - title: Guide
   items:
@@ -58,8 +53,8 @@
       link: /guide/store-content
     - title: Build custom extensions
       link: /guide/build-custom-extensions
-    - title: Advanced node views
-      link: /guide/advanced-node-views
+    - title: Define node views
+      link: /guide/node-views
       draft: true
     - title: Working with TypeScript
       link: /guide/working-with-typescript

@@ -6,7 +6,9 @@
 
 TODO
 
-## Simple
+## Different types of node views
+
+### Simple
 
 ```html
 <div class="Prosemirror" contenteditable="true">
@@ -16,7 +18,7 @@ TODO
 </div>
 ```
 
-## Without content
+### Without content
 
 ```html
 <div class="Prosemirror" contenteditable="true">
@@ -26,7 +28,7 @@ TODO
 </div>
 ```
 
-## Advanced node views with content
+### Advanced node views with content
 
 ```html
 <div class="Prosemirror" contenteditable="true">
@@ -43,16 +45,7 @@ TODO
 </div>
 ```
 
-<!--
-## Node views with plain JavaScript
+<demo name="Guide/NodeViews/DragHandle" />
 
-### HTML
+## Render Vue components
 
-### Content
-
-### JavaScript
-
-### Events
-
-## Use Vue.js components
- -->
