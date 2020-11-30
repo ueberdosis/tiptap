@@ -3,27 +3,60 @@ import { Node, NodeType } from 'prosemirror-model'
 import objectIncludes from '../utilities/objectIncludes'
 import getNodeType from '../helpers/getNodeType'
 
+type NodeRange = {
+  node: Node,
+  from: number,
+  to: number,
+}
+
 export default function nodeIsActive(state: EditorState, typeOrName: NodeType | string | null, attributes = {}) {
-  const { from, to } = state.selection
+  const { from, to, empty } = state.selection
   const type = typeOrName
     ? getNodeType(typeOrName, state.schema)
     : null
 
-  let nodes: Node[] = []
+  let nodeRanges: NodeRange[] = []
 
-  state.doc.nodesBetween(from, to, node => {
-    nodes = [...nodes, node]
+  state.doc.nodesBetween(from, to, (node, pos) => {
+    if (!node.isText) {
+      const relativeFrom = Math.max(from, pos)
+      const relativeTo = Math.min(to, pos + node.nodeSize)
+
+      nodeRanges = [...nodeRanges, {
+        node,
+        from: relativeFrom,
+        to: relativeTo,
+      }]
+    }
   })
 
-  const nodeWithAttributes = nodes
-    .filter(node => {
+  if (empty) {
+    return !!nodeRanges
+      .filter(nodeRange => {
+        if (!type) {
+          return true
+        }
+
+        return type.name === nodeRange.node.type.name
+      })
+      .find(nodeRange => objectIncludes(nodeRange.node.attrs, attributes))
+  }
+
+  const range = nodeRanges
+    .filter(nodeRange => {
       if (!type) {
         return true
       }
 
-      return type.name === node.type.name
+      return type.name === nodeRange.node.type.name
     })
-    .find(node => objectIncludes(node.attrs, attributes))
+    .filter(nodeRange => objectIncludes(nodeRange.node.attrs, attributes))
+    .reduce((sum, nodeRange) => {
+      const size = nodeRange.to - nodeRange.from
+      return sum + size
+    }, 0)
 
-  return !!nodeWithAttributes
+  const selectionRange = to - from
+
+  return selectionRange <= range
 }
