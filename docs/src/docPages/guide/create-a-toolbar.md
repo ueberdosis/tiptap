@@ -1,8 +1,16 @@
-# Create a new toolbar
+# Create a toolbar
 
 ## toc
 
 TODO
+
+- [ ] commands
+- [ ] commands toggle
+- [ ] focus
+- [ ] isActive
+- [ ] isActive node/mark
+- [ ] isActive node/mark, attributes
+- [ ] isActive attributes
 
 <!-- ## Introduction
 In its simplest version tiptap comes very raw. There is no menu, no buttons, no styling. That’s intended. See tiptap as your building blocks to build exactly the editor you would like to have.

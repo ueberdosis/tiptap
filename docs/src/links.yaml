@@ -8,39 +8,40 @@
       link: /overview/upgrade-guide
     - title: Contributing
       link: /overview/contributing
-    - title: Examples
-      link: /examples
-      redirect: /examples/basic
-      items:
-        - title: Basic
-          link: /examples/basic
-        - title: Collaborative editing
-          link: /examples/collaborative-editing
-          pro: true
-        - title: Collaborative editing (WS)
-          link: /examples/collaborative-editing-ws
-          draft: true
-        - title: Markdown shortcuts
-          link: /examples/markdown-shortcuts
-        - title: Formatting
-          link: /examples/formatting
-        - title: Links
-          link: /examples/links
-        - title: Todo App
-          link: /examples/todo-app
-        - title: Read-only
-          link: /examples/read-only
-        - title: Minimalist
-          link: /examples/minimalist
-        - title: Use with v-model
-          link: /examples/v-model
-        - title: Drag handle
-          link: /examples/drag-handle
-          draft: true
-        - title: Export HTML or JSON
-          link: /examples/export-html-or-json
     - title: Feedback
       link: /overview/feedback
+
+- title: Examples
+  link: /examples
+  redirect: /examples/basic
+  items:
+    - title: Basic
+      link: /examples/basic
+    - title: Collaborative editing
+      link: /examples/collaborative-editing
+      pro: true
+    - title: Collaborative editing 🚧
+      link: /examples/collaborative-editing-ws
+      draft: true
+    - title: Markdown shortcuts
+      link: /examples/markdown-shortcuts
+    # - title: Formatting
+    #   link: /examples/formatting
+    # - title: Links
+    #   link: /examples/links
+    - title: Todo App
+      link: /examples/todo-app
+    # - title: Read-only
+    #   link: /examples/read-only
+    # - title: Minimalist
+    #   link: /examples/minimalist
+    # - title: Use with v-model
+    #   link: /examples/v-model
+    # - title: Drag handle
+    #   link: /examples/drag-handle
+    #   draft: true
+    # - title: Export HTML or JSON
+    #   link: /examples/export-html-or-json
 
 - title: Guide
   items:
@@ -51,8 +52,8 @@
           link: /guide/getting-started/vue-cli
     - title: Configure the editor
       link: /guide/configure-the-editor
-    - title: Create a new toolbar
-      link: /guide/create-your-editor
+    - title: Create a toolbar
+      link: /guide/create-a-toolbar
       draft: true
     - title: Add custom styling
       link: /guide/custom-styling
