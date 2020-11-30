@@ -385,6 +385,8 @@ export class Editor extends EventEmitter {
    * Destroy the editor.
    */
   public destroy() {
+    this.emit('destroy')
+
     if (this.view) {
       this.view.destroy()
     }

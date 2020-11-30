@@ -108,6 +108,12 @@ export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<Exte
     editor: Editor,
     type: MarkType,
   }) => Plugin[],
+
+  onDestroy?: ((this: {
+    options: Options,
+    editor: Editor,
+    type: MarkType,
+  }) => void) | null,
 }> {}
 
 export class Mark<Options = any, Commands = {}> {
@@ -129,6 +135,7 @@ export class Mark<Options = any, Commands = {}> {
     parseHTML: () => null,
     renderHTML: null,
     addAttributes: () => ({}),
+    onDestroy: null,
   }
 
   options!: Options

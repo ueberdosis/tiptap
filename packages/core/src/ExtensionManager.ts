@@ -33,6 +33,10 @@ export default class ExtensionManager {
       const commands = extension.config.addCommands.bind(context)()
 
       editor.registerCommands(commands)
+
+      if (typeof extension.config.onDestroy === 'function') {
+        this.editor.on('destroy', extension.config.onDestroy.bind(context))
+      }
     })
   }
 

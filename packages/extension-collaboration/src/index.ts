@@ -31,6 +31,10 @@ const Collaboration = Extension.create({
       'Mod-Shift-z': redo,
     }
   },
+
+  onDestroy() {
+    this.options.provider?.destroy()
+  },
 })
 
 export default Collaboration

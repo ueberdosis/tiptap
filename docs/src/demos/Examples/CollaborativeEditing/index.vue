@@ -114,7 +114,6 @@ export default {
     return {
       name: this.getRandomName(),
       color: this.getRandomColor(),
-      provider: null,
       indexdb: null,
       editor: null,
       users: [],
@@ -123,17 +122,17 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
-    this.provider = new WebrtcProvider('tiptap-collaboration-example', ydoc)
+    const provider = new WebrtcProvider('tiptap-collaboration-example', ydoc)
     this.indexdb = new IndexeddbPersistence('tiptap-collaboration-example', ydoc)
 
     this.editor = new Editor({
       extensions: [
         ...defaultExtensions(),
         Collaboration.configure({
-          provider: this.provider,
+          provider,
         }),
         CollaborationCursor.configure({
-          provider: this.provider,
+          provider,
           user: {
             name: this.name,
             color: this.color,
@@ -201,7 +200,6 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
-    this.provider.destroy()
   },
 }
 </script>
