@@ -19,35 +19,28 @@ export default {
 
   data() {
     return {
-      documentName: 'tiptap-collaboration-cursor-extension',
-      ydoc: null,
-      provider: null,
-      type: null,
       editor: null,
     }
   },
 
   mounted() {
-    this.ydoc = new Y.Doc()
-    this.provider = new WebrtcProvider(this.documentName, this.ydoc)
-    this.type = this.ydoc.getXmlFragment('prosemirror')
+    const ydoc = new Y.Doc()
+    const provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
 
     this.editor = new Editor({
-      // TODO: This is added by every new user.
-      // content: `
-      //   <p>Example Text</p>
-      // `,
       extensions: [
         Document,
         Paragraph,
         Text,
         Collaboration.configure({
-          type: this.type,
+          provider,
         }),
         CollaborationCursor.configure({
-          provider: this.provider,
-          name: 'Cyndi Lauper',
-          color: '#f783ac',
+          provider,
+          user: {
+            name: 'Cyndi Lauper',
+            color: '#f783ac',
+          },
         }),
       ],
     })
@@ -55,7 +48,6 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
-    this.provider.destroy()
   },
 }
 </script>
