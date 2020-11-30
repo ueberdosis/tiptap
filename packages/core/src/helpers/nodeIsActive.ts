@@ -1,18 +1,29 @@
-import { findParentNode, findSelectedNodeOfType } from 'prosemirror-utils'
 import { EditorState } from 'prosemirror-state'
 import { Node, NodeType } from 'prosemirror-model'
+import objectIncludes from '../utilities/objectIncludes'
+import getNodeType from '../helpers/getNodeType'
 
-export default function nodeIsActive(state: EditorState, type: NodeType, attributes = {}) {
-  const predicate = (node: Node) => node.type === type
-  const node = findSelectedNodeOfType(type)(state.selection)
-    || findParentNode(predicate)(state.selection)
+export default function nodeIsActive(state: EditorState, typeOrName: NodeType | string | null, attributes = {}) {
+  const { from, to } = state.selection
+  const type = typeOrName
+    ? getNodeType(typeOrName, state.schema)
+    : null
 
-  if (!Object.keys(attributes).length || !node) {
-    return !!node
-  }
+  let nodes: Node[] = []
 
-  return node.node.hasMarkup(type, {
-    ...node.node.attrs,
-    ...attributes,
+  state.doc.nodesBetween(from, to, node => {
+    nodes = [...nodes, node]
   })
+
+  const nodeWithAttributes = nodes
+    .filter(node => {
+      if (!type) {
+        return true
+      }
+
+      return type.name === node.type.name
+    })
+    .find(node => objectIncludes(node.attrs, attributes))
+
+  return !!nodeWithAttributes
 }
