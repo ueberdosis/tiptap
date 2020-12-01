@@ -26,9 +26,9 @@ const Collaboration = Extension.create({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-z': undo,
-      'Mod-y': redo,
-      'Mod-Shift-z': redo,
+      'Mod-z': () => undo(this.editor.state),
+      'Mod-y': () => redo(this.editor.state),
+      'Mod-Shift-z': () => redo(this.editor.state),
     }
   },
 

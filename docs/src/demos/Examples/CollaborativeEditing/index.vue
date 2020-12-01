@@ -82,7 +82,7 @@ export default {
 
     this.editor = new Editor({
       extensions: [
-        ...defaultExtensions(),
+        ...defaultExtensions().filter(extension => extension.config.name !== 'history'),
         Collaboration.configure({
           provider,
         }),
