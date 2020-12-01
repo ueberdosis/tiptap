@@ -1,9 +1,9 @@
 # Link
 The Link extension adds support for `<a>` tags to the editor. The extension is headless too, there is no actual UI to add, modify or delete links. The usage example below uses the native JavaScript prompt to show you how that could work.
 
-In a real world application, you would probably add a more sophisticated user interface. [Check out the example](/examples/links) to see how that could look like.
+In a real world application, you would probably add a more sophisticated user interface.
 
-Pasted URLs will be linked automatically.
+Pasted URLs will be transformed to links automatically.
 
 ## Installation
 ```bash

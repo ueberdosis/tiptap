@@ -4,7 +4,7 @@ This extension adds information about all connected users (like their name and a
 Open this page in multiple browser windows to test it.
 
 :::premium Pro Extension
-We kindly ask you to sponsor us, before using this extension in production. [Read more](/sponsor)
+We kindly ask you to [sponsor our work](/sponsor) when using this extension in production.
 :::
 
 ::: warning Use with Collaboration
@@ -21,12 +21,11 @@ yarn add @tiptap/extension-collaboration-cursor
 ```
 
 ## Settings
-| Option   | Type       | Default     | Description                                                                         |
-| -------- | ---------- | ----------- | ----------------------------------------------------------------------------------- |
-| provider | `Object`   | `null`      | The Y.js provider, for example a WebSocket connection.                              |
-| name     | `String`   | `'Someone'` | The name of the current user.                                                       |
-| color    | `String`   | `'#cccccc'` | The current user’s cursor color.                                                    |
-| render   | `Function` | …           | A render function for the cursor, look at the extension source code for an example. |
+| Option   | Type       | Default                       | Description                                                                                                                                                                         |
+| -------- | ---------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| provider | `Object`   | `null`                        | A Y.js network connection, for example a [y-websocket](https://github.com/yjs/y-websocket) instance.                                                                                |
+| user     | `Object`   | `{ user: null, color: null }` | Attributes of the current user, assumes to have a name and a color, but can be used with any attribute.                                                                             |
+| render   | `Function` | …                             | A render function for the cursor, look at [the extension source code](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration-cursor/) for an example. |
 
 ## Commands
 | Command | Parameters    | Description                                                              |
@@ -40,4 +39,4 @@ yarn add @tiptap/extension-collaboration-cursor
 :::warning Public
 The content of this editor is shared with other users.
 :::
-<demo name="Extensions/CollaborationCursor" highlight="11,48-52" />
+<demo name="Extensions/CollaborationCursor" highlight="11,38-44" />

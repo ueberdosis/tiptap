@@ -102,8 +102,8 @@ export default {
         },
         {
           icon: 'double-quotes-l',
-          action: () => this.editor.chain().focus().toggleBlockQuote().run(),
-          isActive: () => this.editor.isActive('blockQuote'),
+          action: () => this.editor.chain().focus().toggleBlockquote().run(),
+          isActive: () => this.editor.isActive('blockquote'),
         },
         {
           icon: 'separator',
