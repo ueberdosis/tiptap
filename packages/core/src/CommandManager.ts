@@ -44,13 +44,13 @@ export default class CommandManager {
   public createCommands() {
     const { commands, editor } = this
     const { state, view } = editor
+    const { tr } = state
+    const props = this.buildProps(tr)
 
     return Object.fromEntries(Object
       .entries(commands)
       .map(([name, command]) => {
         const method = (...args: any) => {
-          const { tr } = state
-          const props = this.buildProps(tr)
           const callback = command(...args)(props)
 
           view.dispatch(tr)

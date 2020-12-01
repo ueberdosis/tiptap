@@ -23,6 +23,7 @@ export const unsetMark = (typeOrName: string | MarkType): Command => ({ tr, stat
 
   if (dispatch) {
     tr.removeMark(from, to, type)
+    tr.removeStoredMark(type)
   }
 
   return true
