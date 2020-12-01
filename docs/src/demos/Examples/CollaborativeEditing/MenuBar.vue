@@ -96,7 +96,7 @@ export default {
           isActive: () => this.editor.isActive('orderedList'),
         },
         {
-          icon: 'code-view',
+          icon: 'code-box-line',
           action: () => this.editor.chain().focus().toggleCodeBlock().run(),
           isActive: () => this.editor.isActive('codeBlock'),
         },
