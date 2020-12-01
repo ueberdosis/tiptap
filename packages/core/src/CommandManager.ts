@@ -141,10 +141,6 @@ export default class CommandManager {
   }
 
   public chainableState(tr: Transaction, state: EditorState): EditorState {
-    let { selection } = tr
-    let { doc } = tr
-    let { storedMarks } = tr
-
     return {
       ...state,
       schema: state.schema,
@@ -154,19 +150,15 @@ export default class CommandManager {
       reconfigure: state.reconfigure.bind(state),
       toJSON: state.toJSON.bind(state),
       get storedMarks() {
-        return storedMarks
+        return tr.storedMarks
       },
       get selection() {
-        return selection
+        return tr.selection
       },
       get doc() {
-        return doc
+        return tr.doc
       },
       get tr() {
-        selection = tr.selection
-        doc = tr.doc
-        storedMarks = tr.storedMarks
-
         return tr
       },
     }
