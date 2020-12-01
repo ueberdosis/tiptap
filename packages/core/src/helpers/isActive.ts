@@ -1,20 +1,22 @@
 import { EditorState } from 'prosemirror-state'
-import nodeIsActive from './nodeIsActive'
-import markIsActive from './markIsActive'
+import isNodeActive from './isNodeActive'
+import isMarkActive from './isMarkActive'
 import getSchemaTypeNameByName from './getSchemaTypeNameByName'
 
 export default function isActive(state: EditorState, name: string | null, attributes: { [key: string ]: any } = {}): boolean {
-  if (name) {
-    const schemaType = getSchemaTypeNameByName(name, state.schema)
-
-    if (schemaType === 'node') {
-      return nodeIsActive(state, state.schema.nodes[name], attributes)
-    } if (schemaType === 'mark') {
-      return markIsActive(state, state.schema.marks[name], attributes)
-    }
-
-    return false
+  if (!name) {
+    return isNodeActive(state, null, attributes) || isMarkActive(state, null, attributes)
   }
 
-  return nodeIsActive(state, null, attributes) || markIsActive(state, null, attributes)
+  const schemaType = getSchemaTypeNameByName(name, state.schema)
+
+  if (schemaType === 'node') {
+    return isNodeActive(state, name, attributes)
+  }
+
+  if (schemaType === 'mark') {
+    return isMarkActive(state, name, attributes)
+  }
+
+  return false
 }

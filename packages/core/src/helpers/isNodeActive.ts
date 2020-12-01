@@ -1,15 +1,19 @@
 import { EditorState } from 'prosemirror-state'
 import { Node, NodeType } from 'prosemirror-model'
 import objectIncludes from '../utilities/objectIncludes'
-import getNodeType from '../helpers/getNodeType'
+import getNodeType from './getNodeType'
 
-type NodeRange = {
+export type NodeRange = {
   node: Node,
   from: number,
   to: number,
 }
 
-export default function nodeIsActive(state: EditorState, typeOrName: NodeType | string | null, attributes = {}) {
+export default function isNodeActive(
+  state: EditorState,
+  typeOrName: NodeType | string | null,
+  attributes = {},
+): boolean {
   const { from, to, empty } = state.selection
   const type = typeOrName
     ? getNodeType(typeOrName, state.schema)
@@ -42,6 +46,8 @@ export default function nodeIsActive(state: EditorState, typeOrName: NodeType | 
       .find(nodeRange => objectIncludes(nodeRange.node.attrs, attributes))
   }
 
+  const selectionRange = to - from
+
   const range = nodeRanges
     .filter(nodeRange => {
       if (!type) {
@@ -56,7 +62,5 @@ export default function nodeIsActive(state: EditorState, typeOrName: NodeType | 
       return sum + size
     }, 0)
 
-  const selectionRange = to - from
-
-  return selectionRange <= range
+  return selectionRange === range
 }

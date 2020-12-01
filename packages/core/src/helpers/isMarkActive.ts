@@ -1,15 +1,19 @@
 import { EditorState } from 'prosemirror-state'
 import { Mark, MarkType } from 'prosemirror-model'
 import objectIncludes from '../utilities/objectIncludes'
-import getMarkType from '../helpers/getMarkType'
+import getMarkType from './getMarkType'
 
-type MarkRange = {
+export type MarkRange = {
   mark: Mark,
   from: number,
   to: number,
 }
 
-export default function markIsActive(state: EditorState, typeOrName: MarkType | string | null, attributes = {}) {
+export default function isMarkActive(
+  state: EditorState,
+  typeOrName: MarkType | string | null,
+  attributes = {},
+): boolean {
   const { from, to, empty } = state.selection
   const type = typeOrName
     ? getMarkType(typeOrName, state.schema)
@@ -60,5 +64,5 @@ export default function markIsActive(state: EditorState, typeOrName: MarkType | 
       return sum + size
     }, 0)
 
-  return selectionRange <= range
+  return selectionRange === range
 }

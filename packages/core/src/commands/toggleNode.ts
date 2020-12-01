@@ -1,6 +1,6 @@
 import { NodeType } from 'prosemirror-model'
 import { Command } from '../types'
-import nodeIsActive from '../helpers/nodeIsActive'
+import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
 /**
@@ -9,7 +9,7 @@ import getNodeType from '../helpers/getNodeType'
 export const toggleNode = (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attrs = {}): Command => ({ state, commands }) => {
   const type = getNodeType(typeOrName, state.schema)
   const toggleType = getNodeType(toggleTypeOrName, state.schema)
-  const isActive = nodeIsActive(state, type, attrs)
+  const isActive = isNodeActive(state, type, attrs)
 
   if (isActive) {
     return commands.setNode(toggleType)
