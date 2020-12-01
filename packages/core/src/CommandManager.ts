@@ -68,6 +68,7 @@ export default class CommandManager {
     const callbacks: boolean[] = []
     const hasStartTransaction = !!startTr
     const tr = startTr || state.tr
+    const props = this.buildProps(tr, shouldDispatch)
 
     return new Proxy({}, {
       get: (_, name: string, proxy) => {
@@ -86,7 +87,6 @@ export default class CommandManager {
         }
 
         return (...args: any) => {
-          const props = this.buildProps(tr, shouldDispatch)
           const callback = command(...args)(props)
           callbacks.push(callback)
 
@@ -141,10 +141,6 @@ export default class CommandManager {
   }
 
   public chainableState(tr: Transaction, state: EditorState): EditorState {
-    let { selection } = tr
-    let { doc } = tr
-    let { storedMarks } = tr
-
     return {
       ...state,
       schema: state.schema,
@@ -154,19 +150,15 @@ export default class CommandManager {
       reconfigure: state.reconfigure.bind(state),
       toJSON: state.toJSON.bind(state),
       get storedMarks() {
-        return storedMarks
+        return tr.storedMarks
       },
       get selection() {
-        return selection
+        return tr.selection
       },
       get doc() {
-        return doc
+        return tr.doc
       },
       get tr() {
-        selection = tr.selection
-        doc = tr.doc
-        storedMarks = tr.storedMarks
-
         return tr
       },
     }
