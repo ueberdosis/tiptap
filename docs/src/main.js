@@ -10,6 +10,15 @@ Prism.manual = true
 export default function (Vue, { head }) {
   head.htmlAttrs = { 'data-theme': 'dark' }
 
+  // fix docsearch
+  if (!window.process) {
+    window.process = {
+      env: {
+        NODE_ENV: 'production',
+      },
+    }
+  }
+
   Vue.use(PortalVue)
   Vue.component('Layout', App)
   Vue.component('Demo', () => import(/* webpackChunkName: "demo" */ '~/components/Demo'))
