@@ -63,7 +63,9 @@ export default {
     margin-top: 0.75em;
   }
 }
+</style>
 
+<style lang="scss" scoped>
 .toc {
   opacity: 0.75;
   border-radius: 0.5rem;
