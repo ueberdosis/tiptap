@@ -11,7 +11,7 @@ export default function (Vue, { head }) {
   head.htmlAttrs = { 'data-theme': 'dark' }
 
   // fix docsearch
-  if (!window.process) {
+  if (typeof window === 'object' && !window.process) {
     window.process = {
       env: {
         NODE_ENV: 'production',

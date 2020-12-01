@@ -30,8 +30,6 @@
       link: /examples/book
     - title: For minimalists
       link: /examples/minimalist
-    # - title: Use with v-model
-    #   link: /examples/v-model
 
 - title: Guide
   items:
@@ -47,12 +45,12 @@
     - title: Create a toolbar
       link: /guide/create-a-toolbar
       draft: true
-    - title: Add custom styling
+    - title: Custom styling
       link: /guide/custom-styling
     - title: Store content
       link: /guide/store-content
-    - title: Build custom extensions
-      link: /guide/build-custom-extensions
+    - title: Build extensions
+      link: /guide/build-extensions
     - title: Define node views
       link: /guide/node-views
       draft: true

@@ -1,4 +1,4 @@
-# Build custom extensions
+# Build extensions
 
 ## toc
 
@@ -350,6 +350,37 @@ const CustomStrike = Strike.extend({
     return [
       markPasteRule(pasteRegex, this.type),
     ]
+  },
+})
+```
+
+### Events
+You can even move your [event listeners](/api/events) to a separate extension. Here is an example with listeners for all events:
+
+```js
+import { Extension } from '@tiptap/core'
+
+const CustomExtension = Extension.create({
+  onCreate() {
+    // The editor is ready.
+  },
+  onUpdate() {
+    // The content has changed.
+  },
+  onSelection() {
+    // The selection has changed.
+  },
+  onTransaction({ transaction }) {
+    // The editor state has changed.
+  },
+  onFocus({ event }) {
+    // The editor is focused.
+  },
+  onBlur({ event }) {
+    // The editor isn’t focused anymore.
+  },
+  onDestroy() {
+    // The editor is being destroyed.
   },
 })
 ```
