@@ -51,7 +51,7 @@
       link: /guide/store-content
     - title: Build extensions
       link: /guide/build-extensions
-    - title: Define node views
+    - title: Complex node views
       link: /guide/node-views
       draft: true
     - title: Working with TypeScript
