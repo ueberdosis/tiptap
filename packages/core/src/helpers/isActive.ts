@@ -2,8 +2,9 @@ import { EditorState } from 'prosemirror-state'
 import isNodeActive from './isNodeActive'
 import isMarkActive from './isMarkActive'
 import getSchemaTypeNameByName from './getSchemaTypeNameByName'
+import { AnyObject } from '../types'
 
-export default function isActive(state: EditorState, name: string | null, attributes: { [key: string ]: any } = {}): boolean {
+export default function isActive(state: EditorState, name: string | null, attributes: AnyObject = {}): boolean {
   if (!name) {
     return isNodeActive(state, null, attributes) || isMarkActive(state, null, attributes)
   }
