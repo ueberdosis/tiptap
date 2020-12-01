@@ -9,7 +9,7 @@ This class is a central building block of tiptap. It does most of the heavy lift
 Check out the API documentation to see [all available options](/api/editor/).
 
 ### Element
-The `element` specifies the HTML element the editor will be binded too. The following code will add tiptap to an element with the `.element` class:
+The `element` specifies the HTML element the editor will be binded too. The following code will integrate tiptap with an element with the `.element` class:
 
 ```js
 import { Editor } from '@tiptap/core'

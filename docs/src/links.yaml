@@ -40,6 +40,8 @@
       items:
         - title: Vue CLI
           link: /guide/getting-started/vue-cli
+        - title: Nuxt.js
+          link: /guide/getting-started/nuxtjs
     - title: Configure the editor
       link: /guide/configure-the-editor
     - title: Create a toolbar
