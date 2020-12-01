@@ -89,7 +89,7 @@ export default {
 ```
 
 ## 5. Add it to your app
-Now, let’s replace the content of `pages/index.vue` with the following example code to use our new `Tiptap` component in our app.
+Now, let’s replace the content of `src/App.vue` with the following example code to use our new `Tiptap` component in our app.
 
 ```html
 <template>
@@ -97,6 +97,22 @@ Now, let’s replace the content of `pages/index.vue` with the following example
     <tiptap />
   </div>
 </template>
+
+<script>
+import Tiptap from './components/Tiptap.vue'
+
+export default {
+  name: 'App',
+  components: {
+    Tiptap
+  }
+}
+</script>
 ```
 
 You should now see tiptap in your browser. You’ve successfully set up tiptap! Time to give yourself a pat on the back. Let’s start to configure your editor in the next step.
+
+## 6. Use v-model (optional)
+You’re probably used to bind your data with `v-model` in forms, that’s also possible with tiptap. Here is a working example component, that you can integrate in your project:
+
+<demo name="Guide/GettingStarted/VModel" />

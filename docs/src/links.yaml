@@ -30,8 +30,6 @@
       link: /examples/book
     - title: For minimalists
       link: /examples/minimalist
-    # - title: Use with v-model
-    #   link: /examples/v-model
 
 - title: Guide
   items:
