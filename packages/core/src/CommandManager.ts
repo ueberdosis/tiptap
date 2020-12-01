@@ -68,6 +68,7 @@ export default class CommandManager {
     const callbacks: boolean[] = []
     const hasStartTransaction = !!startTr
     const tr = startTr || state.tr
+    const props = this.buildProps(tr, shouldDispatch)
 
     return new Proxy({}, {
       get: (_, name: string, proxy) => {
@@ -86,7 +87,6 @@ export default class CommandManager {
         }
 
         return (...args: any) => {
-          const props = this.buildProps(tr, shouldDispatch)
           const callback = command(...args)(props)
           callbacks.push(callback)
 
