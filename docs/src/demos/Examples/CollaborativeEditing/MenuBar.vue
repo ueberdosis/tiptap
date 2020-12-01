@@ -48,13 +48,12 @@ export default {
         },
         {
           icon: 'format-clear',
-          title: 'Clear Inline Format',
-          action: () => this.editor.chain().focus().unsetAllMarks().run(),
-        },
-        {
-          icon: 'eraser-line',
-          title: 'Reset Format',
-          action: () => this.editor.chain().focus().clearNodes().run(),
+          title: 'Clear Format',
+          action: () => this.editor.chain()
+            .focus()
+            .clearNodes()
+            .unsetAllMarks()
+            .run(),
         },
         {
           icon: 'paragraph',
