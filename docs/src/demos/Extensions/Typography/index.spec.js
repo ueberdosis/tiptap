@@ -71,7 +71,7 @@ context('/api/extensions/typography', () => {
 
   it('should make a one half', () => {
     cy.get('.ProseMirror')
-      .type('1/2 oneHalfw')
+      .type('1/2 oneHalf')
       .should('contain', '½ oneHalf')
   })
 
