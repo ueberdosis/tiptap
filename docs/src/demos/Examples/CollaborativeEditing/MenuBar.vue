@@ -47,15 +47,6 @@ export default {
           isActive: () => this.editor.isActive('code'),
         },
         {
-          icon: 'format-clear',
-          title: 'Clear Format',
-          action: () => this.editor.chain()
-            .focus()
-            .clearNodes()
-            .unsetAllMarks()
-            .run(),
-        },
-        {
           icon: 'paragraph',
           title: 'Paragraph',
           action: () => this.editor.chain().focus().setParagraph().run(),
@@ -130,6 +121,15 @@ export default {
           icon: 'text-wrap',
           title: 'Hard Break',
           action: () => this.editor.chain().focus().setHardBreak().run(),
+        },
+        {
+          icon: 'format-clear',
+          title: 'Clear Format',
+          action: () => this.editor.chain()
+            .focus()
+            .clearNodes()
+            .unsetAllMarks()
+            .run(),
         },
         {
           icon: 'arrow-go-back-line',
