@@ -383,7 +383,7 @@ const CustomLink = Link.extend({
 })
 ```
 
-There is a whole lot to learn about node views, so head over to the [dedicated section in our guide about node views](/guide/advanced-node-views) for more information. If you’re looking for a real-world example, look at the source code of the [`TaskItem`](/api/nodes/task-item) node. This is using a node view to render the checkboxes.
+There is a whole lot to learn about node views, so head over to the [dedicated section in our guide about node views](/guide/node-views) for more information. If you’re looking for a real-world example, look at the source code of the [`TaskItem`](/api/nodes/task-item) node. This is using a node view to render the checkboxes.
 
 ## Start from scratch
 You can also build your own extensions from scratch with the `Node`, `Mark`, and `Extension` classes. Pass an option with your code and configuration.
