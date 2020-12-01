@@ -28,7 +28,8 @@ p {
 ## Option 2: Add custom classes
 Most extensions have a `class` option, which you can use to add a custom CSS class to the HTML tag.
 
-Most extensions allow you to add attributes to the rendered HTML through the `HTMLAttributes` configuration. You can use that to add a custom class (or any other attribute):
+### Extensions
+Most extensions allow you to add attributes to the rendered HTML through the `HTMLAttributes` option. You can use that to add a custom class (or any other attribute). That’s also very helpful, when you work with [Tailwind CSS](https://tailwindcss.com/).
 
 ```js
 new Editor({
@@ -57,6 +58,19 @@ The rendered HTML will look like that:
 ```
 
 If there are already classes defined by the extensions, your classes will be added.
+
+### Editor
+You can even pass classes to the element which contains the editor like that:
+
+```js
+new Editor({
+  editorProps: {
+    attributes: {
+      class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
+    }
+  },
+})
+```
 
 ## Option 3: Customize the HTML
 You can even customize the markup for every extension. This will make a custom bold extension that doesn’t render a `<strong>` tag, but a `<b>` tag:

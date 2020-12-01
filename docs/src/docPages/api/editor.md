@@ -101,7 +101,7 @@ new Editor({
 | `null`    | Disables autofocus.                                    |
 
 ### Enable input rules
-By default, tiptap enables all [input rules](/guide/build-custom-extensions/#input-rules). With `enableInputRules` you can disable that.
+By default, tiptap enables all [input rules](/guide/build-extensions/#input-rules). With `enableInputRules` you can disable that.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -115,7 +115,7 @@ new Editor({
 ```
 
 ### Enable paste rules
-By default, tiptap enables all [paste rules](/guide/build-custom-extensions/#paste-rules). With `enablePasteRules` you can disable that.
+By default, tiptap enables all [paste rules](/guide/build-extensions/#paste-rules). With `enablePasteRules` you can disable that.
 
 ```js
 import { Editor } from '@tiptap/core'
