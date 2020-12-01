@@ -21,7 +21,7 @@ export default function isMarkActive(
     : null
 
   if (empty) {
-    return !!state.selection.$head.marks()
+    return !!(state.storedMarks || state.selection.$from.marks())
       .filter(mark => {
         if (!type) {
           return true
