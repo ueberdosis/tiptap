@@ -3,6 +3,7 @@
     class="menu-item"
     :class="{ 'is-active': isActive ? isActive(): null }"
     @click="action"
+    :title="title"
   >
     <svg class="remix">
       <use :xlink:href="require('../../../../../node_modules/remixicon/fonts/remixicon.symbol.svg') + `#ri-${icon}`" />
@@ -14,6 +15,11 @@
 export default {
   props: {
     icon: {
+      type: String,
+      required: true,
+    },
+
+    title: {
       type: String,
       required: true,
     },
