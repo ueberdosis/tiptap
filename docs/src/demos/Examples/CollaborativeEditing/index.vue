@@ -181,12 +181,14 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.25rem 1rem;
+    padding: 0.25rem 0.25rem 0.25rem 0.75rem;
     border-top: 1px solid rgba(black, 0.1);
   }
 
   /* Some information about the status */
   &__status {
+    display: flex;
+    align-items: center;
     font-size: 14px;
     font-weight: 500;
     border-radius: 5px;
@@ -195,6 +197,7 @@ export default {
 
     &::before {
       content: ' ';
+      flex: 0 0 auto;
       display: inline-block;
       width: 0.5rem;
       height: 0.5rem;
@@ -213,7 +216,22 @@ export default {
   }
 
   &__actions {
+    button {
+      background: none;
+      border: none;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(black, 0.5);
+      border-radius: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      margin-right: 0.25rem;
 
+      &:hover {
+        color: black;
+        background-color: rgba(black, 0.05);
+      }
+    }
   }
 }
 </style>
