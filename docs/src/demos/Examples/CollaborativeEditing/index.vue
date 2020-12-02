@@ -5,9 +5,10 @@
       <editor-content class="editor__content" :editor="editor" />
       <div class="editor__users">
         <div :class="`editor__status editor__status--${status}`">
-          <template v-if="status">
-            {{ status }},
+          {{ status }}<template v-if="status === 'connected'">
+            as {{ currentUser.name }}
           </template>
+          &middot;
           {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
         </div>
         <div class="editor__actions">
