@@ -71,7 +71,7 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
-    const provider = new WebsocketProvider('ws://websocket.tiptap.dev', 'tiptap-collaboration-example', ydoc)
+    const provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-collaboration-example', ydoc)
     provider.on('status', event => {
       this.status = event.status
     })
