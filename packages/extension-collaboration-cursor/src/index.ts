@@ -49,8 +49,8 @@ const CollaborationCursor = Extension.create({
        */
       user: (attributes: { [key: string]: any }): Command => () => {
         this.options.user = attributes
+
         this.options.provider.awareness.setLocalStateField('user', this.options.user)
-        this.options.onUpdate(awarenessStatesToArray(this.options.provider.awareness.states))
 
         return true
       },
@@ -64,6 +64,19 @@ const CollaborationCursor = Extension.create({
 
         this.options.provider.awareness.on('change', () => {
           this.options.onUpdate(awarenessStatesToArray(this.options.provider.awareness.states))
+        })
+
+        this.options.provider.awareness.on('update', () => {
+          this.options.onUpdate(awarenessStatesToArray(this.options.provider.awareness.states))
+        })
+
+        this.options.provider.on('status', (event: { status: string }) => {
+          if (event.status === 'connected') {
+            // FIX: Reset the awareness state
+            // PR: https://github.com/yjs/y-protocols/issues/7
+            this.options.provider.awareness.setLocalState({})
+            this.options.provider.awareness.setLocalStateField('user', this.options.user)
+          }
         })
 
         this.options.onUpdate(awarenessStatesToArray(this.options.provider.awareness.states))

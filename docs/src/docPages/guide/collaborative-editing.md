@@ -205,16 +205,54 @@ Yes, it’s magic. As already mentioned, that is all based on the fantastic Y.js
 ## Store the content
 Our collaborative editing backend is ready to handle advanced use cases, like authorization, persistence and scaling. Let’s go through a few common use cases here!
 
+### Authentication
+With the `onConnect` hook you can write a custom Promise to check if a client is authenticated. That can be a request to an API, to a microservice, a database query, or whatever is needed, as long as it’s executing `resolve()` at some point. You can also pass contextual data to the `resolve()` method which will be accessible in other hooks.
+
+```js
+import { Server } from '@hocuspocus/server'
+
+const server = Server.configure({
+  onConnect(data, resolve, reject) {
+    const { requestHeaders } = data
+    // Your code here, for example a request to an API
+
+    // If the user is not authorized …
+    if (requestHeaders.access_token !== 'super-secret-token') {
+       return reject()
+    }
+
+    // Set contextual data
+    const context = {
+        user_id: 1234,
+    }
+
+    // If the user is authorized …
+    resolve(context)
+  },
+})
+
+server.listen()
+```
+
 ### Authorization
-With the `onJoinDocument` hook you can write a custom Promise to check if a client is authorized. That can be a request to an API, to a microservice, a database query, or whatever is needed, as long as it’s executing `resolve()` at some point.
+With the `onJoinDocument` hook you can check if a user is authorized to edit the current document. This works in the same way the [Authentication](#authentication) works.
 
 ```js
 import { Server } from '@hocuspocus/server'
 
 const server = Server.configure({
   onJoinDocument(data, resolve, reject) {
-    const { documentName, clientID, requestHeaders, clientsCount, document } = data
+    const {
+      clientsCount,
+      context,
+      document,
+      documentName,
+      requestHeaders,
+    } = data
     // Your code here, for example a request to an API
+
+    // Access the contextual data from the onConnect hook, in this example this will print { user_id: 1234 }
+    console.log(context)
 
     // If the user is authorized …
     resolve()
@@ -258,8 +296,14 @@ const server = Server.configure({
 
   // executed when the document is changed
   onChange(data) {
-    const { documentName, clientID, requestHeaders, clientsCount, document } = data
+    const {
+      clientsCount,
+      document,
+      documentName,
+      requestHeaders,
+    } = data
 
+    // Your code here, for example a request to an API
   },
 })
 
