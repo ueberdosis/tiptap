@@ -49,6 +49,10 @@ import { WebsocketProvider } from 'y-websocket'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import MenuBar from './MenuBar.vue'
 
+const CustomTaskItem = TaskItem.extend({
+  content: 'paragraph',
+})
+
 const getRandomElement = list => {
   return list[Math.floor(Math.random() * list.length)]
 }
@@ -86,7 +90,7 @@ export default {
         ...defaultExtensions().filter(extension => extension.config.name !== 'history'),
         Highlight,
         TaskList,
-        TaskItem,
+        CustomTaskItem,
         Collaboration.configure({
           provider,
         }),
