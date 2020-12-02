@@ -8,6 +8,8 @@ export interface DropcursorOptions {
 }
 
 const Dropcursor = Extension.create({
+  name: 'dropCursor',
+
   defaultOptions: <DropcursorOptions>{
     color: 'black',
     width: 1,

@@ -32,6 +32,8 @@ import * as wrapIn from '../commands/wrapIn'
 import * as wrapInList from '../commands/wrapInList'
 
 export const Commands = Extension.create({
+  name: 'commands',
+
   addCommands() {
     return {
       ...blur,

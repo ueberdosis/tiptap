@@ -6,6 +6,8 @@ type FontFamilyOptions = {
 }
 
 const FontFamily = Extension.create({
+  name: 'fontFamily',
+
   defaultOptions: <FontFamilyOptions>{
     types: ['textStyle'],
   },

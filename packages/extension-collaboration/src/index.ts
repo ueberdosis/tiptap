@@ -11,6 +11,8 @@ export interface CollaborationOptions {
 }
 
 const Collaboration = Extension.create({
+  name: 'collaboration',
+
   defaultOptions: <CollaborationOptions>{
     provider: null,
   },
