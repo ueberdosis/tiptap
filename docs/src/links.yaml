@@ -91,6 +91,9 @@
           link: /api/nodes/ordered-list
         - title: Paragraph
           link: /api/nodes/paragraph
+        - title: Table
+          link: /api/nodes/table
+          draft: true
         - title: TaskList
           link: /api/nodes/task-list
         - title: TaskItem
@@ -135,6 +138,9 @@
           link: /api/extensions/gapcursor
         - title: History
           link: /api/extensions/history
+        - title: Suggestions
+          link: /api/extensions/suggestions
+          draft: true
         - title: TextAlign
           link: /api/extensions/text-align
         - title: Typography
