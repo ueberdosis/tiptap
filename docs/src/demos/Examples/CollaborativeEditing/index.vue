@@ -42,8 +42,7 @@ import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-ki
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import * as Y from 'yjs'
-import { WebrtcProvider } from 'y-webrtc'
-// import { WebsocketProvider } from 'y-websocket'
+import { WebsocketProvider } from 'y-websocket'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import MenuBar from './MenuBar.vue'
 
@@ -72,8 +71,7 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
-    const provider = new WebrtcProvider('tiptap-collaboration-example', ydoc)
-    // const provider = new WebsocketProvider('ws://127.0.0.1:1234', 'tiptap-collaboration-example', ydoc)
+    const provider = new WebsocketProvider('ws://websocket.tiptap.dev', 'tiptap-collaboration-example', ydoc)
     provider.on('status', event => {
       this.status = event.status
     })
