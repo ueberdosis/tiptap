@@ -213,11 +213,11 @@ import { Server } from '@hocuspocus/server'
 
 const server = Server.configure({
   onConnect(data, resolve, reject) {
-    const { requestHeaders } = data
+    const { requestHeaders, requestParameters } = data
     // Your code here, for example a request to an API
 
     // If the user is not authorized …
-    if (requestHeaders.access_token !== 'super-secret-token') {
+    if (requestParameters.access_token !== 'super-secret-token') {
        return reject()
     }
 
@@ -248,6 +248,7 @@ const server = Server.configure({
       document,
       documentName,
       requestHeaders,
+      requestParameters,
     } = data
     // Your code here, for example a request to an API
 
@@ -301,6 +302,7 @@ const server = Server.configure({
       document,
       documentName,
       requestHeaders,
+      requestParameters,
     } = data
 
     // Your code here, for example a request to an API
