@@ -22,13 +22,17 @@ const Collaboration = Extension.create({
       /**
        * Undo recent changes
        */
-      undo: (): Command => ({ state }) => {
+      undo: (): Command => ({ tr, state }) => {
+        tr.setMeta('preventDispatch', true)
+
         return undo(state)
       },
       /**
        * Reapply reverted changes
        */
-      redo: (): Command => ({ state }) => {
+      redo: (): Command => ({ tr, state }) => {
+        tr.setMeta('preventDispatch', true)
+
         return redo(state)
       },
     }
