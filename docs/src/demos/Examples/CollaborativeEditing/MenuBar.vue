@@ -47,10 +47,10 @@ export default {
           isActive: () => this.editor.isActive('code'),
         },
         {
-          icon: 'paragraph',
-          title: 'Paragraph',
-          action: () => this.editor.chain().focus().setParagraph().run(),
-          isActive: () => this.editor.isActive('paragraph'),
+          icon: 'mark-pen-line',
+          title: 'Highlight',
+          action: () => this.editor.chain().focus().toggleHighlight().run(),
+          isActive: () => this.editor.isActive('highlight'),
         },
         {
           icon: 'h-1',
@@ -65,28 +65,10 @@ export default {
           isActive: () => this.editor.isActive('heading', { level: 2 }),
         },
         {
-          icon: 'h-3',
-          title: 'Heading 3',
-          action: () => this.editor.chain().focus().toggleHeading({ level: 3 }).run(),
-          isActive: () => this.editor.isActive('heading', { level: 3 }),
-        },
-        {
-          icon: 'h-4',
-          title: 'Heading 4',
-          action: () => this.editor.chain().focus().toggleHeading({ level: 4 }).run(),
-          isActive: () => this.editor.isActive('heading', { level: 4 }),
-        },
-        {
-          icon: 'h-5',
-          title: 'Heading 5',
-          action: () => this.editor.chain().focus().toggleHeading({ level: 5 }).run(),
-          isActive: () => this.editor.isActive('heading', { level: 5 }),
-        },
-        {
-          icon: 'h-6',
-          title: 'Heading 6',
-          action: () => this.editor.chain().focus().toggleHeading({ level: 6 }).run(),
-          isActive: () => this.editor.isActive('heading', { level: 6 }),
+          icon: 'paragraph',
+          title: 'Paragraph',
+          action: () => this.editor.chain().focus().setParagraph().run(),
+          isActive: () => this.editor.isActive('paragraph'),
         },
         {
           icon: 'list-unordered',
@@ -99,6 +81,12 @@ export default {
           title: 'Ordered List',
           action: () => this.editor.chain().focus().toggleOrderedList().run(),
           isActive: () => this.editor.isActive('orderedList'),
+        },
+        {
+          icon: 'list-check-2',
+          title: 'Task List',
+          action: () => this.editor.chain().focus().toggleTaskList().run(),
+          isActive: () => this.editor.isActive('taskList'),
         },
         {
           icon: 'code-box-line',
