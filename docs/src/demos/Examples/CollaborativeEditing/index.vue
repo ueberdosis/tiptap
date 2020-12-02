@@ -283,5 +283,20 @@ export default {
     padding-left: 1rem;
     border-left: 2px solid rgba(#0D0D0D, 0.1);
   }
+
+  ul[data-type="taskList"] {
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+
+      > input {
+        flex: 0 0 auto;
+        margin-right: 0.5rem;
+      }
+    }
+  }
 }
 </style>
