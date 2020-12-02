@@ -1,5 +1,9 @@
 <template>
-  <div class="demo">
+  <div v-if="inline && mainFile">
+    <component :is="mainFile" v-if="mode === 'vue'" />
+    <react-renderer :component="mainFile" v-if="mode === 'react'" />
+  </div>
+  <div class="demo" v-else>
     <template v-if="mainFile">
       <div class="demo__preview">
         <component :is="mainFile" v-if="mode === 'vue'" />
@@ -55,6 +59,11 @@ export default {
     mode: {
       type: String,
       default: 'vue',
+    },
+
+    inline: {
+      type: Boolean,
+      default: false,
     },
 
     highlight: {

@@ -155,6 +155,7 @@ export default {
 
 <style lang="scss" scoped>
 .editor {
+  color: black;
   background-color: white;
   border: 1px solid rgba(black, 0.1);
   border-radius: 0.5rem;
