@@ -1,21 +1,19 @@
 <template>
   <div>
-    <div v-if="editor">
-      <menu-bar :editor="editor" />
-      <editor-content :editor="editor" />
-
-      <br>
-
-      <button @click="setName">
-        Set Name
-      </button>
-      <button @click="updateCurrentUser({ name: getRandomName() })">
-        Random Name
-      </button>
-      <button @click="updateCurrentUser({ color: getRandomColor() })">
-        Random Color
-      </button>
+    <div class="editor" v-if="editor">
+      <menu-bar class="editor__menu" :editor="editor" />
+      <editor-content class="editor__content" :editor="editor" />
     </div>
+
+    <button @click="setName">
+      Set Name
+    </button>
+    <button @click="updateCurrentUser({ name: getRandomName() })">
+      Random Name
+    </button>
+    <button @click="updateCurrentUser({ color: getRandomColor() })">
+      Random Color
+    </button>
 
     <div class="collaboration-users">
       <div
@@ -142,6 +140,32 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.editor {
+  background-color: white;
+  border: 1px solid rgba(black, 0.1);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+
+  &__menu {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.25rem;
+    border-bottom: 1px solid rgba(black, 0.1);
+  }
+
+  &__content {
+    padding: 1rem;
+    max-height: 30rem;
+    overflow: auto;
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(black, 0.1);
+    }
+  }
+}
+</style>
 
 <style lang="scss">
 /* A list of all available users */
