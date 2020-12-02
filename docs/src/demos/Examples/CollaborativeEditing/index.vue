@@ -17,9 +17,6 @@
           <button @click="updateCurrentUser({ name: getRandomName() })">
             Random Name
           </button>
-          <button @click="updateCurrentUser({ color: getRandomColor() })">
-            Random Color
-          </button>
         </div>
       </div>
     </div>
@@ -129,13 +126,12 @@ export default {
 
     getRandomColor() {
       return getRandomElement([
-        '#616161',
         '#A975FF',
         '#FB5151',
-        '#fd9170',
+        '#FD9170',
         '#FFCB6B',
         '#68CEF8',
-        '#80cbc4',
+        '#80CBC4',
         '#9DEF8F',
       ])
     },
@@ -190,7 +186,7 @@ export default {
   &__status {
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     border-radius: 5px;
     margin-top: 1rem;
@@ -221,7 +217,7 @@ export default {
       background: none;
       border: none;
       font: inherit;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       color: rgba(black, 0.5);
       border-radius: 0.25rem;
@@ -294,12 +290,12 @@ export default {
   left: -1px;
   font-size: 13px;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 500;
   line-height: normal;
   user-select: none;
-  color: white;
+  color: black;
   padding: 0.1rem 0.3rem;
-  border-radius: 3px;
+  border-radius: 3px 3px 3px 0;
   white-space: nowrap;
 }
 
