@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.4](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-collaboration-cursor@2.0.0-alpha.3...@tiptap/extension-collaboration-cursor@2.0.0-alpha.4) (2020-12-02)
+
+
+### Bug Fixes
+
+* retrieve awareness states after reconnect ([12d9942](https://github.com/ueberdosis/tiptap-next/commit/12d994275c0a4afa2344805e16998690a1c45a4d))
+
+
+
+
+
 # [2.0.0-alpha.3](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-collaboration-cursor@2.0.0-alpha.2...@tiptap/extension-collaboration-cursor@2.0.0-alpha.3) (2020-11-19)
 
 **Note:** Version bump only for package @tiptap/extension-collaboration-cursor
