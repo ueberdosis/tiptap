@@ -138,8 +138,8 @@
           link: /api/extensions/gapcursor
         - title: History
           link: /api/extensions/history
-        - title: Suggestions
-          link: /api/extensions/suggestions
+        - title: Suggestion
+          link: /api/extensions/suggestion
           draft: true
         - title: TextAlign
           link: /api/extensions/text-align
