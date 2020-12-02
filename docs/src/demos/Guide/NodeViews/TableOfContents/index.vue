@@ -27,15 +27,15 @@ export default {
       ],
       content: `
         <toc></toc>
-        <h2>heading</h2>
+        <h2>1 heading</h2>
         <p>paragraph</p>
-        <h3>heading</h3>
+        <h3>1.1 heading</h3>
         <p>paragraph</p>
-        <h3>heading</h3>
+        <h3>1.2 heading</h3>
         <p>paragraph</p>
-        <h2>heading</h2>
+        <h2>2 heading</h2>
         <p>paragraph</p>
-        <h3>heading</h3>
+        <h3>2.1 heading</h3>
         <p>paragraph</p>
       `,
     })

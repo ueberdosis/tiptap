@@ -21,6 +21,8 @@ export const raquo = new InputRule(/>>$/, '»')
 export const multiplication = new InputRule(/\d+\s?([*x])\s?\d+$/, '×')
 
 const Typography = Extension.create({
+  name: 'typography',
+
   addInputRules() {
     return [
       emDash,

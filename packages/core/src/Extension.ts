@@ -7,7 +7,7 @@ export interface ExtensionConfig<Options = any, Commands = {}> {
   /**
    * Name
    */
-  name?: string,
+  name: string,
 
   /**
    * Default options

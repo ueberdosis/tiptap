@@ -63,5 +63,5 @@ export default function isNodeActive(
       return sum + size
     }, 0)
 
-  return selectionRange === range
+  return range >= selectionRange
 }

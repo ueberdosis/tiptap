@@ -18,6 +18,8 @@ const awarenessStatesToArray = (states: Map<number, { [key: string]: any }>) => 
 }
 
 const CollaborationCursor = Extension.create({
+  name: 'collaborationCursor',
+
   defaultOptions: <CollaborationCursorOptions>{
     provider: null,
     user: {

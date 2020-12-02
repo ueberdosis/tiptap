@@ -2,6 +2,8 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 import { Extension } from '../Extension'
 
 export const FocusEvents = Extension.create({
+  name: 'focusEvents',
+
   addProseMirrorPlugins() {
     const { editor } = this
 
@@ -16,7 +18,10 @@ export const FocusEvents = Extension.create({
             focus: (view, event) => {
               editor.isFocused = true
 
-              const transaction = editor.state.tr.setMeta('focus', { event })
+              const transaction = editor.state.tr
+                .setMeta('focus', { event })
+                .setMeta('addToHistory', false)
+
               view.dispatch(transaction)
 
               return true
@@ -24,7 +29,10 @@ export const FocusEvents = Extension.create({
             blur: (view, event) => {
               editor.isFocused = false
 
-              const transaction = editor.state.tr.setMeta('blur', { event })
+              const transaction = editor.state.tr
+                .setMeta('blur', { event })
+                .setMeta('addToHistory', false)
+
               view.dispatch(transaction)
 
               return true

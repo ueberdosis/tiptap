@@ -7,6 +7,8 @@ type TextAlignOptions = {
 }
 
 const TextAlign = Extension.create({
+  name: 'textAlign',
+
   defaultOptions: <TextAlignOptions>{
     types: ['heading', 'paragraph'],
     alignments: ['left', 'center', 'right', 'justify'],
