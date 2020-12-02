@@ -61,7 +61,7 @@ export default {
 
   data() {
     return {
-      currentUser: {
+      currentUser: JSON.parse(localStorage.getItem('currentUser')) || {
         name: this.getRandomName(),
         color: this.getRandomColor(),
       },
@@ -99,11 +99,15 @@ export default {
         }),
       ],
     })
+
+    localStorage.setItem('currentUser', JSON.stringify(this.currentUser))
   },
 
   methods: {
     setName() {
       const name = window.prompt('Name')
+        .trim()
+        .substring(0, 32)
 
       if (name) {
         return this.updateCurrentUser({
@@ -115,6 +119,8 @@ export default {
     updateCurrentUser(attributes) {
       this.currentUser = { ...this.currentUser, ...attributes }
       this.editor.chain().focus().user(this.currentUser).run()
+
+      localStorage.setItem('currentUser', JSON.stringify(this.currentUser))
     },
 
     getRandomColor() {
