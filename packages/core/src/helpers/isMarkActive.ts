@@ -65,5 +65,5 @@ export default function isMarkActive(
       return sum + size
     }, 0)
 
-  return selectionRange === range
+  return range >= selectionRange
 }
