@@ -6,10 +6,9 @@
       <div class="editor__users">
         <div :class="`editor__status editor__status--${status}`">
           {{ status }}<template v-if="status === 'connected'">
-            as {{ currentUser.name }}
+            as {{ currentUser.name }},
+            {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
           </template>
-          &middot;
-          {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
         </div>
         <div class="editor__actions">
           <button @click="setName">
@@ -73,7 +72,7 @@ export default {
       indexdb: null,
       editor: null,
       users: [],
-      status: null,
+      status: 'connecting',
     }
   },
 
