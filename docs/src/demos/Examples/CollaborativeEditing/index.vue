@@ -109,7 +109,7 @@ export default {
 
   methods: {
     setName() {
-      const name = window.prompt('Name')
+      const name = (window.prompt('Name') || '')
         .trim()
         .substring(0, 32)
 
