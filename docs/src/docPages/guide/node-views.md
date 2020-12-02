@@ -1,4 +1,4 @@
-# Advanced node views
+# Complex node views
 
 ## toc
 
