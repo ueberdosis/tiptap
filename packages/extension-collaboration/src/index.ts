@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension, Command } from '@tiptap/core'
 import {
   redo,
   undo,
@@ -15,6 +15,31 @@ const Collaboration = Extension.create({
     provider: null,
   },
 
+  addCommands() {
+    return {
+      /**
+       * Undo recent changes
+       */
+      undo: (): Command => ({ state }) => {
+        return undo(state)
+      },
+      /**
+       * Reapply reverted changes
+       */
+      redo: (): Command => ({ state }) => {
+        return redo(state)
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-z': () => this.editor.commands.undo(),
+      'Mod-y': () => this.editor.commands.redo(),
+      'Shift-Mod-z': () => this.editor.commands.redo(),
+    }
+  },
+
   addProseMirrorPlugins() {
     return [
       ySyncPlugin(
@@ -22,14 +47,6 @@ const Collaboration = Extension.create({
       ),
       yUndoPlugin(),
     ]
-  },
-
-  addKeyboardShortcuts() {
-    return {
-      'Mod-z': () => undo(this.editor.state),
-      'Mod-y': () => redo(this.editor.state),
-      'Mod-Shift-z': () => redo(this.editor.state),
-    }
   },
 
   onDestroy() {

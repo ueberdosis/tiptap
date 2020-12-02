@@ -53,7 +53,9 @@ export default class CommandManager {
         const method = (...args: any) => {
           const callback = command(...args)(props)
 
-          view.dispatch(tr)
+          if (tr.steps.length) {
+            view.dispatch(tr)
+          }
 
           return callback
         }
@@ -72,7 +74,7 @@ export default class CommandManager {
     return new Proxy({}, {
       get: (_, name: string, proxy) => {
         if (name === 'run') {
-          if (!hasStartTransaction && shouldDispatch) {
+          if (!hasStartTransaction && shouldDispatch && tr.steps.length) {
             view.dispatch(tr)
           }
 
