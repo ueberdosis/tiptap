@@ -56,3 +56,17 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+}
+</style>
