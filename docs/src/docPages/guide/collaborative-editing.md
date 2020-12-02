@@ -244,7 +244,7 @@ server.listen()
 ```
 
 ### Send it to an API
-To pass the updated documents to an API, or to a database, you can use the `onChange` hook, which is executed when a document changes. With the `debounce` setting you can slow down the execution, with the `debounceMaximum` setting you can make sure the content is sent at least every few seconds:
+To pass the updated documents to an API, or to a database, you can use the `onChange` hook, which is executed when a document changes. With the `debounce` setting you can slow down the execution, with the `debounceMaxWait` setting you can make sure the content is sent at least every few seconds:
 
 ```js
 import { Server } from '@hocuspocus/server'
@@ -254,7 +254,7 @@ const server = Server.configure({
   debounce: 2000,
 
   // maximum time to wait (in milliseconds)
-  debounceMaximum: 10000,
+  debounceMaxWait: 10000,
 
   // executed when the document is changed
   onChange(data) {
