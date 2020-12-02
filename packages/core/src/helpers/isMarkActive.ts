@@ -36,7 +36,7 @@ export default function isMarkActive(
   let markRanges: MarkRange[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
-    if (node.isInline) {
+    if (node.isText) {
       const relativeFrom = Math.max(from, pos)
       const relativeTo = Math.min(to, pos + node.nodeSize)
       const range = relativeTo - relativeFrom
@@ -50,6 +50,10 @@ export default function isMarkActive(
       }))]
     }
   })
+
+  if (selectionRange === 0) {
+    return false
+  }
 
   const range = markRanges
     .filter(markRange => {
