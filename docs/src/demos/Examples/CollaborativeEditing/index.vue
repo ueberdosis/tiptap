@@ -3,9 +3,10 @@
     <div class="editor" v-if="editor">
       <menu-bar class="editor__menu" :editor="editor" />
       <editor-content class="editor__content" :editor="editor" />
-      <div class="editor__users">
+      <div class="editor__bottom-bar">
         <div :class="`editor__status editor__status--${status}`">
-          {{ status }}<template v-if="status === 'connected'">
+          {{ status }}
+          <template v-if="status === 'connected'">
             as {{ currentUser.name }},
             {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
           </template>
@@ -174,11 +175,13 @@ export default {
     }
   }
 
-  &__users {
+  &__bottom-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    padding: 0.25rem 0 0.25rem 0.25rem;
     border-top: 1px solid rgba(black, 0.1);
   }
 
@@ -190,7 +193,9 @@ export default {
     font-weight: 500;
     border-radius: 5px;
     margin-top: 1rem;
+    padding: 0.25rem 0.5rem;
     color: rgba(black, 0.5);
+    white-space: nowrap;
 
     &::before {
       content: ' ';
