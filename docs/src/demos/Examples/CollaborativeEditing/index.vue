@@ -41,6 +41,9 @@
 import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import TaskList from '@tiptap/extension-task-list'
+import TaskItem from '@tiptap/extension-task-item'
+import Highlight from '@tiptap/extension-highlight'
 import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket'
 import { IndexeddbPersistence } from 'y-indexeddb'
@@ -81,6 +84,9 @@ export default {
     this.editor = new Editor({
       extensions: [
         ...defaultExtensions().filter(extension => extension.config.name !== 'history'),
+        Highlight,
+        TaskList,
+        TaskItem,
         Collaboration.configure({
           provider,
         }),
