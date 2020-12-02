@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.6](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/vue-starter-kit@2.0.0-alpha.5...@tiptap/vue-starter-kit@2.0.0-alpha.6) (2020-12-02)
+
+**Note:** Version bump only for package @tiptap/vue-starter-kit
+
+
+
+
+
 # [2.0.0-alpha.5](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/vue-starter-kit@2.0.0-alpha.4...@tiptap/vue-starter-kit@2.0.0-alpha.5) (2020-11-20)
 
 **Note:** Version bump only for package @tiptap/vue-starter-kit

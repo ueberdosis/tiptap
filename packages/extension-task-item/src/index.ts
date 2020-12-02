@@ -72,7 +72,12 @@ const TaskItem = Node.create({
   },
 
   addNodeView() {
-    return ({ HTMLAttributes, getPos, editor }) => {
+    return ({
+      node,
+      HTMLAttributes,
+      getPos,
+      editor,
+    }) => {
       const { view } = editor
       const listItem = document.createElement('li')
       const checkbox = document.createElement('input')
@@ -91,7 +96,7 @@ const TaskItem = Node.create({
         }
       })
 
-      if (HTMLAttributes['data-checked'] === true) {
+      if (node.attrs.checked) {
         checkbox.setAttribute('checked', 'checked')
       }
 
@@ -104,9 +109,15 @@ const TaskItem = Node.create({
       return {
         dom: listItem,
         contentDOM: content,
-        update: node => {
-          if (node.type !== this.type) {
+        update: updatedNode => {
+          if (updatedNode.type !== this.type) {
             return false
+          }
+
+          if (updatedNode.attrs.checked) {
+            checkbox.setAttribute('checked', 'checked')
+          } else {
+            checkbox.removeAttribute('checked')
           }
 
           return true

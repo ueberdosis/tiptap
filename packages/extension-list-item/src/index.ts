@@ -13,7 +13,7 @@ const ListItem = Node.create({
     HTMLAttributes: {},
   },
 
-  content: '(paragraph|list?)+',
+  content: 'paragraph list*',
 
   defining: true,
 

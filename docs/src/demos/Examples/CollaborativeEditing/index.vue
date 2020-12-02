@@ -3,19 +3,28 @@
     <div class="editor" v-if="editor">
       <menu-bar class="editor__menu" :editor="editor" />
       <editor-content class="editor__content" :editor="editor" />
+      <div class="editor__users">
+        <div :class="`editor__status editor__status--${status}`">
+          <template v-if="status">
+            {{ status }},
+          </template>
+          {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
+        </div>
+        <div class="editor__actions">
+          <button @click="setName">
+            Set Name
+          </button>
+          <button @click="updateCurrentUser({ name: getRandomName() })">
+            Random Name
+          </button>
+          <button @click="updateCurrentUser({ color: getRandomColor() })">
+            Random Color
+          </button>
+        </div>
+      </div>
     </div>
 
-    <button @click="setName">
-      Set Name
-    </button>
-    <button @click="updateCurrentUser({ name: getRandomName() })">
-      Random Name
-    </button>
-    <button @click="updateCurrentUser({ color: getRandomColor() })">
-      Random Color
-    </button>
-
-    <div class="collaboration-users">
+    <!-- <div class="collaboration-users">
       <div
         class="collaboration-users__item"
         :style="`background-color: ${otherUser.color}`"
@@ -24,14 +33,7 @@
       >
         {{ otherUser.name }}
       </div>
-    </div>
-
-    <div :class="`collaboration-status collaboration-status--${status}`">
-      <template v-if="status">
-        {{ status }},
-      </template>
-      {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -170,6 +172,45 @@ export default {
       background-color: rgba(black, 0.1);
     }
   }
+
+  &__users {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.25rem 1rem;
+    border-top: 1px solid rgba(black, 0.1);
+  }
+
+  /* Some information about the status */
+  &__status {
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 5px;
+    margin-top: 1rem;
+    color: rgba(black, 0.5);
+
+    &::before {
+      content: ' ';
+      display: inline-block;
+      width: 0.5rem;
+      height: 0.5rem;
+      background: rgba(black, 0.5);
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+
+    &--connecting::before {
+      background: #FD9170;
+    }
+
+    &--connected::before {
+      background: #9DEF8F;
+    }
+  }
+
+  &__actions {
+
+  }
 }
 </style>
 
@@ -188,30 +229,29 @@ export default {
   }
 }
 
-/* Some information about the status */
-.collaboration-status {
-  border-radius: 5px;
-  margin-top: 1rem;
-  color: #616161;
+// .collaboration-status {
+//   border-radius: 5px;
+//   margin-top: 1rem;
+//   color: #616161;
 
-  &::before {
-    content: ' ';
-    display: inline-block;
-    width: 0.5rem;
-    height: 0.5rem;
-    background: #ccc;
-    border-radius: 50%;
-    margin-right: 0.5rem;
-  }
+//   &::before {
+//     content: ' ';
+//     display: inline-block;
+//     width: 0.5rem;
+//     height: 0.5rem;
+//     background: #ccc;
+//     border-radius: 50%;
+//     margin-right: 0.5rem;
+//   }
 
-  &--connecting::before {
-    background: #fd9170;
-  }
+//   &--connecting::before {
+//     background: #fd9170;
+//   }
 
-  &--connected::before {
-    background: #9DEF8F;
-  }
-}
+//   &--connected::before {
+//     background: #9DEF8F;
+//   }
+// }
 
 /* Give a remote user a caret */
 .collaboration-cursor__caret {
@@ -282,6 +322,21 @@ export default {
   blockquote {
     padding-left: 1rem;
     border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+
+  ul[data-type="taskList"] {
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+
+      > input {
+        flex: 0 0 auto;
+        margin-right: 0.5rem;
+      }
+    }
   }
 }
 </style>
