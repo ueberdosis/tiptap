@@ -12,6 +12,7 @@ Extensions are the way to add functionality to tiptap. By default tiptap comes b
 | [CollaborationCursor](/api/extensions/collaboration-cursor) | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration-cursor/) |
 | [Dropcursor](/api/extensions/dropcursor)                    | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-dropcursor/)           |
 | [Focus](/api/extensions/focus)                              | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-focus/)                |
+| [FontFamily](/api/extensions/font-family)                   | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-font-family/)          |
 | [Gapcursor](/api/extensions/gapcursor)                      | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-gapcursor/)            |
 | [History](/api/extensions/history)                          | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)              |
 | [TextAlign](/api/extensions/text-align)                     | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-align/)           |
