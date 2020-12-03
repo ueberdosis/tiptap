@@ -38,13 +38,14 @@
       items:
         - title: Vue CLI
           link: /guide/getting-started/vue-cli
+          skip: true
         - title: Nuxt.js
           link: /guide/getting-started/nuxtjs
+          skip: true
     - title: Configure the editor
-      link: /guide/configure-the-editor
+      link: /guide/configuration
     - title: Create a toolbar
-      link: /guide/create-a-toolbar
-      draft: true
+      link: /guide/toolbar
     - title: Custom styling
       link: /guide/styling
     - title: Store content
@@ -94,6 +95,7 @@
         - title: Table
           link: /api/nodes/table
           draft: true
+          pro: true
         - title: TaskList
           link: /api/nodes/task-list
         - title: TaskItem
@@ -141,6 +143,7 @@
         - title: Suggestion
           link: /api/extensions/suggestion
           draft: true
+          pro: true
         - title: TextAlign
           link: /api/extensions/text-align
         - title: Typography

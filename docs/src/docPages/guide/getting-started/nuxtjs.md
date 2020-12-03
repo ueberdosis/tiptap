@@ -79,10 +79,16 @@ Now, let’s replace the content of `pages/index.vue` with the following example
 ```html
 <template>
   <div id="app">
-    <tiptap />
+    <client-only>
+      <tiptap />
+    </client-only>
   </div>
 </template>
 ```
+
+Note that tiptap needs to run in the client, not on the server. It’s required to wrap the editor in a `<client-only>` tag.
+
+[Read more](https://nuxtjs.org/api/components-client-only)
 
 You should now see tiptap in your browser. You’ve successfully set up tiptap! Time to give yourself a pat on the back. Let’s start to configure your editor in the next step.
 

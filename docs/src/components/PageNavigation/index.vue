@@ -70,7 +70,13 @@ export default {
     },
 
     nextPage() {
-      return this.flattenedItems[this.currentIndex + 1]
+      let nextIndex = this.currentIndex + 1
+
+      while (this.flattenedItems[nextIndex]?.skip) {
+        nextIndex += 1
+      }
+
+      return this.flattenedItems[nextIndex]
     },
 
     previousPage() {

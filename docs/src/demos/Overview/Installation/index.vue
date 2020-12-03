@@ -18,7 +18,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      content: '<p>Hello, here is tiptap! 👋</p>',
+      content: '<p>Hello World! 🌎️</p>',
       extensions: defaultExtensions(),
     })
   },
