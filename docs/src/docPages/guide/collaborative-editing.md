@@ -216,7 +216,7 @@ const server = Server.configure({
     const { requestHeaders, requestParameters } = data
     // Your code here, for example a request to an API
 
-    // If the user is not authorized …
+    // If the user is not authenticated …
     if (requestParameters.access_token !== 'super-secret-token') {
        return reject()
     }
@@ -226,7 +226,7 @@ const server = Server.configure({
         user_id: 1234,
     }
 
-    // If the user is authorized …
+    // If the user is authenticated …
     resolve(context)
   },
 })
