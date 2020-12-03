@@ -28,9 +28,9 @@ yarn add @tiptap/extension-collaboration-cursor
 | render   | `Function` | …                             | A render function for the cursor, look at [the extension source code](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration-cursor/) for an example. |
 
 ## Commands
-| Command | Parameters    | Description                                                              |
-| ------- | ------------- | ------------------------------------------------------------------------ |
-| user    | name<br>color | The name of the current user.<br>The color of the current user’s cursor. |
+| Command | Parameters | Description                                                                                      |
+| ------- | ---------- | ------------------------------------------------------------------------------------------------ |
+| user    | attributes | An object with the attributes of the current user, by default it expects a `name` and a `color`. |
 
 ## Source code
 [packages/extension-collaboration-cursor/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration-cursor/)

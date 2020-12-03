@@ -21,9 +21,11 @@ yarn add @tiptap/extension-link
 | openOnClick    | `Boolean` | `true`                                                      | If enabled, links will be opened on click.                            |
 
 ## Commands
-| Command | Parameters     | Description                                                 |
-| ------- | -------------- | ----------------------------------------------------------- |
-| link    | href<br>target | Link the selected text. Removes a link, if `href` is empty. |
+| Command    | Parameters         | Description                                  |
+| ---------- | ------------------ | -------------------------------------------- |
+| setLink    | `href`<br>`target` | Link the selected text.                      |
+| toggleLink | `href`<br>`target` | Add or remove a link from the selected text. |
+| unsetLink  | –                  | Removes a link.                              |
 
 ## Keyboard shortcuts
 :::warning Doesn’t have a keyboard shortcut

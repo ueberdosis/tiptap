@@ -22,9 +22,11 @@ yarn add @tiptap/extension-bold
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command | Parameters | Description     |
-| ------- | ---------- | --------------- |
-| bold    | —          | Mark text bold. |
+| Command    | Parameters | Description        |
+| ---------- | ---------- | ------------------ |
+| setBold    | —          | Mark text as bold. |
+| toggleBold | —          | Toggle bold mark.  |
+| unsetBold  | —          | Remove bold mark.  |
 
 ## Keyboard shortcuts
 * Windows/Linux: `Control`&nbsp;`B`

@@ -18,6 +18,6 @@
 | [ListItem](/api/nodes/list-item)             | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-list-item/)       |
 | [OrderedList](/api/nodes/ordered-list)       | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-ordered-list/)    |
 | [Paragraph](/api/nodes/paragraph)            | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-paragraph/)       |
-| [TaskItem](/api/nodes/task-item)             | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-item/)       |
 | [TaskList](/api/nodes/task-list)             | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-list/)       |
+| [TaskItem](/api/nodes/task-item)             | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-item/)       |
 | [Text](/api/nodes/text)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text/)            |

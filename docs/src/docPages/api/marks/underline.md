@@ -22,9 +22,11 @@ yarn add @tiptap/extension-underline
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command   | Parameters | Description              |
-| --------- | ---------- | ------------------------ |
-| underline | —          | Mark text as underlined. |
+| Command         | Parameters | Description              |
+| --------------- | ---------- | ------------------------ |
+| setUnderline    | —          | Mark text as underlined. |
+| toggleUnderline | —          | Toggle underline mark.   |
+| unsetUnderline  | —          | Remove underline mark.   |
 
 ## Keyboard shortcuts
 * Windows/Linux: `Control`&nbsp;`U`

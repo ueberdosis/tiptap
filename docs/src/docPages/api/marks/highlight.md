@@ -18,9 +18,11 @@ yarn add @tiptap/extension-highlight
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command   | Options | Description                                                 |
-| --------- | ------- | ----------------------------------------------------------- |
-| highlight | color   | Mark text as highlighted, optionally pass a specific color. |
+| Command         | Options            | Description               |
+| --------------- | ------------------ | ------------------------- |
+| setHighlight    | `color` (optional) | Mark text as highlighted. |
+| toggleHighlight | `color` (optional) | Toggle a text highlight.  |
+| unsetHighlight  | —                  | Removes the highlight.    |
 
 ## Keyboard shortcuts
 * Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`H`

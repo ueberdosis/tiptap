@@ -22,9 +22,11 @@ yarn add @tiptap/extension-strike
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command | Parameters | Description                 |
-| ------- | ---------- | --------------------------- |
-| strike  | —          | Mark text as strikethrough. |
+| Command      | Parameters | Description           |
+| ------------ | ---------- | --------------------- |
+| setStrike    | —          | Mark text as striked. |
+| toggleStrike | —          | Toggle strike mark.   |
+| unsetStrike  | —          | Remove strike mark.   |
 
 ## Keyboard shortcuts
 * Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`X`
