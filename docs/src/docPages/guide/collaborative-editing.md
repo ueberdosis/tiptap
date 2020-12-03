@@ -315,14 +315,41 @@ server.listen()
 There is no method to restore documents from an external source, so you’ll need a [persistence driver](#persist-the-document) though. Those persistence drivers store every change to the document. That’s probably not needed in your external source, but is needed to make the merging of changes conflict-free in the collaborative editing backend.
 
 ### Scale with Redis (Advanced)
-To scale the WebSocket server, you can spawn multiple instances of the server behind a load balancer and sync changes between the instances through Redis. Install the Redis adapter and register it with hocuspocus:
+
+:::warning Keep in mind
+The redis adapter only syncs document changes. Collaboration cursors are not yet supported!
+:::
+
+To scale the WebSocket server, you can spawn multiple instances of the server behind a load balancer and sync changes between the instances through Redis. Import the Redis adapter and register it with hocuspocus. For a full documentation on all available redis and redis cluster options, check out the [ioredis API docs](https://github.com/luin/ioredis/blob/master/API.md).
 
 ```js
 import { Server } from '@hocuspocus/server'
 import { Redis } from '@hocuspocus/redis'
 
 const server = Server.configure({
-  persistence: new Redis('redis://:password@127.0.0.1:1234/0'),
+  persistence: new Redis({
+    host: '127.0.0.1',
+    port: 6379,
+  }),
+})
+
+server.listen()
+```
+
+If you want to use a redis cluster, use the redis cluster adapter:
+
+```js
+import { Server } from '@hocuspocus/server'
+import { RedisCluster } from '@hocuspocus/redis'
+
+const server = Server.configure({
+  persistence: new RedisCluster({
+    scaleReads: 'all',
+    redisOptions: {
+      host: '127.0.0.1',
+      port: 6379,
+    }
+  }),
 })
 
 server.listen()
