@@ -19,7 +19,7 @@ export interface ExtensionConfig<Options = any, Commands = {}> {
    */
   addGlobalAttributes?: (this: {
     options: Options,
-  }) => GlobalAttributes,
+  }) => GlobalAttributes | {},
 
   /**
    * Commands

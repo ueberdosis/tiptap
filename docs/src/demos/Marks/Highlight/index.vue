@@ -64,7 +64,7 @@ export default {
         Document,
         Paragraph,
         Text,
-        Highlight,
+        Highlight.configure({ multicolor: true }),
       ],
       content: `
         <p>This isn’t highlighted.</s></p>

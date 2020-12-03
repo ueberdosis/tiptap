@@ -13,9 +13,10 @@ yarn add @tiptap/extension-highlight
 ```
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+| Option         | Type      | Default | Description                                                           |
+| -------------- | --------- | ------- | --------------------------------------------------------------------- |
+| multicolor     | `Boolean` | `false` | Add support for multiple colors.                                      |
+| HTMLAttributes | `Object`  | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
 | Command         | Options            | Description               |
