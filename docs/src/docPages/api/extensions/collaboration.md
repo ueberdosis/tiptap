@@ -1,9 +1,13 @@
 # Collaboration
-The Collaboration extension enables you to collaborate with others on one document. The implementation is based on [Y.js by Kevin Jahns](https://github.com/yjs/yjs), which is the coolest thing to [integrate collaborative editing](/guide/collaborative-editing) in your project.
+
+[![Version](https://img.shields.io/npm/v/@tiptap/extension-collaboration.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-collaboration)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-collaboration.svg)](https://npmcharts.com/compare/@tiptap/extension-collaboration?minimal=true)
+
+The Collaboration extension enables you to collaborate with others in a single document. The implementation is based on [Y.js by Kevin Jahns](https://github.com/yjs/yjs), which is the coolest thing to [integrate collaborative editing](/guide/collaborative-editing) in your project.
 
 The history works totally different in a collaborative editing setup. If you undo a change, you don’t want to undo changes of other users. To handle that behaviour this extension provides an own `undo` and `redo` command. Don’t load the default [`History`](/api/extensions/history) extension together with the Collaboration extension to avoid conflicts.
 
-:::premium Pro Extension
+:::pro Pro Extension
 We kindly ask you to [sponsor our work](/sponsor) when using this extension in production.
 :::
 
@@ -22,10 +26,19 @@ yarn add @tiptap/extension-collaboration yjs y-websocket
 | provider | `Object` | `null`  | A Y.js network connection, for example a [y-websocket](https://github.com/yjs/y-websocket) instance. |
 
 ## Commands
-*None*
+| Command | Parameters | Description           |
+| ------- | ---------- | --------------------- |
+| undo    | —          | Undo the last change. |
+| redo    | —          | Redo the last change. |
 
 ## Keyboard shortcuts
-*None*
+### Undo
+* Windows/Linux: `Control`&nbsp;`Z`
+* macOS: `Cmd`&nbsp;`Z`
+
+### Redo
+* Windows/Linux: `Shift`&nbsp;`Control`&nbsp;`Z` or `Control`&nbsp;`Y`
+* macOS: `Shift`&nbsp;`Cmd`&nbsp;`Z` or `Cmd`&nbsp;`Y`
 
 ## Source code
 [packages/extension-collaboration/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration/)

@@ -1,8 +1,8 @@
 ---
-title: Headless rich text editor
+title: A Headless Rich Text WYSIWYG Editor
 ---
 
-# tiptap – a headless text editor framework
+# tiptap – a headless text editor
 [![Version](https://img.shields.io/npm/v/@tiptap/core.svg?label=version)](https://www.npmjs.com/package/@tiptap/core)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/core.svg)](https://npmcharts.com/compare/@tiptap/core?minimal=true)
 [![License](https://img.shields.io/npm/l/@tiptap/core.svg)](https://www.npmjs.com/package/@tiptap/core)

@@ -28,8 +28,8 @@ yarn add @tiptap/extension-history
 * macOS: `Cmd`&nbsp;`Z`
 
 ### Redo
-* Windows/Linux: `Shift`&nbsp;`Control`&nbsp;`Z`
-* macOS: `Shift`&nbsp;`Cmd`&nbsp;`Z`
+* Windows/Linux: `Shift`&nbsp;`Control`&nbsp;`Z` or `Control`&nbsp;`Y`
+* macOS: `Shift`&nbsp;`Cmd`&nbsp;`Z` or `Cmd`&nbsp;`Y`
 
 ## Source code
 [packages/extension-history/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)

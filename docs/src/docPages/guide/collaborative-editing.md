@@ -1,14 +1,8 @@
 # Collaborative editing
 
-:::premium Become a sponsor
+:::pro Become a sponsor
 Using collaborative editing in production? Do the right thing and [sponsor our work](/sponsor)!
 :::
-
-<!--
-TODO:
-- Pass auth token to the provider
--
- -->
 
 ## toc
 
@@ -205,6 +199,12 @@ Yes, it’s magic. As already mentioned, that is all based on the fantastic Y.js
 ## Store the content
 Our collaborative editing backend is ready to handle advanced use cases, like authorization, persistence and scaling. Let’s go through a few common use cases here!
 
+:::pro Backend as a Service (Paid)
+Don’t want to wrap your head around the backend part? No worries, we offer a managed backend. For less than 1.000 documents, it’s $49/month (VAT may apply) and probably saves you a ton of time.
+
+Send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev) for further details.
+:::
+
 ### Authentication
 With the `onConnect` hook you can write a custom Promise to check if a client is authenticated. That can be a request to an API, to a microservice, a database query, or whatever is needed, as long as it’s executing `resolve()` at some point. You can also pass contextual data to the `resolve()` method which will be accessible in other hooks.
 
@@ -311,6 +311,8 @@ const server = Server.configure({
 
 server.listen()
 ```
+
+There is no method to restore documents from an external source, so you’ll need a [persistence driver](#persist-the-document) though. Those persistence drivers store every change to the document. That’s probably not needed in your external source, but is needed to make the merging of changes conflict-free in the collaborative editing backend.
 
 ### Scale with Redis (Advanced)
 To scale the WebSocket server, you can spawn multiple instances of the server behind a load balancer and sync changes between the instances through Redis. Install the Redis adapter and register it with hocuspocus:
