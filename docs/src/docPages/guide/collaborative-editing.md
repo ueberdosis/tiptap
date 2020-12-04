@@ -98,7 +98,7 @@ const editor = new Editor({
 
 That example doesn’t work out of the box. As you can see, it’s configured to talk to a WebSocket server which is available under `ws://127.0.0.1:1234` (WebSocket protocol, your local IP and port 1234). You need to set this up, too.
 
-To make the server part as easy as possible, we provide you with an opinionated server package, called [hocuspocus](http://github.com/ueberdosis/hocuspocus). Create a new project, and install the hocuspocus server as a dependency:
+To make the server part as easy as possible, we provide you with an opinionated server package, called hocuspocus (NOT PUBLISHED YET). Create a new project, and install the hocuspocus server as a dependency:
 
 ```bash
 # with npm
@@ -324,7 +324,7 @@ There is no method to restore documents from an external source, so you’ll nee
 ### Scale with Redis (Advanced)
 
 :::warning Keep in mind
-The redis adapter only syncs document changes. Collaboration cursors are not yet supported!
+The redis adapter only syncs document changes. Collaboration cursors are not yet supported.
 :::
 
 To scale the WebSocket server, you can spawn multiple instances of the server behind a load balancer and sync changes between the instances through Redis. Import the Redis adapter and register it with hocuspocus. For a full documentation on all available redis and redis cluster options, check out the [ioredis API docs](https://github.com/luin/ioredis/blob/master/API.md).
@@ -361,3 +361,20 @@ const server = Server.configure({
 
 server.listen()
 ```
+
+## Pitfalls
+
+### Schema updates
+tiptap is very strict with the [schema](/api/schema), that means, if you add something that’s not allowed according to the configured schema it’ll be thrown away. That can lead to a strange behaviour when multiple clients with different schemas share changes to a document.
+
+Let’s say you added an editor to your app and the first people use it already. They have all a loaded instance of tiptap with all default extensions, and therefor a schema that only allows those. But you want to add task lists in the next update, so you add the extension and deploy again.
+
+A new user opens your app and has the updated schema (with task lists), while all others still have the old schema (without task lists). The new user checks out the newly added tasks lists and adds it to a document to show that feature to other users in that document. But then, it magically disappears right after she added it. What happened?
+
+When one user adds a new node (or mark), that change will be synced to all other connected clients. The other connected clients apply those changes to the editor, and tiptap, strict as it is, removes the newly added node, because it’s not allowed according to their (old) schema. Those changes will be synced to other connected clients and oops, it’s removed everywhere. To avoid this you have a few options:
+
+1. Never change the schema (not cool).
+2. Force clients to update when you deploy a new schema (tough).
+3. Keep track of the schema version and disable the editor for clients with an outdated schema (depends on your setup).
+
+It’s on our list to provide features to make that easier. If you’ve got an idea how to improve that, share it with us!
