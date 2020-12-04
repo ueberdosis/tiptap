@@ -200,10 +200,17 @@ Yes, it’s magic. As already mentioned, that is all based on the fantastic Y.js
 Our collaborative editing backend is ready to handle advanced use cases, like authorization, persistence and scaling. Let’s go through a few common use cases here!
 
 :::pro Backend as a Service (Paid)
-Don’t want to wrap your head around the backend part? No worries, we offer a managed backend. For less than 1.000 documents, it’s $49/month (VAT may apply) and probably saves you a ton of time.
-
-Send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev) for further details.
+Don’t want to wrap your head around the backend part? No worries, we offer a managed backend. For less than 1.000 documents, it’s $49/month (VAT may apply) and probably saves you a ton of time. Send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev) for further details.
 :::
+
+### The document name
+The document name is `'example-document'` in all examples here, but it could be any string. In a real-world app you’d probably add the name of your entity, the ID of the entity and in some cases even the field (if you have multiple fields that you want to make collaborative). Here is how that could look like for a CMS:
+
+```js
+const documentName = 'page.140.content'
+```
+
+In the backend, you can split the string to know the user is typing on a page with the ID 140 in the `content` field and manage authorization and such accordingly. New documents are created on the fly, no need to tell the backend about them, besides passing a string to the provider.
 
 ### Authentication
 With the `onConnect` hook you can write a custom Promise to check if a client is authenticated. That can be a request to an API, to a microservice, a database query, or whatever is needed, as long as it’s executing `resolve()` at some point. You can also pass contextual data to the `resolve()` method which will be accessible in other hooks.

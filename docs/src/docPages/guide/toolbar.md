@@ -28,7 +28,7 @@ editor.chain().toggleBold().focus().run()
 
 In other words: This will be the typical **Bold** button for your text editor.
 
-Which commands are available depends on what extensions you’ve registered with editor. Most of the extensions come with a `set…()`, `unset…()` and `toggle…()` command. Read the extension documentation to see what’s actually available or just surf through your code editor’s autocomplete.
+Which commands are available depends on what extensions you’ve registered with the editor. Most of the extensions come with a `set…()`, `unset…()` and `toggle…()` command. Read the extension documentation to see what’s actually available or just surf through your code editor’s autocomplete.
 
 ## Keep the focus
 You’ve seen the `focus()` command in the above example already. When you click on the button, the browser focuses that DOM element and the editor loses focus. It’s likely you want to add `focus()` to all your toolbar buttons, so the writing flow of your users isn’t interrupted.
