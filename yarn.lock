@@ -14966,10 +14966,10 @@ y-webrtc@^10.1.6:
   optionalDependencies:
     ws "^7.2.0"
 
-y-websocket@^1.3.7:
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/y-websocket/-/y-websocket-1.3.7.tgz#d04009a4835a13be9dac9238646199c05a4ff13f"
-  integrity sha512-a36Kvw4ToxB0XsldMKmxuULn7yJ72fyHIbXi0hg3J6pU9JXUSCG+jxMVbichmXgH0NScjeQxbNEHyeLg+wfd4Q==
+y-websocket@^1.3.8:
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/y-websocket/-/y-websocket-1.3.8.tgz#1ee881ff20b3d0e3a50ac4e472253757ebdb9ffe"
+  integrity sha512-ut2srey5upZQPYfBiT0mHhSxa50Fd0mOmfKR+F8Gxx/zwZ3y3tSNUOfblLcJtqY583gjH0s/zMOU+FKjhTCuog==
   dependencies:
     lib0 "^0.2.31"
     lodash.debounce "^4.0.8"

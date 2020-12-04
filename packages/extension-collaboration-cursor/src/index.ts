@@ -72,9 +72,6 @@ const CollaborationCursor = Extension.create({
 
         this.options.provider.on('status', (event: { status: string }) => {
           if (event.status === 'connected') {
-            // FIX: Reset the awareness state
-            // PR: https://github.com/yjs/y-protocols/issues/7
-            this.options.provider.awareness.setLocalState({})
             this.options.provider.awareness.setLocalStateField('user', this.options.user)
           }
         })
