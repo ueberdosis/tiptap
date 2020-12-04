@@ -60,7 +60,7 @@ export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<Exte
     this: {
       options: Options,
     },
-  ) => Attributes,
+  ) => Attributes | {},
 
   /**
    * Commands

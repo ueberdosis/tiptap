@@ -95,7 +95,7 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
     this: {
       options: Options,
     },
-  ) => Attributes,
+  ) => Attributes | {},
 
   /**
    * Commands

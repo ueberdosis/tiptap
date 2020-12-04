@@ -7,6 +7,7 @@ import {
 } from '@tiptap/core'
 
 export interface HighlightOptions {
+  multicolor: boolean,
   HTMLAttributes: {
     [key: string]: any
   },
@@ -19,10 +20,15 @@ const Highlight = Mark.create({
   name: 'highlight',
 
   defaultOptions: <HighlightOptions>{
+    multicolor: false,
     HTMLAttributes: {},
   },
 
   addAttributes() {
+    if (!this.options.multicolor) {
+      return {}
+    }
+
     return {
       color: {
         default: null,
