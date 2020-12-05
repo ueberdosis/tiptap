@@ -4,12 +4,12 @@
       clear
     </button>
     <svg viewBox="0 0 500 250" ref="canvas">
-      <template v-for="line in node.attrs.lines">
+      <template v-for="item in node.attrs.lines">
         <path
-          v-if="line.id !== currentId"
-          :key="line.id"
-          :d="line.d"
-          :id="`id-${line.id}`"
+          v-if="item.id !== currentId"
+          :key="item.id"
+          :d="item.d"
+          :id="`id-${item.id}`"
         />
       </template>
     </svg>
@@ -36,6 +36,13 @@ export default {
   data() {
     return {
       currentId: uuid(),
+      ptdata: [],
+      path: null,
+      drawing: false,
+      svg: null,
+      line: d3.line()
+        .x(d => d.x)
+        .y(d => d.y),
     }
   },
 
@@ -45,69 +52,10 @@ export default {
         lines: [],
       })
     },
-  },
 
-  mounted() {
-    let ptdata = []
-    let path
-    let drawing = false
-
-    const line = d3.line()
-      .x(d => d.x)
-      .y(d => d.y)
-
-    const svg = d3.select(this.$refs.canvas)
-
-    const listen = event => {
-      drawing = true
-      ptdata = [] // reset point data
-
-      path = svg.append('path') // start a new line
-        .data([ptdata])
-        .attr('id', `id-${this.currentId}`)
-        .attr('d', line)
-
-      if (event.type === 'mousedown') {
-        svg.on('mousemove', onmove)
-      } else {
-        svg.on('touchmove', onmove)
-      }
-    }
-
-    const ignore = event => {
-      svg.on('mousemove', null)
-      svg.on('touchmove', null)
-
-      if (!drawing) {
-        return
-      }
-
-      drawing = false
-
-      d3.select(this.$refs.canvas).select(`#id-${this.currentId}`).remove()
-      this.currentId = uuid()
-    }
-
-    svg
-      .on('mousedown', listen)
-      .on('mouseup', ignore)
-      .on('mouseleave', ignore)
-      .on('touchstart', listen)
-      .on('touchend', ignore)
-      .on('touchleave', ignore)
-
-    function onmove(event) {
-      event.preventDefault()
-
-      const point = d3.pointers(event)[0]
-
-      ptdata.push({ x: point[0], y: point[1] })
-      tick()
-    }
-
-    const tick = () => {
-      path.attr('d', points => {
-        const d = line(points)
+    tick() {
+      this.path.attr('d', points => {
+        const d = this.line(points)
         const lines = this.node.attrs.lines.filter(item => item.id !== this.currentId)
 
         this.updateAttributes({
@@ -122,7 +70,62 @@ export default {
 
         return d
       })
-    }
+    },
+
+    listen(event) {
+      this.drawing = true
+      this.ptdata = []
+
+      this.path = this.svg
+        .append('path')
+        .data([this.ptdata])
+        .attr('id', `id-${this.currentId}`)
+        .attr('d', this.line)
+
+      const moveEvent = event.type === 'mousedown'
+        ? 'mousemove'
+        : 'touchmove'
+
+      this.svg.on(moveEvent, this.onmove)
+    },
+
+    ignore() {
+      this.svg.on('mousemove', null)
+      this.svg.on('touchmove', null)
+
+      if (!this.drawing) {
+        return
+      }
+
+      this.drawing = false
+
+      d3.select(this.$refs.canvas)
+        .select(`#id-${this.currentId}`)
+        .remove()
+
+      this.currentId = uuid()
+    },
+
+    onmove(event) {
+      event.preventDefault()
+
+      const point = d3.pointers(event)[0]
+
+      this.ptdata.push({ x: point[0], y: point[1] })
+      this.tick()
+    },
+  },
+
+  mounted() {
+    this.svg = d3.select(this.$refs.canvas)
+
+    this.svg
+      .on('mousedown', this.listen)
+      .on('mouseup', this.ignore)
+      .on('mouseleave', this.ignore)
+      .on('touchstart', this.listen)
+      .on('touchend', this.ignore)
+      .on('touchleave', this.ignore)
   },
 }
 </script>
