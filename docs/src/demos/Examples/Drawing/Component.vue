@@ -15,7 +15,7 @@
         <path
           v-if="item.id !== currentId"
           :key="item.id"
-          :d="item.d"
+          :d="item.path"
           :id="`id-${item.id}`"
           :stroke="item.color"
           :stroke-width="item.size"
@@ -47,13 +47,10 @@ export default {
       color: '#000000',
       size: 2,
       currentId: uuid(),
-      ptdata: [],
+      points: [],
       path: null,
       drawing: false,
       svg: null,
-      line: d3.line()
-        .x(d => d.x)
-        .y(d => d.y),
     }
   },
 
@@ -66,7 +63,7 @@ export default {
 
     tick() {
       this.path.attr('d', points => {
-        const d = this.line(points)
+        const path = d3.line()(points)
         const lines = this.node.attrs.lines.filter(item => item.id !== this.currentId)
 
         this.updateAttributes({
@@ -76,24 +73,22 @@ export default {
               id: this.currentId,
               color: this.color,
               size: this.size,
-              d,
+              path,
             },
           ],
         })
 
-        return d
+        return path
       })
     },
 
     listen(event) {
       this.drawing = true
-      this.ptdata = []
-
+      this.points = []
       this.path = this.svg
         .append('path')
-        .data([this.ptdata])
+        .data([this.points])
         .attr('id', `id-${this.currentId}`)
-        .attr('d', this.line)
         .attr('stroke', this.color)
         .attr('stroke-width', this.size)
 
@@ -113,20 +108,13 @@ export default {
       }
 
       this.drawing = false
-
-      d3.select(this.$refs.canvas)
-        .select(`#id-${this.currentId}`)
-        .remove()
-
+      this.svg.select(`#id-${this.currentId}`).remove()
       this.currentId = uuid()
     },
 
     onmove(event) {
       event.preventDefault()
-
-      const point = d3.pointers(event)[0]
-
-      this.ptdata.push({ x: point[0], y: point[1] })
+      this.points.push(d3.pointers(event)[0])
       this.tick()
     },
   },
