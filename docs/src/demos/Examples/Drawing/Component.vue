@@ -1,5 +1,12 @@
 <template>
   <node-view-wrapper class="draw">
+    <input type="color" v-model="color">
+    <input
+      type="number"
+      min="1"
+      max="10"
+      v-model="size"
+    >
     <button @click="clear">
       clear
     </button>
@@ -10,6 +17,8 @@
           :key="item.id"
           :d="item.d"
           :id="`id-${item.id}`"
+          :stroke="item.color"
+          :stroke-width="item.size"
         />
       </template>
     </svg>
@@ -35,6 +44,8 @@ export default {
 
   data() {
     return {
+      color: '#000000',
+      size: 2,
       currentId: uuid(),
       ptdata: [],
       path: null,
@@ -63,6 +74,8 @@ export default {
             ...lines,
             {
               id: this.currentId,
+              color: this.color,
+              size: this.size,
               d,
             },
           ],
@@ -81,6 +94,8 @@ export default {
         .data([this.ptdata])
         .attr('id', `id-${this.currentId}`)
         .attr('d', this.line)
+        .attr('stroke', this.color)
+        .attr('stroke-width', this.size)
 
       const moveEvent = event.type === 'mousedown'
         ? 'mousemove'
@@ -139,8 +154,8 @@ export default {
 
   path {
     fill: none;
-    stroke: #000;
-    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 }
 </style>
