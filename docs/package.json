@@ -13,6 +13,7 @@
     "@gridsome/vue-remark": "^0.2.6",
     "@mvasilkov/outdent": "^1.0.4",
     "collect.js": "^4.28.6",
+    "d3": "^6.3.0",
     "globby": "^11.0.0",
     "gridsome": "0.7.23",
     "gridsome-plugin-simple-analytics": "^1.1.0",
