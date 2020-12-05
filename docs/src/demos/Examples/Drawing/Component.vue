@@ -90,24 +90,17 @@ export default {
 
     svg
       .on('mousedown', listen)
+      .on('mouseup', ignore)
+      .on('mouseleave', ignore)
       .on('touchstart', listen)
       .on('touchend', ignore)
       .on('touchleave', ignore)
-      .on('mouseup', ignore)
-      .on('mouseleave', ignore)
-
-    // ignore default touch behavior
-    const touchEvents = ['touchstart', 'touchmove', 'touchend']
-    touchEvents.forEach(eventName => {
-      document.body.addEventListener(eventName, e => {
-        e.preventDefault()
-      })
-    })
 
     function onmove(event) {
-      const point = d3.pointer(event)
+      event.preventDefault()
 
-      // push a new data point onto the back
+      const point = d3.pointers(event)[0]
+
       ptdata.push({ x: point[0], y: point[1] })
       tick()
     }
