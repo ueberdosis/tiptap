@@ -13,7 +13,7 @@
     <svg viewBox="0 0 500 250" ref="canvas">
       <template v-for="item in node.attrs.lines">
         <path
-          v-if="item.id !== currentId"
+          v-if="item.id !== id"
           :key="item.id"
           :d="item.path"
           :id="`id-${item.id}`"
@@ -46,31 +46,61 @@ export default {
     return {
       color: '#000000',
       size: 2,
-      currentId: uuid(),
-      points: [],
-      path: null,
-      drawing: false,
       svg: null,
+      path: null,
+      points: [],
+      drawing: false,
+      id: uuid(),
     }
   },
 
   methods: {
-    clear() {
-      this.updateAttributes({
-        lines: [],
-      })
+    onStartDrawing(event) {
+      this.drawing = true
+      this.points = []
+      this.path = this.svg
+        .append('path')
+        .data([this.points])
+        .attr('id', `id-${this.id}`)
+        .attr('stroke', this.color)
+        .attr('stroke-width', this.size)
+
+      const moveEvent = event.type === 'mousedown'
+        ? 'mousemove'
+        : 'touchmove'
+
+      this.svg.on(moveEvent, this.onMove)
+    },
+
+    onMove(event) {
+      event.preventDefault()
+      this.points.push(d3.pointers(event)[0])
+      this.tick()
+    },
+
+    onEndDrawing() {
+      this.svg.on('mousemove', null)
+      this.svg.on('touchmove', null)
+
+      if (!this.drawing) {
+        return
+      }
+
+      this.drawing = false
+      this.svg.select(`#id-${this.id}`).remove()
+      this.id = uuid()
     },
 
     tick() {
       this.path.attr('d', points => {
         const path = d3.line()(points)
-        const lines = this.node.attrs.lines.filter(item => item.id !== this.currentId)
+        const lines = this.node.attrs.lines.filter(item => item.id !== this.id)
 
         this.updateAttributes({
           lines: [
             ...lines,
             {
-              id: this.currentId,
+              id: this.id,
               color: this.color,
               size: this.size,
               path,
@@ -82,40 +112,10 @@ export default {
       })
     },
 
-    listen(event) {
-      this.drawing = true
-      this.points = []
-      this.path = this.svg
-        .append('path')
-        .data([this.points])
-        .attr('id', `id-${this.currentId}`)
-        .attr('stroke', this.color)
-        .attr('stroke-width', this.size)
-
-      const moveEvent = event.type === 'mousedown'
-        ? 'mousemove'
-        : 'touchmove'
-
-      this.svg.on(moveEvent, this.onmove)
-    },
-
-    ignore() {
-      this.svg.on('mousemove', null)
-      this.svg.on('touchmove', null)
-
-      if (!this.drawing) {
-        return
-      }
-
-      this.drawing = false
-      this.svg.select(`#id-${this.currentId}`).remove()
-      this.currentId = uuid()
-    },
-
-    onmove(event) {
-      event.preventDefault()
-      this.points.push(d3.pointers(event)[0])
-      this.tick()
+    clear() {
+      this.updateAttributes({
+        lines: [],
+      })
     },
   },
 
@@ -123,12 +123,12 @@ export default {
     this.svg = d3.select(this.$refs.canvas)
 
     this.svg
-      .on('mousedown', this.listen)
-      .on('mouseup', this.ignore)
-      .on('mouseleave', this.ignore)
-      .on('touchstart', this.listen)
-      .on('touchend', this.ignore)
-      .on('touchleave', this.ignore)
+      .on('mousedown', this.onStartDrawing)
+      .on('mouseup', this.onEndDrawing)
+      .on('mouseleave', this.onEndDrawing)
+      .on('touchstart', this.onStartDrawing)
+      .on('touchend', this.onEndDrawing)
+      .on('touchleave', this.onEndDrawing)
   },
 }
 </script>
