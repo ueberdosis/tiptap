@@ -28,6 +28,7 @@
 <script>
 import { v4 as uuid } from 'uuid'
 import * as d3 from 'd3'
+import simplify from 'simplify-js'
 
 export default {
   props: {
@@ -91,25 +92,33 @@ export default {
       this.id = uuid()
     },
 
+    simplifyPoints(points) {
+      return simplify(points.map(point => ({ x: point[0], y: point[1] }))).map(point => [point.x, point.y])
+    },
+
     tick() {
-      this.path.attr('d', points => {
-        const path = d3.line()(points)
-        const lines = this.node.attrs.lines.filter(item => item.id !== this.id)
+      requestAnimationFrame(() => {
+        this.path.attr('d', points => {
+          const path = d3.line().curve(d3.curveBasis)(points)
+          const simplifiedPath = d3.line().curve(d3.curveBasis)(this.simplifyPoints(points))
+          const lines = this.node.attrs.lines.filter(item => item.id !== this.id)
 
-        this.updateAttributes({
-          lines: [
-            ...lines,
-            {
-              id: this.id,
-              color: this.color,
-              size: this.size,
-              path,
-            },
-          ],
+          this.updateAttributes({
+            lines: [
+              ...lines,
+              {
+                id: this.id,
+                color: this.color,
+                size: this.size,
+                path: simplifiedPath,
+              },
+            ],
+          })
+
+          return path
         })
-
-        return path
       })
+
     },
 
     clear() {

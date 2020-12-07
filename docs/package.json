@@ -24,6 +24,7 @@
     "remark-container": "^0.1.2",
     "remark-toc": "^7.0.0",
     "remixicon": "^2.5.0",
+    "simplify-js": "^1.2.4",
     "vue-github-button": "^1.1.2",
     "vue-live": "^1.16.0",
     "y-indexeddb": "^9.0.5",
