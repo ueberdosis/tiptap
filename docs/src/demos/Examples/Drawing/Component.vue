@@ -100,7 +100,7 @@ export default {
       requestAnimationFrame(() => {
         this.path.attr('d', points => {
           const path = d3.line().curve(d3.curveBasis)(points)
-          const simplifiedPath = d3.line().curve(d3.curveBasis)(this.simplifyPoints(points))
+          // const simplifiedPath = d3.line().curve(d3.curveBasis)(this.simplifyPoints(points))
           const lines = this.node.attrs.lines.filter(item => item.id !== this.id)
 
           this.updateAttributes({
@@ -110,7 +110,8 @@ export default {
                 id: this.id,
                 color: this.color,
                 size: this.size,
-                path: simplifiedPath,
+                path,
+                // path: simplifiedPath,
               },
             ],
           })
