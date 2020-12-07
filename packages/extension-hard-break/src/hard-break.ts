@@ -7,7 +7,7 @@ export interface HardBreakOptions {
   },
 }
 
-const HardBreak = Node.create({
+export const HardBreak = Node.create({
   name: 'hardBreak',
 
   defaultOptions: <HardBreakOptions>{
@@ -58,8 +58,6 @@ const HardBreak = Node.create({
     }
   },
 })
-
-export default HardBreak
 
 declare module '@tiptap/core' {
   interface AllExtensions {

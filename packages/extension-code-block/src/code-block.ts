@@ -11,7 +11,7 @@ export interface CodeBlockOptions {
 export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
 export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
 
-const CodeBlock = Node.create({
+export const CodeBlock = Node.create({
   name: 'codeBlock',
 
   defaultOptions: <CodeBlockOptions>{
@@ -102,8 +102,6 @@ const CodeBlock = Node.create({
     ]
   },
 })
-
-export default CodeBlock
 
 declare module '@tiptap/core' {
   interface AllExtensions {

@@ -7,7 +7,7 @@ export interface FocusOptions {
   nested: boolean,
 }
 
-const FocusClasses = Extension.create({
+export const FocusClasses = Extension.create({
   name: 'focus',
 
   defaultOptions: <FocusOptions>{
@@ -49,8 +49,6 @@ const FocusClasses = Extension.create({
     ]
   },
 })
-
-export default FocusClasses
 
 declare module '@tiptap/core' {
   interface AllExtensions {

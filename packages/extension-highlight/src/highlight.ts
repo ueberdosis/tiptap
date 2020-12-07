@@ -16,7 +16,7 @@ export interface HighlightOptions {
 export const inputRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))$/gm
 export const pasteRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))/gm
 
-const Highlight = Mark.create({
+export const Highlight = Mark.create({
   name: 'highlight',
 
   defaultOptions: <HighlightOptions>{
@@ -104,8 +104,6 @@ const Highlight = Mark.create({
     ]
   },
 })
-
-export default Highlight
 
 declare module '@tiptap/core' {
   interface AllExtensions {

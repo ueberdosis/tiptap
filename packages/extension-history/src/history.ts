@@ -6,7 +6,7 @@ export interface HistoryOptions {
   newGroupDelay: number,
 }
 
-const History = Extension.create({
+export const History = Extension.create({
   name: 'history',
 
   defaultOptions: <HistoryOptions>{
@@ -45,8 +45,6 @@ const History = Extension.create({
     }
   },
 })
-
-export default History
 
 declare module '@tiptap/core' {
   interface AllExtensions {

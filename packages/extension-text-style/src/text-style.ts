@@ -11,7 +11,7 @@ export interface TextStyleOptions {
   },
 }
 
-const TextStyle = Mark.create({
+export const TextStyle = Mark.create({
   name: 'textStyle',
 
   defaultOptions: <TextStyleOptions>{
@@ -58,8 +58,6 @@ const TextStyle = Mark.create({
   },
 
 })
-
-export default TextStyle
 
 declare module '@tiptap/core' {
   interface AllExtensions {

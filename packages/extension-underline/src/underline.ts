@@ -6,7 +6,7 @@ export interface UnderlineOptions {
   },
 }
 
-const Underline = Mark.create({
+export const Underline = Mark.create({
   name: 'underline',
 
   defaultOptions: <UnderlineOptions>{
@@ -57,8 +57,6 @@ const Underline = Mark.create({
     }
   },
 })
-
-export default Underline
 
 declare module '@tiptap/core' {
   interface AllExtensions {

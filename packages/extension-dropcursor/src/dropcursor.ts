@@ -7,7 +7,7 @@ export interface DropcursorOptions {
   class: string | null,
 }
 
-const Dropcursor = Extension.create({
+export const Dropcursor = Extension.create({
   name: 'dropCursor',
 
   defaultOptions: <DropcursorOptions>{
@@ -22,8 +22,6 @@ const Dropcursor = Extension.create({
     ]
   },
 })
-
-export default Dropcursor
 
 declare module '@tiptap/core' {
   interface AllExtensions {

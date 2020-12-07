@@ -9,7 +9,7 @@ export interface OrderedListOptions {
 
 export const inputRegex = /^(\d+)\.\s$/
 
-const OrderedList = Node.create({
+export const OrderedList = Node.create({
   name: 'orderedList',
 
   defaultOptions: <OrderedListOptions>{
@@ -77,8 +77,6 @@ const OrderedList = Node.create({
     ]
   },
 })
-
-export default OrderedList
 
 declare module '@tiptap/core' {
   interface AllExtensions {

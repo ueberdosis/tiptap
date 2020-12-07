@@ -6,7 +6,7 @@ export interface ParagraphOptions {
   },
 }
 
-const Paragraph = Node.create({
+export const Paragraph = Node.create({
   name: 'paragraph',
 
   defaultOptions: <ParagraphOptions>{
@@ -44,8 +44,6 @@ const Paragraph = Node.create({
     }
   },
 })
-
-export default Paragraph
 
 declare module '@tiptap/core' {
   interface AllExtensions {

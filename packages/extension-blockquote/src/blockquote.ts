@@ -9,7 +9,7 @@ export interface BlockquoteOptions {
 
 export const inputRegex = /^\s*>\s$/gm
 
-const Blockquote = Node.create({
+export const Blockquote = Node.create({
   name: 'blockquote',
 
   defaultOptions: <BlockquoteOptions>{
@@ -67,8 +67,6 @@ const Blockquote = Node.create({
     ]
   },
 })
-
-export default Blockquote
 
 declare module '@tiptap/core' {
   interface AllExtensions {

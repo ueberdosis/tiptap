@@ -6,7 +6,7 @@ export interface ListItemOptions {
   },
 }
 
-const ListItem = Node.create({
+export const ListItem = Node.create({
   name: 'listItem',
 
   defaultOptions: <ListItemOptions>{
@@ -37,8 +37,6 @@ const ListItem = Node.create({
     }
   },
 })
-
-export default ListItem
 
 declare module '@tiptap/core' {
   interface AllExtensions {

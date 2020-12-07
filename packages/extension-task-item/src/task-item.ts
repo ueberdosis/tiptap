@@ -10,7 +10,7 @@ export interface TaskItemOptions {
 
 export const inputRegex = /^\s*(\[([ |x])\])\s$/
 
-const TaskItem = Node.create({
+export const TaskItem = Node.create({
   name: 'taskItem',
 
   defaultOptions: <TaskItemOptions>{
@@ -138,8 +138,6 @@ const TaskItem = Node.create({
     ]
   },
 })
-
-export default TaskItem
 
 declare module '@tiptap/core' {
   interface AllExtensions {

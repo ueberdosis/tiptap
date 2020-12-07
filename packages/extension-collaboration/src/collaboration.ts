@@ -10,7 +10,7 @@ export interface CollaborationOptions {
   provider: any,
 }
 
-const Collaboration = Extension.create({
+export const Collaboration = Extension.create({
   name: 'collaboration',
 
   defaultOptions: <CollaborationOptions>{
@@ -59,8 +59,6 @@ const Collaboration = Extension.create({
     this.options.provider?.destroy()
   },
 })
-
-export default Collaboration
 
 declare module '@tiptap/core' {
   interface AllExtensions {

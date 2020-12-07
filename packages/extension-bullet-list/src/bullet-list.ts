@@ -9,7 +9,7 @@ export interface BulletListOptions {
 
 export const inputRegex = /^\s*([-+*])\s$/
 
-const BulletList = Node.create({
+export const BulletList = Node.create({
   name: 'bulletList',
 
   defaultOptions: <BulletListOptions>{
@@ -53,8 +53,6 @@ const BulletList = Node.create({
     ]
   },
 })
-
-export default BulletList
 
 declare module '@tiptap/core' {
   interface AllExtensions {

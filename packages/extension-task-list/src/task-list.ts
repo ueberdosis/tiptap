@@ -6,7 +6,7 @@ export interface TaskListOptions {
   },
 }
 
-const TaskList = Node.create({
+export const TaskList = Node.create({
   name: 'taskList',
 
   defaultOptions: <TaskListOptions>{
@@ -47,8 +47,6 @@ const TaskList = Node.create({
     }
   },
 })
-
-export default TaskList
 
 declare module '@tiptap/core' {
   interface AllExtensions {

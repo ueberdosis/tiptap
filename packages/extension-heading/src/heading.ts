@@ -10,7 +10,7 @@ export interface HeadingOptions {
   },
 }
 
-const Heading = Node.create({
+export const Heading = Node.create({
   name: 'heading',
 
   defaultOptions: <HeadingOptions>{
@@ -90,8 +90,6 @@ const Heading = Node.create({
     })
   },
 })
-
-export default Heading
 
 declare module '@tiptap/core' {
   interface AllExtensions {

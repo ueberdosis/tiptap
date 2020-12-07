@@ -15,7 +15,7 @@ export interface CodeOptions {
 export const inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/gm
 export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/gm
 
-const Code = Mark.create({
+export const Code = Mark.create({
   name: 'code',
 
   defaultOptions: <CodeOptions>{
@@ -75,8 +75,6 @@ const Code = Mark.create({
     ]
   },
 })
-
-export default Code
 
 declare module '@tiptap/core' {
   interface AllExtensions {

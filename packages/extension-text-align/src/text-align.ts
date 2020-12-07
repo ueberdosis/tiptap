@@ -6,7 +6,7 @@ type TextAlignOptions = {
   defaultAlignment: string,
 }
 
-const TextAlign = Extension.create({
+export const TextAlign = Extension.create({
   name: 'textAlign',
 
   defaultOptions: <TextAlignOptions>{
@@ -70,8 +70,6 @@ const TextAlign = Extension.create({
     }
   },
 })
-
-export default TextAlign
 
 declare module '@tiptap/core' {
   interface AllExtensions {

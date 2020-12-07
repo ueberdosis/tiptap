@@ -17,7 +17,7 @@ export const starPasteRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))$/gm
 export const underscorePasteRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))/gm
 
-const Italic = Mark.create({
+export const Italic = Mark.create({
   name: 'italic',
 
   defaultOptions: <ItalicOptions>{
@@ -86,8 +86,6 @@ const Italic = Mark.create({
     ]
   },
 })
-
-export default Italic
 
 declare module '@tiptap/core' {
   interface AllExtensions {

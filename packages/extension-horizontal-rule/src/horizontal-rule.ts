@@ -11,7 +11,7 @@ export interface HorizontalRuleOptions {
   },
 }
 
-const HorizontalRule = Node.create({
+export const HorizontalRule = Node.create({
   name: 'horizontalRule',
 
   defaultOptions: <HorizontalRuleOptions>{
@@ -51,8 +51,6 @@ const HorizontalRule = Node.create({
     ]
   },
 })
-
-export default HorizontalRule
 
 declare module '@tiptap/core' {
   interface AllExtensions {

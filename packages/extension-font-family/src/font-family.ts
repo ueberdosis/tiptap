@@ -5,7 +5,7 @@ type FontFamilyOptions = {
   types: string[],
 }
 
-const FontFamily = Extension.create({
+export const FontFamily = Extension.create({
   name: 'fontFamily',
 
   defaultOptions: <FontFamilyOptions>{
@@ -59,8 +59,6 @@ const FontFamily = Extension.create({
     }
   },
 })
-
-export default FontFamily
 
 declare module '@tiptap/core' {
   interface AllExtensions {

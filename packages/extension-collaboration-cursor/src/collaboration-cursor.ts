@@ -17,7 +17,7 @@ const awarenessStatesToArray = (states: Map<number, { [key: string]: any }>) => 
   })
 }
 
-const CollaborationCursor = Extension.create({
+export const CollaborationCursor = Extension.create({
   name: 'collaborationCursor',
 
   defaultOptions: <CollaborationCursorOptions>{
@@ -87,8 +87,6 @@ const CollaborationCursor = Extension.create({
     ]
   },
 })
-
-export default CollaborationCursor
 
 declare module '@tiptap/core' {
   interface AllExtensions {

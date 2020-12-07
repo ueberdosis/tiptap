@@ -14,7 +14,7 @@ export interface ImageOptions {
 
 export const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
 
-const Image = Node.create({
+export const Image = Node.create({
   name: 'image',
 
   defaultOptions: <ImageOptions>{
@@ -86,8 +86,6 @@ const Image = Node.create({
     ]
   },
 })
-
-export default Image
 
 declare module '@tiptap/core' {
   interface AllExtensions {
