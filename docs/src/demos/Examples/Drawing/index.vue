@@ -41,12 +41,6 @@ export default {
         }),
         Paper,
       ],
-      content: `
-        <div data-type="paper"></div>
-      `,
-      onUpdate: () => {
-        // console.log(this.editor.getJSON())
-      },
     })
   },
 
