@@ -1,5 +1,5 @@
 ---
-title: A Headless Rich Text WYSIWYG Editor
+title: Headless WYSIWYG Text Editor
 ---
 
 # tiptap – a headless text editor
