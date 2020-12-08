@@ -8,7 +8,6 @@
 import Collaboration from '@tiptap/extension-collaboration'
 import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
 import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket'
@@ -32,13 +31,12 @@ export default {
     this.editor = new Editor({
       extensions: [
         Document.extend({
-          content: 'paper paragraph',
+          content: 'paper',
         }),
-        Paragraph,
-        Text,
         Collaboration.configure({
           provider,
         }),
+        Text,
         Paper,
       ],
     })
