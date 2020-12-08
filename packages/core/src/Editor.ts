@@ -380,7 +380,10 @@ export class Editor extends EventEmitter {
    * Check if there is no content.
    */
   public isEmpty() {
-    return !this.state.doc.textContent.length
+    const defaultContent = this.state.doc.type.createAndFill()?.toJSON()
+    const content = this.getJSON()
+
+    return JSON.stringify(defaultContent) === JSON.stringify(content)
   }
 
   /**
