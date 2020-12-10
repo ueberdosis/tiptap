@@ -199,9 +199,14 @@ Yes, it’s magic. As already mentioned, that is all based on the fantastic Y.js
 ## Store the content
 Our collaborative editing backend is ready to handle advanced use cases, like authorization, persistence and scaling. Let’s go through a few common use cases here!
 
-:::pro Backend as a Service (Paid)
-Don’t want to wrap your head around the backend part? No worries, we offer a managed backend. For less than 1.000 documents, it’s $49/month (VAT may apply) and probably saves you a ton of time. Send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev) for further details.
+:::warning Work in progress
+Our plug & play collaboration backend hocuspocus is still work in progress. We’re setting up a dedicated website and documentation, and need to add one or two features before publishing it.
+
+If you want to give it a try, send us an email to humans@tiptap.dev to receive early access.
 :::
+<!-- :::pro Backend as a Service (Paid)
+Don’t want to wrap your head around the backend part? No worries, we offer a managed backend. For less than 1.000 documents, it’s $49/month (VAT may apply) and probably saves you a ton of time. Send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev) for further details.
+::: -->
 
 ### The document name
 The document name is `'example-document'` in all examples here, but it could be any string. In a real-world app you’d probably add the name of your entity, the ID of the entity and in some cases even the field (if you have multiple fields that you want to make collaborative). Here is how that could look like for a CMS:

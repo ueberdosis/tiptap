@@ -30,6 +30,8 @@ TODO
 
 <demo name="Guide/NodeViews/TableOfContents" />
 
+<demo name="Examples/Drawing" />
+
 ### Advanced node views with content
 
 ```html

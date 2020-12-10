@@ -12,6 +12,9 @@ tiptap would be nothing without its lively community. Contributions have always 
 * New extensions, which don’t require changes to the core or other core extensions
 * Well explained, non-breaking changes to the core
 
+## Submit ideas
+Make sure to open an issue and outline your idea first. We’ll get back to you quickly and let you know if there is a chance we can merge your contribution.
+
 ## Set up the development environment
 It’s not too hard to tinker around with the offical repository. You’ll need [Git](https://github.com/git-guides/install-git), [Node](https://nodejs.org/en/download/) and [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable) installed. Here is what you need to do then:
 

@@ -49,7 +49,6 @@
       link: /guide/configuration
     - title: Create a toolbar
       link: /guide/toolbar
-      new: true
     - title: Custom styling
       link: /guide/styling
     - title: Store content
@@ -188,5 +187,5 @@
 
 - title: Links
   items:
-    - title: tiptap v1
+    - title: Documentation for tiptap 1.x
       link: https://v1.tiptap.dev
