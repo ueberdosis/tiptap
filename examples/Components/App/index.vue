@@ -1,6 +1,8 @@
 <template>
   <div class="page" spellcheck="false">
 
+    <banner />
+
     <navigation />
 
     <hero />
@@ -24,6 +26,7 @@
 </template>
 
 <script>
+import Banner from 'Components/Banner'
 import Navigation from 'Components/Navigation'
 import Hero from 'Components/Hero'
 import Subnavigation from 'Components/Subnavigation'
@@ -31,6 +34,7 @@ import Icon from 'Components/Icon'
 
 export default {
   components: {
+    Banner,
     Navigation,
     Hero,
     Subnavigation,

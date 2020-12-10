@@ -1,0 +1,25 @@
+@import "~variables";
+
+.banner {
+  font-size: 0.9rem;
+  background-color: $color-black;
+  color: $color-white;
+  border-bottom: 1px solid $color-grey;
+  text-align: center;
+  padding: 1rem;
+
+  &__action {
+    background-color: $color-white;
+    transition: 0.1s ease-in-out all;
+    color: $color-black;
+    text-decoration: none;
+    padding: 0.4rem 0.7rem;
+    margin: 0.5rem;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: $color-grey;
+    }
+  }
+}
+
