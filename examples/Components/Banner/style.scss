@@ -2,25 +2,26 @@
 
 .banner {
   font-size: 0.9rem;
-  background-color: $color-black;
-  color: $color-white;
+  background-color: $color-white;
+  color: $color-black;
   border-bottom: 1px solid $color-grey;
   text-align: center;
   padding: 0.5rem 1rem;
 
   &__action {
     display: inline-block;
-    background-color: $color-white;
+    border: 3px solid $color-grey;
+    font-weight: bold;
+
     transition: 0.1s ease-in-out all;
-    color: $color-black;
     text-decoration: none;
     padding: 0.4rem 0.7rem;
-    margin: 0.5rem;
+    margin: 0.5rem 0.5rem 0.25rem;
     border-radius: 5px;
     white-space: nowrap;
 
     &:hover {
-      background-color: $color-grey;
+      border-color: $color-black;
     }
   }
 

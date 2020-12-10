@@ -17,9 +17,6 @@
       <a class="navigation__link" href="https://tiptap.dev/docs" target="_blank">
         Documentation
       </a>
-      <a class="navigation__link" href="https://github.com/sponsors/ueberdosis" target="_blank">
-        Sponsor
-      </a>
       <a class="navigation__github-link" href="https://github.com/ueberdosis/tiptap" target="_blank">
         <icon class="navigation__icon" name="github" />
       </a>
