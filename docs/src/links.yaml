@@ -32,6 +32,7 @@
       link: /examples/minimalist
     - title: Drawing
       link: /examples/drawing
+      draft: true
 
 - title: Guide
   items:
