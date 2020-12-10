@@ -6,9 +6,10 @@
   color: $color-white;
   border-bottom: 1px solid $color-grey;
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
 
   &__action {
+    display: inline-block;
     background-color: $color-white;
     transition: 0.1s ease-in-out all;
     color: $color-black;
@@ -16,9 +17,16 @@
     padding: 0.4rem 0.7rem;
     margin: 0.5rem;
     border-radius: 5px;
+    white-space: nowrap;
 
     &:hover {
       background-color: $color-grey;
+    }
+  }
+
+  &__message {
+    @media all and (max-width: 600px) {
+      display: block;
     }
   }
 }
