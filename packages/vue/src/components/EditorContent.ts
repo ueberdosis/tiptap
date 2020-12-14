@@ -17,7 +17,7 @@ export default Vue.extend({
         if (editor && editor.options.element) {
           this.$nextTick(() => {
             this.$el.appendChild(editor.options.element.firstChild)
-            // editor.setParentComponent(this)
+            editor.createNodeViews()
           })
         }
       },

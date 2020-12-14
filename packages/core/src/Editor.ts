@@ -252,14 +252,21 @@ export class Editor extends EventEmitter {
 
     this.view.updateState(newState)
 
-    this.view.setProps({
-      nodeViews: this.extensionManager.nodeViews,
-    })
+    this.createNodeViews()
 
     // Let’s store the editor instance in the DOM element.
     // So we’ll have access to it for tests.
     const dom = this.view.dom as HTMLElement
     dom.editor = this.proxy
+  }
+
+  /**
+   * Creates all node views.
+   */
+  public createNodeViews() {
+    this.view.setProps({
+      nodeViews: this.extensionManager.nodeViews,
+    })
   }
 
   /**

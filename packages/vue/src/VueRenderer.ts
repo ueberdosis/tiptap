@@ -5,6 +5,12 @@ import { Node as ProseMirrorNode } from 'prosemirror-model'
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
 
+function getComponentFromElement(element: HTMLElement): Vue {
+  // @ts-ignore
+  // eslint-disable-next-line
+  return element.__vue__
+}
+
 interface VueRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
@@ -132,7 +138,7 @@ class VueNodeView implements NodeView {
         },
       })
 
-    const props = {
+    const propsData = {
       NodeViewWrapper,
       NodeViewContent,
       editor: this.editor,
@@ -144,10 +150,13 @@ class VueNodeView implements NodeView {
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
     }
 
+    const parent = this.editor.view.dom.parentElement
+      ? getComponentFromElement(this.editor.view.dom.parentElement)
+      : undefined
+
     this.vm = new Component({
-      // TODO: get parent component <editor-content>
-      // parent: this.parent,
-      propsData: props,
+      parent,
+      propsData,
     }).$mount()
   }
 
@@ -258,11 +267,17 @@ class VueNodeView implements NodeView {
       return
     }
 
+    // prevents `Avoid mutating a prop directly` error message
+    const originalSilent = Vue.config.silent
+    Vue.config.silent = true
+
     Object
       .entries(data)
       .forEach(([key, value]) => {
         this.vm.$props[key] = value
       })
+
+    Vue.config.silent = originalSilent
   }
 
   updateAttributes(attributes: {}) {
@@ -295,5 +310,18 @@ class VueNodeView implements NodeView {
 }
 
 export default function VueRenderer(component: Vue | VueConstructor, options?: Partial<VueRendererOptions>) {
-  return (props: NodeViewRendererProps) => new VueNodeView(component, props, options) as NodeView
+  return (props: NodeViewRendererProps) => {
+    // try to get the parent component
+    // this is important for vue devtools to show the component hierarchy correctly
+    // maybe it’s `undefined` because <editor-content> isn’t rendered yet
+    const parent = props.editor.view.dom.parentElement
+      ? getComponentFromElement(props.editor.view.dom.parentElement)
+      : undefined
+
+    if (!parent) {
+      return undefined
+    }
+
+    return new VueNodeView(component, props, options) as NodeView
+  }
 }
