@@ -67,7 +67,6 @@ Use this interactive example to fiddle around:
 <demo name="Guide/StoreContent/ExportHTML" :show-source="false"/>
 
 ### Not an option: Markdown
-
 Unfortunately, **tiptap doesn’t support Markdown as an input or output format**. We considered to add support for it, but those are the reasons why we decided to not do it:
 
 * Both, HTML and JSON, can have deeply nested structures, Markdown is flat.
@@ -80,10 +79,25 @@ If you still think you need Markdown, ProseMirror has an [example on how to deal
 
 That said, tiptap does support [Markdown shortcuts](/examples/markdown-shortcuts) to format your content.
 
+## Listening for changes
+If you want to continuously store the updated content while people write, you can [hook into events](/api/events). Here is an example how that could look like:
+
+```js
+const editor = new Editor({
+  // intial content
+  content: `<p>Example Content</p>`,
+
+  // triggered on every change
+  onUpdate() {
+    const json = this.getJSON()
+    // send the content to an API here
+  },
+})
+```
+
 ## Rendering
 
 ### Option 1: Read-only instance of tiptap
-
 To render the saved content, set the editor to read-only. That’s how you can achieve the exact same rendering as it’s in the editor, without duplicating your CSS and other code.
 
 <demo name="Guide/StoreContent/ReadOnly" highlight="3-6,22,28,41-47" />
