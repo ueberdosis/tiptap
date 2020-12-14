@@ -64,7 +64,7 @@ module.exports = {
     {
       use: 'gridsome-plugin-simple-analytics',
       options: {
-        domain: 'data.tiptap.dev',
+        domain: 'data.next.tiptap.dev',
       },
     },
   ],
