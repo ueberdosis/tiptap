@@ -6,6 +6,26 @@
 
 TODO
 
+```js
+import { Node } from '@tiptap/core'
+import { VueRenderer } from '@tiptap/vue'
+import Component from './Component.vue'
+
+export default Node.create({
+  addNodeView() {
+    return ({ editor, node, getPos, HTMLAttributes, decorations, extension }) => {
+      const dom = document.createElement('div')
+
+      dom.innerHTML = 'I’m a node view'
+
+      return {
+        dom,
+      }
+    })
+  },
+})
+```
+
 ## Different types of node views
 
 ### Simple
@@ -53,3 +73,60 @@ TODO
 
 ## Render Vue components
 
+### Node
+
+```js
+import { Node } from '@tiptap/core'
+import { VueRenderer } from '@tiptap/vue'
+import Component from './Component.vue'
+
+export default Node.create({
+  addNodeView() {
+    return VueRenderer(Component)
+  },
+})
+```
+
+### Component
+
+```html
+<template>
+  <node-view-wrapper>
+    <node-view-content />
+  </node-view-wrapper>
+</template>
+
+<script>
+export default {
+  props: {
+    editor: {
+      type: Object,
+    },
+
+    node: {
+      type: Object,
+    },
+
+    decorations: {
+      type: Array,
+    },
+
+    selected: {
+      type: Boolean,
+    },
+
+    extension: {
+      type: Object,
+    },
+
+    getPos: {
+      type: Function,
+    },
+
+    updateAttributes: {
+      type: Function,
+    },
+  },
+}
+</script>
+```
