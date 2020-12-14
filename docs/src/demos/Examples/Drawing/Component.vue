@@ -31,6 +31,8 @@ import * as d3 from 'd3'
 import simplify from 'simplify-js'
 
 export default {
+  name: 'Paper',
+
   props: {
     updateAttributes: {
       type: Function,
