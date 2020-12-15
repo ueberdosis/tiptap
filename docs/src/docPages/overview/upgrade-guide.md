@@ -14,9 +14,22 @@ Yes, it’s tedious work to upgrade your favorite text editor to a new API, but 
 ## Upgrading from 1.x to 2.x
 The new API will look pretty familiar too you, but there are a ton of changes though. To make the upgrade a little bit easier, here is everything you need to know:
 
+### Uninstall tiptap 1.x
+The whole package structure has changed, we even moved to another npm namespace, so you’ll need to remove the old version entirely before upgrading to tiptap 2.
+
+Otherwise you’ll run into an exception, for example “looks like multiple versions of prosemirror-model were loaded”.
+
+```bash
+# with npm
+npm uninstall tiptap tiptap-commands tiptap-extensions tiptap-utils
+
+# with Yarn
+yarn remove tiptap tiptap-commands tiptap-extensions tiptap-utils
+```
+
 ### Upgrade to Vue.js 3
 :::warning Work in progress
-We’re waiting for Gridsome to be compatible with Vue.js 3.
+We’re [waiting for Gridsome](https://github.com/gridsome/gridsome/issues/1289) to be compatible with Vue.js 3.
 :::
 
 ### Explicitly register the Document, Text and Paragraph extensions
