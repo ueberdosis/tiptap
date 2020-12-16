@@ -1,0 +1,30 @@
+{
+  "name": "@tiptap/suggestions",
+  "description": "suggestions",
+  "version": "2.0.0-alpha.0",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap utility"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-suggestions.cjs.js",
+  "umd": "dist/tiptap-suggestions.umd.js",
+  "module": "dist/tiptap-suggestions.esm.js",
+  "unpkg": "dist/tiptap-suggestions.bundle.umd.min.js",
+  "types": "dist/packages/suggestions/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "@tiptap/core": "^2.0.0-alpha.7",
+    "prosemirror-state": "^1.3.3",
+    "prosemirror-view": "^1.16.3",
+    "prosemirror-model": "^1.12.0"
+  }
+}
