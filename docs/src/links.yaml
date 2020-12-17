@@ -91,6 +91,9 @@
           link: /api/nodes/image
         - title: ListItem
           link: /api/nodes/list-item
+        - title: Mention
+          link: /api/nodes/mention
+          draft: true
         - title: OrderedList
           link: /api/nodes/ordered-list
         - title: Paragraph

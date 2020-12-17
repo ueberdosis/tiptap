@@ -68,7 +68,7 @@ function triggerCharacter({
   }
 }
 
-export function Suggestions({
+export function Suggestion({
   matcher = {
     char: '@',
     allowSpaces: false,

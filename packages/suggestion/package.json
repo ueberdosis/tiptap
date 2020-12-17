@@ -1,6 +1,6 @@
 {
-  "name": "@tiptap/suggestions",
-  "description": "suggestions",
+  "name": "@tiptap/suggestion",
+  "description": "suggestion plugin for tiptap",
   "version": "2.0.0-alpha.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
@@ -12,11 +12,11 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-suggestions.cjs.js",
-  "umd": "dist/tiptap-suggestions.umd.js",
-  "module": "dist/tiptap-suggestions.esm.js",
-  "unpkg": "dist/tiptap-suggestions.bundle.umd.min.js",
-  "types": "dist/packages/suggestions/src/index.d.ts",
+  "main": "dist/tiptap-suggestion.cjs.js",
+  "umd": "dist/tiptap-suggestion.umd.js",
+  "module": "dist/tiptap-suggestion.esm.js",
+  "unpkg": "dist/tiptap-suggestion.bundle.umd.min.js",
+  "types": "dist/packages/suggestion/src/index.d.ts",
   "files": [
     "src",
     "dist"
