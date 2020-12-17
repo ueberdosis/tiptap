@@ -43,7 +43,7 @@ export default class Mention extends Node {
       },
       group: 'inline',
       inline: true,
-      content: 'inline*',
+      content: 'text*',
       selectable: false,
       atom: true,
       toDOM: node => [
