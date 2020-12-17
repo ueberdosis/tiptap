@@ -2,6 +2,37 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { insertText } from 'tiptap-commands'
 
+function getTextBetween(node, from, to, blockSeparator, inlineSeparator, leafText = '\0') {
+  let text = ''
+  let blockSeparated = true
+  let inlineNode = null
+  node.content.nodesBetween(from, to, (innerNode, pos) => {
+    if (innerNode.isText) {
+      if (inlineNode) {
+        inlineNode = null
+        return
+      }
+      text += innerNode.text.slice(Math.max(from, pos) - pos, to - pos)
+      blockSeparated = !blockSeparator
+    } else if (innerNode.isLeaf && leafText) {
+      text += leafText
+      blockSeparated = !blockSeparator
+    } else if (innerNode.isInline && !innerNode.isLeaf) {
+      text += inlineSeparator
+      if (innerNode.textContent) {
+        text += innerNode.textContent
+        inlineNode = innerNode
+      }
+      text += inlineSeparator
+      blockSeparated = !blockSeparated
+    } else if (!blockSeparated && innerNode.isBlock) {
+      text += blockSeparator
+      blockSeparated = true
+    }
+  }, 0)
+  return text
+}
+
 // Create a matcher that matches when a specific character is typed. Useful for @mentions and #tags.
 function triggerCharacter({
   char = '@',
@@ -26,7 +57,7 @@ function triggerCharacter({
     // Lookup the boundaries of the current node
     const textFrom = $position.before()
     const textTo = $position.end()
-    const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
+    const text = getTextBetween($position.doc, textFrom, textTo, '\0', '\0')
 
     let match = regexp.exec(text)
     let position
