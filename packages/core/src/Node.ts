@@ -283,7 +283,7 @@ export class Node<Options = any, Commands = {}> {
     return new Node<O, C>(config)
   }
 
-  configure(options: Partial<Options>) {
+  configure(options?: Partial<Options>) {
     return Node
       .create<Options, Commands>(this.config as NodeConfig<Options, Commands>)
       .#configure({

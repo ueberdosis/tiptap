@@ -231,7 +231,7 @@ export class Mark<Options = any, Commands = {}> {
     return new Mark<O, C>(config)
   }
 
-  configure(options: Partial<Options>) {
+  configure(options?: Partial<Options>) {
     return Mark
       .create<Options, Commands>(this.config as MarkConfig<Options, Commands>)
       .#configure({
