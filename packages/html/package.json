@@ -23,7 +23,7 @@
   ],
   "dependencies": {
     "@tiptap/core": "^2.0.0-alpha.9",
-    "hostic-dom": "^0.8.5",
+    "hostic-dom": "^0.8.6",
     "prosemirror-model": "^1.12.0"
   }
 }
