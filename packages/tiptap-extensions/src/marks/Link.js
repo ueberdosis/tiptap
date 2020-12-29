@@ -38,7 +38,7 @@ export default class Link extends Mark {
       toDOM: node => ['a', {
         ...node.attrs,
         rel: 'noopener noreferrer nofollow',
-        target: this.options.target,
+        target: node.attrs.target || this.options.target,
       }, 0],
     }
   }
