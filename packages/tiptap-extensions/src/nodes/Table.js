@@ -73,7 +73,7 @@ export default class Table extends Node {
       toggleHeaderColumn: () => toggleHeaderColumn,
       toggleHeaderRow: () => toggleHeaderRow,
       toggleHeaderCell: () => toggleHeaderCell,
-      setCellAttr: () => setCellAttr,
+      setCellAttr: ({ name, value }) => setCellAttr(name, value),
       fixTables: () => fixTables,
     }
   }
