@@ -20,7 +20,7 @@
     "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "dependencies": {
-    "prosemirror-model": "^1.11.2",
+    "prosemirror-model": "^1.13.1",
     "prosemirror-state": "^1.3.3",
     "prosemirror-tables": "^1.1.1",
     "prosemirror-utils": "^0.9.6"

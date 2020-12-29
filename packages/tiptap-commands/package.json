@@ -22,7 +22,7 @@
   "dependencies": {
     "prosemirror-commands": "^1.1.4",
     "prosemirror-inputrules": "^1.1.2",
-    "prosemirror-model": "^1.11.2",
+    "prosemirror-model": "^1.13.1",
     "prosemirror-schema-list": "^1.1.4",
     "prosemirror-state": "^1.3.3",
     "prosemirror-tables": "^1.1.1",
