@@ -115,7 +115,7 @@ class VueNodeView implements NodeView {
             style: {
               whiteSpace: 'pre-wrap',
             },
-            attrs: {
+            domProps: {
               id,
               contenteditable: isEditable,
             },
