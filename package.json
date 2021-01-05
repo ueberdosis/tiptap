@@ -12,7 +12,7 @@
     "lint": "eslint --quiet ./packages/**/src/**",
     "test": "jest",
     "audit-ci": "audit-ci --critical",
-    "reset": "rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
+    "reset": "rm -Rf ./**/node_modules && rm -Rf ./yarn.lock && yarn install"
   },
   "postcss": {
     "plugins": {
