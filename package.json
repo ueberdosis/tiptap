@@ -11,7 +11,8 @@
     "release": "rm -Rf dist && yarn build:packages && yarn lint && yarn test && lerna publish",
     "lint": "eslint --quiet ./packages/**/src/**",
     "test": "jest",
-    "audit-ci": "audit-ci --critical"
+    "audit-ci": "audit-ci --critical",
+    "reset": "rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
   },
   "postcss": {
     "plugins": {
