@@ -224,13 +224,20 @@ export default {
     // renders a popup with suggestions
     // tiptap provides a virtualNode object for using popper.js (or tippy.js) for popups
     renderPopup(node) {
+      const boundingClientRect = node.getBoundingClientRect()
+      const { x, y } = boundingClientRect
+
+      if (x === 0 && y === 0) {
+        return
+      }
+
       if (this.popup) {
         return
       }
 
       // ref: https://atomiks.github.io/tippyjs/v6/all-props/
       this.popup = tippy('.page', {
-        getReferenceClientRect: node.getBoundingClientRect,
+        getReferenceClientRect: () => boundingClientRect,
         appendTo: () => document.body,
         interactive: true,
         sticky: true, // make sure position of tippy is updated when content changes
