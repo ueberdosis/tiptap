@@ -59,10 +59,14 @@ export const TextAlign = Extension.create({
     return {
       // TODO: re-use only 'textAlign' attribute
       // TODO: use custom splitBlock only for `this.options.types`
-      // TODO: use complete default enter handler (chainCommand) with custom splitBlock
-      Enter: () => this.editor.commands.splitBlock({
-        withAttributes: true,
-      }),
+      Enter: () => this.editor.commands.first(({ commands }) => [
+        () => commands.newlineInCode(),
+        () => commands.createParagraphNear(),
+        () => commands.liftEmptyBlock(),
+        () => commands.splitBlock({
+          withAttributes: true,
+        }),
+      ]),
       'Mod-Shift-l': () => this.editor.commands.setTextAlign('left'),
       'Mod-Shift-e': () => this.editor.commands.setTextAlign('center'),
       'Mod-Shift-r': () => this.editor.commands.setTextAlign('right'),
