@@ -28,6 +28,7 @@
       link: /examples/todo-app
     - title: Write a book
       link: /examples/book
+      draft: true
     - title: For minimalists
       link: /examples/minimalist
     - title: Drawing
