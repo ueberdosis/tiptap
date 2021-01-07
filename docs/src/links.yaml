@@ -99,15 +99,12 @@
         - title: Table
           link: /api/nodes/table
           draft: true
-          pro: true
         - title: TableRow
           link: /api/nodes/table-row
           draft: true
-          pro: true
         - title: TableCell
           link: /api/nodes/table-cell
           draft: true
-          pro: true
         - title: TaskList
           link: /api/nodes/task-list
         - title: TaskItem
@@ -155,7 +152,6 @@
         - title: Suggestion
           link: /api/extensions/suggestion
           draft: true
-          pro: true
         - title: TextAlign
           link: /api/extensions/text-align
         - title: Typography

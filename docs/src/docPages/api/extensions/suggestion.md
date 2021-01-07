@@ -1,5 +1,9 @@
 # Suggestion
 
+:::pro Fund the development 💖
+We need your support to maintain, update, support and develop tiptap 2. If you’re waiting for this extension, [become a sponsor and fund the open-source](/sponsor).
+:::
+
 TODO
 
 - mentions (as text or as/with user ID)
