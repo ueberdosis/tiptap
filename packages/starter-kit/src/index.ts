@@ -17,7 +17,7 @@ import BulletList, { BulletListOptions } from '@tiptap/extension-bullet-list'
 import OrderedList, { OrderedListOptions } from '@tiptap/extension-ordered-list'
 import ListItem, { ListItemOptions } from '@tiptap/extension-list-item'
 
-export function defaultExtensions(options: {
+export function defaultExtensions(options?: Partial<{
   dropursor: DropcursorOptions,
   paragraph: ParagraphOptions,
   history: HistoryOptions,
@@ -33,7 +33,7 @@ export function defaultExtensions(options: {
   bulletList: BulletListOptions,
   orderedList: OrderedListOptions,
   listItem: ListItemOptions,
-}) {
+}>) {
   return [
     Dropcursor.configure(options?.dropursor),
     Gapcursor,

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-text-align",
   "description": "text align extension for tiptap",
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-alpha.6",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",

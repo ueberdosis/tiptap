@@ -27,19 +27,19 @@
     "simplify-js": "^1.2.4",
     "vue-github-button": "^1.1.2",
     "vue-live": "^1.16.0",
-    "y-indexeddb": "^9.0.5",
+    "y-indexeddb": "^9.0.6",
     "y-webrtc": "^10.1.7",
     "y-websocket": "^1.3.8",
-    "yjs": "^13.4.6"
+    "yjs": "^13.4.7"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.12.7",
-    "@babel/preset-env": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "html-loader": "^1.3.2",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.0.3",
     "style-resources-loader": "^1.4.1",
-    "ts-loader": "^8.0.11"
+    "ts-loader": "^8.0.14"
   }
 }

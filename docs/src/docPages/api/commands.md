@@ -107,7 +107,14 @@ Have a look at all of the core commands listed below. They should give you a goo
 | Command                 | Description                                               |
 | ----------------------- | --------------------------------------------------------- |
 | .clearNodes()           | Normalize nodes to a simple paragraph.                    |
+| .createParagraphNear()  | Create a paragraph nearby.                                |
+| .exitCode()             | Exit from a code block.                                   |
 | .extendMarkRange()      | Extends the text selection to the current mark.           |
+| .joinBackward()         | Join two nodes backward.                                  |
+| .joinForward()          | Join two nodes forward.                                   |
+| .lift()                 | Removes an existing wrap.                                 |
+| .liftEmptyBlock()       | Lift block if empty.                                      |
+| .newlineInCode()        | Add a newline character in code.                          |
 | .resetNodeAttributes()  | Resets all node attributes to the default value.          |
 | .selectParentNode()     | Select the parent node.                                   |
 | .setMark()              | Add a mark with new attributes.                           |
@@ -116,6 +123,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .toggleMark()           | Toggle a mark on and off.                                 |
 | .toggleNode()           | Toggle a node with another node.                          |
 | .toggleWrap()           | Wraps nodes in another node, or removes an existing wrap. |
+| .undoInputRule()        | Undo an input rule.                                       |
 | .unsetAllMarks()        | Remove all marks in the current selection.                |
 | .unsetMark()            | Remove a mark in the current selection.                   |
 | .updateNodeAttributes() | Update attributes of a node.                              |
@@ -130,13 +138,16 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .wrapInList()    | Wrap a node in a list.                      |
 
 ### Selection
-| Command            | Description                             |
-| ------------------ | --------------------------------------- |
-| .blur()            | Removes focus from the editor.          |
-| .deleteSelection() | Delete the selection, if there is one.  |
-| .focus()           | Focus the editor at the given position. |
-| .scrollIntoView()  | Scroll the selection into view.         |
-| .selectAll()       | Select the whole document.              |
+| Command               | Description                             |
+| --------------------- | --------------------------------------- |
+| .blur()               | Removes focus from the editor.          |
+| .deleteSelection()    | Delete the selection, if there is one.  |
+| .focus()              | Focus the editor at the given position. |
+| .scrollIntoView()     | Scroll the selection into view.         |
+| .selectAll()          | Select the whole document.              |
+| .selectNodeBackward() | Select a node backward.                 |
+| .selectNodeForward()  | Select a node forward.                  |
+| .selectParentNode()   | Select the parent node.                 |
 
 ## Add your own commands
 All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those.
