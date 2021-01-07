@@ -171,20 +171,10 @@
 
 - title: Sponsoring
   items:
-    - title: Monthly reports
-      link: /updates
-      redirect: /updates/2020-11
-      items:
-        - title: November 2020
-          link: /updates/2020-11
-        - title: October 2020
-          link: /updates/2020-10
-        - title: September 2020
-          link: /updates/2020-09
-        - title: August 2020
-          link: /updates/2020-08
     - title: Become a sponsor
       link: /sponsor
+    - title: Monthly reports
+      link: /reports
 
 - title: Links
   items:
