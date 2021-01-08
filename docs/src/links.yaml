@@ -46,6 +46,14 @@
         - title: Nuxt.js
           link: /guide/getting-started/nuxtjs
           skip: true
+        - title: Alpine.js
+          link: /guide/getting-started/alpinejs
+          draft: true
+          skip: true
+        - title: Livewire
+          link: /guide/getting-started/livewire
+          draft: true
+          skip: true
     - title: Configure the editor
       link: /guide/configuration
     - title: Create a toolbar
