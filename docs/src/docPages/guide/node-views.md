@@ -3,8 +3,7 @@
 ## toc
 
 ## Introduction
-
-TODO
+Node views are the best thing since sliced bread, at least if you’re a fan of customization (and bread). Node views enable you to add literally anything to a node. If you can write it in JavaScript, you can use it in your editor.
 
 ```js
 import { Node } from '@tiptap/core'
@@ -48,8 +47,10 @@ export default Node.create({
 </div>
 ```
 
+#### Example: Table of contents
 <demo name="Guide/NodeViews/TableOfContents" />
 
+#### Example: Drawing in the editor
 <demo name="Examples/Drawing" />
 
 ### Advanced node views with content
@@ -69,6 +70,7 @@ export default Node.create({
 </div>
 ```
 
+#### Example: Drag handles
 <demo name="Guide/NodeViews/DragHandle" />
 
 ## Render Vue components
