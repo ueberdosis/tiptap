@@ -21,17 +21,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="collaboration-users">
-      <div
-        class="collaboration-users__item"
-        :style="`background-color: ${otherUser.color}`"
-        v-for="otherUser in users"
-        :key="otherUser.clientId"
-      >
-        {{ otherUser.name }}
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -254,30 +243,6 @@ export default {
     margin-bottom: 0.5rem;
   }
 }
-
-// .collaboration-status {
-//   border-radius: 5px;
-//   margin-top: 1rem;
-//   color: #616161;
-
-//   &::before {
-//     content: ' ';
-//     display: inline-block;
-//     width: 0.5rem;
-//     height: 0.5rem;
-//     background: #ccc;
-//     border-radius: 50%;
-//     margin-right: 0.5rem;
-//   }
-
-//   &--connecting::before {
-//     background: #fd9170;
-//   }
-
-//   &--connected::before {
-//     background: #9DEF8F;
-//   }
-// }
 
 /* Give a remote user a caret */
 .collaboration-cursor__caret {
