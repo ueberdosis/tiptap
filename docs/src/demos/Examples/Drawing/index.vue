@@ -21,12 +21,13 @@ export default {
   data() {
     return {
       editor: null,
+      provider: null,
     }
   },
 
   mounted() {
     const ydoc = new Y.Doc()
-    const provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-draw-example', ydoc)
+    this.provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-draw-example', ydoc)
 
     this.editor = new Editor({
       extensions: [
@@ -44,6 +45,7 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
+    this.provider.destroy()
   },
 }
 </script>
