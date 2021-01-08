@@ -34,7 +34,7 @@ export default {
           content: 'paper',
         }),
         Collaboration.configure({
-          provider,
+          document: ydoc,
         }),
         Text,
         Paper,

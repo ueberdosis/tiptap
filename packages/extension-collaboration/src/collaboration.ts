@@ -7,14 +7,17 @@ import {
 } from 'y-prosemirror'
 
 export interface CollaborationOptions {
-  provider: any,
+  /**
+   * An initialized Y.js document.
+   */
+  document: any,
 }
 
 export const Collaboration = Extension.create({
   name: 'collaboration',
 
   defaultOptions: <CollaborationOptions>{
-    provider: null,
+    document: null,
   },
 
   addCommands() {
@@ -49,14 +52,10 @@ export const Collaboration = Extension.create({
   addProseMirrorPlugins() {
     return [
       ySyncPlugin(
-        this.options.provider.doc.getXmlFragment('prosemirror'),
+        this.options.document.getXmlFragment('prosemirror'),
       ),
       yUndoPlugin(),
     ]
-  },
-
-  onDestroy() {
-    this.options.provider?.destroy()
   },
 })
 

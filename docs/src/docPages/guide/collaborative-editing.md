@@ -45,7 +45,7 @@ const editor = new Editor({
     // …
     // Register the document with tiptap
     Collaboration.configure({
-      provider
+      document: ydoc,
     }),
   ],
 })
@@ -90,7 +90,7 @@ const editor = new Editor({
     // …
     // Register the document with tiptap
     Collaboration.configure({
-      provider
+      document: ydoc,
     }),
   ],
 })
@@ -128,7 +128,19 @@ node ./index.js
 
 This should output something like “Listening on ws://127.0.0.1:1234”. If you go back to your tiptap editor and hit reload, it should connect to the WebSocket server and changes should sync with all other clients. Amazing, isn’t it?
 
-### Add cursors
+### Multiple network providers
+You can even combine multiple providers. That’s not needed, but could keep clients connected, even if one connection - for example the websocket server - goes down for a while. Here is an example:
+
+```js
+new WebrtcProvider('example-document', ydoc)
+new WebsocketProvider('ws://127.0.0.1:1234', 'example-document', ydoc)
+```
+
+Yes, that’s all.
+
+Keep in mind that WebRTC needs a signaling server to connect clients. This signaling server doesn’t receive the synced data, but helps to let clients find each other. You can [run your own signaling server](https://github.com/yjs/y-webrtc#signaling), if you like.
+
+### Show other cursors
 If you want to enable users to see the cursor and text selections of each other, add the [`CollaborationCursor`](/api/extensions/collaboration-cursor) extension.
 
 ```js
@@ -145,11 +157,11 @@ const editor = new Editor({
   extensions: [
     // …
     Collaboration.configure({
-      provider
+      document: ydoc,
     }),
     // Register the collaboration cursor extension
     CollaborationCursor.configure({
-      provider: this.provider,
+      provider: provider,
       name: 'Cyndi Lauper',
       color: '#f783ac',
     }),
@@ -179,14 +191,15 @@ import * as Y from 'yjs'
 import { IndexeddbPersistence } from 'y-indexeddb'
 
 const ydoc = new Y.Doc()
+
 // Store the Y document in the browser
-const indexdb = new IndexeddbPersistence('example-document', ydoc)
+new IndexeddbPersistence('example-document', ydoc)
 
 const editor = new Editor({
   extensions: [
     // …
     Collaboration.configure({
-      provider
+      document: ydoc,
     }),
   ],
 })

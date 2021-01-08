@@ -67,6 +67,7 @@ export default {
         name: this.getRandomName(),
         color: this.getRandomColor(),
       },
+      provider: null,
       indexdb: null,
       editor: null,
       users: [],
@@ -76,8 +77,8 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
-    const provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-collaboration-example', ydoc)
-    provider.on('status', event => {
+    this.provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-collaboration-example', ydoc)
+    this.provider.on('status', event => {
       this.status = event.status
     })
 
@@ -90,10 +91,10 @@ export default {
         TaskList,
         CustomTaskItem,
         Collaboration.configure({
-          provider,
+          document: ydoc,
         }),
         CollaborationCursor.configure({
-          provider,
+          provider: this.provider,
           user: this.currentUser,
           onUpdate: users => {
             this.users = users
@@ -146,6 +147,7 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
+    this.provider.destroy()
   },
 }
 </script>
