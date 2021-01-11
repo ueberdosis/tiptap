@@ -98,7 +98,7 @@ jobs:
         browser: chrome
 
     - name: Export screenshots (on failure only)
-      uses: actions/upload-artifact@v2.2.1
+      uses: actions/upload-artifact@v2.2.2
       if: failure()
       with:
         name: cypress-screenshots
@@ -106,7 +106,7 @@ jobs:
         retention-days: 7
 
     - name: Export screen recordings (on failure only)
-      uses: actions/upload-artifact@v2.2.1
+      uses: actions/upload-artifact@v2.2.2
       if: failure()
       with:
         name: cypress-videos
