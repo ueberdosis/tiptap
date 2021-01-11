@@ -34,6 +34,8 @@
     - title: Drawing
       link: /examples/drawing
       draft: true
+    - title: Multiple editors
+      link: /examples/multiple-editors
 
 - title: Guide
   items:
