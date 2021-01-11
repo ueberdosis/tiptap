@@ -20,9 +20,10 @@ yarn add @tiptap/extension-collaboration yjs y-websocket
 ```
 
 ## Settings
-| Option   | Type     | Default | Description                   |
-| -------- | -------- | ------- | ----------------------------- |
-| document | `Object` | `null`  | An initialized Y.js document. |
+| Option   | Type     | Default   | Description                                                                               |
+| -------- | -------- | --------- | ----------------------------------------------------------------------------------------- |
+| document | `Object` | `null`    | An initialized Y.js document.                                                             |
+| fragment | `String` | `default` | Name of the Y.js fragment, can be changed to sync multiple fields with one Y.js document. |
 
 ## Commands
 | Command | Parameters | Description           |

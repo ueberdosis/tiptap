@@ -222,13 +222,29 @@ Don’t want to wrap your head around the backend part? No worries, we offer a m
 ::: -->
 
 ### The document name
-The document name is `'example-document'` in all examples here, but it could be any string. In a real-world app you’d probably add the name of your entity, the ID of the entity and in some cases even the field (if you have multiple fields that you want to make collaborative). Here is how that could look like for a CMS:
+The document name is `'example-document'` in all examples here, but it could be any string. In a real-world app you’d probably add the name of your entity and the ID of the entity. Here is how that could look like:
 
 ```js
-const documentName = 'page.140.content'
+const documentName = 'page.140'
 ```
 
-In the backend, you can split the string to know the user is typing on a page with the ID 140 in the `content` field and manage authorization and such accordingly. New documents are created on the fly, no need to tell the backend about them, besides passing a string to the provider.
+In the backend, you can split the string to know the user is typing on a page with the ID 140 to manage authorization and such accordingly. New documents are created on the fly, no need to tell the backend about them, besides passing a string to the provider.
+
+And if you’d like to sync multiple fields with one Y.js document, just pass different fragment names to the collaboration extension:
+
+```js
+// a tiptap instance for the field
+Collaboration.configure({
+  document: ydoc,
+  fragment: 'title',
+})
+
+// and another instance for the summary, both in the same Y.js document
+Collaboration.configure({
+  document: ydoc,
+  fragment: 'summary',
+})
+```
 
 ### Authentication
 With the `onConnect` hook you can write a custom Promise to check if a client is authenticated. That can be a request to an API, to a microservice, a database query, or whatever is needed, as long as it’s executing `resolve()` at some point. You can also pass contextual data to the `resolve()` method which will be accessible in other hooks.

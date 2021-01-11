@@ -11,6 +11,7 @@ export interface CollaborationOptions {
    * An initialized Y.js document.
    */
   document: any,
+  fragment: string,
 }
 
 export const Collaboration = Extension.create({
@@ -18,6 +19,7 @@ export const Collaboration = Extension.create({
 
   defaultOptions: <CollaborationOptions>{
     document: null,
+    fragment: 'default',
   },
 
   addCommands() {
@@ -52,7 +54,9 @@ export const Collaboration = Extension.create({
   addProseMirrorPlugins() {
     return [
       ySyncPlugin(
-        this.options.document.getXmlFragment('prosemirror'),
+        this.options.document.getXmlFragment(
+          this.options.fragment,
+        ),
       ),
       yUndoPlugin(),
     ]
