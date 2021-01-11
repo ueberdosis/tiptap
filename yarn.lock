@@ -15418,7 +15418,7 @@ y-prosemirror@^1.0.5:
   dependencies:
     lib0 "^0.2.34"
 
-y-protocols@^1.0.0, y-protocols@^1.0.1:
+y-protocols@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/y-protocols/-/y-protocols-1.0.1.tgz#7855c900039a02b369590b8ae78bc6e1cbc13c9f"
   integrity sha512-QP3fCM7c2gGfUi2nqf8gspyO4VW23zv3kNqPNdD3wNxMbuNQenMyoDVZYEo12jzR4RQ3aaDfPK62Sf31SVOmfg==
@@ -15437,14 +15437,14 @@ y-webrtc@^10.1.7:
     ws "^7.2.0"
 
 y-websocket@^1.3.8:
-  version "1.3.8"
-  resolved "https://registry.yarnpkg.com/y-websocket/-/y-websocket-1.3.8.tgz#1ee881ff20b3d0e3a50ac4e472253757ebdb9ffe"
-  integrity sha512-ut2srey5upZQPYfBiT0mHhSxa50Fd0mOmfKR+F8Gxx/zwZ3y3tSNUOfblLcJtqY583gjH0s/zMOU+FKjhTCuog==
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/y-websocket/-/y-websocket-1.3.9.tgz#9a66ac337d248d6c428348c00079c533f777954c"
+  integrity sha512-iOi1shywIkf7jw10iq6zE/2d7nyKXmD91szdhGTgorcmApVzTte5K9yWVO+XVAcZcdQBT8ho1Nzw43ZFdfhS/A==
   dependencies:
     lib0 "^0.2.31"
     lodash.debounce "^4.0.8"
     y-leveldb "^0.1.0"
-    y-protocols "^1.0.0"
+    y-protocols "^1.0.1"
   optionalDependencies:
     ws "^6.2.1"
 
