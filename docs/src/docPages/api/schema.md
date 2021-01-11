@@ -80,8 +80,11 @@ The content attribute defines exactly what kind of content the node can have. Pr
 
 ```js
 Node.create({
-  // must have one ore more blocks
+  // must have one or more blocks
   content: 'block+',
+
+  // must have zero or more blocks
+  content: 'block*',
 
   // allows all kinds of 'inline' content (text or hard breaks)
   content: 'inline*',
@@ -91,9 +94,11 @@ Node.create({
 
   // can have one or more paragraphs, or lists (if lists are used)
   content: '(paragraph|list?)+',
+
+  // must have exact one heading at the top, and one or more blocks below
+  content: 'heading block+'
 })
 ```
-
 
 #### Marks
 You can define which marks are allowed inside of a node with the `marks` setting of the schema. Add a one or more names or groups of marks, allow all or disallow all marks like this:
