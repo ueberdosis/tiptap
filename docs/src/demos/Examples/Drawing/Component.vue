@@ -60,7 +60,7 @@ export default {
         '#80CBC4',
         '#9DEF8F',
       ]),
-      size: Math.floor(Math.random() * Math.floor(20)),
+      size: Math.ceil(Math.random() * Math.floor(10)),
       svg: null,
       path: null,
       points: [],
