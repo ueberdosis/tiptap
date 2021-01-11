@@ -28,12 +28,10 @@
       link: /examples/todo-app
     - title: Write a book
       link: /examples/book
-      draft: true
     - title: For minimalists
       link: /examples/minimalist
     - title: Drawing
       link: /examples/drawing
-      draft: true
     - title: Multiple editors
       link: /examples/multiple-editors
 
