@@ -11,6 +11,9 @@ export interface CollaborationOptions {
    * An initialized Y.js document.
    */
   document: any,
+  /**
+   * A string to determine the fragment that should be used.
+   */
   fragment: string,
 }
 
