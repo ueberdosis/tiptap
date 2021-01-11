@@ -236,13 +236,22 @@ And if you’d like to sync multiple fields with one Y.js document, just pass di
 // a tiptap instance for the field
 Collaboration.configure({
   document: ydoc,
-  fragment: 'title',
+  field: 'title',
 })
 
 // and another instance for the summary, both in the same Y.js document
 Collaboration.configure({
   document: ydoc,
-  fragment: 'summary',
+  field: 'summary',
+})
+```
+
+If your setup is somehow more complex, for example with nested fragments, you can pass a raw Y.js fragment too. `document` and `field` will be ignored then.
+
+```js
+// a raw Y.js fragment
+Collaboration.configure({
+  fragment: ydoc.getXmlFragment('custom'),
 })
 ```
 

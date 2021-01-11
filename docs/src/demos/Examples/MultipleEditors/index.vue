@@ -70,7 +70,7 @@ export default {
         Text,
         Collaboration.configure({
           document: ydoc,
-          fragment: 'title',
+          field: 'title',
         }),
       ],
     })
@@ -84,7 +84,7 @@ export default {
         CustomTaskItem,
         Collaboration.configure({
           document: ydoc,
-          fragment: 'tasks',
+          field: 'tasks',
         }),
       ],
     })
@@ -96,7 +96,7 @@ export default {
         Text,
         Collaboration.configure({
           document: ydoc,
-          fragment: 'description',
+          field: 'description',
         }),
       ],
     })
@@ -112,17 +112,23 @@ export default {
 </script>
 
 <style lang="scss">
-ul[data-type="taskList"] {
-  list-style: none;
-  padding: 0;
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
 
-  li {
-    display: flex;
-    align-items: center;
+  ul[data-type="taskList"] {
+    list-style: none;
+    padding: 0;
 
-    > input {
-      flex: 0 0 auto;
-      margin-right: 0.5rem;
+    li {
+      display: flex;
+      align-items: center;
+
+      > input {
+        flex: 0 0 auto;
+        margin-right: 0.5rem;
+      }
     }
   }
 }
@@ -137,7 +143,7 @@ ul[data-type="taskList"] {
 
 .form__item {
   margin: 0 0 1rem;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 5px;
   border: 1px solid #e9ecef;
 

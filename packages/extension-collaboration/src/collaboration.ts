@@ -12,9 +12,13 @@ export interface CollaborationOptions {
    */
   document: any,
   /**
-   * A string to determine the fragment that should be used.
+   * Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document.
    */
-  fragment: string,
+  field: string,
+  /**
+   * A raw Y.js fragment, can be used instead of `document` and `field`.
+   */
+  fragment: any,
 }
 
 export const Collaboration = Extension.create({
@@ -22,7 +26,8 @@ export const Collaboration = Extension.create({
 
   defaultOptions: <CollaborationOptions>{
     document: null,
-    fragment: 'default',
+    field: 'default',
+    fragment: null,
   },
 
   addCommands() {
@@ -55,12 +60,12 @@ export const Collaboration = Extension.create({
   },
 
   addProseMirrorPlugins() {
+    const fragment = this.options.fragment
+      ? this.options.fragment
+      : this.options.document.getXmlFragment(this.options.field)
+
     return [
-      ySyncPlugin(
-        this.options.document.getXmlFragment(
-          this.options.fragment,
-        ),
-      ),
+      ySyncPlugin(fragment),
       yUndoPlugin(),
     ]
   },
