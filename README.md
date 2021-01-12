@@ -1,4 +1,4 @@
-> Tiptap 2 is in development and we need your support to make this possible! 💖 [Read more](https://blog.ueber.io/post/our-plan-for-tiptap-2/)
+> We’re working on tiptap 2. Become a sponsor to get access immediately! 💖 [Read more](https://blog.ueber.io/post/early-access-to-tiptap-2/)
 
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
