@@ -1,4 +1,4 @@
-> We’re working on tiptap 2. Become a sponsor to get access immediately! 💖 [Read more](https://blog.ueber.io/post/early-access-to-tiptap-2/)
+> We’re working on tiptap 2. Become a sponsor to get access immediately! [Sponsor 💖](https://github.com/sponsors/ueberdosis)
 
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
