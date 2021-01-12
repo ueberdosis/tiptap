@@ -11,6 +11,15 @@ A renderless and extendable rich-text editor for [Vue.js](https://github.com/vue
 [![Build Status](https://github.com/ueberdosis/tiptap/workflows/ci/badge.svg)](https://github.com/ueberdosis/tiptap/actions)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
+## [FAQ] Should I start to integrate tiptap 1 or wait for tiptap 2?
+Good question! [tiptap 2](https://blog.ueber.io/post/our-plan-for-tiptap-2/) is about to come in the next months and we’re going to provide an upgrade guide for you. Sure, there are a lot of things that will change, but you should be able to refactor everything in an hour so (depending on the size of your project).
+
+The extension API will have a lot of breaking changes. So if you’re up to write a lot of custom extensions, expect to rewrite them for tiptap 2. You’ll likely reuse all the single parts (schema, inputRules, pasteRules, keyboard shortcuts …), but the API to register them will be different.
+
+**For the braves:** [Sponsor us](https://github.com/sponsors/ueberdosis) to get access to tiptap 2 and start your project with a fresh breeze of air.
+
+**For everyone else:** No need to wait for tiptap 2. Start your project, you’ll be able to upgrade in a reasonable amount of time.
+
 ## Why I built tiptap
 I was looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn't really satisfy me. The editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. I came across [Prosemirror](https://github.com/prosemirror) and decided to build on it. Prosemirror is a toolkit for building rich-text editors that are already in use at many well-known companies such as *Atlassian* or *New York Times*.
 
@@ -21,14 +30,6 @@ With renderless components you'll have (almost) full control over markup and sty
 ### How is the data stored under the hood?
 
 You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can pass these two types back to the editor.
-
-### Should I start to integrate tiptap 1 or wait for tiptap 2?
-
-Good question! Tiptap 2 is about to come in the next months and we’re going to provide an upgrade guide for you. Sure, there are a lot of things that will change, but you should be able to refactor everything in an hour so (depending on the size of your project).
-
-The extension API will have a lot of breaking changes. So if you’re up to write a lot of custom extensions, expect to rewrite them for tiptap 2. You’ll likely reuse all the single parts (schema, inputRules, pasteRules, keyboard shortcuts …), but the API to register them will be different.
-
-**In other words: No need to wait for tiptap 2.** Start your project, you’ll be able to upgrade in a reasonable amount of time.
 
 ## 💖 Sponsor the development
 
