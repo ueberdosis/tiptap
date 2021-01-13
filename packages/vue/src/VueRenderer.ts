@@ -1,4 +1,9 @@
-import { Editor, Node, NodeViewRendererProps } from '@tiptap/core'
+import {
+  Editor,
+  Node,
+  NodeViewRenderer,
+  NodeViewRendererProps,
+} from '@tiptap/core'
 import { Decoration, NodeView } from 'prosemirror-view'
 import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
@@ -309,7 +314,7 @@ class VueNodeView implements NodeView {
 
 }
 
-export default function VueRenderer(component: Vue | VueConstructor, options?: Partial<VueRendererOptions>) {
+export default function VueRenderer(component: Vue | VueConstructor, options?: Partial<VueRendererOptions>): NodeViewRenderer {
   return (props: NodeViewRendererProps) => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly

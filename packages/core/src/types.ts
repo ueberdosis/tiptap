@@ -97,7 +97,7 @@ export type NodeViewRendererProps = {
   extension: Node,
 }
 
-export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView
+export type NodeViewRenderer = (props: NodeViewRendererProps) => (NodeView | undefined)
 
 export type UnfilteredCommands = {
   [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
