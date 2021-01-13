@@ -5,7 +5,7 @@
 ## Introduction
 Node views are the best thing since sliced bread, at least if you’re a fan of customization (and bread). Node views enable you to add literally anything to a node. If you can write it in JavaScript, you can use it in your editor.
 
-```js
+<!-- ```js
 import { Node } from '@tiptap/core'
 import { VueRenderer } from '@tiptap/vue'
 import Component from './Component.vue'
@@ -23,7 +23,7 @@ export default Node.create({
     })
   },
 })
-```
+``` -->
 
 ## Different types of node views
 
@@ -36,6 +36,10 @@ export default Node.create({
   <p>text</p>
 </div>
 ```
+
+#### Example: Task item
+
+https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-item/src/task-item.ts#L74
 
 ### Without content
 
@@ -131,4 +135,14 @@ export default {
   },
 }
 </script>
+```
+
+### Component with Content
+
+```html
+<template>
+  <node-view-wrapper class="dom">
+    <node-view-content class="content-dom" />
+  </node-view-wrapper>
+</template>
 ```

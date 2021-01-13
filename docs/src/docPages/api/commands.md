@@ -69,6 +69,38 @@ editor
 
 Both calls would return `true` if it’s possible to apply the commands, and `false` in case it’s not.
 
+In order to make that work with your custom commands, don’t forget to return `true` or `false`.
+
+For some of your own commands, you probably want to work with the raw [transaction](/api/overview). To make them work with `.can()` you should check if the transaction should be dispatched. Here is how we do that within `.insertText()`:
+
+```js
+export default (value: string): Command => ({ tr, dispatch }) => {
+  if (dispatch) {
+    tr.insertText(value)
+  }
+
+  return true
+}
+```
+
+If you’re just wrapping another tiptap command, you don’t need to check that, we’ll do it for you.
+
+```js
+bold: (): Command => ({ commands }) => {
+  return commands.toggleMark('bold')
+},
+```
+
+If you’re just wrapping a ProseMirror command, you’ll need to pass `dispatch` anyway. Then there’s also no need to check it:
+
+```js
+export default (typeOrName: string | NodeType): Command => ({ state, dispatch }) => {
+  const type = getNodeType(typeOrName, state.schema)
+
+  return liftListItem(type)(state, dispatch)
+}
+```
+
 ### Try commands
 If you want to run a list of commands, but want only the first successful command to be applied, you can do this with the `.first()` method. This method runs one command after the other and stops at the first which returns `true`.
 
