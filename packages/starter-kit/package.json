@@ -39,7 +39,6 @@
     "@tiptap/extension-ordered-list": "^2.0.0-alpha.5",
     "@tiptap/extension-paragraph": "^2.0.0-alpha.5",
     "@tiptap/extension-strike": "^2.0.0-alpha.5",
-    "@tiptap/extension-text": "^2.0.0-alpha.5",
-    "@tiptap/extension-underline": "^2.0.0-alpha.5"
+    "@tiptap/extension-text": "^2.0.0-alpha.5"
   }
 }
