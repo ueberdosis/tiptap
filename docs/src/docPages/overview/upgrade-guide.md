@@ -52,8 +52,29 @@ new Editor({
 
 And we removed some settings: `dropCursor`, `enableDropCursor`, and `enableGapCursor`. Those are separate extensions now: [`Dropcursor`](/api/extensions/dropcursor) and [`Gapcursor`](/api/extensions/gapcursor). You probably want to load them, but if you don’t just ignore me.
 
-### New document type
-~~**We renamed the default `Document` type from `doc` to `document`.** To keep it like that, use your own implementation of the `Document` node or migrate the stored JSON to use the new name.~~
+### New names for most extensions
+**We renamed the default `Document` type from `doc` to `document`.** To keep it like that, use your own implementation of the `Document` node or migrate the stored JSON to use the new name.
+
+Also, we switched to lowerCamelCase, so there’s a lot that changed. If you stored your content as JSON you need to loop through it and rename a lot of types. Sorry for that one.
+
+| Old type              | New type               |
+| --------------------- | ---------------------- |
+| ~~`blockquote`~~      | `blockquote`           |
+| ~~`bold`~~            | `bold`                 |
+| ~~`bullet_list`~~     | `bulletList`           |
+| ~~`code`~~            | `code`                 |
+| ~~`code_block`~~      | `codeBlock`            |
+| ~~`hard_break`~~      | `hardBreak`            |
+| ~~`heading`~~         | `heading`              |
+| ~~`horizontal_rule`~~ | `horizontalRule`       |
+| ~~`italic`~~          | `italic`               |
+| ~~`link`~~            | `link`                 |
+| ~~`ordered_list`~~    | `orderedList`          |
+| ~~`paragraph`~~       | `paragraph`            |
+| ~~`strike`~~          | `strike`               |
+| ~~`todo_list`~~       | `taskList` (new name!) |
+| ~~`underline`~~       | `underline`            |
+| …                     | …                      |
 
 ### Removed methods
 We removed the `.state()` method. No worries though, it’s still available through `editor.state`.
@@ -103,26 +124,26 @@ Read more about [all the nifty details building custom extensions](/guide/build-
 ### Renamed commands
 All new extensions come with specific commands to set, unset and toggle styles. So instead of `.bold()`, it’s now `.toggleBold()`. Also, we switched to lowerCamelCase, below are a few examples. Oh, and we renamed `todo_list`, to `taskList`, sorry for that one.
 
-| Old name                 | New name                  |
-| ------------------------ | ------------------------- |
-| ~~`.blockquote()`~~      | `.toggleBlockquote()`     |
-| ~~`.bold()`~~            | `.toggleBold()`           |
-| ~~`.bullet_list()`~~     | `.toggleBulletList()`     |
-| ~~`.code()`~~            | `.toggleCode()`           |
-| ~~`.code_block()`~~      | `.toggleCodeBlock()`      |
-| ~~`.hard_break()`~~      | `.toggleHardBreak()`      |
-| ~~`.heading()`~~         | `.toggleHeading()`        |
-| ~~`.horizontal_rule()`~~ | `.toggleHorizontalRule()` |
-| ~~`.italic()`~~          | `.toggleItalic()`         |
-| ~~`.link()`~~            | `.toggleLink()`           |
-| ~~`.ordered_list()`~~    | `.toggleOrderedList()`    |
-| ~~`.paragraph()`~~       | `.toggleParagraph()`      |
-| ~~`.redo()`~~            | `.toggleRedo()`           |
-| ~~`.strike()`~~          | `.toggleStrike()`         |
-| ~~`.todo_list()`~~       | `.toggleTaskList()`       |
-| ~~`.underline()`~~       | `.toggleUnderline()`      |
-| ~~`.undo()`~~            | `.toggleUndo()`           |
-| …                        | …                         |
+| Old command              | New command                     |
+| ------------------------ | ------------------------------- |
+| `.redo()`                | `.redo()` (nothing changed)     |
+| `.undo()`                | `.undo()` (nothing changed)     |
+| ~~`.todo_list()`~~       | `.toggleTaskList()` (new name!) |
+| ~~`.blockquote()`~~      | `.toggleBlockquote()`           |
+| ~~`.bold()`~~            | `.toggleBold()`                 |
+| ~~`.bullet_list()`~~     | `.toggleBulletList()`           |
+| ~~`.code()`~~            | `.toggleCode()`                 |
+| ~~`.code_block()`~~      | `.toggleCodeBlock()`            |
+| ~~`.hard_break()`~~      | `.toggleHardBreak()`            |
+| ~~`.heading()`~~         | `.toggleHeading()`              |
+| ~~`.horizontal_rule()`~~ | `.toggleHorizontalRule()`       |
+| ~~`.italic()`~~          | `.toggleItalic()`               |
+| ~~`.link()`~~            | `.toggleLink()`                 |
+| ~~`.ordered_list()`~~    | `.toggleOrderedList()`          |
+| ~~`.paragraph()`~~       | `.toggleParagraph()`            |
+| ~~`.strike()`~~          | `.toggleStrike()`               |
+| ~~`.underline()`~~       | `.toggleUnderline()`            |
+| …                        | …                               |
 
 ### Commands can be chained now
 Most commands can be combined to one call now. That’s shorter than separate function calls in most cases. Here is an example to make the selected text bold:
@@ -141,6 +162,9 @@ With tiptap 2.x you have to explicitly call the `focus()` and you probably want 
 ```js
 editor.chain().focus().toggleBold().run()
 ```
+
+### Event callbacks have fewer parameters
+The new event callbacks have fewer parameters. The same things should be available through `this.` now. [Read more about events here.](/api/events)
 
 ### Collaborative editing
 The reference implementation for collaborative editing uses Y.js now. That’s a whole different thing. You still can use the tiptap 1 extension, but it’s up to you to adapt it to the new extension API. If you’ve done this, don’t forget to share it with us so we can link to it from here!
