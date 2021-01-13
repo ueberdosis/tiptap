@@ -324,7 +324,7 @@ export default function VueRenderer(component: Vue | VueConstructor, options?: P
       : undefined
 
     if (!parent) {
-      return undefined
+      return {}
     }
 
     return new VueNodeView(component, props, options) as NodeView
