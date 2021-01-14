@@ -9,6 +9,9 @@
     border-bottom-width: 0;
     color: $colorBlack;
     background-color: $colorWhite;
+    max-height: 50rem;
+    overflow: auto;
+    scroll-behavior: smooth;
   }
 
   &__source {

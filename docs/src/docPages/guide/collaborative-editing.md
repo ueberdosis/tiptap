@@ -45,7 +45,7 @@ const editor = new Editor({
     // …
     // Register the document with tiptap
     Collaboration.configure({
-      provider
+      document: ydoc,
     }),
   ],
 })
@@ -90,7 +90,7 @@ const editor = new Editor({
     // …
     // Register the document with tiptap
     Collaboration.configure({
-      provider
+      document: ydoc,
     }),
   ],
 })
@@ -128,7 +128,19 @@ node ./index.js
 
 This should output something like “Listening on ws://127.0.0.1:1234”. If you go back to your tiptap editor and hit reload, it should connect to the WebSocket server and changes should sync with all other clients. Amazing, isn’t it?
 
-### Add cursors
+### Multiple network providers
+You can even combine multiple providers. That’s not needed, but could keep clients connected, even if one connection - for example the websocket server - goes down for a while. Here is an example:
+
+```js
+new WebrtcProvider('example-document', ydoc)
+new WebsocketProvider('ws://127.0.0.1:1234', 'example-document', ydoc)
+```
+
+Yes, that’s all.
+
+Keep in mind that WebRTC needs a signaling server to connect clients. This signaling server doesn’t receive the synced data, but helps to let clients find each other. You can [run your own signaling server](https://github.com/yjs/y-webrtc#signaling), if you like.
+
+### Show other cursors
 If you want to enable users to see the cursor and text selections of each other, add the [`CollaborationCursor`](/api/extensions/collaboration-cursor) extension.
 
 ```js
@@ -145,11 +157,11 @@ const editor = new Editor({
   extensions: [
     // …
     Collaboration.configure({
-      provider
+      document: ydoc,
     }),
     // Register the collaboration cursor extension
     CollaborationCursor.configure({
-      provider: this.provider,
+      provider: provider,
       name: 'Cyndi Lauper',
       color: '#f783ac',
     }),
@@ -179,14 +191,15 @@ import * as Y from 'yjs'
 import { IndexeddbPersistence } from 'y-indexeddb'
 
 const ydoc = new Y.Doc()
+
 // Store the Y document in the browser
-const indexdb = new IndexeddbPersistence('example-document', ydoc)
+new IndexeddbPersistence('example-document', ydoc)
 
 const editor = new Editor({
   extensions: [
     // …
     Collaboration.configure({
-      provider
+      document: ydoc,
     }),
   ],
 })
@@ -209,13 +222,38 @@ Don’t want to wrap your head around the backend part? No worries, we offer a m
 ::: -->
 
 ### The document name
-The document name is `'example-document'` in all examples here, but it could be any string. In a real-world app you’d probably add the name of your entity, the ID of the entity and in some cases even the field (if you have multiple fields that you want to make collaborative). Here is how that could look like for a CMS:
+The document name is `'example-document'` in all examples here, but it could be any string. In a real-world app you’d probably add the name of your entity and the ID of the entity. Here is how that could look like:
 
 ```js
-const documentName = 'page.140.content'
+const documentName = 'page.140'
 ```
 
-In the backend, you can split the string to know the user is typing on a page with the ID 140 in the `content` field and manage authorization and such accordingly. New documents are created on the fly, no need to tell the backend about them, besides passing a string to the provider.
+In the backend, you can split the string to know the user is typing on a page with the ID 140 to manage authorization and such accordingly. New documents are created on the fly, no need to tell the backend about them, besides passing a string to the provider.
+
+And if you’d like to sync multiple fields with one Y.js document, just pass different fragment names to the collaboration extension:
+
+```js
+// a tiptap instance for the field
+Collaboration.configure({
+  document: ydoc,
+  field: 'title',
+})
+
+// and another instance for the summary, both in the same Y.js document
+Collaboration.configure({
+  document: ydoc,
+  field: 'summary',
+})
+```
+
+If your setup is somehow more complex, for example with nested fragments, you can pass a raw Y.js fragment too. `document` and `field` will be ignored then.
+
+```js
+// a raw Y.js fragment
+Collaboration.configure({
+  fragment: ydoc.getXmlFragment('custom'),
+})
+```
 
 ### Authentication
 With the `onConnect` hook you can write a custom Promise to check if a client is authenticated. That can be a request to an API, to a microservice, a database query, or whatever is needed, as long as it’s executing `resolve()` at some point. You can also pass contextual data to the `resolve()` method which will be accessible in other hooks.

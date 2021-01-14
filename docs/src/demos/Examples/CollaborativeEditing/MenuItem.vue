@@ -6,7 +6,7 @@
     :title="title"
   >
     <svg class="remix">
-      <use :xlink:href="require('../../../../../node_modules/remixicon/fonts/remixicon.symbol.svg') + `#ri-${icon}`" />
+      <use :xlink:href="require('remixicon/fonts/remixicon.symbol.svg') + `#ri-${icon}`" />
     </svg>
   </button>
 </template>

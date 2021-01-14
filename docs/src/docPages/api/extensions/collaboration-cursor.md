@@ -1,4 +1,7 @@
 # CollaborationCursor
+[![Version](https://img.shields.io/npm/v/@tiptap/extension-collaboration-cursor.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-collaboration-cursor)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-collaboration-cursor.svg)](https://npmcharts.com/compare/@tiptap/extension-collaboration-cursor?minimal=true)
+
 This extension adds information about all connected users (like their name and a specified color), their current cursor position and their text selection (if there’s one).
 
 Open this page in multiple browser windows to test it.
@@ -39,4 +42,4 @@ yarn add @tiptap/extension-collaboration-cursor
 :::warning Public
 The content of this editor is shared with other users.
 :::
-<demo name="Extensions/CollaborationCursor" highlight="11,38-44" />
+<demo name="Extensions/CollaborationCursor" highlight="11,39-45" />

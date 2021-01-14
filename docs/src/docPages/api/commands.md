@@ -69,6 +69,38 @@ editor
 
 Both calls would return `true` if it’s possible to apply the commands, and `false` in case it’s not.
 
+In order to make that work with your custom commands, don’t forget to return `true` or `false`.
+
+For some of your own commands, you probably want to work with the raw [transaction](/api/overview). To make them work with `.can()` you should check if the transaction should be dispatched. Here is how we do that within `.insertText()`:
+
+```js
+export default (value: string): Command => ({ tr, dispatch }) => {
+  if (dispatch) {
+    tr.insertText(value)
+  }
+
+  return true
+}
+```
+
+If you’re just wrapping another tiptap command, you don’t need to check that, we’ll do it for you.
+
+```js
+bold: (): Command => ({ commands }) => {
+  return commands.toggleMark('bold')
+},
+```
+
+If you’re just wrapping a ProseMirror command, you’ll need to pass `dispatch` anyway. Then there’s also no need to check it:
+
+```js
+export default (typeOrName: string | NodeType): Command => ({ state, dispatch }) => {
+  const type = getNodeType(typeOrName, state.schema)
+
+  return liftListItem(type)(state, dispatch)
+}
+```
+
 ### Try commands
 If you want to run a list of commands, but want only the first successful command to be applied, you can do this with the `.first()` method. This method runs one command after the other and stops at the first which returns `true`.
 
@@ -107,7 +139,14 @@ Have a look at all of the core commands listed below. They should give you a goo
 | Command                 | Description                                               |
 | ----------------------- | --------------------------------------------------------- |
 | .clearNodes()           | Normalize nodes to a simple paragraph.                    |
+| .createParagraphNear()  | Create a paragraph nearby.                                |
+| .exitCode()             | Exit from a code block.                                   |
 | .extendMarkRange()      | Extends the text selection to the current mark.           |
+| .joinBackward()         | Join two nodes backward.                                  |
+| .joinForward()          | Join two nodes forward.                                   |
+| .lift()                 | Removes an existing wrap.                                 |
+| .liftEmptyBlock()       | Lift block if empty.                                      |
+| .newlineInCode()        | Add a newline character in code.                          |
 | .resetNodeAttributes()  | Resets all node attributes to the default value.          |
 | .selectParentNode()     | Select the parent node.                                   |
 | .setMark()              | Add a mark with new attributes.                           |
@@ -116,6 +155,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .toggleMark()           | Toggle a mark on and off.                                 |
 | .toggleNode()           | Toggle a node with another node.                          |
 | .toggleWrap()           | Wraps nodes in another node, or removes an existing wrap. |
+| .undoInputRule()        | Undo an input rule.                                       |
 | .unsetAllMarks()        | Remove all marks in the current selection.                |
 | .unsetMark()            | Remove a mark in the current selection.                   |
 | .updateNodeAttributes() | Update attributes of a node.                              |
@@ -130,13 +170,16 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .wrapInList()    | Wrap a node in a list.                      |
 
 ### Selection
-| Command            | Description                             |
-| ------------------ | --------------------------------------- |
-| .blur()            | Removes focus from the editor.          |
-| .deleteSelection() | Delete the selection, if there is one.  |
-| .focus()           | Focus the editor at the given position. |
-| .scrollIntoView()  | Scroll the selection into view.         |
-| .selectAll()       | Select the whole document.              |
+| Command               | Description                             |
+| --------------------- | --------------------------------------- |
+| .blur()               | Removes focus from the editor.          |
+| .deleteSelection()    | Delete the selection, if there is one.  |
+| .focus()              | Focus the editor at the given position. |
+| .scrollIntoView()     | Scroll the selection into view.         |
+| .selectAll()          | Select the whole document.              |
+| .selectNodeBackward() | Select a node backward.                 |
+| .selectNodeForward()  | Select a node forward.                  |
+| .selectParentNode()   | Select the parent node.                 |
 
 ## Add your own commands
 All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those.

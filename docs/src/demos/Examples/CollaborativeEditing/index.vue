@@ -21,17 +21,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="collaboration-users">
-      <div
-        class="collaboration-users__item"
-        :style="`background-color: ${otherUser.color}`"
-        v-for="otherUser in users"
-        :key="otherUser.clientId"
-      >
-        {{ otherUser.name }}
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -67,6 +56,7 @@ export default {
         name: this.getRandomName(),
         color: this.getRandomColor(),
       },
+      provider: null,
       indexdb: null,
       editor: null,
       users: [],
@@ -76,8 +66,8 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
-    const provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-collaboration-example', ydoc)
-    provider.on('status', event => {
+    this.provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-collaboration-example', ydoc)
+    this.provider.on('status', event => {
       this.status = event.status
     })
 
@@ -90,10 +80,10 @@ export default {
         TaskList,
         CustomTaskItem,
         Collaboration.configure({
-          provider,
+          document: ydoc,
         }),
         CollaborationCursor.configure({
-          provider,
+          provider: this.provider,
           user: this.currentUser,
           onUpdate: users => {
             this.users = users
@@ -146,6 +136,7 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
+    this.provider.destroy()
   },
 }
 </script>
@@ -252,30 +243,6 @@ export default {
     margin-bottom: 0.5rem;
   }
 }
-
-// .collaboration-status {
-//   border-radius: 5px;
-//   margin-top: 1rem;
-//   color: #616161;
-
-//   &::before {
-//     content: ' ';
-//     display: inline-block;
-//     width: 0.5rem;
-//     height: 0.5rem;
-//     background: #ccc;
-//     border-radius: 50%;
-//     margin-right: 0.5rem;
-//   }
-
-//   &--connecting::before {
-//     background: #fd9170;
-//   }
-
-//   &--connected::before {
-//     background: #9DEF8F;
-//   }
-// }
 
 /* Give a remote user a caret */
 .collaboration-cursor__caret {

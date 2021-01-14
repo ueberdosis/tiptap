@@ -7,14 +7,27 @@ import {
 } from 'y-prosemirror'
 
 export interface CollaborationOptions {
-  provider: any,
+  /**
+   * An initialized Y.js document.
+   */
+  document: any,
+  /**
+   * Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document.
+   */
+  field: string,
+  /**
+   * A raw Y.js fragment, can be used instead of `document` and `field`.
+   */
+  fragment: any,
 }
 
 export const Collaboration = Extension.create({
   name: 'collaboration',
 
   defaultOptions: <CollaborationOptions>{
-    provider: null,
+    document: null,
+    field: 'default',
+    fragment: null,
   },
 
   addCommands() {
@@ -47,16 +60,14 @@ export const Collaboration = Extension.create({
   },
 
   addProseMirrorPlugins() {
+    const fragment = this.options.fragment
+      ? this.options.fragment
+      : this.options.document.getXmlFragment(this.options.field)
+
     return [
-      ySyncPlugin(
-        this.options.provider.doc.getXmlFragment('prosemirror'),
-      ),
+      ySyncPlugin(fragment),
       yUndoPlugin(),
     ]
-  },
-
-  onDestroy() {
-    this.options.provider?.destroy()
   },
 })
 

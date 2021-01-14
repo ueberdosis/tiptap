@@ -20,12 +20,13 @@ export default {
   data() {
     return {
       editor: null,
+      provider: null,
     }
   },
 
   mounted() {
     const ydoc = new Y.Doc()
-    const provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
+    this.provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
 
     this.editor = new Editor({
       extensions: [
@@ -33,10 +34,10 @@ export default {
         Paragraph,
         Text,
         Collaboration.configure({
-          provider,
+          document: ydoc,
         }),
         CollaborationCursor.configure({
-          provider,
+          provider: this.provider,
           user: {
             name: 'Cyndi Lauper',
             color: '#f783ac',
@@ -48,6 +49,7 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
+    this.provider.destroy()
   },
 }
 </script>

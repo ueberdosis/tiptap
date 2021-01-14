@@ -5,12 +5,9 @@
 </template>
 
 <script>
-import Collaboration from '@tiptap/extension-collaboration'
 import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
 import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
-import * as Y from 'yjs'
-import { WebsocketProvider } from 'y-websocket'
 import Paper from './Paper.js'
 
 export default {
@@ -21,20 +18,15 @@ export default {
   data() {
     return {
       editor: null,
+      provider: null,
     }
   },
 
   mounted() {
-    const ydoc = new Y.Doc()
-    const provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-draw-example', ydoc)
-
     this.editor = new Editor({
       extensions: [
         Document.extend({
           content: 'paper',
-        }),
-        Collaboration.configure({
-          provider,
         }),
         Text,
         Paper,
@@ -44,6 +36,7 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
+    this.provider.destroy()
   },
 }
 </script>

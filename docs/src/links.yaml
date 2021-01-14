@@ -32,7 +32,8 @@
       link: /examples/minimalist
     - title: Drawing
       link: /examples/drawing
-      draft: true
+    - title: Multiple editors
+      link: /examples/multiple-editors
 
 - title: Guide
   items:
@@ -44,6 +45,14 @@
           skip: true
         - title: Nuxt.js
           link: /guide/getting-started/nuxtjs
+          skip: true
+        - title: Alpine.js
+          link: /guide/getting-started/alpinejs
+          draft: true
+          skip: true
+        - title: Livewire
+          link: /guide/getting-started/livewire
+          draft: true
           skip: true
     - title: Configure the editor
       link: /guide/configuration
@@ -101,15 +110,12 @@
         - title: Table
           link: /api/nodes/table
           draft: true
-          pro: true
         - title: TableRow
           link: /api/nodes/table-row
           draft: true
-          pro: true
         - title: TableCell
           link: /api/nodes/table-cell
           draft: true
-          pro: true
         - title: TaskList
           link: /api/nodes/task-list
         - title: TaskItem
@@ -157,7 +163,6 @@
         - title: Suggestion
           link: /api/extensions/suggestion
           draft: true
-          pro: true
         - title: TextAlign
           link: /api/extensions/text-align
         - title: Typography
@@ -173,20 +178,10 @@
 
 - title: Sponsoring
   items:
-    - title: Monthly reports
-      link: /updates
-      redirect: /updates/2020-11
-      items:
-        - title: November 2020
-          link: /updates/2020-11
-        - title: October 2020
-          link: /updates/2020-10
-        - title: September 2020
-          link: /updates/2020-09
-        - title: August 2020
-          link: /updates/2020-08
     - title: Become a sponsor
       link: /sponsor
+    - title: Monthly reports
+      link: /reports
 
 - title: Links
   items:

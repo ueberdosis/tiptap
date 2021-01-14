@@ -1,5 +1,4 @@
 # Collaboration
-
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-collaboration.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-collaboration)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-collaboration.svg)](https://npmcharts.com/compare/@tiptap/extension-collaboration?minimal=true)
 
@@ -21,9 +20,11 @@ yarn add @tiptap/extension-collaboration yjs y-websocket
 ```
 
 ## Settings
-| Option   | Type     | Default | Description                                                                                          |
-| -------- | -------- | ------- | ---------------------------------------------------------------------------------------------------- |
-| provider | `Object` | `null`  | A Y.js network connection, for example a [y-websocket](https://github.com/yjs/y-websocket) instance. |
+| Option   | Type     | Default     | Description                                                                             |
+| -------- | -------- | ----------- | --------------------------------------------------------------------------------------- |
+| document | `Object` | `null`      | An initialized Y.js document.                                                           |
+| field    | `String` | `'default'` | Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document. |
+| fragment | `Object` | `null`      | A raw Y.js fragment, can be used instead of `document` and `field`.                     |
 
 ## Commands
 | Command | Parameters | Description           |
@@ -47,4 +48,4 @@ yarn add @tiptap/extension-collaboration yjs y-websocket
 :::warning Public
 The content of this editor is shared with other users.
 :::
-<demo name="Extensions/Collaboration" highlight="10,26-27,34-36" />
+<demo name="Extensions/Collaboration" highlight="10,27-28,35-37,44" />

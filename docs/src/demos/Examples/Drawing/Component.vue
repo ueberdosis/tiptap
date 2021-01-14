@@ -30,6 +30,10 @@ import { v4 as uuid } from 'uuid'
 import * as d3 from 'd3'
 import simplify from 'simplify-js'
 
+const getRandomElement = list => {
+  return list[Math.floor(Math.random() * list.length)]
+}
+
 export default {
   name: 'Paper',
 
@@ -47,8 +51,16 @@ export default {
 
   data() {
     return {
-      color: '#000000',
-      size: 2,
+      color: getRandomElement([
+        '#A975FF',
+        '#FB5151',
+        '#FD9170',
+        '#FFCB6B',
+        '#68CEF8',
+        '#80CBC4',
+        '#9DEF8F',
+      ]),
+      size: Math.ceil(Math.random() * Math.floor(10)),
       svg: null,
       path: null,
       points: [],
@@ -148,7 +160,7 @@ export default {
 <style lang="scss">
 .draw {
   svg {
-    background: #EEE;
+    background: #f1f3f5;
     cursor: crosshair;
   }
 
