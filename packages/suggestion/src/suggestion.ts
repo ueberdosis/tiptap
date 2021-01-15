@@ -2,78 +2,80 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 import { ResolvedPos } from 'prosemirror-model'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 
+export interface Trigger {
+  char: string,
+  allowSpaces: boolean,
+  startOfLine: boolean,
+  $position: ResolvedPos,
+}
+
 // Create a matcher that matches when a specific character is typed. Useful for @mentions and #tags.
-function triggerCharacter({
-  char = '@',
-  allowSpaces = false,
-  startOfLine = false,
-}) {
+function triggerCharacter(config: Trigger) {
+  const {
+    char, allowSpaces, startOfLine, $position,
+  } = config
 
-  return ($position: ResolvedPos) => {
-    // cancel if top level node
-    if ($position.depth <= 0) {
-      return false
-    }
+  // cancel if top level node
+  if ($position.depth <= 0) {
+    return false
+  }
 
-    // Matching expressions used for later
-    const escapedChar = `\\${char}`
-    const suffix = new RegExp(`\\s${escapedChar}$`)
-    const prefix = startOfLine ? '^' : ''
-    const regexp = allowSpaces
-      ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
-      : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
+  // Matching expressions used for later
+  const escapedChar = `\\${char}`
+  const suffix = new RegExp(`\\s${escapedChar}$`)
+  const prefix = startOfLine ? '^' : ''
+  const regexp = allowSpaces
+    ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
+    : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
 
-    // Lookup the boundaries of the current node
-    const textFrom = $position.before()
-    const textTo = $position.end()
-    const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
+  // Lookup the boundaries of the current node
+  const textFrom = $position.before()
+  const textTo = $position.end()
+  const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
 
-    let match = regexp.exec(text)
-    let position
+  let match = regexp.exec(text)
+  let position
 
-    while (match !== null) {
-      // JavaScript doesn't have lookbehinds; this hacks a check that first character is " "
-      // or the line beginning
-      const matchPrefix = match.input.slice(Math.max(0, match.index - 1), match.index)
+  while (match !== null) {
+    // JavaScript doesn't have lookbehinds; this hacks a check that first character is " "
+    // or the line beginning
+    const matchPrefix = match.input.slice(Math.max(0, match.index - 1), match.index)
 
-      if (/^[\s\0]?$/.test(matchPrefix)) {
-        // The absolute position of the match in the document
-        const from = match.index + $position.start()
-        let to = from + match[0].length
+    if (/^[\s\0]?$/.test(matchPrefix)) {
+      // The absolute position of the match in the document
+      const from = match.index + $position.start()
+      let to = from + match[0].length
 
-        // Edge case handling; if spaces are allowed and we're directly in between
-        // two triggers
-        if (allowSpaces && suffix.test(text.slice(to - 1, to + 1))) {
-          match[0] += ' '
-          to += 1
-        }
-
-        // If the $position is located within the matched substring, return that range
-        if (from < $position.pos && to >= $position.pos) {
-          position = {
-            range: {
-              from,
-              to,
-            },
-            query: match[0].slice(char.length),
-            text: match[0],
-          }
-        }
+      // Edge case handling; if spaces are allowed and we're directly in between
+      // two triggers
+      if (allowSpaces && suffix.test(text.slice(to - 1, to + 1))) {
+        match[0] += ' '
+        to += 1
       }
 
-      match = regexp.exec(text)
+      // If the $position is located within the matched substring, return that range
+      if (from < $position.pos && to >= $position.pos) {
+        position = {
+          range: {
+            from,
+            to,
+          },
+          query: match[0].slice(char.length),
+          text: match[0],
+        }
+      }
     }
 
-    return position
+    match = regexp.exec(text)
   }
+
+  return position
 }
 
 export function Suggestion({
-  matcher = {
-    char: '@',
-    allowSpaces: false,
-    startOfLine: false,
-  },
+  char = '@',
+  allowSpaces = false,
+  startOfLine = false,
   appendText = null,
   suggestionClass = 'suggestion',
   command = () => false,
@@ -171,7 +173,6 @@ export function Suggestion({
     },
 
     state: {
-
       // Initialize the plugin's internal state.
       init() {
         return {
@@ -196,8 +197,15 @@ export function Suggestion({
 
           // Try to match against where our cursor currently is
           const $position = selection.$from
-          const match = triggerCharacter(matcher)($position)
+          const match = triggerCharacter({
+            char,
+            allowSpaces,
+            startOfLine,
+            $position,
+          })
           const decorationId = (Math.random() + 1).toString(36).substr(2, 5)
+
+          console.log({ match })
 
           // If we found a match, update the current state to show it
           if (match) {
