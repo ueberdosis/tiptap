@@ -1,29 +1,40 @@
+import { Editor } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { findSuggestionMatch } from './findSuggestionMatch'
 import { getVirtualNode } from './getVirtualNode'
 
+export interface SuggestionOptions {
+  editor: Editor,
+  char?: string,
+  allowSpaces?: boolean,
+  startOfLine?: boolean,
+  suggestionClass?: string,
+  command?: () => any,
+  items?: (query: string) => any[],
+  onStart?: (props: any) => any,
+  onUpdate?: (props: any) => any,
+  onExit?: (props: any) => any,
+  onKeyDown?: (props: any) => any,
+  renderer?: any,
+}
+
 export function Suggestion({
+  editor,
   char = '@',
   allowSpaces = false,
   startOfLine = false,
-  appendText = null,
   suggestionClass = 'suggestion',
-  command = () => false,
-  items = [],
-  onEnter = (props: any) => false,
-  onUpdate = (props: any) => false,
-  onExit = (props: any) => false,
-  onKeyDown = (props: any) => false,
-  onFilter = (searchItems: any[], query: string) => {
-    if (!query) {
-      return searchItems
-    }
+  command = () => null,
+  items = () => [],
+  onStart = () => null,
+  onUpdate = () => null,
+  onExit = () => null,
+  onKeyDown = () => null,
+  renderer = () => ({}),
+}: SuggestionOptions) {
+  // const testRenderer = renderer()
 
-    return searchItems
-      .filter(item => JSON.stringify(item).toLowerCase().includes(query.toLowerCase()))
-  },
-}) {
   return new Plugin({
     key: new PluginKey('suggestions'),
 
@@ -61,8 +72,7 @@ export function Suggestion({
               ? getVirtualNode(decorationNode)
               : null,
             items: (handleChange || handleStart)
-              // @ts-ignore
-              ? await onFilter(Array.isArray(items) ? items : await items(), state.query)
+              ? await items(state.query)
               : [],
             command: () => {
               console.log('command')
@@ -90,7 +100,7 @@ export function Suggestion({
           }
 
           if (handleStart) {
-            onEnter(props)
+            onStart(props)
           }
         },
       }
