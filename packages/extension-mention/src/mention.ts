@@ -1,8 +1,16 @@
 import { Node } from '@tiptap/core'
 import Suggestion from '@tiptap/suggestion'
 
+export interface MentionOptions {
+  renderer: any,
+}
+
 export const Mention = Node.create({
   name: 'mention',
+
+  defaultOptions: <MentionOptions>{
+    renderer: null,
+  },
 
   group: 'inline',
 
@@ -37,7 +45,11 @@ export const Mention = Node.create({
 
   addProseMirrorPlugins() {
     return [
-      Suggestion({}),
+      Suggestion({
+        editor: this.editor,
+        char: '@',
+        renderer: this.options.renderer,
+      }),
     ]
   },
 })
