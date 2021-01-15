@@ -30,7 +30,10 @@ function triggerCharacter(config: Trigger) {
 
   // Lookup the boundaries of the current node
   const textFrom = $position.before()
-  const textTo = $position.end()
+
+  // Only look up to the cursor, old behavior: textTo = $position.end()
+  const textTo = $position.pos
+
   const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
 
   let match = regexp.exec(text)
@@ -196,12 +199,11 @@ export function Suggestion({
           }
 
           // Try to match against where our cursor currently is
-          const $position = selection.$from
           const match = triggerCharacter({
             char,
             allowSpaces,
             startOfLine,
-            $position,
+            $position: selection.$from,
           })
           const decorationId = (Math.random() + 1).toString(36).substr(2, 5)
 
