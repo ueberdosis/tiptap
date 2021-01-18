@@ -90,8 +90,14 @@
           link: /api/nodes/code-block
         - title: Document
           link: /api/nodes/document
+        - title: Emoji
+          link: /api/nodes/emoji
+          draft: true
         - title: HardBreak
           link: /api/nodes/hard-break
+        - title: Hashtag
+          link: /api/nodes/hashtag
+          draft: true
         - title: Heading
           link: /api/nodes/heading
         - title: HorizontalRule
@@ -100,6 +106,9 @@
           link: /api/nodes/image
         - title: ListItem
           link: /api/nodes/list-item
+        - title: Mention
+          link: /api/nodes/mention
+          draft: true
         - title: OrderedList
           link: /api/nodes/ordered-list
         - title: Paragraph
