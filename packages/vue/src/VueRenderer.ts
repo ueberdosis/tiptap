@@ -7,17 +7,14 @@ export default class VueRenderer {
   constructor(component: Vue | VueConstructor, props: any) {
     const Component = Vue.extend(component)
 
-    this.vm = new Component({
-      // parent,
-      propsData: props,
-    }).$mount()
+    this.vm = new Component(props).$mount()
   }
 
   get element() {
     return this.vm.$el
   }
 
-  update(data: { [key: string]: any } = {}) {
+  updateProps(props: { [key: string]: any } = {}) {
     if (!this.vm.$props) {
       return
     }
@@ -27,7 +24,7 @@ export default class VueRenderer {
     Vue.config.silent = true
 
     Object
-      .entries(data)
+      .entries(props)
       .forEach(([key, value]) => {
         this.vm.$props[key] = value
       })
