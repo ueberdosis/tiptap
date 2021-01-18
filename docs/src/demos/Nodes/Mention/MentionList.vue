@@ -1,13 +1,14 @@
 <template>
   <div class="items">
-    <div
+    <button
       class="item"
       :class="{ 'is-selected': index === selectedIndex }"
       v-for="(item, index) in items"
       :key="index"
+      @click="selectItem(index)"
     >
       {{ item }}
-    </div>
+    </button>
   </div>
 </template>
 
@@ -17,6 +18,11 @@ export default {
     items: {
       type: Array,
       default: () => [],
+    },
+
+    command: {
+      type: Function,
+      default: () => true,
     },
   },
 
@@ -61,10 +67,14 @@ export default {
     },
 
     enterHandler() {
-      const item = this.items[this.selectedIndex]
+      this.selectItem(this.selectedIndex)
+    },
+
+    selectItem(index) {
+      const item = this.items[index]
 
       if (item) {
-        console.log('select', item)
+        this.command(item)
       }
     },
   },
@@ -85,6 +95,11 @@ export default {
   ;
 }
 .item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
   padding: 0.2rem 0.5rem;
 
   &.is-selected,
