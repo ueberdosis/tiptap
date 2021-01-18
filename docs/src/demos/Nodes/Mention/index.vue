@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import tippy, { sticky } from 'tippy.js'
+import tippy from 'tippy.js'
 import { Editor, EditorContent, VueRenderer } from '@tiptap/vue'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -34,7 +34,7 @@ export default {
           items: query => {
             return ['Hans', 'Philipp', 'Kris'].filter(item => item.startsWith(query))
           },
-          renderer: () => {
+          render: () => {
             let component
             let popup
 
