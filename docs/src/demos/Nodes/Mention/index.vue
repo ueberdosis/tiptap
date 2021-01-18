@@ -58,6 +58,9 @@ export default {
               onUpdate(props) {
                 component.updateProps(props)
               },
+              onKeyDown(props) {
+                return component.vm.onKeyDown(props)
+              },
               onExit() {
                 popup[0].destroy()
                 component.destroy()

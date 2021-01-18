@@ -13,10 +13,10 @@ export interface SuggestionOptions {
   command?: () => any,
   items?: (query: string) => any[],
   renderer?: () => {
-    onStart?: (props: any) => any,
-    onUpdate?: (props: any) => any,
-    onExit?: (props: any) => any,
-    onKeyDown?: (props: any) => any,
+    onStart?: (props: any) => void,
+    onUpdate?: (props: any) => void,
+    onExit?: (props: any) => void,
+    onKeyDown?: (props: any) => boolean,
   },
 }
 
