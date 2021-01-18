@@ -25,6 +25,7 @@
     "remark-toc": "^7.0.0",
     "remixicon": "^2.5.0",
     "simplify-js": "^1.2.4",
+    "tippy.js": "^6.2.7",
     "vue-github-button": "^1.1.2",
     "vue-live": "^1.16.0",
     "y-indexeddb": "^9.0.6",
