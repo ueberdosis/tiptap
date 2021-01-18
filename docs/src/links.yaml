@@ -8,8 +8,9 @@
       link: /overview/upgrade-guide
     - title: Contributing
       link: /overview/contributing
-    - title: Feedback
-      link: /overview/feedback
+    - title: Become a sponsor
+      link: /sponsor
+      type: sponsor
 
 - title: Examples
   link: /examples
@@ -19,7 +20,7 @@
       link: /examples/basic
     - title: Collaborative editing
       link: /examples/collaborative-editing
-      pro: true
+      type: pro
     - title: Markdown shortcuts
       link: /examples/markdown-shortcuts
     - title: Formatting
@@ -48,11 +49,11 @@
           skip: true
         - title: Alpine.js
           link: /guide/getting-started/alpinejs
-          draft: true
+          type: draft
           skip: true
         - title: Livewire
           link: /guide/getting-started/livewire
-          draft: true
+          type: draft
           skip: true
     - title: Configure the editor
       link: /guide/configuration
@@ -66,12 +67,12 @@
       link: /guide/build-extensions
     - title: Complex node views
       link: /guide/node-views
-      draft: true
+      type: draft
     - title: Working with TypeScript
       link: /guide/working-with-typescript
     - title: Collaborative editing
       link: /guide/collaborative-editing
-      pro: true
+      type: pro
 
 - title: API
   items:
@@ -92,12 +93,12 @@
           link: /api/nodes/document
         - title: Emoji
           link: /api/nodes/emoji
-          draft: true
+          type: draft
         - title: HardBreak
           link: /api/nodes/hard-break
         - title: Hashtag
           link: /api/nodes/hashtag
-          draft: true
+          type: draft
         - title: Heading
           link: /api/nodes/heading
         - title: HorizontalRule
@@ -108,20 +109,20 @@
           link: /api/nodes/list-item
         - title: Mention
           link: /api/nodes/mention
-          draft: true
+          type: draft
         - title: OrderedList
           link: /api/nodes/ordered-list
         - title: Paragraph
           link: /api/nodes/paragraph
         - title: Table
           link: /api/nodes/table
-          draft: true
+          type: draft
         - title: TableRow
           link: /api/nodes/table-row
-          draft: true
+          type: draft
         - title: TableCell
           link: /api/nodes/table-cell
-          draft: true
+          type: draft
         - title: TaskList
           link: /api/nodes/task-list
         - title: TaskItem
@@ -152,10 +153,10 @@
       items:
         - title: Collaboration
           link: /api/extensions/collaboration
-          pro: true
+          type: pro
         - title: CollaborationCursor
           link: /api/extensions/collaboration-cursor
-          pro: true
+          type: pro
         - title: Dropcursor
           link: /api/extensions/dropcursor
         - title: Focus
@@ -168,7 +169,7 @@
           link: /api/extensions/history
         - title: Suggestion
           link: /api/extensions/suggestion
-          draft: true
+          type: draft
         - title: TextAlign
           link: /api/extensions/text-align
         - title: Typography
@@ -181,13 +182,6 @@
       link: /api/schema
     - title: Keyboard Shortcuts
       link: /api/keyboard-shortcuts
-
-- title: Sponsoring
-  items:
-    - title: Become a sponsor
-      link: /sponsor
-    - title: Monthly reports
-      link: /reports
 
 - title: Links
   items:

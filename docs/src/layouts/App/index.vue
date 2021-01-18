@@ -87,9 +87,7 @@
                   'app__link': true,
                   'app__link--exact': $router.currentRoute.path === item.link,
                   'app__link--active': $router.currentRoute.path.startsWith(item.link),
-                  'app__link--draft': item.draft === true,
-                  'app__link--pro': item.pro === true,
-                  'app__link--new': item.new === true,
+                  [`app__link--${item.type}`]: item.type !== null,
                   'app__link--with-children': !!item.items
                 }"
                 :to="item.redirect || item.link"
@@ -104,9 +102,7 @@
                       'app__link': true,
                       'app__link--exact': $router.currentRoute.path === item.link,
                       'app__link--active': $router.currentRoute.path.startsWith(item.link),
-                      'app__link--draft': item.draft === true,
-                      'app__link--pro': item.pro === true,
-                      'app__link--new': item.new === true,
+                      [`app__link--${item.type}`]: item.type !== null,
                     }"
                     :to="item.link"
                     exact
