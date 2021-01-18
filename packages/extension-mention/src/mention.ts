@@ -1,15 +1,14 @@
 import { Node } from '@tiptap/core'
-import Suggestion from '@tiptap/suggestion'
+import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
-export interface MentionOptions {
-  renderer: any,
-}
+export type MentionOptions = Omit<SuggestionOptions, 'editor'>
 
 export const Mention = Node.create({
   name: 'mention',
 
   defaultOptions: <MentionOptions>{
-    renderer: null,
+    char: '@',
+    renderer: () => ({}),
   },
 
   group: 'inline',
@@ -47,8 +46,7 @@ export const Mention = Node.create({
     return [
       Suggestion({
         editor: this.editor,
-        char: '@',
-        renderer: this.options.renderer,
+        ...this.options,
       }),
     ]
   },

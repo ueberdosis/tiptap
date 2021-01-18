@@ -12,11 +12,12 @@ export interface SuggestionOptions {
   suggestionClass?: string,
   command?: () => any,
   items?: (query: string) => any[],
-  onStart?: (props: any) => any,
-  onUpdate?: (props: any) => any,
-  onExit?: (props: any) => any,
-  onKeyDown?: (props: any) => any,
-  renderer?: any,
+  renderer?: () => {
+    onStart?: (props: any) => any,
+    onUpdate?: (props: any) => any,
+    onExit?: (props: any) => any,
+    onKeyDown?: (props: any) => any,
+  },
 }
 
 export function Suggestion({
@@ -27,13 +28,14 @@ export function Suggestion({
   suggestionClass = 'suggestion',
   command = () => null,
   items = () => [],
-  onStart = () => null,
-  onUpdate = () => null,
-  onExit = () => null,
-  onKeyDown = () => null,
+  // onStart = () => null,
+  // onUpdate = () => null,
+  // onExit = () => null,
+  // onKeyDown = () => null,
   renderer = () => ({}),
 }: SuggestionOptions) {
-  // const testRenderer = renderer()
+
+  const testRenderer = renderer?.()
 
   return new Plugin({
     key: new PluginKey('suggestions'),
@@ -92,15 +94,18 @@ export function Suggestion({
 
           // Trigger the hooks when necessary
           if (handleExit) {
-            onExit(props)
+            // onExit(props)
+            testRenderer?.onExit?.(props)
           }
 
           if (handleChange) {
-            onUpdate(props)
+            // onUpdate(props)
+            testRenderer?.onUpdate?.(props)
           }
 
           if (handleStart) {
-            onStart(props)
+            // onStart(props)
+            testRenderer?.onStart?.(props)
           }
         },
       }
@@ -173,7 +178,8 @@ export function Suggestion({
           return false
         }
 
-        return onKeyDown({ view, event, range })
+        // return onKeyDown({ view, event, range })
+        return testRenderer?.onKeyDown?.({ view, event, range })
       },
 
       // Setup decorator on the currently active suggestion.
