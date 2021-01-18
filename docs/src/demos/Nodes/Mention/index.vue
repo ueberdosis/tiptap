@@ -53,7 +53,6 @@ export default {
                   interactive: true,
                   trigger: 'manual',
                   placement: 'top-start',
-                  duration: [400, 200],
                 })
               },
               onUpdate(props) {
