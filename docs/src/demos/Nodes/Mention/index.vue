@@ -32,33 +32,32 @@ export default {
         Text,
         Mention.configure({
           items: query => {
-            return ['foo', 'bar']
+            return ['foo', 'bar'].filter(item => item.startsWith(query))
           },
           renderer: () => {
             let component
             let popup
 
             return {
-              onStart(props) {
-                component = new VueRenderer(MentionList, props)
+              onStart: props => {
+                component = new VueRenderer(MentionList, {
+                  parent: this,
+                  propsData: props,
+                })
 
-                popup = tippy('.app', {
+                popup = tippy('body', {
                   getReferenceClientRect: () => props.virtualNode.getBoundingClientRect(),
                   appendTo: () => document.body,
-                  interactive: true,
-                  sticky: true,
-                  plugins: [sticky],
                   content: component.element,
-                  trigger: 'mouseenter',
                   showOnCreate: true,
-                  theme: 'dark',
+                  interactive: true,
+                  trigger: 'manual',
                   placement: 'top-start',
-                  inertia: true,
                   duration: [400, 200],
                 })
               },
               onUpdate(props) {
-                component.update(props)
+                component.updateProps(props)
               },
               onExit() {
                 popup[0].destroy()
