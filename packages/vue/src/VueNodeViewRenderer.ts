@@ -16,7 +16,7 @@ function getComponentFromElement(element: HTMLElement): Vue {
   return element.__vue__
 }
 
-interface VueRendererOptions {
+interface VueNodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
 }
@@ -39,12 +39,12 @@ class VueNodeView implements NodeView {
 
   isDragging = false
 
-  options: VueRendererOptions = {
+  options: VueNodeViewRendererOptions = {
     stopEvent: null,
     update: null,
   }
 
-  constructor(component: Vue | VueConstructor, props: NodeViewRendererProps, options?: Partial<VueRendererOptions>) {
+  constructor(component: Vue | VueConstructor, props: NodeViewRendererProps, options?: Partial<VueNodeViewRendererOptions>) {
     this.options = { ...this.options, ...options }
     this.editor = props.editor
     this.extension = props.extension
@@ -314,7 +314,7 @@ class VueNodeView implements NodeView {
 
 }
 
-export default function VueRenderer(component: Vue | VueConstructor, options?: Partial<VueRendererOptions>): NodeViewRenderer {
+export default function VueNodeViewRenderer(component: Vue | VueConstructor, options?: Partial<VueNodeViewRendererOptions>): NodeViewRenderer {
   return (props: NodeViewRendererProps) => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
