@@ -183,7 +183,17 @@
     - title: Keyboard Shortcuts
       link: /api/keyboard-shortcuts
 
+
 - title: Links
   items:
+    - title: 'Follow on Twitter'
+      link: https://twitter.com/tiptap_editor
     - title: Documentation for tiptap 1.x
       link: https://v1.tiptap.dev
+
+- title: Legal
+  items:
+    - title: Impressum
+      link: /impressum
+    - title: Privacy Policy
+      link: /privacy-policy

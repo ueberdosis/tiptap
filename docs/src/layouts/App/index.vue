@@ -65,10 +65,6 @@
         <div class="app__inner">
           <a :href="editLink" target="_blank">Edit this page on GitHub</a>
           &middot;
-          <a href="/impressum">Impressum</a>
-          &middot;
-          <a href="/privacy-policy">Privacy Policy</a>
-          &middot;
           Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
         </div>
       </div>
