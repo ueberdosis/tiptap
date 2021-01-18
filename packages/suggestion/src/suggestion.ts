@@ -10,9 +10,9 @@ export interface SuggestionOptions {
   allowSpaces?: boolean,
   startOfLine?: boolean,
   suggestionClass?: string,
-  command?: () => any,
+  command?: (props: any) => any,
   items?: (query: string) => any[],
-  renderer?: () => {
+  render?: () => {
     onStart?: (props: any) => void,
     onUpdate?: (props: any) => void,
     onExit?: (props: any) => void,
@@ -21,21 +21,16 @@ export interface SuggestionOptions {
 }
 
 export function Suggestion({
-  editor,
   char = '@',
   allowSpaces = false,
   startOfLine = false,
   suggestionClass = 'suggestion',
   command = () => null,
   items = () => [],
-  // onStart = () => null,
-  // onUpdate = () => null,
-  // onExit = () => null,
-  // onKeyDown = () => null,
-  renderer = () => ({}),
+  render = () => ({}),
 }: SuggestionOptions) {
 
-  const testRenderer = renderer?.()
+  const renderer = render?.()
 
   return new Plugin({
     key: new PluginKey('suggestions'),
@@ -67,45 +62,30 @@ export function Suggestion({
             range: state.range,
             query: state.query,
             text: state.text,
+            items: (handleChange || handleStart)
+              ? await items(state.query)
+              : [],
+            command: () => {
+              command({ range: state.range })
+            },
             decorationNode,
             // build a virtual node for popper.js or tippy.js
             // this can be used for building popups without a DOM node
             virtualNode: decorationNode
               ? getVirtualNode(decorationNode)
               : null,
-            items: (handleChange || handleStart)
-              ? await items(state.query)
-              : [],
-            command: () => {
-              console.log('command')
-            },
-            // command: ({ range, attrs }) => {
-            //   command({
-            //     range,
-            //     attrs,
-            //     schema: view.state.schema,
-            //   })(view.state, view.dispatch, view)
-
-            //   if (appendText) {
-            //     insertText(appendText)(view.state, view.dispatch, view)
-            //   }
-            // },
-          }
-
-          // Trigger the hooks when necessary
-          if (handleExit) {
-            // onExit(props)
-            testRenderer?.onExit?.(props)
-          }
-
-          if (handleChange) {
-            // onUpdate(props)
-            testRenderer?.onUpdate?.(props)
           }
 
           if (handleStart) {
-            // onStart(props)
-            testRenderer?.onStart?.(props)
+            renderer?.onStart?.(props)
+          }
+
+          if (handleChange) {
+            renderer?.onUpdate?.(props)
+          }
+
+          if (handleExit) {
+            renderer?.onExit?.(props)
           }
         },
       }
@@ -123,8 +103,8 @@ export function Suggestion({
       },
 
       // Apply changes to the plugin state from a view transaction.
-      apply(tr, prev) {
-        const { selection } = tr
+      apply(transaction, prev) {
+        const { selection } = transaction
         const next = { ...prev }
 
         // We can only be suggesting if there is no selection
@@ -178,7 +158,7 @@ export function Suggestion({
           return false
         }
 
-        return testRenderer?.onKeyDown?.({ view, event, range }) || false
+        return renderer?.onKeyDown?.({ view, event, range }) || false
       },
 
       // Setup decorator on the currently active suggestion.

@@ -8,7 +8,7 @@ export const Mention = Node.create({
 
   defaultOptions: <MentionOptions>{
     char: '@',
-    renderer: () => ({}),
+    render: () => ({}),
   },
 
   group: 'inline',
@@ -47,6 +47,13 @@ export const Mention = Node.create({
       Suggestion({
         editor: this.editor,
         ...this.options,
+        command: ({ range }) => {
+          this.editor
+            .chain()
+            .replace(range, 'mention')
+            .insertText(' ')
+            .run()
+        },
       }),
     ]
   },
