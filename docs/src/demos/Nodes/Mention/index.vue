@@ -5,14 +5,13 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import tippy, { sticky } from 'tippy.js'
-import { Editor } from '@tiptap/core'
-import { EditorContent } from '@tiptap/vue'
+import { Editor, EditorContent, VueRenderer } from '@tiptap/vue'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Mention from '@tiptap/extension-mention'
+import MentionList from './MentionList'
 
 export default {
   components: {
@@ -33,47 +32,37 @@ export default {
         Text,
         Mention.configure({
           items: query => {
-            console.log('items', query)
-
-            return [query]
+            return ['foo', 'bar']
           },
           renderer: () => {
+            let component
             let popup
-            const Component = new (Vue.extend({
-              template: '<div>YAAAAY</div>',
-            }))().$mount()
 
             return {
               onStart(props) {
-                console.log('start')
+                component = new VueRenderer(MentionList, props)
 
                 popup = tippy('.app', {
                   getReferenceClientRect: () => props.virtualNode.getBoundingClientRect(),
                   appendTo: () => document.body,
                   interactive: true,
-                  sticky: true, // make sure position of tippy is updated when content changes
+                  sticky: true,
                   plugins: [sticky],
-                  content: Component.$el,
-                  trigger: 'mouseenter', // manual
+                  content: component.element,
+                  trigger: 'mouseenter',
                   showOnCreate: true,
                   theme: 'dark',
                   placement: 'top-start',
                   inertia: true,
                   duration: [400, 200],
                 })
-
               },
               onUpdate(props) {
-                console.log('update', props)
+                component.update(props)
               },
-              onExit(props) {
-                console.log('exit', props)
-
-                if (popup) {
-                  popup[0].destroy()
-                }
-
-                Component.$destroy()
+              onExit() {
+                popup[0].destroy()
+                component.destroy()
               },
             }
           },
