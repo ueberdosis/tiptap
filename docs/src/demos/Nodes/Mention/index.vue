@@ -32,7 +32,7 @@ export default {
         Text,
         Mention.configure({
           items: query => {
-            return ['foo', 'bar'].filter(item => item.startsWith(query))
+            return ['Hans', 'Philipp', 'Kris'].filter(item => item.startsWith(query))
           },
           renderer: () => {
             let component

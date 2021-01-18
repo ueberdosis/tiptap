@@ -178,8 +178,7 @@ export function Suggestion({
           return false
         }
 
-        // return onKeyDown({ view, event, range })
-        return testRenderer?.onKeyDown?.({ view, event, range })
+        return testRenderer?.onKeyDown?.({ view, event, range }) || false
       },
 
       // Setup decorator on the currently active suggestion.

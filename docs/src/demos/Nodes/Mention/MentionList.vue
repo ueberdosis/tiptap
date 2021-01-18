@@ -74,14 +74,23 @@ export default {
 <style lang="scss" scoped>
 .items {
   position: relative;
+  border-radius: 0.25rem;
+  background: white;
+  color: rgba(black, 0.8);
+  overflow: hidden;
+  font-size: 0.9rem;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.1),
+    0px 10px 20px rgba(0, 0, 0, 0.1),
+  ;
 }
 .item {
-  background: white;
-  color: black;
-  padding: 0.5rem;
+  padding: 0.2rem 0.5rem;
 
-  &.is-selected {
-    background: #ccc;
+  &.is-selected,
+  &:hover {
+    color: black;
+    background: rgba(black, 0.1);
   }
 }
 </style>
