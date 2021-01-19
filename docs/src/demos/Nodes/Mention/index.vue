@@ -31,6 +31,9 @@ export default {
         Paragraph,
         Text,
         Mention.configure({
+          HTMLAttributes: {
+            class: 'mention',
+          },
           suggestionOptions: {
             items: query => {
               return ['Hans', 'Philipp', 'Kris'].filter(item => item.startsWith(query))
@@ -76,7 +79,7 @@ export default {
         }),
       ],
       content: `
-        <p>text <span data-mention="Philipp"></span></p>
+        <p>Hello <span data-mention="Hans"></span> and <span data-mention="Philipp"></span> and <span data-mention="Kris"></span>!</p>
       `,
     })
   },
@@ -86,3 +89,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.mention {
+  color: #A975FF;
+  background-color: rgba(#A975FF, 0.1);
+  border-radius: 0.3rem;
+  padding: 0.1rem 0.3rem;
+}
+</style>
