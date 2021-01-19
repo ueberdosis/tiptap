@@ -50,7 +50,7 @@ export function Suggestion({
   const renderer = render?.()
 
   return new Plugin({
-    key: new PluginKey('suggestions'),
+    key: new PluginKey('suggestion'),
 
     view() {
       return {
