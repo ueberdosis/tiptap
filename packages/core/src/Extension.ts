@@ -171,13 +171,10 @@ export class Extension<Options = any, Commands = any> {
     return new Extension<O, C>(config)
   }
 
-  configure(options?: Partial<Options>) {
+  configure(options: Partial<Options> = {}) {
     return Extension
       .create<Options, Commands>(this.config as ExtensionConfig<Options, Commands>)
-      .#configure({
-        ...this.config.defaultOptions,
-        ...options,
-      })
+      .#configure(options)
   }
 
   #configure = (options: Partial<Options>) => {
