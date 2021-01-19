@@ -31,45 +31,47 @@ export default {
         Paragraph,
         Text,
         Mention.configure({
-          items: query => {
-            return ['Hans', 'Philipp', 'Kris'].filter(item => item.startsWith(query))
-          },
-          render: () => {
-            let component
-            let popup
+          suggestionOptions: {
+            items: query => {
+              return ['Hans', 'Philipp', 'Kris'].filter(item => item.startsWith(query))
+            },
+            render: () => {
+              let component
+              let popup
 
-            return {
-              onStart: props => {
-                component = new VueRenderer(MentionList, {
-                  parent: this,
-                  propsData: props,
-                })
+              return {
+                onStart: props => {
+                  component = new VueRenderer(MentionList, {
+                    parent: this,
+                    propsData: props,
+                  })
 
-                popup = tippy('body', {
-                  getReferenceClientRect: () => props.clientRect,
-                  appendTo: () => document.body,
-                  content: component.element,
-                  showOnCreate: true,
-                  interactive: true,
-                  trigger: 'manual',
-                  placement: 'top-start',
-                })
-              },
-              onUpdate(props) {
-                component.updateProps(props)
+                  popup = tippy('body', {
+                    getReferenceClientRect: () => props.clientRect,
+                    appendTo: () => document.body,
+                    content: component.element,
+                    showOnCreate: true,
+                    interactive: true,
+                    trigger: 'manual',
+                    placement: 'top-start',
+                  })
+                },
+                onUpdate(props) {
+                  component.updateProps(props)
 
-                popup[0].setProps({
-                  getReferenceClientRect: () => props.clientRect,
-                })
-              },
-              onKeyDown(props) {
-                return component.vm.onKeyDown(props)
-              },
-              onExit() {
-                popup[0].destroy()
-                component.destroy()
-              },
-            }
+                  popup[0].setProps({
+                    getReferenceClientRect: () => props.clientRect,
+                  })
+                },
+                onKeyDown(props) {
+                  return component.vm.onKeyDown(props)
+                },
+                onExit() {
+                  popup[0].destroy()
+                  component.destroy()
+                },
+              }
+            },
           },
         }),
       ],
