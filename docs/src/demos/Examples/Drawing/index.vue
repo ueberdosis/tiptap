@@ -18,7 +18,6 @@ export default {
   data() {
     return {
       editor: null,
-      provider: null,
     }
   },
 
@@ -36,7 +35,6 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
-    this.provider.destroy()
   },
 }
 </script>

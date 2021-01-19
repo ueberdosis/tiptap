@@ -255,6 +255,18 @@ $menuBreakPoint: 800px;
       }
     }
 
+    &--sponsor {
+      color: $colorWhite;
+
+      &::after {
+        content: '💖';
+        font-family: 'JetBrainsMono', monospace;
+        text-transform: uppercase;
+        padding: 0 0.5em;
+        border-radius: 5px;
+      }
+    }
+
     &--with-children::after {
       content: '↓';
       color: rgba($colorWhite, 0.2);

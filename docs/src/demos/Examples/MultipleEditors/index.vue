@@ -18,6 +18,12 @@
     <div v-if="description" class="form__item form__item--description">
       <editor-content :editor="description" />
     </div>
+    <div class="form__label">
+      JSON
+    </div>
+    <div class="form__item form__item--json">
+      <code>{{ json }}</code>
+    </div>
   </div>
 </template>
 
@@ -31,7 +37,7 @@ import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 import Collaboration from '@tiptap/extension-collaboration'
 import * as Y from 'yjs'
-import { WebsocketProvider } from 'y-websocket'
+import { yDocToProsemirrorJSON } from 'y-prosemirror'
 
 const ParagraphDocument = Document.extend({
   content: 'paragraph',
@@ -55,13 +61,12 @@ export default {
       title: null,
       tasks: null,
       description: null,
+      ydoc: null,
     }
   },
 
   mounted() {
-    const ydoc = new Y.Doc()
-
-    this.provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-multiple-editors-example', ydoc)
+    this.ydoc = new Y.Doc()
 
     this.title = new Editor({
       extensions: [
@@ -69,10 +74,11 @@ export default {
         Paragraph,
         Text,
         Collaboration.configure({
-          document: ydoc,
+          document: this.ydoc,
           field: 'title',
         }),
       ],
+      content: '<p>No matter what you do, this’ll be a single paragraph.',
     })
 
     this.tasks = new Editor({
@@ -83,10 +89,17 @@ export default {
         TaskList,
         CustomTaskItem,
         Collaboration.configure({
-          document: ydoc,
+          document: this.ydoc,
           field: 'tasks',
         }),
       ],
+      content: `
+        <ul data-type="taskList">
+          <li data-type="taskItem" data-checked="true">And this</li>
+          <li data-type="taskItem" data-checked="false">is a task list</li>
+          <li data-type="taskItem" data-checked="false">and only a task list.</li>
+        </ul>
+      `,
     })
 
     this.description = new Editor({
@@ -95,11 +108,26 @@ export default {
         Paragraph,
         Text,
         Collaboration.configure({
-          document: ydoc,
+          document: this.ydoc,
           field: 'description',
         }),
       ],
+      content: `
+        <p>
+          This can be lengthy text.
+        </p>
+      `,
     })
+  },
+
+  computed: {
+    json() {
+      return {
+        title: yDocToProsemirrorJSON(this.ydoc, 'title'),
+        tasks: yDocToProsemirrorJSON(this.ydoc, 'tasks'),
+        description: yDocToProsemirrorJSON(this.ydoc, 'description'),
+      }
+    },
   },
 
   beforeDestroy() {
@@ -149,6 +177,24 @@ export default {
 
   &--title {
     font-size: 1.6rem;
+  }
+
+  &--json {
+    background: #0D0D0D;
+    color: #FFF;
+    font-size: 0.8rem;
+  }
+}
+
+pre {
+  font-family: 'JetBrainsMono', monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+
+  code {
+    color: inherit;
+    background: none;
+    font-size: 0.8rem;
   }
 }
 </style>
