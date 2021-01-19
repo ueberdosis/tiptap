@@ -1,13 +1,21 @@
 import { Node } from '@tiptap/core'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
-export type MentionOptions = Omit<SuggestionOptions, 'editor'>
+export type MentionOptions = {
+  HTMLAttributes: {
+    [key: string]: any,
+  },
+  suggestionOptions: Omit<SuggestionOptions, 'editor'>,
+}
 
 export const Mention = Node.create({
   name: 'mention',
 
   defaultOptions: <MentionOptions>{
-    char: '@',
+    HTMLAttributes: {},
+    suggestionOptions: {
+      char: '@',
+    },
   },
 
   group: 'inline',
@@ -25,6 +33,15 @@ export const Mention = Node.create({
         parseHTML: element => {
           return {
             id: element.getAttribute('data-mention'),
+          }
+        },
+        renderHTML: attributes => {
+          if (!attributes.id) {
+            return {}
+          }
+
+          return {
+            'data-mention': attributes.id,
           }
         },
       },
@@ -47,7 +64,7 @@ export const Mention = Node.create({
     return [
       Suggestion({
         editor: this.editor,
-        ...this.options,
+        ...this.options.suggestionOptions,
         command: ({ range, attributes }) => {
           this.editor
             .chain()
