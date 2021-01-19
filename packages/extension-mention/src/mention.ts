@@ -8,7 +8,6 @@ export const Mention = Node.create({
 
   defaultOptions: <MentionOptions>{
     char: '@',
-    render: () => ({}),
   },
 
   group: 'inline',
@@ -50,6 +49,7 @@ export const Mention = Node.create({
         command: ({ range }) => {
           this.editor
             .chain()
+            .focus()
             .replace(range, 'mention')
             .insertText(' ')
             .run()

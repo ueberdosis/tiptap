@@ -1,4 +1,10 @@
-export function getVirtualNode(node: Element) {
+export interface VirtualNode {
+  getBoundingClientRect: () => DOMRect,
+  clientWidth: number,
+  clientHeight: number,
+}
+
+export function getVirtualNode(node: Element): VirtualNode {
   return {
     getBoundingClientRect() {
       return node.getBoundingClientRect()

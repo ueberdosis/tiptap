@@ -130,3 +130,8 @@ export type ChainedCommands = {
 export type CanCommands = SingleCommands & { chain: () => ChainedCommands }
 
 export type FocusPosition = 'start' | 'end' | number | boolean | null
+
+export type Range = {
+  from: number,
+  to: number,
+}
