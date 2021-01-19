@@ -43,8 +43,13 @@ export default {
       ],
       content: `
         <ul data-type="taskList">
-          <li data-type="taskItem" data-checked="true">A list item</li>
-          <li data-type="taskItem" data-checked="false">And another one</li>
+          <li data-type="taskItem" data-checked="true">flour
+          <li data-type="taskItem" data-checked="false">baking powder</li>
+          <li data-type="taskItem" data-checked="false">salt</li>
+          <li data-type="taskItem" data-checked="false">sugar</li>
+          <li data-type="taskItem" data-checked="false">milk</li>
+          <li data-type="taskItem" data-checked="false">eggs</li>
+          <li data-type="taskItem" data-checked="false">butter</li>
         </ul>
       `,
     })
@@ -69,6 +74,10 @@ ul[data-type="taskList"] {
       flex: 0 0 auto;
       margin-right: 0.5rem;
     }
+  }
+
+  input[type="checkbox"] {
+    cursor: pointer;
   }
 }
 </style>
