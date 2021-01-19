@@ -70,7 +70,7 @@ export default {
         }),
       ],
       content: `
-        <p>text <span data-mention></span></p>
+        <p>text <span data-mention="Philipp"></span></p>
       `,
     })
   },
