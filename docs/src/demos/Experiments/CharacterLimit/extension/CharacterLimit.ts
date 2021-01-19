@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Extension } from '@tiptap/core'
 import {
-  Plugin, PluginKey, EditorState, Transaction,
+  Plugin, PluginKey,
 } from 'prosemirror-state'
 
 export interface CharacterLimitOptions {
