@@ -72,11 +72,14 @@
     - title: Complex node views
       link: /guide/node-views
       type: draft
-    - title: Working with TypeScript
-      link: /guide/working-with-typescript
     - title: Collaborative editing
       link: /guide/collaborative-editing
       type: pro
+    - title: Accessibility
+      link: /guide/accessibility
+      type: draft
+    - title: Working with TypeScript
+      link: /guide/typescript
 
 - title: API
   items:
