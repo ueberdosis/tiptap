@@ -2,7 +2,6 @@ import { Editor, Range, AnyObject } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
 import { findSuggestionMatch } from './findSuggestionMatch'
-import { getVirtualNode, VirtualNode } from './getVirtualNode'
 
 export interface SuggestionOptions {
   editor: Editor,
@@ -28,7 +27,7 @@ export interface SuggestionProps {
   items: any[],
   command: (attributes: AnyObject) => void,
   decorationNode: Element | null,
-  virtualNode: VirtualNode | null,
+  clientRect: DOMRect | null,
 }
 
 export interface SuggestionKeyDownProps {
@@ -87,11 +86,9 @@ export function Suggestion({
               command({ range: state.range, attributes })
             },
             decorationNode,
-            // build a virtual node for popper.js or tippy.js
+            // virtual node for popper.js or tippy.js
             // this can be used for building popups without a DOM node
-            virtualNode: decorationNode
-              ? getVirtualNode(decorationNode)
-              : null,
+            clientRect: decorationNode?.getBoundingClientRect() || null,
           }
 
           if (handleStart) {
