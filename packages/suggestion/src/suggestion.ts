@@ -1,4 +1,4 @@
-import { Editor, Range } from '@tiptap/core'
+import { Editor, Range, AnyObject } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
 import { findSuggestionMatch } from './findSuggestionMatch'
@@ -10,7 +10,7 @@ export interface SuggestionOptions {
   allowSpaces?: boolean,
   startOfLine?: boolean,
   suggestionClass?: string,
-  command?: (props: { range: Range }) => void,
+  command?: (props: { range: Range, attributes: AnyObject }) => void,
   items?: (query: string) => any[],
   render?: () => {
     onStart?: (props: SuggestionProps) => void,
@@ -26,7 +26,7 @@ export interface SuggestionProps {
   query: string,
   text: string,
   items: any[],
-  command: () => void,
+  command: (attributes: AnyObject) => void,
   decorationNode: Element | null,
   virtualNode: VirtualNode | null,
 }
@@ -83,8 +83,8 @@ export function Suggestion({
             items: (handleChange || handleStart)
               ? await items(state.query)
               : [],
-            command: () => {
-              command({ range: state.range })
+            command: attributes => {
+              command({ range: state.range, attributes })
             },
             decorationNode,
             // build a virtual node for popper.js or tippy.js

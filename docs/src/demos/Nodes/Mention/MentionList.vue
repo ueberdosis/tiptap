@@ -74,7 +74,7 @@ export default {
       const item = this.items[index]
 
       if (item) {
-        this.command(item)
+        this.command({ id: item })
       }
     },
   },

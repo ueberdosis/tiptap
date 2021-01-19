@@ -22,9 +22,11 @@ export const Mention = Node.create({
     return {
       id: {
         default: null,
-      },
-      label: {
-        default: null,
+        parseHTML: element => {
+          return {
+            id: element.getAttribute('data-mention'),
+          }
+        },
       },
     }
   },
@@ -38,7 +40,7 @@ export const Mention = Node.create({
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    return ['span', HTMLAttributes, `@${node.attrs.label}`]
+    return ['span', HTMLAttributes, `@${node.attrs.id}`]
   },
 
   addProseMirrorPlugins() {
@@ -46,11 +48,11 @@ export const Mention = Node.create({
       Suggestion({
         editor: this.editor,
         ...this.options,
-        command: ({ range }) => {
+        command: ({ range, attributes }) => {
           this.editor
             .chain()
             .focus()
-            .replace(range, 'mention')
+            .replace(range, 'mention', attributes)
             .insertText(' ')
             .run()
         },

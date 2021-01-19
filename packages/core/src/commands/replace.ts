@@ -1,11 +1,11 @@
 import { NodeType } from 'prosemirror-model'
 import getNodeType from '../helpers/getNodeType'
-import { Command, Range } from '../types'
+import { Command, Range, AnyObject } from '../types'
 
 /**
  * Replaces text with a node within a range.
  */
-export const replace = (range: Range | null = null, typeOrName: string | NodeType, attrs = {}): Command => ({ tr, state, dispatch }) => {
+export const replace = (range: Range | null = null, typeOrName: string | NodeType, attrs: AnyObject = {}): Command => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { $from, $to } = state.selection
   const index = $from.index()
