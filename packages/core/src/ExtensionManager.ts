@@ -6,6 +6,7 @@ import { Editor } from './Editor'
 import { Extensions, NodeViewRenderer } from './types'
 import getSchema from './helpers/getSchema'
 import getSchemaTypeByName from './helpers/getSchemaTypeByName'
+import getNodeType from './helpers/getNodeType'
 import splitExtensions from './helpers/splitExtensions'
 import getAttributesFromExtensions from './helpers/getAttributesFromExtensions'
 import getRenderedAttributes from './helpers/getRenderedAttributes'
@@ -145,11 +146,9 @@ export default class ExtensionManager {
         const context = {
           options: extension.options,
           editor,
-          type: getSchemaTypeByName(extension.config.name, this.schema),
+          type: getNodeType(extension.config.name, this.schema),
         }
-
-        // @ts-ignore
-        const renderer = extension.config.addNodeView?.bind(context)?.() as NodeViewRenderer
+        const renderer = extension.config.addNodeView?.call(context) as NodeViewRenderer
 
         const nodeview = (
           node: ProsemirrorNode,
@@ -170,6 +169,25 @@ export default class ExtensionManager {
         }
 
         return [extension.config.name, nodeview]
+      }))
+  }
+
+  get textSerializers() {
+    const { editor } = this
+    const { nodeExtensions } = splitExtensions(this.extensions)
+
+    return Object.fromEntries(nodeExtensions
+      .filter(extension => !!extension.config.renderText)
+      .map(extension => {
+        const context = {
+          options: extension.options,
+          editor,
+          type: getNodeType(extension.config.name, this.schema),
+        }
+
+        const textSerializer = (props: { node: ProsemirrorNode }) => extension.config.renderText?.call(context, props)
+
+        return [extension.config.name, textSerializer]
       }))
   }
 

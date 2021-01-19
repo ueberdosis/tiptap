@@ -16,7 +16,10 @@ export type SuggestionMatch = {
 
 export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   const {
-    char, allowSpaces, startOfLine, $position,
+    char,
+    allowSpaces,
+    startOfLine,
+    $position,
   } = config
 
   // cancel if top level node

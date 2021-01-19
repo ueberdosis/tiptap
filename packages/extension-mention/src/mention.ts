@@ -60,6 +60,10 @@ export const Mention = Node.create({
     return ['span', HTMLAttributes, `@${node.attrs.id}`]
   },
 
+  renderText({ node }) {
+    return `@${node.attrs.id}`
+  },
+
   addProseMirrorPlugins() {
     return [
       Suggestion({

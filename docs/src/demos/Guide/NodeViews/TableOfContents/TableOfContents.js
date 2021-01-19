@@ -1,5 +1,5 @@
 import { Node, mergeAttributes } from '@tiptap/core'
-import { VueRenderer } from '@tiptap/vue'
+import { VueNodeViewRenderer } from '@tiptap/vue'
 import Component from './Component.vue'
 
 export default Node.create({
@@ -22,6 +22,6 @@ export default Node.create({
   },
 
   addNodeView() {
-    return VueRenderer(Component)
+    return VueNodeViewRenderer(Component)
   },
 })
