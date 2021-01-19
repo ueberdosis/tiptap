@@ -46,7 +46,7 @@ export default {
                 })
 
                 popup = tippy('body', {
-                  getReferenceClientRect: () => props.virtualNode.getBoundingClientRect(),
+                  getReferenceClientRect: () => props.clientRect,
                   appendTo: () => document.body,
                   content: component.element,
                   showOnCreate: true,
@@ -59,7 +59,7 @@ export default {
                 component.updateProps(props)
 
                 popup[0].setProps({
-                  getReferenceClientRect: () => props.virtualNode.getBoundingClientRect(),
+                  getReferenceClientRect: () => props.clientRect,
                 })
               },
               onKeyDown(props) {
