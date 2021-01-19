@@ -17,12 +17,12 @@ export default {
   props: {
     items: {
       type: Array,
-      default: () => [],
+      required: true,
     },
 
     command: {
       type: Function,
-      default: () => true,
+      required: true,
     },
   },
 
