@@ -89,6 +89,20 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
   ) => DOMOutputSpec) | null,
 
   /**
+   * Render Text
+   */
+  renderText?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+      type: NodeType,
+    },
+    props: {
+      node: ProseMirrorNode,
+    }
+  ) => string) | null,
+
+  /**
    * Add Attributes
    */
   addAttributes?: (
@@ -257,6 +271,7 @@ export class Node<Options = any, Commands = {}> {
     isolating: null,
     parseHTML: () => null,
     renderHTML: null,
+    renderText: null,
     addAttributes: () => ({}),
     addNodeView: null,
     onCreate: null,

@@ -29,7 +29,7 @@ export class Editor extends EventEmitter {
 
   private commandManager!: CommandManager
 
-  private extensionManager!: ExtensionManager
+  public extensionManager!: ExtensionManager
 
   private css!: HTMLStyleElement
 
