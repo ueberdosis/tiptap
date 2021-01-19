@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
 export type MentionOptions = {
@@ -57,7 +57,7 @@ export const Mention = Node.create({
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    return ['span', HTMLAttributes, `@${node.attrs.id}`]
+    return ['span', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), `@${node.attrs.id}`]
   },
 
   renderText({ node }) {

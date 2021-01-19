@@ -104,8 +104,8 @@ export default {
 
   &.is-selected,
   &:hover {
-    color: black;
-    background: rgba(black, 0.1);
+    color: #A975FF;
+    background: rgba(#A975FF, 0.1);
   }
 }
 </style>
