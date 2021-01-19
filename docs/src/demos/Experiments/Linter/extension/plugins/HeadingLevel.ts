@@ -12,7 +12,7 @@ export class HeadingLevel extends LinterPlugin {
     let lastHeadLevel = null
 
     this.doc.descendants((node, position) => {
-      if (node.type.name == 'heading') {
+      if (node.type.name === 'heading') {
         // Check whether heading levels fit under the current level
         const { level } = node.attrs
 
