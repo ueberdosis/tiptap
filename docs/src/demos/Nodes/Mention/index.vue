@@ -57,6 +57,10 @@ export default {
               },
               onUpdate(props) {
                 component.updateProps(props)
+
+                popup[0].setProps({
+                  getReferenceClientRect: () => props.virtualNode.getBoundingClientRect(),
+                })
               },
               onKeyDown(props) {
                 return component.vm.onKeyDown(props)
