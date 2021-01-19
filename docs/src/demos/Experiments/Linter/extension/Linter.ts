@@ -51,10 +51,10 @@ export const Linter = Extension.create({
           init(_, { doc }) {
             return runAllLinterPlugins(doc, plugins)
           },
-          apply(transaction, prevState) {
+          apply(transaction, oldState) {
             return transaction.docChanged
               ? runAllLinterPlugins(transaction.doc, plugins)
-              : prevState
+              : oldState
           },
         },
         props: {

@@ -7,8 +7,8 @@ export const AnnotationPlugin = (options: any) => new Plugin({
   key: AnnotationPluginKey,
   state: {
     init: AnnotationState.init,
-    apply(transaction, prevState) {
-      return prevState.apply(transaction)
+    apply(transaction, oldState) {
+      return oldState.apply(transaction)
     },
   },
   props: {
