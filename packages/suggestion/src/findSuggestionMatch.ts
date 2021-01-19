@@ -1,3 +1,4 @@
+import { Range } from '@tiptap/core'
 import { ResolvedPos } from 'prosemirror-model'
 
 export interface Trigger {
@@ -8,10 +9,7 @@ export interface Trigger {
 }
 
 export type SuggestionMatch = {
-  range: {
-    from: number,
-    to: number,
-  },
+  range: Range,
   query: string,
   text: string,
 } | null

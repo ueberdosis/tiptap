@@ -1,8 +1,8 @@
-import { Editor } from '@tiptap/core'
+import { Editor, Range } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
-import { Decoration, DecorationSet } from 'prosemirror-view'
+import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
 import { findSuggestionMatch } from './findSuggestionMatch'
-import { getVirtualNode } from './getVirtualNode'
+import { getVirtualNode, VirtualNode } from './getVirtualNode'
 
 export interface SuggestionOptions {
   editor: Editor,
@@ -10,17 +10,35 @@ export interface SuggestionOptions {
   allowSpaces?: boolean,
   startOfLine?: boolean,
   suggestionClass?: string,
-  command?: (props: any) => any,
+  command?: (props: { range: Range }) => void,
   items?: (query: string) => any[],
   render?: () => {
-    onStart?: (props: any) => void,
-    onUpdate?: (props: any) => void,
-    onExit?: (props: any) => void,
-    onKeyDown?: (props: any) => boolean,
+    onStart?: (props: SuggestionProps) => void,
+    onUpdate?: (props: SuggestionProps) => void,
+    onExit?: (props: SuggestionProps) => void,
+    onKeyDown?: (props: SuggestionKeyDownProps) => boolean,
   },
 }
 
+export interface SuggestionProps {
+  editor: Editor,
+  range: Range,
+  query: string,
+  text: string,
+  items: any[],
+  command: () => void,
+  decorationNode: Element | null,
+  virtualNode: VirtualNode | null,
+}
+
+export interface SuggestionKeyDownProps {
+  view: EditorView,
+  event: KeyboardEvent,
+  range: Range,
+}
+
 export function Suggestion({
+  editor,
   char = '@',
   allowSpaces = false,
   startOfLine = false,
@@ -57,8 +75,8 @@ export function Suggestion({
 
           const state = handleExit ? prev : next
           const decorationNode = document.querySelector(`[data-decoration-id="${state.decorationId}"]`)
-          const props = {
-            view,
+          const props: SuggestionProps = {
+            editor,
             range: state.range,
             query: state.query,
             text: state.text,

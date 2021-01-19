@@ -1,11 +1,6 @@
 import { NodeType } from 'prosemirror-model'
 import getNodeType from '../helpers/getNodeType'
-import { Command } from '../types'
-
-export type Range = {
-  from: number,
-  to: number,
-}
+import { Command, Range } from '../types'
 
 /**
  * Replaces text with a node within a range.
