@@ -15,8 +15,8 @@ import {
   toggleHeaderColumn,
   toggleHeaderRow,
   toggleHeaderCell,
-  setCellAttr,
-  fixTables,
+  // setCellAttr,
+  // fixTables,
 } from 'prosemirror-tables'
 
 export interface TableOptions {

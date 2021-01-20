@@ -12,8 +12,6 @@ export const TableCell = Node.create({
     HTMLAttributes: {},
   },
 
-  // content: options.cellContent,
-
   content: 'block+',
 
   // attrs: cellAttrs,

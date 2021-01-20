@@ -83,6 +83,11 @@ export default {
               <td>Test</td>
               <td>Test</td>
             </tr>
+            <tr>
+              <td>Test</td>
+              <td>Test</td>
+              <td>Test</td>
+            </tr>
           </tbody>
         </table>
         <p>Example Text</p>
