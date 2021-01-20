@@ -8,8 +8,13 @@ export interface SuggestionOptions {
   char?: string,
   allowSpaces?: boolean,
   startOfLine?: boolean,
-  suggestionClass?: string,
-  command?: (props: { range: Range, attributes: AnyObject }) => void,
+  decorationTag?: string,
+  decorationClass?: string,
+  command?: (props: {
+    editor: Editor,
+    range: Range,
+    attributes: AnyObject
+  }) => void,
   items?: (query: string) => any[],
   render?: () => {
     onStart?: (props: SuggestionProps) => void,
@@ -41,7 +46,8 @@ export function Suggestion({
   char = '@',
   allowSpaces = false,
   startOfLine = false,
-  suggestionClass = 'suggestion',
+  decorationTag = 'span',
+  decorationClass = 'suggestion',
   command = () => null,
   items = () => [],
   render = () => ({}),
@@ -83,7 +89,11 @@ export function Suggestion({
               ? await items(state.query)
               : [],
             command: attributes => {
-              command({ range: state.range, attributes })
+              command({
+                editor,
+                range: state.range,
+                attributes,
+              })
             },
             decorationNode,
             // virtual node for popper.js or tippy.js
@@ -186,8 +196,8 @@ export function Suggestion({
 
         return DecorationSet.create(state.doc, [
           Decoration.inline(range.from, range.to, {
-            nodeName: 'span',
-            class: suggestionClass,
+            nodeName: decorationTag,
+            class: decorationClass,
             'data-decoration-id': decorationId,
           }),
         ])
