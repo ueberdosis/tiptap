@@ -19,7 +19,7 @@ export const Mention = Node.create({
         editor
           .chain()
           .focus()
-          .replace(range, 'mention', attributes)
+          .replaceRange(range, 'mention', attributes)
           .insertText(' ')
           .run()
       },

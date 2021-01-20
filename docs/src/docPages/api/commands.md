@@ -147,7 +147,8 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .lift()                 | Removes an existing wrap.                                 |
 | .liftEmptyBlock()       | Lift block if empty.                                      |
 | .newlineInCode()        | Add a newline character in code.                          |
-| .replace()              | Replaces text with a node within a range.                 |
+| .replace()              | Replaces text with a node.                                |
+| .replaceRange()         | Replaces text with a node within a range.                 |
 | .resetNodeAttributes()  | Resets all node attributes to the default value.          |
 | .selectParentNode()     | Select the parent node.                                   |
 | .setMark()              | Add a mark with new attributes.                           |
