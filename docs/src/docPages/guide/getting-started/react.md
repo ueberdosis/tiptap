@@ -4,4 +4,4 @@
 
 TODO
 
-<demo name="React" />
+<demo name="React" mode="react" />

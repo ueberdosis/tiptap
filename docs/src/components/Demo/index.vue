@@ -4,7 +4,6 @@
     <react-renderer :component="mainFile" v-if="mode === 'react'" />
   </div>
   <div class="demo" v-else>
-    {{ mainFile }}
     <template v-if="mainFile">
       <div class="demo__preview">
         <component :is="mainFile" v-if="mode === 'vue'" />
@@ -92,7 +91,7 @@ export default {
   computed: {
     mainFile() {
       const file = this.files
-        .find(item => item.path.endsWith('index.vue') || item.path.endsWith('.jsx'))
+        .find(item => item.path.endsWith('index.vue') || item.path.endsWith('index.jsx'))
 
       if (!file) {
         return
