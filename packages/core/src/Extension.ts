@@ -1,6 +1,7 @@
 import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
+import mergeDeep from './utilities/mergeDeep'
 import { GlobalAttributes } from './types'
 
 export interface ExtensionConfig<Options = any, Commands = {}> {
@@ -171,20 +172,14 @@ export class Extension<Options = any, Commands = any> {
     return new Extension<O, C>(config)
   }
 
-  configure(options?: Partial<Options>) {
+  configure(options: Partial<Options> = {}) {
     return Extension
       .create<Options, Commands>(this.config as ExtensionConfig<Options, Commands>)
-      .#configure({
-        ...this.config.defaultOptions,
-        ...options,
-      })
+      .#configure(options)
   }
 
   #configure = (options: Partial<Options>) => {
-    this.options = {
-      ...this.config.defaultOptions,
-      ...options,
-    }
+    this.options = mergeDeep(this.config.defaultOptions, options) as Options
 
     return this
   }

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   DOMOutputSpec,
   NodeSpec,
@@ -7,6 +8,7 @@ import {
 import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
+import mergeDeep from './utilities/mergeDeep'
 import { Attributes, NodeViewRenderer, Overwrite } from './types'
 import { Editor } from './Editor'
 
@@ -87,6 +89,20 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
       HTMLAttributes: { [key: string]: any },
     }
   ) => DOMOutputSpec) | null,
+
+  /**
+   * Render Text
+   */
+  renderText?: ((
+    this: {
+      options: Options,
+      editor: Editor,
+      type: NodeType,
+    },
+    props: {
+      node: ProseMirrorNode,
+    }
+  ) => string) | null,
 
   /**
    * Add Attributes
@@ -257,6 +273,7 @@ export class Node<Options = any, Commands = {}> {
     isolating: null,
     parseHTML: () => null,
     renderHTML: null,
+    renderText: null,
     addAttributes: () => ({}),
     addNodeView: null,
     onCreate: null,
@@ -283,20 +300,14 @@ export class Node<Options = any, Commands = {}> {
     return new Node<O, C>(config)
   }
 
-  configure(options?: Partial<Options>) {
+  configure(options: Partial<Options> = {}) {
     return Node
       .create<Options, Commands>(this.config as NodeConfig<Options, Commands>)
-      .#configure({
-        ...this.config.defaultOptions,
-        ...options,
-      })
+      .#configure(options)
   }
 
   #configure = (options: Partial<Options>) => {
-    this.options = {
-      ...this.config.defaultOptions,
-      ...options,
-    }
+    this.options = mergeDeep(this.config.defaultOptions, options) as Options
 
     return this
   }
