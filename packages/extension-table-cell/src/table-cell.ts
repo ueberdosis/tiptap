@@ -6,16 +6,20 @@ export interface TableCellOptions {
   },
 }
 export const TableCell = Node.create({
-  name: 'tableCell',
+  name: 'table_cell',
 
   defaultOptions: <TableCellOptions>{
     HTMLAttributes: {},
   },
 
   // content: options.cellContent,
+
   content: 'block+',
+
   // attrs: cellAttrs,
-  // tableRole: 'cell',
+
+  tableRole: 'cell',
+
   isolating: true,
 
   parseHTML() {

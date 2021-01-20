@@ -7,16 +7,16 @@ export interface TableRowOptions {
 }
 
 export const TableRow = Node.create({
-  name: 'tableRow',
+  name: 'table_row',
 
   defaultOptions: <TableRowOptions>{
     HTMLAttributes: {},
   },
 
   // content: '(tableCell | tableHeader)*',
-  content: 'tableCell*',
+  content: 'table_cell*',
 
-  // tableRole: 'row',
+  tableRole: 'row',
 
   parseHTML() {
     return [{ tag: 'tr' }]
