@@ -5,3 +5,4 @@ Congratulations! You’ve found our secret playground with a list of experiments
 * [Annotation](/experiments/annotation)
 * [Comments](/experiments/comments)
 * [CharacterLimit](/experiments/character-limit)
+* [Colors](/experiments/colors)
