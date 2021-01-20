@@ -10,7 +10,7 @@ import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'
-import Colors from './extension'
+import Color from './extension'
 
 export default {
   components: {
@@ -30,12 +30,15 @@ export default {
         Paragraph,
         Heading,
         Text,
-        Colors,
+        Color,
       ],
       content: `
         <p>
-          For triplets with repeated values, you can eliminate the repetition by writing in shorthand, for instance, #00FFFF becomes #0FF. This system is easy for computers to understand, and it pretty short to write, which makes it useful for quick copy paste and designation in programming. If you’re going to work with colors in a more involved way, though, HSL is a little bit more human-readable. rgba(128, 128, 128, 0.3) foo
-        </ul>
+          For triplets with repeated values, you can eliminate the repetition by writing in shorthand, for instance, #00FFFF becomes #0FF. This system is easy for computers to understand, and it pretty short to write, which makes it useful for quick copy paste and designation in programming. If you’re going to work with colors in a more involved way, though, HSL is a little bit more human-readable.
+        </p>
+        <p>
+          A few more examples: #FFF, #0D0D0D, #616161, #A975FF, #FB5151, #FD9170, #FFCB6B, #68CEF8, #80cbc4, #9DEF8F
+        </p>
       `,
     })
   },
@@ -47,7 +50,16 @@ export default {
 </script>
 
 <style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+
 .color {
+  white-space: nowrap;
+
   &::before {
     content: ' ';
     display: inline-block;
@@ -60,9 +72,5 @@ export default {
     border-radius: 2px;
     background-color: var(--color);
   }
-}
-
-.ProseMirror {
-  padding-right: 20px;
 }
 </style>

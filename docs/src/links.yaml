@@ -16,7 +16,7 @@
   link: /examples
   redirect: /examples/basic
   items:
-    - title: Basic text editor
+    - title: Default text editor
       link: /examples/basic
     - title: Collaborative editing
       link: /examples/collaborative-editing
@@ -25,16 +25,18 @@
       link: /examples/markdown-shortcuts
     - title: Formatting
       link: /examples/formatting
+      type: draft
     - title: Todo app
       link: /examples/todo-app
     - title: Write a book
       link: /examples/book
-    - title: For minimalists
+    - title: Minimalistic
       link: /examples/minimalist
-    - title: Drawing
+    - title: Draw on a canvas
       link: /examples/drawing
     - title: Multiple editors
       link: /examples/multiple-editors
+      draft: true
 
 
 - title: Guide

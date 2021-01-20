@@ -10,7 +10,9 @@ We need your support to maintain, update, support and develop tiptap 2. If you�
 We strive to make tiptap accessible to everyone, but to be honest, there’s not much work done now. From our current understanding, that’s what needs to be done:
 
 ### Interface
-An interface needs to have semantic markup, must be keyboard accessible and well documented. Currently, we don’t even provide an interface, so for now that’s totally up to you. But no worries, we’ll provide an interface soon and take accessibility into account early on.
+An interface needs to have well-defined contrasts, big enough click areas, semantic markup, must be keyboard accessible and well documented. Currently, we don’t even provide an interface, so for now that’s totally up to you.
+
+But no worries, we’ll provide an interface soon and take accessibility into account early on.
 
 ### Editor
 The editor needs to produce semantic markup, must be keyboard accessible and well documented. The tiptap content is well structured so that’s a good foundation already. That said, we can add support and encourage the usage of additional attributes, for example the Alt-attribute for images.
@@ -28,3 +30,5 @@ An optional writing assitance could help people writing content semanticly corre
 | WCAG 2.1 | 2.1.1   | [Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard)                       |
 | WCAG 2.1 | 4.1.1   | [Parsing](https://www.w3.org/WAI/WCAG21/Understanding/parsing)                         |
 | WCAG 2.1 | 4.1.2   | [Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value)       |
+
+Anything we should add here? Please let us know, so we can take it into account.

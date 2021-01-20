@@ -4,8 +4,7 @@ import { Decoration, DecorationSet } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 
 function detectColors(doc) {
-  const hexColors = /(#[0-9a-f]{3,6})\b/ig
-  const rgbaColors = /(rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\))\b/ig
+  const hexColor = /(#[0-9a-f]{3,6})\b/ig
   const results = []
   const decorations: [any?] = []
 
@@ -17,16 +16,7 @@ function detectColors(doc) {
     let matches
 
     // eslint-disable-next-line
-    while (matches = hexColors.exec(node.text)) {
-      results.push({
-        color: matches[0],
-        from: position + matches.index,
-        to: position + matches.index + matches[0].length,
-      })
-    }
-
-    // eslint-disable-next-line
-    while (matches = rgbaColors.exec(node.text)) {
+    while (matches = hexColor.exec(node.text)) {
       results.push({
         color: matches[0],
         from: position + matches.index,
@@ -45,21 +35,19 @@ function detectColors(doc) {
   return DecorationSet.create(doc, decorations)
 }
 
-export const Colors = Extension.create({
-  name: 'colors',
+export const Color = Extension.create({
+  name: 'color',
 
   addProseMirrorPlugins() {
-    const { plugins } = this.options
-
     return [
       new Plugin({
         state: {
           init(_, { doc }) {
-            return detectColors(doc, plugins)
+            return detectColors(doc)
           },
           apply(transaction, oldState) {
             return transaction.docChanged
-              ? detectColors(transaction.doc, plugins)
+              ? detectColors(transaction.doc)
               : oldState
           },
         },
@@ -75,6 +63,6 @@ export const Colors = Extension.create({
 
 declare module '@tiptap/core' {
   interface AllExtensions {
-    Colors: typeof Colors,
+    Color: typeof Color,
   }
 }
