@@ -256,8 +256,6 @@ $menuBreakPoint: 800px;
     }
 
     &--sponsor {
-      color: $colorWhite;
-
       &::after {
         content: '💖';
         font-family: 'JetBrainsMono', monospace;

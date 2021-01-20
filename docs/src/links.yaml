@@ -35,9 +35,6 @@
       link: /examples/drawing
     - title: Multiple editors
       link: /examples/multiple-editors
-    - title: Comments
-      link: /examples/comments
-      draft: true
 
 
 - title: Guide
@@ -160,7 +157,7 @@
       items:
         - title: Annotation
           link: /api/extensions/annotation
-          draft: true
+          type: draft
         - title: Collaboration
           link: /api/extensions/collaboration
           type: pro
