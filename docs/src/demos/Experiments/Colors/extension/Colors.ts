@@ -17,7 +17,6 @@ function detectColors(doc) {
     let matches
 
     // eslint-disable-next-line
-    let regex = hexColors
     while (matches = hexColors.exec(node.text)) {
       results.push({
         color: matches[0],
@@ -26,6 +25,7 @@ function detectColors(doc) {
       })
     }
 
+    // eslint-disable-next-line
     while (matches = rgbaColors.exec(node.text)) {
       results.push({
         color: matches[0],
