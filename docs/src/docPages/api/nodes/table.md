@@ -5,3 +5,7 @@ We need your support to maintain, update, support and develop tiptap 2. If you�
 :::
 
 TODO
+
+⚠️ Preview
+
+<demo name="Nodes/Table" />
