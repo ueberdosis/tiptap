@@ -8,7 +8,8 @@ export interface SuggestionOptions {
   char?: string,
   allowSpaces?: boolean,
   startOfLine?: boolean,
-  suggestionClass?: string,
+  decorationTag?: string,
+  decorationClass?: string,
   command?: (props: {
     editor: Editor,
     range: Range,
@@ -45,7 +46,8 @@ export function Suggestion({
   char = '@',
   allowSpaces = false,
   startOfLine = false,
-  suggestionClass = 'suggestion',
+  decorationTag = 'span',
+  decorationClass = 'suggestion',
   command = () => null,
   items = () => [],
   render = () => ({}),
@@ -194,8 +196,8 @@ export function Suggestion({
 
         return DecorationSet.create(state.doc, [
           Decoration.inline(range.from, range.to, {
-            nodeName: 'span',
-            class: suggestionClass,
+            nodeName: decorationTag,
+            class: decorationClass,
             'data-decoration-id': decorationId,
           }),
         ])
