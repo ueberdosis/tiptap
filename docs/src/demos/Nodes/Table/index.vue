@@ -38,11 +38,13 @@ export default {
       content: `
         <p>Example Text</p>
         <table>
-          <tr>
-            <td>Test</td>
-            <td>Test</td>
-            <td>Test</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>Test</td>
+              <td>Test</td>
+              <td>Test</td>
+            </tr>
+          </tbody>
         </table>
         <p>Example Text</p>
       `,
@@ -56,7 +58,7 @@ export default {
 </script>
 
 <style>
-table {
+table, tr, td {
   border: 3px solid red;
 }
 </style>
