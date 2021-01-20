@@ -34,9 +34,12 @@
         </a>
       </div>
     </template>
-    <div v-else class="demo__error">
-      Could not find a demo called “{{ name }}”.
-    </div>
+    <template v-else>
+      <div v-if="mainFile === false" class="demo__error">
+        Could not find a demo called “{{ name }}”.
+      </div>
+      <div v-else class="demo__skeleton" />
+    </template>
   </div>
 </template>
 
@@ -79,6 +82,7 @@ export default {
 
   data() {
     return {
+      loading: true,
       files: [],
       content: null,
       currentIndex: 0,
@@ -94,7 +98,7 @@ export default {
         .find(item => item.path.endsWith('index.vue') || item.path.endsWith('index.jsx'))
 
       if (!file) {
-        return
+        return false
       }
 
       return require(`~/demos/${file.path}`).default
