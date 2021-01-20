@@ -1,3 +1,5 @@
+import isClass from './isClass'
+
 export default function isObject(item: any): boolean {
   if (!item) {
     return false
@@ -11,7 +13,7 @@ export default function isObject(item: any): boolean {
     return false
   }
 
-  if (item.constructor?.toString().substring(0, 5) === 'class') {
+  if (isClass(item)) {
     return false
   }
 
