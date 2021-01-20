@@ -36,7 +36,7 @@ export default {
           },
           suggestionOptions: {
             items: query => {
-              return ['Hans', 'Philipp', 'Kris'].filter(item => item.startsWith(query))
+              return ['Hans', 'Philipp', 'Kris'].filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
             },
             render: () => {
               let component
