@@ -11717,9 +11717,9 @@ property-information@^5.0.0, property-information@^5.2.0:
     xtend "^4.0.0"
 
 prosemirror-commands@^1.1.3:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/prosemirror-commands/-/prosemirror-commands-1.1.4.tgz#991563e67623acab4f8c510fad1570f8b4693780"
-  integrity sha512-kj4Qi+8h3EpJtZuuEDwZ9h2/QNGWDsIX/CzjmClxi9GhxWyBUMVUvIFk0mgdqHyX20lLeGmOpc0TLA5aPzgpWg==
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/prosemirror-commands/-/prosemirror-commands-1.1.5.tgz#3f07a5b13e424ad8728168b6b45e1b17e47c2b81"
+  integrity sha512-4CKAnDxLTtUHpjRZZVEF/LLMUYh7NbS3Ze3mP5UEAgar4WRWQYg3Js01wnp/GMqaZueNHhsp9UVvOrAK+7DWbQ==
   dependencies:
     prosemirror-model "^1.0.0"
     prosemirror-state "^1.0.0"
