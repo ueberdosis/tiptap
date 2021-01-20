@@ -28,7 +28,7 @@ yarn add @tiptap/extension-typography
 | notEqual                | Converts `!=` to a not equal sign `≠`.                           |
 | laquo                   | Converts `<<` to left-pointing double angle quotation mark `«`.  |
 | raquo                   | Converts `>>` to right-pointing double angle quotation mark `»`. |
-| multiplication          | Converts `2 * 3` or `2x3` to a multiplcation sign `2×3™`.        |
+| multiplication          | Converts `2 * 3` or `2x3` to a multiplcation sign `2×3`.        |
 
 ## Keyboard shortcuts
 * `Backspace` reverts the applied input rule
