@@ -15,6 +15,14 @@ export const Mention = Node.create({
     HTMLAttributes: {},
     suggestionOptions: {
       char: '@',
+      command: ({ editor, range, attributes }) => {
+        editor
+          .chain()
+          .focus()
+          .replace(range, 'mention', attributes)
+          .insertText(' ')
+          .run()
+      },
     },
   },
 
@@ -69,14 +77,6 @@ export const Mention = Node.create({
       Suggestion({
         editor: this.editor,
         ...this.options.suggestionOptions,
-        command: ({ range, attributes }) => {
-          this.editor
-            .chain()
-            .focus()
-            .replace(range, 'mention', attributes)
-            .insertText(' ')
-            .run()
-        },
       }),
     ]
   },

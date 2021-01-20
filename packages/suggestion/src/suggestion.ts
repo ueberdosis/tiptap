@@ -9,7 +9,11 @@ export interface SuggestionOptions {
   allowSpaces?: boolean,
   startOfLine?: boolean,
   suggestionClass?: string,
-  command?: (props: { range: Range, attributes: AnyObject }) => void,
+  command?: (props: {
+    editor: Editor,
+    range: Range,
+    attributes: AnyObject
+  }) => void,
   items?: (query: string) => any[],
   render?: () => {
     onStart?: (props: SuggestionProps) => void,
@@ -83,7 +87,11 @@ export function Suggestion({
               ? await items(state.query)
               : [],
             command: attributes => {
-              command({ range: state.range, attributes })
+              command({
+                editor,
+                range: state.range,
+                attributes,
+              })
             },
             decorationNode,
             // virtual node for popper.js or tippy.js
