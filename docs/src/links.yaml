@@ -113,7 +113,7 @@
           link: /api/nodes/list-item
         - title: Mention
           link: /api/nodes/mention
-          type: draft
+          type: new
         - title: OrderedList
           link: /api/nodes/ordered-list
         - title: Paragraph
@@ -155,9 +155,9 @@
     - title: Extensions
       link: /api/extensions
       items:
-        - title: Annotation
-          link: /api/extensions/annotation
-          type: draft
+        # - title: Annotation
+        #   link: /api/extensions/annotation
+        #   type: draft
         - title: Collaboration
           link: /api/extensions/collaboration
           type: pro
@@ -186,7 +186,12 @@
       link: /api/schema
     - title: Keyboard Shortcuts
       link: /api/keyboard-shortcuts
-
+    - title: Utilities
+      link: /api/utilities
+      redirect: /api/utilities/suggestion
+      items:
+        - title: Suggestion
+          link: /api/utilities/suggestion
 
 - title: Links
   items:

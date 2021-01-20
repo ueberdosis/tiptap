@@ -1,21 +1,7 @@
-# Mention
-
-## Installation
-```bash
-# with npm
-npm install @tiptap/extension-mention
-
-# with Yarn
-yarn add @tiptap/extension-mention
-```
+# Suggestion
+TODO
 
 ## Settings
-| Option         | Type     | Default                    | Description                                                                  |
-| -------------- | -------- | -------------------------- | ---------------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`                       | Custom HTML attributes that should be added to the rendered HTML tag.        |
-| suggestion     | `Object` | `{ char: '@', command: … ` | [Suggestion utility](/api/utilities/suggestion) |
-
-## Settings for suggestions
 | Option          | Type       | Default        | Description                                                 |
 | --------------- | ---------- | -------------- | ----------------------------------------------------------- |
 | char            | `String`   | `'@'`          | The character that triggers the autocomplete popup.         |
@@ -27,8 +13,13 @@ yarn add @tiptap/extension-mention
 | items           | `Function` | `() => {}`     | Pass an array of filtered suggestions, can be async.        |
 | render          | `Function` | `() => ({})`   | A render function for the autocomplete popup.               |
 
+## Render
+TODO
+
 ## Source code
-[packages/extension-mention/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-mention/)
+[packages/suggestion/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/suggestion/)
 
 ## Usage
-<demo name="Nodes/Mention" />
+* [`Emoji`](/api/nodes/emoji)
+* [`Hashtag`](/api/nodes/hashtag)
+* [`Mention`](/api/nodes/mention)

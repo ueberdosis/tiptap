@@ -34,9 +34,11 @@ export default {
           HTMLAttributes: {
             class: 'mention',
           },
-          suggestionOptions: {
+          suggestion: {
             items: query => {
-              return ['Hans', 'Philipp', 'Kris'].filter(item => item.startsWith(query))
+              return [
+                'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
+              ].filter(item => item.startsWith(query)).slice(0, 5)
             },
             render: () => {
               let component
@@ -56,7 +58,7 @@ export default {
                     showOnCreate: true,
                     interactive: true,
                     trigger: 'manual',
-                    placement: 'top-start',
+                    placement: 'bottom-start',
                   })
                 },
                 onUpdate(props) {
@@ -79,7 +81,7 @@ export default {
         }),
       ],
       content: `
-        <p>Hello <span data-mention="Hans"></span> and <span data-mention="Philipp"></span> and <span data-mention="Kris"></span>!</p>
+        <p>Hi <span data-mention="Winona Ryder"></span> and <span data-mention="Axl Rose"></span>! Don’t forget the daily stand up at 8 AM.</p>
       `,
     })
   },

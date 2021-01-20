@@ -5,7 +5,7 @@ export type MentionOptions = {
   HTMLAttributes: {
     [key: string]: any,
   },
-  suggestionOptions: Omit<SuggestionOptions, 'editor'>,
+  suggestion: Omit<SuggestionOptions, 'editor'>,
 }
 
 export const Mention = Node.create({
@@ -13,7 +13,7 @@ export const Mention = Node.create({
 
   defaultOptions: <MentionOptions>{
     HTMLAttributes: {},
-    suggestionOptions: {
+    suggestion: {
       char: '@',
       command: ({ editor, range, attributes }) => {
         editor
@@ -76,7 +76,7 @@ export const Mention = Node.create({
     return [
       Suggestion({
         editor: this.editor,
-        ...this.options.suggestionOptions,
+        ...this.options.suggestion,
       }),
     ]
   },
