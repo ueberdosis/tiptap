@@ -7,6 +7,7 @@ import {
 import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
+import mergeDeep from './utilities/mergeDeep'
 import { Attributes, Overwrite } from './types'
 import { Editor } from './Editor'
 
@@ -238,10 +239,7 @@ export class Mark<Options = any, Commands = {}> {
   }
 
   #configure = (options: Partial<Options>) => {
-    this.options = {
-      ...this.config.defaultOptions,
-      ...options,
-    }
+    this.options = mergeDeep(this.config.defaultOptions, options) as Options
 
     return this
   }
