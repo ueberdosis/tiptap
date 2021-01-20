@@ -157,7 +157,7 @@
       items:
         - title: Annotation
           link: /api/extensions/annotation
-          draft: true
+          type: draft
         - title: Collaboration
           link: /api/extensions/collaboration
           type: pro
