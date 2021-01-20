@@ -154,6 +154,15 @@ Node.create({
 })
 ```
 
+One example is the [`Mention`](/api/nodes/mention) extension, which somehow looks like text, but behaves more like a single unit. As this doesn’t have editable text content, it’s empty when you copy such node. Good news though, you can control that. Here is the example from the [`Mention`](/api/nodes/mention) extension:
+
+```js
+// Used to convert an atom node to plain text
+renderText({ node }) {
+  return `@${node.attrs.id}`
+},
+```
+
 #### Selectable
 Besides the already visible text selection, there is an invisible node selection. If you want to make your nodes selectable, you can configure it like this:
 

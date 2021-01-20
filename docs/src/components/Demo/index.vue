@@ -4,6 +4,7 @@
     <react-renderer :component="mainFile" v-if="mode === 'react'" />
   </div>
   <div class="demo" v-else>
+    {{ mainFile }}
     <template v-if="mainFile">
       <div class="demo__preview">
         <component :is="mainFile" v-if="mode === 'vue'" />

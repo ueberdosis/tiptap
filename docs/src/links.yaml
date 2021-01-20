@@ -48,6 +48,10 @@
         - title: Nuxt.js
           link: /guide/getting-started/nuxtjs
           skip: true
+        - title: React
+          link: /guide/getting-started/react
+          type: draft
+          skip: true
         - title: Alpine.js
           link: /guide/getting-started/alpinejs
           type: draft
@@ -62,18 +66,20 @@
       link: /guide/toolbar
     - title: Custom styling
       link: /guide/styling
+    - title: Accessibility
+      link: /guide/accessibility
+      type: draft
     - title: Store content
       link: /guide/store-content
+    - title: Collaborative editing
+      link: /guide/collaborative-editing
+      type: pro
+    - title: Extend the functionality
+      link: /guide/extend-extensions
     - title: Build extensions
       link: /guide/build-extensions
     - title: Complex node views
       link: /guide/node-views
-      type: draft
-    - title: Collaborative editing
-      link: /guide/collaborative-editing
-      type: pro
-    - title: Accessibility
-      link: /guide/accessibility
       type: draft
     - title: Working with TypeScript
       link: /guide/typescript

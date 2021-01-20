@@ -38,7 +38,7 @@ export default {
             items: query => {
               return [
                 'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
-              ].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5)
+              ].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 10)
             },
             render: () => {
               let component
@@ -81,7 +81,11 @@ export default {
         }),
       ],
       content: `
-        <p>Hi <span data-mention="Winona Ryder"></span> and <span data-mention="Axl Rose"></span>! Don’t forget the daily stand up at 8 AM.</p>
+        <p>Hi everyone! Don’t forget the daily stand up at 8 AM.</p>
+        <p><span data-mention="Jennifer Grey"></span> Would you mind to share what you’ve been working on lately? We fear not much happened since Dirty Dancing.
+        <p><span data-mention="Winona Ryder"></span> <span data-mention="Axl Rose"></span> Let’s go through your most important points quickly.</p>
+        <p>I have a meeting with <span data-mention="Christina Applegate"></span> and don’t want to come late.</p>
+        <p>– Thanks, your big boss</p>
       `,
     })
   },
@@ -93,6 +97,12 @@ export default {
 </script>
 
 <style lang="scss">
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+
 .mention {
   color: #A975FF;
   background-color: rgba(#A975FF, 0.1);
