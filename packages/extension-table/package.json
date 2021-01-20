@@ -23,5 +23,8 @@
   ],
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-alpha.6"
+  },
+  "dependencies": {
+    "prosemirror-tables": "^1.1.1"
   }
 }

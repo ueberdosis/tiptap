@@ -69,6 +69,11 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
   isolating?: NodeSpec['isolating'] | ((this: { options: Options }) => NodeSpec['isolating']),
 
   /**
+   * Table Role
+   */
+  tableRole?: NodeSpec['tableRole'] | ((this: { options: Options }) => NodeSpec['tableRole']),
+
+  /**
    * Parse HTML
    */
   parseHTML?: (
