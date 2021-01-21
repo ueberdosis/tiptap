@@ -11,14 +11,15 @@ The document is stored in a state. All changes are applied as transactions to th
 Extensions add [nodes](/api/nodes), [marks](/api/marks) and/or [functionalities](/api/extensions) to the editor. A lot of those extensions bound their commands to common [keyboard shortcuts](/api/keyboard-shortcuts).
 
 ## Vocabulary
+ProseMirror has its own vocabulary and you’ll stumble upon all those words now and then. Here is a short overview of the most common words we use in the documentation.
 
 | Word        | Description                                                              |
 | ----------- | ------------------------------------------------------------------------ |
-| schema      | Configures the structure your content can have.                          |
-| document    | The actual content in your editor.                                       |
-| state       | Everything to describe the current content and selection of your editor. |
-| transaction | A change to the state (updated selection, content, …)                    |
-| extension   | Registeres new functionality.                                            |
-| node        | Adds blocks, like heading, paragraph.                                    |
-| mark        | Adds inline formatting, for example bold or italic.                      |
-| command     | Execute an action inside the editor, that somehow changes the state.     |
+| Schema      | Configures the structure your content can have.                          |
+| Document    | The actual content in your editor.                                       |
+| State       | Everything to describe the current content and selection of your editor. |
+| Transaction | A change to the state (updated selection, content, …)                    |
+| Extension   | Registeres new functionality.                                            |
+| Node        | Adds blocks, like heading, paragraph.                                    |
+| Mark        | Adds inline formatting, for example bold or italic.                      |
+| Command     | Execute an action inside the editor, that somehow changes the state.     |
