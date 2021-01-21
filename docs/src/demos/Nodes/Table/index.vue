@@ -4,22 +4,22 @@
       ⚠️ createTable
     </button>
     <button @click="editor.chain().focus().addColumnBefore().run()">
-      ⚠️ addColumnBefore
+      ✅ addColumnBefore
     </button>
     <button @click="editor.chain().focus().addColumnAfter().run()">
-      ⚠️ addColumnAfter
+      ✅ addColumnAfter
     </button>
     <button @click="editor.chain().focus().deleteColumn().run()">
-      ⚠️ deleteColumn
+      ✅ deleteColumn
     </button>
     <button @click="editor.chain().focus().addRowBefore().run()">
-      ⚠️ addRowBefore
+      ✅ addRowBefore
     </button>
     <button @click="editor.chain().focus().addRowAfter().run()">
-      ⚠️ addRowAfter
+      ✅ addRowAfter
     </button>
     <button @click="editor.chain().focus().deleteRow().run()">
-      ⚠️ deleteRow
+      ✅ deleteRow
     </button>
     <button @click="editor.chain().focus().deleteTable().run()">
       ✅ deleteTable
