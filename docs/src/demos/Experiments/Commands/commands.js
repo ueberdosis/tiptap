@@ -8,8 +8,8 @@ export default Extension.create({
     suggestion: {
       char: '/',
       startOfLine: true,
-      command: ({ editor, range, attributes }) => {
-        attributes.command({ editor, range })
+      command: ({ editor, range, props }) => {
+        props.command({ editor, range })
       },
     },
   },
