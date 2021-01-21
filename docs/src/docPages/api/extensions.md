@@ -18,7 +18,7 @@ Extensions are the way to add functionality to tiptap. By default tiptap comes b
 | [TextAlign](/api/extensions/text-align)                     | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-align/)           |
 | [Typography](/api/extensions/typography)                    | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-typography/)           |
 
-You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which includes the most common extensions. Learn [how you can use the `defaultExtensions()`](/examples/basic).
+You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which includes the most common extensions. Learn [how you can use the `defaultExtensions()`](/examples/default).
 
 ## How extensions work
 Although tiptap tries to hide most of the complexity of ProseMirror, it’s built on top of its APIs and we recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/) for advanced usage. You’ll have a better understanding of how everything works under the hood and get more familiar with many terms and jargon used by tiptap.

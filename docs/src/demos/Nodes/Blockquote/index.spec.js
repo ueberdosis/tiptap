@@ -6,7 +6,7 @@ context('/api/nodes/blockquote', () => {
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
-      editor.commands.selectAll()
+      cy.get('.ProseMirror').type('{selectall}')
     })
   })
 
@@ -39,7 +39,7 @@ context('/api/nodes/blockquote', () => {
   it('the button should wrap all nodes in one blockquote', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p><p>Example Text</p>')
-      editor.commands.selectAll()
+      cy.get('.ProseMirror').type('{selectall}')
     })
 
     cy.get('.demo__preview button:first')

@@ -6,7 +6,7 @@ context('/examples/default', () => {
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<h1>Example Text</h1>')
-      editor.commands.selectAll()
+      cy.get('.ProseMirror').type('{selectall}')
     })
   })
 

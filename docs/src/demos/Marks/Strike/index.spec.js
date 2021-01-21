@@ -6,7 +6,7 @@ context('/api/marks/strike', () => {
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
-      editor.commands.selectAll()
+      cy.get('.ProseMirror').type('{selectall}')
     })
   })
 
