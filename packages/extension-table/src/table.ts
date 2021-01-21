@@ -1,7 +1,7 @@
 import { Command, Node, mergeAttributes } from '@tiptap/core'
 import {
-  // tableEditing,
-  // columnResizing,
+  tableEditing,
+  columnResizing,
   // goToNextCell,
   addColumnBefore,
   addColumnAfter,
@@ -23,6 +23,7 @@ export interface TableOptions {
   HTMLAttributes: {
     [key: string]: any
   },
+  resizable: boolean,
 }
 
 export const Table = Node.create({
@@ -30,6 +31,7 @@ export const Table = Node.create({
 
   defaultOptions: <TableOptions>{
     HTMLAttributes: {},
+    resizable: false,
   },
 
   content: 'table_row+',
@@ -125,6 +127,13 @@ export const Table = Node.create({
       // ),
       // setCellAttr: ({ name, value }) => setCellAttr(name, value),
     }
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      ...(this.options.resizable ? [columnResizing({})] : []),
+      tableEditing({}),
+    ]
   },
 })
 

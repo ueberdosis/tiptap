@@ -39,6 +39,15 @@
     <button @click="editor.chain().focus().toggleHeaderCell().run()">
       ✅ toggleHeaderCell
     </button>
+    <button disabled>
+      ⚠️ fixTables
+    </button>
+    <button disabled>
+      ⚠️ toggleCellMerge
+    </button>
+    <button disabled>
+      ⚠️ setCellAttr
+    </button>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -71,7 +80,9 @@ export default {
         Document,
         Paragraph,
         Text,
-        Table,
+        Table.configure({
+          resizable: true,
+        }),
         TableRow,
         TableHeader,
         TableCell,
@@ -82,8 +93,7 @@ export default {
           <tbody>
             <tr>
               <th>Test</th>
-              <th>Test</th>
-              <th>Test</th>
+              <th colspan="2">Test</th>
             </tr>
             <tr>
               <td>Test</td>
