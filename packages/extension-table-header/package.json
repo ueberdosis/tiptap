@@ -1,0 +1,27 @@
+{
+  "name": "@tiptap/extension-table-header",
+  "description": "table cell extension for tiptap",
+  "version": "2.0.0-alpha.5",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-table-header.cjs.js",
+  "umd": "dist/tiptap-extension-table-header.umd.js",
+  "module": "dist/tiptap-extension-table-header.esm.js",
+  "unpkg": "dist/tiptap-extension-table-header.bundle.umd.min.js",
+  "types": "dist/packages/extension-table-header/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-alpha.6"
+  }
+}

@@ -31,13 +31,13 @@
       ⚠️ splitCell
     </button>
     <button @click="editor.chain().focus().toggleHeaderColumn().run()">
-      ⚠️ toggleHeaderColumn
+      ✅ toggleHeaderColumn
     </button>
     <button @click="editor.chain().focus().toggleHeaderRow().run()">
-      ⚠️ toggleHeaderRow
+      ✅ toggleHeaderRow
     </button>
     <button @click="editor.chain().focus().toggleHeaderCell().run()">
-      ⚠️ toggleHeaderCell
+      ✅ toggleHeaderCell
     </button>
     <editor-content :editor="editor" />
   </div>
@@ -52,6 +52,7 @@ import Text from '@tiptap/extension-text'
 import Table from '@tiptap/extension-table'
 import TableRow from '@tiptap/extension-table-row'
 import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
 
 export default {
   components: {
@@ -72,6 +73,7 @@ export default {
         Text,
         Table,
         TableRow,
+        TableHeader,
         TableCell,
       ],
       content: `
@@ -79,9 +81,9 @@ export default {
         <table>
           <tbody>
             <tr>
-              <td>Test</td>
-              <td>Test</td>
-              <td>Test</td>
+              <th>Test</th>
+              <th>Test</th>
+              <th>Test</th>
             </tr>
             <tr>
               <td>Test</td>
@@ -103,8 +105,12 @@ export default {
 
 <style lang="scss">
 .ProseMirror {
-  table, tr, td {
+  table, td {
     border: 3px solid red;
+  }
+
+  th {
+    border: 3px solid blue;
   }
 }
 </style>

@@ -13,8 +13,7 @@ export const TableRow = Node.create({
     HTMLAttributes: {},
   },
 
-  // content: '(tableCell | tableHeader)*',
-  content: 'table_cell*',
+  content: '(table_cell | table_header)*',
 
   tableRole: 'row',
 
