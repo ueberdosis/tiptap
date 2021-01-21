@@ -6,3 +6,4 @@ Congratulations! You’ve found our secret playground with a list of experiments
 * [Comments](/experiments/comments)
 * [CharacterLimit](/experiments/character-limit)
 * [Color](/experiments/color)
+* [Commands](/experiments/commands)

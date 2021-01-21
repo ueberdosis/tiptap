@@ -175,6 +175,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | Command               | Description                             |
 | --------------------- | --------------------------------------- |
 | .blur()               | Removes focus from the editor.          |
+| .deleteRange()        | Delete a given range.                   |
 | .deleteSelection()    | Delete the selection, if there is one.  |
 | .focus()              | Focus the editor at the given position. |
 | .scrollIntoView()     | Scroll the selection into view.         |

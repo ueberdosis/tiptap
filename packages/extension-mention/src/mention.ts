@@ -15,11 +15,11 @@ export const Mention = Node.create({
     HTMLAttributes: {},
     suggestion: {
       char: '@',
-      command: ({ editor, range, attributes }) => {
+      command: ({ editor, range, props }) => {
         editor
           .chain()
           .focus()
-          .replaceRange(range, 'mention', attributes)
+          .replaceRange(range, 'mention', props)
           .insertText(' ')
           .run()
       },

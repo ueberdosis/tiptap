@@ -1,4 +1,4 @@
-import { Editor, Range, AnyObject } from '@tiptap/core'
+import { Editor, Range } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
 import { findSuggestionMatch } from './findSuggestionMatch'
@@ -13,7 +13,7 @@ export interface SuggestionOptions {
   command?: (props: {
     editor: Editor,
     range: Range,
-    attributes: AnyObject
+    props: any,
   }) => void,
   items?: (query: string) => any[],
   render?: () => {
@@ -30,7 +30,7 @@ export interface SuggestionProps {
   query: string,
   text: string,
   items: any[],
-  command: (attributes: AnyObject) => void,
+  command: (props: any) => void,
   decorationNode: Element | null,
   clientRect: () => (DOMRect | null),
 }
@@ -88,11 +88,11 @@ export function Suggestion({
             items: (handleChange || handleStart)
               ? await items(state.query)
               : [],
-            command: attributes => {
+            command: commandProps => {
               command({
                 editor,
                 range: state.range,
-                attributes,
+                props: commandProps,
               })
             },
             decorationNode,
