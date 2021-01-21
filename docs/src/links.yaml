@@ -14,10 +14,10 @@
 
 - title: Examples
   link: /examples
-  redirect: /examples/basic
+  redirect: /examples/default
   items:
     - title: Default text editor
-      link: /examples/basic
+      link: /examples/default
     - title: Collaborative editing
       link: /examples/collaborative-editing
       type: pro

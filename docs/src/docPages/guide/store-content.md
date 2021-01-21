@@ -72,12 +72,13 @@ Unfortunately, **tiptap doesn’t support Markdown as an input or output format*
 * Both, HTML and JSON, can have deeply nested structures, Markdown is flat.
 * There are enough packages to convert HTML to Markdown and vice-versa.
 * Markdown standards vary.
+* tiptap’s strength is cutomization, that doesn’t work very well with Markdown
 
 You should really consider to work with HTML or JSON to store your content, they are perfectly fine for most use cases.
 
-If you still think you need Markdown, ProseMirror has an [example on how to deal with Markdown](https://prosemirror.net/examples/markdown/) and [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap 1 to work with Markdown. Maybe you can learn from them.
+If you still think you need Markdown, ProseMirror has an [example on how to deal with Markdown](https://prosemirror.net/examples/markdown/), [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap 1 to work with Markdown. Maybe you can learn from them. Or if you’re looking for a really good Markdown editor, try [CodeMirror](https://codemirror.net/).
 
-That said, tiptap does support [Markdown shortcuts](/examples/markdown-shortcuts) to format your content.
+That said, tiptap does support [Markdown shortcuts](/examples/markdown-shortcuts) to format your content. Also you’re free to let your content look like Markdown, for example add a `#` before an `<h1>` with CSS.
 
 ## Listening for changes
 If you want to continuously store the updated content while people write, you can [hook into events](/api/events). Here is an example how that could look like:
@@ -112,3 +113,10 @@ Import a lightweight implementation of `generateHTML()` from `@tiptap/core` if y
 :::
 
 <demo name="Api/Schema/GenerateHTML" highlight="6,43-48"/>
+
+## Migration
+If you’re migrating existing content to tiptap we would recommend to get your existing output to HTML. That’s probably the best format to get your initial content into tiptap, because ProseMirror ensures there is nothing wrong with it. Even if there are some tags or attributes that aren’t allowed (based on your configuration), tiptap just throws them away quietly.
+
+We’re about to go through a few cases to help with that, for example we provide a PHP package to convert HTML to a compatible JSON structure: [ueberdosis/prosemirror-to-html](https://github.com/ueberdosis/html-to-prosemirror).
+
+Share your experiences with us! We’d like to add more information here.

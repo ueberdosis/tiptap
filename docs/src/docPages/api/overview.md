@@ -9,3 +9,16 @@ The document is stored in a state. All changes are applied as transactions to th
 
 ### Extensions
 Extensions add [nodes](/api/nodes), [marks](/api/marks) and/or [functionalities](/api/extensions) to the editor. A lot of those extensions bound their commands to common [keyboard shortcuts](/api/keyboard-shortcuts).
+
+## Vocabulary
+
+| Word        | Description                                                              |
+| ----------- | ------------------------------------------------------------------------ |
+| schema      | Configures the structure your content can have.                          |
+| document    | The actual content in your editor.                                       |
+| state       | Everything to describe the current content and selection of your editor. |
+| transaction | A change to the state (updated selection, content, …)                    |
+| extension   | Registeres new functionality.                                            |
+| node        | Adds blocks, like heading, paragraph.                                    |
+| mark        | Adds inline formatting, for example bold or italic.                      |
+| command     | Execute an action inside the editor, that somehow changes the state.     |
