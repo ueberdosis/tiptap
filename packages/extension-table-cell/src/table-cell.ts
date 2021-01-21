@@ -14,7 +14,19 @@ export const TableCell = Node.create({
 
   content: 'block+',
 
-  // attrs: cellAttrs,
+  addAttributes() {
+    return {
+      colspan: {
+        default: 1,
+      },
+      rowspan: {
+        default: 1,
+      },
+      colwidth: {
+        default: null,
+      },
+    }
+  },
 
   tableRole: 'cell',
 
