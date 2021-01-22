@@ -148,11 +148,15 @@ export const Table = Node.create({
           return true
         }
 
-        if (this.editor.commands.addRowAfter()) {
-          return this.editor.commands.goToNextCell()
+        if (!this.editor.can().addRowAfter()) {
+          return false
         }
 
-        return false
+        return this.editor
+          .chain()
+          .addRowAfter()
+          .goToNextCell()
+          .run()
       },
       'Shift-Tab': () => this.editor.commands.goToPreviousCell(),
     }
