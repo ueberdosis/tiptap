@@ -18,7 +18,6 @@ import {
   toggleHeaderCell,
   setCellAttr,
   fixTables,
-  CellSelection,
 } from 'prosemirror-tables'
 import { TextSelection } from 'prosemirror-state'
 import { createTable } from './utilities/createTable'
@@ -100,7 +99,6 @@ export const Table = Node.create({
         return deleteTable(state, dispatch)
       },
       mergeCells: (): Command => ({ state, dispatch }) => {
-        console.log('mergeCells', { state }, state.selection instanceof CellSelection)
         return mergeCells(state, dispatch)
       },
       splitCell: (): Command => ({ state, dispatch }) => {

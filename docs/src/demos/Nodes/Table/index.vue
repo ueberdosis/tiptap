@@ -87,6 +87,7 @@ export default {
         Document,
         Paragraph,
         Text,
+        Gapcursor,
         Table.configure({
           resizable: true,
         }),
@@ -95,6 +96,7 @@ export default {
         TableCell.extend({
           addAttributes() {
             return {
+              // original attributes
               colspan: {
                 default: 1,
               },
@@ -104,11 +106,10 @@ export default {
               colwidth: {
                 default: null,
               },
+              // add a color attribute to the table cell
               color: {
                 default: null,
-                // Take the attribute values
                 renderHTML: attributes => {
-                // … and return an object with HTML attributes.
                   return {
                     style: `color: ${attributes.color}`,
                   }
@@ -117,7 +118,6 @@ export default {
             }
           },
         }),
-        Gapcursor,
       ],
       content: `
         <p>
