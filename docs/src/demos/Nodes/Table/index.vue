@@ -1,58 +1,58 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
-      ✅ insertTable
+      insertTable
     </button>
     <button @click="editor.chain().focus().addColumnBefore().run()">
-      ✅ addColumnBefore
+      addColumnBefore
     </button>
     <button @click="editor.chain().focus().addColumnAfter().run()">
-      ✅ addColumnAfter
+      addColumnAfter
     </button>
     <button @click="editor.chain().focus().deleteColumn().run()">
-      ✅ deleteColumn
+      deleteColumn
     </button>
     <button @click="editor.chain().focus().addRowBefore().run()">
-      ✅ addRowBefore
+      addRowBefore
     </button>
     <button @click="editor.chain().focus().addRowAfter().run()">
-      ✅ addRowAfter
+      addRowAfter
     </button>
     <button @click="editor.chain().focus().deleteRow().run()">
-      ✅ deleteRow
+      deleteRow
     </button>
     <button @click="editor.chain().focus().deleteTable().run()">
-      ✅ deleteTable
+      deleteTable
     </button>
     <button @click="editor.chain().focus().mergeCells().run()">
-      ⚠️ mergeCells
+      mergeCells
     </button>
     <button @click="editor.chain().focus().splitCell().run()">
-      ⚠️ splitCell
+      splitCell
     </button>
     <button @click="editor.chain().focus().toggleHeaderColumn().run()">
-      ✅ toggleHeaderColumn
+      toggleHeaderColumn
     </button>
     <button @click="editor.chain().focus().toggleHeaderRow().run()">
-      ✅ toggleHeaderRow
+      toggleHeaderRow
     </button>
     <button @click="editor.chain().focus().toggleHeaderCell().run()">
-      ✅ toggleHeaderCell
+      toggleHeaderCell
     </button>
     <button @click="editor.chain().focus().mergeOrSplit().run()">
-      ⚠️ mergeOrSplit
+      mergeOrSplit
     </button>
     <button @click="editor.chain().focus().setCellAttributes({name: 'color', value: 'pink'}).run()">
-      ⚠️ setCellAttributes
+      setCellAttributes
     </button>
     <button @click="editor.chain().focus().fixTables().run()">
-      ✅ fixTables
+      fixTables
     </button>
     <button @click="editor.chain().focus().goToNextCell().run()">
-      ✅ goToNextCell
+      goToNextCell
     </button>
     <button @click="editor.chain().focus().goToPreviousCell().run()">
-      ✅ goToPreviousCell
+      goToPreviousCell
     </button>
     <editor-content :editor="editor" />
   </div>
