@@ -33,12 +33,10 @@ export const TableHeader = Node.create({
   isolating: true,
 
   parseHTML() {
-    // return [{ tag: 'th', getAttrs: dom => getCellAttrs(dom, extraAttrs) }]
     return [{ tag: 'th' }]
   },
 
   renderHTML({ HTMLAttributes }) {
-    // toDOM(node) { return ["th", setCellAttrs(node, extraAttrs), 0] }
     return ['th', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 

@@ -29,6 +29,11 @@ export interface TableOptions {
     [key: string]: any
   },
   resizable: boolean,
+  handleWidth: number,
+  cellMinWidth: number,
+  View: TableView,
+  lastColumnResizable: boolean,
+  allowTableNodeSelection: boolean,
 }
 
 export const Table = Node.create({
@@ -37,6 +42,11 @@ export const Table = Node.create({
   defaultOptions: <TableOptions>{
     HTMLAttributes: {},
     resizable: false,
+    handleWidth: 5,
+    cellMinWidth: 25,
+    View: TableView,
+    lastColumnResizable: true,
+    allowTableNodeSelection: false,
   },
 
   content: 'tableRow+',
@@ -57,7 +67,7 @@ export const Table = Node.create({
 
   addCommands() {
     return {
-      createTable: ({ rows, cols, withHeaderRow }): Command => ({ state, dispatch }) => {
+      insertTable: ({ rows, cols, withHeaderRow }): Command => ({ state, dispatch }) => {
         const offset = state.tr.selection.anchor + 1
 
         const nodes = createTable(this.editor.schema, rows, cols, withHeaderRow)
@@ -105,24 +115,13 @@ export const Table = Node.create({
       toggleHeaderCell: (): Command => ({ state, dispatch }) => {
         return toggleHeaderCell(state, dispatch)
       },
-      fixTables: (): Command => ({ state, dispatch }) => {
-        const transaction = fixTables(state)
-
-        if (transaction) {
-          // @ts-ignore
-          return dispatch(transaction)
+      mergeOrSplit: (): Command => ({ state, dispatch }) => {
+        if (mergeCells(state, dispatch)) {
+          return true
         }
 
-        return false
+        return splitCell(state, dispatch)
       },
-      // toggleCellMerge: () => (
-      //     (state, dispatch) => {
-      //       if (mergeCells(state, dispatch)) {
-      //         return
-      //       }
-      //       splitCell(state, dispatch)
-      //     }
-      // ),
       setCellAttributes: ({ name, value }): Command => ({ state, dispatch }) => {
         return setCellAttr(name, value)(state, dispatch)
       },
@@ -131,6 +130,15 @@ export const Table = Node.create({
       },
       goToPreviousCell: (): Command => ({ state, dispatch }) => {
         return goToNextCell(-1)(state, dispatch)
+      },
+      fixTables: (): Command => ({ state, dispatch }) => {
+        const transaction = fixTables(state)
+
+        if (transaction) {
+          return dispatch(transaction)
+        }
+
+        return false
       },
     }
   },
@@ -153,24 +161,14 @@ export const Table = Node.create({
   },
 
   addProseMirrorPlugins() {
-    const columnResizingOptions = {
-      handleWidth: 5,
-      cellMinWidth: 25,
-      View: TableView,
-      lastColumnResizable: true,
-    }
-
-    const tableEditingOptions = {
-      allowTableNodeSelection: false,
-    }
-
     return [
-      ...(this.options.resizable
-        // @ts-ignore
-        ? [columnResizing(columnResizingOptions)]
-        : []
-      ),
-      tableEditing(tableEditingOptions),
+      ...(this.options.resizable ? [columnResizing({
+        handleWidth: this.options.handleWidth,
+        cellMinWidth: this.options.cellMinWidth,
+        View: this.options.View,
+        lastColumnResizable: this.options.lastColumnResizable,
+      })] : []),
+      tableEditing(this.options.allowTableNodeSelection),
     ]
   },
 })
