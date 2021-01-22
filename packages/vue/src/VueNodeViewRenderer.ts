@@ -9,6 +9,7 @@ import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
+import VueRenderer from './VueRenderer'
 
 function getComponentFromElement(element: HTMLElement): Vue {
   // @ts-ignore
@@ -23,7 +24,7 @@ interface VueNodeViewRendererOptions {
 
 class VueNodeView implements NodeView {
 
-  vm!: Vue
+  renderer!: VueRenderer
 
   editor: Editor
 
@@ -159,22 +160,22 @@ class VueNodeView implements NodeView {
       ? getComponentFromElement(this.editor.view.dom.parentElement)
       : undefined
 
-    this.vm = new Component({
+    this.renderer = new VueRenderer(Component, {
       parent,
       propsData,
-    }).$mount()
+    })
   }
 
   get dom() {
-    return this.vm.$el
+    return this.renderer.element
   }
 
   get contentDOM() {
-    if (this.vm.$el.id === this.id) {
-      return this.vm.$el
+    if (this.dom.id === this.id) {
+      return this.dom
     }
 
-    return this.vm.$el.querySelector(`#${this.id}`)
+    return this.dom.querySelector(`#${this.id}`)
   }
 
   stopEvent(event: Event) {
@@ -244,7 +245,7 @@ class VueNodeView implements NodeView {
   }
 
   destroy() {
-    this.vm.$destroy()
+    this.renderer.destroy()
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
@@ -262,27 +263,9 @@ class VueNodeView implements NodeView {
 
     this.node = node
     this.decorations = decorations
-    this.updateComponentProps({ node, decorations })
+    this.renderer.updateProps({ node, decorations })
 
     return true
-  }
-
-  updateComponentProps(data: { [key: string]: any } = {}) {
-    if (!this.vm.$props) {
-      return
-    }
-
-    // prevents `Avoid mutating a prop directly` error message
-    const originalSilent = Vue.config.silent
-    Vue.config.silent = true
-
-    Object
-      .entries(data)
-      .forEach(([key, value]) => {
-        this.vm.$props[key] = value
-      })
-
-    Vue.config.silent = originalSilent
   }
 
   updateAttributes(attributes: {}) {
@@ -301,13 +284,13 @@ class VueNodeView implements NodeView {
   }
 
   selectNode() {
-    this.updateComponentProps({
+    this.renderer.updateProps({
       selected: true,
     })
   }
 
   deselectNode() {
-    this.updateComponentProps({
+    this.renderer.updateProps({
       selected: false,
     })
   }
