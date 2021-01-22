@@ -40,13 +40,13 @@
       ✅ toggleHeaderCell
     </button>
     <button @click="editor.chain().focus().fixTables().run()">
-      ❓️ fixTables
+      ✅ fixTables
     </button>
     <button disabled>
       ⚠️ toggleCellMerge
     </button>
-    <button @click="editor.chain().focus().setCellAttr({name: 'colwidth', value: 10}).run()">
-      ⚠️ setCellAttr
+    <button @click="editor.chain().focus().setCellAttributes({name: 'color', value: 'pink'}).run()">
+      ⚠️ setCellAttributes (currently single cells only)
     </button>
     <editor-content :editor="editor" />
   </div>
@@ -62,6 +62,7 @@ import Table from '@tiptap/extension-table'
 import TableRow from '@tiptap/extension-table-row'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
+import Gapcursor from '@tiptap/extension-gapcursor'
 
 export default {
   components: {
@@ -85,24 +86,51 @@ export default {
         }),
         TableRow,
         TableHeader,
-        TableCell,
+        TableCell.extend({
+          addAttributes() {
+            return {
+              colspan: {
+                default: 1,
+              },
+              rowspan: {
+                default: 1,
+              },
+              colwidth: {
+                default: null,
+              },
+              color: {
+                default: null,
+                // Take the attribute values
+                renderHTML: attributes => {
+                // … and return an object with HTML attributes.
+                  return {
+                    style: `color: ${attributes.color}`,
+                  }
+                },
+              },
+            }
+          },
+        }),
+        Gapcursor,
       ],
       content: `
-        <p>Example Text</p>
+        <p>
+          People
+        </p>
         <table>
           <tbody>
             <tr>
-              <th>Test</th>
-              <th colspan="2">Test</th>
+              <th>Name</th>
+              <th colspan="3">Description</th>
             </tr>
             <tr>
-              <td>Test</td>
-              <td>Test</td>
-              <td>Test</td>
+              <td>Cyndi Lauper</td>
+              <td>singer</td>
+              <td>songwriter</td>
+              <td>actress</td>
             </tr>
           </tbody>
         </table>
-        <p>Example Text</p>
       `,
     })
   },
@@ -159,11 +187,11 @@ export default {
       pointer-events: none;
     }
   }
+}
 
-  .tableWrapper {
-    margin: 1em 0;
-    overflow-x: auto;
-  }
+.tableWrapper {
+  padding: 1rem 0;
+  overflow-x: auto;
 }
 
 .resize-cursor {

@@ -16,7 +16,7 @@ import {
   toggleHeaderColumn,
   toggleHeaderRow,
   toggleHeaderCell,
-  // setCellAttr,
+  setCellAttr,
   fixTables,
   CellSelection,
 } from 'prosemirror-tables'
@@ -106,10 +106,8 @@ export const Table = Node.create({
         return toggleHeaderCell(state, dispatch)
       },
       fixTables: (): Command => ({ state, dispatch }) => {
-        console.log('fixTables')
         const transaction = fixTables(state)
 
-        console.log(transaction)
         if (transaction) {
           // @ts-ignore
           return dispatch(transaction)
@@ -125,10 +123,9 @@ export const Table = Node.create({
       //       splitCell(state, dispatch)
       //     }
       // ),
-      // setCellAttr: ({ name, value }): Command => () => {
-      //   console.log('setCellAttr')
-      //   return setCellAttr(name, value)
-      // },
+      setCellAttributes: ({ name, value }): Command => ({ state, dispatch }) => {
+        return setCellAttr(name, value)(state, dispatch)
+      },
       goToNextCell: (): Command => ({ state, dispatch }) => {
         return goToNextCell(1)(state, dispatch)
       },
