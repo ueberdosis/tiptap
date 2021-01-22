@@ -3,7 +3,7 @@ import { Command, Node, mergeAttributes } from '@tiptap/core'
 import {
   tableEditing,
   columnResizing,
-  // goToNextCell,
+  goToNextCell,
   addColumnBefore,
   addColumnAfter,
   deleteColumn,
@@ -129,6 +129,29 @@ export const Table = Node.create({
       //   console.log('setCellAttr')
       //   return setCellAttr(name, value)
       // },
+      goToNextCell: (): Command => ({ state, dispatch }) => {
+        return goToNextCell(1)(state, dispatch)
+      },
+      goToPreviousCell: (): Command => ({ state, dispatch }) => {
+        return goToNextCell(-1)(state, dispatch)
+      },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      Tab: () => {
+        if (this.editor.commands.goToNextCell()) {
+          return true
+        }
+
+        if (this.editor.commands.addRowAfter()) {
+          return this.editor.commands.goToNextCell()
+        }
+
+        return false
+      },
+      'Shift-Tab': () => this.editor.commands.goToPreviousCell(),
     }
   },
 
