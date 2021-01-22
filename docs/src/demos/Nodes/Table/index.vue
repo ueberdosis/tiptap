@@ -186,7 +186,9 @@ export default {
 
     .column-resize-handle {
       position: absolute;
-      right: -2px; top: 0; bottom: 0;
+      right: -2px;
+      top: 0;
+      bottom: -2px;
       width: 4px;
       z-index: 20;
       background-color: #adf;
