@@ -6,7 +6,7 @@ export interface TableHeaderOptions {
   },
 }
 export const TableHeader = Node.create({
-  name: 'table_header',
+  name: 'tableHeader',
 
   defaultOptions: <TableHeaderOptions>{
     HTMLAttributes: {},

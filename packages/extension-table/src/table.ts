@@ -39,7 +39,7 @@ export const Table = Node.create({
     resizable: false,
   },
 
-  content: 'table_row+',
+  content: 'tableRow+',
 
   tableRole: 'table',
 

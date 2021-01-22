@@ -6,7 +6,7 @@ export interface TableCellOptions {
   },
 }
 export const TableCell = Node.create({
-  name: 'table_cell',
+  name: 'tableCell',
 
   defaultOptions: <TableCellOptions>{
     HTMLAttributes: {},
