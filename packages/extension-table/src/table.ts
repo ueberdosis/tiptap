@@ -16,9 +16,12 @@ import {
   toggleHeaderColumn,
   toggleHeaderRow,
   toggleHeaderCell,
-  setCellAttr,
+  // setCellAttr,
   fixTables,
+  CellSelection,
 } from 'prosemirror-tables'
+import { TextSelection } from 'prosemirror-state'
+import { createTable } from './utilities/createTable'
 import { TableView } from './TableView'
 
 export interface TableOptions {
@@ -54,65 +57,52 @@ export const Table = Node.create({
 
   addCommands() {
     return {
-      // createTable: ({ rowsCount, colsCount, withHeaderRow }) => (
-      //   (state, dispatch) => {
-      //     const offset = state.tr.selection.anchor + 1
+      createTable: ({ rows, cols, withHeaderRow }): Command => ({ state, dispatch }) => {
+        const offset = state.tr.selection.anchor + 1
 
-      //     const nodes = createTable(schema, rowsCount, colsCount, withHeaderRow)
-      //     const tr = state.tr.replaceSelectionWith(nodes).scrollIntoView()
-      //     const resolvedPos = tr.doc.resolve(offset)
+        const nodes = createTable(this.editor.schema, rows, cols, withHeaderRow)
+        const tr = state.tr.replaceSelectionWith(nodes).scrollIntoView()
+        const resolvedPos = tr.doc.resolve(offset)
 
-      //     tr.setSelection(TextSelection.near(resolvedPos))
+        tr.setSelection(TextSelection.near(resolvedPos))
 
-      //     dispatch(tr)
-      //   }
-      // ),
+        return dispatch(tr)
+      },
       addColumnBefore: (): Command => ({ state, dispatch }) => {
-        console.log('addColumnBefore')
         return addColumnBefore(state, dispatch)
       },
       addColumnAfter: (): Command => ({ state, dispatch }) => {
-        console.log('addColumnAfter')
         return addColumnAfter(state, dispatch)
       },
       deleteColumn: (): Command => ({ state, dispatch }) => {
-        console.log('deleteColumn')
         return deleteColumn(state, dispatch)
       },
       addRowBefore: (): Command => ({ state, dispatch }) => {
-        console.log('addRowBefore')
         return addRowBefore(state, dispatch)
       },
       addRowAfter: (): Command => ({ state, dispatch }) => {
-        console.log('addRowAfter')
         return addRowAfter(state, dispatch)
       },
       deleteRow: (): Command => ({ state, dispatch }) => {
-        console.log('deleteRow')
         return deleteRow(state, dispatch)
       },
       deleteTable: (): Command => ({ state, dispatch }) => {
-        console.log('deleteTable')
         return deleteTable(state, dispatch)
       },
       mergeCells: (): Command => ({ state, dispatch }) => {
-        console.log('mergeCells')
+        console.log('mergeCells', { state }, state.selection instanceof CellSelection)
         return mergeCells(state, dispatch)
       },
       splitCell: (): Command => ({ state, dispatch }) => {
-        console.log('splitCell')
         return splitCell(state, dispatch)
       },
       toggleHeaderColumn: (): Command => ({ state, dispatch }) => {
-        console.log('toggleHeaderColumn')
         return toggleHeaderColumn(state, dispatch)
       },
       toggleHeaderRow: (): Command => ({ state, dispatch }) => {
-        console.log('toggleHeaderRow')
         return toggleHeaderRow(state, dispatch)
       },
       toggleHeaderCell: (): Command => ({ state, dispatch }) => {
-        console.log('toggleHeaderCell')
         return toggleHeaderCell(state, dispatch)
       },
       fixTables: (): Command => ({ state, dispatch }) => {

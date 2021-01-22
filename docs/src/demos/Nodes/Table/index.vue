@@ -1,7 +1,7 @@
 <template>
   <div v-if="editor">
-    <button disabled>
-      ⚠️ createTable
+    <button @click="editor.chain().focus().createTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
+      ✅ createTable
     </button>
     <button @click="editor.chain().focus().addColumnBefore().run()">
       ✅ addColumnBefore
