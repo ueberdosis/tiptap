@@ -1,7 +1,7 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus().createTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
-      ✅ createTable
+    <button @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
+      ✅ insertTable
     </button>
     <button @click="editor.chain().focus().addColumnBefore().run()">
       ✅ addColumnBefore
@@ -39,14 +39,20 @@
     <button @click="editor.chain().focus().toggleHeaderCell().run()">
       ✅ toggleHeaderCell
     </button>
+    <button @click="editor.chain().focus().mergeOrSplit().run()">
+      ⚠️ mergeOrSplit
+    </button>
+    <button @click="editor.chain().focus().setCellAttributes({name: 'color', value: 'pink'}).run()">
+      ⚠️ setCellAttributes
+    </button>
     <button @click="editor.chain().focus().fixTables().run()">
       ✅ fixTables
     </button>
-    <button disabled>
-      ⚠️ toggleCellMerge
+    <button @click="editor.chain().focus().goToNextCell().run()">
+      ✅ goToNextCell
     </button>
-    <button @click="editor.chain().focus().setCellAttributes({name: 'color', value: 'pink'}).run()">
-      ⚠️ setCellAttributes (currently single cells only)
+    <button @click="editor.chain().focus().goToPreviousCell().run()">
+      ✅ goToPreviousCell
     </button>
     <editor-content :editor="editor" />
   </div>
@@ -81,6 +87,7 @@ export default {
         Document,
         Paragraph,
         Text,
+        Gapcursor,
         Table.configure({
           resizable: true,
         }),
@@ -89,6 +96,7 @@ export default {
         TableCell.extend({
           addAttributes() {
             return {
+              // original attributes
               colspan: {
                 default: 1,
               },
@@ -98,11 +106,10 @@ export default {
               colwidth: {
                 default: null,
               },
+              // add a color attribute to the table cell
               color: {
                 default: null,
-                // Take the attribute values
                 renderHTML: attributes => {
-                // … and return an object with HTML attributes.
                   return {
                     style: `color: ${attributes.color}`,
                   }
@@ -111,7 +118,6 @@ export default {
             }
           },
         }),
-        Gapcursor,
       ],
       content: `
         <p>

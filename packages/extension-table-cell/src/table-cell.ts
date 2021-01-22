@@ -33,12 +33,10 @@ export const TableCell = Node.create({
   isolating: true,
 
   parseHTML() {
-    // return [{ tag: 'td', getAttrs: dom => getCellAttrs(dom, extraAttrs) }]
     return [{ tag: 'td' }]
   },
 
   renderHTML({ HTMLAttributes }) {
-    // toDOM(node) { return ["td", setCellAttrs(node, extraAttrs), 0] }
     return ['td', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
