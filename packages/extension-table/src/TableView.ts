@@ -1,20 +1,29 @@
 // @ts-nocheck
 export function updateColumns(node, colgroup, table, cellMinWidth, overrideCol, overrideValue) {
-  let totalWidth = 0; let
-    fixedWidth = true
-  let nextDOM = colgroup.firstChild; const
-    row = node.firstChild
+  let totalWidth = 0
+  let fixedWidth = true
+  let nextDOM = colgroup.firstChild
+  const row = node.firstChild
+
   for (let i = 0, col = 0; i < row.childCount; i += 1) {
     const { colspan, colwidth } = row.child(i).attrs
+
     for (let j = 0; j < colspan; j += 1, col += 1) {
       const hasWidth = overrideCol === col ? overrideValue : colwidth && colwidth[j]
       const cssWidth = hasWidth ? `${hasWidth}px` : ''
       totalWidth += hasWidth || cellMinWidth
-      if (!hasWidth) fixedWidth = false
+
+      if (!hasWidth) {
+        fixedWidth = false
+      }
+
       if (!nextDOM) {
         colgroup.appendChild(document.createElement('col')).style.width = cssWidth
       } else {
-        if (nextDOM.style.width !== cssWidth) nextDOM.style.width = cssWidth
+        if (nextDOM.style.width !== cssWidth) {
+          nextDOM.style.width = cssWidth
+        }
+
         nextDOM = nextDOM.nextSibling
       }
     }
@@ -48,9 +57,13 @@ export class TableView {
   }
 
   update(node) {
-    if (node.type !== this.node.type) return false
+    if (node.type !== this.node.type) {
+      return false
+    }
+
     this.node = node
     updateColumns(node, this.colgroup, this.table, this.cellMinWidth)
+
     return true
   }
 
