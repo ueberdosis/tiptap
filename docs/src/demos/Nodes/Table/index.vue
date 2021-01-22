@@ -39,13 +39,13 @@
     <button @click="editor.chain().focus().toggleHeaderCell().run()">
       ✅ toggleHeaderCell
     </button>
-    <button disabled>
-      ⚠️ fixTables
+    <button @click="editor.chain().focus().fixTables().run()">
+      ❓️ fixTables
     </button>
     <button disabled>
       ⚠️ toggleCellMerge
     </button>
-    <button disabled>
+    <button @click="editor.chain().focus().setCellAttr({name: 'colwidth', value: 10}).run()">
       ⚠️ setCellAttr
     </button>
     <editor-content :editor="editor" />
@@ -115,12 +115,59 @@ export default {
 
 <style lang="scss">
 .ProseMirror {
-  table, td {
-    border: 3px solid red;
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    td,
+    th {
+      min-width: 1em;
+      border: 2px solid #ced4da;
+      padding: 3px 5px;
+      vertical-align: top;
+      box-sizing: border-box;
+      position: relative;
+
+      > * {
+        margin-bottom: 0;
+      }
+    }
+
+    th {
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .selectedCell:after {
+      z-index: 2;
+      position: absolute;
+      content: "";
+      left: 0; right: 0; top: 0; bottom: 0;
+      background: rgba(200, 200, 255, 0.4);
+      pointer-events: none;
+    }
+
+    .column-resize-handle {
+      position: absolute;
+      right: -2px; top: 0; bottom: 0;
+      width: 4px;
+      z-index: 20;
+      background-color: #adf;
+      pointer-events: none;
+    }
   }
 
-  th {
-    border: 3px solid blue;
+  .tableWrapper {
+    margin: 1em 0;
+    overflow-x: auto;
   }
+}
+
+.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
 }
 </style>

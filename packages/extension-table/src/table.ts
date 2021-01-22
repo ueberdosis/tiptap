@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Command, Node, mergeAttributes } from '@tiptap/core'
 import {
   tableEditing,
@@ -15,9 +16,10 @@ import {
   toggleHeaderColumn,
   toggleHeaderRow,
   toggleHeaderCell,
-  // setCellAttr,
-  // fixTables,
+  setCellAttr,
+  fixTables,
 } from 'prosemirror-tables'
+import { TableView } from './TableView'
 
 export interface TableOptions {
   HTMLAttributes: {
@@ -113,10 +115,18 @@ export const Table = Node.create({
         console.log('toggleHeaderCell')
         return toggleHeaderCell(state, dispatch)
       },
-      // fixTables: (): Command => ({ state, dispatch }) => {
-      //   console.log('fixTables')
-      //   return fixTables(state, dispatch)
-      // },
+      fixTables: (): Command => ({ state, dispatch }) => {
+        console.log('fixTables')
+        const transaction = fixTables(state)
+
+        console.log(transaction)
+        if (transaction) {
+          // @ts-ignore
+          return dispatch(transaction)
+        }
+
+        return false
+      },
       // toggleCellMerge: () => (
       //     (state, dispatch) => {
       //       if (mergeCells(state, dispatch)) {
@@ -125,14 +135,32 @@ export const Table = Node.create({
       //       splitCell(state, dispatch)
       //     }
       // ),
-      // setCellAttr: ({ name, value }) => setCellAttr(name, value),
+      // setCellAttr: ({ name, value }): Command => () => {
+      //   console.log('setCellAttr')
+      //   return setCellAttr(name, value)
+      // },
     }
   },
 
   addProseMirrorPlugins() {
+    const columnResizingOptions = {
+      handleWidth: 5,
+      cellMinWidth: 25,
+      View: TableView,
+      lastColumnResizable: true,
+    }
+
+    const tableEditingOptions = {
+      allowTableNodeSelection: false,
+    }
+
     return [
-      ...(this.options.resizable ? [columnResizing({})] : []),
-      tableEditing({}),
+      ...(this.options.resizable
+        // @ts-ignore
+        ? [columnResizing(columnResizingOptions)]
+        : []
+      ),
+      tableEditing(tableEditingOptions),
     ]
   },
 })
