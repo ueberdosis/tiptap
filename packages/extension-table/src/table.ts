@@ -19,6 +19,7 @@ import {
   setCellAttr,
   fixTables,
 } from 'prosemirror-tables'
+import { NodeView } from 'prosemirror-view'
 import { TextSelection } from 'prosemirror-state'
 import { createTable } from './utilities/createTable'
 import { TableView } from './TableView'
@@ -30,7 +31,7 @@ export interface TableOptions {
   resizable: boolean,
   handleWidth: number,
   cellMinWidth: number,
-  View: TableView,
+  View: NodeView,
   lastColumnResizable: boolean,
   allowTableNodeSelection: boolean,
 }
@@ -66,16 +67,17 @@ export const Table = Node.create({
 
   addCommands() {
     return {
-      insertTable: ({ rows, cols, withHeaderRow }): Command => ({ state, dispatch }) => {
+      insertTable: ({ rows = 3, cols = 3, withHeaderRow = true }): Command => ({ state, dispatch }) => {
         const offset = state.tr.selection.anchor + 1
-
         const nodes = createTable(this.editor.schema, rows, cols, withHeaderRow)
         const tr = state.tr.replaceSelectionWith(nodes).scrollIntoView()
         const resolvedPos = tr.doc.resolve(offset)
 
-        tr.setSelection(TextSelection.near(resolvedPos))
+        if (dispatch) {
+          tr.setSelection(TextSelection.near(resolvedPos))
+        }
 
-        return dispatch(tr)
+        return true
       },
       addColumnBefore: (): Command => ({ state, dispatch }) => {
         return addColumnBefore(state, dispatch)
@@ -168,9 +170,11 @@ export const Table = Node.create({
         handleWidth: this.options.handleWidth,
         cellMinWidth: this.options.cellMinWidth,
         View: this.options.View,
-        lastColumnResizable: this.options.lastColumnResizable,
+        // lastColumnResizable: this.options.lastColumnResizable,
       })] : []),
-      tableEditing(this.options.allowTableNodeSelection),
+      tableEditing({
+        allowTableNodeSelection: this.options.allowTableNodeSelection,
+      }),
     ]
   },
 })

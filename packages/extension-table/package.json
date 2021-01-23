@@ -25,6 +25,7 @@
     "@tiptap/core": "^2.0.0-alpha.6"
   },
   "dependencies": {
-    "prosemirror-tables": "^1.1.1"
+    "prosemirror-tables": "^1.1.1",
+    "prosemirror-view": "^1.16.3"
   }
 }

@@ -7,7 +7,7 @@ import { createCell } from './createCell'
 
 import { getTableNodeTypes } from './getTableNodeTypes'
 
-export function createTable(schema: Schema, rowsCount: 3, colsCount: 3, withHeaderRow: true, cellContent?: Fragment<Schema> | ProsemirrorNode<Schema> | Array<ProsemirrorNode<Schema>>) {
+export function createTable(schema: Schema, rowsCount: number, colsCount: number, withHeaderRow: boolean, cellContent?: Fragment<Schema> | ProsemirrorNode<Schema> | Array<ProsemirrorNode<Schema>>) {
   const types = getTableNodeTypes(schema)
 
   const headerCells = []
