@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { NodeView } from 'prosemirror-view'
+import { Node as ProseMirrorNode } from 'prosemirror-model'
 
-export function updateColumns(node, colgroup, table, cellMinWidth, overrideCol, overrideValue) {
+export function updateColumns(node: ProseMirrorNode, colgroup: Element, table: Element, cellMinWidth: number, overrideCol?: number, overrideValue?: any) {
   let totalWidth = 0
   let fixedWidth = true
   let nextDOM = colgroup.firstChild
@@ -47,7 +48,20 @@ export function updateColumns(node, colgroup, table, cellMinWidth, overrideCol, 
 }
 
 export class TableView implements NodeView {
-  constructor(node, cellMinWidth) {
+
+  node: ProseMirrorNode
+
+  cellMinWidth: number
+
+  dom: Element
+
+  table: Element
+
+  colgroup: Element
+
+  contentDOM: Element
+
+  constructor(node: ProseMirrorNode, cellMinWidth: number) {
     this.node = node
     this.cellMinWidth = cellMinWidth
     this.dom = document.createElement('div')
@@ -58,7 +72,7 @@ export class TableView implements NodeView {
     this.contentDOM = this.table.appendChild(document.createElement('tbody'))
   }
 
-  update(node) {
+  update(node: ProseMirrorNode) {
     if (node.type !== this.node.type) {
       return false
     }
@@ -69,7 +83,7 @@ export class TableView implements NodeView {
     return true
   }
 
-  ignoreMutation(record) {
-    return record.type === 'attributes' && (record.target === this.table || this.colgroup.contains(record.target))
+  ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+    return mutation.type === 'attributes' && (mutation.target === this.table || this.colgroup.contains(mutation.target))
   }
 }

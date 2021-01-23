@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Command, Node, mergeAttributes } from '@tiptap/core'
 import {
   tableEditing,
@@ -122,7 +121,7 @@ export const Table = Node.create({
 
         return splitCell(state, dispatch)
       },
-      setCellAttributes: ({ name, value }): Command => ({ state, dispatch }) => {
+      setCellAttributes: ({ name, value }: { name: string, value: any }): Command => ({ state, dispatch }) => {
         return setCellAttr(name, value)(state, dispatch)
       },
       goToNextCell: (): Command => ({ state, dispatch }) => {
@@ -135,7 +134,7 @@ export const Table = Node.create({
         const transaction = fixTables(state)
 
         if (transaction) {
-          return dispatch(transaction)
+          return dispatch?.(transaction)
         }
 
         return false
@@ -170,7 +169,9 @@ export const Table = Node.create({
         handleWidth: this.options.handleWidth,
         cellMinWidth: this.options.cellMinWidth,
         View: this.options.View,
-        // lastColumnResizable: this.options.lastColumnResizable,
+        // TODO: PR for @types/prosemirror-tables
+        // @ts-ignore (incorrect type)
+        lastColumnResizable: this.options.lastColumnResizable,
       })] : []),
       tableEditing({
         allowTableNodeSelection: this.options.allowTableNodeSelection,
