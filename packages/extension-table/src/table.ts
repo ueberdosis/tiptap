@@ -131,13 +131,11 @@ export const Table = Node.create({
         return goToNextCell(-1)(state, dispatch)
       },
       fixTables: (): Command => ({ state, dispatch }) => {
-        const transaction = fixTables(state)
-
-        if (transaction) {
-          return dispatch?.(transaction)
+        if (dispatch) {
+          fixTables(state)
         }
 
-        return false
+        return true
       },
     }
   },
