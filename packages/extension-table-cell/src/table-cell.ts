@@ -33,7 +33,9 @@ export const TableCell = Node.create({
   isolating: true,
 
   parseHTML() {
-    return [{ tag: 'td' }]
+    return [
+      { tag: 'td' },
+    ]
   },
 
   renderHTML({ HTMLAttributes }) {

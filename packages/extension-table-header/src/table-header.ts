@@ -33,7 +33,9 @@ export const TableHeader = Node.create({
   isolating: true,
 
   parseHTML() {
-    return [{ tag: 'th' }]
+    return [
+      { tag: 'th' },
+    ]
   },
 
   renderHTML({ HTMLAttributes }) {

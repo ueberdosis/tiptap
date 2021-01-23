@@ -57,7 +57,9 @@ export const Table = Node.create({
   group: 'block',
 
   parseHTML() {
-    return [{ tag: 'table' }]
+    return [
+      { tag: 'table' },
+    ]
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -66,14 +68,14 @@ export const Table = Node.create({
 
   addCommands() {
     return {
-      insertTable: ({ rows = 3, cols = 3, withHeaderRow = true }): Command => ({ state, dispatch }) => {
-        const offset = state.tr.selection.anchor + 1
-        const nodes = createTable(this.editor.schema, rows, cols, withHeaderRow)
-        const tr = state.tr.replaceSelectionWith(nodes).scrollIntoView()
-        const resolvedPos = tr.doc.resolve(offset)
+      insertTable: ({ rows = 3, cols = 3, withHeaderRow = true }): Command => ({ tr, dispatch, editor }) => {
+        const offset = tr.selection.anchor + 1
+        const node = createTable(editor.schema, rows, cols, withHeaderRow)
 
         if (dispatch) {
-          tr.setSelection(TextSelection.near(resolvedPos))
+          tr.replaceSelectionWith(node)
+            .scrollIntoView()
+            .setSelection(TextSelection.near(tr.doc.resolve(offset)))
         }
 
         return true

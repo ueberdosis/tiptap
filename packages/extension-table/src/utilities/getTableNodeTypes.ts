@@ -1,17 +1,16 @@
-import { Schema } from 'prosemirror-model'
+import { Schema, NodeType } from 'prosemirror-model'
 
-export function getTableNodeTypes(schema: Schema) {
+export function getTableNodeTypes(schema: Schema): { [key: string]: NodeType } {
   if (schema.cached.tableNodeTypes) {
     return schema.cached.tableNodeTypes
   }
 
-  const roles = {}
+  const roles: { [key: string]: NodeType } = {}
 
   Object.keys(schema.nodes).forEach(type => {
     const nodeType = schema.nodes[type]
 
     if (nodeType.spec.tableRole) {
-      // @ts-ignore
       roles[nodeType.spec.tableRole] = nodeType
     }
   })

@@ -18,7 +18,9 @@ export const TableRow = Node.create({
   tableRole: 'row',
 
   parseHTML() {
-    return [{ tag: 'tr' }]
+    return [
+      { tag: 'tr' },
+    ]
   },
 
   renderHTML({ HTMLAttributes }) {
