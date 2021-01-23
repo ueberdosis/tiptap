@@ -1,4 +1,6 @@
 // @ts-nocheck
+import { NodeView } from 'prosemirror-view'
+
 export function updateColumns(node, colgroup, table, cellMinWidth, overrideCol, overrideValue) {
   let totalWidth = 0
   let fixedWidth = true
@@ -44,7 +46,7 @@ export function updateColumns(node, colgroup, table, cellMinWidth, overrideCol, 
   }
 }
 
-export class TableView {
+export class TableView implements NodeView {
   constructor(node, cellMinWidth) {
     this.node = node
     this.cellMinWidth = cellMinWidth
