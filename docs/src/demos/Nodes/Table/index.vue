@@ -190,7 +190,6 @@ export default {
       top: 0;
       bottom: -2px;
       width: 4px;
-      z-index: 20;
       background-color: #adf;
       pointer-events: none;
     }
