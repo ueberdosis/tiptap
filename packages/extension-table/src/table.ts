@@ -1,4 +1,10 @@
-import { Command, Node, mergeAttributes } from '@tiptap/core'
+import {
+  Command,
+  Node,
+  mergeAttributes,
+  isCellSelection,
+  findParentNodeClosestToPos,
+} from '@tiptap/core'
 import {
   tableEditing,
   columnResizing,
@@ -143,6 +149,39 @@ export const Table = Node.create({
   },
 
   addKeyboardShortcuts() {
+    const deleteTableWhenAllCellsSelected = () => {
+      const { selection } = this.editor.state
+
+      if (!isCellSelection(selection)) {
+        return false
+      }
+
+      let cellCount = 0
+      const table = findParentNodeClosestToPos(selection.ranges[0].$from, node => {
+        return node.type.name === 'table'
+      })
+
+      table?.node.descendants(node => {
+        if (node.type.name === 'table') {
+          return false
+        }
+
+        if (['tableCell', 'tableHeader'].includes(node.type.name)) {
+          cellCount += 1
+        }
+      })
+
+      const allCellsSelected = cellCount === selection.ranges.length
+
+      if (!allCellsSelected) {
+        return false
+      }
+
+      this.editor.commands.deleteTable()
+
+      return true
+    }
+
     return {
       Tab: () => {
         if (this.editor.commands.goToNextCell()) {
@@ -160,6 +199,10 @@ export const Table = Node.create({
           .run()
       },
       'Shift-Tab': () => this.editor.commands.goToPreviousCell(),
+      Backspace: deleteTableWhenAllCellsSelected,
+      'Mod-Backspace': deleteTableWhenAllCellsSelected,
+      Delete: deleteTableWhenAllCellsSelected,
+      'Mod-Delete': deleteTableWhenAllCellsSelected,
     }
   },
 
