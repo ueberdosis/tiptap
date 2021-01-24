@@ -1,6 +1,6 @@
 import { keymap } from 'prosemirror-keymap'
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
-import { inputRules } from 'prosemirror-inputrules'
+import { inputRules as inputRulesPlugin } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Editor } from './Editor'
 import { Extensions, NodeViewRenderer } from './types'
@@ -66,31 +66,6 @@ export default class ExtensionManager {
   }
 
   get plugins() {
-    const plugins = this.extensions
-      .map(extension => {
-        const context = {
-          options: extension.options,
-          editor: this.editor,
-          type: getSchemaTypeByName(extension.config.name, this.schema),
-        }
-
-        return extension.config.addProseMirrorPlugins.bind(context)()
-      })
-      .flat()
-
-    return [
-      ...plugins,
-      ...this.keymaps,
-      ...this.pasteRules,
-      inputRules({ rules: this.inputRules }),
-    ]
-  }
-
-  get inputRules() {
-    if (!this.editor.options.enableInputRules) {
-      return []
-    }
-
     return this.extensions
       .map(extension => {
         const context = {
@@ -99,39 +74,24 @@ export default class ExtensionManager {
           type: getSchemaTypeByName(extension.config.name, this.schema),
         }
 
-        return extension.config.addInputRules.bind(context)()
+        const keymapPlugin = keymap(extension.config.addKeyboardShortcuts.bind(context)())
+        const inputRules = extension.config.addInputRules.bind(context)()
+        const inputRulePlugins = this.editor.options.enableInputRules && inputRules.length
+          ? [inputRulesPlugin({ rules: inputRules })]
+          : []
+        const pasteRulePlugins = this.editor.options.enablePasteRules
+          ? extension.config.addPasteRules.bind(context)()
+          : []
+        const plugins = extension.config.addProseMirrorPlugins.bind(context)()
+
+        return [
+          keymapPlugin,
+          ...inputRulePlugins,
+          ...pasteRulePlugins,
+          ...plugins,
+        ]
       })
       .flat()
-  }
-
-  get pasteRules() {
-    if (!this.editor.options.enablePasteRules) {
-      return []
-    }
-
-    return this.extensions
-      .map(extension => {
-        const context = {
-          options: extension.options,
-          editor: this.editor,
-          type: getSchemaTypeByName(extension.config.name, this.schema),
-        }
-
-        return extension.config.addPasteRules.bind(context)()
-      })
-      .flat()
-  }
-
-  get keymaps() {
-    return this.extensions.map(extension => {
-      const context = {
-        options: extension.options,
-        editor: this.editor,
-        type: getSchemaTypeByName(extension.config.name, this.schema),
-      }
-
-      return keymap(extension.config.addKeyboardShortcuts.bind(context)())
-    })
   }
 
   get nodeViews() {
