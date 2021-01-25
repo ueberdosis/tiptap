@@ -188,7 +188,7 @@ $menuBreakPoint: 800px;
   &__link-list &__link-list {
     display: none;
     padding-left: 1rem;
-    margin-top: 0.5rem;
+    margin: 0.5rem 0;
   }
 
   &__mobile-nav &__link-list &__link-list {
@@ -266,8 +266,11 @@ $menuBreakPoint: 800px;
     }
 
     &--with-children::after {
-      content: '↓';
+      content: '›';
+      font-weight: bold;
       color: rgba($colorWhite, 0.2);
+      position: absolute;
+      margin-left: -1.5em;
     }
   }
 
