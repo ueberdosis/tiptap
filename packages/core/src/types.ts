@@ -135,3 +135,5 @@ export type Range = {
   from: number,
   to: number,
 }
+
+export type Predicate = (node: ProseMirrorNode) => boolean
