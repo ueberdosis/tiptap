@@ -161,13 +161,15 @@ export default {
     height: auto;
   }
 
-  hr {
-    margin: 1rem 0;
-  }
-
   blockquote {
     padding-left: 1rem;
     border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    margin: 2rem 0;
   }
 }
 </style>

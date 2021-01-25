@@ -230,20 +230,6 @@ export default {
 </style>
 
 <style lang="scss">
-/* A list of all available users */
-.collaboration-users {
-  margin-top: 0.5rem;
-
-  &__item {
-    display: inline-block;
-    border-radius: 5px;
-    padding: 0.25rem 0.5rem;
-    color: white;
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-}
-
 /* Give a remote user a caret */
 .collaboration-cursor__caret {
   position: relative;
@@ -313,6 +299,12 @@ export default {
   blockquote {
     padding-left: 1rem;
     border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    margin: 2rem 0;
   }
 
   ul[data-type="taskList"] {
