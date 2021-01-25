@@ -5406,10 +5406,10 @@ d3-zoom@2:
     d3-selection "2"
     d3-transition "2"
 
-d3@^6.3.1:
-  version "6.3.1"
-  resolved "https://registry.yarnpkg.com/d3/-/d3-6.3.1.tgz#c5fe6c7abff432826775a9e04db80b5f2e22eb1c"
-  integrity sha512-rbaoA67o2N4lO1TCuvrTGQdowNb3zT0z2ygg6TLmJZAd7TRPg+lhbfDOVwQUAgdbRD+73kg2FrEQ9HLiap5H2w==
+d3@^6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/d3/-/d3-6.5.0.tgz#55cc64690cfe7bf18788d2cfbe22d911b01309f0"
+  integrity sha512-gr7FoRecKtBkBxelTeGVYERRTPgjPFLh2rOBisHdbXe3RIrVLjCo7COZYMSeFeiwVPOHDtxAGJlvN7XssNAIcg==
   dependencies:
     d3-array "2"
     d3-axis "2"
@@ -6270,15 +6270,15 @@ eslint-plugin-import@^2.22.1:
     resolve "^1.17.0"
     tsconfig-paths "^3.9.0"
 
-eslint-plugin-vue@^7.4.1:
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-7.4.1.tgz#2526ef0c010c218824a89423dbe6ddbe76f04fd6"
-  integrity sha512-W/xPNHYIkGJphLUM2UIYYGKbRw3BcDoMIPY9lu1TTa2YLiZoxurddfnmOP+UOVywxb5vi438ejzwvKdZqydtIw==
+eslint-plugin-vue@^7.5.0:
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-7.5.0.tgz#cc6d983eb22781fa2440a7573cf39af439bb5725"
+  integrity sha512-QnMMTcyV8PLxBz7QQNAwISSEs6LYk2LJvGlxalXvpCtfKnqo7qcY0aZTIxPe8QOnHd7WCwiMZLOJzg6A03T0Gw==
   dependencies:
     eslint-utils "^2.1.0"
     natural-compare "^1.4.0"
     semver "^7.3.2"
-    vue-eslint-parser "^7.3.0"
+    vue-eslint-parser "^7.4.1"
 
 eslint-scope@^4.0.3:
   version "4.0.3"
@@ -12859,10 +12859,10 @@ rollup-pluginutils@^2.8.2:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^2.37.1:
-  version "2.37.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.37.1.tgz#aa7aadffd75c80393f9314f9857e851b0ffd34e7"
-  integrity sha512-V3ojEeyGeSdrMSuhP3diBb06P+qV4gKQeanbDv+Qh/BZbhdZ7kHV0xAt8Yjk4GFshq/WjO7R4c7DFM20AwTFVQ==
+rollup@^2.38.0:
+  version "2.38.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.38.0.tgz#57942d5a10826cb12ed1f19c261f774efa502d2d"
+  integrity sha512-ay9zDiNitZK/LNE/EM2+v5CZ7drkB2xyDljvb1fQJCGnq43ZWRkhxN145oV8GmoW1YNi4sA/1Jdkr2LfawJoXw==
   optionalDependencies:
     fsevents "~2.1.2"
 
@@ -14458,15 +14458,15 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typedoc-default-themes@^0.12.4:
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.12.4.tgz#5cbb79c1d6421f1274e86b1b542934eb557abd4f"
-  integrity sha512-EZiXBUpogsYWe0dLgy47J8yRZCd+HAn9woGzO28XJxxSCSwZRYGKeQiw1KjyIcm3cBtLWUXiPD5+Bgx24GgZjg==
+typedoc-default-themes@^0.12.5:
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.12.5.tgz#063725a3eb407593ab07e4f110e5cf33b3892616"
+  integrity sha512-JQ2O9laZ/EhfWUWYp/8EyuShYhtXLhIa6DU8eZNUfaurMhEgKdffbadKNv6HMmTfOxAcgiePg06OCxNX8EyP3g==
 
-typedoc@^0.20.16:
-  version "0.20.16"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.16.tgz#c845d32883af905439607ba03c9667b81cdbeb22"
-  integrity sha512-xqIL8lT6ZE3QpP0GN30ckeTR05NSEkrP2pXQlNhC0OFkbvnjqJtDUcWSmCO15BuYyu4qsEbZT+tKYFEAt9Jxew==
+typedoc@^0.20.18:
+  version "0.20.18"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.18.tgz#10a3baa2fc544c24e61a3a04945d7b090178c213"
+  integrity sha512-AX4WgbVI7k3IoFmUFcAGhNBSjAHbQ8lE/EVVFkYDWIUAcxtLHlpF761Bbasniv5F9bwwxBuyAlLpJRJW/zIy4Q==
   dependencies:
     colors "^1.4.0"
     fs-extra "^9.0.1"
@@ -14478,7 +14478,7 @@ typedoc@^0.20.16:
     progress "^2.0.3"
     shelljs "^0.8.4"
     shiki "^0.2.7"
-    typedoc-default-themes "^0.12.4"
+    typedoc-default-themes "^0.12.5"
 
 typescript@^4.1.3:
   version "4.1.3"
@@ -15005,10 +15005,10 @@ vscode-textmate@^5.2.0:
   resolved "https://registry.yarnpkg.com/vscode-textmate/-/vscode-textmate-5.2.0.tgz#01f01760a391e8222fe4f33fbccbd1ad71aed74e"
   integrity sha512-Uw5ooOQxRASHgu6C7GVvUxisKXfSgW4oFlO+aa+PAkgmH89O3CXxEEzNRNtHSqtXFTl0nAC1uYj0GMSH27uwtQ==
 
-vue-eslint-parser@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.3.0.tgz#894085839d99d81296fa081d19643733f23d7559"
-  integrity sha512-n5PJKZbyspD0+8LnaZgpEvNCrjQx1DyDHw8JdWwoxhhC+yRip4TAvSDpXGf9SWX6b0umeB5aR61gwUo6NVvFxw==
+vue-eslint-parser@^7.4.1:
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.4.1.tgz#e4adcf7876a7379758d9056a72235af18a587f92"
+  integrity sha512-AFvhdxpFvliYq1xt/biNBslTHE/zbEvSnr1qfHA/KxRIpErmEDrQZlQnvEexednRHmLfDNOMuDYwZL5xkLzIXQ==
   dependencies:
     debug "^4.1.1"
     eslint-scope "^5.0.0"
