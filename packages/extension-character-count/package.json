@@ -1,0 +1,28 @@
+{
+  "name": "@tiptap/extension-character-count",
+  "description": "font family extension for tiptap",
+  "version": "2.0.0-alpha.5",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-character-count.cjs.js",
+  "umd": "dist/tiptap-extension-character-count.umd.js",
+  "module": "dist/tiptap-extension-character-count.esm.js",
+  "unpkg": "dist/tiptap-extension-character-count.bundle.umd.min.js",
+  "types": "dist/packages/extension-character-count/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-alpha.6",
+    "@tiptap/extension-text-style": "^2.0.0-alpha.0"
+  }
+}

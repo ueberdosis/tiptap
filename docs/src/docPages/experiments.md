@@ -9,4 +9,4 @@ Congratulations! You’ve found our secret playground with a list of experiments
 * [Commands](/experiments/commands)
 
 ## Waiting for approval
-* [CharacterLimit](/experiments/character-limit)
+–

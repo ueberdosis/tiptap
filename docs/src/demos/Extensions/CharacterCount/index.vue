@@ -1,8 +1,9 @@
 <template>
   <div>
     <editor-content :editor="editor" />
-    <div class="character-limit">
-      {{ characters }}/{{ limit }}
+
+    <div :class="{'character-limit': true, 'character-limit--warning': characters === limit}">
+      {{ characters }}/{{ limit }} characters
     </div>
   </div>
 </template>
@@ -12,7 +13,7 @@ import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import CharacterLimit from './extension'
+import CharacterCount from '@tiptap/extension-character-count'
 
 export default {
   components: {
@@ -32,7 +33,7 @@ export default {
         Document,
         Paragraph,
         Text,
-        CharacterLimit.configure({
+        CharacterCount.configure({
           limit: this.limit,
         }),
       ],
@@ -70,6 +71,10 @@ export default {
 
 .character-limit {
   margin-top: 1rem;
-  color: #adb5bd;
+  color: #868e96;
+
+  &--warning {
+    color: #f03e3e;
+  }
 }
 </style>

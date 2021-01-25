@@ -183,6 +183,9 @@
         # - title: Annotation
         #   link: /api/extensions/annotation
         #   type: draft
+        - title: CharacterCount
+          link: /api/extensions/character-count
+          type: new
         - title: Collaboration
           link: /api/extensions/collaboration
           type: pro
