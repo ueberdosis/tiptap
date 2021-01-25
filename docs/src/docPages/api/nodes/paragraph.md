@@ -1,4 +1,7 @@
 # Paragraph
+[![Version](https://img.shields.io/npm/v/@tiptap/extension-paragraph.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-paragraph)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-paragraph.svg)](https://npmcharts.com/compare/@tiptap/extension-paragraph?minimal=true)
+
 Yes, the schema is very strict. Without this extension you won’t even be able to use paragraphs in the editor.
 
 :::warning Breaking Change from 1.x → 2.x

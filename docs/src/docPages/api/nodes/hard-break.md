@@ -1,4 +1,7 @@
 # HardBreak
+[![Version](https://img.shields.io/npm/v/@tiptap/extension-hard-break.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-hard-break)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-hard-break.svg)](https://npmcharts.com/compare/@tiptap/extension-hard-break?minimal=true)
+
 The HardBreak extensions adds support for the `<br>` HTML tag, which forces a line break.
 
 ## Installation

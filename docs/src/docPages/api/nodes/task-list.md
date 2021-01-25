@@ -1,4 +1,7 @@
 # TaskList
+[![Version](https://img.shields.io/npm/v/@tiptap/extension-task-list.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-task-list)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-task-list.svg)](https://npmcharts.com/compare/@tiptap/extension-task-list?minimal=true)
+
 This extension enables you to use task lists in the editor. They are rendered as `<ul data-type="task_list">`. This implementation doesn’t require any framework, it’s using plain JavaScript only.
 
 Type <code>[ ]&nbsp;</code> or <code>[x]&nbsp;</code> at the beginning of a new line and it will magically transform to a task list.

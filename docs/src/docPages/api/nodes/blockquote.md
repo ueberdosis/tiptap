@@ -1,4 +1,6 @@
 # Blockquote
+[![Version](https://img.shields.io/npm/v/@tiptap/extension-blockquote.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-blockquote)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-blockquote.svg)](https://npmcharts.com/compare/@tiptap/extension-blockquote?minimal=true)
 
 The Blockquote extension enables you to use the `<blockquote>` HTML tag in the editor. This is great to use quotes in the editor.
 

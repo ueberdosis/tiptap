@@ -1,4 +1,7 @@
 # Focus
+[![Version](https://img.shields.io/npm/v/@tiptap/extension-focus.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-focus)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-focus.svg)](https://npmcharts.com/compare/@tiptap/extension-focus?minimal=true)
+
 The Focus extension adds a CSS class to focused nodes. By default it adds `.has-class`, but you can change that.
 
 Note that it’s only a class, the styling is totally up to you. The usage example below has some CSS for that class.

@@ -1,4 +1,7 @@
 # Typography
+[![Version](https://img.shields.io/npm/v/@tiptap/extension-typography.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-typography)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-typography.svg)](https://npmcharts.com/compare/@tiptap/extension-typography?minimal=true)
+
 This extension tries to help with common text patterns with the correct typographic character. Under the hood all rules are input rules.
 
 ## Installation
