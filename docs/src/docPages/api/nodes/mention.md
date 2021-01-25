@@ -13,6 +13,16 @@ npm install @tiptap/extension-mention
 yarn add @tiptap/extension-mention
 ```
 
+## Dependencies
+TODO
+
+* tippy.js
+
+## Rendering
+TODO
+
+* @tiptap/vue
+
 ## Settings
 | Option         | Type     | Default | Description                                                           |
 | -------------- | -------- | ------- | --------------------------------------------------------------------- |

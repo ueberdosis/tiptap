@@ -1,4 +1,4 @@
-# Overview
+# Concept
 tiptap is a friendly wrapper around [ProseMirror](https://ProseMirror.net). Although tiptap tries to hide most of the complexity of ProseMirror, it’s built on top of its APIs and we recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/) for advanced usage.
 
 ### Structure

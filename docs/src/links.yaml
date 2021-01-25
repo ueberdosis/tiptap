@@ -44,7 +44,7 @@
     - title: Getting started
       link: /guide/getting-started
       items:
-        - title: Vue CLI
+        - title: Vue.js 2
           link: /guide/getting-started/vue-cli
           skip: true
         - title: Nuxt.js
@@ -100,10 +100,12 @@
 
 - title: API
   items:
-    - title: Overview
+    - title: Concept
       link: /api/overview
     - title: Editor
       link: /api/editor
+    - title: Commands
+      link: /api/commands
     - title: Nodes
       link: /api/nodes
       items:
@@ -201,20 +203,18 @@
           link: /api/extensions/text-align
         - title: Typography
           link: /api/extensions/typography
-    - title: Commands
-      link: /api/commands
-    - title: Events
-      link: /api/events
-    - title: Schema
-      link: /api/schema
-    - title: Keyboard Shortcuts
-      link: /api/keyboard-shortcuts
     - title: Utilities
       link: /api/utilities
       redirect: /api/utilities/suggestion
       items:
         - title: Suggestion
           link: /api/utilities/suggestion
+    - title: Events
+      link: /api/events
+    - title: Schema
+      link: /api/schema
+    - title: Keyboard Shortcuts
+      link: /api/keyboard-shortcuts
 
 - title: Links
   items:
