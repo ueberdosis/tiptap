@@ -83,8 +83,8 @@
     - title: Accessibility
       link: /guide/accessibility
       type: draft
-    - title: Store content
-      link: /guide/store-content
+    - title: Export content
+      link: /guide/content
     - title: Collaborative editing
       link: /guide/collaborative-editing
       type: pro
@@ -208,10 +208,14 @@
           link: /api/extensions/typography
     - title: Utilities
       link: /api/utilities
-      redirect: /api/utilities/suggestion
+      redirect: /api/utilities/html
       items:
+        - title: HTML
+          link: /api/utilities/html
+          type: draft
         - title: Suggestion
           link: /api/utilities/suggestion
+          type: new
     - title: Events
       link: /api/events
     - title: Schema

@@ -37,7 +37,7 @@ The same applies to every aspect of an existing extension, except to the name. L
 ### Name
 The extension name is used in a whole lot of places and changing it isn’t too easy. If you want to change the name of an existing extension, we would recommended to copy the whole extension and change the name in all occurrences.
 
-The extension name is also part of the JSON. If you [store your content as JSON](/guide/store-content#option-1-json), you need to change the name there too.
+The extension name is also part of the JSON. If you [store your content as JSON](/guide/content#option-1-json), you need to change the name there too.
 
 ### Settings
 All settings can be configured through the extension anyway, but if you want to change the default settings, for example to provide a library on top of tiptap for other developers, you can do it like that:
