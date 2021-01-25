@@ -54,6 +54,10 @@
           link: /guide/getting-started/react
           type: draft
           skip: true
+        - title: Svelte
+          link: /guide/getting-started/svelte
+          type: draft
+          skip: true
         - title: Alpine.js
           link: /guide/getting-started/alpinejs
           type: draft

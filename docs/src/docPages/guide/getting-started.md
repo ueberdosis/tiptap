@@ -8,6 +8,10 @@ tiptap 2 is framework-agnostic and even works with plain JavaScript, if that’s
 ## Alternative Guides
 * [Vue CLI](/guide/getting-started/vue-cli)
 * [Nuxt.js](/guide/getting-started/nuxtjs)
+* [React](/guide/getting-started/react) (Draft)
+* [Svelte](/guide/getting-started/svelte) (Draft)
+* [Alpine.js](/guide/getting-started/alpinejs) (Draft)
+* [Livewire](/guide/getting-started/livewire) (Draft)
 
 ## Requirements
 * [Node](https://nodejs.org/en/download/) installed on your machine
