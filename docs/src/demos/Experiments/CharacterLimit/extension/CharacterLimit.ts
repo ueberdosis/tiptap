@@ -4,6 +4,8 @@ import {
   Plugin, PluginKey,
 } from 'prosemirror-state'
 
+export const pluginKey = new PluginKey('characterLimit')
+
 export interface CharacterLimitOptions {
   limit: number,
 }
@@ -21,35 +23,13 @@ export const CharacterLimit = Extension.create({
     return [
       new Plugin({
 
-        key: new PluginKey('characterLimit'),
-
-        // state: {
-        //   init(_, config) {
-        //     // console.log(_, config)
-        //     // const length = config.doc.content.size
-
-        //     // if (length > options.limit) {
-        //     //   console.log('too long', options.limit, config)
-
-        //     //   const transaction = config.tr.insertText('', options.limit + 1, length)
-
-        //     //   return config.apply(transaction)
-        //     // }
-        //   },
-        //   apply() {
-        //     //
-        //   },
-        // },
+        key: pluginKey,
 
         appendTransaction: (transactions, oldState, newState) => {
-          const oldLength = oldState.doc.content.size
-          const newLength = newState.doc.content.size
+          const length = newState.doc.content.size
 
-          if (newLength > options.limit && newLength > oldLength) {
-            const newTr = newState.tr
-            newTr.insertText('', options.limit + 1, newLength)
-
-            return newTr
+          if (length > options.limit) {
+            return newState.tr.insertText('', options.limit + 1, length)
           }
         },
       }),

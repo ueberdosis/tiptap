@@ -1,7 +1,7 @@
 <template>
   <div>
     <editor-content :editor="editor" />
-    <div>
+    <div class="character-limit">
       {{ characters }}/{{ limit }}
     </div>
   </div>
@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       editor: null,
-      limit: 10,
+      limit: 280,
     }
   },
 
@@ -38,10 +38,7 @@ export default {
       ],
       content: `
         <p>
-          This is a radically reduced version of tiptap. It has only support for a document, paragraphs and text. That’s it. It’s probably too much for real minimalists though.
-        </p>
-        <p>
-          The paragraph extension is not really required, but you need at least one node. Sure, that node can be something different. You’ll mostly likely want to add a paragraph though.
+          Let‘s make sure people can’t write more than 280 characters. I bet you could build one of the biggest social networks on that idea.
         </p>
       `,
     })
@@ -69,5 +66,10 @@ export default {
   > * + * {
     margin-top: 0.75em;
   }
+}
+
+.character-limit {
+  margin-top: 1rem;
+  color: #adb5bd;
 }
 </style>
