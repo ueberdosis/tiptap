@@ -12,7 +12,7 @@ Yes, it’s tedious work to upgrade your favorite text editor to a new API, but 
 * Well-tested code base
 
 ## Upgrading from 1.x to 2.x
-The new API will look pretty familiar too you, but there are a ton of changes though. To make the upgrade a little bit easier, here is everything you need to know:
+The new API will look pretty familiar to you, but there are a ton of changes though. To make the upgrade a little bit easier, here is everything you need to know:
 
 ### Uninstall tiptap 1.x
 The whole package structure has changed, we even moved to another npm namespace, so you’ll need to remove the old version entirely before upgrading to tiptap 2.
@@ -33,7 +33,7 @@ We’re [waiting for Gridsome](https://github.com/gridsome/gridsome/issues/1289)
 :::
 
 ### Explicitly register the Document, Text and Paragraph extensions
-tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [Document](/api/nodes/document), [Paragraph](/api/nodes/paragraph) and [Text](/api/nodes/text) extensions.
+tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [`Document`](/api/nodes/document), [`Paragraph`](/api/nodes/paragraph) and [`Text`](/api/nodes/text) extensions.
 
 ```js
 import Document from '@tiptap/extension-document'
@@ -53,7 +53,7 @@ new Editor({
 And we removed some settings: `dropCursor`, `enableDropCursor`, and `enableGapCursor`. Those are separate extensions now: [`Dropcursor`](/api/extensions/dropcursor) and [`Gapcursor`](/api/extensions/gapcursor). You probably want to load them, but if you don’t just ignore me.
 
 ### New names for most extensions
-**We renamed the default `Document` type from `doc` to `document`.** To keep it like that, use your own implementation of the `Document` node or migrate the stored JSON to use the new name.
+**We renamed the default [`Document`](/api/nodes/document) type from `doc` to `document`.** To keep it like that, use your own implementation of the [`Document`](/api/nodes/document) node or migrate the stored JSON to use the new name.
 
 Also, we switched to lowerCamelCase, so there’s a lot that changed. If you stored your content as JSON you need to loop through it and rename a lot of types. Sorry for that one.
 
