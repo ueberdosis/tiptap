@@ -139,6 +139,9 @@
         - title: TableCell
           link: /api/nodes/table-cell
           type: draft
+        - title: TableHeader
+          link: /api/nodes/table-header
+          type: draft
         - title: TaskList
           link: /api/nodes/task-list
         - title: TaskItem

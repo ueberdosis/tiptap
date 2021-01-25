@@ -1,6 +1,7 @@
 import { EditorState, TextSelection } from 'prosemirror-state'
 import { Command, FocusPosition } from '../types'
 import minMax from '../utilities/minMax'
+import isTextSelection from '../helpers/isTextSelection'
 
 function resolveSelection(state: EditorState, position: FocusPosition = null) {
   if (!position) {
@@ -39,6 +40,12 @@ export const focus = (position: FocusPosition = null): Command => ({
   dispatch,
 }) => {
   if ((view.hasFocus() && position === null) || position === false) {
+    return true
+  }
+
+  // we don’t try to resolve a NodeSelection or CellSelection
+  if (dispatch && position === null && !isTextSelection(editor.state.selection)) {
+    view.focus()
     return true
   }
 

@@ -36,6 +36,7 @@ export default function getSchema(extensions: Extensions): Schema {
       code: callOrReturn(extension.config.code, context),
       defining: callOrReturn(extension.config.defining, context),
       isolating: callOrReturn(extension.config.isolating, context),
+      tableRole: callOrReturn(extension.config.tableRole, context),
       attrs: Object.fromEntries(extensionAttributes.map(extensionAttribute => {
         return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
       })),

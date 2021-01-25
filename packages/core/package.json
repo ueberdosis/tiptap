@@ -30,6 +30,7 @@
     "@types/prosemirror-model": "^1.11.2",
     "@types/prosemirror-schema-list": "^1.0.2",
     "@types/prosemirror-state": "^1.2.6",
+    "@types/prosemirror-tables": "^0.9.1",
     "@types/prosemirror-transform": "^1.1.2",
     "@types/prosemirror-view": "^1.17.1",
     "prosemirror-commands": "^1.1.3",

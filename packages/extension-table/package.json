@@ -1,0 +1,31 @@
+{
+  "name": "@tiptap/extension-table",
+  "description": "table extension for tiptap",
+  "version": "2.0.0-alpha.5",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-table.cjs.js",
+  "umd": "dist/tiptap-extension-table.umd.js",
+  "module": "dist/tiptap-extension-table.esm.js",
+  "unpkg": "dist/tiptap-extension-table.bundle.umd.min.js",
+  "types": "dist/packages/extension-table/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-alpha.6"
+  },
+  "dependencies": {
+    "prosemirror-tables": "^1.1.1",
+    "prosemirror-view": "^1.16.3"
+  }
+}
