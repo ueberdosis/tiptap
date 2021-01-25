@@ -72,7 +72,7 @@ module.exports = function (api) {
 
       api.createPages(({ createPage }) => {
         createPage({
-          // name: '/demos/Extensions/CharacterCount'
+          // path: '/demos/Extensions/CharacterCount'
           path: `/demos/${match[1]}`,
           component: './src/templates/DemoPage/index.vue',
           context: {
