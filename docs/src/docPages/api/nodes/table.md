@@ -8,7 +8,4 @@ TODO
 
 ⚠️ Preview
 
-Tasks
-- backspace: when all cells are selected, delete table
-
 <demo name="Nodes/Table" />

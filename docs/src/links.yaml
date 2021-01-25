@@ -31,7 +31,7 @@
     - title: Write a book
       link: /examples/book
     - title: Minimalistic
-      link: /examples/minimalist
+      link: /examples/minimalistic
     - title: Draw on a canvas
       link: /examples/drawing
     - title: Multiple editors
@@ -52,6 +52,10 @@
           skip: true
         - title: React
           link: /guide/getting-started/react
+          type: draft
+          skip: true
+        - title: Next.js
+          link: /guide/getting-started/nextjs
           type: draft
           skip: true
         - title: Svelte
