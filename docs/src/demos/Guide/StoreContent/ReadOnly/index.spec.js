@@ -1,6 +1,6 @@
-context('/guide/store-content', () => {
+context('/demos/Guide/StoreContent/ReadOnly', () => {
   beforeEach(() => {
-    cy.visit('/guide/store-content')
+    cy.visit('/demos/Guide/StoreContent/ReadOnly')
   })
 
   it.skip('should be read-only', () => {
@@ -13,7 +13,7 @@ context('/guide/store-content', () => {
     })
   })
 
-  it.skip('should be editable', () => {
+  it('should be editable', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       cy.get('#editable').check()
 

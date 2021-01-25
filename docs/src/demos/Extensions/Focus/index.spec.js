@@ -1,6 +1,6 @@
-context('/api/extensions/focus', () => {
+context('/demos/Extensions/Focus', () => {
   before(() => {
-    cy.visit('/api/extensions/focus')
+    cy.visit('/demos/Extensions/Focus')
   })
 
   it('should have class', () => {

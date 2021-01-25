@@ -1,6 +1,6 @@
-context('/api/extensions/typography', () => {
+context('/demos/Extensions/Typography', () => {
   before(() => {
-    cy.visit('/api/extensions/typography')
+    cy.visit('/demos/Extensions/Typography')
   })
 
   beforeEach(() => {

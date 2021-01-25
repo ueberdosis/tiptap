@@ -1,6 +1,6 @@
 context('clearContent', () => {
   before(() => {
-    cy.visit('/examples/default')
+    cy.visit('/demos/Examples/default')
   })
 
   it('returns true for the clearContent command', () => {

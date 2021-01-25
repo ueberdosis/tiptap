@@ -1,6 +1,6 @@
-context('/examples/default', () => {
+context('/demos/Examples/Default', () => {
   before(() => {
-    cy.visit('/examples/default')
+    cy.visit('/demos/Examples/Default')
   })
 
   beforeEach(() => {

@@ -1,6 +1,6 @@
-context('/guide/store-content', () => {
+context('/demos/Guide/StoreContent/ExportJSON', () => {
   before(() => {
-    cy.visit('/guide/store-content')
+    cy.visit('/demos/Guide/StoreContent/ExportJSON')
   })
 
   beforeEach(() => {

@@ -1,6 +1,6 @@
-context('/api/nodes/horizontal-rule', () => {
+context('/demos/Nodes/HorizontalRule', () => {
   before(() => {
-    cy.visit('/api/nodes/horizontal-rule')
+    cy.visit('/demos/Nodes/HorizontalRule')
   })
 
   beforeEach(() => {

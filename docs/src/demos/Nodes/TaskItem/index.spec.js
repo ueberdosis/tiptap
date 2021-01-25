@@ -1,6 +1,6 @@
-context('/api/nodes/task-item', () => {
+context('/demos/Nodes/TaskItem', () => {
   before(() => {
-    cy.visit('/api/nodes/task-item')
+    cy.visit('/demos/Nodes/TaskItem')
   })
 
   // TODO: Write tests

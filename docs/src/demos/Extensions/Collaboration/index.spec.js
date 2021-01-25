@@ -1,6 +1,6 @@
-context('/api/extensions/collaboration', () => {
+context('/demos/Extensions/Collaboration', () => {
   before(() => {
-    cy.visit('/api/extensions/collaboration')
+    cy.visit('/demos/Extensions/Collaboration')
   })
 
   // TODO: Write tests

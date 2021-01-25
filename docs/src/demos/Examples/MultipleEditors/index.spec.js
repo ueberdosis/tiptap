@@ -1,6 +1,6 @@
-context('/examples/multiple-editors', () => {
+context('/demos/Examples/MultipleEditors', () => {
   before(() => {
-    cy.visit('/examples/multiple-editors')
+    cy.visit('/demos/Examples/MultipleEditors')
   })
 
   // TODO: Write tests

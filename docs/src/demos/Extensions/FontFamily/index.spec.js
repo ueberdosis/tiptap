@@ -1,6 +1,6 @@
-context('/api/extensions/font-family', () => {
+context('/demos/Extensions/FontFamily', () => {
   before(() => {
-    cy.visit('/api/extensions/font-family')
+    cy.visit('/demos/Extensions/FontFamily')
   })
 
   // TODO: Write tests

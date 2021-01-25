@@ -1,6 +1,6 @@
-context('/api/extensions/collaboration-cursor', () => {
+context('/demos/Extensions/CollaborationCursor', () => {
   before(() => {
-    cy.visit('/api/extensions/collaboration-cursor')
+    cy.visit('/demos/Extensions/CollaborationCursor')
   })
 
   // TODO: Write tests

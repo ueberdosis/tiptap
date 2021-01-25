@@ -1,6 +1,6 @@
-context('/examples/todo-app', () => {
+context('/demos/Examples/TodoApp', () => {
   before(() => {
-    cy.visit('/examples/todo-app')
+    cy.visit('/demos/Examples/TodoApp')
   })
 
   // TODO: Write tests

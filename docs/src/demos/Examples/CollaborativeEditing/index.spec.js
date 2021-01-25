@@ -1,6 +1,6 @@
-context('/examples/collaborative-editing', () => {
+context('/demos/Examples/CollaborativeEditing', () => {
   before(() => {
-    cy.visit('/examples/collaborative-editing')
+    cy.visit('/demos/Examples/CollaborativeEditing')
   })
 
   // TODO: Write tests

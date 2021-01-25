@@ -1,6 +1,6 @@
-context('/api/marks/text-style', () => {
+context('/demos/Marks/TextStyle', () => {
   before(() => {
-    cy.visit('/api/marks/text-style')
+    cy.visit('/demos/Marks/TextStyle')
   })
 
   // TODO: Write tests

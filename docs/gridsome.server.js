@@ -57,6 +57,35 @@ module.exports = function (api) {
   })
 
   api.loadSource(({ addCollection }) => {
+    /**
+     * Generate pages for all demo components for testing purposes
+     */
+    globby.sync('./src/demos/**/index.vue').forEach(file => {
+
+      const match = file.match(
+        new RegExp(/\.\/src\/demos\/([\S]+)\/index.vue/i),
+      )
+
+      if (!match) {
+        return
+      }
+
+      api.createPages(({ createPage }) => {
+        createPage({
+          // name: '/demos/Extensions/CharacterCount'
+          path: `/demos/${match[1]}`,
+          component: './src/templates/DemoPage/index.vue',
+          context: {
+            // name: 'Extensions/CharacterCount'
+            name: match[1],
+          },
+        })
+      })
+    })
+
+    /**
+     * Read out all packages?
+     */
     const appCollection = addCollection({ typeName: 'Package' })
 
     // packages.forEach(package => {

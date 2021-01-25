@@ -1,6 +1,6 @@
-context('/examples/gapcursor', () => {
+context('/demos/Examples/Gapcursor', () => {
   before(() => {
-    cy.visit('/examples/gapcursor')
+    cy.visit('/demos/Examples/Gapcursor')
   })
 
   // TODO: Write tests
