@@ -42,8 +42,8 @@
     <button @click="editor.chain().focus().mergeOrSplit().run()">
       mergeOrSplit
     </button>
-    <button @click="editor.chain().focus().setCellAttributes({name: 'color', value: 'pink'}).run()">
-      setCellAttributes
+    <button @click="editor.chain().focus().setCellAttribute('color', 'pink').run()">
+      setCellAttribute
     </button>
     <button @click="editor.chain().focus().fixTables().run()">
       fixTables
@@ -120,9 +120,6 @@ export default {
         }),
       ],
       content: `
-        <p>
-          People
-        </p>
         <table>
           <tbody>
             <tr>

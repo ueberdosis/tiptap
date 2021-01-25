@@ -129,7 +129,7 @@ export const Table = Node.create({
 
         return splitCell(state, dispatch)
       },
-      setCellAttributes: ({ name, value }: { name: string, value: any }): Command => ({ state, dispatch }) => {
+      setCellAttribute: (name: string, value: any): Command => ({ state, dispatch }) => {
         return setCellAttr(name, value)(state, dispatch)
       },
       goToNextCell: (): Command => ({ state, dispatch }) => {
