@@ -61,7 +61,6 @@ module.exports = function (api) {
      * Generate pages for all demo components for testing purposes
      */
     globby.sync('./src/demos/**/index.vue').forEach(file => {
-
       const match = file.match(
         new RegExp(/\.\/src\/demos\/([\S]+)\/index.vue/i),
       )
