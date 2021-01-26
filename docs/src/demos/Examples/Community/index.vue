@@ -91,7 +91,7 @@ export default {
       ],
       content: `
         <p>
-          What you all think about the new <span data-mention="Winona Ryder"></span> movie?
+          What do you all think about the new <span data-mention="Winona Ryder"></span> movie?
         </p>
       `,
     })
