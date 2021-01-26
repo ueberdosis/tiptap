@@ -18,7 +18,7 @@ import {
   setCellAttr,
   fixTables,
 } from 'prosemirror-tables'
-import { createTable } from 'prosemirror-utils'
+import { createTable } from 'tiptap-utils'
 import { TextSelection } from 'prosemirror-state'
 import TableNodes from './TableNodes'
 
