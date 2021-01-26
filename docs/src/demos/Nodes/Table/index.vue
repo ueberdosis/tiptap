@@ -42,7 +42,7 @@
     <button @click="editor.chain().focus().mergeOrSplit().run()">
       mergeOrSplit
     </button>
-    <button @click="editor.chain().focus().setCellAttribute('color', 'pink').run()">
+    <button @click="editor.chain().focus().setCellAttribute('colspan', 2).run()">
       setCellAttribute
     </button>
     <button @click="editor.chain().focus().fixTables().run()">
@@ -93,31 +93,7 @@ export default {
         }),
         TableRow,
         TableHeader,
-        TableCell.extend({
-          addAttributes() {
-            return {
-              // original attributes
-              colspan: {
-                default: 1,
-              },
-              rowspan: {
-                default: 1,
-              },
-              colwidth: {
-                default: null,
-              },
-              // add a color attribute to the table cell
-              color: {
-                default: null,
-                renderHTML: attributes => {
-                  return {
-                    style: `color: ${attributes.color}`,
-                  }
-                },
-              },
-            }
-          },
-        }),
+        TableCell,
       ],
       content: `
         <table>

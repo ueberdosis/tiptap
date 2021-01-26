@@ -74,11 +74,12 @@ export const Table = Node.create({
 
   addCommands() {
     return {
-      insertTable: ({ rows = 3, cols = 3, withHeaderRow = true }): Command => ({ tr, dispatch, editor }) => {
-        const offset = tr.selection.anchor + 1
-        const node = createTable(editor.schema, rows, cols, withHeaderRow)
+      insertTable: (options = { rows: 3, cols: 3, withHeaderRow: true }): Command => ({ tr, dispatch, editor }) => {
+        const node = createTable(editor.schema, options.rows, options.cols, options.withHeaderRow)
 
         if (dispatch) {
+          const offset = tr.selection.anchor + 1
+
           tr.replaceSelectionWith(node)
             .scrollIntoView()
             .setSelection(TextSelection.near(tr.doc.resolve(offset)))
