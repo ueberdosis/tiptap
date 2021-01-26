@@ -37,7 +37,9 @@
     - title: Multiple editors
       link: /examples/multiple-editors
       type: draft
-
+    - title: Community
+      link: /examples/community
+      type: draft
 
 - title: Guide
   items:
