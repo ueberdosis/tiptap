@@ -131,7 +131,7 @@ export default {
 
   computed: {
     percentage() {
-      return Math.round(100 / this.limit * this.editor.getCharacterCount())
+      return Math.round((100 / this.limit) * this.editor.getCharacterCount())
     },
   },
 
