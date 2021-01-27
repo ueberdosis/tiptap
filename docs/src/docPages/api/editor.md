@@ -97,7 +97,7 @@ new Editor({
 | --------- | ------------------------------------------------------ |
 | `'start'` | Sets the focus to the beginning of the document.       |
 | `'end'`   | Sets the focus to the end of the document.             |
-| `Number`    | Sets the focus to a specific position in the document. |
+| `Number`  | Sets the focus to a specific position in the document. |
 | `true`    | Enables autofocus.                                     |
 | `false`   | Disables autofocus.                                    |
 | `null`    | Disables autofocus.                                    |
@@ -144,37 +144,38 @@ new Editor({
 ```
 
 <!--
-| Setting             | Type            | Default  | Description                                                                                                                                          |
-| ------------------- | --------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `autofocus`         | `Boolean`       | `false`  | Focus the editor on init.                                                                                                                            |
-| `content`           | `Object|String` | `null`   | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored.       |
-| `editable`          | `Boolean`       | `true`   | When set to `false` the editor is read-only.                                                                                                         |
-| ~~`editorProps`~~   | ~~`Object`~~    | ~~`{}`~~ | ~~A list of [Prosemirror editorProps](https://prosemirror.net/docs/ref/#view.EditorProps).~~                                                         |
-| `element`           | `Element`       | `false`  | Focus the editor on init.                                                                                                                            |
-| `extensions`        | `Array`         | `[]`     | A list of extensions you would like to use. Can be [`Nodes`](/api/nodes), [`Marks`](/api/marks) or [`Extensions`](/api/extensions).                  |
-| `injectCSS`         | `Boolean`       | `true`   | When set to `false` tiptap won’t load [the default ProseMirror CSS](https://github.com/ueberdosis/tiptap-next/tree/main/packages/core/src/style.ts). |
-| ~~`parseOptions`~~ | ~~`Object`~~    | ~~`{}`~~ | ~~A list of [Prosemirror parseOptions](https://prosemirror.net/docs/ref/#model.ParseOptions).~~                                                      | -->
+| Setting            | Type            | Default  | Description                                                                                                                                          |
+| ------------------ | --------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autofocus`        | `Boolean`       | `false`  | Focus the editor on init.                                                                                                                            |
+| `content`          | `Object|String` | `null`   | The editor state object used by Prosemirror. You can also pass HTML to the `content` slot. When used both, the `content` slot will be ignored.       |
+| `editable`         | `Boolean`       | `true`   | When set to `false` the editor is read-only.                                                                                                         |
+| ~~`editorProps`~~  | ~~`Object`~~    | ~~`{}`~~ | ~~A list of [Prosemirror editorProps](https://prosemirror.net/docs/ref/#view.EditorProps).~~                                                         |
+| `element`          | `Element`       | `false`  | Focus the editor on init.                                                                                                                            |
+| `extensions`       | `Array`         | `[]`     | A list of extensions you would like to use. Can be [`Nodes`](/api/nodes), [`Marks`](/api/marks) or [`Extensions`](/api/extensions).                  |
+| `injectCSS`        | `Boolean`       | `true`   | When set to `false` tiptap won’t load [the default ProseMirror CSS](https://github.com/ueberdosis/tiptap-next/tree/main/packages/core/src/style.ts). |
+| ~~`parseOptions`~~ | ~~`Object`~~    | ~~`{}`~~ | ~~A list of [Prosemirror parseOptions](https://prosemirror.net/docs/ref/#model.ParseOptions).~~                                                      | --> |
 
 ## List of available methods
 An editor instance will provide the following public methods. They’ll help you to work with the editor.
 
 Don’t confuse methods with [commands](/api/commands), which are used to change the state of editor (content, selection, and so on) and only return `true` or `false`.
 
-| Method               | Parameters                                                                                                  | Description                                                                  |
-| -------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `can()`              | -                                                                                                           | Check if a command or a command chain can be executed. Without executing it. |
-| `chain()`            | -                                                                                                           | Create a command chain to call multiple commands at once.                    |
-| `createDocument()`   | `content` EditorContent<br>`parseOptions`                                                                   | Creates a ProseMirror document.                                              |
-| `destroy()`          | –                                                                                                           | Stops the editor instance and unbinds all events.                            |
-| `getHTML()`          | –                                                                                                           | Returns the current content as HTML.                                         |
-| `getJSON()`          | –                                                                                                           | Returns the current content as JSON.                                         |
-| `getMarkAttributes()`     | `name` Name of the mark                                                      | Get attributes of the currently selected mark.                               |
-| `getNodeAttributes()`     | `name` Name of the node                                                          | Get attributes of the currently selected node.                               |
-| `isActive()`         | `name` Name of the node or mark<br>`attrs` Attributes of the node or mark                                   | Returns if the currently selected node or mark is active.                    |
-| `isEditable()`       | -                                                                                                           | Returns whether the editor is editable.                                      |
-| `isEmpty()`          | -                                                                                                           | Check if there is no content.                                                |
-| `registerCommand()`  | `name` The name of your command<br>`callback` The method of your command                                    | Register a command.                                                          |
-| `registerCommands()` | `commands` A list of commands                                                                               | Register a list of commands.                                                 |
-| `registerPlugin()`   | `plugin` A ProseMirror plugin<br>`handlePlugins` Control how to merge the plugin into the existing plugins. | Register a ProseMirror plugin.                                               |
-| `setOptions()`       | `options` A list of options                                                                                 | Update editor options.                                                       |
-| `unregisterPlugin()` | `name` The plugins name                                                                                     | Unregister a ProseMirror plugin.                                             |
+| Method                | Parameters                                                                                                  | Description                                                                  |
+| --------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `can()`               | -                                                                                                           | Check if a command or a command chain can be executed. Without executing it. |
+| `chain()`             | -                                                                                                           | Create a command chain to call multiple commands at once.                    |
+| `createDocument()`    | `content` EditorContent<br>`parseOptions`                                                                   | Creates a ProseMirror document.                                              |
+| `destroy()`           | –                                                                                                           | Stops the editor instance and unbinds all events.                            |
+| `getHTML()`           | –                                                                                                           | Returns the current content as HTML.                                         |
+| `getJSON()`           | –                                                                                                           | Returns the current content as JSON.                                         |
+| `getMarkAttributes()` | `name` Name of the mark                                                                                     | Get attributes of the currently selected mark.                               |
+| `getNodeAttributes()` | `name` Name of the node                                                                                     | Get attributes of the currently selected node.                               |
+| `isActive()`          | `name` Name of the node or mark<br>`attrs` Attributes of the node or mark                                   | Returns if the currently selected node or mark is active.                    |
+| `isEditable()`        | -                                                                                                           | Returns whether the editor is editable.                                      |
+| `isEmpty()`           | -                                                                                                           | Check if there is no content.                                                |
+| `getCharacterCount()` | -                                                                                                           | Get the number of characters for the current document.                       |
+| `registerCommand()`   | `name` The name of your command<br>`callback` The method of your command                                    | Register a command.                                                          |
+| `registerCommands()`  | `commands` A list of commands                                                                               | Register a list of commands.                                                 |
+| `registerPlugin()`    | `plugin` A ProseMirror plugin<br>`handlePlugins` Control how to merge the plugin into the existing plugins. | Register a ProseMirror plugin.                                               |
+| `setOptions()`        | `options` A list of options                                                                                 | Update editor options.                                                       |
+| `unregisterPlugin()`  | `name` The plugins name                                                                                     | Unregister a ProseMirror plugin.                                             |

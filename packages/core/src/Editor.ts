@@ -396,6 +396,13 @@ export class Editor extends EventEmitter {
   }
 
   /**
+   * Get the number of characters for the current document.
+   */
+  public getCharacterCount() {
+    return this.state.doc.content.size - 2
+  }
+
+  /**
    * Destroy the editor.
    */
   public destroy() {
