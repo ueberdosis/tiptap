@@ -2,8 +2,40 @@
   <div>
     <editor-content :editor="editor" />
 
-    <div :class="{'character-limit': true, 'character-limit--warning': characters === limit}">
-      {{ characters }}/{{ limit }} characters
+    <div v-if="editor" :class="{'character-count': true, 'character-count--warning': editor.getCharacterCount() === limit}">
+      <svg
+        height="20"
+        width="20"
+        viewBox="0 0 20 20"
+        class="character-count__graph"
+      >
+        <circle
+          r="10"
+          cx="10"
+          cy="10"
+          fill="#e9ecef"
+        />
+        <circle
+          r="5"
+          cx="10"
+          cy="10"
+          fill="transparent"
+          stroke="currentColor"
+          stroke-width="10"
+          :stroke-dasharray="`calc(${percentage} * 31.4 / 100) 31.4`"
+          transform="rotate(-90) translate(-20)"
+        />
+        <circle
+          r="6"
+          cx="10"
+          cy="10"
+          fill="white"
+        />
+      </svg>
+
+      <div class="character-count__text">
+        {{ editor.getCharacterCount() }}/{{ limit }} characters
+      </div>
     </div>
   </div>
 </template>
@@ -98,12 +130,8 @@ export default {
   },
 
   computed: {
-    characters() {
-      if (this.editor) {
-        return this.editor.state.doc.content.size - 2
-      }
-
-      return null
+    percentage() {
+      return Math.round(100 / this.limit * this.editor.getCharacterCount())
     },
   },
 
@@ -128,12 +156,22 @@ export default {
   padding: 0.1rem 0.3rem;
 }
 
-.character-limit {
+.character-count {
   margin-top: 1rem;
-  color: #868e96;
+  display: flex;
+  align-items: center;
+  color: #68CEF8;
 
   &--warning {
-    color: #f03e3e;
+    color: #FB5151;
+  }
+
+  &__graph {
+    margin-right: 0.5rem;
+  }
+
+  &__text {
+    color: #868e96;
   }
 }
 </style>

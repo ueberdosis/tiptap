@@ -2,8 +2,8 @@
   <div>
     <editor-content :editor="editor" />
 
-    <div :class="{'character-limit': true, 'character-limit--warning': characters === limit}">
-      {{ characters }}/{{ limit }} characters
+    <div class="character-count">
+      {{ editor.getCharacterCount() }}/{{ limit }} characters
     </div>
   </div>
 </template>
@@ -45,16 +45,6 @@ export default {
     })
   },
 
-  computed: {
-    characters() {
-      if (this.editor) {
-        return this.editor.state.doc.content.size - 2
-      }
-
-      return null
-    },
-  },
-
   beforeDestroy() {
     this.editor.destroy()
   },
@@ -69,12 +59,8 @@ export default {
   }
 }
 
-.character-limit {
+.character-count {
   margin-top: 1rem;
   color: #868e96;
-
-  &--warning {
-    color: #f03e3e;
-  }
 }
 </style>
