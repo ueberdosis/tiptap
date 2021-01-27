@@ -21,6 +21,8 @@ new Editor({
 })
 ```
 
+If you don’t pass an element, tiptap will create an invisible `<div>`. You can use that to mount your editor after it’s already initiated: `yourElement.append(editor.options.element)`
+
 ### Extensions
 It’s required to pass a list of extensions to the `extensions` property, even if you only want to allow paragraphs.
 
