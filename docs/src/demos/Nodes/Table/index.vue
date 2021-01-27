@@ -146,6 +146,7 @@ export default {
     th {
       font-weight: bold;
       text-align: left;
+      background-color: #f1f3f5;
     }
 
     .selectedCell:after {

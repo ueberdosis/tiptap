@@ -40,6 +40,9 @@
     - title: Community
       link: /examples/community
       type: draft
+    - title: Tables
+      link: /examples/tables
+      type: draft
 
 - title: Guide
   items:
