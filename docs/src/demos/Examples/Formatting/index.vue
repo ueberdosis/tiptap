@@ -37,15 +37,8 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Heading from '@tiptap/extension-heading'
-import Bold from '@tiptap/extension-bold'
-import Italic from '@tiptap/extension-italic'
+import { defaultExtensions, Editor, EditorContent } from '@tiptap/vue-starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
-import HardBreak from '@tiptap/extension-hard-break'
 
 export default {
   components: {
@@ -61,16 +54,8 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Heading.configure({
-          level: [1, 2, 3],
-        }),
-        Bold,
-        Italic,
+        ...defaultExtensions(),
         TextAlign,
-        HardBreak,
       ],
       content: `
         <h3>
@@ -126,3 +111,52 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
+
+  pre {
+    background: #0D0D0D;
+    color: #FFF;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+
+    code {
+      color: inherit;
+      background: none;
+      font-size: 0.8rem;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    margin: 2rem 0;
+  }
+}
+</style>
