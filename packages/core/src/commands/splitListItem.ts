@@ -5,6 +5,7 @@ import {
   Slice,
 } from 'prosemirror-model'
 import { canSplit } from 'prosemirror-transform'
+import { TextSelection } from 'prosemirror-state'
 import { Command } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
@@ -52,8 +53,7 @@ export const splitListItem = (typeOrName: string | NodeType): Command => ({ stat
       }
 
       // Add a second list item with an empty default start node
-      // @ts-ignore
-      wrap = wrap.append(Fragment.from(type.createAndFill()))
+      wrap = wrap.append(Fragment.from(type.createAndFill() || undefined))
 
       const tr = state.tr.replace(
         $from.before(keepItem ? undefined : -1),
@@ -62,8 +62,7 @@ export const splitListItem = (typeOrName: string | NodeType): Command => ({ stat
       )
 
       tr
-        // @ts-ignore
-        .setSelection(state.selection.constructor.near(tr.doc.resolve($from.pos + (keepItem ? 3 : 2))))
+        .setSelection(TextSelection.near(tr.doc.resolve($from.pos + (keepItem ? 3 : 2))))
         .scrollIntoView()
     }
 
@@ -109,13 +108,11 @@ export const splitListItem = (typeOrName: string | NodeType): Command => ({ stat
     ? [{ type, attrs: newTypeAttributes }, { type: nextType, attrs: newNextTypeAttributes }]
     : [{ type, attrs: newTypeAttributes }]
 
-  // @ts-ignore
-  if (!canSplit(tr.doc, $from.pos, 2, nextType && [null])) {
+  if (!canSplit(tr.doc, $from.pos, 2)) {
     return false
   }
 
   if (dispatch) {
-    // @ts-ignore
     tr.split($from.pos, 2, types).scrollIntoView()
   }
 
