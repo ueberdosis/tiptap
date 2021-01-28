@@ -53,9 +53,7 @@ new Editor({
 And we removed some settings: `dropCursor`, `enableDropCursor`, and `enableGapCursor`. Those are separate extensions now: [`Dropcursor`](/api/extensions/dropcursor) and [`Gapcursor`](/api/extensions/gapcursor). You probably want to load them, but if you don’t just ignore me.
 
 ### New names for most extensions
-**We renamed the default [`Document`](/api/nodes/document) type from `doc` to `document`.** To keep it like that, use your own implementation of the [`Document`](/api/nodes/document) node or migrate the stored JSON to use the new name.
-
-Also, we switched to lowerCamelCase, so there’s a lot that changed. If you stored your content as JSON you need to loop through it and rename a lot of types. Sorry for that one.
+We switched to lowerCamelCase, so there’s a lot type names that changed. If you stored your content as JSON you need to loop through it and rename them. Sorry for that one.
 
 | Old type              | New type               |
 | --------------------- | ---------------------- |

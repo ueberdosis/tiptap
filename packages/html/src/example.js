@@ -6,7 +6,7 @@ import Text from '@tiptap/extension-text'
 
 // eslint-disable-next-line
 const html = generateHTML({
-  type: 'document',
+  type: 'doc',
   content: [{
     type: 'paragraph',
     attrs: {

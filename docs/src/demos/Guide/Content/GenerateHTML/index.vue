@@ -14,7 +14,7 @@ export default {
     return {
       output: '',
       json: {
-        type: 'document',
+        type: 'doc',
         content: [
           {
             type: 'paragraph',

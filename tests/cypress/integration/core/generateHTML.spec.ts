@@ -8,7 +8,7 @@ import Text from '@tiptap/extension-text'
 describe('generateHTML', () => {
   it('generate HTML from JSON without an editor instance', () => {
     const json = {
-      type: 'document',
+      type: 'doc',
       content: [{
         type: 'paragraph',
         content: [{

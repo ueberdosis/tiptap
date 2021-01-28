@@ -14,7 +14,7 @@ context('/demos/Nodes/Document', () => {
       const json = editor.getJSON()
 
       expect(json).to.deep.equal({
-        type: 'document',
+        type: 'doc',
         content: [
           {
             type: 'paragraph',

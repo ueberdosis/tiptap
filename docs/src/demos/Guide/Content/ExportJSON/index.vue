@@ -62,7 +62,7 @@ export default {
     setContent() {
       // You can pass a JSON document to the editor.
       this.editor.commands.setContent({
-        type: 'document',
+        type: 'doc',
         content: [{
           type: 'paragraph',
           content: [

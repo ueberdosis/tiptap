@@ -24,7 +24,7 @@ const MenuBar = () => {
 
 export default () => {
   const [value, setValue] = useState({
-    type: 'document',
+    type: 'doc',
     content: [
       {
         type: 'paragraph',
