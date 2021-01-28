@@ -1,9 +1,5 @@
 import { MarkType, ResolvedPos } from 'prosemirror-model'
-
-interface Range {
-  from: number,
-  to: number,
-}
+import { Range } from '../types'
 
 export default function getMarkRange($pos: ResolvedPos, type: MarkType): Range | void {
   if (!$pos || !type) {

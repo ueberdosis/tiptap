@@ -5,7 +5,7 @@ import { AnyObject } from '../types'
  * @param obj Object
  * @param key Key to remove
  */
-export default function deleteProps(obj: AnyObject, propOrProps: string | string[]) {
+export default function deleteProps(obj: AnyObject, propOrProps: string | string[]): AnyObject {
   const props = typeof propOrProps === 'string'
     ? [propOrProps]
     : propOrProps

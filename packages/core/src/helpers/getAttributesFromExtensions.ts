@@ -11,7 +11,7 @@ import {
  * Get a list of all extension attributes defined in `addAttribute` and `addGlobalAttribute`.
  * @param extensions List of extensions
  */
-export default function getAttributesFromExtensions(extensions: Extensions) {
+export default function getAttributesFromExtensions(extensions: Extensions): ExtensionAttribute[] {
   const extensionAttributes: ExtensionAttribute[] = []
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
   const nodeAndMarkExtensions = [...nodeExtensions, ...markExtensions]

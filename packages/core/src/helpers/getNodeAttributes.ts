@@ -1,8 +1,9 @@
 import { EditorState } from 'prosemirror-state'
 import { Node, NodeType } from 'prosemirror-model'
 import getNodeType from './getNodeType'
+import { AnyObject } from '../types'
 
-export default function getNodeAttributes(state: EditorState, typeOrName: string | NodeType) {
+export default function getNodeAttributes(state: EditorState, typeOrName: string | NodeType): AnyObject {
   const type = getNodeType(typeOrName, state.schema)
   const { from, to } = state.selection
   let nodes: Node[] = []

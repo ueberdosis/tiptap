@@ -1,7 +1,7 @@
 import { AnyObject } from '../types'
 import isObject from './isObject'
 
-export default function mergeDeep(target: AnyObject, source: AnyObject) {
+export default function mergeDeep(target: AnyObject, source: AnyObject): AnyObject {
   const output = { ...target }
 
   if (isObject(target) && isObject(source)) {

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.12](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-alpha.11...@tiptap/core@2.0.0-alpha.12) (2021-01-28)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-alpha.11](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-alpha.10...@tiptap/core@2.0.0-alpha.11) (2021-01-28)
+
+
+### Bug Fixes
+
+* don’t merge classes ([dba0c1a](https://github.com/ueberdosis/tiptap-next/commit/dba0c1ac15e9beda3ebd027c67c969a4fe7ae7c7))
+
+
+
+
+
 # [2.0.0-alpha.10](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-alpha.9...@tiptap/core@2.0.0-alpha.10) (2021-01-06)
 
 **Note:** Version bump only for package @tiptap/core

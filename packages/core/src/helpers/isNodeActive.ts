@@ -1,14 +1,8 @@
 import { EditorState } from 'prosemirror-state'
-import { Node, NodeType } from 'prosemirror-model'
+import { NodeType } from 'prosemirror-model'
 import objectIncludes from '../utilities/objectIncludes'
 import getNodeType from './getNodeType'
-import { AnyObject } from '../types'
-
-export type NodeRange = {
-  node: Node,
-  from: number,
-  to: number,
-}
+import { AnyObject, NodeRange } from '../types'
 
 export default function isNodeActive(
   state: EditorState,
