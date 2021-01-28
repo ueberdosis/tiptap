@@ -12,7 +12,15 @@ import createStyleTag from './utilities/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
-import { EditorOptions, EditorContent, CommandSpec } from './types'
+import {
+  EditorOptions,
+  EditorContent,
+  CommandSpec,
+  CanCommands,
+  ChainedCommands,
+  SingleCommands,
+  AnyObject,
+} from './types'
 import * as extensions from './extensions'
 import style from './style'
 
@@ -68,7 +76,7 @@ export class Editor extends EventEmitter {
   /**
    * This method is called after the proxy is initialized.
    */
-  private init() {
+  private init(): void {
     this.createCommandManager()
     this.createExtensionManager()
     this.createSchema()
@@ -101,28 +109,28 @@ export class Editor extends EventEmitter {
   /**
    * An object of all registered commands.
    */
-  public get commands() {
+  public get commands(): SingleCommands {
     return this.commandManager.createCommands()
   }
 
   /**
    * Create a command chain to call multiple commands at once.
    */
-  public chain() {
+  public chain(): ChainedCommands {
     return this.commandManager.createChain()
   }
 
   /**
    * Check if a command or a command chain can be executed. Without executing it.
    */
-  public can() {
+  public can(): CanCommands {
     return this.commandManager.createCan()
   }
 
   /**
    * Inject CSS styles.
    */
-  private injectCSS() {
+  private injectCSS(): void {
     if (this.options.injectCSS && document) {
       this.css = createStyleTag(style)
     }
@@ -133,7 +141,7 @@ export class Editor extends EventEmitter {
    *
    * @param options A list of options
    */
-  public setOptions(options: Partial<EditorOptions> = {}) {
+  public setOptions(options: Partial<EditorOptions> = {}): void {
     this.options = { ...this.options, ...options }
 
     if (this.view && this.state && !this.isDestroyed) {
@@ -144,14 +152,14 @@ export class Editor extends EventEmitter {
   /**
    * Returns whether the editor is editable.
    */
-  public get isEditable() {
+  public get isEditable(): boolean {
     return this.view && this.view.editable
   }
 
   /**
    * Returns the editor state.
    */
-  public get state() {
+  public get state(): EditorState {
     return this.view.state
   }
 
@@ -160,7 +168,7 @@ export class Editor extends EventEmitter {
    *
    * @param commands A list of commands
    */
-  public registerCommands(commands: { [key: string]: CommandSpec }) {
+  public registerCommands(commands: { [key: string]: CommandSpec }): void {
     Object
       .entries(commands)
       .forEach(([name, command]) => this.registerCommand(name, command))
@@ -184,7 +192,7 @@ export class Editor extends EventEmitter {
    * @param plugin A ProseMirror plugin
    * @param handlePlugins Control how to merge the plugin into the existing plugins.
    */
-  public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]) {
+  public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]): void {
     const plugins = typeof handlePlugins === 'function'
       ? handlePlugins(plugin, this.state.plugins)
       : [plugin, ...this.state.plugins]
@@ -199,7 +207,7 @@ export class Editor extends EventEmitter {
    *
    * @param name The plugins name
    */
-  public unregisterPlugin(name: string) {
+  public unregisterPlugin(name: string): void {
     const state = this.state.reconfigure({
       // @ts-ignore
       plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(`${name}$`)),
@@ -211,7 +219,7 @@ export class Editor extends EventEmitter {
   /**
    * Creates an extension manager.
    */
-  private createExtensionManager() {
+  private createExtensionManager(): void {
     const coreExtensions = Object.entries(extensions).map(([, extension]) => extension)
     const allExtensions = [...this.options.extensions, ...coreExtensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
@@ -223,21 +231,21 @@ export class Editor extends EventEmitter {
   /**
    * Creates an command manager.
    */
-  private createCommandManager() {
+  private createCommandManager(): void {
     this.commandManager = new CommandManager(this.proxy)
   }
 
   /**
    * Creates a ProseMirror schema.
    */
-  private createSchema() {
+  private createSchema(): void {
     this.schema = this.extensionManager.schema
   }
 
   /**
    * Creates a ProseMirror view.
    */
-  private createView() {
+  private createView(): void {
     this.view = new EditorView(this.options.element, {
       ...this.options.editorProps,
       dispatchTransaction: this.dispatchTransaction.bind(this),
@@ -265,7 +273,7 @@ export class Editor extends EventEmitter {
   /**
    * Creates all node views.
    */
-  public createNodeViews() {
+  public createNodeViews(): void {
     this.view.setProps({
       nodeViews: this.extensionManager.nodeViews,
     })
@@ -304,7 +312,7 @@ export class Editor extends EventEmitter {
    *
    * @param transaction An editor state transaction
    */
-  private dispatchTransaction(transaction: Transaction) {
+  private dispatchTransaction(transaction: Transaction): void {
     const state = this.state.apply(transaction)
     const selectionHasChanged = !this.state.selection.eq(state.selection)
 
@@ -338,7 +346,7 @@ export class Editor extends EventEmitter {
    *
    * @param name Name of the node
    */
-  public getNodeAttributes(name: string) {
+  public getNodeAttributes(name: string): AnyObject {
     return getNodeAttributes(this.state, name)
   }
 
@@ -347,7 +355,7 @@ export class Editor extends EventEmitter {
    *
    * @param name Name of the mark
    */
-  public getMarkAttributes(name: string) {
+  public getMarkAttributes(name: string): AnyObject {
     return getMarkAttributes(this.state, name)
   }
 
@@ -374,21 +382,21 @@ export class Editor extends EventEmitter {
   /**
    * Get the document as JSON.
    */
-  public getJSON() {
+  public getJSON(): AnyObject {
     return this.state.doc.toJSON()
   }
 
   /**
    * Get the document as HTML.
    */
-  public getHTML() {
+  public getHTML(): string {
     return getHTMLFromFragment(this.state.doc, this.schema)
   }
 
   /**
    * Check if there is no content.
    */
-  public isEmpty() {
+  public isEmpty(): boolean {
     const defaultContent = this.state.doc.type.createAndFill()?.toJSON()
     const content = this.getJSON()
 
@@ -398,14 +406,14 @@ export class Editor extends EventEmitter {
   /**
    * Get the number of characters for the current document.
    */
-  public getCharacterCount() {
+  public getCharacterCount(): number {
     return this.state.doc.content.size - 2
   }
 
   /**
    * Destroy the editor.
    */
-  public destroy() {
+  public destroy(): void {
     this.emit('destroy')
 
     if (this.view) {
@@ -419,7 +427,7 @@ export class Editor extends EventEmitter {
   /**
    * Check if the editor is already destroyed.
    */
-  private get isDestroyed() {
+  private get isDestroyed(): boolean {
     // @ts-ignore
     return !this.view?.docView
   }
