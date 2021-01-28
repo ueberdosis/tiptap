@@ -195,7 +195,7 @@ export class Editor extends EventEmitter {
   public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]): void {
     const plugins = typeof handlePlugins === 'function'
       ? handlePlugins(plugin, this.state.plugins)
-      : [plugin, ...this.state.plugins]
+      : [...this.state.plugins, plugin]
 
     const state = this.state.reconfigure({ plugins })
 
@@ -221,7 +221,7 @@ export class Editor extends EventEmitter {
    */
   private createExtensionManager(): void {
     const coreExtensions = Object.entries(extensions).map(([, extension]) => extension)
-    const allExtensions = [...this.options.extensions, ...coreExtensions].filter(extension => {
+    const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
 

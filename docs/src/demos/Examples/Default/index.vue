@@ -70,7 +70,9 @@
 </template>
 
 <script>
-import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
+import {
+  Editor, EditorContent, defaultExtensions, Extension,
+} from '@tiptap/vue-starter-kit'
 
 export default {
   components: {
@@ -85,7 +87,23 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: defaultExtensions(),
+      extensions: [
+        ...defaultExtensions(),
+        Extension.create({
+          addKeyboardShortcuts() {
+            return {
+              'Mod-Enter': () => {
+                console.log('Mod-Enter plugin')
+                return false
+              },
+              'Shift-Enter': () => {
+                console.log('Shift-Enter')
+                return false
+              },
+            }
+          },
+        }),
+      ],
       content: `
         <h2>
           Hi there,

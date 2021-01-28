@@ -67,7 +67,8 @@ export default class ExtensionManager {
   }
 
   get plugins(): Plugin[] {
-    return this.extensions
+    return [...this.extensions]
+      .reverse()
       .map(extension => {
         const context = {
           options: extension.options,
