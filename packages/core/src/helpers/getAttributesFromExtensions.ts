@@ -20,6 +20,7 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
     rendered: true,
     renderHTML: null,
     parseHTML: null,
+    keepOnSplit: true,
   }
 
   extensions.forEach(extension => {

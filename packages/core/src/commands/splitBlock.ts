@@ -15,7 +15,6 @@ function defaultBlockAt(match: ContentMatch) {
 }
 
 export interface SplitBlockOptions {
-  withAttributes: boolean,
   withMarks: boolean,
 }
 
@@ -31,14 +30,34 @@ function keepMarks(state: EditorState) {
 /**
  * Forks a new node from an existing node.
  */
-export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command => ({ tr, state, dispatch }) => {
+export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command => ({
+  tr,
+  state,
+  dispatch,
+  editor,
+}) => {
   const defaultOptions: SplitBlockOptions = {
-    withAttributes: false,
     withMarks: true,
   }
   const config = { ...defaultOptions, ...options }
   const { selection, doc } = tr
   const { $from, $to } = selection
+
+  const extensionAttributes = editor.extensionManager.attributes
+    .filter(item => item.type === $from.node().type.name)
+
+  const currentAttributes = $from.node().attrs
+  const newAttributes = Object.fromEntries(Object
+    .entries(currentAttributes)
+    .filter(([name]) => {
+      const extensionAttribute = extensionAttributes.find(item => item.name === name)
+
+      if (!extensionAttribute) {
+        return false
+      }
+
+      return extensionAttribute.attribute.keepOnSplit
+    }))
 
   if (selection instanceof NodeSelection && selection.node.isBlock) {
     if (!$from.parentOffset || !canSplit(doc, $from.pos)) {
@@ -74,9 +93,7 @@ export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command =>
     let types = atEnd && deflt
       ? [{
         type: deflt,
-        attrs: config.withAttributes
-          ? $from.node().attrs
-          : {},
+        attrs: newAttributes,
       }]
       : undefined
 
@@ -91,9 +108,7 @@ export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command =>
       types = deflt
         ? [{
           type: deflt,
-          attrs: config.withAttributes
-            ? $from.node().attrs
-            : {},
+          attrs: newAttributes,
         }]
         : undefined
     }
