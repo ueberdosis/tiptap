@@ -34,6 +34,7 @@ export const TaskItem = Node.create({
         renderHTML: attributes => ({
           'data-checked': attributes.checked,
         }),
+        keepOnSplit: false,
       },
     }
   },
