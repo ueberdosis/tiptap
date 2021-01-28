@@ -2,6 +2,7 @@ import { keymap } from 'prosemirror-keymap'
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { inputRules as inputRulesPlugin } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
+import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { Extensions, NodeViewRenderer } from './types'
 import getSchema from './helpers/getSchema'
@@ -65,7 +66,7 @@ export default class ExtensionManager {
     })
   }
 
-  get plugins() {
+  get plugins(): Plugin[] {
     return this.extensions
       .map(extension => {
         const context = {
