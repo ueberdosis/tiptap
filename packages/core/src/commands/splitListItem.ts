@@ -12,7 +12,9 @@ import getNodeType from '../helpers/getNodeType'
 /**
  * Splits one list item into two list items.
  */
-export const splitListItem = (typeOrName: string | NodeType): Command => ({ state, dispatch, editor }) => {
+export const splitListItem = (typeOrName: string | NodeType): Command => ({
+  tr, state, dispatch, editor,
+}) => {
   const type = getNodeType(typeOrName, state.schema)
   const { $from, $to } = state.selection
 
@@ -56,13 +58,12 @@ export const splitListItem = (typeOrName: string | NodeType): Command => ({ stat
       const nextType = type.contentMatch.defaultType?.createAndFill($from.node().attrs) || undefined
       wrap = wrap.append(Fragment.from(type.createAndFill(null, nextType) || undefined))
 
-      const tr = state.tr.replace(
-        $from.before(keepItem ? undefined : -1),
-        $from.after(-3),
-        new Slice(wrap, keepItem ? 3 : 2, 2),
-      )
-
       tr
+        .replace(
+          $from.before(keepItem ? undefined : -1),
+          $from.after(-3),
+          new Slice(wrap, keepItem ? 3 : 2, 2),
+        )
         .setSelection(TextSelection.near(tr.doc.resolve($from.pos + (keepItem ? 3 : 2))))
         .scrollIntoView()
     }
@@ -104,7 +105,8 @@ export const splitListItem = (typeOrName: string | NodeType): Command => ({ stat
       return extensionAttribute.attribute.keepOnSplit
     }))
 
-  const tr = state.tr.delete($from.pos, $to.pos)
+  tr.delete($from.pos, $to.pos)
+
   const types = nextType
     ? [{ type, attrs: newTypeAttributes }, { type: nextType, attrs: newNextTypeAttributes }]
     : [{ type, attrs: newTypeAttributes }]
