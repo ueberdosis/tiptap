@@ -1,6 +1,6 @@
 import { AnyObject } from '../types'
 
-export default function mergeAttributes(...objects: AnyObject[]) {
+export default function mergeAttributes(...objects: AnyObject[]): AnyObject {
   return objects
     .filter(item => !!item)
     .reduce((items, item) => {

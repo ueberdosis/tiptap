@@ -1,8 +1,9 @@
 import { EditorState } from 'prosemirror-state'
 import { Mark, MarkType } from 'prosemirror-model'
 import getMarkType from './getMarkType'
+import { AnyObject } from '../types'
 
-export default function getMarkAttributes(state: EditorState, typeOrName: string | MarkType) {
+export default function getMarkAttributes(state: EditorState, typeOrName: string | MarkType): AnyObject {
   const type = getMarkType(typeOrName, state.schema)
   const { from, to, empty } = state.selection
   let marks: Mark[] = []

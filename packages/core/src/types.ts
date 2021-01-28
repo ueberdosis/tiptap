@@ -36,7 +36,7 @@ export interface EditorOptions {
 
 export type EditorContent = string | JSON | null
 
-export type Command = (props: {
+export type CommandProps = {
   editor: Editor,
   tr: Transaction,
   commands: SingleCommands,
@@ -45,7 +45,9 @@ export type Command = (props: {
   state: EditorState,
   view: EditorView,
   dispatch: ((args?: any) => any) | undefined,
-}) => boolean
+}
+
+export type Command = (props: CommandProps) => boolean
 
 export type CommandSpec = (...args: any[]) => Command
 

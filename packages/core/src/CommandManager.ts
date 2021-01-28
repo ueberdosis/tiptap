@@ -5,6 +5,7 @@ import {
   ChainedCommands,
   CanCommands,
   CommandSpec,
+  CommandProps,
 } from './types'
 import getAllMethodNames from './utilities/getAllMethodNames'
 
@@ -41,7 +42,7 @@ export default class CommandManager {
     return this.editor
   }
 
-  public createCommands() {
+  public createCommands(): SingleCommands {
     const { commands, editor } = this
     const { state, view } = editor
     const { tr } = state
@@ -64,7 +65,7 @@ export default class CommandManager {
       })) as SingleCommands
   }
 
-  public createChain(startTr?: Transaction, shouldDispatch = true) {
+  public createChain(startTr?: Transaction, shouldDispatch = true): ChainedCommands {
     const { commands, editor } = this
     const { state, view } = editor
     const callbacks: boolean[] = []
@@ -99,7 +100,7 @@ export default class CommandManager {
     }) as ChainedCommands
   }
 
-  public createCan(startTr?: Transaction) {
+  public createCan(startTr?: Transaction): CanCommands {
     const { commands, editor } = this
     const { state } = editor
     const dispatch = false
@@ -117,7 +118,7 @@ export default class CommandManager {
     } as CanCommands
   }
 
-  public buildProps(tr: Transaction, shouldDispatch = true) {
+  public buildProps(tr: Transaction, shouldDispatch = true): CommandProps {
     const { editor, commands } = this
     const { state, view } = editor
 
@@ -140,7 +141,7 @@ export default class CommandManager {
           .entries(commands)
           .map(([name, command]) => {
             return [name, (...args: any[]) => command(...args)(props)]
-          }))
+          })) as SingleCommands
       },
     }
 

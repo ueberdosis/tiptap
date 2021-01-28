@@ -2,7 +2,7 @@ export default class EventEmitter {
 
   private callbacks: { [key: string]: Function[] } = {}
 
-  public on(event: string, fn: Function) {
+  public on(event: string, fn: Function): this {
     if (!this.callbacks[event]) {
       this.callbacks[event] = []
     }
@@ -12,7 +12,7 @@ export default class EventEmitter {
     return this
   }
 
-  protected emit(event: string, ...args: any) {
+  protected emit(event: string, ...args: any): this {
     const callbacks = this.callbacks[event]
 
     if (callbacks) {
@@ -22,7 +22,7 @@ export default class EventEmitter {
     return this
   }
 
-  public off(event: string, fn?: Function) {
+  public off(event: string, fn?: Function): this {
     const callbacks = this.callbacks[event]
 
     if (callbacks) {
@@ -36,7 +36,7 @@ export default class EventEmitter {
     return this
   }
 
-  protected removeAllListeners() {
+  protected removeAllListeners(): void {
     this.callbacks = {}
   }
 }
