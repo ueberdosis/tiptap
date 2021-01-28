@@ -53,7 +53,8 @@ export const splitListItem = (typeOrName: string | NodeType): Command => ({ stat
       }
 
       // Add a second list item with an empty default start node
-      wrap = wrap.append(Fragment.from(type.createAndFill() || undefined))
+      const nextType = type.contentMatch.defaultType?.createAndFill($from.node().attrs) || undefined
+      wrap = wrap.append(Fragment.from(type.createAndFill(null, nextType) || undefined))
 
       const tr = state.tr.replace(
         $from.before(keepItem ? undefined : -1),
