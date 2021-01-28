@@ -1,4 +1,8 @@
-import { Node as ProseMirrorNode, ParseOptions } from 'prosemirror-model'
+import {
+  Node as ProseMirrorNode,
+  Mark as ProseMirrorMark,
+  ParseOptions,
+} from 'prosemirror-model'
 import {
   EditorView,
   Decoration,
@@ -134,6 +138,18 @@ export type CanCommands = SingleCommands & { chain: () => ChainedCommands }
 export type FocusPosition = 'start' | 'end' | number | boolean | null
 
 export type Range = {
+  from: number,
+  to: number,
+}
+
+export type NodeRange = {
+  node: ProseMirrorNode,
+  from: number,
+  to: number,
+}
+
+export type MarkRange = {
+  mark: ProseMirrorMark,
   from: number,
   to: number,
 }

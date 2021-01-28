@@ -24,7 +24,7 @@ export default function (regexp: RegExp, markType: MarkType, getAttributes?: Fun
           const { excluded } = item.mark.type
           return excluded.find((type: MarkType) => type.name === markType.name)
         })
-        .filter(item => item.end > textStart)
+        .filter(item => item.to > textStart)
 
       if (excludedMarks.length) {
         return null
