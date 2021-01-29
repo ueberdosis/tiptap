@@ -2,6 +2,7 @@ import { canSplit } from 'prosemirror-transform'
 import { ContentMatch, Fragment } from 'prosemirror-model'
 import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
 import { Command } from '../types'
+import getSplittedAttributes from '../helpers/getSplittedAttributes'
 
 function defaultBlockAt(match: ContentMatch) {
   for (let i = 0; i < match.edgeCount; i + 1) {
@@ -42,22 +43,12 @@ export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command =>
   const config = { ...defaultOptions, ...options }
   const { selection, doc } = tr
   const { $from, $to } = selection
-
   const extensionAttributes = editor.extensionManager.attributes
-    .filter(item => item.type === $from.node().type.name)
-
-  const currentAttributes = $from.node().attrs
-  const newAttributes = Object.fromEntries(Object
-    .entries(currentAttributes)
-    .filter(([name]) => {
-      const extensionAttribute = extensionAttributes.find(item => item.name === name)
-
-      if (!extensionAttribute) {
-        return false
-      }
-
-      return extensionAttribute.attribute.keepOnSplit
-    }))
+  const newAttributes = getSplittedAttributes(
+    extensionAttributes,
+    $from.node().type.name,
+    $from.node().attrs,
+  )
 
   if (selection instanceof NodeSelection && selection.node.isBlock) {
     if (!$from.parentOffset || !canSplit(doc, $from.pos)) {

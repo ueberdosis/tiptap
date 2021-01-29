@@ -8,6 +8,7 @@ import { canSplit } from 'prosemirror-transform'
 import { TextSelection } from 'prosemirror-state'
 import { Command } from '../types'
 import getNodeType from '../helpers/getNodeType'
+import getSplittedAttributes from '../helpers/getSplittedAttributes'
 
 /**
  * Splits one list item into two list items.
@@ -32,6 +33,8 @@ export const splitListItem = (typeOrName: string | NodeType): Command => ({
     return false
   }
 
+  const extensionAttributes = editor.extensionManager.attributes
+
   if ($from.parent.content.size === 0 && $from.node(-1).childCount === $from.indexAfter(-1)) {
     // In an empty block. If this is a nested list, the wrapping
     // list item should be split. Otherwise, bail out and let next
@@ -55,7 +58,12 @@ export const splitListItem = (typeOrName: string | NodeType): Command => ({
       }
 
       // Add a second list item with an empty default start node
-      const nextType = type.contentMatch.defaultType?.createAndFill($from.node().attrs) || undefined
+      const newNextTypeAttributes = getSplittedAttributes(
+        extensionAttributes,
+        $from.node().type.name,
+        $from.node().attrs,
+      )
+      const nextType = type.contentMatch.defaultType?.createAndFill(newNextTypeAttributes) || undefined
       wrap = wrap.append(Fragment.from(type.createAndFill(null, nextType) || undefined))
 
       tr
@@ -75,35 +83,16 @@ export const splitListItem = (typeOrName: string | NodeType): Command => ({
     ? grandParent.contentMatchAt(0).defaultType
     : null
 
-  const extensionAttributes = editor.extensionManager.attributes
-  const currentTypeAttributes = grandParent.attrs
-  const currentNextTypeAttributes = $from.node().attrs
-  const newTypeAttributes = Object.fromEntries(Object
-    .entries(currentTypeAttributes)
-    .filter(([name]) => {
-      const extensionAttribute = extensionAttributes.find(item => {
-        return item.type === grandParent.type.name && item.name === name
-      })
-
-      if (!extensionAttribute) {
-        return false
-      }
-
-      return extensionAttribute.attribute.keepOnSplit
-    }))
-  const newNextTypeAttributes = Object.fromEntries(Object
-    .entries(currentNextTypeAttributes)
-    .filter(([name]) => {
-      const extensionAttribute = extensionAttributes.find(item => {
-        return item.type === $from.node().type.name && item.name === name
-      })
-
-      if (!extensionAttribute) {
-        return false
-      }
-
-      return extensionAttribute.attribute.keepOnSplit
-    }))
+  const newTypeAttributes = getSplittedAttributes(
+    extensionAttributes,
+    grandParent.type.name,
+    grandParent.attrs,
+  )
+  const newNextTypeAttributes = getSplittedAttributes(
+    extensionAttributes,
+    $from.node().type.name,
+    $from.node().attrs,
+  )
 
   tr.delete($from.pos, $to.pos)
 
