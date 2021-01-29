@@ -16,7 +16,7 @@ function defaultBlockAt(match: ContentMatch) {
 }
 
 export interface SplitBlockOptions {
-  withMarks: boolean,
+  keepMarks: boolean,
 }
 
 function keepMarks(state: EditorState) {
@@ -38,7 +38,7 @@ export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command =>
   editor,
 }) => {
   const defaultOptions: SplitBlockOptions = {
-    withMarks: true,
+    keepMarks: true,
   }
   const config = { ...defaultOptions, ...options }
   const { selection, doc } = tr
@@ -56,7 +56,7 @@ export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command =>
     }
 
     if (dispatch) {
-      if (config.withMarks) {
+      if (config.keepMarks) {
         keepMarks(state)
       }
 
@@ -117,7 +117,7 @@ export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command =>
       }
     }
 
-    if (config.withMarks) {
+    if (config.keepMarks) {
       keepMarks(state)
     }
 
