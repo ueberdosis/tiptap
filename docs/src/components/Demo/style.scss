@@ -63,12 +63,12 @@
     width: 100%;
     padding: 0.5rem 1.25rem;
     font-size: 0.85rem;
-    border: 1px solid rgba($colorWhite, 0.1);
+    border-top: 1px solid rgba($colorWhite, 0.1);
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
-    border-top-width: 0;
     background-color: $colorBlack;
     white-space: nowrap;
+    color: rgba($colorWhite, 0.5);
   }
 
   &__name {
@@ -84,6 +84,10 @@
 
   &__link {
     margin-left: auto;
+
+    &:hover {
+      color: $colorWhite;
+    }
   }
 
   &__error {

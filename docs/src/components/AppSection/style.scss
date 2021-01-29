@@ -1,0 +1,15 @@
+.app-section {
+  position: relative;
+
+  &__inner {
+    position: relative;
+    z-index: 2;
+    padding: 4rem 1rem;
+    margin: 0 auto;
+    max-width: 50rem;
+
+    // @media (min-width: $mobileBreakPoint) {
+    //   padding: 0 2rem;
+    // }
+  }
+}
