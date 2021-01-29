@@ -77,15 +77,15 @@ export default {
         Highlight,
         TaskList,
         CustomTaskItem,
-        Collaboration.configure({
-          document: ydoc,
-        }),
         CollaborationCursor.configure({
           provider: this.provider,
           user: this.currentUser,
           onUpdate: users => {
             this.users = users
           },
+        }),
+        Collaboration.configure({
+          document: ydoc,
         }),
       ],
     })

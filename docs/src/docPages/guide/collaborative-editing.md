@@ -155,16 +155,16 @@ const provider = new WebsocketProvider('ws://127.0.0.1:1234', 'example-document'
 
 const editor = new Editor({
   extensions: [
-    // …
-    Collaboration.configure({
-      document: ydoc,
-    }),
     // Register the collaboration cursor extension
     CollaborationCursor.configure({
       provider: provider,
       name: 'Cyndi Lauper',
       color: '#f783ac',
     }),
+    Collaboration.configure({
+      document: ydoc,
+    }),
+    // …
   ],
 })
 ```

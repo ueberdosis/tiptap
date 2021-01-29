@@ -121,6 +121,6 @@ context('/demos/Nodes/TaskList', () => {
     cy.get('.ProseMirror')
       .find('li:nth-child(2)')
       .should('contain', 'List Item 2')
-      .should('have.attr', 'data-checked', 'true')
+      .should('have.attr', 'data-checked', 'false')
   })
 })

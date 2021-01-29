@@ -60,6 +60,7 @@ export type Attribute = {
   rendered?: boolean,
   renderHTML?: ((attributes: { [key: string]: any }) => { [key: string]: any } | null) | null,
   parseHTML?: ((element: HTMLElement) => { [key: string]: any } | null) | null,
+  keepOnSplit: boolean,
 }
 
 export type Attributes = {

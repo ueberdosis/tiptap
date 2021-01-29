@@ -70,7 +70,9 @@
 </template>
 
 <script>
-import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
+import {
+  Editor, EditorContent, defaultExtensions, Extension,
+} from '@tiptap/vue-starter-kit'
 
 export default {
   components: {
