@@ -1,6 +1,6 @@
 <template>
   <div class="demo-page">
-    <demo :name="$context.name" :show-source="false" />
+    <demo :name="$context.name" :show-source="false" inline />
   </div>
 </template>
 
