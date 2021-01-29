@@ -71,7 +71,7 @@
 
 <script>
 import {
-  Editor, EditorContent, defaultExtensions, Extension,
+  Editor, EditorContent, defaultExtensions,
 } from '@tiptap/vue-starter-kit'
 
 export default {
