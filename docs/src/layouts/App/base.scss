@@ -55,7 +55,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;
   font-feature-settings: 'cv05' 1;
-  background-color: $colorBlack;
+  background-color: $colorWhite;
   color: $colorText;
 }
 
@@ -75,7 +75,7 @@ a {
   text-decoration: none;
 
   &:hover {
-    color: $colorWhite;
+    color: $colorBlack;
   }
 }
 
@@ -90,46 +90,6 @@ code {
   background: black;
   color: white;
 }
-
-// TODO: Move to examples
-// .ProseMirror {
-//   > * + * {
-//     margin-top: 0.75em;
-//   }
-
-//   ul,
-//   ol {
-//     padding: 0 1rem;
-//   }
-
-//   pre {
-//     background: $colorBlack;
-//     color: $colorWhite;
-//     font-family: 'JetBrainsMono', monospace;
-//     padding: 0.75rem 1rem;
-//     border-radius: 0.5rem;
-
-//     code {
-//       color: inherit;
-//       background: none;
-//       font-size: 0.8rem;
-//     }
-//   }
-
-//   img {
-//     max-width: 100%;
-//     height: auto;
-//   }
-
-//   hr {
-//     margin: 1rem 0;
-//   }
-
-//   blockquote {
-//     padding-left: 1rem;
-//     border-left: 2px solid rgba($colorBlack, 0.1);
-//   }
-// }
 
 .DocSearch,
 .DocSearch-Container {

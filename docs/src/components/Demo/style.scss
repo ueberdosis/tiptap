@@ -12,10 +12,11 @@
     max-height: 50rem;
     overflow: auto;
     scroll-behavior: smooth;
+    border: 1px solid rgba($colorBlack, 0.1);
   }
 
   &__source {
-    border: 1px solid rgba($colorWhite, 0.1);
+    border: 1px solid rgba($colorBlack, 0.1);
     background-color: $colorBlack;
   }
 
