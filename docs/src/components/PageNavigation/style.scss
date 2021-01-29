@@ -4,13 +4,13 @@
   padding: 1.5rem 0;
 
   &__link {
-    color: rgba($colorWhite, 0.6);
+    color: rgba($colorBlack, 0.6);
     padding: 0.25rem 0.5rem;
     border-radius: 5px;
 
     &:hover {
-      color: $colorWhite;
-      background-color: rgba($colorWhite, 0.05);
+      color: $colorBlack;
+      background-color: rgba($colorBlack, 0.05);
     }
   }
 }

@@ -27,8 +27,7 @@
     > h4,
     > h5,
     > h6 {
-      font-weight: 500;
-      color: $colorWhite;
+      color: $colorBlack;
       margin-top: 3 * $spacing;
       margin-bottom: $spacing;
 
@@ -54,7 +53,7 @@
         position: absolute;
         top: 0;
         right: 100%;
-        color: rgba($colorWhite, 0.4);
+        color: rgba($colorBlack, 0.4);
         text-decoration: none;
         font-weight: 400;
         padding-right: 0.5rem;
@@ -80,7 +79,7 @@
     }
 
     > pre {
-      border: 1px solid rgba($colorWhite, 0.1);
+      border: 1px solid rgba($colorBlack, 0.1);
     }
 
     > p code,
@@ -88,8 +87,8 @@
     > ol code,
     > .table-wrapper code,
     > .remark-container code {
-      color: $colorYellow;
-      background-color: rgba($colorYellow, 0.1);
+      color: rgba($colorBlack, 0.7);
+      background-color: rgba($colorYellow, 0.3);
       box-decoration-break: clone;
     }
 
@@ -110,9 +109,10 @@
 
       & + ul {
         list-style: none;
-        border: 1px solid rgba($colorWhite, 0.1);
+        background-color: rgba($colorBlack, 0.03);
         padding: 1.25rem !important;
         border-radius: 0.5rem;
+        font-size: 0.85rem;
 
         &::before {
           display: block;
@@ -121,7 +121,7 @@
           letter-spacing: 0.025rem;
           font-size: 0.75rem;
           text-transform: uppercase;
-          color: rgba($colorWhite, 0.3);
+          color: rgba($colorBlack, 0.3);
           margin-bottom: 0.5rem;
         }
 
@@ -157,7 +157,7 @@
           display: inline-block;
           margin-right: 0.75rem;
           content: "\2022";
-          color: $colorYellow;
+          color: $colorBlack;
         }
       }
     }
@@ -180,9 +180,9 @@
           justify-content: center;
           height: 1.5rem;
           width: 1.5rem;
-          background-color: rgba($colorYellow, 0.1);
+          background-color: rgba($colorBlack, 0.1);
           border-radius: 9999px;
-          color: $colorYellow;
+          color: $colorBlack;
           font-size: 0.75rem;
           font-weight: 700;
           content: counter(item);
@@ -219,13 +219,13 @@
 
         th {
           white-space: nowrap;
-          color: $colorWhite;
+          color: $colorBlack;
           font-weight: 500;
-          border-bottom: 1px solid rgba($colorWhite, 0.2);
+          border-bottom: 1px solid rgba($colorBlack, 0.2);
         }
 
         td {
-          border-bottom: 1px solid rgba($colorWhite, 0.1);
+          border-bottom: 1px solid rgba($colorBlack, 0.1);
         }
 
         tr:last-child td {
@@ -238,7 +238,7 @@
           }
 
           &:hover {
-            background: rgba($colorWhite, 0.02);
+            background: rgba($colorBlack, 0.02);
           }
         }
       }
@@ -246,31 +246,23 @@
 
     > .remark-container {
       padding: 1.25rem;
-      border: 1px solid rgba($colorWhite, 0.1);
       border-radius: 0.5rem;
+      color: rgba($colorBlack, 0.7);
 
       &.warning {
-        border-color: rgba($colorYellow, 0.1);
-        background-color: rgba($colorYellow, 0.1);
-        color: $colorYellow;
+        background-color: rgba($colorYellow, 0.3);
       }
 
       &.info {
-        border-color: rgba($colorBlue, 0.1);
-        background-color: rgba($colorBlue, 0.1);
-        color: $colorBlue;
+        background-color: rgba($colorBlue, 0.3);
       }
 
       &.error {
-        border-color: rgba($colorRed, 0.1);
-        background-color: rgba($colorRed, 0.1);
-        color: $colorRed;
+        background-color: rgba($colorRed, 0.3);
       }
 
       &.pro {
-        border-color: rgba($colorOrange, 0.1);
-        background-color: rgba($colorOrange, 0.1);
-        color: $colorOrange;
+        background-color: rgba($colorOrange, 0.3);
       }
 
       .remark-container-title {
@@ -280,7 +272,7 @@
 
     > blockquote {
       border-left: 1px solid rgba($colorGrey, 0.5);
-      padding-left: 2*$spacing;
+      padding-left: 2 * $spacing;
     }
 
   }
