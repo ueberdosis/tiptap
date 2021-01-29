@@ -71,7 +71,7 @@ Both calls would return `true` if it’s possible to apply the commands, and `fa
 
 In order to make that work with your custom commands, don’t forget to return `true` or `false`.
 
-For some of your own commands, you probably want to work with the raw [transaction](/api/overview). To make them work with `.can()` you should check if the transaction should be dispatched. Here is how we do that within `.insertText()`:
+For some of your own commands, you probably want to work with the raw [transaction](/api/concept). To make them work with `.can()` you should check if the transaction should be dispatched. Here is how we do that within `.insertText()`:
 
 ```js
 export default (value: string): Command => ({ tr, dispatch }) => {

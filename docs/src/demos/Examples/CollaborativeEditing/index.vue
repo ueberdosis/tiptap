@@ -5,18 +5,16 @@
       <editor-content class="editor__content" :editor="editor" />
       <div class="editor__bottom-bar">
         <div :class="`editor__status editor__status--${status}`">
-          {{ status }}
           <template v-if="status === 'connected'">
-            as {{ currentUser.name }},
             {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
           </template>
+          <template v-else>
+            offline
+          </template>
         </div>
-        <div class="editor__actions">
+        <div class="editor__name">
           <button @click="setName">
-            Set Name
-          </button>
-          <button @click="updateCurrentUser({ name: getRandomName() })">
-            Random Name
+            {{ currentUser.name }}
           </button>
         </div>
       </div>
@@ -172,21 +170,20 @@ export default {
     justify-content: space-between;
     flex-wrap: wrap;
     white-space: nowrap;
-    padding: 0.25rem 0 0.25rem 0.25rem;
     border-top: 1px solid rgba(black, 0.1);
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(black, 0.5);
+    white-space: nowrap;
+    padding: 0.25rem 0.75rem;
   }
 
   /* Some information about the status */
   &__status {
     display: flex;
     align-items: center;
-    font-size: 13px;
-    font-weight: 500;
     border-radius: 5px;
     margin-top: 1rem;
-    padding: 0.25rem 0.5rem;
-    color: rgba(black, 0.5);
-    white-space: nowrap;
 
     &::before {
       content: ' ';
@@ -200,7 +197,7 @@ export default {
     }
 
     &--connecting::before {
-      background: #FD9170;
+      background: #616161;
     }
 
     &--connected::before {
@@ -208,7 +205,7 @@ export default {
     }
   }
 
-  &__actions {
+  &__name {
     button {
       background: none;
       border: none;
