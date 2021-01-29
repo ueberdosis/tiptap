@@ -1,7 +1,5 @@
 - title: Overview
   items:
-    - title: Introduction
-      link: /
     - title: Installation
       link: /overview/installation
     - title: Upgrade Guide

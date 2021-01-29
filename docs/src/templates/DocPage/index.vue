@@ -1,8 +1,10 @@
 <template>
   <Layout>
-    <div class="doc-page">
-      <VueRemarkContent class="doc-page__markdown" />
-    </div>
+    <app-section>
+      <div class="doc-page">
+        <VueRemarkContent class="doc-page__markdown" />
+      </div>
+    </app-section>
   </Layout>
 </template>
 
@@ -19,7 +21,13 @@ query($path: String!) {
 </page-query>
 
 <script>
+import AppSection from '@/components/AppSection'
+
 export default {
+  components: {
+    AppSection,
+  },
+
   metaInfo() {
     return {
       title: this.$page?.docPage?.title,

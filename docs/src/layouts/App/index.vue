@@ -33,7 +33,7 @@
     </div>
 
     <div class="app__content">
-      <div class="app__sidebar">
+      <div class="app__sidebar" v-if="showSidebar">
         <portal-target name="desktop-nav" />
       </div>
 
@@ -49,7 +49,7 @@
             <slot />
           </div>
         </main>
-        <div class="app__page-navigation">
+        <div class="app__page-navigation" v-if="showSidebar">
           <div class="app__inner">
             <page-navigation />
           </div>
@@ -123,6 +123,13 @@ import PageNavigation from '@/components/PageNavigation'
 // import GithubButton from 'vue-github-button'
 
 export default {
+  props: {
+    showSidebar: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
   components: {
     Icon,
     PageNavigation,
