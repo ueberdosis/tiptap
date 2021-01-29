@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-task-list",
   "description": "task list extension for tiptap",
-  "version": "2.0.0-alpha.7",
+  "version": "2.0.0-alpha.8",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
