@@ -106,7 +106,7 @@
 - title: API
   items:
     - title: Concept
-      link: /api/overview
+      link: /api/concept
     - title: Editor
       link: /api/editor
     - title: Commands
