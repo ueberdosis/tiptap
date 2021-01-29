@@ -16,7 +16,7 @@ We’re looking for your feedback to improve tiptap 2 before the first public re
 
 * Create issues on GitHub! [Link](https://github.com/ueberdosis/tiptap-next/issues)
 * Send an email! [humans@tiptap.dev](mailto:humans@tiptap.dev)
-* Follow us on Twitter! [@hanspagel](https://twitter.com/hanspagel) [@_philippkuehn](https://twitter.com/_philippkuehn)
+* Follow us on Twitter! [@tiptap_editor](https://twitter.com/tiptap_editor) [@hanspagel](https://twitter.com/hanspagel) [@_philippkuehn](https://twitter.com/_philippkuehn)
 
 ## Why we built tiptap
 We were looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn’t really satisfy us. An editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. We came across [ProseMirror](https://github.com/prosemirror) and decided to build on it. ProseMirror is a toolkit for building rich text editors that are already in use at many well-known companies such as *Atlassian* or *New York Times*.
