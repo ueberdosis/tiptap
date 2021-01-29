@@ -3,7 +3,7 @@
 ## toc
 
 ## Introduction
-The following guide describes how to integrate tiptap with your Nuxt.js project.
+The following guide describes how to integrate tiptap with your [Nuxt.js](https://nuxtjs.org/) project.
 
 ## Requirements
 * [Node](https://nodejs.org/en/download/) installed on your machine

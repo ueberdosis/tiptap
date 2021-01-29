@@ -1,5 +1,10 @@
 # Svelte
 
+## toc
+
+## Introduction
+The following guide describes how to integrate tiptap with your Svelte project.
+
 TODO
 
 Svelte REPL: https://svelte.dev/repl/c839da77db2444e5b23a752266613639?version=3.31.2
@@ -15,7 +20,7 @@ App.svelte
 
 Editor.svelte
 ```html
-<script>
+<script type="module">
 	import { onMount } from 'svelte'
 	import { Editor } from '@tiptap/core'
   import { defaultExtensions } from '@tiptap/starter-kit'
@@ -44,3 +49,4 @@ Editor.svelte
 {/if}
 
 <div bind:this={element} />
+```

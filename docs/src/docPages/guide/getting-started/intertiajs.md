@@ -2,6 +2,11 @@
 
 ## toc
 
+## Introduction
+The following guide describes how to integrate tiptap with your [Inertia.js](https://inertiajs.com/) project.
+
+## toc
+
 TODO
 
 ## Introduction

@@ -6,11 +6,11 @@
       link: /overview/installation
     - title: Upgrade Guide
       link: /overview/upgrade-guide
-    - title: Contributing
-      link: /overview/contributing
     - title: Become a sponsor
       link: /sponsor
       type: sponsor
+    - title: Contributing
+      link: /overview/contributing
 
 - title: Examples
   link: /examples
@@ -50,7 +50,7 @@
       link: /guide/getting-started
       items:
         - title: Vue.js 2
-          link: /guide/getting-started/vue-cli
+          link: /guide/getting-started/vuejs
           skip: true
         - title: Nuxt.js
           link: /guide/getting-started/nuxtjs
