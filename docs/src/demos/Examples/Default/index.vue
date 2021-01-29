@@ -87,23 +87,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        ...defaultExtensions(),
-        Extension.create({
-          addKeyboardShortcuts() {
-            return {
-              'Mod-Enter': () => {
-                console.log('Mod-Enter plugin')
-                return false
-              },
-              'Shift-Enter': () => {
-                console.log('Shift-Enter')
-                return false
-              },
-            }
-          },
-        }),
-      ],
+      extensions: defaultExtensions(),
       content: `
         <h2>
           Hi there,
