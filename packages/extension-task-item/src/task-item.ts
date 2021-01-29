@@ -19,7 +19,7 @@ export const TaskItem = Node.create({
   },
 
   content() {
-    return this.options.nested ? '(paragraph|taskList)+' : 'paragraph+'
+    return this.options.nested ? 'paragraph block*' : 'paragraph+'
   },
 
   defining: true,
