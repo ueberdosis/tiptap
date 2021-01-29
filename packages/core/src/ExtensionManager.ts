@@ -96,15 +96,18 @@ export default class ExtensionManager {
       .flat()
   }
 
+  get attributes() {
+    return getAttributesFromExtensions(this.extensions)
+  }
+
   get nodeViews() {
     const { editor } = this
     const { nodeExtensions } = splitExtensions(this.extensions)
-    const allAttributes = getAttributesFromExtensions(this.extensions)
 
     return Object.fromEntries(nodeExtensions
       .filter(extension => !!extension.config.addNodeView)
       .map(extension => {
-        const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
+        const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.config.name)
         const context = {
           options: extension.options,
           editor,

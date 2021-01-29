@@ -2,6 +2,7 @@ import { canSplit } from 'prosemirror-transform'
 import { ContentMatch, Fragment } from 'prosemirror-model'
 import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
 import { Command } from '../types'
+import getSplittedAttributes from '../helpers/getSplittedAttributes'
 
 function defaultBlockAt(match: ContentMatch) {
   for (let i = 0; i < match.edgeCount; i + 1) {
@@ -15,8 +16,7 @@ function defaultBlockAt(match: ContentMatch) {
 }
 
 export interface SplitBlockOptions {
-  withAttributes: boolean,
-  withMarks: boolean,
+  keepMarks: boolean,
 }
 
 function keepMarks(state: EditorState) {
@@ -31,14 +31,24 @@ function keepMarks(state: EditorState) {
 /**
  * Forks a new node from an existing node.
  */
-export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command => ({ tr, state, dispatch }) => {
+export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command => ({
+  tr,
+  state,
+  dispatch,
+  editor,
+}) => {
   const defaultOptions: SplitBlockOptions = {
-    withAttributes: false,
-    withMarks: true,
+    keepMarks: true,
   }
   const config = { ...defaultOptions, ...options }
   const { selection, doc } = tr
   const { $from, $to } = selection
+  const extensionAttributes = editor.extensionManager.attributes
+  const newAttributes = getSplittedAttributes(
+    extensionAttributes,
+    $from.node().type.name,
+    $from.node().attrs,
+  )
 
   if (selection instanceof NodeSelection && selection.node.isBlock) {
     if (!$from.parentOffset || !canSplit(doc, $from.pos)) {
@@ -46,7 +56,7 @@ export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command =>
     }
 
     if (dispatch) {
-      if (config.withMarks) {
+      if (config.keepMarks) {
         keepMarks(state)
       }
 
@@ -74,9 +84,7 @@ export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command =>
     let types = atEnd && deflt
       ? [{
         type: deflt,
-        attrs: config.withAttributes
-          ? $from.node().attrs
-          : {},
+        attrs: newAttributes,
       }]
       : undefined
 
@@ -91,9 +99,7 @@ export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command =>
       types = deflt
         ? [{
           type: deflt,
-          attrs: config.withAttributes
-            ? $from.node().attrs
-            : {},
+          attrs: newAttributes,
         }]
         : undefined
     }
@@ -111,7 +117,7 @@ export const splitBlock = (options: Partial<SplitBlockOptions> = {}): Command =>
       }
     }
 
-    if (config.withMarks) {
+    if (config.keepMarks) {
       keepMarks(state)
     }
 

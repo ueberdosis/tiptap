@@ -18,7 +18,7 @@ export const clearNodes = (): Command => ({ state, tr, dispatch }) => {
         const targetLiftDepth = liftTarget(nodeRange)
 
         if (node.type.isTextblock && dispatch) {
-          tr.setNodeMarkup(nodeRange.start, state.schema.nodes.paragraph)
+          tr.setNodeMarkup(nodeRange.start, state.doc.type.contentMatch.defaultType)
         }
 
         if ((targetLiftDepth || targetLiftDepth === 0) && dispatch) {
