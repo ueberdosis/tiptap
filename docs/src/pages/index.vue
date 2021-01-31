@@ -13,15 +13,7 @@
     </app-section>
 
     <app-section>
-      <iframe
-        v-resize
-        src="demos/Examples/CollaborativeEditing"
-        style="background-color: white; border-radius: 8px;"
-        width="100%"
-        height="400"
-        frameborder="0"
-      />
-      <demo name="Examples/CollaborativeEditing" :show-source="false" inline />
+      <demo-frame name="Examples/CollaborativeEditing" inline />
     </app-section>
 
     <app-section>
