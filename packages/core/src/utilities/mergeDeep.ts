@@ -1,12 +1,12 @@
 import { AnyObject } from '../types'
-import isObject from './isObject'
+import isPlainObject from './isPlainObject'
 
 export default function mergeDeep(target: AnyObject, source: AnyObject): AnyObject {
   const output = { ...target }
 
-  if (isObject(target) && isObject(source)) {
+  if (isPlainObject(target) && isPlainObject(source)) {
     Object.keys(source).forEach(key => {
-      if (isObject(source[key])) {
+      if (isPlainObject(source[key])) {
         if (!(key in target)) {
           Object.assign(output, { [key]: source[key] })
         } else {
