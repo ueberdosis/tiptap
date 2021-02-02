@@ -68,12 +68,12 @@ export default {
 .demo-frame {
   display: flex;
   flex-direction: column;
-  border-radius: 0.5rem;
   overflow: hidden;
   position: relative;
   min-height: 8rem;
 
   &.is-inline {
+    border-radius: 0.5rem;
     background-color: rgba($colorBlack, 0.03);
   }
 
