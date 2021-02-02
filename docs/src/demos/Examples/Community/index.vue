@@ -147,6 +147,15 @@ export default {
   > * + * {
     margin-top: 0.75em;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+  }
 }
 
 .mention {

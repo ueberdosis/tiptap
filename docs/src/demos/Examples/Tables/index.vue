@@ -4,56 +4,56 @@
       insertTable
     </button>
 
-    <template v-if="editor.isActive('table')">
-      <button @click="editor.chain().focus().addColumnBefore().run()" v-if="editor.can().addColumnBefore()">
+    <template>
+      <button @click="editor.chain().focus().addColumnBefore().run()" :disabled="!editor.can().addColumnBefore()">
         addColumnBefore
       </button>
-      <button @click="editor.chain().focus().addColumnAfter().run()" v-if="editor.can().addColumnAfter()">
+      <button @click="editor.chain().focus().addColumnAfter().run()" :disabled="!editor.can().addColumnAfter()">
         addColumnAfter
       </button>
-      <button @click="editor.chain().focus().deleteColumn().run()" v-if="editor.can().deleteColumn()">
+      <button @click="editor.chain().focus().deleteColumn().run()" :disabled="!editor.can().deleteColumn()">
         deleteColumn
       </button>
-      <button @click="editor.chain().focus().addRowBefore().run()" v-if="editor.can().addRowBefore()">
+      <button @click="editor.chain().focus().addRowBefore().run()" :disabled="!editor.can().addRowBefore()">
         addRowBefore
       </button>
-      <button @click="editor.chain().focus().addRowAfter().run()" v-if="editor.can().addRowAfter()">
+      <button @click="editor.chain().focus().addRowAfter().run()" :disabled="!editor.can().addRowAfter()">
         addRowAfter
       </button>
-      <button @click="editor.chain().focus().deleteRow().run()" v-if="editor.can().deleteRow()">
+      <button @click="editor.chain().focus().deleteRow().run()" :disabled="!editor.can().deleteRow()">
         deleteRow
       </button>
-      <button @click="editor.chain().focus().deleteTable().run()" v-if="editor.can().deleteTable()">
+      <button @click="editor.chain().focus().deleteTable().run()" :disabled="!editor.can().deleteTable()">
         deleteTable
       </button>
-      <button @click="editor.chain().focus().mergeCells().run()" v-if="editor.can().mergeCells()">
+      <button @click="editor.chain().focus().mergeCells().run()" :disabled="!editor.can().mergeCells()">
         mergeCells
       </button>
-      <button @click="editor.chain().focus().splitCell().run()" v-if="editor.can().splitCell()">
+      <button @click="editor.chain().focus().splitCell().run()" :disabled="!editor.can().splitCell()">
         splitCell
       </button>
-      <button @click="editor.chain().focus().toggleHeaderColumn().run()" v-if="editor.can().toggleHeaderColumn()">
+      <button @click="editor.chain().focus().toggleHeaderColumn().run()" :disabled="!editor.can().toggleHeaderColumn()">
         toggleHeaderColumn
       </button>
-      <button @click="editor.chain().focus().toggleHeaderRow().run()" v-if="editor.can().toggleHeaderRow()">
+      <button @click="editor.chain().focus().toggleHeaderRow().run()" :disabled="!editor.can().toggleHeaderRow()">
         toggleHeaderRow
       </button>
-      <button @click="editor.chain().focus().toggleHeaderCell().run()" v-if="editor.can().toggleHeaderCell()">
+      <button @click="editor.chain().focus().toggleHeaderCell().run()" :disabled="!editor.can().toggleHeaderCell()">
         toggleHeaderCell
       </button>
-      <button @click="editor.chain().focus().mergeOrSplit().run()" v-if="editor.can().mergeOrSplit()">
+      <button @click="editor.chain().focus().mergeOrSplit().run()" :disabled="!editor.can().mergeOrSplit()">
         mergeOrSplit
       </button>
-      <button @click="editor.chain().focus().setCellAttribute('colspan', 2).run()" v-if="editor.can().setCellAttribute('colspan', 2)">
+      <button @click="editor.chain().focus().setCellAttribute('colspan', 2).run()" :disabled="!editor.can().setCellAttribute('colspan', 2)">
         setCellAttribute
       </button>
-      <button @click="editor.chain().focus().fixTables().run()" v-if="editor.can().fixTables()">
+      <button @click="editor.chain().focus().fixTables().run()" :disabled="!editor.can().fixTables()">
         fixTables
       </button>
-      <button @click="editor.chain().focus().goToNextCell().run()" v-if="editor.can().goToNextCell()">
+      <button @click="editor.chain().focus().goToNextCell().run()" :disabled="!editor.can().goToNextCell()">
         goToNextCell
       </button>
-      <button @click="editor.chain().focus().goToPreviousCell().run()" v-if="editor.can().goToPreviousCell()">
+      <button @click="editor.chain().focus().goToPreviousCell().run()" :disabled="!editor.can().goToPreviousCell()">
         goToPreviousCell
       </button>
     </template>
@@ -95,14 +95,8 @@ export default {
       ],
       content: `
         <h1>
-          Fun with tables
+          Have you seen our tables? They are amazing.
         </h1>
-        <p>
-          Greeks were the first people to use a table as a dining place. Not sure why they put their plates on a computer display, but I don’t care. If you want to create your own table, tiptap got you covered. No matter, what you want to do with those tables.
-        </p>
-        <h2>
-          Amazing features
-        </h2>
         <ul>
           <li>tables with rows, headers and cells</li>
           <li>Support for <code>colgroup</code> and <code>rowspan</code></li>
@@ -143,6 +137,15 @@ export default {
   ul,
   ol {
     padding: 0 1rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
   }
 
   code {
@@ -232,7 +235,6 @@ export default {
 }
 
 .tableWrapper {
-  padding: 1rem 0;
   overflow-x: auto;
 }
 
