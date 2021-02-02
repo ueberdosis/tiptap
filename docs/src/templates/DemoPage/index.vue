@@ -1,11 +1,17 @@
 <template>
   <div class="demo-page">
-    <demo :name="$context.name" v-bind="props" />
+    <demo-content :name="$context.name" />
   </div>
 </template>
 
 <script>
+import DemoContent from '~/components/DemoContent'
+
 export default {
+  components: {
+    DemoContent,
+  },
+
   metaInfo() {
     return {
       title: this.$context.name,
@@ -16,36 +22,6 @@ export default {
         },
       ],
     }
-  },
-
-  methods: {
-    fromString(value) {
-      if (typeof value !== 'string') {
-        return value
-      }
-
-      if (value.match(/^\d*(\.\d+)?$/)) {
-        return Number(value)
-      }
-
-      if (value === 'true') {
-        return true
-      }
-
-      if (value === 'false') {
-        return false
-      }
-
-      return value
-    },
-  },
-
-  computed: {
-    props() {
-      return Object.fromEntries(Object
-        .entries(this.$route.query)
-        .map(([key, value]) => [key, this.fromString(value)]))
-    },
   },
 }
 </script>

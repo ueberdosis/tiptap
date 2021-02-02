@@ -5,7 +5,6 @@ import 'prismjs/components/prism-scss.js'
 import PortalVue from 'portal-vue'
 import iframeResize from 'iframe-resizer/js/iframeResizer'
 import App from '~/layouts/App'
-import DemoFrame from '~/components/DemoFrame'
 
 Prism.manual = true
 
@@ -34,6 +33,5 @@ export default function (Vue, { head }) {
 
   Vue.component('Layout', App)
   Vue.component('Demo', () => import(/* webpackChunkName: "demo" */ '~/components/Demo'))
-  Vue.component('DemoFrame', DemoFrame)
   Vue.component('LiveDemo', () => import(/* webpackChunkName: "live-demo" */ '~/components/LiveDemo'))
 }
