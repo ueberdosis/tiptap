@@ -145,7 +145,6 @@ export default {
   background-color: white;
   border: 1px solid rgba(black, 0.1);
   border-radius: 0.5rem;
-  margin-bottom: 1rem;
 
   &__menu {
     display: flex;

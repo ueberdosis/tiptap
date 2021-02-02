@@ -28,9 +28,20 @@ export default function (Vue, { head }) {
         iframeResize({
           ...value,
           messageCallback(messageData) {
-            if (messageData.message === 'resize') {
-              el.iFrameResizer.resize()
+            if (messageData.message.type !== 'resize') {
+              return
             }
+
+            const style = window.getComputedStyle(el.parentElement)
+            const maxHeight = parseInt(style.getPropertyValue('max-height'), 10)
+
+            if (messageData.message.height > maxHeight) {
+              el.setAttribute('scrolling', 'auto')
+            } else {
+              el.setAttribute('scrolling', 'no')
+            }
+
+            el.iFrameResizer.resize()
           },
         }, el)
       })

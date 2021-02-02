@@ -5,7 +5,7 @@
     </div>
     <iframe
       class="demo-frame__iframe"
-      v-resize.quiet="{ scrolling: true }"
+      v-resize.quiet="{ scrolling: 'omit' }"
       :src="`/demos/${name}?${query}`"
       width="100%"
       height="0"
@@ -79,6 +79,7 @@ export default {
   &.is-inline {
     border-radius: 0.75rem;
     background-color: rgba($colorBlack, 0.03);
+    margin: -1.25rem;
   }
 
   &__loader-wrapper {
