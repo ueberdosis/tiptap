@@ -1,6 +1,6 @@
 {
   "name": "tiptap-commands",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "description": "Commands for tiptap",
   "homepage": "https://tiptap.dev",
   "license": "MIT",
@@ -26,6 +26,6 @@
     "prosemirror-schema-list": "^1.1.4",
     "prosemirror-state": "^1.3.3",
     "prosemirror-tables": "^1.1.1",
-    "tiptap-utils": "^1.13.0"
+    "tiptap-utils": "^1.13.1"
   }
 }
