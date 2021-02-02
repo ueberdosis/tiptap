@@ -19,44 +19,100 @@
     </app-section>
 
     <app-section>
+      <feature-list>
+        <feature-item>
+          <h3 class="is-h2">
+            Headless
+          </h3>
+          <p>
+            We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is headless and comes without any CSS. You are in full control over markup, styling and behaviour.
+          </p>
+          <p>
+            <g-link to="/guide/styling">
+              Styling
+            </g-link>
+          </p>
+        </feature-item>
+
+        <feature-item>
+          <h3 class="is-h2">
+            Framework-agnostic
+          </h3>
+          <p>
+            No matter what framework you use, you’ll enjoy tiptap. Out of the box, it works with plain JavaScript and Vue.js, but it’s also possible to use it in <g-link to="/guide/getting-started/react">
+              React
+            </g-link>, Svelte and others.
+          </p>
+          <p>
+            <g-link to="/overview/installation">
+              Installation
+            </g-link>
+          </p>
+        </feature-item>
+
+        <feature-item>
+          <h3 class="is-h2">
+            TypeScript
+          </h3>
+          <p>
+            tiptap 2 is written in TypeScript. That helps us to find bugs early and gives you a nice autocomplete for the API (if your IDE supports that) on top of the extensive human written documentation.
+          </p>
+          <p>
+            <g-link to="/guide/typescript">
+              TypeScript
+            </g-link>
+          </p>
+        </feature-item>
+
+        <feature-item>
+          <h3 class="is-h2">
+            Collaborative
+          </h3>
+          <p>
+            Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of <g-link to="https://github.com/yjs/yjs">
+              Y.js
+            </g-link>. Our production-grade setup requires less than 20 lines of code.
+          </p>
+          <p>
+            <g-link to="/guide/collaborative-editing">
+              Collaborative editing
+            </g-link>
+          </p>
+        </feature-item>
+
+        <feature-item>
+          <h3 class="is-h2">
+            Community
+          </h3>
+          <p>
+            Over the years, a lovely community has grown around tiptap. There’s so much content shared, so many people helping out in issues and a ton of community extensions, you’ll be surprised how much that can help.
+          </p>
+        </feature-item>
+      </feature-list>
+    </app-section>
+
+    <app-section>
       <div class="text">
         <h2 class="is-h1">
-          Features
+          Quickstart
         </h2>
-
-        <h3>
-          Headless
-        </h3>
         <p>
-          We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is headless and comes without any CSS. You are in full control over markup, styling and behaviour.
+          To pull in tiptap for quick demos or giving it just a spin, grab the latest build via CDN. We use two different provides:
         </p>
+<!-- eslint-disable -->
+<prism>import { Editor } from '@tiptap/core'
+import { defaultExtensions } from '@tiptap/starter-kit'
 
-        <h3>
-          Framework-agnostic
-        </h3>
+new Editor({
+  element: document.querySelector('.element'),
+  extensions: defaultExtensions(),
+  content: '&lt;p&gt;Your content.&lt;/p&gt;',
+})</prism>
+        <!-- eslint-enable -->
         <p>
-          No matter what framework you use, you’ll enjoy tiptap. Out of the box, it works with plain JavaScript and Vue.js, but it’s also possible to use it in [React](/guide/getting-started/react), Svelte and others.
-        </p>
-
-        <h3>
-          TypeScript
-        </h3>
-        <p>
-          tiptap 2 is written in TypeScript. That helps us to find bugs early and gives you a nice autocomplete for the API (if your IDE supports that) on top of the extensive human written documentation.
-        </p>
-
-        <h3>
-          Collaborative
-        </h3>
-        <p>
-          Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of [Y.js](https://github.com/yjs/yjs). Our production-grade setup requires less than 20 lines of code.
-        </p>
-
-        <h3>
-          Community
-        </h3>
-        <p>
-          Over the years, a lovely community has grown around tiptap. There’s so much content shared, so many people helping out in issues and a ton of community extensions, you’ll be surprised how much that can help.
+          <g-link to="/overview/installation">
+            Learn more
+          </g-link>
         </p>
       </div>
     </app-section>
@@ -87,7 +143,11 @@
           License
         </h2>
         <p>
-          tiptap is licensed under [MIT](https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md), so you’re free to do whatever you want. If you’re using it in production, do the right thing and [become one of our wonderful sponsors](/sponsor) to fund the development, maintenance and support of tiptap and the whole ecosystem.
+          tiptap is licensed under <g-link to="https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md">
+            MIT
+          </g-link>, so you’re free to do whatever you want. If you’re using it in production, do the right thing and <g-link to="/sponsor">
+            become one of our wonderful sponsors
+          </g-link>(/sponsor) to fund the development, maintenance and support of tiptap and the whole ecosystem.
         </p>
       </div>
     </app-section>
@@ -96,10 +156,16 @@
 
 <script>
 import AppSection from '@/components/AppSection'
+import FeatureList from '@/components/FeatureList'
+import FeatureItem from '@/components/FeatureItem'
+import Prism from '~/components/Prism'
 
 export default {
   components: {
     AppSection,
+    FeatureList,
+    FeatureItem,
+    Prism,
   },
 }
 </script>
