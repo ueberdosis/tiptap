@@ -9,7 +9,7 @@
     border-bottom-width: 0;
     color: $colorBlack;
     background-color: $colorWhite;
-    max-height: 50rem;
+    max-height: unquote("max(300px, 60vh)");
     overflow: auto;
     scroll-behavior: smooth;
     border: 1px solid rgba($colorBlack, 0.1);
