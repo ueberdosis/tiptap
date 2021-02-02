@@ -93,43 +93,43 @@
   ;
 }
 
-@font-face {
-  font-family: 'Inter';
-  font-style:  normal;
-  font-weight: 600;
-  src:
-    url("~@/assets/fonts/Inter-SemiBold.woff2") format("woff2"),
-    url("~@/assets/fonts/Inter-SemiBold.woff") format("woff"),
-  ;
-}
-@font-face {
-  font-family: 'Inter';
-  font-style:  italic;
-  font-weight: 600;
-  src:
-    url("~@/assets/fonts/Inter-SemiBoldItalic.woff2") format("woff2"),
-    url("~@/assets/fonts/Inter-SemiBoldItalic.woff") format("woff"),
-  ;
-}
-
 // @font-face {
 //   font-family: 'Inter';
 //   font-style:  normal;
-//   font-weight: 700;
+//   font-weight: 600;
 //   src:
-//     url("~@/assets/fonts/Inter-Bold.woff2") format("woff2"),
-//     url("~@/assets/fonts/Inter-Bold.woff") format("woff"),
+//     url("~@/assets/fonts/Inter-SemiBold.woff2") format("woff2"),
+//     url("~@/assets/fonts/Inter-SemiBold.woff") format("woff"),
 //   ;
 // }
 // @font-face {
 //   font-family: 'Inter';
 //   font-style:  italic;
-//   font-weight: 700;
+//   font-weight: 600;
 //   src:
-//     url("~@/assets/fonts/Inter-BoldItalic.woff2") format("woff2"),
-//     url("~@/assets/fonts/Inter-BoldItalic.woff") format("woff"),
+//     url("~@/assets/fonts/Inter-SemiBoldItalic.woff2") format("woff2"),
+//     url("~@/assets/fonts/Inter-SemiBoldItalic.woff") format("woff"),
 //   ;
 // }
+
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 700;
+  src:
+    url("~@/assets/fonts/Inter-Bold.woff2") format("woff2"),
+    url("~@/assets/fonts/Inter-Bold.woff") format("woff"),
+  ;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style:  italic;
+  font-weight: 700;
+  src:
+    url("~@/assets/fonts/Inter-BoldItalic.woff2") format("woff2"),
+    url("~@/assets/fonts/Inter-BoldItalic.woff") format("woff"),
+  ;
+}
 
 // @font-face {
 //   font-family: 'Inter';

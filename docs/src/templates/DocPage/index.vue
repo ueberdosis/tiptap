@@ -1,9 +1,7 @@
 <template>
   <Layout>
     <app-section>
-      <div class="doc-page">
-        <VueRemarkContent class="doc-page__markdown" />
-      </div>
+      <VueRemarkContent class="text" />
     </app-section>
   </Layout>
 </template>
@@ -72,5 +70,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" src="./style.scss" scoped></style>

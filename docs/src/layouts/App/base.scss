@@ -95,3 +95,304 @@ code {
 .DocSearch-Container {
   filter: saturate(0);
 }
+
+
+.text {
+  $spacing: 0.75em;
+
+  > p {
+    &.is-large {
+      font-size: 1.2rem;
+    }
+  }
+
+  > div,
+  > p,
+  > ul,
+  > ol,
+  > blockquote {
+    margin-top: 2 * $spacing;
+    margin-bottom: 2 * $spacing;
+  }
+
+  > ul li,
+  > ol li,
+  > ul ul,
+  > ul ol,
+  > ol ol,
+  > ol ul {
+    margin-top: 0.5 * $spacing;
+    margin-bottom: 0.5 * $spacing;
+  }
+
+  > h1,
+  > h2,
+  > h3,
+  > h4,
+  > h5,
+  > h6 {
+    color: $colorBlack;
+    margin-top: 3 * $spacing;
+    margin-bottom: $spacing;
+
+    & + * {
+      margin-top: 0;
+    }
+  }
+
+  > h1,
+  > h4,
+  > h5,
+  > h6 {
+    a {
+      display: none;
+    }
+  }
+
+  > h1,
+  > .is-h1 {
+    font-size: 2.75rem;
+    line-height: 1.15;
+
+    &.is-large {
+      font-size: 3.75rem;
+    }
+  }
+
+  > h2,
+  > .is-h2 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  > h2,
+  > h3 {
+    position: relative;
+
+    a {
+      position: absolute;
+      top: 0;
+      right: 100%;
+      color: rgba($colorBlack, 0.4);
+      text-decoration: none;
+      font-weight: 400;
+      padding-right: 0.5rem;
+      opacity: 0;
+      transition: opacity 0.1s $ease;
+    }
+
+    &:hover a {
+      opacity: 1;
+    }
+  }
+
+  > p > img {
+    max-width: 100%;
+  }
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  :last-child {
+    margin-bottom: 0;
+  }
+
+  > pre {
+    border: 1px solid rgba($colorBlack, 0.1);
+  }
+
+  > p code,
+  > ul code,
+  > ol code,
+  > .table-wrapper code,
+  > .remark-container code {
+    color: rgba($colorBlack, 0.7);
+    background-color: rgba($colorYellow, 0.3);
+    box-decoration-break: clone;
+  }
+
+  > p a,
+  > ul a,
+  > ol a,
+  > .table-wrapper a,
+  > .remark-container a {
+    text-decoration: underline;
+
+    code {
+      text-decoration: underline;
+    }
+  }
+
+  #toc {
+    display: none;
+
+    & + ul {
+      list-style: none;
+      background-color: rgba($colorBlack, 0.03);
+      padding: 1.25rem !important;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+
+      &::before {
+        display: block;
+        content: 'On this page';
+        font-weight: 700;
+        letter-spacing: 0.025rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: rgba($colorBlack, 0.3);
+        margin-bottom: 0.5rem;
+      }
+
+      li {
+        padding-left: 0;
+
+        &::before {
+          display: none;
+        }
+
+        ul {
+          list-style: none;
+          margin-left: 1rem;
+        }
+      }
+    }
+  }
+
+  p a img[src^="https://img.shields.io"] {
+    margin-right: 0.5rem;
+  }
+
+  > ul {
+    list-style: none;
+
+    li {
+      position: relative;
+      padding-left: 1.25rem;
+
+      &::before {
+        position: absolute;
+        left: 0;
+        display: inline-block;
+        margin-right: 0.75rem;
+        content: "\2022";
+        color: $colorBlack;
+      }
+    }
+  }
+
+  > ol {
+    list-style: none;
+    counter-reset: item;
+
+    li {
+      position: relative;
+      padding-left: 2.5rem;
+
+      &::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 1.5rem;
+        width: 1.5rem;
+        background-color: rgba($colorBlack, 0.1);
+        border-radius: 9999px;
+        color: $colorBlack;
+        font-size: 0.75rem;
+        font-weight: 700;
+        content: counter(item);
+        counter-increment: item;
+      }
+    }
+  }
+
+  > .table-wrapper {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    > table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+
+      th,
+      td {
+        padding: 0.5rem;
+        min-width: 8rem;
+
+        &:first-child {
+          padding-left: 0;
+        }
+
+        &:last-child {
+          padding-right: 0;
+        }
+      }
+
+      th {
+        white-space: nowrap;
+        color: $colorBlack;
+        font-weight: 500;
+        border-bottom: 1px solid rgba($colorBlack, 0.2);
+      }
+
+      td {
+        border-bottom: 1px solid rgba($colorBlack, 0.1);
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      tbody tr {
+        &:last-child td {
+          border-bottom: 0;
+        }
+
+        &:hover {
+          background: rgba($colorBlack, 0.02);
+        }
+      }
+    }
+  }
+
+  > .remark-container {
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    color: rgba($colorBlack, 0.7);
+
+    &.warning {
+      background-color: rgba($colorYellow, 0.3);
+    }
+
+    &.info {
+      background-color: rgba($colorBlue, 0.3);
+    }
+
+    &.error {
+      background-color: rgba($colorRed, 0.3);
+    }
+
+    &.pro {
+      background-color: rgba($colorOrange, 0.3);
+    }
+
+    .remark-container-title {
+      font-weight: 600;
+    }
+  }
+
+  > blockquote {
+    border-left: 1px solid rgba($colorGrey, 0.5);
+    padding-left: 2 * $spacing;
+  }
+
+}
