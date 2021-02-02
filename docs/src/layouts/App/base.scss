@@ -188,6 +188,7 @@ code {
 
   > p > img {
     max-width: 100%;
+    border-radius: 0.75rem;
   }
 
   :first-child {
@@ -299,7 +300,7 @@ code {
         justify-content: center;
         height: 1.5rem;
         width: 1.5rem;
-        background-color: rgba($colorBlack, 0.1);
+        background-color: rgba($colorBlack, 0.05);
         border-radius: 9999px;
         color: $colorBlack;
         font-size: 0.75rem;
