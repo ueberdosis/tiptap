@@ -4,9 +4,9 @@
       <div class="demo-frame__loader" />
     </div>
     <iframe
-      v-resize.quiet
+      class="demo-frame__iframe"
+      v-resize.quiet="{ scrolling: true }"
       :src="`/demos/${name}?${query}`"
-      style="background-color: transparent;"
       width="100%"
       height="0"
       frameborder="0"
@@ -70,6 +70,11 @@ export default {
   flex-direction: column;
   position: relative;
   min-height: 5rem;
+
+  &__iframe {
+    background-color: transparent;
+    max-height: 100%;
+  }
 
   &.is-inline {
     border-radius: 0.75rem;
