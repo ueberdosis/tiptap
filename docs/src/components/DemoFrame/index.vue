@@ -1,5 +1,5 @@
 <template>
-  <div class="demo-frame" :class="{ 'is-inline': inline }">
+  <div class="demo-frame" :class="{ 'is-inline': inline, 'is-loading': isLoading }">
     <div class="demo-frame__loader-wrapper" v-if="isLoading">
       <div class="demo-frame__loader" />
     </div>
@@ -70,7 +70,7 @@ export default {
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  min-height: 8rem;
+  min-height: 5rem;
 
   &.is-inline {
     border-radius: 0.5rem;
@@ -92,8 +92,8 @@ export default {
   &__loader,
   &__loader:after {
     border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
+    width: 1.25rem;
+    height: 1.25rem;
   }
   &__loader {
     font-size: 10px;
