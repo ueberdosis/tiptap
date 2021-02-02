@@ -5,7 +5,7 @@
     </div>
     <iframe
       v-show="!isLoading"
-      v-resize
+      v-resize.quiet
       :src="`/demos/${name}?${query}`"
       style="background-color: transparent;"
       width="100%"
