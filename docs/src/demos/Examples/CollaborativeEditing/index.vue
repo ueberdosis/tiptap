@@ -266,6 +266,15 @@ export default {
     padding: 0 1rem;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+  }
+
   code {
     background-color: rgba(#616161, 0.1);
     color: #616161;

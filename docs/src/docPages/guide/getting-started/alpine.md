@@ -2,6 +2,9 @@
 
 ## toc
 
+## Introduction
+The following guide describes how to integrate tiptap with your [Alpine.js](https://github.com/alpinejs/alpine) project.
+
 TODO
 
 https://codesandbox.io/s/alpine-tiptap-2ro5e?file=/index.html:0-1419

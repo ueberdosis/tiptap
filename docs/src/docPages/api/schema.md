@@ -145,6 +145,17 @@ Node.create({
 })
 ```
 
+For some cases where you want features that aren’t available in marks, for example a node view, try if an inline node would work:
+
+```js
+Node.create({
+  name: 'customInlineNode',
+  group: 'inline',
+  inline: true,
+  content: 'text*',
+})
+```
+
 #### Atom
 Nodes with `atom: true` aren’t directly editable and should be treated as a single unit. It’s not so likely to use that in a editor context, but this is how it would look like:
 

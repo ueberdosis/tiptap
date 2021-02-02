@@ -1,6 +1,13 @@
-# Vue CLI
+# Inertia.js
 
 ## toc
+
+## Introduction
+The following guide describes how to integrate tiptap with your [Inertia.js](https://inertiajs.com/) project.
+
+## toc
+
+TODO
 
 ## Introduction
 The following guide describes how to integrate tiptap with your Vue CLI project. If you’ve got Vue CLI on your machine already, you can skip the first step.
