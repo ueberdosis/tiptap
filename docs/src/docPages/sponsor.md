@@ -1,13 +1,13 @@
 # Become a sponsor
 To deliver a top-notch developer experience and user experience, we put ~~hundreds~~ thousands of hours of unpaid work into tiptap. Your funding helps us to make this work more and more financially sustainable. This enables us to provide helpful support, maintain all our packages, keep everything up to date, and develop new features and extensions for tiptap.
 
-Give back to the open source community and [sponsor us on GitHub](https://github.com/sponsors/ueberdosis)! 💖
+Give back to the open source community and [sponsor us on GitHub](https://github.com/sponsors/ueberdosis)! ♥️
 
 ## Your benefits as a sponsor
 * Give back to the open source community
 * Get early access to private repositories
 * Ensure the further maintenace and development of tiptap
-* Your issues and pull requests get a `sponsor 💖` label
+* Your issues and pull requests get a `sponsor ♥️` label
 * Get a sponsor badge in all your comments on GitHub
 * Show support in your GitHub profile
 * Receive monthly reports about our open source work

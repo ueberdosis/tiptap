@@ -71,7 +71,7 @@
 
 <script>
 import {
-  Editor, EditorContent, defaultExtensions,
+  Editor, EditorContent, defaultExtensions, Extension,
 } from '@tiptap/vue-starter-kit'
 
 export default {
@@ -87,7 +87,9 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: defaultExtensions(),
+      extensions: [
+        ...defaultExtensions(),
+      ],
       content: `
         <h2>
           Hi there,

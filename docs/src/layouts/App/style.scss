@@ -188,7 +188,6 @@ $menuBreakPoint: 800px;
     letter-spacing: 0.025rem;
     font-size: 0.75rem;
     text-transform: uppercase;
-    color: rgba($colorBlack, 0.3);
     margin-bottom: 0.5rem;
   }
 
@@ -224,6 +223,7 @@ $menuBreakPoint: 800px;
     }
 
     &--exact {
+      font-weight: 700;
       color: $colorBlack;
       background-color: rgba($colorBlack, 0.05);
     }
@@ -232,47 +232,56 @@ $menuBreakPoint: 800px;
       color: rgba($colorBlack, 0.4);
 
       &::after {
-        content: 'draft';
-        font-family: 'JetBrainsMono', monospace;
+        content: 'DRAFT';
+        display: inline-flex;
+        align-items: center;
+        font-family: "JetBrainsMono", monospace;
+        font-weight: 700;
         text-transform: uppercase;
         color: $colorGrey;
-        background-color: rgba($colorGrey, 0.1);
-        padding: 0 0.5em;
-        border-radius: 5px;
+        background-color: rgba($colorBlack, 0.05);
+        font-size: 0.75rem;
+        padding: 0 0.4rem;
+        border-radius: 0.4rem;
       }
     }
 
     &--pro {
       &::after {
-        content: 'PRO';
-        font-family: 'JetBrainsMono', monospace;
+        content: "PRO";
+        display: inline-flex;
+        align-items: center;
+        font-family: "JetBrainsMono", monospace;
+        font-weight: 700;
         text-transform: uppercase;
-        color: $colorOrange;
-        background-color: rgba($colorOrange, 0.1);
-        padding: 0 0.5em;
-        border-radius: 5px;
+        color: $colorWhite;
+        background-color: $colorBlack;
+        font-size: 0.75rem;
+        padding: 0 0.4rem;
+        border-radius: 0.4rem;
       }
     }
 
     &--new {
       &::after {
         content: 'NEW';
-        font-family: 'JetBrainsMono', monospace;
+        display: inline-flex;
+        align-items: center;
+        font-family: "JetBrainsMono", monospace;
+        font-weight: 700;
         text-transform: uppercase;
-        color: $colorGreen;
-        background-color: rgba($colorGreen, 0.1);
-        padding: 0 0.5em;
-        border-radius: 5px;
+        color: $colorBlack;
+        background-color: $colorGreen;
+        font-size: 0.75rem;
+        padding: 0 0.4rem;
+        border-radius: 0.4rem;
       }
     }
 
     &--sponsor {
       &::after {
-        content: '💖';
-        font-family: 'JetBrainsMono', monospace;
-        text-transform: uppercase;
+        content: '♥️';
         padding: 0 0.5em;
-        border-radius: 5px;
       }
     }
 

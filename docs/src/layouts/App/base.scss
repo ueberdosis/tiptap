@@ -82,7 +82,7 @@ a {
 code {
   font-family: 'JetBrainsMono', monospace;
   padding: 0.1rem 0.3rem;
-  border-radius: 0.25rem;
+  border-radius: 0.4rem;
   font-size: 0.9rem;
 }
 
@@ -207,9 +207,12 @@ code {
   > ol code,
   > .table-wrapper code,
   > .remark-container code {
-    color: rgba($colorBlack, 0.7);
-    background-color: rgba($colorYellow, 0.3);
+    background-color: $colorYellow;
     box-decoration-break: clone;
+
+    // font-family: 'Inter';
+    font-weight: 700;
+    // font-size: 0.8rem;
   }
 
   > p a,
@@ -229,9 +232,9 @@ code {
 
     & + ul {
       list-style: none;
-      background-color: rgba($colorBlack, 0.03);
+      border: 3px solid $colorBlack;
       padding: 1.25rem !important;
-      border-radius: 0.5rem;
+      border-radius: 0.75rem;
       font-size: 0.85rem;
 
       &::before {
@@ -241,7 +244,6 @@ code {
         letter-spacing: 0.025rem;
         font-size: 0.75rem;
         text-transform: uppercase;
-        color: rgba($colorBlack, 0.3);
         margin-bottom: 0.5rem;
       }
 
@@ -365,28 +367,31 @@ code {
   }
 
   > .remark-container {
-    padding: 1.25rem;
-    border-radius: 0.5rem;
-    color: rgba($colorBlack, 0.7);
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    border: 3px solid $colorBlack;
 
     &.warning {
-      background-color: rgba($colorYellow, 0.3);
+      background-color: $colorYellow;
     }
 
     &.info {
-      background-color: rgba($colorBlue, 0.3);
+      background-color: $colorBlue;
     }
 
     &.error {
-      background-color: rgba($colorRed, 0.3);
+      background-color: $colorRed;
     }
 
     &.pro {
-      background-color: rgba($colorOrange, 0.3);
+      background-color: $colorBlack;
+      color: $colorWhite;
     }
 
     .remark-container-title {
+      font-size: 1.1rem;
       font-weight: 600;
+      margin-bottom: 0.25rem;
     }
   }
 
