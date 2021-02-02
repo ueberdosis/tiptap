@@ -89,12 +89,6 @@ export default {
     pointer-events: none;
   }
 
-  &__loader,
-  &__loader:after {
-    border-radius: 50%;
-    width: 1.25rem;
-    height: 1.25rem;
-  }
   &__loader {
     font-size: 10px;
     position: relative;
@@ -105,6 +99,13 @@ export default {
     border-left: 2px solid $colorBlack;
     transform: translateZ(0);
     animation: load8 1.1s infinite linear;
+
+    &,
+    &::after {
+      border-radius: 50%;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
   }
 
   @keyframes load8 {
@@ -112,6 +113,7 @@ export default {
       -webkit-transform: rotate(0deg);
       transform: rotate(0deg);
     }
+
     100% {
       -webkit-transform: rotate(360deg);
       transform: rotate(360deg);
