@@ -157,7 +157,9 @@ export default {
   &__content {
     padding: 1rem;
     max-height: 30rem;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 
     &::-webkit-scrollbar-thumb {
       background-color: rgba(black, 0.1);

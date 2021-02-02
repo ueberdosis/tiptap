@@ -13,7 +13,7 @@
     </app-section>
 
     <app-section>
-      <demo-frame name="Examples/CollaborativeEditing" inline />
+      <demo name="Examples/CollaborativeEditing" inline />
     </app-section>
 
     <app-section>

@@ -6,7 +6,7 @@
     <iframe
       v-show="!isLoading"
       v-resize
-      :src="`demos/${name}?${query}`"
+      :src="`/demos/${name}?${query}`"
       style="background-color: transparent;"
       width="100%"
       height="0"
@@ -60,12 +60,7 @@ export default {
   methods: {
     onLoad() {
       this.isLoading = false
-      console.log('onLoad')
     },
-  },
-
-  mounted() {
-    console.log('load')
   },
 }
 </script>
