@@ -185,7 +185,6 @@ export default {
     display: flex;
     align-items: center;
     border-radius: 5px;
-    margin-top: 1rem;
 
     &::before {
       content: ' ';
