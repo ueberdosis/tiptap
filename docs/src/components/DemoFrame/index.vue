@@ -1,10 +1,9 @@
 <template>
-  <div class="demo-frame">
-    <div v-show="isLoading" class="demo-frame__loader">
-      …
+  <div class="demo-frame" :class="{ 'is-inline': inline }">
+    <div class="demo-frame__loader-wrapper" v-if="isLoading">
+      <div class="demo-frame__loader" />
     </div>
     <iframe
-      v-show="!isLoading"
       v-resize.quiet
       :src="`/demos/${name}?${query}`"
       style="background-color: transparent;"
@@ -71,11 +70,52 @@ export default {
   flex-direction: column;
   border-radius: 0.5rem;
   overflow: hidden;
-  background-color: rgba($colorBlack, 0.05);
+  position: relative;
+  min-height: 8rem;
 
+  &.is-inline {
+    background-color: rgba($colorBlack, 0.03);
+  }
+
+  &__loader-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  &__loader,
+  &__loader:after {
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+  }
   &__loader {
-    padding: 1rem;
-    text-align: center;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999rem;
+    border-top: 2px solid rgba($colorBlack, 0.2);
+    border-right: 2px solid rgba($colorBlack, 0.2);
+    border-bottom: 2px solid rgba($colorBlack, 0.2);
+    border-left: 2px solid $colorBlack;
+    transform: translateZ(0);
+    animation: load8 1.1s infinite linear;
+  }
+
+  @keyframes load8 {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
   }
 }
 </style>
