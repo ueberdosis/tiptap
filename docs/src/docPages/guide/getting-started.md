@@ -6,11 +6,11 @@
 tiptap 2 is framework-agnostic and even works with plain JavaScript, if that’s your thing. We’re working on guides for all the different frameworks and workflows, but here is the general one. The following steps should help you to integrate tiptap in your JavaScript project.
 
 ## Alternative Guides
-* [Vue CLI](/guide/getting-started/vue-cli)
-* [Nuxt.js](/guide/getting-started/nuxtjs)
+* [Vue CLI](/guide/getting-started/vue)
+* [Nuxt.js](/guide/getting-started/nuxt)
 * [React](/guide/getting-started/react) (Draft)
 * [Svelte](/guide/getting-started/svelte) (Draft)
-* [Alpine.js](/guide/getting-started/alpinejs) (Draft)
+* [Alpine.js](/guide/getting-started/alpine) (Draft)
 * [Livewire](/guide/getting-started/livewire) (Draft)
 
 ## Requirements

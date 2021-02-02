@@ -6,11 +6,11 @@
 Depending on how your development setup looks like, there are a few different ways to install tiptap. We have put together integration guides for a few popular frameworks to get you started quickly. You can even use it without any front-end framework. Choose the way that fits your workflow and start building cool things!
 
 ## Integration guides
-* [Vue.js](/guide/getting-started/vue-cli)
-* [Nuxt.js](/guide/getting-started/nuxtjs)
+* [Vue.js](/guide/getting-started/vue)
+* [Nuxt.js](/guide/getting-started/nuxt)
 * [React](/guide/getting-started/react) (Draft)
 * [Svelte](/guide/getting-started/svelte) (Draft)
-* [Alpine.js](/guide/getting-started/alpinejs) (Draft)
+* [Alpine.js](/guide/getting-started/alpine) (Draft)
 * [Livewire](/guide/getting-started/livewire) (Draft)
 
 Don’t see your framework here? That shouldn’t stop you from installing tiptap. Just use the Vanilla JavaScript version, that should work fine, too.

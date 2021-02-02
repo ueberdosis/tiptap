@@ -1,4 +1,4 @@
-# Vue CLI
+# Vue.js
 
 ## toc
 

@@ -50,13 +50,13 @@
       link: /guide/getting-started
       items:
         - title: Vue.js 2
-          link: /guide/getting-started/vuejs
+          link: /guide/getting-started/vue
           skip: true
         - title: Nuxt.js
-          link: /guide/getting-started/nuxtjs
+          link: /guide/getting-started/nuxt
           skip: true
         - title: Inertia.js
-          link: /guide/getting-started/intertiajs
+          link: /guide/getting-started/intertia
           type: draft
           skip: true
         - title: React
@@ -64,7 +64,7 @@
           type: draft
           skip: true
         - title: Next.js
-          link: /guide/getting-started/nextjs
+          link: /guide/getting-started/next
           type: draft
           skip: true
         - title: Svelte
@@ -72,7 +72,7 @@
           type: draft
           skip: true
         - title: Alpine.js
-          link: /guide/getting-started/alpinejs
+          link: /guide/getting-started/alpine
           type: draft
           skip: true
         - title: Livewire
