@@ -31,9 +31,12 @@ export default {
   },
 
   mounted() {
-    this.resizeObserver = new window.ResizeObserver(() => {
+    this.resizeObserver = new window.ResizeObserver(items => {
       if (window.parentIFrame) {
-        window.parentIFrame.sendMessage('resize')
+        window.parentIFrame.sendMessage({
+          type: 'resize',
+          height: items[0].contentRect.height,
+        })
       }
     })
 
