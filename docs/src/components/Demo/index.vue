@@ -16,7 +16,8 @@
           </button>
         </div>
         <div class="demo__code" v-if="activeFile" :key="activeFile.path">
-          <prism :code="activeFile.content" :language="activeFile.highlight" :highlight="highlight" />
+          <!-- eslint-disable-next-line -->
+          <prism :language="activeFile.highlight" :highlight="highlight">{{ activeFile.content }}</prism>
         </div>
       </div>
       <div class="demo__meta">

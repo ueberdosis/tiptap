@@ -1,5 +1,5 @@
 <template>
-  <pre :class="`language-${language}`" :data-line="highlight"><code :class="`language-${language}`">{{ code }}</code></pre>
+  <pre :class="`language-${language}`" :data-line="highlight"><code :class="`language-${language}`"><slot /></code></pre>
 </template>
 
 <script>
@@ -11,11 +11,6 @@ export default {
   props: {
     language: {
       default: 'js',
-      type: String,
-    },
-
-    code: {
-      default: null,
       type: String,
     },
 
