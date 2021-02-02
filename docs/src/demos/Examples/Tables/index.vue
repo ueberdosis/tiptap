@@ -94,9 +94,9 @@ export default {
         TableCell,
       ],
       content: `
-        <h1>
-          Have you seen our tables? They are amazing.
-        </h1>
+        <p>
+          Have you seen our tables? They are amazing!
+        </p>
         <ul>
           <li>tables with rows, headers and cells</li>
           <li>Support for <code>colgroup</code> and <code>rowspan</code></li>

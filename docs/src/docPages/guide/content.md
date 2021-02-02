@@ -66,13 +66,22 @@ Use this interactive example to fiddle around:
 
 <demo name="Guide/Content/ExportHTML" :show-source="false"/>
 
+### Option 3: Y.js
+Our editor has amazing support for Y.js, which is amazing to add [realtime collaboration, offline editing, or syncing between devices](/guide/collaborative-editing).
+
+Internally, Y.js stores a history of all changes. That can be in the browser, on a server, synced with other connected clients, or on a USB stick. But, it’s important to know that Y.js needs those stored changes. A simple JSON document is not enough to merge changes.
+
+Sure, you can import existing JSON documents to get started and get a JSON out of Y.js, but that’s more like an import/export format. It won’t be your single source. That’s important to consider when adding Y.js for one of the mentioned use cases.
+
+That said, it’s amazing and we’re about to provide an amazing backend, that makes all that a breeze.
+
 ### Not an option: Markdown
 Unfortunately, **tiptap doesn’t support Markdown as an input or output format**. We considered to add support for it, but those are the reasons why we decided to not do it:
 
 * Both, HTML and JSON, can have deeply nested structures, Markdown is flat.
 * There are enough packages to convert HTML to Markdown and vice-versa.
 * Markdown standards vary.
-* tiptap’s strength is cutomization, that doesn’t work very well with Markdown
+* tiptap’s strength is cutomization, that doesn’t work very well with Markdown.
 
 You should really consider to work with HTML or JSON to store your content, they are perfectly fine for most use cases.
 
@@ -120,3 +129,7 @@ If you’re migrating existing content to tiptap we would recommend to get your 
 We’re about to go through a few cases to help with that, for example we provide a PHP package to convert HTML to a compatible JSON structure: [ueberdosis/prosemirror-to-html](https://github.com/ueberdosis/html-to-prosemirror).
 
 Share your experiences with us! We’d like to add more information here.
+
+## Security
+
+There’s no reason to use on or the other for security reasons.
