@@ -67,6 +67,12 @@ module.exports = {
         domain: 'data.next.tiptap.dev',
       },
     },
+    {
+      use: 'gridsome-plugin-plausible-analytics',
+      options: {
+        dataDomain: 'next.tiptap.dev',
+      },
+    },
   ],
   runtimeCompiler: true,
   configureWebpack: {

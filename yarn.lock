@@ -7510,6 +7510,11 @@ gray-matter@^4.0.2:
     section-matter "^1.0.0"
     strip-bom-string "^1.0.0"
 
+gridsome-plugin-plausible-analytics@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gridsome-plugin-plausible-analytics/-/gridsome-plugin-plausible-analytics-1.0.0.tgz#251d21334d6ac12df8967724fc55a079ffec9395"
+  integrity sha512-KMEQzxy3jefHH8ZDPbKttsrrEt4uSebn+saHtRkZx9pXR7DJmge0uE6+ImzsBXdpNuOvMTa6XGZVrwm00VC/QQ==
+
 gridsome-plugin-simple-analytics@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/gridsome-plugin-simple-analytics/-/gridsome-plugin-simple-analytics-1.1.0.tgz#3ad44908ac767c603943ddc928d09e23304edee2"
