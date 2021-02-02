@@ -122,17 +122,52 @@ new Editor({
         <h2 class="is-h1">
           Who uses tiptap?
         </h2>
+        <logo-list>
+          <logo-item
+            title="GitLab"
+            image="gitlab"
+            to="https://gitlab.com"
+          />
+          <logo-item
+            title="Statamic CMS"
+            image="statamic"
+            to="https://statamic.com"
+          />
+          <logo-item
+            title="Twill CMS"
+            image="twill"
+            to="https://twill.io"
+          />
+          <logo-item
+            title="ApostropheCMS"
+            image="apostrophe"
+            to="https://apostrophecms.com"
+          />
+          <logo-item
+            title="Directus CMS"
+            image="directus"
+            to="https://directus.io"
+          />
+          <logo-item
+            title="Nextcloud"
+            image="nextcloud"
+            to="https://apps.nextcloud.com/apps/text"
+          />
+          <logo-item
+            title="ycode"
+            image="ycode"
+            to="https://www.ycode.com/"
+          />
+          <logo-item
+            title="Scrumpy"
+            image="scrumpy"
+            to="https://www.scrumpy.io"
+          />
+        </logo-list>
         <p>
-          - [GitLab](https://gitlab.com)
-          - [Statamic CMS](https://statamic.com)
-          - [Twill CMS](https://twill.io)
-          - [ApostropheCMS](https://apostrophecms.com)
-          - [Directus CMS](https://directus.io)
-          - [Nextcloud](https://apps.nextcloud.com/apps/text)
-          - [DocIQ](https://www.dociq.io)
-          - [ycode](https://www.ycode.com/)
-          - [Scrumpy](https://www.scrumpy.io)
-          - … and [many more](https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D)
+          <g-link to="https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D">
+            And Many More
+          </g-link>
         </p>
       </div>
     </app-section>
@@ -158,6 +193,8 @@ new Editor({
 import AppSection from '@/components/AppSection'
 import FeatureList from '@/components/FeatureList'
 import FeatureItem from '@/components/FeatureItem'
+import LogoList from '@/components/LogoList'
+import LogoItem from '@/components/LogoItem'
 import Prism from '~/components/Prism'
 
 export default {
@@ -165,6 +202,8 @@ export default {
     AppSection,
     FeatureList,
     FeatureItem,
+    LogoList,
+    LogoItem,
     Prism,
   },
 }
