@@ -23,6 +23,26 @@ export default {
       ],
     }
   },
+
+  data() {
+    return {
+      resizeObserver: null,
+    }
+  },
+
+  mounted() {
+    this.resizeObserver = new window.ResizeObserver(() => {
+      if (window.parentIFrame) {
+        window.parentIFrame.sendMessage('resize')
+      }
+    })
+
+    this.resizeObserver.observe(document.body)
+  },
+
+  beforeDestroy() {
+    this.resizeObserver.unobserve(document.body)
+  },
 }
 </script>
 

@@ -23,8 +23,17 @@ export default function (Vue, { head }) {
   Vue.use(PortalVue)
 
   Vue.directive('resize', {
-    bind(el, { value = {} }) {
-      el.addEventListener('load', () => iframeResize(value, el))
+    bind: (el, { value = {} }) => {
+      el.addEventListener('load', () => {
+        iframeResize({
+          ...value,
+          messageCallback(messageData) {
+            if (messageData.message === 'resize') {
+              el.iFrameResizer.resize()
+            }
+          },
+        }, el)
+      })
     },
     unbind(el) {
       el.iFrameResizer.removeListeners()
