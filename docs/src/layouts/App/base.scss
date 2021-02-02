@@ -209,10 +209,7 @@ code {
   > .remark-container code {
     background-color: $colorYellow;
     box-decoration-break: clone;
-
-    // font-family: 'Inter';
     font-weight: 700;
-    // font-size: 0.8rem;
   }
 
   > p a,
@@ -342,8 +339,8 @@ code {
       th {
         white-space: nowrap;
         color: $colorBlack;
-        font-weight: 500;
-        border-bottom: 1px solid rgba($colorBlack, 0.2);
+        font-weight: 700;
+        border-bottom: 2px solid $colorBlack;
       }
 
       td {
