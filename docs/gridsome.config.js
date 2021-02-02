@@ -61,13 +61,6 @@ module.exports = {
         },
       },
     },
-    {
-      use: 'gridsome-plugin-simple-analytics',
-      options: {
-        domain: 'data.next.tiptap.dev',
-        skip: process.env.NODE_ENV !== 'production',
-      },
-    },
   ],
   runtimeCompiler: true,
   configureWebpack: {

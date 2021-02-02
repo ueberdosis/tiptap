@@ -7510,13 +7510,6 @@ gray-matter@^4.0.2:
     section-matter "^1.0.0"
     strip-bom-string "^1.0.0"
 
-gridsome-plugin-simple-analytics@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/gridsome-plugin-simple-analytics/-/gridsome-plugin-simple-analytics-1.1.0.tgz#3ad44908ac767c603943ddc928d09e23304edee2"
-  integrity sha512-LiONYi1hRlSEC15UfDnDahbMowo0diWFHyAdzKNKWJFDBf31Z06DnHbZiQyRlGJNF18MqJRJXQIa0xwo6zehQw==
-  dependencies:
-    simple-analytics-vue "^1.1.0"
-
 gridsome@0.7.23:
   version "0.7.23"
   resolved "https://registry.yarnpkg.com/gridsome/-/gridsome-0.7.23.tgz#d8b06bdf6b4ed06411be3ec3696324f29c83063e"
@@ -13231,13 +13224,6 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
   integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
 
-simple-analytics-vue@^1.1.0:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/simple-analytics-vue/-/simple-analytics-vue-1.1.3.tgz#50e4e1238e834fe384059b32cc7520ef61ebb35a"
-  integrity sha512-DFcYJfibp0x9dd/2zxaWpC+GBG4kpZCwrhn2xsc7umu9iuGVU0mIB0vJls284s85GszV6GzlEJRyDN9FEMxwSQ==
-  dependencies:
-    vue "^2.6.11"
-
 simple-concat@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/simple-concat/-/simple-concat-1.0.1.tgz#f46976082ba35c2263f1c8ab5edfe26c41c9552f"
@@ -15135,7 +15121,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.6.10, vue@^2.6.11, vue@^2.6.12:
+vue@^2.6.10, vue@^2.6.12:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
