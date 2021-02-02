@@ -17,8 +17,6 @@
     "d3": "^6.5.0",
     "globby": "^11.0.0",
     "gridsome": "0.7.23",
-    "gridsome-plugin-plausible-analytics": "^1.0.0",
-    "gridsome-plugin-simple-analytics": "^1.1.0",
     "iframe-resizer": "^4.3.1",
     "portal-vue": "^2.1.7",
     "raw-loader": "^4.0.2",
