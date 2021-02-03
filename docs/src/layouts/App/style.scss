@@ -1,5 +1,4 @@
 $navHeight: 4.5rem;
-$mobileBreakPoint: 600px;
 $menuBreakPoint: 800px;
 
 .app {
@@ -173,9 +172,9 @@ $menuBreakPoint: 800px;
   }
 
   &__link-group {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 
-    @media (min-width: $mobileBreakPoint) {
+    @media (min-width: $menuBreakPoint) {
       margin-bottom: 2rem;
     }
   }
@@ -311,7 +310,7 @@ $menuBreakPoint: 800px;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
 
-    @media (min-width: $mobileBreakPoint) {
+    @media (min-width: $menuBreakPoint) {
       padding: 2rem 0;
     }
   }
