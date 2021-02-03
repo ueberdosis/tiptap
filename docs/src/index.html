@@ -12,7 +12,7 @@
       : ''
     }
     ${process.env.NODE_ENV === 'production'
-      ? '<script async defer data-exclude="/demos/*" data-domain="next.tiptap.dev" src="https://plausible.io/js/plausible.js"></script>'
+      ? '<script async defer data-exclude="/demos/**" data-domain="next.tiptap.dev" src="https://plausible.io/js/plausible.exclusions.js"></script>'
       : ''
     }
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
