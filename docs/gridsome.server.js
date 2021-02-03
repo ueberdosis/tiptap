@@ -189,7 +189,7 @@ module.exports = function (api) {
     //   return null
     // }
 
-    if (options?.internal?.typeName !== 'DocPage') {
+    if (options.internal.typeName !== 'DocPage') {
       return
     }
 
