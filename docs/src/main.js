@@ -9,8 +9,6 @@ import App from '~/layouts/App'
 Prism.manual = true
 
 export default function (Vue, { head }) {
-  head.htmlAttrs = { 'data-theme': 'dark' }
-
   // fix docsearch
   if (typeof window === 'object' && !window.process) {
     window.process = {
