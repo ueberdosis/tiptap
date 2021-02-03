@@ -24,12 +24,13 @@ An optional writing assitance could help people writing content semanticly corre
 
 | Document | Section | Heading                                                                                |
 | -------- | ------- | -------------------------------------------------------------------------------------- |
-| WCAG 3.0 | 7.1     | [Text Alternatives](https://www.w3.org/TR/wcag-3.0/#text-alternatives)     |
+| WCAG 3.0 | 7.1     | [Text Alternatives](https://www.w3.org/TR/wcag-3.0/#text-alternatives)                 |
 | WCAG 2.1 | 1.1.1   | [Non-text Content](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content)       |
 | WCAG 2.1 | 2.1     | [Keyboard Accessible](https://www.w3.org/WAI/WCAG21/Understanding/keyboard-accessible) |
 | WCAG 2.1 | 2.1.1   | [Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard)                       |
 | WCAG 2.1 | 4.1.1   | [Parsing](https://www.w3.org/WAI/WCAG21/Understanding/parsing)                         |
 | WCAG 2.1 | 4.1.2   | [Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value)       |
+| WCAG 2.1 | 2.1.2   | [No Keyboard Trap](https://www.w3.org/TR/WCAG21/#no-keyboard-trap)                     |
 
 TODO: Update resources to point to WCAG 3.0 https://www.w3.org/TR/wcag-3.0/
 
