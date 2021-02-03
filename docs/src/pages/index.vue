@@ -159,10 +159,15 @@ new Editor({
             to="https://www.ycode.com/"
           />
           <logo-item
+            title="DocIQ"
+            image="dociq"
+            to="https://www.dociq.io/"
+          />
+          <!-- <logo-item
             title="Scrumpy"
             image="scrumpy"
             to="https://www.scrumpy.io"
-          />
+          /> -->
         </logo-list>
         <p>
           <g-link to="https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D">
