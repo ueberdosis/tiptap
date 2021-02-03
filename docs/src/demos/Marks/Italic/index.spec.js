@@ -32,7 +32,7 @@ context('/demos/Marks/Italic', () => {
   })
 
   it('the button should make the selected text italic', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -41,13 +41,13 @@ context('/demos/Marks/Italic', () => {
   })
 
   it('the button should toggle the selected text italic', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
       .type('{selectall}')
 
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror em')

@@ -27,7 +27,7 @@ context('/demos/Nodes/HardBreak', () => {
     cy.get('.ProseMirror br')
       .should('not.exist')
 
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror br')

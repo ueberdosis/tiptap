@@ -41,7 +41,7 @@ context('/demos/Marks/Bold', () => {
   })
 
   it('the button should make the selected text bold', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -50,9 +50,9 @@ context('/demos/Marks/Bold', () => {
   })
 
   it('the button should toggle the selected text bold', () => {
-    cy.get('.demo__preview button:first').click()
+    cy.get('button:first').click()
     cy.get('.ProseMirror').type('{selectall}')
-    cy.get('.demo__preview button:first').click()
+    cy.get('button:first').click()
     cy.get('.ProseMirror strong').should('not.exist')
   })
 

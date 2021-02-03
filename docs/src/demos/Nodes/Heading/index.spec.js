@@ -36,7 +36,7 @@ context('/demos/Nodes/Heading', () => {
     cy.get('.ProseMirror h1')
       .should('not.exist')
 
-    cy.get('.demo__preview button:nth-child(1)')
+    cy.get('button:nth-child(1)')
       .click()
 
     cy.get('.ProseMirror')
@@ -48,7 +48,7 @@ context('/demos/Nodes/Heading', () => {
     cy.get('.ProseMirror h2')
       .should('not.exist')
 
-    cy.get('.demo__preview button:nth-child(2)')
+    cy.get('button:nth-child(2)')
       .click()
 
     cy.get('.ProseMirror')
@@ -60,7 +60,7 @@ context('/demos/Nodes/Heading', () => {
     cy.get('.ProseMirror h3')
       .should('not.exist')
 
-    cy.get('.demo__preview button:nth-child(3)')
+    cy.get('button:nth-child(3)')
       .click()
 
     cy.get('.ProseMirror')
@@ -72,14 +72,14 @@ context('/demos/Nodes/Heading', () => {
     cy.get('.ProseMirror h1')
       .should('not.exist')
 
-    cy.get('.demo__preview button:nth-child(1)')
+    cy.get('button:nth-child(1)')
       .click()
 
     cy.get('.ProseMirror')
       .find('h1')
       .should('contain', 'Example Text')
 
-    cy.get('.demo__preview button:nth-child(1)')
+    cy.get('button:nth-child(1)')
       .click()
 
     cy.get('.ProseMirror h1')
