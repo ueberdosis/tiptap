@@ -1,0 +1,56 @@
+<template>
+  <editor-content :editor="editor" />
+</template>
+
+<script>
+import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Placeholder from './extension/placeholder'
+
+export default {
+  components: {
+    EditorContent,
+  },
+
+  data() {
+    return {
+      editor: null,
+    }
+  },
+
+  mounted() {
+    this.editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder,
+      ],
+    })
+  },
+
+  beforeDestroy() {
+    this.editor.destroy()
+  },
+}
+</script>
+
+<style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+
+/* Placeholder */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-empty-text);
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 0;
+}
+</style>

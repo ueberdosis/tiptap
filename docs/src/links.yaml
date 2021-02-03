@@ -41,6 +41,9 @@
     - title: Tables
       link: /examples/tables
       type: draft
+    - title: Images
+      link: /examples/images
+      type: draft
 
 - title: Guide
   items:

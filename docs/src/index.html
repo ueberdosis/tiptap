@@ -8,6 +8,10 @@
     ${app}
     ${scripts}
     ${process.env.NODE_ENV === 'production'
+      ? '<script async defer data-ignore-pages="/demos/*" src="https://data.next.tiptap.dev/latest.js"></script><noscript><img src="https://data.next.tiptap.dev/image.gif" alt=""></noscript>'
+      : ''
+    }
+    ${process.env.NODE_ENV === 'production'
       ? '<script async defer data-exclude="/demos/**" data-domain="next.tiptap.dev" src="https://plausible.io/js/plausible.exclusions.js"></script>'
       : ''
     }

@@ -1,7 +1,7 @@
 # Collaborative editing
 
-:::pro Become a sponsor
-Using collaborative editing in production? Do the right thing and [sponsor our work](/sponsor)!
+:::pro Professionals
+Using the collaborative editing commercially? [Become a sponsor](/sponsor) to fund its development!
 :::
 
 ## toc
@@ -9,7 +9,7 @@ Using collaborative editing in production? Do the right thing and [sponsor our w
 ## Introduction
 Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of [Y.js](https://github.com/yjs/yjs). The following guide explains all things to take into account when you consider to make tiptap collaborative. Don’t worry, a production-grade setup doesn’t require much code.
 
-## Configure collaboration
+## Configure the editor
 The underyling schema tiptap uses is an excellent foundation to sync documents. With the [`Collaboration`](/api/extensions/collaboration) you can tell tiptap to track changes to the document with [Y.js](https://github.com/yjs/yjs).
 
 Y.js is a conflict-free replicated data types implementation, or in other words: It’s reaaally good in merging changes. And to achieve that, changes don’t have to come in order. It’s totally fine to change a document while being offline and merge the it with other changes when the device is online again.
@@ -209,17 +209,13 @@ All changes will be stored in the browser then, even if you close the tab, go of
 
 Yes, it’s magic. As already mentioned, that is all based on the fantastic Y.js framework. And if you’re using it, or our integration, you should definitely [sponsor Kevin Jahns on GitHub](https://github.com/dmonad), he is the brain behind Y.js.
 
-## Store the content
+## A plug & play backend
 Our collaborative editing backend is ready to handle advanced use cases, like authorization, persistence and scaling. Let’s go through a few common use cases here!
 
+### Where is it?
 :::warning Work in progress
-Our plug & play collaboration backend hocuspocus is still work in progress. We’re setting up a dedicated website and documentation, and need to add one or two features before publishing it.
-
-If you want to give it a try, send us an email to humans@tiptap.dev to receive early access.
+Our plug & play collaboration backend hocuspocus is still work in progress. If you want to give it a try, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev) to receive early access.
 :::
-<!-- :::pro Backend as a Service (Paid)
-Don’t want to wrap your head around the backend part? No worries, we offer a managed backend. For less than 1.000 documents, it’s $49/month (VAT may apply) and probably saves you a ton of time. Send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev) for further details.
-::: -->
 
 ### The document name
 The document name is `'example-document'` in all examples here, but it could be any string. In a real-world app you’d probably add the name of your entity and the ID of the entity. Here is how that could look like:

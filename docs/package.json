@@ -12,6 +12,7 @@
     "@gridsome/transformer-json": "^0.2.1",
     "@gridsome/vue-remark": "^0.2.6",
     "@mvasilkov/outdent": "^1.0.4",
+    "canvas": "^2.6.1",
     "collect.js": "^4.28.6",
     "d3": "^6.5.0",
     "globby": "^11.0.0",

@@ -37,7 +37,7 @@ export default {
         },
         {
           property: 'og:image',
-          content: 'https://next.tiptap.dev/og-image.png',
+          content: this.getOpenGraphImage(),
         },
         /* Twitter */
         {
@@ -50,7 +50,7 @@ export default {
         },
         {
           name: 'twitter:image',
-          content: 'https://next.tiptap.dev/og-image.png',
+          content: this.getOpenGraphImage(),
         },
         {
           name: 'twitter:site',
@@ -58,6 +58,15 @@ export default {
         },
       ],
     }
+  },
+  methods: {
+    getOpenGraphImage() {
+      const path = this.$route.path.replace(/\/$/, '')
+
+      return path === ''
+        ? 'https://next.tiptap.dev/og-image.png'
+        : `/images${path}/og-image.png`
+    },
   },
 }
 </script>
