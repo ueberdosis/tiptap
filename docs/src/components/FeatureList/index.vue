@@ -13,7 +13,10 @@ export default {
 
 <style lang="scss" scoped>
 .feature-list {
-  column-count: 2;
-  column-gap: 1rem;
+
+  @media (min-width: 700px) {
+    column-count: 2;
+    column-gap: 1rem;
+  }
 }
 </style>
