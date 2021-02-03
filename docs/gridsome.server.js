@@ -185,12 +185,12 @@ module.exports = function (api) {
 
   // Generate OpenGraph images for all pages
   api.onCreateNode(options => {
-    if (process.env.NODE_ENV !== 'production') {
-      return null
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //   return null
+    // }
 
     if (options?.internal?.typeName !== 'DocPage') {
-      return null
+      return
     }
 
     const imagePath = `static/images${options.path}`
