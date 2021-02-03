@@ -157,7 +157,7 @@ new Editor({
 | `element`          | `Element`       | `false`  | Focus the editor on init.                                                                                                                            |
 | `extensions`       | `Array`         | `[]`     | A list of extensions you would like to use. Can be [`Nodes`](/api/nodes), [`Marks`](/api/marks) or [`Extensions`](/api/extensions).                  |
 | `injectCSS`        | `Boolean`       | `true`   | When set to `false` tiptap won’t load [the default ProseMirror CSS](https://github.com/ueberdosis/tiptap-next/tree/main/packages/core/src/style.ts). |
-| ~~`parseOptions`~~ | ~~`Object`~~    | ~~`{}`~~ | ~~A list of [Prosemirror parseOptions](https://prosemirror.net/docs/ref/#model.ParseOptions).~~                                                      | --> |
+| ~~`parseOptions`~~ | ~~`Object`~~    | ~~`{}`~~ | ~~A list of [Prosemirror parseOptions](https://prosemirror.net/docs/ref/#model.ParseOptions).~~                                                      | -->
 
 ## List of available methods
 An editor instance will provide the following public methods. They’ll help you to work with the editor.
