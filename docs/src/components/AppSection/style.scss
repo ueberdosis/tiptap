@@ -4,12 +4,16 @@
   &__inner {
     position: relative;
     z-index: 2;
-    padding: 4rem 1rem;
+    padding: 5rem 1rem;
     margin: 0 auto;
     max-width: 50rem;
 
-    // @media (min-width: $mobileBreakPoint) {
-    //   padding: 0 2rem;
-    // }
+    @media (min-width: 600px) {
+      padding: 7rem 2rem;
+    }
+  }
+
+  & + & &__inner {
+    padding-top: 0;
   }
 }
