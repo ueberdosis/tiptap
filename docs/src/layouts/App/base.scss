@@ -199,10 +199,6 @@ code {
     margin-bottom: 0;
   }
 
-  > pre {
-    border: 1px solid rgba($colorBlack, 0.1);
-  }
-
   > p code,
   > ul code,
   > ol code,
@@ -300,9 +296,9 @@ code {
         justify-content: center;
         height: 1.5rem;
         width: 1.5rem;
-        background-color: rgba($colorBlack, 0.05);
+        background-color: $colorBlack;
         border-radius: 9999px;
-        color: $colorBlack;
+        color: $colorWhite;
         font-size: 0.75rem;
         font-weight: 700;
         content: counter(item);
@@ -340,12 +336,13 @@ code {
       th {
         white-space: nowrap;
         color: $colorBlack;
+        font-size: 0.9rem;
         font-weight: 700;
-        border-bottom: 2px solid $colorBlack;
+        border-bottom: 3px solid $colorBlack;
       }
 
       td {
-        border-bottom: 1px solid rgba($colorBlack, 0.1);
+        border-bottom: 1px solid $colorBlack;
       }
 
       tr:last-child td {
@@ -358,7 +355,7 @@ code {
         }
 
         &:hover {
-          background: rgba($colorBlack, 0.02);
+          background: rgba($colorBlack, 0.03);
         }
       }
     }
@@ -388,7 +385,7 @@ code {
 
     .remark-container-title {
       font-size: 1.1rem;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 0.25rem;
     }
   }
