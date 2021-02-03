@@ -37,6 +37,7 @@ export default Extension.create({
 
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
+              // TODO: should be false for image nodes (without text content), is true though
               const isNodeEmpty = node.content.size === 0
 
               if ((hasAnchor || !this.options.showOnlyCurrent) && isNodeEmpty) {
