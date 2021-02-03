@@ -11,11 +11,10 @@
     max-height: unquote("max(300px, 60vh)");
     overflow: auto;
     scroll-behavior: smooth;
-    border: 1px solid rgba($colorBlack, 0.1);
+    border: 3px solid $colorBlack;
   }
 
   &__source {
-    border: 1px solid rgba($colorBlack, 0.1);
     background-color: $colorBlack;
   }
 
