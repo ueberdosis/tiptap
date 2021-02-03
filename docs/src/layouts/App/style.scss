@@ -2,19 +2,16 @@ $navHeight: 4.5rem;
 $mobileBreakPoint: 600px;
 $menuBreakPoint: 800px;
 
-
-
 .app {
   &__navigation {
     position: fixed;
     display: flex;
+    flex-direction: column;
     z-index: 2;
     top: 0;
     width: 100%;
-    height: $navHeight;
+    max-height: 100vh;
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba($colorBlack, 0.1);
-    padding: 0 2rem;
 
     &::after {
       content: '';
@@ -31,29 +28,66 @@ $menuBreakPoint: 800px;
     }
   }
 
+  &__top-bar {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    height: $navHeight;
+    padding: 0 1rem;
+
+    @media (min-width: $menuBreakPoint) {
+      padding: 0 2rem;
+    }
+  }
+
+  &__menu {
+    display: flex;
+    align-items: center;
+  }
+
+  &__menu-item {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    font-weight: 500;
+
+    @media (min-width: $menuBreakPoint) {
+      display: inline-flex;
+      margin-right: 1.5rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
   &__content {
     display: flex;
     position: relative;
     z-index: 1;
   }
 
-  &__name {
+  &__logo {
     display: inline-flex;
     align-items: center;
     font-weight: 600;
     color: $colorBlack;
     font-size: 1.5rem;
+    margin-right: auto;
 
-    &::after {
-      content: '2.0 alpha';
-      display: block;
-      margin-left: 0.5rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.05rem;
-      text-transform: uppercase;
-      border-radius: 5px;
-      border: 1px solid $colorBlack;
-      padding: 0 0.4em;
+    @media (min-width: 500px) {
+      &::after {
+        content: '2.0 alpha';
+        display: block;
+        margin-left: 0.5rem;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.05rem;
+        text-transform: uppercase;
+        border-radius: 0.4rem;
+        border: 2px solid $colorBlack;
+        padding: 0 0.4em;
+      }
     }
   }
 
@@ -105,45 +139,18 @@ $menuBreakPoint: 800px;
     }
   }
 
+  &__sidebar-menu {
+    margin-top: 1.5rem;
+
+    @media (min-width: $menuBreakPoint) {
+      margin-top: 0;
+    }
+  }
+
   &__main {
     flex: 1 1 auto;
     min-width: 0;
-  }
-
-  // &__top-bar {
-  //   display: flex;
-  //   flex-direction: column;
-  //   padding: 1rem 0;
-  //   position: sticky;
-  //   z-index: 2;
-  //   top: 0;
-  //   backdrop-filter: blur(10px);
-  //   max-height: 100vh;
-
-  //   @media (min-width: $menuBreakPoint) {
-  //     padding: 1.5rem 0;
-  //   }
-
-  //   &::after {
-  //     content: '';
-  //     z-index: -1;
-  //     position: absolute;
-  //     top: 0;
-  //     left: 0;
-  //     width: 100%;
-  //     height: 100%;
-  //     background-color: $colorWhite;
-  //     opacity: 0.8;
-  //     transform: translate3d(0,0,0);
-  //     pointer-events: none;
-  //   }
-  // }
-
-  &__top-bar-inner {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex: 0 0 auto;
+    padding-top: $navHeight;
   }
 
   &__menu-icon,
@@ -153,7 +160,7 @@ $menuBreakPoint: 800px;
     background: transparent;
     border: 0;
     color: $colorText;
-    margin-left: 1rem;
+    margin-left: 1.5rem;
     transition: color 0.2s $ease;
 
     &:hover {
@@ -164,16 +171,6 @@ $menuBreakPoint: 800px;
       display: none;
     }
   }
-
-  // &__inner {
-  //   margin: 0 auto;
-  //   max-width: 50rem;
-  //   padding: 0 1rem;
-
-  //   @media (min-width: $mobileBreakPoint) {
-  //     padding: 0 2rem;
-  //   }
-  // }
 
   &__link-group {
     margin-bottom: 1rem;
@@ -201,12 +198,20 @@ $menuBreakPoint: 800px;
     margin: 0.5rem 0;
   }
 
-  &__mobile-nav &__link-list &__link-list {
+  &__mobile-menu &__link-list &__link-list {
     display: block;
   }
 
   .app__link--active + &__link-list {
     display: block;
+  }
+
+  &__mobile-menu &__menu-item {
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &__link {
@@ -294,25 +299,12 @@ $menuBreakPoint: 800px;
     }
   }
 
-  &__mobile-nav &__link--with-children::after {
+  &__mobile-menu &__link--with-children::after {
     display: none;
   }
 
-  &__main {
-    padding: 1rem 0;
-
-    @media (min-width: $mobileBreakPoint) {
-      padding: 2rem 0;
-      padding-top: $navHeight;
-    }
-  }
-
-  &__page-navigation {
-    border-top: 1px solid rgba($colorBlack, 0.1);
-  }
-
-  &__mobile-nav {
-    padding: 1rem;
+  &__mobile-menu {
+    padding: 1rem 0 1rem 1rem;
     flex: 1 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
@@ -320,7 +312,7 @@ $menuBreakPoint: 800px;
     overscroll-behavior: contain;
 
     @media (min-width: $mobileBreakPoint) {
-      padding: 2rem;
+      padding: 2rem 0;
     }
   }
 

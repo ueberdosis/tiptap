@@ -1,63 +1,63 @@
 <template>
   <div class="app">
     <div class="app__navigation">
-      <g-link class="app__name" to="/">
-        <img src="~@/assets/images/logo.svg">
-      </g-link>
+      <div class="app__top-bar">
+        <g-link class="app__logo" to="/">
+          <img src="~@/assets/images/logo.svg">
+        </g-link>
 
-      <span style="position: relative">
-        Search
-        <div class="app__search-docsearch" />
-      </span>
-      <g-link to="/overview/installation">
-        Documentation
-      </g-link>
-      <g-link to="https://github.com/ueberdosis/tiptap-next">
-        GitHub
-      </g-link>
+        <div class="app__menu">
+          <span class="app__menu-item">
+            Search
+            <div class="app__search-docsearch" />
+          </span>
 
-      <button
-        class="app__menu-icon"
-        @click="menuIsVisible = true"
-        v-if="!menuIsVisible"
-      >
-        <icon name="menu" />
-      </button>
-      <button
-        class="app__close-icon"
-        @click="menuIsVisible = false"
-        v-if="menuIsVisible"
-      >
-        <icon name="close" />
-      </button>
+          <portal-target name="desktop-menu" />
+        </div>
+
+        <button
+          class="app__menu-icon"
+          @click="menuIsVisible = true"
+          v-if="!menuIsVisible"
+        >
+          <icon name="menu" />
+        </button>
+        <button
+          class="app__close-icon"
+          @click="menuIsVisible = false"
+          v-if="menuIsVisible"
+        >
+          <icon name="close" />
+        </button>
+      </div>
+      <div class="app__mobile-menu" v-if="menuIsVisible">
+        <portal-target name="mobile-menu" />
+        <portal-target name="mobile-sidebar" />
+      </div>
     </div>
 
     <div class="app__content">
       <div class="app__sidebar" v-if="showSidebar">
-        <portal-target name="desktop-nav" />
+        <portal-target name="desktop-sidebar" />
       </div>
 
       <main class="app__main">
-        <div class="app__top-bar">
-          <div class="app__inner app__top-bar-inner" />
-          <div class="app__mobile-nav" v-if="menuIsVisible">
-            <portal-target name="mobile-nav" />
-          </div>
-        </div>
-        <main class="app__main">
-          <div class="app__inner">
-            <slot />
-          </div>
-        </main>
-        <div class="app__page-navigation" v-if="showSidebar">
-          <div class="app__inner">
-            <page-navigation />
-          </div>
+        <div class="app__inner">
+          <slot />
         </div>
       </main>
 
-      <portal :to="portal">
-        <nav class="app__sidebar-navigation">
+      <portal :to="menuPortal">
+        <g-link class="app__menu-item" to="/overview/installation">
+          Documentation
+        </g-link>
+        <g-link class="app__menu-item" to="https://github.com/ueberdosis/tiptap-next">
+          GitHub
+        </g-link>
+      </portal>
+
+      <portal :to="sidebarPortal" v-if="showSidebar">
+        <nav class="app__sidebar-menu">
           <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
             <div class="app__link-group-title">
               {{ linkGroup.title }}
@@ -119,7 +119,6 @@ query {
 <script>
 import linkGroups from '@/links.yaml'
 import Icon from '@/components/Icon'
-import PageNavigation from '@/components/PageNavigation'
 // import GithubButton from 'vue-github-button'
 
 export default {
@@ -132,7 +131,6 @@ export default {
 
   components: {
     Icon,
-    PageNavigation,
     // GithubButton,
   },
 
@@ -145,12 +143,20 @@ export default {
   },
 
   computed: {
-    portal() {
+    menuPortal() {
       if (this.windowWidth && this.windowWidth < 800) {
-        return 'mobile-nav'
+        return 'mobile-menu'
       }
 
-      return 'desktop-nav'
+      return 'desktop-menu'
+    },
+
+    sidebarPortal() {
+      if (this.windowWidth && this.windowWidth < 800) {
+        return 'mobile-sidebar'
+      }
+
+      return 'desktop-sidebar'
     },
 
     currentPath() {
@@ -173,6 +179,10 @@ export default {
     $route() {
       this.menuIsVisible = false
     },
+
+    windowWidth() {
+      this.menuIsVisible = false
+    },
   },
 
   methods: {
@@ -192,8 +202,10 @@ export default {
   },
 
   mounted() {
-    this.initSearch()
     this.handleResize()
+    this.$nextTick(() => {
+      this.initSearch()
+    })
 
     window.addEventListener('resize', this.handleResize)
   },

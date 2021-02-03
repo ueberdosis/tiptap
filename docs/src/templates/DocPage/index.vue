@@ -3,6 +3,9 @@
     <app-section>
       <VueRemarkContent class="text" />
     </app-section>
+    <app-section>
+      <page-navigation />
+    </app-section>
   </Layout>
 </template>
 
@@ -20,10 +23,12 @@ query($path: String!) {
 
 <script>
 import AppSection from '@/components/AppSection'
+import PageNavigation from '@/components/PageNavigation'
 
 export default {
   components: {
     AppSection,
+    PageNavigation,
   },
 
   metaInfo() {
