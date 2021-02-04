@@ -196,7 +196,6 @@
             become one of our wonderful sponsors<!--
           -->
           </g-link> to fund the maintenance, support and development of tiptap now and in the future. That’s all we ask for.
-          </a>
         </p>
       </div>
     </app-section>
