@@ -14,7 +14,7 @@ context('/demos/Marks/Highlight', () => {
   })
 
   it('the button should highlight the selected text', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -108,13 +108,13 @@ context('/demos/Marks/Highlight', () => {
   })
 
   it('the button should toggle the selected text highlighted', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
       .type('{selectall}')
 
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')

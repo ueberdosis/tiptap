@@ -1,14 +1,8 @@
 <template>
-  <div v-if="inline && mainFile">
-    <component :is="mainFile" v-if="mode === 'vue'" />
-    <react-renderer :component="mainFile" v-if="mode === 'react'" />
-  </div>
+  <demo-frame v-if="inline && mainFile" v-bind="props" />
   <div class="demo" v-else>
     <template v-if="mainFile">
-      <div class="demo__preview">
-        <component :is="mainFile" v-if="mode === 'vue'" />
-        <react-renderer :component="mainFile" v-if="mode === 'react'" />
-      </div>
+      <demo-frame class="demo__preview" v-bind="props" />
       <div class="demo__source" v-if="showSource">
         <div class="demo__tabs" v-if="showFileNames">
           <button
@@ -22,7 +16,8 @@
           </button>
         </div>
         <div class="demo__code" v-if="activeFile" :key="activeFile.path">
-          <prism :code="activeFile.content" :language="activeFile.highlight" :highlight="highlight" />
+          <!-- eslint-disable-next-line -->
+          <prism :language="activeFile.highlight" :highlight="highlight">{{ activeFile.content }}</prism>
         </div>
       </div>
       <div class="demo__meta">
@@ -44,66 +39,25 @@
 </template>
 
 <script>
-import collect from 'collect.js'
 import Prism from '~/components/Prism'
+import DemoFrame from '~/components/DemoFrame'
+import DemoMixin from '~/components/DemoMixin'
 
 export default {
+  mixins: [DemoMixin],
+
   components: {
-    ReactRenderer: () => import(/* webpackChunkName: "react-renderer" */ '~/components/ReactRenderer'),
+    DemoFrame,
     Prism,
-  },
-
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
-
-    mode: {
-      type: String,
-      default: 'vue',
-    },
-
-    inline: {
-      type: Boolean,
-      default: false,
-    },
-
-    highlight: {
-      type: String,
-      default: null,
-    },
-
-    showSource: {
-      type: Boolean,
-      default: true,
-    },
   },
 
   data() {
     return {
-      loading: true,
-      files: [],
-      content: null,
       currentIndex: 0,
-      syntax: {
-        vue: 'html',
-      },
     }
   },
 
   computed: {
-    mainFile() {
-      const file = this.files
-        .find(item => item.path.endsWith('index.vue') || item.path.endsWith('index.jsx'))
-
-      if (!file) {
-        return false
-      }
-
-      return require(`~/demos/${file.path}`).default
-    },
-
     showFileNames() {
       return this.files.length > 1
     },
@@ -119,29 +73,6 @@ export default {
 
       return `https://github.com/ueberdosis/tiptap-next/tree/main/docs/src/demos/${this.name}`
     },
-  },
-
-  mounted() {
-    this.files = collect(require.context('~/demos/', true, /.+\..+$/).keys())
-      .filter(path => path.startsWith(`./${this.name}/`))
-      .filter(path => !path.endsWith('.spec.js') && !path.endsWith('.spec.ts'))
-      .map(path => path.replace('./', ''))
-      .map(path => {
-        const extension = path.split('.').pop()
-
-        return {
-          path,
-          name: path.replace(`${this.name}/`, ''),
-          content: require(`!!raw-loader!~/demos/${path}`).default,
-          extension,
-          highlight: this.syntax[extension] || extension,
-        }
-      })
-      .filter(item => {
-        return ['vue', 'ts', 'js', 'jsx', 'scss'].includes(item.extension)
-      })
-      .sortBy(item => item.path.split('/').length && !item.path.endsWith('index.vue'))
-      .toArray()
   },
 }
 </script>

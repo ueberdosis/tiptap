@@ -1,0 +1,19 @@
+.app-section {
+  position: relative;
+
+  &__inner {
+    position: relative;
+    z-index: 2;
+    padding: 5rem 1rem;
+    margin: 0 auto;
+    max-width: 50rem;
+
+    @media (min-width: 600px) {
+      padding: 7rem 2rem;
+    }
+  }
+
+  & + & &__inner {
+    padding-top: 0;
+  }
+}

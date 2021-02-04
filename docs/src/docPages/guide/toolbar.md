@@ -69,4 +69,4 @@ Most editor toolbars use icons for their buttons. In some of our demos, we use t
 * [Font Awesome](https://fontawesome.com/icons?c=editors)
 * [UI icons](https://www.ibm.com/design/language/iconography/ui-icons/library/)
 
-Also, we’re working on providing a configurable interface for tiptap. If you think that’s a great idea, [become a sponsor](/sponsor) to show us your support. 💖
+Also, we’re working on providing a configurable interface for tiptap. If you think that’s a great idea, [become a sponsor](/sponsor) to show us your support. ♥️

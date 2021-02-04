@@ -38,7 +38,7 @@ context('/demos/Extensions/TextAlign', () => {
   })
 
   it('aligns the text left on the 1st button', () => {
-    cy.get('.demo__preview button:nth-child(1)')
+    cy.get('button:nth-child(1)')
       .click()
 
     cy.get('.ProseMirror')
@@ -47,7 +47,7 @@ context('/demos/Extensions/TextAlign', () => {
   })
 
   it('aligns the text center on the 2nd button', () => {
-    cy.get('.demo__preview button:nth-child(2)')
+    cy.get('button:nth-child(2)')
       .click()
 
     cy.get('.ProseMirror')
@@ -56,7 +56,7 @@ context('/demos/Extensions/TextAlign', () => {
   })
 
   it('aligns the text right on the 3rd button', () => {
-    cy.get('.demo__preview button:nth-child(3)')
+    cy.get('button:nth-child(3)')
       .click()
 
     cy.get('.ProseMirror')
@@ -65,7 +65,7 @@ context('/demos/Extensions/TextAlign', () => {
   })
 
   it('aligns the text justified on the 4th button', () => {
-    cy.get('.demo__preview button:nth-child(4)')
+    cy.get('button:nth-child(4)')
       .click()
 
     cy.get('.ProseMirror')
@@ -74,7 +74,7 @@ context('/demos/Extensions/TextAlign', () => {
   })
 
   it('aligns the text default on the 5th button', () => {
-    cy.get('.demo__preview button:nth-child(5)')
+    cy.get('button:nth-child(5)')
       .click()
 
     cy.get('.ProseMirror')

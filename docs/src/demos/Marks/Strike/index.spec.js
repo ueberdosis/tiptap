@@ -39,7 +39,7 @@ context('/demos/Marks/Strike', () => {
   })
 
   it('the button should strike the selected text', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -48,13 +48,13 @@ context('/demos/Marks/Strike', () => {
   })
 
   it('the button should toggle the selected text striked', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
       .type('{selectall}')
 
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')

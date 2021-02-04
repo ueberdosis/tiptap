@@ -14,7 +14,7 @@ context('/demos/Nodes/Image', () => {
     cy.window().then(win => {
       cy.stub(win, 'prompt').returns('foobar.png')
 
-      cy.get('.demo__preview button:first')
+      cy.get('button:first')
         .click()
 
       cy.window().its('prompt').should('be.called')

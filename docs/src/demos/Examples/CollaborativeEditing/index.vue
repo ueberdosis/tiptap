@@ -145,7 +145,6 @@ export default {
   background-color: white;
   border: 1px solid rgba(black, 0.1);
   border-radius: 0.5rem;
-  margin-bottom: 1rem;
 
   &__menu {
     display: flex;
@@ -157,7 +156,9 @@ export default {
   &__content {
     padding: 1rem;
     max-height: 30rem;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 
     &::-webkit-scrollbar-thumb {
       background-color: rgba(black, 0.1);
@@ -183,7 +184,6 @@ export default {
     display: flex;
     align-items: center;
     border-radius: 5px;
-    margin-top: 1rem;
 
     &::before {
       content: ' ';

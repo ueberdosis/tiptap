@@ -1,8 +1,11 @@
 <template>
   <Layout>
-    <div class="doc-page">
-      <VueRemarkContent class="doc-page__markdown" />
-    </div>
+    <app-section>
+      <VueRemarkContent class="text" />
+    </app-section>
+    <app-section>
+      <page-navigation />
+    </app-section>
   </Layout>
 </template>
 
@@ -19,7 +22,15 @@ query($path: String!) {
 </page-query>
 
 <script>
+import AppSection from '@/components/AppSection'
+import PageNavigation from '@/components/PageNavigation'
+
 export default {
+  components: {
+    AppSection,
+    PageNavigation,
+  },
+
   metaInfo() {
     return {
       title: this.$page?.docPage?.title,
@@ -64,5 +75,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" src="./style.scss" scoped></style>
