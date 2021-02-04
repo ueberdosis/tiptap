@@ -8,14 +8,19 @@
         <p class="is-large">
           tiptap gives you full control about every single aspect of your text editor experience. It’s customizable, comes with a ton of extensions, is open-source, has an extensive documentation, and is simply a joy to use. Join our welcoming community and start building cool things! It’s free.
         </p>
-        <p>
-          <g-link to="/overview/installation">
+        <div>
+          <btn type="primary" icon="arrow-right" to="/overview/installation">
             Get Started
-          </g-link>
-          <g-link to="https://github.com/ueberdosis/tiptap-next">
+          </btn>
+          <btn
+            type="secondary"
+            icon="github"
+            icon-position="before"
+            to="https://github.com/ueberdosis/tiptap-next"
+          >
             View on GitHub
-          </g-link>
-        </p>
+          </btn>
+        </div>
       </div>
     </app-section>
 
@@ -32,11 +37,11 @@
           <p>
             We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is headless and comes without any CSS. You are in full control over markup, styling and behaviour.
           </p>
-          <p>
-            <g-link to="/guide/styling">
+          <div>
+            <btn type="tertiary" icon="arrow-right" to="/guide/styling">
               Styling
-            </g-link>
-          </p>
+            </btn>
+          </div>
         </feature-item>
 
         <feature-item>
@@ -48,11 +53,11 @@
               React
             </g-link>, Svelte and others.
           </p>
-          <p>
-            <g-link to="/overview/installation">
+          <div>
+            <btn type="tertiary" icon="arrow-right" to="/overview/installation">
               Installation
-            </g-link>
-          </p>
+            </btn>
+          </div>
         </feature-item>
 
         <feature-item>
@@ -62,11 +67,11 @@
           <p>
             tiptap 2 is written in TypeScript. That helps us to find bugs early and gives you a nice autocomplete for the API (if your IDE supports that) on top of the extensive human written documentation.
           </p>
-          <p>
-            <g-link to="/guide/typescript">
+          <div>
+            <btn type="tertiary" icon="arrow-right" to="/guide/typescript">
               TypeScript
-            </g-link>
-          </p>
+            </btn>
+          </div>
         </feature-item>
 
         <feature-item>
@@ -78,11 +83,11 @@
               Y.js
             </g-link>. Our production-grade setup requires less than 20 lines of code.
           </p>
-          <p>
-            <g-link to="/guide/collaborative-editing">
+          <div>
+            <btn type="tertiary" icon="arrow-right" to="/guide/collaborative-editing">
               Collaborative editing
-            </g-link>
-          </p>
+            </btn>
+          </div>
         </feature-item>
 
         <feature-item>
@@ -126,11 +131,11 @@
 &lt;/body&gt;
 &lt;/html&gt;</prism>
         <!-- eslint-enable -->
-        <p>
-          <g-link to="/overview/installation">
+        <div>
+          <btn type="secondary" icon="arrow-right" to="/overview/installation">
             Learn More
-          </g-link>
-        </p>
+          </btn>
+        </div>
       </div>
     </app-section>
 
@@ -186,11 +191,11 @@
             to="https://www.scrumpy.io"
           /> -->
         </logo-list>
-        <p>
-          <g-link to="https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D">
+        <div>
+          <btn type="secondary" icon="arrow-right" to="https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D">
             And Many More
-          </g-link>
-        </p>
+          </btn>
+        </div>
       </div>
     </app-section>
 
@@ -216,6 +221,7 @@ import FeatureItem from '@/components/FeatureItem'
 import LogoList from '@/components/LogoList'
 import LogoItem from '@/components/LogoItem'
 import Prism from '~/components/Prism'
+import Btn from '~/components/Btn'
 
 export default {
   components: {
@@ -225,6 +231,7 @@ export default {
     LogoList,
     LogoItem,
     Prism,
+    Btn,
   },
 
   metaInfo() {
