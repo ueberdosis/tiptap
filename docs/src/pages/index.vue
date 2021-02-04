@@ -8,6 +8,14 @@
         <p class="is-large">
           tiptap gives you full control about every single aspect of your text editor experience. It’s customizable, comes with a ton of extensions, is open-source, has an extensive documentation, and is simply a joy to use. Join our welcoming community and start building cool things! It’s free.
         </p>
+        <p>
+          <g-link to="/overview/installation">
+            Get Started
+          </g-link>
+          <g-link to="https://github.com/ueberdosis/tiptap-next">
+            View on GitHub
+          </g-link>
+        </p>
       </div>
     </app-section>
 
