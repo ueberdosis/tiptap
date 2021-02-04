@@ -202,10 +202,11 @@ export default {
   },
 
   mounted() {
-    this.handleResize()
-    this.$nextTick(() => {
+    // what the hell is wrong with iOS safari
+    setTimeout(() => {
+      this.handleResize()
       this.initSearch()
-    })
+    }, 0)
 
     window.addEventListener('resize', this.handleResize)
   },
