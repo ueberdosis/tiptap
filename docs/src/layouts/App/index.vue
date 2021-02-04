@@ -144,7 +144,11 @@ export default {
 
   computed: {
     menuPortal() {
-      if (this.windowWidth && this.windowWidth < 800) {
+      if (!this.windowWidth) {
+        return
+      }
+
+      if (this.windowWidth < 800) {
         return 'mobile-menu'
       }
 
@@ -152,7 +156,11 @@ export default {
     },
 
     sidebarPortal() {
-      if (this.windowWidth && this.windowWidth < 800) {
+      if (!this.windowWidth) {
+        return
+      }
+
+      if (this.windowWidth < 800) {
         return 'mobile-sidebar'
       }
 
@@ -213,7 +221,7 @@ export default {
     setTimeout(() => {
       this.handleResize()
       this.initSearch()
-    }, 0)
+    }, 10)
 
     window.addEventListener('resize', this.handleResize)
   },

@@ -158,10 +158,12 @@ $menuBreakPoint: 800px;
   &__close-icon {
     display: flex;
     flex: 0 0 auto;
+    padding: 0.5rem;
     background: transparent;
     border: 0;
     color: $colorText;
     margin-left: 1.5rem;
+    margin-right: -0.5rem;
     transition: color 0.2s $ease;
 
     &:hover {
@@ -296,7 +298,7 @@ $menuBreakPoint: 800px;
       font-weight: bold;
       color: rgba($colorBlack, 0.2);
       position: absolute;
-      margin-left: -1.5em;
+      margin-left: -1rem;
     }
   }
 
