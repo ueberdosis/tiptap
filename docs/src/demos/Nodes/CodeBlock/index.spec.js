@@ -25,7 +25,7 @@ context('/demos/Nodes/CodeBlock', () => {
   })
 
   it('the button should make the selected line a code block', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -34,7 +34,7 @@ context('/demos/Nodes/CodeBlock', () => {
   })
 
   it('the button should toggle the code block', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -44,7 +44,7 @@ context('/demos/Nodes/CodeBlock', () => {
     cy.get('.ProseMirror')
       .type('{selectall}')
 
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror pre')

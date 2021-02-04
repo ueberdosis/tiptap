@@ -44,7 +44,6 @@ module.exports = {
         typeName: 'DocPage',
         baseDir: './src/docPages',
         template: './src/templates/DocPage/index.vue',
-        index: './introduction',
         plugins: [
           '@gridsome/remark-prismjs',
           'remark-container',
@@ -59,18 +58,6 @@ module.exports = {
             },
           },
         },
-      },
-    },
-    {
-      use: 'gridsome-plugin-simple-analytics',
-      options: {
-        domain: 'data.next.tiptap.dev',
-      },
-    },
-    {
-      use: 'gridsome-plugin-plausible-analytics',
-      options: {
-        dataDomain: 'next.tiptap.dev',
       },
     },
   ],

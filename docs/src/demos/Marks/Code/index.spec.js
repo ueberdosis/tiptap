@@ -21,7 +21,7 @@ context('/demos/Marks/Code', () => {
   })
 
   it('should mark the selected text as inline code', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -30,13 +30,13 @@ context('/demos/Marks/Code', () => {
   })
 
   it('should toggle the selected text as inline code', () => {
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
       .type('{selectall}')
 
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror code')

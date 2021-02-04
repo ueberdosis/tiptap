@@ -35,7 +35,7 @@ context('/demos/Marks/Link', () => {
     cy.window().then(win => {
       cy.stub(win, 'prompt').returns('https://tiptap.dev')
 
-      cy.get('.demo__preview button:first')
+      cy.get('button:first')
         .click()
 
       cy.window().its('prompt').should('be.called')

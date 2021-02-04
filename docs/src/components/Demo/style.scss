@@ -1,26 +1,25 @@
 .demo {
   overflow: hidden;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 
   &__preview {
-    padding: 1.25rem;
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
     border-bottom-width: 0;
     color: $colorBlack;
     background-color: $colorWhite;
-    max-height: 50rem;
+    max-height: unquote("max(300px, 60vh)");
     overflow: auto;
     scroll-behavior: smooth;
+    border: 3px solid $colorBlack;
   }
 
   &__source {
-    border: 1px solid rgba($colorWhite, 0.1);
     background-color: $colorBlack;
   }
 
   &__tabs {
-    padding: 1rem 1.25rem 0 1.25rem;
+    padding: 0.5rem 1.25rem 0 1.25rem;
     background-color: rgba($colorBlack, 0.9);
     white-space: nowrap;
     overflow-x: auto;
@@ -62,12 +61,12 @@
     width: 100%;
     padding: 0.5rem 1.25rem;
     font-size: 0.85rem;
-    border: 1px solid rgba($colorWhite, 0.1);
+    border-top: 1px solid rgba($colorWhite, 0.1);
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
-    border-top-width: 0;
     background-color: $colorBlack;
     white-space: nowrap;
+    color: rgba($colorWhite, 0.5);
   }
 
   &__name {
@@ -83,6 +82,10 @@
 
   &__link {
     margin-left: auto;
+
+    &:hover {
+      color: $colorWhite;
+    }
   }
 
   &__error {

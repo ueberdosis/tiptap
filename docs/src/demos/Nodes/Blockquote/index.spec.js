@@ -28,7 +28,7 @@ context('/demos/Nodes/Blockquote', () => {
     cy.get('.ProseMirror blockquote')
       .should('not.exist')
 
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -42,7 +42,7 @@ context('/demos/Nodes/Blockquote', () => {
       cy.get('.ProseMirror').type('{selectall}')
     })
 
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -54,7 +54,7 @@ context('/demos/Nodes/Blockquote', () => {
     cy.get('.ProseMirror blockquote')
       .should('not.exist')
 
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -64,7 +64,7 @@ context('/demos/Nodes/Blockquote', () => {
     cy.get('.ProseMirror')
       .type('{selectall}')
 
-    cy.get('.demo__preview button:first')
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror blockquote')

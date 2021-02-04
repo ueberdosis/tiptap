@@ -31,7 +31,7 @@ context('/demos/Nodes/BulletList', () => {
     cy.get('.ProseMirror ul li')
       .should('not.exist')
 
-    cy.get('.demo__preview button:nth-child(1)')
+    cy.get('button:nth-child(1)')
       .click()
 
     cy.get('.ProseMirror')
@@ -47,14 +47,14 @@ context('/demos/Nodes/BulletList', () => {
     cy.get('.ProseMirror ul')
       .should('not.exist')
 
-    cy.get('.demo__preview button:nth-child(1)')
+    cy.get('button:nth-child(1)')
       .click()
 
     cy.get('.ProseMirror')
       .find('ul')
       .should('contain', 'Example Text')
 
-    cy.get('.demo__preview button:nth-child(1)')
+    cy.get('button:nth-child(1)')
       .click()
 
     cy.get('.ProseMirror ul')

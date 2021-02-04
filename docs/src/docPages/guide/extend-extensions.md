@@ -28,7 +28,7 @@ new Editor({
   extensions: [
     CustomBulletList(),
     // …
-  ]
+  ],
 })
 ```
 

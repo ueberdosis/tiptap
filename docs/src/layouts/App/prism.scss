@@ -45,8 +45,12 @@ pre[class*="language-"] {
   color: $colorWhite;
   background: $codeBackground;
   padding: 1.25rem !important;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   max-height: unquote("max(300px, 60vh)");
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($colorWhite, 0.2);
+  }
 }
 
 pre[class*="language-"].language-css > code,
