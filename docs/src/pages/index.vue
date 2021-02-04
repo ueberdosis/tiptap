@@ -3,13 +3,10 @@
     <app-section>
       <div class="text">
         <h1 class="is-large">
-          A framework to build the editor you want
+          The headless editor framework for web artisans.
         </h1>
         <p class="is-large">
-          tiptap is a headless wrapper around <a href="https://ProseMirror.net">ProseMirror</a> – a toolkit for building rich text WYSIWYG editors, which is already in use at many well-known companies such as <em>New York Times</em>, <em>The Guardian</em> or <em>Atlassian</em>.
-        </p>
-        <p class="is-large">
-          Create exactly the rich text editor you want out of customizable building blocks. tiptap comes with sensible defaults, a lot of extensions and a friendly API to customize every aspect. It’s backed by a welcoming community, open source, and free.
+          tiptap gives you full control about every single aspect of your text editor experience. It’s customizable, comes with a ton of extensions, is open-source, has an extensive documentation, and is simply a joy to use. Join our welcoming community and start building cool things! It’s free.
         </p>
       </div>
     </app-section>
@@ -97,21 +94,33 @@
           Quickstart
         </h2>
         <p>
-          To pull in tiptap for quick demos or giving it just a spin, grab the latest build via CDN. We use two different provides:
+          For quick demos or to give it just a spin, grab the latest build from a CDN. Here is a quick example to get you started with tiptap:
         </p>
 <!-- eslint-disable -->
-<prism>import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+<prism language="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="element"&gt;&lt;/div&gt;
 
-new Editor({
-  element: document.querySelector('.element'),
-  extensions: defaultExtensions(),
-  content: '&lt;p&gt;Your content.&lt;/p&gt;',
-})</prism>
+  &lt;script type="module"&gt;
+    import { Editor } from 'https://cdn.skypack.dev/@tiptap/core?min'
+    import { defaultExtensions } from 'https://cdn.skypack.dev/@tiptap/starter-kit?min'
+
+    const editor = new Editor({
+      element: document.querySelector('.element'),
+      extensions: defaultExtensions(),
+      content: '&lt;p&gt;Hello World :-)&lt;/p&gt;',
+    })
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</prism>
         <!-- eslint-enable -->
         <p>
           <g-link to="/overview/installation">
-            Learn more
+            Learn More
           </g-link>
         </p>
       </div>
@@ -183,11 +192,11 @@ new Editor({
           License
         </h2>
         <p>
-          tiptap is licensed under <g-link to="https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md">
-            MIT
-          </g-link>, so you’re free to do whatever you want. If you’re using it in production, do the right thing and <g-link to="/sponsor">
-            become one of our wonderful sponsors
-          </g-link>(/sponsor) to fund the development, maintenance and support of tiptap and the whole ecosystem.
+          tiptap is licensed under <a href="https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md">MIT</a>, so you are free to do whatever you want. If you are using it commercially, do the right thing and <g-link to="/sponsor">
+            become one of our wonderful sponsors<!--
+          -->
+          </g-link> to fund the maintenance, support and development of tiptap now and in the future. That’s all we ask for.
+          </a>
         </p>
       </div>
     </app-section>
@@ -210,6 +219,42 @@ export default {
     LogoList,
     LogoItem,
     Prism,
+  },
+
+  metaInfo() {
+    const title = 'Headless WYSIWYG Text Editor'
+
+    return {
+      title,
+      meta: [
+        /* OpenGraph */
+        {
+          property: 'og:title',
+          content: title,
+        },
+        {
+          property: 'og:image',
+          content: 'https://next.tiptap.dev/og-image.png',
+        },
+        /* Twitter */
+        {
+          name: 'twitter:title',
+          content: title,
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary_large_image',
+        },
+        {
+          name: 'twitter:image',
+          content: 'https://next.tiptap.dev/og-image.png',
+        },
+        {
+          name: 'twitter:site',
+          content: '@_ueberdosis',
+        },
+      ],
+    }
   },
 }
 </script>
