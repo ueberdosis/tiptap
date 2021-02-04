@@ -3,7 +3,7 @@
 ## toc
 
 ## Introduction
-Depending on how your development setup looks like, there are a few different ways to install tiptap. We have put together integration guides for a few popular frameworks to get you started quickly. You can even use it without any front-end framework. Choose the way that fits your workflow and start building cool things!
+There are a few different ways to install tiptap, depending on how your development setup looks like. We have put together integration guides for a few popular frameworks to get you started quickly. You can even use tiptap without any front-end framework, too. Choose the way that fits your workflow and start building cool things!
 
 ## Integration guides
 * [Vue.js](/guide/getting-started/vue)
