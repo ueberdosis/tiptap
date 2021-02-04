@@ -33,6 +33,7 @@ import { EditorContent } from '@tiptap/vue'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import Bold from '@tiptap/extension-bold'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 import Collaboration from '@tiptap/extension-collaboration'
@@ -78,7 +79,7 @@ export default {
           field: 'title',
         }),
       ],
-      content: '<p>No matter what you do, this’ll be a single paragraph.',
+      content: '<p>No matter what you do, this will be a single paragraph.',
     })
 
     this.tasks = new Editor({
@@ -107,12 +108,16 @@ export default {
         Document,
         Paragraph,
         Text,
+        Bold,
         Collaboration.configure({
           document: this.ydoc,
           field: 'description',
         }),
       ],
       content: `
+        <p>
+          <strong>Lengthy text</strong>
+        </p>
         <p>
           This can be lengthy text.
         </p>
@@ -174,9 +179,14 @@ export default {
   padding: 0.75rem 1rem;
   border-radius: 5px;
   border: 1px solid #e9ecef;
+  transition: .1s all ease-in-out;
+
+  &:hover {
+    border-color: #68CEF8;
+  }
 
   &--title {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   &--json {

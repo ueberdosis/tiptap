@@ -3,8 +3,7 @@
 ## toc
 
 ## Introduction
-
-TODO
+Nodes add new capabilities to tiptap.  Nodes are like block types, for example a paragraph, heading, or code block.
 
 ## List of supported nodes
 | Title                                        | Default Extension | Source Code                                                                                       |
@@ -29,3 +28,27 @@ TODO
 | [TaskList](/api/nodes/task-list)             | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-list/)       |
 | [TaskItem](/api/nodes/task-item)             | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-item/)       |
 | [Text](/api/nodes/text)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text/)            |
+
+## Create a new node
+You’re free to create your own nodes for tiptap. Here is the boilerplate code that’s need to create and register your own node:
+
+```js
+import { Node } from '@tiptap/core'
+
+const CustomNode = Node.create({
+  // Your code here
+})
+
+const editor = new Editor({
+  extensions: [
+    // Register your custom node with the editor.
+    CustomNode,
+    // … and don’t forget all other extensions.
+    Document,
+    Paragraph,
+    Text,
+    // …
+  ],
+```
+
+Learn [more about custom extensions in our guide](/guide/build-extensions).

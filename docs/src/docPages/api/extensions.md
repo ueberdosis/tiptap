@@ -3,7 +3,7 @@
 ## toc
 
 ## Introduction
-Extensions are the way to add functionality to tiptap. By default tiptap comes bare, without any of them, but we have a long list of extensions that are ready to be used with tiptap.
+Extensions add new capabilities to tiptap. [Nodes](/api/nodes) and [marks](/api/marks) are rendered in HTML. Extensions can’t add to the schema, but can add functionality or change the behaviour of the editor.
 
 ## List of provided extensions
 | Title                                                       | Default Extension | Source Code                                                                                            |
@@ -19,7 +19,7 @@ Extensions are the way to add functionality to tiptap. By default tiptap comes b
 | [TextAlign](/api/extensions/text-align)                     | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-align/)           |
 | [Typography](/api/extensions/typography)                    | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-typography/)           |
 
-You don’t have to use it, but we prepared a `@tiptap/vue-starter-kit` which includes the most common extensions. Learn [how you can use the `defaultExtensions()`](/examples/default).
+You don’t have to use it, but we prepared a `@tiptap/starter-kit` which includes the most common extensions. See an example on [how to use `defaultExtensions()`](/examples/default).
 
 ## How extensions work
 Although tiptap tries to hide most of the complexity of ProseMirror, it’s built on top of its APIs and we recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/) for advanced usage. You’ll have a better understanding of how everything works under the hood and get more familiar with many terms and jargon used by tiptap.

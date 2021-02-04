@@ -3,8 +3,7 @@
 ## toc
 
 ## Introduction
-
-TODO
+Marks add new capabilities to tiptap. Marks are like different types of inline styling, for example bold, italic or highlights.
 
 ## List of supported marks
 | Title                              | Default Extension | Source Code                                                                                  |

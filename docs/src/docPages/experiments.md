@@ -1,5 +1,5 @@
 # Experiments
-Congratulations! You’ve found our secret playground with a list of experiments. Be aware, that nothing here is ready to use. Feel free to play around, but please, don’t open an issue for a bug you’ve found here or send pull requests. :-)
+Congratulations! You’ve found our playground with a list of experiments. Be aware that nothing here is ready to use. Feel free to play around, but please, don’t open an issue for a bug you’ve found here or send pull requests. :-)
 
 ## New
 * [Linter](/experiments/linter)
@@ -10,4 +10,4 @@ Congratulations! You’ve found our secret playground with a list of experiments
 * [Embeds](/experiments/embeds)
 
 ## Waiting for approval
-* [Placeholder](/experiments/placeholder)
+* [@tiptap/extension-placeholder](/experiments/placeholder)

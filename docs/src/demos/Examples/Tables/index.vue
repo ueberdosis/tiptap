@@ -94,15 +94,17 @@ export default {
         TableCell,
       ],
       content: `
-        <p>
+        <h3>
           Have you seen our tables? They are amazing!
-        </p>
+        </h3>
         <ul>
-          <li>tables with rows, headers and cells</li>
-          <li>Support for <code>colgroup</code> and <code>rowspan</code></li>
-          <li>Resizable columns</li>
+          <li>tables with rows, cells and headers (optional)</li>
+          <li>support for <code>colgroup</code> and <code>rowspan</code></li>
+          <li>and even resizable columns (optional)</li>
         </ul>
-        </ul>
+        <p>
+          Here is an example:
+        </p>
         <table>
           <tbody>
             <tr>
@@ -114,6 +116,17 @@ export default {
               <td>singer</td>
               <td>songwriter</td>
               <td>actress</td>
+            </tr>
+            <tr>
+              <td>Philipp Kühn</td>
+              <td>designer</td>
+              <td>developer</td>
+              <td>maker</td>
+            </tr>
+            <tr>
+              <td>Hans Pagel</td>
+              <td>wrote this</td>
+              <td colspan="2">that’s it</td>
             </tr>
           </tbody>
         </table>
@@ -130,6 +143,8 @@ export default {
 <style lang="scss">
 /* Basic editor styles */
 .ProseMirror {
+  margin: 1rem 0;
+
   > * + * {
     margin-top: 0.75em;
   }

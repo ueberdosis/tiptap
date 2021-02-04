@@ -1,5 +1,8 @@
 # Suggestion
-TODO
+[![Version](https://img.shields.io/npm/v/@tiptap/suggestion.svg?label=version)](https://www.npmjs.com/package/@tiptap/suggestion)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/suggestion.svg)](https://npmcharts.com/compare/@tiptap/suggestion?minimal=true)
+
+This utility helps with all kinds of suggestions in the editor. Have a look at the [`Mention`](/api/nodes/mention), [`Hashtag`](/api/nodes/hashtag) or [`Emoji`](/api/nodes/emoji) node to see it in action.
 
 ## Settings
 | Option          | Type       | Default        | Description                                                 |
@@ -13,13 +16,6 @@ TODO
 | items           | `Function` | `() => {}`     | Pass an array of filtered suggestions, can be async.        |
 | render          | `Function` | `() => ({})`   | A render function for the autocomplete popup.               |
 
-## Render
-TODO
-
 ## Source code
 [packages/suggestion/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/suggestion/)
 
-## Usage
-* [`Emoji`](/api/nodes/emoji)
-* [`Hashtag`](/api/nodes/hashtag)
-* [`Mention`](/api/nodes/mention)

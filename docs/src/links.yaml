@@ -21,28 +21,25 @@
       type: pro
     - title: Markdown shortcuts
       link: /examples/markdown-shortcuts
-    - title: Formatting
-      link: /examples/formatting
-    - title: Todo app
-      link: /examples/todo-app
-    - title: Write a book
-      link: /examples/book
-    - title: Minimal
-      link: /examples/minimal
-    - title: Draw on a canvas
-      link: /examples/drawing
-    - title: Multiple editors
-      link: /examples/multiple-editors
-      type: draft
-    - title: Community
-      link: /examples/community
-      type: draft
     - title: Tables
       link: /examples/tables
       type: pro
     - title: Images
       link: /examples/images
-      type: draft
+    - title: Formatting
+      link: /examples/formatting
+    - title: Task lists
+      link: /examples/todo-app
+    - title: Lengthy texts
+      link: /examples/book
+    - title: Draw on a canvas
+      link: /examples/drawing
+    - title: Suggestions
+      link: /examples/community
+    - title: Minimal setup
+      link: /examples/minimal
+    - title: Multiple editors
+      link: /examples/multiple-editors
 
 - title: Guide
   items:
@@ -217,7 +214,6 @@
       items:
         - title: HTML
           link: /api/utilities/html
-          type: draft
         - title: Suggestion
           link: /api/utilities/suggestion
           type: new
@@ -232,6 +228,8 @@
   items:
     - title: 'Follow on Twitter'
       link: https://twitter.com/tiptap_editor
+    - title: Experiments
+      link: /experiments
     - title: Documentation for tiptap 1.x
       link: https://v1.tiptap.dev
 

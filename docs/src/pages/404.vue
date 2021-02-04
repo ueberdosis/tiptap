@@ -17,13 +17,10 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-
-  // margin: 5rem 1rem;
-  text-align: center;
-  color: rgba($colorWhite, 0.4);
+  color: rgba($colorBlack, 0.4);
 
   a {
-    color: $colorWhite;
+    color: $colorBlack;
   }
 }
 </style>
