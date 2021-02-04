@@ -104,6 +104,8 @@
       <a :href="editLink" target="_blank">Edit this page on GitHub</a>
       &middot;
       Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
+      &middot;
+      Based on <a href="https://prosemirror.net/">ProseMirror by Marijn Haverbeke</a>
     </footer>
   </div>
 </template>
@@ -165,13 +167,20 @@ export default {
 
     editLink() {
       const { currentPath } = this
-      const filePath = currentPath === '' ? '/introduction' : currentPath
 
       if (process.env.NODE_ENV === 'development') {
-        return `vscode://file${this.cwd}/src/docPages${filePath}.md`
+        if (currentPath === '') {
+          return `vscode://file${this.cwd}/src/pages/index.vue`
+        }
+
+        return `vscode://file${this.cwd}/src/docPages${currentPath}.md`
       }
 
-      return `https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/docPages${filePath}.md`
+      if (currentPath === '') {
+        return 'https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/pages/index.vue'
+      }
+
+      return `https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/docPages${currentPath}.md`
     },
   },
 
