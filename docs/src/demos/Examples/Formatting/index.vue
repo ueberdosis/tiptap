@@ -46,7 +46,6 @@
 import { defaultExtensions, Editor, EditorContent } from '@tiptap/vue-starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import Highlight from '@tiptap/extension-highlight'
-import Strike from '@tiptap/extension-strike'
 
 export default {
   components: {
