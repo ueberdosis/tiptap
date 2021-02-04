@@ -155,7 +155,7 @@ export default {
 
   &__content {
     padding: 1rem;
-    max-height: 30rem;
+    max-height: 25rem;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
