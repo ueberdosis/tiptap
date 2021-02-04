@@ -94,6 +94,6 @@ new Editor({
   extensions: [
     CustomBulletList(),
     // …
-  ]
+  ],
 })
 ```
