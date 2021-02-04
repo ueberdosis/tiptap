@@ -1,12 +1,6 @@
 <template>
   <div>
     <div v-if="editor">
-      <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-        bold
-      </button>
-      <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-        italic
-      </button>
       <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
         h1
       </button>
@@ -18,6 +12,18 @@
       </button>
       <button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
         paragraph
+      </button>
+      <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        bold
+      </button>
+      <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+        italic
+      </button>
+      <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+        strike
+      </button>
+      <button @click="editor.chain().focus().toggleHighlight().run()" :class="{ 'is-active': editor.isActive('highlight') }">
+        highlight
       </button>
       <button @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
         left
@@ -39,6 +45,8 @@
 <script>
 import { defaultExtensions, Editor, EditorContent } from '@tiptap/vue-starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
+import Highlight from '@tiptap/extension-highlight'
+import Strike from '@tiptap/extension-strike'
 
 export default {
   components: {
@@ -56,51 +64,32 @@ export default {
       extensions: [
         ...defaultExtensions(),
         TextAlign,
+        Highlight,
       ],
       content: `
-        <h3>
-          Girls Just Want to Have Fun (Cyndi Lauper)
+        <h3 style="text-align:center">
+          Devs Just Want to Have Fun by Cyndi Lauper
         </h3>
-        <p>
+        <p style="text-align:center">
           I come home in the morning light<br>
-          My mother says, “When you gonna live your life right?”<br>
+          My mother says, <mark>“When you gonna live your life right?”</mark><br>
           Oh mother dear we’re not the fortunate ones<br>
-          And girls, they wanna have fun<br>
-          Oh girls just want to have fun</p>
-          <p style="text-align: center">The phone rings in the middle of the night<br>
+          And devs, they wanna have fun<br>
+          Oh devs just want to have fun</p>
+        <p style="text-align:center">
+          The phone rings in the middle of the night<br>
           My father yells, "What you gonna do with your life?"<br>
           Oh daddy dear, you know you’re still number one<br>
-          But girls, they wanna have fun<br>
-          Oh girls just want to have
+          But <s>girls</s>devs, they wanna have fun<br>
+          Oh devs just want to have
         </p>
-        <p style="text-align:right">
+        <p style="text-align:center">
           That’s all they really want<br>
           Some fun<br>
           When the working day is done<br>
-          Oh girls, they wanna have fun<br>
-          Oh girls just wanna have fun<br>
-          (girls, they wanna, wanna have fun, girls wanna have)
-        </p>
-        <p style="text-align:justify">
-          Some boys take a beautiful girl
-          And hide her away from the rest of the world
-          I want to be the one to walk in the sun
-          Oh girls, they wanna have fun
-          Oh girls just wanna have
-        </p>
-        <p style="text-align:justify">
-          That's all they really want
-          Some fun
-          When the working day is done
-          Oh girls, they wanna have fun
-          Oh girls just want to have fun (girls, they wanna, wanna have fun, girls wanna have)
-          They just wanna, they just wanna (girls)
-          They just wanna, they just wanna, oh girl (girls just wanna have fun)
-          Girls just wanna have fun
-          They just wanna, they just wanna
-          They just wanna, they just wanna (girls)
-          They just wanna, they just wanna, oh girl (girls just wanna have fun)
-          Girls just want to have fun
+          Oh devs, they wanna have fun<br>
+          Oh devs just wanna have fun<br>
+          (devs, they wanna, wanna have fun, devs wanna have)
         </p>
       `,
     })
@@ -115,6 +104,8 @@ export default {
 <style lang="scss">
 /* Basic editor styles */
 .ProseMirror {
+  margin-top: 1rem;
+
   > * + * {
     margin-top: 0.75em;
   }
@@ -150,6 +141,10 @@ export default {
       background: none;
       font-size: 0.8rem;
     }
+  }
+
+  mark {
+    background-color: #FAF594;
   }
 
   img {

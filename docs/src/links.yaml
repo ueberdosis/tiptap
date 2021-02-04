@@ -23,7 +23,6 @@
       link: /examples/markdown-shortcuts
     - title: Formatting
       link: /examples/formatting
-      type: draft
     - title: Todo app
       link: /examples/todo-app
     - title: Write a book
@@ -40,7 +39,7 @@
       type: draft
     - title: Tables
       link: /examples/tables
-      type: draft
+      type: pro
     - title: Images
       link: /examples/images
       type: draft
@@ -148,16 +147,16 @@
           link: /api/nodes/paragraph
         - title: Table
           link: /api/nodes/table
-          type: draft
+          type: pro
         - title: TableRow
           link: /api/nodes/table-row
-          type: draft
+          type: pro
         - title: TableCell
           link: /api/nodes/table-cell
-          type: draft
+          type: pro
         - title: TableHeader
           link: /api/nodes/table-header
-          type: draft
+          type: pro
         - title: TaskList
           link: /api/nodes/task-list
         - title: TaskItem

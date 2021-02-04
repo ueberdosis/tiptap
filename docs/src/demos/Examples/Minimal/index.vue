@@ -28,10 +28,10 @@ export default {
       ],
       content: `
         <p>
-          This is a radically reduced version of tiptap. It has only support for a document, paragraphs and text. That’s it. It’s probably too much for real minimalists though.
+          This is a radically reduced version of tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.
         </p>
         <p>
-          The paragraph extension is not really required, but you need at least one node. Sure, that node can be something different. You’ll mostly likely want to add a paragraph though.
+          The paragraph extension is not really required, but you need at least one node. Sure, that node can be something different.
         </p>
       `,
     })

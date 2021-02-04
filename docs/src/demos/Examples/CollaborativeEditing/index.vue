@@ -293,6 +293,10 @@ export default {
     }
   }
 
+  mark {
+    background-color: #FAF594;
+  }
+
   img {
     max-width: 100%;
     height: auto;
