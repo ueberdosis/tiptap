@@ -44,7 +44,6 @@ module.exports = {
         typeName: 'DocPage',
         baseDir: './src/docPages',
         template: './src/templates/DocPage/index.vue',
-        // index: './introduction',
         plugins: [
           '@gridsome/remark-prismjs',
           'remark-container',

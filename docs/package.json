@@ -28,7 +28,6 @@
     "simplify-js": "^1.2.4",
     "tippy.js": "^6.2.7",
     "vue-github-button": "^1.1.2",
-    "vue-live": "^1.16.0",
     "y-indexeddb": "^9.0.6",
     "y-prosemirror": "^1.0.5",
     "y-webrtc": "^10.1.7",

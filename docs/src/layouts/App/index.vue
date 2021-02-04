@@ -42,9 +42,7 @@
       </div>
 
       <main class="app__main">
-        <div class="app__inner">
-          <slot />
-        </div>
+        <slot />
       </main>
 
       <portal :to="menuPortal">

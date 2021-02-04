@@ -3,8 +3,6 @@ $mobileBreakPoint: 600px;
 $menuBreakPoint: 800px;
 
 .app {
-  overflow: hidden;
-
   &__navigation {
     position: fixed;
     display: flex;
@@ -153,6 +151,7 @@ $menuBreakPoint: 800px;
     flex: 1 1 auto;
     min-width: 0;
     padding-top: $navHeight;
+    overflow: hidden;
   }
 
   &__menu-icon,

@@ -52,7 +52,6 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.29.0",
     "rollup-plugin-vue": "5",
-    "typedoc": "^0.20.19",
     "typescript": "^4.1.3",
     "vue": "^2.6.12"
   }
