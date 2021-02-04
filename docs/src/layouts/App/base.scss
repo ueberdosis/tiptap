@@ -92,6 +92,11 @@ code {
   filter: saturate(0);
 }
 
+.DocSearch-Container {
+  position: fixed !important;
+  height: 100vh !important;
+}
+
 
 .text {
   $spacing: 0.75em;
