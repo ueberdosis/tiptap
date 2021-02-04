@@ -1,8 +1,6 @@
 <template>
-  <div v-if="mainFile">
-    <component :is="mainFile" v-if="mode === 'vue'" />
-    <react-renderer :component="mainFile" v-if="mode === 'react'" />
-  </div>
+  <component :is="mainFile" v-if="mainFile && mode === 'vue'" />
+  <react-renderer :component="mainFile" v-else-if="mainFile && mode === 'react'" />
 </template>
 
 <script>

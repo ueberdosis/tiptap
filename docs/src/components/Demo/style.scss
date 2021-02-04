@@ -8,9 +8,9 @@
     border-bottom-width: 0;
     color: $colorBlack;
     background-color: $colorWhite;
-    max-height: unquote("max(300px, 70vh)");
+    max-height: unquote("max(300px, 60vh)");
     overflow: auto;
-    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
     border: 3px solid $colorBlack;
   }
 

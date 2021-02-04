@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <div class="editor" v-if="editor">
-      <menu-bar class="editor__menu" :editor="editor" />
-      <editor-content class="editor__content" :editor="editor" />
-      <div class="editor__bottom-bar">
-        <div :class="`editor__status editor__status--${status}`">
-          <template v-if="status === 'connected'">
-            {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
-          </template>
-          <template v-else>
-            offline
-          </template>
-        </div>
-        <div class="editor__name">
-          <button @click="setName">
-            {{ currentUser.name }}
-          </button>
-        </div>
+  <div class="editor" v-if="editor">
+    <menu-bar class="editor__menu" :editor="editor" />
+    <editor-content class="editor__content" :editor="editor" />
+    <div class="editor__bottom-bar">
+      <div :class="`editor__status editor__status--${status}`">
+        <template v-if="status === 'connected'">
+          {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
+        </template>
+        <template v-else>
+          offline
+        </template>
+      </div>
+      <div class="editor__name">
+        <button @click="setName">
+          {{ currentUser.name }}
+        </button>
       </div>
     </div>
   </div>
@@ -141,6 +139,9 @@ export default {
 
 <style lang="scss" scoped>
 .editor {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
   color: black;
   background-color: white;
   border: 1px solid rgba(black, 0.1);
@@ -148,6 +149,7 @@ export default {
 
   &__menu {
     display: flex;
+    flex: 0 0 auto;
     flex-wrap: wrap;
     padding: 0.25rem;
     border-bottom: 1px solid rgba(black, 0.1);
@@ -155,18 +157,15 @@ export default {
 
   &__content {
     padding: 1rem;
-    max-height: 25rem;
+    flex: 1 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(black, 0.1);
-    }
   }
 
   &__bottom-bar {
     display: flex;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
