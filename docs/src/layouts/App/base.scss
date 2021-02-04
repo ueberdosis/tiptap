@@ -97,7 +97,6 @@ code {
   height: 100vh !important;
 }
 
-
 .text {
   $spacing: 0.75em;
 
@@ -152,11 +151,19 @@ code {
 
   > h1,
   > .is-h1 {
-    font-size: 2.75rem;
+    font-size: 2rem;
     line-height: 1.15;
 
+    @media (min-width: 600px) {
+      font-size: 2.75rem;
+    }
+
     &.is-large {
-      font-size: 3.75rem;
+      font-size: 3rem;
+
+      @media (min-width: 600px) {
+        font-size: 3.75rem;
+      }
     }
   }
 
@@ -356,6 +363,7 @@ code {
 
         &:hover {
           background: rgba($colorBlack, 0.03);
+          background: $colorYellow;
         }
       }
     }
