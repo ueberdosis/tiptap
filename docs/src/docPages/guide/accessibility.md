@@ -1,6 +1,6 @@
 # Accessibility
 
-:::pro Fund the development ♥️
+:::pro Fund the development ♥
 We need your support to maintain, update, support and develop tiptap 2. If you’re waiting for progress here, [become a sponsor and fund open source](/sponsor).
 :::
 

@@ -172,4 +172,4 @@ Read more about [the new collaborative editing experience](/guide/collaborative-
 ### Become a sponsor
 tiptap wouldn’t exist without the funding of its community. If you fell in love with tiptap, don’t forget to [become a sponsor](/sponsor) and make the maintenance, development and support sustainable.
 
-In exchange, we’ll take you into our hearts, invite you to private repositories, add a `sponsor ♥️` label to your issues and pull requests and more.
+In exchange, we’ll take you into our hearts, invite you to private repositories, add a `sponsor ♥` label to your issues and pull requests and more.
