@@ -40,6 +40,9 @@
       link: /examples/minimal
     - title: Multiple editors
       link: /examples/multiple-editors
+    - title: Savvy
+      link: /examples/savvy
+      type: draft
 
 - title: Guide
   items:

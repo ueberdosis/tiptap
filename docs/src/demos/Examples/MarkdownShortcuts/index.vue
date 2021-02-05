@@ -36,7 +36,7 @@ export default {
           You can overwrite existing input rules or add your own to nodes, marks and extensions.
         </p>
         <p>
-          For example, we added the <code>Typography</code> extensions here. Try typing <code>(c)</code> to see how it’s converted to a proper © character. You can also try <code>-></code>, <code>>></code>, <code>1/2</code>, <code>!=</code>, or <code>--</code>.
+          For example, we added the <code>Typography</code> extension here. Try typing <code>(c)</code> to see how it’s converted to a proper © character. You can also try <code>-></code>, <code>>></code>, <code>1/2</code>, <code>!=</code>, or <code>--</code>.
         </p>
       `,
       extensions: [
