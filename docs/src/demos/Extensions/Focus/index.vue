@@ -79,5 +79,10 @@ export default {
     padding-left: 1rem;
     border-left: 2px solid rgba(#0D0D0D, 0.1);
   }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
 }
 </style>
