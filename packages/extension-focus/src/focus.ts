@@ -4,7 +4,8 @@ import { DecorationSet, Decoration } from 'prosemirror-view'
 
 export interface FocusOptions {
   className: string,
-  nested: boolean,
+  start: 'deep' | 'shallow',
+  levels: 'all' | number,
 }
 
 export const FocusClasses = Extension.create({
@@ -12,7 +13,8 @@ export const FocusClasses = Extension.create({
 
   defaultOptions: <FocusOptions>{
     className: 'has-focus',
-    nested: false,
+    start: 'deep',
+    levels: 'all',
   },
 
   addProseMirrorPlugins() {
@@ -29,17 +31,53 @@ export const FocusClasses = Extension.create({
               return DecorationSet.create(doc, [])
             }
 
-            doc.descendants((node, pos) => {
-              const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
+            // Maximum Levels
+            let maxLevels = 0
+            if (this.options.start === 'deep') {
+              doc.descendants((node, pos) => {
+                if (node.isText) {
+                  return
+                }
 
-              if (hasAnchor && !node.isText) {
-                const decoration = Decoration.node(pos, pos + node.nodeSize, {
-                  class: this.options.className,
-                })
-                decorations.push(decoration)
+                const isCurrent = anchor >= pos && anchor <= (pos + node.nodeSize)
+                if (!isCurrent) {
+                  return false
+                }
+
+                maxLevels += 1
+              })
+            }
+
+            // Loop through current
+            let currentLevel = 0
+            doc.descendants((node, pos) => {
+              if (node.isText) {
+                return false
               }
 
-              return this.options.nested
+              const isCurrent = anchor >= pos && anchor <= (pos + node.nodeSize)
+              if (!isCurrent) {
+                return false
+              }
+
+              currentLevel += 1
+
+              const isOutOfScope = typeof this.options.levels === 'number'
+                && (
+                  this.options.start === 'shallow'
+                    ? currentLevel > this.options.levels
+                    : maxLevels - currentLevel > this.options.levels
+                )
+
+              console.log(node.type.name, currentLevel, maxLevels, this.options.levels)
+
+              if (isOutOfScope) {
+                return this.options.start === 'deep'
+              }
+
+              decorations.push(Decoration.node(pos, pos + node.nodeSize, {
+                class: this.options.className,
+              }))
             })
 
             return DecorationSet.create(doc, decorations)
