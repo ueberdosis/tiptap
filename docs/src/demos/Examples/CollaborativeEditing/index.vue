@@ -214,7 +214,6 @@ export default {
       color: #0D0D0D;
       border-radius: 0.4rem;
       padding: 0.25rem 0.5rem;
-      margin-right: 0.25rem;
 
       &:hover {
         color: #FFF;
