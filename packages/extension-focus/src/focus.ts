@@ -4,13 +4,7 @@ import { DecorationSet, Decoration } from 'prosemirror-view'
 
 export interface FocusOptions {
   className: string,
-<<<<<<< HEAD
   mode: 'all' | 'deepest' | 'shallowest',
-=======
-  start: 'deep' | 'shallow',
-  exact: boolean,
-  // levels: 'all' | number,
->>>>>>> 2959ace822426d014fe3325f0abef8ca797268f4
 }
 
 export const FocusClasses = Extension.create({
