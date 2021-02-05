@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "@types/prosemirror-dropcursor": "^1.0.1",
-    "prosemirror-dropcursor": "^1.1.3"
+    "prosemirror-dropcursor": "^1.3.3"
   }
 }
