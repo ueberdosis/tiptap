@@ -80,7 +80,7 @@
         </h3>
         <ul>
           <li>
-            MIT
+            <a href="https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md">MIT</a>
           </li>
         </ul>
       </div>
@@ -95,7 +95,7 @@
         <p>
           Made with ♥️ by <a href="https://twitter.com/_ueberdosis">überdosis</a>
           &middot;
-          Based on <a href="https://prosemirror.net/">ProseMirror by Marijn Haverbeke</a>
+          Based on <a href="https://prosemirror.net/">ProseMirror</a> by Marijn Haverbeke
         </p>
       </div>
     </div>
