@@ -15,7 +15,7 @@
     "lint": "eslint --quiet --no-error-on-unmatched-pattern ./",
     "lint:fix": "eslint --fix --quiet --no-error-on-unmatched-pattern ./",
     "test:open": "cypress open --project tests",
-    "test": "cypress run --project tests --quiet --reporter list",
+    "test": "cypress run --project tests",
     "build:docs": "yarn --cwd ./docs build",
     "build:ci": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --ci --scope @tiptap/$package || exit 1; done",
     "build:packages": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --scope @tiptap/$package || exit 1; done",
