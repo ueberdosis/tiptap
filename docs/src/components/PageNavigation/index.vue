@@ -1,32 +1,38 @@
 <template>
   <nav class="page-navigation">
     <div class="page-navigation__previous">
-      <g-link
-        class="page-navigation__link"
-        exact
+      <btn
+        type="secondary"
+        icon="arrow-left"
+        icon-position="before"
         :to="previousPage.link"
         v-if="previousPage"
       >
-        ← {{ previousPage.title }}
-      </g-link>
+        {{ previousPage.title }}
+      </btn>
     </div>
     <div class="page-navigation__next">
-      <g-link
-        class="page-navigation__link"
-        exact
+      <btn
+        type="secondary"
+        icon="arrow-right"
         :to="nextPage.redirect || nextPage.link"
         v-if="nextPage"
       >
-        {{ nextPage.title }} →
-      </g-link>
+        {{ nextPage.title }}
+      </btn>
     </div>
   </nav>
 </template>
 
 <script>
 import linkGroups from '@/links.yaml'
+import Btn from '~/components/Btn'
 
 export default {
+  components: {
+    Btn,
+  },
+
   data() {
     return {
       linkGroups,
