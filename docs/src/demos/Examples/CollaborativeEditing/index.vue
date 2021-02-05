@@ -113,13 +113,13 @@ export default {
 
     getRandomColor() {
       return getRandomElement([
-        '#A975FF',
-        '#FB5151',
-        '#FD9170',
-        '#FFCB6B',
-        '#68CEF8',
-        '#80CBC4',
-        '#9DEF8F',
+        '#958DF1',
+        '#F98181',
+        '#FBBC88',
+        '#FAF594',
+        '#70CFF8',
+        '#94FADB',
+        '#B9F18D',
       ])
     },
 
