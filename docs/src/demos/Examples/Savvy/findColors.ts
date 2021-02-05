@@ -1,6 +1,7 @@
 import { Decoration, DecorationSet } from 'prosemirror-view'
+import { Node } from 'prosemirror-model'
 
-export default function (doc: any) {
+export default function (doc: Node) {
   const hexColor = /(#[0-9a-f]{3,6})\b/ig
   const results: any[] = []
   const decorations: [any?] = []
