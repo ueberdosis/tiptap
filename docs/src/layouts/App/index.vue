@@ -98,13 +98,7 @@
       </portal>
     </div>
 
-    <footer class="app__footer">
-      <a :href="editLink" target="_blank">Edit this page on GitHub</a>
-      &middot;
-      Made with 🖤 by <a href="https://twitter.com/_ueberdosis">überdosis</a>
-      &middot;
-      Based on <a href="https://prosemirror.net/">ProseMirror by Marijn Haverbeke</a>
-    </footer>
+    <page-footer />
   </div>
 </template>
 
@@ -119,6 +113,7 @@ query {
 <script>
 import linkGroups from '@/links.yaml'
 import Icon from '@/components/Icon'
+import PageFooter from '@/components/PageFooter'
 // import GithubButton from 'vue-github-button'
 
 export default {
@@ -131,6 +126,7 @@ export default {
 
   components: {
     Icon,
+    PageFooter,
     // GithubButton,
   },
 
@@ -165,28 +161,6 @@ export default {
       }
 
       return 'desktop-sidebar'
-    },
-
-    currentPath() {
-      return this.$route.matched[0].path
-    },
-
-    editLink() {
-      const { currentPath } = this
-
-      if (process.env.NODE_ENV === 'development') {
-        if (currentPath === '') {
-          return `vscode://file${this.cwd}/src/pages/index.vue`
-        }
-
-        return `vscode://file${this.cwd}/src/docPages${currentPath}.md`
-      }
-
-      if (currentPath === '') {
-        return 'https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/pages/index.vue'
-      }
-
-      return `https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/docPages${currentPath}.md`
     },
   },
 
