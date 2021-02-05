@@ -145,7 +145,7 @@ export default {
   color: #0D0D0D;
   background-color: $colorWhite;
   border: 3px solid #0D0D0D;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 
   &__header {
     display: flex;
