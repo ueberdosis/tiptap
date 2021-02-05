@@ -36,6 +36,7 @@ function tableWrapper() {
 module.exports = {
   siteName: 'tiptap',
   titleTemplate: '%s | tiptap',
+  icon: './src/favicon.svg',
   port: 3000,
   plugins: [
     {
