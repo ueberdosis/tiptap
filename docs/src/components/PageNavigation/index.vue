@@ -1,35 +1,33 @@
 <template>
-  <nav class="page-navigation">
-    <div class="page-navigation__previous">
-      <btn
-        type="secondary"
-        icon="arrow-left"
-        icon-position="before"
-        :to="previousPage.link"
-        v-if="previousPage"
-      >
-        {{ previousPage.title }}
-      </btn>
-    </div>
-    <div class="page-navigation__next">
-      <btn
-        type="secondary"
-        icon="arrow-right"
-        :to="nextPage.redirect || nextPage.link"
-        v-if="nextPage"
-      >
-        {{ nextPage.title }}
-      </btn>
-    </div>
-  </nav>
+  <btn-wrapper class="page-navigation">
+    <btn
+      type="secondary"
+      icon="arrow-left"
+      icon-position="before"
+      :to="previousPage.link"
+      v-if="previousPage"
+    >
+      {{ previousPage.title }}
+    </btn>
+    <btn
+      type="secondary"
+      icon="arrow-right"
+      :to="nextPage.redirect || nextPage.link"
+      v-if="nextPage"
+    >
+      {{ nextPage.title }}
+    </btn>
+  </btn-wrapper>
 </template>
 
 <script>
 import linkGroups from '@/links.yaml'
+import BtnWrapper from '~/components/BtnWrapper'
 import Btn from '~/components/Btn'
 
 export default {
   components: {
+    BtnWrapper,
     Btn,
   },
 
