@@ -55,6 +55,7 @@ module.exports = {
             allowFirstLine: false,
           },
         }],
+        'vue/singleline-html-element-content-newline': 'off',
         'no-param-reassign': 'off',
         'import/prefer-default-export': 'off',
         'consistent-return': 'off',

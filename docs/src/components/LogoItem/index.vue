@@ -44,6 +44,7 @@ export default {
   flex-direction: column;
   align-items: center;
   background-color: rgba($colorBlack, 0.03);
+  border: 3px solid transparent;
   border-radius: 0.75rem;
   padding: 1.5rem;
   margin-bottom: 1rem;
@@ -56,6 +57,10 @@ export default {
   &__title {
     white-space: nowrap;
     font-size: 0.85rem;
+  }
+
+  &:hover {
+    border-color: $colorBlack;
   }
 }
 </style>

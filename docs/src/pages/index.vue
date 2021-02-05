@@ -49,9 +49,7 @@
             Framework-agnostic
           </h3>
           <p>
-            No matter what framework you use, you’ll enjoy tiptap. Out of the box, it works with plain JavaScript and Vue.js, but it’s also possible to use it in <g-link to="/guide/getting-started/react">
-              React
-            </g-link>, Svelte and others.
+            No matter what framework you use, you’ll enjoy tiptap. Out of the box, it works with plain JavaScript and Vue.js, but it’s also possible to use it in <g-link to="/guide/getting-started/react">React</g-link>, Svelte and others.
           </p>
           <div>
             <btn type="tertiary" icon="arrow-right" to="/overview/installation">
@@ -79,9 +77,7 @@
             Collaborative
           </h3>
           <p>
-            Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of <g-link to="https://github.com/yjs/yjs">
-              Y.js
-            </g-link>. Our production-grade setup requires less than 20 lines of code.
+            Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of <g-link to="https://github.com/yjs/yjs">Y.js</g-link>. Our production-grade setup requires less than 20 lines of code.
           </p>
           <div>
             <btn type="tertiary" icon="arrow-right" to="/guide/collaborative-editing">
@@ -132,7 +128,7 @@
 &lt;/html&gt;</prism>
         <!-- eslint-enable -->
         <div>
-          <btn type="secondary" icon="arrow-right" to="/overview/installation">
+          <btn type="tertiary" icon="arrow-right" to="/overview/installation">
             Learn More
           </btn>
         </div>
@@ -192,7 +188,7 @@
           /> -->
         </logo-list>
         <div>
-          <btn type="secondary" icon="arrow-right" to="https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D">
+          <btn type="tertiary" icon="arrow-right" to="https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D">
             And Many More
           </btn>
         </div>
@@ -205,9 +201,7 @@
           License
         </h2>
         <p>
-          tiptap is licensed under <a href="https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md">MIT</a>, so you are free to do whatever you want. If you are using it commercially, do the right thing and <g-link to="/sponsor">
-            become one of our wonderful sponsors
-          </g-link> to fund the maintenance, support and development of tiptap now and in the future. That’s all we ask for.
+          tiptap is licensed under <g-link to="https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md">MIT</g-link>, so you are free to do whatever you want. If you are using it commercially, do the right thing and <g-link to="/sponsor">become one of our wonderful sponsors</g-link> to fund the maintenance, support and development of tiptap now and in the future. That’s all we ask for.
         </p>
       </div>
     </app-section>
