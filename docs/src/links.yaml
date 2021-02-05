@@ -52,10 +52,6 @@
         - title: Nuxt.js
           link: /guide/getting-started/nuxt
           skip: true
-        - title: Inertia.js
-          link: /guide/getting-started/intertia
-          type: draft
-          skip: true
         - title: React
           link: /guide/getting-started/react
           type: draft

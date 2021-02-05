@@ -2,7 +2,7 @@
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-table.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-table)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-table.svg)](https://npmcharts.com/compare/@tiptap/extension-table?minimal=true)
 
-⚠️ Work in progress
+TODO
 
 ## Installation
 ::: warning Use with TableRow, TableHeader and TableCell
