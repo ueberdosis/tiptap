@@ -19,7 +19,7 @@ yarn add @tiptap/extension-focus
 | Option    | Type     | Default       | Description                                                                  |
 | --------- | -------- | ------------- | ---------------------------------------------------------------------------- |
 | className | `String` | `'has-focus'` | The class that is applied to the focused element.                            |
-| mode      | `String` | `'all'`       | Apply the class to `'all'`, the `'shallowest'` or the `'deepest'` node only. |
+| mode      | `String` | `'all'`       | Apply the class to `'all'`, the `'shallowest'` or the `'deepest'` node. |
 
 ## Source code
 [packages/extension-focus/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-focus/)
