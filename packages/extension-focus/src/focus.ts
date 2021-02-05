@@ -5,7 +5,8 @@ import { DecorationSet, Decoration } from 'prosemirror-view'
 export interface FocusOptions {
   className: string,
   start: 'deep' | 'shallow',
-  levels: 'all' | number,
+  exact: boolean,
+  // levels: 'all' | number,
 }
 
 export const FocusClasses = Extension.create({
@@ -14,7 +15,8 @@ export const FocusClasses = Extension.create({
   defaultOptions: <FocusOptions>{
     className: 'has-focus',
     start: 'deep',
-    levels: 'all',
+    exact: false,
+    // levels: 'all',
   },
 
   addProseMirrorPlugins() {
@@ -62,10 +64,15 @@ export const FocusClasses = Extension.create({
 
               currentLevel += 1
 
-              const outOfScope = typeof this.options.levels === 'number'
+              // const outOfScope = typeof this.options.levels === 'number'
+              //   && (
+              //     (this.options.start === 'deep' && maxLevels - currentLevel > this.options.levels)
+              //     || (this.options.start === 'shallow' && currentLevel > this.options.levels)
+              //   )
+              const outOfScope = this.options.exact
                 && (
-                  (this.options.start === 'deep' && maxLevels - currentLevel > this.options.levels)
-                  || (this.options.start === 'shallow' && currentLevel > this.options.levels)
+                  (this.options.start === 'deep' && maxLevels - currentLevel !== 0)
+                  || (this.options.start === 'shallow' && currentLevel > 1)
                 )
 
               if (outOfScope) {
