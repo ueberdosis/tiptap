@@ -4,9 +4,7 @@ import { DecorationSet, Decoration } from 'prosemirror-view'
 
 export interface FocusOptions {
   className: string,
-  start: 'deep' | 'shallow',
-  exact: boolean,
-  // levels: 'all' | number,
+  mode: 'all' | 'deepest' | 'shallowest',
 }
 
 export const FocusClasses = Extension.create({
@@ -14,9 +12,7 @@ export const FocusClasses = Extension.create({
 
   defaultOptions: <FocusOptions>{
     className: 'has-focus',
-    start: 'deep',
-    exact: false,
-    // levels: 'all',
+    mode: 'all',
   },
 
   addProseMirrorPlugins() {
@@ -35,7 +31,7 @@ export const FocusClasses = Extension.create({
 
             // Maximum Levels
             let maxLevels = 0
-            if (this.options.start === 'deep') {
+            if (this.options.mode === 'deepest') {
               doc.descendants((node, pos) => {
                 if (node.isText) {
                   return
@@ -64,19 +60,11 @@ export const FocusClasses = Extension.create({
 
               currentLevel += 1
 
-              // const outOfScope = typeof this.options.levels === 'number'
-              //   && (
-              //     (this.options.start === 'deep' && maxLevels - currentLevel > this.options.levels)
-              //     || (this.options.start === 'shallow' && currentLevel > this.options.levels)
-              //   )
-              const outOfScope = this.options.exact
-                && (
-                  (this.options.start === 'deep' && maxLevels - currentLevel !== 0)
-                  || (this.options.start === 'shallow' && currentLevel > 1)
-                )
+              const outOfScope = (this.options.mode === 'deepest' && maxLevels - currentLevel > 0)
+                  || (this.options.mode === 'shallowest' && currentLevel > 1)
 
               if (outOfScope) {
-                return this.options.start === 'deep'
+                return this.options.mode === 'deepest'
               }
 
               decorations.push(Decoration.node(pos, pos + node.nodeSize, {
