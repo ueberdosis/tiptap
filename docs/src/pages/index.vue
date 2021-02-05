@@ -8,7 +8,7 @@
         <p class="is-large">
           tiptap gives you full control about every single aspect of your text editor experience. It’s customizable, comes with a ton of extensions, is open-source, has an extensive documentation, and is simply a joy to use. Join our welcoming community and start building cool things! It’s free.
         </p>
-        <div>
+        <btn-wrapper>
           <btn type="primary" icon="arrow-right" to="/overview/installation">
             Get Started
           </btn>
@@ -20,7 +20,7 @@
           >
             View on GitHub
           </btn>
-        </div>
+        </btn-wrapper>
       </div>
     </app-section>
 
@@ -222,6 +222,7 @@ import LogoList from '@/components/LogoList'
 import LogoItem from '@/components/LogoItem'
 import Prism from '~/components/Prism'
 import Btn from '~/components/Btn'
+import BtnWrapper from '~/components/BtnWrapper'
 
 export default {
   components: {
@@ -232,6 +233,7 @@ export default {
     LogoItem,
     Prism,
     Btn,
+    BtnWrapper,
   },
 
   metaInfo() {

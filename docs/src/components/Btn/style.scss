@@ -4,7 +4,6 @@
   justify-content: center;
   border-radius: 12px;
   font-weight: 700;
-  margin-left: 0.75rem;
   padding: 0.8rem 1rem;
   font-size: 1rem;
   text-align: center;
@@ -40,10 +39,6 @@
 
   &--tertiary &__icon {
     opacity: 0.5;
-  }
-
-  &:first-child {
-    margin-left: 0;
   }
 
   &__icon {
