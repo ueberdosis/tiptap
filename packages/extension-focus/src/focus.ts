@@ -62,16 +62,13 @@ export const FocusClasses = Extension.create({
 
               currentLevel += 1
 
-              const isOutOfScope = typeof this.options.levels === 'number'
+              const outOfScope = typeof this.options.levels === 'number'
                 && (
-                  this.options.start === 'shallow'
-                    ? currentLevel > this.options.levels
-                    : maxLevels - currentLevel > this.options.levels
+                  (this.options.start === 'deep' && maxLevels - currentLevel > this.options.levels)
+                  || (this.options.start === 'shallow' && currentLevel > this.options.levels)
                 )
 
-              console.log(node.type.name, currentLevel, maxLevels, this.options.levels)
-
-              if (isOutOfScope) {
+              if (outOfScope) {
                 return this.options.start === 'deep'
               }
 
