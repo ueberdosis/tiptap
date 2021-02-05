@@ -60,8 +60,8 @@ export default {
   position: relative;
   margin-left: -1px;
   margin-right: -1px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  border-left: 1px solid #0D0D0D;
+  border-right: 1px solid #0D0D0D;
   word-break: normal;
   pointer-events: none;
 }
@@ -71,14 +71,14 @@ export default {
   position: absolute;
   top: -1.4em;
   left: -1px;
-  font-size: 13px;
+  font-size: 12px;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   line-height: normal;
   user-select: none;
-  color: white;
+  color: #0D0D0D;
   padding: 0.1rem 0.3rem;
-  border-radius: 3px;
+  border-radius: 3px 3px 3px 0;
   white-space: nowrap;
 }
 </style>
