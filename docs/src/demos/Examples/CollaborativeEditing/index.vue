@@ -1,8 +1,8 @@
 <template>
   <div class="editor" v-if="editor">
-    <menu-bar class="editor__menu" :editor="editor" />
+    <menu-bar class="editor__header" :editor="editor" />
     <editor-content class="editor__content" :editor="editor" />
-    <div class="editor__bottom-bar">
+    <div class="editor__footer">
       <div :class="`editor__status editor__status--${status}`">
         <template v-if="status === 'connected'">
           {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
@@ -142,38 +142,38 @@ export default {
   display: flex;
   flex-direction: column;
   max-height: 90vh;
-  color: black;
-  background-color: white;
-  border: 1px solid rgba(black, 0.1);
+  color: #0D0D0D;
+  background-color: $colorWhite;
+  border: 3px solid #0D0D0D;
   border-radius: 0.5rem;
 
-  &__menu {
+  &__header {
     display: flex;
     flex: 0 0 auto;
     flex-wrap: wrap;
     padding: 0.25rem;
-    border-bottom: 1px solid rgba(black, 0.1);
+    border-bottom: 3px solid #0D0D0D;
   }
 
   &__content {
-    padding: 1rem;
+    padding: 1.25rem 1rem;
     flex: 1 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 
-  &__bottom-bar {
+  &__footer {
     display: flex;
     flex: 0 0 auto;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     white-space: nowrap;
-    border-top: 1px solid rgba(black, 0.1);
-    font-size: 13px;
-    font-weight: 500;
-    color: rgba(black, 0.5);
+    border-top: 3px solid #0D0D0D;
+    font-size: 12px;
+    font-weight: 600;
+    color: #0D0D0D;
     white-space: nowrap;
     padding: 0.25rem 0.75rem;
   }
@@ -190,7 +190,7 @@ export default {
       display: inline-block;
       width: 0.5rem;
       height: 0.5rem;
-      background: rgba(black, 0.5);
+      background: rgba(#0D0D0D, 0.5);
       border-radius: 50%;
       margin-right: 0.5rem;
     }
@@ -200,7 +200,7 @@ export default {
     }
 
     &--connected::before {
-      background: #9DEF8F;
+      background: #B9F18D;
     }
   }
 
@@ -209,16 +209,16 @@ export default {
       background: none;
       border: none;
       font: inherit;
-      font-size: 13px;
-      font-weight: 500;
-      color: rgba(black, 0.5);
-      border-radius: 0.25rem;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0D0D0D;
+      border-radius: 0.4rem;
       padding: 0.25rem 0.5rem;
       margin-right: 0.25rem;
 
       &:hover {
-        color: black;
-        background-color: rgba(black, 0.05);
+        color: #FFF;
+        background-color: #0D0D0D;
       }
     }
   }
@@ -231,8 +231,8 @@ export default {
   position: relative;
   margin-left: -1px;
   margin-right: -1px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  border-left: 1px solid #0D0D0D;
+  border-right: 1px solid #0D0D0D;
   word-break: normal;
   pointer-events: none;
 }
@@ -242,12 +242,12 @@ export default {
   position: absolute;
   top: -1.4em;
   left: -1px;
-  font-size: 13px;
+  font-size: 12px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   line-height: normal;
   user-select: none;
-  color: black;
+  color: #0D0D0D;
   padding: 0.1rem 0.3rem;
   border-radius: 3px 3px 3px 0;
   white-space: nowrap;

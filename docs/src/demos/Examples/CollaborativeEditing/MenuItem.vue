@@ -41,10 +41,10 @@ export default {
 .menu-item {
   width: 1.75rem;
   height: 1.75rem;
-  color: rgba(black, 0.5);
+  color: #0D0D0D;
   border: none;
   background-color: transparent;
-  border-radius: 0.25rem;
+  border-radius: 0.4rem;
   padding: 0.25rem;
   margin-right: 0.25rem;
 
@@ -56,8 +56,8 @@ export default {
 
   &.is-active,
   &:hover {
-    color: black;
-    background-color: rgba(black, 0.05);
+    color: #FFF;
+    background-color: #0D0D0D;
   }
 }
 </style>
