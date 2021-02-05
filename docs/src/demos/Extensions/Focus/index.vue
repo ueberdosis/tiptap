@@ -63,4 +63,21 @@ export default {
   border-radius: 3px;
   box-shadow: 0 0 0 3px #68CEF8;
 }
+
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+}
 </style>
