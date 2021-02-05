@@ -1,6 +1,7 @@
 <template>
   <btn-wrapper class="page-navigation">
     <btn
+      class="page-navigation__previous"
       type="secondary"
       icon="arrow-left"
       icon-position="before"
@@ -10,6 +11,7 @@
       {{ previousPage.title }}
     </btn>
     <btn
+      class="page-navigation__next"
       type="secondary"
       icon="arrow-right"
       :to="nextPage.redirect || nextPage.link"
