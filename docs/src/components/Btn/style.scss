@@ -41,6 +41,10 @@
     opacity: 0.3;
   }
 
+  &--tertiary:hover &__icon {
+    opacity: 1;
+  }
+
   &__icon {
     &:first-child {
       margin-right: 0.5rem;
