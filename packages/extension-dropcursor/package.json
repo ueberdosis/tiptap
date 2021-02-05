@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-dropcursor",
   "description": "dropcursor extension for tiptap",
-  "version": "2.0.0-alpha.8",
+  "version": "2.0.0-alpha.9",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "@types/prosemirror-dropcursor": "^1.0.1",
-    "prosemirror-dropcursor": "^1.1.3"
+    "prosemirror-dropcursor": "^1.3.3"
   }
 }
