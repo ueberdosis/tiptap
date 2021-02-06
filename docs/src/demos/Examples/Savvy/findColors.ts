@@ -3,11 +3,6 @@ import { Node } from 'prosemirror-model'
 
 export default function (doc: Node): DecorationSet {
   const hexColor = /(#[0-9a-f]{3,6})\b/ig
-  const results: {
-    color: string,
-    from: number,
-    to: number,
-  }[] = []
   const decorations: Decoration[] = []
 
   doc.descendants((node, position) => {
@@ -18,21 +13,17 @@ export default function (doc: Node): DecorationSet {
     Array
       .from(node.text.matchAll(hexColor))
       .forEach(match => {
+        const color = match[0]
         const index = match.index || 0
-
-        results.push({
-          color: match[0],
-          from: position + index,
-          to: position + index + match[0].length,
+        const from = position + index
+        const to = position + index + match[0].length
+        const decoration = Decoration.inline(from, to, {
+          class: 'color',
+          style: `--color: ${color}`,
         })
-      })
-  })
 
-  results.forEach(issue => {
-    decorations.push(Decoration.inline(issue.from, issue.to, {
-      class: 'color',
-      style: `--color: ${issue.color}`,
-    }))
+        decorations.push(decoration)
+      })
   })
 
   return DecorationSet.create(doc, decorations)
