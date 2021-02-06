@@ -50,6 +50,8 @@ module.exports = function (api) {
     /**
      * Generate pages for all demo components for testing purposes
      */
+    const demos = []
+
     globby.sync('./src/demos/**/index.(vue|jsx)').forEach(file => {
       const match = file.match(
         new RegExp(/\.\/src\/demos\/([\S]+)\/index.(vue|jsx)/i),
@@ -59,14 +61,24 @@ module.exports = function (api) {
         return
       }
 
-      api.createPages(({ createPage }) => {
+      demos.push(match[1])
+    })
+
+    api.createPages(({ createPage }) => {
+      createPage({
+        path: '/demos',
+        component: './src/templates/DemoPages/index.vue',
+        context: {
+          demos,
+        },
+      })
+
+      demos.forEach(name => {
         createPage({
-          // path: '/demos/Extensions/CharacterCount'
-          path: `/demos/${match[1]}`,
+          path: `/demos/${name}`,
           component: './src/templates/DemoPage/index.vue',
           context: {
-            // name: 'Extensions/CharacterCount'
-            name: match[1],
+            name,
           },
         })
       })
@@ -116,9 +128,7 @@ module.exports = function (api) {
 
     const width = 1200
     const height = 630
-
     const border = 40
-
     const canvas = createCanvas(width, height)
     const context = canvas.getContext('2d')
 
