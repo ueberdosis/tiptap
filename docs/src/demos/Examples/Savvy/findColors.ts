@@ -15,15 +15,17 @@ export default function (doc: Node): DecorationSet {
       return
     }
 
-    [...node.text.matchAll(hexColor)].forEach(match => {
-      const index = match.index || 0
+    Array
+      .from(node.text.matchAll(hexColor))
+      .forEach(match => {
+        const index = match.index || 0
 
-      results.push({
-        color: match[0],
-        from: position + index,
-        to: position + index + match[0].length,
+        results.push({
+          color: match[0],
+          from: position + index,
+          to: position + index + match[0].length,
+        })
       })
-    })
   })
 
   results.forEach(issue => {
