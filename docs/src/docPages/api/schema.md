@@ -221,6 +221,26 @@ Node.create({
 })
 ```
 
+#### Allow gap cursor
+TODO
+
+> If it’s true, gap cursor are allowed everywhere in that node, if it’s false they are never allowed.
+
+```js
+Node.create({
+  allowGapCursor: false,
+})
+```
+
+#### Table roles
+TODO
+
+```js
+Node.create({
+  tableRole: 'cell',
+})
+```
+
 ### The mark schema
 #### Inclusive
 If you don’t want the mark to be active when the cursor is at its end, set inclusive to `false`. For example, that’s how it’s configured for [`Link`](/api/marks/link) marks:
