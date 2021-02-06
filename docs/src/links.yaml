@@ -50,7 +50,11 @@
       link: /guide/getting-started
       items:
         - title: Vue.js 2
+          link: /guide/getting-started/vue2
+          skip: true
+        - title: Vue.js 3
           link: /guide/getting-started/vue
+          type: draft
           skip: true
         - title: Nuxt.js
           link: /guide/getting-started/nuxt
