@@ -1,26 +1,29 @@
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { Node } from 'prosemirror-model'
 
-export default function (doc: Node) {
+export default function (doc: Node): DecorationSet {
   const hexColor = /(#[0-9a-f]{3,6})\b/ig
-  const results: any[] = []
-  const decorations: [any?] = []
+  const results: {
+    color: string,
+    from: number,
+    to: number,
+  }[] = []
+  const decorations: Decoration[] = []
 
-  doc.descendants((node: any, position: any) => {
-    if (!node.isText) {
+  doc.descendants((node, position) => {
+    if (!node.text) {
       return
     }
 
-    let matches
+    [...node.text.matchAll(hexColor)].forEach(match => {
+      const index = match.index || 0
 
-    // eslint-disable-next-line
-    while (matches = hexColor.exec(node.text)) {
       results.push({
-        color: matches[0],
-        from: position + matches.index,
-        to: position + matches.index + matches[0].length,
+        color: match[0],
+        from: position + index,
+        to: position + index + match[0].length,
       })
-    }
+    })
   })
 
   results.forEach(issue => {
