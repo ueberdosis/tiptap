@@ -22,6 +22,10 @@ export interface SuggestionOptions {
     onExit?: (props: SuggestionProps) => void,
     onKeyDown?: (props: SuggestionKeyDownProps) => boolean,
   },
+  allow?: (props: {
+    editor: Editor,
+    range: Range,
+  }) => boolean,
 }
 
 export interface SuggestionProps {
@@ -51,6 +55,7 @@ export function Suggestion({
   command = () => null,
   items = () => [],
   render = () => ({}),
+  allow = () => true,
 }: SuggestionOptions) {
 
   const renderer = render?.()
@@ -149,7 +154,7 @@ export function Suggestion({
           const decorationId = `id_${Math.floor(Math.random() * 0xFFFFFFFF)}`
 
           // If we found a match, update the current state to show it
-          if (match) {
+          if (match && allow({ editor, range: match.range })) {
             next.active = true
             next.decorationId = prev.decorationId ? prev.decorationId : decorationId
             next.range = match.range
