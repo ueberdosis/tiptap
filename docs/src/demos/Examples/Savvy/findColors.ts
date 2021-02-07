@@ -16,7 +16,7 @@ export default function (doc: Node): DecorationSet {
         const color = match[0]
         const index = match.index || 0
         const from = position + index
-        const to = position + index + color.length
+        const to = from + color.length
         const decoration = Decoration.inline(from, to, {
           class: 'color',
           style: `--color: ${color}`,
