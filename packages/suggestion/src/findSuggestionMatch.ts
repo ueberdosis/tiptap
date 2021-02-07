@@ -38,9 +38,9 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   const textFrom = $position.before()
   const textTo = $position.pos
   const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
-  const match = regexp.exec(text)
+  const match = Array.from(text.matchAll(regexp)).pop()
 
-  if (!match) {
+  if (!match || match.input === undefined || match.index === undefined) {
     return null
   }
 
