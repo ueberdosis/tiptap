@@ -7,7 +7,7 @@ import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import Heading from '@tiptap/extension-heading'
+import Code from '@tiptap/extension-code'
 import Typography from '@tiptap/extension-typography'
 import { ColorHighlighter } from './ColorHighlighter'
 
@@ -28,23 +28,21 @@ export default {
         Document,
         Paragraph,
         Text,
-        Heading.configure({
-          levels: [1, 2],
-        }),
+        Code,
         Typography,
         ColorHighlighter,
       ],
       content: `
-        <h2>
-          What’s a savvy text editor?
-        </h2>
         <p>
-          Maybe an editor which detects hex colors like #FFF, #0D0D0D, #616161, #A975FF, #FB5151, #FD9170, #FFCB6B, #68CEF8, #80cbc4, or #9DEF8F and adds a color swatch to them while you type.
+          → With the Typography extension, tiptap understands »what you mean« and adds correct characters to your text — it’s like a “typography nerd” on your side.
         </p>
         <p>
-          → Or an editor, which knows »what you mean« and adds the correct characters to your text — like a “typography nerd” on your side. That should be the 1×1, right? Try it out and type (c), ->, >>, 1/2, !=, -- here:
+          Try it out and type <code>(c)</code>, <code>-></code>, <code>>></code>, <code>1/2</code>, <code>!=</code>, <code>--</code> or <code>1x1</code> here:
         </p>
         <p></p>
+        <p>
+          Also, you can teach the editor new things. For example to recognize hex colors and add a color swatch on the fly: #FFF, #0D0D0D, #616161, #A975FF, #FB5151, #FD9170, #FFCB6B, #68CEF8, #80cbc4, #9DEF8F
+        </p>
       `,
     })
   },
@@ -69,6 +67,11 @@ export default {
   h5,
   h6 {
     line-height: 1.1;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
   }
 }
 

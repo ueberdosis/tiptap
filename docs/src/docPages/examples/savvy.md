@@ -1,3 +1,3 @@
-# Savvy
+# Savvy editor
 
 <demo name="Examples/Savvy" />

@@ -22,8 +22,8 @@ editor.chain().toggleBold().focus().run()
 
 1. `editor` should be a tiptap instance,
 2. `chain()` is used to tell the editor you want to execute multiple commands,
-3. `toggleBold()` marks selected text bold, or removes the bold mark from the text selection if it’s already applied,
-4. `focus()` sets the focus back to the editor and
+3. `focus()` sets the focus back to the editor,
+4. `toggleBold()` marks the selected text bold, or removes the bold mark from the text selection if it’s already applied and
 5. `run()` will execute the chain.
 
 In other words: This will be the typical **Bold** button for your text editor.

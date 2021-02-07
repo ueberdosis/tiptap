@@ -38,9 +38,7 @@
       link: /examples/community
     - title: Minimal setup
       link: /examples/minimal
-    - title: Multiple editors
-      link: /examples/multiple-editors
-    - title: Savvy
+    - title: Savvy editor
       link: /examples/savvy
       type: draft
 

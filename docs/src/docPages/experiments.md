@@ -8,6 +8,7 @@ Congratulations! You’ve found our playground with a list of experiments. Be aw
 * [Color](/experiments/color)
 * [Commands](/experiments/commands)
 * [Embeds](/experiments/embeds)
+* [Multiple editors](/experiments/multiple-editors)
 
 ## Waiting for approval
 * [@tiptap/extension-placeholder](/experiments/placeholder)
