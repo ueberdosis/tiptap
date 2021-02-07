@@ -1,5 +1,5 @@
-context('/overview/installation', () => {
+context('/installation', () => {
   before(() => {
-    cy.visit('/overview/installation')
+    cy.visit('/installation')
   })
 })

@@ -18,7 +18,7 @@ Create exactly the rich text editor you want out of customizable building blocks
 ## Features
 **Headless.** We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is headless and comes without any CSS. You are in full control over markup, styling and behaviour.
 
-**Framework-agnostic.** No matter what framework you use, you’ll enjoy tiptap. Out of the box, it works with plain JavaScript and Vue.js, but it’s also possible to use it in [React](/guide/getting-started/react), Svelte and others.
+**Framework-agnostic.** No matter what framework you use, you’ll enjoy tiptap. Out of the box, it works with plain JavaScript and Vue.js, but it’s also possible to use it in [React](/installation/react), Svelte and others.
 
 **TypeScript.** tiptap 2 is written in TypeScript. That helps us to find bugs early and gives you a nice autocomplete for the API (if your IDE supports that) on top of the extensive human written documentation.
 

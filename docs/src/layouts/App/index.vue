@@ -46,7 +46,7 @@
       </main>
 
       <portal :to="menuPortal">
-        <g-link class="app__menu-item" to="/overview/installation">
+        <g-link class="app__menu-item" to="/installation">
           Documentation
         </g-link>
         <g-link class="app__menu-item" to="https://github.com/ueberdosis/tiptap-next">
