@@ -101,16 +101,16 @@ export function Suggestion({
             clientRect: () => decorationNode?.getBoundingClientRect() || null,
           }
 
-          if (handleStart) {
-            renderer?.onStart?.(props)
+          if (handleExit) {
+            renderer?.onExit?.(props)
           }
 
           if (handleChange) {
             renderer?.onUpdate?.(props)
           }
 
-          if (handleExit) {
-            renderer?.onExit?.(props)
+          if (handleStart) {
+            renderer?.onStart?.(props)
           }
         },
       }
