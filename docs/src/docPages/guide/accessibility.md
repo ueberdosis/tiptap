@@ -34,4 +34,4 @@ An optional writing assitance could help people writing content semanticly corre
 
 TODO: Update resources to point to WCAG 3.0 https://www.w3.org/TR/wcag-3.0/
 
-Anything we should add here? Please let us know, so we can take it into account.
+Anything we should add here? [Please let us know](mailto:humans@tiptap.dev), so we can take it into account.

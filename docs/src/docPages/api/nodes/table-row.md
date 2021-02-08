@@ -2,7 +2,7 @@
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-table-row.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-table-row)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-table-row.svg)](https://npmcharts.com/compare/@tiptap/extension-table-row?minimal=true)
 
-TODO
+What’s a table without rows? Add this extension to make your tables usable.
 
 ## Installation
 ::: warning Use with Table, TableHeader and TableCell

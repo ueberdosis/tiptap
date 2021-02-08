@@ -222,9 +222,7 @@ Node.create({
 ```
 
 #### Allow gap cursor
-TODO
-
-> If it’s true, gap cursor are allowed everywhere in that node, if it’s false they are never allowed.
+The [`Gapcursor`](/api/extensions/gapcursor) extension registers a new schema attribute to control if gap cursors are allowed everywhere in that node.
 
 ```js
 Node.create({
@@ -233,7 +231,7 @@ Node.create({
 ```
 
 #### Table roles
-TODO
+The [`Table`](/api/extensions/table) extension registers a new schema attribute to configure which role an Node has. Allowed values are `table`, `row`, `cell`, and `header_cell`.
 
 ```js
 Node.create({

@@ -8,6 +8,7 @@ You can build your own extensions from scratch with the `Node`, `Mark`, and `Ext
 And if everything is working fine, don’t forget to [share it with the community](https://github.com/ueberdosis/tiptap/issues/819).
 
 ### Create a node
+
 ```js
 import { Node } from '@tiptap/core'
 

@@ -25,7 +25,19 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
+}
+
 .content {
   padding: 1rem 0 0;
 

@@ -128,8 +128,10 @@ If you’re migrating existing content to tiptap we would recommend to get your 
 
 We’re about to go through a few cases to help with that, for example we provide a PHP package to convert HTML to a compatible JSON structure: [ueberdosis/prosemirror-to-html](https://github.com/ueberdosis/html-to-prosemirror).
 
-Share your experiences with us! We’d like to add more information here.
+[Share your experiences with us!](mailto:humans@tiptap.dev) We’d like to add more information here.
 
 ## Security
+There’s no reason to use on or the other because of security concerns.
 
-There’s no reason to use on or the other for security reasons.
+### Validation
+Always validate user input sent to an API. Attackers don’t need to use tiptap to send malicious HTML or JSON to an API endpoint.

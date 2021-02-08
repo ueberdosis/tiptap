@@ -2,7 +2,9 @@
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-table.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-table)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-table.svg)](https://npmcharts.com/compare/@tiptap/extension-table?minimal=true)
 
-TODO
+Nothing is as much fun as a good old HTML table. The `Table` extension enables you to add this holy grail of WYSIWYG editing to your editor.
+
+Don’t forget to add a `spacer.gif`. (Just joking. If you don’t know what that is, don’t listen.)
 
 ## Installation
 ::: warning Use with TableRow, TableHeader and TableCell
