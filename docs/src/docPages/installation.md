@@ -1,4 +1,4 @@
-# Getting started
+# Installation
 
 ## toc
 
@@ -32,7 +32,7 @@ npm install @tiptap/core @tiptap/starter-kit
 yarn add @tiptap/core @tiptap/starter-kit
 ```
 
-### 2. Add a container
+### 2. Add some markup
 Add the following HTML where you want the editor to be mounted:
 
 ```html
@@ -53,4 +53,4 @@ new Editor({
 })
 ```
 
-When you open the project in your browser, you should now see tiptap in action. Time to give yourself a pat on the back.
+Open your project in the browser and you should see tiptap. Good work! Time to give yourself a pat on the back.

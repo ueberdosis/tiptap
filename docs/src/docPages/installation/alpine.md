@@ -7,10 +7,10 @@ The following guide describes how to integrate tiptap with your [Alpine.js](http
 
 TODO
 
+## CodeSandbox
 https://codesandbox.io/s/alpine-tiptap-2ro5e?file=/index.html:0-1419
 
-index.html
-
+## index.html
 ```html
 <!DOCTYPE html>
 <html>
@@ -31,7 +31,7 @@ index.html
     <div
       x-data="setupEditor('<p>My content goes here</p>')"
       x-init="() => init($refs.editor)"
-      x-on:click.away="inFocus = false;"
+      x-on:click.away="inFocus = false"
     >
       <template x-if="editor">
         <nav class="space-x-1">
@@ -66,11 +66,10 @@ index.html
 </html>
 ```
 
-index.js
-
+## index.js
 ```js
-import { Editor as TipTap } from "@tiptap/core";
-import { defaultExtensions } from "@tiptap/starter-kit";
+import { Editor as TipTap } from "@tiptap/core"
+import { defaultExtensions } from "@tiptap/starter-kit"
 
 window.setupEditor = function (content) {
   return {
@@ -91,22 +90,22 @@ window.setupEditor = function (content) {
             class: "prose-sm py-4 focus:outline-none"
           }
         }
-      });
+      })
 
       editor.on("update", () => {
-        this.content = this.editor.getHTML();
-      });
+        this.content = this.editor.getHTML()
+      })
 
       editor.on("focus", () => {
-        this.inFocus = true;
-      });
+        this.inFocus = true
+      })
 
       editor.on("selection", () => {
-        this.updatedAt = Date.now();
-      });
+        this.updatedAt = Date.now()
+      })
 
-      this.editor = editor;
+      this.editor = editor
     }
-  };
-};
+  }
+}
 ```
