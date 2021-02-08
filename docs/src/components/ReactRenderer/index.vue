@@ -10,6 +10,7 @@ export default {
   props: {
     component: {
       required: true,
+      type: Boolean,
     },
   },
 
