@@ -38,6 +38,7 @@ function triggerCharacter({
   char = '@',
   allowSpaces = false,
   startOfLine = false,
+  allowMatchWithin = false,
 }) {
 
   return $position => {
@@ -66,7 +67,7 @@ function triggerCharacter({
       // or the line beginning
       const matchPrefix = match.input.slice(Math.max(0, match.index - 1), match.index)
 
-      if (/^[\s\0]?$/.test(matchPrefix)) {
+      if (allowMatchWithin || /^[\s\0]?$/.test(matchPrefix)) {
         // The absolute position of the match in the document
         const from = match.index + $position.start()
         let to = from + match[0].length
