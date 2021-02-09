@@ -15,6 +15,7 @@ import * as insertHTML from '../commands/insertHTML'
 import * as insertText from '../commands/insertText'
 import * as joinBackward from '../commands/joinBackward'
 import * as joinForward from '../commands/joinForward'
+import * as keyboardShortcut from '../commands/keyboardShortcut'
 import * as lift from '../commands/lift'
 import * as liftEmptyBlock from '../commands/liftEmptyBlock'
 import * as liftListItem from '../commands/liftListItem'
@@ -65,6 +66,7 @@ export const Commands = Extension.create({
       ...insertText,
       ...joinBackward,
       ...joinForward,
+      ...keyboardShortcut,
       ...lift,
       ...liftEmptyBlock,
       ...liftListItem,
