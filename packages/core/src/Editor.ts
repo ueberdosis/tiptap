@@ -307,12 +307,40 @@ export class Editor extends EventEmitter {
     return this.createDocument('')
   }
 
+  public isCapturingTransaction = false
+
+  private capturedTransaction: Transaction | null = null
+
+  public captureTransaction(fn: Function) {
+    this.isCapturingTransaction = true
+    fn()
+    this.isCapturingTransaction = false
+
+    const tr = this.capturedTransaction
+
+    this.capturedTransaction = null
+
+    return tr
+  }
+
   /**
    * The callback over which to send transactions (state updates) produced by the view.
    *
    * @param transaction An editor state transaction
    */
   private dispatchTransaction(transaction: Transaction): void {
+    if (this.isCapturingTransaction) {
+      if (!this.capturedTransaction) {
+        this.capturedTransaction = transaction
+
+        return
+      }
+
+      transaction.steps.forEach(step => this.capturedTransaction?.step(step))
+
+      return
+    }
+
     const state = this.state.apply(transaction)
     const selectionHasChanged = !this.state.selection.eq(state.selection)
 
