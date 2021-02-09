@@ -6,6 +6,7 @@ import * as command from '../commands/command'
 import * as createParagraphNear from '../commands/createParagraphNear'
 import * as deleteRange from '../commands/deleteRange'
 import * as deleteSelection from '../commands/deleteSelection'
+import * as enter from '../commands/enter'
 import * as exitCode from '../commands/exitCode'
 import * as extendMarkRange from '../commands/extendMarkRange'
 import * as first from '../commands/first'
@@ -55,6 +56,7 @@ export const Commands = Extension.create({
       ...createParagraphNear,
       ...deleteRange,
       ...deleteSelection,
+      ...enter,
       ...exitCode,
       ...extendMarkRange,
       ...first,

@@ -1,6 +1,21 @@
 <template>
   <div>
     <div v-if="editor">
+      <button
+        @click="editor
+          .can()
+          .chain()
+          .focus()
+          .enter()
+          .insertText('1')
+          .enter()
+          .insertText('2')
+          .enter()
+          .insertText('3')
+          .run()"
+      >
+        enter
+      </button>
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
       </button>
