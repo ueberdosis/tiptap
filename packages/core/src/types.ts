@@ -120,9 +120,6 @@ export type NodeViewRenderer = (props: NodeViewRendererProps) => (NodeView | {})
 
 export type ValuesOf<T> = T[keyof T];
 export type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
-// export type Commands = UnionToIntersection<ValuesOf<Pick<UnfilteredCommands, KeysWithTypeOf<UnfilteredCommands, {}>>>>
-
-// export type Commands = Commands
 
 export type SingleCommands = {
   [Item in keyof Commands]: Commands[Item] extends (...args: any[]) => any

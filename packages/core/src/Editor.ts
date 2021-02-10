@@ -15,8 +15,6 @@ import EventEmitter from './EventEmitter'
 import {
   EditorOptions,
   EditorContent,
-  CommandSpec,
-  Commands,
   CanCommands,
   ChainedCommands,
   SingleCommands,
@@ -78,8 +76,8 @@ export class Editor extends EventEmitter {
    * This method is called after the proxy is initialized.
    */
   private init(): void {
-    this.createCommandManager()
     this.createExtensionManager()
+    this.createCommandManager()
     this.createSchema()
     this.createView()
     this.injectCSS()
@@ -165,29 +163,6 @@ export class Editor extends EventEmitter {
   }
 
   /**
-   * Register a list of commands.
-   *
-   * @param commands A list of commands
-   */
-  public registerCommands(commands: { [key: string]: CommandSpec }): void {
-    Object
-      .entries(commands)
-      .forEach(([name, command]) => this.registerCommand(name, command))
-  }
-
-  /**
-   * Register a command.
-   *
-   * @param name The name of your command
-   * @param callback The method of your command
-   */
-  public registerCommand(name: string, callback: CommandSpec): Editor {
-    this.commandManager.registerCommand(name, callback)
-
-    return this.proxy
-  }
-
-  /**
    * Register a ProseMirror plugin.
    *
    * @param plugin A ProseMirror plugin
@@ -233,7 +208,7 @@ export class Editor extends EventEmitter {
    * Creates an command manager.
    */
   private createCommandManager(): void {
-    this.commandManager = new CommandManager(this.proxy)
+    this.commandManager = new CommandManager(this.proxy, this.extensionManager.commands)
   }
 
   /**

@@ -4,6 +4,7 @@ import {
   SingleCommands,
   ChainedCommands,
   CanCommands,
+  Commands,
   CommandSpec,
   CommandProps,
 } from './types'
@@ -13,33 +14,14 @@ export default class CommandManager {
 
   editor: Editor
 
-  commands: { [key: string]: any } = {}
+  commands: Commands
 
   methodNames: string[] = []
 
-  constructor(editor: Editor) {
+  constructor(editor: Editor, commands: Commands) {
     this.editor = editor
+    this.commands = commands
     this.methodNames = getAllMethodNames(this.editor)
-  }
-
-  /**
-   * Register a command.
-   *
-   * @param name The name of your command
-   * @param callback The method of your command
-   */
-  public registerCommand(name: string, callback: CommandSpec): Editor {
-    if (this.commands[name]) {
-      throw new Error(`tiptap: command '${name}' is already defined.`)
-    }
-
-    if (this.methodNames.includes(name)) {
-      throw new Error(`tiptap: '${name}' is a protected name.`)
-    }
-
-    this.commands[name] = callback
-
-    return this.editor
   }
 
   public createCommands(): SingleCommands {
@@ -73,7 +55,7 @@ export default class CommandManager {
     const tr = startTr || state.tr
 
     return new Proxy({}, {
-      get: (_, name: string, proxy) => {
+      get: (_, name: keyof ChainedCommands, proxy) => {
         if (name === 'run') {
           if (!hasStartTransaction && shouldDispatch && !tr.getMeta('preventDispatch')) {
             view.dispatch(tr)
@@ -82,13 +64,13 @@ export default class CommandManager {
           return () => callbacks.every(callback => callback === true)
         }
 
-        const command = commands[name]
+        const command = commands[name] as CommandSpec
 
         if (!command) {
           throw new Error(`tiptap: command '${name}' not found.`)
         }
 
-        return (...args: any) => {
+        return (...args: any[]) => {
           const props = this.buildProps(tr, shouldDispatch)
           const callback = command(...args)(props)
 

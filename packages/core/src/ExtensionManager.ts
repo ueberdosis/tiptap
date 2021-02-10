@@ -4,7 +4,7 @@ import { inputRules as inputRulesPlugin } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
-import { Extensions, NodeViewRenderer } from './types'
+import { Extensions, NodeViewRenderer, Commands } from './types'
 import getSchema from './helpers/getSchema'
 import getSchemaTypeByName from './helpers/getSchemaTypeByName'
 import getNodeType from './helpers/getNodeType'
@@ -31,11 +31,6 @@ export default class ExtensionManager {
         editor: this.editor,
         type: getSchemaTypeByName(extension.config.name, this.schema),
       }
-
-      const commands = extension.config.addCommands.bind(context)()
-
-      // @ts-ignore
-      editor.registerCommands(commands)
 
       if (typeof extension.config.onCreate === 'function') {
         this.editor.on('create', extension.config.onCreate.bind(context))
@@ -65,6 +60,21 @@ export default class ExtensionManager {
         this.editor.on('destroy', extension.config.onDestroy.bind(context))
       }
     })
+  }
+
+  get commands(): Commands {
+    return this.extensions.reduce((extensions, extension) => {
+      const context = {
+        options: extension.options,
+        editor: this.editor,
+        type: getSchemaTypeByName(extension.config.name, this.schema),
+      }
+
+      return {
+        ...extensions,
+        ...extension.config.addCommands.bind(context)(),
+      }
+    }, {} as Commands)
   }
 
   get plugins(): Plugin[] {
