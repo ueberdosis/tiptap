@@ -23,6 +23,12 @@ export const Mention = Node.create({
           .insertText(' ')
           .run()
       },
+      allow: ({ editor, range }) => {
+        // TODO: circular type. everthing explodes :—(
+        return (editor as any)
+          .can()
+          .replaceRange(range, 'mention')
+      },
     },
   },
 
