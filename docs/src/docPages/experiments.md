@@ -9,6 +9,7 @@ Congratulations! You’ve found our playground with a list of experiments. Be aw
 * [Commands](/experiments/commands)
 * [Embeds](/experiments/embeds)
 * [Multiple editors](/experiments/multiple-editors)
+* [Details](/experiments/details)
 
 ## Waiting for approval
 * [@tiptap/extension-placeholder](/experiments/placeholder)
