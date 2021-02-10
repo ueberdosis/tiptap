@@ -9,6 +9,9 @@ export interface IframeOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Add an iframe
+     */
     setIframe: (options: { src: string }) => Command,
   }
 }
@@ -58,9 +61,6 @@ export default Node.create({
 
   addCommands() {
     return {
-      /**
-       * Add an iframe
-       */
       setIframe: (options: { src: string }) => ({ tr, dispatch }) => {
         const { selection } = tr
         const node = this.type.create(options)

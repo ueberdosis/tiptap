@@ -9,6 +9,9 @@ export interface OrderedListOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Toggle an ordered list
+     */
     toggleOrderedList: () => Command,
   }
 }
@@ -57,9 +60,6 @@ export const OrderedList = Node.create({
 
   addCommands() {
     return {
-      /**
-       * Toggle an ordered list
-       */
       toggleOrderedList: () => ({ commands }) => {
         return commands.toggleList('orderedList', 'listItem')
       },

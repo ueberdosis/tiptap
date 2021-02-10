@@ -17,9 +17,15 @@ function selectionToInsertionEnd(tr: Transaction, startLen: number, bias: number
   tr.setSelection(Selection.near(tr.doc.resolve(end as unknown as number), bias))
 }
 
-/**
- * Insert a string of HTML at the current position.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Insert a string of HTML at the current position.
+     */
+    insertHTML: (value: string) => Command,
+  }
+}
+
 export const insertHTML: Commands['insertHTML'] = value => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const element = elementFromString(value)
@@ -31,10 +37,4 @@ export const insertHTML: Commands['insertHTML'] = value => ({ tr, state, dispatc
   }
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    insertHTML: (value: string) => Command,
-  }
 }

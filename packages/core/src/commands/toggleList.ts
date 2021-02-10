@@ -4,9 +4,15 @@ import getNodeType from '../helpers/getNodeType'
 import findParentNode from '../helpers/findParentNode'
 import isList from '../helpers/isList'
 
-/**
- * Toggle between different list types.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Toggle between different list types.
+     */
+    toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType) => Command,
+  }
+}
+
 export const toggleList: Commands['toggleList'] = (listTypeOrName, itemTypeOrName) => ({
   editor, tr, state, dispatch, chain, commands, can,
 }) => {
@@ -52,10 +58,4 @@ export const toggleList: Commands['toggleList'] = (listTypeOrName, itemTypeOrNam
   }
 
   return commands.wrapInList(listType)
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType) => Command,
-  }
 }

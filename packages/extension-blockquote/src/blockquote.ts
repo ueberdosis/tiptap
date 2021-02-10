@@ -9,8 +9,17 @@ export interface BlockquoteOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Set a blockquote node
+     */
     setBlockquote: () => Command,
+    /**
+     * Toggle a blockquote node
+     */
     toggleBlockquote: () => Command,
+    /**
+     * Unset a blockquote node
+     */
     unsetBlockquote: () => Command,
   }
 }
@@ -43,21 +52,12 @@ export const Blockquote = Node.create({
 
   addCommands() {
     return {
-      /**
-       * Set a blockquote node
-       */
       setBlockquote: () => ({ commands }) => {
         return commands.wrapIn('blockquote')
       },
-      /**
-       * Toggle a blockquote node
-       */
       toggleBlockquote: () => ({ commands }) => {
         return commands.toggleWrap('blockquote')
       },
-      /**
-       * Unset a blockquote node
-       */
       unsetBlockquote: () => ({ commands }) => {
         return commands.lift('blockquote')
       },

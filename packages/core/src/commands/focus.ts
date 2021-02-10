@@ -30,9 +30,15 @@ function resolveSelection(state: EditorState, position: FocusPosition = null) {
   }
 }
 
-/**
- * Focus the editor at the given position.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Focus the editor at the given position.
+     */
+    focus: (position?: FocusPosition) => Command,
+  }
+}
+
 export const focus: Commands['focus'] = (position = null) => ({
   editor,
   view,
@@ -61,10 +67,4 @@ export const focus: Commands['focus'] = (position = null) => ({
   }
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    focus: (position?: FocusPosition) => Command,
-  }
 }

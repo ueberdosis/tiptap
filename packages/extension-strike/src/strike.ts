@@ -14,8 +14,17 @@ export interface StrikeOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Set a strike mark
+     */
     setStrike: () => Command,
+    /**
+     * Toggle a strike mark
+     */
     toggleStrike: () => Command,
+    /**
+     * Unset a strike mark
+     */
     unsetStrike: () => Command,
   }
 }
@@ -53,21 +62,12 @@ export const Strike = Mark.create({
 
   addCommands() {
     return {
-      /**
-       * Set a strike mark
-       */
       setStrike: () => ({ commands }) => {
         return commands.setMark('strike')
       },
-      /**
-       * Toggle a strike mark
-       */
       toggleStrike: () => ({ commands }) => {
         return commands.toggleMark('strike')
       },
-      /**
-       * Unset a strike mark
-       */
       unsetStrike: () => ({ commands }) => {
         return commands.unsetMark('strike')
       },

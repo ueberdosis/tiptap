@@ -4,9 +4,15 @@ import { AnyObject, Command, Commands } from '../types'
 import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
-/**
- * Wraps nodes in another node, or removes an existing wrap.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Wraps nodes in another node, or removes an existing wrap.
+     */
+    toggleWrap: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+  }
+}
+
 export const toggleWrap: Commands['toggleWrap'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const isActive = isNodeActive(state, type, attributes)
@@ -16,10 +22,4 @@ export const toggleWrap: Commands['toggleWrap'] = (typeOrName, attributes = {}) 
   }
 
   return wrapIn(type, attributes)(state, dispatch)
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    toggleWrap: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
-  }
 }

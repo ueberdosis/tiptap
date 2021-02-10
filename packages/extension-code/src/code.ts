@@ -14,8 +14,17 @@ export interface CodeOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Set a code mark
+     */
     setCode: () => Command,
+    /**
+     * Toggle inline code
+     */
     toggleCode: () => Command,
+    /**
+     * Unset a code mark
+     */
     unsetCode: () => Command,
   }
 }
@@ -44,21 +53,12 @@ export const Code = Mark.create({
 
   addCommands() {
     return {
-      /**
-       * Set a code mark
-       */
       setCode: () => ({ commands }) => {
         return commands.setMark('code')
       },
-      /**
-       * Toggle inline code
-       */
       toggleCode: () => ({ commands }) => {
         return commands.toggleMark('code')
       },
-      /**
-       * Unset a code mark
-       */
       unsetCode: () => ({ commands }) => {
         return commands.unsetMark('code')
       },

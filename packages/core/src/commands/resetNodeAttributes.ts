@@ -3,9 +3,15 @@ import getNodeType from '../helpers/getNodeType'
 import deleteProps from '../utilities/deleteProps'
 import { Command, Commands } from '../types'
 
-/**
- * Resets node attributes to the default value.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Resets node attributes to the default value.
+     */
+    resetNodeAttributes: (typeOrName: string | NodeType, attributes: string | string[]) => Command,
+  }
+}
+
 export const resetNodeAttributes: Commands['resetNodeAttributes'] = (typeOrName, attributes) => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { selection } = tr
@@ -18,10 +24,4 @@ export const resetNodeAttributes: Commands['resetNodeAttributes'] = (typeOrName,
   })
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    resetNodeAttributes: (typeOrName: string | NodeType, attributes: string | string[]) => Command,
-  }
 }

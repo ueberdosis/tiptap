@@ -3,9 +3,15 @@ import { AnyObject, Command, Commands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import getMarkAttributes from '../helpers/getMarkAttributes'
 
-/**
- * Add a mark with new attributes.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Add a mark with new attributes.
+     */
+    setMark: (typeOrName: string | MarkType, attributes?: AnyObject) => Command,
+  }
+}
+
 export const setMark: Commands['setMark'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const { from, to, empty } = selection
@@ -25,10 +31,4 @@ export const setMark: Commands['setMark'] = (typeOrName, attributes = {}) => ({ 
   }
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    setMark: (typeOrName: string | MarkType, attributes?: AnyObject) => Command,
-  }
 }

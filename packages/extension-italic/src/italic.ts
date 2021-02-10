@@ -14,8 +14,17 @@ export interface ItalicOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Set an italic mark
+     */
     setItalic: () => Command,
+    /**
+     * Toggle an italic mark
+     */
     toggleItalic: () => Command,
+    /**
+     * Unset an italic mark
+     */
     unsetItalic: () => Command,
   }
 }
@@ -53,21 +62,12 @@ export const Italic = Mark.create({
 
   addCommands() {
     return {
-      /**
-       * Set an italic mark
-       */
       setItalic: () => ({ commands }) => {
         return commands.setMark('italic')
       },
-      /**
-       * Toggle an italic mark
-       */
       toggleItalic: () => ({ commands }) => {
         return commands.toggleMark('italic')
       },
-      /**
-       * Unset an italic mark
-       */
       unsetItalic: () => ({ commands }) => {
         return commands.unsetMark('italic')
       },

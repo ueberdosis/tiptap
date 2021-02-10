@@ -1,9 +1,15 @@
 import { liftTarget } from 'prosemirror-transform'
 import { Command, Commands } from '../types'
 
-/**
- * Normalize nodes to a simple paragraph.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Normalize nodes to a simple paragraph.
+     */
+    clearNodes: () => Command,
+  }
+}
+
 export const clearNodes: Commands['clearNodes'] = () => ({ state, tr, dispatch }) => {
   const { selection } = tr
   const { from, to } = selection
@@ -29,10 +35,4 @@ export const clearNodes: Commands['clearNodes'] = () => ({ state, tr, dispatch }
   })
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    clearNodes: () => Command,
-  }
 }

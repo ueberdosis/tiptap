@@ -7,9 +7,15 @@ import {
   AnyObject,
 } from '../types'
 
-/**
- * Replaces text with a node within a range.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Replaces text with a node within a range.
+     */
+    replaceRange: (range: Range, typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+  }
+}
+
 export const replaceRange: Commands['replaceRange'] = (range, typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { from, to } = range
@@ -25,10 +31,4 @@ export const replaceRange: Commands['replaceRange'] = (range, typeOrName, attrib
   }
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    replaceRange: (range: Range, typeOrName: string | NodeType, attributes?: AnyObject) => Command,
-  }
 }

@@ -8,8 +8,17 @@ export interface UnderlineOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Set an underline mark
+     */
     setUnderline: () => Command,
+    /**
+     * Toggle an underline mark
+     */
     toggleUnderline: () => Command,
+    /**
+     * Unset an underline mark
+     */
     unsetUnderline: () => Command,
   }
 }
@@ -38,21 +47,12 @@ export const Underline = Mark.create({
 
   addCommands() {
     return {
-      /**
-       * Set an underline mark
-       */
       setUnderline: () => ({ commands }) => {
         return commands.setMark('underline')
       },
-      /**
-       * Toggle an underline mark
-       */
       toggleUnderline: () => ({ commands }) => {
         return commands.toggleMark('underline')
       },
-      /**
-       * Unset an underline mark
-       */
       unsetUnderline: () => ({ commands }) => {
         return commands.unsetMark('underline')
       },

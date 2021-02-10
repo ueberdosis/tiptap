@@ -56,9 +56,15 @@ function normalizeKeyName(name: string) {
   return result
 }
 
-/**
- * Trigger a keyboard shortcut.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Trigger a keyboard shortcut.
+     */
+    keyboardShortcut: (name: string) => Command,
+  }
+}
+
 export const keyboardShortcut: Commands['keyboardShortcut'] = name => ({
   editor,
   view,
@@ -92,10 +98,4 @@ export const keyboardShortcut: Commands['keyboardShortcut'] = name => ({
   })
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    keyboardShortcut: (name: string) => Command,
-  }
 }

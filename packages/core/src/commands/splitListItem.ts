@@ -10,9 +10,15 @@ import { Command, Commands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 import getSplittedAttributes from '../helpers/getSplittedAttributes'
 
-/**
- * Splits one list item into two list items.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Splits one list item into two list items.
+     */
+    splitListItem: (typeOrName: string | NodeType) => Command,
+  }
+}
+
 export const splitListItem: Commands['splitListItem'] = typeOrName => ({
   tr, state, dispatch, editor,
 }) => {
@@ -109,10 +115,4 @@ export const splitListItem: Commands['splitListItem'] = typeOrName => ({
   }
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    splitListItem: (typeOrName: string | NodeType) => Command,
-  }
 }

@@ -9,6 +9,9 @@ export interface BulletListOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Toggle a bullet list
+     */
     toggleBulletList: () => Command,
   }
 }
@@ -38,9 +41,6 @@ export const BulletList = Node.create({
 
   addCommands() {
     return {
-      /**
-       * Toggle a bullet list
-       */
       toggleBulletList: () => ({ commands }) => {
         return commands.toggleList('bulletList', 'listItem')
       },

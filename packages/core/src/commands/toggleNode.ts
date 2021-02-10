@@ -3,9 +3,15 @@ import { AnyObject, Command, Commands } from '../types'
 import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
-/**
- * Toggle a node with another node.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Toggle a node with another node.
+     */
+    toggleNode: (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attributes?: AnyObject) => Command,
+  }
+}
+
 export const toggleNode: Commands['toggleNode'] = (typeOrName, toggleTypeOrName, attributes = {}) => ({ state, commands }) => {
   const type = getNodeType(typeOrName, state.schema)
   const toggleType = getNodeType(toggleTypeOrName, state.schema)
@@ -16,10 +22,4 @@ export const toggleNode: Commands['toggleNode'] = (typeOrName, toggleTypeOrName,
   }
 
   return commands.setNode(type, attributes)
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    toggleNode: (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attributes?: AnyObject) => Command,
-  }
 }

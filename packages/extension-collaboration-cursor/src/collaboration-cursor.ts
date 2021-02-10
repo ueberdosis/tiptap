@@ -10,6 +10,9 @@ export interface CollaborationCursorOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Update details of the current user
+     */
     user: (attributes: AnyObject) => Command,
   }
 }
@@ -50,9 +53,6 @@ export const CollaborationCursor = Extension.create({
 
   addCommands() {
     return {
-      /**
-       * Update details of the current user
-       */
       user: attributes => () => {
         this.options.user = attributes
 

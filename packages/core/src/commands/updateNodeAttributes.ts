@@ -2,9 +2,15 @@ import { NodeType } from 'prosemirror-model'
 import getNodeType from '../helpers/getNodeType'
 import { AnyObject, Command, Commands } from '../types'
 
-/**
- * Update attributes of a node.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Update attributes of a node.
+     */
+    updateNodeAttributes: (typeOrName: string | NodeType, attributes: AnyObject) => Command,
+  }
+}
+
 export const updateNodeAttributes: Commands['updateNodeAttributes'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { selection } = tr
@@ -20,10 +26,4 @@ export const updateNodeAttributes: Commands['updateNodeAttributes'] = (typeOrNam
   })
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    updateNodeAttributes: (typeOrName: string | NodeType, attributes: AnyObject) => Command,
-  }
 }

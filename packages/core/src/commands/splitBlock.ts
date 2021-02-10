@@ -15,11 +15,7 @@ function defaultBlockAt(match: ContentMatch) {
   return null
 }
 
-export interface SplitBlockOptions {
-  keepMarks: boolean,
-}
-
-function keepMarks(state: EditorState) {
+function ensureMarks(state: EditorState) {
   const marks = state.storedMarks
     || (state.selection.$to.parentOffset && state.selection.$from.marks())
 
@@ -28,19 +24,21 @@ function keepMarks(state: EditorState) {
   }
 }
 
-/**
- * Forks a new node from an existing node.
- */
-export const splitBlock: Commands['splitBlock'] = (options = {}) => ({
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Forks a new node from an existing node.
+     */
+    splitBlock: (options?: { keepMarks?: boolean }) => Command,
+  }
+}
+
+export const splitBlock: Commands['splitBlock'] = ({ keepMarks = true } = {}) => ({
   tr,
   state,
   dispatch,
   editor,
 }) => {
-  const defaultOptions: SplitBlockOptions = {
-    keepMarks: true,
-  }
-  const config = { ...defaultOptions, ...options }
   const { selection, doc } = tr
   const { $from, $to } = selection
   const extensionAttributes = editor.extensionManager.attributes
@@ -56,8 +54,8 @@ export const splitBlock: Commands['splitBlock'] = (options = {}) => ({
     }
 
     if (dispatch) {
-      if (config.keepMarks) {
-        keepMarks(state)
+      if (keepMarks) {
+        ensureMarks(state)
       }
 
       tr.split($from.pos).scrollIntoView()
@@ -117,18 +115,12 @@ export const splitBlock: Commands['splitBlock'] = (options = {}) => ({
       }
     }
 
-    if (config.keepMarks) {
-      keepMarks(state)
+    if (keepMarks) {
+      ensureMarks(state)
     }
 
     tr.scrollIntoView()
   }
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    splitBlock: (options?: Partial<SplitBlockOptions>) => Command,
-  }
 }

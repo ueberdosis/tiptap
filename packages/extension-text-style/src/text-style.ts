@@ -13,6 +13,9 @@ export interface TextStyleOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Remove spans without inline style attributes.
+     */
     removeEmptyTextStyle: () => Command,
   }
 }
@@ -47,9 +50,6 @@ export const TextStyle = Mark.create({
 
   addCommands() {
     return {
-      /**
-       * Remove spans without inline style attributes.
-       */
       removeEmptyTextStyle: () => ({ state, commands }) => {
         const attributes = getMarkAttributes(state, this.type)
         const hasStyles = Object.entries(attributes).every(([, value]) => !!value)

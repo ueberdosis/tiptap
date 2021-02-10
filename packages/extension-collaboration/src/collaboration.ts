@@ -8,7 +8,13 @@ import {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Undo recent changes
+     */
     undo: () => Command,
+    /**
+     * Reapply reverted changes
+     */
     redo: () => Command,
   }
 }
@@ -39,17 +45,11 @@ export const Collaboration = Extension.create({
 
   addCommands() {
     return {
-      /**
-       * Undo recent changes
-       */
       undo: () => ({ tr, state }) => {
         tr.setMeta('preventDispatch', true)
 
         return undo(state)
       },
-      /**
-       * Reapply reverted changes
-       */
       redo: () => ({ tr, state }) => {
         tr.setMeta('preventDispatch', true)
 

@@ -8,6 +8,9 @@ export interface ParagraphOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Toggle a paragraph
+     */
     setParagraph: () => Command,
   }
 }
@@ -35,9 +38,6 @@ export const Paragraph = Node.create({
 
   addCommands() {
     return {
-      /**
-       * Toggle a paragraph
-       */
       setParagraph: () => ({ commands }) => {
         return commands.toggleNode('paragraph', 'paragraph')
       },

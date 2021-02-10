@@ -8,7 +8,13 @@ export interface HistoryOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Undo recent changes
+     */
     undo: () => Command,
+    /**
+     * Reapply reverted changes
+     */
     redo: () => Command,
   }
 }
@@ -23,15 +29,9 @@ export const History = Extension.create({
 
   addCommands() {
     return {
-      /**
-       * Undo recent changes
-       */
       undo: () => ({ state, dispatch }) => {
         return undo(state, dispatch)
       },
-      /**
-       * Reapply reverted changes
-       */
       redo: () => ({ state, dispatch }) => {
         return redo(state, dispatch)
       },

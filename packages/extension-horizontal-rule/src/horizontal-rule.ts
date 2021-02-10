@@ -13,6 +13,9 @@ export interface HorizontalRuleOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Add a horizontal rule
+     */
     setHorizontalRule: () => Command,
   }
 }
@@ -38,9 +41,6 @@ export const HorizontalRule = Node.create({
 
   addCommands() {
     return {
-      /**
-       * Add a horizontal rule
-       */
       setHorizontalRule: () => ({ tr, dispatch }) => {
         if (dispatch) {
           tr.replaceSelectionWith(this.type.create())

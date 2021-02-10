@@ -14,6 +14,9 @@ export interface ImageOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Add an image
+     */
     setImage: (options: { src: string, alt?: string, title?: string }) => Command,
   }
 }
@@ -66,9 +69,6 @@ export const Image = Node.create({
 
   addCommands() {
     return {
-      /**
-       * Add an image
-       */
       setImage: options => ({ tr, dispatch }) => {
         const { selection } = tr
         const node = this.type.create(options)

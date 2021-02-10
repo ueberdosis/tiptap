@@ -15,8 +15,17 @@ export interface HighlightOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Set a highlight mark
+     */
     setHighlight: (attributes?: { color: string }) => Command,
+    /**
+     * Toggle a highlight mark
+     */
     toggleHighlight: (attributes?: { color: string }) => Command,
+    /**
+     * Unset a highlight mark
+     */
     unsetHighlight: () => Command,
   }
 }
@@ -73,21 +82,12 @@ export const Highlight = Mark.create({
 
   addCommands() {
     return {
-      /**
-       * Set a highlight mark
-       */
       setHighlight: attributes => ({ commands }) => {
         return commands.setMark('highlight', attributes)
       },
-      /**
-       * Toggle a highlight mark
-       */
       toggleHighlight: attributes => ({ commands }) => {
         return commands.toggleMark('highlight', attributes)
       },
-      /**
-       * Unset a highlight mark
-       */
       unsetHighlight: () => ({ commands }) => {
         return commands.unsetMark('highlight')
       },

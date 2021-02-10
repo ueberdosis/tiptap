@@ -4,9 +4,15 @@ import { Command, Commands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import getMarkRange from '../helpers/getMarkRange'
 
-/**
- * Extends the text selection to the current mark.
- */
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Extends the text selection to the current mark.
+     */
+    extendMarkRange: (typeOrName: string | MarkType) => Command,
+  }
+}
+
 export const extendMarkRange: Commands['extendMarkRange'] = typeOrName => ({ tr, state, dispatch }) => {
   const type = getMarkType(typeOrName, state.schema)
   const { doc, selection } = tr
@@ -23,10 +29,4 @@ export const extendMarkRange: Commands['extendMarkRange'] = typeOrName => ({ tr,
   }
 
   return true
-}
-
-declare module '@tiptap/core' {
-  interface Commands {
-    extendMarkRange: (typeOrName: string | MarkType) => Command,
-  }
 }

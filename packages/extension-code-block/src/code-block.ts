@@ -10,7 +10,13 @@ export interface CodeBlockOptions {
 
 declare module '@tiptap/core' {
   interface Commands {
+    /**
+     * Set a code block
+     */
     setCodeBlock: (attributes?: { language: string }) => Command,
+    /**
+     * Toggle a code block
+     */
     toggleCodeBlock: (attributes?: { language: string }) => Command,
   }
 }
@@ -81,15 +87,9 @@ export const CodeBlock = Node.create({
 
   addCommands() {
     return {
-      /**
-       * Set a code block
-       */
       setCodeBlock: attributes => ({ commands }) => {
         return commands.setNode('codeBlock', attributes)
       },
-      /**
-       * Toggle a code block
-       */
       toggleCodeBlock: attributes => ({ commands }) => {
         return commands.toggleNode('codeBlock', 'paragraph', attributes)
       },
