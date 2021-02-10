@@ -24,10 +24,7 @@ export const Mention = Node.create({
           .run()
       },
       allow: ({ editor, range }) => {
-        // TODO: circular type. everthing explodes :—(
-        return (editor as any)
-          .can()
-          .replaceRange(range, 'mention')
+        return editor.can().replaceRange(range, 'mention')
       },
     },
   },
