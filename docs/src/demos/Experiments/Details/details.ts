@@ -1,5 +1,4 @@
 import { Node, mergeAttributes } from '@tiptap/core'
-// import { update } from 'cypress/types/lodash'
 
 export interface DetailsOptions {
   HTMLAttributes: {
@@ -33,7 +32,9 @@ export default Node.create({
       HTMLAttributes,
     }) => {
       const item = document.createElement('details')
-      let open = false
+
+      // TODO: Why does that have to be true?
+      let open = true
 
       item.addEventListener('click', event => {
         // @ts-ignore
@@ -58,24 +59,8 @@ export default Node.create({
         dom: item,
         contentDOM: item,
         ignoreMutation: (updatedNode: MutationRecord) => {
-          // @ts-ignore
-          console.log({ updatedNode }, 'ignoreMutation', updatedNode.attributeName === 'open')
-
           return updatedNode.attributeName === 'open'
         },
-        // update: updatedNode => {
-        //   if (updatedNode.type !== this.type) {
-        //     return false
-        //   }
-
-        //   if (updatedNode.attrs.open) {
-        //     item.setAttribute('open', 'open')
-        //   } else {
-        //     item.removeAttribute('open')
-        //   }
-
-        //   return true
-        // },
       }
     }
   },

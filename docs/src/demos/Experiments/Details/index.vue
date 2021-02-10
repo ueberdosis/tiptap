@@ -31,7 +31,7 @@ export default {
       ],
       content: `
         <p>Here is a details list:</p>
-        <details open>
+        <details>
           <summary>An open details tag</summary>
           <p>More info about the details.</p>
         </details>
