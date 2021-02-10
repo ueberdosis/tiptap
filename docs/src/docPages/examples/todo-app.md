@@ -1,3 +1,3 @@
 # Todo App
 
-<demo name="Examples/TodoApp" highlight="" />
+<demo name="Examples/TodoApp" />

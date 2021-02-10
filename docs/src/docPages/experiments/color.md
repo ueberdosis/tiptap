@@ -2,4 +2,4 @@
 
 ⚠️ Experiment
 
-<demo name="Experiments/Color" highlight="" />
+<demo name="Experiments/Color" />

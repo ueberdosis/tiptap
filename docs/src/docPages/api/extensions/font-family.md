@@ -31,4 +31,4 @@ yarn add @tiptap/extension-text-style @tiptap/extension-font-family
 [packages/extension-font-family/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-font-family/)
 
 ## Usage
-<demo name="Extensions/FontFamily" highlight="" />
+<demo name="Extensions/FontFamily" />
