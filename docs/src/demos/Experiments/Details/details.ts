@@ -6,14 +6,14 @@ export interface DetailsOptions {
   },
 }
 
-export default Node.create({
+export default Node.create<DetailsOptions>({
   name: 'details',
 
   content: 'detailsSummary block+',
 
   group: 'block',
 
-  defaultOptions: <DetailsOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

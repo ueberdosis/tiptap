@@ -6,14 +6,14 @@ export interface DetailsSummaryOptions {
   },
 }
 
-export default Node.create({
+export default Node.create<DetailsSummaryOptions>({
   name: 'detailsSummary',
 
   content: 'inline*',
 
   // group: 'block',
 
-  defaultOptions: <DetailsSummaryOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 
