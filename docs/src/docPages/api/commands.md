@@ -177,7 +177,9 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .blur()               | Removes focus from the editor.          |
 | .deleteRange()        | Delete a given range.                   |
 | .deleteSelection()    | Delete the selection, if there is one.  |
+| .enter()              | Trigger enter.                          |
 | .focus()              | Focus the editor at the given position. |
+| .keyboardShortcut()   | Trigger a keyboard shortcut.            |
 | .scrollIntoView()     | Scroll the selection into view.         |
 | .selectAll()          | Select the whole document.              |
 | .selectNodeBackward() | Select a node backward.                 |

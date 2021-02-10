@@ -33,8 +33,8 @@ To check out some live examples, visit [next.tiptap.dev](https://next.tiptap.dev
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Maintainers
-- [Philipp Kühn](https://github.com/philippkuehn) (development)
-- [Hans Pagel](https://github.com/hanspagel) (documentation)
+- [Philipp Kühn](https://github.com/philippkuehn) (developer)
+- [Hans Pagel](https://github.com/hanspagel) (maintainer)
 
 ## Premium Sponsors
 - [überdosis](https://ueberdosis.io/)

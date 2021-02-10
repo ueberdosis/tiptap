@@ -6,6 +6,7 @@ import * as command from '../commands/command'
 import * as createParagraphNear from '../commands/createParagraphNear'
 import * as deleteRange from '../commands/deleteRange'
 import * as deleteSelection from '../commands/deleteSelection'
+import * as enter from '../commands/enter'
 import * as exitCode from '../commands/exitCode'
 import * as extendMarkRange from '../commands/extendMarkRange'
 import * as first from '../commands/first'
@@ -14,6 +15,7 @@ import * as insertHTML from '../commands/insertHTML'
 import * as insertText from '../commands/insertText'
 import * as joinBackward from '../commands/joinBackward'
 import * as joinForward from '../commands/joinForward'
+import * as keyboardShortcut from '../commands/keyboardShortcut'
 import * as lift from '../commands/lift'
 import * as liftEmptyBlock from '../commands/liftEmptyBlock'
 import * as liftListItem from '../commands/liftListItem'
@@ -55,6 +57,7 @@ export const Commands = Extension.create({
       ...createParagraphNear,
       ...deleteRange,
       ...deleteSelection,
+      ...enter,
       ...exitCode,
       ...extendMarkRange,
       ...first,
@@ -63,6 +66,7 @@ export const Commands = Extension.create({
       ...insertText,
       ...joinBackward,
       ...joinForward,
+      ...keyboardShortcut,
       ...lift,
       ...liftEmptyBlock,
       ...liftListItem,
