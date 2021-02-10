@@ -22,4 +22,4 @@ yarn add @tiptap/extension-character-count
 [packages/extension-character-count/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-character-count/)
 
 ## Usage
-<demo name="Extensions/CharacterCount" highlight="" />
+<demo name="Extensions/CharacterCount" />

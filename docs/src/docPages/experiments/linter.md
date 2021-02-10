@@ -2,4 +2,4 @@
 
 ⚠️ Experiment
 
-<demo name="Experiments/Linter" highlight="" />
+<demo name="Experiments/Linter" />

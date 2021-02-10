@@ -2,4 +2,4 @@
 
 ⚠️ Experiment
 
-<demo name="Experiments/Commands" highlight="" />
+<demo name="Experiments/Commands" />
