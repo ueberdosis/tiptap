@@ -33,14 +33,14 @@
     "@types/prosemirror-tables": "^0.9.1",
     "@types/prosemirror-transform": "^1.1.2",
     "@types/prosemirror-view": "^1.17.1",
-    "prosemirror-commands": "^1.1.3",
+    "prosemirror-commands": "^1.1.6",
     "prosemirror-inputrules": "^1.1.3",
     "prosemirror-keymap": "^1.1.3",
     "prosemirror-model": "^1.13.3",
     "prosemirror-schema-list": "^1.1.4",
     "prosemirror-state": "^1.3.4",
     "prosemirror-tables": "^1.1.1",
-    "prosemirror-transform": "^1.2.10",
+    "prosemirror-transform": "^1.2.11",
     "prosemirror-view": "^1.17.5"
   }
 }
