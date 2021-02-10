@@ -5,6 +5,7 @@ import {
   ChainedCommands,
   CanCommands,
   Commands,
+  Command,
   CommandSpec,
   CommandProps,
 } from './types'
@@ -54,32 +55,31 @@ export default class CommandManager {
     const hasStartTransaction = !!startTr
     const tr = startTr || state.tr
 
-    return new Proxy({}, {
-      get: (_, name: keyof ChainedCommands, proxy) => {
-        if (name === 'run') {
-          if (!hasStartTransaction && shouldDispatch && !tr.getMeta('preventDispatch')) {
-            view.dispatch(tr)
-          }
+    const run = () => {
+      if (!hasStartTransaction && shouldDispatch && !tr.getMeta('preventDispatch')) {
+        view.dispatch(tr)
+      }
 
-          return () => callbacks.every(callback => callback === true)
-        }
+      return () => callbacks.every(callback => callback === true)
+    }
 
-        const command = commands[name] as CommandSpec
-
-        if (!command) {
-          throw new Error(`tiptap: command '${name}' not found.`)
-        }
-
-        return (...args: any[]) => {
+    const chain = {
+      ...Object.fromEntries(Object.entries(commands).map(([name, command]) => {
+        const chainedCommand = (...args: any[]) => {
           const props = this.buildProps(tr, shouldDispatch)
           const callback = command(...args)(props)
 
           callbacks.push(callback)
 
-          return proxy
+          return chain
         }
-      },
-    }) as ChainedCommands
+
+        return [name, chainedCommand]
+      })),
+      run,
+    } as unknown as ChainedCommands
+
+    return chain
   }
 
   public createCan(startTr?: Transaction): CanCommands {
