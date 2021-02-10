@@ -23,8 +23,8 @@ export interface CustomExtensionOptions {
   awesomeness: number,
 }
 
-const CustomExtension = Extension.create({
-  defaultOptions: <CustomExtensionOptions>{
+const CustomExtension = Extension.create<CustomExtensionOptions>({
+  defaultOptions: {
     awesomeness: 100,
   },
 })
@@ -36,13 +36,19 @@ The core package also exports a `Command` type, which needs to be added to all c
 ```ts
 import { Command, Extension } from '@tiptap/core'
 
+declare module '@tiptap/core' {
+  interface Commands {
+    /**
+     * Comments will be added to the autocomplete.
+     */
+    yourCommand: (someProp: any) => Command,
+  }
+}
+
 const CustomExtension = Extension.create({
   addCommands() {
     return {
-      /**
-       * Comments will be added to the autocomplete.
-       */
-      yourCommand: (): Command => ({ commands }) => {
+      yourCommand: someProp => ({ commands }) => {
         // …
       },
     }
