@@ -10,10 +10,10 @@ export interface TaskItemOptions {
 
 export const inputRegex = /^\s*(\[([ |x])\])\s$/
 
-export const TaskItem = Node.create({
+export const TaskItem = Node.create<TaskItemOptions>({
   name: 'taskItem',
 
-  defaultOptions: <TaskItemOptions>{
+  defaultOptions: {
     nested: false,
     HTMLAttributes: {},
   },

@@ -34,10 +34,10 @@ export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))$/gm
 export const underscorePasteRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))/gm
 
-export const Bold = Mark.create({
+export const Bold = Mark.create<BoldOptions>({
   name: 'bold',
 
-  defaultOptions: <BoldOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

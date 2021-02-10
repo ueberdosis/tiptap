@@ -6,10 +6,10 @@ export interface TableRowOptions {
   },
 }
 
-export const TableRow = Node.create({
+export const TableRow = Node.create<TableRowOptions>({
   name: 'tableRow',
 
-  defaultOptions: <TableRowOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

@@ -15,10 +15,10 @@ declare module '@tiptap/core' {
   }
 }
 
-export const Paragraph = Node.create({
+export const Paragraph = Node.create<ParagraphOptions>({
   name: 'paragraph',
 
-  defaultOptions: <ParagraphOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

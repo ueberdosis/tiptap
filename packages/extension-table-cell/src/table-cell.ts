@@ -5,10 +5,10 @@ export interface TableCellOptions {
     [key: string]: any
   },
 }
-export const TableCell = Node.create({
+export const TableCell = Node.create<TableCellOptions>({
   name: 'tableCell',
 
-  defaultOptions: <TableCellOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

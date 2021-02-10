@@ -6,10 +6,10 @@ export interface ListItemOptions {
   },
 }
 
-export const ListItem = Node.create({
+export const ListItem = Node.create<ListItemOptions>({
   name: 'listItem',
 
-  defaultOptions: <ListItemOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

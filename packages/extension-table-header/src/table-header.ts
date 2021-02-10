@@ -5,10 +5,10 @@ export interface TableHeaderOptions {
     [key: string]: any
   },
 }
-export const TableHeader = Node.create({
+export const TableHeader = Node.create<TableHeaderOptions>({
   name: 'tableHeader',
 
-  defaultOptions: <TableHeaderOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

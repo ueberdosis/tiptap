@@ -64,14 +64,16 @@ declare module '@tiptap/core' {
   }
 }
 
-export const Table = Node.create({
+export const Table = Node.create<TableOptions>({
   name: 'table',
 
-  defaultOptions: <TableOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
     resizable: false,
     handleWidth: 5,
     cellMinWidth: 25,
+    // TODO: fix
+    // @ts-ignore
     View: TableView,
     lastColumnResizable: true,
     allowTableNodeSelection: false,

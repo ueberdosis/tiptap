@@ -26,11 +26,11 @@ declare module '@tiptap/core' {
 
 export const inputRegex = /^\s*>\s$/gm
 
-export const Blockquote = Node.create({
+export const Blockquote = Node.create<BlockquoteOptions>({
 
   name: 'blockquote',
 
-  defaultOptions: <BlockquoteOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

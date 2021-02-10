@@ -33,12 +33,12 @@ declare module '@tiptap/core' {
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
 export const pasteRegexWithBrackets = /(?:\()https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)(?:\))/gi
 
-export const Link = Mark.create({
+export const Link = Mark.create<LinkOptions>({
   name: 'link',
 
   inclusive: false,
 
-  defaultOptions: <LinkOptions>{
+  defaultOptions: {
     openOnClick: true,
     HTMLAttributes: {
       target: '_blank',

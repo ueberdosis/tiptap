@@ -20,10 +20,10 @@ declare module '@tiptap/core' {
   }
 }
 
-export const TextStyle = Mark.create({
+export const TextStyle = Mark.create<TextStyleOptions>({
   name: 'textStyle',
 
-  defaultOptions: <TextStyleOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

@@ -18,10 +18,10 @@ declare module '@tiptap/core' {
 
 export const inputRegex = /^(\d+)\.\s$/
 
-export const OrderedList = Node.create({
+export const OrderedList = Node.create<OrderedListOptions>({
   name: 'orderedList',
 
-  defaultOptions: <OrderedListOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

@@ -7,10 +7,10 @@ export interface CharacterCountOptions {
   limit?: number,
 }
 
-export const CharacterCount = Extension.create({
+export const CharacterCount = Extension.create<CharacterCountOptions>({
   name: 'characterCount',
 
-  defaultOptions: <CharacterCountOptions>{
+  defaultOptions: {
     limit: 0,
   },
 

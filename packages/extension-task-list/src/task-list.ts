@@ -15,10 +15,10 @@ declare module '@tiptap/core' {
   }
 }
 
-export const TaskList = Node.create({
+export const TaskList = Node.create<TaskListOptions>({
   name: 'taskList',
 
-  defaultOptions: <TaskListOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

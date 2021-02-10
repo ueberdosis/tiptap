@@ -16,11 +16,10 @@ declare module '@tiptap/core' {
   }
 }
 
-export const HardBreak = Node.create({
+export const HardBreak = Node.create<HardBreakOptions>({
   name: 'hardBreak',
 
-  defaultOptions: <HardBreakOptions>{
-    languageClassPrefix: 'language-',
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

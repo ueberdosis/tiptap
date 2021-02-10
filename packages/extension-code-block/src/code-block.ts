@@ -24,10 +24,10 @@ declare module '@tiptap/core' {
 export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
 export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
 
-export const CodeBlock = Node.create({
+export const CodeBlock = Node.create<CodeBlockOptions>({
   name: 'codeBlock',
 
-  defaultOptions: <CodeBlockOptions>{
+  defaultOptions: {
     languageClassPrefix: 'language-',
     HTMLAttributes: {},
   },

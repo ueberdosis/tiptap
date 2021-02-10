@@ -18,10 +18,10 @@ declare module '@tiptap/core' {
 
 export const inputRegex = /^\s*([-+*])\s$/
 
-export const BulletList = Node.create({
+export const BulletList = Node.create<BulletListOptions>({
   name: 'bulletList',
 
-  defaultOptions: <BulletListOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

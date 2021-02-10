@@ -34,10 +34,10 @@ export const starPasteRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))$/gm
 export const underscorePasteRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))/gm
 
-export const Italic = Mark.create({
+export const Italic = Mark.create<ItalicOptions>({
   name: 'italic',
 
-  defaultOptions: <ItalicOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

@@ -7,10 +7,10 @@ export interface FocusOptions {
   mode: 'all' | 'deepest' | 'shallowest',
 }
 
-export const FocusClasses = Extension.create({
+export const FocusClasses = Extension.create<FocusOptions>({
   name: 'focus',
 
-  defaultOptions: <FocusOptions>{
+  defaultOptions: {
     className: 'has-focus',
     mode: 'all',
   },

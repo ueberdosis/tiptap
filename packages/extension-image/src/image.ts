@@ -23,10 +23,10 @@ declare module '@tiptap/core' {
 
 export const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
 
-export const Image = Node.create({
+export const Image = Node.create<ImageOptions>({
   name: 'image',
 
-  defaultOptions: <ImageOptions>{
+  defaultOptions: {
     inline: false,
     HTMLAttributes: {},
   },

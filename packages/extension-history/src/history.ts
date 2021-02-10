@@ -19,10 +19,10 @@ declare module '@tiptap/core' {
   }
 }
 
-export const History = Extension.create({
+export const History = Extension.create<HistoryOptions>({
   name: 'history',
 
-  defaultOptions: <HistoryOptions>{
+  defaultOptions: {
     depth: 100,
     newGroupDelay: 500,
   },

@@ -8,10 +8,10 @@ export type MentionOptions = {
   suggestion: Omit<SuggestionOptions, 'editor'>,
 }
 
-export const Mention = Node.create({
+export const Mention = Node.create<MentionOptions>({
   name: 'mention',
 
-  defaultOptions: <MentionOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
     suggestion: {
       char: '@',

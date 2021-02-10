@@ -33,10 +33,10 @@ declare module '@tiptap/core' {
 export const inputRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))$/gm
 export const pasteRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))/gm
 
-export const Highlight = Mark.create({
+export const Highlight = Mark.create<HighlightOptions>({
   name: 'highlight',
 
-  defaultOptions: <HighlightOptions>{
+  defaultOptions: {
     multicolor: false,
     HTMLAttributes: {},
   },

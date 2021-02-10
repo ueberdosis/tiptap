@@ -19,10 +19,10 @@ declare module '@tiptap/core' {
   }
 }
 
-export const TextAlign = Extension.create({
+export const TextAlign = Extension.create<TextAlignOptions>({
   name: 'textAlign',
 
-  defaultOptions: <TextAlignOptions>{
+  defaultOptions: {
     types: ['heading', 'paragraph'],
     alignments: ['left', 'center', 'right', 'justify'],
     defaultAlignment: 'left',

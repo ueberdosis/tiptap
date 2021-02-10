@@ -23,10 +23,10 @@ declare module '@tiptap/core' {
   }
 }
 
-export const Underline = Mark.create({
+export const Underline = Mark.create<UnderlineOptions>({
   name: 'underline',
 
-  defaultOptions: <UnderlineOptions>{
+  defaultOptions: {
     HTMLAttributes: {},
   },
 

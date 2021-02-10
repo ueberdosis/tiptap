@@ -34,10 +34,10 @@ export interface CollaborationOptions {
   fragment: any,
 }
 
-export const Collaboration = Extension.create({
+export const Collaboration = Extension.create<CollaborationOptions>({
   name: 'collaboration',
 
-  defaultOptions: <CollaborationOptions>{
+  defaultOptions: {
     document: null,
     field: 'default',
     fragment: null,
