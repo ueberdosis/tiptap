@@ -1,4 +1,5 @@
 import { Node, mergeAttributes } from '@tiptap/core'
+// import { update } from 'cypress/types/lodash'
 
 export interface DetailsOptions {
   HTMLAttributes: {
@@ -17,28 +18,6 @@ export default Node.create({
     HTMLAttributes: {},
   },
 
-  addAttributes() {
-    return {
-      open: {
-        default: true,
-        parseHTML: element => {
-          return {
-            open: element.hasAttribute('open'),
-          }
-        },
-        renderHTML: attributes => {
-          if (!attributes.open) {
-            return null
-          }
-
-          return {
-            open: 'open',
-          }
-        },
-      },
-    }
-  },
-
   parseHTML() {
     return [{
       tag: 'details',
@@ -51,31 +30,25 @@ export default Node.create({
 
   addNodeView() {
     return ({
-      node,
       HTMLAttributes,
-      getPos,
-      editor,
     }) => {
-      const { view } = editor
       const item = document.createElement('details')
+      let open = false
 
       item.addEventListener('click', event => {
         // @ts-ignore
-        const { open } = event.target.parentElement as HTMLElement
-        // @ts-ignore
         const { localName } = event.target
 
-        if (typeof getPos === 'function' && localName === 'summary') {
-          view.dispatch(view.state.tr.setNodeMarkup(getPos(), undefined, {
-            open: !open,
-          }))
-          editor.commands.focus()
+        if (localName === 'summary') {
+          open = !open
+
+          if (open) {
+            item.setAttribute('open', 'open')
+          } else {
+            item.removeAttribute('open')
+          }
         }
       })
-
-      if (node.attrs.open) {
-        item.setAttribute('open', 'open')
-      }
 
       Object.entries(HTMLAttributes).forEach(([key, value]) => {
         item.setAttribute(key, value)
@@ -84,19 +57,25 @@ export default Node.create({
       return {
         dom: item,
         contentDOM: item,
-        update: updatedNode => {
-          if (updatedNode.type !== this.type) {
-            return false
-          }
+        ignoreMutation: (updatedNode: MutationRecord) => {
+          // @ts-ignore
+          console.log({ updatedNode }, 'ignoreMutation', updatedNode.attributeName === 'open')
 
-          if (updatedNode.attrs.open) {
-            item.setAttribute('open', 'open')
-          } else {
-            item.removeAttribute('open')
-          }
-
-          return true
+          return updatedNode.attributeName === 'open'
         },
+        // update: updatedNode => {
+        //   if (updatedNode.type !== this.type) {
+        //     return false
+        //   }
+
+        //   if (updatedNode.attrs.open) {
+        //     item.setAttribute('open', 'open')
+        //   } else {
+        //     item.removeAttribute('open')
+        //   }
+
+        //   return true
+        // },
       }
     }
   },
