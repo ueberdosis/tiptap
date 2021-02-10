@@ -10,9 +10,3 @@ export const Gapcursor = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Gapcursor: typeof Gapcursor,
-  }
-}

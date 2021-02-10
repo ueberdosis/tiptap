@@ -27,9 +27,3 @@ export const TableRow = Node.create({
     return ['tr', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    TableRow: typeof TableRow,
-  }
-}

@@ -12,6 +12,14 @@ export interface StrikeOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setStrike: () => Command,
+    toggleStrike: () => Command,
+    unsetStrike: () => Command,
+  }
+}
+
 export const inputRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))$/gm
 export const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/gm
 
@@ -48,19 +56,19 @@ export const Strike = Mark.create({
       /**
        * Set a strike mark
        */
-      setStrike: (): Command => ({ commands }) => {
+      setStrike: () => ({ commands }) => {
         return commands.setMark('strike')
       },
       /**
        * Toggle a strike mark
        */
-      toggleStrike: (): Command => ({ commands }) => {
+      toggleStrike: () => ({ commands }) => {
         return commands.toggleMark('strike')
       },
       /**
        * Unset a strike mark
        */
-      unsetStrike: (): Command => ({ commands }) => {
+      unsetStrike: () => ({ commands }) => {
         return commands.unsetMark('strike')
       },
     }
@@ -84,9 +92,3 @@ export const Strike = Mark.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Strike: typeof Strike,
-  }
-}

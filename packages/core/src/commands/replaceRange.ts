@@ -1,11 +1,16 @@
 import { NodeType } from 'prosemirror-model'
 import getNodeType from '../helpers/getNodeType'
-import { Command, Range, AnyObject } from '../types'
+import {
+  Command,
+  Commands,
+  Range,
+  AnyObject,
+} from '../types'
 
 /**
  * Replaces text with a node within a range.
  */
-export const replaceRange = (range: Range, typeOrName: string | NodeType, attributes: AnyObject = {}): Command => ({ tr, state, dispatch }) => {
+export const replaceRange: Commands['replaceRange'] = (range, typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { from, to } = range
   const $from = tr.doc.resolve(from)
@@ -20,4 +25,10 @@ export const replaceRange = (range: Range, typeOrName: string | NodeType, attrib
   }
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    replaceRange: (range: Range, typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+  }
 }

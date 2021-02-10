@@ -5,6 +5,13 @@ type FontFamilyOptions = {
   types: string[],
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setFontFamily: (fontFamily: string) => Command,
+    unsetFontFamily: () => Command,
+  }
+}
+
 export const FontFamily = Extension.create({
   name: 'fontFamily',
 
@@ -42,7 +49,7 @@ export const FontFamily = Extension.create({
       /**
        * Set the font family
        */
-      setFontFamily: (fontFamily: string): Command => ({ chain }) => {
+      setFontFamily: fontFamily => ({ chain }) => {
         return chain()
           .setMark('textStyle', { fontFamily })
           .run()
@@ -50,7 +57,7 @@ export const FontFamily = Extension.create({
       /**
        * Unset the font family
        */
-      unsetFontFamily: (): Command => ({ chain }) => {
+      unsetFontFamily: () => ({ chain }) => {
         return chain()
           .setMark('textStyle', { fontFamily: null })
           .removeEmptyTextStyle()
@@ -59,9 +66,3 @@ export const FontFamily = Extension.create({
     }
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    FontFamily: typeof FontFamily,
-  }
-}

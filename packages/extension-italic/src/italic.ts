@@ -12,6 +12,14 @@ export interface ItalicOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setItalic: () => Command,
+    toggleItalic: () => Command,
+    unsetItalic: () => Command,
+  }
+}
+
 export const starInputRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))$/gm
 export const starPasteRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))$/gm
@@ -48,19 +56,19 @@ export const Italic = Mark.create({
       /**
        * Set an italic mark
        */
-      setItalic: (): Command => ({ commands }) => {
+      setItalic: () => ({ commands }) => {
         return commands.setMark('italic')
       },
       /**
        * Toggle an italic mark
        */
-      toggleItalic: (): Command => ({ commands }) => {
+      toggleItalic: () => ({ commands }) => {
         return commands.toggleMark('italic')
       },
       /**
        * Unset an italic mark
        */
-      unsetItalic: (): Command => ({ commands }) => {
+      unsetItalic: () => ({ commands }) => {
         return commands.unsetMark('italic')
       },
     }
@@ -86,9 +94,3 @@ export const Italic = Mark.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Italic: typeof Italic,
-  }
-}

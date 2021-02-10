@@ -1,9 +1,9 @@
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 
 /**
  * Runs one command after the other and stops at the first which returns true.
  */
-export const first = (commands: Command[] | ((props: Parameters<Command>[0]) => Command[])): Command => props => {
+export const first: Commands['first'] = commands => props => {
   const items = typeof commands === 'function'
     ? commands(props)
     : commands
@@ -15,4 +15,10 @@ export const first = (commands: Command[] | ((props: Parameters<Command>[0]) => 
   }
 
   return false
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    first: (commands: Command[] | ((props: Parameters<Command>[0]) => Command[])) => Command,
+  }
 }

@@ -12,6 +12,12 @@ export interface ImageOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setImage: (options: { src: string, alt?: string, title?: string }) => Command,
+  }
+}
+
 export const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
 
 export const Image = Node.create({
@@ -63,7 +69,7 @@ export const Image = Node.create({
       /**
        * Add an image
        */
-      setImage: (options: { src: string, alt?: string, title?: string }): Command => ({ tr, dispatch }) => {
+      setImage: options => ({ tr, dispatch }) => {
         const { selection } = tr
         const node = this.type.create(options)
 
@@ -86,9 +92,3 @@ export const Image = Node.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Image: typeof Image,
-  }
-}

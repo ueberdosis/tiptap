@@ -2,7 +2,7 @@ import { DOMParser } from 'prosemirror-model'
 import { Selection, Transaction } from 'prosemirror-state'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import elementFromString from '../utilities/elementFromString'
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 
 // TODO: move to utils
 // https://github.com/ProseMirror/prosemirror-state/blob/master/src/selection.js#L466
@@ -20,7 +20,7 @@ function selectionToInsertionEnd(tr: Transaction, startLen: number, bias: number
 /**
  * Insert a string of HTML at the current position.
  */
-export const insertHTML = (value: string): Command => ({ tr, state, dispatch }) => {
+export const insertHTML: Commands['insertHTML'] = value => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const element = elementFromString(value)
   const slice = DOMParser.fromSchema(state.schema).parseSlice(element)
@@ -31,4 +31,10 @@ export const insertHTML = (value: string): Command => ({ tr, state, dispatch }) 
   }
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    insertHTML: (value: string) => Command,
+  }
 }

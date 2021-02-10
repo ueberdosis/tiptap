@@ -7,6 +7,12 @@ export interface HardBreakOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setHardBreak: () => Command,
+  }
+}
+
 export const HardBreak = Node.create({
   name: 'hardBreak',
 
@@ -36,7 +42,7 @@ export const HardBreak = Node.create({
       /**
        * Add a hard break
        */
-      setHardBreak: (): Command => ({ commands, state, dispatch }) => {
+      setHardBreak: () => ({ commands, state, dispatch }) => {
         return commands.first([
           () => exitCode(state, dispatch),
           () => {
@@ -58,9 +64,3 @@ export const HardBreak = Node.create({
     }
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    HardBreak: typeof HardBreak,
-  }
-}

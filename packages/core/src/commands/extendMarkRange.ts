@@ -1,13 +1,13 @@
 import { TextSelection } from 'prosemirror-state'
 import { MarkType } from 'prosemirror-model'
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import getMarkRange from '../helpers/getMarkRange'
 
 /**
  * Extends the text selection to the current mark.
  */
-export const extendMarkRange = (typeOrName: string | MarkType): Command => ({ tr, state, dispatch }) => {
+export const extendMarkRange: Commands['extendMarkRange'] = typeOrName => ({ tr, state, dispatch }) => {
   const type = getMarkType(typeOrName, state.schema)
   const { doc, selection } = tr
   const { $from, empty } = selection
@@ -23,4 +23,10 @@ export const extendMarkRange = (typeOrName: string | MarkType): Command => ({ tr
   }
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    extendMarkRange: (typeOrName: string | MarkType) => Command,
+  }
 }

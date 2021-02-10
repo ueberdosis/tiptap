@@ -9,10 +9,12 @@ import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
 import mergeDeep from './utilities/mergeDeep'
-import { Attributes, NodeViewRenderer, Overwrite } from './types'
+import {
+  Attributes, NodeViewRenderer, Overwrite, Commands,
+} from './types'
 import { Editor } from './Editor'
 
-export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<ExtensionConfig<Options, Commands>, {
+export interface NodeConfig<Options = any> extends Overwrite<ExtensionConfig<Options>, {
   /**
    * TopNode
    */
@@ -125,7 +127,7 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
     options: Options,
     editor: Editor,
     type: NodeType,
-  }) => Commands,
+  }) => Partial<Commands>,
 
   /**
    * Keyboard shortcuts
@@ -135,7 +137,8 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
     editor: Editor,
     type: NodeType,
   }) => {
-    [key: string]: any
+    // [key: string]: any
+    [key: string]: () => boolean
   },
 
   /**
@@ -253,7 +256,7 @@ export interface NodeConfig<Options = any, Commands = {}> extends Overwrite<Exte
   }) => void) | null,
 }> {}
 
-export class Node<Options = any, Commands = {}> {
+export class Node<Options = any> {
   type = 'node'
 
   config: Required<NodeConfig> = {
@@ -292,7 +295,7 @@ export class Node<Options = any, Commands = {}> {
 
   options!: Options
 
-  constructor(config: NodeConfig<Options, Commands>) {
+  constructor(config: NodeConfig<Options>) {
     this.config = {
       ...this.config,
       ...config,
@@ -301,13 +304,13 @@ export class Node<Options = any, Commands = {}> {
     this.options = this.config.defaultOptions
   }
 
-  static create<O, C>(config: NodeConfig<O, C>) {
-    return new Node<O, C>(config)
+  static create<O>(config: NodeConfig<O>) {
+    return new Node<O>(config)
   }
 
   configure(options: Partial<Options> = {}) {
     return Node
-      .create<Options, Commands>(this.config as NodeConfig<Options, Commands>)
+      .create<Options>(this.config as NodeConfig<Options>)
       .#configure(options)
   }
 
@@ -317,10 +320,10 @@ export class Node<Options = any, Commands = {}> {
     return this
   }
 
-  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<NodeConfig<ExtendedOptions, ExtendedCommands>>) {
-    return new Node<ExtendedOptions, ExtendedCommands>({
+  extend<ExtendedOptions = Options>(extendedConfig: Partial<NodeConfig<ExtendedOptions>>) {
+    return new Node<ExtendedOptions>({
       ...this.config,
       ...extendedConfig,
-    } as NodeConfig<ExtendedOptions, ExtendedCommands>)
+    } as NodeConfig<ExtendedOptions>)
   }
 }

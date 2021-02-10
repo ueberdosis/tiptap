@@ -1,9 +1,9 @@
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 
 /**
  * Remove all marks in the current selection.
  */
-export const unsetAllMarks = (): Command => ({ tr, state, dispatch }) => {
+export const unsetAllMarks: Commands['unsetAllMarks'] = () => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const { from, to, empty } = selection
 
@@ -20,4 +20,10 @@ export const unsetAllMarks = (): Command => ({ tr, state, dispatch }) => {
   }
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    unsetAllMarks: () => Command,
+  }
 }

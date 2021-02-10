@@ -6,6 +6,13 @@ export interface HistoryOptions {
   newGroupDelay: number,
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    undo: () => Command,
+    redo: () => Command,
+  }
+}
+
 export const History = Extension.create({
   name: 'history',
 
@@ -19,13 +26,13 @@ export const History = Extension.create({
       /**
        * Undo recent changes
        */
-      undo: (): Command => ({ state, dispatch }) => {
+      undo: () => ({ state, dispatch }) => {
         return undo(state, dispatch)
       },
       /**
        * Reapply reverted changes
        */
-      redo: (): Command => ({ state, dispatch }) => {
+      redo: () => ({ state, dispatch }) => {
         return redo(state, dispatch)
       },
     }
@@ -45,9 +52,3 @@ export const History = Extension.create({
     }
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    History: typeof History,
-  }
-}

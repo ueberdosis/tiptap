@@ -13,6 +13,13 @@ export interface AnnotationOptions {
   onUpdate: (items: [any?]) => {},
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    addAnnotation: (content: any) => Command,
+    deleteAnnotation: (id: number) => Command,
+  }
+}
+
 export const Annotation = Extension.create({
   name: 'annotation',
 
@@ -25,7 +32,7 @@ export const Annotation = Extension.create({
 
   addCommands() {
     return {
-      addAnnotation: (content: any): Command => ({ dispatch, state }) => {
+      addAnnotation: (content: any) => ({ dispatch, state }) => {
         const { selection } = state
 
         if (selection.empty) {
@@ -46,7 +53,7 @@ export const Annotation = Extension.create({
 
         return true
       },
-      deleteAnnotation: (id: number): Command => ({ dispatch, state }) => {
+      deleteAnnotation: (id: number) => ({ dispatch, state }) => {
         if (dispatch) {
           dispatch(state.tr.setMeta(AnnotationPluginKey, { type: 'deleteAnnotation', id }))
         }
@@ -62,9 +69,3 @@ export const Annotation = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Annotation: typeof Annotation,
-  }
-}

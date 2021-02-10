@@ -2,9 +2,9 @@ import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 import mergeDeep from './utilities/mergeDeep'
-import { GlobalAttributes } from './types'
+import { GlobalAttributes, Commands } from './types'
 
-export interface ExtensionConfig<Options = any, Commands = {}> {
+export interface ExtensionConfig<Options = any> {
   /**
    * Name
    */
@@ -28,7 +28,7 @@ export interface ExtensionConfig<Options = any, Commands = {}> {
   addCommands?: (this: {
     options: Options,
     editor: Editor,
-  }) => Commands,
+  }) => Partial<Commands>,
 
   /**
    * Keyboard shortcuts
@@ -136,7 +136,7 @@ export interface ExtensionConfig<Options = any, Commands = {}> {
   }) => void) | null,
 }
 
-export class Extension<Options = any, Commands = any> {
+export class Extension<Options = any> {
   type = 'extension'
 
   config: Required<ExtensionConfig> = {
@@ -159,7 +159,7 @@ export class Extension<Options = any, Commands = any> {
 
   options!: Options
 
-  constructor(config: ExtensionConfig<Options, Commands>) {
+  constructor(config: ExtensionConfig<Options>) {
     this.config = {
       ...this.config,
       ...config,
@@ -168,13 +168,13 @@ export class Extension<Options = any, Commands = any> {
     this.options = this.config.defaultOptions
   }
 
-  static create<O, C>(config: ExtensionConfig<O, C>) {
-    return new Extension<O, C>(config)
+  static create<O>(config: ExtensionConfig<O>) {
+    return new Extension<O>(config)
   }
 
   configure(options: Partial<Options> = {}) {
     return Extension
-      .create<Options, Commands>(this.config as ExtensionConfig<Options, Commands>)
+      .create<Options>(this.config as ExtensionConfig<Options>)
       .#configure(options)
   }
 
@@ -184,10 +184,10 @@ export class Extension<Options = any, Commands = any> {
     return this
   }
 
-  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<ExtensionConfig<ExtendedOptions, ExtendedCommands>>) {
-    return new Extension<ExtendedOptions, ExtendedCommands>({
+  extend<ExtendedOptions = Options>(extendedConfig: Partial<ExtensionConfig<ExtendedOptions>>) {
+    return new Extension<ExtendedOptions>({
       ...this.config,
       ...extendedConfig,
-    } as ExtensionConfig<ExtendedOptions, ExtendedCommands>)
+    } as ExtensionConfig<ExtendedOptions>)
   }
 }

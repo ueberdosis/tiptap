@@ -79,9 +79,3 @@ export const FocusClasses = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    FocusClasses: typeof FocusClasses,
-  }
-}

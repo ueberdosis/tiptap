@@ -8,6 +8,13 @@ export interface CodeBlockOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setCodeBlock: (attributes?: { language: string }) => Command,
+    toggleCodeBlock: (attributes?: { language: string }) => Command,
+  }
+}
+
 export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
 export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
 
@@ -77,13 +84,13 @@ export const CodeBlock = Node.create({
       /**
        * Set a code block
        */
-      setCodeBlock: (attributes?: { language: string }): Command => ({ commands }) => {
+      setCodeBlock: attributes => ({ commands }) => {
         return commands.setNode('codeBlock', attributes)
       },
       /**
        * Toggle a code block
        */
-      toggleCodeBlock: (attributes?: { language: string }): Command => ({ commands }) => {
+      toggleCodeBlock: attributes => ({ commands }) => {
         return commands.toggleNode('codeBlock', 'paragraph', attributes)
       },
     }
@@ -102,9 +109,3 @@ export const CodeBlock = Node.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    CodeBlock: typeof CodeBlock,
-  }
-}

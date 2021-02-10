@@ -1,9 +1,15 @@
 import { selectNodeBackward as originalSelectNodeBackward } from 'prosemirror-commands'
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 
 /**
  * Select a node backward.
  */
-export const selectNodeBackward = (): Command => ({ state, dispatch }) => {
+export const selectNodeBackward: Commands['selectNodeBackward'] = () => ({ state, dispatch }) => {
   return originalSelectNodeBackward(state, dispatch)
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    selectNodeBackward: () => Command,
+  }
 }

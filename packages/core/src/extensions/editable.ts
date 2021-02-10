@@ -15,9 +15,3 @@ export const Editable = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Editable: typeof Editable,
-  }
-}

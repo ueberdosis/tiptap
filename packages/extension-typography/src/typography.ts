@@ -44,9 +44,3 @@ export const Typography = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Typography: typeof Typography,
-  }
-}

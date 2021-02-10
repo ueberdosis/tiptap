@@ -1,12 +1,12 @@
 import { MarkType } from 'prosemirror-model'
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import getMarkRange from '../helpers/getMarkRange'
 
 /**
  * Remove all marks in the current selection.
  */
-export const unsetMark = (typeOrName: string | MarkType): Command => ({ tr, state, dispatch }) => {
+export const unsetMark: Commands['unsetMark'] = typeOrName => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const type = getMarkType(typeOrName, state.schema)
   let { from, to } = selection
@@ -27,4 +27,10 @@ export const unsetMark = (typeOrName: string | MarkType): Command => ({ tr, stat
   }
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    unsetMark: (typeOrName: string | MarkType) => Command,
+  }
 }

@@ -106,9 +106,3 @@ export const Mention = Node.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Mention: typeof Mention,
-  }
-}

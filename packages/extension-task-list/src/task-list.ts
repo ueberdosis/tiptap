@@ -6,6 +6,12 @@ export interface TaskListOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    toggleTaskList: () => Command,
+  }
+}
+
 export const TaskList = Node.create({
   name: 'taskList',
 
@@ -35,7 +41,7 @@ export const TaskList = Node.create({
       /**
        * Toggle a task list
        */
-      toggleTaskList: (): Command => ({ commands }) => {
+      toggleTaskList: () => ({ commands }) => {
         return commands.toggleList('taskList', 'taskItem')
       },
     }
@@ -47,9 +53,3 @@ export const TaskList = Node.create({
     }
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    TaskList: typeof TaskList,
-  }
-}

@@ -43,9 +43,3 @@ export const TableHeader = Node.create({
   },
 
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    TableHeader: typeof TableHeader,
-  }
-}

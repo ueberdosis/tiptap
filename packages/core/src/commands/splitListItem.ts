@@ -6,14 +6,14 @@ import {
 } from 'prosemirror-model'
 import { canSplit } from 'prosemirror-transform'
 import { TextSelection } from 'prosemirror-state'
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 import getSplittedAttributes from '../helpers/getSplittedAttributes'
 
 /**
  * Splits one list item into two list items.
  */
-export const splitListItem = (typeOrName: string | NodeType): Command => ({
+export const splitListItem: Commands['splitListItem'] = typeOrName => ({
   tr, state, dispatch, editor,
 }) => {
   const type = getNodeType(typeOrName, state.schema)
@@ -109,4 +109,10 @@ export const splitListItem = (typeOrName: string | NodeType): Command => ({
   }
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    splitListItem: (typeOrName: string | NodeType) => Command,
+  }
 }

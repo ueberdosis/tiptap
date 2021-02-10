@@ -60,9 +60,3 @@ export const Color = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Color: typeof Color,
-  }
-}

@@ -6,6 +6,13 @@ import {
   yUndoPlugin,
 } from 'y-prosemirror'
 
+declare module '@tiptap/core' {
+  interface Commands {
+    undo: () => Command,
+    redo: () => Command,
+  }
+}
+
 export interface CollaborationOptions {
   /**
    * An initialized Y.js document.
@@ -35,7 +42,7 @@ export const Collaboration = Extension.create({
       /**
        * Undo recent changes
        */
-      undo: (): Command => ({ tr, state }) => {
+      undo: () => ({ tr, state }) => {
         tr.setMeta('preventDispatch', true)
 
         return undo(state)
@@ -43,7 +50,7 @@ export const Collaboration = Extension.create({
       /**
        * Reapply reverted changes
        */
-      redo: (): Command => ({ tr, state }) => {
+      redo: () => ({ tr, state }) => {
         tr.setMeta('preventDispatch', true)
 
         return redo(state)
@@ -70,9 +77,3 @@ export const Collaboration = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Collaboration: typeof Collaboration,
-  }
-}

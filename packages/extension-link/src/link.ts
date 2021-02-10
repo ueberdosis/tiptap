@@ -13,6 +13,14 @@ export interface LinkOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setLink: (attributes: { href: string, target?: string }) => Command,
+    toggleLink: (attributes: { href: string, target?: string }) => Command,
+    unsetLink: () => Command,
+  }
+}
+
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
 export const pasteRegexWithBrackets = /(?:\()https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)(?:\))/gi
 
@@ -55,19 +63,19 @@ export const Link = Mark.create({
       /**
        * Set a link mark
        */
-      setLink: (attributes: { href?: string, target?: string } = {}): Command => ({ commands }) => {
+      setLink: attributes => ({ commands }) => {
         return commands.setMark('link', attributes)
       },
       /**
        * Toggle a link mark
        */
-      toggleLink: (attributes: { href?: string, target?: string } = {}): Command => ({ commands }) => {
+      toggleLink: attributes => ({ commands }) => {
         return commands.toggleMark('link', attributes)
       },
       /**
        * Unset a link mark
        */
-      unsetLink: (): Command => ({ commands }) => {
+      unsetLink: () => ({ commands }) => {
         return commands.unsetMark('link')
       },
     }
@@ -105,9 +113,3 @@ export const Link = Mark.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Link: typeof Link,
-  }
-}

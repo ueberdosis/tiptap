@@ -7,9 +7,18 @@ export interface BlockquoteOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setBlockquote: () => Command,
+    toggleBlockquote: () => Command,
+    unsetBlockquote: () => Command,
+  }
+}
+
 export const inputRegex = /^\s*>\s$/gm
 
 export const Blockquote = Node.create({
+
   name: 'blockquote',
 
   defaultOptions: <BlockquoteOptions>{
@@ -37,19 +46,19 @@ export const Blockquote = Node.create({
       /**
        * Set a blockquote node
        */
-      setBlockquote: (): Command => ({ commands }) => {
+      setBlockquote: () => ({ commands }) => {
         return commands.wrapIn('blockquote')
       },
       /**
        * Toggle a blockquote node
        */
-      toggleBlockquote: (): Command => ({ commands }) => {
+      toggleBlockquote: () => ({ commands }) => {
         return commands.toggleWrap('blockquote')
       },
       /**
        * Unset a blockquote node
        */
-      unsetBlockquote: (): Command => ({ commands }) => {
+      unsetBlockquote: () => ({ commands }) => {
         return commands.lift('blockquote')
       },
     }
@@ -67,9 +76,3 @@ export const Blockquote = Node.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Blockquote: typeof Blockquote,
-  }
-}

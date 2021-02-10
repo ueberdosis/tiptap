@@ -6,6 +6,13 @@ type TextAlignOptions = {
   defaultAlignment: string,
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setTextAlign: (alignment: string) => Command,
+    unsetTextAlign: () => Command,
+  }
+}
+
 export const TextAlign = Extension.create({
   name: 'textAlign',
 
@@ -39,7 +46,7 @@ export const TextAlign = Extension.create({
       /**
        * Set the text align attribute
        */
-      setTextAlign: (alignment: string): Command => ({ commands }) => {
+      setTextAlign: (alignment: string) => ({ commands }) => {
         if (!this.options.alignments.includes(alignment)) {
           return false
         }
@@ -49,7 +56,7 @@ export const TextAlign = Extension.create({
       /**
        * Unset the text align attribute
        */
-      unsetTextAlign: (): Command => ({ commands }) => {
+      unsetTextAlign: () => ({ commands }) => {
         return this.options.types.every(type => commands.resetNodeAttributes(type, 'textAlign'))
       },
     }
@@ -64,9 +71,3 @@ export const TextAlign = Extension.create({
     }
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    TextAlign: typeof TextAlign,
-  }
-}

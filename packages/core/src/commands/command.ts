@@ -1,8 +1,14 @@
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 
 /**
  * Define a command inline.
  */
-export const command = (fn: (props: Parameters<Command>[0]) => boolean): Command => props => {
+export const command: Commands['command'] = fn => props => {
   return fn(props)
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    command: (fn: (props: Parameters<Command>[0]) => boolean) => Command,
+  }
 }

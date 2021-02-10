@@ -1,5 +1,5 @@
 import { NodeType } from 'prosemirror-model'
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 import findParentNode from '../helpers/findParentNode'
 import isList from '../helpers/isList'
@@ -7,7 +7,7 @@ import isList from '../helpers/isList'
 /**
  * Toggle between different list types.
  */
-export const toggleList = (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType): Command => ({
+export const toggleList: Commands['toggleList'] = (listTypeOrName, itemTypeOrName) => ({
   editor, tr, state, dispatch, chain, commands, can,
 }) => {
   const { extensions } = editor.options
@@ -52,4 +52,10 @@ export const toggleList = (listTypeOrName: string | NodeType, itemTypeOrName: st
   }
 
   return commands.wrapInList(listType)
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType) => Command,
+  }
 }

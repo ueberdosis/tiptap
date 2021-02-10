@@ -37,9 +37,3 @@ export const ListItem = Node.create({
     }
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    ListItem: typeof ListItem,
-  }
-}

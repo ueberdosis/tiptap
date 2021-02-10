@@ -13,6 +13,14 @@ export interface HighlightOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setHighlight: (attributes?: { color: string }) => Command,
+    toggleHighlight: (attributes?: { color: string }) => Command,
+    unsetHighlight: () => Command,
+  }
+}
+
 export const inputRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))$/gm
 export const pasteRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))/gm
 
@@ -68,19 +76,19 @@ export const Highlight = Mark.create({
       /**
        * Set a highlight mark
        */
-      setHighlight: (attributes?: { color: string }): Command => ({ commands }) => {
+      setHighlight: attributes => ({ commands }) => {
         return commands.setMark('highlight', attributes)
       },
       /**
        * Toggle a highlight mark
        */
-      toggleHighlight: (attributes?: { color: string }): Command => ({ commands }) => {
+      toggleHighlight: attributes => ({ commands }) => {
         return commands.toggleMark('highlight', attributes)
       },
       /**
        * Unset a highlight mark
        */
-      unsetHighlight: (): Command => ({ commands }) => {
+      unsetHighlight: () => ({ commands }) => {
         return commands.unsetMark('highlight')
       },
     }
@@ -104,9 +112,3 @@ export const Highlight = Mark.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Highlight: typeof Highlight,
-  }
-}

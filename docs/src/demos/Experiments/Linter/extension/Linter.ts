@@ -90,9 +90,3 @@ export const Linter = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Linter: typeof Linter,
-  }
-}

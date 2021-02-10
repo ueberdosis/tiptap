@@ -22,9 +22,3 @@ export const Dropcursor = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Dropcursor: typeof Dropcursor,
-  }
-}

@@ -16,6 +16,7 @@ import {
   EditorOptions,
   EditorContent,
   CommandSpec,
+  Commands,
   CanCommands,
   ChainedCommands,
   SingleCommands,

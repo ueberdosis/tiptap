@@ -8,10 +8,10 @@ import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
 import mergeDeep from './utilities/mergeDeep'
-import { Attributes, Overwrite } from './types'
+import { Attributes, Overwrite, Commands } from './types'
 import { Editor } from './Editor'
 
-export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<ExtensionConfig<Options, Commands>, {
+export interface MarkConfig<Options = any> extends Overwrite<ExtensionConfig<Options>, {
   /**
    * Inclusive
    */
@@ -70,7 +70,7 @@ export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<Exte
     options: Options,
     editor: Editor,
     type: MarkType,
-  }) => Commands,
+  }) => Partial<Commands>,
 
   /**
    * Keyboard shortcuts
@@ -189,7 +189,7 @@ export interface MarkConfig<Options = any, Commands = {}> extends Overwrite<Exte
   }) => void) | null,
 }> {}
 
-export class Mark<Options = any, Commands = {}> {
+export class Mark<Options = any> {
   type = 'mark'
 
   config: Required<MarkConfig> = {
@@ -219,7 +219,7 @@ export class Mark<Options = any, Commands = {}> {
 
   options!: Options
 
-  constructor(config: MarkConfig<Options, Commands>) {
+  constructor(config: MarkConfig<Options>) {
     this.config = {
       ...this.config,
       ...config,
@@ -228,13 +228,13 @@ export class Mark<Options = any, Commands = {}> {
     this.options = this.config.defaultOptions
   }
 
-  static create<O, C>(config: MarkConfig<O, C>) {
-    return new Mark<O, C>(config)
+  static create<O>(config: MarkConfig<O>) {
+    return new Mark<O>(config)
   }
 
   configure(options: Partial<Options> = {}) {
     return Mark
-      .create<Options, Commands>(this.config as MarkConfig<Options, Commands>)
+      .create<Options>(this.config as MarkConfig<Options>)
       .#configure(options)
   }
 
@@ -244,10 +244,10 @@ export class Mark<Options = any, Commands = {}> {
     return this
   }
 
-  extend<ExtendedOptions = Options, ExtendedCommands = Commands>(extendedConfig: Partial<MarkConfig<ExtendedOptions, ExtendedCommands>>) {
-    return new Mark<ExtendedOptions, ExtendedCommands>({
+  extend<ExtendedOptions = Options>(extendedConfig: Partial<MarkConfig<ExtendedOptions>>) {
+    return new Mark<ExtendedOptions>({
       ...this.config,
       ...extendedConfig,
-    } as MarkConfig<ExtendedOptions, ExtendedCommands>)
+    } as MarkConfig<ExtendedOptions>)
   }
 }

@@ -1,4 +1,4 @@
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 
 const mac = typeof navigator !== 'undefined' ? /Mac/.test(navigator.platform) : false
 
@@ -59,7 +59,7 @@ function normalizeKeyName(name: string) {
 /**
  * Trigger a keyboard shortcut.
  */
-export const keyboardShortcut = (name: string): Command => ({
+export const keyboardShortcut: Commands['keyboardShortcut'] = name => ({
   editor,
   view,
   tr,
@@ -92,4 +92,10 @@ export const keyboardShortcut = (name: string): Command => ({
   })
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    keyboardShortcut: (name: string) => Command,
+  }
 }

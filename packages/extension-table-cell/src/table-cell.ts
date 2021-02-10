@@ -43,9 +43,3 @@ export const TableCell = Node.create({
   },
 
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    TableCell: typeof TableCell,
-  }
-}

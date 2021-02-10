@@ -10,6 +10,13 @@ export interface HeadingOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setHeading: (attributes: { level: Level }) => Command,
+    toggleHeading: (attributes: { level: Level }) => Command,
+  }
+}
+
 export const Heading = Node.create({
   name: 'heading',
 
@@ -55,7 +62,7 @@ export const Heading = Node.create({
       /**
        * Set a heading node
        */
-      setHeading: (attributes: { level: Level }): Command => ({ commands }) => {
+      setHeading: attributes => ({ commands }) => {
         if (!this.options.levels.includes(attributes.level)) {
           return false
         }
@@ -65,7 +72,7 @@ export const Heading = Node.create({
       /**
        * Toggle a heading node
        */
-      toggleHeading: (attributes: { level: Level }): Command => ({ commands }) => {
+      toggleHeading: attributes => ({ commands }) => {
         if (!this.options.levels.includes(attributes.level)) {
           return false
         }
@@ -90,9 +97,3 @@ export const Heading = Node.create({
     })
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Heading: typeof Heading,
-  }
-}

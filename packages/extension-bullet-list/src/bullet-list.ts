@@ -7,6 +7,12 @@ export interface BulletListOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    toggleBulletList: () => Command,
+  }
+}
+
 export const inputRegex = /^\s*([-+*])\s$/
 
 export const BulletList = Node.create({
@@ -35,7 +41,7 @@ export const BulletList = Node.create({
       /**
        * Toggle a bullet list
        */
-      toggleBulletList: (): Command => ({ commands }) => {
+      toggleBulletList: () => ({ commands }) => {
         return commands.toggleList('bulletList', 'listItem')
       },
     }
@@ -53,9 +59,3 @@ export const BulletList = Node.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    BulletList: typeof BulletList,
-  }
-}

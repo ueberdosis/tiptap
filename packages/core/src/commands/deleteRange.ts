@@ -1,9 +1,9 @@
-import { Command, Range } from '../types'
+import { Command, Commands, Range } from '../types'
 
 /**
  * Delete a given range.
  */
-export const deleteRange = (range: Range): Command => ({ tr, dispatch }) => {
+export const deleteRange: Commands['deleteRange'] = range => ({ tr, dispatch }) => {
   const { from, to } = range
 
   if (dispatch) {
@@ -11,4 +11,10 @@ export const deleteRange = (range: Range): Command => ({ tr, dispatch }) => {
   }
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    deleteRange: (range: Range) => Command,
+  }
 }

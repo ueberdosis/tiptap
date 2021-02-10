@@ -43,9 +43,3 @@ export const FocusEvents = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    FocusEvents: typeof FocusEvents,
-  }
-}

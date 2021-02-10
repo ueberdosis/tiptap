@@ -1,12 +1,12 @@
 import { NodeType } from 'prosemirror-model'
 import getNodeType from '../helpers/getNodeType'
 import deleteProps from '../utilities/deleteProps'
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 
 /**
  * Resets node attributes to the default value.
  */
-export const resetNodeAttributes = (typeOrName: string | NodeType, attributes: string | string[]): Command => ({ tr, state, dispatch }) => {
+export const resetNodeAttributes: Commands['resetNodeAttributes'] = (typeOrName, attributes) => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { selection } = tr
   const { from, to } = selection
@@ -18,4 +18,10 @@ export const resetNodeAttributes = (typeOrName: string | NodeType, attributes: s
   })
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    resetNodeAttributes: (typeOrName: string | NodeType, attributes: string | string[]) => Command,
+  }
 }

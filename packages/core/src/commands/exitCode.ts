@@ -1,9 +1,15 @@
 import { exitCode as originalExitCode } from 'prosemirror-commands'
-import { Command } from '../types'
+import { Command, Commands } from '../types'
 
 /**
  * Exit from a code block.
  */
-export const exitCode = (): Command => ({ state, dispatch }) => {
+export const exitCode: Commands['exitCode'] = () => ({ state, dispatch }) => {
   return originalExitCode(state, dispatch)
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    exitCode: () => Command,
+  }
 }

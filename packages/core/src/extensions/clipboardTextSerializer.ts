@@ -52,9 +52,3 @@ export const ClipboardTextSerializer = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    ClipboardTextSerializer: typeof ClipboardTextSerializer,
-  }
-}

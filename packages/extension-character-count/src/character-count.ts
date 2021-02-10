@@ -33,9 +33,3 @@ export const CharacterCount = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    CharacterCount: typeof CharacterCount,
-  }
-}

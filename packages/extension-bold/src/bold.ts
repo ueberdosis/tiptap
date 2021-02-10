@@ -12,6 +12,14 @@ export interface BoldOptions {
   },
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    setBold: () => Command,
+    toggleBold: () => Command,
+    unsetBold: () => Command,
+  }
+}
+
 export const starInputRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))$/gm
 export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))/gm
 export const underscoreInputRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))$/gm
@@ -49,19 +57,19 @@ export const Bold = Mark.create({
       /**
        * Set a bold mark
        */
-      setBold: (): Command => ({ commands }) => {
+      setBold: () => ({ commands }) => {
         return commands.setMark('bold')
       },
       /**
        * Toggle a bold mark
        */
-      toggleBold: (): Command => ({ commands }) => {
+      toggleBold: () => ({ commands }) => {
         return commands.toggleMark('bold')
       },
       /**
        * Unset a bold mark
        */
-      unsetBold: (): Command => ({ commands }) => {
+      unsetBold: () => ({ commands }) => {
         return commands.unsetMark('bold')
       },
     }
@@ -87,9 +95,3 @@ export const Bold = Mark.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Bold: typeof Bold,
-  }
-}

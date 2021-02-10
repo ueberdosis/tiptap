@@ -41,6 +41,29 @@ export interface TableOptions {
   allowTableNodeSelection: boolean,
 }
 
+declare module '@tiptap/core' {
+  interface Commands {
+    insertTable: (options?: { rows?: number, cols?: number, withHeaderRow?: boolean }) => Command,
+    addColumnBefore: () => Command,
+    addColumnAfter: () => Command,
+    deleteColumn: () => Command,
+    addRowBefore: () => Command,
+    addRowAfter: () => Command,
+    deleteRow: () => Command,
+    deleteTable: () => Command,
+    mergeCells: () => Command,
+    splitCell: () => Command,
+    toggleHeaderColumn: () => Command,
+    toggleHeaderRow: () => Command,
+    toggleHeaderCell: () => Command,
+    mergeOrSplit: () => Command,
+    setCellAttribute: (name: string, value: any) => Command,
+    goToNextCell: () => Command,
+    goToPreviousCell: () => Command,
+    fixTables: () => Command,
+  }
+}
+
 export const Table = Node.create({
   name: 'table',
 
@@ -74,8 +97,8 @@ export const Table = Node.create({
 
   addCommands() {
     return {
-      insertTable: (options = { rows: 3, cols: 3, withHeaderRow: true }): Command => ({ tr, dispatch, editor }) => {
-        const node = createTable(editor.schema, options.rows, options.cols, options.withHeaderRow)
+      insertTable: ({ rows = 3, cols = 3, withHeaderRow = true } = {}) => ({ tr, dispatch, editor }) => {
+        const node = createTable(editor.schema, rows, cols, withHeaderRow)
 
         if (dispatch) {
           const offset = tr.selection.anchor + 1
@@ -87,59 +110,59 @@ export const Table = Node.create({
 
         return true
       },
-      addColumnBefore: (): Command => ({ state, dispatch }) => {
+      addColumnBefore: () => ({ state, dispatch }) => {
         return addColumnBefore(state, dispatch)
       },
-      addColumnAfter: (): Command => ({ state, dispatch }) => {
+      addColumnAfter: () => ({ state, dispatch }) => {
         return addColumnAfter(state, dispatch)
       },
-      deleteColumn: (): Command => ({ state, dispatch }) => {
+      deleteColumn: () => ({ state, dispatch }) => {
         return deleteColumn(state, dispatch)
       },
-      addRowBefore: (): Command => ({ state, dispatch }) => {
+      addRowBefore: () => ({ state, dispatch }) => {
         return addRowBefore(state, dispatch)
       },
-      addRowAfter: (): Command => ({ state, dispatch }) => {
+      addRowAfter: () => ({ state, dispatch }) => {
         return addRowAfter(state, dispatch)
       },
-      deleteRow: (): Command => ({ state, dispatch }) => {
+      deleteRow: () => ({ state, dispatch }) => {
         return deleteRow(state, dispatch)
       },
-      deleteTable: (): Command => ({ state, dispatch }) => {
+      deleteTable: () => ({ state, dispatch }) => {
         return deleteTable(state, dispatch)
       },
-      mergeCells: (): Command => ({ state, dispatch }) => {
+      mergeCells: () => ({ state, dispatch }) => {
         return mergeCells(state, dispatch)
       },
-      splitCell: (): Command => ({ state, dispatch }) => {
+      splitCell: () => ({ state, dispatch }) => {
         return splitCell(state, dispatch)
       },
-      toggleHeaderColumn: (): Command => ({ state, dispatch }) => {
+      toggleHeaderColumn: () => ({ state, dispatch }) => {
         return toggleHeaderColumn(state, dispatch)
       },
-      toggleHeaderRow: (): Command => ({ state, dispatch }) => {
+      toggleHeaderRow: () => ({ state, dispatch }) => {
         return toggleHeaderRow(state, dispatch)
       },
-      toggleHeaderCell: (): Command => ({ state, dispatch }) => {
+      toggleHeaderCell: () => ({ state, dispatch }) => {
         return toggleHeaderCell(state, dispatch)
       },
-      mergeOrSplit: (): Command => ({ state, dispatch }) => {
+      mergeOrSplit: () => ({ state, dispatch }) => {
         if (mergeCells(state, dispatch)) {
           return true
         }
 
         return splitCell(state, dispatch)
       },
-      setCellAttribute: (name: string, value: any): Command => ({ state, dispatch }) => {
+      setCellAttribute: (name, value) => ({ state, dispatch }) => {
         return setCellAttr(name, value)(state, dispatch)
       },
-      goToNextCell: (): Command => ({ state, dispatch }) => {
+      goToNextCell: () => ({ state, dispatch }) => {
         return goToNextCell(1)(state, dispatch)
       },
-      goToPreviousCell: (): Command => ({ state, dispatch }) => {
+      goToPreviousCell: () => ({ state, dispatch }) => {
         return goToNextCell(-1)(state, dispatch)
       },
-      fixTables: (): Command => ({ state, dispatch }) => {
+      fixTables: () => ({ state, dispatch }) => {
         if (dispatch) {
           fixTables(state)
         }
@@ -223,9 +246,3 @@ export const Table = Node.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Table: typeof Table,
-  }
-}

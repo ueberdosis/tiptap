@@ -1,5 +1,5 @@
 import { EditorState, TextSelection } from 'prosemirror-state'
-import { Command, FocusPosition } from '../types'
+import { Command, Commands, FocusPosition } from '../types'
 import minMax from '../utilities/minMax'
 import isTextSelection from '../helpers/isTextSelection'
 
@@ -33,7 +33,7 @@ function resolveSelection(state: EditorState, position: FocusPosition = null) {
 /**
  * Focus the editor at the given position.
  */
-export const focus = (position: FocusPosition = null): Command => ({
+export const focus: Commands['focus'] = (position = null) => ({
   editor,
   view,
   tr,
@@ -61,4 +61,10 @@ export const focus = (position: FocusPosition = null): Command => ({
   }
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    focus: (position?: FocusPosition) => Command,
+  }
 }

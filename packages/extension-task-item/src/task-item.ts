@@ -139,9 +139,3 @@ export const TaskItem = Node.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    TaskItem: typeof TaskItem,
-  }
-}

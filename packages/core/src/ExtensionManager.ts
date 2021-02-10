@@ -34,6 +34,7 @@ export default class ExtensionManager {
 
       const commands = extension.config.addCommands.bind(context)()
 
+      // @ts-ignore
       editor.registerCommands(commands)
 
       if (typeof extension.config.onCreate === 'function') {

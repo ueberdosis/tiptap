@@ -5,9 +5,3 @@ export const Document = Node.create({
   topNode: true,
   content: 'block+',
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    Document: typeof Document,
-  }
-}

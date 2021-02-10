@@ -1,12 +1,12 @@
 import { MarkType } from 'prosemirror-model'
-import { Command } from '../types'
+import { AnyObject, Command, Commands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import getMarkAttributes from '../helpers/getMarkAttributes'
 
 /**
  * Add a mark with new attributes.
  */
-export const setMark = (typeOrName: string | MarkType, attributes?: {}): Command => ({ tr, state, dispatch }) => {
+export const setMark: Commands['setMark'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const { from, to, empty } = selection
   const type = getMarkType(typeOrName, state.schema)
@@ -25,4 +25,10 @@ export const setMark = (typeOrName: string | MarkType, attributes?: {}): Command
   }
 
   return true
+}
+
+declare module '@tiptap/core' {
+  interface Commands {
+    setMark: (typeOrName: string | MarkType, attributes?: AnyObject) => Command,
+  }
 }

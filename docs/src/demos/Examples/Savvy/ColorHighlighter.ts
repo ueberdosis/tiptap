@@ -27,9 +27,3 @@ export const ColorHighlighter = Extension.create({
     ]
   },
 })
-
-declare module '@tiptap/core' {
-  interface AllExtensions {
-    ColorHighlighter: typeof ColorHighlighter,
-  }
-}
