@@ -3,7 +3,6 @@ Congratulations! You’ve found our playground with a list of experiments. Be aw
 
 ## New
 * [Linter](/experiments/linter)
-* [Annotation](/experiments/annotation)
 * [Comments](/experiments/comments)
 * [Color](/experiments/color)
 * [Commands](/experiments/commands)
