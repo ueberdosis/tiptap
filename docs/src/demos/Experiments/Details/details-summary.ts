@@ -11,7 +11,9 @@ export default Node.create({
 
   content: 'inline*',
 
-  // group: 'block',
+  group: 'block',
+
+  isolating: true,
 
   defaultOptions: <DetailsSummaryOptions>{
     HTMLAttributes: {},
