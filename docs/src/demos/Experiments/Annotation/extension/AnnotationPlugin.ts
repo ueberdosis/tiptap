@@ -1,3 +1,4 @@
+import * as Y from 'yjs'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { AnnotationState } from './AnnotationState'
 
@@ -8,7 +9,7 @@ export interface AnnotationPluginOptions {
     [key: string]: any
   },
   onUpdate: (items: [any?]) => {},
-  map: any,
+  map: Y.Map<any>,
 }
 
 export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin({
@@ -41,6 +42,5 @@ export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin
 
       return decorations
     },
-
   },
 })

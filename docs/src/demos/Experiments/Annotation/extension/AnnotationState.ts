@@ -1,4 +1,5 @@
 // @ts-nocheck
+import * as Y from 'yjs'
 import { EditorState } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { ySyncPluginKey, relativePositionToAbsolutePosition, absolutePositionToRelativePosition } from 'y-prosemirror'
@@ -8,7 +9,7 @@ export interface AnnotationStateOptions {
   HTMLAttributes: {
     [key: string]: any
   },
-  map: any,
+  map: Y.Map<any>,
 }
 
 export class AnnotationState {

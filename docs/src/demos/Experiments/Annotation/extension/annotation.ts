@@ -1,3 +1,4 @@
+import * as Y from 'yjs'
 import { Extension, Command } from '@tiptap/core'
 import { AnnotationItem } from './AnnotationItem'
 import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin'
@@ -14,7 +15,7 @@ export interface AnnotationOptions {
   /**
    * An initialized Y.js document.
    */
-  document: any,
+  document: Y.Doc | null,
   /**
    * Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document.
    */
@@ -22,7 +23,7 @@ export interface AnnotationOptions {
   /**
    * A raw Y.js map, can be used instead of `document` and `field`.
    */
-  map: any,
+  map: Y.Map<any> | null,
 }
 
 export const Annotation = Extension.create({
@@ -74,7 +75,7 @@ export const Annotation = Extension.create({
   addProseMirrorPlugins() {
     const map = this.options.map
       ? this.options.map
-      : this.options.document.getMap(this.options.field)
+      : this.options.document?.getMap(this.options.field) as Y.Map<any>
 
     return [
       AnnotationPlugin({
