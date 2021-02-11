@@ -1,10 +1,17 @@
-// @ts-nocheck
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { AnnotationState } from './AnnotationState'
 
 export const AnnotationPluginKey = new PluginKey('annotation')
 
-export const AnnotationPlugin = (options: any) => new Plugin({
+export interface AnnotationPluginOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+  onUpdate: (items: [any?]) => {},
+  map: any,
+}
+
+export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin({
   key: AnnotationPluginKey,
   state: {
     init(_, state) {

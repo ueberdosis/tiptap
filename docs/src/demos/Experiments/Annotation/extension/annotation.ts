@@ -11,6 +11,18 @@ export interface AnnotationOptions {
     [key: string]: any
   },
   onUpdate: (items: [any?]) => {},
+  /**
+   * An initialized Y.js document.
+   */
+  document: any,
+  /**
+   * Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document.
+   */
+  field: string,
+  /**
+   * A raw Y.js map, can be used instead of `document` and `field`.
+   */
+  map: any,
 }
 
 export const Annotation = Extension.create({
@@ -21,6 +33,9 @@ export const Annotation = Extension.create({
       class: 'annotation',
     },
     onUpdate: decorations => decorations,
+    document: null,
+    field: 'annotations',
+    map: null,
   },
 
   addCommands() {
@@ -57,8 +72,16 @@ export const Annotation = Extension.create({
   },
 
   addProseMirrorPlugins() {
+    const map = this.options.map
+      ? this.options.map
+      : this.options.document.getMap(this.options.field)
+
     return [
-      AnnotationPlugin(this.options),
+      AnnotationPlugin({
+        HTMLAttributes: this.options.HTMLAttributes,
+        onUpdate: this.options.onUpdate,
+        map,
+      }),
     ]
   },
 })

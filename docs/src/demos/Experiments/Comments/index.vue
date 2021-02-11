@@ -74,6 +74,7 @@ export default {
         Bold,
         Heading,
         Annotation.configure({
+          document: this.ydoc,
           onUpdate: items => { this.comments = items },
         }),
         Collaboration.configure({
