@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { ySyncPluginKey } from 'y-prosemirror'
 import { AnnotationPluginKey } from './AnnotationPlugin'
@@ -23,45 +24,7 @@ export class AnnotationState {
     return this.decorations.find(position, position)
   }
 
-  apply(transaction: any) {
-    console.log('transaction', transaction.meta, transaction.docChanged, transaction)
-
-    const yjsTransaction = transaction.getMeta(ySyncPluginKey)
-    if (yjsTransaction) {
-      // TODO: Map positions
-      // absolutePositionToRelativePosition(state.selection.anchor, pmbinding.type, pmbinding.mapping)
-      console.log('map positions', transaction, yjsTransaction)
-
-      return this
-
-      // const { binding } = yjsTransaction
-      // console.log({ binding }, { transaction }, transaction.docChanged)
-      // console.log('yjsTransaction.isChangeOrigin', yjsTransaction.isChangeOrigin)
-
-      // console.log('yjs mapping', yjsTransaction.binding?.mapping)
-      // console.log('all decorations', this.decorations.find())
-      // console.log('original prosemirror mapping', this.decorations.map(transaction.mapping, transaction.doc))
-      // console.log('difference between ProseMirror & Y.js', transaction.mapping, yjsTransaction.binding?.mapping)
-
-      // Code to sync the selection:
-      // export const getRelativeSelection = (pmbinding, state) => ({
-      //   anchor: absolutePositionToRelativePosition(state.selection.anchor, pmbinding.type, pmbinding.mapping),
-      //   head: absolutePositionToRelativePosition(state.selection.head, pmbinding.type, pmbinding.mapping)
-      // })
-
-      // console.log(yjsTransaction.binding.mapping, transaction.curSelection.anchor)
-    }
-
-    if (transaction.docChanged) {
-      // TODO: Fixes the initial load (complete replace of the document)
-      // return this
-
-      // TODO: Fixes later changes (typing before the annotation)
-      const decorations = this.decorations.map(transaction.mapping, transaction.doc)
-
-      return new AnnotationState(decorations)
-    }
-
+  apply(transaction: any, editor: any) {
     const action = transaction.getMeta(AnnotationPluginKey)
     const actionType = action && action.type
 
@@ -81,7 +44,33 @@ export class AnnotationState {
       return new AnnotationState(decorations)
     }
 
-    return this
+    const ystate = ySyncPluginKey.getState(editor.state)
+
+    if (ystate && ystate.isChangeOrigin) {
+      // TODO: Create new decorations
+      // console.log(ystate.doc, ystate.type, ystate.binding)
+
+      return this
+    }
+
+    // Apply ProseMirror mapping
+    const decorations = this.decorations.map(transaction.mapping, transaction.doc)
+    return new AnnotationState(decorations)
+
+    // Y.createRelativePositionFromJSON(aw.cursor.anchor), // {any} relPos Encoded Yjs based relative position
+    // ystate.binding.mapping, // ProsemirrorMapping} mapping
+
+    // relativePositionToAbsolutePosition
+    // console.log({foo})
+
+    // TODO:
+    // if (?) {
+    //   // map positions of decorations with Y.js
+    // const { mapping } = transaction
+    // const decorations = this.decorations.map(mapping, transaction.doc)
+    // return new AnnotationState(decorations)
+    // }
+    // Resources to check: y-prosemirror createDecorations
   }
 
   static init(config: any, state: any) {

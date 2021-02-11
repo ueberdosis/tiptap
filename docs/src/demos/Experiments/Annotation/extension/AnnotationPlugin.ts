@@ -1,14 +1,15 @@
+// @ts-nocheck
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { AnnotationState } from './AnnotationState'
 
 export const AnnotationPluginKey = new PluginKey('annotation')
 
-export const AnnotationPlugin = (options: any) => new Plugin({
+export const AnnotationPlugin = (options: any, editor: any) => new Plugin({
   key: AnnotationPluginKey,
   state: {
     init: AnnotationState.init,
     apply(transaction, oldState) {
-      return oldState.apply(transaction)
+      return oldState.apply(transaction, editor)
     },
   },
   props: {

@@ -67,6 +67,8 @@ export default {
       this.status = event.status
     })
 
+    window.ydoc = ydoc
+
     this.indexdb = new IndexeddbPersistence('tiptap-collaboration-example', ydoc)
 
     this.editor = new Editor({
