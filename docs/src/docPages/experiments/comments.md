@@ -2,4 +2,4 @@
 
 ⚠️ Experiment
 
-<demo name="Experiments/Comments" />
+<demo name="Experiments/Annotation" />

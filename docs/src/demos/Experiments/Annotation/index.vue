@@ -1,17 +1,33 @@
 <template>
   <div>
     <div v-if="editor">
-      <button @click="addAnnotation" :disabled="!editor.can().addAnnotation()">
-        add annotation
+      <h2>
+        Original Editor
+      </h2>
+      <button @click="addComment" :disabled="!editor.can().addAnnotation()">
+        comment
       </button>
       <editor-content :editor="editor" />
       <div v-for="comment in comments" :key="comment.type.spec.data.id">
         {{ comment.type.spec.data }}
 
-        <button @click="deleteAnnotation(comment.type.spec.data.id)">
+        <button @click="deleteComment(comment.type.spec.data.id)">
           remove
         </button>
       </div>
+
+      <h2>
+        Another Editor
+      </h2>
+      <button @click="addAnotherComment" :disabled="!anotherEditor.can().addAnnotation()">
+        comment
+      </button>
+      <editor-content :editor="anotherEditor" />
+
+      <h2>
+        Y.js document
+      </h2>
+      {{ json }}
     </div>
   </div>
 </template>
@@ -21,6 +37,10 @@ import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import Collaboration from '@tiptap/extension-collaboration'
+import Bold from '@tiptap/extension-bold'
+import Heading from '@tiptap/extension-heading'
+import * as Y from 'yjs'
 import Annotation from './extension'
 
 export default {
@@ -31,18 +51,28 @@ export default {
   data() {
     return {
       editor: null,
+      anotherEditor: null,
       comments: [],
+      ydoc: null,
     }
   },
 
   mounted() {
+    this.ydoc = new Y.Doc()
+
     this.editor = new Editor({
       extensions: [
         Document,
         Paragraph,
         Text,
+        Bold,
+        Heading,
         Annotation.configure({
+          document: this.ydoc,
           onUpdate: items => { this.comments = items },
+        }),
+        Collaboration.configure({
+          document: this.ydoc,
         }),
       ],
       content: `
@@ -54,21 +84,49 @@ export default {
         </p>
       `,
     })
+
+    this.anotherEditor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Bold,
+        Heading,
+        Annotation.configure({
+          document: this.ydoc,
+        }),
+        Collaboration.configure({
+          document: this.ydoc,
+        }),
+      ],
+    })
   },
 
   methods: {
-    addAnnotation() {
-      const content = prompt('Annotation', '')
+    addComment() {
+      const content = prompt('Comment', '')
 
       this.editor.commands.addAnnotation(content)
     },
-    deleteAnnotation(id) {
+    addAnotherComment() {
+      const content = prompt('Comment', '')
+
+      this.anotherEditor.commands.addAnnotation(content)
+    },
+    deleteComment(id) {
       this.editor.commands.deleteAnnotation(id)
+    },
+  },
+
+  computed: {
+    json() {
+      return this.ydoc.toJSON()
     },
   },
 
   beforeDestroy() {
     this.editor.destroy()
+    this.anotherEditor.destroy()
   },
 }
 </script>
