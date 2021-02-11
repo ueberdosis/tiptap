@@ -3,11 +3,11 @@ Congratulations! You’ve found our playground with a list of experiments. Be aw
 
 ## New
 * [Linter](/experiments/linter)
-* [Comments](/experiments/comments)
-* [Commands](/experiments/commands)
-* [Embeds](/experiments/embeds)
 * [Multiple editors](/experiments/multiple-editors)
-* [Details](/experiments/details)
+* [@tiptap/extension-slash-command?](/experiments/commands)
+* [@tiptap/extension-iframe?](/experiments/embeds)
+* [@tiptap/extension-toggle-list?](/experiments/details)
+* [@tiptap/extension-collaboration-annotation?](/experiments/comments)
 
 ## Waiting for approval
 * [@tiptap/extension-placeholder](/experiments/placeholder)
