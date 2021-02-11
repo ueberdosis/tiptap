@@ -44,66 +44,49 @@ export class AnnotationState {
   }
 
   apply(transaction: any, state: EditorState) {
+    const { map, HTMLAttributes } = this.options
     const ystate = ySyncPluginKey.getState(state)
-    const decs = this.options.map
-
+    const { doc, type, binding } = ystate
     const action = transaction.getMeta(AnnotationPluginKey)
-    const actionType = action && action.type
 
-    if (action) {
-      const { decorations } = this
+    if (action && action.type) {
+      const { from, to, data } = action
 
-      if (actionType === 'addAnnotation') {
-        decs.set(action.data.id, {
-          from: absolutePositionToRelativePosition(
-            action.from,
-            ystate.type,
-            ystate.binding.mapping,
-          ),
-          to: absolutePositionToRelativePosition(
-            action.to,
-            ystate.type,
-            ystate.binding.mapping,
-          ),
-          data: action.data,
+      if (action.type === 'addAnnotation') {
+        const absoluteFrom = absolutePositionToRelativePosition(from, type, binding.mapping)
+        const absoluteTo = absolutePositionToRelativePosition(to, type, binding.mapping)
+
+        map.set(data.id, {
+          from: absoluteFrom,
+          to: absoluteTo,
+          data,
         })
 
-        this.decorations = decorations.add(transaction.doc, [
-          Decoration.inline(action.from, action.to, this.options.HTMLAttributes, { data: action.data }),
-        ])
-      } else if (actionType === 'deleteAnnotation') {
-        decs.delete(action.id)
+        const decoration = Decoration.inline(from, to, HTMLAttributes, { data })
 
-        this.decorations = decorations.remove([
-          this.findAnnotation(action.id),
-        ])
+        this.decorations = this.decorations.add(transaction.doc, [decoration])
+      }
+
+      if (action.type === 'deleteAnnotation') {
+        map.delete(action.id)
+
+        const decoration = this.findAnnotation(action.id)
+
+        this.decorations = this.decorations.remove([decoration])
       }
 
       return this
     }
 
-    if (ystate && ystate.isChangeOrigin) {
-      const decorations = [];
+    if (ystate.isChangeOrigin) {
 
-      [...decs.keys()].forEach(id => {
-        const dec = decs.get(id)
+      const decorations = Array.from(map.keys()).map(id => {
+        const dec = map.get(id)
+        const from = relativePositionToAbsolutePosition(doc, type, dec.from, binding.mapping)
+        const to = relativePositionToAbsolutePosition(doc, type, dec.to, binding.mapping)
+        const decoration = Decoration.inline(from, to, HTMLAttributes, { data: dec.data })
 
-        decorations.push(Decoration.inline(
-          relativePositionToAbsolutePosition(
-            ystate.doc,
-            ystate.type,
-            dec.from,
-            ystate.binding.mapping,
-          ),
-          relativePositionToAbsolutePosition(
-            ystate.doc,
-            ystate.type,
-            dec.to,
-            ystate.binding.mapping,
-          ),
-          this.options.HTMLAttributes,
-          { data: dec.data },
-        ))
+        return decoration
       })
 
       this.decorations = DecorationSet.create(state.doc, decorations)
