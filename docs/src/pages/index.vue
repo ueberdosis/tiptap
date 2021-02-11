@@ -35,7 +35,7 @@
             Headless
           </h3>
           <p>
-            We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is headless and comes without any CSS. You are in full control over markup, styling and behaviour.
+            It’s headless and comes without any CSS. You are in full control over markup, styling and behaviour.
           </p>
           <div>
             <btn type="tertiary" icon="arrow-right" to="/guide/styling">
@@ -49,7 +49,7 @@
             Framework-agnostic
           </h3>
           <p>
-            No matter what framework you use, you’ll enjoy tiptap. Out of the box, it works with plain JavaScript and Vue.js, but it’s also possible to use it in <g-link to="/installation/react">React</g-link>, <g-link to="/installation/svelte">Svelte</g-link> and others.
+            Out of the box, tiptap works with plain JavaScript and Vue.js, but it’s also possible to use it in <g-link to="/installation/react">React</g-link>, <g-link to="/installation/svelte">Svelte</g-link> and others.
           </p>
           <div>
             <btn type="tertiary" icon="arrow-right" to="/installation">
@@ -63,7 +63,7 @@
             TypeScript
           </h3>
           <p>
-            tiptap 2 is written in TypeScript. That helps to find bugs early and gives a nice autocomplete for the API (if your IDE supports that) on top of the extensive human written documentation.
+            TypeScript helps to find bugs early and gives you a nice autocomplete for the API on top of the extensive human written documentation.
           </p>
           <div>
             <btn type="tertiary" icon="arrow-right" to="/guide/typescript">
@@ -77,7 +77,7 @@
             Collaborative
           </h3>
           <p>
-            Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of <g-link to="https://github.com/yjs/yjs">Y.js</g-link>.
+            Real-time collaboration, syncing between different devices and working offline isn’t hard anymore. Keep everything in sync with the magic of <g-link to="https://github.com/yjs/yjs">Y.js</g-link>.
           </p>
           <div>
             <btn type="tertiary" icon="arrow-right" to="/guide/collaborative-editing">
@@ -91,7 +91,7 @@
             Community
           </h3>
           <p>
-            Over the years, a lovely community has grown around tiptap. There’s so much content shared, so many people helping out in issues and a ton of community extensions, you’ll be surprised how much that can help.
+            There’s so much content shared, so many people helping out in issues and a ton of community extensions, you’ll be surprised how much that all can help.
           </p>
           <div>
             <btn type="tertiary" icon="arrow-right" to="https://github.com/ueberdosis/tiptap-next">
@@ -108,7 +108,7 @@
           Quickstart
         </h2>
         <p>
-          For quick demos or to give it just a spin, grab the latest build from a CDN. Here is a quick example to get you started with tiptap:
+          For quick demos or to give it just a spin, grab the latest build from a CDN. Here is an example to get you started with tiptap:
         </p>
 <!-- eslint-disable -->
 <prism language="html">&lt;!DOCTYPE html&gt;
@@ -134,7 +134,7 @@
         <!-- eslint-enable -->
         <div>
           <btn type="tertiary" icon="arrow-right" to="/installation">
-            Learn More
+            Learn more
           </btn>
         </div>
       </div>
