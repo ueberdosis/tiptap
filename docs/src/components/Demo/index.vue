@@ -1,38 +1,40 @@
 <template>
-  <demo-frame v-if="inline && mainFile" v-bind="props" />
-  <div class="demo" v-else>
-    <template v-if="mainFile">
-      <demo-frame class="demo__preview" v-bind="props" />
-      <div class="demo__source" v-if="showSource">
-        <div class="demo__tabs" v-if="showFileNames">
-          <button
-            class="demo__tab"
-            :class="{ 'is-active': currentIndex === index}"
-            v-for="(file, index) in files"
-            :key="index"
-            @click="currentIndex = index"
-          >
-            {{ file.name }}
-          </button>
+  <client-only>
+    <demo-frame v-if="inline && mainFile" v-bind="props" />
+    <div class="demo" v-else>
+      <template v-if="mainFile">
+        <demo-frame class="demo__preview" v-bind="props" />
+        <div class="demo__source" v-if="showSource">
+          <div class="demo__tabs" v-if="showFileNames">
+            <button
+              class="demo__tab"
+              :class="{ 'is-active': currentIndex === index}"
+              v-for="(file, index) in files"
+              :key="index"
+              @click="currentIndex = index"
+            >
+              {{ file.name }}
+            </button>
+          </div>
+          <div class="demo__code" v-if="activeFile" :key="activeFile.path">
+            <!-- eslint-disable-next-line -->
+            <prism :language="activeFile.highlight" :highlight="highlight">{{ activeFile.content }}</prism>
+          </div>
         </div>
-        <div class="demo__code" v-if="activeFile" :key="activeFile.path">
-          <!-- eslint-disable-next-line -->
-          <prism :language="activeFile.highlight" :highlight="highlight">{{ activeFile.content }}</prism>
+        <div class="demo__meta">
+          <div class="demo__name">
+            Demo/{{ name }}
+          </div>
+          <a class="demo__link" :href="githubUrl" target="_blank">
+            Edit on GitHub →
+          </a>
         </div>
+      </template>
+      <div v-else class="demo__error">
+        Could not find a demo called “{{ name }}”.
       </div>
-      <div class="demo__meta">
-        <div class="demo__name">
-          Demo/{{ name }}
-        </div>
-        <a class="demo__link" :href="githubUrl" target="_blank">
-          Edit on GitHub →
-        </a>
-      </div>
-    </template>
-    <div v-else class="demo__error">
-      Could not find a demo called “{{ name }}”.
     </div>
-  </div>
+  </client-only>
 </template>
 
 <script>
