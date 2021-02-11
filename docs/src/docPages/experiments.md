@@ -4,7 +4,6 @@ Congratulations! You’ve found our playground with a list of experiments. Be aw
 ## New
 * [Linter](/experiments/linter)
 * [Comments](/experiments/comments)
-* [Color](/experiments/color)
 * [Commands](/experiments/commands)
 * [Embeds](/experiments/embeds)
 * [Multiple editors](/experiments/multiple-editors)
