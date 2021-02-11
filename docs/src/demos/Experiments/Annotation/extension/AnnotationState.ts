@@ -1,15 +1,23 @@
 // @ts-nocheck
-import * as Y from 'yjs'
 import { EditorState } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { ySyncPluginKey, relativePositionToAbsolutePosition, absolutePositionToRelativePosition } from 'y-prosemirror'
 import { AnnotationPluginKey } from './AnnotationPlugin'
 
-export class AnnotationState {
-  private decorations: any
+export interface AnnotationStateOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+  map: any,
+}
 
-  constructor(decorations: any) {
-    this.decorations = decorations
+export class AnnotationState {
+  options: AnnotationStateOptions
+
+  decorations = DecorationSet.empty
+
+  constructor(options: AnnotationStateOptions) {
+    this.options = options
   }
 
   findAnnotation(id: number) {
@@ -23,18 +31,18 @@ export class AnnotationState {
   }
 
   annotationsAt(position: number) {
-    return this.decorations.find(position, position)
+    return this.decorations?.find(position, position)
   }
 
   apply(transaction: any, state: EditorState) {
     const ystate = ySyncPluginKey.getState(state)
-    const decs = ystate.doc.getMap('annotations')
+    const decs = this.options.map
 
     const action = transaction.getMeta(AnnotationPluginKey)
     const actionType = action && action.type
 
     if (action) {
-      let { decorations } = this
+      const { decorations } = this
 
       if (actionType === 'addAnnotation') {
         decs.set(action.data.id, {
@@ -51,18 +59,18 @@ export class AnnotationState {
           data: action.data,
         })
 
-        decorations = decorations.add(transaction.doc, [
-          Decoration.inline(action.from, action.to, { class: 'annotation' }, { data: action.data }),
+        this.decorations = decorations.add(transaction.doc, [
+          Decoration.inline(action.from, action.to, this.options.HTMLAttributes, { data: action.data }),
         ])
       } else if (actionType === 'deleteAnnotation') {
         decs.delete(action.id)
 
-        decorations = decorations.remove([
+        this.decorations = decorations.remove([
           this.findAnnotation(action.id),
         ])
       }
 
-      return new AnnotationState(decorations)
+      return this
     }
 
     if (ystate && ystate.isChangeOrigin) {
@@ -84,22 +92,19 @@ export class AnnotationState {
             dec.to,
             ystate.binding.mapping,
           ),
-          { class: 'annotation' },
+          this.options.HTMLAttributes,
           { data: dec.data },
         ))
       })
 
-      return new AnnotationState(DecorationSet.create(state.doc, decorations))
+      this.decorations = DecorationSet.create(state.doc, decorations)
+
+      return this
     }
 
     // Apply ProseMirror mapping
-    const decorations = this.decorations.map(transaction.mapping, transaction.doc)
-    return new AnnotationState(decorations)
-  }
+    this.decorations = this.decorations.map(transaction.mapping, transaction.doc)
 
-  static init(config: any, state: EditorState) {
-    const decorations = DecorationSet.create(state.doc, [])
-
-    return new AnnotationState(decorations)
+    return this
   }
 }

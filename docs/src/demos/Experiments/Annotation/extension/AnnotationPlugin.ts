@@ -14,8 +14,11 @@ export interface AnnotationPluginOptions {
 export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin({
   key: AnnotationPluginKey,
   state: {
-    init(_, state) {
-      return AnnotationState.init(_, state)
+    init() {
+      return new AnnotationState({
+        HTMLAttributes: options.HTMLAttributes,
+        map: options.map,
+      })
     },
     apply(transaction, pluginState, oldState, newState) {
       return pluginState.apply(transaction, newState)
