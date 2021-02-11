@@ -7,7 +7,6 @@ export const AnnotationPluginKey = new PluginKey('annotation')
 export const AnnotationPlugin = (options: any) => new Plugin({
   key: AnnotationPluginKey,
   state: {
-
     init(_, state) {
       return AnnotationState.init(_, state)
     },
