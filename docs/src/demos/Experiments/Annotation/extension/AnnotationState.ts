@@ -24,7 +24,7 @@ export class AnnotationState {
     return this.decorations.find(position, position)
   }
 
-  apply(transaction: any, editor: any) {
+  apply(transaction: any, newState: any) {
     const action = transaction.getMeta(AnnotationPluginKey)
     const actionType = action && action.type
 
@@ -44,7 +44,7 @@ export class AnnotationState {
       return new AnnotationState(decorations)
     }
 
-    const ystate = ySyncPluginKey.getState(editor.state)
+    const ystate = ySyncPluginKey.getState(newState)
 
     if (ystate && ystate.isChangeOrigin) {
       // TODO: Create new decorations
