@@ -68,6 +68,7 @@ export default {
         Bold,
         Heading,
         Annotation.configure({
+          document: this.ydoc,
           onUpdate: items => { this.comments = items },
         }),
         Collaboration.configure({
@@ -91,7 +92,9 @@ export default {
         Text,
         Bold,
         Heading,
-        Annotation,
+        Annotation.configure({
+          document: this.ydoc,
+        }),
         Collaboration.configure({
           document: this.ydoc,
         }),
@@ -123,6 +126,7 @@ export default {
 
   beforeDestroy() {
     this.editor.destroy()
+    this.anotherEditor.destroy()
   },
 }
 </script>
