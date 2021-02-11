@@ -23,11 +23,6 @@ export default {
       required: true,
     },
 
-    mode: {
-      type: String,
-      default: 'vue',
-    },
-
     inline: {
       type: Boolean,
       default: false,
@@ -52,7 +47,7 @@ export default {
 
   computed: {
     query() {
-      return `mode=${this.mode}&inline=${this.inline}&highlight=${this.highlight}&showSource=${this.showSource}`
+      return `inline=${this.inline}&highlight=${this.highlight}&showSource=${this.showSource}`
     },
   },
 

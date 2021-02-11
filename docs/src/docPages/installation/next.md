@@ -7,4 +7,4 @@ The following guide describes how to integrate tiptap with your [Next.js](https:
 
 TODO
 
-<demo name="React" mode="react" />
+<demo name="React" />
