@@ -65,44 +65,45 @@ export class AnnotationState {
       return new AnnotationState(decorations)
     }
 
-    // decs.keys().forEach(key => {
-    //   console.log('get', decs.get(key))
-    // })
+    const decorations = [];
 
-    // const decorations = DecorationSet.create(state.doc, [
-    //   Decoration.inline(105, 190, { class: 'annotation' }, { data: { id: 123, content: 'foobar' } }),
-    // ])
+    [...decs.keys()].forEach(id => {
+      const dec = decs.get(id)
 
-    // return new AnnotationState(decorations)
+      decorations.push([
+        Decoration.inline(
+          relativePositionToAbsolutePosition(
+            ystate.doc,
+            ystate.type,
+            dec.from,
+            ystate.binding.mapping,
+          ),
+          relativePositionToAbsolutePosition(
+            ystate.doc,
+            ystate.type,
+            dec.to,
+            ystate.binding.mapping,
+          ),
+          { class: 'annotation' },
+          { data: dec.data },
+        ),
+      ])
+    })
 
-    return this
+    return new AnnotationState(DecorationSet.create(state.doc, decorations))
 
     // if (ystate && ystate.isChangeOrigin) {
-    //   // TODO: Create new decorations
-
-    //   // const absolute = relativePositionToAbsolutePosition(
-    //   //   ystate.doc,
-    //   //   ystate.type,
-    //   //   relative,
-    //   //   ystate.binding.mapping,
-    //   // )
-
-    //   return this
+    //
     // }
 
-    // // // Apply ProseMirror mapping
-    // // const decorations = this.decorations.map(transaction.mapping, transaction.doc)
-    // // return new AnnotationState(decorations)
+    // // Apply ProseMirror mapping
+    // const decorations = this.decorations.map(transaction.mapping, transaction.doc)
+    // return new AnnotationState(decorations)
 
     // return this
   }
 
   static init(config: any, state: EditorState) {
-    // TODO: Load initial decorations from Y.js?
-    // const decorations = DecorationSet.create(state.doc, [
-    //   Decoration.inline(105, 190, { class: 'annotation' }, { data: { id: 123, content: 'foobar' } }),
-    // ])
-
     const decorations = DecorationSet.create(state.doc, [])
 
     return new AnnotationState(decorations)
