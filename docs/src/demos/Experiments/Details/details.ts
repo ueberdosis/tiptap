@@ -20,9 +20,14 @@ export default Node.create({
   },
 
   parseHTML() {
-    return [{
-      tag: 'details',
-    }]
+    return [
+      {
+        tag: 'details',
+      },
+      {
+        tag: 'div[data-type="details"]',
+      },
+    ]
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -31,7 +36,24 @@ export default Node.create({
 
   addNodeView() {
     return ({ HTMLAttributes }) => {
-      const item = document.createElement('details')
+      const item = document.createElement('div')
+      item.setAttribute('data-type', 'details')
+
+      const toggle = document.createElement('div')
+      toggle.setAttribute('data-type', 'detailsToggle')
+      item.append(toggle)
+
+      const content = document.createElement('div')
+      content.setAttribute('data-type', 'detailsContent')
+      item.append(content)
+
+      toggle.addEventListener('click', () => {
+        if (item.hasAttribute('open')) {
+          item.removeAttribute('open')
+        } else {
+          item.setAttribute('open', 'open')
+        }
+      })
 
       Object.entries(HTMLAttributes).forEach(([key, value]) => {
         item.setAttribute(key, value)
@@ -39,7 +61,7 @@ export default Node.create({
 
       return {
         dom: item,
-        contentDOM: item,
+        contentDOM: content,
         ignoreMutation: (mutation: MutationRecord) => {
           return !item.contains(mutation.target) || item === mutation.target
         },
