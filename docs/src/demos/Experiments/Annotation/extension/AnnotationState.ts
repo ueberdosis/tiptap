@@ -65,13 +65,13 @@ export class AnnotationState {
       return new AnnotationState(decorations)
     }
 
-    const decorations = [];
+    if (ystate && ystate.isChangeOrigin) {
+      const decorations = [];
 
-    [...decs.keys()].forEach(id => {
-      const dec = decs.get(id)
+      [...decs.keys()].forEach(id => {
+        const dec = decs.get(id)
 
-      decorations.push([
-        Decoration.inline(
+        decorations.push(Decoration.inline(
           relativePositionToAbsolutePosition(
             ystate.doc,
             ystate.type,
@@ -86,21 +86,15 @@ export class AnnotationState {
           ),
           { class: 'annotation' },
           { data: dec.data },
-        ),
-      ])
-    })
+        ))
+      })
 
-    return new AnnotationState(DecorationSet.create(state.doc, decorations))
+      return new AnnotationState(DecorationSet.create(state.doc, decorations))
+    }
 
-    // if (ystate && ystate.isChangeOrigin) {
-    //
-    // }
-
-    // // Apply ProseMirror mapping
-    // const decorations = this.decorations.map(transaction.mapping, transaction.doc)
-    // return new AnnotationState(decorations)
-
-    // return this
+    // Apply ProseMirror mapping
+    const decorations = this.decorations.map(transaction.mapping, transaction.doc)
+    return new AnnotationState(decorations)
   }
 
   static init(config: any, state: EditorState) {
