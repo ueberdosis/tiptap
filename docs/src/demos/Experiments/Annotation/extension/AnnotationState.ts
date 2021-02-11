@@ -19,9 +19,17 @@ export class AnnotationState {
 
   constructor(options: AnnotationStateOptions) {
     this.options = options
+
+    // TODO: Observe Y.js changes and re-render decorations
+    // this.options.map.observe(e => {
+    //   console.log('e', e)
+    // })
   }
 
   findAnnotation(id: number) {
+    // TODO: Get from Y.js?
+    // this.decorations.get(id)
+
     const current = this.decorations.find()
 
     for (let i = 0; i < current.length; i += 1) {
