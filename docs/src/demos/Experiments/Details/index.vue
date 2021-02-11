@@ -1,5 +1,9 @@
 <template>
   <div v-if="editor">
+    <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('details') }">
+      details
+    </button>
+
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -39,6 +43,7 @@ export default {
           <summary>A closed details tag</summary>
           <p>More info about the details.</p>
         </details>
+        <p>That’s it.</p>
       `,
     })
   },
@@ -53,6 +58,19 @@ export default {
 .ProseMirror {
   > * + * {
     margin-top: 0.75em;
+  }
+
+  details {
+    summary::before {
+      content: '▸';
+      color: red;
+      display: inline-block;
+      width: 1em;
+    }
+
+    &[open] summary::before {
+      content: '▾';
+    }
   }
 }
 </style>

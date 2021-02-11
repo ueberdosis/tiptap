@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes, Command } from '@tiptap/core'
 
 export interface DetailsOptions {
   HTMLAttributes: {
@@ -12,6 +12,8 @@ export default Node.create({
   content: 'detailsSummary block+',
 
   group: 'block',
+
+  // defining: true,
 
   defaultOptions: <DetailsOptions>{
     HTMLAttributes: {},
@@ -42,6 +44,32 @@ export default Node.create({
           return !item.contains(mutation.target) || item === mutation.target
         },
       }
+    }
+  },
+
+  addCommands() {
+    return {
+      /**
+       * Set a details node
+       */
+      setDetails: (): Command => ({ commands }) => {
+        // TODO: Doesn’t work
+        return commands.wrapIn('details')
+      },
+      /**
+       * Toggle a details node
+       */
+      toggleDetails: (): Command => ({ commands }) => {
+        // TODO: Doesn’t work
+        return commands.toggleWrap('details')
+      },
+      /**
+       * Unset a details node
+       */
+      unsetDetails: (): Command => ({ commands }) => {
+        // TODO: Doesn’t work
+        return commands.lift('details')
+      },
     }
   },
 })
