@@ -9,7 +9,9 @@ export interface DetailsSummaryOptions {
 export default Node.create({
   name: 'detailsSummary',
 
-  content: 'inline*',
+  content: 'text*',
+
+  marks: '',
 
   group: 'block',
 
