@@ -89,16 +89,12 @@
   }
 
   &__error {
-    padding: 1rem 1.5rem;
-    color: $colorRed;
-    background-color: rgba($colorRed, 0.1);
-  }
-
-  &__skeleton {
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
-    background-color: $colorWhite;
-    min-height: 20rem;
-    opacity: 0.1;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    border: 3px solid $colorBlack;
+    background-color: $colorRed;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
   }
 }

@@ -29,12 +29,9 @@
         </a>
       </div>
     </template>
-    <template v-else>
-      <div v-if="mainFile === false" class="demo__error">
-        Could not find a demo called “{{ name }}”.
-      </div>
-      <div v-else class="demo__skeleton" />
-    </template>
+    <div v-else class="demo__error">
+      Could not find a demo called “{{ name }}”.
+    </div>
   </div>
 </template>
 
