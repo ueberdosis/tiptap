@@ -4,12 +4,14 @@ import { AnnotationState } from './AnnotationState'
 
 export const AnnotationPluginKey = new PluginKey('annotation')
 
-export const AnnotationPlugin = (options: any, editor: any) => new Plugin({
+export const AnnotationPlugin = (options: any) => new Plugin({
   key: AnnotationPluginKey,
   state: {
-    init: AnnotationState.init,
-    apply(transaction, oldState) {
-      return oldState.apply(transaction, editor)
+    init(_, state) {
+      return AnnotationState.init(_, state)
+    },
+    apply(transaction, pluginState, oldState, newState) {
+      return pluginState.apply(transaction, newState)
     },
   },
   props: {

@@ -1,6 +1,8 @@
 // @ts-nocheck
+import * as Y from 'yjs'
+import { EditorState } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import { ySyncPluginKey } from 'y-prosemirror'
+import { ySyncPluginKey, relativePositionToAbsolutePosition, absolutePositionToRelativePosition } from 'y-prosemirror'
 import { AnnotationPluginKey } from './AnnotationPlugin'
 
 export class AnnotationState {
@@ -24,7 +26,7 @@ export class AnnotationState {
     return this.decorations.find(position, position)
   }
 
-  apply(transaction: any, editor: any) {
+  apply(transaction: any, state: EditorState) {
     const action = transaction.getMeta(AnnotationPluginKey)
     const actionType = action && action.type
 
@@ -44,18 +46,40 @@ export class AnnotationState {
       return new AnnotationState(decorations)
     }
 
-    const ystate = ySyncPluginKey.getState(editor.state)
+    const ystate = ySyncPluginKey.getState(state)
 
     if (ystate && ystate.isChangeOrigin) {
       // TODO: Create new decorations
-      // console.log(ystate.doc, ystate.type, ystate.binding)
+
+      const relative = absolutePositionToRelativePosition(
+        105,
+        ystate.type,
+        ystate.binding.mapping,
+      )
+
+      const absolute = relativePositionToAbsolutePosition(
+        ystate.doc,
+        ystate.type,
+        relative,
+        ystate.binding.mapping,
+      )
+
+      console.log({
+        decorations: this.decorations,
+        state,
+        ystate,
+        relative,
+        absolute,
+      })
 
       return this
     }
 
-    // Apply ProseMirror mapping
-    const decorations = this.decorations.map(transaction.mapping, transaction.doc)
-    return new AnnotationState(decorations)
+    // // Apply ProseMirror mapping
+    // const decorations = this.decorations.map(transaction.mapping, transaction.doc)
+    // return new AnnotationState(decorations)
+
+    return this
 
     // Y.createRelativePositionFromJSON(aw.cursor.anchor), // {any} relPos Encoded Yjs based relative position
     // ystate.binding.mapping, // ProsemirrorMapping} mapping
@@ -73,7 +97,7 @@ export class AnnotationState {
     // Resources to check: y-prosemirror createDecorations
   }
 
-  static init(config: any, state: any) {
+  static init(config: any, state: EditorState) {
     // TODO: Load initial decorations from Y.js?
     const decorations = DecorationSet.create(state.doc, [
       Decoration.inline(105, 190, { class: 'annotation' }, { data: { id: 123, content: 'foobar' } }),

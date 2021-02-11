@@ -58,7 +58,7 @@ export const Annotation = Extension.create({
 
   addProseMirrorPlugins() {
     return [
-      AnnotationPlugin(this.options, this.editor),
+      AnnotationPlugin(this.options),
     ]
   },
 })
