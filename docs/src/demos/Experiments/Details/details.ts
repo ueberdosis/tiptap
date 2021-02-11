@@ -1,5 +1,4 @@
 import { Node, mergeAttributes } from '@tiptap/core'
-// import { update } from 'cypress/types/lodash'
 
 export interface DetailsOptions {
   HTMLAttributes: {
