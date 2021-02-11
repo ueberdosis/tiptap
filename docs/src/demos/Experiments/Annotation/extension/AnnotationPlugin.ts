@@ -14,6 +14,7 @@ export interface AnnotationPluginOptions {
 
 export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin({
   key: AnnotationPluginKey,
+
   state: {
     init() {
       return new AnnotationState({
@@ -25,6 +26,7 @@ export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin
       return pluginState.apply(transaction, newState)
     },
   },
+
   props: {
     decorations(state) {
       const { decorations } = this.getState(state)

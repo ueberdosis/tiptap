@@ -7,6 +7,18 @@ function randomId() {
   return Math.floor(Math.random() * 0xffffffff)
 }
 
+export interface AddAnnotationAction {
+  type: 'addAnnotation',
+  from: number,
+  to: number,
+  data: AnnotationItem,
+}
+
+export interface DeleteAnnotationAction {
+  id: number,
+  type: 'deleteAnnotation',
+}
+
 export interface AnnotationOptions {
   HTMLAttributes: {
     [key: string]: any
@@ -49,7 +61,7 @@ export const Annotation = Extension.create({
         }
 
         if (dispatch && content) {
-          dispatch(state.tr.setMeta(AnnotationPluginKey, {
+          state.tr.setMeta(AnnotationPluginKey, <AddAnnotationAction>{
             type: 'addAnnotation',
             from: selection.from,
             to: selection.to,
@@ -57,14 +69,17 @@ export const Annotation = Extension.create({
               randomId(),
               content,
             ),
-          }))
+          })
         }
 
         return true
       },
       deleteAnnotation: (id: number): Command => ({ dispatch, state }) => {
         if (dispatch) {
-          dispatch(state.tr.setMeta(AnnotationPluginKey, { type: 'deleteAnnotation', id }))
+          state.tr.setMeta(AnnotationPluginKey, <DeleteAnnotationAction>{
+            type: 'deleteAnnotation',
+            id,
+          })
         }
 
         return true
