@@ -27,9 +27,6 @@ export class AnnotationState {
   }
 
   findAnnotation(id: string) {
-    // TODO: Get from Y.js?
-    // this.decorations.get(id)
-
     const current = this.decorations.find()
 
     for (let i = 0; i < current.length; i += 1) {
