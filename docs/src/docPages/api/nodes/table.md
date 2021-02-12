@@ -7,10 +7,6 @@ Nothing is as much fun as a good old HTML table. The `Table` extension enables y
 Don’t forget to add a `spacer.gif`. (Just joking. If you don’t know what that is, don’t listen.)
 
 ## Installation
-::: warning Use with TableRow, TableHeader and TableCell
-This extension requires the [`TableRow`](/api/nodes/table-row), [`TableHeader`](/api/nodes/table-header) and [`TableCell`](/api/nodes/table-cell) nodes.
-:::
-
 ```bash
 # with npm
 npm install @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
@@ -18,6 +14,8 @@ npm install @tiptap/extension-table @tiptap/extension-table-row @tiptap/extensio
 # with Yarn
 yarn add @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
 ```
+
+This extension requires the [`TableRow`](/api/nodes/table-row), [`TableHeader`](/api/nodes/table-header) and [`TableCell`](/api/nodes/table-cell) nodes.
 
 ## Settings
 | Option                  | Type      | Default     | Description                                                           |

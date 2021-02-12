@@ -49,7 +49,7 @@ function getMapFromOptions(options: AnnotationOptions): Y.Map<any> {
     : options.document?.getMap(options.field) as Y.Map<any>
 }
 
-export const Annotation = Extension.create({
+export const CollaborationAnnotation = Extension.create({
   name: 'annotation',
 
   defaultOptions: <AnnotationOptions>{
@@ -135,6 +135,6 @@ export const Annotation = Extension.create({
 
 declare module '@tiptap/core' {
   interface AllExtensions {
-    Annotation: typeof Annotation,
+    Annotation: typeof CollaborationAnnotation,
   }
 }

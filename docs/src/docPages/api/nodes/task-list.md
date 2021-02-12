@@ -7,10 +7,6 @@ This extension enables you to use task lists in the editor. They are rendered as
 Type <code>[ ]&nbsp;</code> or <code>[x]&nbsp;</code> at the beginning of a new line and it will magically transform to a task list.
 
 ## Installation
-::: warning Use with TaskItem
-This extension requires the [`TaskItem`](/api/nodes/task-item) extension.
-:::
-
 ```bash
 # with npm
 npm install @tiptap/extension-task-list @tiptap/extension-task-item
@@ -18,6 +14,8 @@ npm install @tiptap/extension-task-list @tiptap/extension-task-item
 # with Yarn
 yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 ```
+
+This extension requires the [`TaskItem`](/api/nodes/task-item) extension.
 
 ## Settings
 | Option         | Type     | Default | Description                                                           |

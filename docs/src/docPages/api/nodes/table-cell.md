@@ -5,10 +5,6 @@
 Don’t try to use tables without table cells. It won’t be fun.
 
 ## Installation
-::: warning Use with Table, TableRow and TableHeader
-This extension requires the [`Table`](/api/nodes/table), [`TableRow`](/api/nodes/table-row) and [`TableHeader`](/api/nodes/table-header) nodes.
-:::
-
 ```bash
 # with npm
 npm install @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
@@ -16,6 +12,8 @@ npm install @tiptap/extension-table @tiptap/extension-table-row @tiptap/extensio
 # with Yarn
 yarn add @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
 ```
+
+This extension requires the [`Table`](/api/nodes/table), [`TableRow`](/api/nodes/table-row) and [`TableHeader`](/api/nodes/table-header) nodes.
 
 ## Source code
 [packages/extension-table-cell/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-table-cell/)

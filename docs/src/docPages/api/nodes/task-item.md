@@ -7,10 +7,6 @@ This extension renders a task item list element, which is a `<li>` tag with a `d
 This extension doesn’t require any JavaScript framework, it’s based on plain JavaScript.
 
 ## Installation
-::: warning Use with TaskList
-This extension requires the [`TaskList`](/api/nodes/task-list) node.
-:::
-
 ```bash
 # With npm
 npm install @tiptap/extension-task-list @tiptap/extension-task-item
@@ -18,6 +14,8 @@ npm install @tiptap/extension-task-list @tiptap/extension-task-item
 # Or: With Yarn
 yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 ```
+
+This extension requires the [`TaskList`](/api/nodes/task-list) node.
 
 ## Settings
 | Option         | Type     | Default | Description                                                           |

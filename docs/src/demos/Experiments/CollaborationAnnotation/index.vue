@@ -40,7 +40,7 @@ import Collaboration from '@tiptap/extension-collaboration'
 import Bold from '@tiptap/extension-bold'
 import Heading from '@tiptap/extension-heading'
 import * as Y from 'yjs'
-import Annotation from './extension'
+import CollaborationAnnotation from './extension'
 
 export default {
   components: {
@@ -66,7 +66,7 @@ export default {
         Text,
         Bold,
         Heading,
-        Annotation.configure({
+        CollaborationAnnotation.configure({
           document: this.ydoc,
           onUpdate: items => { this.comments = items },
           instance: 'editor1',
@@ -92,7 +92,7 @@ export default {
         Text,
         Bold,
         Heading,
-        Annotation.configure({
+        CollaborationAnnotation.configure({
           document: this.ydoc,
           instance: 'editor2',
         }),

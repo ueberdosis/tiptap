@@ -5,10 +5,6 @@
 What’s a table without rows? Add this extension to make your tables usable.
 
 ## Installation
-::: warning Use with Table, TableHeader and TableCell
-This extension requires the [`Table`](/api/nodes/table), [`TableHeader`](/api/nodes/table-header) and [`TableCell`](/api/nodes/table-cell) nodes.
-:::
-
 ```bash
 # with npm
 npm install @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
@@ -16,6 +12,8 @@ npm install @tiptap/extension-table @tiptap/extension-table-row @tiptap/extensio
 # with Yarn
 yarn add @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
 ```
+
+This extension requires the [`Table`](/api/nodes/table), [`TableHeader`](/api/nodes/table-header) and [`TableCell`](/api/nodes/table-cell) nodes.
 
 ## Source code
 [packages/extension-table-row/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-table-row/)

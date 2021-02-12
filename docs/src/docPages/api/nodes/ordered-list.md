@@ -7,10 +7,6 @@ This extension enables you to use ordered lists in the editor. They are rendered
 Type <code>1.&nbsp;</code> (or any other number followed by a dot) at the beginning of a new line and it will magically transform to a ordered list.
 
 ## Installation
-::: warning Use with ListItem
-This extension requires the [`ListItem`](/api/nodes/list-item) node.
-:::
-
 ```bash
 # with npm
 npm install @tiptap/extension-ordered-list @tiptap/extension-list-item
@@ -18,6 +14,8 @@ npm install @tiptap/extension-ordered-list @tiptap/extension-list-item
 # with Yarn
 yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 ```
+
+This extension requires the [`ListItem`](/api/nodes/list-item) node.
 
 ## Settings
 | Option         | Type     | Default | Description                                                           |
