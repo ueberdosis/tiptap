@@ -100,7 +100,7 @@ export class AnnotationState {
           console.warn(`[${this.options.instance}] corrupt decoration `, annotation.from, from, annotation.to, to)
         }
 
-        return decorations.push(
+        decorations.push(
           Decoration.inline(from, to, HTMLAttributes, { id, data: annotation.data }),
         )
       })
