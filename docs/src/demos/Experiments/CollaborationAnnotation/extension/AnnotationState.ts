@@ -83,31 +83,24 @@ export class AnnotationState {
     const { doc, type, binding } = ystate
     const decorations: Decoration[] = []
 
-    Array
-      .from(map.keys())
-      .forEach(id => {
-        const annotation = map.get(id)
-        const from = relativePositionToAbsolutePosition(doc, type, annotation.from, binding.mapping)
-        const to = relativePositionToAbsolutePosition(doc, type, annotation.to, binding.mapping)
+    map.forEach((annotation, id) => {
+      const from = relativePositionToAbsolutePosition(doc, type, annotation.from, binding.mapping)
+      const to = relativePositionToAbsolutePosition(doc, type, annotation.to, binding.mapping)
 
-        if (!from || !to) {
-          return
-        }
+      if (!from || !to) {
+        return
+      }
 
-        console.log(`[${this.options.instance}] Decoration.inline()`, from, to, HTMLAttributes, { id, data: annotation.data })
+      console.log(`[${this.options.instance}] Decoration.inline()`, from, to, HTMLAttributes, { id, data: annotation.data })
 
-        if (from === to) {
-          console.warn(`[${this.options.instance}] corrupt decoration `, annotation.from, from, annotation.to, to)
-        }
+      if (from === to) {
+        console.warn(`[${this.options.instance}] corrupt decoration `, annotation.from, from, annotation.to, to)
+      }
 
-        return decorations.push(
-          Decoration.inline(from, to, HTMLAttributes, {
-            id,
-            data: annotation.data,
-            inclusiveEnd: true,
-          }),
-        )
-      })
+      decorations.push(
+        Decoration.inline(from, to, HTMLAttributes, { id, data: annotation.data, inclusiveEnd: true }),
+      )
+    })
 
     this.decorations = DecorationSet.create(state.doc, decorations)
   }
