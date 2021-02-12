@@ -52,7 +52,7 @@ const editor = new Editor({
   ],
 ```
 
-Learn [more about custom extensions in our guide](/guide/build-extensions).
+Learn [more about custom extensions in our guide](/guide/extend-extensions).
 
 ### ProseMirror plugins
 ProseMirror has a fantastic eco system with many amazing plugins. If you want to use one of them, you can register them with tiptap like that:

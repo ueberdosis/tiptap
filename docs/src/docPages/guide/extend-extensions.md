@@ -6,7 +6,7 @@
 One of the strength of tiptap is it’s extendability. You don’t depend on the provided extensions, it’s intended to extend the editor to your liking. With custom extensions you can add new content types and new functionalities, on top of what already exists or from scratch.
 
 ## Customize existing extensions
-Let’s say you want to change the keyboard shortcuts for the bullet list. You should start by looking at [the source code of the `BulletList` extension](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/index.ts) and find the part you would like to change. In that case, the keyboard shortcut, and just that.
+Let’s say you want to change the keyboard shortcuts for the bullet list. You should start by looking at [the source code of the `BulletList` extension](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/src/bullet-list.ts) and find the part you would like to change. In that case, the keyboard shortcut, and just that.
 
 Every extension has an `extend()` method, which takes an object with everything you want to change or add to it. For the bespoken example, your code could like that:
 
