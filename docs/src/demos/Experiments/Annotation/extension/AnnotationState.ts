@@ -19,11 +19,6 @@ export class AnnotationState {
 
   constructor(options: AnnotationStateOptions) {
     this.options = options
-
-    // TODO: Observe Y.js changes and re-render decorations
-    // this.options.map.observe(e => {
-    //   console.log('e', e)
-    // })
   }
 
   findAnnotation(id: string) {
@@ -111,6 +106,12 @@ export class AnnotationState {
 
       if (action.type === 'deleteAnnotation') {
         this.deleteAnnotation(action.id)
+      }
+
+      // @ts-ignore
+      if (action.type === 'updateAnnotations') {
+        console.log('updateAnnotations!')
+        this.updateDecorations(state)
       }
 
       return this

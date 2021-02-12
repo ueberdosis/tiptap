@@ -38,6 +38,12 @@ export interface AnnotationOptions {
   map: Y.Map<any> | null,
 }
 
+function getMapFromOptions(options: AnnotationOptions): Y.Map<any> {
+  return options.map
+    ? options.map
+    : options.document?.getMap(options.field) as Y.Map<any>
+}
+
 export const Annotation = Extension.create({
   name: 'annotation',
 
@@ -49,6 +55,20 @@ export const Annotation = Extension.create({
     document: null,
     field: 'annotations',
     map: null,
+  },
+
+  onCreate() {
+    const map = getMapFromOptions(this.options)
+
+    map.observe(e => {
+      console.log('should update annotations', e)
+
+      const transaction = this.editor.state.tr.setMeta(AnnotationPluginKey, {
+        type: 'updateAnnotations',
+      })
+
+      this.editor.view.dispatch(transaction)
+    })
   },
 
   addCommands() {
@@ -88,15 +108,11 @@ export const Annotation = Extension.create({
   },
 
   addProseMirrorPlugins() {
-    const map = this.options.map
-      ? this.options.map
-      : this.options.document?.getMap(this.options.field) as Y.Map<any>
-
     return [
       AnnotationPlugin({
         HTMLAttributes: this.options.HTMLAttributes,
         onUpdate: this.options.onUpdate,
-        map,
+        map: getMapFromOptions(this.options),
       }),
     ]
   },
