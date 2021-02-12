@@ -22,9 +22,6 @@ export class AnnotationState {
   }
 
   findAnnotation(id: string) {
-    // TODO: Get from Y.js?
-    // this.decorations.get(id)
-
     const current = this.decorations.find()
 
     for (let i = 0; i < current.length; i += 1) {
@@ -67,7 +64,7 @@ export class AnnotationState {
   }
 
   annotationsAt(position: number) {
-    return this.decorations?.find(position, position)
+    return this.decorations.find(position, position)
   }
 
   updateDecorations(state: EditorState) {
@@ -87,16 +84,16 @@ export class AnnotationState {
           return
         }
 
-        const decoration = Decoration.inline(from, to, HTMLAttributes, { data: dec.data })
-
-        return decorations.push(decoration)
+        return decorations.push(
+          Decoration.inline(from, to, HTMLAttributes, { data: dec.data }),
+        )
       })
 
     this.decorations = DecorationSet.create(state.doc, decorations)
   }
 
   apply(transaction: Transaction, state: EditorState) {
-    const ystate = ySyncPluginKey.getState(state)
+    // Add/Remove annotations
     const action = transaction.getMeta(AnnotationPluginKey) as AddAnnotationAction | DeleteAnnotationAction
 
     if (action && action.type) {
@@ -117,13 +114,16 @@ export class AnnotationState {
       return this
     }
 
+    // Use Y.js to update positions
+    const ystate = ySyncPluginKey.getState(state)
+
     if (ystate.isChangeOrigin) {
       this.updateDecorations(state)
 
       return this
     }
 
-    // Apply ProseMirror mapping
+    // Use ProseMirror to update positions
     this.decorations = this.decorations.map(transaction.mapping, transaction.doc)
 
     return this
