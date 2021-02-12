@@ -1,23 +1,23 @@
 import * as Y from 'yjs'
 import { Extension, Command } from '@tiptap/core'
-import { AnnotationItem } from './AnnotationItem'
 import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin'
-
-function randomId() {
-  // TODO: That seems … to simple.
-  return Math.floor(Math.random() * 0xffffffff).toString()
-}
 
 export interface AddAnnotationAction {
   type: 'addAnnotation',
+  content: any,
   from: number,
   to: number,
-  data: AnnotationItem,
+}
+
+export interface UpdateAnnotationAction {
+  type: 'updateAnnotation',
+  id: string,
+  content: any,
 }
 
 export interface DeleteAnnotationAction {
-  id: string,
   type: 'deleteAnnotation',
+  id: string,
 }
 
 export interface AnnotationOptions {
@@ -89,10 +89,17 @@ export const Annotation = Extension.create({
             type: 'addAnnotation',
             from: selection.from,
             to: selection.to,
-            data: new AnnotationItem(
-              randomId(),
-              content,
-            ),
+            content,
+          })
+        }
+
+        return true
+      },
+      updateAnnotation: (id: string, content: any): Command => ({ dispatch, state }) => {
+        if (dispatch) {
+          state.tr.setMeta(AnnotationPluginKey, <UpdateAnnotationAction>{
+            type: 'updateAnnotation',
+            content,
           })
         }
 

@@ -4,6 +4,7 @@ import { Decoration, DecorationSet } from 'prosemirror-view'
 import { ySyncPluginKey, relativePositionToAbsolutePosition, absolutePositionToRelativePosition } from 'y-prosemirror'
 import { AddAnnotationAction, DeleteAnnotationAction } from './annotation'
 import { AnnotationPluginKey } from './AnnotationPlugin'
+import { AnnotationItem } from './AnnotationItem'
 
 export interface AnnotationStateOptions {
   HTMLAttributes: {
@@ -21,11 +22,16 @@ export class AnnotationState {
     this.options = options
   }
 
+  randomId() {
+    // TODO: That seems … to simple.
+    return Math.floor(Math.random() * 0xffffffff).toString()
+  }
+
   findAnnotation(id: string) {
     const current = this.decorations.find()
 
     for (let i = 0; i < current.length; i += 1) {
-      if (current[i].spec.data.id === id) {
+      if (current[i].spec.id === id) {
         return current[i]
       }
     }
@@ -35,14 +41,14 @@ export class AnnotationState {
     const ystate = ySyncPluginKey.getState(state)
     const { type, binding } = ystate
     const { map } = this.options
-    const { from, to, data } = action
+    const { from, to, content } = action
     const absoluteFrom = absolutePositionToRelativePosition(from, type, binding.mapping)
     const absoluteTo = absolutePositionToRelativePosition(to, type, binding.mapping)
 
-    map.set(data.id, {
+    map.set(this.randomId(), {
       from: absoluteFrom,
       to: absoluteTo,
-      data,
+      content,
     })
   }
 
@@ -53,7 +59,9 @@ export class AnnotationState {
   }
 
   annotationsAt(position: number) {
-    return this.decorations.find(position, position)
+    return this.decorations.find(position, position).map(decoration => {
+      return new AnnotationItem(decoration)
+    })
   }
 
   updateDecorations(state: EditorState) {
@@ -65,16 +73,16 @@ export class AnnotationState {
     Array
       .from(map.keys())
       .forEach(id => {
-        const dec = map.get(id)
-        const from = relativePositionToAbsolutePosition(doc, type, dec.from, binding.mapping)
-        const to = relativePositionToAbsolutePosition(doc, type, dec.to, binding.mapping)
+        const decoration = map.get(id)
+        const from = relativePositionToAbsolutePosition(doc, type, decoration.from, binding.mapping)
+        const to = relativePositionToAbsolutePosition(doc, type, decoration.to, binding.mapping)
 
         if (!from || !to) {
           return
         }
 
         return decorations.push(
-          Decoration.inline(from, to, HTMLAttributes, { data: dec.data }),
+          Decoration.inline(from, to, HTMLAttributes, { id, content: decoration.content }),
         )
       })
 

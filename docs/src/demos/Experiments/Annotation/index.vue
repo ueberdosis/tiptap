@@ -8,10 +8,14 @@
         comment
       </button>
       <editor-content :editor="editor" />
-      <div v-for="comment in comments" :key="comment.type.spec.data.id">
-        {{ comment.type.spec.data }}
+      <div v-for="comment in comments" :key="comment.id">
+        {{ comment }}
 
-        <button @click="deleteComment(comment.type.spec.data.id)">
+        <button @click="updateComment(comment.id)">
+          update
+        </button>
+
+        <button @click="deleteComment(comment.id)">
           remove
         </button>
       </div>
@@ -23,11 +27,6 @@
         comment
       </button>
       <editor-content :editor="anotherEditor" />
-
-      <h2>
-        Y.js document
-      </h2>
-      {{ json }}
     </div>
   </div>
 </template>
@@ -108,19 +107,22 @@ export default {
 
       this.editor.commands.addAnnotation(content)
     },
-    addAnotherComment() {
-      const content = prompt('Comment', '')
+    updateComment(id) {
+      const comment = this.comments.find(item => {
+        return id === item.id
+      })
 
-      this.anotherEditor.commands.addAnnotation(content)
+      const content = prompt('Comment', comment.content)
+
+      this.editor.commands.updateAnnotation(id, content)
     },
     deleteComment(id) {
       this.editor.commands.deleteAnnotation(id)
     },
-  },
+    addAnotherComment() {
+      const content = prompt('Comment', '')
 
-  computed: {
-    json() {
-      return this.ydoc.toJSON()
+      this.anotherEditor.commands.addAnnotation(content)
     },
   },
 
