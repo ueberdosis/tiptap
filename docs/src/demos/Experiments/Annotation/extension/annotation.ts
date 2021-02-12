@@ -4,7 +4,7 @@ import { AnnotationItem } from './AnnotationItem'
 import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin'
 
 function randomId() {
-  return Math.floor(Math.random() * 0xffffffff)
+  return Math.floor(Math.random() * 0xffffffff).toString()
 }
 
 export interface AddAnnotationAction {
@@ -15,7 +15,7 @@ export interface AddAnnotationAction {
 }
 
 export interface DeleteAnnotationAction {
-  id: number,
+  id: string,
   type: 'deleteAnnotation',
 }
 
@@ -74,7 +74,7 @@ export const Annotation = Extension.create({
 
         return true
       },
-      deleteAnnotation: (id: number): Command => ({ dispatch, state }) => {
+      deleteAnnotation: (id: string): Command => ({ dispatch, state }) => {
         if (dispatch) {
           state.tr.setMeta(AnnotationPluginKey, <DeleteAnnotationAction>{
             type: 'deleteAnnotation',
