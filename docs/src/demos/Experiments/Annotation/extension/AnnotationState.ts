@@ -101,7 +101,7 @@ export class AnnotationState {
         }
 
         decorations.push(
-          Decoration.inline(from, to, HTMLAttributes, { id, data: annotation.data }),
+          Decoration.inline(from, to, HTMLAttributes, { id, data: annotation.data, inclusiveEnd: true }),
         )
       })
 
