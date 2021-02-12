@@ -40,4 +40,6 @@ This extension requires the [`Collaboration`](/api/extensions/collaboration) ext
 :::warning Public
 The content of this editor is shared with other users.
 :::
+
+<demo name="Extensions/CollaborationCursor" :show-source="false" />
 <demo name="Extensions/CollaborationCursor" highlight="11,39-45" />

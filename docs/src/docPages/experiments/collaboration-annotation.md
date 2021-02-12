@@ -4,6 +4,8 @@
 
 ⚠️ Experiment
 
+Annotations can be used to add additional information to the content, for example comments. They live on a different level than the actual editor content.
+
 <!-- :::pro Pro Extension
 We kindly ask you to [sponsor our work](/sponsor) when using this extension in production.
 ::: -->
