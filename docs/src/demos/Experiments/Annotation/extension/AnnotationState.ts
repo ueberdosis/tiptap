@@ -34,7 +34,7 @@ export class AnnotationState {
   addAnnotation(action: AddAnnotationAction, state: EditorState) {
     const ystate = ySyncPluginKey.getState(state)
     const { type, binding } = ystate
-    const { map, HTMLAttributes } = this.options
+    const { map } = this.options
     const { from, to, data } = action
     const absoluteFrom = absolutePositionToRelativePosition(from, type, binding.mapping)
     const absoluteTo = absolutePositionToRelativePosition(to, type, binding.mapping)
@@ -44,23 +44,12 @@ export class AnnotationState {
       to: absoluteTo,
       data,
     })
-
-    const decoration = Decoration.inline(from, to, HTMLAttributes, { data })
-
-    this.decorations = this.decorations.add(state.doc, [decoration])
   }
 
   deleteAnnotation(id: string) {
     const { map } = this.options
-    const decoration = this.findAnnotation(id)
 
     map.delete(id)
-
-    if (!decoration) {
-      return
-    }
-
-    this.decorations = this.decorations.remove([decoration])
   }
 
   annotationsAt(position: number) {
