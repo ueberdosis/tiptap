@@ -40,6 +40,7 @@ export interface AnnotationOptions {
    * A raw Y.js map, can be used instead of `document` and `field`.
    */
   map: Y.Map<any> | null,
+  instance: string,
 }
 
 function getMapFromOptions(options: AnnotationOptions): Y.Map<any> {
@@ -59,12 +60,15 @@ export const Annotation = Extension.create({
     document: null,
     field: 'annotations',
     map: null,
+    instance: '',
   },
 
   onCreate() {
     const map = getMapFromOptions(this.options)
 
     map.observe(() => {
+      console.log(`[${this.options.instance}] map updated  → createDecorations`)
+
       const transaction = this.editor.state.tr.setMeta(AnnotationPluginKey, {
         type: 'createDecorations',
       })
@@ -123,6 +127,7 @@ export const Annotation = Extension.create({
         HTMLAttributes: this.options.HTMLAttributes,
         onUpdate: this.options.onUpdate,
         map: getMapFromOptions(this.options),
+        instance: this.options.instance,
       }),
     ]
   },

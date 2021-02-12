@@ -10,6 +10,7 @@ export interface AnnotationPluginOptions {
   },
   onUpdate: (items: [any?]) => {},
   map: Y.Map<any>,
+  instance: string,
 }
 
 export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin({
@@ -20,6 +21,7 @@ export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin
       return new AnnotationState({
         HTMLAttributes: options.HTMLAttributes,
         map: options.map,
+        instance: options.instance,
       })
     },
     apply(transaction, pluginState, oldState, newState) {

@@ -11,6 +11,7 @@ export interface AnnotationStateOptions {
     [key: string]: any
   },
   map: Y.Map<any>,
+  instance: string,
 }
 
 export class AnnotationState {
@@ -93,6 +94,12 @@ export class AnnotationState {
           return
         }
 
+        console.log(`[${this.options.instance}] Decoration.inline()`, from, to, HTMLAttributes, { id, data: annotation.data })
+
+        if (from === to) {
+          console.warn(`[${this.options.instance}] corrupt decoration `, annotation.from, from, annotation.to, to)
+        }
+
         return decorations.push(
           Decoration.inline(from, to, HTMLAttributes, { id, data: annotation.data }),
         )
@@ -106,6 +113,8 @@ export class AnnotationState {
     const action = transaction.getMeta(AnnotationPluginKey) as AddAnnotationAction | UpdateAnnotationAction | DeleteAnnotationAction
 
     if (action && action.type) {
+      console.log(`[${this.options.instance}] action: ${action.type}`)
+
       if (action.type === 'addAnnotation') {
         this.addAnnotation(action, state)
       }
@@ -130,12 +139,14 @@ export class AnnotationState {
     const ystate = ySyncPluginKey.getState(state)
 
     if (ystate.isChangeOrigin) {
+      console.log(`[${this.options.instance}] isChangeOrigin: true → createDecorations`)
       this.createDecorations(state)
 
       return this
     }
 
     // Use ProseMirror to update positions
+    console.log(`[${this.options.instance}] isChangeOrigin: false → ProseMirror mapping`)
     this.decorations = this.decorations.map(transaction.mapping, transaction.doc)
 
     return this

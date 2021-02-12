@@ -69,6 +69,7 @@ export default {
         Annotation.configure({
           document: this.ydoc,
           onUpdate: items => { this.comments = items },
+          instance: 'editor1',
         }),
         Collaboration.configure({
           document: this.ydoc,
@@ -93,6 +94,7 @@ export default {
         Heading,
         Annotation.configure({
           document: this.ydoc,
+          instance: 'editor2',
         }),
         Collaboration.configure({
           document: this.ydoc,
