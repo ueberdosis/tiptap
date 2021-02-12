@@ -103,26 +103,26 @@ export default {
 
   methods: {
     addComment() {
-      const content = prompt('Comment', '')
+      const data = prompt('Comment', '')
 
-      this.editor.commands.addAnnotation(content)
+      this.editor.commands.addAnnotation(data)
     },
     updateComment(id) {
       const comment = this.comments.find(item => {
         return id === item.id
       })
 
-      const content = prompt('Comment', comment.content)
+      const data = prompt('Comment', comment.data)
 
-      this.editor.commands.updateAnnotation(id, content)
+      this.editor.commands.updateAnnotation(id, data)
     },
     deleteComment(id) {
       this.editor.commands.deleteAnnotation(id)
     },
     addAnotherComment() {
-      const content = prompt('Comment', '')
+      const data = prompt('Comment', '')
 
-      this.anotherEditor.commands.addAnnotation(content)
+      this.anotherEditor.commands.addAnnotation(data)
     },
   },
 

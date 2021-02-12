@@ -41,14 +41,14 @@ export class AnnotationState {
     const ystate = ySyncPluginKey.getState(state)
     const { type, binding } = ystate
     const { map } = this.options
-    const { from, to, content } = action
+    const { from, to, data } = action
     const absoluteFrom = absolutePositionToRelativePosition(from, type, binding.mapping)
     const absoluteTo = absolutePositionToRelativePosition(to, type, binding.mapping)
 
     map.set(this.randomId(), {
       from: absoluteFrom,
       to: absoluteTo,
-      content,
+      data,
     })
   }
 
@@ -73,16 +73,16 @@ export class AnnotationState {
     Array
       .from(map.keys())
       .forEach(id => {
-        const decoration = map.get(id)
-        const from = relativePositionToAbsolutePosition(doc, type, decoration.from, binding.mapping)
-        const to = relativePositionToAbsolutePosition(doc, type, decoration.to, binding.mapping)
+        const annotation = map.get(id)
+        const from = relativePositionToAbsolutePosition(doc, type, annotation.from, binding.mapping)
+        const to = relativePositionToAbsolutePosition(doc, type, annotation.to, binding.mapping)
 
         if (!from || !to) {
           return
         }
 
         return decorations.push(
-          Decoration.inline(from, to, HTMLAttributes, { id, content: decoration.content }),
+          Decoration.inline(from, to, HTMLAttributes, { id, data: annotation.data }),
         )
       })
 

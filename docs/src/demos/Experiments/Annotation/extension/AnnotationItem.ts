@@ -17,8 +17,8 @@ export class AnnotationItem {
     return this.decoration.to
   }
 
-  get content() {
-    return this.decoration.type.spec.content
+  get data() {
+    return this.decoration.type.spec.data
   }
 
   get HTMLAttributes() {
@@ -28,7 +28,7 @@ export class AnnotationItem {
   toString() {
     return JSON.stringify({
       id: this.id,
-      content: this.content,
+      data: this.data,
       from: this.from,
       to: this.to,
       HTMLAttributes: this.HTMLAttributes,

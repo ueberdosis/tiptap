@@ -4,7 +4,7 @@ import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin'
 
 export interface AddAnnotationAction {
   type: 'addAnnotation',
-  content: any,
+  data: any,
   from: number,
   to: number,
 }
@@ -12,7 +12,7 @@ export interface AddAnnotationAction {
 export interface UpdateAnnotationAction {
   type: 'updateAnnotation',
   id: string,
-  content: any,
+  data: any,
 }
 
 export interface DeleteAnnotationAction {
@@ -77,29 +77,29 @@ export const Annotation = Extension.create({
 
   addCommands() {
     return {
-      addAnnotation: (content: any): Command => ({ dispatch, state }) => {
+      addAnnotation: (data: any): Command => ({ dispatch, state }) => {
         const { selection } = state
 
         if (selection.empty) {
           return false
         }
 
-        if (dispatch && content) {
+        if (dispatch && data) {
           state.tr.setMeta(AnnotationPluginKey, <AddAnnotationAction>{
             type: 'addAnnotation',
             from: selection.from,
             to: selection.to,
-            content,
+            data,
           })
         }
 
         return true
       },
-      updateAnnotation: (id: string, content: any): Command => ({ dispatch, state }) => {
+      updateAnnotation: (id: string, data: any): Command => ({ dispatch, state }) => {
         if (dispatch) {
           state.tr.setMeta(AnnotationPluginKey, <UpdateAnnotationAction>{
             type: 'updateAnnotation',
-            content,
+            data,
           })
         }
 
