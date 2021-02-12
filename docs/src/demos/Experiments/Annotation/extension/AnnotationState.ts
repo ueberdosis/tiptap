@@ -2,7 +2,7 @@ import * as Y from 'yjs'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { ySyncPluginKey, relativePositionToAbsolutePosition, absolutePositionToRelativePosition } from 'y-prosemirror'
-import { AddAnnotationAction, DeleteAnnotationAction } from './annotation'
+import { AddAnnotationAction, DeleteAnnotationAction, UpdateAnnotationAction } from './annotation'
 import { AnnotationPluginKey } from './AnnotationPlugin'
 import { AnnotationItem } from './AnnotationItem'
 
@@ -52,6 +52,18 @@ export class AnnotationState {
     })
   }
 
+  updateAnnotation(action: UpdateAnnotationAction) {
+    const { map } = this.options
+
+    const annotation = map.get(action.id)
+
+    map.set(action.id, {
+      from: annotation.from,
+      to: annotation.to,
+      data: action.data,
+    })
+  }
+
   deleteAnnotation(id: string) {
     const { map } = this.options
 
@@ -64,7 +76,7 @@ export class AnnotationState {
     })
   }
 
-  updateDecorations(state: EditorState) {
+  createDecorations(state: EditorState) {
     const { map, HTMLAttributes } = this.options
     const ystate = ySyncPluginKey.getState(state)
     const { doc, type, binding } = ystate
@@ -91,11 +103,15 @@ export class AnnotationState {
 
   apply(transaction: Transaction, state: EditorState) {
     // Add/Remove annotations
-    const action = transaction.getMeta(AnnotationPluginKey) as AddAnnotationAction | DeleteAnnotationAction
+    const action = transaction.getMeta(AnnotationPluginKey) as AddAnnotationAction | UpdateAnnotationAction | DeleteAnnotationAction
 
     if (action && action.type) {
       if (action.type === 'addAnnotation') {
         this.addAnnotation(action, state)
+      }
+
+      if (action.type === 'updateAnnotation') {
+        this.updateAnnotation(action)
       }
 
       if (action.type === 'deleteAnnotation') {
@@ -103,9 +119,8 @@ export class AnnotationState {
       }
 
       // @ts-ignore
-      if (action.type === 'updateAnnotations') {
-        console.log('updateAnnotations!')
-        this.updateDecorations(state)
+      if (action.type === 'createDecorations') {
+        this.createDecorations(state)
       }
 
       return this
@@ -115,7 +130,7 @@ export class AnnotationState {
     const ystate = ySyncPluginKey.getState(state)
 
     if (ystate.isChangeOrigin) {
-      this.updateDecorations(state)
+      this.createDecorations(state)
 
       return this
     }

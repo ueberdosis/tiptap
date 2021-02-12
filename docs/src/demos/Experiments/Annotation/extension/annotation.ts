@@ -64,11 +64,9 @@ export const Annotation = Extension.create({
   onCreate() {
     const map = getMapFromOptions(this.options)
 
-    map.observe(e => {
-      console.log('should update annotations', e)
-
+    map.observe(() => {
       const transaction = this.editor.state.tr.setMeta(AnnotationPluginKey, {
-        type: 'updateAnnotations',
+        type: 'createDecorations',
       })
 
       this.editor.view.dispatch(transaction)
@@ -99,6 +97,7 @@ export const Annotation = Extension.create({
         if (dispatch) {
           state.tr.setMeta(AnnotationPluginKey, <UpdateAnnotationAction>{
             type: 'updateAnnotation',
+            id,
             data,
           })
         }
