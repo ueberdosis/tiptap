@@ -69,7 +69,7 @@ export class AnnotationState {
   }
 
   annotationsAt(position: number) {
-    return this.decorations?.find(position, position)
+    return this.decorations.find(position, position)
   }
 
   updateDecorations(state: EditorState) {
@@ -89,9 +89,9 @@ export class AnnotationState {
           return
         }
 
-        const decoration = Decoration.inline(from, to, HTMLAttributes, { data: dec.data })
-
-        return decorations.push(decoration)
+        return decorations.push(
+          Decoration.inline(from, to, HTMLAttributes, { data: dec.data }),
+        )
       })
 
     this.decorations = DecorationSet.create(state.doc, decorations)
