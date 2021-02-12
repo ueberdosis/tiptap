@@ -89,7 +89,7 @@ export class AnnotationState {
   }
 
   apply(transaction: Transaction, state: EditorState) {
-    const ystate = ySyncPluginKey.getState(state)
+    // Add/Remove annotations
     const action = transaction.getMeta(AnnotationPluginKey) as AddAnnotationAction | DeleteAnnotationAction
 
     if (action && action.type) {
@@ -104,13 +104,16 @@ export class AnnotationState {
       return this
     }
 
+    // Use Y.js to update positions
+    const ystate = ySyncPluginKey.getState(state)
+
     if (ystate.isChangeOrigin) {
       this.updateDecorations(state)
 
       return this
     }
 
-    // Apply ProseMirror mapping
+    // Use ProseMirror to update positions
     this.decorations = this.decorations.map(transaction.mapping, transaction.doc)
 
     return this

@@ -4,6 +4,7 @@ import { AnnotationItem } from './AnnotationItem'
 import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin'
 
 function randomId() {
+  // TODO: That seems … to simple.
   return Math.floor(Math.random() * 0xffffffff)
 }
 
@@ -23,13 +24,16 @@ export interface AnnotationOptions {
   HTMLAttributes: {
     [key: string]: any
   },
+  /**
+   * An event listener which receives annotations for the current selection.
+   */
   onUpdate: (items: [any?]) => {},
   /**
    * An initialized Y.js document.
    */
   document: Y.Doc | null,
   /**
-   * Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document.
+   * Name of a Y.js map, can be changed to sync multiple fields with one Y.js document.
    */
   field: string,
   /**
