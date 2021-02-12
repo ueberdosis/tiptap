@@ -1,4 +1,3 @@
-// @ts-nocheck
 import * as Y from 'yjs'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
@@ -27,7 +26,7 @@ export class AnnotationState {
     // })
   }
 
-  findAnnotation(id: number) {
+  findAnnotation(id: string) {
     // TODO: Get from Y.js?
     // this.decorations.get(id)
 
@@ -59,11 +58,16 @@ export class AnnotationState {
     this.decorations = this.decorations.add(state.doc, [decoration])
   }
 
-  deleteAnnotation(id: number) {
+  deleteAnnotation(id: string) {
     const { map } = this.options
     const decoration = this.findAnnotation(id)
 
     map.delete(id)
+
+    if (!decoration) {
+      return
+    }
+
     this.decorations = this.decorations.remove([decoration])
   }
 
@@ -75,15 +79,23 @@ export class AnnotationState {
     const { map, HTMLAttributes } = this.options
     const ystate = ySyncPluginKey.getState(state)
     const { doc, type, binding } = ystate
+    const decorations: Decoration[] = []
 
-    const decorations = Array.from(map.keys()).map(id => {
-      const dec = map.get(id)
-      const from = relativePositionToAbsolutePosition(doc, type, dec.from, binding.mapping)
-      const to = relativePositionToAbsolutePosition(doc, type, dec.to, binding.mapping)
-      const decoration = Decoration.inline(from, to, HTMLAttributes, { data: dec.data })
+    Array
+      .from(map.keys())
+      .forEach(id => {
+        const dec = map.get(id)
+        const from = relativePositionToAbsolutePosition(doc, type, dec.from, binding.mapping)
+        const to = relativePositionToAbsolutePosition(doc, type, dec.to, binding.mapping)
 
-      return decoration
-    })
+        if (!from || !to) {
+          return
+        }
+
+        const decoration = Decoration.inline(from, to, HTMLAttributes, { data: dec.data })
+
+        return decorations.push(decoration)
+      })
 
     this.decorations = DecorationSet.create(state.doc, decorations)
   }
@@ -118,5 +130,4 @@ export class AnnotationState {
 
     return this
   }
-
 }

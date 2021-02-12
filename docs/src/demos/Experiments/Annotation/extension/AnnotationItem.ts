@@ -1,9 +1,9 @@
 export class AnnotationItem {
-  public id!: number
+  public id!: string
 
   public text!: string
 
-  constructor(id: number, text: string) {
+  constructor(id: string, text: string) {
     this.id = id
     this.text = text
   }
