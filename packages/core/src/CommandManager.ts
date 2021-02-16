@@ -35,8 +35,7 @@ export default class CommandManager {
       .entries(commands)
       .map(([name, command]) => {
         const method = (...args: any) => {
-          // TODO: fix any
-          const callback = command(...args as any)(props)
+          const callback = command(...args)(props)
 
           if (!tr.getMeta('preventDispatch')) {
             view.dispatch(tr)
@@ -109,7 +108,7 @@ export default class CommandManager {
       tr.setStoredMarks(state.storedMarks)
     }
 
-    const props = {
+    const props: CommandProps = {
       tr,
       editor,
       view,
@@ -119,14 +118,10 @@ export default class CommandManager {
         : undefined,
       chain: () => this.createChain(tr),
       can: () => this.createCan(tr),
-      // TODO: fix
-      // @ts-ignore
       get commands() {
         return Object.fromEntries(Object
           .entries(commands)
           .map(([name, command]) => {
-            // TODO: fix
-            // @ts-ignore
             return [name, (...args: any[]) => command(...args)(props)]
           })) as SingleCommands
       },
