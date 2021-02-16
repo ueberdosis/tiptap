@@ -70,6 +70,7 @@ export interface NodeConfig<Options = any> extends Overwrite<ExtensionConfig<Opt
    */
   isolating?: NodeSpec['isolating'] | ((this: { options: Options }) => NodeSpec['isolating']),
 
+  // TODO: extend via extension-table
   /**
    * Table Role
    */
