@@ -7,7 +7,6 @@ import {
   RawCommands,
   CommandProps,
 } from './types'
-import getAllMethodNames from './utilities/getAllMethodNames'
 
 export default class CommandManager {
 
@@ -15,12 +14,9 @@ export default class CommandManager {
 
   commands: RawCommands
 
-  methodNames: string[] = []
-
   constructor(editor: Editor, commands: RawCommands) {
     this.editor = editor
     this.commands = commands
-    this.methodNames = getAllMethodNames(this.editor)
   }
 
   public createCommands(): SingleCommands {
