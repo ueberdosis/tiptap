@@ -38,10 +38,12 @@ import { Command, Extension } from '@tiptap/core'
 
 declare module '@tiptap/core' {
   interface Commands {
-    /**
-     * Comments will be added to the autocomplete.
-     */
-    yourCommand: (someProp: any) => Command,
+    customExtension: {
+      /**
+       * Comments will be added to the autocomplete.
+       */
+      yourCommand: (someProp: any) => Command,
+    }
   }
 }
 
