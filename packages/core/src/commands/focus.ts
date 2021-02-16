@@ -58,13 +58,19 @@ export const focus: RawCommands['focus'] = (position = null) => ({
   }
 
   const { from, to } = resolveSelection(editor.state, position) || editor.state.selection
-  const { doc } = tr
+  const { doc, storedMarks } = tr
   const resolvedFrom = minMax(from, 0, doc.content.size)
   const resolvedEnd = minMax(to, 0, doc.content.size)
   const selection = TextSelection.create(doc, resolvedFrom, resolvedEnd)
+  const isSameSelection = editor.state.selection.eq(selection)
 
   if (dispatch) {
     tr.setSelection(selection)
+
+    if (isSameSelection && storedMarks) {
+      tr.setStoredMarks(storedMarks)
+    }
+
     view.focus()
   }
 
