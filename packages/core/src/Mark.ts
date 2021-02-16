@@ -5,6 +5,7 @@ import {
   MarkType,
 } from 'prosemirror-model'
 import { Plugin, Transaction } from 'prosemirror-state'
+import { Command as ProseMirrorCommand } from 'prosemirror-commands'
 import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
 import mergeDeep from './utilities/mergeDeep'
@@ -80,7 +81,7 @@ export interface MarkConfig<Options = any> extends Overwrite<ExtensionConfig<Opt
     editor: Editor,
     type: MarkType,
   }) => {
-    [key: string]: any
+    [key: string]: ProseMirrorCommand,
   },
 
   /**

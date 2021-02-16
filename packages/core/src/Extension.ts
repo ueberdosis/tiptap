@@ -1,4 +1,5 @@
 import { Plugin, Transaction } from 'prosemirror-state'
+import { Command as ProseMirrorCommand } from 'prosemirror-commands'
 import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 import mergeDeep from './utilities/mergeDeep'
@@ -37,7 +38,7 @@ export interface ExtensionConfig<Options = any> {
     options: Options,
     editor: Editor,
   }) => {
-    [key: string]: any
+    [key: string]: ProseMirrorCommand,
   },
 
   /**

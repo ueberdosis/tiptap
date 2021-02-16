@@ -1,10 +1,10 @@
-// @ts-nocheck
 import {
   DOMOutputSpec,
   NodeSpec,
   Node as ProseMirrorNode,
   NodeType,
 } from 'prosemirror-model'
+import { Command as ProseMirrorCommand } from 'prosemirror-commands'
 import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
@@ -138,8 +138,7 @@ export interface NodeConfig<Options = any> extends Overwrite<ExtensionConfig<Opt
     editor: Editor,
     type: NodeType,
   }) => {
-    // [key: string]: any
-    [key: string]: () => boolean
+    [key: string]: ProseMirrorCommand,
   },
 
   /**
@@ -292,6 +291,8 @@ export class Node<Options = any> {
     onFocus: null,
     onBlur: null,
     onDestroy: null,
+    // TODO: remove,
+    tableRole: null,
   }
 
   options!: Options
