@@ -6,15 +6,17 @@ type FontFamilyOptions = {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set the font family
-     */
-    setFontFamily: (fontFamily: string) => Command,
-    /**
-     * Unset the font family
-     */
-    unsetFontFamily: () => Command,
+  interface AllCommands {
+    fontFamily: {
+      /**
+       * Set the font family
+       */
+      setFontFamily: (fontFamily: string) => Command,
+      /**
+       * Unset the font family
+       */
+      unsetFontFamily: () => Command,
+    }
   }
 }
 

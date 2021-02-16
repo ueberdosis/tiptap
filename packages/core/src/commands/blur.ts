@@ -1,11 +1,13 @@
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Removes focus from the editor.
-     */
-    blur: () => Command,
+  interface AllCommands {
+    blur: {
+      /**
+       * Removes focus from the editor.
+       */
+      blur: () => Command,
+    }
   }
 }
 

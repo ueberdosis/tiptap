@@ -13,19 +13,21 @@ export interface CodeOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set a code mark
-     */
-    setCode: () => Command,
-    /**
-     * Toggle inline code
-     */
-    toggleCode: () => Command,
-    /**
-     * Unset a code mark
-     */
-    unsetCode: () => Command,
+  interface AllCommands {
+    code: {
+      /**
+       * Set a code mark
+       */
+      setCode: () => Command,
+      /**
+       * Toggle inline code
+       */
+      toggleCode: () => Command,
+      /**
+       * Unset a code mark
+       */
+      unsetCode: () => Command,
+    }
   }
 }
 

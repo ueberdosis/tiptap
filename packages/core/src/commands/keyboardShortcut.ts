@@ -57,11 +57,13 @@ function normalizeKeyName(name: string) {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Trigger a keyboard shortcut.
-     */
-    keyboardShortcut: (name: string) => Command,
+  interface AllCommands {
+    keyboardShortcut: {
+      /**
+       * Trigger a keyboard shortcut.
+       */
+      keyboardShortcut: (name: string) => Command,
+    }
   }
 }
 

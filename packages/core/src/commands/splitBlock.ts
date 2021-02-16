@@ -25,11 +25,13 @@ function ensureMarks(state: EditorState) {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Forks a new node from an existing node.
-     */
-    splitBlock: (options?: { keepMarks?: boolean }) => Command,
+  interface AllCommands {
+    splitBlock: {
+      /**
+       * Forks a new node from an existing node.
+       */
+      splitBlock: (options?: { keepMarks?: boolean }) => Command,
+    }
   }
 }
 

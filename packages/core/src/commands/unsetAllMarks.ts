@@ -1,11 +1,13 @@
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Remove all marks in the current selection.
-     */
-    unsetAllMarks: () => Command,
+  interface AllCommands {
+    unsetAllMarks: {
+      /**
+       * Remove all marks in the current selection.
+       */
+      unsetAllMarks: () => Command,
+    }
   }
 }
 

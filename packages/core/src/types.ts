@@ -14,9 +14,9 @@ import { Extension } from './Extension'
 import { Node } from './Node'
 import { Mark } from './Mark'
 import { Editor } from './Editor'
-import { Commands } from '.'
+import { AllCommands } from '.'
 
-export { Commands }
+export { AllCommands }
 
 export type Extensions = (Extension | Node | Mark)[]
 
@@ -120,6 +120,13 @@ export type NodeViewRenderer = (props: NodeViewRendererProps) => (NodeView | {})
 
 export type ValuesOf<T> = T[keyof T];
 export type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
+export type UnionCommands = UnionToIntersection<ValuesOf<Pick<AllCommands, KeysWithTypeOf<AllCommands, {}>>>>
+
+export type Commands = {
+  [Item in keyof UnionCommands]: UnionCommands[Item] extends (...args: any[]) => any
+  ? (...args: Parameters<UnionCommands[Item]>) => Command
+  : never
+}
 
 export type SingleCommands = {
   [Item in keyof Commands]: Commands[Item] extends (...args: any[]) => any

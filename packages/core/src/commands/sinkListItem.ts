@@ -4,11 +4,13 @@ import { Command, Commands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Sink the list item down into an inner list.
-     */
-    sinkListItem: (typeOrName: string | NodeType) => Command,
+  interface AllCommands {
+    sinkListItem: {
+      /**
+       * Sink the list item down into an inner list.
+       */
+      sinkListItem: (typeOrName: string | NodeType) => Command,
+    }
   }
 }
 

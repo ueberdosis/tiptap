@@ -5,11 +5,13 @@ import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Removes an existing wrap.
-     */
-    lift: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+  interface AllCommands {
+    lift: {
+      /**
+       * Removes an existing wrap.
+       */
+      lift: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+    }
   }
 }
 

@@ -4,11 +4,13 @@ import { AnyObject, Command, Commands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Wrap a node in a list.
-     */
-    wrapInList: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+  interface AllCommands {
+    wrapInList: {
+      /**
+       * Wrap a node in a list.
+       */
+      wrapInList: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+    }
   }
 }
 

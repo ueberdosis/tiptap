@@ -2,11 +2,13 @@ import { liftEmptyBlock as originalLiftEmptyBlock } from 'prosemirror-commands'
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Lift block if empty.
-     */
-    liftEmptyBlock: () => Command,
+  interface AllCommands {
+    liftEmptyBlock: {
+      /**
+       * Lift block if empty.
+       */
+      liftEmptyBlock: () => Command,
+    }
   }
 }
 

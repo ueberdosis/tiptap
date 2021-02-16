@@ -14,9 +14,11 @@ export interface AnnotationOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    addAnnotation: (content: any) => Command,
-    deleteAnnotation: (id: number) => Command,
+  interface AllCommands {
+    annotation: {
+      addAnnotation: (content: any) => Command,
+      deleteAnnotation: (id: number) => Command,
+    }
   }
 }
 

@@ -2,11 +2,13 @@ import { selectAll as originalSelectAll } from 'prosemirror-commands'
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Select the whole document.
-     */
-    selectAll: () => Command,
+  interface AllCommands {
+    selectAll: {
+      /**
+       * Select the whole document.
+       */
+      selectAll: () => Command,
+    }
   }
 }
 

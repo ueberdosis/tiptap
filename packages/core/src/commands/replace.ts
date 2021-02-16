@@ -2,11 +2,13 @@ import { NodeType } from 'prosemirror-model'
 import { Command, Commands, AnyObject } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Replaces text with a node.
-     */
-    replace: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+  interface AllCommands {
+    replace: {
+      /**
+       * Replaces text with a node.
+       */
+      replace: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+    }
   }
 }
 

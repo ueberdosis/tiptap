@@ -5,11 +5,13 @@ import findParentNode from '../helpers/findParentNode'
 import isList from '../helpers/isList'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Toggle between different list types.
-     */
-    toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType) => Command,
+  interface AllCommands {
+    toggleList: {
+      /**
+       * Toggle between different list types.
+       */
+      toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType) => Command,
+    }
   }
 }
 

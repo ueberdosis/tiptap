@@ -5,11 +5,13 @@ import getMarkType from '../helpers/getMarkType'
 import getMarkRange from '../helpers/getMarkRange'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Extends the text selection to the current mark.
-     */
-    extendMarkRange: (typeOrName: string | MarkType) => Command,
+  interface AllCommands {
+    extendMarkRange: {
+      /**
+       * Extends the text selection to the current mark.
+       */
+      extendMarkRange: (typeOrName: string | MarkType) => Command,
+    }
   }
 }
 

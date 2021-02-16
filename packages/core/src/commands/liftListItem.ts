@@ -4,11 +4,13 @@ import { Command, Commands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Lift the list item into a wrapping list.
-     */
-    liftListItem: (typeOrName: string | NodeType) => Command,
+  interface AllCommands {
+    liftListItem: {
+      /**
+       * Lift the list item into a wrapping list.
+       */
+      liftListItem: (typeOrName: string | NodeType) => Command,
+    }
   }
 }
 

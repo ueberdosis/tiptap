@@ -1,11 +1,13 @@
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Runs one command after the other and stops at the first which returns true.
-     */
-    first: (commands: Command[] | ((props: Parameters<Command>[0]) => Command[])) => Command,
+  interface AllCommands {
+    first: {
+      /**
+       * Runs one command after the other and stops at the first which returns true.
+       */
+      first: (commands: Command[] | ((props: Parameters<Command>[0]) => Command[])) => Command,
+    }
   }
 }
 

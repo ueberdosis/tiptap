@@ -18,11 +18,13 @@ function selectionToInsertionEnd(tr: Transaction, startLen: number, bias: number
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Insert a string of HTML at the current position.
-     */
-    insertHTML: (value: string) => Command,
+  interface AllCommands {
+    insertHTML: {
+      /**
+       * Insert a string of HTML at the current position.
+       */
+      insertHTML: (value: string) => Command,
+    }
   }
 }
 

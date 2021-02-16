@@ -13,11 +13,13 @@ export interface ImageOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Add an image
-     */
-    setImage: (options: { src: string, alt?: string, title?: string }) => Command,
+  interface AllCommands {
+    image: {
+      /**
+       * Add an image
+       */
+      setImage: (options: { src: string, alt?: string, title?: string }) => Command,
+    }
   }
 }
 

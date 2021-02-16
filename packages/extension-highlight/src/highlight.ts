@@ -14,19 +14,21 @@ export interface HighlightOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set a highlight mark
-     */
-    setHighlight: (attributes?: { color: string }) => Command,
-    /**
-     * Toggle a highlight mark
-     */
-    toggleHighlight: (attributes?: { color: string }) => Command,
-    /**
-     * Unset a highlight mark
-     */
-    unsetHighlight: () => Command,
+  interface AllCommands {
+    highlight: {
+      /**
+       * Set a highlight mark
+       */
+      setHighlight: (attributes?: { color: string }) => Command,
+      /**
+       * Toggle a highlight mark
+       */
+      toggleHighlight: (attributes?: { color: string }) => Command,
+      /**
+       * Unset a highlight mark
+       */
+      unsetHighlight: () => Command,
+    }
   }
 }
 

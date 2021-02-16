@@ -2,11 +2,13 @@ import { exitCode as originalExitCode } from 'prosemirror-commands'
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Exit from a code block.
-     */
-    exitCode: () => Command,
+  interface AllCommands {
+    exitCode: {
+      /**
+       * Exit from a code block.
+       */
+      exitCode: () => Command,
+    }
   }
 }
 

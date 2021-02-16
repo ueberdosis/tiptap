@@ -7,11 +7,13 @@ export interface TaskListOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Toggle a task list
-     */
-    toggleTaskList: () => Command,
+  interface AllCommands {
+    taskList: {
+      /**
+       * Toggle a task list
+       */
+      toggleTaskList: () => Command,
+    }
   }
 }
 

@@ -2,11 +2,13 @@ import { liftTarget } from 'prosemirror-transform'
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Normalize nodes to a simple paragraph.
-     */
-    clearNodes: () => Command,
+  interface AllCommands {
+    clearNodes: {
+      /**
+       * Normalize nodes to a simple paragraph.
+       */
+      clearNodes: () => Command,
+    }
   }
 }
 

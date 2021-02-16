@@ -3,11 +3,13 @@ import getNodeType from '../helpers/getNodeType'
 import { AnyObject, Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Update attributes of a node.
-     */
-    updateNodeAttributes: (typeOrName: string | NodeType, attributes: AnyObject) => Command,
+  interface AllCommands {
+    updateNodeAttributes: {
+      /**
+       * Update attributes of a node.
+       */
+      updateNodeAttributes: (typeOrName: string | NodeType, attributes: AnyObject) => Command,
+    }
   }
 }
 

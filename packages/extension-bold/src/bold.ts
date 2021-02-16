@@ -13,19 +13,21 @@ export interface BoldOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set a bold mark
-     */
-    setBold: () => Command,
-    /**
-     * Toggle a bold mark
-     */
-    toggleBold: () => Command,
-    /**
-     * Unset a bold mark
-     */
-    unsetBold: () => Command,
+  interface AllCommands {
+    bold: {
+      /**
+       * Set a bold mark
+       */
+      setBold: () => Command,
+      /**
+       * Toggle a bold mark
+       */
+      toggleBold: () => Command,
+      /**
+       * Unset a bold mark
+       */
+      unsetBold: () => Command,
+    }
   }
 }
 

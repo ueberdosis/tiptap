@@ -4,11 +4,13 @@ import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Toggle a node with another node.
-     */
-    toggleNode: (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attributes?: AnyObject) => Command,
+  interface AllCommands {
+    toggleNode: {
+      /**
+       * Toggle a node with another node.
+       */
+      toggleNode: (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attributes?: AnyObject) => Command,
+    }
   }
 }
 

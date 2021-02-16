@@ -1,11 +1,13 @@
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Define a command inline.
-     */
-    command: (fn: (props: Parameters<Command>[0]) => boolean) => Command,
+  interface AllCommands {
+    command: {
+      /**
+       * Define a command inline.
+       */
+      command: (fn: (props: Parameters<Command>[0]) => boolean) => Command,
+    }
   }
 }
 

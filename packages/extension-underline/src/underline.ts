@@ -7,19 +7,21 @@ export interface UnderlineOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set an underline mark
-     */
-    setUnderline: () => Command,
-    /**
-     * Toggle an underline mark
-     */
-    toggleUnderline: () => Command,
-    /**
-     * Unset an underline mark
-     */
-    unsetUnderline: () => Command,
+  interface AllCommands {
+    underline: {
+      /**
+       * Set an underline mark
+       */
+      setUnderline: () => Command,
+      /**
+       * Toggle an underline mark
+       */
+      toggleUnderline: () => Command,
+      /**
+       * Unset an underline mark
+       */
+      unsetUnderline: () => Command,
+    }
   }
 }
 

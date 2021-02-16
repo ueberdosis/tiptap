@@ -8,11 +8,13 @@ export interface OrderedListOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Toggle an ordered list
-     */
-    toggleOrderedList: () => Command,
+  interface AllCommands {
+    orderedList: {
+      /**
+       * Toggle an ordered list
+       */
+      toggleOrderedList: () => Command,
+    }
   }
 }
 

@@ -8,19 +8,21 @@ export interface BlockquoteOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set a blockquote node
-     */
-    setBlockquote: () => Command,
-    /**
-     * Toggle a blockquote node
-     */
-    toggleBlockquote: () => Command,
-    /**
-     * Unset a blockquote node
-     */
-    unsetBlockquote: () => Command,
+  interface AllCommands {
+    blockQuote: {
+      /**
+       * Set a blockquote node
+       */
+      setBlockquote: () => Command,
+      /**
+       * Toggle a blockquote node
+       */
+      toggleBlockquote: () => Command,
+      /**
+       * Unset a blockquote node
+       */
+      unsetBlockquote: () => Command,
+    }
   }
 }
 

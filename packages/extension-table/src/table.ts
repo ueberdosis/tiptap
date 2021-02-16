@@ -42,25 +42,27 @@ export interface TableOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    insertTable: (options?: { rows?: number, cols?: number, withHeaderRow?: boolean }) => Command,
-    addColumnBefore: () => Command,
-    addColumnAfter: () => Command,
-    deleteColumn: () => Command,
-    addRowBefore: () => Command,
-    addRowAfter: () => Command,
-    deleteRow: () => Command,
-    deleteTable: () => Command,
-    mergeCells: () => Command,
-    splitCell: () => Command,
-    toggleHeaderColumn: () => Command,
-    toggleHeaderRow: () => Command,
-    toggleHeaderCell: () => Command,
-    mergeOrSplit: () => Command,
-    setCellAttribute: (name: string, value: any) => Command,
-    goToNextCell: () => Command,
-    goToPreviousCell: () => Command,
-    fixTables: () => Command,
+  interface AllCommands {
+    table: {
+      insertTable: (options?: { rows?: number, cols?: number, withHeaderRow?: boolean }) => Command,
+      addColumnBefore: () => Command,
+      addColumnAfter: () => Command,
+      deleteColumn: () => Command,
+      addRowBefore: () => Command,
+      addRowAfter: () => Command,
+      deleteRow: () => Command,
+      deleteTable: () => Command,
+      mergeCells: () => Command,
+      splitCell: () => Command,
+      toggleHeaderColumn: () => Command,
+      toggleHeaderRow: () => Command,
+      toggleHeaderCell: () => Command,
+      mergeOrSplit: () => Command,
+      setCellAttribute: (name: string, value: any) => Command,
+      goToNextCell: () => Command,
+      goToPreviousCell: () => Command,
+      fixTables: () => Command,
+    }
   }
 }
 

@@ -7,15 +7,17 @@ import {
 } from 'y-prosemirror'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Undo recent changes
-     */
-    undo: () => Command,
-    /**
-     * Reapply reverted changes
-     */
-    redo: () => Command,
+  interface AllCommands {
+    collaboration: {
+      /**
+       * Undo recent changes
+       */
+      undo: () => Command,
+      /**
+       * Reapply reverted changes
+       */
+      redo: () => Command,
+    }
   }
 }
 

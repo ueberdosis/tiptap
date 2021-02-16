@@ -9,15 +9,17 @@ export interface CodeBlockOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set a code block
-     */
-    setCodeBlock: (attributes?: { language: string }) => Command,
-    /**
-     * Toggle a code block
-     */
-    toggleCodeBlock: (attributes?: { language: string }) => Command,
+  interface AllCommands {
+    codeBlock: {
+      /**
+       * Set a code block
+       */
+      setCodeBlock: (attributes?: { language: string }) => Command,
+      /**
+       * Toggle a code block
+       */
+      toggleCodeBlock: (attributes?: { language: string }) => Command,
+    }
   }
 }
 

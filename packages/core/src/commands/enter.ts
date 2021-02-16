@@ -1,11 +1,13 @@
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Trigger enter.
-     */
-    enter: () => Command,
+  interface AllCommands {
+    enter: {
+      /**
+       * Trigger enter.
+       */
+      enter: () => Command,
+    }
   }
 }
 

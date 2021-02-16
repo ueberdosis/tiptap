@@ -2,11 +2,13 @@ import { undoInputRule as originalUndoInputRule } from 'prosemirror-inputrules'
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Undo an input rule.
-     */
-    undoInputRule: () => Command,
+  interface AllCommands {
+    undoInputRule: {
+      /**
+       * Undo an input rule.
+       */
+      undoInputRule: () => Command,
+    }
   }
 }
 

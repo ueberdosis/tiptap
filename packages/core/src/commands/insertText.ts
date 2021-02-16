@@ -1,11 +1,13 @@
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Insert a string of text at the current position.
-     */
-    insertText: (value: string) => Command,
+  interface AllCommands {
+    insertText: {
+      /**
+       * Insert a string of text at the current position.
+       */
+      insertText: (value: string) => Command,
+    }
   }
 }
 

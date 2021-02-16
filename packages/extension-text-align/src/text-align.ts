@@ -7,15 +7,17 @@ type TextAlignOptions = {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set the text align attribute
-     */
-    setTextAlign: (alignment: string) => Command,
-    /**
-     * Unset the text align attribute
-     */
-    unsetTextAlign: () => Command,
+  interface AllCommands {
+    textAlign: {
+      /**
+       * Set the text align attribute
+       */
+      setTextAlign: (alignment: string) => Command,
+      /**
+       * Unset the text align attribute
+       */
+      unsetTextAlign: () => Command,
+    }
   }
 }
 

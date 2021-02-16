@@ -4,11 +4,13 @@ import deleteProps from '../utilities/deleteProps'
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Resets node attributes to the default value.
-     */
-    resetNodeAttributes: (typeOrName: string | NodeType, attributes: string | string[]) => Command,
+  interface AllCommands {
+    resetNodeAttributes: {
+      /**
+       * Resets node attributes to the default value.
+       */
+      resetNodeAttributes: (typeOrName: string | NodeType, attributes: string | string[]) => Command,
+    }
   }
 }
 

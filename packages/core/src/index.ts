@@ -22,4 +22,4 @@ export { default as isCellSelection } from './helpers/isCellSelection'
 export { default as findParentNodeClosestToPos } from './helpers/findParentNodeClosestToPos'
 
 export interface AllExtensions {}
-export interface Commands {}
+export interface AllCommands {}

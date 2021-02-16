@@ -4,11 +4,13 @@ import getMarkType from '../helpers/getMarkType'
 import getMarkAttributes from '../helpers/getMarkAttributes'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Add a mark with new attributes.
-     */
-    setMark: (typeOrName: string | MarkType, attributes?: AnyObject) => Command,
+  interface AllCommands {
+    setMark: {
+      /**
+       * Add a mark with new attributes.
+       */
+      setMark: (typeOrName: string | MarkType, attributes?: AnyObject) => Command,
+    }
   }
 }
 

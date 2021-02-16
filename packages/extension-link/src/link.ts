@@ -14,19 +14,21 @@ export interface LinkOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set a link mark
-     */
-    setLink: (attributes: { href: string, target?: string }) => Command,
-    /**
-     * Toggle a link mark
-     */
-    toggleLink: (attributes: { href: string, target?: string }) => Command,
-    /**
-     * Unset a link mark
-     */
-    unsetLink: () => Command,
+  interface AllCommands {
+    link: {
+      /**
+       * Set a link mark
+       */
+      setLink: (attributes: { href: string, target?: string }) => Command,
+      /**
+       * Toggle a link mark
+       */
+      toggleLink: (attributes: { href: string, target?: string }) => Command,
+      /**
+       * Unset a link mark
+       */
+      unsetLink: () => Command,
+    }
   }
 }
 

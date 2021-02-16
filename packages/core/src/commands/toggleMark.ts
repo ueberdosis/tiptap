@@ -4,11 +4,13 @@ import getMarkType from '../helpers/getMarkType'
 import isMarkActive from '../helpers/isMarkActive'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Toggle a mark on and off.
-     */
-    toggleMark: (typeOrName: string | MarkType, attributes?: AnyObject) => Command,
+  interface AllCommands {
+    toggleMark: {
+      /**
+       * Toggle a mark on and off.
+       */
+      toggleMark: (typeOrName: string | MarkType, attributes?: AnyObject) => Command,
+    }
   }
 }
 

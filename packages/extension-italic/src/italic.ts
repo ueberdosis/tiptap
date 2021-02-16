@@ -13,19 +13,21 @@ export interface ItalicOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set an italic mark
-     */
-    setItalic: () => Command,
-    /**
-     * Toggle an italic mark
-     */
-    toggleItalic: () => Command,
-    /**
-     * Unset an italic mark
-     */
-    unsetItalic: () => Command,
+  interface AllCommands {
+    italic: {
+      /**
+       * Set an italic mark
+       */
+      setItalic: () => Command,
+      /**
+       * Toggle an italic mark
+       */
+      toggleItalic: () => Command,
+      /**
+       * Unset an italic mark
+       */
+      unsetItalic: () => Command,
+    }
   }
 }
 

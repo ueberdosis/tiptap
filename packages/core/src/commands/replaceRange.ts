@@ -8,11 +8,13 @@ import {
 } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Replaces text with a node within a range.
-     */
-    replaceRange: (range: Range, typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+  interface AllCommands {
+    replaceRange: {
+      /**
+       * Replaces text with a node within a range.
+       */
+      replaceRange: (range: Range, typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+    }
   }
 }
 

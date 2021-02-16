@@ -2,11 +2,13 @@ import { selectNodeForward as originalSelectNodeForward } from 'prosemirror-comm
 import { Command, Commands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Select a node forward.
-     */
-    selectNodeForward: () => Command,
+  interface AllCommands {
+    selectNodeForward: {
+      /**
+       * Select a node forward.
+       */
+      selectNodeForward: () => Command,
+    }
   }
 }
 

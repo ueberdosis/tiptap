@@ -11,15 +11,17 @@ export interface HeadingOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
-    /**
-     * Set a heading node
-     */
-    setHeading: (attributes: { level: Level }) => Command,
-    /**
-     * Toggle a heading node
-     */
-    toggleHeading: (attributes: { level: Level }) => Command,
+  interface AllCommands {
+    heading: {
+      /**
+       * Set a heading node
+       */
+      setHeading: (attributes: { level: Level }) => Command,
+      /**
+       * Toggle a heading node
+       */
+      toggleHeading: (attributes: { level: Level }) => Command,
+    }
   }
 }
 
