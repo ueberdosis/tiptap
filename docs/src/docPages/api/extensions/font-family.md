@@ -5,10 +5,6 @@
 This extension enables you to set the font family in the editor. It uses the [`TextStyle`](/api/marks/text-style) mark, which renders a `<span>` tag. The font family is applied as inline style, for example `<span style="font-family: Arial">`.
 
 ## Installation
-::: warning Use with TextStyle
-This extension requires the [`TextStyle`](/api/marks/text-style) mark.
-:::
-
 ```bash
 # with npm
 npm install @tiptap/extension-text-style @tiptap/extension-font-family
@@ -16,6 +12,8 @@ npm install @tiptap/extension-text-style @tiptap/extension-font-family
 # with Yarn
 yarn add @tiptap/extension-text-style @tiptap/extension-font-family
 ```
+
+This extension requires the [`TextStyle`](/api/marks/text-style) mark.
 
 ## Settings
 | Option | Type    | Default         | Description                                                              |

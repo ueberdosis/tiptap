@@ -63,7 +63,7 @@ editor.isActive({ textAlign: 'right' })
 If your selection spans multiple nodes or marks, or only part of the selection has a mark, `isActive()` will return `false` and indicate nothing is active. That is how it is supposed to be, because it allows people to apply a new node or mark to that selection right-away.
 
 ## Icons
-Most editor toolbars use icons for their buttons. In some of our demos, we use the open source icon set [Remix Icon](https://remixicon.com/), that’s free to use. But it’s totally up to you what you use. Here are a few icon sets you can consider:
+Most editor toolbars use icons for their buttons. In some of our demos, we use the open-source icon set [Remix Icon](https://remixicon.com/), that’s free to use. But it’s totally up to you what you use. Here are a few icon sets you can consider:
 
 * [Remix Icon](https://remixicon.com/#editor)
 * [Font Awesome](https://fontawesome.com/icons?c=editors)

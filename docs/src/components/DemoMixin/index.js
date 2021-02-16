@@ -7,11 +7,6 @@ export default {
       required: true,
     },
 
-    mode: {
-      type: String,
-      default: 'vue',
-    },
-
     inline: {
       type: Boolean,
       default: false,
@@ -41,7 +36,6 @@ export default {
     props() {
       return {
         name: this.name,
-        mode: this.mode,
         inline: this.inline,
         highlight: this.highlight,
         showSource: this.showSource,
@@ -49,14 +43,27 @@ export default {
     },
 
     mainFile() {
-      const file = this.files
-        .find(item => item.path.endsWith('index.vue') || item.path.endsWith('index.jsx'))
-
-      if (!file) {
+      if (!this.mainFilePath) {
         return false
       }
 
-      return require(`~/demos/${file.path}`).default
+      return require(`~/demos/${this.mainFilePath}`).default
+    },
+
+    mainFilePath() {
+      const file = this.files.find(item => item.path.endsWith('index.vue') || item.path.endsWith('index.jsx'))
+
+      if (file) {
+        return file.path
+      }
+    },
+
+    mode() {
+      if (this.mainFilePath?.endsWith('.jsx')) {
+        return 'react'
+      }
+
+      return 'vue'
     },
   },
 

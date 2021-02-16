@@ -2,36 +2,30 @@
   <div>
     <div v-if="editor">
       <h2>
-        Original
+        Original Editor
       </h2>
       <button @click="addComment" :disabled="!editor.can().addAnnotation()">
         comment
       </button>
       <editor-content :editor="editor" />
-      <div v-for="comment in comments" :key="comment.type.spec.data.id">
-        {{ comment.type.spec.data }}
+      <div v-for="comment in comments" :key="comment.id">
+        {{ comment }}
 
-        <button @click="deleteComment(comment.type.spec.data.id)">
+        <button @click="updateComment(comment.id)">
+          update
+        </button>
+
+        <button @click="deleteComment(comment.id)">
           remove
         </button>
       </div>
 
-      <!-- <br>
       <h2>
-        ProseMirror JSON from Y.js document
+        Another Editor
       </h2>
-      {{ rawDocument }} -->
-
-      <br>
-      <h2>
-        Y.js document
-      </h2>
-      {{ json }}
-
-      <br>
-      <h2>
-        Mirror
-      </h2>
+      <button @click="addAnotherComment" :disabled="!anotherEditor.can().addAnnotation()">
+        comment
+      </button>
       <editor-content :editor="anotherEditor" />
     </div>
   </div>
@@ -46,8 +40,7 @@ import Collaboration from '@tiptap/extension-collaboration'
 import Bold from '@tiptap/extension-bold'
 import Heading from '@tiptap/extension-heading'
 import * as Y from 'yjs'
-import { yDocToProsemirrorJSON } from 'y-prosemirror'
-import Annotation from '../Annotation/extension'
+import CollaborationAnnotation from './extension'
 
 export default {
   components: {
@@ -73,8 +66,10 @@ export default {
         Text,
         Bold,
         Heading,
-        Annotation.configure({
+        CollaborationAnnotation.configure({
+          document: this.ydoc,
           onUpdate: items => { this.comments = items },
+          instance: 'editor1',
         }),
         Collaboration.configure({
           document: this.ydoc,
@@ -95,9 +90,12 @@ export default {
         Document,
         Paragraph,
         Text,
-        // Annotation.configure({
-        //   onUpdate: items => { this.comments = items },
-        // }),
+        Bold,
+        Heading,
+        CollaborationAnnotation.configure({
+          document: this.ydoc,
+          instance: 'editor2',
+        }),
         Collaboration.configure({
           document: this.ydoc,
         }),
@@ -107,26 +105,32 @@ export default {
 
   methods: {
     addComment() {
-      const content = prompt('Comment', '')
+      const data = prompt('Comment', '')
 
-      this.editor.commands.addAnnotation(content)
+      this.editor.commands.addAnnotation(data)
+    },
+    updateComment(id) {
+      const comment = this.comments.find(item => {
+        return id === item.id
+      })
+
+      const data = prompt('Comment', comment.data)
+
+      this.editor.commands.updateAnnotation(id, data)
     },
     deleteComment(id) {
       this.editor.commands.deleteAnnotation(id)
     },
-  },
+    addAnotherComment() {
+      const data = prompt('Comment', '')
 
-  computed: {
-    rawDocument() {
-      return yDocToProsemirrorJSON(this.ydoc, 'default')
-    },
-    json() {
-      return this.ydoc.toJSON()
+      this.anotherEditor.commands.addAnnotation(data)
     },
   },
 
   beforeDestroy() {
     this.editor.destroy()
+    this.anotherEditor.destroy()
   },
 }
 </script>

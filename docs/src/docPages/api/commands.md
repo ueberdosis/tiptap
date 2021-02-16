@@ -186,6 +186,29 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .selectNodeForward()  | Select a node forward.                  |
 | .selectParentNode()   | Select the parent node.                 |
 
+## Example use cases
+
+### Quote a text
+TODO
+
+Add a blockquote, with a specified text, add a paragraph below, set the cursor there.
+
+```js
+// Untested, work in progress, likely to change
+this.editor
+  .chain()
+  .focus()
+  .createParagraphNear()
+  .insertText(text)
+  .setBlockquote()
+  .insertHTML('<p></p>')
+  .createParagraphNear()
+  .unsetBlockquote()
+  .createParagraphNear()
+  .insertHTML('<p></p>')
+  .run()
+```
+
 ## Add your own commands
 All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those.
 

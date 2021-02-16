@@ -5,10 +5,6 @@
 The ListItem extension adds support for the `<li>` HTML tag. It’s used for bullet lists and ordered lists and can’t really be used without them.
 
 ## Installation
-::: warning Use with BulletList and/or OrderedList
-This extension requires the [`BulletList`](/api/nodes/bullet-list) or [`OrderedList`](/api/nodes/ordered-list) node.
-:::
-
 ```bash
 # with npm
 npm install @tiptap/extension-list-item
@@ -16,6 +12,8 @@ npm install @tiptap/extension-list-item
 # with Yarn
 yarn add @tiptap/extension-list-item
 ```
+
+This extension requires the [`BulletList`](/api/nodes/bullet-list) or [`OrderedList`](/api/nodes/ordered-list) node.
 
 ## Settings
 | Option         | Type     | Default | Description                                                           |

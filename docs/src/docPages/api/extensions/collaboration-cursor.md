@@ -10,10 +10,6 @@ Open this page in multiple browser windows to test it.
 We kindly ask you to [sponsor our work](/sponsor) when using this extension in production.
 :::
 
-::: warning Use with Collaboration
-This extension requires the [`Collaboration`](/api/extensions/collaboration) extension.
-:::
-
 ## Installation
 ```bash
 # with npm
@@ -22,6 +18,8 @@ npm install @tiptap/extension-collaboration-cursor
 # with Yarn
 yarn add @tiptap/extension-collaboration-cursor
 ```
+
+This extension requires the [`Collaboration`](/api/extensions/collaboration) extension.
 
 ## Settings
 | Option   | Type       | Default                       | Description                                                                                                                                                                         |
@@ -42,4 +40,6 @@ yarn add @tiptap/extension-collaboration-cursor
 :::warning Public
 The content of this editor is shared with other users.
 :::
+
+<demo name="Extensions/CollaborationCursor" :show-source="false" />
 <demo name="Extensions/CollaborationCursor" highlight="11,39-45" />

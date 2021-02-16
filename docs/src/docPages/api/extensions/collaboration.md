@@ -48,4 +48,5 @@ yarn add @tiptap/extension-collaboration yjs y-websocket
 :::warning Public
 The content of this editor is shared with other users.
 :::
+<demo name="Extensions/Collaboration" :show-source="false" />
 <demo name="Extensions/Collaboration" highlight="10,27-28,35-37,44" />

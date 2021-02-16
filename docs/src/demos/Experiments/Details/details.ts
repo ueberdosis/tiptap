@@ -1,9 +1,28 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes, Command } from '@tiptap/core'
 
 export interface DetailsOptions {
   HTMLAttributes: {
     [key: string]: any
   },
+}
+
+declare module '@tiptap/core' {
+  interface AllCommands {
+    details: {
+      /**
+       * Set a details node
+       */
+      setDetails: () => Command,
+      /**
+       * Toggle a details node
+       */
+      toggleDetails: () => Command,
+      /**
+       * Unset a details node
+       */
+      unsetDetails: () => Command,
+    }
+  }
 }
 
 export default Node.create<DetailsOptions>({
@@ -13,36 +32,21 @@ export default Node.create<DetailsOptions>({
 
   group: 'block',
 
+  // defining: true,
+
   defaultOptions: {
     HTMLAttributes: {},
   },
 
-  addAttributes() {
-    return {
-      open: {
-        default: true,
-        parseHTML: element => {
-          return {
-            open: element.hasAttribute('open'),
-          }
-        },
-        renderHTML: attributes => {
-          if (!attributes.open) {
-            return null
-          }
-
-          return {
-            open: 'open',
-          }
-        },
-      },
-    }
-  },
-
   parseHTML() {
-    return [{
-      tag: 'details',
-    }]
+    return [
+      {
+        tag: 'details',
+      },
+      {
+        tag: 'div[data-type="details"]',
+      },
+    ]
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -50,32 +54,25 @@ export default Node.create<DetailsOptions>({
   },
 
   addNodeView() {
-    return ({
-      node,
-      HTMLAttributes,
-      getPos,
-      editor,
-    }) => {
-      const { view } = editor
-      const item = document.createElement('details')
+    return ({ HTMLAttributes }) => {
+      const item = document.createElement('div')
+      item.setAttribute('data-type', 'details')
 
-      item.addEventListener('click', event => {
-        // @ts-ignore
-        const { open } = event.target.parentElement as HTMLElement
-        // @ts-ignore
-        const { localName } = event.target
+      const toggle = document.createElement('div')
+      toggle.setAttribute('data-type', 'detailsToggle')
+      item.append(toggle)
 
-        if (typeof getPos === 'function' && localName === 'summary') {
-          view.dispatch(view.state.tr.setNodeMarkup(getPos(), undefined, {
-            open: !open,
-          }))
-          editor.commands.focus()
+      const content = document.createElement('div')
+      content.setAttribute('data-type', 'detailsContent')
+      item.append(content)
+
+      toggle.addEventListener('click', () => {
+        if (item.hasAttribute('open')) {
+          item.removeAttribute('open')
+        } else {
+          item.setAttribute('open', 'open')
         }
       })
-
-      if (node.attrs.open) {
-        item.setAttribute('open', 'open')
-      }
 
       Object.entries(HTMLAttributes).forEach(([key, value]) => {
         item.setAttribute(key, value)
@@ -83,21 +80,28 @@ export default Node.create<DetailsOptions>({
 
       return {
         dom: item,
-        contentDOM: item,
-        update: updatedNode => {
-          if (updatedNode.type !== this.type) {
-            return false
-          }
-
-          if (updatedNode.attrs.open) {
-            item.setAttribute('open', 'open')
-          } else {
-            item.removeAttribute('open')
-          }
-
-          return true
+        contentDOM: content,
+        ignoreMutation: (mutation: MutationRecord) => {
+          return !item.contains(mutation.target) || item === mutation.target
         },
       }
+    }
+  },
+
+  addCommands() {
+    return {
+      setDetails: () => ({ commands }) => {
+        // TODO: Doesn’t work
+        return commands.wrapIn('details')
+      },
+      toggleDetails: () => ({ commands }) => {
+        // TODO: Doesn’t work
+        return commands.toggleWrap('details')
+      },
+      unsetDetails: () => ({ commands }) => {
+        // TODO: Doesn’t work
+        return commands.lift('details')
+      },
     }
   },
 })

@@ -3,7 +3,9 @@
 ## toc
 
 ## Introduction
-Extensions add new capabilities to tiptap. [Nodes](/api/nodes) and [marks](/api/marks) are rendered in HTML. Extensions can’t add to the schema, but can add functionality or change the behaviour of the editor.
+Extensions add new capabilities to tiptap and you’ll read the word extension here very often. Actually, there are literal Extensions. Those can’t add to the schema, but can add functionality or change the behaviour of the editor.
+
+There are also some extensions with more capabilities. We call them [nodes](/api/nodes) and [marks](/api/marks) which can render content in the editor.
 
 ## List of provided extensions
 | Title                                                       | Default Extension | Source Code                                                                                            |
@@ -19,7 +21,7 @@ Extensions add new capabilities to tiptap. [Nodes](/api/nodes) and [marks](/api/
 | [TextAlign](/api/extensions/text-align)                     | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-align/)           |
 | [Typography](/api/extensions/typography)                    | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-typography/)           |
 
-You don’t have to use it, but we prepared a `@tiptap/starter-kit` which includes the most common extensions. See an example on [how to use `defaultExtensions()`](/examples/default).
+You don’t have to use it, but we prepared a `@tiptap/starter-kit` which includes the most common extensions. Read more about [`defaultExtensions()`](/guide/configuration#default-extensions).
 
 ## How extensions work
 Although tiptap tries to hide most of the complexity of ProseMirror, it’s built on top of its APIs and we recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/) for advanced usage. You’ll have a better understanding of how everything works under the hood and get more familiar with many terms and jargon used by tiptap.
@@ -50,7 +52,7 @@ const editor = new Editor({
   ],
 ```
 
-Learn [more about custom extensions in our guide](/guide/build-extensions).
+Learn [more about custom extensions in our guide](/guide/extend-extensions).
 
 ### ProseMirror plugins
 ProseMirror has a fantastic eco system with many amazing plugins. If you want to use one of them, you can register them with tiptap like that:

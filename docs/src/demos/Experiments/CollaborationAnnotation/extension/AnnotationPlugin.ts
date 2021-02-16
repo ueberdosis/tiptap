@@ -1,16 +1,34 @@
+import * as Y from 'yjs'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { AnnotationState } from './AnnotationState'
 
 export const AnnotationPluginKey = new PluginKey('annotation')
 
-export const AnnotationPlugin = (options: any) => new Plugin({
+export interface AnnotationPluginOptions {
+  HTMLAttributes: {
+    [key: string]: any
+  },
+  onUpdate: (items: [any?]) => {},
+  map: Y.Map<any>,
+  instance: string,
+}
+
+export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin({
   key: AnnotationPluginKey,
+
   state: {
-    init: AnnotationState.init,
-    apply(transaction, oldState) {
-      return oldState.apply(transaction)
+    init() {
+      return new AnnotationState({
+        HTMLAttributes: options.HTMLAttributes,
+        map: options.map,
+        instance: options.instance,
+      })
+    },
+    apply(transaction, pluginState, oldState, newState) {
+      return pluginState.apply(transaction, newState)
     },
   },
+
   props: {
     decorations(state) {
       const { decorations } = this.getState(state)
@@ -28,6 +46,5 @@ export const AnnotationPlugin = (options: any) => new Plugin({
 
       return decorations
     },
-
   },
 })
