@@ -1,4 +1,4 @@
-import { Command, Commands, Range } from '../types'
+import { Command, RawCommands, Range } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const deleteRange: Commands['deleteRange'] = range => ({ tr, dispatch }) => {
+export const deleteRange: RawCommands['deleteRange'] = range => ({ tr, dispatch }) => {
   const { from, to } = range
 
   if (dispatch) {

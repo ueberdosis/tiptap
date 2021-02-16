@@ -1,4 +1,4 @@
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -11,6 +11,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const command: Commands['command'] = fn => props => {
+export const command: RawCommands['command'] = fn => props => {
   return fn(props)
 }

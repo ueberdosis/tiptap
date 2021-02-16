@@ -2,7 +2,7 @@ import { DOMParser } from 'prosemirror-model'
 import { Selection, Transaction } from 'prosemirror-state'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import elementFromString from '../utilities/elementFromString'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 // TODO: move to utils
 // https://github.com/ProseMirror/prosemirror-state/blob/master/src/selection.js#L466
@@ -28,7 +28,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const insertHTML: Commands['insertHTML'] = value => ({ tr, state, dispatch }) => {
+export const insertHTML: RawCommands['insertHTML'] = value => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const element = elementFromString(value)
   const slice = DOMParser.fromSchema(state.schema).parseSlice(element)

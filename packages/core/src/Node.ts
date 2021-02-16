@@ -10,7 +10,7 @@ import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
 import mergeDeep from './utilities/mergeDeep'
 import {
-  Attributes, NodeViewRenderer, Overwrite, Commands,
+  Attributes, NodeViewRenderer, Overwrite, RawCommands,
 } from './types'
 import { Editor } from './Editor'
 
@@ -127,7 +127,7 @@ export interface NodeConfig<Options = any> extends Overwrite<ExtensionConfig<Opt
     options: Options,
     editor: Editor,
     type: NodeType,
-  }) => Partial<Commands>,
+  }) => Partial<RawCommands>,
 
   /**
    * Keyboard shortcuts

@@ -1,6 +1,6 @@
 import { TextSelection } from 'prosemirror-state'
 import { MarkType } from 'prosemirror-model'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import getMarkRange from '../helpers/getMarkRange'
 
@@ -15,7 +15,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const extendMarkRange: Commands['extendMarkRange'] = typeOrName => ({ tr, state, dispatch }) => {
+export const extendMarkRange: RawCommands['extendMarkRange'] = typeOrName => ({ tr, state, dispatch }) => {
   const type = getMarkType(typeOrName, state.schema)
   const { doc, selection } = tr
   const { $from, empty } = selection

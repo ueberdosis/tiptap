@@ -1,5 +1,5 @@
 import { selectParentNode as originalSelectParentNode } from 'prosemirror-commands'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -12,6 +12,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const selectParentNode: Commands['selectParentNode'] = () => ({ state, dispatch }) => {
+export const selectParentNode: RawCommands['selectParentNode'] = () => ({ state, dispatch }) => {
   return originalSelectParentNode(state, dispatch)
 }

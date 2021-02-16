@@ -1,6 +1,6 @@
 import { lift as originalLift } from 'prosemirror-commands'
 import { NodeType } from 'prosemirror-model'
-import { Command, Commands, AnyObject } from '../types'
+import { Command, RawCommands, AnyObject } from '../types'
 import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
@@ -15,7 +15,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const lift: Commands['lift'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
+export const lift: RawCommands['lift'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const isActive = isNodeActive(state, type, attributes)
 

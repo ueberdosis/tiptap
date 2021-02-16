@@ -1,6 +1,6 @@
 import { NodeType } from 'prosemirror-model'
 import getNodeType from '../helpers/getNodeType'
-import { AnyObject, Command, Commands } from '../types'
+import { AnyObject, Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -13,7 +13,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const updateNodeAttributes: Commands['updateNodeAttributes'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
+export const updateNodeAttributes: RawCommands['updateNodeAttributes'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { selection } = tr
   const { from, to } = selection

@@ -1,5 +1,5 @@
 import { NodeType } from 'prosemirror-model'
-import { AnyObject, Command, Commands } from '../types'
+import { AnyObject, Command, RawCommands } from '../types'
 import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
@@ -14,7 +14,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const toggleNode: Commands['toggleNode'] = (typeOrName, toggleTypeOrName, attributes = {}) => ({ state, commands }) => {
+export const toggleNode: RawCommands['toggleNode'] = (typeOrName, toggleTypeOrName, attributes = {}) => ({ state, commands }) => {
   const type = getNodeType(typeOrName, state.schema)
   const toggleType = getNodeType(toggleTypeOrName, state.schema)
   const isActive = isNodeActive(state, type, attributes)

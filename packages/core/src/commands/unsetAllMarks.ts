@@ -1,4 +1,4 @@
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const unsetAllMarks: Commands['unsetAllMarks'] = () => ({ tr, state, dispatch }) => {
+export const unsetAllMarks: RawCommands['unsetAllMarks'] = () => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const { from, to, empty } = selection
 

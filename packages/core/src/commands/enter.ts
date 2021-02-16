@@ -1,4 +1,4 @@
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -11,6 +11,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const enter: Commands['enter'] = () => ({ commands }) => {
+export const enter: RawCommands['enter'] = () => ({ commands }) => {
   return commands.keyboardShortcut('Enter')
 }

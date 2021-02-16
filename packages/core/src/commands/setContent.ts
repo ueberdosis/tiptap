@@ -1,5 +1,5 @@
 import { TextSelection } from 'prosemirror-state'
-import { AnyObject, Command, Commands } from '../types'
+import { AnyObject, Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -12,7 +12,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const setContent: Commands['setContent'] = (content, emitUpdate = false, parseOptions = {}) => ({ tr, editor, dispatch }) => {
+export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}) => ({ tr, editor, dispatch }) => {
   const { createDocument } = editor
   const { doc } = tr
   const document = createDocument(content, parseOptions)

@@ -1,6 +1,6 @@
 import { NodeType } from 'prosemirror-model'
 import { setBlockType } from 'prosemirror-commands'
-import { AnyObject, Command, Commands } from '../types'
+import { AnyObject, Command, RawCommands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
@@ -14,7 +14,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const setNode: Commands['setNode'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
+export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
 
   return setBlockType(type, attributes)(state, dispatch)

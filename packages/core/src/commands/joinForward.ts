@@ -1,5 +1,5 @@
 import { joinForward as originalJoinForward } from 'prosemirror-commands'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -12,6 +12,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const joinForward: Commands['joinForward'] = () => ({ state, dispatch }) => {
+export const joinForward: RawCommands['joinForward'] = () => ({ state, dispatch }) => {
   return originalJoinForward(state, dispatch)
 }

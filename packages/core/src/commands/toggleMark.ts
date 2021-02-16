@@ -1,5 +1,5 @@
 import { MarkType } from 'prosemirror-model'
-import { AnyObject, Command, Commands } from '../types'
+import { AnyObject, Command, RawCommands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import isMarkActive from '../helpers/isMarkActive'
 
@@ -14,7 +14,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const toggleMark: Commands['toggleMark'] = (typeOrName, attributes = {}) => ({ state, commands }) => {
+export const toggleMark: RawCommands['toggleMark'] = (typeOrName, attributes = {}) => ({ state, commands }) => {
   const type = getMarkType(typeOrName, state.schema)
   const isActive = isMarkActive(state, type, attributes)
 

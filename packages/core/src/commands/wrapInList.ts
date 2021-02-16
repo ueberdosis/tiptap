@@ -1,6 +1,6 @@
 import { wrapInList as originalWrapInList } from 'prosemirror-schema-list'
 import { NodeType } from 'prosemirror-model'
-import { AnyObject, Command, Commands } from '../types'
+import { AnyObject, Command, RawCommands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
@@ -14,7 +14,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const wrapInList: Commands['wrapInList'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
+export const wrapInList: RawCommands['wrapInList'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
 
   return originalWrapInList(type, attributes)(state, dispatch)

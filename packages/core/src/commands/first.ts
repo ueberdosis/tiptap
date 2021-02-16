@@ -1,4 +1,4 @@
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const first: Commands['first'] = commands => props => {
+export const first: RawCommands['first'] = commands => props => {
   const items = typeof commands === 'function'
     ? commands(props)
     : commands

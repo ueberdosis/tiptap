@@ -1,5 +1,5 @@
 import { joinBackward as originalJoinBackward } from 'prosemirror-commands'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -12,6 +12,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const joinBackward: Commands['joinBackward'] = () => ({ state, dispatch }) => {
+export const joinBackward: RawCommands['joinBackward'] = () => ({ state, dispatch }) => {
   return originalJoinBackward(state, dispatch)
 }

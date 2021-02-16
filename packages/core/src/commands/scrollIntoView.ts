@@ -1,4 +1,4 @@
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const scrollIntoView: Commands['scrollIntoView'] = () => ({ tr, dispatch }) => {
+export const scrollIntoView: RawCommands['scrollIntoView'] = () => ({ tr, dispatch }) => {
   if (dispatch) {
     tr.scrollIntoView()
   }

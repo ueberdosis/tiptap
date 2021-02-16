@@ -1,5 +1,5 @@
 import { liftEmptyBlock as originalLiftEmptyBlock } from 'prosemirror-commands'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -12,6 +12,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const liftEmptyBlock: Commands['liftEmptyBlock'] = () => ({ state, dispatch }) => {
+export const liftEmptyBlock: RawCommands['liftEmptyBlock'] = () => ({ state, dispatch }) => {
   return originalLiftEmptyBlock(state, dispatch)
 }

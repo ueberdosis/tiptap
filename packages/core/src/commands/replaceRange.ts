@@ -2,7 +2,7 @@ import { NodeType } from 'prosemirror-model'
 import getNodeType from '../helpers/getNodeType'
 import {
   Command,
-  Commands,
+  RawCommands,
   Range,
   AnyObject,
 } from '../types'
@@ -18,7 +18,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const replaceRange: Commands['replaceRange'] = (range, typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
+export const replaceRange: RawCommands['replaceRange'] = (range, typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { from, to } = range
   const $from = tr.doc.resolve(from)

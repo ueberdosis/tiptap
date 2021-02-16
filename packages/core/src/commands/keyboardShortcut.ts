@@ -1,4 +1,4 @@
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 const mac = typeof navigator !== 'undefined' ? /Mac/.test(navigator.platform) : false
 
@@ -67,7 +67,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const keyboardShortcut: Commands['keyboardShortcut'] = name => ({
+export const keyboardShortcut: RawCommands['keyboardShortcut'] = name => ({
   editor,
   view,
   tr,

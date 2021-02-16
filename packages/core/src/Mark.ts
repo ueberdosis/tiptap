@@ -8,7 +8,7 @@ import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
 import mergeDeep from './utilities/mergeDeep'
-import { Attributes, Overwrite, Commands } from './types'
+import { Attributes, Overwrite, RawCommands } from './types'
 import { Editor } from './Editor'
 
 export interface MarkConfig<Options = any> extends Overwrite<ExtensionConfig<Options>, {
@@ -70,7 +70,7 @@ export interface MarkConfig<Options = any> extends Overwrite<ExtensionConfig<Opt
     options: Options,
     editor: Editor,
     type: MarkType,
-  }) => Partial<Commands>,
+  }) => Partial<RawCommands>,
 
   /**
    * Keyboard shortcuts

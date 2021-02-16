@@ -4,9 +4,7 @@ import {
   SingleCommands,
   ChainedCommands,
   CanCommands,
-  Commands,
-  Command,
-  CommandSpec,
+  RawCommands,
   CommandProps,
 } from './types'
 import getAllMethodNames from './utilities/getAllMethodNames'
@@ -15,11 +13,11 @@ export default class CommandManager {
 
   editor: Editor
 
-  commands: Commands
+  commands: RawCommands
 
   methodNames: string[] = []
 
-  constructor(editor: Editor, commands: Commands) {
+  constructor(editor: Editor, commands: RawCommands) {
     this.editor = editor
     this.commands = commands
     this.methodNames = getAllMethodNames(this.editor)

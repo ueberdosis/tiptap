@@ -1,5 +1,5 @@
 import { NodeType } from 'prosemirror-model'
-import { Command, Commands, AnyObject } from '../types'
+import { Command, RawCommands, AnyObject } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -12,7 +12,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const replace: Commands['replace'] = (typeOrName, attributes = {}) => ({ state, commands }) => {
+export const replace: RawCommands['replace'] = (typeOrName, attributes = {}) => ({ state, commands }) => {
   const { from, to } = state.selection
   const range = { from, to }
 

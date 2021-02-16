@@ -1,4 +1,4 @@
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const blur: Commands['blur'] = () => ({ view }) => {
+export const blur: RawCommands['blur'] = () => ({ view }) => {
   const element = view.dom as HTMLElement
 
   element.blur()

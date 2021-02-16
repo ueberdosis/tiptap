@@ -1,5 +1,5 @@
 import { newlineInCode as originalNewlineInCode } from 'prosemirror-commands'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -12,6 +12,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const newlineInCode: Commands['newlineInCode'] = () => ({ state, dispatch }) => {
+export const newlineInCode: RawCommands['newlineInCode'] = () => ({ state, dispatch }) => {
   return originalNewlineInCode(state, dispatch)
 }

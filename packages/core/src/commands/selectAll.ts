@@ -1,5 +1,5 @@
 import { selectAll as originalSelectAll } from 'prosemirror-commands'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -12,6 +12,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const selectAll: Commands['selectAll'] = () => ({ state, dispatch }) => {
+export const selectAll: RawCommands['selectAll'] = () => ({ state, dispatch }) => {
   return originalSelectAll(state, dispatch)
 }

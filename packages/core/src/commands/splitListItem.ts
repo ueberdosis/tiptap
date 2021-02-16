@@ -6,7 +6,7 @@ import {
 } from 'prosemirror-model'
 import { canSplit } from 'prosemirror-transform'
 import { TextSelection } from 'prosemirror-state'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 import getSplittedAttributes from '../helpers/getSplittedAttributes'
 
@@ -21,7 +21,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const splitListItem: Commands['splitListItem'] = typeOrName => ({
+export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
   tr, state, dispatch, editor,
 }) => {
   const type = getNodeType(typeOrName, state.schema)

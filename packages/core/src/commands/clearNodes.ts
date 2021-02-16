@@ -1,5 +1,5 @@
 import { liftTarget } from 'prosemirror-transform'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -12,7 +12,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const clearNodes: Commands['clearNodes'] = () => ({ state, tr, dispatch }) => {
+export const clearNodes: RawCommands['clearNodes'] = () => ({ state, tr, dispatch }) => {
   const { selection } = tr
   const { from, to } = selection
 

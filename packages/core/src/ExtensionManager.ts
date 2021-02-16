@@ -4,7 +4,7 @@ import { inputRules as inputRulesPlugin } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
-import { Extensions, NodeViewRenderer, Commands } from './types'
+import { Extensions, NodeViewRenderer, RawCommands } from './types'
 import getSchema from './helpers/getSchema'
 import getSchemaTypeByName from './helpers/getSchemaTypeByName'
 import getNodeType from './helpers/getNodeType'
@@ -62,7 +62,7 @@ export default class ExtensionManager {
     })
   }
 
-  get commands(): Commands {
+  get commands(): RawCommands {
     return this.extensions.reduce((extensions, extension) => {
       const context = {
         options: extension.options,
@@ -74,7 +74,7 @@ export default class ExtensionManager {
         ...extensions,
         ...extension.config.addCommands.bind(context)(),
       }
-    }, {} as Commands)
+    }, {} as RawCommands)
   }
 
   get plugins(): Plugin[] {

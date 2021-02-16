@@ -1,4 +1,4 @@
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface AllCommands {
@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const insertText: Commands['insertText'] = value => ({ tr, dispatch }) => {
+export const insertText: RawCommands['insertText'] = value => ({ tr, dispatch }) => {
   if (dispatch) {
     tr.insertText(value)
   }

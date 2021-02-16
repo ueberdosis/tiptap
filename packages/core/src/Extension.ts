@@ -2,7 +2,7 @@ import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 import mergeDeep from './utilities/mergeDeep'
-import { GlobalAttributes, Commands } from './types'
+import { GlobalAttributes, RawCommands } from './types'
 
 export interface ExtensionConfig<Options = any> {
   /**
@@ -23,12 +23,12 @@ export interface ExtensionConfig<Options = any> {
   }) => GlobalAttributes | {},
 
   /**
-   * Commands
+   * Raw
    */
   addCommands?: (this: {
     options: Options,
     editor: Editor,
-  }) => Partial<Commands>,
+  }) => Partial<RawCommands>,
 
   /**
    * Keyboard shortcuts

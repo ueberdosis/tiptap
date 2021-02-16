@@ -1,5 +1,5 @@
 import { NodeType } from 'prosemirror-model'
-import { Command, Commands } from '../types'
+import { Command, RawCommands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 import findParentNode from '../helpers/findParentNode'
 import isList from '../helpers/isList'
@@ -15,7 +15,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const toggleList: Commands['toggleList'] = (listTypeOrName, itemTypeOrName) => ({
+export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOrName) => ({
   editor, tr, state, dispatch, chain, commands, can,
 }) => {
   const { extensions } = editor.options
