@@ -1,7 +1,7 @@
 import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     first: {
       /**
        * Runs one command after the other and stops at the first which returns true.

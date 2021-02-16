@@ -12,7 +12,7 @@ export interface TextStyleOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     textStyle: {
       /**
        * Remove spans without inline style attributes.

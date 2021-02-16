@@ -8,7 +8,7 @@ export interface IframeOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     iframe: {
       /**
        * Add an iframe

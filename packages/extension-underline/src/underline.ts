@@ -7,7 +7,7 @@ export interface UnderlineOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     underline: {
       /**
        * Set an underline mark

@@ -5,7 +5,7 @@ import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     wrapIn: {
       /**
        * Wraps nodes in another node.

@@ -25,7 +25,7 @@ function ensureMarks(state: EditorState) {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     splitBlock: {
       /**
        * Forks a new node from an existing node.

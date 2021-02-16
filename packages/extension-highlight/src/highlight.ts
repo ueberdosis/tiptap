@@ -14,7 +14,7 @@ export interface HighlightOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     highlight: {
       /**
        * Set a highlight mark

@@ -2,7 +2,7 @@ import { joinBackward as originalJoinBackward } from 'prosemirror-commands'
 import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     joinBackward: {
       /**
        * Join two nodes backward.

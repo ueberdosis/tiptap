@@ -2,7 +2,7 @@ import { selectParentNode as originalSelectParentNode } from 'prosemirror-comman
 import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     selectParentNode: {
       /**
        * Select the parent node.

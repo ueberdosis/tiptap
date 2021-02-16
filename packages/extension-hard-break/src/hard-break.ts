@@ -8,7 +8,7 @@ export interface HardBreakOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     hardBreak: {
       /**
        * Add a hard break

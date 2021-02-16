@@ -11,7 +11,7 @@ import getNodeType from '../helpers/getNodeType'
 import getSplittedAttributes from '../helpers/getSplittedAttributes'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     splitListItem: {
       /**
        * Splits one list item into two list items.

@@ -4,7 +4,7 @@ import { AnyObject, Command, RawCommands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     setNode: {
       /**
        * Replace a given range with a node.

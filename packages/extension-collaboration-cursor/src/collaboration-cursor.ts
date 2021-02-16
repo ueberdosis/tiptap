@@ -9,7 +9,7 @@ export interface CollaborationCursorOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     collaborationCursor: {
       /**
        * Update details of the current user

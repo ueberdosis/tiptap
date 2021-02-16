@@ -12,7 +12,7 @@ export interface HorizontalRuleOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     horizontalRule: {
       /**
        * Add a horizontal rule

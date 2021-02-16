@@ -3,7 +3,7 @@ import getNodeType from '../helpers/getNodeType'
 import { AnyObject, Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     updateNodeAttributes: {
       /**
        * Update attributes of a node.

@@ -9,7 +9,7 @@ export interface CodeBlockOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     codeBlock: {
       /**
        * Set a code block

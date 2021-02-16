@@ -7,7 +7,7 @@ import {
 } from 'y-prosemirror'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     collaboration: {
       /**
        * Undo recent changes

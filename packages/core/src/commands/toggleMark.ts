@@ -4,7 +4,7 @@ import getMarkType from '../helpers/getMarkType'
 import isMarkActive from '../helpers/isMarkActive'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     toggleMark: {
       /**
        * Toggle a mark on and off.

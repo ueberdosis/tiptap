@@ -7,7 +7,7 @@ export interface HistoryOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     history: {
       /**
        * Undo recent changes

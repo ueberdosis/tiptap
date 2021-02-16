@@ -6,7 +6,7 @@ type FontFamilyOptions = {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     fontFamily: {
       /**
        * Set the font family

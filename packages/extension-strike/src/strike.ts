@@ -13,7 +13,7 @@ export interface StrikeOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     strike: {
       /**
        * Set a strike mark

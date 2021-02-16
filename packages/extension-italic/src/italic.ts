@@ -13,7 +13,7 @@ export interface ItalicOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     italic: {
       /**
        * Set an italic mark

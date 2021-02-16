@@ -11,7 +11,7 @@ export interface HeadingOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     heading: {
       /**
        * Set a heading node

@@ -8,7 +8,7 @@ export interface BlockquoteOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     blockQuote: {
       /**
        * Set a blockquote node

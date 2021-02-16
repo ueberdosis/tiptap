@@ -7,7 +7,7 @@ export interface DetailsOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     details: {
       /**
        * Set a details node

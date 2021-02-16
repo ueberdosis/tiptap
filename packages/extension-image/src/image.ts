@@ -13,7 +13,7 @@ export interface ImageOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     image: {
       /**
        * Add an image

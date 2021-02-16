@@ -4,7 +4,7 @@ import getMarkType from '../helpers/getMarkType'
 import getMarkAttributes from '../helpers/getMarkAttributes'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     setMark: {
       /**
        * Add a mark with new attributes.

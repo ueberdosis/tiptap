@@ -42,7 +42,7 @@ export interface TableOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     table: {
       insertTable: (options?: { rows?: number, cols?: number, withHeaderRow?: boolean }) => Command,
       addColumnBefore: () => Command,

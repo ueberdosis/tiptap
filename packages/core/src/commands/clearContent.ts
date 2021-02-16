@@ -1,7 +1,7 @@
 import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     clearContent: {
       /**
        * Clear the whole document.

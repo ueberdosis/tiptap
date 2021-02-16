@@ -14,7 +14,7 @@ export interface LinkOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     link: {
       /**
        * Set a link mark

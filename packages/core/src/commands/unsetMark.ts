@@ -4,7 +4,7 @@ import getMarkType from '../helpers/getMarkType'
 import getMarkRange from '../helpers/getMarkRange'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     unsetMark: {
       /**
        * Remove all marks in the current selection.

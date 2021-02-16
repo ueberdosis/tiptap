@@ -7,7 +7,7 @@ export interface ParagraphOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     paragraph: {
       /**
        * Toggle a paragraph

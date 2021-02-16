@@ -1,7 +1,7 @@
 import { Command, RawCommands, Range } from '../types'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     deleteRange: {
       /**
        * Delete a given range.

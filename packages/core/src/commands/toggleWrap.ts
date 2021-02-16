@@ -5,7 +5,7 @@ import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     toggleWrap: {
       /**
        * Wraps nodes in another node, or removes an existing wrap.

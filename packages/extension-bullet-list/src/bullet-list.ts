@@ -8,7 +8,7 @@ export interface BulletListOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     bulletList: {
       /**
        * Toggle a bullet list

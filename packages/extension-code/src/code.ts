@@ -13,7 +13,7 @@ export interface CodeOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     code: {
       /**
        * Set a code mark

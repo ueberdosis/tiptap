@@ -2,7 +2,7 @@ import { TextSelection } from 'prosemirror-state'
 import { AnyObject, Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     setContent: {
       /**
        * Replace the whole document with new content.

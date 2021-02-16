@@ -7,7 +7,7 @@ type TextAlignOptions = {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     textAlign: {
       /**
        * Set the text align attribute

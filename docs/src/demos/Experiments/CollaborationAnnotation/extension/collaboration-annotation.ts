@@ -50,7 +50,7 @@ function getMapFromOptions(options: AnnotationOptions): Y.Map<any> {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     annotation: {
       addAnnotation: (data: any) => Command,
       updateAnnotation: (id: string, data: any) => Command,

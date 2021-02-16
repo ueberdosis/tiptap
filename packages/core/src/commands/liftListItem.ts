@@ -4,7 +4,7 @@ import { Command, RawCommands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     liftListItem: {
       /**
        * Lift the list item into a wrapping list.

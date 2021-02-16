@@ -4,7 +4,7 @@ import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     toggleNode: {
       /**
        * Toggle a node with another node.

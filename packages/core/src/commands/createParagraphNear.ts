@@ -2,7 +2,7 @@ import { createParagraphNear as originalCreateParagraphNear } from 'prosemirror-
 import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     createParagraphNear: {
       /**
        * Create a paragraph nearby.

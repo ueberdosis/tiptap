@@ -4,7 +4,7 @@ import deleteProps from '../utilities/deleteProps'
 import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     resetNodeAttributes: {
       /**
        * Resets node attributes to the default value.

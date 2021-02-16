@@ -13,7 +13,7 @@ export interface BoldOptions {
 }
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     bold: {
       /**
        * Set a bold mark

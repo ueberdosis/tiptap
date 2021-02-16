@@ -5,7 +5,7 @@ import findParentNode from '../helpers/findParentNode'
 import isList from '../helpers/isList'
 
 declare module '@tiptap/core' {
-  interface AllCommands {
+  interface Commands {
     toggleList: {
       /**
        * Toggle between different list types.
