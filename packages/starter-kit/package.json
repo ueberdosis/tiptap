@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/starter-kit",
   "description": "starter kit for tiptap",
-  "version": "2.0.0-alpha.12",
+  "version": "2.0.0-alpha.13",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -22,23 +22,23 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/extension-blockquote": "^2.0.0-alpha.10",
-    "@tiptap/extension-bold": "^2.0.0-alpha.10",
-    "@tiptap/extension-bullet-list": "^2.0.0-alpha.10",
-    "@tiptap/extension-code": "^2.0.0-alpha.10",
-    "@tiptap/extension-code-block": "^2.0.0-alpha.10",
-    "@tiptap/extension-document": "^2.0.0-alpha.10",
-    "@tiptap/extension-dropcursor": "^2.0.0-alpha.10",
-    "@tiptap/extension-gapcursor": "^2.0.0-alpha.10",
-    "@tiptap/extension-hard-break": "^2.0.0-alpha.10",
-    "@tiptap/extension-heading": "^2.0.0-alpha.10",
-    "@tiptap/extension-history": "^2.0.0-alpha.10",
-    "@tiptap/extension-horizontal-rule": "^2.0.0-alpha.10",
-    "@tiptap/extension-italic": "^2.0.0-alpha.10",
-    "@tiptap/extension-list-item": "^2.0.0-alpha.10",
-    "@tiptap/extension-ordered-list": "^2.0.0-alpha.10",
-    "@tiptap/extension-paragraph": "^2.0.0-alpha.10",
-    "@tiptap/extension-strike": "^2.0.0-alpha.10",
-    "@tiptap/extension-text": "^2.0.0-alpha.10"
+    "@tiptap/extension-blockquote": "^2.0.0-alpha.11",
+    "@tiptap/extension-bold": "^2.0.0-alpha.11",
+    "@tiptap/extension-bullet-list": "^2.0.0-alpha.11",
+    "@tiptap/extension-code": "^2.0.0-alpha.11",
+    "@tiptap/extension-code-block": "^2.0.0-alpha.11",
+    "@tiptap/extension-document": "^2.0.0-alpha.11",
+    "@tiptap/extension-dropcursor": "^2.0.0-alpha.11",
+    "@tiptap/extension-gapcursor": "^2.0.0-alpha.11",
+    "@tiptap/extension-hard-break": "^2.0.0-alpha.11",
+    "@tiptap/extension-heading": "^2.0.0-alpha.11",
+    "@tiptap/extension-history": "^2.0.0-alpha.11",
+    "@tiptap/extension-horizontal-rule": "^2.0.0-alpha.11",
+    "@tiptap/extension-italic": "^2.0.0-alpha.11",
+    "@tiptap/extension-list-item": "^2.0.0-alpha.11",
+    "@tiptap/extension-ordered-list": "^2.0.0-alpha.11",
+    "@tiptap/extension-paragraph": "^2.0.0-alpha.11",
+    "@tiptap/extension-strike": "^2.0.0-alpha.11",
+    "@tiptap/extension-text": "^2.0.0-alpha.11"
   }
 }
