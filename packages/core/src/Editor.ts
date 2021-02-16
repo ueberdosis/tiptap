@@ -1,7 +1,6 @@
 import { EditorState, Plugin, Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, Node } from 'prosemirror-model'
-import magicMethods from './utilities/magicMethods'
 import elementFromString from './utilities/elementFromString'
 import getNodeAttributes from './helpers/getNodeAttributes'
 import getMarkAttributes from './helpers/getMarkAttributes'
@@ -29,10 +28,7 @@ export interface HTMLElement {
   editor?: Editor
 }
 
-@magicMethods
 export class Editor extends EventEmitter {
-
-  private proxy!: Editor
 
   private commandManager!: CommandManager
 
@@ -69,13 +65,6 @@ export class Editor extends EventEmitter {
   constructor(options: Partial<EditorOptions> = {}) {
     super()
     this.options = { ...this.options, ...options }
-    this.on('createdProxy', this.init)
-  }
-
-  /**
-   * This method is called after the proxy is initialized.
-   */
-  private init(): void {
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
@@ -93,16 +82,6 @@ export class Editor extends EventEmitter {
       this.commands.focus(this.options.autofocus)
       this.emit('create')
     }, 0)
-  }
-
-  /**
-   * A magic method to call commands.
-   *
-   * @param name The name of the command
-   */
-  // eslint-disable-next-line
-  private __get(name: string) {
-    // TODO: maybe remove proxy
   }
 
   /**
@@ -201,14 +180,14 @@ export class Editor extends EventEmitter {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
 
-    this.extensionManager = new ExtensionManager(allExtensions, this.proxy)
+    this.extensionManager = new ExtensionManager(allExtensions, this)
   }
 
   /**
    * Creates an command manager.
    */
   private createCommandManager(): void {
-    this.commandManager = new CommandManager(this.proxy, this.extensionManager.commands)
+    this.commandManager = new CommandManager(this, this.extensionManager.commands)
   }
 
   /**
@@ -243,7 +222,7 @@ export class Editor extends EventEmitter {
     // Let’s store the editor instance in the DOM element.
     // So we’ll have access to it for tests.
     const dom = this.view.dom as HTMLElement
-    dom.editor = this.proxy
+    dom.editor = this
   }
 
   /**
