@@ -97,6 +97,10 @@ export type AnyObject = {
   [key: string]: any
 }
 
+export type ValuesOf<T> = T[keyof T];
+
+export type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
+
 export type NodeViewRendererProps = {
   editor: Editor,
   node: ProseMirrorNode,
@@ -108,18 +112,6 @@ export type NodeViewRendererProps = {
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => (NodeView | {})
 
-// export type UnfilteredCommands = {
-//   [Item in keyof AllExtensions]: AllExtensions[Item] extends Extension<any, infer ExtensionCommands>
-//     ? ExtensionCommands
-//     : AllExtensions[Item] extends Node<any, infer NodeCommands>
-//       ? NodeCommands
-//       : AllExtensions[Item] extends Mark<any, infer MarkCommands>
-//         ? MarkCommands
-//         : never
-// }
-
-export type ValuesOf<T> = T[keyof T];
-export type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
 export type UnionCommands = UnionToIntersection<ValuesOf<Pick<AllCommands, KeysWithTypeOf<AllCommands, {}>>>>
 
 export type Commands = {
