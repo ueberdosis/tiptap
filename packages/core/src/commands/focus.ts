@@ -67,6 +67,8 @@ export const focus: RawCommands['focus'] = (position = null) => ({
   if (dispatch) {
     tr.setSelection(selection)
 
+    // `tr.setSelection` resets the stored marks
+    // so we’ll restore them if the selection is the same as before
     if (isSameSelection && storedMarks) {
       tr.setStoredMarks(storedMarks)
     }
