@@ -75,6 +75,11 @@ $menuBreakPoint: 800px;
     font-size: 1.5rem;
     margin-right: auto;
 
+    img {
+      height: 1.75rem;
+      width: auto;
+    }
+
     @media (min-width: 500px) {
       &::after {
         content: '2.0 alpha';
