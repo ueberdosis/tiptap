@@ -45,6 +45,52 @@ import * as updateNodeAttributes from '../commands/updateNodeAttributes'
 import * as wrapIn from '../commands/wrapIn'
 import * as wrapInList from '../commands/wrapInList'
 
+export { blur }
+export { clearContent }
+export { clearNodes }
+export { command }
+export { createParagraphNear }
+export { deleteRange }
+export { deleteSelection }
+export { enter }
+export { exitCode }
+export { extendMarkRange }
+export { first }
+export { focus }
+export { insertHTML }
+export { insertText }
+export { joinBackward }
+export { joinForward }
+export { keyboardShortcut }
+export { lift }
+export { liftEmptyBlock }
+export { liftListItem }
+export { newlineInCode }
+export { replace }
+export { replaceRange }
+export { resetNodeAttributes }
+export { scrollIntoView }
+export { selectAll }
+export { selectNodeBackward }
+export { selectNodeForward }
+export { selectParentNode }
+export { setContent }
+export { setMark }
+export { setNode }
+export { sinkListItem }
+export { splitBlock }
+export { splitListItem }
+export { toggleList }
+export { toggleMark }
+export { toggleNode }
+export { toggleWrap }
+export { undoInputRule }
+export { unsetAllMarks }
+export { unsetMark }
+export { updateNodeAttributes }
+export { wrapIn }
+export { wrapInList }
+
 export const Commands = Extension.create({
   name: 'commands',
 
