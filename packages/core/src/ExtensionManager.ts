@@ -63,7 +63,7 @@ export default class ExtensionManager {
   }
 
   get commands(): RawCommands {
-    return this.extensions.reduce((extensions, extension) => {
+    return this.extensions.reduce((commands, extension) => {
       const context = {
         options: extension.options,
         editor: this.editor,
@@ -71,7 +71,7 @@ export default class ExtensionManager {
       }
 
       return {
-        ...extensions,
+        ...commands,
         ...extension.config.addCommands.bind(context)(),
       }
     }, {} as RawCommands)
