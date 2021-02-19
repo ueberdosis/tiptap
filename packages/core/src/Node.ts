@@ -10,7 +10,11 @@ import { InputRule } from 'prosemirror-inputrules'
 import { ExtensionConfig } from './Extension'
 import mergeDeep from './utilities/mergeDeep'
 import {
-  Attributes, NodeViewRenderer, Overwrite, RawCommands,
+  Attributes,
+  NodeViewRenderer,
+  Overwrite,
+  RawCommands,
+  NodeSchemaFields,
 } from './types'
 import { Editor } from './Editor'
 
@@ -253,7 +257,7 @@ export interface NodeConfig<Options = any> extends Overwrite<ExtensionConfig<Opt
 export class Node<Options = any> {
   type = 'node'
 
-  config: Required<NodeConfig> = {
+  config: Required<NodeConfig> & NodeSchemaFields<Options> = {
     name: 'node',
     defaultOptions: {},
     addGlobalAttributes: () => [],
@@ -291,7 +295,7 @@ export class Node<Options = any> {
 
   options!: Options
 
-  constructor(config: NodeConfig<Options>) {
+  constructor(config: NodeConfig<Options> & NodeSchemaFields<Options>) {
     this.config = {
       ...this.config,
       ...config,
@@ -300,13 +304,13 @@ export class Node<Options = any> {
     this.options = this.config.defaultOptions
   }
 
-  static create<O>(config: NodeConfig<O>) {
+  static create<O>(config: NodeConfig<O> & NodeSchemaFields<O>) {
     return new Node<O>(config)
   }
 
   configure(options: Partial<Options> = {}) {
     return Node
-      .create<Options>(this.config as NodeConfig<Options>)
+      .create<Options>(this.config as (NodeConfig<Options> & NodeSchemaFields<Options>))
       .#configure(options)
   }
 
@@ -316,10 +320,10 @@ export class Node<Options = any> {
     return this
   }
 
-  extend<ExtendedOptions = Options>(extendedConfig: Partial<NodeConfig<ExtendedOptions>>) {
+  extend<ExtendedOptions = Options>(extendedConfig: Partial<NodeConfig<ExtendedOptions> & NodeSchemaFields<ExtendedOptions>>) {
     return new Node<ExtendedOptions>({
       ...this.config,
       ...extendedConfig,
-    } as NodeConfig<ExtendedOptions>)
+    } as NodeConfig<ExtendedOptions> & NodeSchemaFields<ExtendedOptions>)
   }
 }

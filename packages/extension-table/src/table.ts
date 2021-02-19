@@ -66,7 +66,7 @@ declare module '@tiptap/core' {
     }
   }
 
-  interface NodeConfig<Options> {
+  interface NodeSchemaFields<Options> {
     /**
      * Table Role
      */

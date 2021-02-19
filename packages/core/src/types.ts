@@ -14,9 +14,9 @@ import { Extension } from './Extension'
 import { Node } from './Node'
 import { Mark } from './Mark'
 import { Editor } from './Editor'
-import { Commands } from '.'
+import { Commands, NodeSchemaFields } from '.'
 
-export { Commands }
+export { Commands, NodeSchemaFields }
 
 export type Extensions = (Extension | Node | Mark)[]
 
