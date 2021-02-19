@@ -39,13 +39,13 @@ export default function (Vue) {
               el.setAttribute('scrolling', 'no')
             }
 
-            el.iFrameResizer.resize()
+            el?.iFrameResizer?.resize?.()
           },
         }, el)
       })
     },
     unbind(el) {
-      el.iFrameResizer.removeListeners()
+      el?.iFrameResizer?.removeListeners?.()
     },
   })
 
