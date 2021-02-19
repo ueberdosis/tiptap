@@ -66,7 +66,7 @@ declare module '@tiptap/core' {
     }
   }
 
-  interface NodeSchemaFields<Options> {
+  interface NodeConfig<Options> {
     /**
      * Table Role
      */
@@ -87,14 +87,6 @@ export const Table = Node.create<TableOptions>({
     View: TableView,
     lastColumnResizable: true,
     allowTableNodeSelection: false,
-  },
-
-  extendNodeSchema(extension) {
-    const context = { options: extension.options }
-
-    return {
-      tableRole: callOrReturn(extension.config.tableRole, context),
-    }
   },
 
   content: 'tableRow+',
@@ -264,5 +256,13 @@ export const Table = Node.create<TableOptions>({
         allowTableNodeSelection: this.options.allowTableNodeSelection,
       }),
     ]
+  },
+
+  extendNodeSchema(extension) {
+    const context = { options: extension.options }
+
+    return {
+      tableRole: callOrReturn(extension.config.tableRole, context),
+    }
   },
 })

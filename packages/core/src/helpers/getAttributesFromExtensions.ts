@@ -28,6 +28,10 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
       options: extension.options,
     }
 
+    if (!extension.config.addGlobalAttributes) {
+      return
+    }
+
     const globalAttributes = extension.config.addGlobalAttributes.bind(context)() as GlobalAttributes
 
     globalAttributes.forEach(globalAttribute => {
@@ -51,6 +55,10 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
   nodeAndMarkExtensions.forEach(extension => {
     const context = {
       options: extension.options,
+    }
+
+    if (!extension.config.addAttributes) {
+      return
     }
 
     const attributes = extension.config.addAttributes.bind(context)() as Attributes

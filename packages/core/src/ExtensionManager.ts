@@ -70,6 +70,10 @@ export default class ExtensionManager {
         type: getSchemaTypeByName(extension.config.name, this.schema),
       }
 
+      if (!extension.config.addCommands) {
+        return commands
+      }
+
       return {
         ...commands,
         ...extension.config.addCommands.bind(context)(),
@@ -87,22 +91,36 @@ export default class ExtensionManager {
           type: getSchemaTypeByName(extension.config.name, this.schema),
         }
 
-        const keymapPlugin = keymap(extension.config.addKeyboardShortcuts.bind(context)())
-        const inputRules = extension.config.addInputRules.bind(context)()
-        const inputRulePlugins = this.editor.options.enableInputRules && inputRules.length
-          ? [inputRulesPlugin({ rules: inputRules })]
-          : []
-        const pasteRulePlugins = this.editor.options.enablePasteRules
-          ? extension.config.addPasteRules.bind(context)()
-          : []
-        const plugins = extension.config.addProseMirrorPlugins.bind(context)()
+        const plugins: Plugin[] = []
 
-        return [
-          keymapPlugin,
-          ...inputRulePlugins,
-          ...pasteRulePlugins,
-          ...plugins,
-        ]
+        if (extension.config.addKeyboardShortcuts) {
+          const keyMapPlugin = keymap(extension.config.addKeyboardShortcuts.bind(context)())
+
+          plugins.push(keyMapPlugin)
+        }
+
+        if (this.editor.options.enableInputRules && extension.config.addInputRules) {
+          const inputRules = extension.config.addInputRules.bind(context)()
+          const inputRulePlugins = inputRules.length
+            ? [inputRulesPlugin({ rules: inputRules })]
+            : []
+
+          plugins.push(...inputRulePlugins)
+        }
+
+        if (this.editor.options.enablePasteRules && extension.config.addPasteRules) {
+          const pasteRulePlugins = extension.config.addPasteRules.bind(context)()
+
+          plugins.push(...pasteRulePlugins)
+        }
+
+        if (extension.config.addProseMirrorPlugins) {
+          const proseMirrorPlugins = extension.config.addProseMirrorPlugins.bind(context)()
+
+          proseMirrorPlugins.push(...proseMirrorPlugins)
+        }
+
+        return plugins
       })
       .flat()
   }

@@ -14,7 +14,6 @@ import {
   NodeViewRenderer,
   Overwrite,
   RawCommands,
-  NodeSchemaFields,
 } from './types'
 import { Editor } from './Editor'
 
@@ -257,45 +256,14 @@ export interface NodeConfig<Options = any> extends Overwrite<ExtensionConfig<Opt
 export class Node<Options = any> {
   type = 'node'
 
-  config: Required<NodeConfig> & NodeSchemaFields<Options> = {
+  config: NodeConfig = {
     name: 'node',
     defaultOptions: {},
-    addGlobalAttributes: () => [],
-    addCommands: () => ({}),
-    addKeyboardShortcuts: () => ({}),
-    addInputRules: () => [],
-    addPasteRules: () => [],
-    addProseMirrorPlugins: () => [],
-    topNode: false,
-    content: null,
-    marks: null,
-    group: null,
-    inline: null,
-    atom: null,
-    selectable: null,
-    draggable: null,
-    code: null,
-    defining: null,
-    isolating: null,
-    parseHTML: () => null,
-    renderHTML: null,
-    renderText: null,
-    addAttributes: () => ({}),
-    addNodeView: null,
-    extendNodeSchema: null,
-    extendMarkSchema: null,
-    onCreate: null,
-    onUpdate: null,
-    onSelection: null,
-    onTransaction: null,
-    onFocus: null,
-    onBlur: null,
-    onDestroy: null,
   }
 
   options!: Options
 
-  constructor(config: NodeConfig<Options> & NodeSchemaFields<Options>) {
+  constructor(config: NodeConfig<Options>) {
     this.config = {
       ...this.config,
       ...config,
@@ -304,13 +272,13 @@ export class Node<Options = any> {
     this.options = this.config.defaultOptions
   }
 
-  static create<O>(config: NodeConfig<O> & NodeSchemaFields<O>) {
+  static create<O>(config: NodeConfig<O>) {
     return new Node<O>(config)
   }
 
   configure(options: Partial<Options> = {}) {
     return Node
-      .create<Options>(this.config as (NodeConfig<Options> & NodeSchemaFields<Options>))
+      .create<Options>(this.config as NodeConfig<Options>)
       .#configure(options)
   }
 
@@ -320,10 +288,10 @@ export class Node<Options = any> {
     return this
   }
 
-  extend<ExtendedOptions = Options>(extendedConfig: Partial<NodeConfig<ExtendedOptions> & NodeSchemaFields<ExtendedOptions>>) {
+  extend<ExtendedOptions = Options>(extendedConfig: Partial<NodeConfig<ExtendedOptions>>) {
     return new Node<ExtendedOptions>({
       ...this.config,
       ...extendedConfig,
-    } as NodeConfig<ExtendedOptions> & NodeSchemaFields<ExtendedOptions>)
+    } as NodeConfig<ExtendedOptions>)
   }
 }

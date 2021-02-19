@@ -193,31 +193,9 @@ export interface MarkConfig<Options = any> extends Overwrite<ExtensionConfig<Opt
 export class Mark<Options = any> {
   type = 'mark'
 
-  config: Required<MarkConfig> = {
+  config: MarkConfig = {
     name: 'mark',
     defaultOptions: {},
-    addGlobalAttributes: () => [],
-    addCommands: () => ({}),
-    addKeyboardShortcuts: () => ({}),
-    addInputRules: () => [],
-    addPasteRules: () => [],
-    addProseMirrorPlugins: () => [],
-    inclusive: null,
-    excludes: null,
-    group: null,
-    spanning: null,
-    parseHTML: () => null,
-    renderHTML: null,
-    addAttributes: () => ({}),
-    extendNodeSchema: null,
-    extendMarkSchema: null,
-    onCreate: null,
-    onUpdate: null,
-    onSelection: null,
-    onTransaction: null,
-    onFocus: null,
-    onBlur: null,
-    onDestroy: null,
   }
 
   options!: Options

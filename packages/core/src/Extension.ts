@@ -165,24 +165,9 @@ export interface ExtensionConfig<Options = any> {
 export class Extension<Options = any> {
   type = 'extension'
 
-  config: Required<ExtensionConfig> = {
+  config: ExtensionConfig = {
     name: 'extension',
     defaultOptions: {},
-    addGlobalAttributes: () => [],
-    addCommands: () => ({}),
-    addKeyboardShortcuts: () => ({}),
-    addInputRules: () => [],
-    addPasteRules: () => [],
-    addProseMirrorPlugins: () => [],
-    extendNodeSchema: null,
-    extendMarkSchema: null,
-    onCreate: null,
-    onUpdate: null,
-    onSelection: null,
-    onTransaction: null,
-    onFocus: null,
-    onBlur: null,
-    onDestroy: null,
   }
 
   options!: Options
