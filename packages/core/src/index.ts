@@ -23,3 +23,12 @@ export { default as isCellSelection } from './helpers/isCellSelection'
 export { default as findParentNodeClosestToPos } from './helpers/findParentNodeClosestToPos'
 
 export interface Commands {}
+
+// eslint-disable-next-line
+export interface ExtensionConfig<Options = any> {}
+
+// eslint-disable-next-line
+export interface NodeConfig<Options = any> {}
+
+// eslint-disable-next-line
+export interface MarkConfig<Options = any> {}

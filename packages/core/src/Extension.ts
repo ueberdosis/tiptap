@@ -4,162 +4,164 @@ import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 import { Node } from './Node'
 import mergeDeep from './utilities/mergeDeep'
-import { GlobalAttributes, RawCommands } from './types'
+import { GlobalAttributes, RawCommands, ExtensionConfig } from './types'
 
-export interface ExtensionConfig<Options = any> {
-  /**
-   * Name
-   */
-  name: string,
+declare module '@tiptap/core' {
+  interface ExtensionConfig<Options = any> {
+    /**
+     * Name
+     */
+    name: string,
 
-  /**
-   * Default options
-   */
-  defaultOptions?: Options,
+    /**
+     * Default options
+     */
+    defaultOptions?: Options,
 
-  /**
-   * Global attributes
-   */
-  addGlobalAttributes?: (this: {
-    options: Options,
-  }) => GlobalAttributes | {},
-
-  /**
-   * Raw
-   */
-  addCommands?: (this: {
-    options: Options,
-    editor: Editor,
-  }) => Partial<RawCommands>,
-
-  /**
-   * Keyboard shortcuts
-   */
-  addKeyboardShortcuts?: (this: {
-    options: Options,
-    editor: Editor,
-  }) => {
-    [key: string]: ProseMirrorCommand,
-  },
-
-  /**
-   * Input rules
-   */
-  addInputRules?: (this: {
-    options: Options,
-    editor: Editor,
-  }) => InputRule[],
-
-  /**
-   * Paste rules
-   */
-  addPasteRules?: (this: {
-    options: Options,
-    editor: Editor,
-  }) => Plugin[],
-
-  /**
-   * ProseMirror plugins
-   */
-  addProseMirrorPlugins?: (this: {
-    options: Options,
-    editor: Editor,
-  }) => Plugin[],
-
-  /**
-   * Extend Node Schema
-   */
-  extendNodeSchema?: ((
-    this: {
+    /**
+     * Global attributes
+     */
+    addGlobalAttributes?: (this: {
       options: Options,
-    },
-    extension: Node,
-  ) => {
-    [key: string]: any,
-  }) | null,
+    }) => GlobalAttributes | {},
 
-  /**
-   * Extend Mark Schema
-   */
-  extendMarkSchema?: ((
-    this: {
-      options: Options,
-    },
-    extension: Node,
-  ) => {
-    [key: string]: any,
-  }) | null,
-
-  /**
-   * The editor is ready.
-   */
-  onCreate?: ((this: {
-    options: Options,
-    editor: Editor,
-  }) => void) | null,
-
-  /**
-   * The content has changed.
-   */
-  onUpdate?: ((this: {
-    options: Options,
-    editor: Editor,
-  }) => void) | null,
-
-  /**
-   * The selection has changed.
-   */
-  onSelection?: ((this: {
-    options: Options,
-    editor: Editor,
-  }) => void) | null,
-
-  /**
-   * The editor state has changed.
-   */
-  onTransaction?: ((
-    this: {
+    /**
+     * Raw
+     */
+    addCommands?: (this: {
       options: Options,
       editor: Editor,
-    },
-    props: {
-      transaction: Transaction,
-    },
-  ) => void) | null,
+    }) => Partial<RawCommands>,
 
-  /**
-   * The editor is focused.
-   */
-  onFocus?: ((
-    this: {
+    /**
+     * Keyboard shortcuts
+     */
+    addKeyboardShortcuts?: (this: {
       options: Options,
       editor: Editor,
+    }) => {
+      [key: string]: ProseMirrorCommand,
     },
-    props: {
-      event: FocusEvent,
-    },
-  ) => void) | null,
 
-  /**
-   * The editor isn’t focused anymore.
-   */
-  onBlur?: ((
-    this: {
+    /**
+     * Input rules
+     */
+    addInputRules?: (this: {
       options: Options,
       editor: Editor,
-    },
-    props: {
-      event: FocusEvent,
-    },
-  ) => void) | null,
+    }) => InputRule[],
 
-  /**
-   * The editor is destroyed.
-   */
-  onDestroy?: ((this: {
-    options: Options,
-    editor: Editor,
-  }) => void) | null,
+    /**
+     * Paste rules
+     */
+    addPasteRules?: (this: {
+      options: Options,
+      editor: Editor,
+    }) => Plugin[],
+
+    /**
+     * ProseMirror plugins
+     */
+    addProseMirrorPlugins?: (this: {
+      options: Options,
+      editor: Editor,
+    }) => Plugin[],
+
+    /**
+     * Extend Node Schema
+     */
+    extendNodeSchema?: ((
+      this: {
+        options: Options,
+      },
+      extension: Node,
+    ) => {
+      [key: string]: any,
+    }) | null,
+
+    /**
+     * Extend Mark Schema
+     */
+    extendMarkSchema?: ((
+      this: {
+        options: Options,
+      },
+      extension: Node,
+    ) => {
+      [key: string]: any,
+    }) | null,
+
+    /**
+     * The editor is ready.
+     */
+    onCreate?: ((this: {
+      options: Options,
+      editor: Editor,
+    }) => void) | null,
+
+    /**
+     * The content has changed.
+     */
+    onUpdate?: ((this: {
+      options: Options,
+      editor: Editor,
+    }) => void) | null,
+
+    /**
+     * The selection has changed.
+     */
+    onSelection?: ((this: {
+      options: Options,
+      editor: Editor,
+    }) => void) | null,
+
+    /**
+     * The editor state has changed.
+     */
+    onTransaction?: ((
+      this: {
+        options: Options,
+        editor: Editor,
+      },
+      props: {
+        transaction: Transaction,
+      },
+    ) => void) | null,
+
+    /**
+     * The editor is focused.
+     */
+    onFocus?: ((
+      this: {
+        options: Options,
+        editor: Editor,
+      },
+      props: {
+        event: FocusEvent,
+      },
+    ) => void) | null,
+
+    /**
+     * The editor isn’t focused anymore.
+     */
+    onBlur?: ((
+      this: {
+        options: Options,
+        editor: Editor,
+      },
+      props: {
+        event: FocusEvent,
+      },
+    ) => void) | null,
+
+    /**
+     * The editor is destroyed.
+     */
+    onDestroy?: ((this: {
+      options: Options,
+      editor: Editor,
+    }) => void) | null,
+  }
 }
 
 export class Extension<Options = any> {

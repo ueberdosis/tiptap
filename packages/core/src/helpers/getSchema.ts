@@ -1,6 +1,10 @@
 import { NodeSpec, MarkSpec, Schema } from 'prosemirror-model'
-import { Extensions } from '../types'
-import { ExtensionConfig } from '../Extension'
+import {
+  Extensions,
+  ExtensionConfig,
+  NodeConfig,
+  MarkConfig,
+} from '../types'
 import splitExtensions from './splitExtensions'
 import getAttributesFromExtensions from './getAttributesFromExtensions'
 import getRenderedAttributes from './getRenderedAttributes'
@@ -22,8 +26,16 @@ export default function getSchema(extensions: Extensions): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
   const topNode = nodeExtensions.find(extension => extension.config.topNode)?.config.name
-  const nodeSchemaExtenders: ExtensionConfig['extendNodeSchema'][] = []
-  const markSchemaExtenders: ExtensionConfig['extendMarkSchema'][] = []
+  const nodeSchemaExtenders: (
+    | ExtensionConfig['extendNodeSchema']
+    | NodeConfig['extendNodeSchema']
+    | MarkConfig['extendNodeSchema']
+  )[] = []
+  const markSchemaExtenders: (
+    | ExtensionConfig['extendNodeSchema']
+    | NodeConfig['extendNodeSchema']
+    | MarkConfig['extendNodeSchema']
+  )[] = []
 
   extensions.forEach(extension => {
     if (typeof extension.config.extendNodeSchema === 'function') {
