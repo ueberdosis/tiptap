@@ -6,7 +6,10 @@ declare module '@tiptap/core' {
     /**
      * Allow gap cursor
      */
-    allowGapCursor?: boolean | ((this: { options: Options }) => boolean),
+    allowGapCursor?:
+      | boolean
+      | null
+      | ((this: { options: Options }) => boolean | null),
   }
 }
 
