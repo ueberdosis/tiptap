@@ -70,12 +70,6 @@ export interface NodeConfig<Options = any> extends Overwrite<ExtensionConfig<Opt
    */
   isolating?: NodeSpec['isolating'] | ((this: { options: Options }) => NodeSpec['isolating']),
 
-  // TODO: extend via extension-table
-  /**
-   * Table Role
-   */
-  tableRole?: NodeSpec['tableRole'] | ((this: { options: Options }) => NodeSpec['tableRole']),
-
   /**
    * Parse HTML
    */
@@ -284,6 +278,8 @@ export class Node<Options = any> {
     renderText: null,
     addAttributes: () => ({}),
     addNodeView: null,
+    extendNodeSchema: null,
+    extendMarkSchema: null,
     onCreate: null,
     onUpdate: null,
     onSelection: null,
@@ -291,8 +287,6 @@ export class Node<Options = any> {
     onFocus: null,
     onBlur: null,
     onDestroy: null,
-    // TODO: remove,
-    tableRole: null,
   }
 
   options!: Options

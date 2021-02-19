@@ -2,6 +2,7 @@ import { Plugin, Transaction } from 'prosemirror-state'
 import { Command as ProseMirrorCommand } from 'prosemirror-commands'
 import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
+import { Node } from './Node'
 import mergeDeep from './utilities/mergeDeep'
 import { GlobalAttributes, RawCommands } from './types'
 
@@ -64,6 +65,30 @@ export interface ExtensionConfig<Options = any> {
     options: Options,
     editor: Editor,
   }) => Plugin[],
+
+  /**
+   * Extend Node Schema
+   */
+  extendNodeSchema?: ((
+    this: {
+      options: Options,
+    },
+    extension: Node,
+  ) => {
+    [key: string]: any,
+  }) | null,
+
+  /**
+   * Extend Mark Schema
+   */
+  extendMarkSchema?: ((
+    this: {
+      options: Options,
+    },
+    extension: Node,
+  ) => {
+    [key: string]: any,
+  }) | null,
 
   /**
    * The editor is ready.
@@ -149,6 +174,8 @@ export class Extension<Options = any> {
     addInputRules: () => [],
     addPasteRules: () => [],
     addProseMirrorPlugins: () => [],
+    extendNodeSchema: null,
+    extendMarkSchema: null,
     onCreate: null,
     onUpdate: null,
     onSelection: null,

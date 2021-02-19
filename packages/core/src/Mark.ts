@@ -209,6 +209,8 @@ export class Mark<Options = any> {
     parseHTML: () => null,
     renderHTML: null,
     addAttributes: () => ({}),
+    extendNodeSchema: null,
+    extendMarkSchema: null,
     onCreate: null,
     onUpdate: null,
     onSelection: null,

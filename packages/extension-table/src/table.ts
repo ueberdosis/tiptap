@@ -4,6 +4,7 @@ import {
   mergeAttributes,
   isCellSelection,
   findParentNodeClosestToPos,
+  callOrReturn,
 } from '@tiptap/core'
 import {
   tableEditing,
@@ -64,6 +65,13 @@ declare module '@tiptap/core' {
       fixTables: () => Command,
     }
   }
+
+  interface NodeConfig<Options> {
+    /**
+     * Table Role
+     */
+    tableRole?: string | ((this: { options: Options }) => string),
+  }
 }
 
 export const Table = Node.create<TableOptions>({
@@ -79,6 +87,14 @@ export const Table = Node.create<TableOptions>({
     View: TableView,
     lastColumnResizable: true,
     allowTableNodeSelection: false,
+  },
+
+  extendNodeSchema(extension) {
+    const context = { options: extension.options }
+
+    return {
+      tableRole: callOrReturn(extension.config.tableRole, context),
+    }
   },
 
   content: 'tableRow+',

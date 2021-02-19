@@ -1,5 +1,6 @@
 import { NodeSpec, MarkSpec, Schema } from 'prosemirror-model'
 import { Extensions } from '../types'
+import { ExtensionConfig } from '../Extension'
 import splitExtensions from './splitExtensions'
 import getAttributesFromExtensions from './getAttributesFromExtensions'
 import getRenderedAttributes from './getRenderedAttributes'
@@ -21,11 +22,34 @@ export default function getSchema(extensions: Extensions): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
   const topNode = nodeExtensions.find(extension => extension.config.topNode)?.config.name
+  const nodeSchemaExtenders: ExtensionConfig['extendNodeSchema'][] = []
+  const markSchemaExtenders: ExtensionConfig['extendMarkSchema'][] = []
+
+  extensions.forEach(extension => {
+    if (typeof extension.config.extendNodeSchema === 'function') {
+      nodeSchemaExtenders.push(extension.config.extendNodeSchema)
+    }
+
+    if (typeof extension.config.extendMarkSchema === 'function') {
+      markSchemaExtenders.push(extension.config.extendMarkSchema)
+    }
+  })
 
   const nodes = Object.fromEntries(nodeExtensions.map(extension => {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
     const context = { options: extension.options }
+
+    const extraNodeFields = nodeSchemaExtenders.reduce((fields, nodeSchemaExtender) => {
+      const extraFields = callOrReturn(nodeSchemaExtender, context, extension)
+
+      return {
+        ...fields,
+        ...extraFields,
+      }
+    }, {})
+
     const schema: NodeSpec = cleanUpSchemaItem({
+      ...extraNodeFields,
       content: callOrReturn(extension.config.content, context),
       marks: callOrReturn(extension.config.marks, context),
       group: callOrReturn(extension.config.group, context),
@@ -36,7 +60,6 @@ export default function getSchema(extensions: Extensions): Schema {
       code: callOrReturn(extension.config.code, context),
       defining: callOrReturn(extension.config.defining, context),
       isolating: callOrReturn(extension.config.isolating, context),
-      tableRole: callOrReturn(extension.config.tableRole, context),
       attrs: Object.fromEntries(extensionAttributes.map(extensionAttribute => {
         return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
       })),
@@ -61,7 +84,18 @@ export default function getSchema(extensions: Extensions): Schema {
   const marks = Object.fromEntries(markExtensions.map(extension => {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
     const context = { options: extension.options }
+
+    const extraMarkFields = markSchemaExtenders.reduce((fields, markSchemaExtender) => {
+      const extraFields = callOrReturn(markSchemaExtender, context, extension)
+
+      return {
+        ...fields,
+        ...extraFields,
+      }
+    }, {})
+
     const schema: MarkSpec = cleanUpSchemaItem({
+      ...extraMarkFields,
       inclusive: callOrReturn(extension.config.inclusive, context),
       excludes: callOrReturn(extension.config.excludes, context),
       group: callOrReturn(extension.config.group, context),
