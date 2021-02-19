@@ -28,7 +28,7 @@
     "@types/prosemirror-inputrules": "^1.0.4",
     "@types/prosemirror-keymap": "^1.0.4",
     "@types/prosemirror-model": "^1.11.3",
-    "@types/prosemirror-schema-list": "^1.0.2",
+    "@types/prosemirror-schema-list": "^1.0.3",
     "@types/prosemirror-state": "^1.2.6",
     "@types/prosemirror-tables": "^0.9.1",
     "@types/prosemirror-transform": "^1.1.2",
