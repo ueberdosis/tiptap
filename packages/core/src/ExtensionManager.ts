@@ -117,7 +117,7 @@ export default class ExtensionManager {
         if (extension.config.addProseMirrorPlugins) {
           const proseMirrorPlugins = extension.config.addProseMirrorPlugins.bind(context)()
 
-          proseMirrorPlugins.push(...proseMirrorPlugins)
+          plugins.push(...proseMirrorPlugins)
         }
 
         return plugins
