@@ -19,6 +19,8 @@ import { Editor } from './Editor'
 
 declare module '@tiptap/core' {
   interface NodeConfig<Options = any> {
+    [key: string]: any;
+
     /**
      * Name
      */

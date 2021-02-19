@@ -18,6 +18,8 @@ import { Editor } from './Editor'
 
 declare module '@tiptap/core' {
   export interface MarkConfig<Options = any> {
+    [key: string]: any;
+
     /**
      * Name
      */

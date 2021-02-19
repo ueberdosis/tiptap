@@ -8,6 +8,8 @@ import { GlobalAttributes, RawCommands, ExtensionConfig } from './types'
 
 declare module '@tiptap/core' {
   interface ExtensionConfig<Options = any> {
+    [key: string]: any;
+
     /**
      * Name
      */
