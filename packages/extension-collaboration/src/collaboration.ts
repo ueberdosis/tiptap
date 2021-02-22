@@ -1,9 +1,11 @@
 import { Extension, Command } from '@tiptap/core'
+import { UndoManager } from 'yjs'
 import {
   redo,
   undo,
   ySyncPlugin,
   yUndoPlugin,
+  yUndoPluginKey,
 } from 'y-prosemirror'
 
 declare module '@tiptap/core' {
@@ -47,13 +49,33 @@ export const Collaboration = Extension.create<CollaborationOptions>({
 
   addCommands() {
     return {
-      undo: () => ({ tr, state }) => {
+      undo: () => ({ tr, state, dispatch }) => {
         tr.setMeta('preventDispatch', true)
+
+        const undoManager: UndoManager = yUndoPluginKey.getState(state).undoManager
+
+        if (undoManager.undoStack.length === 0) {
+          return false
+        }
+
+        if (!dispatch) {
+          return true
+        }
 
         return undo(state)
       },
-      redo: () => ({ tr, state }) => {
+      redo: () => ({ tr, state, dispatch }) => {
         tr.setMeta('preventDispatch', true)
+
+        const undoManager: UndoManager = yUndoPluginKey.getState(state).undoManager
+
+        if (undoManager.redoStack.length === 0) {
+          return false
+        }
+
+        if (!dispatch) {
+          return true
+        }
 
         return redo(state)
       },
