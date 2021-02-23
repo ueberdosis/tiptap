@@ -96,7 +96,7 @@ jobs:
         wait-on: 'http://localhost:3000'
         project: ./tests
         browser: chrome
-        quiet: true 
+        quiet: true
 
     - name: Export screenshots (on failure only)
       uses: actions/upload-artifact@v2.2.2
