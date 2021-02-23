@@ -88,6 +88,11 @@ export default {
     this.editor = new Editor({
       extensions: defaultExtensions(),
       content,
+      editorProps: {
+        attributes: {
+          spellcheck: 'false',
+        },
+      },
     })
   },
 
