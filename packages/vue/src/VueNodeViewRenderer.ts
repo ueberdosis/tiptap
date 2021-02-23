@@ -192,19 +192,29 @@ class VueNodeView implements NodeView {
     }
 
     const { isEditable } = this.editor
-    const isDraggable = this.node.type.spec.draggable
+    const { isDragging } = this
+    const isDraggable = !!this.node.type.spec.draggable
+    const isSelectable = NodeSelection.isSelectable(this.node)
     const isCopyEvent = event.type === 'copy'
     const isPasteEvent = event.type === 'paste'
     const isCutEvent = event.type === 'cut'
+    const isClickEvent = event.type === 'mousedown'
     const isDragEvent = event.type.startsWith('drag') || event.type === 'drop'
 
-    if (isDraggable && isDragEvent && !this.isDragging) {
+    // ProseMirror tries to drag selectable nodes
+    // even if `draggable` is set to `false`
+    // this fix prevents that
+    if (!isDraggable && isSelectable && isDragEvent) {
+      event.preventDefault()
+    }
+
+    if (isDraggable && isDragEvent && !isDragging) {
       event.preventDefault()
       return false
     }
 
     // we have to store that dragging started
-    if (isDraggable && isEditable && !this.isDragging && event.type === 'mousedown') {
+    if (isDraggable && isEditable && !isDragging && isClickEvent) {
       const dragHandle = target.closest('[data-drag-handle]')
       const isValidDragHandle = dragHandle
         && (this.dom === dragHandle || (this.dom.contains(dragHandle)))
@@ -217,8 +227,13 @@ class VueNodeView implements NodeView {
       }
     }
 
-    // these events are handled by prosemirror
-    if (this.isDragging || isCopyEvent || isPasteEvent || isCutEvent) {
+    if (
+      isDragging
+      || isCopyEvent
+      || isPasteEvent
+      || isCutEvent
+      || (isClickEvent && isSelectable)
+    ) {
       return false
     }
 
