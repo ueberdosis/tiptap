@@ -227,6 +227,7 @@ class VueNodeView implements NodeView {
       }
     }
 
+    // these events are handled by prosemirror
     if (
       isDragging
       || isCopyEvent
