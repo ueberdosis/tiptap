@@ -71,9 +71,22 @@ export default function HighlightPlugin({ name }) {
           .filter(item => item.node.type.name === name)
         const newNodes = findBlockNodes(newState.doc)
           .filter(item => item.node.type.name === name)
-        // Apply decorations if selection includes named node, or transaction changes named node.
-        if (transaction.docChanged && ([oldNodeName, newNodeName].includes(name)
-          || newNodes.length !== oldNodes.length)) {
+
+        if (
+          transaction.docChanged
+          // Apply decorations if:
+          && (
+            // selection includes named node,
+            [oldNodeName, newNodeName].includes(name)
+            // OR transaction adds/removes named node,
+            || newNodes.length !== oldNodes.length
+            // OR transaction has changes that completely encapsulte a node
+            // (for example, a transaction that affects the entire document).
+            // Such transactions can happen during collab syncing via y-prosemirror, for example.
+            || transaction.steps.some(s => s.from !== undefined && s.to !== undefined
+                && oldNodes.some(n => n.pos >= s.from && n.pos + n.node.nodeSize <= s.to))
+          )
+        ) {
           return getDecorations({ doc: transaction.doc, name })
         }
         return decorationSet.map(transaction.mapping, transaction.doc)
