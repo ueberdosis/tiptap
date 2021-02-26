@@ -10,6 +10,12 @@ const MenuBar = () => {
   return (
     <>
       <button
+        onClick={() => editor.chain().focus().toggleBold().run()}
+        className={`${editor.isActive('bold') ? 'is-active' : ''}`}
+      >
+        bold
+      </button>
+      <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={`${editor.isActive('italic') ? 'active' : ''}`}
       >
@@ -110,12 +116,6 @@ const MenuBar = () => {
       </button>
       <button onClick={() => editor.chain().focus().redo().run()}>
         redo
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        className={`${editor.isActive('bold') ? 'is-active' : ''}`}
-      >
-        bold
       </button>
     </>
   )
