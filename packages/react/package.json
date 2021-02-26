@@ -2,7 +2,6 @@
   "name": "@tiptap/react",
   "description": "React components for tiptap",
   "version": "2.0.0-alpha.1",
-  "private": true,
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
