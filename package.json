@@ -29,6 +29,7 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.13",
     "@babel/plugin-proposal-optional-chaining": "^7.12.17",
     "@babel/preset-env": "^7.12.17",
+    "@babel/preset-react": "^7.12.13",
     "@lerna/batch-packages": "^3.16.0",
     "@lerna/filter-packages": "^3.18.0",
     "@lerna/project": "^3.21.0",

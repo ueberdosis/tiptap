@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { defaultExtensions } from '@tiptap/starter-kit'
-import { useEditor, Editor } from './components/Editor'
+import { useEditor, Editor } from '@tiptap/react'
 
 // Menu bar example component
 // useEditor only works for child components of <Editor />

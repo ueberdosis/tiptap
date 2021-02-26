@@ -21,16 +21,21 @@ Be nice! The content of this editor is shared with other users from the Internet
 ## Backend
 In case you’re wondering what kind of sorcery you need on the server to achieve this, here is the whole backend code for the demo:
 
+:::warning Request early access
+Our plug & play collaboration backend hocuspocus is still work in progress. If you want to give it a try, [request early access](https://hocuspocus.dev/).
+:::
+
 ```js
 import { Server } from '@hocuspocus/server'
-import { LevelDB } from '@hocuspocus/leveldb'
+import { RocksDB } from '@hocuspocus/rocksdb'
 
 const server = Server.configure({
   port: 80,
-
-  persistence: new LevelDB({
-    path: './database',
-  }),
+  extensions: [
+    new RocksDB({
+      path: './database',
+    })
+  ],
 })
 
 server.listen()

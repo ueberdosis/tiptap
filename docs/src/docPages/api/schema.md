@@ -231,7 +231,7 @@ Node.create({
 ```
 
 #### Table roles
-The [`Table`](/api/extensions/table) extension registers a new schema attribute to configure which role an Node has. Allowed values are `table`, `row`, `cell`, and `header_cell`.
+The [`Table`](/api/nodes/table) extension registers a new schema attribute to configure which role an Node has. Allowed values are `table`, `row`, `cell`, and `header_cell`.
 
 ```js
 Node.create({

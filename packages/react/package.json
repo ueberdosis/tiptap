@@ -1,0 +1,31 @@
+{
+  "name": "@tiptap/react",
+  "description": "React components for tiptap",
+  "version": "2.0.0-alpha.1",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap react components"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-react.cjs.js",
+  "umd": "dist/tiptap-react.umd.js",
+  "module": "dist/tiptap-react.esm.js",
+  "unpkg": "dist/tiptap-react.bundle.umd.min.js",
+  "types": "dist/packages/react/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-alpha.6",
+    "react": "^17.0.1"
+  },
+  "dependencies": {
+    "prosemirror-view": "^1.17.6"
+  }
+}

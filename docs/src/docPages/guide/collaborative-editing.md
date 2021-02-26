@@ -1,9 +1,5 @@
 # Collaborative editing
 
-:::pro Commercial use
-Using the collaborative editing commercially? [Become a sponsor](/sponsor) to fund its development!
-:::
-
 ## toc
 
 ## Introduction
@@ -12,12 +8,14 @@ Real-time collaboration, syncing between different devices and working offline u
 ## Configure the editor
 The underyling schema tiptap uses is an excellent foundation to sync documents. With the [`Collaboration`](/api/extensions/collaboration) you can tell tiptap to track changes to the document with [Y.js](https://github.com/yjs/yjs).
 
-Y.js is a conflict-free replicated data types implementation, or in other words: It’s reaaally good in merging changes. And to achieve that, changes don’t have to come in order. It’s totally fine to change a document while being offline and merge the it with other changes when the device is online again.
+Y.js is a conflict-free replicated data types implementation, or in other words: It’s reaaally good in merging changes. And to achieve that, changes don’t have to come in order. It’s totally fine to change a document while being offline and merge it with other changes when the device is online again.
 
-But somehow, the clients need to interchange document modifications. The most technologies used to do that are WebRTC and WebSocket, so let’s have a look those:
+But somehow, all clients need to interchange document modifications at some point. The most popular technologies to do that are [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) and [WebSockets](https://developer.mozilla.org/de/docs/Web/API/WebSocket), so let’s have a closer look at those:
 
 ### WebRTC
-Anyway, let’s take the first steps. Install the dependencies:
+WebRTC uses a server only to connect clients with each other. The actual data is then flowing between the clients, without the server knowing anything about it and that’s great to take the first steps with collaborative editing.
+
+First, install the dependencies:
 
 ```bash
 # with npm
@@ -53,16 +51,15 @@ const editor = new Editor({
 
 This should be enough to create a collaborative instance of tiptap. Crazy, isn’t it? Try it out, and open the editor in two different browsers. Changes should be synced between different windows.
 
-So how does this magic work? All clients need to connect with eachother, that’s the job of providers. The [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) provider is the easiest way to get started with, as it requires a public server to connect clients directly with-each other, but not to sync the actual changes. This has two downsides, though.
+So how does this magic work? All clients need to connect with eachother, that’s the job of a *provider*. The [WebRTC provider](https://github.com/yjs/y-webrtc) is the easiest way to get started with, as it requires a public server to connect clients directly with each other, but not to sync the actual changes. This has two downsides, though.
 
-On the one hand, browsers refuse to connect with too many clients. With Y.js it’s enough if all clients are connected indirectly, but even that isn’t possible at some point. Or in other words, it doesn’t scale well for more than 100+ clients in the same document.
-
-On the other hand, it’s likely you want to involve a server to persist changes anyway. But the WebRTC signaling server (which connects all clients with eachother) doesn’t receive the changes and therefore doesn’t know what’s in the document.
+1. Browsers refuse to connect with too many clients. With Y.js it’s enough if all clients are connected indirectly, but even that isn’t possible at some point. Or in other words, it doesn’t scale well for more than 100+ clients in the same document.
+2. It’s likely you want to involve a server to persist changes anyway. But the WebRTC signaling server (which connects all clients with eachother) doesn’t receive the changes and therefore doesn’t know what’s in the document.
 
 Anyway, if you want to dive deeper, head over to [the Y WebRTC repository](https://github.com/yjs/y-webrtc) on GitHub.
 
 ### WebSocket (Recommended)
-For most uses cases, the WebSocket provider is the recommended choice. It’s very flexible and can scale very well. For the client, the example is nearly the same, only the provider is different. Install the dependencies first:
+For most uses cases, the WebSocket provider is the recommended choice. It’s very flexible and can scale very well. For the client, the example is nearly the same, only the provider is different. First, let’s install the dependencies:
 
 ```bash
 # with npm
@@ -96,9 +93,12 @@ const editor = new Editor({
 })
 ```
 
-That example doesn’t work out of the box. As you can see, it’s configured to talk to a WebSocket server which is available under `ws://127.0.0.1:1234` (WebSocket protocol, your local IP and port 1234). You need to set this up, too.
+That example doesn’t work out of the box. As you can see, it’s configured to talk to a WebSocket server which is available under `ws://127.0.0.1:1234` (WebSocket protocol `ws://`, your local IP `127.0.0.1` and the port `1234`). You need to set this up, too.
 
-To make the server part as easy as possible, we provide you with an opinionated server package, called hocuspocus (NOT PUBLISHED YET). Create a new project, and install the hocuspocus server as a dependency:
+#### The WebSocket backend
+To make the server part as easy as possible, we provide [an opinionated server package, called hocuspocus](http://hocuspocus.dev/) (not published yet). Let’s go through, how this will work once its released.
+
+Create a new project, and install the hocuspocus server as a dependency:
 
 ```bash
 # with npm
@@ -126,10 +126,13 @@ That’s all. Start the script with:
 node ./index.js
 ```
 
-This should output something like “Listening on ws://127.0.0.1:1234”. If you go back to your tiptap editor and hit reload, it should connect to the WebSocket server and changes should sync with all other clients. Amazing, isn’t it?
+<!-- TODO: This should output something like “Listening on ws://127.0.0.1:1234”.  -->
+Try opening http://127.0.0.1:1234 in your browser. You should see a plain text `OK` if everything works fine.
+
+Go back to your tiptap editor and hit reload, it should now connect to the WebSocket server and changes should sync with all other clients. Amazing, isn’t it?
 
 ### Multiple network providers
-You can even combine multiple providers. That’s not needed, but could keep clients connected, even if one connection - for example the websocket server - goes down for a while. Here is an example:
+You can even combine multiple providers. That’s not needed, but could keep clients connected, even if one connection - for example the WebSocket server - goes down for a while. Here is an example:
 
 ```js
 new WebrtcProvider('example-document', ydoc)
@@ -138,10 +141,10 @@ new WebsocketProvider('ws://127.0.0.1:1234', 'example-document', ydoc)
 
 Yes, that’s all.
 
-Keep in mind that WebRTC needs a signaling server to connect clients. This signaling server doesn’t receive the synced data, but helps to let clients find each other. You can [run your own signaling server](https://github.com/yjs/y-webrtc#signaling), if you like.
+Keep in mind that WebRTC needs a signaling server to connect clients. This signaling server doesn’t receive the synced data, but helps to let clients find each other. You can [run your own signaling server](https://github.com/yjs/y-webrtc#signaling), if you like. Otherwise it’s using a default URL baked into the package.
 
 ### Show other cursors
-If you want to enable users to see the cursor and text selections of each other, add the [`CollaborationCursor`](/api/extensions/collaboration-cursor) extension.
+To enable users to see the cursor and text selections of each other, add the [`CollaborationCursor`](/api/extensions/collaboration-cursor) extension.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -209,12 +212,11 @@ All changes will be stored in the browser then, even if you close the tab, go of
 
 Yes, it’s magic. As already mentioned, that is all based on the fantastic Y.js framework. And if you’re using it, or our integration, you should definitely [sponsor Kevin Jahns on GitHub](https://github.com/dmonad), he is the brain behind Y.js.
 
-## A plug & play backend
-Our collaborative editing backend is ready to handle advanced use cases, like authorization, persistence and scaling. Let’s go through a few common use cases here!
+## Our plug & play collaboration backend
+Our collaborative editing backend handles the syncing, authorization, persistence and scaling. Let’s go through a few common use cases here!
 
-### Where is it?
-:::warning Work in progress
-Our plug & play collaboration backend hocuspocus is still work in progress. If you want to give it a try, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev) to receive early access.
+:::warning Request early access
+Our plug & play collaboration backend hocuspocus is still work in progress. If you want to give it a try, [request early access](https://hocuspocus.dev/).
 :::
 
 ### The document name
@@ -259,20 +261,15 @@ import { Server } from '@hocuspocus/server'
 
 const server = Server.configure({
   onConnect(data, resolve, reject) {
-    const { requestHeaders, requestParameters } = data
-    // Your code here, for example a request to an API
-
-    // If the user is not authenticated …
-    if (requestParameters.access_token !== 'super-secret-token') {
-       return reject()
-    }
-
-    // Set contextual data
+    // You can set contextual data…
     const context = {
-        user_id: 1234,
+      user: {
+        id: 1234,
+        name: 'John',
+      },
     }
 
-    // If the user is authenticated …
+    // …and pass it along to use it in other hooks
     resolve(context)
   },
 })
@@ -281,31 +278,21 @@ server.listen()
 ```
 
 ### Authorization
-With the `onJoinDocument` hook you can check if a user is authorized to edit the current document. This works in the same way the [Authentication](#authentication) works.
+With the `onConnect` hook you can check if a user is authorized to edit the current document. This works in the same way the [Authentication](#authentication) works.
 
 ```js
 import { Server } from '@hocuspocus/server'
 
 const server = Server.configure({
-  onJoinDocument(data, resolve, reject) {
-    const {
-      clientsCount,
-      context,
-      document,
-      documentName,
-      requestHeaders,
-      requestParameters,
-    } = data
-    // Your code here, for example a request to an API
+  onConnect(data, resolve, reject) {
+    const { requestParameters } = data
 
-    // Access the contextual data from the onConnect hook, in this example this will print { user_id: 1234 }
-    console.log(context)
+    // Example: Check if a user is authenticated using a request parameter
+    if (requestParameters.access_token !== 'super-secret-token') {
+      return reject()
+    }
 
-    // If the user is authorized …
     resolve()
-
-    // if the user isn’t authorized …
-    reject()
   },
 })
 
@@ -313,52 +300,56 @@ server.listen()
 ```
 
 ### Persist the document
-By default, documents are only stored in the memory. Hence they are deleted when the WebSocket server is stopped. To prevent this, store changes on the hard disk with the LevelDB adapter. When you restart the server, it’ll restore documents from the hard disk, in that case from the `./database` folder:
+By default, documents are only stored in the memory. Hence they are deleted when the WebSocket server is stopped. To prevent this, store changes on the hard disk with the RocksDB adapter. When you restart the server, it’ll restore documents from the hard disk, in that case from the `./database` folder:
 
 ```js
 import { Server } from '@hocuspocus/server'
-import { LevelDB } from '@hocuspocus/leveldb'
+import { RocksDB } from '@hocuspocus/rocksdb'
 
 const server = Server.configure({
-  persistence: new LevelDB({
-    path: './database',
-  }),
+
+  extensions: [
+    new RocksDB({
+      // Store the actual data in that folder:
+      path: './database',
+    })
+  ],
+
 })
 
 server.listen()
 ```
 
-### Send it to an API
-To pass the updated documents to an API, or to a database, you can use the `onChange` hook, which is executed when a document changes. With the `debounce` setting you can slow down the execution, with the `debounceMaxWait` setting you can make sure the content is sent at least every few seconds:
+### Store the documents as JSON
+To pass the updated documents to an API, to a database, or store on it on the hard disk as JSON, you can use the `onChange` hook, which is executed when a document changes.
 
 ```js
+import { writeFile } from 'fs'
 import { Server } from '@hocuspocus/server'
+import { yDocToProsemirrorJSON } from 'y-prosemirror'
 
-const server = Server.configure({
-  // time to wait before sending changes (in milliseconds)
-  debounce: 2000,
-
-  // maximum time to wait (in milliseconds)
-  debounceMaxWait: 10000,
-
-  // executed when the document is changed
+const hocuspocus = Server.configure({
   onChange(data) {
-    const {
-      clientsCount,
-      document,
-      documentName,
-      requestHeaders,
-      requestParameters,
-    } = data
+    const save = () => {
+      // Get the underlying Y Document
+      const ydoc = data.document
 
-    // Your code here, for example a request to an API
+      // Convert the Y Document to the format your editor uses, in this
+      // example Prosemirror JSON for the tiptap editor
+      const prosemirrorDocument = yDocToProsemirrorJSON(ydoc, 'default')
+
+      // Save your document. In a real-world app this could be a database query
+      // a webhook or something else
+      writeFile(
+        `/path/to/your/documents/${data.documentName}.json`,
+        prosemirrorDocument
+      )
+    }
   },
 })
 
-server.listen()
+hocuspocus.listen()
 ```
-
-There is no method to restore documents from an external source, so you’ll need a [persistence driver](#persist-the-document) though. Those persistence drivers store every change to the document. That’s probably not needed in your external source, but is needed to make the merging of changes conflict-free in the collaborative editing backend.
 
 ### Scale with Redis (Advanced)
 
@@ -373,10 +364,12 @@ import { Server } from '@hocuspocus/server'
 import { Redis } from '@hocuspocus/redis'
 
 const server = Server.configure({
-  persistence: new Redis({
-    host: '127.0.0.1',
-    port: 6379,
-  }),
+  extensions: [
+    new Redis({
+      host: '127.0.0.1',
+      port: 6379,
+    })
+  ],
 })
 
 server.listen()
@@ -389,13 +382,15 @@ import { Server } from '@hocuspocus/server'
 import { RedisCluster } from '@hocuspocus/redis'
 
 const server = Server.configure({
-  persistence: new RedisCluster({
-    scaleReads: 'all',
-    redisOptions: {
-      host: '127.0.0.1',
-      port: 6379,
-    }
-  }),
+  extensions: [
+    new RedisCluster({
+      scaleReads: 'all',
+      redisOptions: {
+        host: '127.0.0.1',
+        port: 6379,
+      },
+    })
+  ],
 })
 
 server.listen()
