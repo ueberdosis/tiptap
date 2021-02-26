@@ -19,7 +19,6 @@ export { default as isMarkActive } from './helpers/isMarkActive'
 export { default as isNodeActive } from './helpers/isNodeActive'
 export { default as isNodeSelection } from './helpers/isNodeSelection'
 export { default as isTextSelection } from './helpers/isTextSelection'
-export { default as isCellSelection } from './helpers/isCellSelection'
 export { default as findParentNodeClosestToPos } from './helpers/findParentNodeClosestToPos'
 
 export interface Commands {}
