@@ -10,6 +10,9 @@ module.exports = function (api) {
     cwd: process.cwd(),
   })
 
+  let numberOfPages = 0
+  let numberOfDemos = 0
+
   api.loadSource(() => {
     /**
      * Generate pages for all demo components for testing purposes
@@ -27,6 +30,8 @@ module.exports = function (api) {
 
       demos.push(match[1])
     })
+
+    numberOfDemos = demos.length
 
     api.createPages(({ createPage }) => {
       createPage({
@@ -76,8 +81,16 @@ module.exports = function (api) {
   })
 
   api.onCreateNode(options => {
-    if (process.env.NODE_ENV === 'production' && options.internal.typeName === 'DocPage') {
-      createSpecificOpenGraphImage(options.title, options.content, `static/images${options.path}og-image.png`)
+    if (options.internal.typeName === 'DocPage') {
+      numberOfPages += 1
+
+      if (process.env.NODE_ENV === 'production') {
+        createSpecificOpenGraphImage(options.title, options.content, `static/images${options.path}og-image.png`)
+      }
     }
+  })
+
+  api.configureServer(() => {
+    console.log(`[STATS] ${numberOfPages} pages, ${numberOfDemos} interactive demos`)
   })
 }
