@@ -1,0 +1,5 @@
+export * from '@tiptap/core'
+export { VueRenderer } from './VueRenderer'
+export { VueNodeViewRenderer } from './VueNodeViewRenderer'
+export { Editor } from './Editor'
+export { EditorContent } from './EditorContent'
