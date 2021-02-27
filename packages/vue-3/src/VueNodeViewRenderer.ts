@@ -15,12 +15,6 @@ import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor } from './Editor'
 import { VueRenderer } from './VueRenderer'
 
-// function getComponentFromElement(element: HTMLElement): Component {
-//   // @ts-ignore
-//   // eslint-disable-next-line
-//   return element.__vueParentComponent
-// }
-
 interface VueNodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
@@ -311,17 +305,6 @@ class VueNodeView implements NodeView {
 
 export function VueNodeViewRenderer(component: Component, options?: Partial<VueNodeViewRendererOptions>): NodeViewRenderer {
   return (props: NodeViewRendererProps) => {
-    // try to get the parent component
-    // this is important for vue devtools to show the component hierarchy correctly
-    // maybe it’s `undefined` because <editor-content> isn’t rendered yet
-    // const parent = props.editor.view.dom.parentElement
-    //   ? getComponentFromElement(props.editor.view.dom.parentElement)
-    //   : undefined
-
-    // if (!parent) {
-    //   return {}
-    // }
-
     if (!props.editor.contentComponent) {
       return {}
     }
