@@ -6,9 +6,8 @@
 
 <script>
 import tippy from 'tippy.js'
-import {
-  Editor, EditorContent, defaultExtensions, VueRenderer,
-} from '@tiptap/vue-starter-kit'
+import { Editor, EditorContent, VueRenderer } from '@tiptap/vue-2'
+import { defaultExtensions } from '@tiptap/starter-kit'
 import Commands from './commands'
 import CommandsList from './CommandsList'
 

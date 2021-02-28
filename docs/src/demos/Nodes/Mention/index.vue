@@ -6,7 +6,7 @@
 
 <script>
 import tippy from 'tippy.js'
-import { Editor, EditorContent, VueRenderer } from '@tiptap/vue'
+import { Editor, EditorContent, VueRenderer } from '@tiptap/vue-2'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'

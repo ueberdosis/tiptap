@@ -7,7 +7,7 @@ Node views are the best thing since sliced bread, at least if you’re a fan of 
 
 <!-- ```js
 import { Node } from '@tiptap/core'
-import { VueNodeViewRenderer } from '@tiptap/vue'
+import { VueNodeViewRenderer } from '@tiptap/vue-2'
 import Component from './Component.vue'
 
 export default Node.create({
@@ -83,7 +83,7 @@ https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-item
 
 ```js
 import { Node } from '@tiptap/core'
-import { VueNodeViewRenderer } from '@tiptap/vue'
+import { VueNodeViewRenderer } from '@tiptap/vue-2'
 import Component from './Component.vue'
 
 export default Node.create({

@@ -9,7 +9,7 @@ import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
-import VueRenderer from './VueRenderer'
+import { VueRenderer } from './VueRenderer'
 
 function getComponentFromElement(element: HTMLElement): Vue {
   // @ts-ignore
