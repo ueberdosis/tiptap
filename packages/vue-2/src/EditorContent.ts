@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-export default Vue.extend({
+export const EditorContent = Vue.extend({
   name: 'EditorContent',
 
   props: {

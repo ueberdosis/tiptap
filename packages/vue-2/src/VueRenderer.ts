@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
 
-export default class VueRenderer {
+export class VueRenderer {
   vm!: Vue
 
   constructor(component: Vue | VueConstructor, props: any) {
