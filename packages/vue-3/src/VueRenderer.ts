@@ -1,4 +1,4 @@
-import { ref, markRaw, Component } from 'vue'
+import { reactive, markRaw, Component } from 'vue'
 import { Editor } from './Editor'
 
 export interface VueRendererOptions {
@@ -26,7 +26,7 @@ export class VueRenderer {
     this.component = markRaw(component)
     this.teleportElement = document.createElement('div')
     this.element = this.teleportElement
-    this.props = ref(props)
+    this.props = reactive(props)
     this.editor.vueRenderers.set(this.id, this)
 
     if (this.editor.contentComponent) {
@@ -40,7 +40,11 @@ export class VueRenderer {
   }
 
   updateProps(props: { [key: string]: any } = {}) {
-    this.props.value = props
+    Object
+      .entries(props)
+      .forEach(([key, value]) => {
+        this.props[key] = value
+      })
   }
 
   destroy() {
