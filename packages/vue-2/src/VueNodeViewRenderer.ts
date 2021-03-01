@@ -135,16 +135,7 @@ class VueNodeView implements NodeView {
     const NodeViewWrapper = this.createNodeViewWrapper()
     const NodeViewContent = this.createNodeViewContent()
 
-    const Component = Vue
-      .extend(component)
-      .extend({
-        components: {
-          NodeViewWrapper,
-          NodeViewContent,
-        },
-      })
-
-    const propsData = {
+    const props = {
       NodeViewWrapper,
       NodeViewContent,
       editor: this.editor,
@@ -156,13 +147,23 @@ class VueNodeView implements NodeView {
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
     }
 
+    const Component = Vue
+      .extend(component)
+      .extend({
+        props: Object.keys(props),
+        components: {
+          NodeViewWrapper,
+          NodeViewContent,
+        },
+      })
+
     const parent = this.editor.view.dom.parentElement
       ? getComponentFromElement(this.editor.view.dom.parentElement)
       : undefined
 
     this.renderer = new VueRenderer(Component, {
       parent,
-      propsData,
+      propsData: props,
     })
   }
 
