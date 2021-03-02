@@ -3,7 +3,7 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 function textRange(node, from, to) {
   const range = document.createRange()
   range.setEnd(node, to == null ? node.nodeValue.length : to)
-  range.setStart(node, from || 0)
+  range.setStart(node, Math.max(from, 0))
   return range
 }
 
