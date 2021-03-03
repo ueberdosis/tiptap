@@ -2,7 +2,39 @@
   items:
     - title: Installation
       link: /installation
-    - title: Upgrade Guide
+      items:
+        - title: CDN
+          link: /installation/cdn
+          skip: true
+        - title: CodeSandbox
+          link: /installation/codesandbox
+          skip: true
+        - title: Vue 2
+          link: /installation/vue2
+          skip: true
+        - title: Vue 3
+          link: /installation/vue3
+          skip: true
+        - title: Nuxt.js
+          link: /installation/nuxt
+          skip: true
+        - title: React
+          link: /installation/react
+          type: draft
+          skip: true
+        - title: Svelte
+          link: /installation/svelte
+          type: draft
+          skip: true
+        - title: Alpine.js
+          link: /installation/alpine
+          type: draft
+          skip: true
+        - title: Livewire
+          link: /installation/livewire
+          type: draft
+          skip: true
+    - title: Upgrade guide
       link: /overview/upgrade-guide
     - title: Become a sponsor
       link: /sponsor
