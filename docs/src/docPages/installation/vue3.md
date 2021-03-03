@@ -1,4 +1,4 @@
-# Vue.js 3 (Draft)
+# Vue.js 3
 
 ## toc
 
