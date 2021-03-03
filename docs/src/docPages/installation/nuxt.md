@@ -23,14 +23,14 @@ cd tiptap-example
 ```
 
 ## 2. Install the dependencies
-Okay, enough of the boring boilerplate work. Let’s finally install tiptap! For the following example you’ll need `@tiptap/core` (the actual editor) and the `@tiptap/vue-starter-kit` which has everything to get started quickly, for example a few default extensions and a basic Vue component.
+Okay, enough of the boring boilerplate work. Let’s finally install tiptap! For the following example you’ll need the `@tiptap/vue-2` package, with a few components, and `@tiptap/starter-kit` which has the most common extensions to get started quickly.
 
 ```bash
 # install with npm
-npm install @tiptap/core @tiptap/vue-starter-kit
+npm install @tiptap/vue-2 @tiptap/starter-kit
 
 # install with Yarn
-yarn add @tiptap/core @tiptap/vue-starter-kit
+yarn add @tiptap/vue-2 @tiptap/starter-kit
 ```
 
 If you followed step 1 and 2, you can now start your project with `npm run serve` or `yarn serve`, and open [http://localhost:8080/](http://localhost:8080/) in your favorite browser. This might be different, if you’re working with an existing project.
@@ -46,7 +46,8 @@ This is the fastest way to get tiptap up and running with Vue. It will give you 
 </template>
 
 <script>
-import { Editor, EditorContent, defaultExtensions } from '@tiptap/vue-starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-2'
+import { defaultExtensions } from '@tiptap/starter-kit'
 
 export default {
   components: {
