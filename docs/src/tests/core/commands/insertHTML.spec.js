@@ -1,6 +1,6 @@
 context('insertHTML', () => {
   before(() => {
-    cy.visit('/demos/Examples/default')
+    cy.visit('/demos/Examples/Default/Vue')
   })
 
   it('returns true for the insertHTML command', () => {

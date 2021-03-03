@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.22](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-alpha.21...@tiptap/core@2.0.0-alpha.22) (2021-02-28)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-alpha.21](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-alpha.20...@tiptap/core@2.0.0-alpha.21) (2021-02-26)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-alpha.20](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-alpha.19...@tiptap/core@2.0.0-alpha.20) (2021-02-26)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
 # [2.0.0-alpha.19](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-alpha.18...@tiptap/core@2.0.0-alpha.19) (2021-02-18)
 
 **Note:** Version bump only for package @tiptap/core

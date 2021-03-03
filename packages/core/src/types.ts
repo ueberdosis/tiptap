@@ -32,7 +32,7 @@ export type Extensions = (Extension | Node | Mark)[]
 
 export interface EditorOptions {
   element: Element,
-  content: EditorContent,
+  content: Content,
   extensions: Extensions,
   injectCSS: boolean,
   autofocus: FocusPosition,
@@ -50,7 +50,7 @@ export interface EditorOptions {
   onDestroy: () => void,
 }
 
-export type EditorContent = string | JSON | null
+export type Content = string | JSON | null
 
 export type CommandProps = {
   editor: Editor,

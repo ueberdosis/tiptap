@@ -1,0 +1,31 @@
+{
+  "name": "@tiptap/vue-3",
+  "description": "Vue components for tiptap",
+  "version": "2.0.0-alpha.1",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap vue components"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-vue-3.cjs.js",
+  "umd": "dist/tiptap-vue-3.umd.js",
+  "module": "dist/tiptap-vue-3.esm.js",
+  "unpkg": "dist/tiptap-vue-3.bundle.umd.min.js",
+  "types": "dist/packages/vue-3/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-alpha.6"
+  },
+  "dependencies": {
+    "prosemirror-view": "^1.17.8",
+    "vue": "^3.0.6"
+  }
+}

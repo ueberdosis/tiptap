@@ -3,8 +3,7 @@
 </template>
 
 <script>
-import { Editor } from '@tiptap/core'
-import { EditorContent } from '@tiptap/vue'
+import { Editor, EditorContent } from '@tiptap/vue-2'
 import { defaultExtensions } from '@tiptap/starter-kit'
 
 export default {

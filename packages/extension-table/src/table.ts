@@ -2,7 +2,6 @@ import {
   Command,
   Node,
   mergeAttributes,
-  isCellSelection,
   findParentNodeClosestToPos,
   callOrReturn,
 } from '@tiptap/core'
@@ -28,6 +27,7 @@ import {
 import { NodeView } from 'prosemirror-view'
 import { TextSelection } from 'prosemirror-state'
 import { createTable } from './utilities/createTable'
+import { isCellSelection } from './utilities/isCellSelection'
 import { TableView } from './TableView'
 
 export interface TableOptions {

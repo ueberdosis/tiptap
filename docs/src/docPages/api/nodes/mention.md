@@ -31,10 +31,10 @@ Currently, we’re supporting custom Vue.js components only. To get the required
 
 ```bash
 # with npm
-npm install @tiptap/vue
+npm install @tiptap/vue-2
 
 # with Yarn
-yarn add @tiptap/vue
+yarn add @tiptap/vue-2
 ```
 
 And yes, we plan to support React, too. Meanwhile, you can roll your own `ReactRenderer`, but don’t forget to share it with the community.

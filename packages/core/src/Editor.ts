@@ -13,7 +13,7 @@ import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
 import {
   EditorOptions,
-  EditorContent,
+  Content,
   CanCommands,
   ChainedCommands,
   SingleCommands,
@@ -237,7 +237,7 @@ export class Editor extends EventEmitter {
   /**
    * Creates a ProseMirror document.
    */
-  public createDocument = (content: EditorContent, parseOptions = this.options.parseOptions): Node => {
+  public createDocument = (content: Content, parseOptions = this.options.parseOptions): Node => {
     if (content && typeof content === 'object') {
       try {
         return this.schema.nodeFromJSON(content)

@@ -3,7 +3,7 @@
 ## toc
 
 ## Introduction
-The `@tiptap/vue` package is not yet ported to Vue 3. Meanwhile, you can find compatible version contributed by [@samwillis](https://github.com/samwillis) and [@areknawo](https://github.com/areknawo) here.
+The `@tiptap/vue-2` package is not yet ported to Vue 3. Meanwhile, you can find compatible version contributed by [@samwillis](https://github.com/samwillis) and [@areknawo](https://github.com/areknawo) here.
 
 ## EditorContent.ts
 https://github.com/ueberdosis/tiptap-next/issues/85#issuecomment-774520164
