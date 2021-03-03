@@ -9,7 +9,7 @@ tiptap 2 is framework-agnostic and even works with plain JavaScript, if that’s
 * [CDN](/installation/cdn)
 * [CodeSandbox](/installation/codesandbox)
 * [Vue 2](/installation/vue2)
-* [Vue 3](/installation/vue3) (Draft)
+* [Vue 3](/installation/vue3)
 * [Nuxt.js](/installation/nuxt)
 * [React](/installation/react) (Draft)
 * [Svelte](/installation/svelte) (Draft)
