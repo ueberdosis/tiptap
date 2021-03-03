@@ -117,7 +117,9 @@ export default {
         }),
       ],
       content: `
-        <p>Text</p>
+        <p>Type a slash</p>
+        <p></p>
+        <p></p>
       `,
     })
   },

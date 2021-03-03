@@ -7,7 +7,7 @@ export default Extension.create({
   defaultOptions: {
     suggestion: {
       char: '/',
-      startOfLine: true,
+      startOfLine: false,
       command: ({ editor, range, props }) => {
         props.command({ editor, range })
       },
