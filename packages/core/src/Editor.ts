@@ -64,7 +64,7 @@ export class Editor extends EventEmitter {
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
-    this.options = { ...this.options, ...options }
+    this.setOptions(options)
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
@@ -121,6 +121,10 @@ export class Editor extends EventEmitter {
    */
   public setOptions(options: Partial<EditorOptions> = {}): void {
     this.options = { ...this.options, ...options }
+  }
+
+  public setEditable(editable: boolean): void {
+    this.setOptions({ editable })
 
     if (this.view && this.state && !this.isDestroyed) {
       this.view.updateState(this.state)
@@ -212,7 +216,14 @@ export class Editor extends EventEmitter {
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.
     const newState = this.state.reconfigure({
-      plugins: this.extensionManager.plugins,
+      plugins: [
+        new Plugin({
+          view: () => ({
+            update: () => this.emit('viewUpdate'),
+          }),
+        }),
+        ...this.extensionManager.plugins,
+      ],
     })
 
     this.view.updateState(newState)
@@ -410,7 +421,7 @@ export class Editor extends EventEmitter {
   /**
    * Check if the editor is already destroyed.
    */
-  private get isDestroyed(): boolean {
+  public get isDestroyed(): boolean {
     // @ts-ignore
     return !this.view?.docView
   }
