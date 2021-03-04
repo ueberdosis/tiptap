@@ -1,4 +1,4 @@
-> We’re working on tiptap 2. Become a sponsor to get access immediately! [Sponsor 💖](https://github.com/sponsors/ueberdosis)
+> We’re working on [tiptap 2](https://blog.ueber.io/post/tiptap-2-0-beta/). Become a sponsor to get access immediately! [Sponsor 💖](https://github.com/sponsors/ueberdosis)
 
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
@@ -12,7 +12,7 @@ A renderless and extendable rich-text editor for [Vue.js](https://github.com/vue
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 ## [FAQ] Should I start to integrate tiptap 1 or wait for tiptap 2?
-Good question! [tiptap 2](https://blog.ueber.io/post/our-plan-for-tiptap-2/) is about to come in the next months and we’re going to provide an upgrade guide for you. Sure, there are a lot of things that will change, but you should be able to refactor everything in an hour so (depending on the size of your project).
+Good question! [tiptap 2](https://blog.ueber.io/post/tiptap-2-0-beta/) is about to come in the next months and we’re going to provide an upgrade guide for you. Sure, there are a lot of things that will change, but you should be able to refactor everything in an hour so (depending on the size of your project).
 
 The extension API will have a lot of breaking changes. So if you’re up to write a lot of custom extensions, expect to rewrite them for tiptap 2. You’ll likely reuse all the single parts (schema, inputRules, pasteRules, keyboard shortcuts …), but the API to register them will be different.
 
