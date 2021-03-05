@@ -57,8 +57,7 @@ export const EditorContent = defineComponent({
       const editor = props.editor
 
       // destroy nodeviews before vue removes dom element
-      // @ts-ignore
-      if (editor.view?.docView) {
+      if (!editor.isDestroyed) {
         editor.view.setProps({
           nodeViews: {},
         })
