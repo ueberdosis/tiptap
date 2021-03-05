@@ -258,7 +258,7 @@ export function VueNodeViewRenderer(component: Component, options?: Partial<VueN
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
     // maybe it’s `undefined` because <editor-content> isn’t rendered yet
-    if (!props.editor.contentComponent) {
+    if (!(props.editor as Editor).contentComponent) {
       return {}
     }
 

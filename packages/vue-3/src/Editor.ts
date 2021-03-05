@@ -36,13 +36,6 @@ export type ContentComponent = ComponentInternalInstance & {
   ctx: ComponentPublicInstance,
 }
 
-declare module '@tiptap/core' {
-  interface Editor {
-    contentComponent: ContentComponent | null,
-    vueRenderers: Map<string, VueRenderer>,
-  }
-}
-
 export class Editor extends CoreEditor {
   private reactiveState: Ref<EditorState>
 

@@ -35,7 +35,7 @@ class VueNodeView implements NodeView {
 
   constructor(component: Vue | VueConstructor, props: NodeViewRendererProps, options?: Partial<VueNodeViewRendererOptions>) {
     this.options = { ...this.options, ...options }
-    this.editor = props.editor
+    this.editor = props.editor as Editor
     this.extension = props.extension
     this.node = props.node
     this.getPos = props.getPos
@@ -257,7 +257,7 @@ export function VueNodeViewRenderer(component: Vue | VueConstructor, options?: P
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
     // maybe it’s `undefined` because <editor-content> isn’t rendered yet
-    if (!props.editor.contentComponent) {
+    if (!(props.editor as Editor).contentComponent) {
       return {}
     }
 
