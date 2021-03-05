@@ -1,4 +1,5 @@
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { Editor } from './Editor'
 
 export const EditorContent = Vue.extend({
   name: 'EditorContent',
@@ -6,17 +7,30 @@ export const EditorContent = Vue.extend({
   props: {
     editor: {
       default: null,
-      type: Object,
+      type: Object as PropType<Editor>,
     },
   },
 
   watch: {
     editor: {
       immediate: true,
-      handler(editor) {
+      handler(editor: Editor) {
         if (editor && editor.options.element) {
           this.$nextTick(() => {
-            this.$el.appendChild(editor.options.element.firstChild)
+            const element = this.$el
+
+            if (!element || !editor.options.element.firstChild) {
+              return
+            }
+
+            element.appendChild(editor.options.element.firstChild)
+
+            editor.contentComponent = this
+
+            editor.setOptions({
+              element,
+            })
+
             editor.createNodeViews()
           })
         }
@@ -29,8 +43,26 @@ export const EditorContent = Vue.extend({
   },
 
   beforeDestroy() {
-    this.editor.setOptions({
-      element: this.$el,
+    const { editor } = this
+
+    if (!editor.isDestroyed) {
+      editor.view.setProps({
+        nodeViews: {},
+      })
+    }
+
+    editor.contentComponent = null
+
+    if (!editor.options.element.firstChild) {
+      return
+    }
+
+    const newElement = document.createElement('div')
+
+    newElement.appendChild(editor.options.element.firstChild)
+
+    editor.setOptions({
+      element: newElement,
     })
   },
 })

@@ -1,21 +1,11 @@
-import {
-  Editor,
-  Node,
-  NodeViewRenderer,
-  NodeViewRendererProps,
-} from '@tiptap/core'
+import { Node, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
 import { Decoration, NodeView } from 'prosemirror-view'
 import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
+import { Editor } from './Editor'
 import { VueRenderer } from './VueRenderer'
-
-function getComponentFromElement(element: HTMLElement): Vue {
-  // @ts-ignore
-  // eslint-disable-next-line
-  return element.__vue__
-}
 
 interface VueNodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
@@ -101,12 +91,8 @@ class VueNodeView implements NodeView {
         },
       })
 
-    const parent = this.editor.view.dom.parentElement
-      ? getComponentFromElement(this.editor.view.dom.parentElement)
-      : undefined
-
     this.renderer = new VueRenderer(Component, {
-      parent,
+      parent: this.editor.contentComponent,
       propsData: props,
     })
   }
@@ -271,11 +257,7 @@ export function VueNodeViewRenderer(component: Vue | VueConstructor, options?: P
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
     // maybe it’s `undefined` because <editor-content> isn’t rendered yet
-    const parent = props.editor.view.dom.parentElement
-      ? getComponentFromElement(props.editor.view.dom.parentElement)
-      : undefined
-
-    if (!parent) {
+    if (!props.editor.contentComponent) {
       return {}
     }
 

@@ -1,4 +1,5 @@
 export * from '@tiptap/core'
+export { Editor } from './Editor'
 export * from './VueRenderer'
 export * from './VueNodeViewRenderer'
 export * from './EditorContent'
