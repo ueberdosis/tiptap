@@ -31,6 +31,11 @@ export class VueRenderer {
 
     if (this.editor.contentComponent) {
       this.editor.contentComponent.update()
+
+      if (this.teleportElement.children.length !== 1) {
+        throw Error('VueRenderer doesn’t support multiple child elements.')
+      }
+
       this.element = this.teleportElement.firstElementChild as Element
     }
   }

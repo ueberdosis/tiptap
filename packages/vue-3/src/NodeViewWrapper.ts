@@ -17,7 +17,7 @@ export const NodeViewWrapper = defineComponent({
           whiteSpace: 'normal',
         },
         'data-node-view-wrapper': '',
-        // @ts-ignore
+        // @ts-ignore (https://github.com/vuejs/vue-next/issues/3031)
         onDragStart: this.onDragStart,
       },
       this.$slots.default?.(),

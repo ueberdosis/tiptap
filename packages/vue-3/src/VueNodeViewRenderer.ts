@@ -1,8 +1,4 @@
-import {
-  Node,
-  NodeViewRenderer,
-  NodeViewRendererProps,
-} from '@tiptap/core'
+import { Node, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
 import {
   ref,
   provide,
@@ -103,6 +99,10 @@ class VueNodeView implements NodeView {
   }
 
   get dom() {
+    if (!this.renderer.element.hasAttribute('data-node-view-wrapper')) {
+      throw Error('Please use the NodeViewWrapper component for your node view.')
+    }
+
     return this.renderer.element
   }
 
