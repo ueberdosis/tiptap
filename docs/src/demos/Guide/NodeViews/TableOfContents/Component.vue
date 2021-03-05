@@ -14,7 +14,13 @@
 </template>
 
 <script>
+import { NodeViewWrapper } from '@tiptap/vue-2'
+
 export default {
+  components: {
+    NodeViewWrapper,
+  },
+
   props: {
     editor: {
       type: Object,

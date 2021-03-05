@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { NodeViewWrapper } from '@tiptap/vue-2'
 import { v4 as uuid } from 'uuid'
 import * as d3 from 'd3'
 import simplify from 'simplify-js'
@@ -36,6 +37,10 @@ const getRandomElement = list => {
 
 export default {
   name: 'Paper',
+
+  components: {
+    NodeViewWrapper,
+  },
 
   props: {
     updateAttributes: {

@@ -86,7 +86,7 @@ class VueNodeView implements NodeView {
       props: Object.keys(props),
       setup() {
         provide('onDragStart', onDragStart)
-        provide('editable', isEditable)
+        provide('isEditable', isEditable)
 
         return (component as any).setup?.()
       },

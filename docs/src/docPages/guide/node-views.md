@@ -97,13 +97,17 @@ export default Node.create({
 
 ```html
 <template>
-  <node-view-wrapper>
-    <node-view-content />
-  </node-view-wrapper>
+  <node-view-wrapper />
 </template>
 
 <script>
+import { NodeViewWrapper } from '@tiptap/vue-2'
+
 export default {
+  components: {
+    NodeViewWrapper,
+  },
+
   props: {
     editor: {
       type: Object,
@@ -145,6 +149,16 @@ export default {
     <node-view-content class="content-dom" />
   </node-view-wrapper>
 </template>
+
+<script>
+import { NodeViewWrapper, NodeViewContent } from '@tiptap/vue-2'
+
+export default {
+  components: {
+    NodeViewWrapper,
+    NodeViewContent,
+  },
+}
 ```
 
 ## Reference

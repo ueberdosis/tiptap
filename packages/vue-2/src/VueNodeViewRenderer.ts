@@ -34,8 +34,6 @@ class VueNodeView implements NodeView {
 
   decorations!: Decoration[]
 
-  id!: string
-
   getPos!: any
 
   isDragging = false
@@ -51,42 +49,10 @@ class VueNodeView implements NodeView {
     this.extension = props.extension
     this.node = props.node
     this.getPos = props.getPos
-    this.createUniqueId()
     this.mount(component)
   }
 
-  createUniqueId() {
-    this.id = `id_${Math.floor(Math.random() * 0xFFFFFFFF)}`
-  }
-
-  createNodeViewWrapper() {
-    const { handleDragStart } = this
-    const dragstart = handleDragStart.bind(this)
-
-    return Vue.extend({
-      props: {
-        as: {
-          type: String,
-          default: 'div',
-        },
-      },
-      render(createElement) {
-        return createElement(
-          this.as, {
-            style: {
-              whiteSpace: 'normal',
-            },
-            on: {
-              dragstart,
-            },
-          },
-          this.$slots.default,
-        )
-      },
-    })
-  }
-
-  handleDragStart(event: DragEvent) {
+  onDragStart(event: DragEvent) {
     const { view } = this.editor
     const target = (event.target as HTMLElement)
 
@@ -103,41 +69,8 @@ class VueNodeView implements NodeView {
     view.dispatch(transaction)
   }
 
-  createNodeViewContent() {
-    const { id } = this
-    const { isEditable } = this.editor
-
-    return Vue.extend({
-      inheritAttrs: false,
-      props: {
-        as: {
-          type: String,
-          default: 'div',
-        },
-      },
-      render(createElement) {
-        return createElement(
-          this.as, {
-            style: {
-              whiteSpace: 'pre-wrap',
-            },
-            domProps: {
-              id,
-              contenteditable: isEditable,
-            },
-          },
-        )
-      },
-    })
-  }
-
   mount(component: Vue | VueConstructor) {
-    const NodeViewWrapper = this.createNodeViewWrapper()
-    const NodeViewContent = this.createNodeViewContent()
-
     const props = {
-      NodeViewWrapper,
-      NodeViewContent,
       editor: this.editor,
       node: this.node,
       decorations: this.decorations,
@@ -147,13 +80,24 @@ class VueNodeView implements NodeView {
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
     }
 
+    const onDragStart = this.onDragStart.bind(this)
+    const isEditable = Vue.observable({
+      value: this.editor.isEditable,
+    })
+
+    this.editor.on('viewUpdate', () => {
+      isEditable.value = this.editor.isEditable
+    })
+
     const Component = Vue
       .extend(component)
       .extend({
         props: Object.keys(props),
-        components: {
-          NodeViewWrapper,
-          NodeViewContent,
+        provide() {
+          return {
+            onDragStart,
+            isEditable,
+          }
         },
       })
 
@@ -168,15 +112,23 @@ class VueNodeView implements NodeView {
   }
 
   get dom() {
+    if (!this.renderer.element.hasAttribute('data-node-view-wrapper')) {
+      throw Error('Please use the NodeViewWrapper component for your node view.')
+    }
+
     return this.renderer.element
   }
 
   get contentDOM() {
-    if (this.dom.id === this.id) {
-      return this.dom
+    const hasContent = !this.node.type.isAtom
+
+    if (!hasContent) {
+      return null
     }
 
-    return this.dom.querySelector(`#${this.id}`)
+    const contentElement = this.dom.querySelector('[data-node-view-content]')
+
+    return contentElement || this.dom
   }
 
   stopEvent(event: Event) {
