@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-task-list",
   "description": "task list extension for tiptap",
-  "version": "2.0.0-alpha.11",
+  "version": "2.0.0-beta.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -22,6 +22,6 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-alpha.6"
+    "@tiptap/core": "^2.0.0-beta.0"
   }
 }
