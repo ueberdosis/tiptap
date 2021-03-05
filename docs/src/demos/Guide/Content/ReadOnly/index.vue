@@ -41,9 +41,7 @@ export default {
 
   watch: {
     editable() {
-      this.editor.setOptions({
-        editable: this.editable,
-      })
+      this.editor.setEditable(this.editable)
     },
   },
 
