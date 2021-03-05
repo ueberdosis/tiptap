@@ -24,6 +24,16 @@ export const TableCell = Node.create<TableCellOptions>({
       },
       colwidth: {
         default: null,
+        parseHTML: element => {
+          const colwidth = element.getAttribute('colwidth')
+          const value = colwidth
+            ? [parseInt(colwidth, 10)]
+            : null
+
+          return {
+            colwidth: value,
+          }
+        },
       },
     }
   },
