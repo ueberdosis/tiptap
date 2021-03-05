@@ -123,6 +123,9 @@ export class Editor extends EventEmitter {
     this.options = { ...this.options, ...options }
   }
 
+  /**
+   * Update editable state of the editor.
+   */
   public setEditable(editable: boolean): void {
     this.setOptions({ editable })
 
