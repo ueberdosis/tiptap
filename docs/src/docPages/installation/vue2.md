@@ -47,7 +47,7 @@ This is the fastest way to get tiptap up and running with Vue. It will give you 
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-2'
 import { defaultExtensions } from '@tiptap/starter-kit'
 
 export default {
