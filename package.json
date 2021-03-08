@@ -18,7 +18,8 @@
     "test": "cypress run --project tests",
     "build:docs": "yarn --cwd ./docs build",
     "build:ci": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --ci --scope @tiptap/$package || exit 1; done",
-    "build:packages": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --scope @tiptap/$package || exit 1; done",
+    "build:packages": "yarn clean:packages && lerna changed | while read package; do rollup -c --scope $package || exit 1; done",
+    "build:allpackages": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --scope @tiptap/$package || exit 1; done",
     "release": "yarn lint && yarn test && yarn build:packages && lerna publish",
     "clean:packages": "rm -rf ./packages/*/dist",
     "reset": "yarn clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"

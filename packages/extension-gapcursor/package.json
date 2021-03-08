@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-gapcursor",
   "description": "gapcursor extension for tiptap",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -25,7 +25,7 @@
     "@tiptap/core": "^2.0.0-beta.1"
   },
   "dependencies": {
-    "@types/prosemirror-gapcursor": "^1.0.2",
+    "@types/prosemirror-gapcursor": "^1.0.3",
     "prosemirror-gapcursor": "^1.1.5"
   }
 }
