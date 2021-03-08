@@ -2234,11 +2234,12 @@
   dependencies:
     "@types/prosemirror-state" "*"
 
-"@types/prosemirror-gapcursor@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@types/prosemirror-gapcursor/-/prosemirror-gapcursor-1.0.2.tgz#0a9160f94d808fe13f0420f9e0833612cd5be1ca"
-  integrity sha512-FML5Ws2CagX7haI6ir43bov2rtjUH2d7nhwJkkehuaZxQXxNXPhCnH1bg+tUT5hTbxzV7U/xOj9eQgxfEJpyFw==
+"@types/prosemirror-gapcursor@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/prosemirror-gapcursor/-/prosemirror-gapcursor-1.0.3.tgz#989e98c734e01e2ed4cab39992e60a1b0646cab6"
+  integrity sha512-kBVjjbMmUk7ZsgpI1NOyY15makulu1skEGr+V9GgY7GQnT9vqjo8/XiNSgSj9s9vRTsTb/KAaTI9KJwWlhbhxQ==
   dependencies:
+    "@types/prosemirror-model" "*"
     "@types/prosemirror-state" "*"
 
 "@types/prosemirror-history@^1.0.2":
@@ -15231,10 +15232,10 @@ y-leveldb@^0.1.0:
     level "^6.0.1"
     lib0 "^0.2.31"
 
-y-prosemirror@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/y-prosemirror/-/y-prosemirror-1.0.6.tgz#75cfdd3ec65638f4c3112dd1a5ccd2daeb147f12"
-  integrity sha512-rbYA/kssa/4yMlvdfYrKtZwG15UCdwCIO6fCitua4VaJSVN2ruLvR1OrPl8txhKzyiPiBAphFzjj+ZXkm4D/6w==
+y-prosemirror@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/y-prosemirror/-/y-prosemirror-1.0.7.tgz#e0d3bbbc8b88bc4942d9720fd8413da393999200"
+  integrity sha512-AnlwGoz6+o6PkrBm09kY3+dXP3Yt6QHDIMHhtn0mGeUnSQRVcI0/raQwh/kYD7z1EUPghKfDaH8DoI0duAu5sg==
   dependencies:
     lib0 "^0.2.34"
 
