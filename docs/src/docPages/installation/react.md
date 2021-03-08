@@ -7,4 +7,4 @@ The following guide describes how to integrate tiptap with your [React](https://
 
 TODO
 
-<demo name="React" />
+<demo name="Examples/Default/React" />
