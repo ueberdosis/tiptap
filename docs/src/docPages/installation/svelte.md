@@ -21,32 +21,35 @@ App.svelte
 Editor.svelte
 ```html
 <script type="module">
-	import { onMount } from 'svelte'
-	import { Editor } from '@tiptap/core'
+  import { onMount, onDestroy } from 'svelte'
+  import { Editor } from '@tiptap/core'
   import { defaultExtensions } from '@tiptap/starter-kit'
-
   let element
   let editor
-
   onMount(() => {
     editor = new Editor({
       element: element,
       extensions: defaultExtensions(),
+      onTransaction: () => {
+        // force re-render so `editor.isActive` works as expected
+        editor = editor
+      },
     })
   })
+  onDestroy(() => {
+    editor.destroy()
+  })
 </script>
-
 {#if editor}
-  <button on:click={editor.chain().focus().toggleBold().run()} class:error={editor.isActive('bold')}>
-    bold
+  <button on:click={() => editor.chain().focus().toggleBold().run()} class:active={editor.isActive('bold')}>
+    Bold
   </button>
-  <button on:click={editor.chain().focus().toggleItalic().run()} class:error={editor.isActive('italic')}>
-    italic
+  <button on:click={() => editor.chain().focus().toggleItalic().run()} class:active={editor.isActive('italic')}>
+    Italic
   </button>
-  <button on:click={editor.chain().focus().toggleStrike().run()} class:error={editor.isActive('strike')}>
-    strike
+  <button on:click={() => editor.chain().focus().toggleStrike().run()} class:active={editor.isActive('strike')}>
+    Strike
   </button>
 {/if}
-
 <div bind:this={element} />
 ```
