@@ -1,10 +1,16 @@
 import React from 'react'
+import { Editor } from './Editor'
 
-export class PureEditorContent extends React.Component {
-  constructor(props) {
+type EditorContentProps = {
+  editor: Editor | null
+}
+
+export class PureEditorContent extends React.Component<EditorContentProps, EditorContentProps> {
+  editorContentRef: React.RefObject<any>
+
+  constructor(props: EditorContentProps) {
     super(props)
     this.editorContentRef = React.createRef()
-    this.editorPortalRef = React.createRef()
 
     this.state = {
       editor: this.props.editor

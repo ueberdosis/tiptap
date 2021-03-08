@@ -3,7 +3,7 @@ import { EditorOptions } from '@tiptap/core'
 import { Editor } from './Editor'
 
 function useForceUpdate() {
-  const [_, setValue] = useState(0)
+  const [, setValue] = useState(0)
 
   return () => setValue(value => value + 1)
 }
