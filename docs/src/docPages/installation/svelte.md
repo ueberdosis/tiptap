@@ -40,6 +40,7 @@ Editor.svelte
     editor.destroy()
   })
 </script>
+
 {#if editor}
   <button on:click={() => editor.chain().focus().toggleBold().run()} class:active={editor.isActive('bold')}>
     Bold
@@ -51,5 +52,6 @@ Editor.svelte
     Strike
   </button>
 {/if}
+
 <div bind:this={element} />
 ```
