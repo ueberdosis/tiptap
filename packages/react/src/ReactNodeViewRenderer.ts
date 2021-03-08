@@ -7,7 +7,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
-import test from './test'
 
 interface ReactNodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,

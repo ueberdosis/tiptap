@@ -1,37 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
-import ReactDOM from 'react-dom'
-import { Editor } from './Editor'
-
-// export const EditorContent = ({ editor }) => {
-//   const editorContentRef = useRef(null)
-
-//   useEffect(() => {
-//     if (editor && editor.options.element) {
-//       console.log('set editorContent element')
-
-//       const element = editorContentRef.current
-
-//       element.appendChild(editor.options.element.firstChild)
-
-//       editor.setOptions({
-//         element,
-//       })
-
-//       console.log({instance: this})
-
-//       // TODO: why setTimeout?
-//       setTimeout(() => {
-//         editor.createNodeViews()
-//       }, 0)
-//     }
-//   })
-
-//   return (
-//     <div ref={editorContentRef} />
-//   )
-// }
-
-
+import React from 'react'
 
 export class PureEditorContent extends React.Component {
   constructor(props) {
@@ -71,6 +38,5 @@ export class PureEditorContent extends React.Component {
     )
   }
 }
-
 
 export const EditorContent = React.memo(PureEditorContent);

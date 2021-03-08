@@ -1,6 +1,5 @@
-// @ts-nocheck
-
 import { useState, useEffect } from 'react'
+import { EditorOptions } from '@tiptap/core'
 import { Editor } from './Editor'
 
 function useForceUpdate() {
@@ -9,8 +8,8 @@ function useForceUpdate() {
   return () => setValue(value => value + 1)
 }
 
-export const useEditor = (options = {}) => {
-  const [editor, setEditor] = useState(null)
+export const useEditor = (options: Partial<EditorOptions> = {}) => {
+  const [editor, setEditor] = useState<Editor | null>(null)
   const forceUpdate = useForceUpdate()
 
   useEffect(() => {
@@ -18,9 +17,7 @@ export const useEditor = (options = {}) => {
 
     setEditor(instance)
 
-    instance.on('transaction', () => {
-      forceUpdate()
-    })
+    instance.on('transaction', forceUpdate)
 
     return () => {
       instance.destroy()
