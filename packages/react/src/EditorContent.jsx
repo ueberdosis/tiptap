@@ -31,7 +31,9 @@ import { Editor } from './Editor'
 //   )
 // }
 
-export class EditorContent extends React.Component {
+
+
+export class PureEditorContent extends React.Component {
   constructor(props) {
     super(props)
     this.editorContentRef = React.createRef()
@@ -69,3 +71,6 @@ export class EditorContent extends React.Component {
     )
   }
 }
+
+
+export const EditorContent = React.memo(PureEditorContent);
