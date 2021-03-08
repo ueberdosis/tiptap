@@ -143,7 +143,7 @@ const CustomParagraph = Paragraph.extend({
         // … and customize the HTML rendering.
         renderHTML: attributes => {
           return {
-            'data-color': atttributes.color,
+            'data-color': attributes.color,
             style: `color: ${attributes.color}`,
           }
         },
