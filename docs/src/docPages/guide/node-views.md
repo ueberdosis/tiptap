@@ -5,7 +5,46 @@
 ## Introduction
 Node views are the best thing since sliced bread, at least if you are a fan of customization (and bread). With node views you can add interactive nodes to your editor content. That can literally be everything. If you can write it in JavaScript, you can use it in your editor.
 
-<!-- ```js
+## Different types of node views
+
+### Editable content
+```html
+<div class="Prosemirror" contenteditable="true">
+  <p>text</p>
+  <node-view>text</node-view>
+  <p>text</p>
+</div>
+```
+
+### Non-editable content
+```html
+<div class="Prosemirror" contenteditable="true">
+  <p>text</p>
+  <node-view contenteditable="false">text</node-view>
+  <p>text</p>
+</div>
+```
+
+### Mixed content
+```html
+<div class="Prosemirror" contenteditable="true">
+  <p>text</p>
+  <node-view>
+    <div>
+      non-editable text
+    </div>
+    <div>
+      editable text
+    </div>
+  </node-view>
+  <p>text</p>
+</div>
+```
+
+## Node views with JavaScript
+TODO
+
+```js
 import { Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-2'
 import Component from './Component.vue'
@@ -23,68 +62,16 @@ export default Node.create({
     })
   },
 })
-``` -->
-<!--
-## Different types of node views
-
-### Simple
-
-```html
-<div class="Prosemirror" contenteditable="true">
-  <p>text</p>
-  <node-view>text</node-view>
-  <p>text</p>
-</div>
 ```
 
-#### Example: Task item
-
-https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-item/src/task-item.ts#L74
-
-### Without content
-
-```html
-<div class="Prosemirror" contenteditable="true">
-  <p>text</p>
-  <node-view contenteditable="false">text</node-view>
-  <p>text</p>
-</div>
-```
-
-#### Example: Table of contents
-<demo name="Guide/NodeViews/TableOfContents" />
-
-#### Example: Drawing in the editor
-<demo name="Examples/Drawing" />
-
-### Advanced node views with content
-
-```html
-<div class="Prosemirror" contenteditable="true">
-  <p>text</p>
-  <node-view>
-    <div>
-      non-editable text
-    </div>
-    <div>
-      editable text
-    </div>
-  </node-view>
-  <p>text</p>
-</div>
-``` -->
-
-<!-- #### Example: Drag handles
-<demo name="Guide/NodeViews/DragHandle" /> -->
-
-## Node views with Vue.js
-Using Vanilla JavaScript can feel complex, if you are used to work in Vue. Good news: You can even use regular Vue components in your node views. There is just a little bit you need to know, before starting.
+## Node views with Vue
+Using Vanilla JavaScript can feel complex, if you are used to work in Vue. Good news: You can even use regular Vue components in your node views. There is just a little bit you need to know, but let’s go through this one by one.
 
 ### Render a Vue component
-Let’s start rendering your first Vue component. Here is what you need to do:
+Here is what you need to do to render Vue components inside your text editor:
 
-1. [Create a new node](/guide/build-extensions)
-2. Create a new Vue component
+1. [Create a node extension](/guide/build-extensions)
+2. Create a Vue component
 3. Pass that component to the provided `VueNodeViewRenderer`
 4. Register it with `addNodeView()`
 5. [Configure tiptap to use your new node](/guide/configuration)
@@ -153,27 +140,29 @@ this.updateAttributes({
 
 ### Adding a content editable
 
+```html
+<template>
+  <node-view-wrapper class="dom">
+    <node-view-content class="content-dom" />
+  </node-view-wrapper>
+</template>
+
+<script>
+import { NodeViewWrapper, NodeViewContent } from '@tiptap/vue-2'
+
+export default {
+  components: {
+    NodeViewWrapper,
+    NodeViewContent,
+  },
+}
+```
+
 <demo name="Guide/NodeViews/VueComponentContent" />
 
 `content: 'block+'`
 
-`atom: true`
-
-<!-- ### Node
-
-```js
-import { Node } from '@tiptap/core'
-import { VueNodeViewRenderer } from '@tiptap/vue-2'
-import Component from './Component.vue'
-
-export default Node.create({
-  addNodeView() {
-    return VueNodeViewRenderer(Component)
-  },
-})
-```
-
-### Component
+### All available props
 
 ```html
 <template>
@@ -221,25 +210,34 @@ export default {
 </script>
 ```
 
-### Component with Content
+## Node views with React
+TODO
 
-```html
-<template>
-  <node-view-wrapper class="dom">
-    <node-view-content class="content-dom" />
-  </node-view-wrapper>
-</template>
+## Rendered content
 
-<script>
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/vue-2'
+```js
+parseHTML() {
+  return [{
+    tag: 'vue-component',
+  }]
+},
 
-export default {
-  components: {
-    NodeViewWrapper,
-    NodeViewContent,
-  },
-}
-``` -->
+renderHTML({ HTMLAttributes }) {
+  return ['vue-component', mergeAttributes(HTMLAttributes)]
+},
+```
+
+## Examples
+TODO
+
+### Drag handles
+<demo name="Guide/NodeViews/DragHandle" />
+
+### Table of contents
+<demo name="Guide/NodeViews/TableOfContents" />
+
+### Drawing in the editor
+<demo name="Examples/Drawing" />
 
 ## Reference
 
