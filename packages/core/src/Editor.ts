@@ -55,7 +55,8 @@ export class Editor extends EventEmitter {
     enablePasteRules: true,
     onCreate: () => null,
     onUpdate: () => null,
-    onSelection: () => null,
+    onSelectionUpdate: () => null,
+    onViewUpdate: () => null,
     onTransaction: () => null,
     onFocus: () => null,
     onBlur: () => null,
@@ -72,7 +73,8 @@ export class Editor extends EventEmitter {
     this.injectCSS()
     this.on('create', this.options.onCreate)
     this.on('update', this.options.onUpdate)
-    this.on('selection', this.options.onSelection)
+    this.on('selectionUpdate', this.options.onSelectionUpdate)
+    this.on('viewUpdate', this.options.onViewUpdate)
     this.on('transaction', this.options.onTransaction)
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
@@ -80,7 +82,7 @@ export class Editor extends EventEmitter {
 
     window.setTimeout(() => {
       this.commands.focus(this.options.autofocus)
-      this.emit('create')
+      this.emit('create', { editor: this })
     }, 0)
   }
 
@@ -222,7 +224,9 @@ export class Editor extends EventEmitter {
       plugins: [
         new Plugin({
           view: () => ({
-            update: () => this.emit('viewUpdate'),
+            update: () => this.emit('viewUpdate', {
+              editor: this,
+            }),
           }),
         }),
         ...this.extensionManager.plugins,
@@ -314,28 +318,42 @@ export class Editor extends EventEmitter {
     const selectionHasChanged = !this.state.selection.eq(state.selection)
 
     this.view.updateState(state)
-    this.emit('transaction', { transaction })
+    this.emit('transaction', {
+      editor: this,
+      transaction,
+    })
 
     if (selectionHasChanged) {
-      this.emit('selection')
+      this.emit('selectionUpdate', {
+        editor: this,
+      })
     }
 
     const focus = transaction.getMeta('focus')
     const blur = transaction.getMeta('blur')
 
     if (focus) {
-      this.emit('focus', { event: focus.event })
+      this.emit('focus', {
+        editor: this,
+        event: focus.event,
+      })
     }
 
     if (blur) {
-      this.emit('blur', { event: blur.event })
+      this.emit('blur', {
+        editor: this,
+        event: blur.event,
+      })
     }
 
     if (!transaction.docChanged || transaction.getMeta('preventUpdate')) {
       return
     }
 
-    this.emit('update', { transaction })
+    this.emit('update', {
+      editor: this,
+      transaction,
+    })
   }
 
   /**
