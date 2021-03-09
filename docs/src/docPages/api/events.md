@@ -10,22 +10,25 @@ You can define your event listeners on a new editor instance right-away:
 
 ```js
 const editor = new Editor({
-  onCreate() {
+  onCreate({ editor }) {
     // The editor is ready.
   },
-  onUpdate() {
+  onUpdate({ editor }) {
     // The content has changed.
   },
-  onSelection() {
+  onSelectionUpdate({ editor }) {
     // The selection has changed.
   },
-  onTransaction({ transaction }) {
+  onViewUpdate({ editor }) {
+    // The view has changed.
+  },
+  onTransaction({ editor, transaction }) {
     // The editor state has changed.
   },
-  onFocus({ event }) {
+  onFocus({ editor, event }) {
     // The editor is focused.
   },
-  onBlur({ event }) {
+  onBlur({ editor, event }) {
     // The editor isn’t focused anymore.
   },
   onDestroy() {
@@ -39,31 +42,31 @@ Or you can register your event listeners on a running editor instance:
 
 ### Bind event listeners
 ```js
-editor.on('create', () => {
+editor.on('create', ({ editor }) => {
   // The editor is ready.
 }
 
-editor.on('update', () => {
+editor.on('update', ({ editor }) => {
   // The content has changed.
 }
 
-editor.on('selectionUpdate', () => {
+editor.on('selectionUpdate', ({ editor }) => {
   // The selection has changed.
 }
 
-editor.on('viewUpdate', () => {
+editor.on('viewUpdate', ({ editor }) => {
   // The view has changed.
 }
 
-editor.on('transaction', ({ transaction }) => {
+editor.on('transaction', ({ editor, transaction }) => {
   // The editor state has changed.
 }
 
-editor.on('focus', ({ event }) => {
+editor.on('focus', ({ editor, event }) => {
   // The editor is focused.
 }
 
-editor.on('blur', ({ event }) => {
+editor.on('blur', ({ editor, event }) => {
   // The editor isn’t focused anymore.
 }
 
@@ -94,22 +97,25 @@ Moving your event listeners to custom extensions (or nodes, or marks) is also po
 import { Extension } from '@tiptap/core'
 
 const CustomExtension = Extension.create({
-  onCreate() {
+  onCreate({ editor }) {
     // The editor is ready.
   },
-  onUpdate() {
+  onUpdate({ editor }) {
     // The content has changed.
   },
-  onSelection() {
+  onSelectionUpdate({ editor }) {
     // The selection has changed.
   },
-  onTransaction({ transaction }) {
+  onViewUpdate({ editor }) {
+    // The view has changed.
+  },
+  onTransaction({ editor, transaction }) {
     // The editor state has changed.
   },
-  onFocus({ event }) {
+  onFocus({ editor, event }) {
     // The editor is focused.
   },
-  onBlur({ event }) {
+  onBlur({ editor, event }) {
     // The editor isn’t focused anymore.
   },
   onDestroy() {
