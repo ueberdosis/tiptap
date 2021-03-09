@@ -1,10 +1,9 @@
-# Complex node views
+# Interactive node views
 
 ## toc
 
 ## Introduction
-Node views are the best thing since sliced bread, at least if you’re a fan of customization (and bread). With node views you can add interactive nodes to your editor content. That can literally be everything. If you can write it in JavaScript, you can use it in your editor.
-
+Node views are the best thing since sliced bread, at least if you are a fan of customization (and bread). With node views you can add interactive nodes to your editor content. That can literally be everything. If you can write it in JavaScript, you can use it in your editor.
 
 <!-- ```js
 import { Node } from '@tiptap/core'
@@ -79,20 +78,44 @@ https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-item
 <demo name="Guide/NodeViews/DragHandle" /> -->
 
 ## Node views with Vue.js
-TODO
+Using Vanilla JavaScript can feel complex, if you are used to work in Vue. Good news: You can even use regular Vue components in your node views. There is just a little bit you need to know, before starting.
 
 ### Render a Vue component
+Let’s start rendering your first Vue component. Here is what you need to do:
+
+1. [Create a new node](/guide/build-extensions)
+2. Create a new Vue component
+3. Pass that component to the provided `VueNodeViewRenderer`
+4. Register it with `addNodeView()`
+5. [Configure tiptap to use your new node](/guide/configuration)
+
+This is how your node could look like:
+
 ```js
 import { Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-2'
 import Component from './Component.vue'
 
 export default Node.create({
+  // configuration …
+
   addNodeView() {
     return VueNodeViewRenderer(Component)
   },
 })
 ```
+
+There is a little bit of magic required to make this work. But don’t worry, we provide a Vue component you can use to get started easily. Don’t forget to add it to your custom Vue component, like shown below:
+
+```html
+<template>
+  <node-view-wrapper>
+    Vue Component
+  </node-view-wrapper>
+</template>
+```
+
+Got it? Let’s see that in action. Feel free to copy the example to get started.
 
 <demo name="Guide/NodeViews/VueComponent" />
 

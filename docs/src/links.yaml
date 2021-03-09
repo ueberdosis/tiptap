@@ -92,7 +92,7 @@
       link: /guide/extend-extensions
     - title: Build extensions
       link: /guide/build-extensions
-    - title: Complex node views
+    - title: Interactive node views
       link: /guide/node-views
       type: draft
     - title: Working with TypeScript
