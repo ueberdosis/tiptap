@@ -129,7 +129,16 @@ declare module '@tiptap/core' {
     /**
      * The selection has changed.
      */
-    onSelection?: ((this: {
+     onSelectionUpdate?: ((this: {
+      options: Options,
+      editor: Editor,
+      type: MarkType,
+    }) => void) | null,
+
+    /**
+     * The view has changed.
+     */
+     onViewUpdate?: ((this: {
       options: Options,
       editor: Editor,
       type: MarkType,

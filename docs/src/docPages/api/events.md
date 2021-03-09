@@ -47,8 +47,12 @@ editor.on('update', () => {
   // The content has changed.
 }
 
-editor.on('selection', () => {
+editor.on('selectionUpdate', () => {
   // The selection has changed.
+}
+
+editor.on('viewUpdate', () => {
+  // The view has changed.
 }
 
 editor.on('transaction', ({ transaction }) => {
