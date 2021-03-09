@@ -22,6 +22,29 @@
     <div class="page-footer__section">
       <div class="page-footer__column">
         <h3>
+          Community
+        </h3>
+        <ul>
+          <li>
+            <g-link to="https://github.com/ueberdosis/tiptap-next">
+              GitHub
+            </g-link>
+          </li>
+          <li>
+            <g-link to="https://discord.gg/WtJ49jGshW">
+              Discord
+            </g-link>
+          </li>
+          <li>
+            <g-link to="https://twitter.com/tiptap_editor">
+              Twitter
+            </g-link>
+          </li>
+        </ul>
+      </div>
+
+      <div class="page-footer__column">
+        <h3>
           Legal
         </h3>
         <ul>
@@ -33,24 +56,6 @@
           <li>
             <g-link to="/privacy-policy">
               Privacy Policy
-            </g-link>
-          </li>
-        </ul>
-      </div>
-
-      <div class="page-footer__column">
-        <h3>
-          Community
-        </h3>
-        <ul>
-          <li>
-            <g-link to="https://github.com/ueberdosis/tiptap-next">
-              GitHub
-            </g-link>
-          </li>
-          <li>
-            <g-link to="https://twitter.com/tiptap_editor">
-              Twitter
             </g-link>
           </li>
         </ul>
