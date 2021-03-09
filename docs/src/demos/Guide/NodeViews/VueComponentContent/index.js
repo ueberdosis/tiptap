@@ -7,7 +7,7 @@ export default Node.create({
 
   group: 'block',
 
-  atom: true,
+  content: 'block+',
 
   addAttributes() {
     return {

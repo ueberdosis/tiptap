@@ -82,14 +82,59 @@ https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-item
 TODO
 
 ### Render a Vue component
+```js
+import { Node } from '@tiptap/core'
+import { VueNodeViewRenderer } from '@tiptap/vue-2'
+import Component from './Component.vue'
+
+export default Node.create({
+  addNodeView() {
+    return VueNodeViewRenderer(Component)
+  },
+})
+```
+
 <demo name="Guide/NodeViews/VueComponent" />
 
 ### Access node attributes
-<demo name="Guide/NodeViews/VueComponentAccessAttributes" />
 
-### Update attributes
-<demo name="Guide/NodeViews/VueComponentUpdateAttributes" />
+```js
+props: {
+  node: {
+    type: Object,
+    required: true,
+  },
+},
+```
 
+```js
+this.node.attrs.count
+```
+
+### Update node attributes
+
+```js
+props: {
+  updateAttributes: {
+    type: Function,
+    required: true,
+  },
+},
+```
+
+```js
+this.updateAttributes({
+  count: this.node.attrs.count + 1,
+})
+```
+
+### Adding a content editable
+
+<demo name="Guide/NodeViews/VueComponentContent" />
+
+`content: 'block+'`
+
+`atom: true`
 
 <!-- ### Node
 

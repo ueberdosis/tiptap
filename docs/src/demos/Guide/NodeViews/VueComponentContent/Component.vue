@@ -2,40 +2,17 @@
   <node-view-wrapper class="vue-component">
     <span class="label">Vue Component</span>
 
-    <div class="content">
-      <button @click="increase">
-        This button has been clicked {{ node.attrs.count }} times.
-      </button>
-    </div>
+    <node-view-content class="content" />
   </node-view-wrapper>
 </template>
 
 <script>
-import { NodeViewWrapper } from '@tiptap/vue-2'
+import { NodeViewWrapper, NodeViewContent } from '@tiptap/vue-2'
 
 export default {
   components: {
     NodeViewWrapper,
-  },
-
-  props: {
-    updateAttributes: {
-      type: Function,
-      required: true,
-    },
-
-    node: {
-      type: Object,
-      required: true,
-    },
-  },
-
-  methods: {
-    increase() {
-      this.updateAttributes({
-        count: this.node.attrs.count + 1,
-      })
-    },
+    NodeViewContent,
   },
 }
 </script>
@@ -63,7 +40,8 @@ export default {
 }
 
 .content {
-  margin-top: 1.5rem;
+  margin: 2.5rem 1rem 1rem;
   padding: 1rem;
+  border: 1px dashed #adb5bd;
 }
 </style>
