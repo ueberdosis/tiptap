@@ -6,6 +6,7 @@
 Node views are the best thing since sliced bread, at least if you are a fan of customization (and bread). With node views you can add interactive nodes to your editor content. That can literally be everything. If you can write it in JavaScript, you can use it in your editor.
 
 ## Different types of node views
+TODO
 
 ### Editable content
 ```html
@@ -54,7 +55,7 @@ export default Node.create({
     return ({ editor, node, getPos, HTMLAttributes, decorations, extension }) => {
       const dom = document.createElement('div')
 
-      dom.innerHTML = 'I’m a node view'
+      dom.innerHTML = 'Hello, I’m a node view!'
 
       return {
         dom,
@@ -230,14 +231,14 @@ renderHTML({ HTMLAttributes }) {
 ## Examples
 TODO
 
-### Drag handles
+<!-- ### Drag handles
 <demo name="Guide/NodeViews/DragHandle" />
 
 ### Table of contents
 <demo name="Guide/NodeViews/TableOfContents" />
 
 ### Drawing in the editor
-<demo name="Examples/Drawing" />
+<demo name="Examples/Drawing" /> -->
 
 ## Reference
 
