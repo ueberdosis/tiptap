@@ -6,10 +6,10 @@
 Node views are the best thing since sliced bread, at least if you are a fan of customization (and bread). With node views you can add interactive nodes to your editor content. That can literally be everything. If you can write it in JavaScript, you can use it in your editor.
 
 ## Different types of node views
-Depending on what you would like to build, node views work a little bit different and can have their verify specific capabilities, but also pitfalls. The main question is: Does your node has editable content?
+Depending on what you would like to build, node views work a little bit different and can have their verify specific capabilities, but also pitfalls. The main question is: How should your custom node look like?
 
 ### Editable text
-Yes, node views can have editable text, just like regular nodes. That’s simple. The caret will exactly behave like you would expect it from a regular node. Existing commands work very well with those nodes.
+Yes, node views can have editable text, just like regular node. That’s simple. The cursor will exactly behave like you would expect it from a regular node. Existing commands work very well with those nodes.
 
 ```html
 <div class="Prosemirror" contenteditable="true">
@@ -22,7 +22,7 @@ Yes, node views can have editable text, just like regular nodes. That’s simple
 That’s how the [`TaskItem`](/api/nodes/task-item) node works.
 
 ### Non-editable text
-Nodes can also have text, which is not edtiable. The caret can’t jump into those, but you don’t want that anyway.
+Nodes can also have text, which is not edtiable. The cursor can’t jump into those, but you don’t want that anyway.
 
 Those just get a `contenteditable="false"` from tiptap by default.
 
@@ -56,7 +56,7 @@ You can even mix non-editable and editable text. That’s great because you can 
 </div>
 ```
 
-**BUT**, if there are other elements with non-editable text in your node view, the caret can jump there. You can improve that with manually adding `contenteditable` attributes to the specific parts of your node view.
+**BUT**, if there are other elements with non-editable text in your node view, the cursor can jump there. You can improve that with manually adding `contenteditable` attributes to the specific parts of your node view.
 
 ```html
 <div class="Prosemirror" contenteditable="true">
@@ -73,7 +73,7 @@ You can even mix non-editable and editable text. That’s great because you can 
 </div>
 ```
 
-**BUT**, that also means the caret can’t just move from outside of the node view to the inside. Users have to manually place their caret to edit the content inside the node view. Just so you know.
+**BUT**, that also means the cursor can’t just move from outside of the node view to the inside. Users have to manually place their cursor to edit the content inside the node view. Just so you know.
 
 ## Node views with JavaScript
 TODO
@@ -108,9 +108,9 @@ Here is what you need to do to render Vue components inside your text editor:
 2. Create a Vue component
 3. Pass that component to the provided `VueNodeViewRenderer`
 4. Register it with `addNodeView()`
-5. [Configure tiptap to use your new node](/guide/configuration)
+5. [Configure tiptap to use your new node extension](/guide/configuration)
 
-This is how your node could look like:
+This is how your node extension could look like:
 
 ```js
 import { Node } from '@tiptap/core'
@@ -143,7 +143,7 @@ Got it? Let’s see it in action. Feel free to copy the below example to get sta
 That component doesn’t interactive with the editor, though. Time to connect it to the editor output.
 
 ### Access node attributes
-The `VueNodeViewRenderer` which you use in your node, passes a few very helpful props to your custom view component. One of them is the `node` prop. Add this snippet to your Vue component to directly access the node:
+The `VueNodeViewRenderer` which you use in your node extension, passes a few very helpful props to your custom view component. One of them is the `node` prop. Add this snippet to your Vue component to directly access the node:
 
 ```js
 props: {
@@ -154,7 +154,7 @@ props: {
 },
 ```
 
-That makes it super easy to access node attributes in your Vue component. Let’s say you have [added an attribute](/guide/extend-extensions#attributes) named `count` to your node, like we did in the above example, you could access it like this:
+That makes it super easy to access node attributes in your Vue component. Let’s say you have [added an attribute](/guide/extend-extensions#attributes) named `count` to your node extension (like we did in the above example) you could access it like this:
 
 ```js
 this.node.attrs.count
@@ -207,7 +207,7 @@ You don’t need to add those `class` attributes, feel free to remove them or pa
 
 <demo name="Guide/NodeViews/VueComponentContent" />
 
-Keep in mind that this content is rendered by tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node (that’s what we use in the above example).
+Keep in mind that this content is rendered by tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node extension (that’s what we use in the above example).
 
 ### All available props
 For advanced use cases, we pass a few more props to the component. Here is the full list of what you can expect:
@@ -241,11 +241,12 @@ export default {
       type: Array,
     },
 
-    // true when the caret is inside the node view
+    // true when the cursor is inside the node view
     selected: {
       type: Boolean,
     },
 
+    // access to the node extension, for example to get options
     extension: {
       type: Object,
     },
