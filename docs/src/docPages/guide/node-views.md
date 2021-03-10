@@ -282,16 +282,7 @@ renderHTML({ HTMLAttributes }) {
 ```
 
 ## Examples
-TODO
-
-<!-- ### Drag handles
-<demo name="Guide/NodeViews/DragHandle" />
-
-### Table of contents
-<demo name="Guide/NodeViews/TableOfContents" />
-
-### Drawing in the editor
-<demo name="Examples/Drawing" /> -->
+We’ve put together [a list of interactive examples](/guide/node-views/examples). :-)
 
 ## Reference
 

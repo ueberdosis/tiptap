@@ -298,7 +298,7 @@ $menuBreakPoint: 800px;
       }
     }
 
-    &--with-children::after {
+    &--with-children::before {
       content: '›';
       font-weight: bold;
       color: rgba($colorBlack, 0.2);

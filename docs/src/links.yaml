@@ -95,6 +95,10 @@
     - title: Interactive node views
       link: /guide/node-views
       type: draft
+      items:
+        - title: Examples
+          link: /guide/node-views/examples
+          draft: true
     - title: Working with TypeScript
       link: /guide/typescript
 
