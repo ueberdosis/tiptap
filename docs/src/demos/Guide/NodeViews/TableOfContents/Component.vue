@@ -7,7 +7,9 @@
         v-for="(heading, index) in headings"
         :key="index"
       >
-        {{ heading.text }}
+        <a :href="`#${heading.id}`">
+          {{ heading.text }}
+        </a>
       </li>
     </ul>
   </node-view-wrapper>
@@ -38,16 +40,40 @@ export default {
     handleUpdate() {
       const headings = []
 
-      this.editor.state.doc.descendants(node => {
+      this.editor.state.doc.descendants((node, pos) => {
         if (node.type.name === 'heading') {
+          const id = `heading-${headings.length + 1}`
+
+          if (node.attrs.id !== id) {
+            this.updateNodeAttributes(node, pos, {
+              id,
+            })
+          }
+
           headings.push({
             level: node.attrs.level,
             text: node.textContent,
+            id,
           })
         }
       })
 
       this.headings = headings
+    },
+    updateNodeAttributes(node, pos, attributes) {
+      const { state } = this.editor.view
+      const transaction = state.tr.setNodeMarkup(pos, undefined, {
+        ...node.attrs,
+        ...attributes,
+      })
+
+      console.log(pos, undefined, {
+        ...node.attrs,
+        ...attributes,
+      })
+
+      // TODO: Why is that not needed? 🤔
+      this.editor.view.dispatch(transaction)
     },
   },
 
@@ -57,10 +83,6 @@ export default {
   },
 }
 </script>
-
-<style>
-
-</style>
 
 <style lang="scss">
 /* Basic editor styles */
@@ -84,7 +106,7 @@ export default {
 
     &::before {
       display: block;
-      content: "In this document";
+      content: "Table of Contents";
       font-weight: 700;
       letter-spacing: 0.025rem;
       font-size: 0.75rem;
@@ -94,6 +116,10 @@ export default {
   }
 
   &__item {
+    a:hover {
+      opacity: 0.5;
+    }
+
     &--3 {
       padding-left: 1rem;
     }
