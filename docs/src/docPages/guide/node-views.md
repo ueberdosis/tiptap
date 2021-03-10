@@ -6,9 +6,11 @@
 Node views are the best thing since sliced bread, at least if you are a fan of customization (and bread). With node views you can add interactive nodes to your editor content. That can literally be everything. If you can write it in JavaScript, you can use it in your editor.
 
 ## Different types of node views
-TODO
+Depending on what you would like to build, node views work a little bit different and can have their verify specific capabilities, but also pitfalls. The main question is: Does your node has editable content?
 
-### Editable content
+### Editable text
+Yes, node views can have editable text, just like regular nodes. That’s simple. The caret will exactly behave like you would expect it from a regular node. Existing commands work very well with those nodes.
+
 ```html
 <div class="Prosemirror" contenteditable="true">
   <p>text</p>
@@ -17,7 +19,13 @@ TODO
 </div>
 ```
 
-### Non-editable content
+That’s how the [`TaskItem`](/api/nodes/task-item) node works.
+
+### Non-editable text
+Nodes can also have text, which is not edtiable. The caret can’t jump into those, but you don’t want that anyway.
+
+Those just get a `contenteditable="false"` from tiptap by default.
+
 ```html
 <div class="Prosemirror" contenteditable="true">
   <p>text</p>
@@ -26,7 +34,13 @@ TODO
 </div>
 ```
 
+That’s how you could render mentions, which shouldn’t be editable. Users can add or delete them, but not delete single characters.
+
+Statamic uses those for their Bard editor, which renders complex modules inside tiptap, which can have their own text inputs.
+
 ### Mixed content
+You can even mix non-editable and editable text. That’s great because you can build complex things, and even use marks like bold and italic inside the editable content.
+
 ```html
 <div class="Prosemirror" contenteditable="true">
   <p>text</p>
@@ -41,6 +55,25 @@ TODO
   <p>text</p>
 </div>
 ```
+
+**BUT**, if there are other elements with non-editable text in your node view, the caret can jump there. You can improve that with manually adding `contenteditable` attributes to the specific parts of your node view.
+
+```html
+<div class="Prosemirror" contenteditable="true">
+  <p>text</p>
+  <node-view contenteditable="false">
+    <div>
+      non-editable text
+    </div>
+    <div contenteditable="true">
+      editable text
+    </div>
+  </node-view>
+  <p>text</p>
+</div>
+```
+
+**BUT**, that also means the caret can’t just move from outside of the node view to the inside. Users have to manually place their caret to edit the content inside the node view. Just so you know.
 
 ## Node views with JavaScript
 TODO
@@ -66,7 +99,7 @@ export default Node.create({
 ```
 
 ## Node views with Vue
-Using Vanilla JavaScript can feel complex, if you are used to work in Vue. Good news: You can even use regular Vue components in your node views. There is just a little bit you need to know, but let’s go through this one by one.
+Using Vanilla JavaScript can feel complex if you are used to work in Vue. Good news: You can use regular Vue components in your node views, too. There is just a little bit you need to know, but let’s go through this one by one.
 
 ### Render a Vue component
 Here is what you need to do to render Vue components inside your text editor:
@@ -93,7 +126,7 @@ export default Node.create({
 })
 ```
 
-There is a little bit of magic required to make this work. But don’t worry, we provide a Vue component you can use to get started easily. Don’t forget to add it to your custom Vue component, like shown below:
+There is a little bit of magic required to make this work. But don’t worry, we provide a wrapper component you can use to get started easily. Don’t forget to add it to your custom Vue component, like shown below:
 
 ```html
 <template>
@@ -103,11 +136,14 @@ There is a little bit of magic required to make this work. But don’t worry, we
 </template>
 ```
 
-Got it? Let’s see that in action. Feel free to copy the example to get started.
+Got it? Let’s see it in action. Feel free to copy the below example to get started.
 
 <demo name="Guide/NodeViews/VueComponent" />
 
+That component doesn’t interactive with the editor, though. Time to connect it to the editor output.
+
 ### Access node attributes
+The `VueNodeViewRenderer` which you use in your node, passes a few very helpful props to your custom view component. One of them is the `node` prop. Add this snippet to your Vue component to directly access the node:
 
 ```js
 props: {
@@ -118,11 +154,14 @@ props: {
 },
 ```
 
+That makes it super easy to access node attributes in your Vue component. Let’s say you have [added an attribute](/guide/extend-extensions#attributes) named `count` to your node, like we did in the above example, you could access it like this:
+
 ```js
 this.node.attrs.count
 ```
 
 ### Update node attributes
+You can even update node attributes from your node, with the help of the `updateAttributes` prop passed to your component. Just add this snippet to your component:
 
 ```js
 props: {
@@ -133,13 +172,18 @@ props: {
 },
 ```
 
+Pass an object with updated attributes to the function:
+
 ```js
 this.updateAttributes({
   count: this.node.attrs.count + 1,
 })
 ```
 
+And yes, all of that is reactive, too. A pretty seemless communication, isn’t it?
+
 ### Adding a content editable
+There is another component called `NodeViewContent` which helps you adding editable content to your node view. Here is an example:
 
 ```html
 <template>
@@ -159,11 +203,14 @@ export default {
 }
 ```
 
+You don’t need to add those `class` attributes, feel free to remove them or pass other class names. Try it out in the following example:
+
 <demo name="Guide/NodeViews/VueComponentContent" />
 
-`content: 'block+'`
+Keep in mind that this content is rendered by tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node (that’s what we use in the above example).
 
 ### All available props
+For advanced use cases, we pass a few more props to the component. Here is the full list of what you can expect:
 
 ```html
 <template>
@@ -179,18 +226,22 @@ export default {
   },
 
   props: {
+    // the editor instance
     editor: {
       type: Object,
     },
 
+    // the current node
     node: {
       type: Object,
     },
 
+    // an array of decorations
     decorations: {
       type: Array,
     },
 
+    // true when the caret is inside the node view
     selected: {
       type: Boolean,
     },
@@ -199,10 +250,12 @@ export default {
       type: Object,
     },
 
+    // get the document position of the current node
     getPos: {
       type: Function,
     },
 
+    // update attributes of the current node
     updateAttributes: {
       type: Function,
     },
