@@ -30,7 +30,7 @@ import TaskItem from '@tiptap/extension-task-item'
 import Highlight from '@tiptap/extension-highlight'
 import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket'
-import { IndexeddbPersistence } from 'y-indexeddb'
+// import { IndexeddbPersistence } from 'y-indexeddb'
 import MenuBar from './MenuBar.vue'
 
 const CustomTaskItem = TaskItem.extend({
@@ -70,7 +70,7 @@ export default {
 
     window.ydoc = ydoc
 
-    this.indexdb = new IndexeddbPersistence('tiptap-collaboration-example', ydoc)
+    // this.indexdb = new IndexeddbPersistence('tiptap-collaboration-example', ydoc)
 
     this.editor = new Editor({
       extensions: [
