@@ -18,7 +18,7 @@ import OrderedList, { OrderedListOptions } from '@tiptap/extension-ordered-list'
 import ListItem, { ListItemOptions } from '@tiptap/extension-list-item'
 
 export function defaultExtensions(options?: Partial<{
-  dropursor: Partial<DropcursorOptions>,
+  dropcursor: Partial<DropcursorOptions>,
   paragraph: Partial<ParagraphOptions>,
   history: Partial<HistoryOptions>,
   bold: Partial<BoldOptions>,
@@ -51,7 +51,7 @@ export function defaultExtensions(options?: Partial<{
     HorizontalRule.configure(options?.horizontalRule),
     CodeBlock.configure(options?.codeBlock),
     History.configure(options?.history),
-    Dropcursor.configure(options?.dropursor),
+    Dropcursor.configure(options?.dropcursor),
     Gapcursor,
   ]
 }
