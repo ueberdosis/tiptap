@@ -67,12 +67,6 @@ export default {
         ...attributes,
       })
 
-      console.log(pos, undefined, {
-        ...node.attrs,
-        ...attributes,
-      })
-
-      // TODO: Why is that not needed? 🤔
       this.editor.view.dispatch(transaction)
     },
   },
