@@ -1,208 +1,246 @@
-// // @ts-nocheck
-// import { Node, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
-// import { Decoration, NodeView } from 'prosemirror-view'
-// import { NodeSelection } from 'prosemirror-state'
-// import { Node as ProseMirrorNode } from 'prosemirror-model'
-// import React from 'react'
-// import ReactDOM from 'react-dom'
-// import { Editor } from './Editor'
-// import { ReactRenderer } from './ReactRenderer'
+// @ts-nocheck
+import { Node, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
+import { Decoration, NodeView } from 'prosemirror-view'
+import { NodeSelection } from 'prosemirror-state'
+import { Node as ProseMirrorNode } from 'prosemirror-model'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Editor } from './Editor'
+import { ReactRenderer } from './ReactRenderer'
 
-// interface ReactNodeViewRendererOptions {
-//   stopEvent: ((event: Event) => boolean) | null,
-//   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
-// }
+interface ReactNodeViewRendererOptions {
+  stopEvent: ((event: Event) => boolean) | null,
+  update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
+}
 
-// class ReactNodeView implements NodeView {
+class ReactNodeView implements NodeView {
 
-//   renderer!: ReactRenderer
+  renderer!: ReactRenderer
 
-//   editor: Editor
+  editor: Editor
 
-//   extension!: Node
+  extension!: Node
 
-//   node!: ProseMirrorNode
+  node!: ProseMirrorNode
 
-//   decorations!: Decoration[]
+  decorations!: Decoration[]
 
-//   getPos!: any
+  getPos!: any
 
-//   isDragging = false
+  isDragging = false
 
-//   options: ReactNodeViewRendererOptions = {
-//     stopEvent: null,
-//     update: null,
-//   }
+  options: ReactNodeViewRendererOptions = {
+    stopEvent: null,
+    update: null,
+  }
 
-//   constructor(component: any, props: NodeViewRendererProps, options?: Partial<ReactNodeViewRendererOptions>) {
-//     this.options = { ...this.options, ...options }
-//     this.editor = props.editor as Editor
-//     this.extension = props.extension
-//     this.node = props.node
-//     this.getPos = props.getPos
-//     this.mount(component)
-//   }
+  domWrapper: Element
 
-//   mount(component: any) {
-//     const props = {}
+  contentDOMWrapper: Element
 
-//     if (!component.displayName) {
-//       component.displayName = this.extension.config.name
-//     }
+  constructor(component: any, props: NodeViewRendererProps, options?: Partial<ReactNodeViewRendererOptions>) {
+    this.options = { ...this.options, ...options }
+    this.editor = props.editor as Editor
+    this.extension = props.extension
+    this.node = props.node
+    this.getPos = props.getPos
 
-//     this.renderer = new ReactRenderer(component, {
-//       editor: this.editor,
-//       props,
-//     })
-//   }
+    this.domWrapper = document.createElement('div')
+    this.domWrapper.classList.add('dom-wrapper')
+    this.contentDOMWrapper = document.createElement('div')
+    this.contentDOMWrapper.classList.add('content-dom-wrapper')
 
-//   get dom() {
-//     // if (!this.renderer.element) {
-//     //   return null
-//     // }
+    this.mount(component)
+  }
 
-//     // if (!this.renderer.element.hasAttribute('data-node-view-wrapper')) {
-//     //   throw Error('Please use the NodeViewWrapper component for your node view.')
-//     // }
+  mount(component: any) {
+    const props = {
+      editor: this.editor,
+      node: this.node,
+      decorations: this.decorations,
+      selected: false,
+      extension: this.extension,
+      getPos: () => this.getPos(),
+      updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
+    }
 
-//     return this.renderer.element
-//   }
+    if (!component.displayName) {
+      component.displayName = this.extension.config.name
+    }
 
-//   get contentDOM() {
-//     // console.log(this.dom)
-//     // return null
-//     // if (!this.renderer.element) {
-//     //   return null
-//     // }
+    this.renderer = new ReactRenderer(component, {
+      editor: this.editor,
+      props,
+    })
+  }
 
-//     const hasContent = !this.node.type.isAtom
+  get dom() {
+    return this.renderer.element
+    // return this.domWrapper
 
-//     if (!hasContent) {
-//       return null
-//     }
+    // if (!this.renderer.element) {
+    //   return null
+    // }
 
-//     const contentElement = this.dom.querySelector('[data-node-view-content]')
+    // if (!this.renderer.element.hasAttribute('data-node-view-wrapper')) {
+    //   throw Error('Please use the NodeViewWrapper component for your node view.')
+    // }
 
-//     return contentElement || this.dom
-//   }
+    // return this.renderer.element
+  }
 
-//   stopEvent(event: Event) {
-//     if (typeof this.options.stopEvent === 'function') {
-//       return this.options.stopEvent(event)
-//     }
+  get contentDOM() {
+    // return this.renderer.element
+    return undefined
+    // return this.renderer.element
+    // return this.contentDOMWrapper
 
-//     const target = (event.target as HTMLElement)
-//     const isInElement = this.dom.contains(target) && !this.contentDOM?.contains(target)
+    // console.log(this.dom)
+    // return null
+    // if (!this.renderer.element) {
+    //   return null
+    // }
 
-//     // ignore all events from child nodes
-//     if (!isInElement) {
-//       return false
-//     }
+    // const hasContent = !this.node.type.isAtom
 
-//     const { isEditable } = this.editor
-//     const { isDragging } = this
-//     const isDraggable = !!this.node.type.spec.draggable
-//     const isSelectable = NodeSelection.isSelectable(this.node)
-//     const isCopyEvent = event.type === 'copy'
-//     const isPasteEvent = event.type === 'paste'
-//     const isCutEvent = event.type === 'cut'
-//     const isClickEvent = event.type === 'mousedown'
-//     const isDragEvent = event.type.startsWith('drag') || event.type === 'drop'
+    // if (!hasContent) {
+    //   return null
+    // }
 
-//     // ProseMirror tries to drag selectable nodes
-//     // even if `draggable` is set to `false`
-//     // this fix prevents that
-//     if (!isDraggable && isSelectable && isDragEvent) {
-//       event.preventDefault()
-//     }
+    // const contentElement = this.dom.querySelector('[data-node-view-content]')
 
-//     if (isDraggable && isDragEvent && !isDragging) {
-//       event.preventDefault()
-//       return false
-//     }
+    // return contentElement || this.dom
+  }
 
-//     // we have to store that dragging started
-//     if (isDraggable && isEditable && !isDragging && isClickEvent) {
-//       const dragHandle = target.closest('[data-drag-handle]')
-//       const isValidDragHandle = dragHandle
-//         && (this.dom === dragHandle || (this.dom.contains(dragHandle)))
+  stopEvent(event: Event) {
+    if (typeof this.options.stopEvent === 'function') {
+      return this.options.stopEvent(event)
+    }
 
-//       if (isValidDragHandle) {
-//         this.isDragging = true
-//         document.addEventListener('dragend', () => {
-//           this.isDragging = false
-//         }, { once: true })
-//       }
-//     }
+    const target = (event.target as HTMLElement)
+    const isInElement = this.dom.contains(target) && !this.contentDOM?.contains(target)
 
-//     // these events are handled by prosemirror
-//     if (
-//       isDragging
-//       || isCopyEvent
-//       || isPasteEvent
-//       || isCutEvent
-//       || (isClickEvent && isSelectable)
-//     ) {
-//       return false
-//     }
+    // ignore all events from child nodes
+    if (!isInElement) {
+      return false
+    }
 
-//     return true
-//   }
+    const { isEditable } = this.editor
+    const { isDragging } = this
+    const isDraggable = !!this.node.type.spec.draggable
+    const isSelectable = NodeSelection.isSelectable(this.node)
+    const isCopyEvent = event.type === 'copy'
+    const isPasteEvent = event.type === 'paste'
+    const isCutEvent = event.type === 'cut'
+    const isClickEvent = event.type === 'mousedown'
+    const isDragEvent = event.type.startsWith('drag') || event.type === 'drop'
 
-//   ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
-//     if (mutation.type === 'selection') {
-//       if (this.node.isLeaf) {
-//         return true
-//       }
+    // ProseMirror tries to drag selectable nodes
+    // even if `draggable` is set to `false`
+    // this fix prevents that
+    if (!isDraggable && isSelectable && isDragEvent) {
+      event.preventDefault()
+    }
 
-//       return false
-//     }
+    if (isDraggable && isDragEvent && !isDragging) {
+      event.preventDefault()
+      return false
+    }
 
-//     if (!this.contentDOM) {
-//       return true
-//     }
+    // we have to store that dragging started
+    if (isDraggable && isEditable && !isDragging && isClickEvent) {
+      const dragHandle = target.closest('[data-drag-handle]')
+      const isValidDragHandle = dragHandle
+        && (this.dom === dragHandle || (this.dom.contains(dragHandle)))
 
-//     const contentDOMHasChanged = !this.contentDOM.contains(mutation.target)
-//       || this.contentDOM === mutation.target
+      if (isValidDragHandle) {
+        this.isDragging = true
+        document.addEventListener('dragend', () => {
+          this.isDragging = false
+        }, { once: true })
+      }
+    }
 
-//     return contentDOMHasChanged
-//   }
+    // these events are handled by prosemirror
+    if (
+      isDragging
+      || isCopyEvent
+      || isPasteEvent
+      || isCutEvent
+      || (isClickEvent && isSelectable)
+    ) {
+      return false
+    }
 
-//   destroy() {
-//     this.renderer.destroy()
-//   }
+    return true
+  }
 
-//   update(node: ProseMirrorNode, decorations: Decoration[]) {
-//     if (typeof this.options.update === 'function') {
-//       return this.options.update(node, decorations)
-//     }
+  ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+    if (mutation.type === 'selection') {
+      if (this.node.isLeaf) {
+        return true
+      }
 
-//     if (node.type !== this.node.type) {
-//       return false
-//     }
+      return false
+    }
 
-//     if (node === this.node && this.decorations === decorations) {
-//       return true
-//     }
+    if (!this.contentDOM) {
+      return true
+    }
 
-//     this.node = node
-//     this.decorations = decorations
-//     // this.renderer.updateProps({ node, decorations })
-//     this.renderer.render()
+    const contentDOMHasChanged = !this.contentDOM.contains(mutation.target)
+      || this.contentDOM === mutation.target
 
-//     return true
-//   }
-// }
+    return contentDOMHasChanged
+  }
 
-// export function ReactNodeViewRenderer(component: any, options?: Partial<ReactNodeViewRendererOptions>): NodeViewRenderer {
-//   return (props: NodeViewRendererProps) => {
-//     // try to get the parent component
-//     // this is important for vue devtools to show the component hierarchy correctly
-//     // maybe it’s `undefined` because <editor-content> isn’t rendered yet
-//     if (!(props.editor as Editor).contentComponent) {
-//       return {}
-//     }
+  destroy() {
+    this.renderer.destroy()
+  }
 
-//     return new ReactNodeView(component, props, options) as NodeView
-//   }
-// }
+  update(node: ProseMirrorNode, decorations: Decoration[]) {
+    if (typeof this.options.update === 'function') {
+      return this.options.update(node, decorations)
+    }
+
+    if (node.type !== this.node.type) {
+      return false
+    }
+
+    if (node === this.node && this.decorations === decorations) {
+      return true
+    }
+
+    this.node = node
+    this.decorations = decorations
+    this.renderer.updateProps({ node, decorations })
+    this.renderer.render()
+
+    return true
+  }
+
+  selectNode() {
+    this.renderer.updateProps({
+      selected: true,
+    })
+  }
+
+  deselectNode() {
+    this.renderer.updateProps({
+      selected: false,
+    })
+  }
+}
+
+export function ReactNodeViewRenderer(component: any, options?: Partial<ReactNodeViewRendererOptions>): NodeViewRenderer {
+  return (props: NodeViewRendererProps) => {
+    // try to get the parent component
+    // this is important for vue devtools to show the component hierarchy correctly
+    // maybe it’s `undefined` because <editor-content> isn’t rendered yet
+    if (!(props.editor as Editor).contentComponent) {
+      return {}
+    }
+
+    return new ReactNodeView(component, props, options) as NodeView
+  }
+}
