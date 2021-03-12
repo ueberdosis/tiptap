@@ -39,13 +39,15 @@ export default {
   methods: {
     handleUpdate() {
       const headings = []
+      const transaction = this.editor.state.tr
 
       this.editor.state.doc.descendants((node, pos) => {
         if (node.type.name === 'heading') {
           const id = `heading-${headings.length + 1}`
 
           if (node.attrs.id !== id) {
-            this.updateNodeAttributes(node, pos, {
+            transaction.setNodeMarkup(pos, undefined, {
+              ...node.attrs,
               id,
             })
           }
@@ -58,28 +60,17 @@ export default {
         }
       })
 
-      this.headings = headings
-    },
-    updateNodeAttributes(node, pos, attributes) {
-      const { state } = this.editor.view
-      const transaction = state.tr.setNodeMarkup(pos, undefined, {
-        ...node.attrs,
-        ...attributes,
-      })
+      transaction.setMeta('preventUpdate', true)
 
-      console.log(pos, undefined, {
-        ...node.attrs,
-        ...attributes,
-      })
-
-      // TODO: Why is that not needed? 🤔
       this.editor.view.dispatch(transaction)
+
+      this.headings = headings
     },
   },
 
   mounted() {
     this.editor.on('update', this.handleUpdate)
-    this.handleUpdate()
+    this.$nextTick(this.handleUpdate)
   },
 }
 </script>

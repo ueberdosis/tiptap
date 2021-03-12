@@ -27,6 +27,7 @@ export default {
         TableOfContents,
       ],
       content: `
+        <toc></toc>
         <h2>1 heading</h2>
         <p>paragraph</p>
         <h3>1.1 heading</h3>
@@ -37,7 +38,6 @@ export default {
         <p>paragraph</p>
         <h3>2.1 heading</h3>
         <p>paragraph</p>
-        <toc></toc>
       `,
     })
   },
