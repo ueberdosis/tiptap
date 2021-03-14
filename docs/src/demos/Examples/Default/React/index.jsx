@@ -1,6 +1,7 @@
 import React from 'react'
-import { useEditor, EditorContent, ReactNodeViewRenderer } from '@tiptap/react'
+import { useEditor, EditorContent, ReactNodeViewRenderer, NodeViewWrapper, NodeViewContent } from '@tiptap/react'
 import { defaultExtensions } from '@tiptap/starter-kit'
+import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import './styles.scss'
 
@@ -126,19 +127,35 @@ const MenuBar = ({ editor }) => {
 export default () => {
   const editor = useEditor({
     extensions: [
-      Paragraph.extend({
+      ...defaultExtensions().filter(item => item.config.name !== 'heading'),
+      Heading.extend({
+        draggable: true,
         addNodeView() {
-          return ReactNodeViewRenderer(({ selected }) => {
-            console.log({selected})
+          return ReactNodeViewRenderer((props) => {
+            // console.log({props})
             return (
-              <div className="paragraph">noooode view {selected}</div>
+              <NodeViewWrapper>
+                <div className="heading">
+                  <span
+                    data-drag-handle
+                    contentEditable={false}
+                    draggable={true}
+                    suppressContentEditableWarning={true}
+                  >⠿</span>
+                  <NodeViewContent />
+                </div>
+              </NodeViewWrapper>
             )
           })
         }
       }),
-      ...defaultExtensions().filter(item => item.config.name !== 'paragraph'),
+
     ],
-    content: `<p>test</p>`,
+    content: `
+      <h1>h1</h1>
+      <h2>h2</h2>
+      <p>paragraph</p>
+    `,
 //     content: `
 //       <h2>
 //         Hi there,

@@ -72,11 +72,25 @@ class ReactNodeView implements NodeView {
       editor: this.editor,
       props,
     })
+
+    // console.log(this.renderer.element.firstChild)
+
+    this.domWrapper.appendChild(this.renderer.element)
+
+    const contentElement = this.renderer.element.querySelector('[data-node-view-content]')
+
+    // console.log({ contentElement })
+
+    contentElement.appendChild(this.contentDOMWrapper)
+
+    // this.renderer.element.firstChild?.appendChild(this.contentDOMWrapper)
+    // this.domWrapper.appendChild(this.contentDOMWrapper)
   }
 
   get dom() {
-    return this.renderer.element
-    // return this.domWrapper
+    // return this.renderer.element
+    // return this.renderer.element.firstChild
+    return this.domWrapper
 
     // if (!this.renderer.element) {
     //   return null
@@ -90,6 +104,7 @@ class ReactNodeView implements NodeView {
   }
 
   get contentDOM() {
+    return this.contentDOMWrapper
     // return this.renderer.element
     return undefined
     // return this.renderer.element
@@ -196,6 +211,8 @@ class ReactNodeView implements NodeView {
 
   destroy() {
     this.renderer.destroy()
+    this.domWrapper = undefined
+    this.contentDOMWrapper = undefined
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {

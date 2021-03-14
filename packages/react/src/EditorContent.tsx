@@ -6,50 +6,15 @@ type EditorContentProps = {
   editor: Editor | null
 }
 
-// const Portals = ({ editor }: { editor: Editor | null }) => {
-//   if (!editor?.contentComponent) {
-//     return null
-//   }
-
-//   console.log('render portals')
-
-//   return (
-//     <div>portaaals</div>
-//   )
-// }
-
 const Portals = ({ renderers }: { renderers: Map<any, any> }) => {
   return (
     <div>
       {Array.from(renderers).map(([key, renderer]) => {
-
-        // console.log({renderer})
-        // return (
-        //   <div key={key}>{value}</div>
-        // )
-
-        // return React.createElement(renderer.component)
-
-
-        // return (
-        //   <React.Fragment key={renderer.id}>
-        //     {ReactDOM.createPortal(
-        //       React.createElement(renderer.component),
-        //       renderer.teleportElement,
-        //     )}
-        //   </React.Fragment>
-        // )
-
-        return (
-          <React.Fragment key={renderer.id}>
-            {renderer.bla}
-          </React.Fragment>
+        return ReactDOM.createPortal(
+          renderer.comp,
+          renderer.teleportElement,
+          renderer.id,
         )
-
-        // return ReactDOM.createPortal(
-        //   React.createElement(renderer.component),
-        //   renderer.teleportElement,
-        // )
       })}
     </div>
   )
@@ -72,14 +37,6 @@ export class PureEditorContent extends React.Component<EditorContentProps, any> 
       editor: this.props.editor,
       renderers: new Map(),
     }
-
-    // setInterval(() => {
-    //   if (this.props?.editor?.contentComponent) {
-    //     this.props.editor.contentComponent.setState({
-    //       renderers: this.state.renderers.set(Math.random(), Math.random())
-    //     })
-    //   }
-    // }, 1000)
   }
 
   componentDidUpdate() {
@@ -93,8 +50,6 @@ export class PureEditorContent extends React.Component<EditorContentProps, any> 
       // this.setState({
       //   editor,
       // })
-
-      console.log('UPDATE')
 
       const element = this.editorContentRef.current
 
@@ -114,14 +69,11 @@ export class PureEditorContent extends React.Component<EditorContentProps, any> 
   }
 
   render() {
-    console.log('render', this.state)
+    // console.log('render', this.state)
     // console.log('render', this.props.editor, this.state.editor)
     return (
       <>
         <div ref={this.editorContentRef} />
-        {/* <Content reference={this.editorContentRef} /> */}
-        {/* <Portals editor={this.props.editor} /> */}
-
         <Portals renderers={this.state.renderers} />
       </>
     )
@@ -129,5 +81,3 @@ export class PureEditorContent extends React.Component<EditorContentProps, any> 
 }
 
 export const EditorContent = React.memo(PureEditorContent)
-
-// export const EditorContent = PureEditorContent

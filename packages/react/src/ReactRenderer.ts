@@ -40,16 +40,37 @@ export class ReactRenderer {
     // this.render()
     // // this.element = this.teleportElement.firstElementChild as Element
 
-    console.log({ props })
+    // console.log({ props })
 
     // this.bla = ReactDOM.createPortal(
     //   React.createElement(this.component, props),
     //   this.teleportElement,
     // )
+    this.render()
+    // this.comp = React.createElement(this.component, { foo: 1 })
 
-    this.bla = React.createElement(this.component, props)
+    // // this.bla = React.createElement(this.component, props)
 
-    // console.log({ bla })
+    // // console.log({ bla })
+
+    // if (this.editor?.contentComponent) {
+    //   this.editor.contentComponent.setState({
+    //     renderers: this.editor.contentComponent.state.renderers.set(
+    //       this.id,
+    //       this,
+    //     ),
+    //   })
+    // }
+  }
+
+  // get comp() {
+  //   console.log('get comp')
+  //   return React.createElement(this.component, { foo: 1 })
+  // }
+
+  render() {
+    this.comp = React.createElement(this.component, { foo: 1 })
+    // render(React.createElement(this.component), this.teleportElement)
 
     if (this.editor?.contentComponent) {
       this.editor.contentComponent.setState({
@@ -61,13 +82,9 @@ export class ReactRenderer {
     }
   }
 
-  render() {
-    render(React.createElement(this.component), this.teleportElement)
-  }
-
   updateProps(props: { [key: string]: any } = {}) {
     // TODO
-    console.log('update props', { props })
+    // console.log('update props', { props })
   }
 
   destroy() {
