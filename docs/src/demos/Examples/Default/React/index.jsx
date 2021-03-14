@@ -1,9 +1,12 @@
 import React from 'react'
-import { useEditor, EditorContent, ReactNodeViewRenderer, NodeViewWrapper, NodeViewContent } from '@tiptap/react'
+import tippy from 'tippy.js'
+import { useEditor, EditorContent, ReactRenderer, ReactNodeViewRenderer, NodeViewWrapper, NodeViewContent } from '@tiptap/react'
 import { defaultExtensions } from '@tiptap/starter-kit'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
+import Mention from '@tiptap/extension-mention'
 import './styles.scss'
+import { render } from 'react-dom'
 
 const MenuBar = ({ editor }) => {
   if (!editor) {
@@ -124,6 +127,21 @@ const MenuBar = ({ editor }) => {
   )
 }
 
+const MentionList = (props) => {
+  console.log({props})
+
+  return (
+    <div>
+      mentions
+      {props.items.map((item) => (
+        <div>
+          {item}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default () => {
   const editor = useEditor({
     // onTransaction({ editor }) {
@@ -155,6 +173,53 @@ export default () => {
           })
         }
       }),
+      Mention.configure({
+        suggestion: {
+          items: query => {
+            return [
+              'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
+            ].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 10)
+          },
+          render: () => {
+            let reactRenderer
+            let popup
+
+            return {
+              onStart: props => {
+                reactRenderer = new ReactRenderer(MentionList, {
+                  props,
+                  editor: props.editor,
+                })
+
+                popup = tippy('body', {
+                  getReferenceClientRect: props.clientRect,
+                  appendTo: () => document.body,
+                  content: reactRenderer.element,
+                  showOnCreate: true,
+                  interactive: true,
+                  trigger: 'manual',
+                  placement: 'bottom-start',
+                })
+              },
+              onUpdate(props) {
+                reactRenderer.updateProps(props)
+
+                popup[0].setProps({
+                  getReferenceClientRect: props.clientRect,
+                })
+              },
+              onKeyDown(props) {
+                console.log('keydown', props)
+                // return reactRenderer.ref.onKeyDown(props)
+              },
+              onExit() {
+                popup[0].destroy()
+                reactRenderer.destroy()
+              },
+            }
+          }
+        },
+      })
     ],
     content: `
       <h1>heading</h1>
