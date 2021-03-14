@@ -6,19 +6,14 @@ export interface NodeViewWrapperProps {
 }
 
 export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = props => {
-  // TODO
-  // @ts-ignore
   const { onDragStart } = useReactNodeView()
-
   const Tag = props.as || 'div'
 
   return (
     <Tag
       data-node-view-wrapper=""
-      style={{
-        whiteSpace: 'normal'
-      }}
       onDragStart={onDragStart}
+      style={{ whiteSpace: 'normal' }}
     >
      {props.children}
     </Tag>

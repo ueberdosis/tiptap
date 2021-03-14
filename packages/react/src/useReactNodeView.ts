@@ -1,6 +1,11 @@
 import React, { useContext } from 'react'
 
-export const ReactNodeViewContext = React.createContext<any>({
+export interface ReactNodeViewContextProps {
+  isEditable: boolean,
+  onDragStart: (event: DragEvent) => void,
+}
+
+export const ReactNodeViewContext = React.createContext<Partial<ReactNodeViewContextProps>>({
   isEditable: undefined,
   onDragStart: undefined,
 })
