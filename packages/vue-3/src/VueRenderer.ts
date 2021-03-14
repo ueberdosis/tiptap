@@ -2,9 +2,9 @@ import { reactive, markRaw, Component } from 'vue'
 import { Editor } from './Editor'
 
 export interface VueRendererOptions {
-  as?: string;
-  editor: Editor;
-  props?: { [key: string]: any };
+  as?: string,
+  editor: Editor,
+  props?: { [key: string]: any },
 }
 
 export class VueRenderer {

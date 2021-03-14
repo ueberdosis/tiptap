@@ -135,7 +135,7 @@ export default () => {
         draggable: true,
         addNodeView() {
           return ReactNodeViewRenderer((props) => {
-            console.log({props})
+            // console.log({props})
             return (
               <NodeViewWrapper>
                 <div className="heading">
@@ -159,8 +159,8 @@ export default () => {
 
     ],
     content: `
-      <h1>h1</h1>
-      <h2>h2</h2>
+      <h1>heading</h1>
+      <h2>heading</h2>
       <p>paragraph</p>
     `,
 //     content: `

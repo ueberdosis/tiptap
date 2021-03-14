@@ -1,10 +1,10 @@
 import React from 'react'
 import { Editor } from './Editor'
 
-export interface VueRendererOptions {
-  as?: string;
-  editor: Editor;
-  props?: { [key: string]: any };
+export interface ReactRendererOptions {
+  as?: string,
+  editor: Editor,
+  props?: { [key: string]: any },
 }
 
 export class ReactRenderer {
@@ -14,24 +14,19 @@ export class ReactRenderer {
 
   component: any
 
-  teleportElement: Element
-
   element: Element
 
   props: { [key: string]: any }
 
   reactElement: React.ReactNode
 
-  constructor(component: any, { props = {}, editor }: VueRendererOptions) {
+  constructor(component: any, { props = {}, editor }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
     this.editor = editor
     this.props = props
-
-    this.teleportElement = document.createElement('div')
-    this.teleportElement.classList.add('teleport-element')
-    this.element = this.teleportElement
-
+    this.element = document.createElement('div')
+    this.element.classList.add('react-renderer')
     this.render()
   }
 

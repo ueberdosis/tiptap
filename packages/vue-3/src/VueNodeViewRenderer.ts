@@ -107,9 +107,7 @@ class VueNodeView implements NodeView {
   }
 
   get contentDOM() {
-    const hasContent = !this.node.type.isAtom
-
-    if (!hasContent) {
+    if (this.node.isLeaf) {
       return null
     }
 

@@ -1,30 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Editor } from './Editor'
+import { ReactRenderer } from './ReactRenderer'
 
 type EditorContentProps = {
   editor: Editor | null
 }
 
-const Portals = ({ renderers }: { renderers: Map<any, any> }) => {
+const Portals: React.FC<{ renderers: Map<string, ReactRenderer> }> = ({ renderers }) => {
   return (
-    <div>
+    <>
       {Array.from(renderers).map(([key, renderer]) => {
         return ReactDOM.createPortal(
           renderer.reactElement,
-          renderer.teleportElement,
-          renderer.id,
+          renderer.element,
+          key,
         )
       })}
-    </div>
+    </>
   )
 }
-
-// const Content = React.memo(({ reference }: { reference: React.RefObject<any> }) => {
-//   return (
-//     <div ref={reference} />
-//   )
-// })
 
 export class PureEditorContent extends React.Component<EditorContentProps, any> {
   editorContentRef: React.RefObject<any>
@@ -69,8 +64,6 @@ export class PureEditorContent extends React.Component<EditorContentProps, any> 
   }
 
   render() {
-    // console.log('render', this.state)
-    // console.log('render', this.props.editor, this.state.editor)
     return (
       <>
         <div ref={this.editorContentRef} />

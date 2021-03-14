@@ -1,10 +1,7 @@
-// @ts-nocheck
 import { Node, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
 import { Decoration, NodeView } from 'prosemirror-view'
 import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
-import React from 'react'
-import ReactDOM from 'react-dom'
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
 
@@ -34,22 +31,12 @@ class ReactNodeView implements NodeView {
     update: null,
   }
 
-  domWrapper: Element
-
-  contentDOMWrapper: Element
-
   constructor(component: any, props: NodeViewRendererProps, options?: Partial<ReactNodeViewRendererOptions>) {
     this.options = { ...this.options, ...options }
     this.editor = props.editor as Editor
     this.extension = props.extension
     this.node = props.node
     this.getPos = props.getPos
-
-    this.domWrapper = document.createElement('div')
-    this.domWrapper.classList.add('dom-wrapper')
-    this.contentDOMWrapper = document.createElement('div')
-    this.contentDOMWrapper.classList.add('content-dom-wrapper')
-
     this.mount(component)
   }
 
@@ -72,59 +59,24 @@ class ReactNodeView implements NodeView {
       editor: this.editor,
       props,
     })
-
-    // console.log(this.renderer.element.firstChild)
-
-    this.domWrapper.appendChild(this.renderer.element)
-
-    const contentElement = this.renderer.element.querySelector('[data-node-view-content]')
-
-    // console.log({ contentElement })
-
-    contentElement.appendChild(this.contentDOMWrapper)
-
-    // this.renderer.element.firstChild?.appendChild(this.contentDOMWrapper)
-    // this.domWrapper.appendChild(this.contentDOMWrapper)
   }
 
   get dom() {
-    // return this.renderer.element
-    // return this.renderer.element.firstChild
-    return this.domWrapper
+    if (!this.renderer.element.firstElementChild?.hasAttribute('data-node-view-wrapper')) {
+      throw Error('Please use the ReactViewWrapper component for your node view.')
+    }
 
-    // if (!this.renderer.element) {
-    //   return null
-    // }
-
-    // if (!this.renderer.element.hasAttribute('data-node-view-wrapper')) {
-    //   throw Error('Please use the NodeViewWrapper component for your node view.')
-    // }
-
-    // return this.renderer.element
+    return this.renderer.element
   }
 
   get contentDOM() {
-    return this.contentDOMWrapper
-    // return this.renderer.element
-    return undefined
-    // return this.renderer.element
-    // return this.contentDOMWrapper
+    if (this.node.isLeaf) {
+      return null
+    }
 
-    // console.log(this.dom)
-    // return null
-    // if (!this.renderer.element) {
-    //   return null
-    // }
+    const contentElement = this.dom.querySelector('[data-node-view-content]')
 
-    // const hasContent = !this.node.type.isAtom
-
-    // if (!hasContent) {
-    //   return null
-    // }
-
-    // const contentElement = this.dom.querySelector('[data-node-view-content]')
-
-    // return contentElement || this.dom
+    return contentElement || this.dom
   }
 
   stopEvent(event: Event) {
@@ -211,8 +163,6 @@ class ReactNodeView implements NodeView {
 
   destroy() {
     this.renderer.destroy()
-    this.domWrapper = undefined
-    this.contentDOMWrapper = undefined
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
