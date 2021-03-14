@@ -126,13 +126,16 @@ const MenuBar = ({ editor }) => {
 
 export default () => {
   const editor = useEditor({
+    // onTransaction({ editor }) {
+    //   console.log('anchor', editor.state.selection.anchor)
+    // },
     extensions: [
       ...defaultExtensions().filter(item => item.config.name !== 'heading'),
       Heading.extend({
         draggable: true,
         addNodeView() {
           return ReactNodeViewRenderer((props) => {
-            // console.log({props})
+            console.log({props})
             return (
               <NodeViewWrapper>
                 <div className="heading">
@@ -142,6 +145,10 @@ export default () => {
                     draggable={true}
                     suppressContentEditableWarning={true}
                   >⠿</span>
+                  level: {props.node.attrs.level}
+                  <button onClick={() => props.updateAttributes({ level: 1 })}>
+                    set level 1
+                  </button>
                   <NodeViewContent />
                 </div>
               </NodeViewWrapper>

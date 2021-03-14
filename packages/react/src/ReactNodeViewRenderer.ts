@@ -236,6 +236,21 @@ class ReactNodeView implements NodeView {
     return true
   }
 
+  updateAttributes(attributes: {}) {
+    if (!this.editor.view.editable) {
+      return
+    }
+
+    const { state } = this.editor.view
+    const pos = this.getPos()
+    const transaction = state.tr.setNodeMarkup(pos, undefined, {
+      ...this.node.attrs,
+      ...attributes,
+    })
+
+    this.editor.view.dispatch(transaction)
+  }
+
   selectNode() {
     this.renderer.updateProps({
       selected: true,

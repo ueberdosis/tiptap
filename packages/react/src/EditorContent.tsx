@@ -11,7 +11,7 @@ const Portals = ({ renderers }: { renderers: Map<any, any> }) => {
     <div>
       {Array.from(renderers).map(([key, renderer]) => {
         return ReactDOM.createPortal(
-          renderer.comp,
+          renderer.reactElement,
           renderer.teleportElement,
           renderer.id,
         )
