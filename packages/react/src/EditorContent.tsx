@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
+import { ReactNodeViewContext } from './useReactNodeView'
 
 type EditorContentProps = {
   editor: Editor | null

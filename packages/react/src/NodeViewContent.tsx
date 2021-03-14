@@ -1,9 +1,10 @@
 import React from 'react'
+import { useReactNodeView } from './useReactNodeView'
 
 export const NodeViewContent: React.FC = props => {
-
   // TODO
-  const isEditable = true
+  // @ts-ignore
+  const { isEditable } = useReactNodeView()
 
   return (
     <div

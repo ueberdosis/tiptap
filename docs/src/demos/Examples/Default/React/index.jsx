@@ -135,7 +135,6 @@ export default () => {
         draggable: true,
         addNodeView() {
           return ReactNodeViewRenderer((props) => {
-            // console.log({props})
             return (
               <NodeViewWrapper>
                 <div className="heading">
@@ -156,7 +155,6 @@ export default () => {
           })
         }
       }),
-
     ],
     content: `
       <h1>heading</h1>
@@ -197,6 +195,10 @@ export default () => {
 
   return (
     <div>
+      <div>
+        <button onClick={() => editor.setEditable(true)}>editable</button>
+        <button onClick={() => editor.setEditable(false)}>readonly</button>
+      </div>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>

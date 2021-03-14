@@ -1,9 +1,11 @@
+import React, { useState, useEffect } from 'react'
 import { Node, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
 import { Decoration, NodeView } from 'prosemirror-view'
 import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
+import { ReactNodeViewContext } from './useReactNodeView'
 
 interface ReactNodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
@@ -40,7 +42,24 @@ class ReactNodeView implements NodeView {
     this.mount(component)
   }
 
-  mount(component: any) {
+  onDragStart(event: DragEvent) {
+    const { view } = this.editor
+    const target = (event.target as HTMLElement)
+
+    if (this.contentDOM?.contains(target)) {
+      return
+    }
+
+    // sometimes `event.target` is not the `dom` element
+    event.dataTransfer?.setDragImage(this.dom, 0, 0)
+
+    const selection = NodeSelection.create(view.state.doc, this.getPos())
+    const transaction = view.state.tr.setSelection(selection)
+
+    view.dispatch(transaction)
+  }
+
+  mount(Component: any) {
     const props = {
       editor: this.editor,
       node: this.node,
@@ -51,11 +70,44 @@ class ReactNodeView implements NodeView {
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
     }
 
-    if (!component.displayName) {
-      component.displayName = this.extension.config.name
+    if (!Component.displayName) {
+      const capitalizeFirstChar = (string: string): string => {
+        return string.charAt(0).toUpperCase() + string.substring(1)
+      }
+
+      Component.displayName = capitalizeFirstChar(this.extension.config.name)
     }
 
-    this.renderer = new ReactRenderer(component, {
+    const ReactNodeView: React.FC = (props) => {
+      const [isEditable, setIsEditable] = useState(this.editor.isEditable)
+
+      const handleEditableChange = () => {
+        setIsEditable(this.editor.isEditable)
+      }
+
+      const onDragStart = this.onDragStart.bind(this)
+
+      useEffect(() => {
+        this.editor.on('viewUpdate', handleEditableChange)
+
+        return () => {
+          this.editor.off('viewUpdate', handleEditableChange)
+        }
+      }, [])
+
+      return (
+        <ReactNodeViewContext.Provider
+          value={{
+            onDragStart,
+            isEditable,
+          }}
+        >
+          <Component {...props} />
+        </ReactNodeViewContext.Provider>
+      )
+    }
+
+    this.renderer = new ReactRenderer(ReactNodeView, {
       editor: this.editor,
       props,
     })
