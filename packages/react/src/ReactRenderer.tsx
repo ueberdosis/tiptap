@@ -7,6 +7,24 @@ export interface ReactRendererOptions {
   props?: { [key: string]: any },
 }
 
+function isFunctionalComponent(Component: any) {
+  return (
+    typeof Component === 'function' // can be various things
+    && !(
+      Component.prototype // native arrows don't have prototypes
+      && Component.prototype.isReactComponent // special property
+    )
+  );
+}
+
+function isClassComponent(Component: any) {
+  return !!(
+    typeof Component === 'function'
+    && Component.prototype
+    && Component.prototype.isReactComponent
+  );
+}
+
 export class ReactRenderer {
   id: string
 
@@ -20,6 +38,8 @@ export class ReactRenderer {
 
   reactElement: React.ReactNode
 
+  ref: React.Component | null = null
+
   constructor(component: any, { props = {}, editor }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
@@ -31,7 +51,14 @@ export class ReactRenderer {
   }
 
   render() {
-    this.reactElement = React.createElement(this.component, this.props)
+    const Component = this.component
+    const props = this.props
+
+    if (isClassComponent(Component)) {
+      props.ref = (ref: React.Component) => this.ref = ref
+    }
+
+    this.reactElement = <Component {...props } />
 
     if (this.editor?.contentComponent) {
       this.editor.contentComponent.setState({

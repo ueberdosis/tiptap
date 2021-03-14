@@ -142,6 +142,26 @@ const MentionList = (props) => {
   )
 }
 
+class MentionList2 extends React.Component {
+
+  onKeyDown(props) {
+    console.log('onKeyDown', props)
+  }
+
+  render() {
+    return (
+      <div>
+        mentions
+        {this.props.items.map((item, index) => (
+          <div key={index}>
+            {item}
+          </div>
+        ))}
+      </div>
+    )
+  }
+}
+
 export default () => {
   const editor = useEditor({
     // onTransaction({ editor }) {
@@ -186,7 +206,7 @@ export default () => {
 
             return {
               onStart: props => {
-                reactRenderer = new ReactRenderer(MentionList, {
+                reactRenderer = new ReactRenderer(MentionList2, {
                   props,
                   editor: props.editor,
                 })
@@ -209,8 +229,7 @@ export default () => {
                 })
               },
               onKeyDown(props) {
-                console.log('keydown', props)
-                // return reactRenderer.ref.onKeyDown(props)
+                return reactRenderer.ref.onKeyDown(props)
               },
               onExit() {
                 popup[0].destroy()
