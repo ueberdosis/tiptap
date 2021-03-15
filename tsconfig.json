@@ -28,7 +28,8 @@
     "./shims/vue.d.ts"
   ],
   "include": [
-    "**/*.ts"
+    "**/*.ts",
+    "**/*.tsx"
   ],
   "exclude": [
     "**/node_modules",

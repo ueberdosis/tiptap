@@ -1,21 +1,22 @@
 import Vue from 'vue'
+import { AnyObject } from '@tiptap/core'
 import { VueConstructor } from 'vue/types/umd'
 
 export class VueRenderer {
-  vm!: Vue
+  ref!: Vue
 
   constructor(component: Vue | VueConstructor, props: any) {
     const Component = Vue.extend(component)
 
-    this.vm = new Component(props).$mount()
+    this.ref = new Component(props).$mount()
   }
 
   get element() {
-    return this.vm.$el
+    return this.ref.$el
   }
 
-  updateProps(props: { [key: string]: any } = {}) {
-    if (!this.vm.$props) {
+  updateProps(props: AnyObject = {}) {
+    if (!this.ref.$props) {
       return
     }
 
@@ -26,13 +27,13 @@ export class VueRenderer {
     Object
       .entries(props)
       .forEach(([key, value]) => {
-        this.vm.$props[key] = value
+        this.ref.$props[key] = value
       })
 
     Vue.config.silent = originalSilent
   }
 
   destroy() {
-    this.vm.$destroy()
+    this.ref.$destroy()
   }
 }

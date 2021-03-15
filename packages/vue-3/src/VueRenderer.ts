@@ -1,10 +1,10 @@
 import { reactive, markRaw, Component } from 'vue'
+import { AnyObject } from '@tiptap/core'
 import { Editor } from './Editor'
 
 export interface VueRendererOptions {
-  as?: string;
-  editor: Editor;
-  props?: { [key: string]: any };
+  editor: Editor,
+  props?: AnyObject,
 }
 
 export class VueRenderer {
@@ -18,7 +18,7 @@ export class VueRenderer {
 
   element: Element
 
-  props: { [key: string]: any }
+  props: AnyObject
 
   constructor(component: Component, { props = {}, editor }: VueRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
@@ -44,7 +44,7 @@ export class VueRenderer {
     return this.editor.contentComponent?.ctx.$refs[this.id]
   }
 
-  updateProps(props: { [key: string]: any } = {}) {
+  updateProps(props: AnyObject = {}) {
     Object
       .entries(props)
       .forEach(([key, value]) => {
