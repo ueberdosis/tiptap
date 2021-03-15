@@ -19,7 +19,7 @@ You can store that in your database (or send it to an API) and restore the docum
 ```js
 new Editor({
   content: {
-    "type": "document",
+    "type": "doc",
     "content": [
       // …
     ]
@@ -30,8 +30,8 @@ new Editor({
 Or if you need to wait for something, you can do it later through the editor instance:
 
 ```js
-editor.setContent({
-  "type": "document",
+editor.commands.setContent({
+  "type": "doc",
   "content": [
     // …
   ]
