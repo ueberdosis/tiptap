@@ -53,10 +53,6 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
         return
       }
 
-      // this.setState({
-      //   editor,
-      // })
-
       const element = this.editorContentRef.current
 
       element.appendChild(editor.options.element.firstChild)
@@ -67,10 +63,8 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 
       editor.contentComponent = this
 
-      // TODO: why setTimeout?
-      setTimeout(() => {
-        editor.createNodeViews()
-      }, 0)
+      // TODO: alternative to setTimeout?
+      setTimeout(() => editor.createNodeViews(), 0)
     }
   }
 
