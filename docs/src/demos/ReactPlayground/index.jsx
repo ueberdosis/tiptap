@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import tippy from 'tippy.js'
 import { useEditor, EditorContent, ReactRenderer, ReactNodeViewRenderer, NodeViewWrapper, NodeViewContent } from '@tiptap/react'
 import { defaultExtensions } from '@tiptap/starter-kit'
@@ -163,6 +163,8 @@ class MentionList2 extends React.Component {
 }
 
 export default () => {
+  const [isVisible, setVisible] = useState(true)
+
   const editor = useEditor({
     // onTransaction({ editor }) {
     //   console.log('anchor', editor.state.selection.anchor)
@@ -280,11 +282,15 @@ export default () => {
   return (
     <div>
       <div>
+        <button onClick={() => setVisible(true)}>visible</button>
+        <button onClick={() => setVisible(false)}>hidden</button>
+      </div>
+      <div>
         <button onClick={() => editor.setEditable(true)}>editable</button>
         <button onClick={() => editor.setEditable(false)}>readonly</button>
       </div>
       <MenuBar editor={editor} />
-      <EditorContent editor={editor} />
+      {isVisible && <EditorContent editor={editor} />}
     </div>
   )
 }

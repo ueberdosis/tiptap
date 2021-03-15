@@ -22,7 +22,6 @@ export interface EditorContentProps {
 }
 
 export interface EditorContentState {
-  editor: Editor | null,
   renderers: Map<string, ReactRenderer>
 }
 
@@ -34,12 +33,19 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
     this.editorContentRef = React.createRef()
 
     this.state = {
-      editor: this.props.editor,
       renderers: new Map(),
     }
   }
 
+  componentDidMount() {
+    this.init()
+  }
+
   componentDidUpdate() {
+    this.init()
+  }
+
+  init() {
     const { editor } = this.props
 
     if (editor && editor.options.element) {
@@ -66,6 +72,34 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
         editor.createNodeViews()
       }, 0)
     }
+  }
+
+  componentWillUnmount() {
+    const { editor } = this.props
+
+    if (!editor) {
+      return
+    }
+
+    if (!editor.isDestroyed) {
+      editor.view.setProps({
+        nodeViews: {},
+      })
+    }
+
+    editor.contentComponent = null
+
+    if (!editor.options.element.firstChild) {
+      return
+    }
+
+    const newElement = document.createElement('div')
+
+    newElement.appendChild(editor.options.element.firstChild)
+
+    editor.setOptions({
+      element: newElement,
+    })
   }
 
   render() {
