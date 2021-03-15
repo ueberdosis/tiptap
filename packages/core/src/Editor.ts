@@ -302,6 +302,10 @@ export class Editor extends EventEmitter {
    * @param transaction An editor state transaction
    */
   private dispatchTransaction(transaction: Transaction): void {
+    if (transaction.docChanged && !this.isEditable) {
+      return
+    }
+
     if (this.isCapturingTransaction) {
       if (!this.capturedTransaction) {
         this.capturedTransaction = transaction
