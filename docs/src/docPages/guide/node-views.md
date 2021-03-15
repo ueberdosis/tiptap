@@ -209,6 +209,8 @@ You don’t need to add those `class` attributes, feel free to remove them or pa
 
 Keep in mind that this content is rendered by tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node extension (that’s what we use in the above example).
 
+The `NodeViewWrapper` and `NodeViewContent` components render a `<div>` HTML tag (`<span>` for inline nodes), but you can change that. For example `<node-view-content as="p">` should render a paragraph. One limitation though: That tag must not change during runtime.
+
 ### All available props
 For advanced use cases, we pass a few more props to the component. Here is the full list of what you can expect:
 
