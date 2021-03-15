@@ -2,11 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
-import { ReactNodeViewContext } from './useReactNodeView'
-
-type EditorContentProps = {
-  editor: Editor | null
-}
 
 const Portals: React.FC<{ renderers: Map<string, ReactRenderer> }> = ({ renderers }) => {
   return (
@@ -22,7 +17,16 @@ const Portals: React.FC<{ renderers: Map<string, ReactRenderer> }> = ({ renderer
   )
 }
 
-export class PureEditorContent extends React.Component<EditorContentProps, any> {
+export interface EditorContentProps {
+  editor: Editor | null,
+}
+
+export interface EditorContentState {
+  editor: Editor | null,
+  renderers: Map<string, ReactRenderer>
+}
+
+export class PureEditorContent extends React.Component<EditorContentProps, EditorContentState> {
   editorContentRef: React.RefObject<any>
 
   constructor(props: EditorContentProps) {

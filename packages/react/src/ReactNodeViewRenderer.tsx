@@ -78,30 +78,23 @@ class ReactNodeView implements NodeView {
       Component.displayName = capitalizeFirstChar(this.extension.config.name)
     }
 
-    const ReactNodeView: React.FC = (props) => {
+    const ReactNodeView: React.FunctionComponent = (props) => {
       const [isEditable, setIsEditable] = useState(this.editor.isEditable)
-
-      const handleEditableChange = () => {
+      const onDragStart = this.onDragStart.bind(this)
+      const onViewUpdate = () => {
         setIsEditable(this.editor.isEditable)
       }
 
-      const onDragStart = this.onDragStart.bind(this)
-
       useEffect(() => {
-        this.editor.on('viewUpdate', handleEditableChange)
+        this.editor.on('viewUpdate', onViewUpdate)
 
         return () => {
-          this.editor.off('viewUpdate', handleEditableChange)
+          this.editor.off('viewUpdate', onViewUpdate)
         }
       }, [])
 
       return (
-        <ReactNodeViewContext.Provider
-          value={{
-            onDragStart,
-            isEditable,
-          }}
-        >
+        <ReactNodeViewContext.Provider value={{ onDragStart, isEditable }}>
           <Component {...props} />
         </ReactNodeViewContext.Provider>
       )

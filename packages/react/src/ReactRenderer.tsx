@@ -1,28 +1,19 @@
 import React from 'react'
+import { AnyObject } from '@tiptap/core'
 import { Editor } from './Editor'
-
-export interface ReactRendererOptions {
-  as?: string,
-  editor: Editor,
-  props?: { [key: string]: any },
-}
-
-function isFunctionalComponent(Component: any) {
-  return (
-    typeof Component === 'function' // can be various things
-    && !(
-      Component.prototype // native arrows don't have prototypes
-      && Component.prototype.isReactComponent // special property
-    )
-  );
-}
 
 function isClassComponent(Component: any) {
   return !!(
     typeof Component === 'function'
     && Component.prototype
     && Component.prototype.isReactComponent
-  );
+  )
+}
+
+export interface ReactRendererOptions {
+  as?: string,
+  editor: Editor,
+  props?: AnyObject,
 }
 
 export class ReactRenderer {
@@ -34,13 +25,13 @@ export class ReactRenderer {
 
   element: Element
 
-  props: { [key: string]: any }
+  props: AnyObject
 
   reactElement: React.ReactNode
 
   ref: React.Component | null = null
 
-  constructor(component: any, { props = {}, editor }: ReactRendererOptions) {
+  constructor(component: React.Component | React.FunctionComponent, { props = {}, editor }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
     this.editor = editor
@@ -50,7 +41,7 @@ export class ReactRenderer {
     this.render()
   }
 
-  render() {
+  render(): void {
     const Component = this.component
     const props = this.props
 
@@ -62,8 +53,6 @@ export class ReactRenderer {
 
     if (this.editor?.contentComponent) {
       this.editor.contentComponent.setState({
-        // TODO
-        // @ts-ignore
         renderers: this.editor.contentComponent.state.renderers.set(
           this.id,
           this,
@@ -72,7 +61,7 @@ export class ReactRenderer {
     }
   }
 
-  updateProps(props: { [key: string]: any } = {}) {
+  updateProps(props: AnyObject = {}): void {
     this.props = {
       ...this.props,
       ...props,
@@ -81,10 +70,8 @@ export class ReactRenderer {
     this.render()
   }
 
-  destroy() {
+  destroy(): void {
     if (this.editor?.contentComponent) {
-      // TODO
-      // @ts-ignore
       const { renderers } = this.editor.contentComponent.state
 
       renderers.delete(this.id)
@@ -94,5 +81,4 @@ export class ReactRenderer {
       })
     }
   }
-
 }
