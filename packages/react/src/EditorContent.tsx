@@ -1,11 +1,32 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { Editor } from './Editor'
+import { ReactRenderer } from './ReactRenderer'
 
-type EditorContentProps = {
-  editor: Editor | null
+const Portals: React.FC<{ renderers: Map<string, ReactRenderer> }> = ({ renderers }) => {
+  return (
+    <>
+      {Array.from(renderers).map(([key, renderer]) => {
+        return ReactDOM.createPortal(
+          renderer.reactElement,
+          renderer.element,
+          key,
+        )
+      })}
+    </>
+  )
 }
 
-export class PureEditorContent extends React.Component<EditorContentProps, EditorContentProps> {
+export interface EditorContentProps {
+  editor: Editor | null,
+}
+
+export interface EditorContentState {
+  editor: Editor | null,
+  renderers: Map<string, ReactRenderer>
+}
+
+export class PureEditorContent extends React.Component<EditorContentProps, EditorContentState> {
   editorContentRef: React.RefObject<any>
 
   constructor(props: EditorContentProps) {
@@ -13,7 +34,8 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
     this.editorContentRef = React.createRef()
 
     this.state = {
-      editor: this.props.editor
+      editor: this.props.editor,
+      renderers: new Map(),
     }
   }
 
@@ -21,6 +43,14 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
     const { editor } = this.props
 
     if (editor && editor.options.element) {
+      if (editor.contentComponent) {
+        return
+      }
+
+      // this.setState({
+      //   editor,
+      // })
+
       const element = this.editorContentRef.current
 
       element.appendChild(editor.options.element.firstChild)
@@ -40,9 +70,12 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 
   render() {
     return (
-      <div ref={this.editorContentRef} />
+      <>
+        <div ref={this.editorContentRef} />
+        <Portals renderers={this.state.renderers} />
+      </>
     )
   }
 }
 
-export const EditorContent = React.memo(PureEditorContent);
+export const EditorContent = React.memo(PureEditorContent)

@@ -69,7 +69,7 @@ export default {
                   })
                 },
                 onKeyDown(props) {
-                  return component.vm.onKeyDown(props)
+                  return component.ref.onKeyDown(props)
                 },
                 onExit() {
                   popup[0].destroy()

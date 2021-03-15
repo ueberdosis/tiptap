@@ -1,24 +1,20 @@
+import React, { useState, useEffect } from 'react'
 import { Node, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
-import {
-  ref,
-  provide,
-  Component,
-  defineComponent,
-} from 'vue'
 import { Decoration, NodeView } from 'prosemirror-view'
 import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor } from './Editor'
-import { VueRenderer } from './VueRenderer'
+import { ReactRenderer } from './ReactRenderer'
+import { ReactNodeViewContext } from './useReactNodeView'
 
-interface VueNodeViewRendererOptions {
+interface ReactNodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
 }
 
-class VueNodeView implements NodeView {
+class ReactNodeView implements NodeView {
 
-  renderer!: VueRenderer
+  renderer!: ReactRenderer
 
   editor: Editor
 
@@ -32,12 +28,12 @@ class VueNodeView implements NodeView {
 
   isDragging = false
 
-  options: VueNodeViewRendererOptions = {
+  options: ReactNodeViewRendererOptions = {
     stopEvent: null,
     update: null,
   }
 
-  constructor(component: Component, props: NodeViewRendererProps, options?: Partial<VueNodeViewRendererOptions>) {
+  constructor(component: any, props: NodeViewRendererProps, options?: Partial<ReactNodeViewRendererOptions>) {
     this.options = { ...this.options, ...options }
     this.editor = props.editor as Editor
     this.extension = props.extension
@@ -63,7 +59,7 @@ class VueNodeView implements NodeView {
     view.dispatch(transaction)
   }
 
-  mount(component: Component) {
+  mount(Component: any) {
     const props = {
       editor: this.editor,
       node: this.node,
@@ -74,33 +70,45 @@ class VueNodeView implements NodeView {
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
     }
 
-    const onDragStart = this.onDragStart.bind(this)
-    const isEditable = ref(this.editor.isEditable)
+    if (!Component.displayName) {
+      const capitalizeFirstChar = (string: string): string => {
+        return string.charAt(0).toUpperCase() + string.substring(1)
+      }
 
-    this.editor.on('viewUpdate', () => {
-      isEditable.value = this.editor.isEditable
-    })
+      Component.displayName = capitalizeFirstChar(this.extension.config.name)
+    }
 
-    const extendedComponent = defineComponent({
-      extends: { ...component },
-      props: Object.keys(props),
-      setup() {
-        provide('onDragStart', onDragStart)
-        provide('isEditable', isEditable)
+    const ReactNodeView: React.FunctionComponent = (props) => {
+      const [isEditable, setIsEditable] = useState(this.editor.isEditable)
+      const onDragStart = this.onDragStart.bind(this)
+      const onViewUpdate = () => {
+        setIsEditable(this.editor.isEditable)
+      }
 
-        return (component as any).setup?.()
-      },
-    })
+      useEffect(() => {
+        this.editor.on('viewUpdate', onViewUpdate)
 
-    this.renderer = new VueRenderer(extendedComponent, {
+        return () => {
+          this.editor.off('viewUpdate', onViewUpdate)
+        }
+      }, [])
+
+      return (
+        <ReactNodeViewContext.Provider value={{ onDragStart, isEditable }}>
+          <Component {...props} />
+        </ReactNodeViewContext.Provider>
+      )
+    }
+
+    this.renderer = new ReactRenderer(ReactNodeView, {
       editor: this.editor,
       props,
     })
   }
 
   get dom() {
-    if (!this.renderer.element.hasAttribute('data-node-view-wrapper')) {
-      throw Error('Please use the NodeViewWrapper component for your node view.')
+    if (!this.renderer.element.firstElementChild?.hasAttribute('data-node-view-wrapper')) {
+      throw Error('Please use the ReactViewWrapper component for your node view.')
     }
 
     return this.renderer.element
@@ -218,6 +226,7 @@ class VueNodeView implements NodeView {
     this.node = node
     this.decorations = decorations
     this.renderer.updateProps({ node, decorations })
+    this.renderer.render()
 
     return true
   }
@@ -248,10 +257,9 @@ class VueNodeView implements NodeView {
       selected: false,
     })
   }
-
 }
 
-export function VueNodeViewRenderer(component: Component, options?: Partial<VueNodeViewRendererOptions>): NodeViewRenderer {
+export function ReactNodeViewRenderer(component: any, options?: Partial<ReactNodeViewRendererOptions>): NodeViewRenderer {
   return (props: NodeViewRendererProps) => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
@@ -260,6 +268,6 @@ export function VueNodeViewRenderer(component: Component, options?: Partial<VueN
       return {}
     }
 
-    return new VueNodeView(component, props, options) as NodeView
+    return new ReactNodeView(component, props, options) as NodeView
   }
 }
