@@ -2,6 +2,7 @@ export * from './Editor'
 export * from './Extension'
 export * from './Node'
 export * from './Mark'
+export * from './NodeView'
 export * from './types'
 
 export { default as nodeInputRule } from './inputRules/nodeInputRule'

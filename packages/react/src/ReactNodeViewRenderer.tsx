@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Node, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
-import { Decoration, NodeView } from 'prosemirror-view'
-import { NodeSelection } from 'prosemirror-state'
+import { NodeView, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
+import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
@@ -12,54 +11,11 @@ interface ReactNodeViewRendererOptions {
   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
 }
 
-class ReactNodeView implements NodeView {
+class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
 
   renderer!: ReactRenderer
 
-  editor: Editor
-
-  extension!: Node
-
-  node!: ProseMirrorNode
-
-  decorations!: Decoration[]
-
-  getPos!: any
-
-  isDragging = false
-
-  options: ReactNodeViewRendererOptions = {
-    stopEvent: null,
-    update: null,
-  }
-
-  constructor(component: any, props: NodeViewRendererProps, options?: Partial<ReactNodeViewRendererOptions>) {
-    this.options = { ...this.options, ...options }
-    this.editor = props.editor as Editor
-    this.extension = props.extension
-    this.node = props.node
-    this.getPos = props.getPos
-    this.mount(component)
-  }
-
-  onDragStart(event: DragEvent) {
-    const { view } = this.editor
-    const target = (event.target as HTMLElement)
-
-    if (this.contentDOM?.contains(target)) {
-      return
-    }
-
-    // sometimes `event.target` is not the `dom` element
-    event.dataTransfer?.setDragImage(this.dom, 0, 0)
-
-    const selection = NodeSelection.create(view.state.doc, this.getPos())
-    const transaction = view.state.tr.setSelection(selection)
-
-    view.dispatch(transaction)
-  }
-
-  mount(Component: any) {
+  mount() {
     const props = {
       editor: this.editor,
       node: this.node,
@@ -70,12 +26,13 @@ class ReactNodeView implements NodeView {
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
     }
 
-    if (!Component.displayName) {
+    if (!(this.component as any).displayName) {
       const capitalizeFirstChar = (string: string): string => {
         return string.charAt(0).toUpperCase() + string.substring(1)
       }
 
-      Component.displayName = capitalizeFirstChar(this.extension.config.name)
+      // @ts-ignore
+      this.component.displayName = capitalizeFirstChar(this.extension.config.name)
     }
 
     const ReactNodeView: React.FunctionComponent = (props) => {
@@ -93,7 +50,7 @@ class ReactNodeView implements NodeView {
 
       return (
         <ReactNodeViewContext.Provider value={{ onDragStart, isEditable }}>
-          <Component {...props} />
+          <this.component {...props} />
         </ReactNodeViewContext.Provider>
       )
     }
@@ -122,92 +79,6 @@ class ReactNodeView implements NodeView {
     return contentElement || this.dom
   }
 
-  stopEvent(event: Event) {
-    if (typeof this.options.stopEvent === 'function') {
-      return this.options.stopEvent(event)
-    }
-
-    const target = (event.target as HTMLElement)
-    const isInElement = this.dom.contains(target) && !this.contentDOM?.contains(target)
-
-    // ignore all events from child nodes
-    if (!isInElement) {
-      return false
-    }
-
-    const { isEditable } = this.editor
-    const { isDragging } = this
-    const isDraggable = !!this.node.type.spec.draggable
-    const isSelectable = NodeSelection.isSelectable(this.node)
-    const isCopyEvent = event.type === 'copy'
-    const isPasteEvent = event.type === 'paste'
-    const isCutEvent = event.type === 'cut'
-    const isClickEvent = event.type === 'mousedown'
-    const isDragEvent = event.type.startsWith('drag') || event.type === 'drop'
-
-    // ProseMirror tries to drag selectable nodes
-    // even if `draggable` is set to `false`
-    // this fix prevents that
-    if (!isDraggable && isSelectable && isDragEvent) {
-      event.preventDefault()
-    }
-
-    if (isDraggable && isDragEvent && !isDragging) {
-      event.preventDefault()
-      return false
-    }
-
-    // we have to store that dragging started
-    if (isDraggable && isEditable && !isDragging && isClickEvent) {
-      const dragHandle = target.closest('[data-drag-handle]')
-      const isValidDragHandle = dragHandle
-        && (this.dom === dragHandle || (this.dom.contains(dragHandle)))
-
-      if (isValidDragHandle) {
-        this.isDragging = true
-        document.addEventListener('dragend', () => {
-          this.isDragging = false
-        }, { once: true })
-      }
-    }
-
-    // these events are handled by prosemirror
-    if (
-      isDragging
-      || isCopyEvent
-      || isPasteEvent
-      || isCutEvent
-      || (isClickEvent && isSelectable)
-    ) {
-      return false
-    }
-
-    return true
-  }
-
-  ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
-    if (mutation.type === 'selection') {
-      if (this.node.isLeaf) {
-        return true
-      }
-
-      return false
-    }
-
-    if (!this.contentDOM) {
-      return true
-    }
-
-    const contentDOMHasChanged = !this.contentDOM.contains(mutation.target)
-      || this.contentDOM === mutation.target
-
-    return contentDOMHasChanged
-  }
-
-  destroy() {
-    this.renderer.destroy()
-  }
-
   update(node: ProseMirrorNode, decorations: Decoration[]) {
     if (typeof this.options.update === 'function') {
       return this.options.update(node, decorations)
@@ -224,24 +95,8 @@ class ReactNodeView implements NodeView {
     this.node = node
     this.decorations = decorations
     this.renderer.updateProps({ node, decorations })
-    this.renderer.render()
 
     return true
-  }
-
-  updateAttributes(attributes: {}) {
-    if (!this.editor.view.editable) {
-      return
-    }
-
-    const { state } = this.editor.view
-    const pos = this.getPos()
-    const transaction = state.tr.setNodeMarkup(pos, undefined, {
-      ...this.node.attrs,
-      ...attributes,
-    })
-
-    this.editor.view.dispatch(transaction)
   }
 
   selectNode() {
@@ -255,6 +110,10 @@ class ReactNodeView implements NodeView {
       selected: false,
     })
   }
+
+  destroy() {
+    this.renderer.destroy()
+  }
 }
 
 export function ReactNodeViewRenderer(component: any, options?: Partial<ReactNodeViewRendererOptions>): NodeViewRenderer {
@@ -266,6 +125,6 @@ export function ReactNodeViewRenderer(component: any, options?: Partial<ReactNod
       return {}
     }
 
-    return new ReactNodeView(component, props, options) as NodeView
+    return new ReactNodeView(component, props, options) as ProseMirrorNodeView
   }
 }
