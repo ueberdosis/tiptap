@@ -1,6 +1,9 @@
+/* eslint-disable */
 import React, { useState } from 'react'
 import tippy from 'tippy.js'
-import { useEditor, EditorContent, ReactRenderer, ReactNodeViewRenderer, NodeViewWrapper, NodeViewContent } from '@tiptap/react'
+import {
+  useEditor, EditorContent, ReactRenderer, ReactNodeViewRenderer, NodeViewWrapper, NodeViewContent,
+} from '@tiptap/react'
 import { defaultExtensions } from '@tiptap/starter-kit'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -127,13 +130,13 @@ const MenuBar = ({ editor }) => {
   )
 }
 
-const MentionList = (props) => {
-  console.log({props})
+const MentionList = props => {
+  console.log({ props })
 
   return (
     <div>
       mentions
-      {props.items.map((item) => (
+      {props.items.map(item => (
         <div>
           {item}
         </div>
@@ -174,7 +177,7 @@ export default () => {
       Heading.extend({
         draggable: true,
         addNodeView() {
-          return ReactNodeViewRenderer((props) => {
+          return ReactNodeViewRenderer(props => {
             return (
               <NodeViewWrapper>
                 <div className="heading">
@@ -193,7 +196,7 @@ export default () => {
               </NodeViewWrapper>
             )
           })
-        }
+        },
       }),
       Mention.configure({
         suggestion: {
@@ -238,45 +241,45 @@ export default () => {
                 reactRenderer.destroy()
               },
             }
-          }
+          },
         },
-      })
+      }),
     ],
     content: `
       <h1>heading</h1>
       <h2>heading</h2>
       <p>paragraph</p>
     `,
-//     content: `
-//       <h2>
-//         Hi there,
-//       </h2>
-//       <p>
-//         this is a basic <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-//       </p>
-//       <ul>
-//         <li>
-//           That’s a bullet list with one …
-//         </li>
-//         <li>
-//           … or two list items.
-//         </li>
-//       </ul>
-//       <p>
-//         Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-//       </p>
-//       <pre><code class="language-css">body {
-//   display: none;
-// }</code></pre>
-//       <p>
-//         I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-//       </p>
-//       <blockquote>
-//         Wow, that’s amazing. Good work, boy! 👏
-//         <br />
-//         — Mom
-//       </blockquote>
-//     `,
+    //     content: `
+    //       <h2>
+    //         Hi there,
+    //       </h2>
+    //       <p>
+    //         this is a basic <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
+    //       </p>
+    //       <ul>
+    //         <li>
+    //           That’s a bullet list with one …
+    //         </li>
+    //         <li>
+    //           … or two list items.
+    //         </li>
+    //       </ul>
+    //       <p>
+    //         Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
+    //       </p>
+    //       <pre><code class="language-css">body {
+    //   display: none;
+    // }</code></pre>
+    //       <p>
+    //         I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
+    //       </p>
+    //       <blockquote>
+    //         Wow, that’s amazing. Good work, boy! 👏
+    //         <br />
+    //         — Mom
+    //       </blockquote>
+    //     `,
   })
 
   return (

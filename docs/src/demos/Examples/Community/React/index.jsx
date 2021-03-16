@@ -66,9 +66,9 @@ export default () => {
                 reactRenderer.destroy()
               },
             }
-          }
+          },
         },
-      })
+      }),
     ],
     content: `
       <p>
@@ -84,8 +84,8 @@ export default () => {
   return (
     <div>
       <EditorContent editor={editor} />
-      {editor &&
-        <div className={`character-count ${editor.getCharacterCount() === limit ? 'character-count--warning' : ''}`}>
+      {editor
+        && <div className={`character-count ${editor.getCharacterCount() === limit ? 'character-count--warning' : ''}`}>
           <svg
             height="20"
             width="20"

@@ -46,7 +46,9 @@ export class ReactRenderer {
     const props = this.props
 
     if (isClassComponent(Component)) {
-      props.ref = (ref: React.Component) => this.ref = ref
+      props.ref = (ref: React.Component) => {
+        this.ref = ref
+      }
     }
 
     this.reactElement = <Component {...props } />

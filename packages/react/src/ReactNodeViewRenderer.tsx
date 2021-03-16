@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { NodeView, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
+import {
+  NodeView,
+  NodeViewProps,
+  NodeViewRenderer,
+  NodeViewRendererProps,
+} from '@tiptap/core'
 import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor } from './Editor'
@@ -16,7 +21,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
   renderer!: ReactRenderer
 
   mount() {
-    const props = {
+    const props: NodeViewProps = {
       editor: this.editor,
       node: this.node,
       decorations: this.decorations,
@@ -35,10 +40,11 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
       this.component.displayName = capitalizeFirstChar(this.extension.config.name)
     }
 
-    const ReactNodeView: React.FunctionComponent = (props) => {
+    const ReactNodeViewProvider: React.FunctionComponent = componentProps => {
       const [isEditable, setIsEditable] = useState(this.editor.isEditable)
       const onDragStart = this.onDragStart.bind(this)
       const onViewUpdate = () => setIsEditable(this.editor.isEditable)
+      const Component = this.component
 
       useEffect(() => {
         this.editor.on('viewUpdate', onViewUpdate)
@@ -50,12 +56,14 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
 
       return (
         <ReactNodeViewContext.Provider value={{ onDragStart, isEditable }}>
-          <this.component {...props} />
+          <Component {...componentProps} />
         </ReactNodeViewContext.Provider>
       )
     }
 
-    this.renderer = new ReactRenderer(ReactNodeView, {
+    ReactNodeViewProvider.displayName = 'ReactNodeView'
+
+    this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props,
     })

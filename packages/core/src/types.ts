@@ -112,6 +112,16 @@ export type ValuesOf<T> = T[keyof T];
 
 export type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
 
+export type NodeViewProps = {
+  editor: Editor,
+  node: ProseMirrorNode,
+  decorations: Decoration[],
+  selected: boolean,
+  extension: Node,
+  getPos: () => number,
+  updateAttributes: (attributes: AnyObject) => void,
+}
+
 export type NodeViewRendererProps = {
   editor: Editor,
   node: ProseMirrorNode,

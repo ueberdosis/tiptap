@@ -1,4 +1,9 @@
-import { NodeView, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
+import {
+  NodeView,
+  NodeViewProps,
+  NodeViewRenderer,
+  NodeViewRendererProps,
+} from '@tiptap/core'
 import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import Vue from 'vue'
@@ -16,7 +21,7 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {
   renderer!: VueRenderer
 
   mount() {
-    const props = {
+    const props: NodeViewProps = {
       editor: this.editor,
       node: this.node,
       decorations: this.decorations,

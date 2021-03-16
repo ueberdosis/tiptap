@@ -1,4 +1,9 @@
-import { NodeView, NodeViewRenderer, NodeViewRendererProps } from '@tiptap/core'
+import {
+  NodeView,
+  NodeViewProps,
+  NodeViewRenderer,
+  NodeViewRendererProps,
+} from '@tiptap/core'
 import {
   ref,
   provide,
@@ -20,7 +25,7 @@ class VueNodeView extends NodeView<Component, Editor> {
   renderer!: VueRenderer
 
   mount() {
-    const props = {
+    const props: NodeViewProps = {
       editor: this.editor,
       node: this.node,
       decorations: this.decorations,

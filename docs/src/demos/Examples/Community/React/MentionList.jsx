@@ -13,7 +13,7 @@ export class MentionList extends React.Component {
   componentDidUpdate(oldProps) {
     if (this.props.items !== oldProps.items) {
       this.setState({
-        selectedIndex: 0
+        selectedIndex: 0,
       })
     }
   }
@@ -39,13 +39,13 @@ export class MentionList extends React.Component {
 
   upHandler() {
     this.setState({
-      selectedIndex: ((this.state.selectedIndex + this.props.items.length) - 1) % this.props.items.length
+      selectedIndex: ((this.state.selectedIndex + this.props.items.length) - 1) % this.props.items.length,
     })
   }
 
   downHandler() {
     this.setState({
-      selectedIndex: (this.state.selectedIndex + 1) % this.props.items.length
+      selectedIndex: (this.state.selectedIndex + 1) % this.props.items.length,
     })
   }
 

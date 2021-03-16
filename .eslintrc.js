@@ -11,7 +11,9 @@ module.exports = {
     {
       files: [
         './**/*.ts',
+        './**/*.tsx',
         './**/*.js',
+        './**/*.jsx',
         './**/*.vue',
       ],
       plugins: [
@@ -27,6 +29,7 @@ module.exports = {
         window: false,
       },
       extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:vue/strongly-recommended',
         'airbnb-base',
