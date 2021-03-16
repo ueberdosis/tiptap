@@ -86,7 +86,7 @@ export default {
       .filter(item => {
         return ['vue', 'ts', 'js', 'jsx', 'scss'].includes(item.extension)
       })
-      .sortBy(item => item.path.split('/').length && !item.path.endsWith('index.vue'))
+      .sortBy(item => item.path.split('/').length && !item.path.endsWith('index.vue') && !item.path.endsWith('index.jsx'))
       .toArray()
   },
 }
