@@ -24,4 +24,19 @@ export default Node.create({
   addNodeView() {
     return VueNodeViewRenderer(Component)
   },
+
+  addGlobalAttributes() {
+    return [
+      {
+        types: [
+          'heading',
+        ],
+        attributes: {
+          id: {
+            default: null,
+          },
+        },
+      },
+    ]
+  },
 })
