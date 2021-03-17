@@ -234,7 +234,7 @@ export default () => {
                 })
               },
               onKeyDown(props) {
-                return reactRenderer.ref.onKeyDown(props)
+                return reactRenderer.ref?.onKeyDown(props)
               },
               onExit() {
                 popup[0].destroy()

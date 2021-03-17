@@ -40,11 +40,11 @@ export class VueRenderer {
     }
   }
 
-  get ref() {
+  get ref(): any {
     return this.editor.contentComponent?.ctx.$refs[this.id]
   }
 
-  updateProps(props: AnyObject = {}) {
+  updateProps(props: AnyObject = {}): void {
     Object
       .entries(props)
       .forEach(([key, value]) => {
@@ -52,7 +52,7 @@ export class VueRenderer {
       })
   }
 
-  destroy() {
+  destroy(): void {
     this.editor.vueRenderers.delete(this.id)
   }
 }

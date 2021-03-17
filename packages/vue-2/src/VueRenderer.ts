@@ -11,11 +11,11 @@ export class VueRenderer {
     this.ref = new Component(props).$mount()
   }
 
-  get element() {
+  get element(): Element {
     return this.ref.$el
   }
 
-  updateProps(props: AnyObject = {}) {
+  updateProps(props: AnyObject = {}): void {
     if (!this.ref.$props) {
       return
     }
@@ -33,7 +33,7 @@ export class VueRenderer {
     Vue.config.silent = originalSilent
   }
 
-  destroy() {
+  destroy(): void {
     this.ref.$destroy()
   }
 }
