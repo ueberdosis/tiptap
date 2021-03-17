@@ -28,9 +28,7 @@ export default Node.create({
   },
 
   addNodeView() {
-    return ({
-      editor, node, getPos, HTMLAttributes, decorations, extension,
-    }) => {
+    return () => {
       const dom = document.createElement('div')
       dom.classList.add('node-view')
 
