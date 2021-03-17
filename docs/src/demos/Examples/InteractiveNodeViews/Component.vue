@@ -30,7 +30,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .vue-component {
   border: 1px solid #adb5bd;
   border-radius: 0.5rem;
