@@ -14,19 +14,14 @@
 </template>
 
 <script>
-import { NodeViewWrapper } from '@tiptap/vue-2'
+import { NodeViewWrapper, nodeViewProps } from '@tiptap/vue-2'
 
 export default {
   components: {
     NodeViewWrapper,
   },
 
-  props: {
-    editor: {
-      type: Object,
-      required: true,
-    },
-  },
+  props: nodeViewProps,
 
   data() {
     return {
@@ -57,10 +52,6 @@ export default {
   },
 }
 </script>
-
-<style>
-
-</style>
 
 <style lang="scss">
 /* Basic editor styles */

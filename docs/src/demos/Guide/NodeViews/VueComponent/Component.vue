@@ -11,24 +11,14 @@
 </template>
 
 <script>
-import { NodeViewWrapper } from '@tiptap/vue-2'
+import { NodeViewWrapper, nodeViewProps } from '@tiptap/vue-2'
 
 export default {
   components: {
     NodeViewWrapper,
   },
 
-  props: {
-    updateAttributes: {
-      type: Function,
-      required: true,
-    },
-
-    node: {
-      type: Object,
-      required: true,
-    },
-  },
+  props: nodeViewProps,
 
   methods: {
     increase() {

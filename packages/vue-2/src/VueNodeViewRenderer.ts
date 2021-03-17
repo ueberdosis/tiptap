@@ -7,9 +7,40 @@ import {
 import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import Vue from 'vue'
-import { VueConstructor } from 'vue/types/umd'
+import { VueConstructor, PropType } from 'vue/types/umd'
 import { Editor } from './Editor'
 import { VueRenderer } from './VueRenderer'
+
+export const nodeViewProps = {
+  editor: {
+    type: Object as PropType<NodeViewProps['editor']>,
+    required: true,
+  },
+  node: {
+    type: Object as PropType<NodeViewProps['node']>,
+    required: true,
+  },
+  decorations: {
+    type: Object as PropType<NodeViewProps['decorations']>,
+    required: true,
+  },
+  selected: {
+    type: Boolean as PropType<NodeViewProps['selected']>,
+    required: true,
+  },
+  extension: {
+    type: Object as PropType<NodeViewProps['extension']>,
+    required: true,
+  },
+  getPos: {
+    type: Function as PropType<NodeViewProps['getPos']>,
+    required: true,
+  },
+  updateAttributes: {
+    type: Function as PropType<NodeViewProps['updateAttributes']>,
+    required: true,
+  },
+}
 
 interface VueNodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
