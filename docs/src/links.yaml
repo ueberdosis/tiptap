@@ -6,21 +6,18 @@
         - title: CDN
           link: /installation/cdn
           skip: true
-        - title: CodeSandbox
-          link: /installation/codesandbox
-          skip: true
-        - title: Vue 2
-          link: /installation/vue2
+        - title: React
+          link: /installation/react
+          type: draft
           skip: true
         - title: Vue 3
           link: /installation/vue3
           skip: true
+        - title: Vue 2
+          link: /installation/vue2
+          skip: true
         - title: Nuxt.js
           link: /installation/nuxt
-          skip: true
-        - title: React
-          link: /installation/react
-          type: draft
           skip: true
         - title: Svelte
           link: /installation/svelte
@@ -33,6 +30,9 @@
         - title: Livewire
           link: /installation/livewire
           type: draft
+          skip: true
+        - title: CodeSandbox
+          link: /installation/codesandbox
           skip: true
     - title: Upgrade guide
       link: /overview/upgrade-guide
@@ -50,12 +50,12 @@
       link: /examples/default
     - title: Collaborative editing
       link: /examples/collaborative-editing
-      type: pro
+      # type: pro
     - title: Markdown shortcuts
       link: /examples/markdown-shortcuts
     - title: Tables
       link: /examples/tables
-      type: pro
+      # type: pro
     - title: Images
       link: /examples/images
     - title: Formatting
@@ -72,6 +72,8 @@
       link: /examples/minimal
     - title: Savvy editor
       link: /examples/savvy
+    - title: Interactive node views
+      link: /examples/interactive
 
 - title: Guide
   items:
@@ -87,18 +89,25 @@
       link: /guide/content
     - title: Collaborative editing
       link: /guide/collaborative-editing
-      type: pro
+      # type: pro
     - title: Extend the functionality
       link: /guide/extend-extensions
     - title: Build extensions
       link: /guide/build-extensions
     - title: Interactive node views
       link: /guide/node-views
-      type: draft
       items:
+        - title: With JavaScript
+          link: /guide/node-views/js
+          type: draft
+        - title: With React
+          link: /guide/node-views/react
+          type: draft
+        - title: With Vue
+          link: /guide/node-views/vue
         - title: Examples
           link: /guide/node-views/examples
-          draft: true
+          type: draft
     - title: Working with TypeScript
       link: /guide/typescript
 
@@ -139,23 +148,22 @@
           link: /api/nodes/list-item
         - title: Mention
           link: /api/nodes/mention
-          type: new
         - title: OrderedList
           link: /api/nodes/ordered-list
         - title: Paragraph
           link: /api/nodes/paragraph
         - title: Table
           link: /api/nodes/table
-          type: pro
+          # type: pro
         - title: TableRow
           link: /api/nodes/table-row
-          type: pro
+          # type: pro
         - title: TableCell
           link: /api/nodes/table-cell
-          type: pro
+          # type: pro
         - title: TableHeader
           link: /api/nodes/table-header
-          type: pro
+          # type: pro
         - title: TaskList
           link: /api/nodes/task-list
         - title: TaskItem
@@ -189,13 +197,12 @@
         #   type: draft
         - title: CharacterCount
           link: /api/extensions/character-count
-          type: new
         - title: Collaboration
           link: /api/extensions/collaboration
-          type: pro
+          # type: pro
         - title: CollaborationCursor
           link: /api/extensions/collaboration-cursor
-          type: pro
+          # type: pro
         - title: Dropcursor
           link: /api/extensions/dropcursor
         - title: Focus
@@ -218,7 +225,6 @@
           link: /api/utilities/html
         - title: Suggestion
           link: /api/utilities/suggestion
-          type: new
     - title: Events
       link: /api/events
     - title: Schema

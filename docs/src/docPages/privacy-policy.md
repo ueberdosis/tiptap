@@ -20,12 +20,7 @@ We use Netlify to host the documentation. It features continuous deployment from
 ### Tracking (Plausible)
 We use [Plausible](https://plausible.io) to gain insight about our visitors in general. It doesn’t track individual users per se and does not store any personal identifiable information. Go to [their documentation](https://plausible.io/data-policy) to find out what Simple Analytics collects (and more importantly what they don’t).
 
-Or have a look at the [public analytics dashboard](https://plausible.io/tiptap.dev) they provide. It’s not a stripped down version, it’s the exact same dashboard we use to check the traffic.
-
-### Tracking (Simple Analytics, deprecated, will be removed soon)
-We use [Simple Analytics](https://simpleanalytics.com/) to gain insight about our visitors in general. It doesn’t track individual users per se and does not store any personal identifiable information. Go to their documentation to find out what Simple Analytics collects (and more importantly what they don’t).
-
-Or have a look at the [public analytics dashboard](https://simpleanalytics.com/tiptap.dev) they provide. It’s not a stripped down version, it’s the exact same dashboard we use to check the traffic.
+Or have a look at the [public analytics dashboard](https://plausible.io/next.tiptap.dev) they provide. It’s not a stripped down version, it’s the exact same dashboard we use to check the traffic.
 
 ### Search (Algolia)
 We use [Algolia DocSearch](https://docsearch.algolia.com/) to offer search functionality for the documentation. They crawl the same pages as you see once every day. If you click on the search field on top of this page, their search interface pops up.

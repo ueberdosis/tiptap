@@ -10,6 +10,7 @@ A headless and extendable rich text editor, based on [ProseMirror](https://githu
 ## Feedback
 We are looking for your feedback to improve tiptap 2 before the first public release! Share everything that helps to make it better for everyone!
 
+* Join the Discord server! [Link](https://discord.gg/WtJ49jGshW)
 * Create issues on GitHub! [Link](https://github.com/ueberdosis/tiptap-next/issues)
 * Send an email! [humans@tiptap.dev](mailto:humans@tiptap.dev)
 * Follow us on Twitter! [@tiptap_editor](https://twitter.com/tiptap_editor) [@hanspagel](https://twitter.com/hanspagel) [@_philippkuehn](https://twitter.com/_philippkuehn)
