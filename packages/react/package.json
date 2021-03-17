@@ -27,7 +27,7 @@
     "react-dom": "^17.0.1"
   },
   "dependencies": {
-    "prosemirror-view": "^1.17.8"
+    "prosemirror-view": "^1.18.1"
   },
   "devDependencies": {
     "@types/react-dom": "^17.0.1"
