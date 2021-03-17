@@ -49,15 +49,4 @@ export default {
     margin-top: 0.75em;
   }
 }
-
-.output {
-  background-color: #0D0D0D;
-  color: #fff;
-  padding: 1rem;
-  font-family: monospace;
-  font-size: 1.1rem;
-  border-radius: 0.5rem;
-  margin: 1rem 0;
-  position: relative;
-}
 </style>

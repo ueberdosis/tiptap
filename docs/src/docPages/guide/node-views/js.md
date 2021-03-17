@@ -5,6 +5,7 @@
 ## Introduction
 TODO
 
+## Code snippet
 ```js
 import { Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-2'
@@ -20,7 +21,22 @@ export default Node.create({
       return {
         dom,
       }
-    })
+    }
   },
 })
 ```
+
+## Render markup
+<demo name="Guide/NodeViews/JavaScript" />
+
+## Access node attributes
+TODO
+
+## Update node attributes
+TODO
+
+## Adding a content editable
+TODO
+
+## All available props
+TODO
