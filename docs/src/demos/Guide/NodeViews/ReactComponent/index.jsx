@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { defaultExtensions } from '@tiptap/starter-kit'
-import ReactComponent from './index.js'
+import ReactComponent from './Extension.js'
 import './styles.scss'
 
 export default () => {

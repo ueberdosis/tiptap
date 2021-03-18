@@ -5,7 +5,7 @@
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
 import { defaultExtensions } from '@tiptap/starter-kit'
-import VueComponent from './index.js'
+import VueComponent from './Extension.js'
 
 export default {
   components: {
