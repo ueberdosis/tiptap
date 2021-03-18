@@ -135,15 +135,17 @@ export default {
 }
 </script>
 
-<style lang="scss">
-/* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+<style lang="scss" scoped>
+::v-deep {
+  /* Basic editor styles */
+  .ProseMirror {
+    > * + * {
+      margin-top: 0.75em;
+    }
   }
-}
 
-.annotation {
-  background: #9DEF8F;
+  .annotation {
+    background: #9DEF8F;
+  }
 }
 </style>

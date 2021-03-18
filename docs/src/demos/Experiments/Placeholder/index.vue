@@ -37,20 +37,22 @@ export default {
 }
 </script>
 
-<style lang="scss">
-/* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+<style lang="scss" scoped>
+::v-deep {
+  /* Basic editor styles */
+  .ProseMirror {
+    > * + * {
+      margin-top: 0.75em;
+    }
   }
-}
 
-/* Placeholder */
-.ProseMirror p.is-editor-empty:first-child::before {
-  content: attr(data-empty-text);
-  float: left;
-  color: #ced4da;
-  pointer-events: none;
-  height: 0;
+  /* Placeholder */
+  .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-empty-text);
+    float: left;
+    color: #ced4da;
+    pointer-events: none;
+    height: 0;
+  }
 }
 </style>

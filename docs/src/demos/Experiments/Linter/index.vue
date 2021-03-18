@@ -61,36 +61,38 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.problem {
-  background: #fdd;
-  border-bottom: 1px solid #f22;
-  margin-bottom: -1px;
-}
+<style lang="scss" scoped>
+::v-deep {
+  .problem {
+    background: #fdd;
+    border-bottom: 1px solid #f22;
+    margin-bottom: -1px;
+  }
 
-.lint-icon {
-  display: inline-block;
-  position: absolute;
-  right: 2px;
-  cursor: pointer;
-  border-radius: 100px;
-  background: #f22;
-  color: white;
-  font-family: times, georgia, serif;
-  font-size: 15px;
-  font-weight: bold;
-  width: 1.1em;
-  height: 1.1em;
-  text-align: center;
-  padding-left: .5px;
-  line-height: 1.1em
-}
+  .lint-icon {
+    display: inline-block;
+    position: absolute;
+    right: 2px;
+    cursor: pointer;
+    border-radius: 100px;
+    background: #f22;
+    color: white;
+    font-family: times, georgia, serif;
+    font-size: 15px;
+    font-weight: bold;
+    width: 1.1em;
+    height: 1.1em;
+    text-align: center;
+    padding-left: .5px;
+    line-height: 1.1em
+  }
 
-.lint-icon:before {
-  content: "!";
-}
+  .lint-icon:before {
+    content: "!";
+  }
 
-.ProseMirror {
-  padding-right: 20px;
+  .ProseMirror {
+    padding-right: 20px;
+  }
 }
 </style>
