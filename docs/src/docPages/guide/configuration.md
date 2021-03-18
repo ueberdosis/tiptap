@@ -100,7 +100,7 @@ import { Editor, defaultExtensions } from '@tiptap/starter-kit'
 new Editor({
   extensions: defaultExtensions({
     heading: {
-      levels: [1, 2, 3]
+      levels: [1, 2, 3],
     },
   }),
 })
@@ -128,7 +128,7 @@ import { Editor, defaultExtensions } from '@tiptap/starter-kit'
 new Editor({
   extensions: [
     ...defaultExtensions().filter(extension => extension.config.name !== 'history'),
-  ]
+  ],
 })
 ```
 
