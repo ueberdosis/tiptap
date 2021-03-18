@@ -6,3 +6,5 @@
 TODO
 
 <demo name="Guide/NodeViews/ReactComponent" />
+
+<demo name="Guide/NodeViews/ReactComponentContent" />
