@@ -9,7 +9,7 @@ Node views are the best thing since sliced bread, at least if you are a fan of c
 Depending on what you would like to build, node views work a little bit different and can have their verify specific capabilities, but also pitfalls. The main question is: How should your custom node look like?
 
 ### Editable text
-Yes, node views can have editable text, just like regular node. That’s simple. The cursor will exactly behave like you would expect it from a regular node. Existing commands work very well with those nodes.
+Yes, node views can have editable text, just like a regular node. That’s simple. The cursor will exactly behave like you would expect it from a regular node. Existing commands work very well with those nodes.
 
 ```html
 <div class="Prosemirror" contenteditable="true">
@@ -24,7 +24,7 @@ That’s how the [`TaskItem`](/api/nodes/task-item) node works.
 ### Non-editable text
 Nodes can also have text, which is not edtiable. The cursor can’t jump into those, but you don’t want that anyway.
 
-Those just get a `contenteditable="false"` from tiptap by default.
+tiptap adds a `contenteditable="false"` to those by default.
 
 ```html
 <div class="Prosemirror" contenteditable="true">
@@ -39,33 +39,18 @@ That’s how you could render mentions, which shouldn’t be editable. Users can
 Statamic uses those for their Bard editor, which renders complex modules inside tiptap, which can have their own text inputs.
 
 ### Mixed content
-You can even mix non-editable and editable text. That’s great because you can build complex things, and even use marks like bold and italic inside the editable content.
-
-```html
-<div class="Prosemirror" contenteditable="true">
-  <p>text</p>
-  <node-view>
-    <div>
-      non-editable text
-    </div>
-    <div>
-      editable text
-    </div>
-  </node-view>
-  <p>text</p>
-</div>
-```
+You can even mix non-editable and editable text. That’s great to build complex things, and even use marks like bold and italic inside the editable content.
 
 **BUT**, if there are other elements with non-editable text in your node view, the cursor can jump there. You can improve that with manually adding `contenteditable` attributes to the specific parts of your node view.
 
 ```html
 <div class="Prosemirror" contenteditable="true">
   <p>text</p>
-  <node-view contenteditable="false">
-    <div>
+  <node-view>
+    <div contenteditable="false">
       non-editable text
     </div>
-    <div contenteditable="true">
+    <div>
       editable text
     </div>
   </node-view>
@@ -75,17 +60,19 @@ You can even mix non-editable and editable text. That’s great because you can 
 
 **BUT**, that also means the cursor can’t just move from outside of the node view to the inside. Users have to manually place their cursor to edit the content inside the node view. Just so you know.
 
-## Rendered content
+## Render as HTML
+```js
+renderHTML({ HTMLAttributes }) {
+  return ['vue-component', mergeAttributes(HTMLAttributes)]
+},
+```
 
+## Restore from HTML
 ```js
 parseHTML() {
   return [{
     tag: 'vue-component',
   }]
-},
-
-renderHTML({ HTMLAttributes }) {
-  return ['vue-component', mergeAttributes(HTMLAttributes)]
 },
 ```
 
