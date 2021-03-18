@@ -30,9 +30,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .vue-component {
-  border: 1px solid #adb5bd;
+  border: 3px solid #0D0D0D;
   border-radius: 0.5rem;
   margin: 1rem 0;
   position: relative;
@@ -40,7 +40,7 @@ export default {
 
 .label {
   margin-left: 1rem;
-  background-color: #adb5bd;
+  background-color: #0D0D0D;
   font-size: 0.6rem;
   letter-spacing: 1px;
   font-weight: bold;

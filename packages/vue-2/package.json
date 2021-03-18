@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/vue-2",
   "description": "Vue components for tiptap",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -26,6 +26,6 @@
     "vue": "^2.6.12"
   },
   "dependencies": {
-    "prosemirror-view": "^1.17.8"
+    "prosemirror-view": "^1.18.1"
   }
 }

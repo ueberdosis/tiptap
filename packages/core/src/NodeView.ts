@@ -88,9 +88,16 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     const target = (event.target as HTMLElement)
     const isInElement = this.dom.contains(target) && !this.contentDOM?.contains(target)
 
-    // ignore all events from child nodes
+    // any event from child nodes should be handled by ProseMirror
     if (!isInElement) {
       return false
+    }
+
+    const isInput = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(target.tagName)
+
+    // any input event within node views should be ignored by ProseMirror
+    if (isInput) {
+      return true
     }
 
     const { isEditable } = this.editor
@@ -123,7 +130,12 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
 
       if (isValidDragHandle) {
         this.isDragging = true
+
         document.addEventListener('dragend', () => {
+          this.isDragging = false
+        }, { once: true })
+
+        document.addEventListener('mouseup', () => {
           this.isDragging = false
         }, { once: true })
       }

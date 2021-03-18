@@ -2,7 +2,8 @@ import React from 'react'
 import { useReactNodeView } from './useReactNodeView'
 
 export interface NodeViewWrapperProps {
-  as: React.ElementType
+  className?: string,
+  as: React.ElementType,
 }
 
 export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = props => {
@@ -11,6 +12,7 @@ export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = props => {
 
   return (
     <Tag
+      className={props.className}
       data-node-view-wrapper=""
       onDragStart={onDragStart}
       style={{ whiteSpace: 'normal' }}

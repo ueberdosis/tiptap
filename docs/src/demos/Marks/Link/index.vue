@@ -61,15 +61,17 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 /* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
-  }
+::v-deep {
+  .ProseMirror {
+    > * + * {
+      margin-top: 0.75em;
+    }
 
-  a {
-    color: #68CEF8;
+    a {
+      color: #68CEF8;
+    }
   }
 }
 </style>

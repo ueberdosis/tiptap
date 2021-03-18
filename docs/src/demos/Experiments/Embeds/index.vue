@@ -53,10 +53,12 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+<style lang="scss" scoped>
+::v-deep {
+  .ProseMirror {
+    > * + * {
+      margin-top: 0.75em;
+    }
   }
 
   .iframe-wrapper {

@@ -63,34 +63,36 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
-  }
-
-  details,
-  [data-type="details"] {
-    display: flex;
-
-    [data-type="detailsContent"] > *:not(summary) {
-      display: none;
+<style lang="scss" scoped>
+::v-deep {
+  .ProseMirror {
+    > * + * {
+      margin-top: 0.75em;
     }
 
-    [data-type="detailsToggle"]::before {
-      cursor: pointer;
-      content: '▸';
-      display: inline-block;
-      width: 1em;
-    }
+    details,
+    [data-type="details"] {
+      display: flex;
 
-    &[open] {
       [data-type="detailsContent"] > *:not(summary) {
-        display: inherit;
+        display: none;
       }
 
       [data-type="detailsToggle"]::before {
-        content: '▾';
+        cursor: pointer;
+        content: '▸';
+        display: inline-block;
+        width: 1em;
+      }
+
+      &[open] {
+        [data-type="detailsContent"] > *:not(summary) {
+          display: inherit;
+        }
+
+        [data-type="detailsToggle"]::before {
+          content: '▾';
+        }
       }
     }
   }

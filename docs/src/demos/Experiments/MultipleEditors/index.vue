@@ -143,67 +143,69 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
-  }
+<style lang="scss" scoped>
+::v-deep {
+  .ProseMirror {
+    > * + * {
+      margin-top: 0.75em;
+    }
 
-  ul[data-type="taskList"] {
-    list-style: none;
-    padding: 0;
+    ul[data-type="taskList"] {
+      list-style: none;
+      padding: 0;
 
-    li {
-      display: flex;
-      align-items: center;
+      li {
+        display: flex;
+        align-items: center;
 
-      > input {
-        flex: 0 0 auto;
-        margin-right: 0.5rem;
+        > input {
+          flex: 0 0 auto;
+          margin-right: 0.5rem;
+        }
       }
     }
   }
-}
 
-.form__label {
-  color: #868e96;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 0.7rem;
-  letter-spacing: 1px;
-}
-
-.form__item {
-  margin: 0 0 1rem;
-  padding: 0.75rem 1rem;
-  border-radius: 5px;
-  border: 1px solid #e9ecef;
-  transition: .1s all ease-in-out;
-
-  &:hover {
-    border-color: #68CEF8;
+  .form__label {
+    color: #868e96;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
   }
 
-  &--title {
-    font-size: 1.5rem;
+  .form__item {
+    margin: 0 0 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    border: 1px solid #e9ecef;
+    transition: .1s all ease-in-out;
+
+    &:hover {
+      border-color: #68CEF8;
+    }
+
+    &--title {
+      font-size: 1.5rem;
+    }
+
+    &--json {
+      background: #0D0D0D;
+      color: #FFF;
+      font-size: 0.8rem;
+    }
   }
 
-  &--json {
-    background: #0D0D0D;
-    color: #FFF;
-    font-size: 0.8rem;
-  }
-}
+  pre {
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
 
-pre {
-  font-family: 'JetBrainsMono', monospace;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-
-  code {
-    color: inherit;
-    background: none;
-    font-size: 0.8rem;
+    code {
+      color: inherit;
+      background: none;
+      font-size: 0.8rem;
+    }
   }
 }
 </style>
