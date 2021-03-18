@@ -40,7 +40,7 @@ To actually start using tiptap, you’ll need to add a new component to your app
 
 This is the fastest way to get tiptap up and running with Vue. It will give you a very basic version of tiptap, without any buttons. No worries, you will be able to add more functionality soon.
 
-```js
+```jsx
 import { useEditor, EditorContent } from '@tiptap/react'
 import { defaultExtensions } from '@tiptap/starter-kit'
 
@@ -61,7 +61,7 @@ export default Tiptap
 ## 4. Add it to your app
 Now, let’s replace the content of `src/App.js` with the following example code to use our new `Tiptap` component in our app.
 
-```js
+```jsx
 import Tiptap from './Tiptap.jsx'
 
 const App = () => {
