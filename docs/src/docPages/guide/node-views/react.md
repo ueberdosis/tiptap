@@ -4,3 +4,5 @@
 
 ## Introduction
 TODO
+
+<demo name="Guide/NodeViews/ReactComponent" />
