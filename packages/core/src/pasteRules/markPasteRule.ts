@@ -16,7 +16,7 @@ export default function (regexp: RegExp, type: MarkType, getAttrs?: (match: any)
           const outerMatch = Math.max(match.length - 2, 0)
           const innerMatch = Math.max(match.length - 1, 0)
 
-          if (parent.type.allowsMarkType(type)) {
+          if (parent?.type.allowsMarkType(type)) {
             const start = match.index
             const matchStart = start + match[0].indexOf(match[outerMatch])
             const matchEnd = matchStart + match[outerMatch].length
