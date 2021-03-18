@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-mention",
   "description": "mention extension for tiptap",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -25,6 +25,6 @@
     "@tiptap/core": "^2.0.0-beta.1"
   },
   "dependencies": {
-    "@tiptap/suggestion": "^2.0.0-beta.4"
+    "@tiptap/suggestion": "^2.0.0-beta.5"
   }
 }
