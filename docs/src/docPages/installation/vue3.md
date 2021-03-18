@@ -13,7 +13,7 @@ The following guide describes how to integrate tiptap with your [Vue](https://vu
 ## 1. Create a project (optional)
 If you already have an existing Vue project, that’s fine too. Just skip this step and proceed with the next step.
 
-For the sake of this guide, let’s start with a fresh Vue project called `tiptap-example`. The Vue CLI sets up everything we need, just select the default Vue 2 template.
+For the sake of this guide, let’s start with a fresh Vue project called `tiptap-example`. The Vue CLI sets up everything we need, just select the Vue 3 template.
 
 ```bash
 # create a project
@@ -34,7 +34,7 @@ npm install @tiptap/vue-3 @tiptap/starter-kit
 yarn add @tiptap/vue-3 @tiptap/starter-kit
 ```
 
-If you followed step 1 and 2, you can now start your project with `npm run dev` or `yarn dev`, and open [http://localhost:8080/](http://localhost:3000/) in your favorite browser. This might be different, if you’re working with an existing project.
+If you followed step 1 and 2, you can now start your project with `npm run dev` or `yarn dev`, and open [http://localhost:8080](http://localhost:8080) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Create a new component
 To actually start using tiptap, you’ll need to add a new component to your app. Let’s call it `Tiptap` and put the following example code in `components/Tiptap.vue`.
@@ -125,7 +125,7 @@ export default {
 </script>
 ```
 
-You should now see tiptap in your browser. You’ve successfully set up tiptap! Time to give yourself a pat on the back. Let’s start to configure your editor in the next step.
+You should now see tiptap in your browser. You’ve successfully set up tiptap! Time to give yourself a pat on the back.
 
 ## 5. Use v-model (optional)
 You’re probably used to bind your data with `v-model` in forms, that’s also possible with tiptap. Here is how that would work with tiptap:
@@ -185,3 +185,4 @@ export default {
   },
 }
 </script>
+```

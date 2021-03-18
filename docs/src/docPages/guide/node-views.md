@@ -39,9 +39,9 @@ That’s how you could render mentions, which shouldn’t be editable. Users can
 Statamic uses those for their Bard editor, which renders complex modules inside tiptap, which can have their own text inputs.
 
 ### Mixed content
-You can even mix non-editable and editable text. That’s great to build complex things, and even use marks like bold and italic inside the editable content.
+You can even mix non-editable and editable text. That’s great to build complex things, and still use marks like bold and italic inside the editable content.
 
-**BUT**, if there are other elements with non-editable text in your node view, the cursor can jump there. You can improve that with manually adding `contenteditable` attributes to the specific parts of your node view.
+**BUT**, if there are other elements with non-editable text in your node view, the cursor can jump there. You can improve that with manually adding `contenteditable="false"` to the specific parts of your node view.
 
 ```html
 <div class="Prosemirror" contenteditable="true">
@@ -60,14 +60,16 @@ You can even mix non-editable and editable text. That’s great to build complex
 
 **BUT**, that also means the cursor can’t just move from outside of the node view to the inside. Users have to manually place their cursor to edit the content inside the node view. Just so you know.
 
-## Render as HTML
+## Markup
+
+### Render HTML
 ```js
 renderHTML({ HTMLAttributes }) {
   return ['vue-component', mergeAttributes(HTMLAttributes)]
 },
 ```
 
-## Restore from HTML
+### Parse HTML
 ```js
 parseHTML() {
   return [{

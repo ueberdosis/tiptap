@@ -8,7 +8,7 @@
           skip: true
         - title: React
           link: /installation/react
-          type: draft
+          type: new
           skip: true
         - title: Vue 3
           link: /installation/vue3
