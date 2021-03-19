@@ -22,9 +22,6 @@
             <!-- eslint-disable-next-line -->
             <prism :language="activeFile.highlight" :highlight="highlight">{{ activeFile.content }}</prism>
           </div>
-          <button class="demo__copy" @click="copy">
-            Copy
-          </button>
         </div>
         <div class="demo__meta">
           <div class="demo__name">
@@ -43,7 +40,6 @@
 </template>
 
 <script>
-import copy from 'copy-to-clipboard'
 import Prism from '~/components/Prism'
 import DemoFrame from '~/components/DemoFrame'
 import DemoMixin from '~/components/DemoMixin'
@@ -77,12 +73,6 @@ export default {
       }
 
       return `https://github.com/ueberdosis/tiptap-next/tree/main/docs/src/demos/${this.name}`
-    },
-  },
-
-  methods: {
-    copy() {
-      copy(this.activeFile.content)
     },
   },
 }
