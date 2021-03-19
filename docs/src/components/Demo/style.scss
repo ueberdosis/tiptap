@@ -18,33 +18,42 @@
     background-color: $colorBlack;
   }
 
-  &__tabs {
-    padding: 0.5rem 1.25rem 0 1.25rem;
-    background-color: rgba($colorBlack, 0.9);
-    white-space: nowrap;
+  &__scroller {
+    display: flex;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 
+  &__tabs {
+    display: flex;
+    flex: 1 1 auto;
+    padding: 0 1.25rem 0 1.25rem;
+    border-bottom: 2px solid rgba($colorWhite, 0.1);
+  }
+
   &__tab {
+    position: relative;
     display: inline-flex;
     position: relative;
     background-color: transparent;
     color: rgba($colorWhite, 0.7);
-    padding: 0.1rem 0.5rem;
-    border-radius: 5px;
-    font-weight: 500;
+    padding: 0.3rem 0 calc(0.3rem + 2px) 0;
+    font: inherit;
+    font-family: "JetBrainsMono", monospace;
+    font-size: 0.85rem;
     border: none;
-    margin-right: 0.5rem;
-
-    &:first-child {
-      margin-left: -0.5rem;
-    }
+    margin-right: 1rem;
+    margin-bottom: -2px;
+    border-bottom: 2px solid transparent;
 
     &.is-active,
     &:hover {
       color: $colorWhite;
-      background-color: rgba($colorWhite, 0.1);
+    }
+
+    &.is-active {
+      font-weight: 700;
+      border-bottom-color: $colorWhite
     }
   }
 
