@@ -14863,6 +14863,11 @@ vue-meta@^2.2.2:
   dependencies:
     deepmerge "^4.2.2"
 
+vue-observe-visibility@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-1.0.0.tgz#17cf1b2caf74022f0f3c95371468ddf2b9573152"
+  integrity sha512-s5TFh3s3h3Mhd3jaz3zGzkVHKHnc/0C/gNr30olO99+yw2hl3WBhK3ng3/f9OF+qkW4+l7GkmwfAzDAcY3lCFg==
+
 vue-router@^3.1.3:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.1.tgz#edf3cf4907952d1e0583e079237220c5ff6eb6c9"

@@ -1,5 +1,12 @@
 <template>
-  <div class="demo-frame" :class="{ 'is-inline': inline, 'is-loading': isLoading }">
+  <div
+    class="demo-frame"
+    :class="{ 'is-inline': inline, 'is-loading': isLoading }"
+    v-observe-visibility="{
+      callback: visibilityChanged,
+      once: true,
+    }"
+  >
     <div class="demo-frame__loader-wrapper" v-if="isLoading">
       <div class="demo-frame__loader" />
     </div>
@@ -11,11 +18,14 @@
       height="0"
       frameborder="0"
       @load="onLoad"
+      v-if="isVisible"
     />
   </div>
 </template>
 
 <script>
+import { ObserveVisibility } from 'vue-observe-visibility'
+
 export default {
   props: {
     name: {
@@ -39,9 +49,14 @@ export default {
     },
   },
 
+  directives: {
+    ObserveVisibility,
+  },
+
   data() {
     return {
       isLoading: true,
+      isVisible: false,
     }
   },
 
@@ -54,6 +69,10 @@ export default {
   methods: {
     onLoad() {
       this.isLoading = false
+    },
+
+    visibilityChanged(isVisible) {
+      this.isVisible = isVisible
     },
   },
 }
