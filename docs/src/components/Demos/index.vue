@@ -63,6 +63,7 @@ export default {
     border: none;
     background: none;
     padding: 0.3rem 1.25rem;
+    margin-bottom: -1px;
     font: inherit;
     font-weight: 700;
     font-size: 0.75rem;
