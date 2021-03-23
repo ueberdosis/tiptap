@@ -21,6 +21,7 @@ export default {
 
 <style lang="scss" scoped>
 .vue-component {
+  background: #FAF594;
   border: 3px solid #0D0D0D;
   border-radius: 0.5rem;
   margin: 1rem 0;

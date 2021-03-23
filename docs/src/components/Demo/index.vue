@@ -5,16 +5,18 @@
       <template v-if="mainFile">
         <demo-frame class="demo__preview" v-bind="props" />
         <div class="demo__source" v-if="showSource">
-          <div class="demo__tabs" v-if="showFileNames">
-            <button
-              class="demo__tab"
-              :class="{ 'is-active': currentIndex === index}"
-              v-for="(file, index) in files"
-              :key="index"
-              @click="currentIndex = index"
-            >
-              {{ file.name }}
-            </button>
+          <div class="demo__scroller" v-if="showFileNames">
+            <div class="demo__tabs">
+              <button
+                class="demo__tab"
+                :class="{ 'is-active': currentIndex === index}"
+                v-for="(file, index) in files"
+                :key="index"
+                @click="currentIndex = index"
+              >
+                {{ file.name }}
+              </button>
+            </div>
           </div>
           <div class="demo__code" v-if="activeFile" :key="activeFile.path">
             <!-- eslint-disable-next-line -->

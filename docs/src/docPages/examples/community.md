@@ -1,7 +1,6 @@
 # Suggestions
 
-## Vue
-<demo name="Examples/Community/Vue" />
-
-## React
-<demo name="Examples/Community/React" />
+<demos :items="{
+  Vue: 'Examples/Community/Vue',
+  React: 'Examples/Community/React',
+}" />

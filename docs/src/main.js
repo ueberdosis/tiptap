@@ -51,4 +51,5 @@ export default function (Vue) {
 
   Vue.component('Layout', App)
   Vue.component('Demo', () => import(/* webpackChunkName: "demo" */ '~/components/Demo'))
+  Vue.component('Demos', () => import(/* webpackChunkName: "demos" */ '~/components/Demos'))
 }
