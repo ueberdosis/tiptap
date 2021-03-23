@@ -56,7 +56,7 @@ new Editor({
 })
 ```
 
-### Configure an extensions
+### Configure extensions
 Most extensions can be configured. Add a `.configure()` to pass an object to it. The following example will disable the default heading levels 4, 5 and 6:
 
 ```js
