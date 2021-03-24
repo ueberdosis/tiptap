@@ -28,8 +28,8 @@ This extension requires the [`TaskItem`](/api/nodes/task-item) extension.
 | taskList | —          | Toggle a task list. |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`L`
-* macOS: `Cmd`&nbsp;`Shift`&nbsp;`L`
+* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`9`
+* macOS: `Cmd`&nbsp;`Shift`&nbsp;`9`
 
 ## Source code
 [packages/extension-task-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-list/)

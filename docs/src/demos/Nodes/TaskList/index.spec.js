@@ -63,7 +63,7 @@ context('/demos/Nodes/TaskList', () => {
 
   it('should make the paragraph a task list when the keyboard shortcut is pressed', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', { modKey: true, shiftKey: true, key: 'l' })
+      .trigger('keydown', { modKey: true, shiftKey: true, key: '9' })
       .find('ul li')
       .should('contain', 'Example Text')
   })
