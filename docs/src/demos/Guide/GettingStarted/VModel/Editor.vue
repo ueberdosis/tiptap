@@ -40,10 +40,9 @@ export default {
     this.editor = new Editor({
       extensions: defaultExtensions(),
       content: this.value,
-    })
-
-    this.editor.on('update', () => {
-      this.$emit('input', this.editor.getHTML())
+      onUpdate: () => {
+        this.$emit('input', this.editor.getHTML())
+      },
     })
   },
 
