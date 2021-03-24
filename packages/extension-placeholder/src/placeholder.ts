@@ -10,10 +10,10 @@ export interface PlaceholderOptions {
   showOnlyCurrent: boolean,
 }
 
-export default Extension.create({
+export const Placeholder = Extension.create<PlaceholderOptions>({
   name: 'placeholder',
 
-  defaultOptions: <PlaceholderOptions>{
+  defaultOptions: {
     emptyEditorClass: 'is-editor-empty',
     emptyNodeClass: 'is-empty',
     placeholder: 'Write something …',
@@ -47,7 +47,7 @@ export default Extension.create({
 
                 const decoration = Decoration.node(pos, pos + node.nodeSize, {
                   class: classes.join(' '),
-                  'data-empty-text': typeof this.options.placeholder === 'function'
+                  'data-placeholder': typeof this.options.placeholder === 'function'
                     ? this.options.placeholder(node)
                     : this.options.placeholder,
                 })

@@ -213,6 +213,8 @@
           link: /api/extensions/gapcursor
         - title: History
           link: /api/extensions/history
+        - title: Placeholder
+          link: /api/extensions/placeholder
         - title: TextAlign
           link: /api/extensions/text-align
         - title: Typography
