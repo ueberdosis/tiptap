@@ -7,6 +7,7 @@ import getMarkAttributes from './helpers/getMarkAttributes'
 import isActive from './helpers/isActive'
 import removeElement from './utilities/removeElement'
 import getHTMLFromFragment from './helpers/getHTMLFromFragment'
+import isNodeEmpty from './helpers/isNodeEmpty'
 import createStyleTag from './utilities/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
@@ -415,11 +416,8 @@ export class Editor extends EventEmitter {
   /**
    * Check if there is no content.
    */
-  public isEmpty(): boolean {
-    const defaultContent = this.state.doc.type.createAndFill()?.toJSON()
-    const content = this.getJSON()
-
-    return JSON.stringify(defaultContent) === JSON.stringify(content)
+  public get isEmpty(): boolean {
+    return isNodeEmpty(this.state.doc)
   }
 
   /**
