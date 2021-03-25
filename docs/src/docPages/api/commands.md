@@ -186,7 +186,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .selectNodeForward()  | Select a node forward.                  |
 | .selectParentNode()   | Select the parent node.                 |
 
-## Example use cases
+<!-- ## Example use cases
 
 ### Quote a text
 TODO
@@ -207,7 +207,7 @@ this.editor
   .createParagraphNear()
   .insertHTML('<p></p>')
   .run()
-```
+``` -->
 
 ## Add your own commands
 All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those.

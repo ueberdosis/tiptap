@@ -14,10 +14,10 @@ An interface needs to have well-defined contrasts, big enough click areas, seman
 
 But no worries, we’ll provide an interface soon and take accessibility into account early on.
 
-## Editor
+## Output
 The editor needs to produce semantic markup, must be keyboard accessible and well documented. The tiptap content is well structured so that’s a good foundation already. That said, we can add support and encourage the usage of additional attributes, for example the Alt-attribute for images.
 
-## Writing assistance (optional)
+### Writing assistance (optional)
 An optional writing assitance could help people writing content semanticly correct, for example pointing out an incorrect usage of heading levels. With that kind of assistance provided by the core developers, we could help to improve the content of a lot of applications.
 
 ## Resources
