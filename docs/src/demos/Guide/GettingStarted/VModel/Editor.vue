@@ -26,7 +26,11 @@ export default {
 
   watch: {
     value(value) {
+      // HTML
       const isSame = this.editor.getHTML() === value
+
+      // JSON
+      // const isSame = this.editor.getJSON().toString() === value.toString()
 
       if (isSame) {
         return
@@ -41,7 +45,11 @@ export default {
       extensions: defaultExtensions(),
       content: this.value,
       onUpdate: () => {
+        // HTML
         this.$emit('input', this.editor.getHTML())
+
+        // JSON
+        // this.$emit('input', this.editor.getJSON())
       },
     })
   },
