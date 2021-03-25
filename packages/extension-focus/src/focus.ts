@@ -31,13 +31,15 @@ export const FocusClasses = Extension.create<FocusOptions>({
 
             // Maximum Levels
             let maxLevels = 0
+
             if (this.options.mode === 'deepest') {
               doc.descendants((node, pos) => {
                 if (node.isText) {
                   return
                 }
 
-                const isCurrent = anchor >= pos && anchor <= (pos + node.nodeSize)
+                const isCurrent = anchor >= pos && anchor <= (pos + node.nodeSize - 1)
+
                 if (!isCurrent) {
                   return false
                 }
@@ -48,12 +50,14 @@ export const FocusClasses = Extension.create<FocusOptions>({
 
             // Loop through current
             let currentLevel = 0
+
             doc.descendants((node, pos) => {
               if (node.isText) {
                 return false
               }
 
-              const isCurrent = anchor >= pos && anchor <= (pos + node.nodeSize)
+              const isCurrent = anchor >= pos && anchor <= (pos + node.nodeSize - 1)
+
               if (!isCurrent) {
                 return false
               }
@@ -61,7 +65,7 @@ export const FocusClasses = Extension.create<FocusOptions>({
               currentLevel += 1
 
               const outOfScope = (this.options.mode === 'deepest' && maxLevels - currentLevel > 0)
-                  || (this.options.mode === 'shallowest' && currentLevel > 1)
+                || (this.options.mode === 'shallowest' && currentLevel > 1)
 
               if (outOfScope) {
                 return this.options.mode === 'deepest'
