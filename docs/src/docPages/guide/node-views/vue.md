@@ -105,6 +105,7 @@ export default {
     NodeViewContent,
   },
 }
+</script>
 ```
 
 You don’t need to add those `class` attributes, feel free to remove them or pass other class names. Try it out in the following example:

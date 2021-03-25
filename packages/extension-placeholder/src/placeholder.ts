@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension, isNodeEmpty } from '@tiptap/core'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 
@@ -10,10 +10,10 @@ export interface PlaceholderOptions {
   showOnlyCurrent: boolean,
 }
 
-export default Extension.create({
+export const Placeholder = Extension.create<PlaceholderOptions>({
   name: 'placeholder',
 
-  defaultOptions: <PlaceholderOptions>{
+  defaultOptions: {
     emptyEditorClass: 'is-editor-empty',
     emptyNodeClass: 'is-empty',
     placeholder: 'Write something …',
@@ -29,7 +29,6 @@ export default Extension.create({
             const active = this.editor.isEditable || !this.options.showOnlyWhenEditable
             const { anchor } = selection
             const decorations: Decoration[] = []
-            const isEditorEmpty = doc.textContent.length === 0
 
             if (!active) {
               return
@@ -37,22 +36,22 @@ export default Extension.create({
 
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
-              // TODO: should be false for image nodes (without text content), is true though
-              const isNodeEmpty = node.content.size === 0
+              const isEmpty = !node.isLeaf && isNodeEmpty(node)
 
-              if ((hasAnchor || !this.options.showOnlyCurrent) && isNodeEmpty) {
+              if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const classes = [this.options.emptyNodeClass]
 
-                if (isEditorEmpty) {
+                if (this.editor.isEmpty) {
                   classes.push(this.options.emptyEditorClass)
                 }
 
                 const decoration = Decoration.node(pos, pos + node.nodeSize, {
                   class: classes.join(' '),
-                  'data-empty-text': typeof this.options.placeholder === 'function'
+                  'data-placeholder': typeof this.options.placeholder === 'function'
                     ? this.options.placeholder(node)
                     : this.options.placeholder,
                 })
+
                 decorations.push(decoration)
               }
 

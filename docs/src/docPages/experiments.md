@@ -8,6 +8,3 @@ Congratulations! You’ve found our playground with a list of experiments. Be aw
 * [@tiptap/extension-iframe?](/experiments/embeds)
 * [@tiptap/extension-toggle-list?](/experiments/details)
 * [@tiptap/extension-collaboration-annotation](/experiments/collaboration-annotation)
-
-## Waiting for approval
-* [@tiptap/extension-placeholder](/experiments/placeholder)

@@ -4,10 +4,8 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Placeholder from './extension/placeholder'
+import { defaultExtensions } from '@tiptap/starter-kit'
+import Placeholder from '@tiptap/extension-placeholder'
 
 export default {
   components: {
@@ -23,9 +21,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document,
-        Paragraph,
-        Text,
+        ...defaultExtensions(),
         Placeholder,
       ],
     })
@@ -48,7 +44,7 @@ export default {
 
   /* Placeholder */
   .ProseMirror p.is-editor-empty:first-child::before {
-    content: attr(data-empty-text);
+    content: attr(data-placeholder);
     float: left;
     color: #ced4da;
     pointer-events: none;

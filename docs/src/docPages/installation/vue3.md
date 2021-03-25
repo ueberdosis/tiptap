@@ -173,10 +173,9 @@ export default {
     this.editor = new Editor({
       content: this.modelValue,
       extensions: defaultExtensions(),
-    })
-
-    this.editor.on('update', () => {
-      this.$emit('update:modelValue', this.editor.getHTML())
+      onUpdate: () => {
+        this.$emit('update:modelValue', this.editor.getHTML())
+      },
     })
   },
 
