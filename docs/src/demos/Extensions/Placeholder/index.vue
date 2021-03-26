@@ -42,7 +42,7 @@ export default {
     }
   }
 
-  /* Placeholder */
+  /* Placeholder (at the top) */
   .ProseMirror p.is-editor-empty:first-child::before {
     content: attr(data-placeholder);
     float: left;
@@ -50,5 +50,16 @@ export default {
     pointer-events: none;
     height: 0;
   }
+
+  /* Placeholder (on every new line) */
+  /*
+  .ProseMirror p.is-editor-empty::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #ced4da;
+    pointer-events: none;
+    height: 0;
+  }
+  */
 }
 </style>
