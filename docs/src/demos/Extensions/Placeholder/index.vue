@@ -52,14 +52,12 @@ export default {
   }
 
   /* Placeholder (on every new line) */
-  /*
-  .ProseMirror p.is-editor-empty::before {
-    content: attr(data-placeholder);
-    float: left;
-    color: #ced4da;
-    pointer-events: none;
-    height: 0;
-  }
-  */
+  // .ProseMirror p.is-empty::before {
+  //   content: attr(data-placeholder);
+  //   float: left;
+  //   color: #ced4da;
+  //   pointer-events: none;
+  //   height: 0;
+  // }
 }
 </style>
