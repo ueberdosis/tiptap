@@ -4,6 +4,7 @@ Congratulations! You’ve found our playground with a list of experiments. Be aw
 ## New
 * [Linter](/experiments/linter)
 * [Multiple editors](/experiments/multiple-editors)
+* [Global drag handle](/experiments/global-drag-handle)
 * [@tiptap/extension-slash-command?](/experiments/commands)
 * [@tiptap/extension-iframe?](/experiments/embeds)
 * [@tiptap/extension-toggle-list?](/experiments/details)
