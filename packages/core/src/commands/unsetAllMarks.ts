@@ -13,7 +13,7 @@ declare module '@tiptap/core' {
 
 export const unsetAllMarks: RawCommands['unsetAllMarks'] = () => ({ tr, state, dispatch }) => {
   const { selection } = tr
-  const { from, to, empty } = selection
+  const { empty, ranges } = selection
 
   if (empty) {
     return true
@@ -23,7 +23,9 @@ export const unsetAllMarks: RawCommands['unsetAllMarks'] = () => ({ tr, state, d
     Object
       .entries(state.schema.marks)
       .forEach(([, mark]) => {
-        tr.removeMark(from, to, mark as any)
+        ranges.forEach(range => {
+          tr.removeMark(range.$from.pos, range.$to.pos, mark as any)
+        })
       })
   }
 
