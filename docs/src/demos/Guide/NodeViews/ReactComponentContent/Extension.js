@@ -9,14 +9,6 @@ export default Node.create({
 
   content: 'inline*',
 
-  addAttributes() {
-    return {
-      count: {
-        default: 0,
-      },
-    }
-  },
-
   parseHTML() {
     return [
       {
