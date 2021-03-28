@@ -17,20 +17,25 @@ declare module '@tiptap/core' {
 export const unsetMark: RawCommands['unsetMark'] = typeOrName => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const type = getMarkType(typeOrName, state.schema)
-  let { from, to } = selection
-  const { $from, empty } = selection
-
-  if (empty) {
-    const range = getMarkRange($from, type)
-
-    if (range) {
-      from = range.from
-      to = range.to
-    }
-  }
+  const { $from, empty, ranges } = selection
 
   if (dispatch) {
-    tr.removeMark(from, to, type)
+    if (empty) {
+      let { from, to } = selection
+      const range = getMarkRange($from, type)
+
+      if (range) {
+        from = range.from
+        to = range.to
+      }
+
+      tr.removeMark(from, to, type)
+    } else {
+      ranges.forEach(range => {
+        tr.removeMark(range.$from.pos, range.$to.pos, type)
+      })
+    }
+
     tr.removeStoredMark(type)
   }
 
