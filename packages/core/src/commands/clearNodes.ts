@@ -14,26 +14,28 @@ declare module '@tiptap/core' {
 
 export const clearNodes: RawCommands['clearNodes'] = () => ({ state, tr, dispatch }) => {
   const { selection } = tr
-  const { from, to } = selection
+  const { ranges } = selection
 
-  state.doc.nodesBetween(from, to, (node, pos) => {
-    if (!node.type.isText) {
-      const fromPos = tr.doc.resolve(tr.mapping.map(pos + 1))
-      const toPos = tr.doc.resolve(tr.mapping.map(pos + node.nodeSize - 1))
-      const nodeRange = fromPos.blockRange(toPos)
+  ranges.forEach(range => {
+    state.doc.nodesBetween(range.$from.pos, range.$to.pos, (node, pos) => {
+      if (!node.type.isText) {
+        const fromPos = tr.doc.resolve(tr.mapping.map(pos + 1))
+        const toPos = tr.doc.resolve(tr.mapping.map(pos + node.nodeSize - 1))
+        const nodeRange = fromPos.blockRange(toPos)
 
-      if (nodeRange) {
-        const targetLiftDepth = liftTarget(nodeRange)
+        if (nodeRange) {
+          const targetLiftDepth = liftTarget(nodeRange)
 
-        if (node.type.isTextblock && dispatch) {
-          tr.setNodeMarkup(nodeRange.start, state.doc.type.contentMatch.defaultType)
-        }
+          if (node.type.isTextblock && dispatch) {
+            tr.setNodeMarkup(nodeRange.start, state.doc.type.contentMatch.defaultType)
+          }
 
-        if ((targetLiftDepth || targetLiftDepth === 0) && dispatch) {
-          tr.lift(nodeRange, targetLiftDepth)
+          if ((targetLiftDepth || targetLiftDepth === 0) && dispatch) {
+            tr.lift(nodeRange, targetLiftDepth)
+          }
         }
       }
-    }
+    })
   })
 
   return true

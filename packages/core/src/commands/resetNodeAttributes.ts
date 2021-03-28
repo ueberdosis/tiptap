@@ -17,12 +17,14 @@ declare module '@tiptap/core' {
 export const resetNodeAttributes: RawCommands['resetNodeAttributes'] = (typeOrName, attributes) => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { selection } = tr
-  const { from, to } = selection
+  const { ranges } = selection
 
-  state.doc.nodesBetween(from, to, (node, pos) => {
-    if (node.type === type && dispatch) {
-      tr.setNodeMarkup(pos, undefined, deleteProps(node.attrs, attributes))
-    }
+  ranges.forEach(range => {
+    state.doc.nodesBetween(range.$from.pos, range.$to.pos, (node, pos) => {
+      if (node.type === type && dispatch) {
+        tr.setNodeMarkup(pos, undefined, deleteProps(node.attrs, attributes))
+      }
+    })
   })
 
   return true
