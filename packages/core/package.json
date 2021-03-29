@@ -27,7 +27,7 @@
     "@types/prosemirror-commands": "^1.0.4",
     "@types/prosemirror-inputrules": "^1.0.4",
     "@types/prosemirror-keymap": "^1.0.4",
-    "@types/prosemirror-model": "^1.11.3",
+    "@types/prosemirror-model": "^1.13.0",
     "@types/prosemirror-schema-list": "^1.0.3",
     "@types/prosemirror-state": "^1.2.6",
     "@types/prosemirror-transform": "^1.1.2",
@@ -39,6 +39,6 @@
     "prosemirror-schema-list": "^1.1.4",
     "prosemirror-state": "^1.3.4",
     "prosemirror-transform": "^1.2.12",
-    "prosemirror-view": "^1.18.1"
+    "prosemirror-view": "^1.18.2"
   }
 }
