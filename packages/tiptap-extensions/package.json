@@ -1,6 +1,6 @@
 {
   "name": "tiptap-extensions",
-  "version": "1.35.1",
+  "version": "1.35.2",
   "description": "Extensions for tiptap",
   "homepage": "https://tiptap.dev",
   "license": "MIT",
@@ -29,7 +29,7 @@
     "prosemirror-tables": "^1.1.1",
     "prosemirror-transform": "^1.2.8",
     "prosemirror-view": "^1.16.5",
-    "tiptap": "^1.32.1",
+    "tiptap": "^1.32.2",
     "tiptap-commands": "^1.17.1",
     "tiptap-utils": "^1.13.1"
   },
