@@ -56,6 +56,11 @@ export default Extension.create({
         view.dispatch(view.state.tr.setSelection(NodeSelection.create(view.state.doc, pos)))
 
         const slice = view.state.selection.content()
+
+        // console.log({
+        //   from: view.nodeDOM(view.state.selection.from),
+        //   to: view.nodeDOM(view.state.selection.to),
+        // })
         const { dom, text } = serializeForClipboard(view, slice)
 
         e.dataTransfer.clearData()
