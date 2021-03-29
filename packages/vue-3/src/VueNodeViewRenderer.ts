@@ -81,7 +81,7 @@ class VueNodeView extends NodeView<Component, Editor> {
         provide('onDragStart', onDragStart)
         provide('isEditable', isEditable)
 
-        return (this.component as any).setup?.()
+        return (this.component as any).setup?.(props)
       },
     })
 
