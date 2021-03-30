@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: relative">
     <div ref="menu">
       menu
     </div>
