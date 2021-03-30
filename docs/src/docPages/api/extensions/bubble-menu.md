@@ -35,5 +35,8 @@ new Editor({
 })
 ```
 
-## Vue
-<demo name="Extensions/BubbleMenu" />
+## Using a framework
+<demos :items="{
+  Vue: 'Extensions/BubbleMenu/Vue',
+  React: 'Extensions/BubbleMenu/React',
+}" />
