@@ -43,7 +43,7 @@ export default {
         </p>
         <p></p>
         <p>
-          Or teach the editor new things. We added a custom extension to this example that replaces smilies like <code>:-)</code>, <code><3</code> or <code>>:P</code> with emojis. Try it out:
+          Or add completely custom input rules. We added a custom extension here that replaces smilies like <code>:-)</code>, <code><3</code> or <code>>:P</code> with emojis. Try it out:
         </p>
         <p></p>
         <p>
