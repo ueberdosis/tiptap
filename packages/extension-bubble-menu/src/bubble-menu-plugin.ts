@@ -3,68 +3,67 @@ import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { coordsAtPos } from './helpers'
 
-interface BubbleMenuPluginOptions {
-  editor: Editor;
-  element: HTMLElement;
-  keepInBounds: boolean;
+export interface BubbleMenuPluginOptions {
+  editor: Editor,
+  element: HTMLElement,
+  keepInBounds: boolean,
 }
 
-class BubbleMenuView {
-  public options: BubbleMenuPluginOptions;
+export type BubbleMenuViewOptions = BubbleMenuPluginOptions & {
+  view: EditorView,
+}
 
-  public editorView: EditorView;
+export class BubbleMenuView {
+  public editor: Editor
 
-  public isActive = false;
+  public element: HTMLElement
 
-  public left = 0;
+  public keepInBounds = true
 
-  public bottom = 0;
+  public view: EditorView
 
-  public top = 0;
+  public isActive = false
 
-  public preventHide = false;
+  public left = 0
+
+  public bottom = 0
+
+  public top = 0
+
+  public preventHide = false
 
   constructor({
-    options,
-    editorView,
-  }: {
-    options: BubbleMenuPluginOptions;
-    editorView: EditorView;
-  }) {
-    this.options = {
-      ...{
-        element: null,
-        keepInBounds: true,
-      },
-      ...options,
-    }
-
-    this.editorView = editorView
-
+    editor,
+    element,
+    keepInBounds,
+    view,
+  }: BubbleMenuViewOptions) {
+    this.editor = editor
+    this.element = element
+    this.keepInBounds = keepInBounds
+    this.view = view
+    this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
+    this.editor.on('focus', this.focusHandler)
+    this.editor.on('blur', this.blurHandler)
     this.render()
-    // this.options.element.addEventListener('mousedown', this.mousedownHandler, {
-    //   capture: true,
-    // })
-    // this.options.editor.on('focus', this.focusHandler)
-    // this.options.editor.on('blur', this.blurHandler)
   }
 
-  // mousedownHandler = () => {
-  //   this.preventHide = true
-  // };
+  mousedownHandler = () => {
+    this.preventHide = true
+  }
 
-  // focusHandler = () => {
-  //   this.update(this.options.editor.view)
-  // };
+  focusHandler = () => {
+    this.update(this.editor.view)
+  }
 
-  // blurHandler = ({ event }: { event: FocusEvent }) => {
-  //   if (this.preventHide) {
-  //     this.preventHide = false
-  //     return
-  //   }
+  blurHandler = ({ event }: { event: FocusEvent }) => {
+    if (this.preventHide) {
+      this.preventHide = false
+      return
+    }
 
-  //   this.hide(event)
-  // };
+    this.hide(event)
+  }
 
   update(view: EditorView, oldState?: EditorState) {
     const { state, composing } = view
@@ -86,7 +85,7 @@ class BubbleMenuView {
 
     const start = coordsAtPos(view, from)
     const end = coordsAtPos(view, to, true)
-    const parent = this.options.element.offsetParent
+    const parent = this.element.offsetParent
 
     if (!parent) {
       this.hide()
@@ -95,11 +94,11 @@ class BubbleMenuView {
     }
 
     const parentBox = parent.getBoundingClientRect()
-    const box = this.options.element.getBoundingClientRect()
+    const box = this.element.getBoundingClientRect()
     const left = (start.left + end.left) / 2 - parentBox.left
 
     this.left = Math.round(
-      this.options.keepInBounds
+      this.keepInBounds
         ? Math.min(parentBox.width - box.width / 2, Math.max(left, box.width / 2))
         : left,
     )
@@ -111,7 +110,7 @@ class BubbleMenuView {
   }
 
   render() {
-    Object.assign(this.options.element.style, {
+    Object.assign(this.element.style, {
       position: 'absolute',
       zIndex: 1000,
       visibility: this.isActive ? 'visible' : 'hidden',
@@ -126,8 +125,7 @@ class BubbleMenuView {
   hide(event?: FocusEvent) {
     if (
       event?.relatedTarget
-      && this.options.element.parentNode
-      && this.options.element.parentNode.contains(event.relatedTarget as Node)
+      && this.element.parentNode?.contains(event.relatedTarget as Node)
     ) {
       return
     }
@@ -137,22 +135,15 @@ class BubbleMenuView {
   }
 
   destroy() {
-    // this.options.element.removeEventListener(
-    //   'mousedown',
-    //   this.mousedownHandler,
-    // )
-    // this.options.editor.off('focus', this.focusHandler)
-    // this.options.editor.off('blur', this.blurHandler)
+    this.element.removeEventListener('mousedown', this.mousedownHandler)
+    this.editor.off('focus', this.focusHandler)
+    this.editor.off('blur', this.blurHandler)
   }
 }
 
-const BubbleMenuPlugin = (options: BubbleMenuPluginOptions) => {
+export const BubbleMenuPlugin = (options: BubbleMenuPluginOptions) => {
   return new Plugin({
-    key: new PluginKey('menu_bubble'),
-    view(editorView) {
-      return new BubbleMenuView({ editorView, options })
-    },
+    key: new PluginKey('menuBubble'),
+    view: view => new BubbleMenuView({ view, ...options }),
   })
 }
-
-export { BubbleMenuPlugin }

@@ -1,10 +1,7 @@
 import { Extension } from '@tiptap/core'
-import { BubbleMenuPlugin } from './bubble-menu-plugin'
+import { BubbleMenuPlugin, BubbleMenuPluginOptions } from './bubble-menu-plugin'
 
-export interface BubbleMenuOptions {
-  element: HTMLElement,
-  keepInBounds: boolean,
-}
+export type BubbleMenuOptions = Omit<BubbleMenuPluginOptions, 'editor'>
 
 export const BubbleMenu = Extension.create<BubbleMenuOptions>({
   name: 'bubbleMenu',

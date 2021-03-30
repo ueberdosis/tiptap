@@ -1,7 +1,11 @@
 <template>
   <div style="position: relative">
     <div ref="menu">
-      menu
+      <div v-if="editor">
+        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+          bold
+        </button>
+      </div>
     </div>
     <editor-content :editor="editor" />
   </div>
@@ -9,9 +13,7 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { defaultExtensions } from '@tiptap/starter-kit'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
 
 export default {
@@ -28,9 +30,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        Document,
-        Paragraph,
-        Text,
+        ...defaultExtensions(),
         BubbleMenu.configure({
           element: this.$refs.menu,
         }),
