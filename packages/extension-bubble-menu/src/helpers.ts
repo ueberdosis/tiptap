@@ -4,11 +4,9 @@ type DOMRectSide = 'bottom' | 'left' | 'right' | 'top';
 
 function textRange(node: Node, from?: number, to?: number) {
   const range = document.createRange()
-  range.setEnd(
-    node,
-    typeof to === 'number' ? to : (node.nodeValue || '').length,
-  )
-  range.setStart(node, from || 0)
+  range.setEnd(node, typeof to === 'number' ? to : (node.nodeValue || '').length)
+  range.setStart(node, Math.max(from || 0, 0))
+
   return range
 }
 
