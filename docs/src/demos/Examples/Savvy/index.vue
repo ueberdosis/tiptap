@@ -10,6 +10,7 @@ import Text from '@tiptap/extension-text'
 import Code from '@tiptap/extension-code'
 import Typography from '@tiptap/extension-typography'
 import { ColorHighlighter } from './ColorHighlighter'
+import { SmilieReplacer } from './SmilieReplacer'
 
 export default {
   components: {
@@ -31,6 +32,7 @@ export default {
         Code,
         Typography,
         ColorHighlighter,
+        SmilieReplacer,
       ],
       content: `
         <p>
@@ -41,8 +43,13 @@ export default {
         </p>
         <p></p>
         <p>
-          Also, you can teach the editor new things. For example to recognize hex colors and add a color swatch on the fly: #FFF, #0D0D0D, #616161, #A975FF, #FB5151, #FD9170, #FFCB6B, #68CEF8, #80cbc4, #9DEF8F
+          Or teach the editor new things. We added a custom extension to this example that replaces smilies like <code>:-)</code>, <code><3</code> or <code>>:P</code> with emojis. Try it out:
         </p>
+        <p></p>
+        <p>
+          You can also teach the editor new things. For example to recognize hex colors and add a color swatch on the fly: #FFF, #0D0D0D, #616161, #A975FF, #FB5151, #FD9170, #FFCB6B, #68CEF8, #80cbc4, #9DEF8F
+        </p>
+
       `,
     })
   },

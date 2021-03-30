@@ -23,3 +23,16 @@ yarn add @tiptap/extension-character-count
 
 ## Usage
 <demo name="Extensions/CharacterCount" />
+
+## Count words, emojis, letters …
+Want to count words instead? Or emojis? Or the letter *a*? Sure, no problem. You can access the `textContent` directly and count whatever you’re into.
+
+```js
+new Editor({
+  onUpdate({ editor }) {
+    const wordCount = editor.state.doc.textContent.split(' ').length
+
+    console.log(wordCount)
+  },
+})
+```
