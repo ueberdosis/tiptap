@@ -24,11 +24,11 @@ export class BubbleMenuView {
 
   public isActive = false
 
-  public left = 0
+  public top = 0
 
   public bottom = 0
 
-  public top = 0
+  public left = 0
 
   public preventHide = false
 
@@ -59,10 +59,18 @@ export class BubbleMenuView {
   blurHandler = ({ event }: { event: FocusEvent }) => {
     if (this.preventHide) {
       this.preventHide = false
+
       return
     }
 
-    this.hide(event)
+    if (
+      event?.relatedTarget
+      && this.element.parentNode?.contains(event.relatedTarget as Node)
+    ) {
+      return
+    }
+
+    this.hide()
   }
 
   update(view: EditorView, oldState?: EditorState) {
@@ -76,8 +84,9 @@ export class BubbleMenuView {
     }
 
     const { from, to, empty } = selection
+    const parent = this.element.offsetParent
 
-    if (empty) {
+    if (empty || !parent) {
       this.hide()
 
       return
@@ -85,26 +94,18 @@ export class BubbleMenuView {
 
     const start = coordsAtPos(view, from)
     const end = coordsAtPos(view, to, true)
-    const parent = this.element.offsetParent
-
-    if (!parent) {
-      this.hide()
-
-      return
-    }
-
     const parentBox = parent.getBoundingClientRect()
     const box = this.element.getBoundingClientRect()
     const left = (start.left + end.left) / 2 - parentBox.left
 
+    this.isActive = true
+    this.top = Math.round(end.bottom - parentBox.top)
+    this.bottom = Math.round(parentBox.bottom - start.top)
     this.left = Math.round(
       this.keepInBounds
         ? Math.min(parentBox.width - box.width / 2, Math.max(left, box.width / 2))
         : left,
     )
-    this.bottom = Math.round(parentBox.bottom - start.top)
-    this.top = Math.round(end.bottom - parentBox.top)
-    this.isActive = true
 
     this.render()
   }
@@ -122,14 +123,7 @@ export class BubbleMenuView {
     })
   }
 
-  hide(event?: FocusEvent) {
-    if (
-      event?.relatedTarget
-      && this.element.parentNode?.contains(event.relatedTarget as Node)
-    ) {
-      return
-    }
-
+  hide() {
     this.isActive = false
     this.render()
   }
@@ -141,9 +135,11 @@ export class BubbleMenuView {
   }
 }
 
+export const BubbleMenuPluginKey = new PluginKey('menuBubble')
+
 export const BubbleMenuPlugin = (options: BubbleMenuPluginOptions) => {
   return new Plugin({
-    key: new PluginKey('menuBubble'),
+    key: BubbleMenuPluginKey,
     view: view => new BubbleMenuView({ view, ...options }),
   })
 }
