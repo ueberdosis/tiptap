@@ -26,6 +26,7 @@
     "vue": "^2.6.12"
   },
   "dependencies": {
+    "@tiptap/extension-bubble-menu": "^2.0.0-beta.1",
     "prosemirror-view": "^1.18.2"
   }
 }

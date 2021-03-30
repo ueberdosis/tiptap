@@ -1,24 +1,28 @@
 <template>
   <div style="position: relative">
-    <div ref="menu">
-      <div v-if="editor">
-        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-          bold
-        </button>
-      </div>
-    </div>
+    <bubble-menu :editor="editor" v-if="editor">
+      <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        bold
+      </button>
+      <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+        italic
+      </button>
+      <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
+        code
+      </button>
+    </bubble-menu>
     <editor-content :editor="editor" />
   </div>
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-2'
+import { Editor, EditorContent, BubbleMenu } from '@tiptap/vue-2'
 import { defaultExtensions } from '@tiptap/starter-kit'
-import BubbleMenu from '@tiptap/extension-bubble-menu'
 
 export default {
   components: {
     EditorContent,
+    BubbleMenu,
   },
 
   data() {
@@ -31,19 +35,10 @@ export default {
     this.editor = new Editor({
       extensions: [
         ...defaultExtensions(),
-        BubbleMenu.configure({
-          element: this.$refs.menu,
-        }),
       ],
       content: `
         <p>
-          paragraph
-        </p>
-        <p>
-          paragraph
-        </p>
-        <p>
-          paragraph
+          Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
         </p>
       `,
     })
@@ -56,30 +51,10 @@ export default {
 </script>
 
 <style lang="scss">
-.has-focus {
-  border-radius: 3px;
-  box-shadow: 0 0 0 3px #68CEF8;
-}
-
 /* Basic editor styles */
 .ProseMirror {
   > * + * {
     margin-top: 0.75em;
-  }
-
-  ul,
-  ol {
-    padding: 0 1rem;
-  }
-
-  blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
-  }
-
-  code {
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
   }
 }
 </style>

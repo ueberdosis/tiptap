@@ -3,13 +3,13 @@ import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { coordsAtPos } from './helpers'
 
-export interface BubbleMenuPluginOptions {
+export interface BubbleMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
   keepInBounds: boolean,
 }
 
-export type BubbleMenuViewOptions = BubbleMenuPluginOptions & {
+export type BubbleMenuViewOptions = BubbleMenuPluginProps & {
   view: EditorView,
 }
 
@@ -137,7 +137,7 @@ export class BubbleMenuView {
 
 export const BubbleMenuPluginKey = new PluginKey('menuBubble')
 
-export const BubbleMenuPlugin = (options: BubbleMenuPluginOptions) => {
+export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
     key: BubbleMenuPluginKey,
     view: view => new BubbleMenuView({ view, ...options }),

@@ -195,6 +195,8 @@
         # - title: Annotation
         #   link: /api/extensions/annotation
         #   type: draft
+        - title: BubbleMenu
+          link: /api/extensions/bubble-menu
         - title: CharacterCount
           link: /api/extensions/character-count
         - title: Collaboration
