@@ -215,6 +215,7 @@
           link: /api/extensions/history
         - title: Placeholder
           link: /api/extensions/placeholder
+          type: new
         - title: TextAlign
           link: /api/extensions/text-align
         - title: Typography

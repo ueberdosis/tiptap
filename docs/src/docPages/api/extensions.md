@@ -18,6 +18,7 @@ There are also some extensions with more capabilities. We call them [nodes](/api
 | [FontFamily](/api/extensions/font-family)                   | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-font-family/)          |
 | [Gapcursor](/api/extensions/gapcursor)                      | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-gapcursor/)            |
 | [History](/api/extensions/history)                          | Yes               | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-history/)              |
+| [Placeholder](/api/extensions/placeholder)                  | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-placeholder/)          |
 | [TextAlign](/api/extensions/text-align)                     | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-align/)           |
 | [Typography](/api/extensions/typography)                    | –                 | [GitHub](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-typography/)           |
 
