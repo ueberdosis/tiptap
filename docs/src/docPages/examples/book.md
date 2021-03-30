@@ -1,4 +1,4 @@
-# Write a book
+# Long texts
 
 This demo has 250 paragraphs and more than 22,000 words, check the performance yourself.
 

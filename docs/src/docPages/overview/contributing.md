@@ -5,6 +5,10 @@
 ## Introduction
 tiptap would be nothing without its lively community. Contributions have always been and will always be welcome. Here is a little bit you should know, before you send your contribution:
 
+:::warning Private repository
+Currently, the repository is private. That means PRs are disabled, too. We’ll release a public version of tiptap 2 soonish, please wait with your PRs until the repository is public.
+:::
+
 ## Welcome examples
 * Failing regression tests as bug reports
 * Documentation improvements, e. g. fix a typo, add a section

@@ -61,24 +61,50 @@ You can even mix non-editable and editable text. That’s great to build complex
 **BUT**, that also means the cursor can’t just move from outside of the node view to the inside. Users have to manually place their cursor to edit the content inside the node view. Just so you know.
 
 ## Markup
+But what happens if you [access the editor content](/guide/content)? If you’re working with HTML, you’ll need to tell tiptap how your node should be serialized.
+
+The editor **does not** export the rendered JavaScript node, and for a lot of use cases you wouldn’t want that anyway.
+
+Let’s say you have a node view which lets users add a video player and configure the appearance (autoplay, controls …). You want the interface to do that in the editor, not in the output of the editor. The output of the editor should probably only have the video player.
+
+I know, I know, it’s not that easy. Just keep in mind, that you‘re in full control of the rendering inside the editor and of the output.
+
+:::warning What if you store JSON?
+That doesn’t apply to JSON. For the JSON, everything is stored as an object. There is no need to configure the “translation” to and from HTML.
+:::
 
 ### Render HTML
+Okay, you’ve set up your node with an interactive node view and now you want to control the output. Even if you’re node view is pretty complex, the rendered HTML can be simple:
+
 ```js
 renderHTML({ HTMLAttributes }) {
-  return ['vue-component', mergeAttributes(HTMLAttributes)]
+  return ['my-custom-node', mergeAttributes(HTMLAttributes)]
 },
+
+// Output: <my-custom-node count="1"></my-custom-node>
 ```
 
+Make sure it’s something distinguishable, so it’s easier to restore the content from the HTML. If you just need something generic markup like a `<div>` consider to add a `data-type="my-custom-node"`.
+
 ### Parse HTML
+The same applies to restoring the content. You can configure what markup you expect, that can be something completely unrelated to the node view markup. It just needs to contain all the information you want to restore.
+
+Attributes are automagically restored, if you registered them through [`addAttributes`](/guide/extend-extensions#attributes).
+
 ```js
+// Input: <my-custom-node count="1"></my-custom-node>
+
 parseHTML() {
   return [{
-    tag: 'vue-component',
+    tag: 'my-custom-node',
   }]
 },
 ```
 
-## Reference
+### Render JavaScript/Vue/React
+But what if you want to render your actual JavaScript/Vue/React code? Consider using tiptap to render your output. Just set the editor to `editable: false` and no one will notice you’re using an editor to render the content. :-)
+
+<!-- ## Reference
 
 ### dom: ?⁠dom.Node
 > The outer DOM node that represents the document node. When not given, the default strategy is used to create a DOM node.
@@ -105,4 +131,4 @@ parseHTML() {
 > Called when a DOM mutation or a selection change happens within the view. When the change is a selection change, the record will have a type property of "selection" (which doesn't occur for native mutation records). Return false if the editor should re-read the selection or re-parse the range around the mutation, true if it can safely be ignored.
 
 ### destroy: ?⁠fn()
-> Called when the node view is removed from the editor or the whole editor is destroyed.
+> Called when the node view is removed from the editor or the whole editor is destroyed. -->

@@ -60,19 +60,19 @@
       link: /examples/images
     - title: Formatting
       link: /examples/formatting
-    - title: Task lists
+    - title: Tasks
       link: /examples/todo-app
-    - title: Lengthy texts
+    - title: Long texts
       link: /examples/book
-    - title: Draw on a canvas
+    - title: Drawing
       link: /examples/drawing
-    - title: Suggestions
+    - title: Mentions
       link: /examples/community
     - title: Minimal setup
       link: /examples/minimal
-    - title: Savvy editor
+    - title: A clever editor
       link: /examples/savvy
-    - title: Interactive node views
+    - title: Interactivity
       link: /examples/interactive
 
 - title: Guide
@@ -96,6 +96,7 @@
       link: /guide/build-extensions
     - title: Interactive node views
       link: /guide/node-views
+      type: new
       items:
         - title: With JavaScript
           link: /guide/node-views/js
@@ -105,9 +106,8 @@
           type: draft
         - title: With Vue
           link: /guide/node-views/vue
-        - title: Examples
+        - title: A few examples
           link: /guide/node-views/examples
-          type: draft
     - title: Working with TypeScript
       link: /guide/typescript
 
