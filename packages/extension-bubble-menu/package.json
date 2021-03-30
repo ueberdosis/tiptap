@@ -1,0 +1,31 @@
+{
+  "name": "@tiptap/extension-bubble-menu",
+  "description": "bubble-menu extension for tiptap",
+  "version": "2.0.0-beta.0",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-bubble-menu.cjs.js",
+  "umd": "dist/tiptap-extension-bubble-menu.umd.js",
+  "module": "dist/tiptap-extension-bubble-menu.esm.js",
+  "unpkg": "dist/tiptap-extension-bubble-menu.bundle.umd.min.js",
+  "types": "dist/packages/extension-bubble-menu/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "dependencies": {
+    "prosemirror-state": "^1.3.4",
+    "prosemirror-view": "^1.18.2"
+  }
+}
