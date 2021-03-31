@@ -24,7 +24,10 @@
           </div>
         </div>
         <div class="demo__meta">
-          <div class="demo__name">
+          <g-link class="demo__name" :to="`/demos/${name}`" v-if="isDevelopment">
+            Demo/{{ name }}
+          </g-link>
+          <div class="demo__name" v-else>
             Demo/{{ name }}
           </div>
           <a class="demo__link" :href="githubUrl" target="_blank">
@@ -67,8 +70,12 @@ export default {
       return this.files[this.currentIndex]
     },
 
+    isDevelopment() {
+      return process.env.NODE_ENV === 'development'
+    },
+
     githubUrl() {
-      if (process.env.NODE_ENV === 'development') {
+      if (this.isDevelopment) {
         return `vscode://file${this.cwd}/src/demos/${this.name}/${this.files[0].name}`
       }
 

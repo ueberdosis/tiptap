@@ -1,4 +1,6 @@
-import { EditorState, Plugin, Transaction } from 'prosemirror-state'
+import {
+  EditorState, Plugin, PluginKey, Transaction,
+} from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, DOMParser, Node } from 'prosemirror-model'
 import elementFromString from './utilities/elementFromString'
@@ -172,10 +174,19 @@ export class Editor extends EventEmitter {
    *
    * @param name The plugins name
    */
-  public unregisterPlugin(name: string): void {
+  public unregisterPlugin(nameOrPluginKey: string | PluginKey): void {
+    if (this.isDestroyed) {
+      return
+    }
+
+    const name = typeof nameOrPluginKey === 'string'
+      ? `${nameOrPluginKey}$`
+      // @ts-ignore
+      : nameOrPluginKey.key
+
     const state = this.state.reconfigure({
       // @ts-ignore
-      plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(`${name}$`)),
+      plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(name)),
     })
 
     this.view.updateState(state)

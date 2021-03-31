@@ -11,6 +11,7 @@ export { default as markPasteRule } from './pasteRules/markPasteRule'
 
 export { default as callOrReturn } from './utilities/callOrReturn'
 export { default as mergeAttributes } from './utilities/mergeAttributes'
+
 export { default as generateHTML } from './helpers/generateHTML'
 export { default as getSchema } from './helpers/getSchema'
 export { default as getHTMLFromFragment } from './helpers/getHTMLFromFragment'

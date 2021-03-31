@@ -1,3 +1,4 @@
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
 import {
   markRaw,
@@ -7,7 +8,6 @@ import {
   ComponentPublicInstance,
   reactive,
 } from 'vue'
-import { EditorState } from 'prosemirror-state'
 import { VueRenderer } from './VueRenderer'
 
 function useDebouncedRef<T>(value: T) {
@@ -59,5 +59,21 @@ export class Editor extends CoreEditor {
     return this.reactiveState
       ? this.reactiveState.value
       : this.view.state
+  }
+
+  /**
+   * Register a ProseMirror plugin.
+   */
+  public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]): void {
+    super.registerPlugin(plugin, handlePlugins)
+    this.reactiveState.value = this.view.state
+  }
+
+  /**
+   * Unregister a ProseMirror plugin.
+   */
+  public unregisterPlugin(nameOrPluginKey: string | PluginKey): void {
+    super.unregisterPlugin(nameOrPluginKey)
+    this.reactiveState.value = this.view.state
   }
 }

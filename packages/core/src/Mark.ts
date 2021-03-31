@@ -8,12 +8,8 @@ import { Plugin, Transaction } from 'prosemirror-state'
 import { Command as ProseMirrorCommand } from 'prosemirror-commands'
 import { InputRule } from 'prosemirror-inputrules'
 import mergeDeep from './utilities/mergeDeep'
-import {
-  Attributes,
-  RawCommands,
-  GlobalAttributes,
-  MarkConfig,
-} from './types'
+import { Attributes, RawCommands, GlobalAttributes } from './types'
+import { MarkConfig } from '.'
 import { Editor } from './Editor'
 
 declare module '@tiptap/core' {

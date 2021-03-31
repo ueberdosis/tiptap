@@ -14,19 +14,7 @@ import { Extension } from './Extension'
 import { Node } from './Node'
 import { Mark } from './Mark'
 import { Editor } from './Editor'
-import {
-  Commands,
-  ExtensionConfig,
-  NodeConfig,
-  MarkConfig,
-} from '.'
-
-export {
-  Commands,
-  ExtensionConfig,
-  NodeConfig,
-  MarkConfig,
-}
+import { Commands } from '.'
 
 export type Extensions = (Extension | Node | Mark)[]
 

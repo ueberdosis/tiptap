@@ -1,0 +1,30 @@
+import React, { useEffect, useRef } from 'react'
+import { BubbleMenuPlugin, BubbleMenuPluginKey, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
+
+export type BubbleMenuProps = Omit<BubbleMenuPluginProps, 'element'> & {
+  className?: string,
+}
+
+export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
+  const element = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const { editor, keepInBounds = true } = props
+
+    editor.registerPlugin(BubbleMenuPlugin({
+      editor,
+      element: element.current as HTMLElement,
+      keepInBounds,
+    }))
+
+    return () => {
+      editor.unregisterPlugin(BubbleMenuPluginKey)
+    }
+  }, [])
+
+  return (
+    <div ref={element} className={props.className}>
+      {props.children}
+    </div>
+  )
+}

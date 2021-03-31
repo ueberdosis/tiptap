@@ -13,8 +13,8 @@ import {
   NodeViewRenderer,
   GlobalAttributes,
   RawCommands,
-  NodeConfig,
 } from './types'
+import { NodeConfig } from '.'
 import { Editor } from './Editor'
 
 declare module '@tiptap/core' {

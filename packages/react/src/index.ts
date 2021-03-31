@@ -1,4 +1,5 @@
 export * from '@tiptap/core'
+export * from './BubbleMenu'
 export { Editor } from './Editor'
 export * from './useEditor'
 export * from './ReactRenderer'
