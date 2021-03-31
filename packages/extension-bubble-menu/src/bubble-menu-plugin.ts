@@ -53,7 +53,8 @@ export class BubbleMenuView {
   }
 
   focusHandler = () => {
-    this.update(this.editor.view)
+    // we use `setTimeout` to make sure `selection` is already updated
+    setTimeout(() => this.update(this.editor.view))
   }
 
   blurHandler = ({ event }: { event: FocusEvent }) => {
@@ -76,10 +77,9 @@ export class BubbleMenuView {
   update(view: EditorView, oldState?: EditorState) {
     const { state, composing } = view
     const { doc, selection } = state
-    const docHasChanged = !oldState?.doc.eq(doc)
-    const selectionHasChanged = !oldState?.selection.eq(selection)
+    const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
 
-    if (composing || (!docHasChanged && !selectionHasChanged)) {
+    if (composing || isSame) {
       return
     }
 
