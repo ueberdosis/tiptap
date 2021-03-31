@@ -22,6 +22,7 @@
     "dist"
   ],
   "dependencies": {
+    "@tiptap/core": "^2.0.0-beta.1",
     "@tiptap/extension-blockquote": "^2.0.0-beta.1",
     "@tiptap/extension-bold": "^2.0.0-beta.1",
     "@tiptap/extension-bullet-list": "^2.0.0-beta.1",
