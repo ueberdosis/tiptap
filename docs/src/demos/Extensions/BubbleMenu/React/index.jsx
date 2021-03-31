@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react'
 import { defaultExtensions } from '@tiptap/starter-kit'
 import './styles.scss'
 
@@ -16,7 +16,27 @@ export default () => {
   })
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
+      {editor && <BubbleMenu editor={editor}>
+        <button
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          className={editor.isActive('bold') ? 'is-active' : ''}
+        >
+          bold
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          className={editor.isActive('italic') ? 'is-active' : ''}
+        >
+          italic
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleCode().run()}
+          className={editor.isActive('code') ? 'is-active' : ''}
+        >
+          code
+        </button>
+      </BubbleMenu>}
       <EditorContent editor={editor} />
     </div>
   )
