@@ -13,15 +13,15 @@ yarn add @tiptap/extension-bubble-menu
 ```
 
 ## Settings
-| Option       | Type          | Default   | Description |
-| ------------ | ------------- | --------- | ----------- |
-| element      | `HTMLElement` | `null`    |             |
-| keepInBounds | `Boolean`     | `true`    |             |
+| Option       | Type          | Default   | Description                                               |
+| ------------ | ------------- | --------- | --------------------------------------------------------- |
+| element      | `HTMLElement` | `null`    | The DOM element of your menu.                             |
+| keepInBounds | `Boolean`     | `true`    | Specifies that the element is not rendered across bounds. |
 
 ## Source code
 [packages/extension-bubble-menu/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bubble-menu/)
 
-## Vanilla JavaScript
+## Using Vanilla JavaScript
 ```js
 import { Editor } from '@tiptap/core'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
