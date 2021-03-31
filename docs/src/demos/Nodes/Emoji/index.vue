@@ -61,15 +61,5 @@ export default {
   > * + * {
     margin-top: 0.75em;
   }
-
-  font-size: 3rem;
-}
-
-button {
-  margin: 0.125rem;
-  width: 2rem;
-  height: 2rem;
-  text-align: center;
-  line-height: 2rem;
 }
 </style>
