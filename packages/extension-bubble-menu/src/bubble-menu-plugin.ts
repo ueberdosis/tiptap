@@ -9,7 +9,7 @@ export interface BubbleMenuPluginProps {
   keepInBounds: boolean,
 }
 
-export type BubbleMenuViewOptions = BubbleMenuPluginProps & {
+export type BubbleMenuViewProps = BubbleMenuPluginProps & {
   view: EditorView,
 }
 
@@ -37,7 +37,7 @@ export class BubbleMenuView {
     element,
     keepInBounds,
     view,
-  }: BubbleMenuViewOptions) {
+  }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
     this.keepInBounds = keepInBounds
