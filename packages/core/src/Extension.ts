@@ -4,7 +4,8 @@ import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 import { Node } from './Node'
 import mergeDeep from './utilities/mergeDeep'
-import { GlobalAttributes, RawCommands, ExtensionConfig } from './types'
+import { GlobalAttributes, RawCommands } from './types'
+import { ExtensionConfig } from '.'
 
 declare module '@tiptap/core' {
   interface ExtensionConfig<Options = any> {
