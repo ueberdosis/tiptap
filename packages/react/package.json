@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/react",
   "description": "React components for tiptap",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.7",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -27,7 +27,7 @@
     "react-dom": "^17.0.1"
   },
   "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.0.0-beta.0",
+    "@tiptap/extension-bubble-menu": "^2.0.0-beta.1",
     "prosemirror-view": "^1.18.2"
   },
   "devDependencies": {
