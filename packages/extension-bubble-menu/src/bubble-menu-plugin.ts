@@ -113,7 +113,7 @@ export class BubbleMenuView {
   render() {
     Object.assign(this.element.style, {
       position: 'absolute',
-      zIndex: 1000,
+      zIndex: 1,
       visibility: this.isActive ? 'visible' : 'hidden',
       opacity: this.isActive ? 1 : 0,
       left: `${this.left}px`,
