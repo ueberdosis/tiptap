@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor, isNodeEmpty } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 
@@ -21,6 +21,8 @@ export class FloatingMenuView {
   public isActive = false
 
   public top = 0
+
+  public left = 0
 
   public preventHide = false
 
@@ -73,13 +75,12 @@ export class FloatingMenuView {
       return
     }
 
-    const { anchor, empty } = selection
+    const { $anchor, anchor, empty } = selection
     const parent = this.element.offsetParent
-    const currentDom = view.domAtPos(anchor)
-    const currentElement = currentDom.node as Element
-    const isActive = currentElement.innerHTML === '<br>'
-      && currentElement.tagName === 'P'
-      && currentElement.parentNode === view.dom
+    const isRootDepth = $anchor.depth === 1
+    const isDefaultNodeType = $anchor.parent.type === state.doc.type.contentMatch.defaultType
+    const isDefaultNodeEmpty = isNodeEmpty(selection.$anchor.parent)
+    const isActive = isRootDepth && isDefaultNodeType && isDefaultNodeEmpty
 
     if (!empty || !parent || !isActive) {
       this.hide()
@@ -90,9 +91,11 @@ export class FloatingMenuView {
     const parentBox = parent.getBoundingClientRect()
     const cursorCoords = view.coordsAtPos(anchor)
     const top = cursorCoords.top - parentBox.top
+    const left = cursorCoords.left - parentBox.left
 
     this.isActive = true
     this.top = top
+    this.left = left
 
     this.render()
   }
@@ -103,9 +106,8 @@ export class FloatingMenuView {
       zIndex: 1,
       visibility: this.isActive ? 'visible' : 'hidden',
       opacity: this.isActive ? 1 : 0,
-      // left: `${this.left}px`,
+      left: `${this.left}px`,
       top: `${this.top}px`,
-      // bottom: `${this.bottom}px`,
     })
   }
 
