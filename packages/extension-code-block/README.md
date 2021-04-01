@@ -1,7 +1,7 @@
-# @tiptap/extension-bode-block
-[![Version](https://img.shields.io/npm/v/@tiptap/extension-bode-block.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-bode-block)
-[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-bode-block.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
-[![License](https://img.shields.io/npm/l/@tiptap/extension-bode-block.svg)](https://www.npmjs.com/package/@tiptap/extension-bode-block)
+# @tiptap/extension-code-block
+[![Version](https://img.shields.io/npm/v/@tiptap/extension-code-block.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-code-block)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-code-block.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
+[![License](https://img.shields.io/npm/l/@tiptap/extension-code-block.svg)](https://www.npmjs.com/package/@tiptap/extension-code-block)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 ## Introduction
