@@ -42,6 +42,6 @@ export const BubbleMenu = defineComponent({
       editor.unregisterPlugin(BubbleMenuPluginKey)
     })
 
-    return () => h('div', { ref: root }, slots.default?.())
+    return () => h('div', { ref: root, style: { visibility: 'hidden' } }, slots.default?.())
   },
 })

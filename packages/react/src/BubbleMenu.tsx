@@ -23,7 +23,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
   }, [])
 
   return (
-    <div ref={element} className={props.className}>
+    <div ref={element} className={props.className} style={{ visibility: 'hidden' }}>
       {props.children}
     </div>
   )

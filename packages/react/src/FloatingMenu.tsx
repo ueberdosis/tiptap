@@ -22,7 +22,7 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
   }, [])
 
   return (
-    <div ref={element} className={props.className}>
+    <div ref={element} className={props.className} style={{ visibility: 'hidden' }}>
       {props.children}
     </div>
   )

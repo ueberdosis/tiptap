@@ -30,7 +30,7 @@ export const FloatingMenu = Vue.extend({
   },
 
   render(createElement) {
-    return createElement('div', {}, this.$slots.default)
+    return createElement('div', { style: { visibility: 'hidden' } }, this.$slots.default)
   },
 
   beforeDestroy() {
