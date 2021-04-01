@@ -31,10 +31,10 @@ export default () => {
           italic
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          className={editor.isActive('code') ? 'is-active' : ''}
+          onClick={() => editor.chain().focus().toggleStrike().run()}
+          className={editor.isActive('strike') ? 'is-active' : ''}
         >
-          code
+          strike
         </button>
       </BubbleMenu>}
       <EditorContent editor={editor} />

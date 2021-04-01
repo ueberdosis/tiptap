@@ -1,18 +1,18 @@
 <template>
   <div style="position: relative">
-    <bubble-menu :editor="editor" v-if="editor">
+    <bubble-menu class="bubble-menu" :editor="editor" v-if="editor">
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
       </button>
       <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
         italic
       </button>
-      <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
-        code
+      <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+        strike
       </button>
     </bubble-menu>
 
-    <floating-menu :editor="editor" v-if="editor">
+    <floating-menu class="floating-menu" :editor="editor" v-if="editor">
       <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
         h1
       </button>
@@ -84,6 +84,51 @@ export default {
   blockquote {
     padding-left: 1rem;
     border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+}
+
+.bubble-menu {
+  display: flex;
+  background-color: #0D0D0D;
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+
+  button {
+    border: none;
+    background: none;
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0 0.2rem;
+    opacity: 0.6;
+
+    &:hover,
+    &.is-active {
+      opacity: 1;
+    }
+  }
+}
+
+.floating-menu {
+  display: flex;
+  background-color: #0D0D0D10;
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  margin-top: -0.25rem;
+  margin-left: 0.25rem;
+
+  button {
+    border: none;
+    background: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0 0.2rem;
+    opacity: 0.6;
+
+    &:hover,
+    &.is-active {
+      opacity: 1;
+    }
   }
 }
 </style>

@@ -22,7 +22,7 @@ export default () => {
 
   return (
     <div style={{ position: 'relative' }}>
-      {editor && <BubbleMenu editor={editor}>
+      {editor && <BubbleMenu className="bubble-menu" editor={editor}>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={editor.isActive('bold') ? 'is-active' : ''}
@@ -36,14 +36,14 @@ export default () => {
           italic
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          className={editor.isActive('code') ? 'is-active' : ''}
+          onClick={() => editor.chain().focus().toggleStrike().run()}
+          className={editor.isActive('strike') ? 'is-active' : ''}
         >
-          code
+          strike
         </button>
       </BubbleMenu>}
 
-      {editor && <FloatingMenu editor={editor}>
+      {editor && <FloatingMenu className="floating-menu" editor={editor}>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
