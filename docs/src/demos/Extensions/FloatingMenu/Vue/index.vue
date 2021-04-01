@@ -10,9 +10,6 @@
       <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
         bullet list
       </button>
-      <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
-        blockquote
-      </button>
     </floating-menu>
     <editor-content :editor="editor" />
   </div>
@@ -63,11 +60,6 @@ export default {
   ul,
   ol {
     padding: 0 1rem;
-  }
-
-  blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
   }
 }
 </style>

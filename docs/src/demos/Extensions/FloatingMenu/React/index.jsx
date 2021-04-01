@@ -36,12 +36,6 @@ export default () => {
         >
           bullet list
         </button>
-        <button
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={editor.isActive('blockquote') ? 'is-active' : ''}
-        >
-          blockquote
-        </button>
       </FloatingMenu>}
       <EditorContent editor={editor} />
     </div>

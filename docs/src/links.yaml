@@ -53,8 +53,8 @@
       # type: pro
     - title: Markdown shortcuts
       link: /examples/markdown-shortcuts
-    - title: Bubble menu
-      link: /examples/bubble-menu
+    - title: Menus
+      link: /examples/menus
       type: new
     - title: Tables
       link: /examples/tables
@@ -213,6 +213,7 @@
           link: /api/extensions/dropcursor
         - title: FloatingMenu
           link: /api/extensions/floating-menu
+          type: new
         - title: Focus
           link: /api/extensions/focus
         - title: FontFamily
