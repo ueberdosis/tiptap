@@ -11,6 +11,7 @@ import getNodeType from './helpers/getNodeType'
 import splitExtensions from './helpers/splitExtensions'
 import getAttributesFromExtensions from './helpers/getAttributesFromExtensions'
 import getRenderedAttributes from './helpers/getRenderedAttributes'
+import callOrReturn from './utilities/callOrReturn'
 
 export default class ExtensionManager {
 
@@ -19,6 +20,8 @@ export default class ExtensionManager {
   schema: Schema
 
   extensions: Extensions
+
+  splittableMarks: string[] = []
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
@@ -30,6 +33,14 @@ export default class ExtensionManager {
         options: extension.options,
         editor: this.editor,
         type: getSchemaTypeByName(extension.config.name, this.schema),
+      }
+
+      if (extension.type === 'mark') {
+        const keepOnSplit = callOrReturn(extension.config.keepOnSplit, context) ?? true
+
+        if (keepOnSplit) {
+          this.splittableMarks.push(extension.config.name)
+        }
       }
 
       if (typeof extension.config.onCreate === 'function') {

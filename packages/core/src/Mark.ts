@@ -192,6 +192,11 @@ declare module '@tiptap/core' {
     }) => void) | null,
 
     /**
+     * Keep mark after split node
+     */
+    keepOnSplit?: boolean | (() => boolean),
+
+    /**
      * Inclusive
      */
     inclusive?: MarkSpec['inclusive'] | ((this: { options: Options }) => MarkSpec['inclusive']),

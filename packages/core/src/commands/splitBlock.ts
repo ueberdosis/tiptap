@@ -15,12 +15,14 @@ function defaultBlockAt(match: ContentMatch) {
   return null
 }
 
-function ensureMarks(state: EditorState) {
+function ensureMarks(state: EditorState, splittableMarks?: string[]) {
   const marks = state.storedMarks
     || (state.selection.$to.parentOffset && state.selection.$from.marks())
 
   if (marks) {
-    state.tr.ensureMarks(marks)
+    const filteredMarks = marks.filter(mark => splittableMarks?.includes(mark.type.name))
+
+    state.tr.ensureMarks(filteredMarks)
   }
 }
 
@@ -57,7 +59,7 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
 
     if (dispatch) {
       if (keepMarks) {
-        ensureMarks(state)
+        ensureMarks(state, editor.extensionManager.splittableMarks)
       }
 
       tr.split($from.pos).scrollIntoView()
@@ -118,7 +120,7 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
     }
 
     if (keepMarks) {
-      ensureMarks(state)
+      ensureMarks(state, editor.extensionManager.splittableMarks)
     }
 
     tr.scrollIntoView()
