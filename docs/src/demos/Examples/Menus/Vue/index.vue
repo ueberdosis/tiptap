@@ -92,6 +92,7 @@ export default {
   background-color: #0D0D0D;
   padding: 0.2rem;
   border-radius: 0.5rem;
+  transition: visibility 0.1s ease, opacity 0.1s ease;
 
   button {
     border: none;
@@ -116,6 +117,7 @@ export default {
   border-radius: 0.5rem;
   margin-top: -0.25rem;
   margin-left: 0.25rem;
+  transition: visibility 0.1s ease, opacity 0.1s ease;
 
   button {
     border: none;
