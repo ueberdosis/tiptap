@@ -45,6 +45,7 @@ export class BubbleMenuView {
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
+    this.editor.on('resize', this.resizeHandler)
     this.render()
   }
 
@@ -55,6 +56,12 @@ export class BubbleMenuView {
   focusHandler = () => {
     // we use `setTimeout` to make sure `selection` is already updated
     setTimeout(() => this.update(this.editor.view))
+  }
+
+  resizeHandler = () => {
+    if (this.isActive) {
+      this.update(this.editor.view)
+    }
   }
 
   blurHandler = ({ event }: { event: FocusEvent }) => {
@@ -137,6 +144,7 @@ export class BubbleMenuView {
     this.element.removeEventListener('mousedown', this.mousedownHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
+    this.editor.off('resize', this.resizeHandler)
   }
 }
 
