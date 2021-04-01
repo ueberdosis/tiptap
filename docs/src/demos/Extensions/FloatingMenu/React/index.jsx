@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react'
+import { useEditor, EditorContent, FloatingMenu } from '@tiptap/react'
 import { defaultExtensions } from '@tiptap/starter-kit'
 import './styles.scss'
 
@@ -10,33 +10,39 @@ export default () => {
     ],
     content: `
       <p>
-        Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
+        This is an example of a medium-like editor. Enter a new line and some buttons will appear.
       </p>
     `,
   })
 
   return (
     <div style={{ position: 'relative' }}>
-      {editor && <BubbleMenu editor={editor}>
+      {editor && <FloatingMenu editor={editor}>
         <button
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className={editor.isActive('bold') ? 'is-active' : ''}
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
         >
-          bold
+          h1
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive('italic') ? 'is-active' : ''}
+          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
         >
-          italic
+          h2
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          className={editor.isActive('code') ? 'is-active' : ''}
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={editor.isActive('bulletList') ? 'is-active' : ''}
         >
-          code
+          bullet list
         </button>
-      </BubbleMenu>}
+        <button
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          className={editor.isActive('blockquote') ? 'is-active' : ''}
+        >
+          blockquote
+        </button>
+      </FloatingMenu>}
       <EditorContent editor={editor} />
     </div>
   )

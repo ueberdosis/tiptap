@@ -1,6 +1,7 @@
 export * from '@tiptap/core'
 export * from './BubbleMenu'
 export { Editor } from './Editor'
+export * from './FloatingMenu'
 export * from './useEditor'
 export * from './ReactRenderer'
 export * from './ReactNodeViewRenderer'
