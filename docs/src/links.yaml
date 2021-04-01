@@ -207,6 +207,8 @@
           # type: pro
         - title: Dropcursor
           link: /api/extensions/dropcursor
+        - title: FloatingMenu
+          link: /api/extensions/floating-menu
         - title: Focus
           link: /api/extensions/focus
         - title: FontFamily
