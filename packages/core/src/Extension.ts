@@ -95,6 +95,14 @@ declare module '@tiptap/core' {
     }) | null,
 
     /**
+     * The editor is not ready yet.
+     */
+     onBeforeCreate?: ((this: {
+      options: Options,
+      editor: Editor,
+    }) => void) | null,
+
+    /**
      * The editor is ready.
      */
     onCreate?: ((this: {

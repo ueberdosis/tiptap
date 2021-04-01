@@ -131,6 +131,8 @@
           link: /api/nodes/bullet-list
         - title: CodeBlock
           link: /api/nodes/code-block
+        - title: CodeBlockLowlight
+          link: /api/nodes/code-block-lowlight
         - title: Document
           link: /api/nodes/document
         - title: Emoji

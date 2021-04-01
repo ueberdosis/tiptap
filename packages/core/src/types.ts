@@ -29,6 +29,7 @@ export interface EditorOptions {
   parseOptions: ParseOptions,
   enableInputRules: boolean,
   enablePasteRules: boolean,
+  onBeforeCreate: (props: { editor: Editor }) => void,
   onCreate: (props: { editor: Editor }) => void,
   onUpdate: (props: { editor: Editor }) => void,
   onViewUpdate: (props: { editor: Editor }) => void,
