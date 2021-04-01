@@ -31,6 +31,9 @@ const editor = new Editor({
   onBlur({ editor, event }) {
     // The editor isn’t focused anymore.
   },
+  onResize({ editor, event }) {
+    // The editor view has resized.
+  },
   onDestroy() {
     // The editor is being destroyed.
   },
@@ -68,6 +71,10 @@ editor.on('focus', ({ editor, event }) => {
 
 editor.on('blur', ({ editor, event }) => {
   // The editor isn’t focused anymore.
+}
+
+editor.on('resize', ({ editor, event }) => {
+  // The editor view has resized.
 }
 
 editor.on('destroy', () => {
@@ -117,6 +124,9 @@ const CustomExtension = Extension.create({
   },
   onBlur({ editor, event }) {
     // The editor isn’t focused anymore.
+  },
+  onResize({ editor, event }) {
+    // The editor view has resized.
   },
   onDestroy() {
     // The editor is being destroyed.

@@ -36,6 +36,7 @@ export interface EditorOptions {
   onTransaction: (props: { editor: Editor, transaction: Transaction }) => void,
   onFocus: (props: { editor: Editor, event: FocusEvent }) => void,
   onBlur: (props: { editor: Editor, event: FocusEvent }) => void,
+  onResize: (props: { editor: Editor }) => void,
   onDestroy: () => void,
 }
 
