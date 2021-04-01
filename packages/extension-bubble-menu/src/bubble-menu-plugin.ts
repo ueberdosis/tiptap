@@ -96,14 +96,20 @@ export class BubbleMenuView {
     const end = coordsAtPos(view, to, true)
     const parentBox = parent.getBoundingClientRect()
     const box = this.element.getBoundingClientRect()
-    const left = (start.left + end.left) / 2 - parentBox.left
+    const left = (start.left + end.left) / 2 - parentBox.left - box.width / 2
 
     this.isActive = true
     this.top = Math.round(end.bottom - parentBox.top)
     this.bottom = Math.round(parentBox.bottom - start.top)
     this.left = Math.round(
       this.keepInBounds
-        ? Math.min(parentBox.width - box.width / 2, Math.max(left, box.width / 2))
+        ? Math.min(
+          parentBox.width - box.width,
+          Math.max(
+            left,
+            0,
+          ),
+        )
         : left,
     )
 
@@ -119,7 +125,6 @@ export class BubbleMenuView {
       left: `${this.left}px`,
       // top: `${this.top}px`,
       bottom: `${this.bottom}px`,
-      transform: 'translateX(-50%)',
     })
   }
 
