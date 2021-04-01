@@ -1,4 +1,4 @@
-# Suggestions
+# Mentions
 
 <demos :items="{
   Vue: 'Examples/Community/Vue',

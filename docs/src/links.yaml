@@ -53,6 +53,9 @@
       # type: pro
     - title: Markdown shortcuts
       link: /examples/markdown-shortcuts
+    - title: Bubble menu
+      link: /examples/bubble-menu
+      type: new
     - title: Tables
       link: /examples/tables
       # type: pro
@@ -61,19 +64,19 @@
     - title: Formatting
       link: /examples/formatting
     - title: Tasks
-      link: /examples/todo-app
+      link: /examples/tasks
     - title: Long texts
       link: /examples/book
     - title: Drawing
       link: /examples/drawing
     - title: Mentions
-      link: /examples/community
+      link: /examples/suggestions
     - title: Minimal setup
       link: /examples/minimal
     - title: A clever editor
       link: /examples/savvy
     - title: Interactivity
-      link: /examples/interactive
+      link: /examples/interactivity
 
 - title: Guide
   items:
@@ -197,6 +200,7 @@
         #   type: draft
         - title: BubbleMenu
           link: /api/extensions/bubble-menu
+          type: new
         - title: CharacterCount
           link: /api/extensions/character-count
         - title: Collaboration
