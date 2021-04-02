@@ -23,60 +23,56 @@ const findBlockNodes = (doc: ProsemirrorNode) => {
   return nodes
 }
 
-function parseNodes(nodes: any[], className: string[] = []): any {
-  return nodes.map(node => {
+function parseNodes(nodes: any[], className: string[] = []): { text: string, classes: string[] }[] {
+  return nodes
+    .map(node => {
+      const classes = [
+        ...className,
+        ...node.properties
+          ? node.properties.className
+          : [],
+      ]
 
-    const classes = [
-      ...className,
-      ...node.properties ? node.properties.className : [],
-    ]
+      if (node.children) {
+        return parseNodes(node.children, classes)
+      }
 
-    if (node.children) {
-      return parseNodes(node.children, classes)
-    }
-
-    return {
-      text: node.value,
-      classes,
-    }
-  })
+      return {
+        text: node.value,
+        classes,
+      }
+    })
+    .flat()
 }
 
 function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
   const decorations: Decoration[] = []
-  const blocks = findBlockNodes(doc).filter(block => block.node.type.name === name)
 
-  blocks.forEach(block => {
-    let startPos = block.pos + 1
-    const { language } = block.node.attrs
-    // TODO: add missing type for `listLanguages`
-    // @ts-ignore
-    const languages = low.listLanguages() as string[]
-    const nodes = language && languages.includes(language)
-      ? low.highlight(language, block.node.textContent).value
-      : low.highlightAuto(block.node.textContent).value
+  findBlockNodes(doc)
+    .filter(block => block.node.type.name === name)
+    .forEach(block => {
+      let startPos = block.pos + 1
+      const { language } = block.node.attrs
+      // TODO: add missing type for `listLanguages`
+      // @ts-ignore
+      const languages = low.listLanguages() as string[]
+      const nodes = language && languages.includes(language)
+        ? low.highlight(language, block.node.textContent).value
+        : low.highlightAuto(block.node.textContent).value
 
-    parseNodes(nodes)
-      .flat(Infinity)
-      .map((node: any) => {
+      parseNodes(nodes).forEach(node => {
         const from = startPos
         const to = from + node.text.length
 
         startPos = to
 
-        return {
-          ...node,
-          from,
-          to,
-        }
-      })
-      .forEach((node: any) => {
-        const decoration = Decoration.inline(node.from, node.to, {
+        const decoration = Decoration.inline(from, to, {
           class: node.classes.join(' '),
         })
+
         decorations.push(decoration)
       })
-  })
+    })
 
   return DecorationSet.create(doc, decorations)
 }
