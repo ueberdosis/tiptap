@@ -48,7 +48,13 @@ function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
 
   blocks.forEach(block => {
     let startPos = block.pos + 1
-    const nodes = low.highlightAuto(block.node.textContent).value
+    const { language } = block.node.attrs
+    // TODO: add missing type for `listLanguages`
+    // @ts-ignore
+    const languages = low.listLanguages() as string[]
+    const nodes = language && languages.includes(language)
+      ? low.highlight(language, block.node.textContent).value
+      : low.highlightAuto(block.node.textContent).value
 
     parseNodes(nodes)
       .flat()
