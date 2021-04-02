@@ -132,6 +132,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | --------------- | ------------------------------------------------ |
 | .clearContent() | Clear the whole document.                        |
 | .insertHTML()   | Insert a string of HTML at the current position. |
+| .insertNode()   | Insert a node at the current position.           |
 | .insertText()   | Insert a string of text at the current position. |
 | .setContent()   | Replace the whole document with new content.     |
 
