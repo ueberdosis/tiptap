@@ -2,26 +2,7 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import low from 'lowlight/lib/core'
-
-type NodeWithPos = {
-  node: ProsemirrorNode,
-  pos: number,
-}
-
-const findBlockNodes = (doc: ProsemirrorNode) => {
-  const nodes: NodeWithPos[] = []
-
-  doc.descendants((node, pos) => {
-    if (node.isBlock) {
-      nodes.push({
-        node,
-        pos,
-      })
-    }
-  })
-
-  return nodes
-}
+import { findChildren } from '@tiptap/core'
 
 function parseNodes(nodes: any[], className: string[] = []): { text: string, classes: string[] }[] {
   return nodes
@@ -48,8 +29,7 @@ function parseNodes(nodes: any[], className: string[] = []): { text: string, cla
 function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
   const decorations: Decoration[] = []
 
-  findBlockNodes(doc)
-    .filter(block => block.node.type.name === name)
+  findChildren(doc, node => node.type.name === name)
     .forEach(block => {
       let startPos = block.pos + 1
       const { language } = block.node.attrs
@@ -88,10 +68,8 @@ export function LowlightPlugin({ name }: { name: string }) {
         // https://discuss.prosemirror.net/t/how-to-update-multiple-inline-decorations-on-node-change/1493
         const oldNodeName = oldState.selection.$head.parent.type.name
         const newNodeName = newState.selection.$head.parent.type.name
-        const oldNodes = findBlockNodes(oldState.doc)
-          .filter(node => node.node.type.name === name)
-        const newNodes = findBlockNodes(newState.doc)
-          .filter(node => node.node.type.name === name)
+        const oldNodes = findChildren(oldState.doc, node => node.type.name === name)
+        const newNodes = findChildren(newState.doc, node => node.type.name === name)
 
         // Apply decorations if selection includes named node, or transaction changes named node.
         if (transaction.docChanged && ([oldNodeName, newNodeName].includes(name)
