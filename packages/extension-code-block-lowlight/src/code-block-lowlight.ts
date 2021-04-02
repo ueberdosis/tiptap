@@ -13,8 +13,6 @@ export interface CodeBlockLowlightOptions {
 }
 
 export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
-  name: 'codeBlockLowlight',
-
   defaultOptions: {
     languageClassPrefix: 'language-',
     HTMLAttributes: {},
@@ -29,7 +27,7 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
 
   addProseMirrorPlugins() {
     return [
-      LowlightPlugin({ name: 'codeBlockLowlight' }),
+      LowlightPlugin({ name: 'codeBlock' }),
     ]
   },
 })
