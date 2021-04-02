@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.13](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/html@2.0.0-beta.12...@tiptap/html@2.0.0-beta.13) (2021-04-02)
+
+**Note:** Version bump only for package @tiptap/html
+
+
+
+
+
 # [2.0.0-beta.12](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/html@2.0.0-beta.11...@tiptap/html@2.0.0-beta.12) (2021-04-01)
 
 **Note:** Version bump only for package @tiptap/html
