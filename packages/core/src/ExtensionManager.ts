@@ -43,10 +43,7 @@ export default class ExtensionManager {
         }
       }
 
-      // console.log(extension.config.onBeforeCreate)
-
       if (typeof extension.config.onBeforeCreate === 'function') {
-        console.log('JOOO')
         this.editor.on('beforeCreate', extension.config.onBeforeCreate.bind(context))
       }
 
