@@ -23,28 +23,28 @@ const findBlockNodes = (doc: ProsemirrorNode) => {
   return nodes
 }
 
+function parseNodes(nodes: any[], className: string[] = []): any {
+  return nodes.map(node => {
+
+    const classes = [
+      ...className,
+      ...node.properties ? node.properties.className : [],
+    ]
+
+    if (node.children) {
+      return parseNodes(node.children, classes)
+    }
+
+    return {
+      text: node.value,
+      classes,
+    }
+  })
+}
+
 function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
   const decorations: Decoration[] = []
   const blocks = findBlockNodes(doc).filter(block => block.node.type.name === name)
-
-  function parseNodes(nodes: any[], className: string[] = []): any {
-    return nodes.map(node => {
-
-      const classes = [
-        ...className,
-        ...node.properties ? node.properties.className : [],
-      ]
-
-      if (node.children) {
-        return parseNodes(node.children, classes)
-      }
-
-      return {
-        text: node.value,
-        classes,
-      }
-    })
-  }
 
   blocks.forEach(block => {
     let startPos = block.pos + 1
@@ -57,7 +57,7 @@ function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
       : low.highlightAuto(block.node.textContent).value
 
     parseNodes(nodes)
-      .flat()
+      .flat(Infinity)
       .map((node: any) => {
         const from = startPos
         const to = from + node.text.length
