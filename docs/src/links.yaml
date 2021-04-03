@@ -104,7 +104,7 @@
       items:
         - title: With JavaScript
           link: /guide/node-views/js
-          type: draft
+          type: new
         - title: With React
           link: /guide/node-views/react
           type: draft

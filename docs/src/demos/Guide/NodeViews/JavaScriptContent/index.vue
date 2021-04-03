@@ -28,7 +28,9 @@ export default {
         <p>
           This is still the text editor you’re used to, but enriched with node views.
         </p>
-        <node-view></node-view>
+        <node-view>
+          <p>This is editable.</p>
+        </node-view>
         <p>
           Did you see that? That’s a JavaScript node view. We are really living in the future.
         </p>
@@ -74,8 +76,10 @@ export default {
   }
 
   .content {
-    margin-top: 1.5rem;
-    padding: 1rem;
+    margin: 2.5rem 1rem 1rem;
+    padding: 0.5rem;
+    border: 2px dashed #0D0D0D20;
+    border-radius: 0.5rem;
   }
 }
 </style>

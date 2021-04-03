@@ -12,44 +12,41 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Bold from '@tiptap/extension-bold'
 
-export default {
-  data() {
-    return {
-      output: '',
-      json: {
-        type: 'doc',
-        content: [
-          {
-            type: 'paragraph',
-            content: [
-              {
-                type: 'text',
-                text: 'Example ',
-              },
-              {
-                type: 'text',
-                marks: [
-                  {
-                    type: 'bold',
-                  },
-                ],
-                text: 'Text',
-              },
-            ],
-          },
-        ],
-      },
-    }
-  },
+const json = {
+  type: 'doc',
+  content: [
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'Example ',
+        },
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'bold',
+            },
+          ],
+          text: 'Text',
+        },
+      ],
+    },
+  ],
+}
 
-  mounted() {
-    this.output = generateHTML(this.json, [
-      Document,
-      Paragraph,
-      Text,
-      Bold,
-      // other extensions …
-    ])
+export default {
+  computed: {
+    output() {
+      return generateHTML(json, [
+        Document,
+        Paragraph,
+        Text,
+        Bold,
+        // other extensions …
+      ])
+    },
   },
 }
 </script>

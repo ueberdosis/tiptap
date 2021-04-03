@@ -3,10 +3,10 @@
 ## toc
 
 ## Introduction
-Using Vanilla JavaScript can feel complex if you are used to work in Vue. Good news: You can use regular Vue components in your node views, too. There is just a little bit you need to know, but let’s go through this one by one.
+Using plain JavaScript can feel complex if you are used to work in Vue. Good news: You can use regular Vue components in your node views, too. There is just a little bit you need to know, but let’s go through this one by one.
 
 ## Render a Vue component
-Here is what you need to do to render Vue components inside your text editor:
+Here is what you need to do to render Vue components inside your editor:
 
 1. [Create a node extension](/guide/build-extensions)
 2. Create a Vue component
@@ -44,7 +44,7 @@ Got it? Let’s see it in action. Feel free to copy the below example to get sta
 
 <demo name="Guide/NodeViews/VueComponent" />
 
-That component doesn’t interactive with the editor, though. Time to connect it to the editor output.
+That component doesn’t interact with the editor, though. Time to wire it up.
 
 ## Access node attributes
 The `VueNodeViewRenderer` which you use in your node extension, passes a few very helpful props to your custom view component. One of them is the `node` prop. Add this snippet to your Vue component to directly access the node:
@@ -58,7 +58,7 @@ props: {
 },
 ```
 
-That makes it super easy to access node attributes in your Vue component. Let’s say you have [added an attribute](/guide/extend-extensions#attributes) named `count` to your node extension (like we did in the above example) you could access it like this:
+That enables you to access node attributes in your Vue component. Let’s say you have [added an attribute](/guide/extend-extensions#attributes) named `count` to your node extension (like we did in the above example) you could access it like this:
 
 ```js
 this.node.attrs.count
