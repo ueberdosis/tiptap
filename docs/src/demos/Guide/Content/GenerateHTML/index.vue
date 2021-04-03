@@ -3,7 +3,10 @@
 </template>
 
 <script>
+// Option 1: Browser + server-side
 import { generateHTML } from '@tiptap/html'
+// Option 2: Browser-only (lightweight)
+// import { generateHTML } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -45,6 +48,7 @@ export default {
       Paragraph,
       Text,
       Bold,
+      // other extensions …
     ])
   },
 }
