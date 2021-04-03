@@ -107,7 +107,7 @@
           type: new
         - title: With React
           link: /guide/node-views/react
-          type: draft
+          type: new
         - title: With Vue
           link: /guide/node-views/vue
         - title: A few examples

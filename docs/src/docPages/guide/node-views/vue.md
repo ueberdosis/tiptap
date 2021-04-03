@@ -47,7 +47,7 @@ Got it? Let’s see it in action. Feel free to copy the below example to get sta
 That component doesn’t interact with the editor, though. Time to wire it up.
 
 ## Access node attributes
-The `VueNodeViewRenderer` which you use in your node extension, passes a few very helpful props to your custom view component. One of them is the `node` prop. Add this snippet to your Vue component to directly access the node:
+The `VueNodeViewRenderer` which you use in your node extension, passes a few very helpful props to your custom Vue component. One of them is the `node` prop. Add this snippet to your Vue component to directly access the node:
 
 ```js
 props: {
