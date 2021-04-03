@@ -17,9 +17,9 @@ export default {
       default: null,
     },
 
-    showSource: {
+    hideSource: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
 
@@ -38,7 +38,7 @@ export default {
         name: this.name,
         inline: this.inline,
         highlight: this.highlight,
-        showSource: this.showSource,
+        hideSource: this.hideSource,
       }
     },
 

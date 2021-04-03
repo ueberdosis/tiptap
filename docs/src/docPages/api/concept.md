@@ -23,3 +23,4 @@ ProseMirror has its own vocabulary and you’ll stumble upon all those words now
 | Node        | Adds blocks, like heading, paragraph.                                    |
 | Mark        | Adds inline formatting, for example bold or italic.                      |
 | Command     | Execute an action inside the editor, that somehow changes the state.     |
+| Decoration  | Styling on top of the document, for example to highlight mistakes.       |

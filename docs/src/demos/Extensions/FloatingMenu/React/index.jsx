@@ -10,8 +10,9 @@ export default () => {
     ],
     content: `
       <p>
-        This is an example of a medium-like editor. Enter a new line and some buttons will appear.
+        This is an example of a Medium-like editor. Enter a new line and some buttons will appear.
       </p>
+      <p></p>
     `,
   })
 

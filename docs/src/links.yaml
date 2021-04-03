@@ -82,8 +82,9 @@
   items:
     - title: Configure the editor
       link: /guide/configuration
-    - title: Create a toolbar
-      link: /guide/toolbar
+    - title: Create menus
+      link: /guide/menus
+      type: new
     - title: Custom styling
       link: /guide/styling
     - title: Accessibility
@@ -131,6 +132,9 @@
           link: /api/nodes/bullet-list
         - title: CodeBlock
           link: /api/nodes/code-block
+        - title: CodeBlockLowlight
+          link: /api/nodes/code-block-lowlight
+          type: draft
         - title: Document
           link: /api/nodes/document
         - title: Emoji

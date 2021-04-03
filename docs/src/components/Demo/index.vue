@@ -4,7 +4,7 @@
     <div class="demo" v-else>
       <template v-if="mainFile">
         <demo-frame class="demo__preview" v-bind="props" />
-        <div class="demo__source" v-if="showSource">
+        <div class="demo__source" v-if="!hideSource">
           <div class="demo__scroller" v-if="showFileNames">
             <div class="demo__tabs">
               <button

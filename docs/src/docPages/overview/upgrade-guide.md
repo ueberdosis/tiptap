@@ -143,6 +143,9 @@ All new extensions come with specific commands to set, unset and toggle styles. 
 | ~~`.underline()`~~       | `.toggleUnderline()`            |
 | …                        | …                               |
 
+### MenuBar, BubbleMenu and FloatingMenu
+Read the dedicated [guide on creating menus](/guide/menus) to migrate your menus.
+
 ### Commands can be chained now
 Most commands can be combined to one call now. That’s shorter than separate function calls in most cases. Here is an example to make the selected text bold:
 

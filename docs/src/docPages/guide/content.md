@@ -40,7 +40,7 @@ editor.commands.setContent({
 
 Here is an interactive example where you can see that in action:
 
-<demo name="Guide/Content/ExportJSON" :show-source="false"/>
+<demo name="Guide/Content/ExportJSON" hide-source/>
 
 ### Option 2: HTML
 HTML can be easily rendered in other places, for example in emails and it’s wildly used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
@@ -64,7 +64,7 @@ editor.commands.setContent(`<p>Example Text</p>`)
 
 Use this interactive example to fiddle around:
 
-<demo name="Guide/Content/ExportHTML" :show-source="false"/>
+<demo name="Guide/Content/ExportHTML" hide-source/>
 
 ### Option 3: Y.js
 Our editor has amazing support for Y.js, which is amazing to add [realtime collaboration, offline editing, or syncing between devices](/guide/collaborative-editing).
