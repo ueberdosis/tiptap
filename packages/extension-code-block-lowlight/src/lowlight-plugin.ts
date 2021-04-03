@@ -71,9 +71,31 @@ export function LowlightPlugin({ name }: { name: string }) {
         const oldNodes = findChildren(oldState.doc, node => node.type.name === name)
         const newNodes = findChildren(newState.doc, node => node.type.name === name)
 
-        // Apply decorations if selection includes named node, or transaction changes named node.
-        if (transaction.docChanged && ([oldNodeName, newNodeName].includes(name)
-          || newNodes.length !== oldNodes.length)) {
+        if (
+          transaction.docChanged
+          // Apply decorations if:
+          && (
+            // selection includes named node,
+            [oldNodeName, newNodeName].includes(name)
+            // OR transaction adds/removes named node,
+            || newNodes.length !== oldNodes.length
+            // OR transaction has changes that completely encapsulte a node
+            // (for example, a transaction that affects the entire document).
+            // Such transactions can happen during collab syncing via y-prosemirror, for example.
+            || transaction.steps.some(step => {
+              // @ts-ignore
+              return step.from !== undefined
+                // @ts-ignore
+                && step.to !== undefined
+                && oldNodes.some(node => {
+                  // @ts-ignore
+                  return node.pos >= step.from
+                    // @ts-ignore
+                    && node.pos + node.node.nodeSize <= step.to
+                })
+            })
+          )
+        ) {
           return getDecorations({ doc: transaction.doc, name })
         }
 
