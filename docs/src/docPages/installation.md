@@ -49,7 +49,7 @@ import { defaultExtensions } from '@tiptap/starter-kit'
 new Editor({
   element: document.querySelector('.element'),
   extensions: defaultExtensions(),
-  content: '<p>Your content.</p>',
+  content: '<p>Hello World!</p>',
 })
 ```
 

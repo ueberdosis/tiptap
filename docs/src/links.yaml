@@ -8,7 +8,6 @@
           skip: true
         - title: React
           link: /installation/react
-          type: new
           skip: true
         - title: Vue 3
           link: /installation/vue3
@@ -21,8 +20,11 @@
           skip: true
         - title: Svelte
           link: /installation/svelte
-          type: draft
+          type: new
           skip: true
+        # - title: CodeSandbox
+        #   link: /installation/codesandbox
+        #   skip: true
         - title: Alpine.js
           link: /installation/alpine
           type: draft
@@ -30,9 +32,6 @@
         - title: Livewire
           link: /installation/livewire
           type: draft
-          skip: true
-        - title: CodeSandbox
-          link: /installation/codesandbox
           skip: true
     - title: Upgrade guide
       link: /overview/upgrade-guide
