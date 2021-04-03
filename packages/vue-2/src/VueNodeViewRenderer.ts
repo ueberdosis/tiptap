@@ -51,6 +51,10 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {
 
   renderer!: VueRenderer
 
+  decorationClasses!: {
+    value: string
+  }
+
   mount() {
     const props: NodeViewProps = {
       editor: this.editor,
@@ -71,14 +75,19 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {
       isEditable.value = this.editor.isEditable
     })
 
+    this.decorationClasses = Vue.observable({
+      value: this.getDecorationClasses(),
+    })
+
     const Component = Vue
       .extend(this.component)
       .extend({
         props: Object.keys(props),
-        provide() {
+        provide: () => {
           return {
             onDragStart,
             isEditable,
+            decorationClasses: this.decorationClasses,
           }
         },
       })
@@ -122,6 +131,7 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {
 
     this.node = node
     this.decorations = decorations
+    this.decorationClasses.value = this.getDecorationClasses()
     this.renderer.updateProps({ node, decorations })
 
     return true
@@ -137,6 +147,14 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {
     this.renderer.updateProps({
       selected: false,
     })
+  }
+
+  getDecorationClasses() {
+    return this.decorations
+      // @ts-ignore
+      .map(item => item.type.attrs.class)
+      .flat()
+      .join(' ')
   }
 
   destroy() {
