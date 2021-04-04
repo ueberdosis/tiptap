@@ -68,7 +68,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
       props,
       as: this.node.isInline
         ? 'span'
-        : 'div'
+        : 'div',
     })
   }
 
