@@ -1,6 +1,6 @@
 <template>
-  <node-view-wrapper class="code-block" as="pre">
-    <select class="code-block-select" v-model="selectedLanguage">
+  <node-view-wrapper class="code-block">
+    <select contenteditable="false" class="code-block-select" v-model="selectedLanguage">
       <option v-for="(language, index) in languages" :value="language" :key="index">
         {{ language }}
       </option>
@@ -8,7 +8,7 @@
         auto
       </option>
     </select>
-    <node-view-content as="code" />
+    <pre><node-view-content as="code" /></pre>
   </node-view-wrapper>
 </template>
 
