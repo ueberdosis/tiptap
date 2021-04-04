@@ -76,6 +76,9 @@
       link: /examples/savvy
     - title: Interactivity
       link: /examples/interactivity
+    - title: Code block language
+      link: /examples/code-block-language
+      type: new
 
 - title: Guide
   items:
