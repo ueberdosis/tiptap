@@ -1,10 +1,10 @@
 import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
-import low from 'lowlight/lib/core'
+import lowlight from 'lowlight/lib/core'
 import { LowlightPlugin } from './lowlight-plugin'
 
 export interface CodeBlockLowlightOptions extends CodeBlockOptions {
   languages: {
-    [key: string]: Function
+    [key: string]: Function,
   },
 }
 
@@ -15,9 +15,11 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
   },
 
   onBeforeCreate() {
-    Object.entries(this.options.languages).forEach(([name, mapping]) => {
-      low.registerLanguage(name, mapping)
-    })
+    Object
+      .entries(this.options.languages)
+      .forEach(([name, mapping]) => {
+        lowlight.registerLanguage(name, mapping)
+      })
   },
 
   addProseMirrorPlugins() {

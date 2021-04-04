@@ -1,8 +1,8 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-import low from 'lowlight/lib/core'
 import { findChildren } from '@tiptap/core'
+import lowlight from 'lowlight/lib/core'
 
 function parseNodes(nodes: any[], className: string[] = []): { text: string, classes: string[] }[] {
   return nodes
@@ -35,10 +35,10 @@ function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
       const { language } = block.node.attrs
       // TODO: add missing type for `listLanguages`
       // @ts-ignore
-      const languages = low.listLanguages() as string[]
+      const languages = lowlight.listLanguages() as string[]
       const nodes = language && languages.includes(language)
-        ? low.highlight(language, block.node.textContent).value
-        : low.highlightAuto(block.node.textContent).value
+        ? lowlight.highlight(language, block.node.textContent).value
+        : lowlight.highlightAuto(block.node.textContent).value
 
       parseNodes(nodes).forEach(node => {
         const to = from + node.text.length
