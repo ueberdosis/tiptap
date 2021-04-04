@@ -31,6 +31,26 @@ In the example above two different commands are executed at once. When a user cl
 
 All chained commands are kind of queued up. They are combined to one single transaction. That means, the content is only updated once, also the `update` event is only triggered once.
 
+#### Chaining inside custom commands
+When chaining a command, the transaction is held back. If you want to chain commands inside your custom commands, you’ll need to use said transaction and add to it. Here is how you would do that:
+
+```js
+addCommands() {
+  return {
+    insertTimecode: attributes => ({ chain }) => {
+      // Doesn’t work:
+      // return editor.chain() …
+
+      // Does work:
+      return chain()
+        .insertNode('timecode', attributes)
+        .insertText(' ')
+        .run()
+    },
+  }
+}
+```
+
 ### Inline commands
 In some cases, it’s helpful to put some more logic in a command. That’s why you can execute commands in commands. I know, that sounds crazy, but let’s look at an example:
 
@@ -132,6 +152,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | --------------- | ------------------------------------------------ |
 | .clearContent() | Clear the whole document.                        |
 | .insertHTML()   | Insert a string of HTML at the current position. |
+| .insertNode()   | Insert a node at the current position.           |
 | .insertText()   | Insert a string of text at the current position. |
 | .setContent()   | Replace the whole document with new content.     |
 
@@ -207,9 +228,26 @@ this.editor
   .createParagraphNear()
   .insertHTML('<p></p>')
   .run()
-``` -->
+```
 
-## Add your own commands
+Add a custom command to insert a node.
+```js
+addCommands() {
+  return {
+    insertTimecode: attributes => ({ chain }) => {
+      return chain()
+        .focus()
+        .insertNode('timecode', attributes)
+        .insertText(' ')
+        .run();
+    },
+  }
+},
+```
+-->
+
+## Add custom commands
 All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those.
 
 Of course, you can [add your custom extensions](/guide/build-extensions) with custom commands aswell.
+

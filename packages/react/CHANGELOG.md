@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.14](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/react@2.0.0-beta.13...@tiptap/react@2.0.0-beta.14) (2021-04-04)
+
+
+### Features
+
+* render wrapper element for inline node views as span, fix [#242](https://github.com/ueberdosis/tiptap-next/issues/242) ([bdb5d72](https://github.com/ueberdosis/tiptap-next/commit/bdb5d724956c0c757e29be38fb2c9dd85d8fd36b))
+
+
+
+
+
 # [2.0.0-beta.13](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/react@2.0.0-beta.12...@tiptap/react@2.0.0-beta.13) (2021-04-01)
 
 **Note:** Version bump only for package @tiptap/react

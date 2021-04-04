@@ -5,15 +5,7 @@ export default Node.create({
 
   group: 'block',
 
-  atom: true,
-
-  addAttributes() {
-    return {
-      count: {
-        default: 0,
-      },
-    }
-  },
+  content: 'inline*',
 
   parseHTML() {
     return [
@@ -29,32 +21,32 @@ export default Node.create({
 
   addNodeView() {
     return () => {
+      // Markup
+      /*
+        <div class="node-view">
+          <span class="label">Node view</span>
+
+          <div class="content"></div>
+        </div>
+      */
+
       const dom = document.createElement('div')
       dom.classList.add('node-view')
 
       const label = document.createElement('span')
       label.classList.add('label')
-      label.innerHTML = 'Node View'
+      label.innerHTML = 'Node view'
+      label.contentEditable = false
 
       const content = document.createElement('div')
       content.classList.add('content')
-      content.innerHTML = 'I’m rendered with JavaScript.'
 
       dom.append(label, content)
 
       return {
         dom,
+        contentDOM: content,
       }
     }
   },
 })
-
-// <node-view-wrapper class="vue-component">
-//     <span class="label">Vue Component</span>
-
-//     <div class="content">
-//       <button @click="increase">
-//         This button has been clicked {{ node.attrs.count }} times.
-//       </button>
-//     </div>
-//   </node-view-wrapper>

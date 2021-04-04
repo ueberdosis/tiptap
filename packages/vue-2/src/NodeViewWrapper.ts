@@ -8,11 +8,13 @@ export const NodeViewWrapper = Vue.extend({
     },
   },
 
-  inject: ['onDragStart'],
+  inject: ['onDragStart', 'decorationClasses'],
 
   render(createElement) {
     return createElement(
       this.as, {
+        // @ts-ignore
+        class: this.decorationClasses.value,
         style: {
           whiteSpace: 'normal',
         },

@@ -66,6 +66,9 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props,
+      as: this.node.isInline
+        ? 'span'
+        : 'div',
     })
   }
 

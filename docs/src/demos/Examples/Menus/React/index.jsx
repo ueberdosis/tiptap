@@ -15,7 +15,10 @@ export default () => {
     ],
     content: `
       <p>
-        Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
+        Try to select <em>this text</em> to see what we call the bubble menu.
+      </p>
+      <p>
+        Neat, isn’t it? Add an empty paragraph to see the floating menu.
       </p>
     `,
   })
@@ -27,19 +30,19 @@ export default () => {
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={editor.isActive('bold') ? 'is-active' : ''}
         >
-          bold
+          Bold
         </button>
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={editor.isActive('italic') ? 'is-active' : ''}
         >
-          italic
+          Italic
         </button>
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
           className={editor.isActive('strike') ? 'is-active' : ''}
         >
-          strike
+          Strike
         </button>
       </BubbleMenu>}
 
@@ -48,19 +51,19 @@ export default () => {
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
         >
-          h1
+          H1
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
           className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
         >
-          h2
+          H2
         </button>
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={editor.isActive('bulletList') ? 'is-active' : ''}
         >
-          bullet list
+          Bullet List
         </button>
       </FloatingMenu>}
 

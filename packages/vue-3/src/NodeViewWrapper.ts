@@ -8,11 +8,13 @@ export const NodeViewWrapper = defineComponent({
     },
   },
 
-  inject: ['onDragStart'],
+  inject: ['onDragStart', 'decorationClasses'],
 
   render() {
     return h(
       this.as, {
+        // @ts-ignore
+        class: this.decorationClasses.value,
         style: {
           whiteSpace: 'normal',
         },

@@ -8,7 +8,7 @@ The following guide describes how to integrate tiptap with your [Vue](https://vu
 ## Requirements
 * [Node](https://nodejs.org/en/download/) installed on your machine
 * [Vue CLI](https://cli.vuejs.org/) installed on your machine
-* Experience with [Vue](https://vuejs.org/v2/guide/#Getting-Started)
+* Experience with [Vue](https://v3.vuejs.org/guide/introduction.html)
 
 ## 1. Create a project (optional)
 If you already have an existing Vue project, that’s fine too. Just skip this step and proceed with the next step.

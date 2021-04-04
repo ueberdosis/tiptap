@@ -2,25 +2,25 @@
   <div style="position: relative">
     <bubble-menu class="bubble-menu" :editor="editor" v-if="editor">
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-        bold
+        Bold
       </button>
       <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-        italic
+        Italic
       </button>
       <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-        strike
+        Strike
       </button>
     </bubble-menu>
 
     <floating-menu class="floating-menu" :editor="editor" v-if="editor">
       <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-        h1
+        H1
       </button>
       <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-        h2
+        H2
       </button>
       <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
-        bullet list
+        Bullet List
       </button>
     </floating-menu>
 
@@ -57,7 +57,10 @@ export default {
       ],
       content: `
         <p>
-          Hey, try to select some text here. You’ll see a formatting menu pop up. And as always, you are in full control about content and styling of this menu.
+          Try to select <em>this text</em> to see what we call the bubble menu.
+        </p>
+        <p>
+          Neat, isn’t it? Add an empty paragraph to see the floating menu.
         </p>
       `,
     })

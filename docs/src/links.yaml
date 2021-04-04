@@ -8,7 +8,6 @@
           skip: true
         - title: React
           link: /installation/react
-          type: new
           skip: true
         - title: Vue 3
           link: /installation/vue3
@@ -21,8 +20,11 @@
           skip: true
         - title: Svelte
           link: /installation/svelte
-          type: draft
+          type: new
           skip: true
+        # - title: CodeSandbox
+        #   link: /installation/codesandbox
+        #   skip: true
         - title: Alpine.js
           link: /installation/alpine
           type: draft
@@ -30,9 +32,6 @@
         - title: Livewire
           link: /installation/livewire
           type: draft
-          skip: true
-        - title: CodeSandbox
-          link: /installation/codesandbox
           skip: true
     - title: Upgrade guide
       link: /overview/upgrade-guide
@@ -82,8 +81,9 @@
   items:
     - title: Configure the editor
       link: /guide/configuration
-    - title: Create a toolbar
-      link: /guide/toolbar
+    - title: Create menus
+      link: /guide/menus
+      type: new
     - title: Custom styling
       link: /guide/styling
     - title: Accessibility
@@ -103,10 +103,10 @@
       items:
         - title: With JavaScript
           link: /guide/node-views/js
-          type: draft
+          type: new
         - title: With React
           link: /guide/node-views/react
-          type: draft
+          type: new
         - title: With Vue
           link: /guide/node-views/vue
         - title: A few examples
@@ -133,6 +133,7 @@
           link: /api/nodes/code-block
         - title: CodeBlockLowlight
           link: /api/nodes/code-block-lowlight
+          type: draft
         - title: Document
           link: /api/nodes/document
         - title: Emoji

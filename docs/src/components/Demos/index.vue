@@ -12,6 +12,7 @@
     <demo
       :name="selectedItem.name"
       :key="selectedItem.title"
+      :hide-source="hideSource"
     />
   </div>
 </template>
@@ -28,6 +29,10 @@ export default {
     items: {
       type: Object,
       required: true,
+    },
+    hideSource: {
+      type: Boolean,
+      default: false,
     },
   },
 

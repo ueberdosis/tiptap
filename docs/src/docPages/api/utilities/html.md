@@ -8,4 +8,4 @@ The utility helps rendering JSON content as HTML without an editor instance, for
 [packages/html/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/html/)
 
 ## Usage
-<demo name="Guide/Content/GenerateHTML" highlight="6,43-48"/>
+<demo name="Guide/Content/GenerateHTML" highlight="6-7,42-48"/>

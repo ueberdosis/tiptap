@@ -14,7 +14,7 @@ For testing purposes or demos, use our [Skypack](https://www.skypack.dev/) CDN b
     const editor = new Editor({
       element: document.querySelector('.element'),
       extensions: defaultExtensions(),
-      content: '<p>Your content.</p>',
+      content: '<p>Hello World!</p>',
     })
   </script>
 </body>

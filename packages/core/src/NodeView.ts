@@ -94,6 +94,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     }
 
     const isInput = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(target.tagName)
+      || target.isContentEditable
 
     // any input event within node views should be ignored by ProseMirror
     if (isInput) {
