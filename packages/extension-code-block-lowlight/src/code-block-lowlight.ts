@@ -1,12 +1,8 @@
-import CodeBlock from '@tiptap/extension-code-block'
+import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
 import low from 'lowlight/lib/core'
 import { LowlightPlugin } from './lowlight-plugin'
 
-export interface CodeBlockLowlightOptions {
-  languageClassPrefix: string,
-  HTMLAttributes: {
-    [key: string]: any
-  },
+export interface CodeBlockLowlightOptions extends CodeBlockOptions {
   languages: {
     [key: string]: Function
   },
@@ -14,8 +10,7 @@ export interface CodeBlockLowlightOptions {
 
 export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
   defaultOptions: {
-    languageClassPrefix: 'language-',
-    HTMLAttributes: {},
+    ...CodeBlock.config.defaultOptions,
     languages: {},
   },
 

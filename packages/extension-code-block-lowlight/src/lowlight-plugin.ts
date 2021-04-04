@@ -31,7 +31,7 @@ function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
 
   findChildren(doc, node => node.type.name === name)
     .forEach(block => {
-      let startPos = block.pos + 1
+      let from = block.pos + 1
       const { language } = block.node.attrs
       // TODO: add missing type for `listLanguages`
       // @ts-ignore
@@ -41,16 +41,14 @@ function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
         : low.highlightAuto(block.node.textContent).value
 
       parseNodes(nodes).forEach(node => {
-        const from = startPos
         const to = from + node.text.length
-
-        startPos = to
-
         const decoration = Decoration.inline(from, to, {
           class: node.classes.join(' '),
         })
 
         decorations.push(decoration)
+
+        from = to
       })
     })
 
@@ -59,13 +57,11 @@ function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
 
 export function LowlightPlugin({ name }: { name: string }) {
   return new Plugin({
-    key: new PluginKey('highlight'),
+    key: new PluginKey('lowlight'),
 
     state: {
       init: (_, { doc }) => getDecorations({ doc, name }),
       apply: (transaction, decorationSet, oldState, newState) => {
-        // TODO: find way to cache decorations
-        // https://discuss.prosemirror.net/t/how-to-update-multiple-inline-decorations-on-node-change/1493
         const oldNodeName = oldState.selection.$head.parent.type.name
         const newNodeName = newState.selection.$head.parent.type.name
         const oldNodes = findChildren(oldState.doc, node => node.type.name === name)
