@@ -11658,10 +11658,10 @@ prosemirror-commands@^1.1.7:
     prosemirror-state "^1.0.0"
     prosemirror-transform "^1.0.0"
 
-prosemirror-dropcursor@^1.3.3:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/prosemirror-dropcursor/-/prosemirror-dropcursor-1.3.3.tgz#583d6a82b4960d468132c07c40803cc1d697fda4"
-  integrity sha512-zavE+wh+qkDcP7LaWn+jXVujGyQzBYSmM8E2HSngQ3KaaR+HJYgEBYGs9ynLHqKWLlLCXsxWdVYPV49v4caFyg==
+prosemirror-dropcursor@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/prosemirror-dropcursor/-/prosemirror-dropcursor-1.3.4.tgz#a7f799ff9ecb520d3e1dbb3cb39d27ce41066618"
+  integrity sha512-eVmpMG5+fmvANT3xDzRirmG240rB/piI31ExIfW0Mkvo5/cYC/lm1fFMAOzjO22uc5OQXiodRqOnyE05+g3UqA==
   dependencies:
     prosemirror-state "^1.0.0"
     prosemirror-transform "^1.1.0"
@@ -11736,10 +11736,17 @@ prosemirror-tables@^1.1.1:
     prosemirror-transform "^1.2.1"
     prosemirror-view "^1.13.3"
 
-prosemirror-transform@^1.0.0, prosemirror-transform@^1.1.0, prosemirror-transform@^1.2.1, prosemirror-transform@^1.2.12:
+prosemirror-transform@^1.0.0, prosemirror-transform@^1.1.0, prosemirror-transform@^1.2.1:
   version "1.2.12"
   resolved "https://registry.yarnpkg.com/prosemirror-transform/-/prosemirror-transform-1.2.12.tgz#4398b568faf75a1540fbf5c659ca436a8657ed6f"
   integrity sha512-S73syqLcGBq6QiPaF7vriB8kpvK/aIFsnErrriKaFLSiE/GxMgBc62TPhNQAeGQr7/9GCDApIReTsJFcMt4o2w==
+  dependencies:
+    prosemirror-model "^1.0.0"
+
+prosemirror-transform@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-transform/-/prosemirror-transform-1.3.1.tgz#56ea9b7ec8ce783b0f4b8e30bdec3fd5054eb894"
+  integrity sha512-KRo9TDaxyX+SB8jzByDdhkitCkzOUHNETt6UDpcjrXttKsn9AY0Ncj68EK8pmJuBujI3vfwQfLaTeXABEfe8Ig==
   dependencies:
     prosemirror-model "^1.0.0"
 
@@ -15447,9 +15454,9 @@ yauzl@^2.10.0, yauzl@^2.4.2:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yjs@^13.5.3:
-  version "13.5.3"
-  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.5.3.tgz#0efc5983ec287d24f4471f8f4184f9df80780835"
-  integrity sha512-LlkmCr68LCfkmoic6rBjDaD01vbdMhy07dXYo65sQ0wOYh8eylrU1b0lTo3YT/BmcyH5Jn4KewDxyJMsDwvERw==
+yjs@^13.5.4:
+  version "13.5.4"
+  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.5.4.tgz#c2f0a0300d8c97bda7bb6d6d115d5c9edec2d906"
+  integrity sha512-1dF3SRSoCQIZsFvTx5GwKiKLUFqQs4VIKlXEZIJWD6ScJxm97myWVbWpWm96F7WPFi4Xu5fzuqpIf1keugQAGQ==
   dependencies:
     lib0 "^0.2.38"
