@@ -151,10 +151,10 @@ Have a look at all of the core commands listed below. They should give you a goo
 | Command         | Description                                      | Links                               |
 | --------------- | ------------------------------------------------ | ----------------------------------- |
 | .clearContent() | Clear the whole document.                        | [More](/api/commands/clear-content) |
-| .insertHTML()   | Insert a string of HTML at the current position. |                                     |
-| .insertNode()   | Insert a node at the current position.           |                                     |
-| .insertText()   | Insert a string of text at the current position. |                                     |
-| .setContent()   | Replace the whole document with new content.     |                                     |
+| .insertHTML()   | Insert a string of HTML at the current position. | [More](/api/commands/insert-html)   |
+| .insertNode()   | Insert a node at the current position.           | [More](/api/commands/insert-node)   |
+| .insertText()   | Insert a string of text at the current position. | [More](/api/commands/insert-text)   |
+| .setContent()   | Replace the whole document with new content.     | [More](/api/commands/set-content)   |
 
 ### Nodes & Marks
 | Command                 | Description                                               |

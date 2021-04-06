@@ -1,7 +1,7 @@
 # setContent
 The `setContent` command replaces the document with a new one. You can pass JSON or HTML, both work fine. It’s basically the same as setting the `content` on initialization.
 
-See also: [clearContent()](#)
+See also: [clearContent](/api/commands/clear-content)
 
 ## Parameters
 
@@ -20,6 +20,23 @@ Options to configure the parsing can be passed during initialization and/or with
 ## Usage
 
 ```js
-this.editor.commands.setContent('<p>Example Content</p>')
+// HTML
+this.editor.commands.setContent('<p>Example Text</p>')
+
+// JSON
+this.editor.commands.setContent({
+  "type": "doc",
+  "content": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "Example Text"
+        }
+      ]
+    }
+  ]
+})
 ```
 
