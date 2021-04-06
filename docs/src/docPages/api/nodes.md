@@ -51,4 +51,4 @@ const editor = new Editor({
   ],
 ```
 
-Learn [more about custom extensions in our guide](/guide/build-extensions).
+Learn [more about custom extensions in our guide](/guide/custom-extensions).

@@ -148,13 +148,13 @@ commands.first([
 Have a look at all of the core commands listed below. They should give you a good first impression of what’s possible.
 
 ### Content
-| Command         | Description                                      |
-| --------------- | ------------------------------------------------ |
-| .clearContent() | Clear the whole document.                        |
-| .insertHTML()   | Insert a string of HTML at the current position. |
-| .insertNode()   | Insert a node at the current position.           |
-| .insertText()   | Insert a string of text at the current position. |
-| .setContent()   | Replace the whole document with new content.     |
+| Command         | Description                                      | Links                               |
+| --------------- | ------------------------------------------------ | ----------------------------------- |
+| .clearContent() | Clear the whole document.                        | [More](/api/commands/clear-content) |
+| .insertHTML()   | Insert a string of HTML at the current position. |                                     |
+| .insertNode()   | Insert a node at the current position.           |                                     |
+| .insertText()   | Insert a string of text at the current position. |                                     |
+| .setContent()   | Replace the whole document with new content.     |                                     |
 
 ### Nodes & Marks
 | Command                 | Description                                               |
@@ -249,5 +249,5 @@ addCommands() {
 ## Add custom commands
 All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those.
 
-Of course, you can [add your custom extensions](/guide/build-extensions) with custom commands aswell.
+Of course, you can [add your custom extensions](/guide/custom-extensions) with custom commands aswell.
 
