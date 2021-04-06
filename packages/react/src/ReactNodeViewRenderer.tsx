@@ -55,8 +55,12 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
       }, [])
 
       return (
+        // @ts-ignore
         <ReactNodeViewContext.Provider value={{ onDragStart, isEditable }}>
-          <Component {...componentProps} />
+          {
+            // @ts-ignore
+            <Component {...componentProps} />
+          }
         </ReactNodeViewContext.Provider>
       )
     }
