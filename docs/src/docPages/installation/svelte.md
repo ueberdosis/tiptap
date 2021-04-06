@@ -1,3 +1,7 @@
+---
+title: Svelte WYSIWYG
+---
+
 # Svelte
 
 ## toc
