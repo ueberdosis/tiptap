@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/vue-3@2.0.0-beta.16...@tiptap/vue-3@2.0.0-beta.17) (2021-04-06)
+
+
+### Bug Fixes
+
+* fix vue dependency ([73650c1](https://github.com/ueberdosis/tiptap-next/commit/73650c12e0cc7be13705775a02c031e5e36ee4d1))
+
+
+
+
+
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/vue-3@2.0.0-beta.15...@tiptap/vue-3@2.0.0-beta.16) (2021-04-06)
+
+**Note:** Version bump only for package @tiptap/vue-3
+
+
+
+
+
+# [2.0.0-beta.15](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/vue-3@2.0.0-beta.14...@tiptap/vue-3@2.0.0-beta.15) (2021-04-03)
+
+**Note:** Version bump only for package @tiptap/vue-3
+
+
+
+
+
 # [2.0.0-beta.14](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/vue-3@2.0.0-beta.13...@tiptap/vue-3@2.0.0-beta.14) (2021-04-01)
 
 **Note:** Version bump only for package @tiptap/vue-3

@@ -36,6 +36,6 @@ export const FloatingMenu = defineComponent({
       editor.unregisterPlugin(FloatingMenuPluginKey)
     })
 
-    return () => h('div', { ref: root, style: { visibility: 'hidden' } }, slots.default?.())
+    return () => h('div', { ref: root }, slots.default?.())
   },
 })
