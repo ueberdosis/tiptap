@@ -1,3 +1,13 @@
+# - title: Documentation
+#   link: introduction
+# - title: Examples
+#   link: /examples
+#   redirect: /examples/default
+# - title: Community
+#   link: community
+# - title: Sponsor
+#   link: https://github.com/ueberdosis/sponsor
+
 - title: Overview
   items:
     - title: Installation
