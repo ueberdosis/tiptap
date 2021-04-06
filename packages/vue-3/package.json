@@ -29,6 +29,6 @@
     "@tiptap/extension-floating-menu": "^2.0.0-beta.2",
     "prosemirror-state": "^1.3.4",
     "prosemirror-view": "^1.18.2",
-    "vue": "^2.6.12"
+    "vue": "^3.0.0"
   }
 }
