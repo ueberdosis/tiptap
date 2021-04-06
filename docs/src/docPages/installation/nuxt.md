@@ -1,3 +1,7 @@
+---
+title: Nuxt.js WYSIWYG
+---
+
 # Nuxt.js
 
 ## toc
