@@ -57,42 +57,52 @@
       <portal :to="sidebarPortal" v-if="showSidebar">
         <nav class="app__sidebar-menu">
           <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
-            <div class="app__link-group-title">
-              {{ linkGroup.title }}
-            </div>
-            <ul class="app__link-list">
-              <li v-for="(item, j) in linkGroup.items" :key="j">
-                <g-link
-                  :class="{
-                    'app__link': true,
-                    'app__link--exact': $router.currentRoute.path === item.link,
-                    'app__link--active': $router.currentRoute.path.startsWith(item.link),
-                    [`app__link--${item.type}`]: item.type !== null,
-                    'app__link--with-children': !!item.items
-                  }"
-                  :to="item.redirect || item.link"
-                >
-                  {{ item.title }}
-                </g-link>
+            <template v-if="linkGroup.link && !linkGroup.items">
+              <g-link
+                class="app__link-group__link"
+                :to="linkGroup.redirect || linkGroup.link"
+              >
+                {{ linkGroup.title }}
+              </g-link>
+            </template>
+            <template v-else>
+              <div class="app__link-group-title">
+                {{ linkGroup.title }}
+              </div>
+              <ul class="app__link-list">
+                <li v-for="(item, j) in linkGroup.items" :key="j">
+                  <g-link
+                    :class="{
+                      'app__link': true,
+                      'app__link--exact': $router.currentRoute.path === item.link,
+                      'app__link--active': $router.currentRoute.path.startsWith(item.link),
+                      [`app__link--${item.type}`]: item.type !== null,
+                      'app__link--with-children': !!item.items
+                    }"
+                    :to="item.redirect || item.link"
+                  >
+                    {{ item.title }}
+                  </g-link>
 
-                <ul v-if="item.items" class="app__link-list">
-                  <li v-for="(item, k) in item.items" :key="k">
-                    <g-link
-                      :class="{
-                        'app__link': true,
-                        'app__link--exact': $router.currentRoute.path === item.link,
-                        'app__link--active': $router.currentRoute.path.startsWith(item.link),
-                        [`app__link--${item.type}`]: item.type !== null,
-                      }"
-                      :to="item.link"
-                      exact
-                    >
-                      {{ item.title }}
-                    </g-link>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+                  <ul v-if="item.items" class="app__link-list">
+                    <li v-for="(item, k) in item.items" :key="k">
+                      <g-link
+                        :class="{
+                          'app__link': true,
+                          'app__link--exact': $router.currentRoute.path === item.link,
+                          'app__link--active': $router.currentRoute.path.startsWith(item.link),
+                          [`app__link--${item.type}`]: item.type !== null,
+                        }"
+                        :to="item.link"
+                        exact
+                      >
+                        {{ item.title }}
+                      </g-link>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </template>
           </div>
         </nav>
       </portal>

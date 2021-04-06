@@ -8,7 +8,7 @@ Using frameworks like Vue or React can feel too complex, if you’re used to wor
 ## Render a node view with JavaScript
 Here is what you need to do to render a node view inside your editor:
 
-1. [Create a node extension](/guide/build-extensions)
+1. [Create a node extension](/guide/custom-extensions)
 2. Register a new node view with `addNodeView()`
 3. Write your render function
 4. [Configure tiptap to use your new node extension](/guide/configuration)

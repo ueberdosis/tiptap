@@ -1,4 +1,4 @@
-# Configure the editor
+# Configuration
 
 ## toc
 
