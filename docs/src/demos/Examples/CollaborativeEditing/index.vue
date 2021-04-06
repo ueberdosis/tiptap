@@ -326,7 +326,7 @@ export default {
       display: flex;
       align-items: center;
 
-      > input {
+      > label {
         flex: 0 0 auto;
         margin-right: 0.5rem;
       }
