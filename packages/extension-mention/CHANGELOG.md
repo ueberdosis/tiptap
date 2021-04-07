@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-mention@2.0.0-beta.15...@tiptap/extension-mention@2.0.0-beta.16) (2021-04-07)
+
+
+### Features
+
+* add insertContent() command, deprecate insertText(), insertHTML() and insertNode() ([b8d9b7d](https://github.com/ueberdosis/tiptap-next/commit/b8d9b7d4c70b38fb9eec3c079be8243d30166e5e))
+
+
+
+
+
 # [2.0.0-beta.15](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-mention@2.0.0-beta.14...@tiptap/extension-mention@2.0.0-beta.15) (2021-04-06)
 
 **Note:** Version bump only for package @tiptap/extension-mention
