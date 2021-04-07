@@ -4,6 +4,7 @@ import {
   nodeInputRule,
   mergeAttributes,
 } from '@tiptap/core'
+import { TextSelection } from 'prosemirror-state'
 
 export interface HorizontalRuleOptions {
   HTMLAttributes: {
@@ -46,6 +47,22 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
       setHorizontalRule: () => ({ tr, dispatch }) => {
         if (dispatch) {
           tr.replaceSelectionWith(this.type.create())
+
+          const { parent, pos } = tr.selection.$from
+          const posAfter = pos + 1
+          const nodeAfter = tr.doc.nodeAt(posAfter)
+
+          // end of document
+          if (!nodeAfter) {
+            const node = parent.type.contentMatch.defaultType?.create()
+
+            if (node) {
+              tr.insert(posAfter, node)
+              tr.setSelection(TextSelection.create(tr.doc, posAfter))
+            }
+          }
+
+          tr.scrollIntoView()
         }
 
         return true

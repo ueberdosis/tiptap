@@ -15,6 +15,8 @@ declare module '@tiptap/core' {
 }
 
 export const insertHTML: RawCommands['insertHTML'] = value => ({ tr, state, dispatch }) => {
+  console.warn('[tiptap warn]: insertHTML() is deprecated. please use insertContent() instead.')
+
   const { selection } = tr
   const element = elementFromString(value)
   const slice = DOMParser.fromSchema(state.schema).parseSlice(element)

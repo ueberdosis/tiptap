@@ -8,7 +8,7 @@ Using plain JavaScript can feel complex if you are used to work in Vue. Good new
 ## Render a Vue component
 Here is what you need to do to render Vue components inside your editor:
 
-1. [Create a node extension](/guide/build-extensions)
+1. [Create a node extension](/guide/custom-extensions)
 2. Create a Vue component
 3. Pass that component to the provided `VueNodeViewRenderer`
 4. Register it with `addNodeView()`

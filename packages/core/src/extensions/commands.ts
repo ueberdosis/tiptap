@@ -11,6 +11,7 @@ import * as exitCode from '../commands/exitCode'
 import * as extendMarkRange from '../commands/extendMarkRange'
 import * as first from '../commands/first'
 import * as focus from '../commands/focus'
+import * as insertContent from '../commands/insertContent'
 import * as insertHTML from '../commands/insertHTML'
 import * as insertNode from '../commands/insertNode'
 import * as insertText from '../commands/insertText'
@@ -23,6 +24,7 @@ import * as liftListItem from '../commands/liftListItem'
 import * as newlineInCode from '../commands/newlineInCode'
 import * as replace from '../commands/replace'
 import * as replaceRange from '../commands/replaceRange'
+import * as resetAttributes from '../commands/resetAttributes'
 import * as resetNodeAttributes from '../commands/resetNodeAttributes'
 import * as scrollIntoView from '../commands/scrollIntoView'
 import * as selectAll from '../commands/selectAll'
@@ -42,6 +44,7 @@ import * as toggleWrap from '../commands/toggleWrap'
 import * as undoInputRule from '../commands/undoInputRule'
 import * as unsetAllMarks from '../commands/unsetAllMarks'
 import * as unsetMark from '../commands/unsetMark'
+import * as updateAttributes from '../commands/updateAttributes'
 import * as updateNodeAttributes from '../commands/updateNodeAttributes'
 import * as wrapIn from '../commands/wrapIn'
 import * as wrapInList from '../commands/wrapInList'
@@ -58,6 +61,7 @@ export { exitCode }
 export { extendMarkRange }
 export { first }
 export { focus }
+export { insertContent }
 export { insertHTML }
 export { insertNode }
 export { insertText }
@@ -70,6 +74,7 @@ export { liftListItem }
 export { newlineInCode }
 export { replace }
 export { replaceRange }
+export { resetAttributes }
 export { resetNodeAttributes }
 export { scrollIntoView }
 export { selectAll }
@@ -89,6 +94,7 @@ export { toggleWrap }
 export { undoInputRule }
 export { unsetAllMarks }
 export { unsetMark }
+export { updateAttributes }
 export { updateNodeAttributes }
 export { wrapIn }
 export { wrapInList }
@@ -110,6 +116,7 @@ export const Commands = Extension.create({
       ...extendMarkRange,
       ...first,
       ...focus,
+      ...insertContent,
       ...insertHTML,
       ...insertNode,
       ...insertText,
@@ -122,6 +129,7 @@ export const Commands = Extension.create({
       ...newlineInCode,
       ...replace,
       ...replaceRange,
+      ...resetAttributes,
       ...resetNodeAttributes,
       ...scrollIntoView,
       ...selectAll,
@@ -141,6 +149,7 @@ export const Commands = Extension.create({
       ...undoInputRule,
       ...unsetAllMarks,
       ...unsetMark,
+      ...updateAttributes,
       ...updateNodeAttributes,
       ...wrapIn,
       ...wrapInList,

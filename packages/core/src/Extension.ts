@@ -17,6 +17,11 @@ declare module '@tiptap/core' {
     name: string,
 
     /**
+     * Priority
+     */
+    priority?: number,
+
+    /**
      * Default options
      */
     defaultOptions?: Options,
@@ -127,14 +132,6 @@ declare module '@tiptap/core' {
     }) => void) | null,
 
     /**
-     * The view has changed.
-     */
-     onViewUpdate?: ((this: {
-      options: Options,
-      editor: Editor,
-    }) => void) | null,
-
-    /**
      * The editor state has changed.
      */
     onTransaction?: ((
@@ -188,6 +185,7 @@ export class Extension<Options = any> {
 
   config: ExtensionConfig = {
     name: 'extension',
+    priority: 100,
     defaultOptions: {},
   }
 

@@ -1,3 +1,7 @@
+---
+title: Livewire WYSIWYG
+---
+
 # Livewire
 
 ## toc

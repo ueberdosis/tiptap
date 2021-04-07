@@ -1,3 +1,13 @@
+# - title: Documentation
+#   link: introduction
+# - title: Examples
+#   link: /examples
+#   redirect: /examples/default
+# - title: Community
+#   link: community
+# - title: Sponsor
+#   link: https://github.com/ueberdosis/sponsor
+
 - title: Overview
   items:
     - title: Installation
@@ -82,24 +92,24 @@
 
 - title: Guide
   items:
-    - title: Configure the editor
+    - title: Configuration
       link: /guide/configuration
-    - title: Create menus
+    - title: Menus
       link: /guide/menus
       type: new
-    - title: Custom styling
+    - title: Styling
       link: /guide/styling
+    - title: Output
+      link: /guide/output
     - title: Accessibility
       link: /guide/accessibility
-    - title: Export content
-      link: /guide/content
     - title: Collaborative editing
       link: /guide/collaborative-editing
       # type: pro
-    - title: Extend the functionality
+    - title: Custom extensions
+      link: /guide/custom-extensions
+    - title: Overwrite & extend
       link: /guide/extend-extensions
-    - title: Build extensions
-      link: /guide/build-extensions
     - title: Interactive node views
       link: /guide/node-views
       type: new
@@ -125,6 +135,15 @@
       link: /api/editor
     - title: Commands
       link: /api/commands
+      items:
+        - title: clearContent
+          link: /api/commands/clear-content
+          type: draft
+        - title: insertContent
+          link: /api/commands/insert-content
+          type: draft
+        - title: setContent
+          link: /api/commands/set-content
     - title: Nodes
       link: /api/nodes
       items:

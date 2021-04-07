@@ -1,4 +1,4 @@
-# Custom styling
+# Styling
 
 ## toc
 

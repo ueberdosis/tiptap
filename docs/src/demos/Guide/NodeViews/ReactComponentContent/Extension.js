@@ -18,7 +18,7 @@ export default Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['react-component', mergeAttributes(HTMLAttributes)]
+    return ['react-component', mergeAttributes(HTMLAttributes), 0]
   },
 
   addNodeView() {

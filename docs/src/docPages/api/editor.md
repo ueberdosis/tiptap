@@ -14,7 +14,6 @@ Don’t confuse methods with [commands](/api/commands). Commands are used to cha
 | --------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | `can()`               | -                                                                                                           | Check if a command or a command chain can be executed. Without executing it. |
 | `chain()`             | -                                                                                                           | Create a command chain to call multiple commands at once.                    |
-| `createDocument()`    | `content` EditorContent<br>`parseOptions`                                                                   | Creates a ProseMirror document.                                              |
 | `destroy()`           | –                                                                                                           | Stops the editor instance and unbinds all events.                            |
 | `getHTML()`           | –                                                                                                           | Returns the current content as HTML.                                         |
 | `getJSON()`           | –                                                                                                           | Returns the current content as JSON.                                         |
@@ -129,7 +128,7 @@ new Editor({
 | `null`    | Disables autofocus.                                    |
 
 ### Enable input rules
-By default, tiptap enables all [input rules](/guide/build-extensions/#input-rules). With `enableInputRules` you can disable that.
+By default, tiptap enables all [input rules](/guide/custom-extensions/#input-rules). With `enableInputRules` you can disable that.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -143,7 +142,7 @@ new Editor({
 ```
 
 ### Enable paste rules
-By default, tiptap enables all [paste rules](/guide/build-extensions/#paste-rules). With `enablePasteRules` you can disable that.
+By default, tiptap enables all [paste rules](/guide/custom-extensions/#paste-rules). With `enablePasteRules` you can disable that.
 
 ```js
 import { Editor } from '@tiptap/core'

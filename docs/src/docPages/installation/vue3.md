@@ -1,3 +1,7 @@
+---
+title: Vue.js 3 WYSIWYG
+---
+
 # Vue.js 3
 
 ## toc

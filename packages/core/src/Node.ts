@@ -27,6 +27,11 @@ declare module '@tiptap/core' {
     name: string,
 
     /**
+     * Priority
+     */
+    priority?: number,
+
+    /**
      * Default options
      */
     defaultOptions?: Options,
@@ -139,16 +144,7 @@ declare module '@tiptap/core' {
     /**
      * The selection has changed.
      */
-     onSelectionUpdate?: ((this: {
-      options: Options,
-      editor: Editor,
-      type: NodeType,
-    }) => void) | null,
-
-    /**
-     * The view has changed.
-     */
-     onViewUpdate?: ((this: {
+    onSelectionUpdate?: ((this: {
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -321,6 +317,7 @@ export class Node<Options = any> {
 
   config: NodeConfig = {
     name: 'node',
+    priority: 100,
     defaultOptions: {},
   }
 

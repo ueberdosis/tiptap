@@ -49,7 +49,7 @@ Let’s assume you’ve got the editor running already and you want to add your 
 Oh, that’s a long command, right? Actually, it’s a [chain of commands](/api/commands#chain-commands), so let’s go through this one by one:
 
 ```js
-editor.chain().toggleBold().focus().run()
+editor.chain().focus().toggleBold().run()
 ```
 
 1. `editor` should be a tiptap instance,

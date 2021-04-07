@@ -8,7 +8,7 @@ Using plain JavaScript can feel complex if you are used to work in React. Good n
 ## Render a React component
 Here is what you need to do to render React components inside your editor:
 
-1. [Create a node extension](/guide/build-extensions)
+1. [Create a node extension](/guide/custom-extensions)
 2. Create a React component
 3. Pass that component to the provided `ReactNodeViewRenderer`
 4. Register it with `addNodeView()`

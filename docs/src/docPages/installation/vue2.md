@@ -1,3 +1,7 @@
+---
+title: Vue.js 2 WYSIWYG
+---
+
 # Vue.js 2
 
 ## toc

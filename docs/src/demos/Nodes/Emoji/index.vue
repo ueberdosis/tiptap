@@ -1,21 +1,21 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus(). insertText('✨').run()">
+    <button @click="editor.chain().focus().insertContent('✨').run()">
       ✨
     </button>
-    <button @click="editor.chain().focus(). insertText('😅').run()">
+    <button @click="editor.chain().focus().insertContent('😅').run()">
       😅
     </button>
-    <button @click="editor.chain().focus(). insertText('🎉').run()">
+    <button @click="editor.chain().focus().insertContent('🎉').run()">
       🎉
     </button>
-    <button @click="editor.chain().focus(). insertText('💖').run()">
+    <button @click="editor.chain().focus().insertContent('💖').run()">
       💖
     </button>
-    <button @click="editor.chain().focus(). insertText('👀').run()">
+    <button @click="editor.chain().focus().insertContent('👀').run()">
       👀
     </button>
-    <button @click="editor.chain().focus(). insertText('👍️').run()">
+    <button @click="editor.chain().focus().insertContent('👍️').run()">
       👍️
     </button>
     <editor-content :editor="editor" />

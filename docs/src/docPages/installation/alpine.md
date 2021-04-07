@@ -1,3 +1,7 @@
+---
+title: Alpine WYSIWYG
+---
+
 # Alpine.js
 
 ## toc

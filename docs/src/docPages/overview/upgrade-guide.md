@@ -110,7 +110,7 @@ const CustomExtension = Node.create({
 })
 ```
 
-Read more about [all the nifty details building custom extensions](/guide/build-extensions) in our guide.
+Read more about [all the nifty details building custom extensions](/guide/custom-extensions) in our guide.
 
 ### Renamed settings and methods
 [We renamed a lot of settings and methods](/api/editor). Hopefully you can migrate to the new API with search & replace. Here is a list of what changed:

@@ -22,6 +22,11 @@ declare module '@tiptap/core' {
     name: string,
 
     /**
+     * Priority
+     */
+    priority?: number,
+
+    /**
      * Default options
      */
     defaultOptions?: Options,
@@ -141,15 +146,6 @@ declare module '@tiptap/core' {
     }) => void) | null,
 
     /**
-     * The view has changed.
-     */
-    onViewUpdate?: ((this: {
-      options: Options,
-      editor: Editor,
-      type: MarkType,
-    }) => void) | null,
-
-    /**
      * The editor state has changed.
      */
     onTransaction?: ((
@@ -263,6 +259,7 @@ export class Mark<Options = any> {
 
   config: MarkConfig = {
     name: 'mark',
+    priority: 100,
     defaultOptions: {},
   }
 

@@ -30,12 +30,8 @@ import TaskItem from '@tiptap/extension-task-item'
 import Highlight from '@tiptap/extension-highlight'
 import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket'
-// import { IndexeddbPersistence } from 'y-indexeddb'
+import { IndexeddbPersistence } from 'y-indexeddb'
 import MenuBar from './MenuBar.vue'
-
-const CustomTaskItem = TaskItem.extend({
-  content: 'paragraph',
-})
 
 const getRandomElement = list => {
   return list[Math.floor(Math.random() * list.length)]
@@ -70,23 +66,23 @@ export default {
 
     window.ydoc = ydoc
 
-    // this.indexdb = new IndexeddbPersistence('tiptap-collaboration-example', ydoc)
+    this.indexdb = new IndexeddbPersistence('tiptap-collaboration-example', ydoc)
 
     this.editor = new Editor({
       extensions: [
         ...defaultExtensions().filter(extension => extension.config.name !== 'history'),
         Highlight,
         TaskList,
-        CustomTaskItem,
+        TaskItem,
+        Collaboration.configure({
+          document: ydoc,
+        }),
         CollaborationCursor.configure({
           provider: this.provider,
           user: this.currentUser,
           onUpdate: users => {
             this.users = users
           },
-        }),
-        Collaboration.configure({
-          document: ydoc,
         }),
       ],
     })
@@ -327,7 +323,7 @@ export default {
       display: flex;
       align-items: center;
 
-      > input {
+      > label {
         flex: 0 0 auto;
         margin-right: 0.5rem;
       }

@@ -81,11 +81,13 @@ export const TaskItem = Node.create<TaskItemOptions>({
     }) => {
       const { view } = editor
       const listItem = document.createElement('li')
+      const checkboxWrapper = document.createElement('label')
+      const checkboxStyler = document.createElement('span')
       const checkbox = document.createElement('input')
       const content = document.createElement('div')
 
+      checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
-      checkbox.contentEditable = 'false'
       checkbox.addEventListener('change', event => {
         const { checked } = event.target as any
 
@@ -101,11 +103,14 @@ export const TaskItem = Node.create<TaskItemOptions>({
         checkbox.setAttribute('checked', 'checked')
       }
 
-      listItem.append(checkbox, content)
+      checkboxWrapper.append(checkbox, checkboxStyler)
+      listItem.append(checkboxWrapper, content)
 
-      Object.entries(HTMLAttributes).forEach(([key, value]) => {
-        listItem.setAttribute(key, value)
-      })
+      Object
+        .entries(HTMLAttributes)
+        .forEach(([key, value]) => {
+          listItem.setAttribute(key, value)
+        })
 
       return {
         dom: listItem,

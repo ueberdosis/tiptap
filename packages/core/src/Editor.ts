@@ -2,12 +2,12 @@ import {
   EditorState, Plugin, PluginKey, Transaction,
 } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { Schema, DOMParser, Node } from 'prosemirror-model'
-import elementFromString from './utilities/elementFromString'
+import { Schema } from 'prosemirror-model'
 import getNodeAttributes from './helpers/getNodeAttributes'
 import getMarkAttributes from './helpers/getMarkAttributes'
 import isActive from './helpers/isActive'
 import removeElement from './utilities/removeElement'
+import createDocument from './helpers/createDocument'
 import getHTMLFromFragment from './helpers/getHTMLFromFragment'
 import isNodeEmpty from './helpers/isNodeEmpty'
 import createStyleTag from './utilities/createStyleTag'
@@ -16,7 +16,6 @@ import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
 import {
   EditorOptions,
-  Content,
   CanCommands,
   ChainedCommands,
   SingleCommands,
@@ -62,7 +61,6 @@ export class Editor extends EventEmitter {
     onCreate: () => null,
     onUpdate: () => null,
     onSelectionUpdate: () => null,
-    onViewUpdate: () => null,
     onTransaction: () => null,
     onFocus: () => null,
     onBlur: () => null,
@@ -83,7 +81,6 @@ export class Editor extends EventEmitter {
     this.on('create', this.options.onCreate)
     this.on('update', this.options.onUpdate)
     this.on('selectionUpdate', this.options.onSelectionUpdate)
-    this.on('viewUpdate', this.options.onViewUpdate)
     this.on('transaction', this.options.onTransaction)
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
@@ -240,23 +237,14 @@ export class Editor extends EventEmitter {
       ...this.options.editorProps,
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: EditorState.create({
-        doc: this.createDocument(this.options.content),
+        doc: createDocument(this.options.content, this.schema, this.options.parseOptions),
       }),
     })
 
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.
     const newState = this.state.reconfigure({
-      plugins: [
-        new Plugin({
-          view: () => ({
-            update: () => this.emit('viewUpdate', {
-              editor: this,
-            }),
-          }),
-        }),
-        ...this.extensionManager.plugins,
-      ],
+      plugins: this.extensionManager.plugins,
     })
 
     this.view.updateState(newState)
@@ -276,34 +264,6 @@ export class Editor extends EventEmitter {
     this.view.setProps({
       nodeViews: this.extensionManager.nodeViews,
     })
-  }
-
-  /**
-   * Creates a ProseMirror document.
-   */
-  public createDocument = (content: Content, parseOptions = this.options.parseOptions): Node => {
-    if (content && typeof content === 'object') {
-      try {
-        return this.schema.nodeFromJSON(content)
-      } catch (error) {
-        console.warn(
-          '[tiptap warn]: Invalid content.',
-          'Passed value:',
-          content,
-          'Error:',
-          error,
-        )
-        return this.createDocument('')
-      }
-    }
-
-    if (typeof content === 'string') {
-      return DOMParser
-        .fromSchema(this.schema)
-        .parse(elementFromString(content), parseOptions)
-    }
-
-    return this.createDocument('')
   }
 
   public isCapturingTransaction = false

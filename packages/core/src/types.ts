@@ -32,7 +32,6 @@ export interface EditorOptions {
   onBeforeCreate: (props: { editor: Editor }) => void,
   onCreate: (props: { editor: Editor }) => void,
   onUpdate: (props: { editor: Editor }) => void,
-  onViewUpdate: (props: { editor: Editor }) => void,
   onSelectionUpdate: (props: { editor: Editor }) => void,
   onTransaction: (props: { editor: Editor, transaction: Transaction }) => void,
   onFocus: (props: { editor: Editor, event: FocusEvent }) => void,
