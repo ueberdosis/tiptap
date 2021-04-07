@@ -232,8 +232,6 @@ export class Editor extends EventEmitter {
    * Creates a ProseMirror view.
    */
   private createView(): void {
-
-    console.log(this.schema.topNodeType)
     this.view = new EditorView(this.options.element, {
       ...this.options.editorProps,
       dispatchTransaction: this.dispatchTransaction.bind(this),
