@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
 }
 
 export const updateNodeAttributes: RawCommands['updateNodeAttributes'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
+  console.warn('[tiptap warn]: updateNodeAttributes() is deprecated. please use updateAttributes() instead.')
+
   const type = getNodeType(typeOrName, state.schema)
   const { selection } = tr
   const { ranges } = selection

@@ -43,6 +43,7 @@ import * as toggleWrap from '../commands/toggleWrap'
 import * as undoInputRule from '../commands/undoInputRule'
 import * as unsetAllMarks from '../commands/unsetAllMarks'
 import * as unsetMark from '../commands/unsetMark'
+import * as updateAttributes from '../commands/updateAttributes'
 import * as updateNodeAttributes from '../commands/updateNodeAttributes'
 import * as wrapIn from '../commands/wrapIn'
 import * as wrapInList from '../commands/wrapInList'
@@ -91,6 +92,7 @@ export { toggleWrap }
 export { undoInputRule }
 export { unsetAllMarks }
 export { unsetMark }
+export { updateAttributes }
 export { updateNodeAttributes }
 export { wrapIn }
 export { wrapInList }
@@ -144,6 +146,7 @@ export const Commands = Extension.create({
       ...undoInputRule,
       ...unsetAllMarks,
       ...unsetMark,
+      ...updateAttributes,
       ...updateNodeAttributes,
       ...wrapIn,
       ...wrapInList,

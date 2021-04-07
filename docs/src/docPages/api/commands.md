@@ -179,7 +179,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .undoInputRule()        | Undo an input rule.                                       |
 | .unsetAllMarks()        | Remove all marks in the current selection.                |
 | .unsetMark()            | Remove a mark in the current selection.                   |
-| .updateNodeAttributes() | Update attributes of a node.                              |
+| .updateAttributes()     | Update attributes of a node or mark.                      |
 
 ### Lists
 | Command          | Description                                 |
