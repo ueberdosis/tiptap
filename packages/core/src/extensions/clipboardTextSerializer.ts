@@ -38,17 +38,17 @@ export const ClipboardTextSerializer = Extension.create({
 
   addProseMirrorPlugins() {
     return [
-      // new Plugin({
-      //   key: new PluginKey('clipboardTextSerializer'),
-      //   props: {
-      //     clipboardTextSerializer: () => {
-      //       const { editor } = this
-      //       const { from, to } = editor.state.selection
+      new Plugin({
+        key: new PluginKey('clipboardTextSerializer'),
+        props: {
+          clipboardTextSerializer: () => {
+            const { editor } = this
+            const { from, to } = editor.state.selection
 
-      //       return textBetween(editor, from, to, '\n')
-      //     },
-      //   },
-      // }),
+            return textBetween(editor, from, to, '\n')
+          },
+        },
+      }),
     ]
   },
 })
