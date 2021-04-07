@@ -135,16 +135,7 @@ declare module '@tiptap/core' {
     /**
      * The selection has changed.
      */
-     onSelectionUpdate?: ((this: {
-      options: Options,
-      editor: Editor,
-      type: NodeType,
-    }) => void) | null,
-
-    /**
-     * The view has changed.
-     */
-     onViewUpdate?: ((this: {
+    onSelectionUpdate?: ((this: {
       options: Options,
       editor: Editor,
       type: NodeType,

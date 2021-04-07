@@ -8,8 +8,6 @@ export const NodeViewContent = Vue.extend({
     },
   },
 
-  inject: ['isEditable'],
-
   render(createElement) {
     return createElement(
       this.as, {
@@ -18,8 +16,6 @@ export const NodeViewContent = Vue.extend({
         },
         attrs: {
           'data-node-view-content': '',
-          // @ts-ignore
-          contenteditable: this.isEditable.value,
         },
       },
     )

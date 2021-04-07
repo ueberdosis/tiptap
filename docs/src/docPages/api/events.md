@@ -19,9 +19,6 @@ const editor = new Editor({
   onSelectionUpdate({ editor }) {
     // The selection has changed.
   },
-  onViewUpdate({ editor }) {
-    // The view has changed.
-  },
   onTransaction({ editor, transaction }) {
     // The editor state has changed.
   },
@@ -55,10 +52,6 @@ editor.on('update', ({ editor }) => {
 
 editor.on('selectionUpdate', ({ editor }) => {
   // The selection has changed.
-}
-
-editor.on('viewUpdate', ({ editor }) => {
-  // The view has changed.
 }
 
 editor.on('transaction', ({ editor, transaction }) => {
@@ -112,9 +105,6 @@ const CustomExtension = Extension.create({
   },
   onSelectionUpdate({ editor }) {
     // The selection has changed.
-  },
-  onViewUpdate({ editor }) {
-    // The view has changed.
   },
   onTransaction({ editor, transaction }) {
     // The editor state has changed.

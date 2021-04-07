@@ -67,13 +67,6 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {
     }
 
     const onDragStart = this.onDragStart.bind(this)
-    const isEditable = Vue.observable({
-      value: this.editor.isEditable,
-    })
-
-    this.editor.on('viewUpdate', () => {
-      isEditable.value = this.editor.isEditable
-    })
 
     this.decorationClasses = Vue.observable({
       value: this.getDecorationClasses(),
@@ -86,7 +79,6 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {
         provide: () => {
           return {
             onDragStart,
-            isEditable,
             decorationClasses: this.decorationClasses,
           }
         },
