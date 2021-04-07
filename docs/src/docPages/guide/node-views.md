@@ -58,8 +58,6 @@ You can even mix non-editable and editable text. That’s great to build complex
 </div>
 ```
 
-**BUT**, that also means the cursor can’t just move from outside of the node view to the inside. Users have to manually place their cursor to edit the content inside the node view. Just so you know.
-
 ## Markup
 But what happens if you [access the editor content](/guide/output)? If you’re working with HTML, you’ll need to tell tiptap how your node should be serialized.
 
