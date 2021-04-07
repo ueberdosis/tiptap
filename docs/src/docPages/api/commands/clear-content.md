@@ -6,13 +6,11 @@ Keep in mind that the editor will enforce the configured schema, and the documen
 See also: [setContent](/api/commands/set-content), [insertContent](/api/commands/insert-content)
 
 ## Parameters
-
 `emitUpdate: Boolean (false)`
 
 By default, it doesn’t trigger the update event. Passing `true` doesn’t prevent triggering the update event.
 
 ## Usage
-
 ```js
 // Remoe all content from the document
 this.editor.commands.clearContent()

@@ -4,7 +4,6 @@ The `setContent` command replaces the document with a new one. You can pass JSON
 See also: [insertContent](/api/commands/insert-content), [clearContent](/api/commands/clear-content)
 
 ## Parameters
-
 `content: string`
 
 Pass a string (JSON or HTML) as [content](/guide/output). The editor will only render what’s allowed according to the [schema](/api/schema).
@@ -18,7 +17,6 @@ By default, it doesn’t trigger the update event. Passing `true` doesn’t prev
 Options to configure the parsing can be passed during initialization and/or with setContent. Read more about parseOptions in the [ProseMirror documentation](https://prosemirror.net/docs/ref/#model.ParseOptions).
 
 ## Usage
-
 ```js
 // HTML
 this.editor.commands.setContent('<p>Example Text</p>')

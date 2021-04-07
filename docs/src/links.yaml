@@ -139,6 +139,11 @@
           link: /api/commands/insert-content
         - title: setContent
           link: /api/commands/set-content
+
+        - title: clearNodes
+          link: /api/commands/clear-nodes
+        - title: updateAtttributes
+          link: /api/commands/update-attributes
     - title: Nodes
       link: /api/nodes
       items:
