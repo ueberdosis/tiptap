@@ -24,6 +24,7 @@ import * as liftListItem from '../commands/liftListItem'
 import * as newlineInCode from '../commands/newlineInCode'
 import * as replace from '../commands/replace'
 import * as replaceRange from '../commands/replaceRange'
+import * as resetAttributes from '../commands/resetAttributes'
 import * as resetNodeAttributes from '../commands/resetNodeAttributes'
 import * as scrollIntoView from '../commands/scrollIntoView'
 import * as selectAll from '../commands/selectAll'
@@ -73,6 +74,7 @@ export { liftListItem }
 export { newlineInCode }
 export { replace }
 export { replaceRange }
+export { resetAttributes }
 export { resetNodeAttributes }
 export { scrollIntoView }
 export { selectAll }
@@ -127,6 +129,7 @@ export const Commands = Extension.create({
       ...newlineInCode,
       ...replace,
       ...replaceRange,
+      ...resetAttributes,
       ...resetNodeAttributes,
       ...scrollIntoView,
       ...selectAll,

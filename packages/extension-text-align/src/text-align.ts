@@ -59,7 +59,7 @@ export const TextAlign = Extension.create<TextAlignOptions>({
         return this.options.types.every(type => commands.updateAttributes(type, { textAlign: alignment }))
       },
       unsetTextAlign: () => ({ commands }) => {
-        return this.options.types.every(type => commands.resetNodeAttributes(type, 'textAlign'))
+        return this.options.types.every(type => commands.resetAttributes(type, 'textAlign'))
       },
     }
   },

@@ -15,6 +15,8 @@ declare module '@tiptap/core' {
 }
 
 export const resetNodeAttributes: RawCommands['resetNodeAttributes'] = (typeOrName, attributes) => ({ tr, state, dispatch }) => {
+  console.warn('[tiptap warn]: resetNodeAttributes() is deprecated. please use resetAttributes() instead.')
+
   const type = getNodeType(typeOrName, state.schema)
   const { selection } = tr
   const { ranges } = selection
