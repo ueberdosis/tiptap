@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.3](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-text-align@2.0.0-beta.2...@tiptap/extension-text-align@2.0.0-beta.3) (2021-04-07)
+
+
+### Features
+
+* add resetAttributes() command, deprecate resetNodeAttributes() ([3334d93](https://github.com/ueberdosis/tiptap-next/commit/3334d930f30bd4acb5c314b4ec1934b6a1e0b712))
+
+
+
+
+
+# [2.0.0-beta.2](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-text-align@2.0.0-beta.1...@tiptap/extension-text-align@2.0.0-beta.2) (2021-04-07)
+
+
+### Features
+
+* add updateAttributes() command, deprecate updateNodeAttributes(), fix [#254](https://github.com/ueberdosis/tiptap-next/issues/254) ([aac32b4](https://github.com/ueberdosis/tiptap-next/commit/aac32b4df6a1dfd93500e09d3433fcd8acad5fbe))
+
+
+
+
+
 # [2.0.0-beta.1](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-text-align@2.0.0-alpha.12...@tiptap/extension-text-align@2.0.0-beta.1) (2021-03-05)
 
 **Note:** Version bump only for package @tiptap/extension-text-align

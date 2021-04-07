@@ -18,7 +18,7 @@ export default Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['vue-component', mergeAttributes(HTMLAttributes)]
+    return ['vue-component', mergeAttributes(HTMLAttributes), 0]
   },
 
   addNodeView() {

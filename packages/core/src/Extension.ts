@@ -124,14 +124,6 @@ declare module '@tiptap/core' {
     }) => void) | null,
 
     /**
-     * The view has changed.
-     */
-     onViewUpdate?: ((this: {
-      options: Options,
-      editor: Editor,
-    }) => void) | null,
-
-    /**
      * The editor state has changed.
      */
     onTransaction?: ((

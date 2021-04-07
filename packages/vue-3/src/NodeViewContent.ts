@@ -8,8 +8,6 @@ export const NodeViewContent = defineComponent({
     },
   },
 
-  inject: ['isEditable'],
-
   render() {
     return h(
       this.as, {
@@ -17,8 +15,6 @@ export const NodeViewContent = defineComponent({
           whiteSpace: 'pre-wrap',
         },
         'data-node-view-content': '',
-        // @ts-ignore (https://github.com/vuejs/vue-next/issues/3031)
-        contenteditable: this.isEditable.value,
       },
     )
   },

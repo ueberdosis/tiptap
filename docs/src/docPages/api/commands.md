@@ -168,7 +168,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .newlineInCode()        | Add a newline character in code.                          |
 | .replace()              | Replaces text with a node.                                |
 | .replaceRange()         | Replaces text with a node within a range.                 |
-| .resetNodeAttributes()  | Resets all node attributes to the default value.          |
+| .resetAttributes()      | Resets some node or mark attributes to the default value. |
 | .selectParentNode()     | Select the parent node.                                   |
 | .setMark()              | Add a mark with new attributes.                           |
 | .setNode()              | Replace a given range with a node.                        |
@@ -179,7 +179,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .undoInputRule()        | Undo an input rule.                                       |
 | .unsetAllMarks()        | Remove all marks in the current selection.                |
 | .unsetMark()            | Remove a mark in the current selection.                   |
-| .updateNodeAttributes() | Update attributes of a node.                              |
+| .updateAttributes()     | Update attributes of a node or mark.                      |
 
 ### Lists
 | Command          | Description                                 |

@@ -55,10 +55,6 @@ export default class ExtensionManager {
         this.editor.on('selectionUpdate', extension.config.onSelectionUpdate.bind(context))
       }
 
-      if (typeof extension.config.onViewUpdate === 'function') {
-        this.editor.on('viewUpdate', extension.config.onViewUpdate.bind(context))
-      }
-
       if (typeof extension.config.onTransaction === 'function') {
         this.editor.on('transaction', extension.config.onTransaction.bind(context))
       }

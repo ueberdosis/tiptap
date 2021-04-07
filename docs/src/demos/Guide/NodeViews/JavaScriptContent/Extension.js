@@ -16,7 +16,7 @@ export default Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['node-view', mergeAttributes(HTMLAttributes)]
+    return ['node-view', mergeAttributes(HTMLAttributes), 0]
   },
 
   addNodeView() {

@@ -60,7 +60,6 @@ export class Editor extends EventEmitter {
     onCreate: () => null,
     onUpdate: () => null,
     onSelectionUpdate: () => null,
-    onViewUpdate: () => null,
     onTransaction: () => null,
     onFocus: () => null,
     onBlur: () => null,
@@ -79,7 +78,6 @@ export class Editor extends EventEmitter {
     this.on('create', this.options.onCreate)
     this.on('update', this.options.onUpdate)
     this.on('selectionUpdate', this.options.onSelectionUpdate)
-    this.on('viewUpdate', this.options.onViewUpdate)
     this.on('transaction', this.options.onTransaction)
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
@@ -243,16 +241,7 @@ export class Editor extends EventEmitter {
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.
     const newState = this.state.reconfigure({
-      plugins: [
-        new Plugin({
-          view: () => ({
-            update: () => this.emit('viewUpdate', {
-              editor: this,
-            }),
-          }),
-        }),
-        ...this.extensionManager.plugins,
-      ],
+      plugins: this.extensionManager.plugins,
     })
 
     this.view.updateState(newState)
