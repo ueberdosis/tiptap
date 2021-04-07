@@ -19,10 +19,10 @@ Options to configure the parsing can be passed during initialization and/or with
 ## Usage
 ```js
 // HTML
-this.editor.commands.setContent('<p>Example Text</p>')
+editor.commands.setContent('<p>Example Text</p>')
 
 // JSON
-this.editor.commands.setContent({
+editor.commands.setContent({
   "type": "doc",
   "content": [
     {

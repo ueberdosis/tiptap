@@ -13,9 +13,9 @@ By default, it doesn’t trigger the update event. Passing `true` doesn’t prev
 ## Usage
 ```js
 // Remoe all content from the document
-this.editor.commands.clearContent()
+editor.commands.clearContent()
 
 // Remove all content, and trigger the `update` event
-this.editor.commands.clearContent(true)
+editor.commands.clearContent(true)
 ```
 
