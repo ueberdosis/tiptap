@@ -1,21 +1,32 @@
 # insertContent
+The `insertContent` command adds a passed value to the document.
+
+See also: [setContent](/api/commands/set-content), [clearContent](/api/commands/clear-content)
 
 ## Parameters
 
-## Usage
+`value: Content`
 
+The command is pretty flexible and takes plain text, HTML or even JSON as a value.
+
+## Usage
 ```js
-this.editor.commands.insertContent('text')
-this.editor.commands.insertContent('<p>HTML</p>')
+// Plain text
+this.editor.commands.insertContent('Example Text')
+
+// HTML
+this.editor.commands.insertContent('<h1>Example Text</h1>')
+
+// JSON/Nodes
 this.editor.commands.insertContent({
   type: 'heading',
   attrs: {
-    level: 2,
+    level: 1,
   },
   content: [
     {
       type: 'text',
-      text: 'nested nodes',
+      text: 'Example Text',
     },
   ],
 })

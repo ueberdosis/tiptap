@@ -135,10 +135,8 @@
       items:
         - title: clearContent
           link: /api/commands/clear-content
-          type: draft
         - title: insertContent
           link: /api/commands/insert-content
-          type: draft
         - title: setContent
           link: /api/commands/set-content
     - title: Nodes
