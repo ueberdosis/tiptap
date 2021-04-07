@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.5](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-collaboration-cursor@2.0.0-beta.4...@tiptap/extension-collaboration-cursor@2.0.0-beta.5) (2021-04-07)
+
+
+### Features
+
+* add priority option to extensions ([bb1ae65](https://github.com/ueberdosis/tiptap-next/commit/bb1ae659a463e97a7ada15af711347b5c004897a))
+
+
+
+
+
 # [2.0.0-beta.4](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-collaboration-cursor@2.0.0-beta.3...@tiptap/extension-collaboration-cursor@2.0.0-beta.4) (2021-03-16)
 
 **Note:** Version bump only for package @tiptap/extension-collaboration-cursor

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.18](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.17...@tiptap/core@2.0.0-beta.18) (2021-04-07)
+
+
+### Features
+
+* add priority option to extensions ([bb1ae65](https://github.com/ueberdosis/tiptap-next/commit/bb1ae659a463e97a7ada15af711347b5c004897a))
+
+
+
+
+
 # [2.0.0-beta.17](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.16...@tiptap/core@2.0.0-beta.17) (2021-04-07)
 
 
