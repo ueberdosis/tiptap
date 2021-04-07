@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.18...@tiptap/core@2.0.0-beta.19) (2021-04-07)
+
+
+### Features
+
+* add updateAttributes() command, deprecate updateNodeAttributes(), fix [#254](https://github.com/ueberdosis/tiptap-next/issues/254) ([aac32b4](https://github.com/ueberdosis/tiptap-next/commit/aac32b4df6a1dfd93500e09d3433fcd8acad5fbe))
+
+
+
+
+
 # [2.0.0-beta.18](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.17...@tiptap/core@2.0.0-beta.18) (2021-04-07)
 
 
