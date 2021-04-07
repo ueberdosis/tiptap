@@ -38,6 +38,8 @@ export const pasteRegexWithBrackets = /(?:\()https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%
 export const Link = Mark.create<LinkOptions>({
   name: 'link',
 
+  priority: 1000,
+
   inclusive: false,
 
   defaultOptions: {

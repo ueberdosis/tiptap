@@ -25,7 +25,7 @@ export default class ExtensionManager {
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
-    this.extensions = extensions
+    this.extensions = this.sort(extensions)
     this.schema = getSchema(this.extensions)
 
     this.extensions.forEach(extension => {
@@ -74,6 +74,22 @@ export default class ExtensionManager {
       if (typeof extension.config.onDestroy === 'function') {
         this.editor.on('destroy', extension.config.onDestroy.bind(context))
       }
+    })
+  }
+
+  private sort(extensions: Extensions) {
+    const defaultPriority = 100
+
+    return extensions.sort((a, b) => {
+      if ((a.config.priority || defaultPriority) > (b.config.priority || defaultPriority)) {
+        return -1
+      }
+
+      if ((a.config.priority || defaultPriority) < (b.config.priority || defaultPriority)) {
+        return 1
+      }
+
+      return 0
     })
   }
 

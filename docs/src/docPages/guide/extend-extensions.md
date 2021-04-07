@@ -39,6 +39,17 @@ The extension name is used in a whole lot of places and changing it isn’t too 
 
 The extension name is also part of the JSON. If you [store your content as JSON](/guide/output#option-1-json), you need to change the name there too.
 
+### Priority
+With the priority you can specify the order of the extensions. This has an impact on the schema and ProseMirror plugins.
+
+```js
+import Link from '@tiptap/extension-link'
+
+const CustomLink = Link.extend({
+  priority: 1000,
+})
+```
+
 ### Settings
 All settings can be configured through the extension anyway, but if you want to change the default settings, for example to provide a library on top of tiptap for other developers, you can do it like that:
 

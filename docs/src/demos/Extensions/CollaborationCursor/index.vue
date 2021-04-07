@@ -33,15 +33,15 @@ export default {
         Document,
         Paragraph,
         Text,
+        Collaboration.configure({
+          document: ydoc,
+        }),
         CollaborationCursor.configure({
           provider: this.provider,
           user: {
             name: 'Cyndi Lauper',
             color: '#f783ac',
           },
-        }),
-        Collaboration.configure({
-          document: ydoc,
         }),
       ],
     })

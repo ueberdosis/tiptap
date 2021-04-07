@@ -27,6 +27,11 @@ declare module '@tiptap/core' {
     name: string,
 
     /**
+     * Priority
+     */
+    priority?: number,
+
+    /**
      * Default options
      */
     defaultOptions?: Options,
@@ -312,6 +317,7 @@ export class Node<Options = any> {
 
   config: NodeConfig = {
     name: 'node',
+    priority: 100,
     defaultOptions: {},
   }
 

@@ -22,6 +22,11 @@ declare module '@tiptap/core' {
     name: string,
 
     /**
+     * Priority
+     */
+    priority?: number,
+
+    /**
      * Default options
      */
     defaultOptions?: Options,
@@ -254,6 +259,7 @@ export class Mark<Options = any> {
 
   config: MarkConfig = {
     name: 'mark',
+    priority: 100,
     defaultOptions: {},
   }
 
