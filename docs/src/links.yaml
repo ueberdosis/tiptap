@@ -136,14 +136,8 @@
         - title: clearContent
           link: /api/commands/clear-content
           type: draft
-        - title: insertHTML
-          link: /api/commands/insert-html
-          type: draft
-        - title: insertNode
-          link: /api/commands/insert-node
-          type: draft
-        - title: insertText
-          link: /api/commands/insert-text
+        - title: insertContent
+          link: /api/commands/insert-content
           type: draft
         - title: setContent
           link: /api/commands/set-content

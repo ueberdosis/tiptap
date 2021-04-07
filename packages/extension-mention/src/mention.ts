@@ -20,7 +20,7 @@ export const Mention = Node.create<MentionOptions>({
           .chain()
           .focus()
           .replaceRange(range, 'mention', props)
-          .insertText(' ')
+          .insertContent(' ')
           .run()
       },
       allow: ({ editor, range }) => {

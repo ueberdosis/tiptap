@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
 }
 
 export const insertNode: RawCommands['insertNode'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
+  console.warn('[tiptap warn]: insertNode() is deprecated. please use insertContent() instead.')
+
   const { selection } = tr
   const type = getNodeType(typeOrName, state.schema)
 

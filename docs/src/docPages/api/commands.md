@@ -43,8 +43,8 @@ addCommands() {
 
       // Does work:
       return chain()
-        .insertNode('timecode', attributes)
-        .insertText(' ')
+        .insertContent('foo!')
+        .insertContent('bar!')
         .run()
     },
   }
@@ -60,7 +60,7 @@ editor
   .focus()
   .command(({ tr }) => {
     // manipulate the transaction
-    tr.insertText('hey, that’s cool!')
+    tr.insertContent('hey, that’s cool!')
 
     return true
   })
@@ -91,7 +91,7 @@ Both calls would return `true` if it’s possible to apply the commands, and `fa
 
 In order to make that work with your custom commands, don’t forget to return `true` or `false`.
 
-For some of your own commands, you probably want to work with the raw [transaction](/api/concept). To make them work with `.can()` you should check if the transaction should be dispatched. Here is how we do that within `.insertText()`:
+For some of your own commands, you probably want to work with the raw [transaction](/api/concept). To make them work with `.can()` you should check if the transaction should be dispatched. Here is how you can create a simple `.insertText()` command:
 
 ```js
 export default (value: string): Command => ({ tr, dispatch }) => {
@@ -148,13 +148,11 @@ commands.first([
 Have a look at all of the core commands listed below. They should give you a good first impression of what’s possible.
 
 ### Content
-| Command         | Description                                      | Links                               |
-| --------------- | ------------------------------------------------ | ----------------------------------- |
-| .clearContent() | Clear the whole document.                        | [More](/api/commands/clear-content) |
-| .insertHTML()   | Insert a string of HTML at the current position. | [More](/api/commands/insert-html)   |
-| .insertNode()   | Insert a node at the current position.           | [More](/api/commands/insert-node)   |
-| .insertText()   | Insert a string of text at the current position. | [More](/api/commands/insert-text)   |
-| .setContent()   | Replace the whole document with new content.     | [More](/api/commands/set-content)   |
+| Command          | Description                                              | Links                                |
+| ---------------- | -------------------------------------------------------- | ------------------------------------ |
+| .clearContent()  | Clear the whole document.                                | [More](/api/commands/clear-content)  |
+| .insertContent() | Insert a node or string of HTML at the current position. | [More](/api/commands/insert-content) |
+| .setContent()    | Replace the whole document with new content.             | [More](/api/commands/set-content)    |
 
 ### Nodes & Marks
 | Command                 | Description                                               |
@@ -220,13 +218,13 @@ this.editor
   .chain()
   .focus()
   .createParagraphNear()
-  .insertText(text)
+  .insertContent(text)
   .setBlockquote()
-  .insertHTML('<p></p>')
+  .insertContent('<p></p>')
   .createParagraphNear()
   .unsetBlockquote()
   .createParagraphNear()
-  .insertHTML('<p></p>')
+  .insertContent('<p></p>')
   .run()
 ```
 
@@ -237,7 +235,18 @@ addCommands() {
     insertTimecode: attributes => ({ chain }) => {
       return chain()
         .focus()
-        .insertNode('timecode', attributes)
+        .insertContent({
+          type: 'heading',
+          attrs: {
+            level: 2,
+          },
+          content: [
+            {
+              type: 'text',
+              text: 'heading',
+            },
+          ],
+        })
         .insertText(' ')
         .run();
     },

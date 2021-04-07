@@ -12,6 +12,8 @@ declare module '@tiptap/core' {
 }
 
 export const insertText: RawCommands['insertText'] = value => ({ tr, dispatch }) => {
+  console.warn('[tiptap warn]: insertText() is deprecated. please use insertContent() instead.')
+
   if (dispatch) {
     tr.insertText(value)
   }

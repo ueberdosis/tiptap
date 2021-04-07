@@ -6,7 +6,7 @@ context('/demos/Guide/Content/ReadOnly', () => {
   it('should be read-only', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setEditable(false)
-      editor.commands.insertText('Edited: ')
+      editor.commands.insertContent('Edited: ')
 
       cy.get('.ProseMirror p:first').should('not.contain', 'Edited: ')
     })
@@ -15,7 +15,7 @@ context('/demos/Guide/Content/ReadOnly', () => {
   it('should be editable', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.setEditable(true)
-      editor.commands.insertText('Edited: ')
+      editor.commands.insertContent('Edited: ')
 
       cy.get('.ProseMirror p:first').should('contain', 'Edited: ')
     })

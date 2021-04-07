@@ -11,6 +11,7 @@ import * as exitCode from '../commands/exitCode'
 import * as extendMarkRange from '../commands/extendMarkRange'
 import * as first from '../commands/first'
 import * as focus from '../commands/focus'
+import * as insertContent from '../commands/insertContent'
 import * as insertHTML from '../commands/insertHTML'
 import * as insertNode from '../commands/insertNode'
 import * as insertText from '../commands/insertText'
@@ -58,6 +59,7 @@ export { exitCode }
 export { extendMarkRange }
 export { first }
 export { focus }
+export { insertContent }
 export { insertHTML }
 export { insertNode }
 export { insertText }
@@ -110,6 +112,7 @@ export const Commands = Extension.create({
       ...extendMarkRange,
       ...first,
       ...focus,
+      ...insertContent,
       ...insertHTML,
       ...insertNode,
       ...insertText,

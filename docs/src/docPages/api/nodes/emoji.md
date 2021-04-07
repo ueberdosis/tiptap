@@ -13,7 +13,7 @@ We need your support to maintain, update, support and develop tiptap 2. If you�
 You can use any emoji picker, or build your own. Just use [commands](/api/commands) to insert the picked emojis.
 
 ```js
-this.editor.chain().focus().insertText('✨').run()
+this.editor.chain().focus().insertContent('✨').run()
 ```
 
 <demo name="Nodes/Emoji" />
