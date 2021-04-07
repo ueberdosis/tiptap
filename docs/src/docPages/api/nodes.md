@@ -49,6 +49,7 @@ const editor = new Editor({
     Text,
     // …
   ],
+})
 ```
 
 Learn [more about custom extensions in our guide](/guide/custom-extensions).
