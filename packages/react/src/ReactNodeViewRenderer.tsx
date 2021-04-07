@@ -36,7 +36,6 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
         return string.charAt(0).toUpperCase() + string.substring(1)
       }
 
-      // @ts-ignore
       this.component.displayName = capitalizeFirstChar(this.extension.config.name)
     }
 
@@ -55,12 +54,8 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
       }, [])
 
       return (
-        // @ts-ignore
         <ReactNodeViewContext.Provider value={{ onDragStart, isEditable }}>
-          {
-            // @ts-ignore
-            <Component {...componentProps} />
-          }
+          <Component {...componentProps} />
         </ReactNodeViewContext.Provider>
       )
     }

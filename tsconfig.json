@@ -33,6 +33,7 @@
   ],
   "exclude": [
     "**/node_modules",
-    "**/dist"
+    "**/dist",
+    "**/vue-3"
   ]
 }

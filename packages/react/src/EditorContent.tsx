@@ -100,10 +100,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
     return (
       <>
         <div ref={this.editorContentRef} />
-        {
-          // @ts-ignore
-          <Portals renderers={this.state.renderers} />
-        }
+        <Portals renderers={this.state.renderers} />
       </>
     )
   }
