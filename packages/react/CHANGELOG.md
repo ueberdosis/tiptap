@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/react@2.0.0-beta.16...@tiptap/react@2.0.0-beta.17) (2021-04-08)
+
+
+### Bug Fixes
+
+* improve node view error message ([536663f](https://github.com/ueberdosis/tiptap-next/commit/536663f816039df6e3d8de23989f343d78e5d08e))
+* make `as` prop optional ([f8dec5f](https://github.com/ueberdosis/tiptap-next/commit/f8dec5f905baf5692dd257b3dddec3de2bcad1a1))
+
+
+
+
+
 # [2.0.0-beta.16](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/react@2.0.0-beta.15...@tiptap/react@2.0.0-beta.16) (2021-04-07)
 
 **Note:** Version bump only for package @tiptap/react
