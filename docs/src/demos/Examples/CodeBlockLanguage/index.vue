@@ -14,11 +14,10 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import CodeBlockComponent from './CodeBlockComponent'
 
-import javascript from 'highlight.js/lib/languages/javascript'
-import css from 'highlight.js/lib/languages/css'
-
-import CodeBlock from './CodeBlock'
+// install all highlight.js languages
+import 'lowlight'
 
 export default {
   components: {
@@ -37,18 +36,11 @@ export default {
         Document,
         Paragraph,
         Text,
-        CodeBlockLowlight
-          .extend({
-            addNodeView() {
-              return VueNodeViewRenderer(CodeBlock)
-            },
-          })
-          .configure({
-            languages: {
-              javascript,
-              css,
-            },
-          }),
+        CodeBlockLowlight.extend({
+          addNodeView() {
+            return VueNodeViewRenderer(CodeBlockComponent)
+          },
+        }),
       ],
       content: `
         <p>

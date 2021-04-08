@@ -15,8 +15,8 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 
-import javascript from 'highlight.js/lib/languages/javascript'
-import css from 'highlight.js/lib/languages/css'
+// install all highlight.js languages
+import 'lowlight'
 
 export default {
   components: {
@@ -35,12 +35,7 @@ export default {
         Document,
         Paragraph,
         Text,
-        CodeBlockLowlight.configure({
-          languages: {
-            javascript,
-            css,
-          },
-        }),
+        CodeBlockLowlight,
       ],
       content: `
         <p>

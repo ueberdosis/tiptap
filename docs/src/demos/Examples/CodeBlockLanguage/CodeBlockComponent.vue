@@ -1,11 +1,14 @@
 <template>
   <node-view-wrapper class="code-block">
-    <select contenteditable="false" class="code-block-select" v-model="selectedLanguage">
-      <option v-for="(language, index) in languages" :value="language" :key="index">
-        {{ language }}
-      </option>
+    <select contenteditable="false" v-model="selectedLanguage">
       <option :value="null">
         auto
+      </option>
+      <option disabled>
+        —
+      </option>
+      <option v-for="(language, index) in languages" :value="language" :key="index">
+        {{ language }}
       </option>
     </select>
     <pre><node-view-content as="code" /></pre>
@@ -14,6 +17,7 @@
 
 <script>
 import { NodeViewWrapper, NodeViewContent, nodeViewProps } from '@tiptap/vue-2'
+import lowlight from 'lowlight/lib/core'
 
 export default {
   components: {
@@ -23,6 +27,12 @@ export default {
 
   props: nodeViewProps,
 
+  data() {
+    return {
+      languages: lowlight.listLanguages(),
+    }
+  },
+
   computed: {
     selectedLanguage: {
       get() {
@@ -30,26 +40,20 @@ export default {
       },
       set(language) {
         this.updateAttributes({ language })
-      }
-    }
-  },
-
-  data() {
-    return {
-      languages: ['js', 'css'],
-    }
+      },
+    },
   },
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .code-block {
   position: relative;
-}
 
-.code-block-select {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  select {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
 }
 </style>
