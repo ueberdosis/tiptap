@@ -40,7 +40,7 @@ The extension name is used in a whole lot of places and changing it isn’t too 
 The extension name is also part of the JSON. If you [store your content as JSON](/guide/output#option-1-json), you need to change the name there too.
 
 ### Priority
-With the priority you can specify the order of the extensions. This has an impact on the schema and ProseMirror plugins. Default priority is `100`. A higher value means that the extension will be loaded earlier.
+The priority defines the order in which extensions are registered. The default priority is `100`, that’s what most extension have. Extensions with a higher priority will be loaded earlier.
 
 ```js
 import Link from '@tiptap/extension-link'
@@ -49,6 +49,10 @@ const CustomLink = Link.extend({
   priority: 1000,
 })
 ```
+
+The order in which extensions are loaded influences a few things.
+
+For example the output. The [`Link`](/api/marks/link) mark has a higher priority, which means it’ll be rendered as `<a href="…"><strong>Example</strong></a>` instead of `<strong><a href="…">Example</></strong>`.
 
 ### Settings
 All settings can be configured through the extension anyway, but if you want to change the default settings, for example to provide a library on top of tiptap for other developers, you can do it like that:
