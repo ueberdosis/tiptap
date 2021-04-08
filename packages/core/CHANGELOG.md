@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.24](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.23...@tiptap/core@2.0.0-beta.24) (2021-04-08)
+
+
+### Bug Fixes
+
+* improve drag position for node views even more ([d2c5b71](https://github.com/ueberdosis/tiptap-next/commit/d2c5b71c28b04ff64715ff6562e7dcb01cfd7ec8))
+
+
+
+
+
 # [2.0.0-beta.23](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.22...@tiptap/core@2.0.0-beta.23) (2021-04-08)
 
 
