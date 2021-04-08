@@ -3,7 +3,7 @@ import { useReactNodeView } from './useReactNodeView'
 
 export interface NodeViewWrapperProps {
   className?: string,
-  as: React.ElementType,
+  as?: React.ElementType,
 }
 
 export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = props => {
