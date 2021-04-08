@@ -155,7 +155,7 @@
           link: /api/nodes/code-block
         - title: CodeBlockLowlight
           link: /api/nodes/code-block-lowlight
-          type: draft
+          type: new
         - title: Document
           link: /api/nodes/document
         - title: Emoji
