@@ -67,8 +67,13 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
       return
     }
 
+    const domBox = this.dom.getBoundingClientRect()
+    const handleBox = target.getBoundingClientRect()
+    const x = handleBox.x - domBox.x
+    const y = handleBox.y - domBox.y
+
     // sometimes `event.target` is not the `dom` element
-    event.dataTransfer?.setDragImage(this.dom, 0, 0)
+    event.dataTransfer?.setDragImage(this.dom, x, y)
 
     const selection = NodeSelection.create(view.state.doc, this.getPos())
     const transaction = view.state.tr.setSelection(selection)
