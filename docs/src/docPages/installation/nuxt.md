@@ -93,7 +93,7 @@ Now, let’s replace the content of `pages/index.vue` with the following example
 
 Note that tiptap needs to run in the client, not on the server. It’s required to wrap the editor in a `<client-only>` tag. [Read more about cient-only components.](https://nuxtjs.org/api/components-client-only)
 
-You should now see tiptap in your browser. You’ve successfully set up tiptap! Time to give yourself a pat on the back.
+You should now see tiptap in your browser. Time to give yourself a pat on the back! :)
 
 ## 5. Use v-model (optional)
 You’re probably used to bind your data with `v-model` in forms, that’s also possible with tiptap. Here is a working example component, that you can integrate in your project:

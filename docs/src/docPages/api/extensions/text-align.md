@@ -4,6 +4,10 @@
 
 This extension adds a text align attribute to a specified list of nodes. The attribute is used to align the text.
 
+:::warning Firefox bug
+`text-align: justify` doesn't work together with `white-space: pre-wrap` in Firefox, [that’s a known issue](https://bugzilla.mozilla.org/show_bug.cgi?id=1253840).
+:::
+
 ## Installation
 ```bash
 # with npm

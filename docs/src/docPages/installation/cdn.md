@@ -20,3 +20,5 @@ For testing purposes or demos, use our [Skypack](https://www.skypack.dev/) CDN b
 </body>
 </html>
 ```
+
+You should now see tiptap in your browser. Time to give yourself a pat on the back! :)

@@ -79,7 +79,7 @@ const App = () => {
 export default App
 ```
 
-You should now see tiptap in your browser. You’ve successfully set up tiptap! Time to give yourself a pat on the back.
+You should now see tiptap in your browser. Time to give yourself a pat on the back! :)
 
 ## 5. The complete setup (optional)
 Ready to add more? Below is a demo that shows how you could set up what we call the default editor. Feel free to take this and start customizing it then:
