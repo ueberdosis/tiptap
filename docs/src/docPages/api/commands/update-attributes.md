@@ -14,9 +14,9 @@ This expects an object with the attributes that need to be updated. It doesn’t
 ## Usage
 ```js
 // Update node attributes
-this.editor.commands.updateAttributes('heading', { level: 1 })
+editor.commands.updateAttributes('heading', { level: 1 })
 
 // Update mark attributes
-this.editor.commands.updateAttributes('highlight', { color: 'pink' })
+editor.commands.updateAttributes('highlight', { color: 'pink' })
 ```
 

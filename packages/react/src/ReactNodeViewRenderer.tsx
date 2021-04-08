@@ -63,7 +63,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
 
   get dom() {
     if (!this.renderer.element.firstElementChild?.hasAttribute('data-node-view-wrapper')) {
-      throw Error('Please use the ReactViewWrapper component for your node view.')
+      throw Error('Please use the NodeViewWrapper component for your node view.')
     }
 
     return this.renderer.element

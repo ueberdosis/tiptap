@@ -3,6 +3,6 @@ The `clearNodes` command normalizes nodes to a simple paragraph, it even normali
 
 ## Usage
 ```js
-this.editor.commands.clearNodes()
+editor.commands.clearNodes()
 ```
 

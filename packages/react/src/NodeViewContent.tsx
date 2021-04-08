@@ -2,7 +2,7 @@ import React from 'react'
 
 export interface NodeViewContentProps {
   className?: string,
-  as: React.ElementType,
+  as?: React.ElementType,
 }
 
 export const NodeViewContent: React.FC<NodeViewContentProps> = props => {

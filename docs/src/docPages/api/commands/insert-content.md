@@ -11,13 +11,13 @@ The command is pretty flexible and takes plain text, HTML or even JSON as a valu
 ## Usage
 ```js
 // Plain text
-this.editor.commands.insertContent('Example Text')
+editor.commands.insertContent('Example Text')
 
 // HTML
-this.editor.commands.insertContent('<h1>Example Text</h1>')
+editor.commands.insertContent('<h1>Example Text</h1>')
 
 // JSON/Nodes
-this.editor.commands.insertContent({
+editor.commands.insertContent({
   type: 'heading',
   attrs: {
     level: 1,
