@@ -6,10 +6,6 @@ With the CodeBlock extension you can add fenced code blocks to your documents. I
 
 Type <code>&grave;&grave;&grave;&nbsp;</code> (three backticks and a space) or <code>&Tilde;&Tilde;&Tilde;&nbsp;</code> (three tildes and a space) and a code block is instantly added for you. You can even specify the language, try writing <code>&grave;&grave;&grave;css&nbsp;</code>. That should add a `language-css` class to the `<code>`-tag.
 
-::: warning Restrictions
-The CodeBlock extension doesn’t come with styling and has no syntax highlighting built-in. It’s on our roadmap though.
-:::
-
 ## Installation
 ```bash
 # with npm

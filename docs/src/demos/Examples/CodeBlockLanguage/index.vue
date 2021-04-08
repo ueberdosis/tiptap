@@ -19,6 +19,11 @@ import CodeBlockComponent from './CodeBlockComponent'
 // install all highlight.js languages
 import 'lowlight'
 
+// or install specific languages only
+// import lowlight from 'lowlight/lib/core'
+// import javascript from 'highlight.js/lib/languages/javascript'
+// lowlight.registerLanguage('javascript', javascript)
+
 export default {
   components: {
     EditorContent,
