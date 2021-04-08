@@ -42,11 +42,14 @@ function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
 
       parseNodes(nodes).forEach(node => {
         const to = from + node.text.length
-        const decoration = Decoration.inline(from, to, {
-          class: node.classes.join(' '),
-        })
 
-        decorations.push(decoration)
+        if (node.classes.length) {
+          const decoration = Decoration.inline(from, to, {
+            class: node.classes.join(' '),
+          })
+
+          decorations.push(decoration)
+        }
 
         from = to
       })
