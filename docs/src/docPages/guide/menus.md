@@ -35,6 +35,9 @@ The [floating menu](/api/extensions/floating-menu) appears in empty lines. Marku
   hide-source
 />
 
+### Slash commands (work in progress)
+It’s not an official extension yet, but [there’s an experiment you can use to add what we call slash commands](/experiments/commands). It’ll allow you to start a new line with `/` and will bring up a popup to select which node should be added.
+
 ## Buttons
 Okay, you’ve got your menu. But how do you wire things up?
 ### Commands
