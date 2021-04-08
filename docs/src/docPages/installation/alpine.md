@@ -39,7 +39,7 @@ yarn add alpinejs @tiptap/core @tiptap/starter-kit
 
 If you followed step 1, you can now start your project with `npm run dev` or `yarn dev`, and open [http://localhost:3000](http://localhost:3000) in your favorite browser. This might be different, if you’re working with an existing project.
 
-## 3. Add a JavaScript file
+## 3. Initialize the editor
 To actually start using tiptap, you’ll need to write a little bit of JavaScript. Let’s put the following example code in a file called `main.js`.
 
 This is the fastest way to get tiptap up and running with Alpine.js. It will give you a very basic version of tiptap. No worries, you will be able to add more functionality soon.
