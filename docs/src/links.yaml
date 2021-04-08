@@ -37,7 +37,7 @@
         #   skip: true
         - title: Alpine.js
           link: /installation/alpine
-          type: draft
+          type: new
           skip: true
         - title: Livewire
           link: /installation/livewire

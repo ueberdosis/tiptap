@@ -129,7 +129,7 @@ export default {
 </script>
 ```
 
-You should now see tiptap in your browser. You’ve successfully set up tiptap! Time to give yourself a pat on the back.
+You should now see tiptap in your browser. Time to give yourself a pat on the back! :)
 
 ## 5. Use v-model (optional)
 You’re probably used to bind your data with `v-model` in forms, that’s also possible with tiptap. Here is how that would work with tiptap:

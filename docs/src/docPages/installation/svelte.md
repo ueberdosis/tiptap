@@ -116,4 +116,4 @@ Now, let’s replace the content of `src/routes/index.svelte` with the following
 </main>
 ```
 
-You should now see tiptap in your browser. You’ve successfully set up tiptap! Time to give yourself a pat on the back.
+You should now see tiptap in your browser. Time to give yourself a pat on the back! :)
