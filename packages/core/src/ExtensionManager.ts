@@ -43,6 +43,10 @@ export default class ExtensionManager {
         }
       }
 
+      if (typeof extension.config.onBeforeCreate === 'function') {
+        this.editor.on('beforeCreate', extension.config.onBeforeCreate.bind(context))
+      }
+
       if (typeof extension.config.onCreate === 'function') {
         this.editor.on('create', extension.config.onCreate.bind(context))
       }

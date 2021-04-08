@@ -285,6 +285,7 @@ export default {
 
     code {
       color: inherit;
+      padding: 0;
       background: none;
       font-size: 0.8rem;
     }

@@ -57,6 +57,7 @@ export class Editor extends EventEmitter {
     parseOptions: {},
     enableInputRules: true,
     enablePasteRules: true,
+    onBeforeCreate: () => null,
     onCreate: () => null,
     onUpdate: () => null,
     onSelectionUpdate: () => null,
@@ -73,6 +74,8 @@ export class Editor extends EventEmitter {
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
+    this.on('beforeCreate', this.options.onCreate)
+    this.emit('beforeCreate', { editor: this })
     this.createView()
     this.injectCSS()
     this.on('create', this.options.onCreate)
