@@ -69,8 +69,8 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
 
     const domBox = this.dom.getBoundingClientRect()
     const handleBox = target.getBoundingClientRect()
-    const x = handleBox.x - domBox.x
-    const y = handleBox.y - domBox.y
+    const x = handleBox.x - domBox.x + event.offsetX
+    const y = handleBox.y - domBox.y + event.offsetY
 
     // sometimes `event.target` is not the `dom` element
     event.dataTransfer?.setDragImage(this.dom, x, y)
