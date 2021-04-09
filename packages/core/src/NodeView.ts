@@ -175,7 +175,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     }
 
     const contentDOMHasChanged = !this.contentDOM.contains(mutation.target)
-      || this.contentDOM === mutation.target
+      || (this.contentDOM === mutation.target && mutation.type === 'attributes')
 
     return contentDOMHasChanged
   }
