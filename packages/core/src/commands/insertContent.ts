@@ -19,6 +19,7 @@ export const insertContent: RawCommands['insertContent'] = value => ({ tr, dispa
 
     if (typeof content === 'string') {
       tr.insertText(content)
+      tr.scrollIntoView()
 
       return true
     }
@@ -29,6 +30,7 @@ export const insertContent: RawCommands['insertContent'] = value => ({ tr, dispa
 
     tr.insert(tr.selection.anchor, content)
     selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
+    tr.scrollIntoView()
   }
 
   return true
