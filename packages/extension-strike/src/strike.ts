@@ -53,7 +53,9 @@ export const Strike = Mark.create<StrikeOptions>({
         tag: 'strike',
       },
       {
-        style: 'text-decoration=line-through',
+        style: 'text-decoration',
+        consuming: false,
+        getAttrs: style => ((style as string).includes('line-through') ? {} : false),
       },
     ]
   },
