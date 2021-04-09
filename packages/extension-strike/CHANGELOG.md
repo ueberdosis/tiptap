@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.2](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-strike@2.0.0-beta.1...@tiptap/extension-strike@2.0.0-beta.2) (2021-04-09)
+
+
+### Bug Fixes
+
+* fix a bug where strike and underline can’t parsed together ([eff2c41](https://github.com/ueberdosis/tiptap-next/commit/eff2c4140a9e15762fa2238caf21dfbc47ffc3df))
+
+
+
+
+
 # [2.0.0-beta.1](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-strike@2.0.0-alpha.11...@tiptap/extension-strike@2.0.0-beta.1) (2021-03-05)
 
 **Note:** Version bump only for package @tiptap/extension-strike
