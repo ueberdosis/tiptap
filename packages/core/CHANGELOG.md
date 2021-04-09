@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.25...@tiptap/core@2.0.0-beta.26) (2021-04-09)
+
+
+### Bug Fixes
+
+* fix a bug when detecting changes within node views ([708ac94](https://github.com/ueberdosis/tiptap-next/commit/708ac94cebce2ed9304ae7e87eb4c3251758f903))
+
+
+
+
+
 # [2.0.0-beta.25](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.24...@tiptap/core@2.0.0-beta.25) (2021-04-09)
 
 
