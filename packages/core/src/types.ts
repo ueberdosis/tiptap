@@ -40,7 +40,7 @@ export interface EditorOptions {
   onDestroy: () => void,
 }
 
-export type Content = string | JSON | null
+export type Content = string | AnyObject | null
 
 export type CommandProps = {
   editor: Editor,

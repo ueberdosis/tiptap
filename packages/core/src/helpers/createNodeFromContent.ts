@@ -5,9 +5,7 @@ import {
   Fragment,
 } from 'prosemirror-model'
 import elementFromString from '../utilities/elementFromString'
-import { AnyObject } from '../types'
-
-export type Content = string | JSON | null
+import { AnyObject, Content } from '../types'
 
 export type CreateNodeFromContentOptions = {
   slice?: boolean,
