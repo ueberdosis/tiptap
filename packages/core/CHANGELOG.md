@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.24...@tiptap/core@2.0.0-beta.25) (2021-04-09)
+
+
+### Bug Fixes
+
+* fixed type for Content ([39147f5](https://github.com/ueberdosis/tiptap-next/commit/39147f5b02388b68ddea91d40bd2e846597f813b))
+
+
+
+
+
 # [2.0.0-beta.24](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.23...@tiptap/core@2.0.0-beta.24) (2021-04-08)
 
 
