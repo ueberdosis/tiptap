@@ -126,7 +126,7 @@ context('/demos/Nodes/CodeBlock', () => {
     })
   })
 
-  it.only('reverts the markdown shortcut when pressing backspace', () => {
+  it('reverts the markdown shortcut when pressing backspace', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()
 
@@ -138,7 +138,7 @@ context('/demos/Nodes/CodeBlock', () => {
     })
   })
 
-  it.only('removes the code block when pressing backspace', () => {
+  it('removes the code block when pressing backspace', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()
 
@@ -153,7 +153,7 @@ context('/demos/Nodes/CodeBlock', () => {
     })
   })
 
-  it.only('removes the code block when pressing backspace, even with blank lines', () => {
+  it('removes the code block when pressing backspace, even with blank lines', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()
 
@@ -168,7 +168,7 @@ context('/demos/Nodes/CodeBlock', () => {
     })
   })
 
-  it.only('removes the code block when pressing backspace, even at start of document', () => {
+  it('removes the code block when pressing backspace, even at start of document', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()
 
