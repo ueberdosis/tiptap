@@ -153,7 +153,7 @@ context('/demos/Nodes/CodeBlock', () => {
     })
   })
 
-  it.only('removes the code block when pressing backspace, even with  blank lines', () => {
+  it.only('removes the code block when pressing backspace, even with blank lines', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()
 
@@ -162,6 +162,21 @@ context('/demos/Nodes/CodeBlock', () => {
 
       cy.get('.ProseMirror')
         .type('Paragraph{enter}{enter}``` A{backspace}{backspace}')
+
+      cy.get('.ProseMirror pre')
+        .should('not.exist')
+    })
+  })
+
+  it.only('removes the code block when pressing backspace, even at start of document', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.commands.clearContent()
+
+      cy.get('.ProseMirror pre')
+        .should('not.exist')
+
+      cy.get('.ProseMirror')
+        .type('``` A{leftArrow}{backspace}')
 
       cy.get('.ProseMirror pre')
         .should('not.exist')
