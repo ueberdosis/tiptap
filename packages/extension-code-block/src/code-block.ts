@@ -101,6 +101,22 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   addKeyboardShortcuts() {
     return {
       'Mod-Alt-c': () => this.editor.commands.toggleCodeBlock(),
+
+      // remove code block when at start of document or code block is empty
+      Backspace: state => {
+        const { empty, $anchor } = state.selection
+        const isAtStart = $anchor.pos === 1
+
+        if (!empty || $anchor.parent.type.name !== 'codeBlock') {
+          return false
+        }
+
+        if (isAtStart || !$anchor.parent.textContent.length) {
+          return this.editor.commands.clearNodes()
+        }
+
+        return false
+      },
     }
   },
 
