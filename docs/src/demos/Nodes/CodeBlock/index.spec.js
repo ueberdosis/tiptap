@@ -125,4 +125,46 @@ context('/demos/Nodes/CodeBlock', () => {
         .should('contain', 'Code')
     })
   })
+
+  it.only('reverts the markdown shortcut when pressing backspace', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.commands.clearContent()
+
+      cy.get('.ProseMirror')
+        .type('``` {backspace}')
+
+      cy.get('.ProseMirror pre')
+        .should('not.exist')
+    })
+  })
+
+  it.only('removes the code block when pressing backspace', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.commands.clearContent()
+
+      cy.get('.ProseMirror pre')
+        .should('not.exist')
+
+      cy.get('.ProseMirror')
+        .type('Paragraph{enter}``` A{backspace}{backspace}')
+
+      cy.get('.ProseMirror pre')
+        .should('not.exist')
+    })
+  })
+
+  it.only('removes the code block when pressing backspace, even with  blank lines', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.commands.clearContent()
+
+      cy.get('.ProseMirror pre')
+        .should('not.exist')
+
+      cy.get('.ProseMirror')
+        .type('Paragraph{enter}{enter}``` A{backspace}{backspace}')
+
+      cy.get('.ProseMirror pre')
+        .should('not.exist')
+    })
+  })
 })
