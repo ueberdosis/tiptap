@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.3](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-link@2.0.0-beta.2...@tiptap/extension-link@2.0.0-beta.3) (2021-04-11)
+
+
+### Bug Fixes
+
+* fix a bug in link click handler, where we can’t click on text selections. fix [#263](https://github.com/ueberdosis/tiptap-next/issues/263) ([33c30c0](https://github.com/ueberdosis/tiptap-next/commit/33c30c0d6df66190fd1d5073ccc43b1020b517f9))
+
+
+
+
+
 # [2.0.0-beta.2](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-link@2.0.0-beta.1...@tiptap/extension-link@2.0.0-beta.2) (2021-04-07)
 
 
