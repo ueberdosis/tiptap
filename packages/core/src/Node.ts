@@ -13,6 +13,7 @@ import {
   NodeViewRenderer,
   GlobalAttributes,
   RawCommands,
+  ParentConfig,
 } from './types'
 import { NodeConfig } from '.'
 import { Editor } from './Editor'
@@ -41,6 +42,7 @@ declare module '@tiptap/core' {
      */
     addGlobalAttributes?: (this: {
       options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => GlobalAttributes | {},
 
     /**
@@ -50,6 +52,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => Partial<RawCommands>,
 
     /**
@@ -59,6 +62,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => {
       [key: string]: ProseMirrorCommand,
     },
@@ -70,6 +74,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => InputRule[],
 
     /**
@@ -79,6 +84,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => Plugin[],
 
     /**
@@ -88,6 +94,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => Plugin[],
 
     /**
@@ -96,6 +103,7 @@ declare module '@tiptap/core' {
     extendNodeSchema?: ((
       this: {
         options: Options,
+        parentConfig: ParentConfig<NodeConfig<Options>>,
       },
       extension: Node,
     ) => {
@@ -108,6 +116,7 @@ declare module '@tiptap/core' {
     extendMarkSchema?: ((
       this: {
         options: Options,
+        parentConfig: ParentConfig<NodeConfig<Options>>,
       },
       extension: Node,
     ) => {
@@ -121,6 +130,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => void) | null,
 
     /**
@@ -130,6 +140,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => void) | null,
 
     /**
@@ -139,6 +150,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => void) | null,
 
     /**
@@ -148,6 +160,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => void) | null,
 
     /**
@@ -158,6 +171,7 @@ declare module '@tiptap/core' {
         options: Options,
         editor: Editor,
         type: NodeType,
+        parentConfig: ParentConfig<NodeConfig<Options>>,
       },
       props: {
         transaction: Transaction,
@@ -172,6 +186,7 @@ declare module '@tiptap/core' {
         options: Options,
         editor: Editor,
         type: NodeType,
+        parentConfig: ParentConfig<NodeConfig<Options>>,
       },
       props: {
         event: FocusEvent,
@@ -186,6 +201,7 @@ declare module '@tiptap/core' {
         options: Options,
         editor: Editor,
         type: NodeType,
+        parentConfig: ParentConfig<NodeConfig<Options>>,
       },
       props: {
         event: FocusEvent,
@@ -199,6 +215,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => void) | null,
 
     /**
@@ -208,6 +225,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: NodeType,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
     }) => NodeViewRenderer) | null,
 
     /**
@@ -218,52 +236,82 @@ declare module '@tiptap/core' {
     /**
      * Content
      */
-    content?: NodeSpec['content'] | ((this: { options: Options }) => NodeSpec['content']),
+    content?: NodeSpec['content'] | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => NodeSpec['content']),
 
     /**
      * Marks
      */
-    marks?: NodeSpec['marks'] | ((this: { options: Options }) => NodeSpec['marks']),
+    marks?: NodeSpec['marks'] | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => NodeSpec['marks']),
 
     /**
      * Group
      */
-    group?: NodeSpec['group'] | ((this: { options: Options }) => NodeSpec['group']),
+    group?: NodeSpec['group'] | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => NodeSpec['group']),
 
     /**
      * Inline
      */
-    inline?: NodeSpec['inline'] | ((this: { options: Options }) => NodeSpec['inline']),
+    inline?: NodeSpec['inline'] | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => NodeSpec['inline']),
 
     /**
      * Atom
      */
-    atom?: NodeSpec['atom'] | ((this: { options: Options }) => NodeSpec['atom']),
+    atom?: NodeSpec['atom'] | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => NodeSpec['atom']),
 
     /**
      * Selectable
      */
-    selectable?: NodeSpec['selectable'] | ((this: { options: Options }) => NodeSpec['selectable']),
+    selectable?: NodeSpec['selectable'] | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => NodeSpec['selectable']),
 
     /**
      * Draggable
      */
-    draggable?: NodeSpec['draggable'] | ((this: { options: Options }) => NodeSpec['draggable']),
+    draggable?: NodeSpec['draggable'] | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => NodeSpec['draggable']),
 
     /**
      * Code
      */
-    code?: NodeSpec['code'] | ((this: { options: Options }) => NodeSpec['code']),
+    code?: NodeSpec['code'] | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => NodeSpec['code']),
 
     /**
      * Defining
      */
-    defining?: NodeSpec['defining'] | ((this: { options: Options }) => NodeSpec['defining']),
+    defining?: NodeSpec['defining'] | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => NodeSpec['defining']),
 
     /**
      * Isolating
      */
-    isolating?: NodeSpec['isolating'] | ((this: { options: Options }) => NodeSpec['isolating']),
+    isolating?: NodeSpec['isolating'] | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => NodeSpec['isolating']),
 
     /**
      * Parse HTML
@@ -271,6 +319,7 @@ declare module '@tiptap/core' {
     parseHTML?: (
       this: {
         options: Options,
+        parentConfig: ParentConfig<NodeConfig<Options>>,
       },
     ) => NodeSpec['parseDOM'],
 
@@ -280,6 +329,7 @@ declare module '@tiptap/core' {
     renderHTML?: ((
       this: {
         options: Options,
+        parentConfig: ParentConfig<NodeConfig<Options>>,
       },
       props: {
         node: ProseMirrorNode,
@@ -295,6 +345,7 @@ declare module '@tiptap/core' {
         options: Options,
         editor: Editor,
         type: NodeType,
+        parentConfig: ParentConfig<NodeConfig<Options>>,
       },
       props: {
         node: ProseMirrorNode,
@@ -307,6 +358,7 @@ declare module '@tiptap/core' {
     addAttributes?: (
       this: {
         options: Options,
+        parentConfig: ParentConfig<NodeConfig<Options>>,
       },
     ) => Attributes | {},
   }
@@ -320,6 +372,8 @@ export class Node<Options = any> {
     priority: 100,
     defaultOptions: {},
   }
+
+  parentConfig: Partial<NodeConfig> = {}
 
   options!: Options
 
@@ -349,9 +403,13 @@ export class Node<Options = any> {
   }
 
   extend<ExtendedOptions = Options>(extendedConfig: Partial<NodeConfig<ExtendedOptions>>) {
-    return new Node<ExtendedOptions>({
+    const extension = new Node<ExtendedOptions>({
       ...this.config,
       ...extendedConfig,
     } as NodeConfig<ExtendedOptions>)
+
+    extension.parentConfig = this.config
+
+    return extension
   }
 }

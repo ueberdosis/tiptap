@@ -1,6 +1,7 @@
 import { NodeSpec, MarkSpec, Schema } from 'prosemirror-model'
 import { Extensions } from '../types'
 import { ExtensionConfig, NodeConfig, MarkConfig } from '..'
+import createExtensionContext from './createExtensionContext'
 import splitExtensions from './splitExtensions'
 import getAttributesFromExtensions from './getAttributesFromExtensions'
 import getRenderedAttributes from './getRenderedAttributes'
@@ -45,7 +46,9 @@ export default function getSchema(extensions: Extensions): Schema {
 
   const nodes = Object.fromEntries(nodeExtensions.map(extension => {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
-    const context = { options: extension.options }
+    const context = createExtensionContext(extension, {
+      options: extension.options,
+    })
 
     const extraNodeFields = nodeSchemaExtenders.reduce((fields, nodeSchemaExtender) => {
       const extraFields = callOrReturn(nodeSchemaExtender, context, extension)
@@ -91,7 +94,9 @@ export default function getSchema(extensions: Extensions): Schema {
 
   const marks = Object.fromEntries(markExtensions.map(extension => {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
-    const context = { options: extension.options }
+    const context = createExtensionContext(extension, {
+      options: extension.options,
+    })
 
     const extraMarkFields = markSchemaExtenders.reduce((fields, markSchemaExtender) => {
       const extraFields = callOrReturn(markSchemaExtender, context, extension)

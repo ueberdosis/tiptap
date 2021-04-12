@@ -5,6 +5,7 @@ import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { Extensions, NodeViewRenderer, RawCommands } from './types'
+import createExtensionContext from './helpers/createExtensionContext'
 import getSchema from './helpers/getSchema'
 import getSchemaTypeByName from './helpers/getSchemaTypeByName'
 import getNodeType from './helpers/getNodeType'
@@ -29,11 +30,11 @@ export default class ExtensionManager {
     this.schema = getSchema(this.extensions)
 
     this.extensions.forEach(extension => {
-      const context = {
+      const context = createExtensionContext(extension, {
         options: extension.options,
         editor: this.editor,
         type: getSchemaTypeByName(extension.config.name, this.schema),
-      }
+      })
 
       if (extension.type === 'mark') {
         const keepOnSplit = callOrReturn(extension.config.keepOnSplit, context) ?? true
@@ -95,11 +96,11 @@ export default class ExtensionManager {
 
   get commands(): RawCommands {
     return this.extensions.reduce((commands, extension) => {
-      const context = {
+      const context = createExtensionContext(extension, {
         options: extension.options,
         editor: this.editor,
         type: getSchemaTypeByName(extension.config.name, this.schema),
-      }
+      })
 
       if (!extension.config.addCommands) {
         return commands
@@ -116,11 +117,11 @@ export default class ExtensionManager {
     return [...this.extensions]
       .reverse()
       .map(extension => {
-        const context = {
+        const context = createExtensionContext(extension, {
           options: extension.options,
           editor: this.editor,
           type: getSchemaTypeByName(extension.config.name, this.schema),
-        }
+        })
 
         const plugins: Plugin[] = []
 
@@ -168,11 +169,11 @@ export default class ExtensionManager {
       .filter(extension => !!extension.config.addNodeView)
       .map(extension => {
         const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.config.name)
-        const context = {
+        const context = createExtensionContext(extension, {
           options: extension.options,
           editor,
           type: getNodeType(extension.config.name, this.schema),
-        }
+        })
         const renderer = extension.config.addNodeView?.call(context) as NodeViewRenderer
 
         const nodeview = (
@@ -204,11 +205,11 @@ export default class ExtensionManager {
     return Object.fromEntries(nodeExtensions
       .filter(extension => !!extension.config.renderText)
       .map(extension => {
-        const context = {
+        const context = createExtensionContext(extension, {
           options: extension.options,
           editor,
           type: getNodeType(extension.config.name, this.schema),
-        }
+        })
 
         const textSerializer = (props: { node: ProsemirrorNode }) => extension.config.renderText?.call(context, props)
 

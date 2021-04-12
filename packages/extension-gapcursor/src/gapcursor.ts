@@ -1,4 +1,9 @@
-import { Extension, callOrReturn } from '@tiptap/core'
+import {
+  Extension,
+  callOrReturn,
+  createExtensionContext,
+  ParentConfig,
+} from '@tiptap/core'
 import { gapCursor } from 'prosemirror-gapcursor'
 
 declare module '@tiptap/core' {
@@ -9,7 +14,10 @@ declare module '@tiptap/core' {
     allowGapCursor?:
       | boolean
       | null
-      | ((this: { options: Options }) => boolean | null),
+      | ((this: {
+        options: Options,
+        parentConfig: ParentConfig<NodeConfig<Options>>,
+      }) => boolean | null),
   }
 }
 
@@ -23,7 +31,9 @@ export const Gapcursor = Extension.create({
   },
 
   extendNodeSchema(extension) {
-    const context = { options: extension.options }
+    const context = createExtensionContext(extension, {
+      options: extension.options,
+    })
 
     return {
       allowGapCursor: callOrReturn(extension.config.allowGapCursor, context) ?? null,

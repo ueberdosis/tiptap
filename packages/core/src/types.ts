@@ -16,7 +16,14 @@ import { Mark } from './Mark'
 import { Editor } from './Editor'
 import { Commands } from '.'
 
-export type Extensions = (Extension | Node | Mark)[]
+export type AnyExtension = Extension | Node | Mark
+export type Extensions = AnyExtension[]
+
+export type ParentConfig<T> = Partial<{
+  [P in keyof T]: Required<T>[P] extends () => any
+    ? (...args: Parameters<Required<T>[P]>) => ReturnType<Required<T>[P]>
+    : T[P]
+}>
 
 export interface EditorOptions {
   element: Element,

@@ -1,3 +1,4 @@
+import createExtensionContext from './createExtensionContext'
 import splitExtensions from './splitExtensions'
 import {
   Extensions,
@@ -24,9 +25,9 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
   }
 
   extensions.forEach(extension => {
-    const context = {
+    const context = createExtensionContext(extension, {
       options: extension.options,
-    }
+    })
 
     if (!extension.config.addGlobalAttributes) {
       return
@@ -53,9 +54,9 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
   })
 
   nodeAndMarkExtensions.forEach(extension => {
-    const context = {
+    const context = createExtensionContext(extension, {
       options: extension.options,
-    }
+    })
 
     if (!extension.config.addAttributes) {
       return

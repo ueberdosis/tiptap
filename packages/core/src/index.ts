@@ -12,6 +12,7 @@ export { default as markPasteRule } from './pasteRules/markPasteRule'
 export { default as callOrReturn } from './utilities/callOrReturn'
 export { default as mergeAttributes } from './utilities/mergeAttributes'
 
+export { default as createExtensionContext } from './helpers/createExtensionContext'
 export { default as findChildren } from './helpers/findChildren'
 export { default as findParentNode } from './helpers/findParentNode'
 export { default as findParentNodeClosestToPos } from './helpers/findParentNodeClosestToPos'

@@ -1,9 +1,11 @@
 import {
-  Command,
   Node,
+  Command,
+  ParentConfig,
   mergeAttributes,
   findParentNodeClosestToPos,
   callOrReturn,
+  createExtensionContext,
 } from '@tiptap/core'
 import {
   tableEditing,
@@ -70,7 +72,10 @@ declare module '@tiptap/core' {
     /**
      * Table Role
      */
-    tableRole?: string | ((this: { options: Options }) => string),
+    tableRole?: string | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => string),
   }
 }
 
@@ -259,7 +264,9 @@ export const Table = Node.create<TableOptions>({
   },
 
   extendNodeSchema(extension) {
-    const context = { options: extension.options }
+    const context = createExtensionContext(extension, {
+      options: extension.options,
+    })
 
     return {
       tableRole: callOrReturn(extension.config.tableRole, context),

@@ -4,7 +4,7 @@ import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 import { Node } from './Node'
 import mergeDeep from './utilities/mergeDeep'
-import { GlobalAttributes, RawCommands } from './types'
+import { GlobalAttributes, RawCommands, ParentConfig } from './types'
 import { ExtensionConfig } from '.'
 
 declare module '@tiptap/core' {
@@ -31,6 +31,7 @@ declare module '@tiptap/core' {
      */
     addGlobalAttributes?: (this: {
       options: Options,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => GlobalAttributes | {},
 
     /**
@@ -39,6 +40,7 @@ declare module '@tiptap/core' {
     addCommands?: (this: {
       options: Options,
       editor: Editor,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => Partial<RawCommands>,
 
     /**
@@ -47,6 +49,7 @@ declare module '@tiptap/core' {
     addKeyboardShortcuts?: (this: {
       options: Options,
       editor: Editor,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => {
       [key: string]: ProseMirrorCommand,
     },
@@ -57,6 +60,7 @@ declare module '@tiptap/core' {
     addInputRules?: (this: {
       options: Options,
       editor: Editor,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => InputRule[],
 
     /**
@@ -65,6 +69,7 @@ declare module '@tiptap/core' {
     addPasteRules?: (this: {
       options: Options,
       editor: Editor,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => Plugin[],
 
     /**
@@ -73,6 +78,7 @@ declare module '@tiptap/core' {
     addProseMirrorPlugins?: (this: {
       options: Options,
       editor: Editor,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => Plugin[],
 
     /**
@@ -81,6 +87,7 @@ declare module '@tiptap/core' {
     extendNodeSchema?: ((
       this: {
         options: Options,
+        parentConfig: ParentConfig<ExtensionConfig<Options>>,
       },
       extension: Node,
     ) => {
@@ -93,6 +100,7 @@ declare module '@tiptap/core' {
     extendMarkSchema?: ((
       this: {
         options: Options,
+        parentConfig: ParentConfig<ExtensionConfig<Options>>,
       },
       extension: Node,
     ) => {
@@ -105,6 +113,7 @@ declare module '@tiptap/core' {
      onBeforeCreate?: ((this: {
       options: Options,
       editor: Editor,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => void) | null,
 
     /**
@@ -113,6 +122,7 @@ declare module '@tiptap/core' {
     onCreate?: ((this: {
       options: Options,
       editor: Editor,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => void) | null,
 
     /**
@@ -121,6 +131,7 @@ declare module '@tiptap/core' {
     onUpdate?: ((this: {
       options: Options,
       editor: Editor,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => void) | null,
 
     /**
@@ -129,6 +140,7 @@ declare module '@tiptap/core' {
     onSelectionUpdate?: ((this: {
       options: Options,
       editor: Editor,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => void) | null,
 
     /**
@@ -138,6 +150,7 @@ declare module '@tiptap/core' {
       this: {
         options: Options,
         editor: Editor,
+        parentConfig: ParentConfig<ExtensionConfig<Options>>,
       },
       props: {
         transaction: Transaction,
@@ -151,6 +164,7 @@ declare module '@tiptap/core' {
       this: {
         options: Options,
         editor: Editor,
+        parentConfig: ParentConfig<ExtensionConfig<Options>>,
       },
       props: {
         event: FocusEvent,
@@ -164,6 +178,7 @@ declare module '@tiptap/core' {
       this: {
         options: Options,
         editor: Editor,
+        parentConfig: ParentConfig<ExtensionConfig<Options>>,
       },
       props: {
         event: FocusEvent,
@@ -176,6 +191,7 @@ declare module '@tiptap/core' {
     onDestroy?: ((this: {
       options: Options,
       editor: Editor,
+      parentConfig: ParentConfig<ExtensionConfig<Options>>,
     }) => void) | null,
   }
 }
@@ -188,6 +204,8 @@ export class Extension<Options = any> {
     priority: 100,
     defaultOptions: {},
   }
+
+  parentConfig: Partial<ExtensionConfig> = {}
 
   options!: Options
 
@@ -217,9 +235,13 @@ export class Extension<Options = any> {
   }
 
   extend<ExtendedOptions = Options>(extendedConfig: Partial<ExtensionConfig<ExtendedOptions>>) {
-    return new Extension<ExtendedOptions>({
+    const extension = new Extension<ExtendedOptions>({
       ...this.config,
       ...extendedConfig,
     } as ExtensionConfig<ExtendedOptions>)
+
+    extension.parentConfig = this.config
+
+    return extension
   }
 }
