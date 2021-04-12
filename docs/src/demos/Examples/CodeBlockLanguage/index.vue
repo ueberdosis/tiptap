@@ -16,10 +16,10 @@ import Text from '@tiptap/extension-text'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import CodeBlockComponent from './CodeBlockComponent'
 
-// install all highlight.js languages
-import 'lowlight'
+// load all highlight.js languages
+import lowlight from 'lowlight'
 
-// or install specific languages only
+// load specific languages only
 // import lowlight from 'lowlight/lib/core'
 // import javascript from 'highlight.js/lib/languages/javascript'
 // lowlight.registerLanguage('javascript', javascript)
@@ -41,11 +41,13 @@ export default {
         Document,
         Paragraph,
         Text,
-        CodeBlockLowlight.extend({
-          addNodeView() {
-            return VueNodeViewRenderer(CodeBlockComponent)
-          },
-        }),
+        CodeBlockLowlight
+          .extend({
+            addNodeView() {
+              return VueNodeViewRenderer(CodeBlockComponent)
+            },
+          })
+          .configure({ lowlight }),
       ],
       content: `
         <p>
