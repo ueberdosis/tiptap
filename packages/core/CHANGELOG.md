@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.28...@tiptap/core@2.0.0-beta.29) (2021-04-12)
+
+
+### Bug Fixes
+
+* fix adding mark only with insertContent(), fix [#264](https://github.com/ueberdosis/tiptap-next/issues/264) ([0a63123](https://github.com/ueberdosis/tiptap-next/commit/0a6312382f38af5b8fdf7f94fc4b6c1de1a15e25))
+
+
+
+
+
 # [2.0.0-beta.28](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.27...@tiptap/core@2.0.0-beta.28) (2021-04-12)
 
 
