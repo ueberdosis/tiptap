@@ -14,10 +14,10 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import lowlight from 'lowlight'
 import CodeBlockComponent from './CodeBlockComponent'
 
 // load all highlight.js languages
+import lowlight from 'lowlight'
 
 // load specific languages only
 // import lowlight from 'lowlight/lib/core'
