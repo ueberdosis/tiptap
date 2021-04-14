@@ -14,7 +14,8 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
 
   addProseMirrorPlugins() {
     return [
-      ...this.parentConfig.addProseMirrorPlugins?.() || [],
+      // disable for now, see: https://github.com/ueberdosis/tiptap-next/issues/259#issuecomment-817954835
+      // ...this.parentConfig.addProseMirrorPlugins?.() || [],
       LowlightPlugin({
         name: 'codeBlock',
         lowlight: this.options.lowlight,
