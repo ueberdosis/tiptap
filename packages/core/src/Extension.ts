@@ -205,7 +205,8 @@ export class Extension<Options = any> {
     defaultOptions: {},
   }
 
-  parentConfig: Partial<ExtensionConfig> = {}
+  // parentConfig: Partial<ExtensionConfig> = {}
+  parent: any
 
   options!: Options
 
@@ -234,13 +235,18 @@ export class Extension<Options = any> {
     return this
   }
 
-  extend<ExtendedOptions = Options>(extendedConfig: Partial<ExtensionConfig<ExtendedOptions>>) {
+  extend<ExtendedOptions = Options>(extendedConfig: Partial<ExtensionConfig<ExtendedOptions>> = {}) {
     const extension = new Extension<ExtendedOptions>({
-      ...this.config,
+      // ...this.config,
       ...extendedConfig,
     } as ExtensionConfig<ExtendedOptions>)
 
-    extension.parentConfig = this.config
+    // extension.parentConfig = this.config
+    extension.parent = this
+    extension.options = {
+      ...(this.config.defaultOptions ?? {}),
+      ...(extendedConfig.defaultOptions ?? {}),
+    }
 
     return extension
   }

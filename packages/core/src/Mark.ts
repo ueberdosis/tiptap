@@ -299,7 +299,8 @@ export class Mark<Options = any> {
     defaultOptions: {},
   }
 
-  parentConfig: Partial<MarkConfig> = {}
+  // parentConfig: Partial<MarkConfig> = {}
+  parent: any
 
   options!: Options
 
@@ -334,7 +335,9 @@ export class Mark<Options = any> {
       ...extendedConfig,
     } as MarkConfig<ExtendedOptions>)
 
-    extension.parentConfig = this.config
+    extension.parent = this
+
+    // extension.parentConfig = this.config
 
     return extension
   }

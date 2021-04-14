@@ -373,7 +373,8 @@ export class Node<Options = any> {
     defaultOptions: {},
   }
 
-  parentConfig: Partial<NodeConfig> = {}
+  // parentConfig: Partial<NodeConfig> = {}
+  parent: any
 
   options!: Options
 
@@ -408,7 +409,8 @@ export class Node<Options = any> {
       ...extendedConfig,
     } as NodeConfig<ExtendedOptions>)
 
-    extension.parentConfig = this.config
+    extension.parent = this
+    // extension.parentConfig = this.config
 
     return extension
   }

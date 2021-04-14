@@ -14,7 +14,7 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
 
   addProseMirrorPlugins() {
     return [
-      ...this.parentConfig.addProseMirrorPlugins?.() || [],
+      // ...this.parentConfig.addProseMirrorPlugins?.() || [],
       LowlightPlugin({
         name: 'codeBlock',
         lowlight: this.options.lowlight,

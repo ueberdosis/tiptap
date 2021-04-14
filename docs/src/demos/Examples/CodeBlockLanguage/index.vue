@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { Editor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-2'
+import { Editor, EditorContent, VueNodeViewRenderer, Extension } from '@tiptap/vue-2'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -41,13 +41,48 @@ export default {
         Document,
         Paragraph,
         Text,
-        CodeBlockLowlight
-          .extend({
-            addNodeView() {
-              return VueNodeViewRenderer(CodeBlockComponent)
+
+        Extension
+          .create({
+            defaultOptions: {
+              foo: 'foo0',
+            },
+            addProseMirrorPlugins() {
+              console.log(0, this.options)
+              return []
             },
           })
-          .configure({ lowlight }),
+          .extend({
+            // defaultOptions: {
+            //   foo: 'foo1',
+            // },
+            addProseMirrorPlugins() {
+              console.log(1, this.options)
+              // console.log(1, this.parentConfig.addProseMirrorPlugins)
+              return this.parentConfig.addProseMirrorPlugins?.() || []
+              // return []
+            },
+          })
+          .extend({
+            // defaultOptions: {
+            //   foo: 'foo2',
+            // },
+          })
+          // .extend({
+          //   addProseMirrorPlugins() {
+          //     console.log(2, this.parentConfig.addProseMirrorPlugins)
+          //     // return this.parentConfig.addProseMirrorPlugins?.() || []
+          //     return []
+          //   },
+          // })
+
+        // CodeBlockLowlight
+        //   .extend({
+        //     addNodeView() {
+        //       return VueNodeViewRenderer(CodeBlockComponent)
+        //     },
+        //   })
+        //   // .configure({ lowlight }),
       ],
       content: `
         <p>

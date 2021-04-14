@@ -146,11 +146,39 @@ export default class ExtensionManager {
           plugins.push(...pasteRulePlugins)
         }
 
-        if (extension.config.addProseMirrorPlugins) {
-          const proseMirrorPlugins = extension.config.addProseMirrorPlugins.bind(context)()
+        // console.log('has pm', extension.config.addProseMirrorPlugins, extension)
 
-          plugins.push(...proseMirrorPlugins)
+        const getItem = (rootext: any, ext: any, field: string): any => {
+          const realctx = createExtensionContext(ext, {
+            options: rootext.options,
+            // options: getItem(ext, 'defaultOptions'),
+            editor: this.editor,
+            type: getSchemaTypeByName(ext.config.name, this.schema),
+          })
+
+          if (ext.config[field]) {
+            if (typeof ext.config[field] === 'function') {
+              return ext.config[field].bind(realctx)()
+            }
+
+            return ext.config[field]
+          }
+
+          if (ext.parent) {
+            return getItem(rootext, ext.parent, field)
+          }
+
+          return undefined
         }
+
+        // console.log('get PM', getItem(extension, 'addProseMirrorPlugins', context))
+        const realPMP = getItem(extension, extension, 'addProseMirrorPlugins')
+
+        // if (extension.config.addProseMirrorPlugins) {
+        //   const proseMirrorPlugins = extension.config.addProseMirrorPlugins.bind(context)()
+
+        //   plugins.push(...proseMirrorPlugins)
+        // }
 
         return plugins
       })
