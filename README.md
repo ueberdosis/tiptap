@@ -1,4 +1,6 @@
-# tiptap 2 (Sponsors preview!)
+# tiptap 2
+A headless, framwork-agnostic and extendable rich text editor, based on [ProseMirror](https://github.com/ProseMirror/prosemirror).
+
 [![Build Status](https://github.com/ueberdosis/tiptap-next/workflows/build/badge.svg)](https://github.com/ueberdosis/tiptap-next/actions)
 [![Version](https://img.shields.io/npm/v/@tiptap/core.svg?label=version)](https://www.npmjs.com/package/@tiptap/core)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/core.svg)](https://npmcharts.com/compare/@tiptap/core?minimal=true)
@@ -6,75 +8,60 @@
 [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg?sanitize=true)](https://discord.gg/WtJ49jGshW)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
-A headless and extendable rich text editor, based on [ProseMirror](https://github.com/ProseMirror/prosemirror), which is already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
+> If you’re looking for tiptap 1, [click here](https://github.com/ueberdosis/tiptap/tree/main).
 
-> If you’re looking for tiptap v1, [click here](https://github.com/ueberdosis/tiptap/tree/main).
-
-## Feedback
-We are looking for your feedback to improve tiptap 2 before the first public release! Share everything that helps to make it better for everyone!
-
-* Join the Discord server! [Link](https://discord.gg/WtJ49jGshW)
-* Create issues on GitHub! [Link](https://github.com/ueberdosis/tiptap-next/issues)
-* Send an email! [humans@tiptap.dev](mailto:humans@tiptap.dev)
-* Follow us on Twitter! [@tiptap_editor](https://twitter.com/tiptap_editor) [@hanspagel](https://twitter.com/hanspagel) [@_philippkuehn](https://twitter.com/_philippkuehn)
-
-## Why we built tiptap
-We were looking for a text editor for [Vue.js](https://github.com/vuejs/vue) and found some solutions that didn’t really satisfy us. An editor should be easy to extend and not based on old dependencies such as jQuery. For React there is already a great editor called [Slate.js](https://github.com/ianstormtaylor/slate), which impresses with its modularity. We came across [ProseMirror](https://github.com/prosemirror) and decided to build on it. ProseMirror is a toolkit for building rich text editors that are already in use at many well-known companies such as *Atlassian* or *New York Times*.
-
-### What does `headless` mean?
-With headless components you'll have (almost) full control over markup and styling. We don’t want to tell you what a menu should look like or where it should be rendered in the DOM. That’s all up to you. There is also a [great article about headless components](https://adamwathan.me/renderless-components-in-vuejs/) by Adam Wathan.
-
-### How is the data stored under the hood?
-You can save your data as a raw `HTML` string or can get a `JSON`-serializable representation of your document. And of course, you can also pass `HTML` or `JSON` content back to the editor.
-
-## 💖 Sponsor the development
-Are you using tiptap in production? We need your sponsorship to maintain, update and develop tiptap. [Become a Sponsor now!](https://github.com/sponsors/ueberdosis)
+## Examples
+Have a look at the [examples to see tiptap in action](https://next.tiptap.dev/examples).
 
 ## Documentation
-To check out some live examples, visit [next.tiptap.dev](https://next.tiptap.dev/).
+The full documentation is a available on [next.tiptap.dev](https://next.tiptap.dev/installation).
+
+## Community
+For help, discussion about best practices, or any other conversation that would benefit from being searchable:
+
+[Discuss tiptap on GitHub](https://github.com/ueberdosis/tiptap/discussions)
+
+For casual chit-chat with others using the framework:
+
+[Join the tiptap Discord Server](https://discord.gg/WtJ49jGshW)
+
+## 💖 Sponsors
+* [überdosis](https://ueberdosis.io/)
+* [Ziff Media Group](https://ziffmedia.com/)
+* [Incyte Studios](https://incytestudios.com/)
+* [dotCMS](http://dotcms.com/)
+* [Restruct](https://restruct.nl/)
+
+[mymind](https://mymind.com/),
+[DocIQ](https://www.dociq.io/),
+[Apostrophe CMS](https://apostrophecms.com/),
+[Ycode](https://www.ycode.com/),
+[@impactvelocity](https://github.com/impactvelocity),
+[Flow Mobile](https://www.flowmobile.app/),
+[Gretel](http://www.gretel.co/),
+[Omics Data Automation](https://www.omicsautomation.com/),
+[Novadiscovery](http://www.novadiscovery.com/),
+[Atlan Technologies](https://atlan.com/),
+[Gamma](https://gamma.app/),
+[Kirchner Consulting](https://kirchnerconsulting.ch/),
+[IT Xpert](https://itxpert.ch/)
+
+Using tiptap in production? Invest in the future of tiptap and [become a sponsor!](https://github.com/sponsors/ueberdosis)
 
 ## Contributing
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-## Maintainers
-- [Philipp Kühn](https://github.com/philippkuehn) (developer)
-- [Hans Pagel](https://github.com/hanspagel) (maintainer)
+## Contributors
+[Sam Willis](https://github.com/samwillis),
+[Christoph Flathmann](https://github.com/Chrissi2812),
+[Erick Wilder](https://github.com/erickwilder),
+[Marius Tolzmann](https://github.com/mariux),
+[jjangga0214](https://github.com/jjangga0214),
+[Maya Nedeljkovich](https://github.com/mayacoda),
+[Ryan Bliss](https://github.com/ryanbliss),
+[Gregor](https://github.com/gambolputty)
 
-## Premium Sponsors
-- [überdosis](https://ueberdosis.io/)
-- [mymind](https://mymind.com/)
-- [DocIQ](https://www.dociq.io/)
-- [Apostrophe CMS](https://apostrophecms.com/)
-- [Ycode](https://www.ycode.com/)
-- [@impactvelocity](https://github.com/impactvelocity)
-- [Flow Mobile](https://www.flowmobile.app/)
-
-## Credits
-- [Sam Willis](https://github.com/samwillis)
-- [Christoph Flathmann](https://github.com/Chrissi2812)
-- [Erick Wilder](https://github.com/erickwilder)
-- [Marius Tolzmann](https://github.com/mariux)
-- [jjangga0214](https://github.com/jjangga0214)
-- [Maya Nedeljkovich](https://github.com/mayacoda)
-- [Ryan Bliss](https://github.com/ryanbliss)
-- [Gregor](https://github.com/gambolputty)
-- [All Contributors](../../contributors)
-
-## Links
-- https://github.com/ueberdosis/awesome-tiptap
-
-## Become a sponsor
-Your benefits as a sponsor:
-
-* Give back to the open source community
-* Get early access to private repositories
-* Ensure the further maintenace and development of tiptap
-* Your issues and pull requests get a `sponsor 💖` label
-* Get a sponsor badge in all your comments on GitHub
-* Show support in your GitHub profile
-* Receive monthly reports about our open source work
-
-Does that sound good? [Become a sponsor!](https://github.com/sponsors/ueberdosis)
+[All Contributors](../../contributors)
 
 ## License
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
