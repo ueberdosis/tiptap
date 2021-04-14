@@ -44,7 +44,7 @@ For casual chit-chat with others using the framework:
 [Atlan Technologies](https://atlan.com/),
 [Gamma](https://gamma.app/),
 [Kirchner Consulting](https://kirchnerconsulting.ch/),
-[IT Xpert](https://itxpert.ch/)
+[IT Xpert](https://itxpert.ch/) and hundreds of awesome inviduals.
 
 Using tiptap in production? Invest in the future of tiptap and [become a sponsor!](https://github.com/sponsors/ueberdosis)
 
@@ -59,9 +59,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 [jjangga0214](https://github.com/jjangga0214),
 [Maya Nedeljkovich](https://github.com/mayacoda),
 [Ryan Bliss](https://github.com/ryanbliss),
-[Gregor](https://github.com/gambolputty)
-
-[All Contributors](../../contributors)
+[Gregor](https://github.com/gambolputty) and [many more](../../contributors).
 
 ## License
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
