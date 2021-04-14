@@ -1,10 +1,10 @@
 # tiptap 2 (Sponsors preview!)
+[![Build Status](https://github.com/ueberdosis/tiptap-next/workflows/build/badge.svg)](https://github.com/ueberdosis/tiptap-next/actions)
 [![Version](https://img.shields.io/npm/v/@tiptap/core.svg?label=version)](https://www.npmjs.com/package/@tiptap/core)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/core.svg)](https://npmcharts.com/compare/@tiptap/core?minimal=true)
 [![License](https://img.shields.io/npm/l/@tiptap/core.svg)](https://www.npmjs.com/package/@tiptap/core)
-[![Build Status](https://github.com/ueberdosis/tiptap-next/workflows/build/badge.svg)](https://github.com/ueberdosis/tiptap-next/actions)
-[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg?sanitize=true)](https://discord.gg/WtJ49jGshW)
+[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 A headless and extendable rich text editor, based on [ProseMirror](https://github.com/ProseMirror/prosemirror), which is already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
 
