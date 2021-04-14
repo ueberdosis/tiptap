@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.4](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-code-block-lowlight@2.0.0-beta.3...@tiptap/extension-code-block-lowlight@2.0.0-beta.4) (2021-04-14)
+
+
+### Bug Fixes
+
+* fix lowlight decorations for vue 3 ([daa5dc0](https://github.com/ueberdosis/tiptap-next/commit/daa5dc0fb1ec2db6889565fc9c091f3dbdbbda6d))
+
+
+
+
+
 # [2.0.0-beta.3](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-code-block-lowlight@2.0.0-beta.2...@tiptap/extension-code-block-lowlight@2.0.0-beta.3) (2021-04-12)
 
 
