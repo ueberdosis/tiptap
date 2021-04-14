@@ -47,6 +47,11 @@ function getDecorations({ doc, name }) {
         }
       })
       .forEach(node => {
+        if (node.classes.length === 0) {
+          // Do not emit empty decorations.
+          return
+        }
+
         const decoration = Decoration.inline(node.from, node.to, {
           class: node.classes.join(' '),
         })
