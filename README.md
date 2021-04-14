@@ -8,6 +8,8 @@
 
 A headless and extendable rich text editor, based on [ProseMirror](https://github.com/ProseMirror/prosemirror), which is already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
 
+> If you’re looking for tiptap v1, [click here](https://github.com/ueberdosis/tiptap/tree/main).
+
 ## Feedback
 We are looking for your feedback to improve tiptap 2 before the first public release! Share everything that helps to make it better for everyone!
 
