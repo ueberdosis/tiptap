@@ -45,37 +45,85 @@ export default class ExtensionManager {
         }
       }
 
-      // if (typeof extension.config.onBeforeCreate === 'function') {
-      //   this.editor.on('beforeCreate', extension.config.onBeforeCreate.bind(context))
-      // }
+      const onBeforeCreate = getExtensionField<AnyConfig['onBeforeCreate']>(
+        extension,
+        'onBeforeCreate',
+        context,
+      )
 
-      // if (typeof extension.config.onCreate === 'function') {
-      //   this.editor.on('create', extension.config.onCreate.bind(context))
-      // }
+      if (onBeforeCreate) {
+        this.editor.on('beforeCreate', onBeforeCreate)
+      }
 
-      // if (typeof extension.config.onUpdate === 'function') {
-      //   this.editor.on('update', extension.config.onUpdate.bind(context))
-      // }
+      const onCreate = getExtensionField<AnyConfig['onCreate']>(
+        extension,
+        'onCreate',
+        context,
+      )
 
-      // if (typeof extension.config.onSelectionUpdate === 'function') {
-      //   this.editor.on('selectionUpdate', extension.config.onSelectionUpdate.bind(context))
-      // }
+      if (onCreate) {
+        this.editor.on('create', onCreate)
+      }
 
-      // if (typeof extension.config.onTransaction === 'function') {
-      //   this.editor.on('transaction', extension.config.onTransaction.bind(context))
-      // }
+      const onUpdate = getExtensionField<AnyConfig['onUpdate']>(
+        extension,
+        'onUpdate',
+        context,
+      )
 
-      // if (typeof extension.config.onFocus === 'function') {
-      //   this.editor.on('focus', extension.config.onFocus.bind(context))
-      // }
+      if (onUpdate) {
+        this.editor.on('update', onUpdate)
+      }
 
-      // if (typeof extension.config.onBlur === 'function') {
-      //   this.editor.on('blur', extension.config.onBlur.bind(context))
-      // }
+      const onSelectionUpdate = getExtensionField<AnyConfig['onSelectionUpdate']>(
+        extension,
+        'onSelectionUpdate',
+        context,
+      )
 
-      // if (typeof extension.config.onDestroy === 'function') {
-      //   this.editor.on('destroy', extension.config.onDestroy.bind(context))
-      // }
+      if (onSelectionUpdate) {
+        this.editor.on('selectionUpdate', onSelectionUpdate)
+      }
+
+      const onTransaction = getExtensionField<AnyConfig['onTransaction']>(
+        extension,
+        'onTransaction',
+        context,
+      )
+
+      if (onTransaction) {
+        this.editor.on('transaction', onTransaction)
+      }
+
+      const onFocus = getExtensionField<AnyConfig['onFocus']>(
+        extension,
+        'onFocus',
+        context,
+      )
+
+      if (onFocus) {
+        this.editor.on('focus', onFocus)
+      }
+
+      const onBlur = getExtensionField<AnyConfig['onBlur']>(
+        extension,
+        'onBlur',
+        context,
+      )
+
+      if (onBlur) {
+        this.editor.on('blur', onBlur)
+      }
+
+      const onDestroy = getExtensionField<AnyConfig['onDestroy']>(
+        extension,
+        'onDestroy',
+        context,
+      )
+
+      if (onDestroy) {
+        this.editor.on('destroy', onDestroy)
+      }
     })
   }
 
@@ -83,11 +131,14 @@ export default class ExtensionManager {
     const defaultPriority = 100
 
     return extensions.sort((a, b) => {
-      if ((a.config.priority || defaultPriority) > (b.config.priority || defaultPriority)) {
+      const priorityA = getExtensionField<AnyConfig['priority']>(a, 'priority') || defaultPriority
+      const priorityB = getExtensionField<AnyConfig['priority']>(b, 'priority') || defaultPriority
+
+      if (priorityA > priorityB) {
         return -1
       }
 
-      if ((a.config.priority || defaultPriority) < (b.config.priority || defaultPriority)) {
+      if (priorityA < priorityB) {
         return 1
       }
 
@@ -103,13 +154,19 @@ export default class ExtensionManager {
         type: getSchemaTypeByName(extension.name, this.schema),
       }
 
-      if (!extension.config.addCommands) {
+      const addCommands = getExtensionField<AnyConfig['addCommands']>(
+        extension,
+        'addCommands',
+        context,
+      )
+
+      if (!addCommands) {
         return commands
       }
 
       return {
         ...commands,
-        ...getExtensionField(extension, 'addCommands', context)(),
+        ...addCommands(),
       }
     }, {} as RawCommands)
   }
