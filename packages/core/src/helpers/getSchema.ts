@@ -1,6 +1,6 @@
 import { NodeSpec, MarkSpec, Schema } from 'prosemirror-model'
 import { AnyConfig, Extensions } from '../types'
-import { ExtensionConfig, NodeConfig, MarkConfig } from '..'
+import { NodeConfig, MarkConfig } from '..'
 import splitExtensions from './splitExtensions'
 import getAttributesFromExtensions from './getAttributesFromExtensions'
 import getRenderedAttributes from './getRenderedAttributes'
