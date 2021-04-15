@@ -22,13 +22,10 @@ function cleanUpSchemaItem<T>(data: T) {
 export default function getSchema(extensions: Extensions): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
-  const topNodeExtension = nodeExtensions.find(extension => getExtensionField(extension, 'topNode'))
-  const topNode = topNodeExtension
-    ? getExtensionField<NodeConfig['name']>(topNodeExtension, 'name')
-    : null
+  const topNode = nodeExtensions.find(extension => getExtensionField(extension, 'topNode'))?.name
 
   const nodes = Object.fromEntries(nodeExtensions.map(extension => {
-    const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
+    const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
     const context = {
       options: extension.options,
     }
@@ -79,11 +76,11 @@ export default function getSchema(extensions: Extensions): Schema {
       })
     }
 
-    return [extension.config.name, schema]
+    return [extension.name, schema]
   }))
 
   const marks = Object.fromEntries(markExtensions.map(extension => {
-    const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
+    const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
     const context = {
       options: extension.options,
     }
@@ -128,7 +125,7 @@ export default function getSchema(extensions: Extensions): Schema {
       })
     }
 
-    return [extension.config.name, schema]
+    return [extension.name, schema]
   }))
 
   return new Schema({

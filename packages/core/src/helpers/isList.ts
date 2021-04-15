@@ -4,7 +4,7 @@ import callOrReturn from '../utilities/callOrReturn'
 
 export default function isList(name: string, extensions: Extensions): boolean {
   const { nodeExtensions } = splitExtensions(extensions)
-  const extension = nodeExtensions.find(item => item.config.name === name)
+  const extension = nodeExtensions.find(item => item.name === name)
 
   if (!extension) {
     return false

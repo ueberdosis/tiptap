@@ -34,14 +34,14 @@ export default class ExtensionManager {
       const context = {
         options: extension.options,
         editor: this.editor,
-        type: getSchemaTypeByName(extension.config.name, this.schema),
+        type: getSchemaTypeByName(extension.name, this.schema),
       }
 
       if (extension.type === 'mark') {
         const keepOnSplit = callOrReturn(getExtensionField(extension, 'keepOnSplit', context)) ?? true
 
         if (keepOnSplit) {
-          this.splittableMarks.push(extension.config.name)
+          this.splittableMarks.push(extension.name)
         }
       }
 
@@ -100,7 +100,7 @@ export default class ExtensionManager {
       const context = {
         options: extension.options,
         editor: this.editor,
-        type: getSchemaTypeByName(extension.config.name, this.schema),
+        type: getSchemaTypeByName(extension.name, this.schema),
       }
 
       if (!extension.config.addCommands) {
@@ -121,7 +121,7 @@ export default class ExtensionManager {
         const context = {
           options: extension.options,
           editor: this.editor,
-          type: getSchemaTypeByName(extension.config.name, this.schema),
+          type: getSchemaTypeByName(extension.name, this.schema),
         }
 
         const plugins: Plugin[] = []
@@ -198,7 +198,7 @@ export default class ExtensionManager {
         const context = {
           options: extension.options,
           editor,
-          type: getNodeType(extension.config.name, this.schema),
+          type: getNodeType(extension.name, this.schema),
         }
         const addNodeView = getExtensionField<NodeConfig['addNodeView']>(
           extension,
@@ -228,7 +228,7 @@ export default class ExtensionManager {
           })
         }
 
-        return [extension.config.name, nodeview]
+        return [extension.name, nodeview]
       }))
   }
 
@@ -242,7 +242,7 @@ export default class ExtensionManager {
         const context = {
           options: extension.options,
           editor,
-          type: getNodeType(extension.config.name, this.schema),
+          type: getNodeType(extension.name, this.schema),
         }
 
         const renderText = getExtensionField<NodeConfig['renderText']>(extension, 'renderText', context)
@@ -253,7 +253,7 @@ export default class ExtensionManager {
 
         const textSerializer = (props: { node: ProsemirrorNode }) => renderText(props)
 
-        return [extension.config.name, textSerializer]
+        return [extension.name, textSerializer]
       }))
   }
 

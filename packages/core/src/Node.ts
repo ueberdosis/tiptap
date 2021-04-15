@@ -367,17 +367,19 @@ declare module '@tiptap/core' {
 export class Node<Options = any> {
   type = 'node'
 
-  config: NodeConfig = {
-    name: 'node',
-    priority: 100,
-    defaultOptions: {},
-  }
-
-  options: Options
+  name = 'node'
 
   parent: Node | null = null
 
   child: Node | null = null
+
+  options: Options
+
+  config: NodeConfig = {
+    name: this.name,
+    priority: 100,
+    defaultOptions: {},
+  }
 
   constructor(config: Partial<NodeConfig<Options>> = {}) {
     this.config = {
@@ -385,6 +387,7 @@ export class Node<Options = any> {
       ...config,
     }
 
+    this.name = this.config.name
     this.options = this.config.defaultOptions
   }
 
@@ -404,6 +407,10 @@ export class Node<Options = any> {
     extension.parent = this
 
     this.child = extension
+
+    extension.name = extendedConfig.name
+      ? extendedConfig.name
+      : this.name
 
     extension.options = {
       ...extension.parent.options,
