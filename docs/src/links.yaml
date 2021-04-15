@@ -37,7 +37,6 @@
         #   skip: true
         - title: Alpine.js
           link: /installation/alpine
-          type: new
           skip: true
         - title: Livewire
           link: /installation/livewire
@@ -64,7 +63,6 @@
       link: /examples/markdown-shortcuts
     - title: Menus
       link: /examples/menus
-      type: new
     - title: Tables
       link: /examples/tables
       # type: pro
@@ -86,8 +84,8 @@
       link: /examples/savvy
     - title: Interactivity
       link: /examples/interactivity
-    - title: Code block language
-      link: /examples/code-block-language
+    - title: Syntax highlighting
+      link: /examples/syntax-highlighting
       type: new
 
 - title: Guide
@@ -96,7 +94,6 @@
       link: /guide/configuration
     - title: Menus
       link: /guide/menus
-      type: new
     - title: Styling
       link: /guide/styling
     - title: Output
@@ -112,14 +109,11 @@
       link: /guide/extend-extensions
     - title: Interactive node views
       link: /guide/node-views
-      type: new
       items:
         - title: With JavaScript
           link: /guide/node-views/js
-          type: new
         - title: With React
           link: /guide/node-views/react
-          type: new
         - title: With Vue
           link: /guide/node-views/vue
         - title: A few examples
