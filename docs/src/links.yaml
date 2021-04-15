@@ -30,7 +30,6 @@
           skip: true
         - title: Svelte
           link: /installation/svelte
-          type: new
           skip: true
         # - title: CodeSandbox
         #   link: /installation/codesandbox
@@ -38,10 +37,10 @@
         - title: Alpine.js
           link: /installation/alpine
           skip: true
-        - title: Livewire
-          link: /installation/livewire
-          type: draft
-          skip: true
+        # - title: Livewire
+        #   link: /installation/livewire
+        #   type: draft
+        #   skip: true
     - title: Upgrade guide
       link: /overview/upgrade-guide
     - title: Become a sponsor
