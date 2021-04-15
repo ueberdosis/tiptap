@@ -31,7 +31,7 @@ declare module '@tiptap/core' {
      */
     addGlobalAttributes?: (this: {
       options: Options,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['addGlobalAttributes'],
     }) => GlobalAttributes | {},
 
     /**
@@ -40,7 +40,7 @@ declare module '@tiptap/core' {
     addCommands?: (this: {
       options: Options,
       editor: Editor,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['addCommands'],
     }) => Partial<RawCommands>,
 
     /**
@@ -49,7 +49,7 @@ declare module '@tiptap/core' {
     addKeyboardShortcuts?: (this: {
       options: Options,
       editor: Editor,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['addKeyboardShortcuts'],
     }) => {
       [key: string]: ProseMirrorCommand,
     },
@@ -60,7 +60,7 @@ declare module '@tiptap/core' {
     addInputRules?: (this: {
       options: Options,
       editor: Editor,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['addInputRules'],
     }) => InputRule[],
 
     /**
@@ -69,7 +69,7 @@ declare module '@tiptap/core' {
     addPasteRules?: (this: {
       options: Options,
       editor: Editor,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['addPasteRules'],
     }) => Plugin[],
 
     /**
@@ -78,7 +78,7 @@ declare module '@tiptap/core' {
     addProseMirrorPlugins?: (this: {
       options: Options,
       editor: Editor,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['addProseMirrorPlugins'],
     }) => Plugin[],
 
     /**
@@ -87,7 +87,7 @@ declare module '@tiptap/core' {
     extendNodeSchema?: ((
       this: {
         options: Options,
-        parentConfig: ParentConfig<ExtensionConfig<Options>>,
+        parent: ParentConfig<ExtensionConfig<Options>>['extendNodeSchema'],
       },
       extension: Node,
     ) => {
@@ -100,7 +100,7 @@ declare module '@tiptap/core' {
     extendMarkSchema?: ((
       this: {
         options: Options,
-        parentConfig: ParentConfig<ExtensionConfig<Options>>,
+        parent: ParentConfig<ExtensionConfig<Options>>['extendMarkSchema'],
       },
       extension: Node,
     ) => {
@@ -113,7 +113,7 @@ declare module '@tiptap/core' {
      onBeforeCreate?: ((this: {
       options: Options,
       editor: Editor,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['onBeforeCreate'],
     }) => void) | null,
 
     /**
@@ -122,7 +122,7 @@ declare module '@tiptap/core' {
     onCreate?: ((this: {
       options: Options,
       editor: Editor,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['onCreate'],
     }) => void) | null,
 
     /**
@@ -131,7 +131,7 @@ declare module '@tiptap/core' {
     onUpdate?: ((this: {
       options: Options,
       editor: Editor,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['onUpdate'],
     }) => void) | null,
 
     /**
@@ -140,7 +140,7 @@ declare module '@tiptap/core' {
     onSelectionUpdate?: ((this: {
       options: Options,
       editor: Editor,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['onSelectionUpdate'],
     }) => void) | null,
 
     /**
@@ -150,7 +150,7 @@ declare module '@tiptap/core' {
       this: {
         options: Options,
         editor: Editor,
-        parentConfig: ParentConfig<ExtensionConfig<Options>>,
+        parent: ParentConfig<ExtensionConfig<Options>>['onTransaction'],
       },
       props: {
         transaction: Transaction,
@@ -164,7 +164,7 @@ declare module '@tiptap/core' {
       this: {
         options: Options,
         editor: Editor,
-        parentConfig: ParentConfig<ExtensionConfig<Options>>,
+        parent: ParentConfig<ExtensionConfig<Options>>['onFocus'],
       },
       props: {
         event: FocusEvent,
@@ -178,7 +178,7 @@ declare module '@tiptap/core' {
       this: {
         options: Options,
         editor: Editor,
-        parentConfig: ParentConfig<ExtensionConfig<Options>>,
+        parent: ParentConfig<ExtensionConfig<Options>>['onBlur'],
       },
       props: {
         event: FocusEvent,
@@ -191,7 +191,7 @@ declare module '@tiptap/core' {
     onDestroy?: ((this: {
       options: Options,
       editor: Editor,
-      parentConfig: ParentConfig<ExtensionConfig<Options>>,
+      parent: ParentConfig<ExtensionConfig<Options>>['onDestroy'],
     }) => void) | null,
   }
 }
@@ -205,12 +205,13 @@ export class Extension<Options = any> {
     defaultOptions: {},
   }
 
-  // parentConfig: Partial<ExtensionConfig> = {}
-  parent: any
+  options: Options
 
-  options!: Options
+  parent: Extension | null = null
 
-  constructor(config: ExtensionConfig<Options>) {
+  child: Extension | null = null
+
+  constructor(config: Partial<ExtensionConfig<Options>> = {}) {
     this.config = {
       ...this.config,
       ...config,
@@ -219,33 +220,26 @@ export class Extension<Options = any> {
     this.options = this.config.defaultOptions
   }
 
-  static create<O>(config: ExtensionConfig<O>) {
+  static create<O>(config: Partial<ExtensionConfig<O>> = {}) {
     return new Extension<O>(config)
   }
 
   configure(options: Partial<Options> = {}) {
-    return Extension
-      .create<Options>(this.config as ExtensionConfig<Options>)
-      .#configure(options)
-  }
-
-  #configure = (options: Partial<Options>) => {
-    this.options = mergeDeep(this.config.defaultOptions, options) as Options
+    this.options = mergeDeep(this.options, options) as Options
 
     return this
   }
 
   extend<ExtendedOptions = Options>(extendedConfig: Partial<ExtensionConfig<ExtendedOptions>> = {}) {
-    const extension = new Extension<ExtendedOptions>({
-      // ...this.config,
-      ...extendedConfig,
-    } as ExtensionConfig<ExtendedOptions>)
+    const extension = new Extension<ExtendedOptions>(extendedConfig)
 
-    // extension.parentConfig = this.config
     extension.parent = this
+
+    this.child = extension
+
     extension.options = {
-      ...(this.config.defaultOptions ?? {}),
-      ...(extendedConfig.defaultOptions ?? {}),
+      ...extension.parent.options,
+      ...extension.options,
     }
 
     return extension
