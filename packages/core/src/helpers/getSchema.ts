@@ -1,13 +1,13 @@
 import { NodeSpec, MarkSpec, Schema } from 'prosemirror-model'
 import { Extensions } from '../types'
 import { ExtensionConfig, NodeConfig, MarkConfig } from '..'
-import createExtensionContext from './createExtensionContext'
 import splitExtensions from './splitExtensions'
 import getAttributesFromExtensions from './getAttributesFromExtensions'
 import getRenderedAttributes from './getRenderedAttributes'
 import isEmptyObject from '../utilities/isEmptyObject'
 import injectExtensionAttributesToParseRule from './injectExtensionAttributesToParseRule'
 import callOrReturn from '../utilities/callOrReturn'
+import getExtensionField from './getExtensionField'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(Object.entries(data).filter(([key, value]) => {
@@ -46,9 +46,9 @@ export default function getSchema(extensions: Extensions): Schema {
 
   const nodes = Object.fromEntries(nodeExtensions.map(extension => {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
-    const context = createExtensionContext(extension, {
+    const context = {
       options: extension.options,
-    })
+    }
 
     const extraNodeFields = nodeSchemaExtenders.reduce((fields, nodeSchemaExtender) => {
       const extraFields = callOrReturn(nodeSchemaExtender, context, extension)
@@ -61,29 +61,32 @@ export default function getSchema(extensions: Extensions): Schema {
 
     const schema: NodeSpec = cleanUpSchemaItem({
       ...extraNodeFields,
-      content: callOrReturn(extension.config.content, context),
-      marks: callOrReturn(extension.config.marks, context),
-      group: callOrReturn(extension.config.group, context),
-      inline: callOrReturn(extension.config.inline, context),
-      atom: callOrReturn(extension.config.atom, context),
-      selectable: callOrReturn(extension.config.selectable, context),
-      draggable: callOrReturn(extension.config.draggable, context),
-      code: callOrReturn(extension.config.code, context),
-      defining: callOrReturn(extension.config.defining, context),
-      isolating: callOrReturn(extension.config.isolating, context),
+      content: callOrReturn(getExtensionField<NodeConfig['content']>(extension, 'content', context)),
+      marks: callOrReturn(getExtensionField<NodeConfig['marks']>(extension, 'marks', context)),
+      group: callOrReturn(getExtensionField<NodeConfig['group']>(extension, 'group', context)),
+      inline: callOrReturn(getExtensionField<NodeConfig['inline']>(extension, 'inline', context)),
+      atom: callOrReturn(getExtensionField<NodeConfig['atom']>(extension, 'atom', context)),
+      selectable: callOrReturn(getExtensionField<NodeConfig['selectable']>(extension, 'selectable', context)),
+      draggable: callOrReturn(getExtensionField<NodeConfig['draggable']>(extension, 'draggable', context)),
+      code: callOrReturn(getExtensionField<NodeConfig['code']>(extension, 'code', context)),
+      defining: callOrReturn(getExtensionField<NodeConfig['defining']>(extension, 'defining', context)),
+      isolating: callOrReturn(getExtensionField<NodeConfig['isolating']>(extension, 'isolating', context)),
       attrs: Object.fromEntries(extensionAttributes.map(extensionAttribute => {
         return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
       })),
     })
 
-    if (extension.config.parseHTML) {
-      schema.parseDOM = extension.config.parseHTML
-        .bind(context)()
-        ?.map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes))
+    const parseHTML = callOrReturn(getExtensionField<NodeConfig['parseHTML']>(extension, 'parseHTML', context))
+
+    if (parseHTML) {
+      schema.parseDOM = parseHTML
+        .map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes))
     }
 
-    if (extension.config.renderHTML) {
-      schema.toDOM = node => (extension.config.renderHTML as Function)?.bind(context)({
+    const renderHTML = getExtensionField<NodeConfig['renderHTML']>(extension, 'renderHTML', context)
+
+    if (renderHTML) {
+      schema.toDOM = node => renderHTML({
         node,
         HTMLAttributes: getRenderedAttributes(node, extensionAttributes),
       })
@@ -94,9 +97,9 @@ export default function getSchema(extensions: Extensions): Schema {
 
   const marks = Object.fromEntries(markExtensions.map(extension => {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
-    const context = createExtensionContext(extension, {
+    const context = {
       options: extension.options,
-    })
+    }
 
     const extraMarkFields = markSchemaExtenders.reduce((fields, markSchemaExtender) => {
       const extraFields = callOrReturn(markSchemaExtender, context, extension)
@@ -109,23 +112,26 @@ export default function getSchema(extensions: Extensions): Schema {
 
     const schema: MarkSpec = cleanUpSchemaItem({
       ...extraMarkFields,
-      inclusive: callOrReturn(extension.config.inclusive, context),
-      excludes: callOrReturn(extension.config.excludes, context),
-      group: callOrReturn(extension.config.group, context),
-      spanning: callOrReturn(extension.config.spanning, context),
+      inclusive: callOrReturn(getExtensionField<NodeConfig['inclusive']>(extension, 'inclusive', context)),
+      excludes: callOrReturn(getExtensionField<NodeConfig['excludes']>(extension, 'excludes', context)),
+      group: callOrReturn(getExtensionField<NodeConfig['group']>(extension, 'group', context)),
+      spanning: callOrReturn(getExtensionField<NodeConfig['spanning']>(extension, 'spanning', context)),
       attrs: Object.fromEntries(extensionAttributes.map(extensionAttribute => {
         return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
       })),
     })
 
-    if (extension.config.parseHTML) {
-      schema.parseDOM = extension.config.parseHTML
-        .bind(context)()
-        ?.map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes))
+    const parseHTML = callOrReturn(getExtensionField<MarkConfig['parseHTML']>(extension, 'parseHTML', context))
+
+    if (parseHTML) {
+      schema.parseDOM = parseHTML
+        .map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes))
     }
 
-    if (extension.config.renderHTML) {
-      schema.toDOM = mark => (extension.config.renderHTML as Function)?.bind(context)({
+    const renderHTML = getExtensionField<MarkConfig['renderHTML']>(extension, 'renderHTML', context)
+
+    if (renderHTML) {
+      schema.toDOM = mark => renderHTML({
         mark,
         HTMLAttributes: getRenderedAttributes(mark, extensionAttributes),
       })

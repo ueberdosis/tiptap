@@ -4,8 +4,8 @@ import { inputRules as inputRulesPlugin } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
-import { Extensions, NodeViewRenderer, RawCommands } from './types'
-import createExtensionContext from './helpers/createExtensionContext'
+import { Extensions, RawCommands, AnyConfig } from './types'
+import getExtensionField from './helpers/getExtensionField'
 import getSchema from './helpers/getSchema'
 import getSchemaTypeByName from './helpers/getSchemaTypeByName'
 import getNodeType from './helpers/getNodeType'
@@ -13,6 +13,7 @@ import splitExtensions from './helpers/splitExtensions'
 import getAttributesFromExtensions from './helpers/getAttributesFromExtensions'
 import getRenderedAttributes from './helpers/getRenderedAttributes'
 import callOrReturn from './utilities/callOrReturn'
+import { NodeConfig } from '.'
 
 export default class ExtensionManager {
 
@@ -30,51 +31,51 @@ export default class ExtensionManager {
     this.schema = getSchema(this.extensions)
 
     this.extensions.forEach(extension => {
-      const context = createExtensionContext(extension, {
+      const context = {
         options: extension.options,
         editor: this.editor,
         type: getSchemaTypeByName(extension.config.name, this.schema),
-      })
+      }
 
       if (extension.type === 'mark') {
-        const keepOnSplit = callOrReturn(extension.config.keepOnSplit, context) ?? true
+        const keepOnSplit = callOrReturn(getExtensionField(extension, 'keepOnSplit', context)) ?? true
 
         if (keepOnSplit) {
           this.splittableMarks.push(extension.config.name)
         }
       }
 
-      if (typeof extension.config.onBeforeCreate === 'function') {
-        this.editor.on('beforeCreate', extension.config.onBeforeCreate.bind(context))
-      }
+      // if (typeof extension.config.onBeforeCreate === 'function') {
+      //   this.editor.on('beforeCreate', extension.config.onBeforeCreate.bind(context))
+      // }
 
-      if (typeof extension.config.onCreate === 'function') {
-        this.editor.on('create', extension.config.onCreate.bind(context))
-      }
+      // if (typeof extension.config.onCreate === 'function') {
+      //   this.editor.on('create', extension.config.onCreate.bind(context))
+      // }
 
-      if (typeof extension.config.onUpdate === 'function') {
-        this.editor.on('update', extension.config.onUpdate.bind(context))
-      }
+      // if (typeof extension.config.onUpdate === 'function') {
+      //   this.editor.on('update', extension.config.onUpdate.bind(context))
+      // }
 
-      if (typeof extension.config.onSelectionUpdate === 'function') {
-        this.editor.on('selectionUpdate', extension.config.onSelectionUpdate.bind(context))
-      }
+      // if (typeof extension.config.onSelectionUpdate === 'function') {
+      //   this.editor.on('selectionUpdate', extension.config.onSelectionUpdate.bind(context))
+      // }
 
-      if (typeof extension.config.onTransaction === 'function') {
-        this.editor.on('transaction', extension.config.onTransaction.bind(context))
-      }
+      // if (typeof extension.config.onTransaction === 'function') {
+      //   this.editor.on('transaction', extension.config.onTransaction.bind(context))
+      // }
 
-      if (typeof extension.config.onFocus === 'function') {
-        this.editor.on('focus', extension.config.onFocus.bind(context))
-      }
+      // if (typeof extension.config.onFocus === 'function') {
+      //   this.editor.on('focus', extension.config.onFocus.bind(context))
+      // }
 
-      if (typeof extension.config.onBlur === 'function') {
-        this.editor.on('blur', extension.config.onBlur.bind(context))
-      }
+      // if (typeof extension.config.onBlur === 'function') {
+      //   this.editor.on('blur', extension.config.onBlur.bind(context))
+      // }
 
-      if (typeof extension.config.onDestroy === 'function') {
-        this.editor.on('destroy', extension.config.onDestroy.bind(context))
-      }
+      // if (typeof extension.config.onDestroy === 'function') {
+      //   this.editor.on('destroy', extension.config.onDestroy.bind(context))
+      // }
     })
   }
 
@@ -96,11 +97,11 @@ export default class ExtensionManager {
 
   get commands(): RawCommands {
     return this.extensions.reduce((commands, extension) => {
-      const context = createExtensionContext(extension, {
+      const context = {
         options: extension.options,
         editor: this.editor,
         type: getSchemaTypeByName(extension.config.name, this.schema),
-      })
+      }
 
       if (!extension.config.addCommands) {
         return commands
@@ -108,7 +109,7 @@ export default class ExtensionManager {
 
       return {
         ...commands,
-        ...extension.config.addCommands.bind(context)(),
+        ...getExtensionField(extension, 'addCommands', context)(),
       }
     }, {} as RawCommands)
   }
@@ -117,22 +118,34 @@ export default class ExtensionManager {
     return [...this.extensions]
       .reverse()
       .map(extension => {
-        const context = createExtensionContext(extension, {
+        const context = {
           options: extension.options,
           editor: this.editor,
           type: getSchemaTypeByName(extension.config.name, this.schema),
-        })
+        }
 
         const plugins: Plugin[] = []
 
-        if (extension.config.addKeyboardShortcuts) {
-          const keyMapPlugin = keymap(extension.config.addKeyboardShortcuts.bind(context)())
+        const addKeyboardShortcuts = getExtensionField<AnyConfig['addKeyboardShortcuts']>(
+          extension,
+          'addKeyboardShortcuts',
+          context,
+        )
+
+        if (addKeyboardShortcuts) {
+          const keyMapPlugin = keymap(addKeyboardShortcuts())
 
           plugins.push(keyMapPlugin)
         }
 
-        if (this.editor.options.enableInputRules && extension.config.addInputRules) {
-          const inputRules = extension.config.addInputRules.bind(context)()
+        const addInputRules = getExtensionField<AnyConfig['addInputRules']>(
+          extension,
+          'addInputRules',
+          context,
+        )
+
+        if (this.editor.options.enableInputRules && addInputRules) {
+          const inputRules = addInputRules()
           const inputRulePlugins = inputRules.length
             ? [inputRulesPlugin({ rules: inputRules })]
             : []
@@ -140,45 +153,29 @@ export default class ExtensionManager {
           plugins.push(...inputRulePlugins)
         }
 
-        if (this.editor.options.enablePasteRules && extension.config.addPasteRules) {
-          const pasteRulePlugins = extension.config.addPasteRules.bind(context)()
+        const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(
+          extension,
+          'addPasteRules',
+          context,
+        )
+
+        if (this.editor.options.enablePasteRules && addPasteRules) {
+          const pasteRulePlugins = addPasteRules()
 
           plugins.push(...pasteRulePlugins)
         }
 
-        // console.log('has pm', extension.config.addProseMirrorPlugins, extension)
+        const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
+          extension,
+          'addProseMirrorPlugins',
+          context,
+        )
 
-        const getItem = (rootext: any, ext: any, field: string): any => {
-          const realctx = createExtensionContext(ext, {
-            options: rootext.options,
-            // options: getItem(ext, 'defaultOptions'),
-            editor: this.editor,
-            type: getSchemaTypeByName(ext.config.name, this.schema),
-          })
+        if (addProseMirrorPlugins) {
+          const proseMirrorPlugins = addProseMirrorPlugins()
 
-          if (ext.config[field]) {
-            if (typeof ext.config[field] === 'function') {
-              return ext.config[field].bind(realctx)()
-            }
-
-            return ext.config[field]
-          }
-
-          if (ext.parent) {
-            return getItem(rootext, ext.parent, field)
-          }
-
-          return undefined
+          plugins.push(...proseMirrorPlugins)
         }
-
-        // console.log('get PM', getItem(extension, 'addProseMirrorPlugins', context))
-        const realPMP = getItem(extension, extension, 'addProseMirrorPlugins')
-
-        // if (extension.config.addProseMirrorPlugins) {
-        //   const proseMirrorPlugins = extension.config.addProseMirrorPlugins.bind(context)()
-
-        //   plugins.push(...proseMirrorPlugins)
-        // }
 
         return plugins
       })
@@ -194,15 +191,24 @@ export default class ExtensionManager {
     const { nodeExtensions } = splitExtensions(this.extensions)
 
     return Object.fromEntries(nodeExtensions
-      .filter(extension => !!extension.config.addNodeView)
+      .filter(extension => !!getExtensionField(extension, 'addNodeView'))
       .map(extension => {
-        const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.config.name)
-        const context = createExtensionContext(extension, {
+        const name = getExtensionField<NodeConfig['name']>(extension, 'name')
+        const extensionAttributes = this.attributes.filter(attribute => attribute.type === name)
+        const context = {
           options: extension.options,
           editor,
           type: getNodeType(extension.config.name, this.schema),
-        })
-        const renderer = extension.config.addNodeView?.call(context) as NodeViewRenderer
+        }
+        const addNodeView = getExtensionField<NodeConfig['addNodeView']>(
+          extension,
+          'addNodeView',
+          context,
+        )
+
+        if (!addNodeView) {
+          return []
+        }
 
         const nodeview = (
           node: ProsemirrorNode,
@@ -212,7 +218,7 @@ export default class ExtensionManager {
         ) => {
           const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
-          return renderer({
+          return addNodeView()({
             editor,
             node,
             getPos,
@@ -231,15 +237,21 @@ export default class ExtensionManager {
     const { nodeExtensions } = splitExtensions(this.extensions)
 
     return Object.fromEntries(nodeExtensions
-      .filter(extension => !!extension.config.renderText)
+      .filter(extension => !!getExtensionField(extension, 'renderText'))
       .map(extension => {
-        const context = createExtensionContext(extension, {
+        const context = {
           options: extension.options,
           editor,
           type: getNodeType(extension.config.name, this.schema),
-        })
+        }
 
-        const textSerializer = (props: { node: ProsemirrorNode }) => extension.config.renderText?.call(context, props)
+        const renderText = getExtensionField<NodeConfig['renderText']>(extension, 'renderText', context)
+
+        if (!renderText) {
+          return []
+        }
+
+        const textSerializer = (props: { node: ProsemirrorNode }) => renderText(props)
 
         return [extension.config.name, textSerializer]
       }))

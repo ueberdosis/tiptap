@@ -41,48 +41,13 @@ export default {
         Document,
         Paragraph,
         Text,
-
-        Extension
-          .create({
-            defaultOptions: {
-              foo: 'foo0',
-            },
-            addProseMirrorPlugins() {
-              console.log(0, this.options)
-              return []
-            },
-          })
+        CodeBlockLowlight
           .extend({
-            // defaultOptions: {
-            //   foo: 'foo1',
-            // },
-            addProseMirrorPlugins() {
-              console.log(1, this.options)
-              // console.log(1, this.parentConfig.addProseMirrorPlugins)
-              return this.parentConfig.addProseMirrorPlugins?.() || []
-              // return []
+            addNodeView() {
+              return VueNodeViewRenderer(CodeBlockComponent)
             },
           })
-          .extend({
-            // defaultOptions: {
-            //   foo: 'foo2',
-            // },
-          })
-          // .extend({
-          //   addProseMirrorPlugins() {
-          //     console.log(2, this.parentConfig.addProseMirrorPlugins)
-          //     // return this.parentConfig.addProseMirrorPlugins?.() || []
-          //     return []
-          //   },
-          // })
-
-        // CodeBlockLowlight
-        //   .extend({
-        //     addNodeView() {
-        //       return VueNodeViewRenderer(CodeBlockComponent)
-        //     },
-        //   })
-        //   // .configure({ lowlight }),
+          .configure({ lowlight }),
       ],
       content: `
         <p>
