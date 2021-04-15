@@ -84,7 +84,7 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
       .entries(attributes)
       .forEach(([name, attribute]) => {
         extensionAttributes.push({
-          type: getExtensionField(extension, 'name'),
+          type: extension.name,
           name,
           attribute: {
             ...defaultAttribute,

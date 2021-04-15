@@ -250,8 +250,7 @@ export default class ExtensionManager {
     return Object.fromEntries(nodeExtensions
       .filter(extension => !!getExtensionField(extension, 'addNodeView'))
       .map(extension => {
-        const name = getExtensionField<NodeConfig['name']>(extension, 'name')
-        const extensionAttributes = this.attributes.filter(attribute => attribute.type === name)
+        const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.name)
         const context = {
           options: extension.options,
           editor,
