@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/starter-kit",
   "description": "starter kit for tiptap",
-  "version": "2.0.0-beta.25",
+  "version": "2.0.0-beta.26",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -22,24 +22,24 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/core": "^2.0.0-beta.29",
-    "@tiptap/extension-blockquote": "^2.0.0-beta.1",
-    "@tiptap/extension-bold": "^2.0.0-beta.1",
-    "@tiptap/extension-bullet-list": "^2.0.0-beta.1",
-    "@tiptap/extension-code": "^2.0.0-beta.1",
-    "@tiptap/extension-code-block": "^2.0.0-beta.3",
-    "@tiptap/extension-document": "^2.0.0-beta.1",
-    "@tiptap/extension-dropcursor": "^2.0.0-beta.2",
-    "@tiptap/extension-gapcursor": "^2.0.0-beta.5",
-    "@tiptap/extension-hard-break": "^2.0.0-beta.1",
-    "@tiptap/extension-heading": "^2.0.0-beta.1",
-    "@tiptap/extension-history": "^2.0.0-beta.1",
-    "@tiptap/extension-horizontal-rule": "^2.0.0-beta.2",
-    "@tiptap/extension-italic": "^2.0.0-beta.1",
-    "@tiptap/extension-list-item": "^2.0.0-beta.1",
-    "@tiptap/extension-ordered-list": "^2.0.0-beta.1",
-    "@tiptap/extension-paragraph": "^2.0.0-beta.2",
-    "@tiptap/extension-strike": "^2.0.0-beta.2",
-    "@tiptap/extension-text": "^2.0.0-beta.1"
+    "@tiptap/core": "^2.0.0-beta.30",
+    "@tiptap/extension-blockquote": "^2.0.0-beta.2",
+    "@tiptap/extension-bold": "^2.0.0-beta.2",
+    "@tiptap/extension-bullet-list": "^2.0.0-beta.2",
+    "@tiptap/extension-code": "^2.0.0-beta.2",
+    "@tiptap/extension-code-block": "^2.0.0-beta.4",
+    "@tiptap/extension-document": "^2.0.0-beta.2",
+    "@tiptap/extension-dropcursor": "^2.0.0-beta.3",
+    "@tiptap/extension-gapcursor": "^2.0.0-beta.6",
+    "@tiptap/extension-hard-break": "^2.0.0-beta.2",
+    "@tiptap/extension-heading": "^2.0.0-beta.2",
+    "@tiptap/extension-history": "^2.0.0-beta.2",
+    "@tiptap/extension-horizontal-rule": "^2.0.0-beta.3",
+    "@tiptap/extension-italic": "^2.0.0-beta.2",
+    "@tiptap/extension-list-item": "^2.0.0-beta.2",
+    "@tiptap/extension-ordered-list": "^2.0.0-beta.2",
+    "@tiptap/extension-paragraph": "^2.0.0-beta.3",
+    "@tiptap/extension-strike": "^2.0.0-beta.3",
+    "@tiptap/extension-text": "^2.0.0-beta.2"
   }
 }

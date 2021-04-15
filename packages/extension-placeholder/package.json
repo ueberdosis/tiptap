@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-placeholder",
   "description": "placeholder extension for tiptap",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
