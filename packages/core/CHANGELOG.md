@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.30...@tiptap/core@2.0.0-beta.31) (2021-04-15)
+
+
+### Bug Fixes
+
+* fix type for emitUpdate, fix [#276](https://github.com/ueberdosis/tiptap-next/issues/276) ([4137e00](https://github.com/ueberdosis/tiptap-next/commit/4137e00d987c152b883022525056df94ad033be7))
+
+
+
+
+
 # [2.0.0-beta.30](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.29...@tiptap/core@2.0.0-beta.30) (2021-04-15)
 
 **Note:** Version bump only for package @tiptap/core
