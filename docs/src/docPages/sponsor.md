@@ -3,21 +3,20 @@
 ## Introduction
 To deliver a top-notch developer experience and user experience, we put ~~hundreds~~ thousands of hours of unpaid work into tiptap. Your funding helps us to make this work more and more financially sustainable. This enables us to provide helpful support, maintain all our packages, keep everything up to date, and develop new features and extensions for tiptap.
 
-Give back to the open-source community and [sponsor us on GitHub](https://github.com/sponsors/ueberdosis)! ♥
+Give back to the open source community and [sponsor us on GitHub](https://github.com/sponsors/ueberdosis)! ♥
 
 ## Your benefits as a sponsor
-* Give back to the open-source community
 * Get early access to private repositories
-* Ensure the further maintenace and development of tiptap
 * Your issues and pull requests get a `sponsor ♥` label
 * Get a sponsor badge in all your comments on GitHub
+* Invest in the future of tiptap
+* Give back to the open source community
 * Show support in your GitHub profile
-* Receive monthly reports about our open-source work
 
-Does that sound good? [Sponsor us on GitHub!](https://github.com/sponsors/ueberdosis)
+Sounds good? [Sponsor us on GitHub!](https://github.com/sponsors/ueberdosis)
 
 ## The maintainers of tiptap
-If you’re thankful for tiptap, you should say thank you to all 12 lovely people of [überdosis](https://twitter.com/_ueberdosis). The amazing company we’re all building together and the amazing company that funded the initial development costs of tiptap 2.
+If you are thankful for tiptap, you should say thank you to the lovely people of [überdosis](https://twitter.com/_ueberdosis). The amazing company we are all building together and the amazing company that funded the initial development costs of tiptap.
 
 AND you should definitely hire us if you want us to design und build an amazing digital product for you. Bonus points if it’s somehow text editing related.
 

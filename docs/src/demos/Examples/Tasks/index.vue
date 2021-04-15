@@ -17,7 +17,7 @@ const CustomDocument = Document.extend({
 })
 
 const CustomTaskItem = TaskItem.extend({
-  content: 'text*',
+  content: 'inline*',
 })
 
 export default {

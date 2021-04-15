@@ -1,3 +1,3 @@
-# Code block language
+# Syntax highlighting
 
 <demo name="Examples/CodeBlockLanguage" />

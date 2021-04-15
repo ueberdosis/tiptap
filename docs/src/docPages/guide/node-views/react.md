@@ -3,7 +3,7 @@
 ## toc
 
 ## Introduction
-Using plain JavaScript can feel complex if you are used to work in React. Good news: You can use regular React components in your node views, too. There is just a little bit you need to know, but let’s go through this one by one.
+Using Vanilla JavaScript can feel complex if you are used to work in React. Good news: You can use regular React components in your node views, too. There is just a little bit you need to know, but let’s go through this one by one.
 
 ## Render a React component
 Here is what you need to do to render React components inside your editor:
