@@ -6,7 +6,7 @@
           The headless editor framework for web artisans.
         </h1>
         <p class="is-large">
-          tiptap gives you full control about every single aspect of your text editor experience. It’s customizable, comes with a ton of extensions, is open-source, has an extensive documentation, and is simply a joy to use. Join our welcoming community and start building cool things!
+          tiptap gives you full control about every single aspect of your text editor experience. It’s customizable, comes with a ton of extensions, is open source, has an extensive documentation, and is simply a joy to use. Join our welcoming community and start building cool things!
         </p>
         <btn-wrapper>
           <btn type="primary" icon="arrow-right" to="/installation">
@@ -49,7 +49,7 @@
             Framework-agnostic
           </h3>
           <p>
-            Out of the box, tiptap works with plain JavaScript and Vue.js, but it’s also possible to use it in <g-link to="/installation/react">React</g-link>, <g-link to="/installation/svelte">Svelte</g-link> and others.
+            Out of the box, tiptap works with Vanilla JavaScript and Vue.js, but it’s also possible to use it in <g-link to="/installation/react">React</g-link>, <g-link to="/installation/svelte">Svelte</g-link> and others.
           </p>
           <div>
             <btn type="tertiary" icon="arrow-right" to="/installation">

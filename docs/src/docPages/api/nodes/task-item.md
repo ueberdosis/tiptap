@@ -4,7 +4,7 @@
 
 This extension renders a task item list element, which is a `<li>` tag with a `data-type` attribute set to `taskItem`. It also renders a checkbox inside the list element, which updates a `checked` attribute.
 
-This extension doesn’t require any JavaScript framework, it’s based on plain JavaScript.
+This extension doesn’t require any JavaScript framework, it’s based on Vanilla JavaScript.
 
 ## Installation
 ```bash

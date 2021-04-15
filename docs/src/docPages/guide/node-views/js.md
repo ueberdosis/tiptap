@@ -3,7 +3,7 @@
 ## toc
 
 ## Introduction
-Using frameworks like Vue or React can feel too complex, if you’re used to work without those two. Good news: You can use plain JavaScript in your node views. There is just a little bit you need to know, but let’s go through this one by one.
+Using frameworks like Vue or React can feel too complex, if you’re used to work without those two. Good news: You can use Vanilla JavaScript in your node views. There is just a little bit you need to know, but let’s go through this one by one.
 
 ## Render a node view with JavaScript
 Here is what you need to do to render a node view inside your editor:

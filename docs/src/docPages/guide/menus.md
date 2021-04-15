@@ -111,7 +111,7 @@ This section needs some work. Do you know what else needs to be taken into accou
 :::
 
 ### Icons
-Most editor menus use icons for their buttons. In some of our demos, we use the open-source icon set [Remix Icon](https://remixicon.com/), that’s free to use. But it’s totally up to you what you use. Here are a few icon sets you can consider:
+Most editor menus use icons for their buttons. In some of our demos, we use the open source icon set [Remix Icon](https://remixicon.com/), that’s free to use. But it’s totally up to you what you use. Here are a few icon sets you can consider:
 
 * [Remix Icon](https://remixicon.com/#editor)
 * [Font Awesome](https://fontawesome.com/icons?c=editors)

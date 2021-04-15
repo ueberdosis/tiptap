@@ -39,7 +39,7 @@ yarn add @tiptap/vue-2
 
 And yes, we plan to support React, too. Meanwhile, you can roll your own `ReactRenderer`, but don’t forget to share it with the community.
 
-It’s also possible to use plain JavaScript, but that is probably a lot more work.
+It’s also possible to use Vanilla JavaScript, but that is probably a lot more work.
 
 ## Settings
 | Option         | Type     | Default | Description                                                           |

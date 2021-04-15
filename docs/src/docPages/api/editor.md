@@ -182,6 +182,8 @@ new Editor({
 })
 ```
 
+You can use that to hook into event handlers and pass - for example - a custom paste handler, too.
+
 ### Parse options
 Passed content is parsed by ProseMirror. To hook into the parsing, you can pass `parseOptions` which are then handled by [ProseMirror](https://prosemirror.net/docs/ref/#model.ParseOptions).
 

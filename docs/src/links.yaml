@@ -57,14 +57,12 @@
       link: /examples/default
     - title: Collaborative editing
       link: /examples/collaborative-editing
-      # type: pro
     - title: Markdown shortcuts
       link: /examples/markdown-shortcuts
     - title: Menus
       link: /examples/menus
     - title: Tables
       link: /examples/tables
-      # type: pro
     - title: Images
       link: /examples/images
     - title: Formatting
@@ -101,7 +99,6 @@
       link: /guide/accessibility
     - title: Collaborative editing
       link: /guide/collaborative-editing
-      # type: pro
     - title: Custom extensions
       link: /guide/custom-extensions
     - title: Overwrite & extend
@@ -122,8 +119,8 @@
 
 - title: API
   items:
-    - title: Concept
-      link: /api/concept
+    - title: Introduction
+      link: /api/introduction
     - title: Editor
       link: /api/editor
     - title: Commands
@@ -178,16 +175,12 @@
           link: /api/nodes/paragraph
         - title: Table
           link: /api/nodes/table
-          # type: pro
         - title: TableRow
           link: /api/nodes/table-row
-          # type: pro
         - title: TableCell
           link: /api/nodes/table-cell
-          # type: pro
         - title: TableHeader
           link: /api/nodes/table-header
-          # type: pro
         - title: TaskList
           link: /api/nodes/task-list
         - title: TaskItem
@@ -216,9 +209,6 @@
     - title: Extensions
       link: /api/extensions
       items:
-        # - title: Annotation
-        #   link: /api/extensions/annotation
-        #   type: draft
         - title: BubbleMenu
           link: /api/extensions/bubble-menu
           type: new
@@ -226,10 +216,8 @@
           link: /api/extensions/character-count
         - title: Collaboration
           link: /api/extensions/collaboration
-          # type: pro
         - title: CollaborationCursor
           link: /api/extensions/collaboration-cursor
-          # type: pro
         - title: Dropcursor
           link: /api/extensions/dropcursor
         - title: FloatingMenu
@@ -258,9 +246,9 @@
           link: /api/utilities/html
         - title: Suggestion
           link: /api/utilities/suggestion
-    - title: Events
-      link: /api/events
-    - title: Schema
-      link: /api/schema
     - title: Keyboard shortcuts
       link: /api/keyboard-shortcuts
+    - title: Schema
+      link: /api/schema
+    - title: Events
+      link: /api/events

@@ -67,7 +67,7 @@ Use this interactive example to fiddle around:
 <demo name="Guide/Content/ExportHTML" hide-source/>
 
 ### Option 3: Y.js
-Our editor has amazing support for Y.js, which is amazing to add [realtime collaboration, offline editing, or syncing between devices](/guide/collaborative-editing).
+Our editor has top notch support for Y.js, which is amazing to add features like [realtime collaboration, offline editing, or syncing between devices](/guide/collaborative-editing).
 
 Internally, Y.js stores a history of all changes. That can be in the browser, on a server, synced with other connected clients, or on a USB stick. But, it’s important to know that Y.js needs those stored changes. A simple JSON document is not enough to merge changes.
 
@@ -79,13 +79,13 @@ That said, it’s amazing and we’re about to provide an amazing backend, that 
 Unfortunately, **tiptap doesn’t support Markdown as an input or output format**. We considered to add support for it, but those are the reasons why we decided to not do it:
 
 * Both, HTML and JSON, can have deeply nested structures, Markdown is flat.
-* There are enough packages to convert HTML to Markdown and vice-versa.
 * Markdown standards vary.
 * tiptap’s strength is cutomization, that doesn’t work very well with Markdown.
+* There are enough packages to convert HTML to Markdown and vice-versa.
 
 You should really consider to work with HTML or JSON to store your content, they are perfectly fine for most use cases.
 
-If you still think you need Markdown, ProseMirror has an [example on how to deal with Markdown](https://prosemirror.net/examples/markdown/), [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap 1 to work with Markdown. Maybe you can learn from them. Or if you’re looking for a really good Markdown editor, try [CodeMirror](https://codemirror.net/).
+If you still think you need Markdown, ProseMirror has an [example on how to deal with Markdown](https://prosemirror.net/examples/markdown/), [Nextcloud Text](https://github.com/nextcloud/text) uses tiptap 1 to work with Markdown. Maybe you can learn from them. Or if you are looking for a really good Markdown editor, try [CodeMirror](https://codemirror.net/).
 
 That said, tiptap does support [Markdown shortcuts](/examples/markdown-shortcuts) to format your content. Also you’re free to let your content look like Markdown, for example add a `#` before an `<h1>` with CSS.
 
@@ -127,4 +127,4 @@ We’re about to go through a few cases to help with that, for example we provid
 [Share your experiences with us!](mailto:humans@tiptap.dev) We’d like to add more information here.
 
 ## Security
-There’s no reason to use on or the other because of security concerns. If someone wants to send malicious content to your server, it doesn’t matter if it’s JSON or HTML. You should always validate user input.
+There is no reason to use on or the other because of security concerns. If someone wants to send malicious content to your server, it doesn’t matter if it’s JSON or HTML. It doesn’t even matter if you’re using tiptap or not. You should always validate user input.
