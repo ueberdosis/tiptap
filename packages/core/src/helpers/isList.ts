@@ -1,6 +1,8 @@
 import { Extensions } from '../types'
+import { NodeConfig } from '..'
 import splitExtensions from './splitExtensions'
 import callOrReturn from '../utilities/callOrReturn'
+import getExtensionField from '../helpers/getExtensionField'
 
 export default function isList(name: string, extensions: Extensions): boolean {
   const { nodeExtensions } = splitExtensions(extensions)
@@ -10,11 +12,12 @@ export default function isList(name: string, extensions: Extensions): boolean {
     return false
   }
 
-  const groups = callOrReturn(extension.config.group, { options: extension.options })
+  const context = { options: extension.options }
+  const group = callOrReturn(getExtensionField<NodeConfig['group']>(extension, 'group', context))
 
-  if (typeof groups !== 'string') {
+  if (typeof group !== 'string') {
     return false
   }
 
-  return groups.split(' ').includes('list')
+  return group.split(' ').includes('list')
 }
