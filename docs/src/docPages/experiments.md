@@ -9,3 +9,4 @@ Congratulations! You’ve found our playground with a list of experiments. Be aw
 * [@tiptap/extension-iframe?](/experiments/embeds)
 * [@tiptap/extension-toggle-list?](/experiments/details)
 * [@tiptap/extension-collaboration-annotation](/experiments/collaboration-annotation)
+* [@tiptap/extension-word-break](/experiments/word-break)
