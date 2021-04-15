@@ -1,5 +1,5 @@
 import { NodeSpec, MarkSpec, Schema } from 'prosemirror-model'
-import { Extensions } from '../types'
+import { AnyConfig, Extensions } from '../types'
 import { ExtensionConfig, NodeConfig, MarkConfig } from '..'
 import splitExtensions from './splitExtensions'
 import getAttributesFromExtensions from './getAttributesFromExtensions'
@@ -22,27 +22,10 @@ function cleanUpSchemaItem<T>(data: T) {
 export default function getSchema(extensions: Extensions): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
-  const topNode = nodeExtensions.find(extension => extension.config.topNode)?.config.name
-  const nodeSchemaExtenders: (
-    | ExtensionConfig['extendNodeSchema']
-    | NodeConfig['extendNodeSchema']
-    | MarkConfig['extendNodeSchema']
-  )[] = []
-  const markSchemaExtenders: (
-    | ExtensionConfig['extendNodeSchema']
-    | NodeConfig['extendNodeSchema']
-    | MarkConfig['extendNodeSchema']
-  )[] = []
-
-  extensions.forEach(extension => {
-    if (typeof extension.config.extendNodeSchema === 'function') {
-      nodeSchemaExtenders.push(extension.config.extendNodeSchema)
-    }
-
-    if (typeof extension.config.extendMarkSchema === 'function') {
-      markSchemaExtenders.push(extension.config.extendMarkSchema)
-    }
-  })
+  const topNodeExtension = nodeExtensions.find(extension => getExtensionField(extension, 'topNode'))
+  const topNode = topNodeExtension
+    ? getExtensionField<NodeConfig['name']>(topNodeExtension, 'name')
+    : null
 
   const nodes = Object.fromEntries(nodeExtensions.map(extension => {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.config.name)
@@ -50,12 +33,16 @@ export default function getSchema(extensions: Extensions): Schema {
       options: extension.options,
     }
 
-    const extraNodeFields = nodeSchemaExtenders.reduce((fields, nodeSchemaExtender) => {
-      const extraFields = callOrReturn(nodeSchemaExtender, context, extension)
+    const extraNodeFields = extensions.reduce((fields, e) => {
+      const extendNodeSchema = getExtensionField<AnyConfig['extendNodeSchema']>(
+        e,
+        'extendNodeSchema',
+        context,
+      )
 
       return {
         ...fields,
-        ...extraFields,
+        ...(extendNodeSchema ? extendNodeSchema(extension) : {}),
       }
     }, {})
 
@@ -101,12 +88,16 @@ export default function getSchema(extensions: Extensions): Schema {
       options: extension.options,
     }
 
-    const extraMarkFields = markSchemaExtenders.reduce((fields, markSchemaExtender) => {
-      const extraFields = callOrReturn(markSchemaExtender, context, extension)
+    const extraMarkFields = extensions.reduce((fields, e) => {
+      const extendMarkSchema = getExtensionField<AnyConfig['extendMarkSchema']>(
+        e,
+        'extendMarkSchema',
+        context,
+      )
 
       return {
         ...fields,
-        ...extraFields,
+        ...(extendMarkSchema ? extendMarkSchema(extension) : {}),
       }
     }, {})
 

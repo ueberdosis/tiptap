@@ -14,6 +14,7 @@ import {
   GlobalAttributes,
   ParentConfig,
 } from './types'
+import { Node } from './Node'
 import { MarkConfig } from '.'
 import { Editor } from './Editor'
 
@@ -117,7 +118,7 @@ declare module '@tiptap/core' {
         options: Options,
         parent: ParentConfig<MarkConfig<Options>>['extendMarkSchema'],
       },
-      extension: Node,
+      extension: Mark,
     ) => {
       [key: string]: any,
     }) | null,

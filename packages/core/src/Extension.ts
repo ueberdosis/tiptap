@@ -3,6 +3,7 @@ import { Command as ProseMirrorCommand } from 'prosemirror-commands'
 import { InputRule } from 'prosemirror-inputrules'
 import { Editor } from './Editor'
 import { Node } from './Node'
+import { Mark } from './Mark'
 import mergeDeep from './utilities/mergeDeep'
 import { GlobalAttributes, RawCommands, ParentConfig } from './types'
 import { ExtensionConfig } from '.'
@@ -102,7 +103,7 @@ declare module '@tiptap/core' {
         options: Options,
         parent: ParentConfig<ExtensionConfig<Options>>['extendMarkSchema'],
       },
-      extension: Node,
+      extension: Mark,
     ) => {
       [key: string]: any,
     }) | null,
