@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative">
-    <bubble-menu class="bubble-menu" :editor="editor" v-if="editor">
+    <bubble-menu class="bubble-menu" :tippy-options="{ duration: 100 }" :editor="editor" v-if="editor">
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         Bold
       </button>
@@ -12,7 +12,7 @@
       </button>
     </bubble-menu>
 
-    <floating-menu class="floating-menu" :editor="editor" v-if="editor">
+    <floating-menu class="floating-menu" :tippy-options="{ duration: 100 }" :editor="editor" v-if="editor">
       <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
         H1
       </button>
@@ -95,7 +95,6 @@ export default {
   background-color: #0D0D0D;
   padding: 0.2rem;
   border-radius: 0.5rem;
-  transition: visibility 0.1s ease, opacity 0.1s ease;
 
   button {
     border: none;
@@ -118,9 +117,6 @@ export default {
   background-color: #0D0D0D10;
   padding: 0.2rem;
   border-radius: 0.5rem;
-  margin-top: -0.25rem;
-  margin-left: 0.25rem;
-  transition: visibility 0.1s ease, opacity 0.1s ease;
 
   button {
     border: none;
