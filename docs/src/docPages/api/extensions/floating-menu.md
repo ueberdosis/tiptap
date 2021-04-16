@@ -13,9 +13,10 @@ yarn add @tiptap/extension-floating-menu
 ```
 
 ## Settings
-| Option       | Type          | Default   | Description                   |
-| ------------ | ------------- | --------- | ----------------------------- |
-| element      | `HTMLElement` | `null`    | The DOM element of your menu. |
+| Option       | Type          | Default | Description                                                             |
+| ------------ | ------------- | ------- | ----------------------------------------------------------------------- |
+| element      | `HTMLElement` | `null`  | The DOM element of your menu.                                           |
+| tippyOptions | `Object`      | `{}`    | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
 
 ## Source code
 [packages/extension-floating-menu/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-floating-menu/)

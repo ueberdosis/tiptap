@@ -17,7 +17,6 @@
 
 <script>
 import { NodeViewWrapper, NodeViewContent, nodeViewProps } from '@tiptap/vue-2'
-import lowlight from 'lowlight/lib/core'
 
 export default {
   components: {
@@ -29,7 +28,7 @@ export default {
 
   data() {
     return {
-      languages: lowlight.listLanguages(),
+      languages: this.extension.options.lowlight.listLanguages(),
     }
   },
 

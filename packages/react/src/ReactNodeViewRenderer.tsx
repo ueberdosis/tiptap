@@ -38,7 +38,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
         return string.charAt(0).toUpperCase() + string.substring(1)
       }
 
-      this.component.displayName = capitalizeFirstChar(this.extension.config.name)
+      this.component.displayName = capitalizeFirstChar(this.extension.name)
     }
 
     const ReactNodeViewProvider: React.FunctionComponent = componentProps => {

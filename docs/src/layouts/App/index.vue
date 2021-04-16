@@ -1,6 +1,14 @@
 <template>
   <div class="app">
     <div class="app__navigation">
+      <banner-message
+        to="https://www.tiptap.dev/"
+        v-if="$route.name === 'home'"
+        color="black"
+      >
+        You’re browsing the documentation for v2.x. Click here for v1.x documentation →
+      </banner-message>
+
       <div class="app__top-bar">
         <g-link class="app__logo" to="/">
           <img src="~@/assets/images/logo.svg">
@@ -54,7 +62,7 @@
         </g-link>
       </portal>
 
-      <portal :to="sidebarPortal" v-if="showSidebar">
+      <portal :to="sidebarPortal">
         <nav class="app__sidebar-menu">
           <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
             <template v-if="linkGroup.link && !linkGroup.items">
@@ -124,6 +132,7 @@ query {
 import linkGroups from '@/links.yaml'
 import Icon from '@/components/Icon'
 import PageFooter from '@/components/PageFooter'
+import BannerMessage from '@/components/BannerMessage'
 // import GithubButton from 'vue-github-button'
 
 export default {
@@ -137,6 +146,7 @@ export default {
   components: {
     Icon,
     PageFooter,
+    BannerMessage,
     // GithubButton,
   },
 

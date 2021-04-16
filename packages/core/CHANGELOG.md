@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.31...@tiptap/core@2.0.0-beta.32) (2021-04-16)
+
+
+### Features
+
+* add coordsAtPos and posToClientRect helper methods ([8dab614](https://github.com/ueberdosis/tiptap-next/commit/8dab6144a661e4c90f33d9d2f300882009eadd46))
+* remove resize event handler ([9f64015](https://github.com/ueberdosis/tiptap-next/commit/9f64015157a83032d0d80bc0353efb529b56a342))
+
+
+
+
+
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.30...@tiptap/core@2.0.0-beta.31) (2021-04-15)
+
+
+### Bug Fixes
+
+* fix type for emitUpdate, fix [#276](https://github.com/ueberdosis/tiptap-next/issues/276) ([4137e00](https://github.com/ueberdosis/tiptap-next/commit/4137e00d987c152b883022525056df94ad033be7))
+
+
+
+
+
+# [2.0.0-beta.30](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.29...@tiptap/core@2.0.0-beta.30) (2021-04-15)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
 # [2.0.0-beta.29](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.28...@tiptap/core@2.0.0-beta.29) (2021-04-12)
 
 

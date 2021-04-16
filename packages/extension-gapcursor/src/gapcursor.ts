@@ -1,7 +1,7 @@
 import {
   Extension,
   callOrReturn,
-  createExtensionContext,
+  getExtensionField,
   ParentConfig,
 } from '@tiptap/core'
 import { gapCursor } from 'prosemirror-gapcursor'
@@ -31,12 +31,12 @@ export const Gapcursor = Extension.create({
   },
 
   extendNodeSchema(extension) {
-    const context = createExtensionContext(extension, {
+    const context = {
       options: extension.options,
-    })
+    }
 
     return {
-      allowGapCursor: callOrReturn(extension.config.allowGapCursor, context) ?? null,
+      allowGapCursor: callOrReturn(getExtensionField(extension, 'allowGapCursor', context)) ?? null,
     }
   },
 })

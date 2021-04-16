@@ -1,5 +1,5 @@
 <template>
-  <div style="position: relative">
+  <div>
     <floating-menu :editor="editor" v-if="editor">
       <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
         h1

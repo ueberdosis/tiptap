@@ -1,12 +1,12 @@
-import { Editor } from '@tiptap/core'
+import { Editor, posToDOMRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { coordsAtPos } from './helpers'
+import tippy, { Instance, Props } from 'tippy.js'
 
 export interface BubbleMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
-  keepInBounds: boolean,
+  tippyOptions?: Partial<Props>,
 }
 
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
@@ -18,35 +18,26 @@ export class BubbleMenuView {
 
   public element: HTMLElement
 
-  public keepInBounds = true
-
   public view: EditorView
 
-  public isActive = false
-
-  public top = 0
-
-  public bottom = 0
-
-  public left = 0
-
   public preventHide = false
+
+  public tippy!: Instance
 
   constructor({
     editor,
     element,
-    keepInBounds,
     view,
+    tippyOptions,
   }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
-    this.keepInBounds = keepInBounds
     this.view = view
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
-    this.editor.on('resize', this.resizeHandler)
-    this.render()
+    this.createTooltip(tippyOptions)
+    this.element.style.visibility = 'visible'
   }
 
   mousedownHandler = () => {
@@ -56,12 +47,6 @@ export class BubbleMenuView {
   focusHandler = () => {
     // we use `setTimeout` to make sure `selection` is already updated
     setTimeout(() => this.update(this.editor.view))
-  }
-
-  resizeHandler = () => {
-    if (this.isActive) {
-      this.update(this.editor.view)
-    }
   }
 
   blurHandler = ({ event }: { event: FocusEvent }) => {
@@ -81,6 +66,19 @@ export class BubbleMenuView {
     this.hide()
   }
 
+  createTooltip(options: Partial<Props> = {}) {
+    this.tippy = tippy(this.view.dom, {
+      duration: 0,
+      getReferenceClientRect: null,
+      content: this.element,
+      interactive: true,
+      trigger: 'manual',
+      placement: 'top',
+      hideOnClick: 'toggle',
+      ...options,
+    })
+  }
+
   update(view: EditorView, oldState?: EditorState) {
     const { state, composing } = view
     const { doc, selection } = state
@@ -91,60 +89,33 @@ export class BubbleMenuView {
     }
 
     const { from, to, empty } = selection
-    const parent = this.element.offsetParent
 
-    if (empty || !parent) {
+    if (empty) {
       this.hide()
 
       return
     }
 
-    const start = coordsAtPos(view, from)
-    const end = coordsAtPos(view, to, true)
-    const parentBox = parent.getBoundingClientRect()
-    const box = this.element.getBoundingClientRect()
-    const left = (start.left + end.left) / 2 - parentBox.left - box.width / 2
+    this.tippy.setProps({
+      getReferenceClientRect: () => posToDOMRect(view, from, to),
+    })
 
-    this.isActive = true
-    this.top = Math.round(end.bottom - parentBox.top)
-    this.bottom = Math.round(parentBox.bottom - start.top)
-    this.left = Math.round(
-      this.keepInBounds
-        ? Math.min(
-          parentBox.width - box.width,
-          Math.max(
-            left,
-            0,
-          ),
-        )
-        : left,
-    )
-
-    this.render()
+    this.show()
   }
 
-  render() {
-    Object.assign(this.element.style, {
-      position: 'absolute',
-      zIndex: 1,
-      visibility: this.isActive ? 'visible' : 'hidden',
-      opacity: this.isActive ? 1 : 0,
-      left: `${this.left}px`,
-      // top: `${this.top}px`,
-      bottom: `${this.bottom}px`,
-    })
+  show() {
+    this.tippy.show()
   }
 
   hide() {
-    this.isActive = false
-    this.render()
+    this.tippy.hide()
   }
 
   destroy() {
+    this.tippy.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
-    this.editor.off('resize', this.resizeHandler)
   }
 }
 

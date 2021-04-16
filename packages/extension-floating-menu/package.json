@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-floating-menu",
   "description": "floating-menu extension for tiptap",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.4",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "prosemirror-state": "^1.3.4",
-    "prosemirror-view": "^1.18.2"
+    "prosemirror-view": "^1.18.2",
+    "tippy.js": "^6.3.1"
   }
 }

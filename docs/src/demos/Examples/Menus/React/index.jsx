@@ -24,8 +24,8 @@ export default () => {
   })
 
   return (
-    <div style={{ position: 'relative' }}>
-      {editor && <BubbleMenu className="bubble-menu" editor={editor}>
+    <>
+      {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={editor.isActive('bold') ? 'is-active' : ''}
@@ -46,7 +46,7 @@ export default () => {
         </button>
       </BubbleMenu>}
 
-      {editor && <FloatingMenu className="floating-menu" editor={editor}>
+      {editor && <FloatingMenu className="floating-menu" tippyOptions={{ duration: 100 }} editor={editor}>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
@@ -68,6 +68,6 @@ export default () => {
       </FloatingMenu>}
 
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

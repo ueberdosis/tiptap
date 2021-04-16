@@ -9,11 +9,12 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
   const element = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const { editor } = props
+    const { editor, tippyOptions } = props
 
     editor.registerPlugin(FloatingMenuPlugin({
       editor,
       element: element.current as HTMLElement,
+      tippyOptions,
     }))
 
     return () => {

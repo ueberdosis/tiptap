@@ -10,9 +10,9 @@ export const BubbleMenu = Vue.extend({
       required: true,
     },
 
-    keepInBounds: {
-      type: Boolean as PropType<BubbleMenuPluginProps['keepInBounds']>,
-      default: true,
+    tippyOptions: {
+      type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
+      default: () => ({}),
     },
   },
 
@@ -28,7 +28,7 @@ export const BubbleMenu = Vue.extend({
           editor.registerPlugin(BubbleMenuPlugin({
             editor,
             element: this.$el as HTMLElement,
-            keepInBounds: this.keepInBounds,
+            tippyOptions: this.tippyOptions,
           }))
         })
       },

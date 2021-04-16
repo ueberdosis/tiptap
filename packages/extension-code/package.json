@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code",
   "description": "code extension for tiptap",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",

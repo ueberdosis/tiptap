@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/react@2.0.0-beta.20...@tiptap/react@2.0.0-beta.21) (2021-04-16)
+
+
+### Features
+
+* add tippyOptions prop ([9a56f66](https://github.com/ueberdosis/tiptap-next/commit/9a56f666a118ca7c59a6f1f67f40e6490e20d3b8))
+* remove keepInBounds ([d7282f1](https://github.com/ueberdosis/tiptap-next/commit/d7282f168bc6cfae4e1630d14bb8462bc135b254))
+
+
+
+
+
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/react@2.0.0-beta.19...@tiptap/react@2.0.0-beta.20) (2021-04-15)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
 # [2.0.0-beta.19](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/react@2.0.0-beta.18...@tiptap/react@2.0.0-beta.19) (2021-04-11)
 
 

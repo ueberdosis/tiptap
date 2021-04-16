@@ -17,7 +17,7 @@ function singleRect(object: Range | Element, bias: number) {
     : rects[bias < 0 ? 0 : rects.length - 1]
 }
 
-export function coordsAtPos(view: EditorView, pos: number, end = false) {
+export default function coordsAtPos(view: EditorView, pos: number, end = false) {
   const { node, offset } = view.domAtPos(pos) // view.docView.domFromPos(pos);
   let side: DOMRectSide | null = null
   let rect: DOMRect | null = null

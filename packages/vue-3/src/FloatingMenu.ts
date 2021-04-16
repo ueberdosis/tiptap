@@ -20,15 +20,21 @@ export const FloatingMenu = defineComponent({
       type: Object as PropType<FloatingMenuPluginProps['editor']>,
       required: true,
     },
+
+    tippyOptions: {
+      type: Object as PropType<FloatingMenuPluginProps['tippyOptions']>,
+      default: () => ({}),
+    },
   },
 
-  setup({ editor }, { slots }) {
+  setup({ editor, tippyOptions }, { slots }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
       editor.registerPlugin(FloatingMenuPlugin({
         editor,
         element: root.value as HTMLElement,
+        tippyOptions,
       }))
     })
 

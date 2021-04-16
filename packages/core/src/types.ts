@@ -14,16 +14,30 @@ import { Extension } from './Extension'
 import { Node } from './Node'
 import { Mark } from './Mark'
 import { Editor } from './Editor'
-import { Commands } from '.'
+import {
+  Commands,
+  ExtensionConfig,
+  NodeConfig,
+  MarkConfig,
+} from '.'
 
+export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
 export type AnyExtension = Extension | Node | Mark
 export type Extensions = AnyExtension[]
 
 export type ParentConfig<T> = Partial<{
-  [P in keyof T]: Required<T>[P] extends () => any
+  [P in keyof T]: Required<T>[P] extends (...args: any) => any
     ? (...args: Parameters<Required<T>[P]>) => ReturnType<Required<T>[P]>
     : T[P]
 }>
+
+export type RemoveThis<T> = T extends (...args: any) => any
+  ? (...args: Parameters<T>) => ReturnType<T>
+  : T
+
+export type MaybeReturnType<T> = T extends (...args: any) => any
+  ? ReturnType<T>
+  : T
 
 export interface EditorOptions {
   element: Element,
@@ -43,7 +57,6 @@ export interface EditorOptions {
   onTransaction: (props: { editor: Editor, transaction: Transaction }) => void,
   onFocus: (props: { editor: Editor, event: FocusEvent }) => void,
   onBlur: (props: { editor: Editor, event: FocusEvent }) => void,
-  onResize: (props: { editor: Editor }) => void,
   onDestroy: () => void,
 }
 

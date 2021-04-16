@@ -16,7 +16,7 @@ export default () => {
   })
 
   return (
-    <div style={{ position: 'relative' }}>
+    <>
       {editor && <BubbleMenu editor={editor}>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -38,6 +38,6 @@ export default () => {
         </button>
       </BubbleMenu>}
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }
