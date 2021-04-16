@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.8](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-focus@2.0.0-beta.7...@tiptap/extension-focus@2.0.0-beta.8) (2021-04-16)
+
+**Note:** Version bump only for package @tiptap/extension-focus
+
+
+
+
+
 # [2.0.0-beta.7](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-focus@2.0.0-beta.6...@tiptap/extension-focus@2.0.0-beta.7) (2021-04-15)
 
 **Note:** Version bump only for package @tiptap/extension-focus
