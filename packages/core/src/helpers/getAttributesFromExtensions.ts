@@ -1,11 +1,14 @@
 import splitExtensions from './splitExtensions'
+import getExtensionField from './getExtensionField'
 import {
   Extensions,
   GlobalAttributes,
   Attributes,
   Attribute,
   ExtensionAttribute,
+  AnyConfig,
 } from '../types'
+import { NodeConfig, MarkConfig } from '..'
 
 /**
  * Get a list of all extension attributes defined in `addAttribute` and `addGlobalAttribute`.
@@ -28,11 +31,18 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
       options: extension.options,
     }
 
-    if (!extension.config.addGlobalAttributes) {
+    const addGlobalAttributes = getExtensionField<AnyConfig['addGlobalAttributes']>(
+      extension,
+      'addGlobalAttributes',
+      context,
+    )
+
+    if (!addGlobalAttributes) {
       return
     }
 
-    const globalAttributes = extension.config.addGlobalAttributes.bind(context)() as GlobalAttributes
+    // TODO: remove `as GlobalAttributes`
+    const globalAttributes = addGlobalAttributes() as GlobalAttributes
 
     globalAttributes.forEach(globalAttribute => {
       globalAttribute.types.forEach(type => {
@@ -57,17 +67,24 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
       options: extension.options,
     }
 
-    if (!extension.config.addAttributes) {
+    const addAttributes = getExtensionField<NodeConfig['addAttributes'] | MarkConfig['addAttributes']>(
+      extension,
+      'addAttributes',
+      context,
+    )
+
+    if (!addAttributes) {
       return
     }
 
-    const attributes = extension.config.addAttributes.bind(context)() as Attributes
+    // TODO: remove `as Attributes`
+    const attributes = addAttributes() as Attributes
 
     Object
       .entries(attributes)
       .forEach(([name, attribute]) => {
         extensionAttributes.push({
-          type: extension.config.name,
+          type: extension.name,
           name,
           attribute: {
             ...defaultAttribute,

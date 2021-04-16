@@ -1,3 +1,5 @@
+import { MaybeReturnType } from '../types'
+
 /**
  * Optionally calls `value` as a function.
  * Otherwise it is returned directly.
@@ -5,7 +7,7 @@
  * @param context Optional context to bind to function.
  * @param props Optional props to pass to function.
  */
-export default function callOrReturn(value: any, context: any = undefined, ...props: any[]): any {
+export default function callOrReturn<T>(value: T, context: any = undefined, ...props: any[]): MaybeReturnType<T> {
   if (typeof value === 'function') {
     if (context) {
       return value.bind(context)(...props)
@@ -14,5 +16,5 @@ export default function callOrReturn(value: any, context: any = undefined, ...pr
     return value(...props)
   }
 
-  return value
+  return value as MaybeReturnType<T>
 }

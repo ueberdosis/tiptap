@@ -70,7 +70,7 @@ export default {
 
     this.editor = new Editor({
       extensions: [
-        ...defaultExtensions().filter(extension => extension.config.name !== 'history'),
+        ...defaultExtensions().filter(extension => extension.name !== 'history'),
         Highlight,
         TaskList,
         TaskItem,

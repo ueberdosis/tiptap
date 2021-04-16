@@ -38,6 +38,7 @@ module.exports = {
         'no-alert': 'off',
         'no-console': ['warn', { allow: ['warn', 'error'] }],
         semi: ['error', 'never'],
+        'import/order': 'off',
         'import/extensions': 'off',
         'import/no-extraneous-dependencies': 'off',
         'import/no-unresolved': 'off',

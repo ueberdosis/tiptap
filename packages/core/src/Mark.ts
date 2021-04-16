@@ -8,7 +8,13 @@ import { Plugin, Transaction } from 'prosemirror-state'
 import { Command as ProseMirrorCommand } from 'prosemirror-commands'
 import { InputRule } from 'prosemirror-inputrules'
 import mergeDeep from './utilities/mergeDeep'
-import { Attributes, RawCommands, GlobalAttributes } from './types'
+import {
+  Attributes,
+  RawCommands,
+  GlobalAttributes,
+  ParentConfig,
+} from './types'
+import { Node } from './Node'
 import { MarkConfig } from '.'
 import { Editor } from './Editor'
 
@@ -36,6 +42,7 @@ declare module '@tiptap/core' {
      */
     addGlobalAttributes?: (this: {
       options: Options,
+      parent: ParentConfig<MarkConfig<Options>>['addGlobalAttributes'],
     }) => GlobalAttributes | {},
 
     /**
@@ -45,6 +52,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: MarkType,
+      parent: ParentConfig<MarkConfig<Options>>['addCommands'],
     }) => Partial<RawCommands>,
 
     /**
@@ -54,6 +62,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: MarkType,
+      parent: ParentConfig<MarkConfig<Options>>['addKeyboardShortcuts'],
     }) => {
       [key: string]: ProseMirrorCommand,
     },
@@ -65,6 +74,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: MarkType,
+      parent: ParentConfig<MarkConfig<Options>>['addInputRules'],
     }) => InputRule[],
 
     /**
@@ -74,6 +84,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: MarkType,
+      parent: ParentConfig<MarkConfig<Options>>['addPasteRules'],
     }) => Plugin[],
 
     /**
@@ -83,6 +94,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: MarkType,
+      parent: ParentConfig<MarkConfig<Options>>['addProseMirrorPlugins'],
     }) => Plugin[],
 
     /**
@@ -91,6 +103,7 @@ declare module '@tiptap/core' {
     extendNodeSchema?: ((
       this: {
         options: Options,
+        parent: ParentConfig<MarkConfig<Options>>['extendNodeSchema'],
       },
       extension: Node,
     ) => {
@@ -103,8 +116,9 @@ declare module '@tiptap/core' {
     extendMarkSchema?: ((
       this: {
         options: Options,
+        parent: ParentConfig<MarkConfig<Options>>['extendMarkSchema'],
       },
-      extension: Node,
+      extension: Mark,
     ) => {
       [key: string]: any,
     }) | null,
@@ -112,10 +126,11 @@ declare module '@tiptap/core' {
     /**
      * The editor is not ready yet.
      */
-     onBeforeCreate?: ((this: {
+    onBeforeCreate?: ((this: {
       options: Options,
       editor: Editor,
       type: MarkType,
+      parent: ParentConfig<MarkConfig<Options>>['onBeforeCreate'],
     }) => void) | null,
 
     /**
@@ -125,6 +140,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: MarkType,
+      parent: ParentConfig<MarkConfig<Options>>['onCreate'],
     }) => void) | null,
 
     /**
@@ -134,6 +150,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: MarkType,
+      parent: ParentConfig<MarkConfig<Options>>['onUpdate'],
     }) => void) | null,
 
     /**
@@ -143,6 +160,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: MarkType,
+      parent: ParentConfig<MarkConfig<Options>>['onSelectionUpdate'],
     }) => void) | null,
 
     /**
@@ -153,6 +171,7 @@ declare module '@tiptap/core' {
         options: Options,
         editor: Editor,
         type: MarkType,
+        parent: ParentConfig<MarkConfig<Options>>['onTransaction'],
       },
       props: {
         transaction: Transaction,
@@ -167,6 +186,7 @@ declare module '@tiptap/core' {
         options: Options,
         editor: Editor,
         type: MarkType,
+        parent: ParentConfig<MarkConfig<Options>>['onFocus'],
       },
       props: {
         event: FocusEvent,
@@ -181,6 +201,7 @@ declare module '@tiptap/core' {
         options: Options,
         editor: Editor,
         type: MarkType,
+        parent: ParentConfig<MarkConfig<Options>>['onBlur'],
       },
       props: {
         event: FocusEvent,
@@ -194,6 +215,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       type: MarkType,
+      parent: ParentConfig<MarkConfig<Options>>['onDestroy'],
     }) => void) | null,
 
     /**
@@ -204,22 +226,34 @@ declare module '@tiptap/core' {
     /**
      * Inclusive
      */
-    inclusive?: MarkSpec['inclusive'] | ((this: { options: Options }) => MarkSpec['inclusive']),
+    inclusive?: MarkSpec['inclusive'] | ((this: {
+      options: Options,
+      parent: ParentConfig<MarkConfig<Options>>['inclusive'],
+    }) => MarkSpec['inclusive']),
 
     /**
      * Excludes
      */
-    excludes?: MarkSpec['excludes'] | ((this: { options: Options }) => MarkSpec['excludes']),
+    excludes?: MarkSpec['excludes'] | ((this: {
+      options: Options,
+      parent: ParentConfig<MarkConfig<Options>>['excludes'],
+    }) => MarkSpec['excludes']),
 
     /**
      * Group
      */
-    group?: MarkSpec['group'] | ((this: { options: Options }) => MarkSpec['group']),
+    group?: MarkSpec['group'] | ((this: {
+      options: Options,
+      parent: ParentConfig<MarkConfig<Options>>['group'],
+    }) => MarkSpec['group']),
 
     /**
      * Spanning
      */
-    spanning?: MarkSpec['spanning'] | ((this: { options: Options }) => MarkSpec['spanning']),
+    spanning?: MarkSpec['spanning'] | ((this: {
+      options: Options,
+      parent: ParentConfig<MarkConfig<Options>>['spanning'],
+    }) => MarkSpec['spanning']),
 
     /**
      * Parse HTML
@@ -227,6 +261,7 @@ declare module '@tiptap/core' {
     parseHTML?: (
       this: {
         options: Options,
+        parent: ParentConfig<MarkConfig<Options>>['parseHTML'],
       },
     ) => MarkSpec['parseDOM'],
 
@@ -236,11 +271,12 @@ declare module '@tiptap/core' {
     renderHTML?: ((
       this: {
         options: Options,
+        parent: ParentConfig<MarkConfig<Options>>['renderHTML'],
       },
       props: {
         mark: ProseMirrorMark,
         HTMLAttributes: { [key: string]: any },
-      }
+      },
     ) => DOMOutputSpec) | null,
 
     /**
@@ -249,6 +285,7 @@ declare module '@tiptap/core' {
     addAttributes?: (
       this: {
         options: Options,
+        parent: ParentConfig<MarkConfig<Options>>['addAttributes'],
       },
     ) => Attributes | {},
   }
@@ -257,43 +294,56 @@ declare module '@tiptap/core' {
 export class Mark<Options = any> {
   type = 'mark'
 
+  name = 'mark'
+
+  parent: Mark | null = null
+
+  child: Mark | null = null
+
+  options: Options
+
   config: MarkConfig = {
-    name: 'mark',
+    name: this.name,
     priority: 100,
     defaultOptions: {},
   }
 
-  options!: Options
-
-  constructor(config: MarkConfig<Options>) {
+  constructor(config: Partial<MarkConfig<Options>> = {}) {
     this.config = {
       ...this.config,
       ...config,
     }
 
+    this.name = this.config.name
     this.options = this.config.defaultOptions
   }
 
-  static create<O>(config: MarkConfig<O>) {
+  static create<O>(config: Partial<MarkConfig<O>> = {}) {
     return new Mark<O>(config)
   }
 
   configure(options: Partial<Options> = {}) {
-    return Mark
-      .create<Options>(this.config as MarkConfig<Options>)
-      .#configure(options)
-  }
-
-  #configure = (options: Partial<Options>) => {
-    this.options = mergeDeep(this.config.defaultOptions, options) as Options
+    this.options = mergeDeep(this.options, options) as Options
 
     return this
   }
 
-  extend<ExtendedOptions = Options>(extendedConfig: Partial<MarkConfig<ExtendedOptions>>) {
-    return new Mark<ExtendedOptions>({
-      ...this.config,
-      ...extendedConfig,
-    } as MarkConfig<ExtendedOptions>)
+  extend<ExtendedOptions = Options>(extendedConfig: Partial<MarkConfig<ExtendedOptions>> = {}) {
+    const extension = new Mark<ExtendedOptions>(extendedConfig)
+
+    extension.parent = this
+
+    this.child = extension
+
+    extension.name = extendedConfig.name
+      ? extendedConfig.name
+      : this.name
+
+    extension.options = {
+      ...extension.parent.options,
+      ...extension.options,
+    }
+
+    return extension
   }
 }

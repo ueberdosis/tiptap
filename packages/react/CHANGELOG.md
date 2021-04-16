@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/react@2.0.0-beta.19...@tiptap/react@2.0.0-beta.20) (2021-04-15)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
+# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/react@2.0.0-beta.18...@tiptap/react@2.0.0-beta.19) (2021-04-11)
+
+
+### Bug Fixes
+
+* fix using react node views with insertContent ([ea0992f](https://github.com/ueberdosis/tiptap-next/commit/ea0992f66e9942c590e75c0ab2f5705640764f4d))
+
+
+
+
+
 # [2.0.0-beta.18](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/react@2.0.0-beta.17...@tiptap/react@2.0.0-beta.18) (2021-04-08)
 
 **Note:** Version bump only for package @tiptap/react

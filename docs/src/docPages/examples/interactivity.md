@@ -6,3 +6,8 @@ Thanks to [node views](/guide/node-views) you can add interactivity to your node
   Vue: 'Guide/NodeViews/VueComponent',
   React: 'Guide/NodeViews/ReactComponent',
 }" />
+
+<demos :items="{
+  Vue: 'Guide/NodeViews/VueComponentContent',
+  React: 'Guide/NodeViews/ReactComponentContent',
+}" />

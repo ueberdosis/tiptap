@@ -20,6 +20,8 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
 
   renderer!: ReactRenderer
 
+  contentDOMElement!: Element | null
+
   mount() {
     const props: NodeViewProps = {
       editor: this.editor,
@@ -36,7 +38,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
         return string.charAt(0).toUpperCase() + string.substring(1)
       }
 
-      this.component.displayName = capitalizeFirstChar(this.extension.config.name)
+      this.component.displayName = capitalizeFirstChar(this.extension.name)
     }
 
     const ReactNodeViewProvider: React.FunctionComponent = componentProps => {
@@ -52,6 +54,10 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
 
     ReactNodeViewProvider.displayName = 'ReactNodeView'
 
+    this.contentDOMElement = this.node.isLeaf
+      ? null
+      : document.createElement(this.node.isInline ? 'span' : 'div')
+
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props,
@@ -62,7 +68,10 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
   }
 
   get dom() {
-    if (!this.renderer.element.firstElementChild?.hasAttribute('data-node-view-wrapper')) {
+    if (
+      this.renderer.element.firstElementChild
+      && !this.renderer.element.firstElementChild?.hasAttribute('data-node-view-wrapper')
+    ) {
       throw Error('Please use the NodeViewWrapper component for your node view.')
     }
 
@@ -76,7 +85,15 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
 
     const contentElement = this.dom.querySelector('[data-node-view-content]')
 
-    return contentElement || this.dom
+    if (
+      this.contentDOMElement
+      && contentElement
+      && !contentElement.contains(this.contentDOMElement)
+    ) {
+      contentElement.appendChild(this.contentDOMElement)
+    }
+
+    return this.contentDOMElement
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
@@ -113,6 +130,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
 
   destroy() {
     this.renderer.destroy()
+    this.contentDOMElement = null
   }
 }
 

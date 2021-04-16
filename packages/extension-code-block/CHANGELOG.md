@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.4](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-code-block@2.0.0-beta.3...@tiptap/extension-code-block@2.0.0-beta.4) (2021-04-15)
+
+**Note:** Version bump only for package @tiptap/extension-code-block
+
+
+
+
+
+# [2.0.0-beta.3](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-code-block@2.0.0-beta.2...@tiptap/extension-code-block@2.0.0-beta.3) (2021-04-11)
+
+
+### Bug Fixes
+
+* remove codeblock when at start of document, fix [#262](https://github.com/ueberdosis/tiptap-next/issues/262) ([92f6ea2](https://github.com/ueberdosis/tiptap-next/commit/92f6ea25cc7623d0bd34f5a2342be6f5aae951aa))
+
+
+
+
+
 # [2.0.0-beta.2](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-code-block@2.0.0-beta.1...@tiptap/extension-code-block@2.0.0-beta.2) (2021-04-02)
 
 **Note:** Version bump only for package @tiptap/extension-code-block

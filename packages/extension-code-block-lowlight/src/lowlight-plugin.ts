@@ -2,7 +2,6 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { findChildren } from '@tiptap/core'
-import lowlight from 'lowlight/lib/core'
 
 function parseNodes(nodes: any[], className: string[] = []): { text: string, classes: string[] }[] {
   return nodes
@@ -26,7 +25,7 @@ function parseNodes(nodes: any[], className: string[] = []): { text: string, cla
     .flat()
 }
 
-function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
+function getDecorations({ doc, name, lowlight }: { doc: ProsemirrorNode, name: string, lowlight: any }) {
   const decorations: Decoration[] = []
 
   findChildren(doc, node => node.type.name === name)
@@ -58,12 +57,12 @@ function getDecorations({ doc, name }: { doc: ProsemirrorNode, name: string}) {
   return DecorationSet.create(doc, decorations)
 }
 
-export function LowlightPlugin({ name }: { name: string }) {
+export function LowlightPlugin({ name, lowlight }: { name: string, lowlight: any }) {
   return new Plugin({
     key: new PluginKey('lowlight'),
 
     state: {
-      init: (_, { doc }) => getDecorations({ doc, name }),
+      init: (_, { doc }) => getDecorations({ doc, name, lowlight }),
       apply: (transaction, decorationSet, oldState, newState) => {
         const oldNodeName = oldState.selection.$head.parent.type.name
         const newNodeName = newState.selection.$head.parent.type.name
@@ -95,7 +94,7 @@ export function LowlightPlugin({ name }: { name: string }) {
             })
           )
         ) {
-          return getDecorations({ doc: transaction.doc, name })
+          return getDecorations({ doc: transaction.doc, name, lowlight })
         }
 
         return decorationSet.map(transaction.mapping, transaction.doc)

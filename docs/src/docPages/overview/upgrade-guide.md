@@ -172,6 +172,9 @@ The reference implementation for collaborative editing uses Y.js now. That’s a
 
 Read more about [the new collaborative editing experience](/guide/collaborative-editing) in our guide.
 
+### Marks don’t support node view anymore
+For marks, node views are [not well supported in ProseMirror](https://discuss.prosemirror.net/t/there-is-a-bug-in-marks-nodeview/2722/2). There is also [a related issue](https://github.com/ueberdosis/tiptap/issues/613) for tiptap 1. That’s why we removed it in tiptap 2.
+
 ### Become a sponsor
 tiptap wouldn’t exist without the funding of its community. If you fell in love with tiptap, don’t forget to [become a sponsor](/sponsor) and make the maintenance, development and support sustainable.
 

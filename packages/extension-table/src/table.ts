@@ -1,7 +1,9 @@
 import {
-  Command,
   Node,
+  Command,
+  ParentConfig,
   mergeAttributes,
+  getExtensionField,
   findParentNodeClosestToPos,
   callOrReturn,
 } from '@tiptap/core'
@@ -70,7 +72,10 @@ declare module '@tiptap/core' {
     /**
      * Table Role
      */
-    tableRole?: string | ((this: { options: Options }) => string),
+    tableRole?: string | ((this: {
+      options: Options,
+      parentConfig: ParentConfig<NodeConfig<Options>>,
+    }) => string),
   }
 }
 
@@ -259,10 +264,12 @@ export const Table = Node.create<TableOptions>({
   },
 
   extendNodeSchema(extension) {
-    const context = { options: extension.options }
+    const context = {
+      options: extension.options,
+    }
 
     return {
-      tableRole: callOrReturn(extension.config.tableRole, context),
+      tableRole: callOrReturn(getExtensionField(extension, 'tableRole', context)),
     }
   },
 })

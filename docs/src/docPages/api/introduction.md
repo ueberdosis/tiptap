@@ -1,4 +1,4 @@
-# Concept
+# Introduction
 tiptap is a friendly wrapper around [ProseMirror](https://ProseMirror.net). Although tiptap tries to hide most of the complexity of ProseMirror, it’s built on top of its APIs and we recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/) for advanced usage.
 
 ### Structure
@@ -20,7 +20,8 @@ ProseMirror has its own vocabulary and you’ll stumble upon all those words now
 | State       | Everything to describe the current content and selection of your editor. |
 | Transaction | A change to the state (updated selection, content, …)                    |
 | Extension   | Registeres new functionality.                                            |
-| Node        | Adds blocks, like heading, paragraph.                                    |
-| Mark        | Adds inline formatting, for example bold or italic.                      |
+| Node        | A type of content, for example a heading or a paragraph.                 |
+| Mark        | Can be applied to nodes, for example for inline formatting.              |
 | Command     | Execute an action inside the editor, that somehow changes the state.     |
 | Decoration  | Styling on top of the document, for example to highlight mistakes.       |
+

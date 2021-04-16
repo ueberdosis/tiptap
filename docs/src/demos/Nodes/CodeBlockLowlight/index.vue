@@ -15,10 +15,10 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 
-// install all highlight.js languages
-import 'lowlight'
+// load all highlight.js languages
+import lowlight from 'lowlight'
 
-// or install specific languages only
+// load specific languages only
 // import lowlight from 'lowlight/lib/core'
 // import javascript from 'highlight.js/lib/languages/javascript'
 // lowlight.registerLanguage('javascript', javascript)
@@ -40,7 +40,9 @@ export default {
         Document,
         Paragraph,
         Text,
-        CodeBlockLowlight,
+        CodeBlockLowlight.configure({
+          lowlight,
+        }),
       ],
       content: `
         <p>

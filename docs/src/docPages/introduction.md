@@ -10,7 +10,7 @@ title: Headless WYSIWYG Text Editor
 
 tiptap is a headless wrapper around [ProseMirror](https://ProseMirror.net) – a toolkit for building rich text WYSIWYG editors, which is already in use at many well-known companies such as *New York Times*, *The Guardian* or *Atlassian*.
 
-Create exactly the rich text editor you want out of customizable building blocks. tiptap comes with sensible defaults, a lot of extensions and a friendly API to customize every aspect. It’s backed by a welcoming community, open-source, and free.
+Create exactly the rich text editor you want out of customizable building blocks. tiptap comes with sensible defaults, a lot of extensions and a friendly API to customize every aspect. It’s backed by a welcoming community, open source, and free.
 
 ## Example
 <demo name="Examples/CollaborativeEditing" hide-source inline />
@@ -18,9 +18,9 @@ Create exactly the rich text editor you want out of customizable building blocks
 ## Features
 **Headless.** We don’t tell you what a menu should look like or where it should be rendered in the DOM. That’s why tiptap is headless and comes without any CSS. You are in full control over markup, styling and behaviour.
 
-**Framework-agnostic.** No matter what framework you use, you’ll enjoy tiptap. Out of the box, it works with plain JavaScript and Vue.js, but it’s also possible to use it in [React](/installation/react), Svelte and others.
+**Framework-agnostic.** No matter what framework you use, you’ll enjoy tiptap. Out of the box, it works with Vanilla JavaScript and Vue.js, but it’s also possible to use it in [React](/installation/react), Svelte and others.
 
-**TypeScript.** tiptap 2 is written in TypeScript. That helps us to find bugs early and gives you a nice autocomplete for the API (if your IDE supports that) on top of the extensive human written documentation.
+**TypeScript.** tiptap is written in TypeScript. That helps us to find bugs early and gives you a nice autocomplete for the API (if your IDE supports that) on top of the extensive human written documentation.
 
 **Collaborative.** Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of [Y.js](https://github.com/yjs/yjs). Our production-grade setup requires less than 20 lines of code.
 

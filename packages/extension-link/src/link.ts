@@ -103,14 +103,15 @@ export const Link = Mark.create<LinkOptions>({
         props: {
           handleClick: (view, pos, event) => {
             const attrs = this.editor.getMarkAttributes('link')
+            const link = (event.target as HTMLElement)?.closest('a')
 
-            if (attrs.href && event.target instanceof HTMLAnchorElement) {
+            if (link && attrs.href) {
               window.open(attrs.href, attrs.target)
 
-              return false
+              return true
             }
 
-            return true
+            return false
           },
         },
       }),

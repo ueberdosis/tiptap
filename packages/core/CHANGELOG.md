@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.30...@tiptap/core@2.0.0-beta.31) (2021-04-15)
+
+
+### Bug Fixes
+
+* fix type for emitUpdate, fix [#276](https://github.com/ueberdosis/tiptap-next/issues/276) ([4137e00](https://github.com/ueberdosis/tiptap-next/commit/4137e00d987c152b883022525056df94ad033be7))
+
+
+
+
+
+# [2.0.0-beta.30](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.29...@tiptap/core@2.0.0-beta.30) (2021-04-15)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.28...@tiptap/core@2.0.0-beta.29) (2021-04-12)
+
+
+### Bug Fixes
+
+* fix adding mark only with insertContent(), fix [#264](https://github.com/ueberdosis/tiptap-next/issues/264) ([0a63123](https://github.com/ueberdosis/tiptap-next/commit/0a6312382f38af5b8fdf7f94fc4b6c1de1a15e25))
+
+
+
+
+
+# [2.0.0-beta.28](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.27...@tiptap/core@2.0.0-beta.28) (2021-04-12)
+
+
+### Features
+
+* add parentConfig to extension context for more extendable extensions, fix [#259](https://github.com/ueberdosis/tiptap-next/issues/259) ([5e1ec5d](https://github.com/ueberdosis/tiptap-next/commit/5e1ec5d2a66be164f505d631f97861ab9344ba96))
+
+
+
+
+
 # [2.0.0-beta.27](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.26...@tiptap/core@2.0.0-beta.27) (2021-04-09)
 
 
