@@ -36,7 +36,7 @@ export interface SuggestionProps {
   items: any[],
   command: (props: any) => void,
   decorationNode: Element | null,
-  clientRect: () => (DOMRect | null),
+  clientRect: (() => DOMRect) | null,
 }
 
 export interface SuggestionKeyDownProps {
@@ -103,7 +103,9 @@ export function Suggestion({
             decorationNode,
             // virtual node for popper.js or tippy.js
             // this can be used for building popups without a DOM node
-            clientRect: () => decorationNode?.getBoundingClientRect() || null,
+            clientRect: decorationNode
+              ? () => decorationNode.getBoundingClientRect()
+              : null,
           }
 
           if (handleExit) {
