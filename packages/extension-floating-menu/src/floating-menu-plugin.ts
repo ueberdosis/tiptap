@@ -1,11 +1,12 @@
 import { Editor, isNodeEmpty, posToClientRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import tippy, { Instance } from 'tippy.js'
+import tippy, { Instance, Props } from 'tippy.js'
 
 export interface FloatingMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
+  tippyOptions?: Partial<Props>,
 }
 
 export type FloatingMenuViewProps = FloatingMenuPluginProps & {
@@ -23,14 +24,19 @@ export class FloatingMenuView {
 
   public tippy!: Instance
 
-  constructor({ editor, element, view }: FloatingMenuViewProps) {
+  constructor({
+    editor,
+    element,
+    view,
+    tippyOptions,
+  }: FloatingMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
-    this.createTooltip()
+    this.createTooltip(tippyOptions)
     this.element.style.visibility = 'visible'
   }
 
@@ -60,7 +66,7 @@ export class FloatingMenuView {
     this.hide()
   }
 
-  createTooltip() {
+  createTooltip(options: Partial<Props> = {}) {
     this.tippy = tippy(this.view.dom, {
       duration: 0,
       getReferenceClientRect: null,
@@ -69,6 +75,7 @@ export class FloatingMenuView {
       trigger: 'manual',
       placement: 'right',
       hideOnClick: 'toggle',
+      ...options,
     })
   }
 

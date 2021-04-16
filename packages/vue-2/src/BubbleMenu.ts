@@ -9,6 +9,11 @@ export const BubbleMenu = Vue.extend({
       type: Object as PropType<BubbleMenuPluginProps['editor']>,
       required: true,
     },
+
+    tippyOptions: {
+      type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
+      default: () => ({}),
+    },
   },
 
   watch: {
@@ -23,6 +28,7 @@ export const BubbleMenu = Vue.extend({
           editor.registerPlugin(BubbleMenuPlugin({
             editor,
             element: this.$el as HTMLElement,
+            tippyOptions: this.tippyOptions,
           }))
         })
       },

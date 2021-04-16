@@ -9,6 +9,11 @@ export const FloatingMenu = Vue.extend({
       type: Object as PropType<FloatingMenuPluginProps['editor']>,
       required: true,
     },
+
+    tippyOptions: {
+      type: Object as PropType<FloatingMenuPluginProps['tippyOptions']>,
+      default: () => ({}),
+    },
   },
 
   watch: {
@@ -23,6 +28,7 @@ export const FloatingMenu = Vue.extend({
           editor.registerPlugin(FloatingMenuPlugin({
             editor,
             element: this.$el as HTMLElement,
+            tippyOptions: this.tippyOptions,
           }))
         })
       },

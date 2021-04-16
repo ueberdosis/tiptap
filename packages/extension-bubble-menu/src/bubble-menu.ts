@@ -10,6 +10,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
 
   defaultOptions: {
     element: null,
+    tippyOptions: {},
   },
 
   addProseMirrorPlugins() {
@@ -21,6 +22,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
       BubbleMenuPlugin({
         editor: this.editor,
         element: this.options.element,
+        tippyOptions: this.options.tippyOptions,
       }),
     ]
   },
