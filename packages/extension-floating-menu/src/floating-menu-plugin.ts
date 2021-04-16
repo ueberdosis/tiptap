@@ -1,4 +1,4 @@
-import { Editor, isNodeEmpty, posToClientRect } from '@tiptap/core'
+import { Editor, isNodeEmpty, posToDOMRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import tippy, { Instance, Props } from 'tippy.js'
@@ -106,7 +106,7 @@ export class FloatingMenuView {
     }
 
     this.tippy.setProps({
-      getReferenceClientRect: () => posToClientRect(view, from, to),
+      getReferenceClientRect: () => posToDOMRect(view, from, to),
     })
 
     this.show()

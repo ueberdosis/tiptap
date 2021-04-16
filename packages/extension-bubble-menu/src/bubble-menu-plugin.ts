@@ -1,4 +1,4 @@
-import { Editor, posToClientRect } from '@tiptap/core'
+import { Editor, posToDOMRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import tippy, { Instance, Props } from 'tippy.js'
@@ -97,7 +97,7 @@ export class BubbleMenuView {
     }
 
     this.tippy.setProps({
-      getReferenceClientRect: () => posToClientRect(view, from, to),
+      getReferenceClientRect: () => posToDOMRect(view, from, to),
     })
 
     this.show()

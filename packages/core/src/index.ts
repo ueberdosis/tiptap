@@ -27,7 +27,7 @@ export { default as isNodeActive } from './helpers/isNodeActive'
 export { default as isNodeEmpty } from './helpers/isNodeEmpty'
 export { default as isNodeSelection } from './helpers/isNodeSelection'
 export { default as isTextSelection } from './helpers/isTextSelection'
-export { default as posToClientRect } from './helpers/posToClientRect'
+export { default as posToDOMRect } from './helpers/posToDOMRect'
 
 export interface Commands {}
 
