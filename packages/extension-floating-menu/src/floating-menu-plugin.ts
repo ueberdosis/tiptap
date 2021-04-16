@@ -1,6 +1,7 @@
-import { Editor, isNodeEmpty } from '@tiptap/core'
+import { Editor, isNodeEmpty, posToClientRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
+import tippy from 'tippy.js'
 
 export interface FloatingMenuPluginProps {
   editor: Editor,
@@ -18,27 +19,19 @@ export class FloatingMenuView {
 
   public view: EditorView
 
-  public isActive = false
-
-  public top = 0
-
-  public left = 0
-
   public preventHide = false
 
-  constructor({
-    editor,
-    element,
-    view,
-  }: FloatingMenuViewProps) {
+  public tippy: any = null
+
+  constructor({ editor, element, view }: FloatingMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
-    this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
-    this.editor.on('focus', this.focusHandler)
-    this.editor.on('blur', this.blurHandler)
-    this.editor.on('resize', this.resizeHandler)
-    this.render()
+    // this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
+    // this.editor.on('focus', this.focusHandler)
+    // this.editor.on('blur', this.blurHandler)
+    this.createTooltip()
+    this.element.style.visibility = 'visible'
   }
 
   mousedownHandler = () => {
@@ -50,13 +43,8 @@ export class FloatingMenuView {
     setTimeout(() => this.update(this.editor.view))
   }
 
-  resizeHandler = () => {
-    if (this.isActive) {
-      this.update(this.editor.view)
-    }
-  }
-
   blurHandler = ({ event }: { event: FocusEvent }) => {
+    console.log('blur')
     if (this.preventHide) {
       this.preventHide = false
 
@@ -73,6 +61,19 @@ export class FloatingMenuView {
     this.hide()
   }
 
+  createTooltip() {
+    this.tippy = tippy('body', {
+      duration: 0,
+      getReferenceClientRect: null,
+      appendTo: () => document.body,
+      content: this.element,
+      interactive: true,
+      trigger: 'manual',
+      placement: 'right',
+      // hideOnClick: 'toggle',
+    })
+  }
+
   update(view: EditorView, oldState?: EditorState) {
     const { state, composing } = view
     const { doc, selection } = state
@@ -82,52 +83,43 @@ export class FloatingMenuView {
       return
     }
 
-    const { $anchor, anchor, empty } = selection
-    const parent = this.element.offsetParent
+    const {
+      $anchor,
+      empty,
+      from,
+      to,
+    } = selection
     const isRootDepth = $anchor.depth === 1
     const isDefaultNodeType = $anchor.parent.type === state.doc.type.contentMatch.defaultType
     const isDefaultNodeEmpty = isNodeEmpty(selection.$anchor.parent)
     const isActive = isRootDepth && isDefaultNodeType && isDefaultNodeEmpty
 
-    if (!empty || !parent || !isActive) {
+    if (!empty || !isActive) {
       this.hide()
 
       return
     }
 
-    const parentBox = parent.getBoundingClientRect()
-    const cursorCoords = view.coordsAtPos(anchor)
-    const top = cursorCoords.top - parentBox.top
-    const left = cursorCoords.left - parentBox.left
+    this.tippy[0].setProps({
+      getReferenceClientRect: () => posToClientRect(view, from, to),
+    })
 
-    this.isActive = true
-    this.top = top
-    this.left = left
-
-    this.render()
+    this.show()
   }
 
-  render() {
-    Object.assign(this.element.style, {
-      position: 'absolute',
-      zIndex: 1,
-      visibility: this.isActive ? 'visible' : 'hidden',
-      opacity: this.isActive ? 1 : 0,
-      left: `${this.left}px`,
-      top: `${this.top}px`,
-    })
+  show() {
+    this.tippy[0].show()
   }
 
   hide() {
-    this.isActive = false
-    this.render()
+    this.tippy[0].hide()
   }
 
   destroy() {
+    this.tippy[0].destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
-    this.editor.off('resize', this.resizeHandler)
   }
 }
 
