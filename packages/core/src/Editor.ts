@@ -44,8 +44,6 @@ export class Editor extends EventEmitter {
 
   public isFocused = false
 
-  private resizeObserver!: ResizeObserver
-
   public options: EditorOptions = {
     element: document.createElement('div'),
     content: '',
@@ -64,7 +62,6 @@ export class Editor extends EventEmitter {
     onTransaction: () => null,
     onFocus: () => null,
     onBlur: () => null,
-    onResize: () => null,
     onDestroy: () => null,
   }
 
@@ -89,13 +86,6 @@ export class Editor extends EventEmitter {
     window.setTimeout(() => {
       this.commands.focus(this.options.autofocus)
       this.emit('create', { editor: this })
-
-      if (window.ResizeObserver) {
-        this.resizeObserver = new ResizeObserver(() => {
-          this.emit('resize', { editor: this })
-        })
-        this.resizeObserver.observe(this.view.dom)
-      }
     }, 0)
 
   }
@@ -416,8 +406,6 @@ export class Editor extends EventEmitter {
    * Destroy the editor.
    */
   public destroy(): void {
-    this.resizeObserver?.unobserve(this.view.dom)
-
     this.emit('destroy')
 
     if (this.view) {
