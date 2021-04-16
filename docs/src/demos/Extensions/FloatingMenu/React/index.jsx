@@ -17,7 +17,7 @@ export default () => {
   })
 
   return (
-    <div style={{ position: 'relative' }}>
+    <>
       {editor && <FloatingMenu editor={editor}>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -39,6 +39,6 @@ export default () => {
         </button>
       </FloatingMenu>}
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

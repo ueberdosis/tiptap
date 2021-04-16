@@ -1,5 +1,5 @@
 <template>
-  <div style="position: relative">
+  <div>
     <bubble-menu :editor="editor" v-if="editor">
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         bold

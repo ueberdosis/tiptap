@@ -24,7 +24,7 @@ export default () => {
   })
 
   return (
-    <div style={{ position: 'relative' }}>
+    <>
       {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -68,6 +68,6 @@ export default () => {
       </FloatingMenu>}
 
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }
