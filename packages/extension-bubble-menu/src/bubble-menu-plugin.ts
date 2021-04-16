@@ -1,7 +1,7 @@
 import { Editor, posToClientRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import tippy from 'tippy.js'
+import tippy, { Instance } from 'tippy.js'
 
 export interface BubbleMenuPluginProps {
   editor: Editor,
@@ -21,7 +21,7 @@ export class BubbleMenuView {
 
   public preventHide = false
 
-  public tippy: any = null
+  public tippy!: Instance
 
   constructor({ editor, element, view }: BubbleMenuViewProps) {
     this.editor = editor
@@ -61,10 +61,9 @@ export class BubbleMenuView {
   }
 
   createTooltip() {
-    this.tippy = tippy('body', {
+    this.tippy = tippy(this.view.dom, {
       duration: 0,
       getReferenceClientRect: null,
-      appendTo: () => document.body,
       content: this.element,
       interactive: true,
       trigger: 'manual',
@@ -90,7 +89,7 @@ export class BubbleMenuView {
       return
     }
 
-    this.tippy[0].setProps({
+    this.tippy.setProps({
       getReferenceClientRect: () => posToClientRect(view, from, to),
     })
 
@@ -98,15 +97,15 @@ export class BubbleMenuView {
   }
 
   show() {
-    this.tippy[0].show()
+    this.tippy.show()
   }
 
   hide() {
-    this.tippy[0].hide()
+    this.tippy.hide()
   }
 
   destroy() {
-    this.tippy[0].destroy()
+    this.tippy.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)

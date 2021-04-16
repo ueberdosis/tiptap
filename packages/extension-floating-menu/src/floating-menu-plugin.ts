@@ -1,7 +1,7 @@
 import { Editor, isNodeEmpty, posToClientRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import tippy from 'tippy.js'
+import tippy, { Instance } from 'tippy.js'
 
 export interface FloatingMenuPluginProps {
   editor: Editor,
@@ -21,15 +21,15 @@ export class FloatingMenuView {
 
   public preventHide = false
 
-  public tippy: any = null
+  public tippy!: Instance
 
   constructor({ editor, element, view }: FloatingMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
-    // this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
-    // this.editor.on('focus', this.focusHandler)
-    // this.editor.on('blur', this.blurHandler)
+    this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
+    this.editor.on('focus', this.focusHandler)
+    this.editor.on('blur', this.blurHandler)
     this.createTooltip()
     this.element.style.visibility = 'visible'
   }
@@ -44,7 +44,6 @@ export class FloatingMenuView {
   }
 
   blurHandler = ({ event }: { event: FocusEvent }) => {
-    console.log('blur')
     if (this.preventHide) {
       this.preventHide = false
 
@@ -62,10 +61,9 @@ export class FloatingMenuView {
   }
 
   createTooltip() {
-    this.tippy = tippy('body', {
+    this.tippy = tippy(this.view.dom, {
       duration: 0,
       getReferenceClientRect: null,
-      appendTo: () => document.body,
       content: this.element,
       interactive: true,
       trigger: 'manual',
@@ -100,7 +98,7 @@ export class FloatingMenuView {
       return
     }
 
-    this.tippy[0].setProps({
+    this.tippy.setProps({
       getReferenceClientRect: () => posToClientRect(view, from, to),
     })
 
@@ -108,15 +106,15 @@ export class FloatingMenuView {
   }
 
   show() {
-    this.tippy[0].show()
+    this.tippy.show()
   }
 
   hide() {
-    this.tippy[0].hide()
+    this.tippy.hide()
   }
 
   destroy() {
-    this.tippy[0].destroy()
+    this.tippy.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
