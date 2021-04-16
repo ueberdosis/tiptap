@@ -54,7 +54,7 @@
         </g-link>
       </portal>
 
-      <portal :to="sidebarPortal" v-if="showSidebar">
+      <portal :to="sidebarPortal">
         <nav class="app__sidebar-menu">
           <div class="app__link-group" v-for="(linkGroup, i) in linkGroups" :key="i">
             <template v-if="linkGroup.link && !linkGroup.items">
