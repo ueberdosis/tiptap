@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/vue-3@2.0.0-beta.22...@tiptap/vue-3@2.0.0-beta.23) (2021-04-16)
+
+
+### Bug Fixes
+
+* fix editor type for VueRenderer, fix [#281](https://github.com/ueberdosis/tiptap-next/issues/281) ([f6d8776](https://github.com/ueberdosis/tiptap-next/commit/f6d8776ca086bf1f2edc6dc099e33a1f00fdd4c7))
+
+
+
+
+
 # [2.0.0-beta.22](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/vue-3@2.0.0-beta.21...@tiptap/vue-3@2.0.0-beta.22) (2021-04-16)
 
 

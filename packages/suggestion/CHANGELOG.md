@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/suggestion@2.0.0-beta.32...@tiptap/suggestion@2.0.0-beta.33) (2021-04-16)
+
+
+### Bug Fixes
+
+* fix type for clientRect ([07c6d51](https://github.com/ueberdosis/tiptap-next/commit/07c6d513388c4538140e0ff37dc9035c9dc6fea3))
+
+
+
+
+
 # [2.0.0-beta.32](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/suggestion@2.0.0-beta.31...@tiptap/suggestion@2.0.0-beta.32) (2021-04-16)
 
 **Note:** Version bump only for package @tiptap/suggestion
