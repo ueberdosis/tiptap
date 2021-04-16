@@ -6,7 +6,6 @@ import tippy from 'tippy.js'
 export interface BubbleMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
-  keepInBounds: boolean,
 }
 
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {

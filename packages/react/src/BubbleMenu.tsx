@@ -9,12 +9,11 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
   const element = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const { editor, keepInBounds = true } = props
+    const { editor } = props
 
     editor.registerPlugin(BubbleMenuPlugin({
       editor,
       element: element.current as HTMLElement,
-      keepInBounds,
     }))
 
     return () => {

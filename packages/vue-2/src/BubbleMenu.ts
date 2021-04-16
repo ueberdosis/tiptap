@@ -9,11 +9,6 @@ export const BubbleMenu = Vue.extend({
       type: Object as PropType<BubbleMenuPluginProps['editor']>,
       required: true,
     },
-
-    keepInBounds: {
-      type: Boolean as PropType<BubbleMenuPluginProps['keepInBounds']>,
-      default: true,
-    },
   },
 
   watch: {
@@ -28,7 +23,6 @@ export const BubbleMenu = Vue.extend({
           editor.registerPlugin(BubbleMenuPlugin({
             editor,
             element: this.$el as HTMLElement,
-            keepInBounds: this.keepInBounds,
           }))
         })
       },

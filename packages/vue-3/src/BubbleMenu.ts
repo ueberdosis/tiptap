@@ -20,21 +20,15 @@ export const BubbleMenu = defineComponent({
       type: Object as PropType<BubbleMenuPluginProps['editor']>,
       required: true,
     },
-
-    keepInBounds: {
-      type: Boolean as PropType<BubbleMenuPluginProps['keepInBounds']>,
-      default: true,
-    },
   },
 
-  setup({ editor, keepInBounds }, { slots }) {
+  setup({ editor }, { slots }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
       editor.registerPlugin(BubbleMenuPlugin({
         editor,
         element: root.value as HTMLElement,
-        keepInBounds,
       }))
     })
 
