@@ -23,11 +23,7 @@ export class BubbleMenuView {
 
   public tippy: any = null
 
-  constructor({
-    editor,
-    element,
-    view,
-  }: BubbleMenuViewProps) {
+  constructor({ editor, element, view }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
