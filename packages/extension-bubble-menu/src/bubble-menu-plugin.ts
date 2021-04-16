@@ -1,8 +1,7 @@
-import { Editor } from '@tiptap/core'
+import { Editor, posToClientRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import tippy from 'tippy.js'
-import { coordsAtPos } from './helpers'
 
 export interface BubbleMenuPluginProps {
   editor: Editor,
@@ -68,7 +67,6 @@ export class BubbleMenuView {
 
   createTooltip() {
     this.tippy = tippy('body', {
-      // delay: [0, 2000],
       duration: 0,
       getReferenceClientRect: null,
       appendTo: () => document.body,
@@ -98,23 +96,7 @@ export class BubbleMenuView {
     }
 
     this.tippy[0].setProps({
-      getReferenceClientRect: () => {
-        const start = coordsAtPos(view, from)
-        const end = coordsAtPos(view, to, true)
-        const top = Math.min(start.top, end.top)
-        const bottom = Math.max(start.bottom, end.bottom)
-        const left = Math.min(start.left, end.left)
-        const right = Math.max(start.right, end.right)
-
-        return {
-          width: right - left,
-          height: bottom - top,
-          top,
-          bottom,
-          left,
-          right,
-        }
-      },
+      getReferenceClientRect: () => posToClientRect(view, from, to),
     })
 
     this.show()
