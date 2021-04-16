@@ -70,7 +70,7 @@ export class FloatingMenuView {
       interactive: true,
       trigger: 'manual',
       placement: 'right',
-      // hideOnClick: 'toggle',
+      hideOnClick: 'toggle',
     })
   }
 
