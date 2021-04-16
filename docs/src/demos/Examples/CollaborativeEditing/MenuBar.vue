@@ -1,6 +1,9 @@
 <template>
   <div>
-    <menu-item v-for="(item, index) in items" :key="index" v-bind="item" />
+    <template v-for="(item, index) in items">
+      <div class="divider" v-if="item.type === 'divider'" :key="index" />
+      <menu-item v-else :key="index" v-bind="item" />
+    </template>
   </div>
 </template>
 
@@ -53,6 +56,9 @@ export default {
           isActive: () => this.editor.isActive('highlight'),
         },
         {
+          type: 'divider',
+        },
+        {
           icon: 'h-1',
           title: 'Heading 1',
           action: () => this.editor.chain().focus().toggleHeading({ level: 1 }).run(),
@@ -95,6 +101,9 @@ export default {
           isActive: () => this.editor.isActive('codeBlock'),
         },
         {
+          type: 'divider',
+        },
+        {
           icon: 'double-quotes-l',
           title: 'Blockquote',
           action: () => this.editor.chain().focus().toggleBlockquote().run(),
@@ -104,6 +113,9 @@ export default {
           icon: 'separator',
           title: 'Horizontal Rule',
           action: () => this.editor.chain().focus().setHorizontalRule().run(),
+        },
+        {
+          type: 'divider',
         },
         {
           icon: 'text-wrap',
@@ -120,6 +132,9 @@ export default {
             .run(),
         },
         {
+          type: 'divider',
+        },
+        {
           icon: 'arrow-go-back-line',
           title: 'Undo',
           action: () => this.editor.chain().focus().undo().run(),
@@ -134,3 +149,13 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.divider {
+  width: 2px;
+  height: 1.5rem;
+  background-color: rgba($colorBlack, 0.1);
+  margin-left: 0.5rem;
+  margin-right: 0.75rem;
+}
+</style>

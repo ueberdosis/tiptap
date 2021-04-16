@@ -148,6 +148,7 @@ export default {
 
   &__header {
     display: flex;
+    align-items: center;
     flex: 0 0 auto;
     flex-wrap: wrap;
     padding: 0.25rem;
