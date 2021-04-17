@@ -337,12 +337,11 @@ export class Mark<Options = any> {
 
     extension.name = extendedConfig.name
       ? extendedConfig.name
-      : this.name
+      : extension.parent.name
 
-    extension.options = {
-      ...extension.parent.options,
-      ...extension.options,
-    }
+    extension.options = extendedConfig.defaultOptions
+      ? extendedConfig.defaultOptions
+      : extension.parent.options
 
     return extension
   }
