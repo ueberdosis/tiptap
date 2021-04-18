@@ -26,7 +26,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  padding: 0.65rem 1rem;
+  padding: 0.65rem 1.5rem;
   font-size: 0.85rem;
   font-weight: 500;
 
