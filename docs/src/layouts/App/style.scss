@@ -230,6 +230,7 @@ $menuBreakPoint: 800px;
     font-size: 0.85rem;
     margin-left: -0.5rem;
     white-space: nowrap;
+    position: relative;
 
     &:hover {
       color: $colorBlack;
