@@ -60,7 +60,7 @@ editor
   .focus()
   .command(({ tr }) => {
     // manipulate the transaction
-    tr.insertContent('hey, that’s cool!')
+    tr.insertText('hey, that’s cool!')
 
     return true
   })
