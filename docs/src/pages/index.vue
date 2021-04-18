@@ -30,7 +30,7 @@
 
     <app-section>
       <feature-list>
-        <feature-item>
+        <feature-item icon="contrast-fill">
           <h3 class="is-h2">
             Headless
           </h3>
@@ -44,7 +44,7 @@
           </div>
         </feature-item>
 
-        <feature-item>
+        <feature-item icon="file-copy-fill">
           <h3 class="is-h2">
             Framework-agnostic
           </h3>
@@ -58,7 +58,7 @@
           </div>
         </feature-item>
 
-        <feature-item>
+        <feature-item icon="terminal-box-fill">
           <h3 class="is-h2">
             TypeScript
           </h3>
@@ -72,7 +72,7 @@
           </div>
         </feature-item>
 
-        <feature-item>
+        <feature-item icon="cursor-fill">
           <h3 class="is-h2">
             Collaborative
           </h3>
@@ -86,7 +86,7 @@
           </div>
         </feature-item>
 
-        <feature-item>
+        <feature-item icon="chat-smile-2-fill">
           <h3 class="is-h2">
             Community
           </h3>
