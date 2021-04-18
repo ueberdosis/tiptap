@@ -95,7 +95,10 @@ describe('extension options', () => {
 
   it('should configure nested objects', () => {
     const extension = Extension
-      .create({
+      .create<{
+        foo: number[],
+        HTMLAttributes: Record<string, any>,
+      }>({
         defaultOptions: {
           foo: [1, 2, 3],
           HTMLAttributes: {
