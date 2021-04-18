@@ -44,10 +44,10 @@ export default {
   flex-direction: column;
   align-items: center;
   background-color: rgba($colorBlack, 0.03);
-  border: 3px solid transparent;
   border-radius: 0.75rem;
   padding: 1.5rem;
   margin-bottom: 1rem;
+  transition: box-shadow 0.2s ease;
 
   &__image ::v-deep svg {
     width: 100%;
@@ -60,7 +60,7 @@ export default {
   }
 
   &:hover {
-    border-color: $colorBlack;
+    box-shadow: 0 0 0 0.25rem rgba($colorBlack, 0.03);
   }
 }
 </style>
