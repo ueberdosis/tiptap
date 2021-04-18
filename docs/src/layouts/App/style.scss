@@ -33,7 +33,7 @@ $menuBreakPoint: 800px;
     align-items: center;
     flex: 0 0 auto;
     height: $navHeight;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
 
     @media (min-width: $mobileBreakPoint) {
       padding: 0 2rem;
@@ -312,7 +312,7 @@ $menuBreakPoint: 800px;
   }
 
   &__mobile-menu {
-    padding: 1rem 0 1rem 1rem;
+    padding: 1rem 0 1rem 1.5rem;
     flex: 1 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
