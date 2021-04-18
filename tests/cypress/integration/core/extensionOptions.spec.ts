@@ -92,4 +92,30 @@ describe('extension options', () => {
       baz: 1,
     })
   })
+
+  it('should configure nested objects', () => {
+    const extension = Extension
+      .create({
+        defaultOptions: {
+          foo: [1, 2, 3],
+          HTMLAttributes: {
+            class: 'foo',
+          },
+        },
+      })
+      .configure({
+        foo: [1],
+        HTMLAttributes: {
+          id: 'bar',
+        },
+      })
+
+    expect(extension.options).to.deep.eq({
+      foo: [1],
+      HTMLAttributes: {
+        class: 'foo',
+        id: 'bar',
+      },
+    })
+  })
 })
