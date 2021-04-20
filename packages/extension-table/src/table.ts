@@ -72,8 +72,9 @@ declare module '@tiptap/core' {
      * Table Role
      */
     tableRole?: string | ((this: {
+      name: string,
       options: Options,
-      parentConfig: ParentConfig<NodeConfig<Options>>,
+      parent: ParentConfig<NodeConfig<Options>>['tableRole'],
     }) => string),
   }
 }
@@ -231,6 +232,7 @@ export const Table = Node.create<TableOptions>({
 
   extendNodeSchema(extension) {
     const context = {
+      name: extension.name,
       options: extension.options,
     }
 
