@@ -112,9 +112,13 @@ Create an `index.js` and throw in the following content, to create, configure an
 
 ```js
 import { Server } from '@hocuspocus/server'
+import { RocksDB } from '@hocuspocus/extension-rocksdb'
 
 const server = Server.configure({
   port: 1234,
+  extensions: [
+    new RocksDB({ path: './database' })
+  ],
 })
 
 server.listen()
@@ -253,147 +257,92 @@ Collaboration.configure({
 })
 ```
 
-### Authentication
-With the `onConnect` hook you can write a custom Promise to check if a client is authenticated. That can be a request to an API, to a microservice, a database query, or whatever is needed, as long as it’s executing `resolve()` at some point. You can also pass contextual data to the `resolve()` method which will be accessible in other hooks.
+### Authentication & Authorization
+
+With the `onConnect` hook you can check if a client is authenticated and authorized to view the current document. In a real world application this would probably be a request to an API, a database query or something else.
+
+When throwing an error (or rejecting the returned Promise), the connection to the client will be terminated. If the client is authorized and authenticated you can also return contextual data which will be accessible in other hooks. But you don't need to.
 
 ```js
 import { Server } from '@hocuspocus/server'
 
 const server = Server.configure({
-  onConnect(data, resolve, reject) {
-    // You can set contextual data…
-    const context = {
+  async onConnect(data) {
+    const { requestParameters } = data
+
+    // Example test if a user is authenticated using a
+    // request parameter
+    if (requestParameters.access_token !== 'super-secret-token') {
+      throw new Error('Not authorized!')
+    }
+
+    // You can set contextual data to use it in other hooks
+    return {
       user: {
         id: 1234,
         name: 'John',
       },
     }
-
-    // …and pass it along to use it in other hooks
-    resolve(context)
   },
 })
 
 server.listen()
 ```
 
-### Authorization
-With the `onConnect` hook you can check if a user is authorized to edit the current document. This works in the same way the [Authentication](#authentication) works.
+### Handling Document changes
 
-```js
-import { Server } from '@hocuspocus/server'
+With the `onChange` hook you can listen to changes of the document and handle them. It should return
+a Promise. It's payload contains the resulting document as well as the actual update in the Y-Doc
+binary format.
 
-const server = Server.configure({
-  onConnect(data, resolve, reject) {
-    const { requestParameters } = data
+In a real-world application you would probably save the current document to a database, send it via
+webhook to an API or something else. If you want to send a webhook to an external API we already
+have built a simple to use webhook extension you should check out.
 
-    // Example: Check if a user is authenticated using a request parameter
-    if (requestParameters.access_token !== 'super-secret-token') {
-      return reject()
-    }
+It's **highly recommended** to debounce extensive operations (like API calls) as this hook can be
+fired up to multiple times a second:
 
-    resolve()
-  },
-})
+You need to serialize the Y-Doc that hocuspocus gives you to something you can actually display in
+your views.
 
-server.listen()
-```
+This example is **not intended** to be a primary storage as serializing to and deserializing from JSON will not store the collaboration history steps but only the resulting document. Make sure to always use the RocksDB extension as primary storage.
 
-### Persist the document
-By default, documents are only stored in the memory. Hence they are deleted when the WebSocket server is stopped. To prevent this, store changes on the hard disk with the RocksDB adapter. When you restart the server, it’ll restore documents from the hard disk, in that case from the `./database` folder:
+```typescript
+import {debounce} from 'debounce'
+import {Server} from '@hocuspocus/server'
+import {TiptapTransformer} from '@hocuspocus/transformer'
+import {writeFile} from 'fs'
 
-```js
-import { Server } from '@hocuspocus/server'
-import { RocksDB } from '@hocuspocus/rocksdb'
-
-const server = Server.configure({
-
-  extensions: [
-    new RocksDB({
-      // Store the actual data in that folder:
-      path: './database',
-    })
-  ],
-
-})
-
-server.listen()
-```
-
-### Store the documents as JSON
-To pass the updated documents to an API, to a database, or store on it on the hard disk as JSON, you can use the `onChange` hook, which is executed when a document changes.
-
-```js
-import { writeFile } from 'fs'
-import { Server } from '@hocuspocus/server'
-import { yDocToProsemirrorJSON } from 'y-prosemirror'
+let debounced
 
 const hocuspocus = Server.configure({
-  onChange(data) {
+  async onChange(data) {
     const save = () => {
-      // Get the underlying Y Document
-      const ydoc = data.document
-
-      // Convert the Y Document to the format your editor uses, in this
-      // example Prosemirror JSON for the tiptap editor
-      const prosemirrorDocument = yDocToProsemirrorJSON(ydoc, 'default')
+      // Convert the y-doc to something you can actually use in your views.
+      // In this example we use the TiptapTransformer to get JSON from the given
+      // ydoc.
+      const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document)
 
       // Save your document. In a real-world app this could be a database query
       // a webhook or something else
       writeFile(
         `/path/to/your/documents/${data.documentName}.json`,
-        prosemirrorDocument
+        prosemirrorJSON
       )
+
+      // Maybe you want to store the user who changed the document?
+      // Guess what, you have access to your custom context from the
+      // onConnect hook here.
+      console.log(`Document ${data.documentName} changed by ${data.context.user.name}`)
     }
+
+    debounced?.clear()
+    debounced = debounce(() => save, 4000)
+    debounced()
   },
 })
 
 hocuspocus.listen()
-```
-
-### Scale with Redis (Advanced)
-
-:::warning Keep in mind
-The redis adapter only syncs document changes. Collaboration cursors are not yet supported.
-:::
-
-To scale the WebSocket server, you can spawn multiple instances of the server behind a load balancer and sync changes between the instances through Redis. Import the Redis adapter and register it with hocuspocus. For a full documentation on all available redis and redis cluster options, check out the [ioredis API docs](https://github.com/luin/ioredis/blob/master/API.md).
-
-```js
-import { Server } from '@hocuspocus/server'
-import { Redis } from '@hocuspocus/redis'
-
-const server = Server.configure({
-  extensions: [
-    new Redis({
-      host: '127.0.0.1',
-      port: 6379,
-    })
-  ],
-})
-
-server.listen()
-```
-
-If you want to use a redis cluster, use the redis cluster adapter:
-
-```js
-import { Server } from '@hocuspocus/server'
-import { RedisCluster } from '@hocuspocus/redis'
-
-const server = Server.configure({
-  extensions: [
-    new RedisCluster({
-      scaleReads: 'all',
-      redisOptions: {
-        host: '127.0.0.1',
-        port: 6379,
-      },
-    })
-  ],
-})
-
-server.listen()
 ```
 
 ## Pitfalls
