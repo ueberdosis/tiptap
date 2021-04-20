@@ -15331,10 +15331,10 @@ y-leveldb@^0.1.0:
     level "^6.0.1"
     lib0 "^0.2.31"
 
-y-prosemirror@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/y-prosemirror/-/y-prosemirror-1.0.7.tgz#e0d3bbbc8b88bc4942d9720fd8413da393999200"
-  integrity sha512-AnlwGoz6+o6PkrBm09kY3+dXP3Yt6QHDIMHhtn0mGeUnSQRVcI0/raQwh/kYD7z1EUPghKfDaH8DoI0duAu5sg==
+y-prosemirror@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/y-prosemirror/-/y-prosemirror-1.0.8.tgz#5925b90a11005560baf31efbd08a725351f89ea2"
+  integrity sha512-EGH5y/XNBEHD16hQFUas4DbnOI/jebjz4bNCRe8gggSMSvIR5g3OdYGKrtvtfDHcyCTBmyhv1lfZd2IIWG+scA==
   dependencies:
     lib0 "^0.2.34"
 

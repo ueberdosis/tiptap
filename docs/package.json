@@ -30,7 +30,7 @@
     "vue-github-button": "^1.1.2",
     "vue-observe-visibility": "^1.0.0",
     "y-indexeddb": "^9.0.6",
-    "y-prosemirror": "^1.0.7",
+    "y-prosemirror": "^1.0.8",
     "y-webrtc": "^10.1.7",
     "y-websocket": "^1.3.11",
     "yjs": "^13.5.4"
