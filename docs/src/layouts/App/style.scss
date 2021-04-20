@@ -320,7 +320,7 @@ $menuBreakPoint: 800px;
   }
 
   &__mobile-menu {
-    padding: 1rem 0 1rem 1.5rem;
+    padding: 1rem 0 3rem 1.5rem;
     flex: 1 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
@@ -328,7 +328,7 @@ $menuBreakPoint: 800px;
     overscroll-behavior: contain;
 
     @media (min-width: $mobileBreakPoint) {
-      padding: 1rem 1rem 1rem 2rem;
+      padding: 1rem 1rem 3rem 2rem;
     }
 
     @media (min-width: $menuBreakPoint) {
