@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.32...@tiptap/core@2.0.0-beta.33) (2021-04-20)
+
+
+### Bug Fixes
+
+* fix extension option merging ([aa002a0](https://github.com/ueberdosis/tiptap-next/commit/aa002a012bfe888c03da5cd32f98b40965a5fa7b))
+
+
+
+
+
 # [2.0.0-beta.32](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.31...@tiptap/core@2.0.0-beta.32) (2021-04-16)
 
 
