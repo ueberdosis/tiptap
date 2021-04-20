@@ -1,3 +1,9 @@
+:root {
+  --docsearch-primary-color: #{$colorBlack} !important;
+  --docsearch-logo-color: #{rgba($colorBlack, 0.3)} !important;
+  --docsearch-container-background: #{rgba($colorBlack, 0.7)} !important;
+}
+
 *,
 *::before,
 *::after {
