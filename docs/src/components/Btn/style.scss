@@ -17,7 +17,7 @@
     border: 3px solid $colorBlack;
 
     &:hover {
-      color: $colorWhite;
+      color: $colorYellow;
     }
   }
 
@@ -28,6 +28,7 @@
 
     &:hover {
       color: $colorBlack;
+      background-color: $colorYellow;
     }
   }
 

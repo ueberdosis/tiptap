@@ -58,7 +58,13 @@ $menuBreakPoint: 800px;
 
     @media (min-width: $menuBreakPoint) {
       display: inline-flex;
-      margin-right: 1.5rem;
+      margin-right: 0.5rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.5rem;
+
+      &:hover {
+        background: rgba($colorBlack, 0.05);
+      }
 
       &:last-child {
         margin-right: 0;

@@ -29,6 +29,12 @@
     ul {
       list-style: none;
     }
+
+    a {
+      &:hover {
+        color: $colorYellow;
+      }
+    }
   }
 
   &__small-text {
