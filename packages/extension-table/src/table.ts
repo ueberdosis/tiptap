@@ -4,7 +4,6 @@ import {
   ParentConfig,
   mergeAttributes,
   getExtensionField,
-  findParentNodeClosestToPos,
   callOrReturn,
 } from '@tiptap/core'
 import {
@@ -29,7 +28,7 @@ import {
 import { NodeView } from 'prosemirror-view'
 import { TextSelection } from 'prosemirror-state'
 import { createTable } from './utilities/createTable'
-import { isCellSelection } from './utilities/isCellSelection'
+import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected'
 import { TableView } from './TableView'
 
 export interface TableOptions {
@@ -190,39 +189,6 @@ export const Table = Node.create<TableOptions>({
   },
 
   addKeyboardShortcuts() {
-    const deleteTableWhenAllCellsSelected = () => {
-      const { selection } = this.editor.state
-
-      if (!isCellSelection(selection)) {
-        return false
-      }
-
-      let cellCount = 0
-      const table = findParentNodeClosestToPos(selection.ranges[0].$from, node => {
-        return node.type.name === 'table'
-      })
-
-      table?.node.descendants(node => {
-        if (node.type.name === 'table') {
-          return false
-        }
-
-        if (['tableCell', 'tableHeader'].includes(node.type.name)) {
-          cellCount += 1
-        }
-      })
-
-      const allCellsSelected = cellCount === selection.ranges.length
-
-      if (!allCellsSelected) {
-        return false
-      }
-
-      this.editor.commands.deleteTable()
-
-      return true
-    }
-
     return {
       Tab: () => {
         if (this.editor.commands.goToNextCell()) {
