@@ -153,7 +153,7 @@ export default {
 <style lang="scss" scoped>
 .divider {
   width: 2px;
-  height: 1.5rem;
+  height: 1.25rem;
   background-color: rgba($colorBlack, 0.1);
   margin-left: 0.5rem;
   margin-right: 0.75rem;

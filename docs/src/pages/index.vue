@@ -9,12 +9,12 @@
           tiptap gives you full control about every single aspect of your text editor experience. It’s customizable, comes with a ton of extensions, is open source, has an extensive documentation, and is simply a joy to use. Join our welcoming community and start building cool things!
         </p>
         <btn-wrapper>
-          <btn type="primary" icon="arrow-right" to="/installation">
+          <btn type="primary" icon="arrow-right-line" to="/installation">
             Get Started
           </btn>
           <btn
             type="secondary"
-            icon="github"
+            icon="github-fill"
             icon-position="before"
             to="https://github.com/ueberdosis/tiptap-next"
           >
@@ -38,13 +38,13 @@
             It’s headless and comes without any CSS. You are in full control over markup, styling and behaviour.
           </p>
           <div>
-            <btn type="tertiary" icon="arrow-right" to="/guide/styling">
+            <btn type="tertiary" icon="arrow-right-line" to="/guide/styling">
               Styling
             </btn>
           </div>
         </feature-item>
 
-        <feature-item icon="file-copy-fill">
+        <feature-item icon="reactjs-fill">
           <h3 class="is-h2">
             Framework-agnostic
           </h3>
@@ -52,7 +52,7 @@
             Out of the box, tiptap works with Vanilla JavaScript and Vue.js, but it’s also possible to use it in <g-link to="/installation/react">React</g-link>, <g-link to="/installation/svelte">Svelte</g-link> and others.
           </p>
           <div>
-            <btn type="tertiary" icon="arrow-right" to="/installation">
+            <btn type="tertiary" icon="arrow-right-line" to="/installation">
               Installation
             </btn>
           </div>
@@ -66,7 +66,7 @@
             TypeScript helps to find bugs early and gives you a nice autocomplete for the API on top of the extensive human written documentation.
           </p>
           <div>
-            <btn type="tertiary" icon="arrow-right" to="/guide/typescript">
+            <btn type="tertiary" icon="arrow-right-line" to="/guide/typescript">
               TypeScript
             </btn>
           </div>
@@ -80,7 +80,7 @@
             Real-time collaboration, syncing between different devices and working offline isn’t hard anymore. Keep everything in sync with the magic of <g-link to="https://github.com/yjs/yjs">Y.js</g-link>.
           </p>
           <div>
-            <btn type="tertiary" icon="arrow-right" to="/guide/collaborative-editing">
+            <btn type="tertiary" icon="arrow-right-line" to="/guide/collaborative-editing">
               Collaborative editing
             </btn>
           </div>
@@ -94,7 +94,7 @@
             There’s so much content shared, so many people helping out in issues and a ton of community extensions, you’ll be surprised how much that all can help.
           </p>
           <div>
-            <btn type="tertiary" icon="arrow-right" to="https://github.com/ueberdosis/tiptap-next">
+            <btn type="tertiary" icon="arrow-right-line" to="https://github.com/ueberdosis/tiptap-next">
               GitHub
             </btn>
           </div>
@@ -133,7 +133,7 @@
 &lt;/html&gt;</prism>
         <!-- eslint-enable -->
         <div>
-          <btn type="tertiary" icon="arrow-right" to="/installation">
+          <btn type="tertiary" icon="arrow-right-line" to="/installation">
             Learn more
           </btn>
         </div>
@@ -193,7 +193,7 @@
           /> -->
         </logo-list>
         <div>
-          <btn type="tertiary" icon="arrow-right" to="https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D">
+          <btn type="tertiary" icon="arrow-right-line" to="https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D">
             And many more
           </btn>
         </div>

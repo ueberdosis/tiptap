@@ -9,7 +9,6 @@
   text-align: center;
   line-height: 1;
   text-decoration: none;
-
   white-space: nowrap;
 
   &--primary {
@@ -46,6 +45,8 @@
   }
 
   &__icon {
+    transition: opacity 0.2s $ease;
+
     &:first-child {
       margin-right: 0.5rem;
     }

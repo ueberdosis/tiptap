@@ -3,7 +3,7 @@
     <btn
       class="page-navigation__previous"
       type="secondary"
-      icon="arrow-left"
+      icon="arrow-left-line"
       icon-position="before"
       :to="previousPage.link"
       v-if="previousPage"
@@ -13,7 +13,7 @@
     <btn
       class="page-navigation__next"
       type="secondary"
-      icon="arrow-right"
+      icon="arrow-right-line"
       :to="nextPage.redirect || nextPage.link"
       v-if="nextPage"
     >

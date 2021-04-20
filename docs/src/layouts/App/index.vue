@@ -16,6 +16,7 @@
 
         <div class="app__menu">
           <span class="app__menu-item">
+            <icon name="search-line" />
             Search
             <div class="app__search-docsearch" />
           </span>
@@ -28,14 +29,14 @@
           @click="menuIsVisible = true"
           v-if="!menuIsVisible"
         >
-          <icon name="menu" />
+          <icon name="menu-fill" />
         </button>
         <button
           class="app__close-icon"
           @click="menuIsVisible = false"
           v-if="menuIsVisible"
         >
-          <icon name="close" />
+          <icon name="close-fill" />
         </button>
       </div>
       <div class="app__mobile-menu" v-if="menuIsVisible">
@@ -54,11 +55,13 @@
       </main>
 
       <portal :to="menuPortal">
-        <g-link class="app__menu-item" to="/installation">
-          Documentation
+        <g-link class="app__menu-item" to="/installation" v-if="$route.name === 'home'">
+          <icon name="book-3-line" />
+          <span>Documentation</span>
         </g-link>
         <g-link class="app__menu-item" to="https://github.com/ueberdosis/tiptap-next">
-          GitHub
+          <icon name="github-fill" />
+          <span>GitHub</span>
         </g-link>
       </portal>
 

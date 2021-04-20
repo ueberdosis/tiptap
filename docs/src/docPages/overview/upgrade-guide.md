@@ -46,7 +46,7 @@ new Editor({
     Paragraph,
     Text,
     // all your other extensions
-  ]
+  ],
 })
 ```
 

@@ -1,7 +1,16 @@
 .icon {
   display: inline-flex;
-  width: 1rem;
-  height: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0 0.4rem;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
 
   &::v-deep > svg {
     width: 100%;

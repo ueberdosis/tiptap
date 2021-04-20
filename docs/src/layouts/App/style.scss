@@ -46,7 +46,8 @@ $menuBreakPoint: 800px;
   }
 
   &__menu-item {
-    display: block;
+    display: flex;
+    align-items: center;
     overflow: hidden;
     position: relative;
     font-weight: 500;
@@ -58,6 +59,12 @@ $menuBreakPoint: 800px;
       &:last-child {
         margin-right: 0;
       }
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      margin: 0 0.25rem;
     }
   }
 

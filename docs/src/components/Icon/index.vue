@@ -1,3 +1,11 @@
+<template>
+  <div :class="`icon icon--${size}`">
+    <svg>
+      <use :xlink:href="`${require('remixicon/fonts/remixicon.symbol.svg')}#ri-${name}`" />
+    </svg>
+  </div>
+</template>
+
 <script>
 export default {
   name: 'Icon',
@@ -12,25 +20,6 @@ export default {
       type: String,
       default: 'normal',
     },
-  },
-
-  render(createElement) {
-    let svgHTML = ''
-    try {
-      svgHTML = require(`!html-loader!@/assets/icons/${this.name}.svg`)
-    } catch (e) {
-      // eslint-disable-next-line
-      console.warn(`Unable to load "${this.name}.svg" icon. Verify it exists in the icons directory.`, e)
-    }
-    return createElement(
-      'div',
-      {
-        class: `icon icon--${this.size}`,
-        domProps: {
-          innerHTML: svgHTML,
-        },
-      },
-    )
   },
 }
 </script>
