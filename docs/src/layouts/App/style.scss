@@ -4,7 +4,7 @@ $menuBreakPoint: 800px;
 
 .app {
   &__navigation {
-    position: fixed;
+    position: sticky;
     display: flex;
     flex-direction: column;
     z-index: 2;
@@ -43,6 +43,10 @@ $menuBreakPoint: 800px;
   &__menu {
     display: flex;
     align-items: center;
+
+    > .vue-portal-target {
+      display: flex;
+    }
   }
 
   &__menu-item {
@@ -139,15 +143,14 @@ $menuBreakPoint: 800px;
       width: 20rem;
       flex: 0 0 auto;
       position: sticky;
-      top: 0;
+      top: $navHeight;
       align-self: flex-start;
       padding: 2rem;
-      padding-top: $navHeight + 2rem;
+      padding-top: 2rem;
       height: 100vh;
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
     }
   }
 
@@ -162,7 +165,6 @@ $menuBreakPoint: 800px;
   &__main {
     flex: 1 1 auto;
     min-width: 0;
-    padding-top: $navHeight;
     overflow: hidden;
   }
 

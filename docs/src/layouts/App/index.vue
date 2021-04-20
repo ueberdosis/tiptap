@@ -1,14 +1,14 @@
 <template>
   <div class="app">
-    <div class="app__navigation">
-      <banner-message
-        to="https://www.tiptap.dev/"
-        v-if="$route.name === 'home'"
-        color="black"
-      >
-        You’re browsing the documentation for v2.x. Click here for v1.x documentation →
-      </banner-message>
+    <banner-message
+      to="https://www.tiptap.dev/"
+      v-if="$route.name === 'home'"
+      color="black"
+    >
+      You’re browsing the documentation for v2.x. Click here for v1.x documentation →
+    </banner-message>
 
+    <div class="app__navigation">
       <div class="app__top-bar">
         <g-link class="app__logo" to="/">
           <img src="~@/assets/images/logo.svg">
