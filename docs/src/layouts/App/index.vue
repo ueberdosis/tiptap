@@ -17,7 +17,8 @@
         <div class="app__menu">
           <span class="app__menu-item">
             <icon name="search-line" />
-            Search
+            <span>Search</span>
+            <span class="app__search-shortcut" />
             <div class="app__search-docsearch" />
           </span>
 

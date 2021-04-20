@@ -122,6 +122,26 @@ $menuBreakPoint: 800px;
     position: relative;
   }
 
+  &__search-shortcut {
+    display: inline-flex;
+
+    @media (min-width: $menuBreakPoint) {
+      &::after {
+        content: "⌘K";
+        display: inline-flex;
+        align-items: center;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $colorGrey;
+        background-color: rgba($colorBlack, 0.05);
+        font-size: 0.75rem;
+        padding: 0 0.4rem;
+        border-radius: 0.4rem;
+        margin-left: 0.4rem;
+      }
+    }
+  }
+
   &__search-docsearch {
     ::v-deep > button {
       position: absolute;

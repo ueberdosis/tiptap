@@ -1,3 +1,9 @@
+:root {
+  --docsearch-primary-color: #{$colorBlack};
+  --docsearch-logo-color: #{rgba($colorBlack, 0.3)};
+  --docsearch-container-background: #{rgba($colorBlack, 0.7)};
+}
+
 *,
 *::before,
 *::after {
@@ -89,11 +95,6 @@ code {
 .is-active {
   background: black;
   color: white;
-}
-
-.DocSearch,
-.DocSearch-Container {
-  filter: saturate(0);
 }
 
 .DocSearch-Container {
