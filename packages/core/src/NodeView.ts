@@ -56,25 +56,39 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   }
 
   onDragStart(event: DragEvent) {
-    if (!this.dom) {
-      return
-    }
-
     const { view } = this.editor
     const target = (event.target as HTMLElement)
 
-    if (this.contentDOM?.contains(target)) {
+    // get the drag handle element
+    // `closest` is not available for text nodes so we may have to use its parent
+    const dragHandle = target.nodeType === 3
+      ? target.parentElement?.closest('[data-drag-handle]')
+      : target.closest('[data-drag-handle]')
+
+    if (
+      !this.dom
+      || this.contentDOM?.contains(target)
+      || !dragHandle
+    ) {
       return
     }
 
-    const domBox = this.dom.getBoundingClientRect()
-    const handleBox = target.getBoundingClientRect()
-    const x = handleBox.x - domBox.x + event.offsetX
-    const y = handleBox.y - domBox.y + event.offsetY
+    let x = 0
+    let y = 0
 
-    // sometimes `event.target` is not the `dom` element
+    // calculate offset for drag element if we use a different drag handle element
+    if (this.dom !== dragHandle) {
+      const domBox = this.dom.getBoundingClientRect()
+      const handleBox = dragHandle.getBoundingClientRect()
+
+      x = handleBox.x - domBox.x + event.offsetX
+      y = handleBox.y - domBox.y + event.offsetY
+    }
+
     event.dataTransfer?.setDragImage(this.dom, x, y)
 
+    // we need to tell ProseMirror that we want to move the whole node
+    // so we create a NodeSelection
     const selection = NodeSelection.create(view.state.doc, this.getPos())
     const transaction = view.state.tr.setSelection(selection)
 
