@@ -190,7 +190,15 @@ export default class ExtensionManager {
         )
 
         if (addKeyboardShortcuts) {
-          const keyMapPlugin = keymap(addKeyboardShortcuts())
+          const bindings = Object.fromEntries(
+            Object
+              .entries(addKeyboardShortcuts())
+              .map(([shortcut, method]) => {
+                return [shortcut, () => method({ editor: this.editor })]
+              }),
+          )
+
+          const keyMapPlugin = keymap(bindings)
 
           plugins.push(keyMapPlugin)
         }

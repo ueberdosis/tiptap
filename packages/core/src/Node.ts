@@ -4,7 +4,6 @@ import {
   Node as ProseMirrorNode,
   NodeType,
 } from 'prosemirror-model'
-import { Command as ProseMirrorCommand } from 'prosemirror-commands'
 import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import mergeDeep from './utilities/mergeDeep'
@@ -14,6 +13,7 @@ import {
   GlobalAttributes,
   RawCommands,
   ParentConfig,
+  KeyboardShortcutCommand,
 } from './types'
 import { NodeConfig } from '.'
 import { Editor } from './Editor'
@@ -64,7 +64,7 @@ declare module '@tiptap/core' {
       type: NodeType,
       parent: ParentConfig<NodeConfig<Options>>['addKeyboardShortcuts'],
     }) => {
-      [key: string]: ProseMirrorCommand,
+      [key: string]: KeyboardShortcutCommand,
     },
 
     /**

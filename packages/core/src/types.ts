@@ -77,6 +77,8 @@ export type Command = (props: CommandProps) => boolean
 
 export type CommandSpec = (...args: any[]) => Command
 
+export type KeyboardShortcutCommand = (props: { editor: Editor }) => boolean
+
 export type Attribute = {
   default: any,
   rendered?: boolean,

@@ -5,7 +5,6 @@ import {
   MarkType,
 } from 'prosemirror-model'
 import { Plugin, Transaction } from 'prosemirror-state'
-import { Command as ProseMirrorCommand } from 'prosemirror-commands'
 import { InputRule } from 'prosemirror-inputrules'
 import mergeDeep from './utilities/mergeDeep'
 import {
@@ -13,6 +12,7 @@ import {
   RawCommands,
   GlobalAttributes,
   ParentConfig,
+  KeyboardShortcutCommand,
 } from './types'
 import { Node } from './Node'
 import { MarkConfig } from '.'
@@ -64,7 +64,7 @@ declare module '@tiptap/core' {
       type: MarkType,
       parent: ParentConfig<MarkConfig<Options>>['addKeyboardShortcuts'],
     }) => {
-      [key: string]: ProseMirrorCommand,
+      [key: string]: KeyboardShortcutCommand,
     },
 
     /**
