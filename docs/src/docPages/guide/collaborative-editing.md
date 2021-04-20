@@ -305,7 +305,7 @@ fired up to multiple times a second:
 You need to serialize the Y-Doc that hocuspocus gives you to something you can actually display in
 your views.
 
-This example is **not intended** to be a primary storage as serializing to and deserializing from JSON not store the collaboration history steps but only the resulting document. Make sure to always use the RocksDB extension as primary storage.
+This example is **not intended** to be a primary storage as serializing to and deserializing from JSON will not store the collaboration history steps but only the resulting document. Make sure to always use the RocksDB extension as primary storage.
 
 ```typescript
 import {debounce} from 'debounce'
