@@ -239,36 +239,36 @@ renderHTML({ HTMLAttributes }) {
 The `parseHTML()` function tries to load the editor document from HTML. The function gets the HTML DOM element passed as a parameter, and is expected to return an object with attributes and their values. Here is a simplified example from the [`Bold`](/api/marks/bold) mark:
 
 ```js
-  parseHTML() {
-    return [
-      {
-        tag: 'strong',
-      },
-    ]
-  },
+parseHTML() {
+  return [
+    {
+      tag: 'strong',
+    },
+  ]
+},
 ```
 
 This defines a rule to convert all `<strong>` tags to `Bold` marks. But you can get more advanced with this, here is the full example from the extension:
 
 ```js
-  parseHTML() {
-    return [
-      // <strong>
-      {
-        tag: 'strong',
-      },
-      // <b>
-      {
-        tag: 'b',
-        getAttrs: node => node.style.fontWeight !== 'normal' && null,
-      },
-      // <span style="font-weight: bold">
-      {
-        style: 'font-weight',
-        getAttrs: value => /^(bold(er)?|[5-9]\d{2,})$/.test(value as string) && null,
-      },
-    ]
-  },
+parseHTML() {
+  return [
+    // <strong>
+    {
+      tag: 'strong',
+    },
+    // <b>
+    {
+      tag: 'b',
+      getAttrs: node => node.style.fontWeight !== 'normal' && null,
+    },
+    // <span style="font-weight: bold">
+    {
+      style: 'font-weight',
+      getAttrs: value => /^(bold(er)?|[5-9]\d{2,})$/.test(value as string) && null,
+    },
+  ]
+},
 ```
 
 This looks for `<strong>` and `<b>` tags, and any HTML tag with an inline style setting the `font-weight` to bold.
