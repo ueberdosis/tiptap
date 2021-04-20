@@ -27,11 +27,6 @@ npm uninstall tiptap tiptap-commands tiptap-extensions tiptap-utils
 yarn remove tiptap tiptap-commands tiptap-extensions tiptap-utils
 ```
 
-### Upgrade to Vue.js 3
-:::warning Work in progress
-We’re [waiting for Gridsome](https://github.com/gridsome/gridsome/issues/1289) to be compatible with Vue.js 3.
-:::
-
 ### Explicitly register the Document, Text and Paragraph extensions
 tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [`Document`](/api/nodes/document), [`Paragraph`](/api/nodes/paragraph) and [`Text`](/api/nodes/text) extensions.
 
