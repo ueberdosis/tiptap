@@ -41,6 +41,7 @@ declare module '@tiptap/core' {
      * Global attributes
      */
     addGlobalAttributes?: (this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['addGlobalAttributes'],
     }) => GlobalAttributes | {},
@@ -49,6 +50,7 @@ declare module '@tiptap/core' {
      * Raw
      */
     addCommands?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -59,6 +61,7 @@ declare module '@tiptap/core' {
      * Keyboard shortcuts
      */
     addKeyboardShortcuts?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -71,6 +74,7 @@ declare module '@tiptap/core' {
      * Input rules
      */
     addInputRules?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -81,6 +85,7 @@ declare module '@tiptap/core' {
      * Paste rules
      */
     addPasteRules?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -91,6 +96,7 @@ declare module '@tiptap/core' {
      * ProseMirror plugins
      */
     addProseMirrorPlugins?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -102,6 +108,7 @@ declare module '@tiptap/core' {
      */
     extendNodeSchema?: ((
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<NodeConfig<Options>>['extendNodeSchema'],
       },
@@ -115,6 +122,7 @@ declare module '@tiptap/core' {
      */
     extendMarkSchema?: ((
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<NodeConfig<Options>>['extendMarkSchema'],
       },
@@ -126,7 +134,8 @@ declare module '@tiptap/core' {
     /**
      * The editor is not ready yet.
      */
-     onBeforeCreate?: ((this: {
+    onBeforeCreate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -137,6 +146,7 @@ declare module '@tiptap/core' {
      * The editor is ready.
      */
     onCreate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -147,6 +157,7 @@ declare module '@tiptap/core' {
      * The content has changed.
      */
     onUpdate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -157,6 +168,7 @@ declare module '@tiptap/core' {
      * The selection has changed.
      */
     onSelectionUpdate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -168,6 +180,7 @@ declare module '@tiptap/core' {
      */
     onTransaction?: ((
       this: {
+        name: string,
         options: Options,
         editor: Editor,
         type: NodeType,
@@ -183,6 +196,7 @@ declare module '@tiptap/core' {
      */
     onFocus?: ((
       this: {
+        name: string,
         options: Options,
         editor: Editor,
         type: NodeType,
@@ -198,6 +212,7 @@ declare module '@tiptap/core' {
      */
     onBlur?: ((
       this: {
+        name: string,
         options: Options,
         editor: Editor,
         type: NodeType,
@@ -212,6 +227,7 @@ declare module '@tiptap/core' {
      * The editor is destroyed.
      */
     onDestroy?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -222,6 +238,7 @@ declare module '@tiptap/core' {
      * Node View
      */
     addNodeView?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: NodeType,
@@ -237,6 +254,7 @@ declare module '@tiptap/core' {
      * Content
      */
     content?: NodeSpec['content'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['content'],
     }) => NodeSpec['content']),
@@ -245,6 +263,7 @@ declare module '@tiptap/core' {
      * Marks
      */
     marks?: NodeSpec['marks'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['marks'],
     }) => NodeSpec['marks']),
@@ -253,6 +272,7 @@ declare module '@tiptap/core' {
      * Group
      */
     group?: NodeSpec['group'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['group'],
     }) => NodeSpec['group']),
@@ -261,6 +281,7 @@ declare module '@tiptap/core' {
      * Inline
      */
     inline?: NodeSpec['inline'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['inline'],
     }) => NodeSpec['inline']),
@@ -269,6 +290,7 @@ declare module '@tiptap/core' {
      * Atom
      */
     atom?: NodeSpec['atom'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['atom'],
     }) => NodeSpec['atom']),
@@ -277,6 +299,7 @@ declare module '@tiptap/core' {
      * Selectable
      */
     selectable?: NodeSpec['selectable'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['selectable'],
     }) => NodeSpec['selectable']),
@@ -285,6 +308,7 @@ declare module '@tiptap/core' {
      * Draggable
      */
     draggable?: NodeSpec['draggable'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['draggable'],
     }) => NodeSpec['draggable']),
@@ -293,6 +317,7 @@ declare module '@tiptap/core' {
      * Code
      */
     code?: NodeSpec['code'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['code'],
     }) => NodeSpec['code']),
@@ -301,6 +326,7 @@ declare module '@tiptap/core' {
      * Defining
      */
     defining?: NodeSpec['defining'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['defining'],
     }) => NodeSpec['defining']),
@@ -309,6 +335,7 @@ declare module '@tiptap/core' {
      * Isolating
      */
     isolating?: NodeSpec['isolating'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<NodeConfig<Options>>['isolating'],
     }) => NodeSpec['isolating']),
@@ -318,6 +345,7 @@ declare module '@tiptap/core' {
      */
     parseHTML?: (
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<NodeConfig<Options>>['parseHTML'],
       },
@@ -328,6 +356,7 @@ declare module '@tiptap/core' {
      */
     renderHTML?: ((
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<NodeConfig<Options>>['renderHTML'],
       },
@@ -342,6 +371,7 @@ declare module '@tiptap/core' {
      */
     renderText?: ((
       this: {
+        name: string,
         options: Options,
         editor: Editor,
         type: NodeType,
@@ -357,6 +387,7 @@ declare module '@tiptap/core' {
      */
     addAttributes?: (
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<NodeConfig<Options>>['addAttributes'],
       },

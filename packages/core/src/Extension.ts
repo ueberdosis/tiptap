@@ -35,6 +35,7 @@ declare module '@tiptap/core' {
      * Global attributes
      */
     addGlobalAttributes?: (this: {
+      name: string,
       options: Options,
       parent: ParentConfig<ExtensionConfig<Options>>['addGlobalAttributes'],
     }) => GlobalAttributes | {},
@@ -43,6 +44,7 @@ declare module '@tiptap/core' {
      * Raw
      */
     addCommands?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['addCommands'],
@@ -52,6 +54,7 @@ declare module '@tiptap/core' {
      * Keyboard shortcuts
      */
     addKeyboardShortcuts?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['addKeyboardShortcuts'],
@@ -63,6 +66,7 @@ declare module '@tiptap/core' {
      * Input rules
      */
     addInputRules?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['addInputRules'],
@@ -72,6 +76,7 @@ declare module '@tiptap/core' {
      * Paste rules
      */
     addPasteRules?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['addPasteRules'],
@@ -81,6 +86,7 @@ declare module '@tiptap/core' {
      * ProseMirror plugins
      */
     addProseMirrorPlugins?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['addProseMirrorPlugins'],
@@ -91,6 +97,7 @@ declare module '@tiptap/core' {
      */
     extendNodeSchema?: ((
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<ExtensionConfig<Options>>['extendNodeSchema'],
       },
@@ -104,6 +111,7 @@ declare module '@tiptap/core' {
      */
     extendMarkSchema?: ((
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<ExtensionConfig<Options>>['extendMarkSchema'],
       },
@@ -115,7 +123,8 @@ declare module '@tiptap/core' {
     /**
      * The editor is not ready yet.
      */
-     onBeforeCreate?: ((this: {
+    onBeforeCreate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['onBeforeCreate'],
@@ -125,6 +134,7 @@ declare module '@tiptap/core' {
      * The editor is ready.
      */
     onCreate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['onCreate'],
@@ -134,6 +144,7 @@ declare module '@tiptap/core' {
      * The content has changed.
      */
     onUpdate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['onUpdate'],
@@ -143,6 +154,7 @@ declare module '@tiptap/core' {
      * The selection has changed.
      */
     onSelectionUpdate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['onSelectionUpdate'],
@@ -153,6 +165,7 @@ declare module '@tiptap/core' {
      */
     onTransaction?: ((
       this: {
+        name: string,
         options: Options,
         editor: Editor,
         parent: ParentConfig<ExtensionConfig<Options>>['onTransaction'],
@@ -167,6 +180,7 @@ declare module '@tiptap/core' {
      */
     onFocus?: ((
       this: {
+        name: string,
         options: Options,
         editor: Editor,
         parent: ParentConfig<ExtensionConfig<Options>>['onFocus'],
@@ -181,6 +195,7 @@ declare module '@tiptap/core' {
      */
     onBlur?: ((
       this: {
+        name: string,
         options: Options,
         editor: Editor,
         parent: ParentConfig<ExtensionConfig<Options>>['onBlur'],
@@ -194,6 +209,7 @@ declare module '@tiptap/core' {
      * The editor is destroyed.
      */
     onDestroy?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['onDestroy'],

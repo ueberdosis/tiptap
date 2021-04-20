@@ -27,6 +27,7 @@ export default function getSchema(extensions: Extensions): Schema {
   const nodes = Object.fromEntries(nodeExtensions.map(extension => {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
     const context = {
+      name: extension.name,
       options: extension.options,
     }
 
@@ -82,6 +83,7 @@ export default function getSchema(extensions: Extensions): Schema {
   const marks = Object.fromEntries(markExtensions.map(extension => {
     const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
     const context = {
+      name: extension.name,
       options: extension.options,
     }
 

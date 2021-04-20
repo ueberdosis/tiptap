@@ -41,6 +41,7 @@ declare module '@tiptap/core' {
      * Global attributes
      */
     addGlobalAttributes?: (this: {
+      name: string,
       options: Options,
       parent: ParentConfig<MarkConfig<Options>>['addGlobalAttributes'],
     }) => GlobalAttributes | {},
@@ -49,6 +50,7 @@ declare module '@tiptap/core' {
      * Raw
      */
     addCommands?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: MarkType,
@@ -59,6 +61,7 @@ declare module '@tiptap/core' {
      * Keyboard shortcuts
      */
     addKeyboardShortcuts?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: MarkType,
@@ -71,6 +74,7 @@ declare module '@tiptap/core' {
      * Input rules
      */
     addInputRules?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: MarkType,
@@ -81,6 +85,7 @@ declare module '@tiptap/core' {
      * Paste rules
      */
     addPasteRules?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: MarkType,
@@ -91,6 +96,7 @@ declare module '@tiptap/core' {
      * ProseMirror plugins
      */
     addProseMirrorPlugins?: (this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: MarkType,
@@ -102,6 +108,7 @@ declare module '@tiptap/core' {
      */
     extendNodeSchema?: ((
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<MarkConfig<Options>>['extendNodeSchema'],
       },
@@ -115,6 +122,7 @@ declare module '@tiptap/core' {
      */
     extendMarkSchema?: ((
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<MarkConfig<Options>>['extendMarkSchema'],
       },
@@ -127,6 +135,7 @@ declare module '@tiptap/core' {
      * The editor is not ready yet.
      */
     onBeforeCreate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: MarkType,
@@ -137,6 +146,7 @@ declare module '@tiptap/core' {
      * The editor is ready.
      */
     onCreate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: MarkType,
@@ -147,6 +157,7 @@ declare module '@tiptap/core' {
      * The content has changed.
      */
     onUpdate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: MarkType,
@@ -157,6 +168,7 @@ declare module '@tiptap/core' {
      * The selection has changed.
      */
     onSelectionUpdate?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: MarkType,
@@ -168,6 +180,7 @@ declare module '@tiptap/core' {
      */
     onTransaction?: ((
       this: {
+        name: string,
         options: Options,
         editor: Editor,
         type: MarkType,
@@ -183,6 +196,7 @@ declare module '@tiptap/core' {
      */
     onFocus?: ((
       this: {
+        name: string,
         options: Options,
         editor: Editor,
         type: MarkType,
@@ -198,6 +212,7 @@ declare module '@tiptap/core' {
      */
     onBlur?: ((
       this: {
+        name: string,
         options: Options,
         editor: Editor,
         type: MarkType,
@@ -212,6 +227,7 @@ declare module '@tiptap/core' {
      * The editor is destroyed.
      */
     onDestroy?: ((this: {
+      name: string,
       options: Options,
       editor: Editor,
       type: MarkType,
@@ -227,6 +243,7 @@ declare module '@tiptap/core' {
      * Inclusive
      */
     inclusive?: MarkSpec['inclusive'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<MarkConfig<Options>>['inclusive'],
     }) => MarkSpec['inclusive']),
@@ -235,6 +252,7 @@ declare module '@tiptap/core' {
      * Excludes
      */
     excludes?: MarkSpec['excludes'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<MarkConfig<Options>>['excludes'],
     }) => MarkSpec['excludes']),
@@ -243,6 +261,7 @@ declare module '@tiptap/core' {
      * Group
      */
     group?: MarkSpec['group'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<MarkConfig<Options>>['group'],
     }) => MarkSpec['group']),
@@ -251,6 +270,7 @@ declare module '@tiptap/core' {
      * Spanning
      */
     spanning?: MarkSpec['spanning'] | ((this: {
+      name: string,
       options: Options,
       parent: ParentConfig<MarkConfig<Options>>['spanning'],
     }) => MarkSpec['spanning']),
@@ -260,6 +280,7 @@ declare module '@tiptap/core' {
      */
     parseHTML?: (
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<MarkConfig<Options>>['parseHTML'],
       },
@@ -270,6 +291,7 @@ declare module '@tiptap/core' {
      */
     renderHTML?: ((
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<MarkConfig<Options>>['renderHTML'],
       },
@@ -284,6 +306,7 @@ declare module '@tiptap/core' {
      */
     addAttributes?: (
       this: {
+        name: string,
         options: Options,
         parent: ParentConfig<MarkConfig<Options>>['addAttributes'],
       },

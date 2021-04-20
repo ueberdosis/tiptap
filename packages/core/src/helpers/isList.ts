@@ -12,7 +12,10 @@ export default function isList(name: string, extensions: Extensions): boolean {
     return false
   }
 
-  const context = { options: extension.options }
+  const context = {
+    name: extension.name,
+    options: extension.options,
+  }
   const group = callOrReturn(getExtensionField<NodeConfig['group']>(extension, 'group', context))
 
   if (typeof group !== 'string') {

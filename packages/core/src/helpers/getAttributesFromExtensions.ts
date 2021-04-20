@@ -28,6 +28,7 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
 
   extensions.forEach(extension => {
     const context = {
+      name: extension.name,
       options: extension.options,
     }
 
@@ -64,6 +65,7 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
 
   nodeAndMarkExtensions.forEach(extension => {
     const context = {
+      name: extension.name,
       options: extension.options,
     }
 

@@ -32,6 +32,7 @@ export default class ExtensionManager {
 
     this.extensions.forEach(extension => {
       const context = {
+        name: extension.name,
         options: extension.options,
         editor: this.editor,
         type: getSchemaTypeByName(extension.name, this.schema),
@@ -149,6 +150,7 @@ export default class ExtensionManager {
   get commands(): RawCommands {
     return this.extensions.reduce((commands, extension) => {
       const context = {
+        name: extension.name,
         options: extension.options,
         editor: this.editor,
         type: getSchemaTypeByName(extension.name, this.schema),
@@ -176,6 +178,7 @@ export default class ExtensionManager {
       .reverse()
       .map(extension => {
         const context = {
+          name: extension.name,
           options: extension.options,
           editor: this.editor,
           type: getSchemaTypeByName(extension.name, this.schema),
@@ -260,6 +263,7 @@ export default class ExtensionManager {
       .map(extension => {
         const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.name)
         const context = {
+          name: extension.name,
           options: extension.options,
           editor,
           type: getNodeType(extension.name, this.schema),
@@ -304,6 +308,7 @@ export default class ExtensionManager {
       .filter(extension => !!getExtensionField(extension, 'renderText'))
       .map(extension => {
         const context = {
+          name: extension.name,
           options: extension.options,
           editor,
           type: getNodeType(extension.name, this.schema),
