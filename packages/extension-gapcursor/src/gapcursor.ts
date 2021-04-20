@@ -15,8 +15,9 @@ declare module '@tiptap/core' {
       | boolean
       | null
       | ((this: {
+        name: string,
         options: Options,
-        parentConfig: ParentConfig<NodeConfig<Options>>,
+        parent: ParentConfig<NodeConfig<Options>>['allowGapCursor'],
       }) => boolean | null),
   }
 }
@@ -32,6 +33,7 @@ export const Gapcursor = Extension.create({
 
   extendNodeSchema(extension) {
     const context = {
+      name: extension.name,
       options: extension.options,
     }
 
