@@ -48,7 +48,7 @@ export default {
         <p>
           That’s a boring paragraph followed by a fenced code block:
         </p>
-        <pre><code>for (var i=1; i <= 20; i++)
+        <pre><code class="language-javascript">for (var i=1; i <= 20; i++)
 {
   if (i % 15 == 0)
     console.log("FizzBuzz");
