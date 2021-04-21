@@ -174,7 +174,7 @@
           <logo-item
             title="Nextcloud"
             image="nextcloud"
-            to="https://apps.nextcloud.com/apps/text"
+            to="https://github.com/nextcloud/text"
           />
           <logo-item
             title="ycode"
