@@ -68,8 +68,8 @@ const calculateReadingTime = function (text) {
   }
 }
 
-const width = 1200
-const height = 720
+const width = 1280
+const height = 640
 const border = 50
 
 registerFont('fonts/Inter-Regular.otf', { family: 'InterRegular' })
