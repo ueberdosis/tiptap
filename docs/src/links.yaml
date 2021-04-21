@@ -126,17 +126,88 @@
     - title: Commands
       link: /api/commands
       items:
+        - title: blur
+          link: /api/commands/blur
         - title: clearContent
           link: /api/commands/clear-content
-        - title: insertContent
-          link: /api/commands/insert-content
-        - title: setContent
-          link: /api/commands/set-content
-
         - title: clearNodes
           link: /api/commands/clear-nodes
+        - title: createParagraphNear
+          link: /api/commands/create-paragraph-near
+        - title: deleteRange
+          link: /api/commands/delete-range
+        - title: deleteSelection
+          link: /api/commands/delete-selection
+        - title: enter
+          link: /api/commands/enter
+        - title: exitCode
+          link: /api/commands/exit-code
+        - title: extendMarkRange
+          link: /api/commands/extend-mark-range
+        - title: focus
+          link: /api/commands/focus
+        - title: insertContent
+          link: /api/commands/insert-content
+        - title: joinBackward
+          link: /api/commands/join-backward
+        - title: joinForward
+          link: /api/commands/join-forward
+        - title: keyboardShortcut
+          link: /api/commands/keyboard-shortcut
+        - title: liftEmptyBlock
+          link: /api/commands/lift-empty-block
+        - title: liftListItem
+          link: /api/commands/lift-list-item
+        - title: lift
+          link: /api/commands/lift
+        - title: newlineInCode
+          link: /api/commands/newline-in-code
+        - title: raplaceRange
+          link: /api/commands/replace-range
+        - title: replace
+          link: /api/commands/replace
+        - title: resetAttributes
+          link: /api/commands/reset-attributes
+        - title: scrollIntoView
+          link: /api/commands/scroll-into-view
+        - title: selectAll
+          link: /api/commands/select-all
+        - title: selectNodeBackward
+          link: /api/commands/select-node-backward
+        - title: selectNodeForward
+          link: /api/commands/select-node-forward
+        - title: selectParentNode
+          link: /api/commands/select-parent-node
+        - title: setContent
+          link: /api/commands/set-content
+        - title: setMark
+          link: /api/commands/set-mark
+        - title: setNode
+          link: /api/commands/set-node
+        - title: sinkListItem
+          link: /api/commands/sink-list-item
+        - title: splitBlock
+          link: /api/commands/split-block
+        - title: splitListItem
+          link: /api/commands/split-list-item
+        - title: toggleList
+          link: /api/commands/toggle-list
+        - title: toggleMark
+          link: /api/commands/toggle-mark
+        - title: toggleNode
+          link: /api/commands/toggle-node
+        - title: toggleWrap
+          link: /api/commands/toggle-wrap
+        - title: undoInputRule
+          link: /api/commands/undo-input-rule
+        - title: unsetAllMarks
+          link: /api/commands/unset-all-marks
+        - title: unsetMark
+          link: /api/commands/unset-mark
         - title: updateAtttributes
           link: /api/commands/update-attributes
+        - title: wrapInList
+          link: /api/commands/wrap-in-list
     - title: Nodes
       link: /api/nodes
       items:

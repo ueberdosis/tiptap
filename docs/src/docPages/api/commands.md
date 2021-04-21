@@ -161,55 +161,54 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .setContent()    | Replace the whole document with new content.             | [More](/api/commands/set-content)    |
 
 ### Nodes & Marks
-| Command                 | Description                                               |
-| ----------------------- | --------------------------------------------------------- |
-| .clearNodes()           | Normalize nodes to a simple paragraph.                    |
-| .createParagraphNear()  | Create a paragraph nearby.                                |
-| .exitCode()             | Exit from a code block.                                   |
-| .extendMarkRange()      | Extends the text selection to the current mark.           |
-| .joinBackward()         | Join two nodes backward.                                  |
-| .joinForward()          | Join two nodes forward.                                   |
-| .lift()                 | Removes an existing wrap.                                 |
-| .liftEmptyBlock()       | Lift block if empty.                                      |
-| .newlineInCode()        | Add a newline character in code.                          |
-| .replace()              | Replaces text with a node.                                |
-| .replaceRange()         | Replaces text with a node within a range.                 |
-| .resetAttributes()      | Resets some node or mark attributes to the default value. |
-| .selectParentNode()     | Select the parent node.                                   |
-| .setMark()              | Add a mark with new attributes.                           |
-| .setNode()              | Replace a given range with a node.                        |
-| .splitBlock()           | Forks a new node from an existing node.                   |
-| .toggleMark()           | Toggle a mark on and off.                                 |
-| .toggleNode()           | Toggle a node with another node.                          |
-| .toggleWrap()           | Wraps nodes in another node, or removes an existing wrap. |
-| .undoInputRule()        | Undo an input rule.                                       |
-| .unsetAllMarks()        | Remove all marks in the current selection.                |
-| .unsetMark()            | Remove a mark in the current selection.                   |
-| .updateAttributes()     | Update attributes of a node or mark.                      |
+| Command                 | Description                                               | Links                                |
+| ----------------------- | --------------------------------------------------------- | ------------------------------------ |
+| .clearNodes()           | Normalize nodes to a simple paragraph.                    | [More](/api/commands/clear-nodes)  |
+| .createParagraphNear()  | Create a paragraph nearby.                                | [More](/api/commands/create-paragraph-near)  |
+| .extendMarkRange()      | Extends the text selection to the current mark.           | [More](/api/commands/extend-mark-range)  |
+| .exitCode()             | Exit from a code block.                                   | [More](/api/commands/exit-code)  |
+| .joinBackward()         | Join two nodes backward.                                  | [More](/api/commands/join-backward)  |
+| .joinForward()          | Join two nodes forward.                                   | [More](/api/commands/join-forward)  |
+| .lift()                 | Removes an existing wrap.                                 | [More](/api/commands/lift)  |
+| .liftEmptyBlock()       | Lift block if empty.                                      | [More](/api/commands/lift-empty-block)  |
+| .newlineInCode()        | Add a newline character in code.                          | [More](/api/commands/newline-in-code)  |
+| .replace()              | Replaces text with a node.                                | [More](/api/commands/replace)  |
+| .replaceRange()         | Replaces text with a node within a range.                 | [More](/api/commands/replace-range)  |
+| .resetAttributes()      | Resets some node or mark attributes to the default value. | [More](/api/commands/reset-attributes)  |
+| .setMark()              | Add a mark with new attributes.                           | [More](/api/commands/set-mark)  |
+| .setNode()              | Replace a given range with a node.                        | [More](/api/commands/set-node)  |
+| .splitBlock()           | Forks a new node from an existing node.                   | [More](/api/commands/split-block)  |
+| .toggleMark()           | Toggle a mark on and off.                                 | [More](/api/commands/toggle-mark)  |
+| .toggleNode()           | Toggle a node with another node.                          | [More](/api/commands/toggle-node)  |
+| .toggleWrap()           | Wraps nodes in another node, or removes an existing wrap. | [More](/api/commands/toggle-wrap)  |
+| .undoInputRule()        | Undo an input rule.                                       | [More](/api/commands/undo-input-rule)  |
+| .unsetAllMarks()        | Remove all marks in the current selection.                | [More](/api/commands/unset-all-marks)  |
+| .unsetMark()            | Remove a mark in the current selection.                   | [More](/api/commands/unset-mark)  |
+| .updateAttributes()     | Update attributes of a node or mark.                      | [More](/api/commands/update-attributes)  |
 
 ### Lists
-| Command          | Description                                 |
-| ---------------- | ------------------------------------------- |
-| .liftListItem()  | Lift the list item into a wrapping list.    |
-| .sinkListItem()  | Sink the list item down into an inner list. |
-| .splitListItem() | Splits one list item into two list items.   |
-| .toggleList()    | Toggle between different list types.        |
-| .wrapInList()    | Wrap a node in a list.                      |
+| Command          | Description                                 | Links                                |
+| ---------------- | ------------------------------------------- | ------------------------------------ |
+| .liftListItem()  | Lift the list item into a wrapping list.    | [More](/api/commands/lift-list-item)  |
+| .sinkListItem()  | Sink the list item down into an inner list. | [More](/api/commands/sink-list-item)  |
+| .splitListItem() | Splits one list item into two list items.   | [More](/api/commands/split-list-item)  |
+| .toggleList()    | Toggle between different list types.        | [More](/api/commands/toggle-list)  |
+| .wrapInList()    | Wrap a node in a list.                      | [More](/api/commands/wrap-in-list)  |
 
 ### Selection
-| Command               | Description                             |
-| --------------------- | --------------------------------------- |
-| .blur()               | Removes focus from the editor.          |
-| .deleteRange()        | Delete a given range.                   |
-| .deleteSelection()    | Delete the selection, if there is one.  |
-| .enter()              | Trigger enter.                          |
-| .focus()              | Focus the editor at the given position. |
-| .keyboardShortcut()   | Trigger a keyboard shortcut.            |
-| .scrollIntoView()     | Scroll the selection into view.         |
-| .selectAll()          | Select the whole document.              |
-| .selectNodeBackward() | Select a node backward.                 |
-| .selectNodeForward()  | Select a node forward.                  |
-| .selectParentNode()   | Select the parent node.                 |
+| Command               | Description                             | Links                                |
+| --------------------- | --------------------------------------- | ------------------------------------ |
+| .blur()               | Removes focus from the editor.          | [More](/api/commands/blur)  |
+| .deleteRange()        | Delete a given range.                   | [More](/api/commands/delete-range)  |
+| .deleteSelection()    | Delete the selection, if there is one.  | [More](/api/commands/delete-selection)  |
+| .enter()              | Trigger enter.                          | [More](/api/commands/enter)  |
+| .focus()              | Focus the editor at the given position. | [More](/api/commands/focus)  |
+| .keyboardShortcut()   | Trigger a keyboard shortcut.            | [More](/api/commands/keyboard-shortcut)  |
+| .scrollIntoView()     | Scroll the selection into view.         | [More](/api/commands/scroll-into-view)  |
+| .selectAll()          | Select the whole document.              | [More](/api/commands/select-all)  |
+| .selectNodeBackward() | Select a node backward.                 | [More](/api/commands/select-node-backward)  |
+| .selectNodeForward()  | Select a node forward.                  | [More](/api/commands/select-node-forward)  |
+| .selectParentNode()   | Select the parent node.                 | [More](/api/commands/select-parent-node)  |
 
 <!-- ## Example use cases
 
