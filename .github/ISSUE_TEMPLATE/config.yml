@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Ask a question
+  - name: Discuss tiptap on GitHub
     url: https://github.com/ueberdosis/tiptap/discussions/new
-    about: Ask the community for help
+    about: Help, discussion about best practices, or any other conversation that would benefit from being searchable
+  - name: Join the tiptap Discord server
+    url: https://discord.gg/WtJ49jGshW
+    about: Ccasual chit-chat with others using tiptap

@@ -1,19 +1,21 @@
 ---
 name: Feature request
-about: Suggest a new feature for tiptap
+about: Suggest a new feature for tiptap v2
 title: ''
-labels: feature request
+labels:
+  - feature request
+  - v2
 assignees: ''
 ---
 
-**Is your feature request related to a problem? Please describe.**
+**The problem I am facing**
 A clear and concise description of what the problem is. For example: I’m always frustrated when …
 
-**Describe the solution you’d like**
+**The solution I would like**
 A clear and concise description of what you want to happen.
 
-**Describe alternatives you’ve considered**
-A clear and concise description of any alternative solutions or features you’ve considered.
+**Alternatives I have considered**
+A clear and concise description of any alternative solutions or features you have considered.
 
 **Additional context**
-Add any other context or screenshots about the feature request here.
+Add any other context or screenshots here.
