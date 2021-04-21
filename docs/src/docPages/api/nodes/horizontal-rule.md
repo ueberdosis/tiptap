@@ -29,7 +29,7 @@ yarn add @tiptap/extension-horizontal-rule
 *None*
 
 ## Source code
-[packages/extension-horizontal-rule/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-horizontal-rule/)
+[packages/extension-horizontal-rule/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-horizontal-rule/)
 
 ## Usage
 <demo name="Nodes/HorizontalRule" highlight="3-5,17,36" />

@@ -39,4 +39,4 @@ Create exactly the rich text editor you want out of customizable building blocks
 - … and [many more](https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D)
 
 ## License
-tiptap is licensed under [MIT](https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md), so you’re free to do whatever you want. If you’re using it in production, do the right thing and [become one of our wonderful sponsors](/sponsor) to fund the development, maintenance and support of tiptap and the whole ecosystem.
+tiptap is licensed under [MIT](https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md), so you’re free to do whatever you want. If you’re using it in production, do the right thing and [become one of our wonderful sponsors](/sponsor) to fund the development, maintenance and support of tiptap and the whole ecosystem.

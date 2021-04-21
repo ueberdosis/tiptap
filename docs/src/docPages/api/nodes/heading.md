@@ -31,7 +31,7 @@ yarn add @tiptap/extension-heading
 * macOS: `Cmd`&nbsp;`Alt`&nbsp;`1-6`
 
 ## Source code
-[packages/extension-heading/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-heading/)
+[packages/extension-heading/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-heading/)
 
 ## Usage
 <demo name="Nodes/Heading" highlight="3-11,23,42-44" />

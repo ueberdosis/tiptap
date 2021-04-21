@@ -105,7 +105,7 @@ When designing a great user experience you should consider a few things.
 * List available keyboard shortcuts
 
 :::warning Incomplete
-This section needs some work. Do you know what else needs to be taken into account when building an editor menu? Let us know on [GitHub](https://github.com/ueberdosis/tiptap-next) or send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev)!
+This section needs some work. Do you know what else needs to be taken into account when building an editor menu? Let us know on [GitHub](https://github.com/ueberdosis/tiptap) or send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev)!
 :::
 
 ### Icons

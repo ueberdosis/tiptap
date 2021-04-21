@@ -36,7 +36,7 @@ Companies betting on tiptap probably want some peace of mind and ensure that we 
 If you’re a company, don’t want to use GitHub, don’t have a credit card or want a proper invoice from us, just reach out to us at [humans@tiptap.dev](mailto:humans@tiptap.dev).
 
 ### I want consulting. What’s your rate?
-We don’t do any calls, consulting or personal support for tiptap. If you have an issue, a question, want to talk something through or anything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap-next/issues) to keep everything accessible for the whole community.
+We don’t do any calls, consulting or personal support for tiptap. If you have an issue, a question, want to talk something through or anything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap/issues) to keep everything accessible for the whole community.
 
 ### Can we have a call?
 Nope, we are big fans of asynchronous communication. If you really need to reach out in private, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev), but don’t expect technical email support.

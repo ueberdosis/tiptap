@@ -36,7 +36,7 @@ yarn add @tiptap/extension-strike
 * macOS: `Cmd`&nbsp;`Shift`&nbsp;`X`
 
 ## Source code
-[packages/extension-strike/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-strike/)
+[packages/extension-strike/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-strike/)
 
 ## Usage
 <demo name="Marks/Strike" highlight="3-5,17,36" />

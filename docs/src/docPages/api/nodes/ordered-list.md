@@ -32,7 +32,7 @@ This extension requires the [`ListItem`](/api/nodes/list-item) node.
 * macOS: `Cmd`&nbsp;`Shift`&nbsp;`7`
 
 ## Source code
-[packages/extension-ordered-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-ordered-list/)
+[packages/extension-ordered-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-ordered-list/)
 
 ## Usage
 <demo name="Nodes/OrderedList" highlight="3-5,17-18,37-38" />

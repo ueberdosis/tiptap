@@ -23,7 +23,7 @@ yarn add @tiptap/extension-dropcursor
 | class  | `String` | –         | One or multiple CSS classes that should be applied to the dropcursor. |
 
 ## Source code
-[packages/extension-dropcursor/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-dropcursor/)
+[packages/extension-dropcursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-dropcursor/)
 
 ## Usage
 <demo name="Extensions/Dropcursor" highlight="12,33" />

@@ -42,7 +42,7 @@ yarn add @tiptap/extension-collaboration yjs y-websocket
 * macOS: `Shift`&nbsp;`Cmd`&nbsp;`Z` or `Cmd`&nbsp;`Y`
 
 ## Source code
-[packages/extension-collaboration/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration/)
+[packages/extension-collaboration/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration/)
 
 ## Usage
 :::warning Public

@@ -12,7 +12,7 @@ Kurfürstenstraße 56<br>
 
 Represented by: Sven Adlung, Patrick Baber, Nick Hirche, Philip Isik, Timo Isik, Philipp Kühn, Hans Pagel, Sebastian Schrama
 
-We don’t provide email support for tiptap, but if you have some legal issues, privacy or security concerns, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev). For everything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap-next/issues).
+We don’t provide email support for tiptap, but if you have some legal issues, privacy or security concerns, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev). For everything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap/issues).
 
 ## Dispute resolution
 The European Commission provides a platform for online dispute resolution (OS): https://ec.europa.eu/consumers/odr.

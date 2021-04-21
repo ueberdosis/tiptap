@@ -20,7 +20,7 @@ yarn add @tiptap/extension-document
 ```
 
 ## Source code
-[packages/extension-document/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-document/)
+[packages/extension-document/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-document/)
 
 ## Usage
 <demo name="Nodes/Document" highlight="10,28" />

@@ -36,7 +36,7 @@ yarn add @tiptap/extension-bold
 * macOS: `Cmd`&nbsp;`B`
 
 ## Source code
-[packages/extension-bold/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bold/)
+[packages/extension-bold/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bold/)
 
 ## Usage
 <demo name="Marks/Bold" highlight="3-5,17,36" />

@@ -6,7 +6,7 @@
 One of the strength of tiptap is it’s extendability. You don’t depend on the provided extensions, it’s intended to extend the editor to your liking. With custom extensions you can add new content types and new functionalities, on top of what already exists or from scratch.
 
 ## Customize existing extensions
-Let’s say you want to change the keyboard shortcuts for the bullet list. You should start by looking at [the source code of the `BulletList` extension](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/src/bullet-list.ts) and find the part you would like to change. In that case, the keyboard shortcut, and just that.
+Let’s say you want to change the keyboard shortcuts for the bullet list. You should start by looking at [the source code of the `BulletList` extension](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/src/bullet-list.ts) and find the part you would like to change. In that case, the keyboard shortcut, and just that.
 
 Every extension has an `extend()` method, which takes an object with everything you want to change or add to it. For the bespoken example, your code could like that:
 
@@ -181,7 +181,7 @@ You can disable the rendering of attributes, if you pass `rendered: false`.
 ### Global Attributes
 Attributes can be applied to multiple extensions at once. That’s useful for text alignment, line height, color, font family, and other styling related attributes.
 
-Take a closer look at [the full source code](https://github.com/ueberdosis/tiptap-next/tree/main/packages/extension-text-align) of the [`TextAlign`](/api/extensions/text-align) extension to see a more complex example. But here is how it works in a nutshell:
+Take a closer look at [the full source code](https://github.com/ueberdosis/tiptap/tree/main/packages/extension-text-align) of the [`TextAlign`](/api/extensions/text-align) extension to see a more complex example. But here is how it works in a nutshell:
 
 ```js
 import { Extension } from '@tiptap/core'

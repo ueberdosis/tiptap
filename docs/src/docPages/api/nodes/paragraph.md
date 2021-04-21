@@ -32,7 +32,7 @@ yarn add @tiptap/extension-paragraph
 * macOS: `Cmd`&nbsp;`Alt`&nbsp;`0`
 
 ## Source code
-[packages/extension-paragraph/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-paragraph/)
+[packages/extension-paragraph/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-paragraph/)
 
 ## Usage
 <demo name="Nodes/Paragraph" highlight="11,29" />

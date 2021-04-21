@@ -30,7 +30,7 @@ yarn add @tiptap/extension-blockquote
 * macOS: `Cmd`&nbsp;`Shift`&nbsp;`B`
 
 ## Source code
-[packages/extension-blockquote/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-blockquote/)
+[packages/extension-blockquote/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-blockquote/)
 
 ## Usage
 <demo name="Nodes/Blockquote" highlight="3-5,17,36" />

@@ -32,7 +32,7 @@ yarn add @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-t
 This extension requires the [`Table`](/api/nodes/table), [`TableRow`](/api/nodes/table-row) and [`TableCell`](/api/nodes/table-cell) nodes.
 
 ## Source code
-[packages/extension-table-header/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-table-header/)
+[packages/extension-table-header/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-table-header/)
 
 ## Usage
 <demo name="Nodes/Table" />

@@ -37,7 +37,7 @@ yarn add @tiptap/extension-italic
 * macOS: `Cmd`&nbsp;`I`
 
 ## Source code
-[packages/extension-italic/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-italic/)
+[packages/extension-italic/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-italic/)
 
 ## Usage
 <demo name="Marks/Italic" highlight="3-5,17,36" />

@@ -21,7 +21,7 @@ yarn add @tiptap/extension-bubble-menu
 | tippyOptions | `Object`      | `{}`    | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
 
 ## Source code
-[packages/extension-bubble-menu/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bubble-menu/)
+[packages/extension-bubble-menu/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bubble-menu/)
 
 ## Usage
 

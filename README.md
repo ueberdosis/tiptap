@@ -1,7 +1,7 @@
 # tiptap 2
 A headless, framework-agnostic and extendable rich text editor, based on [ProseMirror](https://github.com/ProseMirror/prosemirror).
 
-[![Build Status](https://github.com/ueberdosis/tiptap-next/workflows/build/badge.svg)](https://github.com/ueberdosis/tiptap-next/actions)
+[![Build Status](https://github.com/ueberdosis/tiptap/workflows/build/badge.svg)](https://github.com/ueberdosis/tiptap/actions)
 [![Version](https://img.shields.io/npm/v/@tiptap/core.svg?label=version)](https://www.npmjs.com/package/@tiptap/core)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/core.svg)](https://npmcharts.com/compare/@tiptap/core?minimal=true)
 [![License](https://img.shields.io/npm/l/@tiptap/core.svg)](https://www.npmjs.com/package/@tiptap/core)

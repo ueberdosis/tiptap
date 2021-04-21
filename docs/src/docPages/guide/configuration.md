@@ -35,7 +35,7 @@ This will do the following:
 3. set the initial content,
 4. place the cursor in the editor after initialization,
 5. make the text editable (but that’s the default anyway), and
-6. disable the loading of [the default CSS](https://github.com/ueberdosis/tiptap-next/tree/main/packages/core/src/style.ts) (which is not much anyway).
+6. disable the loading of [the default CSS](https://github.com/ueberdosis/tiptap/tree/main/packages/core/src/style.ts) (which is not much anyway).
 
 ## Nodes, marks and extensions
 Most features are packed into [nodes](/api/nodes), [marks](/api/marks) and [extensions](/api/extensions). Import what you need and pass them as an Array to the editor and you are good to go. Here is the minimal setup with only three extensions:

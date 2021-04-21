@@ -33,7 +33,7 @@ yarn add @tiptap/extension-highlight
 * macOS: `Cmd`&nbsp;`Shift`&nbsp;`H`
 
 ## Source code
-[packages/extension-highlight/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-highlight/)
+[packages/extension-highlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-highlight/)
 
 ## Usage
 <demo name="Marks/Highlight" highlight="3-8,48,67" />

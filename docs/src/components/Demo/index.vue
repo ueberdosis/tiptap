@@ -79,7 +79,7 @@ export default {
         return `vscode://file${this.cwd}/src/demos/${this.name}/${this.files[0].name}`
       }
 
-      return `https://github.com/ueberdosis/tiptap-next/tree/main/docs/src/demos/${this.name}`
+      return `https://github.com/ueberdosis/tiptap/tree/main/docs/src/demos/${this.name}`
     },
   },
 }

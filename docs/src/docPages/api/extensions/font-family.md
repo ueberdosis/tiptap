@@ -26,7 +26,7 @@ This extension requires the [`TextStyle`](/api/marks/text-style) mark.
 | fontFamily | fontFamily | Applies the given font family as inline style |
 
 ## Source code
-[packages/extension-font-family/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-font-family/)
+[packages/extension-font-family/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-font-family/)
 
 ## Usage
 <demo name="Extensions/FontFamily" />

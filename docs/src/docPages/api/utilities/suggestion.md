@@ -17,5 +17,5 @@ This utility helps with all kinds of suggestions in the editor. Have a look at t
 | render          | `Function` | `() => ({})`   | A render function for the autocomplete popup.               |
 
 ## Source code
-[packages/suggestion/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/suggestion/)
+[packages/suggestion/](https://github.com/ueberdosis/tiptap/blob/main/packages/suggestion/)
 

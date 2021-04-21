@@ -32,7 +32,7 @@ This extension requires the [`TaskItem`](/api/nodes/task-item) extension.
 * macOS: `Cmd`&nbsp;`Shift`&nbsp;`9`
 
 ## Source code
-[packages/extension-task-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-task-list/)
+[packages/extension-task-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-list/)
 
 ## Usage
 <demo name="Nodes/TaskList" highlight="3-5,17-18,37-38" />

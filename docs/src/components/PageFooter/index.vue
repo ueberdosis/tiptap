@@ -26,7 +26,7 @@
         </h3>
         <ul>
           <li>
-            <g-link to="https://github.com/ueberdosis/tiptap-next">
+            <g-link to="https://github.com/ueberdosis/tiptap">
               GitHub
             </g-link>
           </li>
@@ -85,7 +85,7 @@
         </h3>
         <ul>
           <li>
-            <g-link to="https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md">
+            <g-link to="https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md">
               MIT
             </g-link>
           </li>
@@ -128,10 +128,10 @@ export default {
       }
 
       if (currentPath === '') {
-        return 'https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/pages/index.vue'
+        return 'https://github.com/ueberdosis/tiptap/blob/main/docs/src/pages/index.vue'
       }
 
-      return `https://github.com/ueberdosis/tiptap-next/blob/main/docs/src/docPages${currentPath}.md`
+      return `https://github.com/ueberdosis/tiptap/blob/main/docs/src/docPages${currentPath}.md`
     },
   },
 }

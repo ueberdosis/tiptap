@@ -60,7 +60,7 @@
           <icon name="book-3-line" />
           <span>Documentation</span>
         </g-link>
-        <g-link class="app__menu-item" to="https://github.com/ueberdosis/tiptap-next">
+        <g-link class="app__menu-item" to="https://github.com/ueberdosis/tiptap">
           <icon name="github-fill" />
           <span>GitHub</span>
         </g-link>

@@ -156,7 +156,7 @@ new Editor({
 ```
 
 ### Inject CSS
-By default, tiptap injects [a little bit of CSS](https://github.com/ueberdosis/tiptap-next/tree/main/packages/core/src/style.ts). With `injectCSS` you can disable that.
+By default, tiptap injects [a little bit of CSS](https://github.com/ueberdosis/tiptap/tree/main/packages/core/src/style.ts). With `injectCSS` you can disable that.
 
 ```js
 import { Editor } from '@tiptap/core'

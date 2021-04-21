@@ -48,7 +48,7 @@ It’s also possible to use Vanilla JavaScript, but that is probably a lot more 
 | suggestion     | `Object` | `{ … }` | [Read more](/api/utilities/suggestion)                                |
 
 ## Source code
-[packages/extension-mention/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-mention/)
+[packages/extension-mention/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-mention/)
 
 ## Usage
 <demo name="Nodes/Mention" />

@@ -36,7 +36,7 @@ This extension doesn’t bind a specific keyboard shortcut. You would probably o
 :::
 
 ## Source code
-[packages/extension-link/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-link/)
+[packages/extension-link/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-link/)
 
 ## Usage
 <demo name="Marks/Link" highlight="3-8,19,38,55" />

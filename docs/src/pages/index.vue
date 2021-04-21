@@ -16,7 +16,7 @@
             type="secondary"
             icon="github-fill"
             icon-position="before"
-            to="https://github.com/ueberdosis/tiptap-next"
+            to="https://github.com/ueberdosis/tiptap"
           >
             View on GitHub
           </btn>
@@ -94,7 +94,7 @@
             There’s so much content shared, so many people helping out in issues and a ton of community extensions, you’ll be surprised how much that all can help.
           </p>
           <div>
-            <btn type="tertiary" icon="arrow-right-line" to="https://github.com/ueberdosis/tiptap-next">
+            <btn type="tertiary" icon="arrow-right-line" to="https://github.com/ueberdosis/tiptap">
               GitHub
             </btn>
           </div>
@@ -206,7 +206,7 @@
           License
         </h2>
         <p>
-          tiptap is licensed under <g-link to="https://github.com/ueberdosis/tiptap-next/blob/main/LICENSE.md">MIT</g-link>, so you are free to do whatever you want. If you are using it commercially, do the right thing and <g-link to="/sponsor">become one of our wonderful sponsors</g-link> to fund the maintenance, support and development of tiptap now and in the future. That’s all we ask for.
+          tiptap is licensed under <g-link to="https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md">MIT</g-link>, so you are free to do whatever you want. If you are using it commercially, do the right thing and <g-link to="/sponsor">become one of our wonderful sponsors</g-link> to fund the maintenance, support and development of tiptap now and in the future. That’s all we ask for.
         </p>
       </div>
     </app-section>

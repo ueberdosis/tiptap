@@ -9,6 +9,6 @@ CodeSandbox is an online coding environment. It’s great to fiddle around witho
 ></iframe>
 
 ## Issue template
-It’s also amazing for bug reports. Try to recreate a bug there and share it with us before you [file an issue on GitHub](https://github.com/ueberdosis/tiptap-next/issues/new/choose).
+It’s also amazing for bug reports. Try to recreate a bug there and share it with us before you [file an issue on GitHub](https://github.com/ueberdosis/tiptap/issues/new/choose).
 
 That helps us to reproduce the bug easily, and release a fix faster.

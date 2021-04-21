@@ -37,7 +37,7 @@ yarn add @tiptap/extension-typography
 * `Backspace` reverts the applied input rule
 
 ## Source code
-[packages/extension-typography/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-typography/)
+[packages/extension-typography/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-typography/)
 
 ## Usage
 <demo name="Extensions/Typography" highlight="12,31" />

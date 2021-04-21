@@ -5,7 +5,7 @@
 The utility helps rendering JSON content as HTML without an editor instance, for example on the server side. All it needs is a JSON and an array of extensions.
 
 ## Source code
-[packages/html/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/html/)
+[packages/html/](https://github.com/ueberdosis/tiptap/blob/main/packages/html/)
 
 ## Usage
 <demo name="Guide/Content/GenerateHTML" highlight="6-7,42-48"/>

@@ -19,7 +19,7 @@ yarn add @tiptap/extension-text-style
 | removeEmptyTextStyle | –          | Remove `<span>` tags without an inline style. |
 
 ## Source code
-[packages/extension-text-style/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-style/)
+[packages/extension-text-style/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-style/)
 
 ## Usage
 <demo name="Marks/TextStyle" />

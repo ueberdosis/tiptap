@@ -31,7 +31,7 @@ yarn add @tiptap/extension-code-block-lowlight
 * macOS: `Cmd`&nbsp;`Alt`&nbsp;`C`
 
 ## Source code
-[packages/extension-code-block-lowlight/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-code-block-lowlight/)
+[packages/extension-code-block-lowlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block-lowlight/)
 
 ## Usage
 <demo name="Nodes/CodeBlockLowlight" />

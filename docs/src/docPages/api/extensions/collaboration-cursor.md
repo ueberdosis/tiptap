@@ -26,7 +26,7 @@ This extension requires the [`Collaboration`](/api/extensions/collaboration) ext
 | -------- | ---------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | provider | `Object`   | `null`                        | A Y.js network connection, for example a [y-websocket](https://github.com/yjs/y-websocket) instance.                                                                                |
 | user     | `Object`   | `{ user: null, color: null }` | Attributes of the current user, assumes to have a name and a color, but can be used with any attribute.                                                                             |
-| render   | `Function` | …                             | A render function for the cursor, look at [the extension source code](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration-cursor/) for an example. |
+| render   | `Function` | …                             | A render function for the cursor, look at [the extension source code](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-cursor/) for an example. |
 
 ## Commands
 | Command | Parameters | Description                                                                                      |
@@ -34,7 +34,7 @@ This extension requires the [`Collaboration`](/api/extensions/collaboration) ext
 | user    | attributes | An object with the attributes of the current user, by default it expects a `name` and a `color`. |
 
 ## Source code
-[packages/extension-collaboration-cursor/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-collaboration-cursor/)
+[packages/extension-collaboration-cursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-cursor/)
 
 ## Usage
 :::warning Public

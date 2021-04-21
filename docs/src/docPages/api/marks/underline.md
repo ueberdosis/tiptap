@@ -36,7 +36,7 @@ yarn add @tiptap/extension-underline
 * macOS: `Cmd`&nbsp;`U`
 
 ## Source code
-[packages/extension-underline/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-underline/)
+[packages/extension-underline/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-underline/)
 
 ## Usage
 <demo name="Marks/Underline" highlight="3-5,17,36" />

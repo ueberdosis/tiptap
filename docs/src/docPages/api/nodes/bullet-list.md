@@ -32,7 +32,7 @@ This extension requires the [`ListItem`](/api/nodes/list-item) node.
 * macOS: `Cmd`&nbsp;`Shift`&nbsp;`8`
 
 ## Source code
-[packages/extension-bullet-list/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-bullet-list/)
+[packages/extension-bullet-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/)
 
 ## Usage
 <demo name="Nodes/BulletList" highlight="3-5,17-18,37-38" />

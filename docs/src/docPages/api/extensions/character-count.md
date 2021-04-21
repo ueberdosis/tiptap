@@ -19,7 +19,7 @@ yarn add @tiptap/extension-character-count
 | limit  | `Number` | `0`     | The maximum number of characters that should be allowed. |
 
 ## Source code
-[packages/extension-character-count/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-character-count/)
+[packages/extension-character-count/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-character-count/)
 
 ## Usage
 <demo name="Extensions/CharacterCount" />

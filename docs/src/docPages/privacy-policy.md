@@ -7,7 +7,7 @@ We value your privacy and question everything that stores or processes your pers
 
 Missing the cookie banner? Sorry, we don’t use cookies here. 🍪
 
-We don’t provide email support for tiptap, but if you have some legal issues, privacy or security concerns, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev). For everything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap-next/issues).
+We don’t provide email support for tiptap, but if you have some legal issues, privacy or security concerns, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev). For everything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap/issues).
 
 ## List of external services
 

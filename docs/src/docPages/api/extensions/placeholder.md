@@ -23,7 +23,7 @@ yarn add @tiptap/extension-placeholder
 | showOnlyCurrent      | `Boolean`           | `true`                | Show decorations only in currently selected node.           |
 
 ## Source code
-[packages/extension-placeholder/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-placeholder/)
+[packages/extension-placeholder/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-placeholder/)
 
 ## Usage
 <demo name="Extensions/Placeholder" />

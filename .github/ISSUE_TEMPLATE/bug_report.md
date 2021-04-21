@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-url: https://github.com/ueberdosis/tiptap-next/issues/new
+url: https://github.com/ueberdosis/tiptap/issues/new
 title: ''
 labels: bug
 assignees: ''

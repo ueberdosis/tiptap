@@ -24,7 +24,7 @@ yarn add @tiptap/extension-image
 | inline         | `Boolean` | `false` | Renders the image node inline.                                        |
 
 ## Source code
-[packages/extension-image/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-image/)
+[packages/extension-image/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-image/)
 
 ## Usage
 <demo name="Nodes/Image" />

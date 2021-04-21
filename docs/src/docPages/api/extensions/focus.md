@@ -22,7 +22,7 @@ yarn add @tiptap/extension-focus
 | mode      | `String` | `'all'`       | Apply the class to `'all'`, the `'shallowest'` or the `'deepest'` node. |
 
 ## Source code
-[packages/extension-focus/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-focus/)
+[packages/extension-focus/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-focus/)
 
 ## Usage
 <demo name="Extensions/Focus" highlight="12,34-37" />

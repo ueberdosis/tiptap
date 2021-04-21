@@ -43,7 +43,7 @@ yarn add @tiptap/extension-text-align
 * `Cmd`&nbsp;`Shift`&nbsp;`J` Justify
 
 ## Source code
-[packages/extension-text-align/](https://github.com/ueberdosis/tiptap-next/blob/main/packages/extension-text-align/)
+[packages/extension-text-align/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-align/)
 
 ## Usage
 <demo name="Extensions/TextAlign" highlight="29" />
