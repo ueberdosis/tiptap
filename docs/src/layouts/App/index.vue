@@ -1,11 +1,19 @@
 <template>
   <div class="app">
-    <banner-message
+    <!-- <banner-message
       to="https://v1.tiptap.dev"
       v-if="$route.name === 'home'"
       color="black"
     >
       You’re browsing the documentation for v2.x. Click here for the v1.x documentation →
+    </banner-message> -->
+
+    <banner-message
+      to="https://blog.ueber.io/post/tiptap-public-beta/"
+      v-if="$route.name === 'home'"
+      color="black"
+    >
+      It’s public! Read all about the tiptap v2 beta →
     </banner-message>
 
     <div class="app__navigation">
