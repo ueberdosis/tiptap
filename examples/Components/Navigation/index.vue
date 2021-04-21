@@ -14,10 +14,10 @@
     </div>
 
     <div>
-      <a class="navigation__link" href="https://tiptap.dev/docs" target="_blank">
+      <a class="navigation__link" href="https://v1.tiptap.dev/docs" target="_blank">
         Documentation
       </a>
-      <a class="navigation__github-link" href="https://github.com/ueberdosis/tiptap" target="_blank">
+      <a class="navigation__github-link" href="https://github.com/ueberdosis/tiptap/tree/v1" target="_blank">
         <icon class="navigation__icon" name="github" />
       </a>
     </div>

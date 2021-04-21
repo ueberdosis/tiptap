@@ -3,13 +3,15 @@
 # tiptap
 A renderless and extendable rich-text editor for [Vue.js](https://github.com/vuejs/vue)
 
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/ueberdosis/tiptap)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/ueberdosis/tiptap/tree/v1)
 [![Version](https://img.shields.io/npm/v/tiptap.svg?label=version)](https://www.npmjs.com/package/tiptap)
 [![Downloads](https://img.shields.io/npm/dm/tiptap.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
 [![License](https://img.shields.io/npm/l/tiptap.svg)](https://www.npmjs.com/package/tiptap)
 [![Filesize](https://img.badgesize.io/https://unpkg.com/tiptap/dist/tiptap.min.js?compression=gzip&label=size&colorB=000000)](https://www.npmjs.com/package/tiptap)
-[![Build Status](https://github.com/ueberdosis/tiptap/workflows/ci/badge.svg)](https://github.com/ueberdosis/tiptap/actions)
+<!-- [![Build Status](https://github.com/ueberdosis/tiptap/workflows/ci/badge.svg)](https://github.com/ueberdosis/tiptap/actions) -->
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
+
+> If you’re looking for tiptap 2, [click here](https://github.com/ueberdosis/tiptap).
 
 ## [FAQ] Should I start to integrate tiptap 1 or wait for tiptap 2?
 Good question! [tiptap 2](https://blog.ueber.io/post/tiptap-2-0-beta/) is about to come in the next months and we’re going to provide an upgrade guide for you. Sure, there are a lot of things that will change, but you should be able to refactor everything in an hour so (depending on the size of your project).
@@ -396,7 +398,7 @@ export default class BlockquoteNode extends Node {
 
 ### Create a Node as a Vue Component
 
-The real power of the nodes comes in combination with Vue components. Let us build an iframe node, where you can change its URL (this can also be found in our [examples](https://github.com/ueberdosis/tiptap/tree/main/examples/Components/Routes/Embeds)).
+The real power of the nodes comes in combination with Vue components. Let us build an iframe node, where you can change its URL (this can also be found in our [examples](https://github.com/ueberdosis/tiptap/tree/v1/examples/Components/Routes/Embeds)).
 
 ```js
 import { Node } from 'tiptap'
@@ -523,7 +525,7 @@ You can use Gitpod(a free online VS Code-like IDE) for contributing. With a sing
 
 So that anyone interested in contributing can start straight away.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ueberdosis/tiptap/)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ueberdosis/tiptap/tree/v1)
 
 ## Contributing
 
