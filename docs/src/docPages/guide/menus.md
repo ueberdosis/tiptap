@@ -22,8 +22,6 @@ The [bubble menu](/api/extensions/bubble-menu) appears when selecting text. Mark
   hide-source
 />
 
-It’ll get an absolute position near the text selection. Make sure to add `position: relative` to the wrapper.
-
 ### Floating menu
 The [floating menu](/api/extensions/floating-menu) appears in empty lines. Markup and styling is totally up to you.
 

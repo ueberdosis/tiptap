@@ -4,7 +4,7 @@
 
 This extension will make a contextual menu appear near a selection of text. Use it to let users apply [marks](/api/marks) to their text selection.
 
-As always, the markup and styling is totally up to you. The menu is positioned absolute and requires a wrapper with `position: relative`, that’s basically the only requirement though.
+As always, the markup and styling is totally up to you.
 
 ## Installation
 ```bash
