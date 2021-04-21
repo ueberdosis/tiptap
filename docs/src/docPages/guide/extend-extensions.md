@@ -50,9 +50,13 @@ const CustomLink = Link.extend({
 })
 ```
 
-The order in which extensions are loaded influences a few things.
+The order in which extensions are loaded influences two things:
 
-For example the output. The [`Link`](/api/marks/link) mark has a higher priority, which means it’ll be rendered as `<a href="…"><strong>Example</strong></a>` instead of `<strong><a href="…">Example</></strong>`.
+1. #### Plugin order
+   Plugins of extensions with a higher priority will run first.
+
+2. #### Schema order
+   The [`Link`](/api/marks/link) mark for example has a higher priority, which means it’ll be rendered as `<a href="…"><strong>Example</strong></a>` instead of `<strong><a href="…">Example</></strong>`.
 
 ### Settings
 All settings can be configured through the extension anyway, but if you want to change the default settings, for example to provide a library on top of tiptap for other developers, you can do it like that:
