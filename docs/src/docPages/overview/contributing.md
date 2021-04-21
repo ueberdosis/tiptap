@@ -18,7 +18,7 @@ Make sure to open an issue and outline your idea first. We’ll get back to you 
 ## Set up the development environment
 It’s not too hard to tinker around with the offical repository. You’ll need [Git](https://github.com/git-guides/install-git), [Node](https://nodejs.org/en/download/) and [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable) installed. Here is what you need to do then:
 
-1. Copy the code to your local machine: `$ git clone git@github.com:ueberdosis/tiptap-next.git`
+1. Copy the code to your local machine: `$ git clone git@github.com:ueberdosis/tiptap.git`
 2. Install dependencies: `$ yarn install`
 3. Start the development environment: `$ yarn start`
 4. Open http://localhost:3000 in your favorite browser.
