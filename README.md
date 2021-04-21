@@ -31,6 +31,7 @@ For casual chit-chat with others using the framework:
 * [Incyte Studios](https://incytestudios.com/)
 * [dotCMS](http://dotcms.com/)
 * [Restruct](https://restruct.nl/)
+* [Bitcrowd](https://bitcrowd.net/)
 
 [mymind](https://mymind.com/),
 [DocIQ](https://www.dociq.io/),
