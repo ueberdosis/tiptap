@@ -10,6 +10,9 @@ You can define your event listeners on a new editor instance right-away:
 
 ```js
 const editor = new Editor({
+  onBeforeCreate({ editor }) {
+    // Before the view is created.
+  },
   onCreate({ editor }) {
     // The editor is ready.
   },
@@ -39,6 +42,10 @@ Or you can register your event listeners on a running editor instance:
 
 ### Bind event listeners
 ```js
+editor.on('beforeCreate', ({ editor }) => {
+  // Before the view is created.
+}
+
 editor.on('create', ({ editor }) => {
   // The editor is ready.
 }
@@ -90,6 +97,9 @@ Moving your event listeners to custom extensions (or nodes, or marks) is also po
 import { Extension } from '@tiptap/core'
 
 const CustomExtension = Extension.create({
+  onBeforeCreate({ editor }) {
+    // Before the view is created.
+  },
   onCreate({ editor }) {
     // The editor is ready.
   },
