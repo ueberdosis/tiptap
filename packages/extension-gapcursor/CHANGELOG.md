@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.8](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-gapcursor@2.0.0-beta.7...@tiptap/extension-gapcursor@2.0.0-beta.8) (2021-04-21)
+
+
+### Bug Fixes
+
+* add name to context ([df43c1b](https://github.com/ueberdosis/tiptap-next/commit/df43c1bc47aa8bf7fe2bfbbd5b67f30a0b14d3ac))
+
+
+
+
+
 # [2.0.0-beta.7](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-gapcursor@2.0.0-beta.6...@tiptap/extension-gapcursor@2.0.0-beta.7) (2021-04-16)
 
 **Note:** Version bump only for package @tiptap/extension-gapcursor

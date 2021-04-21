@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-table@2.0.0-beta.8...@tiptap/extension-table@2.0.0-beta.9) (2021-04-21)
+
+
+### Bug Fixes
+
+* add name to context ([a43d4c7](https://github.com/ueberdosis/tiptap-next/commit/a43d4c7bcb5ba5e386f268a2a71a7449bc2f658e))
+
+
+
+
+
 # [2.0.0-beta.8](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/extension-table@2.0.0-beta.7...@tiptap/extension-table@2.0.0-beta.8) (2021-04-16)
 
 **Note:** Version bump only for package @tiptap/extension-table

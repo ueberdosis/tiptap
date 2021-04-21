@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.35](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.34...@tiptap/core@2.0.0-beta.35) (2021-04-21)
+
+
+### Features
+
+* add editor prop to KeyboardShortcutCommand ([e0c2460](https://github.com/ueberdosis/tiptap-next/commit/e0c2460a960c739ac4b543f0f185653cb41599e3))
+* add name to extension context ([12f60ab](https://github.com/ueberdosis/tiptap-next/commit/12f60abb731edd080cb9a70e8e34ae721e37f80e))
+
+
+
+
+
 # [2.0.0-beta.34](https://github.com/ueberdosis/tiptap-next/compare/@tiptap/core@2.0.0-beta.33...@tiptap/core@2.0.0-beta.34) (2021-04-20)
 
 
