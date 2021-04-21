@@ -69,7 +69,7 @@ export default {
       const path = this.$route.path.replace(/\/$/, '')
 
       return path === ''
-        ? 'https://next.tiptap.dev/og-image.png'
+        ? 'https://www.tiptap.dev/og-image.png'
         : `/images${path}/og-image.png`
     },
   },

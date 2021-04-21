@@ -11,10 +11,10 @@ A headless, framework-agnostic and extendable rich text editor, based on [ProseM
 > If you’re looking for tiptap 1, [click here](https://github.com/ueberdosis/tiptap/tree/v1).
 
 ## Examples
-Have a look at the [examples to see tiptap in action](https://next.tiptap.dev/examples).
+Have a look at the [examples to see tiptap in action](https://www.tiptap.dev/examples).
 
 ## Documentation
-The full documentation is a available on [next.tiptap.dev](https://next.tiptap.dev/installation).
+The full documentation is a available on [www.tiptap.dev](https://www.tiptap.dev/installation).
 
 ## Community
 For help, discussion about best practices, or any other conversation that would benefit from being searchable:
