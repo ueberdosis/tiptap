@@ -1,11 +1,11 @@
 <template>
   <div class="app">
     <banner-message
-      to="https://www.tiptap.dev/"
+      to="https://v1.tiptap.dev"
       v-if="$route.name === 'home'"
       color="black"
     >
-      You’re browsing the documentation for v2.x. Click here for v1.x documentation →
+      You’re browsing the documentation for v2.x. Click here for the v1.x documentation →
     </banner-message>
 
     <div class="app__navigation">
