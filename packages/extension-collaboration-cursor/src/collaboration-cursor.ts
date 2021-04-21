@@ -1,10 +1,10 @@
-import { Extension, Command, AnyObject } from '@tiptap/core'
+import { Extension, Command } from '@tiptap/core'
 import { yCursorPlugin } from 'y-prosemirror'
 
 export interface CollaborationCursorOptions {
   provider: any,
-  user: { [key: string]: any },
-  render (user: { [key: string]: any }): HTMLElement,
+  user: Record<string, any>,
+  render (user: Record<string, any>): HTMLElement,
   onUpdate: (users: { clientId: string, [key: string]: any }[]) => null,
 }
 
@@ -14,12 +14,12 @@ declare module '@tiptap/core' {
       /**
        * Update details of the current user
        */
-      user: (attributes: AnyObject) => Command,
+      user: (attributes: Record<string, any>) => Command,
     }
   }
 }
 
-const awarenessStatesToArray = (states: Map<number, { [key: string]: any }>) => {
+const awarenessStatesToArray = (states: Map<number, Record<string, any>>) => {
   return Array.from(states.entries()).map(([key, value]) => {
     return {
       clientId: key,

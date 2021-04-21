@@ -2,9 +2,7 @@ import { Command, Node, mergeAttributes } from '@tiptap/core'
 import { exitCode } from 'prosemirror-commands'
 
 export interface HardBreakOptions {
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {

@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import { AnyObject } from '@tiptap/core'
 import { VueConstructor } from 'vue/types/umd'
 
 export class VueRenderer {
@@ -15,7 +14,7 @@ export class VueRenderer {
     return this.ref.$el
   }
 
-  updateProps(props: AnyObject = {}): void {
+  updateProps(props: Record<string, any> = {}): void {
     if (!this.ref.$props) {
       return
     }

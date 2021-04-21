@@ -7,9 +7,7 @@ import {
 } from '@tiptap/core'
 
 export interface BoldOptions {
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {

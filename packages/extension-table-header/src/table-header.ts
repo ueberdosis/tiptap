@@ -1,9 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 
 export interface TableHeaderOptions {
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
 }
 export const TableHeader = Node.create<TableHeaderOptions>({
   name: 'tableHeader',

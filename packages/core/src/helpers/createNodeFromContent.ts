@@ -5,11 +5,11 @@ import {
   Fragment,
 } from 'prosemirror-model'
 import elementFromString from '../utilities/elementFromString'
-import { AnyObject, Content } from '../types'
+import { Content } from '../types'
 
 export type CreateNodeFromContentOptions = {
   slice?: boolean,
-  parseOptions?: AnyObject,
+  parseOptions?: Record<string, any>,
 }
 
 export default function createNodeFromContent(

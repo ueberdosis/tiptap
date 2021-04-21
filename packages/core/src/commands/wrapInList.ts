@@ -1,6 +1,6 @@
 import { wrapInList as originalWrapInList } from 'prosemirror-schema-list'
 import { NodeType } from 'prosemirror-model'
-import { AnyObject, Command, RawCommands } from '../types'
+import { Command, RawCommands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
       /**
        * Wrap a node in a list.
        */
-      wrapInList: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+      wrapInList: (typeOrName: string | NodeType, attributes?: Record<string, any>) => Command,
     }
   }
 }

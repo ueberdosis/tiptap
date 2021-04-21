@@ -2,9 +2,7 @@ import { Command, Node, mergeAttributes } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface OrderedListOptions {
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {

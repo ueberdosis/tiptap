@@ -1,5 +1,5 @@
 import { NodeType } from 'prosemirror-model'
-import { AnyObject, Command, RawCommands } from '../types'
+import { Command, RawCommands } from '../types'
 import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
       /**
        * Toggle a node with another node.
        */
-      toggleNode: (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attributes?: AnyObject) => Command,
+      toggleNode: (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attributes?: Record<string, any>) => Command,
     }
   }
 }

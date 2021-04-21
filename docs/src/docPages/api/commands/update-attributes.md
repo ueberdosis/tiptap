@@ -7,7 +7,7 @@ The `updateAttributes` command sets attributes of a node or mark to new values. 
 
 Pass the type you want to update, for example `'heading'`.
 
-`attributes: AnyObject`
+`attributes: Record<string, any>`
 
 This expects an object with the attributes that need to be updated. It doesn’t need to have all attributes.
 

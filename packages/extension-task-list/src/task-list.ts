@@ -1,9 +1,7 @@
 import { Command, Node, mergeAttributes } from '@tiptap/core'
 
 export interface TaskListOptions {
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {

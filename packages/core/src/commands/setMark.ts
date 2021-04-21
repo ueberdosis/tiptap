@@ -1,5 +1,5 @@
 import { MarkType } from 'prosemirror-model'
-import { AnyObject, Command, RawCommands } from '../types'
+import { Command, RawCommands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import getMarkAttributes from '../helpers/getMarkAttributes'
 
@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
       /**
        * Add a mark with new attributes.
        */
-      setMark: (typeOrName: string | MarkType, attributes?: AnyObject) => Command,
+      setMark: (typeOrName: string | MarkType, attributes?: Record<string, any>) => Command,
     }
   }
 }

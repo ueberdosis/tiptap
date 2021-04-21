@@ -1,10 +1,9 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 
 export interface TableCellOptions {
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
 }
+
 export const TableCell = Node.create<TableCellOptions>({
   name: 'tableCell',
 

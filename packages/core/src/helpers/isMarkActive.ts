@@ -2,12 +2,12 @@ import { EditorState } from 'prosemirror-state'
 import { MarkType } from 'prosemirror-model'
 import objectIncludes from '../utilities/objectIncludes'
 import getMarkType from './getMarkType'
-import { AnyObject, MarkRange } from '../types'
+import { MarkRange } from '../types'
 
 export default function isMarkActive(
   state: EditorState,
   typeOrName: MarkType | string | null,
-  attributes: AnyObject = {},
+  attributes: Record<string, any> = {},
 ): boolean {
   const { from, to, empty } = state.selection
   const type = typeOrName

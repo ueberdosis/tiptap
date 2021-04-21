@@ -8,9 +8,7 @@ import {
 
 export interface HighlightOptions {
   multicolor: boolean,
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {

@@ -3,9 +3,7 @@ import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface TaskItemOptions {
   nested: boolean,
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
 }
 
 export const inputRegex = /^\s*(\[([ |x])\])\s$/

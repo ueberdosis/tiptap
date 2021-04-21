@@ -1,6 +1,6 @@
 import { NodeType } from 'prosemirror-model'
 import getNodeType from '../helpers/getNodeType'
-import { Command, RawCommands, AnyObject } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands {
@@ -8,7 +8,7 @@ declare module '@tiptap/core' {
       /**
        * Insert a node at the current position.
        */
-      insertNode: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+      insertNode: (typeOrName: string | NodeType, attributes?: Record<string, any>) => Command,
     }
   }
 }

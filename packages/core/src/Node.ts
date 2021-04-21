@@ -113,9 +113,7 @@ declare module '@tiptap/core' {
         parent: ParentConfig<NodeConfig<Options>>['extendNodeSchema'],
       },
       extension: Node,
-    ) => {
-      [key: string]: any,
-    }) | null,
+    ) => Record<string, any>) | null,
 
     /**
      * Extend Mark Schema
@@ -127,9 +125,7 @@ declare module '@tiptap/core' {
         parent: ParentConfig<NodeConfig<Options>>['extendMarkSchema'],
       },
       extension: Node,
-    ) => {
-      [key: string]: any,
-    }) | null,
+    ) => Record<string, any>) | null,
 
     /**
      * The editor is not ready yet.
@@ -362,7 +358,7 @@ declare module '@tiptap/core' {
       },
       props: {
         node: ProseMirrorNode,
-        HTMLAttributes: { [key: string]: any },
+        HTMLAttributes: Record<string, any>,
       }
     ) => DOMOutputSpec) | null,
 

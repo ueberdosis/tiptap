@@ -2,12 +2,12 @@ import { EditorState } from 'prosemirror-state'
 import { NodeType } from 'prosemirror-model'
 import objectIncludes from '../utilities/objectIncludes'
 import getNodeType from './getNodeType'
-import { AnyObject, NodeRange } from '../types'
+import { NodeRange } from '../types'
 
 export default function isNodeActive(
   state: EditorState,
   typeOrName: NodeType | string | null,
-  attributes: AnyObject = {},
+  attributes: Record<string, any> = {},
 ): boolean {
   const { from, to, empty } = state.selection
   const type = typeOrName

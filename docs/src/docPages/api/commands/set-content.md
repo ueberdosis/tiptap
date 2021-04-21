@@ -12,7 +12,7 @@ Pass a string (JSON or HTML) as [content](/guide/output). The editor will only r
 
 By default, it doesn’t trigger the update event. Passing `true` doesn’t prevent triggering the update event.
 
-`parseOptions?: AnyObject`
+`parseOptions?: Record<string, any>`
 
 Options to configure the parsing can be passed during initialization and/or with setContent. Read more about parseOptions in the [ProseMirror documentation](https://prosemirror.net/docs/ref/#model.ParseOptions).
 

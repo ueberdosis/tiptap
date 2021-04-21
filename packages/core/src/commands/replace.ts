@@ -1,5 +1,5 @@
 import { NodeType } from 'prosemirror-model'
-import { Command, RawCommands, AnyObject } from '../types'
+import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands {
@@ -7,7 +7,7 @@ declare module '@tiptap/core' {
       /**
        * Replaces text with a node.
        */
-      replace: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+      replace: (typeOrName: string | NodeType, attributes?: Record<string, any>) => Command,
     }
   }
 }

@@ -102,9 +102,7 @@ declare module '@tiptap/core' {
         parent: ParentConfig<ExtensionConfig<Options>>['extendNodeSchema'],
       },
       extension: Node,
-    ) => {
-      [key: string]: any,
-    }) | null,
+    ) => Record<string, any>) | null,
 
     /**
      * Extend Mark Schema
@@ -116,9 +114,7 @@ declare module '@tiptap/core' {
         parent: ParentConfig<ExtensionConfig<Options>>['extendMarkSchema'],
       },
       extension: Mark,
-    ) => {
-      [key: string]: any,
-    }) | null,
+    ) => Record<string, any>) | null,
 
     /**
      * The editor is not ready yet.

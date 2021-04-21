@@ -1,10 +1,10 @@
-import { AnyObject, ExtensionAttribute } from '../types'
+import { ExtensionAttribute } from '../types'
 
 export default function getSplittedAttributes(
   extensionAttributes: ExtensionAttribute[],
   typeName: string,
-  attributes: AnyObject,
-): AnyObject {
+  attributes: Record<string, any>,
+): Record<string, any> {
   return Object.fromEntries(Object
     .entries(attributes)
     .filter(([name]) => {

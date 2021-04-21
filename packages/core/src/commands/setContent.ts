@@ -1,11 +1,6 @@
 import { TextSelection } from 'prosemirror-state'
 import createDocument from '../helpers/createDocument'
-import {
-  AnyObject,
-  Command,
-  RawCommands,
-  Content,
-} from '../types'
+import { Command, RawCommands, Content } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands {
@@ -16,7 +11,7 @@ declare module '@tiptap/core' {
       setContent: (
         content: Content,
         emitUpdate?: Boolean,
-        parseOptions?: AnyObject,
+        parseOptions?: Record<string, any>,
       ) => Command,
     }
   }

@@ -1,6 +1,6 @@
 import { NodeType } from 'prosemirror-model'
 import { setBlockType } from 'prosemirror-commands'
-import { AnyObject, Command, RawCommands } from '../types'
+import { Command, RawCommands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
       /**
        * Replace a given range with a node.
        */
-      setNode: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+      setNode: (typeOrName: string | NodeType, attributes?: Record<string, any>) => Command,
     }
   }
 }

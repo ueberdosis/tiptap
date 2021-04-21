@@ -1,5 +1,5 @@
 import { MarkType } from 'prosemirror-model'
-import { AnyObject, Command, RawCommands } from '../types'
+import { Command, RawCommands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import isMarkActive from '../helpers/isMarkActive'
 
@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
       /**
        * Toggle a mark on and off.
        */
-      toggleMark: (typeOrName: string | MarkType, attributes?: AnyObject) => Command,
+      toggleMark: (typeOrName: string | MarkType, attributes?: Record<string, any>) => Command,
     }
   }
 }

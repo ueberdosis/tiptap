@@ -5,9 +5,7 @@ type Level = 1 | 2 | 3 | 4 | 5 | 6
 
 export interface HeadingOptions {
   levels: Level[],
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {

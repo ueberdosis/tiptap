@@ -8,9 +8,7 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 
 export interface LinkOptions {
   openOnClick: boolean,
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {

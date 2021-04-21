@@ -1,5 +1,4 @@
 import React from 'react'
-import { AnyObject } from '@tiptap/core'
 import { Editor } from './Editor'
 
 function isClassComponent(Component: any) {
@@ -12,7 +11,7 @@ function isClassComponent(Component: any) {
 
 export interface ReactRendererOptions {
   editor: Editor,
-  props?: AnyObject,
+  props?: Record<string, any>,
   as?: string,
 }
 
@@ -25,7 +24,7 @@ export class ReactRenderer {
 
   element: Element
 
-  props: AnyObject
+  props: Record<string, any>
 
   reactElement: React.ReactNode
 
@@ -63,7 +62,7 @@ export class ReactRenderer {
     }
   }
 
-  updateProps(props: AnyObject = {}): void {
+  updateProps(props: Record<string, any> = {}): void {
     this.props = {
       ...this.props,
       ...props,

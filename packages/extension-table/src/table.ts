@@ -32,9 +32,7 @@ import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllC
 import { TableView } from './TableView'
 
 export interface TableOptions {
-  HTMLAttributes: {
-    [key: string]: any
-  },
+  HTMLAttributes: Record<string, any>,
   resizable: boolean,
   handleWidth: number,
   cellMinWidth: number,

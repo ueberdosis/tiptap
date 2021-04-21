@@ -1,9 +1,9 @@
-import { AnyExtension, AnyObject, RemoveThis } from '../types'
+import { AnyExtension, RemoveThis } from '../types'
 
 export default function getExtensionField<T = any>(
   extension: AnyExtension,
   field: string,
-  context: AnyObject = {},
+  context: Record<string, any> = {},
 ): RemoveThis<T> {
 
   if (extension.config[field] === undefined && extension.parent) {

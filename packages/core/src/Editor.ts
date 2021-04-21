@@ -19,7 +19,6 @@ import {
   CanCommands,
   ChainedCommands,
   SingleCommands,
-  AnyObject,
 } from './types'
 import * as extensions from './extensions'
 import style from './style'
@@ -341,7 +340,7 @@ export class Editor extends EventEmitter {
    *
    * @param name Name of the node
    */
-  public getNodeAttributes(name: string): AnyObject {
+  public getNodeAttributes(name: string): Record<string, any> {
     return getNodeAttributes(this.state, name)
   }
 
@@ -350,7 +349,7 @@ export class Editor extends EventEmitter {
    *
    * @param name Name of the mark
    */
-  public getMarkAttributes(name: string): AnyObject {
+  public getMarkAttributes(name: string): Record<string, any> {
     return getMarkAttributes(this.state, name)
   }
 
@@ -377,7 +376,7 @@ export class Editor extends EventEmitter {
   /**
    * Get the document as JSON.
    */
-  public getJSON(): AnyObject {
+  public getJSON(): Record<string, any> {
     return this.state.doc.toJSON()
   }
 

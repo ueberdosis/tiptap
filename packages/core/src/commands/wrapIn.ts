@@ -1,6 +1,6 @@
 import { wrapIn as originalWrapIn } from 'prosemirror-commands'
 import { NodeType } from 'prosemirror-model'
-import { AnyObject, Command, RawCommands } from '../types'
+import { Command, RawCommands } from '../types'
 import isNodeActive from '../helpers/isNodeActive'
 import getNodeType from '../helpers/getNodeType'
 
@@ -10,7 +10,7 @@ declare module '@tiptap/core' {
       /**
        * Wraps nodes in another node.
        */
-      wrapIn: (typeOrName: string | NodeType, attributes?: AnyObject) => Command,
+      wrapIn: (typeOrName: string | NodeType, attributes?: Record<string, any>) => Command,
     }
   }
 }
