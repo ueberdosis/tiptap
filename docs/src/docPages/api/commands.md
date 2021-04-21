@@ -37,7 +37,7 @@ When chaining a command, the transaction is held back. If you want to chain comm
 ```js
 addCommands() {
   return {
-    insertTimecode: attributes => ({ chain }) => {
+    customCommand: attributes => ({ chain }) => {
       // Doesn’t work:
       // return editor.chain() …
 
@@ -94,7 +94,7 @@ In order to make that work with your custom commands, don’t forget to return `
 For some of your own commands, you probably want to work with the raw [transaction](/api/concept). To make them work with `.can()` you should check if the transaction should be dispatched. Here is how you can create a simple `.insertText()` command:
 
 ```js
-export default (value: string): Command => ({ tr, dispatch }) => {
+export default (value) => ({ tr, dispatch }) => {
   if (dispatch) {
     tr.insertText(value)
   }
@@ -106,18 +106,22 @@ export default (value: string): Command => ({ tr, dispatch }) => {
 If you’re just wrapping another tiptap command, you don’t need to check that, we’ll do it for you.
 
 ```js
-bold: (): Command => ({ commands }) => {
-  return commands.toggleMark('bold')
-},
+addCommands() {
+  return {
+    bold: () => ({ commands }) => {
+      return commands.toggleMark('bold')
+    },
+  }
+}
 ```
 
-If you’re just wrapping a ProseMirror command, you’ll need to pass `dispatch` anyway. Then there’s also no need to check it:
+If you’re just wrapping a plain ProseMirror command, you’ll need to pass `dispatch` anyway. Then there’s also no need to check it:
 
 ```js
-export default (typeOrName: string | NodeType): Command => ({ state, dispatch }) => {
-  const type = getNodeType(typeOrName, state.schema)
+import { exitCode } from 'prosemirror-commands'
 
-  return liftListItem(type)(state, dispatch)
+export default () => ({ state, dispatch }) => {
+  return exitCode(state, dispatch)
 }
 ```
 
@@ -137,11 +141,13 @@ editor.first(({ commands }) => [
 Inside of commands you can do the same thing like that:
 
 ```js
-commands.first([
-  () => commands.undoInputRule(),
-  () => commands.deleteSelection(),
-  // …
-])
+export default () => ({ commands }) => {
+  return commands.first([
+    () => commands.undoInputRule(),
+    () => commands.deleteSelection(),
+    // …
+  ])
+}
 ```
 
 ## List of commands
