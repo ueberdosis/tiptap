@@ -1,0 +1,30 @@
+{
+  "name": "@tiptap/extension-horizontal-rule",
+  "description": "horizontal rule extension for tiptap",
+  "version": "2.0.0-beta.5",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-horizontal-rule.cjs.js",
+  "umd": "dist/tiptap-extension-horizontal-rule.umd.js",
+  "module": "dist/tiptap-extension-horizontal-rule.esm.js",
+  "unpkg": "dist/tiptap-extension-horizontal-rule.bundle.umd.min.js",
+  "types": "dist/packages/extension-horizontal-rule/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "dependencies": {
+    "prosemirror-state": "^1.3.4"
+  }
+}

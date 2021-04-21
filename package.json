@@ -1,0 +1,60 @@
+{
+  "private": true,
+  "workspaces": [
+    "docs",
+    "packages/*"
+  ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not IE <= 11",
+    "not IE_Mob <= 11"
+  ],
+  "scripts": {
+    "start": "yarn --cwd ./docs start",
+    "lint": "eslint --quiet --no-error-on-unmatched-pattern ./",
+    "lint:fix": "eslint --fix --quiet --no-error-on-unmatched-pattern ./",
+    "test:open": "cypress open --project tests",
+    "test": "cypress run --project tests",
+    "build:docs": "yarn --cwd ./docs build",
+    "build:ci": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --ci --scope @tiptap/$package || exit 1; done",
+    "build:packages": "yarn clean:packages && lerna changed | while read package; do rollup -c --scope $package || exit 1; done",
+    "build:allpackages": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --scope @tiptap/$package || exit 1; done",
+    "release": "yarn build:packages && lerna publish",
+    "clean:packages": "rm -rf ./packages/*/dist",
+    "reset": "yarn clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./yarn.lock && yarn install"
+  },
+  "devDependencies": {
+    "@atomico/rollup-plugin-sizes": "^1.1.4",
+    "@babel/core": "^7.13.15",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-react": "^7.13.13",
+    "@lerna/batch-packages": "^3.16.0",
+    "@lerna/filter-packages": "^3.18.0",
+    "@lerna/project": "^3.21.0",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "cypress": "^6.8.0",
+    "eslint": "^7.23.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-html": "^6.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-vue": "^7.8.0",
+    "lerna": "^3.22.1",
+    "minimist": "^1.2.5",
+    "rollup": "^2.44.0",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-vue": "5",
+    "typescript": "^4.2.4",
+    "vue": "^2.6.12"
+  }
+}

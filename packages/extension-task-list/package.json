@@ -1,0 +1,27 @@
+{
+  "name": "@tiptap/extension-task-list",
+  "description": "task list extension for tiptap",
+  "version": "2.0.0-beta.6",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-task-list.cjs.js",
+  "umd": "dist/tiptap-extension-task-list.umd.js",
+  "module": "dist/tiptap-extension-task-list.esm.js",
+  "unpkg": "dist/tiptap-extension-task-list.bundle.umd.min.js",
+  "types": "dist/packages/extension-task-list/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  }
+}

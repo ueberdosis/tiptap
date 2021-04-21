@@ -1,0 +1,170 @@
+# Automate, customize, and execute your software development workflows right in your repository with GitHub Actions.
+# Documentation: https://docs.github.com/en/actions
+
+name: build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    strategy:
+      matrix:
+        node-version: [14]
+
+    steps:
+
+    - uses: actions/checkout@v2.3.4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2.1.5
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Load cached dependencies
+      uses: actions/cache@v2.1.4
+      id: cache
+      with:
+        path: |
+          **/node_modules
+          /home/runner/.cache/Cypress
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Install dependencies
+      id: install-dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: yarn install
+
+    - name: Fix code style linting errors
+      id: lint-fix
+      run: yarn lint:fix
+      continue-on-error: true
+
+    - name: Commit fixed linting errors
+      id: commit
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "ci: fix code style linting errors"
+
+    - name: Lint code
+      id: lint
+      run: yarn lint
+
+    - name: Send Slack notifications
+      uses: act10ns/slack@v1
+      if: failure()
+      with:
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+        channel: '#tiptap-notifications'
+
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    strategy:
+      matrix:
+        node-version: [14]
+
+    steps:
+
+    - uses: actions/checkout@v2.3.4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2.1.5
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Run tests with Cypress
+      id: cypress
+      uses: cypress-io/github-action@v2
+      with:
+        cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+        start: yarn start
+        wait-on: 'http://localhost:3000'
+        project: ./tests
+        browser: chrome
+        quiet: true
+
+    - name: Export screenshots (on failure only)
+      uses: actions/upload-artifact@v2.2.2
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: tests/cypress/screenshots
+        retention-days: 7
+
+    - name: Export screen recordings (on failure only)
+      uses: actions/upload-artifact@v2.2.2
+      if: failure()
+      with:
+        name: cypress-videos
+        path: tests/cypress/videos
+        retention-days: 7
+
+    - name: Send Slack notifications
+      uses: act10ns/slack@v1
+      if: failure()
+      with:
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+        channel: '#tiptap-notifications'
+
+  build:
+    runs-on: ubuntu-latest
+
+    needs: lint
+
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    strategy:
+      matrix:
+        node-version: [14]
+
+    steps:
+
+    - uses: actions/checkout@v2.3.4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2.1.5
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Load cached dependencies
+      uses: actions/cache@v2.1.4
+      id: cache
+      with:
+        path: |
+          **/node_modules
+          /home/runner/.cache/Cypress
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Install dependencies
+      id: install-dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: yarn install
+
+    - name: Try to build the packages
+      id: build-packages
+      run: yarn build:ci
+
+    - name: Send Slack notifications
+      uses: act10ns/slack@v1
+      if: failure()
+      with:
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+        channel: '#tiptap-notifications'

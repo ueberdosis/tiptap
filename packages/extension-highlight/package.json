@@ -1,0 +1,27 @@
+{
+  "name": "@tiptap/extension-highlight",
+  "description": "highlight extension for tiptap",
+  "version": "2.0.0-beta.4",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-highlight.cjs.js",
+  "umd": "dist/tiptap-extension-highlight.umd.js",
+  "module": "dist/tiptap-extension-highlight.esm.js",
+  "unpkg": "dist/tiptap-extension-highlight.bundle.umd.min.js",
+  "types": "dist/packages/extension-highlight/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  }
+}

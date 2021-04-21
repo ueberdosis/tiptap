@@ -1,0 +1,27 @@
+{
+  "name": "@tiptap/extension-strike",
+  "description": "strike extension for tiptap",
+  "version": "2.0.0-beta.5",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-strike.cjs.js",
+  "umd": "dist/tiptap-extension-strike.umd.js",
+  "module": "dist/tiptap-extension-strike.esm.js",
+  "unpkg": "dist/tiptap-extension-strike.bundle.umd.min.js",
+  "types": "dist/packages/extension-strike/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  }
+}

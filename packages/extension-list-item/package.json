@@ -1,0 +1,27 @@
+{
+  "name": "@tiptap/extension-list-item",
+  "description": "list item extension for tiptap",
+  "version": "2.0.0-beta.4",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-list-item.cjs.js",
+  "umd": "dist/tiptap-extension-list-item.umd.js",
+  "module": "dist/tiptap-extension-list-item.esm.js",
+  "unpkg": "dist/tiptap-extension-list-item.bundle.umd.min.js",
+  "types": "dist/packages/extension-list-item/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  }
+}

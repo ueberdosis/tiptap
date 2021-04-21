@@ -1,0 +1,30 @@
+{
+  "name": "@tiptap/extension-ordered-list",
+  "description": "ordered list extension for tiptap",
+  "version": "2.0.0-beta.4",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-ordered-list.cjs.js",
+  "umd": "dist/tiptap-extension-ordered-list.umd.js",
+  "module": "dist/tiptap-extension-ordered-list.esm.js",
+  "unpkg": "dist/tiptap-extension-ordered-list.bundle.umd.min.js",
+  "types": "dist/packages/extension-ordered-list/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "dependencies": {
+    "prosemirror-inputrules": "^1.1.3"
+  }
+}

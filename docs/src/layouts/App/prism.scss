@@ -1,0 +1,226 @@
+$codeBackground: $colorBlack;
+
+.prism-editor__textarea {
+  background: transparent;
+  border: 0;
+}
+
+.prism-editor__textarea,
+.prism-editor__editor,
+code[class*="language-"],
+pre[class*="language-"] {
+  position: relative;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  hyphens: none;
+  color: inherit;
+  text-shadow: none;
+  font-family: 'JetBrainsMono', monospace;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  tab-size: 2;
+  padding: 0;
+}
+
+:not(pre) > code[class*="language-"] {
+  white-space: normal;
+  color: $colorWhite;
+  background: $codeBackground;
+  border-radius: 0.2em;
+  padding: 0.1em;
+}
+
+pre > code[class*="language-"] {
+  display: block;
+  min-width: 100%;
+  background: none;
+}
+
+pre[class*="language-"] {
+  overflow: auto;
+  position: relative;
+  color: $colorWhite;
+  background: $codeBackground;
+  padding: 1.25rem !important;
+  border-radius: 0.75rem;
+  max-height: unquote("max(300px, 60vh)");
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($colorWhite, 0.2);
+  }
+}
+
+pre[class*="language-"].language-css > code,
+pre[class*="language-"].language-sass > code,
+pre[class*="language-"].language-scss > code {
+  color: $colorOrange;
+}
+
+[class*="language-"] .namespace {
+  opacity: 0.7;
+}
+
+.token.atrule {
+  color: $colorPurple;
+}
+
+.token.attr-name {
+  color: $colorYellow;
+}
+
+.token.attr-value {
+  color: $colorGreen;
+}
+
+.token.attribute {
+  color: $colorGreen;
+}
+
+.token.boolean {
+  color: $colorPurple;
+}
+
+.token.builtin {
+  color: $colorYellow;
+}
+
+.token.cdata {
+  color: $colorTeal;
+}
+
+.token.char {
+  color: $colorTeal;
+}
+
+.token.class {
+  color: $colorYellow;
+}
+
+.token.class-name {
+  color: $colorYellow;
+}
+
+.token.comment {
+  color: $colorGrey;
+}
+
+.token.constant {
+  color: $colorPurple;
+}
+
+.token.deleted {
+  color: $colorRed;
+}
+
+.token.doctype {
+  color: $colorGrey;
+}
+
+.token.entity {
+  color: $colorRed;
+}
+
+.token.function {
+  color: $colorPurple;
+}
+
+.token.hexcode {
+  color: $colorYellow;
+}
+
+.token.id {
+  color: $colorPurple;
+  font-weight: bold;
+}
+
+.token.important {
+  color: $colorPurple;
+  font-weight: bold;
+}
+
+.token.inserted {
+  color: $colorTeal;
+}
+
+.token.keyword {
+  color: $colorPurple;
+}
+
+.token.number {
+  color: $colorOrange;
+}
+
+.token.operator {
+  color: $colorBlue;
+}
+
+.token.prolog {
+  color: $colorGrey;
+}
+
+.token.property {
+  color: $colorTeal;
+}
+
+.token.pseudo-class {
+  color: $colorGreen;
+}
+
+.token.pseudo-element {
+  color: $colorGreen;
+}
+
+.token.punctuation {
+  color: $colorBlue;
+}
+
+.token.regex {
+  color: $colorYellow;
+}
+
+.token.selector {
+  color: $colorRed;
+}
+
+.token.string {
+  color: $colorGreen;
+}
+
+.token.symbol {
+  color: $colorPurple;
+}
+
+.token.tag {
+  color: $colorRed;
+}
+
+.token.unit {
+  color: $colorOrange;
+}
+
+.token.url {
+  color: $colorRed;
+}
+
+.token.variable {
+  color: $colorRed;
+}
+
+.line-highlight {
+  background: linear-gradient(
+    to right,
+    rgba($colorWhite, 0.1),
+    rgba($colorWhite, 0),
+  ) !important;
+  left: -1.5rem !important;
+  right: -1.5rem !important;
+  margin: 0 !important;
+
+  &::before,
+  &::after {
+    display: none;
+  }
+}

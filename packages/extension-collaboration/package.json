@@ -1,0 +1,30 @@
+{
+  "name": "@tiptap/extension-collaboration",
+  "description": "collaboration extension for tiptap",
+  "version": "2.0.0-beta.7",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-collaboration.cjs.js",
+  "umd": "dist/tiptap-extension-collaboration.umd.js",
+  "module": "dist/tiptap-extension-collaboration.esm.js",
+  "unpkg": "dist/tiptap-extension-collaboration.bundle.umd.min.js",
+  "types": "dist/packages/extension-collaboration/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "dependencies": {
+    "y-prosemirror": "^1.0.8"
+  }
+}

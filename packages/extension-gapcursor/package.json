@@ -1,0 +1,31 @@
+{
+  "name": "@tiptap/extension-gapcursor",
+  "description": "gapcursor extension for tiptap",
+  "version": "2.0.0-beta.8",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-gapcursor.cjs.js",
+  "umd": "dist/tiptap-extension-gapcursor.umd.js",
+  "module": "dist/tiptap-extension-gapcursor.esm.js",
+  "unpkg": "dist/tiptap-extension-gapcursor.bundle.umd.min.js",
+  "types": "dist/packages/extension-gapcursor/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "dependencies": {
+    "@types/prosemirror-gapcursor": "^1.0.3",
+    "prosemirror-gapcursor": "^1.1.5"
+  }
+}

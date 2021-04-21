@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "jsx": "react",
+  },
+  "exclude": [
+    "**/node_modules",
+    "**/dist",
+    "../vue-3",
+  ]
+}

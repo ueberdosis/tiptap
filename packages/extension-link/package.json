@@ -1,0 +1,30 @@
+{
+  "name": "@tiptap/extension-link",
+  "description": "link extension for tiptap",
+  "version": "2.0.0-beta.6",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-link.cjs.js",
+  "umd": "dist/tiptap-extension-link.umd.js",
+  "module": "dist/tiptap-extension-link.esm.js",
+  "unpkg": "dist/tiptap-extension-link.bundle.umd.min.js",
+  "types": "dist/packages/extension-link/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "dependencies": {
+    "prosemirror-state": "^1.3.4"
+  }
+}

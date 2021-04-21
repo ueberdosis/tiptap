@@ -1,0 +1,27 @@
+{
+  "name": "@tiptap/extension-image",
+  "description": "image extension for tiptap",
+  "version": "2.0.0-beta.4",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-image.cjs.js",
+  "umd": "dist/tiptap-extension-image.umd.js",
+  "module": "dist/tiptap-extension-image.esm.js",
+  "unpkg": "dist/tiptap-extension-image.bundle.umd.min.js",
+  "types": "dist/packages/extension-image/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  }
+}

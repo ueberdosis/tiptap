@@ -1,0 +1,31 @@
+{
+  "name": "@tiptap/extension-history",
+  "description": "history extension for tiptap",
+  "version": "2.0.0-beta.3",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-history.cjs.js",
+  "umd": "dist/tiptap-extension-history.umd.js",
+  "module": "dist/tiptap-extension-history.esm.js",
+  "unpkg": "dist/tiptap-extension-history.bundle.umd.min.js",
+  "types": "dist/packages/extension-history/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "dependencies": {
+    "@types/prosemirror-history": "^1.0.2",
+    "prosemirror-history": "^1.1.3"
+  }
+}

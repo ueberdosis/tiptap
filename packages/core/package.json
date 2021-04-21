@@ -1,0 +1,44 @@
+{
+  "name": "@tiptap/core",
+  "description": "headless rich text editor",
+  "version": "2.0.0-beta.35",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "headless",
+    "wysiwyg",
+    "text editor"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-core.cjs.js",
+  "umd": "dist/tiptap-core.umd.js",
+  "module": "dist/tiptap-core.esm.js",
+  "unpkg": "dist/tiptap-core.bundle.umd.min.js",
+  "types": "dist/packages/core/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "@types/prosemirror-commands": "^1.0.4",
+    "@types/prosemirror-inputrules": "^1.0.4",
+    "@types/prosemirror-keymap": "^1.0.4",
+    "@types/prosemirror-model": "^1.13.0",
+    "@types/prosemirror-schema-list": "^1.0.3",
+    "@types/prosemirror-state": "^1.2.6",
+    "@types/prosemirror-transform": "^1.1.2",
+    "@types/prosemirror-view": "^1.17.1",
+    "prosemirror-commands": "^1.1.7",
+    "prosemirror-inputrules": "^1.1.3",
+    "prosemirror-keymap": "^1.1.3",
+    "prosemirror-model": "^1.14.0",
+    "prosemirror-schema-list": "^1.1.4",
+    "prosemirror-state": "^1.3.4",
+    "prosemirror-transform": "^1.3.2",
+    "prosemirror-view": "^1.18.2"
+  }
+}

@@ -1,0 +1,366 @@
+$navHeight: 4.5rem;
+$mobileBreakPoint: 600px;
+$menuBreakPoint: 800px;
+
+.app {
+  &__navigation {
+    position: sticky;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    top: 0;
+    width: 100%;
+    max-height: 100vh;
+    backdrop-filter: blur(10px);
+
+    &::after {
+      content: '';
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $colorWhite;
+      opacity: 0.8;
+      transform: translate3d(0,0,0);
+      pointer-events: none;
+    }
+  }
+
+  &__top-bar {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    height: $navHeight;
+    padding: 0 1.5rem;
+
+    @media (min-width: $mobileBreakPoint) {
+      padding: 0 2rem;
+    }
+  }
+
+  &__menu {
+    display: flex;
+    align-items: center;
+
+    > .vue-portal-target {
+      display: flex;
+    }
+  }
+
+  &__menu-item {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    font-weight: 500;
+
+    @media (min-width: $menuBreakPoint) {
+      display: inline-flex;
+      margin-right: 0.5rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.5rem;
+
+      &:hover {
+        background: rgba($colorBlack, 0.05);
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      margin: 0 0.25rem;
+    }
+  }
+
+  &__content {
+    display: flex;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__logo {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+    color: $colorBlack;
+    font-size: 1.5rem;
+    margin-right: auto;
+
+    img {
+      height: 1.75rem;
+      width: auto;
+    }
+
+    @media (min-width: 500px) {
+      &::after {
+        content: '2.0 beta';
+        display: block;
+        margin-left: 0.5rem;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.05rem;
+        text-transform: uppercase;
+        border-radius: 0.4rem;
+        border: 2px solid $colorBlack;
+        padding: 0 0.4em;
+      }
+    }
+  }
+
+  &__github {
+    display: block;
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  ::v-deep .algolia-autocomplete {
+    display: block;
+    width: 100%;
+  }
+
+  &__search {
+    position: relative;
+  }
+
+  &__search-shortcut {
+    display: inline-flex;
+
+    @media (min-width: $menuBreakPoint) {
+      &::after {
+        content: "⌘K";
+        display: inline-flex;
+        align-items: center;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $colorGrey;
+        background-color: rgba($colorBlack, 0.05);
+        font-size: 0.75rem;
+        padding: 0 0.4rem;
+        border-radius: 0.4rem;
+        margin-left: 0.4rem;
+      }
+    }
+  }
+
+  &__search-docsearch {
+    ::v-deep > button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+    }
+  }
+
+  &__sidebar {
+    display: none;
+
+    @media (min-width: $menuBreakPoint) {
+      display: block;
+      width: 20rem;
+      flex: 0 0 auto;
+      position: sticky;
+      top: $navHeight;
+      align-self: flex-start;
+      padding: 2rem;
+      padding-top: 2rem;
+      height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  &__sidebar-menu {
+    margin-top: 1.5rem;
+
+    @media (min-width: $menuBreakPoint) {
+      margin-top: 0;
+    }
+  }
+
+  &__main {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  &__menu-icon,
+  &__close-icon {
+    display: flex;
+    flex: 0 0 auto;
+    padding: 0.5rem;
+    background: transparent;
+    border: 0;
+    color: $colorText;
+    margin-left: 1.5rem;
+    margin-right: -0.5rem;
+    transition: color 0.2s $ease;
+
+    &:hover {
+      color: $colorBlack;
+    }
+
+    @media (min-width: $menuBreakPoint) {
+      display: none;
+    }
+  }
+
+  &__link-group {
+    margin-bottom: 1.5rem;
+
+    @media (min-width: $menuBreakPoint) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__link-group-title {
+    font-weight: 700;
+    letter-spacing: 0.025rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  &__link-list {
+    list-style: none;
+  }
+
+  &__link-list &__link-list {
+    display: none;
+    padding-left: 1rem;
+    margin: 0.5rem 0;
+  }
+
+  &__mobile-menu &__link-list &__link-list {
+    display: block;
+  }
+
+  .app__link--active + &__link-list {
+    display: block;
+  }
+
+  &__mobile-menu &__menu-item {
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__link {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.4rem;
+    font-size: 0.85rem;
+    margin-left: -0.5rem;
+    white-space: nowrap;
+    position: relative;
+
+    &:hover {
+      color: $colorBlack;
+    }
+
+    &--exact {
+      font-weight: 700;
+      color: $colorBlack;
+      background-color: rgba($colorBlack, 0.05);
+    }
+
+    &--draft {
+      color: rgba($colorBlack, 0.4);
+
+      &::after {
+        content: 'DRAFT';
+        display: inline-flex;
+        align-items: center;
+        font-family: "JetBrainsMono", monospace;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $colorGrey;
+        background-color: rgba($colorBlack, 0.05);
+        font-size: 0.75rem;
+        padding: 0 0.4rem;
+        border-radius: 0.4rem;
+      }
+    }
+
+    &--pro {
+      &::after {
+        content: "PRO";
+        display: inline-flex;
+        align-items: center;
+        font-family: "JetBrainsMono", monospace;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $colorWhite;
+        background-color: $colorBlack;
+        font-size: 0.75rem;
+        padding: 0 0.4rem;
+        border-radius: 0.4rem;
+      }
+    }
+
+    &--new {
+      &::after {
+        content: 'NEW';
+        display: inline-flex;
+        align-items: center;
+        font-family: "JetBrainsMono", monospace;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $colorBlack;
+        background-color: $colorGreen;
+        font-size: 0.75rem;
+        padding: 0 0.4rem;
+        border-radius: 0.4rem;
+      }
+    }
+
+    &--sponsor {
+      &::after {
+        content: '♥';
+        padding: 0 0.5em;
+      }
+    }
+
+    &--with-children::before {
+      content: '›';
+      font-weight: bold;
+      color: rgba($colorBlack, 0.2);
+      position: absolute;
+      margin-left: -1rem;
+    }
+  }
+
+  &__mobile-menu &__link--with-children::after {
+    display: none;
+  }
+
+  &__mobile-menu {
+    padding: 1rem 0 3rem 1.5rem;
+    flex: 1 1 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+
+    @media (min-width: $mobileBreakPoint) {
+      padding: 1rem 1rem 3rem 2rem;
+    }
+
+    @media (min-width: $menuBreakPoint) {
+      padding: 2rem 0;
+    }
+  }
+}

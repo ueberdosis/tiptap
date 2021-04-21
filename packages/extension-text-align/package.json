@@ -1,0 +1,27 @@
+{
+  "name": "@tiptap/extension-text-align",
+  "description": "text align extension for tiptap",
+  "version": "2.0.0-beta.7",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-text-align.cjs.js",
+  "umd": "dist/tiptap-extension-text-align.umd.js",
+  "module": "dist/tiptap-extension-text-align.esm.js",
+  "unpkg": "dist/tiptap-extension-text-align.bundle.umd.min.js",
+  "types": "dist/packages/extension-text-align/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  }
+}
