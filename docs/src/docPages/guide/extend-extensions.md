@@ -62,6 +62,7 @@ import Heading from '@tiptap/extension-heading'
 
 const CustomHeading = Heading.extend({
   defaultOptions: {
+    ...Heading.options,
     levels: [1, 2, 3],
   },
 })
@@ -230,6 +231,10 @@ renderHTML({ HTMLAttributes }) {
 If you want to add some specific attributes there, import the `mergeAttributes` helper from `@tiptap/core`:
 
 ```js
+import { mergeAttributes } from '@tiptap/core'
+
+// ...
+
 renderHTML({ HTMLAttributes }) {
   return ['a', mergeAttributes(HTMLAttributes, { rel: this.options.rel }), 0]
 },
@@ -262,7 +267,7 @@ parseHTML() {
       tag: 'b',
       getAttrs: node => node.style.fontWeight !== 'normal' && null,
     },
-    // <span style="font-weight: bold">
+    // <span style="font-weight: bold"> and <span style="font-weight: 700">
     {
       style: 'font-weight',
       getAttrs: value => /^(bold(er)?|[5-9]\d{2,})$/.test(value as string) && null,
@@ -406,7 +411,7 @@ const CustomLink = Link.extend({
     return () => {
       const container = document.createElement('div')
 
-      container.addEventListener('change', event => {
+      container.addEventListener('click', event => {
         alert('clicked on the container')
       })
 

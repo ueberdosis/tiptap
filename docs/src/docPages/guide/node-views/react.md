@@ -71,7 +71,7 @@ And yes, all of that is reactive, too. A pretty seemless communication, isn’t 
 ## Adding a content editable
 There is another component called `NodeViewContent` which helps you adding editable content to your node view. Here is an example:
 
-```js
+```jsx
 import React from 'react'
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react'
 

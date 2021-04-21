@@ -51,24 +51,26 @@ export default {
 }
 </script>
 
-<style lang="scss">
-/* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+<style lang="scss" scoped>
+::v-deep {
+  /* Basic editor styles */
+  .ProseMirror {
+    > * + * {
+      margin-top: 0.75em;
+    }
   }
-}
 
-.checkbox {
-  margin-bottom: 1rem;
+  .checkbox {
+    margin-bottom: 1rem;
 
-  input[type="checkbox"] {
-    margin-right: 0.5rem;
+    input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
   }
-}
 
-[contenteditable=false] {
-  color: #999;
-  cursor: not-allowed;
+  [contenteditable=false] {
+    color: #999;
+    cursor: not-allowed;
+  }
 }
 </style>

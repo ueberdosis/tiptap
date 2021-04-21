@@ -117,7 +117,7 @@ import { RocksDB } from '@hocuspocus/extension-rocksdb'
 const server = Server.configure({
   port: 1234,
   extensions: [
-    new RocksDB({ path: './database' })
+    new RocksDB({ path: './database' }),
   ],
 })
 
@@ -308,10 +308,10 @@ your views.
 This example is **not intended** to be a primary storage as serializing to and deserializing from JSON will not store the collaboration history steps but only the resulting document. Make sure to always use the RocksDB extension as primary storage.
 
 ```typescript
-import {debounce} from 'debounce'
-import {Server} from '@hocuspocus/server'
-import {TiptapTransformer} from '@hocuspocus/transformer'
-import {writeFile} from 'fs'
+import { debounce } from 'debounce'
+import { Server } from '@hocuspocus/server'
+import { TiptapTransformer } from '@hocuspocus/transformer'
+import { writeFile } from 'fs'
 
 let debounced
 
