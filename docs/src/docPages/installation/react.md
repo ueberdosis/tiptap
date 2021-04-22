@@ -42,7 +42,7 @@ If you followed step 1 and 2, you can now start your project with `npm run start
 ## 3. Create a new component
 To actually start using tiptap, you’ll need to add a new component to your app. Let’s call it `Tiptap` and put the following example code in `src/Tiptap.jsx`.
 
-This is the fastest way to get tiptap up and running with Vue. It will give you a very basic version of tiptap, without any buttons. No worries, you will be able to add more functionality soon.
+This is the fastest way to get tiptap up and running with React. It will give you a very basic version of tiptap, without any buttons. No worries, you will be able to add more functionality soon.
 
 ```jsx
 import { useEditor, EditorContent } from '@tiptap/react'
