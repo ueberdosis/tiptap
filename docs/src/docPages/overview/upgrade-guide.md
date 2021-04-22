@@ -27,6 +27,18 @@ npm uninstall tiptap tiptap-commands tiptap-extensions tiptap-utils
 yarn remove tiptap tiptap-commands tiptap-extensions tiptap-utils
 ```
 
+### Install tiptap 2.x
+
+Once you have uninstalled the old version of tiptap, install the core repository and starter kit:
+
+```
+# install with npm
+npm install @tiptap/core @tiptap/starter-kit
+
+# install with Yarn
+yarn add @tiptap/core @tiptap/starter-kit
+```
+
 ### Explicitly register the Document, Text and Paragraph extensions
 tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [`Document`](/api/nodes/document), [`Paragraph`](/api/nodes/paragraph) and [`Text`](/api/nodes/text) extensions.
 
