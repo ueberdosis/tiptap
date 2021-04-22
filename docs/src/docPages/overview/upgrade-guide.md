@@ -33,10 +33,10 @@ Once you have uninstalled the old version of tiptap, install the core repository
 
 ```
 # install with npm
-npm install @tiptap/core @tiptap/starter-kit
+npm install @tiptap/vue-2 @tiptap/starter-kit
 
 # install with Yarn
-yarn add @tiptap/core @tiptap/starter-kit
+yarn add @tiptap/vue-2 @tiptap/starter-kit
 ```
 
 ### Explicitly register the Document, Text and Paragraph extensions
