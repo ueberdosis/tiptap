@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.7...@tiptap/extension-bubble-menu@2.0.0-beta.8) (2021-04-22)
+
+
+### Bug Fixes
+
+* fix a bug for empty node selection where the bubble menu should not be visible, fix [#1023](https://github.com/ueberdosis/tiptap/issues/1023) ([8ed220a](https://github.com/ueberdosis/tiptap/commit/8ed220a12de48b3c14e903b271d7f50aff6313f4))
+
+
+
+
+
 # [2.0.0-beta.7](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.6...@tiptap/extension-bubble-menu@2.0.0-beta.7) (2021-04-16)
 
 
