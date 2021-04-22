@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@atomico/rollup-plugin-sizes": "^1.1.4",
-    "@babel/core": "^7.13.15",
+    "@babel/core": "^7.13.16",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.0",
     "@babel/plugin-proposal-optional-chaining": "^7.13.12",
     "@babel/preset-env": "^7.13.15",
