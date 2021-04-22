@@ -39,7 +39,7 @@
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
-    "cypress": "^6.8.0",
+    "cypress": "^7.1.0",
     "eslint": "^7.23.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-cypress": "^2.11.2",
