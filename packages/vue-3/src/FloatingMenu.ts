@@ -27,10 +27,12 @@ export const FloatingMenu = defineComponent({
     },
   },
 
-  setup({ editor, tippyOptions }, { slots }) {
+  setup(props, { slots }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
+      const { editor, tippyOptions } = props
+
       editor.registerPlugin(FloatingMenuPlugin({
         editor,
         element: root.value as HTMLElement,
@@ -39,6 +41,8 @@ export const FloatingMenu = defineComponent({
     })
 
     onBeforeUnmount(() => {
+      const { editor } = props
+
       editor.unregisterPlugin(FloatingMenuPluginKey)
     })
 

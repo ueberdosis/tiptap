@@ -27,10 +27,12 @@ export const BubbleMenu = defineComponent({
     },
   },
 
-  setup({ editor, tippyOptions }, { slots }) {
+  setup(props, { slots }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
+      const { editor, tippyOptions } = props
+
       editor.registerPlugin(BubbleMenuPlugin({
         editor,
         element: root.value as HTMLElement,
@@ -39,6 +41,8 @@ export const BubbleMenu = defineComponent({
     })
 
     onBeforeUnmount(() => {
+      const { editor } = props
+
       editor.unregisterPlugin(BubbleMenuPluginKey)
     })
 
