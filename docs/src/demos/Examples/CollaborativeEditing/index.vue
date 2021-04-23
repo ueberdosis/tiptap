@@ -28,6 +28,7 @@ import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 import Highlight from '@tiptap/extension-highlight'
+import CharacterCount from '@tiptap/extension-character-count'
 import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket'
 import { IndexeddbPersistence } from 'y-indexeddb'
@@ -92,6 +93,9 @@ export default {
           onUpdate: users => {
             this.users = users
           },
+        }),
+        CharacterCount.configure({
+          limit: 10000,
         }),
       ],
     })
