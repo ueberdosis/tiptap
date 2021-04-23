@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.6](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-floating-menu@2.0.0-beta.5...@tiptap/extension-floating-menu@2.0.0-beta.6) (2021-04-23)
+
+
+### Bug Fixes
+
+* improve isActive check for floating menu when using custom doc content, fix [#1205](https://github.com/ueberdosis/tiptap/issues/1205) ([b84a56a](https://github.com/ueberdosis/tiptap/commit/b84a56a84a60a62ed0a39f8f852595acc08c35f7))
+
+
+
+
+
 # [2.0.0-beta.5](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-floating-menu@2.0.0-beta.4...@tiptap/extension-floating-menu@2.0.0-beta.5) (2021-04-22)
 
 **Note:** Version bump only for package @tiptap/extension-floating-menu
