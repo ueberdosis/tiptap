@@ -59,14 +59,14 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
-    this.provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-collaboration-example', ydoc)
+    this.provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-collaboration-demo', ydoc)
     this.provider.on('status', event => {
       this.status = event.status
     })
 
     window.ydoc = ydoc
 
-    this.indexdb = new IndexeddbPersistence('tiptap-collaboration-example', ydoc)
+    this.indexdb = new IndexeddbPersistence('tiptap-collaboration-demo', ydoc)
 
     this.editor = new Editor({
       extensions: [
