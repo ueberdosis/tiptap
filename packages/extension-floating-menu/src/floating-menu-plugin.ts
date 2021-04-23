@@ -1,4 +1,4 @@
-import { Editor, isNodeEmpty, posToDOMRect } from '@tiptap/core'
+import { Editor, posToDOMRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import tippy, { Instance, Props } from 'tippy.js'
@@ -95,9 +95,8 @@ export class FloatingMenuView {
       to,
     } = selection
     const isRootDepth = $anchor.depth === 1
-    const isDefaultNodeType = $anchor.parent.type === state.doc.type.contentMatch.defaultType
-    const isDefaultNodeEmpty = isNodeEmpty(selection.$anchor.parent)
-    const isActive = isRootDepth && isDefaultNodeType && isDefaultNodeEmpty
+    const isNodeEmpty = !selection.$anchor.parent.isLeaf && !selection.$anchor.parent.textContent
+    const isActive = isRootDepth && isNodeEmpty
 
     if (!empty || !isActive) {
       this.hide()
