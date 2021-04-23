@@ -77,7 +77,6 @@ export const TaskItem = Node.create<TaskItemOptions>({
       getPos,
       editor,
     }) => {
-      const { view } = editor
       const listItem = document.createElement('li')
       const checkboxWrapper = document.createElement('label')
       const checkboxStyler = document.createElement('span')
@@ -90,10 +89,17 @@ export const TaskItem = Node.create<TaskItemOptions>({
         const { checked } = event.target as any
 
         if (typeof getPos === 'function') {
-          view.dispatch(view.state.tr.setNodeMarkup(getPos(), undefined, {
-            checked,
-          }))
-          editor.commands.focus()
+          editor
+            .chain()
+            .focus()
+            .command(({ tr }) => {
+              tr.setNodeMarkup(getPos(), undefined, {
+                checked,
+              })
+
+              return true
+            })
+            .run()
         }
       })
 

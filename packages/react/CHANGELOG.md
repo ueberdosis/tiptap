@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.22...@tiptap/react@2.0.0-beta.23) (2021-04-22)
+
+
+### Bug Fixes
+
+* prevents a bug where a line break was incorrectly added at enter in react node views, fix [#1197](https://github.com/ueberdosis/tiptap/issues/1197) ([e885ffa](https://github.com/ueberdosis/tiptap/commit/e885ffa15b590b0c1f895f5c32f4852cc483c222))
+
+
+
+
+
 # [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.21...@tiptap/react@2.0.0-beta.22) (2021-04-21)
 
 **Note:** Version bump only for package @tiptap/react
