@@ -5,7 +5,7 @@
     <div class="editor__footer">
       <div :class="`editor__status editor__status--${status}`">
         <template v-if="status === 'connected'">
-          {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online
+          {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online in {{ room }}
         </template>
         <template v-else>
           offline
@@ -37,6 +37,14 @@ const getRandomElement = list => {
   return list[Math.floor(Math.random() * list.length)]
 }
 
+const getRandomRoom = () => {
+  return getRandomElement([
+    'room.one',
+    'room.two',
+    'room.three',
+  ])
+}
+
 export default {
   components: {
     EditorContent,
@@ -54,19 +62,20 @@ export default {
       editor: null,
       users: [],
       status: 'connecting',
+      room: getRandomRoom(),
     }
   },
 
   mounted() {
     const ydoc = new Y.Doc()
-    this.provider = new WebsocketProvider('wss://websocket.tiptap.dev', 'tiptap-collaboration-demo', ydoc)
+    this.provider = new WebsocketProvider('wss://websocket.tiptap.dev', this.room, ydoc)
     this.provider.on('status', event => {
       this.status = event.status
     })
 
     window.ydoc = ydoc
 
-    this.indexdb = new IndexeddbPersistence('tiptap-collaboration-demo', ydoc)
+    this.indexdb = new IndexeddbPersistence(this.room, ydoc)
 
     this.editor = new Editor({
       extensions: [
