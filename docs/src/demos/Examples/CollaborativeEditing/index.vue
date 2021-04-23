@@ -41,7 +41,9 @@ const getRandomRoom = () => {
   return getRandomElement([
     'room.one',
     'room.two',
-    'room.three',
+    // 'room.three', // HN killed it
+    'room.four',
+    'room.five',
   ])
 }
 
