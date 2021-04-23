@@ -1,7 +1,7 @@
 import React from 'react'
 
 export interface NodeViewContentProps {
-  className?: string,
+  [key: string]: any,
   as?: React.ElementType,
 }
 
@@ -10,9 +10,12 @@ export const NodeViewContent: React.FC<NodeViewContentProps> = props => {
 
   return (
     <Tag
-      className={props.className}
+      {...props}
       data-node-view-content=""
-      style={{ whiteSpace: 'pre-wrap' }}
+      style={{
+        ...props.style,
+        whiteSpace: 'pre-wrap',
+      }}
     />
   )
 }
