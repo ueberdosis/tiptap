@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.24...@tiptap/react@2.0.0-beta.25) (2021-04-23)
+
+
+### Bug Fixes
+
+* allow passing props to NodeViewWrapper and NodeViewContent ([cfb3b80](https://github.com/ueberdosis/tiptap/commit/cfb3b80f63a5d38ea7aa4b69a895afd8b09cb5ab))
+
+
+
+
+
 # [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.23...@tiptap/react@2.0.0-beta.24) (2021-04-23)
 
 **Note:** Version bump only for package @tiptap/react
