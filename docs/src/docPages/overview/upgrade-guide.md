@@ -29,7 +29,7 @@ yarn remove tiptap tiptap-commands tiptap-extensions tiptap-utils
 
 ### Install tiptap 2.x
 
-Once you have uninstalled the old version of tiptap, install the core repository and starter kit:
+Once you have uninstalled the old version of tiptap, install the new Vue 2 package and the starter kit:
 
 ```
 # install with npm
