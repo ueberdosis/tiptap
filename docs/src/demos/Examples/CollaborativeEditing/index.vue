@@ -46,11 +46,13 @@ const getRandomRoom = () => {
     // 'room.four',
     // 'room.five',
     'room.six',
-    'room.seven',
-    'room.eight',
+    // 'room.seven',
+    // 'room.eight',
     'room.nine',
     // 'room.ten',
     'room.eleven',
+    'room.twelve',
+    'room.thirteen',
   ])
 }
 
