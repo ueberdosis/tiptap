@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.36...@tiptap/core@2.0.0-beta.37) (2021-04-23)
+
+
+### Bug Fixes
+
+* better merge mark attributes for existing marks, fix [#1039](https://github.com/ueberdosis/tiptap/issues/1039) ([cfd29fa](https://github.com/ueberdosis/tiptap/commit/cfd29fac86e03d72a0c05ec8d26aac905d19c5a2))
+
+
+
+
+
 # [2.0.0-beta.36](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.35...@tiptap/core@2.0.0-beta.36) (2021-04-22)
 
 **Note:** Version bump only for package @tiptap/core
