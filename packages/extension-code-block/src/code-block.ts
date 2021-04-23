@@ -115,6 +115,24 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
         return false
       },
+      ArrowDown: () => {
+        const state = this.editor.state
+        const { from, to } = state.selection
+
+        if (from > 1 && from === to) {
+          let inCodeBlock = false
+          state.doc.nodesBetween(from - 1, to - 1, node => {
+            if (node.type.name === 'codeBlock') inCodeBlock = true
+          })
+
+          const cursorAtEnd = to === state.doc.content.size - 1
+          if (inCodeBlock && cursorAtEnd) {
+            return this.editor.commands.exitCode()
+          }
+        }
+
+        return false
+      },
     }
   },
 
