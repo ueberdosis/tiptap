@@ -10,7 +10,7 @@ declare module '@tiptap/core' {
        */
       setContent: (
         content: Content,
-        emitUpdate?: Boolean,
+        emitUpdate?: boolean,
         parseOptions?: Record<string, any>,
       ) => Command,
     }

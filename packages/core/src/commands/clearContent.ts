@@ -6,7 +6,7 @@ declare module '@tiptap/core' {
       /**
        * Clear the whole document.
        */
-      clearContent: (emitUpdate?: Boolean) => Command,
+      clearContent: (emitUpdate?: boolean) => Command,
     }
   }
 }
