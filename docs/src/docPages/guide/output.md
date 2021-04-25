@@ -127,4 +127,4 @@ We’re about to go through a few cases to help with that, for example we provid
 [Share your experiences with us!](mailto:humans@tiptap.dev) We’d like to add more information here.
 
 ## Security
-There is no reason to use on or the other because of security concerns. If someone wants to send malicious content to your server, it doesn’t matter if it’s JSON or HTML. It doesn’t even matter if you’re using tiptap or not. You should always validate user input.
+There is no reason to use one or the other because of security concerns. If someone wants to send malicious content to your server, it doesn’t matter if it’s JSON or HTML. It doesn’t even matter if you’re using tiptap or not. You should always validate user input.
