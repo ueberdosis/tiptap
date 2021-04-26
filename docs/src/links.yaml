@@ -162,7 +162,7 @@
           link: /api/commands/lift
         - title: newlineInCode
           link: /api/commands/newline-in-code
-        - title: raplaceRange
+        - title: replaceRange
           link: /api/commands/replace-range
         - title: replace
           link: /api/commands/replace
