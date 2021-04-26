@@ -3,13 +3,14 @@ import {
   DOMParser,
   Node as ProseMirrorNode,
   Fragment,
+  ParseOptions,
 } from 'prosemirror-model'
 import elementFromString from '../utilities/elementFromString'
 import { Content } from '../types'
 
 export type CreateNodeFromContentOptions = {
   slice?: boolean,
-  parseOptions?: Record<string, any>,
+  parseOptions?: ParseOptions,
 }
 
 export default function createNodeFromContent(
