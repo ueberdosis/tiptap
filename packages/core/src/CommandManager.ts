@@ -28,7 +28,7 @@ export default class CommandManager {
     return Object.fromEntries(Object
       .entries(commands)
       .map(([name, command]) => {
-        const method = (...args: any) => {
+        const method = (...args: never[]) => {
           const callback = command(...args)(props)
 
           if (!tr.getMeta('preventDispatch')) {
@@ -59,7 +59,7 @@ export default class CommandManager {
 
     const chain = {
       ...Object.fromEntries(Object.entries(commands).map(([name, command]) => {
-        const chainedCommand = (...args: any[]) => {
+        const chainedCommand = (...args: never[]) => {
           const props = this.buildProps(tr, shouldDispatch)
           const callback = command(...args)(props)
 
@@ -85,7 +85,7 @@ export default class CommandManager {
     const formattedCommands = Object.fromEntries(Object
       .entries(commands)
       .map(([name, command]) => {
-        return [name, (...args: any[]) => command(...args)({ ...props, dispatch })]
+        return [name, (...args: never[]) => command(...args)({ ...props, dispatch })]
       })) as SingleCommands
 
     return {
@@ -116,7 +116,7 @@ export default class CommandManager {
         return Object.fromEntries(Object
           .entries(commands)
           .map(([name, command]) => {
-            return [name, (...args: any[]) => command(...args)(props)]
+            return [name, (...args: never[]) => command(...args)(props)]
           })) as SingleCommands
       },
     }
