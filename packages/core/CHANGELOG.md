@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.41](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.40...@tiptap/core@2.0.0-beta.41) (2021-04-27)
+
+
+### Bug Fixes
+
+* fix onBeforeCreate event handler, fix [#1236](https://github.com/ueberdosis/tiptap/issues/1236) ([0b67f18](https://github.com/ueberdosis/tiptap/commit/0b67f18e3a109609cd9b2371396c5f6b8ed85f96))
+
+
+
+
+
 # [2.0.0-beta.40](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.39...@tiptap/core@2.0.0-beta.40) (2021-04-27)
 
 
