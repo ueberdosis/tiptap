@@ -9,11 +9,11 @@
     </banner-message> -->
 
     <banner-message
-      to="https://blog.ueber.io/post/tiptap-public-beta/"
+      to="https://hocuspocus.dev"
       v-if="$route.name === 'home'"
-      color="black"
+      color="yellow"
     >
-      It’s public! Read all about the tiptap v2 beta →
+      Get early access to our Node.js collaboration backend →
     </banner-message>
 
     <div class="app__navigation">

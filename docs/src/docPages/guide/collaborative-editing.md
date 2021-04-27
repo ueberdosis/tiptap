@@ -96,7 +96,7 @@ const editor = new Editor({
 That example doesn’t work out of the box. As you can see, it’s configured to talk to a WebSocket server which is available under `ws://127.0.0.1:1234` (WebSocket protocol `ws://`, your local IP `127.0.0.1` and the port `1234`). You need to set this up, too.
 
 #### The WebSocket backend
-To make the server part as easy as possible, we provide [an opinionated server package, called hocuspocus](http://hocuspocus.dev/) (not published yet). Let’s go through, how this will work once its released.
+To make the server part as easy as possible, we provide [an opinionated server package, called hocuspocus](http://hocuspocus.dev/) (early access for sponsors). Let’s go through, how this will work once its released.
 
 Create a new project, and install the hocuspocus server as a dependency:
 
@@ -220,7 +220,7 @@ Yes, it’s magic. As already mentioned, that is all based on the fantastic Y.js
 Our collaborative editing backend handles the syncing, authorization, persistence and scaling. Let’s go through a few common use cases here!
 
 :::warning Request early access
-Our plug & play collaboration backend hocuspocus is still work in progress. If you want to give it a try, [request early access](https://www.hocuspocus.dev).
+Our plug & play collaboration backend hocuspocus is still work in progress. If you want to give it a try, [get early access](https://www.hocuspocus.dev).
 :::
 
 ### The document name

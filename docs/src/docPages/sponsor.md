@@ -1,11 +1,13 @@
-# Become a sponsor 💖
+# About the project
+
+## toc
 
 ## Introduction
 To deliver a top-notch developer experience and user experience, we put ~~hundreds~~ thousands of hours of unpaid work into tiptap. Your funding helps us to make this work more and more financially sustainable. This enables us to provide helpful support, maintain all our packages, keep everything up to date, and develop new features and extensions for tiptap.
 
 Give back to the open source community and [sponsor us on GitHub](https://github.com/sponsors/ueberdosis)! ♥
 
-## Your benefits as a sponsor
+## Your benefits as a sponsor 💖
 * Get early access to private repositories
 * Your issues and pull requests get a `sponsor ♥` label
 * Get a sponsor badge in all your comments on GitHub
@@ -29,6 +31,7 @@ Companies betting on tiptap probably want some peace of mind and ensure that we 
 
 * [Sponsor Marijn Haverbeke](https://marijnhaverbeke.nl/fund/) (ProseMirror)
 * [Sponsor Kevin Jahns](https://github.com/sponsors/dmonad) (Y.js)
+* [Sponsor y-collective](https://opencollective.com/y-collective) (Y.js + tiptap)
 
 ## Frequently asked questions
 
