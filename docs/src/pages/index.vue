@@ -186,11 +186,6 @@
             image="dociq"
             to="https://www.dociq.io/"
           />
-          <!-- <logo-item
-            title="Scrumpy"
-            image="scrumpy"
-            to="https://www.scrumpy.io"
-          /> -->
         </logo-list>
         <div>
           <btn type="tertiary" icon="arrow-right-line" to="https://github.com/ueberdosis/tiptap/network/dependents?package_id=UGFja2FnZS0xMzE5OTg0ODc%3D">
@@ -206,7 +201,7 @@
           License
         </h2>
         <p>
-          tiptap is licensed under <g-link to="https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md">MIT</g-link>, so you are free to do whatever you want. If you are using it commercially, do the right thing and <g-link to="/sponsor">become one of our wonderful sponsors</g-link> to fund the maintenance, support and development of tiptap now and in the future. That’s all we ask for.
+          tiptap is licensed under <g-link to="https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md">MIT</g-link>, so you are free to do whatever you want. If you are using it commercially, <g-link to="/sponsor">become one of our wonderful sponsors</g-link> to fund the maintenance, support and development of tiptap now and in the future.
         </p>
       </div>
     </app-section>

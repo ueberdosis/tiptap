@@ -43,7 +43,7 @@
         #   skip: true
     - title: Upgrade guide
       link: /overview/upgrade-guide
-    - title: Become a sponsor
+    - title: About the project
       link: /sponsor
       type: sponsor
     - title: Contributing

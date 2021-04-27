@@ -32,6 +32,7 @@ For casual chit-chat with others using the framework:
 * [dotCMS](http://dotcms.com/)
 * [Restruct](https://restruct.nl/)
 * [Bitcrowd](https://bitcrowd.net/)
+* [Reflect](https://reflect.app/)
 
 [mymind](https://mymind.com/),
 [DocIQ](https://www.dociq.io/),
