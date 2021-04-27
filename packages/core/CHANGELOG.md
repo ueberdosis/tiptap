@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.39](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.38...@tiptap/core@2.0.0-beta.39) (2021-04-27)
+
+
+### Bug Fixes
+
+* add correct type for parseOptions ([592892e](https://github.com/ueberdosis/tiptap/commit/592892edd1c4d6dbaa9ea3ddd21f4615f0087053))
+* fix type error for commands ([26785db](https://github.com/ueberdosis/tiptap/commit/26785dbec00cbb3dc3196bd9a7cbebb7452e4a2e))
+* set correct type for emitUpdate ([9a40c17](https://github.com/ueberdosis/tiptap/commit/9a40c17b3422b22a2cfe1fbac76ca06c9e78ae8c))
+
+
+
+
+
 # [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.37...@tiptap/core@2.0.0-beta.38) (2021-04-23)
 
 **Note:** Version bump only for package @tiptap/core
