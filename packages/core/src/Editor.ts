@@ -70,7 +70,7 @@ export class Editor extends EventEmitter {
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
-    this.on('beforeCreate', this.options.onCreate)
+    this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
     this.createView()
     this.injectCSS()
