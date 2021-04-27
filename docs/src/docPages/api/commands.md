@@ -209,6 +209,8 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .selectNodeBackward() | Select a node backward.                 | [More](/api/commands/select-node-backward)  |
 | .selectNodeForward()  | Select a node forward.                  | [More](/api/commands/select-node-forward)  |
 | .selectParentNode()   | Select the parent node.                 | [More](/api/commands/select-parent-node)  |
+| .setNodeSelection()   | Creates a NodeSelection.                | [More](/api/commands/set-node-selection)  |
+| .setTextSelection()   | Creates a TextSelection.                | [More](/api/commands/set-text-selection)  |
 
 <!-- ## Example use cases
 

@@ -184,6 +184,10 @@
           link: /api/commands/set-mark
         - title: setNode
           link: /api/commands/set-node
+        - title: setNodeSelection
+          link: /api/commands/set-node-selection
+        - title: setTextSelection
+          link: /api/commands/set-text-selection
         - title: sinkListItem
           link: /api/commands/sink-list-item
         - title: splitBlock

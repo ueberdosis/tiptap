@@ -34,6 +34,8 @@ import * as selectParentNode from '../commands/selectParentNode'
 import * as setContent from '../commands/setContent'
 import * as setMark from '../commands/setMark'
 import * as setNode from '../commands/setNode'
+import * as setNodeSelection from '../commands/setNodeSelection'
+import * as setTextSelection from '../commands/setTextSelection'
 import * as sinkListItem from '../commands/sinkListItem'
 import * as splitBlock from '../commands/splitBlock'
 import * as splitListItem from '../commands/splitListItem'
@@ -84,6 +86,8 @@ export { selectParentNode }
 export { setContent }
 export { setMark }
 export { setNode }
+export { setNodeSelection }
+export { setTextSelection }
 export { sinkListItem }
 export { splitBlock }
 export { splitListItem }
@@ -139,6 +143,8 @@ export const Commands = Extension.create({
       ...setContent,
       ...setMark,
       ...setNode,
+      ...setNodeSelection,
+      ...setTextSelection,
       ...sinkListItem,
       ...splitBlock,
       ...splitListItem,
