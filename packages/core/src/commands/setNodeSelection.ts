@@ -1,4 +1,5 @@
 import { NodeSelection } from 'prosemirror-state'
+import minMax from '../utilities/minMax'
 import { Command, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
@@ -14,7 +15,9 @@ declare module '@tiptap/core' {
 
 export const setNodeSelection: RawCommands['setNodeSelection'] = position => ({ tr, dispatch }) => {
   if (dispatch) {
-    const selection = NodeSelection.create(tr.doc, position)
+    const { doc } = tr
+    const from = minMax(position, 0, doc.content.size)
+    const selection = NodeSelection.create(doc, from)
 
     tr.setSelection(selection)
   }
