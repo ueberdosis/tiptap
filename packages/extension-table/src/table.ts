@@ -24,6 +24,7 @@ import {
   toggleHeaderCell,
   setCellAttr,
   fixTables,
+  CellSelection,
 } from 'prosemirror-tables'
 import { NodeView } from 'prosemirror-view'
 import { TextSelection } from 'prosemirror-state'
@@ -62,6 +63,7 @@ declare module '@tiptap/core' {
       goToNextCell: () => Command,
       goToPreviousCell: () => Command,
       fixTables: () => Command,
+      setCellSelection: (position: { anchorCell: number, headCell?: number }) => Command,
     }
   }
 
@@ -180,6 +182,16 @@ export const Table = Node.create<TableOptions>({
       fixTables: () => ({ state, dispatch }) => {
         if (dispatch) {
           fixTables(state)
+        }
+
+        return true
+      },
+      setCellSelection: position => ({ tr, dispatch }) => {
+        if (dispatch) {
+          const selection = CellSelection.create(tr.doc, position.anchorCell, position.headCell)
+
+          // @ts-ignore
+          tr.setSelection(selection)
         }
 
         return true
