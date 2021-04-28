@@ -43,6 +43,9 @@
         #   skip: true
     - title: Upgrade guide
       link: /overview/upgrade-guide
+    - title: Changelog
+      link: /changelog
+      type: draft
     - title: About the project
       link: /sponsor
       type: sponsor
