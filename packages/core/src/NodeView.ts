@@ -3,6 +3,7 @@ import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor as CoreEditor } from './Editor'
 import { Node } from './Node'
+import isiOS from './utilities/isiOS'
 import { NodeViewRendererProps } from './types'
 
 interface NodeViewRendererOptions {
@@ -176,22 +177,50 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   }
 
   ignoreMutation(mutation: MutationRecord | { type: 'selection', target: Element }) {
-    if (mutation.type === 'selection') {
-      if (this.node.isLeaf) {
-        return true
-      }
-
-      return false
-    }
-
-    if (!this.contentDOM) {
+    if (!this.dom || !this.contentDOM) {
       return true
     }
 
-    const contentDOMHasChanged = !this.contentDOM.contains(mutation.target)
-      || (this.contentDOM === mutation.target && mutation.type === 'attributes')
+    // a leaf/atom node is like a black box for ProseMirror
+    // and should be fully handled by the node view
+    if (this.node.isLeaf) {
+      return true
+    }
 
-    return contentDOMHasChanged
+    // ProseMirror should handle any selections
+    if (mutation.type === 'selection') {
+      return false
+    }
+
+    // try to prevent a bug on iOS that will break node views on enter
+    // this is because ProseMirror can’t preventDispatch on enter
+    // this will lead to a re-render of the node view on enter
+    // see: https://github.com/ueberdosis/tiptap/issues/1214
+    if (this.dom.contains(mutation.target) && mutation.type === 'childList' && isiOS()) {
+      const changedNodes = [
+        ...Array.from(mutation.addedNodes),
+        ...Array.from(mutation.removedNodes),
+      ] as HTMLElement[]
+
+      // we’ll check if every changed node is contentEditable
+      // to make sure it’s probably mutated by ProseMirror
+      if (changedNodes.every(node => node.isContentEditable)) {
+        return false
+      }
+    }
+
+    // we will allow mutation contentDOM with attributes
+    // so we can for example adding classes within our node view
+    if (this.contentDOM === mutation.target && mutation.type === 'attributes') {
+      return true
+    }
+
+    // ProseMirror should handle any changes within contentDOM
+    if (this.contentDOM.contains(mutation.target)) {
+      return false
+    }
+
+    return true
   }
 
   updateAttributes(attributes: {}) {
