@@ -28,9 +28,21 @@ export default class NodeViewCache {
 
   findByNodeAndPosition(node: any, pos: any) {
     const index = this.data.findIndex(item => {
-      return JSON.stringify(node) === JSON.stringify(item.instance.node)
-        && pos === item.instance.position
-        // && item.instance.isSame
+      // return JSON.stringify(node) === JSON.stringify(item.instance.node)
+      //   && pos === item.instance.position
+      //   && item.instance.isSame
+
+      const sameNode = JSON.stringify(node) === JSON.stringify(item.instance.node)
+      const samePos = pos === item.instance.position
+      const isSame = item.instance.isSame
+
+      console.log(pos, item.instance.position)
+
+      console.log({ sameNode, samePos, isSame })
+
+      return sameNode && samePos && isSame
+      //   && pos === item.instance.position
+      //   && item.instance.isSame
     })
     return this.removeIndex(index)
   }

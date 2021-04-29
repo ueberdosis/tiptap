@@ -50,23 +50,23 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     this.decorations = props.decorations
     this.getPos = props.getPos
 
+    this.position = this.getPos()
+
     // const cache = this.editor.nodeViewCache.findByNode(this.node.toJSON())
     // const cache = this.editor.nodeViewCache.findByNodeAndPosition(this.node.toJSON(), this.getPos())
-    const cache = this.editor.nodeViewCache.findByNodeAndPosition(this.node.toJSON(), this.getPos())
+    const cache = this.editor.nodeViewCache.findByNodeAndPosition(this.node.toJSON(), this.position)
 
-    console.log({ cache })
+    console.log({ cache }, this.editor.nodeViewCache)
 
     if (cache) {
       cache.instance.getPos = this.getPos
 
-      this.editor.nodeViewCache.add({
+      cache.instance.cached = this.editor.nodeViewCache.add({
         instance: cache.instance,
       })
 
       return cache.instance
     }
-
-    this.position = this.getPos()
 
     this.onBeforeUpdateStateHandler = this.onBeforeUpdateState.bind(this)
     this.editor.on('beforeUpdateState', this.onBeforeUpdateStateHandler)
@@ -105,7 +105,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   }
 
   destroy() {
-    this.editor.off('beforeUpdateState', this.onBeforeUpdateStateHandler)
+    // this.editor.off('beforeUpdateState', this.onBeforeUpdateStateHandler)
 
     setTimeout(() => this.destroyCachedComponent(this.cached.id), 0)
 
@@ -114,11 +114,13 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   }
 
   destroyCachedComponent(id: any) {
+    // this.editor.off('beforeUpdateState', this.onBeforeUpdateStateHandler)
     const cached = this.editor.nodeViewCache.findById(id)
 
     console.log('destroy', cached)
 
     if (cached) {
+      this.editor.off('beforeUpdateState', cached.instance.onBeforeUpdateStateHandler)
       // @ts-ignore
       this.afterDestroy?.()
     }
