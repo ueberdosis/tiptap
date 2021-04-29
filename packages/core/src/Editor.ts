@@ -14,6 +14,7 @@ import createStyleTag from './utilities/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
+import NodeViewCache from './NodeViewCache'
 import {
   EditorOptions,
   CanCommands,
@@ -43,6 +44,8 @@ export class Editor extends EventEmitter {
 
   public isFocused = false
 
+  public nodeViewCache!: NodeViewCache
+
   public options: EditorOptions = {
     element: document.createElement('div'),
     content: '',
@@ -67,6 +70,7 @@ export class Editor extends EventEmitter {
   constructor(options: Partial<EditorOptions> = {}) {
     super()
     this.setOptions(options)
+    this.createNodeViewCache()
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
@@ -87,6 +91,10 @@ export class Editor extends EventEmitter {
       this.emit('create', { editor: this })
     }, 0)
 
+  }
+
+  public createNodeViewCache(): void {
+    this.nodeViewCache = new NodeViewCache()
   }
 
   /**
@@ -296,6 +304,10 @@ export class Editor extends EventEmitter {
     const state = this.state.apply(transaction)
     const selectionHasChanged = !this.state.selection.eq(state.selection)
 
+    this.emit('beforeUpdateState', {
+      editor: this,
+      transaction,
+    })
     this.view.updateState(state)
     this.emit('transaction', {
       editor: this,
@@ -328,6 +340,18 @@ export class Editor extends EventEmitter {
     if (!transaction.docChanged || transaction.getMeta('preventUpdate')) {
       return
     }
+
+    // let pos = 12
+
+    // transaction.mapping.maps.forEach(map => {
+    //   pos = map.map(pos)
+    // })
+
+    // console.log({
+    //   transaction,
+    //   // pos12: transaction.doc.resolve(12),
+    //   pos,
+    // })
 
     this.emit('update', {
       editor: this,

@@ -1,9 +1,10 @@
 import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
-import { NodeSelection } from 'prosemirror-state'
+import { NodeSelection, Transaction } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor as CoreEditor } from './Editor'
 import { Node } from './Node'
 import isiOS from './utilities/isiOS'
+import minMax from './utilities/minMax'
 import { NodeViewRendererProps } from './types'
 
 interface NodeViewRendererOptions {
@@ -13,15 +14,15 @@ interface NodeViewRendererOptions {
 
 export class NodeView<Component, Editor extends CoreEditor = CoreEditor> implements ProseMirrorNodeView {
 
-  component: Component
+  component!: Component
 
-  editor: Editor
+  editor!: Editor
 
-  extension: Node
+  extension!: Node
 
-  node: ProseMirrorNode
+  node!: ProseMirrorNode
 
-  decorations: Decoration[]
+  decorations!: Decoration[]
 
   getPos: any
 
@@ -32,6 +33,14 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     update: null,
   }
 
+  position!: number | null
+
+  isSame!: boolean
+
+  cached!: any
+
+  onBeforeUpdateStateHandler: any
+
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<NodeViewRendererOptions>) {
     this.component = component
     this.options = { ...this.options, ...options }
@@ -40,12 +49,79 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     this.node = props.node
     this.decorations = props.decorations
     this.getPos = props.getPos
+
+    // const cache = this.editor.nodeViewCache.findByNode(this.node.toJSON())
+    // const cache = this.editor.nodeViewCache.findByNodeAndPosition(this.node.toJSON(), this.getPos())
+    const cache = this.editor.nodeViewCache.findByNodeAndPosition(this.node.toJSON(), this.getPos())
+
+    console.log({ cache })
+
+    if (cache) {
+      cache.instance.getPos = this.getPos
+
+      this.editor.nodeViewCache.add({
+        instance: cache.instance,
+      })
+
+      return cache.instance
+    }
+
+    this.position = this.getPos()
+
+    this.onBeforeUpdateStateHandler = this.onBeforeUpdateState.bind(this)
+    this.editor.on('beforeUpdateState', this.onBeforeUpdateStateHandler)
+
     this.mount()
+
+    this.cached = this.editor.nodeViewCache.add({
+      instance: this,
+    })
+  }
+
+  onBeforeUpdateState({ transaction }: { transaction: Transaction }) {
+    if (transaction.docChanged) {
+      let newPosition = 0
+
+      transaction.mapping.maps.forEach(map => {
+        // @ts-ignore
+        newPosition = map.map(this.position)
+        // newPosition = map.map(this.getPos())
+      })
+
+      const nodeAtPos = transaction.doc.nodeAt(newPosition)
+      const isSame = nodeAtPos === this.node
+
+      this.isSame = isSame
+
+      console.log({ isSame, newPosition, cache: this.editor.nodeViewCache.data })
+
+      this.position = newPosition
+    }
   }
 
   mount() {
     // eslint-disable-next-line
     return
+  }
+
+  destroy() {
+    this.editor.off('beforeUpdateState', this.onBeforeUpdateStateHandler)
+
+    setTimeout(() => this.destroyCachedComponent(this.cached.id), 0)
+
+    // @ts-ignore
+    // this.afterDestroy?.()
+  }
+
+  destroyCachedComponent(id: any) {
+    const cached = this.editor.nodeViewCache.findById(id)
+
+    console.log('destroy', cached)
+
+    if (cached) {
+      // @ts-ignore
+      this.afterDestroy?.()
+    }
   }
 
   get dom(): Element | null {
