@@ -1,9 +1,11 @@
-import Vue, { PropType } from 'vue'
+import Vue from 'vue'
 import { Editor } from './Editor'
+import VueCompositionAPI, { defineComponent, PropType } from '@vue/composition-api'
 
-export const EditorContent = Vue.extend({
+Vue.use(VueCompositionAPI)
+
+export const EditorContent = defineComponent({
   name: 'EditorContent',
-
   props: {
     editor: {
       default: null,
@@ -14,7 +16,7 @@ export const EditorContent = Vue.extend({
   watch: {
     editor: {
       immediate: true,
-      handler(editor: Editor) {
+      handler(this: Vue, editor: Editor) {
         if (editor && editor.options.element) {
           this.$nextTick(() => {
             const element = this.$el
