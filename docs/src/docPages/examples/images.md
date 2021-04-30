@@ -1,7 +1,11 @@
 # Images
 
-:::pro Fund the development ♥
-We need your support to maintain, update, support and develop tiptap. If you’re hoping for more features related to images, [become a sponsor and fund our work](/sponsor).
+:::pro What about …
+We’d love to build more features related to images: Resizeable images, images with a caption, floating images … But that takes time.
+
+Though thousands of developers use tiptap every day, it’s still not our full-time job. We’d like to change that. Are you able to help us reach our goal?
+
+[Become a sponsor on GitHub →](https://github.com/sponsors/ueberdosis)
 :::
 
 <demo name="Examples/Images" />

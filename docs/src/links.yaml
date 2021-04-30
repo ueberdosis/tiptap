@@ -131,90 +131,128 @@
       items:
         - title: blur
           link: /api/commands/blur
+          type: draft
         - title: clearContent
           link: /api/commands/clear-content
         - title: clearNodes
           link: /api/commands/clear-nodes
         - title: createParagraphNear
           link: /api/commands/create-paragraph-near
+          type: draft
         - title: deleteRange
           link: /api/commands/delete-range
+          type: draft
         - title: deleteSelection
           link: /api/commands/delete-selection
+          type: draft
         - title: enter
           link: /api/commands/enter
+          type: draft
         - title: exitCode
           link: /api/commands/exit-code
+          type: draft
         - title: extendMarkRange
           link: /api/commands/extend-mark-range
+          type: draft
         - title: focus
           link: /api/commands/focus
+          type: draft
         - title: insertContent
           link: /api/commands/insert-content
         - title: joinBackward
           link: /api/commands/join-backward
+          type: draft
         - title: joinForward
           link: /api/commands/join-forward
+          type: draft
         - title: keyboardShortcut
           link: /api/commands/keyboard-shortcut
+          type: draft
         - title: liftEmptyBlock
           link: /api/commands/lift-empty-block
+          type: draft
         - title: liftListItem
           link: /api/commands/lift-list-item
+          type: draft
         - title: lift
           link: /api/commands/lift
+          type: draft
         - title: newlineInCode
           link: /api/commands/newline-in-code
+          type: draft
         - title: replaceRange
           link: /api/commands/replace-range
+          type: draft
         - title: replace
           link: /api/commands/replace
+          type: draft
         - title: resetAttributes
           link: /api/commands/reset-attributes
+          type: draft
         - title: scrollIntoView
           link: /api/commands/scroll-into-view
+          type: draft
         - title: selectAll
           link: /api/commands/select-all
+          type: draft
         - title: selectNodeBackward
           link: /api/commands/select-node-backward
+          type: draft
         - title: selectNodeForward
           link: /api/commands/select-node-forward
+          type: draft
         - title: selectParentNode
           link: /api/commands/select-parent-node
+          type: draft
         - title: setContent
           link: /api/commands/set-content
         - title: setMark
           link: /api/commands/set-mark
+          type: draft
         - title: setNode
           link: /api/commands/set-node
+          type: draft
         - title: setNodeSelection
           link: /api/commands/set-node-selection
+          type: draft
         - title: setTextSelection
           link: /api/commands/set-text-selection
+          type: draft
         - title: sinkListItem
           link: /api/commands/sink-list-item
+          type: draft
         - title: splitBlock
           link: /api/commands/split-block
+          type: draft
         - title: splitListItem
           link: /api/commands/split-list-item
+          type: draft
         - title: toggleList
           link: /api/commands/toggle-list
+          type: draft
         - title: toggleMark
           link: /api/commands/toggle-mark
+          type: draft
         - title: toggleNode
           link: /api/commands/toggle-node
+          type: draft
         - title: toggleWrap
           link: /api/commands/toggle-wrap
+          type: draft
         - title: undoInputRule
           link: /api/commands/undo-input-rule
+          type: draft
         - title: unsetAllMarks
           link: /api/commands/unset-all-marks
+          type: draft
         - title: unsetMark
           link: /api/commands/unset-mark
+          type: draft
         - title: updateAtttributes
           link: /api/commands/update-attributes
         - title: wrapInList
           link: /api/commands/wrap-in-list
+          type: draft
     - title: Nodes
       link: /api/nodes
       items:
