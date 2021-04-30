@@ -10,6 +10,9 @@ import Vue from 'vue'
 import { VueConstructor, PropType } from 'vue/types/umd'
 import { Editor } from './Editor'
 import { VueRenderer } from './VueRenderer'
+import VueCompositionAPI, { defineComponent, provide } from '@vue/composition-api'
+
+Vue.use(VueCompositionAPI)
 
 export const nodeViewProps = {
   editor: {
@@ -72,19 +75,19 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {
       value: this.getDecorationClasses(),
     })
 
-    const Component = Vue
-      .extend(this.component)
-      .extend({
-        props: Object.keys(props),
-        provide: () => {
-          return {
-            onDragStart,
-            decorationClasses: this.decorationClasses,
-          }
-        },
-      })
+    const extendedComponent = defineComponent({
+      // @ts-ignore
+      extends: { ...this.component },
+      props: Object.keys(props),
+      setup: () => {
+        provide('onDragStart', onDragStart)
+        provide('decorationClasses', this.decorationClasses)
 
-    this.renderer = new VueRenderer(Component, {
+        return (this.component as any).setup?.(props)
+      },
+    })
+
+    this.renderer = new VueRenderer(extendedComponent, {
       parent: this.editor.contentComponent,
       propsData: props,
     })

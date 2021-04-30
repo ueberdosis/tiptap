@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
+import VueCompositionAPI, { defineComponent } from '@vue/composition-api'
+
+Vue.use(VueCompositionAPI)
 
 export class VueRenderer {
   ref!: Vue
 
   constructor(component: Vue | VueConstructor, props: any) {
-    const Component = Vue.extend(component)
+    const Component = defineComponent(component)
 
     this.ref = new Component(props).$mount()
   }

@@ -1,6 +1,8 @@
 import Vue from 'vue'
+import VueCompositionAPI, { defineComponent, h } from '@vue/composition-api'
 
-export const NodeViewContent = Vue.extend({
+Vue.use(VueCompositionAPI)
+export const NodeViewContent = defineComponent({
   props: {
     as: {
       type: String,
@@ -8,8 +10,9 @@ export const NodeViewContent = Vue.extend({
     },
   },
 
-  render(createElement) {
-    return createElement(
+  render() {
+    return h(
+      // @ts-ignore
       this.as, {
         style: {
           whiteSpace: 'pre-wrap',

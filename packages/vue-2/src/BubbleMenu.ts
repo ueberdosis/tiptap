@@ -1,7 +1,10 @@
-import Vue, { PropType } from 'vue'
 import { BubbleMenuPlugin, BubbleMenuPluginKey, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
+import Vue from 'vue'
+import VueCompositionAPI, { defineComponent, PropType } from '@vue/composition-api'
 
-export const BubbleMenu = Vue.extend({
+Vue.use(VueCompositionAPI)
+
+export const BubbleMenu = defineComponent({
   name: 'BubbleMenu',
 
   props: {

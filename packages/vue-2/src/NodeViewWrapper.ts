@@ -1,6 +1,9 @@
 import Vue from 'vue'
+import VueCompositionAPI, { defineComponent, h } from '@vue/composition-api'
 
-export const NodeViewWrapper = Vue.extend({
+Vue.use(VueCompositionAPI)
+
+export const NodeViewWrapper = defineComponent({
   props: {
     as: {
       type: String,
@@ -10,8 +13,9 @@ export const NodeViewWrapper = Vue.extend({
 
   inject: ['onDragStart', 'decorationClasses'],
 
-  render(createElement) {
-    return createElement(
+  render() {
+    return h(
+      // @ts-ignore
       this.as, {
         // @ts-ignore
         class: this.decorationClasses.value,

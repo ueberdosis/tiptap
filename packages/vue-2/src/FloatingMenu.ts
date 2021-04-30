@@ -1,7 +1,9 @@
-import Vue, { PropType } from 'vue'
 import { FloatingMenuPlugin, FloatingMenuPluginKey, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
+import Vue from 'vue'
+import VueCompositionAPI, { defineComponent, PropType } from '@vue/composition-api'
 
-export const FloatingMenu = Vue.extend({
+Vue.use(VueCompositionAPI)
+export const FloatingMenu = defineComponent({
   name: 'FloatingMenu',
 
   props: {
