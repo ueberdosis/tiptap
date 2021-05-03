@@ -54,7 +54,7 @@ export default class CommandManager {
         view.dispatch(tr)
       }
 
-      return () => callbacks.every(callback => callback === true)
+      return callbacks.every(callback => callback === true)
     }
 
     const chain = {
