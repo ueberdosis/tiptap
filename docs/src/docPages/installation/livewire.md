@@ -12,12 +12,12 @@ The following guide describes how to integrate tiptap with your [Livewire](https
 TODO
 
 ## editor.blade.php
-```html
-<!--
+```blade
+{{--
   In your livewire component you could add an
   autosave method to handle saving the content
   from the editor every 10 seconds if you wanted
--->
+--}}
 <x-editor
   wire:model="foo"
   wire:poll.10000ms="autosave"
@@ -25,13 +25,12 @@ TODO
 ```
 
 ## my-livewire-component.blade.php
-```html
+```blade
 <div
   x-data="setupEditor(
-    @entangle($attributes->wire('model')).defer
+    $wire.entangle('{{ $attributes->wire('model') }}').defer
   )"
   x-init="() => init($refs.editor)"
-  x-on:click.away="inFocus = false;"
   wire:ignore
   {{ $attributes->whereDoesntStartWith('wire:model') }}
 >
@@ -41,43 +40,39 @@ TODO
 
 ## index.js
 ```js
-import { Editor as TipTap } from "@tiptap/core"
+import { Editor } from "@tiptap/core"
 import { defaultExtensions } from "@tiptap/starter-kit"
 
 window.setupEditor = function (content) {
   return {
-    content: content,
-    inFocus: false,
-    // updatedAt is to force Alpine to
-    // rerender on selection change
-    updatedAt: Date.now(),
     editor: null,
+    content: content,
 
-    init(el) {
-      let editor = new TipTap({
-        element: el,
+    init(element) {
+      this.editor = new Editor({
+        element: element,
         extensions: defaultExtensions(),
         content: this.content,
-        editorProps: {
-          attributes: {
-            class: "prose-sm py-4 focus:outline-none"
-          }
+        onUpdate: ({ editor }) => {
+          this.content = editor.getHTML()
         }
       })
 
-      editor.on("update", () => {
-        this.content = this.editor.getHTML()
-      })
+      this.$watch('content', (content) => {
+        // If the new content matches TipTap's then we just skip.
+        if (content === this.editor.getHTML()) return
 
-      editor.on("focus", () => {
-        this.inFocus = true
+        /*
+          Otherwise, it means that a force external to TipTap
+          is modifying the data on this Alpine component,
+          which could be Livewire itself.
+          In this case, we just need to update TipTap's
+          content and we're good to do.
+          For more information on the `setContent()` method, see:
+            https://www.tiptap.dev/api/commands/set-content
+        */
+        this.editor.commands.setContent(content, false)
       })
-
-      editor.on("selection", () => {
-        this.updatedAt = Date.now()
-      })
-
-      this.editor = editor
     }
   }
 }
