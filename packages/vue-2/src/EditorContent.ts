@@ -1,7 +1,12 @@
-import Vue, { PropType } from 'vue'
+import Vue, { PropType, Component } from 'vue'
 import { Editor } from './Editor'
 
-export const EditorContent = Vue.extend({
+interface EditorContentInterface extends Vue {
+  editor: Editor
+}
+
+/** @this Component */
+export const EditorContent: Component = {
   name: 'EditorContent',
 
   props: {
@@ -14,7 +19,7 @@ export const EditorContent = Vue.extend({
   watch: {
     editor: {
       immediate: true,
-      handler(editor: Editor) {
+      handler(this: EditorContentInterface, editor: Editor) {
         if (editor && editor.options.element) {
           this.$nextTick(() => {
             const element = this.$el
@@ -24,7 +29,6 @@ export const EditorContent = Vue.extend({
             }
 
             element.appendChild(editor.options.element.firstChild)
-
             editor.contentComponent = this
 
             editor.setOptions({
@@ -43,6 +47,7 @@ export const EditorContent = Vue.extend({
   },
 
   beforeDestroy() {
+    // @ts-ignore
     const { editor } = this
 
     if (!editor.isDestroyed) {
@@ -65,4 +70,4 @@ export const EditorContent = Vue.extend({
       element: newElement,
     })
   },
-})
+}

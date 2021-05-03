@@ -1,6 +1,10 @@
-import Vue from 'vue'
+import Vue, { Component } from 'vue'
 
-export const NodeViewContent = Vue.extend({
+interface NodeViewContentInterface extends Vue {
+  as: string
+}
+
+export const NodeViewContent: Component = {
   props: {
     as: {
       type: String,
@@ -8,7 +12,7 @@ export const NodeViewContent = Vue.extend({
     },
   },
 
-  render(createElement) {
+  render(this: NodeViewContentInterface, createElement) {
     return createElement(
       this.as, {
         style: {
@@ -20,4 +24,4 @@ export const NodeViewContent = Vue.extend({
       },
     )
   },
-})
+}
