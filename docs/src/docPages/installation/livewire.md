@@ -12,12 +12,12 @@ The following guide describes how to integrate tiptap with your [Livewire](https
 TODO
 
 ## editor.blade.php
-```blade
-{{--
+```html
+<!--
   In your livewire component you could add an
   autosave method to handle saving the content
   from the editor every 10 seconds if you wanted
---}}
+-->
 <x-editor
   wire:model="foo"
   wire:poll.10000ms="autosave"
@@ -25,7 +25,7 @@ TODO
 ```
 
 ## my-livewire-component.blade.php
-```blade
+```html
 <div
   x-data="setupEditor(
     $wire.entangle('{{ $attributes->wire('model') }}').defer
