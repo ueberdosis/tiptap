@@ -178,6 +178,22 @@ const CustomParagraph = Paragraph.extend({
 
 You can disable the rendering of attributes, if you pass `rendered: false`.
 
+#### Extend existing attributes
+If you want to add an attribute to an extension and keep existing attributes, you can access them through `this.parent()`. In some cases, it is undefined, so make sure to check for that case, or use optional chaining `this.parent?.()`
+
+```js
+const CustomTableCell = TableCell.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      myCustomAttribute: {
+        // …
+      },
+    }
+  },
+})
+```
+
 ### Global Attributes
 Attributes can be applied to multiple extensions at once. That’s useful for text alignment, line height, color, font family, and other styling related attributes.
 
@@ -398,6 +414,52 @@ const CustomExtension = Extension.create({
   },
   onDestroy() {
     // The editor is being destroyed.
+  },
+})
+```
+
+### ProseMirror Plugins (Advanced)
+After all, tiptap is built on ProseMirror and ProseMirror has a pretty powerful plugin API, too. To access that directly, use `addProseMirrorPlugins()`.
+
+#### Existing plugins
+You can wrap existing ProseMirror plugins in tiptap extensions like shown in the example below.
+
+```js
+import { history } from 'prosemirror-history'
+
+const History = Extension.create({
+  addProseMirrorPlugins() {
+    return [
+      history(),
+      // …
+    ]
+  },
+})
+```
+
+#### Access the ProseMirror API
+To hook into events, for example a click, double click or when content is pasted, you can pass event handlers as `editorProps` to the [editor](/api/editor). Or you can add them to a tiptap extension like shown in the below example.
+
+```js
+import { Extension } from '@tiptap/core'
+import { Plugin, PluginKey } from 'prosemirror-state'
+
+export const EventHandler = Extension.create({
+  name: 'eventHandler',
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey('eventHandler'),
+        props: {
+          handleClick(view, pos, event) { /* … */ },
+          handleDoubleClick(view, pos, event) { /* … */ },
+          handlePaste(view, event, slice) { /* … */ },
+          // … and many, many more.
+          // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
+        },
+      }),
+    ]
   },
 })
 ```
