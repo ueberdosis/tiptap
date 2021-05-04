@@ -1,3 +1,3 @@
 # liftEmptyBlock
 
-TODO
+<ContentMissing />

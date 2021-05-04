@@ -13,7 +13,7 @@
       v-if="$route.name === 'home'"
       color="yellow"
     >
-      Get early access to our Node.js collaboration backend →
+      Early access to our plug & play collaboration backend →
     </banner-message>
 
     <div class="app__navigation">
