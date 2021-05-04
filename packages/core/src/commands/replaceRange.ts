@@ -16,15 +16,15 @@ declare module '@tiptap/core' {
 export const replaceRange: RawCommands['replaceRange'] = (range, typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const { from, to } = range
-  const $from = tr.doc.resolve(from)
-  const index = $from.index()
+  // const $from = tr.doc.resolve(from)
+  // const index = $from.index()
 
-  if (!$from.parent.canReplaceWith(index, index, type)) {
-    return false
-  }
+  // if (!$from.parent.canReplaceWith(index, index, type)) {
+  //   return false
+  // }
 
   if (dispatch) {
-    tr.replaceWith(from, to, type.create(attributes))
+    tr.replaceRangeWith(from, to, type.create(attributes))
   }
 
   return true
