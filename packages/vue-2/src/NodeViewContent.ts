@@ -1,7 +1,7 @@
 import Vue, { Component } from 'vue'
 
-interface NodeViewContentInterface extends Vue {
-  as: string
+export interface NodeViewContentInterface extends Vue {
+  as: string,
 }
 
 export const NodeViewContent: Component = {

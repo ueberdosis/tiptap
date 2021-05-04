@@ -42,7 +42,7 @@ export const nodeViewProps = {
   },
 }
 
-interface VueNodeViewRendererOptions {
+export interface VueNodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
 }

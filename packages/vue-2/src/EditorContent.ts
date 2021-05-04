@@ -1,11 +1,10 @@
 import Vue, { PropType, Component } from 'vue'
 import { Editor } from './Editor'
 
-interface EditorContentInterface extends Vue {
-  editor: Editor
+export interface EditorContentInterface extends Vue {
+  editor: Editor,
 }
 
-/** @this Component */
 export const EditorContent: Component = {
   name: 'EditorContent',
 
@@ -46,8 +45,7 @@ export const EditorContent: Component = {
     return createElement('div')
   },
 
-  beforeDestroy() {
-    // @ts-ignore
+  beforeDestroy(this: EditorContentInterface) {
     const { editor } = this
 
     if (!editor.isDestroyed) {

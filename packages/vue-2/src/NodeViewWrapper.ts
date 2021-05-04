@@ -1,13 +1,11 @@
 import Vue, { Component } from 'vue'
 
-interface DecorationClass {
-  value: string
-}
-
-interface NodeViewWrapperInterface extends Vue {
+export interface NodeViewWrapperInterface extends Vue {
   as: string,
-  decorationClasses: DecorationClass,
-  onDragStart: Function
+  decorationClasses: {
+    value: string,
+  },
+  onDragStart: Function,
 }
 
 export const NodeViewWrapper: Component = {
