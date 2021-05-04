@@ -1,7 +1,12 @@
-import Vue, { PropType } from 'vue'
+import Vue, { Component, PropType } from 'vue'
 import { BubbleMenuPlugin, BubbleMenuPluginKey, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 
-export const BubbleMenu = Vue.extend({
+interface BubleMenuInterface extends Vue {
+  tippyOptions: BubbleMenuPluginProps['tippyOptions'],
+  editor: BubbleMenuPluginProps['editor']
+}
+
+export const BubbleMenu: Component = {
   name: 'BubbleMenu',
 
   props: {
@@ -19,7 +24,7 @@ export const BubbleMenu = Vue.extend({
   watch: {
     editor: {
       immediate: true,
-      handler(editor: BubbleMenuPluginProps['editor']) {
+      handler(this: BubleMenuInterface, editor: BubbleMenuPluginProps['editor']) {
         if (!editor) {
           return
         }
@@ -35,11 +40,11 @@ export const BubbleMenu = Vue.extend({
     },
   },
 
-  render(createElement) {
+  render(this: BubleMenuInterface, createElement) {
     return createElement('div', { style: { visibility: 'hidden' } }, this.$slots.default)
   },
 
-  beforeDestroy() {
+  beforeDestroy(this: BubleMenuInterface) {
     this.editor.unregisterPlugin(BubbleMenuPluginKey)
   },
-})
+}

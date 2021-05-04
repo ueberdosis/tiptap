@@ -1,6 +1,16 @@
-import Vue from 'vue'
+import Vue, { Component } from 'vue'
 
-export const NodeViewWrapper = Vue.extend({
+interface DecorationClass {
+  value: string
+}
+
+interface NodeViewWrapperInterface extends Vue {
+  as: string,
+  decorationClasses: DecorationClass,
+  onDragStart: Function
+}
+
+export const NodeViewWrapper: Component = {
   props: {
     as: {
       type: String,
@@ -10,10 +20,9 @@ export const NodeViewWrapper = Vue.extend({
 
   inject: ['onDragStart', 'decorationClasses'],
 
-  render(createElement) {
+  render(this: NodeViewWrapperInterface, createElement) {
     return createElement(
       this.as, {
-        // @ts-ignore
         class: this.decorationClasses.value,
         style: {
           whiteSpace: 'normal',
@@ -22,11 +31,10 @@ export const NodeViewWrapper = Vue.extend({
           'data-node-view-wrapper': '',
         },
         on: {
-          // @ts-ignore
           dragstart: this.onDragStart,
         },
       },
       this.$slots.default,
     )
   },
-})
+}

@@ -1,7 +1,12 @@
-import Vue, { PropType } from 'vue'
+import Vue, { Component, PropType } from 'vue'
 import { FloatingMenuPlugin, FloatingMenuPluginKey, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 
-export const FloatingMenu = Vue.extend({
+interface FloatingMenuInterface extends Vue {
+  tippyOptions: FloatingMenuPluginProps['tippyOptions'],
+  editor: FloatingMenuPluginProps['editor']
+}
+
+export const FloatingMenu: Component = {
   name: 'FloatingMenu',
 
   props: {
@@ -19,7 +24,7 @@ export const FloatingMenu = Vue.extend({
   watch: {
     editor: {
       immediate: true,
-      handler(editor: FloatingMenuPluginProps['editor']) {
+      handler(this: FloatingMenuInterface, editor: FloatingMenuPluginProps['editor']) {
         if (!editor) {
           return
         }
@@ -35,11 +40,11 @@ export const FloatingMenu = Vue.extend({
     },
   },
 
-  render(createElement) {
+  render(this: FloatingMenuInterface, createElement) {
     return createElement('div', { style: { visibility: 'hidden' } }, this.$slots.default)
   },
 
-  beforeDestroy() {
+  beforeDestroy(this: FloatingMenuInterface) {
     this.editor.unregisterPlugin(FloatingMenuPluginKey)
   },
-})
+}
