@@ -262,8 +262,19 @@ addCommands() {
 ```
 -->
 
-## Add custom commands
-All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those.
+## Write your own commands
+All extensions can add additional commands (and most do), check out the specific [documentation for the provided nodes](/api/nodes), [marks](/api/marks), and [extensions](/api/extensions) to learn more about those. And of course, you can [add your custom extensions](/guide/custom-extensions) with custom commands aswell.
 
-Of course, you can [add your custom extensions](/guide/custom-extensions) with custom commands aswell.
+But how do you write those commands? There’s a little bit to learn about that.
+
+:::pro Oops, this is work in progress
+A well-written documentation needs attention to detail, a great understanding of the project and time to write.
+
+Though tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! With nearly 300 sponsors we are half way there already.
+
+Join them and become a sponsor! Enable us to put more time into open source and we’ll fill this page and keep it up to date for you.
+
+[Become a sponsor on GitHub →](https://github.com/sponsors/ueberdosis)
+:::
+
 

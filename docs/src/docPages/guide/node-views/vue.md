@@ -58,7 +58,7 @@ props: {
 },
 ```
 
-That enables you to access node attributes in your Vue component. Let’s say you have [added an attribute](/guide/extend-extensions#attributes) named `count` to your node extension (like we did in the above example) you could access it like this:
+That enables you to access node attributes in your Vue component. Let’s say you have [added an attribute](/guide/custom-extensions#attributes) named `count` to your node extension (like we did in the above example) you could access it like this:
 
 ```js
 this.node.attrs.count

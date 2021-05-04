@@ -104,8 +104,6 @@
       link: /guide/collaborative-editing
     - title: Custom extensions
       link: /guide/custom-extensions
-    - title: Overwrite & extend
-      link: /guide/extend-extensions
     - title: Interactive node views
       link: /guide/node-views
       items:

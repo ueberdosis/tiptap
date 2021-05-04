@@ -27,20 +27,20 @@ export default {
         DraggableItem,
       ],
       content: `
-        <p>paragraph</p>
+        <p>This is a boring paragraph.</p>
         <div data-type="draggable-item">
-          <p>draggable item</p>
+          <p>Followed by a fancy draggable item.</p>
         </div>
         <div data-type="draggable-item">
-          <p>another one</p>
+          <p>And another draggable item.</p>
           <div data-type="draggable-item">
-            <p>can be nested too</p>
+            <p>And a nested one.</p>
             <div data-type="draggable-item">
-              <p>but can we go deeper?</p>
+              <p>But can we go deeper?</p>
             </div>
           </div>
         </div>
-        <p>paragraph</p>
+        <p>Let’s finish with a boring paragraph.</p>
       `,
     })
   },
