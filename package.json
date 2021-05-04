@@ -5,10 +5,9 @@
     "packages/*"
   ],
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not IE <= 11",
-    "not IE_Mob <= 11"
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
   ],
   "scripts": {
     "start": "yarn --cwd ./docs start",
