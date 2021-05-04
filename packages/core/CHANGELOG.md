@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.42](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.41...@tiptap/core@2.0.0-beta.42) (2021-05-04)
+
+
+### Bug Fixes
+
+* ignore editable in dispatchTransaction, fix [#1239](https://github.com/ueberdosis/tiptap/issues/1239) ([b3fb022](https://github.com/ueberdosis/tiptap/commit/b3fb0228e04a227bfc4536b167a93b3172169378))
+
+
+
+
+
 # [2.0.0-beta.41](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.40...@tiptap/core@2.0.0-beta.41) (2021-04-27)
 
 

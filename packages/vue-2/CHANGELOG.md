@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.21...@tiptap/vue-2@2.0.0-beta.22) (2021-05-04)
+
+
+### Features
+
+* better types for Vue 2 ([23a152a](https://github.com/ueberdosis/tiptap/commit/23a152a8dfe35964d8ee39d1c6877550cdc4ce6a))
+
+
+
+
+
 # [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.20...@tiptap/vue-2@2.0.0-beta.21) (2021-04-23)
 
 **Note:** Version bump only for package @tiptap/vue-2

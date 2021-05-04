@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/vue-2",
   "description": "Vue components for tiptap",
-  "version": "2.0.0-beta.21",
+  "version": "2.0.0-beta.22",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -26,8 +26,8 @@
     "vue": "^2.6.12"
   },
   "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.0.0-beta.9",
-    "@tiptap/extension-floating-menu": "^2.0.0-beta.6",
+    "@tiptap/extension-bubble-menu": "^2.0.0-beta.10",
+    "@tiptap/extension-floating-menu": "^2.0.0-beta.7",
     "prosemirror-view": "^1.18.4"
   }
 }
