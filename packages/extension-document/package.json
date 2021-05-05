@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-document",
   "description": "document extension for tiptap",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.6",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-document.cjs.js",
   "umd": "dist/tiptap-extension-document.umd.js",
   "module": "dist/tiptap-extension-document.esm.js",
-  "unpkg": "dist/tiptap-extension-document.bundle.umd.min.js",
   "types": "dist/packages/extension-document/src/index.d.ts",
   "files": [
     "src",

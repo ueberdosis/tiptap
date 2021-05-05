@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table",
   "description": "table extension for tiptap",
-  "version": "2.0.0-beta.13",
+  "version": "2.0.0-beta.14",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-table.cjs.js",
   "umd": "dist/tiptap-extension-table.umd.js",
   "module": "dist/tiptap-extension-table.esm.js",
-  "unpkg": "dist/tiptap-extension-table.bundle.umd.min.js",
   "types": "dist/packages/extension-table/src/index.d.ts",
   "files": [
     "src",

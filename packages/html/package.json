@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/html",
   "description": "utility package to render tiptap JSON as HTML",
-  "version": "2.0.0-beta.43",
+  "version": "2.0.0-beta.44",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,14 +15,13 @@
   "main": "dist/tiptap-html.cjs.js",
   "umd": "dist/tiptap-html.umd.js",
   "module": "dist/tiptap-html.esm.js",
-  "unpkg": "dist/tiptap-html.bundle.umd.min.js",
   "types": "dist/packages/html/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "dependencies": {
-    "@tiptap/core": "^2.0.0-beta.43",
+    "@tiptap/core": "^2.0.0-beta.44",
     "hostic-dom": "^0.8.6",
     "prosemirror-model": "^1.14.1"
   }

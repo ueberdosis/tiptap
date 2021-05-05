@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-ordered-list",
   "description": "ordered list extension for tiptap",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.7",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-ordered-list.cjs.js",
   "umd": "dist/tiptap-extension-ordered-list.umd.js",
   "module": "dist/tiptap-extension-ordered-list.esm.js",
-  "unpkg": "dist/tiptap-extension-ordered-list.bundle.umd.min.js",
   "types": "dist/packages/extension-ordered-list/src/index.d.ts",
   "files": [
     "src",

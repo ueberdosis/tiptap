@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-task-list",
   "description": "task list extension for tiptap",
-  "version": "2.0.0-beta.8",
+  "version": "2.0.0-beta.9",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-task-list.cjs.js",
   "umd": "dist/tiptap-extension-task-list.umd.js",
   "module": "dist/tiptap-extension-task-list.esm.js",
-  "unpkg": "dist/tiptap-extension-task-list.bundle.umd.min.js",
   "types": "dist/packages/extension-task-list/src/index.d.ts",
   "files": [
     "src",

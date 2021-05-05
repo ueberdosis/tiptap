@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table-header",
   "description": "table cell extension for tiptap",
-  "version": "2.0.0-beta.8",
+  "version": "2.0.0-beta.9",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-table-header.cjs.js",
   "umd": "dist/tiptap-extension-table-header.umd.js",
   "module": "dist/tiptap-extension-table-header.esm.js",
-  "unpkg": "dist/tiptap-extension-table-header.bundle.umd.min.js",
   "types": "dist/packages/extension-table-header/src/index.d.ts",
   "files": [
     "src",

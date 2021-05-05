@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code-block-lowlight",
   "description": "code block extension for tiptap",
-  "version": "2.0.0-beta.13",
+  "version": "2.0.0-beta.14",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-code-block-lowlight.cjs.js",
   "umd": "dist/tiptap-extension-code-block-lowlight.umd.js",
   "module": "dist/tiptap-extension-code-block-lowlight.esm.js",
-  "unpkg": "dist/tiptap-extension-code-block-lowlight.bundle.umd.min.js",
   "types": "dist/packages/extension-code-block-lowlight/src/index.d.ts",
   "files": [
     "src",
@@ -25,7 +24,7 @@
     "@tiptap/core": "^2.0.0-beta.1"
   },
   "dependencies": {
-    "@tiptap/extension-code-block": "^2.0.0-beta.8",
+    "@tiptap/extension-code-block": "^2.0.0-beta.9",
     "@types/lowlight": "^0.0.1",
     "lowlight": "^1.20.0",
     "prosemirror-model": "^1.14.1",

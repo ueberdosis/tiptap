@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-text-style",
   "description": "text style extension for tiptap",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.7",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-text-style.cjs.js",
   "umd": "dist/tiptap-extension-text-style.umd.js",
   "module": "dist/tiptap-extension-text-style.esm.js",
-  "unpkg": "dist/tiptap-extension-text-style.bundle.umd.min.js",
   "types": "dist/packages/extension-text-style/src/index.d.ts",
   "files": [
     "src",

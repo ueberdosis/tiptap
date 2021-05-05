@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-floating-menu",
   "description": "floating-menu extension for tiptap",
-  "version": "2.0.0-beta.7",
+  "version": "2.0.0-beta.8",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-floating-menu.cjs.js",
   "umd": "dist/tiptap-extension-floating-menu.umd.js",
   "module": "dist/tiptap-extension-floating-menu.esm.js",
-  "unpkg": "dist/tiptap-extension-floating-menu.bundle.umd.min.js",
   "types": "dist/packages/extension-floating-menu/src/index.d.ts",
   "files": [
     "src",

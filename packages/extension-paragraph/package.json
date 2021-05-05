@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-paragraph",
   "description": "paragraph extension for tiptap",
-  "version": "2.0.0-beta.7",
+  "version": "2.0.0-beta.8",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-paragraph.cjs.js",
   "umd": "dist/tiptap-extension-paragraph.umd.js",
   "module": "dist/tiptap-extension-paragraph.esm.js",
-  "unpkg": "dist/tiptap-extension-paragraph.bundle.umd.min.js",
   "types": "dist/packages/extension-paragraph/src/index.d.ts",
   "files": [
     "src",

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-collaboration",
   "description": "collaboration extension for tiptap",
-  "version": "2.0.0-beta.10",
+  "version": "2.0.0-beta.11",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-collaboration.cjs.js",
   "umd": "dist/tiptap-extension-collaboration.umd.js",
   "module": "dist/tiptap-extension-collaboration.esm.js",
-  "unpkg": "dist/tiptap-extension-collaboration.bundle.umd.min.js",
   "types": "dist/packages/extension-collaboration/src/index.d.ts",
   "files": [
     "src",

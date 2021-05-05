@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-collaboration-cursor",
   "description": "collaboration cursor extension for tiptap",
-  "version": "2.0.0-beta.12",
+  "version": "2.0.0-beta.13",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-collaboration-cursor.cjs.js",
   "umd": "dist/tiptap-extension-collaboration-cursor.umd.js",
   "module": "dist/tiptap-extension-collaboration-cursor.esm.js",
-  "unpkg": "dist/tiptap-extension-collaboration-cursor.bundle.umd.min.js",
   "types": "dist/packages/extension-collaboration-cursor/src/index.d.ts",
   "files": [
     "src",

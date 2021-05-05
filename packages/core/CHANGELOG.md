@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.44](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.43...@tiptap/core@2.0.0-beta.44) (2021-05-05)
+
+
+### Features
+
+* remove deprecated commands insertHTML, insertNode and insertText ([86d570f](https://github.com/ueberdosis/tiptap/commit/86d570fb79b89a061cf1a5374a377ed6d9bca49e))
+
+
+
+
+
 # [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.42...@tiptap/core@2.0.0-beta.43) (2021-05-05)
 
 **Note:** Version bump only for package @tiptap/core

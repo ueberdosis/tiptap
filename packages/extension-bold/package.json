@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bold",
   "description": "bold extension for tiptap",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.7",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-bold.cjs.js",
   "umd": "dist/tiptap-extension-bold.umd.js",
   "module": "dist/tiptap-extension-bold.esm.js",
-  "unpkg": "dist/tiptap-extension-bold.bundle.umd.min.js",
   "types": "dist/packages/extension-bold/src/index.d.ts",
   "files": [
     "src",

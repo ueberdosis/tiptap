@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-mention",
   "description": "mention extension for tiptap",
-  "version": "2.0.0-beta.44",
+  "version": "2.0.0-beta.45",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-mention.cjs.js",
   "umd": "dist/tiptap-extension-mention.umd.js",
   "module": "dist/tiptap-extension-mention.esm.js",
-  "unpkg": "dist/tiptap-extension-mention.bundle.umd.min.js",
   "types": "dist/packages/extension-mention/src/index.d.ts",
   "files": [
     "src",
@@ -25,6 +24,6 @@
     "@tiptap/core": "^2.0.0-beta.1"
   },
   "dependencies": {
-    "@tiptap/suggestion": "^2.0.0-beta.44"
+    "@tiptap/suggestion": "^2.0.0-beta.45"
   }
 }

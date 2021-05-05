@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code",
   "description": "code extension for tiptap",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.7",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-code.cjs.js",
   "umd": "dist/tiptap-extension-code.umd.js",
   "module": "dist/tiptap-extension-code.esm.js",
-  "unpkg": "dist/tiptap-extension-code.bundle.umd.min.js",
   "types": "dist/packages/extension-code/src/index.d.ts",
   "files": [
     "src",

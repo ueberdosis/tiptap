@@ -50,7 +50,6 @@
     "rollup": "^2.47.0",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
-    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "rollup-plugin-vue": "5",
     "typescript": "^4.2.4",

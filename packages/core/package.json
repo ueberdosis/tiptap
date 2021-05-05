@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/core",
   "description": "headless rich text editor",
-  "version": "2.0.0-beta.43",
+  "version": "2.0.0-beta.44",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -17,7 +17,6 @@
   "main": "dist/tiptap-core.cjs.js",
   "umd": "dist/tiptap-core.umd.js",
   "module": "dist/tiptap-core.esm.js",
-  "unpkg": "dist/tiptap-core.bundle.umd.min.js",
   "types": "dist/packages/core/src/index.d.ts",
   "files": [
     "src",

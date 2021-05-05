@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/vue-2",
   "description": "Vue components for tiptap",
-  "version": "2.0.0-beta.22",
+  "version": "2.0.0-beta.23",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,7 +15,6 @@
   "main": "dist/tiptap-vue-2.cjs.js",
   "umd": "dist/tiptap-vue-2.umd.js",
   "module": "dist/tiptap-vue-2.esm.js",
-  "unpkg": "dist/tiptap-vue-2.bundle.umd.min.js",
   "types": "dist/packages/vue-2/src/index.d.ts",
   "files": [
     "src",
@@ -26,8 +25,8 @@
     "vue": "^2.6.12"
   },
   "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.0.0-beta.10",
-    "@tiptap/extension-floating-menu": "^2.0.0-beta.7",
+    "@tiptap/extension-bubble-menu": "^2.0.0-beta.11",
+    "@tiptap/extension-floating-menu": "^2.0.0-beta.8",
     "prosemirror-view": "^1.18.4"
   }
 }
