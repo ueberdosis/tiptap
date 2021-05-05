@@ -20,15 +20,11 @@ declare module '@tiptap/core' {
 
 export const insertContentAt: RawCommands['insertContentAt'] = (range, value) => ({ tr, dispatch, editor }) => {
   if (dispatch) {
-    if (range.from !== range.to) {
-      tr.deleteRange(range.from, range.to)
-    }
-
     const content = createNodeFromContent(value, editor.schema)
 
-    tr.insert(range.from, content)
-    selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
-    tr.scrollIntoView()
+    // @ts-ignore
+    tr.replaceRangeWith(range.from, range.to, content)
+    selectionToInsertionEnd(tr, tr.steps.length - 1, 1)
   }
 
   return true
