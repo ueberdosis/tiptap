@@ -26,8 +26,8 @@ export const insertContentAt: RawCommands['insertContentAt'] = (range, value) =>
       return true
     }
 
-    if (!tr.selection.empty) {
-      tr.deleteRange(range.from, range.to)
+    if (range.from !== range.to) {
+      tr.delete(range.from, range.to)
     }
 
     tr.insert(range.from, content)
