@@ -60,7 +60,16 @@ export interface EditorOptions {
   onDestroy: () => void,
 }
 
-export type Content = string | Record<string, any> | null
+export type HTMLContent = string
+
+export type JSONContent = {
+  type: string,
+  attrs?: Record<string, any>,
+  content?: JSONContent[],
+  [key: string]: any,
+}
+
+export type Content = HTMLContent | JSONContent | JSONContent[] | null
 
 export type CommandProps = {
   editor: Editor,
