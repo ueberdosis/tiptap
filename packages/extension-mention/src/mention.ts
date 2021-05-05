@@ -17,11 +17,16 @@ export const Mention = Node.create<MentionOptions>({
         editor
           .chain()
           .focus()
-          .insertContentAt(range, {
-            type: 'mention',
-            attrs: props,
-          })
-          .insertContent(' ')
+          .insertContentAt(range, [
+            {
+              type: 'mention',
+              attrs: props,
+            },
+            {
+              type: 'text',
+              text: ' ',
+            },
+          ])
           .run()
       },
       allow: ({ editor, range }) => {
