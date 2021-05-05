@@ -15,6 +15,7 @@ tiptap is framework-agnostic and even works with Vanilla JavaScript, if that’s
 * [Svelte](/installation/svelte)
 * [Alpine.js](/installation/alpine)
 * [Livewire](/installation/livewire) (Draft)
+* [Angular](https://github.com/sibiraj-s/ngx-tiptap) (community package)
 
 ## Vanilla JavaScript
 
