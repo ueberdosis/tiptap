@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.8...@tiptap/extension-link@2.0.0-beta.9) (2021-05-05)
+
+
+### Features
+
+* add linkOnPaste option for adding a link to the current selection if the pasted content only contains an url, fix [#1210](https://github.com/ueberdosis/tiptap/issues/1210) ([9e9401e](https://github.com/ueberdosis/tiptap/commit/9e9401e68b79d34070fb79c4f356841fa19fe436))
+
+
+
+
+
 # [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.7...@tiptap/extension-link@2.0.0-beta.8) (2021-04-23)
 
 **Note:** Version bump only for package @tiptap/extension-link
