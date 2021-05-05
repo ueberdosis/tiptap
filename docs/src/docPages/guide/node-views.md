@@ -102,11 +102,6 @@ parseHTML() {
 ### Render JavaScript/Vue/React
 But what if you want to render your actual JavaScript/Vue/React code? Consider using tiptap to render your output. Just set the editor to `editable: false` and no one will notice you’re using an editor to render the content. :-)
 
-## Dragging
-To make your node views draggable, set `draggable: true` in the extension and add `data-drag-handle` to the DOM element that should function as the drag handle.
-
-<demo name="Guide/NodeViews/DragHandle" />
-
 <!-- ## Reference
 
 ### dom: ?⁠dom.Node

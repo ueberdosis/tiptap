@@ -106,3 +106,8 @@ Here is the full list of what props you can expect:
 | `extension`        | Access to the node extension, for example to get options |
 | `getPos`           | Get the document position of the current node            |
 | `updateAttributes` | Update attributes of the current node                    |
+
+## Dragging
+To make your node views draggable, set `draggable: true` in the extension and add `data-drag-handle` to the DOM element that should function as the drag handle.
+
+<!-- <demo name="Guide/NodeViews/DragHandle" /> -->

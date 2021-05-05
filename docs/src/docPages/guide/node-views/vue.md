@@ -189,3 +189,8 @@ export default Vue.extend({
   props: nodeViewProps,
 })
 ```
+
+## Dragging
+To make your node views draggable, set `draggable: true` in the extension and add `data-drag-handle` to the DOM element that should function as the drag handle.
+
+<demo name="Guide/NodeViews/DragHandle" />
