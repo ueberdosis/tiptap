@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-horizontal-rule@2.0.0-beta.8...@tiptap/extension-horizontal-rule@2.0.0-beta.9) (2021-05-05)
+
+
+### Bug Fixes
+
+* fix lint error ([d5dd568](https://github.com/ueberdosis/tiptap/commit/d5dd568d862fee60c975ec7314615032f0558872))
+
+
+
+
+
 # [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-horizontal-rule@2.0.0-beta.7...@tiptap/extension-horizontal-rule@2.0.0-beta.8) (2021-05-04)
 
 **Note:** Version bump only for package @tiptap/extension-horizontal-rule

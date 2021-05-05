@@ -29,5 +29,27 @@ editor.commands.insertContent({
     },
   ],
 })
+
+// Multiple nodes at once
+editor.commands.insertContent([
+  {
+    type: 'paragraph',
+    content: [
+      {
+        type: 'text',
+        text: 'First paragraph',
+      },
+    ],
+  },
+  {
+    type: 'paragraph',
+    content: [
+      {
+        type: 'text',
+        text: 'Second paragraph',
+      },
+    ],
+  },
+])
 ```
 

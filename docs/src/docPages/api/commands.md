@@ -154,11 +154,12 @@ export default () => ({ commands }) => {
 Have a look at all of the core commands listed below. They should give you a good first impression of what’s possible.
 
 ### Content
-| Command          | Description                                              | Links                                |
-| ---------------- | -------------------------------------------------------- | ------------------------------------ |
-| .clearContent()  | Clear the whole document.                                | [More](/api/commands/clear-content)  |
-| .insertContent() | Insert a node or string of HTML at the current position. | [More](/api/commands/insert-content) |
-| .setContent()    | Replace the whole document with new content.             | [More](/api/commands/set-content)    |
+| Command            | Description                                              | Links                                   |
+| ------------------ | -------------------------------------------------------- | --------------------------------------- |
+| .clearContent()    | Clear the whole document.                                | [More](/api/commands/clear-content)     |
+| .insertContent()   | Insert a node or string of HTML at the current position. | [More](/api/commands/insert-content)    |
+| .insertContentAt() | Insert a node or string of HTML at a specific position.  | [More](/api/commands/insert-content-at) |
+| .setContent()      | Replace the whole document with new content.             | [More](/api/commands/set-content)       |
 
 ### Nodes & Marks
 | Command                 | Description                                               | Links                                |
@@ -172,8 +173,6 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .lift()                 | Removes an existing wrap.                                 | [More](/api/commands/lift)  |
 | .liftEmptyBlock()       | Lift block if empty.                                      | [More](/api/commands/lift-empty-block)  |
 | .newlineInCode()        | Add a newline character in code.                          | [More](/api/commands/newline-in-code)  |
-| .replace()              | Replaces text with a node.                                | [More](/api/commands/replace)  |
-| .replaceRange()         | Replaces text with a node within a range.                 | [More](/api/commands/replace-range)  |
 | .resetAttributes()      | Resets some node or mark attributes to the default value. | [More](/api/commands/reset-attributes)  |
 | .setMark()              | Add a mark with new attributes.                           | [More](/api/commands/set-mark)  |
 | .setNode()              | Replace a given range with a node.                        | [More](/api/commands/set-node)  |

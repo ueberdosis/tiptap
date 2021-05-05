@@ -41,7 +41,7 @@ export class VueRenderer {
   }
 
   get ref(): any {
-    return this.editor.contentComponent?.ctx.$refs[this.id]
+    return this.editor.contentComponent?.refs[this.id]
   }
 
   updateProps(props: Record<string, any> = {}): void {

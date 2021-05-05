@@ -13,6 +13,8 @@ declare module '@tiptap/core' {
 }
 
 export const replace: RawCommands['replace'] = (typeOrName, attributes = {}) => ({ state, commands }) => {
+  console.warn('[tiptap warn]: replace() is deprecated. please use insertContent() instead.')
+
   const { from, to } = state.selection
   const range = { from, to }
 
