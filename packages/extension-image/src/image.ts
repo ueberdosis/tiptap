@@ -69,15 +69,11 @@ export const Image = Node.create<ImageOptions>({
 
   addCommands() {
     return {
-      setImage: options => ({ tr, dispatch }) => {
-        const { selection } = tr
-        const node = this.type.create(options)
-
-        if (dispatch) {
-          tr.replaceRangeWith(selection.from, selection.to, node)
-        }
-
-        return true
+      setImage: options => ({ commands }) => {
+        return commands.insertContent({
+          type: this.name,
+          attrs: options,
+        })
       },
     }
   },
