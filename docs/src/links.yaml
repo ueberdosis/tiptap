@@ -157,6 +157,9 @@
           type: draft
         - title: insertContent
           link: /api/commands/insert-content
+        - title: insertContentAt
+          link: /api/commands/insert-content-at
+          type: draft
         - title: joinBackward
           link: /api/commands/join-backward
           type: draft
@@ -177,12 +180,6 @@
           type: draft
         - title: newlineInCode
           link: /api/commands/newline-in-code
-          type: draft
-        - title: replaceRange
-          link: /api/commands/replace-range
-          type: draft
-        - title: replace
-          link: /api/commands/replace
           type: draft
         - title: resetAttributes
           link: /api/commands/reset-attributes

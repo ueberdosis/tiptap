@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
   interface Commands {
     insertContentAt: {
       /**
-       * Insert a node or string of HTML at the current position.
+       * Insert a node or string of HTML at a specific position.
        */
       insertContentAt: (range: Range, value: Content) => Command,
     }

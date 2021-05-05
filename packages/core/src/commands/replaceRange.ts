@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
 }
 
 export const replaceRange: RawCommands['replaceRange'] = (range, typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
+  console.warn('[tiptap warn]: replaceRange() is deprecated. please use insertContent() instead.')
+
   const type = getNodeType(typeOrName, state.schema)
   const { from, to } = range
   // const $from = tr.doc.resolve(from)
