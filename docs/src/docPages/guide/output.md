@@ -121,7 +121,7 @@ That’s what the `generateHTML()` is for. It’s a helper function which render
 
 By the way, the other way is possible, too. The below examples shows how to generate JSON from HTML.
 
-<demo name="Guide/Content/GenerateJSON" highlight="6,17-23"/>
+<demo name="Guide/Content/GenerateJSON" highlight="6-7,18-24"/>
 
 ## Migration
 If you’re migrating existing content to tiptap we would recommend to get your existing output to HTML. That’s probably the best format to get your initial content into tiptap, because ProseMirror ensures there is nothing wrong with it. Even if there are some tags or attributes that aren’t allowed (based on your configuration), tiptap just throws them away quietly.
