@@ -7,7 +7,17 @@ import {
 import { Plugin, PluginKey } from 'prosemirror-state'
 
 export interface LinkOptions {
+  /**
+   * If enabled, links will be opened on click.
+   */
   openOnClick: boolean,
+  /**
+   * Adds a link to the current selection if the pasted content only contains an url.
+   */
+  linkOnPaste: boolean,
+  /**
+   * A list of HTML attributes to be rendered.
+   */
   HTMLAttributes: Record<string, any>,
 }
 
@@ -32,6 +42,7 @@ declare module '@tiptap/core' {
 
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
 export const pasteRegexWithBrackets = /(?:\()https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)(?:\))/gi
+export const pasteRegexExact = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)$/gi
 
 export const Link = Mark.create<LinkOptions>({
   name: 'link',
@@ -42,6 +53,7 @@ export const Link = Mark.create<LinkOptions>({
 
   defaultOptions: {
     openOnClick: true,
+    linkOnPaste: true,
     HTMLAttributes: {
       target: '_blank',
       rel: 'noopener noreferrer nofollow',
@@ -91,28 +103,65 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   addProseMirrorPlugins() {
-    if (!this.options.openOnClick) {
-      return []
+    const plugins = []
+
+    if (this.options.openOnClick) {
+      plugins.push(
+        new Plugin({
+          key: new PluginKey('handleClickLink'),
+          props: {
+            handleClick: (view, pos, event) => {
+              const attrs = this.editor.getMarkAttributes('link')
+              const link = (event.target as HTMLElement)?.closest('a')
+
+              if (link && attrs.href) {
+                window.open(attrs.href, attrs.target)
+
+                return true
+              }
+
+              return false
+            },
+          },
+        }),
+      )
     }
 
-    return [
-      new Plugin({
-        key: new PluginKey('handleClick'),
-        props: {
-          handleClick: (view, pos, event) => {
-            const attrs = this.editor.getMarkAttributes('link')
-            const link = (event.target as HTMLElement)?.closest('a')
+    if (this.options.linkOnPaste) {
+      plugins.push(
+        new Plugin({
+          key: new PluginKey('handlePasteLink'),
+          props: {
+            handlePaste: (view, event, slice) => {
+              const { state } = view
+              const { selection } = state
+              const { empty } = selection
 
-            if (link && attrs.href) {
-              window.open(attrs.href, attrs.target)
+              if (empty) {
+                return false
+              }
+
+              let textContent = ''
+
+              slice.content.forEach(node => {
+                textContent += node.textContent
+              })
+
+              if (!textContent || !textContent.match(pasteRegexExact)) {
+                return false
+              }
+
+              this.editor.commands.setMark(this.type, {
+                href: textContent,
+              })
 
               return true
-            }
-
-            return false
+            },
           },
-        },
-      }),
-    ]
+        }),
+      )
+    }
+
+    return plugins
   },
 })
