@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-history.cjs.js",
   "umd": "dist/tiptap-extension-history.umd.js",
   "module": "dist/tiptap-extension-history.esm.js",
-  "unpkg": "dist/tiptap-extension-history.bundle.umd.min.js",
   "types": "dist/packages/extension-history/src/index.d.ts",
   "files": [
     "src",

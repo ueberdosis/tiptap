@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-underline.cjs.js",
   "umd": "dist/tiptap-extension-underline.umd.js",
   "module": "dist/tiptap-extension-underline.esm.js",
-  "unpkg": "dist/tiptap-extension-underline.bundle.umd.min.js",
   "types": "dist/packages/extension-underline/src/index.d.ts",
   "files": [
     "src",

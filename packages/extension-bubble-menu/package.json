@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-bubble-menu.cjs.js",
   "umd": "dist/tiptap-extension-bubble-menu.umd.js",
   "module": "dist/tiptap-extension-bubble-menu.esm.js",
-  "unpkg": "dist/tiptap-extension-bubble-menu.bundle.umd.min.js",
   "types": "dist/packages/extension-bubble-menu/src/index.d.ts",
   "files": [
     "src",

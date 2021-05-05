@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-character-count.cjs.js",
   "umd": "dist/tiptap-extension-character-count.umd.js",
   "module": "dist/tiptap-extension-character-count.esm.js",
-  "unpkg": "dist/tiptap-extension-character-count.bundle.umd.min.js",
   "types": "dist/packages/extension-character-count/src/index.d.ts",
   "files": [
     "src",

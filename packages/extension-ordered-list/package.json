@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-ordered-list.cjs.js",
   "umd": "dist/tiptap-extension-ordered-list.umd.js",
   "module": "dist/tiptap-extension-ordered-list.esm.js",
-  "unpkg": "dist/tiptap-extension-ordered-list.bundle.umd.min.js",
   "types": "dist/packages/extension-ordered-list/src/index.d.ts",
   "files": [
     "src",

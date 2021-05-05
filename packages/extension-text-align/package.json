@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-text-align.cjs.js",
   "umd": "dist/tiptap-extension-text-align.umd.js",
   "module": "dist/tiptap-extension-text-align.esm.js",
-  "unpkg": "dist/tiptap-extension-text-align.bundle.umd.min.js",
   "types": "dist/packages/extension-text-align/src/index.d.ts",
   "files": [
     "src",

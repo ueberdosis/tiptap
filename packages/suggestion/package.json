@@ -15,7 +15,6 @@
   "main": "dist/tiptap-suggestion.cjs.js",
   "umd": "dist/tiptap-suggestion.umd.js",
   "module": "dist/tiptap-suggestion.esm.js",
-  "unpkg": "dist/tiptap-suggestion.bundle.umd.min.js",
   "types": "dist/packages/suggestion/src/index.d.ts",
   "files": [
     "src",

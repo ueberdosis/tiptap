@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-task-list.cjs.js",
   "umd": "dist/tiptap-extension-task-list.umd.js",
   "module": "dist/tiptap-extension-task-list.esm.js",
-  "unpkg": "dist/tiptap-extension-task-list.bundle.umd.min.js",
   "types": "dist/packages/extension-task-list/src/index.d.ts",
   "files": [
     "src",

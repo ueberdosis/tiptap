@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-strike.cjs.js",
   "umd": "dist/tiptap-extension-strike.umd.js",
   "module": "dist/tiptap-extension-strike.esm.js",
-  "unpkg": "dist/tiptap-extension-strike.bundle.umd.min.js",
   "types": "dist/packages/extension-strike/src/index.d.ts",
   "files": [
     "src",

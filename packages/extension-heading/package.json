@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-heading.cjs.js",
   "umd": "dist/tiptap-extension-heading.umd.js",
   "module": "dist/tiptap-extension-heading.esm.js",
-  "unpkg": "dist/tiptap-extension-heading.bundle.umd.min.js",
   "types": "dist/packages/extension-heading/src/index.d.ts",
   "files": [
     "src",

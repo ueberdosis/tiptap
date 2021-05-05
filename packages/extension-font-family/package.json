@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-font-family.cjs.js",
   "umd": "dist/tiptap-extension-font-family.umd.js",
   "module": "dist/tiptap-extension-font-family.esm.js",
-  "unpkg": "dist/tiptap-extension-font-family.bundle.umd.min.js",
   "types": "dist/packages/extension-font-family/src/index.d.ts",
   "files": [
     "src",

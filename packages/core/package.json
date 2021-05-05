@@ -17,7 +17,6 @@
   "main": "dist/tiptap-core.cjs.js",
   "umd": "dist/tiptap-core.umd.js",
   "module": "dist/tiptap-core.esm.js",
-  "unpkg": "dist/tiptap-core.bundle.umd.min.js",
   "types": "dist/packages/core/src/index.d.ts",
   "files": [
     "src",

@@ -9,7 +9,6 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import vuePlugin from 'rollup-plugin-vue'
 import babel from '@rollup/plugin-babel'
-import { terser } from 'rollup-plugin-terser'
 import sizes from '@atomico/rollup-plugin-sizes'
 import autoExternal from 'rollup-plugin-auto-external'
 
@@ -26,7 +25,7 @@ async function build(commandLineArgs) {
   const config = []
 
   // Support --scope and --ignore globs if passed in via commandline
-  const { scope, ignore, ci } = minimist(process.argv.slice(2))
+  const { scope, ignore } = minimist(process.argv.slice(2))
   const packages = await getSortedPackages(scope, ignore)
 
   // prevent rollup warning
@@ -42,7 +41,6 @@ async function build(commandLineArgs) {
       main,
       umd,
       module,
-      unpkg,
     } = pkg.toJSON()
 
     const basePlugins = [
@@ -99,41 +97,6 @@ async function build(commandLineArgs) {
         }),
       ],
     })
-
-    if (!ci) {
-      config.push({
-        input,
-        output: [
-          {
-            name,
-            file: path.join(basePath, unpkg),
-            format: 'umd',
-            sourcemap: true,
-            globals: {
-              '@tiptap/core': '@tiptap/core',
-              vue: 'Vue',
-            },
-          },
-        ],
-        external: [
-          '@tiptap/core',
-          'vue',
-        ],
-        plugins: [
-          ...basePlugins,
-          typescript({
-            tsconfigOverride: {
-              compilerOptions: {
-                paths: {
-                  '@tiptap/*': ['packages/*/src'],
-                },
-              },
-            },
-          }),
-          terser(),
-        ],
-      })
-    }
   })
 
   return config

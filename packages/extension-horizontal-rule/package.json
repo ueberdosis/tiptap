@@ -15,7 +15,6 @@
   "main": "dist/tiptap-extension-horizontal-rule.cjs.js",
   "umd": "dist/tiptap-extension-horizontal-rule.umd.js",
   "module": "dist/tiptap-extension-horizontal-rule.esm.js",
-  "unpkg": "dist/tiptap-extension-horizontal-rule.bundle.umd.min.js",
   "types": "dist/packages/extension-horizontal-rule/src/index.d.ts",
   "files": [
     "src",
