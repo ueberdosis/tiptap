@@ -47,10 +47,17 @@ context('/demos/Marks/Link', () => {
     })
   })
 
+  it('detects a pasted URL within a text', () => {
+    cy.get('.ProseMirror').paste({ pastePayload: 'some text https://example.com around an url', pasteType: 'text/plain' })
+      .find('a')
+      .should('contain', 'https://example.com')
+      .should('have.attr', 'href', 'https://example.com')
+  })
+
   it('detects a pasted URL', () => {
     cy.get('.ProseMirror').paste({ pastePayload: 'https://example.com', pasteType: 'text/plain' })
       .find('a')
-      .should('contain', 'https://example.com')
+      .should('contain', 'Example Text')
       .should('have.attr', 'href', 'https://example.com')
   })
 
