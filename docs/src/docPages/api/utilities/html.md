@@ -9,3 +9,7 @@ The utility helps rendering JSON content as HTML without an editor instance, for
 
 ## Usage
 <demo name="Guide/Content/GenerateHTML" highlight="6-7,42-48"/>
+
+By the way, the other way is possible, too. The below examples shows how to generate JSON from HTML.
+
+<demo name="Guide/Content/GenerateJSON" highlight="6,17-23"/>
