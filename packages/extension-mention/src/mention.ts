@@ -74,11 +74,15 @@ export const Mention = Node.create<MentionOptions>({
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    return ['span', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), `@${node.attrs.id}`]
+    return [
+      'span',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      `${this.options.suggestion.char}${node.attrs.id}`,
+    ]
   },
 
   renderText({ node }) {
-    return `@${node.attrs.id}`
+    return `${this.options.suggestion.char}${node.attrs.id}`
   },
 
   addKeyboardShortcuts() {
@@ -93,7 +97,7 @@ export const Mention = Node.create<MentionOptions>({
         }
 
         state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
-          if (node.type.name === 'mention') {
+          if (node.type.name === this.name) {
             isMention = true
             tr.insertText(this.options.suggestion.char || '', pos, pos + node.nodeSize)
 
