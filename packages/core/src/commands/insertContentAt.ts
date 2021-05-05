@@ -22,8 +22,9 @@ export const insertContentAt: RawCommands['insertContentAt'] = (range, value) =>
   if (dispatch) {
     const content = createNodeFromContent(value, editor.schema)
 
-    // @ts-ignore
-    tr.replaceRangeWith(range.from, range.to, content)
+    tr.replaceWith(range.from, range.to, content)
+
+    // set cursor at end of inserted content
     selectionToInsertionEnd(tr, tr.steps.length - 1, 1)
   }
 
