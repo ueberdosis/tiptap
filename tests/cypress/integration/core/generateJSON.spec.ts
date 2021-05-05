@@ -6,7 +6,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 
 describe('generateJSON', () => {
-  it('generate HTML from JSON without an editor instance', () => {
+  it('generate JSON from HTML without an editor instance', () => {
     const html = '<p>Example Text</p>'
 
     const json = generateJSON(html, [
