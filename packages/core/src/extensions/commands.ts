@@ -23,7 +23,6 @@ import * as newlineInCode from '../commands/newlineInCode'
 import * as replace from '../commands/replace'
 import * as replaceRange from '../commands/replaceRange'
 import * as resetAttributes from '../commands/resetAttributes'
-import * as resetNodeAttributes from '../commands/resetNodeAttributes'
 import * as scrollIntoView from '../commands/scrollIntoView'
 import * as selectAll from '../commands/selectAll'
 import * as selectNodeBackward from '../commands/selectNodeBackward'
@@ -45,7 +44,6 @@ import * as undoInputRule from '../commands/undoInputRule'
 import * as unsetAllMarks from '../commands/unsetAllMarks'
 import * as unsetMark from '../commands/unsetMark'
 import * as updateAttributes from '../commands/updateAttributes'
-import * as updateNodeAttributes from '../commands/updateNodeAttributes'
 import * as wrapIn from '../commands/wrapIn'
 import * as wrapInList from '../commands/wrapInList'
 
@@ -73,7 +71,6 @@ export { newlineInCode }
 export { replace }
 export { replaceRange }
 export { resetAttributes }
-export { resetNodeAttributes }
 export { scrollIntoView }
 export { selectAll }
 export { selectNodeBackward }
@@ -95,7 +92,6 @@ export { undoInputRule }
 export { unsetAllMarks }
 export { unsetMark }
 export { updateAttributes }
-export { updateNodeAttributes }
 export { wrapIn }
 export { wrapInList }
 
@@ -128,7 +124,6 @@ export const Commands = Extension.create({
       ...replace,
       ...replaceRange,
       ...resetAttributes,
-      ...resetNodeAttributes,
       ...scrollIntoView,
       ...selectAll,
       ...selectNodeBackward,
@@ -150,7 +145,6 @@ export const Commands = Extension.create({
       ...unsetAllMarks,
       ...unsetMark,
       ...updateAttributes,
-      ...updateNodeAttributes,
       ...wrapIn,
       ...wrapInList,
     }
