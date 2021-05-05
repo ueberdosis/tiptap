@@ -1,5 +1,4 @@
 import { Command, Node, mergeAttributes } from '@tiptap/core'
-import { exitCode } from 'prosemirror-commands'
 
 export interface HardBreakOptions {
   HTMLAttributes: Record<string, any>,
@@ -41,16 +40,10 @@ export const HardBreak = Node.create<HardBreakOptions>({
 
   addCommands() {
     return {
-      setHardBreak: () => ({ commands, state, dispatch }) => {
+      setHardBreak: () => ({ commands }) => {
         return commands.first([
-          () => exitCode(state, dispatch),
-          () => {
-            if (dispatch) {
-              state.tr.replaceSelectionWith(this.type.create()).scrollIntoView()
-            }
-
-            return true
-          },
+          () => commands.exitCode(),
+          () => commands.insertContent({ type: this.name }),
         ])
       },
     }
