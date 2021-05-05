@@ -13,9 +13,6 @@ import * as first from '../commands/first'
 import * as focus from '../commands/focus'
 import * as insertContent from '../commands/insertContent'
 import * as insertContentAt from '../commands/insertContentAt'
-import * as insertHTML from '../commands/insertHTML'
-import * as insertNode from '../commands/insertNode'
-import * as insertText from '../commands/insertText'
 import * as joinBackward from '../commands/joinBackward'
 import * as joinForward from '../commands/joinForward'
 import * as keyboardShortcut from '../commands/keyboardShortcut'
@@ -66,9 +63,6 @@ export { first }
 export { focus }
 export { insertContent }
 export { insertContentAt }
-export { insertHTML }
-export { insertNode }
-export { insertText }
 export { joinBackward }
 export { joinForward }
 export { keyboardShortcut }
@@ -124,9 +118,6 @@ export const Commands = Extension.create({
       ...focus,
       ...insertContent,
       ...insertContentAt,
-      ...insertHTML,
-      ...insertNode,
-      ...insertText,
       ...joinBackward,
       ...joinForward,
       ...keyboardShortcut,
