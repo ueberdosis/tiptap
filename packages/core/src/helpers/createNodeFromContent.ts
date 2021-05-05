@@ -17,15 +17,19 @@ export default function createNodeFromContent(
   content: Content,
   schema: Schema,
   options?: CreateNodeFromContentOptions,
-): string | ProseMirrorNode | Fragment {
+): ProseMirrorNode | Fragment {
   options = {
     slice: true,
     parseOptions: {},
     ...options,
   }
 
-  if (content && typeof content === 'object') {
+  if (typeof content === 'object' && content !== null) {
     try {
+      if (Array.isArray(content)) {
+        return Fragment.fromArray(content.map(item => schema.nodeFromJSON(item)))
+      }
+
       return schema.nodeFromJSON(content)
     } catch (error) {
       console.warn(
@@ -41,17 +45,11 @@ export default function createNodeFromContent(
   }
 
   if (typeof content === 'string') {
-    const isHTML = content.trim().startsWith('<') && content.trim().endsWith('>')
+    const parser = DOMParser.fromSchema(schema)
 
-    if (isHTML || !options.slice) {
-      const parser = DOMParser.fromSchema(schema)
-
-      return options.slice
-        ? parser.parseSlice(elementFromString(content), options.parseOptions).content
-        : parser.parse(elementFromString(content), options.parseOptions)
-    }
-
-    return content
+    return options.slice
+      ? parser.parseSlice(elementFromString(content), options.parseOptions).content
+      : parser.parse(elementFromString(content), options.parseOptions)
   }
 
   return createNodeFromContent('', schema, options)

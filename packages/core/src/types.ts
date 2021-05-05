@@ -66,6 +66,7 @@ export type JSONContent = {
   type: string,
   attrs?: Record<string, any>,
   content?: JSONContent[],
+  text?: string,
   [key: string]: any,
 }
 

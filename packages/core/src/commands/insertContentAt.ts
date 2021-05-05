@@ -1,7 +1,10 @@
 import createNodeFromContent from '../helpers/createNodeFromContent'
 import selectionToInsertionEnd from '../helpers/selectionToInsertionEnd'
 import {
-  Command, RawCommands, Content, Range,
+  Command,
+  RawCommands,
+  Content,
+  Range,
 } from '../types'
 
 declare module '@tiptap/core' {
@@ -17,18 +20,11 @@ declare module '@tiptap/core' {
 
 export const insertContentAt: RawCommands['insertContentAt'] = (range, value) => ({ tr, dispatch, editor }) => {
   if (dispatch) {
-    const content = createNodeFromContent(value, editor.schema)
-
-    if (typeof content === 'string') {
-      tr.insertText(content)
-      tr.scrollIntoView()
-
-      return true
-    }
-
     if (range.from !== range.to) {
-      tr.delete(range.from, range.to)
+      tr.deleteRange(range.from, range.to)
     }
+
+    const content = createNodeFromContent(value, editor.schema)
 
     tr.insert(range.from, content)
     selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
