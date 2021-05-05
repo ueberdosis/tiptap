@@ -12,7 +12,7 @@ By default, it doesn’t trigger the update event. Passing `true` doesn’t prev
 
 ## Usage
 ```js
-// Remoe all content from the document
+// Remove all content from the document
 editor.commands.clearContent()
 
 // Remove all content, and trigger the `update` event
