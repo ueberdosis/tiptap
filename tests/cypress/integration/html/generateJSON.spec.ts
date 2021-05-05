@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { generateJSON } from 'packages/html/src/index'
+import { generateJSON } from '@tiptap/html'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
