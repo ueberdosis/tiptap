@@ -10,10 +10,12 @@ For testing purposes or demos, use our [Skypack](https://www.skypack.dev/) CDN b
   <div class="element"></div>
   <script type="module">
     import { Editor } from 'https://cdn.skypack.dev/@tiptap/core?min'
-    import { defaultExtensions } from 'https://cdn.skypack.dev/@tiptap/starter-kit?min'
+    import StarterKit from 'https://cdn.skypack.dev/@tiptap/starter-kit?min'
     const editor = new Editor({
       element: document.querySelector('.element'),
-      extensions: defaultExtensions(),
+      extensions: [
+        StarterKit,
+      ],
       content: '<p>Hello World!</p>',
     })
   </script>

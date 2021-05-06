@@ -6,7 +6,7 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import DragHandle from './DragHandle.js'
 
 export default {
@@ -23,7 +23,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        ...defaultExtensions(),
+        StarterKit,
         DragHandle,
       ],
       content: `

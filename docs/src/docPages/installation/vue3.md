@@ -52,7 +52,7 @@ This is the fastest way to get tiptap up and running with Vue. It will give you 
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 export default {
   components: {
@@ -68,7 +68,9 @@ export default {
   mounted() {
     this.editor = new Editor({
       content: '<p>I’m running tiptap with Vue.js. 🎉</p>',
-      extensions: defaultExtensions(),
+      extensions: [
+        StarterKit,
+      ],
     })
   },
 
@@ -88,7 +90,7 @@ Alternatively, you can use the Composition API with the `useEditor` method.
 
 <script>
 import { useEditor, EditorContent } from '@tiptap/vue-3'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 export default {
   components: {
@@ -98,7 +100,9 @@ export default {
   setup() {
     const editor = useEditor({
       content: '<p>I’m running tiptap with Vue.js. 🎉</p>',
-      extensions: defaultExtensions(),
+      extensions: [
+        StarterKit,
+      ],
     })
 
     return { editor }
@@ -141,7 +145,7 @@ You’re probably used to bind your data with `v-model` in forms, that’s also 
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 export default {
   components: {
@@ -176,7 +180,9 @@ export default {
   mounted() {
     this.editor = new Editor({
       content: this.modelValue,
-      extensions: defaultExtensions(),
+      extensions: [
+        StarterKit,
+      ],
       onUpdate: () => {
         this.$emit('update:modelValue', this.editor.getHTML())
       },

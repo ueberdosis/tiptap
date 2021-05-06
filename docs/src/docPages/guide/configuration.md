@@ -82,23 +82,25 @@ new Editor({
 Have a look at the documentation of the extension you use to learn more about their settings.
 
 ### Default extensions
-We have put together a few of the most common extensions and provide a `defaultExtensions()` helper to load them. Here is how you to use that:
+We have put together a few of the most common extensions and provide a `StarterKit` extension to load them. Here is how you to use that:
 
 ```js
-import { Editor, defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
 })
 ```
 
 And you can even pass configuration for all default extensions as an object. Just prefix the configuration with the extension name:
 
 ```js
-import { Editor, defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
-  extensions: defaultExtensions({
+  extensions: StarterKit.configure({
     heading: {
       levels: [1, 2, 3],
     },
@@ -106,15 +108,15 @@ new Editor({
 })
 ```
 
-The `defaultExtensions()` function returns an array, so if you want to load them and add some custom extensions you could write it like that:
+The `StarterKit` extension contains a list of extensions. If you want to load them and add some custom extensions you could write it like that:
 
 ```js
-import { Editor, defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import Strike from '@tiptap/extension-strike'
 
 new Editor({
   extensions: [
-    ...defaultExtensions(),
+    StarterKit,
     Strike,
   ],
 })
@@ -123,11 +125,13 @@ new Editor({
 Don’t want to load a specific extension? Just filter it out:
 
 ```js
-import { Editor, defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
   extensions: [
-    ...defaultExtensions().filter(extension => extension.name !== 'history'),
+    StarterKit.configure({
+      history: false,
+    }),
   ],
 })
 ```

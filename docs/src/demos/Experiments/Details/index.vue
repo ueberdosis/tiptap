@@ -20,7 +20,7 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import Details from './details'
 import DetailsSummary from './details-summary'
 
@@ -38,7 +38,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        ...defaultExtensions(),
+        StarterKit,
         Details,
         DetailsSummary,
       ],
