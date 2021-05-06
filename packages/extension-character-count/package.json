@@ -16,6 +16,14 @@
   "umd": "dist/tiptap-extension-character-count.umd.js",
   "module": "dist/tiptap-extension-character-count.esm.js",
   "types": "dist/packages/extension-character-count/src/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/tiptap-extension-character-count.esm.js",
+      "require": "./dist/tiptap-extension-character-count.cjs.js",
+      "default": "./dist/tiptap-extension-character-count.esm.js"
+    }
+  },
   "files": [
     "src",
     "dist"

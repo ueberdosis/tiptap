@@ -16,6 +16,14 @@
   "umd": "dist/tiptap-extension-blockquote.umd.js",
   "module": "dist/tiptap-extension-blockquote.esm.js",
   "types": "dist/packages/extension-blockquote/src/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/tiptap-extension-blockquote.esm.js",
+      "require": "./dist/tiptap-extension-blockquote.cjs.js",
+      "default": "./dist/tiptap-extension-blockquote.esm.js"
+    }
+  },
   "files": [
     "src",
     "dist"

@@ -16,6 +16,14 @@
   "umd": "dist/tiptap-extension-collaboration-cursor.umd.js",
   "module": "dist/tiptap-extension-collaboration-cursor.esm.js",
   "types": "dist/packages/extension-collaboration-cursor/src/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/tiptap-extension-collaboration-cursor.esm.js",
+      "require": "./dist/tiptap-extension-collaboration-cursor.cjs.js",
+      "default": "./dist/tiptap-extension-collaboration-cursor.esm.js"
+    }
+  },
   "files": [
     "src",
     "dist"

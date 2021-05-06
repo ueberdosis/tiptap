@@ -16,6 +16,14 @@
   "umd": "dist/tiptap-extension-text.umd.js",
   "module": "dist/tiptap-extension-text.esm.js",
   "types": "dist/packages/extension-text/src/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/tiptap-extension-text.esm.js",
+      "require": "./dist/tiptap-extension-text.cjs.js",
+      "default": "./dist/tiptap-extension-text.esm.js"
+    }
+  },
   "files": [
     "src",
     "dist"

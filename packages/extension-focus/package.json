@@ -16,6 +16,14 @@
   "umd": "dist/tiptap-extension-focus.umd.js",
   "module": "dist/tiptap-extension-focus.esm.js",
   "types": "dist/packages/extension-focus/src/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/tiptap-extension-focus.esm.js",
+      "require": "./dist/tiptap-extension-focus.cjs.js",
+      "default": "./dist/tiptap-extension-focus.esm.js"
+    }
+  },
   "files": [
     "src",
     "dist"

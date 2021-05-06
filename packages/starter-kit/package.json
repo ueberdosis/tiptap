@@ -16,6 +16,14 @@
   "umd": "dist/tiptap-starter-kit.umd.js",
   "module": "dist/tiptap-starter-kit.esm.js",
   "types": "dist/packages/starter-kit/src/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/tiptap-starter-kit.esm.js",
+      "require": "./dist/tiptap-starter-kit.cjs.js",
+      "default": "./dist/tiptap-starter-kit.esm.js"
+    }
+  },
   "files": [
     "src",
     "dist"
