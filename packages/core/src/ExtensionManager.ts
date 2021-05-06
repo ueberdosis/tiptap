@@ -27,7 +27,7 @@ export default class ExtensionManager {
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
-    this.extensions = this.sort(extensions)
+    this.extensions = this.sort(this.flatten(extensions))
     this.schema = getSchema(this.extensions)
 
     this.extensions.forEach(extension => {
@@ -128,7 +128,32 @@ export default class ExtensionManager {
     })
   }
 
-  private sort(extensions: Extensions) {
+  private flatten(extensions: Extensions): Extensions {
+    return extensions
+      .map(extension => {
+        const context = {
+          name: extension.name,
+          options: extension.options,
+          editor: this.editor,
+        }
+
+        const addExtensions = getExtensionField<AnyConfig['addExtensions']>(
+          extension,
+          'addExtensions',
+          context,
+        )
+
+        if (addExtensions) {
+          return this.flatten(addExtensions())
+        }
+
+        return extension
+      })
+      // `Infinity` will break TypeScript so we set a number that is probably high enough
+      .flat(10)
+  }
+
+  private sort(extensions: Extensions): Extensions {
     const defaultPriority = 100
 
     return extensions.sort((a, b) => {

@@ -5,6 +5,7 @@ import { Node } from './Node'
 import { Mark } from './Mark'
 import mergeDeep from './utilities/mergeDeep'
 import {
+  AnyExtension,
   GlobalAttributes,
   RawCommands,
   ParentConfig,
@@ -91,6 +92,16 @@ declare module '@tiptap/core' {
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['addProseMirrorPlugins'],
     }) => Plugin[],
+
+    /**
+     * Extensions
+     */
+    addExtensions?: (this: {
+      name: string,
+      options: Options,
+      editor: Editor,
+      parent: ParentConfig<ExtensionConfig<Options>>['addExtensions'],
+    }) => AnyExtension[],
 
     /**
      * Extend Node Schema
