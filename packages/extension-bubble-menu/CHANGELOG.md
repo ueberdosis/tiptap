@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.12](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.11...@tiptap/extension-bubble-menu@2.0.0-beta.12) (2021-05-06)
+
+
+### Bug Fixes
+
+* add CellSelection support for bubble menu ([6472d2c](https://github.com/ueberdosis/tiptap/commit/6472d2c2715bd29a061abae6a59963949c298e55))
+
+
+
+
+
 # [2.0.0-beta.11](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.10...@tiptap/extension-bubble-menu@2.0.0-beta.11) (2021-05-05)
 
 **Note:** Version bump only for package @tiptap/extension-bubble-menu
