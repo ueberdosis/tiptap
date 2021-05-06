@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration@2.0.0-beta.13...@tiptap/extension-collaboration@2.0.0-beta.14) (2021-05-06)
+
+
+### Bug Fixes
+
+* revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
+
+
+
+
+
 # [2.0.0-beta.13](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration@2.0.0-beta.12...@tiptap/extension-collaboration@2.0.0-beta.13) (2021-05-06)
 
 

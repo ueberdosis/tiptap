@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-document@2.0.0-beta.8...@tiptap/extension-document@2.0.0-beta.9) (2021-05-06)
+
+
+### Bug Fixes
+
+* revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
+
+
+
+
+
 # [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-document@2.0.0-beta.7...@tiptap/extension-document@2.0.0-beta.8) (2021-05-06)
 
 
