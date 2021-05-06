@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.42...@tiptap/starter-kit@2.0.0-beta.43) (2021-05-06)
+
+
+### Features
+
+* add StarterKit extension ([21384fc](https://github.com/ueberdosis/tiptap/commit/21384fc7a66dd7d1e3849be52ae4ab9adc26cf4e))
+
+
+
+
+
 # [2.0.0-beta.42](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.41...@tiptap/starter-kit@2.0.0-beta.42) (2021-05-06)
 
 **Note:** Version bump only for package @tiptap/starter-kit

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.46](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.45...@tiptap/core@2.0.0-beta.46) (2021-05-06)
+
+
+### Features
+
+* add addExtensions option ([26e672e](https://github.com/ueberdosis/tiptap/commit/26e672e2f02a8f94941c704f3cd6cc4adef40df7))
+
+
+
+
+
 # [2.0.0-beta.45](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.44...@tiptap/core@2.0.0-beta.45) (2021-05-06)
 
 **Note:** Version bump only for package @tiptap/core
