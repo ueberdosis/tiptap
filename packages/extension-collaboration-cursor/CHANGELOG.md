@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration-cursor@2.0.0-beta.14...@tiptap/extension-collaboration-cursor@2.0.0-beta.15) (2021-05-06)
+
+
+### Bug Fixes
+
+* add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
+
+
+
+
+
 # [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration-cursor@2.0.0-beta.13...@tiptap/extension-collaboration-cursor@2.0.0-beta.14) (2021-05-06)
 
 **Note:** Version bump only for package @tiptap/extension-collaboration-cursor

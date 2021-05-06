@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.30...@tiptap/react@2.0.0-beta.31) (2021-05-06)
+
+
+### Bug Fixes
+
+* add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
+
+
+
+
+
 # [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.29...@tiptap/react@2.0.0-beta.30) (2021-05-06)
 
 **Note:** Version bump only for package @tiptap/react
