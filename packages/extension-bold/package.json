@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-bold.umd.js",
   "module": "dist/tiptap-extension-bold.esm.js",
   "types": "dist/packages/extension-bold/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-bold.esm.js",

@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-table-cell.umd.js",
   "module": "dist/tiptap-extension-table-cell.esm.js",
   "types": "dist/packages/extension-table-cell/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-table-cell.esm.js",

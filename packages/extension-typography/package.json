@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-typography.umd.js",
   "module": "dist/tiptap-extension-typography.esm.js",
   "types": "dist/packages/extension-typography/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-typography.esm.js",

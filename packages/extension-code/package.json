@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-code.umd.js",
   "module": "dist/tiptap-extension-code.esm.js",
   "types": "dist/packages/extension-code/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-code.esm.js",

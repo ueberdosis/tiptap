@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-italic.umd.js",
   "module": "dist/tiptap-extension-italic.esm.js",
   "types": "dist/packages/extension-italic/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-italic.esm.js",

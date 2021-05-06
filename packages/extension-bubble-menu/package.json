@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-bubble-menu.umd.js",
   "module": "dist/tiptap-extension-bubble-menu.esm.js",
   "types": "dist/packages/extension-bubble-menu/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-bubble-menu.esm.js",

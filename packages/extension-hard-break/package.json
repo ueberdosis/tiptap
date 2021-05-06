@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-hard-break.umd.js",
   "module": "dist/tiptap-extension-hard-break.esm.js",
   "types": "dist/packages/extension-hard-break/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-hard-break.esm.js",

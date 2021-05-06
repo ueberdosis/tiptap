@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-ordered-list.umd.js",
   "module": "dist/tiptap-extension-ordered-list.esm.js",
   "types": "dist/packages/extension-ordered-list/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-ordered-list.esm.js",

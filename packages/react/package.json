@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-react.umd.js",
   "module": "dist/tiptap-react.esm.js",
   "types": "dist/packages/react/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-react.esm.js",

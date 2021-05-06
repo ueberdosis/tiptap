@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-heading.umd.js",
   "module": "dist/tiptap-extension-heading.esm.js",
   "types": "dist/packages/extension-heading/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-heading.esm.js",

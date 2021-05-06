@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-gapcursor.umd.js",
   "module": "dist/tiptap-extension-gapcursor.esm.js",
   "types": "dist/packages/extension-gapcursor/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-gapcursor.esm.js",

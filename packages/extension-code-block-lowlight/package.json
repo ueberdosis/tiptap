@@ -16,7 +16,6 @@
   "umd": "dist/tiptap-extension-code-block-lowlight.umd.js",
   "module": "dist/tiptap-extension-code-block-lowlight.esm.js",
   "types": "dist/packages/extension-code-block-lowlight/src/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/tiptap-extension-code-block-lowlight.esm.js",
