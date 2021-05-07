@@ -110,7 +110,6 @@ declare module '@tiptap/core' {
     addExtensions?: (this: {
       name: string,
       options: Options,
-      editor: Editor,
       parent: ParentConfig<MarkConfig<Options>>['addExtensions'],
     }) => Extensions,
 
