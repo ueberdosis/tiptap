@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.53](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.52...@tiptap/suggestion@2.0.0-beta.53) (2021-05-07)
+
+
+### Bug Fixes
+
+* move @tiptap/core to peerDependency ([a03a01a](https://github.com/ueberdosis/tiptap/commit/a03a01ab042f7c655139a08ed547a58d8b1d386f))
+
+
+
+
+
 # [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.51...@tiptap/suggestion@2.0.0-beta.52) (2021-05-07)
 
 **Note:** Version bump only for package @tiptap/suggestion
