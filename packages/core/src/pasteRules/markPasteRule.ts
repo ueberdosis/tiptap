@@ -1,7 +1,11 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Slice, Fragment, MarkType } from 'prosemirror-model'
 
-export default function (regexp: RegExp, type: MarkType, getAttrs?: (match: any) => any): Plugin {
+export default function (
+  regexp: RegExp,
+  type: MarkType,
+  getAttributes?: Record<string, any> | ((match: RegExpExecArray) => Record<string, any>),
+): Plugin {
   const handler = (fragment: Fragment, parent?: any) => {
     const nodes: any[] = []
 
@@ -22,7 +26,9 @@ export default function (regexp: RegExp, type: MarkType, getAttrs?: (match: any)
             const matchEnd = matchStart + match[outerMatch].length
             const textStart = matchStart + match[outerMatch].lastIndexOf(match[innerMatch])
             const textEnd = textStart + match[innerMatch].length
-            const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
+            const attrs = getAttributes instanceof Function
+              ? getAttributes(match)
+              : getAttributes
 
             // adding text before markdown to nodes
             if (matchStart > 0) {

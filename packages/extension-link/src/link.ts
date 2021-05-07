@@ -40,8 +40,14 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * A regex that matches any string that contains a link
+ */
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
-export const pasteRegexWithBrackets = /(?:\()https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)(?:\))/gi
+
+/**
+ * A regex that matches an url
+ */
 export const pasteRegexExact = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)$/gi
 
 export const Link = Mark.create<LinkOptions>({
@@ -97,8 +103,7 @@ export const Link = Mark.create<LinkOptions>({
 
   addPasteRules() {
     return [
-      markPasteRule(pasteRegex, this.type, (url: string) => ({ href: url })),
-      markPasteRule(pasteRegexWithBrackets, this.type, (url: string) => ({ href: url })),
+      markPasteRule(pasteRegex, this.type, match => ({ href: match[0] })),
     ]
   },
 
