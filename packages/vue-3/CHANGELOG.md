@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.32...@tiptap/vue-3@2.0.0-beta.33) (2021-05-07)
+
+
+### Bug Fixes
+
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+
+
+
+
+
 # [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.31...@tiptap/vue-3@2.0.0-beta.32) (2021-05-06)
 
 

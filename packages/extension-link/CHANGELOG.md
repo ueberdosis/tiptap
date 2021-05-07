@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.13...@tiptap/extension-link@2.0.0-beta.14) (2021-05-07)
+
+
+### Bug Fixes
+
+* fix a bug that messed up pasted link attributes, fix [#1284](https://github.com/ueberdosis/tiptap/issues/1284) ([7da647d](https://github.com/ueberdosis/tiptap/commit/7da647d99f1dcefabc653347a8e2abfae3bb972e))
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+
+
+
+
+
 # [2.0.0-beta.13](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.12...@tiptap/extension-link@2.0.0-beta.13) (2021-05-06)
 
 

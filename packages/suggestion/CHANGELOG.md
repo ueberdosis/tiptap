@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.49...@tiptap/suggestion@2.0.0-beta.50) (2021-05-07)
+
+
+### Bug Fixes
+
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+
+
+
+
+
 # [2.0.0-beta.49](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.48...@tiptap/suggestion@2.0.0-beta.49) (2021-05-06)
 
 
