@@ -40,8 +40,8 @@ TODO
 
 ## index.js
 ```js
-import { Editor } from "@tiptap/core"
-import { defaultExtensions } from "@tiptap/starter-kit"
+import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
 
 window.setupEditor = function (content) {
   return {
@@ -51,7 +51,9 @@ window.setupEditor = function (content) {
     init(element) {
       this.editor = new Editor({
         element: element,
-        extensions: defaultExtensions(),
+        extensions: [
+          StarterKit,
+        ],
         content: this.content,
         onUpdate: ({ editor }) => {
           this.content = editor.getHTML()

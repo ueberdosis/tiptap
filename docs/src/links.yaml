@@ -104,8 +104,6 @@
       link: /guide/collaborative-editing
     - title: Custom extensions
       link: /guide/custom-extensions
-    - title: Overwrite & extend
-      link: /guide/extend-extensions
     - title: Interactive node views
       link: /guide/node-views
       items:
@@ -159,6 +157,9 @@
           type: draft
         - title: insertContent
           link: /api/commands/insert-content
+        - title: insertContentAt
+          link: /api/commands/insert-content-at
+          type: draft
         - title: joinBackward
           link: /api/commands/join-backward
           type: draft
@@ -179,12 +180,6 @@
           type: draft
         - title: newlineInCode
           link: /api/commands/newline-in-code
-          type: draft
-        - title: replaceRange
-          link: /api/commands/replace-range
-          type: draft
-        - title: replace
-          link: /api/commands/replace
           type: draft
         - title: resetAttributes
           link: /api/commands/reset-attributes
@@ -248,7 +243,7 @@
         - title: unsetMark
           link: /api/commands/unset-mark
           type: draft
-        - title: updateAtttributes
+        - title: updateAttributes
           link: /api/commands/update-attributes
         - title: wrapInList
           link: /api/commands/wrap-in-list

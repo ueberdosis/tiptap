@@ -6,7 +6,7 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import DraggableItem from './DraggableItem.js'
 
 export default {
@@ -23,24 +23,24 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        ...defaultExtensions(),
+        StarterKit,
         DraggableItem,
       ],
       content: `
-        <p>paragraph</p>
+        <p>This is a boring paragraph.</p>
         <div data-type="draggable-item">
-          <p>draggable item</p>
+          <p>Followed by a fancy draggable item.</p>
         </div>
         <div data-type="draggable-item">
-          <p>another one</p>
+          <p>And another draggable item.</p>
           <div data-type="draggable-item">
-            <p>can be nested too</p>
+            <p>And a nested one.</p>
             <div data-type="draggable-item">
-              <p>but can we go deeper?</p>
+              <p>But can we go deeper?</p>
             </div>
           </div>
         </div>
-        <p>paragraph</p>
+        <p>Let’s finish with a boring paragraph.</p>
       `,
     })
   },

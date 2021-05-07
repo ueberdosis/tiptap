@@ -15,6 +15,7 @@ tiptap is framework-agnostic and even works with Vanilla JavaScript, if that’s
 * [Svelte](/installation/svelte)
 * [Alpine.js](/installation/alpine)
 * [Livewire](/installation/livewire) (Draft)
+* [Angular](https://github.com/sibiraj-s/ngx-tiptap) (community package)
 
 ## Vanilla JavaScript
 
@@ -44,11 +45,13 @@ Let’s initialize the editor in JavaScript now:
 
 ```js
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
   element: document.querySelector('.element'),
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
   content: '<p>Hello World!</p>',
 })
 ```

@@ -45,7 +45,7 @@ Got it? Let’s see it in action. Feel free to copy the below example to get sta
 That component doesn’t interact with the editor, though. Time to wire it up.
 
 ## Access node attributes
-The `ReactNodeViewRenderer` which you use in your node extension, passes a few very helpful props to your custom React component. One of them is the `node` prop. Let’s say you have [added an attribute](/guide/extend-extensions#attributes) named `count` to your node extension (like we did in the above example) you could access it like this:
+The `ReactNodeViewRenderer` which you use in your node extension, passes a few very helpful props to your custom React component. One of them is the `node` prop. Let’s say you have [added an attribute](/guide/custom-extensions#attributes) named `count` to your node extension (like we did in the above example) you could access it like this:
 
 ```js
 props.node.attrs.count
@@ -106,3 +106,8 @@ Here is the full list of what props you can expect:
 | `extension`        | Access to the node extension, for example to get options |
 | `getPos`           | Get the document position of the current node            |
 | `updateAttributes` | Update attributes of the current node                    |
+
+## Dragging
+To make your node views draggable, set `draggable: true` in the extension and add `data-drag-handle` to the DOM element that should function as the drag handle.
+
+<!-- <demo name="Guide/NodeViews/DragHandle" /> -->

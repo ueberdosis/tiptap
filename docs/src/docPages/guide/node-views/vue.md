@@ -58,7 +58,7 @@ props: {
 },
 ```
 
-That enables you to access node attributes in your Vue component. Let’s say you have [added an attribute](/guide/extend-extensions#attributes) named `count` to your node extension (like we did in the above example) you could access it like this:
+That enables you to access node attributes in your Vue component. Let’s say you have [added an attribute](/guide/custom-extensions#attributes) named `count` to your node extension (like we did in the above example) you could access it like this:
 
 ```js
 this.node.attrs.count
@@ -189,3 +189,8 @@ export default Vue.extend({
   props: nodeViewProps,
 })
 ```
+
+## Dragging
+To make your node views draggable, set `draggable: true` in the extension and add `data-drag-handle` to the DOM element that should function as the drag handle.
+
+<demo name="Guide/NodeViews/DragHandle" />

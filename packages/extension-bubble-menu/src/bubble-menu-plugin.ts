@@ -88,12 +88,11 @@ export class BubbleMenuView {
       return
     }
 
-    const {
-      from,
-      to,
-      empty,
-      $anchor,
-    } = selection
+    const { empty, $anchor, ranges } = selection
+
+    // support for CellSelections
+    const from = Math.min(...ranges.map(range => range.$from.pos))
+    const to = Math.max(...ranges.map(range => range.$to.pos))
 
     // Sometime check for `empty` is not enough.
     // Doubleclick an empty paragraph returns a node size of 2.

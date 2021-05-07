@@ -3,6 +3,131 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.53](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.52...@tiptap/core@2.0.0-beta.53) (2021-05-07)
+
+
+### Features
+
+* add editor.getAttributes, deprecate editor.getNodeAttributes and editor.getMarkAttributes ([072905c](https://github.com/ueberdosis/tiptap/commit/072905cb95e022a37f5bc937889999bfbb33ad88))
+
+
+
+
+
+# [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.51...@tiptap/core@2.0.0-beta.52) (2021-05-07)
+
+
+### Features
+
+* expose node helpers to core ([6048f9b](https://github.com/ueberdosis/tiptap/commit/6048f9b31b996b305f704c4ae3ed176fa42eb943))
+
+
+
+
+
+# [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.50...@tiptap/core@2.0.0-beta.51) (2021-05-07)
+
+
+### Bug Fixes
+
+* add support for priority and nested extension for getSchema ([129ad83](https://github.com/ueberdosis/tiptap/commit/129ad83167900526d65c5c25da8249d0d65bcef7))
+* remove editor from addExtensions context ([cbc0dd8](https://github.com/ueberdosis/tiptap/commit/cbc0dd8920ab7d36516387ceac59239f9162b4ec))
+
+
+
+
+
+# [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.49...@tiptap/core@2.0.0-beta.50) (2021-05-07)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-beta.49](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.48...@tiptap/core@2.0.0-beta.49) (2021-05-07)
+
+
+### Bug Fixes
+
+* fix a bug that messed up pasted link attributes, fix [#1284](https://github.com/ueberdosis/tiptap/issues/1284) ([7da647d](https://github.com/ueberdosis/tiptap/commit/7da647d99f1dcefabc653347a8e2abfae3bb972e))
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+
+
+
+
+
+# [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.47...@tiptap/core@2.0.0-beta.48) (2021-05-06)
+
+
+### Bug Fixes
+
+* revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
+
+
+
+
+
+# [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.46...@tiptap/core@2.0.0-beta.47) (2021-05-06)
+
+
+### Bug Fixes
+
+* add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
+
+
+
+
+
+# [2.0.0-beta.46](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.45...@tiptap/core@2.0.0-beta.46) (2021-05-06)
+
+
+### Features
+
+* add addExtensions option ([26e672e](https://github.com/ueberdosis/tiptap/commit/26e672e2f02a8f94941c704f3cd6cc4adef40df7))
+
+
+
+
+
+# [2.0.0-beta.45](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.44...@tiptap/core@2.0.0-beta.45) (2021-05-06)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-beta.44](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.43...@tiptap/core@2.0.0-beta.44) (2021-05-05)
+
+
+### Features
+
+* remove deprecated commands insertHTML, insertNode and insertText ([86d570f](https://github.com/ueberdosis/tiptap/commit/86d570fb79b89a061cf1a5374a377ed6d9bca49e))
+
+
+
+
+
+# [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.42...@tiptap/core@2.0.0-beta.43) (2021-05-05)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-beta.42](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.41...@tiptap/core@2.0.0-beta.42) (2021-05-04)
+
+
+### Bug Fixes
+
+* ignore editable in dispatchTransaction, fix [#1239](https://github.com/ueberdosis/tiptap/issues/1239) ([b3fb022](https://github.com/ueberdosis/tiptap/commit/b3fb0228e04a227bfc4536b167a93b3172169378))
+
+
+
+
+
 # [2.0.0-beta.41](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.40...@tiptap/core@2.0.0-beta.41) (2021-04-27)
 
 

@@ -44,7 +44,7 @@
       <button @click="editor.chain().focus().mergeOrSplit().run()" :disabled="!editor.can().mergeOrSplit()">
         mergeOrSplit
       </button>
-      <button @click="editor.chain().focus().setCellAttribute('colspan', 2).run()" :disabled="!editor.can().setCellAttribute('colspan', 2)">
+      <button @click="editor.chain().focus().setCellAttribute('backgroundColor', '#FAF594').run()" :disabled="!editor.can().setCellAttribute('backgroundColor', '#FAF594')">
         setCellAttribute
       </button>
       <button @click="editor.chain().focus().fixTables().run()" :disabled="!editor.can().fixTables()">
@@ -64,11 +64,36 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import Table from '@tiptap/extension-table'
 import TableRow from '@tiptap/extension-table-row'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
+
+const CustomTableCell = TableCell.extend({
+  addAttributes() {
+    return {
+      // extend the existing attributes …
+      ...this.parent?.(),
+
+      // and add a new one …
+      backgroundColor: {
+        default: null,
+        parseHTML: element => {
+          return {
+            backgroundColor: element.getAttribute('data-background-color'),
+          }
+        },
+        renderHTML: attributes => {
+          return {
+            'data-background-color': attributes.backgroundColor,
+            style: `background-color: ${attributes.backgroundColor}`,
+          }
+        },
+      },
+    }
+  },
+})
 
 export default {
   components: {
@@ -84,13 +109,16 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        ...defaultExtensions(),
+        StarterKit,
         Table.configure({
           resizable: true,
         }),
         TableRow,
         TableHeader,
-        TableCell,
+        // Default TableCell
+        // TableCell,
+        // Custom TableCell with backgroundColor attribute
+        CustomTableCell,
       ],
       content: `
         <h3>

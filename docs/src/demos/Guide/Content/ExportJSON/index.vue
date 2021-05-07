@@ -26,7 +26,7 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 export default {
   components: {
@@ -47,7 +47,9 @@ export default {
           Wow, this editor instance exports its content as JSON.
         </p>
       `,
-      extensions: defaultExtensions(),
+      extensions: [
+        StarterKit,
+      ],
     })
 
     // Get the initial content …

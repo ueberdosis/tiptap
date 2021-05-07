@@ -46,11 +46,13 @@ This is the fastest way to get tiptap up and running with React. It will give yo
 
 ```jsx
 import { useEditor, EditorContent } from '@tiptap/react'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 const Tiptap = () => {
   const editor = useEditor({
-    extensions: defaultExtensions(),
+    extensions: [
+      StarterKit,
+    ],
     content: '<p>Hello World! 🌎️</p>',
   })
 

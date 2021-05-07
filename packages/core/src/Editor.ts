@@ -1,8 +1,12 @@
 import {
-  EditorState, Plugin, PluginKey, Transaction,
+  EditorState,
+  Plugin,
+  PluginKey,
+  Transaction,
 } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { Schema } from 'prosemirror-model'
+import { Schema, MarkType, NodeType } from 'prosemirror-model'
+import getAttributes from './helpers/getAttributes'
 import getNodeAttributes from './helpers/getNodeAttributes'
 import getMarkAttributes from './helpers/getMarkAttributes'
 import isActive from './helpers/isActive'
@@ -285,10 +289,6 @@ export class Editor extends EventEmitter {
    * @param transaction An editor state transaction
    */
   private dispatchTransaction(transaction: Transaction): void {
-    if (transaction.docChanged && !this.isEditable) {
-      return
-    }
-
     if (this.isCapturingTransaction) {
       if (!this.capturedTransaction) {
         this.capturedTransaction = transaction
@@ -360,11 +360,20 @@ export class Editor extends EventEmitter {
   }
 
   /**
+   * Get attributes of the currently selected node or mark.
+   */
+  public getAttributes(nameOrType: string | NodeType | MarkType): Record<string, any> {
+    return getAttributes(this.state, nameOrType)
+  }
+
+  /**
    * Get attributes of the currently selected node.
    *
    * @param name Name of the node
    */
   public getNodeAttributes(name: string): Record<string, any> {
+    console.warn('[tiptap warn]: editor.getNodeAttributes() is deprecated. please use editor.getAttributes() instead.')
+
     return getNodeAttributes(this.state, name)
   }
 
@@ -374,6 +383,8 @@ export class Editor extends EventEmitter {
    * @param name Name of the mark
    */
   public getMarkAttributes(name: string): Record<string, any> {
+    console.warn('[tiptap warn]: editor.getMarkAttributes() is deprecated. please use editor.getAttributes() instead.')
+
     return getMarkAttributes(this.state, name)
   }
 

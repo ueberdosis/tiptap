@@ -16,7 +16,7 @@ If you think of the document as a tree, then nodes are just a type of content in
 | [HardBreak](/api/nodes/hard-break)           | Yes               | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-hard-break/)      |
 | [Hashtag](/api/nodes/hashtag)                | –                 | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-hashtag/)         |
 | [Heading](/api/nodes/heading)                | Yes               | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-heading/)         |
-| [HorizontalRule](/api/nodes/horizontal-rule) | –                 | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-horizontal-rule/) |
+| [HorizontalRule](/api/nodes/horizontal-rule) | Yes               | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-horizontal-rule/) |
 | [Image](/api/nodes/image)                    | –                 | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-image/)           |
 | [ListItem](/api/nodes/list-item)             | Yes               | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list-item/)       |
 | [Mention](/api/nodes/mention)                | Yes               | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-mention/)         |

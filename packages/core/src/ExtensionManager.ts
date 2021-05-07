@@ -6,7 +6,7 @@ import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { Extensions, RawCommands, AnyConfig } from './types'
 import getExtensionField from './helpers/getExtensionField'
-import getSchema from './helpers/getSchema'
+import getSchemaByResolvedExtensions from './helpers/getSchemaByResolvedExtensions'
 import getSchemaTypeByName from './helpers/getSchemaTypeByName'
 import getNodeType from './helpers/getNodeType'
 import splitExtensions from './helpers/splitExtensions'
@@ -27,8 +27,8 @@ export default class ExtensionManager {
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
-    this.extensions = this.sort(extensions)
-    this.schema = getSchema(this.extensions)
+    this.extensions = ExtensionManager.resolve(extensions)
+    this.schema = getSchemaByResolvedExtensions(this.extensions)
 
     this.extensions.forEach(extension => {
       const context = {
@@ -128,7 +128,35 @@ export default class ExtensionManager {
     })
   }
 
-  private sort(extensions: Extensions) {
+  static resolve(extensions: Extensions): Extensions {
+    return ExtensionManager.sort(ExtensionManager.flatten(extensions))
+  }
+
+  static flatten(extensions: Extensions): Extensions {
+    return extensions
+      .map(extension => {
+        const context = {
+          name: extension.name,
+          options: extension.options,
+        }
+
+        const addExtensions = getExtensionField<AnyConfig['addExtensions']>(
+          extension,
+          'addExtensions',
+          context,
+        )
+
+        if (addExtensions) {
+          return this.flatten(addExtensions())
+        }
+
+        return extension
+      })
+      // `Infinity` will break TypeScript so we set a number that is probably high enough
+      .flat(10)
+  }
+
+  static sort(extensions: Extensions): Extensions {
     const defaultPriority = 100
 
     return extensions.sort((a, b) => {

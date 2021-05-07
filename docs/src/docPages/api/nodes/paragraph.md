@@ -5,7 +5,7 @@
 Yes, the schema is very strict. Without this extension you won’t even be able to use paragraphs in the editor.
 
 :::warning Breaking Change from 1.x → 2.x
-tiptap 1 tried to hide that node from you, but it has always been there. You have to explicitly import it from now on (or use `defaultExtensions()`).
+tiptap 1 tried to hide that node from you, but it has always been there. You have to explicitly import it from now on (or use `StarterKit`).
 :::
 
 ## Installation

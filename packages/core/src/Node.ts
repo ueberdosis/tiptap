@@ -8,6 +8,7 @@ import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from 'prosemirror-inputrules'
 import mergeDeep from './utilities/mergeDeep'
 import {
+  Extensions,
   Attributes,
   NodeViewRenderer,
   GlobalAttributes,
@@ -102,6 +103,15 @@ declare module '@tiptap/core' {
       type: NodeType,
       parent: ParentConfig<NodeConfig<Options>>['addProseMirrorPlugins'],
     }) => Plugin[],
+
+    /**
+     * Extensions
+     */
+    addExtensions?: (this: {
+      name: string,
+      options: Options,
+      parent: ParentConfig<NodeConfig<Options>>['addExtensions'],
+    }) => Extensions,
 
     /**
      * Extend Node Schema

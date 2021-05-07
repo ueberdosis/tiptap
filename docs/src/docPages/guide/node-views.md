@@ -87,7 +87,7 @@ Make sure it’s something distinguishable, so it’s easier to restore the cont
 ### Parse HTML
 The same applies to restoring the content. You can configure what markup you expect, that can be something completely unrelated to the node view markup. It just needs to contain all the information you want to restore.
 
-Attributes are automagically restored, if you registered them through [`addAttributes`](/guide/extend-extensions#attributes).
+Attributes are automagically restored, if you registered them through [`addAttributes`](/guide/custom-extensions#attributes).
 
 ```js
 // Input: <my-custom-node count="1"></my-custom-node>
