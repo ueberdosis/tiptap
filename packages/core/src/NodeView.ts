@@ -42,7 +42,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
 
   position!: number
 
-  isSame!: boolean
+  deletedPosition!: boolean
 
   cache!: NodeViewCacheItem
 
@@ -59,6 +59,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     const cache = this.editor.nodeViewCache.findNodeAtPosition(this.node, this.position)
 
     if (cache) {
+      cache.instance.getPos = this.getPos
       return cache.instance
     }
 
@@ -74,23 +75,15 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
       return
     }
 
-    let newPosition = this.position
+    const mapResult = transaction.mapping.mapResult(this.position)
+    const newPosition = mapResult.pos
+    // const newNode = transaction.doc.nodeAt(newPosition)
 
-    // console.log({
-    //   map: transaction.mapping.map(this.position),
-    //   mapResult: transaction.mapping.mapResult(this.position),
-    // })
-
-    transaction.mapping.maps.forEach(map => {
-      newPosition = map.map(newPosition, -1)
-    })
-
-    const newNode = transaction.doc.nodeAt(newPosition)
-    const isSame = newNode === this.node
-      && transaction.getMeta('uiEvent') !== 'paste'
-      && transaction.getMeta('uiEvent') !== 'drop'
-
-    this.isSame = isSame
+    this.deletedPosition = mapResult.deleted
+      // prevents an error when replacing a node with itself
+      || transaction.getMeta('uiEvent') === 'paste'
+      // prevents an error when replacing a node with itself
+      || transaction.getMeta('uiEvent') === 'drop'
 
     // console.log({
     //   transaction,
@@ -110,7 +103,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   }
 
   destroy() {
-    if (!this.isSame) {
+    if (this.deletedPosition) {
       this.editor.nodeViewCache.remove(this.cache.id)
       this.editor.off('beforeUpdateState', this.onBeforeUpdateState)
       this.destroyed()

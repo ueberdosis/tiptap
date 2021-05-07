@@ -44,6 +44,9 @@ export default {
         <p>
           text <img src="#" /> text
         </p>
+        <p>
+          text
+        </p>
       `,
     })
   },

@@ -36,7 +36,7 @@ export default class NodeViewCache {
     return this.data.find(item => {
       const isSameNode = node === item.instance.node
       const isSamePosition = position === item.instance.position
-      const isSame = item.instance.isSame
+      const isSame = !item.instance.deletedPosition
 
       return isSameNode && isSamePosition && isSame
     })
