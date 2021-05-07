@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.51...@tiptap/core@2.0.0-beta.52) (2021-05-07)
+
+
+### Features
+
+* expose node helpers to core ([6048f9b](https://github.com/ueberdosis/tiptap/commit/6048f9b31b996b305f704c4ae3ed176fa42eb943))
+
+
+
+
+
 # [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.50...@tiptap/core@2.0.0-beta.51) (2021-05-07)
 
 
