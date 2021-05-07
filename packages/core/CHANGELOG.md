@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.50...@tiptap/core@2.0.0-beta.51) (2021-05-07)
+
+
+### Bug Fixes
+
+* add support for priority and nested extension for getSchema ([129ad83](https://github.com/ueberdosis/tiptap/commit/129ad83167900526d65c5c25da8249d0d65bcef7))
+* remove editor from addExtensions context ([cbc0dd8](https://github.com/ueberdosis/tiptap/commit/cbc0dd8920ab7d36516387ceac59239f9162b4ec))
+
+
+
+
+
 # [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.49...@tiptap/core@2.0.0-beta.50) (2021-05-07)
 
 **Note:** Version bump only for package @tiptap/core
