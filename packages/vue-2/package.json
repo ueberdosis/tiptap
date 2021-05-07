@@ -16,13 +16,6 @@
   "umd": "dist/tiptap-vue-2.umd.js",
   "module": "dist/tiptap-vue-2.esm.js",
   "types": "dist/packages/vue-2/src/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/tiptap-vue-2.esm.js",
-      "require": "./dist/tiptap-vue-2.cjs.js",
-      "default": "./dist/tiptap-vue-2.esm.js"
-    }
-  },
   "files": [
     "src",
     "dist"

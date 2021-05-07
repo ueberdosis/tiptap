@@ -16,13 +16,6 @@
   "umd": "dist/tiptap-extension-history.umd.js",
   "module": "dist/tiptap-extension-history.esm.js",
   "types": "dist/packages/extension-history/src/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/tiptap-extension-history.esm.js",
-      "require": "./dist/tiptap-extension-history.cjs.js",
-      "default": "./dist/tiptap-extension-history.esm.js"
-    }
-  },
   "files": [
     "src",
     "dist"

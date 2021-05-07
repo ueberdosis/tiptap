@@ -16,13 +16,6 @@
   "umd": "dist/tiptap-extension-underline.umd.js",
   "module": "dist/tiptap-extension-underline.esm.js",
   "types": "dist/packages/extension-underline/src/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/tiptap-extension-underline.esm.js",
-      "require": "./dist/tiptap-extension-underline.cjs.js",
-      "default": "./dist/tiptap-extension-underline.esm.js"
-    }
-  },
   "files": [
     "src",
     "dist"

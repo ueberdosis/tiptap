@@ -16,13 +16,6 @@
   "umd": "dist/tiptap-extension-image.umd.js",
   "module": "dist/tiptap-extension-image.esm.js",
   "types": "dist/packages/extension-image/src/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/tiptap-extension-image.esm.js",
-      "require": "./dist/tiptap-extension-image.cjs.js",
-      "default": "./dist/tiptap-extension-image.esm.js"
-    }
-  },
   "files": [
     "src",
     "dist"

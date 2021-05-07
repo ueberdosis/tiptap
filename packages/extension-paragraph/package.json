@@ -16,13 +16,6 @@
   "umd": "dist/tiptap-extension-paragraph.umd.js",
   "module": "dist/tiptap-extension-paragraph.esm.js",
   "types": "dist/packages/extension-paragraph/src/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/tiptap-extension-paragraph.esm.js",
-      "require": "./dist/tiptap-extension-paragraph.cjs.js",
-      "default": "./dist/tiptap-extension-paragraph.esm.js"
-    }
-  },
   "files": [
     "src",
     "dist"

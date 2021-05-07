@@ -16,13 +16,6 @@
   "umd": "dist/tiptap-extension-bullet-list.umd.js",
   "module": "dist/tiptap-extension-bullet-list.esm.js",
   "types": "dist/packages/extension-bullet-list/src/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/tiptap-extension-bullet-list.esm.js",
-      "require": "./dist/tiptap-extension-bullet-list.cjs.js",
-      "default": "./dist/tiptap-extension-bullet-list.esm.js"
-    }
-  },
   "files": [
     "src",
     "dist"

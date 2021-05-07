@@ -16,13 +16,6 @@
   "umd": "dist/tiptap-extension-floating-menu.umd.js",
   "module": "dist/tiptap-extension-floating-menu.esm.js",
   "types": "dist/packages/extension-floating-menu/src/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/tiptap-extension-floating-menu.esm.js",
-      "require": "./dist/tiptap-extension-floating-menu.cjs.js",
-      "default": "./dist/tiptap-extension-floating-menu.esm.js"
-    }
-  },
   "files": [
     "src",
     "dist"

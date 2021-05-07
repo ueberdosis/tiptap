@@ -16,13 +16,6 @@
   "umd": "dist/tiptap-suggestion.umd.js",
   "module": "dist/tiptap-suggestion.esm.js",
   "types": "dist/packages/suggestion/src/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/tiptap-suggestion.esm.js",
-      "require": "./dist/tiptap-suggestion.cjs.js",
-      "default": "./dist/tiptap-suggestion.esm.js"
-    }
-  },
   "files": [
     "src",
     "dist"

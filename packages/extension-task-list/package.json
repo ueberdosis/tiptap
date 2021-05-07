@@ -16,13 +16,6 @@
   "umd": "dist/tiptap-extension-task-list.umd.js",
   "module": "dist/tiptap-extension-task-list.esm.js",
   "types": "dist/packages/extension-task-list/src/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/tiptap-extension-task-list.esm.js",
-      "require": "./dist/tiptap-extension-task-list.cjs.js",
-      "default": "./dist/tiptap-extension-task-list.esm.js"
-    }
-  },
   "files": [
     "src",
     "dist"

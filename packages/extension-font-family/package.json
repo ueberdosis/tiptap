@@ -16,13 +16,6 @@
   "umd": "dist/tiptap-extension-font-family.umd.js",
   "module": "dist/tiptap-extension-font-family.esm.js",
   "types": "dist/packages/extension-font-family/src/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/tiptap-extension-font-family.esm.js",
-      "require": "./dist/tiptap-extension-font-family.cjs.js",
-      "default": "./dist/tiptap-extension-font-family.esm.js"
-    }
-  },
   "files": [
     "src",
     "dist"
