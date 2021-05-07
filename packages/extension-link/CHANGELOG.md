@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.14...@tiptap/extension-link@2.0.0-beta.15) (2021-05-07)
+
+
+### Features
+
+* add editor.getAttributes, deprecate editor.getNodeAttributes and editor.getMarkAttributes ([072905c](https://github.com/ueberdosis/tiptap/commit/072905cb95e022a37f5bc937889999bfbb33ad88))
+
+
+
+
+
 # [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.13...@tiptap/extension-link@2.0.0-beta.14) (2021-05-07)
 
 
