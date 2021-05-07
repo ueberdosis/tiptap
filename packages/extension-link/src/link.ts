@@ -116,7 +116,7 @@ export const Link = Mark.create<LinkOptions>({
           key: new PluginKey('handleClickLink'),
           props: {
             handleClick: (view, pos, event) => {
-              const attrs = this.editor.getMarkAttributes('link')
+              const attrs = this.editor.getAttributes('link')
               const link = (event.target as HTMLElement)?.closest('a')
 
               if (link && attrs.href) {
