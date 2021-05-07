@@ -1,69 +1,44 @@
+import { Node as ProseMirrorNode } from 'prosemirror-model'
+
+export type NodeViewCacheItem = {
+  instance: any,
+  id: string,
+}
+
 export default class NodeViewCache {
+  data: NodeViewCacheItem[] = []
 
-  data: any[]
-
-  constructor() {
-    this.data = []
+  generateId(): string {
+    return Math.floor(Math.random() * 0xFFFFFFFF).toString()
   }
 
-  add(data: any) {
-    const item = {
-      ...data,
-      id: this.generateId(),
+  add(instance: any): NodeViewCacheItem {
+    const id = this.generateId()
+    const item: NodeViewCacheItem = {
+      id,
+      instance,
     }
 
     this.data.push(item)
+
     return item
   }
 
-  findById(id: any) {
-    const index = this.data.findIndex(item => item.id === id)
-    return this.removeIndex(index)
+  get(id: string): NodeViewCacheItem | undefined {
+    return this.data.find(item => item.id === id)
   }
 
-  findByNode(node: any) {
-    const index = this.data.findIndex(item => JSON.stringify(node) === JSON.stringify(item.instance.node))
-    return this.removeIndex(index)
+  remove(id: string): void {
+    this.data = this.data.filter(item => item.id !== id)
   }
 
-  findByNodeAndPosition(node: any, pos: any) {
-    const index = this.data.findIndex(item => {
-      // return JSON.stringify(node) === JSON.stringify(item.instance.node)
-      //   && pos === item.instance.position
-      //   && item.instance.isSame
-
-      const sameNode = JSON.stringify(node) === JSON.stringify(item.instance.node)
-      const samePos = pos === item.instance.position
+  findNodeAtPosition(node: ProseMirrorNode, position: number): NodeViewCacheItem | undefined {
+    return this.data.find(item => {
+      const isSameNode = node === item.instance.node
+      const isSamePosition = position === item.instance.position
       const isSame = item.instance.isSame
 
-      console.log(pos, item.instance.position)
-
-      console.log({ sameNode, samePos, isSame })
-
-      return sameNode && samePos && isSame
-      //   && pos === item.instance.position
-      //   && item.instance.isSame
+      return isSameNode && isSamePosition && isSame
     })
-    return this.removeIndex(index)
   }
-
-  removeIndex(index: any) {
-    if (index < 0) {
-      return null
-    }
-
-    const item = this.data[index]
-
-    this.data = [
-      ...this.data.slice(0, index),
-      ...this.data.slice(index + 1),
-    ]
-
-    return item
-  }
-
-  generateId() {
-    return Math.floor(Math.random() * 0xFFFFFFFF)
-  }
-
 }

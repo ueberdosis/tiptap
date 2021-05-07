@@ -4,15 +4,22 @@ import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor as CoreEditor } from './Editor'
 import { Node } from './Node'
 import isiOS from './utilities/isiOS'
-import minMax from './utilities/minMax'
 import { NodeViewRendererProps } from './types'
+import { NodeViewCacheItem } from './NodeViewCache'
 
 interface NodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
 }
 
-export class NodeView<Component, Editor extends CoreEditor = CoreEditor> implements ProseMirrorNodeView {
+export type ExtendedNodeView = ProseMirrorNodeView & {
+  /**
+   * Called when the node view can be safely destroyed to provide a cache.
+   */
+  destroyed?: () => void
+}
+
+export class NodeView<Component, Editor extends CoreEditor = CoreEditor> implements ExtendedNodeView {
 
   component!: Component
 
@@ -33,13 +40,11 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     update: null,
   }
 
-  position!: number | null
+  position!: number
 
   isSame!: boolean
 
-  cached!: any
-
-  onBeforeUpdateStateHandler: any
+  cache!: NodeViewCacheItem
 
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<NodeViewRendererOptions>) {
     this.component = component
@@ -49,54 +54,54 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     this.node = props.node
     this.decorations = props.decorations
     this.getPos = props.getPos
-
     this.position = this.getPos()
 
-    // const cache = this.editor.nodeViewCache.findByNode(this.node.toJSON())
-    // const cache = this.editor.nodeViewCache.findByNodeAndPosition(this.node.toJSON(), this.getPos())
-    const cache = this.editor.nodeViewCache.findByNodeAndPosition(this.node.toJSON(), this.position)
-
-    console.log({ cache }, this.editor.nodeViewCache)
+    const cache = this.editor.nodeViewCache.findNodeAtPosition(this.node, this.position)
 
     if (cache) {
-      cache.instance.getPos = this.getPos
-
-      cache.instance.cached = this.editor.nodeViewCache.add({
-        instance: cache.instance,
-      })
-
       return cache.instance
     }
 
-    this.onBeforeUpdateStateHandler = this.onBeforeUpdateState.bind(this)
-    this.editor.on('beforeUpdateState', this.onBeforeUpdateStateHandler)
+    this.editor.on('beforeUpdateState', this.onBeforeUpdateState)
 
     this.mount()
 
-    this.cached = this.editor.nodeViewCache.add({
-      instance: this,
-    })
+    this.cache = this.editor.nodeViewCache.add(this)
   }
 
-  onBeforeUpdateState({ transaction }: { transaction: Transaction }) {
-    if (transaction.docChanged) {
-      let newPosition = 0
-
-      transaction.mapping.maps.forEach(map => {
-        // @ts-ignore
-        newPosition = map.map(this.position)
-        // newPosition = map.map(this.getPos())
-      })
-
-      const nodeAtPos = transaction.doc.nodeAt(newPosition)
-      const isSame = nodeAtPos === this.node
-
-      this.isSame = isSame
-
-      console.log({ isSame, newPosition, cache: this.editor.nodeViewCache.data })
-
-      this.position = newPosition
+  onBeforeUpdateState = ({ transaction }: { transaction: Transaction }) => {
+    if (!transaction.docChanged) {
+      return
     }
+
+    let newPosition = this.position
+
+    // console.log({
+    //   map: transaction.mapping.map(this.position),
+    //   mapResult: transaction.mapping.mapResult(this.position),
+    // })
+
+    transaction.mapping.maps.forEach(map => {
+      newPosition = map.map(newPosition, -1)
+    })
+
+    const newNode = transaction.doc.nodeAt(newPosition)
+    const isSame = newNode === this.node
+      && transaction.getMeta('uiEvent') !== 'paste'
+      && transaction.getMeta('uiEvent') !== 'drop'
+
+    this.isSame = isSame
+
+    // console.log({
+    //   transaction,
+    //   oldPosition: this.position,
+    //   newPosition,
+    //   newNode,
+    //   oldNode: this.node,
+    //   cache: this.editor.nodeViewCache.data,
+    // })
+
+    this.position = newPosition
   }
 
   mount() {
@@ -105,25 +110,16 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   }
 
   destroy() {
-    // this.editor.off('beforeUpdateState', this.onBeforeUpdateStateHandler)
-
-    setTimeout(() => this.destroyCachedComponent(this.cached.id), 0)
-
-    // @ts-ignore
-    // this.afterDestroy?.()
+    if (!this.isSame) {
+      this.editor.nodeViewCache.remove(this.cache.id)
+      this.editor.off('beforeUpdateState', this.onBeforeUpdateState)
+      this.destroyed()
+    }
   }
 
-  destroyCachedComponent(id: any) {
-    // this.editor.off('beforeUpdateState', this.onBeforeUpdateStateHandler)
-    const cached = this.editor.nodeViewCache.findById(id)
-
-    console.log('destroy', cached)
-
-    if (cached) {
-      this.editor.off('beforeUpdateState', cached.instance.onBeforeUpdateStateHandler)
-      // @ts-ignore
-      this.afterDestroy?.()
-    }
+  destroyed() {
+    // eslint-disable-next-line
+    return
   }
 
   get dom(): Element | null {

@@ -109,7 +109,6 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
-    console.log('UPDATE NODE')
     if (typeof this.options.update === 'function') {
       return this.options.update(node, decorations)
     }
@@ -150,15 +149,7 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {
       .join(' ')
   }
 
-  // destroy() {
-  //   // super.destroy()
-  //   // console.log('destroy', this.getPos(), this.node, this.editor.view.state.doc.resolve(this.getPos()))
-  //   // console.log('destroy', this.position)
-  //   // this.renderer.destroy()
-  // }
-
-  afterDestroy() {
-    console.log('really destroy')
+  destroyed() {
     this.renderer.destroy()
   }
 

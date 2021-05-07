@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper as="span">
+  <node-view-wrapper as="span" data-drag-handle>
     <span @click="handleClick">
       image
     </span>
