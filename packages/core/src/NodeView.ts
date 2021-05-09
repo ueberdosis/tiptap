@@ -4,6 +4,7 @@ import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor as CoreEditor } from './Editor'
 import { Node } from './Node'
 import isiOS from './utilities/isiOS'
+import minMax from './utilities/minMax'
 import { NodeViewRendererProps } from './types'
 import { NodeViewCacheItem } from './NodeViewCache'
 
@@ -56,46 +57,89 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     this.getPos = props.getPos
     this.position = this.getPos()
 
-    const cache = this.editor.nodeViewCache.findNodeAtPosition(this.node, this.position)
+    // console.log({
+    //   cache: this.editor.nodeViewCache.data,
+    // })
 
-    if (cache) {
-      cache.instance.getPos = this.getPos
-      return cache.instance
+    const maybeReplace = this.editor.nodeViewCache.data.find(item => {
+      const position = minMax(item.instance.getPos(), 0, this.editor.state.doc.content.size)
+
+      // console.log('maybe pos', position, this.editor.state.doc.resolve(position))
+
+      if (position) {
+        console.log({
+          // sameNode: this.editor.state.doc.nodeAt(position) === item.instance.node,
+          // sameMarkup: this.editor.state.doc.nodeAt(position)?.sameMarkup(item.instance.node),
+          position,
+          same: item.instance.node === this.node,
+          sameM: item.instance.node.sameMarkup(this.node),
+        })
+      }
+
+      return item.instance.node === this.node
+        && (!position || (this.editor.state.doc.nodeAt(position) !== item.instance.node && !this.editor.state.doc.nodeAt(position)?.sameMarkup(item.instance.node)))
+      // && (!position || this.editor.state.doc.nodeAt(position) === item.instance.node)
+      // && this.editor.state.doc.nodeAt(item.instance.getPos()) === item.instance.node
+    })
+
+    console.log({ maybeReplace })
+
+    if (maybeReplace) {
+      this.editor.nodeViewCache.remove(maybeReplace.id)
+
+      // this.editor.nodeViewCache.add
+      // maybeReplace.instance.node = this.node
+      maybeReplace.instance.nope = true
+      maybeReplace.instance.getPos = this.getPos
+      maybeReplace.instance.cache = this.editor.nodeViewCache.add(maybeReplace.instance)
+
+      console.log('new cache', this.editor.nodeViewCache.data)
+
+      return maybeReplace.instance
     }
 
-    this.editor.on('beforeUpdateState', this.onBeforeUpdateState)
+    // const cache = this.editor.nodeViewCache.findNodeAtPosition(this.node, this.position)
+
+    // if (cache) {
+    //   cache.instance.getPos = this.getPos
+    //   return cache.instance
+    // }
+
+    // this.editor.on('beforeUpdateState', this.onBeforeUpdateState)
 
     this.mount()
 
     this.cache = this.editor.nodeViewCache.add(this)
   }
 
-  onBeforeUpdateState = ({ transaction }: { transaction: Transaction }) => {
-    if (!transaction.docChanged) {
-      return
-    }
+  // onBeforeUpdateState = ({ transaction }: { transaction: Transaction }) => {
+  //   if (!transaction.docChanged) {
+  //     return
+  //   }
 
-    const mapResult = transaction.mapping.mapResult(this.position)
-    const newPosition = mapResult.pos
-    // const newNode = transaction.doc.nodeAt(newPosition)
+  //   console.log({ transaction })
 
-    this.deletedPosition = mapResult.deleted
-      // prevents an error when replacing a node with itself
-      || transaction.getMeta('uiEvent') === 'paste'
-      // prevents an error when replacing a node with itself
-      || transaction.getMeta('uiEvent') === 'drop'
+  //   const mapResult = transaction.mapping.mapResult(this.position)
+  //   const newPosition = mapResult.pos
+  //   // const newNode = transaction.doc.nodeAt(newPosition)
 
-    // console.log({
-    //   transaction,
-    //   oldPosition: this.position,
-    //   newPosition,
-    //   newNode,
-    //   oldNode: this.node,
-    //   cache: this.editor.nodeViewCache.data,
-    // })
+  //   this.deletedPosition = mapResult.deleted
+  //     // prevents an error when replacing a node with itself
+  //     || transaction.getMeta('uiEvent') === 'paste'
+  //     // prevents an error when replacing a node with itself
+  //     || transaction.getMeta('uiEvent') === 'drop'
 
-    this.position = newPosition
-  }
+  //   // console.log({
+  //   //   transaction,
+  //   //   oldPosition: this.position,
+  //   //   newPosition,
+  //   //   newNode,
+  //   //   oldNode: this.node,
+  //   //   cache: this.editor.nodeViewCache.data,
+  //   // })
+
+  //   this.position = newPosition
+  // }
 
   mount() {
     // eslint-disable-next-line
@@ -103,11 +147,56 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   }
 
   destroy() {
-    if (this.deletedPosition) {
+    // if (this.deletedPosition) {
+    //   this.editor.nodeViewCache.remove(this.cache.id)
+    //   this.editor.off('beforeUpdateState', this.onBeforeUpdateState)
+    //   this.destroyed()
+    // }
+
+    // const id = this.cache.id
+    // setTimeout(() => {
+
+    //   // this.editor.nodeViewCache.remove(this.cache.id)
+    //   // this.editor.off('beforeUpdateState', this.onBeforeUpdateState)
+
+    //   if (this.editor.nodeViewCache.get(id)) {
+    //     console.log('SHOULD DELETE')
+    //     this.editor.nodeViewCache.remove(id)
+    //     this.destroyed()
+    //   }
+    // })
+
+    // @ts-ignore
+    // console.log('delete1', this.nope)
+
+    // const id = this.cache.id
+    setTimeout(() => {
+
+      // @ts-ignore
+      // console.log('delete2', this.nope)
+
+      // @ts-ignore
+      if (this.nope) {
+        // @ts-ignore
+        this.nope = false
+
+        return
+      }
+
       this.editor.nodeViewCache.remove(this.cache.id)
-      this.editor.off('beforeUpdateState', this.onBeforeUpdateState)
       this.destroyed()
-    }
+
+      // this.editor.nodeViewCache.remove(this.cache.id)
+      // this.editor.off('beforeUpdateState', this.onBeforeUpdateState)
+
+      // console.log('delete2', this.getPos())
+
+      // if (this.editor.nodeViewCache.get(id)) {
+      //   console.log('SHOULD DELETE')
+      //   this.editor.nodeViewCache.remove(id)
+      //   this.destroyed()
+      // }
+    })
   }
 
   destroyed() {
