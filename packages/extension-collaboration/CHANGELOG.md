@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration@2.0.0-beta.15...@tiptap/extension-collaboration@2.0.0-beta.16) (2021-05-09)
+
+
+### Bug Fixes
+
+* add warn message when using collab and history extension together ([bf50af4](https://github.com/ueberdosis/tiptap/commit/bf50af4cf68cd883069cacabacc8deb2d07aca2a))
+
+
+
+
+
 # [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration@2.0.0-beta.14...@tiptap/extension-collaboration@2.0.0-beta.15) (2021-05-07)
 
 

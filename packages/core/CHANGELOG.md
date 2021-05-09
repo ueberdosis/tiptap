@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.54](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.53...@tiptap/core@2.0.0-beta.54) (2021-05-09)
+
+
+### Bug Fixes
+
+* set correct priority when extending extensions, fix [#1288](https://github.com/ueberdosis/tiptap/issues/1288) ([b4e2b6f](https://github.com/ueberdosis/tiptap/commit/b4e2b6fc9dd722cce5ee85eb2df994453a0f5d39))
+
+
+
+
+
 # [2.0.0-beta.53](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.52...@tiptap/core@2.0.0-beta.53) (2021-05-07)
 
 
