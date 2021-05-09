@@ -333,7 +333,6 @@ export class Mark<Options = any> {
 
   config: MarkConfig = {
     name: this.name,
-    priority: 100,
     defaultOptions: {},
   }
 

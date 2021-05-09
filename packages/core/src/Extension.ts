@@ -236,7 +236,6 @@ export class Extension<Options = any> {
 
   config: ExtensionConfig = {
     name: this.name,
-    priority: 100,
     defaultOptions: {},
   }
 

@@ -414,7 +414,6 @@ export class Node<Options = any> {
 
   config: NodeConfig = {
     name: this.name,
-    priority: 100,
     defaultOptions: {},
   }
 
