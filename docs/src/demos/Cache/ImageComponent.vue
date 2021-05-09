@@ -23,11 +23,11 @@ export default {
   },
 
   mounted() {
-    console.log('mount component')
+    console.log('mount image component')
   },
 
   beforeDestroy() {
-    console.log('unmount component')
+    console.log('unmount image component')
   },
 }
 </script>

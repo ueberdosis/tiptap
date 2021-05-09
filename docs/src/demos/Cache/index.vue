@@ -10,6 +10,7 @@ import Text from '@tiptap/extension-text'
 import Image from '@tiptap/extension-image'
 import History from '@tiptap/extension-history'
 import ImageComponent from './ImageComponent.vue'
+import ParagraphComponent from './ParagraphComponent.vue'
 
 export default {
   components: {
@@ -26,7 +27,11 @@ export default {
     this.editor = new Editor({
       extensions: [
         Document,
-        Paragraph,
+        Paragraph.extend({
+          addNodeView() {
+            return VueNodeViewRenderer(ParagraphComponent)
+          },
+        }),
         Text,
         History,
         Image.extend({
@@ -37,13 +42,18 @@ export default {
           },
         }),
       ],
+      // content: `
+      //   <p>
+      //     text
+      //   </p>
+      //   <p>
+      //     text <img src="#" /> text
+      //   </p>
+      //   <p>
+      //     text
+      //   </p>
+      // `,
       content: `
-        <p>
-          text
-        </p>
-        <p>
-          text <img src="#" /> text
-        </p>
         <p>
           text
         </p>

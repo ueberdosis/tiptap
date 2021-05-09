@@ -79,6 +79,8 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     const newPosition = mapResult.pos
     // const newNode = transaction.doc.nodeAt(newPosition)
 
+    console.log({ mapResult })
+
     this.deletedPosition = mapResult.deleted
       // prevents an error when replacing a node with itself
       || transaction.getMeta('uiEvent') === 'paste'
