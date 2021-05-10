@@ -11,6 +11,7 @@ import Image from '@tiptap/extension-image'
 import History from '@tiptap/extension-history'
 import ImageComponent from './ImageComponent.vue'
 import ParagraphComponent from './ParagraphComponent.vue'
+import Dropcursor from '@tiptap/extension-dropcursor'
 
 export default {
   components: {
@@ -26,8 +27,10 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
+        Dropcursor,
         Document,
         Paragraph.extend({
+          draggable: true,
           addNodeView() {
             return VueNodeViewRenderer(ParagraphComponent)
           },
@@ -72,6 +75,10 @@ export default {
 .ProseMirror {
   > * + * {
     margin-top: 0.75em;
+  }
+
+  p {
+    padding-left: 2rem;
   }
 }
 </style>
