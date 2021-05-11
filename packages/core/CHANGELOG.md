@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.55](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.54...@tiptap/core@2.0.0-beta.55) (2021-05-11)
+
+
+### Bug Fixes
+
+* fix a bug when configurating the same extension multiple times ([655c564](https://github.com/ueberdosis/tiptap/commit/655c5647f0951851f818a0cc2500c48969f20797))
+
+
+### Features
+
+* export mark helpers ([313ab0e](https://github.com/ueberdosis/tiptap/commit/313ab0eac7d9209c279f0925c2372735882de56a))
+
+
+
+
+
 # [2.0.0-beta.54](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.53...@tiptap/core@2.0.0-beta.54) (2021-05-09)
 
 
