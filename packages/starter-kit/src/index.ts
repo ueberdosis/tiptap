@@ -17,6 +17,10 @@ import BulletList, { BulletListOptions } from '@tiptap/extension-bullet-list'
 import OrderedList, { OrderedListOptions } from '@tiptap/extension-ordered-list'
 import ListItem, { ListItemOptions } from '@tiptap/extension-list-item'
 
+import { StarterKit } from './starter-kit'
+
+export default StarterKit
+
 export function defaultExtensions(options?: Partial<{
   dropcursor: Partial<DropcursorOptions>,
   paragraph: Partial<ParagraphOptions>,
@@ -34,6 +38,8 @@ export function defaultExtensions(options?: Partial<{
   orderedList: Partial<OrderedListOptions>,
   listItem: Partial<ListItemOptions>,
 }>) {
+  console.warn('[tiptap warn]: defaultExtensions() is deprecated. please use the default export "StarterKit". "StarterKit" is a regular extension that contains all other extensions.')
+
   return [
     Document,
     Paragraph.configure(options?.paragraph),

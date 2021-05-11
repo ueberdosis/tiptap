@@ -3,6 +3,79 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.53](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.52...@tiptap/extension-mention@2.0.0-beta.53) (2021-05-07)
+
+**Note:** Version bump only for package @tiptap/extension-mention
+
+
+
+
+
+# [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.51...@tiptap/extension-mention@2.0.0-beta.52) (2021-05-07)
+
+**Note:** Version bump only for package @tiptap/extension-mention
+
+
+
+
+
+# [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.50...@tiptap/extension-mention@2.0.0-beta.51) (2021-05-07)
+
+**Note:** Version bump only for package @tiptap/extension-mention
+
+
+
+
+
+# [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.49...@tiptap/extension-mention@2.0.0-beta.50) (2021-05-07)
+
+
+### Bug Fixes
+
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+
+
+
+
+
+# [2.0.0-beta.49](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.48...@tiptap/extension-mention@2.0.0-beta.49) (2021-05-06)
+
+
+### Bug Fixes
+
+* revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
+
+
+
+
+
+# [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.47...@tiptap/extension-mention@2.0.0-beta.48) (2021-05-06)
+
+
+### Bug Fixes
+
+* add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
+
+
+
+
+
+# [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.46...@tiptap/extension-mention@2.0.0-beta.47) (2021-05-06)
+
+**Note:** Version bump only for package @tiptap/extension-mention
+
+
+
+
+
+# [2.0.0-beta.46](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.45...@tiptap/extension-mention@2.0.0-beta.46) (2021-05-06)
+
+**Note:** Version bump only for package @tiptap/extension-mention
+
+
+
+
+
 # [2.0.0-beta.45](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.44...@tiptap/extension-mention@2.0.0-beta.45) (2021-05-05)
 
 **Note:** Version bump only for package @tiptap/extension-mention

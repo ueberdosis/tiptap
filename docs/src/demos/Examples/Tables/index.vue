@@ -64,7 +64,7 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import Table from '@tiptap/extension-table'
 import TableRow from '@tiptap/extension-table-row'
 import TableCell from '@tiptap/extension-table-cell'
@@ -109,7 +109,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        ...defaultExtensions(),
+        StarterKit,
         Table.configure({
           resizable: true,
         }),

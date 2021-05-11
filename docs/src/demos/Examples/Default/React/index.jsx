@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import './styles.scss'
 
 const MenuBar = ({ editor }) => {
@@ -125,7 +125,7 @@ const MenuBar = ({ editor }) => {
 export default () => {
   const editor = useEditor({
     extensions: [
-      ...defaultExtensions(),
+      StarterKit,
     ],
     content: `
       <h2>

@@ -5,6 +5,7 @@ import { Node } from './Node'
 import { Mark } from './Mark'
 import mergeDeep from './utilities/mergeDeep'
 import {
+  Extensions,
   GlobalAttributes,
   RawCommands,
   ParentConfig,
@@ -91,6 +92,15 @@ declare module '@tiptap/core' {
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['addProseMirrorPlugins'],
     }) => Plugin[],
+
+    /**
+     * Extensions
+     */
+    addExtensions?: (this: {
+      name: string,
+      options: Options,
+      parent: ParentConfig<ExtensionConfig<Options>>['addExtensions'],
+    }) => Extensions,
 
     /**
      * Extend Node Schema
@@ -226,7 +236,6 @@ export class Extension<Options = any> {
 
   config: ExtensionConfig = {
     name: this.name,
-    priority: 100,
     defaultOptions: {},
   }
 
@@ -247,7 +256,9 @@ export class Extension<Options = any> {
   configure(options: Partial<Options> = {}) {
     this.options = mergeDeep(this.options, options) as Options
 
-    return this
+    // return a new instance so we can use the same extension
+    // with different calls of `configure`
+    return this.extend()
   }
 
   extend<ExtendedOptions = Options>(extendedConfig: Partial<ExtensionConfig<ExtendedOptions>> = {}) {

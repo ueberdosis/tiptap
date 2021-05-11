@@ -17,8 +17,7 @@ Don’t confuse methods with [commands](/api/commands). Commands are used to cha
 | `destroy()`           | –                                                                                                           | Stops the editor instance and unbinds all events.                            |
 | `getHTML()`           | –                                                                                                           | Returns the current content as HTML.                                         |
 | `getJSON()`           | –                                                                                                           | Returns the current content as JSON.                                         |
-| `getMarkAttributes()` | `name` Name of the mark                                                                                     | Get attributes of the currently selected mark.                               |
-| `getNodeAttributes()` | `name` Name of the node                                                                                     | Get attributes of the currently selected node.                               |
+| `getAttributes()`     | `name` Name of the node or mark                                                                             | Get attributes of the currently selected node or mark.                       |
 | `isActive()`          | `name` Name of the node or mark<br>`attrs` Attributes of the node or mark                                   | Returns if the currently selected node or mark is active.                    |
 | `isEditable()`        | -                                                                                                           | Returns whether the editor is editable.                                      |
 | `isEmpty()`           | -                                                                                                           | Check if there is no content.                                                |
@@ -34,11 +33,13 @@ The `element` specifies the HTML element the editor will be binded too. The foll
 
 ```js
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
   element: document.querySelector('.element'),
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
 })
 ```
 
@@ -53,7 +54,7 @@ It’s required to pass a list of extensions to the `extensions` property, even 
 
 ```js
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -61,7 +62,9 @@ import Highlight from '@tiptap/extension-highlight'
 
 new Editor({
   // Use the default extensions
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
 
   // … or use specific extensions
   extensions: [
@@ -72,7 +75,7 @@ new Editor({
 
   // … or both
   extensions: [
-    ...defaultExtensions(),
+    StarterKit,
     Highlight,
   ],
 })
@@ -83,11 +86,13 @@ With the `content` property you can provide the initial content for the editor. 
 
 ```js
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
   content: `<p>Example Text</p>`,
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
 })
 ```
 
@@ -96,11 +101,13 @@ The `editable` property determines if users can write into the editor.
 
 ```js
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
   content: `<p>Example Text</p>`,
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
   editable: false,
 })
 ```
@@ -110,10 +117,12 @@ With `autofocus` you can force the cursor to jump in the editor on initializatio
 
 ```js
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
   autofocus: false,
 })
 ```
@@ -132,11 +141,13 @@ By default, tiptap enables all [input rules](/guide/custom-extensions/#input-rul
 
 ```js
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
   content: `<p>Example Text</p>`,
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
   enableInputRules: false,
 })
 ```
@@ -146,11 +157,13 @@ By default, tiptap enables all [paste rules](/guide/custom-extensions/#paste-rul
 
 ```js
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
   content: `<p>Example Text</p>`,
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
   enablePasteRules: false,
 })
 ```
@@ -160,10 +173,12 @@ By default, tiptap injects [a little bit of CSS](https://github.com/ueberdosis/t
 
 ```js
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
   injectCSS: false,
 })
 ```

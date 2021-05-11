@@ -3,6 +3,128 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.55](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.54...@tiptap/core@2.0.0-beta.55) (2021-05-11)
+
+
+### Bug Fixes
+
+* fix a bug when configurating the same extension multiple times ([655c564](https://github.com/ueberdosis/tiptap/commit/655c5647f0951851f818a0cc2500c48969f20797))
+
+
+### Features
+
+* export mark helpers ([313ab0e](https://github.com/ueberdosis/tiptap/commit/313ab0eac7d9209c279f0925c2372735882de56a))
+
+
+
+
+
+# [2.0.0-beta.54](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.53...@tiptap/core@2.0.0-beta.54) (2021-05-09)
+
+
+### Bug Fixes
+
+* set correct priority when extending extensions, fix [#1288](https://github.com/ueberdosis/tiptap/issues/1288) ([b4e2b6f](https://github.com/ueberdosis/tiptap/commit/b4e2b6fc9dd722cce5ee85eb2df994453a0f5d39))
+
+
+
+
+
+# [2.0.0-beta.53](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.52...@tiptap/core@2.0.0-beta.53) (2021-05-07)
+
+
+### Features
+
+* add editor.getAttributes, deprecate editor.getNodeAttributes and editor.getMarkAttributes ([072905c](https://github.com/ueberdosis/tiptap/commit/072905cb95e022a37f5bc937889999bfbb33ad88))
+
+
+
+
+
+# [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.51...@tiptap/core@2.0.0-beta.52) (2021-05-07)
+
+
+### Features
+
+* expose node helpers to core ([6048f9b](https://github.com/ueberdosis/tiptap/commit/6048f9b31b996b305f704c4ae3ed176fa42eb943))
+
+
+
+
+
+# [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.50...@tiptap/core@2.0.0-beta.51) (2021-05-07)
+
+
+### Bug Fixes
+
+* add support for priority and nested extension for getSchema ([129ad83](https://github.com/ueberdosis/tiptap/commit/129ad83167900526d65c5c25da8249d0d65bcef7))
+* remove editor from addExtensions context ([cbc0dd8](https://github.com/ueberdosis/tiptap/commit/cbc0dd8920ab7d36516387ceac59239f9162b4ec))
+
+
+
+
+
+# [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.49...@tiptap/core@2.0.0-beta.50) (2021-05-07)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-beta.49](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.48...@tiptap/core@2.0.0-beta.49) (2021-05-07)
+
+
+### Bug Fixes
+
+* fix a bug that messed up pasted link attributes, fix [#1284](https://github.com/ueberdosis/tiptap/issues/1284) ([7da647d](https://github.com/ueberdosis/tiptap/commit/7da647d99f1dcefabc653347a8e2abfae3bb972e))
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+
+
+
+
+
+# [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.47...@tiptap/core@2.0.0-beta.48) (2021-05-06)
+
+
+### Bug Fixes
+
+* revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
+
+
+
+
+
+# [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.46...@tiptap/core@2.0.0-beta.47) (2021-05-06)
+
+
+### Bug Fixes
+
+* add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
+
+
+
+
+
+# [2.0.0-beta.46](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.45...@tiptap/core@2.0.0-beta.46) (2021-05-06)
+
+
+### Features
+
+* add addExtensions option ([26e672e](https://github.com/ueberdosis/tiptap/commit/26e672e2f02a8f94941c704f3cd6cc4adef40df7))
+
+
+
+
+
+# [2.0.0-beta.45](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.44...@tiptap/core@2.0.0-beta.45) (2021-05-06)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
 # [2.0.0-beta.44](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.43...@tiptap/core@2.0.0-beta.44) (2021-05-05)
 
 

@@ -52,7 +52,7 @@ This is the fastest way to get tiptap up and running with Vue. It will give you 
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 export default {
   components: {
@@ -68,7 +68,9 @@ export default {
   mounted() {
     this.editor = new Editor({
       content: '<p>I’m running tiptap with Vue.js. 🎉</p>',
-      extensions: defaultExtensions(),
+      extensions: [
+        StarterKit,
+      ],
     })
   },
 

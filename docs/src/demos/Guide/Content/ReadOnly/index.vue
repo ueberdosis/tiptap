@@ -10,7 +10,7 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 export default {
   components: {
@@ -35,7 +35,9 @@ export default {
           If you want to check the state, you can call <code>editor.isEditable()</code>.
         </p>
       `,
-      extensions: defaultExtensions(),
+      extensions: [
+        StarterKit,
+      ],
     })
   },
 

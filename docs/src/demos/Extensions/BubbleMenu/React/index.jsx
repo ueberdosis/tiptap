@@ -1,12 +1,12 @@
 import React from 'react'
 import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import './styles.scss'
 
 export default () => {
   const editor = useEditor({
     extensions: [
-      ...defaultExtensions(),
+      StarterKit,
     ],
     content: `
       <p>

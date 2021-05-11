@@ -51,7 +51,7 @@ This is the fastest way to get tiptap up and running with SvelteKit. It will giv
 <script type="module">
   import { onMount, onDestroy } from 'svelte'
   import { Editor } from '@tiptap/core'
-  import { defaultExtensions } from '@tiptap/starter-kit'
+  import StarterKit from '@tiptap/starter-kit'
 
   let element
   let editor
@@ -59,7 +59,9 @@ This is the fastest way to get tiptap up and running with SvelteKit. It will giv
   onMount(() => {
     editor = new Editor({
       element: element,
-      extensions: defaultExtensions(),
+      extensions: [
+        StarterKit,
+      ],
       content: '<p>Hello World! 🌍️ </p>',
       onTransaction: () => {
         // force re-render so `editor.isActive` works as expected

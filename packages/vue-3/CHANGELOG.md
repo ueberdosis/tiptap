@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.32...@tiptap/vue-3@2.0.0-beta.33) (2021-05-07)
+
+
+### Bug Fixes
+
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+
+
+
+
+
+# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.31...@tiptap/vue-3@2.0.0-beta.32) (2021-05-06)
+
+
+### Bug Fixes
+
+* revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
+
+
+
+
+
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.30...@tiptap/vue-3@2.0.0-beta.31) (2021-05-06)
+
+
+### Bug Fixes
+
+* add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
+
+
+
+
+
+# [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.29...@tiptap/vue-3@2.0.0-beta.30) (2021-05-06)
+
+**Note:** Version bump only for package @tiptap/vue-3
+
+
+
+
+
 # [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.28...@tiptap/vue-3@2.0.0-beta.29) (2021-05-05)
 
 **Note:** Version bump only for package @tiptap/vue-3

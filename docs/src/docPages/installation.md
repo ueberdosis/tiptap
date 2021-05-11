@@ -45,11 +45,13 @@ Let’s initialize the editor in JavaScript now:
 
 ```js
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 new Editor({
   element: document.querySelector('.element'),
-  extensions: defaultExtensions(),
+  extensions: [
+    StarterKit,
+  ],
   content: '<p>Hello World!</p>',
 })
 ```

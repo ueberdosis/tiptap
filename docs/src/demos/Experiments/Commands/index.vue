@@ -7,7 +7,7 @@
 <script>
 import tippy from 'tippy.js'
 import { Editor, EditorContent, VueRenderer } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import Commands from './commands'
 import CommandsList from './CommandsList'
 
@@ -25,7 +25,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        ...defaultExtensions(),
+        StarterKit,
         Commands.configure({
           suggestion: {
             items: query => {

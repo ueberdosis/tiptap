@@ -47,7 +47,7 @@ This is the fastest way to get tiptap up and running with Alpine.js. It will giv
 ```js
 import alpinejs from 'alpinejs'
 import { Editor } from '@tiptap/core'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 
 window.setupEditor = function(content) {
   return {
@@ -57,7 +57,9 @@ window.setupEditor = function(content) {
     init(element) {
       this.editor = new Editor({
         element: element,
-        extensions: defaultExtensions(),
+        extensions: [
+          StarterKit,
+        ],
         content: this.content,
         onUpdate: ({ editor }) => {
           this.content = editor.getHTML()

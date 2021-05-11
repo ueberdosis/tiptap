@@ -40,8 +40,14 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * A regex that matches any string that contains a link
+ */
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
-export const pasteRegexWithBrackets = /(?:\()https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/()]*)(?:\))/gi
+
+/**
+ * A regex that matches an url
+ */
 export const pasteRegexExact = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)$/gi
 
 export const Link = Mark.create<LinkOptions>({
@@ -97,8 +103,7 @@ export const Link = Mark.create<LinkOptions>({
 
   addPasteRules() {
     return [
-      markPasteRule(pasteRegex, this.type, (url: string) => ({ href: url })),
-      markPasteRule(pasteRegexWithBrackets, this.type, (url: string) => ({ href: url })),
+      markPasteRule(pasteRegex, this.type, match => ({ href: match[0] })),
     ]
   },
 
@@ -111,7 +116,7 @@ export const Link = Mark.create<LinkOptions>({
           key: new PluginKey('handleClickLink'),
           props: {
             handleClick: (view, pos, event) => {
-              const attrs = this.editor.getMarkAttributes('link')
+              const attrs = this.editor.getAttributes('link')
               const link = (event.target as HTMLElement)?.closest('a')
 
               if (link && attrs.href) {

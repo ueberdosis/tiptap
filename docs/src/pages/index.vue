@@ -121,11 +121,13 @@
 
   &lt;script type="module"&gt;
     import { Editor } from 'https://cdn.skypack.dev/@tiptap/core?min'
-    import { defaultExtensions } from 'https://cdn.skypack.dev/@tiptap/starter-kit?min'
+    import StarterKit from 'https://cdn.skypack.dev/@tiptap/starter-kit?min'
 
     const editor = new Editor({
       element: document.querySelector('.element'),
-      extensions: defaultExtensions(),
+      extensions: [
+        StarterKit,
+      ],
       content: '&lt;p&gt;Hello World :-)&lt;/p&gt;',
     })
   &lt;/script&gt;

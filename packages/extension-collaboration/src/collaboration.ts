@@ -47,6 +47,12 @@ export const Collaboration = Extension.create<CollaborationOptions>({
     fragment: null,
   },
 
+  onCreate() {
+    if (this.editor.extensionManager.extensions.find(extension => extension.name === 'history')) {
+      console.warn('[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-history".')
+    }
+  },
+
   addCommands() {
     return {
       undo: () => ({ tr, state, dispatch }) => {

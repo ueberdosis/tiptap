@@ -37,12 +37,16 @@ export const TextAlign = Extension.create<TextAlignOptions>({
         attributes: {
           textAlign: {
             default: this.options.defaultAlignment,
-            renderHTML: attributes => ({
-              style: `text-align: ${attributes.textAlign}`,
-            }),
             parseHTML: element => ({
               textAlign: element.style.textAlign || this.options.defaultAlignment,
             }),
+            renderHTML: attributes => {
+              if (attributes.textAlign === this.options.defaultAlignment) {
+                return {}
+              }
+
+              return { style: `text-align: ${attributes.textAlign}` }
+            },
           },
         },
       },

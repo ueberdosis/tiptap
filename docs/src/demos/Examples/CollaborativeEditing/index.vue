@@ -22,7 +22,7 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import TaskList from '@tiptap/extension-task-list'
@@ -40,20 +40,9 @@ const getRandomElement = list => {
 
 const getRandomRoom = () => {
   return getRandomElement([
-    // HN killed it all
-    // 'room.one',
-    // 'room.two',
-    // 'room.three',
-    // 'room.four',
-    // 'room.five',
-    'room.six',
-    // 'room.seven',
-    // 'room.eight',
-    'room.nine',
-    // 'room.ten',
-    'room.eleven',
-    'room.twelve',
-    'room.thirteen',
+    'room.1',
+    'room.2',
+    'room.3',
   ])
 }
 
@@ -91,7 +80,9 @@ export default {
 
     this.editor = new Editor({
       extensions: [
-        ...defaultExtensions().filter(extension => extension.name !== 'history'),
+        StarterKit.configure({
+          history: false,
+        }),
         Highlight,
         TaskList,
         TaskItem,

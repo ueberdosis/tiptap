@@ -5,13 +5,13 @@ import {
   BubbleMenu,
   FloatingMenu,
 } from '@tiptap/react'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import './styles.scss'
 
 export default () => {
   const editor = useEditor({
     extensions: [
-      ...defaultExtensions(),
+      StarterKit,
     ],
     content: `
       <p>

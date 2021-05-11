@@ -6,7 +6,7 @@
 
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import { defaultExtensions } from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
 import Typography from '@tiptap/extension-typography'
 
@@ -41,7 +41,7 @@ export default {
         </p>
       `,
       extensions: [
-        ...defaultExtensions(),
+        StarterKit,
         Highlight,
         Typography,
       ],
