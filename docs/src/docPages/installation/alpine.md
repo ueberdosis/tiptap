@@ -53,6 +53,7 @@ window.setupEditor = function(content) {
   return {
     editor: null,
     content: content,
+    updatedAt: Date.now(), // force Alpine to rerender on selection change
     init(element) {
       this.editor = new Editor({
         element: element,
@@ -60,6 +61,9 @@ window.setupEditor = function(content) {
         content: this.content,
         onUpdate: ({ editor }) => {
           this.content = editor.getHTML()
+        },
+        onSelectionUpdate: () => {
+          this.updatedAt = Date.now()
         },
       })
     },
