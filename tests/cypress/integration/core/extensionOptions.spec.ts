@@ -121,4 +121,29 @@ describe('extension options', () => {
       },
     })
   })
+
+  it('should create its own instance on configure', () => {
+    const extension = Extension
+      .create({
+        defaultOptions: {
+          foo: 1,
+        },
+      })
+
+    const extension1 = extension.configure({
+      foo: 2,
+    })
+
+    const extension2 = extension.configure({
+      foo: 3,
+    })
+
+    expect(extension1.options).to.deep.eq({
+      foo: 2,
+    })
+
+    expect(extension2.options).to.deep.eq({
+      foo: 3,
+    })
+  })
 })

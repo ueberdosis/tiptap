@@ -353,7 +353,9 @@ export class Mark<Options = any> {
   configure(options: Partial<Options> = {}) {
     this.options = mergeDeep(this.options, options) as Options
 
-    return this
+    // return a new instance so we can use the same extension
+    // with different calls of `configure`
+    return this.extend()
   }
 
   extend<ExtendedOptions = Options>(extendedConfig: Partial<MarkConfig<ExtendedOptions>> = {}) {
