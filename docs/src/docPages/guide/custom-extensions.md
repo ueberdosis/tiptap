@@ -3,12 +3,16 @@
 ## toc
 
 ## Introduction
-One of the strength of tiptap is it’s extendability. You don’t depend on the provided extensions, it’s intended to extend the editor to your liking. With custom extensions you can add new content types and new functionalities, on top of what already exists or from scratch.
+One of the strengths of tiptap is its extendability. You don’t depend on the provided extensions, it is intended to extend the editor to your liking.
+
+With custom extensions you can add new content types and new functionalities, on top of what already exists or from scratch. Let’s start with a few common examples of how you can extend existing nodes, marks and extensions.
+
+You’ll learn how you start from scratch at the end, but you’ll need the same knowledge for extending existing and creating new extensions.
 
 ## Extend existing extensions
-Let’s say you want to change the keyboard shortcuts for the bullet list. You should start by looking at [the source code of the `BulletList` extension](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/src/bullet-list.ts) and find the part you would like to change. In that case, the keyboard shortcut, and just that.
+Every extension has an `extend()` method, which takes an object with everything you want to change or add to it.
 
-Every extension has an `extend()` method, which takes an object with everything you want to change or add to it. For the bespoken example, your code could like that:
+Let’s say, you’d like to change the keyboard shortcut for the bullet list. You should start with looking at the source code of the extension, in that case [the `BulletList` node](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/src/bullet-list.ts). For the bespoken example to overwrite the keyboard shortcut, your code could look like that:
 
 ```js
 // 1. Import the extension
@@ -418,6 +422,26 @@ const CustomExtension = Extension.create({
 })
 ```
 
+### What’s available in this?
+Those extensions aren’t classes, but you still have a few important things available in `this` everywhere in the extension.
+
+```js
+// Name of the extension, for example 'bulletList'
+this.name
+
+// Editor instance
+this.editor
+
+// ProseMirror type
+this.type
+
+// Object with all settings
+this.options
+
+// Everything that’s in the extended extension
+this.parent
+```
+
 ### ProseMirror Plugins (Advanced)
 After all, tiptap is built on ProseMirror and ProseMirror has a pretty powerful plugin API, too. To access that directly, use `addProseMirrorPlugins()`.
 
@@ -499,6 +523,8 @@ There is a whole lot to learn about node views, so head over to the [dedicated s
 You can build your own extensions from scratch and you know what? It’s the same syntax as for extending existing extension described above.
 
 ### Create a node
+If you think of the document as a tree, then [nodes](/api/nodes) are just a type of content in that tree. Good examples to learn from are [`Paragraph`](/api/nodes/paragraph), [`Heading`](/api/nodes/heading), or [`CodeBlock`](/api/nodes/code-block).
+
 ```js
 import { Node } from '@tiptap/core'
 
@@ -509,7 +535,11 @@ const CustomNode = Node.create({
 })
 ```
 
+Nodes don’t have to be blocks. They can also be rendered inline with the text, for example for [@mentions](/api/nodes/mention).
+
 ### Create a mark
+One or multiple marks can be applied to [nodes](/api/nodes), for example to add inline formatting. Good examples to learn from are [`Bold`](/api/marks/bold), [`Italic`](/api/marks/italic) and [`Highlight`](/api/marks/highlight).
+
 ```js
 import { Mark } from '@tiptap/core'
 
@@ -521,6 +551,10 @@ const CustomMark = Mark.create({
 ```
 
 ### Create an extension
+Extensions add new capabilities to tiptap and you’ll read the word extension here very often, even for nodes and marks. But there are literal extensions. Those can’t add to the schema (like marks and nodes do), but can add functionality or change the behaviour of the editor.
+
+A good example to learn from is probably [`TextAlign`](/api/extension/text-align).
+
 ```js
 import { Extension } from '@tiptap/core'
 
