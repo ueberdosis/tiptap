@@ -64,22 +64,17 @@ We switched to lowerCamelCase, so there’s a lot type names that changed. If yo
 
 | Old type              | New type               |
 | --------------------- | ---------------------- |
-| ~~`blockquote`~~      | `blockquote`           |
-| ~~`bold`~~            | `bold`                 |
 | ~~`bullet_list`~~     | `bulletList`           |
-| ~~`code`~~            | `code`                 |
 | ~~`code_block`~~      | `codeBlock`            |
 | ~~`hard_break`~~      | `hardBreak`            |
-| ~~`heading`~~         | `heading`              |
 | ~~`horizontal_rule`~~ | `horizontalRule`       |
-| ~~`italic`~~          | `italic`               |
-| ~~`link`~~            | `link`                 |
+| ~~`list_item`~~       | `listItem`             |
 | ~~`ordered_list`~~    | `orderedList`          |
-| ~~`paragraph`~~       | `paragraph`            |
-| ~~`strike`~~          | `strike`               |
+| ~~`table_cell`~~      | `tableCell`            |
+| ~~`table_header`~~    | `tableHeader`          |
+| ~~`table_row`~~       | `tableRow`             |
 | ~~`todo_list`~~       | `taskList` (new name!) |
-| ~~`underline`~~       | `underline`            |
-| …                     | …                      |
+| ~~`todo_item`~~       | `taskItem` (new name!) |
 
 ### Removed methods
 We removed the `.state()` method. No worries though, it’s still available through `editor.state`.
