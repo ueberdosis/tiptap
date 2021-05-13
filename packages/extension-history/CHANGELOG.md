@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.11](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-history@2.0.0-beta.10...@tiptap/extension-history@2.0.0-beta.11) (2021-05-13)
+
+**Note:** Version bump only for package @tiptap/extension-history
+
+
+
+
+
 # [2.0.0-beta.10](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-history@2.0.0-beta.9...@tiptap/extension-history@2.0.0-beta.10) (2021-05-07)
 
 

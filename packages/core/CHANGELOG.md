@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.56](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.55...@tiptap/core@2.0.0-beta.56) (2021-05-13)
+
+
+### Bug Fixes
+
+* fix a bug in detecting a current list in toggleList command ([a35b253](https://github.com/ueberdosis/tiptap/commit/a35b2533eb87c683c0bff56b574aff490f490980))
+
+
+
+
+
 # [2.0.0-beta.55](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.54...@tiptap/core@2.0.0-beta.55) (2021-05-11)
 
 

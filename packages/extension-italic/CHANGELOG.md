@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.12](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-italic@2.0.0-beta.11...@tiptap/extension-italic@2.0.0-beta.12) (2021-05-13)
+
+**Note:** Version bump only for package @tiptap/extension-italic
+
+
+
+
+
 # [2.0.0-beta.11](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-italic@2.0.0-beta.10...@tiptap/extension-italic@2.0.0-beta.11) (2021-05-07)
 
 
