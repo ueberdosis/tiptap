@@ -5,7 +5,7 @@ import { Command, RawCommands } from '../types'
 import getSplittedAttributes from '../helpers/getSplittedAttributes'
 
 function defaultBlockAt(match: ContentMatch) {
-  for (let i = 0; i < match.edgeCount; i + 1) {
+  for (let i = 0; i < match.edgeCount; i += 1) {
     const { type } = match.edge(i)
 
     if (type.isTextblock && !type.hasRequiredAttrs()) {
