@@ -14,6 +14,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [2.0.0-beta.57](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.56...@tiptap/core@2.0.0-beta.57) (2021-05-13)
+
+
+### Bug Fixes
+
+* **core:** Increment `i` in `defaultBlockAt` ([655957d](https://github.com/ueberdosis/tiptap/commit/655957d73304f57d87b8e95d89de00da762c0fa9))
+
+
+
+
+
 # [2.0.0-beta.56](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.55...@tiptap/core@2.0.0-beta.56) (2021-05-13)
 
 

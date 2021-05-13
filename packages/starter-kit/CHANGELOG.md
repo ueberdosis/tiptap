@@ -11,6 +11,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [2.0.0-beta.54](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.53...@tiptap/starter-kit@2.0.0-beta.54) (2021-05-13)
+
+**Note:** Version bump only for package @tiptap/starter-kit
+
+
+
+
+
 # [2.0.0-beta.53](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.52...@tiptap/starter-kit@2.0.0-beta.53) (2021-05-13)
 
 **Note:** Version bump only for package @tiptap/starter-kit
