@@ -18,7 +18,7 @@ declare module '@tiptap/core' {
 export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOrName) => ({
   editor, tr, state, dispatch, chain, commands, can,
 }) => {
-  const { extensions } = editor.options
+  const { extensions } = editor.extensionManager
   const listType = getNodeType(listTypeOrName, state.schema)
   const itemType = getNodeType(itemTypeOrName, state.schema)
   const { selection } = state
