@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.16...@tiptap/extension-placeholder@2.0.0-beta.17) (2021-05-13)
+
+
+### Bug Fixes
+
+* check for empty text, fix [#1292](https://github.com/ueberdosis/tiptap/issues/1292) ([456f2b7](https://github.com/ueberdosis/tiptap/commit/456f2b702b146cc3f4a156a71cba8354990c02e0))
+
+
+
+
+
 # [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.15...@tiptap/extension-placeholder@2.0.0-beta.16) (2021-05-13)
 
 **Note:** Version bump only for package @tiptap/extension-placeholder
