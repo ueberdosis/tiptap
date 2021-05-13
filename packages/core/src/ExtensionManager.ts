@@ -147,7 +147,10 @@ export default class ExtensionManager {
         )
 
         if (addExtensions) {
-          return this.flatten(addExtensions())
+          return [
+            extension,
+            ...this.flatten(addExtensions()),
+          ]
         }
 
         return extension
