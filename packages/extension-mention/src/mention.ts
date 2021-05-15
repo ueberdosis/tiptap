@@ -62,6 +62,22 @@ export const Mention = Node.create<MentionOptions>({
           }
         },
       },
+      text: {
+        default: null,
+        parseHTML: element => {
+          return {
+            text: element.getAttribute('data-text'),
+          };
+        },
+        renderHTML: attributes => {
+          if (!attributes.text) {
+            return {};
+          }
+          return {
+            'data-text': attributes.text,
+          };
+        },
+      },
     }
   },
 
