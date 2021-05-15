@@ -23,7 +23,7 @@ export default Node.create({
 
   group: 'block',
 
-  // selectable: false,
+  atom: true,
 
   defaultOptions: <IframeOptions>{
     allowFullscreen: true,
@@ -58,7 +58,7 @@ export default Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', this.options.HTMLAttributes, ['iframe', HTMLAttributes, 0]]
+    return ['div', this.options.HTMLAttributes, ['iframe', HTMLAttributes]]
   },
 
   addCommands() {
