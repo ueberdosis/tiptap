@@ -77,12 +77,12 @@ export const Mention = Node.create<MentionOptions>({
     return [
       'span',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      `${this.options.suggestion.char}${node.attrs.id}`,
+      `${this.options.suggestion.char}${node.attrs.text ?? node.attrs.id}`,
     ]
   },
 
   renderText({ node }) {
-    return `${this.options.suggestion.char}${node.attrs.id}`
+    return `${this.options.suggestion.char}${node.attrs.text ?? node.attrs.id}`
   },
 
   addKeyboardShortcuts() {
