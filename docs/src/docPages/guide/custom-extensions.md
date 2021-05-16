@@ -553,7 +553,7 @@ const CustomMark = Mark.create({
 ### Create an extension
 Extensions add new capabilities to tiptap and you’ll read the word extension here very often, even for nodes and marks. But there are literal extensions. Those can’t add to the schema (like marks and nodes do), but can add functionality or change the behaviour of the editor.
 
-A good example to learn from is probably [`TextAlign`](/api/extension/text-align).
+A good example to learn from is probably [`TextAlign`](/api/extensions/text-align).
 
 ```js
 import { Extension } from '@tiptap/core'
