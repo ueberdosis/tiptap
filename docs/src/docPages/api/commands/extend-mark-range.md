@@ -1,5 +1,5 @@
 # extendMarkRange
-The `extendMarkRange` command expands the current selection to encompass the bounds of a current mark. If the current selection has no marks, the selection won't be altered. Additionally, if no mark `typeOrName` is provided, the selection can't be expanded, as it's impossible to know _which_ mark's range to use.
+The `extendMarkRange` command expands the current selection to encompass the current mark. If the current selection doesn't have the specified mark, nothing changes. If the selection contains multiple marks of the specified type, the first one is selected. `typeOrName` is required, since it's impossible to know _which_ mark's range to use without it.
 
 ## Parameters
 `typeOrName: string`
