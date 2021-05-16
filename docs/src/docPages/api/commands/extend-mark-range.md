@@ -1,7 +1,5 @@
-# clearContent
-The `extendMarkRange` command expands the current selection to encompas the bounds of a current mark.
-
-Note that if the current selection has no marks, the selection won't be altered. Additionally, if no mark type or name is provided, the selection can't be expanded, as it's impossible to know _which_ mark to use when extending the range.
+# extendMarkRange
+The `extendMarkRange` command expands the current selection to encompass the bounds of a current mark. If the current selection has no marks, the selection won't be altered. Additionally, if no mark `typeOrName` is provided, the selection can't be expanded, as it's impossible to know _which_ mark's range to use.
 
 ## Parameters
 `typeOrName: string`
