@@ -6,8 +6,8 @@
     <button @click="editor.chain().focus().unsetLink().run()" v-if="editor.isActive('link')">
       remove
     </button>
-    <button @click="editor.chain().focus().extendMarkRange('link').unsetLink().run()" v-if="editor.isActive('link')">
-      remove entire link
+    <button @click="editor.chain().focus().extendMarkRange('link').setLink({href: 'https://www.google.com'}).run()" v-if="editor.isActive('link')">
+      update link
     </button>
     <editor-content :editor="editor" />
   </div>
@@ -43,7 +43,7 @@ export default {
       ],
       content: `
         <p>
-          Wow, this editor has support for links to the whole <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world <strong>wide web</strong></a>. We tested a lot of URLs and I think you can add *every URL* you want. Isn’t that cool? Let’s try <a href="https://statamic.com/">another one!</a> Yep, seems to work.
+          Wow, this editor has support for links to the whole <strong><a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a></strong>. We tested a lot of URLs and I think you can add *every URL* you want. Isn’t that cool? Let’s try <a href="https://statamic.com/">another one!</a> Yep, seems to work.
         </p>
         <p>
           By default every link will get a \`rel="noopener noreferrer nofollow"\` attribute. It’s configurable though.
