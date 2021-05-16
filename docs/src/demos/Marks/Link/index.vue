@@ -6,6 +6,9 @@
     <button @click="editor.chain().focus().unsetLink().run()" v-if="editor.isActive('link')">
       remove
     </button>
+    <button @click="editor.chain().focus().extendMarkRange('link').unsetLink().run()" v-if="editor.isActive('link')">
+      remove entire link
+    </button>
     <editor-content :editor="editor" />
   </div>
 </template>
