@@ -151,7 +151,6 @@
           type: draft
         - title: extendMarkRange
           link: /api/commands/extend-mark-range
-          type: draft
         - title: focus
           link: /api/commands/focus
           type: draft

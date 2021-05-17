@@ -1,7 +1,30 @@
-import { MarkType, ResolvedPos } from 'prosemirror-model'
+import { Mark as ProseMirrorMark, MarkType, ResolvedPos } from 'prosemirror-model'
+import objectIncludes from '../utilities/objectIncludes'
 import { Range } from '../types'
 
-export default function getMarkRange($pos: ResolvedPos, type: MarkType): Range | void {
+function findMarkInSet(
+  marks: ProseMirrorMark[],
+  type: MarkType,
+  attributes: Record<string, any> = {},
+): ProseMirrorMark | undefined {
+  return marks.find(item => {
+    return item.type === type && objectIncludes(item.attrs, attributes)
+  })
+}
+
+function isMarkInSet(
+  marks: ProseMirrorMark[],
+  type: MarkType,
+  attributes: Record<string, any> = {},
+): boolean {
+  return !!findMarkInSet(marks, type, attributes)
+}
+
+export default function getMarkRange(
+  $pos: ResolvedPos,
+  type: MarkType,
+  attributes: Record<string, any> = {},
+): Range | void {
   if (!$pos || !type) {
     return
   }
@@ -12,9 +35,9 @@ export default function getMarkRange($pos: ResolvedPos, type: MarkType): Range |
     return
   }
 
-  const link = start.node.marks.find(mark => mark.type === type)
+  const mark = findMarkInSet(start.node.marks, type, attributes)
 
-  if (!link) {
+  if (!mark) {
     return
   }
 
@@ -23,12 +46,17 @@ export default function getMarkRange($pos: ResolvedPos, type: MarkType): Range |
   let endIndex = startIndex + 1
   let endPos = startPos + start.node.nodeSize
 
-  while (startIndex > 0 && link.isInSet($pos.parent.child(startIndex - 1).marks)) {
+  findMarkInSet(start.node.marks, type, attributes)
+
+  while (startIndex > 0 && mark.isInSet($pos.parent.child(startIndex - 1).marks)) {
     startIndex -= 1
     startPos -= $pos.parent.child(startIndex).nodeSize
   }
 
-  while (endIndex < $pos.parent.childCount && link.isInSet($pos.parent.child(endIndex).marks)) {
+  while (
+    endIndex < $pos.parent.childCount
+    && isMarkInSet($pos.parent.child(endIndex).marks, type, attributes)
+  ) {
     endPos += $pos.parent.child(endIndex).nodeSize
     endIndex += 1
   }

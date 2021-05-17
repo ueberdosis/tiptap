@@ -10,20 +10,20 @@ declare module '@tiptap/core' {
       /**
        * Extends the text selection to the current mark.
        */
-      extendMarkRange: (typeOrName: string | MarkType) => Command,
+      extendMarkRange: (typeOrName: string | MarkType, attributes?: Record<string, any>) => Command,
     }
   }
 }
 
-export const extendMarkRange: RawCommands['extendMarkRange'] = typeOrName => ({ tr, state, dispatch }) => {
+export const extendMarkRange: RawCommands['extendMarkRange'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
   const type = getMarkType(typeOrName, state.schema)
   const { doc, selection } = tr
-  const { $from, empty } = selection
+  const { $from, from, to } = selection
 
-  if (empty && dispatch) {
-    const range = getMarkRange($from, type)
+  if (dispatch) {
+    const range = getMarkRange($from, type, attributes)
 
-    if (range) {
+    if (range && range.from <= from && range.to >= to) {
       const newSelection = TextSelection.create(doc, range.from, range.to)
 
       tr.setSelection(newSelection)
