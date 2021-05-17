@@ -7,6 +7,17 @@ import { Predicate, Range, NodeWithPos } from '../types'
 export default function findChildrenInRange(node: ProseMirrorNode, range: Range, predicate: Predicate): NodeWithPos[] {
   const nodesWithPos: NodeWithPos[] = []
 
+  // if (range.from === range.to) {
+  //   const nodeAt = node.nodeAt(range.from)
+
+  //   if (nodeAt) {
+  //     nodesWithPos.push({
+  //       node: nodeAt,
+  //       pos: range.from,
+  //     })
+  //   }
+  // }
+
   node.nodesBetween(range.from, range.to, (child, pos) => {
     if (predicate(child)) {
       nodesWithPos.push({
