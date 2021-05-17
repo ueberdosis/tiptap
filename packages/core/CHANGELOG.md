@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.61](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.60...@tiptap/core@2.0.0-beta.61) (2021-05-17)
+
+
+### Bug Fixes
+
+* fix export for getAttributes ([5b8808a](https://github.com/ueberdosis/tiptap/commit/5b8808a89990b808d7f84c004a07e14b046c12b9))
+
+
+### Features
+
+* add findChildrenInRange helper ([463661c](https://github.com/ueberdosis/tiptap/commit/463661c5ed2fe4a1530888c8f09bb966794e33e6))
+* add support for checking for attributes in extendMarkRange ([ff7dd9b](https://github.com/ueberdosis/tiptap/commit/ff7dd9b919c7b5e0f845369c744116045bab5028))
+* export isList, fix [#1326](https://github.com/ueberdosis/tiptap/issues/1326) ([2bd17c7](https://github.com/ueberdosis/tiptap/commit/2bd17c7dc66d2d2c3131bce9e5a82326a990080c))
+
+
+
+
+
 # [2.0.0-beta.60](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.59...@tiptap/core@2.0.0-beta.60) (2021-05-13)
 
 
