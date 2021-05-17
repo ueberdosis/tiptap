@@ -194,3 +194,8 @@ export type MarkRange = {
 }
 
 export type Predicate = (node: ProseMirrorNode) => boolean
+
+export type NodeWithPos = {
+  node: ProseMirrorNode,
+  pos: number,
+}
