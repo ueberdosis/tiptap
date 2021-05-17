@@ -28,7 +28,7 @@
   "dependencies": {
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.16",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.13",
-    "prosemirror-view": "^1.18.4"
+    "prosemirror-view": "^1.18.6"
   },
   "devDependencies": {
     "@types/react": "^17.0.5",
