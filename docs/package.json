@@ -12,7 +12,7 @@
     "@gridsome/transformer-json": "^0.2.1",
     "@gridsome/vue-remark": "^0.2.6",
     "@mvasilkov/outdent": "^1.0.4",
-    "canvas": "^2.6.1",
+    "canvas": "^2.8.0",
     "collect.js": "^4.28.6",
     "d3": "^6.6.1",
     "globby": "^11.0.3",
@@ -33,7 +33,7 @@
     "y-prosemirror": "^1.0.9",
     "y-webrtc": "^10.1.7",
     "y-websocket": "^1.3.11",
-    "yjs": "^13.5.4"
+    "yjs": "^13.5.6"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.13.0",
