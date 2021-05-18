@@ -8,17 +8,20 @@ declare module '@tiptap/core' {
       /**
        * Creates a TextSelection.
        */
-      setTextSelection: (range: Range) => Command,
+      setTextSelection: (position: number | Range) => Command,
     }
   }
 }
 
-export const setTextSelection: RawCommands['setTextSelection'] = range => ({ tr, dispatch }) => {
+export const setTextSelection: RawCommands['setTextSelection'] = position => ({ tr, dispatch }) => {
   if (dispatch) {
     const { doc } = tr
-    const from = minMax(range.from, 0, doc.content.size)
-    const to = minMax(range.to, 0, doc.content.size)
-    const selection = TextSelection.create(doc, from, to)
+    const { from, to } = typeof position === 'number'
+      ? { from: position, to: position }
+      : position
+    const boundedFrom = minMax(from, 0, doc.content.size)
+    const boundedTo = minMax(to, 0, doc.content.size)
+    const selection = TextSelection.create(doc, boundedFrom, boundedTo)
 
     tr.setSelection(selection)
   }

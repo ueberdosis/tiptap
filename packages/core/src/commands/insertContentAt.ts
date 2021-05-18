@@ -13,16 +13,19 @@ declare module '@tiptap/core' {
       /**
        * Insert a node or string of HTML at a specific position.
        */
-      insertContentAt: (range: Range, value: Content) => Command,
+      insertContentAt: (position: number | Range, value: Content) => Command,
     }
   }
 }
 
-export const insertContentAt: RawCommands['insertContentAt'] = (range, value) => ({ tr, dispatch, editor }) => {
+export const insertContentAt: RawCommands['insertContentAt'] = (position, value) => ({ tr, dispatch, editor }) => {
   if (dispatch) {
     const content = createNodeFromContent(value, editor.schema)
+    const { from, to } = typeof position === 'number'
+      ? { from: position, to: position }
+      : position
 
-    tr.replaceWith(range.from, range.to, content)
+    tr.replaceWith(from, to, content)
 
     // set cursor at end of inserted content
     selectionToInsertionEnd(tr, tr.steps.length - 1, 1)
