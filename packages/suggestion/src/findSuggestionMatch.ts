@@ -22,11 +22,6 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
     $position,
   } = config
 
-  // cancel if top level node
-  if ($position.depth <= 0) {
-    return null
-  }
-
   // Matching expressions used for later
   const escapedChar = `\\${char}`
   const suffix = new RegExp(`\\s${escapedChar}$`)
@@ -35,7 +30,10 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
     ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
     : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
 
-  const textFrom = $position.before()
+  const isTopLevelNode = $position.depth <= 0
+  const textFrom = isTopLevelNode
+    ? 0
+    : $position.before()
   const textTo = $position.pos
   const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
   const match = Array.from(text.matchAll(regexp)).pop()
