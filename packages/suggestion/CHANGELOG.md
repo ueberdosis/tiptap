@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.56](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.55...@tiptap/suggestion@2.0.0-beta.56) (2021-05-18)
+
+
+### Bug Fixes
+
+* add support for using suggestions at top level, fix [#1340](https://github.com/ueberdosis/tiptap/issues/1340) ([0d9e488](https://github.com/ueberdosis/tiptap/commit/0d9e48883641d1c4aeeb9c9aa941e2e6419b2e7a))
+
+
+
+
+
 # [2.0.0-beta.55](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.54...@tiptap/suggestion@2.0.0-beta.55) (2021-05-17)
 
 **Note:** Version bump only for package @tiptap/suggestion
