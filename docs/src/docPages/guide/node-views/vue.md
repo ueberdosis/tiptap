@@ -167,6 +167,11 @@ export default {
     updateAttributes: {
       type: Function,
     },
+
+    // delete the current node
+    deleteNode: {
+      type: Function,
+    },
   },
 }
 </script>

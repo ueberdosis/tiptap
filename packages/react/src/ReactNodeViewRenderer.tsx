@@ -31,6 +31,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
       extension: this.extension,
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
+      deleteNode: () => this.deleteNode(),
     }
 
     if (!(this.component as any).displayName) {

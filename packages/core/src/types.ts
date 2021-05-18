@@ -142,6 +142,7 @@ export type NodeViewProps = {
   extension: Node,
   getPos: () => number,
   updateAttributes: (attributes: Record<string, any>) => void,
+  deleteNode: () => void,
 }
 
 export type NodeViewRendererProps = {

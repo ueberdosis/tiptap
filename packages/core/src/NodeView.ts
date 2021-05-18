@@ -238,4 +238,10 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     this.editor.view.dispatch(transaction)
   }
 
+  deleteNode(): void {
+    const from = this.getPos()
+    const to = from + this.node.nodeSize
+
+    this.editor.commands.deleteRange({ from, to })
+  }
 }

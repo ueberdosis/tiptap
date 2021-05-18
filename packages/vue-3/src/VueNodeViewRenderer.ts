@@ -46,6 +46,10 @@ export const nodeViewProps = {
     type: Function as PropType<NodeViewProps['updateAttributes']>,
     required: true,
   },
+  deleteNode: {
+    type: Function as PropType<NodeViewProps['deleteNode']>,
+    required: true,
+  },
 }
 
 interface VueNodeViewRendererOptions {
@@ -68,6 +72,7 @@ class VueNodeView extends NodeView<Component, Editor> {
       extension: this.extension,
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
+      deleteNode: () => this.deleteNode(),
     }
 
     const onDragStart = this.onDragStart.bind(this)
