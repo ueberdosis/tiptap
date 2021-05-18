@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.64](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.63...@tiptap/core@2.0.0-beta.64) (2021-05-18)
+
+
+### Bug Fixes
+
+* add marks to JSONContent type ([f829b45](https://github.com/ueberdosis/tiptap/commit/f829b45bf018aa769780a9987a1b2cdaaad8a44a))
+
+
+### Features
+
+* add deleteNode method to node views ([fcee5f8](https://github.com/ueberdosis/tiptap/commit/fcee5f82c6a282191afe5c2cb83b9f5820af28dd))
+
+
+
+
+
 # [2.0.0-beta.63](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.62...@tiptap/core@2.0.0-beta.63) (2021-05-18)
 
 **Note:** Version bump only for package @tiptap/core

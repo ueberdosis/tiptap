@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.41](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.40...@tiptap/react@2.0.0-beta.41) (2021-05-18)
+
+
+### Bug Fixes
+
+* move all child nodes within EditorContent ([0f299d2](https://github.com/ueberdosis/tiptap/commit/0f299d228eb4075d24e1c0fb5b39febc6bc77de6))
+
+
+### Features
+
+* add deleteNode method to node views ([fcee5f8](https://github.com/ueberdosis/tiptap/commit/fcee5f82c6a282191afe5c2cb83b9f5820af28dd))
+
+
+
+
+
 # [2.0.0-beta.40](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.39...@tiptap/react@2.0.0-beta.40) (2021-05-18)
 
 **Note:** Version bump only for package @tiptap/react
