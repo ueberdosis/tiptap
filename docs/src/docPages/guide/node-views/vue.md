@@ -148,7 +148,7 @@ export default {
       type: Array,
     },
 
-    // true when the cursor is inside the node view
+    // `true` when there is a `NodeSelection` at the current node view
     selected: {
       type: Boolean,
     },
