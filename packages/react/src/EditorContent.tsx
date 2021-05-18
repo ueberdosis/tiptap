@@ -55,7 +55,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 
       const element = this.editorContentRef.current
 
-      element.appendChild(editor.options.element.firstChild)
+      element.append(...editor.options.element.childNodes)
 
       editor.setOptions({
         element,
@@ -89,7 +89,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 
     const newElement = document.createElement('div')
 
-    newElement.appendChild(editor.options.element.firstChild)
+    newElement.append(...editor.options.element.childNodes)
 
     editor.setOptions({
       element: newElement,

@@ -39,7 +39,7 @@ export const EditorContent = defineComponent({
 
           const element = unref(rootEl.value)
 
-          rootEl.value.appendChild(editor.options.element.firstChild)
+          rootEl.value.append(...editor.options.element.childNodes)
 
           // @ts-ignore
           editor.contentComponent = instance.ctx._
@@ -71,7 +71,7 @@ export const EditorContent = defineComponent({
 
       const newElement = document.createElement('div')
 
-      newElement.appendChild(editor.options.element.firstChild)
+      newElement.append(...editor.options.element.childNodes)
 
       editor.setOptions({
         element: newElement,

@@ -27,7 +27,7 @@ export const EditorContent: Component = {
               return
             }
 
-            element.appendChild(editor.options.element.firstChild)
+            element.append(...editor.options.element.childNodes)
             editor.contentComponent = this
 
             editor.setOptions({
@@ -62,7 +62,7 @@ export const EditorContent: Component = {
 
     const newElement = document.createElement('div')
 
-    newElement.appendChild(editor.options.element.firstChild)
+    newElement.append(...editor.options.element.childNodes)
 
     editor.setOptions({
       element: newElement,
