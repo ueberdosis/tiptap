@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.65](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.64...@tiptap/core@2.0.0-beta.65) (2021-05-18)
+
+
+### Features
+
+* allow number for setTextSelection and insertContentAt ([2f7a6ad](https://github.com/ueberdosis/tiptap/commit/2f7a6adca54290b65467121e55838e5cfcf9ea8b))
+
+
+
+
+
 # [2.0.0-beta.64](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.63...@tiptap/core@2.0.0-beta.64) (2021-05-18)
 
 
