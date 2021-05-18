@@ -5,7 +5,7 @@ export default function getHTMLFromFragment(doc: Node, schema: Schema): string {
     .fromSchema(schema)
     .serializeFragment(doc.content)
 
-  const temporaryDocument = document.implementation.createHTMLDocument()
+  const temporaryDocument = document.implementation.createHTMLDocument('')
   const container = temporaryDocument.createElement('div')
   container.appendChild(fragment)
 
