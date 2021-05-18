@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { HTMLProps } from 'react'
 import ReactDOM from 'react-dom'
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
@@ -17,7 +17,7 @@ const Portals: React.FC<{ renderers: Map<string, ReactRenderer> }> = ({ renderer
   )
 }
 
-export interface EditorContentProps {
+export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
   editor: Editor | null,
 }
 
@@ -97,9 +97,11 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   }
 
   render() {
+    const { editor, ...rest } = this.props
+
     return (
       <>
-        <div ref={this.editorContentRef} />
+        <div ref={this.editorContentRef} {...rest} />
         <Portals renderers={this.state.renderers} />
       </>
     )
