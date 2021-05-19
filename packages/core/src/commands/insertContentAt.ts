@@ -20,7 +20,11 @@ declare module '@tiptap/core' {
 
 export const insertContentAt: RawCommands['insertContentAt'] = (position, value) => ({ tr, dispatch, editor }) => {
   if (dispatch) {
-    const content = createNodeFromContent(value, editor.schema)
+    const content = createNodeFromContent(value, editor.schema, {
+      parseOptions: {
+        preserveWhitespace: 'full',
+      },
+    })
     const { from, to } = typeof position === 'number'
       ? { from: position, to: position }
       : position

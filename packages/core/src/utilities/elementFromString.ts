@@ -1,3 +1,6 @@
 export default function elementFromString(value: string): HTMLElement {
-  return new window.DOMParser().parseFromString(value, 'text/html').body
+  // add a wrapper to preserve leading and trailing whitespace
+  const wrappedValue = `<body>${value}</body>`
+
+  return new window.DOMParser().parseFromString(wrappedValue, 'text/html').body
 }
