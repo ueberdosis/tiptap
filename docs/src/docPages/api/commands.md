@@ -168,6 +168,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | .createParagraphNear()  | Create a paragraph nearby.                                | [More](/api/commands/create-paragraph-near)  |
 | .extendMarkRange()      | Extends the text selection to the current mark.           | [More](/api/commands/extend-mark-range)  |
 | .exitCode()             | Exit from a code block.                                   | [More](/api/commands/exit-code)  |
+| .getAttributes()        | Gets the attributes of a node.                            | [More](/api/commands/get-attributes)  |
 | .joinBackward()         | Join two nodes backward.                                  | [More](/api/commands/join-backward)  |
 | .joinForward()          | Join two nodes forward.                                   | [More](/api/commands/join-forward)  |
 | .lift()                 | Removes an existing wrap.                                 | [More](/api/commands/lift)  |
