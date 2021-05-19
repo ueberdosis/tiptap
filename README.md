@@ -22,13 +22,15 @@ For help, discussion about best practices, or any other conversation that would 
 [Discuss tiptap on GitHub](https://github.com/ueberdosis/tiptap/discussions)
 
 ## 💖 Sponsors
-* [überdosis](https://ueberdosis.io/)
+* [überdosis](https://ueberdosis.io/) 🎁
 * [Ziff Media Group](https://ziffmedia.com/)
 * [Incyte Studios](https://incytestudios.com/)
 * [dotCMS](http://dotcms.com/)
 * [Restruct](https://restruct.nl/)
 * [Bitcrowd](https://bitcrowd.net/)
 * [Reflect](https://reflect.app/)
+* [Rimsys](https://rimsys.io/) 💎
+* [Complish](https://www.complish.app/) 💎
 
 [mymind](https://mymind.com/),
 [DocIQ](https://www.dociq.io/),
