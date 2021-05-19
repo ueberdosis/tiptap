@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.66](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.65...@tiptap/core@2.0.0-beta.66) (2021-05-19)
+
+
+### Bug Fixes
+
+* preserve whitespace when using insertContent command ([8f10181](https://github.com/ueberdosis/tiptap/commit/8f101810feace676fedce449e71d3af1d152436b))
+
+
+
+
+
 # [2.0.0-beta.65](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.64...@tiptap/core@2.0.0-beta.65) (2021-05-18)
 
 
