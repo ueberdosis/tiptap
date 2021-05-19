@@ -29,7 +29,7 @@ For help, discussion about best practices, or any other conversation that would 
 * [Restruct](https://restruct.nl/)
 * [Bitcrowd](https://bitcrowd.net/)
 * [Reflect](https://reflect.app/)
-* 💎 [Rimsys](https://rimsys.io/)
+* [Rimsys](https://rimsys.io/) 💎
 * [Complish](https://www.complish.app/)
 
 [mymind](https://mymind.com/),
