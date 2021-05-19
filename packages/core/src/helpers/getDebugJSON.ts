@@ -1,31 +1,50 @@
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { JSONContent } from '../types'
+
+interface DebugJSONContent extends JSONContent {
+  from: number,
+  to: number,
+}
 
 /**
  * Returns a node tree with node positions.
  */
-export default function getDebugJSON(node: ProseMirrorNode) {
-  const debug = (startNode: ProseMirrorNode, startOffset = 0) => {
-    const nodes: any[] = []
+export default function getDebugJSON(node: ProseMirrorNode, startOffset = 0) {
+  const nodes: DebugJSONContent[] = []
 
-    startNode.forEach((n, offset) => {
-      const from = startOffset + offset
-      const to = from + n.nodeSize
+  node.forEach((n, offset) => {
+    const from = startOffset + offset
+    const to = from + n.nodeSize
+    const marks = n.marks.map(mark => ({
+      type: mark.type.name,
+      attrs: { ...mark.attrs },
+    }))
+    const attrs = { ...n.attrs }
+    const content = getDebugJSON(n, from + 1)
+    const output: DebugJSONContent = {
+      type: n.type.name,
+      from,
+      to,
+    }
 
-      nodes.push({
-        type: n.type.name,
-        attrs: { ...n.attrs },
-        from,
-        to,
-        marks: n.marks.map(mark => ({
-          type: mark.type.name,
-          attrs: { ...mark.attrs },
-        })),
-        content: debug(n, from + 1),
-      })
-    })
+    if (Object.keys(attrs).length) {
+      output.attrs = attrs
+    }
 
-    return nodes
-  }
+    if (marks.length) {
+      output.marks = marks
+    }
 
-  return debug(node)
+    if (content.length) {
+      output.content = content
+    }
+
+    if (n.text) {
+      output.text = n.text
+    }
+
+    nodes.push(output)
+  })
+
+  return nodes
 }
