@@ -22,7 +22,7 @@ For help, discussion about best practices, or any other conversation that would 
 [Discuss tiptap on GitHub](https://github.com/ueberdosis/tiptap/discussions)
 
 ## 💖 Sponsors
-* [überdosis](https://ueberdosis.io/)
+* [überdosis](https://ueberdosis.io/) 🎁
 * [Ziff Media Group](https://ziffmedia.com/)
 * [Incyte Studios](https://incytestudios.com/)
 * [dotCMS](http://dotcms.com/)
