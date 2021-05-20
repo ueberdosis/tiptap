@@ -1,8 +1,12 @@
 # CollaborationAnnotation
-[![Version](https://img.shields.io/npm/v/@tiptap/extension-collaboration-annotation.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-collaboration-annotation)
-[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-collaboration-annotation.svg)](https://npmcharts.com/compare/@tiptap/extension-collaboration-annotation?minimal=true)
+<!-- [![Version](https://img.shields.io/npm/v/@tiptap/extension-collaboration-annotation.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-collaboration-annotation)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-collaboration-annotation.svg)](https://npmcharts.com/compare/@tiptap/extension-collaboration-annotation?minimal=true) -->
 
 ⚠️ Experiment
+
+:::warning Don’t use this in production
+This extension still has major issues (for example https://github.com/yjs/y-prosemirror/issues/44). We’re looking for funding to finish the extension. If you think you can help with that, reach out to humans@tiptap.dev!
+:::
 
 Annotations can be used to add additional information to the content, for example comments. They live on a different level than the actual editor content.
 
@@ -35,8 +39,8 @@ This extension requires the [`Collaboration`](/api/extensions/collaboration) ext
 | updateAnnotation | id, data   | Update the data that’s associated with an annotation.                     |
 | deleteAnnotation | id         | Remove an annotation.                                                     |
 
-## Source code
-[packages/extension-collaboration-annotation/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-annotation/)
+<!-- ## Source code
+[packages/extension-collaboration-annotation/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-annotation/) -->
 
 ## Usage
 <demo name="Experiments/CollaborationAnnotation" />
