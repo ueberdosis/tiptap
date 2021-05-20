@@ -51,6 +51,8 @@
       type: sponsor
     - title: Contributing
       link: /overview/contributing
+    - title: Jobs
+      link: /jobs
 
 - title: Examples
   link: /examples
