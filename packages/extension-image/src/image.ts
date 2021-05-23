@@ -16,7 +16,7 @@ declare module '@tiptap/core' {
       /**
        * Add an image
        */
-      setImage: (options: { src: string, alt?: string, title?: string }) => Command,
+      setImage: (options: { src: string, alt?: string, title?: string, width?: number, height?: number }) => Command,
     }
   }
 }
@@ -50,6 +50,12 @@ export const Image = Node.create<ImageOptions>({
         default: null,
       },
       title: {
+        default: null,
+      },
+      width: {
+        default: null,
+      },
+      height: {
         default: null,
       },
     }
