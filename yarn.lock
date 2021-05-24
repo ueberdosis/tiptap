@@ -9143,7 +9143,7 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-lib0@^0.2.31, lib0@^0.2.34, lib0@^0.2.35, lib0@^0.2.41:
+lib0@^0.2.31, lib0@^0.2.34, lib0@^0.2.35, lib0@^0.2.41, lib0@^0.2.42:
   version "0.2.42"
   resolved "https://registry.yarnpkg.com/lib0/-/lib0-0.2.42.tgz#6d8bf1fb8205dec37a953c521c5ee403fd8769b0"
   integrity sha512-8BNM4MiokEKzMvSxTOC3gnCBisJH+jL67CnSnqzHv3jli3pUvGC8wz+0DQ2YvGr4wVQdb2R2uNNPw9LEpVvJ4Q==
@@ -13082,7 +13082,7 @@ simple-get@^4.0.0:
     once "^1.3.1"
     simple-concat "^1.0.0"
 
-simple-peer@^9.9.3:
+simple-peer@^9.11.0:
   version "9.11.0"
   resolved "https://registry.yarnpkg.com/simple-peer/-/simple-peer-9.11.0.tgz#e8d27609c7a610c3ddd75767da868e8daab67571"
   integrity sha512-qvdNu/dGMHBm2uQ7oLhQBMhYlrOZC1ywXNCH/i8I4etxR1vrjCnU6ZSQBptndB1gcakjo2+w4OHo7Sjza1SHxg==
@@ -15289,21 +15289,21 @@ y-prosemirror@^1.0.9:
   dependencies:
     lib0 "^0.2.34"
 
-y-protocols@^1.0.1, y-protocols@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/y-protocols/-/y-protocols-1.0.4.tgz#810978c6172474be87457c3bcd669e529c5ba3a1"
-  integrity sha512-5/Hd6DJ5Y2SlbqLIKq86BictdOS0iAcWJZCVop8MKqx0XWwA+BbMn4538n4Z0CGjFMUGnG1kGzagk3BKGz5SvQ==
+y-protocols@^1.0.4, y-protocols@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/y-protocols/-/y-protocols-1.0.5.tgz#91d574250060b29fcac8f8eb5e276fbad594245e"
+  integrity sha512-Wil92b7cGk712lRHDqS4T90IczF6RkcvCwAD0A2OPg+adKmOe+nOiT/N2hvpQIWS3zfjmtL4CPaH5sIW1Hkm/A==
   dependencies:
-    lib0 "^0.2.35"
+    lib0 "^0.2.42"
 
 y-webrtc@^10.1.7:
-  version "10.1.8"
-  resolved "https://registry.yarnpkg.com/y-webrtc/-/y-webrtc-10.1.8.tgz#b35d8cb2a96462f134ea9b16a1179c970ad20b48"
-  integrity sha512-eeKU8QWtT5ahPLv+NCrf6ax8MXXmKYEtFO/eh0Svl8D3VDZ/3H8w9NLWVoL1GEwv5HNH0gu0p78n8v76Ttziuw==
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/y-webrtc/-/y-webrtc-10.2.0.tgz#dae1460a9f3ae677c072fedff783864452fac1be"
+  integrity sha512-YhHXJx46zc8En8Jpy5FUpAksAAndTV0dXbEKxJw/Zb8+Y6xVGaeB4+x44k0xo5i+SgZ00OjlXAQXgkJQesLc4Q==
   dependencies:
-    lib0 "^0.2.34"
-    simple-peer "^9.9.3"
-    y-protocols "^1.0.1"
+    lib0 "^0.2.42"
+    simple-peer "^9.11.0"
+    y-protocols "^1.0.5"
   optionalDependencies:
     ws "^7.2.0"
 
