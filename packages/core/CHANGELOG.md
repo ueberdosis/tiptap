@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.67](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.66...@tiptap/core@2.0.0-beta.67) (2021-05-24)
+
+
+### Bug Fixes
+
+* check for NodeSelection within posToDOMRect ([a4ec4ff](https://github.com/ueberdosis/tiptap/commit/a4ec4ffcfd855894b0fa780f9f72f87399e36402))
+* remove empty attributes in getDebugJSON ([940fd69](https://github.com/ueberdosis/tiptap/commit/940fd69b61b6eb56ca05235d22993eb202a20c1d))
+
+
+
+
+
 # [2.0.0-beta.66](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.65...@tiptap/core@2.0.0-beta.66) (2021-05-19)
 
 
