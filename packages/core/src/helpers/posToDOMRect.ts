@@ -1,16 +1,7 @@
-import isNodeSelection from './isNodeSelection'
 import { EditorView } from 'prosemirror-view'
 import coordsAtPos from './coordsAtPos'
 
 export default function posToDOMRect(view: EditorView, from: number, to: number): DOMRect {
-  if (isNodeSelection(view.state.selection)) {
-    const node = view.nodeDOM(from) as HTMLElement
-
-    if (node && node.getBoundingClientRect) {
-      return node.getBoundingClientRect()
-    }
-  }
-
   const start = coordsAtPos(view, from)
   const end = coordsAtPos(view, to, true)
   const top = Math.min(start.top, end.top)
