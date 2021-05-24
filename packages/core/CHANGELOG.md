@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.68](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.67...@tiptap/core@2.0.0-beta.68) (2021-05-24)
+
+
+### Bug Fixes
+
+* do not check for node selection within posToDOMRect ([c0e68d5](https://github.com/ueberdosis/tiptap/commit/c0e68d5a25608e0b6d9c127bbc507b4ba2a94a61))
+
+
+
+
+
 # [2.0.0-beta.67](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.66...@tiptap/core@2.0.0-beta.67) (2021-05-24)
 
 
