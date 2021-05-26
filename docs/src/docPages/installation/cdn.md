@@ -2,7 +2,8 @@
 For testing purposes or demos, use our [Skypack](https://www.skypack.dev/) CDN builds. Here are the few lines of code you need to get started:
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8">
 </head>
