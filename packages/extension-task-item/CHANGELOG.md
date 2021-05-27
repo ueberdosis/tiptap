@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.15...@tiptap/extension-task-item@2.0.0-beta.16) (2021-05-27)
+
+
+### Bug Fixes
+
+* prevent checkbox change when editor isn’t editable, fix [#1386](https://github.com/ueberdosis/tiptap/issues/1386) ([c58a753](https://github.com/ueberdosis/tiptap/commit/c58a753e9442c1766050a1a4733e56d553d2e8c5))
+
+
+
+
+
 # [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.14...@tiptap/extension-task-item@2.0.0-beta.15) (2021-05-18)
 
 **Note:** Version bump only for package @tiptap/extension-task-item
