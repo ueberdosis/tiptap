@@ -45,6 +45,6 @@
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.1",
     "style-resources-loader": "^1.4.1",
-    "ts-loader": "^8.1.0"
+    "ts-loader": "^9.2.2"
   }
 }
