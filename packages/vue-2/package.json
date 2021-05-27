@@ -27,6 +27,6 @@
   "dependencies": {
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.19",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.15",
-    "prosemirror-view": "^1.18.6"
+    "prosemirror-view": "^1.18.7"
   }
 }
