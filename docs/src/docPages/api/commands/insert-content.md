@@ -1,5 +1,5 @@
 # insertContent
-The `insertContent` command adds a passed value to the document.
+The `insertContent` command adds the passed value to the document.
 
 See also: [setContent](/api/commands/set-content), [clearContent](/api/commands/clear-content)
 

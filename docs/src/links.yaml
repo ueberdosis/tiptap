@@ -155,7 +155,7 @@
           link: /api/commands/extend-mark-range
         - title: focus
           link: /api/commands/focus
-          type: draft
+          type: new
         - title: insertContent
           link: /api/commands/insert-content
         - title: insertContentAt
@@ -213,7 +213,7 @@
           type: draft
         - title: setTextSelection
           link: /api/commands/set-text-selection
-          type: draft
+          type: new
         - title: sinkListItem
           link: /api/commands/sink-list-item
           type: draft
