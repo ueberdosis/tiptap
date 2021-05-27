@@ -1,8 +1,9 @@
 # updateAttributes
 The `updateAttributes` command sets attributes of a node or mark to new values. Not passed attributes won’t be touched.
 
-## Parameters
+See also: [extendMarkRange](/api/commands/extend-mark-range)
 
+## Parameters
 `typeOrName: string | NodeType | MarkType`
 
 Pass the type you want to update, for example `'heading'`.

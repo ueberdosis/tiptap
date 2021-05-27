@@ -53,6 +53,7 @@
       link: /overview/contributing
     - title: Jobs
       link: /jobs
+      type: new
 
 - title: Examples
   link: /examples
