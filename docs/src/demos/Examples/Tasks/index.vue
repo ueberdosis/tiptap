@@ -42,7 +42,7 @@ export default {
       ],
       content: `
         <ul data-type="taskList">
-          <li data-type="taskItem" data-checked="true">flour
+          <li data-type="taskItem" data-checked="true">flour</li>
           <li data-type="taskItem" data-checked="true">baking powder</li>
           <li data-type="taskItem" data-checked="true">salt</li>
           <li data-type="taskItem" data-checked="false">sugar</li>
