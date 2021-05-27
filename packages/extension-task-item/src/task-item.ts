@@ -86,9 +86,17 @@ export const TaskItem = Node.create<TaskItemOptions>({
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
       checkbox.addEventListener('change', event => {
+        // if the editor isn’t editable
+        // we have to undo the latest change
+        if (!editor.isEditable) {
+          checkbox.checked = !checkbox.checked
+
+          return
+        }
+
         const { checked } = event.target as any
 
-        if (typeof getPos === 'function') {
+        if (editor.isEditable && typeof getPos === 'function') {
           editor
             .chain()
             .focus()
