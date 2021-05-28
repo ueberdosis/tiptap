@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+// eslint-disable-next-line
 import { Editor, getDebugJSON } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'

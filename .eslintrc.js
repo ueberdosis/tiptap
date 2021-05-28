@@ -67,7 +67,7 @@ module.exports = {
         'no-redeclare': 'off',
         '@typescript-eslint/no-redeclare': ['error'],
         'no-unused-vars': 'off',
-        '@typescript-eslint/no-unused-vars': ['error'],
+        '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
         'no-use-before-define': 'off',
         '@typescript-eslint/no-use-before-define': ['error'],
         'no-dupe-class-members': 'off',

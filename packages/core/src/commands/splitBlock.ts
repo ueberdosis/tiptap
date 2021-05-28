@@ -1,5 +1,5 @@
 import { canSplit } from 'prosemirror-transform'
-import { ContentMatch, Fragment } from 'prosemirror-model'
+import { ContentMatch } from 'prosemirror-model'
 import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
 import { Command, RawCommands } from '../types'
 import getSplittedAttributes from '../helpers/getSplittedAttributes'
