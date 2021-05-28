@@ -9,10 +9,10 @@ context('/demos/Extensions/TextAlign', () => {
     })
   })
 
-  it('should parse left align text correctly', () => {
+  it('should parse left align text correctly (and not render)', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<p style="text-align: left">Example Text</p>')
-      expect(editor.getHTML()).to.eq('<p style="text-align: left">Example Text</p>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
     })
   })
 
@@ -43,7 +43,7 @@ context('/demos/Extensions/TextAlign', () => {
 
     cy.get('.ProseMirror')
       .find('p')
-      .should('have.css', 'text-align', 'left')
+      .should('not.have.css', 'text-align', 'left')
   })
 
   it('aligns the text center on the 2nd button', () => {
@@ -79,14 +79,14 @@ context('/demos/Extensions/TextAlign', () => {
 
     cy.get('.ProseMirror')
       .find('p')
-      .should('have.css', 'text-align', 'left')
+      .should('not.have.css', 'text-align', 'left')
   })
 
   it('aligns the text left when pressing the keyboard shortcut', () => {
     cy.get('.ProseMirror')
       .trigger('keydown', { modKey: true, shiftKey: true, key: 'l' })
       .find('p')
-      .should('have.css', 'text-align', 'left')
+      .should('not.have.css', 'text-align', 'left')
   })
 
   it('aligns the text center when pressing the keyboard shortcut', () => {
