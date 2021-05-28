@@ -18,22 +18,28 @@ export const clearNodes: RawCommands['clearNodes'] = () => ({ state, tr, dispatc
 
   ranges.forEach(range => {
     state.doc.nodesBetween(range.$from.pos, range.$to.pos, (node, pos) => {
-      if (!node.type.isText) {
-        const fromPos = tr.doc.resolve(tr.mapping.map(pos + 1))
-        const toPos = tr.doc.resolve(tr.mapping.map(pos + node.nodeSize - 1))
-        const nodeRange = fromPos.blockRange(toPos)
+      if (node.type.isText) {
+        return
+      }
 
-        if (nodeRange) {
-          const targetLiftDepth = liftTarget(nodeRange)
+      const $fromPos = tr.doc.resolve(tr.mapping.map(pos))
+      const $toPos = tr.doc.resolve(tr.mapping.map(pos + node.nodeSize))
+      const nodeRange = $fromPos.blockRange($toPos)
 
-          if (node.type.isTextblock && dispatch) {
-            tr.setNodeMarkup(nodeRange.start, state.doc.type.contentMatch.defaultType)
-          }
+      if (!nodeRange) {
+        return
+      }
 
-          if ((targetLiftDepth || targetLiftDepth === 0) && dispatch) {
-            tr.lift(nodeRange, targetLiftDepth)
-          }
-        }
+      const targetLiftDepth = liftTarget(nodeRange)
+
+      if (node.type.isTextblock && dispatch) {
+        const { defaultType } = $fromPos.parent.contentMatchAt($fromPos.index())
+
+        tr.setNodeMarkup(nodeRange.start, defaultType)
+      }
+
+      if ((targetLiftDepth || targetLiftDepth === 0) && dispatch) {
+        tr.lift(nodeRange, targetLiftDepth)
       }
     })
   })
