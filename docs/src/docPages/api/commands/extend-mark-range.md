@@ -17,4 +17,13 @@ editor.commands.extendMarkRange('link')
 
 // Expand selection to link marks with specific attributes
 editor.commands.extendMarkRange('link', { href: 'https://google.com' })
+
+// Expand selection to link mark and update attributes
+editor
+  .chain()
+  .extendMarkRange('link')
+  .updateAttributes('link', {
+    href: 'https://duckduckgo.com'
+  })
+  .run()
 ```
