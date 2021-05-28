@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.71](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.70...@tiptap/core@2.0.0-beta.71) (2021-05-28)
+
+
+### Bug Fixes
+
+* fix fragile schema validity test in splitBlock ([e52f41a](https://github.com/ueberdosis/tiptap/commit/e52f41ae7864210bc0e4107db21e09607d2e586f))
+
+
+
+
+
 # [2.0.0-beta.70](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.69...@tiptap/core@2.0.0-beta.70) (2021-05-28)
 
 
