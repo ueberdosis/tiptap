@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.44](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.43...@tiptap/react@2.0.0-beta.44) (2021-05-28)
+
+
+### Bug Fixes
+
+* maybe move content dom on update, see [#1370](https://github.com/ueberdosis/tiptap/issues/1370) ([60708a7](https://github.com/ueberdosis/tiptap/commit/60708a781770d745f0d9135c225f56d3d2f1b31d))
+
+
+
+
+
 # [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.42...@tiptap/react@2.0.0-beta.43) (2021-05-27)
 
 **Note:** Version bump only for package @tiptap/react
