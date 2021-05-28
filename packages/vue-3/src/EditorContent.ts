@@ -56,6 +56,10 @@ export const EditorContent = defineComponent({
     onBeforeUnmount(() => {
       const editor = props.editor
 
+      if (!editor) {
+        return
+      }
+
       // destroy nodeviews before vue removes dom element
       if (!editor.isDestroyed) {
         editor.view.setProps({

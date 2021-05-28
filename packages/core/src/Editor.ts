@@ -87,10 +87,13 @@ export class Editor extends EventEmitter {
     this.on('destroy', this.options.onDestroy)
 
     window.setTimeout(() => {
+      if (this.isDestroyed) {
+        return
+      }
+
       this.commands.focus(this.options.autofocus)
       this.emit('create', { editor: this })
     }, 0)
-
   }
 
   /**

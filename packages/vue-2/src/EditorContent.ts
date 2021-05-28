@@ -48,6 +48,10 @@ export const EditorContent: Component = {
   beforeDestroy(this: EditorContentInterface) {
     const { editor } = this
 
+    if (!editor) {
+      return
+    }
+
     if (!editor.isDestroyed) {
       editor.view.setProps({
         nodeViews: {},
