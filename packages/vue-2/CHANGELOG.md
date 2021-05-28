@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.34](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.33...@tiptap/vue-2@2.0.0-beta.34) (2021-05-28)
+
+
+### Bug Fixes
+
+* prevent bug when editor is destroyed very fast ([939fc3d](https://github.com/ueberdosis/tiptap/commit/939fc3d93ab67d54b7fe67b64c423290b3a40df8))
+
+
+
+
+
 # [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.32...@tiptap/vue-2@2.0.0-beta.33) (2021-05-27)
 
 **Note:** Version bump only for package @tiptap/vue-2

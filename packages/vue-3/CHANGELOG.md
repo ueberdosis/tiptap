@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.40](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.39...@tiptap/vue-3@2.0.0-beta.40) (2021-05-28)
+
+
+### Bug Fixes
+
+* prevent bug when editor is destroyed very fast ([939fc3d](https://github.com/ueberdosis/tiptap/commit/939fc3d93ab67d54b7fe67b64c423290b3a40df8))
+
+
+
+
+
 # [2.0.0-beta.39](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.38...@tiptap/vue-3@2.0.0-beta.39) (2021-05-27)
 
 **Note:** Version bump only for package @tiptap/vue-3
