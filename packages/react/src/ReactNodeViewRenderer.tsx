@@ -91,6 +91,12 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
       return null
     }
 
+    this.maybeMoveContentDOM()
+
+    return this.contentDOMElement
+  }
+
+  maybeMoveContentDOM(): void {
     const contentElement = this.dom.querySelector('[data-node-view-content]')
 
     if (
@@ -100,8 +106,6 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
     ) {
       contentElement.appendChild(this.contentDOMElement)
     }
-
-    return this.contentDOMElement
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
@@ -117,6 +121,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
       return true
     }
 
+    this.maybeMoveContentDOM()
     this.node = node
     this.decorations = decorations
     this.renderer.updateProps({ node, decorations })
