@@ -110,12 +110,17 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
       tr.split(tr.mapping.map($from.pos), 1, types)
 
       if (
-        !atEnd
+        deflt
+        && !atEnd
         && !$from.parentOffset
         && $from.parent.type !== deflt
-        && $from.node(-1).canReplace($from.index(-1), $from.indexAfter(-1), Fragment.from(deflt?.create()))
       ) {
-        tr.setNodeMarkup(tr.mapping.map($from.before()), deflt || undefined)
+        const first = tr.mapping.map($from.before())
+        const $first = tr.doc.resolve(first)
+
+        if ($from.parent.canReplaceWith($first.index(), $first.index() + 1, deflt)) {
+          tr.setNodeMarkup(tr.mapping.map($from.before()), deflt)
+        }
       }
     }
 
