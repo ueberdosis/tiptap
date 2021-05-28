@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.72](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.71...@tiptap/core@2.0.0-beta.72) (2021-05-28)
+
+
+### Bug Fixes
+
+* fix error when calculating contentMatch within clearNodes command, fix [#1361](https://github.com/ueberdosis/tiptap/issues/1361) ([3709668](https://github.com/ueberdosis/tiptap/commit/370966847efd7bbc1b033cf5952f2427e62c1525))
+
+
+
+
+
 # [2.0.0-beta.71](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.70...@tiptap/core@2.0.0-beta.71) (2021-05-28)
 
 
