@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://localhost:3000",
   "integrationFolder": "../",
-  "testFiles": "{docs,tests}/**/*.spec.{js,ts}"
+  "testFiles": "{docs,tests}/**/*.spec.{js,ts}",
+  "defaultCommandTimeout": 8000
 }
