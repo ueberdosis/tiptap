@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.73](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.72...@tiptap/core@2.0.0-beta.73) (2021-05-29)
+
+
+### Bug Fixes
+
+* check for excluded marks in isMarkActive, fix [#1388](https://github.com/ueberdosis/tiptap/issues/1388) ([3c4cc96](https://github.com/ueberdosis/tiptap/commit/3c4cc96fee7fc32e363d3b8a2503684435f30c35))
+
+
+
+
+
 # [2.0.0-beta.72](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.71...@tiptap/core@2.0.0-beta.72) (2021-05-28)
 
 
