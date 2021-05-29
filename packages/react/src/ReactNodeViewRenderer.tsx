@@ -121,10 +121,10 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
       return true
     }
 
-    this.maybeMoveContentDOM()
     this.node = node
     this.decorations = decorations
     this.renderer.updateProps({ node, decorations })
+    this.maybeMoveContentDOM()
 
     return true
   }
