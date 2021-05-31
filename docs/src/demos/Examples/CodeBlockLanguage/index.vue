@@ -17,10 +17,10 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import CodeBlockComponent from './CodeBlockComponent'
 
 // load all highlight.js languages
-import lowlight from 'lowlight'
+import { lowlight } from 'lowlight'
 
 // load specific languages only
-// import lowlight from 'lowlight/lib/core'
+// import { lowlight } from 'lowlight/lib/core'
 // import javascript from 'highlight.js/lib/languages/javascript'
 // lowlight.registerLanguage('javascript', javascript)
 
