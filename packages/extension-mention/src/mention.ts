@@ -62,19 +62,19 @@ export const Mention = Node.create<MentionOptions>({
           }
         },
       },
-      text: {
+      label: {
         default: null,
         parseHTML: element => {
           return {
-            text: element.getAttribute('data-text'),
+            text: element.getAttribute('data-label'),
           };
         },
         renderHTML: attributes => {
-          if (!attributes.text) {
+          if (!attributes.label) {
             return {};
           }
           return {
-            'data-text': attributes.text,
+            'data-label': attributes.label,
           };
         },
       },
@@ -93,12 +93,12 @@ export const Mention = Node.create<MentionOptions>({
     return [
       'span',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      `${this.options.suggestion.char}${node.attrs.text ?? node.attrs.id}`,
+      `${this.options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
     ]
   },
 
   renderText({ node }) {
-    return `${this.options.suggestion.char}${node.attrs.text ?? node.attrs.id}`
+    return `${this.options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
   },
 
   addKeyboardShortcuts() {
