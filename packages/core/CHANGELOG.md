@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.76](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.75...@tiptap/core@2.0.0-beta.76) (2021-06-01)
+
+
+### Bug Fixes
+
+* remove custom coordsAtPos method, fix [#583](https://github.com/ueberdosis/tiptap/issues/583) ([485fb8c](https://github.com/ueberdosis/tiptap/commit/485fb8c74c831256aaa2cefdf130e05438c2e476))
+
+
+
+
+
 # [2.0.0-beta.75](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.74...@tiptap/core@2.0.0-beta.75) (2021-06-01)
 
 
