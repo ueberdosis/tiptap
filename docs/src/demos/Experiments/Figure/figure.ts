@@ -2,6 +2,7 @@ import {
   Command,
   Node,
   nodeInputRule,
+  mergeAttributes,
 } from '@tiptap/core'
 
 export interface FigureOptions {
@@ -76,7 +77,7 @@ export const Figure = Node.create<FigureOptions>({
   renderHTML({ HTMLAttributes }) {
     return [
       'figure', this.options.HTMLAttributes,
-      ['img', HTMLAttributes],
+      ['img', mergeAttributes(HTMLAttributes, { draggable: false })],
       ['figcaption', 0],
     ]
   },
