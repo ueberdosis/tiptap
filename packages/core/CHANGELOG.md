@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.75](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.74...@tiptap/core@2.0.0-beta.75) (2021-06-01)
+
+
+### Bug Fixes
+
+* prevent dispatch empty fragment when parsing content with insertContent ([2a4e02a](https://github.com/ueberdosis/tiptap/commit/2a4e02ade3b74999a9632673a607568644d6d26c))
+
+
+
+
+
 # [2.0.0-beta.74](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.73...@tiptap/core@2.0.0-beta.74) (2021-05-31)
 
 **Note:** Version bump only for package @tiptap/core
