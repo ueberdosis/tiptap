@@ -2,9 +2,6 @@
 
 ⚠️ Experiment
 
-## Known issues
-* Dragging should move the image, but duplicates it
-
 ## Tasks
 * Add the caption as an optional parameter to the command
 * Build commands to wrap an image into a figure + figcaption?
