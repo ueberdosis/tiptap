@@ -12,7 +12,6 @@ export { default as markPasteRule } from './pasteRules/markPasteRule'
 export { default as callOrReturn } from './utilities/callOrReturn'
 export { default as mergeAttributes } from './utilities/mergeAttributes'
 
-export { default as coordsAtPos } from './helpers/coordsAtPos'
 export { default as getExtensionField } from './helpers/getExtensionField'
 export { default as findChildren } from './helpers/findChildren'
 export { default as findChildrenInRange } from './helpers/findChildrenInRange'

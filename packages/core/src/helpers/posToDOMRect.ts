@@ -1,9 +1,8 @@
 import { EditorView } from 'prosemirror-view'
-import coordsAtPos from './coordsAtPos'
 
 export default function posToDOMRect(view: EditorView, from: number, to: number): DOMRect {
-  const start = coordsAtPos(view, from)
-  const end = coordsAtPos(view, to, true)
+  const start = view.coordsAtPos(from)
+  const end = view.coordsAtPos(to, -1)
   const top = Math.min(start.top, end.top)
   const bottom = Math.max(start.bottom, end.bottom)
   const left = Math.min(start.left, end.left)
