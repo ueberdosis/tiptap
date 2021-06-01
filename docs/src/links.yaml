@@ -10,6 +10,8 @@
 
 - title: Overview
   items:
+    - title: Introduction
+      link: /introduction
     - title: Installation
       link: /installation
       items:
