@@ -11,3 +11,4 @@ Congratulations! You’ve found our playground with a list of experiments. Be aw
 * [@tiptap/extension-collaboration-annotation](/experiments/collaboration-annotation)
 * [@tiptap/extension-word-break](/experiments/word-break)
 * [@tiptap/extension-trailing-node](/experiments/trailing-node)
+* [@tiptap/extension-figure](/experiments/figure)
