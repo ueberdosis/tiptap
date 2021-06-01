@@ -8,4 +8,7 @@ hocuspocus · Remote · EU time zones · Full-time
 **[Junior Software Engineer](https://saga.so/careers/junior-software-engineer) @ Saga**<br>
 hocuspocus · Remote · EU time zones · Full-time
 
+**[Laravel Developer](https://ueberdosis.io/php-developer) @ überdosis**<br>
+Laravel + tiptap · Berlin, Germany · Full-time
+
 Is your company hiring, too? Reach out to [humans@tiptap.dev](mailto:humans@tiptap.dev) with a link to your job description!
