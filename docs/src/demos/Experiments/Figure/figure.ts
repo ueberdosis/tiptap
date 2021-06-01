@@ -36,6 +36,8 @@ export const Figure = Node.create<FigureOptions>({
 
   draggable: true,
 
+  isolating: true,
+
   addAttributes() {
     return {
       src: {
@@ -77,7 +79,7 @@ export const Figure = Node.create<FigureOptions>({
   renderHTML({ HTMLAttributes }) {
     return [
       'figure', this.options.HTMLAttributes,
-      ['img', mergeAttributes(HTMLAttributes, { draggable: false })],
+      ['img', mergeAttributes(HTMLAttributes, { draggable: false, contenteditable: false })],
       ['figcaption', 0],
     ]
   },
