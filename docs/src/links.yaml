@@ -208,6 +208,8 @@
         - title: setMark
           link: /api/commands/set-mark
           type: draft
+        - title: setMeta
+          link: /api/commands/set-meta
         - title: setNode
           link: /api/commands/set-node
           type: draft

@@ -30,6 +30,7 @@ import * as selectNodeForward from '../commands/selectNodeForward'
 import * as selectParentNode from '../commands/selectParentNode'
 import * as setContent from '../commands/setContent'
 import * as setMark from '../commands/setMark'
+import * as setMeta from '../commands/setMeta'
 import * as setNode from '../commands/setNode'
 import * as setNodeSelection from '../commands/setNodeSelection'
 import * as setTextSelection from '../commands/setTextSelection'
@@ -78,6 +79,7 @@ export { selectNodeForward }
 export { selectParentNode }
 export { setContent }
 export { setMark }
+export { setMeta }
 export { setNode }
 export { setNodeSelection }
 export { setTextSelection }
@@ -131,6 +133,7 @@ export const Commands = Extension.create({
       ...selectParentNode,
       ...setContent,
       ...setMark,
+      ...setMeta,
       ...setNode,
       ...setNodeSelection,
       ...setTextSelection,
