@@ -432,11 +432,13 @@ export class Node<Options = any> {
   }
 
   configure(options: Partial<Options> = {}) {
-    this.options = mergeDeep(this.options, options) as Options
-
     // return a new instance so we can use the same extension
     // with different calls of `configure`
-    return this.extend()
+    const extension = this.extend()
+
+    extension.options = mergeDeep(this.options, options) as Options
+
+    return extension
   }
 
   extend<ExtendedOptions = Options>(extendedConfig: Partial<NodeConfig<ExtendedOptions>> = {}) {
