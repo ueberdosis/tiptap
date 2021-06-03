@@ -31,7 +31,6 @@ export const Figure = Node.create<FigureOptions>({
   name: 'figure',
 
   defaultOptions: {
-    // inline: false,
     HTMLAttributes: {},
   },
 
@@ -97,10 +96,7 @@ export const Figure = Node.create<FigureOptions>({
             type: this.name,
             attrs,
             content: caption
-              ? [{
-                type: 'text',
-                text: caption,
-              }]
+              ? [{ type: 'text', text: caption }]
               : [],
           })
           // set cursor at end of caption field
