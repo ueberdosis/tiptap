@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.80](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.79...@tiptap/core@2.0.0-beta.80) (2021-06-03)
+
+
+### Bug Fixes
+
+* fix merging options on configure for multiple extension instances ([d037c56](https://github.com/ueberdosis/tiptap/commit/d037c5656a113ac7205104a815310727b23c30d4))
+
+
+
+
+
 # [2.0.0-beta.79](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.77...@tiptap/core@2.0.0-beta.79) (2021-06-02)
 
 **Note:** Version bump only for package @tiptap/core
