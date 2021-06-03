@@ -39,7 +39,8 @@ p {
 }
 
 .editor {
-  padding: 10px;
+  /* TODO: Conflicts with other demos */
+  /* padding: 10px; */
   border: 1px gray solid;
 }
 
