@@ -1,4 +1,4 @@
-import { lowlight } from 'lowlight/lib/core'
+import lowlight from 'lowlight/lib/core'
 import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
 import { LowlightPlugin } from './lowlight-plugin'
 
