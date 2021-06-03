@@ -25,6 +25,12 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value)
         preserveWhitespace: 'full',
       },
     })
+
+    // don’t dispatch an empty fragment because this can lead to strange errors
+    if (content.toString() === '<>') {
+      return true
+    }
+
     const { from, to } = typeof position === 'number'
       ? { from: position, to: position }
       : position
