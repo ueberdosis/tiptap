@@ -15,7 +15,12 @@ declare module '@tiptap/core' {
       /**
        * Add a figure element
        */
-      setFigure: (options: { src: string, alt?: string, title?: string }) => Command,
+      setFigure: (options: {
+        src: string,
+        alt?: string,
+        title?: string,
+        caption?: string,
+      }) => Command,
     }
   }
 }
@@ -86,11 +91,24 @@ export const Figure = Node.create<FigureOptions>({
 
   addCommands() {
     return {
-      setFigure: options => ({ commands }) => {
-        return commands.insertContent({
-          type: this.name,
-          attrs: options,
-        })
+      setFigure: ({ caption, ...attrs }) => ({ chain }) => {
+        return chain()
+          .insertContent({
+            type: this.name,
+            attrs,
+            content: [
+              {
+                type: 'text',
+                text: caption,
+              },
+            ],
+          })
+          // try to set cursor within caption field
+          // but this fails when inserting at an empty document
+          // .command(({ tr, commands }) => {
+          //   return commands.setTextSelection(tr.selection.$from.before() - 1)
+          // })
+          .run()
       },
     }
   },

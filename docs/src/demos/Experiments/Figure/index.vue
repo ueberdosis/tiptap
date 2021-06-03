@@ -1,5 +1,8 @@
 <template>
   <div v-if="editor">
+    <button @click="addFigure">
+      figure
+    </button>
     <editor-content :editor="editor" />
 
     <h2>HTML</h2>
@@ -21,6 +24,21 @@ export default {
     return {
       editor: null,
     }
+  },
+
+  methods: {
+    addFigure() {
+      const url = window.prompt('URL')
+      const caption = window.prompt('caption')
+
+      if (url) {
+        this.editor
+          .chain()
+          .focus()
+          .setFigure({ src: url, caption })
+          .run()
+      }
+    },
   },
 
   mounted() {
