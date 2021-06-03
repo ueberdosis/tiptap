@@ -38,17 +38,6 @@ function getDecorations({ doc, name, lowlight }: { doc: ProsemirrorNode, name: s
         ? lowlight.highlight(language, block.node.textContent).children
         : lowlight.highlightAuto(block.node.textContent).children
 
-      console.log({
-        lowlight,
-        languages,
-        nodes,
-      })
-
-      console.log({
-        lowlightAll,
-        languages: lowlightAll.listLanguages(),
-      })
-
       parseNodes(nodes).forEach(node => {
         const to = from + node.text.length
 

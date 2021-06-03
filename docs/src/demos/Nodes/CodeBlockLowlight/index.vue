@@ -16,7 +16,7 @@ import Text from '@tiptap/extension-text'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 
 // load all highlight.js languages
-import { lowlight } from 'lowlight/lib/all'
+import { lowlight } from 'lowlight'
 
 // load specific languages only
 // import { lowlight } from 'lowlight/lib/core'
