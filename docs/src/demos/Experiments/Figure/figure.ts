@@ -96,18 +96,17 @@ export const Figure = Node.create<FigureOptions>({
           .insertContent({
             type: this.name,
             attrs,
-            content: [
-              {
+            content: caption
+              ? [{
                 type: 'text',
                 text: caption,
-              },
-            ],
+              }]
+              : [],
           })
-          // try to set cursor within caption field
-          // but this fails when inserting at an empty document
-          // .command(({ tr, commands }) => {
-          //   return commands.setTextSelection(tr.selection.$from.before() - 1)
-          // })
+          // set cursor at end of caption field
+          .command(({ tr, commands }) => {
+            return commands.setTextSelection(tr.doc.resolve(tr.selection.to - 2).end())
+          })
           .run()
       },
     }

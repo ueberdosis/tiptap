@@ -3,7 +3,6 @@
 ⚠️ Experiment
 
 ## Tasks
-* Add the caption as an optional parameter to the command
 * Build commands to wrap an image into a figure + figcaption?
 * Build commands to unrwap figure + figcaption to an image?
 
