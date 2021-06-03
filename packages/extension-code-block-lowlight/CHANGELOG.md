@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.28](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block-lowlight@2.0.0-beta.27...@tiptap/extension-code-block-lowlight@2.0.0-beta.28) (2021-06-03)
+
+
+### Reverts
+
+* Revert "feat: update lowlight to v2" ([38f3601](https://github.com/ueberdosis/tiptap/commit/38f3601e6f3918f940d1b60862a63f9f239f95b2))
+
+
+
+
+
 # [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block-lowlight@2.0.0-beta.26...@tiptap/extension-code-block-lowlight@2.0.0-beta.27) (2021-06-03)
 
 **Note:** Version bump only for package @tiptap/extension-code-block-lowlight
