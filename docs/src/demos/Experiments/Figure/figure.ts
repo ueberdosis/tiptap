@@ -3,6 +3,10 @@ import {
   Node,
   nodeInputRule,
   mergeAttributes,
+  findChildrenInRange,
+  isNodeSelection,
+  Predicate,
+  NodeWithPos,
 } from '@tiptap/core'
 
 export interface FigureOptions {
@@ -21,6 +25,16 @@ declare module '@tiptap/core' {
         title?: string,
         caption?: string,
       }) => Command,
+
+      /**
+       * Converts an image to a figure
+       */
+      imageToFigure: () => Command,
+
+      /**
+       * Converts a figure to an image
+       */
+      figureToImage: () => Command,
     }
   }
 }
@@ -52,6 +66,7 @@ export const Figure = Node.create<FigureOptions>({
           }
         },
       },
+
       alt: {
         default: null,
         parseHTML: element => {
@@ -60,6 +75,7 @@ export const Figure = Node.create<FigureOptions>({
           }
         },
       },
+
       title: {
         default: null,
         parseHTML: element => {
@@ -107,6 +123,45 @@ export const Figure = Node.create<FigureOptions>({
             return commands.setTextSelection(position)
           })
           .run()
+      },
+
+      imageToFigure: () => ({ tr }) => {
+        const { doc, selection } = tr
+        const nodes: NodeWithPos[] = []
+        const predicate: Predicate = node => node.type.name === 'image'
+
+        if (isNodeSelection(selection)) {
+          const node = doc.nodeAt(selection.from)
+
+          if (!node || !predicate(node)) {
+            return false
+          }
+
+          nodes.push({ node, pos: selection.from })
+        } else {
+          const range = {
+            from: selection.from,
+            to: selection.to,
+          }
+
+          nodes.push(...findChildrenInRange(doc, range, predicate))
+        }
+
+        nodes.forEach(({ node, pos }, index) => {
+          const mappedPos = tr.steps
+            .slice(tr.steps.length - index)
+            .reduce((newPos, step) => step.getMap().map(newPos), pos)
+
+          tr.replaceRangeWith(mappedPos, mappedPos + node.nodeSize, this.type.create({
+            src: node.attrs.src,
+          }))
+        })
+
+        return true
+      },
+
+      figureToImage: () => () => {
+        return true
       },
     }
   },

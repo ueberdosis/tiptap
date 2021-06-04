@@ -3,6 +3,12 @@
     <button @click="addFigure">
       figure
     </button>
+    <button @click="editor.chain().focus().imageToFigure().run()">
+      image to figure
+    </button>
+    <button @click="editor.chain().focus().figureToImage().run()">
+      figure to image
+    </button>
     <editor-content :editor="editor" />
 
     <h2>HTML</h2>
@@ -13,6 +19,7 @@
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
+import Image from '@tiptap/extension-image'
 import { Figure } from './figure'
 
 export default {
@@ -46,6 +53,7 @@ export default {
       extensions: [
         StarterKit,
         Figure,
+        Image,
       ],
       content: `
         <p>Figure + Figcaption</p>
@@ -55,6 +63,9 @@ export default {
             <p>Amazing caption</p>
           </figcaption>
         </figure>
+        <img src="https://source.unsplash.com/K9QHL52rE2k/800x400">
+        <img src="https://source.unsplash.com/8xznAGy4HcY/800x400">
+        <img src="https://source.unsplash.com/K9QHL52rE2k/800x400">
         <p>That’s it.</p>
       `,
     })
@@ -90,7 +101,8 @@ export default {
     }
 
     img {
-      max-width: 100%;
+      display: block;
+      max-width: min(100%, 25rem);
       height: auto;
       border-radius: 0.5rem;
     }
