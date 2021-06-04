@@ -157,6 +157,9 @@
         - title: focus
           link: /api/commands/focus
           type: new
+        - title: forEach
+          link: /api/commands/for-each
+          type: new
         - title: insertContent
           link: /api/commands/insert-content
         - title: insertContentAt
