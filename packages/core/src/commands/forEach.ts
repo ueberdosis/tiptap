@@ -1,4 +1,4 @@
-import { Command, RawCommands } from '../types'
+import { CommandProps, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -10,7 +10,7 @@ declare module '@tiptap/core' {
         items: T[],
         fn: (
           item: T,
-          props: Parameters<Command>[0] & {
+          props: CommandProps & {
             index: number,
           },
         ) => boolean,
