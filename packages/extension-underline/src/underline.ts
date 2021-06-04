@@ -1,24 +1,24 @@
-import { Command, Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes } from '@tiptap/core'
 
 export interface UnderlineOptions {
   HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     underline: {
       /**
        * Set an underline mark
        */
-      setUnderline: () => Command,
+      setUnderline: () => ReturnType,
       /**
        * Toggle an underline mark
        */
-      toggleUnderline: () => Command,
+      toggleUnderline: () => ReturnType,
       /**
        * Unset an underline mark
        */
-      unsetUnderline: () => Command,
+      unsetUnderline: () => ReturnType,
     }
   }
 }

@@ -1,19 +1,18 @@
 import createNodeFromContent from '../helpers/createNodeFromContent'
 import selectionToInsertionEnd from '../helpers/selectionToInsertionEnd'
 import {
-  Command,
   RawCommands,
   Content,
   Range,
 } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     insertContentAt: {
       /**
        * Insert a node or string of HTML at a specific position.
        */
-      insertContentAt: (position: number | Range, value: Content) => Command,
+      insertContentAt: (position: number | Range, value: Content) => ReturnType,
     }
   }
 }

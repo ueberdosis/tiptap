@@ -6,17 +6,17 @@ import {
 } from 'prosemirror-model'
 import { canSplit } from 'prosemirror-transform'
 import { TextSelection } from 'prosemirror-state'
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 import getSplittedAttributes from '../helpers/getSplittedAttributes'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     splitListItem: {
       /**
        * Splits one list item into two list items.
        */
-      splitListItem: (typeOrName: string | NodeType) => Command,
+      splitListItem: (typeOrName: string | NodeType) => ReturnType,
     }
   }
 }

@@ -1,5 +1,4 @@
 import {
-  Command,
   Mark,
   markPasteRule,
   mergeAttributes,
@@ -22,20 +21,20 @@ export interface LinkOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     link: {
       /**
        * Set a link mark
        */
-      setLink: (attributes: { href: string, target?: string }) => Command,
+      setLink: (attributes: { href: string, target?: string }) => ReturnType,
       /**
        * Toggle a link mark
        */
-      toggleLink: (attributes: { href: string, target?: string }) => Command,
+      toggleLink: (attributes: { href: string, target?: string }) => ReturnType,
       /**
        * Unset a link mark
        */
-      unsetLink: () => Command,
+      unsetLink: () => ReturnType,
     }
   }
 }

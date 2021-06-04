@@ -4,7 +4,7 @@ import {
   SingleCommands,
   ChainedCommands,
   CanCommands,
-  RawCommands,
+  AnyCommands,
   CommandProps,
 } from './types'
 
@@ -12,9 +12,9 @@ export default class CommandManager {
 
   editor: Editor
 
-  commands: RawCommands
+  commands: AnyCommands
 
-  constructor(editor: Editor, commands: RawCommands) {
+  constructor(editor: Editor, commands: AnyCommands) {
     this.editor = editor
     this.commands = commands
   }
@@ -28,7 +28,7 @@ export default class CommandManager {
     return Object.fromEntries(Object
       .entries(commands)
       .map(([name, command]) => {
-        const method = (...args: never[]) => {
+        const method = (...args: any[]) => {
           const callback = command(...args)(props)
 
           if (!tr.getMeta('preventDispatch')) {
@@ -39,7 +39,7 @@ export default class CommandManager {
         }
 
         return [name, method]
-      })) as SingleCommands
+      })) as unknown as SingleCommands
   }
 
   public createChain(startTr?: Transaction, shouldDispatch = true): ChainedCommands {
@@ -86,7 +86,7 @@ export default class CommandManager {
       .entries(commands)
       .map(([name, command]) => {
         return [name, (...args: never[]) => command(...args)({ ...props, dispatch })]
-      })) as SingleCommands
+      })) as unknown as SingleCommands
 
     return {
       ...formattedCommands,
@@ -117,7 +117,7 @@ export default class CommandManager {
           .entries(commands)
           .map(([name, command]) => {
             return [name, (...args: never[]) => command(...args)(props)]
-          })) as SingleCommands
+          })) as unknown as SingleCommands
       },
     }
 

@@ -1,5 +1,4 @@
 import {
-  Command,
   Node,
   nodeInputRule,
   mergeAttributes,
@@ -11,12 +10,12 @@ export interface HorizontalRuleOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     horizontalRule: {
       /**
        * Add a horizontal rule
        */
-      setHorizontalRule: () => Command,
+      setHorizontalRule: () => ReturnType,
     }
   }
 }

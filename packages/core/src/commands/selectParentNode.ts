@@ -1,13 +1,13 @@
 import { selectParentNode as originalSelectParentNode } from 'prosemirror-commands'
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     selectParentNode: {
       /**
        * Select the parent node.
        */
-      selectParentNode: () => Command,
+      selectParentNode: () => ReturnType,
     }
   }
 }

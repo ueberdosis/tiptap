@@ -1,16 +1,16 @@
-import { Command, Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 
 export interface HardBreakOptions {
   HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     hardBreak: {
       /**
        * Add a hard break
        */
-      setHardBreak: () => Command,
+      setHardBreak: () => ReturnType,
     }
   }
 }

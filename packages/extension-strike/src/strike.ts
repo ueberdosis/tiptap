@@ -1,5 +1,4 @@
 import {
-  Command,
   Mark,
   markInputRule,
   markPasteRule,
@@ -11,20 +10,20 @@ export interface StrikeOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     strike: {
       /**
        * Set a strike mark
        */
-      setStrike: () => Command,
+      setStrike: () => ReturnType,
       /**
        * Toggle a strike mark
        */
-      toggleStrike: () => Command,
+      toggleStrike: () => ReturnType,
       /**
        * Unset a strike mark
        */
-      unsetStrike: () => Command,
+      unsetStrike: () => ReturnType,
     }
   }
 }

@@ -1,5 +1,4 @@
 import {
-  Command,
   Mark,
   getMarkAttributes,
   mergeAttributes,
@@ -10,12 +9,12 @@ export interface TextStyleOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     textStyle: {
       /**
        * Remove spans without inline style attributes.
        */
-      removeEmptyTextStyle: () => Command,
+      removeEmptyTextStyle: () => ReturnType,
     }
   }
 }

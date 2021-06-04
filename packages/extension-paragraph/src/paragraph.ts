@@ -1,16 +1,16 @@
-import { Command, Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 
 export interface ParagraphOptions {
   HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     paragraph: {
       /**
        * Toggle a paragraph
        */
-      setParagraph: () => Command,
+      setParagraph: () => ReturnType,
     }
   }
 }

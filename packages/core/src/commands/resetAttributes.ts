@@ -3,15 +3,15 @@ import getNodeType from '../helpers/getNodeType'
 import getMarkType from '../helpers/getMarkType'
 import getSchemaTypeNameByName from '../helpers/getSchemaTypeNameByName'
 import deleteProps from '../utilities/deleteProps'
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     resetAttributes: {
       /**
        * Resets some node attributes to the default value.
        */
-      resetAttributes: (typeOrName: string | NodeType | MarkType, attributes: string | string[]) => Command,
+      resetAttributes: (typeOrName: string | NodeType | MarkType, attributes: string | string[]) => ReturnType,
     }
   }
 }

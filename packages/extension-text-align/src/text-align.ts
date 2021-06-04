@@ -1,4 +1,4 @@
-import { Command, Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 
 type TextAlignOptions = {
   types: string[],
@@ -7,16 +7,16 @@ type TextAlignOptions = {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     textAlign: {
       /**
        * Set the text align attribute
        */
-      setTextAlign: (alignment: string) => Command,
+      setTextAlign: (alignment: string) => ReturnType,
       /**
        * Unset the text align attribute
        */
-      unsetTextAlign: () => Command,
+      unsetTextAlign: () => ReturnType,
     }
   }
 }

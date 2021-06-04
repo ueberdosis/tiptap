@@ -1,15 +1,15 @@
 import { wrapInList as originalWrapInList } from 'prosemirror-schema-list'
 import { NodeType } from 'prosemirror-model'
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 import getNodeType from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     wrapInList: {
       /**
        * Wrap a node in a list.
        */
-      wrapInList: (typeOrName: string | NodeType, attributes?: Record<string, any>) => Command,
+      wrapInList: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType,
     }
   }
 }

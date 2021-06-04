@@ -1,4 +1,4 @@
-import { Extension, Command } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 import { UndoManager } from 'yjs'
 import {
   redo,
@@ -9,16 +9,16 @@ import {
 } from 'y-prosemirror'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     collaboration: {
       /**
        * Undo recent changes
        */
-      undo: () => Command,
+      undo: () => ReturnType,
       /**
        * Reapply reverted changes
        */
-      redo: () => Command,
+      redo: () => ReturnType,
     }
   }
 }

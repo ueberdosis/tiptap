@@ -1,4 +1,4 @@
-import { Command, Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface OrderedListOptions {
@@ -6,12 +6,12 @@ export interface OrderedListOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     orderedList: {
       /**
        * Toggle an ordered list
        */
-      toggleOrderedList: () => Command,
+      toggleOrderedList: () => ReturnType,
     }
   }
 }

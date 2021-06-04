@@ -1,13 +1,13 @@
 import { deleteSelection as originalDeleteSelection } from 'prosemirror-commands'
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     deleteSelection: {
       /**
        * Delete the selection, if there is one.
        */
-      deleteSelection: () => Command,
+      deleteSelection: () => ReturnType,
     }
   }
 }

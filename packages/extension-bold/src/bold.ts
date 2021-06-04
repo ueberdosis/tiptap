@@ -1,5 +1,4 @@
 import {
-  Command,
   Mark,
   markInputRule,
   markPasteRule,
@@ -11,20 +10,20 @@ export interface BoldOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     bold: {
       /**
        * Set a bold mark
        */
-      setBold: () => Command,
+      setBold: () => ReturnType,
       /**
        * Toggle a bold mark
        */
-      toggleBold: () => Command,
+      toggleBold: () => ReturnType,
       /**
        * Unset a bold mark
        */
-      unsetBold: () => Command,
+      unsetBold: () => ReturnType,
     }
   }
 }

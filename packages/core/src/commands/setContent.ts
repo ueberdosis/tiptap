@@ -1,10 +1,10 @@
 import { TextSelection } from 'prosemirror-state'
 import { ParseOptions } from 'prosemirror-model'
 import createDocument from '../helpers/createDocument'
-import { Command, RawCommands, Content } from '../types'
+import { RawCommands, Content } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     setContent: {
       /**
        * Replace the whole document with new content.
@@ -13,7 +13,7 @@ declare module '@tiptap/core' {
         content: Content,
         emitUpdate?: boolean,
         parseOptions?: ParseOptions,
-      ) => Command,
+      ) => ReturnType,
     }
   }
 }

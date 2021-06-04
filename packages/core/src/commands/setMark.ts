@@ -1,15 +1,15 @@
 import { MarkType } from 'prosemirror-model'
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import getMarkAttributes from '../helpers/getMarkAttributes'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     setMark: {
       /**
        * Add a mark with new attributes.
        */
-      setMark: (typeOrName: string | MarkType, attributes?: Record<string, any>) => Command,
+      setMark: (typeOrName: string | MarkType, attributes?: Record<string, any>) => ReturnType,
     }
   }
 }

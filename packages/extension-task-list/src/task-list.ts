@@ -1,16 +1,16 @@
-import { Command, Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 
 export interface TaskListOptions {
   HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     taskList: {
       /**
        * Toggle a task list
        */
-      toggleTaskList: () => Command,
+      toggleTaskList: () => ReturnType,
     }
   }
 }

@@ -1,14 +1,14 @@
 import { NodeType } from 'prosemirror-model'
 import getNodeType from '../helpers/getNodeType'
-import { Command, RawCommands, Range } from '../types'
+import { RawCommands, Range } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     replaceRange: {
       /**
        * Replaces text with a node within a range.
        */
-      replaceRange: (range: Range, typeOrName: string | NodeType, attributes?: Record<string, any>) => Command,
+      replaceRange: (range: Range, typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType,
     }
   }
 }

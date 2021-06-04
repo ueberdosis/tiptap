@@ -1,12 +1,12 @@
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     setMeta: {
       /**
        * Store a metadata property in the current transaction.
        */
-      setMeta: (key: string, value: any) => Command,
+      setMeta: (key: string, value: any) => ReturnType,
     }
   }
 }

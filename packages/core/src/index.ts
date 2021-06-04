@@ -38,7 +38,8 @@ export { default as isNodeSelection } from './helpers/isNodeSelection'
 export { default as isTextSelection } from './helpers/isTextSelection'
 export { default as posToDOMRect } from './helpers/posToDOMRect'
 
-export interface Commands {}
+// eslint-disable-next-line
+export interface Commands<ReturnType = any> {}
 
 // eslint-disable-next-line
 export interface ExtensionConfig<Options = any> {}

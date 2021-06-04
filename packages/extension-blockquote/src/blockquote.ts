@@ -1,4 +1,4 @@
-import { Command, Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface BlockquoteOptions {
@@ -6,20 +6,20 @@ export interface BlockquoteOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     blockQuote: {
       /**
        * Set a blockquote node
        */
-      setBlockquote: () => Command,
+      setBlockquote: () => ReturnType,
       /**
        * Toggle a blockquote node
        */
-      toggleBlockquote: () => Command,
+      toggleBlockquote: () => ReturnType,
       /**
        * Unset a blockquote node
        */
-      unsetBlockquote: () => Command,
+      unsetBlockquote: () => ReturnType,
     }
   }
 }

@@ -1,15 +1,15 @@
 import { MarkType } from 'prosemirror-model'
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 import getMarkType from '../helpers/getMarkType'
 import getMarkRange from '../helpers/getMarkRange'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     unsetMark: {
       /**
        * Remove all marks in the current selection.
        */
-      unsetMark: (typeOrName: string | MarkType) => Command,
+      unsetMark: (typeOrName: string | MarkType) => ReturnType,
     }
   }
 }

@@ -1,6 +1,5 @@
 import {
   Node,
-  Command,
   ParentConfig,
   mergeAttributes,
   getExtensionField,
@@ -43,27 +42,27 @@ export interface TableOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     table: {
-      insertTable: (options?: { rows?: number, cols?: number, withHeaderRow?: boolean }) => Command,
-      addColumnBefore: () => Command,
-      addColumnAfter: () => Command,
-      deleteColumn: () => Command,
-      addRowBefore: () => Command,
-      addRowAfter: () => Command,
-      deleteRow: () => Command,
-      deleteTable: () => Command,
-      mergeCells: () => Command,
-      splitCell: () => Command,
-      toggleHeaderColumn: () => Command,
-      toggleHeaderRow: () => Command,
-      toggleHeaderCell: () => Command,
-      mergeOrSplit: () => Command,
-      setCellAttribute: (name: string, value: any) => Command,
-      goToNextCell: () => Command,
-      goToPreviousCell: () => Command,
-      fixTables: () => Command,
-      setCellSelection: (position: { anchorCell: number, headCell?: number }) => Command,
+      insertTable: (options?: { rows?: number, cols?: number, withHeaderRow?: boolean }) => ReturnType,
+      addColumnBefore: () => ReturnType,
+      addColumnAfter: () => ReturnType,
+      deleteColumn: () => ReturnType,
+      addRowBefore: () => ReturnType,
+      addRowAfter: () => ReturnType,
+      deleteRow: () => ReturnType,
+      deleteTable: () => ReturnType,
+      mergeCells: () => ReturnType,
+      splitCell: () => ReturnType,
+      toggleHeaderColumn: () => ReturnType,
+      toggleHeaderRow: () => ReturnType,
+      toggleHeaderCell: () => ReturnType,
+      mergeOrSplit: () => ReturnType,
+      setCellAttribute: (name: string, value: any) => ReturnType,
+      goToNextCell: () => ReturnType,
+      goToPreviousCell: () => ReturnType,
+      fixTables: () => ReturnType,
+      setCellSelection: (position: { anchorCell: number, headCell?: number }) => ReturnType,
     }
   }
 

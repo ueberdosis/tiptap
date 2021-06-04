@@ -1,12 +1,12 @@
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     unsetAllMarks: {
       /**
        * Remove all marks in the current selection.
        */
-      unsetAllMarks: () => Command,
+      unsetAllMarks: () => ReturnType,
     }
   }
 }

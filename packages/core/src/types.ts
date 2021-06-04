@@ -156,24 +156,20 @@ export type NodeViewRendererProps = {
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => (NodeView | {})
 
-export type UnionCommands = UnionToIntersection<ValuesOf<Pick<Commands, KeysWithTypeOf<Commands, {}>>>>
+export type AnyCommands = Record<string, (...args: any[]) => Command>
+
+export type UnionCommands<T = Command> = UnionToIntersection<ValuesOf<Pick<Commands<T>, KeysWithTypeOf<Commands<T>, {}>>>>
 
 export type RawCommands = {
-  [Item in keyof UnionCommands]: UnionCommands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<UnionCommands[Item]>) => Command
-  : never
+  [Item in keyof UnionCommands]: UnionCommands<Command>[Item]
 }
 
 export type SingleCommands = {
-  [Item in keyof RawCommands]: RawCommands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<RawCommands[Item]>) => boolean
-  : never
+  [Item in keyof UnionCommands]: UnionCommands<boolean>[Item]
 }
 
 export type ChainedCommands = {
-  [Item in keyof RawCommands]: RawCommands[Item] extends (...args: any[]) => any
-  ? (...args: Parameters<RawCommands[Item]>) => ChainedCommands
-  : never
+  [Item in keyof UnionCommands]: UnionCommands<ChainedCommands>[Item]
 } & {
   run: () => boolean
 }

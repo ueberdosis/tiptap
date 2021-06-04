@@ -1,12 +1,12 @@
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     scrollIntoView: {
       /**
        * Scroll the selection into view.
        */
-      scrollIntoView: () => Command,
+      scrollIntoView: () => ReturnType,
     }
   }
 }

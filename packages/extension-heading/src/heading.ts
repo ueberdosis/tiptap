@@ -1,4 +1,4 @@
-import { Command, Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6
@@ -9,16 +9,16 @@ export interface HeadingOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     heading: {
       /**
        * Set a heading node
        */
-      setHeading: (attributes: { level: Level }) => Command,
+      setHeading: (attributes: { level: Level }) => ReturnType,
       /**
        * Toggle a heading node
        */
-      toggleHeading: (attributes: { level: Level }) => Command,
+      toggleHeading: (attributes: { level: Level }) => ReturnType,
     }
   }
 }

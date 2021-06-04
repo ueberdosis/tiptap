@@ -1,7 +1,7 @@
 import { canSplit } from 'prosemirror-transform'
 import { ContentMatch } from 'prosemirror-model'
 import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 import getSplittedAttributes from '../helpers/getSplittedAttributes'
 
 function defaultBlockAt(match: ContentMatch) {
@@ -27,12 +27,12 @@ function ensureMarks(state: EditorState, splittableMarks?: string[]) {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     splitBlock: {
       /**
        * Forks a new node from an existing node.
        */
-      splitBlock: (options?: { keepMarks?: boolean }) => Command,
+      splitBlock: (options?: { keepMarks?: boolean }) => ReturnType,
     }
   }
 }

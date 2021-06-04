@@ -1,4 +1,4 @@
-import { Command, Node } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 
 export interface CodeBlockOptions {
@@ -7,16 +7,16 @@ export interface CodeBlockOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     codeBlock: {
       /**
        * Set a code block
        */
-      setCodeBlock: (attributes?: { language: string }) => Command,
+      setCodeBlock: (attributes?: { language: string }) => ReturnType,
       /**
        * Toggle a code block
        */
-      toggleCodeBlock: (attributes?: { language: string }) => Command,
+      toggleCodeBlock: (attributes?: { language: string }) => ReturnType,
     }
   }
 }

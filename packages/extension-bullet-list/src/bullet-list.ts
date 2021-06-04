@@ -1,4 +1,4 @@
-import { Command, Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { wrappingInputRule } from 'prosemirror-inputrules'
 
 export interface BulletListOptions {
@@ -6,12 +6,12 @@ export interface BulletListOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     bulletList: {
       /**
        * Toggle a bullet list
        */
-      toggleBulletList: () => Command,
+      toggleBulletList: () => ReturnType,
     }
   }
 }

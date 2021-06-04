@@ -1,14 +1,14 @@
 import { TextSelection } from 'prosemirror-state'
 import minMax from '../utilities/minMax'
-import { Command, RawCommands, Range } from '../types'
+import { RawCommands, Range } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     setTextSelection: {
       /**
        * Creates a TextSelection.
        */
-      setTextSelection: (position: number | Range) => Command,
+      setTextSelection: (position: number | Range) => ReturnType,
     }
   }
 }

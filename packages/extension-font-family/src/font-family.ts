@@ -1,4 +1,4 @@
-import { Command, Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 import '@tiptap/extension-text-style'
 
 type FontFamilyOptions = {
@@ -6,16 +6,16 @@ type FontFamilyOptions = {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     fontFamily: {
       /**
        * Set the font family
        */
-      setFontFamily: (fontFamily: string) => Command,
+      setFontFamily: (fontFamily: string) => ReturnType,
       /**
        * Unset the font family
        */
-      unsetFontFamily: () => Command,
+      unsetFontFamily: () => ReturnType,
     }
   }
 }

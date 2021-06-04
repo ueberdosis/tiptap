@@ -1,5 +1,4 @@
 import {
-  Command,
   Mark,
   markInputRule,
   markPasteRule,
@@ -11,20 +10,20 @@ export interface CodeOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     code: {
       /**
        * Set a code mark
        */
-      setCode: () => Command,
+      setCode: () => ReturnType,
       /**
        * Toggle inline code
        */
-      toggleCode: () => Command,
+      toggleCode: () => ReturnType,
       /**
        * Unset a code mark
        */
-      unsetCode: () => Command,
+      unsetCode: () => ReturnType,
     }
   }
 }

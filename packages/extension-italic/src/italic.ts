@@ -1,5 +1,4 @@
 import {
-  Command,
   Mark,
   markInputRule,
   markPasteRule,
@@ -11,20 +10,20 @@ export interface ItalicOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     italic: {
       /**
        * Set an italic mark
        */
-      setItalic: () => Command,
+      setItalic: () => ReturnType,
       /**
        * Toggle an italic mark
        */
-      toggleItalic: () => Command,
+      toggleItalic: () => ReturnType,
       /**
        * Unset an italic mark
        */
-      unsetItalic: () => Command,
+      unsetItalic: () => ReturnType,
     }
   }
 }

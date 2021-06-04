@@ -1,4 +1,4 @@
-import { Extension, Command } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 import { yCursorPlugin } from 'y-prosemirror'
 
 export interface CollaborationCursorOptions {
@@ -9,12 +9,12 @@ export interface CollaborationCursorOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     collaborationCursor: {
       /**
        * Update details of the current user
        */
-      user: (attributes: Record<string, any>) => Command,
+      user: (attributes: Record<string, any>) => ReturnType,
     }
   }
 }

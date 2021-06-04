@@ -1,5 +1,4 @@
 import {
-  Command,
   Node,
   nodeInputRule,
   mergeAttributes,
@@ -11,12 +10,12 @@ export interface ImageOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     image: {
       /**
        * Add an image
        */
-      setImage: (options: { src: string, alt?: string, title?: string }) => Command,
+      setImage: (options: { src: string, alt?: string, title?: string }) => ReturnType,
     }
   }
 }

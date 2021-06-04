@@ -1,12 +1,12 @@
-import { Command, RawCommands } from '../types'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     clearContent: {
       /**
        * Clear the whole document.
        */
-      clearContent: (emitUpdate?: boolean) => Command,
+      clearContent: (emitUpdate?: boolean) => ReturnType,
     }
   }
 }

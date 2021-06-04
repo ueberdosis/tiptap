@@ -1,4 +1,4 @@
-import { Command, Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 import { history, undo, redo } from 'prosemirror-history'
 
 export interface HistoryOptions {
@@ -7,16 +7,16 @@ export interface HistoryOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     history: {
       /**
        * Undo recent changes
        */
-      undo: () => Command,
+      undo: () => ReturnType,
       /**
        * Reapply reverted changes
        */
-      redo: () => Command,
+      redo: () => ReturnType,
     }
   }
 }
