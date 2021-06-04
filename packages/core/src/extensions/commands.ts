@@ -11,6 +11,7 @@ import * as exitCode from '../commands/exitCode'
 import * as extendMarkRange from '../commands/extendMarkRange'
 import * as first from '../commands/first'
 import * as focus from '../commands/focus'
+import * as forEach from '../commands/forEach'
 import * as insertContent from '../commands/insertContent'
 import * as insertContentAt from '../commands/insertContentAt'
 import * as joinBackward from '../commands/joinBackward'
@@ -60,6 +61,7 @@ export { exitCode }
 export { extendMarkRange }
 export { first }
 export { focus }
+export { forEach }
 export { insertContent }
 export { insertContentAt }
 export { joinBackward }
@@ -114,6 +116,7 @@ export const Commands = Extension.create({
       ...extendMarkRange,
       ...first,
       ...focus,
+      ...forEach,
       ...insertContent,
       ...insertContentAt,
       ...joinBackward,
