@@ -4,9 +4,6 @@ import {
   nodeInputRule,
   mergeAttributes,
   findChildrenInRange,
-  isNodeSelection,
-  Predicate,
-  NodeWithPos,
 } from '@tiptap/core'
 
 export interface FigureOptions {
@@ -127,25 +124,9 @@ export const Figure = Node.create<FigureOptions>({
 
       imageToFigure: () => ({ tr }) => {
         const { doc, selection } = tr
-        const nodes: NodeWithPos[] = []
-        const predicate: Predicate = node => node.type.name === 'image'
-
-        if (isNodeSelection(selection)) {
-          const node = doc.nodeAt(selection.from)
-
-          if (!node || !predicate(node)) {
-            return false
-          }
-
-          nodes.push({ node, pos: selection.from })
-        } else {
-          const range = {
-            from: selection.from,
-            to: selection.to,
-          }
-
-          nodes.push(...findChildrenInRange(doc, range, predicate))
-        }
+        const { from, to } = selection
+        const range = { from, to }
+        const nodes = findChildrenInRange(doc, range, node => node.type.name === 'image')
 
         if (!nodes.length) {
           return false
