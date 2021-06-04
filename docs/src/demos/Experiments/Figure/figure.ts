@@ -147,6 +147,10 @@ export const Figure = Node.create<FigureOptions>({
           nodes.push(...findChildrenInRange(doc, range, predicate))
         }
 
+        if (!nodes.length) {
+          return false
+        }
+
         nodes.forEach(({ node, pos }, index) => {
           const mappedPos = tr.steps
             .slice(tr.steps.length - index)
