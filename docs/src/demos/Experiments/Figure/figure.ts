@@ -3,6 +3,7 @@ import {
   nodeInputRule,
   mergeAttributes,
   findChildrenInRange,
+  Tracker,
 } from '@tiptap/core'
 
 export interface FigureOptions {
@@ -124,20 +125,24 @@ export const Figure = Node.create<FigureOptions>({
       imageToFigure: () => ({ tr, commands }) => {
         const { doc, selection } = tr
         const { from, to } = selection
-        const nodes = findChildrenInRange(doc, { from, to }, node => node.type.name === 'image')
+        const images = findChildrenInRange(doc, { from, to }, node => node.type.name === 'image')
 
-        if (!nodes.length) {
+        if (!images.length) {
           return false
         }
 
-        return commands.forEach(nodes, ({ node, pos }, { index }) => {
-          const mappedPos = tr.steps
-            .slice(tr.steps.length - index)
-            .reduce((newPos, step) => step.getMap().map(newPos), pos)
+        const tracker = new Tracker(tr)
+
+        return commands.forEach(images, ({ node, pos }) => {
+          const mapResult = tracker.map(pos)
+
+          if (mapResult.deleted) {
+            return false
+          }
 
           const range = {
-            from: mappedPos,
-            to: mappedPos + node.nodeSize,
+            from: mapResult.position,
+            to: mapResult.position + node.nodeSize,
           }
 
           return commands.insertContentAt(range, {
@@ -149,8 +154,36 @@ export const Figure = Node.create<FigureOptions>({
         })
       },
 
-      figureToImage: () => () => {
-        return false
+      figureToImage: () => ({ tr, commands }) => {
+        const { doc, selection } = tr
+        const { from, to } = selection
+        const figures = findChildrenInRange(doc, { from, to }, node => node.type.name === this.name)
+
+        if (!figures.length) {
+          return false
+        }
+
+        const tracker = new Tracker(tr)
+
+        return commands.forEach(figures, ({ node, pos }) => {
+          const mapResult = tracker.map(pos)
+
+          if (mapResult.deleted) {
+            return false
+          }
+
+          const range = {
+            from: mapResult.position,
+            to: mapResult.position + node.nodeSize,
+          }
+
+          return commands.insertContentAt(range, {
+            type: 'image',
+            attrs: {
+              src: node.attrs.src,
+            },
+          })
+        })
       },
     }
   },
