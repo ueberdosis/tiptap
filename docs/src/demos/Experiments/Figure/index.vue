@@ -3,10 +3,16 @@
     <button @click="addFigure">
       figure
     </button>
-    <button @click="editor.chain().focus().imageToFigure().run()">
+    <button
+      @click="editor.chain().focus().imageToFigure().run()"
+      :disabled="!editor.can().imageToFigure()"
+    >
       image to figure
     </button>
-    <button @click="editor.chain().focus().figureToImage().run()">
+    <button
+      @click="editor.chain().focus().figureToImage().run()"
+      :disabled="!editor.can().figureToImage()"
+    >
       figure to image
     </button>
     <editor-content :editor="editor" />

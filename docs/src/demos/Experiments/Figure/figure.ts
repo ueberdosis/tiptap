@@ -122,31 +122,36 @@ export const Figure = Node.create<FigureOptions>({
           .run()
       },
 
-      imageToFigure: () => ({ tr }) => {
+      imageToFigure: () => ({ tr, commands }) => {
         const { doc, selection } = tr
         const { from, to } = selection
-        const range = { from, to }
-        const nodes = findChildrenInRange(doc, range, node => node.type.name === 'image')
+        const nodes = findChildrenInRange(doc, { from, to }, node => node.type.name === 'image')
 
         if (!nodes.length) {
           return false
         }
 
-        nodes.forEach(({ node, pos }, index) => {
+        return commands.forEach(nodes, ({ node, pos }, { index }) => {
           const mappedPos = tr.steps
             .slice(tr.steps.length - index)
             .reduce((newPos, step) => step.getMap().map(newPos), pos)
 
-          tr.replaceRangeWith(mappedPos, mappedPos + node.nodeSize, this.type.create({
-            src: node.attrs.src,
-          }))
-        })
+          const range = {
+            from: mappedPos,
+            to: mappedPos + node.nodeSize,
+          }
 
-        return true
+          return commands.insertContentAt(range, {
+            type: this.name,
+            attrs: {
+              src: node.attrs.src,
+            },
+          })
+        })
       },
 
       figureToImage: () => () => {
-        return true
+        return false
       },
     }
   },
