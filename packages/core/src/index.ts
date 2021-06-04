@@ -3,6 +3,7 @@ export * from './Extension'
 export * from './Node'
 export * from './Mark'
 export * from './NodeView'
+export * from './Tracker'
 export * from './types'
 
 export { default as nodeInputRule } from './inputRules/nodeInputRule'
