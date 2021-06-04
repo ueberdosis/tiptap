@@ -34,15 +34,15 @@ const CustomExtension = Extension.create<CustomExtensionOptions>({
 The core package also exports a `Command` type, which needs to be added to all commands that you specify in your code. Here is an example:
 
 ```ts
-import { Command, Extension } from '@tiptap/core'
+import { Extension } from '@tiptap/core'
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     customExtension: {
       /**
        * Comments will be added to the autocomplete.
        */
-      yourCommand: (someProp: any) => Command,
+      yourCommand: (someProp: any) => ReturnType,
     }
   }
 }

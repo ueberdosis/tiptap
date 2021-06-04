@@ -1,4 +1,4 @@
-import { Node, Command } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 
 export interface IframeOptions {
   allowFullscreen: boolean,
@@ -8,12 +8,12 @@ export interface IframeOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     iframe: {
       /**
        * Add an iframe
        */
-      setIframe: (options: { src: string }) => Command,
+      setIframe: (options: { src: string }) => ReturnType,
     }
   }
 }

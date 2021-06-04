@@ -1,4 +1,4 @@
-import { Command, Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { exitCode } from 'prosemirror-commands'
 
 export interface WordBreakOptions {
@@ -8,12 +8,12 @@ export interface WordBreakOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     wordBreak: {
       /**
        * Add a hard break
        */
-      setWordBreak: () => Command,
+      setWordBreak: () => ReturnType,
     }
   }
 }

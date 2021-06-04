@@ -1,5 +1,4 @@
 import {
-  Command,
   Node,
   nodeInputRule,
   mergeAttributes,
@@ -11,7 +10,7 @@ export interface FigureOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     figure: {
       /**
        * Add a figure element
@@ -21,17 +20,17 @@ declare module '@tiptap/core' {
         alt?: string,
         title?: string,
         caption?: string,
-      }) => Command,
+      }) => ReturnType,
 
       /**
        * Converts an image to a figure
        */
-      imageToFigure: () => Command,
+      imageToFigure: () => ReturnType,
 
       /**
        * Converts a figure to an image
        */
-      figureToImage: () => Command,
+      figureToImage: () => ReturnType,
     }
   }
 }

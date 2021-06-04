@@ -1,4 +1,4 @@
-import { Node, mergeAttributes, Command } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 
 export interface DetailsOptions {
   HTMLAttributes: {
@@ -7,20 +7,20 @@ export interface DetailsOptions {
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     details: {
       /**
        * Set a details node
        */
-      setDetails: () => Command,
+      setDetails: () => ReturnType,
       /**
        * Toggle a details node
        */
-      toggleDetails: () => Command,
+      toggleDetails: () => ReturnType,
       /**
        * Unset a details node
        */
-      unsetDetails: () => Command,
+      unsetDetails: () => ReturnType,
     }
   }
 }
