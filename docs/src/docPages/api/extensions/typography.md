@@ -28,7 +28,7 @@ yarn add @tiptap/extension-typography
 | registeredTrademark     | Converts `(r)` to registered trademark sign `®`.                 |
 | oneHalf                 | Converts `1/2` to one half `½`.                                  |
 | plusMinus               | Converts `+/-` to plus/minus sign `±`.                           |
-| notEqual                | Converts `!=` to a not equal sign `≠`.                           |
+| notEqual                | Converts <code style="font-variant-ligatures: none;">!=</code> to a not equal sign `≠`. |
 | laquo                   | Converts `<<` to left-pointing double angle quotation mark `«`.  |
 | raquo                   | Converts `>>` to right-pointing double angle quotation mark `»`. |
 | multiplication          | Converts `2 * 3` or `2x3` to a multiplcation sign `2×3`.        |
