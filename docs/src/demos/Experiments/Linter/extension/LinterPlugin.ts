@@ -1,8 +1,14 @@
-// @ts-nocheck
+interface Result {
+  message: string,
+  from: number,
+  to: number,
+  fix?: null
+}
+
 export default class LinterPlugin {
   protected doc
 
-  private results = []
+  private results: Array<Result> = []
 
   constructor(doc: any) {
     this.doc = doc
