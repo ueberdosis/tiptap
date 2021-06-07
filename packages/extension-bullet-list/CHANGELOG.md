@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.13...@tiptap/extension-bullet-list@2.0.0-beta.14) (2021-06-07)
+
+**Note:** Version bump only for package @tiptap/extension-bullet-list
+
+
+
+
+
 # [2.0.0-beta.13](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.12...@tiptap/extension-bullet-list@2.0.0-beta.13) (2021-05-18)
 
 **Note:** Version bump only for package @tiptap/extension-bullet-list
