@@ -1,15 +1,15 @@
-// @ts-nocheck
-import LinterPlugin from '../LinterPlugin'
+import { EditorView } from 'prosemirror-view'
+import LinterPlugin, { Result as Issue } from '../LinterPlugin'
 
 export class HeadingLevel extends LinterPlugin {
-  fixHeader(level) {
-    return function ({ state, dispatch }) {
-      dispatch(state.tr.setNodeMarkup(this.from - 1, null, { level }))
+  fixHeader(level: number) {
+    return function ({ state, dispatch }: EditorView, issue: Issue) {
+      dispatch(state.tr.setNodeMarkup(issue.from - 1, undefined, { level }))
     }
   }
 
   scan() {
-    let lastHeadLevel = null
+    let lastHeadLevel: number | null = null
 
     this.doc.descendants((node, position) => {
       if (node.type.name === 'heading') {

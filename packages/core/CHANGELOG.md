@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.81](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.80...@tiptap/core@2.0.0-beta.81) (2021-06-07)
+
+
+### Bug Fixes
+
+* fix a bug when insert newline at node start, fix [#1411](https://github.com/ueberdosis/tiptap/issues/1411) ([b97bebe](https://github.com/ueberdosis/tiptap/commit/b97bebe021e6e587770cb99f94b18ee6d96c1630))
+
+
+### Features
+
+* add forEach command ([783ce4e](https://github.com/ueberdosis/tiptap/commit/783ce4e3ac11c0705cb2d54158bfe76d39b3a36b))
+* add Tracker class ([a757716](https://github.com/ueberdosis/tiptap/commit/a757716f684e16c60bff5b58e508106f39368dc2))
+
+
+
+
+
 # [2.0.0-beta.80](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.79...@tiptap/core@2.0.0-beta.80) (2021-06-03)
 
 

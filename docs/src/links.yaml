@@ -320,6 +320,12 @@
           link: /api/marks/link
         - title: Strike
           link: /api/marks/strike
+        - title: Subscript
+          link: /api/marks/subscript
+          type: new
+        - title: Superscript
+          link: /api/marks/superscript
+          type: new
         - title: TextStyle
           link: /api/marks/text-style
         - title: Underline

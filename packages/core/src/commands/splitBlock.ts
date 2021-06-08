@@ -118,7 +118,7 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
         const first = tr.mapping.map($from.before())
         const $first = tr.doc.resolve(first)
 
-        if ($from.parent.canReplaceWith($first.index(), $first.index() + 1, deflt)) {
+        if ($from.node(-1).canReplaceWith($first.index(), $first.index() + 1, deflt)) {
           tr.setNodeMarkup(tr.mapping.map($from.before()), deflt)
         }
       }

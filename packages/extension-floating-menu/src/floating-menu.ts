@@ -6,7 +6,7 @@ export type FloatingMenuOptions = Omit<FloatingMenuPluginProps, 'editor' | 'elem
 }
 
 export const FloatingMenu = Extension.create<FloatingMenuOptions>({
-  name: 'bubbleMenu',
+  name: 'floatingMenu',
 
   defaultOptions: {
     element: null,

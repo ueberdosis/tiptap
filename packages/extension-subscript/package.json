@@ -1,0 +1,26 @@
+{
+  "name": "@tiptap/extension-subscript",
+  "description": "subscript extension for tiptap",
+  "version": "2.0.0-beta.1",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-subscript.cjs.js",
+  "umd": "dist/tiptap-extension-subscript.umd.js",
+  "module": "dist/tiptap-extension-subscript.esm.js",
+  "types": "dist/packages/extension-subscript/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  }
+}

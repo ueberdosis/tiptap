@@ -1,10 +1,15 @@
-// @ts-nocheck
 import { Extension } from '@tiptap/core'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
+import { Node as ProsemirrorNode } from 'prosemirror-model'
+import LinterPlugin, { Result as Issue } from './LinterPlugin'
 
-function renderIcon(issue) {
-  const icon = document.createElement('div')
+interface IconDivElement extends HTMLDivElement {
+  issue?: Issue
+}
+
+function renderIcon(issue: Issue) {
+  const icon: IconDivElement = document.createElement('div')
 
   icon.className = 'lint-icon'
   icon.title = issue.message
@@ -13,11 +18,11 @@ function renderIcon(issue) {
   return icon
 }
 
-function runAllLinterPlugins(doc, plugins) {
+function runAllLinterPlugins(doc: ProsemirrorNode, plugins: Array<typeof LinterPlugin>) {
   const decorations: [any?] = []
 
-  const results = plugins.map(LinterPlugin => {
-    return new LinterPlugin(doc).scan().getResults()
+  const results = plugins.map(RegisteredLinterPlugin => {
+    return new RegisteredLinterPlugin(doc).scan().getResults()
   }).flat()
 
   results.forEach(issue => {
@@ -31,7 +36,7 @@ function runAllLinterPlugins(doc, plugins) {
 }
 
 export interface LinterOptions {
-  plugins: [any],
+  plugins: Array<typeof LinterPlugin>,
 }
 
 export const Linter = Extension.create({
@@ -62,8 +67,9 @@ export const Linter = Extension.create({
             return this.getState(state)
           },
           handleClick(view, _, event) {
-            if (/lint-icon/.test(event.target.className)) {
-              const { from, to } = event.target.issue
+            const target = (event.target as IconDivElement)
+            if (/lint-icon/.test(target.className) && target.issue) {
+              const { from, to } = target.issue
 
               view.dispatch(
                 view.state.tr
@@ -73,17 +79,22 @@ export const Linter = Extension.create({
 
               return true
             }
+
+            return false
           },
           handleDoubleClick(view, _, event) {
-            if (/lint-icon/.test(event.target.className)) {
-              const prob = event.target.issue
+            const target = (event.target as IconDivElement)
+            if (/lint-icon/.test((event.target as HTMLElement).className) && target.issue) {
+              const prob = target.issue
 
               if (prob.fix) {
-                prob.fix(view)
+                prob.fix(view, prob)
                 view.focus()
                 return true
               }
             }
+
+            return false
           },
         },
       }),
