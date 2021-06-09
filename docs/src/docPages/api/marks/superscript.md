@@ -25,6 +25,10 @@ yarn add @tiptap/extension-superscript
 | toggleSuperscript | —          | Toggle superscript mark.  |
 | unsetSuperscript  | —          | Remove superscript mark.  |
 
+## Keyboard shortcuts
+* Windows/Linux: `Control`&nbsp;`.`
+* macOS: `Cmd`&nbsp;`.`
+
 ## Source code
 [packages/extension-superscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-superscript/)
 
