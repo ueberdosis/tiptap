@@ -30,6 +30,8 @@ export const Subscript = Mark.create<SubscriptExtensionOptions>({
     HTMLAttributes: {},
   },
 
+  excludes: 'superscript',
+
   parseHTML() {
     return [
       {
