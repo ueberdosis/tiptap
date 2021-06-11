@@ -23,5 +23,4 @@ export const NodeViewWrapper: React.FC<NodeViewWrapperProps> =
         }}
       />
     )
-  }
-}
+  })
