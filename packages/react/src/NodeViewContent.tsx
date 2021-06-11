@@ -20,5 +20,5 @@ export const NodeViewContent: React.FC<NodeViewContentProps> =
         }}
       />
     )
-  }
-}
+  })
+  
