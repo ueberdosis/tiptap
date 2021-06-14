@@ -224,10 +224,6 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   }
 
   updateAttributes(attributes: {}) {
-    if (!this.editor.view.editable) {
-      return
-    }
-
     const { state } = this.editor.view
     const pos = this.getPos()
     const transaction = state.tr.setNodeMarkup(pos, undefined, {
