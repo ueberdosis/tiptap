@@ -224,14 +224,16 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   }
 
   updateAttributes(attributes: {}) {
-    const { state } = this.editor.view
-    const pos = this.getPos()
-    const transaction = state.tr.setNodeMarkup(pos, undefined, {
-      ...this.node.attrs,
-      ...attributes,
-    })
+    this.editor.commands.command(({ tr }) => {
+      const pos = this.getPos()
 
-    this.editor.view.dispatch(transaction)
+      tr.setNodeMarkup(pos, undefined, {
+        ...this.node.attrs,
+        ...attributes,
+      })
+
+      return true
+    })
   }
 
   deleteNode(): void {
