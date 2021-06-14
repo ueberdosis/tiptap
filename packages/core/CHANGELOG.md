@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.82](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.81...@tiptap/core@2.0.0-beta.82) (2021-06-14)
+
+
+### Bug Fixes
+
+* check for atom nodes in ignoreMutation handler, fix [#1448](https://github.com/ueberdosis/tiptap/issues/1448) ([2deb07f](https://github.com/ueberdosis/tiptap/commit/2deb07fb005d4376790d1e22b3fc53353d1665eb))
+* remove editable check in updateAttributes, fix [#1415](https://github.com/ueberdosis/tiptap/issues/1415) ([fbc8fff](https://github.com/ueberdosis/tiptap/commit/fbc8fffb701dd78994ca4e20c32a940236bf768d))
+
+
+
+
+
 # [2.0.0-beta.81](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.80...@tiptap/core@2.0.0-beta.81) (2021-06-07)
 
 
