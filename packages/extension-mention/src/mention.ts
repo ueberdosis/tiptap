@@ -62,6 +62,7 @@ export const Mention = Node.create<MentionOptions>({
           }
         },
       },
+
       label: {
         default: null,
         parseHTML: element => {
@@ -73,6 +74,7 @@ export const Mention = Node.create<MentionOptions>({
           if (!attributes.label) {
             return {}
           }
+
           return {
             'data-label': attributes.label,
           }
