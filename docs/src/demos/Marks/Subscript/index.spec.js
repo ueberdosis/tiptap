@@ -12,7 +12,7 @@ context('/demos/Marks/Subscript', () => {
 
   it('should transform inline style to sub tags', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.commands.setContent('<p><span style="vertical-align: middle">Example Text</span></p>')
+      editor.commands.setContent('<p><span style="vertical-align: sub">Example Text</span></p>')
       expect(editor.getHTML()).to.eq('<p><sub>Example Text</sub></p>')
     })
   })
