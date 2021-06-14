@@ -11,7 +11,7 @@ export const Dropcursor = Extension.create<DropcursorOptions>({
   name: 'dropCursor',
 
   defaultOptions: {
-    color: 'currentcolor',
+    color: 'currentColor',
     width: 1,
     class: null,
   },
