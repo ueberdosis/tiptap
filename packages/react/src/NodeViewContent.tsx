@@ -9,14 +9,14 @@ export const NodeViewContent: React.FC<NodeViewContentProps> = React.forwardRef(
   const Tag = props.as || 'div'
 
   return (
-      <Tag
-        {...props}
-        ref={ref}
-        data-node-view-content=""
-        style={{
-          ...props.style,
-          whiteSpace: 'pre-wrap',
-        }}
-      />
+    <Tag
+      {...props}
+      ref={ref}
+      data-node-view-content=""
+      style={{
+        ...props.style,
+        whiteSpace: 'pre-wrap',
+      }}
+    />
   )
 })

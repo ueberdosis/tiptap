@@ -11,15 +11,15 @@ export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = React.forwardRef(
   const Tag = props.as || 'div'
 
   return (
-      <Tag
-        {...props}
-        ref={ref}
-        data-node-view-wrapper=""
-        onDragStart={onDragStart}
-        style={{
-          ...props.style,
-          whiteSpace: 'normal',
-        }}
-      />
+    <Tag
+      {...props}
+      ref={ref}
+      data-node-view-wrapper=""
+      onDragStart={onDragStart}
+      style={{
+        ...props.style,
+        whiteSpace: 'normal',
+      }}
+    />
   )
 })
