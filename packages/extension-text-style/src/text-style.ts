@@ -51,7 +51,7 @@ export const TextStyle = Mark.create<TextStyleOptions>({
     return {
       removeEmptyTextStyle: () => ({ state, commands }) => {
         const attributes = getMarkAttributes(state, this.type)
-        const hasStyles = Object.entries(attributes).every(([, value]) => !!value)
+        const hasStyles = Object.entries(attributes).some(([, value]) => !!value)
 
         if (hasStyles) {
           return true
