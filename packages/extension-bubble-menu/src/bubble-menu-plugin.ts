@@ -34,6 +34,7 @@ export class BubbleMenuView {
     this.element = element
     this.view = view
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
+    this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
     this.createTooltip(tippyOptions)
@@ -42,6 +43,10 @@ export class BubbleMenuView {
 
   mousedownHandler = () => {
     this.preventHide = true
+  }
+
+  dragstartHandler = () => {
+    this.hide()
   }
 
   focusHandler = () => {
@@ -131,6 +136,7 @@ export class BubbleMenuView {
   destroy() {
     this.tippy.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler)
+    this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
   }
