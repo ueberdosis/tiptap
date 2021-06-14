@@ -42,10 +42,11 @@ And yes, we plan to support React, too. Meanwhile, you can roll your own `ReactR
 It’s also possible to use Vanilla JavaScript, but that is probably a lot more work.
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
-| suggestion     | `Object` | `{ … }` | [Read more](/api/utilities/suggestion)                                |
+| Option         | Type     | Default                    | Description                                                           |
+| -------------- | -------- | -------------------------- | --------------------------------------------------------------------- |
+| HTMLAttributes | `Object` | `{}`                       | Custom HTML attributes that should be added to the rendered HTML tag. |
+| renderLabel    | `String` | `({ options, node }) => …` | Define how a mention label should be rendered.                        |
+| suggestion     | `Object` | `{ … }`                    | [Read more](/api/utilities/suggestion)                                |
 
 ## Source code
 [packages/extension-mention/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-mention/)
