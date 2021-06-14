@@ -102,7 +102,10 @@ export class BubbleMenuView {
     // Sometime check for `empty` is not enough.
     // Doubleclick an empty paragraph returns a node size of 2.
     // So we check also for an empty text size.
-    if (empty || !$anchor.parent.textContent) {
+    const { parent } = $anchor
+    const isEmptyTextBlock = parent.type.isTextblock && !parent.textContent
+
+    if (empty || isEmptyTextBlock) {
       this.hide()
 
       return
