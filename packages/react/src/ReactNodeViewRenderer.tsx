@@ -16,6 +16,10 @@ interface ReactNodeViewRendererOptions {
   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
 }
 
+type ReactNodeViewProps = NodeViewProps & {
+  contentWrapperRef: (element: HTMLElement | null) => void
+}
+
 class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
 
   renderer!: ReactRenderer
@@ -23,7 +27,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
   contentDOMElement!: HTMLElement | null
 
   mount() {
-    const props: NodeViewProps = {
+    const props: ReactNodeViewProps = {
       editor: this.editor,
       node: this.node,
       decorations: this.decorations,
@@ -32,6 +36,11 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
       deleteNode: () => this.deleteNode(),
+      contentWrapperRef: (element: HTMLElement | null) => {
+        if (element && element.firstChild !== this.contentDOMElement && this.contentDOMElement) {
+          element.appendChild(this.contentDOMElement);
+        }
+      }
     }
 
     if (!(this.component as any).displayName) {
@@ -91,21 +100,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
       return null
     }
 
-    this.maybeMoveContentDOM()
-
     return this.contentDOMElement
-  }
-
-  maybeMoveContentDOM(): void {
-    const contentElement = this.dom.querySelector('[data-node-view-content]')
-
-    if (
-      this.contentDOMElement
-      && contentElement
-      && !contentElement.contains(this.contentDOMElement)
-    ) {
-      contentElement.appendChild(this.contentDOMElement)
-    }
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
@@ -124,7 +119,6 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
     this.node = node
     this.decorations = decorations
     this.renderer.updateProps({ node, decorations })
-    this.maybeMoveContentDOM()
 
     return true
   }
