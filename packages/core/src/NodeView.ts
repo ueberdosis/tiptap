@@ -183,7 +183,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
 
     // a leaf/atom node is like a black box for ProseMirror
     // and should be fully handled by the node view
-    if (this.node.isLeaf) {
+    if (this.node.isLeaf || this.node.isAtom) {
       return true
     }
 
