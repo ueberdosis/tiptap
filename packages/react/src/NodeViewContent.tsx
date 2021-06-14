@@ -5,11 +5,10 @@ export interface NodeViewContentProps {
   as?: React.ElementType,
 }
 
-export const NodeViewContent: React.FC<NodeViewContentProps> =
-  React.forwardRef((props, ref) => {
-    const Tag = props.as || 'div'
+export const NodeViewContent: React.FC<NodeViewContentProps> = React.forwardRef((props, ref) => {
+  const Tag = props.as || 'div'
 
-    return (
+  return (
       <Tag
         {...props}
         ref={ref}
@@ -19,6 +18,5 @@ export const NodeViewContent: React.FC<NodeViewContentProps> =
           whiteSpace: 'pre-wrap',
         }}
       />
-    )
-  })
-  
+  )
+})

@@ -6,12 +6,11 @@ export interface NodeViewWrapperProps {
   as?: React.ElementType,
 }
 
-export const NodeViewWrapper: React.FC<NodeViewWrapperProps> =
-  React.forwardRef((props, ref) => {
-    const { onDragStart } = useReactNodeView()
-    const Tag = props.as || 'div'
+export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = React.forwardRef((props, ref) => {
+  const { onDragStart } = useReactNodeView()
+  const Tag = props.as || 'div'
 
-    return (
+  return (
       <Tag
         {...props}
         ref={ref}
@@ -22,5 +21,5 @@ export const NodeViewWrapper: React.FC<NodeViewWrapperProps> =
           whiteSpace: 'normal',
         }}
       />
-    )
-  })
+  )
+})
