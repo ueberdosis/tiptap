@@ -1,8 +1,13 @@
 import { Node, mergeAttributes } from '@tiptap/core'
+import { Node as ProseMirrorNode } from 'prosemirror-model'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
 export type MentionOptions = {
   HTMLAttributes: Record<string, any>,
+  renderLabel: (props: {
+    options: MentionOptions,
+    node: ProseMirrorNode,
+  }) => string,
   suggestion: Omit<SuggestionOptions, 'editor'>,
 }
 
@@ -11,6 +16,9 @@ export const Mention = Node.create<MentionOptions>({
 
   defaultOptions: {
     HTMLAttributes: {},
+    renderLabel({ options, node }) {
+      return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
+    },
     suggestion: {
       char: '@',
       command: ({ editor, range, props }) => {
@@ -49,7 +57,7 @@ export const Mention = Node.create<MentionOptions>({
         default: null,
         parseHTML: element => {
           return {
-            id: element.getAttribute('data-mention'),
+            id: element.getAttribute('data-id'),
           }
         },
         renderHTML: attributes => {
@@ -58,7 +66,25 @@ export const Mention = Node.create<MentionOptions>({
           }
 
           return {
-            'data-mention': attributes.id,
+            'data-id': attributes.id,
+          }
+        },
+      },
+
+      label: {
+        default: null,
+        parseHTML: element => {
+          return {
+            label: element.getAttribute('data-label'),
+          }
+        },
+        renderHTML: attributes => {
+          if (!attributes.label) {
+            return {}
+          }
+
+          return {
+            'data-label': attributes.label,
           }
         },
       },
@@ -77,12 +103,18 @@ export const Mention = Node.create<MentionOptions>({
     return [
       'span',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      `${this.options.suggestion.char}${node.attrs.id}`,
+      this.options.renderLabel({
+        options: this.options,
+        node,
+      }),
     ]
   },
 
   renderText({ node }) {
-    return `${this.options.suggestion.char}${node.attrs.id}`
+    return this.options.renderLabel({
+      options: this.options,
+      node,
+    })
   },
 
   addKeyboardShortcuts() {

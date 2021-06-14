@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.58](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.57...@tiptap/extension-mention@2.0.0-beta.58) (2021-06-14)
+
+
+### Features
+
+* add label attribute to mention extension ([#1322](https://github.com/ueberdosis/tiptap/issues/1322)) ([c3afe88](https://github.com/ueberdosis/tiptap/commit/c3afe880ae56e53da429590be4c7e2ffe5a70486))
+* add renderLabel option to mention extension, see [#1322](https://github.com/ueberdosis/tiptap/issues/1322) ([3b78af4](https://github.com/ueberdosis/tiptap/commit/3b78af44a054fa5d0101d8f7d836409b0b68547e))
+
+
+
+
+
 # [2.0.0-beta.57](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.56...@tiptap/extension-mention@2.0.0-beta.57) (2021-05-27)
 
 **Note:** Version bump only for package @tiptap/extension-mention

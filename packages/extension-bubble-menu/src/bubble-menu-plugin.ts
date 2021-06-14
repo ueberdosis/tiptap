@@ -34,6 +34,7 @@ export class BubbleMenuView {
     this.element = element
     this.view = view
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
+    this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
     this.createTooltip(tippyOptions)
@@ -42,6 +43,10 @@ export class BubbleMenuView {
 
   mousedownHandler = () => {
     this.preventHide = true
+  }
+
+  dragstartHandler = () => {
+    this.hide()
   }
 
   focusHandler = () => {
@@ -97,7 +102,10 @@ export class BubbleMenuView {
     // Sometime check for `empty` is not enough.
     // Doubleclick an empty paragraph returns a node size of 2.
     // So we check also for an empty text size.
-    if (empty || !$anchor.parent.textContent) {
+    const { parent } = $anchor
+    const isEmptyTextBlock = parent.type.isTextblock && !parent.textContent
+
+    if (empty || isEmptyTextBlock) {
       this.hide()
 
       return
@@ -131,6 +139,7 @@ export class BubbleMenuView {
   destroy() {
     this.tippy.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler)
+    this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
   }
