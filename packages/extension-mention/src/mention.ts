@@ -67,15 +67,15 @@ export const Mention = Node.create<MentionOptions>({
         parseHTML: element => {
           return {
             label: element.getAttribute('data-label'),
-          };
+          }
         },
         renderHTML: attributes => {
           if (!attributes.label) {
-            return {};
+            return {}
           }
           return {
             'data-label': attributes.label,
-          };
+          }
         },
       },
     }
