@@ -1,4 +1,9 @@
-import { Editor, posToDOMRect, isNodeSelection } from '@tiptap/core'
+import {
+  Editor,
+  posToDOMRect,
+  isTextSelection,
+  isNodeSelection,
+} from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import tippy, { Instance, Props } from 'tippy.js'
@@ -93,7 +98,7 @@ export class BubbleMenuView {
       return
     }
 
-    const { empty, $anchor, ranges } = selection
+    const { empty, ranges } = selection
 
     // support for CellSelections
     const from = Math.min(...ranges.map(range => range.$from.pos))
@@ -102,8 +107,8 @@ export class BubbleMenuView {
     // Sometime check for `empty` is not enough.
     // Doubleclick an empty paragraph returns a node size of 2.
     // So we check also for an empty text size.
-    const { parent } = $anchor
-    const isEmptyTextBlock = parent.type.isTextblock && !parent.textContent
+    const isEmptyTextBlock = !doc.textBetween(from, to).length
+      && isTextSelection(view.state.selection)
 
     if (empty || isEmptyTextBlock) {
       this.hide()
