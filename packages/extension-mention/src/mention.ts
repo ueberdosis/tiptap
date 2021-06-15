@@ -102,7 +102,7 @@ export const Mention = Node.create<MentionOptions>({
   renderHTML({ node, HTMLAttributes }) {
     return [
       'span',
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      mergeAttributes({'data-mention': ''}, this.options.HTMLAttributes, HTMLAttributes),
       this.options.renderLabel({
         options: this.options,
         node,
