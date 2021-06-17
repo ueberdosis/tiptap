@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-text-align@2.0.0-beta.18...@tiptap/extension-text-align@2.0.0-beta.19) (2021-06-17)
+
+
+### Bug Fixes
+
+* fix a bug where setting text align isn’t working when heading extension is not added ([ddb9a4b](https://github.com/ueberdosis/tiptap/commit/ddb9a4bf186b766477f21102dae6eb1299ea425a))
+
+
+
+
+
 # [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-text-align@2.0.0-beta.17...@tiptap/extension-text-align@2.0.0-beta.18) (2021-06-07)
 
 **Note:** Version bump only for package @tiptap/extension-text-align

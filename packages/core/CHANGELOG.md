@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.84](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.83...@tiptap/core@2.0.0-beta.84) (2021-06-17)
+
+
+### Bug Fixes
+
+* improve types for generateHTML ([502b5b1](https://github.com/ueberdosis/tiptap/commit/502b5b1cc9f1a8beb49ef2da81a9db56c7e92424))
+
+
+
+
+
 # [2.0.0-beta.83](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.82...@tiptap/core@2.0.0-beta.83) (2021-06-15)
 
 **Note:** Version bump only for package @tiptap/core
