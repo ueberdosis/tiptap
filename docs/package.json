@@ -15,7 +15,7 @@
     "canvas": "^2.8.0",
     "collect.js": "^4.28.6",
     "d3": "^6.6.1",
-    "globby": "^11.0.3",
+    "globby": "^11.0.4",
     "gridsome": "0.7.23",
     "iframe-resizer": "^4.3.2",
     "portal-vue": "^2.1.7",
