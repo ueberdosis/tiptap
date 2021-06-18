@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-text-align@2.0.0-beta.19...@tiptap/extension-text-align@2.0.0-beta.20) (2021-06-18)
+
+
+### Bug Fixes
+
+* remove default types for textAlign extension, fix [#1430](https://github.com/ueberdosis/tiptap/issues/1430) ([b4e41af](https://github.com/ueberdosis/tiptap/commit/b4e41afd1798e7eba4ccb0804be1ed2473c1f4d2))
+
+
+
+
+
 # [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-text-align@2.0.0-beta.18...@tiptap/extension-text-align@2.0.0-beta.19) (2021-06-17)
 
 
