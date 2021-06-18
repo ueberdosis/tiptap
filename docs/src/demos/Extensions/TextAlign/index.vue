@@ -45,7 +45,9 @@ export default {
         Paragraph,
         Text,
         Heading,
-        TextAlign,
+        TextAlign.configure({
+          types: ['heading', 'paragraph'],
+        }),
       ],
       content: `
         <h2>Heading</h2>

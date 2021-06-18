@@ -25,7 +25,7 @@ export const TextAlign = Extension.create<TextAlignOptions>({
   name: 'textAlign',
 
   defaultOptions: {
-    types: ['heading', 'paragraph'],
+    types: [],
     alignments: ['left', 'center', 'right', 'justify'],
     defaultAlignment: 'left',
   },
@@ -60,10 +60,10 @@ export const TextAlign = Extension.create<TextAlignOptions>({
           return false
         }
 
-        return this.options.types.some(type => commands.updateAttributes(type, { textAlign: alignment }))
+        return this.options.types.every(type => commands.updateAttributes(type, { textAlign: alignment }))
       },
       unsetTextAlign: () => ({ commands }) => {
-        return this.options.types.some(type => commands.resetAttributes(type, 'textAlign'))
+        return this.options.types.every(type => commands.resetAttributes(type, 'textAlign'))
       },
     }
   },
