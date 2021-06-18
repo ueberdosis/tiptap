@@ -36,6 +36,21 @@ npm install @tiptap/vue-2
 # with Yarn
 yarn add @tiptap/vue-2
 ```
+If you are using `vue-3` then the `VueRenderer` requires different input:
+```js
+new VueRenderer(MentionList, {
+  props: props,
+  editor: this.editor,
+})
+```
+and not
+```js
+new VueRenderer(MentionList, {
+  parent: this,
+  propsData: props,
+})
+```
+
 
 And yes, we plan to support React, too. Meanwhile, you can roll your own `ReactRenderer`, but don’t forget to share it with the community.
 
