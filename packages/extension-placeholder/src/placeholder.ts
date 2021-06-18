@@ -40,7 +40,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
-              const isEmpty = !node.isLeaf && !node.textContent
+              const isEmpty = !node.isLeaf && !node.childCount
 
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const classes = [this.options.emptyNodeClass]

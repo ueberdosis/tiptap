@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.49...@tiptap/react@2.0.0-beta.50) (2021-06-15)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
+# [2.0.0-beta.49](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.48...@tiptap/react@2.0.0-beta.49) (2021-06-15)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
+# [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.47...@tiptap/react@2.0.0-beta.48) (2021-06-14)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
+# [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.46...@tiptap/react@2.0.0-beta.47) (2021-06-14)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
+# [2.0.0-beta.46](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.45...@tiptap/react@2.0.0-beta.46) (2021-06-09)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
 # [2.0.0-beta.45](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.44...@tiptap/react@2.0.0-beta.45) (2021-05-29)
 
 

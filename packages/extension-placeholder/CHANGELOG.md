@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.23...@tiptap/extension-placeholder@2.0.0-beta.24) (2021-06-17)
+
+**Note:** Version bump only for package @tiptap/extension-placeholder
+
+
+
+
+
+# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.22...@tiptap/extension-placeholder@2.0.0-beta.23) (2021-06-15)
+
+**Note:** Version bump only for package @tiptap/extension-placeholder
+
+
+
+
+
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.21...@tiptap/extension-placeholder@2.0.0-beta.22) (2021-06-14)
+
+
+### Bug Fixes
+
+* don’t show placeholder if node contains only atom nodes, fix [#1457](https://github.com/ueberdosis/tiptap/issues/1457) ([11b4866](https://github.com/ueberdosis/tiptap/commit/11b48669482db5122bcd60dc1b65f839e77e5a48))
+
+
+
+
+
 # [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.20...@tiptap/extension-placeholder@2.0.0-beta.21) (2021-05-28)
 
 **Note:** Version bump only for package @tiptap/extension-placeholder

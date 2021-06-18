@@ -50,6 +50,8 @@ Most of the core extensions register their own keyboard shortcuts. Depending on 
 | Right align             | `Control`&nbsp;`Shift`&nbsp;`R` | `Cmd`&nbsp;`Shift`&nbsp;`R` |
 | Justify                 | `Control`&nbsp;`Shift`&nbsp;`J` | `Cmd`&nbsp;`Shift`&nbsp;`J` |
 | Code block              | `Control`&nbsp;`Alt`&nbsp;`C`   | `Cmd`&nbsp;`Alt`&nbsp;`C`   |
+| Subscript               | `Control`&nbsp;`,`              | `Cmd`&nbsp;`,`              |
+| Superscript             | `Control`&nbsp;`.`              | `Cmd`&nbsp;`.`              |
 
 <!--| Toggle task| `Control`&nbsp;`Enter` | `Cmd`&nbsp;`Enter` | -->
 

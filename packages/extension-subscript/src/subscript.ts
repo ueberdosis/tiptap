@@ -1,24 +1,24 @@
-import { Command, Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes } from '@tiptap/core'
 
 export interface SubscriptExtensionOptions {
   HTMLAttributes: Object,
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     subscript: {
       /**
        * Set a subscript mark
        */
-      setSubscript: () => Command,
+      setSubscript: () => ReturnType,
       /**
        * Toggle a subscript mark
        */
-      toggleSubscript: () => Command,
+      toggleSubscript: () => ReturnType,
       /**
        * Unset a subscript mark
        */
-      unsetSubscript: () => Command,
+      unsetSubscript: () => ReturnType,
     }
   }
 }
@@ -64,6 +64,12 @@ export const Subscript = Mark.create<SubscriptExtensionOptions>({
       unsetSubscript: () => ({ commands }) => {
         return commands.unsetMark('subscript')
       },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-,': () => this.editor.commands.toggleSubscript(),
     }
   },
 })

@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.37...@tiptap/vue-2@2.0.0-beta.38) (2021-06-15)
+
+**Note:** Version bump only for package @tiptap/vue-2
+
+
+
+
+
+# [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.36...@tiptap/vue-2@2.0.0-beta.37) (2021-06-15)
+
+**Note:** Version bump only for package @tiptap/vue-2
+
+
+
+
+
+# [2.0.0-beta.36](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.35...@tiptap/vue-2@2.0.0-beta.36) (2021-06-14)
+
+**Note:** Version bump only for package @tiptap/vue-2
+
+
+
+
+
+# [2.0.0-beta.35](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.34...@tiptap/vue-2@2.0.0-beta.35) (2021-06-09)
+
+**Note:** Version bump only for package @tiptap/vue-2
+
+
+
+
+
 # [2.0.0-beta.34](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.33...@tiptap/vue-2@2.0.0-beta.34) (2021-05-28)
 
 

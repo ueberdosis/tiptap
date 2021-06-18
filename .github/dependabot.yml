@@ -13,11 +13,3 @@ updates:
     reviewers:
       - 'hanspagel'
 
-  - package-ecosystem: 'npm'
-    directory: '/'
-    open-pull-requests-limit: 10
-    schedule:
-      interval: 'weekly'
-      day: 'monday'
-    reviewers:
-      - 'philippkuehn'

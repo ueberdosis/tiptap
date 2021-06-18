@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.22...@tiptap/extension-bubble-menu@2.0.0-beta.23) (2021-06-15)
+
+
+### Bug Fixes
+
+* fix a bug where bubble menu does not appear when selection starts from empty paragraph node, fix [#1474](https://github.com/ueberdosis/tiptap/issues/1474) ([f12b127](https://github.com/ueberdosis/tiptap/commit/f12b1273f24984806394e3deb431823a9d00ba79))
+
+
+
+
+
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.21...@tiptap/extension-bubble-menu@2.0.0-beta.22) (2021-06-15)
+
+**Note:** Version bump only for package @tiptap/extension-bubble-menu
+
+
+
+
+
+# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.20...@tiptap/extension-bubble-menu@2.0.0-beta.21) (2021-06-14)
+
+
+### Bug Fixes
+
+* hide bubble menu on drag, fix [#1443](https://github.com/ueberdosis/tiptap/issues/1443) ([6034eb9](https://github.com/ueberdosis/tiptap/commit/6034eb9b30c3fe01ece9079c84c91ba9c6184518))
+* show bubble menu for atom nodes even if there is no text content, fix [#1446](https://github.com/ueberdosis/tiptap/issues/1446) ([a3a7650](https://github.com/ueberdosis/tiptap/commit/a3a76507844cefc28111b9636c511ad9ef52ad28))
+
+
+
+
+
 # [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.19...@tiptap/extension-bubble-menu@2.0.0-beta.20) (2021-05-27)
 
 **Note:** Version bump only for package @tiptap/extension-bubble-menu

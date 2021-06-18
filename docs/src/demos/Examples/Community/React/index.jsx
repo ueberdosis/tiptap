@@ -72,7 +72,7 @@ export default () => {
     ],
     content: `
       <p>
-        What do you all think about the new <span data-mention="Winona Ryder"></span> movie?
+        What do you all think about the new <span data-mention data-id="Winona Ryder"></span> movie?
       </p>
     `,
   })

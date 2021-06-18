@@ -63,7 +63,9 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        TextAlign,
+        TextAlign.configure({
+          types: ['heading', 'paragraph'],
+        }),
         Highlight,
       ],
       content: `

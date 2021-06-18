@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code-block-lowlight",
   "description": "code block extension for tiptap",
-  "version": "2.0.0-beta.29",
+  "version": "2.0.0-beta.30",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -27,7 +27,7 @@
     "@tiptap/extension-code-block": "^2.0.0-beta.16",
     "@types/lowlight": "^0.0.2",
     "lowlight": "^1.20.0",
-    "prosemirror-model": "^1.14.1",
+    "prosemirror-model": "^1.14.2",
     "prosemirror-state": "^1.3.4",
     "prosemirror-view": "^1.18.7"
   }

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/core",
   "description": "headless rich text editor",
-  "version": "2.0.0-beta.81",
+  "version": "2.0.0-beta.84",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -34,7 +34,7 @@
     "prosemirror-commands": "^1.1.9",
     "prosemirror-inputrules": "^1.1.3",
     "prosemirror-keymap": "^1.1.3",
-    "prosemirror-model": "^1.14.1",
+    "prosemirror-model": "^1.14.2",
     "prosemirror-schema-list": "^1.1.4",
     "prosemirror-state": "^1.3.4",
     "prosemirror-transform": "^1.3.2",

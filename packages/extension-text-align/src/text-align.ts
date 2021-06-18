@@ -25,7 +25,7 @@ export const TextAlign = Extension.create<TextAlignOptions>({
   name: 'textAlign',
 
   defaultOptions: {
-    types: ['heading', 'paragraph'],
+    types: [],
     alignments: ['left', 'center', 'right', 'justify'],
     defaultAlignment: 'left',
   },

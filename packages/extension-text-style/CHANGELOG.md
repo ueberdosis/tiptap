@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-text-style@2.0.0-beta.15...@tiptap/extension-text-style@2.0.0-beta.16) (2021-06-15)
+
+**Note:** Version bump only for package @tiptap/extension-text-style
+
+
+
+
+
+# [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-text-style@2.0.0-beta.14...@tiptap/extension-text-style@2.0.0-beta.15) (2021-06-14)
+
+
+### Bug Fixes
+
+* Fix removal of textStyle mark when any style resets ([#1465](https://github.com/ueberdosis/tiptap/issues/1465)) ([fbf4422](https://github.com/ueberdosis/tiptap/commit/fbf442269d021bbe17a9c0a830edfeda00bac85a))
+
+
+
+
+
 # [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-text-style@2.0.0-beta.13...@tiptap/extension-text-style@2.0.0-beta.14) (2021-06-07)
 
 **Note:** Version bump only for package @tiptap/extension-text-style

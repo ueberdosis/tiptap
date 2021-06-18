@@ -25,6 +25,10 @@ yarn add @tiptap/extension-subscript
 | toggleSubscript | —          | Toggle subscript mark.  |
 | unsetSubscript  | —          | Remove subscript mark.  |
 
+## Keyboard shortcuts
+* Windows/Linux: `Control`&nbsp;`,`
+* macOS: `Cmd`&nbsp;`,`
+
 ## Source code
 [packages/extension-subscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-subscript/)
 

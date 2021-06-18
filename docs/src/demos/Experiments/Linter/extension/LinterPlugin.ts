@@ -1,10 +1,8 @@
-import { Node as ProsemirrorNode } from 'prosemirror-model'
-
-export interface Result {
+interface Result {
   message: string,
   from: number,
   to: number,
-  fix?: Function
+  fix?: null
 }
 
 export default class LinterPlugin {

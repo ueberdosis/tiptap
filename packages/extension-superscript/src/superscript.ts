@@ -1,24 +1,24 @@
-import { Command, Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes } from '@tiptap/core'
 
 export interface SuperscriptExtensionOptions {
   HTMLAttributes: Object,
 }
 
 declare module '@tiptap/core' {
-  interface Commands {
+  interface Commands<ReturnType> {
     superscript: {
       /**
        * Set a superscript mark
        */
-      setSuperscript: () => Command,
+      setSuperscript: () => ReturnType,
       /**
        * Toggle a superscript mark
        */
-      toggleSuperscript: () => Command,
+      toggleSuperscript: () => ReturnType,
       /**
        * Unset a superscript mark
        */
-      unsetSuperscript: () => Command,
+      unsetSuperscript: () => ReturnType,
     }
   }
 }
@@ -64,6 +64,12 @@ export const Superscript = Mark.create<SuperscriptExtensionOptions>({
       unsetSuperscript: () => ({ commands }) => {
         return commands.unsetMark('superscript')
       },
+    }
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-.': () => this.editor.commands.toggleSuperscript(),
     }
   },
 })

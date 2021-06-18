@@ -18,11 +18,11 @@ yarn add @tiptap/extension-text-align
 ```
 
 ## Settings
-| Option           | Type     | Default                                  | Description                                                          |
-| ---------------- | -------- | ---------------------------------------- | -------------------------------------------------------------------- |
-| types            | `Array`  | `['heading', 'paragraph']`               | A list of nodes where the text align attribute should be applied to. |
-| alignments       | `Array`  | `['left', 'center', 'right', 'justify']` | A list of available options for the text align attribute.            |
-| defaultAlignment | `String` | `'left'`                                 | The default text align.                                              |
+| Option           | Type     | Default                                  | Description                                                                                                            |
+| ---------------- | -------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| types            | `Array`  | `[]`                                     | A list of nodes where the text align attribute should be applied to. Usually something like `['heading', 'paragraph']`.|
+| alignments       | `Array`  | `['left', 'center', 'right', 'justify']` | A list of available options for the text align attribute.                                                              |
+| defaultAlignment | `String` | `'left'`                                 | The default text align.                                                                                                |
 
 ## Commands
 | Command   | Parameters | Description                                |

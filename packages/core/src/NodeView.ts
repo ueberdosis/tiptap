@@ -183,7 +183,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
 
     // a leaf/atom node is like a black box for ProseMirror
     // and should be fully handled by the node view
-    if (this.node.isLeaf) {
+    if (this.node.isLeaf || this.node.isAtom) {
       return true
     }
 
@@ -224,18 +224,16 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   }
 
   updateAttributes(attributes: {}) {
-    if (!this.editor.view.editable) {
-      return
-    }
+    this.editor.commands.command(({ tr }) => {
+      const pos = this.getPos()
 
-    const { state } = this.editor.view
-    const pos = this.getPos()
-    const transaction = state.tr.setNodeMarkup(pos, undefined, {
-      ...this.node.attrs,
-      ...attributes,
+      tr.setNodeMarkup(pos, undefined, {
+        ...this.node.attrs,
+        ...attributes,
+      })
+
+      return true
     })
-
-    this.editor.view.dispatch(transaction)
   }
 
   deleteNode(): void {
