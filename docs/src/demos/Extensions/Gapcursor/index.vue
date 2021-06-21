@@ -33,7 +33,7 @@ export default {
         Gapcursor,
       ],
       content: `
-        <p>Try to set the cursor behind the image with your arrow keys! You should see big blinking cursor right from the image. This is the gapcursor.</p>
+        <p>Try to move the cursor after the image with your arrow keys! You should see a horizontal blinking cursor below the image. This is the gapcursor.</p>
         <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />
       `,
     })
