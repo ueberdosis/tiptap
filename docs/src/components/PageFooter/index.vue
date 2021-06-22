@@ -100,7 +100,7 @@
     <div class="page-footer__section">
       <div class="page-footer__small-text text">
         <p>
-          Made with ♥ by <g-link to="https://twitter.com/_ueberdosis">überdosis</g-link>
+          Made with ♥ by <g-link to="https://ueberdosis.io">überdosis</g-link>
           &middot;
           Based on <g-link to="https://prosemirror.net/">ProseMirror</g-link> by Marijn Haverbeke
         </p>

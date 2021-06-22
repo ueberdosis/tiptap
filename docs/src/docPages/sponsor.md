@@ -18,7 +18,7 @@ Give back to the open source community and [sponsor us on GitHub](https://github
 Sounds good? [Sponsor us on GitHub!](https://github.com/sponsors/ueberdosis)
 
 ## The maintainers of tiptap
-If you are thankful for tiptap, you should say thank you to the lovely people of [überdosis](https://twitter.com/_ueberdosis). The amazing company we are all building together and the amazing company that funded the initial development costs of tiptap.
+If you are thankful for tiptap, you should say thank you to the lovely people of [überdosis](https://ueberdosis.io). The amazing company we are all building together and the amazing company that funded the initial development costs of tiptap.
 
 AND you should definitely hire us if you want us to design und build an amazing digital product for you. Bonus points if it’s somehow text editing related.
 
