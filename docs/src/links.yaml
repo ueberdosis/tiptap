@@ -132,7 +132,7 @@
       items:
         - title: blur
           link: /api/commands/blur
-          type: draft
+          type: new
         - title: clearContent
           link: /api/commands/clear-content
         - title: clearNodes
@@ -156,10 +156,8 @@
           link: /api/commands/extend-mark-range
         - title: focus
           link: /api/commands/focus
-          type: new
         - title: forEach
           link: /api/commands/for-each
-          type: new
         - title: insertContent
           link: /api/commands/insert-content
         - title: insertContentAt
@@ -219,7 +217,6 @@
           type: draft
         - title: setTextSelection
           link: /api/commands/set-text-selection
-          type: new
         - title: sinkListItem
           link: /api/commands/sink-list-item
           type: draft
@@ -266,7 +263,6 @@
           link: /api/nodes/code-block
         - title: CodeBlockLowlight
           link: /api/nodes/code-block-lowlight
-          type: new
         - title: Document
           link: /api/nodes/document
         - title: Emoji
@@ -335,7 +331,6 @@
       items:
         - title: BubbleMenu
           link: /api/extensions/bubble-menu
-          type: new
         - title: CharacterCount
           link: /api/extensions/character-count
         - title: Collaboration
@@ -346,7 +341,6 @@
           link: /api/extensions/dropcursor
         - title: FloatingMenu
           link: /api/extensions/floating-menu
-          type: new
         - title: Focus
           link: /api/extensions/focus
         - title: FontFamily
@@ -357,6 +351,8 @@
           link: /api/extensions/history
         - title: Placeholder
           link: /api/extensions/placeholder
+        - title: StarterKit
+          link: /api/extensions/starter-kit
           type: new
         - title: TextAlign
           link: /api/extensions/text-align

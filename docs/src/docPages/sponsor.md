@@ -38,6 +38,8 @@ Companies betting on tiptap probably want some peace of mind and ensure that we 
 ### I can’t use GitHub. How can I support you?
 If you’re a company, don’t want to use GitHub, don’t have a credit card or want a proper invoice from us, just reach out to us at [humans@tiptap.dev](mailto:humans@tiptap.dev).
 
+We are part of the Y-Collective, a fund for projects related to Y.js (the technology we’re using for all the collaborative editing magic). That’s an OpenCollective, which allows you to send money through transfer, PayPal or credit card. Donations are tax deductible for US companies.
+
 ### I want consulting. What’s your rate?
 We don’t do any calls, consulting or personal support for tiptap. If you have an issue, a question, want to talk something through or anything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap/issues) to keep everything accessible for the whole community.
 

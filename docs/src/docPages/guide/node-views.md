@@ -3,7 +3,9 @@
 ## toc
 
 ## Introduction
-Node views are the best thing since sliced bread, at least if you are a fan of customization (and bread). With node views you can add interactive nodes to your editor content. That can literally be everything. If you can write it in JavaScript, you can use it in your editor.
+Node views are the best thing since sliced bread, at least if you are a fan of customization (and bread). With node views you can add interactive nodes to your editor. That can literally be everything. If you can write it in JavaScript, you can use it in your editor.
+
+Node views are amazing to improve the in-editor experience, but can also be used in a read-only instance of tiptap. They are unrelated to the HTML output by design, so you have full control about the in-editor experience *and* the output.
 
 ## Different types of node views
 Depending on what you would like to build, node views work a little bit different and can have their verify specific capabilities, but also pitfalls. The main question is: How should your custom node look like?
@@ -68,7 +70,7 @@ Let’s say you have a node view which lets users add a video player and configu
 I know, I know, it’s not that easy. Just keep in mind, that you‘re in full control of the rendering inside the editor and of the output.
 
 :::warning What if you store JSON?
-That doesn’t apply to JSON. For the JSON, everything is stored as an object. There is no need to configure the “translation” to and from HTML.
+That doesn’t apply to JSON. In JSON, everything is stored as an object. There is no need to configure the “translation” to and from HTML.
 :::
 
 ### Render HTML

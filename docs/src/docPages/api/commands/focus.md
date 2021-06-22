@@ -3,7 +3,7 @@ This command sets the focus back to the editor.
 
 When a user clicks on a button outside the editor, the browser sets the focus to that button. In most scenarios you want to focus the editor then again. That’s why you’ll see that in basically every demo here.
 
-See also: [setTextSelection](/api/commands/set-text-selection)
+See also: [setTextSelection](/api/commands/set-text-selection), [blur](/api/commands/blur)
 
 ## Parameters
 `position: 'start' | 'end' | number | boolean | null (false)`
