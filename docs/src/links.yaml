@@ -192,7 +192,7 @@
           type: draft
         - title: selectAll
           link: /api/commands/select-all
-          type: draft
+          type: new
         - title: selectNodeBackward
           link: /api/commands/select-node-backward
           type: draft

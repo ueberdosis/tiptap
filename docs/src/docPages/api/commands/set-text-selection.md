@@ -1,7 +1,7 @@
 # setTextSelection
 If you think of selection in the context of an editor, you’ll probably think of a text selection. With `setTextSelection` you can control that text selection and set it to a specified range or position.
 
-See also: [focus](/api/commands/focus), [setNodeSelection](/api/commands/set-node-selection), [deleteSelection](/api/commands/delete-selection)
+See also: [focus](/api/commands/focus), [setNodeSelection](/api/commands/set-node-selection), [deleteSelection](/api/commands/delete-selection), [selectAll](/api/commands/select-all)
 
 ## Parameters
 `position: number | Range`
