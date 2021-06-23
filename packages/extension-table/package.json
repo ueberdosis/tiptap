@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table",
   "description": "table extension for tiptap",
-  "version": "2.0.0-beta.23",
+  "version": "2.0.0-beta.24",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
