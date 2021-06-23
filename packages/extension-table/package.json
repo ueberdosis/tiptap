@@ -25,6 +25,6 @@
   },
   "dependencies": {
     "prosemirror-tables": "^1.1.1",
-    "prosemirror-view": "^1.18.7"
+    "prosemirror-view": "^1.18.8"
   }
 }
