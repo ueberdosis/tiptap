@@ -19,7 +19,7 @@ ProseMirror has its own vocabulary and you’ll stumble upon all those words now
 | Document    | The actual content in your editor.                                       |
 | State       | Everything to describe the current content and selection of your editor. |
 | Transaction | A change to the state (updated selection, content, …)                    |
-| Extension   | Registeres new functionality.                                            |
+| Extension   | Registers new functionality.                                            |
 | Node        | A type of content, for example a heading or a paragraph.                 |
 | Mark        | Can be applied to nodes, for example for inline formatting.              |
 | Command     | Execute an action inside the editor, that somehow changes the state.     |
