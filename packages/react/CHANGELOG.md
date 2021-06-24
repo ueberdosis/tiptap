@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.51...@tiptap/react@2.0.0-beta.52) (2021-06-24)
+
+
+### Bug Fixes
+
+* check for destroyed editor before creating node views in react ([44e4722](https://github.com/ueberdosis/tiptap/commit/44e47222a03be60835d5058d01bc510e4cf31d60))
+
+
+
+
+
 # [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.50...@tiptap/react@2.0.0-beta.51) (2021-06-23)
 
 **Note:** Version bump only for package @tiptap/react
