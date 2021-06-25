@@ -1,3 +1,6 @@
 # Minimal setup
 
-<demo name="Examples/Minimal" highlight="7-9,25-27" />
+<demos :items="{
+  Vue: 'Examples/Minimal/Vue',
+  React: 'Examples/Minimal/React',
+}" />
