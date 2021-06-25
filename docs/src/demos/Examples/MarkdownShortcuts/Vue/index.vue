@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <editor-content :editor="editor" />
-  </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
@@ -23,6 +21,11 @@ export default {
 
   mounted() {
     this.editor = new Editor({
+      extensions: [
+        StarterKit,
+        Highlight,
+        Typography,
+      ],
       content: `
         <p>
           Markdown shortcuts make it easy to format the text while typing.
@@ -40,11 +43,6 @@ export default {
           For example, we added the <code>Typography</code> extension here. Try typing <code>(c)</code> to see how it’s converted to a proper © character. You can also try <code>-></code>, <code>>></code>, <code>1/2</code>, <code>!=</code>, or <code>--</code>.
         </p>
       `,
-      extensions: [
-        StarterKit,
-        Highlight,
-        Typography,
-      ],
     })
   },
 

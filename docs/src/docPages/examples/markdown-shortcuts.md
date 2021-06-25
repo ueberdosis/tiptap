@@ -1,3 +1,6 @@
 # Markdown shortcuts
 
-<demo name="Examples/MarkdownShortcuts" />
+<demos :items="{
+  Vue: 'Examples/MarkdownShortcuts/Vue',
+  React: 'Examples/MarkdownShortcuts/React',
+}" />
