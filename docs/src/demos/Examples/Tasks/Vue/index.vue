@@ -1,7 +1,5 @@
 <template>
-  <div v-if="editor">
-    <editor-content :editor="editor" />
-  </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
