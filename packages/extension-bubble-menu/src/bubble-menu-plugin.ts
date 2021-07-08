@@ -92,8 +92,14 @@ export class BubbleMenuView {
   update(view: EditorView, oldState?: EditorState) {
     const { state, composing } = view
     const { doc, selection } = state
-    const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
 
+    const hasFocus = view.hasFocus()
+    if (!hasFocus) {
+        this.hide()
+        return;
+    }
+
+    const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
     if (composing || isSame) {
       return
     }
