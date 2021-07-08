@@ -9,11 +9,12 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
   const element = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const { editor, tippyOptions } = props
+    const { editor, hideWhenSelecting, tippyOptions } = props
 
     editor.registerPlugin(BubbleMenuPlugin({
       editor,
       element: element.current as HTMLElement,
+      hideWhenSelecting,
       tippyOptions,
     }))
 
