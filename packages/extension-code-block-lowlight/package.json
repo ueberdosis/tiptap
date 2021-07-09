@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@tiptap/extension-code-block": "^2.0.0-beta.16",
-    "@types/lowlight": "^0.0.2",
+    "@types/lowlight": "^0.0.3",
     "lowlight": "^1.20.0",
     "prosemirror-model": "^1.14.2",
     "prosemirror-state": "^1.3.4",
