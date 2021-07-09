@@ -36,7 +36,6 @@ For help, discussion about best practices, or any other conversation that would 
 [DocIQ](https://www.dociq.io/),
 [Apostrophe CMS](https://apostrophecms.com/),
 [Ycode](https://www.ycode.com/),
-[@impactvelocity](https://github.com/impactvelocity),
 [Flow Mobile](https://www.flowmobile.app/),
 [Gretel](http://www.gretel.co/),
 [Omics Data Automation](https://www.omicsautomation.com/),
