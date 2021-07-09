@@ -67,8 +67,8 @@
         </h3>
         <ul>
           <li>
-            <g-link to="/experiments">
-              Experiments
+            <g-link to="/blog">
+              Blog
             </g-link>
           </li>
           <li>

@@ -61,7 +61,35 @@ module.exports = {
         },
       },
     },
+    {
+      use: '@gridsome/vue-remark',
+      options: {
+        typeName: 'Post',
+        baseDir: './src/posts',
+        template: './src/templates/Post/index.vue',
+        route: '/blog/:slug',
+        plugins: [
+          '@gridsome/remark-prismjs',
+          'remark-container',
+          'remark-toc',
+          tableWrapper,
+        ],
+        remark: {
+          autolinkHeadings: {
+            content: {
+              type: 'text',
+              value: '#',
+            },
+          },
+        },
+      },
+    },
   ],
+  transformers: {
+    remark: {
+      // global remark options
+    },
+  },
   runtimeCompiler: true,
   configureWebpack: {
     node: {

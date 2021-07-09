@@ -64,7 +64,7 @@
       </main>
 
       <portal :to="menuPortal">
-        <g-link class="app__menu-item" to="/installation" v-if="$route.name === 'home'">
+        <g-link class="app__menu-item" to="/installation" v-if="$route.name === 'home' || $route.path.startsWith('/blog')">
           <icon name="book-3-line" />
           <span>Documentation</span>
         </g-link>

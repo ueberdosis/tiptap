@@ -1,0 +1,33 @@
+.c-post-preview {
+  margin: 3rem 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &__link {
+    text-decoration: none;
+    display: block;
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__content {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0.6rem 0;
+  }
+
+  &__meta {
+    margin: 0;
+    color: rgba(var(--text), 0.4);
+  }
+}
