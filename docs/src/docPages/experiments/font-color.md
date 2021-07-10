@@ -1,4 +1,4 @@
-# FontFamily
+# FontColor
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-font-color.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-font-color)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-font-color.svg)](https://npmcharts.com/compare/@tiptap/extension-font-color?minimal=true)
 
