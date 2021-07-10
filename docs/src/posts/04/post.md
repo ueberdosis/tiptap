@@ -1,93 +1,85 @@
 ---
-title: Our Plan for tiptap 2
-teaser: With tiptap we built a renderless text editor for the Web. Today, it’s already used by thousands of developers, and we plan to release a completely new version of it. Here’s everything you need to know about the current state and the current roadmap.
+title: Hello tiptap 2 beta!
+teaser: After months of building tiptap 2.0, we’ve finally tagged its first beta version. I want to share a few of the most exciting changes with you.
 author: "@hanspagel"
-slug: our-plan-for-tiptap-2
-published_at: 2020-10-12
+slug: tiptap-2.0-beta
+published_at: 2021-03-04
 ---
 
-<hr>
+After months of developing tiptap 2.0, we’ve finally tagged its first beta version. For now, it’s still private, but it’s definitely ready to build cool things with it. What we achieved feels already outstanding, and I want to share a few of the most exciting changes with you.
 
-**You probably want to read the [new post about tiptap 2.0](/post/tiptap-2-0-beta/).**
+## Who’s using tiptap?
+Let’s go through a few impressive numbers first. The repository has more than 9,000 stars on GitHub. Notable companies like GitLab, Statamic, and Apostrophe CMS (to name just a few) use tiptap 1 in their applications. The (currently awful) documentation has more than 60k page views/month. The package has more than 6,000,000 downloads in total. Isn’t that crazy?
 
-<hr>
+We already worked more than 800 hours on the new version. [164 sponsors (so cool!) are donating $2,884/month (wow!) on GitHub.](https://github.com/sponsors/ueberdosis) This is a huge motivation to keep working on it!
 
-With [tiptap](https://github.com/ueberdosis/tiptap) we built a renderless text editor for the Web. Today, it’s already used by thousands of developers, and we plan to release a completely new version of it. Here’s everything you need to know about the current state and the current roadmap.
+![the tiptap 2.0 logo](./tiptap-2.0-beta.png)
 
-## Who’s using it?
-First of all, let me share a few impressive numbers with you. The repository has 8,000 stars on GitHub. Notable companies like GitLab and Statamic (to name just a few) use tiptap in their software. The (currently awful) documentation has more than 60k page views/month. The package was downloaded 500k times in 2019, and already 2.7m times in 2020. Isn’t that crazy?
+## What’s new in 2.0?
+There’s a lot to talk about, but I’ll focus on the five most important points. Everything in this list started as an idea but is ready to use with the freshly tagged beta version.
 
-Let’s add numbers people usually don’t talk much about: We put in a few hundred hours to develop the package, we don’t know the exact number, but it’s probably something like 500 hours. And we got a few donations from kind humans, I think it’s something like $200 in total. We recently set up GitHub sponsorship and now have 15 sponsors (so cool!), giving us around $160/month. We are very, very thankful for every donation, and for every sponsor, it’s a huge motivation for us to work on tiptap.
+If you’re brave and not too upset if you find a glitch here and there, I’d even call it ready for production. Even if in beta, it feels more robust than version 1 ever was.
 
-## What changed already?
-But let’s talk about how we made tiptap 2 even more awesome already. I guess that’s why you’re here.
+### 1. Choose your stack
+**The new version is completely framework-agnostic and works with the tech stack of your choice.**
 
-### 1) A new home for tiptap.
-First of all, we moved tiptap to our [überdosis GitHub organization](https://github.com/ueberdosis). [überdosis](https://twitter.com/_ueberdosis) is the company we are both co-founders of and which is sponsoring the development currently. Without that kind of support, we wouldn’t be able to work on tiptap.
+To get started quickly, you can drop in a modern CDN build. For Vue 2 and Vue 3 projects, we provide everything you need to get going. We are translating more and more to React. There are integration guides for Svelte, Alpine.js, and Livewire, and we plan to add even more.
 
-### 2) Hello TypeScript!
-So many people asked us to add TypeScript definitions. We couldn’t ignore it anymore. We took a close look at TypeScript and finally decided – after months of fiddling around with it – to write tiptap (from scratch) using TypeScript. For us, it’s still a love-hate relationship, but you will definitely have a ton of advantages.
+No matter, what you are building in, you will be able to use tiptap 2. And by the way, the new documentation already has 63 interactive demos, ready to copy & paste, and 100 pages explaining all the nifty details of building a fantastic editor experience with tiptap.
 
-As long as your IDE supports it (most do), you’re going to have a very nice autocomplete for the tiptap API. Some bugs will be pointed out early, without running the code. And we can render an auto-generated API reference from it, on top of the extensive documentation.
+### 2. Your framework to build any editor
+**We see tiptap as a headless editor framework for web artisans. For people who want to craft their applications to build outstanding user experiences.**
 
-### 3) Finally, everything is documented.
-The current documentation for tiptap is very lacking. We couldn’t take it anymore and made the documentation a priority instead of an afterthought.
+With the new API, you’ve got everything in your hands and control every aspect of the text editor. It’s clear, intuitive, powerful, well-documented, tested. We wrote the new version in TypeScript, after struggling with it for months, it now feels really, really good. You don’t even need to have TypeScript in your project to benefit from an autocomplete for the API.
 
-The packages, documentation, and website with examples that’s all the same (currently private) repository now. We’ve started to write about everything you can do with tiptap 2 early on and add content parallel to developing the described features. It pays out.
+### 3. So! Many! Extensions!
+**All extensions from v1 are rewritten and improved, and we added a whole bunch of new ones, too. **
 
-Also, there are already more than 40 interactive demos added to the documentation, and we’re adding new ones every week. I’m sure you all will love the documentation for tiptap 2.
+Add task lists, text highlights, add complex tables, align your text, set the font family, limit the number of characters, [automatically fix the typography](https://twitter.com/tiptap_editor/status/1357622240574119936) … I could go on and on.
 
-### 4) Decoupled the core from Vue.js.
-The first version was developed for Vue.js. Actually, we didn’t use much of the framework in the editor. For tiptap 2, we were able to decouple that part from the core. Et voilá, tiptap 2 is framework-agnostic.
+We even got a whole new `Mention` extension, which is so much more flexible and robust. With the generic `Suggestion` utility, you can easily add all types of autocompletes in your editor, for example, for `#hashtags`, `:emojis:`, or `$variables`.
 
-Yes, you will be able to use it with other frameworks, for example, with React. But we’ll definitely need time to build React components and document them. We won’t rush that. Currently, all examples are based on Vue.js, so it’s basically like writing the whole documentation from scratch.
+And it’s never been easier to add your custom extensions. That’s what tiptap is about anyway. Fully control, customize and extend the editor experience.
 
-### 5) Let’s chain it.
-One of the cool new features are chainable commands. All commands can be joined to one call (and a single performant transaction) from now on. Let’s have a look at an example:
+Oh, by the way, did I mention that you are literally in full control over the styling too? Use custom markup, add CSS or use Tailwind. There is no limitation.
 
-```js
-editor
-  .chain()
-  .focus('end')
-  .insertText('at the end')
-  .insertNewLine()
-  .insertText('on a new line')
-  .toggleNode('heading', { level: 2 })
-  .run()
- ```
+### 4. Collaborative by heart
+**Add real-time collaboration, build offline-first apps, keep the content in sync over multiple devices or with hundreds of other users.**
 
-### 6) It’s tested.
-The initial version of tiptap doesn’t have any real tests, leading to chaos again and again. We’re continually adding tests to the new code base and count 140 by now. We aim to have something like 1,000 over time. I think we can do that.
+Adding those capabilities to your editor will be a matter of minutes to hours, not weeks to months, thanks to the first-class integration of [Y.js](https://github.com/yjs/yjs) and a provided plug & play collaboration backend.
 
-The tests already helped us to find bugs early. For future contributions, it’ll be a huge time saver too.
+If you haven’t heard of Y.js, no worries. The new documentation has a 10-minute guide with everything you need to know.
 
-### 7) Improve the collaborative editing experience.
-We always thought that collaborative editing is one of the coolest features of tiptap. I think we were already able to take our approach with tiptap 2 to a whole new level.
+### 5. Who we’re building it for
+**Though the new version isn’t public, it already has 2.5k downloads/month. More than 130 people have access to the private repository and the new documentation by now.**
 
-The new implementation is based on [Y.js by Kevin Jahns](https://github.com/yjs/yjs) (who is also sponsoring us on GitHub). I don’t want to talk about too many details for now but believe me, it’s the coolest thing in that space.
+They form a tiny but pretty active community, and we enjoy getting bug reports, feedback, and contributions!
 
-It’s still a complex topic, though. That’s why we are in the process of writing a very detailed guide on that.
+If you want to help shaping the future of tiptap or start building cool things with it right now, [become a sponsor](https://github.com/sponsors/ueberdosis) to get immediate access!
 
-### 8) Rewriting all extensions.
-The following 19 extensions are rewritten for version 2 already: Blockquote, Bold, BulletList, Code, CodeBlock, Collaboration, Document, HardBreak, Heading, History, HorizontalRule, Italic, Link, ListItem, OrderedList, Paragraph, Strike, Text, and Underline.
+We can’t wait to share a public beta with you in the next months. That’s why we are doing all this: To make a superb editor framework accessible to everyone.
 
-And we added two new ones: CollaborationCursor and Highlight. But more on that in a different post.
+<!-- ## Try it out!
+That was a lot of words already. Why don’t you try it out? But please, be nice. The content of the editor is public and visible to other reads of the post.
 
-## When we share access to the code.
-I hope you’re as hyped as I am about tiptap. We can’t wait to give you access, but it’ll still take some time, that’s for sure. Here are all the steps we want to take:
+<iframe src="https://tiptap-demo.netlify.app/" width="100%" frameborder="0"></iframe>
 
-1. Get the new extension API stable. Currently, we’re rewriting that every second week. Actually, Philipp is working on it while I write that post.
-2. Rewrite the Vue components for version 2, probably add an optional default styling, write a few missing pages for the documentation and add a few more tests.
-3. Invite [our GitHub sponsors](https://github.com/sponsors/ueberdosis) to the private repository. ← That could be you.
-4. Incorporate early feedback and iron out glitches, working with the different teams e. g. from Statamic to see if the migration would work.
-5. Publish a public beta version for everyone.
+This isn’t even a full-blown version, only the most common extensions are loaded. And don’t forget the styling is totally up to you. It doesn’t have to look like the above example. That’s the joy of headless. -->
 
-Does that sound like a plan? If you like it, be sure to [sponsor us](https://github.com/sponsors/ueberdosis). Like I said, every sponsor is a huge motivation to put even more time into tiptap. By the way, we’ve already put nearly 300 hours (and a ton of love) in developing the new version.
+## How do I get access?
+**It took us a while, but now we know it. tiptap 2 won’t be complete, ever. With every task we complete, we add four new ideas to our backlog. So when do we share it with the world?**
 
-## Start your projects with tiptap 1, migrate later.
-A few people asked me already, so I’ll add this here too. Yes, you can still start projects with tiptap 1. We already wrote an upgrade guide, and we try to keep the migration path as smooth as possible.
+We have this very long list of ideas and want to make sure we can keep working on tiptap for the foreseeable future. We can still count on the strong backing of our company überdosis, which already funded more than 60,000 € of the development. That’s fine, and we don’t want that money back.
 
-If you’re writing custom extensions, you’re going to need to rewrite them. But you will probably be able to reuse the tricky parts. You just need to glue them together differently. That said, in the long run, we’re going to provide more extensions than we did with version 1.
+But we want to make sure it’s sustainable to continue building an amazing editor for you all in the long run. That’s why we set up the [ambitious sponsorship goal of $5,000/month on GitHub](https://github.com/sponsors/ueberdosis) we’d like to reach before going public. Maybe it’s not too ambitious though. We are halfway there already!
+
+**Are you able to help us with that? [Become a sponsor and shape the future of tiptap!](https://github.com/sponsors/ueberdosis) As a thank you, you’ll get immediate access to the private repository and the all-new documentation!**
+
+Reaching our goal will ensure we can keep going with the development, answer all emails, issues, and support requests, keep everything up to date and develop new features and extensions.
 
 ## What do you think?
-Let us know what you think about our plan! Comment in [the related issue on GitHub](https://github.com/ueberdosis/tiptap/issues/547) or hit [Philipp](https://twitter.com/_philippkuehn) or [me](https://twitter.com/hanspagel) up on Twitter. Thanks for reading!
+Comment in the [related issue on GitHub](https://github.com/ueberdosis/tiptap/issues/547), hit [Philipp](https://twitter.com/_philippkuehn) or [me](https://twitter.com/hanspagel) up on Twitter, or send an email to [humans@tiptap.dev](mailto:humans@tiptap.dev). We’re there to answer all your questions and hope you are excited as we are about the future of tiptap.
+
+[By the way, tiptap has its own Twitter account now.](https://twitter.com/tiptap_editor)
+
+> A big **THANK YOU** to every single sponsor who keeps us going! And a very special thank you to [@samwillis](https://github.com/samwillis), [@oodavid](https://github.com/oodavid), [@fourstacks](https://github.com/fourstacks), [@dmonad](https://github.com/dmonad) and [@holtwick](https://github.com/holtwick) for helping us on our way! You are all amazing!

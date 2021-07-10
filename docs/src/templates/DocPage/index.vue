@@ -59,7 +59,7 @@ export default {
         },
         {
           name: 'twitter:site',
-          content: '@_ueberdosis',
+          content: '@tiptap_editor',
         },
       ],
     }

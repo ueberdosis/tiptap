@@ -13,6 +13,15 @@
     </header>
 
     <VueRemarkContent class="text" />
+
+    <div class="c-post-detail__footer">
+      <div class="text">
+        <div class="remark-container warning">
+          <p class="remark-container-title">Become a tiptap insider!</p>
+          <p>Like what you’re reading? <g-link to="https://github.com/sponsors/ueberdosis">Sponsor our work</g-link> to get early access to new features.</p>
+        </div>
+      </div>
+    </div>
   </article>
 </template>
 

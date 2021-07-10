@@ -47,9 +47,9 @@ export default {
             '@id': 'https://www.tiptap.dev',
           },
           headline: this.$page.post.title,
-          // image: [
-          //   `https://www.tiptap.dev/images/${this.$page.post.slug}.png`,
-          // ],
+          image: [
+            this.getOpenGraphImage(),
+          ],
           datePublished: this.$page.post.published_at,
           dateModified: this.$page.post.published_at,
           author: {
@@ -59,10 +59,10 @@ export default {
           publisher: {
             '@type': 'Organization',
             name: 'tiptap',
-            // logo: {
-            //   '@type': 'ImageObject',
-            //   url: 'https://www.tiptap.dev/logo.jpg',
-            // },
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://www.tiptap.dev/assets/img/logo.svg',
+            },
           },
         },
       }],
@@ -82,10 +82,10 @@ export default {
           property: 'og:description',
           content: this.$page.post.teaser,
         },
-        // {
-        //   property: 'og:image',
-        //   content: `https://www.tiptap.dev/images/${this.$page.post.slug}.png`,
-        // },
+        {
+          property: 'og:image',
+          content: this.getOpenGraphImage(),
+        },
 
         // Twitter
         {
@@ -100,13 +100,13 @@ export default {
           name: 'twitter:card',
           content: 'summary_large_image',
         },
-        // {
-        //   name: 'twitter:image',
-        //   content: `https://www.tiptap.dev/images/${this.$page.post.slug}.png`,
-        // },
+        {
+          name: 'twitter:image',
+          content: this.getOpenGraphImage(),
+        },
         {
           name: 'twitter:site',
-          content: '@_ueberdosis',
+          content: '@tiptap_editor',
         },
       ],
     }
@@ -115,6 +115,16 @@ export default {
   components: {
     PostDetail,
     AppSection,
+  },
+
+  methods: {
+    getOpenGraphImage() {
+      const path = this.$route.path.replace(/\/$/, '')
+
+      return path === ''
+        ? 'https://www.tiptap.dev/og-image.png'
+        : `/images${path}/og-image.png`
+    },
   },
 
 }

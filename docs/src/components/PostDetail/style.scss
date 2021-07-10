@@ -8,18 +8,19 @@
   }
 
   &__title {
-    margin: 0;
+    margin: 0 0 1rem !important;
   }
 
   &__meta {
-    margin: 0.5rem 0 0 0;
     --text-color: rgba(var(--text), 0.4);
     color: var(--text-color);
   }
 
-  &__author {
-    margin: 2rem 0 0 0;
-    --text-color: rgba(var(--text), 0.4);
-    color: var(--text-color);
+  &__footer {
+    margin-top: 1.5rem;
+
+    @media (min-width: 500px) {
+      margin-top: 3rem;
+    }
   }
 }

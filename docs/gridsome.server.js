@@ -12,6 +12,7 @@ module.exports = function (api) {
 
   let numberOfPages = 0
   let numberOfDemos = 0
+  let numberOfPosts = 0
 
   api.loadSource(() => {
     /**
@@ -86,12 +87,30 @@ module.exports = function (api) {
       numberOfPages += 1
 
       if (process.env.NODE_ENV === 'production') {
-        createSpecificOpenGraphImage(options.title, options.content, `static/images${options.path}og-image.png`)
+        createSpecificOpenGraphImage(
+          options.title,
+          options.content,
+          `static/images${options.path}og-image.png`,
+        )
+      }
+    }
+
+    if (options.internal.typeName === 'Post') {
+      numberOfPosts += 1
+
+      if (process.env.NODE_ENV === 'production') {
+        createSpecificOpenGraphImage(
+          options.title,
+          options.content,
+          `static/images${options.path}og-image.png`,
+        )
       }
     }
   })
 
   api.configureServer(() => {
-    console.log(`[STATS] ${numberOfPages} pages, ${numberOfDemos} interactive demos`)
+    console.log(`[STATS] ${numberOfPages} pages`)
+    console.log(`[STATS] ${numberOfDemos} demos`)
+    console.log(`[STATS] ${numberOfPosts} posts`)
   })
 }

@@ -8,7 +8,7 @@ import App from '~/layouts/App'
 
 Prism.manual = true
 
-export default function (Vue) {
+export default function (Vue, { router, head }) {
   // fix docsearch
   if (typeof window === 'object' && !window.process) {
     window.process = {
@@ -17,6 +17,29 @@ export default function (Vue) {
       },
     }
   }
+
+  head.link.push({
+    rel: 'alternate',
+    type: 'application/rss+xml',
+    title: 'tiptap blog',
+    href: 'https://www.tiptap.dev/feed.xml',
+  })
+
+  head.link.push({
+    rel: 'alternate',
+    type: 'application/json',
+    title: 'tiptap blog',
+    href: 'https://www.tiptap.dev/feed.json',
+  })
+
+  router.beforeEach((to, _from, next) => {
+    head.meta.push({
+      key: 'og:url',
+      name: 'og:url',
+      content: `https://www.tiptap.dev/${to.path}`,
+    })
+    next()
+  })
 
   Vue.use(PortalVue)
 
