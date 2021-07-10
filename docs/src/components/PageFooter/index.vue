@@ -72,6 +72,11 @@
             </g-link>
           </li>
           <li>
+            <g-link to="/experiments">
+              Experiments
+            </g-link>
+          </li>
+          <li>
             <g-link to="https://v1.tiptap.dev">
               Docs for tiptap 1.x
             </g-link>
