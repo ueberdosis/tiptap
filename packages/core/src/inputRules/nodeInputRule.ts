@@ -8,8 +8,18 @@ export default function (regexp: RegExp, type: NodeType, getAttributes?: (match:
       : getAttributes
     const { tr } = state
 
-    if (match[0]) {
-      tr.replaceWith(start - 1, end, type.create(attributes))
+    if (match[1]) {
+      const offset = match[0].lastIndexOf(match[1])
+      start += offset
+      if (start > end) {
+        start = end;
+      }
+      else {
+        end = start + match[1].length
+      }
+      tr.replaceWith(start, end, type.create(attributes))
+    } else if (match[0]) {
+      tr.replaceWith(start, end, type.create(attributes))
     }
 
     return tr
