@@ -5,7 +5,7 @@ export interface CollaborationCursorOptions {
   provider: any,
   user: Record<string, any>,
   render (user: Record<string, any>): HTMLElement,
-  onUpdate: (users: { clientId: string, [key: string]: any }[]) => null,
+  onUpdate: (users: { clientId: number, [key: string]: any }[]) => null,
 }
 
 declare module '@tiptap/core' {
