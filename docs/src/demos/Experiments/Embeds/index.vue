@@ -1,6 +1,6 @@
 <template>
   <div v-if="editor">
-    <button @click="addImage">
+    <button @click="addIframe">
       add iframe
     </button>
 
@@ -38,7 +38,7 @@ export default {
   },
 
   methods: {
-    addImage() {
+    addIframe() {
       const url = window.prompt('URL')
 
       if (url) {
