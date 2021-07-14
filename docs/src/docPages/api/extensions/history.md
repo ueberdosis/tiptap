@@ -29,10 +29,16 @@ yarn add @tiptap/extension-history
 ### Undo
 * Windows/Linux: `Control`&nbsp;`Z`
 * macOS: `Cmd`&nbsp;`Z`
+#### Russian keyboard layouts
+* Windows/Linux: `Control`&nbsp;`я`
+* macOS: `Cmd`&nbsp;`я`
 
 ### Redo
 * Windows/Linux: `Shift`&nbsp;`Control`&nbsp;`Z` or `Control`&nbsp;`Y`
 * macOS: `Shift`&nbsp;`Cmd`&nbsp;`Z` or `Cmd`&nbsp;`Y`
+#### Russian keyboard layouts
+* Windows/Linux: `Shift`&nbsp;`Control`&nbsp;`я`
+* macOS: `Shift`&nbsp;`Cmd`&nbsp;`я`
 
 ## Source code
 [packages/extension-history/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-history/)
