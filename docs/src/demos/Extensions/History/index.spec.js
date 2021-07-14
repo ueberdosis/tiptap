@@ -1,9 +1,6 @@
 context('/demos/Extensions/History', () => {
-  before(() => {
-    cy.visit('/demos/Extensions/History')
-  })
-
   beforeEach(() => {
+    cy.visit('/demos/Extensions/History')
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<p>Mistake</p>')
     })
@@ -20,10 +17,52 @@ context('/demos/Extensions/History', () => {
       .should('not.contain', 'Mistake')
   })
 
-  it('the keyboard shortcut should make the last change undone', () => {
+  it('should make the last change undone with the keyboard shortcut', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', { modKey: true, key: 'z' })
+      .trigger('keydown', {modKey: true, key: 'z' })
+
+
+    cy.get('.ProseMirror')
       .should('not.contain', 'Mistake')
+  })
+
+  it('should make the last change undone with the keyboard shortcut (russian)', () => {
+    cy.get('.ProseMirror')
+      .should('contain', 'Mistake')
+
+    cy.get('.ProseMirror')
+      .trigger('keydown', {modKey: true, key: 'я' })
+
+    cy.get('.ProseMirror')
+      .should('not.contain', 'Mistake')
+  })
+
+  it('should apply the last undone change again with the keyboard shortcut', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', {modKey: true, key: 'z' })
+
+    cy.get('.ProseMirror')
+      .should('not.contain', 'Mistake')
+
+    cy.get('.ProseMirror')
+      .trigger('keydown', {modKey: true, shiftKey: true, key: 'z' })
+
+    cy.get('.ProseMirror')
+      .should('contain', 'Mistake')
+  })
+
+  it('should apply the last undone change again with the keyboard shortcut (russian)', () => {
+    cy.get('.ProseMirror')
+      .trigger('keydown', {modKey: true, key: 'я' })
+
+    cy.get('.ProseMirror')
+      .should('not.contain', 'Mistake')
+
+    cy.get('.ProseMirror')
+      .trigger('keydown', {modKey: true, shiftKey: true, key: 'я' })
+
+    cy.get('.ProseMirror')
+      .should('contain', 'Mistake')
   })
 
   it('should apply the last undone change again', () => {
@@ -40,14 +79,6 @@ context('/demos/Extensions/History', () => {
       .click()
 
     cy.get('.ProseMirror')
-      .should('contain', 'Mistake')
-  })
-
-  it.skip('the keyboard shortcut should apply the last undone change again', () => {
-    cy.get('.ProseMirror')
-      .trigger('keydown', { modKey: true, key: 'z' })
-      .should('not.contain', 'Mistake')
-      .trigger('keydown', { modKey: true, shiftKey: true, key: 'z' })
       .should('contain', 'Mistake')
   })
 })
