@@ -19,8 +19,7 @@ context('/demos/Extensions/History', () => {
 
   it('should make the last change undone with the keyboard shortcut', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', {modKey: true, key: 'z' })
-
+      .trigger('keydown', { modKey: true, key: 'z' })
 
     cy.get('.ProseMirror')
       .should('not.contain', 'Mistake')
@@ -31,7 +30,7 @@ context('/demos/Extensions/History', () => {
       .should('contain', 'Mistake')
 
     cy.get('.ProseMirror')
-      .trigger('keydown', {modKey: true, key: 'я' })
+      .trigger('keydown', { modKey: true, key: 'я' })
 
     cy.get('.ProseMirror')
       .should('not.contain', 'Mistake')
@@ -39,13 +38,13 @@ context('/demos/Extensions/History', () => {
 
   it('should apply the last undone change again with the keyboard shortcut', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', {modKey: true, key: 'z' })
+      .trigger('keydown', { modKey: true, key: 'z' })
 
     cy.get('.ProseMirror')
       .should('not.contain', 'Mistake')
 
     cy.get('.ProseMirror')
-      .trigger('keydown', {modKey: true, shiftKey: true, key: 'z' })
+      .trigger('keydown', { modKey: true, shiftKey: true, key: 'z' })
 
     cy.get('.ProseMirror')
       .should('contain', 'Mistake')
@@ -53,13 +52,13 @@ context('/demos/Extensions/History', () => {
 
   it('should apply the last undone change again with the keyboard shortcut (russian)', () => {
     cy.get('.ProseMirror')
-      .trigger('keydown', {modKey: true, key: 'я' })
+      .trigger('keydown', { modKey: true, key: 'я' })
 
     cy.get('.ProseMirror')
       .should('not.contain', 'Mistake')
 
     cy.get('.ProseMirror')
-      .trigger('keydown', {modKey: true, shiftKey: true, key: 'я' })
+      .trigger('keydown', { modKey: true, shiftKey: true, key: 'я' })
 
     cy.get('.ProseMirror')
       .should('contain', 'Mistake')
