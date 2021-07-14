@@ -58,7 +58,7 @@ context('/demos/Examples/MarkdownShortcuts/Vue', () => {
       .should('contain', '$foobar')
   })
 
-  it.skip('should create a code block without language', () => {
+  it('should create a code block without language', () => {
     cy.get('.ProseMirror')
       .type('``` {enter}const foo = bar{enter}```')
       .find('pre')
@@ -86,14 +86,14 @@ context('/demos/Examples/MarkdownShortcuts/Vue', () => {
       .should('contain', 'foobar')
   })
 
-  it.skip('should create a ordered list', () => {
+  it('should create a ordered list', () => {
     cy.get('.ProseMirror')
       .type('1. foobar')
       .find('ol')
       .should('contain', 'foobar')
   })
 
-  it.skip('should create a blockquote', () => {
+  it('should create a blockquote', () => {
     cy.get('.ProseMirror')
       .type('> foobar')
       .find('blockquote')
