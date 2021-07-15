@@ -103,6 +103,19 @@ context('/demos/Nodes/OrderedList', () => {
       .should('contain', 'List Item 2')
   })
 
+  it('should make a ordered list from a number other than number one', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
+
+    cy.get('.ProseMirror')
+      .type('2. List Item 1{enter}List Item 2')
+
+    cy.get('.ProseMirror')
+      .find('ol')
+      .should('have.attr', 'start', '2')
+  })
+
   it('should remove the ordered list after pressing backspace', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()
