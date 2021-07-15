@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 
-type TextAlignOptions = {
+export type TextAlignOptions = {
   types: string[],
   alignments: string[],
   defaultAlignment: string,
