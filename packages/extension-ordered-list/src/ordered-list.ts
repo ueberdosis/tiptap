@@ -77,8 +77,8 @@ export const OrderedList = Node.create<OrderedListOptions>({
       wrappingInputRule(
         inputRegex,
         this.type,
-        match => ({ order: +match[1] }),
-        (match, node) => node.childCount + node.attrs.order === +match[1],
+        match => ({ start: +match[1] }),
+        (match, node) => node.childCount + node.attrs.start === +match[1],
       ),
     ]
   },
