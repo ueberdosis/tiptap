@@ -145,6 +145,11 @@ export type NodeViewProps = {
   deleteNode: () => void,
 }
 
+export interface NodeViewRendererOptions {
+  stopEvent: ((event: Event) => boolean) | null,
+  update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
+}
+
 export type NodeViewRendererProps = {
   editor: Editor,
   node: ProseMirrorNode,

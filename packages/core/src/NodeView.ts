@@ -4,12 +4,7 @@ import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor as CoreEditor } from './Editor'
 import { Node } from './Node'
 import isiOS from './utilities/isiOS'
-import { NodeViewRendererProps } from './types'
-
-interface NodeViewRendererOptions {
-  stopEvent: ((event: Event) => boolean) | null,
-  update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
-}
+import { NodeViewRendererProps, NodeViewRendererOptions } from './types'
 
 export class NodeView<Component, Editor extends CoreEditor = CoreEditor> implements ProseMirrorNodeView {
 
