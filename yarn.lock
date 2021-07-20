@@ -4839,12 +4839,7 @@ css-what@^3.2.1:
   resolved "https://registry.yarnpkg.com/css-what/-/css-what-3.4.2.tgz#ea7026fcb01777edbde52124e21f327e7ae950e4"
   integrity sha512-ACUm3L0/jiZTqfzRM3Hi9Q8eZqd6IK37mMWPLz9PJxkLWllYeRf+EHUSHYEtFop2Eqytaq1FizFVh7XfBnXCDQ==
 
-css-what@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/css-what/-/css-what-4.0.0.tgz#35e73761cab2eeb3d3661126b23d7aa0e8432233"
-  integrity sha512-teijzG7kwYfNVsUh2H/YN62xW3KK9YhXEgSlbxMlcyjPNvdKJqFx5lrwlJgoFP1ZHlB89iGDlo/JyshKeRhv5A==
-
-css-what@^5.0.0:
+css-what@^5.0.0, css-what@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/css-what/-/css-what-5.0.1.tgz#3efa820131f4669a8ac2408f9c32e7c7de9f4cad"
   integrity sha512-FYDTSHb/7KXsWICVsxdmiExPjCfRC4qRFBdVwv7Ax9hMnvMmEjP9RfxTEZ3qPZGmADDn2vAKSo9UcN1jKVYscg==
@@ -7690,12 +7685,12 @@ hosted-git-info@^4.0.1:
   dependencies:
     lru-cache "^6.0.0"
 
-hostic-dom@^0.8.6:
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/hostic-dom/-/hostic-dom-0.8.6.tgz#5a5e2a1270b12ff4d479acdb679ba16de3028b58"
-  integrity sha512-gostOugTHuFKhnO4YQpH21SBc8A4jQ1mB5sqUCYC4gXm2LLwQ85V9EFa4DPh6Z9M6sCUJ7TAs1/hqr8iraX7Rw==
+hostic-dom@^0.8.7:
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/hostic-dom/-/hostic-dom-0.8.7.tgz#fafb73da1d0dbd08b0c76e5baf3ca8aba28716be"
+  integrity sha512-TUUD8jv1fzfbual/ljzYMcyXorjAJX4dtm9eE3YxSyVmGCQSfTyvvsXpz60IfeZDdPUB2vjTOhlI8n2l+8BdmA==
   dependencies:
-    css-what "^4.0.0"
+    css-what "^5.0.1"
     he "^1.2.0"
 
 hsl-regex@^1.0.0:
