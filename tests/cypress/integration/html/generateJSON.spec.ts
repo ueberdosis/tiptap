@@ -36,7 +36,7 @@ describe('generateJSON', () => {
       Document,
       Paragraph,
       Text,
-      TextAlign.configure({ types: ['paragraph'] })
+      TextAlign.configure({ types: ['paragraph'] }),
     ])
 
     expect(JSON.stringify(json)).to.eq(JSON.stringify({
@@ -44,7 +44,7 @@ describe('generateJSON', () => {
       content: [{
         type: 'paragraph',
         attrs: {
-          textAlign: 'center'
+          textAlign: 'center',
         },
         content: [{
           type: 'text',
