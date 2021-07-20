@@ -1,14 +1,14 @@
-// @ts-nocheck
-import LinterPlugin from '../LinterPlugin'
+import { EditorView } from 'prosemirror-view'
+import LinterPlugin, { Result as Issue } from '../LinterPlugin'
 
 export class Punctuation extends LinterPlugin {
   public regex = / ([,.!?:]) ?/g
 
   fix(replacement: any) {
-    return function ({ state, dispatch }) {
+    return function ({ state, dispatch }: EditorView, issue: Issue) {
       dispatch(
         state.tr.replaceWith(
-          this.from, this.to,
+          issue.from, issue.to,
           state.schema.text(replacement),
         ),
       )
@@ -17,9 +17,9 @@ export class Punctuation extends LinterPlugin {
 
   scan() {
     this.doc.descendants((node, position) => {
-      if (!node.isText) {
-        return
-      }
+      if (!node.isText) return
+
+      if (!node.text) return
 
       const matches = this.regex.exec(node.text)
 
