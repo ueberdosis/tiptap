@@ -29,6 +29,10 @@ export default function (
             const attrs = getAttributes instanceof Function
               ? getAttributes(match)
               : getAttributes
+            
+            if (!attrs) {
+              continue;
+            }
 
             // adding text before markdown to nodes
             if (matchStart > 0) {
