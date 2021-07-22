@@ -67,6 +67,39 @@ export const Code = Mark.create<CodeOptions>({
   addKeyboardShortcuts() {
     return {
       'Mod-e': () => this.editor.commands.toggleCode(),
+      ArrowRight: () => {
+        const state = this.editor.state
+        const { from, to } = state.selection
+
+        if (from > 1 && from === to) {
+          let codeOnLeft = false
+          state.doc.nodesBetween(from - 1, to - 1, node => {
+            const code = node.marks.find(markItem => markItem.type.name === 'code')
+            if (code) codeOnLeft = true
+          })
+
+          let noCodeUnderCursor = true
+          state.doc.nodesBetween(from, to, node => {
+            const code = node.marks.find(markItem => markItem.type.name === 'code')
+            if (code) noCodeUnderCursor = false
+          })
+
+          let nothingOnRight = true
+          state.doc.nodesBetween(from + 1, to + 1, node => {
+            if (node) nothingOnRight = false
+          })
+
+          if (codeOnLeft && noCodeUnderCursor && nothingOnRight) {
+            return this.editor
+              .chain()
+              .unsetCode()
+              .insertContent([{ type: 'text', text: ' ' }])
+              .run()
+          }
+        }
+
+        return false
+      },
     }
   },
 
