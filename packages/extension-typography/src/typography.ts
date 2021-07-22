@@ -19,6 +19,10 @@ export const notEqual = new InputRule(/!=$/, '≠')
 export const laquo = new InputRule(/<<$/, '«')
 export const raquo = new InputRule(/>>$/, '»')
 export const multiplication = new InputRule(/\d+\s?([*x])\s?\d+$/, '×')
+export const superscriptTwo = new InputRule(/\^2$/, '²')
+export const superscriptThree = new InputRule(/\^3$/, '³')
+export const oneQuarter = new InputRule(/1\/4$/, '¼')
+export const threeQuarters = new InputRule(/3\/4$/, '¾')
 
 export const Typography = Extension.create({
   name: 'typography',
@@ -41,6 +45,10 @@ export const Typography = Extension.create({
       laquo,
       raquo,
       multiplication,
+      superscriptTwo,
+      superscriptThree,
+      oneQuarter,
+      threeQuarters,
     ]
   },
 })
