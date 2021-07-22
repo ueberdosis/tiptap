@@ -11,6 +11,7 @@ import tippy, { Instance, Props } from 'tippy.js'
 export interface BubbleMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
+  hideWhenSelecting?: boolean
   tippyOptions?: Partial<Props>,
 }
 
@@ -25,21 +26,29 @@ export class BubbleMenuView {
 
   public view: EditorView
 
+  public hideWhenSelecting: boolean
+
   public preventHide = false
+
+  public viewSelecting = false
 
   public tippy!: Instance
 
   constructor({
     editor,
     element,
+    hideWhenSelecting = false,
     view,
     tippyOptions,
   }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
+    this.hideWhenSelecting = hideWhenSelecting
     this.view = view
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
+    this.view.dom.addEventListener('mousedown', this.viewMousedownHandler)
+    this.view.dom.addEventListener('mouseup', this.viewMouseupHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
     this.createTooltip(tippyOptions)
@@ -76,6 +85,16 @@ export class BubbleMenuView {
     this.hide()
   }
 
+  viewMousedownHandler = () => {
+    this.viewSelecting = true
+  }
+
+  viewMouseupHandler = () => {
+    this.viewSelecting = false
+    // we use `setTimeout` to make sure `selection` is already updated
+    setTimeout(() => this.update(this.editor.view));
+  }
+
   createTooltip(options: Partial<Props> = {}) {
     this.tippy = tippy(this.view.dom, {
       duration: 0,
@@ -90,10 +109,17 @@ export class BubbleMenuView {
   }
 
   update(view: EditorView, oldState?: EditorState) {
+    const { viewSelecting } = this
     const { state, composing } = view
     const { doc, selection } = state
-    const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
 
+    const hideSelecting = this.hideWhenSelecting && viewSelecting
+    if (!view.hasFocus() || hideSelecting) {
+        this.hide()
+        return;
+    }
+
+    const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
     if (composing || isSame) {
       return
     }
@@ -145,6 +171,8 @@ export class BubbleMenuView {
     this.tippy.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler)
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
+    this.view.dom.removeEventListener('mousedown', this.viewMousedownHandler)
+    this.view.dom.removeEventListener('mouseup', this.viewMouseupHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
   }

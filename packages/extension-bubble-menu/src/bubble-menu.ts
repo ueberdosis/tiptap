@@ -10,6 +10,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
 
   defaultOptions: {
     element: null,
+    hideWhenSelecting: false,
     tippyOptions: {},
   },
 
@@ -22,6 +23,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
       BubbleMenuPlugin({
         editor: this.editor,
         element: this.options.element,
+        hideWhenSelecting: this.options.hideWhenSelecting,
         tippyOptions: this.options.tippyOptions,
       }),
     ]
