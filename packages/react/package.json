@@ -33,5 +33,10 @@
   "devDependencies": {
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/react"
   }
 }
