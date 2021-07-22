@@ -15,6 +15,7 @@ import createDocument from './helpers/createDocument'
 import getHTMLFromFragment from './helpers/getHTMLFromFragment'
 import isNodeEmpty from './helpers/isNodeEmpty'
 import createStyleTag from './utilities/createStyleTag'
+import textBetween from './utilities/textBetween';
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
@@ -399,6 +400,13 @@ export class Editor extends EventEmitter {
    */
   public getHTML(): string {
     return getHTMLFromFragment(this.state.doc, this.schema)
+  }
+
+  /**
+   * Get the document as text.
+   */
+  public getText(blockSeparator?: string, leafText?: string): string {
+    return textBetween(this, 0, this.state.doc.content.size, blockSeparator, leafText);
   }
 
   /**
