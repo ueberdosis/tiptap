@@ -12,7 +12,6 @@ export const NodeViewContent: React.FC<NodeViewContentProps> = React.forwardRef(
     <Tag
       {...props}
       ref={ref}
-      data-node-view-content=""
       style={{
         ...props.style,
         whiteSpace: 'pre-wrap',
