@@ -28,5 +28,10 @@
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.24",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.18",
     "prosemirror-view": "^1.18.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/vue-2"
   }
 }

@@ -26,5 +26,10 @@
   "dependencies": {
     "@types/prosemirror-gapcursor": "^1.0.4",
     "prosemirror-gapcursor": "^1.1.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-gapcursor"
   }
 }

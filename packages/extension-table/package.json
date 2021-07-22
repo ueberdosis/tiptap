@@ -26,5 +26,10 @@
   "dependencies": {
     "prosemirror-tables": "^1.1.1",
     "prosemirror-view": "^1.18.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-table"
   }
 }

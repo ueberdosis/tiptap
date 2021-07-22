@@ -25,5 +25,10 @@
   },
   "dependencies": {
     "y-prosemirror": "^1.0.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-collaboration-cursor"
   }
 }

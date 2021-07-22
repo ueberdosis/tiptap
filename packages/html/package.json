@@ -24,5 +24,10 @@
     "@tiptap/core": "^2.0.0-beta.86",
     "hostic-dom": "^0.8.7",
     "prosemirror-model": "^1.14.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/html"
   }
 }
