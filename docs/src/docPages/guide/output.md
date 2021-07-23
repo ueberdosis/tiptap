@@ -80,7 +80,7 @@ Unfortunately, **tiptap doesn’t support Markdown as an input or output format*
 
 * Both, HTML and JSON, can have deeply nested structures, Markdown is flat.
 * Markdown standards vary.
-* tiptap’s strength is cutomization, that doesn’t work very well with Markdown.
+* tiptap’s strength is customization, that doesn’t work very well with Markdown.
 * There are enough packages to convert HTML to Markdown and vice-versa.
 
 You should really consider to work with HTML or JSON to store your content, they are perfectly fine for most use cases.
