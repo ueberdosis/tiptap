@@ -83,7 +83,7 @@ export function Suggestion({
             return
           }
 
-          const state = handleExit ? prev : next
+          const state = handleExit && !handleStart ? prev : next
           const decorationNode = document.querySelector(`[data-decoration-id="${state.decorationId}"]`)
           const props: SuggestionProps = {
             editor,
