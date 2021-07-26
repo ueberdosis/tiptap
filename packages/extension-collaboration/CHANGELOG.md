@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration@2.0.0-beta.19...@tiptap/extension-collaboration@2.0.0-beta.20) (2021-07-26)
+
+**Note:** Version bump only for package @tiptap/extension-collaboration
+
+
+
+
+
 # [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration@2.0.0-beta.18...@tiptap/extension-collaboration@2.0.0-beta.19) (2021-06-07)
 
 **Note:** Version bump only for package @tiptap/extension-collaboration
