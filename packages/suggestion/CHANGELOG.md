@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.61](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.60...@tiptap/suggestion@2.0.0-beta.61) (2021-07-26)
+
+
+### Bug Fixes
+
+* Fix multi character suggest ([#1620](https://github.com/ueberdosis/tiptap/issues/1620)) ([83a53c1](https://github.com/ueberdosis/tiptap/commit/83a53c16db4e8bbe06a37a0fe15e0a9e79bdb2ed))
+
+
+
+
+
 # [2.0.0-beta.60](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.59...@tiptap/suggestion@2.0.0-beta.60) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/suggestion

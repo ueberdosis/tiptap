@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.88](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.87...@tiptap/core@2.0.0-beta.88) (2021-07-26)
+
+
+### Features
+
+* Allow a rule to be skipped from the getAttributes callback in markPasteRule ([#1625](https://github.com/ueberdosis/tiptap/issues/1625)) ([9ffd58c](https://github.com/ueberdosis/tiptap/commit/9ffd58cf256bf3c0cd5a217b8933826c70b9b841))
+
+
+
+
+
 # [2.0.0-beta.87](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.86...@tiptap/core@2.0.0-beta.87) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/core
