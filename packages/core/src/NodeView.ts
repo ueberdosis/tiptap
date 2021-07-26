@@ -25,6 +25,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   options: NodeViewRendererOptions = {
     stopEvent: null,
     update: null,
+    ignoreMutation: null,
   }
 
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<NodeViewRendererOptions>) {
@@ -174,6 +175,10 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
   ignoreMutation(mutation: MutationRecord | { type: 'selection', target: Element }) {
     if (!this.dom || !this.contentDOM) {
       return true
+    }
+
+    if (typeof this.options.ignoreMutation === 'function') {
+      return this.options.ignoreMutation(mutation)
     }
 
     // a leaf/atom node is like a black box for ProseMirror

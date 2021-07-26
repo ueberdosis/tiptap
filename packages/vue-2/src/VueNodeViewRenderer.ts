@@ -49,6 +49,7 @@ export const nodeViewProps = {
 export interface VueNodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
+  ignoreMutation: ((mutation: MutationRecord | { type: 'selection', target: Element }) => boolean) | null,
 }
 
 class VueNodeView extends NodeView<(Vue | VueConstructor), Editor> {

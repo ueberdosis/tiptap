@@ -11,9 +11,10 @@ import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
 import { ReactNodeViewContext } from './useReactNodeView'
 
-interface ReactNodeViewRendererOptions {
+export interface ReactNodeViewRendererOptions {
   stopEvent: ((event: Event) => boolean) | null,
   update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
+  ignoreMutation: ((mutation: MutationRecord | { type: 'selection', target: Element }) => boolean) | null,
 }
 
 class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
