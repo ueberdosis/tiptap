@@ -34,11 +34,11 @@
     "prosemirror-commands": "^1.1.10",
     "prosemirror-inputrules": "^1.1.3",
     "prosemirror-keymap": "^1.1.3",
-    "prosemirror-model": "^1.14.2",
+    "prosemirror-model": "^1.14.3",
     "prosemirror-schema-list": "^1.1.5",
     "prosemirror-state": "^1.3.4",
     "prosemirror-transform": "^1.3.2",
-    "prosemirror-view": "^1.18.8"
+    "prosemirror-view": "^1.18.11"
   },
   "repository": {
     "type": "git",
