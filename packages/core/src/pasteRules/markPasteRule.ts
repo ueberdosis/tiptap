@@ -29,9 +29,9 @@ export default function (
             const attrs = getAttributes instanceof Function
               ? getAttributes(match)
               : getAttributes
-            
+
             if (!attrs) {
-              continue;
+              continue
             }
 
             // adding text before markdown to nodes
