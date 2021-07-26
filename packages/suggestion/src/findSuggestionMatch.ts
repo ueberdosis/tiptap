@@ -23,7 +23,10 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   } = config
 
   // Matching expressions used for later
-  const escapedChar = `\\${char}`
+  const escapedChar = char
+    .split('')
+    .map(c => `\\${c}`)
+    .join('')
   const suffix = new RegExp(`\\s${escapedChar}$`)
   const prefix = startOfLine ? '^' : ''
   const regexp = allowSpaces
