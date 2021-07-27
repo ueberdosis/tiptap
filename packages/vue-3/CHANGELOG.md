@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.46...@tiptap/vue-3@2.0.0-beta.47) (2021-07-27)
+
+
+### Features
+
+* add ignoreMutation option to NodeViewRenderer, fix [#1538](https://github.com/ueberdosis/tiptap/issues/1538) ([651e691](https://github.com/ueberdosis/tiptap/commit/651e6911e3ea5407df6a48783ee16733e0a4f474))
+
+
+
+
+
 # [2.0.0-beta.46](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.45...@tiptap/vue-3@2.0.0-beta.46) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/vue-3
