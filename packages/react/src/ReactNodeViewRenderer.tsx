@@ -4,6 +4,7 @@ import {
   NodeViewProps,
   NodeViewRenderer,
   NodeViewRendererProps,
+  NodeViewRendererOptions,
 } from '@tiptap/core'
 import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
@@ -11,13 +12,17 @@ import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
 import { ReactNodeViewContext } from './useReactNodeView'
 
-export interface ReactNodeViewRendererOptions {
-  stopEvent: ((event: Event) => boolean) | null,
-  update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
-  ignoreMutation: ((mutation: MutationRecord | { type: 'selection', target: Element }) => boolean) | null,
+export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
+  update: ((props: {
+    oldNode: ProseMirrorNode,
+    oldDecorations: Decoration[],
+    newNode: ProseMirrorNode,
+    newDecorations: Decoration[],
+    updateProps: () => void,
+  }) => boolean) | null,
 }
 
-class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
+class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeViewRendererOptions> {
 
   renderer!: ReactRenderer
 
@@ -110,8 +115,25 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
+    const updateProps = (props?: Record<string, any>) => {
+      this.renderer.updateProps(props)
+      this.maybeMoveContentDOM()
+    }
+
     if (typeof this.options.update === 'function') {
-      return this.options.update(node, decorations)
+      const oldNode = this.node
+      const oldDecorations = this.decorations
+
+      this.node = node
+      this.decorations = decorations
+
+      return this.options.update({
+        oldNode,
+        oldDecorations,
+        newNode: node,
+        newDecorations: decorations,
+        updateProps,
+      })
     }
 
     if (node.type !== this.node.type) {
@@ -124,8 +146,8 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor> {
 
     this.node = node
     this.decorations = decorations
-    this.renderer.updateProps({ node, decorations })
-    this.maybeMoveContentDOM()
+
+    updateProps()
 
     return true
   }
