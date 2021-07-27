@@ -6,11 +6,17 @@ import { Node } from './Node'
 import isiOS from './utilities/isiOS'
 import { NodeViewRendererProps, NodeViewRendererOptions } from './types'
 
-export class NodeView<Component, Editor extends CoreEditor = CoreEditor> implements ProseMirrorNodeView {
+export class NodeView<
+  Component,
+  Editor extends CoreEditor = CoreEditor,
+  Options extends NodeViewRendererOptions = NodeViewRendererOptions,
+> implements ProseMirrorNodeView {
 
   component: Component
 
   editor: Editor
+
+  options: Options
 
   extension: Node
 
@@ -22,16 +28,14 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
 
   isDragging = false
 
-  options: NodeViewRendererOptions = {
-    stopEvent: null,
-    update: null,
-    ignoreMutation: null,
-  }
-
-  constructor(component: Component, props: NodeViewRendererProps, options?: Partial<NodeViewRendererOptions>) {
+  constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
     this.component = component
-    this.options = { ...this.options, ...options }
     this.editor = props.editor as Editor
+    this.options = {
+      stopEvent: null,
+      ignoreMutation: null,
+      ...options,
+    } as Options
     this.extension = props.extension
     this.node = props.node
     this.decorations = props.decorations
@@ -98,7 +102,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     }
 
     if (typeof this.options.stopEvent === 'function') {
-      return this.options.stopEvent(event)
+      return this.options.stopEvent({ event })
     }
 
     const target = (event.target as HTMLElement)
@@ -178,7 +182,7 @@ export class NodeView<Component, Editor extends CoreEditor = CoreEditor> impleme
     }
 
     if (typeof this.options.ignoreMutation === 'function') {
-      return this.options.ignoreMutation(mutation)
+      return this.options.ignoreMutation({ mutation })
     }
 
     // a leaf/atom node is like a black box for ProseMirror

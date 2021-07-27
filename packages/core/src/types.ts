@@ -146,9 +146,12 @@ export type NodeViewProps = {
 }
 
 export interface NodeViewRendererOptions {
-  stopEvent: ((event: Event) => boolean) | null,
-  update: ((node: ProseMirrorNode, decorations: Decoration[]) => boolean) | null,
-  ignoreMutation: ((mutation: MutationRecord | { type: 'selection', target: Element }) => boolean) | null,
+  stopEvent: ((props: {
+    event: Event
+  }) => boolean) | null,
+  ignoreMutation: ((props: {
+    mutation: MutationRecord | { type: 'selection', target: Element }
+  }) => boolean) | null,
 }
 
 export type NodeViewRendererProps = {
