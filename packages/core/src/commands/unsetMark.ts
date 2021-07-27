@@ -9,18 +9,22 @@ declare module '@tiptap/core' {
       /**
        * Remove all marks in the current selection.
        */
-      unsetMark: (typeOrName: string | MarkType) => ReturnType,
+      unsetMark: (typeOrName: string | MarkType, unsetEmptyRange?: boolean) => ReturnType,
     }
   }
 }
 
-export const unsetMark: RawCommands['unsetMark'] = typeOrName => ({ tr, state, dispatch }) => {
+export const unsetMark: RawCommands['unsetMark'] = (typeOrName, unsetEmptyRange = false) => ({ tr, state, dispatch }) => {
   const { selection } = tr
   const type = getMarkType(typeOrName, state.schema)
   const { $from, empty, ranges } = selection
 
   if (dispatch) {
-    if (empty) {
+    if (!empty) {
+      ranges.forEach(range => {
+        tr.removeMark(range.$from.pos, range.$to.pos, type)
+      })
+    } else if (unsetEmptyRange) {
       let { from, to } = selection
       const range = getMarkRange($from, type)
 
@@ -30,10 +34,6 @@ export const unsetMark: RawCommands['unsetMark'] = typeOrName => ({ tr, state, d
       }
 
       tr.removeMark(from, to, type)
-    } else {
-      ranges.forEach(range => {
-        tr.removeMark(range.$from.pos, range.$to.pos, type)
-      })
     }
 
     tr.removeStoredMark(type)
