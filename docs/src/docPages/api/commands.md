@@ -166,6 +166,7 @@ Have a look at all of the core commands listed below. They should give you a goo
 | ----------------------- | --------------------------------------------------------- | ------------------------------------ |
 | .clearNodes()           | Normalize nodes to a simple paragraph.                    | [More](/api/commands/clear-nodes)  |
 | .createParagraphNear()  | Create a paragraph nearby.                                | [More](/api/commands/create-paragraph-near)  |
+| .deleteNode()           | Delete a node.                                            | [More](/api/commands/delete-node)  |
 | .extendMarkRange()      | Extends the text selection to the current mark.           | [More](/api/commands/extend-mark-range)  |
 | .exitCode()             | Exit from a code block.                                   | [More](/api/commands/exit-code)  |
 | .joinBackward()         | Join two nodes backward.                                  | [More](/api/commands/join-backward)  |

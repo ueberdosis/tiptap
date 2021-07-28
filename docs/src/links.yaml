@@ -140,6 +140,9 @@
         - title: createParagraphNear
           link: /api/commands/create-paragraph-near
           type: draft
+        - title: deleteNode
+          link: /api/commands/delete-node
+          type: draft
         - title: deleteRange
           link: /api/commands/delete-range
           type: draft

@@ -4,6 +4,7 @@ import * as clearContent from '../commands/clearContent'
 import * as clearNodes from '../commands/clearNodes'
 import * as command from '../commands/command'
 import * as createParagraphNear from '../commands/createParagraphNear'
+import * as deleteNode from '../commands/deleteNode'
 import * as deleteRange from '../commands/deleteRange'
 import * as deleteSelection from '../commands/deleteSelection'
 import * as enter from '../commands/enter'
@@ -54,6 +55,7 @@ export { clearContent }
 export { clearNodes }
 export { command }
 export { createParagraphNear }
+export { deleteNode }
 export { deleteRange }
 export { deleteSelection }
 export { enter }
@@ -109,6 +111,7 @@ export const Commands = Extension.create({
       ...clearNodes,
       ...command,
       ...createParagraphNear,
+      ...deleteNode,
       ...deleteRange,
       ...deleteSelection,
       ...enter,
