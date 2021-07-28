@@ -35,7 +35,7 @@ export default function (
               ? getAttributes(match)
               : getAttributes
 
-            if (!attrs) {
+            if (!attrs && attrs !== undefined) {
               continue
             }
 
