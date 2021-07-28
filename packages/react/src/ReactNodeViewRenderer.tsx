@@ -147,7 +147,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
     this.node = node
     this.decorations = decorations
 
-    updateProps()
+    updateProps({ node, decorations })
 
     return true
   }

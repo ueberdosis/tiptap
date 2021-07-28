@@ -153,7 +153,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     this.node = node
     this.decorations = decorations
 
-    updateProps()
+    updateProps({ node, decorations })
 
     return true
   }
