@@ -1,3 +1,6 @@
 # Syntax highlighting
 
-<demo name="Examples/CodeBlockLanguage" />
+<demos :items="{
+  Vue: 'Examples/CodeBlockLanguage/Vue',
+  React: 'Examples/CodeBlockLanguage/React',
+}" />
