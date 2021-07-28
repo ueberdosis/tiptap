@@ -1,5 +1,19 @@
 <template>
-  <editor-content :editor="editor" />
+  <div v-if="editor">
+    <button @click="addCapturedTable">
+      add table
+    </button>
+    <button @click="addCapturedImage">
+      add image
+    </button>
+    <button @click="removeCapturedTable">
+      remove table
+    </button>
+    <button @click="removeCapturedImage">
+      remove image
+    </button>
+    <editor-content :editor="editor" />
+  </div>
 </template>
 
 <script>
@@ -32,6 +46,110 @@ export default {
     return {
       editor: null,
     }
+  },
+
+  methods: {
+    addCapturedImage() {
+      this.editor
+        .chain()
+        .focus()
+        .insertContent({
+          type: 'capturedImage',
+          content: [
+            {
+              type: 'image',
+              attrs: {
+                src: 'https://source.unsplash.com/K9QHL52rE2k/800x400',
+              },
+            },
+            {
+              type: 'figcaption',
+              content: [
+                {
+                  type: 'text',
+                  text: 'image caption',
+                },
+              ],
+            },
+          ],
+        })
+        .run()
+    },
+
+    addCapturedTable() {
+      this.editor
+        .chain()
+        .focus()
+        .insertContent({
+          type: 'capturedTable',
+          content: [
+            {
+              type: 'table',
+              content: [
+                {
+                  type: 'tableRow',
+                  content: [
+                    {
+                      type: 'tableCell',
+                      content: [
+                        {
+                          type: 'paragraph',
+                          content: [
+                            {
+                              type: 'text',
+                              text: 'cell 1',
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      type: 'tableCell',
+                      content: [
+                        {
+                          type: 'paragraph',
+                          content: [
+                            {
+                              type: 'text',
+                              text: 'cell 2',
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'figcaption',
+              content: [
+                {
+                  type: 'text',
+                  text: 'table caption',
+                },
+              ],
+            },
+          ],
+        })
+        .run()
+    },
+
+    removeCapturedTable() {
+      this.editor
+        .chain()
+        .focus()
+        .deleteNode('capturedTable')
+        .run()
+    },
+
+    removeCapturedImage() {
+      this.editor
+        .chain()
+        .focus()
+        .deleteNode('capturedImage')
+        .run()
+    },
   },
 
   mounted() {
