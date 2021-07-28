@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.90](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.89...@tiptap/core@2.0.0-beta.90) (2021-07-28)
+
+
+### Features
+
+* add deleteNode command ([73f1c50](https://github.com/ueberdosis/tiptap/commit/73f1c50bca8ffcd074388519eec9c659b0fda14c))
+
+
+
+
+
 # [2.0.0-beta.89](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.88...@tiptap/core@2.0.0-beta.89) (2021-07-27)
 
 
