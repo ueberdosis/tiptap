@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.47...@tiptap/vue-3@2.0.0-beta.48) (2021-07-28)
+
+
+### Bug Fixes
+
+* fix updating node views, fix [#1656](https://github.com/ueberdosis/tiptap/issues/1656) ([d7f6e0c](https://github.com/ueberdosis/tiptap/commit/d7f6e0ce3f99381d3822cde5ab1c484ed13a4c20))
+
+
+
+
+
 # [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.46...@tiptap/vue-3@2.0.0-beta.47) (2021-07-27)
 
 
