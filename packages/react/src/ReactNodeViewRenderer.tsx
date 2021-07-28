@@ -132,7 +132,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
         oldDecorations,
         newNode: node,
         newDecorations: decorations,
-        updateProps,
+        updateProps: () => updateProps({ node, decorations }),
       })
     }
 
