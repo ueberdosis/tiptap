@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.91](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.90...@tiptap/core@2.0.0-beta.91) (2021-07-28)
+
+
+### Bug Fixes
+
+* fix a bug in markPasteRule ([c2ccf68](https://github.com/ueberdosis/tiptap/commit/c2ccf68e8b4c869f707f3b1fdf51474e7f64b6f3))
+
+
+
+
+
 # [2.0.0-beta.90](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.89...@tiptap/core@2.0.0-beta.90) (2021-07-28)
 
 
