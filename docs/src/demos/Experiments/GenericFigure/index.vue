@@ -29,12 +29,12 @@ import { Figcaption } from './figcaption'
 
 const ImageFigure = Figure.extend({
   name: 'capturedImage',
-  content: 'image figcaption',
+  content: 'figcaption image',
 })
 
 const TableFigure = Figure.extend({
   name: 'capturedTable',
-  content: 'table figcaption',
+  content: 'figcaption table',
 })
 
 export default {
@@ -57,12 +57,6 @@ export default {
           type: 'capturedImage',
           content: [
             {
-              type: 'image',
-              attrs: {
-                src: 'https://source.unsplash.com/K9QHL52rE2k/800x400',
-              },
-            },
-            {
               type: 'figcaption',
               content: [
                 {
@@ -70,6 +64,12 @@ export default {
                   text: 'image caption',
                 },
               ],
+            },
+            {
+              type: 'image',
+              attrs: {
+                src: 'https://source.unsplash.com/K9QHL52rE2k/800x400',
+              },
             },
           ],
         })
@@ -83,6 +83,15 @@ export default {
         .insertContent({
           type: 'capturedTable',
           content: [
+            {
+              type: 'figcaption',
+              content: [
+                {
+                  type: 'text',
+                  text: 'table caption',
+                },
+              ],
+            },
             {
               type: 'table',
               content: [
@@ -118,15 +127,6 @@ export default {
                       ],
                     },
                   ],
-                },
-              ],
-            },
-            {
-              type: 'figcaption',
-              content: [
-                {
-                  type: 'text',
-                  text: 'table caption',
                 },
               ],
             },
@@ -168,15 +168,18 @@ export default {
       content: `
         <p>Some text</p>
         <figure data-type="capturedImage">
-          <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" alt="Random photo of something" title="Who’s dat?">
           <figcaption>
             Image caption
           </figcaption>
+          <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" alt="Random photo of something" title="Who’s dat?">
         </figure>
         <p>Some text</p>
         <img src="https://source.unsplash.com/K9QHL52rE2k/800x400">
         <p>Some text</p>
         <figure data-type="capturedTable">
+          <figcaption>
+            Table caption
+          </figcaption>
           <table>
             <tbody>
               <tr>
@@ -202,9 +205,6 @@ export default {
               </tr>
             </tbody>
           </table>
-          <figcaption>
-            Table caption
-          </figcaption>
         </figure>
         <p>Some text</p>
         <table>
@@ -258,11 +258,19 @@ export default {
     }
 
     figcaption {
-      margin-top: 0.25rem;
+      margin: 0.25rem 0;
       text-align: center;
       padding: 0.5rem;
       border: 2px dashed #0D0D0D20;
       border-radius: 0.5rem;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     img {
