@@ -73,13 +73,7 @@ export const focus: RawCommands['focus'] = (position = null) => ({
       tr.setStoredMarks(storedMarks)
     }
 
-    // focus async because in some situations weird things happen
-    // see: https://github.com/ueberdosis/tiptap/issues/1520
-    setTimeout(() => {
-      if (!editor.isDestroyed) {
-        view.focus()
-      }
-    }, 0)
+    view.focus()
   }
 
   return true
