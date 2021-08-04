@@ -1,4 +1,4 @@
-import createNodeFromContent from '../helpers/createNodeFromContent'
+import createNodeFromContent, { CreateNodeFromContentOptions } from '../helpers/createNodeFromContent'
 import selectionToInsertionEnd from '../helpers/selectionToInsertionEnd'
 import {
   RawCommands,
@@ -12,17 +12,18 @@ declare module '@tiptap/core' {
       /**
        * Insert a node or string of HTML at a specific position.
        */
-      insertContentAt: (position: number | Range, value: Content) => ReturnType,
+      insertContentAt: (position: number | Range, value: Content, options?: CreateNodeFromContentOptions) => ReturnType,
     }
   }
 }
 
-export const insertContentAt: RawCommands['insertContentAt'] = (position, value) => ({ tr, dispatch, editor }) => {
+export const insertContentAt: RawCommands['insertContentAt'] = (position, value, options) => ({ tr, dispatch, editor }) => {
   if (dispatch) {
     const content = createNodeFromContent(value, editor.schema, {
       parseOptions: {
         preserveWhitespace: 'full',
       },
+      ...(options || {})
     })
 
     // don’t dispatch an empty fragment because this can lead to strange errors
