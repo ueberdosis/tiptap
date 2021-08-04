@@ -23,7 +23,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       parseOptions: {
         preserveWhitespace: 'full',
       },
-      ...(options || {})
+      ...(options || {}),
     })
 
     // don’t dispatch an empty fragment because this can lead to strange errors

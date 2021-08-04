@@ -32,6 +32,31 @@ const CustomTableCell = TableCell.extend({
   },
 })
 
+export const tableHTML = `
+  <table style="width:100%">
+    <tr>
+      <th>Firstname</th>
+      <th>Lastname</th> 
+      <th>Age</th>
+    </tr>
+    <tr>
+      <td>Jill</td>
+      <td>Smith</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <td>Eve</td>
+      <td>Jackson</td>
+      <td>94</td>
+    </tr>
+    <tr>
+      <td>John</td>
+      <td>Doe</td>
+      <td>80</td>
+    </tr>
+  </table>
+`
+
 const MenuBar = ({ editor }) => {
   if (!editor) {
     return null
@@ -41,6 +66,13 @@ const MenuBar = ({ editor }) => {
     <>
       <button onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}>
         insertTable
+      </button>
+      <button onClick={() => editor.chain().focus().insertContent(tableHTML, {
+        parseOptions: {
+          preserveWhitespace: false,
+        },
+      }).run()}>
+        insertHTMLTable
       </button>
       <button onClick={() => editor.chain().focus().addColumnBefore().run()} disabled={!editor.can().addColumnBefore()}>
         addColumnBefore
