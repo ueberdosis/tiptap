@@ -19,7 +19,7 @@ import ListItem, { ListItemOptions } from '@tiptap/extension-list-item'
 
 import { StarterKit } from './starter-kit'
 
-export { StarterKitOptions } from './starter-kit'
+export type { StarterKitOptions } from './starter-kit'
 
 export default StarterKit
 
