@@ -107,10 +107,10 @@ export class BubbleMenuView {
     // Sometime check for `empty` is not enough.
     // Doubleclick an empty paragraph returns a node size of 2.
     // So we check also for an empty text size.
-    const isEmptyTextBlock = !doc.textBetween(from, to).length
-      && isTextSelection(view.state.selection)
+    const isTextSelected = doc.textBetween(from, to).length > 0
+        && isTextSelection(view.state.selection)
 
-    if (empty || isEmptyTextBlock) {
+    if (empty || !isTextSelected) {
       this.hide()
 
       return
