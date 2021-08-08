@@ -24,7 +24,7 @@ Yes, node views can have editable text, just like a regular node. That’s simpl
 That’s how the [`TaskItem`](/api/nodes/task-item) node works.
 
 ### Non-editable text
-Nodes can also have text, which is not edtiable. The cursor can’t jump into those, but you don’t want that anyway.
+Nodes can also have text, which is not editable. The cursor can’t jump into those, but you don’t want that anyway.
 
 tiptap adds a `contenteditable="false"` to those by default.
 
