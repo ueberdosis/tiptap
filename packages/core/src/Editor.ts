@@ -133,6 +133,12 @@ export class Editor extends EventEmitter {
    */
   public setOptions(options: Partial<EditorOptions> = {}): void {
     this.options = { ...this.options, ...options }
+
+    // Update editorProps directly on the view and store reference to configured props
+    if (this.view) {
+      if (options.editorProps) this.view.setProps(options.editorProps)
+      this.options.editorProps = this.view.props
+    }
   }
 
   /**
@@ -251,6 +257,9 @@ export class Editor extends EventEmitter {
     // So we’ll have access to it for tests.
     const dom = this.view.dom as HTMLElement
     dom.editor = this
+
+    // Reference the resulting view props in our options
+    this.options.editorProps = this.view.props
   }
 
   /**
