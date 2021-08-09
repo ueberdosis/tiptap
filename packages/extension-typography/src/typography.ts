@@ -12,6 +12,7 @@ import {
 export const leftArrow = new InputRule(/<-$/, '←')
 export const rightArrow = new InputRule(/->$/, '→')
 export const copyright = new InputRule(/\(c\)$/, '©')
+export const trademark = new InputRule(/\(tm\)$/, '™')
 export const registeredTrademark = new InputRule(/\(r\)$/, '®')
 export const oneHalf = new InputRule(/1\/2$/, '½')
 export const plusMinus = new InputRule(/\+\/-$/, '±')
@@ -38,6 +39,7 @@ export const Typography = Extension.create({
       leftArrow,
       rightArrow,
       copyright,
+      trademark,
       registeredTrademark,
       oneHalf,
       plusMinus,
