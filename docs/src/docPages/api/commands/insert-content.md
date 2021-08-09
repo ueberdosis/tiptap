@@ -16,6 +16,14 @@ editor.commands.insertContent('Example Text')
 // HTML
 editor.commands.insertContent('<h1>Example Text</h1>')
 
+// HTML with trim white space
+editor.commands.insertContent('<h1>Example Text</h1>', 
+{
+  parseOptions: {
+    preserveWhitespace: false,
+  }
+})
+
 // JSON/Nodes
 editor.commands.insertContent({
   type: 'heading',
