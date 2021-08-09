@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code@2.0.0-beta.15...@tiptap/extension-code@2.0.0-beta.16) (2021-08-09)
+
+
+### Bug Fixes
+
+* Apply the correct regex for code extension in markPasteRule ([#1671](https://github.com/ueberdosis/tiptap/issues/1671)) ([6c08057](https://github.com/ueberdosis/tiptap/commit/6c08057bb229135abc6f5244d2010569ef5d3561))
+
+
+
+
+
 # [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code@2.0.0-beta.14...@tiptap/extension-code@2.0.0-beta.15) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/extension-code

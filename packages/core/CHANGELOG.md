@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.94](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.93...@tiptap/core@2.0.0-beta.94) (2021-08-09)
+
+
+### Bug Fixes
+
+* add CreateNodeFromContentOptions to insertContent ([#1678](https://github.com/ueberdosis/tiptap/issues/1678)) ([aabdfd6](https://github.com/ueberdosis/tiptap/commit/aabdfd6f7de65e62a57bd237eb775256b413abea))
+* fix isEditable check on initialization ([f6f8cf9](https://github.com/ueberdosis/tiptap/commit/f6f8cf9f9366adbea30600a34619bdd4e6d3a4e4))
+* fix updating editorProps via setOptions ([#1540](https://github.com/ueberdosis/tiptap/issues/1540)), fix [#1518](https://github.com/ueberdosis/tiptap/issues/1518) ([e6f67ca](https://github.com/ueberdosis/tiptap/commit/e6f67caef37d3fb73adadfb64060541a0b791924))
+
+
+
+
+
 # [2.0.0-beta.93](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.92...@tiptap/core@2.0.0-beta.93) (2021-07-30)
 
 

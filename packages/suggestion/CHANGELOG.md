@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.62](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.61...@tiptap/suggestion@2.0.0-beta.62) (2021-08-09)
+
+
+### Bug Fixes
+
+* use correct state when doc changed externally ([#1646](https://github.com/ueberdosis/tiptap/issues/1646)) ([60606f9](https://github.com/ueberdosis/tiptap/commit/60606f99a1df3c694cc2faa0522c772ef419e9fe))
+
+
+
+
+
 # [2.0.0-beta.61](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.60...@tiptap/suggestion@2.0.0-beta.61) (2021-07-26)
 
 

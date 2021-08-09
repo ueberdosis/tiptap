@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.26...@tiptap/extension-table@2.0.0-beta.27) (2021-08-09)
+
+
+### Bug Fixes
+
+* don’t resize tables if editable is set to false, fix [#1549](https://github.com/ueberdosis/tiptap/issues/1549) ([239a2e3](https://github.com/ueberdosis/tiptap/commit/239a2e36a47e4d0ad3012a54cda2d8b5c4f7a3ca))
+
+
+
+
+
 # [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.25...@tiptap/extension-table@2.0.0-beta.26) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/extension-table
