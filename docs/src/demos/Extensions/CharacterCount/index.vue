@@ -2,7 +2,7 @@
   <div>
     <editor-content :editor="editor" />
 
-    <div class="character-count">
+    <div class="character-count" v-if="editor">
       {{ editor.getCharacterCount() }}/{{ limit }} characters
     </div>
   </div>
