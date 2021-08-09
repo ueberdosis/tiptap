@@ -224,8 +224,10 @@ export const Table = Node.create<TableOptions>({
   },
 
   addProseMirrorPlugins() {
+    const isResizable = this.options.resizable && this.editor.isEditable
+
     return [
-      ...(this.options.resizable ? [columnResizing({
+      ...(isResizable ? [columnResizing({
         handleWidth: this.options.handleWidth,
         cellMinWidth: this.options.cellMinWidth,
         View: this.options.View,
