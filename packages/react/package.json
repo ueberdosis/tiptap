@@ -31,7 +31,7 @@
     "prosemirror-view": "^1.18.11"
   },
   "devDependencies": {
-    "@types/react": "^17.0.11",
+    "@types/react": "^17.0.16",
     "@types/react-dom": "^17.0.7"
   },
   "repository": {
