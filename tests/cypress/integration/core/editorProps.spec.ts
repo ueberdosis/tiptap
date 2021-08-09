@@ -16,9 +16,7 @@ describe('editorProps', () => {
       editorProps: { transformPastedHTML },
     })
 
-    expect(transformPastedHTML)
-      .to.eq(editor.options.editorProps.transformPastedHTML)
-      .and.to.eq(editor.options.editorProps.transformPastedHTML)
+    expect(transformPastedHTML).to.eq(editor.view.props.transformPastedHTML)
   })
 
   it('editorProps can be set through setOptions', () => {
@@ -32,24 +30,6 @@ describe('editorProps', () => {
 
     editor.setOptions({ editorProps: { transformPastedHTML } })
 
-    expect(transformPastedHTML)
-      .to.eq(editor.options.editorProps.transformPastedHTML)
-      .and.to.eq(editor.options.editorProps.transformPastedHTML)
-  })
-
-  it('editorProps can be set directly through options', () => {
-    function transformPastedHTML(html: string) {
-      return html
-    }
-
-    const editor = new Editor({
-      extensions: [Document, Paragraph, Text],
-    })
-
-    editor.options.editorProps.transformPastedHTML = transformPastedHTML
-
-    expect(transformPastedHTML)
-      .to.eq(editor.options.editorProps.transformPastedHTML)
-      .and.to.eq(editor.options.editorProps.transformPastedHTML)
+    expect(transformPastedHTML).to.eq(editor.view.props.transformPastedHTML)
   })
 })
