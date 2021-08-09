@@ -159,7 +159,12 @@ export class Editor extends EventEmitter {
    * Returns whether the editor is editable.
    */
   public get isEditable(): boolean {
-    return this.view && this.view.editable
+    // since plugins are applied after creating the view
+    // `editable` is always `true` for one tick.
+    // that’s why we also have to check for `options.editable`
+    return this.options.editable
+      && this.view
+      && this.view.editable
   }
 
   /**
