@@ -41,7 +41,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
   addCommands() {
     return {
       setParagraph: () => ({ commands }) => {
-        return commands.toggleNode('paragraph', 'paragraph')
+        return commands.setNode('paragraph')
       },
     }
   },
