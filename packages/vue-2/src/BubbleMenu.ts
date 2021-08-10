@@ -1,5 +1,5 @@
 import Vue, { Component, PropType } from 'vue'
-import { BubbleMenuPlugin, BubbleMenuPluginKey, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
+import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 
 export interface BubbleMenuInterface extends Vue {
   pluginKey: BubbleMenuPluginProps['key'],
@@ -59,6 +59,6 @@ export const BubbleMenu: Component = {
   },
 
   beforeDestroy(this: BubbleMenuInterface) {
-    this.editor.unregisterPlugin(BubbleMenuPluginKey)
+    this.editor.unregisterPlugin(this.pluginKey)
   },
 }

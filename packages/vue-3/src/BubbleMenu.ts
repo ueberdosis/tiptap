@@ -6,11 +6,7 @@ import {
   onBeforeUnmount,
   defineComponent,
 } from 'vue'
-import {
-  BubbleMenuPlugin,
-  BubbleMenuPluginKey,
-  BubbleMenuPluginProps,
-} from '@tiptap/extension-bubble-menu'
+import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 
 export const BubbleMenu = defineComponent({
   name: 'BubbleMenu',
@@ -60,9 +56,9 @@ export const BubbleMenu = defineComponent({
     })
 
     onBeforeUnmount(() => {
-      const { editor } = props
+      const { pluginKey, editor } = props
 
-      editor.unregisterPlugin(BubbleMenuPluginKey)
+      editor.unregisterPlugin(pluginKey)
     })
 
     return () => h('div', { ref: root }, slots.default?.())

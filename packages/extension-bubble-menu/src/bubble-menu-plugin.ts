@@ -184,8 +184,6 @@ export class BubbleMenuView {
   }
 }
 
-export const BubbleMenuPluginKey = new PluginKey('menuBubble')
-
 export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
     key: typeof options.key === 'string'
