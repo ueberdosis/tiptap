@@ -13,10 +13,12 @@ yarn add @tiptap/extension-floating-menu
 ```
 
 ## Settings
-| Option       | Type          | Default | Description                                                             |
-| ------------ | ------------- | ------- | ----------------------------------------------------------------------- |
-| element      | `HTMLElement` | `null`  | The DOM element of your menu.                                           |
-| tippyOptions | `Object`      | `{}`    | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
+| Option       | Type                 | Default          | Description                                                             |
+| ------------ | -------------------- | ---------------- | ----------------------------------------------------------------------- |
+| element      | `HTMLElement`        | `null`           | The DOM element of your menu.                                           |
+| tippyOptions | `Object`             | `{}`             | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
+| key          | `string | PluginKey` | `'floatingMenu'` | The key for the underlying ProseMirror plugin.                          |
+| shouldShow   | `(props) => boolean` |                  | Controls whether the menu should be shown or not.                       |
 
 ## Source code
 [packages/extension-floating-menu/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-floating-menu/)

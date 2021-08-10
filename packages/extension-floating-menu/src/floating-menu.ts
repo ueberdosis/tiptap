@@ -11,6 +11,8 @@ export const FloatingMenu = Extension.create<FloatingMenuOptions>({
   defaultOptions: {
     element: null,
     tippyOptions: {},
+    key: 'floatingMenu',
+    shouldShow: null,
   },
 
   addProseMirrorPlugins() {
@@ -20,9 +22,11 @@ export const FloatingMenu = Extension.create<FloatingMenuOptions>({
 
     return [
       FloatingMenuPlugin({
+        key: this.options.key,
         editor: this.editor,
         element: this.options.element,
         tippyOptions: this.options.tippyOptions,
+        shouldShow: this.options.shouldShow,
       }),
     ]
   },
