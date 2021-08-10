@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useRef } from 'react'
 import { BubbleMenuPlugin, BubbleMenuPluginKey, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 
@@ -10,12 +9,19 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
   const element = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const { editor, tippyOptions } = props
+    const {
+      key,
+      editor,
+      tippyOptions,
+      shouldShow,
+    } = props
 
     editor.registerPlugin(BubbleMenuPlugin({
+      key,
       editor,
       element: element.current as HTMLElement,
       tippyOptions,
+      shouldShow,
     }))
 
     return () => {

@@ -13,7 +13,7 @@ export const BubbleMenu: Component = {
 
   props: {
     pluginKey: {
-      type: String || Object as PropType<BubbleMenuPluginProps['key']>,
+      type: [String, Object as PropType<Exclude<BubbleMenuPluginProps['key'], string>>],
       default: 'bubbleMenu',
     },
 
@@ -28,7 +28,7 @@ export const BubbleMenu: Component = {
     },
 
     shouldShow: {
-      type: Function as PropType<BubbleMenuPluginProps['shouldShow']>,
+      type: Function as PropType<Exclude<BubbleMenuPluginProps['shouldShow'], null>>,
       default: null,
     },
   },
