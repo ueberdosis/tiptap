@@ -15,10 +15,12 @@ yarn add @tiptap/extension-bubble-menu
 ```
 
 ## Settings
-| Option       | Type          | Default | Description                                                             |
-| ------------ | ------------- | ------- | ----------------------------------------------------------------------- |
-| element      | `HTMLElement` | `null`  | The DOM element that contains your menu.                                |
-| tippyOptions | `Object`      | `{}`    | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
+| Option       | Type                 | Default        | Description                                                             |
+| ------------ | -------------------- | -------------- | ----------------------------------------------------------------------- |
+| element      | `HTMLElement`        | `null`         | The DOM element that contains your menu.                                |
+| tippyOptions | `Object`             | `{}`           | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
+| key          | `string | PluginKey` | `'bubbleMenu'` | The key for the underlying ProseMirror plugin.                          |
+| shouldShow   | `(props) => boolean` |                | Controls whether the menu should be shown or not.                       |
 
 ## Source code
 [packages/extension-bubble-menu/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bubble-menu/)

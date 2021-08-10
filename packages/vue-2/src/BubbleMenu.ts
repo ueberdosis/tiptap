@@ -5,6 +5,7 @@ export interface BubbleMenuInterface extends Vue {
   pluginKey: BubbleMenuPluginProps['key'],
   editor: BubbleMenuPluginProps['editor'],
   tippyOptions: BubbleMenuPluginProps['tippyOptions'],
+  shouldShow: BubbleMenuPluginProps['shouldShow'],
 }
 
 export const BubbleMenu: Component = {
@@ -25,6 +26,11 @@ export const BubbleMenu: Component = {
       type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
       default: () => ({}),
     },
+
+    shouldShow: {
+      type: Function as PropType<BubbleMenuPluginProps['shouldShow']>,
+      default: null,
+    },
   },
 
   watch: {
@@ -41,6 +47,7 @@ export const BubbleMenu: Component = {
             editor,
             element: this.$el as HTMLElement,
             tippyOptions: this.tippyOptions,
+            shouldShow: this.shouldShow,
           }))
         })
       },
