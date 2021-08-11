@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.57](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.56...@tiptap/react@2.0.0-beta.57) (2021-08-11)
+
+
+### Features
+
+* add key option and shouldShow option to menus (fix [#1480](https://github.com/ueberdosis/tiptap/issues/1480), fix [#1043](https://github.com/ueberdosis/tiptap/issues/1043), fix [#1268](https://github.com/ueberdosis/tiptap/issues/1268), fix [#1503](https://github.com/ueberdosis/tiptap/issues/1503)) ([9ba61c1](https://github.com/ueberdosis/tiptap/commit/9ba61c1582cee838f2214d00285773ace2fb229e))
+
+
+
+
+
 # [2.0.0-beta.56](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.55...@tiptap/react@2.0.0-beta.56) (2021-08-09)
 
 **Note:** Version bump only for package @tiptap/react

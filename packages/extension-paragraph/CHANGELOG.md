@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-paragraph@2.0.0-beta.16...@tiptap/extension-paragraph@2.0.0-beta.17) (2021-08-11)
+
+
+### Bug Fixes
+
+* use setNode instead of toggleNode for setParagraph command ([bcc1309](https://github.com/ueberdosis/tiptap/commit/bcc1309cd928d4dc5618fa998722f935975389f0))
+
+
+
+
+
 # [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-paragraph@2.0.0-beta.15...@tiptap/extension-paragraph@2.0.0-beta.16) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/extension-paragraph

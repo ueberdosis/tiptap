@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.49](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.48...@tiptap/vue-3@2.0.0-beta.49) (2021-08-11)
+
+
+### Features
+
+* add key option and shouldShow option to menus (fix [#1480](https://github.com/ueberdosis/tiptap/issues/1480), fix [#1043](https://github.com/ueberdosis/tiptap/issues/1043), fix [#1268](https://github.com/ueberdosis/tiptap/issues/1268), fix [#1503](https://github.com/ueberdosis/tiptap/issues/1503)) ([9ba61c1](https://github.com/ueberdosis/tiptap/commit/9ba61c1582cee838f2214d00285773ace2fb229e))
+
+
+
+
+
 # [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.47...@tiptap/vue-3@2.0.0-beta.48) (2021-07-28)
 
 
