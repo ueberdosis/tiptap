@@ -1,5 +1,4 @@
 import { Extension } from '@tiptap/core'
-import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from './bubble-menu-plugin'
 
@@ -7,7 +6,7 @@ export type BubbleMenuOptions = Omit<BubbleMenuPluginProps, 'editor' | 'element'
   element: HTMLElement | null,
 }
 
-export type ShouldShow = (view?: EditorView, oldState?: EditorState) => boolean
+export type ShouldShow = (view?: EditorView) => boolean
 
 export const BubbleMenu = Extension.create<BubbleMenuOptions>({
   name: 'bubbleMenu',

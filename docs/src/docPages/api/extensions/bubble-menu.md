@@ -35,7 +35,7 @@ new Editor({
   extensions: [
     BubbleMenu.configure({
       element: document.querySelector('.menu'),
-      shouldShow: (view, state) => {
+      shouldShow: (view) => {
         // your logic to control whether the menu should show
         return true
       }
