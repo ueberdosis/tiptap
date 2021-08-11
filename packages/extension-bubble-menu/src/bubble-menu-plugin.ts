@@ -105,7 +105,7 @@ export class BubbleMenuView {
       return
     }
 
-    if (!this.shouldShow(view)) {
+    if (!this.shouldShow({ editor: this.editor, view: this.view })) {
       this.hide()
 
       return
