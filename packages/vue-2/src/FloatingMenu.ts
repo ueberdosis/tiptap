@@ -1,15 +1,22 @@
 import Vue, { Component, PropType } from 'vue'
-import { FloatingMenuPlugin, FloatingMenuPluginKey, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
+import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 
 export interface FloatingMenuInterface extends Vue {
+  pluginKey: FloatingMenuPluginProps['key'],
   tippyOptions: FloatingMenuPluginProps['tippyOptions'],
   editor: FloatingMenuPluginProps['editor'],
+  shouldShow: FloatingMenuPluginProps['shouldShow'],
 }
 
 export const FloatingMenu: Component = {
   name: 'FloatingMenu',
 
   props: {
+    pluginKey: {
+      type: [String, Object as PropType<Exclude<FloatingMenuPluginProps['key'], string>>],
+      default: 'floatingMenu',
+    },
+
     editor: {
       type: Object as PropType<FloatingMenuPluginProps['editor']>,
       required: true,
@@ -18,6 +25,11 @@ export const FloatingMenu: Component = {
     tippyOptions: {
       type: Object as PropType<FloatingMenuPluginProps['tippyOptions']>,
       default: () => ({}),
+    },
+
+    shouldShow: {
+      type: Function as PropType<Exclude<FloatingMenuPluginProps['shouldShow'], null>>,
+      default: null,
     },
   },
 
@@ -31,9 +43,11 @@ export const FloatingMenu: Component = {
 
         this.$nextTick(() => {
           editor.registerPlugin(FloatingMenuPlugin({
+            key: this.pluginKey,
             editor,
             element: this.$el as HTMLElement,
             tippyOptions: this.tippyOptions,
+            shouldShow: this.shouldShow,
           }))
         })
       },
@@ -45,6 +59,6 @@ export const FloatingMenu: Component = {
   },
 
   beforeDestroy(this: FloatingMenuInterface) {
-    this.editor.unregisterPlugin(FloatingMenuPluginKey)
+    this.editor.unregisterPlugin(this.pluginKey)
   },
 }

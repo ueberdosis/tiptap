@@ -4,9 +4,16 @@ import { EditorView } from 'prosemirror-view'
 import tippy, { Instance, Props } from 'tippy.js'
 
 export interface FloatingMenuPluginProps {
+  key: PluginKey | string,
   editor: Editor,
   element: HTMLElement,
   tippyOptions?: Partial<Props>,
+  shouldShow: ((props: {
+    editor: Editor,
+    view: EditorView,
+    state: EditorState,
+    oldState?: EditorState,
+  }) => boolean) | null,
 }
 
 export type FloatingMenuViewProps = FloatingMenuPluginProps & {
@@ -24,15 +31,36 @@ export class FloatingMenuView {
 
   public tippy!: Instance
 
+  public shouldShow: Exclude<FloatingMenuPluginProps['shouldShow'], null> = ({ state }) => {
+    const { selection } = state
+    const { $anchor, empty } = selection
+    const isRootDepth = $anchor.depth === 1
+    const isEmptyTextBlock = $anchor.parent.isTextblock
+      && !$anchor.parent.type.spec.code
+      && !$anchor.parent.textContent
+
+    if (!empty || !isRootDepth || !isEmptyTextBlock) {
+      return false
+    }
+
+    return true
+  }
+
   constructor({
     editor,
     element,
     view,
     tippyOptions,
+    shouldShow,
   }: FloatingMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
+
+    if (shouldShow) {
+      this.shouldShow = shouldShow
+    }
+
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
@@ -82,23 +110,21 @@ export class FloatingMenuView {
   update(view: EditorView, oldState?: EditorState) {
     const { state, composing } = view
     const { doc, selection } = state
+    const { from, to } = selection
     const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
 
     if (composing || isSame) {
       return
     }
 
-    const {
-      $anchor,
-      empty,
-      from,
-      to,
-    } = selection
-    const isRootDepth = $anchor.depth === 1
-    const isNodeEmpty = !selection.$anchor.parent.isLeaf && !selection.$anchor.parent.textContent
-    const isActive = isRootDepth && isNodeEmpty
+    const shouldShow = this.shouldShow({
+      editor: this.editor,
+      view,
+      state,
+      oldState,
+    })
 
-    if (!empty || !isActive) {
+    if (!shouldShow) {
       this.hide()
 
       return
@@ -127,11 +153,11 @@ export class FloatingMenuView {
   }
 }
 
-export const FloatingMenuPluginKey = new PluginKey('menuFloating')
-
 export const FloatingMenuPlugin = (options: FloatingMenuPluginProps) => {
   return new Plugin({
-    key: FloatingMenuPluginKey,
+    key: typeof options.key === 'string'
+      ? new PluginKey(options.key)
+      : options.key,
     view: view => new FloatingMenuView({ view, ...options }),
   })
 }

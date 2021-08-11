@@ -6,16 +6,19 @@ import {
   onBeforeUnmount,
   defineComponent,
 } from 'vue'
-import {
-  FloatingMenuPlugin,
-  FloatingMenuPluginKey,
-  FloatingMenuPluginProps,
-} from '@tiptap/extension-floating-menu'
+import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 
 export const FloatingMenu = defineComponent({
   name: 'FloatingMenu',
 
   props: {
+    pluginKey: {
+      // TODO: TypeScript breaks :(
+      // type: [String, Object as PropType<Exclude<FloatingMenuPluginProps['key'], string>>],
+      type: [String, Object],
+      default: 'floatingMenu',
+    },
+
     editor: {
       type: Object as PropType<FloatingMenuPluginProps['editor']>,
       required: true,
@@ -25,25 +28,37 @@ export const FloatingMenu = defineComponent({
       type: Object as PropType<FloatingMenuPluginProps['tippyOptions']>,
       default: () => ({}),
     },
+
+    shouldShow: {
+      type: Function as PropType<Exclude<FloatingMenuPluginProps['shouldShow'], null>>,
+      default: null,
+    },
   },
 
   setup(props, { slots }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { editor, tippyOptions } = props
+      const {
+        pluginKey,
+        editor,
+        tippyOptions,
+        shouldShow,
+      } = props
 
       editor.registerPlugin(FloatingMenuPlugin({
+        key: pluginKey,
         editor,
         element: root.value as HTMLElement,
         tippyOptions,
+        shouldShow,
       }))
     })
 
     onBeforeUnmount(() => {
-      const { editor } = props
+      const { pluginKey, editor } = props
 
-      editor.unregisterPlugin(FloatingMenuPluginKey)
+      editor.unregisterPlugin(pluginKey)
     })
 
     return () => h('div', { ref: root }, slots.default?.())

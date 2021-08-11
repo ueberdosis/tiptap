@@ -13,10 +13,12 @@ yarn add @tiptap/extension-floating-menu
 ```
 
 ## Settings
-| Option       | Type          | Default | Description                                                             |
-| ------------ | ------------- | ------- | ----------------------------------------------------------------------- |
-| element      | `HTMLElement` | `null`  | The DOM element of your menu.                                           |
-| tippyOptions | `Object`      | `{}`    | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
+| Option       | Type                 | Default          | Description                                                             |
+| ------------ | -------------------- | ---------------- | ----------------------------------------------------------------------- |
+| element      | `HTMLElement`        | `null`           | The DOM element of your menu.                                           |
+| tippyOptions | `Object`             | `{}`             | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
+| key          | `string | PluginKey` | `'floatingMenu'` | The key for the underlying ProseMirror plugin.                          |
+| shouldShow   | `(props) => boolean` |                  | Controls whether the menu should be shown or not.                       |
 
 ## Source code
 [packages/extension-floating-menu/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-floating-menu/)
@@ -40,3 +42,57 @@ new Editor({
   Vue: 'Extensions/FloatingMenu/Vue',
   React: 'Extensions/FloatingMenu/React',
 }" />
+
+### Custom logic
+Customize the logic for showing the menu with the `shouldShow` option. For components, `shouldShow` can be passed as a prop.
+
+```js
+FloatingMenu.configure({
+  shouldShow: ({ editor, view, state, oldState }) => {
+    // show the floating within any paragraph
+    return editor.isActive('paragraph')
+  },
+})
+```
+
+### Multiple menus
+Use multiple menus by setting an unique `key`.
+
+```js
+import { Editor } from '@tiptap/core'
+import FloatingMenu from '@tiptap/extension-floating-menu'
+
+new Editor({
+  extensions: [
+    FloatingMenu.configure({
+      key: 'floatingMenuOne',
+      element: document.querySelector('.menu-one'),
+    }),
+    FloatingMenu.configure({
+      key: 'floatingMenuTwo',
+      element: document.querySelector('.menu-two'),
+    }),
+  ],
+})
+```
+
+Alternatively you can pass a ProseMirror `PluginKey`.
+
+```js
+import { Editor } from '@tiptap/core'
+import FloatingMenu from '@tiptap/extension-floating-menu'
+import { PluginKey } from 'prosemirror-state'
+
+new Editor({
+  extensions: [
+    FloatingMenu.configure({
+      key: new PluginKey('floatingMenuOne'),
+      element: document.querySelector('.menu-one'),
+    }),
+    FloatingMenu.configure({
+      key: new PluginKey('floatingMenuOne'),
+      element: document.querySelector('.menu-two'),
+    }),
+  ],
+})
+```

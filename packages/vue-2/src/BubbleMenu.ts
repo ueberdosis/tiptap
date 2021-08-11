@@ -1,15 +1,22 @@
 import Vue, { Component, PropType } from 'vue'
-import { BubbleMenuPlugin, BubbleMenuPluginKey, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
+import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 
 export interface BubbleMenuInterface extends Vue {
-  tippyOptions: BubbleMenuPluginProps['tippyOptions'],
+  pluginKey: BubbleMenuPluginProps['key'],
   editor: BubbleMenuPluginProps['editor'],
+  tippyOptions: BubbleMenuPluginProps['tippyOptions'],
+  shouldShow: BubbleMenuPluginProps['shouldShow'],
 }
 
 export const BubbleMenu: Component = {
   name: 'BubbleMenu',
 
   props: {
+    pluginKey: {
+      type: [String, Object as PropType<Exclude<BubbleMenuPluginProps['key'], string>>],
+      default: 'bubbleMenu',
+    },
+
     editor: {
       type: Object as PropType<BubbleMenuPluginProps['editor']>,
       required: true,
@@ -18,6 +25,11 @@ export const BubbleMenu: Component = {
     tippyOptions: {
       type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
       default: () => ({}),
+    },
+
+    shouldShow: {
+      type: Function as PropType<Exclude<BubbleMenuPluginProps['shouldShow'], null>>,
+      default: null,
     },
   },
 
@@ -31,9 +43,11 @@ export const BubbleMenu: Component = {
 
         this.$nextTick(() => {
           editor.registerPlugin(BubbleMenuPlugin({
+            key: this.pluginKey,
             editor,
             element: this.$el as HTMLElement,
             tippyOptions: this.tippyOptions,
+            shouldShow: this.shouldShow,
           }))
         })
       },
@@ -45,6 +59,6 @@ export const BubbleMenu: Component = {
   },
 
   beforeDestroy(this: BubbleMenuInterface) {
-    this.editor.unregisterPlugin(BubbleMenuPluginKey)
+    this.editor.unregisterPlugin(this.pluginKey)
   },
 }
