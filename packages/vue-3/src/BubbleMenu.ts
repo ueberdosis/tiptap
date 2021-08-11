@@ -25,18 +25,24 @@ export const BubbleMenu = defineComponent({
       type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
       default: () => ({}),
     },
+
+    shouldShow: {
+      type: Function as PropType<BubbleMenuPluginProps['shouldShow']>,
+      default: () => true,
+    },
   },
 
   setup(props, { slots }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { editor, tippyOptions } = props
+      const { editor, tippyOptions, shouldShow } = props
 
       editor.registerPlugin(BubbleMenuPlugin({
         editor,
         element: root.value as HTMLElement,
         tippyOptions,
+        shouldShow,
       }))
     })
 

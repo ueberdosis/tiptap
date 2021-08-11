@@ -4,6 +4,7 @@ import { BubbleMenuPlugin, BubbleMenuPluginKey, BubbleMenuPluginProps } from '@t
 export interface BubbleMenuInterface extends Vue {
   tippyOptions: BubbleMenuPluginProps['tippyOptions'],
   editor: BubbleMenuPluginProps['editor'],
+  shouldShow: BubbleMenuPluginProps['shouldShow'],
 }
 
 export const BubbleMenu: Component = {
@@ -18,6 +19,11 @@ export const BubbleMenu: Component = {
     tippyOptions: {
       type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
       default: () => ({}),
+    },
+
+    shouldShow: {
+      type: Function as PropType<BubbleMenuPluginProps['shouldShow']>,
+      default: () => true,
     },
   },
 
@@ -34,6 +40,7 @@ export const BubbleMenu: Component = {
             editor,
             element: this.$el as HTMLElement,
             tippyOptions: this.tippyOptions,
+            shouldShow: this.shouldShow,
           }))
         })
       },
