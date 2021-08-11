@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.95](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.94...@tiptap/core@2.0.0-beta.95) (2021-08-11)
+
+
+### Bug Fixes
+
+* improve calculation for min/max positions in selections, fix [#1588](https://github.com/ueberdosis/tiptap/issues/1588) ([9425e72](https://github.com/ueberdosis/tiptap/commit/9425e7249a15e0fb4e8c714545c09f367d216536))
+
+
+
+
+
 # [2.0.0-beta.94](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.93...@tiptap/core@2.0.0-beta.94) (2021-08-09)
 
 
