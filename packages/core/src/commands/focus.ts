@@ -1,4 +1,4 @@
-import { EditorState, TextSelection } from 'prosemirror-state'
+import { EditorState, Selection, TextSelection } from 'prosemirror-state'
 import { RawCommands, FocusPosition } from '../types'
 import minMax from '../utilities/minMax'
 import isTextSelection from '../helpers/isTextSelection'
@@ -59,8 +59,10 @@ export const focus: RawCommands['focus'] = (position = null) => ({
 
   const { from, to } = resolveSelection(editor.state, position) || editor.state.selection
   const { doc, storedMarks } = tr
-  const resolvedFrom = minMax(from, 0, doc.content.size)
-  const resolvedEnd = minMax(to, 0, doc.content.size)
+  const minPos = Selection.atStart(doc).from
+  const maxPos = Selection.atEnd(doc).to
+  const resolvedFrom = minMax(from, minPos, maxPos)
+  const resolvedEnd = minMax(to, minPos, maxPos)
   const selection = TextSelection.create(doc, resolvedFrom, resolvedEnd)
   const isSameSelection = editor.state.selection.eq(selection)
 

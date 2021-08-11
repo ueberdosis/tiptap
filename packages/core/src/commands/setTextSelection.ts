@@ -1,4 +1,4 @@
-import { TextSelection } from 'prosemirror-state'
+import { Selection, TextSelection } from 'prosemirror-state'
 import minMax from '../utilities/minMax'
 import { RawCommands, Range } from '../types'
 
@@ -19,9 +19,11 @@ export const setTextSelection: RawCommands['setTextSelection'] = position => ({ 
     const { from, to } = typeof position === 'number'
       ? { from: position, to: position }
       : position
-    const boundedFrom = minMax(from, 0, doc.content.size)
-    const boundedTo = minMax(to, 0, doc.content.size)
-    const selection = TextSelection.create(doc, boundedFrom, boundedTo)
+    const minPos = Selection.atStart(doc).from
+    const maxPos = Selection.atEnd(doc).to
+    const resolvedFrom = minMax(from, minPos, maxPos)
+    const resolvedEnd = minMax(to, minPos, maxPos)
+    const selection = TextSelection.create(doc, resolvedFrom, resolvedEnd)
 
     tr.setSelection(selection)
   }
