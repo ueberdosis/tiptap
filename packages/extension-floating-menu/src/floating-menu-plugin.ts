@@ -35,10 +35,11 @@ export class FloatingMenuView {
     const { selection } = state
     const { $anchor, empty } = selection
     const isRootDepth = $anchor.depth === 1
-    const isNodeEmpty = !selection.$anchor.parent.isLeaf && !selection.$anchor.parent.textContent
-    const isActive = isRootDepth && isNodeEmpty
+    const isEmptyTextBlock = $anchor.parent.isTextblock
+      && !$anchor.parent.type.spec.code
+      && !$anchor.parent.textContent
 
-    if (!empty || !isActive) {
+    if (!empty || !isRootDepth || !isEmptyTextBlock) {
       return false
     }
 
