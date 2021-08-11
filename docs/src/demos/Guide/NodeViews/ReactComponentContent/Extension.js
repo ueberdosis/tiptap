@@ -7,7 +7,9 @@ export default Node.create({
 
   group: 'block',
 
-  content: 'inline*',
+  content: 'block*',
+
+  defining: true,
 
   parseHTML() {
     return [
@@ -19,6 +21,20 @@ export default Node.create({
 
   renderHTML({ HTMLAttributes }) {
     return ['react-component', mergeAttributes(HTMLAttributes), 0]
+  },
+
+  addCommands() {
+    return {
+      setReactComponent: () => ({ commands }) => {
+        return commands.wrapIn('reactComponent')
+      },
+      toggleReactComponent: () => ({ commands }) => {
+        return commands.toggleWrap('reactComponent')
+      },
+      unsetReactComponent: () => ({ commands }) => {
+        return commands.lift('reactComponent')
+      },
+    }
   },
 
   addNodeView() {

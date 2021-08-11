@@ -24,6 +24,22 @@ export default () => {
   })
 
   return (
-    <EditorContent editor={editor} />
+    <>
+      {editor && (
+        <div>
+          <button
+            className={[
+              editor.isActive('reactComponent') && 'is-active'
+            ].filter(Boolean).join(' ')}
+            onClick={() => {
+              editor.chain().focus().toggleReactComponent().run()
+            }}
+          >
+            React Component
+          </button>
+        </div>
+      )}
+      <EditorContent editor={editor} />
+    </>
   )
 }
