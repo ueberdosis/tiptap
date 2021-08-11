@@ -15,10 +15,11 @@ yarn add @tiptap/extension-bubble-menu
 ```
 
 ## Settings
-| Option       | Type          | Default | Description                                                             |
-| ------------ | ------------- | ------- | ----------------------------------------------------------------------- |
-| element      | `HTMLElement` | `null`  | The DOM element that contains your menu.                                |
-| tippyOptions | `Object`      | `{}`    | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
+| Option       | Type          | Default      | Description                                                             |
+| ------------ | ------------- | ------------ | ----------------------------------------------------------------------- |
+| element      | `HTMLElement` | `null`       | The DOM element that contains your menu.                                |
+| tippyOptions | `Object`      | `{}`         | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
+| shouldShow   | `Function`    | `() => true` | A callback to control whether the menu should show                      |
 
 ## Source code
 [packages/extension-bubble-menu/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bubble-menu/)
@@ -34,6 +35,10 @@ new Editor({
   extensions: [
     BubbleMenu.configure({
       element: document.querySelector('.menu'),
+      shouldShow: (view, state) => {
+        // your logic to control whether the menu should show
+        return true
+      }
     }),
   ],
 })
