@@ -7,15 +7,18 @@ import {
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import tippy, { Instance, Props } from 'tippy.js'
+import { ShouldShow } from './bubble-menu'
 
 export interface BubbleMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
   tippyOptions?: Partial<Props>,
+  shouldShow: ShouldShow,
 }
 
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
   view: EditorView,
+  shouldShow: ShouldShow,
 }
 
 export class BubbleMenuView {
@@ -29,15 +32,19 @@ export class BubbleMenuView {
 
   public tippy!: Instance
 
+  public shouldShow: ShouldShow
+
   constructor({
     editor,
     element,
     view,
     tippyOptions,
+    shouldShow,
   }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
+    this.shouldShow = shouldShow
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
@@ -95,6 +102,12 @@ export class BubbleMenuView {
     const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
 
     if (composing || isSame) {
+      return
+    }
+
+    if (!this.shouldShow(view, oldState)) {
+      this.hide()
+
       return
     }
 
