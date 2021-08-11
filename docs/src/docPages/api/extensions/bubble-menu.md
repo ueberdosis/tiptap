@@ -35,9 +35,9 @@ new Editor({
   extensions: [
     BubbleMenu.configure({
       element: document.querySelector('.menu'),
-      shouldShow: (view) => {
-        // your logic to control whether the menu should show
-        return true
+      shouldShow: ({ editor }) => {
+        // only show the buble menu for images and links
+        return editor.isActive('image') || editor.isActive('link')
       }
     }),
   ],
