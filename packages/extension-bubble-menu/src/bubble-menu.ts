@@ -7,7 +7,7 @@ export type BubbleMenuOptions = Omit<BubbleMenuPluginProps, 'editor' | 'element'
   element: HTMLElement | null,
 }
 
-export type ShouldShow = (view: EditorView, oldState?: EditorState) => boolean
+export type ShouldShow = (view?: EditorView, oldState?: EditorState) => boolean
 
 export const BubbleMenu = Extension.create<BubbleMenuOptions>({
   name: 'bubbleMenu',
@@ -15,7 +15,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
   defaultOptions: {
     element: null,
     tippyOptions: {},
-    shouldShow: (view: EditorView, oldState?: EditorState) => true,
+    shouldShow: () => true,
   },
 
   addProseMirrorPlugins() {
