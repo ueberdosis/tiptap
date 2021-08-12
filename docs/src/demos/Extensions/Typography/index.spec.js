@@ -69,6 +69,12 @@ context('/demos/Extensions/Typography', () => {
       .should('contain', '® registeredTrademark')
   })
 
+  it('should make a trademark sign', () => {
+    cy.get('.ProseMirror')
+      .type('(tm) trademark')
+      .should('contain', '™ trademark')
+  })
+
   it('should make a one half', () => {
     cy.get('.ProseMirror')
       .type('1/2 oneHalf')
