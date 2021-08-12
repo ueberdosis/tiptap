@@ -36,7 +36,7 @@ export class BubbleMenuView {
 
   public preventHide = false
 
-  public tippy!: Instance
+  public tippy: Instance | undefined
 
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ state, from, to }) => {
     const { doc, selection } = state
@@ -74,8 +74,13 @@ export class BubbleMenuView {
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
-    this.createTooltip(tippyOptions)
     this.element.style.visibility = 'visible'
+
+    // We create tippy asynchronously to make sure that `editor.options.element`
+    // has already been moved to the right position in the DOM
+    requestAnimationFrame(() => {
+      this.createTooltip(tippyOptions)
+    })
   }
 
   mousedownHandler = () => {
@@ -109,7 +114,7 @@ export class BubbleMenuView {
   }
 
   createTooltip(options: Partial<Props> = {}) {
-    this.tippy = tippy(this.view.dom, {
+    this.tippy = tippy(this.editor.options.element, {
       duration: 0,
       getReferenceClientRect: null,
       content: this.element,
@@ -150,7 +155,7 @@ export class BubbleMenuView {
       return
     }
 
-    this.tippy.setProps({
+    this.tippy?.setProps({
       getReferenceClientRect: () => {
         if (isNodeSelection(state.selection)) {
           const node = view.nodeDOM(from) as HTMLElement
@@ -168,15 +173,15 @@ export class BubbleMenuView {
   }
 
   show() {
-    this.tippy.show()
+    this.tippy?.show()
   }
 
   hide() {
-    this.tippy.hide()
+    this.tippy?.hide()
   }
 
   destroy() {
-    this.tippy.destroy()
+    this.tippy?.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler)
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     this.editor.off('focus', this.focusHandler)

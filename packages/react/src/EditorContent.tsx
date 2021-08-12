@@ -63,12 +63,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 
       editor.contentComponent = this
 
-      // TODO: alternative to setTimeout?
-      setTimeout(() => {
-        if (!editor.isDestroyed) {
-          editor.createNodeViews()
-        }
-      }, 0)
+      editor.createNodeViews()
     }
   }
 

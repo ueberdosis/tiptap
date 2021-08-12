@@ -11,10 +11,12 @@ declare module '@tiptap/core' {
   }
 }
 
-export const blur: RawCommands['blur'] = () => ({ view }) => {
-  const element = view.dom as HTMLElement
-
-  element.blur()
+export const blur: RawCommands['blur'] = () => ({ editor, view }) => {
+  requestAnimationFrame(() => {
+    if (!editor.isDestroyed) {
+      (view.dom as HTMLElement).blur()
+    }
+  })
 
   return true
 }
