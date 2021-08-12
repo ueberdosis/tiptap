@@ -29,7 +29,7 @@ export class FloatingMenuView {
 
   public preventHide = false
 
-  public tippy!: Instance
+  public tippy: Instance | undefined
 
   public shouldShow: Exclude<FloatingMenuPluginProps['shouldShow'], null> = ({ state }) => {
     const { selection } = state
@@ -64,8 +64,13 @@ export class FloatingMenuView {
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
-    this.createTooltip(tippyOptions)
     this.element.style.visibility = 'visible'
+
+    // We create tippy asynchronously to make sure that `editor.options.element`
+    // has already been moved to the right position in the DOM
+    requestAnimationFrame(() => {
+      this.createTooltip(tippyOptions)
+    })
   }
 
   mousedownHandler = () => {
@@ -95,7 +100,7 @@ export class FloatingMenuView {
   }
 
   createTooltip(options: Partial<Props> = {}) {
-    this.tippy = tippy(this.view.dom, {
+    this.tippy = tippy(this.editor.options.element, {
       duration: 0,
       getReferenceClientRect: null,
       content: this.element,
@@ -130,7 +135,7 @@ export class FloatingMenuView {
       return
     }
 
-    this.tippy.setProps({
+    this.tippy?.setProps({
       getReferenceClientRect: () => posToDOMRect(view, from, to),
     })
 
@@ -138,15 +143,15 @@ export class FloatingMenuView {
   }
 
   show() {
-    this.tippy.show()
+    this.tippy?.show()
   }
 
   hide() {
-    this.tippy.hide()
+    this.tippy?.hide()
   }
 
   destroy() {
-    this.tippy.destroy()
+    this.tippy?.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)

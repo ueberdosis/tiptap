@@ -47,13 +47,23 @@ export const focus: RawCommands['focus'] = (position = null) => ({
   tr,
   dispatch,
 }) => {
+  const delayedFocus = () => {
+    // For React we have to focus asynchronously. Otherwise wild things happen.
+    // see: https://github.com/ueberdosis/tiptap/issues/1520
+    requestAnimationFrame(() => {
+      if (!editor.isDestroyed) {
+        view.focus()
+      }
+    })
+  }
+
   if ((view.hasFocus() && position === null) || position === false) {
     return true
   }
 
   // we don’t try to resolve a NodeSelection or CellSelection
   if (dispatch && position === null && !isTextSelection(editor.state.selection)) {
-    view.focus()
+    delayedFocus()
     return true
   }
 
@@ -67,7 +77,9 @@ export const focus: RawCommands['focus'] = (position = null) => ({
   const isSameSelection = editor.state.selection.eq(selection)
 
   if (dispatch) {
-    tr.setSelection(selection)
+    if (!isSameSelection) {
+      tr.setSelection(selection)
+    }
 
     // `tr.setSelection` resets the stored marks
     // so we’ll restore them if the selection is the same as before
@@ -75,7 +87,7 @@ export const focus: RawCommands['focus'] = (position = null) => ({
       tr.setStoredMarks(storedMarks)
     }
 
-    view.focus()
+    delayedFocus()
   }
 
   return true
