@@ -1,9 +1,15 @@
 <template>
   <div v-if="editor">
-    <button @click="editor.chain().focus().undo().run()">
+    <button
+      @click="editor.chain().focus().undo().run()"
+      :disabled="!editor.can().undo()"
+    >
       undo
     </button>
-    <button @click="editor.chain().focus().redo().run()">
+    <button
+      @click="editor.chain().focus().redo().run()"
+      :disabled="!editor.can().redo()"
+    >
       redo
     </button>
 
