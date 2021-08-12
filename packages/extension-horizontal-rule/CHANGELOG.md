@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-horizontal-rule@2.0.0-beta.18...@tiptap/extension-horizontal-rule@2.0.0-beta.19) (2021-08-12)
+
+
+### Bug Fixes
+
+* remove node before hr if it’s an empty text block (fix [#1665](https://github.com/ueberdosis/tiptap/issues/1665)) ([6e76bb8](https://github.com/ueberdosis/tiptap/commit/6e76bb84fc65eb95157f900c35adfdd28e88a8e3))
+
+
+
+
+
 # [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-horizontal-rule@2.0.0-beta.17...@tiptap/extension-horizontal-rule@2.0.0-beta.18) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/extension-horizontal-rule

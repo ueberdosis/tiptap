@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/starter-kit",
   "description": "starter kit for tiptap",
-  "version": "2.0.0-beta.93",
+  "version": "2.0.0-beta.94",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -33,7 +33,7 @@
     "@tiptap/extension-hard-break": "^2.0.0-beta.15",
     "@tiptap/extension-heading": "^2.0.0-beta.15",
     "@tiptap/extension-history": "^2.0.0-beta.15",
-    "@tiptap/extension-horizontal-rule": "^2.0.0-beta.18",
+    "@tiptap/extension-horizontal-rule": "^2.0.0-beta.19",
     "@tiptap/extension-italic": "^2.0.0-beta.15",
     "@tiptap/extension-list-item": "^2.0.0-beta.14",
     "@tiptap/extension-ordered-list": "^2.0.0-beta.15",
