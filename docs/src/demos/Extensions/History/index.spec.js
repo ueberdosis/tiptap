@@ -11,6 +11,9 @@ context('/demos/Extensions/History', () => {
       .should('contain', 'Mistake')
 
     cy.get('button:first')
+      .should('not.have.attr', 'disabled')
+
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
@@ -69,15 +72,52 @@ context('/demos/Extensions/History', () => {
       .should('contain', 'Mistake')
 
     cy.get('button:first')
+      .should('not.have.attr', 'disabled')
+
+    cy.get('button:first')
       .click()
 
     cy.get('.ProseMirror')
       .should('not.contain', 'Mistake')
+
+    cy.get('button:first')
+      .should('have.attr', 'disabled')
 
     cy.get('button:nth-child(2)')
       .click()
 
     cy.get('.ProseMirror')
       .should('contain', 'Mistake')
+  })
+
+  it('should disable undo button when there are no more changes to undo', () => {
+    cy.get('.ProseMirror')
+      .should('contain', 'Mistake')
+
+    cy.get('button:first')
+      .should('not.have.attr', 'disabled')
+
+    cy.get('button:first')
+      .click()
+
+    cy.get('button:first')
+      .should('have.attr', 'disabled')
+  })
+
+  it('should disable redo button when there are no more changes to redo', () => {
+    cy.get('.ProseMirror')
+      .should('contain', 'Mistake')
+
+    cy.get('button:nth-child(2)')
+      .should('have.attr', 'disabled')
+
+    cy.get('button:first')
+      .should('not.have.attr', 'disabled')
+
+    cy.get('button:first')
+      .click()
+
+    cy.get('button:nth-child(2)')
+      .should('not.have.attr', 'disabled')
   })
 })
