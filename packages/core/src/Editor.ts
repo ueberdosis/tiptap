@@ -7,8 +7,6 @@ import {
 import { EditorView } from 'prosemirror-view'
 import { Schema, MarkType, NodeType } from 'prosemirror-model'
 import getAttributes from './helpers/getAttributes'
-import getNodeAttributes from './helpers/getNodeAttributes'
-import getMarkAttributes from './helpers/getMarkAttributes'
 import isActive from './helpers/isActive'
 import removeElement from './utilities/removeElement'
 import createDocument from './helpers/createDocument'
