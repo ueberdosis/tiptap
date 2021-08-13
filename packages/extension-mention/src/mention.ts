@@ -1,5 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { PluginKey } from 'prosemirror-state'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
 export type MentionOptions = {
@@ -11,6 +12,8 @@ export type MentionOptions = {
   suggestion: Omit<SuggestionOptions, 'editor'>,
 }
 
+export const MentionPluginKey = new PluginKey('mention')
+
 export const Mention = Node.create<MentionOptions>({
   name: 'mention',
 
@@ -21,6 +24,7 @@ export const Mention = Node.create<MentionOptions>({
     },
     suggestion: {
       char: '@',
+      pluginKey: MentionPluginKey,
       command: ({ editor, range, props }) => {
         editor
           .chain()

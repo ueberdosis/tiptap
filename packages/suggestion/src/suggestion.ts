@@ -4,6 +4,7 @@ import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
 import { findSuggestionMatch } from './findSuggestionMatch'
 
 export interface SuggestionOptions {
+  pluginKey?: PluginKey,
   editor: Editor,
   char?: string,
   allowSpaces?: boolean,
@@ -45,7 +46,10 @@ export interface SuggestionKeyDownProps {
   range: Range,
 }
 
+export const SuggestionPluginKey = new PluginKey('suggestion')
+
 export function Suggestion({
+  pluginKey = SuggestionPluginKey,
   editor,
   char = '@',
   allowSpaces = false,
@@ -61,7 +65,7 @@ export function Suggestion({
   const renderer = render?.()
 
   return new Plugin({
-    key: new PluginKey('suggestion'),
+    key: pluginKey,
 
     view() {
       return {
