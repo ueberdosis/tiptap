@@ -363,28 +363,6 @@ export class Editor extends EventEmitter {
   }
 
   /**
-   * Get attributes of the currently selected node.
-   *
-   * @param name Name of the node
-   */
-  public getNodeAttributes(name: string): Record<string, any> {
-    console.warn('[tiptap warn]: editor.getNodeAttributes() is deprecated. please use editor.getAttributes() instead.')
-
-    return getNodeAttributes(this.state, name)
-  }
-
-  /**
-   * Get attributes of the currently selected mark.
-   *
-   * @param name Name of the mark
-   */
-  public getMarkAttributes(name: string): Record<string, any> {
-    console.warn('[tiptap warn]: editor.getMarkAttributes() is deprecated. please use editor.getAttributes() instead.')
-
-    return getMarkAttributes(this.state, name)
-  }
-
-  /**
    * Returns if the currently selected node or mark is active.
    *
    * @param name Name of the node or mark
