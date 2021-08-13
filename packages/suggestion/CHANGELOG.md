@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.63](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.62...@tiptap/suggestion@2.0.0-beta.63) (2021-08-13)
+
+
+### Bug Fixes
+
+* add pluginKey option to suggestion plugin, fix [#1282](https://github.com/ueberdosis/tiptap/issues/1282) ([7cf3350](https://github.com/ueberdosis/tiptap/commit/7cf3350a832181f8cc1fa7ea1afec8f8d083e507))
+
+
+
+
+
 # [2.0.0-beta.62](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.61...@tiptap/suggestion@2.0.0-beta.62) (2021-08-09)
 
 
