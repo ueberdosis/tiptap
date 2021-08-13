@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.45](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.44...@tiptap/vue-2@2.0.0-beta.45) (2021-08-13)
+
+
+### Bug Fixes
+
+* rename key to pluginKey for menus ([89d26f7](https://github.com/ueberdosis/tiptap/commit/89d26f7cba2a115aa342f0ee621f0b65c840dfb8))
+
+
+
+
+
 # [2.0.0-beta.44](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.43...@tiptap/vue-2@2.0.0-beta.44) (2021-08-12)
 
 **Note:** Version bump only for package @tiptap/vue-2

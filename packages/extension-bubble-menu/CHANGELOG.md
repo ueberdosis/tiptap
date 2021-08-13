@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.28](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.27...@tiptap/extension-bubble-menu@2.0.0-beta.28) (2021-08-13)
+
+
+### Bug Fixes
+
+* rename key to pluginKey for menus ([89d26f7](https://github.com/ueberdosis/tiptap/commit/89d26f7cba2a115aa342f0ee621f0b65c840dfb8))
+
+
+
+
+
 # [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.26...@tiptap/extension-bubble-menu@2.0.0-beta.27) (2021-08-12)
 
 
