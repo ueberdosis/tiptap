@@ -9,7 +9,7 @@ import { EditorView } from 'prosemirror-view'
 import tippy, { Instance, Props } from 'tippy.js'
 
 export interface BubbleMenuPluginProps {
-  key: PluginKey | string,
+  pluginKey: PluginKey | string,
   editor: Editor,
   element: HTMLElement,
   tippyOptions?: Partial<Props>,
@@ -191,9 +191,9 @@ export class BubbleMenuView {
 
 export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
-    key: typeof options.key === 'string'
-      ? new PluginKey(options.key)
-      : options.key,
+    key: typeof options.pluginKey === 'string'
+      ? new PluginKey(options.pluginKey)
+      : options.pluginKey,
     view: view => new BubbleMenuView({ view, ...options }),
   })
 }

@@ -11,7 +11,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
   defaultOptions: {
     element: null,
     tippyOptions: {},
-    key: 'bubbleMenu',
+    pluginKey: 'bubbleMenu',
     shouldShow: null,
   },
 
@@ -22,7 +22,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
 
     return [
       BubbleMenuPlugin({
-        key: this.options.key,
+        pluginKey: this.options.pluginKey,
         editor: this.editor,
         element: this.options.element,
         tippyOptions: this.options.tippyOptions,

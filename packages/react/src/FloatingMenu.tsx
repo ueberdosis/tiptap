@@ -10,14 +10,14 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
 
   useEffect(() => {
     const {
-      key,
+      pluginKey,
       editor,
       tippyOptions,
       shouldShow,
     } = props
 
     editor.registerPlugin(FloatingMenuPlugin({
-      key,
+      pluginKey,
       editor,
       element: element.current as HTMLElement,
       tippyOptions,
@@ -25,7 +25,7 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
     }))
 
     return () => {
-      editor.unregisterPlugin(key)
+      editor.unregisterPlugin(pluginKey)
     }
   }, [])
 

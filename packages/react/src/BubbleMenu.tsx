@@ -10,14 +10,14 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
 
   useEffect(() => {
     const {
-      key,
+      pluginKey,
       editor,
       tippyOptions,
       shouldShow,
     } = props
 
     editor.registerPlugin(BubbleMenuPlugin({
-      key,
+      pluginKey,
       editor,
       element: element.current as HTMLElement,
       tippyOptions,
@@ -25,7 +25,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
     }))
 
     return () => {
-      editor.unregisterPlugin(key)
+      editor.unregisterPlugin(pluginKey)
     }
   }, [])
 

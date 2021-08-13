@@ -11,7 +11,7 @@ export const FloatingMenu = Extension.create<FloatingMenuOptions>({
   defaultOptions: {
     element: null,
     tippyOptions: {},
-    key: 'floatingMenu',
+    pluginKey: 'floatingMenu',
     shouldShow: null,
   },
 
@@ -22,7 +22,7 @@ export const FloatingMenu = Extension.create<FloatingMenuOptions>({
 
     return [
       FloatingMenuPlugin({
-        key: this.options.key,
+        pluginKey: this.options.pluginKey,
         editor: this.editor,
         element: this.options.element,
         tippyOptions: this.options.tippyOptions,

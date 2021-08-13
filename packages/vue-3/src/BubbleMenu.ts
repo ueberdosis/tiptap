@@ -14,7 +14,7 @@ export const BubbleMenu = defineComponent({
   props: {
     pluginKey: {
       // TODO: TypeScript breaks :(
-      // type: [String, Object as PropType<Exclude<BubbleMenuPluginProps['key'], string>>],
+      // type: [String, Object as PropType<Exclude<BubbleMenuPluginProps['pluginKey'], string>>],
       type: [String, Object],
       default: 'bubbleMenu',
     },
@@ -47,7 +47,7 @@ export const BubbleMenu = defineComponent({
       } = props
 
       editor.registerPlugin(BubbleMenuPlugin({
-        key: pluginKey,
+        pluginKey,
         editor,
         element: root.value as HTMLElement,
         tippyOptions,

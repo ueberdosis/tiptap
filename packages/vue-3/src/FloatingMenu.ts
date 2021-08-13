@@ -14,7 +14,7 @@ export const FloatingMenu = defineComponent({
   props: {
     pluginKey: {
       // TODO: TypeScript breaks :(
-      // type: [String, Object as PropType<Exclude<FloatingMenuPluginProps['key'], string>>],
+      // type: [String, Object as PropType<Exclude<FloatingMenuPluginProps['pluginKey'], string>>],
       type: [String, Object],
       default: 'floatingMenu',
     },
@@ -47,7 +47,7 @@ export const FloatingMenu = defineComponent({
       } = props
 
       editor.registerPlugin(FloatingMenuPlugin({
-        key: pluginKey,
+        pluginKey,
         editor,
         element: root.value as HTMLElement,
         tippyOptions,

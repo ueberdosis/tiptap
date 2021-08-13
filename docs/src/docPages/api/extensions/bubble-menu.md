@@ -19,7 +19,7 @@ yarn add @tiptap/extension-bubble-menu
 | ------------ | -------------------- | -------------- | ----------------------------------------------------------------------- |
 | element      | `HTMLElement`        | `null`         | The DOM element that contains your menu.                                |
 | tippyOptions | `Object`             | `{}`           | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
-| key          | `string | PluginKey` | `'bubbleMenu'` | The key for the underlying ProseMirror plugin.                          |
+| pluginKey    | `string | PluginKey` | `'bubbleMenu'` | The key for the underlying ProseMirror plugin.                          |
 | shouldShow   | `(props) => boolean` |                | Controls whether the menu should be shown or not.                       |
 
 ## Source code
@@ -60,7 +60,7 @@ BubbleMenu.configure({
 ```
 
 ### Multiple menus
-Use multiple menus by setting an unique `key`.
+Use multiple menus by setting an unique `pluginKey`.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -69,11 +69,11 @@ import BubbleMenu from '@tiptap/extension-bubble-menu'
 new Editor({
   extensions: [
     BubbleMenu.configure({
-      key: 'bubbleMenuOne',
+      pluginKey: 'bubbleMenuOne',
       element: document.querySelector('.menu-one'),
     }),
     BubbleMenu.configure({
-      key: 'bubbleMenuTwo',
+      pluginKey: 'bubbleMenuTwo',
       element: document.querySelector('.menu-two'),
     }),
   ],
@@ -90,11 +90,11 @@ import { PluginKey } from 'prosemirror-state'
 new Editor({
   extensions: [
     BubbleMenu.configure({
-      key: new PluginKey('bubbleMenuOne'),
+      pluginKey: new PluginKey('bubbleMenuOne'),
       element: document.querySelector('.menu-one'),
     }),
     BubbleMenu.configure({
-      key: new PluginKey('bubbleMenuTwo'),
+      pluginKey: new PluginKey('bubbleMenuTwo'),
       element: document.querySelector('.menu-two'),
     }),
   ],

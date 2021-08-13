@@ -17,7 +17,7 @@ yarn add @tiptap/extension-floating-menu
 | ------------ | -------------------- | ---------------- | ----------------------------------------------------------------------- |
 | element      | `HTMLElement`        | `null`           | The DOM element of your menu.                                           |
 | tippyOptions | `Object`             | `{}`             | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
-| key          | `string | PluginKey` | `'floatingMenu'` | The key for the underlying ProseMirror plugin.                          |
+| pluginKey    | `string | PluginKey` | `'floatingMenu'` | The key for the underlying ProseMirror plugin.                          |
 | shouldShow   | `(props) => boolean` |                  | Controls whether the menu should be shown or not.                       |
 
 ## Source code
@@ -56,7 +56,7 @@ FloatingMenu.configure({
 ```
 
 ### Multiple menus
-Use multiple menus by setting an unique `key`.
+Use multiple menus by setting an unique `pluginKey`.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -65,11 +65,11 @@ import FloatingMenu from '@tiptap/extension-floating-menu'
 new Editor({
   extensions: [
     FloatingMenu.configure({
-      key: 'floatingMenuOne',
+      pluginKey: 'floatingMenuOne',
       element: document.querySelector('.menu-one'),
     }),
     FloatingMenu.configure({
-      key: 'floatingMenuTwo',
+      pluginKey: 'floatingMenuTwo',
       element: document.querySelector('.menu-two'),
     }),
   ],
@@ -86,11 +86,11 @@ import { PluginKey } from 'prosemirror-state'
 new Editor({
   extensions: [
     FloatingMenu.configure({
-      key: new PluginKey('floatingMenuOne'),
+      pluginKey: new PluginKey('floatingMenuOne'),
       element: document.querySelector('.menu-one'),
     }),
     FloatingMenu.configure({
-      key: new PluginKey('floatingMenuOne'),
+      pluginKey: new PluginKey('floatingMenuOne'),
       element: document.querySelector('.menu-two'),
     }),
   ],
