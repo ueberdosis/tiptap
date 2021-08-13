@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.64](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.63...@tiptap/suggestion@2.0.0-beta.64) (2021-08-13)
+
+
+### Bug Fixes
+
+* improve suggestion handling for chinese input, fix [#1449](https://github.com/ueberdosis/tiptap/issues/1449) ([9789372](https://github.com/ueberdosis/tiptap/commit/9789372cea901b21059d53c30ff301efb35fb720))
+
+
+
+
+
 # [2.0.0-beta.63](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.62...@tiptap/suggestion@2.0.0-beta.63) (2021-08-13)
 
 
