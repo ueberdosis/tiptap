@@ -52,11 +52,11 @@ export interface EditorOptions {
   enablePasteRules: boolean,
   onBeforeCreate: (props: { editor: Editor }) => void,
   onCreate: (props: { editor: Editor }) => void,
-  onUpdate: (props: { editor: Editor }) => void,
-  onSelectionUpdate: (props: { editor: Editor }) => void,
+  onUpdate: (props: { editor: Editor, transaction: Transaction }) => void,
+  onSelectionUpdate: (props: { editor: Editor, transaction: Transaction }) => void,
   onTransaction: (props: { editor: Editor, transaction: Transaction }) => void,
-  onFocus: (props: { editor: Editor, event: FocusEvent }) => void,
-  onBlur: (props: { editor: Editor, event: FocusEvent }) => void,
+  onFocus: (props: { editor: Editor, event: FocusEvent, transaction: Transaction }) => void,
+  onBlur: (props: { editor: Editor, event: FocusEvent, transaction: Transaction }) => void,
   onDestroy: () => void,
 }
 

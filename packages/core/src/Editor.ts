@@ -322,6 +322,7 @@ export class Editor extends EventEmitter {
     if (selectionHasChanged) {
       this.emit('selectionUpdate', {
         editor: this,
+        transaction,
       })
     }
 
@@ -332,6 +333,7 @@ export class Editor extends EventEmitter {
       this.emit('focus', {
         editor: this,
         event: focus.event,
+        transaction,
       })
     }
 
@@ -339,6 +341,7 @@ export class Editor extends EventEmitter {
       this.emit('blur', {
         editor: this,
         event: blur.event,
+        transaction,
       })
     }
 
