@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.97](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.96...@tiptap/core@2.0.0-beta.97) (2021-08-13)
+
+
+### Features
+
+* add transaction to all events if possible, see [#1461](https://github.com/ueberdosis/tiptap/issues/1461) ([7f6ed0b](https://github.com/ueberdosis/tiptap/commit/7f6ed0b1c078985a1acee736bc605fb9f93b5af2))
+
+
+
+
+
 # [2.0.0-beta.96](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.95...@tiptap/core@2.0.0-beta.96) (2021-08-12)
 
 
