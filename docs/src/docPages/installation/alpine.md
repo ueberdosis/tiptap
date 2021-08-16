@@ -21,12 +21,14 @@ If you already have an existing Alpine.js project, that’s fine too. Just skip 
 For the sake of this guide, let’s start with a fresh [Vite](https://vitejs.dev/) project called `tiptap-example`. Vite sets up everything we need, just select the Vanilla JavaScript template.
 
 ```bash
-npm init @vitejs/app tiptap-example
+npm init vite@latest tiptap-example -- --template vanilla
 cd tiptap-example
 npm install
+npm run dev
 ```
 
 ## 2. Install the dependencies
+
 Okay, enough of the boring boilerplate work. Let’s finally install tiptap! For the following example you’ll need `alpinejs`, the `@tiptap/core` package and the `@tiptap/starter-kit` which has the most common extensions to get started quickly.
 
 ```bash
@@ -45,7 +47,7 @@ To actually start using tiptap, you’ll need to write a little bit of JavaScrip
 This is the fastest way to get tiptap up and running with Alpine.js. It will give you a very basic version of tiptap. No worries, you will be able to add more functionality soon.
 
 ```js
-import alpinejs from 'alpinejs'
+import Alpine from 'alpinejs'
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
@@ -71,6 +73,9 @@ window.setupEditor = function(content) {
     },
   }
 }
+
+window.Alpine = Alpine
+Alpine.start()
 ```
 
 ## 4. Add it to your app
