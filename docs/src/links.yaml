@@ -132,7 +132,6 @@
       items:
         - title: blur
           link: /api/commands/blur
-          type: new
         - title: clearContent
           link: /api/commands/clear-content
         - title: clearNodes
@@ -195,7 +194,6 @@
           type: draft
         - title: selectAll
           link: /api/commands/select-all
-          type: new
         - title: selectNodeBackward
           link: /api/commands/select-node-backward
           type: draft
@@ -321,10 +319,8 @@
           link: /api/marks/strike
         - title: Subscript
           link: /api/marks/subscript
-          type: new
         - title: Superscript
           link: /api/marks/superscript
-          type: new
         - title: TextStyle
           link: /api/marks/text-style
         - title: Underline
@@ -340,6 +336,9 @@
           link: /api/extensions/collaboration
         - title: CollaborationCursor
           link: /api/extensions/collaboration-cursor
+        - title: Color
+          link: /api/extensions/color
+          type: new
         - title: Dropcursor
           link: /api/extensions/dropcursor
         - title: FloatingMenu
@@ -356,7 +355,6 @@
           link: /api/extensions/placeholder
         - title: StarterKit
           link: /api/extensions/starter-kit
-          type: new
         - title: TextAlign
           link: /api/extensions/text-align
         - title: Typography
