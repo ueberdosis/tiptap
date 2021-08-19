@@ -182,6 +182,22 @@ const CustomParagraph = Paragraph.extend({
 
 You can disable the rendering of attributes, if you pass `rendered: false`.
 
+When using JSON to pass content into the editor, you can use the "attrs" key to pass attributes to your renderHTML function:
+
+```
+{
+  "type": "doc",
+  "content": [
+    {
+      "type": "customParagraph",
+      "attrs": {
+        "color": "red"
+      }
+    }
+  ]
+}
+```
+
 #### Extend existing attributes
 If you want to add an attribute to an extension and keep existing attributes, you can access them through `this.parent()`. In some cases, it is undefined, so make sure to check for that case, or use optional chaining `this.parent?.()`
 
