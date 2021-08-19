@@ -1,27 +1,27 @@
 import { Extension } from '@tiptap/core'
 import '@tiptap/extension-text-style'
 
-type FontColorOptions = {
+type ColorOptions = {
   types: string[],
 }
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    fontColor: {
+    color: {
       /**
-       * Set the font color
+       * Set the text color
        */
-      setFontColor: (fontColor: string) => ReturnType,
+      setColor: (color: string) => ReturnType,
       /**
-       * Unset the font color
+       * Unset the text color
        */
-      unsetFontColor: () => ReturnType,
+      unsetColor: () => ReturnType,
     }
   }
 }
 
-export const FontColor = Extension.create<FontColorOptions>({
-  name: 'fontColor',
+export const Color = Extension.create<ColorOptions>({
+  name: 'color',
 
   defaultOptions: {
     types: ['textStyle'],
@@ -32,21 +32,20 @@ export const FontColor = Extension.create<FontColorOptions>({
       {
         types: this.options.types,
         attributes: {
-          fontColor: {
+          color: {
             default: null,
             renderHTML: attributes => {
-              if (!attributes.fontColor) {
+              if (!attributes.color) {
                 return {}
               }
 
               return {
-                style: `color: ${attributes.fontColor}`,
+                style: `color: ${attributes.color}`,
               }
             },
             parseHTML: element => {
-              console.log('FOO', element.style)
               return {
-                fontColor: element.style.color.replace(/['"]+/g, ''),
+                color: element.style.color.replace(/['"]+/g, ''),
               }
             },
           },
@@ -57,14 +56,14 @@ export const FontColor = Extension.create<FontColorOptions>({
 
   addCommands() {
     return {
-      setFontColor: fontColor => ({ chain }) => {
+      setColor: color => ({ chain }) => {
         return chain()
-          .setMark('textStyle', { fontColor })
+          .setMark('textStyle', { color })
           .run()
       },
-      unsetFontColor: () => ({ chain }) => {
+      unsetColor: () => ({ chain }) => {
         return chain()
-          .setMark('textStyle', { fontColor: null })
+          .setMark('textStyle', { color: null })
           .removeEmptyTextStyle()
           .run()
       },
