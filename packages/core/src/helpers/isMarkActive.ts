@@ -23,7 +23,7 @@ export default function isMarkActive(
 
         return type.name === mark.type.name
       })
-      .find(mark => objectIncludes(mark.attrs, attributes))
+      .find(mark => objectIncludes(mark.attrs, attributes, { strict: false }))
   }
 
   let selectionRange = 0
@@ -58,7 +58,7 @@ export default function isMarkActive(
 
       return type.name === markRange.mark.type.name
     })
-    .filter(markRange => objectIncludes(markRange.mark.attrs, attributes))
+    .filter(markRange => objectIncludes(markRange.mark.attrs, attributes, { strict: false }))
     .reduce((sum, markRange) => {
       const size = markRange.to - markRange.from
 

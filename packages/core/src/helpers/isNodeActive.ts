@@ -38,7 +38,7 @@ export default function isNodeActive(
 
         return type.name === nodeRange.node.type.name
       })
-      .find(nodeRange => objectIncludes(nodeRange.node.attrs, attributes))
+      .find(nodeRange => objectIncludes(nodeRange.node.attrs, attributes, { strict: false }))
   }
 
   const selectionRange = to - from
@@ -51,7 +51,7 @@ export default function isNodeActive(
 
       return type.name === nodeRange.node.type.name
     })
-    .filter(nodeRange => objectIncludes(nodeRange.node.attrs, attributes))
+    .filter(nodeRange => objectIncludes(nodeRange.node.attrs, attributes, { strict: false }))
     .reduce((sum, nodeRange) => {
       const size = nodeRange.to - nodeRange.from
       return sum + size
