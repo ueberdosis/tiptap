@@ -31,6 +31,7 @@ For help, discussion about best practices, or any other conversation that would 
 * [Reflect](https://reflect.app/)
 * [Rimsys](https://rimsys.io/) 💎
 * [Complish](https://www.complish.app/) 💎
+* [CosmicMind](https://www.cosmicmind.com/) 💎
 
 [mymind](https://mymind.com/),
 [DocIQ](https://www.dociq.io/),
