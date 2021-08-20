@@ -5,8 +5,10 @@ const style = `.ProseMirror {
 .ProseMirror {
   word-wrap: break-word;
   white-space: pre-wrap;
+  white-space: break-spaces;
   -webkit-font-variant-ligatures: none;
   font-variant-ligatures: none;
+  font-feature-settings: "liga" 0; /* the above doesn't seem to work in Edge */
 }
 
 .ProseMirror [contenteditable="false"] {
@@ -19,6 +21,12 @@ const style = `.ProseMirror {
 
 .ProseMirror pre {
   white-space: pre-wrap;
+}
+
+img.ProseMirror-separator {
+  display: inline !important;
+  border: none !important;
+  margin: 0 !important;
 }
 
 .ProseMirror-gapcursor {
