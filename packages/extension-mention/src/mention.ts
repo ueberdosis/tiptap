@@ -29,9 +29,7 @@ export const Mention = Node.create<MentionOptions>({
         // increase range.to by one when the next node is of type "text"
         // and starts with a space character
         const nodeAfter = editor.view.state.selection.$to.nodeAfter
-        const overrideSpace = nodeAfter?.text
-          ? /^\s/.test(nodeAfter.text)
-          : false
+        const overrideSpace = nodeAfter?.text?.startsWith(' ')
 
         if (overrideSpace) {
           range.to += 1
