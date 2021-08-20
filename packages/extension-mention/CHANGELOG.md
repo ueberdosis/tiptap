@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.68](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.67...@tiptap/extension-mention@2.0.0-beta.68) (2021-08-20)
+
+
+### Bug Fixes
+
+* prevent multiple space characters after mention node, fix [#1703](https://github.com/ueberdosis/tiptap/issues/1703) ([3f7e6b2](https://github.com/ueberdosis/tiptap/commit/3f7e6b219b572d2aa06618ce125ba86cd2fcd0bd))
+
+
+
+
+
 # [2.0.0-beta.67](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.66...@tiptap/extension-mention@2.0.0-beta.67) (2021-08-13)
 
 **Note:** Version bump only for package @tiptap/extension-mention

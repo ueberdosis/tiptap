@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.100](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.99...@tiptap/core@2.0.0-beta.100) (2021-08-20)
+
+
+### Bug Fixes
+
+* add missing ProseMirror styles ([12602e7](https://github.com/ueberdosis/tiptap/commit/12602e77ef5d35b430d3d14b93788b327a0f17da))
+
+
+### Features
+
+* allow wildcards when checking attributes in isActive, fix [#1752](https://github.com/ueberdosis/tiptap/issues/1752) ([64409ca](https://github.com/ueberdosis/tiptap/commit/64409cad66f281584a962e93317d8dd94ef6c5c0))
+
+
+
+
+
 # [2.0.0-beta.99](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.98...@tiptap/core@2.0.0-beta.99) (2021-08-13)
 
 **Note:** Version bump only for package @tiptap/core
