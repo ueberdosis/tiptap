@@ -87,6 +87,12 @@ And an example that compares the given attribute(s):
 editor.isActive('highlight', { color: '#ffa8a8' })
 ```
 
+There is also support for regular expressions:
+
+```js
+editor.isActive('textStyle', { color: /.*/ })
+```
+
 You can even ignore nodes and marks, but check for the attributes only. Here is an example with the [`TextAlign`](/api/extensions/text-align) extension:
 
 ```js
