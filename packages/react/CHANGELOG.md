@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.62](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.61...@tiptap/react@2.0.0-beta.62) (2021-08-23)
+
+
+### Bug Fixes
+
+* make shouldShow and pluginKey option for menus, fix [#1779](https://github.com/ueberdosis/tiptap/issues/1779) ([70a328b](https://github.com/ueberdosis/tiptap/commit/70a328bd3dea174170ad8e92db4c4f7f9368fd1b))
+
+
+
+
+
 # [2.0.0-beta.61](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.60...@tiptap/react@2.0.0-beta.61) (2021-08-20)
 
 **Note:** Version bump only for package @tiptap/react
