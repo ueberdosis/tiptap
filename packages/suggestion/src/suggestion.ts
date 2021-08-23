@@ -110,7 +110,14 @@ export function Suggestion({
             // virtual node for popper.js or tippy.js
             // this can be used for building popups without a DOM node
             clientRect: decorationNode
-              ? () => decorationNode.getBoundingClientRect()
+              ? () => {
+                // because of `items` can be asynchrounous we’ll search for the current docoration node
+                const { decorationId } = this.key?.getState(editor.state)
+                const currentDecorationNode = document.querySelector(`[data-decoration-id="${decorationId}"]`)
+
+                // @ts-ignore-error
+                return currentDecorationNode.getBoundingClientRect()
+              }
               : null,
           }
 
