@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.68](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.67...@tiptap/suggestion@2.0.0-beta.68) (2021-08-23)
+
+
+### Bug Fixes
+
+* get correct clientRect when using async suggesteion items, fix [#1782](https://github.com/ueberdosis/tiptap/issues/1782) ([839acc1](https://github.com/ueberdosis/tiptap/commit/839acc1d9f713b89f366cd7da63330fd0243c31b))
+
+
+
+
+
 # [2.0.0-beta.67](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.66...@tiptap/suggestion@2.0.0-beta.67) (2021-08-23)
 
 **Note:** Version bump only for package @tiptap/suggestion

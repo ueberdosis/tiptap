@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.55](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.54...@tiptap/vue-3@2.0.0-beta.55) (2021-08-23)
+
+
+### Bug Fixes
+
+* fix types for BubbleMenu and FloatingMenu props ([d3242c9](https://github.com/ueberdosis/tiptap/commit/d3242c9a0728ea0d164571a6e1eee20fb528f2d8))
+
+
+
+
+
 # [2.0.0-beta.54](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.53...@tiptap/vue-3@2.0.0-beta.54) (2021-08-23)
 
 **Note:** Version bump only for package @tiptap/vue-3
