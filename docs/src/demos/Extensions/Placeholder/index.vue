@@ -1,5 +1,5 @@
 <template>
-  <editor-content :editor="editor" />
+  <editor-content :editor="editor" data-placeholder="Write something..." />
 </template>
 
 <script>
