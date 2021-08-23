@@ -30,7 +30,7 @@ export const FloatingMenu = defineComponent({
     },
 
     shouldShow: {
-      type: Function as PropType<Exclude<FloatingMenuPluginProps['shouldShow'], null>>,
+      type: Function as PropType<Exclude<Required<FloatingMenuPluginProps>['shouldShow'], null>>,
       default: null,
     },
   },

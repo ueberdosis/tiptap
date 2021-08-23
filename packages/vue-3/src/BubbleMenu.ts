@@ -30,7 +30,7 @@ export const BubbleMenu = defineComponent({
     },
 
     shouldShow: {
-      type: Function as PropType<Exclude<BubbleMenuPluginProps['shouldShow'], null>>,
+      type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['shouldShow'], null>>,
       default: null,
     },
   },
