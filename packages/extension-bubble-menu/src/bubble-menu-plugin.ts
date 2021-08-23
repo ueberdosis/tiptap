@@ -13,7 +13,7 @@ export interface BubbleMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
   tippyOptions?: Partial<Props>,
-  shouldShow: ((props: {
+  shouldShow?: ((props: {
     editor: Editor,
     view: EditorView,
     state: EditorState,
@@ -140,7 +140,7 @@ export class BubbleMenuView {
     const from = Math.min(...ranges.map(range => range.$from.pos))
     const to = Math.max(...ranges.map(range => range.$to.pos))
 
-    const shouldShow = this.shouldShow({
+    const shouldShow = this.shouldShow?.({
       editor: this.editor,
       view,
       state,

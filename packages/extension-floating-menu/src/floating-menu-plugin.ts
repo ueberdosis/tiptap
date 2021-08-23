@@ -8,7 +8,7 @@ export interface FloatingMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
   tippyOptions?: Partial<Props>,
-  shouldShow: ((props: {
+  shouldShow?: ((props: {
     editor: Editor,
     view: EditorView,
     state: EditorState,
@@ -122,7 +122,7 @@ export class FloatingMenuView {
       return
     }
 
-    const shouldShow = this.shouldShow({
+    const shouldShow = this.shouldShow?.({
       editor: this.editor,
       view,
       state,

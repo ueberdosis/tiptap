@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 
-export type FloatingMenuProps = Omit<FloatingMenuPluginProps, 'element'> & {
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
+
+export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKey'>, 'element'> & {
   className?: string,
 }
 
@@ -10,10 +12,10 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
 
   useEffect(() => {
     const {
-      pluginKey,
+      pluginKey = 'floatingMenu',
       editor,
-      tippyOptions,
-      shouldShow,
+      tippyOptions = {},
+      shouldShow = null,
     } = props
 
     editor.registerPlugin(FloatingMenuPlugin({

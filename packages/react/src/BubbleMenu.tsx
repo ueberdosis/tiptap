@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 
-export type BubbleMenuProps = Omit<BubbleMenuPluginProps, 'element'> & {
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
+
+export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'> & {
   className?: string,
 }
 
@@ -10,10 +12,10 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
 
   useEffect(() => {
     const {
-      pluginKey,
+      pluginKey = 'bubbleMenu',
       editor,
-      tippyOptions,
-      shouldShow,
+      tippyOptions = {},
+      shouldShow = null,
     } = props
 
     editor.registerPlugin(BubbleMenuPlugin({
