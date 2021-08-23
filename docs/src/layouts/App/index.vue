@@ -145,7 +145,7 @@ query {
 </static-query>
 
 <script>
-import linkGroups from '@/links.yaml'
+import linkGroups from '@/docPages/links.yaml'
 import Icon from '@/components/Icon'
 import PageFooter from '@/components/PageFooter'
 import BannerMessage from '@/components/BannerMessage'

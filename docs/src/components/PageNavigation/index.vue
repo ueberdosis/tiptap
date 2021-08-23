@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import linkGroups from '@/links.yaml'
+import linkGroups from '@/docPages/links.yaml'
 import BtnWrapper from '~/components/BtnWrapper'
 import Btn from '~/components/Btn'
 
