@@ -1,5 +1,10 @@
 <template>
   <div v-if="editor">
+    <input
+      type="color"
+      @input="editor.chain().focus().setColor($event.target.value).run()"
+      :value="editor.getAttributes('textStyle').color"
+    >
     <button @click="editor.chain().focus().setColor('#958DF1').run()" :class="{ 'is-active': editor.isActive('textStyle', { color: '#958DF1' })}">
       purple
     </button>
