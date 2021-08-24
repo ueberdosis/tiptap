@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.63](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.62...@tiptap/react@2.0.0-beta.63) (2021-08-24)
+
+
+### Bug Fixes
+
+* fix a bug when using nested node views in react, fix [#1747](https://github.com/ueberdosis/tiptap/issues/1747) ([b15a8a8](https://github.com/ueberdosis/tiptap/commit/b15a8a8683bafbc9fd57dc64d60329f9ab08ecfd))
+
+
+
+
+
 # [2.0.0-beta.62](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.61...@tiptap/react@2.0.0-beta.62) (2021-08-23)
 
 
