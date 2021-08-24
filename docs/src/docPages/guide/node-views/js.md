@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Node views with JavaScript
 
 ## toc
@@ -119,5 +123,3 @@ Got it? You’re free to do anything you like, as long as you return a container
 <demo name="Guide/NodeViews/JavaScriptContent" />
 
 Keep in mind that this content is rendered by tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node extension (that’s what we use in the above example).
-
-

@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Accessibility
 
 :::pro Fund the development ♥

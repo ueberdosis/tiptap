@@ -1,4 +1,8 @@
 ---
+tableOfContents: true
+---
+
+---
 title: Alpine WYSIWYG
 ---
 

@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Impressum
 
 ## toc

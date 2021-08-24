@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Create menus
 
 ## toc

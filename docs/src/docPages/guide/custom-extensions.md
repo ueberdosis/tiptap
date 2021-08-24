@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Custom extensions
 
 ## toc

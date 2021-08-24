@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Collaborative editing
 
 ## toc

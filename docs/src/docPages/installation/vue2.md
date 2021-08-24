@@ -1,5 +1,6 @@
 ---
 title: Vue.js 2 WYSIWYG
+tableOfContents: true
 ---
 
 # Vue.js 2

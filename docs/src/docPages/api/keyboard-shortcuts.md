@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Keyboard Shortcuts
 
 ## toc

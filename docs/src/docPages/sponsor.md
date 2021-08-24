@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # About the project
 
 ## toc

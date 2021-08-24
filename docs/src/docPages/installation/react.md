@@ -1,5 +1,6 @@
 ---
 title: React WYSIWYG
+tableOfContents: true
 ---
 
 # React

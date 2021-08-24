@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Interactive node views
 
 ## toc

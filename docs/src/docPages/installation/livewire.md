@@ -1,5 +1,6 @@
 ---
 title: Livewire WYSIWYG
+tableOfContents: true
 ---
 
 # Livewire

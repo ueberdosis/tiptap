@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Examples
 
 ## toc

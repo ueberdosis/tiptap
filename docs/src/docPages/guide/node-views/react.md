@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Node views with React
 
 ## toc

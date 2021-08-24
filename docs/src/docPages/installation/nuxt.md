@@ -1,5 +1,6 @@
 ---
 title: Nuxt.js WYSIWYG
+tableOfContents: true
 ---
 
 # Nuxt.js

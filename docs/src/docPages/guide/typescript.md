@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # Working with TypeScript
 
 ## toc

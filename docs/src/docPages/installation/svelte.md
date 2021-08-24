@@ -1,5 +1,6 @@
 ---
 title: Svelte WYSIWYG
+tableOfContents: true
 ---
 
 # Svelte

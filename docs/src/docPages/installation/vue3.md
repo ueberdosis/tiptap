@@ -1,5 +1,6 @@
 ---
 title: Vue.js 3 WYSIWYG
+tableOfContents: true
 ---
 
 # Vue.js 3
