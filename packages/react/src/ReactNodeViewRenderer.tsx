@@ -50,10 +50,11 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
 
     const ReactNodeViewProvider: React.FunctionComponent = componentProps => {
       const onDragStart = this.onDragStart.bind(this)
+      const maybeMoveContentDOM = this.maybeMoveContentDOM.bind(this)
       const Component = this.component
 
       return (
-        <ReactNodeViewContext.Provider value={{ onDragStart }}>
+        <ReactNodeViewContext.Provider value={{ onDragStart, maybeMoveContentDOM }}>
           <Component {...componentProps} />
         </ReactNodeViewContext.Provider>
       )
