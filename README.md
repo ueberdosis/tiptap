@@ -21,30 +21,84 @@ For help, discussion about best practices, or any other conversation that would 
 
 [Discuss tiptap on GitHub](https://github.com/ueberdosis/tiptap/discussions)
 
-## 💖 Sponsors
-* [überdosis](https://ueberdosis.io/) 🎁
-* [Ziff Media Group](https://ziffmedia.com/)
-* [Incyte Studios](https://incytestudios.com/)
-* [dotCMS](http://dotcms.com/)
-* [Restruct](https://restruct.nl/)
-* [Bitcrowd](https://bitcrowd.net/)
-* [Reflect](https://reflect.app/)
-* [Rimsys](https://rimsys.io/) 💎
-* [Complish](https://www.complish.app/) 💎
-* [CosmicMind](https://www.cosmicmind.com/) 💎
+## Sponsors 💖
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://ueberdosis.io/">
+        <img src="https://unavatar.io/ueberdosis.io" width="100"><br>
+        <strong>überdosis</strong>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://rimsys.io/">
+        <img src="https://unavatar.io/github/rimsys" width="100"><br>
+        <strong>Rimsys</strong>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.cosmicmind.com/">
+        <img src="https://unavatar.io/github/cosmicmind" width="100"><br>
+        <strong>CosmicMind</strong>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.complish.app/">
+        <img src="https://uploads-ssl.webflow.com/5fa93d27380666789a1cbbd3/5fae50824b4d2d06f3d2898f_Frame%20374.png" width="100"><br>
+        <strong>Complish</strong>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.gamma.app/">
+        <img src="https://unavatar.io/gamma.app" width="100"><br>
+        <strong>Gamma</strong>
+      </a>
+    </td>
+  </tr>
+</table>
 
-[mymind](https://mymind.com/),
-[DocIQ](https://www.dociq.io/),
-[Apostrophe CMS](https://apostrophecms.com/),
-[Ycode](https://www.ycode.com/),
-[Flow Mobile](https://www.flowmobile.app/),
-[Gretel](http://www.gretel.co/),
-[Omics Data Automation](https://www.omicsautomation.com/),
-[Novadiscovery](http://www.novadiscovery.com/),
-[Atlan Technologies](https://atlan.com/),
-[Gamma](https://gamma.app/),
-[Kirchner Consulting](https://kirchnerconsulting.ch/),
-[IT Xpert](https://itxpert.ch/) and hundreds of awesome inviduals.
+<table>
+  <tr>
+    <td align="center" width="75">
+      <a href="https://reflect.app/">
+        <img src="https://unavatar.io/reflect.app" width="50"><br>
+        <strong>Reflect</strong>
+      </a>
+    </td>
+    <td align="center" width="75">
+      <a href="https://bitcrowd.net/">
+        <img src="https://unavatar.io/bitcrowd.net" width="50"><br>
+        <strong>Bitcrowd</strong>
+      </a>
+    </td>
+    <td align="center" width="75">
+      <a href="https://ziffmedia.com/">
+        <img src="https://unavatar.io/github/ziffmedia" width="50"><br>
+        <strong>Ziff Media</strong>
+      </a>
+    </td>
+    <td align="center" width="75">
+      <a href="https://incytestudios.com/">
+        <img src="https://unavatar.io/github/incyte" width="50"><br>
+        <strong>Incyte Studios</strong>
+      </a>
+    </td>
+    <td align="center" width="75">
+      <a href="https://restruct.nl/">
+        <img src="https://unavatar.io/github/restruct" width="50"><br>
+        <strong>restruct</strong>
+      </a>
+    </td>
+    <td align="center" width="75">
+      <a href="https://dotcms.com/">
+        <img src="https://unavatar.io/github/dotcms" width="50"><br>
+        <strong>dotCMS</strong>
+      </a>
+    </td>
+  </tr>
+</table>
+
+[iFixit](https://www.ifixit.com/), [@shodgson](https://github.com/shodgson), [Markee Co.](https://markee.io/), [Makelog](https://www.makelog.com/), [Zephir](https://zephir.ch/), [IT Xpert AG](https://itxpert.ch/), [ApostropheCMS](https://apostrophecms.com/), [Novadiscovery](http://www.novadiscovery.com/), [Omics Data Automation](https://www.omicsautomation.com), [Gretel](https://github.com/gretelapp#:~:text=http%3A//www.gretel.co), [Flow Mobile](https://www.flowmobile.app/), [Ycode](https://www.ycode.com/), [DocIQ](https://www.dociq.io/) and [hundreds of awesome inviduals](https://github.com/sponsors/ueberdosis).
 
 Using tiptap in production? Invest in the future of tiptap and [become a sponsor!](https://github.com/sponsors/ueberdosis)
 
@@ -53,6 +107,9 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Contributors
 [Sam Willis](https://github.com/samwillis),
+[Brian Hung](https://github.com/BrianHung),
+[Dirk Holtwick](https://github.com/holtwick),
+[Sam Duvall](https://github.com/SamDuvall),
 [Christoph Flathmann](https://github.com/Chrissi2812),
 [Erick Wilder](https://github.com/erickwilder),
 [Marius Tolzmann](https://github.com/mariux),
