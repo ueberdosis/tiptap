@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.101](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.100...@tiptap/core@2.0.0-beta.101) (2021-08-24)
+
+
+### Bug Fixes
+
+* add topNode to getDebugJSON ([f65e1b3](https://github.com/ueberdosis/tiptap/commit/f65e1b32a16c25622c2d507e74dd0dde9dac9376))
+
+
+
+
+
 # [2.0.0-beta.100](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.99...@tiptap/core@2.0.0-beta.100) (2021-08-20)
 
 
