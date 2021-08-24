@@ -59,37 +59,37 @@ For help, discussion about best practices, or any other conversation that would 
 
 <table>
   <tr>
-    <td align="center" width="75">
+    <td align="center" width="100">
       <a href="https://reflect.app/">
         <img src="https://unavatar.io/reflect.app" width="50"><br>
         <strong>Reflect</strong>
       </a>
     </td>
-    <td align="center" width="75">
+    <td align="center" width="100">
       <a href="https://bitcrowd.net/">
         <img src="https://unavatar.io/bitcrowd.net" width="50"><br>
         <strong>Bitcrowd</strong>
       </a>
     </td>
-    <td align="center" width="75">
+    <td align="center" width="100">
       <a href="https://ziffmedia.com/">
         <img src="https://unavatar.io/github/ziffmedia" width="50"><br>
         <strong>Ziff Media</strong>
       </a>
     </td>
-    <td align="center" width="75">
+    <td align="center" width="100">
       <a href="https://incytestudios.com/">
         <img src="https://unavatar.io/github/incyte" width="50"><br>
         <strong>Incyte Studios</strong>
       </a>
     </td>
-    <td align="center" width="75">
+    <td align="center" width="100">
       <a href="https://restruct.nl/">
         <img src="https://unavatar.io/github/restruct" width="50"><br>
         <strong>restruct</strong>
       </a>
     </td>
-    <td align="center" width="75">
+    <td align="center" width="100">
       <a href="https://dotcms.com/">
         <img src="https://unavatar.io/github/dotcms" width="50"><br>
         <strong>dotCMS</strong>
