@@ -45,7 +45,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .menu-item {
   width: 1.75rem;
   height: 1.75rem;
