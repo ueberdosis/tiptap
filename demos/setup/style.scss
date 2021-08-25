@@ -58,3 +58,8 @@ body {
 .ProseMirror:focus {
   outline: none;
 }
+
+.is-active {
+  background: black;
+  color: white;
+}
