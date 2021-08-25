@@ -42,10 +42,7 @@ new Editor({
 ```
 
 ### Frameworks
-<demos :items="{
-  Vue: 'Extensions/BubbleMenu/Vue',
-  React: 'Extensions/BubbleMenu/React',
-}" />
+<tiptap-demo name="Extensions/BubbleMenu"></tiptap-demo>
 
 ### Custom logic
 Customize the logic for showing the menu with the `shouldShow` option. For components, `shouldShow` can be passed as a prop.

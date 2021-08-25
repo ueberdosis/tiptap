@@ -87,4 +87,4 @@ You should now see tiptap in your browser. Time to give yourself a pat on the ba
 ## 5. The complete setup (optional)
 Ready to add more? Below is a demo that shows how you could set up what we call the default editor. Feel free to take this and start customizing it then:
 
-<demo name="Examples/Default/React" />
+<tiptap-demo name="Examples/Default"></tiptap-demo>

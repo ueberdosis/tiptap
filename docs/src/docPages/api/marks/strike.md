@@ -39,4 +39,4 @@ yarn add @tiptap/extension-strike
 [packages/extension-strike/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-strike/)
 
 ## Usage
-<demo name="Marks/Strike" highlight="3-5,17,36" />
+<tiptap-demo name="Marks/Strike"></tiptap-demo>

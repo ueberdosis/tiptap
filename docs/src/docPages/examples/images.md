@@ -8,7 +8,4 @@ Though thousands of developers use tiptap every day, it’s still not our full-t
 [Become a sponsor on GitHub →](https://github.com/sponsors/ueberdosis)
 :::
 
-<demos :items="{
-  Vue: 'Examples/Images/Vue',
-  React: 'Examples/Images/React',
-}" />
+<tiptap-demo name="Examples/Images"></tiptap-demo>

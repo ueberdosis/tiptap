@@ -1,6 +1,3 @@
 # Tasks
 
-<demos :items="{
-  Vue: 'Examples/Tasks/Vue',
-  React: 'Examples/Tasks/React',
-}" />
+<tiptap-demo name="Examples/Tasks"></tiptap-demo>

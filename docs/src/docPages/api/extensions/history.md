@@ -44,4 +44,4 @@ yarn add @tiptap/extension-history
 [packages/extension-history/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-history/)
 
 ## Usage
-<demo name="Extensions/History" highlight="3-8,20,39" />
+<tiptap-demo name="Extensions/History"></tiptap-demo>

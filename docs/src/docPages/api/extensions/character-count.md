@@ -22,7 +22,7 @@ yarn add @tiptap/extension-character-count
 [packages/extension-character-count/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-character-count/)
 
 ## Usage
-<demo name="Extensions/CharacterCount" />
+<tiptap-demo name="Extensions/CharacterCount"></tiptap-demo>
 
 ## Count words, emojis, letters …
 Want to count words instead? Or emojis? Or the letter *a*? Sure, no problem. You can access the `textContent` directly and count whatever you’re into.

@@ -33,4 +33,4 @@ yarn add @tiptap/extension-blockquote
 [packages/extension-blockquote/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-blockquote/)
 
 ## Usage
-<demo name="Nodes/Blockquote" highlight="3-5,17,36" />
+<tiptap-demo name="Nodes/Blockquote"></tiptap-demo>

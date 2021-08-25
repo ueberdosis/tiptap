@@ -26,4 +26,4 @@ yarn add @tiptap/extension-placeholder
 [packages/extension-placeholder/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-placeholder/)
 
 ## Usage
-<demo name="Extensions/Placeholder" />
+<tiptap-demo name="Extensions/Placeholder"></tiptap-demo>

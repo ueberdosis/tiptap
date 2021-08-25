@@ -29,4 +29,4 @@ This extension requires the [`TextStyle`](/api/marks/text-style) mark.
 [packages/extension-color/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-color/)
 
 ## Usage
-<demo name="Extensions/Color" />
+<tiptap-demo name="Extensions/Color"></tiptap-demo>

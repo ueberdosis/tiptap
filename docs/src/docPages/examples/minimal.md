@@ -1,6 +1,3 @@
 # Minimal setup
 
-<demos :items="{
-  Vue: 'Examples/Minimal/Vue',
-  React: 'Examples/Minimal/React',
-}" />
+<tiptap-demo name="Examples/Minimal"></tiptap-demo>

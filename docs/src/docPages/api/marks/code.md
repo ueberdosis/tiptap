@@ -35,4 +35,4 @@ yarn add @tiptap/extension-code
 [packages/extension-code/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code/)
 
 ## Usage
-<demo name="Marks/Code" highlight="3-5,17,36" />
+<tiptap-demo name="Marks/Code"></tiptap-demo>

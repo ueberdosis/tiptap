@@ -10,7 +10,7 @@ All it needs is JSON or a HTML string, and a list of extensions.
 [packages/html/](https://github.com/ueberdosis/tiptap/blob/main/packages/html/)
 
 ## Generate HTML from JSON
-<demo name="Guide/Content/GenerateHTML" highlight="6-7,42-48"/>
+<tiptap-demo name="GuideContent/GenerateHTML"></tiptap-demo>
 
 ## Generate JSON from HTML
-<demo name="Guide/Content/GenerateJSON" highlight="6-7,18-24"/>
+<tiptap-demo name="GuideContent/GenerateJSON"></tiptap-demo>

@@ -1,6 +1,3 @@
 # Markdown shortcuts
 
-<demos :items="{
-  Vue: 'Examples/MarkdownShortcuts/Vue',
-  React: 'Examples/MarkdownShortcuts/React',
-}" />
+<tiptap-demo name="Examples/MarkdownShortcuts"></tiptap-demo>

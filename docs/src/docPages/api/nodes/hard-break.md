@@ -27,4 +27,4 @@ yarn add @tiptap/extension-hard-break
 [packages/extension-hard-break/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-hard-break/)
 
 ## Usage
-<demo name="Nodes/HardBreak" highlight="3-5,17,36" />
+<tiptap-demo name="Nodes/HardBreak"></tiptap-demo>

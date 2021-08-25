@@ -39,4 +39,4 @@ yarn add @tiptap/extension-bold
 [packages/extension-bold/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bold/)
 
 ## Usage
-<demo name="Marks/Bold" highlight="3-5,17,36" />
+<tiptap-demo name="Marks/Bold"></tiptap-demo>

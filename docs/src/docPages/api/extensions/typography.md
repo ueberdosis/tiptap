@@ -45,4 +45,4 @@ yarn add @tiptap/extension-typography
 [packages/extension-typography/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-typography/)
 
 ## Usage
-<demo name="Extensions/Typography" highlight="12,31" />
+<tiptap-demo name="Extensions/Typography"></tiptap-demo>

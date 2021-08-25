@@ -35,4 +35,4 @@ This extension requires the [`ListItem`](/api/nodes/list-item) node.
 [packages/extension-bullet-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/)
 
 ## Usage
-<demo name="Nodes/BulletList" highlight="3-5,17-18,37-38" />
+<tiptap-demo name="Nodes/BulletList"></tiptap-demo>

@@ -25,7 +25,9 @@
     </app-section>
 
     <app-section>
-      <demo name="Examples/CollaborativeEditing" inline />
+      <div style="margin: -1rem">
+        <tiptap-demo name="Examples/CollaborativeEditing" inline />
+      </div>
     </app-section>
 
     <app-section>

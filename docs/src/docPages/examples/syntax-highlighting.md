@@ -1,6 +1,3 @@
 # Syntax highlighting
 
-<demos :items="{
-  Vue: 'Examples/CodeBlockLanguage/Vue',
-  React: 'Examples/CodeBlockLanguage/React',
-}" />
+<tiptap-demo name="Examples/CodeBlockLanguage"></tiptap-demo>

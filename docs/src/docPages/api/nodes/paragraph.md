@@ -35,4 +35,4 @@ yarn add @tiptap/extension-paragraph
 [packages/extension-paragraph/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-paragraph/)
 
 ## Usage
-<demo name="Nodes/Paragraph" highlight="11,29" />
+<tiptap-demo name="Nodes/Paragraph"></tiptap-demo>

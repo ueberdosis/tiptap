@@ -33,4 +33,4 @@ yarn add @tiptap/extension-superscript
 [packages/extension-superscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-superscript/)
 
 ## Usage
-<demo name="Marks/Superscript" highlight="3-5,17,36" />
+<tiptap-demo name="Marks/Superscript"></tiptap-demo>

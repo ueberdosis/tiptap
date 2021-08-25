@@ -38,10 +38,7 @@ new Editor({
 ```
 
 ## Using a framework
-<demos :items="{
-  Vue: 'Extensions/FloatingMenu/Vue',
-  React: 'Extensions/FloatingMenu/React',
-}" />
+<tiptap-demo name="Extensions/FloatingMenu"></tiptap-demo>
 
 ### Custom logic
 Customize the logic for showing the menu with the `shouldShow` option. For components, `shouldShow` can be passed as a prop.

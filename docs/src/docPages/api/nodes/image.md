@@ -27,4 +27,4 @@ yarn add @tiptap/extension-image
 [packages/extension-image/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-image/)
 
 ## Usage
-<demo name="Nodes/Image" />
+<tiptap-demo name="Nodes/Image"></tiptap-demo>

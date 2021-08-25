@@ -40,6 +40,5 @@ This extension requires the [`Collaboration`](/api/extensions/collaboration) ext
 :::warning Public
 The content of this editor is shared with other users.
 :::
-
-<demo name="Extensions/CollaborationCursor" hide-source />
-<demo name="Extensions/CollaborationCursor" highlight="11,39-45" />
+<tiptap-demo name="Extensions/CollaborationCursor" hideSource></tiptap-demo>
+<tiptap-demo name="Extensions/CollaborationCursor"></tiptap-demo>

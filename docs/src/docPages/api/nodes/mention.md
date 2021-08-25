@@ -67,4 +67,4 @@ It’s also possible to use Vanilla JavaScript, but that is probably a lot more 
 [packages/extension-mention/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-mention/)
 
 ## Usage
-<demo name="Nodes/Mention" />
+<tiptap-demo name="Nodes/Mention"></tiptap-demo>
