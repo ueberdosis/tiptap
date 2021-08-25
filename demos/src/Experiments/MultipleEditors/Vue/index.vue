@@ -132,7 +132,7 @@ export default {
     },
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     this.title.destroy()
     this.tasks.destroy()
     this.description.destroy()
