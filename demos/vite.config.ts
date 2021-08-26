@@ -26,6 +26,7 @@ export default defineConfig({
       'prosemirror-history',
       'prosemirror-dropcursor',
       'prosemirror-gapcursor',
+      'prosemirror-tables',
       'tippy.js',
       'yjs',
       'y-prosemirror',
