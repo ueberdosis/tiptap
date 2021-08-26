@@ -33,7 +33,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.14.5",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
-    "@cypress/vite-dev-server": "^2.0.7",
+    "@cypress/webpack-preprocessor": "^5.9.1",
     "@lerna/batch-packages": "^3.16.0",
     "@lerna/filter-packages": "^3.18.0",
     "@lerna/project": "^3.21.0",

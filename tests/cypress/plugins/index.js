@@ -12,15 +12,40 @@
 // the project's config changing)
 
 const path = require('path')
-const { startDevServer } = require('@cypress/vite-dev-server')
+const globby = require('globby')
+const webpackPreprocessor = require('@cypress/webpack-preprocessor')
 
 module.exports = on => {
-  on('dev-server:start', options => {
-    return startDevServer({
-      options,
-      viteConfig: {
-        configFile: path.resolve(__dirname, '../../demos/vite.config.js'),
-      },
+  const alias = {}
+
+  globby.sync('../packages/*', { onlyDirectories: true })
+    .map(name => name.replace('../packages/', ''))
+    .forEach(name => {
+      alias[`@tiptap/${name}$`] = path.resolve(`../packages/${name}/src/index.ts`)
     })
-  })
+
+  const options = {
+    webpackOptions: {
+      module: {
+        rules: [
+          {
+            test: /\.tsx?$/,
+            use: 'ts-loader',
+            exclude: /node_modules/,
+          },
+          {
+            test: /\.jsx?$/,
+            use: 'babel-loader',
+            exclude: /node_modules/,
+          },
+        ],
+      },
+      resolve: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        alias,
+      },
+    },
+  }
+
+  on('file:preprocessor', webpackPreprocessor(options))
 }
