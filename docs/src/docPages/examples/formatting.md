@@ -1,6 +1,3 @@
 # Formatting
 
-<demos :items="{
-  Vue: 'Examples/Formatting/Vue',
-  React: 'Examples/Formatting/React',
-}" />
+<tiptap-demo name="Examples/Formatting"></tiptap-demo>

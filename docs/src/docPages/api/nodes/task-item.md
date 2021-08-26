@@ -29,4 +29,4 @@ This extension requires the [`TaskList`](/api/nodes/task-list) node.
 [packages/extension-task-item/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-item/)
 
 ## Usage
-<demo name="Nodes/TaskItem" />
+<tiptap-demo name="Nodes/TaskItem"></tiptap-demo>

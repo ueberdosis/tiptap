@@ -40,4 +40,4 @@ yarn add @tiptap/extension-italic
 [packages/extension-italic/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-italic/)
 
 ## Usage
-<demo name="Marks/Italic" highlight="3-5,17,36" />
+<tiptap-demo name="Marks/Italic"></tiptap-demo>

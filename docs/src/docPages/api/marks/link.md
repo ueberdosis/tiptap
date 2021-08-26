@@ -40,4 +40,4 @@ This extension doesn’t bind a specific keyboard shortcut. You would probably o
 [packages/extension-link/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-link/)
 
 ## Usage
-<demo name="Marks/Link" highlight="3-8,18,39,56-61" />
+<tiptap-demo name="Marks/Link"></tiptap-demo>

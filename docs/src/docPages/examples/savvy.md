@@ -1,3 +1,3 @@
 # A clever editor
 
-<demo name="Examples/Savvy" />
+<tiptap-demo name="Examples/Savvy"></tiptap-demo>

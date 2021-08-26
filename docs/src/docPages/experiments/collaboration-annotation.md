@@ -43,4 +43,4 @@ This extension requires the [`Collaboration`](/api/extensions/collaboration) ext
 [packages/extension-collaboration-annotation/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-annotation/) -->
 
 ## Usage
-<demo name="Experiments/CollaborationAnnotation" />
+<tiptap-demo name="Experiments/CollaborationAnnotation"></tiptap-demo>

@@ -9,4 +9,4 @@
 ## Issues
 * The current implementation works with images only.
 
-<demo name="Experiments/Figure" />
+<tiptap-demo name="Experiments/Figure"></tiptap-demo>

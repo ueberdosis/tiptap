@@ -35,4 +35,4 @@ This extension requires the [`TaskItem`](/api/nodes/task-item) extension.
 [packages/extension-task-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-list/)
 
 ## Usage
-<demo name="Nodes/TaskList" highlight="3-5,17-18,37-38" />
+<tiptap-demo name="Nodes/TaskList"></tiptap-demo>

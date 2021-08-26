@@ -35,4 +35,4 @@ This extension requires the [`Table`](/api/nodes/table), [`TableRow`](/api/nodes
 [packages/extension-table-header/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-table-header/)
 
 ## Usage
-<demo name="Nodes/Table" />
+<tiptap-demo name="Nodes/Table"></tiptap-demo>

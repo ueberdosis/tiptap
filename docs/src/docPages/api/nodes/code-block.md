@@ -38,4 +38,4 @@ yarn add @tiptap/extension-code-block
 [packages/extension-code-block/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block/)
 
 ## Usage
-<demo name="Nodes/CodeBlock" highlight="3-5,17,36" />
+<tiptap-demo name="Nodes/CodeBlock"></tiptap-demo>

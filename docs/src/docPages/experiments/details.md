@@ -5,4 +5,4 @@
 ## Issues
 * Nested lists cause trouble
 
-<demo name="Experiments/Details" />
+<tiptap-demo name="Experiments/Details"></tiptap-demo>

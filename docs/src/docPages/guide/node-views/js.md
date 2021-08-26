@@ -42,7 +42,7 @@ export default Node.create({
 
 Got it? Let’s see it in action. Feel free to copy the below example to get started.
 
-<demo name="Guide/NodeViews/JavaScript" />
+<tiptap-demo name="GuideNodeViews/JavaScript"></tiptap-demo>
 
 That node view even interacts with the editor. Time to see how that is wired up.
 
@@ -120,6 +120,6 @@ return {
 
 Got it? You’re free to do anything you like, as long as you return a container for the node view and another one for the content. Here is the above example in action:
 
-<demo name="Guide/NodeViews/JavaScriptContent" />
+<tiptap-demo name="GuideNodeViews/JavaScriptContent"></tiptap-demo>
 
 Keep in mind that this content is rendered by tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node extension (that’s what we use in the above example).

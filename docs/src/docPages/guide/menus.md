@@ -18,24 +18,12 @@ A fixed menu, for example on top of the editor, can be anything. We don’t prov
 ### Bubble menu
 The [bubble menu](/api/extensions/bubble-menu) appears when selecting text. Markup and styling is totally up to you.
 
-<demos
-  :items="{
-    Vue: 'Extensions/BubbleMenu/Vue',
-    React: 'Extensions/BubbleMenu/React',
-  }"
-  hide-source
-/>
+<tiptap-demo name="Extensions/BubbleMenu" hideSource></tiptap-demo>
 
 ### Floating menu
 The [floating menu](/api/extensions/floating-menu) appears in empty lines. Markup and styling is totally up to you.
 
-<demos
-  :items="{
-    Vue: 'Extensions/FloatingMenu/Vue',
-    React: 'Extensions/FloatingMenu/React',
-  }"
-  hide-source
-/>
+<tiptap-demo name="Extensions/FloatingMenu" hideSource></tiptap-demo>
 
 ### Slash commands (work in progress)
 It’s not an official extension yet, but [there’s an experiment you can use to add what we call slash commands](/experiments/commands). It’ll allow you to start a new line with `/` and will bring up a popup to select which node should be added.

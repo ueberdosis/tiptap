@@ -33,4 +33,4 @@ yarn add @tiptap/extension-subscript
 [packages/extension-subscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-subscript/)
 
 ## Usage
-<demo name="Marks/Subscript" highlight="3-5,16,35" />
+<tiptap-demo name="Marks/Subscript"></tiptap-demo>

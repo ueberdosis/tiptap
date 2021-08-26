@@ -5,6 +5,7 @@ import 'prismjs/components/prism-scss.js'
 import PortalVue from 'portal-vue'
 import iframeResize from 'iframe-resizer/js/iframeResizer'
 import App from '~/layouts/App'
+import './TiptapDemo'
 
 Prism.manual = true
 

@@ -26,4 +26,4 @@ yarn add @tiptap/extension-dropcursor
 [packages/extension-dropcursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-dropcursor/)
 
 ## Usage
-<demo name="Extensions/Dropcursor" highlight="12,33" />
+<tiptap-demo name="Extensions/Dropcursor"></tiptap-demo>

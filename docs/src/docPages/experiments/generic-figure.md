@@ -2,4 +2,4 @@
 
 ⚠️ Experiment
 
-<demo name="Experiments/GenericFigure" />
+<tiptap-demo name="Experiments/GenericFigure"></tiptap-demo>

@@ -109,4 +109,4 @@ You should now see tiptap in your browser. Time to give yourself a pat on the ba
 ## 5. Use v-model (optional)
 You’re probably used to bind your data with `v-model` in forms, that’s also possible with tiptap. Here is a working example component, that you can integrate in your project:
 
-<demo name="Guide/GettingStarted/VModel" />
+<tiptap-demo name="GuideGettingStarted/VModel"></tiptap-demo>

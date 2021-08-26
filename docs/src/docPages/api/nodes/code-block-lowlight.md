@@ -34,4 +34,4 @@ yarn add @tiptap/extension-code-block-lowlight
 [packages/extension-code-block-lowlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block-lowlight/)
 
 ## Usage
-<demo name="Nodes/CodeBlockLowlight" />
+<tiptap-demo name="Nodes/CodeBlockLowlight"></tiptap-demo>

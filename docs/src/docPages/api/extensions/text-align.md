@@ -46,4 +46,4 @@ yarn add @tiptap/extension-text-align
 [packages/extension-text-align/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-align/)
 
 ## Usage
-<demo name="Extensions/TextAlign" highlight="29" />
+<tiptap-demo name="Extensions/TextAlign"></tiptap-demo>

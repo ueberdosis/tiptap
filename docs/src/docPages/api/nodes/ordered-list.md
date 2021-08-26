@@ -35,4 +35,4 @@ This extension requires the [`ListItem`](/api/nodes/list-item) node.
 [packages/extension-ordered-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-ordered-list/)
 
 ## Usage
-<demo name="Nodes/OrderedList" highlight="3-5,17-18,37-38" />
+<tiptap-demo name="Nodes/OrderedList"></tiptap-demo>

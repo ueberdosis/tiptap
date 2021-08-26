@@ -21,4 +21,4 @@ yarn add @tiptap/extension-text
 [packages/extension-text/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text/)
 
 ## Usage
-<demo name="Nodes/Text" highlight="12,30" />
+<tiptap-demo name="Nodes/Text"></tiptap-demo>

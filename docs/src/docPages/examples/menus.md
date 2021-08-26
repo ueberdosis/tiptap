@@ -1,6 +1,3 @@
 # Menus
 
-<demos :items="{
-  Vue: 'Examples/Menus/Vue',
-  React: 'Examples/Menus/React',
-}" />
+<tiptap-demo name="Examples/Menus"></tiptap-demo>

@@ -19,4 +19,4 @@ This extension requires the [`Table`](/api/nodes/table), [`TableHeader`](/api/no
 [packages/extension-table-row/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-table-row/)
 
 ## Usage
-<demo name="Nodes/Table" />
+<tiptap-demo name="Nodes/Table"></tiptap-demo>

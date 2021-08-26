@@ -36,4 +36,4 @@ yarn add @tiptap/extension-highlight
 [packages/extension-highlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-highlight/)
 
 ## Usage
-<demo name="Marks/Highlight" highlight="3-8,48,67" />
+<tiptap-demo name="Marks/Highlight"></tiptap-demo>

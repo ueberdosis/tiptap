@@ -29,4 +29,4 @@ This extension requires the [`BulletList`](/api/nodes/bullet-list) or [`OrderedL
 [packages/extension-list-item/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list-item/)
 
 ## Usage
-<demo name="Nodes/ListItem" highlight="3-8,20-22,41-43" />
+<tiptap-demo name="Nodes/ListItem"></tiptap-demo>

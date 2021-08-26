@@ -20,7 +20,7 @@ It connects all clients to a WebSocket server and merges changes to the document
 Be nice! The content of this editor is shared with other users from the Internet.
 :::
 
-<demo name="Examples/CollaborativeEditing" />
+<tiptap-demo name="Examples/CollaborativeEditing"></tiptap-demo>
 
 ## Backend
 In case you’re wondering what kind of sorcery you need on the server to achieve this, here is the whole backend code for the demo:

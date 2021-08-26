@@ -19,4 +19,4 @@ yarn add @tiptap/extension-gapcursor
 [packages/extension-gapcursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-gapcursor/)
 
 ## Usage
-<demo name="Extensions/Gapcursor" highlight="12,33" />
+<tiptap-demo name="Extensions/Gapcursor"></tiptap-demo>

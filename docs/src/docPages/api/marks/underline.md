@@ -39,4 +39,4 @@ yarn add @tiptap/extension-underline
 [packages/extension-underline/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-underline/)
 
 ## Usage
-<demo name="Marks/Underline" highlight="3-5,17,36" />
+<tiptap-demo name="Marks/Underline"></tiptap-demo>

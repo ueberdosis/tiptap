@@ -34,4 +34,4 @@ yarn add @tiptap/extension-heading
 [packages/extension-heading/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-heading/)
 
 ## Usage
-<demo name="Nodes/Heading" highlight="3-11,23,42-44" />
+<tiptap-demo name="Nodes/Heading"></tiptap-demo>
