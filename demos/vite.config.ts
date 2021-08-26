@@ -33,6 +33,8 @@ export default defineConfig({
       'y-websocket',
       'y-indexeddb',
       'y-webrtc',
+      'lowlight',
+      'lowlight/lib/core',
     ],
   },
 
@@ -124,19 +126,33 @@ export default defineConfig({
                 content: fs.readFileSync(`${path}/${name}`, 'utf8'),
               }
             })
+            .sort((a, b) => {
+              const depthA = a.name.split('/').length
+              const depthB = b.name.split('/').length
 
-          const sortedFiles = files.sort(item => {
-            if (
-              item.name.split('/').length === 0
-              && basename(item.name).startsWith('index.')
-            ) {
-              return -1
-            }
+              if (depthA > depthB) {
+                return 1
+              }
 
-            return 1
-          })
+              if (depthA < depthB) {
+                return -1
+              }
 
-          return `export default ${JSON.stringify(sortedFiles)}`
+              const aIsIndex = basename(a.name).includes('index.')
+              const bIsIndex = basename(b.name).includes('index.')
+
+              if (aIsIndex) {
+                return -1
+              }
+
+              if (bIsIndex) {
+                return 1
+              }
+
+              return 0
+            })
+
+          return `export default ${JSON.stringify(files)}`
         }
       },
     },
