@@ -1,6 +1,6 @@
-context('/demos/Examples/BubbleMenu/React', () => {
+context('/src/Examples/BubbleMenu/React/', () => {
   before(() => {
-    cy.visit('/demos/Examples/BubbleMenu/React')
+    cy.visit('/src/Examples/BubbleMenu/React/')
   })
 
   // TODO: Write tests

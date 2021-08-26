@@ -1,6 +1,6 @@
-context('/demos/Marks/Strike', () => {
+context('/src/Marks/Strike/Vue/', () => {
   before(() => {
-    cy.visit('/demos/Marks/Strike')
+    cy.visit('/src/Marks/Strike/Vue/')
   })
 
   beforeEach(() => {

@@ -1,6 +1,6 @@
-context('/demos/Guide/Content/GenerateJSON', () => {
+context('/src/GuideContent/GenerateJSON/Vue/', () => {
   before(() => {
-    cy.visit('/demos/Guide/Content/GenerateJSON')
+    cy.visit('/src/GuideContent/GenerateJSON/Vue/')
   })
 
   // TODO: Write tests

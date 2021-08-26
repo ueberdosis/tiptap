@@ -1,6 +1,6 @@
-context('/demos/Examples/MarkdownShortcuts/Vue', () => {
+context('/src/Examples/MarkdownShortcuts/Vue/', () => {
   before(() => {
-    cy.visit('/demos/Examples/MarkdownShortcuts/Vue')
+    cy.visit('/src/Examples/MarkdownShortcuts/Vue/')
   })
 
   beforeEach(() => {

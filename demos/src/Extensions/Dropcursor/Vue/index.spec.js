@@ -1,6 +1,6 @@
-context('/demos/Examples/Dropcursor', () => {
+context('/src/Examples/Dropcursor/Vue/', () => {
   before(() => {
-    cy.visit('/demos/Examples/Dropcursor')
+    cy.visit('/src/Examples/Dropcursor/Vue/')
   })
 
   // TODO: Write tests

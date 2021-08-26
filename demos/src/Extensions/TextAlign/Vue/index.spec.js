@@ -1,6 +1,6 @@
-context('/demos/Extensions/TextAlign', () => {
+context('/src/Extensions/TextAlign/Vue/', () => {
   before(() => {
-    cy.visit('/demos/Extensions/TextAlign')
+    cy.visit('/src/Extensions/TextAlign/Vue/')
   })
 
   beforeEach(() => {

@@ -1,6 +1,6 @@
-context('/demos/Nodes/Image', () => {
+context('/src/Nodes/Image/Vue/', () => {
   before(() => {
-    cy.visit('/demos/Nodes/Image')
+    cy.visit('/src/Nodes/Image/Vue/')
   })
 
   beforeEach(() => {
