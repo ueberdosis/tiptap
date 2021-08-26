@@ -19,7 +19,7 @@
       </svg>
     </div>
     <iframe
-      class="bg-transparent max-h-[400px]"
+      class="bg-transparent max-h-[28rem]"
       v-resize.quiet="{ scrolling: 'omit' }"
       :src="src"
       width="100%"
