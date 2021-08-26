@@ -2,6 +2,7 @@ import { EditorState, Selection, TextSelection } from 'prosemirror-state'
 import { RawCommands, FocusPosition } from '../types'
 import minMax from '../utilities/minMax'
 import isTextSelection from '../helpers/isTextSelection'
+import isiOS from '../utilities/isiOS'
 
 function resolveSelection(state: EditorState, position: FocusPosition = null) {
   if (!position) {
@@ -48,11 +49,18 @@ export const focus: RawCommands['focus'] = (position = null) => ({
   dispatch,
 }) => {
   const delayedFocus = () => {
+    // focus within `requestAnimationFrame` breaks focus on iOS
+    // so we have to call this
+    if (isiOS()) {
+      (view.dom as HTMLElement).focus()
+    }
+
     // For React we have to focus asynchronously. Otherwise wild things happen.
     // see: https://github.com/ueberdosis/tiptap/issues/1520
     requestAnimationFrame(() => {
       if (!editor.isDestroyed) {
         view.focus()
+        editor.commands.scrollIntoView()
       }
     })
   }
