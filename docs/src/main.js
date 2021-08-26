@@ -73,7 +73,5 @@ export default function (Vue, { router, head }) {
   })
 
   Vue.component('Layout', App)
-  Vue.component('Demo', () => import(/* webpackChunkName: "demo" */ '~/components/Demo'))
-  Vue.component('Demos', () => import(/* webpackChunkName: "demos" */ '~/components/Demos'))
   Vue.component('ContentMissing', () => import(/* webpackChunkName: "contentMissing" */ '~/components/ContentMissing'))
 }
