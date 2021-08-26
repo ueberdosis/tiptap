@@ -1003,6 +1003,14 @@
     tunnel-agent "^0.6.0"
     uuid "^8.3.2"
 
+"@cypress/vite-dev-server@^2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@cypress/vite-dev-server/-/vite-dev-server-2.0.7.tgz#1255b783d95cc71f1c3e0df1f9917832e0bd016f"
+  integrity sha512-0RAYG/WvgB2lAiu+voqMtGy2PdbwVz8EB6q1+u2G8akHepbe8KSrObdO7EHCZXzMQ0VQlmToonO4Qx+OUwPPwg==
+  dependencies:
+    debug "^4.3.2"
+    get-port "^5.1.1"
+
 "@cypress/xvfb@^1.2.4":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@cypress/xvfb/-/xvfb-1.2.4.tgz#2daf42e8275b39f4aa53c14214e557bd14e7748a"
@@ -7248,6 +7256,11 @@ get-port@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/get-port/-/get-port-4.2.0.tgz#e37368b1e863b7629c43c5a323625f95cf24b119"
   integrity sha512-/b3jarXkH8KJoOMQc3uVGHASwGLPq3gSFJ7tgJm2diza+bydJPTGOibin2steecKeOylE8oY2JERlVWkAJO6yw==
+
+get-port@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/get-port/-/get-port-5.1.1.tgz#0469ed07563479de6efb986baf053dcd7d4e3193"
+  integrity sha512-g/Q1aTSDOxFpchXC4i8ZWvxA1lnPqx/JHqcpIw0/LX9T8x/GBbi6YnlN5nhaKIFkT8oFsscUKgDJYxfwfS6QsQ==
 
 get-proxy@^2.0.0:
   version "2.1.0"
