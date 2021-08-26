@@ -21,7 +21,7 @@
     </div>
     <div class="overflow-hidden rounded-b-xl">
       <div
-        class="border-2 border-black last:rounded-b-xl"
+        class="bg-white border-3 border-black last:rounded-b-xl"
         :class="[
           showTabs && firstTabSelected
             ? 'rounded-tr-xl'

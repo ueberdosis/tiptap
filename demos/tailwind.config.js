@@ -8,6 +8,9 @@ module.exports = {
 
   theme: {
     extend: {
+      borderWidth: {
+        3: '3px',
+      },
       colors: {
         code: {
           attrName: '#faf594',
