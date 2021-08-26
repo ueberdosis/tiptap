@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.56](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.55...@tiptap/vue-3@2.0.0-beta.56) (2021-08-26)
+
+
+### Bug Fixes
+
+* use shallowRef on Editor ([#1804](https://github.com/ueberdosis/tiptap/issues/1804)) ([46701fd](https://github.com/ueberdosis/tiptap/commit/46701fde666b925e80f6796a45f928e671bee92d))
+
+
+
+
+
 # [2.0.0-beta.55](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.54...@tiptap/vue-3@2.0.0-beta.55) (2021-08-23)
 
 
