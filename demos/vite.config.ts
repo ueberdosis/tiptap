@@ -13,6 +13,28 @@ import vue from '@vitejs/plugin-vue'
 import reactRefresh from '@vitejs/plugin-react-refresh'
 
 export default defineConfig({
+  optimizeDeps: {
+    include: [
+      'prosemirror-commands',
+      'prosemirror-inputrules',
+      'prosemirror-keymap',
+      'prosemirror-model',
+      'prosemirror-schema-list',
+      'prosemirror-state',
+      'prosemirror-transform',
+      'prosemirror-view',
+      'prosemirror-history',
+      'prosemirror-dropcursor',
+      'prosemirror-gapcursor',
+      'tippy.js',
+      'yjs',
+      'y-prosemirror',
+      'y-websocket',
+      'y-indexeddb',
+      'y-webrtc',
+    ],
+  },
+
   build: {
     rollupOptions: {
       input: globby.sync('./**/index.html', {
