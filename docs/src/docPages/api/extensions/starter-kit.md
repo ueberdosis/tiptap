@@ -34,7 +34,6 @@ yarn add @tiptap/starter-kit
 * [`Code`](/api/marks/code)
 * [`Italic`](/api/marks/italic)
 * [`Strike`](/api/marks/strike)
-* [`TextStyle`](/api/marks/text-style)
 
 ### Extensions
 * [`Dropcursor`](/api/extensions/dropcursor)
