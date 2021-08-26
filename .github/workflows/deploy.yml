@@ -1,0 +1,21 @@
+# Automate, customize, and execute your software development workflows right in your repository with GitHub Actions.
+# Documentation: https://docs.github.com/en/actions
+
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+
+    - name: Update the documentation
+      run: curl ${{ secrets.TRIGGER_DEPLOYMENT }}
