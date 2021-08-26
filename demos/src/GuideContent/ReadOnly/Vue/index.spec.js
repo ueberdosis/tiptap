@@ -1,6 +1,6 @@
-context('/demos/Guide/Content/ReadOnly', () => {
+context('/src/GuideContent/ReadOnly/Vue/', () => {
   before(() => {
-    cy.visit('/demos/Guide/Content/ReadOnly')
+    cy.visit('/src/GuideContent/ReadOnly/Vue/')
   })
 
   beforeEach(() => {

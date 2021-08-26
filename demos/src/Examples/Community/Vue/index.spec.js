@@ -1,6 +1,6 @@
-context('/demos/Examples/Community/Vue', () => {
+context('/src/Examples/Community/Vue/', () => {
   before(() => {
-    cy.visit('/demos/Examples/Community/Vue')
+    cy.visit('/src/Examples/Community/Vue/')
   })
 
   // TODO: Write tests

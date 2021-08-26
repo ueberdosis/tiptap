@@ -1,6 +1,6 @@
-context('/demos/Extensions/Color', () => {
+context('/src/Extensions/Color/Vue/', () => {
   before(() => {
-    cy.visit('/demos/Extensions/Color')
+    cy.visit('/src/Extensions/Color/Vue/')
   })
 
   beforeEach(() => {

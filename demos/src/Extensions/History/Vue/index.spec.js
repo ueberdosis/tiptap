@@ -1,6 +1,6 @@
-context('/demos/Extensions/History', () => {
+context('/src/Extensions/History/Vue/', () => {
   beforeEach(() => {
-    cy.visit('/demos/Extensions/History')
+    cy.visit('/src/Extensions/History/Vue/')
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<p>Mistake</p>')
     })
