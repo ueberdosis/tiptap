@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   resolve,
   basename,
@@ -53,7 +52,7 @@ export default defineConfig({
     {
       name: 'raw',
       resolveId(id, importer) {
-        if (id.startsWith('raw!')) {
+        if (id.startsWith('raw!') && importer) {
           const [, relativePath] = id.split('raw!')
           const fullPath = join(dirname(importer), relativePath)
 
@@ -103,7 +102,7 @@ export default defineConfig({
     {
       name: 'source',
       resolveId(id, importer) {
-        if (id === '@source') {
+        if (id === '@source' && importer) {
           return `source!${dirname(importer)}!!${uuid()}`
         }
       },
@@ -163,7 +162,7 @@ export default defineConfig({
       configureServer(viteDevServer) {
         return () => {
           viteDevServer.middlewares.use(async (req, res, next) => {
-            if (req.originalUrl.startsWith('/preview')) {
+            if (req?.originalUrl?.startsWith('/preview')) {
               req.url = '/preview/index.html'
             }
 
@@ -183,11 +182,4 @@ export default defineConfig({
         }),
     ],
   },
-
-  // server: {
-  //   fs: {
-  //     // Allow serving files from one level up to the project root
-  //     allow: ['..']
-  //   }
-  // }
 })
