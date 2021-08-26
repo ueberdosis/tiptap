@@ -124,7 +124,18 @@ export default defineConfig({
               }
             })
 
-          return `export default ${JSON.stringify(files)}`
+          const sortedFiles = files.sort(item => {
+            if (
+              item.name.split('/').length === 0
+              && basename(item.name).startsWith('index.')
+            ) {
+              return -1
+            }
+
+            return 1
+          })
+
+          return `export default ${JSON.stringify(sortedFiles)}`
         }
       },
     },

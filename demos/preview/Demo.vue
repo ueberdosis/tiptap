@@ -38,7 +38,7 @@
         <div class="flex overflow-x-auto">
           <div class="flex flex-auto px-4 border-b-2 border-gray-800">
             <button
-              class="inline-flex relative mr-4 py-2 pb-[calc(0.3rem + 2px)] mb-[-2px] border-b-2 border-transparent font-mono text-sm"
+              class="inline-flex relative mr-4 py-2 pb-[calc(0.3rem + 2px)] mb-[-2px] border-b-2 border-transparent font-mono text-sm whitespace-nowrap"
               :class="[!showDebug && currentFile.content === file.content
                 ? 'text-white border-white font-bold'
                 : 'text-gray-400'
@@ -74,10 +74,10 @@
         </div>
 
         <div class="flex justify-between px-4 py-2 text-md text-gray-400 border-t border-gray-800">
-          <a :href="currentIframeUrl">
+          <a class="flex-shrink min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap" :href="currentIframeUrl">
             {{ name }}/{{ currentTab }}
           </a>
-          <a :href="githubUrl" target="_blank">
+          <a class="whitespace-nowrap pl-4" :href="githubUrl" target="_blank">
             Edit on GitHub →
           </a>
         </div>
