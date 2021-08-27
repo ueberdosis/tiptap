@@ -24,7 +24,6 @@ yarn add @tiptap/starter-kit
 * [`Heading`](/api/nodes/heading)
 * [`HorizontalRule`](/api/nodes/horizontal-rule)
 * [`ListItem`](/api/nodes/list-item)
-* [`Mention`](/api/nodes/mention)
 * [`OrderedList`](/api/nodes/ordered-list)
 * [`Paragraph`](/api/nodes/paragraph)
 * [`Text`](/api/nodes/text)
