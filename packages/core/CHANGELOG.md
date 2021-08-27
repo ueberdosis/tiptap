@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.102](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.101...@tiptap/core@2.0.0-beta.102) (2021-08-26)
+
+
+### Bug Fixes
+
+* fix focus on iOS, fix [#1806](https://github.com/ueberdosis/tiptap/issues/1806) ([3a06938](https://github.com/ueberdosis/tiptap/commit/3a0693869d10793620e0073b0782dd34ac5aea89))
+
+
+
+
+
 # [2.0.0-beta.101](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.100...@tiptap/core@2.0.0-beta.101) (2021-08-24)
 
 

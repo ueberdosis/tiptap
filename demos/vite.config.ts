@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   resolve,
   basename,
@@ -26,12 +25,15 @@ export default defineConfig({
       'prosemirror-history',
       'prosemirror-dropcursor',
       'prosemirror-gapcursor',
+      'prosemirror-tables',
       'tippy.js',
       'yjs',
       'y-prosemirror',
       'y-websocket',
       'y-indexeddb',
       'y-webrtc',
+      'lowlight',
+      'lowlight/lib/core',
     ],
   },
 
@@ -50,7 +52,7 @@ export default defineConfig({
     {
       name: 'raw',
       resolveId(id, importer) {
-        if (id.startsWith('raw!')) {
+        if (id.startsWith('raw!') && importer) {
           const [, relativePath] = id.split('raw!')
           const fullPath = join(dirname(importer), relativePath)
 
@@ -100,7 +102,7 @@ export default defineConfig({
     {
       name: 'source',
       resolveId(id, importer) {
-        if (id === '@source') {
+        if (id === '@source' && importer) {
           return `source!${dirname(importer)}!!${uuid()}`
         }
       },
@@ -123,6 +125,31 @@ export default defineConfig({
                 content: fs.readFileSync(`${path}/${name}`, 'utf8'),
               }
             })
+            .sort((a, b) => {
+              const depthA = a.name.split('/').length
+              const depthB = b.name.split('/').length
+
+              if (depthA > depthB) {
+                return 1
+              }
+
+              if (depthA < depthB) {
+                return -1
+              }
+
+              const aIsIndex = basename(a.name).includes('index.')
+              const bIsIndex = basename(b.name).includes('index.')
+
+              if (aIsIndex) {
+                return -1
+              }
+
+              if (bIsIndex) {
+                return 1
+              }
+
+              return 0
+            })
 
           return `export default ${JSON.stringify(files)}`
         }
@@ -135,7 +162,7 @@ export default defineConfig({
       configureServer(viteDevServer) {
         return () => {
           viteDevServer.middlewares.use(async (req, res, next) => {
-            if (req.originalUrl.startsWith('/preview')) {
+            if (req?.originalUrl?.startsWith('/preview')) {
               req.url = '/preview/index.html'
             }
 
@@ -155,11 +182,4 @@ export default defineConfig({
         }),
     ],
   },
-
-  // server: {
-  //   fs: {
-  //     // Allow serving files from one level up to the project root
-  //     allow: ['..']
-  //   }
-  // }
 })
