@@ -43,7 +43,7 @@ new Editor({
 The same applies to every aspect of an existing extension, except to the name. Let’s look at all the things that you can change through the extend method. We focus on one aspect in every example, but you can combine all those examples and change multiple aspects in one `extend()` call too.
 
 ### Name
-The extension name is used in a whole lot of places and changing it isn’t too easy. If you want to change the name of an existing extension, we would recommended to copy the whole extension and change the name in all occurrences.
+The extension name is used in a whole lot of places and changing it isn’t too easy. If you want to change the name of an existing extension, you can copy the whole extension and change the name in all occurrences.
 
 The extension name is also part of the JSON. If you [store your content as JSON](/guide/output#option-1-json), you need to change the name there too.
 
@@ -61,10 +61,10 @@ const CustomLink = Link.extend({
 The order in which extensions are loaded influences two things:
 
 1. #### Plugin order
-   Plugins of extensions with a higher priority will run first.
+   ProseMirror plugins of extensions with a higher priority will run first.
 
 2. #### Schema order
-   The [`Link`](/api/marks/link) mark for example has a higher priority, which means it’ll be rendered as `<a href="…"><strong>Example</strong></a>` instead of `<strong><a href="…">Example</></strong>`.
+   The [`Link`](/api/marks/link) mark for example has a higher priority, which means it will be rendered as `<a href="…"><strong>Example</strong></a>` instead of `<strong><a href="…">Example</a></strong>`.
 
 ### Settings
 All settings can be configured through the extension anyway, but if you want to change the default settings, for example to provide a library on top of tiptap for other developers, you can do it like that:
@@ -83,7 +83,7 @@ const CustomHeading = Heading.extend({
 ### Schema
 tiptap works with a strict schema, which configures how the content can be structured, nested, how it behaves and many more things. You [can change all aspects of the schema](/api/schema) for existing extensions. Let’s walk through a few common use cases.
 
-The default `Blockquote` extension can wrap other nodes, like headings. If you want to allow nothing but paragraphs in your blockquotes, this is how you could achieve it:
+The default `Blockquote` extension can wrap other nodes, like headings. If you want to allow nothing but paragraphs in your blockquotes, set the `content` attribute accordingly:
 
 ```js
 // Blockquotes must only include paragraphs
@@ -94,7 +94,7 @@ const CustomBlockquote = Blockquote.extend({
 })
 ```
 
-The schema even allows to make your nodes draggable, that’s what the `draggable` option is for, which defaults to `false`.
+The schema even allows to make your nodes draggable, that’s what the `draggable` option is for. It defaults to `false`, but you can override that.
 
 ```js
 // Draggable paragraphs
@@ -105,10 +105,10 @@ const CustomParagraph = Paragraph.extend({
 })
 ```
 
-That’s just two tiny examples, but [the underlying ProseMirror schema](https://prosemirror.net/docs/ref/#model.SchemaSpec) is really powerful. You should definitely read the documentation to understand all the nifty details.
+That’s just two tiny examples, but [the underlying ProseMirror schema](https://prosemirror.net/docs/ref/#model.SchemaSpec) is really powerful.
 
 ### Attributes
-You can use attributes to store additional information in the content. Let’s say you want to extend the default paragraph extension to enable paragraphs to have different colors:
+You can use attributes to store additional information in the content. Let’s say you want to extend the default `Paragraph` node to have different colors:
 
 ```js
 const CustomParagraph = Paragraph.extend({
@@ -126,11 +126,11 @@ const CustomParagraph = Paragraph.extend({
 // <p color="pink">Example Text</p>
 ```
 
-That’s already enough to tell tiptap about the new attribute, and set `'pink'` as the default value. All attributes will be rendered as a HTML attribute by default, and parsed as attributes from the content.
+That is already enough to tell tiptap about the new attribute, and set `'pink'` as the default value. All attributes will be rendered as a HTML attribute by default, and parsed from the content when initiated.
 
-Let’s stick with the color example and assume you’ll want to add an inline style to actually color the text. With the `renderHTML` function you can return HTML attributes which will be rendered in the output.
+Let’s stick with the color example and assume you want to add an inline style to actually color the text. With the `renderHTML` function you can return HTML attributes which will be rendered in the output.
 
-This examples adds a style HTML attribute based on the value of color:
+This examples adds a style HTML attribute based on the value of `color`:
 
 ```js
 const CustomParagraph = Paragraph.extend({
@@ -154,7 +154,7 @@ const CustomParagraph = Paragraph.extend({
 // <p style="color: pink">Example Text</p>
 ```
 
-You can also control how the attribute is parsed from the HTML. Let’s say you want to store the color in an attribute called `data-color`, here’s how you would do that:
+You can also control how the attribute is parsed from the HTML. Maybe you want to store the color in an attribute called `data-color` (and not just `color`), here’s how you would do that:
 
 ```js
 const CustomParagraph = Paragraph.extend({
@@ -184,10 +184,12 @@ const CustomParagraph = Paragraph.extend({
 // <p data-color="pink" style="color: pink">Example Text</p>
 ```
 
-You can disable the rendering of attributes, if you pass `rendered: false`.
+You can completly disable the rendering of attributes with `rendered: false`.
 
 #### Extend existing attributes
-If you want to add an attribute to an extension and keep existing attributes, you can access them through `this.parent()`. In some cases, it is undefined, so make sure to check for that case, or use optional chaining `this.parent?.()`
+If you want to add an attribute to an extension and keep existing attributes, you can access them through `this.parent()`. 
+
+In some cases, it is undefined, so make sure to check for that case, or use optional chaining `this.parent?.()`
 
 ```js
 const CustomTableCell = TableCell.extend({
@@ -202,7 +204,7 @@ const CustomTableCell = TableCell.extend({
 })
 ```
 
-### Global Attributes
+### Global attributes
 Attributes can be applied to multiple extensions at once. That’s useful for text alignment, line height, color, font family, and other styling related attributes.
 
 Take a closer look at [the full source code](https://github.com/ueberdosis/tiptap/tree/main/packages/extension-text-align) of the [`TextAlign`](/api/extensions/text-align) extension to see a more complex example. But here is how it works in a nutshell:

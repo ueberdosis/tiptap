@@ -7,7 +7,9 @@ tableOfContents: true
 ## toc
 
 ## Introduction
-There are a few things you can control when initializing a new editor. For most cases it’s enough to say where tiptap should be rendered (`element`), what functionalities you want to enable (`extensions`) and what the initial document should be (`content`). A few more things can be configured though. Let’s look at a fully configured editor example.
+For most cases it’s enough to say where tiptap should be rendered (`element`), what functionalities you want to enable (`extensions`) and what the initial document should be (`content`). 
+
+A few more things can be configured though. Let’s look at a fully configured editor example.
 
 ## Configure the editor
 To add your configuration, pass [an object with settings](/api/editor) to the `Editor` class, like shown here:
@@ -42,7 +44,9 @@ This will do the following:
 6. disable the loading of [the default CSS](https://github.com/ueberdosis/tiptap/tree/main/packages/core/src/style.ts) (which is not much anyway).
 
 ## Nodes, marks and extensions
-Most features are packed into [nodes](/api/nodes), [marks](/api/marks) and [extensions](/api/extensions). Import what you need and pass them as an Array to the editor and you are good to go. Here is the minimal setup with only three extensions:
+Most editing features are bundled as [node](/api/nodes), [mark](/api/marks) or [extension](/api/extensions). Import what you need and pass them as an array to the editor.
+
+Here is the minimal setup with only three extensions:
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -61,7 +65,9 @@ new Editor({
 ```
 
 ### Configure extensions
-Most extensions can be configured. Add a `.configure()` to pass an object to it. The following example will disable the default heading levels 4, 5 and 6:
+Most extensions can be configured. Add a `.configure()` and pass an object to it. 
+
+The following example will disable the default heading levels 4, 5 and 6 and just allow 1, 2 and 3:
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -83,10 +89,10 @@ new Editor({
 })
 ```
 
-Have a look at the documentation of the extension you use to learn more about their settings.
+Have a look at the documentation of the extension you are using to learn more about their settings.
 
 ### Default extensions
-We have put together a few of the most common extensions and provide a `StarterKit` extension to load them. Here is how you to use that:
+We have bundled a few of the most common extensions into a `StarterKit` extension. Here is how you to use that:
 
 ```js
 import StarterKit from '@tiptap/starter-kit'
@@ -98,7 +104,7 @@ new Editor({
 })
 ```
 
-And you can even pass configuration for all default extensions as an object. Just prefix the configuration with the extension name:
+You can even pass a configuration for all included extensions as an object. Just prefix the configuration with the extension name:
 
 ```js
 import StarterKit from '@tiptap/starter-kit'
@@ -112,7 +118,7 @@ new Editor({
 })
 ```
 
-The `StarterKit` extension contains a list of extensions. If you want to load them and add some custom extensions you could write it like that:
+The `StarterKit` extension loads the most common extensions, but not all available extensions. If you want to load additional extensions or add a custom extension, add them to the `extensions` array:
 
 ```js
 import StarterKit from '@tiptap/starter-kit'
@@ -126,7 +132,7 @@ new Editor({
 })
 ```
 
-Don’t want to load a specific extension? Just filter it out:
+Don’t want to load a specific extension from the `StarterKit`? Just pass `false` to the config:
 
 ```js
 import StarterKit from '@tiptap/starter-kit'
@@ -140,4 +146,4 @@ new Editor({
 })
 ```
 
-You’ll probably see something like that in collaborative editing examples. The [`Collaboration`](/api/extensions/collaboration) comes with its own history extension, you need to remove the default [`History`](/api/extensions/history) extension to avoid conflicts.
+You will probably see something like that in collaborative editing examples. The [`Collaboration`](/api/extensions/collaboration) comes with its own history extension. You need to remove or disable the default [`History`](/api/extensions/history) extension to avoid conflicts.
