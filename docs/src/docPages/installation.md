@@ -27,7 +27,9 @@ You’re using plain JavaScript or a framework that’s not listed here? No worr
 * [Node](https://nodejs.org/en/download/) installed on your machine
 
 ### 1. Install the dependencies
-For the following example you will need `@tiptap/core` (the actual editor) and `@tiptap/starter-kit` The StarterKit doesn’t include all, but the most common extensions.
+For the following example you will need `@tiptap/core` (the actual editor) and `@tiptap/starter-kit`.
+
+The StarterKit doesn’t include all, but the most common extensions.
 
 ```bash
 # install with npm
