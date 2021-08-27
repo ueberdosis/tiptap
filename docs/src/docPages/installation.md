@@ -7,11 +7,10 @@ tableOfContents: true
 ## toc
 
 ## Introduction
-tiptap is framework-agnostic and even works with Vanilla JavaScript, if that’s your thing. The following integration guides should help you to integrate tiptap in your JavaScript project.
+tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s your thing). The following integration guides help you integrating tiptap in your JavaScript project.
 
 ## Integration guides
 * [CDN](/installation/cdn)
-<!-- * [CodeSandbox](/installation/codesandbox) -->
 * [React](/installation/react)
 * [Vue 3](/installation/vue3)
 * [Vue 2](/installation/vue2)
@@ -22,12 +21,13 @@ tiptap is framework-agnostic and even works with Vanilla JavaScript, if that’s
 * [Angular](https://github.com/sibiraj-s/ngx-tiptap) (community package)
 
 ## Vanilla JavaScript
+You’re using plain JavaScript or a framework that’s not listed here? No worries, we provide everything you need.
 
 ### Requirements
 * [Node](https://nodejs.org/en/download/) installed on your machine
 
 ### 1. Install the dependencies
-For the following example you will need `@tiptap/core` (the actual editor) and `@tiptap/starter-kit` which has the most common extensions to get started quickly.
+For the following example you will need `@tiptap/core` (the actual editor) and `@tiptap/starter-kit` The StarterKit doesn’t include all, but the most common extensions.
 
 ```bash
 # install with npm
@@ -45,7 +45,7 @@ Add the following HTML where you want the editor to be mounted:
 ```
 
 ### 3. Initialize the editor
-Let’s initialize the editor in JavaScript now:
+Everything is in place now, so let’s set up the actual editor now. Add the following code to your JavaScript:
 
 ```js
 import { Editor } from '@tiptap/core'
