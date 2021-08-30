@@ -359,6 +359,9 @@
           link: /api/extensions/text-align
         - title: Typography
           link: /api/extensions/typography
+        - title: UniqueId
+          link: /api/extensions/unique-id
+          type: pro
     - title: Utilities
       link: /api/utilities
       redirect: /api/utilities/html
