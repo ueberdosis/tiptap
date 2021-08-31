@@ -31,6 +31,8 @@ export class FloatingMenuView {
 
   public tippy: Instance | undefined
 
+  public tippyOptions?: Partial<Props>
+
   public shouldShow: Exclude<FloatingMenuPluginProps['shouldShow'], null> = ({ state }) => {
     const { selection } = state
     const { $anchor, empty } = selection
@@ -50,7 +52,7 @@ export class FloatingMenuView {
     editor,
     element,
     view,
-    tippyOptions,
+    tippyOptions = {},
     shouldShow,
   }: FloatingMenuViewProps) {
     this.editor = editor
@@ -64,13 +66,10 @@ export class FloatingMenuView {
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
+    this.tippyOptions = tippyOptions
+    // Detaches menu content from its current parent
+    this.element.remove()
     this.element.style.visibility = 'visible'
-
-    // We create tippy asynchronously to make sure that `editor.options.element`
-    // has already been moved to the right position in the DOM
-    requestAnimationFrame(() => {
-      this.createTooltip(tippyOptions)
-    })
   }
 
   mousedownHandler = () => {
@@ -99,17 +98,26 @@ export class FloatingMenuView {
     this.hide()
   }
 
-  createTooltip(options: Partial<Props> = {}) {
-    this.tippy = tippy(this.editor.options.element, {
-      duration: 0,
-      getReferenceClientRect: null,
-      content: this.element,
-      interactive: true,
-      trigger: 'manual',
-      placement: 'right',
-      hideOnClick: 'toggle',
-      ...options,
-    })
+  createTooltip() {
+    if (this.tippy) {
+      return
+    }
+
+    const { element: editorElement } = this.editor.options
+
+    // Wait until editor element is attached to the document
+    if (editorElement.parentElement) {
+      this.tippy = tippy(editorElement, {
+        duration: 0,
+        getReferenceClientRect: null,
+        content: this.element,
+        interactive: true,
+        trigger: 'manual',
+        placement: 'right',
+        hideOnClick: 'toggle',
+        ...this.tippyOptions,
+      })
+    }
   }
 
   update(view: EditorView, oldState?: EditorState) {
@@ -121,6 +129,8 @@ export class FloatingMenuView {
     if (composing || isSame) {
       return
     }
+
+    this.createTooltip()
 
     const shouldShow = this.shouldShow?.({
       editor: this.editor,
