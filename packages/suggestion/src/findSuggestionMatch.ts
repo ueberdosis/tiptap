@@ -3,6 +3,7 @@ import { ResolvedPos } from 'prosemirror-model'
 
 export interface Trigger {
   char: string,
+  prefixFn?: (startOfLine: boolean) => string,
   allowSpaces: boolean,
   startOfLine: boolean,
   $position: ResolvedPos,
@@ -17,6 +18,7 @@ export type SuggestionMatch = {
 export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   const {
     char,
+    prefixFn,
     allowSpaces,
     startOfLine,
     $position,
@@ -28,7 +30,7 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
     .map(c => `\\${c}`)
     .join('')
   const suffix = new RegExp(`\\s${escapedChar}$`)
-  const prefix = startOfLine ? '^' : ''
+  const prefix = prefixFn ? prefixFn(startOfLine) : (startOfLine ? '^' : '')
   const regexp = allowSpaces
     ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
     : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
