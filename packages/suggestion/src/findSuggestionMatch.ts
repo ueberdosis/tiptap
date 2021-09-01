@@ -4,6 +4,7 @@ import { ResolvedPos } from 'prosemirror-model'
 export interface Trigger {
   char: string,
   allowSpaces: boolean,
+  prefixSpace: boolean,
   startOfLine: boolean,
   $position: ResolvedPos,
 }
@@ -18,6 +19,7 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   const {
     char,
     allowSpaces,
+    prefixSpace,
     startOfLine,
     $position,
   } = config
@@ -49,7 +51,7 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   // or the line beginning
   const matchPrefix = match.input.slice(Math.max(0, match.index - 1), match.index)
 
-  if (!/^[\s\0]?$/.test(matchPrefix)) {
+  if (prefixSpace && !/^[\s\0]?$/.test(matchPrefix)) {
     return null
   }
 
