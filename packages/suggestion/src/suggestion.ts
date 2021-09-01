@@ -7,9 +7,8 @@ export interface SuggestionOptions {
   pluginKey?: PluginKey,
   editor: Editor,
   char?: string,
-  prefixFn?: (startOfLine: boolean) => string,
   allowSpaces?: boolean,
-  startOfLine?: boolean,
+  startOfLine?: string | boolean,
   decorationTag?: string,
   decorationClass?: string,
   command?: (props: {
