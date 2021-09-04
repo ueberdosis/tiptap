@@ -1,12 +1,12 @@
+import { findSuggestionMatch } from './findSuggestionMatch'
 import { Editor, Range } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
-import { findSuggestionMatch } from './findSuggestionMatch'
 
 export interface SuggestionOptions {
   pluginKey?: PluginKey,
   editor: Editor,
-  char?: string,
+  char?: string | string[],
   allowSpaces?: boolean,
   startOfLine?: boolean,
   decorationTag?: string,
@@ -16,7 +16,7 @@ export interface SuggestionOptions {
     range: Range,
     props: any,
   }) => void,
-  items?: (query: string) => any[],
+  items?: (query: string, usedChar: string) => any[],
   render?: () => {
     onStart?: (props: SuggestionProps) => void,
     onUpdate?: (props: SuggestionProps) => void,
@@ -33,6 +33,7 @@ export interface SuggestionProps {
   editor: Editor,
   range: Range,
   query: string,
+  usedChar: string,
   text: string,
   items: any[],
   command: (props: any) => void,
@@ -95,6 +96,7 @@ export function Suggestion({
             editor,
             range: state.range,
             query: state.query,
+            usedChar: state.usedChar,
             text: state.text,
             items: (handleChange || handleStart)
               ? await items(state.query)
@@ -143,6 +145,7 @@ export function Suggestion({
           active: false,
           range: {},
           query: null,
+          usedChar: null,
           text: null,
           composing: false,
         }
@@ -184,6 +187,7 @@ export function Suggestion({
             next.decorationId = prev.decorationId ? prev.decorationId : decorationId
             next.range = match.range
             next.query = match.query
+            next.usedChar = match.usedChar
             next.text = match.text
           } else {
             next.active = false
@@ -197,6 +201,7 @@ export function Suggestion({
           next.decorationId = null
           next.range = {}
           next.query = null
+          next.usedChar = null
           next.text = null
         }
 

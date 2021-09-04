@@ -2,7 +2,7 @@ import { Range } from '@tiptap/core'
 import { ResolvedPos } from 'prosemirror-model'
 
 export interface Trigger {
-  char: string,
+  char: string | string[],
   allowSpaces: boolean,
   startOfLine: boolean,
   $position: ResolvedPos,
@@ -12,6 +12,7 @@ export type SuggestionMatch = {
   range: Range,
   query: string,
   text: string,
+  usedChar: string,
 } | null
 
 export function findSuggestionMatch(config: Trigger): SuggestionMatch {
@@ -23,44 +24,32 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   } = config
 
   // Matching expressions used for later
-  const escapedChar = char
-    .split('')
-    .map(c => `\\${c}`)
-    .join('')
-  const suffix = new RegExp(`\\s${escapedChar}$`)
-  const prefix = startOfLine ? '^' : ''
-  const regexp = allowSpaces
-    ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
-    : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
+  const charArr = Array.isArray(char) ? char : [char];
 
-  const isTopLevelNode = $position.depth <= 0
-  const textFrom = isTopLevelNode
-    ? 0
-    : $position.before()
-  const textTo = $position.pos
-  const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
-  const match = Array.from(text.matchAll(regexp)).pop()
-
-  if (!match || match.input === undefined || match.index === undefined) {
-    return null
+  let matchResult: MatchResult = null;
+  for(const c of charArr) {
+    matchResult = getMatchResult(c, startOfLine, allowSpaces, $position)
+    if (matchResult !== null) break;
   }
+
+  if (!matchResult?.match) return null;
 
   // JavaScript doesn't have lookbehinds; this hacks a check that first character is " "
   // or the line beginning
-  const matchPrefix = match.input.slice(Math.max(0, match.index - 1), match.index)
+  const matchPrefix = matchResult.match.input.slice(Math.max(0, matchResult.match.index - 1), matchResult.match.index);
 
   if (!/^[\s\0]?$/.test(matchPrefix)) {
     return null
   }
 
   // The absolute position of the match in the document
-  const from = match.index + $position.start()
-  let to = from + match[0].length
+  const from = matchResult.match.index + $position.start()
+  let to = from + matchResult.match[0].length
 
   // Edge case handling; if spaces are allowed and we're directly in between
   // two triggers
-  if (allowSpaces && suffix.test(text.slice(to - 1, to + 1))) {
-    match[0] += ' '
+  if (allowSpaces && matchResult.suffix.test(matchResult.text.slice(to - 1, to + 1))) {
+    matchResult.match[0] += ' '
     to += 1
   }
 
@@ -71,10 +60,44 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
         from,
         to,
       },
-      query: match[0].slice(char.length),
-      text: match[0],
-    }
+      query: matchResult.match[0].slice(matchResult.usedChar.length),
+      text: matchResult.match[0],
+      usedChar: matchResult.usedChar
+    };
   }
 
-  return null
+  return null;
+}
+
+type MatchResult = {match: RegExpMatchArray, prefix: string, suffix: RegExp, text: string, usedChar: string} | null;
+
+function getMatchResult(char: string, startOfLine: boolean, allowSpaces: boolean, $position: ResolvedPos): MatchResult {
+  const escapedChar = char
+    .split('')
+    .map(c => `\\${c}`)
+    .join('')
+
+  const suffix = new RegExp(`\\s${escapedChar}$`);
+  const prefix = startOfLine ? "^" : "";
+  const regexp = allowSpaces
+    ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, "gm")
+    : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, "gm");
+
+  const isTopLevelNode = $position.depth <= 0;
+  const textFrom = isTopLevelNode ? 0 : $position.before();
+  const textTo = $position.pos;
+  const text: string = $position.doc.textBetween(textFrom, textTo, "\0", "\0");
+  const match = Array.from(text.matchAll(regexp)).pop();
+
+  if (!match || match.input === undefined || match.index === undefined) {
+    return null;
+  }
+
+  return {
+    match,
+    prefix,
+    suffix,
+    text,
+    usedChar: char.trim()
+  }
 }
