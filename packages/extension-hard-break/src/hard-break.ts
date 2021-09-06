@@ -38,6 +38,10 @@ export const HardBreak = Node.create<HardBreakOptions>({
     return ['br', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
   },
 
+  renderText() {
+    return '\n'
+  },
+
   addCommands() {
     return {
       setHardBreak: () => ({ commands }) => {
