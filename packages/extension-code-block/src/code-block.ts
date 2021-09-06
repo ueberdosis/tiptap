@@ -47,17 +47,22 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       language: {
         default: null,
         parseHTML: element => {
-          const classAttribute = element.firstElementChild?.getAttribute('class')
-
-          if (!classAttribute) {
-            return null
-          }
-
+          const classAttributes = element.firstElementChild?.classList
           const regexLanguageClassPrefix = new RegExp(`^(${this.options.languageClassPrefix})`)
 
-          return {
-            language: classAttribute.replace(regexLanguageClassPrefix, ''),
+          let language = null
+          for (const attribute of classAttributes) {
+            if (attribute.startsWith(this.options.languageClassPrefix)) {
+              language = attribute.replace(regexLanguageClassPrefix, '')
+              break
+            }
           }
+          if (!language) {
+            return null
+          }
+          return {
+            language
+          };
         },
         renderHTML: attributes => {
           if (!attributes.language) {
