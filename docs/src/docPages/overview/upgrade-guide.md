@@ -90,7 +90,7 @@ In case you’ve built some custom extensions for your project, you’re require
 import { Node } from '@tiptap/core'
 
 const CustomExtension = Node.create({
-  name: 'custom_extension'
+  name: 'custom_extension',
   defaultOptions: {
     …
   },
