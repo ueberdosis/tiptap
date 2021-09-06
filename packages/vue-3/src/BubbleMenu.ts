@@ -15,7 +15,7 @@ export const BubbleMenu = defineComponent({
     pluginKey: {
       // TODO: TypeScript breaks :(
       // type: [String, Object as PropType<Exclude<BubbleMenuPluginProps['pluginKey'], string>>],
-      type: [String, Object],
+      type: null,
       default: 'bubbleMenu',
     },
 
