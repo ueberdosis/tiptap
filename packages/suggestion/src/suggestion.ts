@@ -9,6 +9,7 @@ export interface SuggestionOptions {
   char?: string,
   allowSpaces?: boolean,
   startOfLine?: boolean,
+  prefixSpace?: boolean,
   decorationTag?: string,
   decorationClass?: string,
   command?: (props: {
@@ -53,6 +54,7 @@ export function Suggestion({
   editor,
   char = '@',
   allowSpaces = false,
+  prefixSpace = true,
   startOfLine = false,
   decorationTag = 'span',
   decorationClass = 'suggestion',
@@ -173,6 +175,7 @@ export function Suggestion({
           const match = findSuggestionMatch({
             char,
             allowSpaces,
+            prefixSpace,
             startOfLine,
             $position: selection.$from,
           })
