@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-hard-break@2.0.0-beta.15...@tiptap/extension-hard-break@2.0.0-beta.16) (2021-09-06)
+
+
+### Bug Fixes
+
+* render line break in text/plain format for hard breaks, fix [#1842](https://github.com/ueberdosis/tiptap/issues/1842) ([787d784](https://github.com/ueberdosis/tiptap/commit/787d7848cdca3f198e727a4a35d83793e8ff9e11))
+
+
+
+
+
 # [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-hard-break@2.0.0-beta.14...@tiptap/extension-hard-break@2.0.0-beta.15) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/extension-hard-break

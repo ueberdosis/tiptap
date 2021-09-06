@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.69](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.68...@tiptap/suggestion@2.0.0-beta.69) (2021-09-06)
+
+
+### Features
+
+* allow triggering suggestions without prefix space ([#1826](https://github.com/ueberdosis/tiptap/issues/1826), fix [#1384](https://github.com/ueberdosis/tiptap/issues/1384)) ([4dd0d6d](https://github.com/ueberdosis/tiptap/commit/4dd0d6d4dce20c78974bf53619a827f8ba1718e3))
+
+
+
+
+
 # [2.0.0-beta.68](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.67...@tiptap/suggestion@2.0.0-beta.68) (2021-08-23)
 
 
