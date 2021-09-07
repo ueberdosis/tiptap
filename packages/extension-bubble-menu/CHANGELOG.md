@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.32...@tiptap/extension-bubble-menu@2.0.0-beta.33) (2021-09-07)
+
+
+### Bug Fixes
+
+* don’t initialize tippy on requestAnimationFrame to avoid race conditions ([#1820](https://github.com/ueberdosis/tiptap/issues/1820)) ([ca3763d](https://github.com/ueberdosis/tiptap/commit/ca3763d3c29cc0715727fe12a0e907ad86d99806))
+
+
+
+
+
 # [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.31...@tiptap/extension-bubble-menu@2.0.0-beta.32) (2021-09-06)
 
 **Note:** Version bump only for package @tiptap/extension-bubble-menu
