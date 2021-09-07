@@ -10,7 +10,10 @@ function isClassComponent(Component: any) {
 }
 
 function isForwardRefComponent(Component: any) {
-  return !!(typeof Component === 'object' && Component.$$typeof?.toString() === 'Symbol(react.forward_ref)')
+  return !!(
+    typeof Component === 'object'
+    && Component.$$typeof?.toString() === 'Symbol(react.forward_ref)'
+  )
 }
 
 export interface ReactRendererOptions {
@@ -19,10 +22,10 @@ export interface ReactRendererOptions {
   as?: string,
 }
 
-type ComponentType = React.Component | React.FunctionComponent | React.ForwardRefExoticComponent<{
-    items: any[];
-    command: any;
-} & React.RefAttributes<unknown>>
+type ComponentType =
+  | React.Component
+  | React.FunctionComponent
+  | React.ForwardRefExoticComponent<{ items: any[], command: any } & React.RefAttributes<unknown>>
 
 export class ReactRenderer {
   id: string
@@ -53,7 +56,7 @@ export class ReactRenderer {
     const Component = this.component
     const props = this.props
 
-    if (isClassComponent(Component) || isForwardRefComponent(Component)) {
+    if (isClassComponent(Component) || isForwardRefComponent(Component)) {
       props.ref = (ref: React.Component) => {
         this.ref = ref
       }
