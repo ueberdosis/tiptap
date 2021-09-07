@@ -174,7 +174,7 @@ export default {
         return
       }
 
-      this.editor.commands.setContent(this.modelValue, false)
+      this.editor.commands.setContent(value, false)
     },
   },
 
