@@ -113,25 +113,23 @@ export class BubbleMenuView {
   }
 
   createTooltip() {
-    if (this.tippy) {
+    const { element: editorElement } = this.editor.options
+    const editorIsAttached = !!editorElement.parentElement
+
+    if (this.tippy || !editorIsAttached) {
       return
     }
 
-    const { element: editorElement } = this.editor.options
-
-    // Wait until editor element is attached to the document
-    if (editorElement.parentElement) {
-      this.tippy = tippy(editorElement, {
-        duration: 0,
-        getReferenceClientRect: null,
-        content: this.element,
-        interactive: true,
-        trigger: 'manual',
-        placement: 'top',
-        hideOnClick: 'toggle',
-        ...this.tippyOptions,
-      })
-    }
+    this.tippy = tippy(editorElement, {
+      duration: 0,
+      getReferenceClientRect: null,
+      content: this.element,
+      interactive: true,
+      trigger: 'manual',
+      placement: 'top',
+      hideOnClick: 'toggle',
+      ...this.tippyOptions,
+    })
   }
 
   update(view: EditorView, oldState?: EditorState) {
