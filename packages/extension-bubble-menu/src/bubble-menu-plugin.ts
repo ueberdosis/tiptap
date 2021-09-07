@@ -38,6 +38,8 @@ export class BubbleMenuView {
 
   public tippy: Instance | undefined
 
+  public tippyOptions?: Partial<Props>
+
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ state, from, to }) => {
     const { doc, selection } = state
     const { empty } = selection
@@ -59,7 +61,7 @@ export class BubbleMenuView {
     editor,
     element,
     view,
-    tippyOptions,
+    tippyOptions = {},
     shouldShow,
   }: BubbleMenuViewProps) {
     this.editor = editor
@@ -74,13 +76,10 @@ export class BubbleMenuView {
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
+    this.tippyOptions = tippyOptions
+    // Detaches menu content from its current parent
+    this.element.remove()
     this.element.style.visibility = 'visible'
-
-    // We create tippy asynchronously to make sure that `editor.options.element`
-    // has already been moved to the right position in the DOM
-    requestAnimationFrame(() => {
-      this.createTooltip(tippyOptions)
-    })
   }
 
   mousedownHandler = () => {
@@ -113,17 +112,26 @@ export class BubbleMenuView {
     this.hide()
   }
 
-  createTooltip(options: Partial<Props> = {}) {
-    this.tippy = tippy(this.editor.options.element, {
-      duration: 0,
-      getReferenceClientRect: null,
-      content: this.element,
-      interactive: true,
-      trigger: 'manual',
-      placement: 'top',
-      hideOnClick: 'toggle',
-      ...options,
-    })
+  createTooltip() {
+    if (this.tippy) {
+      return
+    }
+
+    const { element: editorElement } = this.editor.options
+
+    // Wait until editor element is attached to the document
+    if (editorElement.parentElement) {
+      this.tippy = tippy(editorElement, {
+        duration: 0,
+        getReferenceClientRect: null,
+        content: this.element,
+        interactive: true,
+        trigger: 'manual',
+        placement: 'top',
+        hideOnClick: 'toggle',
+        ...this.tippyOptions,
+      })
+    }
   }
 
   update(view: EditorView, oldState?: EditorState) {
@@ -134,6 +142,8 @@ export class BubbleMenuView {
     if (composing || isSame) {
       return
     }
+
+    this.createTooltip()
 
     // support for CellSelections
     const { ranges } = selection
