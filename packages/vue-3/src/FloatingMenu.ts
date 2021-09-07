@@ -15,7 +15,7 @@ export const FloatingMenu = defineComponent({
     pluginKey: {
       // TODO: TypeScript breaks :(
       // type: [String, Object as PropType<Exclude<FloatingMenuPluginProps['pluginKey'], string>>],
-      type: [String, Object],
+      type: null,
       default: 'floatingMenu',
     },
 

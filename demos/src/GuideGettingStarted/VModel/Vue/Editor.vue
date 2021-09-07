@@ -36,7 +36,7 @@ export default {
         return
       }
 
-      this.editor.commands.setContent(this.value, false)
+      this.editor.commands.setContent(value, false)
     },
   },
 
