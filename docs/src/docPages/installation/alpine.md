@@ -1,9 +1,6 @@
 ---
-tableOfContents: true
----
-
----
 title: Alpine WYSIWYG
+tableOfContents: true
 ---
 
 # Alpine.js
