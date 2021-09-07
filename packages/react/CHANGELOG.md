@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.66](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.65...@tiptap/react@2.0.0-beta.66) (2021-09-07)
+
+
+### Features
+
+* add support for forwardRef component in reactRenderer ([#1690](https://github.com/ueberdosis/tiptap/issues/1690), fix [#1040](https://github.com/ueberdosis/tiptap/issues/1040)) ([d1f2ad2](https://github.com/ueberdosis/tiptap/commit/d1f2ad293f9df4004ee3fea5550a3921a03162f5))
+
+
+
+
+
 # [2.0.0-beta.65](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.64...@tiptap/react@2.0.0-beta.65) (2021-09-07)
 
 **Note:** Version bump only for package @tiptap/react
