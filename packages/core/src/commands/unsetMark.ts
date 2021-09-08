@@ -34,7 +34,7 @@ export const unsetMark: RawCommands['unsetMark'] = (typeOrName, options = {}) =>
 
   if (empty && extendEmptyMarkRange) {
     let { from, to } = selection
-    const attrs = selection.$from.marks().find(mark => mark.type === type)?.attrs
+    const attrs = $from.marks().find(mark => mark.type === type)?.attrs
     const range = getMarkRange($from, type, attrs)
 
     if (range) {
