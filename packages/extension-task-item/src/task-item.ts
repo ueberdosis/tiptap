@@ -26,13 +26,11 @@ export const TaskItem = Node.create<TaskItemOptions>({
     return {
       checked: {
         default: false,
-        parseHTML: element => ({
-          checked: element.getAttribute('data-checked') === 'true',
-        }),
+        keepOnSplit: false,
+        parseHTML: element => element.getAttribute('data-checked') === 'true',
         renderHTML: attributes => ({
           'data-checked': attributes.checked,
         }),
-        keepOnSplit: false,
       },
     }
   },

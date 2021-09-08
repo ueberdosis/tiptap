@@ -37,9 +37,7 @@ export const TextAlign = Extension.create<TextAlignOptions>({
         attributes: {
           textAlign: {
             default: this.options.defaultAlignment,
-            parseHTML: element => ({
-              textAlign: element.style.textAlign || this.options.defaultAlignment,
-            }),
+            parseHTML: element => element.style.textAlign || this.options.defaultAlignment,
             renderHTML: attributes => {
               if (attributes.textAlign === this.options.defaultAlignment) {
                 return {}

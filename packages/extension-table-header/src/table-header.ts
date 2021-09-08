@@ -28,9 +28,7 @@ export const TableHeader = Node.create<TableHeaderOptions>({
             ? [parseInt(colwidth, 10)]
             : null
 
-          return {
-            colwidth: value,
-          }
+          return value
         },
       },
     }

@@ -42,11 +42,7 @@ export default Node.create({
       },
       allowfullscreen: {
         default: this.options.allowFullscreen,
-        parseHTML: () => {
-          return {
-            allowfullscreen: this.options.allowFullscreen,
-          }
-        },
+        parseHTML: () => this.options.allowFullscreen,
       },
     }
   },

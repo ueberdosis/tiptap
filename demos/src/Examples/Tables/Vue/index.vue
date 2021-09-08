@@ -76,11 +76,7 @@ const CustomTableCell = TableCell.extend({
       // and add a new one …
       backgroundColor: {
         default: null,
-        parseHTML: element => {
-          return {
-            backgroundColor: element.getAttribute('data-background-color'),
-          }
-        },
+        parseHTML: element => element.getAttribute('data-background-color'),
         renderHTML: attributes => {
           return {
             'data-background-color': attributes.backgroundColor,

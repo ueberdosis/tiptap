@@ -34,6 +34,7 @@ export const Color = Extension.create<ColorOptions>({
         attributes: {
           color: {
             default: null,
+            parseHTML: element => element.style.color.replace(/['"]+/g, ''),
             renderHTML: attributes => {
               if (!attributes.color) {
                 return {}
@@ -41,11 +42,6 @@ export const Color = Extension.create<ColorOptions>({
 
               return {
                 style: `color: ${attributes.color}`,
-              }
-            },
-            parseHTML: element => {
-              return {
-                color: element.style.color.replace(/['"]+/g, ''),
               }
             },
           },

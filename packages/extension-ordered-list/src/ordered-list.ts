@@ -33,11 +33,11 @@ export const OrderedList = Node.create<OrderedListOptions>({
     return {
       start: {
         default: 1,
-        parseHTML: element => ({
-          start: element.hasAttribute('start')
+        parseHTML: element => {
+          return element.hasAttribute('start')
             ? parseInt(element.getAttribute('start') || '', 10)
-            : 1,
-        }),
+            : 1
+        },
       },
     }
   },

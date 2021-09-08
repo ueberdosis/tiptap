@@ -1,6 +1,7 @@
 import { ParseRule } from 'prosemirror-model'
 import { ExtensionAttribute } from '../types'
 import fromString from '../utilities/fromString'
+import isObject from '../utilities/isObject'
 
 /**
  * This function merges extension attributes into parserule attributes (`attrs` or `getAttrs`).
@@ -27,18 +28,21 @@ export default function injectExtensionAttributesToParseRule(parseRule: ParseRul
       const newAttributes = extensionAttributes
         .filter(item => item.attribute.rendered)
         .reduce((items, item) => {
-          const attributes = item.attribute.parseHTML
-            ? item.attribute.parseHTML(node as HTMLElement) || {}
-            : {
-              [item.name]: fromString((node as HTMLElement).getAttribute(item.name)),
-            }
+          const value = item.attribute.parseHTML
+            ? item.attribute.parseHTML(node as HTMLElement)
+            : fromString((node as HTMLElement).getAttribute(item.name))
 
-          const filteredAttributes = Object.fromEntries(Object.entries(attributes)
-            .filter(([, value]) => value !== undefined && value !== null))
+          if (isObject(value)) {
+            console.warn(`[tiptap warn]: BREAKING CHANGE: "parseHTML" for your attribute "${item.name}" returns an object but should return the value itself. If this is expected you can ignore this message. This warning will be removed in one of the next releases. Further information: https://github.com/ueberdosis/tiptap/issues/1863`)
+          }
+
+          if (value === null || value === undefined) {
+            return items
+          }
 
           return {
             ...items,
-            ...filteredAttributes,
+            [item.name]: value,
           }
         }, {})
 

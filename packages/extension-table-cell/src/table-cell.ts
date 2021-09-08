@@ -29,9 +29,7 @@ export const TableCell = Node.create<TableCellOptions>({
             ? [parseInt(colwidth, 10)]
             : null
 
-          return {
-            colwidth: value,
-          }
+          return value
         },
       },
     }

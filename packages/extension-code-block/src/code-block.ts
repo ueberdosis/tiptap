@@ -58,9 +58,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
             return null
           }
 
-          return {
-            language,
-          }
+          return language
         },
         renderHTML: attributes => {
           if (!attributes.language) {

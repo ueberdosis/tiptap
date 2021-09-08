@@ -16,11 +16,7 @@ const CustomTableCell = TableCell.extend({
       // and add a new one …
       backgroundColor: {
         default: null,
-        parseHTML: element => {
-          return {
-            backgroundColor: element.getAttribute('data-background-color'),
-          }
-        },
+        parseHTML: element => element.getAttribute('data-background-color'),
         renderHTML: attributes => {
           return {
             'data-background-color': attributes.backgroundColor,
@@ -36,7 +32,7 @@ export const tableHTML = `
   <table style="width:100%">
     <tr>
       <th>Firstname</th>
-      <th>Lastname</th> 
+      <th>Lastname</th>
       <th>Age</th>
     </tr>
     <tr>

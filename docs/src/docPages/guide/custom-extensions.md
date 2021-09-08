@@ -163,11 +163,7 @@ const CustomParagraph = Paragraph.extend({
       color: {
         default: null,
         // Customize the HTML parsing (for example, to load the initial content)
-        parseHTML: element => {
-          return {
-            color: element.getAttribute('data-color'),
-          }
-        },
+        parseHTML: element => element.getAttribute('data-color'),
         // … and customize the HTML rendering.
         renderHTML: attributes => {
           return {
@@ -187,7 +183,7 @@ const CustomParagraph = Paragraph.extend({
 You can completly disable the rendering of attributes with `rendered: false`.
 
 #### Extend existing attributes
-If you want to add an attribute to an extension and keep existing attributes, you can access them through `this.parent()`. 
+If you want to add an attribute to an extension and keep existing attributes, you can access them through `this.parent()`.
 
 In some cases, it is undefined, so make sure to check for that case, or use optional chaining `this.parent?.()`
 
@@ -228,9 +224,7 @@ const TextAlign = Extension.create({
             renderHTML: attributes => ({
               style: `text-align: ${attributes.textAlign}`,
             }),
-            parseHTML: element => ({
-              textAlign: element.style.textAlign || 'left',
-            }),
+            parseHTML: element => element.style.textAlign || 'left',
           },
         },
       },

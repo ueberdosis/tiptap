@@ -57,29 +57,17 @@ export const Figure = Node.create<FigureOptions>({
     return {
       src: {
         default: null,
-        parseHTML: element => {
-          return {
-            src: element.querySelector('img')?.getAttribute('src'),
-          }
-        },
+        parseHTML: element => element.querySelector('img')?.getAttribute('src'),
       },
 
       alt: {
         default: null,
-        parseHTML: element => {
-          return {
-            alt: element.querySelector('img')?.getAttribute('alt'),
-          }
-        },
+        parseHTML: element => element.querySelector('img')?.getAttribute('alt'),
       },
 
       title: {
         default: null,
-        parseHTML: element => {
-          return {
-            title: element.querySelector('img')?.getAttribute('title'),
-          }
-        },
+        parseHTML: element => element.querySelector('img')?.getAttribute('title'),
       },
     }
   },

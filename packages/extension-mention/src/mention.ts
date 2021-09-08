@@ -68,11 +68,7 @@ export const Mention = Node.create<MentionOptions>({
     return {
       id: {
         default: null,
-        parseHTML: element => {
-          return {
-            id: element.getAttribute('data-id'),
-          }
-        },
+        parseHTML: element => element.getAttribute('data-id'),
         renderHTML: attributes => {
           if (!attributes.id) {
             return {}
@@ -86,11 +82,7 @@ export const Mention = Node.create<MentionOptions>({
 
       label: {
         default: null,
-        parseHTML: element => {
-          return {
-            label: element.getAttribute('data-label'),
-          }
-        },
+        parseHTML: element => element.getAttribute('data-label'),
         renderHTML: attributes => {
           if (!attributes.label) {
             return {}
