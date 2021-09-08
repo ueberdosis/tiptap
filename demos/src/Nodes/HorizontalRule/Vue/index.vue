@@ -49,3 +49,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+hr.ProseMirror-selectednode {
+  border-top: 1px solid #68CEF8;
+}
+</style>
