@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.17...@tiptap/extension-code-block@2.0.0-beta.18) (2021-09-08)
+
+
+### Bug Fixes
+
+* parse correct language for code blocks with multiple classes (see [#1845](https://github.com/ueberdosis/tiptap/issues/1845)) ([472f213](https://github.com/ueberdosis/tiptap/commit/472f2139c52b9e0211ccd735e937486df2cb3d30))
+
+
+### Features
+
+* parseHTML for attributes should return the value instead of an object now, fix [#1863](https://github.com/ueberdosis/tiptap/issues/1863) ([8a3b47a](https://github.com/ueberdosis/tiptap/commit/8a3b47a529d28b28b50d634c6ff69b8e5aad3080))
+
+
+
+
+
 # [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.16...@tiptap/extension-code-block@2.0.0-beta.17) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/extension-code-block

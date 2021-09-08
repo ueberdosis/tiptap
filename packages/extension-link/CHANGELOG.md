@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.19...@tiptap/extension-link@2.0.0-beta.20) (2021-09-08)
+
+
+### Features
+
+* add extendEmptyMarkRange option to mark commands ([#1859](https://github.com/ueberdosis/tiptap/issues/1859)) ([14e458e](https://github.com/ueberdosis/tiptap/commit/14e458ea7d7475a51ac00d6f67509dc769919d0b))
+
+
+
+
+
 # [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.18...@tiptap/extension-link@2.0.0-beta.19) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/extension-link

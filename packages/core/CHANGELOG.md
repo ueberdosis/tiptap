@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.104](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.103...@tiptap/core@2.0.0-beta.104) (2021-09-08)
+
+
+### Features
+
+* add extendEmptyMarkRange option to mark commands ([#1859](https://github.com/ueberdosis/tiptap/issues/1859)) ([14e458e](https://github.com/ueberdosis/tiptap/commit/14e458ea7d7475a51ac00d6f67509dc769919d0b))
+* parseHTML for attributes should return the value instead of an object now, fix [#1863](https://github.com/ueberdosis/tiptap/issues/1863) ([8a3b47a](https://github.com/ueberdosis/tiptap/commit/8a3b47a529d28b28b50d634c6ff69b8e5aad3080))
+
+
+
+
+
 # [2.0.0-beta.103](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.102...@tiptap/core@2.0.0-beta.103) (2021-09-06)
 
 **Note:** Version bump only for package @tiptap/core

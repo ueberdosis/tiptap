@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.29...@tiptap/extension-placeholder@2.0.0-beta.30) (2021-09-08)
+
+
+### Features
+
+* add `includeChildren` option to placeholder extension ([#1416](https://github.com/ueberdosis/tiptap/issues/1416)) ([1799b90](https://github.com/ueberdosis/tiptap/commit/1799b907ec7db7988f2c78016755ee1eaaab35af))
+
+
+
+
+
 # [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.28...@tiptap/extension-placeholder@2.0.0-beta.29) (2021-09-06)
 
 **Note:** Version bump only for package @tiptap/extension-placeholder
