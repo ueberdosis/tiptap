@@ -6,7 +6,6 @@ export default function getText(
   node: ProseMirrorNode,
   options?: {
     blockSeparator?: string,
-    leafText?: string,
     textSerializers?: Record<string, TextSerializer>,
   },
 ) {

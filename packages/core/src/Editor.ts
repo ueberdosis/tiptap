@@ -22,6 +22,7 @@ import {
   CanCommands,
   ChainedCommands,
   SingleCommands,
+  TextSerializer,
 } from './types'
 import * as extensions from './extensions'
 import style from './style'
@@ -398,10 +399,17 @@ export class Editor extends EventEmitter {
   /**
    * Get the document as text.
    */
-  public getText(): string {
-    const { textSerializers } = this.extensionManager
+  public getText(options?: {
+    blockSeparator?: string,
+    textSerializers?: Record<string, TextSerializer>,
+  }): string {
+    const {
+      blockSeparator = '\n\n',
+      textSerializers = this.extensionManager.textSerializers,
+    } = options || {}
 
     return getText(this.state.doc, {
+      blockSeparator,
       textSerializers,
     })
   }
