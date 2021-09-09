@@ -4,7 +4,12 @@ import { inputRules as inputRulesPlugin } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
-import { Extensions, RawCommands, AnyConfig } from './types'
+import {
+  Extensions,
+  RawCommands,
+  AnyConfig,
+  TextSerializer,
+} from './types'
 import getExtensionField from './helpers/getExtensionField'
 import getSchemaByResolvedExtensions from './helpers/getSchemaByResolvedExtensions'
 import getSchemaTypeByName from './helpers/getSchemaTypeByName'
@@ -331,7 +336,7 @@ export default class ExtensionManager {
       }))
   }
 
-  get textSerializers() {
+  get textSerializers(): Record<string, TextSerializer> {
     const { editor } = this
     const { nodeExtensions } = splitExtensions(this.extensions)
 
@@ -351,7 +356,7 @@ export default class ExtensionManager {
           return []
         }
 
-        const textSerializer = (props: { node: ProsemirrorNode }) => renderText(props)
+        const textSerializer: TextSerializer = node => renderText(node)
 
         return [extension.name, textSerializer]
       }))
