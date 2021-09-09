@@ -1,6 +1,7 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Extension } from '../Extension'
 import getTextBetween from '../helpers/getTextBetween'
+import getTextSeralizersFromSchema from '../helpers/getTextSeralizersFromSchema'
 
 export const ClipboardTextSerializer = Extension.create({
   name: 'editable',
@@ -12,10 +13,10 @@ export const ClipboardTextSerializer = Extension.create({
         props: {
           clipboardTextSerializer: () => {
             const { editor } = this
-            const { state, extensionManager } = editor
+            const { state, schema } = editor
             const { doc, selection } = state
             const { from, to } = selection
-            const { textSerializers } = extensionManager
+            const textSerializers = getTextSeralizersFromSchema(schema)
             const range = { from, to }
 
             return getTextBetween(doc, range, {
