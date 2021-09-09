@@ -21,13 +21,17 @@ export default function getTextBetween(
     const textSerializer = textSerializers?.[node.type.name]
 
     if (textSerializer) {
+      if (node.isBlock && !separated) {
+        text += blockSeparator
+        separated = true
+      }
+
       text += textSerializer({
         node,
         pos,
         parent,
         index,
       })
-      separated = false
     } else if (node.isText) {
       text += node?.text?.slice(Math.max(from, pos) - pos, to - pos)
       separated = false

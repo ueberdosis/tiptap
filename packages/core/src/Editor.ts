@@ -405,12 +405,15 @@ export class Editor extends EventEmitter {
   }): string {
     const {
       blockSeparator = '\n\n',
-      textSerializers = this.extensionManager.textSerializers,
+      textSerializers = {},
     } = options || {}
 
     return getText(this.state.doc, {
       blockSeparator,
-      textSerializers,
+      textSerializers: {
+        ...textSerializers,
+        ...this.extensionManager.textSerializers,
+      },
     })
   }
 
