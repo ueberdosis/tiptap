@@ -211,4 +211,9 @@ export type NodeWithPos = {
   pos: number,
 }
 
-export type TextSerializer = (props: { node: ProseMirrorNode }) => string
+export type TextSerializer = (props: {
+  node: ProseMirrorNode,
+  pos: number,
+  parent: ProseMirrorNode,
+  index: number,
+}) => string
