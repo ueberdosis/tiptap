@@ -11,6 +11,7 @@ import isActive from './helpers/isActive'
 import removeElement from './utilities/removeElement'
 import createDocument from './helpers/createDocument'
 import getHTMLFromFragment from './helpers/getHTMLFromFragment'
+import getText from './helpers/getText'
 import isNodeEmpty from './helpers/isNodeEmpty'
 import createStyleTag from './utilities/createStyleTag'
 import CommandManager from './CommandManager'
@@ -392,6 +393,17 @@ export class Editor extends EventEmitter {
    */
   public getHTML(): string {
     return getHTMLFromFragment(this.state.doc, this.schema)
+  }
+
+  /**
+   * Get the document as text.
+   */
+  public getText(): string {
+    const { textSerializers } = this.extensionManager
+
+    return getText(this.state.doc, {
+      textSerializers,
+    })
   }
 
   /**
