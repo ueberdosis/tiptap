@@ -335,31 +335,4 @@ export default class ExtensionManager {
         return [extension.name, nodeview]
       }))
   }
-
-  get textSerializers(): Record<string, TextSerializer> {
-    const { editor } = this
-    const { nodeExtensions } = splitExtensions(this.extensions)
-
-    return Object.fromEntries(nodeExtensions
-      .filter(extension => !!getExtensionField(extension, 'renderText'))
-      .map(extension => {
-        const context = {
-          name: extension.name,
-          options: extension.options,
-          editor,
-          type: getNodeType(extension.name, this.schema),
-        }
-
-        const renderText = getExtensionField<NodeConfig['renderText']>(extension, 'renderText', context)
-
-        if (!renderText) {
-          return []
-        }
-
-        const textSerializer: TextSerializer = node => renderText(node)
-
-        return [extension.name, textSerializer]
-      }))
-  }
-
 }

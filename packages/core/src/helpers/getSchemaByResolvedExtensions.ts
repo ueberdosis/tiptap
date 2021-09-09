@@ -77,6 +77,12 @@ export default function getSchemaByResolvedExtensions(extensions: Extensions): S
       })
     }
 
+    const renderText = getExtensionField<NodeConfig['renderText']>(extension, 'renderText', context)
+
+    if (renderText) {
+      schema.toText = renderText
+    }
+
     return [extension.name, schema]
   }))
 

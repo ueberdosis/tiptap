@@ -379,12 +379,13 @@ declare module '@tiptap/core' {
       this: {
         name: string,
         options: Options,
-        editor: Editor,
-        type: NodeType,
         parent: ParentConfig<NodeConfig<Options>>['renderText'],
       },
       props: {
         node: ProseMirrorNode,
+        pos: number,
+        parent: ProseMirrorNode,
+        index: number,
       }
     ) => string) | null,
 

@@ -13,6 +13,7 @@ import createDocument from './helpers/createDocument'
 import getHTMLFromFragment from './helpers/getHTMLFromFragment'
 import getText from './helpers/getText'
 import isNodeEmpty from './helpers/isNodeEmpty'
+import getTextSeralizersFromSchema from './helpers/getTextSeralizersFromSchema'
 import createStyleTag from './utilities/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
@@ -412,7 +413,7 @@ export class Editor extends EventEmitter {
       blockSeparator,
       textSerializers: {
         ...textSerializers,
-        ...this.extensionManager.textSerializers,
+        ...getTextSeralizersFromSchema(this.schema),
       },
     })
   }
