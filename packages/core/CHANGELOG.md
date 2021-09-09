@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.105](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.104...@tiptap/core@2.0.0-beta.105) (2021-09-09)
+
+
+### Features
+
+* add getText() and generateText() methods (fix [#1428](https://github.com/ueberdosis/tiptap/issues/1428)) ([#1875](https://github.com/ueberdosis/tiptap/issues/1875)) ([fe6a3e7](https://github.com/ueberdosis/tiptap/commit/fe6a3e7491f6a42123d3d8a92ab588f2a40d7799))
+
+
+
+
+
 # [2.0.0-beta.104](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.103...@tiptap/core@2.0.0-beta.104) (2021-09-08)
 
 
