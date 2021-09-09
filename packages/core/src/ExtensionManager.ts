@@ -4,7 +4,12 @@ import { inputRules as inputRulesPlugin } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
-import { Extensions, RawCommands, AnyConfig } from './types'
+import {
+  Extensions,
+  RawCommands,
+  AnyConfig,
+  TextSerializer,
+} from './types'
 import getExtensionField from './helpers/getExtensionField'
 import getSchemaByResolvedExtensions from './helpers/getSchemaByResolvedExtensions'
 import getSchemaTypeByName from './helpers/getSchemaTypeByName'
@@ -330,31 +335,4 @@ export default class ExtensionManager {
         return [extension.name, nodeview]
       }))
   }
-
-  get textSerializers() {
-    const { editor } = this
-    const { nodeExtensions } = splitExtensions(this.extensions)
-
-    return Object.fromEntries(nodeExtensions
-      .filter(extension => !!getExtensionField(extension, 'renderText'))
-      .map(extension => {
-        const context = {
-          name: extension.name,
-          options: extension.options,
-          editor,
-          type: getNodeType(extension.name, this.schema),
-        }
-
-        const renderText = getExtensionField<NodeConfig['renderText']>(extension, 'renderText', context)
-
-        if (!renderText) {
-          return []
-        }
-
-        const textSerializer = (props: { node: ProsemirrorNode }) => renderText(props)
-
-        return [extension.name, textSerializer]
-      }))
-  }
-
 }

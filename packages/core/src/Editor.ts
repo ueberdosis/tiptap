@@ -11,7 +11,9 @@ import isActive from './helpers/isActive'
 import removeElement from './utilities/removeElement'
 import createDocument from './helpers/createDocument'
 import getHTMLFromFragment from './helpers/getHTMLFromFragment'
+import getText from './helpers/getText'
 import isNodeEmpty from './helpers/isNodeEmpty'
+import getTextSeralizersFromSchema from './helpers/getTextSeralizersFromSchema'
 import createStyleTag from './utilities/createStyleTag'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
@@ -21,6 +23,7 @@ import {
   CanCommands,
   ChainedCommands,
   SingleCommands,
+  TextSerializer,
 } from './types'
 import * as extensions from './extensions'
 import style from './style'
@@ -392,6 +395,27 @@ export class Editor extends EventEmitter {
    */
   public getHTML(): string {
     return getHTMLFromFragment(this.state.doc, this.schema)
+  }
+
+  /**
+   * Get the document as text.
+   */
+  public getText(options?: {
+    blockSeparator?: string,
+    textSerializers?: Record<string, TextSerializer>,
+  }): string {
+    const {
+      blockSeparator = '\n\n',
+      textSerializers = {},
+    } = options || {}
+
+    return getText(this.state.doc, {
+      blockSeparator,
+      textSerializers: {
+        ...textSerializers,
+        ...getTextSeralizersFromSchema(this.schema),
+      },
+    })
   }
 
   /**

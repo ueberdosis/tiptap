@@ -210,3 +210,10 @@ export type NodeWithPos = {
   node: ProseMirrorNode,
   pos: number,
 }
+
+export type TextSerializer = (props: {
+  node: ProseMirrorNode,
+  pos: number,
+  parent: ProseMirrorNode,
+  index: number,
+}) => string
