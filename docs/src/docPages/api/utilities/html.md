@@ -14,6 +14,3 @@ All it needs is JSON or a HTML string, and a list of extensions.
 
 ## Generate JSON from HTML
 <tiptap-demo name="GuideContent/GenerateJSON"></tiptap-demo>
-
-## Generate Text from JSON
-<tiptap-demo name="GuideContent/GenerateText"></tiptap-demo>
