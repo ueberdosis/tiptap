@@ -4,12 +4,7 @@ import { inputRules as inputRulesPlugin } from 'prosemirror-inputrules'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
-import {
-  Extensions,
-  RawCommands,
-  AnyConfig,
-  TextSerializer,
-} from './types'
+import { Extensions, RawCommands, AnyConfig } from './types'
 import getExtensionField from './helpers/getExtensionField'
 import getSchemaByResolvedExtensions from './helpers/getSchemaByResolvedExtensions'
 import getSchemaTypeByName from './helpers/getSchemaTypeByName'
