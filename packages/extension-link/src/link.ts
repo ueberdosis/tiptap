@@ -39,15 +39,18 @@ declare module '@tiptap/core' {
   }
 }
 
+const controlCodes = '\\u0000-\\u0020\\u007f-\\u009f'
+
 /**
  * A regex that matches any string that contains a link
+ * Source: https://github.com/microsoft/vscode/blob/75edf2085499820eea1867efc83c8b4ce54cdcd4/src/vs/workbench/contrib/debug/browser/linkDetector.ts#L21-L22
  */
-export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
+export const pasteRegex = new RegExp(`(?:[a-zA-Z][a-zA-Z0-9+.-]{2,}:\\/\\/|data:|www\\.)[^\\s${controlCodes}"]{2,}[^\\s${controlCodes}"')}\\],:;.!?]`, 'ug')
 
 /**
  * A regex that matches an url
  */
-export const pasteRegexExact = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)$/gi
+export const pasteRegexExact = new RegExp(`^${pasteRegex}$`, 'ug')
 
 export const Link = Mark.create<LinkOptions>({
   name: 'link',
