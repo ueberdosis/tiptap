@@ -160,7 +160,7 @@ export class FloatingMenuView {
 
   destroy() {
     this.tippy?.destroy()
-    this.element.removeEventListener('mousedown', this.mousedownHandler)
+    this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
   }
