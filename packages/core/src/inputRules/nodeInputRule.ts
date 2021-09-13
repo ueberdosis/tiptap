@@ -1,5 +1,5 @@
-import { InputRule } from 'prosemirror-inputrules'
 import { NodeType } from 'prosemirror-model'
+import { InputRule } from '../InputRule'
 
 export default function (regexp: RegExp, type: NodeType, getAttributes?: (match: any) => any): InputRule {
   return new InputRule(regexp, (state, match, start, end) => {
