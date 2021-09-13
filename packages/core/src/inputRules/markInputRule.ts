@@ -1,5 +1,5 @@
-import { InputRule } from 'prosemirror-inputrules'
 import { MarkType } from 'prosemirror-model'
+import { InputRule } from '../InputRule'
 import getMarksBetween from '../helpers/getMarksBetween'
 
 export default function (regexp: RegExp, markType: MarkType, getAttributes?: Function): InputRule {

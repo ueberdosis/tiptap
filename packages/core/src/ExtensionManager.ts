@@ -1,6 +1,6 @@
 import { keymap } from 'prosemirror-keymap'
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
-import { inputRules as inputRulesPlugin } from 'prosemirror-inputrules'
+import { inputRules as inputRulesPlugin } from './InputRule'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
