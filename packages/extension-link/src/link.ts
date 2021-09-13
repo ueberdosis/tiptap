@@ -1,9 +1,20 @@
 import {
   Mark,
-  markPasteRule,
+  markPasteRuleNew,
   mergeAttributes,
 } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
+// @ts-expect-error
+import { find } from 'linkifyjs'
+
+type LinkifyResult = {
+  start: number,
+  end: number,
+  href: string,
+  isLink: boolean,
+  type: string,
+  value: string,
+}
 
 export interface LinkOptions {
   /**
@@ -105,7 +116,19 @@ export const Link = Mark.create<LinkOptions>({
 
   addPasteRules() {
     return [
-      markPasteRule(pasteRegex, this.type, match => ({ href: match[0] })),
+      markPasteRuleNew({
+        matcher: text => (find(text) as LinkifyResult[])
+          .filter(link => link.isLink)
+          .map(link => ({
+            text: link.value,
+            index: link.start,
+            link,
+          })),
+        type: this.type,
+        getAttributes: match => ({
+          href: match.link.href,
+        }),
+      }),
     ]
   },
 
@@ -154,12 +177,15 @@ export const Link = Mark.create<LinkOptions>({
                 textContent += node.textContent
               })
 
-              if (!textContent || !textContent.match(pasteRegexExact)) {
+              const link = (find(textContent) as LinkifyResult[])
+                .find(item => item.isLink && item.value === textContent)
+
+              if (!textContent || !link) {
                 return false
               }
 
               this.editor.commands.setMark(this.type, {
-                href: textContent,
+                href: link.href,
               })
 
               return true

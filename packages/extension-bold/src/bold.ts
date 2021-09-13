@@ -2,6 +2,7 @@ import {
   Mark,
   markInputRule,
   markPasteRule,
+  markPasteRuleNew,
   mergeAttributes,
 } from '@tiptap/core'
 
@@ -91,6 +92,14 @@ export const Bold = Mark.create<BoldOptions>({
     return [
       markPasteRule(starPasteRegex, this.type),
       markPasteRule(underscorePasteRegex, this.type),
+      // markPasteRuleNew({
+      //   matcher: starPasteRegex,
+      //   type: this.type,
+      // }),
+      // markPasteRuleNew({
+      //   matcher: underscorePasteRegex,
+      //   type: this.type,
+      // }),
     ]
   },
 })
