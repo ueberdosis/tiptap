@@ -27,7 +27,7 @@
   "dependencies": {
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.33",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.27",
-    "prosemirror-view": "^1.20.0"
+    "prosemirror-view": "^1.20.1"
   },
   "repository": {
     "type": "git",

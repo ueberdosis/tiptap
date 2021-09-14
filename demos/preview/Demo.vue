@@ -69,7 +69,6 @@
             class="overflow-visible p-4"
             :language="debugJSON && showDebug ? 'js' : getFileExtension(currentFile.name)"
             :code="debugJSON && showDebug ? debugJSON : currentFile.content"
-            key="debug"
           />
         </div>
 
