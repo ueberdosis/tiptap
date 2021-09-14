@@ -5,6 +5,7 @@ type MarkPasteRuleMatch = {
   index: number,
   text: string,
   replaceWith?: string,
+  match?: RegExpMatchArray,
   [key: string]: any,
 }
 
@@ -22,6 +23,7 @@ const regexHandler = (text: string, regex: RegExp): MarkPasteRuleMatch[] => {
         index,
         text: match[outerMatch],
         replaceWith: match[innerMatch],
+        match,
       }
     })
 }
