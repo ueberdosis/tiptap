@@ -57,6 +57,7 @@
       link: /jobs
 
 - title: Examples
+  link: /examples
   redirect: /examples/default
   items:
     - title: Default text editor
@@ -362,6 +363,7 @@
           link: /api/extensions/unique-id
           type: pro
     - title: Utilities
+      link: /utilities
       redirect: /api/utilities/html
       items:
         - title: HTML
