@@ -82,11 +82,13 @@ async function init() {
   return highlighter
 }
 
+// eslint-disable-next-line
 self.addEventListener('message', async event => {
   init().then(() => {
     const { code, language } = event.data
     const html = highlighter.codeToHtml(code, language)
 
+    // eslint-disable-next-line
     self.postMessage({ code, language, html })
   })
 })
