@@ -30,7 +30,7 @@ export default function isMarkActive(
   let markRanges: MarkRange[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
-    if (node.isText) {
+    if (node.isText || node.marks.length) {
       const relativeFrom = Math.max(from, pos)
       const relativeTo = Math.min(to, pos + node.nodeSize)
       const range = relativeTo - relativeFrom
