@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.106](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.105...@tiptap/core@2.0.0-beta.106) (2021-09-15)
+
+
+### Bug Fixes
+
+* improve active mark detection for inline nodes, fix [#1893](https://github.com/ueberdosis/tiptap/issues/1893) ([6437790](https://github.com/ueberdosis/tiptap/commit/6437790431e564c871ebe7daa3aab6e4d3577a8f))
+
+
+
+
+
 # [2.0.0-beta.105](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.104...@tiptap/core@2.0.0-beta.105) (2021-09-09)
 
 
