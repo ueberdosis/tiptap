@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Nodes
 
-## toc
-
 ## Introduction
 If you think of the document as a tree, then nodes are just a type of content in that tree. Examples of nodes are paragraphs, headings, or code blocks. But nodes don’t have to be blocks. They can also be rendered inline with the text, for example for **@mentions**.
 

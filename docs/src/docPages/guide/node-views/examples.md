@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Examples
 
-## toc
-
 ## Introduction
 Node views enable you to fully customize your nodes. We are collecting a few different examples here. Feel free to copy them and start building on them.
 

@@ -5,8 +5,6 @@ tableOfContents: true
 
 # Nuxt.js
 
-## toc
-
 ## Introduction
 The following guide describes how to integrate tiptap with your [Nuxt.js](https://nuxtjs.org/) project.
 

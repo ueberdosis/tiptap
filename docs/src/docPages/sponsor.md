@@ -4,8 +4,6 @@ tableOfContents: true
 
 # About the project
 
-## toc
-
 ## Introduction
 To deliver a top-notch developer experience and user experience, we put ~~hundreds~~ thousands of hours of unpaid work into tiptap. Your funding helps us to make this work more and more financially sustainable. This enables us to provide helpful support, maintain all our packages, keep everything up to date, and develop new features and extensions for tiptap.
 

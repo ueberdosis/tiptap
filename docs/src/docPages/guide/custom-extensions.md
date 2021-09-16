@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Custom extensions
 
-## toc
-
 ## Introduction
 One of the strengths of tiptap is its extendability. You don’t depend on the provided extensions, it is intended to extend the editor to your liking.
 

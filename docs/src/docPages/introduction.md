@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Introduction
 
-## toc
-
 ## What’s tiptap?
 [![Version](https://img.shields.io/npm/v/@tiptap/core.svg?label=version)](https://www.npmjs.com/package/@tiptap/core)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/core.svg)](https://npmcharts.com/compare/@tiptap/core?minimal=true)

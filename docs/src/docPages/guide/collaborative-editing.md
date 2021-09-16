@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Collaborative editing
 
-## toc
-
 ## Introduction
 Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of [Y.js](https://github.com/yjs/yjs). The following guide explains all things to take into account when you consider to make tiptap collaborative. Don’t worry, a production-grade setup doesn’t require much code.
 

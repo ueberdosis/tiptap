@@ -5,8 +5,6 @@ tableOfContents: true
 
 # React
 
-## toc
-
 ## Introduction
 The following guide describes how to integrate tiptap with your [React](https://reactjs.org/) project.
 

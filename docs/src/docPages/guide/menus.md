@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Create menus
 
-## toc
-
 ## Introduction
 tiptap comes very raw, but that’s a good thing. You have full control about the appearance of it. 
 

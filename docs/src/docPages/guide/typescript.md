@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Working with TypeScript
 
-## toc
-
 ## Introduction
 The whole tiptap is code base is written in TypeScript. If you haven’t heard of it or never used it, no worries. You don’t have to.
 

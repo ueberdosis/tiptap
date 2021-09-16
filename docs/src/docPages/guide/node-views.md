@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Interactive node views
 
-## toc
-
 ## Introduction
 Node views are the best thing since sliced bread, at least if you are a fan of customization (and bread). With node views you can add interactive nodes to your editor. That can literally be everything. If you can write it in JavaScript, you can use it in your editor.
 

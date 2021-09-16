@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Impressum
 
-## toc
-
 ## Contact
 
 Information provided according to Sec. 5 German Telemedia Act (TMG)

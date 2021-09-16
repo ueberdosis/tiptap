@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Marks
 
-## toc
-
 ## Introduction
 One or multiple marks can be applied to [nodes](/api/nodes), for example to add inline formatting like bold and italic, or other additional information.
 
