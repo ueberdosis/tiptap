@@ -7,7 +7,6 @@ import sourcemaps from 'rollup-plugin-sourcemaps'
 import typescript from 'rollup-plugin-typescript2'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import vuePlugin from 'rollup-plugin-vue'
 import babel from '@rollup/plugin-babel'
 import sizes from '@atomico/rollup-plugin-sizes'
 import autoExternal from 'rollup-plugin-auto-external'
@@ -47,7 +46,6 @@ async function build(commandLineArgs) {
       sourcemaps(),
       resolve(),
       commonjs(),
-      vuePlugin(),
       babel({
         babelHelpers: 'bundled',
         exclude: 'node_modules/**',
