@@ -9,10 +9,11 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "allowJs": false,
+    "allowJs": true,
     "checkJs": false,
     "paths": {
       "@tiptap/*": ["packages/*/dist", "packages/*/src"]
@@ -24,16 +25,15 @@
       "scripthost"
     ]
   },
-  "files": [
-    "./shims/vue.d.ts"
-  ],
   "include": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.d.ts",
+    "**/*.tsx",
+    "**/*.vue"
   ],
   "exclude": [
     "**/node_modules",
     "**/dist",
-    "**/vue-3"
+    "**/vue-2"
   ]
 }

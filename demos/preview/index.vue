@@ -1,3 +1,7 @@
+<script>
+// @ts-nocheck
+</script>
+
 <template>
   <ul v-if="$route.path === '/'">
     <li

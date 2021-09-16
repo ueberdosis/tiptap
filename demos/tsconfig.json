@@ -2,6 +2,19 @@
   "extends": "../tsconfig.json",
   "types": ["vite/client"],
   "compilerOptions": {
-    "baseUrl": "."
-  }
+    "baseUrl": ".",
+    "paths": {
+      "@tiptap/*": ["../packages/*/dist", "../packages/*/src"]
+    },
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "**/*.vue"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/dist"
+  ]
 }
