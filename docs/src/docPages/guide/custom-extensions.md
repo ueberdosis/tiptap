@@ -526,14 +526,14 @@ export const EventHandler = Extension.create({
 ```
 
 ### Node views (Advanced)
-For advanced use cases, where you need to execute JavaScript inside your nodes, for example to render a sophisticated link preview, you need to learn about node views.
+For advanced use cases, where you need to execute JavaScript inside your nodes, for example to render a sophisticated interface around an image, you need to learn about node views.
 
 They are really powerful, but also complex. In a nutshell, you need to return a parent DOM element, and a DOM element where the content should be rendered in. Look at the following, simplified example:
 
 ```js
-import Link from '@tiptap/extension-link'
+import Image from '@tiptap/extension-image'
 
-const CustomLink = Link.extend({
+const CustomImage = Image.extend({
   addNodeView() {
     return () => {
       const container = document.createElement('div')
@@ -554,7 +554,7 @@ const CustomLink = Link.extend({
 })
 ```
 
-There is a whole lot to learn about node views, so head over to the [dedicated section in our guide about node views](/guide/node-views) for more information. If you’re looking for a real-world example, look at the source code of the [`TaskItem`](/api/nodes/task-item) node. This is using a node view to render the checkboxes.
+There is a whole lot to learn about node views, so head over to the [dedicated section in our guide about node views](/guide/node-views) for more information. If you are looking for a real-world example, look at the source code of the [`TaskItem`](/api/nodes/task-item) node. This is using a node view to render the checkboxes.
 
 ## Create new extensions
 You can build your own extensions from scratch and you know what? It’s the same syntax as for extending existing extension described above.
