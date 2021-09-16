@@ -302,6 +302,45 @@ This looks for `<strong>` and `<b>` tags, and any HTML tag with an inline style 
 
 As you can see, you can optionally pass a `getAttrs` callback, to add more complex checks, for example for specific HTML attributes. The callback gets passed the HTML DOM node, except when checking for the `style` attribute, then it’s the value.
 
+#### Using getAttrs
+The `getAttrs` function you’ve probably noticed in the example has two purposes:
+
+1. Check the HTML attributes to decide whether a rule matches (and a mark or node is created from that HTML). When the function returns `false`, it’s not matching.
+2. Get the DOM Element and use the HTML attributes to set your mark or node attributes accordingly:
+
+```js
+parseHTML() {
+  return [
+    {
+      tag: 'span',
+      getAttrs: element => {
+        // Check if the element has an attribute
+        element.hasAttribute('style')
+        // Get an inline style
+        element.style.color
+        // Get a specific attribute
+        element.getAttribute('data-color')
+      },
+    },
+  ]
+},
+```
+
+You can return an object with the attribute as the key and the parsed value to set your mark or node attribute. We would recommend to use the `parseHTML` inside `addAttributes()`, though. That will keep your code cleaner.
+
+```js
+addAttributes() {
+  return {
+    color: {
+      // Set the color attribute according to the value of the `data-color` attribute
+      parseHTML: element => element.getAttribute('data-color'),
+    }
+  }
+},
+```
+
+Read more about `getAttrs` in the [ProseMirror reference](https://prosemirror.net/docs/ref/#model.ParseRule.getAttrs).
+
 ### Commands
 ```js
 import Paragraph from '@tiptap/extension-paragraph'
@@ -310,7 +349,7 @@ const CustomParagraph = Paragraph.extend({
   addCommands() {
     return {
       paragraph: () => ({ commands }) => {
-        return commands.toggleNode('paragraph', 'paragraph')
+        return commands.setNode('paragraph')
       },
     }
   },
