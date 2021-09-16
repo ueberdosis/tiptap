@@ -339,7 +339,7 @@ addAttributes() {
 },
 ```
 
-Read more about `getAttrs` in the [ProseMirror reference](https://prosemirror.net/docs/ref/#model.ParseRule.getAttrs).
+Read more about `getAttrs` and all other `ParseRule` properties in the [ProseMirror reference](https://prosemirror.net/docs/ref/#model.ParseRule).
 
 ### Commands
 ```js
