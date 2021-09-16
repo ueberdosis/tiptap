@@ -36,6 +36,13 @@ yarn add @tiptap/extension-link
 This extension doesn’t bind a specific keyboard shortcut. You would probably open your custom UI on `Mod-k` though.
 :::
 
+## Get the current value
+Did you know that you can use [`getAttributes`](/api/editor#methods) to find out which attributes, for example which href, is currently set? Don’t confuse it with a [command](/api/commands) (which changes the state), it’s just a method. Here is how that could look like:
+
+```js
+this.editor.getAttributes('link').href
+```
+
 ## Source code
 [packages/extension-link/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-link/)
 
