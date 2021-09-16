@@ -1,7 +1,6 @@
 {
   "private": true,
   "workspaces": [
-    "docs",
     "demos",
     "packages/*"
   ],
@@ -11,14 +10,12 @@
     "maintained node versions"
   ],
   "scripts": {
-    "start": "yarn --cwd ./docs start",
-    "start:demos": "yarn --cwd ./demos start",
+    "start": "yarn --cwd ./demos start",
     "lint": "eslint --quiet --no-error-on-unmatched-pattern ./",
     "lint:fix": "eslint --fix --quiet --no-error-on-unmatched-pattern ./",
     "test:open": "cypress open --project tests",
     "test": "cypress run --project tests",
     "build:demos": "yarn --cwd ./demos build",
-    "build:docs": "yarn --cwd ./docs build",
     "build:ci": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --ci --scope @tiptap/$package || exit 1; done",
     "build:packages": "yarn clean:packages && lerna changed | while read package; do rollup -c --scope $package || exit 1; done",
     "build:allpackages": "yarn clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --scope @tiptap/$package || exit 1; done",
