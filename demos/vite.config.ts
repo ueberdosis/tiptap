@@ -10,6 +10,7 @@ import globby from 'globby'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import reactRefresh from '@vitejs/plugin-react-refresh'
+import checker from 'vite-plugin-checker'
 
 export default defineConfig({
   optimizeDeps: {
@@ -46,6 +47,8 @@ export default defineConfig({
   },
 
   plugins: [
+    // checker({ typescript: { tsconfigPath: '../tsconfig.json' } }),
+    // checker({ typescript: true }),
     vue(),
     reactRefresh(),
 
