@@ -10,7 +10,7 @@ import globby from 'globby'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import reactRefresh from '@vitejs/plugin-react-refresh'
-import checker from 'vite-plugin-checker'
+// import checker from 'vite-plugin-checker'
 
 export default defineConfig({
   optimizeDeps: {
@@ -35,6 +35,7 @@ export default defineConfig({
       'y-webrtc',
       'lowlight',
       'lowlight/lib/core',
+      'shiki',
     ],
   },
 
@@ -47,8 +48,10 @@ export default defineConfig({
   },
 
   plugins: [
-    // checker({ typescript: { tsconfigPath: '../tsconfig.json' } }),
-    // checker({ typescript: true }),
+    // checker({ typescript: { tsconfigPath: './tsconfig.base.json' } }),
+    // checker({ typescript: { tsconfigPath: './tsconfig.react.json' } }),
+    // checker({ typescript: { tsconfigPath: './tsconfig.vue-2.json' } }),
+    // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
     vue(),
     reactRefresh(),
 

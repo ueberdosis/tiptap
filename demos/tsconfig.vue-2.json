@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "../packages/vue-2/src/*.d.ts",
+    "../packages/vue-2/src/*.ts",
+    "../packages/vue-2/src/*.tsx",
+    "../packages/vue-2/src/*.vue"
+  ]
+}

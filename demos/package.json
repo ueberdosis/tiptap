@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview --port 3000"
+    "start": "vite --host",
+    "build": "yarn ts && vite build",
+    "ts": "tsc --project tsconfig.base.json --noEmit && tsc --project tsconfig.react.json --noEmit && tsc --project tsconfig.vue-2.json --noEmit && tsc --project tsconfig.vue-3.json --noEmit"
   },
   "dependencies": {
     "@tiptap/core": "^2.0.0-beta.101",

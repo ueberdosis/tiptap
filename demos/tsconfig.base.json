@@ -1,0 +1,21 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "../packages/*/src/**/*.d.ts",
+    "../packages/*/src/**/*.ts",
+    "../packages/*/src/**/*.tsx",
+    "../packages/*/src/**/*.vue"
+  ],
+  "exclude": [
+    "../packages/react",
+    "../packages/vue-2",
+    "../packages/vue-3",
+    "../packages/extension-code-block-lowlight"
+  ]
+}
