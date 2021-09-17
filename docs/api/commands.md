@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Commands
 
-## toc
-
 ## Introduction
 The editor provides a ton of commands to programmatically add or change content or alter the selection. If you want to build your own editor you definitely want to learn more about them.
 

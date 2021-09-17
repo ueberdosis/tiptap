@@ -5,8 +5,6 @@ tableOfContents: true
 
 # Vue.js 2
 
-## toc
-
 ## Introduction
 The following guide describes how to integrate tiptap with your [Vue](https://vuejs.org/) CLI project.
 

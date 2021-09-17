@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Privacy Policy
 
-## toc
-
 ## Introduction
 We value your privacy and question everything that stores or processes your personal information. With that in mind, we still need a few external services to publish tiptap.
 

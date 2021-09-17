@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Configuration
 
-## toc
-
 ## Introduction
 For most cases it’s enough to say where tiptap should be rendered (`element`), what functionalities you want to enable (`extensions`) and what the initial document should be (`content`). 
 

@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Styling
 
-## toc
-
 ## Introduction
 tiptap is headless, that means there is no styling provided. That also means, you are in full control of how your editor looks. The following methods allow you to apply custom styles to the editor.
 

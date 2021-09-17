@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Node views with Vue
 
-## toc
-
 ## Introduction
 Using Vanilla JavaScript can feel complex if you are used to work in Vue. Good news: You can use regular Vue components in your node views, too. There is just a little bit you need to know, but let’s go through this one by one.
 

@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Custom extensions
 
-## toc
-
 ## Introduction
 One of the strengths of tiptap is its extendability. You don’t depend on the provided extensions, it is intended to extend the editor to your liking.
 
@@ -304,6 +302,45 @@ This looks for `<strong>` and `<b>` tags, and any HTML tag with an inline style 
 
 As you can see, you can optionally pass a `getAttrs` callback, to add more complex checks, for example for specific HTML attributes. The callback gets passed the HTML DOM node, except when checking for the `style` attribute, then it’s the value.
 
+#### Using getAttrs
+The `getAttrs` function you’ve probably noticed in the example has two purposes:
+
+1. Check the HTML attributes to decide whether a rule matches (and a mark or node is created from that HTML). When the function returns `false`, it’s not matching.
+2. Get the DOM Element and use the HTML attributes to set your mark or node attributes accordingly:
+
+```js
+parseHTML() {
+  return [
+    {
+      tag: 'span',
+      getAttrs: element => {
+        // Check if the element has an attribute
+        element.hasAttribute('style')
+        // Get an inline style
+        element.style.color
+        // Get a specific attribute
+        element.getAttribute('data-color')
+      },
+    },
+  ]
+},
+```
+
+You can return an object with the attribute as the key and the parsed value to set your mark or node attribute. We would recommend to use the `parseHTML` inside `addAttributes()`, though. That will keep your code cleaner.
+
+```js
+addAttributes() {
+  return {
+    color: {
+      // Set the color attribute according to the value of the `data-color` attribute
+      parseHTML: element => element.getAttribute('data-color'),
+    }
+  }
+},
+```
+
+Read more about `getAttrs` and all other `ParseRule` properties in the [ProseMirror reference](https://prosemirror.net/docs/ref/#model.ParseRule).
+
 ### Commands
 ```js
 import Paragraph from '@tiptap/extension-paragraph'
@@ -312,7 +349,7 @@ const CustomParagraph = Paragraph.extend({
   addCommands() {
     return {
       paragraph: () => ({ commands }) => {
-        return commands.toggleNode('paragraph', 'paragraph')
+        return commands.setNode('paragraph')
       },
     }
   },
@@ -489,14 +526,14 @@ export const EventHandler = Extension.create({
 ```
 
 ### Node views (Advanced)
-For advanced use cases, where you need to execute JavaScript inside your nodes, for example to render a sophisticated link preview, you need to learn about node views.
+For advanced use cases, where you need to execute JavaScript inside your nodes, for example to render a sophisticated interface around an image, you need to learn about node views.
 
 They are really powerful, but also complex. In a nutshell, you need to return a parent DOM element, and a DOM element where the content should be rendered in. Look at the following, simplified example:
 
 ```js
-import Link from '@tiptap/extension-link'
+import Image from '@tiptap/extension-image'
 
-const CustomLink = Link.extend({
+const CustomImage = Image.extend({
   addNodeView() {
     return () => {
       const container = document.createElement('div')
@@ -517,7 +554,7 @@ const CustomLink = Link.extend({
 })
 ```
 
-There is a whole lot to learn about node views, so head over to the [dedicated section in our guide about node views](/guide/node-views) for more information. If you’re looking for a real-world example, look at the source code of the [`TaskItem`](/api/nodes/task-item) node. This is using a node view to render the checkboxes.
+There is a whole lot to learn about node views, so head over to the [dedicated section in our guide about node views](/guide/node-views) for more information. If you are looking for a real-world example, look at the source code of the [`TaskItem`](/api/nodes/task-item) node. This is using a node view to render the checkboxes.
 
 ## Create new extensions
 You can build your own extensions from scratch and you know what? It’s the same syntax as for extending existing extension described above.

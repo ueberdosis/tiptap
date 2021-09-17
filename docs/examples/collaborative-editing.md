@@ -8,8 +8,6 @@ tableOfContents: true
 Using the collaborative editing commercially? [Become a sponsor](/sponsor) to fund its development!
 :::
 
-## toc
-
 ## Introduction
 This example shows how you can use tiptap to let multiple users collaborate in the same document in real-time.
 

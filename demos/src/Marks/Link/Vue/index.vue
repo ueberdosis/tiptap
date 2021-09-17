@@ -1,10 +1,10 @@
 <template>
   <div v-if="editor">
     <button @click="setLink" :class="{ 'is-active': editor.isActive('link') }">
-      link
+      setLink
     </button>
     <button @click="editor.chain().focus().unsetLink().run()" v-if="editor.isActive('link')">
-      remove
+      unsetLink
     </button>
     <editor-content :editor="editor" />
   </div>
@@ -36,7 +36,9 @@ export default {
         Paragraph,
         Text,
         Bold,
-        Link,
+        Link.configure({
+          openOnClick: false,
+        }),
       ],
       content: `
         <p>
@@ -51,8 +53,27 @@ export default {
 
   methods: {
     setLink() {
-      const url = window.prompt('URL')
+      const previousUrl = this.editor.getAttributes('link').href
+      const url = window.prompt('URL', previousUrl)
 
+      // cancelled
+      if (url === null) {
+        return
+      }
+
+      // empty
+      if (url === '') {
+        this.editor
+          .chain()
+          .focus()
+          .extendMarkRange('link')
+          .unsetLink()
+          .run()
+
+        return
+      }
+
+      // update link
       this.editor
         .chain()
         .focus()

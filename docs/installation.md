@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Installation
 
-## toc
-
 ## Introduction
 tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s your thing). The following integration guides help you integrating tiptap in your JavaScript project.
 

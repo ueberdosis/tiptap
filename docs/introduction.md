@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Introduction
 
-## toc
-
 ## What’s tiptap?
 [![Version](https://img.shields.io/npm/v/@tiptap/core.svg?label=version)](https://www.npmjs.com/package/@tiptap/core)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/core.svg)](https://npmcharts.com/compare/@tiptap/core?minimal=true)
@@ -19,3 +17,5 @@ Create exactly the rich text editor you want out of customizable building blocks
 ## What does “headless” mean?
 There is no provided user interface, you are absolutely free to build whatever interface you want. No need to overwrite any class, to use `!important` or other hacks, just write whatever you like in the setup you are used to.
 
+## Why should I use tiptap?
+[ProseMirror](https://ProseMirror.net) is a well-written, reliable and very powerful editor toolkit. It’s not so much the ready-to-use editor most people look for, but with tiptap you can start in minutes, choose from tons of amazing extensions and still have that powerful ProseMirror API accessible when you really need it.

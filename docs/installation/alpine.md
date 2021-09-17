@@ -5,8 +5,6 @@ tableOfContents: true
 
 # Alpine.js
 
-## toc
-
 ## Introduction
 The following guide describes how to integrate tiptap with your [Alpine.js](https://github.com/alpinejs/alpine) project.
 

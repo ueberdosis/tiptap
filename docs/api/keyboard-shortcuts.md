@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Keyboard Shortcuts
 
-## toc
-
 ## Introduction
 tiptap comes with sensible keyboard shortcut defaults. Depending on what you want to use it for, you’ll probably want to change those keyboard shortcuts to your liking. Let’s have a look at what we defined for you, and show you how to change it then!
 

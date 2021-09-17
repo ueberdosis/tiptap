@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Extensions
 
-## toc
-
 ## Introduction
 Extensions add new capabilities to tiptap and you’ll read the word extension here very often. Actually, there are literal Extensions. Those can’t add to the schema, but can add functionality or change the behaviour of the editor.
 

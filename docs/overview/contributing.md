@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Contributing
 
-## toc
-
 ## Introduction
 tiptap would be nothing without its lively community. Contributions have always been and will always be welcome. Here is a little bit you should know, before you send your contribution:
 

@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Node views with JavaScript
 
-## toc
-
 ## Introduction
 Using frameworks like Vue or React can feel too complex, if you’re used to work without those two. Good news: You can use Vanilla JavaScript in your node views. There is just a little bit you need to know, but let’s go through this one by one.
 

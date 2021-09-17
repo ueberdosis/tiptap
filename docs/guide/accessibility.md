@@ -8,8 +8,6 @@ tableOfContents: true
 We need your support to maintain, update, support and develop tiptap. If you’re waiting for progress here, [become a sponsor and fund our work](/sponsor).
 :::
 
-## toc
-
 ## Introduction
 We strive to make tiptap accessible to everyone, but to be honest, there’s not much work done now. From our current understanding, that’s what needs to be done:
 

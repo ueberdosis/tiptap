@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Output
 
-## toc
-
 ## Introduction
 You can store your content as a JSON object or as a good old HTML string. Both work fine. And of course, you can pass both formats to the editor to restore your content. Here is an interactive example, that exports the content as HTML and JSON when the document is changed:
 

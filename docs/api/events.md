@@ -4,8 +4,6 @@ tableOfContents: true
 
 # Events
 
-## toc
-
 ## Introduction
 The editor fires a few different events that you can hook into. Let’s have a look at all the available events first:
 
