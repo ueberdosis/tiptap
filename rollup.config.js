@@ -1,3 +1,4 @@
+import fs from 'fs'
 import path from 'path'
 import minimist from 'minimist'
 import { getPackages } from '@lerna/project'
@@ -83,6 +84,9 @@ async function build(commandLineArgs) {
         }),
         ...basePlugins,
         typescript({
+          tsconfig: fs.existsSync(`${basePath}/tsconfig.json`)
+            ? `${basePath}/tsconfig.json`
+            : 'tsconfig.json',
           tsconfigOverride: {
             compilerOptions: {
               declaration: true,
@@ -90,7 +94,7 @@ async function build(commandLineArgs) {
                 '@tiptap/*': ['packages/*/src'],
               },
             },
-            include: null,
+            include: [],
           },
         }),
       ],
