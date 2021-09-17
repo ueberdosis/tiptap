@@ -92,7 +92,7 @@ jobs:
       uses: cypress-io/github-action@v2
       with:
         cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
-        start: yarn start:demos
+        start: yarn start
         wait-on: 'http://localhost:3000'
         project: ./tests
         browser: chrome
