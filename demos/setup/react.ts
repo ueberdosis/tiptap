@@ -13,7 +13,7 @@ export default function init(name: string, source: any) {
 
   import(`../src/${demoCategory}/${demoName}/React/index.jsx`)
     .then(module => {
-      ReactDOM.render(<module.default />, document.getElementById('app'))
+      ReactDOM.render(React.createElement(module.default), document.getElementById('app'))
       debug()
     })
 }
