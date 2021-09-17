@@ -1,6 +1,5 @@
 {
   "extends": "../tsconfig.json",
-  "types": ["vite/client"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
@@ -12,9 +11,5 @@
   },
   "include": [
     "**/*.vue"
-  ],
-  "exclude": [
-    "**/node_modules",
-    "**/dist"
   ]
 }

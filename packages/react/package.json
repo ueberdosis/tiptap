@@ -20,19 +20,21 @@
     "src",
     "dist"
   ],
+  "devDependencies": {
+    "@types/react": "^17.0.20",
+    "@types/react-dom": "^17.0.7",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
+  },
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
   },
   "dependencies": {
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.34",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.28",
     "prosemirror-view": "^1.20.1"
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.20",
-    "@types/react-dom": "^17.0.7"
   },
   "repository": {
     "type": "git",

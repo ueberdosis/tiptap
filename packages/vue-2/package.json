@@ -20,9 +20,12 @@
     "src",
     "dist"
   ],
+  "devDependencies": {
+    "vue": "^2.6.0"
+  },
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.1",
-    "vue": "^2.6.12"
+    "vue": "^2.6.0"
   },
   "dependencies": {
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.34",

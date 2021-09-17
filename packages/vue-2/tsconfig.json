@@ -4,6 +4,6 @@
     "**/node_modules",
     "**/dist",
     "../../demos",
-    "../vue-2"
+    "../vue-3"
   ]
 }

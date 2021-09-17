@@ -20,15 +20,18 @@
     "src",
     "dist"
   ],
+  "devDependencies": {
+    "vue": "^3.0.0"
+  },
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.1"
+    "@tiptap/core": "^2.0.0-beta.1",
+    "vue": "^3.0.0"
   },
   "dependencies": {
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.34",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.28",
     "prosemirror-state": "^1.3.4",
-    "prosemirror-view": "^1.20.1",
-    "vue": "^3.0.0"
+    "prosemirror-view": "^1.20.1"
   },
   "repository": {
     "type": "git",

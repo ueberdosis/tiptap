@@ -25,6 +25,9 @@
       "scripthost"
     ]
   },
+  "files": [
+    "./env.d.ts"
+  ],
   "include": [
     "**/*.ts",
     "**/*.d.ts",
@@ -33,7 +36,6 @@
   ],
   "exclude": [
     "**/node_modules",
-    "**/dist",
-    "**/vue-2"
+    "**/dist"
   ]
 }
