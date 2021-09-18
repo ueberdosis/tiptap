@@ -41,4 +41,5 @@ This extension requires the [`Collaboration`](/api/extensions/collaboration) ext
 The content of this editor is shared with other users.
 :::
 <tiptap-demo name="Extensions/CollaborationCursor" hideSource></tiptap-demo>
+
 <tiptap-demo name="Extensions/CollaborationCursor"></tiptap-demo>
