@@ -35,6 +35,11 @@ export interface SuggestionProps {
   range: Range,
   query: string,
   text: string,
+  active: boolean,
+  moved: boolean,
+  started: boolean,
+  stopped: boolean,
+  changed: boolean,
   items: any[],
   command: (props: any) => void,
   decorationNode: Element | null,
@@ -98,6 +103,11 @@ export function Suggestion({
             range: state.range,
             query: state.query,
             text: state.text,
+            active: next.active,
+            moved,
+            started,
+            stopped,
+            changed,
             items: (handleChange || handleStart)
               ? await items(state.query)
               : [],
