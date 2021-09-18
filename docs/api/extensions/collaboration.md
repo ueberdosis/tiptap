@@ -48,6 +48,8 @@ yarn add @tiptap/extension-collaboration yjs y-websocket
 :::warning Public
 The content of this editor is shared with other users.
 :::
+<tiptap-demo name="Extensions/Collaboration" hide-source></tiptap-demo>
+
 <tiptap-demo name="Extensions/Collaboration" hideSource></tiptap-demo>
 
 <tiptap-demo name="Extensions/Collaboration"></tiptap-demo>
