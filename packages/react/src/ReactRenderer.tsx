@@ -23,7 +23,7 @@ export interface ReactRendererOptions {
 }
 
 type ComponentType =
-  | React.Component
+  | React.ComponentClass
   | React.FunctionComponent
   | React.ForwardRefExoticComponent<{ items: any[], command: any } & React.RefAttributes<unknown>>
 
