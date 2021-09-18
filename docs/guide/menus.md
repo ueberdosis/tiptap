@@ -5,7 +5,7 @@ tableOfContents: true
 # Create menus
 
 ## Introduction
-tiptap comes very raw, but that’s a good thing. You have full control about the appearance of it. 
+tiptap comes very raw, but that’s a good thing. You have full control about the appearance of it.
 
 When we say full control, we mean it. You can (and have to) build a menu on your own. We help you to wire everything up.
 
@@ -18,12 +18,12 @@ A fixed menu, for example on top of the editor, can be anything. We don’t prov
 ### Bubble menu
 The [bubble menu](/api/extensions/bubble-menu) appears when selecting text. Markup and styling is totally up to you.
 
-<tiptap-demo name="Extensions/BubbleMenu" hideSource></tiptap-demo>
+<tiptap-demo name="Extensions/BubbleMenu" hide-source></tiptap-demo>
 
 ### Floating menu
 The [floating menu](/api/extensions/floating-menu) appears in empty lines. Markup and styling is totally up to you.
 
-<tiptap-demo name="Extensions/FloatingMenu" hideSource></tiptap-demo>
+<tiptap-demo name="Extensions/FloatingMenu" hide-source></tiptap-demo>
 
 ### Slash commands (work in progress)
 It’s not an official extension yet, but [there’s an experiment you can use to add what we call slash commands](/experiments/commands). It allows you to start a new line with `/` and will bring up a popup to select which node should be added.

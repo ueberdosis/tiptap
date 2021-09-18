@@ -42,7 +42,7 @@ editor.commands.setContent({
 
 Here is an interactive example where you can see that in action:
 
-<tiptap-demo name="GuideContent/ExportJSON" hideSource></tiptap-demo>
+<tiptap-demo name="GuideContent/ExportJSON" hide-source></tiptap-demo>
 
 ### Option 2: HTML
 HTML can be easily rendered in other places, for example in emails and it’s wildly used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
@@ -66,7 +66,7 @@ editor.commands.setContent(`<p>Example Text</p>`)
 
 Use this interactive example to fiddle around:
 
-<tiptap-demo name="GuideContent/ExportHTML" hideSource></tiptap-demo>
+<tiptap-demo name="GuideContent/ExportHTML" hide-source></tiptap-demo>
 
 ### Option 3: Y.js
 Our editor has top notch support for Y.js, which is amazing to add features like [realtime collaboration, offline editing, or syncing between devices](/guide/collaborative-editing).
