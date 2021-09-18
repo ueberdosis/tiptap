@@ -44,17 +44,11 @@
     "yjs": "^13.5.11"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.15.6",
-    "@typescript-eslint/eslint-plugin": "^4.31.1",
-    "@typescript-eslint/parser": "^4.31.1",
-    "@vitejs/plugin-vue": "^1.6.2",
-    "@vue/compiler-sfc": "^3.2.11",
-    "cypress": "^8.4.0",
-    "eslint-plugin-cypress": "^2.12.1",
+    "@vitejs/plugin-vue": "^1.7.0",
+    "@vue/compiler-sfc": "^3.2.12",
     "globby": "^11.0.4",
     "sass": "^1.40.1",
     "typescript": "^4.4.3",
-    "vite": "^2.5.7",
-    "vue-tsc": "^0.3.0"
+    "vite": "^2.5.7"
   }
 }
