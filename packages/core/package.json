@@ -7,7 +7,8 @@
     "tiptap",
     "headless",
     "wysiwyg",
-    "text editor"
+    "text editor",
+    "prosemirror"
   ],
   "license": "MIT",
   "funding": {
