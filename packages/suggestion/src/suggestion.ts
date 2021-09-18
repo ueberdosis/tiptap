@@ -103,7 +103,7 @@ export function Suggestion({
             range: state.range,
             query: state.query,
             text: state.text,
-            active: next.active,
+            active: state.active,
             moved,
             started,
             stopped,
