@@ -59,7 +59,7 @@
               ]"
               @click="showDebug = !showDebug"
             >
-              Positions
+              Inspect
             </button>
           </div>
         </div>
