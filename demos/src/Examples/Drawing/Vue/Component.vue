@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { NodeViewWrapper } from '@tiptap/vue-3'
+import { NodeViewWrapper, nodeViewProps } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
 import * as d3 from 'd3'
 import simplify from 'simplify-js'
@@ -42,17 +42,7 @@ export default {
     NodeViewWrapper,
   },
 
-  props: {
-    updateAttributes: {
-      type: Function,
-      required: true,
-    },
-
-    node: {
-      type: Object,
-      required: true,
-    },
-  },
+  props: nodeViewProps,
 
   data() {
     return {
