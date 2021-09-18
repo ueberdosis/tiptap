@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.107](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.106...@tiptap/core@2.0.0-beta.107) (2021-09-18)
+
+
+### Bug Fixes
+
+* fix extension name for clipboardTextSerializer ([15f90ec](https://github.com/ueberdosis/tiptap/commit/15f90ec5916460359827f7073e5c36147867fef7))
+
+
+
+
+
 # [2.0.0-beta.106](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.105...@tiptap/core@2.0.0-beta.106) (2021-09-15)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.68](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.67...@tiptap/react@2.0.0-beta.68) (2021-09-18)
+
+
+### Bug Fixes
+
+* set correct component type for ReactRenderer, fix [#1904](https://github.com/ueberdosis/tiptap/issues/1904) ([fe47c38](https://github.com/ueberdosis/tiptap/commit/fe47c388ce5ef49c286302a7b771a680c2f0c239))
+
+
+
+
+
 # [2.0.0-beta.67](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.66...@tiptap/react@2.0.0-beta.67) (2021-09-15)
 
 **Note:** Version bump only for package @tiptap/react
