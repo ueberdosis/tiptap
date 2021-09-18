@@ -4,7 +4,7 @@ import getTextBetween from '../helpers/getTextBetween'
 import getTextSeralizersFromSchema from '../helpers/getTextSeralizersFromSchema'
 
 export const ClipboardTextSerializer = Extension.create({
-  name: 'editable',
+  name: 'clipboardTextSerializer',
 
   addProseMirrorPlugins() {
     return [
