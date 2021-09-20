@@ -17,7 +17,7 @@ export interface SuggestionOptions {
     range: Range,
     props: any,
   }) => void,
-  items?: (query: string) => any[],
+  items?: (query: string) => any[] | Promise<any[]>,
   render?: () => {
     onStart?: (props: SuggestionProps) => void,
     onUpdate?: (props: SuggestionProps) => void,
