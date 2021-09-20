@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.71](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.70...@tiptap/suggestion@2.0.0-beta.71) (2021-09-20)
+
+
+### Bug Fixes
+
+* Add type for async items on suggestions (fix TS strict types complaining) ([#1912](https://github.com/ueberdosis/tiptap/issues/1912)) ([4a6c3cb](https://github.com/ueberdosis/tiptap/commit/4a6c3cbaac9690f1261b8d435195878b6f60ad64))
+
+
+
+
+
 # [2.0.0-beta.70](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.69...@tiptap/suggestion@2.0.0-beta.70) (2021-09-15)
 
 **Note:** Version bump only for package @tiptap/suggestion
