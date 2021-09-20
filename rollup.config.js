@@ -17,7 +17,7 @@ async function getSortedPackages(scope, ignore) {
   const filtered = filterPackages(packages, scope, ignore, false)
 
   return batchPackages(filtered)
-    .filter(item => item.name !== '@tiptap/docs')
+    .filter(item => item.name !== '@tiptap/demos')
     .reduce((arr, batch) => arr.concat(batch), [])
 }
 
