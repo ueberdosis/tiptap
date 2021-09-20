@@ -200,8 +200,8 @@ export default {
     },
 
     fromString(value) {
-      if (typeof value !== 'string') {
-        return value
+      if (value === null) {
+        return true
       }
 
       if (value.match(/^\d*(\.\d+)?$/)) {
