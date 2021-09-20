@@ -6,6 +6,7 @@
     "jsx": "react",
     "importHelpers": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
