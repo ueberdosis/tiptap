@@ -12,31 +12,15 @@ import vue from '@vitejs/plugin-vue'
 import reactRefresh from '@vitejs/plugin-react-refresh'
 // import checker from 'vite-plugin-checker'
 
+const includeDependencies = fs.readFileSync('./includeDependencies.txt')
+  .toString()
+  .replace(/\r\n/g, '\n')
+  .split('\n')
+  .filter(value => value)
+
 export default defineConfig({
   optimizeDeps: {
-    include: [
-      'prosemirror-commands',
-      'prosemirror-inputrules',
-      'prosemirror-keymap',
-      'prosemirror-model',
-      'prosemirror-schema-list',
-      'prosemirror-state',
-      'prosemirror-transform',
-      'prosemirror-view',
-      'prosemirror-history',
-      'prosemirror-dropcursor',
-      'prosemirror-gapcursor',
-      'prosemirror-tables',
-      'tippy.js',
-      'yjs',
-      'y-prosemirror',
-      'y-websocket',
-      'y-indexeddb',
-      'y-webrtc',
-      'lowlight',
-      'lowlight/lib/core',
-      'shiki',
-    ],
+    include: includeDependencies,
   },
 
   build: {
