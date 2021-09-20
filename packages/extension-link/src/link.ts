@@ -4,17 +4,7 @@ import {
   mergeAttributes,
 } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
-// @ts-expect-error
 import { find } from 'linkifyjs'
-
-type LinkifyResult = {
-  start: number,
-  end: number,
-  href: string,
-  isLink: boolean,
-  type: string,
-  value: string,
-}
 
 export interface LinkOptions {
   /**
@@ -117,7 +107,7 @@ export const Link = Mark.create<LinkOptions>({
   addPasteRules() {
     return [
       markPasteRuleNew({
-        matcher: text => (find(text) as LinkifyResult[])
+        matcher: text => find(text)
           .filter(link => link.isLink)
           .map(link => ({
             text: link.value,
@@ -177,7 +167,7 @@ export const Link = Mark.create<LinkOptions>({
                 textContent += node.textContent
               })
 
-              const link = (find(textContent) as LinkifyResult[])
+              const link = find(textContent)
                 .find(item => item.isLink && item.value === textContent)
 
               if (!textContent || !link) {
