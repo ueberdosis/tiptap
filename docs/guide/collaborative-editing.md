@@ -170,8 +170,10 @@ const editor = new Editor({
     // Register the collaboration cursor extension
     CollaborationCursor.configure({
       provider: provider,
-      name: 'Cyndi Lauper',
-      color: '#f783ac',
+      user: {
+        name: 'Cyndi Lauper',
+        color: '#f783ac',
+      },
     }),
     // …
   ],
