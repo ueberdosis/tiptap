@@ -499,7 +499,7 @@ const History = Extension.create({
 ```
 
 #### Access the ProseMirror API
-To hook into events, for example a click, double click or when content is pasted, you can pass [event handlers](https://prosemirror.net/docs/ref/#view.EditorProps) to `editorProps` on the [editor](/api/editor).
+To hook into events, for example a click, double click or when content is pasted, you can pass [event handlers](https://prosemirror.net/docs/ref/#view.EditorProps) to `editorProps` on the [editor](/api/editor#editor-props).
 
 Or you can add them to a tiptap extension like shown in the below example.
 
