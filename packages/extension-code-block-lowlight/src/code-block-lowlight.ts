@@ -16,7 +16,7 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
     return [
       ...this.parent?.() || [],
       LowlightPlugin({
-        name: 'codeBlock',
+        name: this.name,
         lowlight: this.options.lowlight,
       }),
     ]
