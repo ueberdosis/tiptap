@@ -50,6 +50,7 @@ export interface EditorOptions {
   parseOptions: ParseOptions,
   enableInputRules: boolean,
   enablePasteRules: boolean,
+  enableCoreExtensions: boolean,
   onBeforeCreate: (props: { editor: Editor }) => void,
   onCreate: (props: { editor: Editor }) => void,
   onUpdate: (props: { editor: Editor, transaction: Transaction }) => void,
