@@ -220,7 +220,7 @@ export class Editor extends EventEmitter {
    */
   private createExtensionManager(): void {
     const coreExtensions = this.options.enableCoreExtensions
-      ? Object.entries(extensions).map(([, extension]) => extension)
+      ? Object.values(extensions)
       : []
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
