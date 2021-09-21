@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.110](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.109...@tiptap/core@2.0.0-beta.110) (2021-09-21)
+
+
+### Bug Fixes
+
+* call selectAll on 'cmd+a', set a TextSelection instead of AllSelection, fix [#1908](https://github.com/ueberdosis/tiptap/issues/1908) ([bad16d9](https://github.com/ueberdosis/tiptap/commit/bad16d9f3a9f47db83ad170c6de4d6ff11dba007))
+
+
+
+
+
 # [2.0.0-beta.109](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.108...@tiptap/core@2.0.0-beta.109) (2021-09-21)
 
 
