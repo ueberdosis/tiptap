@@ -64,6 +64,10 @@ ul[data-type="taskList"] {
       flex: 0 0 auto;
       margin-right: 0.5rem;
     }
+
+    > div {
+      flex: 1 1 auto;
+    }
   }
 }
 </style>
