@@ -1,3 +1,6 @@
+import * as extensions from './extensions'
+
+export { extensions }
 export * from './Editor'
 export * from './Extension'
 export * from './Node'

@@ -158,6 +158,11 @@ export default {
       > label {
         flex: 0 0 auto;
         margin-right: 0.5rem;
+        user-select: none;
+      }
+
+      > div {
+        flex: 1 1 auto;
       }
     }
   }
