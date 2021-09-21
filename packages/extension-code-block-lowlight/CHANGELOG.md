@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.39](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block-lowlight@2.0.0-beta.38...@tiptap/extension-code-block-lowlight@2.0.0-beta.39) (2021-09-21)
+
+
+### Bug Fixes
+
+* Allow extending code-block-lowlight ([#1917](https://github.com/ueberdosis/tiptap/issues/1917)) ([54be0e5](https://github.com/ueberdosis/tiptap/commit/54be0e570e24c4a7bbb772c8222cfeac2ba1ff38))
+
+
+
+
+
 # [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block-lowlight@2.0.0-beta.37...@tiptap/extension-code-block-lowlight@2.0.0-beta.38) (2021-09-15)
 
 **Note:** Version bump only for package @tiptap/extension-code-block-lowlight
