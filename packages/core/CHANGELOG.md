@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.109](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.108...@tiptap/core@2.0.0-beta.109) (2021-09-21)
+
+
+### Features
+
+* add enableCoreExtensions flag ([#1923](https://github.com/ueberdosis/tiptap/issues/1923)) ([4178281](https://github.com/ueberdosis/tiptap/commit/4178281a749f2b7641740c0be1efae77ecb74587))
+
+
+
+
+
 # [2.0.0-beta.108](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.107...@tiptap/core@2.0.0-beta.108) (2021-09-20)
 
 **Note:** Version bump only for package @tiptap/core
