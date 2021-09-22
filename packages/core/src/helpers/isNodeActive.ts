@@ -14,18 +14,18 @@ export default function isNodeActive(
     ? getNodeType(typeOrName, state.schema)
     : null
 
-  let nodeRanges: NodeRange[] = []
+  const nodeRanges: NodeRange[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
     if (!node.isText) {
       const relativeFrom = Math.max(from, pos)
       const relativeTo = Math.min(to, pos + node.nodeSize)
 
-      nodeRanges = [...nodeRanges, {
+      nodeRanges.push({
         node,
         from: relativeFrom,
         to: relativeTo,
-      }]
+      })
     }
   })
 

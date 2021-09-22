@@ -27,7 +27,7 @@ export default function isMarkActive(
   }
 
   let selectionRange = 0
-  let markRanges: MarkRange[] = []
+  const markRanges: MarkRange[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
     if (node.isText || node.marks.length) {
@@ -37,11 +37,11 @@ export default function isMarkActive(
 
       selectionRange += range
 
-      markRanges = [...markRanges, ...node.marks.map(mark => ({
+      markRanges.push(...node.marks.map(mark => ({
         mark,
         from: relativeFrom,
         to: relativeTo,
-      }))]
+      })))
     }
   })
 
