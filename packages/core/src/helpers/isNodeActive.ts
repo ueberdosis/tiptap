@@ -17,33 +17,22 @@ export default function isNodeActive(
   const nodeRanges: NodeRange[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
-    if (!node.isText) {
-      const relativeFrom = Math.max(from, pos)
-      const relativeTo = Math.min(to, pos + node.nodeSize)
-
-      nodeRanges.push({
-        node,
-        from: relativeFrom,
-        to: relativeTo,
-      })
+    if (node.isText) {
+      return
     }
+
+    const relativeFrom = Math.max(from, pos)
+    const relativeTo = Math.min(to, pos + node.nodeSize)
+
+    nodeRanges.push({
+      node,
+      from: relativeFrom,
+      to: relativeTo,
+    })
   })
 
-  if (empty) {
-    return !!nodeRanges
-      .filter(nodeRange => {
-        if (!type) {
-          return true
-        }
-
-        return type.name === nodeRange.node.type.name
-      })
-      .find(nodeRange => objectIncludes(nodeRange.node.attrs, attributes, { strict: false }))
-  }
-
   const selectionRange = to - from
-
-  const range = nodeRanges
+  const matchedNodeRanges = nodeRanges
     .filter(nodeRange => {
       if (!type) {
         return true
@@ -52,10 +41,13 @@ export default function isNodeActive(
       return type.name === nodeRange.node.type.name
     })
     .filter(nodeRange => objectIncludes(nodeRange.node.attrs, attributes, { strict: false }))
-    .reduce((sum, nodeRange) => {
-      const size = nodeRange.to - nodeRange.from
-      return sum + size
-    }, 0)
+
+  if (empty) {
+    return !!matchedNodeRanges.length
+  }
+
+  const range = matchedNodeRanges
+    .reduce((sum, nodeRange) => sum + nodeRange.to - nodeRange.from, 0)
 
   return range >= selectionRange
 }
