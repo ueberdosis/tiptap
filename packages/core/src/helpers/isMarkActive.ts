@@ -30,19 +30,21 @@ export default function isMarkActive(
   const markRanges: MarkRange[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
-    if (node.isText || node.marks.length) {
-      const relativeFrom = Math.max(from, pos)
-      const relativeTo = Math.min(to, pos + node.nodeSize)
-      const range = relativeTo - relativeFrom
-
-      selectionRange += range
-
-      markRanges.push(...node.marks.map(mark => ({
-        mark,
-        from: relativeFrom,
-        to: relativeTo,
-      })))
+    if (!node.marks.length) {
+      return
     }
+
+    const relativeFrom = Math.max(from, pos)
+    const relativeTo = Math.min(to, pos + node.nodeSize)
+    const range = relativeTo - relativeFrom
+
+    selectionRange += range
+
+    markRanges.push(...node.marks.map(mark => ({
+      mark,
+      from: relativeFrom,
+      to: relativeTo,
+    })))
   })
 
   if (selectionRange === 0) {
@@ -59,11 +61,7 @@ export default function isMarkActive(
       return type.name === markRange.mark.type.name
     })
     .filter(markRange => objectIncludes(markRange.mark.attrs, attributes, { strict: false }))
-    .reduce((sum, markRange) => {
-      const size = markRange.to - markRange.from
-
-      return sum + size
-    }, 0)
+    .reduce((sum, markRange) => sum + markRange.to - markRange.from, 0)
 
   // calculate range of marks that excludes the searched mark
   // for example `code` doesn’t allow any other marks
@@ -76,11 +74,7 @@ export default function isMarkActive(
       return markRange.mark.type !== type
         && markRange.mark.type.excludes(type)
     })
-    .reduce((sum, markRange) => {
-      const size = markRange.to - markRange.from
-
-      return sum + size
-    }, 0)
+    .reduce((sum, markRange) => sum + markRange.to - markRange.from, 0)
 
   // we only include the result of `excludedRange`
   // if there is a match at all
