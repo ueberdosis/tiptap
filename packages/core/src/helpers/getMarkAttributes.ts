@@ -17,9 +17,9 @@ export default function getMarkAttributes(state: EditorState, typeOrName: string
 
   const mark = marks.find(markItem => markItem.type.name === type.name)
 
-  if (mark) {
-    return { ...mark.attrs }
+  if (!mark) {
+    return {}
   }
 
-  return {}
+  return { ...mark.attrs }
 }

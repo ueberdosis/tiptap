@@ -14,7 +14,5 @@ export default function getRenderedAttributes(nodeOrMark: Node | Mark, extension
 
       return item.attribute.renderHTML(nodeOrMark.attrs) || {}
     })
-    .reduce((attributes, attribute) => {
-      return mergeAttributes(attributes, attribute)
-    }, {})
+    .reduce((attributes, attribute) => mergeAttributes(attributes, attribute), {})
 }

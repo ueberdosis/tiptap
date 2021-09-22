@@ -9,6 +9,7 @@ export default function mergeAttributes(...objects: Record<string, any>[]): Reco
 
         if (!exists) {
           mergedAttributes[key] = value
+
           return
         }
 
