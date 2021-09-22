@@ -190,7 +190,7 @@ export class BubbleMenuView {
 
   destroy() {
     this.tippy?.destroy()
-    this.element.removeEventListener('mousedown', this.mousedownHandler)
+    this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
