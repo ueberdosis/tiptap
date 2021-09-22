@@ -13,8 +13,7 @@ export default function (regexp: RegExp, type: NodeType, getAttributes?: (match:
       let matchStart = start + offset
       if (matchStart > end) {
         matchStart = end
-      }
-      else {
+      } else {
         end = matchStart + match[1].length
       }
 
