@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.35](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.34...@tiptap/extension-bubble-menu@2.0.0-beta.35) (2021-09-22)
+
+
+### Bug Fixes
+
+* Fix "destory" method in view plugins. ([#1882](https://github.com/ueberdosis/tiptap/issues/1882)) ([33420f4](https://github.com/ueberdosis/tiptap/commit/33420f4ae06d0d7eec16201a2e650be83cbb9de9))
+
+
+
+
+
 # [2.0.0-beta.34](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.33...@tiptap/extension-bubble-menu@2.0.0-beta.34) (2021-09-15)
 
 **Note:** Version bump only for package @tiptap/extension-bubble-menu
