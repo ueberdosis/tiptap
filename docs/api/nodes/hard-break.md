@@ -13,10 +13,16 @@ npm install @tiptap/extension-hard-break
 yarn add @tiptap/extension-hard-break
 ```
 
+## Settings
+| Option         | Type      | Default | Description                                                                                    |
+| -------------- | --------- | ------- | ---------------------------------------------------------------------------------------------- |
+| HTMLAttributes | `Object`  | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag.                          |
+| keepMarks      | `Boolean` | `true`  | Decides whether to keep marks after a line break. Based on the `keepOnSplit` option for marks. |
+
 ## Commands
-| Command   | Parameters | Description       |
-| --------- | ---------- | ----------------- |
-| hardBreak | —          | Add a line break. |
+| Command      | Parameters | Description       |
+| ------------ | ---------- | ----------------- |
+| setHardBreak | —          | Add a line break. |
 
 ## Keyboard shortcuts
 * `Shift`&nbsp;`Enter`
