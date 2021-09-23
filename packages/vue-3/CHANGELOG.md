@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.63](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.62...@tiptap/vue-3@2.0.0-beta.63) (2021-09-23)
+
+
+### Bug Fixes
+
+* add support for scoped styles, fix [#1931](https://github.com/ueberdosis/tiptap/issues/1931) ([19840f3](https://github.com/ueberdosis/tiptap/commit/19840f3b258f5dbf8a7edff1a85f297871a5ac66))
+
+
+
+
+
 # [2.0.0-beta.62](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.61...@tiptap/vue-3@2.0.0-beta.62) (2021-09-22)
 
 **Note:** Version bump only for package @tiptap/vue-3
