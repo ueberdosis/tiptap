@@ -96,6 +96,10 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
           expose: () => undefined,
         })
       },
+      // add support for scoped styles
+      // @ts-ignore
+      // eslint-disable-next-line
+      __scopeId: this.component.__scopeId,
     })
 
     this.renderer = new VueRenderer(extendedComponent, {
