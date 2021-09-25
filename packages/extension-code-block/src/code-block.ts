@@ -1,5 +1,6 @@
 import { Node } from '@tiptap/core'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
+import enterRules from './plugin'
 
 export interface CodeBlockOptions {
   languageClassPrefix: string,
@@ -21,8 +22,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const backtickInputRegex = /^```(?<language>[a-z]*)? $/
-export const tildeInputRegex = /^~~~(?<language>[a-z]*)? $/
+export const backtickInputRegex = /^```(?<language>[a-z]*)?\s$/
+export const tildeInputRegex = /^~~~(?<language>[a-z]*)?\s$/
 
 export const CodeBlock = Node.create<CodeBlockOptions>({
   name: 'codeBlock',
@@ -123,6 +124,18 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
     return [
       textblockTypeInputRule(backtickInputRegex, this.type, ({ groups }: any) => groups),
       textblockTypeInputRule(tildeInputRegex, this.type, ({ groups }: any) => groups),
+    ]
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      ...((this.parent && this.parent()) || []),
+      enterRules({
+        rules: [
+          textblockTypeInputRule(backtickInputRegex, this.type, ({ groups }: any) => groups),
+          textblockTypeInputRule(tildeInputRegex, this.type, ({ groups }: any) => groups),
+        ],
+      }),
     ]
   },
 })
