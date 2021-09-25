@@ -187,7 +187,7 @@ new Editor({
 ```
 
 ### Editor props
-For advanced use cases, you can pass `editorProps` which will be handled by [ProseMirror](https://prosemirror.net/docs/ref/#view.EditorProps). Here is an example how you can pass a few [Tailwind](https://tailwindcss.com/) classes to the editor container, but there is a lot more you can do.
+For advanced use cases, you can pass `editorProps` which will be handled by [ProseMirror](https://prosemirror.net/docs/ref/#view.EditorProps). You can use it to override various editor events or change editor DOM element attributes, for example to add some Tailwind classes. Here is an example:
 
 ```js
 new Editor({
@@ -196,7 +196,10 @@ new Editor({
     attributes: {
       class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
     },
-  },
+    transformPastedText(text) {
+      return text.toUpperCase()
+    }
+  }
 })
 ```
 

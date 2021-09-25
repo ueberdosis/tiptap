@@ -136,13 +136,13 @@ All new extensions come with specific commands to set, unset and toggle styles. 
 | ~~`.bullet_list()`~~     | `.toggleBulletList()`           |
 | ~~`.code()`~~            | `.toggleCode()`                 |
 | ~~`.code_block()`~~      | `.toggleCodeBlock()`            |
-| ~~`.hard_break()`~~      | `.toggleHardBreak()`            |
+| ~~`.hard_break()`~~      | `.setHardBreak()`               |
 | ~~`.heading()`~~         | `.toggleHeading()`              |
-| ~~`.horizontal_rule()`~~ | `.toggleHorizontalRule()`       |
+| ~~`.horizontal_rule()`~~ | `.setHorizontalRule()`          |
 | ~~`.italic()`~~          | `.toggleItalic()`               |
 | ~~`.link()`~~            | `.toggleLink()`                 |
 | ~~`.ordered_list()`~~    | `.toggleOrderedList()`          |
-| ~~`.paragraph()`~~       | `.toggleParagraph()`            |
+| ~~`.paragraph()`~~       | `.setParagraph()`               |
 | ~~`.strike()`~~          | `.toggleStrike()`               |
 | ~~`.underline()`~~       | `.toggleUnderline()`            |
 | …                        | …                               |

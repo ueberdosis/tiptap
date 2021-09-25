@@ -103,7 +103,7 @@ export const Highlight = Mark.create<HighlightOptions>({
 
   addPasteRules() {
     return [
-      markPasteRule(inputRegex, this.type),
+      markPasteRule(pasteRegex, this.type),
     ]
   },
 })

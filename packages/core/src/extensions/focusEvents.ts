@@ -11,9 +11,6 @@ export const FocusEvents = Extension.create({
       new Plugin({
         key: new PluginKey('focusEvents'),
         props: {
-          attributes: {
-            tabindex: '0',
-          },
           handleDOMEvents: {
             focus: (view, event) => {
               editor.isFocused = true

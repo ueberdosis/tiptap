@@ -59,6 +59,7 @@ export class Editor extends EventEmitter {
     parseOptions: {},
     enableInputRules: true,
     enablePasteRules: true,
+    enableCoreExtensions: true,
     onBeforeCreate: () => null,
     onCreate: () => null,
     onUpdate: () => null,
@@ -218,7 +219,9 @@ export class Editor extends EventEmitter {
    * Creates an extension manager.
    */
   private createExtensionManager(): void {
-    const coreExtensions = Object.entries(extensions).map(([, extension]) => extension)
+    const coreExtensions = this.options.enableCoreExtensions
+      ? Object.values(extensions)
+      : []
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })

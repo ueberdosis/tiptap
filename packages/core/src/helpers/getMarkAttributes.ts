@@ -5,21 +5,21 @@ import getMarkType from './getMarkType'
 export default function getMarkAttributes(state: EditorState, typeOrName: string | MarkType): Record<string, any> {
   const type = getMarkType(typeOrName, state.schema)
   const { from, to, empty } = state.selection
-  let marks: Mark[] = []
+  const marks: Mark[] = []
 
   if (empty) {
-    marks = state.selection.$head.marks()
+    marks.push(...state.selection.$head.marks())
   } else {
     state.doc.nodesBetween(from, to, node => {
-      marks = [...marks, ...node.marks]
+      marks.push(...node.marks)
     })
   }
 
   const mark = marks.find(markItem => markItem.type.name === type.name)
 
-  if (mark) {
-    return { ...mark.attrs }
+  if (!mark) {
+    return {}
   }
 
-  return {}
+  return { ...mark.attrs }
 }

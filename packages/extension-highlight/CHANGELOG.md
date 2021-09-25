@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-highlight@2.0.0-beta.16...@tiptap/extension-highlight@2.0.0-beta.17) (2021-09-21)
+
+
+### Bug Fixes
+
+* Use pasteRegex in addPasteRules ([#1922](https://github.com/ueberdosis/tiptap/issues/1922)) ([047ef8c](https://github.com/ueberdosis/tiptap/commit/047ef8c8c9d9a88a763a8a09424844b1c0912562))
+
+
+
+
+
 # [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-highlight@2.0.0-beta.15...@tiptap/extension-highlight@2.0.0-beta.16) (2021-09-08)
 
 
