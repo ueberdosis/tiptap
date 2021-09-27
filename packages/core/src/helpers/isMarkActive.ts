@@ -9,7 +9,7 @@ export default function isMarkActive(
   typeOrName: MarkType | string | null,
   attributes: Record<string, any> = {},
 ): boolean {
-  const { from, to, empty } = state.selection
+  const { empty, ranges } = state.selection
   const type = typeOrName
     ? getMarkType(typeOrName, state.schema)
     : null
@@ -29,22 +29,27 @@ export default function isMarkActive(
   let selectionRange = 0
   const markRanges: MarkRange[] = []
 
-  state.doc.nodesBetween(from, to, (node, pos) => {
-    if (!node.marks.length) {
-      return
-    }
+  ranges.forEach(({ $from, $to }) => {
+    const from = $from.pos
+    const to = $to.pos
 
-    const relativeFrom = Math.max(from, pos)
-    const relativeTo = Math.min(to, pos + node.nodeSize)
-    const range = relativeTo - relativeFrom
+    state.doc.nodesBetween(from, to, (node, pos) => {
+      if (!node.isText && !node.marks.length) {
+        return
+      }
 
-    selectionRange += range
+      const relativeFrom = Math.max(from, pos)
+      const relativeTo = Math.min(to, pos + node.nodeSize)
+      const range = relativeTo - relativeFrom
 
-    markRanges.push(...node.marks.map(mark => ({
-      mark,
-      from: relativeFrom,
-      to: relativeTo,
-    })))
+      selectionRange += range
+
+      markRanges.push(...node.marks.map(mark => ({
+        mark,
+        from: relativeFrom,
+        to: relativeTo,
+      })))
+    })
   })
 
   if (selectionRange === 0) {
