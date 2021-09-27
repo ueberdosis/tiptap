@@ -5,19 +5,19 @@ import getNodeType from './getNodeType'
 export default function getNodeAttributes(state: EditorState, typeOrName: string | NodeType): Record<string, any> {
   const type = getNodeType(typeOrName, state.schema)
   const { from, to } = state.selection
-  let nodes: Node[] = []
+  const nodes: Node[] = []
 
   state.doc.nodesBetween(from, to, node => {
-    nodes = [...nodes, node]
+    nodes.push(node)
   })
 
   const node = nodes
     .reverse()
     .find(nodeItem => nodeItem.type.name === type.name)
 
-  if (node) {
-    return { ...node.attrs }
+  if (!node) {
+    return {}
   }
 
-  return {}
+  return { ...node.attrs }
 }

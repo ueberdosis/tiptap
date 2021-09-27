@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-hard-break@2.0.0-beta.16...@tiptap/extension-hard-break@2.0.0-beta.17) (2021-09-23)
+
+
+### Features
+
+* setHardBreak now keeps splittable marks by default, fix [#1934](https://github.com/ueberdosis/tiptap/issues/1934) ([377bbb1](https://github.com/ueberdosis/tiptap/commit/377bbb177d30923a0aa2a80654cc5cf87384dcf3))
+
+
+
+
+
 # [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-hard-break@2.0.0-beta.15...@tiptap/extension-hard-break@2.0.0-beta.16) (2021-09-06)
 
 

@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.112](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.111...@tiptap/core@2.0.0-beta.112) (2021-09-23)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-beta.111](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.110...@tiptap/core@2.0.0-beta.111) (2021-09-22)
+
+
+### Bug Fixes
+
+* improve performance for isActive method, see [#1930](https://github.com/ueberdosis/tiptap/issues/1930) ([fcca1e6](https://github.com/ueberdosis/tiptap/commit/fcca1e6f4db273ee2f3c0a543c44738c395193a8))
+* nodeInputRule() support for group match ([#1574](https://github.com/ueberdosis/tiptap/issues/1574)) ([8ee0d67](https://github.com/ueberdosis/tiptap/commit/8ee0d67b83fea6a38d3abf02528d62ab482fe509))
+
+
+
+
+
+# [2.0.0-beta.110](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.109...@tiptap/core@2.0.0-beta.110) (2021-09-21)
+
+
+### Bug Fixes
+
+* call selectAll on 'cmd+a', set a TextSelection instead of AllSelection, fix [#1908](https://github.com/ueberdosis/tiptap/issues/1908) ([bad16d9](https://github.com/ueberdosis/tiptap/commit/bad16d9f3a9f47db83ad170c6de4d6ff11dba007))
+
+
+
+
+
 # [2.0.0-beta.109](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.108...@tiptap/core@2.0.0-beta.109) (2021-09-21)
 
 

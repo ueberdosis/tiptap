@@ -154,7 +154,7 @@ export default {
     },
 
     githubUrl() {
-      return `https://github.com/ueberdosis/tiptap-pro-extensions/tree/main/demos/src/${this.name}`
+      return `https://github.com/ueberdosis/tiptap/tree/main/demos/src/${this.name}`
     },
 
     source() {

@@ -1,4 +1,3 @@
-import { selectAll as originalSelectAll } from 'prosemirror-commands'
 import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
@@ -12,6 +11,9 @@ declare module '@tiptap/core' {
   }
 }
 
-export const selectAll: RawCommands['selectAll'] = () => ({ state, dispatch }) => {
-  return originalSelectAll(state, dispatch)
+export const selectAll: RawCommands['selectAll'] = () => ({ tr, commands }) => {
+  return commands.setTextSelection({
+    from: 0,
+    to: tr.doc.content.size,
+  })
 }
