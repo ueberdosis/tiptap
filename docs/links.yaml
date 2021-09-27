@@ -84,6 +84,8 @@
       link: /examples/suggestions
     - title: Minimal setup
       link: /examples/minimal
+    - title: Force a title
+      link: /examples/custom-document
     - title: A clever editor
       link: /examples/savvy
     - title: Interactivity
