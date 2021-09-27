@@ -27,6 +27,7 @@ export const Keymap = Extension.create({
       'Mod-Enter': () => this.editor.commands.exitCode(),
       Backspace: handleBackspace,
       'Mod-Backspace': handleBackspace,
+      'Shift-Backspace': handleBackspace,
       Delete: handleDelete,
       'Mod-Delete': handleDelete,
       'Mod-a': () => this.editor.commands.selectAll(),
