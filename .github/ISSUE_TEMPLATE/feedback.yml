@@ -11,7 +11,7 @@ body:
       label: What’s the URL to the page you’re sending feedback for?
       placeholder: https://tiptap.dev/example
     validations:
-      required: false
+      required: true
   - type: textarea
     id: part-of-the-documentation
     attributes:
