@@ -31,7 +31,7 @@ body:
     id: context
     attributes:
       label: Anything to add? (optional)
-      placeholder: "Add any other context or screenshots here."
+      description: "Add any other context or screenshots here."
   - type: checkboxes
     attributes:
       label: Are you sponsoring us?

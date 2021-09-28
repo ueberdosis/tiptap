@@ -1,0 +1,69 @@
+name: Bug report
+description: Create a report to help us improve tiptap
+labels:
+  - bug
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What’s the bug you are facing?
+      description: A clear and concise description of what the bug is.
+      placeholder: "I’m always frustrated when …"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can we reproduce the bug on our side?
+      description: Steps to reproduce the behavior
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Chances that we can fix your issue are way higher, if you can provide a CodeSandbox to reproduce the issue.
+
+        * Vue: https://codesandbox.io/s/tiptap-issue-template-b83rr?file=/src/components/Tiptap.vue
+        * React: https://codesandbox.io/s/tiptap-react-08yxr
+  - type: textarea
+    id: codesandbox
+    attributes:
+      label: Can you provide a CodeSandbox?
+    validations:
+      required: false
+  - type: textarea
+    id: expectation
+    attributes:
+      label: What did you expect to happen?
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: expectation
+    attributes:
+      label: What did you expect to happen?
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything to add? (optional)
+      description: "Add any other context, screenshots, videos or GIFs here."
+  - type: checkboxes
+    attributes:
+      label: Did you update your dependencies?
+      description: `yarn upgrade-interactive`
+      options:
+        - label: Yes, I’ve updated my dependencies to use the latest version of all packages.
+          required: true
+  - type: checkboxes
+    attributes:
+      label: Are you sponsoring us?
+      options:
+        - label: Yes, I’m a sponsor. 💖
+          required: false
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to send us feedback!
