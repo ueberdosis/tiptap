@@ -41,12 +41,12 @@ body:
       label: Anything to add? (optional)
       placeholder: "Add any other context or screenshots here."
   - type: checkboxes
-    id: sponsor
     attributes:
-      label: Are you sponsoring us?
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
       options:
-        - label: "Yes, I’m a sponsor. 💖"
-          required: false
+        - label: I have searched the existing issues
+          required: true
   - type: markdown
     attributes:
       value: |
