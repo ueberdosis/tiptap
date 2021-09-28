@@ -1,23 +1,47 @@
 ---
 name: Feedback on the documentation
-about: Share what we need to explain better
+description: Share what we need to explain better
 url: https://github.com/ueberdosis/tiptap/issues/new
 title: ''
 labels:
   - documentation
-  - v2
 assignees:
   - hanspagel
----
-
-**Part of the documentation?**
-I’ve read the following page of the documentation …
-
-**Really helpful parts**
-I think this part is really good: …
-
-**Hard to understand, missing or misleading**
-But you really need to improve …
-
-**Additional context**
-Add any other context or screenshots here.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to send us feedback!
+  - type: input
+    id: url
+    attributes:
+      label: The URL of the page
+      placeholder: https://tiptap.dev/example
+    validations:
+      required: false
+  - type: textarea
+    id: part-of-the-documentation
+    attributes:
+      label: Part of the documentation?
+      placeholder: "I’ve read the following page of the documentation …"
+    validations:
+      required: true
+  - type: textarea
+    id: good-parts
+    attributes:
+      label: Really helpful parts
+      placeholder: "I think this part is really good: …"
+    validations:
+      required: true
+  - type: textarea
+    id: bad-parts
+    attributes:
+      label: Hard to understand, missing or misleading
+      placeholder: "But you really need to improve …"
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context (optional)
+      placeholder: "Add any other context or screenshots here."
