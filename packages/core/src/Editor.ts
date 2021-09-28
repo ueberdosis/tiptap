@@ -397,7 +397,7 @@ export class Editor extends EventEmitter {
    * Get the document as HTML.
    */
   public getHTML(): string {
-    return getHTMLFromFragment(this.state.doc, this.schema)
+    return getHTMLFromFragment(this.state.doc.content, this.schema)
   }
 
   /**

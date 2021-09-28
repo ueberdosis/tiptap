@@ -7,5 +7,5 @@ export default function generateHTML(doc: JSONContent, extensions: Extensions): 
   const schema = getSchema(extensions)
   const contentNode = Node.fromJSON(schema, doc)
 
-  return getHTMLFromFragment(contentNode, schema)
+  return getHTMLFromFragment(contentNode.content, schema)
 }
