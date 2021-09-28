@@ -4,19 +4,21 @@ tableOfContents: true
 
 # Upgrade Guide
 
-## Reasons to upgrade to tiptap 2.x
-Yes, it’s tedious work to upgrade your favorite text editor to a new API, but we made sure you’ve got enough reasons to upgrade to the newest version
+## Reasons to upgrade to tiptap v2
+First of all, tiptap v1 isn’t supported anymore and won’t receive any further updates.
+
+Yes, it’s tedious work to upgrade your favorite text editor to a new API, but we made sure you’ve got enough reasons to upgrade to the newest version.
 
 * Autocompletion in your IDE (thanks to TypeScript)
-* Amazing documentation with 100+ pages
-* Active development, new features in the making
-* Tons of new extensions planned
+* Amazing documentation with 100+ pages and 100+ interactive examples
+* Active development, new features in the making, new releases every week
+* Tons of new extensions
 * Well-tested code base
 
-## Upgrading from 1.x to 2.x
+## Upgrading from v1 to v2
 The new API will look pretty familiar to you, but there are a ton of changes though. To make the upgrade a little bit easier, here is everything you need to know:
 
-### Uninstall tiptap 1.x
+### Uninstall tiptap v1
 The whole package structure has changed, we even moved to another npm namespace, so you’ll need to remove the old version entirely before upgrading to tiptap 2.
 
 Otherwise you’ll run into an exception, for example “looks like multiple versions of prosemirror-model were loaded”.
@@ -29,16 +31,29 @@ npm uninstall tiptap tiptap-commands tiptap-extensions tiptap-utils
 yarn remove tiptap tiptap-commands tiptap-extensions tiptap-utils
 ```
 
-### Install tiptap 2.x
+### Install tiptap v2
 
 Once you have uninstalled the old version of tiptap, install the new Vue 2 package and the starter kit:
 
-```
+```bash
 # install with npm
 npm install @tiptap/vue-2 @tiptap/starter-kit
 
 # install with Yarn
 yarn add @tiptap/vue-2 @tiptap/starter-kit
+```
+
+### Keep tiptap v2 up to date
+We are constantly releasing updates to tiptap. Did you know there’s an easy-to-use command to update your dependencies with Yarn?
+
+```bash
+yarn upgrade-interactive
+```
+
+You can add the `--latest` flag, to show all possible upgrades – even if they don’t follow the versioning you’ve set in your package.json.
+
+```bash
+yarn upgrade-interactive --latest
 ```
 
 ### Explicitly register the Document, Text and Paragraph extensions
@@ -162,7 +177,7 @@ The `.chain()` is required to start a new chain and the `.run()` is needed to ac
 ### .focus() isn’t called on every command anymore
 We tried to hide the `.focus()` command from you with tiptap 1 and executed that on every command. That led to issues in specific use cases, where you want to run a command, but don’t want to focus the editor.
 
-With tiptap 2.x you have to explicitly call the `focus()` and you probably want to do that in a lot of places. Here is an example:
+With tiptap v2 you have to explicitly call the `focus()` and you probably want to do that in a lot of places. Here is an example:
 
 ```js
 editor.chain().focus().toggleBold().run()
