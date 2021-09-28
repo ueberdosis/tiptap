@@ -39,13 +39,6 @@ body:
     validations:
       required: true
   - type: textarea
-    id: expectation
-    attributes:
-      label: What did you expect to happen?
-      description: A clear and concise description of what you expected to happen.
-    validations:
-      required: true
-  - type: textarea
     id: context
     attributes:
       label: Anything to add? (optional)
