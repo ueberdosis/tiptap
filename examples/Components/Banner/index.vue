@@ -1,10 +1,10 @@
 <template>
   <div class="banner">
     <span class="banner__message">
-      We’re working on <a href="https://blog.ueber.io/post/tiptap-2-0-beta/">tiptap 2</a>. Become a sponsor to get access immediately!
+      tiptap v1 isn’t supported anymore. It’s time to switch to v2.
     </span>
-    <a href="https://github.com/sponsors/ueberdosis" class="banner__action">
-      Sponsor 💖
+    <a href="https://tiptap.dev/overview/upgrade-guide" class="banner__action">
+      Upgrade Guide
     </a>
   </div>
 </template>
