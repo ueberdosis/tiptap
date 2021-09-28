@@ -12,33 +12,33 @@ body:
   - type: input
     id: url
     attributes:
-      label: The URL of the page
+      label: What’s the URL to the page you’re sending feedback for?
       placeholder: https://tiptap.dev/example
     validations:
       required: false
   - type: textarea
     id: part-of-the-documentation
     attributes:
-      label: Part of the documentation?
+      label: What part of the documentation needs improvement?
       placeholder: "I’ve read the following page of the documentation …"
     validations:
       required: true
   - type: textarea
     id: good-parts
     attributes:
-      label: Really helpful parts
+      label: What is helpful about that part?
       placeholder: "I think this part is really good: …"
     validations:
       required: true
   - type: textarea
     id: bad-parts
     attributes:
-      label: Hard to understand, missing or misleading
+      label: What is hard to understand, missing or misleading?
       placeholder: "But you really need to improve …"
     validations:
       required: true
   - type: textarea
     id: context
     attributes:
-      label: Additional context (optional)
+      label: Anything to add? (optional)
       placeholder: "Add any other context or screenshots here."
