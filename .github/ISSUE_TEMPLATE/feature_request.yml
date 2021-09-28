@@ -41,11 +41,12 @@ body:
       label: Anything to add? (optional)
       placeholder: "Add any other context or screenshots here."
   - type: checkboxes
-    id: sponsr
+    id: sponsor
     attributes:
       label: Are you sponsoring us?
       options:
-        - label: Yes, I’m a sponsor. 💖
+        - label: "Yes, I’m a sponsor. 💖"
+          required: false
   - type: markdown
     attributes:
       value: |
