@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.113](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.112...@tiptap/core@2.0.0-beta.113) (2021-09-27)
+
+
+### Bug Fixes
+
+* add support for CellSelection in isActive helper, fix [#1947](https://github.com/ueberdosis/tiptap/issues/1947) ([b42e442](https://github.com/ueberdosis/tiptap/commit/b42e442a5af167f78edb5252dd8dbdcb8e0a96ed))
+* handle backspace also on shift ([32ae386](https://github.com/ueberdosis/tiptap/commit/32ae3868eaf42bb3f5d016038b57337ff64c21b4))
+
+
+
+
+
 # [2.0.0-beta.112](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.111...@tiptap/core@2.0.0-beta.112) (2021-09-23)
 
 **Note:** Version bump only for package @tiptap/core
