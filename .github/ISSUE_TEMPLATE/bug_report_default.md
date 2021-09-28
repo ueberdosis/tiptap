@@ -5,7 +5,6 @@ url: https://github.com/ueberdosis/tiptap/issues/new
 title: ''
 labels:
   - bug
-  - v2
 assignees: ''
 ---
 
