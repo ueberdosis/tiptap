@@ -1,8 +1,12 @@
-export default class EventEmitter {
+type StringKeyOf<T> = Extract<keyof T, string>;
+type CallbackType<T extends Record<string, any>, EVENT extends StringKeyOf<T>> = T[EVENT] extends any[] ? T[EVENT] : [T[EVENT]];
+type CallbackFunction<T extends Record<string, any>, EVENT extends StringKeyOf<T>> = (...props: CallbackType<T, EVENT>) => any
+
+export default class EventEmitter<T extends Record<string, any>> {
 
   private callbacks: { [key: string]: Function[] } = {}
 
-  public on(event: string, fn: Function): this {
+  public on<EVENT extends StringKeyOf<T>>(event: EVENT, fn: CallbackFunction<T, EVENT>): this {
     if (!this.callbacks[event]) {
       this.callbacks[event] = []
     }
@@ -12,7 +16,7 @@ export default class EventEmitter {
     return this
   }
 
-  protected emit(event: string, ...args: any): this {
+  protected emit<EVENT extends StringKeyOf<T>>(event: EVENT, ...args: CallbackType<T, EVENT>): this {
     const callbacks = this.callbacks[event]
 
     if (callbacks) {
@@ -22,7 +26,7 @@ export default class EventEmitter {
     return this
   }
 
-  public off(event: string, fn?: Function): this {
+  public off<EVENT extends StringKeyOf<T>>(event: EVENT, fn?: CallbackFunction<T, EVENT>): this {
     const callbacks = this.callbacks[event]
 
     if (callbacks) {
