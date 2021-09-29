@@ -10,7 +10,7 @@ import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
-import { ReactNodeViewContext } from './useReactNodeView'
+import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView'
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   update: ((props: {
@@ -49,12 +49,20 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
     }
 
     const ReactNodeViewProvider: React.FunctionComponent = componentProps => {
-      const onDragStart = this.onDragStart.bind(this)
-      const maybeMoveContentDOM = this.maybeMoveContentDOM.bind(this)
       const Component = this.component
+      const onDragStart = this.onDragStart.bind(this)
+      const nodeViewContentRef: ReactNodeViewContextProps['nodeViewContentRef'] = element => {
+        if (
+          element
+          && this.contentDOMElement
+          && element.firstChild !== this.contentDOMElement
+        ) {
+          element.appendChild(this.contentDOMElement)
+        }
+      }
 
       return (
-        <ReactNodeViewContext.Provider value={{ onDragStart, maybeMoveContentDOM }}>
+        <ReactNodeViewContext.Provider value={{ onDragStart, nodeViewContentRef }}>
           <Component {...componentProps} />
         </ReactNodeViewContext.Provider>
       )
@@ -98,27 +106,12 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
       return null
     }
 
-    this.maybeMoveContentDOM()
-
     return this.contentDOMElement
-  }
-
-  maybeMoveContentDOM(): void {
-    const contentElement = this.dom.querySelector('[data-node-view-content]')
-
-    if (
-      this.contentDOMElement
-      && contentElement
-      && !contentElement.contains(this.contentDOMElement)
-    ) {
-      contentElement.appendChild(this.contentDOMElement)
-    }
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
     const updateProps = (props?: Record<string, any>) => {
       this.renderer.updateProps(props)
-      this.maybeMoveContentDOM()
     }
 
     if (typeof this.options.update === 'function') {
