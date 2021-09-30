@@ -51,7 +51,7 @@ function getDecorations({ doc, name, lowlight }: { doc: ProsemirrorNode, name: s
         from = to
       })
     })
-  
+
   function getHighlightNodes(result) {
     // `.value` for lowlight v1, `.children` for lowlight v2
     return result.value || result.children || []
