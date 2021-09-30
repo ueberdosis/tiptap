@@ -25,6 +25,11 @@ function parseNodes(nodes: any[], className: string[] = []): { text: string, cla
     .flat()
 }
 
+function getHighlightNodes(result: any) {
+  // `.value` for lowlight v1, `.children` for lowlight v2
+  return result.value || result.children || []
+}
+
 function getDecorations({ doc, name, lowlight }: { doc: ProsemirrorNode, name: string, lowlight: any }) {
   const decorations: Decoration[] = []
 
@@ -51,11 +56,6 @@ function getDecorations({ doc, name, lowlight }: { doc: ProsemirrorNode, name: s
         from = to
       })
     })
-  
-  function getHighlightNodes(result) {
-    // `.value` for lowlight v1, `.children` for lowlight v2
-    return result.value || result.children || []
-  }
 
   return DecorationSet.create(doc, decorations)
 }
