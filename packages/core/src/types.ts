@@ -40,14 +40,14 @@ export type MaybeReturnType<T> = T extends (...args: any) => any
   : T
 
 export interface EditorEvents {
-  beforeCreate: { editor: Editor }
-  create: { editor: Editor }
-  update: { editor: Editor, transaction: Transaction }
-  selectionUpdate: { editor: Editor, transaction: Transaction }
-  transaction: { editor: Editor, transaction: Transaction }
-  focus: { editor: Editor, event: FocusEvent, transaction: Transaction }
-  blur: { editor: Editor, event: FocusEvent, transaction: Transaction }
-  destroy: void
+  beforeCreate: { editor: Editor },
+  create: { editor: Editor },
+  update: { editor: Editor, transaction: Transaction },
+  selectionUpdate: { editor: Editor, transaction: Transaction },
+  transaction: { editor: Editor, transaction: Transaction },
+  focus: { editor: Editor, event: FocusEvent, transaction: Transaction },
+  blur: { editor: Editor, event: FocusEvent, transaction: Transaction },
+  destroy: void,
 }
 
 export interface EditorOptions {
