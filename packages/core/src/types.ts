@@ -140,9 +140,9 @@ export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) ex
 export type Diff<T extends keyof any, U extends keyof any> =
   ({ [P in T]: P } & { [P in U]: never } & { [x: string]: never })[T]
 
-export type Overwrite<T, U> = Pick<T, Diff<keyof T, keyof U>> & U;
+export type Overwrite<T, U> = Pick<T, Diff<keyof T, keyof U>> & U
 
-export type ValuesOf<T> = T[keyof T];
+export type ValuesOf<T> = T[keyof T]
 
 export type KeysWithTypeOf<T, Type> = ({ [P in keyof T]: T[P] extends Type ? P : never })[keyof T]
 

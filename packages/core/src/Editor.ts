@@ -23,7 +23,8 @@ import {
   CanCommands,
   ChainedCommands,
   SingleCommands,
-  TextSerializer, EditorEvents,
+  TextSerializer,
+  EditorEvents,
 } from './types'
 import * as extensions from './extensions'
 import style from './style'
