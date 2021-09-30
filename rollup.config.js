@@ -94,7 +94,7 @@ async function build(commandLineArgs) {
                 '@tiptap/*': ['packages/*/src'],
               },
             },
-            include: [],
+            include: null,
           },
         }),
       ],

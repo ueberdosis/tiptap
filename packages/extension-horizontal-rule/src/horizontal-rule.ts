@@ -55,9 +55,11 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
               return true
             }
 
-            const posBefore = $anchor.before()
+            const from = $anchor.before()
+            const to = $anchor.start()
 
-            tr.deleteRange(posBefore, posBefore + 1)
+            tr.deleteRange(from, to)
+            tr.setSelection(TextSelection.create(tr.doc, from))
 
             return true
           })

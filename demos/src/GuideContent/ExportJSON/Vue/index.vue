@@ -19,7 +19,7 @@
 
     <div class="export">
       <h3>JSON</h3>
-      <pre><code v-html="json" /></pre>
+      <pre><code>{{ json }}</code></pre>
     </div>
   </div>
 </template>

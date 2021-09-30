@@ -1,6 +1,6 @@
-import defaultTheme from 'tailwindcss/defaultTheme.js'
+const defaultTheme = require('tailwindcss/defaultTheme')
 
-export default {
+module.exports = {
   mode: 'jit',
   purge: [
     './preview/**/*.{vue,js,ts,jsx,tsx}',

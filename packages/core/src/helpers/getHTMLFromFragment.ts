@@ -1,13 +1,13 @@
-import { Node, DOMSerializer, Schema } from 'prosemirror-model'
+import { DOMSerializer, Schema, Fragment } from 'prosemirror-model'
 
-export default function getHTMLFromFragment(doc: Node, schema: Schema): string {
-  const fragment = DOMSerializer
+export default function getHTMLFromFragment(fragment: Fragment, schema: Schema): string {
+  const documentFragment = DOMSerializer
     .fromSchema(schema)
-    .serializeFragment(doc.content)
+    .serializeFragment(fragment)
 
   const temporaryDocument = document.implementation.createHTMLDocument()
   const container = temporaryDocument.createElement('div')
-  container.appendChild(fragment)
+  container.appendChild(documentFragment)
 
   return container.innerHTML
 }
