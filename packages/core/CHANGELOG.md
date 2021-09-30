@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.116](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.115...@tiptap/core@2.0.0-beta.116) (2021-09-30)
+
+
+### Features
+
+* [#1898](https://github.com/ueberdosis/tiptap/issues/1898) Made the EventEmitter generic to improve the types of the tiptap events ([#1959](https://github.com/ueberdosis/tiptap/issues/1959)) ([54e85fd](https://github.com/ueberdosis/tiptap/commit/54e85fd28491fcf2d5a88fb5abda1f8414ada92b))
+
+
+
+
+
 # [2.0.0-beta.115](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.114...@tiptap/core@2.0.0-beta.115) (2021-09-29)
 
 **Note:** Version bump only for package @tiptap/core
