@@ -441,7 +441,7 @@ const CustomExtension = Extension.create({
   onUpdate() {
     // The content has changed.
   },
-  onSelectionUpdate({editor}) {
+  onSelectionUpdate({ editor }) {
     // The selection has changed.
   },
   onTransaction({ transaction }) {
