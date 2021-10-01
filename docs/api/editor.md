@@ -8,26 +8,143 @@ tableOfContents: true
 This class is a central building block of tiptap. It does most of the heavy lifting of creating a working  [ProseMirror](https://ProseMirror.net/) editor such as creating the [`EditorView`](https://ProseMirror.net/docs/ref/#view.EditorView), setting the initial [`EditorState`](https://ProseMirror.net/docs/ref/#state.Editor_State) and so on.
 
 ## Methods
-The editor instance will provide a bunch of public methods. They’ll help you to work with the editor.
+The editor instance will provide a bunch of public methods. Methods are regular functions and can return anything. They’ll help you to work with the editor.
 
-Don’t confuse methods with [commands](/api/commands). Commands are used to change the state of editor (content, selection, and so on) and only return `true` or `false`. Methods are regular functions and can return anything.
+Don’t confuse methods with [commands](/api/commands). Commands are used to change the state of editor (content, selection, and so on) and only return `true` or `false`.
 
-| Method                | Parameters                                                                                                  | Description                                                                  |
-| --------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `can()`               | -                                                                                                           | Check if a command or a command chain can be executed. Without executing it. |
-| `chain()`             | -                                                                                                           | Create a command chain to call multiple commands at once.                    |
-| `destroy()`           | –                                                                                                           | Stops the editor instance and unbinds all events.                            |
-| `getHTML()`           | –                                                                                                           | Returns the current content as HTML.                                         |
-| `getJSON()`           | –                                                                                                           | Returns the current content as JSON.                                         |
-| `getText()`           | –                                                                                                           | Returns the current content as text.                                         |
-| `getAttributes()`     | `name` Name of the node or mark                                                                             | Get attributes of the currently selected node or mark.                       |
-| `isActive()`          | `name` Name of the node or mark<br>`attrs` Attributes of the node or mark                                   | Returns if the currently selected node or mark is active.                    |
-| `isEditable`          | -                                                                                                           | Returns whether the editor is editable.                                      |
-| `isEmpty`             | -                                                                                                           | Check if there is no content.                                                |
-| `getCharacterCount()` | -                                                                                                           | Get the number of characters for the current document.                       |
-| `registerPlugin()`    | `plugin` A ProseMirror plugin<br>`handlePlugins` Control how to merge the plugin into the existing plugins. | Register a ProseMirror plugin.                                               |
-| `setOptions()`        | `options` A list of options                                                                                 | Update editor options.                                                       |
-| `unregisterPlugin()`  | `name` The plugins name                                                                                     | Unregister a ProseMirror plugin.                                             |
+### can()
+Check if a command or a command chain can be executed – without actually executing it. Can be very helpful to enable/disable or show/hide buttons.
+
+```js
+// Returns `true` if the undo command can be executed
+editor.can().undo()
+```
+
+### chain()
+Create a command chain to call multiple commands at once.
+
+```js
+// Execute two commands at once
+editor.chain().toggleBold().focus().run()
+```
+
+### destroy()
+Stops the editor instance and unbinds all events.
+
+```js
+// Hasta la vista, baby!
+editor.destroy()
+```
+
+### getHTML()
+Returns the current editor document as HTML
+
+```js
+editor.getHTML()
+```
+
+### getJSON()
+Returns the current editor document as JSON.
+
+```js
+editor.getJSON()
+```
+
+### getText(options?)
+Returns the current editor document as plain text.
+
+| Parameter  | Type                           | Description              |
+| ---------- | ------------------------------ | ------------------------ |
+| options | { blockSeparator?: string, textSerializers?: Record<string, TextSerializer>} | Options for the serialization.  |
+
+```js
+// Give me plain text!
+editor.getText()
+// Add two line breaks between nodes
+editor.getText({ blockSeparator: "\n\n" })
+```
+
+### getAttributes(nameOrType)
+Get attributes of the currently selected node or mark.
+
+| Parameter  | Type                           | Description              |
+| ---------- | ------------------------------ | ------------------------ |
+| typeOrName | string \| NodeType \| MarkType | Name of the node or mark |
+
+```js
+editor.getAttributes('link').href
+```
+
+### isActive(name, attributes = {})
+Returns if the currently selected node or mark is active.
+
+| Parameter              | Type                | Description                    |
+| ---------------------- | ------------------- | ------------------------------ |
+| name                   | string \| null      | Name of the node or mark       |
+| attributes             | Record<string, any> | Attributes of the node or mark |
+
+```js
+// Check if it’s a heading
+editor.isActive('heading')
+// Check if it’s a heading with a specific attribute value
+editor.isActive('heading', { level: 2 })
+// Check if it has a specific attribute value, doesn’t care what node/mark it is
+editor.isActive({ textAlign: 'justify' })
+```
+
+### getCharacterCount()
+Get the number of characters for the current document.
+
+```js
+editor.getCharacterCount()
+```
+
+### registerPlugin(plugin, handlePlugins)
+Register a ProseMirror plugin.
+
+| Parameter      | Type                                               | Description                                               |
+| -------------- | -------------------------------------------------- | --------------------------------------------------------- |
+| plugin         | Plugin                                             | A ProseMirror plugin                                      |
+| handlePlugins? | (newPlugin: Plugin, plugins: Plugin[]) => Plugin[] | Control how to merge the plugin into the existing plugins |
+
+### setOptions(options = {})
+Update editor options.
+
+| Parameter | Type                   | Description       |
+| --------- | ---------------------- | ----------------- |
+| options   | Partial<EditorOptions> | A list of options |
+
+```js
+// Add a class to an existing editor instance
+editor.setOptions({
+  editorProps: attributes: {
+    class: 'prose',
+  },
+})
+```
+
+### unregisterPlugin(nameOrPluginKey)
+Unregister a ProseMirror plugin.
+
+| Parameter       | Type                | Description      |
+| --------------- | ------------------- | ---------------- |
+| nameOrPluginKey | string \| PluginKey | The plugins name |
+
+## Getters
+
+### isEditable
+Returns whether the editor is editable or read-only.
+
+```js
+editor.isEditable
+```
+
+### isEmpty
+Check if there is content.
+
+```js
+editor.isEmpty
+```
 
 ## Settings
 

@@ -37,7 +37,7 @@ This extension doesn’t bind a specific keyboard shortcut. You would probably o
 :::
 
 ## Get the current value
-Did you know that you can use [`getAttributes`](/api/editor#methods) to find out which attributes, for example which href, is currently set? Don’t confuse it with a [command](/api/commands) (which changes the state), it’s just a method. Here is how that could look like:
+Did you know that you can use [`getAttributes`](/api/editor#get-attributes) to find out which attributes, for example which href, is currently set? Don’t confuse it with a [command](/api/commands) (which changes the state), it’s just a method. Here is how that could look like:
 
 ```js
 this.editor.getAttributes('link').href
