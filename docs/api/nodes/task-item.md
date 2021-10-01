@@ -18,9 +18,17 @@ yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 This extension requires the [`TaskList`](/api/nodes/task-list) node.
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+TaskItem.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Keyboard shortcuts
 | Command         | Windows/Linux      | macOS              |
