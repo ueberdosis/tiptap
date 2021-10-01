@@ -117,8 +117,10 @@ Update editor options.
 ```js
 // Add a class to an existing editor instance
 editor.setOptions({
-  editorProps: attributes: {
-    class: 'prose',
+  editorProps: {
+    attributes: {
+      class: 'my-custom-class',
+    },
   },
 })
 ```
