@@ -31,9 +31,13 @@ OrderedList.configure({
 ```
 
 ## Commands
-| Command     | Parameters | Description             |
-| ----------- | ---------- | ----------------------- |
-| orderedList | —          | Toggle an ordered list. |
+
+### toggleOrderedList()
+Toggle an ordered list.
+
+```js
+editor.commands.toggleOrderedList()
+```
 
 ## Keyboard shortcuts
 | Command           | Windows/Linux                   | macOS                       |

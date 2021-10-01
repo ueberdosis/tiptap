@@ -23,6 +23,16 @@ yarn add @tiptap/extension-image
 | HTMLAttributes | `Object`  | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 | inline         | `Boolean` | `false` | Renders the image node inline.                                        |
 
+## Commands
+
+### setImage()
+Makes the current node an image.
+
+```js
+editor.commands.setImage({ src: 'https://example.com/foobar.png')
+editor.commands.setImage({ src: 'https://example.com/foobar.png', alt: 'A boring example image', title: 'An example' })
+```
+
 ## Source code
 [packages/extension-image/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-image/)
 

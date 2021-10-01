@@ -20,9 +20,13 @@ yarn add @tiptap/extension-hard-break
 | keepMarks      | `Boolean` | `true`  | Decides whether to keep marks after a line break. Based on the `keepOnSplit` option for marks. |
 
 ## Commands
-| Command      | Parameters | Description       |
-| ------------ | ---------- | ----------------- |
-| setHardBreak | —          | Add a line break. |
+
+### setHardBreak()
+Add a line break.
+
+```js
+editor.commands.setHeardBreak()
+```
 
 ## Keyboard shortcuts
 | Command      | Windows/Linux                                  | macOS                                      |

@@ -25,7 +25,7 @@ yarn add @tiptap/extension-bold
 Custom HTML attributes that should be added to the rendered HTML tag.
 
 ```js
-Blockquote.configure({
+Bold.configure({
   HTMLAttributes: {
     class: 'my-custom-class',
   },

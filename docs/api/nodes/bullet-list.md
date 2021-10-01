@@ -31,9 +31,13 @@ BulletList.configure({
 ```
 
 ## Commands
-| Command    | Parameters | Description           |
-| ---------- | ---------- | --------------------- |
-| bulletList | —          | Toggle a bullet list. |
+
+### toggleBulletList()
+Toggles a bullet list.
+
+```js
+editor.commands.toggleBulletList()
+```
 
 ## Keyboard shortcuts
 | Command          | Windows/Linux                   | macOS                       |

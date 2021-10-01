@@ -31,9 +31,13 @@ Paragraph.configure({
 ```
 
 ## Commands
-| Command   | Parameters | Description                                  |
-| --------- | ---------- | -------------------------------------------- |
-| paragraph | —          | Transforms all selected nodes to paragraphs. |
+
+### setParagraph()
+Transforms all selected nodes to paragraphs.
+
+```js
+editor.commands.setParagraph()
+```
 
 ## Keyboard shortcuts
 | Command        | Windows/Linux                 | macOS                     |

@@ -31,9 +31,13 @@ TaskList.configure({
 ```
 
 ## Commands
-| Command  | Parameters | Description         |
-| -------- | ---------- | ------------------- |
-| taskList | —          | Toggle a task list. |
+
+# toggleTaskList()
+Toggle a task list.
+
+```js
+editor.commands.toggleTaskList()
+```
 
 ## Keyboard shortcuts
 | Command          | Windows/Linux                   | macOS                       |

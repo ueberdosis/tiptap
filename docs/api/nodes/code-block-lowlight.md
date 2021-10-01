@@ -22,9 +22,20 @@ yarn add @tiptap/extension-code-block-lowlight
 | languageClassPrefix | `String` | `'language-'` | Adds a prefix to language classes that are applied to code tags.      |
 
 ## Commands
-| Command   | Parameters | Description                   |
-| --------- | ---------- | ----------------------------- |
-| codeBlock | —          | Wrap content in a code block. |
+
+### setCodeBlock()
+Wrap content in a code block.
+
+```js
+editor.commands.setCodeBlock()
+```
+
+### toggleCodeBlock()
+Toggle the code block.
+
+```js
+editor.commands.toggleCodeBlock()
+```
 
 ## Keyboard shortcuts
 | Command         | Windows/Linux                 | macOS                     |

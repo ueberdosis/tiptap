@@ -51,7 +51,6 @@ new VueRenderer(MentionList, {
 })
 ```
 
-
 And yes, we plan to support React, too. Meanwhile, you can roll your own `ReactRenderer`, but don’t forget to share it with the community.
 
 It’s also possible to use Vanilla JavaScript, but that is probably a lot more work.

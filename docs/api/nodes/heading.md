@@ -22,9 +22,20 @@ yarn add @tiptap/extension-heading
 | levels         | `Array`  | `[1, 2, 3, 4, 5, 6]` | Specifies which heading levels are supported.                         |
 
 ## Commands
-| Command | Parameters | Description                                      |
-| ------- | ---------- | ------------------------------------------------ |
-| heading | level      | Creates a heading node with the specified level. |
+
+### setHeading()
+Creates a heading node with the specified level.
+
+```js
+editor.commands.setHeading({ level: 1 })
+```
+
+### toggleHeading()
+Toggles a heading node with the specified level.
+
+```js
+editor.commands.toggleHeading({ level: 1 })
+```
 
 ## Keyboard shortcuts
 | Command                     | Windows/Linux                 | macOS                     |

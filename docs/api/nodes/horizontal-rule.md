@@ -29,9 +29,13 @@ HorizontalRule.configure({
 ```
 
 ## Commands
-| Command        | Parameters | Description               |
-| -------------- | ---------- | ------------------------- |
-| horizontalRule | —          | Create a horizontal rule. |
+
+### setHorizontalRule()
+Create a horizontal rule.
+
+```js
+editor.commands.setHorizontalRule()
+```
 
 ## Source code
 [packages/extension-horizontal-rule/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-horizontal-rule/)
