@@ -25,6 +25,11 @@ function parseNodes(nodes: any[], className: string[] = []): { text: string, cla
     .flat()
 }
 
+function getHighlightNodes(result: any) {
+  // `.value` for lowlight v1, `.children` for lowlight v2
+  return result.value || result.children || []
+}
+
 function getDecorations({ doc, name, lowlight }: { doc: ProsemirrorNode, name: string, lowlight: any }) {
   const decorations: Decoration[] = []
 
@@ -34,8 +39,8 @@ function getDecorations({ doc, name, lowlight }: { doc: ProsemirrorNode, name: s
       const { language } = block.node.attrs
       const languages = lowlight.listLanguages()
       const nodes = language && languages.includes(language)
-        ? lowlight.highlight(language, block.node.textContent).value
-        : lowlight.highlightAuto(block.node.textContent).value
+        ? getHighlightNodes(lowlight.highlight(language, block.node.textContent))
+        : getHighlightNodes(lowlight.highlightAuto(block.node.textContent))
 
       parseNodes(nodes).forEach(node => {
         const to = from + node.text.length

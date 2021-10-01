@@ -39,6 +39,17 @@ export type MaybeReturnType<T> = T extends (...args: any) => any
   ? ReturnType<T>
   : T
 
+export interface EditorEvents {
+  beforeCreate: { editor: Editor },
+  create: { editor: Editor },
+  update: { editor: Editor, transaction: Transaction },
+  selectionUpdate: { editor: Editor, transaction: Transaction },
+  transaction: { editor: Editor, transaction: Transaction },
+  focus: { editor: Editor, event: FocusEvent, transaction: Transaction },
+  blur: { editor: Editor, event: FocusEvent, transaction: Transaction },
+  destroy: void,
+}
+
 export interface EditorOptions {
   element: Element,
   content: Content,
@@ -51,14 +62,14 @@ export interface EditorOptions {
   enableInputRules: boolean,
   enablePasteRules: boolean,
   enableCoreExtensions: boolean,
-  onBeforeCreate: (props: { editor: Editor }) => void,
-  onCreate: (props: { editor: Editor }) => void,
-  onUpdate: (props: { editor: Editor, transaction: Transaction }) => void,
-  onSelectionUpdate: (props: { editor: Editor, transaction: Transaction }) => void,
-  onTransaction: (props: { editor: Editor, transaction: Transaction }) => void,
-  onFocus: (props: { editor: Editor, event: FocusEvent, transaction: Transaction }) => void,
-  onBlur: (props: { editor: Editor, event: FocusEvent, transaction: Transaction }) => void,
-  onDestroy: () => void,
+  onBeforeCreate: (props: EditorEvents['beforeCreate']) => void,
+  onCreate: (props: EditorEvents['create']) => void,
+  onUpdate: (props: EditorEvents['update']) => void,
+  onSelectionUpdate: (props: EditorEvents['selectionUpdate']) => void,
+  onTransaction: (props: EditorEvents['transaction']) => void,
+  onFocus: (props: EditorEvents['focus']) => void,
+  onBlur: (props: EditorEvents['blur']) => void,
+  onDestroy: (props: EditorEvents['destroy']) => void,
 }
 
 export type HTMLContent = string
@@ -122,18 +133,18 @@ export type GlobalAttributes = {
 
 export type PickValue<T, K extends keyof T> = T[K]
 
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer I)=>void)
+export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void)
   ? I
   : never
 
 export type Diff<T extends keyof any, U extends keyof any> =
   ({ [P in T]: P } & { [P in U]: never } & { [x: string]: never })[T]
 
-export type Overwrite<T, U> = Pick<T, Diff<keyof T, keyof U>> & U;
+export type Overwrite<T, U> = Pick<T, Diff<keyof T, keyof U>> & U
 
-export type ValuesOf<T> = T[keyof T];
+export type ValuesOf<T> = T[keyof T]
 
-export type KeysWithTypeOf<T, Type> = ({[P in keyof T]: T[P] extends Type ? P : never })[keyof T]
+export type KeysWithTypeOf<T, Type> = ({ [P in keyof T]: T[P] extends Type ? P : never })[keyof T]
 
 export type NodeViewProps = {
   editor: Editor,

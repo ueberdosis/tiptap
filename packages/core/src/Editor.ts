@@ -24,6 +24,7 @@ import {
   ChainedCommands,
   SingleCommands,
   TextSerializer,
+  EditorEvents,
 } from './types'
 import * as extensions from './extensions'
 import style from './style'
@@ -34,7 +35,7 @@ export interface HTMLElement {
   editor?: Editor
 }
 
-export class Editor extends EventEmitter {
+export class Editor extends EventEmitter<EditorEvents> {
 
   private commandManager!: CommandManager
 
@@ -195,7 +196,7 @@ export class Editor extends EventEmitter {
   /**
    * Unregister a ProseMirror plugin.
    *
-   * @param name The plugins name
+   * @param nameOrPluginKey The plugins name
    */
   public unregisterPlugin(nameOrPluginKey: string | PluginKey): void {
     if (this.isDestroyed) {
