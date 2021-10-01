@@ -50,7 +50,7 @@ Returns the current editor document as JSON.
 editor.getJSON()
 ```
 
-### getText(options?)
+### getText()
 Returns the current editor document as plain text.
 
 | Parameter  | Type                           | Description              |
@@ -64,7 +64,7 @@ editor.getText()
 editor.getText({ blockSeparator: "\n\n" })
 ```
 
-### getAttributes(nameOrType)
+### getAttributes()
 Get attributes of the currently selected node or mark.
 
 | Parameter  | Type                           | Description              |
@@ -75,7 +75,7 @@ Get attributes of the currently selected node or mark.
 editor.getAttributes('link').href
 ```
 
-### isActive(name, attributes = {})
+### isActive()
 Returns if the currently selected node or mark is active.
 
 | Parameter              | Type                | Description                    |
@@ -99,7 +99,7 @@ Get the number of characters for the current document.
 editor.getCharacterCount()
 ```
 
-### registerPlugin(plugin, handlePlugins)
+### registerPlugin()
 Register a ProseMirror plugin.
 
 | Parameter      | Type                                               | Description                                               |
@@ -107,7 +107,7 @@ Register a ProseMirror plugin.
 | plugin         | Plugin                                             | A ProseMirror plugin                                      |
 | handlePlugins? | (newPlugin: Plugin, plugins: Plugin[]) => Plugin[] | Control how to merge the plugin into the existing plugins |
 
-### setOptions(options = {})
+### setOptions()
 Update editor options.
 
 | Parameter | Type                   | Description       |
@@ -125,7 +125,7 @@ editor.setOptions({
 })
 ```
 
-### unregisterPlugin(nameOrPluginKey)
+### unregisterPlugin()
 Unregister a ProseMirror plugin.
 
 | Parameter       | Type                | Description      |
@@ -150,7 +150,7 @@ editor.isEmpty
 
 ## Settings
 
-### Element
+### element
 The `element` specifies the HTML element the editor will be binded too. The following code will integrate tiptap with an element with the `.element` class:
 
 ```js
@@ -171,7 +171,7 @@ You can even initiate your editor before mounting it to an element. This is usef
 yourContainerElement.append(editor.options.element)
 ```
 
-### Extensions
+### extensions
 It’s required to pass a list of extensions to the `extensions` property, even if you only want to allow paragraphs.
 
 ```js
@@ -203,7 +203,7 @@ new Editor({
 })
 ```
 
-### Content
+### content
 With the `content` property you can provide the initial content for the editor. This can be HTML or JSON.
 
 ```js
@@ -218,7 +218,7 @@ new Editor({
 })
 ```
 
-### Editable
+### editable
 The `editable` property determines if users can write into the editor.
 
 ```js
@@ -234,7 +234,7 @@ new Editor({
 })
 ```
 
-### Autofocus
+### autofocus
 With `autofocus` you can force the cursor to jump in the editor on initialization.
 
 ```js
@@ -258,7 +258,7 @@ new Editor({
 | `false`   | Disables autofocus.                                    |
 | `null`    | Disables autofocus.                                    |
 
-### Enable input rules
+### enableInputRules
 By default, tiptap enables all [input rules](/guide/custom-extensions/#input-rules). With `enableInputRules` you can disable that.
 
 ```js
@@ -274,7 +274,7 @@ new Editor({
 })
 ```
 
-### Enable paste rules
+### enablePasteRules
 By default, tiptap enables all [paste rules](/guide/custom-extensions/#paste-rules). With `enablePasteRules` you can disable that.
 
 ```js
@@ -290,7 +290,7 @@ new Editor({
 })
 ```
 
-### Inject CSS
+### injectCSS
 By default, tiptap injects [a little bit of CSS](https://github.com/ueberdosis/tiptap/tree/main/packages/core/src/style.ts). With `injectCSS` you can disable that.
 
 ```js
@@ -305,7 +305,7 @@ new Editor({
 })
 ```
 
-### Editor props
+### editorProps
 For advanced use cases, you can pass `editorProps` which will be handled by [ProseMirror](https://prosemirror.net/docs/ref/#view.EditorProps). You can use it to override various editor events or change editor DOM element attributes, for example to add some Tailwind classes. Here is an example:
 
 ```js
@@ -324,7 +324,7 @@ new Editor({
 
 You can use that to hook into event handlers and pass - for example - a custom paste handler, too.
 
-### Parse options
+### parseOptions
 Passed content is parsed by ProseMirror. To hook into the parsing, you can pass `parseOptions` which are then handled by [ProseMirror](https://prosemirror.net/docs/ref/#model.ParseOptions).
 
 ```js
