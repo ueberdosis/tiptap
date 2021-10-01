@@ -25,11 +25,29 @@ yarn add @tiptap/extension-link
 | linkOnPaste    | `Boolean` | `true`                                                      | Adds a link to the current selection if the pasted content only contains an url. |
 
 ## Commands
-| Command    | Parameters         | Description                                  |
-| ---------- | ------------------ | -------------------------------------------- |
-| setLink    | `href`<br>`target` | Link the selected text.                      |
-| toggleLink | `href`<br>`target` | Add or remove a link from the selected text. |
-| unsetLink  | –                  | Removes a link.                              |
+
+### setLink()
+Links the selected text.
+
+```js
+editor.commands.setLink({ href: 'https://example.com' })
+editor.commands.setLink({ href: 'https://example.com', target: '_blank' })
+```
+
+### toggleLink()
+Adds or removes a link from the selected text.
+
+```js
+editor.commands.toggleLink({ href: 'https://example.com' })
+editor.commands.toggleLink({ href: 'https://example.com', target: '_blank' })
+```
+
+### unsetLink()
+Removes a link.
+
+```js
+editor.commands.unsetLink()
+```
 
 ## Keyboard shortcuts
 :::warning Doesn’t have a keyboard shortcut

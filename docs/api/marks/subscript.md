@@ -19,11 +19,27 @@ yarn add @tiptap/extension-subscript
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command         | Parameters | Description             |
-| --------------- | ---------- | ----------------------- |
-| setSubscript    | —          | Mark text as subscript. |
-| toggleSubscript | —          | Toggle subscript mark.  |
-| unsetSubscript  | —          | Remove subscript mark.  |
+
+### setSubscript()
+Mark text as subscript.
+
+```js
+editor.commands.setSubscript()
+```
+
+### toggleSubscript()
+Toggle subscript mark.
+
+```js
+editor.commands.toggleSubscript()
+```
+
+### unsetSubscript()
+Remove subscript mark.
+
+```js
+editor.commands.unsetSubscript()
+```
 
 ## Keyboard shortcuts
 | Command           | Windows/Linux      | macOS          |

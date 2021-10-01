@@ -25,12 +25,27 @@ yarn add @tiptap/extension-italic
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command      | Parameters | Description          |
-| ------------ | ---------- | -------------------- |
-| setItalic    | —          | Mark text as italic. |
-| toggleItalic | —          | Toggle italic mark.  |
-| unsetItalic  | —          | Remove italic mark.  |
 
+### setItalic()
+Mark the text italic.
+
+```js
+editor.commands.setItalic()
+```
+
+### toggleItalic()
+Toggle the italic mark.
+
+```js
+editor.commands.toggleItalic()
+```
+
+### unsetItalic()
+Remove the italic mark.
+
+```js
+editor.commands.unsetItalic()
+```
 
 ## Keyboard shortcuts
 | Command        | Windows/Linux      | macOS          |

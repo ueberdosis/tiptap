@@ -19,11 +19,27 @@ yarn add @tiptap/extension-superscript
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command           | Parameters | Description               |
-| ----------------- | ---------- | ------------------------- |
-| setSuperscript    | —          | Mark text as superscript. |
-| toggleSuperscript | —          | Toggle superscript mark.  |
-| unsetSuperscript  | —          | Remove superscript mark.  |
+
+### setSuperscript()
+Mark text as superscript.
+
+```js
+editor.commands.setSuperscript()
+```
+
+### toggleSuperscript()
+Toggle superscript mark.
+
+```js
+editor.commands.toggleSuperscript()
+```
+
+### unsetSuperscript()
+Remove superscript mark.
+
+```js
+editor.commands.unsetSuperscript()
+```
 
 ## Keyboard shortcuts
 | Command             | Windows/Linux      | macOS          |

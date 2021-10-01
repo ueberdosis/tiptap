@@ -21,11 +21,27 @@ yarn add @tiptap/extension-code
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command    | Parameters | Description               |
-| ---------- | ---------- | ------------------------- |
-| setCode    | —          | Mark text as inline code. |
-| toggleCode | —          | Toggle inline code mark.  |
-| unsetCode  | —          | Remove inline code mark.  |
+
+### setCode()
+Mark text as inline code.
+
+```js
+editor.commands.setCode()
+```
+
+### toggleCode()
+Toggle inline code mark.
+
+```js
+editor.commands.toggleCode()
+```
+
+### unsetCode()
+Remove inline code mark.
+
+```js
+editor.commands.unsetCode()
+```
 
 ## Keyboard shortcuts
 | Command      | Windows/Linux      | macOS          |
