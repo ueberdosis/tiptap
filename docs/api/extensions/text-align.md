@@ -18,11 +18,11 @@ yarn add @tiptap/extension-text-align
 ```
 
 ## Settings
-| Option           | Type     | Default                                  | Description                                                                                                            |
-| ---------------- | -------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| types            | `Array`  | `[]`                                     | A list of nodes where the text align attribute should be applied to. Usually something like `['heading', 'paragraph']`.|
-| alignments       | `Array`  | `['left', 'center', 'right', 'justify']` | A list of available options for the text align attribute.                                                              |
-| defaultAlignment | `String` | `'left'`                                 | The default text align.                                                                                                |
+| Option           | Type     | Default                                  | Description                                                                                                             |
+| ---------------- | -------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| types            | `Array`  | `[]`                                     | A list of nodes where the text align attribute should be applied to. Usually something like `['heading', 'paragraph']`. |
+| alignments       | `Array`  | `['left', 'center', 'right', 'justify']` | A list of available options for the text align attribute.                                                               |
+| defaultAlignment | `String` | `'left'`                                 | The default text align.                                                                                                 |
 
 ## Commands
 | Command   | Parameters | Description                                |
@@ -30,17 +30,12 @@ yarn add @tiptap/extension-text-align
 | textAlign | alignment  | Set the text align to the specified value. |
 
 ## Keyboard shortcuts
-### Windows/Linux
-* `Ctrl`&nbsp;`Shift`&nbsp;`L` Left
-* `Ctrl`&nbsp;`Shift`&nbsp;`E` Center
-* `Ctrl`&nbsp;`Shift`&nbsp;`R` Right
-* `Ctrl`&nbsp;`Shift`&nbsp;`J` Justify
-
-### macOS
-* `Cmd`&nbsp;`Shift`&nbsp;`L` Left
-* `Cmd`&nbsp;`Shift`&nbsp;`E` Center
-* `Cmd`&nbsp;`Shift`&nbsp;`R` Right
-* `Cmd`&nbsp;`Shift`&nbsp;`J` Justify
+| Command                 | Windows/Linux                | macOS                       |
+| ----------------------- | ---------------------------- | --------------------------- |
+| setTextAlign('left')    | `Ctrl`&nbsp;`Shift`&nbsp;`L` | `Cmd`&nbsp;`Shift`&nbsp;`L` |
+| setTextAlign('center')  | `Ctrl`&nbsp;`Shift`&nbsp;`E` | `Cmd`&nbsp;`Shift`&nbsp;`E` |
+| setTextAlign('right')   | `Ctrl`&nbsp;`Shift`&nbsp;`R` | `Cmd`&nbsp;`Shift`&nbsp;`R` |
+| setTextAlign('justify') | `Ctrl`&nbsp;`Shift`&nbsp;`J` | `Cmd`&nbsp;`Shift`&nbsp;`J` |
 
 ## Source code
 [packages/extension-text-align/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-align/)

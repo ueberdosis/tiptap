@@ -39,7 +39,9 @@ yarn add @tiptap/extension-typography
 | superscriptThree    | Converts `^3` a superscript three `³`.                                                  |
 
 ## Keyboard shortcuts
-* `Backspace` reverts the applied input rule
+| Command         | Windows/Linux | macOS       |
+| --------------- | ------------- | ----------- |
+| undoInputRule() | `Backspace`   | `Backspace` |
 
 ## Source code
 [packages/extension-typography/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-typography/)

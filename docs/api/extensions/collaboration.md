@@ -33,13 +33,10 @@ yarn add @tiptap/extension-collaboration yjs y-websocket
 | redo    | —          | Redo the last change. |
 
 ## Keyboard shortcuts
-### Undo
-* Windows/Linux: `Control`&nbsp;`Z`
-* macOS: `Cmd`&nbsp;`Z`
-
-### Redo
-* Windows/Linux: `Shift`&nbsp;`Control`&nbsp;`Z` or `Control`&nbsp;`Y`
-* macOS: `Shift`&nbsp;`Cmd`&nbsp;`Z` or `Cmd`&nbsp;`Y`
+| Command | Windows/Linux                                         | macOS                                         |
+| ------- | ----------------------------------------------------- | --------------------------------------------- |
+| undo()  | `Control`&nbsp;`Z`                                    | `Cmd`&nbsp;`Z`                                |
+| redo()  | `Shift`&nbsp;`Control`&nbsp;`Z`<br>`Control`&nbsp;`Y` | `Shift`&nbsp;`Cmd`&nbsp;`Z`<br>`Cmd`&nbsp;`Y` |
 
 ## Source code
 [packages/extension-collaboration/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration/)
