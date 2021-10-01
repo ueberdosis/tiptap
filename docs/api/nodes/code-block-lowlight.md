@@ -27,8 +27,9 @@ yarn add @tiptap/extension-code-block-lowlight
 | codeBlock | —          | Wrap content in a code block. |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Alt`&nbsp;`C`
-* macOS: `Cmd`&nbsp;`Alt`&nbsp;`C`
+| Command         | Windows/Linux                 | macOS                     |
+| --------------- | ----------------------------- | ------------------------- |
+| toggleCodeBlock | `Control`&nbsp;`Alt`&nbsp;`C` | `Cmd`&nbsp;`Alt`&nbsp;`C` |
 
 ## Source code
 [packages/extension-code-block-lowlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block-lowlight/)

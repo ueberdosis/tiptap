@@ -28,8 +28,9 @@ This extension requires the [`ListItem`](/api/nodes/list-item) node.
 | orderedList | —          | Toggle an ordered list. |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`7`
-* macOS: `Cmd`&nbsp;`Shift`&nbsp;`7`
+| Command           | Windows/Linux                   | macOS                       |
+| ----------------- | ------------------------------- | --------------------------- |
+| toggleOrderedList | `Control`&nbsp;`Shift`&nbsp;`7` | `Cmd`&nbsp;`Shift`&nbsp;`7` |
 
 ## Source code
 [packages/extension-ordered-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-ordered-list/)

@@ -21,9 +21,11 @@ This extension requires the [`BulletList`](/api/nodes/bullet-list) or [`OrderedL
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Keyboard shortcuts
-* New list item: `Enter`
-* Sink a list item: `Tab`
-* Lift a list item: `Shift`&nbsp;`Tab`
+| Command         | Windows/Linux      | macOS              |
+| --------------- | ------------------ | ------------------ |
+| splitListItem() | `Enter`            | `Enter`            |
+| sinkListItem()  | `Tab`              | `Tab`              |
+| liftListItem()  | `Shift`&nbsp;`Tab` | `Shift`&nbsp;`Tab` |
 
 ## Source code
 [packages/extension-list-item/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list-item/)

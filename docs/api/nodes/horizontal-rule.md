@@ -25,9 +25,6 @@ yarn add @tiptap/extension-horizontal-rule
 | -------------- | ---------- | ------------------------- |
 | horizontalRule | —          | Create a horizontal rule. |
 
-## Keyboard shortcuts
-*None*
-
 ## Source code
 [packages/extension-horizontal-rule/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-horizontal-rule/)
 

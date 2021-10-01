@@ -25,9 +25,9 @@ yarn add @tiptap/extension-hard-break
 | setHardBreak | —          | Add a line break. |
 
 ## Keyboard shortcuts
-* `Shift`&nbsp;`Enter`
-* Windows/Linux: `Control`&nbsp;`Enter`
-* macOS: `Cmd`&nbsp;`Enter`
+| Command      | Windows/Linux                                  | macOS                                      |
+| ------------ | ---------------------------------------------- | ------------------------------------------ |
+| setHardBreak | `Shift`&nbsp;`Enter`<br>`Control`&nbsp;`Enter` | `Shift`&nbsp;`Enter`<br>`Cmd`&nbsp;`Enter` |
 
 ## Source code
 [packages/extension-hard-break/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-hard-break/)

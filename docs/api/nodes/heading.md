@@ -27,8 +27,14 @@ yarn add @tiptap/extension-heading
 | heading | level      | Creates a heading node with the specified level. |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Alt`&nbsp;`1-6`
-* macOS: `Cmd`&nbsp;`Alt`&nbsp;`1-6`
+| Command                     | Windows/Linux                 | macOS                     |
+| --------------------------- | ----------------------------- | ------------------------- |
+| toggleHeading({ level: 1 }) | `Control`&nbsp;`Alt`&nbsp;`1` | `Cmd`&nbsp;`Alt`&nbsp;`1` |
+| toggleHeading({ level: 2 }) | `Control`&nbsp;`Alt`&nbsp;`2` | `Cmd`&nbsp;`Alt`&nbsp;`2` |
+| toggleHeading({ level: 3 }) | `Control`&nbsp;`Alt`&nbsp;`3` | `Cmd`&nbsp;`Alt`&nbsp;`3` |
+| toggleHeading({ level: 4 }) | `Control`&nbsp;`Alt`&nbsp;`4` | `Cmd`&nbsp;`Alt`&nbsp;`4` |
+| toggleHeading({ level: 5 }) | `Control`&nbsp;`Alt`&nbsp;`5` | `Cmd`&nbsp;`Alt`&nbsp;`5` |
+| toggleHeading({ level: 6 }) | `Control`&nbsp;`Alt`&nbsp;`6` | `Cmd`&nbsp;`Alt`&nbsp;`6` |
 
 ## Source code
 [packages/extension-heading/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-heading/)

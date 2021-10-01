@@ -50,7 +50,6 @@ This extension requires the [`TableRow`](/api/nodes/table-row), [`TableHeader`](
 | goToPreviousCell   | –                                              |             |
 | fixTables          | –                                              |             |
 
-
 ## Source code
 [packages/extension-table/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-table/)
 

@@ -51,7 +51,7 @@ editor.commands.unsetBlockquote()
 ```
 
 ## Keyboard shortcuts
-| Action            | Windows/Linux                   | macOS                       |
+| Command           | Windows/Linux                   | macOS                       |
 | ----------------- | ------------------------------- | --------------------------- |
 | Toggle Blockquote | `Control`&nbsp;`Shift`&nbsp;`B` | `Cmd`&nbsp;`Shift`&nbsp;`B` |
 

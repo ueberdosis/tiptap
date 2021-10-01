@@ -23,7 +23,11 @@ This extension requires the [`TaskList`](/api/nodes/task-list) node.
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Keyboard shortcuts
-* New list item: `Enter`
+| Command         | Windows/Linux      | macOS              |
+| --------------- | ------------------ | ------------------ |
+| splitListItem() | `Enter`            | `Enter`            |
+| sinkListItem()  | `Tab`              | `Tab`              |
+| liftListItem()  | `Shift`&nbsp;`Tab` | `Shift`&nbsp;`Tab` |
 
 ## Source code
 [packages/extension-task-item/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-item/)

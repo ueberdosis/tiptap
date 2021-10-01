@@ -28,8 +28,9 @@ This extension requires the [`ListItem`](/api/nodes/list-item) node.
 | bulletList | —          | Toggle a bullet list. |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`8`
-* macOS: `Cmd`&nbsp;`Shift`&nbsp;`8`
+| Command          | Windows/Linux                   | macOS                       |
+| ---------------- | ------------------------------- | --------------------------- |
+| toggleBulletList | `Control`&nbsp;`Shift`&nbsp;`8` | `Cmd`&nbsp;`Shift`&nbsp;`8` |
 
 ## Source code
 [packages/extension-bullet-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/)
