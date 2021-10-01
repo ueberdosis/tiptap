@@ -19,7 +19,7 @@ yarn add @tiptap/extension-bubble-menu
 | ------------ | -------------------- | -------------- | ----------------------------------------------------------------------- |
 | element      | `HTMLElement`        | `null`         | The DOM element that contains your menu.                                |
 | tippyOptions | `Object`             | `{}`           | [Options for tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/) |
-| pluginKey    | `string | PluginKey` | `'bubbleMenu'` | The key for the underlying ProseMirror plugin.                          |
+| pluginKey    | `string \| PluginKey` | `'bubbleMenu'` | The key for the underlying ProseMirror plugin.                          |
 | shouldShow   | `(props) => boolean` |                | Controls whether the menu should be shown or not.                       |
 
 ## Source code

@@ -237,6 +237,15 @@ new Editor({
 ### autofocus
 With `autofocus` you can force the cursor to jump in the editor on initialization.
 
+| Value     | Description                                            |
+| --------- | ------------------------------------------------------ |
+| `'start'` | Sets the focus to the beginning of the document.       |
+| `'end'`   | Sets the focus to the end of the document.             |
+| `Number`  | Sets the focus to a specific position in the document. |
+| `true`    | Enables autofocus.                                     |
+| `false`   | Disables autofocus.                                    |
+| `null`    | Disables autofocus.                                    |
+
 ```js
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
@@ -248,15 +257,6 @@ new Editor({
   autofocus: false,
 })
 ```
-
-| Value     | Description                                            |
-| --------- | ------------------------------------------------------ |
-| `'start'` | Sets the focus to the beginning of the document.       |
-| `'end'`   | Sets the focus to the end of the document.             |
-| `Number`  | Sets the focus to a specific position in the document. |
-| `true`    | Enables autofocus.                                     |
-| `false`   | Disables autofocus.                                    |
-| `null`    | Disables autofocus.                                    |
 
 ### enableInputRules
 By default, tiptap enables all [input rules](/guide/custom-extensions/#input-rules). With `enableInputRules` you can disable that.
