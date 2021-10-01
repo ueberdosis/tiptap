@@ -16,10 +16,28 @@ yarn add @tiptap/extension-heading
 ```
 
 ## Settings
-| Option         | Type     | Default              | Description                                                           |
-| -------------- | -------- | -------------------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`                 | Custom HTML attributes that should be added to the rendered HTML tag. |
-| levels         | `Array`  | `[1, 2, 3, 4, 5, 6]` | Specifies which heading levels are supported.                         |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Heading.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### levels
+Specifies which heading levels are supported.
+
+Default: `[1, 2, 3, 4, 5, 6]`
+
+```js
+Heading.configure({
+  levels: [1, 2],
+})
+```
 
 ## Commands
 

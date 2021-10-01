@@ -16,10 +16,28 @@ yarn add @tiptap/extension-code-block-lowlight
 ```
 
 ## Settings
-| Option              | Type     | Default       | Description                                                           |
-| ------------------- | -------- | ------------- | --------------------------------------------------------------------- |
-| HTMLAttributes      | `Object` | `{}`          | Custom HTML attributes that should be added to the rendered HTML tag. |
-| languageClassPrefix | `String` | `'language-'` | Adds a prefix to language classes that are applied to code tags.      |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+CodeBlockLowlight.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### languageClassPrefix
+Adds a prefix to language classes that are applied to code tags.
+
+Default: `'language-'`
+
+```js
+CodeBlockLowlight.configure({
+  languageClassPrefix: 'language-',
+})
+```
 
 ## Commands
 

@@ -16,11 +16,37 @@ yarn add @tiptap/extension-dropcursor
 ```
 
 ## Settings
-| Option | Type     | Default          | Description                                                           |
-| ------ | -------- | ---------------- | --------------------------------------------------------------------- |
-| color  | `String` | `'currentcolor'` | Color of the dropcursor.                                              |
-| width  | `Number` | `1`              | Width of the dropcursor.                                              |
-| class  | `String` | –                | One or multiple CSS classes that should be applied to the dropcursor. |
+
+### color
+Color of the dropcursor.
+
+Default: `'currentcolor'`
+
+```js
+Dropcursor.configure({
+  color: '#ff0000'
+})
+```
+
+### width
+Width of the dropcursor.
+
+Default: `1`
+
+```js
+Dropcursor.configure({
+  width: 2,
+})
+```
+
+### class
+One or multiple CSS classes that should be applied to the dropcursor.
+
+```js
+Dropcursor.configure({
+  class: 'my-custom-class',
+})
+```
 
 ## Source code
 [packages/extension-dropcursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-dropcursor/)

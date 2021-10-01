@@ -14,10 +14,28 @@ yarn add @tiptap/extension-history
 ```
 
 ## Settings
-| Option        | Type     | Default | Description                                                                                                                                         |
-| ------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| depth         | `Number` | `100`   | The amount of history events that are collected before the oldest events are discarded. Defaults to 100.                                            |
-| newGroupDelay | `Number` | `500`   | The delay between changes after which a new group should be started (in milliseconds). When changes aren’t adjacent, a new group is always started. |
+
+### depth
+The amount of history events that are collected before the oldest events are discarded. Defaults to 100.
+
+Default: `100`
+
+```js
+History.configure({
+  depth: 10,
+})
+```
+
+### newGroupDelay
+The delay between changes after which a new group should be started (in milliseconds). When changes aren’t adjacent, a new group is always started.
+
+Default: `500`
+
+```js
+History.configure({
+  newGroupDelay: 1000,
+})
+```
 
 ## Commands
 

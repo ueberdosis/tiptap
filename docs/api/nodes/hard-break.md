@@ -14,10 +14,28 @@ yarn add @tiptap/extension-hard-break
 ```
 
 ## Settings
-| Option         | Type      | Default | Description                                                                                    |
-| -------------- | --------- | ------- | ---------------------------------------------------------------------------------------------- |
-| HTMLAttributes | `Object`  | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag.                          |
-| keepMarks      | `Boolean` | `true`  | Decides whether to keep marks after a line break. Based on the `keepOnSplit` option for marks. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+HardBreak.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### keepMarks
+Decides whether to keep marks after a line break. Based on the `keepOnSplit` option for marks.
+
+Default: `true`
+
+```js
+HardBreak.configure({
+  keepMarks: false,
+})
+```
 
 ## Commands
 

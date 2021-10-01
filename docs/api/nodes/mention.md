@@ -56,9 +56,18 @@ And yes, we plan to support React, too. Meanwhile, you can roll your own `ReactR
 It’s also possible to use Vanilla JavaScript, but that is probably a lot more work.
 
 ## Settings
-| Option         | Type     | Default                    | Description                                                           |
-| -------------- | -------- | -------------------------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`                       | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Mention.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
 | renderLabel    | `String` | `({ options, node }) => …` | Define how a mention label should be rendered.                        |
 | suggestion     | `Object` | `{ … }`                    | [Read more](/api/utilities/suggestion)                                |
 

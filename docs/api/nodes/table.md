@@ -24,15 +24,35 @@ yarn add @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-t
 This extension requires the [`TableRow`](/api/nodes/table-row), [`TableHeader`](/api/nodes/table-header) and [`TableCell`](/api/nodes/table-cell) nodes.
 
 ## Settings
-| Option                  | Type      | Default     | Description                                                           |
-| ----------------------- | --------- | ----------- | --------------------------------------------------------------------- |
-| HTMLAttributes          | `Object`  | `{}`        | Custom HTML attributes that should be added to the rendered HTML tag. |
-| resizable               | `Boolean` | `false`     |                                                                       |
-| handleWidth             | `Number`  | `5`         |                                                                       |
-| cellMinWidth            | `Number`  | `25`        |                                                                       |
-| View                    | `View`    | `TableView` |                                                                       |
-| lastColumnResizable     | `Boolean` | `true`      |                                                                       |
-| allowTableNodeSelection | `Boolean` | `false`     |                                                                       |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Table.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### resizable
+Default: `false`
+
+### handleWidth
+Default: `5`
+
+### cellMinWidth
+Default: `25`
+
+### View
+Default: `TableView`
+
+### lastColumnResizable
+Default: `true`
+
+### allowTableNodeSelection
+Default: `false`
 
 ## Commands
 

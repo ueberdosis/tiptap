@@ -16,10 +16,28 @@ yarn add @tiptap/extension-highlight
 ```
 
 ## Settings
-| Option         | Type      | Default | Description                                                           |
-| -------------- | --------- | ------- | --------------------------------------------------------------------- |
-| multicolor     | `Boolean` | `false` | Add support for multiple colors.                                      |
-| HTMLAttributes | `Object`  | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Highlight.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### multicolor
+Add support for multiple colors.
+
+Default: `false`
+
+```js
+Highlight.configure({
+  multicolor: true,
+})
+```
 
 ## Commands
 

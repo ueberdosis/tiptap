@@ -16,14 +16,33 @@ yarn add @tiptap/extension-text-style @tiptap/extension-font-family
 This extension requires the [`TextStyle`](/api/marks/text-style) mark.
 
 ## Settings
-| Option | Type    | Default         | Description                                                              |
-| ------ | ------- | --------------- | ------------------------------------------------------------------------ |
-| types  | `Array` | `['textStyle']` | A list of marks to which the font family attribute should be applied to. |
+
+### types
+A list of marks to which the font family attribute should be applied to.
+
+Default: `['textStyle']`
+
+```js
+FontFamily.configure({
+  types: ['textStyle'],
+})
+```
 
 ## Commands
-| Command    | Parameters | Description                                   |
-| ---------- | ---------- | --------------------------------------------- |
-| fontFamily | fontFamily | Applies the given font family as inline style |
+
+### setFontFamily()
+Applies the given font family as inline style.
+
+```js
+editor.commands.setFontFamily('Inter')
+```
+
+### unsetFontFamily()
+Removes any font family.
+
+```js
+editor.commands.unsetFontFamily()
+```
 
 ## Source code
 [packages/extension-font-family/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-font-family/)

@@ -6,8 +6,8 @@ With the CodeBlock extension you can add fenced code blocks to your documents. I
 
 Type <code>&grave;&grave;&grave;&nbsp;</code> (three backticks and a space) or <code>&Tilde;&Tilde;&Tilde;&nbsp;</code> (three tildes and a space) and a code block is instantly added for you. You can even specify the language, try writing <code>&grave;&grave;&grave;css&nbsp;</code>. That should add a `language-css` class to the `<code>`-tag.
 
-::: warning Restrictions
-The CodeBlock extension doesn’t come with styling and has no syntax highlighting built-in. It’s [on our roadmap](/api/nodes/code-block-lowlight) though.
+::: warning No syntax highlighting
+The CodeBlock extension doesn’t come with styling and has no syntax highlighting built-in. Try the [CodeBlockLowlight](/api/nodes/code-block-lowlight) extension if you’re looking for code blocks with syntax highlighting.
 :::
 
 ## Installation
@@ -20,10 +20,28 @@ yarn add @tiptap/extension-code-block
 ```
 
 ## Settings
-| Option              | Type     | Default       | Description                                                           |
-| ------------------- | -------- | ------------- | --------------------------------------------------------------------- |
-| HTMLAttributes      | `Object` | `{}`          | Custom HTML attributes that should be added to the rendered HTML tag. |
-| languageClassPrefix | `String` | `'language-'` | Adds a prefix to language classes that are applied to code tags.      |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+CodeBlock.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### languageClassPrefix
+Adds a prefix to language classes that are applied to code tags.
+
+Default: `'language-'`
+
+```js
+CodeBlock.configure({
+  languageClassPrefix: 'language-',
+})
+```
 
 ## Commands
 
