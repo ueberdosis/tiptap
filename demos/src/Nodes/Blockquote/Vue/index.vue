@@ -1,7 +1,13 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
-      blockquote
+      toggleBlockquote
+    </button>
+    <button @click="editor.chain().focus().setBlockquote().run()" :disabled="!editor.can().setBlockquote()">
+      setBlockquote
+    </button>
+    <button @click="editor.chain().focus().unsetBlockquote().run()" :disabled="!editor.can().unsetBlockquote()">
+      unsetBlockquote
     </button>
 
     <editor-content :editor="editor" />
@@ -36,9 +42,9 @@ export default {
       ],
       content: `
           <blockquote>
-            Life is like riding a bycicle. To keep your balance, you must keep moving.
+            Nothing is impossible, the word itself says “I’m possible!”
           </blockquote>
-          <p>Albert Einstein</p>
+          <p>Audrey Hepburn</p>
         `,
     })
   },
@@ -58,7 +64,7 @@ export default {
 
   blockquote {
     padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
+    border-left: 3px solid rgba(#0D0D0D, 0.1);
   }
 }
 </style>
