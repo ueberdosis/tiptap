@@ -32,8 +32,9 @@ yarn add @tiptap/extension-underline
 | unsetUnderline  | —          | Remove underline mark.   |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`U`
-* macOS: `Cmd`&nbsp;`U`
+| Command           | Windows/Linux      | macOS          |
+| ----------------- | ------------------ | -------------- |
+| toggleUnderline() | `Control`&nbsp;`U` | `Cmd`&nbsp;`U` |
 
 ## Source code
 [packages/extension-underline/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-underline/)

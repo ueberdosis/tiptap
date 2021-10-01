@@ -29,8 +29,9 @@ yarn add @tiptap/extension-highlight
 | unsetHighlight  | —                  | Removes the highlight.    |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`H`
-* macOS: `Cmd`&nbsp;`Shift`&nbsp;`H`
+| Command           | Windows/Linux                   | macOS                       |
+| ----------------- | ------------------------------- | --------------------------- |
+| toggleHighlight() | `Control`&nbsp;`Shift`&nbsp;`H` | `Cmd`&nbsp;`Shift`&nbsp;`H` |
 
 ## Source code
 [packages/extension-highlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-highlight/)

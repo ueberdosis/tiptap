@@ -28,8 +28,9 @@ yarn add @tiptap/extension-code
 | unsetCode  | —          | Remove inline code mark.  |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`E`
-* macOS: `Cmd`&nbsp;`E`
+| Command      | Windows/Linux      | macOS          |
+| ------------ | ------------------ | -------------- |
+| toggleCode() | `Control`&nbsp;`E` | `Cmd`&nbsp;`E` |
 
 ## Source code
 [packages/extension-code/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code/)

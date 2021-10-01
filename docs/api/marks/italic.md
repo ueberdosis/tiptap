@@ -33,8 +33,9 @@ yarn add @tiptap/extension-italic
 
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`I`
-* macOS: `Cmd`&nbsp;`I`
+| Command        | Windows/Linux      | macOS          |
+| -------------- | ------------------ | -------------- |
+| toggleItalic() | `Control`&nbsp;`I` | `Cmd`&nbsp;`I` |
 
 ## Source code
 [packages/extension-italic/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-italic/)

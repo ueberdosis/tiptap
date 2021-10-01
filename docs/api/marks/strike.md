@@ -32,8 +32,9 @@ yarn add @tiptap/extension-strike
 | unsetStrike  | —          | Remove strike mark.   |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`X`
-* macOS: `Cmd`&nbsp;`Shift`&nbsp;`X`
+| Command        | Windows/Linux                   | macOS                       |
+| -------------- | ------------------------------- | --------------------------- |
+| toggleStrike() | `Control`&nbsp;`Shift`&nbsp;`X` | `Cmd`&nbsp;`Shift`&nbsp;`X` |
 
 ## Source code
 [packages/extension-strike/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-strike/)

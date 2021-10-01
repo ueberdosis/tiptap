@@ -19,15 +19,16 @@ yarn add @tiptap/extension-subscript
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command         | Parameters | Description               |
-| --------------- | ---------- | ------------------------- |
+| Command         | Parameters | Description             |
+| --------------- | ---------- | ----------------------- |
 | setSubscript    | —          | Mark text as subscript. |
 | toggleSubscript | —          | Toggle subscript mark.  |
 | unsetSubscript  | —          | Remove subscript mark.  |
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`,`
-* macOS: `Cmd`&nbsp;`,`
+| Command           | Windows/Linux      | macOS          |
+| ----------------- | ------------------ | -------------- |
+| toggleSubscript() | `Control`&nbsp;`,` | `Cmd`&nbsp;`,` |
 
 ## Source code
 [packages/extension-subscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-subscript/)

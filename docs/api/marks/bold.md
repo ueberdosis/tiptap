@@ -25,15 +25,32 @@ yarn add @tiptap/extension-bold
 | HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
 
 ## Commands
-| Command    | Parameters | Description        |
-| ---------- | ---------- | ------------------ |
-| setBold    | —          | Mark text as bold. |
-| toggleBold | —          | Toggle bold mark.  |
-| unsetBold  | —          | Remove bold mark.  |
+
+### setBold()
+Mark text as bold.
+
+```js
+editor.commands.setBold()
+```
+
+### toggleBold()
+Toggle the bold mark.
+
+```js
+editor.commands.toggleBold()
+```
+
+### unsetBold()
+Remove the bold mark.
+
+```js
+editor.commands.unsetBold()
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`B`
-* macOS: `Cmd`&nbsp;`B`
+| Command      | Windows/Linux      | macOS          |
+| ------------ | ------------------ | -------------- |
+| toggleBold() | `Control`&nbsp;`B` | `Cmd`&nbsp;`B` |
 
 ## Source code
 [packages/extension-bold/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bold/)
