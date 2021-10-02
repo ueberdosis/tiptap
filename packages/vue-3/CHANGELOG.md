@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.67](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.66...@tiptap/vue-3@2.0.0-beta.67) (2021-10-02)
+
+
+### Bug Fixes
+
+* fix reactive props, see [#1728](https://github.com/ueberdosis/tiptap/issues/1728) ([7f7f93d](https://github.com/ueberdosis/tiptap/commit/7f7f93dc1b4b56c7647de27a792e000b3513c226))
+
+
+
+
+
 # [2.0.0-beta.66](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.65...@tiptap/vue-3@2.0.0-beta.66) (2021-09-29)
 
 **Note:** Version bump only for package @tiptap/vue-3
