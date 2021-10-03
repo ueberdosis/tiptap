@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.118](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.117...@tiptap/core@2.0.0-beta.118) (2021-10-03)
+
+
+### Bug Fixes
+
+* fix order of executed plugins, fix [#1547](https://github.com/ueberdosis/tiptap/issues/1547) ([f8efdf7](https://github.com/ueberdosis/tiptap/commit/f8efdf797a10a01235b75091729b15aca076e47a))
+
+
+
+
+
 # [2.0.0-beta.117](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.116...@tiptap/core@2.0.0-beta.117) (2021-10-02)
 
 **Note:** Version bump only for package @tiptap/core
