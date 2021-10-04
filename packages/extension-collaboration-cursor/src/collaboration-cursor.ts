@@ -31,8 +31,6 @@ const awarenessStatesToArray = (states: Map<number, Record<string, any>>) => {
 export const CollaborationCursor = Extension.create<CollaborationCursorOptions>({
   name: 'collaborationCursor',
 
-  priority: 1000,
-
   defaultOptions: {
     provider: null,
     user: {
