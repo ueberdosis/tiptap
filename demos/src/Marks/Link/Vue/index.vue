@@ -31,34 +31,6 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      // onTransaction({ editor, transaction }) {
-
-      //   console.log('trans')
-
-      //   // if (transaction.getMeta('paste'))
-
-      //   // console.log('paste', transaction.getMeta('paste'))
-
-      //   if (!transaction.getMeta('paste')) {
-      //     return
-      //   }
-
-      //   const from = transaction.before.content.findDiffStart(transaction.doc.content)
-      //   const to = transaction.before.content.findDiffEnd(transaction.doc.content)
-
-      //   if (!from || !to) {
-      //     return
-      //   }
-
-      //   // console.log({ transaction, from, to })
-
-      //   editor.state.doc.nodesBetween(from, to.b, (node, pos, parent) => {
-      //     console.log({ node, pos, parent })
-      //   })
-
-      //   // console.log({ transaction, diffStart, diffEnd })
-
-      // },
       extensions: [
         Document,
         Paragraph,
