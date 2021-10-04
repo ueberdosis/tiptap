@@ -1,6 +1,7 @@
 import { keymap } from 'prosemirror-keymap'
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { inputRules as inputRulesPlugin } from './InputRule'
+import { pasteRules as pasteRulesPlugin } from './PasteRule'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
@@ -263,10 +264,25 @@ export default class ExtensionManager {
         )
 
         if (this.editor.options.enablePasteRules && addPasteRules) {
-          const pasteRulePlugins = addPasteRules()
+          const pasteRules = addPasteRules()
+          const pasteRulePlugins = pasteRules.length
+            ? [pasteRulesPlugin({ rules: pasteRules })]
+            : []
 
           plugins.push(...pasteRulePlugins)
         }
+
+        // const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(
+        //   extension,
+        //   'addPasteRules',
+        //   context,
+        // )
+
+        // if (this.editor.options.enablePasteRules && addPasteRules) {
+        //   const pasteRulePlugins = addPasteRules()
+
+        //   plugins.push(...pasteRulePlugins)
+        // }
 
         const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
           extension,

@@ -87,9 +87,9 @@ export const Strike = Mark.create<StrikeOptions>({
     ]
   },
 
-  addPasteRules() {
-    return [
-      markPasteRule(pasteRegex, this.type),
-    ]
-  },
+  // addPasteRules() {
+  //   return [
+  //     markPasteRule(pasteRegex, this.type),
+  //   ]
+  // },
 })

@@ -101,9 +101,9 @@ export const Highlight = Mark.create<HighlightOptions>({
     ]
   },
 
-  addPasteRules() {
-    return [
-      markPasteRule(pasteRegex, this.type),
-    ]
-  },
+  // addPasteRules() {
+  //   return [
+  //     markPasteRule(pasteRegex, this.type),
+  //   ]
+  // },
 })

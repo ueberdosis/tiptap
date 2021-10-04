@@ -5,7 +5,8 @@ import {
   MarkType,
 } from 'prosemirror-model'
 import { Plugin, Transaction } from 'prosemirror-state'
-import { InputRule } from 'prosemirror-inputrules'
+import { InputRule } from './InputRule'
+import { PasteRule } from './PasteRule'
 import mergeDeep from './utilities/mergeDeep'
 import {
   Extensions,
@@ -91,7 +92,7 @@ declare module '@tiptap/core' {
       editor: Editor,
       type: MarkType,
       parent: ParentConfig<MarkConfig<Options>>['addPasteRules'],
-    }) => Plugin[],
+    }) => PasteRule[],
 
     /**
      * ProseMirror plugins

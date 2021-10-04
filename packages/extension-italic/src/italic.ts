@@ -86,10 +86,10 @@ export const Italic = Mark.create<ItalicOptions>({
     ]
   },
 
-  addPasteRules() {
-    return [
-      markPasteRule(starPasteRegex, this.type),
-      markPasteRule(underscorePasteRegex, this.type),
-    ]
-  },
+  // addPasteRules() {
+  //   return [
+  //     markPasteRule(starPasteRegex, this.type),
+  //     markPasteRule(underscorePasteRegex, this.type),
+  //   ]
+  // },
 })

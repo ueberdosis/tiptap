@@ -104,23 +104,23 @@ export const Link = Mark.create<LinkOptions>({
     }
   },
 
-  addPasteRules() {
-    return [
-      markPasteRuleNew({
-        matcher: text => find(text)
-          .filter(link => link.isLink)
-          .map(link => ({
-            text: link.value,
-            index: link.start,
-            link,
-          })),
-        type: this.type,
-        getAttributes: match => ({
-          href: match.link.href,
-        }),
-      }),
-    ]
-  },
+  // addPasteRules() {
+  //   return [
+  //     markPasteRuleNew({
+  //       matcher: text => find(text)
+  //         .filter(link => link.isLink)
+  //         .map(link => ({
+  //           text: link.value,
+  //           index: link.start,
+  //           link,
+  //         })),
+  //       type: this.type,
+  //       getAttributes: match => ({
+  //         href: match.link.href,
+  //       }),
+  //     }),
+  //   ]
+  // },
 
   addProseMirrorPlugins() {
     const plugins = []

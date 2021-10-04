@@ -1,5 +1,6 @@
 import { Plugin, Transaction } from 'prosemirror-state'
-import { InputRule } from 'prosemirror-inputrules'
+import { InputRule } from './InputRule'
+import { PasteRule } from './PasteRule'
 import { Editor } from './Editor'
 import { Node } from './Node'
 import { Mark } from './Mark'
@@ -81,7 +82,7 @@ declare module '@tiptap/core' {
       options: Options,
       editor: Editor,
       parent: ParentConfig<ExtensionConfig<Options>>['addPasteRules'],
-    }) => Plugin[],
+    }) => PasteRule[],
 
     /**
      * ProseMirror plugins
