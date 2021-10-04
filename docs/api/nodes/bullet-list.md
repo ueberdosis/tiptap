@@ -18,18 +18,31 @@ yarn add @tiptap/extension-bullet-list @tiptap/extension-list-item
 This extension requires the [`ListItem`](/api/nodes/list-item) node.
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+BulletList.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Commands
-| Command    | Parameters | Description           |
-| ---------- | ---------- | --------------------- |
-| bulletList | —          | Toggle a bullet list. |
+
+### toggleBulletList()
+Toggles a bullet list.
+
+```js
+editor.commands.toggleBulletList()
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`8`
-* macOS: `Cmd`&nbsp;`Shift`&nbsp;`8`
+| Command          | Windows/Linux                   | macOS                       |
+| ---------------- | ------------------------------- | --------------------------- |
+| toggleBulletList | `Control`&nbsp;`Shift`&nbsp;`8` | `Cmd`&nbsp;`Shift`&nbsp;`8` |
 
 ## Source code
 [packages/extension-bullet-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/)

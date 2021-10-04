@@ -14,20 +14,45 @@ yarn add @tiptap/extension-subscript
 ```
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Subscript.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Commands
-| Command         | Parameters | Description               |
-| --------------- | ---------- | ------------------------- |
-| setSubscript    | —          | Mark text as subscript. |
-| toggleSubscript | —          | Toggle subscript mark.  |
-| unsetSubscript  | —          | Remove subscript mark.  |
+
+### setSubscript()
+Mark text as subscript.
+
+```js
+editor.commands.setSubscript()
+```
+
+### toggleSubscript()
+Toggle subscript mark.
+
+```js
+editor.commands.toggleSubscript()
+```
+
+### unsetSubscript()
+Remove subscript mark.
+
+```js
+editor.commands.unsetSubscript()
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`,`
-* macOS: `Cmd`&nbsp;`,`
+| Command           | Windows/Linux      | macOS          |
+| ----------------- | ------------------ | -------------- |
+| toggleSubscript() | `Control`&nbsp;`,` | `Cmd`&nbsp;`,` |
 
 ## Source code
 [packages/extension-subscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-subscript/)

@@ -20,21 +20,45 @@ yarn add @tiptap/extension-italic
 ```
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Italic.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Commands
-| Command      | Parameters | Description          |
-| ------------ | ---------- | -------------------- |
-| setItalic    | —          | Mark text as italic. |
-| toggleItalic | —          | Toggle italic mark.  |
-| unsetItalic  | —          | Remove italic mark.  |
 
+### setItalic()
+Mark the text italic.
+
+```js
+editor.commands.setItalic()
+```
+
+### toggleItalic()
+Toggle the italic mark.
+
+```js
+editor.commands.toggleItalic()
+```
+
+### unsetItalic()
+Remove the italic mark.
+
+```js
+editor.commands.unsetItalic()
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`I`
-* macOS: `Cmd`&nbsp;`I`
+| Command        | Windows/Linux      | macOS          |
+| -------------- | ------------------ | -------------- |
+| toggleItalic() | `Control`&nbsp;`I` | `Cmd`&nbsp;`I` |
 
 ## Source code
 [packages/extension-italic/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-italic/)

@@ -20,20 +20,45 @@ yarn add @tiptap/extension-strike
 ```
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Strike.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Commands
-| Command      | Parameters | Description           |
-| ------------ | ---------- | --------------------- |
-| setStrike    | —          | Mark text as striked. |
-| toggleStrike | —          | Toggle strike mark.   |
-| unsetStrike  | —          | Remove strike mark.   |
+
+### setStrike()
+Mark text as striked.
+
+```js
+editor.commands.setStrike()
+```
+
+### toggleStrike()
+Toggle strike mark.
+
+```js
+editor.commands.toggleStrike()
+```
+
+### unsetStrike()
+Remove strike mark.
+
+```js
+editor.commands.unsetStrike()
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`X`
-* macOS: `Cmd`&nbsp;`Shift`&nbsp;`X`
+| Command        | Windows/Linux                   | macOS                       |
+| -------------- | ------------------------------- | --------------------------- |
+| toggleStrike() | `Control`&nbsp;`Shift`&nbsp;`X` | `Cmd`&nbsp;`Shift`&nbsp;`X` |
 
 ## Source code
 [packages/extension-strike/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-strike/)

@@ -16,21 +16,59 @@ yarn add @tiptap/extension-highlight
 ```
 
 ## Settings
-| Option         | Type      | Default | Description                                                           |
-| -------------- | --------- | ------- | --------------------------------------------------------------------- |
-| multicolor     | `Boolean` | `false` | Add support for multiple colors.                                      |
-| HTMLAttributes | `Object`  | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Highlight.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### multicolor
+Add support for multiple colors.
+
+Default: `false`
+
+```js
+Highlight.configure({
+  multicolor: true,
+})
+```
 
 ## Commands
-| Command         | Options            | Description               |
-| --------------- | ------------------ | ------------------------- |
-| setHighlight    | `color` (optional) | Mark text as highlighted. |
-| toggleHighlight | `color` (optional) | Toggle a text highlight.  |
-| unsetHighlight  | —                  | Removes the highlight.    |
+
+### setHighlight()
+Mark text as highlighted.
+
+```js
+editor.commands.setHighlight()
+editor.commands.setHighlight({ color: '#ffcc00' })
+```
+
+### toggleHighlight()
+Toggle a text highlight.
+
+```js
+editor.commands.toggleHighlight()
+editor.commands.toggleHighlight({ color: '#ffcc00' })
+```
+
+### unsetHighlight()
+ Removes the highlight.
+
+```js
+editor.commands. unsetHighlight()
+```
+
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`H`
-* macOS: `Cmd`&nbsp;`Shift`&nbsp;`H`
+| Command           | Windows/Linux                   | macOS                       |
+| ----------------- | ------------------------------- | --------------------------- |
+| toggleHighlight() | `Control`&nbsp;`Shift`&nbsp;`H` | `Cmd`&nbsp;`Shift`&nbsp;`H` |
 
 ## Source code
 [packages/extension-highlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-highlight/)

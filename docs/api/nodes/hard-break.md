@@ -14,20 +14,42 @@ yarn add @tiptap/extension-hard-break
 ```
 
 ## Settings
-| Option         | Type      | Default | Description                                                                                    |
-| -------------- | --------- | ------- | ---------------------------------------------------------------------------------------------- |
-| HTMLAttributes | `Object`  | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag.                          |
-| keepMarks      | `Boolean` | `true`  | Decides whether to keep marks after a line break. Based on the `keepOnSplit` option for marks. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+HardBreak.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### keepMarks
+Decides whether to keep marks after a line break. Based on the `keepOnSplit` option for marks.
+
+Default: `true`
+
+```js
+HardBreak.configure({
+  keepMarks: false,
+})
+```
 
 ## Commands
-| Command      | Parameters | Description       |
-| ------------ | ---------- | ----------------- |
-| setHardBreak | —          | Add a line break. |
+
+### setHardBreak()
+Add a line break.
+
+```js
+editor.commands.setHeardBreak()
+```
 
 ## Keyboard shortcuts
-* `Shift`&nbsp;`Enter`
-* Windows/Linux: `Control`&nbsp;`Enter`
-* macOS: `Cmd`&nbsp;`Enter`
+| Command      | Windows/Linux                                  | macOS                                      |
+| ------------ | ---------------------------------------------- | ------------------------------------------ |
+| setHardBreak | `Shift`&nbsp;`Enter`<br>`Control`&nbsp;`Enter` | `Shift`&nbsp;`Enter`<br>`Cmd`&nbsp;`Enter` |
 
 ## Source code
 [packages/extension-hard-break/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-hard-break/)

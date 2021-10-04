@@ -18,10 +18,40 @@ yarn add @tiptap/extension-image
 ```
 
 ## Settings
-| Option         | Type      | Default | Description                                                           |
-| -------------- | --------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object`  | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
-| inline         | `Boolean` | `false` | Renders the image node inline.                                        |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Image.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### inline
+Renders the image node inline, for example in a paragraph tag: `<p><img src="spacer.gif"></p>`. By default images are on the same level as paragraphs.
+
+It totally depends on what kind of editing experience you’d like to have, but can be useful if you (for example) migrate from Quill to tiptap.
+
+Default: `false`
+
+```js
+Image.configure({
+  inline: true,
+})
+```
+
+## Commands
+
+### setImage()
+Makes the current node an image.
+
+```js
+editor.commands.setImage({ src: 'https://example.com/foobar.png')
+editor.commands.setImage({ src: 'https://example.com/foobar.png', alt: 'A boring example image', title: 'An example' })
+```
 
 ## Source code
 [packages/extension-image/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-image/)

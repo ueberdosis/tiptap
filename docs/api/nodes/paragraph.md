@@ -18,18 +18,31 @@ yarn add @tiptap/extension-paragraph
 ```
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Paragraph.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Commands
-| Command   | Parameters | Description                                  |
-| --------- | ---------- | -------------------------------------------- |
-| paragraph | —          | Transforms all selected nodes to paragraphs. |
+
+### setParagraph()
+Transforms all selected nodes to paragraphs.
+
+```js
+editor.commands.setParagraph()
+```
 
 ## Keyboard shortcuts
-* Windows & Linux: `Control`&nbsp;`Alt`&nbsp;`0`
-* macOS: `Cmd`&nbsp;`Alt`&nbsp;`0`
+| Command        | Windows/Linux                 | macOS                     |
+| -------------- | ----------------------------- | ------------------------- |
+| setParagraph() | `Control`&nbsp;`Alt`&nbsp;`0` | `Cmd`&nbsp;`Alt`&nbsp;`0` |
 
 ## Source code
 [packages/extension-paragraph/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-paragraph/)

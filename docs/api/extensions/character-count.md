@@ -14,9 +14,18 @@ yarn add @tiptap/extension-character-count
 ```
 
 ## Settings
-| Option | Type     | Default | Description                                              |
-| ------ | -------- | ------- | -------------------------------------------------------- |
-| limit  | `Number` | `0`     | The maximum number of characters that should be allowed. |
+
+### limit
+
+The maximum number of characters that should be allowed. |
+
+Default: `0`
+
+```js
+CharacterCount.configure({
+  limit: 240,
+})
+```
 
 ## Source code
 [packages/extension-character-count/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-character-count/)

@@ -16,14 +16,33 @@ yarn add @tiptap/extension-text-style @tiptap/extension-color
 This extension requires the [`TextStyle`](/api/marks/text-style) mark.
 
 ## Settings
-| Option | Type    | Default         | Description                                                              |
-| ------ | ------- | --------------- | ------------------------------------------------------------------------ |
-| types  | `Array` | `['textStyle']` | A list of marks to which the font family attribute should be applied to. |
+
+### types
+A list of marks to which the color attribute should be applied to.
+
+Default: `['textStyle']`
+
+```js
+Color.configure({
+  types: ['textStyle'],
+})
+```
 
 ## Commands
-| Command | Parameters | Description                                  |
-| ------- | ---------- | -------------------------------------------- |
-| color   | color      | Applies the given font color as inline style |
+
+### setColor()
+Applies the given font color as inline style.
+
+```js
+editor.commands.setColor('#ff0000')
+```
+
+### unsetColor()
+Removes any font color.
+
+```js
+editor.commands.unsetColor()
+```
 
 ## Source code
 [packages/extension-color/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-color/)

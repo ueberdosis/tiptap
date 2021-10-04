@@ -18,29 +18,64 @@ yarn add @tiptap/extension-text-align
 ```
 
 ## Settings
-| Option           | Type     | Default                                  | Description                                                                                                            |
-| ---------------- | -------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| types            | `Array`  | `[]`                                     | A list of nodes where the text align attribute should be applied to. Usually something like `['heading', 'paragraph']`.|
-| alignments       | `Array`  | `['left', 'center', 'right', 'justify']` | A list of available options for the text align attribute.                                                              |
-| defaultAlignment | `String` | `'left'`                                 | The default text align.                                                                                                |
+
+### types
+A list of nodes where the text align attribute should be applied to. Usually something like `['heading', 'paragraph']`.
+
+Default: `[]`
+
+```js
+TextAlign.configure({
+  types: ['heading', 'paragraph'],
+})
+```
+
+### alignments
+A list of available options for the text align attribute.
+
+Default: `['left', 'center', 'right', 'justify']`
+
+```js
+TextAlign.configure({
+  alignments: ['left', 'right'],
+})
+```
+
+### defaultAlignment
+The default text align.
+
+Default: `'left'`
+
+```js
+TextAlign.configure({
+  defaultAlignment: 'right',
+})
+```
+
 
 ## Commands
-| Command   | Parameters | Description                                |
-| --------- | ---------- | ------------------------------------------ |
-| textAlign | alignment  | Set the text align to the specified value. |
+
+### setTextAlign()
+Set the text align to the specified value.
+
+```js
+editor.commands.setTextAlign('right')
+```
+
+### unsetTextAlign()
+Remove the text align value.
+
+```js
+editor.commands.unsetTextAlign()
+```
 
 ## Keyboard shortcuts
-### Windows/Linux
-* `Ctrl`&nbsp;`Shift`&nbsp;`L` Left
-* `Ctrl`&nbsp;`Shift`&nbsp;`E` Center
-* `Ctrl`&nbsp;`Shift`&nbsp;`R` Right
-* `Ctrl`&nbsp;`Shift`&nbsp;`J` Justify
-
-### macOS
-* `Cmd`&nbsp;`Shift`&nbsp;`L` Left
-* `Cmd`&nbsp;`Shift`&nbsp;`E` Center
-* `Cmd`&nbsp;`Shift`&nbsp;`R` Right
-* `Cmd`&nbsp;`Shift`&nbsp;`J` Justify
+| Command                 | Windows/Linux                | macOS                       |
+| ----------------------- | ---------------------------- | --------------------------- |
+| setTextAlign('left')    | `Ctrl`&nbsp;`Shift`&nbsp;`L` | `Cmd`&nbsp;`Shift`&nbsp;`L` |
+| setTextAlign('center')  | `Ctrl`&nbsp;`Shift`&nbsp;`E` | `Cmd`&nbsp;`Shift`&nbsp;`E` |
+| setTextAlign('right')   | `Ctrl`&nbsp;`Shift`&nbsp;`R` | `Cmd`&nbsp;`Shift`&nbsp;`R` |
+| setTextAlign('justify') | `Ctrl`&nbsp;`Shift`&nbsp;`J` | `Cmd`&nbsp;`Shift`&nbsp;`J` |
 
 ## Source code
 [packages/extension-text-align/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-align/)

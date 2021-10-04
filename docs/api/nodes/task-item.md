@@ -18,12 +18,24 @@ yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 This extension requires the [`TaskList`](/api/nodes/task-list) node.
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+TaskItem.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Keyboard shortcuts
-* New list item: `Enter`
+| Command         | Windows/Linux      | macOS              |
+| --------------- | ------------------ | ------------------ |
+| splitListItem() | `Enter`            | `Enter`            |
+| sinkListItem()  | `Tab`              | `Tab`              |
+| liftListItem()  | `Shift`&nbsp;`Tab` | `Shift`&nbsp;`Tab` |
 
 ## Source code
 [packages/extension-task-item/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-item/)

@@ -18,18 +18,65 @@ yarn add @tiptap/extension-link
 ```
 
 ## Settings
-| Option         | Type      | Default                                                     | Description                                                                      |
-| -------------- | --------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| HTMLAttributes | `Object`  | `{ target: '_blank', rel: 'noopener noreferrer nofollow' }` | Custom HTML attributes that should be added to the rendered HTML tag.            |
-| openOnClick    | `Boolean` | `true`                                                      | If enabled, links will be opened on click.                                       |
-| linkOnPaste    | `Boolean` | `true`                                                      | Adds a link to the current selection if the pasted content only contains an url. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Link.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### openOnClick
+If enabled, links will be opened on click.
+
+Default: `true`
+
+```js
+Link.configure({
+  openOnClick: false,
+})
+```
+
+### linkOnPaste
+Adds a link to the current selection if the pasted content only contains an url.
+
+Default: `true`
+
+```js
+Link.configure({
+  linkOnPaste: false,
+})
+```
+
 
 ## Commands
-| Command    | Parameters         | Description                                  |
-| ---------- | ------------------ | -------------------------------------------- |
-| setLink    | `href`<br>`target` | Link the selected text.                      |
-| toggleLink | `href`<br>`target` | Add or remove a link from the selected text. |
-| unsetLink  | –                  | Removes a link.                              |
+
+### setLink()
+Links the selected text.
+
+```js
+editor.commands.setLink({ href: 'https://example.com' })
+editor.commands.setLink({ href: 'https://example.com', target: '_blank' })
+```
+
+### toggleLink()
+Adds or removes a link from the selected text.
+
+```js
+editor.commands.toggleLink({ href: 'https://example.com' })
+editor.commands.toggleLink({ href: 'https://example.com', target: '_blank' })
+```
+
+### unsetLink()
+Removes a link.
+
+```js
+editor.commands.unsetLink()
+```
 
 ## Keyboard shortcuts
 :::warning Doesn’t have a keyboard shortcut
@@ -37,7 +84,7 @@ This extension doesn’t bind a specific keyboard shortcut. You would probably o
 :::
 
 ## Get the current value
-Did you know that you can use [`getAttributes`](/api/editor#methods) to find out which attributes, for example which href, is currently set? Don’t confuse it with a [command](/api/commands) (which changes the state), it’s just a method. Here is how that could look like:
+Did you know that you can use [`getAttributes`](/api/editor#get-attributes) to find out which attributes, for example which href, is currently set? Don’t confuse it with a [command](/api/commands) (which changes the state), it’s just a method. Here is how that could look like:
 
 ```js
 this.editor.getAttributes('link').href

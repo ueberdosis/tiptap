@@ -16,19 +16,54 @@ yarn add @tiptap/extension-heading
 ```
 
 ## Settings
-| Option         | Type     | Default              | Description                                                           |
-| -------------- | -------- | -------------------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`                 | Custom HTML attributes that should be added to the rendered HTML tag. |
-| levels         | `Array`  | `[1, 2, 3, 4, 5, 6]` | Specifies which heading levels are supported.                         |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Heading.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### levels
+Specifies which heading levels are supported.
+
+Default: `[1, 2, 3, 4, 5, 6]`
+
+```js
+Heading.configure({
+  levels: [1, 2],
+})
+```
 
 ## Commands
-| Command | Parameters | Description                                      |
-| ------- | ---------- | ------------------------------------------------ |
-| heading | level      | Creates a heading node with the specified level. |
+
+### setHeading()
+Creates a heading node with the specified level.
+
+```js
+editor.commands.setHeading({ level: 1 })
+```
+
+### toggleHeading()
+Toggles a heading node with the specified level.
+
+```js
+editor.commands.toggleHeading({ level: 1 })
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Alt`&nbsp;`1-6`
-* macOS: `Cmd`&nbsp;`Alt`&nbsp;`1-6`
+| Command                     | Windows/Linux                 | macOS                     |
+| --------------------------- | ----------------------------- | ------------------------- |
+| toggleHeading({ level: 1 }) | `Control`&nbsp;`Alt`&nbsp;`1` | `Cmd`&nbsp;`Alt`&nbsp;`1` |
+| toggleHeading({ level: 2 }) | `Control`&nbsp;`Alt`&nbsp;`2` | `Cmd`&nbsp;`Alt`&nbsp;`2` |
+| toggleHeading({ level: 3 }) | `Control`&nbsp;`Alt`&nbsp;`3` | `Cmd`&nbsp;`Alt`&nbsp;`3` |
+| toggleHeading({ level: 4 }) | `Control`&nbsp;`Alt`&nbsp;`4` | `Cmd`&nbsp;`Alt`&nbsp;`4` |
+| toggleHeading({ level: 5 }) | `Control`&nbsp;`Alt`&nbsp;`5` | `Cmd`&nbsp;`Alt`&nbsp;`5` |
+| toggleHeading({ level: 6 }) | `Control`&nbsp;`Alt`&nbsp;`6` | `Cmd`&nbsp;`Alt`&nbsp;`6` |
 
 ## Source code
 [packages/extension-heading/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-heading/)

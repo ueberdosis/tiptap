@@ -16,14 +16,24 @@ yarn add @tiptap/extension-list-item
 This extension requires the [`BulletList`](/api/nodes/bullet-list) or [`OrderedList`](/api/nodes/ordered-list) node.
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+ListItem.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Keyboard shortcuts
-* New list item: `Enter`
-* Sink a list item: `Tab`
-* Lift a list item: `Shift`&nbsp;`Tab`
+| Command         | Windows/Linux      | macOS              |
+| --------------- | ------------------ | ------------------ |
+| splitListItem() | `Enter`            | `Enter`            |
+| sinkListItem()  | `Tab`              | `Tab`              |
+| liftListItem()  | `Shift`&nbsp;`Tab` | `Shift`&nbsp;`Tab` |
 
 ## Source code
 [packages/extension-list-item/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list-item/)

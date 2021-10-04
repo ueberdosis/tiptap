@@ -20,26 +20,62 @@ yarn add @tiptap/extension-collaboration yjs y-websocket
 ```
 
 ## Settings
-| Option   | Type     | Default     | Description                                                                             |
-| -------- | -------- | ----------- | --------------------------------------------------------------------------------------- |
-| document | `Object` | `null`      | An initialized Y.js document.                                                           |
-| field    | `String` | `'default'` | Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document. |
-| fragment | `Object` | `null`      | A raw Y.js fragment, can be used instead of `document` and `field`.                     |
+
+### document
+An initialized Y.js document.
+
+Default: `null`
+
+```js
+Collaboration.configure({
+  document: new Y.Doc(),
+})
+```
+
+### field
+Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document.
+
+Default: `'default'`
+
+```js
+Collaboration.configure({
+  document: new Y.Doc(),
+  field: 'title',
+})
+```
+
+### fragment
+A raw Y.js fragment, can be used instead of `document` and `field`.
+
+Default: `null`
+
+```js
+Collaboration.configure({
+  fragment: new Y.Doc().getXmlFragment('body'),
+})
+```
 
 ## Commands
-| Command | Parameters | Description           |
-| ------- | ---------- | --------------------- |
-| undo    | —          | Undo the last change. |
-| redo    | —          | Redo the last change. |
+The `Collboration` extension comes with its own history extension. Make sure to disable the default extension, if you’re working with the `StarterKit`.
+
+### undo()
+Undo the last change.
+
+```js
+editor.commands.undo()
+```
+### redo()
+Redo the last change.
+
+```js
+editor.commands.redo()
+```
 
 ## Keyboard shortcuts
-### Undo
-* Windows/Linux: `Control`&nbsp;`Z`
-* macOS: `Cmd`&nbsp;`Z`
-
-### Redo
-* Windows/Linux: `Shift`&nbsp;`Control`&nbsp;`Z` or `Control`&nbsp;`Y`
-* macOS: `Shift`&nbsp;`Cmd`&nbsp;`Z` or `Cmd`&nbsp;`Y`
+| Command | Windows/Linux                                         | macOS                                         |
+| ------- | ----------------------------------------------------- | --------------------------------------------- |
+| undo()  | `Control`&nbsp;`Z`                                    | `Cmd`&nbsp;`Z`                                |
+| redo()  | `Shift`&nbsp;`Control`&nbsp;`Z`<br>`Control`&nbsp;`Y` | `Shift`&nbsp;`Cmd`&nbsp;`Z`<br>`Cmd`&nbsp;`Y` |
 
 ## Source code
 [packages/extension-collaboration/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration/)

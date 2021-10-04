@@ -14,20 +14,45 @@ yarn add @tiptap/extension-superscript
 ```
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Superscript.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Commands
-| Command           | Parameters | Description               |
-| ----------------- | ---------- | ------------------------- |
-| setSuperscript    | —          | Mark text as superscript. |
-| toggleSuperscript | —          | Toggle superscript mark.  |
-| unsetSuperscript  | —          | Remove superscript mark.  |
+
+### setSuperscript()
+Mark text as superscript.
+
+```js
+editor.commands.setSuperscript()
+```
+
+### toggleSuperscript()
+Toggle superscript mark.
+
+```js
+editor.commands.toggleSuperscript()
+```
+
+### unsetSuperscript()
+Remove superscript mark.
+
+```js
+editor.commands.unsetSuperscript()
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`.`
-* macOS: `Cmd`&nbsp;`.`
+| Command             | Windows/Linux      | macOS          |
+| ------------------- | ------------------ | -------------- |
+| toggleSuperscript() | `Control`&nbsp;`.` | `Cmd`&nbsp;`.` |
 
 ## Source code
 [packages/extension-superscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-superscript/)

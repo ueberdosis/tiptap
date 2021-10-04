@@ -14,31 +14,49 @@ yarn add @tiptap/extension-history
 ```
 
 ## Settings
-| Option        | Type     | Default | Description                                                                                                                                         |
-| ------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| depth         | `Number` | `100`   | The amount of history events that are collected before the oldest events are discarded. Defaults to 100.                                            |
-| newGroupDelay | `Number` | `500`   | The delay between changes after which a new group should be started (in milliseconds). When changes aren’t adjacent, a new group is always started. |
+
+### depth
+The amount of history events that are collected before the oldest events are discarded. Defaults to 100.
+
+Default: `100`
+
+```js
+History.configure({
+  depth: 10,
+})
+```
+
+### newGroupDelay
+The delay between changes after which a new group should be started (in milliseconds). When changes aren’t adjacent, a new group is always started.
+
+Default: `500`
+
+```js
+History.configure({
+  newGroupDelay: 1000,
+})
+```
 
 ## Commands
-| Command | Parameters | Description           |
-| ------- | ---------- | --------------------- |
-| undo    | —          | Undo the last change. |
-| redo    | —          | Redo the last change. |
+
+### undo()
+Undo the last change.
+
+```js
+editor.commands.undo()
+```
+### redo()
+Redo the last change.
+
+```js
+editor.commands.redo()
+```
 
 ## Keyboard shortcuts
-### Undo
-* Windows/Linux: `Control`&nbsp;`Z`
-* macOS: `Cmd`&nbsp;`Z`
-#### Russian keyboard layouts
-* Windows/Linux: `Control`&nbsp;`я`
-* macOS: `Cmd`&nbsp;`я`
-
-### Redo
-* Windows/Linux: `Shift`&nbsp;`Control`&nbsp;`Z` or `Control`&nbsp;`Y`
-* macOS: `Shift`&nbsp;`Cmd`&nbsp;`Z` or `Cmd`&nbsp;`Y`
-#### Russian keyboard layouts
-* Windows/Linux: `Shift`&nbsp;`Control`&nbsp;`я`
-* macOS: `Shift`&nbsp;`Cmd`&nbsp;`я`
+| Command | Windows/Linux                                                                            | macOS                                                                        |
+| ------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| undo()  | `Control`&nbsp;`Z`<br>`Control`&nbsp;`я`                                                 | `Cmd`&nbsp;`Z`<br>`Cmd`&nbsp;`я`                                             |
+| redo()  | `Shift`&nbsp;`Control`&nbsp;`Z`<br>`Control`&nbsp;`Y`<br>`Shift`&nbsp;`Control`&nbsp;`я` | `Shift`&nbsp;`Cmd`&nbsp;`Z`<br>`Cmd`&nbsp;`Y`<br>`Shift`&nbsp;`Cmd`&nbsp;`я` |
 
 ## Source code
 [packages/extension-history/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-history/)

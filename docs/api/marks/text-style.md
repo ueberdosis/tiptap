@@ -14,9 +14,13 @@ yarn add @tiptap/extension-text-style
 ```
 
 ## Commands
-| Command              | Parameters | Description                                   |
-| -------------------- | ---------- | --------------------------------------------- |
-| removeEmptyTextStyle | –          | Remove `<span>` tags without an inline style. |
+
+### removeEmptyTextStyle()
+Remove `<span>` tags without an inline style.
+
+```js
+editor.command.removeEmptyTextStyle()
+```
 
 ## Source code
 [packages/extension-text-style/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-style/)

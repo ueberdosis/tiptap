@@ -16,19 +16,49 @@ yarn add @tiptap/extension-code-block-lowlight
 ```
 
 ## Settings
-| Option              | Type     | Default       | Description                                                           |
-| ------------------- | -------- | ------------- | --------------------------------------------------------------------- |
-| HTMLAttributes      | `Object` | `{}`          | Custom HTML attributes that should be added to the rendered HTML tag. |
-| languageClassPrefix | `String` | `'language-'` | Adds a prefix to language classes that are applied to code tags.      |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+CodeBlockLowlight.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### languageClassPrefix
+Adds a prefix to language classes that are applied to code tags.
+
+Default: `'language-'`
+
+```js
+CodeBlockLowlight.configure({
+  languageClassPrefix: 'language-',
+})
+```
 
 ## Commands
-| Command   | Parameters | Description                   |
-| --------- | ---------- | ----------------------------- |
-| codeBlock | —          | Wrap content in a code block. |
+
+### setCodeBlock()
+Wrap content in a code block.
+
+```js
+editor.commands.setCodeBlock()
+```
+
+### toggleCodeBlock()
+Toggle the code block.
+
+```js
+editor.commands.toggleCodeBlock()
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Alt`&nbsp;`C`
-* macOS: `Cmd`&nbsp;`Alt`&nbsp;`C`
+| Command         | Windows/Linux                 | macOS                     |
+| --------------- | ----------------------------- | ------------------------- |
+| toggleCodeBlock | `Control`&nbsp;`Alt`&nbsp;`C` | `Cmd`&nbsp;`Alt`&nbsp;`C` |
 
 ## Source code
 [packages/extension-code-block-lowlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block-lowlight/)

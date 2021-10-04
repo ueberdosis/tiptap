@@ -18,18 +18,31 @@ yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 This extension requires the [`ListItem`](/api/nodes/list-item) node.
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+OrderedList.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Commands
-| Command     | Parameters | Description             |
-| ----------- | ---------- | ----------------------- |
-| orderedList | —          | Toggle an ordered list. |
+
+### toggleOrderedList()
+Toggle an ordered list.
+
+```js
+editor.commands.toggleOrderedList()
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`Shift`&nbsp;`7`
-* macOS: `Cmd`&nbsp;`Shift`&nbsp;`7`
+| Command           | Windows/Linux                   | macOS                       |
+| ----------------- | ------------------------------- | --------------------------- |
+| toggleOrderedList | `Control`&nbsp;`Shift`&nbsp;`7` | `Cmd`&nbsp;`Shift`&nbsp;`7` |
 
 ## Source code
 [packages/extension-ordered-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-ordered-list/)

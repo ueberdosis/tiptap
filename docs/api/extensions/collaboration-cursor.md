@@ -22,16 +22,28 @@ yarn add @tiptap/extension-collaboration-cursor
 This extension requires the [`Collaboration`](/api/extensions/collaboration) extension.
 
 ## Settings
-| Option   | Type       | Default                       | Description                                                                                                                                                                         |
-| -------- | ---------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| provider | `Object`   | `null`                        | A Y.js network connection, for example a [y-websocket](https://github.com/yjs/y-websocket) instance.                                                                                |
-| user     | `Object`   | `{ user: null, color: null }` | Attributes of the current user, assumes to have a name and a color, but can be used with any attribute.                                                                             |
-| render   | `Function` | …                             | A render function for the cursor, look at [the extension source code](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-cursor/) for an example. |
+
+### provider
+A Y.js network provider, for example a [y-websocket](https://github.com/yjs/y-websocket) instance.
+
+Default: `null`
+
+### user
+Attributes of the current user, assumes to have a name and a color, but can be used with any attribute. The values are synced with all other connected clients.
+
+Default: `{ user: null, color: null }`
+
+### render
+A render function for the cursor, look at [the extension source code](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-cursor/) for an example.
 
 ## Commands
-| Command | Parameters | Description                                                                                      |
-| ------- | ---------- | ------------------------------------------------------------------------------------------------ |
-| user    | attributes | An object with the attributes of the current user, by default it expects a `name` and a `color`. |
+
+### user()
+An object with the attributes of the current user. It expects a `name` and a `color`, but you can add additional fields, too.
+
+```js
+editor.commands.user({ name: 'Philipp Kühn', color: '#000000' })
+```
 
 ## Source code
 [packages/extension-collaboration-cursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-cursor/)

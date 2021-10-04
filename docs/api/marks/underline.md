@@ -20,20 +20,45 @@ yarn add @tiptap/extension-underline
 ```
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Underline.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Commands
-| Command         | Parameters | Description              |
-| --------------- | ---------- | ------------------------ |
-| setUnderline    | —          | Mark text as underlined. |
-| toggleUnderline | —          | Toggle underline mark.   |
-| unsetUnderline  | —          | Remove underline mark.   |
+
+### setUnderline()
+Marks a text as underlined.
+
+```js
+editor.commands.setUnderline()
+```
+
+### toggleUnderline()
+Toggles an underline mark.
+
+```js
+editor.commands.toggleUnderline()
+```
+
+### unsetUnderline()
+Removes an underline mark.
+
+```js
+editor.commands.unsetUnderline()
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`U`
-* macOS: `Cmd`&nbsp;`U`
+| Command           | Windows/Linux      | macOS          |
+| ----------------- | ------------------ | -------------- |
+| toggleUnderline() | `Control`&nbsp;`U` | `Cmd`&nbsp;`U` |
 
 ## Source code
 [packages/extension-underline/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-underline/)

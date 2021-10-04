@@ -16,20 +16,45 @@ yarn add @tiptap/extension-code
 ```
 
 ## Settings
-| Option         | Type     | Default | Description                                                           |
-| -------------- | -------- | ------- | --------------------------------------------------------------------- |
-| HTMLAttributes | `Object` | `{}`    | Custom HTML attributes that should be added to the rendered HTML tag. |
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Code.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Commands
-| Command    | Parameters | Description               |
-| ---------- | ---------- | ------------------------- |
-| setCode    | —          | Mark text as inline code. |
-| toggleCode | —          | Toggle inline code mark.  |
-| unsetCode  | —          | Remove inline code mark.  |
+
+### setCode()
+Mark text as inline code.
+
+```js
+editor.commands.setCode()
+```
+
+### toggleCode()
+Toggle inline code mark.
+
+```js
+editor.commands.toggleCode()
+```
+
+### unsetCode()
+Remove inline code mark.
+
+```js
+editor.commands.unsetCode()
+```
 
 ## Keyboard shortcuts
-* Windows/Linux: `Control`&nbsp;`E`
-* macOS: `Cmd`&nbsp;`E`
+| Command      | Windows/Linux      | macOS          |
+| ------------ | ------------------ | -------------- |
+| toggleCode() | `Control`&nbsp;`E` | `Cmd`&nbsp;`E` |
 
 ## Source code
 [packages/extension-code/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code/)

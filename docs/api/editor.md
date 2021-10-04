@@ -8,30 +8,149 @@ tableOfContents: true
 This class is a central building block of tiptap. It does most of the heavy lifting of creating a working  [ProseMirror](https://ProseMirror.net/) editor such as creating the [`EditorView`](https://ProseMirror.net/docs/ref/#view.EditorView), setting the initial [`EditorState`](https://ProseMirror.net/docs/ref/#state.Editor_State) and so on.
 
 ## Methods
-The editor instance will provide a bunch of public methods. They’ll help you to work with the editor.
+The editor instance will provide a bunch of public methods. Methods are regular functions and can return anything. They’ll help you to work with the editor.
 
-Don’t confuse methods with [commands](/api/commands). Commands are used to change the state of editor (content, selection, and so on) and only return `true` or `false`. Methods are regular functions and can return anything.
+Don’t confuse methods with [commands](/api/commands). Commands are used to change the state of editor (content, selection, and so on) and only return `true` or `false`.
 
-| Method                | Parameters                                                                                                  | Description                                                                  |
-| --------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `can()`               | -                                                                                                           | Check if a command or a command chain can be executed. Without executing it. |
-| `chain()`             | -                                                                                                           | Create a command chain to call multiple commands at once.                    |
-| `destroy()`           | –                                                                                                           | Stops the editor instance and unbinds all events.                            |
-| `getHTML()`           | –                                                                                                           | Returns the current content as HTML.                                         |
-| `getJSON()`           | –                                                                                                           | Returns the current content as JSON.                                         |
-| `getText()`           | –                                                                                                           | Returns the current content as text.                                         |
-| `getAttributes()`     | `name` Name of the node or mark                                                                             | Get attributes of the currently selected node or mark.                       |
-| `isActive()`          | `name` Name of the node or mark<br>`attrs` Attributes of the node or mark                                   | Returns if the currently selected node or mark is active.                    |
-| `isEditable`          | -                                                                                                           | Returns whether the editor is editable.                                      |
-| `isEmpty`             | -                                                                                                           | Check if there is no content.                                                |
-| `getCharacterCount()` | -                                                                                                           | Get the number of characters for the current document.                       |
-| `registerPlugin()`    | `plugin` A ProseMirror plugin<br>`handlePlugins` Control how to merge the plugin into the existing plugins. | Register a ProseMirror plugin.                                               |
-| `setOptions()`        | `options` A list of options                                                                                 | Update editor options.                                                       |
-| `unregisterPlugin()`  | `name` The plugins name                                                                                     | Unregister a ProseMirror plugin.                                             |
+### can()
+Check if a command or a command chain can be executed – without actually executing it. Can be very helpful to enable/disable or show/hide buttons.
+
+```js
+// Returns `true` if the undo command can be executed
+editor.can().undo()
+```
+
+### chain()
+Create a command chain to call multiple commands at once.
+
+```js
+// Execute two commands at once
+editor.chain().toggleBold().focus().run()
+```
+
+### destroy()
+Stops the editor instance and unbinds all events.
+
+```js
+// Hasta la vista, baby!
+editor.destroy()
+```
+
+### getHTML()
+Returns the current editor document as HTML
+
+```js
+editor.getHTML()
+```
+
+### getJSON()
+Returns the current editor document as JSON.
+
+```js
+editor.getJSON()
+```
+
+### getText()
+Returns the current editor document as plain text.
+
+| Parameter  | Type                           | Description              |
+| ---------- | ------------------------------ | ------------------------ |
+| options | { blockSeparator?: string, textSerializers?: Record<string, TextSerializer>} | Options for the serialization.  |
+
+```js
+// Give me plain text!
+editor.getText()
+// Add two line breaks between nodes
+editor.getText({ blockSeparator: "\n\n" })
+```
+
+### getAttributes()
+Get attributes of the currently selected node or mark.
+
+| Parameter  | Type                           | Description              |
+| ---------- | ------------------------------ | ------------------------ |
+| typeOrName | string \| NodeType \| MarkType | Name of the node or mark |
+
+```js
+editor.getAttributes('link').href
+```
+
+### isActive()
+Returns if the currently selected node or mark is active.
+
+| Parameter              | Type                | Description                    |
+| ---------------------- | ------------------- | ------------------------------ |
+| name                   | string \| null      | Name of the node or mark       |
+| attributes             | Record<string, any> | Attributes of the node or mark |
+
+```js
+// Check if it’s a heading
+editor.isActive('heading')
+// Check if it’s a heading with a specific attribute value
+editor.isActive('heading', { level: 2 })
+// Check if it has a specific attribute value, doesn’t care what node/mark it is
+editor.isActive({ textAlign: 'justify' })
+```
+
+### getCharacterCount()
+Get the number of characters for the current document.
+
+```js
+editor.getCharacterCount()
+```
+
+### registerPlugin()
+Register a ProseMirror plugin.
+
+| Parameter      | Type                                               | Description                                               |
+| -------------- | -------------------------------------------------- | --------------------------------------------------------- |
+| plugin         | Plugin                                             | A ProseMirror plugin                                      |
+| handlePlugins? | (newPlugin: Plugin, plugins: Plugin[]) => Plugin[] | Control how to merge the plugin into the existing plugins |
+
+### setOptions()
+Update editor options.
+
+| Parameter | Type                   | Description       |
+| --------- | ---------------------- | ----------------- |
+| options   | Partial<EditorOptions> | A list of options |
+
+```js
+// Add a class to an existing editor instance
+editor.setOptions({
+  editorProps: {
+    attributes: {
+      class: 'my-custom-class',
+    },
+  },
+})
+```
+
+### unregisterPlugin()
+Unregister a ProseMirror plugin.
+
+| Parameter       | Type                | Description      |
+| --------------- | ------------------- | ---------------- |
+| nameOrPluginKey | string \| PluginKey | The plugins name |
+
+## Getters
+
+### isEditable
+Returns whether the editor is editable or read-only.
+
+```js
+editor.isEditable
+```
+
+### isEmpty
+Check if there is content.
+
+```js
+editor.isEmpty
+```
 
 ## Settings
 
-### Element
+### element
 The `element` specifies the HTML element the editor will be binded too. The following code will integrate tiptap with an element with the `.element` class:
 
 ```js
@@ -52,7 +171,7 @@ You can even initiate your editor before mounting it to an element. This is usef
 yourContainerElement.append(editor.options.element)
 ```
 
-### Extensions
+### extensions
 It’s required to pass a list of extensions to the `extensions` property, even if you only want to allow paragraphs.
 
 ```js
@@ -84,7 +203,7 @@ new Editor({
 })
 ```
 
-### Content
+### content
 With the `content` property you can provide the initial content for the editor. This can be HTML or JSON.
 
 ```js
@@ -99,7 +218,7 @@ new Editor({
 })
 ```
 
-### Editable
+### editable
 The `editable` property determines if users can write into the editor.
 
 ```js
@@ -115,8 +234,17 @@ new Editor({
 })
 ```
 
-### Autofocus
+### autofocus
 With `autofocus` you can force the cursor to jump in the editor on initialization.
+
+| Value     | Description                                            |
+| --------- | ------------------------------------------------------ |
+| `'start'` | Sets the focus to the beginning of the document.       |
+| `'end'`   | Sets the focus to the end of the document.             |
+| `Number`  | Sets the focus to a specific position in the document. |
+| `true`    | Enables autofocus.                                     |
+| `false`   | Disables autofocus.                                    |
+| `null`    | Disables autofocus.                                    |
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -130,16 +258,7 @@ new Editor({
 })
 ```
 
-| Value     | Description                                            |
-| --------- | ------------------------------------------------------ |
-| `'start'` | Sets the focus to the beginning of the document.       |
-| `'end'`   | Sets the focus to the end of the document.             |
-| `Number`  | Sets the focus to a specific position in the document. |
-| `true`    | Enables autofocus.                                     |
-| `false`   | Disables autofocus.                                    |
-| `null`    | Disables autofocus.                                    |
-
-### Enable input rules
+### enableInputRules
 By default, tiptap enables all [input rules](/guide/custom-extensions/#input-rules). With `enableInputRules` you can disable that.
 
 ```js
@@ -155,7 +274,7 @@ new Editor({
 })
 ```
 
-### Enable paste rules
+### enablePasteRules
 By default, tiptap enables all [paste rules](/guide/custom-extensions/#paste-rules). With `enablePasteRules` you can disable that.
 
 ```js
@@ -171,7 +290,7 @@ new Editor({
 })
 ```
 
-### Inject CSS
+### injectCSS
 By default, tiptap injects [a little bit of CSS](https://github.com/ueberdosis/tiptap/tree/main/packages/core/src/style.ts). With `injectCSS` you can disable that.
 
 ```js
@@ -186,7 +305,7 @@ new Editor({
 })
 ```
 
-### Editor props
+### editorProps
 For advanced use cases, you can pass `editorProps` which will be handled by [ProseMirror](https://prosemirror.net/docs/ref/#view.EditorProps). You can use it to override various editor events or change editor DOM element attributes, for example to add some Tailwind classes. Here is an example:
 
 ```js
@@ -205,7 +324,7 @@ new Editor({
 
 You can use that to hook into event handlers and pass - for example - a custom paste handler, too.
 
-### Parse options
+### parseOptions
 Passed content is parsed by ProseMirror. To hook into the parsing, you can pass `parseOptions` which are then handled by [ProseMirror](https://prosemirror.net/docs/ref/#model.ParseOptions).
 
 ```js
