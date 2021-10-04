@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration@2.0.0-beta.21...@tiptap/extension-collaboration@2.0.0-beta.22) (2021-10-04)
+
+
+### Bug Fixes
+
+* fix plugin order for collab, fix [#1973](https://github.com/ueberdosis/tiptap/issues/1973) ([2b16c2e](https://github.com/ueberdosis/tiptap/commit/2b16c2ea9633529657debff3cdbc74ff3a26b985))
+
+
+
+
+
 # [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration@2.0.0-beta.20...@tiptap/extension-collaboration@2.0.0-beta.21) (2021-10-03)
 
 
