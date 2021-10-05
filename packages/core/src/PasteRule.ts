@@ -14,16 +14,21 @@ export class PasteRule {
   match: RegExp | ((text: string) => PasteRuleMatch[])
 
   handler: (props: {
-    fragment: Fragment
+    state: EditorState,
+    start: number,
+    end: number,
     match: PasteRuleMatch,
-  }) => Fragment
+  }) => void
 
   constructor(
     match: RegExp | ((text: string) => PasteRuleMatch[]),
     handler: (props: {
-      fragment: Fragment
+      // fragment: Fragment,
+      state: EditorState,
+      start: number,
+      end: number,
       match: PasteRuleMatch,
-    }) => Fragment,
+    }) => void,
   ) {
     this.match = match
     this.handler = handler
@@ -50,16 +55,66 @@ export class PasteRule {
 //   }
 // }
 
+const MAX_MATCH = 500
+
 function run(config: {
   state: EditorState,
+  text: string,
   from: number,
   to: number,
   rules: PasteRule[],
   plugin: Plugin,
 }): any {
+  const {
+    state,
+    from,
+    text,
+    to,
+    rules,
+    plugin,
+  } = config
 
-  console.log({ config })
+  console.log({
+    state,
+    from,
+    text,
+    to,
+    rules,
+    plugin,
+  })
 
+  state.doc.nodesBetween(from, to, (node, pos) => {
+    if (node.isTextblock && !node.type.spec.code) {
+      const resolvedFrom = Math.max(from, pos)
+      const resolvedTo = Math.min(to, pos + node.content.size)
+      const textBefore = node.textBetween(
+        resolvedFrom,
+        resolvedTo,
+        undefined,
+        '\ufffc',
+      )
+
+      rules.forEach(rule => {
+        [...textBefore.matchAll(rule.match)]
+          .forEach(match => {
+            if (match.index === undefined) {
+              return
+            }
+
+            const tr = state.tr
+            const start = resolvedFrom + match.index + 1
+            const end = start + match[0].length
+
+            rule.handler({
+              state,
+              start: tr.mapping.map(start),
+              end: tr.mapping.map(end),
+              match,
+            })
+          })
+      })
+    }
+  })
 }
 
 export function pasteRules(config: { rules: PasteRule[] }): Plugin {
@@ -97,6 +152,7 @@ export function pasteRules(config: { rules: PasteRule[] }): Plugin {
         state: chainableState,
         from,
         to: to.b,
+        text: '',
         rules,
         plugin,
       })
@@ -110,7 +166,7 @@ export function pasteRules(config: { rules: PasteRule[] }): Plugin {
       // })
 
       // stop if there are no changes
-      if (tr.steps.length) {
+      if (!tr.steps.length) {
         return
       }
 

@@ -93,7 +93,7 @@ export const Bold = Mark.create<BoldOptions>({
       // markPasteRule(starPasteRegex, this.type),
       // markPasteRule(underscorePasteRegex, this.type),
       markPasteRule({
-        matcher: starPasteRegex,
+        matcher: /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))/gm,
         type: this.type,
       }),
       // markPasteRuleNew({

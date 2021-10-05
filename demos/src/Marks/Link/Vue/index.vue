@@ -17,6 +17,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Link from '@tiptap/extension-link'
 import Bold from '@tiptap/extension-bold'
+import History from '@tiptap/extension-history'
 
 export default {
   components: {
@@ -39,6 +40,7 @@ export default {
         Link.configure({
           openOnClick: false,
         }),
+        History,
       ],
       content: `
         <p>
