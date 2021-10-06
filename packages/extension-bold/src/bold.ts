@@ -2,7 +2,6 @@ import {
   Mark,
   markInputRule,
   markPasteRule,
-  markPasteRuleNew,
   mergeAttributes,
 } from '@tiptap/core'
 

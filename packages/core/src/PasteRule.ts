@@ -89,7 +89,7 @@ function run(config: {
     if (node.isTextblock && !node.type.spec.code) {
       const resolvedFrom = Math.max(from, pos)
       const resolvedTo = Math.min(to, pos + node.content.size)
-      const matchedText = node.textBetween(
+      const textToMatch = node.textBetween(
         resolvedFrom - pos,
         resolvedTo - pos,
         undefined,
@@ -97,7 +97,7 @@ function run(config: {
       )
 
       rules.forEach(rule => {
-        const matches = pasteRuleMatcherHandler(matchedText, rule.matcher)
+        const matches = pasteRuleMatcherHandler(textToMatch, rule.matcher)
 
         matches.forEach(match => {
           if (match.index === undefined) {
