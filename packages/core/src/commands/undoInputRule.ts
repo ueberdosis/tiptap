@@ -1,4 +1,4 @@
-import { undoInputRule as originalUndoInputRule } from 'prosemirror-inputrules'
+import { undoInputRule as originalUndoInputRule } from '../InputRule'
 import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {

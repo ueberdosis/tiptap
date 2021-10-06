@@ -76,9 +76,12 @@ export const Code = Mark.create<CodeOptions>({
     ]
   },
 
-  // addPasteRules() {
-  //   return [
-  //     markPasteRule(pasteRegex, this.type),
-  //   ]
-  // },
+  addPasteRules() {
+    return [
+      markPasteRule({
+        matcher: pasteRegex,
+        type: this.type,
+      }),
+    ]
+  },
 })

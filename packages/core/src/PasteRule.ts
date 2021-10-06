@@ -18,28 +18,6 @@ export type PasteRuleMatcher =
   | RegExp
   | ((text: string) => PasteRuleMatch[])
 
-// export class PasteRule {
-//   matcher: PasteRuleMatcher
-
-//   handler: (props: {
-//     state: EditorState,
-//     range: Range,
-//     match: ExtendedRegExpMatchArray,
-//   }) => void
-
-//   constructor(
-//     matcher: PasteRuleMatcher,
-//     handler: (props: {
-//       state: EditorState,
-//       range: Range,
-//       match: ExtendedRegExpMatchArray,
-//     }) => void,
-//   ) {
-//     this.matcher = matcher
-//     this.handler = handler
-//   }
-// }
-
 export class PasteRule {
   matcher: PasteRuleMatcher
 
@@ -69,10 +47,10 @@ const pasteRuleMatcherHandler = (text: string, matcher: PasteRuleMatcher): Exten
 
   return matcher(text).map(pasteRuleMatch => {
     const result: ExtendedRegExpMatchArray = []
-    const keys = Object.keys(pasteRuleMatch)
-    const customKeys = keys.filter(key => !['index', 'text', 'replaceWith'].includes(key))
 
     result.push(pasteRuleMatch.text)
+    result.index = pasteRuleMatch.index
+    result.input = text
 
     if (pasteRuleMatch.replaceWith) {
       if (!pasteRuleMatch.text.includes(pasteRuleMatch.replaceWith)) {
@@ -82,12 +60,12 @@ const pasteRuleMatcherHandler = (text: string, matcher: PasteRuleMatcher): Exten
       result.push(pasteRuleMatch.replaceWith)
     }
 
-    result.index = pasteRuleMatch.index
-    result.input = text
-
-    customKeys.forEach(key => {
-      result[key] = pasteRuleMatch[key]
-    })
+    Object
+      .keys(pasteRuleMatch)
+      .filter(key => !['index', 'text', 'replaceWith'].includes(key))
+      .forEach(key => {
+        result[key] = pasteRuleMatch[key]
+      })
 
     return result
   })
