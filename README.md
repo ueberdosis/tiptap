@@ -54,6 +54,12 @@ For help, discussion about best practices, or any other conversation that would 
         <strong>Gamma</strong>
       </a>
     </td>
+    <td align="center">
+      <a href="https://www.storyblok.com/">
+        <img src="https://unavatar.io/github/storyblok" width="100"><br>
+        <strong>Storyblok</strong>
+      </a>
+    </td>    
   </tr>
 </table>
 
