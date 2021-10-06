@@ -1,5 +1,4 @@
-import { EditorState, Plugin, Transaction } from 'prosemirror-state'
-import { Fragment } from 'prosemirror-model'
+import { EditorState, Plugin } from 'prosemirror-state'
 import createChainableState from './helpers/createChainableState'
 
 export type PasteRuleMatch = {
@@ -55,7 +54,40 @@ export class PasteRule {
 //   }
 // }
 
-const MAX_MATCH = 500
+const pasteRuleMatchHandler = (
+  text: string,
+  match: RegExp | ((text: string) => PasteRuleMatch[]),
+): RegExpMatchArray[] => {
+  if (typeof match !== 'function') {
+    console.log('REGEX', [...text.matchAll(match)])
+    return [...text.matchAll(match)]
+  }
+
+  console.log('CUSTOM', match(text))
+
+  return match(text).map(pasteRuleMatch => {
+    const result: RegExpMatchArray = []
+
+    const keys = Object.keys(pasteRuleMatch)
+    const customKeys = keys.filter(key => !['index', 'text', 'replaceWith'].includes(key))
+
+    result.push(pasteRuleMatch.text)
+
+    if (pasteRuleMatch.replaceWith) {
+      result.push(pasteRuleMatch.replaceWith)
+    }
+
+    result.index = pasteRuleMatch.index
+    result.input = text
+
+    customKeys.forEach(key => {
+      // @ts-ignore
+      result[key] = pasteRuleMatch[key]
+    })
+
+    return result
+  })
+}
 
 function run(config: {
   state: EditorState,
@@ -74,14 +106,14 @@ function run(config: {
     plugin,
   } = config
 
-  console.log({
-    state,
-    from,
-    text,
-    to,
-    rules,
-    plugin,
-  })
+  // console.log({
+  //   state,
+  //   from,
+  //   text,
+  //   to,
+  //   rules,
+  //   plugin,
+  // })
 
   state.doc.nodesBetween(from, to, (node, pos) => {
     if (node.isTextblock && !node.type.spec.code) {
@@ -95,23 +127,26 @@ function run(config: {
       )
 
       rules.forEach(rule => {
-        [...textBefore.matchAll(rule.match)]
-          .forEach(match => {
-            if (match.index === undefined) {
-              return
-            }
+        const matches = pasteRuleMatchHandler(textBefore, rule.match)
 
-            const tr = state.tr
-            const start = resolvedFrom + match.index + 1
-            const end = start + match[0].length
+        console.log({ matches })
 
-            rule.handler({
-              state,
-              start: tr.mapping.map(start),
-              end: tr.mapping.map(end),
-              match,
-            })
+        matches.forEach(match => {
+          if (match.index === undefined) {
+            return
+          }
+
+          const tr = state.tr
+          const start = resolvedFrom + match.index + 1
+          const end = start + match[0].length
+
+          rule.handler({
+            state,
+            start: tr.mapping.map(start),
+            end: tr.mapping.map(end),
+            match,
           })
+        })
       })
     }
   })
@@ -123,8 +158,6 @@ export function pasteRules(config: { rules: PasteRule[] }): Plugin {
   const plugin = new Plugin({
     appendTransaction: (transactions, oldState, state) => {
       const transaction = transactions[0]
-
-      console.log('appendTransaction')
 
       // stop if there is not a paste event
       if (!transaction.getMeta('paste')) {
@@ -156,14 +189,6 @@ export function pasteRules(config: { rules: PasteRule[] }): Plugin {
         rules,
         plugin,
       })
-
-      // state.doc.nodesBetween(from, to.b, (node, pos, parent) => {
-      //   if (node.isTextblock) {
-      //     console.log({ node, pos, parent })
-
-      //     // tr.insertText('joo')
-      //   }
-      // })
 
       // stop if there are no changes
       if (!tr.steps.length) {

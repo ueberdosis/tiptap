@@ -1,6 +1,6 @@
 import {
   Mark,
-  markPasteRuleNew,
+  markPasteRule,
   mergeAttributes,
 } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
@@ -104,23 +104,25 @@ export const Link = Mark.create<LinkOptions>({
     }
   },
 
-  // addPasteRules() {
-  //   return [
-  //     markPasteRuleNew({
-  //       matcher: text => find(text)
-  //         .filter(link => link.isLink)
-  //         .map(link => ({
-  //           text: link.value,
-  //           index: link.start,
-  //           link,
-  //         })),
-  //       type: this.type,
-  //       getAttributes: match => ({
-  //         href: match.link.href,
-  //       }),
-  //     }),
-  //   ]
-  // },
+  addPasteRules() {
+    return [
+      markPasteRule({
+        matcher: text => find(text)
+          .filter(link => link.isLink)
+          .map(link => ({
+            text: link.value,
+            // replaceWith: 'example',
+            // replaceWith: 'bla.example.lol',
+            index: link.start,
+            link,
+          })),
+        type: this.type,
+        getAttributes: match => ({
+          href: match.link.href,
+        }),
+      }),
+    ]
+  },
 
   addProseMirrorPlugins() {
     const plugins = []
