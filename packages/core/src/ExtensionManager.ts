@@ -211,7 +211,12 @@ export default class ExtensionManager {
     // so it feels more natural to run plugins at the end of an array first.
     // That’s why we have to reverse the `extensions` array and sort again
     // based on the `priority` option.
-    return ExtensionManager.sort([...this.extensions].reverse())
+    const extensions = ExtensionManager.sort([...this.extensions].reverse())
+
+    const inputRules: any[] = []
+    const pasteRules: any[] = []
+
+    const allPlugins = extensions
       .map(extension => {
         const context = {
           name: extension.name,
@@ -249,12 +254,7 @@ export default class ExtensionManager {
         )
 
         if (this.editor.options.enableInputRules && addInputRules) {
-          const inputRules = addInputRules()
-          const inputRulePlugins = inputRules.length
-            ? [inputRulesPlugin({ rules: inputRules })]
-            : []
-
-          plugins.push(...inputRulePlugins)
+          inputRules.push(...addInputRules())
         }
 
         const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(
@@ -264,25 +264,8 @@ export default class ExtensionManager {
         )
 
         if (this.editor.options.enablePasteRules && addPasteRules) {
-          const pasteRules = addPasteRules()
-          const pasteRulePlugins = pasteRules.length
-            ? [pasteRulesPlugin({ rules: pasteRules })]
-            : []
-
-          plugins.push(...pasteRulePlugins)
+          pasteRules.push(...addPasteRules())
         }
-
-        // const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(
-        //   extension,
-        //   'addPasteRules',
-        //   context,
-        // )
-
-        // if (this.editor.options.enablePasteRules && addPasteRules) {
-        //   const pasteRulePlugins = addPasteRules()
-
-        //   plugins.push(...pasteRulePlugins)
-        // }
 
         const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
           extension,
@@ -299,6 +282,12 @@ export default class ExtensionManager {
         return plugins
       })
       .flat()
+
+    return [
+      ...allPlugins,
+      inputRulesPlugin({ rules: inputRules }),
+      pasteRulesPlugin({ rules: pasteRules }),
+    ]
   }
 
   get attributes() {

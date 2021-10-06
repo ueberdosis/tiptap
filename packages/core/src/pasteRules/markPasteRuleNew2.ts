@@ -1,21 +1,13 @@
-import { PasteRule } from '../PasteRule'
+import { PasteRule, PasteRuleMatcher, ExtendedRegExpMatchArray } from '../PasteRule'
 import { MarkType } from 'prosemirror-model'
 import getMarksBetween from '../helpers/getMarksBetween'
 
-type MarkPasteRuleMatch = {
-  index: number,
-  text: string,
-  replaceWith?: string,
-  match?: RegExpMatchArray,
-  [key: string]: any,
-}
-
 export default function markPasteRule(config: {
-  matcher: RegExp | ((text: string) => MarkPasteRuleMatch[]),
+  matcher: PasteRuleMatcher,
   type: MarkType,
   getAttributes?:
     | Record<string, any>
-    | ((match: MarkPasteRuleMatch) => Record<string, any>)
+    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
     | null
   ,
@@ -26,18 +18,18 @@ export default function markPasteRule(config: {
     start,
     end,
   }) => {
-    // return fragment
     const attributes = config.getAttributes instanceof Function
       ? config.getAttributes(match)
       : config.getAttributes
+
+    if (attributes === false || attributes === null) {
+      return
+    }
+
     const { tr } = state
     const captureGroup = match[match.length - 1]
     const fullMatch = match[0]
     let markEnd = end
-
-    console.log({
-      captureGroup, fullMatch, start, end,
-    })
 
     if (captureGroup) {
       const startSpaces = fullMatch.search(/\S/)
@@ -58,24 +50,18 @@ export default function markPasteRule(config: {
       }
 
       if (textEnd < end) {
-        console.log('delete 1')
         tr.delete(textEnd, end)
       }
 
       if (textStart > start) {
-        console.log('delete 2')
         tr.delete(start + startSpaces, textStart)
       }
 
       markEnd = start + startSpaces + captureGroup.length
 
-      console.log('addmark')
-
-      tr.addMark(start + startSpaces, markEnd, config.type.create(attributes))
+      tr.addMark(start + startSpaces, markEnd, config.type.create(attributes || {}))
 
       tr.removeStoredMark(config.type)
     }
-
-    // return tr
   })
 }

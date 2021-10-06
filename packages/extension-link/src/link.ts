@@ -111,8 +111,6 @@ export const Link = Mark.create<LinkOptions>({
           .filter(link => link.isLink)
           .map(link => ({
             text: link.value,
-            // replaceWith: 'example',
-            // replaceWith: 'bla.example.lol',
             index: link.start,
             link,
           })),

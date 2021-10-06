@@ -9,27 +9,32 @@ export type PasteRuleMatch = {
   [key: string]: any,
 }
 
+export type ExtendedRegExpMatchArray = RegExpMatchArray & {
+  [key: string]: any,
+}
+
+export type PasteRuleMatcher = RegExp | ((text: string) => PasteRuleMatch[])
+
 export class PasteRule {
-  match: RegExp | ((text: string) => PasteRuleMatch[])
+  matcher: PasteRuleMatcher
 
   handler: (props: {
     state: EditorState,
     start: number,
     end: number,
-    match: PasteRuleMatch,
+    match: ExtendedRegExpMatchArray,
   }) => void
 
   constructor(
-    match: RegExp | ((text: string) => PasteRuleMatch[]),
+    matcher: PasteRuleMatcher,
     handler: (props: {
-      // fragment: Fragment,
       state: EditorState,
       start: number,
       end: number,
-      match: PasteRuleMatch,
+      match: ExtendedRegExpMatchArray,
     }) => void,
   ) {
-    this.match = match
+    this.matcher = matcher
     this.handler = handler
   }
 }
@@ -59,21 +64,21 @@ const pasteRuleMatchHandler = (
   match: RegExp | ((text: string) => PasteRuleMatch[]),
 ): RegExpMatchArray[] => {
   if (typeof match !== 'function') {
-    console.log('REGEX', [...text.matchAll(match)])
     return [...text.matchAll(match)]
   }
 
-  console.log('CUSTOM', match(text))
-
   return match(text).map(pasteRuleMatch => {
     const result: RegExpMatchArray = []
-
     const keys = Object.keys(pasteRuleMatch)
     const customKeys = keys.filter(key => !['index', 'text', 'replaceWith'].includes(key))
 
     result.push(pasteRuleMatch.text)
 
     if (pasteRuleMatch.replaceWith) {
+      if (!pasteRuleMatch.text.includes(pasteRuleMatch.replaceWith)) {
+        console.warn('[tiptap warn]: "pasteRuleMatch.replaceWith" has to be part of "pasteRuleMatch.text".')
+      }
+
       result.push(pasteRuleMatch.replaceWith)
     }
 
@@ -91,7 +96,6 @@ const pasteRuleMatchHandler = (
 
 function run(config: {
   state: EditorState,
-  text: string,
   from: number,
   to: number,
   rules: PasteRule[],
@@ -100,20 +104,10 @@ function run(config: {
   const {
     state,
     from,
-    text,
     to,
     rules,
-    plugin,
+    // plugin,
   } = config
-
-  // console.log({
-  //   state,
-  //   from,
-  //   text,
-  //   to,
-  //   rules,
-  //   plugin,
-  // })
 
   state.doc.nodesBetween(from, to, (node, pos) => {
     if (node.isTextblock && !node.type.spec.code) {
@@ -127,9 +121,7 @@ function run(config: {
       )
 
       rules.forEach(rule => {
-        const matches = pasteRuleMatchHandler(textBefore, rule.match)
-
-        console.log({ matches })
+        const matches = pasteRuleMatchHandler(textBefore, rule.matcher)
 
         matches.forEach(match => {
           if (match.index === undefined) {
@@ -185,7 +177,6 @@ export function pasteRules(config: { rules: PasteRule[] }): Plugin {
         state: chainableState,
         from,
         to: to.b,
-        text: '',
         rules,
         plugin,
       })
