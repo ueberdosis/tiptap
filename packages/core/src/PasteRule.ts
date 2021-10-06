@@ -1,5 +1,6 @@
 import { EditorState, Plugin } from 'prosemirror-state'
 import createChainableState from './helpers/createChainableState'
+import { Range } from './types'
 
 export type PasteRuleMatch = {
   index: number,
@@ -13,62 +14,61 @@ export type ExtendedRegExpMatchArray = RegExpMatchArray & {
   [key: string]: any,
 }
 
-export type PasteRuleMatcher = RegExp | ((text: string) => PasteRuleMatch[])
+export type PasteRuleMatcher =
+  | RegExp
+  | ((text: string) => PasteRuleMatch[])
+
+// export class PasteRule {
+//   matcher: PasteRuleMatcher
+
+//   handler: (props: {
+//     state: EditorState,
+//     range: Range,
+//     match: ExtendedRegExpMatchArray,
+//   }) => void
+
+//   constructor(
+//     matcher: PasteRuleMatcher,
+//     handler: (props: {
+//       state: EditorState,
+//       range: Range,
+//       match: ExtendedRegExpMatchArray,
+//     }) => void,
+//   ) {
+//     this.matcher = matcher
+//     this.handler = handler
+//   }
+// }
 
 export class PasteRule {
   matcher: PasteRuleMatcher
 
   handler: (props: {
     state: EditorState,
-    start: number,
-    end: number,
+    range: Range,
     match: ExtendedRegExpMatchArray,
   }) => void
 
-  constructor(
+  constructor(config: {
     matcher: PasteRuleMatcher,
     handler: (props: {
       state: EditorState,
-      start: number,
-      end: number,
+      range: Range,
       match: ExtendedRegExpMatchArray,
     }) => void,
-  ) {
-    this.matcher = matcher
-    this.handler = handler
+  }) {
+    this.matcher = config.matcher
+    this.handler = config.handler
   }
 }
 
-// export class PasteRule {
-//   match: RegExp | ((text: string) => PasteRuleMatch[])
-
-//   handler: (props: {
-//     fragment: Fragment
-//     match: PasteRuleMatch,
-//   }) => Fragment
-
-//   constructor(config: {
-//     match: RegExp | ((text: string) => PasteRuleMatch[]),
-//     handler: (props: {
-//       fragment: Fragment
-//       match: PasteRuleMatch,
-//     }) => Fragment,
-//   }) {
-//     this.match = config.match
-//     this.handler = config.handler
-//   }
-// }
-
-const pasteRuleMatchHandler = (
-  text: string,
-  match: RegExp | ((text: string) => PasteRuleMatch[]),
-): RegExpMatchArray[] => {
-  if (typeof match !== 'function') {
-    return [...text.matchAll(match)]
+const pasteRuleMatcherHandler = (text: string, matcher: PasteRuleMatcher): ExtendedRegExpMatchArray[] => {
+  if (typeof matcher !== 'function') {
+    return [...text.matchAll(matcher)]
   }
 
-  return match(text).map(pasteRuleMatch => {
-    const result: RegExpMatchArray = []
+  return matcher(text).map(pasteRuleMatch => {
+    const result: ExtendedRegExpMatchArray = []
     const keys = Object.keys(pasteRuleMatch)
     const customKeys = keys.filter(key => !['index', 'text', 'replaceWith'].includes(key))
 
@@ -86,7 +86,6 @@ const pasteRuleMatchHandler = (
     result.input = text
 
     customKeys.forEach(key => {
-      // @ts-ignore
       result[key] = pasteRuleMatch[key]
     })
 
@@ -106,7 +105,6 @@ function run(config: {
     from,
     to,
     rules,
-    // plugin,
   } = config
 
   state.doc.nodesBetween(from, to, (node, pos) => {
@@ -121,21 +119,23 @@ function run(config: {
       )
 
       rules.forEach(rule => {
-        const matches = pasteRuleMatchHandler(textBefore, rule.matcher)
+        const matches = pasteRuleMatcherHandler(textBefore, rule.matcher)
 
         matches.forEach(match => {
           if (match.index === undefined) {
             return
           }
 
-          const tr = state.tr
           const start = resolvedFrom + match.index + 1
           const end = start + match[0].length
+          const range = {
+            from: state.tr.mapping.map(start),
+            to: state.tr.mapping.map(end),
+          }
 
           rule.handler({
             state,
-            start: tr.mapping.map(start),
-            end: tr.mapping.map(end),
+            range,
             match,
           })
         })

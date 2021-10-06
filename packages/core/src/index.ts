@@ -11,9 +11,7 @@ export * from './types'
 
 export { default as nodeInputRule } from './inputRules/nodeInputRule'
 export { default as markInputRule } from './inputRules/markInputRule'
-// export { default as markPasteRule } from './pasteRules/markPasteRule'
-// export { default as markPasteRuleNew } from './pasteRules/markPasteRuleNew'
-export { default as markPasteRule } from './pasteRules/markPasteRuleNew2'
+export { default as markPasteRule } from './pasteRules/markPasteRule'
 
 export { default as callOrReturn } from './utilities/callOrReturn'
 export { default as mergeAttributes } from './utilities/mergeAttributes'

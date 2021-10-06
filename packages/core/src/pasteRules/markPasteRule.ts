@@ -1,82 +1,64 @@
-import { Plugin, PluginKey } from 'prosemirror-state'
-import { Slice, Fragment, MarkType } from 'prosemirror-model'
+import { PasteRule, PasteRuleMatcher, ExtendedRegExpMatchArray } from '../PasteRule'
+import { MarkType } from 'prosemirror-model'
+import getMarksBetween from '../helpers/getMarksBetween'
+import callOrReturn from '../utilities/callOrReturn'
 
-export default function (
-  regexp: RegExp,
+export default function markPasteRule(config: {
+  matcher: PasteRuleMatcher,
   type: MarkType,
   getAttributes?:
     | Record<string, any>
-    | ((match: RegExpMatchArray) => Record<string, any>)
+    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
     | null
   ,
-): Plugin {
-  const handler = (fragment: Fragment, parent?: any): Fragment => {
-    const nodes: any[] = []
+}) {
+  return new PasteRule({
+    matcher: config.matcher,
+    handler: ({ state, range, match }) => {
+      const attributes = callOrReturn(config.getAttributes, undefined, match)
 
-    if (parent && !parent.type.allowsMarkType(type)) {
-      return fragment
-    }
-
-    fragment.forEach(child => {
-      if (!child.isText || !child.text) {
-        nodes.push(child.copy(handler(child.content, child)))
-
+      if (attributes === false || attributes === null) {
         return
       }
 
-      let pos = 0
-      const { text } = child
-      const matches = [...text.matchAll(regexp)]
+      const { tr } = state
+      const captureGroup = match[match.length - 1]
+      const fullMatch = match[0]
+      let markEnd = range.to
 
-      matches.forEach(match => {
-        if (match.index === undefined) {
-          return
+      if (captureGroup) {
+        const startSpaces = fullMatch.search(/\S/)
+        const textStart = range.from + fullMatch.indexOf(captureGroup)
+        const textEnd = textStart + captureGroup.length
+
+        const excludedMarks = getMarksBetween(range.from, range.to, state)
+          .filter(item => {
+            // TODO: PR to add excluded to MarkType
+            // @ts-ignore
+            const { excluded } = item.mark.type
+            return excluded.find((type: MarkType) => type.name === config.type.name)
+          })
+          .filter(item => item.to > textStart)
+
+        if (excludedMarks.length) {
+          return null
         }
 
-        const outerMatch = Math.max(match.length - 2, 0)
-        const innerMatch = Math.max(match.length - 1, 0)
-        const start = match.index
-        const matchStart = start + match[0].indexOf(match[outerMatch])
-        const matchEnd = matchStart + match[outerMatch].length
-        const textStart = matchStart + match[outerMatch].lastIndexOf(match[innerMatch])
-        const textEnd = textStart + match[innerMatch].length
-        const attrs = getAttributes instanceof Function
-          ? getAttributes(match)
-          : getAttributes
-
-        if (!attrs && attrs !== undefined) {
-          return
+        if (textEnd < range.to) {
+          tr.delete(textEnd, range.to)
         }
 
-        // adding text before markdown to nodes
-        if (matchStart > 0) {
-          nodes.push(child.cut(pos, matchStart))
+        if (textStart > range.from) {
+          tr.delete(range.from + startSpaces, textStart)
         }
 
-        // adding the markdown part to nodes
-        nodes.push(child
-          .cut(textStart, textEnd)
-          .mark(type.create(attrs).addToSet(child.marks)))
+        markEnd = range.from + startSpaces + captureGroup.length
 
-        pos = matchEnd
-      })
+        tr.addMark(range.from + startSpaces, markEnd, config.type.create(attributes || {}))
 
-      // adding rest of text to nodes
-      if (pos < text.length) {
-        nodes.push(child.cut(pos))
+        tr.removeStoredMark(config.type)
       }
-    })
-
-    return Fragment.fromArray(nodes)
-  }
-
-  return new Plugin({
-    key: new PluginKey('markPasteRule'),
-    props: {
-      transformPasted: slice => {
-        return new Slice(handler(slice.content), slice.openStart, slice.openEnd)
-      },
     },
   })
 }
