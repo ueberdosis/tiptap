@@ -9,16 +9,30 @@ The editor fires a few different events that you can hook into. Let’s have a l
 
 ## List of available events
 
-| Event           | Description                       |
-| --------------- | --------------------------------- |
-| beforeCreate    | Before the view is created.       |
-| create          | The editor is ready.              |
-| update          | The content has changed.          |
-| selectionUpdate | The selection has changed.        |
-| transaction     | The editor state has changed.     |
-| focus           | The editor is focused.            |
-| blur            | The editor isn’t focused anymore. |
-| destroy         | The editor is being destroyed.    |
+### beforeCreate
+Before the view is created.
+
+### create
+The editor is ready.
+
+### update
+The content has changed.
+
+### selectionUpdate
+The selection has changed.
+
+### transaction
+The editor state has changed.
+
+### focus
+The editor is focused.
+
+### blur
+The editor isn’t focused anymore.
+
+### destroy
+The editor is being destroyed.
+
 
 ## Register event listeners
 There are three ways to register event listeners.

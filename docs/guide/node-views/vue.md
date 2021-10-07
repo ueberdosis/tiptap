@@ -119,7 +119,33 @@ Keep in mind that this content is rendered by tiptap. That means you need to tel
 The `NodeViewWrapper` and `NodeViewContent` components render a `<div>` HTML tag (`<span>` for inline nodes), but you can change that. For example `<node-view-content as="p">` should render a paragraph. One limitation though: That tag must not change during runtime.
 
 ## All available props
-For advanced use cases, we pass a few more props to the component. Here is the full list of what props you can expect:
+For advanced use cases, we pass a few more props to the component.
+
+### editor
+The editor instance.
+
+### node
+Access the current node.
+
+### decorations
+An array of decorations.
+
+### selected
+`true` when there is a `NodeSelection` at the current node view.
+
+### extension
+Access to the node extension, for example to get options.
+
+### getPos()
+Get the document position of the current node.
+
+### updateAttributes()
+Update attributes of the current node.
+
+### deleteNode()
+Delete the current node.
+
+Here is the full list of what props you can expect:
 
 ```html
 <template>
@@ -179,7 +205,7 @@ export default {
 </script>
 ```
 
-If you just want to have all (and to have TypeScript support) you can import all props like that:
+If you just want to have all (and TypeScript support) you can import all props like that:
 
 ```js
 // Vue 3
