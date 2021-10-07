@@ -108,7 +108,7 @@ function run(config: {
           return
         }
 
-        const start = resolvedFrom + match.index + 1
+        const start = resolvedFrom + match.index
         const end = start + match[0].length
         const range = {
           from: state.tr.mapping.map(start),
@@ -122,7 +122,7 @@ function run(config: {
         })
       })
     })
-  })
+  }, from)
 }
 
 /**
