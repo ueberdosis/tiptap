@@ -40,6 +40,8 @@ export const Code = Mark.create<CodeOptions>({
 
   excludes: '_',
 
+  code: true,
+
   parseHTML() {
     return [
       { tag: 'code' },

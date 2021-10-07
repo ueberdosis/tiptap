@@ -101,7 +101,12 @@ function run(config: {
 
   const $from = state.doc.resolve(from)
 
-  if ($from.parent.type.spec.code) {
+  if (
+    // check for code node
+    $from.parent.type.spec.code
+    // check for code mark
+    || !!($from.nodeBefore || $from.nodeAfter)?.marks.find(mark => mark.type.spec.code)
+  ) {
     return false
   }
 

@@ -283,6 +283,15 @@ declare module '@tiptap/core' {
     }) => MarkSpec['spanning']),
 
     /**
+     * Code
+     */
+    code?: boolean | ((this: {
+      name: string,
+      options: Options,
+      parent: ParentConfig<MarkConfig<Options>>['code'],
+    }) => boolean),
+
+    /**
      * Parse HTML
      */
     parseHTML?: (
