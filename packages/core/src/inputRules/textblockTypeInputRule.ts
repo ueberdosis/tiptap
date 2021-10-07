@@ -2,6 +2,12 @@ import { InputRule, InputRuleFinder, ExtendedRegExpMatchArray } from '../InputRu
 import { NodeType } from 'prosemirror-model'
 import callOrReturn from '../utilities/callOrReturn'
 
+/**
+ * Build an input rule that changes the type of a textblock when the
+ * matched text is typed into it. When using a regular expresion you’ll
+ * probably want the regexp to start with `^`, so that the pattern can
+ * only occur at the start of a textblock.
+ */
 export default function textblockTypeInputRule(config: {
   find: InputRuleFinder,
   type: NodeType,

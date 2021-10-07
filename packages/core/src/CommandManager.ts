@@ -1,5 +1,6 @@
-import { EditorState, Transaction } from 'prosemirror-state'
+import { Transaction } from 'prosemirror-state'
 import { Editor } from './Editor'
+import createChainableState from './helpers/createChainableState'
 import {
   SingleCommands,
   ChainedCommands,
@@ -106,7 +107,10 @@ export default class CommandManager {
       tr,
       editor,
       view,
-      state: this.chainableState(tr, state),
+      state: createChainableState({
+        state,
+        transaction: tr,
+      }),
       dispatch: shouldDispatch
         ? () => undefined
         : undefined,
@@ -122,38 +126,6 @@ export default class CommandManager {
     }
 
     return props
-  }
-
-  public chainableState(tr: Transaction, state: EditorState): EditorState {
-    let { selection } = tr
-    let { doc } = tr
-    let { storedMarks } = tr
-
-    return {
-      ...state,
-      schema: state.schema,
-      plugins: state.plugins,
-      apply: state.apply.bind(state),
-      applyTransaction: state.applyTransaction.bind(state),
-      reconfigure: state.reconfigure.bind(state),
-      toJSON: state.toJSON.bind(state),
-      get storedMarks() {
-        return storedMarks
-      },
-      get selection() {
-        return selection
-      },
-      get doc() {
-        return doc
-      },
-      get tr() {
-        selection = tr.selection
-        doc = tr.doc
-        storedMarks = tr.storedMarks
-
-        return tr
-      },
-    }
   }
 
 }

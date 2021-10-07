@@ -2,6 +2,10 @@ import { NodeType } from 'prosemirror-model'
 import { InputRule, InputRuleFinder, ExtendedRegExpMatchArray } from '../InputRule'
 import callOrReturn from '../utilities/callOrReturn'
 
+/**
+ * Build an input rule that adds a node when the
+ * matched text is typed into it.
+ */
 export default function nodeInputRule(config: {
   find: InputRuleFinder,
   type: NodeType,

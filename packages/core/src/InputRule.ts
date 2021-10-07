@@ -62,7 +62,7 @@ const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedR
 
   if (inputRuleMatch.replaceWith) {
     if (!inputRuleMatch.text.includes(inputRuleMatch.replaceWith)) {
-      console.warn('[tiptap warn]: "inputRuleMatch.replaceWith" has to be part of "inputRuleMatch.text".')
+      console.warn('[tiptap warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".')
     }
 
     result.push(inputRuleMatch.replaceWith)
@@ -70,8 +70,6 @@ const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedR
 
   return result
 }
-
-const MAX_MATCH = 500
 
 function run(config: {
   view: EditorView,
@@ -105,21 +103,17 @@ function run(config: {
     return false
   }
 
-  const tr = view.state.tr
-  const state = createChainableState({
-    state: view.state,
-    transaction: tr,
-  })
-
+  let matched = false
+  const maxMatch = 500
   const textBefore = $from.parent.textBetween(
-    Math.max(0, $from.parentOffset - MAX_MATCH),
+    Math.max(0, $from.parentOffset - maxMatch),
     $from.parentOffset,
     undefined,
     '\ufffc',
   ) + text
 
   rules.forEach(rule => {
-    if (tr.steps.length) {
+    if (matched) {
       return
     }
 
@@ -129,6 +123,11 @@ function run(config: {
       return
     }
 
+    const tr = view.state.tr
+    const state = createChainableState({
+      state: view.state,
+      transaction: tr,
+    })
     const range = {
       from: from - (match[0].length - text.length),
       to,
@@ -140,10 +139,13 @@ function run(config: {
       match,
     })
 
+    // stop if there are no changes
     if (!tr.steps.length) {
       return
     }
 
+    // store transform as meta data
+    // so we can undo input rules within the `undoInputRules` command
     tr.setMeta(plugin, {
       transform: tr,
       from,
@@ -152,14 +154,18 @@ function run(config: {
     })
 
     view.dispatch(tr)
+    matched = true
   })
 
-  return !!tr.steps.length
+  return matched
 }
 
-export function inputRules(config: { rules: InputRule[] }): Plugin {
-  const { rules } = config
-
+/**
+ * Create an input rules plugin. When enabled, it will cause text
+ * input that matches any of the given rules to trigger the rule’s
+ * action.
+ */
+export function inputRulesPlugin(rules: InputRule[]): Plugin {
   const plugin = new Plugin({
     state: {
       init() {
@@ -211,6 +217,8 @@ export function inputRules(config: { rules: InputRule[] }): Plugin {
         },
       },
 
+      // add support for input rules to trigger on enter
+      // this is useful for example for code blocks
       handleKeyDown(view, event) {
         if (event.key !== 'Enter') {
           return false

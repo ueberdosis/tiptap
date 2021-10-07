@@ -3,6 +3,10 @@ import { MarkType } from 'prosemirror-model'
 import getMarksBetween from '../helpers/getMarksBetween'
 import callOrReturn from '../utilities/callOrReturn'
 
+/**
+ * Build an input rule that adds a mark when the
+ * matched text is typed into it.
+ */
 export default function markInputRule(config: {
   find: InputRuleFinder,
   type: MarkType,
@@ -37,6 +41,7 @@ export default function markInputRule(config: {
             // TODO: PR to add excluded to MarkType
             // @ts-ignore
             const { excluded } = item.mark.type
+
             return excluded.find((type: MarkType) => type.name === config.type.name)
           })
           .filter(item => item.to > textStart)

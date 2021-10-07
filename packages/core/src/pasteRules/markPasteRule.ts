@@ -3,6 +3,10 @@ import { MarkType } from 'prosemirror-model'
 import getMarksBetween from '../helpers/getMarksBetween'
 import callOrReturn from '../utilities/callOrReturn'
 
+/**
+ * Build an paste rule that adds a mark when the
+ * matched text is pasted into it.
+ */
 export default function markPasteRule(config: {
   find: PasteRuleFinder,
   type: MarkType,
@@ -37,6 +41,7 @@ export default function markPasteRule(config: {
             // TODO: PR to add excluded to MarkType
             // @ts-ignore
             const { excluded } = item.mark.type
+
             return excluded.find((type: MarkType) => type.name === config.type.name)
           })
           .filter(item => item.to > textStart)

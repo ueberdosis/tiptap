@@ -62,7 +62,7 @@ const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedR
 
     if (pasteRuleMatch.replaceWith) {
       if (!pasteRuleMatch.text.includes(pasteRuleMatch.replaceWith)) {
-        console.warn('[tiptap warn]: "pasteRuleMatch.replaceWith" has to be part of "pasteRuleMatch.text".')
+        console.warn('[tiptap warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".')
       }
 
       result.push(pasteRuleMatch.replaceWith)
@@ -123,9 +123,12 @@ function run(config: {
   })
 }
 
-export function pasteRules(config: { rules: PasteRule[] }): Plugin {
-  const { rules } = config
-
+/**
+ * Create an paste rules plugin. When enabled, it will cause pasted
+ * text that matches any of the given rules to trigger the rule’s
+ * action.
+ */
+export function pasteRulesPlugin(rules: PasteRule[]): Plugin {
   const plugin = new Plugin({
     appendTransaction: (transactions, oldState, state) => {
       const transaction = transactions[0]

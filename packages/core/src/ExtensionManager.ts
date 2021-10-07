@@ -1,7 +1,7 @@
 import { keymap } from 'prosemirror-keymap'
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
-import { inputRules as inputRulesPlugin } from './InputRule'
-import { pasteRules as pasteRulesPlugin } from './PasteRule'
+import { inputRulesPlugin } from './InputRule'
+import { pasteRulesPlugin } from './PasteRule'
 import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
@@ -284,8 +284,8 @@ export default class ExtensionManager {
       .flat()
 
     return [
-      inputRulesPlugin({ rules: inputRules }),
-      pasteRulesPlugin({ rules: pasteRules }),
+      inputRulesPlugin(inputRules),
+      pasteRulesPlugin(pasteRules),
       ...allPlugins,
     ]
   }
