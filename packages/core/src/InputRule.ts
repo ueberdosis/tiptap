@@ -218,7 +218,7 @@ export function inputRules(config: { rules: InputRule[] }): Plugin {
         const { $cursor } = view.state.selection as TextSelection
 
         if ($cursor) {
-          run({
+          return run({
             view,
             from: $cursor.pos,
             to: $cursor.pos,

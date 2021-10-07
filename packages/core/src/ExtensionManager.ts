@@ -284,9 +284,9 @@ export default class ExtensionManager {
       .flat()
 
     return [
-      ...allPlugins,
       inputRulesPlugin({ rules: inputRules }),
       pasteRulesPlugin({ rules: pasteRules }),
+      ...allPlugins,
     ]
   }
 
