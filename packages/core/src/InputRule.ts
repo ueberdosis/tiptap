@@ -1,6 +1,7 @@
+import { EditorView } from 'prosemirror-view'
 import { EditorState, Plugin, TextSelection } from 'prosemirror-state'
 import createChainableState from './helpers/createChainableState'
-import { EditorView } from 'prosemirror-view'
+import isRegExp from './utilities/isRegExp'
 import { Range } from './types'
 
 export type InputRuleMatch = {
@@ -42,7 +43,7 @@ export class InputRule {
 }
 
 const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedRegExpMatchArray | null => {
-  if (typeof find !== 'function') {
+  if (isRegExp(find)) {
     return find.exec(text)
   }
 
@@ -93,13 +94,7 @@ function run(config: {
     return false
   }
 
-  const tr = view.state.tr
-  const state = createChainableState({
-    state: view.state,
-    transaction: tr,
-  })
-
-  const $from = state.doc.resolve(from)
+  const $from = view.state.doc.resolve(from)
 
   if (
     // check for code node
@@ -109,6 +104,12 @@ function run(config: {
   ) {
     return false
   }
+
+  const tr = view.state.tr
+  const state = createChainableState({
+    state: view.state,
+    transaction: tr,
+  })
 
   const textBefore = $from.parent.textBetween(
     Math.max(0, $from.parentOffset - MAX_MATCH),

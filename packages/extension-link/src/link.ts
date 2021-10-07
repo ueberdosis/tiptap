@@ -92,30 +92,6 @@ export const Link = Mark.create<LinkOptions>({
     }
   },
 
-  // addInputRules() {
-  //   return [
-  //     markInputRule({
-  //       find: text => {
-  //         const link = find(text)[0]
-
-  //         if (!link || !link.isLink) {
-  //           return null
-  //         }
-
-  //         return {
-  //           text: link.value,
-  //           index: link.start,
-  //           data: link,
-  //         }
-  //       },
-  //       type: this.type,
-  //       getAttributes: match => ({
-  //         href: match.data?.href,
-  //       }),
-  //     }),
-  //   ]
-  // },
-
   addPasteRules() {
     return [
       markPasteRule({

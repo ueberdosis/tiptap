@@ -15,6 +15,7 @@ import getText from './helpers/getText'
 import isNodeEmpty from './helpers/isNodeEmpty'
 import getTextSeralizersFromSchema from './helpers/getTextSeralizersFromSchema'
 import createStyleTag from './utilities/createStyleTag'
+import isFunction from './utilities/isFunction'
 import CommandManager from './CommandManager'
 import ExtensionManager from './ExtensionManager'
 import EventEmitter from './EventEmitter'
@@ -184,7 +185,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * @param handlePlugins Control how to merge the plugin into the existing plugins.
    */
   public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]): void {
-    const plugins = typeof handlePlugins === 'function'
+    const plugins = isFunction(handlePlugins)
       ? handlePlugins(plugin, this.state.plugins)
       : [...this.state.plugins, plugin]
 

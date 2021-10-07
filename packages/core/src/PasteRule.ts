@@ -1,5 +1,6 @@
 import { EditorState, Plugin } from 'prosemirror-state'
 import createChainableState from './helpers/createChainableState'
+import isRegExp from './utilities/isRegExp'
 import { Range } from './types'
 
 export type PasteRuleMatch = {
@@ -16,7 +17,7 @@ export type ExtendedRegExpMatchArray = RegExpMatchArray & {
 
 export type PasteRuleFinder =
   | RegExp
-  | ((text: string) => PasteRuleMatch[])
+  | ((text: string) => PasteRuleMatch[] | null | undefined)
 
 export class PasteRule {
   find: PasteRuleFinder
@@ -41,11 +42,17 @@ export class PasteRule {
 }
 
 const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedRegExpMatchArray[] => {
-  if (typeof find !== 'function') {
+  if (isRegExp(find)) {
     return [...text.matchAll(find)]
   }
 
-  return find(text).map(pasteRuleMatch => {
+  const matches = find(text)
+
+  if (!matches) {
+    return []
+  }
+
+  return matches.map(pasteRuleMatch => {
     const result: ExtendedRegExpMatchArray = []
 
     result.push(pasteRuleMatch.text)
