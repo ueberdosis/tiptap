@@ -118,12 +118,12 @@ export const Link = Mark.create<LinkOptions>({
   //         return {
   //           text: link.value,
   //           index: link.start,
-  //           link,
+  //           data: link,
   //         }
   //       },
   //       type: this.type,
   //       getAttributes: match => ({
-  //         href: match.link.href,
+  //         href: match.data?.href,
   //       }),
   //     }),
   //   ]
@@ -137,11 +137,11 @@ export const Link = Mark.create<LinkOptions>({
           .map(link => ({
             text: link.value,
             index: link.start,
-            link,
+            data: link,
           })),
         type: this.type,
         getAttributes: match => ({
-          href: match.link.href,
+          href: match.data?.href,
         }),
       }),
     ]

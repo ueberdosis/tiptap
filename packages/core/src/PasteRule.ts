@@ -7,11 +7,11 @@ export type PasteRuleMatch = {
   text: string,
   replaceWith?: string,
   match?: RegExpMatchArray,
-  [key: string]: any,
+  data?: Record<string, any>,
 }
 
 export type ExtendedRegExpMatchArray = RegExpMatchArray & {
-  [key: string]: any,
+  data?: Record<string, any>,
 }
 
 export type PasteRuleFinder =
@@ -51,6 +51,7 @@ const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedR
     result.push(pasteRuleMatch.text)
     result.index = pasteRuleMatch.index
     result.input = text
+    result.data = pasteRuleMatch.data
 
     if (pasteRuleMatch.replaceWith) {
       if (!pasteRuleMatch.text.includes(pasteRuleMatch.replaceWith)) {
@@ -59,13 +60,6 @@ const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedR
 
       result.push(pasteRuleMatch.replaceWith)
     }
-
-    Object
-      .keys(pasteRuleMatch)
-      .filter(key => !['index', 'text', 'replaceWith'].includes(key))
-      .forEach(key => {
-        result[key] = pasteRuleMatch[key]
-      })
 
     return result
   })

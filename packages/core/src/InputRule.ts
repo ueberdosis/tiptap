@@ -8,11 +8,11 @@ export type InputRuleMatch = {
   text: string,
   replaceWith?: string,
   match?: RegExpMatchArray,
-  [key: string]: any,
+  data?: Record<string, any>,
 }
 
 export type ExtendedRegExpMatchArray = RegExpMatchArray & {
-  [key: string]: any,
+  data?: Record<string, any>,
 }
 
 export type InputRuleFinder =
@@ -57,6 +57,7 @@ const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedR
   result.push(inputRuleMatch.text)
   result.index = inputRuleMatch.index
   result.input = text
+  result.data = inputRuleMatch.data
 
   if (inputRuleMatch.replaceWith) {
     if (!inputRuleMatch.text.includes(inputRuleMatch.replaceWith)) {
@@ -65,13 +66,6 @@ const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedR
 
     result.push(inputRuleMatch.replaceWith)
   }
-
-  Object
-    .keys(inputRuleMatch)
-    .filter(key => !['index', 'text', 'replaceWith'].includes(key))
-    .forEach(key => {
-      result[key] = inputRuleMatch[key]
-    })
 
   return result
 }
