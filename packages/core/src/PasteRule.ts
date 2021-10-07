@@ -87,39 +87,41 @@ function run(config: {
   } = config
 
   state.doc.nodesBetween(from, to, (node, pos) => {
-    if (node.isTextblock && !node.type.spec.code) {
-      const resolvedFrom = Math.max(from, pos)
-      const resolvedTo = Math.min(to, pos + node.content.size)
-      const textToMatch = node.textBetween(
-        resolvedFrom - pos,
-        resolvedTo - pos,
-        undefined,
-        '\ufffc',
-      )
+    if (!node.isTextblock || node.type.spec.code) {
+      return
+    }
 
-      rules.forEach(rule => {
-        const matches = pasteRuleMatcherHandler(textToMatch, rule.find)
+    const resolvedFrom = Math.max(from, pos)
+    const resolvedTo = Math.min(to, pos + node.content.size)
+    const textToMatch = node.textBetween(
+      resolvedFrom - pos,
+      resolvedTo - pos,
+      undefined,
+      '\ufffc',
+    )
 
-        matches.forEach(match => {
-          if (match.index === undefined) {
-            return
-          }
+    rules.forEach(rule => {
+      const matches = pasteRuleMatcherHandler(textToMatch, rule.find)
 
-          const start = resolvedFrom + match.index + 1
-          const end = start + match[0].length
-          const range = {
-            from: state.tr.mapping.map(start),
-            to: state.tr.mapping.map(end),
-          }
+      matches.forEach(match => {
+        if (match.index === undefined) {
+          return
+        }
 
-          rule.handler({
-            state,
-            range,
-            match,
-          })
+        const start = resolvedFrom + match.index + 1
+        const end = start + match[0].length
+        const range = {
+          from: state.tr.mapping.map(start),
+          to: state.tr.mapping.map(end),
+        }
+
+        rule.handler({
+          state,
+          range,
+          match,
         })
       })
-    }
+    })
   })
 }
 
