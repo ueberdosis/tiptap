@@ -75,6 +75,10 @@
         margin-right: 0.5rem;
         user-select: none;
       }
+
+      > div {
+        flex: 1 1 auto;
+      }
     }
   }
 }
@@ -86,7 +90,7 @@
   color: #0d0d0d;
   display: flex;
   flex-direction: column;
-  max-height: 400px;
+  max-height: 26rem;
 
   &__header {
     align-items: center;
