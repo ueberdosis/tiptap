@@ -1,0 +1,31 @@
+{
+  "name": "@tiptap/extension-line-height",
+  "description": "line height extension for tiptap",
+  "version": "2.0.0-beta.1",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-line-height.cjs.js",
+  "umd": "dist/tiptap-extension-line-height.umd.js",
+  "module": "dist/tiptap-extension-line-height.esm.js",
+  "types": "dist/packages/extension-line-height/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-line-height"
+  }
+}
