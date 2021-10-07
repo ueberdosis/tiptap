@@ -41,6 +41,8 @@ export interface CollaborationOptions {
 export const Collaboration = Extension.create<CollaborationOptions>({
   name: 'collaboration',
 
+  priority: 1000,
+
   defaultOptions: {
     document: null,
     field: 'default',

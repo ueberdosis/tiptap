@@ -43,7 +43,7 @@ HardBreak.configure({
 Add a line break.
 
 ```js
-editor.commands.setHeardBreak()
+editor.commands.setHardBreak()
 ```
 
 ## Keyboard shortcuts

@@ -10,6 +10,7 @@ tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s
 ## Integration guides
 * [CDN](/installation/cdn)
 * [React](/installation/react)
+* [Next.js](/installation/nextjs)
 * [Vue 3](/installation/vue3)
 * [Vue 2](/installation/vue2)
 * [Nuxt.js](/installation/nuxt)
