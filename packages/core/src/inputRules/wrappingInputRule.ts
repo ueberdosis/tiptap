@@ -1,10 +1,10 @@
-import { InputRule, InputRuleMatcher, ExtendedRegExpMatchArray } from '../InputRule'
+import { InputRule, InputRuleFinder, ExtendedRegExpMatchArray } from '../InputRule'
 import { NodeType, Node as ProseMirrorNode } from 'prosemirror-model'
 import { findWrapping, canJoin } from 'prosemirror-transform'
 import callOrReturn from '../utilities/callOrReturn'
 
 export default function wrappingInputRule(config: {
-  matcher: InputRuleMatcher,
+  find: InputRuleFinder,
   type: NodeType,
   getAttributes?:
     | Record<string, any>
@@ -15,7 +15,7 @@ export default function wrappingInputRule(config: {
   joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean,
 }) {
   return new InputRule({
-    matcher: config.matcher,
+    find: config.find,
     handler: ({ state, range, match }) => {
       const attributes = callOrReturn(config.getAttributes, undefined, match) || {}
       const tr = state.tr.delete(range.from, range.to)

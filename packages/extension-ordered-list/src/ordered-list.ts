@@ -74,7 +74,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
   addInputRules() {
     return [
       wrappingInputRule({
-        matcher: inputRegex,
+        find: inputRegex,
         type: this.type,
         getAttributes: match => ({ start: +match[1] }),
         joinPredicate: (match, node) => node.childCount + node.attrs.start === +match[1],

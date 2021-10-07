@@ -146,7 +146,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
   addInputRules() {
     return [
       wrappingInputRule({
-        matcher: inputRegex,
+        find: inputRegex,
         type: this.type,
         getAttributes: match => ({
           checked: match[match.length - 1] === 'x',

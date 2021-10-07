@@ -73,7 +73,7 @@ export const Code = Mark.create<CodeOptions>({
   addInputRules() {
     return [
       markInputRule({
-        matcher: inputRegex,
+        find: inputRegex,
         type: this.type,
       }),
     ]
@@ -82,7 +82,7 @@ export const Code = Mark.create<CodeOptions>({
   addPasteRules() {
     return [
       markPasteRule({
-        matcher: pasteRegex,
+        find: pasteRegex,
         type: this.type,
       }),
     ]

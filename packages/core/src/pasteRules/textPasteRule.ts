@@ -1,13 +1,13 @@
-import { PasteRule, PasteRuleMatcher } from '../PasteRule'
+import { PasteRule, PasteRuleFinder } from '../PasteRule'
 
 export default function textPasteRule(config: {
-  matcher: PasteRuleMatcher,
-  text: string,
+  find: PasteRuleFinder,
+  replace: string,
 }) {
   return new PasteRule({
-    matcher: config.matcher,
+    find: config.find,
     handler: ({ state, range, match }) => {
-      let insert = config.text
+      let insert = config.replace
       let start = range.from
       const end = range.to
 

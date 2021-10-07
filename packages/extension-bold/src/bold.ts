@@ -83,11 +83,11 @@ export const Bold = Mark.create<BoldOptions>({
   addInputRules() {
     return [
       markInputRule({
-        matcher: starInputRegex,
+        find: starInputRegex,
         type: this.type,
       }),
       markInputRule({
-        matcher: underscoreInputRegex,
+        find: underscoreInputRegex,
         type: this.type,
       }),
     ]
@@ -96,11 +96,11 @@ export const Bold = Mark.create<BoldOptions>({
   addPasteRules() {
     return [
       markPasteRule({
-        matcher: starPasteRegex,
+        find: starPasteRegex,
         type: this.type,
       }),
       markPasteRule({
-        matcher: underscorePasteRegex,
+        find: underscorePasteRegex,
         type: this.type,
       }),
     ]

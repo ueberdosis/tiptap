@@ -1,108 +1,108 @@
 import { Extension, textInputRule } from '@tiptap/core'
 
 export const emDash = textInputRule({
-  matcher: /--$/,
-  text: '—',
+  find: /--$/,
+  replace: '—',
 })
 
 export const ellipsis = textInputRule({
-  matcher: /\.\.\.$/,
-  text: '…',
+  find: /\.\.\.$/,
+  replace: '…',
 })
 
 export const openDoubleQuote = textInputRule({
-  matcher: /(?:^|[\s{[(<'"\u2018\u201C])(")$/,
-  text: '“',
+  find: /(?:^|[\s{[(<'"\u2018\u201C])(")$/,
+  replace: '“',
 })
 
 export const closeDoubleQuote = textInputRule({
-  matcher: /"$/,
-  text: '”',
+  find: /"$/,
+  replace: '”',
 })
 
 export const openSingleQuote = textInputRule({
-  matcher: /(?:^|[\s{[(<'"\u2018\u201C])(')$/,
-  text: '‘',
+  find: /(?:^|[\s{[(<'"\u2018\u201C])(')$/,
+  replace: '‘',
 })
 
 export const closeSingleQuote = textInputRule({
-  matcher: /'$/,
-  text: '’',
+  find: /'$/,
+  replace: '’',
 })
 
 export const leftArrow = textInputRule({
-  matcher: /<-$/,
-  text: '←',
+  find: /<-$/,
+  replace: '←',
 })
 
 export const rightArrow = textInputRule({
-  matcher: /->$/,
-  text: '→',
+  find: /->$/,
+  replace: '→',
 })
 
 export const copyright = textInputRule({
-  matcher: /\(c\)$/,
-  text: '©',
+  find: /\(c\)$/,
+  replace: '©',
 })
 
 export const trademark = textInputRule({
-  matcher: /\(tm\)$/,
-  text: '™',
+  find: /\(tm\)$/,
+  replace: '™',
 })
 
 export const registeredTrademark = textInputRule({
-  matcher: /\(r\)$/,
-  text: '®',
+  find: /\(r\)$/,
+  replace: '®',
 })
 
 export const oneHalf = textInputRule({
-  matcher: /1\/2$/,
-  text: '½',
+  find: /1\/2$/,
+  replace: '½',
 })
 
 export const plusMinus = textInputRule({
-  matcher: /\+\/-$/,
-  text: '±',
+  find: /\+\/-$/,
+  replace: '±',
 })
 
 export const notEqual = textInputRule({
-  matcher: /!=$/,
-  text: '≠',
+  find: /!=$/,
+  replace: '≠',
 })
 
 export const laquo = textInputRule({
-  matcher: /<<$/,
-  text: '«',
+  find: /<<$/,
+  replace: '«',
 })
 
 export const raquo = textInputRule({
-  matcher: />>$/,
-  text: '»',
+  find: />>$/,
+  replace: '»',
 })
 
 export const multiplication = textInputRule({
-  matcher: /\d+\s?([*x])\s?\d+$/,
-  text: '×',
+  find: /\d+\s?([*x])\s?\d+$/,
+  replace: '×',
 })
 
 export const superscriptTwo = textInputRule({
-  matcher: /\^2$/,
-  text: '²',
+  find: /\^2$/,
+  replace: '²',
 })
 
 export const superscriptThree = textInputRule({
-  matcher: /\^3$/,
-  text: '³',
+  find: /\^3$/,
+  replace: '³',
 })
 
 export const oneQuarter = textInputRule({
-  matcher: /1\/4$/,
-  text: '¼',
+  find: /1\/4$/,
+  replace: '¼',
 })
 
 export const threeQuarters = textInputRule({
-  matcher: /3\/4$/,
-  text: '¾',
+  find: /3\/4$/,
+  replace: '¾',
 })
 
 export const Typography = Extension.create({

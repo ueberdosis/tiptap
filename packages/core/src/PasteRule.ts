@@ -14,12 +14,12 @@ export type ExtendedRegExpMatchArray = RegExpMatchArray & {
   [key: string]: any,
 }
 
-export type PasteRuleMatcher =
+export type PasteRuleFinder =
   | RegExp
   | ((text: string) => PasteRuleMatch[])
 
 export class PasteRule {
-  matcher: PasteRuleMatcher
+  find: PasteRuleFinder
 
   handler: (props: {
     state: EditorState,
@@ -28,24 +28,24 @@ export class PasteRule {
   }) => void
 
   constructor(config: {
-    matcher: PasteRuleMatcher,
+    find: PasteRuleFinder,
     handler: (props: {
       state: EditorState,
       range: Range,
       match: ExtendedRegExpMatchArray,
     }) => void,
   }) {
-    this.matcher = config.matcher
+    this.find = config.find
     this.handler = config.handler
   }
 }
 
-const pasteRuleMatcherHandler = (text: string, matcher: PasteRuleMatcher): ExtendedRegExpMatchArray[] => {
-  if (typeof matcher !== 'function') {
-    return [...text.matchAll(matcher)]
+const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedRegExpMatchArray[] => {
+  if (typeof find !== 'function') {
+    return [...text.matchAll(find)]
   }
 
-  return matcher(text).map(pasteRuleMatch => {
+  return find(text).map(pasteRuleMatch => {
     const result: ExtendedRegExpMatchArray = []
 
     result.push(pasteRuleMatch.text)
@@ -97,7 +97,7 @@ function run(config: {
       )
 
       rules.forEach(rule => {
-        const matches = pasteRuleMatcherHandler(textToMatch, rule.matcher)
+        const matches = pasteRuleMatcherHandler(textToMatch, rule.find)
 
         matches.forEach(match => {
           if (match.index === undefined) {

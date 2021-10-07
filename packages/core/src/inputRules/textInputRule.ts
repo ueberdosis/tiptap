@@ -1,13 +1,13 @@
-import { InputRule, InputRuleMatcher } from '../InputRule'
+import { InputRule, InputRuleFinder } from '../InputRule'
 
 export default function textInputRule(config: {
-  matcher: InputRuleMatcher,
-  text: string,
+  find: InputRuleFinder,
+  replace: string,
 }) {
   return new InputRule({
-    matcher: config.matcher,
+    find: config.find,
     handler: ({ state, range, match }) => {
-      let insert = config.text
+      let insert = config.replace
       let start = range.from
       const end = range.to
 

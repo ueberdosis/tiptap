@@ -121,12 +121,12 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   addInputRules() {
     return [
       textblockTypeInputRule({
-        matcher: backtickInputRegex,
+        find: backtickInputRegex,
         type: this.type,
         getAttributes: ({ groups }) => groups,
       }),
       textblockTypeInputRule({
-        matcher: tildeInputRegex,
+        find: tildeInputRegex,
         type: this.type,
         getAttributes: ({ groups }) => groups,
       }),

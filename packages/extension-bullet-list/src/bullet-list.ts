@@ -55,7 +55,7 @@ export const BulletList = Node.create<BulletListOptions>({
   addInputRules() {
     return [
       wrappingInputRule({
-        matcher: inputRegex,
+        find: inputRegex,
         type: this.type,
       }),
     ]

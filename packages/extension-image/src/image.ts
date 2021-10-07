@@ -80,7 +80,7 @@ export const Image = Node.create<ImageOptions>({
   addInputRules() {
     return [
       nodeInputRule({
-        matcher: inputRegex,
+        find: inputRegex,
         type: this.type,
         getAttributes: match => {
           const [, alt, src, title] = match

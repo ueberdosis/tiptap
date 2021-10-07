@@ -1,9 +1,9 @@
 import { NodeType } from 'prosemirror-model'
-import { InputRule, InputRuleMatcher, ExtendedRegExpMatchArray } from '../InputRule'
+import { InputRule, InputRuleFinder, ExtendedRegExpMatchArray } from '../InputRule'
 import callOrReturn from '../utilities/callOrReturn'
 
 export default function nodeInputRule(config: {
-  matcher: InputRuleMatcher,
+  find: InputRuleFinder,
   type: NodeType,
   getAttributes?:
     | Record<string, any>
@@ -13,7 +13,7 @@ export default function nodeInputRule(config: {
   ,
 }) {
   return new InputRule({
-    matcher: config.matcher,
+    find: config.find,
     handler: ({ state, range, match }) => {
       const attributes = callOrReturn(config.getAttributes, undefined, match) || {}
       const { tr } = state

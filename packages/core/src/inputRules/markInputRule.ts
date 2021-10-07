@@ -1,10 +1,10 @@
-import { InputRule, InputRuleMatcher, ExtendedRegExpMatchArray } from '../InputRule'
+import { InputRule, InputRuleFinder, ExtendedRegExpMatchArray } from '../InputRule'
 import { MarkType } from 'prosemirror-model'
 import getMarksBetween from '../helpers/getMarksBetween'
 import callOrReturn from '../utilities/callOrReturn'
 
 export default function markInputRule(config: {
-  matcher: InputRuleMatcher,
+  find: InputRuleFinder,
   type: MarkType,
   getAttributes?:
     | Record<string, any>
@@ -14,7 +14,7 @@ export default function markInputRule(config: {
   ,
 }) {
   return new InputRule({
-    matcher: config.matcher,
+    find: config.find,
     handler: ({ state, range, match }) => {
       const attributes = callOrReturn(config.getAttributes, undefined, match)
 

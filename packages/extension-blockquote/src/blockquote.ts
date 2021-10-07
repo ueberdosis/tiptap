@@ -72,7 +72,7 @@ export const Blockquote = Node.create<BlockquoteOptions>({
   addInputRules() {
     return [
       wrappingInputRule({
-        matcher: inputRegex,
+        find: inputRegex,
         type: this.type,
       }),
     ]

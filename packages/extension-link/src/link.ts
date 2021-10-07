@@ -108,7 +108,7 @@ export const Link = Mark.create<LinkOptions>({
   // addInputRules() {
   //   return [
   //     markInputRule({
-  //       matcher: text => {
+  //       find: text => {
   //         const link = find(text)[0]
 
   //         if (!link || !link.isLink) {
@@ -132,7 +132,7 @@ export const Link = Mark.create<LinkOptions>({
   addPasteRules() {
     return [
       markPasteRule({
-        matcher: text => find(text)
+        find: text => find(text)
           .filter(link => link.isLink)
           .map(link => ({
             text: link.value,

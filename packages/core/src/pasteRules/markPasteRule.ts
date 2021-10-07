@@ -1,10 +1,10 @@
-import { PasteRule, PasteRuleMatcher, ExtendedRegExpMatchArray } from '../PasteRule'
+import { PasteRule, PasteRuleFinder, ExtendedRegExpMatchArray } from '../PasteRule'
 import { MarkType } from 'prosemirror-model'
 import getMarksBetween from '../helpers/getMarksBetween'
 import callOrReturn from '../utilities/callOrReturn'
 
 export default function markPasteRule(config: {
-  matcher: PasteRuleMatcher,
+  find: PasteRuleFinder,
   type: MarkType,
   getAttributes?:
     | Record<string, any>
@@ -14,7 +14,7 @@ export default function markPasteRule(config: {
   ,
 }) {
   return new PasteRule({
-    matcher: config.matcher,
+    find: config.find,
     handler: ({ state, range, match }) => {
       const attributes = callOrReturn(config.getAttributes, undefined, match)
 

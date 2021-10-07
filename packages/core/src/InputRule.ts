@@ -15,12 +15,12 @@ export type ExtendedRegExpMatchArray = RegExpMatchArray & {
   [key: string]: any,
 }
 
-export type InputRuleMatcher =
+export type InputRuleFinder =
   | RegExp
   | ((text: string) => InputRuleMatch | null)
 
 export class InputRule {
-  matcher: InputRuleMatcher
+  find: InputRuleFinder
 
   handler: (props: {
     state: EditorState,
@@ -29,24 +29,24 @@ export class InputRule {
   }) => void
 
   constructor(config: {
-    matcher: InputRuleMatcher,
+    find: InputRuleFinder,
     handler: (props: {
       state: EditorState,
       range: Range,
       match: ExtendedRegExpMatchArray,
     }) => void,
   }) {
-    this.matcher = config.matcher
+    this.find = config.find
     this.handler = config.handler
   }
 }
 
-const inputRuleMatcherHandler = (text: string, matcher: InputRuleMatcher): ExtendedRegExpMatchArray | null => {
-  if (typeof matcher !== 'function') {
-    return matcher.exec(text)
+const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedRegExpMatchArray | null => {
+  if (typeof find !== 'function') {
+    return find.exec(text)
   }
 
-  const inputRuleMatch = matcher(text)
+  const inputRuleMatch = find(text)
 
   if (!inputRuleMatch) {
     return null
@@ -123,7 +123,9 @@ function run(config: {
       return
     }
 
-    const match = inputRuleMatcherHandler(textBefore, rule.matcher)
+    const match = inputRuleMatcherHandler(textBefore, rule.find)
+
+    console.log(rule.find, { match })
 
     if (!match) {
       return
