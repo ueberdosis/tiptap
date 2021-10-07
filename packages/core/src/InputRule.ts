@@ -119,8 +119,6 @@ function run(config: {
 
     const match = inputRuleMatcherHandler(textBefore, rule.find)
 
-    console.log(rule.find, { match })
-
     if (!match) {
       return
     }
