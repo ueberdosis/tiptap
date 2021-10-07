@@ -1,23 +1,110 @@
-// source: https://github.com/ProseMirror/prosemirror-inputrules/blob/master/src/inputrules.js
-
-import { EditorState, Plugin, Transaction } from 'prosemirror-state'
+import { EditorState, Plugin, TextSelection } from 'prosemirror-state'
+import createChainableState from './helpers/createChainableState'
 import { EditorView } from 'prosemirror-view'
+import { Range } from './types'
+
+export type InputRuleMatch = {
+  index: number,
+  text: string,
+  replaceWith?: string,
+  match?: RegExpMatchArray,
+  [key: string]: any,
+}
+
+export type ExtendedRegExpMatchArray = RegExpMatchArray & {
+  [key: string]: any,
+}
+
+export type InputRuleMatcher =
+  | RegExp
+  | ((text: string) => InputRuleMatch | null)
+
+export class InputRule {
+  matcher: InputRuleMatcher
+
+  handler: (props: {
+    state: EditorState,
+    range: Range,
+    match: ExtendedRegExpMatchArray,
+  }) => void
+
+  constructor(config: {
+    matcher: InputRuleMatcher,
+    handler: (props: {
+      state: EditorState,
+      range: Range,
+      match: ExtendedRegExpMatchArray,
+    }) => void,
+  }) {
+    this.matcher = config.matcher
+    this.handler = config.handler
+  }
+}
+
+const inputRuleMatcherHandler = (text: string, matcher: InputRuleMatcher): ExtendedRegExpMatchArray | null => {
+  if (typeof matcher !== 'function') {
+    return matcher.exec(text)
+  }
+
+  const inputRuleMatch = matcher(text)
+
+  if (!inputRuleMatch) {
+    return null
+  }
+
+  const result: ExtendedRegExpMatchArray = []
+
+  result.push(inputRuleMatch.text)
+  result.index = inputRuleMatch.index
+  result.input = text
+
+  if (inputRuleMatch.replaceWith) {
+    if (!inputRuleMatch.text.includes(inputRuleMatch.replaceWith)) {
+      console.warn('[tiptap warn]: "inputRuleMatch.replaceWith" has to be part of "inputRuleMatch.text".')
+    }
+
+    result.push(inputRuleMatch.replaceWith)
+  }
+
+  Object
+    .keys(inputRuleMatch)
+    .filter(key => !['index', 'text', 'replaceWith'].includes(key))
+    .forEach(key => {
+      result[key] = inputRuleMatch[key]
+    })
+
+  return result
+}
 
 const MAX_MATCH = 500
 
-function run(
+function run(config: {
   view: EditorView,
   from: number,
   to: number,
   text: string,
   rules: InputRule[],
   plugin: Plugin,
-) {
+}): any {
+  const {
+    view,
+    from,
+    to,
+    text,
+    rules,
+    plugin,
+  } = config
+
   if (view.composing) {
     return false
   }
 
-  const state = view.state
+  const tr = view.state.tr
+  const state = createChainableState({
+    state: view.state,
+    transaction: tr,
+  })
+
   const $from = state.doc.resolve(from)
 
   if ($from.parent.type.spec.code) {
@@ -31,12 +118,30 @@ function run(
     '\ufffc',
   ) + text
 
-  for (let i = 0; i < rules.length; i += 1) {
-    const match = rules[i].match.exec(textBefore)
-    const tr = match && rules[i].handler(state, match, from - (match[0].length - text.length), to)
+  rules.forEach(rule => {
+    if (tr.steps.length) {
+      return
+    }
 
-    if (!tr) {
-      continue
+    const match = inputRuleMatcherHandler(textBefore, rule.matcher)
+
+    if (!match) {
+      return
+    }
+
+    const range = {
+      from: from - (match[0].length - text.length),
+      to,
+    }
+
+    rule.handler({
+      state,
+      range,
+      match,
+    })
+
+    if (!tr.steps.length) {
+      return
     }
 
     tr.setMeta(plugin, {
@@ -47,42 +152,14 @@ function run(
     })
 
     view.dispatch(tr)
+  })
 
-    return true
-  }
-
-  return false
+  return !!tr.steps.length
 }
 
-function stringHandler(string: string) {
-  return function (state: EditorState, match: string[], start: number, end: number) {
-    let insert = string
-
-    if (match[1]) {
-      const offset = match[0].lastIndexOf(match[1])
-
-      insert += match[0].slice(offset + match[1].length)
-      start += offset
-
-      const cutOff = start - end
-
-      if (cutOff > 0) {
-        insert = match[0].slice(offset - cutOff, offset) + insert
-        start = end
-      }
-    }
-
-    return state.tr.insertText(insert, start, end)
-  }
-}
-
-// Create an input rules plugin. When enabled, it will cause text
-// input that matches any of the given rules to trigger the rule's
-// action.
 export function inputRules(config: { rules: InputRule[] }): Plugin {
   const { rules } = config
 
-  // @ts-ignore
   const plugin = new Plugin({
     state: {
       init() {
@@ -103,17 +180,30 @@ export function inputRules(config: { rules: InputRule[] }): Plugin {
 
     props: {
       handleTextInput(view, from, to, text) {
-        return run(view, from, to, text, rules, plugin)
+        return run({
+          view,
+          from,
+          to,
+          text,
+          rules,
+          plugin,
+        })
       },
 
       handleDOMEvents: {
         compositionend: view => {
           setTimeout(() => {
-            // @ts-ignore
-            const { $cursor } = view.state.selection
+            const { $cursor } = view.state.selection as TextSelection
 
             if ($cursor) {
-              run(view, $cursor.pos, $cursor.pos, '', rules, plugin)
+              run({
+                view,
+                from: $cursor.pos,
+                to: $cursor.pos,
+                text: '',
+                rules,
+                plugin,
+              })
             }
           })
 
@@ -126,11 +216,17 @@ export function inputRules(config: { rules: InputRule[] }): Plugin {
           return false
         }
 
-        // @ts-ignore
-        const { $cursor } = view.state.selection
+        const { $cursor } = view.state.selection as TextSelection
 
         if ($cursor) {
-          return run(view, $cursor.pos, $cursor.pos, '\n', rules, plugin)
+          run({
+            view,
+            from: $cursor.pos,
+            to: $cursor.pos,
+            text: '\n',
+            rules,
+            plugin,
+          })
         }
 
         return false
@@ -142,68 +238,4 @@ export function inputRules(config: { rules: InputRule[] }): Plugin {
   }) as Plugin
 
   return plugin
-}
-
-// This is a command that will undo an input rule, if applying such a
-// rule was the last thing that the user did.
-export function undoInputRule(state: EditorState, dispatch?: (tr: Transaction) => boolean) {
-  const plugins = state.plugins
-
-  for (let i = 0; i < plugins.length; i += 1) {
-    const plugin = plugins[i]
-    let undoable
-
-    if (plugin.spec.isInputRules && (undoable = plugin.getState(state))) {
-      if (dispatch) {
-        const tr = state.tr
-        const toUndo = undoable.transform
-
-        for (let j = toUndo.steps.length - 1; j >= 0; j -= 1) {
-          tr.step(toUndo.steps[j].invert(toUndo.docs[j]))
-        }
-
-        if (undoable.text) {
-          const marks = tr.doc.resolve(undoable.from).marks()
-          tr.replaceWith(undoable.from, undoable.to, state.schema.text(undoable.text, marks))
-        } else {
-          tr.delete(undoable.from, undoable.to)
-        }
-
-        dispatch(tr)
-      }
-
-      return true
-    }
-  }
-
-  return false
-}
-
-// ::- Input rules are regular expressions describing a piece of text
-// that, when typed, causes something to happen. This might be
-// changing two dashes into an emdash, wrapping a paragraph starting
-// with `"> "` into a blockquote, or something entirely different.
-export class InputRule {
-  // something and the text directly in front of the cursor matches
-  // `match`, which should end with `$`.
-  //
-  // The `handler` can be a string, in which case the matched text, or
-  // the first matched group in the regexp, is replaced by that
-  // string.
-  //
-  // Or a it can be a function, which will be called with the match
-  // array produced by
-  // [`RegExp.exec`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec),
-  // as well as the start and end of the matched range, and which can
-  // return a [transaction](#state.Transaction) that describes the
-  // rule's effect, or null to indicate the input was not handled.
-  constructor(
-    match: RegExp,
-    handler: (state: EditorState, match: string[], start: number, end: number) => Transaction | undefined,
-  ) {
-    this.match = match
-    this.handler = typeof handler === 'string'
-      ? stringHandler(handler)
-      : handler
-  }
 }

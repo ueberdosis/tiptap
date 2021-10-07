@@ -97,7 +97,10 @@ export const Highlight = Mark.create<HighlightOptions>({
 
   addInputRules() {
     return [
-      markInputRule(inputRegex, this.type),
+      markInputRule({
+        matcher: inputRegex,
+        type: this.type,
+      }),
     ]
   },
 

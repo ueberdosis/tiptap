@@ -82,8 +82,14 @@ export const Bold = Mark.create<BoldOptions>({
 
   addInputRules() {
     return [
-      markInputRule(starInputRegex, this.type),
-      markInputRule(underscoreInputRegex, this.type),
+      markInputRule({
+        matcher: starInputRegex,
+        type: this.type,
+      }),
+      markInputRule({
+        matcher: underscoreInputRegex,
+        type: this.type,
+      }),
     ]
   },
 

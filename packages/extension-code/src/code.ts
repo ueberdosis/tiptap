@@ -72,7 +72,10 @@ export const Code = Mark.create<CodeOptions>({
 
   addInputRules() {
     return [
-      markInputRule(inputRegex, this.type),
+      markInputRule({
+        matcher: inputRegex,
+        type: this.type,
+      }),
     ]
   },
 

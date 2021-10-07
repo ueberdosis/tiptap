@@ -11,6 +11,9 @@ export * from './types'
 
 export { default as nodeInputRule } from './inputRules/nodeInputRule'
 export { default as markInputRule } from './inputRules/markInputRule'
+export { default as textblockTypeInputRule } from './inputRules/textblockTypeInputRule'
+export { default as textInputRule } from './inputRules/textInputRule'
+export { default as wrappingInputRule } from './inputRules/wrappingInputRule'
 export { default as markPasteRule } from './pasteRules/markPasteRule'
 export { default as textPasteRule } from './pasteRules/textPasteRule'
 

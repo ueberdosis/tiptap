@@ -83,7 +83,10 @@ export const Strike = Mark.create<StrikeOptions>({
 
   addInputRules() {
     return [
-      markInputRule(inputRegex, this.type),
+      markInputRule({
+        matcher: inputRegex,
+        type: this.type,
+      }),
     ]
   },
 

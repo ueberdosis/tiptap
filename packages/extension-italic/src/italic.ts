@@ -81,8 +81,14 @@ export const Italic = Mark.create<ItalicOptions>({
 
   addInputRules() {
     return [
-      markInputRule(starInputRegex, this.type),
-      markInputRule(underscoreInputRegex, this.type),
+      markInputRule({
+        matcher: starInputRegex,
+        type: this.type,
+      }),
+      markInputRule({
+        matcher: underscoreInputRegex,
+        type: this.type,
+      }),
     ]
   },
 

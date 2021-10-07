@@ -1,5 +1,6 @@
 import {
   Mark,
+  // markInputRule,
   markPasteRule,
   mergeAttributes,
 } from '@tiptap/core'
@@ -103,6 +104,30 @@ export const Link = Mark.create<LinkOptions>({
       },
     }
   },
+
+  // addInputRules() {
+  //   return [
+  //     markInputRule({
+  //       matcher: text => {
+  //         const link = find(text)[0]
+
+  //         if (!link || !link.isLink) {
+  //           return null
+  //         }
+
+  //         return {
+  //           text: link.value,
+  //           index: link.start,
+  //           link,
+  //         }
+  //       },
+  //       type: this.type,
+  //       getAttributes: match => ({
+  //         href: match.link.href,
+  //       }),
+  //     }),
+  //   ]
+  // },
 
   addPasteRules() {
     return [
