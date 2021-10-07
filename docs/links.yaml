@@ -21,6 +21,9 @@
         - title: React
           link: /installation/react
           skip: true
+        - title: Next.js
+          link: /installation/nextjs
+          skip: true          
         - title: Vue 3
           link: /installation/vue3
           skip: true
