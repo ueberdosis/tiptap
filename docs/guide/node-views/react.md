@@ -99,16 +99,29 @@ The `NodeViewWrapper` and `NodeViewContent` components render a `<div>` HTML tag
 ## All available props
 Here is the full list of what props you can expect:
 
-| Prop               | Description                                                     |
-| ------------------ | --------------------------------------------------------------- |
-| `editor`           | The editor instance                                             |
-| `node`             | The current node                                                |
-| `decorations`      | An array of decorations                                         |
-| `selected`         | `true` when there is a `NodeSelection` at the current node view |
-| `extension`        | Access to the node extension, for example to get options        |
-| `getPos`           | Get the document position of the current node                   |
-| `updateAttributes` | Update attributes of the current node                           |
-| `deleteNode`       | Delete the current node                                         |
+### editor
+The editor instance
+
+### node
+The current node
+
+### decorations
+An array of decorations
+
+### selected
+`true` when there is a `NodeSelection` at the current node view
+
+### extension
+Access to the node extension, for example to get options
+
+### getPos()
+Get the document position of the current node
+
+### updateAttributes()
+Update attributes of the current node
+
+### deleteNode()
+Delete the current node
 
 ## Dragging
 To make your node views draggable, set `draggable: true` in the extension and add `data-drag-handle` to the DOM element that should function as the drag handle.

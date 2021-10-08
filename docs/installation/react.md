@@ -12,6 +12,14 @@ The following guide describes how to integrate tiptap with your [React](https://
 * [Node](https://nodejs.org/en/download/) installed on your machine
 * Experience with [React](https://reactjs.org/docs/getting-started.html)
 
+## Using a template
+If you just want to get up and running with tiptap you can use the [tiptap Create React App template](https://github.com/alb/cra-template-tiptap) by [@alb](https://github.com/alb) to automatically create a new project with all the steps below already completed.
+
+```bash
+# create a project based on the tiptap template
+npx create-react-app tiptap-example --template tiptap
+```
+
 ## 1. Create a project (optional)
 If you already have an existing React project, that’s fine too. Just skip this step and proceed with the next step.
 

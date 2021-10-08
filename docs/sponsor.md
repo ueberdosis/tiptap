@@ -43,7 +43,7 @@ If you’re a company, don’t want to use GitHub, don’t have a credit card or
 We are part of the [Y-Collective](https://opencollective.com/y-collective), a fund for projects related to Y.js (the technology we’re using for all the collaborative editing magic). That’s an OpenCollective, which allows you to send money through transfer, PayPal or credit card. Donations are tax deductible for US companies.
 
 ### I want consulting. What’s your rate?
-We don’t do any calls, consulting or personal support for tiptap. If you have an issue, a question, want to talk something through or anything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap/issues) to keep everything accessible for the whole community.
+If you have an issue, a question, want to talk something through or anything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap/issues/new/choose) to keep everything accessible to the whole community. For everything else, reach out to [humans@tiptap.dev](mailto:humans@tiptap.dev). We can take on a limited number of custom development and consulting contracts.
 
 ### Can we have a call?
-Nope, we are big fans of asynchronous communication. If you really need to reach out in private, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev), but don’t expect technical email support.
+Nope, we are big fans of asynchronous communication. If you really need to reach out in private, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev), but don’t expect technical email support. That all happens on [GitHub](https://github.com/ueberdosis/tiptap/issues).

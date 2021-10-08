@@ -102,7 +102,7 @@ const CustomBold = Bold.extend({
 new Editor({
   extensions: [
     // …
-    CustomBold(),
+    CustomBold,
   ],
 })
 ```
