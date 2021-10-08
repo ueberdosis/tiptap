@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-blockquote@2.0.0-beta.15...@tiptap/extension-blockquote@2.0.0-beta.16) (2021-10-08)
+
+
+### Features
+
+* Integrate input rules and paste rules into the core ([#1997](https://github.com/ueberdosis/tiptap/issues/1997)) ([723b955](https://github.com/ueberdosis/tiptap/commit/723b955cecc5c92c8aad897ce16c60fb62976571))
+
+
+
+
+
 # [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-blockquote@2.0.0-beta.14...@tiptap/extension-blockquote@2.0.0-beta.15) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/extension-blockquote

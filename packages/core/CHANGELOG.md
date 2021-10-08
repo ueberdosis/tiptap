@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.119](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.118...@tiptap/core@2.0.0-beta.119) (2021-10-08)
+
+
+### Features
+
+* Integrate input rules and paste rules into the core ([#1997](https://github.com/ueberdosis/tiptap/issues/1997)) ([723b955](https://github.com/ueberdosis/tiptap/commit/723b955cecc5c92c8aad897ce16c60fb62976571))
+
+
+
+
+
 # [2.0.0-beta.118](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.117...@tiptap/core@2.0.0-beta.118) (2021-10-03)
 
 
