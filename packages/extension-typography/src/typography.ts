@@ -1,29 +1,109 @@
-import { Extension } from '@tiptap/core'
-import {
-  emDash,
-  ellipsis,
-  openDoubleQuote,
-  closeDoubleQuote,
-  openSingleQuote,
-  closeSingleQuote,
-  InputRule,
-} from 'prosemirror-inputrules'
+import { Extension, textInputRule } from '@tiptap/core'
 
-export const leftArrow = new InputRule(/<-$/, '←')
-export const rightArrow = new InputRule(/->$/, '→')
-export const copyright = new InputRule(/\(c\)$/, '©')
-export const trademark = new InputRule(/\(tm\)$/, '™')
-export const registeredTrademark = new InputRule(/\(r\)$/, '®')
-export const oneHalf = new InputRule(/1\/2$/, '½')
-export const plusMinus = new InputRule(/\+\/-$/, '±')
-export const notEqual = new InputRule(/!=$/, '≠')
-export const laquo = new InputRule(/<<$/, '«')
-export const raquo = new InputRule(/>>$/, '»')
-export const multiplication = new InputRule(/\d+\s?([*x])\s?\d+$/, '×')
-export const superscriptTwo = new InputRule(/\^2$/, '²')
-export const superscriptThree = new InputRule(/\^3$/, '³')
-export const oneQuarter = new InputRule(/1\/4$/, '¼')
-export const threeQuarters = new InputRule(/3\/4$/, '¾')
+export const emDash = textInputRule({
+  find: /--$/,
+  replace: '—',
+})
+
+export const ellipsis = textInputRule({
+  find: /\.\.\.$/,
+  replace: '…',
+})
+
+export const openDoubleQuote = textInputRule({
+  find: /(?:^|[\s{[(<'"\u2018\u201C])(")$/,
+  replace: '“',
+})
+
+export const closeDoubleQuote = textInputRule({
+  find: /"$/,
+  replace: '”',
+})
+
+export const openSingleQuote = textInputRule({
+  find: /(?:^|[\s{[(<'"\u2018\u201C])(')$/,
+  replace: '‘',
+})
+
+export const closeSingleQuote = textInputRule({
+  find: /'$/,
+  replace: '’',
+})
+
+export const leftArrow = textInputRule({
+  find: /<-$/,
+  replace: '←',
+})
+
+export const rightArrow = textInputRule({
+  find: /->$/,
+  replace: '→',
+})
+
+export const copyright = textInputRule({
+  find: /\(c\)$/,
+  replace: '©',
+})
+
+export const trademark = textInputRule({
+  find: /\(tm\)$/,
+  replace: '™',
+})
+
+export const registeredTrademark = textInputRule({
+  find: /\(r\)$/,
+  replace: '®',
+})
+
+export const oneHalf = textInputRule({
+  find: /1\/2$/,
+  replace: '½',
+})
+
+export const plusMinus = textInputRule({
+  find: /\+\/-$/,
+  replace: '±',
+})
+
+export const notEqual = textInputRule({
+  find: /!=$/,
+  replace: '≠',
+})
+
+export const laquo = textInputRule({
+  find: /<<$/,
+  replace: '«',
+})
+
+export const raquo = textInputRule({
+  find: />>$/,
+  replace: '»',
+})
+
+export const multiplication = textInputRule({
+  find: /\d+\s?([*x])\s?\d+$/,
+  replace: '×',
+})
+
+export const superscriptTwo = textInputRule({
+  find: /\^2$/,
+  replace: '²',
+})
+
+export const superscriptThree = textInputRule({
+  find: /\^3$/,
+  replace: '³',
+})
+
+export const oneQuarter = textInputRule({
+  find: /1\/4$/,
+  replace: '¼',
+})
+
+export const threeQuarters = textInputRule({
+  find: /3\/4$/,
+  replace: '¾',
+})
 
 export const Typography = Extension.create({
   name: 'typography',

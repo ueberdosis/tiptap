@@ -1,5 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core'
-import { wrappingInputRule } from 'prosemirror-inputrules'
+import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core'
 
 export interface BlockquoteOptions {
   HTMLAttributes: Record<string, any>,
@@ -72,7 +71,10 @@ export const Blockquote = Node.create<BlockquoteOptions>({
 
   addInputRules() {
     return [
-      wrappingInputRule(inputRegex, this.type),
+      wrappingInputRule({
+        find: inputRegex,
+        type: this.type,
+      }),
     ]
   },
 })

@@ -1,76 +1,70 @@
-import { Plugin, PluginKey } from 'prosemirror-state'
-import { Slice, Fragment, MarkType } from 'prosemirror-model'
+import { PasteRule, PasteRuleFinder } from '../PasteRule'
+import { MarkType } from 'prosemirror-model'
+import getMarksBetween from '../helpers/getMarksBetween'
+import callOrReturn from '../utilities/callOrReturn'
+import { ExtendedRegExpMatchArray } from '../types'
 
-export default function (
-  regexp: RegExp,
+/**
+ * Build an paste rule that adds a mark when the
+ * matched text is pasted into it.
+ */
+export default function markPasteRule(config: {
+  find: PasteRuleFinder,
   type: MarkType,
   getAttributes?:
     | Record<string, any>
-    | ((match: RegExpExecArray) => Record<string, any>)
+    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
     | null
   ,
-): Plugin {
-  const handler = (fragment: Fragment, parent?: any) => {
-    const nodes: any[] = []
+}) {
+  return new PasteRule({
+    find: config.find,
+    handler: ({ state, range, match }) => {
+      const attributes = callOrReturn(config.getAttributes, undefined, match)
 
-    fragment.forEach(child => {
-      if (child.isText && child.text) {
-        const { text } = child
-        let pos = 0
-        let match
-
-        // eslint-disable-next-line
-        while ((match = regexp.exec(text)) !== null) {
-          const outerMatch = Math.max(match.length - 2, 0)
-          const innerMatch = Math.max(match.length - 1, 0)
-
-          if (parent?.type.allowsMarkType(type)) {
-            const start = match.index
-            const matchStart = start + match[0].indexOf(match[outerMatch])
-            const matchEnd = matchStart + match[outerMatch].length
-            const textStart = matchStart + match[outerMatch].lastIndexOf(match[innerMatch])
-            const textEnd = textStart + match[innerMatch].length
-            const attrs = getAttributes instanceof Function
-              ? getAttributes(match)
-              : getAttributes
-
-            if (!attrs && attrs !== undefined) {
-              continue
-            }
-
-            // adding text before markdown to nodes
-            if (matchStart > 0) {
-              nodes.push(child.cut(pos, matchStart))
-            }
-
-            // adding the markdown part to nodes
-            nodes.push(child
-              .cut(textStart, textEnd)
-              .mark(type.create(attrs).addToSet(child.marks)))
-
-            pos = matchEnd
-          }
-        }
-
-        // adding rest of text to nodes
-        if (pos < text.length) {
-          nodes.push(child.cut(pos))
-        }
-      } else {
-        nodes.push(child.copy(handler(child.content, child)))
+      if (attributes === false || attributes === null) {
+        return
       }
-    })
 
-    return Fragment.fromArray(nodes)
-  }
+      const { tr } = state
+      const captureGroup = match[match.length - 1]
+      const fullMatch = match[0]
+      let markEnd = range.to
 
-  return new Plugin({
-    key: new PluginKey('markPasteRule'),
-    props: {
-      transformPasted: slice => {
-        return new Slice(handler(slice.content), slice.openStart, slice.openEnd)
-      },
+      if (captureGroup) {
+        const startSpaces = fullMatch.search(/\S/)
+        const textStart = range.from + fullMatch.indexOf(captureGroup)
+        const textEnd = textStart + captureGroup.length
+
+        const excludedMarks = getMarksBetween(range.from, range.to, state)
+          .filter(item => {
+            // TODO: PR to add excluded to MarkType
+            // @ts-ignore
+            const { excluded } = item.mark.type
+
+            return excluded.find((type: MarkType) => type.name === config.type.name)
+          })
+          .filter(item => item.to > textStart)
+
+        if (excludedMarks.length) {
+          return null
+        }
+
+        if (textEnd < range.to) {
+          tr.delete(textEnd, range.to)
+        }
+
+        if (textStart > range.from) {
+          tr.delete(range.from + startSpaces, textStart)
+        }
+
+        markEnd = range.from + startSpaces + captureGroup.length
+
+        tr.addMark(range.from + startSpaces, markEnd, config.type.create(attributes || {}))
+
+        tr.removeStoredMark(config.type)
+      }
     },
   })
 }

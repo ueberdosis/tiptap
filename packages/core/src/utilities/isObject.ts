@@ -1,10 +1,10 @@
 import isClass from './isClass'
 
-export default function isObject(item: any): boolean {
+export default function isObject(value: any): boolean {
   return (
-    item
-    && typeof item === 'object'
-    && !Array.isArray(item)
-    && !isClass(item)
+    value
+    && typeof value === 'object'
+    && !Array.isArray(value)
+    && !isClass(value)
   )
 }

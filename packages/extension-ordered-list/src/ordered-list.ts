@@ -1,5 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core'
-import { wrappingInputRule } from 'prosemirror-inputrules'
+import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core'
 
 export interface OrderedListOptions {
   HTMLAttributes: Record<string, any>,
@@ -74,12 +73,12 @@ export const OrderedList = Node.create<OrderedListOptions>({
 
   addInputRules() {
     return [
-      wrappingInputRule(
-        inputRegex,
-        this.type,
-        match => ({ start: +match[1] }),
-        (match, node) => node.childCount + node.attrs.start === +match[1],
-      ),
+      wrappingInputRule({
+        find: inputRegex,
+        type: this.type,
+        getAttributes: match => ({ start: +match[1] }),
+        joinPredicate: (match, node) => node.childCount + node.attrs.start === +match[1],
+      }),
     ]
   },
 })

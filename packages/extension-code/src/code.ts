@@ -40,6 +40,8 @@ export const Code = Mark.create<CodeOptions>({
 
   excludes: '_',
 
+  code: true,
+
   parseHTML() {
     return [
       { tag: 'code' },
@@ -72,13 +74,19 @@ export const Code = Mark.create<CodeOptions>({
 
   addInputRules() {
     return [
-      markInputRule(inputRegex, this.type),
+      markInputRule({
+        find: inputRegex,
+        type: this.type,
+      }),
     ]
   },
 
   addPasteRules() {
     return [
-      markPasteRule(pasteRegex, this.type),
+      markPasteRule({
+        find: pasteRegex,
+        type: this.type,
+      }),
     ]
   },
 })

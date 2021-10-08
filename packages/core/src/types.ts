@@ -229,3 +229,7 @@ export type TextSerializer = (props: {
   parent: ProseMirrorNode,
   index: number,
 }) => string
+
+export type ExtendedRegExpMatchArray = RegExpMatchArray & {
+  data?: Record<string, any>,
+}

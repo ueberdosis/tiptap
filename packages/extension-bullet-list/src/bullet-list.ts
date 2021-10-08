@@ -1,5 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core'
-import { wrappingInputRule } from 'prosemirror-inputrules'
+import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core'
 
 export interface BulletListOptions {
   HTMLAttributes: Record<string, any>,
@@ -55,7 +54,10 @@ export const BulletList = Node.create<BulletListOptions>({
 
   addInputRules() {
     return [
-      wrappingInputRule(inputRegex, this.type),
+      wrappingInputRule({
+        find: inputRegex,
+        type: this.type,
+      }),
     ]
   },
 })
