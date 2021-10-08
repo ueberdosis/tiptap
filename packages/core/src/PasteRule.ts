@@ -1,17 +1,13 @@
 import { EditorState, Plugin } from 'prosemirror-state'
 import createChainableState from './helpers/createChainableState'
 import isRegExp from './utilities/isRegExp'
-import { Range } from './types'
+import { Range, ExtendedRegExpMatchArray } from './types'
 
 export type PasteRuleMatch = {
   index: number,
   text: string,
   replaceWith?: string,
   match?: RegExpMatchArray,
-  data?: Record<string, any>,
-}
-
-export type ExtendedRegExpMatchArray = RegExpMatchArray & {
   data?: Record<string, any>,
 }
 
