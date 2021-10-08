@@ -1,4 +1,4 @@
-import { Extension, textInputRule } from '@tiptap/core';
+import { Extension, textInputRule } from '@tiptap/core'
 
 export const SmilieReplacer = Extension.create({
   name: 'smilieReplacer ',
@@ -130,4 +130,4 @@ export const SmilieReplacer = Extension.create({
       textInputRule({ find: /\/shrug $/, replace: '¯\\_(ツ)_/¯' }),
     ];
   },
-});
+})
