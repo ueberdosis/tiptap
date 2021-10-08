@@ -1,7 +1,8 @@
-import { InputRule, InputRuleFinder, ExtendedRegExpMatchArray } from '../InputRule'
+import { InputRule, InputRuleFinder } from '../InputRule'
 import { MarkType } from 'prosemirror-model'
 import getMarksBetween from '../helpers/getMarksBetween'
 import callOrReturn from '../utilities/callOrReturn'
+import { ExtendedRegExpMatchArray } from '../types'
 
 /**
  * Build an input rule that adds a mark when the

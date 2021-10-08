@@ -1,5 +1,6 @@
-import { InputRule, InputRuleFinder, ExtendedRegExpMatchArray } from '../InputRule'
+import { InputRule, InputRuleFinder } from '../InputRule'
 import { NodeType } from 'prosemirror-model'
+import { ExtendedRegExpMatchArray } from '../types'
 import callOrReturn from '../utilities/callOrReturn'
 
 /**

@@ -1,7 +1,8 @@
-import { PasteRule, PasteRuleFinder, ExtendedRegExpMatchArray } from '../PasteRule'
+import { PasteRule, PasteRuleFinder } from '../PasteRule'
 import { MarkType } from 'prosemirror-model'
 import getMarksBetween from '../helpers/getMarksBetween'
 import callOrReturn from '../utilities/callOrReturn'
+import { ExtendedRegExpMatchArray } from '../types'
 
 /**
  * Build an paste rule that adds a mark when the
