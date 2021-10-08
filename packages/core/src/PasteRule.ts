@@ -104,7 +104,7 @@ function run(config: {
           return
         }
 
-        const start = resolvedFrom + match.index
+        const start = resolvedFrom + match.index + 1
         const end = start + match[0].length
         const range = {
           from: state.tr.mapping.map(start),
@@ -118,7 +118,7 @@ function run(config: {
         })
       })
     })
-  }, from)
+  })
 }
 
 /**
@@ -141,7 +141,7 @@ export function pasteRulesPlugin(rules: PasteRule[]): Plugin {
       const from = before.content.findDiffStart(doc.content)
       const to = before.content.findDiffEnd(doc.content)
 
-      if (!from || !to) {
+      if (!from || !to || from === to.b) {
         return
       }
 
@@ -155,7 +155,7 @@ export function pasteRulesPlugin(rules: PasteRule[]): Plugin {
 
       run({
         state: chainableState,
-        from,
+        from: Math.max(from - 1, 0),
         to: to.b,
         rules,
         plugin,
