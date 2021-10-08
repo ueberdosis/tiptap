@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.120](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.119...@tiptap/core@2.0.0-beta.120) (2021-10-08)
+
+
+### Bug Fixes
+
+* fix mappes positions for paste rules, fix [#2002](https://github.com/ueberdosis/tiptap/issues/2002) ([770c4e1](https://github.com/ueberdosis/tiptap/commit/770c4e18e19504f4c44feb85b7d202fcc5201b12))
+
+
+
+
+
 # [2.0.0-beta.119](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.118...@tiptap/core@2.0.0-beta.119) (2021-10-08)
 
 
