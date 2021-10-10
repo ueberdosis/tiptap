@@ -39,11 +39,10 @@ export default function markInputRule(config: {
 
         const excludedMarks = getMarksBetween(range.from, range.to, state)
           .filter(item => {
-            // TODO: PR to add excluded to MarkType
             // @ts-ignore
-            const { excluded } = item.mark.type
+            const excluded = item.mark.type.excluded as MarkType[]
 
-            return excluded.find((type: MarkType) => type.name === config.type.name)
+            return excluded.find(type => type === config.type && type !== item.mark.type)
           })
           .filter(item => item.to > textStart)
 
