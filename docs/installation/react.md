@@ -47,7 +47,7 @@ yarn add @tiptap/react @tiptap/starter-kit
 If you followed step 1 and 2, you can now start your project with `npm run start` or `yarn start`, and open [http://localhost:3000](http://localhost:3000) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Create a new component
-To actually start using tiptap, you’ll need to add a new component to your app. Let’s call it `Tiptap` and put the following example code in `src/Tiptap.jsx`.
+To actually start using tiptap, you’ll need to create a new component in your app. Let’s call it `Tiptap` and put the following example code in `src/Tiptap.jsx`.
 
 This is the fastest way to get tiptap up and running with React. It will give you a very basic version of tiptap, without any buttons. No worries, you will be able to add more functionality soon.
 
