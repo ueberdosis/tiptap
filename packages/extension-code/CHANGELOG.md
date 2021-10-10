@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code@2.0.0-beta.17...@tiptap/extension-code@2.0.0-beta.18) (2021-10-10)
+
+
+### Bug Fixes
+
+* fix regex modifier for input rules and paste rules, fix [#2003](https://github.com/ueberdosis/tiptap/issues/2003) ([65eddf0](https://github.com/ueberdosis/tiptap/commit/65eddf0e789c620a53d9bec9509b515211fb9b3f))
+
+
+
+
+
 # [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code@2.0.0-beta.16...@tiptap/extension-code@2.0.0-beta.17) (2021-10-08)
 
 

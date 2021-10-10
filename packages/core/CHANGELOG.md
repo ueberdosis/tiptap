@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.121](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.120...@tiptap/core@2.0.0-beta.121) (2021-10-10)
+
+
+### Bug Fixes
+
+* do not apply paste rules for ProseMirror HTML ([9d281e9](https://github.com/ueberdosis/tiptap/commit/9d281e9e998a5cfa9ca1002ad428caf1cee59682))
+
+
+
+
+
 # [2.0.0-beta.120](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.119...@tiptap/core@2.0.0-beta.120) (2021-10-08)
 
 
