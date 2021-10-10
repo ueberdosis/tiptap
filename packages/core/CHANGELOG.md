@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.122](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.121...@tiptap/core@2.0.0-beta.122) (2021-10-10)
+
+
+### Bug Fixes
+
+* allow to re-apply current mark for input rules and paste rules, fix [#2003](https://github.com/ueberdosis/tiptap/issues/2003) ([3958bf1](https://github.com/ueberdosis/tiptap/commit/3958bf1c226621142e9216c8eda91a70b71a211a))
+
+
+
+
+
 # [2.0.0-beta.121](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.120...@tiptap/core@2.0.0-beta.121) (2021-10-10)
 
 
