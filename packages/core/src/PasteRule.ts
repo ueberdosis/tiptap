@@ -127,12 +127,23 @@ function run(config: {
  * action.
  */
 export function pasteRulesPlugin(rules: PasteRule[]): Plugin {
+  let isProseMirrorHTML = false
+
   const plugin = new Plugin({
+    props: {
+      handlePaste: (view, event) => {
+        const html = event.clipboardData?.getData('text/html')
+
+        isProseMirrorHTML = !!html?.includes('data-pm-slice')
+
+        return false
+      },
+    },
     appendTransaction: (transactions, oldState, state) => {
       const transaction = transactions[0]
 
       // stop if there is not a paste event
-      if (!transaction.getMeta('paste')) {
+      if (!transaction.getMeta('paste') || isProseMirrorHTML) {
         return
       }
 
