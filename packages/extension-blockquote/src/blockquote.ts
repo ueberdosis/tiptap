@@ -23,7 +23,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const inputRegex = /^\s*>\s$/gm
+export const inputRegex = /^\s*>\s$/
 
 export const Blockquote = Node.create<BlockquoteOptions>({
 
