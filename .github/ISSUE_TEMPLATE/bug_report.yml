@@ -23,8 +23,8 @@ body:
       value: |
         Chances that we can fix your issue are way higher, if you can provide a CodeSandbox to reproduce the issue.
 
-        * Vue: https://codesandbox.io/s/tiptap-issue-template-b83rr?file=/src/components/Tiptap.vue
-        * React: https://codesandbox.io/s/tiptap-react-08yxr
+        * Vue: https://codesandbox.io/s/tiptap-vue-3-issue-template-tnlpv?file=/src/App.vue
+        * React: https://codesandbox.io/s/tiptap-react-issue-template-b4hmi?file=/src/App.js
   - type: textarea
     id: codesandbox
     attributes:
