@@ -23,12 +23,12 @@ export interface ReactRendererOptions {
   as?: string,
 }
 
-type ComponentType =
+type ComponentType<R> =
   | React.ComponentClass
   | React.FunctionComponent
-  | React.ForwardRefExoticComponent<{ items: any[], command: any } & React.RefAttributes<unknown>>
+  | React.ForwardRefExoticComponent<{ items: any[], command: any } & React.RefAttributes<R>>
 
-export class ReactRenderer {
+export class ReactRenderer<R = unknown> {
   id: string
 
   editor: ExtendedEditor
@@ -41,9 +41,9 @@ export class ReactRenderer {
 
   reactElement: React.ReactNode
 
-  ref: React.Component | null = null
+  ref: R | null = null
 
-  constructor(component: ComponentType, { editor, props = {}, as = 'div' }: ReactRendererOptions) {
+  constructor(component: ComponentType<R>, { editor, props = {}, as = 'div' }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
     this.editor = editor as ExtendedEditor
@@ -58,7 +58,7 @@ export class ReactRenderer {
     const props = this.props
 
     if (isClassComponent(Component) || isForwardRefComponent(Component)) {
-      props.ref = (ref: React.Component) => {
+      props.ref = (ref: R) => {
         this.ref = ref
       }
     }
