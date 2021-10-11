@@ -1,5 +1,6 @@
 import React from 'react'
-import { Editor } from './Editor'
+import { Editor } from '@tiptap/core'
+import { Editor as ExtendedEditor } from './Editor'
 
 function isClassComponent(Component: any) {
   return !!(
@@ -30,7 +31,7 @@ type ComponentType =
 export class ReactRenderer {
   id: string
 
-  editor: Editor
+  editor: ExtendedEditor
 
   component: any
 
@@ -45,7 +46,7 @@ export class ReactRenderer {
   constructor(component: ComponentType, { editor, props = {}, as = 'div' }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
-    this.editor = editor
+    this.editor = editor as ExtendedEditor
     this.props = props
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
