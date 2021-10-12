@@ -11,6 +11,8 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
   const element = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!element.current) return
+
     const {
       pluginKey = 'floatingMenu',
       editor,
@@ -29,7 +31,10 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
     return () => {
       editor.unregisterPlugin(pluginKey)
     }
-  }, [])
+  }, [
+    props.editor,
+    element.current,
+  ])
 
   return (
     <div ref={element} className={props.className} style={{ visibility: 'hidden' }}>
