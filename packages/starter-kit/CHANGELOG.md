@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.122](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.121...@tiptap/starter-kit@2.0.0-beta.122) (2021-10-12)
+
+**Note:** Version bump only for package @tiptap/starter-kit
+
+
+
+
+
 # [2.0.0-beta.121](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.120...@tiptap/starter-kit@2.0.0-beta.121) (2021-10-10)
 
 **Note:** Version bump only for package @tiptap/starter-kit

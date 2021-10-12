@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.19...@tiptap/extension-code-block@2.0.0-beta.20) (2021-10-12)
+
+
+### Bug Fixes
+
+* add support for pasted content from VS Code, fix [#2022](https://github.com/ueberdosis/tiptap/issues/2022) ([0e0b0b6](https://github.com/ueberdosis/tiptap/commit/0e0b0b6a8c1d80ef9084d1913a51dd9bff8a69d8))
+
+
+
+
+
 # [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.18...@tiptap/extension-code-block@2.0.0-beta.19) (2021-10-08)
 
 

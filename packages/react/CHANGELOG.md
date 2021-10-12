@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.81](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.80...@tiptap/react@2.0.0-beta.81) (2021-10-12)
+
+
+### Bug Fixes
+
+* Add `editor` dependency when registering `BubbleMenuPlugin` and `FloatingMenuPlugin` ([#2018](https://github.com/ueberdosis/tiptap/issues/2018)) ([e9465ec](https://github.com/ueberdosis/tiptap/commit/e9465ec0f6921abd428ed27b50596d20edc05b77))
+
+
+
+
+
 # [2.0.0-beta.80](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.79...@tiptap/react@2.0.0-beta.80) (2021-10-11)
 
 
