@@ -1,4 +1,5 @@
 import { Node, textblockTypeInputRule } from '@tiptap/core'
+import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
 
 export interface CodeBlockOptions {
   languageClassPrefix: string,
@@ -129,6 +130,54 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         find: tildeInputRegex,
         type: this.type,
         getAttributes: ({ groups }) => groups,
+      }),
+    ]
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      // this plugin creates a code block for pasted content from VS Code
+      // we can also detect the copied code language
+      new Plugin({
+        key: new PluginKey('codeBlockVSCodeHandler'),
+        props: {
+          handlePaste: (view, event) => {
+            if (!event.clipboardData) {
+              return false
+            }
+
+            // don’t create a new code block within code blocks
+            if (this.editor.isActive(this.type.name)) {
+              return false
+            }
+
+            const text = event.clipboardData.getData('text/plain')
+            const vscode = event.clipboardData.getData('vscode-editor-data')
+            const vscodeData = vscode
+              ? JSON.parse(vscode)
+              : undefined
+            const language = vscodeData.mode
+
+            if (!text || !language) {
+              return false
+            }
+
+            const { tr } = view.state
+
+            // create an empty code block
+            tr.replaceSelectionWith(this.type.create({ language }))
+
+            // put cursor inside the newly created code block
+            tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))))
+
+            // add text to code block
+            tr.insertText(text)
+
+            view.dispatch(tr)
+
+            return true
+          },
+        },
       }),
     ]
   },
