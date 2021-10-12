@@ -9,6 +9,7 @@ export interface PlaceholderOptions {
   placeholder: ((PlaceholderProps: {
     editor: Editor,
     node: ProsemirrorNode,
+    pos: number,
   }) => string) | string,
   showOnlyWhenEditable: boolean,
   showOnlyCurrent: boolean,
@@ -57,6 +58,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
                     ? this.options.placeholder({
                       editor: this.editor,
                       node,
+                      pos,
                     })
                     : this.options.placeholder,
                 })
