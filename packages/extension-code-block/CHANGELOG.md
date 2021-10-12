@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.20...@tiptap/extension-code-block@2.0.0-beta.21) (2021-10-12)
+
+
+### Bug Fixes
+
+* fix bug on paste when using code blocks ([d60fe35](https://github.com/ueberdosis/tiptap/commit/d60fe350d148a0b39a6cdd6b439e3d9325506872))
+
+
+
+
+
 # [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.19...@tiptap/extension-code-block@2.0.0-beta.20) (2021-10-12)
 
 
