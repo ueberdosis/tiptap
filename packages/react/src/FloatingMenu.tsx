@@ -11,7 +11,9 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
   const element = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!element.current) return
+    if (!element.current) {
+      return
+    }
 
     const {
       pluginKey = 'floatingMenu',

@@ -11,7 +11,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
   const element = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!element.current) return
+    if (!element.current) {
+      return
+    }
 
     const {
       pluginKey = 'bubbleMenu',
