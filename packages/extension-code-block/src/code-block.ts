@@ -162,18 +162,8 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
               return false
             }
 
-            const { tr } = view.state
-
-            // create an empty code block
-            tr.replaceSelectionWith(this.type.create({ language }))
-
-            // put cursor inside the newly created code block
-            tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))))
-
-            // add text to code block
-            tr.insertText(text)
-
-            view.dispatch(tr)
+            const {dispatch, state: {tr, schema}} = view.state
+            dispatch(tr.replaceSelectionWith(this.type.create({ language }, schema.text(text.replace(/\r\n?/g, "\n")))))
 
             return true
           },
