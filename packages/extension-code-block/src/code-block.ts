@@ -156,7 +156,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
             const vscodeData = vscode
               ? JSON.parse(vscode)
               : undefined
-            const language = vscodeData.mode
+            const language = vscodeData?.mode
 
             if (!text || !language) {
               return false
