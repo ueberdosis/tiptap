@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.21...@tiptap/extension-code-block@2.0.0-beta.22) (2021-10-13)
+
+
+### Bug Fixes
+
+* strip carriage return chars from text pasted as code and add missing paste meta information ([b1c56e6](https://github.com/ueberdosis/tiptap/commit/b1c56e6f163af1a432621894e19f39243a38c4e4))
+
+
+
+
+
 # [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.20...@tiptap/extension-code-block@2.0.0-beta.21) (2021-10-12)
 
 
