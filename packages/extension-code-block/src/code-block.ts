@@ -171,7 +171,14 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
             tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))))
 
             // add text to code block
-            tr.insertText(text)
+            // strip carriage return chars from text pasted as code
+            // see: https://github.com/ProseMirror/prosemirror-view/commit/a50a6bcceb4ce52ac8fcc6162488d8875613aacd
+            tr.insertText(text.replace(/\r\n?/g, '\n'))
+
+            // store meta information
+            // this is useful for other plugins that depends on the paste event
+            // like the paste rule plugin
+            tr.setMeta('paste', true)
 
             view.dispatch(tr)
 
