@@ -1,5 +1,5 @@
 import { Node, textblockTypeInputRule } from '@tiptap/core'
-import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
+import { Plugin, PluginKey } from 'prosemirror-state'
 
 export interface CodeBlockOptions {
   languageClassPrefix: string,
