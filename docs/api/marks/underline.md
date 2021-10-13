@@ -1,3 +1,7 @@
+---
+description: Add a line below your text to make it look more … underlined.
+---
+
 # Underline
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-underline.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-underline)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-underline.svg)](https://npmcharts.com/compare/@tiptap/extension-underline?minimal=true)

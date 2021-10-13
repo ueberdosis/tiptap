@@ -1,3 +1,7 @@
+---
+description: Helps to emphasize your text, doesn’t bring you closer to Italy though.
+---
+
 # Italic
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-italic.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-italic)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-italic.svg)](https://npmcharts.com/compare/@tiptap/extension-italic?minimal=true)

@@ -1,3 +1,7 @@
+---
+description: Link it, link it good, link it real good (and don’t forget the href).
+---
+
 # Link
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-link.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-link)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-link.svg)](https://npmcharts.com/compare/@tiptap/extension-link?minimal=true)

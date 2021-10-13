@@ -1,3 +1,7 @@
+---
+description: The gapcursor makes sure the cursor doesn’t get stuck … in a gap.
+---
+
 # Gapcursor
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-gapcursor.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-gapcursor)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-gapcursor.svg)](https://npmcharts.com/compare/@tiptap/extension-gapcursor?minimal=true)

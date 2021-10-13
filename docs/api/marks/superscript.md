@@ -1,3 +1,7 @@
+---
+description: Write slightly above the the normal line, to show you’re just next level.
+---
+
 # Superscript
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-superscript.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-superscript)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-superscript.svg)](https://npmcharts.com/compare/@tiptap/extension-superscript?minimal=true)

@@ -1,3 +1,7 @@
+---
+description: Useless extension, just adds <span> tags (required by other extensions though).
+---
+
 # TextStyle
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-text-style.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-text-style)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-text-style.svg)](https://npmcharts.com/compare/@tiptap/extension-text-style?minimal=true)

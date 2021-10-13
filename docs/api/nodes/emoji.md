@@ -1,3 +1,7 @@
+---
+description: "Not ready yet. :construction:"
+---
+
 # Emoji
 
 ## Support for emojis

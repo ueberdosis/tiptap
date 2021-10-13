@@ -1,3 +1,7 @@
+---
+description: Keep track of where the cursor is, and let the user know you know it.
+---
+
 # Focus
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-focus.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-focus)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-focus.svg)](https://npmcharts.com/compare/@tiptap/extension-focus?minimal=true)

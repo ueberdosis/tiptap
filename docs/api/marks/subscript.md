@@ -1,3 +1,7 @@
+---
+description: Write slightly below the the normal line, to show you’re unique.
+---
+
 # Subscript
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-subscript.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-subscript)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-subscript.svg)](https://npmcharts.com/compare/@tiptap/extension-subscript?minimal=true)

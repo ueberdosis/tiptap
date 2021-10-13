@@ -1,3 +1,7 @@
+---
+description: All the popular extensions in a single extension, doesn’t get much better than this.
+---
+
 # StarterKit
 [![Version](https://img.shields.io/npm/v/@tiptap/starter-kit.svg?label=version)](https://www.npmjs.com/package/@tiptap/starter-kit)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/starter-kit.svg)](https://npmcharts.com/compare/@tiptap/starter-kit?minimal=true)

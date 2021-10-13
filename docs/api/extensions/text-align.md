@@ -1,3 +1,7 @@
+---
+description: Left, right, center, whatever! Align the text however you like.
+---
+
 # TextAlign
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-text-align.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-text-align)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-text-align.svg)](https://npmcharts.com/compare/@tiptap/extension-text-align?minimal=true)

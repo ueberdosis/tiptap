@@ -1,3 +1,7 @@
+---
+description: Add some colorful syntax highlighting to your code blocks.
+---
+
 # CodeBlockLowlight
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-code-block-lowlight.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-code-block-lowlight)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-code-block-lowlight.svg)](https://npmcharts.com/compare/@tiptap/extension-code-block-lowlight?minimal=true)

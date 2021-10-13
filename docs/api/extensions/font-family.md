@@ -1,3 +1,7 @@
+---
+description: Don’t let your users use Comic Sans MS, but let them use all other fonts.
+---
+
 # FontFamily
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-font-family.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-font-family)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-font-family.svg)](https://npmcharts.com/compare/@tiptap/extension-font-family?minimal=true)

@@ -1,3 +1,7 @@
+---
+description: Developers love to add some inline code to their texts.
+---
+
 # Code
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-code.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-code)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-code.svg)](https://npmcharts.com/compare/@tiptap/extension-code?minimal=true)

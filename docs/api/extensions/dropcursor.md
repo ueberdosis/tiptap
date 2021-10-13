@@ -1,3 +1,7 @@
+---
+description: Adds a cursor when something is dragged inside the editor.
+---
+
 # Dropcursor
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-dropcursor.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-dropcursor)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-dropcursor.svg)](https://npmcharts.com/compare/@tiptap/extension-dropcursor?minimal=true)

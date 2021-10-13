@@ -1,3 +1,7 @@
+---
+description: Configure a helpful placeholder to fill the emptyness.
+---
+
 # Placeholder
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-placeholder.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-placeholder)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-placeholder.svg)](https://npmcharts.com/compare/@tiptap/extension-placeholder?minimal=true)

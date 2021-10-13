@@ -1,3 +1,7 @@
+---
+description: "Tables don’t require a header, but let’s be honest: It looks better with it."
+---
+
 # TableHeader
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-table-header.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-table-header)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-table-header.svg)](https://npmcharts.com/compare/@tiptap/extension-table-header?minimal=true)

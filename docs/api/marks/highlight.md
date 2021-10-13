@@ -1,3 +1,7 @@
+---
+description: Make it look nerdier with some colorful text highlights.
+---
+
 # Highlight
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-highlight.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-highlight)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-highlight.svg)](https://npmcharts.com/compare/@tiptap/extension-highlight?minimal=true)

@@ -1,3 +1,7 @@
+---
+description: Doesn’t care if it’s part of a bullet list or an ordered list.
+---
+
 # ListItem
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-list-item.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-list-item)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-list-item.svg)](https://npmcharts.com/compare/@tiptap/extension-list-item?minimal=true)

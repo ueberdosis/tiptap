@@ -1,3 +1,7 @@
+---
+description: Adds support for tasks (doesn’t make sure you actually complete them though).
+---
+
 # TaskList
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-task-list.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-task-list)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-task-list.svg)](https://npmcharts.com/compare/@tiptap/extension-task-list?minimal=true)

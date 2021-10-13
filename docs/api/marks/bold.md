@@ -1,3 +1,7 @@
+---
+description: Make your text bold and let it stand out.
+---
+
 # Bold
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-bold.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-bold)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-bold.svg)](https://npmcharts.com/compare/@tiptap/extension-bold?minimal=true)

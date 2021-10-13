@@ -1,3 +1,7 @@
+---
+description: Add an image (but a beautiful one), when words aren’t enough.
+---
+
 # Image
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-image.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-image)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-image.svg)](https://npmcharts.com/compare/@tiptap/extension-image?minimal=true)

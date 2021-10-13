@@ -1,3 +1,7 @@
+---
+description: If a bullet list doesn’t look serious enough, put some numbers in front of it.
+---
+
 # OrderedList
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-ordered-list.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-ordered-list)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-ordered-list.svg)](https://npmcharts.com/compare/@tiptap/extension-ordered-list?minimal=true)

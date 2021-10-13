@@ -1,3 +1,7 @@
+---
+description: The least code the better, but sometimes you need multiple lines of it.
+---
+
 # CodeBlock
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-code-block.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-code-block)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-code-block.svg)](https://npmcharts.com/compare/@tiptap/extension-code-block?minimal=true)

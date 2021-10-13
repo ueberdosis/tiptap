@@ -1,3 +1,7 @@
+---
+description: Structure the content with headings (comes with 6 different levels or less).
+---
+
 # Heading
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-heading.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-heading)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-heading.svg)](https://npmcharts.com/compare/@tiptap/extension-heading?minimal=true)

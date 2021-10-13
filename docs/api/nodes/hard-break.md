@@ -1,3 +1,7 @@
+---
+description: Sometimes we all need a break, even it’s just a line break.
+---
+
 # HardBreak
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-hard-break.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-hard-break)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-hard-break.svg)](https://npmcharts.com/compare/@tiptap/extension-hard-break?minimal=true)

@@ -1,3 +1,7 @@
+---
+description: No text editor without text, so better make sure to install that one.
+---
+
 # Text
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-text.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-text)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-text.svg)](https://npmcharts.com/compare/@tiptap/extension-text?minimal=true)

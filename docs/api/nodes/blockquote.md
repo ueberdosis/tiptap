@@ -1,3 +1,7 @@
+---
+description: Quoting other people lets you look clever.
+---
+
 # Blockquote
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-blockquote.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-blockquote)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-blockquote.svg)](https://npmcharts.com/compare/@tiptap/extension-blockquote?minimal=true)

@@ -1,3 +1,7 @@
+---
+description: Collaborative text editing can be fricking complex, so we made it different.
+---
+
 # Collaboration
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-collaboration.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-collaboration)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-collaboration.svg)](https://npmcharts.com/compare/@tiptap/extension-collaboration?minimal=true)

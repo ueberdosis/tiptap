@@ -1,3 +1,7 @@
+---
+description: Cut through the words you wrote, if you’re too afraid to delete it.
+---
+
 # Strike
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-strike.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-strike)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-strike.svg)](https://npmcharts.com/compare/@tiptap/extension-strike?minimal=true)

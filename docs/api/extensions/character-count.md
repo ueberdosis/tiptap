@@ -1,3 +1,7 @@
+---
+description: Limit the number of characters in your editor, or at least count them.
+---
+
 # CharacterCount
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-character-count.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-character-count)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-character-count.svg)](https://npmcharts.com/compare/@tiptap/extension-character-count?minimal=true)

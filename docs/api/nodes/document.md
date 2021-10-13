@@ -1,3 +1,7 @@
+---
+description: "Everyone needs it, nobody talks about it: the Document extension."
+---
+
 # Document
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-document.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-document)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-document.svg)](https://npmcharts.com/compare/@tiptap/extension-document?minimal=true)

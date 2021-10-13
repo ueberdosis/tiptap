@@ -1,3 +1,7 @@
+---
+description: Add text color support to your editor (comes with unlimited colors).
+---
+
 # Color
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-color.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-color)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-color.svg)](https://npmcharts.com/compare/@tiptap/extension-color?minimal=true)

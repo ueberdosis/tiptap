@@ -1,3 +1,7 @@
+---
+description: Add a toolbar that pops up above the text to apply inline formatting easily.
+---
+
 # Bubble Menu
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-bubble-menu.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-bubble-menu)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-bubble-menu.svg)](https://npmcharts.com/compare/@tiptap/extension-bubble-menu?minimal=true)
