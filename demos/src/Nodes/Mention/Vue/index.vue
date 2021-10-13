@@ -5,13 +5,12 @@
 </template>
 
 <script>
-import tippy from 'tippy.js'
-import { Editor, EditorContent, VueRenderer } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Mention from '@tiptap/extension-mention'
-import MentionList from './MentionList.vue'
+import suggestion from './suggestion'
 
 export default {
   components: {
@@ -34,59 +33,7 @@ export default {
           HTMLAttributes: {
             class: 'mention',
           },
-          suggestion: {
-            items: query => {
-              return [
-                'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
-              ].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 10)
-            },
-            render: () => {
-              let component
-              let popup
-
-              return {
-                onStart: props => {
-                  component = new VueRenderer(MentionList, {
-                    // using vue 2:
-                    // parent: this,
-                    // propsData: props,
-                    props,
-                    editor: props.editor,
-                  })
-
-                  popup = tippy('body', {
-                    getReferenceClientRect: props.clientRect,
-                    appendTo: () => document.body,
-                    content: component.element,
-                    showOnCreate: true,
-                    interactive: true,
-                    trigger: 'manual',
-                    placement: 'bottom-start',
-                  })
-                },
-                onUpdate(props) {
-                  component.updateProps(props)
-
-                  popup[0].setProps({
-                    getReferenceClientRect: props.clientRect,
-                  })
-                },
-                onKeyDown(props) {
-                  if (props.event.key === 'Escape') {
-                    popup[0].hide()
-
-                    return true
-                  }
-
-                  return component.ref?.onKeyDown(props)
-                },
-                onExit() {
-                  popup[0].destroy()
-                  component.destroy()
-                },
-              }
-            },
-          },
+          suggestion,
         }),
       ],
       content: `
