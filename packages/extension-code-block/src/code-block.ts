@@ -162,7 +162,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
               return false
             }
 
-            const {dispatch, state: {tr, schema}} = view.state
+            const {dispatch, state: {tr, schema}} = view
             dispatch(tr.replaceSelectionWith(this.type.create({ language }, schema.text(text.replace(/\r\n?/g, "\n")))))
 
             return true
