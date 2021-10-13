@@ -1,5 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core'
-import { textblockTypeInputRule } from 'prosemirror-inputrules'
+import { Node, mergeAttributes, textblockTypeInputRule } from '@tiptap/core'
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6
 
@@ -93,7 +92,13 @@ export const Heading = Node.create<HeadingOptions>({
 
   addInputRules() {
     return this.options.levels.map(level => {
-      return textblockTypeInputRule(new RegExp(`^(#{1,${level}})\\s$`), this.type, { level })
+      return textblockTypeInputRule({
+        find: new RegExp(`^(#{1,${level}})\\s$`),
+        type: this.type,
+        getAttributes: {
+          level,
+        },
+      })
     })
   },
 })

@@ -5,7 +5,6 @@ prosemirror-commands
 prosemirror-dropcursor
 prosemirror-gapcursor
 prosemirror-history
-prosemirror-inputrules
 prosemirror-keymap
 prosemirror-model
 prosemirror-schema-list

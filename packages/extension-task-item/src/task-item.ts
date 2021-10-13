@@ -1,5 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core'
-import { wrappingInputRule } from 'prosemirror-inputrules'
+import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core'
 
 export interface TaskItemOptions {
   nested: boolean,
@@ -146,13 +145,13 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
   addInputRules() {
     return [
-      wrappingInputRule(
-        inputRegex,
-        this.type,
-        match => ({
+      wrappingInputRule({
+        find: inputRegex,
+        type: this.type,
+        getAttributes: match => ({
           checked: match[match.length - 1] === 'x',
         }),
-      ),
+      }),
     ]
   },
 })

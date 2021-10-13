@@ -20,7 +20,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
+export const inputRegex = /(!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\))/
 
 export const Image = Node.create<ImageOptions>({
   name: 'image',
@@ -79,10 +79,14 @@ export const Image = Node.create<ImageOptions>({
 
   addInputRules() {
     return [
-      nodeInputRule(inputRegex, this.type, match => {
-        const [, alt, src, title] = match
+      nodeInputRule({
+        find: inputRegex,
+        type: this.type,
+        getAttributes: match => {
+          const [,, alt, src, title] = match
 
-        return { src, alt, title }
+          return { src, alt, title }
+        },
       }),
     ]
   },

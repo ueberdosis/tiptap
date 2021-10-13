@@ -387,15 +387,18 @@ import Strike from '@tiptap/extension-strike'
 import { markInputRule } from '@tiptap/core'
 
 // Default:
-// const inputRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))$/gm
+// const inputRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))$/
 
 // New:
-const inputRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))$/gm
+const inputRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))$/
 
 const CustomStrike = Strike.extend({
   addInputRules() {
     return [
-      markInputRule(inputRegex, this.type),
+      markInputRule({
+        find: inputRegex,
+        type: this.type,
+      }),
     ]
   },
 })
@@ -414,15 +417,18 @@ import Strike from '@tiptap/extension-strike'
 import { markPasteRule } from '@tiptap/core'
 
 // Default:
-// const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/gm
+// const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/g
 
 // New:
-const pasteRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))/gm
+const pasteRegex = /(?:^|\s)((?:~)((?:[^~]+))(?:~))/g
 
 const CustomStrike = Strike.extend({
   addPasteRules() {
     return [
-      markPasteRule(pasteRegex, this.type),
+      markPasteRule({
+        find: pasteRegex,
+        type: this.type,
+      }),
     ]
   },
 })

@@ -4,6 +4,7 @@ import {
   mergeAttributes,
 } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
+import { find } from 'linkifyjs'
 
 export interface LinkOptions {
   /**
@@ -38,16 +39,6 @@ declare module '@tiptap/core' {
     }
   }
 }
-
-/**
- * A regex that matches any string that contains a link
- */
-export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
-
-/**
- * A regex that matches an url
- */
-export const pasteRegexExact = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)$/gi
 
 export const Link = Mark.create<LinkOptions>({
   name: 'link',
@@ -102,7 +93,19 @@ export const Link = Mark.create<LinkOptions>({
 
   addPasteRules() {
     return [
-      markPasteRule(pasteRegex, this.type, match => ({ href: match[0] })),
+      markPasteRule({
+        find: text => find(text)
+          .filter(link => link.isLink)
+          .map(link => ({
+            text: link.value,
+            index: link.start,
+            data: link,
+          })),
+        type: this.type,
+        getAttributes: match => ({
+          href: match.data?.href,
+        }),
+      }),
     ]
   },
 
@@ -151,12 +154,15 @@ export const Link = Mark.create<LinkOptions>({
                 textContent += node.textContent
               })
 
-              if (!textContent || !textContent.match(pasteRegexExact)) {
+              const link = find(textContent)
+                .find(item => item.isLink && item.value === textContent)
+
+              if (!textContent || !link) {
                 return false
               }
 
               this.editor.commands.setMark(this.type, {
-                href: textContent,
+                href: link.href,
               })
 
               return true

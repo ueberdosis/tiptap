@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.32...@tiptap/extension-placeholder@2.0.0-beta.33) (2021-10-12)
+
+
+### Features
+
+* add pos to placeholder props ([eb53743](https://github.com/ueberdosis/tiptap/commit/eb5374321b09e8b4a8e89dcc620d0ed4a2657f78))
+
+
+
+
+
+# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.31...@tiptap/extension-placeholder@2.0.0-beta.32) (2021-10-08)
+
+**Note:** Version bump only for package @tiptap/extension-placeholder
+
+
+
+
+
 # [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.30...@tiptap/extension-placeholder@2.0.0-beta.31) (2021-09-15)
 
 **Note:** Version bump only for package @tiptap/extension-placeholder

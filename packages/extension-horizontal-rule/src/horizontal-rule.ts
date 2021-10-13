@@ -92,7 +92,10 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
 
   addInputRules() {
     return [
-      nodeInputRule(/^(?:---|—-|___\s|\*\*\*\s)$/, this.type),
+      nodeInputRule({
+        find: /^(?:---|—-|___\s|\*\*\*\s)$/,
+        type: this.type,
+      }),
     ]
   },
 })

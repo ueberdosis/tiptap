@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.81](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.80...@tiptap/react@2.0.0-beta.81) (2021-10-12)
+
+
+### Bug Fixes
+
+* Add `editor` dependency when registering `BubbleMenuPlugin` and `FloatingMenuPlugin` ([#2018](https://github.com/ueberdosis/tiptap/issues/2018)) ([e9465ec](https://github.com/ueberdosis/tiptap/commit/e9465ec0f6921abd428ed27b50596d20edc05b77))
+
+
+
+
+
+# [2.0.0-beta.80](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.79...@tiptap/react@2.0.0-beta.80) (2021-10-11)
+
+
+### Bug Fixes
+
+* fix editor type for ReactRenderer ([2af1870](https://github.com/ueberdosis/tiptap/commit/2af187023ddbc85edee086cdb898c5139f7668de))
+* Improve ReactRenderer types ([#2011](https://github.com/ueberdosis/tiptap/issues/2011)) ([31d8ab3](https://github.com/ueberdosis/tiptap/commit/31d8ab3593f18f8fec49b7e5ab22a7d979165ae6))
+
+
+
+
+
+# [2.0.0-beta.79](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.78...@tiptap/react@2.0.0-beta.79) (2021-10-08)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
 # [2.0.0-beta.78](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.77...@tiptap/react@2.0.0-beta.78) (2021-10-02)
 
 **Note:** Version bump only for package @tiptap/react

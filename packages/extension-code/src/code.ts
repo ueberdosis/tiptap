@@ -28,8 +28,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/gm
-export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/gm
+export const inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/
+export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/g
 
 export const Code = Mark.create<CodeOptions>({
   name: 'code',
@@ -39,6 +39,8 @@ export const Code = Mark.create<CodeOptions>({
   },
 
   excludes: '_',
+
+  code: true,
 
   parseHTML() {
     return [
@@ -72,13 +74,19 @@ export const Code = Mark.create<CodeOptions>({
 
   addInputRules() {
     return [
-      markInputRule(inputRegex, this.type),
+      markInputRule({
+        find: inputRegex,
+        type: this.type,
+      }),
     ]
   },
 
   addPasteRules() {
     return [
-      markPasteRule(pasteRegex, this.type),
+      markPasteRule({
+        find: pasteRegex,
+        type: this.type,
+      }),
     ]
   },
 })

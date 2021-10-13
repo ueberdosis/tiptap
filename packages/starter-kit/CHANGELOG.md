@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.124](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.123...@tiptap/starter-kit@2.0.0-beta.124) (2021-10-13)
+
+**Note:** Version bump only for package @tiptap/starter-kit
+
+
+
+
+
+# [2.0.0-beta.123](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.122...@tiptap/starter-kit@2.0.0-beta.123) (2021-10-12)
+
+**Note:** Version bump only for package @tiptap/starter-kit
+
+
+
+
+
+# [2.0.0-beta.122](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.121...@tiptap/starter-kit@2.0.0-beta.122) (2021-10-12)
+
+**Note:** Version bump only for package @tiptap/starter-kit
+
+
+
+
+
+# [2.0.0-beta.121](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.120...@tiptap/starter-kit@2.0.0-beta.121) (2021-10-10)
+
+**Note:** Version bump only for package @tiptap/starter-kit
+
+
+
+
+
+# [2.0.0-beta.120](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.119...@tiptap/starter-kit@2.0.0-beta.120) (2021-10-10)
+
+**Note:** Version bump only for package @tiptap/starter-kit
+
+
+
+
+
+# [2.0.0-beta.119](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.118...@tiptap/starter-kit@2.0.0-beta.119) (2021-10-08)
+
+**Note:** Version bump only for package @tiptap/starter-kit
+
+
+
+
+
+# [2.0.0-beta.118](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.117...@tiptap/starter-kit@2.0.0-beta.118) (2021-10-08)
+
+**Note:** Version bump only for package @tiptap/starter-kit
+
+
+
+
+
 # [2.0.0-beta.117](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.116...@tiptap/starter-kit@2.0.0-beta.117) (2021-10-03)
 
 **Note:** Version bump only for package @tiptap/starter-kit

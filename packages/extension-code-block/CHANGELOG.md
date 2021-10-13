@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.21...@tiptap/extension-code-block@2.0.0-beta.22) (2021-10-13)
+
+
+### Bug Fixes
+
+* strip carriage return chars from text pasted as code and add missing paste meta information ([b1c56e6](https://github.com/ueberdosis/tiptap/commit/b1c56e6f163af1a432621894e19f39243a38c4e4))
+
+
+
+
+
+# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.20...@tiptap/extension-code-block@2.0.0-beta.21) (2021-10-12)
+
+
+### Bug Fixes
+
+* fix bug on paste when using code blocks ([d60fe35](https://github.com/ueberdosis/tiptap/commit/d60fe350d148a0b39a6cdd6b439e3d9325506872))
+
+
+
+
+
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.19...@tiptap/extension-code-block@2.0.0-beta.20) (2021-10-12)
+
+
+### Bug Fixes
+
+* add support for pasted content from VS Code, fix [#2022](https://github.com/ueberdosis/tiptap/issues/2022) ([0e0b0b6](https://github.com/ueberdosis/tiptap/commit/0e0b0b6a8c1d80ef9084d1913a51dd9bff8a69d8))
+
+
+
+
+
+# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.18...@tiptap/extension-code-block@2.0.0-beta.19) (2021-10-08)
+
+
+### Features
+
+* Integrate input rules and paste rules into the core ([#1997](https://github.com/ueberdosis/tiptap/issues/1997)) ([723b955](https://github.com/ueberdosis/tiptap/commit/723b955cecc5c92c8aad897ce16c60fb62976571))
+
+
+
+
+
 # [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.17...@tiptap/extension-code-block@2.0.0-beta.18) (2021-09-08)
 
 

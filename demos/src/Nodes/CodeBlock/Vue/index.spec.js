@@ -126,6 +126,17 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
     })
   })
 
+  it('should make a code block from backtick markdown shortcuts followed by enter', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      editor.commands.clearContent()
+
+      cy.get('.ProseMirror')
+        .type('```{enter}Code')
+        .find('pre>code')
+        .should('contain', 'Code')
+    })
+  })
+
   it('reverts the markdown shortcut when pressing backspace', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.clearContent()

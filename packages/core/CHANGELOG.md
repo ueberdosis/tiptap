@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.122](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.121...@tiptap/core@2.0.0-beta.122) (2021-10-10)
+
+
+### Bug Fixes
+
+* allow to re-apply current mark for input rules and paste rules, fix [#2003](https://github.com/ueberdosis/tiptap/issues/2003) ([3958bf1](https://github.com/ueberdosis/tiptap/commit/3958bf1c226621142e9216c8eda91a70b71a211a))
+
+
+
+
+
+# [2.0.0-beta.121](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.120...@tiptap/core@2.0.0-beta.121) (2021-10-10)
+
+
+### Bug Fixes
+
+* do not apply paste rules for ProseMirror HTML ([9d281e9](https://github.com/ueberdosis/tiptap/commit/9d281e9e998a5cfa9ca1002ad428caf1cee59682))
+
+
+
+
+
+# [2.0.0-beta.120](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.119...@tiptap/core@2.0.0-beta.120) (2021-10-08)
+
+
+### Bug Fixes
+
+* fix mappes positions for paste rules, fix [#2002](https://github.com/ueberdosis/tiptap/issues/2002) ([770c4e1](https://github.com/ueberdosis/tiptap/commit/770c4e18e19504f4c44feb85b7d202fcc5201b12))
+
+
+
+
+
+# [2.0.0-beta.119](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.118...@tiptap/core@2.0.0-beta.119) (2021-10-08)
+
+
+### Features
+
+* Integrate input rules and paste rules into the core ([#1997](https://github.com/ueberdosis/tiptap/issues/1997)) ([723b955](https://github.com/ueberdosis/tiptap/commit/723b955cecc5c92c8aad897ce16c60fb62976571))
+
+
+
+
+
 # [2.0.0-beta.118](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.117...@tiptap/core@2.0.0-beta.118) (2021-10-03)
 
 
