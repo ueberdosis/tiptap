@@ -1,5 +1,6 @@
 ---
 description: "Everyone needs it, nobody talks about it: the Document extension."
+icon: file-line
 ---
 
 # Document

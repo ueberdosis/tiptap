@@ -1,5 +1,6 @@
 ---
 description: Add some colorful syntax highlighting to your code blocks.
+icon: terminal-box-fill
 ---
 
 # CodeBlockLowlight

@@ -1,5 +1,6 @@
 ---
 description: Adds a cursor when something is dragged inside the editor.
+icon: drag-drop-line
 ---
 
 # Dropcursor

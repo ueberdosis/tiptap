@@ -1,5 +1,6 @@
 ---
 description: Link it, link it good, link it real good (and don’t forget the href).
+icon: link
 ---
 
 # Link

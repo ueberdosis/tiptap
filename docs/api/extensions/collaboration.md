@@ -1,5 +1,6 @@
 ---
 description: Collaborative text editing can be fricking complex, so we made it different.
+icon: user-voice-line
 ---
 
 # Collaboration

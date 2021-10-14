@@ -1,5 +1,6 @@
 ---
 description: All the popular extensions in a single extension, doesn’t get much better than this.
+icon: star-smile-line
 ---
 
 # StarterKit

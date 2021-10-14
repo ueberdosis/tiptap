@@ -1,5 +1,6 @@
 ---
 description: If a bullet list doesn’t look serious enough, put some numbers in front of it.
+icon: list-ordered
 ---
 
 # OrderedList

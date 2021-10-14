@@ -1,5 +1,6 @@
 ---
 description: Quoting other people lets you look clever.
+icon: double-quotes-l
 ---
 
 # Blockquote

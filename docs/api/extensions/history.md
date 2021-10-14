@@ -1,5 +1,6 @@
 ---
 description: If I could just go back and make everything undone … you can.
+icon: history-line
 ---
 
 # History

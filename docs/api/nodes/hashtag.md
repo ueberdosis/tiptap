@@ -1,5 +1,6 @@
 ---
 description: "#notdone #procrastinate"
+icon: hashtag
 ---
 
 # Hashtag

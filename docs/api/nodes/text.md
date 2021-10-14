@@ -1,5 +1,6 @@
 ---
 description: No text editor without text, so better make sure to install that one.
+icon: text
 ---
 
 # Text

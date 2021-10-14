@@ -1,5 +1,6 @@
 ---
 description: Adds support for tasks (doesn’t make sure you actually complete them though).
+icon: list-check
 ---
 
 # TaskList

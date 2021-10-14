@@ -1,5 +1,6 @@
 ---
 description: Doesn’t care if it’s part of a bullet list or an ordered list.
+icon: list-unordered
 ---
 
 # ListItem

@@ -1,5 +1,6 @@
 ---
 description: You’re working on something really serious if you need tables inside a text editor.
+icon: table-line
 tableOfContents: true
 ---
 

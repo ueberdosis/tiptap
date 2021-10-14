@@ -1,5 +1,6 @@
 ---
 description: Left, right, center, whatever! Align the text however you like.
+icon: align-left
 ---
 
 # TextAlign

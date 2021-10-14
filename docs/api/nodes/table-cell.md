@@ -1,5 +1,6 @@
 ---
 description: "It’s useless without all its other table friends: the table cell."
+icon: table-line
 ---
 
 # TableCell

@@ -1,5 +1,6 @@
 ---
 description: Add an image (but a beautiful one), when words aren’t enough.
+icon: image-line
 ---
 
 # Image

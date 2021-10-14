@@ -1,5 +1,6 @@
 ---
 description: Write slightly above the normal line, to show you’re just next level.
+icon: superscript
 ---
 
 # Superscript

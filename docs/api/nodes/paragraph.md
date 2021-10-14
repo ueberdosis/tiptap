@@ -1,5 +1,6 @@
 ---
 description: Mom, look! I wrote a paragraph in the Internet.
+icon: paragraph
 ---
 
 # Paragraph

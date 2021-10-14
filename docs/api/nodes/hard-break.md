@@ -1,5 +1,6 @@
 ---
 description: Sometimes we all need a break, even if it’s just a line break.
+icon: text-wrap
 ---
 
 # HardBreak

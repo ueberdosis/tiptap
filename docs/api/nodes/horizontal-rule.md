@@ -1,5 +1,6 @@
 ---
 description: Separate what needs to be separated, but use it wisely.
+icon: separator
 ---
 
 # HorizontalRule

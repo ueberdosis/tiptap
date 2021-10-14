@@ -1,5 +1,6 @@
 ---
 description: Make a toolbar appear automagically on empty lines.
+icon: menu-4-line
 ---
 
 # Floating Menu

@@ -1,5 +1,6 @@
 ---
 description: Structure the content with headings (comes with 6 different levels or less).
+icon: h-1
 ---
 
 # Heading

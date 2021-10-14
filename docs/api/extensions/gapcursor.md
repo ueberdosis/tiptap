@@ -1,5 +1,6 @@
 ---
 description: The gapcursor makes sure the cursor doesn’t get stuck … in a gap.
+icon: space
 ---
 
 # Gapcursor

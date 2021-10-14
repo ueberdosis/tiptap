@@ -1,5 +1,6 @@
 ---
 description: Make your text bold and let it stand out.
+icon: bold
 ---
 
 # Bold

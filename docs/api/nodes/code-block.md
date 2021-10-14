@@ -1,5 +1,6 @@
 ---
 description: The least code the better, but sometimes you need multiple lines of it.
+icon: terminal-box-line
 ---
 
 # CodeBlock

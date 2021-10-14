@@ -1,5 +1,6 @@
 ---
 description: "Tables don’t require a header, but let’s be honest: It looks better with it."
+icon: table-line
 ---
 
 # TableHeader

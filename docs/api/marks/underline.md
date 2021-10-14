@@ -1,5 +1,6 @@
 ---
 description: Add a line below your text to make it look more … underlined.
+icon: underline
 ---
 
 # Underline

@@ -1,5 +1,6 @@
 ---
 description: Useless extension, just adds <span> tags (required by other extensions though).
+icon: text
 ---
 
 # TextStyle

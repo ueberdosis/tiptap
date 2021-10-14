@@ -1,5 +1,6 @@
 ---
 description: Add a toolbar that pops up above the text to apply inline formatting easily.
+icon: chat-2-line
 ---
 
 # Bubble Menu

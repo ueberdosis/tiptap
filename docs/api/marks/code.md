@@ -1,5 +1,6 @@
 ---
 description: Developers love to add some inline code to their texts.
+icon: code-view
 ---
 
 # Code

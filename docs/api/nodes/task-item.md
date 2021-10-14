@@ -1,5 +1,6 @@
 ---
 description: The actually task, without it the task list would be nothing.
+icon: list-check
 ---
 
 # TaskItem

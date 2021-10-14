@@ -1,5 +1,6 @@
 ---
 description: Make it look nerdier with some colorful text highlights.
+icon: mark-pen-line
 ---
 
 # Highlight

@@ -1,5 +1,6 @@
 ---
 description: Add text color support to your editor (comes with unlimited colors).
+icon: paint-brush-line
 ---
 
 # Color

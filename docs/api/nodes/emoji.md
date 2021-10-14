@@ -1,5 +1,6 @@
 ---
 description: "Not ready yet. :construction:"
+icon: emotion-line
 ---
 
 # Emoji

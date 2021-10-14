@@ -1,5 +1,6 @@
 ---
 description: "The perfect middle ground between a table and a table cell."
+icon: table-line
 ---
 
 # TableRow

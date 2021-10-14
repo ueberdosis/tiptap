@@ -1,5 +1,6 @@
 ---
 description: Ping all your people @marijn @kevin
+icon: at-line
 ---
 
 # Mention

@@ -1,5 +1,6 @@
 ---
 description: Write slightly below the normal line, to show you’re unique.
+icon: subscript
 ---
 
 # Subscript

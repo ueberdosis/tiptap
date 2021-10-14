@@ -1,5 +1,6 @@
 ---
 description: Helps to emphasize your text, doesn’t bring you closer to Italy though.
+icon: italic
 ---
 
 # Italic

@@ -1,5 +1,6 @@
 ---
 description: See other user’s cursors and their name while they type.
+icon: account-pin-circle-line
 ---
 
 # CollaborationCursor
