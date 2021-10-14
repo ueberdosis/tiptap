@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.125](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.124...@tiptap/core@2.0.0-beta.125) (2021-10-14)
+
+
+### Bug Fixes
+
+* check for storedMarks in getMarkAttributes, fix [#2039](https://github.com/ueberdosis/tiptap/issues/2039) ([22c82ba](https://github.com/ueberdosis/tiptap/commit/22c82ba61fe14db19e1049dfcf9bef0b7abb796d))
+
+
+
+
+
 # [2.0.0-beta.124](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.123...@tiptap/core@2.0.0-beta.124) (2021-10-14)
 
 
