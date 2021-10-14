@@ -10,8 +10,8 @@ declare module '@tiptap/core' {
       insertContent: (
         value: Content,
         options?: {
-          parseOptions: ParseOptions,
-          updateSelection: boolean,
+          parseOptions?: ParseOptions,
+          updateSelection?: boolean,
         },
       ) => ReturnType,
     }

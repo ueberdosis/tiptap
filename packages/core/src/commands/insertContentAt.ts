@@ -17,8 +17,8 @@ declare module '@tiptap/core' {
         position: number | Range,
         value: Content,
         options?: {
-          parseOptions: ParseOptions,
-          updateSelection: boolean,
+          parseOptions?: ParseOptions,
+          updateSelection?: boolean,
         },
       ) => ReturnType,
     }
