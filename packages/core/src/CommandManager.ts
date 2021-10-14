@@ -15,16 +15,23 @@ export default class CommandManager {
 
   rawCommands: AnyCommands
 
-  optionalState?: EditorState
+  customState?: EditorState
 
-  constructor(props: { editor: Editor, commands: AnyCommands, state?: EditorState }) {
+  constructor(props: {
+    editor: Editor,
+    state?: EditorState,
+  }) {
     this.editor = props.editor
-    this.rawCommands = props.commands
-    this.optionalState = props.state
+    this.rawCommands = this.editor.extensionManager.commands
+    this.customState = props.state
+  }
+
+  get hasCustomState(): boolean {
+    return !!this.customState
   }
 
   get state(): EditorState {
-    return this.optionalState || this.editor.state
+    return this.customState || this.editor.state
   }
 
   get commands(): SingleCommands {
@@ -39,7 +46,7 @@ export default class CommandManager {
         const method = (...args: any[]) => {
           const callback = command(...args)(props)
 
-          if (!tr.getMeta('preventDispatch')) {
+          if (!tr.getMeta('preventDispatch') && !this.hasCustomState) {
             view.dispatch(tr)
           }
 
@@ -50,12 +57,12 @@ export default class CommandManager {
       })) as unknown as SingleCommands
   }
 
-  get chain(): ChainedCommands {
-    return this.createChain()
+  get chain(): () => ChainedCommands {
+    return () => this.createChain()
   }
 
-  get can(): CanCommands {
-    return this.createCan()
+  get can(): () => CanCommands {
+    return () => this.createCan()
   }
 
   public createChain(startTr?: Transaction, shouldDispatch = true): ChainedCommands {
@@ -66,7 +73,12 @@ export default class CommandManager {
     const tr = startTr || state.tr
 
     const run = () => {
-      if (!hasStartTransaction && shouldDispatch && !tr.getMeta('preventDispatch')) {
+      if (
+        !hasStartTransaction
+        && shouldDispatch
+        && !tr.getMeta('preventDispatch')
+        && !this.hasCustomState
+      ) {
         view.dispatch(tr)
       }
 
