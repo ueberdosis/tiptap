@@ -104,21 +104,21 @@ export class Editor extends EventEmitter<EditorEvents> {
    * An object of all registered commands.
    */
   public get commands(): SingleCommands {
-    return this.commandManager.createCommands()
+    return this.commandManager.commands
   }
 
   /**
    * Create a command chain to call multiple commands at once.
    */
   public chain(): ChainedCommands {
-    return this.commandManager.createChain()
+    return this.commandManager.chain()
   }
 
   /**
    * Check if a command or a command chain can be executed. Without executing it.
    */
   public can(): CanCommands {
-    return this.commandManager.createCan()
+    return this.commandManager.can()
   }
 
   /**
@@ -235,7 +235,9 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates an command manager.
    */
   private createCommandManager(): void {
-    this.commandManager = new CommandManager(this, this.extensionManager.commands)
+    this.commandManager = new CommandManager({
+      editor: this,
+    })
   }
 
   /**

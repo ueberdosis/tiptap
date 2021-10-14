@@ -206,6 +206,8 @@ export default class ExtensionManager {
   }
 
   get plugins(): Plugin[] {
+    const { editor } = this
+
     // With ProseMirror, first plugins within an array are executed first.
     // In tiptap, we provide the ability to override plugins,
     // so it feels more natural to run plugins at the end of an array first.
@@ -221,7 +223,7 @@ export default class ExtensionManager {
         const context = {
           name: extension.name,
           options: extension.options,
-          editor: this.editor,
+          editor,
           type: getSchemaTypeByName(extension.name, this.schema),
         }
 
@@ -238,7 +240,7 @@ export default class ExtensionManager {
             Object
               .entries(addKeyboardShortcuts())
               .map(([shortcut, method]) => {
-                return [shortcut, () => method({ editor: this.editor })]
+                return [shortcut, () => method({ editor })]
               }),
           )
 
@@ -253,7 +255,7 @@ export default class ExtensionManager {
           context,
         )
 
-        if (this.editor.options.enableInputRules && addInputRules) {
+        if (editor.options.enableInputRules && addInputRules) {
           inputRules.push(...addInputRules())
         }
 
@@ -263,7 +265,7 @@ export default class ExtensionManager {
           context,
         )
 
-        if (this.editor.options.enablePasteRules && addPasteRules) {
+        if (editor.options.enablePasteRules && addPasteRules) {
           pasteRules.push(...addPasteRules())
         }
 
@@ -284,8 +286,14 @@ export default class ExtensionManager {
       .flat()
 
     return [
-      inputRulesPlugin(inputRules),
-      pasteRulesPlugin(pasteRules),
+      inputRulesPlugin({
+        editor,
+        rules: inputRules,
+      }),
+      pasteRulesPlugin({
+        editor,
+        rules: pasteRules,
+      }),
       ...allPlugins,
     ]
   }

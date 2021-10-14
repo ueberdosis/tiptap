@@ -1,7 +1,15 @@
 import { EditorState, Plugin } from 'prosemirror-state'
+import { Editor } from './Editor'
+import CommandManager from './CommandManager'
 import createChainableState from './helpers/createChainableState'
 import isRegExp from './utilities/isRegExp'
-import { Range, ExtendedRegExpMatchArray } from './types'
+import {
+  Range,
+  ExtendedRegExpMatchArray,
+  SingleCommands,
+  ChainedCommands,
+  CanCommands,
+} from './types'
 
 export type PasteRuleMatch = {
   index: number,
@@ -22,6 +30,9 @@ export class PasteRule {
     state: EditorState,
     range: Range,
     match: ExtendedRegExpMatchArray,
+    commands: SingleCommands,
+    chain: () => ChainedCommands,
+    can: () => CanCommands,
   }) => void
 
   constructor(config: {
@@ -30,6 +41,9 @@ export class PasteRule {
       state: EditorState,
       range: Range,
       match: ExtendedRegExpMatchArray,
+      commands: SingleCommands,
+      chain: () => ChainedCommands,
+      can: () => CanCommands,
     }) => void,
   }) {
     this.find = config.find
@@ -69,6 +83,7 @@ const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedR
 }
 
 function run(config: {
+  editor: Editor,
   state: EditorState,
   from: number,
   to: number,
@@ -76,11 +91,17 @@ function run(config: {
   plugin: Plugin,
 }): any {
   const {
+    editor,
     state,
     from,
     to,
     rules,
   } = config
+
+  const { commands, chain, can } = new CommandManager({
+    editor,
+    state,
+  })
 
   state.doc.nodesBetween(from, to, (node, pos) => {
     if (!node.isTextblock || node.type.spec.code) {
@@ -115,6 +136,9 @@ function run(config: {
           state,
           range,
           match,
+          commands,
+          chain,
+          can,
         })
       })
     })
@@ -126,7 +150,8 @@ function run(config: {
  * text that matches any of the given rules to trigger the rule’s
  * action.
  */
-export function pasteRulesPlugin(rules: PasteRule[]): Plugin {
+export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }): Plugin {
+  const { editor, rules } = props
   let isProseMirrorHTML = false
 
   const plugin = new Plugin({
@@ -165,6 +190,7 @@ export function pasteRulesPlugin(rules: PasteRule[]): Plugin {
       })
 
       run({
+        editor,
         state: chainableState,
         from: Math.max(from - 1, 0),
         to: to.b,

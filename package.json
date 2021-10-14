@@ -36,15 +36,15 @@
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "babel-loader": "^8.2.2",
-    "cypress": "^8.5.0",
-    "eslint": "^7.32.0",
+    "cypress": "^8.6.0",
+    "eslint": "^8.0.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-html": "^6.2.0",
-    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-vue": "^7.19.1",
     "lerna": "^4.0.0",
     "minimist": "^1.2.5",
@@ -53,7 +53,7 @@
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-loader": "^9.2.6",
-    "typescript": "^4.4.3",
-    "webpack": "^5.58.0"
+    "typescript": "^4.4.4",
+    "webpack": "^5.58.2"
   }
 }
