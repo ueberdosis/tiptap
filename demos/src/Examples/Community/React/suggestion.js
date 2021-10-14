@@ -8,6 +8,7 @@ export default {
       'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
     ].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5)
   },
+
   render: () => {
     let reactRenderer
     let popup
@@ -29,6 +30,7 @@ export default {
           placement: 'bottom-start',
         })
       },
+
       onUpdate(props) {
         reactRenderer.updateProps(props)
 
@@ -36,6 +38,7 @@ export default {
           getReferenceClientRect: props.clientRect,
         })
       },
+
       onKeyDown(props) {
         if (props.event.key === 'Escape') {
           popup[0].hide()
@@ -45,6 +48,7 @@ export default {
 
         return reactRenderer.ref?.onKeyDown(props)
       },
+
       onExit() {
         popup[0].destroy()
         reactRenderer.destroy()
