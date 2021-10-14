@@ -51,6 +51,7 @@ export default {
       },
     ].filter(item => item.title.toLowerCase().startsWith(query.toLowerCase())).slice(0, 10)
   },
+
   render: () => {
     let component
     let popup
@@ -75,6 +76,7 @@ export default {
           placement: 'bottom-start',
         })
       },
+
       onUpdate(props) {
         component.updateProps(props)
 
@@ -82,6 +84,7 @@ export default {
           getReferenceClientRect: props.clientRect,
         })
       },
+
       onKeyDown(props) {
         if (props.event.key === 'Escape') {
           popup[0].hide()
@@ -91,6 +94,7 @@ export default {
 
         return component.ref?.onKeyDown(props)
       },
+
       onExit() {
         popup[0].destroy()
         component.destroy()
