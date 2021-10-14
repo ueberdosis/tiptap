@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.69](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.68...@tiptap/vue-3@2.0.0-beta.69) (2021-10-14)
+
+**Note:** Version bump only for package @tiptap/vue-3
+
+
+
+
+
 # [2.0.0-beta.68](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.67...@tiptap/vue-3@2.0.0-beta.68) (2021-10-08)
 
 **Note:** Version bump only for package @tiptap/vue-3

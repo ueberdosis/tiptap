@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.123](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.122...@tiptap/core@2.0.0-beta.123) (2021-10-14)
+
+
+### Features
+
+* add `updateSelection` option to `insertContentAt` command ([9f2c368](https://github.com/ueberdosis/tiptap/commit/9f2c36896b5b8510cea87d727dc4e94742fdf980))
+* Allow to use commands within InputRule and PasteRule ([#2035](https://github.com/ueberdosis/tiptap/issues/2035)) ([4303637](https://github.com/ueberdosis/tiptap/commit/4303637a786a164af0c7ffac17ae3621a8533c6e))
+
+
+
+
+
 # [2.0.0-beta.122](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.121...@tiptap/core@2.0.0-beta.122) (2021-10-10)
 
 
