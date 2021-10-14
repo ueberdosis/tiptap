@@ -1,5 +1,5 @@
 ---
-description: Write slightly below the the normal line, to show you’re unique.
+description: Write slightly below the normal line, to show you’re unique.
 ---
 
 # Subscript

@@ -45,7 +45,7 @@ Got it? Let’s see it in action. Feel free to copy the below example to get sta
 That node view even interacts with the editor. Time to see how that is wired up.
 
 ## Access node attributes
-The editor passes a few helpful things to your render function. One of them is the the `node` prop. This one enables you to access node attributes in your node view. Let’s say you have [added an attribute](/guide/custom-extensions#attributes) named `count` to your node extension. You could access the attribute like this:
+The editor passes a few helpful things to your render function. One of them is the `node` prop. This one enables you to access node attributes in your node view. Let’s say you have [added an attribute](/guide/custom-extensions#attributes) named `count` to your node extension. You could access the attribute like this:
 
 ```js
 addNodeView() {
