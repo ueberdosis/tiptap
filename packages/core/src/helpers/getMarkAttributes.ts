@@ -8,6 +8,10 @@ export default function getMarkAttributes(state: EditorState, typeOrName: string
   const marks: Mark[] = []
 
   if (empty) {
+    if (state.storedMarks) {
+      marks.push(...state.storedMarks)
+    }
+
     marks.push(...state.selection.$head.marks())
   } else {
     state.doc.nodesBetween(from, to, node => {
