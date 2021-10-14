@@ -1,4 +1,5 @@
-import createNodeFromContent, { CreateNodeFromContentOptions } from '../helpers/createNodeFromContent'
+import { ParseOptions } from 'prosemirror-model'
+import createNodeFromContent from '../helpers/createNodeFromContent'
 import selectionToInsertionEnd from '../helpers/selectionToInsertionEnd'
 import {
   RawCommands,
@@ -12,18 +13,31 @@ declare module '@tiptap/core' {
       /**
        * Insert a node or string of HTML at a specific position.
        */
-      insertContentAt: (position: number | Range, value: Content, options?: CreateNodeFromContentOptions) => ReturnType,
+      insertContentAt: (
+        position: number | Range,
+        value: Content,
+        options?: {
+          parseOptions: ParseOptions,
+          updateSelection: boolean,
+        },
+      ) => ReturnType,
     }
   }
 }
 
 export const insertContentAt: RawCommands['insertContentAt'] = (position, value, options) => ({ tr, dispatch, editor }) => {
   if (dispatch) {
+    options = {
+      parseOptions: {},
+      updateSelection: true,
+      ...options,
+    }
+
     const content = createNodeFromContent(value, editor.schema, {
       parseOptions: {
         preserveWhitespace: 'full',
+        ...options.parseOptions,
       },
-      ...(options || {}),
     })
 
     // don’t dispatch an empty fragment because this can lead to strange errors
@@ -38,7 +52,9 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
     tr.replaceWith(from, to, content)
 
     // set cursor at end of inserted content
-    selectionToInsertionEnd(tr, tr.steps.length - 1, 1)
+    if (options.updateSelection) {
+      selectionToInsertionEnd(tr, tr.steps.length - 1, 1)
+    }
   }
 
   return true

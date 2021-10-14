@@ -1,4 +1,4 @@
-import { CreateNodeFromContentOptions } from '../helpers/createNodeFromContent'
+import { ParseOptions } from 'prosemirror-model'
 import { RawCommands, Content } from '../types'
 
 declare module '@tiptap/core' {
@@ -7,7 +7,13 @@ declare module '@tiptap/core' {
       /**
        * Insert a node or string of HTML at the current position.
        */
-      insertContent: (value: Content, options?: CreateNodeFromContentOptions) => ReturnType,
+      insertContent: (
+        value: Content,
+        options?: {
+          parseOptions: ParseOptions,
+          updateSelection: boolean,
+        },
+      ) => ReturnType,
     }
   }
 }
