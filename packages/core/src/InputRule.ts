@@ -1,8 +1,15 @@
-import { EditorView } from 'prosemirror-view'
 import { EditorState, Plugin, TextSelection } from 'prosemirror-state'
+import { Editor } from './Editor'
+import CommandManager from './CommandManager'
 import createChainableState from './helpers/createChainableState'
 import isRegExp from './utilities/isRegExp'
-import { Range, ExtendedRegExpMatchArray } from './types'
+import {
+  Range,
+  ExtendedRegExpMatchArray,
+  SingleCommands,
+  ChainedCommands,
+  CanCommands,
+} from './types'
 
 export type InputRuleMatch = {
   index: number,
@@ -23,6 +30,9 @@ export class InputRule {
     state: EditorState,
     range: Range,
     match: ExtendedRegExpMatchArray,
+    commands: SingleCommands,
+    chain: () => ChainedCommands,
+    can: () => CanCommands,
   }) => void
 
   constructor(config: {
@@ -31,6 +41,9 @@ export class InputRule {
       state: EditorState,
       range: Range,
       match: ExtendedRegExpMatchArray,
+      commands: SingleCommands,
+      chain: () => ChainedCommands,
+      can: () => CanCommands,
     }) => void,
   }) {
     this.find = config.find
@@ -68,7 +81,7 @@ const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedR
 }
 
 function run(config: {
-  view: EditorView,
+  editor: Editor,
   from: number,
   to: number,
   text: string,
@@ -76,13 +89,14 @@ function run(config: {
   plugin: Plugin,
 }): any {
   const {
-    view,
+    editor,
     from,
     to,
     text,
     rules,
     plugin,
   } = config
+  const { view } = editor
 
   if (view.composing) {
     return false
@@ -129,10 +143,18 @@ function run(config: {
       to,
     }
 
+    const { commands, chain, can } = new CommandManager({
+      editor,
+      state,
+    })
+
     rule.handler({
       state,
       range,
       match,
+      commands,
+      chain,
+      can,
     })
 
     // stop if there are no changes
@@ -161,7 +183,8 @@ function run(config: {
  * input that matches any of the given rules to trigger the rule’s
  * action.
  */
-export function inputRulesPlugin(rules: InputRule[]): Plugin {
+export function inputRulesPlugin(props: { editor: Editor, rules: InputRule[] }): Plugin {
+  const { editor, rules } = props
   const plugin = new Plugin({
     state: {
       init() {
@@ -183,7 +206,7 @@ export function inputRulesPlugin(rules: InputRule[]): Plugin {
     props: {
       handleTextInput(view, from, to, text) {
         return run({
-          view,
+          editor,
           from,
           to,
           text,
@@ -199,7 +222,7 @@ export function inputRulesPlugin(rules: InputRule[]): Plugin {
 
             if ($cursor) {
               run({
-                view,
+                editor,
                 from: $cursor.pos,
                 to: $cursor.pos,
                 text: '',
@@ -224,7 +247,7 @@ export function inputRulesPlugin(rules: InputRule[]): Plugin {
 
         if ($cursor) {
           return run({
-            view,
+            editor,
             from: $cursor.pos,
             to: $cursor.pos,
             text: '\n',
