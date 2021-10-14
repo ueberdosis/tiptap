@@ -1,5 +1,5 @@
 ---
-description: Sometimes we all need a break, even it’s just a line break.
+description: Sometimes we all need a break, even if it’s just a line break.
 ---
 
 # HardBreak
