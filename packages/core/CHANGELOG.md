@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.124](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.123...@tiptap/core@2.0.0-beta.124) (2021-10-14)
+
+
+### Bug Fixes
+
+* fix type for insertContent command ([4295c6b](https://github.com/ueberdosis/tiptap/commit/4295c6bd2181bdaa98ef7777bfab44efbcf22a32))
+
+
+
+
+
 # [2.0.0-beta.123](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.122...@tiptap/core@2.0.0-beta.123) (2021-10-14)
 
 
