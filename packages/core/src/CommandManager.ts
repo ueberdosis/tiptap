@@ -1,4 +1,4 @@
-import { Transaction } from 'prosemirror-state'
+import { EditorState, Transaction } from 'prosemirror-state'
 import { Editor } from './Editor'
 import createChainableState from './helpers/createChainableState'
 import {
@@ -15,14 +15,21 @@ export default class CommandManager {
 
   commands: AnyCommands
 
-  constructor(editor: Editor, commands: AnyCommands) {
-    this.editor = editor
-    this.commands = commands
+  optionalState?: EditorState
+
+  constructor(props: { editor: Editor, commands: AnyCommands, state?: EditorState }) {
+    this.editor = props.editor
+    this.commands = props.commands
+    this.optionalState = props.state
+  }
+
+  get state(): EditorState {
+    return this.optionalState || this.editor.state
   }
 
   public createCommands(): SingleCommands {
-    const { commands, editor } = this
-    const { state, view } = editor
+    const { commands, editor, state } = this
+    const { view } = editor
     const { tr } = state
     const props = this.buildProps(tr)
 
@@ -44,8 +51,8 @@ export default class CommandManager {
   }
 
   public createChain(startTr?: Transaction, shouldDispatch = true): ChainedCommands {
-    const { commands, editor } = this
-    const { state, view } = editor
+    const { commands, editor, state } = this
+    const { view } = editor
     const callbacks: boolean[] = []
     const hasStartTransaction = !!startTr
     const tr = startTr || state.tr
@@ -78,8 +85,7 @@ export default class CommandManager {
   }
 
   public createCan(startTr?: Transaction): CanCommands {
-    const { commands, editor } = this
-    const { state } = editor
+    const { commands, state } = this
     const dispatch = undefined
     const tr = startTr || state.tr
     const props = this.buildProps(tr, dispatch)
@@ -96,8 +102,8 @@ export default class CommandManager {
   }
 
   public buildProps(tr: Transaction, shouldDispatch = true): CommandProps {
-    const { editor, commands } = this
-    const { state, view } = editor
+    const { commands, editor, state } = this
+    const { view } = editor
 
     if (state.storedMarks) {
       tr.setStoredMarks(state.storedMarks)

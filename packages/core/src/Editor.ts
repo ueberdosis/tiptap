@@ -235,7 +235,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates an command manager.
    */
   private createCommandManager(): void {
-    this.commandManager = new CommandManager(this, this.extensionManager.commands)
+    this.commandManager = new CommandManager({
+      editor: this,
+      commands: this.extensionManager.commands,
+    })
   }
 
   /**
