@@ -13,13 +13,13 @@ export default class CommandManager {
 
   editor: Editor
 
-  commands: AnyCommands
+  rawCommands: AnyCommands
 
   optionalState?: EditorState
 
   constructor(props: { editor: Editor, commands: AnyCommands, state?: EditorState }) {
     this.editor = props.editor
-    this.commands = props.commands
+    this.rawCommands = props.commands
     this.optionalState = props.state
   }
 
@@ -27,14 +27,14 @@ export default class CommandManager {
     return this.optionalState || this.editor.state
   }
 
-  public createCommands(): SingleCommands {
-    const { commands, editor, state } = this
+  get commands(): SingleCommands {
+    const { rawCommands, editor, state } = this
     const { view } = editor
     const { tr } = state
     const props = this.buildProps(tr)
 
     return Object.fromEntries(Object
-      .entries(commands)
+      .entries(rawCommands)
       .map(([name, command]) => {
         const method = (...args: any[]) => {
           const callback = command(...args)(props)
@@ -50,8 +50,16 @@ export default class CommandManager {
       })) as unknown as SingleCommands
   }
 
+  get chain(): ChainedCommands {
+    return this.createChain()
+  }
+
+  get can(): CanCommands {
+    return this.createCan()
+  }
+
   public createChain(startTr?: Transaction, shouldDispatch = true): ChainedCommands {
-    const { commands, editor, state } = this
+    const { rawCommands, editor, state } = this
     const { view } = editor
     const callbacks: boolean[] = []
     const hasStartTransaction = !!startTr
@@ -66,7 +74,7 @@ export default class CommandManager {
     }
 
     const chain = {
-      ...Object.fromEntries(Object.entries(commands).map(([name, command]) => {
+      ...Object.fromEntries(Object.entries(rawCommands).map(([name, command]) => {
         const chainedCommand = (...args: never[]) => {
           const props = this.buildProps(tr, shouldDispatch)
           const callback = command(...args)(props)
@@ -85,12 +93,12 @@ export default class CommandManager {
   }
 
   public createCan(startTr?: Transaction): CanCommands {
-    const { commands, state } = this
+    const { rawCommands, state } = this
     const dispatch = undefined
     const tr = startTr || state.tr
     const props = this.buildProps(tr, dispatch)
     const formattedCommands = Object.fromEntries(Object
-      .entries(commands)
+      .entries(rawCommands)
       .map(([name, command]) => {
         return [name, (...args: never[]) => command(...args)({ ...props, dispatch })]
       })) as unknown as SingleCommands
@@ -102,7 +110,7 @@ export default class CommandManager {
   }
 
   public buildProps(tr: Transaction, shouldDispatch = true): CommandProps {
-    const { commands, editor, state } = this
+    const { rawCommands, editor, state } = this
     const { view } = editor
 
     if (state.storedMarks) {
@@ -124,7 +132,7 @@ export default class CommandManager {
       can: () => this.createCan(tr),
       get commands() {
         return Object.fromEntries(Object
-          .entries(commands)
+          .entries(rawCommands)
           .map(([name, command]) => {
             return [name, (...args: never[]) => command(...args)(props)]
           })) as unknown as SingleCommands
