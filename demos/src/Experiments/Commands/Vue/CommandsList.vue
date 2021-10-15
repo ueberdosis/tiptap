@@ -83,14 +83,15 @@ export default {
 
 <style lang="scss">
 .items {
+  padding: 0.2rem;
   position: relative;
-  border-radius: 0.25rem;
-  background: white;
-  color: rgba(black, 0.8);
+  border-radius: 0.5rem;
+  background: #FFF;
+  color: rgba(0, 0, 0, 0.8);
   overflow: hidden;
   font-size: 0.9rem;
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05),
     0px 10px 20px rgba(0, 0, 0, 0.1),
   ;
 }
@@ -101,12 +102,12 @@ export default {
   text-align: left;
   background: transparent;
   border: none;
-  padding: 0.2rem 0.5rem;
+  padding: 0.2rem 0.4rem;
 
   &.is-selected,
   &:hover {
-    color: #A975FF;
-    background: rgba(#A975FF, 0.1);
+    border-radius: 0.4rem;
+    background: rgba(0, 0, 0, 0.05);
   }
 }
 </style>
