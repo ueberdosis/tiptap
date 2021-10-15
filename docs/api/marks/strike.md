@@ -1,5 +1,5 @@
 ---
-description: Cut through the words you wrote, if you’re too afraid to delete it.
+description: Cut through the words you wrote if you’re too afraid to delete it.
 icon: strikethrough
 ---
 

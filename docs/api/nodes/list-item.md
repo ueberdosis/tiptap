@@ -1,6 +1,6 @@
 ---
-description: Doesn’t care if it’s part of a bullet list or an ordered list.
-icon: list-unordered
+description: Simply does its job. Doesn’t even care if it’s part of a bullet list or an ordered list.
+icon: asterisk
 ---
 
 # ListItem

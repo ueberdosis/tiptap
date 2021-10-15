@@ -1,5 +1,5 @@
 ---
-description: Don’t let your users use Comic Sans MS, but let them use all other fonts.
+description: Doesn’t have support for Comic Sans, but for all other fonts.
 ---
 
 # FontFamily

@@ -1,5 +1,6 @@
 ---
 description: Limit the number of characters in your editor, or at least count them.
+icon: calculator-line
 ---
 
 # CharacterCount

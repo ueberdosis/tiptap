@@ -1,6 +1,6 @@
 ---
 description: The typography smart ass for your editor, replaces everything that’s wrong.
-icon: text
+icon: quill-pen-line
 ---
 
 # Typography

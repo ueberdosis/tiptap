@@ -1,5 +1,5 @@
 ---
-description: Collaborative text editing can be fricking complex, so we made it different.
+description: Collaborative text editing can be fricking complex, but it doesn’t have to be that way.
 icon: user-voice-line
 ---
 

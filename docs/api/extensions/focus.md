@@ -1,5 +1,6 @@
 ---
 description: Keep track of where the cursor is, and let the user know you know it.
+icon: focus-line
 ---
 
 # Focus

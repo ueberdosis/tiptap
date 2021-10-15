@@ -1,5 +1,5 @@
 ---
-description: Quoting other people lets you look clever.
+description: Quoting other people will make you look clever.
 icon: double-quotes-l
 ---
 

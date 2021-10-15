@@ -1,5 +1,5 @@
 ---
-description: Mom, look! I wrote a paragraph in the Internet.
+description: Mom, look! I wrote a paragraph on the Internet.
 icon: paragraph
 ---
 

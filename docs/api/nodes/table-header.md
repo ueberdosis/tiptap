@@ -1,6 +1,6 @@
 ---
-description: "Tables don’t require a header, but let’s be honest: It looks better with it."
-icon: table-line
+description: "Tables don’t require a header, but let’s be honest: They look better with it."
+icon: t-box-line
 ---
 
 # TableHeader

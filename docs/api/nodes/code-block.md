@@ -1,5 +1,5 @@
 ---
-description: The least code the better, but sometimes you need multiple lines of it.
+description: The least code the better, but sometimes you just need multiple lines.
 icon: terminal-box-line
 ---
 

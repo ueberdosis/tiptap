@@ -1,5 +1,6 @@
 ---
 description: Configure a helpful placeholder to fill the emptyness.
+icon: ghost-line
 ---
 
 # Placeholder

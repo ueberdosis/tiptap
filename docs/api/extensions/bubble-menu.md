@@ -1,5 +1,5 @@
 ---
-description: Add a toolbar that pops up above the text to apply inline formatting easily.
+description: Add a toolbar that pops up above the text. Great to apply inline formatting.
 icon: chat-2-line
 ---
 
