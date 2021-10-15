@@ -1,4 +1,5 @@
 d3
+linkifyjs
 lowlight
 lowlight/lib/core
 prosemirror-commands
