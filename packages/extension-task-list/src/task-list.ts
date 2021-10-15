@@ -36,7 +36,7 @@ export const TaskList = Node.create<TaskListOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['ul', mergeAttributes(HTMLAttributes, { 'data-type': 'taskList' }), 0]
+    return ['ul', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 'data-type': 'taskList' }), 0]
   },
 
   addCommands() {
