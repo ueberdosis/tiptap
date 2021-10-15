@@ -166,6 +166,10 @@ export default {
       background-color: #adf;
       pointer-events: none;
     }
+
+    p {
+      margin: 0;
+    }
   }
 }
 
