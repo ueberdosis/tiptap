@@ -55,6 +55,12 @@ body {
   background-color: transparent;
 }
 
+button,
+input {
+  font-size: inherit;
+  font-family: inherit;
+}
+
 .ProseMirror:focus {
   outline: none;
 }
