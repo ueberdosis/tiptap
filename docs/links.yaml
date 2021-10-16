@@ -23,7 +23,7 @@
           skip: true
         - title: Next.js
           link: /installation/nextjs
-          skip: true          
+          skip: true
         - title: Vue 3
           link: /installation/vue3
           skip: true
@@ -52,7 +52,7 @@
       link: /changelog
       type: draft
     - title: About the project
-      link: /sponsor
+      link: /about
       type: sponsor
     - title: Contributing
       link: /overview/contributing
