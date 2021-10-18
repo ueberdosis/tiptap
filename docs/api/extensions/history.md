@@ -67,4 +67,4 @@ editor.commands.redo()
 [packages/extension-history/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-history/)
 
 ## Usage
-<tiptap-demo name="Extensions/History"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/History

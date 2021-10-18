@@ -46,4 +46,4 @@ editor.commands.setHorizontalRule()
 [packages/extension-horizontal-rule/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-horizontal-rule/)
 
 ## Usage
-<tiptap-demo name="Nodes/HorizontalRule"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/HorizontalRule

@@ -24,4 +24,4 @@ yarn add @tiptap/extension-gapcursor
 [packages/extension-gapcursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-gapcursor/)
 
 ## Usage
-<tiptap-demo name="Extensions/Gapcursor"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/Gapcursor

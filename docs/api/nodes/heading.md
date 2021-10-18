@@ -74,4 +74,4 @@ editor.commands.toggleHeading({ level: 1 })
 [packages/extension-heading/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-heading/)
 
 ## Usage
-<tiptap-demo name="Nodes/Heading"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Heading

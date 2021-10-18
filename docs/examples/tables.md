@@ -4,4 +4,4 @@
 Using this extension in a commercial project? [Become a sponsor](/sponsor) to fund its development!
 :::
 
-<tiptap-demo name="Examples/Tables"></tiptap-demo>
+https://embed.tiptap.dev/preview/Examples/Tables

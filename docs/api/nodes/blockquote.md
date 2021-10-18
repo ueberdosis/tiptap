@@ -64,4 +64,4 @@ editor.commands.unsetBlockquote()
 [packages/extension-blockquote/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-blockquote/)
 
 ## Usage
-<tiptap-demo name="Nodes/Blockquote"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Blockquote

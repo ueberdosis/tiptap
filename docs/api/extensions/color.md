@@ -53,4 +53,4 @@ editor.commands.unsetColor()
 [packages/extension-color/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-color/)
 
 ## Usage
-<tiptap-demo name="Extensions/Color"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/Color

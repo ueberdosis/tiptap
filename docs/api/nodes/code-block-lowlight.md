@@ -69,4 +69,4 @@ editor.commands.toggleCodeBlock()
 [packages/extension-code-block-lowlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block-lowlight/)
 
 ## Usage
-<tiptap-demo name="Nodes/CodeBlockLowlight"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/CodeBlockLowlight

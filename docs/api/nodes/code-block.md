@@ -73,4 +73,4 @@ editor.commands.toggleCodeBlock()
 [packages/extension-code-block/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block/)
 
 ## Usage
-<tiptap-demo name="Nodes/CodeBlock"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/CodeBlock

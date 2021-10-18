@@ -42,7 +42,7 @@ There is a little bit of magic required to make this work. But don’t worry, we
 
 Got it? Let’s see it in action. Feel free to copy the below example to get started.
 
-<tiptap-demo name="GuideNodeViews/ReactComponent"></tiptap-demo>
+https://embed.tiptap.dev/preview/GuideNodeViews/ReactComponent
 
 That component doesn’t interact with the editor, though. Time to wire it up.
 
@@ -90,7 +90,7 @@ export default () => {
 
 You don’t need to add those `className` attributes, feel free to remove them or pass other class names. Try it out in the following example:
 
-<tiptap-demo name="GuideNodeViews/ReactComponentContent"></tiptap-demo>
+https://embed.tiptap.dev/preview/GuideNodeViews/ReactComponentContent
 
 Keep in mind that this content is rendered by tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node extension (that’s what we use in the above example).
 
@@ -126,4 +126,4 @@ Delete the current node
 ## Dragging
 To make your node views draggable, set `draggable: true` in the extension and add `data-drag-handle` to the DOM element that should function as the drag handle.
 
-<!-- <tiptap-demo name="GuideNodeViews/DragHandle"></tiptap-demo> -->
+<!-- https://embed.tiptap.dev/preview/GuideNodeViews/DragHandle -->

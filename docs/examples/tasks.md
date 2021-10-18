@@ -1,3 +1,3 @@
 # Tasks
 
-<tiptap-demo name="Examples/Tasks"></tiptap-demo>
+https://embed.tiptap.dev/preview/Examples/Tasks

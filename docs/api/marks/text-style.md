@@ -31,4 +31,4 @@ editor.command.removeEmptyTextStyle()
 [packages/extension-text-style/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-style/)
 
 ## Usage
-<tiptap-demo name="Marks/TextStyle"></tiptap-demo>
+https://embed.tiptap.dev/preview/Marks/TextStyle

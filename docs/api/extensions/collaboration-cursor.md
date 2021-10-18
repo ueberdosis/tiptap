@@ -57,5 +57,5 @@ editor.commands.user({ name: 'Philipp Kühn', color: '#000000' })
 :::warning Public
 The content of this editor is shared with other users.
 :::
-<tiptap-demo name="Extensions/CollaborationCursor" hide-source></tiptap-demo>
-<tiptap-demo name="Extensions/CollaborationCursor"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/CollaborationCursor?hideSource
+https://embed.tiptap.dev/preview/Extensions/CollaborationCursor

@@ -99,4 +99,4 @@ this.editor.getAttributes('link').href
 [packages/extension-link/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-link/)
 
 ## Usage
-<tiptap-demo name="Marks/Link"></tiptap-demo>
+https://embed.tiptap.dev/preview/Marks/Link

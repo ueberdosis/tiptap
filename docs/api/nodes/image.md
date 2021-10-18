@@ -62,4 +62,4 @@ editor.commands.setImage({ src: 'https://example.com/foobar.png', alt: 'A boring
 [packages/extension-image/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-image/)
 
 ## Usage
-<tiptap-demo name="Nodes/Image"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Image

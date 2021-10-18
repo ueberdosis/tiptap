@@ -46,4 +46,4 @@ TaskItem.configure({
 [packages/extension-task-item/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-item/)
 
 ## Usage
-<tiptap-demo name="Nodes/TaskItem"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/TaskItem

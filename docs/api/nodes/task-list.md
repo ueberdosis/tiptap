@@ -53,4 +53,4 @@ editor.commands.toggleTaskList()
 [packages/extension-task-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-list/)
 
 ## Usage
-<tiptap-demo name="Nodes/TaskList"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/TaskList

@@ -1,3 +1,4 @@
 # Minimal setup
 
-<tiptap-demo name="Examples/Minimal"></tiptap-demo>
+https://embed.tiptap.dev/preview/Examples/Minimal
+

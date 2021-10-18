@@ -63,7 +63,7 @@ new Editor({
 ```
 
 ## Using a framework
-<tiptap-demo name="Extensions/FloatingMenu"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/FloatingMenu
 
 ### Custom logic
 Customize the logic for showing the menu with the `shouldShow` option. For components, `shouldShow` can be passed as a prop.

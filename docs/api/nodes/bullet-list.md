@@ -53,4 +53,4 @@ editor.commands.toggleBulletList()
 [packages/extension-bullet-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/)
 
 ## Usage
-<tiptap-demo name="Nodes/BulletList"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/BulletList

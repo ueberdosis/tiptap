@@ -53,4 +53,4 @@ editor.commands.setParagraph()
 [packages/extension-paragraph/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-paragraph/)
 
 ## Usage
-<tiptap-demo name="Nodes/Paragraph"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Paragraph

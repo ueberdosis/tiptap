@@ -60,4 +60,4 @@ editor.commands.setHardBreak()
 [packages/extension-hard-break/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-hard-break/)
 
 ## Usage
-<tiptap-demo name="Nodes/HardBreak"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/HardBreak

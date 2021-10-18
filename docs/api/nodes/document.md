@@ -28,4 +28,4 @@ yarn add @tiptap/extension-document
 [packages/extension-document/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-document/)
 
 ## Usage
-<tiptap-demo name="Nodes/Document"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Document

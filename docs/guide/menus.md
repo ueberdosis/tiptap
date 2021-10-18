@@ -18,12 +18,12 @@ A fixed menu, for example on top of the editor, can be anything. We don’t prov
 ### Bubble menu
 The [bubble menu](/api/extensions/bubble-menu) appears when selecting text. Markup and styling is totally up to you.
 
-<tiptap-demo name="Extensions/BubbleMenu" hide-source></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/BubbleMenu?hideSource
 
 ### Floating menu
 The [floating menu](/api/extensions/floating-menu) appears in empty lines. Markup and styling is totally up to you.
 
-<tiptap-demo name="Extensions/FloatingMenu" hide-source></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/FloatingMenu?hideSource
 
 ### Slash commands (work in progress)
 It’s not an official extension yet, but [there’s an experiment you can use to add what we call slash commands](/experiments/commands). It allows you to start a new line with `/` and will bring up a popup to select which node should be added.

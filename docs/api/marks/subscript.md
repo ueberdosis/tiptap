@@ -63,4 +63,4 @@ editor.commands.unsetSubscript()
 [packages/extension-subscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-subscript/)
 
 ## Usage
-<tiptap-demo name="Marks/Subscript"></tiptap-demo>
+https://embed.tiptap.dev/preview/Marks/Subscript

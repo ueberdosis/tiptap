@@ -1,3 +1,3 @@
 # Syntax highlighting
 
-<tiptap-demo name="Examples/CodeBlockLanguage"></tiptap-demo>
+https://embed.tiptap.dev/preview/Examples/CodeBlockLanguage

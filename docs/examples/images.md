@@ -8,4 +8,4 @@ Though thousands of developers use tiptap every day, it’s still not our full-t
 [Become a sponsor on GitHub →](https://github.com/sponsors/ueberdosis)
 :::
 
-<tiptap-demo name="Examples/Images"></tiptap-demo>
+https://embed.tiptap.dev/preview/Examples/Images

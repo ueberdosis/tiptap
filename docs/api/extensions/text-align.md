@@ -86,4 +86,4 @@ editor.commands.unsetTextAlign()
 [packages/extension-text-align/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-align/)
 
 ## Usage
-<tiptap-demo name="Extensions/TextAlign"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/TextAlign

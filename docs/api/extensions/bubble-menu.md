@@ -67,7 +67,7 @@ new Editor({
 ```
 
 ### Frameworks
-<tiptap-demo name="Extensions/BubbleMenu"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/BubbleMenu
 
 ### Custom logic
 Customize the logic for showing the menu with the `shouldShow` option. For components, `shouldShow` can be passed as a prop.

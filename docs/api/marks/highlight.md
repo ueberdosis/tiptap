@@ -79,4 +79,4 @@ editor.commands. unsetHighlight()
 [packages/extension-highlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-highlight/)
 
 ## Usage
-<tiptap-demo name="Marks/Highlight"></tiptap-demo>
+https://embed.tiptap.dev/preview/Marks/Highlight

@@ -24,4 +24,4 @@ This extension requires the [`Table`](/api/nodes/table), [`TableRow`](/api/nodes
 [packages/extension-table-cell/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-table-cell/)
 
 ## Usage
-<tiptap-demo name="Nodes/Table"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Table

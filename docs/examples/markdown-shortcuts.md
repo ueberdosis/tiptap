@@ -1,3 +1,3 @@
 # Markdown shortcuts
 
-<tiptap-demo name="Examples/MarkdownShortcuts"></tiptap-demo>
+https://embed.tiptap.dev/preview/Examples/MarkdownShortcuts

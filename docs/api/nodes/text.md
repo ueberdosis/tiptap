@@ -26,4 +26,4 @@ yarn add @tiptap/extension-text
 [packages/extension-text/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text/)
 
 ## Usage
-<tiptap-demo name="Nodes/Text"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Text
