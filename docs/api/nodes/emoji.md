@@ -21,4 +21,4 @@ You can use any emoji picker, or build your own. Just use [commands](/api/comman
 this.editor.chain().focus().insertContent('✨').run()
 ```
 
-<tiptap-demo name="Nodes/Emoji"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Emoji

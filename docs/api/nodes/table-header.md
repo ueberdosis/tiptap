@@ -40,4 +40,4 @@ This extension requires the [`Table`](/api/nodes/table), [`TableRow`](/api/nodes
 [packages/extension-table-header/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-table-header/)
 
 ## Usage
-<tiptap-demo name="Nodes/Table"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Table

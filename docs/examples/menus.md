@@ -1,3 +1,3 @@
 # Menus
 
-<tiptap-demo name="Examples/Menus"></tiptap-demo>
+https://embed.tiptap.dev/preview/Examples/Menus

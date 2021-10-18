@@ -69,4 +69,4 @@ editor.commands.unsetItalic()
 [packages/extension-italic/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-italic/)
 
 ## Usage
-<tiptap-demo name="Marks/Italic"></tiptap-demo>
+https://embed.tiptap.dev/preview/Marks/Italic

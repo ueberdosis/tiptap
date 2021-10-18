@@ -42,7 +42,7 @@ editor.commands.setContent({
 
 Here is an interactive example where you can see that in action:
 
-<tiptap-demo name="GuideContent/ExportJSON" hide-source></tiptap-demo>
+https://embed.tiptap.dev/preview/GuideContent/ExportJSON?hideSource
 
 ### Option 2: HTML
 HTML can be easily rendered in other places, for example in emails and it’s wildly used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
@@ -66,7 +66,7 @@ editor.commands.setContent(`<p>Example Text</p>`)
 
 Use this interactive example to fiddle around:
 
-<tiptap-demo name="GuideContent/ExportHTML" hide-source></tiptap-demo>
+https://embed.tiptap.dev/preview/GuideContent/ExportHTML?hideSource
 
 ### Option 3: Y.js
 Our editor has top notch support for Y.js, which is amazing to add features like [realtime collaboration, offline editing, or syncing between devices](/guide/collaborative-editing).
@@ -112,18 +112,18 @@ const editor = new Editor({
 ### Option 1: Read-only instance of tiptap
 To render the saved content, set the editor to read-only. That’s how you can achieve the exact same rendering as it’s in the editor, without duplicating your CSS and other code.
 
-<tiptap-demo name="GuideContent/ReadOnly"></tiptap-demo>
+https://embed.tiptap.dev/preview/GuideContent/ReadOnly
 
 ### Option 2: Generate HTML from ProseMirror JSON
 If you need to render the content on the server side, for example to generate the HTML for a blog post which has been written in tiptap, you’ll probably want to do just that without an actual editor instance.
 
 That’s what the `generateHTML()` is for. It’s a helper function which renders HTML without an actual editor instance.
 
-<tiptap-demo name="GuideContent/GenerateHTML"></tiptap-demo>
+https://embed.tiptap.dev/preview/GuideContent/GenerateHTML
 
 By the way, the other way is possible, too. The below examples shows how to generate JSON from HTML.
 
-<tiptap-demo name="GuideContent/GenerateJSON"></tiptap-demo>
+https://embed.tiptap.dev/preview/GuideContent/GenerateJSON
 
 ## Migration
 If you’re migrating existing content to tiptap we would recommend to get your existing output to HTML. That’s probably the best format to get your initial content into tiptap, because ProseMirror ensures there is nothing wrong with it. Even if there are some tags or attributes that aren’t allowed (based on your configuration), tiptap just throws them away quietly.

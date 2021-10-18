@@ -63,4 +63,4 @@ editor.commands.unsetSuperscript()
 [packages/extension-superscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-superscript/)
 
 ## Usage
-<tiptap-demo name="Marks/Superscript"></tiptap-demo>
+https://embed.tiptap.dev/preview/Marks/Superscript

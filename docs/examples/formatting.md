@@ -1,3 +1,3 @@
 # Formatting
 
-<tiptap-demo name="Examples/Formatting"></tiptap-demo>
+https://embed.tiptap.dev/preview/Examples/Formatting

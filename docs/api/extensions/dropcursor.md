@@ -57,4 +57,4 @@ Dropcursor.configure({
 [packages/extension-dropcursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-dropcursor/)
 
 ## Usage
-<tiptap-demo name="Extensions/Dropcursor"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/Dropcursor

@@ -1,3 +1,3 @@
 # Mentions
 
-<tiptap-demo name="Examples/Community"></tiptap-demo>
+https://embed.tiptap.dev/preview/Examples/Community

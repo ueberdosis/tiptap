@@ -69,4 +69,4 @@ editor.commands.unsetStrike()
 [packages/extension-strike/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-strike/)
 
 ## Usage
-<tiptap-demo name="Marks/Strike"></tiptap-demo>
+https://embed.tiptap.dev/preview/Marks/Strike

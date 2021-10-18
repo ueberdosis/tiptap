@@ -36,7 +36,7 @@ CharacterCount.configure({
 [packages/extension-character-count/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-character-count/)
 
 ## Usage
-<tiptap-demo name="Extensions/CharacterCount"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/CharacterCount
 
 ## Count words, emojis, letters …
 Want to count words instead? Or emojis? Or the letter *a*? Sure, no problem. You can access the `textContent` directly and count whatever you’re into.

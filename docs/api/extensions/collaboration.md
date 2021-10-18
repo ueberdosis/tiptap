@@ -89,5 +89,5 @@ editor.commands.redo()
 :::warning Public
 The content of this editor is shared with other users.
 :::
-<tiptap-demo name="Extensions/Collaboration" hide-source></tiptap-demo>
-<tiptap-demo name="Extensions/Collaboration"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/Collaboration?hideSource
+https://embed.tiptap.dev/preview/Extensions/Collaboration

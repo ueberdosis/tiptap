@@ -53,4 +53,4 @@ editor.commands.toggleOrderedList()
 [packages/extension-ordered-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-ordered-list/)
 
 ## Usage
-<tiptap-demo name="Nodes/OrderedList"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/OrderedList

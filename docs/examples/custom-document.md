@@ -1,3 +1,3 @@
 # Custom Document
 
-<tiptap-demo name="Examples/CustomDocument"></tiptap-demo>
+https://embed.tiptap.dev/preview/Examples/CustomDocument

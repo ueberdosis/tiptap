@@ -7,4 +7,4 @@ Linter can be used to check the content as per your wish and highlight it to the
 ## Issues
 * There is no decoration API in tiptap, that’s why this is a lot of ProseMirror work. Before we’ll publish that example, we’d need to find a few ways to make it more tiptap-like. For example, it would be great to use Vue/React components for the widget.
 
-<tiptap-demo name="Experiments/Linter"></tiptap-demo>
+https://embed.tiptap.dev/preview/Experiments/Linter

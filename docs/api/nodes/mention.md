@@ -80,4 +80,4 @@ Mention.configure({
 [packages/extension-mention/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-mention/)
 
 ## Usage
-<tiptap-demo name="Nodes/Mention"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Mention

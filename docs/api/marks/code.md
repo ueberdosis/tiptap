@@ -65,4 +65,4 @@ editor.commands.unsetCode()
 [packages/extension-code/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code/)
 
 ## Usage
-<tiptap-demo name="Marks/Code"></tiptap-demo>
+https://embed.tiptap.dev/preview/Marks/Code

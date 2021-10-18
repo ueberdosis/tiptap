@@ -52,4 +52,4 @@ editor.commands.unsetFontFamily()
 [packages/extension-font-family/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-font-family/)
 
 ## Usage
-<tiptap-demo name="Extensions/FontFamily"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/FontFamily

@@ -69,4 +69,4 @@ editor.commands.unsetBold()
 [packages/extension-bold/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bold/)
 
 ## Usage
-<tiptap-demo name="Marks/Bold"></tiptap-demo>
+https://embed.tiptap.dev/preview/Marks/Bold

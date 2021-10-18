@@ -190,4 +190,4 @@ editor.commands.fixTables()
 [packages/extension-table/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-table/)
 
 ## Usage
-<tiptap-demo name="Nodes/Table"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/Table

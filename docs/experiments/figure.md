@@ -9,4 +9,4 @@
 ## Issues
 * The current implementation works with images only.
 
-<tiptap-demo name="Experiments/Figure"></tiptap-demo>
+https://embed.tiptap.dev/preview/Experiments/Figure

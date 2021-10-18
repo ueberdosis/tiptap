@@ -44,4 +44,4 @@ ListItem.configure({
 [packages/extension-list-item/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list-item/)
 
 ## Usage
-<tiptap-demo name="Nodes/ListItem"></tiptap-demo>
+https://embed.tiptap.dev/preview/Nodes/ListItem

@@ -48,4 +48,4 @@ Focus.configure({
 [packages/extension-focus/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-focus/)
 
 ## Usage
-<tiptap-demo name="Extensions/Focus"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/Focus

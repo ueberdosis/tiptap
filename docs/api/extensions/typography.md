@@ -52,4 +52,4 @@ yarn add @tiptap/extension-typography
 [packages/extension-typography/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-typography/)
 
 ## Usage
-<tiptap-demo name="Extensions/Typography"></tiptap-demo>
+https://embed.tiptap.dev/preview/Extensions/Typography

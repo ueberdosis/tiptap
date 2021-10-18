@@ -69,4 +69,4 @@ editor.commands.unsetUnderline()
 [packages/extension-underline/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-underline/)
 
 ## Usage
-<tiptap-demo name="Marks/Underline"></tiptap-demo>
+https://embed.tiptap.dev/preview/Marks/Underline
