@@ -108,6 +108,10 @@ export const TaskItem = Node.create<TaskItemOptions>({
         }
       })
 
+      Object.entries(this.options.HTMLAttributes).forEach(([key, value]) => {
+        listItem.setAttribute(key, value)
+      })
+
       listItem.dataset.checked = node.attrs.checked
       if (node.attrs.checked) {
         checkbox.setAttribute('checked', 'checked')
