@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.21...@tiptap/extension-task-item@2.0.0-beta.22) (2021-10-18)
+
+
+### Bug Fixes
+
+* add HTMLAttributes to task item node view ([81d8097](https://github.com/ueberdosis/tiptap/commit/81d809795908e28b1a96ccad33147b711910b27a))
+
+
+
+
+
 # [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.20...@tiptap/extension-task-item@2.0.0-beta.21) (2021-10-14)
 
 **Note:** Version bump only for package @tiptap/extension-task-item
