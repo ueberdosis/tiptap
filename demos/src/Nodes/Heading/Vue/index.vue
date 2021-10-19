@@ -1,13 +1,13 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-      h1
+      H1
     </button>
     <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-      h2
+      H2
     </button>
     <button @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
-      h3
+      H3
     </button>
 
     <editor-content :editor="editor" />

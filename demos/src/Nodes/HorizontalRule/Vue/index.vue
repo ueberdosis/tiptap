@@ -1,7 +1,7 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().setHorizontalRule().run()">
-      horizontalRule
+      setHorizontalRule
     </button>
 
     <editor-content :editor="editor" />

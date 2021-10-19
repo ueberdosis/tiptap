@@ -1,7 +1,10 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-      code block
+      toggleCodeBlock
+    </button>
+    <button @click="editor.chain().focus().setCodeBlock().run()" :disabled="editor.isActive('codeBlock')">
+      setCodeBlock
     </button>
 
     <editor-content :editor="editor" />

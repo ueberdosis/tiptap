@@ -1,5 +1,18 @@
 <template>
   <div v-if="editor">
+    <button @click="editor.chain().focus().toggleTaskList().run()" :class="{ 'is-active': editor.isActive('taskList') }">
+      toggleTaskList
+    </button>
+    <button @click="editor.chain().focus().splitListItem('taskItem').run()" :disabled="!editor.can().splitListItem('taskItem')">
+      splitListItem
+    </button>
+    <button @click="editor.chain().focus().sinkListItem('taskItem').run()" :disabled="!editor.can().sinkListItem('taskItem')">
+      sinkListItem
+    </button>
+    <button @click="editor.chain().focus().liftListItem('taskItem').run()" :disabled="!editor.can().liftListItem('taskItem')">
+      liftListItem
+    </button>
+
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -30,7 +43,9 @@ export default {
         Paragraph,
         Text,
         TaskList,
-        TaskItem,
+        TaskItem.configure({
+          nested: true,
+        }),
       ],
       content: `
         <ul data-type="taskList">
@@ -52,9 +67,12 @@ ul[data-type="taskList"] {
   list-style: none;
   padding: 0;
 
+  p {
+    margin: 0;
+  }
+
   li {
     display: flex;
-    align-items: center;
 
     > label {
       flex: 0 0 auto;

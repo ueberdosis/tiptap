@@ -3,10 +3,10 @@
     <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
       toggleBlockquote
     </button>
-    <button @click="editor.chain().focus().setBlockquote().run()" :disabled="!editor.can().setBlockquote()">
+    <button @click="editor.chain().focus().setBlockquote().run()" :disabled="editor.isActive('blockquote')">
       setBlockquote
     </button>
-    <button @click="editor.chain().focus().unsetBlockquote().run()" :disabled="!editor.can().unsetBlockquote()">
+    <button @click="editor.chain().focus().unsetBlockquote().run()" :disabled="!editor.isActive('blockquote')">
       unsetBlockquote
     </button>
 

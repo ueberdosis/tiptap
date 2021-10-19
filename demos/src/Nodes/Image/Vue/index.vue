@@ -1,7 +1,7 @@
 <template>
   <div v-if="editor">
     <button @click="addImage">
-      image
+      setImage
     </button>
     <editor-content :editor="editor" />
   </div>
