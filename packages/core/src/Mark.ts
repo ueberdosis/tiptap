@@ -17,7 +17,7 @@ import {
   KeyboardShortcutCommand,
 } from './types'
 import { Node } from './Node'
-import { MarkConfig } from '.'
+import { MarkConfig, EditorStorage } from '.'
 import { Editor } from './Editor'
 
 declare module '@tiptap/core' {
@@ -38,6 +38,16 @@ declare module '@tiptap/core' {
      * Default options
      */
     defaultOptions?: Options,
+
+    /**
+     * Storage
+     */
+    addStorage?: (this: {
+      name: string,
+      options: Options,
+      editor: Editor,
+      parent: ParentConfig<MarkConfig<Options>>['addStorage'],
+    }) => Partial<EditorStorage>,
 
     /**
      * Global attributes

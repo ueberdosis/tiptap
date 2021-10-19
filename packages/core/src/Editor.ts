@@ -27,6 +27,7 @@ import {
   TextSerializer,
   EditorEvents,
 } from './types'
+import { EditorStorage } from '.'
 import * as extensions from './extensions'
 import style from './style'
 
@@ -49,6 +50,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   public view!: EditorView
 
   public isFocused = false
+
+  public editorStorage!: EditorStorage
 
   public options: EditorOptions = {
     element: document.createElement('div'),
@@ -98,6 +101,13 @@ export class Editor extends EventEmitter<EditorEvents> {
       this.commands.focus(this.options.autofocus)
       this.emit('create', { editor: this })
     }, 0)
+  }
+
+  /**
+   * Returns the editor storage.
+   */
+  public get storage(): EditorStorage {
+    return this.editorStorage
   }
 
   /**

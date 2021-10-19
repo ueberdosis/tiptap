@@ -47,6 +47,19 @@ export default class ExtensionManager {
         }
       }
 
+      const storage = getExtensionField<AnyConfig['addStorage']>(
+        extension,
+        'addStorage',
+        context,
+      )
+
+      if (storage) {
+        this.editor.editorStorage = {
+          ...this.editor.editorStorage,
+          ...storage(),
+        }
+      }
+
       const onBeforeCreate = getExtensionField<AnyConfig['onBeforeCreate']>(
         extension,
         'onBeforeCreate',

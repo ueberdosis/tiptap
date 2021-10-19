@@ -12,7 +12,7 @@ import {
   ParentConfig,
   KeyboardShortcutCommand,
 } from './types'
-import { ExtensionConfig } from '.'
+import { ExtensionConfig, EditorStorage } from '.'
 
 declare module '@tiptap/core' {
   interface ExtensionConfig<Options = any> {
@@ -32,6 +32,16 @@ declare module '@tiptap/core' {
      * Default options
      */
     defaultOptions?: Options,
+
+    /**
+     * Storage
+     */
+    addStorage?: (this: {
+      name: string,
+      options: Options,
+      editor: Editor,
+      parent: ParentConfig<ExtensionConfig<Options>>['addStorage'],
+    }) => Partial<EditorStorage>,
 
     /**
      * Global attributes

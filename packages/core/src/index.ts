@@ -53,6 +53,9 @@ export { default as isTextSelection } from './helpers/isTextSelection'
 export { default as posToDOMRect } from './helpers/posToDOMRect'
 
 // eslint-disable-next-line
+export interface EditorStorage {}
+
+// eslint-disable-next-line
 export interface Commands<ReturnType = any> {}
 
 // eslint-disable-next-line
