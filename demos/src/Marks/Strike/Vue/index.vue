@@ -1,7 +1,13 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-      strike
+      toggleStrike
+    </button>
+    <button @click="editor.chain().focus().setStrike().run()" :disabled="editor.isActive('strike')">
+      setStrike
+    </button>
+    <button @click="editor.chain().focus().unsetStrike().run()" :disabled="!editor.isActive('strike')">
+      unsetStrike
     </button>
 
     <editor-content :editor="editor" />

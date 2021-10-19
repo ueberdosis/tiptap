@@ -1,26 +1,7 @@
 <template>
   <div v-if="editor">
-    <button
-      @click="editor.chain().focus().toggleHighlight().run()"
-      :class="{ 'is-active': editor.isActive('highlight') }"
-    >
-      highlight (any)
-    </button>
-    <button
-      @click="editor.chain().focus().toggleHighlight({
-        color: ''
-      }).run()"
-      :class="{ 'is-active': editor.isActive('highlight', {
-        color: ''
-      }) }"
-    >
-      highlight (default)
-    </button>
-    <button @click="editor.chain().focus().toggleHighlight({ color: 'red' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'red' }) }">
-      "red"
-    </button>
-    <button @click="editor.chain().focus().toggleHighlight({ color: '#ffa8a8' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffa8a8' }) }">
-      red
+    <button @click="editor.chain().focus().toggleHighlight().run()" :class="{ 'is-active': editor.isActive('highlight') }">
+      toggleHighlight
     </button>
     <button @click="editor.chain().focus().toggleHighlight({ color: '#ffc078' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffc078' }) }">
       orange
@@ -33,6 +14,18 @@
     </button>
     <button @click="editor.chain().focus().toggleHighlight({ color: '#b197fc' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#b197fc' }) }">
       purple
+    </button>
+    <button @click="editor.chain().focus().toggleHighlight({ color: 'red' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'red' }) }">
+      red ('red')
+    </button>
+    <button @click="editor.chain().focus().toggleHighlight({ color: '#ffa8a8' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffa8a8' }) }">
+      red (#ffa8a8)
+    </button>
+    <button
+      @click="editor.chain().focus().unsetHighlight().run()"
+      :disabled="!editor.isActive('highlight')"
+    >
+      unsetHighlight
     </button>
 
     <editor-content :editor="editor" />
@@ -83,5 +76,8 @@ export default {
 <style lang="scss">
 mark {
   background-color: #ffe066;
+  padding: 0.125em 0;
+  border-radius: 0.25em;
+  box-decoration-break: clone;
 }
 </style>

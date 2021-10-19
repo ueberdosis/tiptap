@@ -46,4 +46,4 @@ We are part of the [Y-Collective](https://opencollective.com/y-collective), a fu
 If you have an issue, a question, want to talk something through or anything else, [please use GitHub issues](https://github.com/ueberdosis/tiptap/issues/new/choose) to keep everything accessible to the whole community. For everything else, reach out to [humans@tiptap.dev](mailto:humans@tiptap.dev). We can take on a limited number of custom development and consulting contracts.
 
 ### Can we have a call?
-Nope, we are big fans of asynchronous communication. If you really need to reach out in private, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev), but don’t expect technical email support. That all happens on [GitHub](https://github.com/ueberdosis/tiptap/issues).
+Nope, we are big fans of asynchronous communication. If you really need to reach out in private, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev), but don’t expect technical email support. That all happens on [GitHub](https://github.com/ueberdosis/tiptap/issues)

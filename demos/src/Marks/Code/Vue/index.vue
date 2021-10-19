@@ -1,7 +1,13 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
-      code
+      toggleCode
+    </button>
+    <button @click="editor.chain().focus().setCode().run()" :disabled="editor.isActive('code')">
+      setCode
+    </button>
+    <button @click="editor.chain().focus().unsetCode().run()" :disabled="!editor.isActive('code')">
+      unsetCode
     </button>
 
     <editor-content :editor="editor" />
@@ -46,3 +52,21 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  code {
+    font-size: 0.9rem;
+    padding: 0.25em;
+    border-radius: 0.25em;
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+    box-decoration-break: clone;
+  }
+}
+</style>
