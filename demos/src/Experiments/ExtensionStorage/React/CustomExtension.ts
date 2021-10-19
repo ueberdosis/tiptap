@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
 
 declare module '@tiptap/core' {
-  interface Storage {
+  interface EditorStorage {
     custom: {
       foo: number,
     }
@@ -12,7 +12,7 @@ export const CustomExtension = Extension.create({
   name: 'custom',
 
   onUpdate() {
-    this.editor.storage.custom.foo++
+    this.editor.storage.custom.foo += 1
   },
 
   addStorage() {
