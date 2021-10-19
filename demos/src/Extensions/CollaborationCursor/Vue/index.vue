@@ -11,6 +11,7 @@ import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import * as Y from 'yjs'
 import { WebrtcProvider } from 'y-webrtc'
+import Placeholder from '@tiptap/extension-placeholder'
 
 export default {
   components: {
@@ -43,6 +44,9 @@ export default {
             color: '#f783ac',
           },
         }),
+        Placeholder.configure({
+          placeholder: 'Write something … It’ll be shared with everyone else looking at this example.',
+        }),
       ],
     })
   },
@@ -55,6 +59,22 @@ export default {
 </script>
 
 <style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+
+/* Placeholder (at the top) */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
 /* Give a remote user a caret */
 .collaboration-cursor__caret {
   position: relative;

@@ -22,7 +22,18 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        Placeholder,
+        Placeholder.configure({
+          // Use a placeholder:
+          placeholder: 'Write something …',
+          // Use different placeholders depending on the node type:
+          // placeholder: ({ node }) => {
+          //   if (node.type.name === 'heading') {
+          //     return 'What’s the title?'
+          //   }
+
+          //   return 'Can you add some further context?'
+          // },
+        }),
       ],
     })
   },
@@ -45,7 +56,7 @@ export default {
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: #ced4da;
+  color: #adb5bd;
   pointer-events: none;
   height: 0;
 }
@@ -54,7 +65,7 @@ export default {
 /*.ProseMirror p.is-empty::before {
   content: attr(data-placeholder);
   float: left;
-  color: #ced4da;
+  color: #adb5bd;
   pointer-events: none;
   height: 0;
 }*/

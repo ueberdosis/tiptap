@@ -81,8 +81,12 @@ export default {
   }
 
   code {
+    font-size: 0.9rem;
+    padding: 0.25em;
+    border-radius: 0.25em;
     background-color: rgba(#616161, 0.1);
     color: #616161;
+    box-decoration-break: clone;
   }
 }
 </style>

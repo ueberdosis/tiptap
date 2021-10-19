@@ -16,7 +16,7 @@
       cursive
     </button>
     <button @click="editor.chain().focus().unsetFontFamily().run()">
-      Remove font-family
+      unsetFontFamily
     </button>
 
     <editor-content :editor="editor" />

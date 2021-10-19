@@ -27,7 +27,7 @@
       green
     </button>
     <button @click="editor.chain().focus().unsetColor().run()">
-      remove color
+      unsetColor
     </button>
 
     <editor-content :editor="editor" />

@@ -13,7 +13,7 @@
       justify
     </button>
     <button @click="editor.chain().focus().unsetTextAlign().run()">
-      set default
+      unsetTextAlign
     </button>
     <editor-content :editor="editor" />
   </div>

@@ -2,13 +2,13 @@
   <div>
     <floating-menu :editor="editor" v-if="editor">
       <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-        h1
+        H1
       </button>
       <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-        h2
+        H2
       </button>
       <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
-        bullet list
+        Bullet List
       </button>
     </floating-menu>
     <editor-content :editor="editor" />
