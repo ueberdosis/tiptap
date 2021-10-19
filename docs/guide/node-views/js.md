@@ -13,7 +13,7 @@ Here is what you need to do to render a node view inside your editor:
 1. [Create a node extension](/guide/custom-extensions)
 2. Register a new node view with `addNodeView()`
 3. Write your render function
-4. [Configure tiptap to use your new node extension](/guide/configuration)
+4. [Configure Tiptap to use your new node extension](/guide/configuration)
 
 This is how your node extension could look like:
 
@@ -120,4 +120,4 @@ Got it? You’re free to do anything you like, as long as you return a container
 
 https://embed.tiptap.dev/preview/GuideNodeViews/JavaScriptContent
 
-Keep in mind that this content is rendered by tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node extension (that’s what we use in the above example).
+Keep in mind that this content is rendered by Tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node extension (that’s what we use in the above example).

@@ -9,7 +9,7 @@ Using the collaborative editing commercially? [Become a sponsor](/sponsor) to fu
 :::
 
 ## Introduction
-This example shows how you can use tiptap to let multiple users collaborate in the same document in real-time.
+This example shows how you can use Tiptap to let multiple users collaborate in the same document in real-time.
 
 It connects all clients to a WebSocket server and merges changes to the document with the power of [Y.js](https://github.com/yjs/yjs). If you want to learn more about collaborative text editing, check out [our guide on collaborative editing](/guide/collaborative-editing).
 

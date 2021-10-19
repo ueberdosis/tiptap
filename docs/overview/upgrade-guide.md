@@ -5,7 +5,7 @@ tableOfContents: true
 # Upgrade Guide
 
 ## Introduction
-First of all, tiptap v1 isn’t supported anymore and won’t receive any further updates.
+First of all, Tiptap v1 isn’t supported anymore and won’t receive any further updates.
 
 Yes, it’s tedious work to upgrade your favorite text editor to a new API, but we made sure you’ve got enough reasons to upgrade to the newest version.
 
@@ -17,22 +17,22 @@ Yes, it’s tedious work to upgrade your favorite text editor to a new API, but 
 
 The new API will look pretty familiar to you, but there are a ton of changes though. To make the upgrade a little bit easier, here is everything you need to know:
 
-## Uninstall tiptap v1
-The whole package structure has changed, we even moved to another npm namespace, so you’ll need to remove the old version entirely before upgrading to tiptap 2.
+## Uninstall Tiptap v1
+The whole package structure has changed, we even moved to another npm namespace, so you’ll need to remove the old version entirely before upgrading to Tiptap 2.
 
 Otherwise you’ll run into an exception, for example “looks like multiple versions of prosemirror-model were loaded”.
 
 ```bash
 # with npm
-npm uninstall tiptap tiptap-commands tiptap-extensions tiptap-utils
+npm uninstall Tiptap Tiptap-commands Tiptap-extensions Tiptap-utils
 
 # with Yarn
-yarn remove tiptap tiptap-commands tiptap-extensions tiptap-utils
+yarn remove Tiptap Tiptap-commands Tiptap-extensions Tiptap-utils
 ```
 
-## Install tiptap v2
+## Install Tiptap v2
 
-Once you have uninstalled the old version of tiptap, install the new Vue 2 package and the starter kit:
+Once you have uninstalled the old version of Tiptap, install the new Vue 2 package and the starter kit:
 
 ```bash
 # install with npm
@@ -42,8 +42,8 @@ npm install @tiptap/vue-2 @tiptap/starter-kit
 yarn add @tiptap/vue-2 @tiptap/starter-kit
 ```
 
-## Keep tiptap v2 up to date
-We are constantly releasing updates to tiptap. Did you know there’s an easy-to-use command to update your dependencies with Yarn?
+## Keep Tiptap v2 up to date
+We are constantly releasing updates to Tiptap. Did you know there’s an easy-to-use command to update your dependencies with Yarn?
 
 ```bash
 yarn upgrade-interactive
@@ -171,12 +171,12 @@ Most commands can be combined to one call now. That’s shorter than separate fu
 editor.chain().toggleBold().focus().run()
 ```
 
-The `.chain()` is required to start a new chain and the `.run()` is needed to actually execute all the commands in between. Read more about [the new tiptap commands](/api/commands) in our API documentation.
+The `.chain()` is required to start a new chain and the `.run()` is needed to actually execute all the commands in between. Read more about [the new Tiptap commands](/api/commands) in our API documentation.
 
 ## .focus() isn’t called on every command anymore
-We tried to hide the `.focus()` command from you with tiptap 1 and executed that on every command. That led to issues in specific use cases, where you want to run a command, but don’t want to focus the editor.
+We tried to hide the `.focus()` command from you with Tiptap 1 and executed that on every command. That led to issues in specific use cases, where you want to run a command, but don’t want to focus the editor.
 
-With tiptap v2 you have to explicitly call the `focus()` and you probably want to do that in a lot of places. Here is an example:
+With Tiptap v2 you have to explicitly call the `focus()` and you probably want to do that in a lot of places. Here is an example:
 
 ```js
 editor.chain().focus().toggleBold().run()
@@ -186,14 +186,14 @@ editor.chain().focus().toggleBold().run()
 The new event callbacks have fewer parameters. The same things should be available through `this.` now. [Read more about events here.](/api/events)
 
 ## Collaborative editing
-The reference implementation for collaborative editing uses Y.js now. That’s a whole different thing. You still can use the tiptap 1 extension, but it’s up to you to adapt it to the new extension API. If you’ve done this, don’t forget to share it with us so we can link to it from here!
+The reference implementation for collaborative editing uses Y.js now. That’s a whole different thing. You still can use the Tiptap 1 extension, but it’s up to you to adapt it to the new extension API. If you’ve done this, don’t forget to share it with us so we can link to it from here!
 
 Read more about [the new collaborative editing experience](/guide/collaborative-editing) in our guide.
 
 ## Marks don’t support node view anymore
-For marks, node views are [not well supported in ProseMirror](https://discuss.prosemirror.net/t/there-is-a-bug-in-marks-nodeview/2722/2). There is also [a related issue](https://github.com/ueberdosis/tiptap/issues/613) for tiptap 1. That’s why we removed it in tiptap 2.
+For marks, node views are [not well supported in ProseMirror](https://discuss.prosemirror.net/t/there-is-a-bug-in-marks-nodeview/2722/2). There is also [a related issue](https://github.com/ueberdosis/tiptap/issues/613) for Tiptap 1. That’s why we removed it in Tiptap 2.
 
 ## Become a sponsor
-tiptap wouldn’t exist without the funding of its community. If you fell in love with tiptap, don’t forget to [become a sponsor](/sponsor) and make the maintenance, development and support sustainable.
+tiptap wouldn’t exist without the funding of its community. If you fell in love with Tiptap, don’t forget to [become a sponsor](/sponsor) and make the maintenance, development and support sustainable.
 
 In exchange, we’ll take you into our hearts, invite you to private repositories, add a `sponsor ♥` label to your issues and pull requests and more.

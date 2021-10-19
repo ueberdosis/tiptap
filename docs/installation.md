@@ -5,7 +5,7 @@ tableOfContents: true
 # Installation
 
 ## Introduction
-tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s your thing). The following integration guides help you integrating tiptap in your JavaScript project.
+tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s your thing). The following integration guides help you integrating Tiptap in your JavaScript project.
 
 ## Integration guides
 * [CDN](/installation/cdn)
@@ -61,4 +61,4 @@ new Editor({
 })
 ```
 
-Open your project in the browser to see tiptap in action. Good work! Time to give yourself a pat on the back.
+Open your project in the browser to see Tiptap in action. Good work! Time to give yourself a pat on the back.

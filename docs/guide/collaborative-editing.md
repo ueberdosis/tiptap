@@ -5,10 +5,10 @@ tableOfContents: true
 # Collaborative editing
 
 ## Introduction
-Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of [Y.js](https://github.com/yjs/yjs). The following guide explains all things to take into account when you consider to make tiptap collaborative. Don’t worry, a production-grade setup doesn’t require much code.
+Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of [Y.js](https://github.com/yjs/yjs). The following guide explains all things to take into account when you consider to make Tiptap collaborative. Don’t worry, a production-grade setup doesn’t require much code.
 
 ## Configure the editor
-The underyling schema tiptap uses is an excellent foundation to sync documents. With the [`Collaboration`](/api/extensions/collaboration) you can tell tiptap to track changes to the document with [Y.js](https://github.com/yjs/yjs).
+The underyling schema Tiptap uses is an excellent foundation to sync documents. With the [`Collaboration`](/api/extensions/collaboration) you can tell Tiptap to track changes to the document with [Y.js](https://github.com/yjs/yjs).
 
 Y.js is a conflict-free replicated data types implementation, or in other words: It’s reaaally good in merging changes. And to achieve that, changes don’t have to come in order. It’s totally fine to change a document while being offline and merge it with other changes when the device is online again.
 
@@ -27,7 +27,7 @@ npm install @tiptap/extension-collaboration yjs y-webrtc
 yarn add @tiptap/extension-collaboration yjs y-webrtc
 ```
 
-Now, create a new Y document, and register it with tiptap:
+Now, create a new Y document, and register it with Tiptap:
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -43,7 +43,7 @@ const provider = new WebrtcProvider('example-document', ydoc)
 const editor = new Editor({
   extensions: [
     // …
-    // Register the document with tiptap
+    // Register the document with Tiptap
     Collaboration.configure({
       document: ydoc,
     }),
@@ -51,7 +51,7 @@ const editor = new Editor({
 })
 ```
 
-This should be enough to create a collaborative instance of tiptap. Crazy, isn’t it? Try it out, and open the editor in two different browsers. Changes should be synced between different windows.
+This should be enough to create a collaborative instance of Tiptap. Crazy, isn’t it? Try it out, and open the editor in two different browsers. Changes should be synced between different windows.
 
 So how does this magic work? All clients need to connect with eachother, that’s the job of a *provider*. The [WebRTC provider](https://github.com/yjs/y-webrtc) is the easiest way to get started with, as it requires a public server to connect clients directly with each other, but not to sync the actual changes. This has two downsides, though.
 
@@ -71,7 +71,7 @@ npm install @tiptap/extension-collaboration yjs y-websocket
 yarn add @tiptap/extension-collaboration yjs y-websocket
 ```
 
-And then register the WebSocket provider with tiptap:
+And then register the WebSocket provider with Tiptap:
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -87,7 +87,7 @@ const provider = new WebsocketProvider('ws://127.0.0.1:1234', 'example-document'
 const editor = new Editor({
   extensions: [
     // …
-    // Register the document with tiptap
+    // Register the document with Tiptap
     Collaboration.configure({
       document: ydoc,
     }),
@@ -135,7 +135,7 @@ node ./index.js
 <!-- TODO: This should output something like “Listening on ws://127.0.0.1:1234”.  -->
 Try opening http://127.0.0.1:1234 in your browser. You should see a plain text `OK` if everything works fine.
 
-Go back to your tiptap editor and hit reload, it should now connect to the WebSocket server and changes should sync with all other clients. Amazing, isn’t it?
+Go back to your Tiptap editor and hit reload, it should now connect to the WebSocket server and changes should sync with all other clients. Amazing, isn’t it?
 
 ### Multiple network providers
 You can even combine multiple providers. That’s not needed, but could keep clients connected, even if one connection - for example the WebSocket server - goes down for a while. Here is an example:
@@ -239,7 +239,7 @@ In the backend, you can split the string to know the user is typing on a page wi
 And if you’d like to sync multiple fields with one Y.js document, just pass different fragment names to the collaboration extension:
 
 ```js
-// a tiptap instance for the field
+// a Tiptap instance for the field
 Collaboration.configure({
   document: ydoc,
   field: 'title',
@@ -354,11 +354,11 @@ hocuspocus.listen()
 ### Schema updates
 tiptap is very strict with the [schema](/api/schema), that means, if you add something that’s not allowed according to the configured schema it’ll be thrown away. That can lead to a strange behaviour when multiple clients with different schemas share changes to a document.
 
-Let’s say you added an editor to your app and the first people use it already. They have all a loaded instance of tiptap with all default extensions, and therefor a schema that only allows those. But you want to add task lists in the next update, so you add the extension and deploy again.
+Let’s say you added an editor to your app and the first people use it already. They have all a loaded instance of Tiptap with all default extensions, and therefor a schema that only allows those. But you want to add task lists in the next update, so you add the extension and deploy again.
 
 A new user opens your app and has the updated schema (with task lists), while all others still have the old schema (without task lists). The new user checks out the newly added tasks lists and adds it to a document to show that feature to other users in that document. But then, it magically disappears right after she added it. What happened?
 
-When one user adds a new node (or mark), that change will be synced to all other connected clients. The other connected clients apply those changes to the editor, and tiptap, strict as it is, removes the newly added node, because it’s not allowed according to their (old) schema. Those changes will be synced to other connected clients and oops, it’s removed everywhere. To avoid this you have a few options:
+When one user adds a new node (or mark), that change will be synced to all other connected clients. The other connected clients apply those changes to the editor, and Tiptap, strict as it is, removes the newly added node, because it’s not allowed according to their (old) schema. Those changes will be synced to other connected clients and oops, it’s removed everywhere. To avoid this you have a few options:
 
 1. Never change the schema (not cool).
 2. Force clients to update when you deploy a new schema (tough).

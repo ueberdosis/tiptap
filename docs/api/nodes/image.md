@@ -38,7 +38,7 @@ Image.configure({
 ### inline
 Renders the image node inline, for example in a paragraph tag: `<p><img src="spacer.gif"></p>`. By default images are on the same level as paragraphs.
 
-It totally depends on what kind of editing experience you’d like to have, but can be useful if you (for example) migrate from Quill to tiptap.
+It totally depends on what kind of editing experience you’d like to have, but can be useful if you (for example) migrate from Quill to Tiptap.
 
 Default: `false`
 

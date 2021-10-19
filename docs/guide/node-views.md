@@ -7,7 +7,7 @@ tableOfContents: true
 ## Introduction
 Node views are the best thing since sliced bread, at least if you are a fan of customization (and bread). With node views you can add interactive nodes to your editor. That can literally be everything. If you can write it in JavaScript, you can use it in your editor.
 
-Node views are amazing to improve the in-editor experience, but can also be used in a read-only instance of tiptap. They are unrelated to the HTML output by design, so you have full control about the in-editor experience *and* the output.
+Node views are amazing to improve the in-editor experience, but can also be used in a read-only instance of Tiptap. They are unrelated to the HTML output by design, so you have full control about the in-editor experience *and* the output.
 
 ## Different types of node views
 Depending on what you would like to build, node views work a little bit different and can have their verify specific capabilities, but also pitfalls. The main question is: How should your custom node look like?
@@ -40,7 +40,7 @@ tiptap adds a `contenteditable="false"` to those by default.
 
 That’s how you could render mentions, which shouldn’t be editable. Users can add or delete them, but not delete single characters.
 
-Statamic uses those for their Bard editor, which renders complex modules inside tiptap, which can have their own text inputs.
+Statamic uses those for their Bard editor, which renders complex modules inside Tiptap, which can have their own text inputs.
 
 ### Mixed content
 You can even mix non-editable and editable text. That’s great to build complex things, and still use marks like bold and italic inside the editable content.
@@ -63,7 +63,7 @@ You can even mix non-editable and editable text. That’s great to build complex
 ```
 
 ## Markup
-But what happens if you [access the editor content](/guide/output)? If you’re working with HTML, you’ll need to tell tiptap how your node should be serialized.
+But what happens if you [access the editor content](/guide/output)? If you’re working with HTML, you’ll need to tell Tiptap how your node should be serialized.
 
 The editor **does not** export the rendered JavaScript node, and for a lot of use cases you wouldn’t want that anyway.
 
@@ -104,7 +104,7 @@ parseHTML() {
 ```
 
 ### Render JavaScript/Vue/React
-But what if you want to render your actual JavaScript/Vue/React code? Consider using tiptap to render your output. Just set the editor to `editable: false` and no one will notice you’re using an editor to render the content. :-)
+But what if you want to render your actual JavaScript/Vue/React code? Consider using Tiptap to render your output. Just set the editor to `editable: false` and no one will notice you’re using an editor to render the content. :-)
 
 <!-- ## Reference
 

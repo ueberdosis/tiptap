@@ -6,7 +6,7 @@ tableOfContents: true
 # Livewire
 
 ## Introduction
-The following guide describes how to integrate tiptap with your [Livewire](https://laravel-livewire.com/) project.
+The following guide describes how to integrate Tiptap with your [Livewire](https://laravel-livewire.com/) project.
 
 TODO
 

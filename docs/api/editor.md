@@ -5,7 +5,7 @@ tableOfContents: true
 # Editor
 
 ## Introduction
-This class is a central building block of tiptap. It does most of the heavy lifting of creating a working  [ProseMirror](https://ProseMirror.net/) editor such as creating the [`EditorView`](https://ProseMirror.net/docs/ref/#view.EditorView), setting the initial [`EditorState`](https://ProseMirror.net/docs/ref/#state.Editor_State) and so on.
+This class is a central building block of Tiptap. It does most of the heavy lifting of creating a working  [ProseMirror](https://ProseMirror.net/) editor such as creating the [`EditorView`](https://ProseMirror.net/docs/ref/#view.EditorView), setting the initial [`EditorState`](https://ProseMirror.net/docs/ref/#state.Editor_State) and so on.
 
 ## Methods
 The editor instance will provide a bunch of public methods. Methods are regular functions and can return anything. They’ll help you to work with the editor.
@@ -151,7 +151,7 @@ editor.isEmpty
 ## Settings
 
 ### element
-The `element` specifies the HTML element the editor will be binded too. The following code will integrate tiptap with an element with the `.element` class:
+The `element` specifies the HTML element the editor will be binded too. The following code will integrate Tiptap with an element with the `.element` class:
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -259,7 +259,7 @@ new Editor({
 ```
 
 ### enableInputRules
-By default, tiptap enables all [input rules](/guide/custom-extensions/#input-rules). With `enableInputRules` you can disable that.
+By default, Tiptap enables all [input rules](/guide/custom-extensions/#input-rules). With `enableInputRules` you can disable that.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -275,7 +275,7 @@ new Editor({
 ```
 
 ### enablePasteRules
-By default, tiptap enables all [paste rules](/guide/custom-extensions/#paste-rules). With `enablePasteRules` you can disable that.
+By default, Tiptap enables all [paste rules](/guide/custom-extensions/#paste-rules). With `enablePasteRules` you can disable that.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -291,7 +291,7 @@ new Editor({
 ```
 
 ### injectCSS
-By default, tiptap injects [a little bit of CSS](https://github.com/ueberdosis/tiptap/tree/main/packages/core/src/style.ts). With `injectCSS` you can disable that.
+By default, Tiptap injects [a little bit of CSS](https://github.com/ueberdosis/tiptap/tree/main/packages/core/src/style.ts). With `injectCSS` you can disable that.
 
 ```js
 import { Editor } from '@tiptap/core'
