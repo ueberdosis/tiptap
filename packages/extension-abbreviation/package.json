@@ -1,0 +1,31 @@
+{
+  "name": "@tiptap/extension-abbreviation",
+  "description": "document extension for tiptap",
+  "version": "2.0.0-beta.1",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-abbreviation.cjs.js",
+  "umd": "dist/tiptap-extension-abbreviation.umd.js",
+  "module": "dist/tiptap-extension-abbreviation.esm.js",
+  "types": "dist/packages/extension-abbreviation/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-abbreviation"
+  }
+}
