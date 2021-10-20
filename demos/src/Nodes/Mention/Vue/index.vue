@@ -33,7 +33,7 @@ export default {
           HTMLAttributes: {
             class: 'mention',
           },
-          suggestion,
+          suggestion: suggestion,
         }),
       ],
       content: `
