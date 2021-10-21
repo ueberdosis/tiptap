@@ -14,6 +14,7 @@ import splitExtensions from './helpers/splitExtensions'
 import getAttributesFromExtensions from './helpers/getAttributesFromExtensions'
 import getRenderedAttributes from './helpers/getRenderedAttributes'
 import callOrReturn from './utilities/callOrReturn'
+import findDuplicates from './utilities/findDuplicates'
 import { NodeConfig } from '.'
 
 export default class ExtensionManager {
@@ -134,7 +135,14 @@ export default class ExtensionManager {
   }
 
   static resolve(extensions: Extensions): Extensions {
-    return ExtensionManager.sort(ExtensionManager.flatten(extensions))
+    const resolvedExtensions = ExtensionManager.sort(ExtensionManager.flatten(extensions))
+    const duplicatedNames = findDuplicates(resolvedExtensions.map(extension => extension.name))
+
+    if (duplicatedNames.length) {
+      console.warn(`[tiptap warn]: Duplicate extension names found: [${duplicatedNames.map(item => `'${item}'`).join(', ')}]. This can lead to issues.`)
+    }
+
+    return resolvedExtensions
   }
 
   static flatten(extensions: Extensions): Extensions {
