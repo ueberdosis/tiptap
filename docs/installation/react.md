@@ -27,8 +27,11 @@ yarn create react-app my-tiptap-project --template tiptap
 Let’s start with a fresh React project called `my-tiptap-project`. [Create React App](https://reactjs.org/docs/getting-started.html) will set up everything we need.
 
 ```bash
-# create a project
+# create a project with npm
 npx create-react-app my-tiptap-project
+
+# or if you prefer Yarn
+yarn create react-app my-tiptap-project
 
 # change directory
 cd my-tiptap-project
