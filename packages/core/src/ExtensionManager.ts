@@ -143,6 +143,7 @@ export default class ExtensionManager {
         const context = {
           name: extension.name,
           options: extension.options,
+          storage: extension.storage,
         }
 
         const addExtensions = getExtensionField<AnyConfig['addExtensions']>(
@@ -188,6 +189,7 @@ export default class ExtensionManager {
       const context = {
         name: extension.name,
         options: extension.options,
+        storage: extension.storage,
         editor: this.editor,
         type: getSchemaTypeByName(extension.name, this.schema),
       }
@@ -227,6 +229,7 @@ export default class ExtensionManager {
         const context = {
           name: extension.name,
           options: extension.options,
+          storage: extension.storage,
           editor,
           type: getSchemaTypeByName(extension.name, this.schema),
         }
@@ -317,6 +320,7 @@ export default class ExtensionManager {
         const context = {
           name: extension.name,
           options: extension.options,
+          storage: extension.storage,
           editor,
           type: getNodeType(extension.name, this.schema),
         }

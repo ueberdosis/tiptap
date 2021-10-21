@@ -246,6 +246,7 @@ export const Table = Node.create<TableOptions>({
     const context = {
       name: extension.name,
       options: extension.options,
+      storage: extension.storage,
     }
 
     return {

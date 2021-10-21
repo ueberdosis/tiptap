@@ -36,6 +36,7 @@ export const Gapcursor = Extension.create({
     const context = {
       name: extension.name,
       options: extension.options,
+      storage: extension.storage,
     }
 
     return {

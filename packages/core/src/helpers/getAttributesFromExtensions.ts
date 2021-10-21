@@ -30,6 +30,7 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
     const context = {
       name: extension.name,
       options: extension.options,
+      storage: extension.storage,
     }
 
     const addGlobalAttributes = getExtensionField<AnyConfig['addGlobalAttributes']>(
@@ -67,6 +68,7 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
     const context = {
       name: extension.name,
       options: extension.options,
+      storage: extension.storage,
     }
 
     const addAttributes = getExtensionField<NodeConfig['addAttributes'] | MarkConfig['addAttributes']>(

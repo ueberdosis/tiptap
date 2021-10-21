@@ -15,6 +15,7 @@ export default function isList(name: string, extensions: Extensions): boolean {
   const context = {
     name: extension.name,
     options: extension.options,
+    storage: extension.storage,
   }
   const group = callOrReturn(getExtensionField<NodeConfig['group']>(extension, 'group', context))
 
