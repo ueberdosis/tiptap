@@ -6,35 +6,36 @@ tableOfContents: true
 # React
 
 ## Introduction
-The following guide describes how to integrate Tiptap with your [React](https://reactjs.org/) project.
+The following guide describes how to integrate Tiptap with your [React](https://reactjs.org/) project. We’re using [Create React App](https://reactjs.org/docs/getting-started.html) here, but the workflow should be similar with other setups.
 
-## Requirements
-* [Node](https://nodejs.org/en/download/) installed on your machine
-* Experience with [React](https://reactjs.org/docs/getting-started.html)
+## Create React App
 
-## Using a template
-If you just want to get up and running with Tiptap you can use the [tiptap Create React App template](https://github.com/alb/cra-template-tiptap) by [@alb](https://github.com/alb) to automatically create a new project with all the steps below already completed.
+### Quickstart
+If you just want to get up and running with Tiptap you can use the [Tiptap Create React App template by @alb](https://github.com/alb/cra-template-tiptap) to create a new project with all the steps listed below completed already.
 
 ```bash
-# create a project based on the Tiptap template
-npx create-react-app Tiptap-example --template Tiptap
+# install with npm
+npx create-react-app my-tiptap-project --template tiptap
+
+# install with Yarn
+yarn create react-app my-tiptap-project --template tiptap
 ```
 
-## 1. Create a project (optional)
-If you already have an existing React project, that’s fine too. Just skip this step and proceed with the next step.
+### Step by step
 
-For the sake of this guide, let’s start with a fresh React project called `tiptap-example`. [*Create React App*](https://reactjs.org/docs/getting-started.html) sets up everything we need.
+#### 1. Create a project (optional)
+Let’s start with a fresh React project called `my-tiptap-project`. [Create React App](https://reactjs.org/docs/getting-started.html) will set up everything we need.
 
 ```bash
 # create a project
-npx create-react-app Tiptap-example
+npx create-react-app my-tiptap-project
 
 # change directory
-cd Tiptap-example
+cd my-tiptap-project
 ```
 
-## 2. Install the dependencies
-Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need the `@tiptap/react` package, with a few components, and `@tiptap/starter-kit` which has the most common extensions to get started quickly.
+#### 2. Install the dependencies
+Time to install the `@tiptap/react` package and our [`StarterKit`](/api/extensions/starter-kit), which has the most popular extensions to get started quickly.
 
 ```bash
 # install with npm
@@ -44,14 +45,13 @@ npm install @tiptap/react @tiptap/starter-kit
 yarn add @tiptap/react @tiptap/starter-kit
 ```
 
-If you followed step 1 and 2, you can now start your project with `npm run start` or `yarn start`, and open [http://localhost:3000](http://localhost:3000) in your favorite browser. This might be different, if you’re working with an existing project.
+If you followed step 1 and 2, you can now start your project with `npm run start` or `yarn start`, and open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 3. Create a new component
-To actually start using Tiptap, you’ll need to create a new component in your app. Let’s call it `Tiptap` and put the following example code in `src/Tiptap.jsx`.
-
-This is the fastest way to get Tiptap up and running with React. It will give you a very basic version of Tiptap, without any buttons. No worries, you will be able to add more functionality soon.
+#### 3. Create a new component
+To actually start using Tiptap we need to create a new component. Let’s call it `Tiptap` and put the following example code in `src/Tiptap.jsx`.
 
 ```jsx
+// src/Tiptap.jsx
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
@@ -60,7 +60,7 @@ const Tiptap = () => {
     extensions: [
       StarterKit,
     ],
-    content: '<p>Hello World! 🌎️</p>',
+    content: '<p>Hello World!</p>',
   })
 
   return (
@@ -71,8 +71,8 @@ const Tiptap = () => {
 export default Tiptap
 ```
 
-## 4. Add it to your app
-Now, let’s replace the content of `src/App.js` with the following example code to use our new `Tiptap` component in our app.
+#### 4. Add it to your app
+Finally, replace the content of `src/App.js` with our new `Tiptap` component.
 
 ```jsx
 import Tiptap from './Tiptap.jsx'
@@ -88,9 +88,9 @@ const App = () => {
 export default App
 ```
 
-You should now see Tiptap in your browser. Time to give yourself a pat on the back! :)
+You should now see a pretty barebones example of Tiptap in your browser.
 
-## 5. The complete setup (optional)
-Ready to add more? Below is a demo that shows how you could set up what we call the default editor. Feel free to take this and start customizing it then:
+#### 5. The complete setup (optional)
+Ready to add more? Below is a demo that shows how you could set up a basic toolbar. Feel free to take it and start customizing it to your needs:
 
 https://embed.tiptap.dev/preview/Examples/Default
