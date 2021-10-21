@@ -1,25 +1,19 @@
 import { Extension } from '@tiptap/core'
 
-declare module '@tiptap/core' {
-  interface EditorStorage {
-    custom: {
-      foo: number,
-    }
-  }
+type CustomStorage = {
+  foo: number,
 }
 
-export const CustomExtension = Extension.create({
+export const CustomExtension = Extension.create<{}, CustomStorage>({
   name: 'custom',
-
-  onUpdate() {
-    this.editor.storage.custom.foo += 1
-  },
 
   addStorage() {
     return {
-      custom: {
-        foo: 123,
-      },
+      foo: 123,
     }
+  },
+
+  onUpdate() {
+    this.storage.foo += 1
   },
 })

@@ -32,9 +32,13 @@ export default class ExtensionManager {
     this.schema = getSchemaByResolvedExtensions(this.extensions)
 
     this.extensions.forEach(extension => {
+      // store extension storage in editor
+      this.editor.extensionStorage[extension.name] = extension.storage
+
       const context = {
         name: extension.name,
         options: extension.options,
+        storage: extension.storage,
         editor: this.editor,
         type: getSchemaTypeByName(extension.name, this.schema),
       }
@@ -44,19 +48,6 @@ export default class ExtensionManager {
 
         if (keepOnSplit) {
           this.splittableMarks.push(extension.name)
-        }
-      }
-
-      const storage = getExtensionField<AnyConfig['addStorage']>(
-        extension,
-        'addStorage',
-        context,
-      )
-
-      if (storage) {
-        this.editor.editorStorage = {
-          ...this.editor.editorStorage,
-          ...storage(),
         }
       }
 

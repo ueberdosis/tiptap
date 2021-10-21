@@ -66,13 +66,14 @@ declare module '@tiptap/core' {
     }
   }
 
-  interface NodeConfig<Options> {
+  interface NodeConfig<Options, Storage> {
     /**
      * Table Role
      */
     tableRole?: string | ((this: {
       name: string,
       options: Options,
+      storage: Storage,
       parent: ParentConfig<NodeConfig<Options>>['tableRole'],
     }) => string),
   }

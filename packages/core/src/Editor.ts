@@ -27,7 +27,6 @@ import {
   TextSerializer,
   EditorEvents,
 } from './types'
-import { EditorStorage } from '.'
 import * as extensions from './extensions'
 import style from './style'
 
@@ -51,7 +50,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public isFocused = false
 
-  public editorStorage!: EditorStorage
+  public extensionStorage: Record<string, any> = {}
 
   public options: EditorOptions = {
     element: document.createElement('div'),
@@ -106,8 +105,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Returns the editor storage.
    */
-  public get storage(): EditorStorage {
-    return this.editorStorage
+  public get storage(): Record<string, any> {
+    return this.extensionStorage
   }
 
   /**

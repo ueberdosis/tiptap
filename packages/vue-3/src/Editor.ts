@@ -1,5 +1,5 @@
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
-import { Editor as CoreEditor, EditorOptions, EditorStorage } from '@tiptap/core'
+import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
 import {
   markRaw,
   Ref,
@@ -39,7 +39,7 @@ export type ContentComponent = ComponentInternalInstance & {
 export class Editor extends CoreEditor {
   private reactiveState: Ref<EditorState>
 
-  private reactiveStorage: Ref<EditorStorage>
+  private reactiveExtensionStorage: Ref<Record<string, any>>
 
   public vueRenderers = reactive<Map<string, VueRenderer>>(new Map())
 
@@ -49,11 +49,11 @@ export class Editor extends CoreEditor {
     super(options)
 
     this.reactiveState = useDebouncedRef(this.view.state)
-    this.reactiveStorage = useDebouncedRef(this.editorStorage)
+    this.reactiveExtensionStorage = useDebouncedRef(this.extensionStorage)
 
     this.on('transaction', () => {
       this.reactiveState.value = this.view.state
-      this.reactiveStorage.value = this.editorStorage
+      this.reactiveExtensionStorage.value = this.extensionStorage
     })
 
     return markRaw(this)
@@ -66,8 +66,8 @@ export class Editor extends CoreEditor {
   }
 
   get storage() {
-    return this.reactiveStorage
-      ? this.reactiveStorage.value
+    return this.reactiveExtensionStorage
+      ? this.reactiveExtensionStorage.value
       : super.storage
   }
 
