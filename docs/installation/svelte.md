@@ -6,10 +6,10 @@ tableOfContents: true
 # Svelte
 
 ## Introduction
-The following guide describes how to integrate tiptap with your [SvelteKit](https://kit.svelte.dev/) project.
+The following guide describes how to integrate Tiptap with your [SvelteKit](https://kit.svelte.dev/) project.
 
-## Take a shortcut: Svelte REPL with tiptap
-If you just want to jump into it right-away, here is a [Svelte REPL with tiptap](https://svelte.dev/repl/798f1b81b9184780aca18d9a005487d2?version=3.31.2) installed.
+## Take a shortcut: Svelte REPL with Tiptap
+If you just want to jump into it right-away, here is a [Svelte REPL with Tiptap](https://svelte.dev/repl/798f1b81b9184780aca18d9a005487d2?version=3.31.2) installed.
 
 ## Requirements
 * [Node](https://nodejs.org/en/download/) installed on your machine
@@ -21,15 +21,15 @@ If you already have an existing SvelteKit project, that’s fine too. Just skip 
 For the sake of this guide, let’s start with a fresh SvelteKit project called `tiptap-example`. The following commands set up everything we need. It asks a lot of questions, but just use what floats your boat or use the defaults.
 
 ```bash
-mkdir tiptap-example
-cd tiptap-example
+mkdir Tiptap-example
+cd Tiptap-example
 npm init svelte@next
 npm install
 npm run dev
 ```
 
 ## 2. Install the dependencies
-Okay, enough of the boring boilerplate work. Let’s finally install tiptap! For the following example you’ll need the `@tiptap/core` package, with a few components, and `@tiptap/starter-kit` which has the most common extensions to get started quickly.
+Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need the `@tiptap/core` package, with a few components, and `@tiptap/starter-kit` which has the most common extensions to get started quickly.
 
 ```bash
 # install with npm
@@ -42,9 +42,9 @@ yarn add @tiptap/core @tiptap/starter-kit
 If you followed step 1 and 2, you can now start your project with `npm run dev` or `yarn dev`, and open [http://localhost:3000/](http://localhost:3000/) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Create a new component
-To actually start using tiptap, you’ll need to add a new component to your app. Let’s call it `Tiptap` and put the following example code in `src/lib/Tiptap.svelte`.
+To actually start using Tiptap, you’ll need to add a new component to your app. Let’s call it `Tiptap` and put the following example code in `src/lib/Tiptap.svelte`.
 
-This is the fastest way to get tiptap up and running with SvelteKit. It will give you a very basic version of tiptap, without any buttons. No worries, you will be able to add more functionality soon.
+This is the fastest way to get Tiptap up and running with SvelteKit. It will give you a very basic version of Tiptap, without any buttons. No worries, you will be able to add more functionality soon.
 
 ```html
 <script type="module">
@@ -117,4 +117,4 @@ Now, let’s replace the content of `src/routes/index.svelte` with the following
 </main>
 ```
 
-You should now see tiptap in your browser. Time to give yourself a pat on the back! :)
+You should now see Tiptap in your browser. Time to give yourself a pat on the back! :)

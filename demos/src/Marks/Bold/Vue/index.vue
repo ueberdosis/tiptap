@@ -1,7 +1,13 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-      bold
+      toggleBold
+    </button>
+    <button @click="editor.chain().focus().setBold().run()" :disabled="editor.isActive('bold')">
+      setBold
+    </button>
+    <button @click="editor.chain().focus().unsetBold().run()" :disabled="!editor.isActive('bold')">
+      unsetBold
     </button>
 
     <editor-content :editor="editor" />

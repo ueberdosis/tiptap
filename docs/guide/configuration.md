@@ -5,7 +5,7 @@ tableOfContents: true
 # Configuration
 
 ## Introduction
-For most cases it’s enough to say where tiptap should be rendered (`element`), what functionalities you want to enable (`extensions`) and what the initial document should be (`content`). 
+For most cases it’s enough to say where Tiptap should be rendered (`element`), what functionalities you want to enable (`extensions`) and what the initial document should be (`content`).
 
 A few more things can be configured though. Let’s look at a fully configured editor example.
 
@@ -34,7 +34,7 @@ new Editor({
 
 This will do the following:
 
-1. bind tiptap to `.element`,
+1. bind Tiptap to `.element`,
 2. load the `Document`, `Paragraph` and `Text` extensions,
 3. set the initial content,
 4. place the cursor in the editor after initialization,
@@ -63,7 +63,7 @@ new Editor({
 ```
 
 ### Configure extensions
-Most extensions can be configured. Add a `.configure()` and pass an object to it. 
+Most extensions can be configured. Add a `.configure()` and pass an object to it.
 
 The following example will disable the default heading levels 4, 5 and 6 and just allow 1, 2 and 3:
 

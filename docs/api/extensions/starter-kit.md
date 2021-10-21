@@ -7,7 +7,7 @@ icon: stack-line
 [![Version](https://img.shields.io/npm/v/@tiptap/starter-kit.svg?label=version)](https://www.npmjs.com/package/@tiptap/starter-kit)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/starter-kit.svg)](https://npmcharts.com/compare/@tiptap/starter-kit?minimal=true)
 
-The `StarterKit` is a collection of the most popular tiptap extensions. If you’re just getting started, this extension is for you.
+The `StarterKit` is a collection of the most popular Tiptap extensions. If you’re just getting started, this extension is for you.
 
 ## Installation
 ```bash

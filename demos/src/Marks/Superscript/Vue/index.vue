@@ -1,7 +1,13 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
-      superscript
+      toggleSuperscript
+    </button>
+    <button @click="editor.chain().focus().setSuperscript().run()" :disabled="editor.isActive('superscript')">
+      setSuperscript
+    </button>
+    <button @click="editor.chain().focus().unsetSuperscript().run()" :disabled="!editor.isActive('superscript')">
+      unsetSuperscript
     </button>
 
     <editor-content :editor="editor" />

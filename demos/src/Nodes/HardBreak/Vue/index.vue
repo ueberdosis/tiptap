@@ -1,7 +1,7 @@
 <template>
   <div v-if="editor">
     <button @click="editor.chain().focus().setHardBreak().run()">
-      hardBreak
+      setHardBreak
     </button>
 
     <editor-content :editor="editor" />

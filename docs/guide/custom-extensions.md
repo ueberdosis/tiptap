@@ -5,7 +5,7 @@ tableOfContents: true
 # Custom extensions
 
 ## Introduction
-One of the strengths of tiptap is its extendability. You don’t depend on the provided extensions, it is intended to extend the editor to your liking.
+One of the strengths of Tiptap is its extendability. You don’t depend on the provided extensions, it is intended to extend the editor to your liking.
 
 With custom extensions you can add new content types and new functionalities, on top of what already exists or from scratch. Let’s start with a few common examples of how you can extend existing nodes, marks and extensions.
 
@@ -65,7 +65,7 @@ The order in which extensions are loaded influences two things:
    The [`Link`](/api/marks/link) mark for example has a higher priority, which means it will be rendered as `<a href="…"><strong>Example</strong></a>` instead of `<strong><a href="…">Example</a></strong>`.
 
 ### Settings
-All settings can be configured through the extension anyway, but if you want to change the default settings, for example to provide a library on top of tiptap for other developers, you can do it like that:
+All settings can be configured through the extension anyway, but if you want to change the default settings, for example to provide a library on top of Tiptap for other developers, you can do it like that:
 
 ```js
 import Heading from '@tiptap/extension-heading'
@@ -124,7 +124,7 @@ const CustomParagraph = Paragraph.extend({
 // <p color="pink">Example Text</p>
 ```
 
-That is already enough to tell tiptap about the new attribute, and set `'pink'` as the default value. All attributes will be rendered as a HTML attribute by default, and parsed from the content when initiated.
+That is already enough to tell Tiptap about the new attribute, and set `'pink'` as the default value. All attributes will be rendered as a HTML attribute by default, and parsed from the content when initiated.
 
 Let’s stick with the color example and assume you want to add an inline style to actually color the text. With the `renderHTML` function you can return HTML attributes which will be rendered in the output.
 
@@ -486,10 +486,10 @@ this.parent
 ```
 
 ### ProseMirror Plugins (Advanced)
-After all, tiptap is built on ProseMirror and ProseMirror has a pretty powerful plugin API, too. To access that directly, use `addProseMirrorPlugins()`.
+After all, Tiptap is built on ProseMirror and ProseMirror has a pretty powerful plugin API, too. To access that directly, use `addProseMirrorPlugins()`.
 
 #### Existing plugins
-You can wrap existing ProseMirror plugins in tiptap extensions like shown in the example below.
+You can wrap existing ProseMirror plugins in Tiptap extensions like shown in the example below.
 
 ```js
 import { history } from 'prosemirror-history'
@@ -507,7 +507,7 @@ const History = Extension.create({
 #### Access the ProseMirror API
 To hook into events, for example a click, double click or when content is pasted, you can pass [event handlers](https://prosemirror.net/docs/ref/#view.EditorProps) to `editorProps` on the [editor](/api/editor#editor-props).
 
-Or you can add them to a tiptap extension like shown in the below example.
+Or you can add them to a Tiptap extension like shown in the below example.
 
 ```js
 import { Extension } from '@tiptap/core'
@@ -596,7 +596,7 @@ const CustomMark = Mark.create({
 ```
 
 ### Create an extension
-Extensions add new capabilities to tiptap and you’ll read the word extension here very often, even for nodes and marks. But there are literal extensions. Those can’t add to the schema (like marks and nodes do), but can add functionality or change the behaviour of the editor.
+Extensions add new capabilities to Tiptap and you’ll read the word extension here very often, even for nodes and marks. But there are literal extensions. Those can’t add to the schema (like marks and nodes do), but can add functionality or change the behaviour of the editor.
 
 A good example to learn from is probably [`TextAlign`](/api/extensions/text-align).
 

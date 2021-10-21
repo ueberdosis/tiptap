@@ -3,7 +3,7 @@
     <button @click="setLink" :class="{ 'is-active': editor.isActive('link') }">
       setLink
     </button>
-    <button @click="editor.chain().focus().unsetLink().run()" v-if="editor.isActive('link')">
+    <button @click="editor.chain().focus().unsetLink().run()" :disabled="!editor.isActive('link')">
       unsetLink
     </button>
     <editor-content :editor="editor" />
@@ -16,6 +16,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Link from '@tiptap/extension-link'
+import Code from '@tiptap/extension-code'
 
 export default {
   components: {
@@ -37,13 +38,14 @@ export default {
         Link.configure({
           openOnClick: false,
         }),
+        Code,
       ],
       content: `
         <p>
           Wow, this editor has support for links to the whole <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>. We tested a lot of URLs and I think you can add *every URL* you want. Isn’t that cool? Let’s try <a href="https://statamic.com/">another one!</a> Yep, seems to work.
         </p>
         <p>
-          By default every link will get a \`rel="noopener noreferrer nofollow"\` attribute. It’s configurable though.
+          By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute. It’s configurable though.
         </p>
       `,
     })
@@ -96,6 +98,15 @@ export default {
 
   a {
     color: #68CEF8;
+  }
+
+  code {
+    font-size: 0.9rem;
+    padding: 0.25em;
+    border-radius: 0.25em;
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+    box-decoration-break: clone;
   }
 }
 </style>

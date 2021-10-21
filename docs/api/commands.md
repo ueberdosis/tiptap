@@ -105,7 +105,7 @@ export default (value) => ({ tr, dispatch }) => {
 }
 ```
 
-If you’re just wrapping another tiptap command, you don’t need to check that, we’ll do it for you.
+If you’re just wrapping another Tiptap command, you don’t need to check that, we’ll do it for you.
 
 ```js
 addCommands() {
@@ -272,7 +272,7 @@ But how do you write those commands? There’s a little bit to learn about that.
 :::pro Oops, this is work in progress
 A well-written documentation needs attention to detail, a great understanding of the project and time to write.
 
-Though tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! With nearly 300 sponsors we are half way there already.
+Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! With nearly 300 sponsors we are half way there already.
 
 Join them and become a sponsor! Enable us to put more time into open source and we’ll fill this page and keep it up to date for you.
 

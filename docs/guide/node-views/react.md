@@ -14,7 +14,7 @@ Here is what you need to do to render React components inside your editor:
 2. Create a React component
 3. Pass that component to the provided `ReactNodeViewRenderer`
 4. Register it with `addNodeView()`
-5. [Configure tiptap to use your new node extension](/guide/configuration)
+5. [Configure Tiptap to use your new node extension](/guide/configuration)
 
 This is how your node extension could look like:
 
@@ -92,7 +92,7 @@ You don’t need to add those `className` attributes, feel free to remove them o
 
 https://embed.tiptap.dev/preview/GuideNodeViews/ReactComponentContent
 
-Keep in mind that this content is rendered by tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node extension (that’s what we use in the above example).
+Keep in mind that this content is rendered by Tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node extension (that’s what we use in the above example).
 
 The `NodeViewWrapper` and `NodeViewContent` components render a `<div>` HTML tag (`<span>` for inline nodes), but you can change that. For example `<NodeViewContent as="p">` should render a paragraph. One limitation though: That tag must not change during runtime.
 

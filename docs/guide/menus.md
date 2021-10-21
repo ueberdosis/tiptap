@@ -46,7 +46,7 @@ Oh, that’s a long command, right? Actually, it’s a [chain of commands](/api/
 editor.chain().focus().toggleBold().run()
 ```
 
-1. `editor` should be a tiptap instance,
+1. `editor` should be a Tiptap instance,
 2. `chain()` is used to tell the editor you want to execute multiple commands,
 3. `focus()` sets the focus back to the editor,
 4. `toggleBold()` marks the selected text bold, or removes the bold mark from the text selection if it’s already applied and
