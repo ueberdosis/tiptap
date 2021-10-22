@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.28](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-gapcursor@2.0.0-beta.27...@tiptap/extension-gapcursor@2.0.0-beta.28) (2021-10-22)
+
+
+### Features
+
+* Add extension storage ([#2069](https://github.com/ueberdosis/tiptap/issues/2069)) ([7ffabf2](https://github.com/ueberdosis/tiptap/commit/7ffabf251c408a652eec1931cc78a8bd43cccb67))
+
+
+
+
+
 # [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-gapcursor@2.0.0-beta.26...@tiptap/extension-gapcursor@2.0.0-beta.27) (2021-10-14)
 
 **Note:** Version bump only for package @tiptap/extension-gapcursor
