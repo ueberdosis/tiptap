@@ -1,0 +1,38 @@
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+}
+
+.search-result {
+  background: rgb(255, 217, 0);
+}
+
+.menubar {
+  display: flex;
+  gap: 1em;
+  background: rgba(128, 128, 128, 0.25);
+  padding: 0.5em;
+  border-radius: 6px;
+  justify-content: center;
+
+  input {
+    height: 2em;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    padding: 0.4em;
+  }
+
+  button {
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: white;
+  }
+}

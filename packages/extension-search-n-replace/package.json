@@ -1,0 +1,36 @@
+{
+  "name": "@tiptap/extension-search-n-replace",
+  "description": "search and replace extension for tiptap",
+  "version": "2.0.0-beta.35",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-search-n-replace.cjs.js",
+  "umd": "dist/tiptap-extension-search-n-replace.umd.js",
+  "module": "dist/tiptap-extension-search-n-replace.esm.js",
+  "types": "dist/packages/extension-search-n-replace/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "dependencies": {
+    "prosemirror-model": "^1.14.3",
+    "prosemirror-state": "^1.3.4",
+    "prosemirror-view": "^1.20.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-search-n-replace"
+  }
+}
