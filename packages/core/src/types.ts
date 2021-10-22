@@ -31,6 +31,15 @@ export type ParentConfig<T> = Partial<{
     : T[P]
 }>
 
+export type Primitive =
+  | null
+  | undefined
+  | string
+  | number
+  | boolean
+  | symbol
+  | bigint
+
 export type RemoveThis<T> = T extends (...args: any) => any
   ? (...args: Parameters<T>) => ReturnType<T>
   : T
@@ -38,6 +47,10 @@ export type RemoveThis<T> = T extends (...args: any) => any
 export type MaybeReturnType<T> = T extends (...args: any) => any
   ? ReturnType<T>
   : T
+
+export type MaybeThisParameterType<T> = Exclude<T, Primitive> extends (...args: any) => any
+  ? ThisParameterType<Exclude<T, Primitive>>
+  : any
 
 export interface EditorEvents {
   beforeCreate: { editor: Editor },

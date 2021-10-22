@@ -56,10 +56,10 @@ export { default as posToDOMRect } from './helpers/posToDOMRect'
 export interface Commands<ReturnType = any> {}
 
 // eslint-disable-next-line
-export interface ExtensionConfig<Options = any> {}
+export interface ExtensionConfig<Options = any, Storage = any> {}
 
 // eslint-disable-next-line
-export interface NodeConfig<Options = any> {}
+export interface NodeConfig<Options = any, Storage = any> {}
 
 // eslint-disable-next-line
-export interface MarkConfig<Options = any> {}
+export interface MarkConfig<Options = any, Storage = any> {}

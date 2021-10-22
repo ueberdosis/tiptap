@@ -50,6 +50,8 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public isFocused = false
 
+  public extensionStorage: Record<string, any> = {}
+
   public options: EditorOptions = {
     element: document.createElement('div'),
     content: '',
@@ -98,6 +100,13 @@ export class Editor extends EventEmitter<EditorEvents> {
       this.commands.focus(this.options.autofocus)
       this.emit('create', { editor: this })
     }, 0)
+  }
+
+  /**
+   * Returns the editor storage.
+   */
+  public get storage(): Record<string, any> {
+    return this.extensionStorage
   }
 
   /**

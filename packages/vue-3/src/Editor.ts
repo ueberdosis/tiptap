@@ -39,6 +39,8 @@ export type ContentComponent = ComponentInternalInstance & {
 export class Editor extends CoreEditor {
   private reactiveState: Ref<EditorState>
 
+  private reactiveExtensionStorage: Ref<Record<string, any>>
+
   public vueRenderers = reactive<Map<string, VueRenderer>>(new Map())
 
   public contentComponent: ContentComponent | null = null
@@ -47,9 +49,11 @@ export class Editor extends CoreEditor {
     super(options)
 
     this.reactiveState = useDebouncedRef(this.view.state)
+    this.reactiveExtensionStorage = useDebouncedRef(this.extensionStorage)
 
     this.on('transaction', () => {
       this.reactiveState.value = this.view.state
+      this.reactiveExtensionStorage.value = this.extensionStorage
     })
 
     return markRaw(this)
@@ -59,6 +63,12 @@ export class Editor extends CoreEditor {
     return this.reactiveState
       ? this.reactiveState.value
       : this.view.state
+  }
+
+  get storage() {
+    return this.reactiveExtensionStorage
+      ? this.reactiveExtensionStorage.value
+      : super.storage
   }
 
   /**

@@ -17,7 +17,13 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
 
     setEditor(instance)
 
-    instance.on('transaction', forceUpdate)
+    instance.on('transaction', () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          forceUpdate()
+        })
+      })
+    })
 
     return () => {
       instance.destroy()

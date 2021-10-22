@@ -29,6 +29,7 @@ export default function getSchemaByResolvedExtensions(extensions: Extensions): S
     const context = {
       name: extension.name,
       options: extension.options,
+      storage: extension.storage,
     }
 
     const extraNodeFields = extensions.reduce((fields, e) => {
@@ -91,6 +92,7 @@ export default function getSchemaByResolvedExtensions(extensions: Extensions): S
     const context = {
       name: extension.name,
       options: extension.options,
+      storage: extension.storage,
     }
 
     const extraMarkFields = extensions.reduce((fields, e) => {
