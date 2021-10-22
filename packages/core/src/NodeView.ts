@@ -115,10 +115,10 @@ export class NodeView<
 
     const isDropEvent = event.type === 'drop'
     const isInput = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(target.tagName)
-      || (target.isContentEditable && !isDropEvent)
+      || target.isContentEditable
 
     // any input event within node views should be ignored by ProseMirror
-    if (isInput) {
+    if (isInput && !isDropEvent) {
       return true
     }
 
