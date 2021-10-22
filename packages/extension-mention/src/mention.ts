@@ -51,7 +51,11 @@ export const Mention = Node.create<MentionOptions>({
           .run()
       },
       allow: ({ editor, range }) => {
-        return editor.can().insertContentAt(range, { type: 'mention' })
+        const $from = editor.state.doc.resolve(range.from)
+        const type = editor.schema.nodes.mention
+        const allow = !!$from.parent.type.contentMatch.matchType(type)
+
+        return allow
       },
     },
   },
