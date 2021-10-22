@@ -73,8 +73,27 @@ Mention.configure({
 })
 ```
 
-| renderLabel    | `String` | `({ options, node }) => …` | Define how a mention label should be rendered.                        |
-| suggestion     | `Object` | `{ … }`                    | [Read more](/api/utilities/suggestion)                                |
+### renderLabel
+Define how a mention label should be rendered.
+
+```js
+Mention.configure({
+  renderLabel({ options, node }) {
+    return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
+  }
+})
+```
+
+### suggestion
+[Read more](/api/utilities/suggestion)
+
+```js
+Mention.configure({
+  suggestion: {
+    // …
+  },
+})
+```
 
 ## Source code
 [packages/extension-mention/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-mention/)
