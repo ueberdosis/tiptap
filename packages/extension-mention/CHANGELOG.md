@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.78](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.77...@tiptap/extension-mention@2.0.0-beta.78) (2021-10-22)
+
+
+### Bug Fixes
+
+* fix check for showing mention suggestion ([5e652c9](https://github.com/ueberdosis/tiptap/commit/5e652c94a7d72e480003449b2dd6050a55df9cc7))
+
+
+
+
+
 # [2.0.0-beta.77](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.76...@tiptap/extension-mention@2.0.0-beta.77) (2021-10-14)
 
 **Note:** Version bump only for package @tiptap/extension-mention
