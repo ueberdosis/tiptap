@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.127](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.126...@tiptap/core@2.0.0-beta.127) (2021-10-22)
+
+
+### Bug Fixes
+
+* improve default styling for .ProseMirror-separator ([0e94afe](https://github.com/ueberdosis/tiptap/commit/0e94afe42a5c15a47698152b3bc88e6bc4f8c01f))
+* Separate drags from drops in stopEvent ([#2070](https://github.com/ueberdosis/tiptap/issues/2070)) ([bebaa40](https://github.com/ueberdosis/tiptap/commit/bebaa4045e6be2e59d1b9c2e1f61f088a47fdf1b))
+
+
+
+
+
 # [2.0.0-beta.126](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.125...@tiptap/core@2.0.0-beta.126) (2021-10-22)
 
 
