@@ -45,7 +45,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [StarterKit, SearchNReplace],
-      content: 'This is new editor and you should really try search and replace.',
+      content: "<p>est for search and replace. search for 'amazing' and replace it with 'awe-inspiring'.</p><p></p><p><strong>tiptap is awesome</strong></p><p><strong>prosemirror is awesome</strong></p><p><strong>vue is awesome</strong></p><p><strong>react is awesome</strong></p>",
     })
 
     this.updateSearchAndReplaceTerms()

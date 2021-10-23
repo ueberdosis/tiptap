@@ -8,12 +8,7 @@ import './styles.scss'
 export default () => {
   const editor = useEditor({
     extensions: [StarterKit, SearchNReplace],
-    content: `
-      <p>
-        This is an example of a Medium-like editor. Enter a new line and some buttons will appear.
-      </p>
-      <p></p>
-    `,
+    content: "<p>est for search and replace. search for 'amazing' and replace it with 'awe-inspiring'.</p><p></p><p><strong>tiptap is awesome</strong></p><p><strong>prosemirror is awesome</strong></p><p><strong>vue is awesome</strong></p><p><strong>react is awesome</strong></p>",
   })
 
   let searchTerm = ''
