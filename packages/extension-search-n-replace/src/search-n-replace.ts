@@ -48,7 +48,7 @@ interface TextNodesWithPosition {
 const updateView = (state: EditorState<any>, dispatch: any) => dispatch(state.tr)
 
 const regex = (s: string, disableRegex: boolean, caseSensitive: boolean): RegExp => {
-  return RegExp(disableRegex ? s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') : s, caseSensitive ? 'gui' : 'gu')
+  return RegExp(disableRegex ? s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') : s, caseSensitive ? 'gu' : 'gui')
 }
 
 function processSearches(doc: ProsemirrorNode, searchTerm: RegExp, searchResultClass: string): { decorationsToReturn: DecorationSet, results: Result[] } {
@@ -159,7 +159,7 @@ const replaceAll = (replaceTerm: string, results: Result[], { tr, dispatch }: an
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const SearchNReplace = Extension.create({
+export const SearchNReplace = Extension.create<SearchOptions>({
   name: 'search',
 
   defaultOptions: {
@@ -169,7 +169,7 @@ export const SearchNReplace = Extension.create({
     searchResultClass: 'search-result',
     caseSensitive: false,
     disableRegex: false,
-  } as SearchOptions,
+  },
 
   addCommands() {
     return {
