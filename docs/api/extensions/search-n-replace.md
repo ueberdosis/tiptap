@@ -17,19 +17,9 @@ Until the package is published on NPM, you have to implement it from search-n-re
 
 ## Usage
 
-Pass `SearchNReplace` to the editor to load all included extension at once.
-
-```js
-import { Editor } from "@tiptap/core";
-import SearchNReplace from "./path/to/search-n-replace.ts/";
-
-const editor = new Editor({
-  content: "<p>Example Text</p>",
-  extensions: [SearchNReplace],
-});
-```
-
-You can configure the included extensions, or even disable a few of them, like shown below.
+Pass 'SearchNReplace' to the editor extensions.
+You can configure which class should be added to the search results that are found and whether the search should be case-sensitive 
+and whether regex search should be enabled or not.
 
 ```js
 import { Editor } from "@tiptap/core";
