@@ -38,7 +38,7 @@ import SearchNReplace from "./path/to/search-n-replace.ts/";
 const editor = new Editor({
   content: "<p>Example Text</p>",
   extensions: [
-    StarterKit.configure({
+    SearchNReplace.configure({
       searchResultClass: "search-result", // class to give to found items. default 'search-result'
       caseSensitive: false, // no need to explain
       disableRegex: false, // also no need to explain
