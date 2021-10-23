@@ -11,6 +11,36 @@ The `SearchNReplace` is extension for search and replace for tiptap v2.
 
 Until the package is published on NPM, you have to implement it from search-n-replace.ts
 
+## Commands
+
+### setSearchTerm()
+Set search term.
+
+```js
+editor.commands.setSearchTerm(searchTerm)
+```
+
+### setReplaceTerm()
+Set replace term.
+
+```js
+editor.commands.setReplaceTerm(replaceTerm)
+```
+
+### replace()
+Replace first instance of search results with `replaceTerm`.
+
+```js
+editor.commands.replace()
+```
+
+### replaceAll()
+Replace all instance of search results with `replaceTerm`.
+
+```js
+editor.commands.replaceAll()
+```
+
 ## Source code
 
 [packages/extension-search-n-replace/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-search-n-replace/)
