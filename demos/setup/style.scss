@@ -56,9 +56,17 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font-size: inherit;
   font-family: inherit;
+  color: black;
+  margin: 0.1rem;
+  border: 1px solid black;
+  border-radius: 0.3rem;
+  padding: 0.1rem 0.4rem;
+  background: white;
+  accent-color: black;
 }
 
 .ProseMirror:focus {
