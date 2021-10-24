@@ -300,6 +300,15 @@ export class Extension<Options = any, Storage = any> {
 
     extension.options = mergeDeep(this.options, options) as Options
 
+    extension.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
+      extension,
+      'addStorage',
+      {
+        name: extension.name,
+        options: extension.options,
+      },
+    ))
+
     return extension
   }
 
