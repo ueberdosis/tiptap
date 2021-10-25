@@ -87,9 +87,10 @@ function processSearches(doc: ProsemirrorNode, searchTerm: RegExp, searchResultC
 
     for (let j = 0; j < matches.length; j += 1) {
       const m = matches[j]
+
       if (m[0] === '') break
 
-      if (m.index) {
+      if (m.index !== undefined) {
         results.push({
           from: pos + m.index,
           to: pos + m.index + m[0].length,
@@ -98,7 +99,10 @@ function processSearches(doc: ProsemirrorNode, searchTerm: RegExp, searchResultC
     }
   }
 
-  results.forEach(r => decorations.push(Decoration.inline(r.from, r.to, { class: searchResultClass })))
+  for (let i = 0; i < results.length; i += 1) {
+    const r = results[i]
+    decorations.push(Decoration.inline(r.from, r.to, { class: searchResultClass }))
+  }
 
   return {
     decorationsToReturn: DecorationSet.create(doc, decorations),
@@ -238,7 +242,6 @@ export const SearchNReplace = Extension.create<SearchOptions>({
               return decorationsToReturn
             }
             return DecorationSet.empty
-
           },
         },
         props: {
