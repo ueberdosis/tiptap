@@ -114,6 +114,10 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
       this.renderer.updateProps(props)
     }
 
+    if (node.type !== this.node.type) {
+      return false
+    }
+
     if (typeof this.options.update === 'function') {
       const oldNode = this.node
       const oldDecorations = this.decorations
@@ -128,10 +132,6 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
         newDecorations: decorations,
         updateProps: () => updateProps({ node, decorations }),
       })
-    }
-
-    if (node.type !== this.node.type) {
-      return false
     }
 
     if (node === this.node && this.decorations === decorations) {
