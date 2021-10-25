@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.85](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.84...@tiptap/react@2.0.0-beta.85) (2021-10-25)
+
+
+### Bug Fixes
+
+* Check node type above custom update function for node views ([#2081](https://github.com/ueberdosis/tiptap/issues/2081)) ([ddc9ca8](https://github.com/ueberdosis/tiptap/commit/ddc9ca8d4f347566f83513a386922afe52f26da1))
+
+
+
+
+
 # [2.0.0-beta.84](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.83...@tiptap/react@2.0.0-beta.84) (2021-10-22)
 
 

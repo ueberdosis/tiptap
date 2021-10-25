@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.128](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.127...@tiptap/core@2.0.0-beta.128) (2021-10-25)
+
+
+### Bug Fixes
+
+* fix storage context when using configure ([ef254ce](https://github.com/ueberdosis/tiptap/commit/ef254cead7b9be052ec0211849fb78ae577095dd))
+
+
+
+
+
 # [2.0.0-beta.127](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.126...@tiptap/core@2.0.0-beta.127) (2021-10-22)
 
 
