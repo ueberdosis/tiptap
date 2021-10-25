@@ -71,9 +71,11 @@ All settings can be configured through the extension anyway, but if you want to 
 import Heading from '@tiptap/extension-heading'
 
 const CustomHeading = Heading.extend({
-  defaultOptions: {
-    ...Heading.options,
-    levels: [1, 2, 3],
+  addOptions() {
+    return {
+      ...this.parent(),
+      levels: [1, 2, 3],
+    }
   },
 })
 ```
