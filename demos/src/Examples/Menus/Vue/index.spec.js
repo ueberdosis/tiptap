@@ -5,13 +5,13 @@ context('/src/Examples/Menus/Vue/', () => {
 
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.commands.clearContent()
+      editor.chain().focus().clearContent().run()
     })
   })
 
   it('should show menu when the editor is empty', () => {
-    cy.get('#app div')
-      .find('#tippy-2')
+    cy.get('#app')
+      .find('[data-tippy-root]')
   })
 
   it('should show menu when text is selected', () => {
@@ -19,8 +19,8 @@ context('/src/Examples/Menus/Vue/', () => {
       .type('Test')
       .type('{selectall}')
 
-    cy.get('#app div')
-      .find('#tippy-1')
+    cy.get('#app')
+      .find('[data-tippy-root]')
   })
 
   const marks = [
@@ -45,7 +45,7 @@ context('/src/Examples/Menus/Vue/', () => {
         .type('{selectall}')
 
       cy.get('#app div')
-        .find('#tippy-1')
+        .find('[data-tippy-root]')
         .contains(mark.button)
         .click()
 
