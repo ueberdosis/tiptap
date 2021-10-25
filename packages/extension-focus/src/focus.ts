@@ -10,9 +10,11 @@ export interface FocusOptions {
 export const FocusClasses = Extension.create<FocusOptions>({
   name: 'focus',
 
-  defaultOptions: {
-    className: 'has-focus',
-    mode: 'all',
+  addOptions() {
+    return {
+      className: 'has-focus',
+      mode: 'all',
+    }
   },
 
   addProseMirrorPlugins() {

@@ -36,8 +36,10 @@ export const underscorePasteRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))/g
 export const Italic = Mark.create<ItalicOptions>({
   name: 'italic',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   parseHTML() {

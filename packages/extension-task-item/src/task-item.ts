@@ -10,9 +10,11 @@ export const inputRegex = /^\s*(\[([ |x])\])\s$/
 export const TaskItem = Node.create<TaskItemOptions>({
   name: 'taskItem',
 
-  defaultOptions: {
-    nested: false,
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      nested: false,
+      HTMLAttributes: {},
+    }
   },
 
   content() {

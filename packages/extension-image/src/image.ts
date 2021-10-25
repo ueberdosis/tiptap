@@ -25,9 +25,11 @@ export const inputRegex = /(!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\))/
 export const Image = Node.create<ImageOptions>({
   name: 'image',
 
-  defaultOptions: {
-    inline: false,
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      inline: false,
+      HTMLAttributes: {},
+    }
   },
 
   inline() {

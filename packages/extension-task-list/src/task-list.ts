@@ -18,8 +18,10 @@ declare module '@tiptap/core' {
 export const TaskList = Node.create<TaskListOptions>({
   name: 'taskList',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   group: 'block list',

@@ -34,8 +34,10 @@ export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/g
 export const Code = Mark.create<CodeOptions>({
   name: 'code',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   excludes: '_',

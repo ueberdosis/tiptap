@@ -23,8 +23,10 @@ declare module '@tiptap/core' {
 export const Color = Extension.create<ColorOptions>({
   name: 'color',
 
-  defaultOptions: {
-    types: ['textStyle'],
+  addOptions() {
+    return {
+      types: ['textStyle'],
+    }
   },
 
   addGlobalAttributes() {

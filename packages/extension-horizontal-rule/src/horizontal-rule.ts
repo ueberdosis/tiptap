@@ -23,8 +23,10 @@ declare module '@tiptap/core' {
 export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   name: 'horizontalRule',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   group: 'block',

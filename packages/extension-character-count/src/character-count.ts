@@ -10,8 +10,10 @@ export interface CharacterCountOptions {
 export const CharacterCount = Extension.create<CharacterCountOptions>({
   name: 'characterCount',
 
-  defaultOptions: {
-    limit: 0,
+  addOptions() {
+    return {
+      limit: 0,
+    }
   },
 
   addProseMirrorPlugins() {

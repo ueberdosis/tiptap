@@ -43,10 +43,12 @@ export const Collaboration = Extension.create<CollaborationOptions>({
 
   priority: 1000,
 
-  defaultOptions: {
-    document: null,
-    field: 'default',
-    fragment: null,
+  addOptions() {
+    return {
+      document: null,
+      field: 'default',
+      fragment: null,
+    }
   },
 
   onCreate() {

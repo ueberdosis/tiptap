@@ -47,13 +47,15 @@ export const Link = Mark.create<LinkOptions>({
 
   inclusive: false,
 
-  defaultOptions: {
-    openOnClick: true,
-    linkOnPaste: true,
-    HTMLAttributes: {
-      target: '_blank',
-      rel: 'noopener noreferrer nofollow',
-    },
+  addOptions() {
+    return {
+      openOnClick: true,
+      linkOnPaste: true,
+      HTMLAttributes: {
+        target: '_blank',
+        rel: 'noopener noreferrer nofollow',
+      },
+    }
   },
 
   addAttributes() {

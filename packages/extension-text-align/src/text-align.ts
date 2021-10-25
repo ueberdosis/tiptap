@@ -24,10 +24,12 @@ declare module '@tiptap/core' {
 export const TextAlign = Extension.create<TextAlignOptions>({
   name: 'textAlign',
 
-  defaultOptions: {
-    types: [],
-    alignments: ['left', 'center', 'right', 'justify'],
-    defaultAlignment: 'left',
+  addOptions() {
+    return {
+      types: [],
+      alignments: ['left', 'center', 'right', 'justify'],
+      defaultAlignment: 'left',
+    }
   },
 
   addGlobalAttributes() {
