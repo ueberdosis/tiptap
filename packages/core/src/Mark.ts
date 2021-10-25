@@ -8,7 +8,10 @@ import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from './InputRule'
 import { PasteRule } from './PasteRule'
 import mergeDeep from './utilities/mergeDeep'
+import callOrReturn from './utilities/callOrReturn'
+import getExtensionField from './helpers/getExtensionField'
 import {
+  AnyConfig,
   Extensions,
   Attributes,
   RawCommands,
@@ -21,7 +24,7 @@ import { MarkConfig } from '.'
 import { Editor } from './Editor'
 
 declare module '@tiptap/core' {
-  export interface MarkConfig<Options = any> {
+  export interface MarkConfig<Options = any, Storage = any> {
     [key: string]: any;
 
     /**
@@ -40,12 +43,22 @@ declare module '@tiptap/core' {
     defaultOptions?: Options,
 
     /**
+     * Default Storage
+     */
+     addStorage?: (this: {
+      name: string,
+      options: Options,
+      parent: ParentConfig<MarkConfig<Options, Storage>>['addGlobalAttributes'],
+    }) => Storage,
+
+    /**
      * Global attributes
      */
     addGlobalAttributes?: (this: {
       name: string,
       options: Options,
-      parent: ParentConfig<MarkConfig<Options>>['addGlobalAttributes'],
+      storage: Storage,
+      parent: ParentConfig<MarkConfig<Options, Storage>>['addGlobalAttributes'],
     }) => GlobalAttributes | {},
 
     /**
@@ -54,9 +67,10 @@ declare module '@tiptap/core' {
     addCommands?: (this: {
       name: string,
       options: Options,
+      storage: Storage,
       editor: Editor,
       type: MarkType,
-      parent: ParentConfig<MarkConfig<Options>>['addCommands'],
+      parent: ParentConfig<MarkConfig<Options, Storage>>['addCommands'],
     }) => Partial<RawCommands>,
 
     /**
@@ -65,9 +79,10 @@ declare module '@tiptap/core' {
     addKeyboardShortcuts?: (this: {
       name: string,
       options: Options,
+      storage: Storage,
       editor: Editor,
       type: MarkType,
-      parent: ParentConfig<MarkConfig<Options>>['addKeyboardShortcuts'],
+      parent: ParentConfig<MarkConfig<Options, Storage>>['addKeyboardShortcuts'],
     }) => {
       [key: string]: KeyboardShortcutCommand,
     },
@@ -78,9 +93,10 @@ declare module '@tiptap/core' {
     addInputRules?: (this: {
       name: string,
       options: Options,
+      storage: Storage,
       editor: Editor,
       type: MarkType,
-      parent: ParentConfig<MarkConfig<Options>>['addInputRules'],
+      parent: ParentConfig<MarkConfig<Options, Storage>>['addInputRules'],
     }) => InputRule[],
 
     /**
@@ -89,9 +105,10 @@ declare module '@tiptap/core' {
     addPasteRules?: (this: {
       name: string,
       options: Options,
+      storage: Storage,
       editor: Editor,
       type: MarkType,
-      parent: ParentConfig<MarkConfig<Options>>['addPasteRules'],
+      parent: ParentConfig<MarkConfig<Options, Storage>>['addPasteRules'],
     }) => PasteRule[],
 
     /**
@@ -100,9 +117,10 @@ declare module '@tiptap/core' {
     addProseMirrorPlugins?: (this: {
       name: string,
       options: Options,
+      storage: Storage,
       editor: Editor,
       type: MarkType,
-      parent: ParentConfig<MarkConfig<Options>>['addProseMirrorPlugins'],
+      parent: ParentConfig<MarkConfig<Options, Storage>>['addProseMirrorPlugins'],
     }) => Plugin[],
 
     /**
@@ -111,7 +129,8 @@ declare module '@tiptap/core' {
     addExtensions?: (this: {
       name: string,
       options: Options,
-      parent: ParentConfig<MarkConfig<Options>>['addExtensions'],
+      storage: Storage,
+      parent: ParentConfig<MarkConfig<Options, Storage>>['addExtensions'],
     }) => Extensions,
 
     /**
@@ -121,7 +140,8 @@ declare module '@tiptap/core' {
       this: {
         name: string,
         options: Options,
-        parent: ParentConfig<MarkConfig<Options>>['extendNodeSchema'],
+        storage: Storage,
+        parent: ParentConfig<MarkConfig<Options, Storage>>['extendNodeSchema'],
       },
       extension: Node,
     ) => Record<string, any>) | null,
@@ -133,7 +153,8 @@ declare module '@tiptap/core' {
       this: {
         name: string,
         options: Options,
-        parent: ParentConfig<MarkConfig<Options>>['extendMarkSchema'],
+        storage: Storage,
+        parent: ParentConfig<MarkConfig<Options, Storage>>['extendMarkSchema'],
       },
       extension: Mark,
     ) => Record<string, any>) | null,
@@ -144,9 +165,10 @@ declare module '@tiptap/core' {
     onBeforeCreate?: ((this: {
       name: string,
       options: Options,
+      storage: Storage,
       editor: Editor,
       type: MarkType,
-      parent: ParentConfig<MarkConfig<Options>>['onBeforeCreate'],
+      parent: ParentConfig<MarkConfig<Options, Storage>>['onBeforeCreate'],
     }) => void) | null,
 
     /**
@@ -155,9 +177,10 @@ declare module '@tiptap/core' {
     onCreate?: ((this: {
       name: string,
       options: Options,
+      storage: Storage,
       editor: Editor,
       type: MarkType,
-      parent: ParentConfig<MarkConfig<Options>>['onCreate'],
+      parent: ParentConfig<MarkConfig<Options, Storage>>['onCreate'],
     }) => void) | null,
 
     /**
@@ -166,9 +189,10 @@ declare module '@tiptap/core' {
     onUpdate?: ((this: {
       name: string,
       options: Options,
+      storage: Storage,
       editor: Editor,
       type: MarkType,
-      parent: ParentConfig<MarkConfig<Options>>['onUpdate'],
+      parent: ParentConfig<MarkConfig<Options, Storage>>['onUpdate'],
     }) => void) | null,
 
     /**
@@ -177,9 +201,10 @@ declare module '@tiptap/core' {
     onSelectionUpdate?: ((this: {
       name: string,
       options: Options,
+      storage: Storage,
       editor: Editor,
       type: MarkType,
-      parent: ParentConfig<MarkConfig<Options>>['onSelectionUpdate'],
+      parent: ParentConfig<MarkConfig<Options, Storage>>['onSelectionUpdate'],
     }) => void) | null,
 
     /**
@@ -189,9 +214,10 @@ declare module '@tiptap/core' {
       this: {
         name: string,
         options: Options,
+        storage: Storage,
         editor: Editor,
         type: MarkType,
-        parent: ParentConfig<MarkConfig<Options>>['onTransaction'],
+        parent: ParentConfig<MarkConfig<Options, Storage>>['onTransaction'],
       },
       props: {
         transaction: Transaction,
@@ -205,9 +231,10 @@ declare module '@tiptap/core' {
       this: {
         name: string,
         options: Options,
+        storage: Storage,
         editor: Editor,
         type: MarkType,
-        parent: ParentConfig<MarkConfig<Options>>['onFocus'],
+        parent: ParentConfig<MarkConfig<Options, Storage>>['onFocus'],
       },
       props: {
         event: FocusEvent,
@@ -221,9 +248,10 @@ declare module '@tiptap/core' {
       this: {
         name: string,
         options: Options,
+        storage: Storage,
         editor: Editor,
         type: MarkType,
-        parent: ParentConfig<MarkConfig<Options>>['onBlur'],
+        parent: ParentConfig<MarkConfig<Options, Storage>>['onBlur'],
       },
       props: {
         event: FocusEvent,
@@ -236,9 +264,10 @@ declare module '@tiptap/core' {
     onDestroy?: ((this: {
       name: string,
       options: Options,
+      storage: Storage,
       editor: Editor,
       type: MarkType,
-      parent: ParentConfig<MarkConfig<Options>>['onDestroy'],
+      parent: ParentConfig<MarkConfig<Options, Storage>>['onDestroy'],
     }) => void) | null,
 
     /**
@@ -252,7 +281,8 @@ declare module '@tiptap/core' {
     inclusive?: MarkSpec['inclusive'] | ((this: {
       name: string,
       options: Options,
-      parent: ParentConfig<MarkConfig<Options>>['inclusive'],
+      storage: Storage,
+      parent: ParentConfig<MarkConfig<Options, Storage>>['inclusive'],
     }) => MarkSpec['inclusive']),
 
     /**
@@ -261,7 +291,8 @@ declare module '@tiptap/core' {
     excludes?: MarkSpec['excludes'] | ((this: {
       name: string,
       options: Options,
-      parent: ParentConfig<MarkConfig<Options>>['excludes'],
+      storage: Storage,
+      parent: ParentConfig<MarkConfig<Options, Storage>>['excludes'],
     }) => MarkSpec['excludes']),
 
     /**
@@ -270,7 +301,8 @@ declare module '@tiptap/core' {
     group?: MarkSpec['group'] | ((this: {
       name: string,
       options: Options,
-      parent: ParentConfig<MarkConfig<Options>>['group'],
+      storage: Storage,
+      parent: ParentConfig<MarkConfig<Options, Storage>>['group'],
     }) => MarkSpec['group']),
 
     /**
@@ -279,7 +311,8 @@ declare module '@tiptap/core' {
     spanning?: MarkSpec['spanning'] | ((this: {
       name: string,
       options: Options,
-      parent: ParentConfig<MarkConfig<Options>>['spanning'],
+      storage: Storage,
+      parent: ParentConfig<MarkConfig<Options, Storage>>['spanning'],
     }) => MarkSpec['spanning']),
 
     /**
@@ -288,7 +321,8 @@ declare module '@tiptap/core' {
     code?: boolean | ((this: {
       name: string,
       options: Options,
-      parent: ParentConfig<MarkConfig<Options>>['code'],
+      storage: Storage,
+      parent: ParentConfig<MarkConfig<Options, Storage>>['code'],
     }) => boolean),
 
     /**
@@ -298,7 +332,8 @@ declare module '@tiptap/core' {
       this: {
         name: string,
         options: Options,
-        parent: ParentConfig<MarkConfig<Options>>['parseHTML'],
+        storage: Storage,
+        parent: ParentConfig<MarkConfig<Options, Storage>>['parseHTML'],
       },
     ) => MarkSpec['parseDOM'],
 
@@ -309,7 +344,8 @@ declare module '@tiptap/core' {
       this: {
         name: string,
         options: Options,
-        parent: ParentConfig<MarkConfig<Options>>['renderHTML'],
+        storage: Storage,
+        parent: ParentConfig<MarkConfig<Options, Storage>>['renderHTML'],
       },
       props: {
         mark: ProseMirrorMark,
@@ -324,13 +360,14 @@ declare module '@tiptap/core' {
       this: {
         name: string,
         options: Options,
-        parent: ParentConfig<MarkConfig<Options>>['addAttributes'],
+        storage: Storage,
+        parent: ParentConfig<MarkConfig<Options, Storage>>['addAttributes'],
       },
     ) => Attributes | {},
   }
 }
 
-export class Mark<Options = any> {
+export class Mark<Options = any, Storage = any> {
   type = 'mark'
 
   name = 'mark'
@@ -341,12 +378,14 @@ export class Mark<Options = any> {
 
   options: Options
 
+  storage: Storage
+
   config: MarkConfig = {
     name: this.name,
     defaultOptions: {},
   }
 
-  constructor(config: Partial<MarkConfig<Options>> = {}) {
+  constructor(config: Partial<MarkConfig<Options, Storage>> = {}) {
     this.config = {
       ...this.config,
       ...config,
@@ -354,10 +393,18 @@ export class Mark<Options = any> {
 
     this.name = this.config.name
     this.options = this.config.defaultOptions
+    this.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
+      this,
+      'addStorage',
+      {
+        name: this.name,
+        options: this.options,
+      },
+    ))
   }
 
-  static create<O>(config: Partial<MarkConfig<O>> = {}) {
-    return new Mark<O>(config)
+  static create<O = any, S = any>(config: Partial<MarkConfig<O, S>> = {}) {
+    return new Mark<O, S>(config)
   }
 
   configure(options: Partial<Options> = {}) {
@@ -367,11 +414,20 @@ export class Mark<Options = any> {
 
     extension.options = mergeDeep(this.options, options) as Options
 
+    extension.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
+      extension,
+      'addStorage',
+      {
+        name: extension.name,
+        options: extension.options,
+      },
+    ))
+
     return extension
   }
 
-  extend<ExtendedOptions = Options>(extendedConfig: Partial<MarkConfig<ExtendedOptions>> = {}) {
-    const extension = new Mark<ExtendedOptions>(extendedConfig)
+  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(extendedConfig: Partial<MarkConfig<ExtendedOptions, ExtendedStorage>> = {}) {
+    const extension = new Mark<ExtendedOptions, ExtendedStorage>(extendedConfig)
 
     extension.parent = this
 
@@ -384,6 +440,15 @@ export class Mark<Options = any> {
     extension.options = extendedConfig.defaultOptions
       ? extendedConfig.defaultOptions
       : extension.parent.options
+
+    extension.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
+      extension,
+      'addStorage',
+      {
+        name: extension.name,
+        options: extension.options,
+      },
+    ))
 
     return extension
   }

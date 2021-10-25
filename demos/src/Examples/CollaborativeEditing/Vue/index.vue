@@ -40,9 +40,9 @@ const getRandomElement = list => {
 
 const getRandomRoom = () => {
   return getRandomElement([
-    'rooms.7',
-    'rooms.8',
-    'rooms.9',
+    'rooms.10',
+    'rooms.11',
+    'rooms.12',
   ])
 }
 

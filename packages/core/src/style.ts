@@ -27,6 +27,8 @@ img.ProseMirror-separator {
   display: inline !important;
   border: none !important;
   margin: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
 }
 
 .ProseMirror-gapcursor {

@@ -17,7 +17,10 @@ export interface SuggestionOptions {
     range: Range,
     props: any,
   }) => void,
-  items?: (query: string) => any[] | Promise<any[]>,
+  items?: (props: {
+    query: string,
+    editor: Editor,
+  }) => any[] | Promise<any[]>,
   render?: () => {
     onStart?: (props: SuggestionProps) => void,
     onUpdate?: (props: SuggestionProps) => void,
@@ -99,7 +102,10 @@ export function Suggestion({
             query: state.query,
             text: state.text,
             items: (handleChange || handleStart)
-              ? await items(state.query)
+              ? await items({
+                editor,
+                query: state.query,
+              })
               : [],
             command: commandProps => {
               command({

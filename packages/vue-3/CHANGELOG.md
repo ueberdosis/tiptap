@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.72](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.71...@tiptap/vue-3@2.0.0-beta.72) (2021-10-22)
+
+
+### Bug Fixes
+
+* fix a bug when using drag handles ([8f8b83a](https://github.com/ueberdosis/tiptap/commit/8f8b83afe47085a86caef00b48ad64c87a64af89))
+
+
+
+
+
+# [2.0.0-beta.71](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.70...@tiptap/vue-3@2.0.0-beta.71) (2021-10-22)
+
+
+### Features
+
+* Add extension storage ([#2069](https://github.com/ueberdosis/tiptap/issues/2069)) ([7ffabf2](https://github.com/ueberdosis/tiptap/commit/7ffabf251c408a652eec1931cc78a8bd43cccb67))
+
+
+
+
+
 # [2.0.0-beta.70](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.69...@tiptap/vue-3@2.0.0-beta.70) (2021-10-14)
 
 **Note:** Version bump only for package @tiptap/vue-3

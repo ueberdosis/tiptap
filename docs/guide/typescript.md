@@ -32,6 +32,25 @@ const CustomExtension = Extension.create<CustomExtensionOptions>({
 })
 ```
 
+### Storage types
+To add types for your extension storage, you’ll have to pass that as a second type parameter.
+
+```ts
+import { Extension } from '@tiptap/core'
+
+export interface CustomExtensionStorage {
+  awesomeness: number,
+}
+
+const CustomExtension = Extension.create<{}, CustomExtensionStorage>({
+  addStorage() {
+    return {
+      awesomeness: 100,
+    }
+  },
+})
+```
+
 ### Command type
 The core package also exports a `Command` type, which needs to be added to all commands that you specify in your code. Here is an example:
 

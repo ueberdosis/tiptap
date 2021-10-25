@@ -7,7 +7,7 @@ import {
 import { gapCursor } from 'prosemirror-gapcursor'
 
 declare module '@tiptap/core' {
-  interface NodeConfig<Options> {
+  interface NodeConfig<Options, Storage> {
     /**
      * Allow gap cursor
      */
@@ -17,6 +17,7 @@ declare module '@tiptap/core' {
       | ((this: {
         name: string,
         options: Options,
+        storage: Storage,
         parent: ParentConfig<NodeConfig<Options>>['allowGapCursor'],
       }) => boolean | null),
   }
@@ -35,6 +36,7 @@ export const Gapcursor = Extension.create({
     const context = {
       name: extension.name,
       options: extension.options,
+      storage: extension.storage,
     }
 
     return {

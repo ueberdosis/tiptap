@@ -44,7 +44,7 @@ Default: `() => {}'`
 ### items
 Pass an array of filtered suggestions, can be async.
 
-Default: `() => {}`
+Default: `({ editor, query }) => []`
 
 ### render
 A render function for the autocomplete popup.

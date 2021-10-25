@@ -31,35 +31,6 @@ npm install tippy.js
 yarn add tippy.js
 ```
 
-## Rendering
-Currently, we’re supporting custom Vue.js components only. To get the required `VueRenderer` install our Vue.js package:
-
-```bash
-# with npm
-npm install @tiptap/vue-2
-
-# with Yarn
-yarn add @tiptap/vue-2
-```
-If you are using `vue-3` then the `VueRenderer` requires different input:
-```js
-new VueRenderer(MentionList, {
-  props: props,
-  editor: this.editor,
-})
-```
-and not
-```js
-new VueRenderer(MentionList, {
-  parent: this,
-  propsData: props,
-})
-```
-
-And yes, we plan to support React, too. Meanwhile, you can roll your own `ReactRenderer`, but don’t forget to share it with the community.
-
-It’s also possible to use Vanilla JavaScript, but that is probably a lot more work.
-
 ## Settings
 
 ### HTMLAttributes
@@ -73,8 +44,27 @@ Mention.configure({
 })
 ```
 
-| renderLabel    | `String` | `({ options, node }) => …` | Define how a mention label should be rendered.                        |
-| suggestion     | `Object` | `{ … }`                    | [Read more](/api/utilities/suggestion)                                |
+### renderLabel
+Define how a mention label should be rendered.
+
+```js
+Mention.configure({
+  renderLabel({ options, node }) {
+    return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
+  }
+})
+```
+
+### suggestion
+[Read more](/api/utilities/suggestion)
+
+```js
+Mention.configure({
+  suggestion: {
+    // …
+  },
+})
+```
 
 ## Source code
 [packages/extension-mention/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-mention/)

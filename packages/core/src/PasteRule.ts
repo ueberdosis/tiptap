@@ -3,6 +3,7 @@ import { Editor } from './Editor'
 import CommandManager from './CommandManager'
 import createChainableState from './helpers/createChainableState'
 import isRegExp from './utilities/isRegExp'
+import isNumber from './utilities/isNumber'
 import {
   Range,
   ExtendedRegExpMatchArray,
@@ -177,7 +178,7 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
       const from = before.content.findDiffStart(doc.content)
       const to = before.content.findDiffEnd(doc.content)
 
-      if (!from || !to || from === to.b) {
+      if (!isNumber(from) || !to || from === to.b) {
         return
       }
 

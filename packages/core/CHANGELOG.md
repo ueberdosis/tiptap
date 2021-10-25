@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.128](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.127...@tiptap/core@2.0.0-beta.128) (2021-10-25)
+
+
+### Bug Fixes
+
+* fix storage context when using configure ([ef254ce](https://github.com/ueberdosis/tiptap/commit/ef254cead7b9be052ec0211849fb78ae577095dd))
+
+
+
+
+
+# [2.0.0-beta.127](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.126...@tiptap/core@2.0.0-beta.127) (2021-10-22)
+
+
+### Bug Fixes
+
+* improve default styling for .ProseMirror-separator ([0e94afe](https://github.com/ueberdosis/tiptap/commit/0e94afe42a5c15a47698152b3bc88e6bc4f8c01f))
+* Separate drags from drops in stopEvent ([#2070](https://github.com/ueberdosis/tiptap/issues/2070)) ([bebaa40](https://github.com/ueberdosis/tiptap/commit/bebaa4045e6be2e59d1b9c2e1f61f088a47fdf1b))
+
+
+
+
+
+# [2.0.0-beta.126](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.125...@tiptap/core@2.0.0-beta.126) (2021-10-22)
+
+
+### Bug Fixes
+
+* fix a bug where paste rules doesn’t worked at the start of the document, see [#1225](https://github.com/ueberdosis/tiptap/issues/1225) ([ff67ee1](https://github.com/ueberdosis/tiptap/commit/ff67ee1da380d8308e85fa4b0386ea6947ec7ff1))
+
+
+### Features
+
+* Add extension storage ([#2069](https://github.com/ueberdosis/tiptap/issues/2069)) ([7ffabf2](https://github.com/ueberdosis/tiptap/commit/7ffabf251c408a652eec1931cc78a8bd43cccb67))
+
+
+
+
+
 # [2.0.0-beta.125](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.124...@tiptap/core@2.0.0-beta.125) (2021-10-14)
 
 

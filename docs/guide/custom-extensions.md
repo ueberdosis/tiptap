@@ -78,6 +78,39 @@ const CustomHeading = Heading.extend({
 })
 ```
 
+### Storage
+At some point you probably want to save some data within your extension instance. This data is mutable. You can access it within the extension under `this.storage`.
+
+```js
+import { Extension } from '@tiptap/core'
+
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  addStorage() {
+    return {
+      awesomeness: 100,
+    }
+  },
+
+  onUpdate() {
+    this.storage.awesomeness += 1
+  },
+})
+```
+
+Outside the extension you have access via `editor.storage`. Make sure that each extension has a unique name.
+
+```js
+const editor = new Editor({
+  extensions: [
+    CustomExtension,
+  ],
+})
+
+const awesomeness = editor.storage.customExtension.awesomeness
+```
+
 ### Schema
 tiptap works with a strict schema, which configures how the content can be structured, nested, how it behaves and many more things. You [can change all aspects of the schema](/api/schema) for existing extensions. Let’s walk through a few common use cases.
 
