@@ -3,7 +3,7 @@ import { VueRenderer } from '@tiptap/vue-3'
 import CommandsList from './CommandsList.vue'
 
 export default {
-  items: query => {
+  items: ({ query }) => {
     return [
       {
         title: 'H1',
