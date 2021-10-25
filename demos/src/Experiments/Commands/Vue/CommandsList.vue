@@ -102,13 +102,12 @@ export default {
   width: 100%;
   text-align: left;
   background: transparent;
-  border: none;
+  border-radius: 0.4rem;
+  border: 1px solid transparent;
   padding: 0.2rem 0.4rem;
 
-  &.is-selected,
-  &:hover {
-    border-radius: 0.4rem;
-    background: rgba(0, 0, 0, 0.05);
+  &.is-selected {
+    border-color: #000;
   }
 }
 </style>
