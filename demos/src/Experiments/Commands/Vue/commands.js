@@ -2,13 +2,12 @@ import { Extension } from '@tiptap/core'
 import Suggestion from '@tiptap/suggestion'
 
 export default Extension.create({
-  name: 'mention',
+  name: 'commands',
 
   addOptions() {
     return {
       suggestion: {
         char: '/',
-        startOfLine: false,
         command: ({ editor, range, props }) => {
           props.command({ editor, range })
         },
