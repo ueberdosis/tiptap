@@ -4,8 +4,10 @@ import { Plugin } from 'prosemirror-state'
 export const Figure = Node.create({
   name: 'figure',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   group: 'block',
