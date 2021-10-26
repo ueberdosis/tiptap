@@ -19,20 +19,6 @@ describe('extension options', () => {
 
   it('should set options', () => {
     const extension = Extension.create({
-      addOptions: {
-        foo: 1,
-        bar: 1,
-      },
-    })
-
-    expect(extension.options).to.deep.eq({
-      foo: 1,
-      bar: 1,
-    })
-  })
-
-  it('should set options as method', () => {
-    const extension = Extension.create({
       addOptions() {
         return {
           foo: 1,
