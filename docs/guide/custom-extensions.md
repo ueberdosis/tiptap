@@ -73,7 +73,7 @@ import Heading from '@tiptap/extension-heading'
 const CustomHeading = Heading.extend({
   addOptions() {
     return {
-      ...this.parent(),
+      ...this.parent?.(),
       levels: [1, 2, 3],
     }
   },
