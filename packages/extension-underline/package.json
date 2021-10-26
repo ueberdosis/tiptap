@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-underline",
   "description": "underline extension for tiptap",
-  "version": "2.0.0-beta.16",
+  "version": "2.0.0-beta.17",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",

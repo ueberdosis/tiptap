@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.5](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-subscript@2.0.0-beta.4...@tiptap/extension-subscript@2.0.0-beta.5) (2021-10-26)
+
+**Note:** Version bump only for package @tiptap/extension-subscript
+
+
+
+
+
 # [2.0.0-beta.4](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-subscript@2.0.0-beta.3...@tiptap/extension-subscript@2.0.0-beta.4) (2021-07-26)
 
 **Note:** Version bump only for package @tiptap/extension-subscript
