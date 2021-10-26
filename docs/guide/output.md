@@ -100,8 +100,8 @@ const editor = new Editor({
   content: `<p>Example Content</p>`,
 
   // triggered on every change
-  onUpdate: () => {
-    const json = this.getJSON()
+  onUpdate: ({ editor }) => {
+    const json = editor.getJSON()
     // send the content to an API here
   },
 })

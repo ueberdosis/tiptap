@@ -60,9 +60,8 @@ export default {
 }
 
 .mention {
-  color: #A975FF;
-  background-color: rgba(#A975FF, 0.1);
-  border-radius: 0.3rem;
+  border: 1px solid #000;
+  border-radius: 0.4rem;
   padding: 0.1rem 0.3rem;
 }
 </style>
