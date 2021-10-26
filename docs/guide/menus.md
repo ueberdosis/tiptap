@@ -35,7 +35,7 @@ Okay, you’ve got your menu. But how do you wire things up?
 You’ve got the editor running already and want to add your first button. You need a `<button>` HTML tag with a click handler. Depending on your setup, that can look like the following example:
 
 ```html
-<button onclick="editor.chain().toggleBold().focus().run()">
+<button onclick="editor.chain().focus().toggleBold().run()">
   Bold
 </button>
 ```
@@ -63,7 +63,7 @@ You have already seen the `focus()` command in the above example. When you click
 The editor provides an `isActive()` method to check if something is applied to the selected text already. In Vue.js you can toggle a CSS class with help of that function like that:
 
 ```html
-<button :class="{ 'is-active': editor.isActive('bold') }" @click="editor.chain().toggleBold().focus().run()">
+<button :class="{ 'is-active': editor.isActive('bold') }" @click="editor.chain().focus().toggleBold().run()">
   Bold
 </button>
 ```
