@@ -39,7 +39,7 @@ declare module '@tiptap/core' {
     /**
      * Default Options
      */
-    addOptions: (this: {
+    addOptions?: (this: {
       name: string,
       parent: Exclude<ParentConfig<ExtensionConfig<Options, Storage>>['addOptions'], undefined>,
     }) => Options,
