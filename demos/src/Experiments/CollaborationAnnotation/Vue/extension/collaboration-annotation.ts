@@ -59,20 +59,22 @@ declare module '@tiptap/core' {
   }
 }
 
-export const CollaborationAnnotation = Extension.create({
+export const CollaborationAnnotation = Extension.create<AnnotationOptions>({
   name: 'annotation',
 
   priority: 1000,
 
-  defaultOptions: <AnnotationOptions>{
-    HTMLAttributes: {
-      class: 'annotation',
-    },
-    onUpdate: decorations => decorations,
-    document: null,
-    field: 'annotations',
-    map: null,
-    instance: '',
+  addOptions() {
+    return {
+      HTMLAttributes: {
+        class: 'annotation',
+      },
+      onUpdate: decorations => decorations,
+      document: null,
+      field: 'annotations',
+      map: null,
+      instance: '',
+    }
   },
 
   onCreate() {

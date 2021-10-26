@@ -3,8 +3,10 @@ import { Node, mergeAttributes } from '@tiptap/core'
 export const Figcaption = Node.create({
   name: 'figcaption',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   content: 'inline*',

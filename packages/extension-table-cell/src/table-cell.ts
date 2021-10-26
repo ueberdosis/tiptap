@@ -7,8 +7,10 @@ export interface TableCellOptions {
 export const TableCell = Node.create<TableCellOptions>({
   name: 'tableCell',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   content: 'block+',

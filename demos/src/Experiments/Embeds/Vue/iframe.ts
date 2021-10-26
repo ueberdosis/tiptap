@@ -18,18 +18,20 @@ declare module '@tiptap/core' {
   }
 }
 
-export default Node.create({
+export default Node.create<IframeOptions>({
   name: 'iframe',
 
   group: 'block',
 
   atom: true,
 
-  defaultOptions: <IframeOptions>{
-    allowFullscreen: true,
-    HTMLAttributes: {
-      class: 'iframe-wrapper',
-    },
+  addOptions() {
+    return {
+      allowFullscreen: true,
+      HTMLAttributes: {
+        class: 'iframe-wrapper',
+      },
+    }
   },
 
   addAttributes() {

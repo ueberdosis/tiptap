@@ -6,8 +6,10 @@ export interface TableHeaderOptions {
 export const TableHeader = Node.create<TableHeaderOptions>({
   name: 'tableHeader',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   content: 'block+',

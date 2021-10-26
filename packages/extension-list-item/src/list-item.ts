@@ -7,8 +7,10 @@ export interface ListItemOptions {
 export const ListItem = Node.create<ListItemOptions>({
   name: 'listItem',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   content: 'paragraph block*',

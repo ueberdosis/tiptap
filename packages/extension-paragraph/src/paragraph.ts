@@ -20,8 +20,10 @@ export const Paragraph = Node.create<ParagraphOptions>({
 
   priority: 1000,
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   group: 'block',

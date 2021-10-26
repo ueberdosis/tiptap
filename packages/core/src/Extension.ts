@@ -37,12 +37,20 @@ declare module '@tiptap/core' {
     defaultOptions?: Options,
 
     /**
+     * Default Options
+     */
+    addOptions?: (this: {
+      name: string,
+      parent: Exclude<ParentConfig<ExtensionConfig<Options, Storage>>['addOptions'], undefined>,
+    }) => Options,
+
+    /**
      * Default Storage
      */
     addStorage?: (this: {
       name: string,
       options: Options,
-      parent: ParentConfig<ExtensionConfig<Options, Storage>>['addGlobalAttributes'],
+      parent: Exclude<ParentConfig<ExtensionConfig<Options, Storage>>['addStorage'], undefined>,
     }) => Storage,
 
     /**
@@ -278,7 +286,24 @@ export class Extension<Options = any, Storage = any> {
     }
 
     this.name = this.config.name
+
+    if (config.defaultOptions) {
+      console.warn(`[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${this.name}".`)
+    }
+
+    // TODO: remove `addOptions` fallback
     this.options = this.config.defaultOptions
+
+    if (this.config.addOptions) {
+      this.options = callOrReturn(getExtensionField<AnyConfig['addOptions']>(
+        this,
+        'addOptions',
+        {
+          name: this.name,
+        },
+      ))
+    }
+
     this.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
       this,
       'addStorage',
@@ -286,7 +311,7 @@ export class Extension<Options = any, Storage = any> {
         name: this.name,
         options: this.options,
       },
-    ))
+    )) || {}
   }
 
   static create<O = any, S = any>(config: Partial<ExtensionConfig<O, S>> = {}) {
@@ -323,9 +348,24 @@ export class Extension<Options = any, Storage = any> {
       ? extendedConfig.name
       : extension.parent.name
 
+    if (extendedConfig.defaultOptions) {
+      console.warn(`[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${extension.name}".`)
+    }
+
+    // TODO: remove `addOptions` fallback
     extension.options = extendedConfig.defaultOptions
       ? extendedConfig.defaultOptions
       : extension.parent.options
+
+    if (extendedConfig.addOptions) {
+      extension.options = callOrReturn(getExtensionField<AnyConfig['addOptions']>(
+        extension,
+        'addOptions',
+        {
+          name: extension.name,
+        },
+      ))
+    }
 
     extension.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
       extension,

@@ -19,13 +19,15 @@ export interface PlaceholderOptions {
 export const Placeholder = Extension.create<PlaceholderOptions>({
   name: 'placeholder',
 
-  defaultOptions: {
-    emptyEditorClass: 'is-editor-empty',
-    emptyNodeClass: 'is-empty',
-    placeholder: 'Write something …',
-    showOnlyWhenEditable: true,
-    showOnlyCurrent: true,
-    includeChildren: false,
+  addOptions() {
+    return {
+      emptyEditorClass: 'is-editor-empty',
+      emptyNodeClass: 'is-empty',
+      placeholder: 'Write something …',
+      showOnlyWhenEditable: true,
+      showOnlyCurrent: true,
+      includeChildren: false,
+    }
   },
 
   addProseMirrorPlugins() {

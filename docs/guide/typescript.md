@@ -26,8 +26,10 @@ export interface CustomExtensionOptions {
 }
 
 const CustomExtension = Extension.create<CustomExtensionOptions>({
-  defaultOptions: {
-    awesomeness: 100,
+  addOptions() {
+    return {
+      awesomeness: 100,
+    }
   },
 })
 ```

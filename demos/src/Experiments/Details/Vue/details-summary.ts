@@ -17,8 +17,10 @@ export default Node.create<DetailsSummaryOptions>({
 
   isolating: true,
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   parseHTML() {
