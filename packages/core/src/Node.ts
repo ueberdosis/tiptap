@@ -43,21 +43,21 @@ declare module '@tiptap/core' {
     defaultOptions?: Options,
 
     /**
-     * Default Storage
+     * Default Options
      */
-    addOptions?: Options | ((this: {
+    addOptions: (this: {
       name: string,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addOptions'],
-    }) => Options),
+      parent: Exclude<ParentConfig<NodeConfig<Options, Storage>>['addOptions'], undefined>,
+    }) => Options,
 
     /**
      * Default Storage
      */
-    addStorage?: Storage | ((this: {
+    addStorage?: (this: {
       name: string,
       options: Options,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addStorage'],
-    }) => Storage),
+      parent: Exclude<ParentConfig<NodeConfig<Options, Storage>>['addStorage'], undefined>,
+    }) => Storage,
 
     /**
      * Global attributes

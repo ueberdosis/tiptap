@@ -9,7 +9,7 @@ export interface CodeBlockLowlightOptions extends CodeBlockOptions {
 export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
   addOptions() {
     return {
-      ...CodeBlock.options,
+      ...this.parent?.(),
       lowlight,
     }
   },
