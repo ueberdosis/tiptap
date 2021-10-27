@@ -23,8 +23,10 @@ declare module '@tiptap/core' {
 export const FontFamily = Extension.create<FontFamilyOptions>({
   name: 'fontFamily',
 
-  defaultOptions: {
-    types: ['textStyle'],
+  addOptions() {
+    return {
+      types: ['textStyle'],
+    }
   },
 
   addGlobalAttributes() {

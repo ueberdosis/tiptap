@@ -103,7 +103,7 @@ import { Node } from '@tiptap/core'
 
 const CustomExtension = Node.create({
   name: 'custom_extension',
-  defaultOptions: {
+  addOptions() {
     …
   },
   addAttributes() {

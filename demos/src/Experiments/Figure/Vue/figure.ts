@@ -41,8 +41,10 @@ export const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/
 export const Figure = Node.create<FigureOptions>({
   name: 'figure',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   group: 'block',

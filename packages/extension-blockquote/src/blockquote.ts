@@ -29,8 +29,10 @@ export const Blockquote = Node.create<BlockquoteOptions>({
 
   name: 'blockquote',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   content: 'block*',

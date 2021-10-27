@@ -34,8 +34,10 @@ export const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/g
 export const Strike = Mark.create<StrikeOptions>({
   name: 'strike',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   parseHTML() {

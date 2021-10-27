@@ -39,11 +39,13 @@ export interface LinterOptions {
   plugins: Array<typeof LinterPlugin>,
 }
 
-export const Linter = Extension.create({
+export const Linter = Extension.create<LinterOptions>({
   name: 'linter',
 
-  defaultOptions: <LinterOptions>{
-    plugins: [],
+  addOptions() {
+    return {
+      plugins: [],
+    }
   },
 
   addProseMirrorPlugins() {

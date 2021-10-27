@@ -20,8 +20,10 @@ export const inputRegex = /^(\d+)\.\s$/
 export const OrderedList = Node.create<OrderedListOptions>({
   name: 'orderedList',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   group: 'block list',

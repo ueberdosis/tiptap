@@ -25,9 +25,11 @@ declare module '@tiptap/core' {
 export const Heading = Node.create<HeadingOptions>({
   name: 'heading',
 
-  defaultOptions: {
-    levels: [1, 2, 3, 4, 5, 6],
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      levels: [1, 2, 3, 4, 5, 6],
+      HTMLAttributes: {},
+    }
   },
 
   content: 'inline*',

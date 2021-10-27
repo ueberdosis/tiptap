@@ -26,8 +26,10 @@ declare module '@tiptap/core' {
 export const Subscript = Mark.create<SubscriptExtensionOptions>({
   name: 'subscript',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   parseHTML() {

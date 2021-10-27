@@ -2,16 +2,17 @@ import { Extension } from '@tiptap/core'
 import Suggestion from '@tiptap/suggestion'
 
 export default Extension.create({
-  name: 'mention',
+  name: 'commands',
 
-  defaultOptions: {
-    suggestion: {
-      char: '/',
-      startOfLine: false,
-      command: ({ editor, range, props }) => {
-        props.command({ editor, range })
+  addOptions() {
+    return {
+      suggestion: {
+        char: '/',
+        command: ({ editor, range, props }) => {
+          props.command({ editor, range })
+        },
       },
-    },
+    }
   },
 
   addProseMirrorPlugins() {

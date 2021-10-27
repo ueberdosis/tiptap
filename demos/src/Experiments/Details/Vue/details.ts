@@ -34,8 +34,10 @@ export default Node.create<DetailsOptions>({
 
   // defining: true,
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   parseHTML() {

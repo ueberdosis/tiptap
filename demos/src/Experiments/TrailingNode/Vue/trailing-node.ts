@@ -20,11 +20,13 @@ export interface TrailingNodeOptions {
 export const TrailingNode = Extension.create<TrailingNodeOptions>({
   name: 'trailingNode',
 
-  defaultOptions: {
-    node: 'paragraph',
-    notAfter: [
-      'paragraph',
-    ],
+  addOptions() {
+    return {
+      node: 'paragraph',
+      notAfter: [
+        'paragraph',
+      ],
+    }
   },
 
   addProseMirrorPlugins() {

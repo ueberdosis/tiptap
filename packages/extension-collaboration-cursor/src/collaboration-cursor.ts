@@ -31,26 +31,28 @@ const awarenessStatesToArray = (states: Map<number, Record<string, any>>) => {
 export const CollaborationCursor = Extension.create<CollaborationCursorOptions>({
   name: 'collaborationCursor',
 
-  defaultOptions: {
-    provider: null,
-    user: {
-      name: null,
-      color: null,
-    },
-    render: user => {
-      const cursor = document.createElement('span')
-      cursor.classList.add('collaboration-cursor__caret')
-      cursor.setAttribute('style', `border-color: ${user.color}`)
+  addOptions() {
+    return {
+      provider: null,
+      user: {
+        name: null,
+        color: null,
+      },
+      render: user => {
+        const cursor = document.createElement('span')
+        cursor.classList.add('collaboration-cursor__caret')
+        cursor.setAttribute('style', `border-color: ${user.color}`)
 
-      const label = document.createElement('div')
-      label.classList.add('collaboration-cursor__label')
-      label.setAttribute('style', `background-color: ${user.color}`)
-      label.insertBefore(document.createTextNode(user.name), null)
-      cursor.insertBefore(label, null)
+        const label = document.createElement('div')
+        label.classList.add('collaboration-cursor__label')
+        label.setAttribute('style', `background-color: ${user.color}`)
+        label.insertBefore(document.createTextNode(user.name), null)
+        cursor.insertBefore(label, null)
 
-      return cursor
-    },
-    onUpdate: () => null,
+        return cursor
+      },
+      onUpdate: () => null,
+    }
   },
 
   addCommands() {

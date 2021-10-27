@@ -10,10 +10,12 @@ export interface DropcursorOptions {
 export const Dropcursor = Extension.create<DropcursorOptions>({
   name: 'dropCursor',
 
-  defaultOptions: {
-    color: 'currentColor',
-    width: 1,
-    class: null,
+  addOptions() {
+    return {
+      color: 'currentColor',
+      width: 1,
+      class: null,
+    }
   },
 
   addProseMirrorPlugins() {

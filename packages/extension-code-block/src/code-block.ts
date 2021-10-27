@@ -27,9 +27,11 @@ export const tildeInputRegex = /^~~~(?<language>[a-z]*)?[\s\n]$/
 export const CodeBlock = Node.create<CodeBlockOptions>({
   name: 'codeBlock',
 
-  defaultOptions: {
-    languageClassPrefix: 'language-',
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      languageClassPrefix: 'language-',
+      HTMLAttributes: {},
+    }
   },
 
   content: 'text*',
