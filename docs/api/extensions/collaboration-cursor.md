@@ -43,11 +43,15 @@ A render function for the cursor, look at [the extension source code](https://gi
 
 ## Commands
 
-### user()
-An object with the attributes of the current user. It expects a `name` and a `color`, but you can add additional fields, too.
+### updateUser()
+Pass an object with updated attributes of the current user. It expects a `name` and a `color`, but you can add additional fields, too.
 
 ```js
-editor.commands.user({ name: 'Philipp Kühn', color: '#000000' })
+editor.commands.updateUser({
+  name: 'Philipp Kühn',
+  color: '#000000',
+  avatar: 'https://unavatar.io/github/philippkuehn',
+})
 ```
 
 ## Source code
