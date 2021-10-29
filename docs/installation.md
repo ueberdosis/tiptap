@@ -17,13 +17,13 @@ tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s
 * [Svelte](/installation/svelte)
 * [Alpine.js](/installation/alpine)
 * [Livewire](/installation/livewire) (Draft)
-* [Angular](https://github.com/sibiraj-s/ngx-tiptap) (community package)
+
+### Community efforts
+* [Angular](https://github.com/sibiraj-s/ngx-tiptap)
+* [SolidJS](https://github.com/LXSMNSYC/solid-tiptap)
 
 ## Vanilla JavaScript
-You’re using plain JavaScript or a framework that’s not listed here? No worries, we provide everything you need.
-
-### Requirements
-* [Node](https://nodejs.org/en/download/) installed on your machine
+You are using plain JavaScript or a framework that is not listed here? No worries, we provide everything you need.
 
 ### 1. Install the dependencies
 For the following example you will need `@tiptap/core` (the actual editor) and `@tiptap/starter-kit`.
@@ -61,4 +61,4 @@ new Editor({
 })
 ```
 
-Open your project in the browser to see Tiptap in action. Good work! Time to give yourself a pat on the back.
+Open your project in the browser to see Tiptap in action. Good work!
