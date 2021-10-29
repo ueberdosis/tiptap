@@ -65,7 +65,6 @@ const getInitialUser = () => {
 
 export default () => {
   const [status, setStatus] = useState('connecting')
-  const [users, setUsers] = useState([])
   const [currentUser, setCurrentUser] = useState(getInitialUser)
 
   const editor = useEditor({
@@ -84,9 +83,6 @@ export default () => {
       }),
       CollaborationCursor.configure({
         provider: websocketProvider,
-        onUpdate: updatedUsers => {
-          setUsers(updatedUsers)
-        },
       }),
     ],
   })
@@ -96,7 +92,7 @@ export default () => {
     const indexeddbProvider = new IndexeddbPersistence(room, ydoc)
 
     indexeddbProvider.on('synced', () => {
-      console.log('Loaded content from database  …')
+      console.log('Loaded content from database …')
     })
 
     // Update status changes
@@ -109,7 +105,7 @@ export default () => {
   useEffect(() => {
     if (editor && currentUser) {
       localStorage.setItem('currentUser', JSON.stringify(currentUser))
-      editor.chain().focus().user(currentUser).run()
+      editor.chain().focus().updateUser(currentUser).run()
     }
   }, [editor, currentUser])
 
@@ -128,7 +124,7 @@ export default () => {
       <div className="editor__footer">
           <div className={`editor__status editor__status--${status}`}>
             {status === 'connected'
-              ? `${users.length} user${users.length === 1 ? '' : 's'} online in ${room}`
+              ? `${editor.storage.collaborationCursor.users.length} user${editor.storage.collaborationCursor.users.length === 1 ? '' : 's'} online in ${room}`
               : 'offline'}
           </div>
           <div className="editor__name">

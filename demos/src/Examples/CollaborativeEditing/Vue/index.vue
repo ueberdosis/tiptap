@@ -5,7 +5,7 @@
     <div class="editor__footer">
       <div :class="`editor__status editor__status--${status}`">
         <template v-if="status === 'connected'">
-          {{ users.length }} user{{ users.length === 1 ? '' : 's' }} online in {{ room }}
+          {{ editor.storage.collaborationCursor.users.length }} user{{ editor.storage.collaborationCursor.users.length === 1 ? '' : 's' }} online in {{ room }}
         </template>
         <template v-else>
           offline
@@ -61,7 +61,6 @@ export default {
       provider: null,
       indexdb: null,
       editor: null,
-      users: [],
       status: 'connecting',
       room: getRandomRoom(),
     }
@@ -73,8 +72,6 @@ export default {
     this.provider.on('status', event => {
       this.status = event.status
     })
-
-    window.ydoc = ydoc
 
     this.indexdb = new IndexeddbPersistence(this.room, ydoc)
 
@@ -92,9 +89,6 @@ export default {
         CollaborationCursor.configure({
           provider: this.provider,
           user: this.currentUser,
-          onUpdate: users => {
-            this.users = users
-          },
         }),
         CharacterCount.configure({
           limit: 10000,
@@ -120,7 +114,7 @@ export default {
 
     updateCurrentUser(attributes) {
       this.currentUser = { ...this.currentUser, ...attributes }
-      this.editor.chain().focus().user(this.currentUser).run()
+      this.editor.chain().focus().updateUser(this.currentUser).run()
 
       localStorage.setItem('currentUser', JSON.stringify(this.currentUser))
     },
