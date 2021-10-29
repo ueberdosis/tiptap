@@ -10,7 +10,7 @@ Real-time collaboration, syncing between different devices and working offline u
 ## The video course
 We are working on a video course that teaches you everything you need to know about collaborative text editing with Tiptap. The first video is available for sponsors here:
 
-https://tiptap.dev/watch/collaborative-editing/make-tiptap-collaborative
+https://tiptap.dev/screencasts/collaborative-editing/make-tiptap-collaborative
 
 ## Configure the editor
 The underyling schema Tiptap uses is an excellent foundation to sync documents. With the [`Collaboration`](/api/extensions/collaboration) you can tell Tiptap to track changes to the document with [Y.js](https://github.com/yjs/yjs).
