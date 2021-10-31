@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.130](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.129...@tiptap/core@2.0.0-beta.130) (2021-10-31)
+
+
+### Bug Fixes
+
+* prevent RangeError for posToDOMRect, fix [#2112](https://github.com/ueberdosis/tiptap/issues/2112) ([010418d](https://github.com/ueberdosis/tiptap/commit/010418d0fd04ebef10180a3559abfbbd24b6a959))
+
+
+
+
+
 # [2.0.0-beta.129](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.128...@tiptap/core@2.0.0-beta.129) (2021-10-26)
 
 **Note:** Version bump only for package @tiptap/core
