@@ -1,8 +1,13 @@
 import { EditorView } from 'prosemirror-view'
+import minMax from '../utilities/minMax'
 
 export default function posToDOMRect(view: EditorView, from: number, to: number): DOMRect {
-  const start = view.coordsAtPos(from)
-  const end = view.coordsAtPos(to, -1)
+  const minPos = 0
+  const maxPos = view.state.doc.content.size
+  const resolvedFrom = minMax(from, minPos, maxPos)
+  const resolvedEnd = minMax(to, minPos, maxPos)
+  const start = view.coordsAtPos(resolvedFrom)
+  const end = view.coordsAtPos(resolvedEnd, -1)
   const top = Math.min(start.top, end.top)
   const bottom = Math.max(start.bottom, end.bottom)
   const left = Math.min(start.left, end.left)
