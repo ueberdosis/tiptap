@@ -63,6 +63,8 @@ export interface EditorEvents {
   destroy: void,
 }
 
+export type EnableRules = (AnyExtension | string)[] | boolean
+
 export interface EditorOptions {
   element: Element,
   content: Content,
@@ -72,8 +74,8 @@ export interface EditorOptions {
   editable: boolean,
   editorProps: EditorProps,
   parseOptions: ParseOptions,
-  enableInputRules: boolean,
-  enablePasteRules: boolean,
+  enableInputRules: EnableRules,
+  enablePasteRules: EnableRules,
   enableCoreExtensions: boolean,
   onBeforeCreate: (props: EditorEvents['beforeCreate']) => void,
   onCreate: (props: EditorEvents['create']) => void,
