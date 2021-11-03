@@ -57,10 +57,16 @@ export const HardBreak = Node.create<HardBreakOptions>({
         return commands.first([
           () => commands.exitCode(),
           () => commands.command(() => {
+            const { selection, storedMarks } = state
+
+            if (selection.$from.parent.type.spec.isolating) {
+              return false
+            }
+
             const { keepMarks } = this.options
             const { splittableMarks } = editor.extensionManager
-            const marks = state.storedMarks
-              || (state.selection.$to.parentOffset && state.selection.$from.marks())
+            const marks = storedMarks
+              || (selection.$to.parentOffset && selection.$from.marks())
 
             return chain()
               .insertContent({ type: this.name })
