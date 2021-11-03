@@ -68,7 +68,7 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
-    this.provider = new WebsocketProvider('wss://websocket.tiptap.dev', this.room, ydoc)
+    this.provider = new WebsocketProvider('wss://connect.tiptap.dev', this.room, ydoc)
     this.provider.on('status', event => {
       this.status = event.status
     })

@@ -25,7 +25,7 @@ cd Tiptap-example
 ```
 
 ## 2. Install the dependencies
-Now that we have a standard boilerplate set up we can get started on getting Tiptap up and running! For this we will need to install two packages: `@tiptap/react` and `@tipta/starter-kit` which includes all the extensions you need to get started quickly.
+Now that we have a standard boilerplate set up we can get started on getting Tiptap up and running! For this we will need to install two packages: `@tiptap/react` and `@tiptap/starter-kit` which includes all the extensions you need to get started quickly.
 
 ```bash
 # install with npm
