@@ -67,6 +67,10 @@ select {
   padding: 0.1rem 0.4rem;
   background: white;
   accent-color: black;
+
+  &[disabled] {
+    opacity: 0.3;
+  }
 }
 
 .ProseMirror:focus {
