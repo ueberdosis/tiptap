@@ -88,7 +88,7 @@ export interface EditorOptions {
 export type HTMLContent = string
 
 export type JSONContent = {
-  type: string,
+  type?: string,
   attrs?: Record<string, any>,
   content?: JSONContent[],
   marks?: {
