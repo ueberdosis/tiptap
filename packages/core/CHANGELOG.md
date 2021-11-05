@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.131](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.130...@tiptap/core@2.0.0-beta.131) (2021-11-05)
+
+
+### Bug Fixes
+
+* improve JSONContent type to allow pure JSON content ([ce7f52a](https://github.com/ueberdosis/tiptap/commit/ce7f52a8f0c278ef39b25010950dd734bebd679b))
+
+
+
+
+
 # [2.0.0-beta.130](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.129...@tiptap/core@2.0.0-beta.130) (2021-10-31)
 
 
