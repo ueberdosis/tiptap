@@ -21,8 +21,8 @@
     "dist"
   ],
   "devDependencies": {
-    "@types/react": "^17.0.32",
-    "@types/react-dom": "^17.0.10",
+    "@types/react": "^17.0.34",
+    "@types/react-dom": "^17.0.11",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
@@ -34,7 +34,7 @@
   "dependencies": {
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.44",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.38",
-    "prosemirror-view": "^1.20.3"
+    "prosemirror-view": "^1.21.0"
   },
   "repository": {
     "type": "git",
