@@ -119,12 +119,12 @@ export class FloatingMenuView {
   }
 
   update(view: EditorView, oldState?: EditorState) {
-    const { state, composing } = view
+    const { state } = view
     const { doc, selection } = state
     const { from, to } = selection
     const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
 
-    if (composing || isSame) {
+    if (isSame) {
       return
     }
 
