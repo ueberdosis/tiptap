@@ -30,13 +30,19 @@ function getHighlightNodes(result: any) {
   return result.value || result.children || []
 }
 
-function getDecorations({ doc, name, lowlight }: { doc: ProsemirrorNode, name: string, lowlight: any }) {
+function getDecorations({
+  doc,
+  name,
+  lowlight,
+  defaultLanguage,
+}: { doc: ProsemirrorNode, name: string, lowlight: any, defaultLanguage: string | null | undefined }) {
   const decorations: Decoration[] = []
 
   findChildren(doc, node => node.type.name === name)
     .forEach(block => {
       let from = block.pos + 1
-      const { language } = block.node.attrs
+      const language = block.node.attrs.language || defaultLanguage
+      console.log({ language, defaultLanguage })
       const languages = lowlight.listLanguages()
       const nodes = language && languages.includes(language)
         ? getHighlightNodes(lowlight.highlight(language, block.node.textContent))
@@ -60,12 +66,17 @@ function getDecorations({ doc, name, lowlight }: { doc: ProsemirrorNode, name: s
   return DecorationSet.create(doc, decorations)
 }
 
-export function LowlightPlugin({ name, lowlight }: { name: string, lowlight: any }) {
+export function LowlightPlugin({ name, lowlight, defaultLanguage }: { name: string, lowlight: any, defaultLanguage: string | null | undefined }) {
   return new Plugin({
     key: new PluginKey('lowlight'),
 
     state: {
-      init: (_, { doc }) => getDecorations({ doc, name, lowlight }),
+      init: (_, { doc }) => getDecorations({
+        doc,
+        name,
+        lowlight,
+        defaultLanguage,
+      }),
       apply: (transaction, decorationSet, oldState, newState) => {
         const oldNodeName = oldState.selection.$head.parent.type.name
         const newNodeName = newState.selection.$head.parent.type.name
@@ -97,7 +108,12 @@ export function LowlightPlugin({ name, lowlight }: { name: string, lowlight: any
             })
           )
         ) {
-          return getDecorations({ doc: transaction.doc, name, lowlight })
+          return getDecorations({
+            doc: transaction.doc,
+            name,
+            lowlight,
+            defaultLanguage,
+          })
         }
 
         return decorationSet.map(transaction.mapping, transaction.doc)

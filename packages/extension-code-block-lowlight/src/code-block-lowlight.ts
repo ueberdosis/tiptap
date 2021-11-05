@@ -4,6 +4,7 @@ import { LowlightPlugin } from './lowlight-plugin'
 
 export interface CodeBlockLowlightOptions extends CodeBlockOptions {
   lowlight: any,
+  defaultLanguage: string | null | undefined,
 }
 
 export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
@@ -11,6 +12,7 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
     return {
       ...this.parent?.(),
       lowlight,
+      defaultLanguage: null,
     }
   },
 
@@ -20,6 +22,7 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
       LowlightPlugin({
         name: this.name,
         lowlight: this.options.lowlight,
+        defaultLanguage: this.options.defaultLanguage,
       }),
     ]
   },
