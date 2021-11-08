@@ -16,7 +16,7 @@
     "y-indexeddb": "^9.0.6",
     "y-webrtc": "^10.2.0",
     "y-websocket": "^1.3.17",
-    "yjs": "^13.5.17"
+    "yjs": "^13.5.18"
   },
   "devDependencies": {
     "@types/uuid": "^8.3.1",
