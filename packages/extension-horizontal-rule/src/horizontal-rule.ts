@@ -46,14 +46,17 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
       setHorizontalRule: () => ({ chain }) => {
         return chain()
           .insertContent({ type: this.name })
-          // add node after hr if it’s the end of the document
+          // set cursor after horizontal rule
           .command(({ tr, dispatch }) => {
             if (dispatch) {
               const { parent, pos } = tr.selection.$from
               const posAfter = pos + 1
               const nodeAfter = tr.doc.nodeAt(posAfter)
 
-              if (!nodeAfter) {
+              if (nodeAfter) {
+                tr.setSelection(TextSelection.create(tr.doc, posAfter))
+              } else {
+                // add node after horizontal rule if it’s the end of the document
                 const node = parent.type.contentMatch.defaultType?.create()
 
                 if (node) {
