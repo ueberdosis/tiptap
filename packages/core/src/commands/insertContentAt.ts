@@ -78,7 +78,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
 
     // set cursor at end of inserted content
     if (options.updateSelection) {
-      selectionToInsertionEnd(tr, tr.steps.length - 1, 1)
+      selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
     }
   }
 
