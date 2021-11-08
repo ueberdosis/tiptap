@@ -45,12 +45,32 @@ export const TaskItem = Node.create<TaskItemOptions>({
     ]
   },
 
-  renderHTML({ HTMLAttributes }) {
-    return ['li', mergeAttributes(
-      this.options.HTMLAttributes,
-      HTMLAttributes,
-      { 'data-type': 'taskItem' },
-    ), 0]
+  renderHTML({ node, HTMLAttributes }) {
+    return [
+      'li',
+      mergeAttributes(
+        this.options.HTMLAttributes,
+        HTMLAttributes,
+        { 'data-type': 'taskItem' },
+      ),
+      [
+        'label',
+        [
+          'input',
+          {
+            type: 'checkbox',
+            checked: node.attrs.checked
+              ? 'checked'
+              : null,
+          },
+        ],
+        ['span'],
+      ],
+      [
+        'div',
+        0,
+      ],
+    ]
   },
 
   addKeyboardShortcuts() {
