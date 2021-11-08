@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.133](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.132...@tiptap/core@2.0.0-beta.133) (2021-11-08)
+
+
+### Bug Fixes
+
+* fix a bug when parsing attributes if no parseHTML method is provided, fix [#2058](https://github.com/ueberdosis/tiptap/issues/2058) ([5da313a](https://github.com/ueberdosis/tiptap/commit/5da313a5480db011374ffd236159e2aedc011b97))
+* Improve behavior when using insertContent ([#2147](https://github.com/ueberdosis/tiptap/issues/2147)) ([8fc915c](https://github.com/ueberdosis/tiptap/commit/8fc915cade394bff2015be1e1e2d7c008e8c908e))
+
+
+
+
+
 # [2.0.0-beta.132](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.131...@tiptap/core@2.0.0-beta.132) (2021-11-08)
 
 **Note:** Version bump only for package @tiptap/core

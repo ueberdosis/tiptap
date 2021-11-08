@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.24...@tiptap/extension-task-item@2.0.0-beta.25) (2021-11-08)
+
+
+### Bug Fixes
+
+* add checkboxes to TaskItem HTML output, fix [#2037](https://github.com/ueberdosis/tiptap/issues/2037) ([c94d2b0](https://github.com/ueberdosis/tiptap/commit/c94d2b0517e62afea84cb9dd6999874abf0bf3cd))
+
+
+
+
+
 # [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.23...@tiptap/extension-task-item@2.0.0-beta.24) (2021-10-31)
 
 **Note:** Version bump only for package @tiptap/extension-task-item
