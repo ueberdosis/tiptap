@@ -8,7 +8,6 @@ import { EditorView } from 'prosemirror-view'
 import { Schema, MarkType, NodeType } from 'prosemirror-model'
 import getAttributes from './helpers/getAttributes'
 import isActive from './helpers/isActive'
-import removeElement from './utilities/removeElement'
 import createDocument from './helpers/createDocument'
 import getHTMLFromFragment from './helpers/getHTMLFromFragment'
 import getText from './helpers/getText'
@@ -459,7 +458,6 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
 
     this.removeAllListeners()
-    removeElement(this.css)
   }
 
   /**
