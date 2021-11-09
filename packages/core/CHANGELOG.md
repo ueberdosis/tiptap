@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.137](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.136...@tiptap/core@2.0.0-beta.137) (2021-11-09)
+
+
+### Bug Fixes
+
+* don't remove the tiptap styles on destroy, fix [#2120](https://github.com/ueberdosis/tiptap/issues/2120), fix [#2143](https://github.com/ueberdosis/tiptap/issues/2143) ([a0a88ac](https://github.com/ueberdosis/tiptap/commit/a0a88acd13ee221587834def8d2655ac13233f27))
+
+
+
+
+
 # [2.0.0-beta.136](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.135...@tiptap/core@2.0.0-beta.136) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/core
