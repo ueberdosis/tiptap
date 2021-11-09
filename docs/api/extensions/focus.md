@@ -13,11 +13,7 @@ Note that it’s only a class, the styling is totally up to you. The usage examp
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-focus
-
-# with Yarn
-yarn add @tiptap/extension-focus
 ```
 
 ## Settings

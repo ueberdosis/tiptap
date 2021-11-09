@@ -11,11 +11,7 @@ This extension provides placeholder support. Give your users an idea what they s
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-placeholder
-
-# with Yarn
-yarn add @tiptap/extension-placeholder
 ```
 
 ## Settings

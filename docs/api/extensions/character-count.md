@@ -11,11 +11,7 @@ The `CharacterCount` extension limits the number of allowed character to a speci
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-character-count
-
-# with Yarn
-yarn add @tiptap/extension-character-count
 ```
 
 ## Settings

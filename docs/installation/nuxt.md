@@ -15,28 +15,24 @@ The following guide describes how to integrate Tiptap with your [Nuxt.js](https:
 ## 1. Create a project (optional)
 If you already have an existing Vue project, that’s fine too. Just skip this step and proceed with the next step.
 
-For the sake of this guide, let’s start with a fresh Nuxt.js project called `tiptap-example`. The following command sets up everything we need. It asks a lot of questions, but just use what floats your boat or use the defaults.
+For the sake of this guide, let’s start with a fresh Nuxt.js project called `my-tiptap-project`. The following command sets up everything we need. It asks a lot of questions, but just use what floats your boat or use the defaults.
 
 ```bash
 # create a project
-npm init nuxt-app Tiptap-example
+npm init nuxt-app my-tiptap-project
 
 # change directory
-cd Tiptap-example
+cd my-tiptap-project
 ```
 
 ## 2. Install the dependencies
 Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need the `@tiptap/vue-2` package, with a few components, and `@tiptap/starter-kit` which has the most common extensions to get started quickly.
 
 ```bash
-# install with npm
 npm install @tiptap/vue-2 @tiptap/starter-kit
-
-# install with Yarn
-yarn add @tiptap/vue-2 @tiptap/starter-kit
 ```
 
-If you followed step 1 and 2, you can now start your project with `npm run serve` or `yarn serve`, and open [http://localhost:8080/](http://localhost:8080/) in your favorite browser. This might be different, if you’re working with an existing project.
+If you followed step 1 and 2, you can now start your project with `npm run serve`, and open [http://localhost:8080/](http://localhost:8080/) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Create a new component
 To actually start using Tiptap, you’ll need to add a new component to your app. Let’s call it `Tiptap` and put the following example code in `src/components/Tiptap.vue`.

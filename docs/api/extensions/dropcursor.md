@@ -13,11 +13,7 @@ Note that Tiptap is headless, but the dropcursor needs CSS for its appearance. T
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-dropcursor
-
-# with Yarn
-yarn add @tiptap/extension-dropcursor
 ```
 
 ## Settings

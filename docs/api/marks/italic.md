@@ -17,11 +17,7 @@ The extension will generate the corresponding `<em>` HTML tags when reading cont
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-italic
-
-# with Yarn
-yarn add @tiptap/extension-italic
 ```
 
 ## Settings

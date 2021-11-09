@@ -11,11 +11,7 @@ This extension provides history support. All changes to the document will be tra
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-history
-
-# with Yarn
-yarn add @tiptap/extension-history
 ```
 
 ## Settings

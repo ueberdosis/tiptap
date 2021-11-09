@@ -13,11 +13,7 @@ Note that Tiptap is headless, but the gapcursor needs CSS for its appearance. Th
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-gapcursor
-
-# with Yarn
-yarn add @tiptap/extension-gapcursor
 ```
 
 ## Source code

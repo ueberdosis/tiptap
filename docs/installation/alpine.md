@@ -17,11 +17,11 @@ For the sake of this guide we’ll use [Vite](https://vitejs.dev/) to quickly se
 ## 1. Create a project (optional)
 If you already have an existing Alpine.js project, that’s fine too. Just skip this step and proceed with the next step.
 
-For the sake of this guide, let’s start with a fresh [Vite](https://vitejs.dev/) project called `tiptap-example`. Vite sets up everything we need, just select the Vanilla JavaScript template.
+For the sake of this guide, let’s start with a fresh [Vite](https://vitejs.dev/) project called `my-tiptap-project`. Vite sets up everything we need, just select the Vanilla JavaScript template.
 
 ```bash
-npm init vite@latest Tiptap-example -- --template vanilla
-cd Tiptap-example
+npm init vite@latest my-tiptap-project -- --template vanilla
+cd my-tiptap-project
 npm install
 npm run dev
 ```
@@ -31,14 +31,10 @@ npm run dev
 Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need `alpinejs`, the `@tiptap/core` package and the `@tiptap/starter-kit` which has the most common extensions to get started quickly.
 
 ```bash
-# install with npm
 npm install alpinejs @tiptap/core @tiptap/starter-kit
-
-# install with Yarn
-yarn add alpinejs @tiptap/core @tiptap/starter-kit
 ```
 
-If you followed step 1, you can now start your project with `npm run dev` or `yarn dev`, and open [http://localhost:3000](http://localhost:3000) in your favorite browser. This might be different, if you’re working with an existing project.
+If you followed step 1, you can now start your project with `npm run dev`, and open [http://localhost:3000](http://localhost:3000) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Initialize the editor
 To actually start using Tiptap, you’ll need to write a little bit of JavaScript. Let’s put the following example code in a file called `main.js`.

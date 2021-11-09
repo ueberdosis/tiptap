@@ -31,11 +31,7 @@ For the following example you will need `@tiptap/core` (the actual editor) and `
 The StarterKit doesn’t include all, but the most common extensions.
 
 ```bash
-# install with npm
 npm install @tiptap/core @tiptap/starter-kit
-
-# install with Yarn
-yarn add @tiptap/core @tiptap/starter-kit
 ```
 
 ### 2. Add some markup

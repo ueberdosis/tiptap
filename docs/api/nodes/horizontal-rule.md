@@ -13,11 +13,7 @@ Type three dashes (<code>---</code>) or three underscores and a space (<code>___
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-horizontal-rule
-
-# with Yarn
-yarn add @tiptap/extension-horizontal-rule
 ```
 
 ## Settings

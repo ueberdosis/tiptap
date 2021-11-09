@@ -11,11 +11,7 @@ The `StarterKit` is a collection of the most popular Tiptap extensions. If youâ€
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/starter-kit
-
-# with Yarn
-yarn add @tiptap/starter-kit
 ```
 
 ## Included extensions

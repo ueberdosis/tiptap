@@ -16,11 +16,7 @@ Don’t forget to add a `spacer.gif`. (Just joking. If you don’t know what tha
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
-
-# with Yarn
-yarn add @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
 ```
 
 This extension requires the [`TableRow`](/api/nodes/table-row), [`TableHeader`](/api/nodes/table-header) and [`TableCell`](/api/nodes/table-cell) nodes.

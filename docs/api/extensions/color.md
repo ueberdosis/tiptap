@@ -11,11 +11,7 @@ This extension enables you to set the font color in the editor. It uses the [`Te
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-text-style @tiptap/extension-color
-
-# with Yarn
-yarn add @tiptap/extension-text-style @tiptap/extension-color
 ```
 
 This extension requires the [`TextStyle`](/api/marks/text-style) mark.

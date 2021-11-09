@@ -13,10 +13,7 @@ As always, the markup and styling is totally up to you.
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-bubble-menu
-# with Yarn
-yarn add @tiptap/extension-bubble-menu
 ```
 
 ## Settings

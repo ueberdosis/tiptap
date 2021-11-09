@@ -13,11 +13,7 @@ This extension doesn’t require any JavaScript framework, it’s based on Vanil
 
 ## Installation
 ```bash
-# With npm
 npm install @tiptap/extension-task-list @tiptap/extension-task-item
-
-# Or: With Yarn
-yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 ```
 
 This extension requires the [`TaskList`](/api/nodes/task-list) node.

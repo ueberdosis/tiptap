@@ -11,11 +11,7 @@ Use this extension to render text in <sup>superscript</sup>. If you pass `<sup>`
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-superscript
-
-# with Yarn
-yarn add @tiptap/extension-superscript
 ```
 
 ## Settings

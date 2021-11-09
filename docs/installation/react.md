@@ -14,11 +14,7 @@ The following guide describes how to integrate Tiptap with your [React](https://
 If you just want to get up and running with Tiptap you can use the [Tiptap Create React App template by @alb](https://github.com/alb/cra-template-tiptap) to create a new project with all the steps listed below completed already.
 
 ```bash
-# install with npm
 npx create-react-app my-tiptap-project --template tiptap
-
-# install with Yarn
-yarn create react-app my-tiptap-project --template tiptap
 ```
 
 ### Step by step
@@ -33,9 +29,6 @@ Let’s start with a fresh React project called `my-tiptap-project`. [Create Rea
 # create a project with npm
 npx create-react-app my-tiptap-project
 
-# or if you prefer Yarn
-yarn create react-app my-tiptap-project
-
 # change directory
 cd my-tiptap-project
 ```
@@ -44,14 +37,10 @@ cd my-tiptap-project
 Time to install the `@tiptap/react` package and our [`StarterKit`](/api/extensions/starter-kit), which has the most popular extensions to get started quickly.
 
 ```bash
-# install with npm
 npm install @tiptap/react @tiptap/starter-kit
-
-# install with Yarn
-yarn add @tiptap/react @tiptap/starter-kit
 ```
 
-If you followed step 1 and 2, you can now start your project with `npm run start` or `yarn start`, and open [http://localhost:3000](http://localhost:3000) in your browser.
+If you followed step 1 and 2, you can now start your project with `npm run start`, and open [http://localhost:3000](http://localhost:3000) in your browser.
 
 #### 3. Create a new component
 To actually start using Tiptap we need to create a new component. Let’s call it `Tiptap` and put the following example code in `src/Tiptap.jsx`.

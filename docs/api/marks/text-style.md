@@ -11,11 +11,7 @@ This mark renders a `<span>` HTML tag and enables you to add a list of styling r
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-text-style
-
-# with Yarn
-yarn add @tiptap/extension-text-style
 ```
 
 ## Commands

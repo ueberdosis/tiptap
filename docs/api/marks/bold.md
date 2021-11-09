@@ -17,11 +17,7 @@ The extension will generate the corresponding `<strong>` HTML tags when reading 
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-bold
-
-# with Yarn
-yarn add @tiptap/extension-bold
 ```
 
 ## Settings

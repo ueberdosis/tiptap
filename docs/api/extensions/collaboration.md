@@ -17,11 +17,7 @@ We kindly ask you to [sponsor our work](/sponsor) when using this extension in p
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-collaboration yjs y-websocket
-
-# with Yarn
-yarn add @tiptap/extension-collaboration yjs y-websocket
 ```
 
 ## Settings

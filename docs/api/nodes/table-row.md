@@ -11,11 +11,7 @@ What’s a table without rows? Add this extension to make your tables usable.
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
-
-# with Yarn
-yarn add @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
 ```
 
 This extension requires the [`Table`](/api/nodes/table), [`TableHeader`](/api/nodes/table-header) and [`TableCell`](/api/nodes/table-cell) nodes.

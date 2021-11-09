@@ -23,11 +23,7 @@ The whole package structure has changed, we even moved to another npm namespace,
 Otherwise you’ll run into an exception, for example “looks like multiple versions of prosemirror-model were loaded”.
 
 ```bash
-# with npm
-npm uninstall Tiptap Tiptap-commands Tiptap-extensions Tiptap-utils
-
-# with Yarn
-yarn remove Tiptap Tiptap-commands Tiptap-extensions Tiptap-utils
+npm uninstall tiptap tiptap-commands tiptap-extensions tiptap-utils
 ```
 
 ## Install Tiptap v2
@@ -35,11 +31,7 @@ yarn remove Tiptap Tiptap-commands Tiptap-extensions Tiptap-utils
 Once you have uninstalled the old version of Tiptap, install the new Vue 2 package and the starter kit:
 
 ```bash
-# install with npm
 npm install @tiptap/vue-2 @tiptap/starter-kit
-
-# install with Yarn
-yarn add @tiptap/vue-2 @tiptap/starter-kit
 ```
 
 ## Keep Tiptap v2 up to date
@@ -53,6 +45,13 @@ You can add the `--latest` flag, to show all possible upgrades – even if they 
 
 ```bash
 yarn upgrade-interactive --latest
+```
+
+Unfortunately, for npm there is no integrated tool, but you can use the `npm-check` package:
+
+```bash
+npm install -g npm-check
+npm-check -u
 ```
 
 ## Explicitly register the Document, Text and Paragraph extensions

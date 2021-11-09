@@ -13,11 +13,7 @@ Type something with <code>\`back-ticks around\`</code> and it will magically tra
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-code
-
-# with Yarn
-yarn add @tiptap/extension-code
 ```
 
 ## Settings

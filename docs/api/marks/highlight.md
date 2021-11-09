@@ -13,11 +13,7 @@ Type `==two equal signs==` and it will magically transform to <mark>highlighted<
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-highlight
-
-# with Yarn
-yarn add @tiptap/extension-highlight
 ```
 
 ## Settings

@@ -11,11 +11,7 @@ This extension tries to help with common text patterns with the correct typograp
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-typography
-
-# with Yarn
-yarn add @tiptap/extension-typography
 ```
 
 ## Rules

@@ -15,11 +15,7 @@ Pasted URLs will be transformed to links automatically.
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-link
-
-# with Yarn
-yarn add @tiptap/extension-link
 ```
 
 ## Settings

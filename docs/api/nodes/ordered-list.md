@@ -13,11 +13,7 @@ Type <code>1.&nbsp;</code> (or any other number followed by a dot) at the beginn
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-ordered-list @tiptap/extension-list-item
-
-# with Yarn
-yarn add @tiptap/extension-ordered-list @tiptap/extension-list-item
 ```
 
 This extension requires the [`ListItem`](/api/nodes/list-item) node.

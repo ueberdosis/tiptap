@@ -17,11 +17,7 @@ tiptap 1 tried to hide that node from you, but it has always been there. You hav
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-document
-
-# with Yarn
-yarn add @tiptap/extension-document
 ```
 
 ## Source code

@@ -13,11 +13,7 @@ Type <code>&grave;&grave;&grave;&nbsp;</code> (three backticks and a space) or <
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-code-block-lowlight
-
-# with Yarn
-yarn add @tiptap/extension-code-block-lowlight
 ```
 
 ## Settings

@@ -11,11 +11,7 @@ Don’t try to use tables without table cells. It won’t be fun.
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
-
-# with Yarn
-yarn add @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell
 ```
 
 This extension requires the [`Table`](/api/nodes/table), [`TableRow`](/api/nodes/table-row) and [`TableHeader`](/api/nodes/table-header) nodes.

@@ -13,22 +13,14 @@ Literally everything can be customized. You can pass a custom component for the 
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-mention
-
-# with Yarn
-yarn add @tiptap/extension-mention
 ```
 
 ## Dependencies
 To place the popups correctly, we’re using [tippy.js](https://atomiks.github.io/tippyjs/) in all our examples. You are free to bring your own library, but if you’re fine with it, just install what we use:
 
 ```bash
-# with npm
 npm install tippy.js
-
-# with Yarn
-yarn add tippy.js
 ```
 
 ## Settings

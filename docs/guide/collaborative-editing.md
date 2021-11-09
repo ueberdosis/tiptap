@@ -25,11 +25,7 @@ WebRTC uses a server only to connect clients with each other. The actual data is
 First, install the dependencies:
 
 ```bash
-# with npm
 npm install @tiptap/extension-collaboration yjs y-webrtc
-
-# with Yarn
-yarn add @tiptap/extension-collaboration yjs y-webrtc
 ```
 
 Now, create a new Y document, and register it with Tiptap:
@@ -69,11 +65,7 @@ Anyway, if you want to dive deeper, head over to [the Y WebRTC repository](https
 For most uses cases, the WebSocket provider is the recommended choice. It’s very flexible and can scale very well. For the client, the example is nearly the same, only the provider is different. First, let’s install the dependencies:
 
 ```bash
-# with npm
 npm install @tiptap/extension-collaboration yjs y-websocket
-
-# with Yarn
-yarn add @tiptap/extension-collaboration yjs y-websocket
 ```
 
 And then register the WebSocket provider with Tiptap:
@@ -108,11 +100,7 @@ To make the server part as easy as possible, we provide [an opinionated server p
 Create a new project, and install the hocuspocus server as a dependency:
 
 ```bash
-# with npm
 npm install @hocuspocus/server
-
-# with Yarn
-yarn add @hocuspocus/server
 ```
 
 Create an `index.js` and throw in the following content, to create, configure and start your very own WebSocket server:
@@ -191,11 +179,7 @@ As you can see, you can pass a name and color for every user. Look at the [colla
 Adding offline support to your collaborative editor is basically a one-liner, thanks to the fantastic [Y IndexedDB adapter](https://github.com/yjs/y-indexeddb). Install it:
 
 ```bash
-# with npm
 npm install y-indexeddb
-
-# with Yarn
-yarn add y-indexeddb
 ```
 
 And connect it with a Y document:

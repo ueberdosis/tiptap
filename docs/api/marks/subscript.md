@@ -11,11 +11,7 @@ Use this extension to render text in <sub>subscript</sub>. If you pass `<sub>` o
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-subscript
-
-# with Yarn
-yarn add @tiptap/extension-subscript
 ```
 
 ## Settings

@@ -11,11 +11,7 @@ The ListItem extension adds support for the `<li>` HTML tag. It’s used for bul
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-list-item
-
-# with Yarn
-yarn add @tiptap/extension-list-item
 ```
 
 This extension requires the [`BulletList`](/api/nodes/bullet-list) or [`OrderedList`](/api/nodes/ordered-list) node.

@@ -17,11 +17,7 @@ The extension will generate the corresponding `<s>` HTML tags when reading conte
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-strike
-
-# with Yarn
-yarn add @tiptap/extension-strike
 ```
 
 ## Settings

@@ -10,11 +10,7 @@ This extension enables you to set the font family in the editor. It uses the [`T
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-text-style @tiptap/extension-font-family
-
-# with Yarn
-yarn add @tiptap/extension-text-style @tiptap/extension-font-family
 ```
 
 This extension requires the [`TextStyle`](/api/marks/text-style) mark.

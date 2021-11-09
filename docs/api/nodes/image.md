@@ -15,11 +15,7 @@ This extension does only the rendering of images. It doesn’t upload images to 
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-image
-
-# with Yarn
-yarn add @tiptap/extension-image
 ```
 
 ## Settings

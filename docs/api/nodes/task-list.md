@@ -13,11 +13,7 @@ Type <code>[ ]&nbsp;</code> or <code>[x]&nbsp;</code> at the beginning of a new 
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-task-list @tiptap/extension-task-item
-
-# with Yarn
-yarn add @tiptap/extension-task-list @tiptap/extension-task-item
 ```
 
 This extension requires the [`TaskItem`](/api/nodes/task-item) extension.

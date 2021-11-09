@@ -11,10 +11,7 @@ This extension will make a contextual menu appear near a selection of text.
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-floating-menu
-# with Yarn
-yarn add @tiptap/extension-floating-menu
 ```
 
 ## Settings

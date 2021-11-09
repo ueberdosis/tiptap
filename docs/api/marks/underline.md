@@ -17,11 +17,7 @@ The extension will generate the corresponding `<u>` HTML tags when reading conte
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-underline
-
-# with Yarn
-yarn add @tiptap/extension-underline
 ```
 
 ## Settings

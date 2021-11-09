@@ -15,11 +15,7 @@ This extension adds a text align attribute to a specified list of nodes. The att
 
 ## Installation
 ```bash
-# with npm
 npm install @tiptap/extension-text-align
-
-# with Yarn
-yarn add @tiptap/extension-text-align
 ```
 
 ## Settings
