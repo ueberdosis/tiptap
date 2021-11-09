@@ -3,7 +3,7 @@ export default function fromString(value: any): any {
     return value
   }
 
-  if (value.match(/^\d*(\.\d+)?$/)) {
+  if (value.match(/^[+-]?(?:\d*\.)?\d+$/)) {
     return Number(value)
   }
 

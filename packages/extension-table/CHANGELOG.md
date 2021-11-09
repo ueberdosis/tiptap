@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.39](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.38...@tiptap/extension-table@2.0.0-beta.39) (2021-11-08)
+
+**Note:** Version bump only for package @tiptap/extension-table
+
+
+
+
+
+# [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.37...@tiptap/extension-table@2.0.0-beta.38) (2021-11-05)
+
+**Note:** Version bump only for package @tiptap/extension-table
+
+
+
+
+
 # [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.36...@tiptap/extension-table@2.0.0-beta.37) (2021-10-31)
 
 **Note:** Version bump only for package @tiptap/extension-table

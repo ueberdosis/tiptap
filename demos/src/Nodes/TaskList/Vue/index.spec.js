@@ -13,14 +13,14 @@ context('/src/Nodes/TaskList/Vue/', () => {
   it('should parse unordered lists correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<ul data-type="taskList"><li data-checked="true" data-type="taskItem"><p>Example Text</p></li></ul>')
-      expect(editor.getHTML()).to.eq('<ul data-type="taskList"><li data-checked="true" data-type="taskItem"><p>Example Text</p></li></ul>')
+      expect(editor.getHTML()).to.eq('<ul data-type="taskList"><li data-checked="true" data-type="taskItem"><label><input type="checkbox" checked="checked"><span></span></label><div><p>Example Text</p></div></li></ul>')
     })
   })
 
   it('should parse unordered lists without paragraphs correctly', () => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<ul data-type="taskList"><li data-checked="false" data-type="taskItem">Example Text</li></ul>')
-      expect(editor.getHTML()).to.eq('<ul data-type="taskList"><li data-checked="false" data-type="taskItem"><p>Example Text</p></li></ul>')
+      expect(editor.getHTML()).to.eq('<ul data-type="taskList"><li data-checked="false" data-type="taskItem"><label><input type="checkbox"><span></span></label><div><p>Example Text</p></div></li></ul>')
     })
   })
 

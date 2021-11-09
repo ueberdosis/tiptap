@@ -40,6 +40,17 @@ CodeBlockLowlight.configure({
 })
 ```
 
+### defaultLanguage
+Define a default language instead of the automatic detection of lowlight.
+
+Default: `null`
+
+```js
+CodeBlockLowlight.configure({
+  defaultLanguage: 'plaintext',
+})
+```
+
 ## Commands
 
 ### setCodeBlock()

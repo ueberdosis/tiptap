@@ -9,6 +9,12 @@ describe('fromString', () => {
     expect(value).to.eq('test')
   })
 
+  it('should return an empty string', () => {
+    const value = fromString('')
+
+    expect(value).to.eq('')
+  })
+
   it('should convert to a number', () => {
     const value = fromString('1')
 

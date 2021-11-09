@@ -45,15 +45,40 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       return true
     }
 
-    const { from, to } = typeof position === 'number'
+    let { from, to } = typeof position === 'number'
       ? { from: position, to: position }
       : position
+
+    let isOnlyBlockContent = true
+
+    content.forEach(node => {
+      isOnlyBlockContent = isOnlyBlockContent
+        ? node.isBlock
+        : false
+    })
+
+    // check if we can replace the wrapping node by
+    // the newly inserted content
+    // example:
+    // replace an empty paragraph by an inserted image
+    // instead of inserting the image below the paragraph
+    if (from === to && isOnlyBlockContent) {
+      const $from = tr.doc.resolve(from)
+      const isEmptyTextBlock = $from.parent.isTextblock
+        && !$from.parent.type.spec.code
+        && !$from.parent.textContent
+
+      if (isEmptyTextBlock) {
+        from -= 1
+        to += 1
+      }
+    }
 
     tr.replaceWith(from, to, content)
 
     // set cursor at end of inserted content
     if (options.updateSelection) {
-      selectionToInsertionEnd(tr, tr.steps.length - 1, 1)
+      selectionToInsertionEnd(tr, tr.steps.length - 1, -1)
     }
   }
 

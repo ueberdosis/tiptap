@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block-lowlight@2.0.0-beta.51...@tiptap/extension-code-block-lowlight@2.0.0-beta.52) (2021-11-08)
+
+**Note:** Version bump only for package @tiptap/extension-code-block-lowlight
+
+
+
+
+
+# [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block-lowlight@2.0.0-beta.50...@tiptap/extension-code-block-lowlight@2.0.0-beta.51) (2021-11-05)
+
+
+### Features
+
+* add defaultLanguage option to CodeBlockLowlight extension, fix [#2121](https://github.com/ueberdosis/tiptap/issues/2121) ([0f94bcd](https://github.com/ueberdosis/tiptap/commit/0f94bcd591e98c0a767d0914b87a1efee8b002e0))
+
+
+
+
+
 # [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block-lowlight@2.0.0-beta.49...@tiptap/extension-code-block-lowlight@2.0.0-beta.50) (2021-10-31)
 
 **Note:** Version bump only for package @tiptap/extension-code-block-lowlight

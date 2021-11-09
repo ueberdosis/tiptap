@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-horizontal-rule@2.0.0-beta.26...@tiptap/extension-horizontal-rule@2.0.0-beta.27) (2021-11-08)
+
+
+### Bug Fixes
+
+* Improve behavior when using insertContent ([#2147](https://github.com/ueberdosis/tiptap/issues/2147)) ([8fc915c](https://github.com/ueberdosis/tiptap/commit/8fc915cade394bff2015be1e1e2d7c008e8c908e))
+
+
+
+
+
 # [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-horizontal-rule@2.0.0-beta.25...@tiptap/extension-horizontal-rule@2.0.0-beta.26) (2021-10-31)
 
 **Note:** Version bump only for package @tiptap/extension-horizontal-rule

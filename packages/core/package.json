@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/core",
   "description": "headless rich text editor",
-  "version": "2.0.0-beta.130",
+  "version": "2.0.0-beta.133",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -28,16 +28,16 @@
     "@types/prosemirror-keymap": "^1.0.4",
     "@types/prosemirror-model": "^1.13.2",
     "@types/prosemirror-schema-list": "^1.0.3",
-    "@types/prosemirror-state": "^1.2.7",
+    "@types/prosemirror-state": "^1.2.8",
     "@types/prosemirror-transform": "^1.1.4",
     "@types/prosemirror-view": "^1.19.1",
-    "prosemirror-commands": "^1.1.11",
-    "prosemirror-keymap": "^1.1.3",
+    "prosemirror-commands": "^1.1.12",
+    "prosemirror-keymap": "^1.1.5",
     "prosemirror-model": "^1.15.0",
     "prosemirror-schema-list": "^1.1.6",
     "prosemirror-state": "^1.3.4",
     "prosemirror-transform": "^1.3.3",
-    "prosemirror-view": "^1.20.3"
+    "prosemirror-view": "^1.22.0"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table",
   "description": "table extension for tiptap",
-  "version": "2.0.0-beta.37",
+  "version": "2.0.0-beta.39",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "prosemirror-tables": "^1.1.1",
-    "prosemirror-view": "^1.20.3"
+    "prosemirror-view": "^1.22.0"
   },
   "repository": {
     "type": "git",

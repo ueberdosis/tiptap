@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-hard-break@2.0.0-beta.26...@tiptap/extension-hard-break@2.0.0-beta.27) (2021-11-05)
+
+
+### Bug Fixes
+
+* prevent adding hard breaks in isolated nodes ([9247fcb](https://github.com/ueberdosis/tiptap/commit/9247fcb6cf20493d021664ddce95ad1c23c5a152))
+
+
+
+
+
 # [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-hard-break@2.0.0-beta.25...@tiptap/extension-hard-break@2.0.0-beta.26) (2021-10-31)
 
 **Note:** Version bump only for package @tiptap/extension-hard-break
