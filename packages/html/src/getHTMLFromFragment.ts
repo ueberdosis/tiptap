@@ -1,13 +1,12 @@
 import { Node, DOMSerializer, Schema } from 'prosemirror-model'
-// @ts-ignore
-import { createHTMLDocument } from 'hostic-dom'
+import { createHTMLDocument, VHTMLDocument } from 'zeed-dom'
 
 export default function getHTMLFromFragment(doc: Node, schema: Schema): string {
-  return DOMSerializer
+  const document = DOMSerializer
     .fromSchema(schema)
     .serializeFragment(doc.content, {
       document: createHTMLDocument(),
-    })
-    // @ts-ignore
-    .render()
+    }) as unknown as VHTMLDocument
+
+  return document.render()
 }

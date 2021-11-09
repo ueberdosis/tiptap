@@ -3483,7 +3483,7 @@ css-unit-converter@^1.1.1:
   resolved "https://registry.yarnpkg.com/css-unit-converter/-/css-unit-converter-1.1.2.tgz#4c77f5a1954e6dbff60695ecb214e3270436ab21"
   integrity sha512-IiJwMC8rdZE0+xiEZHeru6YoONC4rfPMqGm2W85jMIbkFvv5nFTwJVFHam2eFrN6txmoUYFAFXiv8ICVeTO0MA==
 
-css-what@^5.0.1:
+css-what@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/css-what/-/css-what-5.1.0.tgz#3f7b707aadf633baf62c2ceb8579b545bb40f7fe"
   integrity sha512-arSMRWIIFY0hV8pIxZMEfmMI47Wj3R/aWpZDDxWYCPEiOMv6tfOrnpDtgxBYPEQD4V0Y/958+1TdC3iWTFcUPw==
@@ -5094,14 +5094,6 @@ hosted-git-info@^4.0.0, hosted-git-info@^4.0.1:
   integrity sha512-c9OGXbZ3guC/xOlCg1Ci/VgWlwsqDv1yMQL1CWqXDL0hDjXuNcq0zuR4xqPSuasI3kqFDhqSyTjREz5gzq0fXg==
   dependencies:
     lru-cache "^6.0.0"
-
-hostic-dom@^0.8.7:
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/hostic-dom/-/hostic-dom-0.8.7.tgz#fafb73da1d0dbd08b0c76e5baf3ca8aba28716be"
-  integrity sha512-TUUD8jv1fzfbual/ljzYMcyXorjAJX4dtm9eE3YxSyVmGCQSfTyvvsXpz60IfeZDdPUB2vjTOhlI8n2l+8BdmA==
-  dependencies:
-    css-what "^5.0.1"
-    he "^1.2.0"
 
 hsl-regex@^1.0.0:
   version "1.0.0"
@@ -9065,3 +9057,12 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zeed-dom@^0.9.15:
+  version "0.9.15"
+  resolved "https://registry.yarnpkg.com/zeed-dom/-/zeed-dom-0.9.15.tgz#024dd9f93cc4f04f0fca17053060975747d35687"
+  integrity sha512-xLFxKLjksNT5I11v6xy8b8LU8Vv+q7m3ppG76NcTQvOtTQxf+RKHJhlibld7RinIVBqCxO4o0geEnshgOYGY6Q==
+  dependencies:
+    css-what "^5.1.0"
+  optionalDependencies:
+    he "^1.2.0"
