@@ -76,35 +76,35 @@ Or you can register your event listeners on a running editor instance:
 ```js
 editor.on('beforeCreate', ({ editor }) => {
   // Before the view is created.
-}
+})
 
 editor.on('create', ({ editor }) => {
   // The editor is ready.
-}
+})
 
 editor.on('update', ({ editor }) => {
   // The content has changed.
-}
+})
 
 editor.on('selectionUpdate', ({ editor }) => {
   // The selection has changed.
-}
+})
 
 editor.on('transaction', ({ editor, transaction }) => {
   // The editor state has changed.
-}
+})
 
 editor.on('focus', ({ editor, event }) => {
   // The editor is focused.
-}
+})
 
 editor.on('blur', ({ editor, event }) => {
   // The editor isn’t focused anymore.
-}
+})
 
 editor.on('destroy', () => {
   // The editor is being destroyed.
-}
+})
 ```
 
 #### Unbind event listeners
