@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.136](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.135...@tiptap/core@2.0.0-beta.136) (2021-11-09)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
 # [2.0.0-beta.135](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.134...@tiptap/core@2.0.0-beta.135) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/core
