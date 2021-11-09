@@ -22,6 +22,7 @@ import {
   EditorOptions,
   CanCommands,
   ChainedCommands,
+  JSONContent,
   SingleCommands,
   TextSerializer,
   EditorEvents,
@@ -401,7 +402,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Get the document as JSON.
    */
-  public getJSON(): Record<string, any> {
+  public getJSON(): JSONContent {
     return this.state.doc.toJSON()
   }
 
