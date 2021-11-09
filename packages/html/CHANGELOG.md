@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.133](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.132...@tiptap/html@2.0.0-beta.133) (2021-11-09)
+
+
+### Bug Fixes
+
+* Switch from hostic dom to zeed dom ([#2151](https://github.com/ueberdosis/tiptap/issues/2151)) ([56a75db](https://github.com/ueberdosis/tiptap/commit/56a75db024327c9de1956c67c08386a9778c706a))
+
+
+
+
+
 # [2.0.0-beta.132](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.131...@tiptap/html@2.0.0-beta.132) (2021-11-08)
 
 **Note:** Version bump only for package @tiptap/html

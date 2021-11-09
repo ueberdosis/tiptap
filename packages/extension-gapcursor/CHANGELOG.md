@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-gapcursor@2.0.0-beta.30...@tiptap/extension-gapcursor@2.0.0-beta.31) (2021-11-09)
+
+**Note:** Version bump only for package @tiptap/extension-gapcursor
+
+
+
+
+
 # [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-gapcursor@2.0.0-beta.29...@tiptap/extension-gapcursor@2.0.0-beta.30) (2021-10-31)
 
 **Note:** Version bump only for package @tiptap/extension-gapcursor
