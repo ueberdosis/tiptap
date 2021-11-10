@@ -9045,10 +9045,10 @@ yjs@^13.5.18:
   dependencies:
     lib0 "^0.2.42"
 
-zeed-dom@^0.9.15:
-  version "0.9.15"
-  resolved "https://registry.yarnpkg.com/zeed-dom/-/zeed-dom-0.9.15.tgz#024dd9f93cc4f04f0fca17053060975747d35687"
-  integrity sha512-xLFxKLjksNT5I11v6xy8b8LU8Vv+q7m3ppG76NcTQvOtTQxf+RKHJhlibld7RinIVBqCxO4o0geEnshgOYGY6Q==
+zeed-dom@^0.9.16:
+  version "0.9.16"
+  resolved "https://registry.yarnpkg.com/zeed-dom/-/zeed-dom-0.9.16.tgz#a743d876e6023c3c7c920fc7602a98e7fb83eda2"
+  integrity sha512-Rimrya1g5DhFYslHsaq93b/wRcbuynOKAGPfeZMLJChRfhR90NXZuC49qGpstdna9L503WecErLppm5DTl5LBA==
   dependencies:
     css-what "^5.1.0"
   optionalDependencies:
