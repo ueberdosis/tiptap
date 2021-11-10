@@ -50,7 +50,7 @@ Image.configure({
 Makes the current node an image.
 
 ```js
-editor.commands.setImage({ src: 'https://example.com/foobar.png')
+editor.commands.setImage({ src: 'https://example.com/foobar.png' })
 editor.commands.setImage({ src: 'https://example.com/foobar.png', alt: 'A boring example image', title: 'An example' })
 ```
 
