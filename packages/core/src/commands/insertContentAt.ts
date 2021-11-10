@@ -1,4 +1,4 @@
-import { ParseOptions } from 'prosemirror-model'
+import { Fragment, Node as ProseMirrorNode, ParseOptions } from 'prosemirror-model'
 import createNodeFromContent from '../helpers/createNodeFromContent'
 import selectionToInsertionEnd from '../helpers/selectionToInsertionEnd'
 import {
@@ -23,6 +23,10 @@ declare module '@tiptap/core' {
       ) => ReturnType,
     }
   }
+}
+
+const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment is Fragment => {
+  return nodeOrFragment.toString().startsWith('<')
 }
 
 export const insertContentAt: RawCommands['insertContentAt'] = (position, value, options) => ({ tr, dispatch, editor }) => {
@@ -50,8 +54,11 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       : position
 
     let isOnlyBlockContent = true
+    const nodes = isFragment(content)
+      ? content
+      : [content]
 
-    content.forEach(node => {
+    nodes.forEach(node => {
       isOnlyBlockContent = isOnlyBlockContent
         ? node.isBlock
         : false
@@ -63,10 +70,10 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
     // replace an empty paragraph by an inserted image
     // instead of inserting the image below the paragraph
     if (from === to && isOnlyBlockContent) {
-      const $from = tr.doc.resolve(from)
-      const isEmptyTextBlock = $from.parent.isTextblock
-        && !$from.parent.type.spec.code
-        && !$from.parent.textContent
+      const { parent } = tr.doc.resolve(from)
+      const isEmptyTextBlock = parent.isTextblock
+        && !parent.type.spec.code
+        && !parent.childCount
 
       if (isEmptyTextBlock) {
         from -= 1
