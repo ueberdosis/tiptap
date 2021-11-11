@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.44](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-floating-menu@2.0.0-beta.43...@tiptap/extension-floating-menu@2.0.0-beta.44) (2021-11-10)
+
+
+### Bug Fixes
+
+* remove composition check for floating menu ([#2137](https://github.com/ueberdosis/tiptap/issues/2137)) ([d0d0696](https://github.com/ueberdosis/tiptap/commit/d0d069626626d173f9fd038d1b231d15a17a43bb))
+
+
+
+
+
 # [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-floating-menu@2.0.0-beta.42...@tiptap/extension-floating-menu@2.0.0-beta.43) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/extension-floating-menu

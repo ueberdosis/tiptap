@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.138](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.137...@tiptap/core@2.0.0-beta.138) (2021-11-10)
+
+
+### Bug Fixes
+
+* prevent removing inline nodes when using insertContentAt, fix [#2156](https://github.com/ueberdosis/tiptap/issues/2156) ([53ffce5](https://github.com/ueberdosis/tiptap/commit/53ffce501835f727dbc39f07a8759903245a3f30))
+* update getJSON return type to JSONContent ([#2153](https://github.com/ueberdosis/tiptap/issues/2153)) ([6583ede](https://github.com/ueberdosis/tiptap/commit/6583edeb1f2a015f31cea378f5440fa6a31a47f6))
+
+
+
+
+
 # [2.0.0-beta.137](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.136...@tiptap/core@2.0.0-beta.137) (2021-11-09)
 
 
