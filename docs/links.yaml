@@ -272,7 +272,7 @@
           link: /api/nodes/document
         - title: Emoji
           link: /api/nodes/emoji
-          type: draft
+          type: new
         - title: HardBreak
           link: /api/nodes/hard-break
         - title: Hashtag
@@ -342,7 +342,6 @@
           link: /api/extensions/collaboration-cursor
         - title: Color
           link: /api/extensions/color
-          type: new
         - title: Dropcursor
           link: /api/extensions/dropcursor
         - title: FloatingMenu
