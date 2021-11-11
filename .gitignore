@@ -6,6 +6,7 @@ node_modules
 dist
 .env
 .env.*
+.npmrc
 
 # Log files
 npm-debug.log*
