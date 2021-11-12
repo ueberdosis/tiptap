@@ -51,6 +51,7 @@ module.exports = {
         'func-names': ['error', 'never'],
         'arrow-body-style': 'off',
         'max-len': 'off',
+        'no-return-assign': 'off',
         'vue/one-component-per-file': 'off',
         'vue/this-in-template': ['error', 'never'],
         'vue/multi-word-component-names': 'off',
