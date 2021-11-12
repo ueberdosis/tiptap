@@ -85,6 +85,17 @@ Placeholder.configure({
 })
 ```
 
+### includeChildren
+Show decorations also for nested nodes.
+
+Default: `false`
+
+```js
+Placeholder.configure({
+  includeChildren: true
+})
+```
+
 
 ## Source code
 [packages/extension-placeholder/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-placeholder/)
