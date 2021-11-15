@@ -1,0 +1,11 @@
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+
+.character-count {
+  color: #868e96;
+  margin-top: 1rem;
+}
