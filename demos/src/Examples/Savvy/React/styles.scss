@@ -1,0 +1,38 @@
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
+}
+
+/* Color swatches */
+.color {
+  white-space: nowrap;
+
+  &::before {
+    background-color: var(--color);
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    border-radius: 2px;
+    content: " ";
+    display: inline-block;
+    height: 1em;
+    margin-bottom: 0.15em;
+    margin-right: 0.1em;
+    vertical-align: middle;
+    width: 1em;
+  }
+}
