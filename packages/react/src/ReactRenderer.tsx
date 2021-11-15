@@ -50,6 +50,9 @@ export class ReactRenderer<R = unknown> {
     this.props = props
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
+    if (props.extension.name) {
+      this.element.classList.add(props.extension.name)
+    }
     this.render()
   }
 
