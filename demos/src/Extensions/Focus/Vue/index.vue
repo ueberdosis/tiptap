@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <editor-content :editor="editor" />
-  </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
@@ -61,7 +59,7 @@ export default {
 <style lang="scss">
 .has-focus {
   border-radius: 3px;
-  box-shadow: 0 0 0 3px #68CEF8;
+  box-shadow: 0 0 0 3px #68cef8;
 }
 
 /* Basic editor styles */
