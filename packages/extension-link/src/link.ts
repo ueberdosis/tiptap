@@ -2,9 +2,13 @@ import {
   Mark,
   markPasteRule,
   mergeAttributes,
+  getMarksBetween,
+  findChildrenInRange,
 } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { find } from 'linkifyjs'
+import combineTransactionSteps from './helpers/combineTransactionSteps'
+import getChangedRanges from './helpers/getChangedRanges'
 
 export interface LinkOptions {
   /**
@@ -15,6 +19,10 @@ export interface LinkOptions {
    * Adds a link to the current selection if the pasted content only contains an url.
    */
   linkOnPaste: boolean,
+  /**
+   * autolink
+   */
+  autoLink: boolean,
   /**
    * A list of HTML attributes to be rendered.
    */
@@ -51,6 +59,7 @@ export const Link = Mark.create<LinkOptions>({
     return {
       openOnClick: true,
       linkOnPaste: true,
+      autoLink: true,
       HTMLAttributes: {
         target: '_blank',
         rel: 'noopener noreferrer nofollow',
@@ -169,6 +178,57 @@ export const Link = Mark.create<LinkOptions>({
 
               return true
             },
+          },
+        }),
+      )
+    }
+
+    if (this.options.autoLink) {
+      plugins.push(
+        new Plugin({
+          key: new PluginKey('handleClickLink'),
+          appendTransaction: (transactions, oldState, newState) => {
+            const docChanges = transactions.some(transaction => transaction.docChanged)
+            && !oldState.doc.eq(newState.doc)
+
+            if (!docChanges) {
+              return
+            }
+
+            const { tr } = newState
+            const transform = combineTransactionSteps(oldState.doc, transactions)
+            const changes = getChangedRanges(transform)
+
+            changes.forEach(range => {
+              const textBlocks = findChildrenInRange(newState.doc, range, node => node.isTextblock)
+
+              const marks = getMarksBetween(range.from, range.to, newState)
+                .filter(markRange => markRange.mark.type === this.type)
+
+              console.log({ marks })
+
+              textBlocks.forEach(textBlock => {
+                const links = find(textBlock.node.textContent).filter(link => link.isLink)
+
+                links.forEach(link => {
+                  const from = textBlock.pos + link.start + 1
+                  const to = textBlock.pos + link.end + 1
+
+                  tr.addMark(from, to, this.type.create({
+                    href: link.href,
+                  }))
+                })
+
+                console.log({ textBlock, links })
+              })
+
+            })
+
+            if (!tr.steps.length) {
+              return
+            }
+
+            return tr
           },
         }),
       )

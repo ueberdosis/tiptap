@@ -47,6 +47,12 @@ export default {
         <p>
           By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute. It’s configurable though.
         </p>
+        <p>
+          test <a href="https://tiptap.dev">tiptap.dev</a> test
+        </p>
+        <p>
+          test tiptap .dev test
+        </p>
       `,
     })
   },
