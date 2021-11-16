@@ -19,6 +19,13 @@ export interface LinkOptions {
    * A list of HTML attributes to be rendered.
    */
   HTMLAttributes: Record<string, any>,
+  /**
+   * Optionally provide a function to sanitize links before rendering. This should be done using,
+   * a popular package for url sanitization, if this editor displays any user-generated input.
+   * Without this, a malicious actor will be able to insert link text such as `javascript:alert(123)`
+   * to run arbitrary javascript onClick.
+   */
+  sanitizeUrl?: (href: string) => string,
 }
 
 declare module '@tiptap/core' {
@@ -76,7 +83,15 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
+    if (this.options.sanitizeUrl != null && typeof this.options.sanitizeUrl === 'function') {
+      const SanitizedHTMLAttributes = {
+        ...HTMLAttributes,
+        href: this.options.sanitizeUrl(HTMLAttributes.href),
+      }
+      return ['a', mergeAttributes(this.options.HTMLAttributes, SanitizedHTMLAttributes), 0]
+    }
     return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+
   },
 
   addCommands() {
