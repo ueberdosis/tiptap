@@ -88,7 +88,7 @@ export default () => {
       <div className="export">
         <h3>JSON</h3>
         <pre>
-          <code>{JSON.stringify(json)}</code>
+          <code>{JSON.stringify(json, null, 2)}</code>
         </pre>
       </div>
     </>
