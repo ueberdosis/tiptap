@@ -1,0 +1,11 @@
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+}
