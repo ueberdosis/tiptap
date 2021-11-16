@@ -8,6 +8,7 @@
     "ts": "tsc --project tsconfig.base.json --noEmit && tsc --project tsconfig.react.json --noEmit && tsc --project tsconfig.vue-2.json --noEmit && tsc --project tsconfig.vue-3.json --noEmit"
   },
   "dependencies": {
+    "@braintree/sanitize-url": "^5.0.2",
     "d3": "^7.1.1",
     "fast-glob": "^3.2.7",
     "remixicon": "^2.5.0",

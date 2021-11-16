@@ -17,6 +17,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Link from '@tiptap/extension-link'
 import Code from '@tiptap/extension-code'
+import { sanitizeUrl } from '@braintree/sanitize-url'
 
 export default {
   components: {
@@ -37,6 +38,7 @@ export default {
         Text,
         Link.configure({
           openOnClick: false,
+          sanitizeUrl,
         }),
         Code,
       ],
@@ -45,7 +47,11 @@ export default {
           Wow, this editor has support for links to the whole <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>. We tested a lot of URLs and I think you can add *every URL* you want. Isn’t that cool? Let’s try <a href="https://statamic.com/">another one!</a> Yep, seems to work.
         </p>
         <p>
-          By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute. It’s configurable though.
+          By default, every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute. It’s configurable though.
+        </p>
+         <p>
+          By default, links will not be sanitized. But for this example, we use a package and an included option to sanitize.
+          Without sanitization, <a href="javascript:alert(123)">this link could be malicious</a>.
         </p>
       `,
     })

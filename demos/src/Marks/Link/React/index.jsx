@@ -5,6 +5,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Link from '@tiptap/extension-link'
 import Code from '@tiptap/extension-code'
+import { sanitizeUrl } from '@braintree/sanitize-url'
 import './styles.scss'
 
 export default () => {
@@ -15,6 +16,7 @@ export default () => {
       Text,
       Link.configure({
         openOnClick: false,
+        sanitizeUrl,
       }),
       Code,
     ],
@@ -24,6 +26,10 @@ export default () => {
         </p>
         <p>
           By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute. It’s configurable though.
+        </p>
+        <p>
+          By default, links will not be sanitized. But for this example, we use a package and an included option to sanitize.
+          Without sanitization, <a href="javascript:alert(123)">this link could be malicious</a>.
         </p>
       `,
   })
