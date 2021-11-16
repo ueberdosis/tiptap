@@ -42,7 +42,6 @@ function getDecorations({
     .forEach(block => {
       let from = block.pos + 1
       const language = block.node.attrs.language || defaultLanguage
-      console.log({ language, defaultLanguage })
       const languages = lowlight.listLanguages()
       const nodes = language && languages.includes(language)
         ? getHighlightNodes(lowlight.highlight(language, block.node.textContent))
