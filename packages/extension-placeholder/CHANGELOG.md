@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.44](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.43...@tiptap/extension-placeholder@2.0.0-beta.44) (2021-11-17)
+
+**Note:** Version bump only for package @tiptap/extension-placeholder
+
+
+
+
+
 # [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.42...@tiptap/extension-placeholder@2.0.0-beta.43) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/extension-placeholder
