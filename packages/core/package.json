@@ -37,7 +37,7 @@
     "prosemirror-schema-list": "^1.1.6",
     "prosemirror-state": "^1.3.4",
     "prosemirror-transform": "^1.3.3",
-    "prosemirror-view": "^1.22.0"
+    "prosemirror-view": "^1.23.1"
   },
   "repository": {
     "type": "git",
