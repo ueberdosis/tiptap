@@ -202,7 +202,7 @@ export class NodeView<
     // this is because ProseMirror can’t preventDispatch on enter
     // this will lead to a re-render of the node view on enter
     // see: https://github.com/ueberdosis/tiptap/issues/1214
-    if (this.dom.contains(mutation.target) && mutation.type === 'childList' && isiOS()) {
+    if (this.dom.contains(mutation.target) && mutation.type === 'childList' && isiOS() && this.editor.isFocused) {
       const changedNodes = [
         ...Array.from(mutation.addedNodes),
         ...Array.from(mutation.removedNodes),
