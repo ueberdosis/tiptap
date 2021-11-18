@@ -1,4 +1,4 @@
-import { AnyExtension, EnableRules } from '@tiptap/core'
+import { AnyExtension, EnableRules } from '../types'
 
 export default function isExtensionRulesEnabled(extension: AnyExtension, enabled: EnableRules): boolean {
   if (Array.isArray(enabled)) {
