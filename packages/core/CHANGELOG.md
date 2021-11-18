@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.140](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.139...@tiptap/core@2.0.0-beta.140) (2021-11-18)
+
+
+### Bug Fixes
+
+* Ignore iOS mutations when unfocused ([#2170](https://github.com/ueberdosis/tiptap/issues/2170)) ([10fea3b](https://github.com/ueberdosis/tiptap/commit/10fea3b44ef7bdc62d9392f8b04409cada233292))
+
+
+### Features
+
+* Allow array of extensions for `enableInputRules` and `enablePasteRules` options ([#2119](https://github.com/ueberdosis/tiptap/issues/2119)) ([3158c37](https://github.com/ueberdosis/tiptap/commit/3158c37324420fb4c2414f47132e72a2836a63b4))
+
+
+
+
+
 # [2.0.0-beta.139](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.138...@tiptap/core@2.0.0-beta.139) (2021-11-17)
 
 **Note:** Version bump only for package @tiptap/core

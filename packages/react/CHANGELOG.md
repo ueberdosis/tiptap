@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.95](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.94...@tiptap/react@2.0.0-beta.95) (2021-11-18)
+
+
+### Features
+
+* add className option to ReactRenderer, see [#2166](https://github.com/ueberdosis/tiptap/issues/2166) ([c9dc1e1](https://github.com/ueberdosis/tiptap/commit/c9dc1e1ec3295fe3dce7ed7d314c5a7e4140af83))
+
+
+
+
+
 # [2.0.0-beta.94](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.93...@tiptap/react@2.0.0-beta.94) (2021-11-17)
 
 **Note:** Version bump only for package @tiptap/react
