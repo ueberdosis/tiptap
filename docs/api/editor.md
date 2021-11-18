@@ -259,7 +259,7 @@ new Editor({
 ```
 
 ### enableInputRules
-By default, Tiptap enables all [input rules](/guide/custom-extensions/#input-rules). With `enableInputRules` you can disable that.
+By default, Tiptap enables all [input rules](/guide/custom-extensions/#input-rules). With `enableInputRules` you can control that.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -274,8 +274,27 @@ new Editor({
 })
 ```
 
+Alternatively you can allow only specific input rules.
+
+```js
+import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
+import Link from '@tiptap/extension-link'
+
+new Editor({
+  content: `<p>Example Text</p>`,
+  extensions: [
+    StarterKit,
+    Link,
+  ],
+  // pass an array of extensions or extension names
+  // to allow only specific input rules
+  enableInputRules: [Link, 'horizontalRule'],
+})
+```
+
 ### enablePasteRules
-By default, Tiptap enables all [paste rules](/guide/custom-extensions/#paste-rules). With `enablePasteRules` you can disable that.
+By default, Tiptap enables all [paste rules](/guide/custom-extensions/#paste-rules). With `enablePasteRules` you can control that.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -287,6 +306,25 @@ new Editor({
     StarterKit,
   ],
   enablePasteRules: false,
+})
+```
+
+Alternatively you can allow only specific paste rules.
+
+```js
+import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
+import Link from '@tiptap/extension-link'
+
+new Editor({
+  content: `<p>Example Text</p>`,
+  extensions: [
+    StarterKit,
+    Link,
+  ],
+  // pass an array of extensions or extension names
+  // to allow only specific paste rules
+  enablePasteRules: [Link, 'horizontalRule'],
 })
 ```
 
