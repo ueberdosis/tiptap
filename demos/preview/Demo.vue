@@ -232,7 +232,7 @@ export default {
 
   mounted() {
     // TODO: load language from url params
-    const intitialTab = localStorage.tab ? localStorage.tab : this.sortedTabs[0]?.name
+    const intitialTab = localStorage.tab && this.sources[localStorage.tab] ? localStorage.tab : this.sortedTabs[0]?.name
     this.setTab(intitialTab)
 
     window.document.addEventListener('editor', this.onEditor, false)
