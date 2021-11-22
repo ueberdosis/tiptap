@@ -114,7 +114,7 @@ export default {
       sources: {},
       currentTab: null,
       currentFile: null,
-      tabOrder: ['Vue', 'React'],
+      tabOrder: ['React', 'Vue'],
       debugJSON: null,
       showDebug: false,
     }
