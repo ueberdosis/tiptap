@@ -120,6 +120,12 @@ export default {
     }
   },
 
+  watch: {
+    currentTab(newCurrentTab) {
+      localStorage.tab = newCurrentTab
+    },
+  },
+
   computed: {
     showTabs() {
       return this.sortedTabs.length > 1
@@ -226,7 +232,8 @@ export default {
 
   mounted() {
     // TODO: load language from url params
-    this.setTab(this.sortedTabs[0]?.name)
+    const intitialTab = localStorage.tab ? localStorage.tab : this.sortedTabs[0]?.name
+    this.setTab(intitialTab)
 
     window.document.addEventListener('editor', this.onEditor, false)
     window.document.addEventListener('source', this.onSource, false)
