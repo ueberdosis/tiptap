@@ -120,12 +120,6 @@ export default {
     }
   },
 
-  watch: {
-    currentTab(newCurrentTab) {
-      localStorage.tab = newCurrentTab
-    },
-  },
-
   computed: {
     showTabs() {
       return this.sortedTabs.length > 1
@@ -173,10 +167,14 @@ export default {
       return name.split('.').pop()
     },
 
-    setTab(name) {
+    setTab(name, persist = true) {
       this.currentTab = name
       this.sources = {}
       this.currentFile = null
+
+      if (persist) {
+        localStorage.tab = name
+      }
     },
 
     setFile(name) {
@@ -232,8 +230,8 @@ export default {
 
   mounted() {
     // TODO: load language from url params
-    const intitialTab = localStorage.tab && this.sources[localStorage.tab] ? localStorage.tab : this.sortedTabs[0]?.name
-    this.setTab(intitialTab)
+    const intitialTab = localStorage.tab && this.tabs.some(tab => tab.name === localStorage.tab) ? localStorage.tab : this.sortedTabs[0]?.name
+    this.setTab(intitialTab, false)
 
     window.document.addEventListener('editor', this.onEditor, false)
     window.document.addEventListener('source', this.onSource, false)
