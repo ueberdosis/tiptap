@@ -16,11 +16,18 @@ function resolveSelection(state: EditorState, position: FocusPosition = null) {
     }
   }
 
-  if (position === 'end') {
-    const { size } = state.doc.content
+  const { size } = state.doc.content
 
+  if (position === 'end') {
     return {
       from: size,
+      to: size,
+    }
+  }
+
+  if (position === 'all') {
+    return {
+      from: 0,
       to: size,
     }
   }
