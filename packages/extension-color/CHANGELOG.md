@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-color@2.0.0-beta.8...@tiptap/extension-color@2.0.0-beta.9) (2021-11-22)
+
+
+### Bug Fixes
+
+* Export type ColorOptions ([#2180](https://github.com/ueberdosis/tiptap/issues/2180)) ([bc242fe](https://github.com/ueberdosis/tiptap/commit/bc242fe3424300f934b623477158aa8f837cf1c7))
+
+
+
+
+
 # [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-color@2.0.0-beta.7...@tiptap/extension-color@2.0.0-beta.8) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/extension-color

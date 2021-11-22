@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.141](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.140...@tiptap/core@2.0.0-beta.141) (2021-11-22)
+
+
+### Bug Fixes
+
+* improve default gapcursor position when surrounded by margins ([cd14731](https://github.com/ueberdosis/tiptap/commit/cd14731612b40fc460675e9fbaaab1618ac02abf))
+
+
+### Features
+
+* add 'all' option to focus command, fix [#2181](https://github.com/ueberdosis/tiptap/issues/2181) ([3c571c9](https://github.com/ueberdosis/tiptap/commit/3c571c9a3f2fdbf1d70e9efa27294fbdf6bcbd3c))
+
+
+
+
+
 # [2.0.0-beta.140](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.139...@tiptap/core@2.0.0-beta.140) (2021-11-18)
 
 
