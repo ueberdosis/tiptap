@@ -37,12 +37,6 @@ For help, discussion about best practices, or any other conversation that would 
       </a>
     </td>
     <td align="center">
-      <a href="https://www.cosmicmind.com/">
-        <img src="https://unavatar.io/github/cosmicmind" width="100"><br>
-        <strong>CosmicMind</strong>
-      </a>
-    </td>
-    <td align="center">
       <a href="https://www.complish.app/">
         <img src="https://uploads-ssl.webflow.com/5fa93d27380666789a1cbbd3/5fae50824b4d2d06f3d2898f_Frame%20374.png" width="100"><br>
         <strong>Complish</strong>
