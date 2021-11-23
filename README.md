@@ -26,7 +26,7 @@ For help, discussion about best practices, or any other conversation that would 
   <tr>
     <td align="center">
       <a href="https://ueberdosis.io/">
-        <img src="https://unavatar.io/ueberdosis.io" width="100"><br>
+        <img src="https://unavatar.io/github/ueberdosis" width="100"><br>
         <strong>überdosis</strong>
       </a>
     </td>
