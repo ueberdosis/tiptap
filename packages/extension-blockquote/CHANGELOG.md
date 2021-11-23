@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-blockquote@2.0.0-beta.24...@tiptap/extension-blockquote@2.0.0-beta.25) (2021-11-23)
+
+
+### Bug Fixes
+
+* fix content expression for blockquote node, fix [#1681](https://github.com/ueberdosis/tiptap/issues/1681) ([74a3326](https://github.com/ueberdosis/tiptap/commit/74a33264c046d275300ab321fb2a7780eb796817))
+
+
+
+
+
 # [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-blockquote@2.0.0-beta.23...@tiptap/extension-blockquote@2.0.0-beta.24) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/extension-blockquote

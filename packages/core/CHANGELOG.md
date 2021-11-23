@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.142](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.141...@tiptap/core@2.0.0-beta.142) (2021-11-23)
+
+
+### Features
+
+* add defaultBlockAt helper ([403c147](https://github.com/ueberdosis/tiptap/commit/403c147d4d0875cb8ca63d88abfec94093ff7926))
+
+
+
+
+
 # [2.0.0-beta.141](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.140...@tiptap/core@2.0.0-beta.141) (2021-11-22)
 
 
