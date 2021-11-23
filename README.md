@@ -84,12 +84,6 @@ For help, discussion about best practices, or any other conversation that would 
       </a>
     </td>
     <td align="center" width="100">
-      <a href="https://restruct.nl/">
-        <img src="https://unavatar.io/github/restruct" width="50"><br>
-        <strong>restruct</strong>
-      </a>
-    </td>
-    <td align="center" width="100">
       <a href="https://dotcms.com/">
         <img src="https://unavatar.io/github/dotcms" width="50"><br>
         <strong>dotCMS</strong>
