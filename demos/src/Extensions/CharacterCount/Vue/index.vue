@@ -3,7 +3,7 @@
     <editor-content :editor="editor" />
 
     <div class="character-count" v-if="editor">
-      {{ editor.getCharacterCount() }}/{{ limit }} characters
+      {{ editor.storage?.characterCount?.currentCharacterCount ?? 0 }}/{{ limit }} characters
     </div>
   </div>
 </template>
@@ -35,6 +35,7 @@ export default {
         Text,
         CharacterCount.configure({
           limit: this.limit,
+          countThroughSerializer: true,
         }),
       ],
       content: `

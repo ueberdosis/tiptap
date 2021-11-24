@@ -51,6 +51,7 @@ export { default as isNodeEmpty } from './helpers/isNodeEmpty'
 export { default as isNodeSelection } from './helpers/isNodeSelection'
 export { default as isTextSelection } from './helpers/isTextSelection'
 export { default as posToDOMRect } from './helpers/posToDOMRect'
+export { default as getTextSeralizersFromSchema } from './helpers/getTextSeralizersFromSchema'
 
 // eslint-disable-next-line
 export interface Commands<ReturnType = any> {}

@@ -16,6 +16,7 @@ export default () => {
       Text,
       CharacterCount.configure({
         limit,
+        countThroughSerializer: true,
       }),
     ],
     content: `
@@ -34,7 +35,7 @@ export default () => {
       <EditorContent editor={editor} />
 
       <div className="character-count">
-        {editor.getCharacterCount()}/{limit} characters
+        {editor.storage?.characterCount?.currentCharacterCount ?? 0}/{limit} characters
       </div>
     </div>
   )
