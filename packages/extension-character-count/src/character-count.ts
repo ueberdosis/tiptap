@@ -22,6 +22,12 @@ export const CharacterCount = Extension.create<CharacterCountOptions>({
     }
   },
 
+  addStorage() {
+    return {
+      currentCharacterCount: 0,
+    }
+  },
+
   addProseMirrorPlugins() {
     const { options } = this
     const { storage } = this.editor
@@ -38,7 +44,9 @@ export const CharacterCount = Extension.create<CharacterCountOptions>({
               { from: 0, to: newState.doc.content.size },
               { textSerializers: getTextSeralizersFromSchema(newState.schema) },
             ).length
-          storage.characterCount = { currentCharacterCount: length }
+
+          storage.characterCount.currentCharacterCount = length
+
           if (options.limit && length > options.limit) {
             return newState.tr.insertText('', options.limit + 1, length)
           }
