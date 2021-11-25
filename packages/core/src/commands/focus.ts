@@ -44,17 +44,27 @@ declare module '@tiptap/core' {
       /**
        * Focus the editor at the given position.
        */
-      focus: (position?: FocusPosition) => ReturnType,
+      focus: (
+        position?: FocusPosition,
+        options?: {
+          scrollIntoView?: boolean,
+        },
+      ) => ReturnType,
     }
   }
 }
 
-export const focus: RawCommands['focus'] = (position = null) => ({
+export const focus: RawCommands['focus'] = (position = null, options) => ({
   editor,
   view,
   tr,
   dispatch,
 }) => {
+  options = {
+    scrollIntoView: true,
+    ...options,
+  }
+
   const delayedFocus = () => {
     // focus within `requestAnimationFrame` breaks focus on iOS
     // so we have to call this
@@ -67,7 +77,10 @@ export const focus: RawCommands['focus'] = (position = null) => ({
     requestAnimationFrame(() => {
       if (!editor.isDestroyed) {
         view.focus()
-        editor.commands.scrollIntoView()
+
+        if (options?.scrollIntoView) {
+          editor.commands.scrollIntoView()
+        }
       }
     })
   }

@@ -118,7 +118,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
         if (editor.isEditable && typeof getPos === 'function') {
           editor
             .chain()
-            .focus()
+            .focus(undefined, { scrollIntoView: false })
             .command(({ tr }) => {
               tr.setNodeMarkup(getPos(), undefined, {
                 checked,

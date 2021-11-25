@@ -10,6 +10,10 @@ See also: [setTextSelection](/api/commands/set-text-selection), [blur](/api/comm
 
 By default, it’s restoring the cursor position (and text selection). Pass a position to move the cursor too.
 
+`options: { scrollIntoView: boolen }`
+
+Defines whether to scroll to the cursor when focusing. Defaults to `true`.
+
 ## Usage
 ```js
 // Set the focus to the editor
