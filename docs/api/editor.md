@@ -124,6 +124,18 @@ editor.setOptions({
   },
 })
 ```
+  
+### setEditable()
+Update editable state of the editor.
+  
+| Parameter | Type    | Description                                                   |
+| --------- | ------- | ------------------------------------------------------------- |
+| editable  | boolean | `true` when the user should be able to write into the editor. |
+  
+```js
+// Make the editor read-only
+editor.setEditable(false)
+```
 
 ### unregisterPlugin()
 Unregister a ProseMirror plugin.
