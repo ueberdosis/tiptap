@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.143](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.142...@tiptap/core@2.0.0-beta.143) (2021-11-25)
+
+
+### Features
+
+* add scrollIntoView option to focus command, fix [#2172](https://github.com/ueberdosis/tiptap/issues/2172) ([e0f6490](https://github.com/ueberdosis/tiptap/commit/e0f64904b665512fbde80db87bb394557433e164))
+
+
+
+
+
 # [2.0.0-beta.142](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.141...@tiptap/core@2.0.0-beta.142) (2021-11-23)
 
 
