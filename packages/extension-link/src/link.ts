@@ -27,11 +27,11 @@ declare module '@tiptap/core' {
       /**
        * Set a link mark
        */
-      setLink: (attributes: { href: string, target?: string }) => ReturnType,
+      setLink: (attributes: { href: string, target?: string, title?: string }) => ReturnType,
       /**
        * Toggle a link mark
        */
-      toggleLink: (attributes: { href: string, target?: string }) => ReturnType,
+      toggleLink: (attributes: { href: string, target?: string, title?: string }) => ReturnType,
       /**
        * Unset a link mark
        */
@@ -65,6 +65,9 @@ export const Link = Mark.create<LinkOptions>({
       },
       target: {
         default: this.options.HTMLAttributes.target,
+      },
+      title: {
+        default: null,
       },
     }
   },
