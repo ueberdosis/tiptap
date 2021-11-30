@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.28...@tiptap/extension-task-item@2.0.0-beta.29) (2021-11-25)
+
+
+### Features
+
+* add scrollIntoView option to focus command, fix [#2172](https://github.com/ueberdosis/tiptap/issues/2172) ([e0f6490](https://github.com/ueberdosis/tiptap/commit/e0f64904b665512fbde80db87bb394557433e164))
+
+
+
+
+
 # [2.0.0-beta.28](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.27...@tiptap/extension-task-item@2.0.0-beta.28) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/extension-task-item

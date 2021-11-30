@@ -21,6 +21,7 @@ export interface ReactRendererOptions {
   editor: Editor,
   props?: Record<string, any>,
   as?: string,
+  className?: string,
 }
 
 type ComponentType<R> =
@@ -43,13 +44,23 @@ export class ReactRenderer<R = unknown> {
 
   ref: R | null = null
 
-  constructor(component: ComponentType<R>, { editor, props = {}, as = 'div' }: ReactRendererOptions) {
+  constructor(component: ComponentType<R>, {
+    editor,
+    props = {},
+    as = 'div',
+    className = '',
+  }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
     this.editor = editor as ExtendedEditor
     this.props = props
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
+
+    if (className) {
+      this.element.classList.add(...className.split(' '))
+    }
+
     this.render()
   }
 

@@ -23,6 +23,7 @@ export { default as textPasteRule } from './pasteRules/textPasteRule'
 export { default as callOrReturn } from './utilities/callOrReturn'
 export { default as mergeAttributes } from './utilities/mergeAttributes'
 
+export { default as defaultBlockAt } from './helpers/defaultBlockAt'
 export { default as getExtensionField } from './helpers/getExtensionField'
 export { default as findChildren } from './helpers/findChildren'
 export { default as findChildrenInRange } from './helpers/findChildrenInRange'

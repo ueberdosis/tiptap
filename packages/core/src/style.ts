@@ -35,6 +35,7 @@ img.ProseMirror-separator {
   display: none;
   pointer-events: none;
   position: absolute;
+  margin: 0;
 }
 
 .ProseMirror-gapcursor:after {

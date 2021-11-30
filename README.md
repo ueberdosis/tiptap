@@ -26,7 +26,7 @@ For help, discussion about best practices, or any other conversation that would 
   <tr>
     <td align="center">
       <a href="https://ueberdosis.io/">
-        <img src="https://unavatar.io/ueberdosis.io" width="100"><br>
+        <img src="https://unavatar.io/github/ueberdosis" width="100"><br>
         <strong>überdosis</strong>
       </a>
     </td>
@@ -34,12 +34,6 @@ For help, discussion about best practices, or any other conversation that would 
       <a href="https://rimsys.io/">
         <img src="https://unavatar.io/github/rimsys" width="100"><br>
         <strong>Rimsys</strong>
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://www.cosmicmind.com/">
-        <img src="https://unavatar.io/github/cosmicmind" width="100"><br>
-        <strong>CosmicMind</strong>
       </a>
     </td>
     <td align="center">
@@ -87,12 +81,6 @@ For help, discussion about best practices, or any other conversation that would 
       <a href="https://incytestudios.com/">
         <img src="https://unavatar.io/github/incyte" width="50"><br>
         <strong>Incyte Studios</strong>
-      </a>
-    </td>
-    <td align="center" width="100">
-      <a href="https://restruct.nl/">
-        <img src="https://unavatar.io/github/restruct" width="50"><br>
-        <strong>restruct</strong>
       </a>
     </td>
     <td align="center" width="100">

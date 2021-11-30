@@ -11,8 +11,10 @@ tiptap would be nothing without its lively community. Contributions have always 
 * Failing regression tests as bug reports
 * Documentation improvements, e. g. fix a typo, add a section
 * New features for existing extensions, e. g. a new configureable option
-* New extensions, which don’t require changes to the core or other core extensions
 * Well explained, non-breaking changes to the core
+
+## Won’t merge
+* New extensions, which we then need to support and maintain
 
 ## Submit ideas
 Make sure to open an issue and outline your idea first. We’ll get back to you quickly and let you know if there is a chance we can merge your contribution.

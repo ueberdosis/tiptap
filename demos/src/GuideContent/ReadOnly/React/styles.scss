@@ -1,0 +1,19 @@
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+
+.checkbox {
+  margin-bottom: 1rem;
+
+  input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+}
+
+[contenteditable="false"] {
+  color: #999;
+  cursor: not-allowed;
+}

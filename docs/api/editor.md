@@ -124,6 +124,18 @@ editor.setOptions({
   },
 })
 ```
+  
+### setEditable()
+Update editable state of the editor.
+  
+| Parameter | Type    | Description                                                   |
+| --------- | ------- | ------------------------------------------------------------- |
+| editable  | boolean | `true` when the user should be able to write into the editor. |
+  
+```js
+// Make the editor read-only
+editor.setEditable(false)
+```
 
 ### unregisterPlugin()
 Unregister a ProseMirror plugin.
@@ -241,6 +253,7 @@ With `autofocus` you can force the cursor to jump in the editor on initializatio
 | --------- | ------------------------------------------------------ |
 | `'start'` | Sets the focus to the beginning of the document.       |
 | `'end'`   | Sets the focus to the end of the document.             |
+| `'all'`   | Selects the whole document.                            |
 | `Number`  | Sets the focus to a specific position in the document. |
 | `true`    | Enables autofocus.                                     |
 | `false`   | Disables autofocus.                                    |
@@ -259,7 +272,7 @@ new Editor({
 ```
 
 ### enableInputRules
-By default, Tiptap enables all [input rules](/guide/custom-extensions/#input-rules). With `enableInputRules` you can disable that.
+By default, Tiptap enables all [input rules](/guide/custom-extensions/#input-rules). With `enableInputRules` you can control that.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -274,8 +287,27 @@ new Editor({
 })
 ```
 
+Alternatively you can allow only specific input rules.
+
+```js
+import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
+import Link from '@tiptap/extension-link'
+
+new Editor({
+  content: `<p>Example Text</p>`,
+  extensions: [
+    StarterKit,
+    Link,
+  ],
+  // pass an array of extensions or extension names
+  // to allow only specific input rules
+  enableInputRules: [Link, 'horizontalRule'],
+})
+```
+
 ### enablePasteRules
-By default, Tiptap enables all [paste rules](/guide/custom-extensions/#paste-rules). With `enablePasteRules` you can disable that.
+By default, Tiptap enables all [paste rules](/guide/custom-extensions/#paste-rules). With `enablePasteRules` you can control that.
 
 ```js
 import { Editor } from '@tiptap/core'
@@ -287,6 +319,25 @@ new Editor({
     StarterKit,
   ],
   enablePasteRules: false,
+})
+```
+
+Alternatively you can allow only specific paste rules.
+
+```js
+import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
+import Link from '@tiptap/extension-link'
+
+new Editor({
+  content: `<p>Example Text</p>`,
+  extensions: [
+    StarterKit,
+    Link,
+  ],
+  // pass an array of extensions or extension names
+  // to allow only specific paste rules
+  enablePasteRules: [Link, 'horizontalRule'],
 })
 ```
 

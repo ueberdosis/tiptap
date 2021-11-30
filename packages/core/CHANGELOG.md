@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.143](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.142...@tiptap/core@2.0.0-beta.143) (2021-11-25)
+
+
+### Features
+
+* add scrollIntoView option to focus command, fix [#2172](https://github.com/ueberdosis/tiptap/issues/2172) ([e0f6490](https://github.com/ueberdosis/tiptap/commit/e0f64904b665512fbde80db87bb394557433e164))
+
+
+
+
+
+# [2.0.0-beta.142](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.141...@tiptap/core@2.0.0-beta.142) (2021-11-23)
+
+
+### Features
+
+* add defaultBlockAt helper ([403c147](https://github.com/ueberdosis/tiptap/commit/403c147d4d0875cb8ca63d88abfec94093ff7926))
+
+
+
+
+
+# [2.0.0-beta.141](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.140...@tiptap/core@2.0.0-beta.141) (2021-11-22)
+
+
+### Bug Fixes
+
+* improve default gapcursor position when surrounded by margins ([cd14731](https://github.com/ueberdosis/tiptap/commit/cd14731612b40fc460675e9fbaaab1618ac02abf))
+
+
+### Features
+
+* add 'all' option to focus command, fix [#2181](https://github.com/ueberdosis/tiptap/issues/2181) ([3c571c9](https://github.com/ueberdosis/tiptap/commit/3c571c9a3f2fdbf1d70e9efa27294fbdf6bcbd3c))
+
+
+
+
+
+# [2.0.0-beta.140](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.139...@tiptap/core@2.0.0-beta.140) (2021-11-18)
+
+
+### Bug Fixes
+
+* Ignore iOS mutations when unfocused ([#2170](https://github.com/ueberdosis/tiptap/issues/2170)) ([10fea3b](https://github.com/ueberdosis/tiptap/commit/10fea3b44ef7bdc62d9392f8b04409cada233292))
+
+
+### Features
+
+* Allow array of extensions for `enableInputRules` and `enablePasteRules` options ([#2119](https://github.com/ueberdosis/tiptap/issues/2119)) ([3158c37](https://github.com/ueberdosis/tiptap/commit/3158c37324420fb4c2414f47132e72a2836a63b4))
+
+
+
+
+
+# [2.0.0-beta.139](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.138...@tiptap/core@2.0.0-beta.139) (2021-11-17)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
 # [2.0.0-beta.138](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.137...@tiptap/core@2.0.0-beta.138) (2021-11-10)
 
 

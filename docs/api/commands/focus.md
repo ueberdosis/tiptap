@@ -6,9 +6,13 @@ When a user clicks on a button outside the editor, the browser sets the focus to
 See also: [setTextSelection](/api/commands/set-text-selection), [blur](/api/commands/blur)
 
 ## Parameters
-`position: 'start' | 'end' | number | boolean | null (false)`
+`position: 'start' | 'end' | 'all' | number | boolean | null (false)`
 
 By default, it’s restoring the cursor position (and text selection). Pass a position to move the cursor too.
+
+`options: { scrollIntoView: boolen }`
+
+Defines whether to scroll to the cursor when focusing. Defaults to `true`.
 
 ## Usage
 ```js
@@ -20,6 +24,9 @@ editor.commands.focus('start')
 
 // Set the cursor to the last position
 editor.commands.focus('end')
+
+// Selects the whole document
+editor.commands.focus('all')
 
 // Set the cursor to position 10
 editor.commands.focus(10)

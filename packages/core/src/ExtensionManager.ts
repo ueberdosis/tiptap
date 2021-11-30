@@ -13,6 +13,7 @@ import getNodeType from './helpers/getNodeType'
 import splitExtensions from './helpers/splitExtensions'
 import getAttributesFromExtensions from './helpers/getAttributesFromExtensions'
 import getRenderedAttributes from './helpers/getRenderedAttributes'
+import isExtensionRulesEnabled from './helpers/isExtensionRulesEnabled'
 import callOrReturn from './utilities/callOrReturn'
 import findDuplicates from './utilities/findDuplicates'
 import { NodeConfig } from '.'
@@ -270,7 +271,7 @@ export default class ExtensionManager {
           context,
         )
 
-        if (editor.options.enableInputRules && addInputRules) {
+        if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
           inputRules.push(...addInputRules())
         }
 
@@ -280,7 +281,7 @@ export default class ExtensionManager {
           context,
         )
 
-        if (editor.options.enablePasteRules && addPasteRules) {
+        if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
           pasteRules.push(...addPasteRules())
         }
 

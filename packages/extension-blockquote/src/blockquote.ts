@@ -35,7 +35,7 @@ export const Blockquote = Node.create<BlockquoteOptions>({
     }
   },
 
-  content: 'block*',
+  content: 'block+',
 
   group: 'block',
 
