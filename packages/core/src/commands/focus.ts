@@ -62,7 +62,7 @@ export const focus: RawCommands['focus'] = (position = null, options) => ({
     return true
   }
 
-  const selection = resolveFocusPosition(editor.state.doc, position)
+  const selection = resolveFocusPosition(editor.state.doc, position) || editor.state.selection
   const isSameSelection = editor.state.selection.eq(selection)
 
   if (dispatch) {
