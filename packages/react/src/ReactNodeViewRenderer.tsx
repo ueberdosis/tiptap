@@ -20,7 +20,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
     newDecorations: Decoration[],
     updateProps: () => void,
   }) => boolean) | null,
-  as?: React.ElementType,
+  as?: string,
 }
 
 class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeViewRendererOptions> {
