@@ -35,6 +35,7 @@ module.exports = {
         'airbnb-base',
       ],
       rules: {
+        curly: ['error', 'all'],
         'no-continue': 'off',
         'no-alert': 'off',
         'no-console': ['warn', { allow: ['warn', 'error'] }],

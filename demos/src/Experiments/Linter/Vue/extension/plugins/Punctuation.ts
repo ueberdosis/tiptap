@@ -17,9 +17,13 @@ export class Punctuation extends LinterPlugin {
 
   scan() {
     this.doc.descendants((node, position) => {
-      if (!node.isText) return
+      if (!node.isText) {
+        return
+      }
 
-      if (!node.text) return
+      if (!node.text) {
+        return
+      }
 
       const matches = this.regex.exec(node.text)
 
