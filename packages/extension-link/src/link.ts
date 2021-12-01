@@ -3,6 +3,7 @@ import {
   markPasteRule,
   mergeAttributes,
   getMarksBetween,
+  getMarkRange,
   findChildrenInRange,
 } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
@@ -53,7 +54,11 @@ export const Link = Mark.create<LinkOptions>({
 
   priority: 1000,
 
-  inclusive: false,
+  // inclusive: false,
+
+  inclusive() {
+    return this.options.autoLink
+  },
 
   addOptions() {
     return {
@@ -199,28 +204,49 @@ export const Link = Mark.create<LinkOptions>({
             const transform = combineTransactionSteps(oldState.doc, transactions)
             const changes = getChangedRanges(transform)
 
+            console.log({ changes })
+
             changes.forEach(range => {
+              const $from = newState.doc.resolve(range.from)
+              const $to = newState.doc.resolve(range.to)
+              // const $pos2 = newState.doc.resolve(range.from - 1)
+
               const textBlocks = findChildrenInRange(newState.doc, range, node => node.isTextblock)
 
               const marks = getMarksBetween(range.from, range.to, newState)
                 .filter(markRange => markRange.mark.type === this.type)
 
-              console.log({ marks })
-
-              textBlocks.forEach(textBlock => {
-                const links = find(textBlock.node.textContent).filter(link => link.isLink)
-
-                links.forEach(link => {
-                  const from = textBlock.pos + link.start + 1
-                  const to = textBlock.pos + link.end + 1
-
-                  tr.addMark(from, to, this.type.create({
-                    href: link.href,
-                  }))
-                })
-
-                console.log({ textBlock, links })
+              console.log({
+                // type: this.type,
+                $from,
+                $to,
+                marks: getMarksBetween($from.before(), $to.after(), newState)
+                  .filter(markRange => markRange.mark.type === this.type),
+                oldMarks: getMarksBetween(range.from, range.to, newState)
+                  .filter(markRange => markRange.mark.type === this.type),
+                // $pos,
+                // before: $pos.before(),
+                // markRange: getMarkRange($pos, this.type),
+                // markRange2: getMarkRange($pos2, this.type),
+                // marks,
               })
+
+              // console.log({ marks })
+
+              // textBlocks.forEach(textBlock => {
+              //   const links = find(textBlock.node.textContent).filter(link => link.isLink)
+
+              //   links.forEach(link => {
+              //     const from = textBlock.pos + link.start + 1
+              //     const to = textBlock.pos + link.end + 1
+
+              //     tr.addMark(from, to, this.type.create({
+              //       href: link.href,
+              //     }))
+              //   })
+
+              //   // console.log({ textBlock, links })
+              // })
 
             })
 
