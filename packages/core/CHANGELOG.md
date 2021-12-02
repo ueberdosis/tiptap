@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.145](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.144...@tiptap/core@2.0.0-beta.145) (2021-12-02)
+
+
+### Bug Fixes
+
+* remove defaultOptions fallback, fix [#2219](https://github.com/ueberdosis/tiptap/issues/2219) ([20b6d79](https://github.com/ueberdosis/tiptap/commit/20b6d79f33217d0f8fcd416a1cc54712ea6fc743))
+
+
+
+
+
 # [2.0.0-beta.144](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.143...@tiptap/core@2.0.0-beta.144) (2021-12-02)
 
 **Note:** Version bump only for package @tiptap/core
