@@ -30,8 +30,7 @@ import TaskItem from '@tiptap/extension-task-item'
 import Highlight from '@tiptap/extension-highlight'
 import CharacterCount from '@tiptap/extension-character-count'
 import * as Y from 'yjs'
-import { WebsocketProvider } from 'y-websocket'
-import { IndexeddbPersistence } from 'y-indexeddb'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 import MenuBar from './MenuBar.vue'
 
 const getRandomElement = list => {
@@ -59,7 +58,6 @@ export default {
         color: this.getRandomColor(),
       },
       provider: null,
-      indexdb: null,
       editor: null,
       status: 'connecting',
       room: getRandomRoom(),
@@ -68,12 +66,18 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
-    this.provider = new WebsocketProvider('wss://connect.tiptap.dev', this.room, ydoc)
+    this.provider = new HocuspocusProvider({
+      url: 'wss://connect.hocuspocus.cloud',
+      parameters: {
+        key: 'write_B0sHbuV5xwYl6WzGjoqL',
+      },
+      name: this.room,
+      document: ydoc,
+    })
+
     this.provider.on('status', event => {
       this.status = event.status
     })
-
-    this.indexdb = new IndexeddbPersistence(this.room, ydoc)
 
     this.editor = new Editor({
       extensions: [

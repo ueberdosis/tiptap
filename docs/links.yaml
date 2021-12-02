@@ -270,9 +270,18 @@
           link: /api/nodes/code-block-lowlight
         - title: Document
           link: /api/nodes/document
+        - title: Details
+          link: /api/nodes/details
+          type: new
+        - title: DetailsSummary
+          link: /api/nodes/details-summary
+          type: new
+        - title: DetailsContent
+          link: /api/nodes/details-content
+          type: new
         - title: Emoji
           link: /api/nodes/emoji
-          type: new
+          type: pro
         - title: HardBreak
           link: /api/nodes/hard-break
         - title: Hashtag
