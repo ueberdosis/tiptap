@@ -352,20 +352,13 @@ export class Extension<Options = any, Storage = any> {
       console.warn(`[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${extension.name}".`)
     }
 
-    // TODO: remove `addOptions` fallback
-    extension.options = extendedConfig.defaultOptions
-      ? extendedConfig.defaultOptions
-      : extension.parent.options
-
-    if (extendedConfig.addOptions) {
-      extension.options = callOrReturn(getExtensionField<AnyConfig['addOptions']>(
-        extension,
-        'addOptions',
-        {
-          name: extension.name,
-        },
-      ))
-    }
+    extension.options = callOrReturn(getExtensionField<AnyConfig['addOptions']>(
+      extension,
+      'addOptions',
+      {
+        name: extension.name,
+      },
+    ))
 
     extension.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
       extension,

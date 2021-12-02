@@ -3,20 +3,6 @@
 import { Extension } from '@tiptap/core/src/Extension'
 
 describe('extension options', () => {
-  it('should set options (deprecated)', () => {
-    const extension = Extension.create({
-      defaultOptions: {
-        foo: 1,
-        bar: 1,
-      },
-    })
-
-    expect(extension.options).to.deep.eq({
-      foo: 1,
-      bar: 1,
-    })
-  })
-
   it('should set options', () => {
     const extension = Extension.create({
       addOptions() {
@@ -26,23 +12,6 @@ describe('extension options', () => {
         }
       },
     })
-
-    expect(extension.options).to.deep.eq({
-      foo: 1,
-      bar: 1,
-    })
-  })
-
-  it('should pass through (deprecated)', () => {
-    const extension = Extension
-      .create({
-        defaultOptions: {
-          foo: 1,
-          bar: 1,
-        },
-      })
-      .extend()
-      .configure()
 
     expect(extension.options).to.deep.eq({
       foo: 1,
@@ -69,24 +38,6 @@ describe('extension options', () => {
     })
   })
 
-  it('should be configurable (deprecated)', () => {
-    const extension = Extension
-      .create({
-        defaultOptions: {
-          foo: 1,
-          bar: 1,
-        },
-      })
-      .configure({
-        bar: 2,
-      })
-
-    expect(extension.options).to.deep.eq({
-      foo: 1,
-      bar: 2,
-    })
-  })
-
   it('should be configurable', () => {
     const extension = Extension
       .create({
@@ -104,28 +55,6 @@ describe('extension options', () => {
     expect(extension.options).to.deep.eq({
       foo: 1,
       bar: 2,
-    })
-  })
-
-  it('should be extendable (deprecated)', () => {
-    const extension = Extension.create({
-      defaultOptions: {
-        foo: 1,
-        bar: 1,
-      },
-    })
-
-    const newExtension = extension.extend({
-      defaultOptions: {
-        ...extension.options,
-        baz: 1,
-      },
-    })
-
-    expect(newExtension.options).to.deep.eq({
-      foo: 1,
-      bar: 1,
-      baz: 1,
     })
   })
 
@@ -155,25 +84,6 @@ describe('extension options', () => {
     })
   })
 
-  it('should be overwritable (deprecated)', () => {
-    const extension = Extension
-      .create({
-        defaultOptions: {
-          foo: 1,
-          bar: 1,
-        },
-      })
-      .extend({
-        defaultOptions: {
-          baz: 1,
-        },
-      })
-
-    expect(extension.options).to.deep.eq({
-      baz: 1,
-    })
-  })
-
   it('should be overwritable', () => {
     const extension = Extension
       .create({
@@ -194,35 +104,6 @@ describe('extension options', () => {
 
     expect(extension.options).to.deep.eq({
       baz: 1,
-    })
-  })
-
-  it('should configure nested objects (deprecated)', () => {
-    const extension = Extension
-      .create<{
-        foo: number[],
-        HTMLAttributes: Record<string, any>,
-      }>({
-        defaultOptions: {
-          foo: [1, 2, 3],
-          HTMLAttributes: {
-            class: 'foo',
-          },
-        },
-      })
-      .configure({
-        foo: [1],
-        HTMLAttributes: {
-          id: 'bar',
-        },
-      })
-
-    expect(extension.options).to.deep.eq({
-      foo: [1],
-      HTMLAttributes: {
-        class: 'foo',
-        id: 'bar',
-      },
     })
   })
 
@@ -254,35 +135,6 @@ describe('extension options', () => {
         class: 'foo',
         id: 'bar',
       },
-    })
-  })
-
-  it('should create its own instance on configure (deprecated)', () => {
-    const extension = Extension
-      .create({
-        defaultOptions: {
-          foo: 1,
-          bar: 2,
-        },
-      })
-
-    const extension1 = extension.configure({
-      foo: 2,
-      bar: 4,
-    })
-
-    const extension2 = extension.configure({
-      foo: 3,
-    })
-
-    expect(extension1.options).to.deep.eq({
-      foo: 2,
-      bar: 4,
-    })
-
-    expect(extension2.options).to.deep.eq({
-      foo: 3,
-      bar: 2,
     })
   })
 
