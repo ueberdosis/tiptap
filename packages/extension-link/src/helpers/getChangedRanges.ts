@@ -1,5 +1,5 @@
 import { Range } from '@tiptap/core'
-import { Transform } from 'prosemirror-transform'
+import { Transform, Step } from 'prosemirror-transform'
 import removeDuplicates from './removeDuplicates'
 
 export type ChangedRange = {
@@ -33,11 +33,33 @@ function simplifyChangedRanges(changes: ChangedRange[]): ChangedRange[] {
  * based on the first and last state of all steps.
  */
 export default function getChangedRanges(transform: Transform): ChangedRange[] {
-  const { mapping } = transform
+  const { mapping, steps } = transform
   const changes: ChangedRange[] = []
 
   mapping.maps.forEach((stepMap, index) => {
-    stepMap.forEach((from, to) => {
+    const ranges: Range[] = []
+
+    // This accounts for step changes where no range was actually altered
+    // e.g. when setting a mark, node attribute, etc.
+    // @ts-ignore
+    if (!stepMap.ranges.length) {
+      const { from, to } = steps[index] as Step & {
+        from?: number,
+        to?: number,
+      }
+
+      if (from === undefined || to === undefined) {
+        return
+      }
+
+      ranges.push({ from, to })
+    } else {
+      stepMap.forEach((from, to) => {
+        ranges.push({ from, to })
+      })
+    }
+
+    ranges.forEach(({ from, to }) => {
       const newStart = mapping.slice(index).map(from, -1)
       const newEnd = mapping.slice(index).map(to)
       const oldStart = mapping.invert().map(newStart, -1)
