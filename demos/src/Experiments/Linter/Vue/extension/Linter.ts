@@ -70,6 +70,7 @@ export const Linter = Extension.create<LinterOptions>({
           },
           handleClick(view, _, event) {
             const target = (event.target as IconDivElement)
+
             if (/lint-icon/.test(target.className) && target.issue) {
               const { from, to } = target.issue
 
@@ -86,6 +87,7 @@ export const Linter = Extension.create<LinterOptions>({
           },
           handleDoubleClick(view, _, event) {
             const target = (event.target as IconDivElement)
+
             if (/lint-icon/.test((event.target as HTMLElement).className) && target.issue) {
               const prob = target.issue
 

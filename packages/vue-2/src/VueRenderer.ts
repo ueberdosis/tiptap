@@ -21,6 +21,7 @@ export class VueRenderer {
 
     // prevents `Avoid mutating a prop directly` error message
     const originalSilent = Vue.config.silent
+
     Vue.config.silent = true
 
     Object

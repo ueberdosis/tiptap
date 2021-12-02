@@ -27,6 +27,7 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
+
     this.provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
 
     this.editor = new Editor({

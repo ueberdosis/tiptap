@@ -36,6 +36,7 @@ module.exports = {
       ],
       rules: {
         curly: ['error', 'all'],
+        'newline-after-var': ['error', 'always'],
         'no-continue': 'off',
         'no-alert': 'off',
         'no-console': ['warn', { allow: ['warn', 'error'] }],

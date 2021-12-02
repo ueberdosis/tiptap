@@ -14,6 +14,7 @@ export function updateColumns(node: ProseMirrorNode, colgroup: Element, table: E
     for (let j = 0; j < colspan; j += 1, col += 1) {
       const hasWidth = overrideCol === col ? overrideValue : colwidth && colwidth[j]
       const cssWidth = hasWidth ? `${hasWidth}px` : ''
+
       totalWidth += hasWidth || cellMinWidth
 
       if (!hasWidth) {
@@ -34,6 +35,7 @@ export function updateColumns(node: ProseMirrorNode, colgroup: Element, table: E
 
   while (nextDOM) {
     const after = nextDOM.nextSibling
+
     nextDOM.parentNode.removeChild(nextDOM)
     nextDOM = after
   }

@@ -31,6 +31,7 @@ export const undoInputRule: RawCommands['undoInputRule'] = () => ({ state, dispa
 
         if (undoable.text) {
           const marks = tr.doc.resolve(undoable.from).marks()
+
           tr.replaceWith(undoable.from, undoable.to, state.schema.text(undoable.text, marks))
         } else {
           tr.delete(undoable.from, undoable.to)

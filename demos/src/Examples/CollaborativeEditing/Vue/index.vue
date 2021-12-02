@@ -66,6 +66,7 @@ export default {
 
   mounted() {
     const ydoc = new Y.Doc()
+
     this.provider = new HocuspocusProvider({
       url: 'wss://connect.hocuspocus.cloud',
       parameters: {

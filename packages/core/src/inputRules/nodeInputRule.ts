@@ -37,6 +37,7 @@ export default function nodeInputRule(config: {
 
         // insert last typed character
         const lastChar = match[0][match[0].length - 1]
+
         tr.insertText(lastChar, start + match[0].length - 1)
 
         // insert node from input rule

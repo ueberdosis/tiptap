@@ -230,7 +230,10 @@ export default {
 
   mounted() {
     // TODO: load language from url params
-    const intitialTab = localStorage.tab && this.tabs.some(tab => tab.name === localStorage.tab) ? localStorage.tab : this.sortedTabs[0]?.name
+    const intitialTab = localStorage.tab && this.tabs.some(tab => tab.name === localStorage.tab)
+      ? localStorage.tab
+      : this.sortedTabs[0]?.name
+
     this.setTab(intitialTab, false)
 
     window.document.addEventListener('editor', this.onEditor, false)

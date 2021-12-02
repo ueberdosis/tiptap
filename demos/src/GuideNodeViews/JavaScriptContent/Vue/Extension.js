@@ -31,14 +31,17 @@ export default Node.create({
       */
 
       const dom = document.createElement('div')
+
       dom.classList.add('node-view')
 
       const label = document.createElement('span')
+
       label.classList.add('label')
       label.innerHTML = 'Node view'
       label.contentEditable = false
 
       const content = document.createElement('div')
+
       content.classList.add('content')
 
       dom.append(label, content)

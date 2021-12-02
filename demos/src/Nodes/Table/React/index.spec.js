@@ -61,6 +61,7 @@ context('/src/Nodes/Table/React/', () => {
       editor.commands.insertTable({ cols: 1, rows: 1, withHeaderRow: false })
 
       const html = editor.getHTML()
+
       expect(html).to.equal(
         '<table><tbody><tr><td colspan="1" rowspan="1"><p></p></td></tr></tbody></table>',
       )
@@ -72,6 +73,7 @@ context('/src/Nodes/Table/React/', () => {
       editor.commands.insertTable({ cols: 1, rows: 1, withHeaderRow: true })
 
       const html = editor.getHTML()
+
       expect(html).to.equal(
         '<table><tbody><tr><th colspan="1" rowspan="1"><p></p></th></tr></tbody></table>',
       )

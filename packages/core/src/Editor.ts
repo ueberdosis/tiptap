@@ -281,6 +281,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     // Let’s store the editor instance in the DOM element.
     // So we’ll have access to it for tests.
     const dom = this.view.dom as HTMLElement
+
     dom.editor = this
   }
 

@@ -58,13 +58,16 @@ export default Node.create<DetailsOptions>({
   addNodeView() {
     return ({ HTMLAttributes }) => {
       const item = document.createElement('div')
+
       item.setAttribute('data-type', 'details')
 
       const toggle = document.createElement('div')
+
       toggle.setAttribute('data-type', 'detailsToggle')
       item.append(toggle)
 
       const content = document.createElement('div')
+
       content.setAttribute('data-type', 'detailsContent')
       item.append(content)
 

@@ -16,6 +16,7 @@ describe('code block highlight', () => {
 
   const createEditorEl = () => {
     const editorEl = document.createElement('div')
+
     editorEl.classList.add(editorElClass)
 
     document.body.appendChild(editorEl)

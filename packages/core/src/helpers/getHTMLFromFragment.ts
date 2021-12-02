@@ -7,6 +7,7 @@ export default function getHTMLFromFragment(fragment: Fragment, schema: Schema):
 
   const temporaryDocument = document.implementation.createHTMLDocument()
   const container = temporaryDocument.createElement('div')
+
   container.appendChild(documentFragment)
 
   return container.innerHTML

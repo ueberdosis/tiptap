@@ -68,8 +68,8 @@ export default Extension.create({
         e.dataTransfer.setData('text/plain', text)
 
         const el = document.querySelector('.ProseMirror-selectednode')
-        e.dataTransfer?.setDragImage(el, 0, 0)
 
+        e.dataTransfer?.setDragImage(el, 0, 0)
         view.dragging = { slice, move: true }
       }
     }

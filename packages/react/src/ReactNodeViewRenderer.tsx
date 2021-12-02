@@ -83,6 +83,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
     }
 
     let as = this.node.isInline ? 'span' : 'div'
+
     if (this.options.as) {
       as = this.options.as
     }
