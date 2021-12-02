@@ -1013,6 +1013,16 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
   integrity sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==
 
+"@hocuspocus/provider@^1.0.0-alpha.26":
+  version "1.0.0-alpha.26"
+  resolved "https://registry.yarnpkg.com/@hocuspocus/provider/-/provider-1.0.0-alpha.26.tgz#77b12b5cf7835a348f20f4e44343af505c2c7dae"
+  integrity sha512-fIilGwvypO3Wj4vsHFSlAmePeIs37RZWY9eQgA8giMkYqkLJan6e3ny7Le+QJdG0MhvrhHXYiFvaBDoisKISsw==
+  dependencies:
+    "@lifeomic/attempt" "^3.0.0"
+    lib0 "^0.2.42"
+    y-protocols "^1.0.5"
+    yjs "^13.5.0"
+
 "@humanwhocodes/config-array@^0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.6.0.tgz#b5621fdb3b32309d2d16575456cbc277fa8f021a"
@@ -1735,6 +1745,11 @@
   dependencies:
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
+
+"@lifeomic/attempt@^3.0.0":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@lifeomic/attempt/-/attempt-3.0.1.tgz#a1d65fc06df3b5650cc851a6cafee0a733f8b58e"
+  integrity sha512-zvQ6ydPI2mevhuZ++l2S93+DS08w27ad942Ae9WW5h7j+giEHrK7rsgbchVTAs0jo35Ox90G5/c8ZDSz5vipWg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -9139,7 +9154,7 @@ yauzl@^2.10.0:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yjs@^13.5.21:
+yjs@^13.5.0, yjs@^13.5.21:
   version "13.5.21"
   resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.5.21.tgz#dd370b011d8e60fb04e65dd2bc4bc89ae94a49f4"
   integrity sha512-DehXnsAp2ALOgdTUCogQlMNB1lcaP8QE3ovpkE9lcsZpKBn5a/yJI/AXbL3lIN0o0v1ezKk7JmqnfUBiZJSARw==

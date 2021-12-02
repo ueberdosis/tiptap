@@ -2,8 +2,6 @@ import React, {
   useState, useCallback, useEffect,
 } from 'react'
 import * as Y from 'yjs'
-import { WebsocketProvider } from 'y-websocket'
-import { IndexeddbPersistence } from 'y-indexeddb'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import TaskList from '@tiptap/extension-task-list'
@@ -12,6 +10,7 @@ import Highlight from '@tiptap/extension-highlight'
 import CharacterCount from '@tiptap/extension-character-count'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 import MenuBar from './MenuBar'
 import './styles.scss'
 
@@ -54,7 +53,14 @@ const getRandomName = () => getRandomElement(names)
 const room = getRandomRoom()
 
 const ydoc = new Y.Doc()
-const websocketProvider = new WebsocketProvider('wss://connect.tiptap.dev', room, ydoc)
+const websocketProvider = new HocuspocusProvider({
+  url: 'wss://connect.hocuspocus.cloud',
+  parameters: {
+    key: 'write_B0sHbuV5xwYl6WzGjoqL',
+  },
+  name: room,
+  document: ydoc,
+})
 
 const getInitialUser = () => {
   return JSON.parse(localStorage.getItem('currentUser')) || {
@@ -88,13 +94,6 @@ export default () => {
   })
 
   useEffect(() => {
-    // Store shared data persistently in browser to make offline editing possible
-    const indexeddbProvider = new IndexeddbPersistence(room, ydoc)
-
-    indexeddbProvider.on('synced', () => {
-      console.log('Loaded content from database …')
-    })
-
     // Update status changes
     websocketProvider.on('status', event => {
       setStatus(event.status)
