@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-ordered-list@2.0.0-beta.24...@tiptap/extension-ordered-list@2.0.0-beta.25) (2021-12-02)
+
+
+### Bug Fixes
+
+* remove some magic strings ([6c34dec](https://github.com/ueberdosis/tiptap/commit/6c34dec33ac39c9f037a0a72e4525f3fc6d422bf))
+
+
+
+
+
 # [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-ordered-list@2.0.0-beta.23...@tiptap/extension-ordered-list@2.0.0-beta.24) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/extension-ordered-list
