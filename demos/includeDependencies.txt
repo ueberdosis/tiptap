@@ -17,8 +17,6 @@ shiki
 simplify-js
 tippy.js
 uuid
-y-indexeddb
 y-prosemirror
 y-webrtc
-y-websocket
 yjs
