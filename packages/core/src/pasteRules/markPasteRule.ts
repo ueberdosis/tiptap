@@ -37,7 +37,7 @@ export default function markPasteRule(config: {
         const textStart = range.from + fullMatch.indexOf(captureGroup)
         const textEnd = textStart + captureGroup.length
 
-        const excludedMarks = getMarksBetween(range.from, range.to, state)
+        const excludedMarks = getMarksBetween(range.from, range.to, state.doc)
           .filter(item => {
             // @ts-ignore
             const excluded = item.mark.type.excluded as MarkType[]

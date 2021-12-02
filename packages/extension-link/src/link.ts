@@ -7,7 +7,7 @@ import {
   findChildrenInRange,
 } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
-import { find } from 'linkifyjs'
+import { find, test } from 'linkifyjs'
 import combineTransactionSteps from './helpers/combineTransactionSteps'
 import getChangedRanges from './helpers/getChangedRanges'
 
@@ -53,8 +53,6 @@ export const Link = Mark.create<LinkOptions>({
   name: 'link',
 
   priority: 1000,
-
-  // inclusive: false,
 
   inclusive() {
     return this.options.autoLink
@@ -191,8 +189,9 @@ export const Link = Mark.create<LinkOptions>({
     if (this.options.autoLink) {
       plugins.push(
         new Plugin({
-          key: new PluginKey('handleClickLink'),
+          key: new PluginKey('autolink'),
           appendTransaction: (transactions, oldState, newState) => {
+            // TODO: prevent on undo history
             const docChanges = transactions.some(transaction => transaction.docChanged)
             && !oldState.doc.eq(newState.doc)
 
@@ -202,52 +201,61 @@ export const Link = Mark.create<LinkOptions>({
 
             const { tr } = newState
             const transform = combineTransactionSteps(oldState.doc, transactions)
+            const { mapping } = transform
             const changes = getChangedRanges(transform)
 
-            console.log({ changes })
+            changes.forEach(({ oldRange, newRange }) => {
+              // at first we check if we have to remove links
+              getMarksBetween(oldRange.from, oldRange.to, oldState.doc)
+                .filter(item => item.mark.type === this.type)
+                .forEach(oldMark => {
+                  const newFrom = mapping.map(oldMark.from)
+                  const newTo = mapping.map(oldMark.to)
+                  const newMarks = getMarksBetween(newFrom, newTo, newState.doc)
+                    .filter(item => item.mark.type === this.type)
 
-            changes.forEach(range => {
-              const $from = newState.doc.resolve(range.from)
-              const $to = newState.doc.resolve(range.to)
-              // const $pos2 = newState.doc.resolve(range.from - 1)
+                  if (!newMarks.length) {
+                    return
+                  }
 
-              const textBlocks = findChildrenInRange(newState.doc, range, node => node.isTextblock)
+                  const newMark = newMarks[0]
+                  const oldLinkText = oldState.doc.textBetween(oldMark.from, oldMark.to)
+                  const newLinkText = newState.doc.textBetween(newMark.from, newMark.to)
+                  const wasLink = test(oldLinkText)
+                  const isLink = test(newLinkText)
 
-              const marks = getMarksBetween(range.from, range.to, newState)
-                .filter(markRange => markRange.mark.type === this.type)
+                  // remove only the link, if it was a link before too
+                  // because we don’t want to remove links that were set manually
+                  if (wasLink && !isLink) {
+                    tr.removeMark(newMark.from, newMark.to, this.type)
+                  }
+                })
 
-              console.log({
-                // type: this.type,
-                $from,
-                $to,
-                marks: getMarksBetween($from.before(), $to.after(), newState)
-                  .filter(markRange => markRange.mark.type === this.type),
-                oldMarks: getMarksBetween(range.from, range.to, newState)
-                  .filter(markRange => markRange.mark.type === this.type),
-                // $pos,
-                // before: $pos.before(),
-                // markRange: getMarkRange($pos, this.type),
-                // markRange2: getMarkRange($pos2, this.type),
-                // marks,
-              })
+              // now let’s see if we can add new links
+              findChildrenInRange(newState.doc, newRange, node => node.isTextblock)
+                .forEach(textBlock => {
+                  find(textBlock.node.textContent)
+                    .filter(link => link.isLink)
+                    // calculate link position
+                    .map(link => ({
+                      ...link,
+                      from: textBlock.pos + link.start + 1,
+                      to: textBlock.pos + link.end + 1,
+                    }))
+                    // check if link is within the changed range
+                    .filter(link => {
+                      const fromIsInRange = newRange.from >= link.from && newRange.from <= link.to
+                      const toIsInRange = newRange.to >= link.from && newRange.to <= link.to
 
-              // console.log({ marks })
-
-              // textBlocks.forEach(textBlock => {
-              //   const links = find(textBlock.node.textContent).filter(link => link.isLink)
-
-              //   links.forEach(link => {
-              //     const from = textBlock.pos + link.start + 1
-              //     const to = textBlock.pos + link.end + 1
-
-              //     tr.addMark(from, to, this.type.create({
-              //       href: link.href,
-              //     }))
-              //   })
-
-              //   // console.log({ textBlock, links })
-              // })
-
+                      return fromIsInRange || toIsInRange
+                    })
+                    // add link mark
+                    .forEach(link => {
+                      tr.addMark(link.from, link.to, this.type.create({
+                        href: link.href,
+                      }))
+                    })
+                })
             })
 
             if (!tr.steps.length) {
