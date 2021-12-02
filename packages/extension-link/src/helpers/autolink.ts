@@ -1,9 +1,12 @@
-import { getMarksBetween, findChildrenInRange } from '@tiptap/core'
+import {
+  getMarksBetween,
+  findChildrenInRange,
+  combineTransactionSteps,
+  getChangedRanges,
+} from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { MarkType } from 'prosemirror-model'
 import { find, test } from 'linkifyjs'
-import combineTransactionSteps from './combineTransactionSteps'
-import getChangedRanges from './getChangedRanges'
 
 type AutolinkOptions = {
   type: MarkType,

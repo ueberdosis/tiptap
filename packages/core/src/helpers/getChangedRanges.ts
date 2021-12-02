@@ -1,6 +1,6 @@
-import { Range } from '@tiptap/core'
 import { Transform, Step } from 'prosemirror-transform'
-import removeDuplicates from './removeDuplicates'
+import { Range } from '../types'
+import removeDuplicates from '../utilities/removeDuplicates'
 
 export type ChangedRange = {
   oldRange: Range,
