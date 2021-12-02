@@ -80,13 +80,13 @@ export const Highlight = Mark.create<HighlightOptions>({
   addCommands() {
     return {
       setHighlight: attributes => ({ commands }) => {
-        return commands.setMark('highlight', attributes)
+        return commands.setMark(this.name, attributes)
       },
       toggleHighlight: attributes => ({ commands }) => {
-        return commands.toggleMark('highlight', attributes)
+        return commands.toggleMark(this.name, attributes)
       },
       unsetHighlight: () => ({ commands }) => {
-        return commands.unsetMark('highlight')
+        return commands.unsetMark(this.name)
       },
     }
   },

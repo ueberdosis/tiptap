@@ -39,7 +39,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
   parseHTML() {
     return [
       {
-        tag: 'li[data-type="taskItem"]',
+        tag: `li[data-type="${this.name}"]`,
         priority: 51,
       },
     ]
@@ -51,7 +51,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
       mergeAttributes(
         this.options.HTMLAttributes,
         HTMLAttributes,
-        { 'data-type': 'taskItem' },
+        { 'data-type': this.name },
       ),
       [
         'label',
@@ -75,8 +75,8 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
   addKeyboardShortcuts() {
     const shortcuts = {
-      Enter: () => this.editor.commands.splitListItem('taskItem'),
-      'Shift-Tab': () => this.editor.commands.liftListItem('taskItem'),
+      Enter: () => this.editor.commands.splitListItem(this.name),
+      'Shift-Tab': () => this.editor.commands.liftListItem(this.name),
     }
 
     if (!this.options.nested) {
@@ -85,7 +85,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
     return {
       ...shortcuts,
-      Tab: () => this.editor.commands.sinkListItem('taskItem'),
+      Tab: () => this.editor.commands.sinkListItem(this.name),
     }
   },
 

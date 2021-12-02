@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.88](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.87...@tiptap/extension-mention@2.0.0-beta.88) (2021-12-02)
+
+
+### Bug Fixes
+
+* remove some magic strings ([6c34dec](https://github.com/ueberdosis/tiptap/commit/6c34dec33ac39c9f037a0a72e4525f3fc6d422bf))
+
+
+
+
+
 # [2.0.0-beta.87](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.86...@tiptap/extension-mention@2.0.0-beta.87) (2021-11-17)
 
 **Note:** Version bump only for package @tiptap/extension-mention

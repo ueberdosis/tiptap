@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.96](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.95...@tiptap/react@2.0.0-beta.96) (2021-12-02)
+
+
+### Features
+
+* Add `as` option and pass through to ReactRenderer ([#2213](https://github.com/ueberdosis/tiptap/issues/2213)) ([dedcf17](https://github.com/ueberdosis/tiptap/commit/dedcf17d533aab0c5641b842877e42440883d5d8))
+
+
+
+
+
 # [2.0.0-beta.95](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.94...@tiptap/react@2.0.0-beta.95) (2021-11-18)
 
 

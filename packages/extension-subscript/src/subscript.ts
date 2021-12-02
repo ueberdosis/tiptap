@@ -58,13 +58,13 @@ export const Subscript = Mark.create<SubscriptExtensionOptions>({
   addCommands() {
     return {
       setSubscript: () => ({ commands }) => {
-        return commands.setMark('subscript')
+        return commands.setMark(this.name)
       },
       toggleSubscript: () => ({ commands }) => {
-        return commands.toggleMark('subscript')
+        return commands.toggleMark(this.name)
       },
       unsetSubscript: () => ({ commands }) => {
-        return commands.unsetMark('subscript')
+        return commands.unsetMark(this.name)
       },
     }
   },

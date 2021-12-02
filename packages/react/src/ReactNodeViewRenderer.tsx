@@ -20,6 +20,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
     newDecorations: Decoration[],
     updateProps: () => void,
   }) => boolean) | null,
+  as?: string,
 }
 
 class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeViewRendererOptions> {
@@ -81,12 +82,15 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
       this.contentDOMElement.style.whiteSpace = 'inherit'
     }
 
+    let as = this.node.isInline ? 'span' : 'div'
+    if (this.options.as) {
+      as = this.options.as
+    }
+
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props,
-      as: this.node.isInline
-        ? 'span'
-        : 'div',
+      as,
       className: `node-${this.node.type.name}`,
     })
   }

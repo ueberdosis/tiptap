@@ -57,13 +57,13 @@ export const Code = Mark.create<CodeOptions>({
   addCommands() {
     return {
       setCode: () => ({ commands }) => {
-        return commands.setMark('code')
+        return commands.setMark(this.name)
       },
       toggleCode: () => ({ commands }) => {
-        return commands.toggleMark('code')
+        return commands.toggleMark(this.name)
       },
       unsetCode: () => ({ commands }) => {
-        return commands.unsetMark('code')
+        return commands.unsetMark(this.name)
       },
     }
   },

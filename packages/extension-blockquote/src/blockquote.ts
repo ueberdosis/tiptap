@@ -54,13 +54,13 @@ export const Blockquote = Node.create<BlockquoteOptions>({
   addCommands() {
     return {
       setBlockquote: () => ({ commands }) => {
-        return commands.wrapIn('blockquote')
+        return commands.wrapIn(this.name)
       },
       toggleBlockquote: () => ({ commands }) => {
-        return commands.toggleWrap('blockquote')
+        return commands.toggleWrap(this.name)
       },
       unsetBlockquote: () => ({ commands }) => {
-        return commands.lift('blockquote')
+        return commands.lift(this.name)
       },
     }
   },

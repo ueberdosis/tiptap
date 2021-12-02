@@ -31,20 +31,20 @@ export const TaskList = Node.create<TaskListOptions>({
   parseHTML() {
     return [
       {
-        tag: 'ul[data-type="taskList"]',
+        tag: `ul[data-type="${this.name}"]`,
         priority: 51,
       },
     ]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['ul', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 'data-type': 'taskList' }), 0]
+    return ['ul', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 'data-type': this.name }), 0]
   },
 
   addCommands() {
     return {
       toggleTaskList: () => ({ commands }) => {
-        return commands.toggleList('taskList', 'taskItem')
+        return commands.toggleList(this.name, 'taskItem')
       },
     }
   },

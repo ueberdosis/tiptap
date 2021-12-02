@@ -64,13 +64,13 @@ export const Italic = Mark.create<ItalicOptions>({
   addCommands() {
     return {
       setItalic: () => ({ commands }) => {
-        return commands.setMark('italic')
+        return commands.setMark(this.name)
       },
       toggleItalic: () => ({ commands }) => {
-        return commands.toggleMark('italic')
+        return commands.toggleMark(this.name)
       },
       unsetItalic: () => ({ commands }) => {
-        return commands.unsetMark('italic')
+        return commands.unsetMark(this.name)
       },
     }
   },

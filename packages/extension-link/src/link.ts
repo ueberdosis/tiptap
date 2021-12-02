@@ -93,15 +93,15 @@ export const Link = Mark.create<LinkOptions>({
   addCommands() {
     return {
       setLink: attributes => ({ commands }) => {
-        return commands.setMark('link', attributes)
+        return commands.setMark(this.name, attributes)
       },
 
       toggleLink: attributes => ({ commands }) => {
-        return commands.toggleMark('link', attributes, { extendEmptyMarkRange: true })
+        return commands.toggleMark(this.name, attributes, { extendEmptyMarkRange: true })
       },
 
       unsetLink: () => ({ commands }) => {
-        return commands.unsetMark('link', { extendEmptyMarkRange: true })
+        return commands.unsetMark(this.name, { extendEmptyMarkRange: true })
       },
     }
   },

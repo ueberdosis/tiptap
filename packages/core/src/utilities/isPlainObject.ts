@@ -5,6 +5,9 @@ function getType(value: any): string {
 }
 
 export default function isPlainObject(value: any): value is Record<string, any> {
-  if (getType(value) !== 'Object') return false
+  if (getType(value) !== 'Object') {
+    return false
+  }
+
   return value.constructor === Object && Object.getPrototypeOf(value) === Object.prototype
 }
