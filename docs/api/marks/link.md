@@ -20,14 +20,14 @@ npm install @tiptap/extension-link
 
 ## Settings
 
-### HTMLAttributes
-Custom HTML attributes that should be added to the rendered HTML tag.
+### autolink
+If enabled, it adds links as you type.
+
+Default: `true`
 
 ```js
 Link.configure({
-  HTMLAttributes: {
-    class: 'my-custom-class',
-  },
+  autolink: false,
 })
 ```
 
@@ -53,6 +53,16 @@ Link.configure({
 })
 ```
 
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Link.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
 
 ## Commands
 
