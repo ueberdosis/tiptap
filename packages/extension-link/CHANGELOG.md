@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.29...@tiptap/extension-link@2.0.0-beta.30) (2021-12-02)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
 # [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.28...@tiptap/extension-link@2.0.0-beta.29) (2021-12-02)
 
 
