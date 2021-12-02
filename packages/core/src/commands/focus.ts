@@ -1,6 +1,4 @@
-import { EditorState, Selection, TextSelection } from 'prosemirror-state'
 import { RawCommands, FocusPosition } from '../types'
-import minMax from '../utilities/minMax'
 import isTextSelection from '../helpers/isTextSelection'
 import isiOS from '../utilities/isiOS'
 import resolveFocusPosition from '../helpers/resolveFocusPosition'
