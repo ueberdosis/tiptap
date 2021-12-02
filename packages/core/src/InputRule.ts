@@ -1,4 +1,6 @@
-import { EditorState, Plugin, TextSelection, Transaction } from 'prosemirror-state'
+import {
+  EditorState, Plugin, TextSelection, Transaction,
+} from 'prosemirror-state'
 import { Editor } from './Editor'
 import CommandManager from './CommandManager'
 import createChainableState from './helpers/createChainableState'
