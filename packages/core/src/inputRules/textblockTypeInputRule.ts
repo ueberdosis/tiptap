@@ -32,6 +32,7 @@ export default function textblockTypeInputRule(config: {
       state.tr
         .delete(range.from, range.to)
         .setBlockType(range.from, range.from, config.type, attributes)
+      return state.tr
     },
   })
 }

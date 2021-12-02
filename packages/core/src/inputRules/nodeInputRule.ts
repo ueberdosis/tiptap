@@ -44,6 +44,7 @@ export default function nodeInputRule(config: {
       } else if (match[0]) {
         tr.replaceWith(start, end, config.type.create(attributes))
       }
+      return tr
     },
   })
 }

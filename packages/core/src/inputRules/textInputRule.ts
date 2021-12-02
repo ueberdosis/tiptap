@@ -30,6 +30,7 @@ export default function textInputRule(config: {
       }
 
       state.tr.insertText(insert, start, end)
+      return state.tr
     },
   })
 }

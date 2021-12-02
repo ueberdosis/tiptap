@@ -54,6 +54,7 @@ export default function wrappingInputRule(config: {
       ) {
         tr.join(range.from - 1)
       }
+      return tr
     },
   })
 }

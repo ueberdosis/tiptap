@@ -24,7 +24,7 @@ export default function markInputRule(config: {
       const attributes = callOrReturn(config.getAttributes, undefined, match)
 
       if (attributes === false || attributes === null) {
-        return
+        return null
       }
 
       const { tr } = state
@@ -64,6 +64,7 @@ export default function markInputRule(config: {
 
         tr.removeStoredMark(config.type)
       }
+      return tr
     },
   })
 }
