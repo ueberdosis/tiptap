@@ -6,8 +6,8 @@
 <script>
 import Worker from './shiki.worker?worker'
 // this import is a bugfix
-// otherwise the `onigasm.wasm` file is missing in the dist folder
-import 'shiki/dist/onigasm.wasm?url'
+// otherwise the `onig.wasm` file is missing in the dist folder
+import 'shiki/dist/onig.wasm?url'
 
 export default {
   props: {

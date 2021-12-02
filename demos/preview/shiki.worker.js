@@ -1,5 +1,5 @@
 import * as shiki from 'shiki'
-import onigasm from 'shiki/dist/onigasm.wasm?url'
+import onigasm from 'shiki/dist/onig.wasm?url'
 import theme from 'shiki/themes/material-darker.json'
 import langHTML from 'shiki/languages/html.tmLanguage.json'
 import langJS from 'shiki/languages/javascript.tmLanguage.json'

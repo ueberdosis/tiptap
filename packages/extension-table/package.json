@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "prosemirror-tables": "^1.1.1",
-    "prosemirror-view": "^1.23.1"
+    "prosemirror-view": "^1.23.3"
   },
   "repository": {
     "type": "git",

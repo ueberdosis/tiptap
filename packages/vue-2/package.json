@@ -30,7 +30,7 @@
   "dependencies": {
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.50",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.45",
-    "prosemirror-view": "^1.23.1"
+    "prosemirror-view": "^1.23.3"
   },
   "repository": {
     "type": "git",
