@@ -62,7 +62,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
   addCommands() {
     return {
       toggleOrderedList: () => ({ commands }) => {
-        return commands.toggleList('orderedList', 'listItem')
+        return commands.toggleList(this.name, 'listItem')
       },
     }
   },

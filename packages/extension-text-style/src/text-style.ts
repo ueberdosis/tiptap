@@ -59,7 +59,7 @@ export const TextStyle = Mark.create<TextStyleOptions>({
           return true
         }
 
-        return commands.unsetMark('textStyle')
+        return commands.unsetMark(this.name)
       },
     }
   },

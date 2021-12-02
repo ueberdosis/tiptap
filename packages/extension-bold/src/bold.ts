@@ -65,13 +65,13 @@ export const Bold = Mark.create<BoldOptions>({
   addCommands() {
     return {
       setBold: () => ({ commands }) => {
-        return commands.setMark('bold')
+        return commands.setMark(this.name)
       },
       toggleBold: () => ({ commands }) => {
-        return commands.toggleMark('bold')
+        return commands.toggleMark(this.name)
       },
       unsetBold: () => ({ commands }) => {
-        return commands.unsetMark('bold')
+        return commands.unsetMark(this.name)
       },
     }
   },

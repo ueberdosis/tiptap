@@ -66,13 +66,13 @@ export const Strike = Mark.create<StrikeOptions>({
   addCommands() {
     return {
       setStrike: () => ({ commands }) => {
-        return commands.setMark('strike')
+        return commands.setMark(this.name)
       },
       toggleStrike: () => ({ commands }) => {
-        return commands.toggleMark('strike')
+        return commands.toggleMark(this.name)
       },
       unsetStrike: () => ({ commands }) => {
-        return commands.unsetMark('strike')
+        return commands.unsetMark(this.name)
       },
     }
   },

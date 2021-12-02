@@ -43,7 +43,7 @@ export const BulletList = Node.create<BulletListOptions>({
   addCommands() {
     return {
       toggleBulletList: () => ({ commands }) => {
-        return commands.toggleList('bulletList', 'listItem')
+        return commands.toggleList(this.name, 'listItem')
       },
     }
   },

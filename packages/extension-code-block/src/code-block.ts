@@ -91,10 +91,10 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   addCommands() {
     return {
       setCodeBlock: attributes => ({ commands }) => {
-        return commands.setNode('codeBlock', attributes)
+        return commands.setNode(this.name, attributes)
       },
       toggleCodeBlock: attributes => ({ commands }) => {
-        return commands.toggleNode('codeBlock', 'paragraph', attributes)
+        return commands.toggleNode(this.name, 'paragraph', attributes)
       },
     }
   },

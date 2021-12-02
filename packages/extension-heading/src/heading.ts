@@ -71,14 +71,14 @@ export const Heading = Node.create<HeadingOptions>({
           return false
         }
 
-        return commands.setNode('heading', attributes)
+        return commands.setNode(this.name, attributes)
       },
       toggleHeading: attributes => ({ commands }) => {
         if (!this.options.levels.includes(attributes.level)) {
           return false
         }
 
-        return commands.toggleNode('heading', 'paragraph', attributes)
+        return commands.toggleNode(this.name, 'paragraph', attributes)
       },
     }
   },
