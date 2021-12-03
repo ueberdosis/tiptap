@@ -263,6 +263,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   private createView(): void {
     const doc = createDocument(this.options.content, this.schema, this.options.parseOptions)
     const selection = resolveFocusPosition(doc, this.options.autofocus)
+
     this.view = new EditorView(this.options.element, {
       ...this.options.editorProps,
       dispatchTransaction: this.dispatchTransaction.bind(this),
