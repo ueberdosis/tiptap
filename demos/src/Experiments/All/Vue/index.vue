@@ -34,6 +34,11 @@ import TableHeader from '@tiptap/extension-table-header'
 import Image from '@tiptap/extension-image'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
+import Placeholder from '@tiptap/extension-placeholder'
+import TextAlign from '@tiptap/extension-text-align'
+import TextStyle from '@tiptap/extension-text-style'
+import Color from '@tiptap/extension-color'
+import Highlight from '@tiptap/extension-highlight'
 
 import lowlight from 'lowlight'
 
@@ -89,6 +94,16 @@ export default {
         Image,
         TaskList,
         TaskItem,
+        Placeholder.configure({
+          placeholder: 'This is a placeholder …',
+          includeChildren: true,
+        }),
+        TextAlign.configure({
+          types: ['heading', 'paragraph'],
+        }),
+        TextStyle,
+        Color,
+        Highlight.configure({ multicolor: true }),
       ],
       content: `
         <h2>
@@ -127,6 +142,17 @@ export default {
           <br />
           — Mom
         </blockquote>
+        <h2>Text align</h2>
+        <p style="text-align: center">first paragraph</p>
+        <p style="text-align: right">second paragraph</p>
+        <h2>Color</h2>
+        <p><span style="color: #958DF1">Oh, for some reason that’s purple.</span></p>
+        <h2>Highlight</h2>
+        <p>This isn’t highlighted.</s></p>
+        <p><mark>But that one is.</mark></p>
+        <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
+        <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>
+        <h2>Task list</h2>
         <ul data-type="taskList">
           <li data-type="taskItem" data-checked="true">A list item</li>
           <li data-type="taskItem" data-checked="false">And another one</li>
@@ -351,6 +377,14 @@ export default {
       }
     }
   }
+}
+
+.ProseMirror p.is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
 }
 
 .tableWrapper {
