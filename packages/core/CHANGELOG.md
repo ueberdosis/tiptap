@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.148](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.147...@tiptap/core@2.0.0-beta.148) (2021-12-03)
+
+
+### Bug Fixes
+
+* initialize autofocus selection in `createView` ([#2212](https://github.com/ueberdosis/tiptap/issues/2212)) ([de39853](https://github.com/ueberdosis/tiptap/commit/de39853026ee63bb558ed59b1dab3899c07ae073))
+
+
+
+
+
 # [2.0.0-beta.147](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.146...@tiptap/core@2.0.0-beta.147) (2021-12-03)
 
 
