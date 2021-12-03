@@ -43,8 +43,8 @@ export default function autolink(options: AutolinkOptions): Plugin {
             }
 
             const newMark = newMarks[0]
-            const oldLinkText = oldState.doc.textBetween(oldMark.from, oldMark.to)
-            const newLinkText = newState.doc.textBetween(newMark.from, newMark.to)
+            const oldLinkText = oldState.doc.textBetween(oldMark.from, oldMark.to, undefined, ' ')
+            const newLinkText = newState.doc.textBetween(newMark.from, newMark.to, undefined, ' ')
             const wasLink = test(oldLinkText)
             const isLink = test(newLinkText)
 
@@ -58,7 +58,16 @@ export default function autolink(options: AutolinkOptions): Plugin {
         // now let’s see if we can add new links
         findChildrenInRange(newState.doc, newRange, node => node.isTextblock)
           .forEach(textBlock => {
-            find(textBlock.node.textContent)
+            // we need to define a placeholder for leaf nodes
+            // so that the link position can be calculated correctly
+            const text = newState.doc.textBetween(
+              textBlock.pos,
+              textBlock.pos + textBlock.node.nodeSize,
+              undefined,
+              ' ',
+            )
+
+            find(text)
               .filter(link => link.isLink)
               // calculate link position
               .map(link => ({
