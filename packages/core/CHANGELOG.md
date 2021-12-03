@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.147](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.146...@tiptap/core@2.0.0-beta.147) (2021-12-03)
+
+
+### Features
+
+* Add support for autolink ([#2226](https://github.com/ueberdosis/tiptap/issues/2226)) ([3d68981](https://github.com/ueberdosis/tiptap/commit/3d68981b47d087fff40549d2143eb952fc9e0a50))
+
+
+
+
+
 # [2.0.0-beta.146](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.145...@tiptap/core@2.0.0-beta.146) (2021-12-02)
 
 **Note:** Version bump only for package @tiptap/core

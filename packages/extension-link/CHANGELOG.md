@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.30...@tiptap/extension-link@2.0.0-beta.31) (2021-12-03)
+
+
+### Features
+
+* Add support for autolink ([#2226](https://github.com/ueberdosis/tiptap/issues/2226)) ([3d68981](https://github.com/ueberdosis/tiptap/commit/3d68981b47d087fff40549d2143eb952fc9e0a50))
+
+
+
+
+
 # [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.29...@tiptap/extension-link@2.0.0-beta.30) (2021-12-02)
 
 **Note:** Version bump only for package @tiptap/extension-link
