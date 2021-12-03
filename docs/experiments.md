@@ -9,6 +9,5 @@ Congratulations! You’ve found our playground with a list of experiments. Be aw
 ## Experimental extensions
 * [@tiptap/extension-command-menu](/experiments/commands)
 * [@tiptap/extension-iframe](/experiments/embeds)
-* [@tiptap/extension-toggle-list](/experiments/details)
 * [@tiptap/extension-trailing-node](/experiments/trailing-node)
 * [@tiptap/extension-figure](/experiments/figure)
