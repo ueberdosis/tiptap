@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "linkifyjs": "^3.0.4",
+    "prosemirror-model": "^1.15.0",
     "prosemirror-state": "^1.3.4"
   },
   "repository": {

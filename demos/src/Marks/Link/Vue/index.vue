@@ -15,8 +15,8 @@ import { Editor, EditorContent } from '@tiptap/vue-3'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import Link from '@tiptap/extension-link'
 import Code from '@tiptap/extension-code'
+import Link from '@tiptap/extension-link'
 
 export default {
   components: {
@@ -35,10 +35,10 @@ export default {
         Document,
         Paragraph,
         Text,
+        Code,
         Link.configure({
           openOnClick: false,
         }),
-        Code,
       ],
       content: `
         <p>

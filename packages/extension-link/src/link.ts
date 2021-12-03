@@ -1,12 +1,14 @@
-import {
-  Mark,
-  markPasteRule,
-  mergeAttributes,
-} from '@tiptap/core'
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import { find } from 'linkifyjs'
+import autolink from './helpers/autolink'
+import clickHandler from './helpers/clickHandler'
+import pasteHandler from './helpers/pasteHandler'
 
 export interface LinkOptions {
+  /**
+   * If enabled, it adds links as you type.
+   */
+  autolink: boolean,
   /**
    * If enabled, links will be opened on click.
    */
@@ -45,12 +47,17 @@ export const Link = Mark.create<LinkOptions>({
 
   priority: 1000,
 
-  inclusive: false,
+  keepOnSplit: false,
+
+  inclusive() {
+    return this.options.autolink
+  },
 
   addOptions() {
     return {
       openOnClick: true,
       linkOnPaste: true,
+      autolink: true,
       HTMLAttributes: {
         target: '_blank',
         rel: 'noopener noreferrer nofollow',
@@ -76,7 +83,11 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    return [
+      'a',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      0,
+    ]
   },
 
   addCommands() {
@@ -84,9 +95,11 @@ export const Link = Mark.create<LinkOptions>({
       setLink: attributes => ({ commands }) => {
         return commands.setMark(this.name, attributes)
       },
+
       toggleLink: attributes => ({ commands }) => {
         return commands.toggleMark(this.name, attributes, { extendEmptyMarkRange: true })
       },
+
       unsetLink: () => ({ commands }) => {
         return commands.unsetMark(this.name, { extendEmptyMarkRange: true })
       },
@@ -114,64 +127,23 @@ export const Link = Mark.create<LinkOptions>({
   addProseMirrorPlugins() {
     const plugins = []
 
+    if (this.options.autolink) {
+      plugins.push(autolink({
+        type: this.type,
+      }))
+    }
+
     if (this.options.openOnClick) {
-      plugins.push(
-        new Plugin({
-          key: new PluginKey('handleClickLink'),
-          props: {
-            handleClick: (view, pos, event) => {
-              const attrs = this.editor.getAttributes(this.name)
-              const link = (event.target as HTMLElement)?.closest('a')
-
-              if (link && attrs.href) {
-                window.open(attrs.href, attrs.target)
-
-                return true
-              }
-
-              return false
-            },
-          },
-        }),
-      )
+      plugins.push(clickHandler({
+        type: this.type,
+      }))
     }
 
     if (this.options.linkOnPaste) {
-      plugins.push(
-        new Plugin({
-          key: new PluginKey('handlePasteLink'),
-          props: {
-            handlePaste: (view, event, slice) => {
-              const { state } = view
-              const { selection } = state
-              const { empty } = selection
-
-              if (empty) {
-                return false
-              }
-
-              let textContent = ''
-
-              slice.content.forEach(node => {
-                textContent += node.textContent
-              })
-
-              const link = find(textContent)
-                .find(item => item.isLink && item.value === textContent)
-
-              if (!textContent || !link) {
-                return false
-              }
-
-              this.editor.commands.setMark(this.type, {
-                href: link.href,
-              })
-
-              return true
-            },
-          },
-        }),
-      )
+      plugins.push(pasteHandler({
+        editor: this.editor,
+        type: this.type,
+      }))
     }
 
     return plugins
