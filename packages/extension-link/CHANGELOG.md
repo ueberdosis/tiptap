@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.31...@tiptap/extension-link@2.0.0-beta.32) (2021-12-03)
+
+
+### Bug Fixes
+
+* calculate correct autolink position when using leaf nodes in the same text block, fix [#2231](https://github.com/ueberdosis/tiptap/issues/2231) ([924b650](https://github.com/ueberdosis/tiptap/commit/924b6508f9211ba281b159676d4800748870b565))
+
+
+
+
+
 # [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.30...@tiptap/extension-link@2.0.0-beta.31) (2021-12-03)
 
 
