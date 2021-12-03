@@ -1,42 +1,7 @@
-import { EditorState, Selection, TextSelection } from 'prosemirror-state'
 import { RawCommands, FocusPosition } from '../types'
-import minMax from '../utilities/minMax'
 import isTextSelection from '../helpers/isTextSelection'
 import isiOS from '../utilities/isiOS'
-
-function resolveSelection(state: EditorState, position: FocusPosition = null) {
-  if (!position) {
-    return null
-  }
-
-  if (position === 'start' || position === true) {
-    return {
-      from: 0,
-      to: 0,
-    }
-  }
-
-  const { size } = state.doc.content
-
-  if (position === 'end') {
-    return {
-      from: size,
-      to: size,
-    }
-  }
-
-  if (position === 'all') {
-    return {
-      from: 0,
-      to: size,
-    }
-  }
-
-  return {
-    from: position,
-    to: position,
-  }
-}
+import resolveFocusPosition from '../helpers/resolveFocusPosition'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -95,13 +60,7 @@ export const focus: RawCommands['focus'] = (position = null, options) => ({
     return true
   }
 
-  const { from, to } = resolveSelection(editor.state, position) || editor.state.selection
-  const { doc, storedMarks } = tr
-  const minPos = Selection.atStart(doc).from
-  const maxPos = Selection.atEnd(doc).to
-  const resolvedFrom = minMax(from, minPos, maxPos)
-  const resolvedEnd = minMax(to, minPos, maxPos)
-  const selection = TextSelection.create(doc, resolvedFrom, resolvedEnd)
+  const selection = resolveFocusPosition(editor.state.doc, position) || editor.state.selection
   const isSameSelection = editor.state.selection.eq(selection)
 
   if (dispatch) {
@@ -111,8 +70,8 @@ export const focus: RawCommands['focus'] = (position = null, options) => ({
 
     // `tr.setSelection` resets the stored marks
     // so we’ll restore them if the selection is the same as before
-    if (isSameSelection && storedMarks) {
-      tr.setStoredMarks(storedMarks)
+    if (isSameSelection && tr.storedMarks) {
+      tr.setStoredMarks(tr.storedMarks)
     }
 
     delayedFocus()

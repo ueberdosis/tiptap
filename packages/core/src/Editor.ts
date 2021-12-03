@@ -12,6 +12,7 @@ import createDocument from './helpers/createDocument'
 import getHTMLFromFragment from './helpers/getHTMLFromFragment'
 import getText from './helpers/getText'
 import isNodeEmpty from './helpers/isNodeEmpty'
+import resolveFocusPosition from './helpers/resolveFocusPosition'
 import getTextSeralizersFromSchema from './helpers/getTextSeralizersFromSchema'
 import createStyleTag from './utilities/createStyleTag'
 import isFunction from './utilities/isFunction'
@@ -260,11 +261,14 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates a ProseMirror view.
    */
   private createView(): void {
+    const doc = createDocument(this.options.content, this.schema, this.options.parseOptions)
+    const selection = resolveFocusPosition(doc, this.options.autofocus)
     this.view = new EditorView(this.options.element, {
       ...this.options.editorProps,
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: EditorState.create({
-        doc: createDocument(this.options.content, this.schema, this.options.parseOptions),
+        doc,
+        selection,
       }),
     })
 
