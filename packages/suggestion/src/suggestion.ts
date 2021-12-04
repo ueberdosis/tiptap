@@ -67,6 +67,7 @@ export function Suggestion({
   allow = () => true,
 }: SuggestionOptions) {
 
+  let props: SuggestionProps | undefined
   const renderer = render?.()
 
   return new Plugin({
@@ -96,7 +97,8 @@ export function Suggestion({
             ? prev
             : next
           const decorationNode = document.querySelector(`[data-decoration-id="${state.decorationId}"]`)
-          const props: SuggestionProps = {
+
+          props = {
             editor,
             range: state.range,
             query: state.query,
@@ -140,6 +142,14 @@ export function Suggestion({
           if (handleStart) {
             renderer?.onStart?.(props)
           }
+        },
+
+        destroy: () => {
+          if (!props) {
+            return
+          }
+
+          renderer?.onExit?.(props)
         },
       }
     },
