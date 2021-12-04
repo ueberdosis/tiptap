@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.85](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.84...@tiptap/suggestion@2.0.0-beta.85) (2021-12-04)
+
+
+### Bug Fixes
+
+* call onExit hook when editor is destroyed, fix [#1645](https://github.com/ueberdosis/tiptap/issues/1645) ([5d2ef71](https://github.com/ueberdosis/tiptap/commit/5d2ef71d33bea9ba6bf1aeb3cceee08af27f1e75))
+
+
+
+
+
 # [2.0.0-beta.84](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.83...@tiptap/suggestion@2.0.0-beta.84) (2021-12-02)
 
 **Note:** Version bump only for package @tiptap/suggestion
