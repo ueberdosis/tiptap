@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.149](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.148...@tiptap/core@2.0.0-beta.149) (2021-12-05)
+
+
+### Bug Fixes
+
+* add support for multiple ranges in clipboardTextSerializer, fix [#1982](https://github.com/ueberdosis/tiptap/issues/1982) ([98a1cb3](https://github.com/ueberdosis/tiptap/commit/98a1cb36408765f0f042e7abb8dad3c19cdf0a09))
+
+
+
+
+
 # [2.0.0-beta.148](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.147...@tiptap/core@2.0.0-beta.148) (2021-12-03)
 
 
