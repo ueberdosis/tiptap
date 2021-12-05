@@ -15,7 +15,9 @@ export const ClipboardTextSerializer = Extension.create({
             const { editor } = this
             const { state, schema } = editor
             const { doc, selection } = state
-            const { from, to } = selection
+            const { ranges } = selection
+            const from = Math.min(...ranges.map(range => range.$from.pos))
+            const to = Math.max(...ranges.map(range => range.$to.pos))
             const textSerializers = getTextSeralizersFromSchema(schema)
             const range = { from, to }
 
