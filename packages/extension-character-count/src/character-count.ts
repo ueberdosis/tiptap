@@ -1,10 +1,8 @@
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 
-export const pluginKey = new PluginKey('characterLimit')
-
 export interface CharacterCountOptions {
-  limit?: number,
+  limit: number,
 }
 
 export const CharacterCount = Extension.create<CharacterCountOptions>({
@@ -17,19 +15,25 @@ export const CharacterCount = Extension.create<CharacterCountOptions>({
   },
 
   addProseMirrorPlugins() {
-    const { options } = this
-
     return [
       new Plugin({
-
-        key: pluginKey,
-
+        key: new PluginKey('characterCount'),
         appendTransaction: (transactions, oldState, newState) => {
-          const length = newState.doc.content.size
+          const limit = this.options.limit + 2
+          const oldSize = oldState.doc.content.size
+          const newSize = newState.doc.content.size
 
-          if (options.limit && length > options.limit) {
-            return newState.tr.insertText('', options.limit + 1, length)
+          if (newSize <= oldSize || newSize <= limit) {
+            return
           }
+
+          const pos = newState.selection.$head.pos
+          const over = newSize - limit
+          const from = pos - over
+          const to = pos
+          const tr = newState.tr.delete(from, to)
+
+          return tr
         },
       }),
     ]
