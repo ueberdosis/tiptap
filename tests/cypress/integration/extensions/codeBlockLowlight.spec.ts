@@ -1,8 +1,6 @@
 /// <reference types="cypress" />
 
-import {
-  CodeBlockLowlight,
-} from '@tiptap/extension-code-block-lowlight'
+import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
 import { Text } from '@tiptap/extension-text'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Document } from '@tiptap/extension-document'
