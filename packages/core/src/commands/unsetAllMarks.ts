@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const unsetAllMarks: RawCommands['unsetAllMarks'] = () => ({ tr, state, dispatch }) => {
+export const unsetAllMarks: RawCommands['unsetAllMarks'] = () => ({ tr, dispatch }) => {
   const { selection } = tr
   const { empty, ranges } = selection
 
