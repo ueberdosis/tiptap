@@ -9,8 +9,9 @@ export * from './NodeView'
 export * from './Tracker'
 export * from './InputRule'
 export * from './PasteRule'
-export * from './CommandManager'
 export * from './types'
+
+export { default as CommandManger } from './CommandManager'
 
 export { default as nodeInputRule } from './inputRules/nodeInputRule'
 export { default as markInputRule } from './inputRules/markInputRule'
