@@ -8,7 +8,7 @@ type CallbackFunction<
   EventName extends StringKeyOf<T>,
 > = (...props: CallbackType<T, EventName>) => any
 
-export default class EventEmitter<T extends Record<string, any>> {
+export class EventEmitter<T extends Record<string, any>> {
 
   private callbacks: { [key: string]: Function[] } = {}
 

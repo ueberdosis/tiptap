@@ -6,7 +6,7 @@ interface DebugJSONContent extends JSONContent {
   to: number,
 }
 
-export default function getDebugJSON(node: ProseMirrorNode, startOffset = 0): DebugJSONContent {
+export function getDebugJSON(node: ProseMirrorNode, startOffset = 0): DebugJSONContent {
   const isTopNode = node.type === node.type.schema.topNodeType
   const increment = isTopNode ? 0 : 1
   const from = startOffset // + offset

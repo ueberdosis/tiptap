@@ -1,6 +1,6 @@
 import { AnyExtension, RemoveThis, MaybeThisParameterType } from '../types'
 
-export default function getExtensionField<T = any>(
+export function getExtensionField<T = any>(
   extension: AnyExtension,
   field: string,
   context?: Omit<MaybeThisParameterType<T>, 'parent'>,

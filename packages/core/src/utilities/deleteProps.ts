@@ -3,7 +3,7 @@
  * @param obj Object
  * @param key Key to remove
  */
-export default function deleteProps(obj: Record<string, any>, propOrProps: string | string[]): Record<string, any> {
+export function deleteProps(obj: Record<string, any>, propOrProps: string | string[]): Record<string, any> {
   const props = typeof propOrProps === 'string'
     ? [propOrProps]
     : propOrProps

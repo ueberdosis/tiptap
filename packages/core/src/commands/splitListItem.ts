@@ -7,8 +7,8 @@ import {
 import { canSplit } from 'prosemirror-transform'
 import { TextSelection } from 'prosemirror-state'
 import { RawCommands } from '../types'
-import getNodeType from '../helpers/getNodeType'
-import getSplittedAttributes from '../helpers/getSplittedAttributes'
+import { getNodeType } from '../helpers/getNodeType'
+import { getSplittedAttributes } from '../helpers/getSplittedAttributes'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

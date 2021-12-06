@@ -1,7 +1,7 @@
 import { ParseRule } from 'prosemirror-model'
 import { ExtensionAttribute } from '../types'
-import fromString from '../utilities/fromString'
-import isObject from '../utilities/isObject'
+import { fromString } from '../utilities/fromString'
+import { isObject } from '../utilities/isObject'
 
 /**
  * This function merges extension attributes into parserule attributes (`attrs` or `getAttrs`).
@@ -9,7 +9,7 @@ import isObject from '../utilities/isObject'
  * @param parseRule ProseMirror ParseRule
  * @param extensionAttributes List of attributes to inject
  */
-export default function injectExtensionAttributesToParseRule(parseRule: ParseRule, extensionAttributes: ExtensionAttribute[]): ParseRule {
+export function injectExtensionAttributesToParseRule(parseRule: ParseRule, extensionAttributes: ExtensionAttribute[]): ParseRule {
   if (parseRule.style) {
     return parseRule
   }

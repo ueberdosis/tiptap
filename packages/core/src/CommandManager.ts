@@ -1,6 +1,6 @@
 import { EditorState, Transaction } from 'prosemirror-state'
 import { Editor } from './Editor'
-import createChainableState from './helpers/createChainableState'
+import { createChainableState } from './helpers/createChainableState'
 import {
   SingleCommands,
   ChainedCommands,
@@ -9,7 +9,7 @@ import {
   CommandProps,
 } from './types'
 
-export default class CommandManager {
+export class CommandManager {
 
   editor: Editor
 

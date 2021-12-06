@@ -3,7 +3,7 @@ import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Editor as CoreEditor } from './Editor'
 import { Node } from './Node'
-import isiOS from './utilities/isiOS'
+import { isiOS } from './utilities/isiOS'
 import { NodeViewRendererProps, NodeViewRendererOptions } from './types'
 
 export class NodeView<

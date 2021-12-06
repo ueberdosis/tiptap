@@ -1,7 +1,7 @@
 import { RawCommands, FocusPosition } from '../types'
-import isTextSelection from '../helpers/isTextSelection'
-import isiOS from '../utilities/isiOS'
-import resolveFocusPosition from '../helpers/resolveFocusPosition'
+import { isTextSelection } from '../helpers/isTextSelection'
+import { isiOS } from '../utilities/isiOS'
+import { resolveFocusPosition } from '../helpers/resolveFocusPosition'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

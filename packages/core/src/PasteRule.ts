@@ -1,9 +1,9 @@
 import { EditorState, Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
-import CommandManager from './CommandManager'
-import createChainableState from './helpers/createChainableState'
-import isRegExp from './utilities/isRegExp'
-import isNumber from './utilities/isNumber'
+import { CommandManager } from './CommandManager'
+import { createChainableState } from './helpers/createChainableState'
+import { isRegExp } from './utilities/isRegExp'
+import { isNumber } from './utilities/isNumber'
 import {
   Range,
   ExtendedRegExpMatchArray,

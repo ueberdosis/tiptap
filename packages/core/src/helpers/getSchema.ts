@@ -1,9 +1,9 @@
 import { Schema } from 'prosemirror-model'
-import getSchemaByResolvedExtensions from './getSchemaByResolvedExtensions'
-import ExtensionManager from '../ExtensionManager'
+import { getSchemaByResolvedExtensions } from './getSchemaByResolvedExtensions'
+import { ExtensionManager } from '../ExtensionManager'
 import { Extensions } from '../types'
 
-export default function getSchema(extensions: Extensions): Schema {
+export function getSchema(extensions: Extensions): Schema {
   const resolvedExtensions = ExtensionManager.resolve(extensions)
 
   return getSchemaByResolvedExtensions(resolvedExtensions)

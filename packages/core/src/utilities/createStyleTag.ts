@@ -1,4 +1,4 @@
-export default function createStyleTag(style: string): HTMLStyleElement {
+export function createStyleTag(style: string): HTMLStyleElement {
   const tipTapStyleTag = (<HTMLStyleElement>document.querySelector('style[data-tiptap-style]'))
 
   if (tipTapStyleTag !== null) {

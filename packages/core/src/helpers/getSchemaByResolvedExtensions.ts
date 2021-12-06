@@ -1,13 +1,13 @@
 import { NodeSpec, MarkSpec, Schema } from 'prosemirror-model'
 import { AnyConfig, Extensions } from '../types'
 import { NodeConfig, MarkConfig } from '..'
-import splitExtensions from './splitExtensions'
-import getAttributesFromExtensions from './getAttributesFromExtensions'
-import getRenderedAttributes from './getRenderedAttributes'
-import isEmptyObject from '../utilities/isEmptyObject'
-import injectExtensionAttributesToParseRule from './injectExtensionAttributesToParseRule'
-import callOrReturn from '../utilities/callOrReturn'
-import getExtensionField from './getExtensionField'
+import { splitExtensions } from './splitExtensions'
+import { getAttributesFromExtensions } from './getAttributesFromExtensions'
+import { getRenderedAttributes } from './getRenderedAttributes'
+import { isEmptyObject } from '../utilities/isEmptyObject'
+import { injectExtensionAttributesToParseRule } from './injectExtensionAttributesToParseRule'
+import { callOrReturn } from '../utilities/callOrReturn'
+import { getExtensionField } from './getExtensionField'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(Object.entries(data).filter(([key, value]) => {
@@ -19,7 +19,7 @@ function cleanUpSchemaItem<T>(data: T) {
   })) as T
 }
 
-export default function getSchemaByResolvedExtensions(extensions: Extensions): Schema {
+export function getSchemaByResolvedExtensions(extensions: Extensions): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
   const topNode = nodeExtensions.find(extension => getExtensionField(extension, 'topNode'))?.name

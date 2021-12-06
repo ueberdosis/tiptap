@@ -1,10 +1,10 @@
 import { Node } from 'prosemirror-model'
-import getSchema from './getSchema'
+import { getSchema } from './getSchema'
 import { Extensions, JSONContent, TextSerializer } from '../types'
-import getTextSeralizersFromSchema from './getTextSeralizersFromSchema'
-import getText from './getText'
+import { getTextSeralizersFromSchema } from './getTextSeralizersFromSchema'
+import { getText } from './getText'
 
-export default function generateText(
+export function generateText(
   doc: JSONContent,
   extensions: Extensions,
   options?: {

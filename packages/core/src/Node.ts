@@ -7,9 +7,9 @@ import {
 import { Plugin, Transaction } from 'prosemirror-state'
 import { InputRule } from './InputRule'
 import { PasteRule } from './PasteRule'
-import mergeDeep from './utilities/mergeDeep'
-import callOrReturn from './utilities/callOrReturn'
-import getExtensionField from './helpers/getExtensionField'
+import { mergeDeep } from './utilities/mergeDeep'
+import { callOrReturn } from './utilities/callOrReturn'
+import { getExtensionField } from './helpers/getExtensionField'
 import {
   AnyConfig,
   Extensions,

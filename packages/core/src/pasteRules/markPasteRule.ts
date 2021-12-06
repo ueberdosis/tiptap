@@ -1,14 +1,14 @@
 import { PasteRule, PasteRuleFinder } from '../PasteRule'
 import { MarkType } from 'prosemirror-model'
-import getMarksBetween from '../helpers/getMarksBetween'
-import callOrReturn from '../utilities/callOrReturn'
+import { getMarksBetween } from '../helpers/getMarksBetween'
+import { callOrReturn } from '../utilities/callOrReturn'
 import { ExtendedRegExpMatchArray } from '../types'
 
 /**
  * Build an paste rule that adds a mark when the
  * matched text is pasted into it.
  */
-export default function markPasteRule(config: {
+export function markPasteRule(config: {
   find: PasteRuleFinder,
   type: MarkType,
   getAttributes?:

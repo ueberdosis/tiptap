@@ -1,7 +1,7 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Extension } from '../Extension'
-import getTextBetween from '../helpers/getTextBetween'
-import getTextSeralizersFromSchema from '../helpers/getTextSeralizersFromSchema'
+import { getTextBetween } from '../helpers/getTextBetween'
+import { getTextSeralizersFromSchema } from '../helpers/getTextSeralizersFromSchema'
 
 export const ClipboardTextSerializer = Extension.create({
   name: 'clipboardTextSerializer',

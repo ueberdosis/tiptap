@@ -1,4 +1,4 @@
-export default function isiOS(): boolean {
+export function isiOS(): boolean {
   return [
     'iPad Simulator',
     'iPhone Simulator',

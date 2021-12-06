@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import isClass from '@tiptap/core/src/utilities/isClass'
+import { isClass } from '@tiptap/core/src/utilities/isClass'
 
 describe('isClass', () => {
   it('returns true for classes', () => {

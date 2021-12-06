@@ -1,7 +1,7 @@
 import { InputRule, InputRuleFinder } from '../InputRule'
 import { NodeType } from 'prosemirror-model'
 import { ExtendedRegExpMatchArray } from '../types'
-import callOrReturn from '../utilities/callOrReturn'
+import { callOrReturn } from '../utilities/callOrReturn'
 
 /**
  * Build an input rule that changes the type of a textblock when the
@@ -9,7 +9,7 @@ import callOrReturn from '../utilities/callOrReturn'
  * probably want the regexp to start with `^`, so that the pattern can
  * only occur at the start of a textblock.
  */
-export default function textblockTypeInputRule(config: {
+export function textblockTypeInputRule(config: {
   find: InputRuleFinder,
   type: NodeType,
   getAttributes?:

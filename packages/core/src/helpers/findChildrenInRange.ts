@@ -4,7 +4,7 @@ import { Predicate, Range, NodeWithPos } from '../types'
 /**
  * Same as `findChildren` but searches only within a `range`.
  */
-export default function findChildrenInRange(node: ProseMirrorNode, range: Range, predicate: Predicate): NodeWithPos[] {
+export function findChildrenInRange(node: ProseMirrorNode, range: Range, predicate: Predicate): NodeWithPos[] {
   const nodesWithPos: NodeWithPos[] = []
 
   // if (range.from === range.to) {

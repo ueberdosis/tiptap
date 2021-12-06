@@ -1,8 +1,8 @@
 import { TextSerializer } from '../types'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
-import getTextBetween from './getTextBetween'
+import { getTextBetween } from './getTextBetween'
 
-export default function getText(
+export function getText(
   node: ProseMirrorNode,
   options?: {
     blockSeparator?: string,

@@ -4,9 +4,9 @@ import { PasteRule } from './PasteRule'
 import { Editor } from './Editor'
 import { Node } from './Node'
 import { Mark } from './Mark'
-import mergeDeep from './utilities/mergeDeep'
-import callOrReturn from './utilities/callOrReturn'
-import getExtensionField from './helpers/getExtensionField'
+import { mergeDeep } from './utilities/mergeDeep'
+import { callOrReturn } from './utilities/callOrReturn'
+import { getExtensionField } from './helpers/getExtensionField'
 import {
   AnyConfig,
   Extensions,

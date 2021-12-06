@@ -1,7 +1,7 @@
 import { EditorView } from 'prosemirror-view'
-import minMax from '../utilities/minMax'
+import { minMax } from '../utilities/minMax'
 
-export default function posToDOMRect(view: EditorView, from: number, to: number): DOMRect {
+export function posToDOMRect(view: EditorView, from: number, to: number): DOMRect {
   const minPos = 0
   const maxPos = view.state.doc.content.size
   const resolvedFrom = minMax(from, minPos, maxPos)

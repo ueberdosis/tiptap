@@ -6,19 +6,19 @@ import {
 } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema, MarkType, NodeType } from 'prosemirror-model'
-import getAttributes from './helpers/getAttributes'
-import isActive from './helpers/isActive'
-import createDocument from './helpers/createDocument'
-import getHTMLFromFragment from './helpers/getHTMLFromFragment'
-import getText from './helpers/getText'
-import isNodeEmpty from './helpers/isNodeEmpty'
-import resolveFocusPosition from './helpers/resolveFocusPosition'
-import getTextSeralizersFromSchema from './helpers/getTextSeralizersFromSchema'
-import createStyleTag from './utilities/createStyleTag'
-import isFunction from './utilities/isFunction'
-import CommandManager from './CommandManager'
-import ExtensionManager from './ExtensionManager'
-import EventEmitter from './EventEmitter'
+import { getAttributes } from './helpers/getAttributes'
+import { isActive } from './helpers/isActive'
+import { createDocument } from './helpers/createDocument'
+import { getHTMLFromFragment } from './helpers/getHTMLFromFragment'
+import { getText } from './helpers/getText'
+import { isNodeEmpty } from './helpers/isNodeEmpty'
+import { resolveFocusPosition } from './helpers/resolveFocusPosition'
+import { getTextSeralizersFromSchema } from './helpers/getTextSeralizersFromSchema'
+import { createStyleTag } from './utilities/createStyleTag'
+import { isFunction } from './utilities/isFunction'
+import { CommandManager } from './CommandManager'
+import { ExtensionManager } from './ExtensionManager'
+import { EventEmitter } from './EventEmitter'
 import {
   EditorOptions,
   CanCommands,
@@ -29,7 +29,7 @@ import {
   EditorEvents,
 } from './types'
 import * as extensions from './extensions'
-import style from './style'
+import { style } from './style'
 
 export { extensions }
 

@@ -1,5 +1,5 @@
 import { Mark as ProseMirrorMark, MarkType, ResolvedPos } from 'prosemirror-model'
-import objectIncludes from '../utilities/objectIncludes'
+import { objectIncludes } from '../utilities/objectIncludes'
 import { Range } from '../types'
 
 function findMarkInSet(
@@ -20,7 +20,7 @@ function isMarkInSet(
   return !!findMarkInSet(marks, type, attributes)
 }
 
-export default function getMarkRange(
+export function getMarkRange(
   $pos: ResolvedPos,
   type: MarkType,
   attributes: Record<string, any> = {},

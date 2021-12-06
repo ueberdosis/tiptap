@@ -1,8 +1,8 @@
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { MarkRange } from '../types'
-import getMarkRange from './getMarkRange'
+import { getMarkRange } from './getMarkRange'
 
-export default function getMarksBetween(from: number, to: number, doc: ProseMirrorNode): MarkRange[] {
+export function getMarksBetween(from: number, to: number, doc: ProseMirrorNode): MarkRange[] {
   const marks: MarkRange[] = []
 
   // get all inclusive marks on empty selection

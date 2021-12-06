@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import mergeDeep from '@tiptap/core/src/utilities/mergeDeep'
+import { mergeDeep } from '@tiptap/core/src/utilities/mergeDeep'
 
 describe('mergeDeep', () => {
   it('should merge', () => {
