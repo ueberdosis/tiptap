@@ -43,7 +43,7 @@ To actually start using Tiptap, you’ll need to add a new component to your app
 This is the fastest way to get Tiptap up and running with SvelteKit. It will give you a very basic version of Tiptap, without any buttons. No worries, you will be able to add more functionality soon.
 
 ```html
-<script type="module">
+<script>
   import { onMount, onDestroy } from 'svelte'
   import { Editor } from '@tiptap/core'
   import StarterKit from '@tiptap/starter-kit'
