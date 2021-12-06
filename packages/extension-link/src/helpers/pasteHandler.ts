@@ -8,7 +8,7 @@ type PasteHandlerOptions = {
   type: MarkType,
 }
 
-export default function pasteHandler(options: PasteHandlerOptions): Plugin {
+export function pasteHandler(options: PasteHandlerOptions): Plugin {
   return new Plugin({
     key: new PluginKey('handlePasteLink'),
     props: {

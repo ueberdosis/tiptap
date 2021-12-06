@@ -2,7 +2,7 @@ import { InputRule, InputRuleFinder } from '../InputRule'
 import { NodeType, Node as ProseMirrorNode } from 'prosemirror-model'
 import { findWrapping, canJoin } from 'prosemirror-transform'
 import { ExtendedRegExpMatchArray } from '../types'
-import callOrReturn from '../utilities/callOrReturn'
+import { callOrReturn } from '../utilities/callOrReturn'
 
 /**
  * Build an input rule for automatically wrapping a textblock when a
@@ -18,7 +18,7 @@ import callOrReturn from '../utilities/callOrReturn'
  * expression match and the node before the wrapped node, and can
  * return a boolean to indicate whether a join should happen.
  */
-export default function wrappingInputRule(config: {
+export function wrappingInputRule(config: {
   find: InputRuleFinder,
   type: NodeType,
   getAttributes?:

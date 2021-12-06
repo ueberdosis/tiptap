@@ -12,7 +12,7 @@ type AutolinkOptions = {
   type: MarkType,
 }
 
-export default function autolink(options: AutolinkOptions): Plugin {
+export function autolink(options: AutolinkOptions): Plugin {
   return new Plugin({
     key: new PluginKey('autolink'),
     appendTransaction: (transactions, oldState, newState) => {

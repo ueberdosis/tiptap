@@ -1,8 +1,8 @@
 import { NodeType } from 'prosemirror-model'
 import { RawCommands } from '../types'
-import getNodeType from '../helpers/getNodeType'
-import findParentNode from '../helpers/findParentNode'
-import isList from '../helpers/isList'
+import { getNodeType } from '../helpers/getNodeType'
+import { findParentNode } from '../helpers/findParentNode'
+import { isList } from '../helpers/isList'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

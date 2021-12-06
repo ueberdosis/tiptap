@@ -1,14 +1,14 @@
 import { InputRule, InputRuleFinder } from '../InputRule'
 import { MarkType } from 'prosemirror-model'
-import getMarksBetween from '../helpers/getMarksBetween'
-import callOrReturn from '../utilities/callOrReturn'
+import { getMarksBetween } from '../helpers/getMarksBetween'
+import { callOrReturn } from '../utilities/callOrReturn'
 import { ExtendedRegExpMatchArray } from '../types'
 
 /**
  * Build an input rule that adds a mark when the
  * matched text is typed into it.
  */
-export default function markInputRule(config: {
+export function markInputRule(config: {
   find: InputRuleFinder,
   type: MarkType,
   getAttributes?:

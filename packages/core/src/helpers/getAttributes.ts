@@ -1,10 +1,10 @@
 import { MarkType, NodeType } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
-import getSchemaTypeNameByName from './getSchemaTypeNameByName'
-import getNodeAttributes from './getNodeAttributes'
-import getMarkAttributes from './getMarkAttributes'
+import { getSchemaTypeNameByName } from './getSchemaTypeNameByName'
+import { getNodeAttributes } from './getNodeAttributes'
+import { getMarkAttributes } from './getMarkAttributes'
 
-export default function getAttributes(
+export function getAttributes(
   state: EditorState,
   typeOrName: string | NodeType | MarkType,
 ): Record<string, any> {

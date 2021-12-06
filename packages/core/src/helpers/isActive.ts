@@ -1,9 +1,9 @@
 import { EditorState } from 'prosemirror-state'
-import isNodeActive from './isNodeActive'
-import isMarkActive from './isMarkActive'
-import getSchemaTypeNameByName from './getSchemaTypeNameByName'
+import { isNodeActive } from './isNodeActive'
+import { isMarkActive } from './isMarkActive'
+import { getSchemaTypeNameByName } from './getSchemaTypeNameByName'
 
-export default function isActive(state: EditorState, name: string | null, attributes: Record<string, any> = {}): boolean {
+export function isActive(state: EditorState, name: string | null, attributes: Record<string, any> = {}): boolean {
   if (!name) {
     return isNodeActive(state, null, attributes) || isMarkActive(state, null, attributes)
   }

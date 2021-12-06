@@ -1,4 +1,4 @@
-const style = `.ProseMirror {
+export const style = `.ProseMirror {
   position: relative;
 }
 
@@ -73,5 +73,3 @@ img.ProseMirror-separator {
 .tippy-box[data-animation=fade][data-state=hidden] {
   opacity: 0
 }`
-
-export default style

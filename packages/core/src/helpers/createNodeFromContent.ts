@@ -5,7 +5,7 @@ import {
   Fragment,
   ParseOptions,
 } from 'prosemirror-model'
-import elementFromString from '../utilities/elementFromString'
+import { elementFromString } from '../utilities/elementFromString'
 import { Content } from '../types'
 
 export type CreateNodeFromContentOptions = {
@@ -13,7 +13,7 @@ export type CreateNodeFromContentOptions = {
   parseOptions?: ParseOptions,
 }
 
-export default function createNodeFromContent(
+export function createNodeFromContent(
   content: Content,
   schema: Schema,
   options?: CreateNodeFromContentOptions,

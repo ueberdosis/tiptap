@@ -1,8 +1,8 @@
 import { NodeType, MarkType } from 'prosemirror-model'
-import getNodeType from '../helpers/getNodeType'
-import getMarkType from '../helpers/getMarkType'
-import getSchemaTypeNameByName from '../helpers/getSchemaTypeNameByName'
-import deleteProps from '../utilities/deleteProps'
+import { getNodeType } from '../helpers/getNodeType'
+import { getMarkType } from '../helpers/getMarkType'
+import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName'
+import { deleteProps } from '../utilities/deleteProps'
 import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {

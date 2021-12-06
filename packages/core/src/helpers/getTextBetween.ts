@@ -1,7 +1,7 @@
 import { Range, TextSerializer } from '../types'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 
-export default function getTextBetween(
+export function getTextBetween(
   startNode: ProseMirrorNode,
   range: Range,
   options?: {

@@ -6,7 +6,7 @@ type ClickHandlerOptions = {
   type: MarkType,
 }
 
-export default function clickHandler(options: ClickHandlerOptions): Plugin {
+export function clickHandler(options: ClickHandlerOptions): Plugin {
   return new Plugin({
     key: new PluginKey('handleClickLink'),
     props: {

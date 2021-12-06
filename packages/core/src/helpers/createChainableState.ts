@@ -1,6 +1,6 @@
 import { EditorState, Transaction } from 'prosemirror-state'
 
-export default function createChainableState(config: {
+export function createChainableState(config: {
   transaction: Transaction,
   state: EditorState,
 }): EditorState {

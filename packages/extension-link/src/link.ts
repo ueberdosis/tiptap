@@ -1,8 +1,8 @@
 import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import { find } from 'linkifyjs'
-import autolink from './helpers/autolink'
-import clickHandler from './helpers/clickHandler'
-import pasteHandler from './helpers/pasteHandler'
+import { autolink } from './helpers/autolink'
+import { clickHandler } from './helpers/clickHandler'
+import { pasteHandler } from './helpers/pasteHandler'
 
 export interface LinkOptions {
   /**

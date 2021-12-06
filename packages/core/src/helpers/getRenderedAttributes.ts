@@ -1,8 +1,8 @@
 import { Node, Mark } from 'prosemirror-model'
 import { ExtensionAttribute } from '../types'
-import mergeAttributes from '../utilities/mergeAttributes'
+import { mergeAttributes } from '../utilities/mergeAttributes'
 
-export default function getRenderedAttributes(nodeOrMark: Node | Mark, extensionAttributes: ExtensionAttribute[]): Record<string, any> {
+export function getRenderedAttributes(nodeOrMark: Node | Mark, extensionAttributes: ExtensionAttribute[]): Record<string, any> {
   return extensionAttributes
     .filter(item => item.attribute.rendered)
     .map(item => {

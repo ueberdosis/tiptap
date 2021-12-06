@@ -1,8 +1,8 @@
 import { TextSelection } from 'prosemirror-state'
 import { MarkType } from 'prosemirror-model'
 import { RawCommands } from '../types'
-import getMarkType from '../helpers/getMarkType'
-import getMarkRange from '../helpers/getMarkRange'
+import { getMarkType } from '../helpers/getMarkType'
+import { getMarkRange } from '../helpers/getMarkRange'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

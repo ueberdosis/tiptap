@@ -2,7 +2,7 @@ import { canSplit } from 'prosemirror-transform'
 import { ContentMatch } from 'prosemirror-model'
 import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
 import { RawCommands } from '../types'
-import getSplittedAttributes from '../helpers/getSplittedAttributes'
+import { getSplittedAttributes } from '../helpers/getSplittedAttributes'
 
 function defaultBlockAt(match: ContentMatch) {
   for (let i = 0; i < match.edgeCount; i += 1) {

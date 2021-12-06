@@ -1,6 +1,6 @@
 import { AnyExtension, EnableRules } from '../types'
 
-export default function isExtensionRulesEnabled(extension: AnyExtension, enabled: EnableRules): boolean {
+export function isExtensionRulesEnabled(extension: AnyExtension, enabled: EnableRules): boolean {
   if (Array.isArray(enabled)) {
     return enabled.some(enabledExtension => {
       const name = typeof enabledExtension === 'string'

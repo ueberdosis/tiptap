@@ -2,7 +2,7 @@
  * Removes duplicated values within an array.
  * Supports numbers, strings and objects.
  */
-export default function removeDuplicates<T>(array: T[], by = JSON.stringify): T[] {
+export function removeDuplicates<T>(array: T[], by = JSON.stringify): T[] {
   const seen: Record<any, any> = {}
 
   return array.filter(item => {

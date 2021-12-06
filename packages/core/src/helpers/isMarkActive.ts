@@ -1,10 +1,10 @@
 import { EditorState } from 'prosemirror-state'
 import { MarkType } from 'prosemirror-model'
-import objectIncludes from '../utilities/objectIncludes'
-import getMarkType from './getMarkType'
+import { objectIncludes } from '../utilities/objectIncludes'
+import { getMarkType } from './getMarkType'
 import { MarkRange } from '../types'
 
-export default function isMarkActive(
+export function isMarkActive(
   state: EditorState,
   typeOrName: MarkType | string | null,
   attributes: Record<string, any> = {},

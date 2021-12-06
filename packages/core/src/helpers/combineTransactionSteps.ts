@@ -5,7 +5,7 @@ import { Transform } from 'prosemirror-transform'
 /**
  * Returns a new `Transform` based on all steps of the passed transactions.
  */
-export default function combineTransactionSteps(oldDoc: ProseMirrorNode, transactions: Transaction[]): Transform {
+export function combineTransactionSteps(oldDoc: ProseMirrorNode, transactions: Transaction[]): Transform {
   const transform = new Transform(oldDoc)
 
   transactions.forEach(transaction => {

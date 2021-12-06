@@ -1,7 +1,7 @@
 import { NodeType } from 'prosemirror-model'
 import { setBlockType } from 'prosemirror-commands'
 import { RawCommands } from '../types'
-import getNodeType from '../helpers/getNodeType'
+import { getNodeType } from '../helpers/getNodeType'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

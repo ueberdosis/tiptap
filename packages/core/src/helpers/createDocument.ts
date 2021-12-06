@@ -1,8 +1,8 @@
 import { Schema, Node as ProseMirrorNode, ParseOptions } from 'prosemirror-model'
 import { Content } from '../types'
-import createNodeFromContent from './createNodeFromContent'
+import { createNodeFromContent } from './createNodeFromContent'
 
-export default function createDocument(
+export function createDocument(
   content: Content,
   schema: Schema,
   parseOptions: ParseOptions = {},

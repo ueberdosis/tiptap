@@ -1,6 +1,6 @@
 import { Transform, Step } from 'prosemirror-transform'
 import { Range } from '../types'
-import removeDuplicates from '../utilities/removeDuplicates'
+import { removeDuplicates } from '../utilities/removeDuplicates'
 
 export type ChangedRange = {
   oldRange: Range,
@@ -32,7 +32,7 @@ function simplifyChangedRanges(changes: ChangedRange[]): ChangedRange[] {
  * Returns a list of changed ranges
  * based on the first and last state of all steps.
  */
-export default function getChangedRanges(transform: Transform): ChangedRange[] {
+export function getChangedRanges(transform: Transform): ChangedRange[] {
   const { mapping, steps } = transform
   const changes: ChangedRange[] = []
 

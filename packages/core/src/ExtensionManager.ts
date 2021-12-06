@@ -6,19 +6,19 @@ import { EditorView, Decoration } from 'prosemirror-view'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { Extensions, RawCommands, AnyConfig } from './types'
-import getExtensionField from './helpers/getExtensionField'
-import getSchemaByResolvedExtensions from './helpers/getSchemaByResolvedExtensions'
-import getSchemaTypeByName from './helpers/getSchemaTypeByName'
-import getNodeType from './helpers/getNodeType'
-import splitExtensions from './helpers/splitExtensions'
-import getAttributesFromExtensions from './helpers/getAttributesFromExtensions'
-import getRenderedAttributes from './helpers/getRenderedAttributes'
-import isExtensionRulesEnabled from './helpers/isExtensionRulesEnabled'
-import callOrReturn from './utilities/callOrReturn'
-import findDuplicates from './utilities/findDuplicates'
+import { getExtensionField } from './helpers/getExtensionField'
+import { getSchemaByResolvedExtensions } from './helpers/getSchemaByResolvedExtensions'
+import { getSchemaTypeByName } from './helpers/getSchemaTypeByName'
+import { getNodeType } from './helpers/getNodeType'
+import { splitExtensions } from './helpers/splitExtensions'
+import { getAttributesFromExtensions } from './helpers/getAttributesFromExtensions'
+import { getRenderedAttributes } from './helpers/getRenderedAttributes'
+import { isExtensionRulesEnabled } from './helpers/isExtensionRulesEnabled'
+import { callOrReturn } from './utilities/callOrReturn'
+import { findDuplicates } from './utilities/findDuplicates'
 import { NodeConfig } from '.'
 
-export default class ExtensionManager {
+export class ExtensionManager {
 
   editor: Editor
 
