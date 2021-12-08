@@ -45,10 +45,9 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
       const mode = options?.mode || this.options.mode
 
       if (mode === 'textSize') {
-        // TODO: maybe count blockSeparator and leaf nodes?
-        // return node.textBetween(0, node.content.size, ' ', ' ').length
+        const text = node.textBetween(0, node.content.size, undefined, ' ')
 
-        return node.textContent.length
+        return text.length
       }
 
       return node.nodeSize
