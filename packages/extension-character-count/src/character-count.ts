@@ -21,6 +21,13 @@ export interface CharacterCountStorage {
     node?: ProseMirrorNode,
     mode?: 'textSize' | 'nodeSize',
   }) => number,
+
+  /**
+   * Get the number of words for the current document.
+   */
+  words?: (options: {
+    node?: ProseMirrorNode,
+  }) => number,
 }
 
 export const CharacterCount = Extension.create<CharacterCountOptions, CharacterCountStorage>({
@@ -36,6 +43,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
   addStorage() {
     return {
       characters: undefined,
+      words: undefined,
     }
   },
 
@@ -51,6 +59,16 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
       }
 
       return node.nodeSize
+    }
+
+    this.storage.words = options => {
+      const node = options?.node || this.editor.state.doc
+      const text = node.textBetween(0, node.content.size, undefined, ' ')
+      const words = text
+        .split(' ')
+        .filter(word => word !== '')
+
+      return words.length
     }
   },
 

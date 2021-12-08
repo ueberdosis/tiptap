@@ -55,21 +55,18 @@ editor.storage.characterCount.characters({ node: someCustomNode })
 editor.storage.characterCount.characters({ mode: 'nodeSize' })
 ```
 
+### words()
+Get the number of words for the current document.
+
+```js
+editor.storage.characterCount.words()
+
+// Get the number of words for a specific node.
+editor.storage.characterCount.words({ node: someCustomNode })
+```
+
 ## Source code
 [packages/extension-character-count/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-character-count/)
 
 ## Usage
 https://embed.tiptap.dev/preview/Extensions/CharacterCount
-
-## Count words, emojis, letters …
-Want to count words instead? Or emojis? Or the letter *a*? Sure, no problem. You can access the `textContent` directly and count whatever you’re into.
-
-```js
-new Editor({
-  onUpdate({ editor }) {
-    const wordCount = editor.state.doc.textContent.split(' ').length
-
-    console.log(wordCount)
-  },
-})
-```
