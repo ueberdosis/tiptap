@@ -59,12 +59,13 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
       new Plugin({
         key: new PluginKey('characterCount'),
         filterTransaction: (transaction, state) => {
-          // Nothing has changed. Ignore it.
-          if (!transaction.docChanged) {
+          const limit = this.options.limit
+
+          // Nothing has changed or no limit is defined. Ignore it.
+          if (!transaction.docChanged || limit === 0) {
             return true
           }
 
-          const limit = this.options.limit
           const oldSize = this.storage.characters?.({ node: state.doc }) || 0
           const newSize = this.storage.characters?.({ node: transaction.doc }) || 0
 
