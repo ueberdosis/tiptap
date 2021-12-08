@@ -35,6 +35,8 @@ export default () => {
 
       <div className="character-count">
         {editor.storage.characterCount.characters()}/{limit} characters
+        <br />
+        {editor.storage.characterCount.words()} words
       </div>
     </div>
   )
