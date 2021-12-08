@@ -10,7 +10,7 @@ export interface CharacterCountOptions {
   /**
    * The mode by which the size is calculated. Defaults to 'textSize'.
    */
-  mode: 'nodeSize' | 'textSize',
+  mode: 'textSize' | 'nodeSize',
 }
 
 export interface CharacterCountStorage {
@@ -19,7 +19,7 @@ export interface CharacterCountStorage {
    */
   characters?: (options: {
     node?: ProseMirrorNode,
-    mode?: 'nodeSize' | 'textSize',
+    mode?: 'textSize' | 'nodeSize',
   }) => number,
 }
 
@@ -44,11 +44,14 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
       const node = options?.node || this.editor.state.doc
       const mode = options?.mode || this.options.mode
 
-      if (mode === 'nodeSize') {
-        return node.nodeSize
+      if (mode === 'textSize') {
+        // TODO: maybe count blockSeparator and leaf nodes?
+        // return node.textBetween(0, node.content.size, ' ', ' ').length
+
+        return node.textContent.length
       }
 
-      return node.textContent.length
+      return node.nodeSize
     }
   },
 
