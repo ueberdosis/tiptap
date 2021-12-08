@@ -43,6 +43,14 @@ export const CharacterCount = Extension.create<CharacterCountOptions>({
             return false
           }
 
+          const isPaste = transaction.getMeta('paste')
+
+          // Block all exceeding transactions that were not pasted.
+          if (!isPaste) {
+            return false
+          }
+
+          // For pasted content, we try to remove the exceeding content.
           const pos = transaction.selection.$head.pos
           const over = newSize - limit
           const from = pos - over
