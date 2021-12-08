@@ -2,7 +2,7 @@
   <div>
     <editor-content :editor="editor" />
 
-    <div v-if="editor" :class="{'character-count': true, 'character-count--warning': editor.getCharacterCount() === limit}">
+    <div v-if="editor" :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === limit}">
       <svg
         height="20"
         width="20"
@@ -34,7 +34,7 @@
       </svg>
 
       <div class="character-count__text">
-        {{ editor.getCharacterCount() }}/{{ limit }} characters
+        {{ editor.storage.characterCount.characters() }}/{{ limit }} characters
       </div>
     </div>
   </div>
@@ -87,7 +87,7 @@ export default {
 
   computed: {
     percentage() {
-      return Math.round((100 / this.limit) * this.editor.getCharacterCount())
+      return Math.round((100 / this.limit) * this.editor.storage.characterCount.characters())
     },
   },
 
