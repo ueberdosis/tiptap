@@ -34,14 +34,14 @@ export default () => {
   })
 
   const percentage = editor
-    ? Math.round((100 / limit) * editor.getCharacterCount())
+    ? Math.round((100 / limit) * editor.storage.characterCount.characters())
     : 0
 
   return (
     <div>
       <EditorContent editor={editor} />
       {editor
-        && <div className={`character-count ${editor.getCharacterCount() === limit ? 'character-count--warning' : ''}`}>
+        && <div className={`character-count ${editor.storage.characterCount.characters() === limit ? 'character-count--warning' : ''}`}>
           <svg
             height="20"
             width="20"
@@ -73,7 +73,7 @@ export default () => {
           </svg>
 
           <div className="character-count__text">
-            {editor.getCharacterCount()}/{limit} characters
+            {editor.storage.characterCount.characters()}/{limit} characters
           </div>
         </div>
       }

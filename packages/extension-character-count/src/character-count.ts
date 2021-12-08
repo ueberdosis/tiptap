@@ -1,16 +1,54 @@
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
+import { Node as ProseMirrorNode } from 'prosemirror-model'
 
 export interface CharacterCountOptions {
+  /**
+   * The maximum number of characters that should be allowed. Defaults to `0`.
+   */
   limit: number,
+  /**
+   * The mode by which the size is calculated. Defaults to 'textSize'.
+   */
+  mode: 'nodeSize' | 'textSize',
 }
 
-export const CharacterCount = Extension.create<CharacterCountOptions>({
+export interface CharacterCountStorage {
+  /**
+   * Get the number of characters for the current document.
+   */
+  characters?: (options: {
+    node?: ProseMirrorNode,
+    mode?: 'nodeSize' | 'textSize',
+  }) => number,
+}
+
+export const CharacterCount = Extension.create<CharacterCountOptions, CharacterCountStorage>({
   name: 'characterCount',
 
   addOptions() {
     return {
       limit: 0,
+      mode: 'textSize',
+    }
+  },
+
+  addStorage() {
+    return {
+      characters: undefined,
+    }
+  },
+
+  onBeforeCreate() {
+    this.storage.characters = options => {
+      const node = options?.node || this.editor.state.doc
+      const mode = options?.mode || this.options.mode
+
+      if (mode === 'nodeSize') {
+        return node.nodeSize
+      }
+
+      return node.textContent.length
     }
   },
 
@@ -24,9 +62,9 @@ export const CharacterCount = Extension.create<CharacterCountOptions>({
             return true
           }
 
-          const limit = this.options.limit + 2
-          const oldSize = state.doc.content.size
-          const newSize = transaction.doc.content.size
+          const limit = this.options.limit
+          const oldSize = this.storage.characters?.({ node: state.doc }) || 0
+          const newSize = this.storage.characters?.({ node: transaction.doc }) || 0
 
           // Everything is in the limit. Good.
           if (newSize <= limit) {
@@ -64,7 +102,9 @@ export const CharacterCount = Extension.create<CharacterCountOptions>({
           // This happens e.g. when truncating within a complex node (e.g. table)
           // and ProseMirror has to close this node again.
           // If this is the case, we prevent the transaction completely.
-          if (transaction.doc.content.size > limit) {
+          const updatedSize = this.storage.characters?.({ node: transaction.doc }) || 0
+
+          if (updatedSize > limit) {
             return false
           }
 

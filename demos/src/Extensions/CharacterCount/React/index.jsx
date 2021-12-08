@@ -34,7 +34,7 @@ export default () => {
       <EditorContent editor={editor} />
 
       <div className="character-count">
-        {editor.getCharacterCount()}/{limit} characters
+        {editor.storage.characterCount.characters()}/{limit} characters
       </div>
     </div>
   )

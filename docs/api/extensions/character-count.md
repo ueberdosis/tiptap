@@ -18,7 +18,7 @@ npm install @tiptap/extension-character-count
 
 ### limit
 
-The maximum number of characters that should be allowed. |
+The maximum number of characters that should be allowed.
 
 Default: `0`
 
@@ -26,6 +26,33 @@ Default: `0`
 CharacterCount.configure({
   limit: 240,
 })
+```
+
+### mode
+
+The mode by which the size is calculated.
+
+Default: `'textSize'`
+
+```js
+CharacterCount.configure({
+  mode: 'nodeSize',
+})
+```
+
+## Storage
+
+### characters()
+Get the number of characters for the current document.
+
+```js
+editor.storage.characterCount.characters()
+
+// Get the size of a specific node.
+editor.storage.characterCount.characters({ node: someCustomNode })
+
+// Overwrite the default `mode`.
+editor.storage.characterCount.characters({ mode: 'nodeSize' })
 ```
 
 ## Source code

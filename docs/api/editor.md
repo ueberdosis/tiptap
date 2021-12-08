@@ -92,13 +92,6 @@ editor.isActive('heading', { level: 2 })
 editor.isActive({ textAlign: 'justify' })
 ```
 
-### getCharacterCount()
-Get the number of characters for the current document.
-
-```js
-editor.getCharacterCount()
-```
-
 ### registerPlugin()
 Register a ProseMirror plugin.
 
@@ -124,14 +117,14 @@ editor.setOptions({
   },
 })
 ```
-  
+
 ### setEditable()
 Update editable state of the editor.
-  
+
 | Parameter | Type    | Description                                                   |
 | --------- | ------- | ------------------------------------------------------------- |
 | editable  | boolean | `true` when the user should be able to write into the editor. |
-  
+
 ```js
 // Make the editor read-only
 editor.setEditable(false)
