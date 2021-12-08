@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.151](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.150...@tiptap/core@2.0.0-beta.151) (2021-12-08)
+
+
+### Features
+
+* add some improvements to `CharacterCount` extension ([#2256](https://github.com/ueberdosis/tiptap/issues/2256)), fix [#1049](https://github.com/ueberdosis/tiptap/issues/1049), fix [#1550](https://github.com/ueberdosis/tiptap/issues/1550), fix [#1839](https://github.com/ueberdosis/tiptap/issues/1839), fix [#2245](https://github.com/ueberdosis/tiptap/issues/2245) ([5daa870](https://github.com/ueberdosis/tiptap/commit/5daa870b0906f0387fe07041681bc6f5b3774617))
+
+
+
+
+
 # [2.0.0-beta.150](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.149...@tiptap/core@2.0.0-beta.150) (2021-12-06)
 
 **Note:** Version bump only for package @tiptap/core
