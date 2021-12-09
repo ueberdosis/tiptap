@@ -30,7 +30,7 @@ export default {
       const isSame = this.editor.getHTML() === value
 
       // JSON
-      // const isSame = this.editor.getJSON().toString() === value.toString()
+      // const isSame = JSON.stringify(this.editor.getJSON()) === JSON.stringify(value)
 
       if (isSame) {
         return
