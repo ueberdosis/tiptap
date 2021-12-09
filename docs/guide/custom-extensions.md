@@ -333,9 +333,13 @@ parseHTML() {
 },
 ```
 
-This looks for `<strong>` and `<b>` tags, and any HTML tag with an inline style setting the `font-weight` to bold.
+This checks for `<strong>` and `<b>` tags, and any HTML tag with an inline style setting the `font-weight` to bold.
 
 As you can see, you can optionally pass a `getAttrs` callback, to add more complex checks, for example for specific HTML attributes. The callback gets passed the HTML DOM node, except when checking for the `style` attribute, then it’s the value.
+
+You are wondering what’s that `&& null` doing? [ProseMirror expects `null` or `undefined` if the check is successful.](https://prosemirror.net/docs/ref/version/0.18.0.html#model.ParseRule.getAttrs)
+
+[Pass `priority` to a rule](https://prosemirror.net/docs/ref/version/0.18.0.html#model.ParseRule.priority) to resolve conflicts with other extensions, for example if you build a custom extension which looks for paragraphs with a class attribute, but you already use the default paragraph extension.
 
 #### Using getAttrs
 The `getAttrs` function you’ve probably noticed in the example has two purposes:
