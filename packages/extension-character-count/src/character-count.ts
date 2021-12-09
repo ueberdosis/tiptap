@@ -63,7 +63,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
 
     this.storage.words = options => {
       const node = options?.node || this.editor.state.doc
-      const text = node.textBetween(0, node.content.size, undefined, ' ')
+      const text = node.textBetween(0, node.content.size, ' ', ' ')
       const words = text
         .split(' ')
         .filter(word => word !== '')
