@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.19...@tiptap/extension-character-count@2.0.0-beta.20) (2021-12-09)
+
+
+### Bug Fixes
+
+* calculate the number of words across linebreaks correctly ([0879a2f](https://github.com/ueberdosis/tiptap/commit/0879a2f71684e28e6de5a392b4ea675e11327d1f))
+
+
+
+
+
 # [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.18...@tiptap/extension-character-count@2.0.0-beta.19) (2021-12-08)
 
 
