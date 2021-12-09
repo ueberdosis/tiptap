@@ -8,7 +8,7 @@
 /* Placeholder (at the top) */
 .ProseMirror p.is-editor-empty:first-child::before {
   color: #adb5bd;
-  content: attr(data-placeholder);
+  content: attr(aria-placeholder);
   float: left;
   height: 0;
   pointer-events: none;
@@ -17,7 +17,7 @@
 /* Placeholder (on every new line) */
 /*.ProseMirror p.is-empty::before {
   color: #adb5bd;
-  content: attr(data-placeholder);
+  content: attr(aria-placeholder);
   float: left;
   height: 0;
   pointer-events: none;

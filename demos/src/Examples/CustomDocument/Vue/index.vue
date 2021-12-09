@@ -3,14 +3,14 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import Document from '@tiptap/extension-document'
-import Placeholder from '@tiptap/extension-placeholder'
-import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent } from "@tiptap/vue-3";
+import Document from "@tiptap/extension-document";
+import Placeholder from "@tiptap/extension-placeholder";
+import StarterKit from "@tiptap/starter-kit";
 
 const CustomDocument = Document.extend({
-  content: 'heading block*',
-})
+  content: "heading block*",
+});
 
 export default {
   components: {
@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       editor: null,
-    }
+    };
   },
 
   mounted() {
@@ -32,11 +32,11 @@ export default {
         }),
         Placeholder.configure({
           placeholder: ({ node }) => {
-            if (node.type.name === 'heading') {
-              return 'What’s the title?'
+            if (node.type.name === "heading") {
+              return "What’s the title?";
             }
 
-            return 'Can you add some further context?'
+            return "Can you add some further context?";
           },
         }),
       ],
@@ -48,13 +48,13 @@ export default {
           … if you pass a custom document. That’s the beauty of having full control over the schema.
         </p>
       `,
-    })
+    });
   },
 
   beforeUnmount() {
-    this.editor.destroy()
+    this.editor.destroy();
   },
-}
+};
 </script>
 
 <style lang="scss">
@@ -67,7 +67,7 @@ export default {
 
 /* Placeholder (at the top) */
 /*.ProseMirror p.is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
+  content: attr(aria-placeholder);
   float: left;
   color: #ced4da;
   pointer-events: none;
@@ -76,7 +76,7 @@ export default {
 
 /* Placeholder (on every new line) */
 .ProseMirror .is-empty::before {
-  content: attr(data-placeholder);
+  content: attr(aria-placeholder);
   float: left;
   color: #ced4da;
   pointer-events: none;

@@ -3,15 +3,15 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
-import * as Y from 'yjs'
-import { WebrtcProvider } from 'y-webrtc'
-import Placeholder from '@tiptap/extension-placeholder'
+import { Editor, EditorContent } from "@tiptap/vue-3";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
+import Collaboration from "@tiptap/extension-collaboration";
+import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+import * as Y from "yjs";
+import { WebrtcProvider } from "y-webrtc";
+import Placeholder from "@tiptap/extension-placeholder";
 
 export default {
   components: {
@@ -22,13 +22,13 @@ export default {
     return {
       editor: null,
       provider: null,
-    }
+    };
   },
 
   mounted() {
-    const ydoc = new Y.Doc()
+    const ydoc = new Y.Doc();
 
-    this.provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
+    this.provider = new WebrtcProvider("tiptap-collaboration-cursor-extension", ydoc);
 
     this.editor = new Editor({
       extensions: [
@@ -41,22 +41,23 @@ export default {
         CollaborationCursor.configure({
           provider: this.provider,
           user: {
-            name: 'Cyndi Lauper',
-            color: '#f783ac',
+            name: "Cyndi Lauper",
+            color: "#f783ac",
           },
         }),
         Placeholder.configure({
-          placeholder: 'Write something … It’ll be shared with everyone else looking at this example.',
+          placeholder:
+            "Write something … It’ll be shared with everyone else looking at this example.",
         }),
       ],
-    })
+    });
   },
 
   beforeUnmount() {
-    this.editor.destroy()
-    this.provider.destroy()
+    this.editor.destroy();
+    this.provider.destroy();
   },
-}
+};
 </script>
 
 <style lang="scss">
@@ -69,7 +70,7 @@ export default {
 
 /* Placeholder (at the top) */
 .ProseMirror p.is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
+  content: attr(aria-placeholder);
   float: left;
   color: #adb5bd;
   pointer-events: none;
@@ -81,8 +82,8 @@ export default {
   position: relative;
   margin-left: -1px;
   margin-right: -1px;
-  border-left: 1px solid #0D0D0D;
-  border-right: 1px solid #0D0D0D;
+  border-left: 1px solid #0d0d0d;
+  border-right: 1px solid #0d0d0d;
   word-break: normal;
   pointer-events: none;
 }
@@ -97,7 +98,7 @@ export default {
   font-weight: 600;
   line-height: normal;
   user-select: none;
-  color: #0D0D0D;
+  color: #0d0d0d;
   padding: 0.1rem 0.3rem;
   border-radius: 3px 3px 3px 0;
   white-space: nowrap;

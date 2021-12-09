@@ -39,7 +39,7 @@ Placeholder.configure({
 ```
 
 ### placeholder
-The placeholder text added as `data-placeholder` attribute.
+The placeholder text added as `aria-placeholder` attribute.
 
 Default: `'Write something …'`
 

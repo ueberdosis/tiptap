@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
-import Placeholder from '@tiptap/extension-placeholder'
+import { Editor, EditorContent } from "@tiptap/vue-3";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
 
 export default {
   components: {
@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       editor: null,
-    }
+    };
   },
 
   mounted() {
@@ -24,7 +24,7 @@ export default {
         StarterKit,
         Placeholder.configure({
           // Use a placeholder:
-          placeholder: 'Write something …',
+          placeholder: "Write something …",
           // Use different placeholders depending on the node type:
           // placeholder: ({ node }) => {
           //   if (node.type.name === 'heading') {
@@ -35,13 +35,13 @@ export default {
           // },
         }),
       ],
-    })
+    });
   },
 
   beforeUnmount() {
-    this.editor.destroy()
+    this.editor.destroy();
   },
-}
+};
 </script>
 
 <style lang="scss">
@@ -54,7 +54,7 @@ export default {
 
 /* Placeholder (at the top) */
 .ProseMirror p.is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
+  content: attr(aria-placeholder);
   float: left;
   color: #adb5bd;
   pointer-events: none;
@@ -63,7 +63,7 @@ export default {
 
 /* Placeholder (on every new line) */
 /*.ProseMirror p.is-empty::before {
-  content: attr(data-placeholder);
+  content: attr(aria-placeholder);
   float: left;
   color: #adb5bd;
   pointer-events: none;

@@ -56,7 +56,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
                 const decoration = Decoration.node(pos, pos + node.nodeSize, {
                   class: classes.join(' '),
-                  'data-placeholder': typeof this.options.placeholder === 'function'
+                  'aria-placeholder': typeof this.options.placeholder === 'function'
                     ? this.options.placeholder({
                       editor: this.editor,
                       node,
