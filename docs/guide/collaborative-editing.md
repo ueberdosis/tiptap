@@ -5,19 +5,19 @@ tableOfContents: true
 # Collaborative editing
 
 ## Introduction
-Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync, conflict-free with the power of [Y.js](https://github.com/yjs/yjs). The following guide explains all things to take into account when you consider to make Tiptap collaborative. Don’t worry, a production-grade setup doesn’t require much code.
+Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync with the power of [Y.js](https://github.com/yjs/yjs). The following guide helps you get started with collaborative editing in Tiptap. Don’t worry, a production-grade setup doesn’t require much code.
 
 ## The video course
-We are working on a video course that teaches you everything you need to know about collaborative text editing with Tiptap. The first video is available for sponsors here:
+We are working on a video course which teaches everything you need to know about collaborative text editing with Tiptap. The first video is available for sponsors here:
 
 https://tiptap.dev/screencasts/collaborative-editing/make-tiptap-collaborative
 
 ## Configure the editor
-The underyling schema Tiptap uses is an excellent foundation to sync documents. With the [`Collaboration`](/api/extensions/collaboration) you can tell Tiptap to track changes to the document with [Y.js](https://github.com/yjs/yjs).
+The underyling schema Tiptap uses is an excellent foundation to sync documents. With the [`Collaboration`](/api/extensions/collaboration) extension you can tell Tiptap to track changes to the document with [Y.js](https://github.com/yjs/yjs).
 
-Y.js is a conflict-free replicated data types implementation, or in other words: It’s reaaally good in merging changes. And to achieve that, changes don’t have to come in order. It’s totally fine to change a document while being offline and merge it with other changes when the device is online again.
+Y.js is a conflict-free replicated data types implementation, or in other words: It’s really good in merging changes. And to achieve that, changes don’t even have to come in order. It’s totally fine to change a document while being offline and merge it with other changes when the device is online again.
 
-But somehow, all clients need to interchange document modifications at some point. The most popular technologies to do that are [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) and [WebSockets](https://developer.mozilla.org/de/docs/Web/API/WebSocket), so let’s have a closer look at those:
+Somehow, all clients need to interchange document modifications at some point. The most popular technologies to do that are [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) and [WebSockets](https://developer.mozilla.org/de/docs/Web/API/WebSocket), so let’s have a closer look at those:
 
 ### WebRTC
 WebRTC uses a server only to connect clients with each other. The actual data is then flowing between the clients, without the server knowing anything about it and that’s great to take the first steps with collaborative editing.
@@ -32,6 +32,7 @@ Now, create a new Y document, and register it with Tiptap:
 
 ```js
 import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
 import Collaboration from '@tiptap/extension-collaboration'
 import * as Y from 'yjs'
 import { WebrtcProvider } from 'y-webrtc'
@@ -43,7 +44,10 @@ const provider = new WebrtcProvider('example-document', ydoc)
 
 const editor = new Editor({
   extensions: [
-    // …
+    StarterKit.configure({
+      // The Collaboration extension comes with its own history handling
+      history: false,
+    }),
     // Register the document with Tiptap
     Collaboration.configure({
       document: ydoc,
@@ -54,88 +58,86 @@ const editor = new Editor({
 
 This should be enough to create a collaborative instance of Tiptap. Crazy, isn’t it? Try it out, and open the editor in two different browsers. Changes should be synced between different windows.
 
-So how does this magic work? All clients need to connect with eachother, that’s the job of a *provider*. The [WebRTC provider](https://github.com/yjs/y-webrtc) is the easiest way to get started with, as it requires a public server to connect clients directly with each other, but not to sync the actual changes. This has two downsides, though.
+So how does this magic work? All clients need to connect with eachother, that’s the job of a *provider*. The [WebRTC provider](https://github.com/yjs/y-webrtc) is the easiest way to get started with, as it uses a public server to connect clients directly with each other, but not to sync the actual changes. This has two downsides, though.
 
-1. Browsers refuse to connect with too many clients. With Y.js it’s enough if all clients are connected indirectly, but even that isn’t possible at some point. Or in other words, it doesn’t scale well for more than 100+ clients in the same document.
+1. Browsers refuse to connect with too many clients. With Y.js it’s enough if all clients are connected indirectly, but even that isn’t possible at some point. Or in other words, it doesn’t scale well for more than 100+ concurrent clients in the same document.
 2. It’s likely you want to involve a server to persist changes anyway. But the WebRTC signaling server (which connects all clients with eachother) doesn’t receive the changes and therefore doesn’t know what’s in the document.
 
 Anyway, if you want to dive deeper, head over to [the Y WebRTC repository](https://github.com/yjs/y-webrtc) on GitHub.
 
 ### WebSocket (Recommended)
-For most uses cases, the WebSocket provider is the recommended choice. It’s very flexible and can scale very well. For the client, the example is nearly the same, only the provider is different. First, let’s install the dependencies:
+For most uses cases, a WebSocket provider is the recommended choice. It’s very flexible and can scale very well. To make it even easier, we are working on an official backend for Tiptap. The backend is still in early access (sponsors-only), but you can use the provider already.
+
+For the client, the example is nearly the same, only the provider is different. First, let’s install the dependencies:
 
 ```bash
-npm install @tiptap/extension-collaboration yjs y-websocket
+npm install @tiptap/extension-collaboration @hocuspocus/provider
 ```
 
 And then register the WebSocket provider with Tiptap:
 
 ```js
 import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
 import Collaboration from '@tiptap/extension-collaboration'
-import * as Y from 'yjs'
-import { WebsocketProvider } from 'y-websocket'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 
-// A new Y document
-const ydoc = new Y.Doc()
-// Registered with a WebSocket provider
-const provider = new WebsocketProvider('ws://127.0.0.1:1234', 'example-document', ydoc)
+// Set up the Hocuspocus WebSocket provider
+const provider = new HocuspocusProvider({
+  url: 'ws://127.0.0.1:1234',
+  name: 'example-document',
+})
 
 const editor = new Editor({
   extensions: [
-    // …
+    StarterKit.configure({
+      // The Collaboration extension comes with its own history handling
+      history: false,
+    }),
     // Register the document with Tiptap
     Collaboration.configure({
-      document: ydoc,
+      document: provider.document,
     }),
   ],
 })
 ```
 
-That example doesn’t work out of the box. As you can see, it’s configured to talk to a WebSocket server which is available under `ws://127.0.0.1:1234` (WebSocket protocol `ws://`, your local IP `127.0.0.1` and the port `1234`). You need to set this up, too.
+This example doesn’t work out of the box. As you can see, it’s configured to talk to a WebSocket server which is available under `ws://127.0.0.1:1234` (WebSocket protocol `ws://`, your local IP `127.0.0.1` and the port `1234`). You need to set this up, too.
 
 #### The WebSocket backend
-To make the server part as easy as possible, we provide [an opinionated server package, called hocuspocus](http://hocuspocus.dev/) (early access for sponsors). Let’s go through, how this will work once its released.
+To make the server part as easy as possible, we provide [an opinionated server package, called Hocuspocus](http://hocuspocus.dev/) (currently available for sponsors and subscribers only). It’s a flexible Node.js package, that you can use to build your custom backend.
 
-Create a new project, and install the hocuspocus server as a dependency:
-
-```bash
-npm install @hocuspocus/server
-```
-
-Create an `index.js` and throw in the following content, to create, configure and start your very own WebSocket server:
-
-```js
-import { Server } from '@hocuspocus/server'
-import { RocksDB } from '@hocuspocus/extension-rocksdb'
-
-const server = Server.configure({
-  port: 1234,
-  extensions: [
-    new RocksDB({ path: './database' }),
-  ],
-})
-
-server.listen()
-```
-
-That’s all. Start the script with:
+For the purpose of that guide, let’s just use the command-line interface which boots a minimal server literally in seconds:
 
 ```bash
-node ./index.js
+npx @hocuspocus/cli --port 1234 --sqlite
 ```
 
-<!-- TODO: This should output something like “Listening on ws://127.0.0.1:1234”.  -->
+This command downloads the Hocuspocus command-line interface, starts a server listening on port 1234 and stores changes in the memory (so it’s gone once you stop the command). The output should look like this:
+
+```
+Hocuspocus v1.0.0 running at:
+
+> HTTP: http://127.0.0.1:1234
+> WebSocket: ws://127.0.0.1:1234
+
+Ready.
+```
+
 Try opening http://127.0.0.1:1234 in your browser. You should see a plain text `OK` if everything works fine.
 
-Go back to your Tiptap editor and hit reload, it should now connect to the WebSocket server and changes should sync with all other clients. Amazing, isn’t it?
+Go back to your Tiptap editor and hit reload, it should now connect to the Hocuspocus WebSocket server and changes should sync with all other clients. Amazing, isn’t it?
 
 ### Multiple network providers
 You can even combine multiple providers. That’s not needed, but could keep clients connected, even if one connection - for example the WebSocket server - goes down for a while. Here is an example:
 
 ```js
 new WebrtcProvider('example-document', ydoc)
-new WebsocketProvider('ws://127.0.0.1:1234', 'example-document', ydoc)
+new HocuspocusProvider({
+  url: 'ws://127.0.0.1:1234',
+  name: 'example-document',
+  document: ydoc,
+})
 ```
 
 Yes, that’s all.
@@ -147,18 +149,25 @@ To enable users to see the cursor and text selections of each other, add the [`C
 
 ```js
 import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
-import * as Y from 'yjs'
-import { WebsocketProvider } from 'y-websocket'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 
-const ydoc = new Y.Doc()
-const provider = new WebsocketProvider('ws://127.0.0.1:1234', 'example-document', ydoc)
+// Set up the Hocuspocus WebSocket provider
+const provider = new HocuspocusProvider({
+  url: 'ws://127.0.0.1:1234',
+  name: 'example-document',
+})
 
 const editor = new Editor({
   extensions: [
+    StarterKit.configure({
+      // The Collaboration extension comes with its own history handling
+      history: false,
+    }),
     Collaboration.configure({
-      document: ydoc,
+      document: provider.document,
     }),
     // Register the collaboration cursor extension
     CollaborationCursor.configure({
@@ -168,7 +177,6 @@ const editor = new Editor({
         color: '#f783ac',
       },
     }),
-    // …
   ],
 })
 ```
@@ -225,7 +233,7 @@ const documentName = 'page.140'
 
 In the backend, you can split the string to know the user is typing on a page with the ID 140 to manage authorization and such accordingly. New documents are created on the fly, no need to tell the backend about them, besides passing a string to the provider.
 
-And if you’d like to sync multiple fields with one Y.js document, just pass different fragment names to the collaboration extension:
+And if you would like to sync multiple fields with one Y.js document, just pass different fragment names to the collaboration extension:
 
 ```js
 // a Tiptap instance for the field
@@ -251,21 +259,17 @@ Collaboration.configure({
 ```
 
 ### Authentication & Authorization
+With the `onAuthenticate` hook you can check if a client is authenticated and authorized to view the current document. In a real world application this would probably be a request to an API, a database query or something else.
 
-With the `onConnect` hook you can check if a client is authenticated and authorized to view the current document. In a real world application this would probably be a request to an API, a database query or something else.
-
-When throwing an error (or rejecting the returned Promise), the connection to the client will be terminated. If the client is authorized and authenticated you can also return contextual data which will be accessible in other hooks. But you don't need to.
+When throwing an error (or rejecting the returned Promise), the connection to the client will be terminated. If the client is authorized and authenticated you can also return contextual data which will be accessible in other hooks. But you don’t need to.
 
 ```js
 import { Server } from '@hocuspocus/server'
 
 const server = Server.configure({
-  async onConnect(data) {
-    const { requestParameters } = data
-
-    // Example test if a user is authenticated using a
-    // request parameter
-    if (requestParameters.access_token !== 'super-secret-token') {
+  async onAuthenticate({ token }) {
+    // Example test if a user is authenticated
+    if (token !== 'super-secret-token') {
       throw new Error('Not authorized!')
     }
 
@@ -280,62 +284,6 @@ const server = Server.configure({
 })
 
 server.listen()
-```
-
-### Handling Document changes
-
-With the `onChange` hook you can listen to changes of the document and handle them. It should return
-a Promise. It's payload contains the resulting document as well as the actual update in the Y-Doc
-binary format.
-
-In a real-world application you would probably save the current document to a database, send it via
-webhook to an API or something else. If you want to send a webhook to an external API we already
-have built a simple to use webhook extension you should check out.
-
-It's **highly recommended** to debounce extensive operations (like API calls) as this hook can be
-fired up to multiple times a second:
-
-You need to serialize the Y-Doc that hocuspocus gives you to something you can actually display in
-your views.
-
-This example is **not intended** to be a primary storage as serializing to and deserializing from JSON will not store the collaboration history steps but only the resulting document. Make sure to always use the RocksDB extension as primary storage.
-
-```typescript
-import { debounce } from 'debounce'
-import { Server } from '@hocuspocus/server'
-import { TiptapTransformer } from '@hocuspocus/transformer'
-import { writeFile } from 'fs'
-
-let debounced
-
-const hocuspocus = Server.configure({
-  async onChange(data) {
-    const save = () => {
-      // Convert the y-doc to something you can actually use in your views.
-      // In this example we use the TiptapTransformer to get JSON from the given
-      // ydoc.
-      const prosemirrorJSON = TiptapTransformer.fromYdoc(data.document)
-
-      // Save your document. In a real-world app this could be a database query
-      // a webhook or something else
-      writeFile(
-        `/path/to/your/documents/${data.documentName}.json`,
-        prosemirrorJSON
-      )
-
-      // Maybe you want to store the user who changed the document?
-      // Guess what, you have access to your custom context from the
-      // onConnect hook here.
-      console.log(`Document ${data.documentName} changed by ${data.context.user.name}`)
-    }
-
-    debounced?.clear()
-    debounced = debounce(() => save, 4000)
-    debounced()
-  },
-})
-
-hocuspocus.listen()
 ```
 
 ## Pitfalls
