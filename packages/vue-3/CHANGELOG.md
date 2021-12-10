@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.83](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.82...@tiptap/vue-3@2.0.0-beta.83) (2021-12-10)
+
+
+### Features
+
+* add support for template strings in VueNodeViewRenderer, fix [#1987](https://github.com/ueberdosis/tiptap/issues/1987) ([7c98f80](https://github.com/ueberdosis/tiptap/commit/7c98f80547b8aff9d574732d20f8a3b565b9fdb2))
+
+
+
+
+
 # [2.0.0-beta.82](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.81...@tiptap/vue-3@2.0.0-beta.82) (2021-12-02)
 
 **Note:** Version bump only for package @tiptap/vue-3
