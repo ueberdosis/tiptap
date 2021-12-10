@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.20...@tiptap/extension-character-count@2.0.0-beta.21) (2021-12-10)
+
+
+### Bug Fixes
+
+* fix types for characterCount storage methods ([d1daf9c](https://github.com/ueberdosis/tiptap/commit/d1daf9cca06b4ac5855485533255b1275391b524))
+
+
+
+
+
 # [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.19...@tiptap/extension-character-count@2.0.0-beta.20) (2021-12-09)
 
 
