@@ -31,6 +31,17 @@ TaskList.configure({
 })
 ```
 
+### itemTypeName
+Specify the list item name.
+
+Default: `'taskItem'`
+
+```js
+TaskList.configure({
+  itemTypeName: 'taskItem',
+})
+```
+
 ## Commands
 
 # toggleTaskList()

@@ -1,6 +1,7 @@
 import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core'
 
 export interface OrderedListOptions {
+  itemTypeName: string,
   HTMLAttributes: Record<string, any>,
 }
 
@@ -22,13 +23,16 @@ export const OrderedList = Node.create<OrderedListOptions>({
 
   addOptions() {
     return {
+      itemTypeName: 'listItem',
       HTMLAttributes: {},
     }
   },
 
   group: 'block list',
 
-  content: 'listItem+',
+  content() {
+    return `${this.options.itemTypeName}+`
+  },
 
   addAttributes() {
     return {
@@ -62,7 +66,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
   addCommands() {
     return {
       toggleOrderedList: () => ({ commands }) => {
-        return commands.toggleList(this.name, 'listItem')
+        return commands.toggleList(this.name, this.options.itemTypeName)
       },
     }
   },

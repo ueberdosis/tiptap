@@ -31,6 +31,17 @@ OrderedList.configure({
 })
 ```
 
+### itemTypeName
+Specify the list item name.
+
+Default: `'listItem'`
+
+```js
+OrderedList.configure({
+  itemTypeName: 'listItem',
+})
+```
+
 ## Commands
 
 ### toggleOrderedList()
