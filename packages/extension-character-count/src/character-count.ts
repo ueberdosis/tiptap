@@ -17,7 +17,7 @@ export interface CharacterCountStorage {
   /**
    * Get the number of characters for the current document.
    */
-  characters?: (options: {
+  characters?: (options?: {
     node?: ProseMirrorNode,
     mode?: 'textSize' | 'nodeSize',
   }) => number,
@@ -25,7 +25,7 @@ export interface CharacterCountStorage {
   /**
    * Get the number of words for the current document.
    */
-  words?: (options: {
+  words?: (options?: {
     node?: ProseMirrorNode,
   }) => number,
 }
