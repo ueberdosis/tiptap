@@ -17,7 +17,7 @@ export interface CharacterCountStorage {
   /**
    * Get the number of characters for the current document.
    */
-  characters?: (options?: {
+  characters: (options?: {
     node?: ProseMirrorNode,
     mode?: 'textSize' | 'nodeSize',
   }) => number,
@@ -25,7 +25,7 @@ export interface CharacterCountStorage {
   /**
    * Get the number of words for the current document.
    */
-  words?: (options?: {
+  words: (options?: {
     node?: ProseMirrorNode,
   }) => number,
 }
@@ -42,8 +42,8 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
 
   addStorage() {
     return {
-      characters: undefined,
-      words: undefined,
+      characters: () => 0,
+      words: () => 0,
     }
   },
 
@@ -84,8 +84,8 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
             return true
           }
 
-          const oldSize = this.storage.characters?.({ node: state.doc }) || 0
-          const newSize = this.storage.characters?.({ node: transaction.doc }) || 0
+          const oldSize = this.storage.characters({ node: state.doc })
+          const newSize = this.storage.characters({ node: transaction.doc })
 
           // Everything is in the limit. Good.
           if (newSize <= limit) {
@@ -123,7 +123,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           // This happens e.g. when truncating within a complex node (e.g. table)
           // and ProseMirror has to close this node again.
           // If this is the case, we prevent the transaction completely.
-          const updatedSize = this.storage.characters?.({ node: transaction.doc }) || 0
+          const updatedSize = this.storage.characters({ node: transaction.doc })
 
           if (updatedSize > limit) {
             return false
