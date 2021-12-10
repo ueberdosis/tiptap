@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.152](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.151...@tiptap/core@2.0.0-beta.152) (2021-12-10)
+
+
+### Features
+
+* join lists on toggleList ([#2260](https://github.com/ueberdosis/tiptap/issues/2260)), fix [#1329](https://github.com/ueberdosis/tiptap/issues/1329) ([126ad72](https://github.com/ueberdosis/tiptap/commit/126ad722c7a1c4131fa332deb9f333798d4af056))
+
+
+
+
+
 # [2.0.0-beta.151](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.150...@tiptap/core@2.0.0-beta.151) (2021-12-08)
 
 
