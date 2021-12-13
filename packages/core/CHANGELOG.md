@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.153](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.152...@tiptap/core@2.0.0-beta.153) (2021-12-13)
+
+
+### Bug Fixes
+
+* check for invalid content in `insertContentAt` command ([e09fd93](https://github.com/ueberdosis/tiptap/commit/e09fd93e59dbae5bca9da7def6ddafc6beda9987))
+* don’t check for active node in wrapIn command, fix [#1059](https://github.com/ueberdosis/tiptap/issues/1059) ([170ec4b](https://github.com/ueberdosis/tiptap/commit/170ec4be5b3c8362890ca3100a223b505f788381))
+* improve `setNode` behavior for list items, fix [#2261](https://github.com/ueberdosis/tiptap/issues/2261) ([f2ced69](https://github.com/ueberdosis/tiptap/commit/f2ced6971d60c555ce1e6bc7116fe0168f018bf1))
+
+
+
+
+
 # [2.0.0-beta.152](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.151...@tiptap/core@2.0.0-beta.152) (2021-12-10)
 
 
