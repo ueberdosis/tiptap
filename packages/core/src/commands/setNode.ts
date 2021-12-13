@@ -14,8 +14,26 @@ declare module '@tiptap/core' {
   }
 }
 
-export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
+export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => ({ state, dispatch, chain }) => {
   const type = getNodeType(typeOrName, state.schema)
 
-  return setBlockType(type, attributes)(state, dispatch)
+  // TODO: use a fallback like insertContent?
+  if (!type.isTextblock) {
+    console.warn('[tiptap warn]: Currently "setNode()" only supports text block nodes.')
+
+    return false
+  }
+
+  const canSetBlock = setBlockType(type, attributes)(state)
+
+  if (canSetBlock) {
+    return setBlockType(type, attributes)(state, dispatch)
+  }
+
+  return chain()
+    .clearNodes()
+    .command(({ state: updatedState }) => {
+      return setBlockType(type, attributes)(updatedState, dispatch)
+    })
+    .run()
 }
