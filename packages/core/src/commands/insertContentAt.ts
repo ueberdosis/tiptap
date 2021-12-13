@@ -59,6 +59,9 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       : [content]
 
     nodes.forEach(node => {
+      // check if added node is valid
+      node.check()
+
       isOnlyBlockContent = isOnlyBlockContent
         ? node.isBlock
         : false
