@@ -24,14 +24,17 @@ export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => 
     return false
   }
 
-  const canSetBlock = setBlockType(type, attributes)(state)
-
-  if (canSetBlock) {
-    return setBlockType(type, attributes)(state, dispatch)
-  }
-
   return chain()
-    .clearNodes()
+    // try to convert node to default node if needed
+    .command(({ commands }) => {
+      const canSetBlock = setBlockType(type, attributes)(state)
+
+      if (canSetBlock) {
+        return true
+      }
+
+      return commands.clearNodes()
+    })
     .command(({ state: updatedState }) => {
       return setBlockType(type, attributes)(updatedState, dispatch)
     })
