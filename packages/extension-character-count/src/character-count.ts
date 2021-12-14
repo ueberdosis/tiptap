@@ -6,7 +6,7 @@ export interface CharacterCountOptions {
   /**
    * The maximum number of characters that should be allowed. Defaults to `0`.
    */
-  limit: number,
+  limit: number | null | undefined,
   /**
    * The mode by which the size is calculated. Defaults to 'textSize'.
    */
@@ -35,7 +35,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
 
   addOptions() {
     return {
-      limit: 0,
+      limit: null,
       mode: 'textSize',
     }
   },
@@ -80,7 +80,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           const limit = this.options.limit
 
           // Nothing has changed or no limit is defined. Ignore it.
-          if (!transaction.docChanged || limit === 0) {
+          if (!transaction.docChanged || limit === 0 || limit === null || limit === undefined) {
             return true
           }
 

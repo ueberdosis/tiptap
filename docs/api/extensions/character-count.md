@@ -20,7 +20,7 @@ npm install @tiptap/extension-character-count
 
 The maximum number of characters that should be allowed.
 
-Default: `0`
+Default: `null`
 
 ```js
 CharacterCount.configure({
