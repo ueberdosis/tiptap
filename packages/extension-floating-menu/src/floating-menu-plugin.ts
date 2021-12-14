@@ -33,13 +33,17 @@ export class FloatingMenuView {
 
   public tippyOptions?: Partial<Props>
 
-  public shouldShow: Exclude<FloatingMenuPluginProps['shouldShow'], null> = ({ state }) => {
+  public shouldShow: Exclude<FloatingMenuPluginProps['shouldShow'], null> = ({ state, view }) => {
     const { selection } = state
     const { $anchor, empty } = selection
     const isRootDepth = $anchor.depth === 1
     const isEmptyTextBlock = $anchor.parent.isTextblock
       && !$anchor.parent.type.spec.code
       && !$anchor.parent.textContent
+
+    if (!view.hasFocus()) {
+      return false
+    }
 
     if (!empty || !isRootDepth || !isEmptyTextBlock) {
       return false
