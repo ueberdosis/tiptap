@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.51...@tiptap/extension-bubble-menu@2.0.0-beta.52) (2021-12-15)
+
+
+### Bug Fixes
+
+* maybe hide tippy on blur, fix [#1433](https://github.com/ueberdosis/tiptap/issues/1433) ([063ced2](https://github.com/ueberdosis/tiptap/commit/063ced27ca55f331960b01ee6aea5623eee0ba49))
+
+
+
+
+
 # [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.50...@tiptap/extension-bubble-menu@2.0.0-beta.51) (2021-12-02)
 
 **Note:** Version bump only for package @tiptap/extension-bubble-menu
