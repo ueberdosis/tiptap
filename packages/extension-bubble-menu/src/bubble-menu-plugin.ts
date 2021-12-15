@@ -40,7 +40,12 @@ export class BubbleMenuView {
 
   public tippyOptions?: Partial<Props>
 
-  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ state, from, to }) => {
+  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
+    view,
+    state,
+    from,
+    to,
+  }) => {
     const { doc, selection } = state
     const { empty } = selection
 
@@ -50,7 +55,11 @@ export class BubbleMenuView {
     const isEmptyTextBlock = !doc.textBetween(from, to).length
       && isTextSelection(state.selection)
 
-    if (empty || isEmptyTextBlock) {
+    if (
+      !view.hasFocus()
+      || empty
+      || isEmptyTextBlock
+    ) {
       return false
     }
 
