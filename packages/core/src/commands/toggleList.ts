@@ -14,6 +14,11 @@ const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
   }
 
   const before = tr.doc.resolve(Math.max(0, list.pos - 1)).before(list.depth)
+
+  if (before === undefined) {
+    return true
+  }
+
   const nodeBefore = tr.doc.nodeAt(before)
   const canJoinBackwards = list.node.type === nodeBefore?.type
     && canJoin(tr.doc, list.pos)
@@ -35,6 +40,11 @@ const joinListForwards = (tr: Transaction, listType: NodeType): boolean => {
   }
 
   const after = tr.doc.resolve(list.start).after(list.depth)
+
+  if (after === undefined) {
+    return true
+  }
+
   const nodeAfter = tr.doc.nodeAt(after)
   const canJoinForwards = list.node.type === nodeAfter?.type
     && canJoin(tr.doc, after)
