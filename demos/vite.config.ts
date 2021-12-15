@@ -40,6 +40,27 @@ export default defineConfig({
     reactRefresh(),
 
     {
+      name: 'html-transform',
+      transformIndexHtml: {
+        enforce: 'pre',
+        transform(html: string, context) {
+          if (!context.originalUrl?.endsWith('/JS/')) {
+            return
+          }
+
+          const path = `.${context.originalUrl}/app.html`
+          const data = fs.readFileSync(path, 'utf8')
+          const transformed = html.replace('<div id="app"></div>', data)
+
+          return {
+            html: transformed,
+            tags: [],
+          }
+        },
+      },
+    },
+
+    {
       name: 'raw',
       resolveId(id, importer) {
         if (id.startsWith('raw!') && importer) {
