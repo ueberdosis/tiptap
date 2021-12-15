@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.156](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.155...@tiptap/core@2.0.0-beta.156) (2021-12-15)
+
+
+### Bug Fixes
+
+* prevent error in toggleList command, fix [#2279](https://github.com/ueberdosis/tiptap/issues/2279) ([66eb2f2](https://github.com/ueberdosis/tiptap/commit/66eb2f2a47cdf21590881153a6cb6b1f3f38641a))
+
+
+
+
+
 # [2.0.0-beta.155](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.154...@tiptap/core@2.0.0-beta.155) (2021-12-15)
 
 **Note:** Version bump only for package @tiptap/core
