@@ -139,6 +139,13 @@ export class BubbleMenuView {
       hideOnClick: 'toggle',
       ...this.tippyOptions,
     })
+
+    // maybe we have to hide tippy on its own blur event as well
+    if (this.tippy.popper.firstChild) {
+      (this.tippy.popper.firstChild as HTMLElement).addEventListener('blur', event => {
+        this.blurHandler({ event })
+      })
+    }
   }
 
   update(view: EditorView, oldState?: EditorState) {
