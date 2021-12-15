@@ -29,7 +29,7 @@
     "@types/prosemirror-model": "^1.13.2",
     "@types/prosemirror-schema-list": "^1.0.3",
     "@types/prosemirror-state": "^1.2.8",
-    "@types/prosemirror-transform": "^1.1.4",
+    "@types/prosemirror-transform": "^1.1.5",
     "@types/prosemirror-view": "^1.19.2",
     "prosemirror-commands": "^1.1.12",
     "prosemirror-keymap": "^1.1.5",
