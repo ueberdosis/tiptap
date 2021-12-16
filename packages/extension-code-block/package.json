@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code-block",
   "description": "code block extension for tiptap",
-  "version": "2.0.0-beta.31",
+  "version": "2.0.0-beta.32",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",

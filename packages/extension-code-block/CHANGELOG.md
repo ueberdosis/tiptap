@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.31...@tiptap/extension-code-block@2.0.0-beta.32) (2021-12-16)
+
+
+### Features
+
+* escape code blocks on arrow down, fix [#1204](https://github.com/ueberdosis/tiptap/issues/1204) ([ffafff9](https://github.com/ueberdosis/tiptap/commit/ffafff9e365f9636fae4a67bb825d49b7d95cb94))
+
+
+
+
+
 # [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.30...@tiptap/extension-code-block@2.0.0-beta.31) (2021-12-05)
 
 
