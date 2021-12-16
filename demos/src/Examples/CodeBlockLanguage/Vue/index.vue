@@ -3,9 +3,8 @@
     <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
       code block
     </button>
-
-    <editor-content :editor="editor" />
   </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>

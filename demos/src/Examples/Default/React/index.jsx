@@ -4,10 +4,6 @@ import StarterKit from '@tiptap/starter-kit'
 import './styles.scss'
 
 const MenuBar = ({ editor }) => {
-  if (!editor) {
-    return null
-  }
-
   return (
     <>
       <button

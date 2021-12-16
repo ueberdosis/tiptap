@@ -16,10 +16,6 @@ import lowlight from 'lowlight'
 import './styles.scss'
 
 const MenuBar = ({ editor }) => {
-  if (!editor) {
-    return null
-  }
-
   return (
     <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'is-active' : ''}>
       code block
