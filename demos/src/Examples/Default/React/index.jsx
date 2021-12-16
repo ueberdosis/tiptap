@@ -120,6 +120,7 @@ const MenuBar = ({ editor }) => {
 
 export default () => {
   const editor = useEditor({
+    availableOnFirstRender: true,
     extensions: [
       StarterKit,
     ],
