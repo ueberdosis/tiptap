@@ -146,6 +146,37 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
           .exitCode()
           .run()
       },
+
+      // escape node on arrow down
+      ArrowDown: ({ editor }) => {
+        const { state } = editor
+        const { selection, doc } = state
+        const { $from, empty } = selection
+
+        if (!empty || $from.parent.type !== this.type) {
+          return false
+        }
+
+        const isAtEnd = $from.parentOffset === $from.parent.nodeSize - 2
+
+        if (!isAtEnd) {
+          return false
+        }
+
+        const after = $from.after()
+
+        if (after === undefined) {
+          return false
+        }
+
+        const nodeAfter = doc.nodeAt(after)
+
+        if (nodeAfter) {
+          return false
+        }
+
+        return editor.commands.exitCode()
+      },
     }
   },
 
