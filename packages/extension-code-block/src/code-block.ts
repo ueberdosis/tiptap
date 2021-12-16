@@ -103,6 +103,21 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
     return {
       'Mod-Alt-c': () => this.editor.commands.toggleCodeBlock(),
 
+      // remove code block when at start of document or code block is empty
+      Backspace: () => {
+        const { empty, $anchor } = this.editor.state.selection
+
+        if (!empty || $anchor.parent.type.name !== this.name) {
+          return false
+        }
+
+        if ($anchor.parent.textContent.length) {
+          return this.editor.commands.clearNodes()
+        }
+
+        return false
+      },
+
       // escape node on triple enter
       Enter: ({ editor }) => {
         const { state } = editor
