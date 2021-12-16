@@ -9,13 +9,18 @@ function useForceUpdate() {
 }
 
 export const useEditor = (options: Partial<EditorOptions> = {}, deps: DependencyList = []) => {
-  const [editor, setEditor] = useState<Editor | null>(null)
+  const [editor, setEditor] = useState<Editor>(() => new Editor(options))
   const forceUpdate = useForceUpdate()
 
   useEffect(() => {
-    const instance = new Editor(options)
+    let instance: Editor
 
-    setEditor(instance)
+    if (editor.isDestroyed) {
+      instance = new Editor(options)
+      setEditor(instance)
+    } else {
+      instance = editor
+    }
 
     instance.on('transaction', () => {
       requestAnimationFrame(() => {
