@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.157](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.156...@tiptap/core@2.0.0-beta.157) (2021-12-16)
+
+
+### Bug Fixes
+
+* Improve backspace handling ([#2284](https://github.com/ueberdosis/tiptap/issues/2284)), fix [#2281](https://github.com/ueberdosis/tiptap/issues/2281) ([8ed485b](https://github.com/ueberdosis/tiptap/commit/8ed485ba53e809207a23ca6871aab2eb0806f0ab))
+
+
+
+
+
 # [2.0.0-beta.156](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.155...@tiptap/core@2.0.0-beta.156) (2021-12-15)
 
 

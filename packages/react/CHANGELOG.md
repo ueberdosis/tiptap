@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.100](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.99...@tiptap/react@2.0.0-beta.100) (2021-12-16)
+
+
+### Bug Fixes
+
+* Make sure editor is available on first render ([#2282](https://github.com/ueberdosis/tiptap/issues/2282)), fix [#2040](https://github.com/ueberdosis/tiptap/issues/2040), fix [#2182](https://github.com/ueberdosis/tiptap/issues/2182) ([2436e2c](https://github.com/ueberdosis/tiptap/commit/2436e2c8fe88cdce6685ae3d712e5f2d3e70851d))
+
+
+
+
+
 # [2.0.0-beta.99](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.98...@tiptap/react@2.0.0-beta.99) (2021-12-15)
 
 **Note:** Version bump only for package @tiptap/react
