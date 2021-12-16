@@ -44,7 +44,7 @@ context('/src/Examples/Menus/Vue/', () => {
         .type('Test')
         .type('{selectall}')
 
-      cy.get('#app div')
+      cy.get('#app')
         .find('[data-tippy-root]')
         .contains(mark.button)
         .click()
