@@ -44,16 +44,12 @@ export default defineConfig({
       transformIndexHtml: {
         enforce: 'pre',
         transform(html: string, context) {
-          const data = context.originalUrl?.split('/')
-
-          if (!data) {
-            return
-          }
-
+          const dir = dirname(context.path)
+          const data = dir.split('/')
           const demoCategory = data[2]
           const demoName = data[3]
 
-          if (context.originalUrl?.endsWith('/JS/')) {
+          if (dir.endsWith('/JS')) {
             return {
               html: `
                 <!DOCTYPE html>
@@ -76,7 +72,7 @@ export default defineConfig({
             }
           }
 
-          if (context.originalUrl?.endsWith('/Vue/')) {
+          if (dir.endsWith('/Vue')) {
             return {
               html: `
                 <!DOCTYPE html>
@@ -99,7 +95,7 @@ export default defineConfig({
             }
           }
 
-          if (context.originalUrl?.endsWith('/React/')) {
+          if (dir.endsWith('/React')) {
             return {
               html: `
                 <!DOCTYPE html>
