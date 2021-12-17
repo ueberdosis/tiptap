@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.158](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.157...@tiptap/core@2.0.0-beta.158) (2021-12-17)
+
+
+### Bug Fixes
+
+* remove empty mark attributes from getDebugJSON ([07cabe6](https://github.com/ueberdosis/tiptap/commit/07cabe65f4852a3c7fcab5c60b51318a05272aee))
+
+
+
+
+
 # [2.0.0-beta.157](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.156...@tiptap/core@2.0.0-beta.157) (2021-12-16)
 
 

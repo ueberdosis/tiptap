@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.101](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.100...@tiptap/react@2.0.0-beta.101) (2021-12-17)
+
+
+### Reverts
+
+* Revert "fix: Make sure editor is available on first render (#2282), fix #2040, fix #2182" ([629f4d2](https://github.com/ueberdosis/tiptap/commit/629f4d2a76c62e82c104598bf42a53a6d32015a8)), closes [#2040](https://github.com/ueberdosis/tiptap/issues/2040) [#2182](https://github.com/ueberdosis/tiptap/issues/2182)
+
+
+
+
+
 # [2.0.0-beta.100](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.99...@tiptap/react@2.0.0-beta.100) (2021-12-16)
 
 
