@@ -24,7 +24,7 @@ Type: `HTMLElement`
 Default: `null`
 
 ### tippyOptions
-Under the hood, the `BubbleMenu` uses [tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/). You can directly pass options to it.
+Under the hood, the `FloatingMenu` uses [tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/). You can directly pass options to it.
 
 Type: `Object`
 
