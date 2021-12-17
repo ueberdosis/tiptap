@@ -54,9 +54,8 @@
     <button @click="editor.chain().focus().goToPreviousCell().run()" :disabled="!editor.can().goToPreviousCell()">
       goToPreviousCell
     </button>
-
-    <editor-content :editor="editor" />
   </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>

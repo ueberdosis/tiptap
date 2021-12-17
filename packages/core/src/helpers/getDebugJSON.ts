@@ -9,12 +9,19 @@ interface DebugJSONContent extends JSONContent {
 export function getDebugJSON(node: ProseMirrorNode, startOffset = 0): DebugJSONContent {
   const isTopNode = node.type === node.type.schema.topNodeType
   const increment = isTopNode ? 0 : 1
-  const from = startOffset // + offset
+  const from = startOffset
   const to = from + node.nodeSize
-  const marks = node.marks.map(mark => ({
-    type: mark.type.name,
-    attrs: { ...mark.attrs },
-  }))
+  const marks = node.marks.map(mark => {
+    const output: { type: string, attrs?: Record<string, any> } = {
+      type: mark.type.name,
+    }
+
+    if (Object.keys(mark.attrs).length) {
+      output.attrs = { ...mark.attrs }
+    }
+
+    return output
+  })
   const attrs = { ...node.attrs }
   const output: DebugJSONContent = {
     type: node.type.name,

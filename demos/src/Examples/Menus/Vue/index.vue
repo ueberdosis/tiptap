@@ -1,10 +1,9 @@
 <template>
-  <div>
+  <div v-if="editor">
     <bubble-menu
       class="bubble-menu"
       :tippy-options="{ duration: 100 }"
       :editor="editor"
-      v-if="editor"
     >
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         Bold
@@ -21,7 +20,6 @@
       class="floating-menu"
       :tippy-options="{ duration: 100 }"
       :editor="editor"
-      v-if="editor"
     >
       <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
         H1
@@ -33,9 +31,9 @@
         Bullet List
       </button>
     </floating-menu>
-
-    <editor-content :editor="editor" />
   </div>
+
+  <editor-content :editor="editor" />
 </template>
 
 <script>

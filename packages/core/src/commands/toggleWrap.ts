@@ -1,4 +1,3 @@
-import { wrapIn, lift } from 'prosemirror-commands'
 import { NodeType } from 'prosemirror-model'
 import { RawCommands } from '../types'
 import { isNodeActive } from '../helpers/isNodeActive'
@@ -15,13 +14,13 @@ declare module '@tiptap/core' {
   }
 }
 
-export const toggleWrap: RawCommands['toggleWrap'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
+export const toggleWrap: RawCommands['toggleWrap'] = (typeOrName, attributes = {}) => ({ state, commands }) => {
   const type = getNodeType(typeOrName, state.schema)
   const isActive = isNodeActive(state, type, attributes)
 
   if (isActive) {
-    return lift(state, dispatch)
+    return commands.lift(type)
   }
 
-  return wrapIn(type, attributes)(state, dispatch)
+  return commands.wrapIn(type, attributes)
 }

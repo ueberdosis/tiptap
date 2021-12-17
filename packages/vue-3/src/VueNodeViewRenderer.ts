@@ -88,6 +88,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     const extendedComponent = defineComponent({
       extends: { ...this.component },
       props: Object.keys(props),
+      template: (this.component as any).template,
       setup: reactiveProps => {
         provide('onDragStart', onDragStart)
         provide('decorationClasses', this.decorationClasses)

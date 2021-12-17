@@ -31,6 +31,17 @@ BulletList.configure({
 })
 ```
 
+### itemTypeName
+Specify the list item name.
+
+Default: `'listItem'`
+
+```js
+BulletList.configure({
+  itemTypeName: 'listItem',
+})
+```
+
 ## Commands
 
 ### toggleBulletList()

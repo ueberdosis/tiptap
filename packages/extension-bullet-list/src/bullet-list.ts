@@ -1,6 +1,7 @@
 import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core'
 
 export interface BulletListOptions {
+  itemTypeName: string,
   HTMLAttributes: Record<string, any>,
 }
 
@@ -22,13 +23,16 @@ export const BulletList = Node.create<BulletListOptions>({
 
   addOptions() {
     return {
+      itemTypeName: 'listItem',
       HTMLAttributes: {},
     }
   },
 
   group: 'block list',
 
-  content: 'listItem+',
+  content() {
+    return `${this.options.itemTypeName}+`
+  },
 
   parseHTML() {
     return [
@@ -43,7 +47,7 @@ export const BulletList = Node.create<BulletListOptions>({
   addCommands() {
     return {
       toggleBulletList: () => ({ commands }) => {
-        return commands.toggleList(this.name, 'listItem')
+        return commands.toggleList(this.name, this.options.itemTypeName)
       },
     }
   },

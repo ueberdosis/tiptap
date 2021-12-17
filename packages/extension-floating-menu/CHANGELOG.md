@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-floating-menu@2.0.0-beta.46...@tiptap/extension-floating-menu@2.0.0-beta.47) (2021-12-15)
+
+
+### Bug Fixes
+
+* maybe hide tippy on blur, fix [#1433](https://github.com/ueberdosis/tiptap/issues/1433) ([063ced2](https://github.com/ueberdosis/tiptap/commit/063ced27ca55f331960b01ee6aea5623eee0ba49))
+* show FloatingMenu by default only if focused ([#2275](https://github.com/ueberdosis/tiptap/issues/2275)) ([809af3b](https://github.com/ueberdosis/tiptap/commit/809af3b6c6dd2b82cfd4da032181c1f4e93d01cd))
+
+
+
+
+
 # [2.0.0-beta.46](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-floating-menu@2.0.0-beta.45...@tiptap/extension-floating-menu@2.0.0-beta.46) (2021-12-02)
 
 **Note:** Version bump only for package @tiptap/extension-floating-menu

@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.22...@tiptap/extension-character-count@2.0.0-beta.23) (2021-12-14)
+
+
+### Bug Fixes
+
+* allow null and undefined for CharacterCount limit, fix [#2276](https://github.com/ueberdosis/tiptap/issues/2276) ([dd4bcb8](https://github.com/ueberdosis/tiptap/commit/dd4bcb81f05f980b143c46f97f108c28b02c1caf))
+
+
+
+
+
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.21...@tiptap/extension-character-count@2.0.0-beta.22) (2021-12-10)
+
+
+### Bug Fixes
+
+* mark characterCount storage method types as optional ([ed7f93a](https://github.com/ueberdosis/tiptap/commit/ed7f93a2b84234b365f74ff39424f72ca5cf42ea))
+
+
+
+
+
+# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.20...@tiptap/extension-character-count@2.0.0-beta.21) (2021-12-10)
+
+
+### Bug Fixes
+
+* fix types for characterCount storage methods ([d1daf9c](https://github.com/ueberdosis/tiptap/commit/d1daf9cca06b4ac5855485533255b1275391b524))
+
+
+
+
+
 # [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.19...@tiptap/extension-character-count@2.0.0-beta.20) (2021-12-09)
 
 

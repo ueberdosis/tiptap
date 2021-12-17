@@ -1,6 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 
 export interface TaskListOptions {
+  itemTypeName: string,
   HTMLAttributes: Record<string, any>,
 }
 
@@ -20,13 +21,16 @@ export const TaskList = Node.create<TaskListOptions>({
 
   addOptions() {
     return {
+      itemTypeName: 'taskItem',
       HTMLAttributes: {},
     }
   },
 
   group: 'block list',
 
-  content: 'taskItem+',
+  content() {
+    return `${this.options.itemTypeName}+`
+  },
 
   parseHTML() {
     return [
@@ -44,7 +48,7 @@ export const TaskList = Node.create<TaskListOptions>({
   addCommands() {
     return {
       toggleTaskList: () => ({ commands }) => {
-        return commands.toggleList(this.name, 'taskItem')
+        return commands.toggleList(this.name, this.options.itemTypeName)
       },
     }
   },

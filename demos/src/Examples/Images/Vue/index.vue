@@ -3,8 +3,8 @@
     <button @click="addImage">
       add image from URL
     </button>
-    <editor-content :editor="editor" />
   </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-ordered-list@2.0.0-beta.25...@tiptap/extension-ordered-list@2.0.0-beta.26) (2021-12-10)
+
+
+### Features
+
+* add itemTypeName option ([3d7c8e6](https://github.com/ueberdosis/tiptap/commit/3d7c8e642f31b1fa813e84dddc3968504477d536))
+
+
+
+
+
 # [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-ordered-list@2.0.0-beta.24...@tiptap/extension-ordered-list@2.0.0-beta.25) (2021-12-02)
 
 

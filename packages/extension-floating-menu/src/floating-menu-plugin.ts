@@ -33,7 +33,7 @@ export class FloatingMenuView {
 
   public tippyOptions?: Partial<Props>
 
-  public shouldShow: Exclude<FloatingMenuPluginProps['shouldShow'], null> = ({ state }) => {
+  public shouldShow: Exclude<FloatingMenuPluginProps['shouldShow'], null> = ({ view, state }) => {
     const { selection } = state
     const { $anchor, empty } = selection
     const isRootDepth = $anchor.depth === 1
@@ -41,7 +41,12 @@ export class FloatingMenuView {
       && !$anchor.parent.type.spec.code
       && !$anchor.parent.textContent
 
-    if (!empty || !isRootDepth || !isEmptyTextBlock) {
+    if (
+      !view.hasFocus()
+      || !empty
+      || !isRootDepth
+      || !isEmptyTextBlock
+    ) {
       return false
     }
 
@@ -116,6 +121,13 @@ export class FloatingMenuView {
       hideOnClick: 'toggle',
       ...this.tippyOptions,
     })
+
+    // maybe we have to hide tippy on its own blur event as well
+    if (this.tippy.popper.firstChild) {
+      (this.tippy.popper.firstChild as HTMLElement).addEventListener('blur', event => {
+        this.blurHandler({ event })
+      })
+    }
   }
 
   update(view: EditorView, oldState?: EditorState) {

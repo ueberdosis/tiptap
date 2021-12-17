@@ -8,13 +8,18 @@ import './styles.scss'
 
 export default () => {
   const editor = useEditor({
-    extensions: [Document, Paragraph, Text, Blockquote],
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      Blockquote,
+    ],
     content: `
-          <blockquote>
-            Nothing is impossible, the word itself says “I’m possible!”
-          </blockquote>
-          <p>Audrey Hepburn</p>
-        `,
+      <blockquote>
+        Nothing is impossible, the word itself says “I’m possible!”
+      </blockquote>
+      <p>Audrey Hepburn</p>
+    `,
   })
 
   if (!editor) {
@@ -31,13 +36,13 @@ export default () => {
       </button>
       <button
         onClick={() => editor.chain().focus().setBlockquote().run()}
-        disabled={editor.isActive('blockquote')}
+        disabled={!editor.can().setBlockquote()}
       >
         setBlockquote
       </button>
       <button
         onClick={() => editor.chain().focus().unsetBlockquote().run()}
-        disabled={!editor.isActive('blockquote')}
+        disabled={!editor.can().unsetBlockquote()}
       >
         unsetBlockquote
       </button>

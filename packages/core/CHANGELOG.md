@@ -3,6 +3,79 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.158](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.157...@tiptap/core@2.0.0-beta.158) (2021-12-17)
+
+
+### Bug Fixes
+
+* remove empty mark attributes from getDebugJSON ([07cabe6](https://github.com/ueberdosis/tiptap/commit/07cabe65f4852a3c7fcab5c60b51318a05272aee))
+
+
+
+
+
+# [2.0.0-beta.157](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.156...@tiptap/core@2.0.0-beta.157) (2021-12-16)
+
+
+### Bug Fixes
+
+* Improve backspace handling ([#2284](https://github.com/ueberdosis/tiptap/issues/2284)), fix [#2281](https://github.com/ueberdosis/tiptap/issues/2281) ([8ed485b](https://github.com/ueberdosis/tiptap/commit/8ed485ba53e809207a23ca6871aab2eb0806f0ab))
+
+
+
+
+
+# [2.0.0-beta.156](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.155...@tiptap/core@2.0.0-beta.156) (2021-12-15)
+
+
+### Bug Fixes
+
+* prevent error in toggleList command, fix [#2279](https://github.com/ueberdosis/tiptap/issues/2279) ([66eb2f2](https://github.com/ueberdosis/tiptap/commit/66eb2f2a47cdf21590881153a6cb6b1f3f38641a))
+
+
+
+
+
+# [2.0.0-beta.155](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.154...@tiptap/core@2.0.0-beta.155) (2021-12-15)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-beta.154](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.153...@tiptap/core@2.0.0-beta.154) (2021-12-14)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-beta.153](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.152...@tiptap/core@2.0.0-beta.153) (2021-12-13)
+
+
+### Bug Fixes
+
+* check for invalid content in `insertContentAt` command ([e09fd93](https://github.com/ueberdosis/tiptap/commit/e09fd93e59dbae5bca9da7def6ddafc6beda9987))
+* don’t check for active node in wrapIn command, fix [#1059](https://github.com/ueberdosis/tiptap/issues/1059) ([170ec4b](https://github.com/ueberdosis/tiptap/commit/170ec4be5b3c8362890ca3100a223b505f788381))
+* improve `setNode` behavior for list items, fix [#2261](https://github.com/ueberdosis/tiptap/issues/2261) ([f2ced69](https://github.com/ueberdosis/tiptap/commit/f2ced6971d60c555ce1e6bc7116fe0168f018bf1))
+
+
+
+
+
+# [2.0.0-beta.152](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.151...@tiptap/core@2.0.0-beta.152) (2021-12-10)
+
+
+### Features
+
+* join lists on toggleList ([#2260](https://github.com/ueberdosis/tiptap/issues/2260)), fix [#1329](https://github.com/ueberdosis/tiptap/issues/1329) ([126ad72](https://github.com/ueberdosis/tiptap/commit/126ad722c7a1c4131fa332deb9f333798d4af056))
+
+
+
+
+
 # [2.0.0-beta.151](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.150...@tiptap/core@2.0.0-beta.151) (2021-12-08)
 
 
