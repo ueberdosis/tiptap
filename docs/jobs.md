@@ -4,6 +4,12 @@ You enjoy to work with Tiptap? You are not alone. Some amazing companies are loo
 - **[Software Engineer](https://gamma.app/docs/Software-Engineer-6s0e0grm9zk9w5s) @ Gamma**<br>
 React · Tiptap · San Francisco, USA
 
+- **[Senior Fullstack Engineer](https://dociq.notion.site/Senior-Fullstack-Engineer-e6336ba6e9864c89858c70eea81e5691) @ Contract Vault**<br>
+Vue.js · Tiptap · Node.js · PostgreSQL · Remote, Switzerland
+
+- **[Senior Frontend Engineer](https://dociq.notion.site/Senior-Frontend-Engineer-0926648fac544a6b870a0024f2861c12) @ Contract Vault**<br>
+Vue.js · Tiptap · Remote, Switzerland
+
 - **[Javascript Engineer, Software Engineer, …](https://birdeatsbug.recruitee.com/) @ Bird Eats Bug**<br>
 Vue.js · Tiptap · Remote · Berlin, Germany
 
