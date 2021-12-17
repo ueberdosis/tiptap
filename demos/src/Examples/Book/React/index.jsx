@@ -5,6 +5,10 @@ import { content } from '../content.js'
 import './styles.scss'
 
 const MenuBar = ({ editor }) => {
+  if (!editor) {
+    return null
+  }
+
   return (
     <>
       <button

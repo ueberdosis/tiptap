@@ -6,6 +6,10 @@ import Highlight from '@tiptap/extension-highlight'
 import './styles.scss'
 
 const MenuBar = ({ editor }) => {
+  if (!editor) {
+    return null
+  }
+
   return (
     <>
       <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}>
