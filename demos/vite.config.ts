@@ -40,6 +40,88 @@ export default defineConfig({
     reactRefresh(),
 
     {
+      name: 'html-transform',
+      transformIndexHtml: {
+        enforce: 'pre',
+        transform(html: string, context) {
+          const dir = dirname(context.path)
+          const data = dir.split('/')
+          const demoCategory = data[2]
+          const demoName = data[3]
+
+          if (dir.endsWith('/JS')) {
+            return {
+              html: `
+                <!DOCTYPE html>
+                <html lang="en">
+                  <head>
+                    <meta charset="utf-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                  </head>
+                  <body>
+                    ${html}
+                    <script type="module">
+                      import setup from '../../../../setup/js.ts'
+                      import source from '@source'
+                      setup('${demoCategory}/${demoName}', source)
+                    </script>
+                  </body>
+                </html>
+              `,
+              tags: [],
+            }
+          }
+
+          if (dir.endsWith('/Vue')) {
+            return {
+              html: `
+                <!DOCTYPE html>
+                <html lang="en">
+                  <head>
+                    <meta charset="utf-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                  </head>
+                  <body>
+                    <div id="app"></div>
+                    <script type="module">
+                      import setup from '../../../../setup/vue.ts'
+                      import source from '@source'
+                      setup('${demoCategory}/${demoName}', source)
+                    </script>
+                  </body>
+                </html>
+              `,
+              tags: [],
+            }
+          }
+
+          if (dir.endsWith('/React')) {
+            return {
+              html: `
+                <!DOCTYPE html>
+                <html lang="en">
+                  <head>
+                    <meta charset="utf-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                  </head>
+                  <body>
+                    <div id="app"></div>
+                    <script type="module">
+                      import setup from '../../../../setup/react.ts'
+                      import source from '@source'
+                      setup('${demoCategory}/${demoName}', source)
+                    </script>
+                  </body>
+                </html>
+              `,
+              tags: [],
+            }
+          }
+        },
+      },
+    },
+
+    {
       name: 'raw',
       resolveId(id, importer) {
         if (id.startsWith('raw!') && importer) {
@@ -97,13 +179,16 @@ export default defineConfig({
       load(id) {
         if (id.startsWith('source!')) {
           const path = id.split('!!')[0].replace('source!', '')
-          const files = fg.sync(`${path}/**/*`, {
-            ignore: [
-              '**/index.html',
-              '**/*.spec.js',
-              '**/*.spec.ts',
-            ],
-          })
+          const ignore = [
+            '**/*.spec.js',
+            '**/*.spec.ts',
+          ]
+
+          if (!path.endsWith('/JS')) {
+            ignore.push('**/index.html')
+          }
+
+          const files = fg.sync(`${path}/**/*`, { ignore })
             .map(filePath => {
               const name = filePath.replace(`${path}/`, '')
 

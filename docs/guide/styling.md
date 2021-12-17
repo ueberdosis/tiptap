@@ -77,13 +77,7 @@ new Editor({
 ### With Tailwind CSS
 The editor works fine with Tailwind CSS, too. Find an example that’s styled with the `@tailwindcss/typography` plugin below.
 
-<iframe
-  src="https://codesandbox.io/embed/tiptap-demo-tailwind-iqjz0?fontsize=14&hidenavigation=1&module=%2Fsrc%2Findex.js&theme=dark&view=preview"
-  style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-  title="tiptap-demo-tailwind"
-  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-></iframe>
+https://embed.tiptap.dev/preview/Experiments/Tailwind
 
 ## Option 3: Customize the HTML
 Or you can customize the markup for extensions. The following example will make a custom bold extension that doesn’t render a `<strong>` tag, but a `<b>` tag:
@@ -108,4 +102,3 @@ new Editor({
 ```
 
 You should put your custom extensions in separate files, but I think you got the idea.
-
