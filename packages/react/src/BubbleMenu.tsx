@@ -33,10 +33,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
     return () => {
       editor.unregisterPlugin(pluginKey)
     }
-  }, [
-    props.editor,
-    element.current,
-  ])
+  }, [props.editor])
 
   return (
     <div ref={element} className={props.className} style={{ visibility: 'hidden' }}>
