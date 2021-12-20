@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState, useCallback, RefCallback } from 'react'
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
@@ -8,12 +8,11 @@ export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKe
 }
 
 export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
-  const element = useRef<HTMLDivElement>(null)
+  const [element, setElement] = useState<HTMLDivElement | null>(null)
+  const elementRef = useCallback<RefCallback<HTMLDivElement>>(node => setElement(node), [])
 
   useEffect(() => {
-    if (!element.current) {
-      return
-    }
+    if (!element) return
 
     const {
       pluginKey = 'floatingMenu',
@@ -22,24 +21,23 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
       shouldShow = null,
     } = props
 
-    editor.registerPlugin(FloatingMenuPlugin({
+    const plugin = FloatingMenuPlugin({
       pluginKey,
       editor,
-      element: element.current as HTMLElement,
+      element,
       tippyOptions,
       shouldShow,
-    }))
+    })
 
-    return () => {
-      editor.unregisterPlugin(pluginKey)
-    }
+    editor.registerPlugin(plugin)
+    return () => editor.unregisterPlugin(pluginKey)
   }, [
     props.editor,
-    element.current,
+    element,
   ])
 
   return (
-    <div ref={element} className={props.className} style={{ visibility: 'hidden' }}>
+    <div ref={elementRef} className={props.className} style={{ visibility: 'hidden' }}>
       {props.children}
     </div>
   )
