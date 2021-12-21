@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useCallback, RefCallback } from 'react'
+import React, {
+  useEffect, useState, useCallback, RefCallback,
+} from 'react'
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
@@ -12,7 +14,9 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
   const elementRef = useCallback<RefCallback<HTMLDivElement>>(node => setElement(node), [])
 
   useEffect(() => {
-    if (!element) return
+    if (!element) {
+      return
+    }
 
     const {
       pluginKey = 'floatingMenu',

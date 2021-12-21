@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState, RefCallback } from 'react'
+import React, {
+  useCallback, useEffect, useState, RefCallback,
+} from 'react'
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
@@ -12,7 +14,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
   const elementRef = useCallback<RefCallback<HTMLDivElement>>(node => setElement(node), [])
 
   useEffect(() => {
-    if (!element) return
+    if (!element) {
+      return
+    }
 
     const {
       pluginKey = 'bubbleMenu',
