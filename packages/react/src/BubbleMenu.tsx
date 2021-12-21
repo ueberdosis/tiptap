@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useState
+  useEffect, useState,
 } from 'react'
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 
