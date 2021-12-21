@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useEffect, useState, RefCallback,
+  useEffect, useState
 } from 'react'
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 
@@ -11,10 +11,13 @@ export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>,
 
 export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
-  const elementRef = useCallback<RefCallback<HTMLDivElement>>(node => setElement(node), [])
 
   useEffect(() => {
     if (!element) {
+      return
+    }
+
+    if (props.editor.isDestroyed) {
       return
     }
 
@@ -41,7 +44,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
   ])
 
   return (
-    <div ref={elementRef} className={props.className} style={{ visibility: 'hidden' }}>
+    <div ref={setElement} className={props.className} style={{ visibility: 'hidden' }}>
       {props.children}
     </div>
   )

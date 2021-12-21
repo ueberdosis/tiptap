@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useState, useCallback, RefCallback,
+  useEffect, useState,
 } from 'react'
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 
@@ -11,10 +11,13 @@ export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKe
 
 export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
-  const elementRef = useCallback<RefCallback<HTMLDivElement>>(node => setElement(node), [])
 
   useEffect(() => {
     if (!element) {
+      return
+    }
+
+    if (props.editor.isDestroyed) {
       return
     }
 
@@ -41,7 +44,7 @@ export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
   ])
 
   return (
-    <div ref={elementRef} className={props.className} style={{ visibility: 'hidden' }}>
+    <div ref={setElement} className={props.className} style={{ visibility: 'hidden' }}>
       {props.children}
     </div>
   )
