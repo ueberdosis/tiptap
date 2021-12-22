@@ -119,7 +119,7 @@ function run(config: {
     Math.max(0, $from.parentOffset - maxMatch),
     $from.parentOffset,
     undefined,
-    '\ufffc',
+    ' ',
   ) + text
 
   rules.forEach(rule => {
