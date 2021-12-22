@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.159](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.158...@tiptap/core@2.0.0-beta.159) (2021-12-22)
+
+
+### Bug Fixes
+
+* allow input rules after hard break, fix [#2302](https://github.com/ueberdosis/tiptap/issues/2302) ([ded6f96](https://github.com/ueberdosis/tiptap/commit/ded6f9618fb588f2c259edc9bc77415f8723431c))
+
+
+
+
+
 # [2.0.0-beta.158](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.157...@tiptap/core@2.0.0-beta.158) (2021-12-17)
 
 

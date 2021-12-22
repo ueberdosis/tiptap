@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.102](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.101...@tiptap/react@2.0.0-beta.102) (2021-12-22)
+
+
+### Bug Fixes
+
+* Remove `element.current` from `useEffect` in `BubbleMenu` and `FloatingMenu` ([#2297](https://github.com/ueberdosis/tiptap/issues/2297)) ([561941d](https://github.com/ueberdosis/tiptap/commit/561941d5e0d8c0bed852156e06820780e65f0656))
+
+
+
+
+
 # [2.0.0-beta.101](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.100...@tiptap/react@2.0.0-beta.101) (2021-12-17)
 
 
