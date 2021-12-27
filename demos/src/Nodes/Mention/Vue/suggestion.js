@@ -19,6 +19,7 @@ export default {
           // using vue 2:
           // parent: this,
           // propsData: props,
+          // using vue 3:
           props,
           editor: props.editor,
         })
