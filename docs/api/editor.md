@@ -156,7 +156,7 @@ editor.isEmpty
 ## Settings
 
 ### element
-The `element` specifies the HTML element the editor will be binded too. The following code will integrate Tiptap with an element with the `.element` class:
+The `element` specifies the HTML element the editor will be binded to. The following code will integrate Tiptap with an element with the `.element` class:
 
 ```js
 import { Editor } from '@tiptap/core'
