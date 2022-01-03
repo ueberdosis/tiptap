@@ -13,7 +13,7 @@ Vue.js · Tiptap · Remote, Switzerland
 - **[Experienced Front-end engineer](https://outstanding-ulna-0e8.notion.site/Sigle-Experienced-Front-end-engineer-f8b1bab84afd4c89a2053c6685c317e0) @ Sigle**<br>
 React · Tiptap · web 3.0 · Remote
 
-- **[Javascript Engineer, Software Engineer, …](https://birdeatsbug.recruitee.com/) @ Bird Eats Bug**<br>
+- **[Javascript Engineer, Software Engineer, …](https://birdeatsbug.com/jobs/?source=tiptapdev) @ Bird Eats Bug**<br>
 Vue.js · Tiptap · Remote · Berlin, Germany
 
 - **[Frontend Developer](https://bitcrowd.net/jobs) @ bitcrowd**<br>
