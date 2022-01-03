@@ -106,6 +106,26 @@ export default {
 </script>
 ```
 
+Or feel free to use the new [`<script setup>` syntax](https://v3.vuejs.org/api/sfc-script-setup.html).
+
+```html
+<template>
+  <editor-content :editor="editor" />
+</template>
+
+<script setup>
+import { useEditor, EditorContent } from '@tiptap/vue-3'
+import StarterKit from '@tiptap/starter-kit'
+
+const editor = useEditor({
+  content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+  extensions: [
+    StarterKit,
+  ],
+})
+</script>
+```
+
 ## 4. Add it to your app
 Now, let’s replace the content of `src/App.vue` with the following example code to use our new `Tiptap` component in our app.
 
