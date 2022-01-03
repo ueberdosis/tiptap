@@ -29,7 +29,7 @@ type ComponentType<R, P> =
   React.FunctionComponent<P> |
   React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<R>>;
 
-export class ReactRenderer<R = unknown,P = unknown> {
+export class ReactRenderer<R = unknown, P = unknown> {
   id: string
 
   editor: ExtendedEditor
