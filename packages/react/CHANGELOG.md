@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.103](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.102...@tiptap/react@2.0.0-beta.103) (2022-01-03)
+
+
+### Bug Fixes
+
+* change reactrenderer component type definition ([#2327](https://github.com/ueberdosis/tiptap/issues/2327)) ([64dfae8](https://github.com/ueberdosis/tiptap/commit/64dfae85118d2b9dc525a8bfa31f00688a56f049))
+
+
+
+
+
 # [2.0.0-beta.102](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.101...@tiptap/react@2.0.0-beta.102) (2021-12-22)
 
 
