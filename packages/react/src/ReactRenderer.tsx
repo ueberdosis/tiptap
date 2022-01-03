@@ -24,12 +24,12 @@ export interface ReactRendererOptions {
   className?: string,
 }
 
-type ComponentType<R> =
-  | React.ComponentClass
-  | React.FunctionComponent
-  | React.ForwardRefExoticComponent<{ items: any[], command: any } & React.RefAttributes<R>>
+type ComponentType<R, P> =
+  React.ComponentClass<P> |
+  React.FunctionComponent<P> |
+  React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<R>>;
 
-export class ReactRenderer<R = unknown> {
+export class ReactRenderer<R = unknown,P = unknown> {
   id: string
 
   editor: ExtendedEditor
@@ -44,7 +44,7 @@ export class ReactRenderer<R = unknown> {
 
   ref: R | null = null
 
-  constructor(component: ComponentType<R>, {
+  constructor(component: ComponentType<R, P>, {
     editor,
     props = {},
     as = 'div',
