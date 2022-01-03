@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
 import '@tiptap/extension-text-style'
 
-type FontFamilyOptions = {
+export type FontFamilyOptions = {
   types: string[],
 }
 
