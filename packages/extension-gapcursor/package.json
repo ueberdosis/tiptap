@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@types/prosemirror-gapcursor": "^1.0.4",
-    "prosemirror-gapcursor": "^1.2.0"
+    "prosemirror-gapcursor": "^1.2.1"
   },
   "repository": {
     "type": "git",

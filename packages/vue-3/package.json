@@ -31,7 +31,7 @@
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.53",
     "@tiptap/extension-floating-menu": "^2.0.0-beta.48",
     "prosemirror-state": "^1.3.4",
-    "prosemirror-view": "^1.23.3"
+    "prosemirror-view": "^1.23.5"
   },
   "repository": {
     "type": "git",

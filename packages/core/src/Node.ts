@@ -376,6 +376,16 @@ declare module '@tiptap/core' {
     }) => NodeSpec['code']),
 
     /**
+     * Whitespace
+     */
+    whitespace?: NodeSpec['whitespace'] | ((this: {
+      name: string,
+      options: Options,
+      storage: Storage,
+      parent: ParentConfig<NodeConfig<Options, Storage>>['whitespace'],
+    }) => NodeSpec['whitespace']),
+
+    /**
      * Defining
      */
     defining?: NodeSpec['defining'] | ((this: {
