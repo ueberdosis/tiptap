@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.91](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.90...@tiptap/extension-mention@2.0.0-beta.91) (2022-01-04)
+
+**Note:** Version bump only for package @tiptap/extension-mention
+
+
+
+
+
 # [2.0.0-beta.90](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.89...@tiptap/extension-mention@2.0.0-beta.90) (2021-12-04)
 
 **Note:** Version bump only for package @tiptap/extension-mention

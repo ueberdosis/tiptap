@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.104](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.103...@tiptap/react@2.0.0-beta.104) (2022-01-04)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
 # [2.0.0-beta.103](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.102...@tiptap/react@2.0.0-beta.103) (2022-01-03)
 
 

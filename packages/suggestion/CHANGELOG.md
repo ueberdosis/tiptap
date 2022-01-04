@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.86](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.85...@tiptap/suggestion@2.0.0-beta.86) (2022-01-04)
+
+**Note:** Version bump only for package @tiptap/suggestion
+
+
+
+
+
 # [2.0.0-beta.85](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.84...@tiptap/suggestion@2.0.0-beta.85) (2021-12-04)
 
 

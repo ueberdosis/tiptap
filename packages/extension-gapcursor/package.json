@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-gapcursor",
   "description": "gapcursor extension for tiptap",
-  "version": "2.0.0-beta.33",
+  "version": "2.0.0-beta.34",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
