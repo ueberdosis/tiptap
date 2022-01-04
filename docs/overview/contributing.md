@@ -34,5 +34,5 @@ There is an eslint config that ensures a consistent code style. To check for err
 ## Testing for errors
 Your pull request will automatically execute all our existing tests. Make sure that they all pass, before sending a pull request. Run all tests locally with `$ yarn run test` or run single tests (e. g. when writing new ones) with `$ yarn run test:open`.
 
-## Futher questions
+## Further questions
 Any further questions? Create a new issue or discussion in the repository. We’ll get back to you.
