@@ -151,6 +151,6 @@ export default {
 You should now see Tiptap in your browser. Time to give yourself a pat on the back! :)
 
 ## 5. Use v-model (optional)
-You’re probably used to bind your data with `v-model` in forms, that’s also possible with Tiptap. Here is how that would work with Tiptap:
+You’re probably used to binding your data with `v-model` in forms, that’s also possible with Tiptap. Here is how that would work with Tiptap:
 
 https://embed.tiptap.dev/preview/GuideGettingStarted/VModel
