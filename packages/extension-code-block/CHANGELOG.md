@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.34](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.33...@tiptap/extension-code-block@2.0.0-beta.34) (2022-01-05)
+
+
+### Features
+
+* add exitOnTripleEnter and exitOnArrowDown options to CodeBlock extension ([a35b7fb](https://github.com/ueberdosis/tiptap/commit/a35b7fbe2cee0390895aaeb358503b5ead116b64))
+
+
+
+
+
 # [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.32...@tiptap/extension-code-block@2.0.0-beta.33) (2021-12-22)
 
 **Note:** Version bump only for package @tiptap/extension-code-block
