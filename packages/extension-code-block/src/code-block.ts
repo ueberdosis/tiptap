@@ -38,8 +38,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const backtickInputRegex = /^```(?<language>[a-z]*)?[\s\n]$/
-export const tildeInputRegex = /^~~~(?<language>[a-z]*)?[\s\n]$/
+export const backtickInputRegex = /^```([a-z]+)?[\s\n]$/
+export const tildeInputRegex = /^~~~([a-z]+)?[\s\n]$/
 
 export const CodeBlock = Node.create<CodeBlockOptions>({
   name: 'codeBlock',
@@ -212,12 +212,16 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       textblockTypeInputRule({
         find: backtickInputRegex,
         type: this.type,
-        getAttributes: ({ groups }) => groups,
+        getAttributes: match => ({
+          language: match[1],
+        }),
       }),
       textblockTypeInputRule({
         find: tildeInputRegex,
         type: this.type,
-        getAttributes: ({ groups }) => groups,
+        getAttributes: match => ({
+          language: match[1],
+        }),
       }),
     ]
   },
