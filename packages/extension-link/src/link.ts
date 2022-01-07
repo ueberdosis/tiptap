@@ -92,16 +92,25 @@ export const Link = Mark.create<LinkOptions>({
 
   addCommands() {
     return {
-      setLink: attributes => ({ commands }) => {
-        return commands.setMark(this.name, attributes)
+      setLink: attributes => ({ chain }) => {
+        return chain()
+          .setMark(this.name, attributes)
+          .setMeta('preventAutolink', true)
+          .run()
       },
 
-      toggleLink: attributes => ({ commands }) => {
-        return commands.toggleMark(this.name, attributes, { extendEmptyMarkRange: true })
+      toggleLink: attributes => ({ chain }) => {
+        return chain()
+          .toggleMark(this.name, attributes, { extendEmptyMarkRange: true })
+          .setMeta('preventAutolink', true)
+          .run()
       },
 
-      unsetLink: () => ({ commands }) => {
-        return commands.unsetMark(this.name, { extendEmptyMarkRange: true })
+      unsetLink: () => ({ chain }) => {
+        return chain()
+          .unsetMark(this.name, { extendEmptyMarkRange: true })
+          .setMeta('preventAutolink', true)
+          .run()
       },
     }
   },

@@ -18,8 +18,9 @@ export function autolink(options: AutolinkOptions): Plugin {
     appendTransaction: (transactions, oldState, newState) => {
       const docChanges = transactions.some(transaction => transaction.docChanged)
         && !oldState.doc.eq(newState.doc)
+      const preventAutolink = transactions.some(transaction => transaction.getMeta('preventAutolink'))
 
-      if (!docChanges) {
+      if (!docChanges || preventAutolink) {
         return
       }
 
