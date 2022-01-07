@@ -40,5 +40,6 @@
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/react"
-  }
+  },
+  "sideEffects": false
 }
