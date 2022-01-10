@@ -1,4 +1,4 @@
-import { EditorState, Plugin } from 'prosemirror-state'
+import { EditorState, Plugin, Transaction } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { CommandManager } from './CommandManager'
 import { createChainableState } from './helpers/createChainableState'
@@ -34,7 +34,7 @@ export class PasteRule {
     commands: SingleCommands,
     chain: () => ChainedCommands,
     can: () => CanCommands,
-  }) => void
+  }) => Transaction | null
 
   constructor(config: {
     find: PasteRuleFinder,
@@ -45,7 +45,7 @@ export class PasteRule {
       commands: SingleCommands,
       chain: () => ChainedCommands,
       can: () => CanCommands,
-    }) => void,
+    }) => Transaction | null,
   }) {
     this.find = config.find
     this.handler = config.handler
@@ -88,21 +88,22 @@ function run(config: {
   state: EditorState,
   from: number,
   to: number,
-  rules: PasteRule[],
-  plugin: Plugin,
-}): any {
+  rule: PasteRule,
+}): boolean {
   const {
     editor,
     state,
     from,
     to,
-    rules,
+    rule,
   } = config
 
   const { commands, chain, can } = new CommandManager({
     editor,
     state,
   })
+
+  const handlers: (Transaction | null)[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
     if (!node.isTextblock || node.type.spec.code) {
@@ -118,32 +119,36 @@ function run(config: {
       '\ufffc',
     )
 
-    rules.forEach(rule => {
-      const matches = pasteRuleMatcherHandler(textToMatch, rule.find)
+    const matches = pasteRuleMatcherHandler(textToMatch, rule.find)
 
-      matches.forEach(match => {
-        if (match.index === undefined) {
-          return
-        }
+    matches.forEach(match => {
+      if (match.index === undefined) {
+        return
+      }
 
-        const start = resolvedFrom + match.index + 1
-        const end = start + match[0].length
-        const range = {
-          from: state.tr.mapping.map(start),
-          to: state.tr.mapping.map(end),
-        }
+      const start = resolvedFrom + match.index + 1
+      const end = start + match[0].length
+      const range = {
+        from: state.tr.mapping.map(start),
+        to: state.tr.mapping.map(end),
+      }
 
-        rule.handler({
-          state,
-          range,
-          match,
-          commands,
-          chain,
-          can,
-        })
+      const handler = rule.handler({
+        state,
+        range,
+        match,
+        commands,
+        chain,
+        can,
       })
+
+      handlers.push(handler)
     })
   })
+
+  const success = handlers.every(handler => handler !== null)
+
+  return success
 }
 
 /**
@@ -151,65 +156,62 @@ function run(config: {
  * text that matches any of the given rules to trigger the rule’s
  * action.
  */
-export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }): Plugin {
+export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }): Plugin[] {
   const { editor, rules } = props
   let isProseMirrorHTML = false
 
-  const plugin = new Plugin({
-    props: {
-      handlePaste: (view, event) => {
-        const html = event.clipboardData?.getData('text/html')
+  const plugins = rules.map(rule => {
+    return new Plugin({
+      props: {
+        handlePaste: (view, event) => {
+          const html = event.clipboardData?.getData('text/html')
 
-        isProseMirrorHTML = !!html?.includes('data-pm-slice')
+          isProseMirrorHTML = !!html?.includes('data-pm-slice')
 
-        return false
+          return false
+        },
       },
-    },
-    appendTransaction: (transactions, oldState, state) => {
-      const transaction = transactions[0]
+      appendTransaction: (transactions, oldState, state) => {
+        const transaction = transactions[0]
 
-      // stop if there is not a paste event
-      if (!transaction.getMeta('paste') || isProseMirrorHTML) {
-        return
-      }
+        // stop if there is not a paste event
+        if (!transaction.getMeta('paste') || isProseMirrorHTML) {
+          return
+        }
 
-      // stop if there is no changed range
-      const { doc, before } = transaction
-      const from = before.content.findDiffStart(doc.content)
-      const to = before.content.findDiffEnd(doc.content)
+        // stop if there is no changed range
+        const from = oldState.doc.content.findDiffStart(state.doc.content)
+        const to = oldState.doc.content.findDiffEnd(state.doc.content)
 
-      if (!isNumber(from) || !to || from === to.b) {
-        return
-      }
+        if (!isNumber(from) || !to || from === to.b) {
+          return
+        }
 
-      // build a chainable state
-      // so we can use a single transaction for all paste rules
-      const tr = state.tr
-      const chainableState = createChainableState({
-        state,
-        transaction: tr,
-      })
+        // build a chainable state
+        // so we can use a single transaction for all paste rules
+        const tr = state.tr
+        const chainableState = createChainableState({
+          state,
+          transaction: tr,
+        })
 
-      run({
-        editor,
-        state: chainableState,
-        from: Math.max(from - 1, 0),
-        to: to.b,
-        rules,
-        plugin,
-      })
+        const handler = run({
+          editor,
+          state: chainableState,
+          from: Math.max(from - 1, 0),
+          to: to.b,
+          rule,
+        })
 
-      // stop if there are no changes
-      if (!tr.steps.length) {
-        return
-      }
+        // stop if there are no changes
+        if (!handler || !tr.steps.length) {
+          return
+        }
 
-      return tr
-    },
-
-    // @ts-ignore
-    isPasteRules: true,
+        return tr
+      },
+    })
   })
 
-  return plugin
+  return plugins
 }

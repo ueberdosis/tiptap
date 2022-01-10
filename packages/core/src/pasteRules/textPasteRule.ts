@@ -29,7 +29,11 @@ export function textPasteRule(config: {
         }
       }
 
-      state.tr.insertText(insert, start, end)
+      const { tr } = state
+
+      tr.insertText(insert, start, end)
+
+      return tr
     },
   })
 }
