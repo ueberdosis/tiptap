@@ -64,8 +64,6 @@ export function markPasteRule(config: {
 
         tr.removeStoredMark(config.type)
       }
-
-      return tr
     },
   })
 }

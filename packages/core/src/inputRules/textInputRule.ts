@@ -29,11 +29,7 @@ export function textInputRule(config: {
         }
       }
 
-      const { tr } = state
-
-      tr.insertText(insert, start, end)
-
-      return tr
+      state.tr.insertText(insert, start, end)
     },
   })
 }

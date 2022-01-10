@@ -64,8 +64,6 @@ export function markInputRule(config: {
 
         tr.removeStoredMark(config.type)
       }
-
-      return tr
     },
   })
 }

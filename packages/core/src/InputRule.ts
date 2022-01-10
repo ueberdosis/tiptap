@@ -1,9 +1,4 @@
-import {
-  EditorState,
-  Plugin,
-  TextSelection,
-  Transaction,
-} from 'prosemirror-state'
+import { EditorState, Plugin, TextSelection } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { CommandManager } from './CommandManager'
 import { createChainableState } from './helpers/createChainableState'
@@ -38,7 +33,7 @@ export class InputRule {
     commands: SingleCommands,
     chain: () => ChainedCommands,
     can: () => CanCommands,
-  }) => Transaction | null
+  }) => void | null
 
   constructor(config: {
     find: InputRuleFinder,
@@ -49,7 +44,7 @@ export class InputRule {
       commands: SingleCommands,
       chain: () => ChainedCommands,
       can: () => CanCommands,
-    }) => Transaction | null,
+    }) => void | null,
   }) {
     this.find = config.find
     this.handler = config.handler
@@ -163,7 +158,7 @@ function run(config: {
     })
 
     // stop if there are no changes
-    if (!handler || !tr.steps.length) {
+    if (handler === null || !tr.steps.length) {
       return
     }
 

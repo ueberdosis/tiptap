@@ -1,4 +1,4 @@
-import { EditorState, Plugin, Transaction } from 'prosemirror-state'
+import { EditorState, Plugin } from 'prosemirror-state'
 import { Editor } from './Editor'
 import { CommandManager } from './CommandManager'
 import { createChainableState } from './helpers/createChainableState'
@@ -34,7 +34,7 @@ export class PasteRule {
     commands: SingleCommands,
     chain: () => ChainedCommands,
     can: () => CanCommands,
-  }) => Transaction | null
+  }) => void | null
 
   constructor(config: {
     find: PasteRuleFinder,
@@ -45,7 +45,7 @@ export class PasteRule {
       commands: SingleCommands,
       chain: () => ChainedCommands,
       can: () => CanCommands,
-    }) => Transaction | null,
+    }) => void | null,
   }) {
     this.find = config.find
     this.handler = config.handler
@@ -103,7 +103,7 @@ function run(config: {
     state,
   })
 
-  const handlers: (Transaction | null)[] = []
+  const handlers: (void | null)[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
     if (!node.isTextblock || node.type.spec.code) {
