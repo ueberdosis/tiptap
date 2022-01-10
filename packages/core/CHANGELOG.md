@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.161](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.160...@tiptap/core@2.0.0-beta.161) (2022-01-10)
+
+
+### Bug Fixes
+
+* add way to cancel inputrules and pasterules ([#2368](https://github.com/ueberdosis/tiptap/issues/2368)) ([669efd0](https://github.com/ueberdosis/tiptap/commit/669efd00e9a508bbb4d6275d47092470b2e16561))
+
+
+
+
+
 # [2.0.0-beta.160](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.159...@tiptap/core@2.0.0-beta.160) (2022-01-04)
 
 **Note:** Version bump only for package @tiptap/core
