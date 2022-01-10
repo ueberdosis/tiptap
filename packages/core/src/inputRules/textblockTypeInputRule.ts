@@ -29,9 +29,12 @@ export function textblockTypeInputRule(config: {
         return null
       }
 
-      state.tr
-        .delete(range.from, range.to)
+      const { tr } = state
+
+      tr.delete(range.from, range.to)
         .setBlockType(range.from, range.from, config.type, attributes)
+
+      return tr
     },
   })
 }
