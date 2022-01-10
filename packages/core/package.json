@@ -26,7 +26,7 @@
   "dependencies": {
     "@types/prosemirror-commands": "^1.0.4",
     "@types/prosemirror-keymap": "^1.0.4",
-    "@types/prosemirror-model": "^1.13.2",
+    "@types/prosemirror-model": "^1.16.0",
     "@types/prosemirror-schema-list": "^1.0.3",
     "@types/prosemirror-state": "^1.2.8",
     "@types/prosemirror-transform": "^1.1.5",
