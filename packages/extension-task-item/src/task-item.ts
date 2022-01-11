@@ -82,6 +82,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
       const checkboxStyler = document.createElement('span')
       const checkbox = document.createElement('input')
       const content = document.createElement('div')
+      const nodePosition = getPos()
 
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
@@ -101,7 +102,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
             .chain()
             .focus()
             .command(({ tr }) => {
-              tr.setNodeMarkup(getPos(), undefined, {
+              tr.setNodeMarkup(nodePosition, undefined, {
                 checked,
               })
 
