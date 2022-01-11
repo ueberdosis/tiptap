@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.75](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.74...@tiptap/vue-2@2.0.0-beta.75) (2022-01-11)
+
+
+### Bug Fixes
+
+* Mark `@tiptap/vue-2` and `@tiptap/vue-3` as side effect free ([be8ca68](https://github.com/ueberdosis/tiptap/commit/be8ca68d97c8f169d548e72253d5e6406fcb4c5b))
+
+
+
+
+
 # [2.0.0-beta.74](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.73...@tiptap/vue-2@2.0.0-beta.74) (2022-01-04)
 
 **Note:** Version bump only for package @tiptap/vue-2

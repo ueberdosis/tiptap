@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.162](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.161...@tiptap/core@2.0.0-beta.162) (2022-01-11)
+
+
+### Bug Fixes
+
+* Mark `@tiptap/react` and `@tiptap/core` as side effect free ([#2361](https://github.com/ueberdosis/tiptap/issues/2361)) ([e609b2d](https://github.com/ueberdosis/tiptap/commit/e609b2d11615dd85fd219731d1b73deaeccccd69))
+
+
+
+
+
 # [2.0.0-beta.161](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.160...@tiptap/core@2.0.0-beta.161) (2022-01-10)
 
 
