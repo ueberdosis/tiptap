@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.163](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.162...@tiptap/core@2.0.0-beta.163) (2022-01-13)
+
+
+### Bug Fixes
+
+* support all characters for suggestion char, fix [#2385](https://github.com/ueberdosis/tiptap/issues/2385) ([42d3ee8](https://github.com/ueberdosis/tiptap/commit/42d3ee8fc9882a9fb9f87e696cebd0e6146d2e62))
+
+
+
+
+
 # [2.0.0-beta.162](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.161...@tiptap/core@2.0.0-beta.162) (2022-01-11)
 
 
