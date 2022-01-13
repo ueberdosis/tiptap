@@ -21,6 +21,7 @@ export * from './pasteRules/markPasteRule'
 export * from './pasteRules/textPasteRule'
 
 export * from './utilities/callOrReturn'
+export * from './utilities/escapeForRegEx'
 export * from './utilities/mergeAttributes'
 
 export * from './helpers/combineTransactionSteps'
