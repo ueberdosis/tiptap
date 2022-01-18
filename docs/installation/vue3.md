@@ -33,7 +33,7 @@ Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For
 npm install @tiptap/vue-3 @tiptap/starter-kit
 ```
 
-If you followed step 1 and 2, you can now start your project with `npm run dev`, and open [http://localhost:8080](http://localhost:8080) in your favorite browser. This might be different, if you’re working with an existing project.
+If you followed step 1 and 2, you can now start your project with `npm run serve`, and open [http://localhost:8080](http://localhost:8080) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Create a new component
 To actually start using Tiptap, you’ll need to add a new component to your app. Let’s call it `Tiptap` and put the following example code in `components/Tiptap.vue`.
@@ -151,6 +151,6 @@ export default {
 You should now see Tiptap in your browser. Time to give yourself a pat on the back! :)
 
 ## 5. Use v-model (optional)
-You’re probably used to bind your data with `v-model` in forms, that’s also possible with Tiptap. Here is how that would work with Tiptap:
+You’re probably used to binding your data with `v-model` in forms, that’s also possible with Tiptap. Here is how that would work with Tiptap:
 
 https://embed.tiptap.dev/preview/GuideGettingStarted/VModel

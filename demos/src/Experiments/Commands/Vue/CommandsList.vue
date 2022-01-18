@@ -1,14 +1,19 @@
 <template>
   <div class="items">
-    <button
-      class="item"
-      :class="{ 'is-selected': index === selectedIndex }"
-      v-for="(item, index) in items"
-      :key="index"
-      @click="selectItem(index)"
-    >
-      {{ item.title }}
-    </button>
+    <template v-if="items.length">
+      <button
+        class="item"
+        :class="{ 'is-selected': index === selectedIndex }"
+        v-for="(item, index) in items"
+        :key="index"
+        @click="selectItem(index)"
+      >
+        {{ item }}
+      </button>
+    </template>
+    <div class="item" v-else>
+      No result
+    </div>
   </div>
 </template>
 

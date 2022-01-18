@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.35](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.34...@tiptap/extension-code-block@2.0.0-beta.35) (2022-01-05)
+
+
+### Bug Fixes
+
+* prevent named capturing groups, fix [#2128](https://github.com/ueberdosis/tiptap/issues/2128) ([0e9930f](https://github.com/ueberdosis/tiptap/commit/0e9930f90f253f8667d1436dcf6c93279fda9aed))
+
+
+
+
+
+# [2.0.0-beta.34](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.33...@tiptap/extension-code-block@2.0.0-beta.34) (2022-01-05)
+
+
+### Features
+
+* add exitOnTripleEnter and exitOnArrowDown options to CodeBlock extension ([a35b7fb](https://github.com/ueberdosis/tiptap/commit/a35b7fbe2cee0390895aaeb358503b5ead116b64))
+
+
+
+
+
 # [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.32...@tiptap/extension-code-block@2.0.0-beta.33) (2021-12-22)
 
 **Note:** Version bump only for package @tiptap/extension-code-block

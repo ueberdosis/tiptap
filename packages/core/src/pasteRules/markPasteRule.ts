@@ -24,7 +24,7 @@ export function markPasteRule(config: {
       const attributes = callOrReturn(config.getAttributes, undefined, match)
 
       if (attributes === false || attributes === null) {
-        return
+        return null
       }
 
       const { tr } = state

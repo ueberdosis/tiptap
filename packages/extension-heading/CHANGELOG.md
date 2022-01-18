@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-heading@2.0.0-beta.24...@tiptap/extension-heading@2.0.0-beta.25) (2022-01-05)
+
+
+### Bug Fixes
+
+* export type `Level` for external use ([#2354](https://github.com/ueberdosis/tiptap/issues/2354)) ([77095c4](https://github.com/ueberdosis/tiptap/commit/77095c4d52604b5c9d1d6cf748bb1110ea8cdd33))
+
+
+
+
+
 # [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-heading@2.0.0-beta.23...@tiptap/extension-heading@2.0.0-beta.24) (2021-12-02)
 
 

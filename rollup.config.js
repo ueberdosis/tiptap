@@ -94,7 +94,9 @@ async function build(commandLineArgs) {
                 '@tiptap/*': ['packages/*/src'],
               },
             },
-            include: null,
+            include: fs.existsSync(`${basePath}/tsconfig.json`)
+              ? []
+              : null,
           },
         }),
       ],

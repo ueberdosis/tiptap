@@ -33,7 +33,7 @@ export class InputRule {
     commands: SingleCommands,
     chain: () => ChainedCommands,
     can: () => CanCommands,
-  }) => void
+  }) => void | null
 
   constructor(config: {
     find: InputRuleFinder,
@@ -44,7 +44,7 @@ export class InputRule {
       commands: SingleCommands,
       chain: () => ChainedCommands,
       can: () => CanCommands,
-    }) => void,
+    }) => void | null,
   }) {
     this.find = config.find
     this.handler = config.handler
@@ -87,7 +87,7 @@ function run(config: {
   text: string,
   rules: InputRule[],
   plugin: Plugin,
-}): any {
+}): boolean {
   const {
     editor,
     from,
@@ -148,7 +148,7 @@ function run(config: {
       state,
     })
 
-    rule.handler({
+    const handler = rule.handler({
       state,
       range,
       match,
@@ -158,7 +158,7 @@ function run(config: {
     })
 
     // stop if there are no changes
-    if (!tr.steps.length) {
+    if (handler === null || !tr.steps.length) {
       return
     }
 

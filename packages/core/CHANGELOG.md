@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.163](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.162...@tiptap/core@2.0.0-beta.163) (2022-01-13)
+
+
+### Bug Fixes
+
+* support all characters for suggestion char, fix [#2385](https://github.com/ueberdosis/tiptap/issues/2385) ([42d3ee8](https://github.com/ueberdosis/tiptap/commit/42d3ee8fc9882a9fb9f87e696cebd0e6146d2e62))
+
+
+
+
+
+# [2.0.0-beta.162](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.161...@tiptap/core@2.0.0-beta.162) (2022-01-11)
+
+
+### Bug Fixes
+
+* Mark `@tiptap/react` and `@tiptap/core` as side effect free ([#2361](https://github.com/ueberdosis/tiptap/issues/2361)) ([e609b2d](https://github.com/ueberdosis/tiptap/commit/e609b2d11615dd85fd219731d1b73deaeccccd69))
+
+
+
+
+
+# [2.0.0-beta.161](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.160...@tiptap/core@2.0.0-beta.161) (2022-01-10)
+
+
+### Bug Fixes
+
+* add way to cancel inputrules and pasterules ([#2368](https://github.com/ueberdosis/tiptap/issues/2368)) ([669efd0](https://github.com/ueberdosis/tiptap/commit/669efd00e9a508bbb4d6275d47092470b2e16561))
+
+
+
+
+
 # [2.0.0-beta.160](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.159...@tiptap/core@2.0.0-beta.160) (2022-01-04)
 
 **Note:** Version bump only for package @tiptap/core

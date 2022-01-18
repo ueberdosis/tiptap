@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-highlight@2.0.0-beta.31...@tiptap/extension-highlight@2.0.0-beta.32) (2022-01-07)
+
+
+### Bug Fixes
+
+* fix a bug in the highlight regex, fix [#2355](https://github.com/ueberdosis/tiptap/issues/2355) ([b8a42fc](https://github.com/ueberdosis/tiptap/commit/b8a42fcaef7d75c1a30dbecfe403d7f0c3ec4e7d))
+
+
+
+
+
 # [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-highlight@2.0.0-beta.30...@tiptap/extension-highlight@2.0.0-beta.31) (2021-12-02)
 
 

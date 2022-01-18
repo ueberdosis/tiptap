@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.88](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.87...@tiptap/vue-3@2.0.0-beta.88) (2022-01-11)
+
+
+### Bug Fixes
+
+* Mark `@tiptap/vue-2` and `@tiptap/vue-3` as side effect free ([be8ca68](https://github.com/ueberdosis/tiptap/commit/be8ca68d97c8f169d548e72253d5e6406fcb4c5b))
+
+
+
+
+
+# [2.0.0-beta.87](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.86...@tiptap/vue-3@2.0.0-beta.87) (2022-01-05)
+
+
+### Bug Fixes
+
+* revert type changes for useEditor in vue-3 package ([3ba3afb](https://github.com/ueberdosis/tiptap/commit/3ba3afbea38b9b46b5d164e0d6a374ecd0ef63c6))
+
+
+
+
+
 # [2.0.0-beta.86](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.85...@tiptap/vue-3@2.0.0-beta.86) (2022-01-04)
 
 **Note:** Version bump only for package @tiptap/vue-3

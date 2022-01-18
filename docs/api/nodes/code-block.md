@@ -22,17 +22,6 @@ npm install @tiptap/extension-code-block
 
 ## Settings
 
-### HTMLAttributes
-Custom HTML attributes that should be added to the rendered HTML tag.
-
-```js
-CodeBlock.configure({
-  HTMLAttributes: {
-    class: 'my-custom-class',
-  },
-})
-```
-
 ### languageClassPrefix
 Adds a prefix to language classes that are applied to code tags.
 
@@ -41,6 +30,39 @@ Default: `'language-'`
 ```js
 CodeBlock.configure({
   languageClassPrefix: 'language-',
+})
+```
+
+### exitOnTripleEnter
+Define whether the node should be exited on triple enter.
+
+Default: `true`
+
+```js
+CodeBlock.configure({
+  exitOnTripleEnter: false,
+})
+```
+
+### exitOnArrowDown
+Define whether the node should be exited on arrow down if there is no node after it.
+
+Default: `true`
+
+```js
+CodeBlock.configure({
+  exitOnArrowDown: false,
+})
+```
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+CodeBlock.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
 })
 ```
 

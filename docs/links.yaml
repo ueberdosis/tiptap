@@ -63,36 +63,52 @@
   redirect: /examples/default
   items:
     - title: Default text editor
+      icon: edit-box-line
       link: /examples/default
     - title: Collaborative editing
+      icon: team-line
       link: /examples/collaborative-editing
     - title: Markdown shortcuts
+      icon: markdown-line
       link: /examples/markdown-shortcuts
     - title: Menus
+      icon: menu-line
       link: /examples/menus
     - title: Tables
+      icon: table-line
       link: /examples/tables
     - title: Images
+      icon: image-line
       link: /examples/images
     - title: Formatting
+      icon: indent-increase
       link: /examples/formatting
     - title: Tasks
+      icon: checkbox-multiple-line
       link: /examples/tasks
     - title: Long texts
+      icon: text-spacing
       link: /examples/book
     - title: Drawing
+      icon: pencil-ruler-line
       link: /examples/drawing
     - title: Mentions
+      icon: at-line
       link: /examples/suggestions
     - title: Minimal setup
+      icon: settings-line
       link: /examples/minimal
     - title: Force a title
+      icon: file-settings-line
       link: /examples/custom-document
     - title: A clever editor
+      icon: mental-health-line
       link: /examples/savvy
     - title: Interactivity
+      icon: cursor-fill
       link: /examples/interactivity
     - title: Syntax highlighting
+      icon: code-box-fill
       link: /examples/syntax-highlighting
 
 - title: Guide
