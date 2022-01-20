@@ -158,24 +158,53 @@ function run(config: {
  */
 export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }): Plugin[] {
   const { editor, rules } = props
-  let isProseMirrorHTML = false
+  let dragSourceElement: Element | null = null
+  let isPastedFromProseMirror = false
+  let isDroppedFromProseMirror = false
 
   const plugins = rules.map(rule => {
     return new Plugin({
+      // we register a global drag handler to track the current drag source element
+      view(view) {
+        const handleDragstart = (event: DragEvent) => {
+          dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
+            ? view.dom.parentElement
+            : null
+        }
+
+        window.addEventListener('dragstart', handleDragstart)
+
+        return {
+          destroy() {
+            window.removeEventListener('dragstart', handleDragstart)
+          },
+        }
+      },
+
       props: {
-        handlePaste: (view, event) => {
-          const html = event.clipboardData?.getData('text/html')
+        handleDOMEvents: {
+          drop: view => {
+            isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
 
-          isProseMirrorHTML = !!html?.includes('data-pm-slice')
+            return false
+          },
 
-          return false
+          paste: (view, event) => {
+            const html = event.clipboardData?.getData('text/html')
+
+            isPastedFromProseMirror = !!html?.includes('data-pm-slice')
+
+            return false
+          },
         },
       },
+
       appendTransaction: (transactions, oldState, state) => {
         const transaction = transactions[0]
+        const isPaste = transaction.getMeta('uiEvent') === 'paste' && !isPastedFromProseMirror
+        const isDrop = transaction.getMeta('uiEvent') === 'drop' && !isDroppedFromProseMirror
 
-        // stop if there is not a paste event
-        if (!transaction.getMeta('paste') || isProseMirrorHTML) {
+        if (!isPaste && !isDrop) {
           return
         }
 
