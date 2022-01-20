@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.165](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.164...@tiptap/core@2.0.0-beta.165) (2022-01-20)
+
+
+### Bug Fixes
+
+* fix removing the caret on blur in some situations when using safari, fix [#2405](https://github.com/ueberdosis/tiptap/issues/2405) ([9d31712](https://github.com/ueberdosis/tiptap/commit/9d317128a08a66f18c4d51385b6a9fccc5cd66f4))
+
+
+
+
+
 # [2.0.0-beta.164](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.163...@tiptap/core@2.0.0-beta.164) (2022-01-20)
 
 
