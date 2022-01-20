@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.166](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.165...@tiptap/core@2.0.0-beta.166) (2022-01-20)
+
+
+### Bug Fixes
+
+* insertContent keeps marks when using plain text, fix [#2406](https://github.com/ueberdosis/tiptap/issues/2406) ([d242706](https://github.com/ueberdosis/tiptap/commit/d2427064ff1765004173f3c718cd1e4eba4dc355))
+
+
+
+
+
 # [2.0.0-beta.165](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.164...@tiptap/core@2.0.0-beta.165) (2022-01-20)
 
 
