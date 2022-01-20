@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.164](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.163...@tiptap/core@2.0.0-beta.164) (2022-01-20)
+
+
+### Bug Fixes
+
+* run pasterules for pasted content, fix [#2408](https://github.com/ueberdosis/tiptap/issues/2408) ([bc03c0d](https://github.com/ueberdosis/tiptap/commit/bc03c0d77812376f910accba1fb130c751ea7f0d))
+
+
+
+
+
 # [2.0.0-beta.163](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.162...@tiptap/core@2.0.0-beta.163) (2022-01-13)
 
 
