@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.94](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.93...@tiptap/extension-mention@2.0.0-beta.94) (2022-01-21)
+
+
+### Bug Fixes
+
+* fixes an error when using the mention extension and pasting text ending with "@", fix [#2413](https://github.com/ueberdosis/tiptap/issues/2413) ([55fa220](https://github.com/ueberdosis/tiptap/commit/55fa2208996f648a2ca06b0a363a249ff5e39169))
+
+
+
+
+
 # [2.0.0-beta.93](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.92...@tiptap/extension-mention@2.0.0-beta.93) (2022-01-20)
 
 **Note:** Version bump only for package @tiptap/extension-mention
