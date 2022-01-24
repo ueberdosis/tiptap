@@ -6,6 +6,7 @@ import Text from '@tiptap/extension-text'
 import CharacterCount from '@tiptap/extension-character-count'
 import Mention from '@tiptap/extension-mention'
 import suggestion from './suggestion'
+import { content } from '../content'
 import './styles.scss'
 
 export default () => {
@@ -26,11 +27,7 @@ export default () => {
         suggestion,
       }),
     ],
-    content: `
-      <p>
-        What do you all think about the new <span data-type="mention" data-id="Winona Ryder"></span> movie?
-      </p>
-    `,
+    content,
   })
 
   const percentage = editor
