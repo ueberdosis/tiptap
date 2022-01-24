@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-horizontal-rule@2.0.0-beta.30...@tiptap/extension-horizontal-rule@2.0.0-beta.31) (2022-01-24)
+
+
+### Bug Fixes
+
+* set cursor position in setHorizontalRule correctly, fix [#2429](https://github.com/ueberdosis/tiptap/issues/2429) ([34d8011](https://github.com/ueberdosis/tiptap/commit/34d80114704679118e9bb6058e0d6c7aa03fd4b5))
+
+
+
+
+
 # [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-horizontal-rule@2.0.0-beta.29...@tiptap/extension-horizontal-rule@2.0.0-beta.30) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/extension-horizontal-rule
