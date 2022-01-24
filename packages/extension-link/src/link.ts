@@ -116,7 +116,7 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   addPasteRules() {
-    return [
+    return this.options.linkOnPaste ? [
       markPasteRule({
         find: text => find(text)
           .filter(link => link.isLink)
@@ -130,7 +130,7 @@ export const Link = Mark.create<LinkOptions>({
           href: match.data?.href,
         }),
       }),
-    ]
+    ] : []
   },
 
   addProseMirrorPlugins() {
@@ -144,13 +144,6 @@ export const Link = Mark.create<LinkOptions>({
 
     if (this.options.openOnClick) {
       plugins.push(clickHandler({
-        type: this.type,
-      }))
-    }
-
-    if (this.options.linkOnPaste) {
-      plugins.push(pasteHandler({
-        editor: this.editor,
         type: this.type,
       }))
     }
