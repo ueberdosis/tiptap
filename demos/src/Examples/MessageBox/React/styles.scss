@@ -3,44 +3,42 @@
   > * + * {
     margin-top: 0.75em;
   }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
-  }
 }
 
-// .mention {
-//   border: 1px solid #000;
-//   border-radius: 0.4rem;
-//   padding: 0.1rem 0.3rem;
-//   box-decoration-break: clone;
-// }
+header {
+  padding: 0.5rem;
+}
 
-// .character-count {
-//   margin-top: 1rem;
-//   display: flex;
-//   align-items: center;
-//   color: #68CEF8;
+main {
+  padding: 1rem;
+}
 
-//   &--warning {
-//     color: #FB5151;
-//   }
+footer {
+  padding: 0.5rem;
+}
 
-//   &__graph {
-//     margin-right: 0.5rem;
-//   }
+nav {
+  display: flex;
+  align-items: center;
+}
 
-//   &__text {
-//     color: #868e96;
-//   }
-// }
+.divider {
+  background-color: rgba(#000, 0.1);
+  height: 1.25rem;
+  margin-left: 0.5rem;
+  margin-right: 0.75rem;
+  width: 2px;
+}
 
 .message-box {
   border: solid black 3px;
   border-radius: 1rem;
+}
+
+.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
