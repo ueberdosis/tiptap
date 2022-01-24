@@ -116,7 +116,7 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   addPasteRules() {
-    return [
+    return this.options.linkOnPaste ? [
       markPasteRule({
         find: text => find(text)
           .filter(link => link.isLink)
@@ -130,7 +130,7 @@ export const Link = Mark.create<LinkOptions>({
           href: match.data?.href,
         }),
       }),
-    ]
+    ] : []
   },
 
   addProseMirrorPlugins() {
