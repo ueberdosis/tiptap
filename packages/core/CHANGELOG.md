@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.167](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.166...@tiptap/core@2.0.0-beta.167) (2022-01-25)
+
+
+### Bug Fixes
+
+* add correct windows and px keymap ([75e5601](https://github.com/ueberdosis/tiptap/commit/75e56017676ac7905c41b87d54b7f099d0290eeb))
+
+
+### Features
+
+* add selectTextblockStart and selectTextblockEnd commands ([0aa39f9](https://github.com/ueberdosis/tiptap/commit/0aa39f93cb1ea328bcf3c1b8da9b0ff1b6a00486))
+
+
+
+
+
 # [2.0.0-beta.166](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.165...@tiptap/core@2.0.0-beta.166) (2022-01-20)
 
 
