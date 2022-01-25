@@ -9,6 +9,7 @@ import Strike from '@tiptap/extension-strike'
 import BulletList from '@tiptap/extension-bullet-list'
 import OrderedList from '@tiptap/extension-ordered-list'
 import ListItem from '@tiptap/extension-list-item'
+import Blockquote from '@tiptap/extension-blockquote'
 import Placeholder from '@tiptap/extension-placeholder'
 import { content } from '../content'
 import './styles.scss'
@@ -51,13 +52,18 @@ const TextFormattingMenu = ({ editor }) => {
       >
         ordered list
       </button>
+      <div className="divider"></div>
+      <button
+        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+        className={editor.isActive('blockquote') ? 'is-active' : ''}
+      >
+        blockquote
+      </button>
     </nav>
   )
 }
 
 export default () => {
-  const limit = 280
-
   const editor = useEditor({
     extensions: [
       Document,
@@ -69,6 +75,7 @@ export default () => {
       BulletList,
       OrderedList,
       ListItem,
+      Blockquote,
       Placeholder,
     ],
     content,

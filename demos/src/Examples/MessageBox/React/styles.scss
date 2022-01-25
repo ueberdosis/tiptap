@@ -42,3 +42,10 @@ nav {
   height: 0;
   pointer-events: none;
 }
+
+// Blockquote
+blockquote {
+  border-left: 3px solid rgba(#0d0d0d, 0.1);
+  padding-left: 0.5rem;
+  margin-left: 0;
+}
