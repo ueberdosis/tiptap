@@ -60,6 +60,13 @@ const TextFormattingMenu = ({ editor }) => {
       >
         blockquote
       </button>
+      <div className="divider"></div>
+      <button
+        onClick={() => editor.chain().focus().toggleCode().run()}
+        className={editor.isActive('code') ? 'is-active' : ''}
+      >
+        code
+      </button>
     </nav>
   )
 }
@@ -77,6 +84,7 @@ export default () => {
       OrderedList,
       ListItem,
       Blockquote,
+      Code,
       Placeholder,
     ],
     content,
