@@ -52,6 +52,10 @@ export const Keymap = Extension.create({
       Delete: handleDelete,
       'Mod-Delete': handleDelete,
       'Mod-a': () => this.editor.commands.selectAll(),
+      'Ctrl-a': () => this.editor.commands.selectTextblockStart(),
+      'Ctrl-e': () => this.editor.commands.selectTextblockEnd(),
+      Home: () => this.editor.commands.selectTextblockStart(),
+      End: () => this.editor.commands.selectTextblockStart(),
     }
   },
 

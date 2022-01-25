@@ -223,6 +223,12 @@
         - title: selectParentNode
           link: /api/commands/select-parent-node
           type: draft
+        - title: selectTextblockEnd
+          link: /api/commands/select-textblock-end
+          type: draft
+        - title: selectTextblockStart
+          link: /api/commands/select-textblock-start
+          type: draft
         - title: setContent
           link: /api/commands/set-content
         - title: setMark
