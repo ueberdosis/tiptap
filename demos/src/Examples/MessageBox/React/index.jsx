@@ -7,6 +7,7 @@ import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
 import Strike from '@tiptap/extension-strike'
 import BulletList from '@tiptap/extension-bullet-list'
+import OrderedList from '@tiptap/extension-ordered-list'
 import ListItem from '@tiptap/extension-list-item'
 import Placeholder from '@tiptap/extension-placeholder'
 import { content } from '../content'
@@ -44,6 +45,12 @@ const TextFormattingMenu = ({ editor }) => {
       >
         bullet list
       </button>
+      <button
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        className={editor.isActive('orderedList') ? 'is-active' : ''}
+      >
+        ordered list
+      </button>
     </nav>
   )
 }
@@ -60,6 +67,7 @@ export default () => {
       Italic,
       Strike,
       BulletList,
+      OrderedList,
       ListItem,
       Placeholder,
     ],
