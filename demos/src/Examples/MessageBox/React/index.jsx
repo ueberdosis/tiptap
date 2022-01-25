@@ -11,6 +11,7 @@ import OrderedList from '@tiptap/extension-ordered-list'
 import ListItem from '@tiptap/extension-list-item'
 import Blockquote from '@tiptap/extension-blockquote'
 import Code from '@tiptap/extension-code'
+import CodeBlock from '@tiptap/extension-code-block'
 import Placeholder from '@tiptap/extension-placeholder'
 import { content } from '../content'
 import './styles.scss'
@@ -67,6 +68,12 @@ const TextFormattingMenu = ({ editor }) => {
       >
         code
       </button>
+      <button
+        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+        className={editor.isActive('codeBlock') ? 'is-active' : ''}
+      >
+        code block
+      </button>
     </nav>
   )
 }
@@ -85,6 +92,7 @@ export default () => {
       ListItem,
       Blockquote,
       Code,
+      CodeBlock,
       Placeholder,
     ],
     content,

@@ -54,3 +54,10 @@ blockquote {
   padding-left: 0.5rem;
   margin-left: 0;
 }
+
+// Code
+code {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: hsl(0, 0%, 90%);
+}
