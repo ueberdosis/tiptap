@@ -1,5 +1,7 @@
 import { Plugin, PluginKey, Selection } from 'prosemirror-state'
 import { createChainableState } from '../helpers/createChainableState'
+import { isiOS } from '../utilities/isiOS'
+import { isMacOS } from '../utilities/isMacOS'
 import { CommandManager } from '../CommandManager'
 import { Extension } from '../Extension'
 
@@ -38,13 +40,15 @@ export const Keymap = Extension.create({
       () => commands.selectNodeForward(),
     ])
 
-    return {
-      Enter: () => this.editor.commands.first(({ commands }) => [
-        () => commands.newlineInCode(),
-        () => commands.createParagraphNear(),
-        () => commands.liftEmptyBlock(),
-        () => commands.splitBlock(),
-      ]),
+    const handleEnter = () => this.editor.commands.first(({ commands }) => [
+      () => commands.newlineInCode(),
+      () => commands.createParagraphNear(),
+      () => commands.liftEmptyBlock(),
+      () => commands.splitBlock(),
+    ])
+
+    const baseKeymap = {
+      Enter: handleEnter,
       'Mod-Enter': () => this.editor.commands.exitCode(),
       Backspace: handleBackspace,
       'Mod-Backspace': handleBackspace,
@@ -52,11 +56,31 @@ export const Keymap = Extension.create({
       Delete: handleDelete,
       'Mod-Delete': handleDelete,
       'Mod-a': () => this.editor.commands.selectAll(),
-      'Ctrl-a': () => this.editor.commands.selectTextblockStart(),
-      'Ctrl-e': () => this.editor.commands.selectTextblockEnd(),
+    }
+
+    const pcKeymap = {
+      ...baseKeymap,
       Home: () => this.editor.commands.selectTextblockStart(),
       End: () => this.editor.commands.selectTextblockStart(),
     }
+
+    const macKeymap = {
+      ...baseKeymap,
+      'Ctrl-h': handleBackspace,
+      'Alt-Backspace': handleBackspace,
+      'Ctrl-d': handleDelete,
+      'Ctrl-Alt-Backspace': handleDelete,
+      'Alt-Delete': handleDelete,
+      'Alt-d': handleDelete,
+      'Ctrl-a': () => this.editor.commands.selectTextblockStart(),
+      'Ctrl-e': () => this.editor.commands.selectTextblockEnd(),
+    }
+
+    if (isiOS() || isMacOS()) {
+      return macKeymap
+    }
+
+    return pcKeymap
   },
 
   addProseMirrorPlugins() {
