@@ -1,3 +1,5 @@
+$black: #0d0d0d;
+
 /* Basic editor styles */
 .ProseMirror {
   > * + * {
@@ -6,7 +8,8 @@
 }
 
 header {
-  padding: 0.5rem 0.75rem;
+  padding: 0.25rem;
+  border-bottom: solid 3px ;
 }
 
 main {
@@ -14,7 +17,7 @@ main {
 }
 
 footer {
-  padding: 0.5rem 0.75rem;
+  padding: 0.25rem;
 }
 
 nav {
@@ -23,15 +26,15 @@ nav {
 }
 
 .divider {
-  background-color: rgba(#000, 0.1);
+  background-color: lighten($color: $black, $amount: 80);
   height: 1.25rem;
   margin: 0 0.75rem;
   width: 2px;
 }
 
 .message-box {
-  border: solid black 3px;
-  border-radius: 1rem;
+  border: solid $black 3px;
+  border-radius: 0.75rem;
 }
 
 // Placeholder
@@ -50,14 +53,17 @@ p {
 
 // Blockquote
 blockquote {
-  border-left: 3px solid rgba(#0d0d0d, 0.1);
-  padding-left: 0.5rem;
+  border-left: 3px solid rgba($black, 0.1);
+  padding-left: 1rem;
   margin-left: 0;
 }
 
 // Code
 code {
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  background-color: hsl(0, 0%, 90%);
+  background-color: rgba(#616161, 0.1);
+    border-radius: 0.25em;
+    box-decoration-break: clone;
+    color: #616161;
+    font-size: 0.9rem;
+    padding: 0.25em;
 }
