@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.47...@tiptap/extension-table@2.0.0-beta.48) (2022-01-25)
+
+
+### Bug Fixes
+
+* use toggleHeader from prosemirror-tables ([#2412](https://github.com/ueberdosis/tiptap/issues/2412)), fix [#548](https://github.com/ueberdosis/tiptap/issues/548) ([c6bea9a](https://github.com/ueberdosis/tiptap/commit/c6bea9aa5c4d38523f2f1095a570cdfc6936392e))
+
+
+
+
+
 # [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.46...@tiptap/extension-table@2.0.0-beta.47) (2022-01-25)
 
 **Note:** Version bump only for package @tiptap/extension-table
