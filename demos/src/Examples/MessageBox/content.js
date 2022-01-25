@@ -1,5 +1,1 @@
-export const content = `
-  <p>
-
-  </p>
-`
+export const content = ''

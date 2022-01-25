@@ -6,6 +6,8 @@ import Text from '@tiptap/extension-text'
 import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
 import Strike from '@tiptap/extension-strike'
+import BulletList from '@tiptap/extension-bullet-list'
+import ListItem from '@tiptap/extension-list-item'
 import Placeholder from '@tiptap/extension-placeholder'
 import { content } from '../content'
 import './styles.scss'
@@ -36,6 +38,12 @@ const TextFormattingMenu = ({ editor }) => {
         strike
       </button>
       <div className="divider"></div>
+      <button
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        className={editor.isActive('bulletList') ? 'is-active' : ''}
+      >
+        bullet list
+      </button>
     </nav>
   )
 }
@@ -51,6 +59,8 @@ export default () => {
       Bold,
       Italic,
       Strike,
+      BulletList,
+      ListItem,
       Placeholder,
     ],
     content,
