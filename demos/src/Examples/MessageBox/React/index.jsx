@@ -1,10 +1,9 @@
 import React from 'react'
-import TextformattingMenu from './TextformattingMenu'
-import FunctionsMenu from './FunctionsMenu'
 import { useEditor, EditorContent } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import Placeholder from '@tiptap/extension-placeholder'
 import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
 import Strike from '@tiptap/extension-strike'
@@ -14,8 +13,12 @@ import ListItem from '@tiptap/extension-list-item'
 import Blockquote from '@tiptap/extension-blockquote'
 import Code from '@tiptap/extension-code'
 import CodeBlock from '@tiptap/extension-code-block'
-import Placeholder from '@tiptap/extension-placeholder'
+import Image from '@tiptap/extension-image'
+import Dropcursor from '@tiptap/extension-dropcursor'
+
 import { content } from '../content'
+import TextformattingMenu from './TextformattingMenu'
+import FunctionsMenu from './FunctionsMenu'
 import './styles.scss'
 
 export default () => {
@@ -24,6 +27,7 @@ export default () => {
       Document,
       Paragraph,
       Text,
+      Placeholder,
       Bold,
       Italic,
       Strike,
@@ -33,7 +37,8 @@ export default () => {
       Blockquote,
       Code,
       CodeBlock,
-      Placeholder,
+      Image,
+      Dropcursor,
     ],
     content,
   })
