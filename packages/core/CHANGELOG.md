@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.168](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.167...@tiptap/core@2.0.0-beta.168) (2022-01-26)
+
+
+### Bug Fixes
+
+* add attributes to pre tag instead of code tag by default, fix [#2440](https://github.com/ueberdosis/tiptap/issues/2440) ([85fcc29](https://github.com/ueberdosis/tiptap/commit/85fcc29ac6ef9e07847d5e0a5cdd318f4300a832))
+
+
+
+
+
 # [2.0.0-beta.167](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.166...@tiptap/core@2.0.0-beta.167) (2022-01-25)
 
 
