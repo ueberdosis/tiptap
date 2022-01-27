@@ -1,4 +1,4 @@
-import { Selection, TextSelection } from 'prosemirror-state'
+import { TextSelection } from 'prosemirror-state'
 import { minMax } from '../utilities/minMax'
 import { RawCommands, Range } from '../types'
 
