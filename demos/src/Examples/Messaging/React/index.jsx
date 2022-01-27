@@ -16,8 +16,10 @@ import CodeBlock from '@tiptap/extension-code-block'
 import Image from '@tiptap/extension-image'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Mention from '@tiptap/extension-mention'
+import Emoji, { gitHubEmojis } from '@tiptap-pro/extension-emoji'
 
-import suggestion from './suggestion'
+import mentionSuggestion from './mention-suggestion'
+import emogiSuggestion from './emoji-suggestion'
 import { content } from '../content'
 import TextformattingMenu from './TextformattingMenu'
 import FunctionsMenu from './FunctionsMenu'
@@ -45,7 +47,12 @@ export default () => {
         HTMLAttributes: {
           class: 'mention',
         },
-        suggestion,
+        suggestion: mentionSuggestion,
+      }),
+      Emoji.configure({
+        emojis: gitHubEmojis,
+        enableEmoticons: true,
+        suggestion: emogiSuggestion,
       }),
     ],
     content,

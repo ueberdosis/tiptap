@@ -55,5 +55,8 @@
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",
     "webpack": "^5.65.0"
+  },
+  "dependencies": {
+    "@tiptap-pro/extension-emoji": "^2.0.0-beta.15"
   }
 }
