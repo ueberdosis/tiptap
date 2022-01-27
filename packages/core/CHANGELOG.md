@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.170](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.169...@tiptap/core@2.0.0-beta.170) (2022-01-27)
+
+
+### Bug Fixes
+
+* set max textselection correctly, fix [#2401](https://github.com/ueberdosis/tiptap/issues/2401) ([4be16fc](https://github.com/ueberdosis/tiptap/commit/4be16fcd2e6c107e59679eebf1ea1d6112a88afb))
+
+
+
+
+
 # [2.0.0-beta.169](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.168...@tiptap/core@2.0.0-beta.169) (2022-01-27)
 
 
