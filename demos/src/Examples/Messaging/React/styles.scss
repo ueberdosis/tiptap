@@ -12,11 +12,14 @@ $black: #0d0d0d;
   border-radius: 0.75rem;
 }
 
-header {
-  padding: 0.25rem;
-  border-bottom: solid 3px $black;
+header,
+footer {
   overflow-x: auto;
   padding: 0.5rem;
+}
+
+header {
+  border-bottom: solid 3px $black;
 }
 
 main {
@@ -26,10 +29,7 @@ main {
 }
 
 footer {
-  padding: 0.25rem;
   border-top: solid 3px $black;
-  overflow-x: auto;
-  padding: 0.5rem;
 
   nav {
     display: flex;
