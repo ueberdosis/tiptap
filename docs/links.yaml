@@ -15,9 +15,9 @@
     - title: Installation
       link: /installation
       items:
-        - title: CDN
-          link: /installation/cdn
-          skip: true
+        # - title: CDN
+        #   link: /installation/cdn
+        #   skip: true
         - title: React
           link: /installation/react
           skip: true
@@ -42,10 +42,10 @@
         - title: Alpine.js
           link: /installation/alpine
           skip: true
-        # - title: Livewire
-        #   link: /installation/livewire
-        #   type: draft
-        #   skip: true
+        - title: PHP
+          link: /installation/php
+          type: new
+          skip: true
     - title: Upgrade guide
       link: /overview/upgrade-guide
     - title: Changelog
@@ -404,6 +404,9 @@
           link: /api/utilities/html
         - title: Suggestion
           link: /api/utilities/suggestion
+        - title: Tiptap for PHP
+          link: /api/utilities/tiptap-php
+          type: new
     - title: Keyboard shortcuts
       link: /api/keyboard-shortcuts
     - title: Schema
