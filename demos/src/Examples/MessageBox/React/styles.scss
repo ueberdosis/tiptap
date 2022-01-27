@@ -17,6 +17,11 @@ main {
 
 footer {
   padding: 0.25rem;
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 nav {
@@ -24,16 +29,15 @@ nav {
   align-items: center;
 }
 
+button {
+  cursor: pointer;
+}
+
 .divider {
   background-color: lighten($color: $black, $amount: 80);
   height: 1.25rem;
   margin: 0 0.75rem;
   width: 2px;
-}
-
-.message-box {
-  border: solid $black 3px;
-  border-radius: 0.75rem;
 }
 
 // Placeholder

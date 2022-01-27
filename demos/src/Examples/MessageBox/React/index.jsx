@@ -15,7 +15,9 @@ import Code from '@tiptap/extension-code'
 import CodeBlock from '@tiptap/extension-code-block'
 import Image from '@tiptap/extension-image'
 import Dropcursor from '@tiptap/extension-dropcursor'
+import Mention from '@tiptap/extension-mention'
 
+import suggestion from './suggestion'
 import { content } from '../content'
 import TextformattingMenu from './TextformattingMenu'
 import FunctionsMenu from './FunctionsMenu'
@@ -39,6 +41,12 @@ export default () => {
       CodeBlock,
       Image,
       Dropcursor,
+      Mention.configure({
+        HTMLAttributes: {
+          class: 'mention',
+        },
+        suggestion,
+      }),
     ],
     content,
   })

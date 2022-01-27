@@ -7,7 +7,13 @@ const FunctionsMenu = ({ editor }) => {
 
   return (
     <nav>
-      {/* TODO: Buttons */}
+      <div>
+        <button>set emoji</button>
+        <button onClick={() => editor.chain().focus().insertContent('@').run()}>set mention</button>
+      </div>
+      <div>
+        <button>send</button>
+      </div>
     </nav>
   )
 }
