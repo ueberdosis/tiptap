@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.169](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.168...@tiptap/core@2.0.0-beta.169) (2022-01-27)
+
+
+### Bug Fixes
+
+* fix End key handler, fix [#2446](https://github.com/ueberdosis/tiptap/issues/2446) ([b584920](https://github.com/ueberdosis/tiptap/commit/b584920ea172bc9f5207b8d03cb2b7f80925a5be))
+
+
+
+
+
 # [2.0.0-beta.168](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.167...@tiptap/core@2.0.0-beta.168) (2022-01-26)
 
 
