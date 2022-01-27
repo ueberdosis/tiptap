@@ -7,16 +7,29 @@ $black: #0d0d0d;
   }
 }
 
+.messenger {
+  border: solid 3px $black;
+  border-radius: 0.75rem;
+}
+
 header {
   padding: 0.25rem;
+  border-bottom: solid 3px $black;
+  overflow-x: auto;
+  padding: 0.5rem;
 }
 
 main {
   padding: 0.5rem 1rem;
+  max-height: 12rem;
+  overflow-y: auto;
 }
 
 footer {
   padding: 0.25rem;
+  border-top: solid 3px $black;
+  overflow-x: auto;
+  padding: 0.5rem;
 
   nav {
     display: flex;
@@ -29,8 +42,14 @@ nav {
   align-items: center;
 }
 
+.button-group {
+  display: flex;
+}
+
 button {
   cursor: pointer;
+  white-space: nowrap;
+  margin: 0 2px;
 }
 
 .divider {
@@ -69,4 +88,12 @@ code {
     color: #616161;
     font-size: 0.9rem;
     padding: 0.25em;
+}
+
+// Mention
+.mention {
+  border: 1px solid #000;
+  border-radius: 0.4rem;
+  padding: 0.1rem 0.3rem;
+  box-decoration-break: clone;
 }

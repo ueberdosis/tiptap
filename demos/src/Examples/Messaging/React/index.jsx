@@ -16,7 +16,6 @@ import CodeBlock from '@tiptap/extension-code-block'
 import Image from '@tiptap/extension-image'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Mention from '@tiptap/extension-mention'
-// import Emoji, { gitHubEmojis } from '@tiptap-pro/extension-emoji'
 
 import suggestion from './suggestion'
 import { content } from '../content'
@@ -48,17 +47,12 @@ export default () => {
         },
         suggestion,
       }),
-      // Emoji.configure({
-      //   emojis: gitHubEmojis,
-      //   enableEmoticons: true,
-      //   suggestion,
-      // }),
     ],
     content,
   })
 
   return (
-    <div className='message-box'>
+    <div className='messenger'>
       <header>
         <TextformattingMenu editor={editor} />
       </header>
