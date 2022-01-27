@@ -16,7 +16,6 @@ Tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s
 * [Nuxt.js](/installation/nuxt)
 * [Svelte](/installation/svelte)
 * [Alpine.js](/installation/alpine)
-* [Livewire](/installation/livewire) (Draft)
 * [PHP](/installation/php)
 
 ### Community efforts
