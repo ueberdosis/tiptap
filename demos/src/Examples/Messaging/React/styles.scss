@@ -14,8 +14,7 @@ $black: #0d0d0d;
 
 header,
 footer {
-  overflow-x: auto;
-  padding: 0.5rem;
+  padding: 0.25rem;
 }
 
 header {
@@ -32,7 +31,6 @@ footer {
   border-top: solid 3px $black;
 
   nav {
-    display: flex;
     justify-content: space-between;
   }
 }
@@ -40,16 +38,19 @@ footer {
 nav {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .button-group {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 button {
   cursor: pointer;
   white-space: nowrap;
-  margin: 0 2px;
+  margin: 0.25rem 2px;
 }
 
 .divider {
