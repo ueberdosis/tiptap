@@ -69,6 +69,13 @@ button {
   cursor: pointer;
   white-space: nowrap;
   margin: 0.25rem 2px;
+
+  &[id="send"] {
+    background-color: $black;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
 }
 
 .divider {
