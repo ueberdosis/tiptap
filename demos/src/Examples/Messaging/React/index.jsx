@@ -24,11 +24,21 @@ import { content } from '../content'
 import TextformattingMenu from './TextformattingMenu'
 import './styles.scss'
 
+const CustomDocument = Document.extend({
+  addKeyboardShortcuts() {
+    return {
+      'Mod-Enter': () => {
+        document.getElementById('send').click()
+      },
+    }
+  },
+})
+
 export default () => {
   const [json, setJson] = useState(null)
   const editor = useEditor({
     extensions: [
-      Document,
+      CustomDocument,
       Paragraph,
       Text,
       Placeholder,
@@ -118,7 +128,7 @@ export default () => {
               <button onClick={() => editor.chain().focus().insertContent(' @').run()}>select mention</button>
             </div>
             <div className='button-group'>
-              <button onClick={addMessage}>send</button>
+              <button id="send" onClick={addMessage}>send</button>
             </div>
           </nav>
         </footer>
