@@ -13,6 +13,12 @@ const FunctionsMenu = ({ editor }) => {
     },
   }
 
+  const renderMessage = jsonContent => {
+    // console.log(JSON.stringify(jsonContent, undefined, 2))
+    // document.getElementsByClassName('conversation').textContent = JSON.stringify(jsonContent, undefined, 2)
+    // document.getElementsByClassName('conversation').innerHTML(`<pre>${jsonContent}</pre>`)
+  }
+
   return (
     <nav>
       <div className='button-group'>
@@ -23,7 +29,7 @@ const FunctionsMenu = ({ editor }) => {
         <button onClick={() => editor.chain().focus().insertContent(' @').run()}>select mention</button>
       </div>
       <div className='button-group'>
-        <button>send</button>
+        <button onClick={() => renderMessage(editor.getJSON())}>send</button>
       </div>
     </nav>
   )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -58,17 +58,35 @@ export default () => {
     content,
   })
 
+  const [messages, setMessages] = useState([])
+  const addMessage = () => {
+    setMessages([...messages, {
+      id: messages.length,
+      value: 'New Message',
+    }])
+  }
+
   return (
     <div className='messenger'>
-      <header>
-        <TextformattingMenu editor={editor} />
-      </header>
-      <main>
-        <EditorContent editor={editor} />
-      </main>
-      <footer>
-        <FunctionsMenu editor={editor} />
-      </footer>
+      <div className='conversation'>
+        <ul>
+          {messages.map(message => (
+            <li key={message.id}>{message.value}</li>
+          ))}
+        </ul>
+      </div>
+      <div className='editor'>
+        <header>
+          <TextformattingMenu editor={editor} />
+        </header>
+        <main>
+          <EditorContent editor={editor} />
+        </main>
+        <footer>
+          {/* <FunctionsMenu editor={editor} /> */}
+          <button onClick={addMessage}>Add message</button>
+        </footer>
+      </div>
     </div>
   )
 }
