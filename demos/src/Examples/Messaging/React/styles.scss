@@ -8,8 +8,20 @@ $black: #0d0d0d;
 }
 
 .conversation {
+  width: 100%;
   margin-bottom: 1rem;
-  min-height: 10rem;
+  min-height: 14rem;
+  max-height: 14rem;
+  overflow-y: auto;
+  padding: 1rem;
+
+  pre {
+    margin-top: 0;
+  }
+
+  code {
+    padding: 1rem;
+  }
 }
 
 .conversation,
@@ -27,7 +39,6 @@ header {
   border-bottom: solid 3px $black;
 }
 
-.conversation,
 main {
   padding: 0.5rem 1rem;
   max-height: 10rem;
@@ -91,11 +102,15 @@ blockquote {
 // Code
 code {
   background-color: rgba(#616161, 0.1);
-    border-radius: 0.25em;
-    box-decoration-break: clone;
-    color: #616161;
-    font-size: 0.9rem;
-    padding: 0.25em;
+  border-radius: 0.25em;
+  box-decoration-break: clone;
+  color: #616161;
+  font-size: 0.8rem;
+  padding: 0.25em;
+}
+
+pre code {
+  display: block;
 }
 
 // Mention

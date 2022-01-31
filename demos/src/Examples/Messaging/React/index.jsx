@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -22,10 +22,10 @@ import mentionSuggestion from './mention-suggestion'
 import emogiSuggestion from './emoji-suggestion'
 import { content } from '../content'
 import TextformattingMenu from './TextformattingMenu'
-import FunctionsMenu from './FunctionsMenu'
 import './styles.scss'
 
 export default () => {
+  const [json, setJson] = useState(null)
   const editor = useEditor({
     extensions: [
       Document,
@@ -58,19 +58,48 @@ export default () => {
     content,
   })
 
+  const mention = {
+    type: 'mention',
+    attrs: {
+      id: 1,
+      label: 'Lea Thompson',
+    },
+  }
+
+  useEffect(() => {
+    if (!editor) {
+      return null
+    }
+
+    // Get the initial content …
+    setJson(editor.getJSON())
+
+    // … and get the content after every change.
+    editor.on('update', () => {
+      setJson(editor.getJSON())
+    })
+  }, [editor])
+
+  console.log(json)
+
   const [messages, setMessages] = useState([])
   const addMessage = () => {
+    if (editor.isEmpty) {
+      return null
+    }
+
     setMessages([{
-      id: messages.length,
-      value: `New Message ${messages.length}`,
+      value: `Message ${messages.length} ${JSON.stringify(json, null, 2)}`,
     }, ...messages])
+
+    editor.commands.clearContent()
   }
 
   return (
     <div className='messenger'>
       <div className='conversation'>
-        {messages.map(message => (
-          <pre key={message.id}>{message.value}</pre>
+        {messages.map((message, key) => (
+          <pre key={key}><code>{message.value}</code></pre>
         ))}
       </div>
       <div className='editor'>
@@ -81,8 +110,18 @@ export default () => {
           <EditorContent editor={editor} />
         </main>
         <footer>
-          {/* <FunctionsMenu editor={editor} /> */}
-          <button onClick={addMessage}>Add message</button>
+          <nav>
+            <div className='button-group'>
+              <button onClick={() => editor.chain().focus().setEmoji('zap').run()}>set emoji</button>
+              <button onClick={() => editor.chain().focus().insertContent(':').run()}>select emoji</button>
+              <div className="divider"></div>
+              <button onClick={() => editor.chain().focus().insertContent(mention).run()}>set mention</button>
+              <button onClick={() => editor.chain().focus().insertContent(' @').run()}>select mention</button>
+            </div>
+            <div className='button-group'>
+              <button onClick={addMessage}>send</button>
+            </div>
+          </nav>
         </footer>
       </div>
     </div>
