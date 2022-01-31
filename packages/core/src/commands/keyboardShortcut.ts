@@ -1,6 +1,6 @@
 import { RawCommands } from '../types'
-
-const mac = typeof navigator !== 'undefined' ? /Mac/.test(navigator.platform) : false
+import { isiOS } from '../utilities/isiOS'
+import { isMacOS } from '../utilities/isMacOS'
 
 function normalizeKeyName(name: string) {
   const parts = name.split(/-(?!$)/)
@@ -27,7 +27,7 @@ function normalizeKeyName(name: string) {
     } else if (/^s(hift)?$/i.test(mod)) {
       shift = true
     } else if (/^mod$/i.test(mod)) {
-      if (mac) {
+      if (isiOS() || isMacOS()) {
         meta = true
       } else {
         ctrl = true

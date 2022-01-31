@@ -1,16 +1,18 @@
 ---
-title: Livewire WYSIWYG
+title: PHP WYSIWYG
 tableOfContents: true
 ---
-
-# Livewire
+# PHP
 
 ## Introduction
-The following guide describes how to integrate Tiptap with your [Livewire](https://laravel-livewire.com/) project.
+You can use Tiptap with Laravel, Livewire, Inertia.js, [Alpine.js](/installation/alpine), [Tailwind CSS](/guide/styling#with-tailwind-css), and even - yes you read that right - inside PHP.
 
-TODO
+## Tiptap for PHP
+We provide [an official PHP package to work with Tiptap content](/api/utilities/tiptap-php). A PHP package to work with Tiptap content. You can transform Tiptap-compatible JSON to HTML, and the other way around, sanitize your content, or just modify it.
 
-## editor.blade.php
+## Laravel Livewire
+
+### editor.blade.php
 ```html
 <!--
   In your livewire component you could add an
@@ -23,7 +25,7 @@ TODO
 ></x-editor>
 ```
 
-## my-livewire-component.blade.php
+### my-livewire-component.blade.php
 ```html
 <div
   x-data="setupEditor(
@@ -37,7 +39,7 @@ TODO
 </div>
 ```
 
-## index.js
+### index.js
 ```js
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'

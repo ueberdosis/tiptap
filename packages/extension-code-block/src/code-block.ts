@@ -1,4 +1,4 @@
-import { Node, textblockTypeInputRule } from '@tiptap/core'
+import { Node, textblockTypeInputRule, mergeAttributes } from '@tiptap/core'
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
 
 export interface CodeBlockOptions {
@@ -81,15 +81,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
           return language
         },
-        renderHTML: attributes => {
-          if (!attributes.language) {
-            return null
-          }
-
-          return {
-            class: this.options.languageClassPrefix + attributes.language,
-          }
-        },
+        rendered: false,
       },
     }
   },
@@ -103,8 +95,20 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
     ]
   },
 
-  renderHTML({ HTMLAttributes }) {
-    return ['pre', this.options.HTMLAttributes, ['code', HTMLAttributes, 0]]
+  renderHTML({ node, HTMLAttributes }) {
+    return [
+      'pre',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      [
+        'code',
+        {
+          class: node.attrs.language
+            ? this.options.languageClassPrefix + node.attrs.language
+            : null,
+        },
+        0,
+      ],
+    ]
   },
 
   addCommands() {

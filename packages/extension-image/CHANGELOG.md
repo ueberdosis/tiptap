@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-image@2.0.0-beta.24...@tiptap/extension-image@2.0.0-beta.25) (2022-01-28)
+
+
+### Bug Fixes
+
+* don’t allow base64 images at all, fix [#2455](https://github.com/ueberdosis/tiptap/issues/2455) ([999dbbe](https://github.com/ueberdosis/tiptap/commit/999dbbec1261d9b67fd3ab9ddba790d7d372d3ae))
+
+
+
+
+
 # [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-image@2.0.0-beta.23...@tiptap/extension-image@2.0.0-beta.24) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/extension-image

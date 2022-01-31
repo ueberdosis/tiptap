@@ -28,6 +28,8 @@ import * as selectAll from '../commands/selectAll'
 import * as selectNodeBackward from '../commands/selectNodeBackward'
 import * as selectNodeForward from '../commands/selectNodeForward'
 import * as selectParentNode from '../commands/selectParentNode'
+import * as selectTextblockEnd from '../commands/selectTextblockEnd'
+import * as selectTextblockStart from '../commands/selectTextblockStart'
 import * as setContent from '../commands/setContent'
 import * as setMark from '../commands/setMark'
 import * as setMeta from '../commands/setMeta'
@@ -77,6 +79,8 @@ export { selectAll }
 export { selectNodeBackward }
 export { selectNodeForward }
 export { selectParentNode }
+export { selectTextblockEnd }
+export { selectTextblockStart }
 export { setContent }
 export { setMark }
 export { setMeta }
@@ -131,6 +135,8 @@ export const Commands = Extension.create({
       ...selectNodeBackward,
       ...selectNodeForward,
       ...selectParentNode,
+      ...selectTextblockEnd,
+      ...selectTextblockStart,
       ...setContent,
       ...setMark,
       ...setMeta,

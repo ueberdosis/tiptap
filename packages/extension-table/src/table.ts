@@ -18,8 +18,7 @@ import {
   deleteTable,
   mergeCells,
   splitCell,
-  toggleHeaderColumn,
-  toggleHeaderRow,
+  toggleHeader,
   toggleHeaderCell,
   setCellAttr,
   fixTables,
@@ -157,10 +156,10 @@ export const Table = Node.create<TableOptions>({
         return splitCell(state, dispatch)
       },
       toggleHeaderColumn: () => ({ state, dispatch }) => {
-        return toggleHeaderColumn(state, dispatch)
+        return toggleHeader('column')(state, dispatch)
       },
       toggleHeaderRow: () => ({ state, dispatch }) => {
-        return toggleHeaderRow(state, dispatch)
+        return toggleHeader('row')(state, dispatch)
       },
       toggleHeaderCell: () => ({ state, dispatch }) => {
         return toggleHeaderCell(state, dispatch)

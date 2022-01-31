@@ -1,4 +1,8 @@
 # CDN
+:::warning
+There’s [an issue with skypack](https://github.com/skypackjs/skypack-cdn/issues/159), which causes trouble every now and then. We can’t do much about that for now.
+:::
+
 For testing purposes or demos, use our [Skypack](https://www.skypack.dev/) CDN builds. Here are the few lines of code you need to get started:
 
 ```html
