@@ -91,6 +91,7 @@ export default () => {
     }, ...messages])
 
     editor.commands.clearContent()
+    document.getElementsByClassName('conversation')[0].scrollTo(0, 0)
   }
 
   return (
