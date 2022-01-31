@@ -7,6 +7,12 @@ $black: #0d0d0d;
   }
 }
 
+.conversation {
+  margin-bottom: 1rem;
+  min-height: 10rem;
+}
+
+.conversation,
 .editor {
   border: solid 3px $black;
   border-radius: 0.75rem;
@@ -21,9 +27,10 @@ header {
   border-bottom: solid 3px $black;
 }
 
+.conversation,
 main {
   padding: 0.5rem 1rem;
-  max-height: 12rem;
+  max-height: 10rem;
   overflow-y: auto;
 }
 

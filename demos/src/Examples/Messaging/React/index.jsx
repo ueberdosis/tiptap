@@ -69,11 +69,9 @@ export default () => {
   return (
     <div className='messenger'>
       <div className='conversation'>
-        <ul>
-          {messages.map(message => (
-            <li key={message.id}>{message.value}</li>
-          ))}
-        </ul>
+        {messages.map(message => (
+          <pre key={message.id}>{message.value}</pre>
+        ))}
       </div>
       <div className='editor'>
         <header>
