@@ -80,8 +80,6 @@ export default () => {
     })
   }, [editor])
 
-  console.log(json)
-
   const [messages, setMessages] = useState([])
   const addMessage = () => {
     if (editor.isEmpty) {
