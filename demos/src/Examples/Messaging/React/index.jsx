@@ -60,10 +60,10 @@ export default () => {
 
   const [messages, setMessages] = useState([])
   const addMessage = () => {
-    setMessages([...messages, {
+    setMessages([{
       id: messages.length,
-      value: 'New Message',
-    }])
+      value: `New Message ${messages.length}`,
+    }, ...messages])
   }
 
   return (
