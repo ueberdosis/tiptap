@@ -16,10 +16,8 @@ import CodeBlock from '@tiptap/extension-code-block'
 import Image from '@tiptap/extension-image'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Mention from '@tiptap/extension-mention'
-import Emoji, { gitHubEmojis } from '@tiptap-pro/extension-emoji'
 
 import mentionSuggestion from './mention-suggestion'
-import emogiSuggestion from './emoji-suggestion'
 import { content } from '../content'
 import TextformattingMenu from './TextformattingMenu'
 import './styles.scss'
@@ -58,11 +56,6 @@ export default () => {
           class: 'mention',
         },
         suggestion: mentionSuggestion,
-      }),
-      Emoji.configure({
-        emojis: gitHubEmojis,
-        enableEmoticons: true,
-        suggestion: emogiSuggestion,
       }),
     ],
     content,
@@ -121,9 +114,6 @@ export default () => {
         <footer>
           <nav>
             <div className='button-group'>
-              <button onClick={() => editor.chain().focus().setEmoji('zap').run()}>set emoji</button>
-              <button onClick={() => editor.chain().focus().insertContent(':').run()}>select emoji</button>
-              <div className="divider"></div>
               <button onClick={() => editor.chain().focus().insertContent(mention).run()}>set mention</button>
               <button onClick={() => editor.chain().focus().insertContent(' @').run()}>select mention</button>
             </div>
