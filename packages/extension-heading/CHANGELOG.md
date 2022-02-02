@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-heading@2.0.0-beta.25...@tiptap/extension-heading@2.0.0-beta.26) (2022-01-20)
+
+**Note:** Version bump only for package @tiptap/extension-heading
+
+
+
+
+
 # [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-heading@2.0.0-beta.24...@tiptap/extension-heading@2.0.0-beta.25) (2022-01-05)
 
 

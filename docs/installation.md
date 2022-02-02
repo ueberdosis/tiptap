@@ -5,10 +5,10 @@ tableOfContents: true
 # Installation
 
 ## Introduction
-tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s your thing). The following integration guides help you integrating Tiptap in your JavaScript project.
+Tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s your thing). The following integration guides help you integrating Tiptap in your JavaScript project.
 
 ## Integration guides
-* [CDN](/installation/cdn)
+<!-- * [CDN](/installation/cdn) -->
 * [React](/installation/react)
 * [Next.js](/installation/nextjs)
 * [Vue 3](/installation/vue3)
@@ -16,7 +16,7 @@ tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s
 * [Nuxt.js](/installation/nuxt)
 * [Svelte](/installation/svelte)
 * [Alpine.js](/installation/alpine)
-* [Livewire](/installation/livewire) (Draft)
+* [PHP](/installation/php)
 
 ### Community efforts
 * [Angular](https://github.com/sibiraj-s/ngx-tiptap)

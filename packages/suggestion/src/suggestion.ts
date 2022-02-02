@@ -1,5 +1,5 @@
 import { Editor, Range } from '@tiptap/core'
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
 import { findSuggestionMatch } from './findSuggestionMatch'
 
@@ -29,6 +29,7 @@ export interface SuggestionOptions {
   },
   allow?: (props: {
     editor: Editor,
+    state: EditorState,
     range: Range,
   }) => boolean,
 }
@@ -167,7 +168,7 @@ export function Suggestion({
       },
 
       // Apply changes to the plugin state from a view transaction.
-      apply(transaction, prev) {
+      apply(transaction, prev, oldState, state) {
         const { composing } = editor.view
         const { selection } = transaction
         const { empty, from } = selection
@@ -198,7 +199,7 @@ export function Suggestion({
           const decorationId = `id_${Math.floor(Math.random() * 0xFFFFFFFF)}`
 
           // If we found a match, update the current state to show it
-          if (match && allow({ editor, range: match.range })) {
+          if (match && allow({ editor, state, range: match.range })) {
             next.active = true
             next.decorationId = prev.decorationId ? prev.decorationId : decorationId
             next.range = match.range

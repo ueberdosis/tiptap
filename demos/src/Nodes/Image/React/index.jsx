@@ -30,7 +30,7 @@ export default () => {
   }
 
   return (
-    <div v-if="editor">
+    <div>
       <button onClick={addImage}>setImage</button>
       <EditorContent editor={editor} />
     </div>

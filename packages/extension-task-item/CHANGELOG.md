@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.30...@tiptap/extension-task-item@2.0.0-beta.31) (2022-01-24)
+
+
+### Bug Fixes
+
+* merge attrributes correctly when clicking task checkbox, fix [#2422](https://github.com/ueberdosis/tiptap/issues/2422) ([fe27843](https://github.com/ueberdosis/tiptap/commit/fe27843e80af2d48350a4b05438ea9212ec0bba4))
+
+
+
+
+
 # [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.29...@tiptap/extension-task-item@2.0.0-beta.30) (2021-12-02)
 
 

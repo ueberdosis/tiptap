@@ -10,8 +10,11 @@ Vue.js · Tiptap · Node.js · PostgreSQL · Remote, Switzerland
 - **[Senior Frontend Engineer](https://dociq.notion.site/Senior-Frontend-Engineer-0926648fac544a6b870a0024f2861c12) @ Contract Vault**<br>
 Vue.js · Tiptap · Remote, Switzerland
 
-- **[Experienced Front-end engineer](https://outstanding-ulna-0e8.notion.site/Sigle-Experienced-Front-end-engineer-f8b1bab84afd4c89a2053c6685c317e0) @ Sigle**<br>
+- **[Experienced Front-end Engineer](https://outstanding-ulna-0e8.notion.site/Sigle-Experienced-Front-end-engineer-f8b1bab84afd4c89a2053c6685c317e0) @ Sigle**<br>
 React · Tiptap · web 3.0 · Remote
+
+- **[Editor Front-end Engineer](https://typecell.notion.site/Prosemirror-TipTap-developer-47c9c12213964b148bc74ea540ba830c) @ TypeCell**<br>
+Open Source · Tiptap · ProseMirror · React · Remote
 
 - **[Javascript Engineer, Software Engineer, …](https://birdeatsbug.com/jobs/?source=tiptapdev) @ Bird Eats Bug**<br>
 Vue.js · Tiptap · Remote · Berlin, Germany

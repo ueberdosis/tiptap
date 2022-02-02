@@ -45,12 +45,22 @@ export interface CustomExtensionStorage {
 }
 
 const CustomExtension = Extension.create<{}, CustomExtensionStorage>({
+  name: 'customExtension',
+
   addStorage() {
     return {
       awesomeness: 100,
     }
   },
 })
+```
+
+When using storage outside of the extension you have to manually set the type.
+
+```
+import { CustomExtensionStorage } from './custom-extension
+
+const customStorage = editor.storage.customExtension as CustomExtensionStorage
 ```
 
 ### Command type

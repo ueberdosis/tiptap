@@ -59,7 +59,7 @@ export const Image = Node.create<ImageOptions>({
   parseHTML() {
     return [
       {
-        tag: 'img[src]',
+        tag: 'img[src]:not([src^="data:"])',
       },
     ]
   },
