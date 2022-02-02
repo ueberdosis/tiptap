@@ -74,6 +74,10 @@
     - title: Menus
       icon: menu-line
       link: /examples/menus
+    - title: Messaging
+#      icon: send-plane-line
+      icon: question-answer-line
+      link: /examples/messaging
     - title: Tables
       icon: table-line
       link: /examples/tables
