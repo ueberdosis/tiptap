@@ -109,7 +109,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
       checkbox.addEventListener('change', event => {
         // if the editor isn’t editable and the item isn't checkable
         // we have to undo the latest change
-        if (!editor.isEditable && !checkable) {
+        if (!editor.isEditable && !this.options.checkable) {
           checkbox.checked = !checkbox.checked
 
           return
