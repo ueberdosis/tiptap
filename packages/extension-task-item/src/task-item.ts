@@ -2,6 +2,7 @@ import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core'
 
 export interface TaskItemOptions {
   nested: boolean,
+  checkable: boolean,
   HTMLAttributes: Record<string, any>,
 }
 
@@ -13,6 +14,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
   addOptions() {
     return {
       nested: false,
+      checkable: false,
       HTMLAttributes: {},
     }
   },
@@ -105,9 +107,9 @@ export const TaskItem = Node.create<TaskItemOptions>({
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
       checkbox.addEventListener('change', event => {
-        // if the editor isn’t editable
+        // if the editor isn’t editable and the item isn't checkable
         // we have to undo the latest change
-        if (!editor.isEditable) {
+        if (!editor.isEditable && !checkable) {
           checkbox.checked = !checkbox.checked
 
           return
