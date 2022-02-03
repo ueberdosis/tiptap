@@ -14,6 +14,7 @@ export interface PlaceholderOptions {
   showOnlyWhenEditable: boolean,
   showOnlyCurrent: boolean,
   includeChildren: boolean,
+  hasAnchor: boolean,
 }
 
 export const Placeholder = Extension.create<PlaceholderOptions>({
@@ -61,6 +62,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
                       editor: this.editor,
                       node,
                       pos,
+                      hasAnchor,
                     })
                     : this.options.placeholder,
                 })
