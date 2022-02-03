@@ -45,16 +45,16 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
 
-    - name: Fix code style linting errors
-      id: lint-fix
-      run: yarn lint:fix
-      continue-on-error: true
-
-    - name: Commit fixed linting errors
-      id: commit
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: "ci: fix code style linting errors"
+#    - name: Fix code style linting errors
+#      id: lint-fix
+#      run: yarn lint:fix
+#      continue-on-error: true
+#
+#    - name: Commit fixed linting errors
+#      id: commit
+#      uses: stefanzweifel/git-auto-commit-action@v4
+#      with:
+#        commit_message: "ci: fix code style linting errors"
 
     - name: Lint code
       id: lint
