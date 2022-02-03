@@ -10,11 +10,11 @@ export interface PlaceholderOptions {
     editor: Editor,
     node: ProsemirrorNode,
     pos: number,
+    hasAnchor: boolean,
   }) => string) | string,
   showOnlyWhenEditable: boolean,
   showOnlyCurrent: boolean,
   includeChildren: boolean,
-  hasAnchor: boolean,
 }
 
 export const Placeholder = Extension.create<PlaceholderOptions>({
