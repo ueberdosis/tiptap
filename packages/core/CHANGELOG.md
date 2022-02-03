@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.172](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.171...@tiptap/core@2.0.0-beta.172) (2022-02-03)
+
+
+### Bug Fixes
+
+* don’t add tabindex when readonly, fix [#2458](https://github.com/ueberdosis/tiptap/issues/2458) ([01411f8](https://github.com/ueberdosis/tiptap/commit/01411f8462e8a36f96e56cdba227a9e5bb3e1812))
+
+
+
+
+
 # [2.0.0-beta.171](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.170...@tiptap/core@2.0.0-beta.171) (2022-01-28)
 
 **Note:** Version bump only for package @tiptap/core

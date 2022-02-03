@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.47...@tiptap/extension-placeholder@2.0.0-beta.48) (2022-02-03)
+
+
+### Bug Fixes
+
+* fix hasAnchor type for placeholder extension ([5257a3b](https://github.com/ueberdosis/tiptap/commit/5257a3b94832b22a49dfedfb6f2aeea9abc6255b))
+
+
+### Features
+
+* expose hasAnchor to custom placeholder function ([#2470](https://github.com/ueberdosis/tiptap/issues/2470)) ([2fe6e21](https://github.com/ueberdosis/tiptap/commit/2fe6e2135d677dd5cfa9de7d9aa5100619986056))
+
+
+
+
+
 # [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-placeholder@2.0.0-beta.46...@tiptap/extension-placeholder@2.0.0-beta.47) (2022-01-25)
 
 **Note:** Version bump only for package @tiptap/extension-placeholder
