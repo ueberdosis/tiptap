@@ -66,6 +66,7 @@ export const Underline = Mark.create<UnderlineOptions>({
   addKeyboardShortcuts() {
     return {
       'Mod-u': () => this.editor.commands.toggleUnderline(),
+      'Mod-U': () => this.editor.commands.toggleUnderline(),
     }
   },
 })
