@@ -28,6 +28,7 @@ export default ({ editor }) => {
       }
     })
 
+    transaction.setMeta("addToHistory", false)
     transaction.setMeta('preventUpdate', true)
 
     editor.view.dispatch(transaction)
