@@ -219,7 +219,6 @@ export const Typography = Extension.create<TypographyOptions>({
       rules.push(threeQuarters)
     }
 
-
     return rules
   },
 })
