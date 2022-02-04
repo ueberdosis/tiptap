@@ -5,14 +5,6 @@ const TextformattingMenu = ({ editor }) => {
     return null
   }
 
-  const addImage = () => {
-    const url = window.prompt('URL')
-
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run()
-    }
-  }
-
   return (
     <nav>
       <button
@@ -32,10 +24,6 @@ const TextformattingMenu = ({ editor }) => {
         className={editor.isActive('strike') ? 'is-active' : ''}
       >
         strike
-      </button>
-      <div className="divider"></div>
-      <button onClick={addImage}>
-          add image
       </button>
       <div className="divider"></div>
       <button

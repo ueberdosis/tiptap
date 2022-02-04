@@ -1,24 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
 import Placeholder from '@tiptap/extension-placeholder'
-import Bold from '@tiptap/extension-bold'
-import Italic from '@tiptap/extension-italic'
-import Strike from '@tiptap/extension-strike'
-import BulletList from '@tiptap/extension-bullet-list'
-import OrderedList from '@tiptap/extension-ordered-list'
-import ListItem from '@tiptap/extension-list-item'
-import Blockquote from '@tiptap/extension-blockquote'
-import Code from '@tiptap/extension-code'
-import CodeBlock from '@tiptap/extension-code-block'
-import Image from '@tiptap/extension-image'
-import Dropcursor from '@tiptap/extension-dropcursor'
 import Mention from '@tiptap/extension-mention'
 
 import mentionSuggestion from './mention-suggestion'
-import { content } from '../content'
 import TextformattingMenu from './TextformattingMenu'
 import './styles.scss'
 
@@ -33,24 +20,15 @@ const CustomDocument = Document.extend({
 })
 
 export default () => {
-  const [json, setJson] = useState(null)
   const editor = useEditor({
     extensions: [
+      StarterKit.configure({
+        document: false,
+        hardBreak: false,
+      }),
       CustomDocument,
-      Paragraph,
       Text,
       Placeholder,
-      Bold,
-      Italic,
-      Strike,
-      BulletList,
-      OrderedList,
-      ListItem,
-      Blockquote,
-      Code,
-      CodeBlock,
-      Image,
-      Dropcursor,
       Mention.configure({
         HTMLAttributes: {
           class: 'mention',
@@ -58,7 +36,8 @@ export default () => {
         suggestion: mentionSuggestion,
       }),
     ],
-    content,
+    content:
+      '<p>This is <em><s>a extensive</s> a simple </em><strong><em>messaging</em></strong><em> </em><strong><em>example</em></strong><em> </em>with <code>@</code>-mentions <span data-type="mention" class="mention" data-id="Madonna" contenteditable="false">@Madonna</span><em>.</em></p><p>In addition you can send the message by clicking <strong><em>send button</em></strong> or hitting <code>cmd+enter</code> on mac or <code>ctrl+enter</code> on pc.</p>',
   })
 
   const mention = {
@@ -69,31 +48,19 @@ export default () => {
     },
   }
 
-  useEffect(() => {
-    if (!editor) {
-      return null
-    }
-
-    // Get the initial content …
-    setJson(editor.getJSON())
-
-    // … and get the content after every change.
-    editor.on('update', () => {
-      setJson(editor.getJSON())
-    })
-  }, [editor])
-
   const [messages, setMessages] = useState([])
   const addMessage = () => {
     if (editor.isEmpty) {
       return null
     }
 
+    const json = editor.getJSON()
+
     setMessages([{
       value: `Message ${messages.length} ${JSON.stringify(json, null, 2)}`,
     }, ...messages])
 
-    editor.commands.clearContent()
+    editor.chain().clearContent().focus().run()
     document.getElementsByClassName('conversation')[0].scrollTo(0, 0)
   }
 
