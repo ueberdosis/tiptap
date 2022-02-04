@@ -55,6 +55,7 @@ export default {
         }
       })
 
+      transaction.setMeta("addToHistory", false)
       transaction.setMeta('preventUpdate', true)
 
       this.editor.view.dispatch(transaction)
