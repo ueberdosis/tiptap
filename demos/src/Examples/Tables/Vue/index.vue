@@ -145,7 +145,7 @@ export default {
             <tr>
               <td>Hans Pagel</td>
               <td>wrote this</td>
-              <td colspan="2">that’s it</td>
+              <td colspan="2"></td>
             </tr>
           </tbody>
         </table>
