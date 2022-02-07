@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.174](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.173...@tiptap/core@2.0.0-beta.174) (2022-02-07)
+
+
+### Bug Fixes
+
+* revert changes to selectAll command, fix [#2491](https://github.com/ueberdosis/tiptap/issues/2491) ([bdab760](https://github.com/ueberdosis/tiptap/commit/bdab760cdbf89da7a56dcc1a183010974d2e1290))
+
+
+
+
+
 # [2.0.0-beta.173](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.172...@tiptap/core@2.0.0-beta.173) (2022-02-07)
 
 
