@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.173](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.172...@tiptap/core@2.0.0-beta.173) (2022-02-07)
+
+
+### Bug Fixes
+
+* fix RangeError bug when selecting all text, fix [#2490](https://github.com/ueberdosis/tiptap/issues/2490) ([70422dd](https://github.com/ueberdosis/tiptap/commit/70422dd107ed1ecdd8dfe41a8a93297124d2f1e0))
+
+
+
+
+
 # [2.0.0-beta.172](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.171...@tiptap/core@2.0.0-beta.172) (2022-02-03)
 
 
