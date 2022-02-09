@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-image@2.0.0-beta.25...@tiptap/extension-image@2.0.0-beta.26) (2022-02-09)
+
+
+### Features
+
+* add allowBase64 option to image extension ([a97a46f](https://github.com/ueberdosis/tiptap/commit/a97a46fc51c5a4b2f46be21fa6701b977eb415f7))
+
+
+
+
+
 # [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-image@2.0.0-beta.24...@tiptap/extension-image@2.0.0-beta.25) (2022-01-28)
 
 
