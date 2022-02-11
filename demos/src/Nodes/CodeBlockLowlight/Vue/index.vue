@@ -104,6 +104,7 @@ export default {
     .hljs-variable,
     .hljs-template-variable,
     .hljs-attribute,
+    .hljs-attr,
     .hljs-tag,
     .hljs-name,
     .hljs-regexp,
