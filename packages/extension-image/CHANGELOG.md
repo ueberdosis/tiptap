@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-image@2.0.0-beta.26...@tiptap/extension-image@2.0.0-beta.27) (2022-02-11)
+
+
+### Bug Fixes
+
+* don’t trigger image input rule on paste, fix [#2518](https://github.com/ueberdosis/tiptap/issues/2518) ([ecf270c](https://github.com/ueberdosis/tiptap/commit/ecf270c9e7b5848767e5380a37db622f9d8ab85e))
+
+
+
+
+
 # [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-image@2.0.0-beta.25...@tiptap/extension-image@2.0.0-beta.26) (2022-02-09)
 
 
