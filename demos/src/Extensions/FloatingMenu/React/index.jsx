@@ -18,7 +18,7 @@ export default () => {
 
   return (
     <>
-      {editor && <FloatingMenu editor={editor}>
+      {editor && <FloatingMenu editor={editor} tippyOptions={{ duration: 100 }}>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}

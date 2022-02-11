@@ -17,7 +17,7 @@ export default () => {
 
   return (
     <>
-      {editor && <BubbleMenu editor={editor}>
+      {editor && <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={editor.isActive('bold') ? 'is-active' : ''}
