@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.24...@tiptap/extension-character-count@2.0.0-beta.25) (2022-02-11)
+
+
+### Bug Fixes
+
+* improve bundle size of character count extension, fix [#2519](https://github.com/ueberdosis/tiptap/issues/2519) ([fbfe1d9](https://github.com/ueberdosis/tiptap/commit/fbfe1d9992ee3b49db62bdf50d99321a3fa7ad95))
+
+
+
+
+
 # [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.23...@tiptap/extension-character-count@2.0.0-beta.24) (2021-12-22)
 
 **Note:** Version bump only for package @tiptap/extension-character-count
