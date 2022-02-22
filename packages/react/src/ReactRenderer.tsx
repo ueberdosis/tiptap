@@ -1,9 +1,8 @@
 import React from 'react'
-import { Editor } from '@tiptap/core'
-import { Editor as ExtendedEditor } from './Editor'
+import { Editor } from './Editor'
 
 function isClassComponent(Component: any) {
-  return !!(
+  return Boolean(
     typeof Component === 'function'
     && Component.prototype
     && Component.prototype.isReactComponent
@@ -11,7 +10,7 @@ function isClassComponent(Component: any) {
 }
 
 function isForwardRefComponent(Component: any) {
-  return !!(
+  return Boolean(
     typeof Component === 'object'
     && Component.$$typeof?.toString() === 'Symbol(react.forward_ref)'
   )
@@ -32,7 +31,7 @@ type ComponentType<R, P> =
 export class ReactRenderer<R = unknown, P = unknown> {
   id: string
 
-  editor: ExtendedEditor
+  editor: Editor
 
   component: any
 
@@ -52,7 +51,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
   }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
-    this.editor = editor as ExtendedEditor
+    this.editor = editor
     this.props = props
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
@@ -76,14 +75,11 @@ export class ReactRenderer<R = unknown, P = unknown> {
 
     this.reactElement = <Component {...props } />
 
-    if (this.editor?.contentComponent) {
-      this.editor.contentComponent.setState({
-        renderers: this.editor.contentComponent.state.renderers.set(
-          this.id,
-          this,
-        ),
-      })
-    }
+    this.editor.setRenderers?.(prev => {
+      const next = {...prev}
+      next[this.id] = this
+      return next
+    })
   }
 
   updateProps(props: Record<string, any> = {}): void {
@@ -96,14 +92,10 @@ export class ReactRenderer<R = unknown, P = unknown> {
   }
 
   destroy(): void {
-    if (this.editor?.contentComponent) {
-      const { renderers } = this.editor.contentComponent.state
-
-      renderers.delete(this.id)
-
-      this.editor.contentComponent.setState({
-        renderers,
-      })
-    }
+    this.editor.setRenderers?.(prev => {
+      const next = {...prev}
+      delete next[this.id]
+      return next
+    })
   }
 }

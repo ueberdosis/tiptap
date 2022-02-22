@@ -1,110 +1,54 @@
-import React, { HTMLProps } from 'react'
-import ReactDOM from 'react-dom'
+import React, { HTMLProps, memo, useLayoutEffect, useRef } from 'react'
+import { EditorOptions } from '@tiptap/core'
 import { Editor } from './Editor'
-import { ReactRenderer } from './ReactRenderer'
-
-const Portals: React.FC<{ renderers: Map<string, ReactRenderer> }> = ({ renderers }) => {
-  return (
-    <>
-      {Array.from(renderers).map(([key, renderer]) => {
-        return ReactDOM.createPortal(
-          renderer.reactElement,
-          renderer.element,
-          key,
-        )
-      })}
-    </>
-  )
-}
+import { useSetEditor } from './useEditor'
+import { useSetRenderers, Portals } from './useRenderers'
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
-  editor: Editor | null,
+  editorOptions: Partial<EditorOptions>
 }
 
 export interface EditorContentState {
-  renderers: Map<string, ReactRenderer>
+  editor?: Editor
 }
 
-export class PureEditorContent extends React.Component<EditorContentProps, EditorContentState> {
-  editorContentRef: React.RefObject<any>
+export const EditorContent: React.FC<EditorContentProps> = memo((props) => {
 
-  constructor(props: EditorContentProps) {
-    super(props)
-    this.editorContentRef = React.createRef()
+  const editorContentRef = useRef<HTMLDivElement>(null)
 
-    this.state = {
-      renderers: new Map(),
-    }
-  }
+  const setEditor = useSetEditor()
+  const setRenderers = useSetRenderers()
 
-  componentDidMount() {
-    this.init()
-  }
+  useLayoutEffect(
+    () => {
+      // Initialize editor and mount onto editorContentRef.
+      const editor = new Editor(props.editorOptions)
+      editor.setRenderers = setRenderers
 
-  componentDidUpdate() {
-    this.init()
-  }
-
-  init() {
-    const { editor } = this.props
-
-    if (editor && editor.options.element) {
-      if (editor.contentComponent) {
-        return
-      }
-
-      const element = this.editorContentRef.current
-
-      element.append(...editor.options.element.childNodes)
-
-      editor.setOptions({
-        element,
-      })
-
-      editor.contentComponent = this
-
+      const element = editorContentRef.current!
+      element.append(editor.options.element)
+  
+      editor.options.element = element
       editor.createNodeViews()
-    }
-  }
+  
+      // Update context when editor initializes and updates.
+      setEditor(editor)
+      editor.on('transaction', () => setEditor(editor))
 
-  componentWillUnmount() {
-    const { editor } = this.props
+      // Cleanup editor on component unmount.
+      return () => {
+        editor.destroy()
+        editor.setRenderers = undefined
+      }
+    },
+    [props.editorOptions]
+  )
 
-    if (!editor) {
-      return
-    }
-
-    if (!editor.isDestroyed) {
-      editor.view.setProps({
-        nodeViews: {},
-      })
-    }
-
-    editor.contentComponent = null
-
-    if (!editor.options.element.firstChild) {
-      return
-    }
-
-    const newElement = document.createElement('div')
-
-    newElement.append(...editor.options.element.childNodes)
-
-    editor.setOptions({
-      element: newElement,
-    })
-  }
-
-  render() {
-    const { editor, ...rest } = this.props
-
-    return (
-      <>
-        <div ref={this.editorContentRef} {...rest} />
-        <Portals renderers={this.state.renderers} />
-      </>
-    )
-  }
-}
-
-export const EditorContent = React.memo(PureEditorContent)
+  const { editorOptions, ...rest } = props
+  return (
+    <>
+      <div ref={editorContentRef} {...rest}/>
+      <Portals/>
+    </>
+  )
+})

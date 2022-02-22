@@ -1,7 +1,6 @@
-import React from 'react'
 import { Editor as CoreEditor } from '@tiptap/core'
-import { EditorContentProps, EditorContentState } from './EditorContent'
+import { ReactRenderer } from './ReactRenderer'
 
 export class Editor extends CoreEditor {
-  public contentComponent: React.Component<EditorContentProps, EditorContentState> | null = null
+  public setRenderers?: React.Dispatch<React.SetStateAction<Record<string, ReactRenderer<unknown, unknown>>>>
 }
