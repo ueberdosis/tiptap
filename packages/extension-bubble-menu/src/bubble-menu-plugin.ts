@@ -36,6 +36,8 @@ export class BubbleMenuView {
 
   public preventHide = false
 
+  public preventShow = false
+
   public tippy: Instance | undefined
 
   public tippyOptions?: Partial<Props>
@@ -82,6 +84,8 @@ export class BubbleMenuView {
     }
 
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
+    this.view.dom.addEventListener('mousedown', this.viewMousedownHandler)
+    this.view.dom.addEventListener('mouseup', this.viewMouseupHandler)
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
@@ -93,6 +97,15 @@ export class BubbleMenuView {
 
   mousedownHandler = () => {
     this.preventHide = true
+  }
+
+  viewMousedownHandler = () => {
+    this.preventShow = true
+  }
+
+  viewMouseupHandler = () => {
+    this.preventShow = false
+    setTimeout(() => this.update(this.editor.view))
   }
 
   dragstartHandler = () => {
@@ -173,7 +186,7 @@ export class BubbleMenuView {
       to,
     })
 
-    if (!shouldShow) {
+    if (!shouldShow || this.preventShow) {
       this.hide()
 
       return
@@ -207,6 +220,8 @@ export class BubbleMenuView {
   destroy() {
     this.tippy?.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
+    this.view.dom.removeEventListener('mousedown', this.viewMousedownHandler)
+    this.view.dom.removeEventListener('mouseup', this.viewMouseupHandler)
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
