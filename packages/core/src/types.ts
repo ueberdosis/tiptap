@@ -70,6 +70,7 @@ export interface EditorOptions {
   content: Content,
   extensions: Extensions,
   injectCSS: boolean,
+  injectNonce: string | undefined,
   autofocus: FocusPosition,
   editable: boolean,
   editorProps: EditorProps,

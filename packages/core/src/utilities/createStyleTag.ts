@@ -1,4 +1,4 @@
-export function createStyleTag(style: string): HTMLStyleElement {
+export function createStyleTag(style: string, nonce?: string): HTMLStyleElement {
   const tipTapStyleTag = (<HTMLStyleElement>document.querySelector('style[data-tiptap-style]'))
 
   if (tipTapStyleTag !== null) {
@@ -6,6 +6,10 @@ export function createStyleTag(style: string): HTMLStyleElement {
   }
 
   const styleNode = document.createElement('style')
+
+  if (nonce) {
+    styleNode.setAttribute('nonce', nonce)
+  }
 
   styleNode.setAttribute('data-tiptap-style', '')
   styleNode.innerHTML = style

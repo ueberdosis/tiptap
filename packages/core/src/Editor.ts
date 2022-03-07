@@ -57,6 +57,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     element: document.createElement('div'),
     content: '',
     injectCSS: true,
+    injectNonce: undefined,
     extensions: [],
     autofocus: false,
     editable: true,
@@ -136,7 +137,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   private injectCSS(): void {
     if (this.options.injectCSS && document) {
-      this.css = createStyleTag(style)
+      this.css = createStyleTag(style, this.options.injectNonce)
     }
   }
 
