@@ -83,7 +83,10 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRe
       value: this.getDecorationClasses(),
     })
 
-    const Component = Vue
+    // @ts-ignore
+    const vue = this.editor.contentComponent?.$options._base ?? Vue
+
+    const Component = vue
       .extend(this.component)
       .extend({
         props: Object.keys(props),
