@@ -22,7 +22,9 @@ export interface SuggestionOptions {
     editor: Editor,
   }) => any[] | Promise<any[]>,
   render?: () => {
+    onBeforeStart?: (props: SuggestionProps) => void
     onStart?: (props: SuggestionProps) => void,
+    onBeforeUpdate?: (props: SuggestionProps) => void
     onUpdate?: (props: SuggestionProps) => void,
     onExit?: (props: SuggestionProps) => void,
     onKeyDown?: (props: SuggestionKeyDownProps) => boolean,
@@ -104,12 +106,7 @@ export function Suggestion({
             range: state.range,
             query: state.query,
             text: state.text,
-            items: (handleChange || handleStart)
-              ? await items({
-                editor,
-                query: state.query,
-              })
-              : [],
+            items: [],
             command: commandProps => {
               command({
                 editor,
@@ -130,6 +127,21 @@ export function Suggestion({
                 return currentDecorationNode.getBoundingClientRect()
               }
               : null,
+          }
+
+          if (handleStart) {
+            renderer?.onBeforeStart?.(props)
+          }
+
+          if (handleChange) {
+            renderer?.onBeforeUpdate?.(props)
+          }
+
+          if (handleChange || handleStart) {
+            props.items = await items({
+              editor,
+              query: state.query,
+            })
           }
 
           if (handleExit) {
