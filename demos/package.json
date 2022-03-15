@@ -15,7 +15,8 @@
     "shiki": "^0.10.0",
     "simplify-js": "^1.2.4",
     "y-webrtc": "^10.2.2",
-    "yjs": "^13.5.26"
+    "yjs": "^13.5.26",
+    "lowlight": "^1.20.0"
   },
   "devDependencies": {
     "@types/uuid": "^8.3.4",
