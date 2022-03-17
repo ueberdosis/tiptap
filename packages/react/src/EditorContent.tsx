@@ -27,7 +27,9 @@ export interface EditorContentState {
 }
 
 export class PureEditorContent extends React.Component<EditorContentProps, EditorContentState> {
-  static contextType?: React.Context<any> | undefined = EditorContext
+  static contextType = EditorContext
+  
+  declare context: React.ContextType<typeof EditorContext>
 
   editorContentRef: React.RefObject<any>
 
