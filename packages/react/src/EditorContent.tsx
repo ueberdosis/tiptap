@@ -1,6 +1,7 @@
 import React, { HTMLProps } from 'react'
 import ReactDOM from 'react-dom'
 import { Editor } from './Editor'
+import { EditorContext } from './EditorProvider'
 import { ReactRenderer } from './ReactRenderer'
 
 const Portals: React.FC<{ renderers: Map<string, ReactRenderer> }> = ({ renderers }) => {
@@ -26,6 +27,8 @@ export interface EditorContentState {
 }
 
 export class PureEditorContent extends React.Component<EditorContentProps, EditorContentState> {
+  static contextType?: React.Context<any> | undefined = EditorContext
+
   editorContentRef: React.RefObject<any>
 
   constructor(props: EditorContentProps) {
@@ -46,7 +49,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   }
 
   init() {
-    const { editor } = this.props
+    const editor = this.context
 
     if (editor && editor.options.element) {
       if (editor.contentComponent) {
@@ -68,7 +71,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   }
 
   componentWillUnmount() {
-    const { editor } = this.props
+    const editor = this.context
 
     if (!editor) {
       return
