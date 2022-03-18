@@ -19,7 +19,7 @@ const Portals: React.FC<{ renderers: Map<string, ReactRenderer> }> = ({ renderer
 }
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
-  editor: Editor | null,
+  editor?: Editor | null,
 }
 
 export interface EditorContentState {
@@ -51,7 +51,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   }
 
   init() {
-    const editor = this.context
+    const editor = this.props.editor ?? this.context
 
     if (editor && editor.options.element) {
       if (editor.contentComponent) {
@@ -73,7 +73,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   }
 
   componentWillUnmount() {
-    const editor = this.context
+    const editor = this.props.editor ?? this.context
 
     if (!editor) {
       return
