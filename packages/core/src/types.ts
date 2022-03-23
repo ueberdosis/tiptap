@@ -128,6 +128,7 @@ export type Attribute = {
   renderHTML?: ((attributes: Record<string, any>) => Record<string, any> | null) | null,
   parseHTML?: ((element: HTMLElement) => any | null) | null,
   keepOnSplit: boolean,
+  isRequired?: boolean,
 }
 
 export type Attributes = {

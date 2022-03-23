@@ -24,6 +24,7 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
     renderHTML: null,
     parseHTML: null,
     keepOnSplit: true,
+    isRequired: false,
   }
 
   extensions.forEach(extension => {
@@ -87,14 +88,20 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
     Object
       .entries(attributes)
       .forEach(([name, attribute]) => {
+        const mergedAttr = {
+          ...defaultAttribute,
+          ...attribute,
+        }
+
+        if (attribute.isRequired && attribute.default === undefined) {
+          delete mergedAttr.default;
+        }
+  
         extensionAttributes.push({
           type: extension.name,
           name,
-          attribute: {
-            ...defaultAttribute,
-            ...attribute,
-          },
-        })
+          attribute: mergedAttr,
+        });
       })
   })
 
