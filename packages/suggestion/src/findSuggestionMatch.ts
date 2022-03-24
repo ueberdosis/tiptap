@@ -36,7 +36,7 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   if (!text) {
     return null
   }
-  
+
   const textFrom = $position.pos - text.length
   const match = Array.from(text.matchAll(regexp)).pop()
 
