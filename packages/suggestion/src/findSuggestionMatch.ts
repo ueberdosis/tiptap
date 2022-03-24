@@ -32,7 +32,11 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
     : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
 
   const text = $position.nodeBefore?.isText && $position.nodeBefore.text
-  if (!text) return null
+
+  if (!text) {
+    return null
+  }
+  
   const textFrom = $position.pos - text.length
   const match = Array.from(text.matchAll(regexp)).pop()
 
