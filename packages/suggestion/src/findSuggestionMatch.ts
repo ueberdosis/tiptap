@@ -31,12 +31,9 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
     ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
     : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
 
-  const isTopLevelNode = $position.depth <= 0
-  const textFrom = isTopLevelNode
-    ? 0
-    : $position.before()
-  const textTo = $position.pos
-  const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
+  const text = $position.nodeBefore?.isText && $position.nodeBefore.text
+  if (!text) return null
+  const textFrom = $position.pos - text.length
   const match = Array.from(text.matchAll(regexp)).pop()
 
   if (!match || match.input === undefined || match.index === undefined) {
@@ -53,7 +50,7 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   }
 
   // The absolute position of the match in the document
-  const from = match.index + $position.start()
+  const from = textFrom + match.index
   let to = from + match[0].length
 
   // Edge case handling; if spaces are allowed and we're directly in between
