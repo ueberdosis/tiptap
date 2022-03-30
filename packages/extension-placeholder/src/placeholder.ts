@@ -32,6 +32,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
   },
 
   addProseMirrorPlugins() {
+    let cachedEmptyTopNode: ProsemirrorNode;
     return [
       new Plugin({
         props: {
@@ -44,14 +45,18 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
               return
             }
 
+            cachedEmptyTopNode = cachedEmptyTopNode || state.doc.type.createAndFill()
+            let isEditorEmpty = cachedEmptyTopNode.content.findDiffStart(state.doc.content) === null
+
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
               const isEmpty = !node.isLeaf && !node.childCount
+              
 
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const classes = [this.options.emptyNodeClass]
 
-                if (this.editor.isEmpty) {
+                if (isEditorEmpty) {
                   classes.push(this.options.emptyEditorClass)
                 }
 
@@ -76,6 +81,14 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             return DecorationSet.create(doc, decorations)
           },
         },
+
+        attributes(state) {
+          cachedEmptyTopNode = cachedEmptyTopNode || state.doc.type.createAndFill()
+          let isEditorEmpty = cachedEmptyTopNode.content.findDiffStart(state.doc.content) === null
+          if (isEditorEmpty) {
+            return {class: this.options.emptyEditorClass} 
+          }
+        }
       }),
     ]
   },
