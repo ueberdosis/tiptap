@@ -45,8 +45,8 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
               return
             }
 
-            cachedEmptyTopNode = cachedEmptyTopNode || state.doc.type.createAndFill()
-            let isEditorEmpty = cachedEmptyTopNode.content.findDiffStart(state.doc.content) === null
+            cachedEmptyTopNode = cachedEmptyTopNode || doc.type.createAndFill()
+            let isEditorEmpty = cachedEmptyTopNode.sameMarkup(doc) && cachedEmptyTopNode.content.findDiffStart(doc.content) === null
 
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
@@ -80,16 +80,28 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
             return DecorationSet.create(doc, decorations)
           },
-        },
 
-        attributes(state) {
-          cachedEmptyTopNode = cachedEmptyTopNode || state.doc.type.createAndFill()
-          let isEditorEmpty = cachedEmptyTopNode.content.findDiffStart(state.doc.content) === null
-          if (isEditorEmpty) {
-            return {class: this.options.emptyEditorClass} 
+          attributes: ({ doc }) => {
+            cachedEmptyTopNode = cachedEmptyTopNode || doc.type.createAndFill()
+            let isEditorEmpty = cachedEmptyTopNode.sameMarkup(doc) && cachedEmptyTopNode.content.findDiffStart(doc.content) === null
+            if (isEditorEmpty) {
+              return {
+                class: this.options.emptyEditorClass,
+                'data-placeholder': typeof this.options.placeholder === 'function'
+                  ? this.options.placeholder({
+                    editor: this.editor,
+                    node: doc,
+                    pos: 0,
+                    hasAnchor: true,
+                  })
+                  : this.options.placeholder,
+              } 
+            }
           }
-        }
+        },
       }),
     ]
   },
 })
+
+export default Placeholder
