@@ -156,7 +156,7 @@ export class FloatingMenuView {
     }
 
     this.tippy?.setProps({
-      getReferenceClientRect: this.tippyOptions.getReferenceClientRect || () => posToDOMRect(view, from, to),
+      getReferenceClientRect: this.tippyOptions?.getReferenceClientRect || (() => posToDOMRect(view, from, to)),
     })
 
     this.show()
