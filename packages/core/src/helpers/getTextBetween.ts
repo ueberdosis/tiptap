@@ -31,6 +31,7 @@ export function getTextBetween(
         pos,
         parent,
         index,
+        range,
       })
     } else if (node.isText) {
       text += node?.text?.slice(Math.max(from, pos) - pos, to - pos)
