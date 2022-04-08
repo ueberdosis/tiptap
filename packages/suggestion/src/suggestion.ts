@@ -169,6 +169,7 @@ export function Suggestion({
 
       // Apply changes to the plugin state from a view transaction.
       apply(transaction, prev, oldState, state) {
+        const { isEditable } = editor
         const { composing } = editor.view
         const { selection } = transaction
         const { empty, from } = selection
@@ -176,9 +177,10 @@ export function Suggestion({
 
         next.composing = composing
 
-        // We can only be suggesting if there is no selection
-        // or a composition is active (see: https://github.com/ueberdosis/tiptap/issues/1449)
-        if (empty || editor.view.composing) {
+        // We can only be suggesting if the view is editable, and:
+        //   * there is no selection, or
+        //   * a composition is active (see: https://github.com/ueberdosis/tiptap/issues/1449)
+        if (isEditable && (empty || editor.view.composing)) {
           // Reset active state if we just left the previous suggestion range
           if (
             (from < prev.range.from || from > prev.range.to)
