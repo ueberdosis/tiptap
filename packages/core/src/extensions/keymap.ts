@@ -60,8 +60,6 @@ export const Keymap = Extension.create({
 
     const pcKeymap = {
       ...baseKeymap,
-      Home: () => this.editor.commands.selectTextblockStart(),
-      End: () => this.editor.commands.selectTextblockEnd(),
     }
 
     const macKeymap = {
