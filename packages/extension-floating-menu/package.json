@@ -32,5 +32,6 @@
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-floating-menu"
-  }
+  },
+  "sideEffects": false
 }
