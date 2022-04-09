@@ -1,0 +1,11 @@
+{
+  "configurations": [
+    {
+      "name": "Launch Tiptap demos in Google Chrome",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}
