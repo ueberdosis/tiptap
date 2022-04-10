@@ -5,7 +5,7 @@ export interface TaskItemOptions {
   HTMLAttributes: Record<string, any>,
 }
 
-export const inputRegex = /^\s*(\[([ |x])\])\s$/
+export const inputRegex = /^\s*(\[([( |x])?\])\s$/
 
 export const TaskItem = Node.create<TaskItemOptions>({
   name: 'taskItem',
