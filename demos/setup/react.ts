@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import 'iframe-resizer/js/iframeResizer.contentWindow'
 import { debug, splitName } from './helper'
 import './style.scss'
@@ -13,8 +13,11 @@ export default function init(name: string, source: any) {
 
   import(`../src/${demoCategory}/${demoName}/React/index.jsx`)
     .then(module => {
-      // @ts-ignore waiting for https://github.com/DefinitelyTyped/DefinitelyTyped/pull/56210
-      ReactDOM.createRoot(document.getElementById('app')).render(React.createElement(module.default))
+      const root = document.getElementById('app')
+
+      if (root) {
+        createRoot(root).render(React.createElement(module.default))
+      }
       debug()
     })
 }
