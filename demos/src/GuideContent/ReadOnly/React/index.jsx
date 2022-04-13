@@ -20,7 +20,7 @@ export default () => {
 
   useEffect(() => {
     if (!editor) {
-      return null
+      return undefined
     }
 
     editor.setEditable(editable)

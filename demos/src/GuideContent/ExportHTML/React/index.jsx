@@ -16,7 +16,7 @@ export default () => {
 
   useEffect(() => {
     if (!editor) {
-      return null
+      return undefined
     }
 
     // Get the initial content …
