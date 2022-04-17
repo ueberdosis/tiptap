@@ -29,7 +29,11 @@ export function getMarkRange(
     return
   }
 
-  const start = $pos.parent.childAfter($pos.parentOffset)
+  let start = $pos.parent.childAfter($pos.parentOffset)
+
+  if ($pos.parentOffset === start.offset && start.offset !== 0) {
+    start = $pos.parent.childBefore($pos.parentOffset)
+  }
 
   if (!start.node) {
     return
@@ -41,7 +45,7 @@ export function getMarkRange(
     return
   }
 
-  let startIndex = $pos.index()
+  let startIndex = start.index
   let startPos = $pos.start() + start.offset
   let endIndex = startIndex + 1
   let endPos = startPos + start.node.nodeSize
