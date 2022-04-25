@@ -24,7 +24,7 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v3.0.0
+    - uses: actions/checkout@v3.0.2
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3.1.1
@@ -80,7 +80,7 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v3.0.0
+    - uses: actions/checkout@v3.0.2
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3.1.1
@@ -136,7 +136,7 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v3.0.0
+    - uses: actions/checkout@v3.0.2
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3.1.1
