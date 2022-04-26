@@ -24,15 +24,15 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3.0.0
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.5.1
+      uses: actions/setup-node@v3.1.1
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Load cached dependencies
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3.0.2
       id: cache
       with:
         path: |
@@ -80,10 +80,10 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3.0.0
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.5.1
+      uses: actions/setup-node@v3.1.1
       with:
         node-version: ${{ matrix.node-version }}
 
@@ -99,7 +99,7 @@ jobs:
         quiet: true
 
     - name: Export screenshots (on failure only)
-      uses: actions/upload-artifact@v2.3.1
+      uses: actions/upload-artifact@v3.0.0
       if: failure()
       with:
         name: cypress-screenshots
@@ -107,7 +107,7 @@ jobs:
         retention-days: 7
 
     - name: Export screen recordings (on failure only)
-      uses: actions/upload-artifact@v2.3.1
+      uses: actions/upload-artifact@v3.0.0
       if: failure()
       with:
         name: cypress-videos
@@ -136,15 +136,15 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3.0.0
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.5.1
+      uses: actions/setup-node@v3.1.1
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Load cached dependencies
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3.0.2
       id: cache
       with:
         path: |

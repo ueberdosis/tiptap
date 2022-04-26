@@ -78,7 +78,7 @@ export const Link = Mark.create<LinkOptions>({
 
   parseHTML() {
     return [
-      { tag: 'a[href]' },
+      { tag: 'a[href]:not([href *= "javascript:" i])' },
     ]
   },
 
