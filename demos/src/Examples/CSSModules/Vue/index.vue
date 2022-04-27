@@ -70,7 +70,7 @@
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
-import './index.css';
+import './index.css'
 
 export default {
   components: {

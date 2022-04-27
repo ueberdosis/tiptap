@@ -12,6 +12,6 @@ context('/src/Examples/CSSModules/Vue/', () => {
 
   it('should apply a red headline style to h1', () => {
     cy.get('.ProseMirror h1').should('exist')
-    cy.get('.ProseMirror h1').should('have.css', 'color', '#f00');
+    cy.get('.ProseMirror h1').should('have.css', 'color', '#f00')
   })
 })
