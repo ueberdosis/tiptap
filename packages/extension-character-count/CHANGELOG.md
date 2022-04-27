@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.25...@tiptap/extension-character-count@2.0.0-beta.26) (2022-04-27)
+
+
+### Bug Fixes
+
+* remove extension-text-style from character-cout peer dependencies ([2fc6a4b](https://github.com/ueberdosis/tiptap/commit/2fc6a4b780bdf7a365e21717ebd99a8e8b2c113d))
+
+
+
+
+
 # [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.24...@tiptap/extension-character-count@2.0.0-beta.25) (2022-02-11)
 
 

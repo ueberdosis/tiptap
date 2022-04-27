@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.78](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.77...@tiptap/vue-2@2.0.0-beta.78) (2022-04-27)
+
+
+### Bug Fixes
+
+* improve Vue nodeViewProps typing ([190a699](https://github.com/ueberdosis/tiptap/commit/190a6993d4d93b4d37b978b33ef22690ed8269b6))
+
+
+
+
+
 # [2.0.0-beta.77](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.76...@tiptap/vue-2@2.0.0-beta.77) (2022-01-25)
 
 **Note:** Version bump only for package @tiptap/vue-2

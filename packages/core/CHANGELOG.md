@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.175](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.174...@tiptap/core@2.0.0-beta.175) (2022-04-27)
+
+
+### Bug Fixes
+
+* don't override behaviour of Home / End in pc keymap ([d270419](https://github.com/ueberdosis/tiptap/commit/d270419ad8dc6182a949c5d263c47e90ee4466ff))
+
+
+
+
+
 # [2.0.0-beta.174](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.173...@tiptap/core@2.0.0-beta.174) (2022-02-07)
 
 

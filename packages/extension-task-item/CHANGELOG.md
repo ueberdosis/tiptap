@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.31...@tiptap/extension-task-item@2.0.0-beta.32) (2022-04-27)
+
+
+### Bug Fixes
+
+* allow [] as a prefix for task items ([06fd7fb](https://github.com/ueberdosis/tiptap/commit/06fd7fb4299195646200836dd8158238279c3a7a))
+
+
+
+
+
 # [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.30...@tiptap/extension-task-item@2.0.0-beta.31) (2022-01-24)
 
 
