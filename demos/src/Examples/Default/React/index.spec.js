@@ -6,7 +6,9 @@ context('/src/Examples/Default/React/', () => {
   beforeEach(() => {
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<h1>Example Text</h1>')
-      // cy.get('.ProseMirror').type('{selectall}')
+      cy.get('.ProseMirror').type('{selectall}')
+    }).catch(e => {
+      console.error(e)
     })
   })
 
