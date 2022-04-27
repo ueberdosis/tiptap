@@ -1,10 +1,14 @@
 context('/src/Examples/Default/React/', () => {
+  cy.on('uncaught:exception', () => {
+    return false
+  })
+
   before(() => {
     cy.visit('/src/Examples/Default/React/')
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror', { timeout: 10000 }).then(([{ editor }]) => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<h1>Example Text</h1>')
       cy.get('.ProseMirror').type('{selectall}')
     })
