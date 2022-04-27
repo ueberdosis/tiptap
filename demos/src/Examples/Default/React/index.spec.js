@@ -1,8 +1,4 @@
 context('/src/Examples/Default/React/', () => {
-  cy.on('uncaught:exception', () => {
-    return false
-  })
-
   before(() => {
     cy.visit('/src/Examples/Default/React/')
   })
@@ -15,6 +11,7 @@ context('/src/Examples/Default/React/', () => {
   })
 
   it('should apply the paragraph style when the keyboard shortcut is pressed', () => {
+    cy.once('uncaught:exception', () => false)
     cy.get('.ProseMirror h1').should('exist')
     cy.get('.ProseMirror p').should('not.exist')
 
