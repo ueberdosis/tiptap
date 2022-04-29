@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/prosemirror-model": "^1.16.1",
     "@types/prosemirror-state": "^1.2.8",
-    "@types/prosemirror-view": "^1.23.1",
+    "@types/prosemirror-view": "^1.23.1"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.1"
