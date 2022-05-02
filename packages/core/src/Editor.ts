@@ -13,7 +13,7 @@ import { getHTMLFromFragment } from './helpers/getHTMLFromFragment'
 import { getText } from './helpers/getText'
 import { isNodeEmpty } from './helpers/isNodeEmpty'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition'
-import { getTextSeralizersFromSchema } from './helpers/getTextSeralizersFromSchema'
+import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema'
 import { createStyleTag } from './utilities/createStyleTag'
 import { isFunction } from './utilities/isFunction'
 import { CommandManager } from './CommandManager'
@@ -436,7 +436,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       blockSeparator,
       textSerializers: {
         ...textSerializers,
-        ...getTextSeralizersFromSchema(this.schema),
+        ...getTextSerializersFromSchema(this.schema),
       },
     })
   }
