@@ -3,7 +3,7 @@ import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
 import { findSuggestionMatch } from './findSuggestionMatch'
 
-export interface SuggestionOptions {
+export interface SuggestionOptions<I = any> {
   pluginKey?: PluginKey,
   editor: Editor,
   char?: string,
@@ -15,16 +15,18 @@ export interface SuggestionOptions {
   command?: (props: {
     editor: Editor,
     range: Range,
-    props: any,
+    props: I,
   }) => void,
   items?: (props: {
     query: string,
     editor: Editor,
-  }) => any[] | Promise<any[]>,
+  }) => I[] | Promise<I[]>,
   render?: () => {
-    onStart?: (props: SuggestionProps) => void,
-    onUpdate?: (props: SuggestionProps) => void,
-    onExit?: (props: SuggestionProps) => void,
+    onBeforeStart?: (props: SuggestionProps<I>) => void
+    onStart?: (props: SuggestionProps<I>) => void,
+    onBeforeUpdate?: (props: SuggestionProps<I>) => void
+    onUpdate?: (props: SuggestionProps<I>) => void,
+    onExit?: (props: SuggestionProps<I>) => void,
     onKeyDown?: (props: SuggestionKeyDownProps) => boolean,
   },
   allow?: (props: {
@@ -34,13 +36,13 @@ export interface SuggestionOptions {
   }) => boolean,
 }
 
-export interface SuggestionProps {
+export interface SuggestionProps<I = any> {
   editor: Editor,
   range: Range,
   query: string,
   text: string,
-  items: any[],
-  command: (props: any) => void,
+  items: I[],
+  command: (props: I) => void,
   decorationNode: Element | null,
   clientRect: (() => DOMRect) | null,
 }
@@ -53,7 +55,7 @@ export interface SuggestionKeyDownProps {
 
 export const SuggestionPluginKey = new PluginKey('suggestion')
 
-export function Suggestion({
+export function Suggestion<I = any>({
   pluginKey = SuggestionPluginKey,
   editor,
   char = '@',
@@ -66,9 +68,9 @@ export function Suggestion({
   items = () => [],
   render = () => ({}),
   allow = () => true,
-}: SuggestionOptions) {
+}: SuggestionOptions<I>) {
 
-  let props: SuggestionProps | undefined
+  let props: SuggestionProps<I> | undefined
   const renderer = render?.()
 
   return new Plugin({
@@ -104,12 +106,7 @@ export function Suggestion({
             range: state.range,
             query: state.query,
             text: state.text,
-            items: (handleChange || handleStart)
-              ? await items({
-                editor,
-                query: state.query,
-              })
-              : [],
+            items: [],
             command: commandProps => {
               command({
                 editor,
@@ -130,6 +127,21 @@ export function Suggestion({
                 return currentDecorationNode.getBoundingClientRect()
               }
               : null,
+          }
+
+          if (handleStart) {
+            renderer?.onBeforeStart?.(props)
+          }
+
+          if (handleChange) {
+            renderer?.onBeforeUpdate?.(props)
+          }
+
+          if (handleChange || handleStart) {
+            props.items = await items({
+              editor,
+              query: state.query,
+            })
           }
 
           if (handleExit) {

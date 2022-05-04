@@ -15,7 +15,7 @@ import MenuBar from './MenuBar'
 import './styles.scss'
 
 const colors = ['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D']
-const rooms = ['rooms.13', 'rooms.14', 'rooms.15']
+const rooms = ['rooms.30', 'rooms.31', 'rooms.32']
 const names = [
   'Lea Thompson',
   'Cyndi Lauper',
@@ -54,9 +54,9 @@ const room = getRandomRoom()
 
 const ydoc = new Y.Doc()
 const websocketProvider = new HocuspocusProvider({
-  url: 'wss://connect.hocuspocus.cloud',
+  url: 'wss://connect.gethocuspocus.com',
   parameters: {
-    key: 'write_B0sHbuV5xwYl6WzGjoqL',
+    key: 'write_bqgvQ3Zwl34V4Nxt43zR',
   },
   name: room,
   document: ydoc,
