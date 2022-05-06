@@ -65,8 +65,10 @@ export interface EditorEvents {
 
 export type EnableRules = (AnyExtension | string)[] | boolean
 
+type DOMNode = globalThis.Node
+
 export interface EditorOptions {
-  element: Element,
+  element: DOMNode | ((p: DOMNode) => void) | { mount: DOMNode },
   content: Content,
   extensions: Extensions,
   injectCSS: boolean,
