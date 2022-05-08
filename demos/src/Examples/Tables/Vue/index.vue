@@ -61,10 +61,8 @@
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
-import Table from '@tiptap/extension-table'
-import TableRow from '@tiptap/extension-table-row'
+import TableKit from '@tiptap/table-kit'
 import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
 
 const CustomTableCell = TableCell.extend({
   addAttributes() {
@@ -102,13 +100,10 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        Table.configure({
-          resizable: true,
+        TableKit.configure({
+          table: { resizable: true },
+          tableCell: false,
         }),
-        TableRow,
-        TableHeader,
-        // Default TableCell
-        // TableCell,
         // Custom TableCell with backgroundColor attribute
         CustomTableCell,
       ],

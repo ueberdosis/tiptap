@@ -20,10 +20,7 @@
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
-import Table from '@tiptap/extension-table'
-import TableRow from '@tiptap/extension-table-row'
-import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
+import TableKit from '@tiptap/table-kit'
 import { Figure } from './figure'
 import { Figcaption } from './figcaption'
 
@@ -156,10 +153,7 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        Table,
-        TableRow,
-        TableHeader,
-        TableCell,
+        TableKit,
         ImageFigure,
         TableFigure,
         Figcaption,

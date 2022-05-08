@@ -1,10 +1,9 @@
 import React from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import Table from '@tiptap/extension-table'
-import TableRow from '@tiptap/extension-table-row'
+import TableKit from '@tiptap/table-kit'
 import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
+
 import './styles.scss'
 
 const CustomTableCell = TableCell.extend({
@@ -129,13 +128,10 @@ export default () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Table.configure({
-        resizable: true,
+      TableKit.configure({
+        table: { resizable: true },
+        tableCell: false,
       }),
-      TableRow,
-      TableHeader,
-      // Default TableCell
-      // TableCell,
       // Custom TableCell with backgroundColor attribute
       CustomTableCell,
     ],
