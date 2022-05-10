@@ -35,19 +35,9 @@ npm install @tiptap/vue-2 @tiptap/starter-kit
 ```
 
 ## Keep Tiptap v2 up to date
-We are constantly releasing updates to Tiptap. Did you know there’s an easy-to-use command to update your dependencies with Yarn?
+We are constantly releasing updates to Tiptap.
 
-```bash
-yarn upgrade-interactive
-```
-
-You can add the `--latest` flag, to show all possible upgrades – even if they don’t follow the versioning you’ve set in your package.json.
-
-```bash
-yarn upgrade-interactive --latest
-```
-
-Unfortunately, for npm there is no integrated tool, but you can use the `npm-check` package:
+Unfortunately, for npm there is no integrated tool to easily update your dependencies, but you can use the `npm-check` package:
 
 ```bash
 npm install -g npm-check
