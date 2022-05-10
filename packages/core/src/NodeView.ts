@@ -85,7 +85,7 @@ export class NodeView<
       // In React, we have to go through nativeEvent to reach offsetX/offsetY.
       const offsetX = event.offsetX ?? (event as any).nativeEvent?.offsetX
       const offsetY = event.offsetY ?? (event as any).nativeEvent?.offsetY
-      
+
       x = handleBox.x - domBox.x + offsetX
       y = handleBox.y - domBox.y + offsetY
     }
