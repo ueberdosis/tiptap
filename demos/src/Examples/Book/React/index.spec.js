@@ -1,6 +1,6 @@
-context('/src/Examples/Book/Vue/', () => {
+context('/src/Examples/Book/React/', () => {
   before(() => {
-    cy.visit('/src/Examples/Book/Vue/')
+    cy.visit('/src/Examples/Book/React/')
   })
 
   it('should have a working tiptap instance', () => {

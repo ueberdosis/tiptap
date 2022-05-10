@@ -1,6 +1,6 @@
-context('/src/Examples/Community/Vue/', () => {
+context('/src/Examples/Community/React/', () => {
   beforeEach(() => {
-    cy.visit('/src/Examples/Community/Vue/')
+    cy.visit('/src/Examples/Community/React/')
   })
 
   it('should count the characters correctly', () => {
