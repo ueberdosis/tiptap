@@ -32,9 +32,7 @@
       />
     </svg>
 
-    <div class="character-count__text">
-      {{ editor.storage.characterCount.characters() }}/{{ limit }} characters
-    </div>
+    <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ limit }} characters</div>
   </div>
 </template>
 
