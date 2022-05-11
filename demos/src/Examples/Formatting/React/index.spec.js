@@ -1,6 +1,6 @@
-context('/src/Examples/Formatting/Vue/', () => {
+context('/src/Examples/Formatting/React/', () => {
   before(() => {
-    cy.visit('/src/Examples/Formatting/Vue/')
+    cy.visit('/src/Examples/Formatting/React/')
   })
 
   beforeEach(() => {

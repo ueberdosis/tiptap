@@ -1,6 +1,6 @@
-context('/src/Examples/Tables/Vue/', () => {
+context('/src/Examples/Tables/React/', () => {
   before(() => {
-    cy.visit('/src/Examples/Tables/Vue/')
+    cy.visit('/src/Examples/Tables/React/')
   })
 
   beforeEach(() => {
