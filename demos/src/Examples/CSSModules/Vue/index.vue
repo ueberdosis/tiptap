@@ -1,5 +1,5 @@
 <template>
-  <div v-if="editor">
+  <div v-if="editor" class="toolbar" :class="styles.toolbar">
     <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
       bold
     </button>
@@ -70,7 +70,9 @@
 <script>
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
-import './index.css'
+import styles from './index.module.css'
+
+console.log(styles)
 
 export default {
   components: {
@@ -80,6 +82,7 @@ export default {
   data() {
     return {
       editor: null,
+      styles,
     }
   },
 
@@ -89,7 +92,7 @@ export default {
         StarterKit,
       ],
       content: `
-        <h1>
+        <h1 class="test">
           This is a red headline
         </h1>
         <p>
