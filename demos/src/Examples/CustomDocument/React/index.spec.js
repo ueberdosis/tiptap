@@ -35,8 +35,8 @@ context('/src/Examples/CustomDocument/React/', () => {
       .should('exist')
       .should('have.text', 'Hello world')
     cy.get('.ProseMirror p[data-placeholder]')
-      .should('exist').
-      should('have.attr', 'data-placeholder', 'Can you add some further context?')
+      .should('exist')
+      .should('have.attr', 'data-placeholder', 'Can you add some further context?')
 
     cy.get('.ProseMirror').type('This is a paragraph for this test document')
     cy.get('.ProseMirror p')
