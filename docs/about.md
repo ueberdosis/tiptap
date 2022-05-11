@@ -24,9 +24,9 @@ If you are thankful for Tiptap, you should say thank you to the lovely people of
 
 AND you should definitely hire us if you want us to design und build an amazing digital product for you. Bonus points if it’s somehow text editing related.
 
-But here are the friendly faces of the two maintainers of Tiptap, Philipp Kühn (left) and Hans Pagel (right). You’ve probably read our names in the thousands of commits, pull requests or Tweets already.
+But here are the friendly faces of the maintainers of Tiptap.
 
-![Philipp and Hans, the maintainers of Tiptap, looking happy](/philipp-and-hans.jpg)
+!!team-grid
 
 ## More peace of mind
 Companies betting on Tiptap probably want some peace of mind and ensure that we keep maintaining Tiptap, but don’t forget that our work is based on the work of other lovely people that you should definitely sponsor too:
