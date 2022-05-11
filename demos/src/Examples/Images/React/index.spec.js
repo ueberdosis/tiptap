@@ -1,6 +1,6 @@
-context('/src/Examples/Images/Vue/', () => {
+context('/src/Examples/Images/React/', () => {
   beforeEach(() => {
-    cy.visit('/src/Examples/Images/Vue/')
+    cy.visit('/src/Examples/Images/React/')
   })
 
   // TODO: Write tests

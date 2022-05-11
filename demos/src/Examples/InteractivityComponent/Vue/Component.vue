@@ -3,9 +3,7 @@
     <span class="label">Vue Component</span>
 
     <div class="content">
-      <button @click="increase">
-        This button has been clicked {{ node.attrs.count }} times.
-      </button>
+      <button @click="increase">This button has been clicked {{ node.attrs.count }} times.</button>
     </div>
   </node-view-wrapper>
 </template>

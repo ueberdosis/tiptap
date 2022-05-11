@@ -9,11 +9,10 @@ context('/src/Examples/Menus/React/', () => {
     })
   })
 
-  // TODO: fix test
-  // it('should show menu when the editor is empty', () => {
-  //   cy.get('#app')
-  //     .find('[data-tippy-root]')
-  // })
+  it('should show menu when the editor is empty', () => {
+    cy.get('#app')
+      .find('[data-tippy-root]')
+  })
 
   it('should show menu when text is selected', () => {
     cy.get('.ProseMirror')
