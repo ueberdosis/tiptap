@@ -1,6 +1,6 @@
-context('/src/Examples/CSSModules/Vue/', () => {
+context('/src/Examples/CSSModules/React/', () => {
   before(() => {
-    cy.visit('/src/Examples/CSSModules/Vue/')
+    cy.visit('/src/Examples/CSSModules/React/')
   })
 
   it('should apply a randomly generated class that adds padding and background color to the toolbar', () => {

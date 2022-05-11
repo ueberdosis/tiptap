@@ -5,7 +5,7 @@ context('/src/Examples/Community/Vue/', () => {
 
   it('should count the characters correctly', () => {
     // check if count text is "44/280 characters"
-    cy.get('.character-count__text', { timeout: 25000 }).should('have.text', '44/280 characters')
+    cy.get('.character-count__text').should('have.text', '44/280 characters')
 
     // type in .ProseMirror
     cy.get('.ProseMirror').type(' Hello World')
