@@ -11,5 +11,5 @@ updates:
       interval: 'weekly'
       day: 'monday'
     reviewers:
-      - 'hanspagel'
+      - 'bdbch'
 
