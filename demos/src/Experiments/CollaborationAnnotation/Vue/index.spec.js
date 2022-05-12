@@ -20,6 +20,7 @@ context('/src/Experiments/CollaborationAnnotation/Vue/', () => {
 
   it('updates an existing annotation', () => {
     let commentIndex = 0
+
     cy.window().then(win => {
       cy.stub(win, 'prompt', () => {
         switch (commentIndex) {
