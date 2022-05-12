@@ -18,6 +18,8 @@ context('/src/Examples/Tasks/React/', () => {
     cy.get('.ProseMirror input[type="checkbox"]').should('have.length', 3)
   })
 
+  // TODO: Make this test work properly - right now it's not doing what it
+  // should do.
   it('should check and uncheck tasks on click', () => {
     cy.get('.ProseMirror').type('Cook food{enter}Eat food{enter}Clean dishes')
     cy.get('.ProseMirror').find('input[type="checkbox"]').then(console.log)
