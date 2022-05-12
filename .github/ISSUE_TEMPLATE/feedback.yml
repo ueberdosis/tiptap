@@ -3,7 +3,7 @@ description: Share what we need to explain better
 labels:
   - documentation
 assignees:
-  - hanspagel
+  - bdbch
 body:
   - type: input
     id: url
