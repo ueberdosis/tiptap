@@ -7,8 +7,8 @@
       <button @click="addComment" :disabled="!editor.can().addAnnotation()">
         comment
       </button>
-      <editor-content :editor="editor" />
-      <div v-for="comment in comments" :key="comment.id">
+      <editor-content class="editor-1" :editor="editor" />
+      <div class="comment" v-for="comment in comments" :key="comment.id">
         {{ comment }}
 
         <button @click="updateComment(comment.id)">
@@ -26,7 +26,7 @@
       <button @click="addAnotherComment" :disabled="!anotherEditor.can().addAnnotation()">
         comment
       </button>
-      <editor-content :editor="anotherEditor" />
+      <editor-content class="editor-2" :editor="anotherEditor" />
     </div>
   </div>
 </template>
@@ -52,12 +52,11 @@ export default {
       editor: null,
       anotherEditor: null,
       comments: [],
-      ydoc: new Y.Doc(),
     }
   },
 
   mounted() {
-    this.ydoc = new Y.Doc()
+    const ydoc = new Y.Doc()
 
     this.editor = new Editor({
       extensions: [
@@ -67,12 +66,12 @@ export default {
         Bold,
         Heading,
         CollaborationAnnotation.configure({
-          document: this.ydoc,
+          document: ydoc,
           onUpdate: items => { this.comments = items },
           instance: 'editor1',
         }),
         Collaboration.configure({
-          document: this.ydoc,
+          document: ydoc,
         }),
       ],
       content: `
@@ -93,11 +92,11 @@ export default {
         Bold,
         Heading,
         CollaborationAnnotation.configure({
-          document: this.ydoc,
+          document: ydoc,
           instance: 'editor2',
         }),
         Collaboration.configure({
-          document: this.ydoc,
+          document: ydoc,
         }),
       ],
     })
