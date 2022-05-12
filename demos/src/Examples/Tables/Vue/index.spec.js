@@ -10,7 +10,6 @@ context('/src/Examples/Tables/Vue/', () => {
     })
   })
 
-  // TODO: Write tests
   it('adds a table with three columns and three rows', () => {
     cy.get('.ProseMirror table')
       .should('exist')
