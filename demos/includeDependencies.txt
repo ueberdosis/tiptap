@@ -20,3 +20,6 @@ uuid
 y-prosemirror
 y-webrtc
 yjs
+react
+react-dom
+react-dom/client

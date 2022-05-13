@@ -21,35 +21,35 @@ import { VueRenderer } from './VueRenderer'
 export const nodeViewProps = {
   editor: {
     type: Object as PropType<NodeViewProps['editor']>,
-    required: true,
+    required: true as const,
   },
   node: {
     type: Object as PropType<NodeViewProps['node']>,
-    required: true,
+    required: true as const,
   },
   decorations: {
     type: Object as PropType<NodeViewProps['decorations']>,
-    required: true,
+    required: true as const,
   },
   selected: {
     type: Boolean as PropType<NodeViewProps['selected']>,
-    required: true,
+    required: true as const,
   },
   extension: {
     type: Object as PropType<NodeViewProps['extension']>,
-    required: true,
+    required: true as const,
   },
   getPos: {
     type: Function as PropType<NodeViewProps['getPos']>,
-    required: true,
+    required: true as const,
   },
   updateAttributes: {
     type: Function as PropType<NodeViewProps['updateAttributes']>,
-    required: true,
+    required: true as const,
   },
   deleteNode: {
     type: Function as PropType<NodeViewProps['deleteNode']>,
-    required: true,
+    required: true as const,
   },
 }
 
@@ -101,6 +101,10 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       // @ts-ignore
       // eslint-disable-next-line
       __scopeId: this.component.__scopeId,
+      // add support for CSS Modules
+      // @ts-ignore
+      // eslint-disable-next-line
+      __cssModules: this.component.__cssModules,
     })
 
     this.renderer = new VueRenderer(extendedComponent, {

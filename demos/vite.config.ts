@@ -9,7 +9,7 @@ import fs from 'fs'
 import fg from 'fast-glob'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+import react from '@vitejs/plugin-react'
 // import checker from 'vite-plugin-checker'
 
 const includeDependencies = fs.readFileSync('./includeDependencies.txt')
@@ -37,7 +37,7 @@ export default defineConfig({
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-2.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
     vue(),
-    reactRefresh(),
+    react(),
 
     {
       name: 'html-transform',

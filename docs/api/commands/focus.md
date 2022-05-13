@@ -10,7 +10,7 @@ See also: [setTextSelection](/api/commands/set-text-selection), [blur](/api/comm
 
 By default, it’s restoring the cursor position (and text selection). Pass a position to move the cursor too.
 
-`options: { scrollIntoView: boolen }`
+`options: { scrollIntoView: boolean }`
 
 Defines whether to scroll to the cursor when focusing. Defaults to `true`.
 

@@ -61,6 +61,7 @@ export const Link = Mark.create<LinkOptions>({
       HTMLAttributes: {
         target: '_blank',
         rel: 'noopener noreferrer nofollow',
+        class: null,
       },
     }
   },
@@ -73,12 +74,15 @@ export const Link = Mark.create<LinkOptions>({
       target: {
         default: this.options.HTMLAttributes.target,
       },
+      class: {
+        default: this.options.HTMLAttributes.class,
+      },
     }
   },
 
   parseHTML() {
     return [
-      { tag: 'a[href]' },
+      { tag: 'a[href]:not([href *= "javascript:" i])' },
     ]
   },
 

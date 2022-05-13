@@ -1,49 +1,51 @@
+import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import Vue from 'vue'
+import { PropType, VueConstructor } from 'vue/types/umd'
+
 import {
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
-  NodeViewRendererProps,
   NodeViewRendererOptions,
+  NodeViewRendererProps,
 } from '@tiptap/core'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import Vue from 'vue'
-import { VueConstructor, PropType } from 'vue/types/umd'
+
 import { Editor } from './Editor'
 import { VueRenderer } from './VueRenderer'
 
 export const nodeViewProps = {
   editor: {
     type: Object as PropType<NodeViewProps['editor']>,
-    required: true,
+    required: true as const,
   },
   node: {
     type: Object as PropType<NodeViewProps['node']>,
-    required: true,
+    required: true as const,
   },
   decorations: {
     type: Object as PropType<NodeViewProps['decorations']>,
-    required: true,
+    required: true as const,
   },
   selected: {
     type: Boolean as PropType<NodeViewProps['selected']>,
-    required: true,
+    required: true as const,
   },
   extension: {
     type: Object as PropType<NodeViewProps['extension']>,
-    required: true,
+    required: true as const,
   },
   getPos: {
     type: Function as PropType<NodeViewProps['getPos']>,
-    required: true,
+    required: true as const,
   },
   updateAttributes: {
     type: Function as PropType<NodeViewProps['updateAttributes']>,
-    required: true,
+    required: true as const,
   },
   deleteNode: {
     type: Function as PropType<NodeViewProps['deleteNode']>,
-    required: true,
+    required: true as const,
   },
 }
 
@@ -83,7 +85,10 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRe
       value: this.getDecorationClasses(),
     })
 
-    const Component = Vue
+    // @ts-ignore
+    const vue = this.editor.contentComponent?.$options._base ?? Vue // eslint-disable-line
+
+    const Component = vue
       .extend(this.component)
       .extend({
         props: Object.keys(props),

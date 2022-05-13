@@ -49,3 +49,23 @@ npm install @tiptap/extension-typography
 
 ## Usage
 https://embed.tiptap.dev/preview/Extensions/Typography
+
+### Disabling rules
+
+You can configure the included rules, or even disable a few of them, like shown below.
+
+```js
+import { Editor } from '@tiptap/core'
+import Typography from '@tiptap/extension-typography'
+
+const editor = new Editor({
+  extensions: [
+    // Disable some included rules
+    Typography.configure({
+      oneHalf: false,
+      oneQuarter: false,
+      threeQuarters: false,
+    }),
+  ],
+})
+```

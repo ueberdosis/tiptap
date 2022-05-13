@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.36...@tiptap/extension-link@2.0.0-beta.37) (2022-04-27)
+
+
+### Bug Fixes
+
+* **extension-link:** restricts parsing `javascript:` pseudo-protocol ([947f311](https://github.com/ueberdosis/tiptap/commit/947f311c0ec9affdcaeb220d13d87c04c773f084))
+
+
+
+
+
 # [2.0.0-beta.36](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.35...@tiptap/extension-link@2.0.0-beta.36) (2022-01-20)
 
 **Note:** Version bump only for package @tiptap/extension-link

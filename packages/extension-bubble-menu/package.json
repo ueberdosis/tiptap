@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bubble-menu",
   "description": "bubble-menu extension for tiptap",
-  "version": "2.0.0-beta.55",
+  "version": "2.0.0-beta.56",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -32,5 +32,6 @@
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-bubble-menu"
-  }
+  },
+  "sideEffects": false
 }

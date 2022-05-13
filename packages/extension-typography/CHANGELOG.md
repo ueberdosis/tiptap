@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-typography@2.0.0-beta.19...@tiptap/extension-typography@2.0.0-beta.20) (2022-02-07)
+
+
+### Features
+
+* Allow individual Typography rules to be disabled ([#2449](https://github.com/ueberdosis/tiptap/issues/2449)) ([7ce6687](https://github.com/ueberdosis/tiptap/commit/7ce6687184576f4d3ca0953d27e729f00c758e07))
+
+
+
+
+
 # [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-typography@2.0.0-beta.18...@tiptap/extension-typography@2.0.0-beta.19) (2021-11-09)
 
 **Note:** Version bump only for package @tiptap/extension-typography

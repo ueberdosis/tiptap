@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-floating-menu@2.0.0-beta.50...@tiptap/extension-floating-menu@2.0.0-beta.51) (2022-04-27)
+
+
+### Bug Fixes
+
+* Mark the bubble/floating menu extensions as side effect free ([172513c](https://github.com/ueberdosis/tiptap/commit/172513cb445fa295dd9f7d7ec553ed22baa9d435))
+
+
+
+
+
 # [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-floating-menu@2.0.0-beta.49...@tiptap/extension-floating-menu@2.0.0-beta.50) (2022-01-25)
 
 **Note:** Version bump only for package @tiptap/extension-floating-menu

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <bubble-menu :editor="editor" v-if="editor">
+    <bubble-menu :editor="editor" :tippy-options="{ duration: 100 }" v-if="editor">
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
       </button>
