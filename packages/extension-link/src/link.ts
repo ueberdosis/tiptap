@@ -1,5 +1,7 @@
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import { find } from 'linkifyjs'
+
+import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+
 import { autolink } from './helpers/autolink'
 import { clickHandler } from './helpers/clickHandler'
 import { pasteHandler } from './helpers/pasteHandler'
@@ -21,6 +23,12 @@ export interface LinkOptions {
    * A list of HTML attributes to be rendered.
    */
   HTMLAttributes: Record<string, any>,
+  /**
+   * A validation function that modifies link verification for the auto linker.
+   * @param url - The url to be validated.
+   * @returns - True if the url is valid, false otherwise.
+   */
+  validate?: (url: string) => boolean,
 }
 
 declare module '@tiptap/core' {
@@ -63,6 +71,7 @@ export const Link = Mark.create<LinkOptions>({
         rel: 'noopener noreferrer nofollow',
         class: null,
       },
+      validate: undefined,
     }
   },
 
@@ -143,6 +152,7 @@ export const Link = Mark.create<LinkOptions>({
     if (this.options.autolink) {
       plugins.push(autolink({
         type: this.type,
+        validate: this.options.validate,
       }))
     }
 
