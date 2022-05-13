@@ -64,6 +64,18 @@ Link.configure({
 })
 ```
 
+### validate
+A function that validates every autolinked link. If it exists, it will be called with the link href as argument. If it returns `false`, the link will be removed.
+
+Can be used to set rules for example excluding or including certain domains, tlds, etc.
+
+```js
+// only autolink urls with a protocol
+Link.configure({
+  validate: href => /^https?:\/\//.test(href),
+})
+```
+
 ## Commands
 
 ### setLink()
