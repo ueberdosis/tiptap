@@ -17,10 +17,7 @@ context('/src/Examples/Images/React/', () => {
   it('allows images to be added via URL', () => {
     cy.window().then(win => {
       cy.stub(win, 'prompt').returns('https://unsplash.it/250/250')
-
-      cy.wait(1000)
-      cy.get('button').contains('add image from URL').click()
-      cy.wait(1000)
+      cy.get('button').contains('add image from URL').click({ force: false })
       cy.get('.ProseMirror img').should('have.length', 3)
     })
   })
