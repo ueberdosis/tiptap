@@ -9,8 +9,12 @@ export const Tabindex = Extension.create({
       new Plugin({
         key: new PluginKey('tabindex'),
         props: {
-          attributes: {
-            tabindex: '0',
+          attributes: () => {
+            if (this.editor.isEditable) {
+              return {
+                tabindex: '0',
+              }
+            }
           },
         },
       }),

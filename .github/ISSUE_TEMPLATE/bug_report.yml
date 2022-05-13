@@ -12,6 +12,13 @@ body:
     validations:
       required: true
   - type: textarea
+    id: environment
+    attributes:
+      label: Which browser was this experienced in? Are any special extensions installed?
+      description: Please give us more information about your browser environment so we can reproduce the bug faster.
+    validations:
+      required: true
+  - type: textarea
     id: reproduction
     attributes:
       label: How can we reproduce the bug on our side?

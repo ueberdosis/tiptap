@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.91](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.90...@tiptap/vue-3@2.0.0-beta.91) (2022-04-27)
+
+
+### Bug Fixes
+
+* improve Vue nodeViewProps typing ([190a699](https://github.com/ueberdosis/tiptap/commit/190a6993d4d93b4d37b978b33ef22690ed8269b6))
+
+
+
+
+
 # [2.0.0-beta.90](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.89...@tiptap/vue-3@2.0.0-beta.90) (2022-01-25)
 
 **Note:** Version bump only for package @tiptap/vue-3

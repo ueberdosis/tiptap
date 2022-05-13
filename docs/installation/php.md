@@ -12,7 +12,7 @@ We provide [an official PHP package to work with Tiptap content](/api/utilities/
 
 ## Laravel Livewire
 
-### editor.blade.php
+### my-livewire-component.blade.php
 ```html
 <!--
   In your livewire component you could add an
@@ -25,7 +25,7 @@ We provide [an official PHP package to work with Tiptap content](/api/utilities/
 ></x-editor>
 ```
 
-### my-livewire-component.blade.php
+### editor.blade.php
 ```html
 <div
   x-data="setupEditor(

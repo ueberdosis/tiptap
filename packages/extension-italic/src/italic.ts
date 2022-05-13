@@ -78,6 +78,7 @@ export const Italic = Mark.create<ItalicOptions>({
   addKeyboardShortcuts() {
     return {
       'Mod-i': () => this.editor.commands.toggleItalic(),
+      'Mod-I': () => this.editor.commands.toggleItalic(),
     }
   },
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-italic@2.0.0-beta.25...@tiptap/extension-italic@2.0.0-beta.26) (2022-02-03)
+
+
+### Features
+
+* Add key bindings for uppercase letters for bold, italic and underline ([#2478](https://github.com/ueberdosis/tiptap/issues/2478)) ([b9bd469](https://github.com/ueberdosis/tiptap/commit/b9bd46964534c488dca21585786374b2f06ff03c)), closes [ProseMirror/prosemirror#895](https://github.com/ProseMirror/prosemirror/issues/895) [#2426](https://github.com/ueberdosis/tiptap/issues/2426)
+
+
+
+
+
 # [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-italic@2.0.0-beta.24...@tiptap/extension-italic@2.0.0-beta.25) (2021-12-02)
 
 

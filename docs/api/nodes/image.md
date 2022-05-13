@@ -20,17 +20,6 @@ npm install @tiptap/extension-image
 
 ## Settings
 
-### HTMLAttributes
-Custom HTML attributes that should be added to the rendered HTML tag.
-
-```js
-Image.configure({
-  HTMLAttributes: {
-    class: 'my-custom-class',
-  },
-})
-```
-
 ### inline
 Renders the image node inline, for example in a paragraph tag: `<p><img src="spacer.gif"></p>`. By default images are on the same level as paragraphs.
 
@@ -41,6 +30,28 @@ Default: `false`
 ```js
 Image.configure({
   inline: true,
+})
+```
+
+### allowBase64
+Allow images to be parsed as base64 strings `<img src="data:image/jpg;base64...">`.
+
+Default: `false`
+
+```js
+Image.configure({
+  allowBase64: true,
+})
+```
+
+### HTMLAttributes
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Image.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
 })
 ```
 

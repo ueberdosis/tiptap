@@ -7,9 +7,10 @@ type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
 export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'> & {
   className?: string,
+  children: React.ReactNode
 }
 
-export const BubbleMenu: React.FC<BubbleMenuProps> = props => {
+export const BubbleMenu = (props: BubbleMenuProps) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
 
   useEffect(() => {

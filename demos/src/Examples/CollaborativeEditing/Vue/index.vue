@@ -39,9 +39,9 @@ const getRandomElement = list => {
 
 const getRandomRoom = () => {
   return getRandomElement([
-    'rooms.10',
-    'rooms.11',
-    'rooms.12',
+    'rooms.30',
+    'rooms.31',
+    'rooms.32',
   ])
 }
 
@@ -68,9 +68,9 @@ export default {
     const ydoc = new Y.Doc()
 
     this.provider = new HocuspocusProvider({
-      url: 'wss://connect.hocuspocus.cloud',
+      url: 'wss://connect.gethocuspocus.com',
       parameters: {
-        key: 'write_B0sHbuV5xwYl6WzGjoqL',
+        key: 'write_bqgvQ3Zwl34V4Nxt43zR',
       },
       name: this.room,
       document: ydoc,
