@@ -1,14 +1,16 @@
+import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import Vue from 'vue'
+import { PropType, VueConstructor } from 'vue/types/umd'
+
 import {
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
-  NodeViewRendererProps,
   NodeViewRendererOptions,
+  NodeViewRendererProps,
 } from '@tiptap/core'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import Vue from 'vue'
-import { VueConstructor, PropType } from 'vue/types/umd'
+
 import { Editor } from './Editor'
 import { VueRenderer } from './VueRenderer'
 
@@ -83,7 +85,10 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRe
       value: this.getDecorationClasses(),
     })
 
-    const Component = Vue
+    // @ts-ignore
+    const vue = this.editor.contentComponent?.$options._base ?? Vue // eslint-disable-line
+
+    const Component = vue
       .extend(this.component)
       .extend({
         props: Object.keys(props),
