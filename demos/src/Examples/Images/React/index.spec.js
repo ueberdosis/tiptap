@@ -3,7 +3,6 @@ context('/src/Examples/Images/React/', () => {
     cy.visit('/src/Examples/Images/React/')
   })
 
-  // TODO: Write tests
   it('finds image elements inside editor', () => {
     cy.get('.ProseMirror img').should('have.length', 2)
   })
@@ -19,6 +18,7 @@ context('/src/Examples/Images/React/', () => {
     cy.window().then(win => {
       cy.stub(win, 'prompt').returns('https://unsplash.it/250/250')
 
+      cy.wait(1000)
       cy.get('button').contains('add image from URL').click()
       cy.wait(1000)
       cy.get('.ProseMirror img').should('have.length', 3)
