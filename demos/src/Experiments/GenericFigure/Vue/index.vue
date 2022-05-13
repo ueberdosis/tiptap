@@ -193,15 +193,15 @@ export default {
                 <td>actress</td>
               </tr>
               <tr>
-                <td>Philipp Kühn</td>
-                <td>designer</td>
-                <td>developer</td>
-                <td>maker</td>
+                <td>Marie Curie</td>
+                <td>scientist</td>
+                <td>chemist</td>
+                <td>physicist</td>
               </tr>
               <tr>
-                <td>Hans Pagel</td>
-                <td>wrote this</td>
-                <td colspan="2">that’s it</td>
+                <td>Indira Gandhi</td>
+                <td>prime minister</td>
+                <td colspan="2">politician</td>
               </tr>
             </tbody>
           </table>
@@ -220,15 +220,15 @@ export default {
               <td>actress</td>
             </tr>
             <tr>
-              <td>Philipp Kühn</td>
-              <td>designer</td>
-              <td>developer</td>
-              <td>maker</td>
+              <td>Marie Curie</td>
+              <td>scientist</td>
+              <td>chemist</td>
+              <td>physicist</td>
             </tr>
             <tr>
-              <td>Hans Pagel</td>
-              <td>wrote this</td>
-              <td colspan="2">that’s it</td>
+              <td>Indira Gandhi</td>
+              <td>prime minister</td>
+              <td colspan="2">politician</td>
             </tr>
           </tbody>
         </table>

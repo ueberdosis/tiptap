@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "vite --host",
-    "build": "yarn ts && vite build",
+    "build": "npm run ts && vite build",
     "ts": "tsc --project tsconfig.base.json --noEmit && tsc --project tsconfig.react.json --noEmit && tsc --project tsconfig.vue-2.json --noEmit && tsc --project tsconfig.vue-3.json --noEmit"
   },
   "dependencies": {

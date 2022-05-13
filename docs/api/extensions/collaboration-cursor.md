@@ -44,9 +44,9 @@ Pass an object with updated attributes of the current user. It expects a `name` 
 
 ```js
 editor.commands.updateUser({
-  name: 'Philipp Kühn',
+  name: 'John Doe',
   color: '#000000',
-  avatar: 'https://unavatar.io/github/philippkuehn',
+  avatar: 'https://unavatar.io/github/ueberdosis',
 })
 ```
 

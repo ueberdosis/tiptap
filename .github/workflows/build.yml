@@ -38,16 +38,16 @@ jobs:
         path: |
           **/node_modules
           /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install dependencies
       id: install-dependencies
       if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn install
+      run: npm install
 
 #    - name: Fix code style linting errors
 #      id: lint-fix
-#      run: yarn lint:fix
+#      run: npm run lint:fix
 #      continue-on-error: true
 #
 #    - name: Commit fixed linting errors
@@ -58,7 +58,7 @@ jobs:
 
     - name: Lint code
       id: lint
-      run: yarn lint
+      run: npm run lint
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
@@ -91,8 +91,8 @@ jobs:
       id: cypress
       uses: cypress-io/github-action@v2
       with:
-        cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
-        start: yarn start
+        cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+        start: npm run start
         wait-on: 'http://localhost:3000'
         project: ./tests
         browser: chrome
@@ -150,16 +150,16 @@ jobs:
         path: |
           **/node_modules
           /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install dependencies
       id: install-dependencies
       if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn install
+      run: npm install
 
     - name: Try to build the packages
       id: build-packages
-      run: yarn build:ci
+      run: npm run build:ci
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
