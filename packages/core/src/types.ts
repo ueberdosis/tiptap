@@ -66,7 +66,7 @@ export interface EditorEvents {
 export type EnableRules = (AnyExtension | string)[] | boolean
 
 export interface EditorOptions {
-  element: Node | ((p: Node) => void) | { mount: Node },
+  element: Node | ((p: Node) => void) | { mount: Node } | undefined,
   content: Content,
   extensions: Extensions,
   injectCSS: boolean,

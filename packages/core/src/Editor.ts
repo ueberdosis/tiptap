@@ -54,7 +54,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   public extensionStorage: Record<string, any> = {}
 
   public options: EditorOptions = {
-    element: document.createElement('div'),
+    element: undefined,
     content: '',
     injectCSS: true,
     injectNonce: undefined,
