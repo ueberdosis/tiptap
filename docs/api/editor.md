@@ -349,6 +349,22 @@ new Editor({
 })
 ```
 
+### injectNonce
+When you use a [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy) with `nonce`, you can specify a `nonce` to be added to dynamically created elements. Here is an example:
+
+```js
+import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
+
+new Editor({
+  extensions: [
+    StarterKit,
+  ],
+  injectCSS: true,
+  injectNonce: "your-nonce-here"
+})
+```
+
 ### editorProps
 For advanced use cases, you can pass `editorProps` which will be handled by [ProseMirror](https://prosemirror.net/docs/ref/#view.EditorProps). You can use it to override various editor events or change editor DOM element attributes, for example to add some Tailwind classes. Here is an example:
 
