@@ -39,8 +39,10 @@ context('/src/Experiments/CollaborationAnnotation/Vue/', () => {
 
       cy.get('.editor-1 .ProseMirror').type('{selectall}{backspace}Hello world{selectall}')
       cy.get('button').contains('comment').eq(0).click()
+      cy.wait(1000)
       cy.get('.comment').should('exist').contains('This is a test comment')
       cy.get('button').contains('update').click()
+      cy.wait(1000)
       cy.get('.comment').should('exist').contains('This is the new comment')
     })
   })
@@ -51,9 +53,11 @@ context('/src/Experiments/CollaborationAnnotation/Vue/', () => {
 
       cy.get('.editor-1 .ProseMirror').type('{selectall}{backspace}Hello world{selectall}')
       cy.get('button').contains('comment').eq(0).click()
+      cy.wait(1000)
       cy.get('.comment').should('exist').contains('This is a test comment')
       cy.get('button').contains('remove').click()
       cy.get('.ProseMirror .annotation').should('not.exist')
+      cy.wait(1000)
       cy.get('.comment').should('not.exist')
     })
   })
