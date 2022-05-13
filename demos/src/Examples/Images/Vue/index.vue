@@ -1,8 +1,6 @@
 <template>
   <div v-if="editor">
-    <button @click="addImage">
-      add image from URL
-    </button>
+    <button @click="addImage">add image from URL</button>
   </div>
   <editor-content :editor="editor" />
 </template>
