@@ -31,15 +31,18 @@ export const EditorContent = defineComponent({
     watchEffect(() => {
       const editor = props.editor
 
-      if (editor && editor.options.element && rootEl.value) {
+      if (editor && editor.view.dom && rootEl.value) {
         nextTick(() => {
-          if (!rootEl.value || !editor.options.element.firstChild) {
+          if (!rootEl.value || !editor.view.dom) {
             return
           }
 
           const element = unref(rootEl.value)
 
-          rootEl.value.append(...editor.options.element.childNodes)
+          const parentElement = editor.view.dom.parentElement
+          if (parentElement) {
+            rootEl.value.append(...parentElement.childNodes)
+          }
 
           // @ts-ignore
           editor.contentComponent = instance.ctx._
@@ -69,16 +72,18 @@ export const EditorContent = defineComponent({
 
       editor.contentComponent = null
 
-      if (!editor.options.element.firstChild) {
+      if (!editor.view.dom) {
         return
       }
 
-      const newElement = document.createElement('div')
-
-      newElement.append(...editor.options.element.childNodes)
+      const element = document.createElement('div')
+      const parentElement = editor.view.dom.parentElement
+      if (parentElement) {
+        element.append(...parentElement.childNodes)
+      }
 
       editor.setOptions({
-        element: newElement,
+        element,
       })
     })
 

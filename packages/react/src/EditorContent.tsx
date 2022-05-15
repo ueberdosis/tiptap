@@ -48,14 +48,16 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   init() {
     const { editor } = this.props
 
-    if (editor && editor.options.element) {
+    if (editor && editor.view.dom) {
       if (editor.contentComponent) {
         return
       }
 
       const element = this.editorContentRef.current
-
-      element.append(...editor.options.element.childNodes)
+      const parentElement = editor.view.dom.parentElement
+      if (parentElement) {
+        element.append(...parentElement.childNodes)
+      }
 
       editor.setOptions({
         element,
@@ -82,16 +84,18 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 
     editor.contentComponent = null
 
-    if (!editor.options.element.firstChild) {
+    if (!editor.view.dom) {
       return
     }
 
-    const newElement = document.createElement('div')
-
-    newElement.append(...editor.options.element.childNodes)
+    const element = document.createElement('div')
+    const parentElement = editor.view.dom.parentElement
+    if (parentElement) {
+      element.append(...parentElement.childNodes)
+    }
 
     editor.setOptions({
-      element: newElement,
+      element,
     })
   }
 

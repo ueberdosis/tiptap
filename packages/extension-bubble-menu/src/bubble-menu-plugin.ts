@@ -122,7 +122,7 @@ export class BubbleMenuView {
   }
 
   createTooltip() {
-    const { element: editorElement } = this.editor.options
+    const { dom: editorElement } = this.editor.view
     const editorIsAttached = !!editorElement.parentElement
 
     if (this.tippy || !editorIsAttached) {

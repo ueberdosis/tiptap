@@ -19,15 +19,14 @@ export const EditorContent: Component = {
     editor: {
       immediate: true,
       handler(this: EditorContentInterface, editor: Editor) {
-        if (editor && editor.options.element) {
+        if (editor && editor.view.dom) {
           this.$nextTick(() => {
             const element = this.$el
-
-            if (!element || !editor.options.element.firstChild) {
-              return
+            const parentElement = editor.view.dom.parentElement
+            if (parentElement) {
+              element.append(...parentElement.childNodes)
             }
 
-            element.append(...editor.options.element.childNodes)
             editor.contentComponent = this
 
             editor.setOptions({
@@ -60,16 +59,18 @@ export const EditorContent: Component = {
 
     editor.contentComponent = null
 
-    if (!editor.options.element.firstChild) {
+    if (!editor.view.dom) {
       return
     }
 
-    const newElement = document.createElement('div')
-
-    newElement.append(...editor.options.element.childNodes)
+    const element = document.createElement('div')
+    const parentElement = editor.view.dom.parentElement
+    if (parentElement) {
+      element.append(...parentElement.childNodes)
+    }
 
     editor.setOptions({
-      element: newElement,
+      element,
     })
   },
 }
