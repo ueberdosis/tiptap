@@ -10,9 +10,9 @@ import {
   EditorProps,
 } from 'prosemirror-view'
 import { EditorState, Transaction } from 'prosemirror-state'
-import { Extension } from './Extension'
-import { Node } from './Node'
-import { Mark } from './Mark'
+import { Extension as TiptapExtension } from './Extension'
+import { Node as TiptapNode } from './Node'
+import { Mark as TiptapMark } from './Mark'
 import { Editor } from './Editor'
 import {
   Commands,
@@ -22,7 +22,7 @@ import {
 } from '.'
 
 export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
-export type AnyExtension = Extension | Node | Mark
+export type AnyExtension = TiptapExtension | TiptapNode | TiptapMark
 export type Extensions = AnyExtension[]
 
 export type ParentConfig<T> = Partial<{
@@ -167,7 +167,7 @@ export type NodeViewProps = {
   node: ProseMirrorNode,
   decorations: Decoration[],
   selected: boolean,
-  extension: Node,
+  extension: TiptapNode,
   getPos: () => number,
   updateAttributes: (attributes: Record<string, any>) => void,
   deleteNode: () => void,
@@ -188,7 +188,7 @@ export type NodeViewRendererProps = {
   getPos: (() => number) | boolean,
   HTMLAttributes: Record<string, any>,
   decorations: Decoration[],
-  extension: Node,
+  extension: TiptapNode,
 }
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => (NodeView | {})
