@@ -55,6 +55,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 
       const element = this.editorContentRef.current
       const parentElement = editor.view.dom.parentElement
+
       if (parentElement) {
         element.append(...parentElement.childNodes)
       }
@@ -90,6 +91,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 
     const element = document.createElement('div')
     const parentElement = editor.view.dom.parentElement
+    
     if (parentElement) {
       element.append(...parentElement.childNodes)
     }

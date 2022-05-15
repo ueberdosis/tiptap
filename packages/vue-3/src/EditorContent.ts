@@ -38,8 +38,8 @@ export const EditorContent = defineComponent({
           }
 
           const element = unref(rootEl.value)
-
           const parentElement = editor.view.dom.parentElement
+
           if (parentElement) {
             rootEl.value.append(...parentElement.childNodes)
           }
@@ -78,6 +78,7 @@ export const EditorContent = defineComponent({
 
       const element = document.createElement('div')
       const parentElement = editor.view.dom.parentElement
+      
       if (parentElement) {
         element.append(...parentElement.childNodes)
       }

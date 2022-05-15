@@ -23,6 +23,7 @@ export const EditorContent: Component = {
           this.$nextTick(() => {
             const element = this.$el
             const parentElement = editor.view.dom.parentElement
+
             if (parentElement) {
               element.append(...parentElement.childNodes)
             }
@@ -65,6 +66,7 @@ export const EditorContent: Component = {
 
     const element = document.createElement('div')
     const parentElement = editor.view.dom.parentElement
+    
     if (parentElement) {
       element.append(...parentElement.childNodes)
     }
