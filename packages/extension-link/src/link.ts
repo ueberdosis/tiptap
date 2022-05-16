@@ -132,6 +132,13 @@ export const Link = Mark.create<LinkOptions>({
     return [
       markPasteRule({
         find: text => find(text)
+          .filter(link => {
+            if (this.options.validate) {
+              return this.options.validate(link.value)
+            }
+
+            return true
+          })
           .filter(link => link.isLink)
           .map(link => ({
             text: link.value,
