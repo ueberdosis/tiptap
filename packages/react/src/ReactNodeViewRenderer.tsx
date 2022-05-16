@@ -21,6 +21,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
     updateProps: () => void,
   }) => boolean) | null,
   as?: string,
+  className?: string,
 }
 
 class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeViewRendererOptions> {
@@ -87,12 +88,14 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
     if (this.options.as) {
       as = this.options.as
     }
+    
+    const className = this.options.className ? ` ${this.options.className}` : ''
 
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props,
       as,
-      className: `node-${this.node.type.name}`,
+      className: `node-${this.node.type.name}` + className,
     })
   }
 
