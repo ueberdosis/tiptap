@@ -72,8 +72,6 @@ import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import styles from './index.module.css'
 
-console.log(styles)
-
 export default {
   components: {
     EditorContent,
