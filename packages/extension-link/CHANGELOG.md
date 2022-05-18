@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.37...@tiptap/extension-link@2.0.0-beta.38) (2022-05-18)
+
+
+### Bug Fixes
+
+* **extension-link:** :bug: fix auto link validation not working on paste ([3a3eb53](https://github.com/ueberdosis/tiptap/commit/3a3eb5311c6fbf1c1000a099d21bb47c71370375))
+
+
+### Features
+
+* **extension-link:** :sparkles: add validate option to link extension ([23e67ad](https://github.com/ueberdosis/tiptap/commit/23e67adfa730df7364bc31220d0ed0e8ea522593)), closes [#2779](https://github.com/ueberdosis/tiptap/issues/2779)
+
+
+
+
+
 # [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.36...@tiptap/extension-link@2.0.0-beta.37) (2022-04-27)
 
 

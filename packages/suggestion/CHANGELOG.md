@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.92](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.91...@tiptap/suggestion@2.0.0-beta.92) (2022-05-18)
+
+
+### Bug Fixes
+
+* fix suggestion package.json ([dd3e27b](https://github.com/ueberdosis/tiptap/commit/dd3e27b0e49cb7b7a63c0068437060472345c51b))
+
+
+### Features
+
+* Add `onBeforeStart` and `onBeforeUpdate` handlers to the render function ([70cb809](https://github.com/ueberdosis/tiptap/commit/70cb809702cbbb59abc6d12d85fd4d1291f88f5a))
+* Add a generic type for suggestion items ([7cae967](https://github.com/ueberdosis/tiptap/commit/7cae9673f0086973b4d31e1343375ed5ad04ee0a))
+
+
+
+
+
 # [2.0.0-beta.91](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.90...@tiptap/suggestion@2.0.0-beta.91) (2022-04-27)
 
 

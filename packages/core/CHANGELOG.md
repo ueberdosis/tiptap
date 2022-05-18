@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.176](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.175...@tiptap/core@2.0.0-beta.176) (2022-05-18)
+
+
+### Bug Fixes
+
+* lint error ([e17c414](https://github.com/ueberdosis/tiptap/commit/e17c41498aa0df71a827bf41f5c52745f3853c43))
+* properly calculate setDragImage position ([7401d45](https://github.com/ueberdosis/tiptap/commit/7401d45b7e3ff40e2ac894810bf85461761eb25b))
+
+
+
+
+
 # [2.0.0-beta.175](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.174...@tiptap/core@2.0.0-beta.175) (2022-04-27)
 
 
