@@ -89,13 +89,13 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
       as = this.options.as
     }
     
-    const className = this.options.className ? ` ${this.options.className}` : ''
+    const { className = '' } = this.options
 
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props,
       as,
-      className: `node-${this.node.type.name}` + className,
+      className: `node-${this.node.type.name} ${className}`.trim(),
     })
   }
 
