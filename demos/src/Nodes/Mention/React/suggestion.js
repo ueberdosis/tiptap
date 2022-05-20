@@ -1,5 +1,7 @@
-import { ReactRenderer } from '@tiptap/react'
 import tippy from 'tippy.js'
+
+import { ReactRenderer } from '@tiptap/react'
+
 import MentionList from './MentionList.jsx'
 
 export default {
@@ -46,6 +48,10 @@ export default {
           editor: props.editor,
         })
 
+        if (!props.clientRect) {
+          return
+        }
+
         popup = tippy('body', {
           getReferenceClientRect: props.clientRect,
           appendTo: () => document.body,
@@ -59,6 +65,10 @@ export default {
 
       onUpdate(props) {
         component.updateProps(props)
+
+        if (!props.clientRect) {
+          return
+        }
 
         popup[0].setProps({
           getReferenceClientRect: props.clientRect,
