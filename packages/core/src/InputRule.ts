@@ -3,6 +3,7 @@ import { EditorState, Plugin, TextSelection } from 'prosemirror-state'
 import { CommandManager } from './CommandManager'
 import { Editor } from './Editor'
 import { createChainableState } from './helpers/createChainableState'
+import { getTextContentFromNodes } from './helpers/getTextContentFromNodes'
 import {
   CanCommands,
   ChainedCommands,
@@ -115,26 +116,15 @@ function run(config: {
   }
 
   let matched = false
-  const maxMatch = 500
 
-  let textBefore = ''
-
-  $from.parent.nodesBetween(
-    Math.max(0, $from.parentOffset - maxMatch),
-    $from.parentOffset,
-    (node, pos, parent, index) => {
-      textBefore += node.type.spec.toText?.({
-        node, pos, parent, index,
-      }) || node.textContent || '%leaf%'
-    },
-  )
+  const textBefore = getTextContentFromNodes($from) + text
 
   rules.forEach(rule => {
     if (matched) {
       return
     }
 
-    const match = inputRuleMatcherHandler(textBefore + text, rule.find)
+    const match = inputRuleMatcherHandler(textBefore, rule.find)
 
     if (!match) {
       return
