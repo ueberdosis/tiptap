@@ -21,9 +21,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.1"
-  },
-  "dependencies": {
+    "@tiptap/core": "^2.0.0-beta.1",
     "prosemirror-model": "^1.16.1"
   },
   "repository": {
