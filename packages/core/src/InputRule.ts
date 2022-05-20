@@ -129,8 +129,6 @@ function run(config: {
     },
   )
 
-  console.log({ textBefore })
-
   rules.forEach(rule => {
     if (matched) {
       return
