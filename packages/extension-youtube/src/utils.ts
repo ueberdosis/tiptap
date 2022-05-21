@@ -43,7 +43,6 @@ export const getEmbedURLFromYouTubeURL = (options: GetEmbedUrlOptions) => {
     return null
   }
 
-
   let outputUrl = `${getYoutubeEmbedUrl(nocookie)}${matches[1]}`
 
   const params = []
