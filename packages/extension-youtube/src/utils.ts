@@ -9,6 +9,10 @@ export interface GetEmbedUrlOptions {
   startAt?: number;
 }
 
+export const getYoutubeEmbedUrl = (nocookie?: boolean) => {
+  return nocookie ? 'https://www.youtube-nocookie.com/embed/' : 'https://www.youtube.com/embed/'
+}
+
 export const getEmbedURLFromYouTubeURL = (options: GetEmbedUrlOptions) => {
   const {
     url,
@@ -22,6 +26,16 @@ export const getEmbedURLFromYouTubeURL = (options: GetEmbedUrlOptions) => {
     return url
   }
 
+  // if is a youtu.be url, get the id after the /
+  if (url.includes('youtu.be')) {
+    const id = url.split('/').pop()
+
+    if (!id) {
+      return null
+    }
+    return `${getYoutubeEmbedUrl(nocookie)}${id}`
+  }
+
   const videoIdRegex = /v=([-\w]+)/gm
   const matches = videoIdRegex.exec(url)
 
@@ -29,7 +43,9 @@ export const getEmbedURLFromYouTubeURL = (options: GetEmbedUrlOptions) => {
     return null
   }
 
-  let outputUrl = nocookie ? `https://www.youtube-nocookie.com/embed/${matches[1]}` : `https://www.youtube.com/embed/${matches[1]}`
+
+  let outputUrl = `${getYoutubeEmbedUrl(nocookie)}${matches[1]}`
+  console.log(outputUrl)
 
   const params = []
 
