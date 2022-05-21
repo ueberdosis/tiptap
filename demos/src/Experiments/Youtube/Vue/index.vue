@@ -74,7 +74,6 @@ export default {
 
   beforeUnmount() {
     this.editor.destroy()
-    this.anotherEditor.destroy()
   },
 }
 </script>
