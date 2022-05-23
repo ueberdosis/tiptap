@@ -5,7 +5,7 @@ export class VueRenderer {
   ref!: Vue
 
   constructor(component: Vue | VueConstructor, props: any) {
-    const Component = Vue.extend(component)
+    const Component = (typeof component === 'function') ? component : Vue.extend(component)
 
     this.ref = new Component(props).$mount()
   }
