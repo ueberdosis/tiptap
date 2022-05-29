@@ -1,4 +1,4 @@
-import { find } from 'linkifyjs'
+import { find, registerCustomProtocol } from 'linkifyjs'
 
 import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 
@@ -11,6 +11,10 @@ export interface LinkOptions {
    * If enabled, it adds links as you type.
    */
   autolink: boolean,
+  /**
+   * An array of custom protocols to be registered with linkifyjs.
+   */
+  protocols: Array<string>,
   /**
    * If enabled, links will be opened on click.
    */
@@ -57,6 +61,12 @@ export const Link = Mark.create<LinkOptions>({
 
   keepOnSplit: false,
 
+  onCreate() {
+    for (const protocol of this.options.protocols) {
+      registerCustomProtocol(protocol)
+    }
+  },
+
   inclusive() {
     return this.options.autolink
   },
@@ -66,6 +76,7 @@ export const Link = Mark.create<LinkOptions>({
       openOnClick: true,
       linkOnPaste: true,
       autolink: true,
+      protocols: [],
       HTMLAttributes: {
         target: '_blank',
         rel: 'noopener noreferrer nofollow',
