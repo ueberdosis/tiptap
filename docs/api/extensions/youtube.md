@@ -3,7 +3,7 @@ description: Your favorite videos and jams - right in your editor!
 icon: align-left
 ---
 
-# TextAlign
+# YouTube
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-youtube.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-youtube)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-youtube.svg)](https://npmcharts.com/compare/@tiptap/extension-youtube?minimal=true)
 
