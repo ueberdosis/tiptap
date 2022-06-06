@@ -25,10 +25,10 @@ describe('code block highlight', () => {
 
   beforeEach(() => {
     Frontmatter = CodeBlockLowlight
-      .configure({ lowlight })
       .extend({
         name: 'frontmatter',
       })
+      .configure({ lowlight })
 
     editor = new Editor({
       element: createEditorEl(),
@@ -36,7 +36,7 @@ describe('code block highlight', () => {
         Document,
         Text,
         Paragraph,
-        CodeBlockLowlight,
+        CodeBlockLowlight.configure({ lowlight }),
         Frontmatter,
       ],
       content: {

@@ -65,7 +65,15 @@ function getDecorations({
   return DecorationSet.create(doc, decorations)
 }
 
+function isFunction(param: Function) {
+  return typeof param === 'function'
+}
+
 export function LowlightPlugin({ name, lowlight, defaultLanguage }: { name: string, lowlight: any, defaultLanguage: string | null | undefined }) {
+  if (!['highlight', 'highlightAuto', 'listLanguages'].every(api => isFunction(lowlight[api]))) {
+    throw Error('You should provide an instance of lowlight to use the code-block-lowlight extension')
+  }
+
   return new Plugin({
     key: new PluginKey('lowlight'),
 
