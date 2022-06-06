@@ -36,7 +36,7 @@ export const Color = Extension.create<ColorOptions>({
         attributes: {
           color: {
             default: null,
-            parseHTML: element => element.style.color.replace(/['"]+/g, ''),
+            parseHTML: element => element.style.color?.replace(/['"]+/g, ''),
             renderHTML: attributes => {
               if (!attributes.color) {
                 return {}
