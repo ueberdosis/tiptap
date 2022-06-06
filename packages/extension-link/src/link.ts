@@ -62,9 +62,7 @@ export const Link = Mark.create<LinkOptions>({
   keepOnSplit: false,
 
   onCreate() {
-    for (const protocol of this.options.protocols) {
-      registerCustomProtocol(protocol)
-    }
+    this.options.protocols.forEach(registerCustomProtocol)
   },
 
   inclusive() {
