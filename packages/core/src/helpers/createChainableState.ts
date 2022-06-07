@@ -13,6 +13,7 @@ export function createChainableState(config: {
     ...state,
     schema: state.schema,
     plugins: state.plugins,
+    filterTransaction: state.filterTransaction,
     apply: state.apply.bind(state),
     applyTransaction: state.applyTransaction.bind(state),
     reconfigure: state.reconfigure.bind(state),

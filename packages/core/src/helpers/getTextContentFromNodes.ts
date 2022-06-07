@@ -1,6 +1,6 @@
 import { ResolvedPos } from 'prosemirror-model'
 
-export const getTextContentFromNodes = ($from: ResolvedPos<any>, maxMatch = 500) => {
+export const getTextContentFromNodes = ($from: ResolvedPos, maxMatch = 500) => {
   let textBefore = ''
 
   $from.parent.nodesBetween(

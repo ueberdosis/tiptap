@@ -1,5 +1,6 @@
-import { Range, TextSerializer } from '../types'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+
+import { Range, TextSerializer } from '../types'
 
 export function getTextBetween(
   startNode: ProseMirrorNode,
@@ -26,13 +27,15 @@ export function getTextBetween(
         separated = true
       }
 
-      text += textSerializer({
-        node,
-        pos,
-        parent,
-        index,
-        range,
-      })
+      if (parent) {
+        text += textSerializer({
+          node,
+          pos,
+          parent,
+          index,
+          range,
+        })
+      }
     } else if (node.isText) {
       text += node?.text?.slice(Math.max(from, pos) - pos, to - pos)
       separated = false

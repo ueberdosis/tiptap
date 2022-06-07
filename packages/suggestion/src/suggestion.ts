@@ -75,7 +75,7 @@ export function Suggestion<I = any>({
   let props: SuggestionProps<I> | undefined
   const renderer = render?.()
 
-  return new Plugin({
+  const plugin: Plugin<any> = new Plugin({
     key: pluginKey,
 
     view() {
@@ -242,7 +242,7 @@ export function Suggestion<I = any>({
     props: {
       // Call the keydown hook if suggestion is active.
       handleKeyDown(view, event) {
-        const { active, range } = this.getState(view.state)
+        const { active, range } = plugin.getState(view.state)
 
         if (!active) {
           return false
@@ -253,7 +253,7 @@ export function Suggestion<I = any>({
 
       // Setup decorator on the currently active suggestion.
       decorations(state) {
-        const { active, range, decorationId } = this.getState(state)
+        const { active, range, decorationId } = plugin.getState(state)
 
         if (!active) {
           return null
@@ -269,4 +269,6 @@ export function Suggestion<I = any>({
       },
     },
   })
+
+  return plugin
 }

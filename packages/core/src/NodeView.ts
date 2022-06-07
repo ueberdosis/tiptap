@@ -1,10 +1,11 @@
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
-import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { NodeSelection } from 'prosemirror-state'
+import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+
 import { Editor as CoreEditor } from './Editor'
 import { Node } from './Node'
+import { NodeViewRendererOptions, NodeViewRendererProps } from './types'
 import { isiOS } from './utilities/isiOS'
-import { NodeViewRendererProps, NodeViewRendererOptions } from './types'
 
 export class NodeView<
   Component,
@@ -48,11 +49,11 @@ export class NodeView<
     return
   }
 
-  get dom(): Element | null {
-    return null
+  get dom(): HTMLElement {
+    return this.editor.view.dom
   }
 
-  get contentDOM(): Element | null {
+  get contentDOM(): HTMLElement | null {
     return null
   }
 

@@ -1,20 +1,22 @@
+import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import {
+  Component,
+  PropType,
+  Ref,
+  defineComponent,
+  provide,
+  ref,
+} from 'vue'
+
 import {
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
-  NodeViewRendererProps,
   NodeViewRendererOptions,
+  NodeViewRendererProps,
 } from '@tiptap/core'
-import {
-  ref,
-  Ref,
-  provide,
-  PropType,
-  Component,
-  defineComponent,
-} from 'vue'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
+
 import { Editor } from './Editor'
 import { VueRenderer } from './VueRenderer'
 
@@ -118,7 +120,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       throw Error('Please use the NodeViewWrapper component for your node view.')
     }
 
-    return this.renderer.element
+    return this.renderer.element as HTMLElement
   }
 
   get contentDOM() {
@@ -128,7 +130,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
 
     const contentElement = this.dom.querySelector('[data-node-view-content]')
 
-    return contentElement || this.dom
+    return (contentElement || this.dom) as HTMLElement | null
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
@@ -204,6 +206,6 @@ export function VueNodeViewRenderer(component: Component, options?: Partial<VueN
       return {}
     }
 
-    return new VueNodeView(component, props, options) as ProseMirrorNodeView
+    return new VueNodeView(component, props, options) as unknown as ProseMirrorNodeView
   }
 }
