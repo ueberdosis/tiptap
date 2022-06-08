@@ -1,5 +1,12 @@
 # setNodeSelection
+`setNodeSelection` creates a new NodeSelection at a given position. A node selection is a selection that points to a single node. [See more](https://prosemirror.net/docs/ref/#state.NodeSelection)
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+`position: number`
+
+The position the NodeSelection will be created at.
+
+## Usage
+```js
+editor.commands.setNodeSelection(10)
+```

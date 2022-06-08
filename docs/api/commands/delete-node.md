@@ -1,5 +1,16 @@
 # deleteNode
+The `deleteNode` command deletes a node inside the current selection. It requires a `typeOrName` argument, which can be a string or a `NodeType` to find the node that needs to be deleted. After deleting the node, the view will automatically scroll to the cursors position.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+`typeOrName: string | NodeType`
+
+## Usage
+```js
+// deletes a paragraph node
+editor.commands.deleteNode('paragraph')
+
+// or
+
+// deletes a custom node
+editor.commands.deleteNode(MyCustomNode)
+```

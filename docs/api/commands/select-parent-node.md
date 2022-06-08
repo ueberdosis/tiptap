@@ -1,5 +1,7 @@
 # selectParentNode
+`selectParentNode` will try to get the parent node of the currently selected node and move the selection to that node.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Usage
+```js
+editor.commands.selectParentNode()
+```

@@ -158,22 +158,16 @@
           link: /api/commands/clear-nodes
         - title: createParagraphNear
           link: /api/commands/create-paragraph-near
-          type: draft
         - title: deleteNode
           link: /api/commands/delete-node
-          type: draft
         - title: deleteRange
           link: /api/commands/delete-range
-          type: draft
         - title: deleteSelection
           link: /api/commands/delete-selection
-          type: draft
         - title: enter
           link: /api/commands/enter
-          type: draft
         - title: exitCode
           link: /api/commands/exit-code
-          type: draft
         - title: extendMarkRange
           link: /api/commands/extend-mark-range
         - title: focus
@@ -184,64 +178,46 @@
           link: /api/commands/insert-content
         - title: insertContentAt
           link: /api/commands/insert-content-at
-          type: draft
         - title: joinBackward
           link: /api/commands/join-backward
-          type: draft
         - title: joinForward
           link: /api/commands/join-forward
-          type: draft
         - title: keyboardShortcut
           link: /api/commands/keyboard-shortcut
-          type: draft
         - title: liftEmptyBlock
           link: /api/commands/lift-empty-block
-          type: draft
         - title: liftListItem
           link: /api/commands/lift-list-item
-          type: draft
         - title: lift
           link: /api/commands/lift
-          type: draft
         - title: newlineInCode
           link: /api/commands/newline-in-code
-          type: draft
         - title: resetAttributes
           link: /api/commands/reset-attributes
-          type: draft
         - title: scrollIntoView
           link: /api/commands/scroll-into-view
-          type: draft
         - title: selectAll
           link: /api/commands/select-all
         - title: selectNodeBackward
           link: /api/commands/select-node-backward
-          type: draft
         - title: selectNodeForward
           link: /api/commands/select-node-forward
-          type: draft
         - title: selectParentNode
           link: /api/commands/select-parent-node
-          type: draft
         - title: selectTextblockEnd
           link: /api/commands/select-textblock-end
-          type: draft
         - title: selectTextblockStart
           link: /api/commands/select-textblock-start
-          type: draft
         - title: setContent
           link: /api/commands/set-content
         - title: setMark
           link: /api/commands/set-mark
-          type: draft
         - title: setMeta
           link: /api/commands/set-meta
         - title: setNode
           link: /api/commands/set-node
-          type: draft
         - title: setNodeSelection
           link: /api/commands/set-node-selection
-          type: draft
         - title: setTextSelection
           link: /api/commands/set-text-selection
         - title: sinkListItem
