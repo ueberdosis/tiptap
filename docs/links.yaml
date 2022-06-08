@@ -222,39 +222,28 @@
           link: /api/commands/set-text-selection
         - title: sinkListItem
           link: /api/commands/sink-list-item
-          type: draft
         - title: splitBlock
           link: /api/commands/split-block
-          type: draft
         - title: splitListItem
           link: /api/commands/split-list-item
-          type: draft
         - title: toggleList
           link: /api/commands/toggle-list
-          type: draft
         - title: toggleMark
           link: /api/commands/toggle-mark
-          type: draft
         - title: toggleNode
           link: /api/commands/toggle-node
-          type: draft
         - title: toggleWrap
           link: /api/commands/toggle-wrap
-          type: draft
         - title: undoInputRule
           link: /api/commands/undo-input-rule
-          type: draft
         - title: unsetAllMarks
           link: /api/commands/unset-all-marks
-          type: draft
         - title: unsetMark
           link: /api/commands/unset-mark
-          type: draft
         - title: updateAttributes
           link: /api/commands/update-attributes
         - title: wrapInList
           link: /api/commands/wrap-in-list
-          type: draft
     - title: Nodes
       link: /api/nodes
       items:
