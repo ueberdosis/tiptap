@@ -1,8 +1,8 @@
 import {
+  findChildrenInRange,
+  mergeAttributes,
   Node,
   nodeInputRule,
-  mergeAttributes,
-  findChildrenInRange,
   Tracker,
 } from '@tiptap/core'
 

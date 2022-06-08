@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import { PluginKey, Plugin } from 'prosemirror-state'
+import { Plugin, PluginKey } from 'prosemirror-state'
 
 // @ts-ignore
 function nodeEqualsType({ types, node }) {

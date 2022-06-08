@@ -1,15 +1,15 @@
+import react from '@vitejs/plugin-react'
+import vue from '@vitejs/plugin-vue'
+import fg from 'fast-glob'
+import fs from 'fs'
 import {
-  resolve,
   basename,
   dirname,
   join,
+  resolve,
 } from 'path'
 import { v4 as uuid } from 'uuid'
-import fs from 'fs'
-import fg from 'fast-glob'
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import react from '@vitejs/plugin-react'
 // import checker from 'vite-plugin-checker'
 
 const includeDependencies = fs.readFileSync('./includeDependencies.txt')

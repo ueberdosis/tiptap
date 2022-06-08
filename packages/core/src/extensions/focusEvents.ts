@@ -1,4 +1,5 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
+
 import { Extension } from '../Extension'
 
 export const FocusEvents = Extension.create({

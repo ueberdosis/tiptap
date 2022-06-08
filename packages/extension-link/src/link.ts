@@ -1,6 +1,5 @@
-import { find, registerCustomProtocol } from 'linkifyjs'
-
 import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { find, registerCustomProtocol } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink'
 import { clickHandler } from './helpers/clickHandler'

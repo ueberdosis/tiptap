@@ -5,8 +5,9 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+
 import { TrailingNode } from './trailing-node'
 
 export default {

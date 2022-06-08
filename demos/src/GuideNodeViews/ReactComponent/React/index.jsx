@@ -1,8 +1,10 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import ReactComponent from './Extension.js'
 import './styles.scss'
+
+import { EditorContent, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import React from 'react'
+
+import ReactComponent from './Extension.js'
 
 export default () => {
   const editor = useEditor({

@@ -1,6 +1,7 @@
 import { Mark as ProseMirrorMark, MarkType, ResolvedPos } from 'prosemirror-model'
-import { objectIncludes } from '../utilities/objectIncludes'
+
 import { Range } from '../types'
+import { objectIncludes } from '../utilities/objectIncludes'
 
 function findMarkInSet(
   marks: ProseMirrorMark[],

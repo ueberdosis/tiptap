@@ -13,15 +13,13 @@ export const NodeViewContent: Component = {
   },
 
   render(this: NodeViewContentInterface, createElement) {
-    return createElement(
-      this.as, {
-        style: {
-          whiteSpace: 'pre-wrap',
-        },
-        attrs: {
-          'data-node-view-content': '',
-        },
+    return createElement(this.as, {
+      style: {
+        whiteSpace: 'pre-wrap',
       },
-    )
+      attrs: {
+        'data-node-view-content': '',
+      },
+    })
   },
 }

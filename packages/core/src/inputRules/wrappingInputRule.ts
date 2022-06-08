@@ -1,6 +1,7 @@
+import { Node as ProseMirrorNode, NodeType } from 'prosemirror-model'
+import { canJoin, findWrapping } from 'prosemirror-transform'
+
 import { InputRule, InputRuleFinder } from '../InputRule'
-import { NodeType, Node as ProseMirrorNode } from 'prosemirror-model'
-import { findWrapping, canJoin } from 'prosemirror-transform'
 import { ExtendedRegExpMatchArray } from '../types'
 import { callOrReturn } from '../utilities/callOrReturn'
 

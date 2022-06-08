@@ -1,7 +1,8 @@
-import { TextSelection } from 'prosemirror-state'
 import { ParseOptions } from 'prosemirror-model'
+import { TextSelection } from 'prosemirror-state'
+
 import { createDocument } from '../helpers/createDocument'
-import { RawCommands, Content } from '../types'
+import { Content, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

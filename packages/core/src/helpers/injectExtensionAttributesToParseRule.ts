@@ -1,4 +1,5 @@
 import { ParseRule } from 'prosemirror-model'
+
 import { ExtensionAttribute } from '../types'
 import { fromString } from '../utilities/fromString'
 

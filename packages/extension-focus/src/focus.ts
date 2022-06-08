@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
-import { DecorationSet, Decoration } from 'prosemirror-view'
+import { Decoration, DecorationSet } from 'prosemirror-view'
 
 export interface FocusOptions {
   className: string,

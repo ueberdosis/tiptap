@@ -1,6 +1,7 @@
-import { Selection, NodeSelection } from 'prosemirror-state'
-import { minMax } from '../utilities/minMax'
+import { NodeSelection, Selection } from 'prosemirror-state'
+
 import { RawCommands } from '../types'
+import { minMax } from '../utilities/minMax'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

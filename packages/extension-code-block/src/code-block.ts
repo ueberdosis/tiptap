@@ -1,4 +1,4 @@
-import { Node, textblockTypeInputRule, mergeAttributes } from '@tiptap/core'
+import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
 import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
 
 export interface CodeBlockOptions {

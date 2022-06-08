@@ -1,4 +1,5 @@
 import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
+
 import { LowlightPlugin } from './lowlight-plugin'
 
 export interface CodeBlockLowlightOptions extends CodeBlockOptions {

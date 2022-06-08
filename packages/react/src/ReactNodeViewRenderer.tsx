@@ -1,13 +1,14 @@
-import React from 'react'
 import {
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
-  NodeViewRendererProps,
   NodeViewRendererOptions,
+  NodeViewRendererProps,
 } from '@tiptap/core'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import React from 'react'
+
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
 import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView'

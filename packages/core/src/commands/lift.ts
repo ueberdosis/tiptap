@@ -1,8 +1,9 @@
 import { lift as originalLift } from 'prosemirror-commands'
 import { NodeType } from 'prosemirror-model'
-import { RawCommands } from '../types'
-import { isNodeActive } from '../helpers/isNodeActive'
+
 import { getNodeType } from '../helpers/getNodeType'
+import { isNodeActive } from '../helpers/isNodeActive'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

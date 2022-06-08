@@ -3,9 +3,10 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
 import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+
 import Paper from './Paper'
 
 export default {

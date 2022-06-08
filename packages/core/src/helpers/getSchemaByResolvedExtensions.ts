@@ -1,13 +1,14 @@
-import { NodeSpec, MarkSpec, Schema } from 'prosemirror-model'
+import { MarkSpec, NodeSpec, Schema } from 'prosemirror-model'
+
+import { MarkConfig, NodeConfig } from '..'
 import { AnyConfig, Extensions } from '../types'
-import { NodeConfig, MarkConfig } from '..'
-import { splitExtensions } from './splitExtensions'
-import { getAttributesFromExtensions } from './getAttributesFromExtensions'
-import { getRenderedAttributes } from './getRenderedAttributes'
-import { isEmptyObject } from '../utilities/isEmptyObject'
-import { injectExtensionAttributesToParseRule } from './injectExtensionAttributesToParseRule'
 import { callOrReturn } from '../utilities/callOrReturn'
+import { isEmptyObject } from '../utilities/isEmptyObject'
+import { getAttributesFromExtensions } from './getAttributesFromExtensions'
 import { getExtensionField } from './getExtensionField'
+import { getRenderedAttributes } from './getRenderedAttributes'
+import { injectExtensionAttributesToParseRule } from './injectExtensionAttributesToParseRule'
+import { splitExtensions } from './splitExtensions'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(Object.entries(data).filter(([key, value]) => {

@@ -1,5 +1,6 @@
 import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Predicate, Range, NodeWithPos } from '../types'
+
+import { NodeWithPos, Predicate, Range } from '../types'
 
 /**
  * Same as `findChildren` but searches only within a `range`.

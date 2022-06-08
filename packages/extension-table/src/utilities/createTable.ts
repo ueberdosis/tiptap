@@ -1,4 +1,5 @@
-import { Schema, Fragment, Node as ProsemirrorNode } from 'prosemirror-model'
+import { Fragment, Node as ProsemirrorNode, Schema } from 'prosemirror-model'
+
 import { createCell } from './createCell'
 import { getTableNodeTypes } from './getTableNodeTypes'
 

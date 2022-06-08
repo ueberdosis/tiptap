@@ -1,4 +1,5 @@
-import { Schema, Node as ProseMirrorNode, ParseOptions } from 'prosemirror-model'
+import { Node as ProseMirrorNode, ParseOptions, Schema } from 'prosemirror-model'
+
 import { Content } from '../types'
 import { createNodeFromContent } from './createNodeFromContent'
 

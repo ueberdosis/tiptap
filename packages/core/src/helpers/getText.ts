@@ -1,5 +1,6 @@
-import { TextSerializer } from '../types'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+
+import { TextSerializer } from '../types'
 import { getTextBetween } from './getTextBetween'
 
 export function getText(

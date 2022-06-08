@@ -1,6 +1,7 @@
 import 'iframe-resizer/js/iframeResizer.contentWindow'
-import { debug } from './helper'
 import './style.scss'
+
+import { debug } from './helper'
 
 export default function init(name: string, source: any) {
   // @ts-ignore

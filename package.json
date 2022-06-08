@@ -20,7 +20,8 @@
     "build:allpackages": "npm run clean:packages && for dir in packages/*; do package=${dir#'packages/'}; rollup -c --scope @tiptap/$package || exit 1; done",
     "release": "npm run build:packages && lerna publish",
     "clean:packages": "rm -rf ./packages/*/dist",
-    "reset": "npm run clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && npm install"
+    "reset": "npm run clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && npm install",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@atomico/rollup-plugin-sizes": "^1.1.4",
@@ -40,12 +41,14 @@
     "@typescript-eslint/parser": "^5.10.2",
     "babel-loader": "^8.2.3",
     "cypress": "^9.4.1",
-    "eslint": "^8.8.0",
-    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-html": "^6.2.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-vue": "^8.4.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-vue": "^9.1.0",
+    "husky": "^8.0.1",
     "lerna": "^4.0.0",
     "minimist": "^1.2.5",
     "rollup": "^2.67.0",
