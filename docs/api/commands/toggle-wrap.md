@@ -1,5 +1,17 @@
 # toggleWrap
+`toggleWrap` wraps the current node with a new node or removes a wrapping node.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+`typeOrName: string | NodeType`
+
+The type of node that should be used for the wrapping node.
+
+`attributes?: Record<string, any>`
+
+The attributes that should be applied to the node. **This is optional.**
+
+## Usage
+```js
+// toggle wrap the current selection with a heading node
+editor.commands.toggleWrap('heading', { level: 1 })
+```

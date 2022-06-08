@@ -1,5 +1,20 @@
 # unsetMark
+`unsetMark` will remove the mark from the current selection. Can also remove all marks across the current selection.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+`typeOrName: string | MarkType`
+
+The type of mark that should be removed.
+
+`options?: Record<string, any>`
+
+* `extendEmptyMarkRange?: boolean` - Removes the mark even across the current selection. Defaults to `false`
+
+## Usage
+```js
+// removes a bold mark
+editor.commands.unsetMark('bold')
+
+// removes a bold mark across the current selection
+editor.commands.unsetMark('bold', { extendEmptyMarkRange: true })
+```
