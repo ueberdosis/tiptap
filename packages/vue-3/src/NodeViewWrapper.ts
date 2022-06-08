@@ -12,7 +12,8 @@ export const NodeViewWrapper = defineComponent({
 
   render() {
     return h(
-      this.as, {
+      this.as,
+      {
         // @ts-ignore
         class: this.decorationClasses.value,
         style: {

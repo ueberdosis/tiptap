@@ -37,6 +37,7 @@ export default {
         <pre>code</pre>
       `,
       onUpdate: () => {
+        // eslint-disable-next-line
         console.log(this.editor.getHTML())
       },
     })

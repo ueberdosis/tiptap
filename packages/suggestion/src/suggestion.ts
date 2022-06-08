@@ -122,7 +122,7 @@ export function Suggestion<I = any>({
             clientRect: decorationNode
               ? () => {
                 // because of `items` can be asynchrounous we’ll search for the current docoration node
-                const { decorationId } = this.key?.getState(editor.state)
+                const { decorationId } = this.key?.getState(editor.state) // eslint-disable-line
                 const currentDecorationNode = document.querySelector(`[data-decoration-id="${decorationId}"]`)
 
                 return currentDecorationNode?.getBoundingClientRect() || null

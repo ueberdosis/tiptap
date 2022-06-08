@@ -26,10 +26,12 @@ function runAllLinterPlugins(doc: ProsemirrorNode, plugins: Array<typeof LinterP
   }).flat()
 
   results.forEach(issue => {
-    decorations.push(Decoration.inline(issue.from, issue.to, {
-      class: 'problem',
-    }),
-    Decoration.widget(issue.from, renderIcon(issue)))
+    decorations.push(
+      Decoration.inline(issue.from, issue.to, {
+        class: 'problem',
+      }),
+      Decoration.widget(issue.from, renderIcon(issue)),
+    )
   })
 
   return DecorationSet.create(doc, decorations)
