@@ -1,5 +1,6 @@
-import { onMounted, onBeforeUnmount, shallowRef } from 'vue'
 import { EditorOptions } from '@tiptap/core'
+import { onBeforeUnmount, onMounted, shallowRef } from 'vue'
+
 import { Editor } from './Editor'
 
 export const useEditor = (options: Partial<EditorOptions> = {}) => {

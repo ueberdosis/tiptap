@@ -1,14 +1,13 @@
+import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import {
   ComponentInternalInstance,
   ComponentPublicInstance,
-  Ref,
   customRef,
   markRaw,
   reactive,
+  Ref,
 } from 'vue'
-
-import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
 
 import { VueRenderer } from './VueRenderer'
 

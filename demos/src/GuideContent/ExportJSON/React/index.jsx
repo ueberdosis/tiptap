@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
 import './styles.scss'
+
+import { EditorContent, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import React, { useCallback, useEffect, useState } from 'react'
 
 export default () => {
   const [json, setJson] = useState(null)

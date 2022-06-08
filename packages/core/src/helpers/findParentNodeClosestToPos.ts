@@ -1,4 +1,5 @@
-import { ResolvedPos, Node as ProseMirrorNode } from 'prosemirror-model'
+import { Node as ProseMirrorNode, ResolvedPos } from 'prosemirror-model'
+
 import { Predicate } from '../types'
 
 export function findParentNodeClosestToPos($pos: ResolvedPos, predicate: Predicate): ({

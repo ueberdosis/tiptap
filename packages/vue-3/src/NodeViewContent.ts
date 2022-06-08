@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 export const NodeViewContent = defineComponent({
   props: {

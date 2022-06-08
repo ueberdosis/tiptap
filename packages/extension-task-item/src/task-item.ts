@@ -1,4 +1,4 @@
-import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core'
+import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 
 export interface TaskItemOptions {

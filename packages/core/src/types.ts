@@ -1,25 +1,26 @@
 import {
-  Node as ProseMirrorNode,
   Mark as ProseMirrorMark,
+  Node as ProseMirrorNode,
   ParseOptions,
 } from 'prosemirror-model'
-import {
-  EditorView,
-  Decoration,
-  NodeView,
-  EditorProps,
-} from 'prosemirror-view'
 import { EditorState, Transaction } from 'prosemirror-state'
-import { Extension } from './Extension'
-import { Node } from './Node'
-import { Mark } from './Mark'
-import { Editor } from './Editor'
+import {
+  Decoration,
+  EditorProps,
+  EditorView,
+  NodeView,
+} from 'prosemirror-view'
+
 import {
   Commands,
   ExtensionConfig,
-  NodeConfig,
   MarkConfig,
+  NodeConfig,
 } from '.'
+import { Editor } from './Editor'
+import { Extension } from './Extension'
+import { Mark } from './Mark'
+import { Node } from './Node'
 
 export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
 export type AnyExtension = Extension | Node | Mark

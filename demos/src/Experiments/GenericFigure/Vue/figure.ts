@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { mergeAttributes, Node } from '@tiptap/core'
 import { Plugin } from 'prosemirror-state'
 
 export const Figure = Node.create({

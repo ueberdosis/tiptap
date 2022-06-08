@@ -1,4 +1,5 @@
 import { EditorView } from 'prosemirror-view'
+
 import LinterPlugin, { Result as Issue } from '../LinterPlugin'
 
 export class Punctuation extends LinterPlugin {

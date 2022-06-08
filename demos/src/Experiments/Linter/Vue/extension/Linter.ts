@@ -1,7 +1,8 @@
 import { Extension } from '@tiptap/core'
-import { Decoration, DecorationSet } from 'prosemirror-view'
-import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
+import { Decoration, DecorationSet } from 'prosemirror-view'
+
 import LinterPlugin, { Result as Issue } from './LinterPlugin'
 
 interface IconDivElement extends HTMLDivElement {

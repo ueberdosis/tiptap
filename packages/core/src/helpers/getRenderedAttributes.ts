@@ -1,4 +1,5 @@
-import { Node, Mark } from 'prosemirror-model'
+import { Mark, Node } from 'prosemirror-model'
+
 import { ExtensionAttribute } from '../types'
 import { mergeAttributes } from '../utilities/mergeAttributes'
 

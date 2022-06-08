@@ -1,10 +1,10 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
+import FontFamily from '@tiptap/extension-font-family'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import TextStyle from '@tiptap/extension-text-style'
-import FontFamily from '@tiptap/extension-font-family'
+import { EditorContent, useEditor } from '@tiptap/react'
+import React from 'react'
 
 export default () => {
   const editor = useEditor({

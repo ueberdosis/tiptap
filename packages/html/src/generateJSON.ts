@@ -1,5 +1,5 @@
+import { Extensions, getSchema } from '@tiptap/core'
 import { DOMParser } from 'prosemirror-model'
-import { getSchema, Extensions } from '@tiptap/core'
 import { parseHTML } from 'zeed-dom'
 
 export function generateJSON(html: string, extensions: Extensions): Record<string, any> {

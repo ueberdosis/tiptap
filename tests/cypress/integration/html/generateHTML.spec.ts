@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
-import { generateHTML } from '@tiptap/html'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { generateHTML } from '@tiptap/html'
 
 describe('generateHTML', () => {
   it('generate HTML from JSON without an editor instance', () => {

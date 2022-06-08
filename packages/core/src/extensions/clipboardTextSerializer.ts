@@ -1,4 +1,5 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
+
 import { Extension } from '../Extension'
 import { getTextBetween } from '../helpers/getTextBetween'
 import { getTextSerializersFromSchema } from '../helpers/getTextSerializersFromSchema'

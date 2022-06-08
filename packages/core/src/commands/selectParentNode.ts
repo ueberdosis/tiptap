@@ -1,4 +1,5 @@
 import { selectParentNode as originalSelectParentNode } from 'prosemirror-commands'
+
 import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {

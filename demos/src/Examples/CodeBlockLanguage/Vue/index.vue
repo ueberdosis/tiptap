@@ -8,15 +8,15 @@
 </template>
 
 <script>
-import { Editor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import CodeBlockComponent from './CodeBlockComponent.vue'
-
+import { Editor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
 // load all highlight.js languages
 import lowlight from 'lowlight'
+
+import CodeBlockComponent from './CodeBlockComponent.vue'
 
 // load specific languages only
 // import lowlight from 'lowlight/lib/core'

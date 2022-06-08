@@ -1,7 +1,7 @@
 import {
-  NodeType, Fragment,
+  Fragment,
   Node as ProsemirrorNode,
-  Schema,
+  NodeType, Schema,
 } from 'prosemirror-model'
 
 export function createCell(cellType: NodeType, cellContent?: Fragment<Schema> | ProsemirrorNode<Schema> | Array<ProsemirrorNode<Schema>>): ProsemirrorNode | null | undefined {

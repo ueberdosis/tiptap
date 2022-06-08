@@ -1,4 +1,5 @@
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+
 import { MarkRange } from '../types'
 import { getMarkRange } from './getMarkRange'
 

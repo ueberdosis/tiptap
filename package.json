@@ -46,6 +46,7 @@
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-html": "^6.2.0",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-vue": "^9.1.0",
     "husky": "^8.0.1",
     "lerna": "^4.0.0",

@@ -1,13 +1,12 @@
-import { find, test } from 'linkifyjs'
-import { MarkType } from 'prosemirror-model'
-import { Plugin, PluginKey } from 'prosemirror-state'
-
 import {
   combineTransactionSteps,
   findChildrenInRange,
   getChangedRanges,
   getMarksBetween,
 } from '@tiptap/core'
+import { find, test } from 'linkifyjs'
+import { MarkType } from 'prosemirror-model'
+import { Plugin, PluginKey } from 'prosemirror-state'
 
 type AutolinkOptions = {
   type: MarkType,

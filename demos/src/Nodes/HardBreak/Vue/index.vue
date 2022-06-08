@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
 import Document from '@tiptap/extension-document'
+import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import HardBreak from '@tiptap/extension-hard-break'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {
   components: {
