@@ -1,8 +1,10 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import TableOfContents from './TableOfContents.js'
 import './styles.scss'
+
+import { EditorContent, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import React from 'react'
+
+import TableOfContents from './TableOfContents.js'
 
 export default () => {
   const editor = useEditor({

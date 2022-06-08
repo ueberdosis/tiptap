@@ -1,4 +1,5 @@
 import { EditorView } from 'prosemirror-view'
+
 import LinterPlugin, { Result as Issue } from '../LinterPlugin'
 
 export class Punctuation extends LinterPlugin {
@@ -8,7 +9,8 @@ export class Punctuation extends LinterPlugin {
     return function ({ state, dispatch }: EditorView, issue: Issue) {
       dispatch(
         state.tr.replaceWith(
-          issue.from, issue.to,
+          issue.from,
+          issue.to,
           state.schema.text(replacement),
         ),
       )
@@ -30,7 +32,8 @@ export class Punctuation extends LinterPlugin {
       if (matches) {
         this.record(
           'Suspicious spacing around punctuation',
-          position + matches.index, position + matches.index + matches[0].length,
+          position + matches.index,
+          position + matches.index + matches[0].length,
           this.fix(`${matches[1]} `),
         )
       }

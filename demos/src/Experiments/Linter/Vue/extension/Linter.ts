@@ -1,7 +1,8 @@
 import { Extension } from '@tiptap/core'
-import { Decoration, DecorationSet } from 'prosemirror-view'
-import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
+import { Decoration, DecorationSet } from 'prosemirror-view'
+
 import LinterPlugin, { Result as Issue } from './LinterPlugin'
 
 interface IconDivElement extends HTMLDivElement {
@@ -26,10 +27,12 @@ function runAllLinterPlugins(doc: ProsemirrorNode, plugins: Array<typeof LinterP
   }).flat()
 
   results.forEach(issue => {
-    decorations.push(Decoration.inline(issue.from, issue.to, {
-      class: 'problem',
-    }),
-    Decoration.widget(issue.from, renderIcon(issue)))
+    decorations.push(
+      Decoration.inline(issue.from, issue.to, {
+        class: 'problem',
+      }),
+      Decoration.widget(issue.from, renderIcon(issue)),
+    )
   })
 
   return DecorationSet.create(doc, decorations)

@@ -1,7 +1,7 @@
 import {
+  mergeAttributes,
   Node,
   nodeInputRule,
-  mergeAttributes,
 } from '@tiptap/core'
 import { TextSelection } from 'prosemirror-state'
 

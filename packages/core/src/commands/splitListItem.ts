@@ -1,14 +1,15 @@
 import {
-  NodeType,
-  Node as ProseMirrorNode,
   Fragment,
+  Node as ProseMirrorNode,
+  NodeType,
   Slice,
 } from 'prosemirror-model'
-import { canSplit } from 'prosemirror-transform'
 import { TextSelection } from 'prosemirror-state'
-import { RawCommands } from '../types'
+import { canSplit } from 'prosemirror-transform'
+
 import { getNodeType } from '../helpers/getNodeType'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

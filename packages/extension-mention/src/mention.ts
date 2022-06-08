@@ -1,7 +1,7 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { mergeAttributes, Node } from '@tiptap/core'
+import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { PluginKey } from 'prosemirror-state'
-import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
 export type MentionOptions = {
   HTMLAttributes: Record<string, any>,

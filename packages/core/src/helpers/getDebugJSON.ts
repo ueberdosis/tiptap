@@ -1,4 +1,5 @@
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+
 import { JSONContent } from '../types'
 
 interface DebugJSONContent extends JSONContent {

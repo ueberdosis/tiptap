@@ -1,5 +1,5 @@
 import { Selection, Transaction } from 'prosemirror-state'
-import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
+import { ReplaceAroundStep, ReplaceStep } from 'prosemirror-transform'
 
 // source: https://github.com/ProseMirror/prosemirror-state/blob/master/src/selection.js#L466
 export function selectionToInsertionEnd(tr: Transaction, startLen: number, bias: number) {

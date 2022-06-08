@@ -1,6 +1,5 @@
-import tippy from 'tippy.js'
-
 import { VueRenderer } from '@tiptap/vue-3'
+import tippy from 'tippy.js'
 
 import CommandsList from './CommandsList.vue'
 

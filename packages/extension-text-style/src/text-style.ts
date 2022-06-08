@@ -1,6 +1,6 @@
 import {
-  Mark,
   getMarkAttributes,
+  Mark,
   mergeAttributes,
 } from '@tiptap/core'
 

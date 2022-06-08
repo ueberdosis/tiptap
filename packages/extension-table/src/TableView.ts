@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { NodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { NodeView } from 'prosemirror-view'
 
 export function updateColumns(node: ProseMirrorNode, colgroup: Element, table: Element, cellMinWidth: number, overrideCol?: number, overrideValue?: any) {
   let totalWidth = 0

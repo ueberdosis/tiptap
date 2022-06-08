@@ -1,19 +1,19 @@
-import React from 'react'
-import { useEditor, EditorContent, ReactNodeViewRenderer } from '@tiptap/react'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import CodeBlockComponent from './CodeBlockComponent'
-
-// load all highlight.js languages
-import lowlight from 'lowlight'
-
 // load specific languages only
 // import lowlight from 'lowlight/lib/core'
 // import javascript from 'highlight.js/lib/languages/javascript'
 // lowlight.registerLanguage('javascript', javascript)
 import './styles.scss'
+
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import { EditorContent, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
+// load all highlight.js languages
+import lowlight from 'lowlight'
+import React from 'react'
+
+import CodeBlockComponent from './CodeBlockComponent'
 
 const MenuBar = ({ editor }) => {
   if (!editor) {

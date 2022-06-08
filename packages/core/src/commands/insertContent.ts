@@ -1,5 +1,6 @@
 import { ParseOptions } from 'prosemirror-model'
-import { RawCommands, Content } from '../types'
+
+import { Content, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

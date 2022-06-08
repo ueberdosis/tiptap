@@ -1,10 +1,11 @@
-import * as Y from 'yjs'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import { ySyncPluginKey, relativePositionToAbsolutePosition, absolutePositionToRelativePosition } from 'y-prosemirror'
-import { AddAnnotationAction, DeleteAnnotationAction, UpdateAnnotationAction } from './collaboration-annotation'
-import { AnnotationPluginKey } from './AnnotationPlugin'
+import { absolutePositionToRelativePosition, relativePositionToAbsolutePosition, ySyncPluginKey } from 'y-prosemirror'
+import * as Y from 'yjs'
+
 import { AnnotationItem } from './AnnotationItem'
+import { AnnotationPluginKey } from './AnnotationPlugin'
+import { AddAnnotationAction, DeleteAnnotationAction, UpdateAnnotationAction } from './collaboration-annotation'
 
 export interface AnnotationStateOptions {
   HTMLAttributes: {
@@ -91,6 +92,7 @@ export class AnnotationState {
         return
       }
 
+      // eslint-disable-next-line
       console.log(`[${this.options.instance}] Decoration.inline()`, from, to, HTMLAttributes, { id, data: annotation.data })
 
       if (from === to) {
@@ -110,6 +112,7 @@ export class AnnotationState {
     const action = transaction.getMeta(AnnotationPluginKey) as AddAnnotationAction | UpdateAnnotationAction | DeleteAnnotationAction
 
     if (action && action.type) {
+      // eslint-disable-next-line
       console.log(`[${this.options.instance}] action: ${action.type}`)
 
       if (action.type === 'addAnnotation') {
@@ -136,6 +139,7 @@ export class AnnotationState {
     const ystate = ySyncPluginKey.getState(state)
 
     if (ystate.isChangeOrigin) {
+      // eslint-disable-next-line
       console.log(`[${this.options.instance}] isChangeOrigin: true → createDecorations`)
       this.createDecorations(state)
 
@@ -143,6 +147,7 @@ export class AnnotationState {
     }
 
     // Use ProseMirror to update positions
+    // eslint-disable-next-line
     console.log(`[${this.options.instance}] isChangeOrigin: false → ProseMirror mapping`)
     this.decorations = this.decorations.map(transaction.mapping, transaction.doc)
 

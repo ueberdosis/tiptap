@@ -103,21 +103,23 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
 
   addProseMirrorPlugins() {
     return [
-      yCursorPlugin((() => {
-        this.options.provider.awareness.setLocalStateField('user', this.options.user)
+      yCursorPlugin(
+        (() => {
+          this.options.provider.awareness.setLocalStateField('user', this.options.user)
 
-        this.storage.users = awarenessStatesToArray(this.options.provider.awareness.states)
-
-        this.options.provider.awareness.on('update', () => {
           this.storage.users = awarenessStatesToArray(this.options.provider.awareness.states)
-        })
 
-        return this.options.provider.awareness
-      })(),
-      // @ts-ignore
-      {
-        cursorBuilder: this.options.render,
-      }),
+          this.options.provider.awareness.on('update', () => {
+            this.storage.users = awarenessStatesToArray(this.options.provider.awareness.states)
+          })
+
+          return this.options.provider.awareness
+        })(),
+        // @ts-ignore
+        {
+          cursorBuilder: this.options.render,
+        },
+      ),
     ]
   },
 })
