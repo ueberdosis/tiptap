@@ -11,4 +11,4 @@ Tiptap is a headless wrapper around [ProseMirror](https://ProseMirror.net) – a
 Documentation can be found on the [tiptap website](https://tiptap.dev).
 
 ## License
-tiptap is open sourced software licensed under the [MIT license](https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md).
+Tiptap is open sourced software licensed under the [MIT license](https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md).
