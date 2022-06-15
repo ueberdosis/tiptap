@@ -18,8 +18,8 @@ export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = React.forwardRef(
       data-node-view-wrapper=""
       onDragStart={onDragStart}
       style={{
-        ...props.style,
         whiteSpace: 'normal',
+        ...props.style,
       }}
     />
   )
