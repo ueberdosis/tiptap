@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.177](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.176...@tiptap/core@2.0.0-beta.177) (2022-06-17)
+
+
+### Bug Fixes
+
+* **core:** :bug: fix inputrule not recognizing text content of non-text leaf nodes ([64b23e1](https://github.com/ueberdosis/tiptap/commit/64b23e120c0d4906573079923fddae3271f58918))
+
+
+
+
+
 # [2.0.0-beta.176](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.175...@tiptap/core@2.0.0-beta.176) (2022-05-18)
 
 

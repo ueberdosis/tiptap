@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.35](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration-cursor@2.0.0-beta.34...@tiptap/extension-collaboration-cursor@2.0.0-beta.35) (2022-06-17)
+
+
+### Bug Fixes
+
+* **extension/collaboration:** :ambulance: pin y-prosemirror version to 1.0.20 to fix broken functionality with vue ([5989f3b](https://github.com/ueberdosis/tiptap/commit/5989f3b780bb64b2884d81dcd41a95d98a0714b2))
+
+
+
+
+
 # [2.0.0-beta.34](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-collaboration-cursor@2.0.0-beta.33...@tiptap/extension-collaboration-cursor@2.0.0-beta.34) (2022-01-04)
 
 **Note:** Version bump only for package @tiptap/extension-collaboration-cursor

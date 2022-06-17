@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.93](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.92...@tiptap/suggestion@2.0.0-beta.93) (2022-06-17)
+
+
+### Bug Fixes
+
+* **suggestion:** :bug: make clientrect prop optional as it can potentially be undefined ([#2813](https://github.com/ueberdosis/tiptap/issues/2813)) ([f019f70](https://github.com/ueberdosis/tiptap/commit/f019f70a19c34715e2d5c3921d348e11c7ac51a3)), closes [#2795](https://github.com/ueberdosis/tiptap/issues/2795)
+
+
+
+
+
 # [2.0.0-beta.92](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.91...@tiptap/suggestion@2.0.0-beta.92) (2022-05-18)
 
 

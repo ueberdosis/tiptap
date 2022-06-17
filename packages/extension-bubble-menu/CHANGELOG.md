@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.57](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.56...@tiptap/extension-bubble-menu@2.0.0-beta.57) (2022-06-17)
+
+**Note:** Version bump only for package @tiptap/extension-bubble-menu
+
+
+
+
+
 # [2.0.0-beta.56](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.55...@tiptap/extension-bubble-menu@2.0.0-beta.56) (2022-04-27)
 
 

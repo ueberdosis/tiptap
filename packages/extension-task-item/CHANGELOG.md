@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.32...@tiptap/extension-task-item@2.0.0-beta.33) (2022-06-17)
+
+**Note:** Version bump only for package @tiptap/extension-task-item
+
+
+
+
+
 # [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-task-item@2.0.0-beta.31...@tiptap/extension-task-item@2.0.0-beta.32) (2022-04-27)
 
 
