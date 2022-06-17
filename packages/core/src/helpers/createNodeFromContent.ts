@@ -1,12 +1,13 @@
 import {
-  Schema,
   DOMParser,
-  Node as ProseMirrorNode,
   Fragment,
+  Node as ProseMirrorNode,
   ParseOptions,
+  Schema,
 } from 'prosemirror-model'
-import { elementFromString } from '../utilities/elementFromString'
+
 import { Content } from '../types'
+import { elementFromString } from '../utilities/elementFromString'
 
 export type CreateNodeFromContentOptions = {
   slice?: boolean,

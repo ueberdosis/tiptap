@@ -1,14 +1,14 @@
-import { splitExtensions } from './splitExtensions'
-import { getExtensionField } from './getExtensionField'
+import { MarkConfig, NodeConfig } from '..'
 import {
+  AnyConfig,
+  Attribute,
+  Attributes,
+  ExtensionAttribute,
   Extensions,
   GlobalAttributes,
-  Attributes,
-  Attribute,
-  ExtensionAttribute,
-  AnyConfig,
 } from '../types'
-import { NodeConfig, MarkConfig } from '..'
+import { getExtensionField } from './getExtensionField'
+import { splitExtensions } from './splitExtensions'
 
 /**
  * Get a list of all extension attributes defined in `addAttribute` and `addGlobalAttribute`.

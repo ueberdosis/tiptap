@@ -1,7 +1,7 @@
-import { RawCommands, FocusPosition } from '../types'
 import { isTextSelection } from '../helpers/isTextSelection'
-import { isiOS } from '../utilities/isiOS'
 import { resolveFocusPosition } from '../helpers/resolveFocusPosition'
+import { FocusPosition, RawCommands } from '../types'
+import { isiOS } from '../utilities/isiOS'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -19,7 +19,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const focus: RawCommands['focus'] = (position = null, options) => ({
+export const focus: RawCommands['focus'] = (position = null, options = {}) => ({
   editor,
   view,
   tr,

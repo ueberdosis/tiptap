@@ -1,5 +1,7 @@
 # createParagraphNear
+If a block node is currently selected, the `createParagraphNear` command creates an empty paragraph after the currently selected block node. If the selected block node is the first child of its parent, the new paragraph will be inserted before the current selection.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Usage
+```js
+editor.commands.createParagraphNear()
+```

@@ -1,6 +1,7 @@
 // @ts-ignore
 // TODO: add types to @types/prosemirror-commands
 import { selectTextblockEnd as originalSelectTextblockEnd } from 'prosemirror-commands'
+
 import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {

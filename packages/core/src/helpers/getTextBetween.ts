@@ -37,7 +37,7 @@ export function getTextBetween(
         })
       }
     } else if (node.isText) {
-      text += node?.text?.slice(Math.max(from, pos) - pos, to - pos)
+      text += node?.text?.slice(Math.max(from, pos) - pos, to - pos) // eslint-disable-line
       separated = false
     } else if (node.isBlock && !separated) {
       text += blockSeparator

@@ -1,8 +1,7 @@
+import { findChildren } from '@tiptap/core'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-
-import { findChildren } from '@tiptap/core'
 
 function parseNodes(nodes: any[], className: string[] = []): { text: string, classes: string[] }[] {
   return nodes

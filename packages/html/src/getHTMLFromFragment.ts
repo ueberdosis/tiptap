@@ -1,5 +1,5 @@
 import { DOMSerializer, Node, Schema } from 'prosemirror-model'
-import { VHTMLDocument, createHTMLDocument } from 'zeed-dom'
+import { createHTMLDocument, VHTMLDocument } from 'zeed-dom'
 
 export function getHTMLFromFragment(doc: Node, schema: Schema): string {
   const document = DOMSerializer

@@ -1,27 +1,28 @@
 import {
   DOMOutputSpec,
-  MarkSpec,
   Mark as ProseMirrorMark,
+  MarkSpec,
   MarkType,
 } from 'prosemirror-model'
 import { Plugin, Transaction } from 'prosemirror-state'
-import { InputRule } from './InputRule'
-import { PasteRule } from './PasteRule'
-import { mergeDeep } from './utilities/mergeDeep'
-import { callOrReturn } from './utilities/callOrReturn'
-import { getExtensionField } from './helpers/getExtensionField'
-import {
-  AnyConfig,
-  Extensions,
-  Attributes,
-  RawCommands,
-  GlobalAttributes,
-  ParentConfig,
-  KeyboardShortcutCommand,
-} from './types'
-import { Node } from './Node'
+
 import { MarkConfig } from '.'
 import { Editor } from './Editor'
+import { getExtensionField } from './helpers/getExtensionField'
+import { InputRule } from './InputRule'
+import { Node } from './Node'
+import { PasteRule } from './PasteRule'
+import {
+  AnyConfig,
+  Attributes,
+  Extensions,
+  GlobalAttributes,
+  KeyboardShortcutCommand,
+  ParentConfig,
+  RawCommands,
+} from './types'
+import { callOrReturn } from './utilities/callOrReturn'
+import { mergeDeep } from './utilities/mergeDeep'
 
 declare module '@tiptap/core' {
   export interface MarkConfig<Options = any, Storage = any> {

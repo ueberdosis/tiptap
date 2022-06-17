@@ -1,13 +1,14 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
+import './styles.scss'
+
+import BulletList from '@tiptap/extension-bullet-list'
+import Code from '@tiptap/extension-code'
 import Document from '@tiptap/extension-document'
+import Focus from '@tiptap/extension-focus'
+import ListItem from '@tiptap/extension-list-item'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import Focus from '@tiptap/extension-focus'
-import Code from '@tiptap/extension-code'
-import BulletList from '@tiptap/extension-bullet-list'
-import ListItem from '@tiptap/extension-list-item'
-import './styles.scss'
+import { EditorContent, useEditor } from '@tiptap/react'
+import React from 'react'
 
 export default () => {
   const editor = useEditor({

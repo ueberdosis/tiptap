@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 export const NodeViewContent = defineComponent({
   props: {
@@ -9,13 +9,11 @@ export const NodeViewContent = defineComponent({
   },
 
   render() {
-    return h(
-      this.as, {
-        style: {
-          whiteSpace: 'pre-wrap',
-        },
-        'data-node-view-content': '',
+    return h(this.as, {
+      style: {
+        whiteSpace: 'pre-wrap',
       },
-    )
+      'data-node-view-content': '',
+    })
   },
 })

@@ -1,4 +1,4 @@
-import { MarkType, Mark as ProseMirrorMark, ResolvedPos } from 'prosemirror-model'
+import { Mark as ProseMirrorMark, MarkType, ResolvedPos } from 'prosemirror-model'
 
 import { Range } from '../types'
 import { objectIncludes } from '../utilities/objectIncludes'

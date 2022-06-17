@@ -1,4 +1,5 @@
 import { NodeType } from 'prosemirror-model'
+
 import { getNodeType } from '../helpers/getNodeType'
 import { RawCommands } from '../types'
 

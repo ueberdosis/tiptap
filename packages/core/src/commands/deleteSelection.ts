@@ -1,4 +1,5 @@
 import { deleteSelection as originalDeleteSelection } from 'prosemirror-commands'
+
 import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {

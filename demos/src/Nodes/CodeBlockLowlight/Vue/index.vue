@@ -12,12 +12,11 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-
+import { Editor, EditorContent } from '@tiptap/vue-3'
 // load all highlight.js languages
 import lowlight from 'lowlight'
 

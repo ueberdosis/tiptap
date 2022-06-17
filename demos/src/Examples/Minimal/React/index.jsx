@@ -1,9 +1,10 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
+import './styles.scss'
+
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import './styles.scss'
+import { EditorContent, useEditor } from '@tiptap/react'
+import React from 'react'
 
 export default () => {
   const editor = useEditor({

@@ -1,14 +1,3 @@
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
-import {
-  Component,
-  PropType,
-  Ref,
-  defineComponent,
-  provide,
-  ref,
-} from 'vue'
-
 import {
   NodeView,
   NodeViewProps,
@@ -16,6 +5,16 @@ import {
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
+import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import {
+  Component,
+  defineComponent,
+  PropType,
+  provide,
+  Ref,
+  ref,
+} from 'vue'
 
 import { Editor } from './Editor'
 import { VueRenderer } from './VueRenderer'

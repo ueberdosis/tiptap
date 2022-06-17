@@ -1,4 +1,4 @@
-import { Node, mergeAttributes, textblockTypeInputRule } from '@tiptap/core'
+import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
 
 export type Level = 1 | 2 | 3 | 4 | 5 | 6
 

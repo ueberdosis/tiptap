@@ -1,5 +1,6 @@
-import React from 'react'
 import './MenuItem.scss'
+
+import React from 'react'
 import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg'
 
 export default ({

@@ -1,8 +1,9 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import Placeholder from '@tiptap/extension-placeholder'
 import './styles.scss'
+
+import Placeholder from '@tiptap/extension-placeholder'
+import { EditorContent, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import React from 'react'
 
 export default () => {
   const editor = useEditor({

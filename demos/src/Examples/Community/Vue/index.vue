@@ -37,12 +37,13 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import CharacterCount from '@tiptap/extension-character-count'
 import Document from '@tiptap/extension-document'
+import Mention from '@tiptap/extension-mention'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import CharacterCount from '@tiptap/extension-character-count'
-import Mention from '@tiptap/extension-mention'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+
 import suggestion from './suggestion'
 
 export default {

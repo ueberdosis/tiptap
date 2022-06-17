@@ -1,4 +1,5 @@
 import { Schema } from 'prosemirror-model'
+
 import { TextSerializer } from '../types'
 
 export function getTextSerializersFromSchema(schema: Schema): Record<string, TextSerializer> {

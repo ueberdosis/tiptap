@@ -50,7 +50,7 @@ export class NodeView<
   }
 
   get dom(): HTMLElement {
-    return this.editor.view.dom
+    return this.editor.view.dom as HTMLElement
   }
 
   get contentDOM(): HTMLElement | null {

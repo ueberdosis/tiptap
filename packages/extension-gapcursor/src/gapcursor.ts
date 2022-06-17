@@ -1,6 +1,6 @@
 import {
-  Extension,
   callOrReturn,
+  Extension,
   getExtensionField,
   ParentConfig,
 } from '@tiptap/core'

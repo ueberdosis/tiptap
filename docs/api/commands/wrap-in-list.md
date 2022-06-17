@@ -1,5 +1,17 @@
 # wrapInList
+`wrapInList` will wrap a node in the current selection in a list.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+`typeOrName: string | NodeType`
+
+The type of node that should be wrapped in a list.
+
+`attributes?: Record<string, any>`
+
+The attributes that should be applied to the list. **This is optional.**
+
+## Usage
+```js
+// wrap a paragraph in a bullet list
+editor.commands.wrapInList('paragraph')
+```

@@ -1,9 +1,10 @@
 import { Plugin, PluginKey, Selection } from 'prosemirror-state'
+
+import { CommandManager } from '../CommandManager'
+import { Extension } from '../Extension'
 import { createChainableState } from '../helpers/createChainableState'
 import { isiOS } from '../utilities/isiOS'
 import { isMacOS } from '../utilities/isMacOS'
-import { CommandManager } from '../CommandManager'
-import { Extension } from '../Extension'
 
 export const Keymap = Extension.create({
   name: 'keymap',

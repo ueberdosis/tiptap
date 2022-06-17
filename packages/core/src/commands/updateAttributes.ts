@@ -1,6 +1,7 @@
-import { NodeType, MarkType } from 'prosemirror-model'
-import { getNodeType } from '../helpers/getNodeType'
+import { MarkType, NodeType } from 'prosemirror-model'
+
 import { getMarkType } from '../helpers/getMarkType'
+import { getNodeType } from '../helpers/getNodeType'
 import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName'
 import { RawCommands } from '../types'
 
