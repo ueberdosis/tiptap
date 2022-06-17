@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import YouTube from '@tiptap/extension-youtube'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import Youtube from '@tiptap/extension-youtube'
 import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {
   components: {
@@ -43,7 +43,7 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        YouTube,
+        Youtube,
       ],
       content: `
         <p>Tiptap now supports youtube embeds! Awesome!</p>

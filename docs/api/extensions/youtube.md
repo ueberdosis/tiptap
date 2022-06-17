@@ -22,7 +22,7 @@ Controls if the node should be handled inline or as a block.
 Default: `false`
 
 ```js
-YouTube.configure({
+Youtube.configure({
   inline: false,
 })
 ```
@@ -33,7 +33,7 @@ Controls the default width of added videos
 Default: `640`
 
 ```js
-YouTube.configure({
+Youtube.configure({
   width: 480,
 })
 ```
@@ -44,7 +44,7 @@ Controls the default height of added videos
 Default: `480`
 
 ```js
-YouTube.configure({
+Youtube.configure({
   height: 320,
 })
 ```
@@ -55,7 +55,7 @@ Enables or disables YouTube video controls
 Default: `true`
 
 ```js
-YouTube.configure({
+Youtube.configure({
   controls: false,
 })
 ```
@@ -66,7 +66,7 @@ Enables the nocookie mode for YouTube embeds
 Default: `false`
 
 ```js
-YouTube.configure({
+Youtube.configure({
   nocookie: true,
 })
 ```
@@ -77,7 +77,7 @@ Allows the iframe to be played in fullscreen
 Default: `true`
 
 ```js
-YouTube.configure({
+Youtube.configure({
   allowFullscreen: false,
 })
 ```

@@ -1,10 +1,9 @@
 import './styles.scss'
 
-import React from 'react'
-
-import YouTube from '@tiptap/extension-youtube'
+import Youtube from '@tiptap/extension-youtube'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import React from 'react'
 
 const MenuBar = ({ editor }) => {
   const widthRef = React.useRef(null)
@@ -21,7 +20,7 @@ const MenuBar = ({ editor }) => {
     return null
   }
 
-  const addYouTubeVideo = () => {
+  const addYoutubeVideo = () => {
     const url = prompt('Enter YouTube URL')
 
     editor.commands.setYoutubeVideo({
@@ -33,7 +32,7 @@ const MenuBar = ({ editor }) => {
 
   return (
     <>
-      <button id="add" onClick={addYouTubeVideo}>Add youtube video</button>
+      <button id="add" onClick={addYoutubeVideo}>Add youtube video</button>
       <input id="width" type="number" min="320" max="1024" ref={widthRef} placeholder="width" />
       <input id="height" type="number" min="180" max="720" ref={heightRef} placeholder="height" />
     </>
@@ -44,7 +43,7 @@ export default () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      YouTube,
+      Youtube,
     ],
     content: `
       <p>Tiptap now supports youtube embeds! Awesome!</p>

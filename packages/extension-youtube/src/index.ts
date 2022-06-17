@@ -1,5 +1,5 @@
-import { YouTube } from './youtube'
+import { Youtube } from './youtube'
 
 export * from './youtube'
 
-export default YouTube
+export default Youtube

@@ -1,6 +1,6 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { mergeAttributes, Node } from '@tiptap/core'
 
-import { getEmbedURLFromYouTubeURL, isValidYouTubeUrl } from './utils'
+import { getEmbedURLFromYoutubeURL, isValidYoutubeUrl } from './utils'
 
 export interface YoutubeOptions {
   inline: boolean;
@@ -23,7 +23,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const YouTube = Node.create<YoutubeOptions>({
+export const Youtube = Node.create<YoutubeOptions>({
   name: 'youtube',
 
   addOptions() {
@@ -76,7 +76,7 @@ export const YouTube = Node.create<YoutubeOptions>({
   addCommands() {
     return {
       setYoutubeVideo: options => ({ commands }) => {
-        if (!isValidYouTubeUrl(options.src)) {
+        if (!isValidYoutubeUrl(options.src)) {
           return false
         }
 
@@ -89,7 +89,7 @@ export const YouTube = Node.create<YoutubeOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    const embedUrl = getEmbedURLFromYouTubeURL({
+    const embedUrl = getEmbedURLFromYoutubeURL({
       url: HTMLAttributes.src,
       controls: this.options.controls,
       nocookie: this.options.nocookie,
