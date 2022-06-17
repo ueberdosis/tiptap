@@ -1,10 +1,11 @@
 import { Fragment, Node as ProseMirrorNode, ParseOptions } from 'prosemirror-model'
+
 import { createNodeFromContent } from '../helpers/createNodeFromContent'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd'
 import {
-  RawCommands,
   Content,
   Range,
+  RawCommands,
 } from '../types'
 
 declare module '@tiptap/core' {

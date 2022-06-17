@@ -37,13 +37,13 @@
 </template>
 
 <script>
+import StarterKit from '@tiptap/starter-kit'
 import {
+  BubbleMenu,
   Editor,
   EditorContent,
-  BubbleMenu,
   FloatingMenu,
 } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
 
 export default {
   components: {

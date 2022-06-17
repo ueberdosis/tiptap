@@ -4,13 +4,13 @@
 
 <script>
 // Option 1: Browser + server-side
-import { generateHTML } from '@tiptap/html'
+import Bold from '@tiptap/extension-bold'
 // Option 2: Browser-only (lightweight)
 // import { generateHTML } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import Bold from '@tiptap/extension-bold'
+import { generateHTML } from '@tiptap/html'
 
 const json = {
   type: 'doc',

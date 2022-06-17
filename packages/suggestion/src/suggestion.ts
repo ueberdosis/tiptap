@@ -1,6 +1,7 @@
 import { Editor, Range } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
+
 import { findSuggestionMatch } from './findSuggestionMatch'
 
 export interface SuggestionOptions<I = any> {
@@ -44,7 +45,7 @@ export interface SuggestionProps<I = any> {
   items: I[],
   command: (props: I) => void,
   decorationNode: Element | null,
-  clientRect: (() => DOMRect) | null,
+  clientRect?: (() => DOMRect | null) | null,
 }
 
 export interface SuggestionKeyDownProps {
@@ -120,11 +121,10 @@ export function Suggestion<I = any>({
             clientRect: decorationNode
               ? () => {
                 // because of `items` can be asynchrounous we’ll search for the current docoration node
-                const { decorationId } = this.key?.getState(editor.state)
+                const { decorationId } = this.key?.getState(editor.state) // eslint-disable-line
                 const currentDecorationNode = document.querySelector(`[data-decoration-id="${decorationId}"]`)
 
-                // @ts-ignore-error
-                return currentDecorationNode.getBoundingClientRect()
+                return currentDecorationNode?.getBoundingClientRect() || null
               }
               : null,
           }

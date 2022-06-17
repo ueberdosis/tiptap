@@ -1,5 +1,12 @@
 # keyboardShortcut
+The `keyboardShortcut` command will try to trigger a ShortcutEvent with a given name.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+`name: String`
+
+The name of the shortcut to trigger.
+
+## Usage
+```js
+editor.commands.keyboardShortcut('undo')
+```

@@ -20,6 +20,17 @@ npm install @tiptap/extension-link
 
 ## Settings
 
+### protocols
+Additional custom protocols you would like to be recognized as links.
+
+Default: `[]`
+
+```js
+Link.configure({
+  protocols: ['ftp', 'mailto'],
+})
+```
+
 ### autolink
 If enabled, it adds links as you type.
 

@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import { Editor, EditorContent, FloatingMenu } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent, FloatingMenu } from '@tiptap/vue-3'
 
 export default {
   components: {

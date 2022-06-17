@@ -1,17 +1,18 @@
 import {
-  h,
-  ref,
-  Ref,
-  unref,
-  Teleport,
-  PropType,
-  defineComponent,
   DefineComponent,
-  watchEffect,
+  defineComponent,
+  getCurrentInstance,
+  h,
   nextTick,
   onBeforeUnmount,
-  getCurrentInstance,
+  PropType,
+  Ref,
+  ref,
+  Teleport,
+  unref,
+  watchEffect,
 } from 'vue'
+
 import { Editor } from './Editor'
 
 export const EditorContent = defineComponent({

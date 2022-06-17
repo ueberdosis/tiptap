@@ -1,5 +1,20 @@
 # toggleList
+`toggleList` will toggle between different types of lists.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+`listTypeOrName: string | NodeType`
+
+The type of node that should be used for the wrapping list
+
+`itemTypeOrName: string | NodeType`
+
+The type of node that should be used for the list items
+
+## Usage
+```js
+// toggle a bullet list with list items
+editor.commands.toggleList('bullet_list', 'list_item')
+
+// toggle a numbered list with list items
+editor.commands.toggleList('ordered_list', 'list_item')
+```

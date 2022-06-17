@@ -17,15 +17,16 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import Table from '@tiptap/extension-table'
-import TableRow from '@tiptap/extension-table-row'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
-import { Figure } from './figure'
+import TableRow from '@tiptap/extension-table-row'
+import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+
 import { Figcaption } from './figcaption'
+import { Figure } from './figure'
 
 const ImageFigure = Figure.extend({
   name: 'capturedImage',

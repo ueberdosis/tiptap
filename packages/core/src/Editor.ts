@@ -1,3 +1,4 @@
+import { MarkType, NodeType, Schema } from 'prosemirror-model'
 import {
   EditorState,
   Plugin,
@@ -5,31 +6,31 @@ import {
   Transaction,
 } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { Schema, MarkType, NodeType } from 'prosemirror-model'
-import { getAttributes } from './helpers/getAttributes'
-import { isActive } from './helpers/isActive'
+
+import { CommandManager } from './CommandManager'
+import { EventEmitter } from './EventEmitter'
+import { ExtensionManager } from './ExtensionManager'
+import * as extensions from './extensions'
 import { createDocument } from './helpers/createDocument'
+import { getAttributes } from './helpers/getAttributes'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment'
 import { getText } from './helpers/getText'
+import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema'
+import { isActive } from './helpers/isActive'
 import { isNodeEmpty } from './helpers/isNodeEmpty'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition'
-import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema'
-import { createStyleTag } from './utilities/createStyleTag'
-import { isFunction } from './utilities/isFunction'
-import { CommandManager } from './CommandManager'
-import { ExtensionManager } from './ExtensionManager'
-import { EventEmitter } from './EventEmitter'
+import { style } from './style'
 import {
-  EditorOptions,
   CanCommands,
   ChainedCommands,
+  EditorEvents,
+  EditorOptions,
   JSONContent,
   SingleCommands,
   TextSerializer,
-  EditorEvents,
 } from './types'
-import * as extensions from './extensions'
-import { style } from './style'
+import { createStyleTag } from './utilities/createStyleTag'
+import { isFunction } from './utilities/isFunction'
 
 export { extensions }
 

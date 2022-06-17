@@ -1,5 +1,7 @@
 # joinBackward
+The `joinBackward` command joins two nodes backwards from the current selection. If the selection is empty and at the start of a textblock, `joinBackward` will try to reduce the distance between that block and the block before it. [See also](https://prosemirror.net/docs/ref/#commands.joinBackward)
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Usage
+```js
+editor.commands.joinBackward()
+```

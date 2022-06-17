@@ -1,10 +1,9 @@
 import './styles.scss'
 
-import React from 'react'
-
 import Mention from '@tiptap/extension-mention'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import React from 'react'
 
 import suggestion from './suggestion'
 

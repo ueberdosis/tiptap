@@ -1,10 +1,9 @@
 import './styles.scss'
 
-import React from 'react'
-
 import Link from '@tiptap/extension-link'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import React from 'react'
 
 export default () => {
   const editor = useEditor({

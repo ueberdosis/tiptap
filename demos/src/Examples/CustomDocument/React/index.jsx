@@ -1,9 +1,10 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
+import './styles.scss'
+
 import Document from '@tiptap/extension-document'
 import Placeholder from '@tiptap/extension-placeholder'
+import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import './styles.scss'
+import React from 'react'
 
 const CustomDocument = Document.extend({
   content: 'heading block*',

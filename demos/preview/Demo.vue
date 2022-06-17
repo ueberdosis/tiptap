@@ -87,6 +87,7 @@
 
 <script>
 import { getDebugJSON } from '@tiptap/core'
+
 import DemoFrame from './DemoFrame.vue'
 import Shiki from './Shiki.vue'
 

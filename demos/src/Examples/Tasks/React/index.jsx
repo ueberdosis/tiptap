@@ -1,11 +1,12 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
+import './styles.scss'
+
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
-import './styles.scss'
+import TaskList from '@tiptap/extension-task-list'
+import Text from '@tiptap/extension-text'
+import { EditorContent, useEditor } from '@tiptap/react'
+import React from 'react'
 
 const CustomDocument = Document.extend({
   content: 'taskList',

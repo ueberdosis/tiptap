@@ -1,5 +1,16 @@
 # splitBlock
+`splitBlock` will split the current node into two nodes at the current [NodeSelection](https://prosemirror.net/docs/ref/#state.NodeSelection). If the current selection is not splittable, the command will be ignored.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+`options: Record<string, any>`
+
+* `keepMarks: boolean` - Defines if the marks should be kept or removed. Defaults to `true`.
+
+## Usage
+```js
+// split the current node and keep marks
+editor.commands.splitBlock()
+
+// split the current node and don't keep marks
+editor.commands.splitBlock({ keepMarks: false })
+```

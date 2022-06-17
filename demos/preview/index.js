@@ -1,11 +1,13 @@
+import 'iframe-resizer/js/iframeResizer.contentWindow'
+import './style.css'
+
+import { demos } from '@demos'
+import iframeResize from 'iframe-resizer/js/iframeResizer'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import App from './index.vue'
+
 import Demo from './Demo.vue'
-import { demos } from '@demos'
-import 'iframe-resizer/js/iframeResizer.contentWindow'
-import iframeResize from 'iframe-resizer/js/iframeResizer'
-import './style.css'
+import App from './index.vue'
 
 const routes = demos
   .map(({ name, tabs }) => {

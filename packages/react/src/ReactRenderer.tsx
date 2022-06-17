@@ -1,5 +1,6 @@
-import React from 'react'
 import { Editor } from '@tiptap/core'
+import React from 'react'
+
 import { Editor as ExtendedEditor } from './Editor'
 
 function isClassComponent(Component: any) {

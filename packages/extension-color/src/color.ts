@@ -1,5 +1,6 @@
-import { Extension } from '@tiptap/core'
 import '@tiptap/extension-text-style'
+
+import { Extension } from '@tiptap/core'
 
 export type ColorOptions = {
   types: string[],
@@ -36,7 +37,7 @@ export const Color = Extension.create<ColorOptions>({
         attributes: {
           color: {
             default: null,
-            parseHTML: element => element.style.color.replace(/['"]+/g, ''),
+            parseHTML: element => element.style.color?.replace(/['"]+/g, ''),
             renderHTML: attributes => {
               if (!attributes.color) {
                 return {}

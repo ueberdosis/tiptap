@@ -1,5 +1,12 @@
 # splitListItem
+`splitListItem` splits one list item into two separate list items. If this is a nested list, the wrapping list item should be split.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+`typeOrName: string | NodeType`
+
+The type of node that should be split into two separate list items.
+
+## Usage
+```js
+editor.commands.splitListItem('bullet_list')
+```

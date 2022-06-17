@@ -20,7 +20,8 @@ export const NodeViewWrapper: Component = {
 
   render(this: NodeViewWrapperInterface, createElement) {
     return createElement(
-      this.as, {
+      this.as,
+      {
         class: this.decorationClasses.value,
         style: {
           whiteSpace: 'normal',

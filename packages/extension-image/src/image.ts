@@ -1,7 +1,7 @@
 import {
+  mergeAttributes,
   Node,
   nodeInputRule,
-  mergeAttributes,
 } from '@tiptap/core'
 
 export interface ImageOptions {
@@ -21,7 +21,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const inputRegex = /(!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\))$/
+export const inputRegex = /(?:^|\s)(!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\))$/
 
 export const Image = Node.create<ImageOptions>({
   name: 'image',

@@ -1,4 +1,5 @@
-import { Transform, Step } from 'prosemirror-transform'
+import { Step, Transform } from 'prosemirror-transform'
+
 import { Range } from '../types'
 import { removeDuplicates } from '../utilities/removeDuplicates'
 

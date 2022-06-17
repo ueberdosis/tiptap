@@ -15,7 +15,8 @@ export class BadWords extends LinterPlugin {
       if (matches) {
         this.record(
           `Try not to say '${matches[0]}'`,
-          position + matches.index, position + matches.index + matches[0].length,
+          position + matches.index,
+          position + matches.index + matches[0].length,
         )
       }
     })

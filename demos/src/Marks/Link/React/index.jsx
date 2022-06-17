@@ -1,11 +1,12 @@
-import React, { useCallback } from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
+import './styles.scss'
+
+import Code from '@tiptap/extension-code'
 import Document from '@tiptap/extension-document'
+import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import Code from '@tiptap/extension-code'
-import Link from '@tiptap/extension-link'
-import './styles.scss'
+import { EditorContent, useEditor } from '@tiptap/react'
+import React, { useCallback } from 'react'
 
 export default () => {
   const editor = useEditor({

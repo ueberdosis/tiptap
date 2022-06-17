@@ -1,5 +1,6 @@
-import { Extension } from '@tiptap/core'
 import '@tiptap/extension-text-style'
+
+import { Extension } from '@tiptap/core'
 
 export type FontFamilyOptions = {
   types: string[],
@@ -36,7 +37,7 @@ export const FontFamily = Extension.create<FontFamilyOptions>({
         attributes: {
           fontFamily: {
             default: null,
-            parseHTML: element => element.style.fontFamily.replace(/['"]+/g, ''),
+            parseHTML: element => element.style.fontFamily?.replace(/['"]+/g, ''),
             renderHTML: attributes => {
               if (!attributes.fontFamily) {
                 return {}

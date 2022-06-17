@@ -1,5 +1,6 @@
 import { VueRenderer } from '@tiptap/vue-3'
 import tippy from 'tippy.js'
+
 import MentionList from './MentionList.vue'
 
 export default {
@@ -23,6 +24,10 @@ export default {
           editor: props.editor,
         })
 
+        if (!props.clientRect) {
+          return
+        }
+
         popup = tippy('body', {
           getReferenceClientRect: props.clientRect,
           appendTo: () => document.body,
@@ -36,6 +41,10 @@ export default {
 
       onUpdate(props) {
         component.updateProps(props)
+
+        if (!props.clientRect) {
+          return
+        }
 
         popup[0].setProps({
           getReferenceClientRect: props.clientRect,
