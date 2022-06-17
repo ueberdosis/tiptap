@@ -3,17 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.0.0-beta.28](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-image@2.0.0-beta.27...@tiptap/extension-image@2.0.0-beta.28) (2022-06-17)
-
-
-### Bug Fixes
-
-* Only trigger image input rule at the start or with a preceding space ([5fef431](https://github.com/ueberdosis/tiptap/commit/5fef431d09d9ad4615dd43ee0573a4d4e6d86a46))
-
-
-
-
-
 # [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-image@2.0.0-beta.26...@tiptap/extension-image@2.0.0-beta.27) (2022-02-11)
 
 

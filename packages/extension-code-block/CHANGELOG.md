@@ -3,14 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.37...@tiptap/extension-code-block@2.0.0-beta.38) (2022-06-17)
-
-**Note:** Version bump only for package @tiptap/extension-code-block
-
-
-
-
-
 # [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.36...@tiptap/extension-code-block@2.0.0-beta.37) (2022-01-26)
 
 

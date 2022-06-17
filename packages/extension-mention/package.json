@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-mention",
   "description": "mention extension for tiptap",
-  "version": "2.0.0-beta.98",
+  "version": "2.0.0-beta.97",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -24,7 +24,7 @@
     "@tiptap/core": "^2.0.0-beta.1"
   },
   "dependencies": {
-    "@tiptap/suggestion": "^2.0.0-beta.93",
+    "@tiptap/suggestion": "^2.0.0-beta.92",
     "prosemirror-model": "^1.16.1",
     "prosemirror-state": "^1.3.4"
   },
