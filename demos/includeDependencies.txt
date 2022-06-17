@@ -17,7 +17,6 @@ shiki
 simplify-js
 tippy.js
 uuid
-y-prosemirror
 y-webrtc
 yjs
 react
