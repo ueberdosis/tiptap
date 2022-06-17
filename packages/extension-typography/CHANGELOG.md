@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-typography@2.0.0-beta.20...@tiptap/extension-typography@2.0.0-beta.22) (2022-06-17)
+
+**Note:** Version bump only for package @tiptap/extension-typography
+
+
+
+
+
 # [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-typography@2.0.0-beta.19...@tiptap/extension-typography@2.0.0-beta.20) (2022-02-07)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.179](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.177...@tiptap/core@2.0.0-beta.179) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
 # [2.0.0-beta.177](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.177...@tiptap/core@2.0.0-beta.177) (2022-06-17)
 
 
