@@ -29,6 +29,11 @@
     "prosemirror-tables": "^1.1.1",
     "prosemirror-view": "^1.25.0"
   },
+  "resolutions": {
+    "prosemirror-tables": {
+      "prosemirror-tables-contently": "1.1.2"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
