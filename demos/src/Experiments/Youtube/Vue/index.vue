@@ -43,7 +43,9 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        Youtube,
+        Youtube.configure({
+          controls: true,
+        }),
       ],
       content: `
         <p>Tiptap now supports youtube embeds! Awesome!</p>
