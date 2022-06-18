@@ -12,10 +12,10 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-video.cjs.js",
-  "umd": "dist/tiptap-extension-video.umd.js",
-  "module": "dist/tiptap-extension-video.esm.js",
-  "types": "dist/packages/extension-video/src/index.d.ts",
+  "main": "dist/tiptap-extension-youtube.cjs.js",
+  "umd": "dist/tiptap-extension-youtube.umd.js",
+  "module": "dist/tiptap-extension-youtube.esm.js",
+  "types": "dist/packages/extension-youtube/src/index.d.ts",
   "files": [
     "src",
     "dist"
@@ -26,6 +26,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-video"
+    "directory": "packages/extension-youtube"
   }
 }

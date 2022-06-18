@@ -43,7 +43,9 @@ export default () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Youtube,
+      Youtube.configure({
+        controls: false,
+      }),
     ],
     content: `
       <p>Tiptap now supports youtube embeds! Awesome!</p>
