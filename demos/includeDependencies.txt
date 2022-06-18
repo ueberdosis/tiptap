@@ -10,7 +10,7 @@ prosemirror-keymap
 prosemirror-model
 prosemirror-schema-list
 prosemirror-state
-prosemirror-tables
+prosemirror-tables-contently
 prosemirror-transform
 prosemirror-view
 shiki

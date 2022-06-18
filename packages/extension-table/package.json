@@ -26,13 +26,8 @@
   "dependencies": {
     "prosemirror-model": "^1.17.0",
     "prosemirror-state": "^1.4.0",
-    "prosemirror-tables": "^1.1.1",
+    "prosemirror-tables-contently": "^1.1.2",
     "prosemirror-view": "^1.25.0"
-  },
-  "resolutions": {
-    "prosemirror-tables": {
-      "prosemirror-tables-contently": "1.1.2"
-    }
   },
   "repository": {
     "type": "git",
