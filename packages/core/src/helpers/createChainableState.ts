@@ -11,10 +11,11 @@ export function createChainableState(config: {
 
   return {
     ...state,
-    schema: state.schema,
-    plugins: state.plugins,
     apply: state.apply.bind(state),
     applyTransaction: state.applyTransaction.bind(state),
+    filterTransaction: state.filterTransaction,
+    plugins: state.plugins,
+    schema: state.schema,
     reconfigure: state.reconfigure.bind(state),
     toJSON: state.toJSON.bind(state),
     get storedMarks() {
