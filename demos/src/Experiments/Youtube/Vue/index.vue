@@ -44,7 +44,7 @@ export default {
       extensions: [
         StarterKit,
         Youtube.configure({
-          controls: true,
+          controls: false,
         }),
       ],
       content: `
