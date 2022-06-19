@@ -32,7 +32,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Load cached dependencies
-      uses: actions/cache@v3.0.3
+      uses: actions/cache@v3.0.4
       id: cache
       with:
         path: |
@@ -144,7 +144,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Load cached dependencies
-      uses: actions/cache@v3.0.3
+      uses: actions/cache@v3.0.4
       id: cache
       with:
         path: |
