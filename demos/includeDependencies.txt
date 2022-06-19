@@ -13,12 +13,12 @@ prosemirror-state
 prosemirror-tables-contently
 prosemirror-transform
 prosemirror-view
+react
+react-dom
+react-dom/client
 shiki
 simplify-js
 tippy.js
 uuid
 y-webrtc
 yjs
-react
-react-dom
-react-dom/client
