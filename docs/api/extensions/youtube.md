@@ -1,6 +1,6 @@
 ---
 description: Your favorite videos and jams - right in your editor!
-icon: align-left
+icon: video
 ---
 
 # YouTube
