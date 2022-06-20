@@ -17,7 +17,7 @@
         type="number"
         v-model="height"
         placeholder="height"
-        min="180" 
+        min="180"
         max="720"
       >
       <editor-content class="editor-1" :editor="editor" />
