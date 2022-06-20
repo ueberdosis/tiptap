@@ -1,6 +1,6 @@
-context('/src/Experiments/Youtube/React/', () => {
+context('/src/Extensions/Youtube/Vue/', () => {
   before(() => {
-    cy.visit('/src/Experiments/Youtube/React/')
+    cy.visit('/src/Extensions/Youtube/Vue/')
   })
 
   beforeEach(() => {
