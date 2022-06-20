@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/suggestion",
   "description": "suggestion plugin for tiptap",
-  "version": "2.0.0-beta.95",
+  "version": "2.0.0-beta.96",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -20,7 +20,6 @@
     "src",
     "dist"
   ],
-  "devDependencies": {},
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.1"
   },
