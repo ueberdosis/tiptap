@@ -9,12 +9,16 @@
         type="number"
         v-model="width"
         placeholder="width"
+        min="320"
+        max="1024"
       >
       <input
         id="height"
         type="number"
         v-model="height"
         placeholder="height"
+        min="180"
+        max="720"
       >
       <editor-content class="editor-1" :editor="editor" />
     </div>
