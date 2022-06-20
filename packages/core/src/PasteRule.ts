@@ -190,7 +190,7 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
             return false
           },
 
-          paste: (view, event) => {
+          paste: (view, event: Event) => {
             const html = (event as ClipboardEvent).clipboardData?.getData('text/html')
 
             isPastedFromProseMirror = !!html?.includes('data-pm-slice')
