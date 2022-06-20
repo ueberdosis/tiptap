@@ -13,7 +13,7 @@ export const FocusEvents = Extension.create({
         key: new PluginKey('focusEvents'),
         props: {
           handleDOMEvents: {
-            focus: (view, event) => {
+            focus: (view, event: Event) => {
               editor.isFocused = true
 
               const transaction = editor.state.tr
@@ -24,7 +24,7 @@ export const FocusEvents = Extension.create({
 
               return false
             },
-            blur: (view, event) => {
+            blur: (view, event: Event) => {
               editor.isFocused = false
 
               const transaction = editor.state.tr

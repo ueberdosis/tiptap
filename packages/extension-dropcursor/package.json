@@ -24,7 +24,7 @@
     "@tiptap/core": "^2.0.0-beta.1"
   },
   "dependencies": {
-    "prosemirror-dropcursor": "^1.5.0"
+    "prosemirror-dropcursor": "1.5.0"
   },
   "repository": {
     "type": "git",

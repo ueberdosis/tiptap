@@ -170,13 +170,25 @@ export function Suggestion<I = any>({
     state: {
       // Initialize the plugin's internal state.
       init() {
-        return {
+        const state: {
+          active: boolean,
+          range: Range,
+          query: null | string
+          text: null | string
+          composing: boolean
+          decorationId?: string | null
+        } = {
           active: false,
-          range: {},
+          range: {
+            from: 0,
+            to: 0,
+          },
           query: null,
           text: null,
           composing: false,
         }
+
+        return state
       },
 
       // Apply changes to the plugin state from a view transaction.
@@ -195,7 +207,7 @@ export function Suggestion<I = any>({
         if (isEditable && (empty || editor.view.composing)) {
           // Reset active state if we just left the previous suggestion range
           if (
-            (from < prev.range.from || from > prev.range.to)
+            ((from < prev.range.from) || from > prev.range.to)
             && !composing
             && !prev.composing
           ) {
@@ -229,7 +241,7 @@ export function Suggestion<I = any>({
         // Make sure to empty the range if suggestion is inactive
         if (!next.active) {
           next.decorationId = null
-          next.range = {}
+          next.range = { from: 0, to: 0 }
           next.query = null
           next.text = null
         }

@@ -24,10 +24,10 @@
     "@tiptap/core": "^2.0.0-beta.1"
   },
   "dependencies": {
-    "prosemirror-model": "^1.17.0",
-    "prosemirror-state": "^1.4.0",
-    "prosemirror-tables-contently": "^1.1.2",
-    "prosemirror-view": "^1.25.0"
+    "prosemirror-model": "1.18.1",
+    "prosemirror-state": "1.4.0",
+    "prosemirror-tables-contently": "1.1.2",
+    "prosemirror-view": "1.26.1"
   },
   "repository": {
     "type": "git",
