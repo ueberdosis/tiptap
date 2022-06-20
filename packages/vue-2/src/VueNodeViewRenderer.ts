@@ -110,7 +110,7 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRe
       throw Error('Please use the NodeViewWrapper component for your node view.')
     }
 
-    return this.renderer.element
+    return this.renderer.element as HTMLElement
   }
 
   get contentDOM() {
@@ -120,7 +120,7 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRe
 
     const contentElement = this.dom.querySelector('[data-node-view-content]')
 
-    return contentElement || this.dom
+    return (contentElement || this.dom) as HTMLElement | null
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
@@ -196,6 +196,6 @@ export function VueNodeViewRenderer(component: Vue | VueConstructor, options?: P
       return {}
     }
 
-    return new VueNodeView(component, props, options) as ProseMirrorNodeView
+    return new VueNodeView(component, props, options) as unknown as ProseMirrorNodeView
   }
 }

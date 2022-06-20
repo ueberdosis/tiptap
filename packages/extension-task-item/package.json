@@ -22,7 +22,7 @@
   ],
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.1",
-    "prosemirror-model": "^1.16.1"
+    "prosemirror-model": "^1.17.0"
   },
   "repository": {
     "type": "git",

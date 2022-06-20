@@ -4,7 +4,7 @@ context('/src/Examples/CollaborativeEditing/Vue/', () => {
   })
 
   it('should show the current room with participants', () => {
-    cy.wait(3000)
+    cy.wait(6000)
     cy.get('.editor__status')
       .should('contain', 'rooms.')
       .should('contain', 'users online')
@@ -14,7 +14,7 @@ context('/src/Examples/CollaborativeEditing/Vue/', () => {
     cy.window().then(win => {
       cy.stub(win, 'prompt').returns('John Doe')
       cy.get('.editor__name > button').click()
-      cy.wait(3000)
+      cy.wait(6000)
       cy.get('.editor__name').should('contain', 'John Doe')
     })
   })

@@ -46,6 +46,7 @@ export const Superscript = Mark.create<SuperscriptExtensionOptions>({
           }
 
           // If it falls through we’ll match, and this mark will be applied.
+          return null
         },
       },
     ]

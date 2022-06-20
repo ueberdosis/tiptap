@@ -26,7 +26,7 @@ export function autolink(options: AutolinkOptions): Plugin {
       }
 
       const { tr } = newState
-      const transform = combineTransactionSteps(oldState.doc, transactions)
+      const transform = combineTransactionSteps(oldState.doc, [...transactions])
       const { mapping } = transform
       const changes = getChangedRanges(transform)
 

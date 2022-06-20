@@ -49,11 +49,11 @@ export class NodeView<
     return
   }
 
-  get dom(): Element | null {
-    return null
+  get dom(): HTMLElement {
+    return this.editor.view.dom as HTMLElement
   }
 
-  get contentDOM(): Element | null {
+  get contentDOM(): HTMLElement | null {
     return null
   }
 

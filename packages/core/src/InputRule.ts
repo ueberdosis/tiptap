@@ -188,7 +188,7 @@ export function inputRulesPlugin(props: { editor: Editor, rules: InputRule[] }):
         return null
       },
       apply(tr, prev) {
-        const stored = tr.getMeta(this)
+        const stored = tr.getMeta(plugin)
 
         if (stored) {
           return stored

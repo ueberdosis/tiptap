@@ -198,7 +198,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]): void {
     const plugins = isFunction(handlePlugins)
-      ? handlePlugins(plugin, this.state.plugins)
+      ? handlePlugins(plugin, [...this.state.plugins])
       : [...this.state.plugins, plugin]
 
     const state = this.state.reconfigure({ plugins })
@@ -271,7 +271,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: EditorState.create({
         doc,
-        selection,
+        selection: selection || undefined,
       }),
     })
 

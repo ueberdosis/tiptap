@@ -40,7 +40,7 @@ export function getMarkRange(
     return
   }
 
-  const mark = findMarkInSet(start.node.marks, type, attributes)
+  const mark = findMarkInSet([...start.node.marks], type, attributes)
 
   if (!mark) {
     return
@@ -51,7 +51,7 @@ export function getMarkRange(
   let endIndex = startIndex + 1
   let endPos = startPos + start.node.nodeSize
 
-  findMarkInSet(start.node.marks, type, attributes)
+  findMarkInSet([...start.node.marks], type, attributes)
 
   while (startIndex > 0 && mark.isInSet($pos.parent.child(startIndex - 1).marks)) {
     startIndex -= 1
@@ -60,7 +60,7 @@ export function getMarkRange(
 
   while (
     endIndex < $pos.parent.childCount
-    && isMarkInSet($pos.parent.child(endIndex).marks, type, attributes)
+    && isMarkInSet([...$pos.parent.child(endIndex).marks], type, attributes)
   ) {
     endPos += $pos.parent.child(endIndex).nodeSize
     endIndex += 1

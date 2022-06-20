@@ -3,7 +3,7 @@ import { Fragment, Node as ProsemirrorNode, Schema } from 'prosemirror-model'
 import { createCell } from './createCell'
 import { getTableNodeTypes } from './getTableNodeTypes'
 
-export function createTable(schema: Schema, rowsCount: number, colsCount: number, withHeaderRow: boolean, cellContent?: Fragment<Schema> | ProsemirrorNode<Schema> | Array<ProsemirrorNode<Schema>>): ProsemirrorNode {
+export function createTable(schema: Schema, rowsCount: number, colsCount: number, withHeaderRow: boolean, cellContent?: Fragment | ProsemirrorNode | Array<ProsemirrorNode>): ProsemirrorNode {
   const types = getTableNodeTypes(schema)
   const headerCells = []
   const cells = []

@@ -16,6 +16,7 @@
     "simplify-js": "^1.2.4",
     "y-webrtc": "^10.2.2",
     "yjs": "^13.5.26",
+    "y-prosemirror": "1.0.20",
     "lowlight": "^1.20.0"
   },
   "devDependencies": {

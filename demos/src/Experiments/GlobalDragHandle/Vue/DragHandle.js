@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 import { NodeSelection, Plugin } from 'prosemirror-state'
-import { serializeForClipboard } from 'prosemirror-view/src/clipboard'
+import { __serializeForClipboard as serializeForClipboard } from 'prosemirror-view'
 
 function removeNode(node) {
   node.parentNode.removeChild(node)

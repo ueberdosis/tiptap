@@ -24,7 +24,7 @@ import {
   tableEditing,
   toggleHeader,
   toggleHeaderCell,
-} from 'prosemirror-tables'
+} from 'prosemirror-tables-contently'
 import { NodeView } from 'prosemirror-view'
 
 import { TableView } from './TableView'

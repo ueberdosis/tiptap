@@ -74,7 +74,7 @@ export function LowlightPlugin({ name, lowlight, defaultLanguage }: { name: stri
     throw Error('You should provide an instance of lowlight to use the code-block-lowlight extension')
   }
 
-  return new Plugin({
+  const lowlightPlugin: Plugin<any> = new Plugin({
     key: new PluginKey('lowlight'),
 
     state: {
@@ -129,8 +129,10 @@ export function LowlightPlugin({ name, lowlight, defaultLanguage }: { name: stri
 
     props: {
       decorations(state) {
-        return this.getState(state)
+        return lowlightPlugin.getState(state)
       },
     },
   })
+
+  return lowlightPlugin
 }
