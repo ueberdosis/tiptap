@@ -9,8 +9,8 @@ export interface SuggestionOptions<I = any> {
   editor: Editor,
   char?: string,
   allowSpaces?: boolean,
+  allowedPrefixes?: string[] | null,
   startOfLine?: boolean,
-  prefixSpace?: boolean,
   decorationTag?: string,
   decorationClass?: string,
   command?: (props: {
@@ -61,7 +61,7 @@ export function Suggestion<I = any>({
   editor,
   char = '@',
   allowSpaces = false,
-  prefixSpace = true,
+  allowedPrefixes = [' '],
   startOfLine = false,
   decorationTag = 'span',
   decorationClass = 'suggestion',
@@ -218,7 +218,7 @@ export function Suggestion<I = any>({
           const match = findSuggestionMatch({
             char,
             allowSpaces,
-            prefixSpace,
+            allowedPrefixes,
             startOfLine,
             $position: selection.$from,
           })
