@@ -24,7 +24,7 @@ Default: `false`
 ### allowedPrefixes
 The prefix characters that are allowed to trigger a suggestion. Set to `null` to allow any prefix character.
 
-Default: ` `
+Default: `[' ']`
 
 ### startOfLine
 Trigger the autocomplete popup at the start of a line only.

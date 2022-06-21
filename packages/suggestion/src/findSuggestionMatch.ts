@@ -4,7 +4,7 @@ import { ResolvedPos } from 'prosemirror-model'
 export interface Trigger {
   char: string,
   allowSpaces: boolean,
-  allowedPrefixes: string | null,
+  allowedPrefixes: string[] | null,
   startOfLine: boolean,
   $position: ResolvedPos,
 }
@@ -47,7 +47,7 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   // JavaScript doesn't have lookbehinds. This hacks a check that first character
   // is a space or the start of the line
   const matchPrefix = match.input.slice(Math.max(0, match.index - 1), match.index)
-  const matchPrefixIsAllowed = new RegExp(`^[${allowedPrefixes}\0]?$`).test(matchPrefix)
+  const matchPrefixIsAllowed = new RegExp(`^[${allowedPrefixes?.join('')}\0]?$`).test(matchPrefix)
 
   if (allowedPrefixes !== null && !matchPrefixIsAllowed) {
     return null
