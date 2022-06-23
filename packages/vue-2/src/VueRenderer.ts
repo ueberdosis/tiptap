@@ -21,7 +21,7 @@ export class VueRenderer {
 
     // prevents `Avoid mutating a prop directly` error message
     // Fix: `VueNodeViewRenderer` change vue Constructor `config.silent` not working
-    const currentVueConstructor = this.ref.$props.editor.contentComponent?.$options._base ?? Vue // eslint-disable-line
+    const currentVueConstructor = this.ref.$props.editor?.contentComponent?.$options._base ?? Vue // eslint-disable-line
     const originalSilent = currentVueConstructor.config.silent
 
     currentVueConstructor.config.silent = true
