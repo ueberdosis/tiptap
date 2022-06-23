@@ -55,6 +55,7 @@
     "starter-kit",
     "suggestion",
     "vue-2",
-    "vue-3"
+    "vue-3",
+    "extension/decorations"
   ]
 }
