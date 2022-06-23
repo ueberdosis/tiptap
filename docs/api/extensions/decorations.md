@@ -43,6 +43,52 @@ Hides the decorations
 editor.commands.hideDecorations()
 ```
 
+## Custom Decorations
+
+This extension allows you to extend it's functionality with custom decorations. To create a custom decoration, you can extend the Decoration classes provided by this package.
+
+### Text Decoration
+
+```js
+import Decorations, { TextDecoration } from '@tiptap/extension-decorations'
+
+// Example for Text
+// This decoration will add a new decoration-element in front of every "+" it finds
+class MyDecoration extends TextDecoration {
+  constructor() {
+    super({
+      type: 'my-decoration',
+      predicate: (value) => value === '+',
+    })
+  }
+}
+
+// then use it like this
+new Editor({
+  extensions: [Decorations.configure({ builders: [new MyDecoration()] })]
+})
+```
+
+### Node Decoration
+```js
+import Decorations, { NodeDecoration } from '@tiptap/extension-decorations'
+
+// Example for Nodes
+// This decoration will append a new decoration-element in behind each listItem node
+class MyDecoration extends NodeDecoration {
+  constructor() {
+    super({
+      type: 'my-decoration',
+      predicate: (node) => node.type === node.type.schema.nodes.listItem,
+    })
+  }
+}
+
+// then use it like this
+new Editor({
+  extensions: [Decorations.configure({ builders: [new MyDecoration()] })]
+})
+```
 
 ## Source code
 [packages/extension-decorations/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-decorations/)
