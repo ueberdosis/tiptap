@@ -1,0 +1,36 @@
+{
+  "name": "@tiptap/extension-invisibles",
+  "description": "invisibles extension for tiptap",
+  "version": "2.0.0-beta.1",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-invisibles.cjs.js",
+  "umd": "dist/tiptap-extension-invisibles.umd.js",
+  "module": "dist/tiptap-extension-invisibles.esm.js",
+  "types": "dist/packages/extension-invisibles/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "prosemirror-model": "1.18.1",
+    "prosemirror-state": "1.4.0",
+    "prosemirror-view": "1.26.1"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-invisibles"
+  }
+}
