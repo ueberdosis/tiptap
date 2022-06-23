@@ -3,9 +3,10 @@
 </template>
 
 <script>
+import Decorations from '@tiptap/extension-decorations'
 import Document from '@tiptap/extension-document'
+import HardBreak from '@tiptap/extension-hard-break'
 import Image from '@tiptap/extension-image'
-import Invisibles from '@tiptap/extension-invisibles'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
@@ -28,10 +29,11 @@ export default {
         Paragraph,
         Text,
         Image,
-        Invisibles,
+        Decorations,
+        HardBreak,
       ],
       content: `
-        <p>This content should show invisible characters.</p>
+        <p>This content should show decorations for invisible characters<br />This is default behaviour - you can override this by using Decorations.configure().</p>
         <p>Try editing the content to see different types of characters.</p>
       `,
     })
@@ -53,6 +55,29 @@ export default {
   img {
     max-width: 100%;
     height: auto;
+  }
+
+  .prosemirror--decorator {
+    position: relative;
+    padding: 0 2px;
+  }
+
+  .prosemirror--decorator:before {
+    content: '';
+    color: #aaa;
+    position: absolute;
+  }
+
+  .prosemirror--decorator.type-space:before {
+    content: '·'
+  }
+
+  .prosemirror--decorator.type-break:before {
+    content: '¬'
+  }
+
+  .prosemirror--decorator.type-paragraph:before {
+    content: '¶'
   }
 }
 </style>

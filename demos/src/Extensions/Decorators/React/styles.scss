@@ -9,26 +9,26 @@
     max-width: 100%;
   }
 
-  .prosemirror--invisible {
+  .prosemirror--decorator {
     position: relative;
     padding: 0 2px;
   }
 
-  .prosemirror--invisible:before {
+  .prosemirror--decorator:before {
     content: '';
     color: #aaa;
     position: absolute;
   }
 
-  .prosemirror--invisible.type-space:before {
+  .prosemirror--decorator.type-space:before {
     content: '·'
   }
 
-  .prosemirror--invisible.type-break:before {
+  .prosemirror--decorator.type-break:before {
     content: '¬'
   }
 
-  .prosemirror--invisible.type-paragraph:before {
+  .prosemirror--decorator.type-paragraph:before {
     content: '¶'
   }
 }

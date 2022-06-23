@@ -1,6 +1,6 @@
 {
-  "name": "@tiptap/extension-invisibles",
-  "description": "invisibles extension for tiptap",
+  "name": "@tiptap/extension-decorations",
+  "description": "decorations extension for tiptap",
   "version": "2.0.0-beta.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
@@ -12,10 +12,10 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-invisibles.cjs.js",
-  "umd": "dist/tiptap-extension-invisibles.umd.js",
-  "module": "dist/tiptap-extension-invisibles.esm.js",
-  "types": "dist/packages/extension-invisibles/src/index.d.ts",
+  "main": "dist/tiptap-extension-decorations.cjs.js",
+  "umd": "dist/tiptap-extension-decorations.umd.js",
+  "module": "dist/tiptap-extension-decorations.esm.js",
+  "types": "dist/packages/extension-decorations/src/index.d.ts",
   "files": [
     "src",
     "dist"
@@ -31,6 +31,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-invisibles"
+    "directory": "packages/extension-decorations"
   }
 }
