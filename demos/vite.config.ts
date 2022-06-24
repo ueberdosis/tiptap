@@ -1,3 +1,4 @@
+import { svelte } from '@sveltejs/vite-plugin-svelte'
 import react from '@vitejs/plugin-react'
 import vue from '@vitejs/plugin-vue'
 import fg from 'fast-glob'
@@ -38,6 +39,7 @@ export default defineConfig({
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
     vue(),
     react(),
+    svelte(),
 
     {
       name: 'html-transform',
@@ -85,6 +87,29 @@ export default defineConfig({
                     <div id="app"></div>
                     <script type="module">
                       import setup from '../../../../setup/vue.ts'
+                      import source from '@source'
+                      setup('${demoCategory}/${demoName}', source)
+                    </script>
+                  </body>
+                </html>
+              `,
+              tags: [],
+            }
+          }
+
+          if (dir.endsWith('/Svelte')) {
+            return {
+              html: `
+                <!DOCTYPE html>
+                <html lang="en">
+                  <head>
+                    <meta charset="utf-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                  </head>
+                  <body>
+                    <div id="app"></div>
+                    <script type="module">
+                      import setup from '../../../../setup/svelte.ts'
                       import source from '@source'
                       setup('${demoCategory}/${demoName}', source)
                     </script>
