@@ -10,7 +10,7 @@ prosemirror-keymap
 prosemirror-model
 prosemirror-schema-list
 prosemirror-state
-@_bdbch/prosemirror-tables
+@_ueberdosis/prosemirror-tables
 prosemirror-transform
 prosemirror-view
 react
