@@ -1,5 +1,7 @@
 <template>
-  <div class="items">
+  <div
+    ref="mentionList"
+    class="items">
     <template v-if="items.length">
       <button
         class="item"
@@ -63,12 +65,25 @@ export default {
       return false
     },
 
+    selectedItemScrollIntoView() {
+      this.$nextTick(() => {
+        const selectedItem = this.$refs.mentionList.querySelector('.is-selected')
+        if (selectedItem) {
+          selectedItem.scrollIntoView({
+            block: 'nearest'
+          })
+        }
+      })
+    },
+
     upHandler() {
       this.selectedIndex = ((this.selectedIndex + this.items.length) - 1) % this.items.length
+      this.selectedItemScrollIntoView()
     },
 
     downHandler() {
       this.selectedIndex = (this.selectedIndex + 1) % this.items.length
+      this.selectedItemScrollIntoView()
     },
 
     enterHandler() {
