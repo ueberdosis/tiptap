@@ -9,7 +9,6 @@
   let editor;
 
   onMount(() => {
-    console.log({ element });
     editor = new Editor({
       element: element,
       extensions: [StarterKit],
