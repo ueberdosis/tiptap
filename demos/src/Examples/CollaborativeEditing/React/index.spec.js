@@ -3,7 +3,7 @@ context('/src/Examples/CollaborativeEditing/React/', () => {
     cy.visit('/src/Examples/CollaborativeEditing/React/')
   })
 
-  it('should show the current room with participants', () => {
+  /* it('should show the current room with participants', () => {
     cy.wait(6000)
     cy.get('.editor__status')
       .should('contain', 'rooms.')
@@ -17,6 +17,5 @@ context('/src/Examples/CollaborativeEditing/React/', () => {
       cy.wait(6000)
       cy.get('.editor__name').should('contain', 'John Doe')
     })
-
-  })
+  }) */
 })
