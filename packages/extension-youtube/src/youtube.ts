@@ -1,15 +1,16 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import { mergeAttributes, Node, PasteRule } from '@tiptap/core'
 
-import { getEmbedURLFromYoutubeURL, isValidYoutubeUrl } from './utils'
+import { getEmbedURLFromYoutubeURL, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils'
 
 export interface YoutubeOptions {
-  inline: boolean;
-  width: number;
-  height: number;
-  controls: boolean;
-  nocookie: boolean;
+  addPasteHandler: boolean;
   allowFullscreen: boolean;
+  controls: boolean;
+  height: number;
   HTMLAttributes: Record<string, any>,
+  inline: boolean;
+  nocookie: boolean;
+  width: number;
 }
 
 declare module '@tiptap/core' {
@@ -28,13 +29,14 @@ export const Youtube = Node.create<YoutubeOptions>({
 
   addOptions() {
     return {
-      inline: false,
-      controls: true,
-      HTMLAttributes: {},
-      nocookie: false,
+      addPasteHandler: true,
       allowFullscreen: false,
-      width: 640,
+      controls: true,
       height: 480,
+      HTMLAttributes: {},
+      inline: false,
+      nocookie: false,
+      width: 640,
     }
   },
 
@@ -86,6 +88,28 @@ export const Youtube = Node.create<YoutubeOptions>({
         })
       },
     }
+  },
+
+  addPasteRules() {
+    if (!this.options.addPasteHandler) {
+      return []
+    }
+
+    return [
+      new PasteRule({
+        find: YOUTUBE_REGEX_GLOBAL,
+
+        handler({ match, chain, range }) {
+          if (match.input) {
+            chain()
+              .deleteRange(range)
+              .setYoutubeVideo({
+                src: match.input,
+              })
+          }
+        },
+      }),
+    ]
   },
 
   renderHTML({ HTMLAttributes }) {
