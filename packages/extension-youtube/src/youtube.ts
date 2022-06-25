@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, PasteRule } from '@tiptap/core'
+import { mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
 
 import { getEmbedURLFromYoutubeURL, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils'
 
@@ -96,17 +96,11 @@ export const Youtube = Node.create<YoutubeOptions>({
     }
 
     return [
-      new PasteRule({
+      nodePasteRule({
         find: YOUTUBE_REGEX_GLOBAL,
-
-        handler({ match, chain, range }) {
-          if (match.input) {
-            chain()
-              .deleteRange(range)
-              .setYoutubeVideo({
-                src: match.input,
-              })
-          }
+        type: this.type,
+        getAttributes: match => {
+          return { src: match.input }
         },
       }),
     ]
