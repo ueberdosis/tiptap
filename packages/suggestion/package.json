@@ -25,8 +25,8 @@
   },
   "dependencies": {
     "prosemirror-model": "1.18.1",
-    "prosemirror-state": "1.4.0",
-    "prosemirror-view": "1.26.1"
+    "prosemirror-state": "1.4.1",
+    "prosemirror-view": "1.26.2"
   },
   "repository": {
     "type": "git",
