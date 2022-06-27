@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.36](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-horizontal-rule@2.0.0-beta.35...@tiptap/extension-horizontal-rule@2.0.0-beta.36) (2022-06-27)
+
+**Note:** Version bump only for package @tiptap/extension-horizontal-rule
+
+
+
+
+
 # [2.0.0-beta.35](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-horizontal-rule@2.0.0-beta.34...@tiptap/extension-horizontal-rule@2.0.0-beta.35) (2022-06-20)
 
 **Note:** Version bump only for package @tiptap/extension-horizontal-rule

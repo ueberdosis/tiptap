@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.84](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.83...@tiptap/vue-2@2.0.0-beta.84) (2022-06-27)
+
+
+### Bug Fixes
+
+* editor don't has contentComponent attribute when suggestion onUpdate ([#2916](https://github.com/ueberdosis/tiptap/issues/2916)) ([6674e69](https://github.com/ueberdosis/tiptap/commit/6674e69b12cb4a6c7d5e9f9b59073fc16b8a8eb9))
+
+
+
+
+
 # [2.0.0-beta.83](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.82...@tiptap/vue-2@2.0.0-beta.83) (2022-06-20)
 
 **Note:** Version bump only for package @tiptap/vue-2

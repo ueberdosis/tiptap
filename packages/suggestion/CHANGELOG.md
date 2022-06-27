@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.97](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.96...@tiptap/suggestion@2.0.0-beta.97) (2022-06-27)
+
+
+### Features
+
+* Allow multiple prefix characters to trigger a suggestion ([#2896](https://github.com/ueberdosis/tiptap/issues/2896)) ([482cb96](https://github.com/ueberdosis/tiptap/commit/482cb960d6a17acc575bb9c535e1e87f07f06686))
+
+
+
+
+
 # [2.0.0-beta.96](https://github.com/ueberdosis/tiptap/compare/@tiptap/suggestion@2.0.0-beta.95...@tiptap/suggestion@2.0.0-beta.96) (2022-06-20)
 
 **Note:** Version bump only for package @tiptap/suggestion

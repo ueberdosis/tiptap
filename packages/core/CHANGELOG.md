@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.181](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.180...@tiptap/core@2.0.0-beta.181) (2022-06-27)
+
+
+### Bug Fixes
+
+* **core:** fix focus command passing through editor state instead of existing transaction ([5b0b7d9](https://github.com/ueberdosis/tiptap/commit/5b0b7d91023c87e9ddb85ff3a776273d12a22d16))
+
+
+### Features
+
+* **core:** add nodePasteRule to core ([15123ee](https://github.com/ueberdosis/tiptap/commit/15123ee092261fe86352d491121804607e08e031))
+
+
+
+
+
 # [2.0.0-beta.180](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.179...@tiptap/core@2.0.0-beta.180) (2022-06-20)
 
 **Note:** Version bump only for package @tiptap/core

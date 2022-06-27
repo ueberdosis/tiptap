@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.102](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.101...@tiptap/extension-mention@2.0.0-beta.102) (2022-06-27)
+
+
+### Bug Fixes
+
+* **extension/mention:** collapse selection to end after suggestion insertion to fix chrome selection issue with mouse ([163de4e](https://github.com/ueberdosis/tiptap/commit/163de4e1876000a88117da8a02b1f62cd4a2cfb0))
+
+
+
+
+
 # [2.0.0-beta.101](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.100...@tiptap/extension-mention@2.0.0-beta.101) (2022-06-20)
 
 **Note:** Version bump only for package @tiptap/extension-mention

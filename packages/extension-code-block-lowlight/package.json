@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code-block-lowlight",
   "description": "code block extension for tiptap",
-  "version": "2.0.0-beta.72",
+  "version": "2.0.0-beta.73",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -25,7 +25,7 @@
     "lowlight": ">=1.20.0"
   },
   "dependencies": {
-    "@tiptap/extension-code-block": "^2.0.0-beta.41",
+    "@tiptap/extension-code-block": "^2.0.0-beta.42",
     "@types/lowlight": "^0.0.3",
     "prosemirror-model": "1.18.1",
     "prosemirror-state": "1.4.1",
