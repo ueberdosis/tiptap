@@ -14,6 +14,8 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   const forceUpdate = useForceUpdate()
 
   useEffect(() => {
+    let isMounted = true
+
     const instance = new Editor(options)
 
     setEditor(instance)
@@ -21,13 +23,16 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     instance.on('transaction', () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          forceUpdate()
+          if (isMounted) {
+            forceUpdate()
+          }
         })
       })
     })
 
     return () => {
       instance.destroy()
+      isMounted = false
     }
   }, deps)
 

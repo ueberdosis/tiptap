@@ -28,8 +28,8 @@
     "@tiptap/extension-code-block": "^2.0.0-beta.41",
     "@types/lowlight": "^0.0.3",
     "prosemirror-model": "1.18.1",
-    "prosemirror-state": "1.4.0",
-    "prosemirror-view": "1.26.1"
+    "prosemirror-state": "1.4.1",
+    "prosemirror-view": "1.26.2"
   },
   "repository": {
     "type": "git",

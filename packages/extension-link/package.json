@@ -26,7 +26,7 @@
   "dependencies": {
     "linkifyjs": "^3.0.5",
     "prosemirror-model": "1.18.1",
-    "prosemirror-state": "1.4.0"
+    "prosemirror-state": "1.4.1"
   },
   "repository": {
     "type": "git",

@@ -16,7 +16,7 @@ import {
   tableEditing,
   toggleHeader,
   toggleHeaderCell,
-} from '@_bdbch/prosemirror-tables'
+} from '@_ueberdosis/prosemirror-tables'
 import {
   callOrReturn,
   getExtensionField,

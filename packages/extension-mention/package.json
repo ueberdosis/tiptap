@@ -26,7 +26,7 @@
   "dependencies": {
     "@tiptap/suggestion": "^2.0.0-beta.96",
     "prosemirror-model": "1.18.1",
-    "prosemirror-state": "1.4.0"
+    "prosemirror-state": "1.4.1"
   },
   "repository": {
     "type": "git",
