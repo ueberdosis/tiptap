@@ -29,7 +29,7 @@ export function nodePasteRule(config: {
       if (match.input) {
         chain()
           .deleteRange(range)
-          .insertContent({
+          .insertContentAt(range.from, {
             type: config.type.name,
             attrs: attributes,
           })
