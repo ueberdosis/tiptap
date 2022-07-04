@@ -105,7 +105,7 @@ export const Figure = Node.create<FigureOptions>({
           // set cursor at end of caption field
           .command(({ tr, commands }) => {
             const { doc, selection } = tr
-            const position = doc.resolve(selection.to - 2).end()
+            const position = doc.resolve(selection.to).end()
 
             return commands.setTextSelection(position)
           })
