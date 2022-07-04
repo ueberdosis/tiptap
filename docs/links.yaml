@@ -361,6 +361,9 @@
         - title: UniqueID
           link: /api/extensions/unique-id
           type: pro
+        - title: YouTube
+          link: /api/extensions/youtube
+          type: new
     - title: Utilities
       link: /utilities
       redirect: /api/utilities/html
