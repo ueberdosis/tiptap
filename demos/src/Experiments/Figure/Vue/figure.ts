@@ -4,10 +4,13 @@ import {
   Node,
   nodeInputRule,
   Tracker,
+  defaultBlockAt,
 } from '@tiptap/core'
+import { Selection } from "prosemirror-state"
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>,
+  exitOnEnter: boolean,
 }
 
 declare module '@tiptap/core' {
@@ -44,6 +47,7 @@ export const Figure = Node.create<FigureOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      exitOnEnter: true,
     }
   },
 
@@ -175,6 +179,48 @@ export const Figure = Node.create<FigureOptions>({
           })
         })
       },
+    }
+  },
+  
+  addKeyboardShortcuts() {
+    return {
+      Enter: ({ editor }) => {
+        if (!this.options.exitOnEnter) {
+          return false
+        }
+
+        const { selection } = editor.state;
+        const { $from, empty } = selection;
+
+        if (!empty || $from.parent.type !== this.type) {
+          return false;
+        }
+
+        return editor.commands.command(({ state, dispatch }) => {
+          const { $head, $anchor } = state.selection
+
+          if (!$head.sameParent($anchor)) {
+            return false
+          }
+
+          const above = $head.node(-1)
+          const after = $head.indexAfter(-1)
+          const type = defaultBlockAt(above.contentMatchAt(after))
+          
+          if (!type || !above.canReplaceWith(after, after, type)) { 
+            return false
+          }
+          
+          if (dispatch) {
+            const pos = $head.after()
+            const tr = state.tr.replaceWith(pos, pos, type.createAndFill()!)
+
+            tr.setSelection(Selection.near(tr.doc.resolve(pos), 1))
+            dispatch(tr.scrollIntoView())
+          }
+          return true
+        })
+      }
     }
   },
 
