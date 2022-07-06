@@ -16,8 +16,8 @@
     "shiki": "^0.10.0",
     "simplify-js": "^1.2.4",
     "y-prosemirror": "1.0.20",
-    "y-webrtc": "10.2.2",
-    "yjs": "13.5.26"
+    "y-webrtc": "^10.2.3",
+    "yjs": "^13.5.39"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.49",
