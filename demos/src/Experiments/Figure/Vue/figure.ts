@@ -180,10 +180,14 @@ export const Figure = Node.create<FigureOptions>({
 
   addInputRules() {
     return [
-      nodeInputRule(inputRegex, this.type, match => {
-        const [, alt, src, title] = match
+      nodeInputRule({
+        find: inputRegex,
+        type: this.type,
+        getAttributes: match => {
+          const [, src, alt, title] = match
 
-        return { src, alt, title }
+          return { src, alt, title }
+        },
       }),
     ]
   },
