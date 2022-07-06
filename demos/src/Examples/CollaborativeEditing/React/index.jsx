@@ -18,7 +18,7 @@ import * as Y from 'yjs'
 import MenuBar from './MenuBar'
 
 const colors = ['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D']
-const rooms = ['rooms.30', 'rooms.31', 'rooms.32']
+const rooms = ['rooms.33', 'rooms.34', 'rooms.35']
 const names = [
   'Lea Thompson',
   'Cyndi Lauper',
