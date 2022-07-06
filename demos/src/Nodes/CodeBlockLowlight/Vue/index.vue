@@ -18,7 +18,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 // load all highlight.js languages
-import lowlight from 'lowlight'
+import { lowlight } from 'lowlight'
 
 // load specific languages only
 // import lowlight from 'lowlight/lib/core'

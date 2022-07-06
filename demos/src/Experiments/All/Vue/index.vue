@@ -106,7 +106,7 @@ import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
 import Underline from '@tiptap/extension-underline'
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import lowlight from 'lowlight'
+import { lowlight } from 'lowlight'
 
 export default {
   components: {

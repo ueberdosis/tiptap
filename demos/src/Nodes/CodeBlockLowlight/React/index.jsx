@@ -10,7 +10,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { EditorContent, useEditor } from '@tiptap/react'
 // load all highlight.js languages
-import lowlight from 'lowlight'
+import { lowlight } from 'lowlight'
 import React from 'react'
 
 export default () => {
