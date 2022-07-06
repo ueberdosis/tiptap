@@ -28,7 +28,6 @@ There are also some extensions with more capabilities. We call them [nodes](/api
 | [TextAlign](/api/extensions/text-align)                     | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-align/)           |
 | [UniqueID](/api/extensions/unique-id)                       | –                                                | Requires a Tiptap Pro subscription                                                                |
 | [Typography](/api/extensions/typography)                    | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-typography/)           |
-| [YouTube](/api/extensions/youtube)                          | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-youtube/)              |
 
 You don’t have to use it, but we prepared a `@tiptap/starter-kit` which includes the most common extensions. Read more about [`StarterKit`](/guide/configuration#default-extensions).
 

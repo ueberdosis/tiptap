@@ -302,6 +302,9 @@
           link: /api/nodes/task-item
         - title: Text
           link: /api/nodes/text
+        - title: YouTube
+          link: /api/nodes/youtube
+          type: new
     - title: Marks
       link: /api/marks
       items:
@@ -361,9 +364,6 @@
         - title: UniqueID
           link: /api/extensions/unique-id
           type: pro
-        - title: YouTube
-          link: /api/extensions/youtube
-          type: new
     - title: Utilities
       link: /utilities
       redirect: /api/utilities/html
