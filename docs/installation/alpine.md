@@ -6,7 +6,7 @@ tableOfContents: true
 # Alpine.js
 
 ## Introduction
-The following guide describes how to integrate Tiptap with your [Alpine.js](https://github.com/alpinejs/alpine) project.
+The following guide describes how to integrate Tiptap with version 3 of [Alpine.js](https://github.com/alpinejs/alpine).
 
 For the sake of this guide we’ll use [Vite](https://vitejs.dev/) to quickly set up a project, but you can use whatever you’re used to. Vite is just really fast and we love it.
 
@@ -46,28 +46,50 @@ import Alpine from 'alpinejs'
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
-window.setupEditor = function(content) {
-  return {
-    editor: null,
-    content: content,
-    updatedAt: Date.now(), // force Alpine to rerender on selection change
-    init(element) {
-      this.editor = new Editor({
-        element: element,
-        extensions: [
-          StarterKit,
-        ],
-        content: this.content,
-        onUpdate: ({ editor }) => {
-          this.content = editor.getHTML()
-        },
-        onSelectionUpdate: () => {
-          this.updatedAt = Date.now()
-        },
-      })
-    },
-  }
-}
+document.addEventListener('alpine:init', () => {
+  Alpine.data('editor', (content) => {
+    let editor
+
+    return {
+      updatedAt: Date.now(), // force Alpine to rerender on selection change
+      init() {
+        const _this = this
+
+        editor = new Editor({
+          element: this.$refs.element,
+          extensions: [
+            StarterKit
+          ],
+          content: content,
+          onCreate({ editor }) {
+            _this.updatedAt = Date.now()
+          },
+          onUpdate({ editor }) {
+            _this.updatedAt = Date.now()
+          },
+          onSelectionUpdate({ editor }) {
+            _this.updatedAt = Date.now()
+          }
+        });
+      },
+      isLoaded() {
+        return editor
+      },
+      isActive(type, opts = {}) {
+        return editor.isActive(type, opts)
+      },
+      toggleHeading(opts) {
+        editor.chain().toggleHeading(opts).focus().run()
+      },
+      toggleBold() {
+        editor.chain().toggleBold().focus().run()
+      },
+      toggleItalic() {
+        editor.chain().toggleItalic().focus().run()
+      },
+    };
+  });
+});
 
 window.Alpine = Alpine
 Alpine.start()
@@ -77,32 +99,31 @@ Alpine.start()
 Now, let’s replace the content of the `index.html` with the following example code to use the editor in our app.
 
 ```html
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
 </head>
 <body>
-  <div x-data="setupEditor('<p>Hello World! :-)</p>')" x-init="() => init($refs.element)">
+  <div x-data="editor('<p>Hello world! :-)</p>')">
 
-    <template x-if="editor">
+    <template x-if="isLoaded()">
       <div class="menu">
         <button
-          @click="editor.chain().toggleHeading({ level: 1 }).focus().run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+          @click="toggleHeading({ level: 1 })"
+          :class="{ 'is-active': isActive('heading', { level: 1 }, updatedAt) }"
         >
           H1
         </button>
         <button
-          @click="editor.chain().toggleBold().focus().run()"
-          :class="{ 'is-active': editor.isActive('bold') }"
+          @click="toggleBold()"
+          :class="{ 'is-active' : isActive('bold', updatedAt) }"
         >
           Bold
         </button>
         <button
-          @click="editor.chain().toggleItalic().focus().run()"
-          :class="{ 'is-active': editor.isActive('italic') }"
+          @click="toggleItalic()"
+          :class="{ 'is-active' : isActive('italic', updatedAt) }"
         >
           Italic
         </button>
