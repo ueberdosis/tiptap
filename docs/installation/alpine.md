@@ -34,7 +34,7 @@ Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For
 npm install alpinejs @tiptap/core @tiptap/starter-kit
 ```
 
-If you followed step 1, you can now start your project with `npm run dev`, and open [http://localhost:3000](http://localhost:3000) in your favorite browser. This might be different, if you’re working with an existing project.
+If you followed step 1, you can now start your project with `npm run dev`, and open [http://localhost:5173](http://localhost:5173) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Initialize the editor
 To actually start using Tiptap, you’ll need to write a little bit of JavaScript. Let’s put the following example code in a file called `main.js`.
