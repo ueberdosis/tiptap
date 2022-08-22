@@ -29,7 +29,7 @@ We provide [an official PHP package to work with Tiptap content](/api/utilities/
 ```html
 <div
   x-data="setupEditor(
-    $wire.entangle('{{ $attributes->wire('model') }}').defer
+    $wire.entangle('{{ $attributes->wire('model')->value() }}').defer
   )"
   x-init="() => init($refs.editor)"
   wire:ignore

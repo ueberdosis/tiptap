@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.182](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.181...@tiptap/core@2.0.0-beta.182) (2022-07-06)
+
+
+### Bug Fixes
+
+* **core:** dont use selection for setContent replacement ([#2934](https://github.com/ueberdosis/tiptap/issues/2934)) ([134a4bd](https://github.com/ueberdosis/tiptap/commit/134a4bd1fbbd7f56faa1fc70c97d3b58554fc3f1))
+* **core:** only respect text of node before current position ([#2937](https://github.com/ueberdosis/tiptap/issues/2937)) ([#2941](https://github.com/ueberdosis/tiptap/issues/2941)) ([e280a02](https://github.com/ueberdosis/tiptap/commit/e280a02597d15460fce97a7555f91ff04926f0e7))
+
+
+
+
+
+# [2.0.0-beta.181](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.180...@tiptap/core@2.0.0-beta.181) (2022-06-27)
+
+
+### Bug Fixes
+
+* **core:** fix focus command passing through editor state instead of existing transaction ([5b0b7d9](https://github.com/ueberdosis/tiptap/commit/5b0b7d91023c87e9ddb85ff3a776273d12a22d16))
+
+
+### Features
+
+* **core:** add nodePasteRule to core ([15123ee](https://github.com/ueberdosis/tiptap/commit/15123ee092261fe86352d491121804607e08e031))
+
+
+
+
+
 # [2.0.0-beta.180](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.179...@tiptap/core@2.0.0-beta.180) (2022-06-20)
 
 **Note:** Version bump only for package @tiptap/core

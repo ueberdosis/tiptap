@@ -30,6 +30,7 @@ If you think of the document as a tree, then nodes are just a type of content in
 | [TaskList](/api/nodes/task-list)             | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-list/)       |
 | [TaskItem](/api/nodes/task-item)             | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-item/)       |
 | [Text](/api/nodes/text)                      | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text/)            |
+| [YouTube](/api/nodes/youtube)                | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text/)            |
 
 ## Create a new node
 You’re free to create your own nodes for Tiptap. Here is the boilerplate code that’s need to create and register your own node:

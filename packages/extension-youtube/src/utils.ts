@@ -1,5 +1,8 @@
+export const YOUTUBE_REGEX = /^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)(.+)?$/
+export const YOUTUBE_REGEX_GLOBAL = /^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)(.+)?$/g
+
 export const isValidYoutubeUrl = (url: string) => {
-  return url.match(/^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)(.+)?$/)
+  return url.match(YOUTUBE_REGEX)
 }
 
 export interface GetEmbedUrlOptions {
