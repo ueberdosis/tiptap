@@ -100,7 +100,7 @@ export function Suggestion<I = any>({
           const state = handleExit && !handleStart
             ? prev
             : next
-          const decorationNode = document.querySelector(`[data-decoration-id="${state.decorationId}"]`)
+          const decorationNode = view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
 
           props = {
             editor,
@@ -122,7 +122,7 @@ export function Suggestion<I = any>({
               ? () => {
                 // because of `items` can be asynchrounous we’ll search for the current docoration node
                 const { decorationId } = this.key?.getState(editor.state) // eslint-disable-line
-                const currentDecorationNode = document.querySelector(`[data-decoration-id="${decorationId}"]`)
+                const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
 
                 return currentDecorationNode?.getBoundingClientRect() || null
               }
