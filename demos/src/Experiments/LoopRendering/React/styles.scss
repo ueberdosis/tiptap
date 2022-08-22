@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100vw;
+  padding-inline: 2rem;
+  margin: auto;
+  max-width: 70rem;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  gap: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 2rem;
+}
+
+.label {
+  background: #f0f0f0;
+  padding: 0.5rem;
+}
+
+.wrapper {
+  border: 1px solid #f0f0f0;
+}
+
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  ul[data-type="taskList"] {
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+
+      > label {
+        flex: 0 0 auto;
+        margin-right: 0.5rem;
+        user-select: none;
+      }
+
+      > div {
+        flex: 1 1 auto;
+      }
+    }
+  }
+}
