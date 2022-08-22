@@ -12,5 +12,5 @@ jobs:
     steps:
       - uses: actions/add-to-project@main
         with:
-          project-url: ${{ secrets.ADD_TO_PROJECT_PR_URL }}
+          project-url: ${{ secrets.ADD_TO_PROJECT_URL }}
           github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
