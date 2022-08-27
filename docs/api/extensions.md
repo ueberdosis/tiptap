@@ -41,7 +41,7 @@ Existing [nodes](/api/nodes), [marks](/api/marks) and [extensions](/api/extensio
 We recommend to start with customizing existing extensions first, and create your own extensions with the gained knowledge later. That’s why all the below examples extend existing extensions, but all examples will work on newly created extensions aswell.
 
 ## Create a new extension
-You’re free to create your own extensions for Tiptap. Here is the boilerplate code that’s need to create and register your own extension:
+You’re free to create your own extensions for Tiptap. Here is the boilerplate code that’s needed to create and register your own extension:
 
 ```js
 import { Extension } from '@tiptap/core'
