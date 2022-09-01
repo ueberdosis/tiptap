@@ -11,6 +11,7 @@
     "@hocuspocus/provider": "^1.0.0-alpha.29",
     "d3": "^7.3.0",
     "fast-glob": "^3.2.11",
+    "highlight.js": "^11.6.0",
     "lowlight": "^2.7.0",
     "remixicon": "^2.5.0",
     "shiki": "^0.10.0",
