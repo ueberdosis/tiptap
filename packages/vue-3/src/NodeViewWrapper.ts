@@ -15,7 +15,7 @@ export const NodeViewWrapper = defineComponent({
       this.as,
       {
         // @ts-ignore
-        class: this.decorationClasses.value,
+        class: this.decorationClasses,
         style: {
           whiteSpace: 'normal',
         },
