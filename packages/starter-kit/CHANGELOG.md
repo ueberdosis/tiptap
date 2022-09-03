@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.192](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.191...@tiptap/starter-kit@2.0.0-beta.192) (2022-09-03)
+
+
+### Bug Fixes
+
+* let StarterKit be imported as cjs module ([#2967](https://github.com/ueberdosis/tiptap/issues/2967)) ([69d22d2](https://github.com/ueberdosis/tiptap/commit/69d22d2d3c3b3064641e0a1ba66a0a9ada90d6bd))
+
+
+
+
+
 # [2.0.0-beta.191](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.190...@tiptap/starter-kit@2.0.0-beta.191) (2022-07-06)
 
 **Note:** Version bump only for package @tiptap/starter-kit

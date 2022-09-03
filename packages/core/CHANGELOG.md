@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.183](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.182...@tiptap/core@2.0.0-beta.183) (2022-09-03)
+
+
+### Bug Fixes
+
+* **core:** createCan command props shouldn't try dispatch ([#3025](https://github.com/ueberdosis/tiptap/issues/3025)) ([#3026](https://github.com/ueberdosis/tiptap/issues/3026)) ([40f4ea3](https://github.com/ueberdosis/tiptap/commit/40f4ea31efc59c1578b783a5b64572ac2846c5a6))
+* **core:** isNodeSelection, isTextSelection not always false ([#3089](https://github.com/ueberdosis/tiptap/issues/3089)) ([574cd69](https://github.com/ueberdosis/tiptap/commit/574cd69e06bfdc3771006ed4eda341a6c9722a42)), closes [#2979](https://github.com/ueberdosis/tiptap/issues/2979)
+* **core:** make setEditable trigger all 'update' listeners ([#3140](https://github.com/ueberdosis/tiptap/issues/3140)) ([4851fc5](https://github.com/ueberdosis/tiptap/commit/4851fc5e9b6daccc15a1839e471db489401eca0c))
+* **core:** make setEditable trigger onUpdate function ([#2935](https://github.com/ueberdosis/tiptap/issues/2935)) ([de1253a](https://github.com/ueberdosis/tiptap/commit/de1253a8b06eeb7339f0bba8c04917890c9b21ae))
+* **core:** setNodeSelection should not clamp pos by Selection.atStart/atEnd ([#3091](https://github.com/ueberdosis/tiptap/issues/3091)) ([313b8b8](https://github.com/ueberdosis/tiptap/commit/313b8b8d0af7059c420ffc96c9362f0f4acc2138)), closes [#3090](https://github.com/ueberdosis/tiptap/issues/3090)
+
+
+
+
+
 # [2.0.0-beta.182](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.181...@tiptap/core@2.0.0-beta.182) (2022-07-06)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.97](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.96...@tiptap/vue-3@2.0.0-beta.97) (2022-09-03)
+
+
+### Bug Fixes
+
+* vue inject grammar warning ([#3144](https://github.com/ueberdosis/tiptap/issues/3144)) ([c6c5fa6](https://github.com/ueberdosis/tiptap/commit/c6c5fa623a875411b0e72dc3f8f88166f2f8fa1e))
+
+
+
+
+
 # [2.0.0-beta.96](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.95...@tiptap/vue-3@2.0.0-beta.96) (2022-06-27)
 
 **Note:** Version bump only for package @tiptap/vue-3
