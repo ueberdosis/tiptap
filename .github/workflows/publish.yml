@@ -1,8 +1,12 @@
 name: Publish tiptap packages to npm
+
 on:
   release:
     types:
       - created
+      - released
+      - published
+
 jobs:
   publish:
     runs-on: ubuntu-latest
