@@ -13,10 +13,19 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Editor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
+import css from 'highlight.js/lib/languages/css'
+import js from 'highlight.js/lib/languages/javascript'
+import ts from 'highlight.js/lib/languages/typescript'
+import html from 'highlight.js/lib/languages/xml'
 // load all highlight.js languages
 import { lowlight } from 'lowlight'
 
 import CodeBlockComponent from './CodeBlockComponent.vue'
+
+lowlight.registerLanguage('html', html)
+lowlight.registerLanguage('css', css)
+lowlight.registerLanguage('js', js)
+lowlight.registerLanguage('ts', ts)
 
 // load specific languages only
 // import { lowlight } from 'lowlight/lib/core'
