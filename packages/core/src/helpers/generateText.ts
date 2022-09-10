@@ -1,8 +1,9 @@
 import { Node } from 'prosemirror-model'
-import { getSchema } from './getSchema'
+
 import { Extensions, JSONContent, TextSerializer } from '../types'
-import { getTextSeralizersFromSchema } from './getTextSeralizersFromSchema'
+import { getSchema } from './getSchema'
 import { getText } from './getText'
+import { getTextSerializersFromSchema } from './getTextSerializersFromSchema'
 
 export function generateText(
   doc: JSONContent,
@@ -23,7 +24,7 @@ export function generateText(
     blockSeparator,
     textSerializers: {
       ...textSerializers,
-      ...getTextSeralizersFromSchema(schema),
+      ...getTextSerializersFromSchema(schema),
     },
   })
 }

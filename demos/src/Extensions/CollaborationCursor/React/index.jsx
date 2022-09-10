@@ -1,14 +1,15 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import './styles.scss'
+
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
-import * as Y from 'yjs'
-import { WebrtcProvider } from 'y-webrtc'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
 import Placeholder from '@tiptap/extension-placeholder'
-import './styles.scss'
+import Text from '@tiptap/extension-text'
+import { EditorContent, useEditor } from '@tiptap/react'
+import React from 'react'
+import { WebrtcProvider } from 'y-webrtc'
+import * as Y from 'yjs'
 
 const ydoc = new Y.Doc()
 const provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)

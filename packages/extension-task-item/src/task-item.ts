@@ -1,11 +1,13 @@
-import { Node, mergeAttributes, wrappingInputRule } from '@tiptap/core'
+import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+import { Node as ProseMirrorNode } from 'prosemirror-model'
 
 export interface TaskItemOptions {
-  nested: boolean,
-  HTMLAttributes: Record<string, any>,
+  onReadOnlyChecked?: (node: ProseMirrorNode, checked: boolean) => boolean
+  nested: boolean
+  HTMLAttributes: Record<string, any>
 }
 
-export const inputRegex = /^\s*(\[([ |x])\])\s$/
+export const inputRegex = /^\s*(\[([( |x])?\])\s$/
 
 export const TaskItem = Node.create<TaskItemOptions>({
   name: 'taskItem',
@@ -48,28 +50,21 @@ export const TaskItem = Node.create<TaskItemOptions>({
   renderHTML({ node, HTMLAttributes }) {
     return [
       'li',
-      mergeAttributes(
-        this.options.HTMLAttributes,
-        HTMLAttributes,
-        { 'data-type': this.name },
-      ),
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+        'data-type': this.name,
+      }),
       [
         'label',
         [
           'input',
           {
             type: 'checkbox',
-            checked: node.attrs.checked
-              ? 'checked'
-              : null,
+            checked: node.attrs.checked ? 'checked' : null,
           },
         ],
         ['span'],
       ],
-      [
-        'div',
-        0,
-      ],
+      ['div', 0],
     ]
   },
 
@@ -91,10 +86,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
   addNodeView() {
     return ({
-      node,
-      HTMLAttributes,
-      getPos,
-      editor,
+      node, HTMLAttributes, getPos, editor,
     }) => {
       const listItem = document.createElement('li')
       const checkboxWrapper = document.createElement('label')
@@ -105,9 +97,9 @@ export const TaskItem = Node.create<TaskItemOptions>({
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
       checkbox.addEventListener('change', event => {
-        // if the editor isn’t editable
-        // we have to undo the latest change
-        if (!editor.isEditable) {
+        // if the editor isn’t editable and we don't have a handler for
+        // readonly checks we have to undo the latest change
+        if (!editor.isEditable && !this.options.onReadOnlyChecked) {
           checkbox.checked = !checkbox.checked
 
           return
@@ -132,6 +124,12 @@ export const TaskItem = Node.create<TaskItemOptions>({
             })
             .run()
         }
+        if (!editor.isEditable && this.options.onReadOnlyChecked) {
+          // Reset state if onReadOnlyChecked returns false
+          if (!this.options.onReadOnlyChecked(node, checked)) {
+            checkbox.checked = !checkbox.checked
+          }
+        }
       })
 
       Object.entries(this.options.HTMLAttributes).forEach(([key, value]) => {
@@ -146,11 +144,9 @@ export const TaskItem = Node.create<TaskItemOptions>({
       checkboxWrapper.append(checkbox, checkboxStyler)
       listItem.append(checkboxWrapper, content)
 
-      Object
-        .entries(HTMLAttributes)
-        .forEach(([key, value]) => {
-          listItem.setAttribute(key, value)
-        })
+      Object.entries(HTMLAttributes).forEach(([key, value]) => {
+        listItem.setAttribute(key, value)
+      })
 
       return {
         dom: listItem,

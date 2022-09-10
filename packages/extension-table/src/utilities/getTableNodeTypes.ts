@@ -1,4 +1,4 @@
-import { Schema, NodeType } from 'prosemirror-model'
+import { NodeType, Schema } from 'prosemirror-model'
 
 export function getTableNodeTypes(schema: Schema): { [key: string]: NodeType } {
   if (schema.cached.tableNodeTypes) {

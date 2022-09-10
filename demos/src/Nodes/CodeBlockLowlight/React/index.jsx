@@ -1,18 +1,26 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
+// load specific languages only
+// import { lowlight } from 'lowlight/lib/core'
+// import javascript from 'highlight.js/lib/languages/javascript'
+// lowlight.registerLanguage('javascript', javascript)
+import './styles.scss'
+
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { EditorContent, useEditor } from '@tiptap/react'
+import css from 'highlight.js/lib/languages/css'
+import js from 'highlight.js/lib/languages/javascript'
+import ts from 'highlight.js/lib/languages/typescript'
+import html from 'highlight.js/lib/languages/xml'
 // load all highlight.js languages
-import lowlight from 'lowlight'
+import { lowlight } from 'lowlight'
+import React from 'react'
 
-// load specific languages only
-// import lowlight from 'lowlight/lib/core'
-// import javascript from 'highlight.js/lib/languages/javascript'
-// lowlight.registerLanguage('javascript', javascript)
-
-import './styles.scss'
+lowlight.registerLanguage('html', html)
+lowlight.registerLanguage('css', css)
+lowlight.registerLanguage('js', js)
+lowlight.registerLanguage('ts', ts)
 
 export default () => {
   const editor = useEditor({

@@ -1,4 +1,5 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
+
 import { Extension } from '../Extension'
 
 export const Tabindex = Extension.create({
@@ -9,13 +10,7 @@ export const Tabindex = Extension.create({
       new Plugin({
         key: new PluginKey('tabindex'),
         props: {
-          attributes: () => {
-            if (this.editor.isEditable) {
-              return {
-                tabindex: '0',
-              }
-            }
-          },
+          attributes: this.editor.isEditable ? { tabindex: '0' } : {},
         },
       }),
     ]

@@ -20,6 +20,7 @@ module.exports = {
         'html',
         'cypress',
         '@typescript-eslint',
+        'simple-import-sort',
       ],
       env: {
         'cypress/globals': true,
@@ -90,6 +91,8 @@ module.exports = {
         '@typescript-eslint/ban-types': 'off',
         '@typescript-eslint/comma-dangle': ['error', 'always-multiline'],
         '@typescript-eslint/explicit-module-boundary-types': 'off',
+        'simple-import-sort/imports': 'error',
+        'simple-import-sort/exports': 'error',
       },
     },
   ],

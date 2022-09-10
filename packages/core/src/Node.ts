@@ -1,27 +1,28 @@
 import {
   DOMOutputSpec,
-  NodeSpec,
   Node as ProseMirrorNode,
+  NodeSpec,
   NodeType,
 } from 'prosemirror-model'
 import { Plugin, Transaction } from 'prosemirror-state'
-import { InputRule } from './InputRule'
-import { PasteRule } from './PasteRule'
-import { mergeDeep } from './utilities/mergeDeep'
-import { callOrReturn } from './utilities/callOrReturn'
-import { getExtensionField } from './helpers/getExtensionField'
-import {
-  AnyConfig,
-  Extensions,
-  Attributes,
-  NodeViewRenderer,
-  GlobalAttributes,
-  RawCommands,
-  ParentConfig,
-  KeyboardShortcutCommand,
-} from './types'
+
 import { NodeConfig } from '.'
 import { Editor } from './Editor'
+import { getExtensionField } from './helpers/getExtensionField'
+import { InputRule } from './InputRule'
+import { PasteRule } from './PasteRule'
+import {
+  AnyConfig,
+  Attributes,
+  Extensions,
+  GlobalAttributes,
+  KeyboardShortcutCommand,
+  NodeViewRenderer,
+  ParentConfig,
+  RawCommands,
+} from './types'
+import { callOrReturn } from './utilities/callOrReturn'
+import { mergeDeep } from './utilities/mergeDeep'
 
 declare module '@tiptap/core' {
   interface NodeConfig<Options = any, Storage = any> {

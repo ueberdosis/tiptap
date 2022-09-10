@@ -10,7 +10,7 @@
         v-for="(language, index) in sortedTabs"
         :key="index"
         @click="setTab(language.name)"
-        class="px-4 py-2 rounded-t-lg text-xs uppercase font-bold tracking-wide"
+        class="px-4 py-2 text-xs font-bold tracking-wide uppercase rounded-t-lg"
         :class="[currentTab === language.name
           ? 'bg-black text-white'
           : 'text-black'
@@ -21,7 +21,7 @@
     </div>
     <div class="overflow-hidden rounded-b-xl">
       <div
-        class="bg-white border-3 border-black last:rounded-b-xl"
+        class="bg-white border-black border-3 last:rounded-b-xl"
         :class="[
           showTabs && firstTabSelected
             ? 'rounded-tr-xl'
@@ -34,7 +34,7 @@
         />
       </div>
 
-      <div class="bg-black text-white" v-if="!hideSource && currentFile">
+      <div class="text-white bg-black" v-if="!hideSource && currentFile">
         <div class="flex overflow-x-auto">
           <div class="flex flex-auto px-4 border-b-2 border-gray-800">
             <button
@@ -66,17 +66,17 @@
 
         <div class="overflow-dark overflow-auto max-h-[500px] relative text-white">
           <shiki
-            class="overflow-visible p-4"
+            class="p-4 overflow-visible"
             :language="debugJSON && showDebug ? 'js' : getFileExtension(currentFile.name)"
             :code="debugJSON && showDebug ? debugJSON : currentFile.content"
           />
         </div>
 
-        <div class="flex justify-between px-4 py-2 text-md text-gray-400 border-t border-gray-800">
-          <a class="flex-shrink min-w-0 overflow-ellipsis overflow-hidden whitespace-nowrap" :href="currentIframeUrl">
+        <div class="flex justify-between px-4 py-2 text-gray-400 border-t border-gray-800 text-md">
+          <a class="flex-shrink min-w-0 overflow-hidden overflow-ellipsis whitespace-nowrap" :href="currentIframeUrl">
             {{ name }}/{{ currentTab }}
           </a>
-          <a class="whitespace-nowrap pl-4" :href="githubUrl" target="_blank">
+          <a class="pl-4 whitespace-nowrap" :href="githubUrl" target="_blank">
             Edit on GitHub →
           </a>
         </div>
@@ -87,6 +87,7 @@
 
 <script>
 import { getDebugJSON } from '@tiptap/core'
+
 import DemoFrame from './DemoFrame.vue'
 import Shiki from './Shiki.vue'
 
@@ -114,7 +115,7 @@ export default {
       sources: {},
       currentTab: null,
       currentFile: null,
-      tabOrder: ['React', 'Vue', 'JS'],
+      tabOrder: ['React', 'Vue', 'Svelte', 'JS'],
       debugJSON: null,
       showDebug: false,
     }

@@ -1,12 +1,13 @@
 import { EditorState, Transaction } from 'prosemirror-state'
+
 import { Editor } from './Editor'
 import { createChainableState } from './helpers/createChainableState'
 import {
-  SingleCommands,
-  ChainedCommands,
-  CanCommands,
   AnyCommands,
+  CanCommands,
+  ChainedCommands,
   CommandProps,
+  SingleCommands,
 } from './types'
 
 export class CommandManager {
@@ -106,13 +107,13 @@ export class CommandManager {
 
   public createCan(startTr?: Transaction): CanCommands {
     const { rawCommands, state } = this
-    const dispatch = undefined
+    const dispatch = false
     const tr = startTr || state.tr
     const props = this.buildProps(tr, dispatch)
     const formattedCommands = Object.fromEntries(Object
       .entries(rawCommands)
       .map(([name, command]) => {
-        return [name, (...args: never[]) => command(...args)({ ...props, dispatch })]
+        return [name, (...args: never[]) => command(...args)({ ...props, dispatch: undefined })]
       })) as unknown as SingleCommands
 
     return {

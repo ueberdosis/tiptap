@@ -1,5 +1,5 @@
-import lowlight from 'lowlight/lib/core'
 import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
+
 import { LowlightPlugin } from './lowlight-plugin'
 
 export interface CodeBlockLowlightOptions extends CodeBlockOptions {
@@ -11,7 +11,7 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
   addOptions() {
     return {
       ...this.parent?.(),
-      lowlight,
+      lowlight: {},
       defaultLanguage: null,
     }
   },

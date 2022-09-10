@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import { Editor, EditorContent, BubbleMenu } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
+import { BubbleMenu, Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {
   components: {

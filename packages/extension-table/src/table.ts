@@ -1,34 +1,35 @@
 import {
-  Node,
-  ParentConfig,
-  mergeAttributes,
-  getExtensionField,
-  callOrReturn,
-} from '@tiptap/core'
-import {
-  tableEditing,
-  columnResizing,
-  goToNextCell,
-  addColumnBefore,
   addColumnAfter,
-  deleteColumn,
-  addRowBefore,
+  addColumnBefore,
   addRowAfter,
+  addRowBefore,
+  CellSelection,
+  columnResizing,
+  deleteColumn,
   deleteRow,
   deleteTable,
+  fixTables,
+  goToNextCell,
   mergeCells,
+  setCellAttr,
   splitCell,
+  tableEditing,
   toggleHeader,
   toggleHeaderCell,
-  setCellAttr,
-  fixTables,
-  CellSelection,
-} from 'prosemirror-tables'
-import { NodeView } from 'prosemirror-view'
+} from '@_ueberdosis/prosemirror-tables'
+import {
+  callOrReturn,
+  getExtensionField,
+  mergeAttributes,
+  Node,
+  ParentConfig,
+} from '@tiptap/core'
 import { TextSelection } from 'prosemirror-state'
+import { NodeView } from 'prosemirror-view'
+
+import { TableView } from './TableView'
 import { createTable } from './utilities/createTable'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected'
-import { TableView } from './TableView'
 
 export interface TableOptions {
   HTMLAttributes: Record<string, any>,

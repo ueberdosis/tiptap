@@ -1,10 +1,11 @@
-import React, {
-  useState,
-  useEffect,
-  forwardRef,
-  useImperativeHandle,
-} from 'react'
 import './MentionList.scss'
+
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react'
 
 export const MentionList = forwardRef((props, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0)

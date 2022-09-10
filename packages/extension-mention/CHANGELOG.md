@@ -3,6 +3,71 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.103](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.102...@tiptap/extension-mention@2.0.0-beta.103) (2022-09-03)
+
+**Note:** Version bump only for package @tiptap/extension-mention
+
+
+
+
+
+# [2.0.0-beta.102](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.101...@tiptap/extension-mention@2.0.0-beta.102) (2022-06-27)
+
+
+### Bug Fixes
+
+* **extension/mention:** collapse selection to end after suggestion insertion to fix chrome selection issue with mouse ([163de4e](https://github.com/ueberdosis/tiptap/commit/163de4e1876000a88117da8a02b1f62cd4a2cfb0))
+
+
+
+
+
+# [2.0.0-beta.101](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.100...@tiptap/extension-mention@2.0.0-beta.101) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/extension-mention
+
+
+
+
+
+# [2.0.0-beta.100](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.98...@tiptap/extension-mention@2.0.0-beta.100) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.98](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.98...@tiptap/extension-mention@2.0.0-beta.98) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.97](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.96...@tiptap/extension-mention@2.0.0-beta.97) (2022-05-18)
+
+**Note:** Version bump only for package @tiptap/extension-mention
+
+
+
+
+
+# [2.0.0-beta.96](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.95...@tiptap/extension-mention@2.0.0-beta.96) (2022-04-27)
+
+**Note:** Version bump only for package @tiptap/extension-mention
+
+
+
+
+
 # [2.0.0-beta.95](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.94...@tiptap/extension-mention@2.0.0-beta.95) (2022-01-25)
 
 **Note:** Version bump only for package @tiptap/extension-mention

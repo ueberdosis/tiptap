@@ -1,4 +1,5 @@
 import { EditorView } from 'prosemirror-view'
+
 import { minMax } from '../utilities/minMax'
 
 export function posToDOMRect(view: EditorView, from: number, to: number): DOMRect {

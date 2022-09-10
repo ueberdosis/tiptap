@@ -1,13 +1,14 @@
-import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import {
-  markRaw,
-  Ref,
-  customRef,
   ComponentInternalInstance,
   ComponentPublicInstance,
+  customRef,
+  markRaw,
   reactive,
+  Ref,
 } from 'vue'
+
 import { VueRenderer } from './VueRenderer'
 
 function useDebouncedRef<T>(value: T) {
@@ -56,7 +57,7 @@ export class Editor extends CoreEditor {
       this.reactiveExtensionStorage.value = this.extensionStorage
     })
 
-    return markRaw(this)
+    return markRaw(this) // eslint-disable-line
   }
 
   get state() {

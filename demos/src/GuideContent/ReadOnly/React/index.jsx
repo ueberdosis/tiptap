@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
 import './styles.scss'
+
+import { EditorContent, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import React, { useEffect, useState } from 'react'
 
 export default () => {
   const [editable, setEditable] = useState(false)
@@ -20,7 +21,7 @@ export default () => {
 
   useEffect(() => {
     if (!editor) {
-      return null
+      return undefined
     }
 
     editor.setEditable(editable)

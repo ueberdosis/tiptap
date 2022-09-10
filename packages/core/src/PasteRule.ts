@@ -1,16 +1,17 @@
 import { EditorState, Plugin } from 'prosemirror-state'
-import { Editor } from './Editor'
+
 import { CommandManager } from './CommandManager'
+import { Editor } from './Editor'
 import { createChainableState } from './helpers/createChainableState'
-import { isRegExp } from './utilities/isRegExp'
-import { isNumber } from './utilities/isNumber'
 import {
-  Range,
-  ExtendedRegExpMatchArray,
-  SingleCommands,
-  ChainedCommands,
   CanCommands,
+  ChainedCommands,
+  ExtendedRegExpMatchArray,
+  Range,
+  SingleCommands,
 } from './types'
+import { isNumber } from './utilities/isNumber'
+import { isRegExp } from './utilities/isRegExp'
 
 export type PasteRuleMatch = {
   index: number,
@@ -189,8 +190,8 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
             return false
           },
 
-          paste: (view, event) => {
-            const html = event.clipboardData?.getData('text/html')
+          paste: (view, event: Event) => {
+            const html = (event as ClipboardEvent).clipboardData?.getData('text/html')
 
             isPastedFromProseMirror = !!html?.includes('data-pm-slice')
 
@@ -228,7 +229,7 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
           editor,
           state: chainableState,
           from: Math.max(from - 1, 0),
-          to: to.b,
+          to: to.b - 1,
           rule,
         })
 

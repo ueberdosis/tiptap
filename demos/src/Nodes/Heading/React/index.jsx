@@ -1,9 +1,9 @@
-import React from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import Heading from '@tiptap/extension-heading'
+import { EditorContent, useEditor } from '@tiptap/react'
+import React from 'react'
 
 export default () => {
   const editor = useEditor({

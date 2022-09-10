@@ -1,5 +1,6 @@
 import { Extension } from '@tiptap/core'
 import { Plugin } from 'prosemirror-state'
+
 import findColors from './findColors'
 
 export const ColorHighlighter = Extension.create({

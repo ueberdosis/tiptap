@@ -1,7 +1,7 @@
+import { findChildren } from '@tiptap/core'
+import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { findChildren } from '@tiptap/core'
 
 function parseNodes(nodes: any[], className: string[] = []): { text: string, classes: string[] }[] {
   return nodes
@@ -65,8 +65,16 @@ function getDecorations({
   return DecorationSet.create(doc, decorations)
 }
 
+function isFunction(param: Function) {
+  return typeof param === 'function'
+}
+
 export function LowlightPlugin({ name, lowlight, defaultLanguage }: { name: string, lowlight: any, defaultLanguage: string | null | undefined }) {
-  return new Plugin({
+  if (!['highlight', 'highlightAuto', 'listLanguages'].every(api => isFunction(lowlight[api]))) {
+    throw Error('You should provide an instance of lowlight to use the code-block-lowlight extension')
+  }
+
+  const lowlightPlugin: Plugin<any> = new Plugin({
     key: new PluginKey('lowlight'),
 
     state: {
@@ -121,8 +129,10 @@ export function LowlightPlugin({ name, lowlight, defaultLanguage }: { name: stri
 
     props: {
       decorations(state) {
-        return this.getState(state)
+        return lowlightPlugin.getState(state)
       },
     },
   })
+
+  return lowlightPlugin
 }

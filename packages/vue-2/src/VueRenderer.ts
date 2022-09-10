@@ -5,7 +5,7 @@ export class VueRenderer {
   ref!: Vue
 
   constructor(component: Vue | VueConstructor, props: any) {
-    const Component = Vue.extend(component)
+    const Component = (typeof component === 'function') ? component : Vue.extend(component)
 
     this.ref = new Component(props).$mount()
   }
@@ -20,9 +20,11 @@ export class VueRenderer {
     }
 
     // prevents `Avoid mutating a prop directly` error message
-    const originalSilent = Vue.config.silent
+    // Fix: `VueNodeViewRenderer` change vue Constructor `config.silent` not working
+    const currentVueConstructor = this.ref.$props.editor?.contentComponent?.$options._base ?? Vue // eslint-disable-line
+    const originalSilent = currentVueConstructor.config.silent
 
-    Vue.config.silent = true
+    currentVueConstructor.config.silent = true
 
     Object
       .entries(props)
@@ -30,7 +32,7 @@ export class VueRenderer {
         this.ref.$props[key] = value
       })
 
-    Vue.config.silent = originalSilent
+    currentVueConstructor.config.silent = originalSilent
   }
 
   destroy(): void {

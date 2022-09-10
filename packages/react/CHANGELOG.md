@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.115](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.114...@tiptap/react@2.0.0-beta.115) (2022-09-03)
+
+
+### Bug Fixes
+
+* fix React Node View render problem in React 18 ([#2985](https://github.com/ueberdosis/tiptap/issues/2985)) ([f32293b](https://github.com/ueberdosis/tiptap/commit/f32293b0d5d36ffb546a3d1e3dfab1580ee5080a))
+
+
+
+
+
+# [2.0.0-beta.114](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.113...@tiptap/react@2.0.0-beta.114) (2022-06-27)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
+# [2.0.0-beta.113](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.112...@tiptap/react@2.0.0-beta.113) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
+# [2.0.0-beta.112](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.110...@tiptap/react@2.0.0-beta.112) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.110](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.110...@tiptap/react@2.0.0-beta.110) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.109](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.108...@tiptap/react@2.0.0-beta.109) (2022-04-27)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
 # [2.0.0-beta.108](https://github.com/ueberdosis/tiptap/compare/@tiptap/react@2.0.0-beta.107...@tiptap/react@2.0.0-beta.108) (2022-02-07)
 
 **Note:** Version bump only for package @tiptap/react

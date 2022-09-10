@@ -1,3 +1,4 @@
+import { MarkType, NodeType, Schema } from 'prosemirror-model'
 import {
   EditorState,
   Plugin,
@@ -5,31 +6,31 @@ import {
   Transaction,
 } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { Schema, MarkType, NodeType } from 'prosemirror-model'
-import { getAttributes } from './helpers/getAttributes'
-import { isActive } from './helpers/isActive'
+
+import { CommandManager } from './CommandManager'
+import { EventEmitter } from './EventEmitter'
+import { ExtensionManager } from './ExtensionManager'
+import * as extensions from './extensions'
 import { createDocument } from './helpers/createDocument'
+import { getAttributes } from './helpers/getAttributes'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment'
 import { getText } from './helpers/getText'
+import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema'
+import { isActive } from './helpers/isActive'
 import { isNodeEmpty } from './helpers/isNodeEmpty'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition'
-import { getTextSeralizersFromSchema } from './helpers/getTextSeralizersFromSchema'
-import { createStyleTag } from './utilities/createStyleTag'
-import { isFunction } from './utilities/isFunction'
-import { CommandManager } from './CommandManager'
-import { ExtensionManager } from './ExtensionManager'
-import { EventEmitter } from './EventEmitter'
+import { style } from './style'
 import {
-  EditorOptions,
   CanCommands,
   ChainedCommands,
+  EditorEvents,
+  EditorOptions,
   JSONContent,
   SingleCommands,
   TextSerializer,
-  EditorEvents,
 } from './types'
-import * as extensions from './extensions'
-import { style } from './style'
+import { createStyleTag } from './utilities/createStyleTag'
+import { isFunction } from './utilities/isFunction'
 
 export { extensions }
 
@@ -57,6 +58,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     element: document.createElement('div'),
     content: '',
     injectCSS: true,
+    injectNonce: undefined,
     extensions: [],
     autofocus: false,
     editable: true,
@@ -136,7 +138,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   private injectCSS(): void {
     if (this.options.injectCSS && document) {
-      this.css = createStyleTag(style)
+      this.css = createStyleTag(style, this.options.injectNonce)
     }
   }
 
@@ -167,6 +169,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public setEditable(editable: boolean): void {
     this.setOptions({ editable })
+    this.emit('update', { editor: this, transaction: this.state.tr })
   }
 
   /**
@@ -196,7 +199,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]): void {
     const plugins = isFunction(handlePlugins)
-      ? handlePlugins(plugin, this.state.plugins)
+      ? handlePlugins(plugin, [...this.state.plugins])
       : [...this.state.plugins, plugin]
 
     const state = this.state.reconfigure({ plugins })
@@ -269,7 +272,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: EditorState.create({
         doc,
-        selection,
+        selection: selection || undefined,
       }),
     })
 
@@ -435,7 +438,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       blockSeparator,
       textSerializers: {
         ...textSerializers,
-        ...getTextSeralizersFromSchema(this.schema),
+        ...getTextSerializersFromSchema(this.schema),
       },
     })
   }

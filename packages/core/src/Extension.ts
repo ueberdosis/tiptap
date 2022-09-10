@@ -1,21 +1,22 @@
 import { Plugin, Transaction } from 'prosemirror-state'
-import { InputRule } from './InputRule'
-import { PasteRule } from './PasteRule'
+
+import { ExtensionConfig } from '.'
 import { Editor } from './Editor'
-import { Node } from './Node'
-import { Mark } from './Mark'
-import { mergeDeep } from './utilities/mergeDeep'
-import { callOrReturn } from './utilities/callOrReturn'
 import { getExtensionField } from './helpers/getExtensionField'
+import { InputRule } from './InputRule'
+import { Mark } from './Mark'
+import { Node } from './Node'
+import { PasteRule } from './PasteRule'
 import {
   AnyConfig,
   Extensions,
   GlobalAttributes,
-  RawCommands,
-  ParentConfig,
   KeyboardShortcutCommand,
+  ParentConfig,
+  RawCommands,
 } from './types'
-import { ExtensionConfig } from '.'
+import { callOrReturn } from './utilities/callOrReturn'
+import { mergeDeep } from './utilities/mergeDeep'
 
 declare module '@tiptap/core' {
   interface ExtensionConfig<Options = any, Storage = any> {

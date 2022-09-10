@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.85](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.84...@tiptap/vue-2@2.0.0-beta.85) (2022-09-03)
+
+**Note:** Version bump only for package @tiptap/vue-2
+
+
+
+
+
+# [2.0.0-beta.84](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.83...@tiptap/vue-2@2.0.0-beta.84) (2022-06-27)
+
+
+### Bug Fixes
+
+* editor don't has contentComponent attribute when suggestion onUpdate ([#2916](https://github.com/ueberdosis/tiptap/issues/2916)) ([6674e69](https://github.com/ueberdosis/tiptap/commit/6674e69b12cb4a6c7d5e9f9b59073fc16b8a8eb9))
+
+
+
+
+
+# [2.0.0-beta.83](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.82...@tiptap/vue-2@2.0.0-beta.83) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/vue-2
+
+
+
+
+
+# [2.0.0-beta.82](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.80...@tiptap/vue-2@2.0.0-beta.82) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.80](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.80...@tiptap/vue-2@2.0.0-beta.80) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.79](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.78...@tiptap/vue-2@2.0.0-beta.79) (2022-05-18)
+
+**Note:** Version bump only for package @tiptap/vue-2
+
+
+
+
+
+# [2.0.0-beta.78](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.77...@tiptap/vue-2@2.0.0-beta.78) (2022-04-27)
+
+
+### Bug Fixes
+
+* improve Vue nodeViewProps typing ([190a699](https://github.com/ueberdosis/tiptap/commit/190a6993d4d93b4d37b978b33ef22690ed8269b6))
+
+
+
+
+
 # [2.0.0-beta.77](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-2@2.0.0-beta.76...@tiptap/vue-2@2.0.0-beta.77) (2022-01-25)
 
 **Note:** Version bump only for package @tiptap/vue-2

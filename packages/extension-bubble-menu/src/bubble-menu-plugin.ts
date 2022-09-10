@@ -1,8 +1,8 @@
 import {
   Editor,
-  posToDOMRect,
-  isTextSelection,
   isNodeSelection,
+  isTextSelection,
+  posToDOMRect,
 } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
@@ -55,8 +55,15 @@ export class BubbleMenuView {
     const isEmptyTextBlock = !doc.textBetween(from, to).length
       && isTextSelection(state.selection)
 
+    // When clicking on a element inside the bubble menu the editor "blur" event
+    // is called and the bubble menu item is focussed. In this case we should
+    // consider the menu as part of the ditor and keep showing the menu
+    const isChildOfMenu = this.element.contains(document.activeElement)
+
+    const hasEditorFocus = view.hasFocus() || isChildOfMenu
+
     if (
-      !view.hasFocus()
+      !hasEditorFocus
       || empty
       || isEmptyTextBlock
     ) {
@@ -180,7 +187,7 @@ export class BubbleMenuView {
     }
 
     this.tippy?.setProps({
-      getReferenceClientRect: () => {
+      getReferenceClientRect: this.tippyOptions?.getReferenceClientRect || (() => {
         if (isNodeSelection(state.selection)) {
           const node = view.nodeDOM(from) as HTMLElement
 
@@ -190,7 +197,7 @@ export class BubbleMenuView {
         }
 
         return posToDOMRect(view, from, to)
-      },
+      }),
     })
 
     this.show()

@@ -28,16 +28,16 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import Bold from '@tiptap/extension-bold'
+import Collaboration from '@tiptap/extension-collaboration'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Bold from '@tiptap/extension-bold'
-import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
-import Collaboration from '@tiptap/extension-collaboration'
-import * as Y from 'yjs'
+import TaskList from '@tiptap/extension-task-list'
+import Text from '@tiptap/extension-text'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 import { yDocToProsemirrorJSON } from 'y-prosemirror'
+import * as Y from 'yjs'
 
 const ParagraphDocument = Document.extend({
   content: 'paragraph',

@@ -1,7 +1,8 @@
 import { wrapIn as originalWrapIn } from 'prosemirror-commands'
 import { NodeType } from 'prosemirror-model'
-import { RawCommands } from '../types'
+
 import { getNodeType } from '../helpers/getNodeType'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

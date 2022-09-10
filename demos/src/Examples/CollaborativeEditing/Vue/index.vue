@@ -21,16 +21,17 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
+import { HocuspocusProvider } from '@hocuspocus/provider'
+import CharacterCount from '@tiptap/extension-character-count'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
-import TaskList from '@tiptap/extension-task-list'
-import TaskItem from '@tiptap/extension-task-item'
 import Highlight from '@tiptap/extension-highlight'
-import CharacterCount from '@tiptap/extension-character-count'
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
+import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 import * as Y from 'yjs'
-import { HocuspocusProvider } from '@hocuspocus/provider'
+
 import MenuBar from './MenuBar.vue'
 
 const getRandomElement = list => {
@@ -70,7 +71,7 @@ export default {
     this.provider = new HocuspocusProvider({
       url: 'wss://connect.hocuspocus.cloud',
       parameters: {
-        key: 'write_B0sHbuV5xwYl6WzGjoqL',
+        key: 'write_bqgvQ3Zwl34V4Nxt43zR',
       },
       name: this.room,
       document: ydoc,

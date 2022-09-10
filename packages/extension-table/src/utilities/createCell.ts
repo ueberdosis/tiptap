@@ -1,10 +1,6 @@
-import {
-  NodeType, Fragment,
-  Node as ProsemirrorNode,
-  Schema,
-} from 'prosemirror-model'
+import { Fragment, Node as ProsemirrorNode, NodeType } from 'prosemirror-model'
 
-export function createCell(cellType: NodeType, cellContent?: Fragment<Schema> | ProsemirrorNode<Schema> | Array<ProsemirrorNode<Schema>>): ProsemirrorNode | null | undefined {
+export function createCell(cellType: NodeType, cellContent?: Fragment | ProsemirrorNode | Array<ProsemirrorNode>): ProsemirrorNode | null | undefined {
   if (cellContent) {
     return cellType.createChecked(null, cellContent)
   }

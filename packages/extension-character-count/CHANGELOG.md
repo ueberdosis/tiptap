@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.30...@tiptap/extension-character-count@2.0.0-beta.31) (2022-06-27)
+
+**Note:** Version bump only for package @tiptap/extension-character-count
+
+
+
+
+
+# [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.29...@tiptap/extension-character-count@2.0.0-beta.30) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/extension-character-count
+
+
+
+
+
+# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.27...@tiptap/extension-character-count@2.0.0-beta.29) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.27...@tiptap/extension-character-count@2.0.0-beta.27) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.25...@tiptap/extension-character-count@2.0.0-beta.26) (2022-04-27)
+
+
+### Bug Fixes
+
+* remove extension-text-style from character-cout peer dependencies ([2fc6a4b](https://github.com/ueberdosis/tiptap/commit/2fc6a4b780bdf7a365e21717ebd99a8e8b2c113d))
+
+
+
+
+
 # [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-character-count@2.0.0-beta.24...@tiptap/extension-character-count@2.0.0-beta.25) (2022-02-11)
 
 

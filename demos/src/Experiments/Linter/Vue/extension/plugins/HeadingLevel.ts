@@ -1,4 +1,5 @@
 import { EditorView } from 'prosemirror-view'
+
 import LinterPlugin, { Result as Issue } from '../LinterPlugin'
 
 export class HeadingLevel extends LinterPlugin {
@@ -17,9 +18,12 @@ export class HeadingLevel extends LinterPlugin {
         const { level } = node.attrs
 
         if (lastHeadLevel != null && level > lastHeadLevel + 1) {
-          this.record(`Heading too small (${level} under ${lastHeadLevel})`,
-            position + 1, position + 1 + node.content.size,
-            this.fixHeader(lastHeadLevel + 1))
+          this.record(
+            `Heading too small (${level} under ${lastHeadLevel})`,
+            position + 1,
+            position + 1 + node.content.size,
+            this.fixHeader(lastHeadLevel + 1),
+          )
         }
         lastHeadLevel = level
       }

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code@2.0.0-beta.28...@tiptap/extension-code@2.0.0-beta.29) (2022-09-03)
+
+**Note:** Version bump only for package @tiptap/extension-code
+
+
+
+
+
+# [2.0.0-beta.28](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code@2.0.0-beta.26...@tiptap/extension-code@2.0.0-beta.28) (2022-06-17)
+
+**Note:** Version bump only for package @tiptap/extension-code
+
+
+
+
+
 # [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code@2.0.0-beta.25...@tiptap/extension-code@2.0.0-beta.26) (2021-12-02)
 
 

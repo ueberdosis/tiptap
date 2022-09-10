@@ -3,6 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.182](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.181...@tiptap/html@2.0.0-beta.182) (2022-09-03)
+
+**Note:** Version bump only for package @tiptap/html
+
+
+
+
+
+# [2.0.0-beta.181](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.180...@tiptap/html@2.0.0-beta.181) (2022-07-06)
+
+**Note:** Version bump only for package @tiptap/html
+
+
+
+
+
+# [2.0.0-beta.180](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.179...@tiptap/html@2.0.0-beta.180) (2022-06-27)
+
+**Note:** Version bump only for package @tiptap/html
+
+
+
+
+
+# [2.0.0-beta.179](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.178...@tiptap/html@2.0.0-beta.179) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/html
+
+
+
+
+
+# [2.0.0-beta.178](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.176...@tiptap/html@2.0.0-beta.178) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.176](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.176...@tiptap/html@2.0.0-beta.176) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.175](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.174...@tiptap/html@2.0.0-beta.175) (2022-05-18)
+
+**Note:** Version bump only for package @tiptap/html
+
+
+
+
+
+# [2.0.0-beta.174](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.173...@tiptap/html@2.0.0-beta.174) (2022-04-27)
+
+**Note:** Version bump only for package @tiptap/html
+
+
+
+
+
 # [2.0.0-beta.173](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.172...@tiptap/html@2.0.0-beta.173) (2022-02-07)
 
 **Note:** Version bump only for package @tiptap/html

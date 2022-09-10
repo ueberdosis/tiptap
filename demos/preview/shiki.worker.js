@@ -1,15 +1,15 @@
 import * as shiki from 'shiki'
 import onigasm from 'shiki/dist/onig.wasm?url'
-import theme from 'shiki/themes/material-darker.json'
+import langCSS from 'shiki/languages/css.tmLanguage.json'
 import langHTML from 'shiki/languages/html.tmLanguage.json'
 import langJS from 'shiki/languages/javascript.tmLanguage.json'
 import langJSX from 'shiki/languages/jsx.tmLanguage.json'
-import langTS from 'shiki/languages/typescript.tmLanguage.json'
-import langTSX from 'shiki/languages/tsx.tmLanguage.json'
-import langVueHTML from 'shiki/languages/vue-html.tmLanguage.json'
-import langVue from 'shiki/languages/vue.tmLanguage.json'
-import langCSS from 'shiki/languages/css.tmLanguage.json'
 import langSCSS from 'shiki/languages/scss.tmLanguage.json'
+import langTSX from 'shiki/languages/tsx.tmLanguage.json'
+import langTS from 'shiki/languages/typescript.tmLanguage.json'
+import langVue from 'shiki/languages/vue.tmLanguage.json'
+import langVueHTML from 'shiki/languages/vue-html.tmLanguage.json'
+import theme from 'shiki/themes/material-darker.json'
 
 let highlighter = null
 

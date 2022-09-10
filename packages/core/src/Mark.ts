@@ -1,27 +1,28 @@
 import {
   DOMOutputSpec,
-  MarkSpec,
   Mark as ProseMirrorMark,
+  MarkSpec,
   MarkType,
 } from 'prosemirror-model'
 import { Plugin, Transaction } from 'prosemirror-state'
-import { InputRule } from './InputRule'
-import { PasteRule } from './PasteRule'
-import { mergeDeep } from './utilities/mergeDeep'
-import { callOrReturn } from './utilities/callOrReturn'
-import { getExtensionField } from './helpers/getExtensionField'
-import {
-  AnyConfig,
-  Extensions,
-  Attributes,
-  RawCommands,
-  GlobalAttributes,
-  ParentConfig,
-  KeyboardShortcutCommand,
-} from './types'
-import { Node } from './Node'
+
 import { MarkConfig } from '.'
 import { Editor } from './Editor'
+import { getExtensionField } from './helpers/getExtensionField'
+import { InputRule } from './InputRule'
+import { Node } from './Node'
+import { PasteRule } from './PasteRule'
+import {
+  AnyConfig,
+  Attributes,
+  Extensions,
+  GlobalAttributes,
+  KeyboardShortcutCommand,
+  ParentConfig,
+  RawCommands,
+} from './types'
+import { callOrReturn } from './utilities/callOrReturn'
+import { mergeDeep } from './utilities/mergeDeep'
 
 declare module '@tiptap/core' {
   export interface MarkConfig<Options = any, Storage = any> {
@@ -304,6 +305,11 @@ declare module '@tiptap/core' {
     }) => MarkSpec['excludes']),
 
     /**
+     * Marks this Mark as exitable
+     */
+    exitable?: boolean | (() => boolean),
+
+    /**
      * Group
      */
     group?: MarkSpec['group'] | ((this: {
@@ -484,5 +490,39 @@ export class Mark<Options = any, Storage = any> {
     ))
 
     return extension
+  }
+
+  static handleExit({
+    editor,
+    mark,
+  }: {
+    editor: Editor
+    mark: Mark
+  }) {
+    const { tr } = editor.state
+    const currentPos = editor.state.selection.$from
+    const isAtEnd = currentPos.pos === currentPos.end()
+
+    if (isAtEnd) {
+      const currentMarks = currentPos.marks()
+      const isInMark = !!currentMarks.find(m => m?.type.name === mark.name)
+
+      if (!isInMark) {
+        return false
+      }
+
+      const removeMark = currentMarks.find(m => m?.type.name === mark.name)
+
+      if (removeMark) {
+        tr.removeStoredMark(removeMark)
+      }
+      tr.insertText(' ', currentPos.pos)
+
+      editor.view.dispatch(tr)
+
+      return true
+    }
+
+    return false
   }
 }

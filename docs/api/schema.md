@@ -272,6 +272,17 @@ Mark.create({
 })
 ```
 
+#### Exitable
+By default a mark will "trap" the cursor meaning the cursor can't get out of the mark except by moving the cursor left to right into text without a mark.
+If this is set to true, the mark will be exitable when the mark is at the end of a node. This is handy for example code marks.
+
+```js
+Mark.create({
+  // make this mark exitable - default is false
+  exitable: true,
+})
+```
+
 #### Group
 Add this mark to a group of extensions, which can be referred to in the content attribute of the schema.
 

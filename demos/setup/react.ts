@@ -1,8 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
 import 'iframe-resizer/js/iframeResizer.contentWindow'
-import { debug, splitName } from './helper'
 import './style.scss'
+
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+
+import { debug, splitName } from './helper'
 
 export default function init(name: string, source: any) {
   // @ts-ignore
@@ -13,7 +15,11 @@ export default function init(name: string, source: any) {
 
   import(`../src/${demoCategory}/${demoName}/React/index.jsx`)
     .then(module => {
-      ReactDOM.render(React.createElement(module.default), document.getElementById('app'))
+      const root = document.getElementById('app')
+
+      if (root) {
+        createRoot(root).render(React.createElement(module.default))
+      }
       debug()
     })
 }

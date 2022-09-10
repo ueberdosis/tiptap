@@ -1,4 +1,5 @@
-import { VueNodeViewRenderer, Node, mergeAttributes } from '@tiptap/vue-3'
+import { mergeAttributes, Node, VueNodeViewRenderer } from '@tiptap/vue-3'
+
 import Component from './Component.vue'
 
 export default Node.create({

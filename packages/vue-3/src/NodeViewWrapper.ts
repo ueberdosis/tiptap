@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 export const NodeViewWrapper = defineComponent({
   props: {
@@ -12,9 +12,10 @@ export const NodeViewWrapper = defineComponent({
 
   render() {
     return h(
-      this.as, {
+      this.as,
+      {
         // @ts-ignore
-        class: this.decorationClasses.value,
+        class: this.decorationClasses,
         style: {
           whiteSpace: 'normal',
         },

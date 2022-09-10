@@ -1,10 +1,11 @@
 import { NodeType } from 'prosemirror-model'
 import { Transaction } from 'prosemirror-state'
 import { canJoin } from 'prosemirror-transform'
-import { RawCommands } from '../types'
-import { getNodeType } from '../helpers/getNodeType'
+
 import { findParentNode } from '../helpers/findParentNode'
+import { getNodeType } from '../helpers/getNodeType'
 import { isList } from '../helpers/isList'
+import { RawCommands } from '../types'
 
 const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
   const list = findParentNode(node => node.type === listType)(tr.selection)

@@ -1,7 +1,8 @@
 import { MarkType } from 'prosemirror-model'
-import { RawCommands } from '../types'
-import { getMarkType } from '../helpers/getMarkType'
+
 import { getMarkAttributes } from '../helpers/getMarkAttributes'
+import { getMarkType } from '../helpers/getMarkType'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

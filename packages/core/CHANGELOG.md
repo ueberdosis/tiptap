@@ -3,6 +3,102 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.183](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.182...@tiptap/core@2.0.0-beta.183) (2022-09-03)
+
+
+### Bug Fixes
+
+* **core:** createCan command props shouldn't try dispatch ([#3025](https://github.com/ueberdosis/tiptap/issues/3025)) ([#3026](https://github.com/ueberdosis/tiptap/issues/3026)) ([40f4ea3](https://github.com/ueberdosis/tiptap/commit/40f4ea31efc59c1578b783a5b64572ac2846c5a6))
+* **core:** isNodeSelection, isTextSelection not always false ([#3089](https://github.com/ueberdosis/tiptap/issues/3089)) ([574cd69](https://github.com/ueberdosis/tiptap/commit/574cd69e06bfdc3771006ed4eda341a6c9722a42)), closes [#2979](https://github.com/ueberdosis/tiptap/issues/2979)
+* **core:** make setEditable trigger all 'update' listeners ([#3140](https://github.com/ueberdosis/tiptap/issues/3140)) ([4851fc5](https://github.com/ueberdosis/tiptap/commit/4851fc5e9b6daccc15a1839e471db489401eca0c))
+* **core:** make setEditable trigger onUpdate function ([#2935](https://github.com/ueberdosis/tiptap/issues/2935)) ([de1253a](https://github.com/ueberdosis/tiptap/commit/de1253a8b06eeb7339f0bba8c04917890c9b21ae))
+* **core:** setNodeSelection should not clamp pos by Selection.atStart/atEnd ([#3091](https://github.com/ueberdosis/tiptap/issues/3091)) ([313b8b8](https://github.com/ueberdosis/tiptap/commit/313b8b8d0af7059c420ffc96c9362f0f4acc2138)), closes [#3090](https://github.com/ueberdosis/tiptap/issues/3090)
+
+
+
+
+
+# [2.0.0-beta.182](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.181...@tiptap/core@2.0.0-beta.182) (2022-07-06)
+
+
+### Bug Fixes
+
+* **core:** dont use selection for setContent replacement ([#2934](https://github.com/ueberdosis/tiptap/issues/2934)) ([134a4bd](https://github.com/ueberdosis/tiptap/commit/134a4bd1fbbd7f56faa1fc70c97d3b58554fc3f1))
+* **core:** only respect text of node before current position ([#2937](https://github.com/ueberdosis/tiptap/issues/2937)) ([#2941](https://github.com/ueberdosis/tiptap/issues/2941)) ([e280a02](https://github.com/ueberdosis/tiptap/commit/e280a02597d15460fce97a7555f91ff04926f0e7))
+
+
+
+
+
+# [2.0.0-beta.181](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.180...@tiptap/core@2.0.0-beta.181) (2022-06-27)
+
+
+### Bug Fixes
+
+* **core:** fix focus command passing through editor state instead of existing transaction ([5b0b7d9](https://github.com/ueberdosis/tiptap/commit/5b0b7d91023c87e9ddb85ff3a776273d12a22d16))
+
+
+### Features
+
+* **core:** add nodePasteRule to core ([15123ee](https://github.com/ueberdosis/tiptap/commit/15123ee092261fe86352d491121804607e08e031))
+
+
+
+
+
+# [2.0.0-beta.180](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.179...@tiptap/core@2.0.0-beta.180) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+# [2.0.0-beta.179](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.177...@tiptap/core@2.0.0-beta.179) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.177](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.177...@tiptap/core@2.0.0-beta.177) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.176](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.175...@tiptap/core@2.0.0-beta.176) (2022-05-18)
+
+
+### Bug Fixes
+
+* lint error ([e17c414](https://github.com/ueberdosis/tiptap/commit/e17c41498aa0df71a827bf41f5c52745f3853c43))
+* properly calculate setDragImage position ([7401d45](https://github.com/ueberdosis/tiptap/commit/7401d45b7e3ff40e2ac894810bf85461761eb25b))
+
+
+
+
+
+# [2.0.0-beta.175](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.174...@tiptap/core@2.0.0-beta.175) (2022-04-27)
+
+
+### Bug Fixes
+
+* don't override behaviour of Home / End in pc keymap ([d270419](https://github.com/ueberdosis/tiptap/commit/d270419ad8dc6182a949c5d263c47e90ee4466ff))
+
+
+
+
+
 # [2.0.0-beta.174](https://github.com/ueberdosis/tiptap/compare/@tiptap/core@2.0.0-beta.173...@tiptap/core@2.0.0-beta.174) (2022-02-07)
 
 

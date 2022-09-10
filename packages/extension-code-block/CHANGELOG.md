@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.42](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.41...@tiptap/extension-code-block@2.0.0-beta.42) (2022-06-27)
+
+**Note:** Version bump only for package @tiptap/extension-code-block
+
+
+
+
+
+# [2.0.0-beta.41](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.40...@tiptap/extension-code-block@2.0.0-beta.41) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/extension-code-block
+
+
+
+
+
+# [2.0.0-beta.40](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.38...@tiptap/extension-code-block@2.0.0-beta.40) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.38...@tiptap/extension-code-block@2.0.0-beta.38) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
 # [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block@2.0.0-beta.36...@tiptap/extension-code-block@2.0.0-beta.37) (2022-01-26)
 
 

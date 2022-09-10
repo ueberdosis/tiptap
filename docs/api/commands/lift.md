@@ -1,5 +1,20 @@
 # lift
+The `lift` command lifts a given node up into it's parent node. **Lifting** means, that the block will be moved to the parent of the block it is currently in.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+`typeOrName: String | NodeType`
+
+The node that should be lifted. If the node is not found in the current selection, ignore the command.
+
+`attributes: Record<string, any>`
+
+The attributes the node should have to be lifted. This is **optional**.
+
+## Usage
+```js
+// lift any headline
+editor.commands.lift('headline')
+
+// lift only h2
+editor.commands.lift('headline', { level: 2 })
+```

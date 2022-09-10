@@ -1,10 +1,11 @@
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
-import { NodeSelection } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { NodeSelection } from 'prosemirror-state'
+import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+
 import { Editor as CoreEditor } from './Editor'
 import { Node } from './Node'
+import { NodeViewRendererOptions, NodeViewRendererProps } from './types'
 import { isiOS } from './utilities/isiOS'
-import { NodeViewRendererProps, NodeViewRendererOptions } from './types'
 
 export class NodeView<
   Component,
@@ -48,11 +49,11 @@ export class NodeView<
     return
   }
 
-  get dom(): Element | null {
-    return null
+  get dom(): HTMLElement {
+    return this.editor.view.dom as HTMLElement
   }
 
-  get contentDOM(): Element | null {
+  get contentDOM(): HTMLElement | null {
     return null
   }
 
@@ -82,8 +83,12 @@ export class NodeView<
       const domBox = this.dom.getBoundingClientRect()
       const handleBox = dragHandle.getBoundingClientRect()
 
-      x = handleBox.x - domBox.x + event.offsetX
-      y = handleBox.y - domBox.y + event.offsetY
+      // In React, we have to go through nativeEvent to reach offsetX/offsetY.
+      const offsetX = event.offsetX ?? (event as any).nativeEvent?.offsetX
+      const offsetY = event.offsetY ?? (event as any).nativeEvent?.offsetY
+
+      x = handleBox.x - domBox.x + offsetX
+      y = handleBox.y - domBox.y + offsetY
     }
 
     event.dataTransfer?.setDragImage(this.dom, x, y)

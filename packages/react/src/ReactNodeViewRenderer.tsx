@@ -1,30 +1,37 @@
-import React from 'react'
 import {
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
-  NodeViewRendererProps,
   NodeViewRendererOptions,
+  NodeViewRendererProps,
 } from '@tiptap/core'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import React from 'react'
+
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
 import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView'
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
-  update: ((props: {
-    oldNode: ProseMirrorNode,
-    oldDecorations: Decoration[],
-    newNode: ProseMirrorNode,
-    newDecorations: Decoration[],
-    updateProps: () => void,
-  }) => boolean) | null,
-  as?: string,
+  update:
+    | ((props: {
+        oldNode: ProseMirrorNode;
+        oldDecorations: Decoration[];
+        newNode: ProseMirrorNode;
+        newDecorations: Decoration[];
+        updateProps: () => void;
+      }) => boolean)
+    | null;
+  as?: string;
+  className?: string;
 }
 
-class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeViewRendererOptions> {
-
+class ReactNodeView extends NodeView<
+  React.FunctionComponent,
+  Editor,
+  ReactNodeViewRendererOptions
+> {
   renderer!: ReactRenderer
 
   contentDOMElement!: HTMLElement | null
@@ -53,11 +60,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
       const Component = this.component
       const onDragStart = this.onDragStart.bind(this)
       const nodeViewContentRef: ReactNodeViewContextProps['nodeViewContentRef'] = element => {
-        if (
-          element
-          && this.contentDOMElement
-          && element.firstChild !== this.contentDOMElement
-        ) {
+        if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
           element.appendChild(this.contentDOMElement)
         }
       }
@@ -88,11 +91,13 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
       as = this.options.as
     }
 
+    const { className = '' } = this.options
+
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props,
       as,
-      className: `node-${this.node.type.name}`,
+      className: `node-${this.node.type.name} ${className}`.trim(),
     })
   }
 
@@ -104,7 +109,7 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
       throw Error('Please use the NodeViewWrapper component for your node view.')
     }
 
-    return this.renderer.element
+    return this.renderer.element as HTMLElement
   }
 
   get contentDOM() {
@@ -170,7 +175,10 @@ class ReactNodeView extends NodeView<React.FunctionComponent, Editor, ReactNodeV
   }
 }
 
-export function ReactNodeViewRenderer(component: any, options?: Partial<ReactNodeViewRendererOptions>): NodeViewRenderer {
+export function ReactNodeViewRenderer(
+  component: any,
+  options?: Partial<ReactNodeViewRendererOptions>,
+): NodeViewRenderer {
   return (props: NodeViewRendererProps) => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
@@ -179,6 +187,6 @@ export function ReactNodeViewRenderer(component: any, options?: Partial<ReactNod
       return {}
     }
 
-    return new ReactNodeView(component, props, options) as ProseMirrorNodeView
+    return new ReactNodeView(component, props, options) as unknown as ProseMirrorNodeView
   }
 }

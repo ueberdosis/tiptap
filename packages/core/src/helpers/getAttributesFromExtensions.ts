@@ -1,14 +1,14 @@
-import { splitExtensions } from './splitExtensions'
-import { getExtensionField } from './getExtensionField'
+import { MarkConfig, NodeConfig } from '..'
 import {
+  AnyConfig,
+  Attribute,
+  Attributes,
+  ExtensionAttribute,
   Extensions,
   GlobalAttributes,
-  Attributes,
-  Attribute,
-  ExtensionAttribute,
-  AnyConfig,
 } from '../types'
-import { NodeConfig, MarkConfig } from '..'
+import { getExtensionField } from './getExtensionField'
+import { splitExtensions } from './splitExtensions'
 
 /**
  * Get a list of all extension attributes defined in `addAttribute` and `addGlobalAttribute`.
@@ -24,6 +24,7 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
     renderHTML: null,
     parseHTML: null,
     keepOnSplit: true,
+    isRequired: false,
   }
 
   extensions.forEach(extension => {
@@ -87,13 +88,19 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
     Object
       .entries(attributes)
       .forEach(([name, attribute]) => {
+        const mergedAttr = {
+          ...defaultAttribute,
+          ...attribute,
+        }
+
+        if (attribute.isRequired && attribute.default === undefined) {
+          delete mergedAttr.default
+        }
+
         extensionAttributes.push({
           type: extension.name,
           name,
-          attribute: {
-            ...defaultAttribute,
-            ...attribute,
-          },
+          attribute: mergedAttr,
         })
       })
   })

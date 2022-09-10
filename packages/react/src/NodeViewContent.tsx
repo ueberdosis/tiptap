@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { useReactNodeView } from './useReactNodeView'
 
 export interface NodeViewContentProps {
@@ -16,8 +17,8 @@ export const NodeViewContent: React.FC<NodeViewContentProps> = props => {
       ref={nodeViewContentRef}
       data-node-view-content=""
       style={{
-        ...props.style,
         whiteSpace: 'pre-wrap',
+        ...props.style,
       }}
     />
   )

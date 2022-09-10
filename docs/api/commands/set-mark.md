@@ -1,5 +1,17 @@
 # setMark
+The `setMark` command will add a new mark at the current selection.
 
-:::warning
-Oops, we didn’t find time to fill this page. Writing documentation needs attention to detail, a great understanding of the project and time to write. Though Tiptap is used by thousands of developers all around the world, it’s still a side project for us. Let’s change that and make open source our full-time job! [Become a sponsor!](https://github.com/sponsors/ueberdosis)
-:::
+## Parameters
+
+`typeOrName: string | MarkType`
+
+The type of a mark to add. Can be a string or a MarkType.
+
+`attributes: Record<string, any>`
+
+The attributes that should be applied to the mark. **This is optional.**
+
+## Usage
+```js
+editor.commands.setMark("bold", { class: 'bold-tag' })
+```

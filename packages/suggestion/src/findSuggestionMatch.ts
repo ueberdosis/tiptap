@@ -1,10 +1,10 @@
-import { Range, escapeForRegEx } from '@tiptap/core'
+import { escapeForRegEx, Range } from '@tiptap/core'
 import { ResolvedPos } from 'prosemirror-model'
 
 export interface Trigger {
   char: string,
   allowSpaces: boolean,
-  prefixSpace: boolean,
+  allowedPrefixes: string[] | null,
   startOfLine: boolean,
   $position: ResolvedPos,
 }
@@ -19,7 +19,7 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   const {
     char,
     allowSpaces,
-    prefixSpace,
+    allowedPrefixes,
     startOfLine,
     $position,
   } = config
@@ -31,12 +31,13 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
     ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
     : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
 
-  const isTopLevelNode = $position.depth <= 0
-  const textFrom = isTopLevelNode
-    ? 0
-    : $position.before()
-  const textTo = $position.pos
-  const text = $position.doc.textBetween(textFrom, textTo, '\0', '\0')
+  const text = $position.nodeBefore?.isText && $position.nodeBefore.text
+
+  if (!text) {
+    return null
+  }
+
+  const textFrom = $position.pos - text.length
   const match = Array.from(text.matchAll(regexp)).pop()
 
   if (!match || match.input === undefined || match.index === undefined) {
@@ -46,14 +47,14 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   // JavaScript doesn't have lookbehinds. This hacks a check that first character
   // is a space or the start of the line
   const matchPrefix = match.input.slice(Math.max(0, match.index - 1), match.index)
-  const matchPrefixIsSpace = /^[\s\0]?$/.test(matchPrefix)
+  const matchPrefixIsAllowed = new RegExp(`^[${allowedPrefixes?.join('')}\0]?$`).test(matchPrefix)
 
-  if (prefixSpace && !matchPrefixIsSpace) {
+  if (allowedPrefixes !== null && !matchPrefixIsAllowed) {
     return null
   }
 
   // The absolute position of the match in the document
-  const from = match.index + $position.start()
+  const from = textFrom + match.index
   let to = from + match[0].length
 
   // Edge case handling; if spaces are allowed and we're directly in between

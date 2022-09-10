@@ -1,15 +1,16 @@
 import {
-  getMarksBetween,
-  findChildrenInRange,
   combineTransactionSteps,
+  findChildrenInRange,
   getChangedRanges,
+  getMarksBetween,
 } from '@tiptap/core'
-import { Plugin, PluginKey } from 'prosemirror-state'
-import { MarkType } from 'prosemirror-model'
 import { find, test } from 'linkifyjs'
+import { MarkType } from 'prosemirror-model'
+import { Plugin, PluginKey } from 'prosemirror-state'
 
 type AutolinkOptions = {
   type: MarkType,
+  validate?: (url: string) => boolean,
 }
 
 export function autolink(options: AutolinkOptions): Plugin {
@@ -25,7 +26,7 @@ export function autolink(options: AutolinkOptions): Plugin {
       }
 
       const { tr } = newState
-      const transform = combineTransactionSteps(oldState.doc, transactions)
+      const transform = combineTransactionSteps(oldState.doc, [...transactions])
       const { mapping } = transform
       const changes = getChangedRanges(transform)
 
@@ -70,6 +71,13 @@ export function autolink(options: AutolinkOptions): Plugin {
 
             find(text)
               .filter(link => link.isLink)
+              .filter(link => {
+                if (options.validate) {
+                  return options.validate(link.value)
+                }
+
+                return true
+              })
               // calculate link position
               .map(link => ({
                 ...link,

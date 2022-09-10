@@ -3,15 +3,13 @@
     <span class="label">Vue Component</span>
 
     <div class="content">
-      <button @click="increase">
-        This button has been clicked {{ node.attrs.count }} times.
-      </button>
+      <button @click="increase">This button has been clicked {{ node.attrs.count }} times.</button>
     </div>
   </node-view-wrapper>
 </template>
 
 <script>
-import { NodeViewWrapper, nodeViewProps } from '@tiptap/vue-3'
+import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 
 export default {
   components: {

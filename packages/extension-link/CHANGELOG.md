@@ -3,6 +3,71 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.42...@tiptap/extension-link@2.0.0-beta.43) (2022-06-27)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+# [2.0.0-beta.42](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.41...@tiptap/extension-link@2.0.0-beta.42) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+# [2.0.0-beta.41](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.39...@tiptap/extension-link@2.0.0-beta.41) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.39](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.39...@tiptap/extension-link@2.0.0-beta.39) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.37...@tiptap/extension-link@2.0.0-beta.38) (2022-05-18)
+
+
+### Bug Fixes
+
+* **extension-link:** :bug: fix auto link validation not working on paste ([3a3eb53](https://github.com/ueberdosis/tiptap/commit/3a3eb5311c6fbf1c1000a099d21bb47c71370375))
+
+
+### Features
+
+* **extension-link:** :sparkles: add validate option to link extension ([23e67ad](https://github.com/ueberdosis/tiptap/commit/23e67adfa730df7364bc31220d0ed0e8ea522593)), closes [#2779](https://github.com/ueberdosis/tiptap/issues/2779)
+
+
+
+
+
+# [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.36...@tiptap/extension-link@2.0.0-beta.37) (2022-04-27)
+
+
+### Bug Fixes
+
+* **extension-link:** restricts parsing `javascript:` pseudo-protocol ([947f311](https://github.com/ueberdosis/tiptap/commit/947f311c0ec9affdcaeb220d13d87c04c773f084))
+
+
+
+
+
 # [2.0.0-beta.36](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.35...@tiptap/extension-link@2.0.0-beta.36) (2022-01-20)
 
 **Note:** Version bump only for package @tiptap/extension-link

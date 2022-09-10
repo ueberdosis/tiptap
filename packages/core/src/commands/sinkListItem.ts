@@ -1,7 +1,8 @@
-import { sinkListItem as originalSinkListItem } from 'prosemirror-schema-list'
 import { NodeType } from 'prosemirror-model'
-import { RawCommands } from '../types'
+import { sinkListItem as originalSinkListItem } from 'prosemirror-schema-list'
+
 import { getNodeType } from '../helpers/getNodeType'
+import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

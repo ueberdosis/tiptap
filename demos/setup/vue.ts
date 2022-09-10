@@ -1,7 +1,9 @@
-import { createApp } from 'vue'
 import 'iframe-resizer/js/iframeResizer.contentWindow'
-import { debug, splitName } from './helper'
 import './style.scss'
+
+import { createApp } from 'vue'
+
+import { debug, splitName } from './helper'
 
 export default function init(name: string, source: any) {
   // @ts-ignore

@@ -1,19 +1,9 @@
-import { canSplit } from 'prosemirror-transform'
-import { ContentMatch } from 'prosemirror-model'
 import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
-import { RawCommands } from '../types'
+import { canSplit } from 'prosemirror-transform'
+
+import { defaultBlockAt } from '../helpers/defaultBlockAt'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes'
-
-function defaultBlockAt(match: ContentMatch) {
-  for (let i = 0; i < match.edgeCount; i += 1) {
-    const { type } = match.edge(i)
-
-    if (type.isTextblock && !type.hasRequiredAttrs()) {
-      return type
-    }
-  }
-  return null
-}
+import { RawCommands } from '../types'
 
 function ensureMarks(state: EditorState, splittableMarks?: string[]) {
   const marks = state.storedMarks

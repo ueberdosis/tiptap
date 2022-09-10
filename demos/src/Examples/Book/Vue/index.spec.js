@@ -3,5 +3,10 @@ context('/src/Examples/Book/Vue/', () => {
     cy.visit('/src/Examples/Book/Vue/')
   })
 
-  // TODO: Write tests
+  it('should have a working tiptap instance', () => {
+    cy.get('.ProseMirror').then(([{ editor }]) => {
+      // eslint-disable-next-line
+      expect(editor).to.not.be.null
+    })
+  })
 })

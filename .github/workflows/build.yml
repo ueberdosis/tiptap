@@ -24,30 +24,30 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3.0.2
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.5.1
+      uses: actions/setup-node@v3.4.1
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Load cached dependencies
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3.0.8
       id: cache
       with:
         path: |
           **/node_modules
           /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install dependencies
       id: install-dependencies
       if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn install
+      run: npm install
 
 #    - name: Fix code style linting errors
 #      id: lint-fix
-#      run: yarn lint:fix
+#      run: npm run lint:fix
 #      continue-on-error: true
 #
 #    - name: Commit fixed linting errors
@@ -58,7 +58,7 @@ jobs:
 
     - name: Lint code
       id: lint
-      run: yarn lint
+      run: npm run lint
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1
@@ -80,10 +80,10 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3.0.2
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.5.1
+      uses: actions/setup-node@v3.4.1
       with:
         node-version: ${{ matrix.node-version }}
 
@@ -91,15 +91,15 @@ jobs:
       id: cypress
       uses: cypress-io/github-action@v2
       with:
-        cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
-        start: yarn start
+        cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+        start: npm run start
         wait-on: 'http://localhost:3000'
         project: ./tests
         browser: chrome
         quiet: true
 
     - name: Export screenshots (on failure only)
-      uses: actions/upload-artifact@v2.3.1
+      uses: actions/upload-artifact@v3.1.0
       if: failure()
       with:
         name: cypress-screenshots
@@ -107,7 +107,7 @@ jobs:
         retention-days: 7
 
     - name: Export screen recordings (on failure only)
-      uses: actions/upload-artifact@v2.3.1
+      uses: actions/upload-artifact@v3.1.0
       if: failure()
       with:
         name: cypress-videos
@@ -136,30 +136,30 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3.0.2
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.5.1
+      uses: actions/setup-node@v3.4.1
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Load cached dependencies
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3.0.8
       id: cache
       with:
         path: |
           **/node_modules
           /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install dependencies
       id: install-dependencies
       if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn install
+      run: npm install
 
     - name: Try to build the packages
       id: build-packages
-      run: yarn build:ci
+      run: npm run build:ci
 
     - name: Send Slack notifications
       uses: act10ns/slack@v1

@@ -1,15 +1,16 @@
+import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 import React, {
   useEffect, useState,
 } from 'react'
-import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
 export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKey'>, 'element'> & {
   className?: string,
+  children: React.ReactNode
 }
 
-export const FloatingMenu: React.FC<FloatingMenuProps> = props => {
+export const FloatingMenu = (props: FloatingMenuProps) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
 
   useEffect(() => {

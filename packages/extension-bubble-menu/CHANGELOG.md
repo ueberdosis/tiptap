@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.62](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.61...@tiptap/extension-bubble-menu@2.0.0-beta.62) (2022-09-03)
+
+**Note:** Version bump only for package @tiptap/extension-bubble-menu
+
+
+
+
+
+# [2.0.0-beta.61](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.60...@tiptap/extension-bubble-menu@2.0.0-beta.61) (2022-06-27)
+
+**Note:** Version bump only for package @tiptap/extension-bubble-menu
+
+
+
+
+
+# [2.0.0-beta.60](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.59...@tiptap/extension-bubble-menu@2.0.0-beta.60) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/extension-bubble-menu
+
+
+
+
+
+# [2.0.0-beta.59](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.57...@tiptap/extension-bubble-menu@2.0.0-beta.59) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.57](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.57...@tiptap/extension-bubble-menu@2.0.0-beta.57) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.56](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.55...@tiptap/extension-bubble-menu@2.0.0-beta.56) (2022-04-27)
+
+
+### Bug Fixes
+
+* Mark the bubble/floating menu extensions as side effect free ([172513c](https://github.com/ueberdosis/tiptap/commit/172513cb445fa295dd9f7d7ec553ed22baa9d435))
+
+
+
+
+
 # [2.0.0-beta.55](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bubble-menu@2.0.0-beta.54...@tiptap/extension-bubble-menu@2.0.0-beta.55) (2022-01-25)
 
 **Note:** Version bump only for package @tiptap/extension-bubble-menu

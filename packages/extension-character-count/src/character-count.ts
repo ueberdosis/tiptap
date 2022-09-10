@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
-import { Plugin, PluginKey } from 'prosemirror-state'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Plugin, PluginKey } from 'prosemirror-state'
 
 export interface CharacterCountOptions {
   /**

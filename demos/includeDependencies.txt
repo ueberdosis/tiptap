@@ -10,13 +10,15 @@ prosemirror-keymap
 prosemirror-model
 prosemirror-schema-list
 prosemirror-state
-prosemirror-tables
+@_ueberdosis/prosemirror-tables
 prosemirror-transform
 prosemirror-view
+react
+react-dom
+react-dom/client
 shiki
 simplify-js
 tippy.js
 uuid
-y-prosemirror
 y-webrtc
 yjs

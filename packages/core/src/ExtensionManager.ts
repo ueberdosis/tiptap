@@ -1,22 +1,23 @@
 import { keymap } from 'prosemirror-keymap'
-import { Schema, Node as ProsemirrorNode } from 'prosemirror-model'
-import { inputRulesPlugin } from './InputRule'
-import { pasteRulesPlugin } from './PasteRule'
-import { EditorView, Decoration } from 'prosemirror-view'
+import { Node as ProsemirrorNode, Schema } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
+import { Decoration, EditorView } from 'prosemirror-view'
+
+import { Mark, NodeConfig } from '.'
 import { Editor } from './Editor'
-import { Extensions, RawCommands, AnyConfig } from './types'
+import { getAttributesFromExtensions } from './helpers/getAttributesFromExtensions'
 import { getExtensionField } from './helpers/getExtensionField'
+import { getNodeType } from './helpers/getNodeType'
+import { getRenderedAttributes } from './helpers/getRenderedAttributes'
 import { getSchemaByResolvedExtensions } from './helpers/getSchemaByResolvedExtensions'
 import { getSchemaTypeByName } from './helpers/getSchemaTypeByName'
-import { getNodeType } from './helpers/getNodeType'
-import { splitExtensions } from './helpers/splitExtensions'
-import { getAttributesFromExtensions } from './helpers/getAttributesFromExtensions'
-import { getRenderedAttributes } from './helpers/getRenderedAttributes'
 import { isExtensionRulesEnabled } from './helpers/isExtensionRulesEnabled'
+import { splitExtensions } from './helpers/splitExtensions'
+import { inputRulesPlugin } from './InputRule'
+import { pasteRulesPlugin } from './PasteRule'
+import { AnyConfig, Extensions, RawCommands } from './types'
 import { callOrReturn } from './utilities/callOrReturn'
 import { findDuplicates } from './utilities/findDuplicates'
-import { NodeConfig } from '.'
 
 export class ExtensionManager {
 
@@ -251,6 +252,13 @@ export class ExtensionManager {
           context,
         )
 
+        let defaultBindings: Record<string, () => boolean> = {}
+
+        // bind exit handling
+        if (extension.type === 'mark' && extension.config.exitable) {
+          defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: (extension as Mark) })
+        }
+
         if (addKeyboardShortcuts) {
           const bindings = Object.fromEntries(
             Object
@@ -260,10 +268,12 @@ export class ExtensionManager {
               }),
           )
 
-          const keyMapPlugin = keymap(bindings)
-
-          plugins.push(keyMapPlugin)
+          defaultBindings = { ...defaultBindings, ...bindings }
         }
+
+        const keyMapPlugin = keymap(defaultBindings)
+
+        plugins.push(keyMapPlugin)
 
         const addInputRules = getExtensionField<AnyConfig['addInputRules']>(
           extension,

@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.54](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.53...@tiptap/extension-table@2.0.0-beta.54) (2022-06-27)
+
+
+### Bug Fixes
+
+* **maintainment:** fix cjs issues with prosemirror-tables ([eb92597](https://github.com/ueberdosis/tiptap/commit/eb925976038fbf59f6ba333ccc57ea84113da00e))
+
+
+
+
+
+# [2.0.0-beta.53](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.52...@tiptap/extension-table@2.0.0-beta.53) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/extension-table
+
+
+
+
+
+# [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.50...@tiptap/extension-table@2.0.0-beta.52) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.50...@tiptap/extension-table@2.0.0-beta.50) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.49](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.48...@tiptap/extension-table@2.0.0-beta.49) (2022-05-18)
+
+**Note:** Version bump only for package @tiptap/extension-table
+
+
+
+
+
 # [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-table@2.0.0-beta.47...@tiptap/extension-table@2.0.0-beta.48) (2022-01-25)
 
 

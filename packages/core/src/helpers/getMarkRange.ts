@@ -1,6 +1,7 @@
 import { Mark as ProseMirrorMark, MarkType, ResolvedPos } from 'prosemirror-model'
-import { objectIncludes } from '../utilities/objectIncludes'
+
 import { Range } from '../types'
+import { objectIncludes } from '../utilities/objectIncludes'
 
 function findMarkInSet(
   marks: ProseMirrorMark[],
@@ -29,24 +30,28 @@ export function getMarkRange(
     return
   }
 
-  const start = $pos.parent.childAfter($pos.parentOffset)
+  let start = $pos.parent.childAfter($pos.parentOffset)
+
+  if ($pos.parentOffset === start.offset && start.offset !== 0) {
+    start = $pos.parent.childBefore($pos.parentOffset)
+  }
 
   if (!start.node) {
     return
   }
 
-  const mark = findMarkInSet(start.node.marks, type, attributes)
+  const mark = findMarkInSet([...start.node.marks], type, attributes)
 
   if (!mark) {
     return
   }
 
-  let startIndex = $pos.index()
+  let startIndex = start.index
   let startPos = $pos.start() + start.offset
   let endIndex = startIndex + 1
   let endPos = startPos + start.node.nodeSize
 
-  findMarkInSet(start.node.marks, type, attributes)
+  findMarkInSet([...start.node.marks], type, attributes)
 
   while (startIndex > 0 && mark.isInSet($pos.parent.child(startIndex - 1).marks)) {
     startIndex -= 1
@@ -55,7 +60,7 @@ export function getMarkRange(
 
   while (
     endIndex < $pos.parent.childCount
-    && isMarkInSet($pos.parent.child(endIndex).marks, type, attributes)
+    && isMarkInSet([...$pos.parent.child(endIndex).marks], type, attributes)
   ) {
     endPos += $pos.parent.child(endIndex).nodeSize
     endIndex += 1

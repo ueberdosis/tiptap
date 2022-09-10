@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import { NodeViewWrapper, nodeViewProps } from '@tiptap/vue-3'
-import { v4 as uuid } from 'uuid'
+import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import * as d3 from 'd3'
+import { v4 as uuid } from 'uuid'
 
 const getRandomElement = list => {
   return list[Math.floor(Math.random() * list.length)]

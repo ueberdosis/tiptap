@@ -2,54 +2,55 @@ import {
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
-  NodeViewRendererProps,
   NodeViewRendererOptions,
+  NodeViewRendererProps,
 } from '@tiptap/core'
+import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
 import {
-  ref,
-  Ref,
-  provide,
-  PropType,
   Component,
   defineComponent,
+  PropType,
+  provide,
+  Ref,
+  ref,
 } from 'vue'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
+
 import { Editor } from './Editor'
 import { VueRenderer } from './VueRenderer'
 
 export const nodeViewProps = {
   editor: {
     type: Object as PropType<NodeViewProps['editor']>,
-    required: true,
+    required: true as const,
   },
   node: {
     type: Object as PropType<NodeViewProps['node']>,
-    required: true,
+    required: true as const,
   },
   decorations: {
     type: Object as PropType<NodeViewProps['decorations']>,
-    required: true,
+    required: true as const,
   },
   selected: {
     type: Boolean as PropType<NodeViewProps['selected']>,
-    required: true,
+    required: true as const,
   },
   extension: {
     type: Object as PropType<NodeViewProps['extension']>,
-    required: true,
+    required: true as const,
   },
   getPos: {
     type: Function as PropType<NodeViewProps['getPos']>,
-    required: true,
+    required: true as const,
   },
   updateAttributes: {
     type: Function as PropType<NodeViewProps['updateAttributes']>,
-    required: true,
+    required: true as const,
   },
   deleteNode: {
     type: Function as PropType<NodeViewProps['deleteNode']>,
-    required: true,
+    required: true as const,
   },
 }
 
@@ -101,6 +102,10 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       // @ts-ignore
       // eslint-disable-next-line
       __scopeId: this.component.__scopeId,
+      // add support for CSS Modules
+      // @ts-ignore
+      // eslint-disable-next-line
+      __cssModules: this.component.__cssModules,
     })
 
     this.renderer = new VueRenderer(extendedComponent, {
@@ -114,7 +119,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       throw Error('Please use the NodeViewWrapper component for your node view.')
     }
 
-    return this.renderer.element
+    return this.renderer.element as HTMLElement
   }
 
   get contentDOM() {
@@ -124,7 +129,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
 
     const contentElement = this.dom.querySelector('[data-node-view-content]')
 
-    return contentElement || this.dom
+    return (contentElement || this.dom) as HTMLElement | null
   }
 
   update(node: ProseMirrorNode, decorations: Decoration[]) {
@@ -200,6 +205,6 @@ export function VueNodeViewRenderer(component: Component, options?: Partial<VueN
       return {}
     }
 
-    return new VueNodeView(component, props, options) as ProseMirrorNodeView
+    return new VueNodeView(component, props, options) as unknown as ProseMirrorNodeView
   }
 }

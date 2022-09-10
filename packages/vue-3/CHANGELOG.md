@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.97](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.96...@tiptap/vue-3@2.0.0-beta.97) (2022-09-03)
+
+
+### Bug Fixes
+
+* vue inject grammar warning ([#3144](https://github.com/ueberdosis/tiptap/issues/3144)) ([c6c5fa6](https://github.com/ueberdosis/tiptap/commit/c6c5fa623a875411b0e72dc3f8f88166f2f8fa1e))
+
+
+
+
+
+# [2.0.0-beta.96](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.95...@tiptap/vue-3@2.0.0-beta.96) (2022-06-27)
+
+**Note:** Version bump only for package @tiptap/vue-3
+
+
+
+
+
+# [2.0.0-beta.95](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.94...@tiptap/vue-3@2.0.0-beta.95) (2022-06-20)
+
+**Note:** Version bump only for package @tiptap/vue-3
+
+
+
+
+
+# [2.0.0-beta.94](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.92...@tiptap/vue-3@2.0.0-beta.94) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.92](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.92...@tiptap/vue-3@2.0.0-beta.92) (2022-06-17)
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
+# [2.0.0-beta.91](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.90...@tiptap/vue-3@2.0.0-beta.91) (2022-04-27)
+
+
+### Bug Fixes
+
+* improve Vue nodeViewProps typing ([190a699](https://github.com/ueberdosis/tiptap/commit/190a6993d4d93b4d37b978b33ef22690ed8269b6))
+
+
+
+
+
 # [2.0.0-beta.90](https://github.com/ueberdosis/tiptap/compare/@tiptap/vue-3@2.0.0-beta.89...@tiptap/vue-3@2.0.0-beta.90) (2022-01-25)
 
 **Note:** Version bump only for package @tiptap/vue-3

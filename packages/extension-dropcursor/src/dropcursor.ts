@@ -2,9 +2,9 @@ import { Extension } from '@tiptap/core'
 import { dropCursor } from 'prosemirror-dropcursor'
 
 export interface DropcursorOptions {
-  color: string | null,
-  width: number | null,
-  class: string | null,
+  color: string | undefined,
+  width: number | undefined,
+  class: string | undefined,
 }
 
 export const Dropcursor = Extension.create<DropcursorOptions>({
@@ -14,7 +14,7 @@ export const Dropcursor = Extension.create<DropcursorOptions>({
     return {
       color: 'currentColor',
       width: 1,
-      class: null,
+      class: undefined,
     }
   },
 
