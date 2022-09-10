@@ -2,7 +2,11 @@ name: Publish tiptap packages to npm
 
 on:
   release:
-    types: [published]
+    types:
+      - published
+      - prereleased
+      - released
+      - created
 
 jobs:
   publish:
