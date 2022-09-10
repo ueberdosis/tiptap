@@ -22,21 +22,28 @@ export const textBetween = (from: number, to: number, doc: Node) => {
 }
 
 export const createDeco = (pos: number, type: string, content?: string) => {
-  const newElement = document.createElement('span')
+  const createEl = () => {
+    const newElement = document.createElement('span')
 
-  newElement.classList.add('prosemirror--decorator')
-  newElement.classList.add(`type-${type}`)
+    newElement.classList.add('prosemirror--decorator')
+    newElement.classList.add(`type-${type}`)
 
-  Object.assign(newElement.style, {
-    pointerEvents: 'none',
-    userSelect: 'none',
-  })
+    Object.assign(newElement.style, {
+      pointerEvents: 'none',
+      userSelect: 'none',
+      width: '0px',
+      height: '0px',
+      padding: '0px',
+    })
 
-  if (content) {
-    newElement.textContent = content
+    if (content) {
+      newElement.textContent = content
+    }
+
+    return newElement
   }
 
-  return Decoration.widget(pos, newElement, {
+  return Decoration.widget(pos, createEl, {
     key: type,
     marks: [],
   })
