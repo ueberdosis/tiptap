@@ -21,10 +21,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.1"
+    "@tiptap/core": "^2.0.0-beta.1",
+    "@tiptap/suggestion": "^2.0.0-beta.98"
   },
   "dependencies": {
-    "@tiptap/suggestion": "^2.0.0-beta.98",
     "prosemirror-model": "1.18.1",
     "prosemirror-state": "1.4.1"
   },
