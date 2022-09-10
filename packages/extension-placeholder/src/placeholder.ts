@@ -32,7 +32,8 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
   },
 
   addProseMirrorPlugins() {
-    let cachedEmptyTopNode: ProsemirrorNode;
+    let cachedEmptyTopNode: ProsemirrorNode
+
     return [
       new Plugin({
         props: {
@@ -46,12 +47,11 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             }
 
             cachedEmptyTopNode = cachedEmptyTopNode || doc.type.createAndFill()
-            let isEditorEmpty = cachedEmptyTopNode.sameMarkup(doc) && cachedEmptyTopNode.content.findDiffStart(doc.content) === null
+            const isEditorEmpty = cachedEmptyTopNode.sameMarkup(doc) && cachedEmptyTopNode.content.findDiffStart(doc.content) === null
 
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
               const isEmpty = !node.isLeaf && !node.childCount
-              
 
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const classes = [this.options.emptyNodeClass]
@@ -83,7 +83,8 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
           attributes: ({ doc }) => {
             cachedEmptyTopNode = cachedEmptyTopNode || doc.type.createAndFill()
-            let isEditorEmpty = cachedEmptyTopNode.sameMarkup(doc) && cachedEmptyTopNode.content.findDiffStart(doc.content) === null
+            const isEditorEmpty = cachedEmptyTopNode.sameMarkup(doc) && cachedEmptyTopNode.content.findDiffStart(doc.content) === null
+
             if (isEditorEmpty) {
               return {
                 class: this.options.emptyEditorClass,
@@ -95,9 +96,9 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
                     hasAnchor: true,
                   })
                   : this.options.placeholder,
-              } 
+              }
             }
-          }
+          },
         },
       }),
     ]
