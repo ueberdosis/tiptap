@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.193](https://github.com/ueberdosis/tiptap/compare/v0.1.2...v2.0.0-beta.193) (2022-09-10)
+
+
+### Bug Fixes
+
+* add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
+* export starter kit extension options ([4a2a428](https://github.com/ueberdosis/tiptap/commit/4a2a428a4c59fd3cdae589816f823d759d7926bd))
+* improve export for StarterKitOptions ([8fcc80d](https://github.com/ueberdosis/tiptap/commit/8fcc80d68ec9471523ec0a8108035afef4d0f9f3))
+* let StarterKit be imported as cjs module ([#2967](https://github.com/ueberdosis/tiptap/issues/2967)) ([69d22d2](https://github.com/ueberdosis/tiptap/commit/69d22d2d3c3b3064641e0a1ba66a0a9ada90d6bd))
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+* revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
+
+
+### Features
+
+* add StarterKit extension ([21384fc](https://github.com/ueberdosis/tiptap/commit/21384fc7a66dd7d1e3849be52ae4ab9adc26cf4e))
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
 # [2.0.0-beta.192](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.191...@tiptap/starter-kit@2.0.0-beta.192) (2022-09-03)
 
 

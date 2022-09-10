@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.193](https://github.com/ueberdosis/tiptap/compare/v0.1.2...v2.0.0-beta.193) (2022-09-10)
+
+
+### Bug Fixes
+
+* add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
+* improve types for generateHTML ([502b5b1](https://github.com/ueberdosis/tiptap/commit/502b5b1cc9f1a8beb49ef2da81a9db56c7e92424))
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+* revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
+* Switch from hostic dom to zeed dom ([#2151](https://github.com/ueberdosis/tiptap/issues/2151)) ([56a75db](https://github.com/ueberdosis/tiptap/commit/56a75db024327c9de1956c67c08386a9778c706a))
+* update zeed dom ([#2155](https://github.com/ueberdosis/tiptap/issues/2155)) ([75e55e5](https://github.com/ueberdosis/tiptap/commit/75e55e548d31078689c1b511edabd0299b755e62))
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
 # [2.0.0-beta.182](https://github.com/ueberdosis/tiptap/compare/@tiptap/html@2.0.0-beta.181...@tiptap/html@2.0.0-beta.182) (2022-09-03)
 
 **Note:** Version bump only for package @tiptap/html

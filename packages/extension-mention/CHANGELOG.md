@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.193](https://github.com/ueberdosis/tiptap/compare/v0.1.2...v2.0.0-beta.193) (2022-09-10)
+
+
+### Bug Fixes
+
+* add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
+* add pluginKey option to suggestion plugin, fix [#1282](https://github.com/ueberdosis/tiptap/issues/1282) ([7cf3350](https://github.com/ueberdosis/tiptap/commit/7cf3350a832181f8cc1fa7ea1afec8f8d083e507))
+* **extension/mention:** collapse selection to end after suggestion insertion to fix chrome selection issue with mouse ([163de4e](https://github.com/ueberdosis/tiptap/commit/163de4e1876000a88117da8a02b1f62cd4a2cfb0))
+* fix check for showing mention suggestion ([5e652c9](https://github.com/ueberdosis/tiptap/commit/5e652c94a7d72e480003449b2dd6050a55df9cc7))
+* Fix parsing of mention nodes ([#1471](https://github.com/ueberdosis/tiptap/issues/1471)) ([5178172](https://github.com/ueberdosis/tiptap/commit/5178172864e167538698186d56e0aa75df307c98))
+* fixes an error when using the mention extension and pasting text ending with "@", fix [#2413](https://github.com/ueberdosis/tiptap/issues/2413) ([55fa220](https://github.com/ueberdosis/tiptap/commit/55fa2208996f648a2ca06b0a363a249ff5e39169))
+* prevent multiple space characters after mention node, fix [#1703](https://github.com/ueberdosis/tiptap/issues/1703) ([3f7e6b2](https://github.com/ueberdosis/tiptap/commit/3f7e6b219b572d2aa06618ce125ba86cd2fcd0bd))
+* remove some magic strings ([6c34dec](https://github.com/ueberdosis/tiptap/commit/6c34dec33ac39c9f037a0a72e4525f3fc6d422bf))
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+* revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
+
+
+### Features
+
+* add insertContent() command, deprecate insertText(), insertHTML() and insertNode() ([b8d9b7d](https://github.com/ueberdosis/tiptap/commit/b8d9b7d4c70b38fb9eec3c079be8243d30166e5e))
+* add label attribute to mention extension ([#1322](https://github.com/ueberdosis/tiptap/issues/1322)) ([c3afe88](https://github.com/ueberdosis/tiptap/commit/c3afe880ae56e53da429590be4c7e2ffe5a70486))
+* add renderLabel option to mention extension, see [#1322](https://github.com/ueberdosis/tiptap/issues/1322) ([3b78af4](https://github.com/ueberdosis/tiptap/commit/3b78af44a054fa5d0101d8f7d836409b0b68547e))
+* parseHTML for attributes should return the value instead of an object now, fix [#1863](https://github.com/ueberdosis/tiptap/issues/1863) ([8a3b47a](https://github.com/ueberdosis/tiptap/commit/8a3b47a529d28b28b50d634c6ff69b8e5aad3080))
+
+
+### Reverts
+
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
 # [2.0.0-beta.103](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-mention@2.0.0-beta.102...@tiptap/extension-mention@2.0.0-beta.103) (2022-09-03)
 
 **Note:** Version bump only for package @tiptap/extension-mention

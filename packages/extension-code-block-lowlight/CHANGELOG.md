@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.193](https://github.com/ueberdosis/tiptap/compare/v0.1.2...v2.0.0-beta.193) (2022-09-10)
+
+
+### Bug Fixes
+
+* add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
+* Allow extending code-block-lowlight ([#1917](https://github.com/ueberdosis/tiptap/issues/1917)) ([54be0e5](https://github.com/ueberdosis/tiptap/commit/54be0e570e24c4a7bbb772c8222cfeac2ba1ff38))
+* compatibility with lowlight v2 ([#1939](https://github.com/ueberdosis/tiptap/issues/1939)) ([f79347e](https://github.com/ueberdosis/tiptap/commit/f79347e128be11860ee54109d8d333b436426b45))
+* fix lowlight decorations for vue 3 ([daa5dc0](https://github.com/ueberdosis/tiptap/commit/daa5dc0fb1ec2db6889565fc9c091f3dbdbbda6d))
+* Remove console.log statement ([#2168](https://github.com/ueberdosis/tiptap/issues/2168)) ([6e25e99](https://github.com/ueberdosis/tiptap/commit/6e25e99c7a8699166a63fee1f4b5584ab617c9cd))
+* revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
+* revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
+
+
+### Features
+
+* add defaultLanguage option to CodeBlockLowlight extension, fix [#2121](https://github.com/ueberdosis/tiptap/issues/2121) ([0f94bcd](https://github.com/ueberdosis/tiptap/commit/0f94bcd591e98c0a767d0914b87a1efee8b002e0))
+* add parentConfig to extension context for more extendable extensions, fix [#259](https://github.com/ueberdosis/tiptap/issues/259) ([5e1ec5d](https://github.com/ueberdosis/tiptap/commit/5e1ec5d2a66be164f505d631f97861ab9344ba96))
+
+
+### Reverts
+
+* Revert "bring back 1.20.0" ([59244c5](https://github.com/ueberdosis/tiptap/commit/59244c586d584483ddfafbda7bd4ef62efd2897e))
+* Revert "update package-lock.json" ([e63b987](https://github.com/ueberdosis/tiptap/commit/e63b987bb8bb88f694bc8d48c5a7a31e92d9723e))
+* Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+
+
+
+
 # [2.0.0-beta.73](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-code-block-lowlight@2.0.0-beta.72...@tiptap/extension-code-block-lowlight@2.0.0-beta.73) (2022-06-27)
 
 **Note:** Version bump only for package @tiptap/extension-code-block-lowlight
