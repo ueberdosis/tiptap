@@ -305,6 +305,11 @@ declare module '@tiptap/core' {
     }) => MarkSpec['excludes']),
 
     /**
+     * Marks this Mark as exitable
+     */
+    exitable?: boolean | (() => boolean),
+
+    /**
      * Group
      */
     group?: MarkSpec['group'] | ((this: {
@@ -485,5 +490,39 @@ export class Mark<Options = any, Storage = any> {
     ))
 
     return extension
+  }
+
+  static handleExit({
+    editor,
+    mark,
+  }: {
+    editor: Editor
+    mark: Mark
+  }) {
+    const { tr } = editor.state
+    const currentPos = editor.state.selection.$from
+    const isAtEnd = currentPos.pos === currentPos.end()
+
+    if (isAtEnd) {
+      const currentMarks = currentPos.marks()
+      const isInMark = !!currentMarks.find(m => m?.type.name === mark.name)
+
+      if (!isInMark) {
+        return false
+      }
+
+      const removeMark = currentMarks.find(m => m?.type.name === mark.name)
+
+      if (removeMark) {
+        tr.removeStoredMark(removeMark)
+      }
+      tr.insertText(' ', currentPos.pos)
+
+      editor.view.dispatch(tr)
+
+      return true
+    }
+
+    return false
   }
 }

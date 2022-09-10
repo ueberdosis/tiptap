@@ -9,7 +9,7 @@ export const getTextContentFromNodes = ($from: ResolvedPos, maxMatch = 500) => {
     (node, pos, parent, index) => {
       textBefore += node.type.spec.toText?.({
         node, pos, parent, index,
-      }) || node.textContent || '%leaf%'
+      }) || $from.nodeBefore?.text || '%leaf%'
     },
   )
 

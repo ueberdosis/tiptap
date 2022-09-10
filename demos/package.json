@@ -11,13 +11,14 @@
     "@hocuspocus/provider": "^1.0.0-alpha.29",
     "d3": "^7.3.0",
     "fast-glob": "^3.2.11",
-    "lowlight": "^1.20.0",
+    "highlight.js": "^11.6.0",
+    "lowlight": "^2.7.0",
     "remixicon": "^2.5.0",
     "shiki": "^0.10.0",
     "simplify-js": "^1.2.4",
     "y-prosemirror": "1.0.20",
-    "y-webrtc": "10.2.2",
-    "yjs": "13.5.26"
+    "y-webrtc": "^10.2.3",
+    "yjs": "^13.5.39"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.49",
@@ -30,11 +31,11 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "sass": "^1.49.7",
-    "svelte": "^3.48.0",
+    "svelte": "^3.49.0",
     "tailwindcss": "^2.2.19",
     "typescript": "^4.5.5",
     "uuid": "^8.3.2",
-    "vite": "^2.7.13",
+    "vite": "^2.9.13",
     "vite-plugin-checker": "^0.3.4",
     "vue": "^3.0.5",
     "vue-router": "^4.0.11"

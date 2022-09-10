@@ -31,6 +31,8 @@ There are also some extensions with more capabilities. We call them [nodes](/api
 
 You don’t have to use it, but we prepared a `@tiptap/starter-kit` which includes the most common extensions. Read more about [`StarterKit`](/guide/configuration#default-extensions).
 
+Also a list of community extensions can be found in the [Awesome Tiptap Repository](https://github.com/ueberdosis/awesome-tiptap#community-extensions). There is also a [Discussion Thread](https://github.com/ueberdosis/tiptap/discussions/2973) about community extensions.
+
 ## How extensions work
 Although Tiptap tries to hide most of the complexity of ProseMirror, it’s built on top of its APIs and we recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/) for advanced usage. You’ll have a better understanding of how everything works under the hood and get more familiar with many terms and jargon used by Tiptap.
 
@@ -39,7 +41,7 @@ Existing [nodes](/api/nodes), [marks](/api/marks) and [extensions](/api/extensio
 We recommend to start with customizing existing extensions first, and create your own extensions with the gained knowledge later. That’s why all the below examples extend existing extensions, but all examples will work on newly created extensions aswell.
 
 ## Create a new extension
-You’re free to create your own extensions for Tiptap. Here is the boilerplate code that’s need to create and register your own extension:
+You’re free to create your own extensions for Tiptap. Here is the boilerplate code that’s needed to create and register your own extension:
 
 ```js
 import { Extension } from '@tiptap/core'
@@ -62,4 +64,3 @@ const editor = new Editor({
 ```
 
 Learn [more about custom extensions in our guide](/guide/custom-extensions).
-

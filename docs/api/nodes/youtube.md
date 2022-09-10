@@ -109,4 +109,4 @@ editor.commands.setYoutubeVideo({
 [packages/extension-youtube/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-youtube/)
 
 ## Usage
-https://embed.tiptap.dev/preview/Extensions/YouTube
+https://embed.tiptap.dev/preview/Nodes/YouTube

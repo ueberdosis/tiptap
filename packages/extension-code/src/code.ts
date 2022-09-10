@@ -44,6 +44,8 @@ export const Code = Mark.create<CodeOptions>({
 
   code: true,
 
+  exitable: true,
+
   parseHTML() {
     return [
       { tag: 'code' },

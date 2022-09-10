@@ -229,7 +229,7 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
           editor,
           state: chainableState,
           from: Math.max(from - 1, 0),
-          to: to.b,
+          to: to.b - 1,
           rule,
         })
 
