@@ -32,8 +32,6 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
   },
 
   addProseMirrorPlugins() {
-    let cachedEmptyTopNode: ProsemirrorNode
-
     return [
       new Plugin({
         props: {
@@ -46,9 +44,6 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
               return null
             }
 
-            cachedEmptyTopNode = cachedEmptyTopNode || doc.type.createAndFill()
-            const isEditorEmpty = cachedEmptyTopNode.sameMarkup(doc) && cachedEmptyTopNode.content.findDiffStart(doc.content) === null
-
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
               const isEmpty = !node.isLeaf && !node.childCount
@@ -56,7 +51,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const classes = [this.options.emptyNodeClass]
 
-                if (isEditorEmpty) {
+                if (this.editor.isEmpty) {
                   classes.push(this.options.emptyEditorClass)
                 }
 
@@ -80,29 +75,8 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
             return DecorationSet.create(doc, decorations)
           },
-
-          attributes: ({ doc }) => {
-            cachedEmptyTopNode = cachedEmptyTopNode || doc.type.createAndFill()
-            const isEditorEmpty = cachedEmptyTopNode.sameMarkup(doc) && cachedEmptyTopNode.content.findDiffStart(doc.content) === null
-
-            if (isEditorEmpty) {
-              return {
-                class: this.options.emptyEditorClass,
-                'data-placeholder': typeof this.options.placeholder === 'function'
-                  ? this.options.placeholder({
-                    editor: this.editor,
-                    node: doc,
-                    pos: 0,
-                    hasAnchor: true,
-                  })
-                  : this.options.placeholder,
-              }
-            }
-          },
         },
       }),
     ]
   },
 })
-
-export default Placeholder
