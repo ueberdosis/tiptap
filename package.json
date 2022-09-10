@@ -26,7 +26,7 @@
     "release:patch": "lerna version patch --create-release github",
     "release:patch:pre": "lerna version prepatch --create-release github",
     "release:pre": "lerna version prerelease --create-release github",
-    "release": "npm run build:packages && lerna publish",
+    "release": "npm run build:packages && lerna exec -- npm publish",
     "clean:packages": "rm -rf ./packages/*/dist",
     "reset": "npm run clean:packages && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && npm install",
     "prepare": "husky install"
