@@ -72,7 +72,7 @@ Let’s say you have a node view which lets users add a video player and configu
 I know, I know, it’s not that easy. Just keep in mind, that you‘re in full control of the rendering inside the editor and of the output.
 
 :::warning What if you store JSON?
-That doesn’t apply to JSON. In JSON, everything is stored as an object. There is no need to configure the “translation” to and from HTML.
+That doesn’t apply to JSON. In JSON, everything is stored as an object. There is no need to configure the “translation” to and from JSON.
 :::
 
 ### Render HTML
