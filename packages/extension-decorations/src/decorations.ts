@@ -6,6 +6,12 @@ import { ParagraphDecorator } from './plugin/decorators/paragraph'
 import { SpaceDecorator } from './plugin/decorators/space'
 import { DecorationsOptions } from './types'
 
+export {
+  HardBreakDecorator,
+  ParagraphDecorator,
+  SpaceDecorator,
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     decorations: {

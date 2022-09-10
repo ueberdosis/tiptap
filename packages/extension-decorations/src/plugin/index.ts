@@ -4,6 +4,7 @@ import {
 import { DecorationSet } from 'prosemirror-view'
 
 import { DecorationsOptions } from '../types'
+import { getUpdatedRanges, stateReducer } from './utils'
 
 interface PluginState {
   decorations: DecorationSet | null
@@ -46,25 +47,20 @@ export const DecorationsPlugin = (state: EditorState, options: DecorationsOption
 
         return {
           isActive: true,
-          decorations: addDecorationsBetweenPositions($from.pos, $to.pos, state, decorationSet),
+          decorations: addDecorationsBetweenPositions($from.pos, $to.pos, state, DecorationSet.empty),
         }
       },
       apply: (tr, pluginState, _, currentState) => {
-        const { $from, $to } = new AllSelection(currentState.doc)
+        const newPluginState = stateReducer(pluginState, tr.getMeta('setDecorationsActive'))
 
-        const isActive = tr.getMeta('setDecorationsActive')
+        const decorations = getUpdatedRanges(tr).reduce((nextDecos, [from, to]) => {
+          return addDecorationsBetweenPositions(from, to, currentState, nextDecos)
+        }, newPluginState.decorations.map(tr.mapping, tr.doc))
 
-        if (isActive !== undefined) {
-          pluginState.isActive = isActive
+        return {
+          ...newPluginState,
+          decorations,
         }
-
-        if (!pluginState.isActive) {
-          pluginState.decorations = DecorationSet.empty
-        } else {
-          pluginState.decorations = addDecorationsBetweenPositions($from.pos, $to.pos, currentState, decorationSet)
-        }
-
-        return { ...pluginState }
       },
     },
 
