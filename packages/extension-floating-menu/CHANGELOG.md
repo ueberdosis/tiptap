@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.194](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.193...v2.0.0-beta.194) (2022-09-11)
+
+**Note:** Version bump only for package @tiptap/extension-floating-menu
+
+
+
+
+
 # [2.0.0-beta.56](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-floating-menu@2.0.0-beta.55...@tiptap/extension-floating-menu@2.0.0-beta.56) (2022-06-27)
 
 **Note:** Version bump only for package @tiptap/extension-floating-menu
