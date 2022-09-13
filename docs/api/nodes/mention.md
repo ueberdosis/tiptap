@@ -23,6 +23,12 @@ To place the popups correctly, we’re using [tippy.js](https://atomiks.github.i
 npm install tippy.js
 ```
 
+Since 2.0.0-beta.193 we marked the `@tiptap/suggestion` as a peer dependency. That means, you will need to install it manually.
+
+```bash
+npm install @tiptap/suggestion
+```
+
 ## Settings
 
 ### HTMLAttributes
