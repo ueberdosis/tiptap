@@ -252,3 +252,5 @@ export type TextSerializer = (props: {
 export type ExtendedRegExpMatchArray = RegExpMatchArray & {
   data?: Record<string, any>,
 }
+
+export type Dispatch = ((args?: any) => any) | undefined
