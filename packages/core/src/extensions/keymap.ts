@@ -35,14 +35,12 @@ export const Keymap = Extension.create({
       () => commands.selectNodeBackward(),
     ])
 
-    const handleDelete = () => this.editor.commands.first(({ commands }) => {
-      return [
-        () => commands.deleteSelection(),
-        () => commands.deleteCurrentNode(),
-        () => commands.joinForward(),
-        () => commands.selectNodeForward(),
-      ]
-    })
+    const handleDelete = () => this.editor.commands.first(({ commands }) => [
+      () => commands.deleteSelection(),
+      () => commands.deleteCurrentNode(),
+      () => commands.joinForward(),
+      () => commands.selectNodeForward(),
+    ])
 
     const handleEnter = () => this.editor.commands.first(({ commands }) => [
       () => commands.newlineInCode(),
