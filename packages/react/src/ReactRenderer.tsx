@@ -78,15 +78,17 @@ export class ReactRenderer<R = unknown, P = unknown> {
 
     this.reactElement = <Component {...props } />
 
-    flushSync(() => {
-      if (this.editor?.contentComponent) {
-        this.editor.contentComponent.setState({
-          renderers: this.editor.contentComponent.state.renderers.set(
-            this.id,
-            this,
-          ),
-        })
-      }
+    queueMicrotask(() => {
+      flushSync(() => {
+        if (this.editor?.contentComponent) {
+          this.editor.contentComponent.setState({
+            renderers: this.editor.contentComponent.state.renderers.set(
+              this.id,
+              this,
+            ),
+          })
+        }
+      })
     })
   }
 
@@ -100,16 +102,18 @@ export class ReactRenderer<R = unknown, P = unknown> {
   }
 
   destroy(): void {
-    flushSync(() => {
-      if (this.editor?.contentComponent) {
-        const { renderers } = this.editor.contentComponent.state
+    queueMicrotask(() => {
+      flushSync(() => {
+        if (this.editor?.contentComponent) {
+          const { renderers } = this.editor.contentComponent.state
 
-        renderers.delete(this.id)
+          renderers.delete(this.id)
 
-        this.editor.contentComponent.setState({
-          renderers,
-        })
-      }
+          this.editor.contentComponent.setState({
+            renderers,
+          })
+        }
+      })
     })
   }
 }
