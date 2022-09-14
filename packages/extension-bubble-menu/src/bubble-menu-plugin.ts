@@ -66,6 +66,7 @@ export class BubbleMenuView {
       !hasEditorFocus
       || empty
       || isEmptyTextBlock
+      || !this.editor.isEditable
     ) {
       return false
     }
