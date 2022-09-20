@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.196](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.195...v2.0.0-beta.196) (2022-09-20)
+
+
+### Features
+
+* **extension-typography:** add servicemark input rule ([#3220](https://github.com/ueberdosis/tiptap/issues/3220)) ([a397835](https://github.com/ueberdosis/tiptap/commit/a3978353ff602527329064f3c8c96bedc8fb2060))
+
+
+
+
+
 # [2.0.0-beta.195](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.194...v2.0.0-beta.195) (2022-09-14)
 
 **Note:** Version bump only for package @tiptap/extension-typography
