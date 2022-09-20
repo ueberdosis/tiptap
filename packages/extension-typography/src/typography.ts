@@ -1,27 +1,28 @@
 import { Extension, textInputRule } from '@tiptap/core'
 
 export interface TypographyOptions {
-  emDash: false,
-  ellipsis: false,
-  openDoubleQuote: false,
-  closeDoubleQuote: false,
-  openSingleQuote: false,
-  closeSingleQuote: false,
-  leftArrow: false,
-  rightArrow: false,
-  copyright: false,
-  trademark: false,
-  registeredTrademark: false,
-  oneHalf: false,
-  plusMinus: false,
-  notEqual: false,
-  laquo: false,
-  raquo: false,
-  multiplication: false,
-  superscriptTwo: false,
-  superscriptThree: false,
-  oneQuarter: false,
-  threeQuarters: false,
+  emDash: false;
+  ellipsis: false;
+  openDoubleQuote: false;
+  closeDoubleQuote: false;
+  openSingleQuote: false;
+  closeSingleQuote: false;
+  leftArrow: false;
+  rightArrow: false;
+  copyright: false;
+  trademark: false;
+  servicemark: false;
+  registeredTrademark: false;
+  oneHalf: false;
+  plusMinus: false;
+  notEqual: false;
+  laquo: false;
+  raquo: false;
+  multiplication: false;
+  superscriptTwo: false;
+  superscriptThree: false;
+  oneQuarter: false;
+  threeQuarters: false;
 }
 
 export const emDash = textInputRule({
@@ -72,6 +73,11 @@ export const copyright = textInputRule({
 export const trademark = textInputRule({
   find: /\(tm\)$/,
   replace: '™',
+})
+
+export const servicemark = textInputRule({
+  find: /\(sm\)$/,
+  replace: '℠',
 })
 
 export const registeredTrademark = textInputRule({
@@ -173,6 +179,10 @@ export const Typography = Extension.create<TypographyOptions>({
 
     if (this.options.trademark !== false) {
       rules.push(trademark)
+    }
+
+    if (this.options.servicemark !== false) {
+      rules.push(servicemark)
     }
 
     if (this.options.registeredTrademark !== false) {
