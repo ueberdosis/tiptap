@@ -27,6 +27,32 @@ context('/src/Examples/Default/React/', () => {
   ]
 
   buttonMarks.forEach(m => {
+    it(`should disable ${m.label} when the code tag is enabled for cursor`, () => {
+      cy.get('.ProseMirror').type('{selectall}Hello world')
+      cy.get('button').contains('code').click()
+      cy.get('button').contains(m.label).should('be.disabled')
+    })
+
+    it(`should enable ${m.label} when the code tag is disabled for cursor`, () => {
+      cy.get('.ProseMirror').type('{selectall}Hello world')
+      cy.get('button').contains('code').click()
+      cy.get('button').contains('code').click()
+      cy.get('button').contains(m.label).should('not.be.disabled')
+    })
+
+    it(`should disable ${m.label} when the code tag is enabled for selection`, () => {
+      cy.get('.ProseMirror').type('{selectall}Hello world{selectall}')
+      cy.get('button').contains('code').click()
+      cy.get('button').contains(m.label).should('be.disabled')
+    })
+
+    it(`should enable ${m.label} when the code tag is disabled for selection`, () => {
+      cy.get('.ProseMirror').type('{selectall}Hello world{selectall}')
+      cy.get('button').contains('code').click()
+      cy.get('button').contains('code').click()
+      cy.get('button').contains(m.label).should('not.be.disabled')
+    })
+
     it(`should apply ${m.label} when the button is pressed`, () => {
       cy.get('.ProseMirror').type('{selectall}Hello world')
       cy.get('button').contains('paragraph').click()
