@@ -89,7 +89,7 @@ jobs:
 
     - name: Run tests with Cypress
       id: cypress
-      uses: cypress-io/github-action@v2
+      uses: cypress-io/github-action@v4.2.0
       with:
         cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
         start: npm run start
