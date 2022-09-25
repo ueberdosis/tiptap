@@ -3,6 +3,7 @@ import {
   findChildrenInRange,
   getChangedRanges,
   getMarksBetween,
+  NodeWithPos,
 } from '@tiptap/core'
 import { find, test } from 'linkifyjs'
 import { MarkType } from 'prosemirror-model'
@@ -58,46 +59,59 @@ export function autolink(options: AutolinkOptions): Plugin {
           })
 
         // now let’s see if we can add new links
-        findChildrenInRange(newState.doc, newRange, node => node.isTextblock)
-          .forEach(textBlock => {
-            // we need to define a placeholder for leaf nodes
-            // so that the link position can be calculated correctly
-            const text = newState.doc.textBetween(
-              textBlock.pos,
-              textBlock.pos + textBlock.node.nodeSize,
-              undefined,
-              ' ',
-            )
+        const nodesInChangedRanges = findChildrenInRange(newState.doc, newRange, node => node.isTextblock)
 
-            find(text)
-              .filter(link => link.isLink)
-              .filter(link => {
-                if (options.validate) {
-                  return options.validate(link.value)
-                }
+        let textBlock: NodeWithPos | undefined
+        let textBeforeWhitespace: string | undefined
 
-                return true
-              })
-              // calculate link position
-              .map(link => ({
-                ...link,
-                from: textBlock.pos + link.start + 1,
-                to: textBlock.pos + link.end + 1,
+        if (nodesInChangedRanges.length > 1) {
+          // Grab the first node within the changed ranges (ex. the first of two paragraphs when hitting enter)
+          textBlock = nodesInChangedRanges[0]
+          textBeforeWhitespace = newState.doc.textBetween(
+            textBlock.pos,
+            textBlock.pos + textBlock.node.nodeSize,
+            undefined,
+            ' ',
+          )
+        } else if (
+          // We want to make sure to include the block seperator argument to treat hard breaks like spaces
+          newState.doc.textBetween(newRange.from, newRange.to, ' ', ' ').endsWith(' ')
+        ) {
+          textBlock = nodesInChangedRanges[0]
+          textBeforeWhitespace = newState.doc.textBetween(
+            textBlock.pos,
+            newRange.to,
+            undefined,
+            ' ',
+          )
+        }
+
+        if (textBlock && textBeforeWhitespace) {
+          const wordsBeforeWhitespace = textBeforeWhitespace.split(' ').filter(s => s !== '')
+          const lastWordBeforeSpace = wordsBeforeWhitespace[wordsBeforeWhitespace.length - 1]
+          const lastWordAndBlockOffset = textBlock.pos + textBeforeWhitespace.lastIndexOf(lastWordBeforeSpace)
+
+          find(lastWordBeforeSpace)
+            .filter(link => link.isLink)
+            .filter(link => {
+              if (options.validate) {
+                return options.validate(link.value)
+              }
+              return true
+            })
+            // calculate link position
+            .map(link => ({
+              ...link,
+              from: lastWordAndBlockOffset + link.start + 1,
+              to: lastWordAndBlockOffset + link.end + 1,
+            }))
+            // add link mark
+            .forEach(link => {
+              tr.addMark(link.from, link.to, options.type.create({
+                href: link.href,
               }))
-              // check if link is within the changed range
-              .filter(link => {
-                const fromIsInRange = newRange.from >= link.from && newRange.from <= link.to
-                const toIsInRange = newRange.to >= link.from && newRange.to <= link.to
-
-                return fromIsInRange || toIsInRange
-              })
-              // add link mark
-              .forEach(link => {
-                tr.addMark(link.from, link.to, options.type.create({
-                  href: link.href,
-                }))
-              })
-          })
+            })
+        }
       })
 
       if (!tr.steps.length) {
