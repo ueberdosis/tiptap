@@ -48,7 +48,7 @@
     "@typescript-eslint/eslint-plugin": "^5.10.2",
     "@typescript-eslint/parser": "^5.10.2",
     "babel-loader": "^8.2.3",
-    "cypress": "^9.4.1",
+    "cypress": "^10.8.0",
     "eslint": "^8.17.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-cypress": "^2.12.1",
