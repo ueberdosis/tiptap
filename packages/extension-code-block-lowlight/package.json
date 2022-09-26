@@ -25,9 +25,9 @@
     "@tiptap/extension-code-block": "^2.0.0-beta.193"
   },
   "dependencies": {
-    "prosemirror-model": "1.18.1",
-    "prosemirror-state": "1.4.1",
-    "prosemirror-view": "1.26.2"
+    "prosemirror-model": "^1.18.1",
+    "prosemirror-state": "^1.4.1",
+    "prosemirror-view": "^1.28.2"
   },
   "repository": {
     "type": "git",
