@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.197](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.196...v2.0.0-beta.197) (2022-09-26)
+
+
+### Bug Fixes
+
+* **core:** Can() does not work for setting marks ([#3223](https://github.com/ueberdosis/tiptap/issues/3223)) ([17a41da](https://github.com/ueberdosis/tiptap/commit/17a41da5a7a14879cf490c81914084791c4c494c))
+
+
+
+
+
 # [2.0.0-beta.196](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.195...v2.0.0-beta.196) (2022-09-20)
 
 **Note:** Version bump only for package @tiptap/core

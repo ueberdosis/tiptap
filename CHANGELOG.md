@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.197](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.196...v2.0.0-beta.197) (2022-09-26)
+
+
+### Bug Fixes
+
+* **ci:** remove unnecessary PR action as we combined issues and prs into one board ([dfc067a](https://github.com/ueberdosis/tiptap/commit/dfc067a3bbf1fc364caa1a74c7c464ba5342a3e1))
+* **core:** Can() does not work for setting marks ([#3223](https://github.com/ueberdosis/tiptap/issues/3223)) ([17a41da](https://github.com/ueberdosis/tiptap/commit/17a41da5a7a14879cf490c81914084791c4c494c))
+* **tests:** fix failing cypress tests and update cypress ([348383b](https://github.com/ueberdosis/tiptap/commit/348383b96cd79687741bb7806dfab5919b0abf77))
+
+
+
+
+
 # [2.0.0-beta.196](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.195...v2.0.0-beta.196) (2022-09-20)
 
 
