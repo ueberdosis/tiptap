@@ -13,24 +13,52 @@ const MenuBar = ({ editor }) => {
     <>
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
+        disabled={
+          !editor.can()
+            .chain()
+            .focus()
+            .toggleBold()
+            .run()
+        }
         className={editor.isActive('bold') ? 'is-active' : ''}
       >
         bold
       </button>
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
+        disabled={
+          !editor.can()
+            .chain()
+            .focus()
+            .toggleItalic()
+            .run()
+        }
         className={editor.isActive('italic') ? 'is-active' : ''}
       >
         italic
       </button>
       <button
         onClick={() => editor.chain().focus().toggleStrike().run()}
+        disabled={
+          !editor.can()
+            .chain()
+            .focus()
+            .toggleStrike()
+            .run()
+        }
         className={editor.isActive('strike') ? 'is-active' : ''}
       >
         strike
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCode().run()}
+        disabled={
+          !editor.can()
+            .chain()
+            .focus()
+            .toggleCode()
+            .run()
+        }
         className={editor.isActive('code') ? 'is-active' : ''}
       >
         code
@@ -113,10 +141,28 @@ const MenuBar = ({ editor }) => {
       <button onClick={() => editor.chain().focus().setHardBreak().run()}>
         hard break
       </button>
-      <button onClick={() => editor.chain().focus().undo().run()}>
+      <button
+        onClick={() => editor.chain().focus().undo().run()}
+        disabled={
+          !editor.can()
+            .chain()
+            .focus()
+            .undo()
+            .run()
+        }
+      >
         undo
       </button>
-      <button onClick={() => editor.chain().focus().redo().run()}>
+      <button
+        onClick={() => editor.chain().focus().redo().run()}
+        disabled={
+          !editor.can()
+            .chain()
+            .focus()
+            .redo()
+            .run()
+        }
+      >
         redo
       </button>
     </>
