@@ -46,6 +46,7 @@ export class FloatingMenuView {
       || !empty
       || !isRootDepth
       || !isEmptyTextBlock
+      || !this.editor.isEditable
     ) {
       return false
     }

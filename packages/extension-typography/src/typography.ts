@@ -11,6 +11,7 @@ export interface TypographyOptions {
   rightArrow: false,
   copyright: false,
   trademark: false,
+  servicemark: false,
   registeredTrademark: false,
   oneHalf: false,
   plusMinus: false,
@@ -72,6 +73,11 @@ export const copyright = textInputRule({
 export const trademark = textInputRule({
   find: /\(tm\)$/,
   replace: '™',
+})
+
+export const servicemark = textInputRule({
+  find: /\(sm\)$/,
+  replace: '℠',
 })
 
 export const registeredTrademark = textInputRule({
@@ -173,6 +179,10 @@ export const Typography = Extension.create<TypographyOptions>({
 
     if (this.options.trademark !== false) {
       rules.push(trademark)
+    }
+
+    if (this.options.servicemark !== false) {
+      rules.push(servicemark)
     }
 
     if (this.options.registeredTrademark !== false) {

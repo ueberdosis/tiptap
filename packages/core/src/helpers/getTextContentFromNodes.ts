@@ -3,13 +3,17 @@ import { ResolvedPos } from 'prosemirror-model'
 export const getTextContentFromNodes = ($from: ResolvedPos, maxMatch = 500) => {
   let textBefore = ''
 
+  const sliceEndPos = $from.parentOffset
+
   $from.parent.nodesBetween(
-    Math.max(0, $from.parentOffset - maxMatch),
-    $from.parentOffset,
+    Math.max(0, sliceEndPos - maxMatch),
+    sliceEndPos,
     (node, pos, parent, index) => {
-      textBefore += node.type.spec.toText?.({
+      const chunk = node.type.spec.toText?.({
         node, pos, parent, index,
-      }) || $from.nodeBefore?.text || '%leaf%'
+      }) || node.textContent || '%leaf%'
+
+      textBefore += chunk.slice(0, Math.max(0, sliceEndPos - pos))
     },
   )
 

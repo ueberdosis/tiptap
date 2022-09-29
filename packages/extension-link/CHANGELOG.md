@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.198](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.197...v2.0.0-beta.198) (2022-09-29)
+
+
+### Bug Fixes
+
+* **link:** ensure text blocks exist before referencing them ([#3251](https://github.com/ueberdosis/tiptap/issues/3251)) ([539afce](https://github.com/ueberdosis/tiptap/commit/539afce4fd840941fc2335bf5843e6811b921674)), closes [#3250](https://github.com/ueberdosis/tiptap/issues/3250)
+
+
+
+
+
+# [2.0.0-beta.197](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.196...v2.0.0-beta.197) (2022-09-26)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+# [2.0.0-beta.196](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.195...v2.0.0-beta.196) (2022-09-20)
+
+
+### Bug Fixes
+
+* **types:** fix link and table type errors ([#3208](https://github.com/ueberdosis/tiptap/issues/3208)) ([ae13cf6](https://github.com/ueberdosis/tiptap/commit/ae13cf61ad0ead942515d8c597f96a4b4d026412))
+
+
+
+
+
+# [2.0.0-beta.195](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.194...v2.0.0-beta.195) (2022-09-14)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
 # [2.0.0-beta.194](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.193...v2.0.0-beta.194) (2022-09-11)
 
 **Note:** Version bump only for package @tiptap/extension-link

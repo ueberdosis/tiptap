@@ -1,5 +1,6 @@
 import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import { find, registerCustomProtocol } from 'linkifyjs'
+import { Plugin } from 'prosemirror-state'
 
 import { autolink } from './helpers/autolink'
 import { clickHandler } from './helpers/clickHandler'
@@ -162,7 +163,7 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   addProseMirrorPlugins() {
-    const plugins = []
+    const plugins: Plugin[] = []
 
     if (this.options.autolink) {
       plugins.push(autolink({

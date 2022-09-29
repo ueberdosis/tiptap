@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.198](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.197...v2.0.0-beta.198) (2022-09-29)
+
+
+### Bug Fixes
+
+* **core:** InputRules does not work for ranges containing multiple text nodes ([#3205](https://github.com/ueberdosis/tiptap/issues/3205)) ([2f9ba32](https://github.com/ueberdosis/tiptap/commit/2f9ba324a03868283cf467520f99bd2a1596375a)), closes [#3071](https://github.com/ueberdosis/tiptap/issues/3071)
+* **link:** ensure text blocks exist before referencing them ([#3251](https://github.com/ueberdosis/tiptap/issues/3251)) ([539afce](https://github.com/ueberdosis/tiptap/commit/539afce4fd840941fc2335bf5843e6811b921674)), closes [#3250](https://github.com/ueberdosis/tiptap/issues/3250)
+* **suggestion:** set default allowedPrefixes null ([#3239](https://github.com/ueberdosis/tiptap/issues/3239)) ([04b9da4](https://github.com/ueberdosis/tiptap/commit/04b9da4760f467c446cbcf2fd08030e089d9be5f))
+
+
+
+
+
+# [2.0.0-beta.197](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.196...v2.0.0-beta.197) (2022-09-26)
+
+
+### Bug Fixes
+
+* **ci:** remove unnecessary PR action as we combined issues and prs into one board ([dfc067a](https://github.com/ueberdosis/tiptap/commit/dfc067a3bbf1fc364caa1a74c7c464ba5342a3e1))
+* **core:** Can() does not work for setting marks ([#3223](https://github.com/ueberdosis/tiptap/issues/3223)) ([17a41da](https://github.com/ueberdosis/tiptap/commit/17a41da5a7a14879cf490c81914084791c4c494c))
+* **tests:** fix failing cypress tests and update cypress ([348383b](https://github.com/ueberdosis/tiptap/commit/348383b96cd79687741bb7806dfab5919b0abf77))
+
+
+
+
+
+# [2.0.0-beta.196](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.195...v2.0.0-beta.196) (2022-09-20)
+
+
+### Bug Fixes
+
+* **types:** fix link and table type errors ([#3208](https://github.com/ueberdosis/tiptap/issues/3208)) ([ae13cf6](https://github.com/ueberdosis/tiptap/commit/ae13cf61ad0ead942515d8c597f96a4b4d026412))
+
+
+### Features
+
+* **extension-typography:** add servicemark input rule ([#3220](https://github.com/ueberdosis/tiptap/issues/3220)) ([a397835](https://github.com/ueberdosis/tiptap/commit/a3978353ff602527329064f3c8c96bedc8fb2060))
+
+
+
+
+
+# [2.0.0-beta.195](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.194...v2.0.0-beta.195) (2022-09-14)
+
+
+### Bug Fixes
+
+* **extension/bubble-menu:** :bug: fix bubble menu and floating menu being available when editor not editable ([#3195](https://github.com/ueberdosis/tiptap/issues/3195)) ([fa96749](https://github.com/ueberdosis/tiptap/commit/fa96749ce22ec67125da491cfeeb38623b9f0d6e))
+* move React `flushSync` to microtask ([#3188](https://github.com/ueberdosis/tiptap/issues/3188)) ([9093cdf](https://github.com/ueberdosis/tiptap/commit/9093cdfcf52cbc5297b9b678073636103dfecb3f)), closes [#2985](https://github.com/ueberdosis/tiptap/issues/2985)
+
+
+### Features
+
+* Add alias condition to code-block-lowlight ([#3155](https://github.com/ueberdosis/tiptap/issues/3155)) ([b01ccff](https://github.com/ueberdosis/tiptap/commit/b01ccff7b2ed9b8de633ad2122eb7081baaaff18))
+
+
+
+
+
 # [2.0.0-beta.194](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.193...v2.0.0-beta.194) (2022-09-11)
 
 **Note:** Version bump only for package tiptap
