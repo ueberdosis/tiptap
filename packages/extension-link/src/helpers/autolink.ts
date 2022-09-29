@@ -91,7 +91,8 @@ export function autolink(options: AutolinkOptions): Plugin {
           const lastWordBeforeSpace = wordsBeforeWhitespace[wordsBeforeWhitespace.length - 1]
           const lastWordAndBlockOffset = textBlock.pos + textBeforeWhitespace.lastIndexOf(lastWordBeforeSpace)
 
-          find(lastWordBeforeSpace)
+          if (lastWordBeforeSpace) {
+            find(lastWordBeforeSpace)
             .filter(link => link.isLink)
             .filter(link => {
               if (options.validate) {
@@ -111,6 +112,7 @@ export function autolink(options: AutolinkOptions): Plugin {
                 href: link.href,
               }))
             })
+          }
         }
       })
 
