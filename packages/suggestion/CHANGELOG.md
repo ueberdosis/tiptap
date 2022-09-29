@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.198](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.197...v2.0.0-beta.198) (2022-09-29)
+
+
+### Bug Fixes
+
+* **suggestion:** set default allowedPrefixes null ([#3239](https://github.com/ueberdosis/tiptap/issues/3239)) ([04b9da4](https://github.com/ueberdosis/tiptap/commit/04b9da4760f467c446cbcf2fd08030e089d9be5f))
+
+
+
+
+
 # [2.0.0-beta.197](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.196...v2.0.0-beta.197) (2022-09-26)
 
 **Note:** Version bump only for package @tiptap/suggestion

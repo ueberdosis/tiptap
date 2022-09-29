@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.198](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.197...v2.0.0-beta.198) (2022-09-29)
+
+
+### Bug Fixes
+
+* **core:** InputRules does not work for ranges containing multiple text nodes ([#3205](https://github.com/ueberdosis/tiptap/issues/3205)) ([2f9ba32](https://github.com/ueberdosis/tiptap/commit/2f9ba324a03868283cf467520f99bd2a1596375a)), closes [#3071](https://github.com/ueberdosis/tiptap/issues/3071)
+
+
+
+
+
 # [2.0.0-beta.197](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.196...v2.0.0-beta.197) (2022-09-26)
 
 
