@@ -74,8 +74,9 @@ export function autolink(options: AutolinkOptions): Plugin {
             ' ',
           )
         } else if (
+          nodesInChangedRanges.length
           // We want to make sure to include the block seperator argument to treat hard breaks like spaces
-          newState.doc.textBetween(newRange.from, newRange.to, ' ', ' ').endsWith(' ')
+          && newState.doc.textBetween(newRange.from, newRange.to, ' ', ' ').endsWith(' ')
         ) {
           textBlock = nodesInChangedRanges[0]
           textBeforeWhitespace = newState.doc.textBetween(
