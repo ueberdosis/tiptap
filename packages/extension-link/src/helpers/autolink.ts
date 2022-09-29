@@ -93,25 +93,25 @@ export function autolink(options: AutolinkOptions): Plugin {
 
           if (lastWordBeforeSpace) {
             find(lastWordBeforeSpace)
-            .filter(link => link.isLink)
-            .filter(link => {
-              if (options.validate) {
-                return options.validate(link.value)
-              }
-              return true
-            })
-            // calculate link position
-            .map(link => ({
-              ...link,
-              from: lastWordAndBlockOffset + link.start + 1,
-              to: lastWordAndBlockOffset + link.end + 1,
-            }))
-            // add link mark
-            .forEach(link => {
-              tr.addMark(link.from, link.to, options.type.create({
-                href: link.href,
+              .filter(link => link.isLink)
+              .filter(link => {
+                if (options.validate) {
+                  return options.validate(link.value)
+                }
+                return true
+              })
+              // calculate link position
+              .map(link => ({
+                ...link,
+                from: lastWordAndBlockOffset + link.start + 1,
+                to: lastWordAndBlockOffset + link.end + 1,
               }))
-            })
+              // add link mark
+              .forEach(link => {
+                tr.addMark(link.from, link.to, options.type.create({
+                  href: link.href,
+                }))
+              })
           }
         }
       })
