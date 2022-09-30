@@ -10,5 +10,5 @@
   },
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
-  "version": "2.0.0-beta.198"
+  "version": "2.0.0-beta.199"
 }
