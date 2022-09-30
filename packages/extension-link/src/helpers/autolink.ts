@@ -89,8 +89,17 @@ export function autolink(options: AutolinkOptions): Plugin {
 
         if (textBlock && textBeforeWhitespace) {
           const wordsBeforeWhitespace = textBeforeWhitespace.split(' ').filter(s => s !== '')
+
+          if (wordsBeforeWhitespace.length <= 0) {
+            return false
+          }
+
           const lastWordBeforeSpace = wordsBeforeWhitespace[wordsBeforeWhitespace.length - 1]
           const lastWordAndBlockOffset = textBlock.pos + textBeforeWhitespace.lastIndexOf(lastWordBeforeSpace)
+
+          if (!lastWordBeforeSpace) {
+            return false
+          }
 
           find(lastWordBeforeSpace)
             .filter(link => link.isLink)
