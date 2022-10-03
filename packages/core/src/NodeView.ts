@@ -203,28 +203,6 @@ export class NodeView<
       return false
     }
 
-    // try to prevent a bug on iOS that will break node views on enter
-    // this is because ProseMirror can’t preventDispatch on enter
-    // this will lead to a re-render of the node view on enter
-    // see: https://github.com/ueberdosis/tiptap/issues/1214
-    if (
-      this.dom.contains(mutation.target)
-      && mutation.type === 'childList'
-      && isiOS()
-      && this.editor.isFocused
-    ) {
-      const changedNodes = [
-        ...Array.from(mutation.addedNodes),
-        ...Array.from(mutation.removedNodes),
-      ] as HTMLElement[]
-
-      // we’ll check if every changed node is contentEditable
-      // to make sure it’s probably mutated by ProseMirror
-      if (changedNodes.every(node => node.isContentEditable)) {
-        return false
-      }
-    }
-
     // we will allow mutation contentDOM with attributes
     // so we can for example adding classes within our node view
     if (this.contentDOM === mutation.target && mutation.type === 'attributes') {
