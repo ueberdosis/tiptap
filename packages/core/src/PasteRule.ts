@@ -160,6 +160,8 @@ function run(config: {
 export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }): Plugin[] {
   const { editor, rules } = props
   let dragSourceElement: Element | null = null
+  let draggedElement: EventTarget | null = null
+  let draggedText: Selection | null = null
   let isPastedFromProseMirror = false
   let isDroppedFromProseMirror = false
 
@@ -168,24 +170,47 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
       // we register a global drag handler to track the current drag source element
       view(view) {
         const handleDragstart = (event: DragEvent) => {
+          draggedElement = event.target
+          draggedText = window.getSelection()
+          event.dataTransfer.effectAllowed = 'move'
+          event.dataTransfer?.setData('text/plain', draggedText.toString())
           dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
             ? view.dom.parentElement
             : null
         }
 
+        const handleDragEnter = (event: DragEvent) => {
+          event.preventDefault()
+        }
+
+        const handleDragOver = (event: DragEvent) => {
+          event.preventDefault()
+        }
+
         window.addEventListener('dragstart', handleDragstart)
+
+        window.addEventListener('dragenter', handleDragEnter)
+
+        window.addEventListener('dragover', handleDragOver)
 
         return {
           destroy() {
             window.removeEventListener('dragstart', handleDragstart)
+            window.removeEventListener('dragenter', handleDragEnter)
+            window.removeEventListener('dragover', handleDragOver)
           },
         }
       },
 
       props: {
         handleDOMEvents: {
-          drop: view => {
+          drop: (view, event) => {
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
+            event.preventDefault()
+            const data = event.dataTransfer?.getData('text/plain')
+
+            draggedElement.textContent = draggedElement.textContent.replace(data, '')
+            event.target.textContent += data
 
             return false
           },
