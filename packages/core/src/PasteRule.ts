@@ -160,8 +160,9 @@ function run(config: {
 export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }): Plugin[] {
   const { editor, rules } = props
   let dragSourceElement: Element | null = null
-  let draggedElement: EventTarget | null = null
+  let draggedElement: any
   let draggedText: Selection | null = null
+  let caretOffset: number | undefined
   let isPastedFromProseMirror = false
   let isDroppedFromProseMirror = false
 
@@ -172,8 +173,7 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
         const handleDragstart = (event: DragEvent) => {
           draggedElement = event.target
           draggedText = window.getSelection()
-          event.dataTransfer.effectAllowed = 'move'
-          event.dataTransfer?.setData('text/plain', draggedText.toString())
+          event.dataTransfer?.setData('text/plain', draggedText?.toString() as string)
           dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
             ? view.dom.parentElement
             : null
@@ -185,6 +185,12 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
 
         const handleDragOver = (event: DragEvent) => {
           event.preventDefault()
+          let caretData
+
+          if (document.caretRangeFromPoint) {
+            caretData = document.caretRangeFromPoint(event.clientX, event.clientY)
+          }
+          caretOffset = caretData?.startOffset
         }
 
         window.addEventListener('dragstart', handleDragstart)
@@ -204,14 +210,16 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
 
       props: {
         handleDOMEvents: {
-          drop: (view, event) => {
+          drop: (view, event: any) => {
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
             event.preventDefault()
+
             const data = event.dataTransfer?.getData('text/plain')
 
-            draggedElement.textContent = draggedElement.textContent.replace(data, '')
-            event.target.textContent += data
-
+            if (event.target.parentElement.className === 'ProseMirror') {
+              draggedElement.textContent = draggedElement.textContent.replace(data, '')
+              event.target.textContent = event.target.textContent.slice(0, caretOffset) + data + event.target.textContent.slice(caretOffset)
+            }
             return false
           },
 
