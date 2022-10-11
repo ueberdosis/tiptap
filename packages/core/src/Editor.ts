@@ -167,9 +167,12 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Update editable state of the editor.
    */
-  public setEditable(editable: boolean): void {
+  public setEditable(editable: boolean, emitUpdate = true): void {
     this.setOptions({ editable })
-    this.emit('update', { editor: this, transaction: this.state.tr })
+
+    if (emitUpdate) {
+      this.emit('update', { editor: this, transaction: this.state.tr })
+    }
   }
 
   /**
