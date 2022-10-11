@@ -5,11 +5,13 @@ import { getEmbedURLFromYoutubeURL, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } fr
 export interface YoutubeOptions {
   addPasteHandler: boolean;
   allowFullscreen: boolean;
+  autoplay: boolean;
   controls: boolean;
   height: number;
   HTMLAttributes: Record<string, any>,
   inline: boolean;
   nocookie: boolean;
+  progressBarColor: string;
   width: number;
 }
 
@@ -31,11 +33,13 @@ export const Youtube = Node.create<YoutubeOptions>({
     return {
       addPasteHandler: true,
       allowFullscreen: false,
+      autoplay: false,
       controls: true,
       height: 480,
       HTMLAttributes: {},
       inline: false,
       nocookie: false,
+      progressBarColor: 'red',
       width: 640,
     }
   },
@@ -109,8 +113,11 @@ export const Youtube = Node.create<YoutubeOptions>({
   renderHTML({ HTMLAttributes }) {
     const embedUrl = getEmbedURLFromYoutubeURL({
       url: HTMLAttributes.src,
+      allowFullscreen: this.options.allowFullscreen,
+      autoplay: this.options.autoplay,
       controls: this.options.controls,
       nocookie: this.options.nocookie,
+      progressBarColor: this.options.progressBarColor,
       startAt: HTMLAttributes.start || 0,
     })
 
@@ -127,6 +134,8 @@ export const Youtube = Node.create<YoutubeOptions>({
             width: this.options.width,
             height: this.options.height,
             allowfullscreen: this.options.allowFullscreen,
+            autoplay: this.options.autoplay,
+            progressBarColor: this.options.progressBarColor,
           },
           HTMLAttributes,
         ),

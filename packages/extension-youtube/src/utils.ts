@@ -7,8 +7,11 @@ export const isValidYoutubeUrl = (url: string) => {
 
 export interface GetEmbedUrlOptions {
   url: string;
+  allowFullscreen?: boolean;
+  autoplay?: boolean;
   controls?: boolean;
   nocookie?: boolean;
+  progressBarColor?: string;
   startAt?: number;
 }
 
@@ -19,8 +22,11 @@ export const getYoutubeEmbedUrl = (nocookie?: boolean) => {
 export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
   const {
     url,
+    allowFullscreen,
+    autoplay,
     controls,
     nocookie,
+    progressBarColor,
     startAt,
   } = options
 
@@ -50,12 +56,24 @@ export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
 
   const params = []
 
+  if (!allowFullscreen) {
+    params.push('fs=0')
+  }
+
+  if (autoplay) {
+    params.push('autoplay=1')
+  }
+
   if (!controls) {
     params.push('controls=0')
   }
 
   if (startAt) {
     params.push(`start=${startAt}`)
+  }
+
+  if (progressBarColor) {
+    params.push(`color=${progressBarColor}`)
   }
 
   if (params.length) {
