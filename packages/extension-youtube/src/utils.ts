@@ -9,7 +9,12 @@ export interface GetEmbedUrlOptions {
   url: string;
   allowFullscreen?: boolean;
   autoplay?: boolean;
+  ccLanguage?:string;
+  ccLoadPolicy?:boolean;
   controls?: boolean;
+  disableKBcontrols: boolean,
+  endTime: number;
+  interfaceLanguage: string;
   nocookie?: boolean;
   progressBarColor?: string;
   startAt?: number;
@@ -24,7 +29,12 @@ export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
     url,
     allowFullscreen,
     autoplay,
+    ccLanguage,
+    ccLoadPolicy,
     controls,
+    disableKBcontrols,
+    endTime,
+    interfaceLanguage,
     nocookie,
     progressBarColor,
     startAt,
@@ -64,8 +74,28 @@ export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
     params.push('autoplay=1')
   }
 
+  if (ccLanguage) {
+    params.push(`cc_lang_pref=${ccLanguage}`)
+  }
+
+  if (ccLoadPolicy) {
+    params.push('cc_load_policy=1')
+  }
+
   if (!controls) {
     params.push('controls=0')
+  }
+
+  if (disableKBcontrols) {
+    params.push('disablekb=1')
+  }
+
+  if (endTime) {
+    params.push(`end=${endTime}`)
+  }
+
+  if (interfaceLanguage) {
+    params.push(`hl=${interfaceLanguage}`)
   }
 
   if (startAt) {

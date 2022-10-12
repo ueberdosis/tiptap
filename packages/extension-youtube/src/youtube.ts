@@ -6,9 +6,14 @@ export interface YoutubeOptions {
   addPasteHandler: boolean;
   allowFullscreen: boolean;
   autoplay: boolean;
+  ccLanguage: string;
+  ccLoadPolicy: boolean;
   controls: boolean;
+  disableKBcontrols: boolean;
+  endTime: number;
   height: number;
-  HTMLAttributes: Record<string, any>,
+  interfaceLanguage: string;
+  HTMLAttributes: Record<string, any>;
   inline: boolean;
   nocookie: boolean;
   progressBarColor: string;
@@ -34,8 +39,13 @@ export const Youtube = Node.create<YoutubeOptions>({
       addPasteHandler: true,
       allowFullscreen: false,
       autoplay: false,
+      ccLanguage: 'en',
+      ccLoadPolicy: false,
       controls: true,
+      disableKBcontrols: false,
+      endTime: 0,
       height: 480,
+      interfaceLanguage: 'en',
       HTMLAttributes: {},
       inline: false,
       nocookie: false,
@@ -115,7 +125,12 @@ export const Youtube = Node.create<YoutubeOptions>({
       url: HTMLAttributes.src,
       allowFullscreen: this.options.allowFullscreen,
       autoplay: this.options.autoplay,
+      ccLanguage: this.options.ccLanguage,
+      ccLoadPolicy: this.options.ccLoadPolicy,
       controls: this.options.controls,
+      disableKBcontrols: this.options.disableKBcontrols,
+      endTime: this.options.endTime,
+      interfaceLanguage: this.options.interfaceLanguage,
       nocookie: this.options.nocookie,
       progressBarColor: this.options.progressBarColor,
       startAt: HTMLAttributes.start || 0,
@@ -135,6 +150,11 @@ export const Youtube = Node.create<YoutubeOptions>({
             height: this.options.height,
             allowfullscreen: this.options.allowFullscreen,
             autoplay: this.options.autoplay,
+            ccLanguage: this.options.ccLanguage,
+            ccLoadPolicy: this.options.ccLoadPolicy,
+            disableKBcontrols: this.options.disableKBcontrols,
+            endTime: this.options.endTime,
+            interfaceLanguage: this.options.interfaceLanguage,
             progressBarColor: this.options.progressBarColor,
           },
           HTMLAttributes,
