@@ -10,12 +10,18 @@ export interface YoutubeOptions {
   ccLoadPolicy: boolean;
   controls: boolean;
   disableKBcontrols: boolean;
+  enableIFrameApi: boolean;
   endTime: number;
   height: number;
   interfaceLanguage: string;
+  ivLoadPolicy: number;
+  loop: boolean;
+  modestBranding: boolean;
   HTMLAttributes: Record<string, any>;
   inline: boolean;
   nocookie: boolean;
+  origin: string;
+  playlist: string;
   progressBarColor: string;
   width: number;
 }
@@ -43,12 +49,18 @@ export const Youtube = Node.create<YoutubeOptions>({
       ccLoadPolicy: false,
       controls: true,
       disableKBcontrols: false,
+      enableIFrameApi: false,
       endTime: 0,
       height: 480,
       interfaceLanguage: 'en',
+      ivLoadPolicy: 1,
+      loop: false,
+      modestBranding: false,
       HTMLAttributes: {},
       inline: false,
       nocookie: false,
+      origin: '',
+      playlist: '',
       progressBarColor: 'red',
       width: 640,
     }
@@ -129,9 +141,15 @@ export const Youtube = Node.create<YoutubeOptions>({
       ccLoadPolicy: this.options.ccLoadPolicy,
       controls: this.options.controls,
       disableKBcontrols: this.options.disableKBcontrols,
+      enableIFrameApi: this.options.enableIFrameApi,
       endTime: this.options.endTime,
       interfaceLanguage: this.options.interfaceLanguage,
+      ivLoadPolicy: this.options.ivLoadPolicy,
+      loop: this.options.loop,
+      modestBranding: this.options.modestBranding,
       nocookie: this.options.nocookie,
+      origin: this.options.origin,
+      playlist: this.options.playlist,
       progressBarColor: this.options.progressBarColor,
       startAt: HTMLAttributes.start || 0,
     })
@@ -153,8 +171,14 @@ export const Youtube = Node.create<YoutubeOptions>({
             ccLanguage: this.options.ccLanguage,
             ccLoadPolicy: this.options.ccLoadPolicy,
             disableKBcontrols: this.options.disableKBcontrols,
+            enableIFrameApi: this.options.enableIFrameApi,
             endTime: this.options.endTime,
             interfaceLanguage: this.options.interfaceLanguage,
+            ivLoadPolicy: this.options.ivLoadPolicy,
+            loop: this.options.loop,
+            modestBranding: this.options.modestBranding,
+            origin: this.options.origin,
+            playlist: this.options.playlist,
             progressBarColor: this.options.progressBarColor,
           },
           HTMLAttributes,

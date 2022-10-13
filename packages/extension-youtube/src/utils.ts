@@ -12,10 +12,16 @@ export interface GetEmbedUrlOptions {
   ccLanguage?:string;
   ccLoadPolicy?:boolean;
   controls?: boolean;
-  disableKBcontrols: boolean,
-  endTime: number;
-  interfaceLanguage: string;
+  disableKBcontrols?: boolean,
+  enableIFrameApi?: boolean;
+  endTime?: number;
+  interfaceLanguage?: string;
+  ivLoadPolicy?: number;
+  loop?: boolean;
+  modestBranding?: boolean;
   nocookie?: boolean;
+  origin?: string;
+  playlist?: string;
   progressBarColor?: string;
   startAt?: number;
 }
@@ -33,9 +39,15 @@ export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
     ccLoadPolicy,
     controls,
     disableKBcontrols,
+    enableIFrameApi,
     endTime,
     interfaceLanguage,
+    ivLoadPolicy,
+    loop,
+    modestBranding,
     nocookie,
+    origin,
+    playlist,
     progressBarColor,
     startAt,
   } = options
@@ -90,12 +102,36 @@ export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
     params.push('disablekb=1')
   }
 
+  if (enableIFrameApi) {
+    params.push('enablejsapi=1')
+  }
+
   if (endTime) {
     params.push(`end=${endTime}`)
   }
 
   if (interfaceLanguage) {
     params.push(`hl=${interfaceLanguage}`)
+  }
+
+  if (ivLoadPolicy) {
+    params.push(`iv_load_policy=${ivLoadPolicy}`)
+  }
+
+  if (loop) {
+    params.push('loop=1')
+  }
+
+  if (modestBranding) {
+    params.push('modestbranding=1')
+  }
+
+  if (origin) {
+    params.push(`origin=${origin}`)
+  }
+
+  if (playlist) {
+    params.push(`playlist=${playlist}`)
   }
 
   if (startAt) {
