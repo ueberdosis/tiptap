@@ -4,6 +4,7 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 
 type ClickHandlerOptions = {
   type: MarkType,
+  whenNotEditable: boolean
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {
@@ -11,6 +12,10 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
     key: new PluginKey('handleClickLink'),
     props: {
       handleClick: (view, pos, event) => {
+        if (options.whenNotEditable && view.editable) {
+          return false
+        }
+
         const attrs = getAttributes(view.state, options.type.name)
         const link = (event.target as HTMLElement)?.closest('a')
 
