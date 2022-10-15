@@ -50,5 +50,9 @@ export function isNodeActive(
   const range = matchedNodeRanges
     .reduce((sum, nodeRange) => sum + nodeRange.to - nodeRange.from, 0)
 
-  return range >= selectionRange
+  if (range > 0) {
+    return range >= selectionRange || selectionRange - range === 2
+  }
+
+  return false
 }
