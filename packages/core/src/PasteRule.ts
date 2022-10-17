@@ -160,6 +160,9 @@ function run(config: {
 export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }): Plugin[] {
   const { editor, rules } = props
   let dragSourceElement: Element | null = null
+  let draggedElement: any
+  let draggedText: Selection | null = null
+  let caretOffset: number | undefined
   let isPastedFromProseMirror = false
   let isDroppedFromProseMirror = false
 
@@ -168,25 +171,55 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
       // we register a global drag handler to track the current drag source element
       view(view) {
         const handleDragstart = (event: DragEvent) => {
+          draggedElement = event.target
+          draggedText = window.getSelection()
+          event.dataTransfer?.setData('text/plain', draggedText?.toString() as string)
           dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
             ? view.dom.parentElement
             : null
         }
 
+        const handleDragEnter = (event: DragEvent) => {
+          event.preventDefault()
+        }
+
+        const handleDragOver = (event: DragEvent) => {
+          event.preventDefault()
+          let caretData
+
+          if (document.caretRangeFromPoint) {
+            caretData = document.caretRangeFromPoint(event.clientX, event.clientY)
+          }
+          caretOffset = caretData?.startOffset
+        }
+
         window.addEventListener('dragstart', handleDragstart)
+
+        window.addEventListener('dragenter', handleDragEnter)
+
+        window.addEventListener('dragover', handleDragOver)
 
         return {
           destroy() {
             window.removeEventListener('dragstart', handleDragstart)
+            window.removeEventListener('dragenter', handleDragEnter)
+            window.removeEventListener('dragover', handleDragOver)
           },
         }
       },
 
       props: {
         handleDOMEvents: {
-          drop: view => {
+          drop: (view, event: any) => {
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
+            event.preventDefault()
 
+            const data = event.dataTransfer?.getData('text/plain')
+
+            if (event.target.parentElement.className === 'ProseMirror') {
+              draggedElement.textContent = draggedElement.textContent.replace(data, '')
+              event.target.textContent = event.target.textContent.slice(0, caretOffset) + data + event.target.textContent.slice(caretOffset)
+            }
             return false
           },
 
