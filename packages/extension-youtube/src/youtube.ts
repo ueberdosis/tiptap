@@ -5,11 +5,24 @@ import { getEmbedURLFromYoutubeURL, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } fr
 export interface YoutubeOptions {
   addPasteHandler: boolean;
   allowFullscreen: boolean;
+  autoplay: boolean;
+  ccLanguage: string;
+  ccLoadPolicy: boolean;
   controls: boolean;
+  disableKBcontrols: boolean;
+  enableIFrameApi: boolean;
+  endTime: number;
   height: number;
-  HTMLAttributes: Record<string, any>,
+  interfaceLanguage: string;
+  ivLoadPolicy: number;
+  loop: boolean;
+  modestBranding: boolean;
+  HTMLAttributes: Record<string, any>;
   inline: boolean;
   nocookie: boolean;
+  origin: string;
+  playlist: string;
+  progressBarColor: string;
   width: number;
 }
 
@@ -31,11 +44,24 @@ export const Youtube = Node.create<YoutubeOptions>({
     return {
       addPasteHandler: true,
       allowFullscreen: false,
+      autoplay: false,
+      ccLanguage: 'en',
+      ccLoadPolicy: false,
       controls: true,
+      disableKBcontrols: false,
+      enableIFrameApi: false,
+      endTime: 0,
       height: 480,
+      interfaceLanguage: 'en',
+      ivLoadPolicy: 1,
+      loop: false,
+      modestBranding: false,
       HTMLAttributes: {},
       inline: false,
       nocookie: false,
+      origin: '',
+      playlist: '',
+      progressBarColor: 'red',
       width: 640,
     }
   },
@@ -109,8 +135,22 @@ export const Youtube = Node.create<YoutubeOptions>({
   renderHTML({ HTMLAttributes }) {
     const embedUrl = getEmbedURLFromYoutubeURL({
       url: HTMLAttributes.src,
+      allowFullscreen: this.options.allowFullscreen,
+      autoplay: this.options.autoplay,
+      ccLanguage: this.options.ccLanguage,
+      ccLoadPolicy: this.options.ccLoadPolicy,
       controls: this.options.controls,
+      disableKBcontrols: this.options.disableKBcontrols,
+      enableIFrameApi: this.options.enableIFrameApi,
+      endTime: this.options.endTime,
+      interfaceLanguage: this.options.interfaceLanguage,
+      ivLoadPolicy: this.options.ivLoadPolicy,
+      loop: this.options.loop,
+      modestBranding: this.options.modestBranding,
       nocookie: this.options.nocookie,
+      origin: this.options.origin,
+      playlist: this.options.playlist,
+      progressBarColor: this.options.progressBarColor,
       startAt: HTMLAttributes.start || 0,
     })
 
@@ -127,6 +167,19 @@ export const Youtube = Node.create<YoutubeOptions>({
             width: this.options.width,
             height: this.options.height,
             allowfullscreen: this.options.allowFullscreen,
+            autoplay: this.options.autoplay,
+            ccLanguage: this.options.ccLanguage,
+            ccLoadPolicy: this.options.ccLoadPolicy,
+            disableKBcontrols: this.options.disableKBcontrols,
+            enableIFrameApi: this.options.enableIFrameApi,
+            endTime: this.options.endTime,
+            interfaceLanguage: this.options.interfaceLanguage,
+            ivLoadPolicy: this.options.ivLoadPolicy,
+            loop: this.options.loop,
+            modestBranding: this.options.modestBranding,
+            origin: this.options.origin,
+            playlist: this.options.playlist,
+            progressBarColor: this.options.progressBarColor,
           },
           HTMLAttributes,
         ),
