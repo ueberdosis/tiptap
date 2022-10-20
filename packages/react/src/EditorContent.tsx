@@ -1,5 +1,5 @@
 import React, { HTMLProps } from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM, { flushSync } from 'react-dom'
 
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
@@ -66,6 +66,30 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 
       editor.createNodeViews()
     }
+  }
+
+  setRenderer(id: string, renderer: ReactRenderer) {
+    queueMicrotask(() => {
+      flushSync(() => {
+        const { renderers } = this.state
+
+        renderers.set(id, renderer)
+
+        this.setState({ renderers })
+      })
+    })
+  }
+
+  removeRenderer(id: string) {
+    queueMicrotask(() => {
+      flushSync(() => {
+        const { renderers } = this.state
+
+        renderers.delete(id)
+
+        this.setState({ renderers })
+      })
+    })
   }
 
   componentWillUnmount() {
