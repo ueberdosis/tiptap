@@ -29,9 +29,12 @@ export interface EditorContentState {
 export class PureEditorContent extends React.Component<EditorContentProps, EditorContentState> {
   editorContentRef: React.RefObject<any>
 
+  initialized: boolean
+
   constructor(props: EditorContentProps) {
     super(props)
     this.editorContentRef = React.createRef()
+    this.initialized = false
 
     this.state = {
       renderers: {},
@@ -65,32 +68,42 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
       editor.contentComponent = this
 
       editor.createNodeViews()
+
+      this.initialized = true
+    }
+  }
+
+  maybeFlushSync(fn: () => void) {
+    // Avoid calling flushSync until the editor is initialized.
+    // Initialization happens during the componentDidMount or componentDidUpdate
+    // lifecycle methods, and React doesn't allow calling flushSync from inside
+    // a lifecycle method.
+    if (this.initialized) {
+      flushSync(fn)
+    } else {
+      fn()
     }
   }
 
   setRenderer(id: string, renderer: ReactRenderer) {
-    queueMicrotask(() => {
-      flushSync(() => {
-        this.setState(({ renderers }) => ({
-          renderers: {
-            ...renderers,
-            [id]: renderer,
-          },
-        }))
-      })
+    this.maybeFlushSync(() => {
+      this.setState(({ renderers }) => ({
+        renderers: {
+          ...renderers,
+          [id]: renderer,
+        },
+      }))
     })
   }
 
   removeRenderer(id: string) {
-    queueMicrotask(() => {
-      flushSync(() => {
-        this.setState(({ renderers }) => {
-          const nextRenderers = { ...renderers }
+    this.maybeFlushSync(() => {
+      this.setState(({ renderers }) => {
+        const nextRenderers = { ...renderers }
 
-          delete nextRenderers[id]
+        delete nextRenderers[id]
 
-          return { renderers: nextRenderers }
-        })
+        return { renderers: nextRenderers }
       })
     })
   }
