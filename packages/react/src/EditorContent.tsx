@@ -4,10 +4,10 @@ import ReactDOM, { flushSync } from 'react-dom'
 import { Editor } from './Editor'
 import { ReactRenderer } from './ReactRenderer'
 
-const Portals: React.FC<{ renderers: Map<string, ReactRenderer> }> = ({ renderers }) => {
+const Portals: React.FC<{ renderers: Record<string, ReactRenderer> }> = ({ renderers }) => {
   return (
     <>
-      {Array.from(renderers).map(([key, renderer]) => {
+      {Object.entries(renderers).map(([key, renderer]) => {
         return ReactDOM.createPortal(
           renderer.reactElement,
           renderer.element,
@@ -23,7 +23,7 @@ export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
 }
 
 export interface EditorContentState {
-  renderers: Map<string, ReactRenderer>
+  renderers: Record<string, ReactRenderer>
 }
 
 export class PureEditorContent extends React.Component<EditorContentProps, EditorContentState> {
@@ -34,7 +34,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
     this.editorContentRef = React.createRef()
 
     this.state = {
-      renderers: new Map(),
+      renderers: {},
     }
   }
 
@@ -71,11 +71,12 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   setRenderer(id: string, renderer: ReactRenderer) {
     queueMicrotask(() => {
       flushSync(() => {
-        const { renderers } = this.state
-
-        renderers.set(id, renderer)
-
-        this.setState({ renderers })
+        this.setState(({ renderers }) => ({
+          renderers: {
+            ...renderers,
+            [id]: renderer,
+          },
+        }))
       })
     })
   }
@@ -83,11 +84,13 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   removeRenderer(id: string) {
     queueMicrotask(() => {
       flushSync(() => {
-        const { renderers } = this.state
+        this.setState(({ renderers }) => {
+          const nextRenderers = { ...renderers }
 
-        renderers.delete(id)
+          delete nextRenderers[id]
 
-        this.setState({ renderers })
+          return { renderers: nextRenderers }
+        })
       })
     })
   }
