@@ -9,6 +9,7 @@ export type MentionOptions = {
     options: MentionOptions,
     node: ProseMirrorNode,
   }) => string,
+  deleteOnBackspace: boolean,
   suggestion: Omit<SuggestionOptions, 'editor'>,
 }
 
@@ -23,6 +24,7 @@ export const Mention = Node.create<MentionOptions>({
       renderLabel({ options, node }) {
         return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
       },
+      deleteOnBackspace: false,
       suggestion: {
         char: '@',
         pluginKey: MentionPluginKey,
@@ -144,7 +146,11 @@ export const Mention = Node.create<MentionOptions>({
         state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
           if (node.type.name === this.name) {
             isMention = true
-            tr.insertText(this.options.suggestion.char || '', pos, pos + node.nodeSize)
+            tr.insertText(
+              this.options.deleteOnBackspace ? '' : this.options.suggestion.char || '',
+              pos,
+              pos + node.nodeSize,
+            )
 
             return false
           }
