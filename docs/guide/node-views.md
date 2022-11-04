@@ -76,7 +76,7 @@ That doesn’t apply to JSON. In JSON, everything is stored as an object. There 
 :::
 
 ### Render HTML
-Okay, you’ve set up your node with an interactive node view and now you want to control the output. Even if you’re node view is pretty complex, the rendered HTML can be simple:
+Okay, you’ve set up your node with an interactive node view and now you want to control the output. Even if your node view is pretty complex, the rendered HTML can be simple:
 
 ```js
 renderHTML({ HTMLAttributes }) {

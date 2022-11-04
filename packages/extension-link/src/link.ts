@@ -1,5 +1,5 @@
 import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
-import { find, registerCustomProtocol } from 'linkifyjs'
+import { find, registerCustomProtocol, reset } from 'linkifyjs'
 import { Plugin } from 'prosemirror-state'
 
 import { autolink } from './helpers/autolink'
@@ -63,6 +63,10 @@ export const Link = Mark.create<LinkOptions>({
 
   onCreate() {
     this.options.protocols.forEach(registerCustomProtocol)
+  },
+
+  onDestroy() {
+    reset()
   },
 
   inclusive() {

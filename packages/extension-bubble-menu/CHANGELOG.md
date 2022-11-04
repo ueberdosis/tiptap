@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.202](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.201...v2.0.0-beta.202) (2022-11-04)
+
+**Note:** Version bump only for package @tiptap/extension-bubble-menu
+
+
+
+
+
+# [2.0.0-beta.201](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.200...v2.0.0-beta.201) (2022-11-04)
+
+
+### Bug Fixes
+
+* remove blur event listener from tippy element ([#3365](https://github.com/ueberdosis/tiptap/issues/3365)) ([#3366](https://github.com/ueberdosis/tiptap/issues/3366)) ([aca6c88](https://github.com/ueberdosis/tiptap/commit/aca6c88f2de7d33d9b12a39fa82f59762d355603))
+
+
+
+
+
+# [2.0.0-beta.200](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.199...v2.0.0-beta.200) (2022-11-04)
+
+**Note:** Version bump only for package @tiptap/extension-bubble-menu
+
+
+
+
+
 # [2.0.0-beta.199](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.198...v2.0.0-beta.199) (2022-09-30)
 
 **Note:** Version bump only for package @tiptap/extension-bubble-menu

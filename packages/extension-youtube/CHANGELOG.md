@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.202](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.201...v2.0.0-beta.202) (2022-11-04)
+
+**Note:** Version bump only for package @tiptap/extension-youtube
+
+
+
+
+
+# [2.0.0-beta.201](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.200...v2.0.0-beta.201) (2022-11-04)
+
+
+### Bug Fixes
+
+* **extension-youtube:** remove default options from youtube extension ([bf58124](https://github.com/ueberdosis/tiptap/commit/bf5812461bd85f19a06dfceaaca5ef6cfda6d3dd))
+* **extension-youtube:** set allowFullscreen to default ([4841c05](https://github.com/ueberdosis/tiptap/commit/4841c05c72dca2e2464a944526b9049f21bd5726))
+
+
+
+
+
+# [2.0.0-beta.200](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.199...v2.0.0-beta.200) (2022-11-04)
+
+**Note:** Version bump only for package @tiptap/extension-youtube
+
+
+
+
+
 # [2.0.0-beta.199](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.198...v2.0.0-beta.199) (2022-09-30)
 
 **Note:** Version bump only for package @tiptap/extension-youtube
