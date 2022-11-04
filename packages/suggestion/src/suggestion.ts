@@ -61,7 +61,7 @@ export function Suggestion<I = any>({
   editor,
   char = '@',
   allowSpaces = false,
-  allowedPrefixes = null,
+  allowedPrefixes = [' '],
   startOfLine = false,
   decorationTag = 'span',
   decorationClass = 'suggestion',
