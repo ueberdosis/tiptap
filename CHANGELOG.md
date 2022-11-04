@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.201](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.200...v2.0.0-beta.201) (2022-11-04)
+
+
+### Bug Fixes
+
+* **extension-youtube:** remove default options from youtube extension ([bf58124](https://github.com/ueberdosis/tiptap/commit/bf5812461bd85f19a06dfceaaca5ef6cfda6d3dd))
+* **extension-youtube:** set allowFullscreen to default ([4841c05](https://github.com/ueberdosis/tiptap/commit/4841c05c72dca2e2464a944526b9049f21bd5726))
+* remove blur event listener from tippy element ([#3365](https://github.com/ueberdosis/tiptap/issues/3365)) ([#3366](https://github.com/ueberdosis/tiptap/issues/3366)) ([aca6c88](https://github.com/ueberdosis/tiptap/commit/aca6c88f2de7d33d9b12a39fa82f59762d355603))
+
+
+### Reverts
+
+* Revert "Fixed dragged text not being deleted after drop on another editor (#3279)" ([403b99c](https://github.com/ueberdosis/tiptap/commit/403b99cd1ad4fa00721158fe7195674fc01b642c)), closes [#3279](https://github.com/ueberdosis/tiptap/issues/3279)
+
+
+
+
+
 # [2.0.0-beta.200](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.199...v2.0.0-beta.200) (2022-11-04)
 
 
