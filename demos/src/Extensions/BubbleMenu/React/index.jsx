@@ -30,7 +30,7 @@ export default () => {
         <input type="checkbox" checked={isEditable} onChange={() => setIsEditable(!isEditable)} />
         Editable
       </div>
-      {editor && <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} delay={0}>
+      {editor && <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={editor.isActive('bold') ? 'is-active' : ''}
