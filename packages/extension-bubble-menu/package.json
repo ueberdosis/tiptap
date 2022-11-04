@@ -33,5 +33,9 @@
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-bubble-menu"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "devDependencies": {
+    "@types/lodash": "^4.14.187",
+    "lodash": "^4.17.21"
+  }
 }

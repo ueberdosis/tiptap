@@ -5,6 +5,7 @@ export interface BubbleMenuInterface extends Vue {
   pluginKey: BubbleMenuPluginProps['pluginKey'],
   editor: BubbleMenuPluginProps['editor'],
   tippyOptions: BubbleMenuPluginProps['tippyOptions'],
+  delay: BubbleMenuPluginProps['delay'],
   shouldShow: BubbleMenuPluginProps['shouldShow'],
 }
 
@@ -20,6 +21,10 @@ export const BubbleMenu: Component = {
     editor: {
       type: Object as PropType<BubbleMenuPluginProps['editor']>,
       required: true,
+    },
+
+    delay: {
+      type: Number as PropType<BubbleMenuPluginProps['delay']>,
     },
 
     tippyOptions: {
@@ -43,11 +48,12 @@ export const BubbleMenu: Component = {
 
         this.$nextTick(() => {
           editor.registerPlugin(BubbleMenuPlugin({
-            pluginKey: this.pluginKey,
+            delay: this.delay,
             editor,
             element: this.$el as HTMLElement,
-            tippyOptions: this.tippyOptions,
+            pluginKey: this.pluginKey,
             shouldShow: this.shouldShow,
+            tippyOptions: this.tippyOptions,
           }))
         })
       },
