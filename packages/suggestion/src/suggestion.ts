@@ -120,7 +120,7 @@ export function Suggestion<I = any>({
             // this can be used for building popups without a DOM node
             clientRect: decorationNode
               ? () => {
-                // because of `items` can be asynchrounous we’ll search for the current docoration node
+                // because of `items` can be asynchrounous we’ll search for the current decoration node
                 const { decorationId } = this.key?.getState(editor.state) // eslint-disable-line
                 const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
 
