@@ -4,6 +4,7 @@ import {
   isTextSelection,
   posToDOMRect,
 } from '@tiptap/core'
+import debounce from 'lodash/debounce'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import tippy, { Instance, Props } from 'tippy.js'
@@ -13,6 +14,7 @@ export interface BubbleMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
   tippyOptions?: Partial<Props>,
+  delay?: number,
   shouldShow?: ((props: {
     editor: Editor,
     view: EditorView,
@@ -39,6 +41,8 @@ export class BubbleMenuView {
   public tippy: Instance | undefined
 
   public tippyOptions?: Partial<Props>
+
+  public delay: number
 
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
     view,
@@ -79,11 +83,13 @@ export class BubbleMenuView {
     element,
     view,
     tippyOptions = {},
+    delay = 250,
     shouldShow,
   }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
+    this.delay = delay
 
     if (shouldShow) {
       this.shouldShow = shouldShow
@@ -157,6 +163,21 @@ export class BubbleMenuView {
   }
 
   update(view: EditorView, oldState?: EditorState) {
+    const { state } = view
+    const hasValidSelection = state.selection.$from.pos !== state.selection.$to.pos
+
+    if (hasValidSelection) {
+      if (this.delay > 0) {
+        debounce(this.updateHandler, this.delay)(view, oldState)
+      } else {
+        this.updateHandler(view, oldState)
+      }
+    } else {
+      this.hide()
+    }
+  }
+
+  updateHandler = (view: EditorView, oldState?: EditorState) => {
     const { state, composing } = view
     const { doc, selection } = state
     const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
