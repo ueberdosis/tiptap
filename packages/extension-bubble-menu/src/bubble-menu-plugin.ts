@@ -14,7 +14,7 @@ export interface BubbleMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
   tippyOptions?: Partial<Props>,
-  delay?: number,
+  updateDelay?: number,
   shouldShow?: ((props: {
     editor: Editor,
     view: EditorView,
@@ -42,7 +42,7 @@ export class BubbleMenuView {
 
   public tippyOptions?: Partial<Props>
 
-  public delay: number
+  public updateDelay: number
 
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
     view,
@@ -83,13 +83,13 @@ export class BubbleMenuView {
     element,
     view,
     tippyOptions = {},
-    delay = 250,
+    updateDelay = 250,
     shouldShow,
   }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
-    this.delay = delay
+    this.updateDelay = updateDelay
 
     if (shouldShow) {
       this.shouldShow = shouldShow
@@ -169,8 +169,8 @@ export class BubbleMenuView {
     const hasValidSelection = state.selection.$from.pos !== state.selection.$to.pos
 
     if (hasValidSelection) {
-      if (this.delay > 0) {
-        debounce(this.updateHandler, this.delay)(view, oldState)
+      if (this.updateDelay > 0) {
+        debounce(this.updateHandler, this.updateDelay)(view, oldState)
       } else {
         this.updateHandler(view, oldState)
       }

@@ -6,7 +6,7 @@ type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'> & {
   className?: string;
   children: React.ReactNode;
-  delay?: number;
+  updateDelay?: number;
 };
 
 export const BubbleMenu = (props: BubbleMenuProps) => {
@@ -22,11 +22,11 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
     }
 
     const {
-      pluginKey = 'bubbleMenu', editor, tippyOptions = {}, delay, shouldShow = null,
+      pluginKey = 'bubbleMenu', editor, tippyOptions = {}, updateDelay, shouldShow = null,
     } = props
 
     const plugin = BubbleMenuPlugin({
-      delay,
+      updateDelay,
       editor,
       element,
       pluginKey,

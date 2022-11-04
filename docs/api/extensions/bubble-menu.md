@@ -25,7 +25,7 @@ Type: `HTMLElement`
 
 Default: `null`
 
-### delay
+### updateDelay
 The `BubbleMenu` debounces the `update` method to allow the bubble menu to not be updated on every selection update. This can be controlled in milliseconds.
 The BubbleMenuPlugin will come with a default delay of 250ms. This can be deactivated, by setting the delay to `0` which deactivates the debounce.
 
