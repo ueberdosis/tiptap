@@ -6,14 +6,14 @@ export interface YoutubeOptions {
   addPasteHandler: boolean;
   allowFullscreen: boolean;
   autoplay: boolean;
-  ccLanguage: string;
-  ccLoadPolicy: boolean;
+  ccLanguage?: string;
+  ccLoadPolicy?: boolean;
   controls: boolean;
   disableKBcontrols: boolean;
   enableIFrameApi: boolean;
   endTime: number;
   height: number;
-  interfaceLanguage: string;
+  interfaceLanguage?: string;
   ivLoadPolicy: number;
   loop: boolean;
   modestBranding: boolean;
@@ -22,7 +22,7 @@ export interface YoutubeOptions {
   nocookie: boolean;
   origin: string;
   playlist: string;
-  progressBarColor: string;
+  progressBarColor?: string;
   width: number;
 }
 
@@ -45,15 +45,15 @@ export const Youtube = Node.create<YoutubeOptions>({
       addPasteHandler: true,
       allowFullscreen: false,
       autoplay: false,
-      ccLanguage: 'en',
-      ccLoadPolicy: false,
+      ccLanguage: undefined,
+      ccLoadPolicy: undefined,
       controls: true,
       disableKBcontrols: false,
       enableIFrameApi: false,
       endTime: 0,
       height: 480,
-      interfaceLanguage: 'en',
-      ivLoadPolicy: 1,
+      interfaceLanguage: undefined,
+      ivLoadPolicy: 0,
       loop: false,
       modestBranding: false,
       HTMLAttributes: {},
@@ -61,7 +61,7 @@ export const Youtube = Node.create<YoutubeOptions>({
       nocookie: false,
       origin: '',
       playlist: '',
-      progressBarColor: 'red',
+      progressBarColor: undefined,
       width: 640,
     }
   },
