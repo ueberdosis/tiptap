@@ -96,7 +96,7 @@ Youtube.configure({
 ### ccLanguage
 Specifies the default language that the player will use to display closed captions. Set the parameter's value to an ISO 639-1 two-letter language code. For example, setting it to `es` will cause the captions to be in spanish
 
-Default: `en`
+Default: `undefined`
 
 ```js
 Youtube.configure({
@@ -138,7 +138,7 @@ Youtube.configure({
 ```
 
 ### origin
-This parameter provides an extra security measure for the IFrame API and is only supported for IFrame embeds. If you are using the IFrame API, which means you are setting the `enableIFrameApi` parameter value to `true`, you should always specify your domain as the `origin` parameter value. 
+This parameter provides an extra security measure for the IFrame API and is only supported for IFrame embeds. If you are using the IFrame API, which means you are setting the `enableIFrameApi` parameter value to `true`, you should always specify your domain as the `origin` parameter value.
 
 Default: `''`
 
@@ -149,7 +149,7 @@ Youtube.configure({
 ```
 
 ### endTime
-This parameter specifies the time, measured in seconds from the start of the video, when the player should stop playing the video. 
+This parameter specifies the time, measured in seconds from the start of the video, when the player should stop playing the video.
 For example, setting it to `15` will make the video stop at the 15 seconds mark
 
 Default: `0`
@@ -163,7 +163,7 @@ Youtube.configure({
 ### interfaceLanguage
 Sets the player's interface language. The parameter value is an ISO 639-1 two-letter language code. For example, setting it to `fr` will cause the interface to be in french
 
-Default: `en`
+Default: `undefined`
 
 ```js
 Youtube.configure({
@@ -174,7 +174,7 @@ Youtube.configure({
 ### ivLoadPolicy
 Setting this to 1 causes video annotations to be shown by default, whereas setting to 3 causes video annotations to not be shown by default
 
-Default: `1`
+Default: `0`
 
 ```js
 Youtube.configure({
@@ -218,7 +218,7 @@ Youtube.configure({
 ### progressBarColor
 This parameter specifies the color that will be used in the player's video progress bar. Note that setting the color parameter to `white` will disable the `modestBranding` parameter
 
-Default: `red`
+Default: `undefined`
 
 ```js
 Youtube.configure({
