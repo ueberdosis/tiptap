@@ -78,7 +78,7 @@ export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
 
   const params = []
 
-  if (!allowFullscreen) {
+  if (allowFullscreen === false) {
     params.push('fs=0')
   }
 

@@ -43,7 +43,7 @@ export const Youtube = Node.create<YoutubeOptions>({
   addOptions() {
     return {
       addPasteHandler: true,
-      allowFullscreen: false,
+      allowFullscreen: true,
       autoplay: false,
       ccLanguage: undefined,
       ccLoadPolicy: undefined,
