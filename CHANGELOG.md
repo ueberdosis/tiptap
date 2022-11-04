@@ -153,7 +153,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * compatibility with lowlight v2 ([#1939](https://github.com/ueberdosis/tiptap/issues/1939)) ([f79347e](https://github.com/ueberdosis/tiptap/commit/f79347e128be11860ee54109d8d333b436426b45))
 * **core:** :bug: fix inputrule not recognizing text content of non-text leaf nodes ([64b23e1](https://github.com/ueberdosis/tiptap/commit/64b23e120c0d4906573079923fddae3271f58918))
 * **core:** createCan command props shouldn't try dispatch ([#3025](https://github.com/ueberdosis/tiptap/issues/3025)) ([#3026](https://github.com/ueberdosis/tiptap/issues/3026)) ([40f4ea3](https://github.com/ueberdosis/tiptap/commit/40f4ea31efc59c1578b783a5b64572ac2846c5a6))
-* **core:** dont use selection for setContent replacement ([#2934](https://github.com/ueberdosis/tiptap/issues/2934)) ([134a4bd](https://github.com/ueberdosis/tiptap/commit/134a4bd1fbbd7f56faa1fc70c97d3b58554fc3f1))
+* **core:** don't use selection for setContent replacement ([#2934](https://github.com/ueberdosis/tiptap/issues/2934)) ([134a4bd](https://github.com/ueberdosis/tiptap/commit/134a4bd1fbbd7f56faa1fc70c97d3b58554fc3f1))
 * **core:** fix focus command passing through editor state instead of existing transaction ([5b0b7d9](https://github.com/ueberdosis/tiptap/commit/5b0b7d91023c87e9ddb85ff3a776273d12a22d16))
 * **core:** Increment `i` in `defaultBlockAt` ([655957d](https://github.com/ueberdosis/tiptap/commit/655957d73304f57d87b8e95d89de00da762c0fa9))
 * **core:** insert PasteRule Node at matched position ([#2942](https://github.com/ueberdosis/tiptap/issues/2942)) ([#2943](https://github.com/ueberdosis/tiptap/issues/2943)) ([bda6e8d](https://github.com/ueberdosis/tiptap/commit/bda6e8d3083074337b2d39fbb5d20d02bb942f63))
@@ -163,7 +163,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **core:** only respect text of node before current position ([#2937](https://github.com/ueberdosis/tiptap/issues/2937)) ([#2941](https://github.com/ueberdosis/tiptap/issues/2941)) ([e280a02](https://github.com/ueberdosis/tiptap/commit/e280a02597d15460fce97a7555f91ff04926f0e7))
 * **core:** setNodeSelection should not clamp pos by Selection.atStart/atEnd ([#3091](https://github.com/ueberdosis/tiptap/issues/3091)) ([313b8b8](https://github.com/ueberdosis/tiptap/commit/313b8b8d0af7059c420ffc96c9362f0f4acc2138)), closes [#3090](https://github.com/ueberdosis/tiptap/issues/3090)
 * **deps:** remove high severity vulnerability and add extra travis check on PRS ([18ba26d](https://github.com/ueberdosis/tiptap/commit/18ba26dd47567f014939df1d88bb04da4d611b33))
-* disable broken tests for experiements with further todo message ([b8ae9e2](https://github.com/ueberdosis/tiptap/commit/b8ae9e27622857093c6ca539901956da5cc291e5))
+* disable broken tests for experiments with further todo message ([b8ae9e2](https://github.com/ueberdosis/tiptap/commit/b8ae9e27622857093c6ca539901956da5cc291e5))
 * do not apply paste rules for ProseMirror HTML ([9d281e9](https://github.com/ueberdosis/tiptap/commit/9d281e9e998a5cfa9ca1002ad428caf1cee59682))
 * do not check for node selection within posToDOMRect ([c0e68d5](https://github.com/ueberdosis/tiptap/commit/c0e68d5a25608e0b6d9c127bbc507b4ba2a94a61))
 * don't override behaviour of Home / End in pc keymap ([d270419](https://github.com/ueberdosis/tiptap/commit/d270419ad8dc6182a949c5d263c47e90ee4466ff))
@@ -187,7 +187,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **extension-link:** restricts parsing `javascript:` pseudo-protocol ([947f311](https://github.com/ueberdosis/tiptap/commit/947f311c0ec9affdcaeb220d13d87c04c773f084))
 * **extension/collaboration:** :ambulance: pin y-prosemirror version to 1.0.20 to fix broken functionality with vue ([5989f3b](https://github.com/ueberdosis/tiptap/commit/5989f3b780bb64b2884d81dcd41a95d98a0714b2))
 * **extension/mention:** collapse selection to end after suggestion insertion to fix chrome selection issue with mouse ([163de4e](https://github.com/ueberdosis/tiptap/commit/163de4e1876000a88117da8a02b1f62cd4a2cfb0))
-* Fix "destory" method in view plugins. ([#1882](https://github.com/ueberdosis/tiptap/issues/1882)) ([33420f4](https://github.com/ueberdosis/tiptap/commit/33420f4ae06d0d7eec16201a2e650be83cbb9de9))
+* Fix "destroy" method in view plugins. ([#1882](https://github.com/ueberdosis/tiptap/issues/1882)) ([33420f4](https://github.com/ueberdosis/tiptap/commit/33420f4ae06d0d7eec16201a2e650be83cbb9de9))
 * Fix [#2016](https://github.com/ueberdosis/tiptap/issues/2016) Image input rule ([#2020](https://github.com/ueberdosis/tiptap/issues/2020)) ([503a3f2](https://github.com/ueberdosis/tiptap/commit/503a3f2cf508271cc303fb918568dc8c9b900055)), closes [#1574](https://github.com/ueberdosis/tiptap/issues/1574)
 * fix a bug for empty node selection where the bubble menu should not be visible, fix [#1023](https://github.com/ueberdosis/tiptap/issues/1023) ([8ed220a](https://github.com/ueberdosis/tiptap/commit/8ed220a12de48b3c14e903b271d7f50aff6313f4))
 * fix a bug in detecting a current list in toggleList command ([a35b253](https://github.com/ueberdosis/tiptap/commit/a35b2533eb87c683c0bff56b574aff490f490980))
@@ -195,7 +195,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * fix a bug in markPasteRule ([c2ccf68](https://github.com/ueberdosis/tiptap/commit/c2ccf68e8b4c869f707f3b1fdf51474e7f64b6f3))
 * fix a bug in the highlight regex, fix [#2355](https://github.com/ueberdosis/tiptap/issues/2355) ([b8a42fc](https://github.com/ueberdosis/tiptap/commit/b8a42fcaef7d75c1a30dbecfe403d7f0c3ec4e7d))
 * fix a bug that messed up pasted link attributes, fix [#1284](https://github.com/ueberdosis/tiptap/issues/1284) ([7da647d](https://github.com/ueberdosis/tiptap/commit/7da647d99f1dcefabc653347a8e2abfae3bb972e))
-* fix a bug when configurating the same extension multiple times ([655c564](https://github.com/ueberdosis/tiptap/commit/655c5647f0951851f818a0cc2500c48969f20797))
+* fix a bug when configuring the same extension multiple times ([655c564](https://github.com/ueberdosis/tiptap/commit/655c5647f0951851f818a0cc2500c48969f20797))
 * fix a bug when detecting changes within node views ([708ac94](https://github.com/ueberdosis/tiptap/commit/708ac94cebce2ed9304ae7e87eb4c3251758f903))
 * fix a bug when dragging node views ([4e6d43b](https://github.com/ueberdosis/tiptap/commit/4e6d43bbfb488d2987f71ad15732af8d25b9897a))
 * fix a bug when insert newline at node start, fix [#1411](https://github.com/ueberdosis/tiptap/issues/1411) ([b97bebe](https://github.com/ueberdosis/tiptap/commit/b97bebe021e6e587770cb99f94b18ee6d96c1630))
@@ -256,7 +256,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * fix vue dependency ([73650c1](https://github.com/ueberdosis/tiptap/commit/73650c12e0cc7be13705775a02c031e5e36ee4d1))
 * fixed type for Content ([39147f5](https://github.com/ueberdosis/tiptap/commit/39147f5b02388b68ddea91d40bd2e846597f813b))
 * fixes an error when using the mention extension and pasting text ending with "@", fix [#2413](https://github.com/ueberdosis/tiptap/issues/2413) ([55fa220](https://github.com/ueberdosis/tiptap/commit/55fa2208996f648a2ca06b0a363a249ff5e39169))
-* get correct clientRect when using async suggesteion items, fix [#1782](https://github.com/ueberdosis/tiptap/issues/1782) ([839acc1](https://github.com/ueberdosis/tiptap/commit/839acc1d9f713b89f366cd7da63330fd0243c31b))
+* get correct clientRect when using async suggestion items, fix [#1782](https://github.com/ueberdosis/tiptap/issues/1782) ([839acc1](https://github.com/ueberdosis/tiptap/commit/839acc1d9f713b89f366cd7da63330fd0243c31b))
 * getHTMLFromFragment now expects a fragment instead of node ([2c9cf03](https://github.com/ueberdosis/tiptap/commit/2c9cf03398e2b14fceaec4386fdb53cae5261ae7))
 * handle backspace also on shift ([32ae386](https://github.com/ueberdosis/tiptap/commit/32ae3868eaf42bb3f5d016038b57337ff64c21b4))
 * hide bubble menu on drag, fix [#1443](https://github.com/ueberdosis/tiptap/issues/1443) ([6034eb9](https://github.com/ueberdosis/tiptap/commit/6034eb9b30c3fe01ece9079c84c91ba9c6184518))
@@ -299,7 +299,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * maybe move content dom on update, fix [#1370](https://github.com/ueberdosis/tiptap/issues/1370) ([78f75c3](https://github.com/ueberdosis/tiptap/commit/78f75c3e0e287abac18bf87f32a1bd586300da14))
 * maybe move content dom on update, see [#1370](https://github.com/ueberdosis/tiptap/issues/1370) ([60708a7](https://github.com/ueberdosis/tiptap/commit/60708a781770d745f0d9135c225f56d3d2f1b31d))
 * **menu-bubble-hide:** only send hide update, target not child of editor ([527a744](https://github.com/ueberdosis/tiptap/commit/527a7443f14a532ddefe9d612a7bafc6af7846d4))
-* merge attrributes correctly when clicking task checkbox, fix [#2422](https://github.com/ueberdosis/tiptap/issues/2422) ([fe27843](https://github.com/ueberdosis/tiptap/commit/fe27843e80af2d48350a4b05438ea9212ec0bba4))
+* merge attributes correctly when clicking task checkbox, fix [#2422](https://github.com/ueberdosis/tiptap/issues/2422) ([fe27843](https://github.com/ueberdosis/tiptap/commit/fe27843e80af2d48350a4b05438ea9212ec0bba4))
 * move @tiptap/core to peerDependency ([a03a01a](https://github.com/ueberdosis/tiptap/commit/a03a01ab042f7c655139a08ed547a58d8b1d386f))
 * move all child nodes within EditorContent ([0f299d2](https://github.com/ueberdosis/tiptap/commit/0f299d228eb4075d24e1c0fb5b39febc6bc77de6))
 * nodeInputRule() support for group match ([#1574](https://github.com/ueberdosis/tiptap/issues/1574)) ([8ee0d67](https://github.com/ueberdosis/tiptap/commit/8ee0d67b83fea6a38d3abf02528d62ab482fe509))
@@ -481,7 +481,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### BREAKING CHANGES
 
 * **tiptap-extensions:** `CodeBlockHighlight` was importing the full `lowlight` libraries, including _all_
-syntax highlightning definitions from `highlight.js`. The new behavior changes the signature of
-`CodeBlockHighlight` to accept an object with all syntax highlightning definitions. This means that
+syntax highlighting definitions from `highlight.js`. The new behavior changes the signature of
+`CodeBlockHighlight` to accept an object with all syntax highlighting definitions. This means that
 now the user of the library __MUST__ import languages themselves and tiptap will no longer
 bundle the full `highlight.js` in itself.
