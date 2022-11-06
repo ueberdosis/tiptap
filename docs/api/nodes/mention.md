@@ -47,7 +47,7 @@ Define how a mention label should be rendered.
 
 ```js
 Mention.configure({
-  renderLabel({ options, node }) {
+  renderLabel: ({ options, node }) => {
     return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
   }
 })
