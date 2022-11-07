@@ -9,7 +9,7 @@ A headless, framework-agnostic and extendable rich text editor, based on [ProseM
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 ## Examples
-Have a look at the [examples to see tiptap in action](https://www.tiptap.dev/examples).
+Have a look at the [examples to see Tiptap in action](https://www.tiptap.dev/examples).
 
 ## Documentation
 The full documentation is available on [www.tiptap.dev](https://www.tiptap.dev/installation).

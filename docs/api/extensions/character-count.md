@@ -7,7 +7,7 @@ icon: calculator-line
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-character-count.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-character-count)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-character-count.svg)](https://npmcharts.com/compare/@tiptap/extension-character-count?minimal=true)
 
-The `CharacterCount` extension limits the number of allowed character to a specific length. That’s it, that’s all.
+The `CharacterCount` extension limits the number of allowed characters to a specific length and is able to return the number of characters and words. That’s it, that’s all.
 
 ## Installation
 ```bash

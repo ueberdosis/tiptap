@@ -7,7 +7,7 @@ icon: youtube-line
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-youtube.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-youtube)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-youtube.svg)](https://npmcharts.com/compare/@tiptap/extension-youtube?minimal=true)
 
-This extension adds a new youtube embed node to the editor.
+This extension adds a new YouTube embed node to the editor.
 
 ## Installation
 ```bash
