@@ -104,6 +104,10 @@ export class FloatingMenuView {
     this.hide()
   }
 
+  tippyBlurHandler = (event : FocusEvent) => {
+    this.blurHandler({ event })
+  }
+
   createTooltip() {
     const { element: editorElement } = this.editor.options
     const editorIsAttached = !!editorElement.parentElement
@@ -125,9 +129,7 @@ export class FloatingMenuView {
 
     // maybe we have to hide tippy on its own blur event as well
     if (this.tippy.popper.firstChild) {
-      (this.tippy.popper.firstChild as HTMLElement).addEventListener('blur', event => {
-        this.blurHandler({ event })
-      })
+      (this.tippy.popper.firstChild as HTMLElement).addEventListener('blur', this.tippyBlurHandler)
     }
   }
 
@@ -172,6 +174,9 @@ export class FloatingMenuView {
   }
 
   destroy() {
+    if (this.tippy?.popper.firstChild) {
+      (this.tippy.popper.firstChild as HTMLElement).removeEventListener('blur', this.tippyBlurHandler)
+    }
     this.tippy?.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.off('focus', this.focusHandler)
