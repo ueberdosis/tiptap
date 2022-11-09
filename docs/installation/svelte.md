@@ -13,7 +13,7 @@ If you just want to jump into it right-away, here is a [Svelte REPL with Tiptap]
 
 ## Requirements
 * [Node](https://nodejs.org/en/download/) installed on your machine
-* Experience with [Svelte](https://vuejs.org/v2/guide/#Getting-Started)
+* Experience with [Svelte](https://svelte.dev/docs#getting-started)
 
 ## 1. Create a project (optional)
 If you already have an existing SvelteKit project, that’s fine too. Just skip this step and proceed with the next step.
