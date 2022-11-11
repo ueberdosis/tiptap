@@ -7,7 +7,11 @@ icon: superscript
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-superscript.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-superscript)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-superscript.svg)](https://npmcharts.com/compare/@tiptap/extension-superscript?minimal=true)
 
-Use this extension to render text in <sup>superscript</sup>. If you pass `<sup>` or text with `vertical-align: super` as inline style in the editor’s initial content, both will be normalized to a `<sup>` HTML tag.
+Use this extension to render text in <sup>superscript</sup>. If you pass `<sup>` or text with `vertical-align: super` as inline style in the editor’s initial content, both will be rendered accordingly.
+
+::: warning Restrictions
+The extension will generate the corresponding `<sup>` HTML tags when reading contents of the `Editor` instance. All text in superscript, regardless of the method will be normalized to `<sup>` HTML tags.
+:::
 
 ## Installation
 ```bash

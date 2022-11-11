@@ -5,7 +5,7 @@ tableOfContents: true
 # Contributing
 
 ## Introduction
-tiptap would be nothing without its lively community. Contributions have always been and will always be welcome. Here is a little bit you should know, before you send your contribution:
+Tiptap would be nothing without its lively community. Contributions have always been and will always be welcome. Here is a little bit you should know, before you send your contribution:
 
 ## Welcome examples
 * Failing regression tests as bug reports

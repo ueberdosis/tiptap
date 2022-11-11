@@ -21,7 +21,7 @@ npm install @tiptap/extension-dropcursor
 ### color
 Color of the dropcursor.
 
-Default: `'currentcolor'`
+Default: `'currentColor'`
 
 ```js
 Dropcursor.configure({

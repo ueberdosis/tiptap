@@ -47,9 +47,7 @@ TaskItem.configure({
 ### onReadOnlyChecked
 
 A handler for when the task item is checked or unchecked while the editor is set to `readOnly`.
-
 If this is not supplied, the task items are immutable while the editor is `readOnly`.
-
 If this function returns false, the check state will be preserved (`readOnly`).
 
 ```js

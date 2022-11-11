@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.202](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.201...v2.0.0-beta.202) (2022-11-04)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+# [2.0.0-beta.201](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.200...v2.0.0-beta.201) (2022-11-04)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+# [2.0.0-beta.200](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.199...v2.0.0-beta.200) (2022-11-04)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+# [2.0.0-beta.199](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.198...v2.0.0-beta.199) (2022-09-30)
+
+
+### Bug Fixes
+
+* **extension/link:** :bug: fix last word value not being passed through when undefined ([#3258](https://github.com/ueberdosis/tiptap/issues/3258)) ([69923e2](https://github.com/ueberdosis/tiptap/commit/69923e2b0e1eff4e8bd6aab5f39c37f8ac8864cb))
+
+
+
+
+
 # [2.0.0-beta.198](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.197...v2.0.0-beta.198) (2022-09-29)
 
 

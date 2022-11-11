@@ -273,8 +273,8 @@ Mark.create({
 ```
 
 #### Exitable
-By default a mark will "trap" the cursor meaning the cursor can't get out of the mark except by moving the cursor left to right into text without a mark.
-If this is set to true, the mark will be exitable when the mark is at the end of a node. This is handy for example code marks.
+By default a mark will "trap" the cursor, meaning the cursor can't get out of the mark except by moving the cursor left to right into text without a mark.
+If this is set to true, the mark will be exitable when the mark is at the end of a node. This is handy for example using code marks.
 
 ```js
 Mark.create({

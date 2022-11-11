@@ -28,7 +28,7 @@ That’s how the [`TaskItem`](/api/nodes/task-item) node works.
 ### Non-editable text
 Nodes can also have text, which is not editable. The cursor can’t jump into those, but you don’t want that anyway.
 
-tiptap adds a `contenteditable="false"` to those by default.
+Tiptap adds a `contenteditable="false"` to those by default.
 
 ```html
 <div class="Prosemirror" contenteditable="true">
@@ -67,7 +67,7 @@ But what happens if you [access the editor content](/guide/output)? If you’re 
 
 The editor **does not** export the rendered JavaScript node, and for a lot of use cases you wouldn’t want that anyway.
 
-Let’s say you have a node view which lets users add a video player and configure the appearance (autoplay, controls …). You want the interface to do that in the editor, not in the output of the editor. The output of the editor should probably only have the video player.
+Let’s say you have a node view which lets users add a video player and configure the appearance (autoplay, controls, …). You want the interface to do that in the editor, not in the output of the editor. The output of the editor should probably only have the video player.
 
 I know, I know, it’s not that easy. Just keep in mind, that you‘re in full control of the rendering inside the editor and of the output.
 
@@ -76,7 +76,7 @@ That doesn’t apply to JSON. In JSON, everything is stored as an object. There 
 :::
 
 ### Render HTML
-Okay, you’ve set up your node with an interactive node view and now you want to control the output. Even if you’re node view is pretty complex, the rendered HTML can be simple:
+Okay, you’ve set up your node with an interactive node view and now you want to control the output. Even if your node view is pretty complex, the rendered HTML can be simple:
 
 ```js
 renderHTML({ HTMLAttributes }) {

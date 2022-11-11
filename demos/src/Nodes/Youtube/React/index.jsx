@@ -32,7 +32,7 @@ const MenuBar = ({ editor }) => {
 
   return (
     <>
-      <button id="add" onClick={addYoutubeVideo}>Add youtube video</button>
+      <button id="add" onClick={addYoutubeVideo}>Add YouTube video</button>
       <input id="width" type="number" min="320" max="1024" ref={widthRef} placeholder="width" />
       <input id="height" type="number" min="180" max="720" ref={heightRef} placeholder="height" />
     </>
@@ -48,7 +48,7 @@ export default () => {
       }),
     ],
     content: `
-      <p>Tiptap now supports youtube embeds! Awesome!</p>
+      <p>Tiptap now supports YouTube embeds! Awesome!</p>
       <div data-youtube-video>
         <iframe src="https://www.youtube.com/watch?v=cqHqLQgVCgY"></iframe>
       </div>

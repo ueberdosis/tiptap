@@ -62,7 +62,7 @@ editor.commands.toggleHighlight({ color: '#ffcc00' })
  Removes the highlight.
 
 ```js
-editor.commands. unsetHighlight()
+editor.commands.unsetHighlight()
 ```
 
 
