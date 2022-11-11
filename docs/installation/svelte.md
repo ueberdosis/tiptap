@@ -13,7 +13,7 @@ If you just want to jump into it right-away, here is a [Svelte REPL with Tiptap]
 
 ## Requirements
 * [Node](https://nodejs.org/en/download/) installed on your machine
-* Experience with [Svelte](https://vuejs.org/v2/guide/#Getting-Started)
+* Experience with [Svelte](https://svelte.dev/docs#getting-started)
 
 ## 1. Create a project (optional)
 If you already have an existing SvelteKit project, that’s fine too. Just skip this step and proceed with the next step.
@@ -21,9 +21,8 @@ If you already have an existing SvelteKit project, that’s fine too. Just skip 
 For the sake of this guide, let’s start with a fresh SvelteKit project called `my-tiptap-project`. The following commands set up everything we need. It asks a lot of questions, but just use what floats your boat or use the defaults.
 
 ```bash
-mkdir my-tiptap-project
+npm create svelte@latest my-tiptap-project
 cd my-tiptap-project
-npm init svelte@next
 npm install
 npm run dev
 ```
@@ -101,7 +100,7 @@ This is the fastest way to get Tiptap up and running with SvelteKit. It will giv
 ```
 
 ## 4. Add it to your app
-Now, let’s replace the content of `src/routes/index.svelte` with the following example code to use our new `Tiptap` component in our app.
+Now, let’s replace the content of `src/routes/+page.svelte` with the following example code to use our new `Tiptap` component in our app.
 
 ```html
 <script>
