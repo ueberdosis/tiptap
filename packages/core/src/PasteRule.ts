@@ -161,6 +161,7 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
   const { editor, rules } = props
   let dragSourceElement: Element | null = null
   let draggedElement: any
+  let caretData: any
   let draggedText: Selection | null = null
   let caretOffset: number | undefined
   let isPastedFromProseMirror = false
@@ -184,13 +185,15 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
         }
 
         const handleDragOver = (event: DragEvent) => {
-          event.preventDefault()
-          let caretData
 
           if (document.caretRangeFromPoint) {
             caretData = document.caretRangeFromPoint(event.clientX, event.clientY)
+            caretOffset = caretData?.startOffset
+          } else {
+            caretData = document.caretPositionFromPoint(event.clientX, event.clientY)
+            caretOffset = caretData?.offset
           }
-          caretOffset = caretData?.startOffset
+
         }
 
         window.addEventListener('dragstart', handleDragstart)
@@ -212,11 +215,11 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
         handleDOMEvents: {
           drop: (view, event: any) => {
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
-            event.preventDefault()
 
             const data = event.dataTransfer?.getData('text/plain')
 
             if (event.target.parentElement.className === 'ProseMirror') {
+              event.preventDefault()
               draggedElement.textContent = draggedElement.textContent.replace(data, '')
               event.target.textContent = event.target.textContent.slice(0, caretOffset) + data + event.target.textContent.slice(caretOffset)
             }
