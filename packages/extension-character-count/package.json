@@ -12,9 +12,17 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-character-count.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-character-count/src/index.d.ts",
+      "import": "./dist/tiptap-extension-character-count.mjs",
+      "require": "./dist/tiptap-extension-character-count.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-character-count.cjs",
   "umd": "dist/tiptap-extension-character-count.umd.js",
-  "module": "dist/tiptap-extension-character-count.esm.js",
+  "module": "dist/tiptap-extension-character-count.mjs",
   "types": "dist/packages/extension-character-count/src/index.d.ts",
   "files": [
     "src",

@@ -12,9 +12,17 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-gapcursor.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-gapcursor/src/index.d.ts",
+      "import": "./dist/tiptap-extension-gapcursor.mjs",
+      "require": "./dist/tiptap-extension-gapcursor.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-gapcursor.cjs",
   "umd": "dist/tiptap-extension-gapcursor.umd.js",
-  "module": "dist/tiptap-extension-gapcursor.esm.js",
+  "module": "dist/tiptap-extension-gapcursor.mjs",
   "types": "dist/packages/extension-gapcursor/src/index.d.ts",
   "files": [
     "src",

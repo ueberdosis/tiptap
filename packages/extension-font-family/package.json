@@ -12,9 +12,17 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-font-family.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-font-family/src/index.d.ts",
+      "import": "./dist/tiptap-extension-font-family.mjs",
+      "require": "./dist/tiptap-extension-font-family.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-font-family.cjs",
   "umd": "dist/tiptap-extension-font-family.umd.js",
-  "module": "dist/tiptap-extension-font-family.esm.js",
+  "module": "dist/tiptap-extension-font-family.mjs",
   "types": "dist/packages/extension-font-family/src/index.d.ts",
   "files": [
     "src",
