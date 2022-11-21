@@ -190,6 +190,7 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
             caretData = document.caretRangeFromPoint(event.clientX, event.clientY)
             caretOffset = caretData?.startOffset
           } else {
+            // @ts-ignore
             caretData = document.caretPositionFromPoint(event.clientX, event.clientY)
             caretOffset = caretData?.offset
           }
