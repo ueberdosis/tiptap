@@ -12,9 +12,17 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-collaboration-cursor.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-collaboration-cursor/src/index.d.ts",
+      "import": "./dist/tiptap-extension-collaboration-cursor.mjs",
+      "require": "./dist/tiptap-extension-collaboration-cursor.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-collaboration-cursor.cjs",
   "umd": "dist/tiptap-extension-collaboration-cursor.umd.js",
-  "module": "dist/tiptap-extension-collaboration-cursor.esm.js",
+  "module": "dist/tiptap-extension-collaboration-cursor.mjs",
   "types": "dist/packages/extension-collaboration-cursor/src/index.d.ts",
   "files": [
     "src",

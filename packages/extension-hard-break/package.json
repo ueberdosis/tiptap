@@ -12,9 +12,17 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-hard-break.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-hard-break/src/index.d.ts",
+      "import": "./dist/tiptap-extension-hard-break.mjs",
+      "require": "./dist/tiptap-extension-hard-break.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-hard-break.cjs",
   "umd": "dist/tiptap-extension-hard-break.umd.js",
-  "module": "dist/tiptap-extension-hard-break.esm.js",
+  "module": "dist/tiptap-extension-hard-break.mjs",
   "types": "dist/packages/extension-hard-break/src/index.d.ts",
   "files": [
     "src",

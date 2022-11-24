@@ -12,9 +12,17 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-bullet-list.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-bullet-list/src/index.d.ts",
+      "import": "./dist/tiptap-extension-bullet-list.mjs",
+      "require": "./dist/tiptap-extension-bullet-list.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-bullet-list.cjs",
   "umd": "dist/tiptap-extension-bullet-list.umd.js",
-  "module": "dist/tiptap-extension-bullet-list.esm.js",
+  "module": "dist/tiptap-extension-bullet-list.mjs",
   "types": "dist/packages/extension-bullet-list/src/index.d.ts",
   "files": [
     "src",

@@ -12,9 +12,9 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-vue-3.cjs.js",
+  "main": "dist/tiptap-vue-3.cjs",
   "umd": "dist/tiptap-vue-3.umd.js",
-  "module": "dist/tiptap-vue-3.esm.js",
+  "module": "dist/tiptap-vue-3.mjs",
   "types": "dist/packages/vue-3/src/index.d.ts",
   "files": [
     "src",
