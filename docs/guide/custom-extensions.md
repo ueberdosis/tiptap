@@ -213,7 +213,7 @@ const CustomParagraph = Paragraph.extend({
 // <p data-color="pink" style="color: pink">Example Text</p>
 ```
 
-You can completly disable the rendering of attributes with `rendered: false`.
+You can completely disable the rendering of attributes with `rendered: false`.
 
 #### Extend existing attributes
 If you want to add an attribute to an extension and keep existing attributes, you can access them through `this.parent()`.

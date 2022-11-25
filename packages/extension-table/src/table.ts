@@ -1,4 +1,11 @@
 import {
+  callOrReturn,
+  getExtensionField,
+  mergeAttributes,
+  Node,
+  ParentConfig,
+} from '@tiptap/core'
+import {
   addColumnAfter,
   addColumnBefore,
   addRowAfter,
@@ -16,14 +23,7 @@ import {
   tableEditing,
   toggleHeader,
   toggleHeaderCell,
-} from '@_ueberdosis/prosemirror-tables'
-import {
-  callOrReturn,
-  getExtensionField,
-  mergeAttributes,
-  Node,
-  ParentConfig,
-} from '@tiptap/core'
+} from '@tiptap/prosemirror-tables'
 import { TextSelection } from 'prosemirror-state'
 import { NodeView } from 'prosemirror-view'
 

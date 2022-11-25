@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.204](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.203...v2.0.0-beta.204) (2022-11-25)
+
+
+### Bug Fixes
+
+* **tests:** fix autolink validation test ([5150095](https://github.com/ueberdosis/tiptap/commit/5150095c6b510c080f4aa35f54d2387543f86da8))
+
+
+
+
+
+# [2.0.0-beta.203](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.202...v2.0.0-beta.203) (2022-11-24)
+
+
+### Bug Fixes
+
+* **extension/table:** move dependency from @_ueberdosis to [@tiptap](https://github.com/tiptap) ([#3448](https://github.com/ueberdosis/tiptap/issues/3448)) ([31c3a9a](https://github.com/ueberdosis/tiptap/commit/31c3a9aad9eb37f445eadcd27135611291178ca6))
+
+
+
+
+
 # [2.0.0-beta.202](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.201...v2.0.0-beta.202) (2022-11-04)
 
 **Note:** Version bump only for package tiptap-demos
