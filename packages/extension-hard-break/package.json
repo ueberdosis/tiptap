@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-hard-break/src/index.d.ts",
-      "import": "./dist/tiptap-extension-hard-break.mjs",
+      "import": "./dist/tiptap-extension-hard-break.esm.js",
       "require": "./dist/tiptap-extension-hard-break.cjs"
     }
   },
   "main": "dist/tiptap-extension-hard-break.cjs",
   "umd": "dist/tiptap-extension-hard-break.umd.js",
-  "module": "dist/tiptap-extension-hard-break.mjs",
+  "module": "dist/tiptap-extension-hard-break.esm.js",
   "types": "dist/packages/extension-hard-break/src/index.d.ts",
   "files": [
     "src",

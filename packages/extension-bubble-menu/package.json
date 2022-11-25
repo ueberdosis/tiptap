@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-bubble-menu/src/index.d.ts",
-      "import": "./dist/tiptap-extension-bubble-menu.mjs",
+      "import": "./dist/tiptap-extension-bubble-menu.esm.js",
       "require": "./dist/tiptap-extension-bubble-menu.cjs"
     }
   },
   "main": "dist/tiptap-extension-bubble-menu.cjs",
   "umd": "dist/tiptap-extension-bubble-menu.umd.js",
-  "module": "dist/tiptap-extension-bubble-menu.mjs",
+  "module": "dist/tiptap-extension-bubble-menu.esm.js",
   "types": "dist/packages/extension-bubble-menu/src/index.d.ts",
   "files": [
     "src",

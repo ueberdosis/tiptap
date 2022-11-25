@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-focus/src/index.d.ts",
-      "import": "./dist/tiptap-extension-focus.mjs",
+      "import": "./dist/tiptap-extension-focus.esm.js",
       "require": "./dist/tiptap-extension-focus.cjs"
     }
   },
   "main": "dist/tiptap-extension-focus.cjs",
   "umd": "dist/tiptap-extension-focus.umd.js",
-  "module": "dist/tiptap-extension-focus.mjs",
+  "module": "dist/tiptap-extension-focus.esm.js",
   "types": "dist/packages/extension-focus/src/index.d.ts",
   "files": [
     "src",

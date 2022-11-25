@@ -19,13 +19,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/core/src/index.d.ts",
-      "import": "./dist/tiptap-core.mjs",
+      "import": "./dist/tiptap-core.esm.js",
       "require": "./dist/tiptap-core.cjs"
     }
   },
   "main": "dist/tiptap-core.cjs",
   "umd": "dist/tiptap-core.umd.js",
-  "module": "dist/tiptap-core.mjs",
+  "module": "dist/tiptap-core.esm.js",
   "types": "dist/packages/core/src/index.d.ts",
   "files": [
     "src",

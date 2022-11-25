@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-youtube/src/index.d.ts",
-      "import": "./dist/tiptap-extension-youtube.mjs",
+      "import": "./dist/tiptap-extension-youtube.esm.js",
       "require": "./dist/tiptap-extension-youtube.cjs"
     }
   },
   "main": "dist/tiptap-extension-youtube.cjs",
   "umd": "dist/tiptap-extension-youtube.umd.js",
-  "module": "dist/tiptap-extension-youtube.mjs",
+  "module": "dist/tiptap-extension-youtube.esm.js",
   "types": "dist/packages/extension-youtube/src/index.d.ts",
   "files": [
     "src",

@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-strike/src/index.d.ts",
-      "import": "./dist/tiptap-extension-strike.mjs",
+      "import": "./dist/tiptap-extension-strike.esm.js",
       "require": "./dist/tiptap-extension-strike.cjs"
     }
   },
   "main": "dist/tiptap-extension-strike.cjs",
   "umd": "dist/tiptap-extension-strike.umd.js",
-  "module": "dist/tiptap-extension-strike.mjs",
+  "module": "dist/tiptap-extension-strike.esm.js",
   "types": "dist/packages/extension-strike/src/index.d.ts",
   "files": [
     "src",

@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-superscript/src/index.d.ts",
-      "import": "./dist/tiptap-extension-superscript.mjs",
+      "import": "./dist/tiptap-extension-superscript.esm.js",
       "require": "./dist/tiptap-extension-superscript.cjs"
     }
   },
   "main": "dist/tiptap-extension-superscript.cjs",
   "umd": "dist/tiptap-extension-superscript.umd.js",
-  "module": "dist/tiptap-extension-superscript.mjs",
+  "module": "dist/tiptap-extension-superscript.esm.js",
   "types": "dist/packages/extension-superscript/src/index.d.ts",
   "files": [
     "src",

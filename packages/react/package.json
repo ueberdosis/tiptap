@@ -14,7 +14,7 @@
   },
   "main": "dist/tiptap-react.cjs",
   "umd": "dist/tiptap-react.umd.js",
-  "module": "dist/tiptap-react.mjs",
+  "module": "dist/tiptap-react.esm.js",
   "types": "dist/packages/react/src/index.d.ts",
   "files": [
     "src",

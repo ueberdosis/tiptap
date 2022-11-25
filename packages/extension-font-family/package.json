@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-font-family/src/index.d.ts",
-      "import": "./dist/tiptap-extension-font-family.mjs",
+      "import": "./dist/tiptap-extension-font-family.esm.js",
       "require": "./dist/tiptap-extension-font-family.cjs"
     }
   },
   "main": "dist/tiptap-extension-font-family.cjs",
   "umd": "dist/tiptap-extension-font-family.umd.js",
-  "module": "dist/tiptap-extension-font-family.mjs",
+  "module": "dist/tiptap-extension-font-family.esm.js",
   "types": "dist/packages/extension-font-family/src/index.d.ts",
   "files": [
     "src",

@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-horizontal-rule/src/index.d.ts",
-      "import": "./dist/tiptap-extension-horizontal-rule.mjs",
+      "import": "./dist/tiptap-extension-horizontal-rule.esm.js",
       "require": "./dist/tiptap-extension-horizontal-rule.cjs"
     }
   },
   "main": "dist/tiptap-extension-horizontal-rule.cjs",
   "umd": "dist/tiptap-extension-horizontal-rule.umd.js",
-  "module": "dist/tiptap-extension-horizontal-rule.mjs",
+  "module": "dist/tiptap-extension-horizontal-rule.esm.js",
   "types": "dist/packages/extension-horizontal-rule/src/index.d.ts",
   "files": [
     "src",

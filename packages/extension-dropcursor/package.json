@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-dropcursor/src/index.d.ts",
-      "import": "./dist/tiptap-extension-dropcursor.mjs",
+      "import": "./dist/tiptap-extension-dropcursor.esm.js",
       "require": "./dist/tiptap-extension-dropcursor.cjs"
     }
   },
   "main": "dist/tiptap-extension-dropcursor.cjs",
   "umd": "dist/tiptap-extension-dropcursor.umd.js",
-  "module": "dist/tiptap-extension-dropcursor.mjs",
+  "module": "dist/tiptap-extension-dropcursor.esm.js",
   "types": "dist/packages/extension-dropcursor/src/index.d.ts",
   "files": [
     "src",

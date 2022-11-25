@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-table-header/src/index.d.ts",
-      "import": "./dist/tiptap-extension-table-header.mjs",
+      "import": "./dist/tiptap-extension-table-header.esm.js",
       "require": "./dist/tiptap-extension-table-header.cjs"
     }
   },
   "main": "dist/tiptap-extension-table-header.cjs",
   "umd": "dist/tiptap-extension-table-header.umd.js",
-  "module": "dist/tiptap-extension-table-header.mjs",
+  "module": "dist/tiptap-extension-table-header.esm.js",
   "types": "dist/packages/extension-table-header/src/index.d.ts",
   "files": [
     "src",

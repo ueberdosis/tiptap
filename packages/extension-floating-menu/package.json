@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-floating-menu/src/index.d.ts",
-      "import": "./dist/tiptap-extension-floating-menu.mjs",
+      "import": "./dist/tiptap-extension-floating-menu.esm.js",
       "require": "./dist/tiptap-extension-floating-menu.cjs"
     }
   },
   "main": "dist/tiptap-extension-floating-menu.cjs",
   "umd": "dist/tiptap-extension-floating-menu.umd.js",
-  "module": "dist/tiptap-extension-floating-menu.mjs",
+  "module": "dist/tiptap-extension-floating-menu.esm.js",
   "types": "dist/packages/extension-floating-menu/src/index.d.ts",
   "files": [
     "src",

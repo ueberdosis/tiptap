@@ -16,13 +16,13 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-collaboration/src/index.d.ts",
-      "import": "./dist/tiptap-extension-collaboration.mjs",
+      "import": "./dist/tiptap-extension-collaboration.esm.js",
       "require": "./dist/tiptap-extension-collaboration.cjs"
     }
   },
   "main": "dist/tiptap-extension-collaboration.cjs",
   "umd": "dist/tiptap-extension-collaboration.umd.js",
-  "module": "dist/tiptap-extension-collaboration.mjs",
+  "module": "dist/tiptap-extension-collaboration.esm.js",
   "types": "dist/packages/extension-collaboration/src/index.d.ts",
   "files": [
     "src",
