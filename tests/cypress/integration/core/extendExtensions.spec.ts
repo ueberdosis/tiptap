@@ -1,7 +1,6 @@
 /// <reference types="cypress" />
 
-import { Extension } from '@tiptap/core/src/Extension'
-import { getExtensionField } from '@tiptap/core/src/helpers/getExtensionField'
+import { Extension, getExtensionField } from '@tiptap/core'
 
 describe('extend extensions', () => {
   it('should define a config', () => {

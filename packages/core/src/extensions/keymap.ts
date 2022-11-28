@@ -37,6 +37,7 @@ export const Keymap = Extension.create({
 
     const handleDelete = () => this.editor.commands.first(({ commands }) => [
       () => commands.deleteSelection(),
+      () => commands.deleteCurrentNode(),
       () => commands.joinForward(),
       () => commands.selectNodeForward(),
     ])

@@ -24,6 +24,11 @@ export const BubbleMenu = defineComponent({
       required: true,
     },
 
+    updateDelay: {
+      type: Number as PropType<BubbleMenuPluginProps['updateDelay']>,
+      default: undefined,
+    },
+
     tippyOptions: {
       type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
       default: () => ({}),
@@ -40,18 +45,20 @@ export const BubbleMenu = defineComponent({
 
     onMounted(() => {
       const {
-        pluginKey,
+        updateDelay,
         editor,
-        tippyOptions,
+        pluginKey,
         shouldShow,
+        tippyOptions,
       } = props
 
       editor.registerPlugin(BubbleMenuPlugin({
-        pluginKey,
+        updateDelay,
         editor,
         element: root.value as HTMLElement,
-        tippyOptions,
+        pluginKey,
         shouldShow,
+        tippyOptions,
       }))
     })
 

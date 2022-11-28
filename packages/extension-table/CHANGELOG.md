@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.204](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.203...v2.0.0-beta.204) (2022-11-25)
+
+
+### Bug Fixes
+
+* **core:** rename esm modules to esm.js ([c1a0c3a](https://github.com/ueberdosis/tiptap/commit/c1a0c3ae43baac9dd5ed90903d3a0d4eaeea7702))
+
+
+
+
+
+# [2.0.0-beta.203](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.202...v2.0.0-beta.203) (2022-11-24)
+
+
+### Bug Fixes
+
+* **extension/table:** move dependency from @_ueberdosis to [@tiptap](https://github.com/tiptap) ([#3448](https://github.com/ueberdosis/tiptap/issues/3448)) ([31c3a9a](https://github.com/ueberdosis/tiptap/commit/31c3a9aad9eb37f445eadcd27135611291178ca6))
+
+
+
+
+
+# [2.0.0-beta.202](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.201...v2.0.0-beta.202) (2022-11-04)
+
+**Note:** Version bump only for package @tiptap/extension-table
+
+
+
+
+
+# [2.0.0-beta.201](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.200...v2.0.0-beta.201) (2022-11-04)
+
+**Note:** Version bump only for package @tiptap/extension-table
+
+
+
+
+
+# [2.0.0-beta.200](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.199...v2.0.0-beta.200) (2022-11-04)
+
+**Note:** Version bump only for package @tiptap/extension-table
+
+
+
+
+
 # [2.0.0-beta.199](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.198...v2.0.0-beta.199) (2022-09-30)
 
 **Note:** Version bump only for package @tiptap/extension-table
