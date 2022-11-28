@@ -53,6 +53,15 @@ Mention.configure({
 })
 ```
 
+### deleteOnBackspace
+Toggle whether the suggestion character(s) should also be deleted on deletion of a mention node. Default is `false`.
+
+```js
+Mention.configure({
+  deleteOnBackspace: true
+})
+```
+
 ### suggestion
 [Read more](/api/utilities/suggestion)
 
