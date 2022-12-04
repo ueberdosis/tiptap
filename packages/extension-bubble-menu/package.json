@@ -29,12 +29,16 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193"
+    "@tiptap/core": "^2.0.0-beta.193",
+    "prosemirror-state": "^1.4.1",
+    "prosemirror-view": "^1.28.2"
   },
   "dependencies": {
+    "tippy.js": "^6.3.7",
+    "lodash": "^4.17.21",
+    "@tiptap/core": "^2.0.0-beta.193",
     "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2",
-    "tippy.js": "^6.3.7"
+    "prosemirror-view": "^1.28.2"
   },
   "repository": {
     "type": "git",
@@ -43,7 +47,6 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@types/lodash": "^4.14.187",
-    "lodash": "^4.17.21"
+    "@types/lodash": "^4.14.187"
   }
 }

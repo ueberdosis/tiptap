@@ -20,9 +20,15 @@
     "src",
     "dist"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.204",
-    "prosemirror-model": "^1.18.1",
+    "prosemirror-model": "^1.18.1"
+  },
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0-beta.204",
+    "prosemirror-model": "^1.18.1"
+  },
+  "dependencies": {
     "zeed-dom": "^0.9.19"
   },
   "repository": {
