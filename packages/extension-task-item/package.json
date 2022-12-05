@@ -32,6 +32,10 @@
     "@tiptap/core": "^2.0.0-beta.193",
     "prosemirror-model": "^1.18.1"
   },
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0-beta.193",
+    "prosemirror-model": "^1.18.1"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",

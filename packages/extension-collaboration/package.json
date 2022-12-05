@@ -29,9 +29,12 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193"
+    "@tiptap/core": "^2.0.0-beta.193",
+    "prosemirror-state": "^1.4.1",
+    "y-prosemirror": "1.0.20"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0-beta.193",
     "prosemirror-state": "^1.4.1",
     "y-prosemirror": "1.0.20"
   },
