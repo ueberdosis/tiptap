@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.205](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.204...v2.0.0-beta.205) (2022-12-05)
+
+
+### Bug Fixes
+
+* **core:** implement deleteCurrentNode command & fix node joining on Delete key ([#3192](https://github.com/ueberdosis/tiptap/issues/3192)) ([ef8a1a2](https://github.com/ueberdosis/tiptap/commit/ef8a1a2f3d94f60cbdb73f03179b89ece0539560))
+* **link:** allow to unset target attribute ([#3425](https://github.com/ueberdosis/tiptap/issues/3425)) ([1c3568d](https://github.com/ueberdosis/tiptap/commit/1c3568dcd978a7eb784cde69d4e9962f612cbe35)), closes [#3276](https://github.com/ueberdosis/tiptap/issues/3276)
+
+
+### Features
+
+* **commands:** add joinUp and joinDown command ([#3455](https://github.com/ueberdosis/tiptap/issues/3455)) ([343ce75](https://github.com/ueberdosis/tiptap/commit/343ce756a8e0efccadddcd05d5a1b414135d009a))
+
+
+
+
+
 # [2.0.0-beta.204](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.203...v2.0.0-beta.204) (2022-11-25)
 
 
