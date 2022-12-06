@@ -168,14 +168,10 @@ export class BubbleMenuView {
     const { state } = view
     const hasValidSelection = state.selection.$from.pos !== state.selection.$to.pos
 
-    if (hasValidSelection) {
-      if (this.updateDelay > 0) {
-        debounce(this.updateHandler, this.updateDelay)(view, oldState)
-      } else {
-        this.updateHandler(view, oldState)
-      }
+    if (this.updateDelay > 0 && hasValidSelection) {
+      debounce(this.updateHandler, this.updateDelay)(view, oldState)
     } else {
-      this.hide()
+      this.updateHandler(view, oldState)
     }
   }
 
