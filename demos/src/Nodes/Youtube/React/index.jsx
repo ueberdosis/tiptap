@@ -23,11 +23,13 @@ const MenuBar = ({ editor }) => {
   const addYoutubeVideo = () => {
     const url = prompt('Enter YouTube URL')
 
-    editor.commands.setYoutubeVideo({
-      src: url,
-      width: Math.max(320, parseInt(widthRef.current.value, 10)) || 640,
-      height: Math.max(180, parseInt(heightRef.current.value, 10)) || 480,
-    })
+    if (url) {
+      editor.commands.setYoutubeVideo({
+        src: url,
+        width: Math.max(320, parseInt(widthRef.current.value, 10)) || 640,
+        height: Math.max(180, parseInt(heightRef.current.value, 10)) || 480,
+      })
+    }
   }
 
   return (
