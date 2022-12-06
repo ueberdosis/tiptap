@@ -1,6 +1,6 @@
 import { mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
 
-import { getEmbedURLFromYoutubeURL, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils'
+import { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils'
 
 export interface YoutubeOptions {
   addPasteHandler: boolean;
@@ -133,7 +133,7 @@ export const Youtube = Node.create<YoutubeOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    const embedUrl = getEmbedURLFromYoutubeURL({
+    const embedUrl = getEmbedUrlFromYoutubeUrl({
       url: HTMLAttributes.src,
       allowFullscreen: this.options.allowFullscreen,
       autoplay: this.options.autoplay,
