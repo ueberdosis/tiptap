@@ -86,7 +86,7 @@ There is even support for regular expressions:
 editor.isActive('textStyle', { color: /.*/ })
 ```
 
-You can even nodes and marks, but check for the attributes only. Here is an example with the [`TextAlign`](/api/extensions/text-align) extension:
+You can even check nodes and marks, but check for the attributes only. Here is an example with the [`TextAlign`](/api/extensions/text-align) extension:
 
 ```js
 editor.isActive({ textAlign: 'right' })
