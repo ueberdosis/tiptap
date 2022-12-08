@@ -34,8 +34,7 @@ The StarterKit doesn’t include all, but the most common extensions.
 npm install @tiptap/core @tiptap/starter-kit
 ```
 
-**Important note for 2.0.0-beta.205 and higher**
-
+**Important note for 2.0.0-beta.205 and higher**<br />
 Since Tiptap is based on Prosemirror, you will need to install the Prosemirror dependencies if you don't have them installed already to avoid version clashes.
 
 **Note**: If you use NPM 7 or higher, peerDependencies are automatically installed.
