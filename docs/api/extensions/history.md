@@ -14,6 +14,19 @@ This extension provides history support. All changes to the document will be tra
 npm install @tiptap/extension-history
 ```
 
+If you use NPM 6 or lower, yarn or pnpm, you also need to install the Prosemirror dependencies.
+
+```bash
+# NPM 6 and lower
+npm install prosemirror-history
+
+# yarn
+yarn add prosemirror-history
+
+# pnpm
+pnpm install prosemirror-history
+```
+
 ## Settings
 
 ### depth
