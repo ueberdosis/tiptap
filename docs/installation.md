@@ -48,7 +48,21 @@ yarn add prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-s
 
 # Installation with pnpm
 pnpm install prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view
-````
+```
+
+**Note if you use `@tiptap/starter-kit`**<br />
+Inside the StarterKit we also use `prosemirror-history`, `prosemirror-dropcursor`, and `prosemirror-gapcursor`.
+
+```bash
+# Installation with NPM 6 or lower
+npm install prosemirror-history prosemirror-dropcursor prosemirror-gapcursor
+
+# Installation with yarn
+yarn add prosemirror-history prosemirror-dropcursor prosemirror-gapcursor
+
+# Installation with pnpm
+pnpm install prosemirror-history prosemirror-dropcursor prosemirror-gapcursor
+```
 
 ### 2. Add some markup
 Add the following HTML where you want the editor to be mounted:
