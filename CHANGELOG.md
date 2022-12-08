@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.206](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.205...v2.0.0-beta.206) (2022-12-08)
+
+
+### Bug Fixes
+
+* **extension-bubble-menu:** don't debounce without valid selection ([#3501](https://github.com/ueberdosis/tiptap/issues/3501)) ([e9d9d88](https://github.com/ueberdosis/tiptap/commit/e9d9d8851189f936b01db7ec41fef4f4c5021761))
+
+
+
+
+
 # [2.0.0-beta.205](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.204...v2.0.0-beta.205) (2022-12-05)
 
 
