@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.207](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.206...v2.0.0-beta.207) (2022-12-08)
+
+
+### Bug Fixes
+
+* **extension-table:** add prosemirror-tables to peerDependencies ([c187e0e](https://github.com/ueberdosis/tiptap/commit/c187e0e2586f1d0069e93ab41a144ae14d5172e0))
+
+
+
+
+
 # [2.0.0-beta.206](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.205...v2.0.0-beta.206) (2022-12-08)
 
 **Note:** Version bump only for package @tiptap/extension-table
