@@ -34,6 +34,23 @@ The StarterKit doesn’t include all, but the most common extensions.
 npm install @tiptap/core @tiptap/starter-kit
 ```
 
+**Important note for 2.0.0-beta.205 and higher**
+
+Since Tiptap is based on Prosemirror, you will need to install the Prosemirror dependencies if you don't have them installed already to avoid version clashes.
+
+**Note**: If you use NPM 7 or higher, peerDependencies are automatically installed.
+
+```bash
+# Installation with NPM 6 or lower
+npm install prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view
+
+# Installation with yarn
+yarn add prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view
+
+# Installation with pnpm
+pnpm install prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view
+````
+
 ### 2. Add some markup
 Add the following HTML where you want the editor to be mounted:
 
