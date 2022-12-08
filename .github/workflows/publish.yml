@@ -3,10 +3,10 @@
 
 name: Publish to NPM
 
+# on github release published
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [published]
 
 jobs:
   publish-npm:
