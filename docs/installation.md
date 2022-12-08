@@ -50,7 +50,7 @@ yarn add prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-s
 pnpm install prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view
 ```
 
-**Note if you use `@tiptap/starter-kit`**<br />
+**If you use `@tiptap/starter-kit`**<br />
 Inside the StarterKit we also use `prosemirror-history`, `prosemirror-dropcursor`, and `prosemirror-gapcursor`.
 
 ```bash
