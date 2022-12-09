@@ -64,9 +64,8 @@ const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedR
     return null
   }
 
-  const result: ExtendedRegExpMatchArray = []
+  const result: ExtendedRegExpMatchArray = [inputRuleMatch.text]
 
-  result.push(inputRuleMatch.text)
   result.index = inputRuleMatch.index
   result.input = text
   result.data = inputRuleMatch.data

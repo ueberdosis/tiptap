@@ -65,7 +65,8 @@
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-typescript2": "^0.31.2",
     "ts-loader": "^9.2.6",
-    "typescript": "^4.5.5",
+    "tsup": "^6.5.0",
+    "typescript": "^4.9.4",
     "webpack": "^5.68.0"
   },
   "name": "tiptap"
