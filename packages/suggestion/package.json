@@ -12,6 +12,14 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/suggestion/src/index.d.ts",
+      "import": "./dist/tiptap-suggestion.esm.js",
+      "require": "./dist/tiptap-suggestion.cjs"
+    }
+  },
   "main": "dist/tiptap-suggestion.cjs",
   "umd": "dist/tiptap-suggestion.umd.js",
   "module": "dist/tiptap-suggestion.esm.js",
