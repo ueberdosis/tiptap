@@ -6,5 +6,5 @@
     }
   },
   "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.vue"],
-  "exclude": ["**/node_modules", "**/dist", "../../demos", "../vue-2", "../vue-3"]
+  "exclude": ["**/node_modules", "**/dist"]
 }
