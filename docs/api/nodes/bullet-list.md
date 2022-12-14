@@ -42,13 +42,24 @@ BulletList.configure({
 })
 ```
 ### keepMarks
-Decides whether to keep marks after a line break. Based on the `keepOnSplit` option for marks.
+Decides whether to keep the marks from a previous line after toggling the list either using `inputRule` or using the button
 
 Default: `false`
 
 ```js
 BulletList.configure({
   keepMarks: true,
+})
+```
+
+### keepAttributes
+Decides whether to keep the attributes from a previous line after toggling the list either using `inputRule` or using the button
+
+Default: `false`
+
+```js
+BulletList.configure({
+  keepAttributes: true,
 })
 ```
 

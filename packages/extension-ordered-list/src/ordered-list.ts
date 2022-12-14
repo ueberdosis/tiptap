@@ -1,9 +1,13 @@
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 
+import ListItem from '../../extension-list-item/src'
+import TextStyle from '../../extension-text-style/src'
+
 export interface OrderedListOptions {
   itemTypeName: string,
   HTMLAttributes: Record<string, any>,
   keepMarks: boolean,
+  keepAttributes: boolean,
 }
 
 declare module '@tiptap/core' {
@@ -27,6 +31,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
       itemTypeName: 'listItem',
       HTMLAttributes: {},
       keepMarks: false,
+      keepAttributes: false,
     }
   },
 
@@ -67,7 +72,10 @@ export const OrderedList = Node.create<OrderedListOptions>({
 
   addCommands() {
     return {
-      toggleOrderedList: () => ({ commands }) => {
+      toggleOrderedList: () => ({ commands, chain }) => {
+        if (this.options.keepAttributes) {
+          return chain().toggleList(this.name, this.options.itemTypeName).updateAttributes(ListItem.name, this.editor.getAttributes(TextStyle.name)).run()
+        }
         return commands.toggleList(this.name, this.options.itemTypeName)
       },
     }
@@ -85,11 +93,13 @@ export const OrderedList = Node.create<OrderedListOptions>({
       type: this.type,
     })
 
-    if (this.options.keepMarks) {
+    if (this.options.keepMarks || this.options.keepAttributes) {
       inputRule = wrappingInputRule({
         find: inputRegex,
         type: this.type,
-        keepMarks: true,
+        keepMarks: this.options.keepMarks,
+        keepAttributes: this.options.keepAttributes,
+        getAttributes: () => { return this.editor.getAttributes(TextStyle.name) },
         editor: this.editor,
       })
     }
