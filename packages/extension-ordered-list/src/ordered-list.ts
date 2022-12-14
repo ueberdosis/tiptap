@@ -74,9 +74,9 @@ export const OrderedList = Node.create<OrderedListOptions>({
     return {
       toggleOrderedList: () => ({ commands, chain }) => {
         if (this.options.keepAttributes) {
-          return chain().toggleList(this.name, this.options.itemTypeName).updateAttributes(ListItem.name, this.editor.getAttributes(TextStyle.name)).run()
+          return chain().toggleList(this.name, this.options.itemTypeName, this.options.keepMarks).updateAttributes(ListItem.name, this.editor.getAttributes(TextStyle.name)).run()
         }
-        return commands.toggleList(this.name, this.options.itemTypeName)
+        return commands.toggleList(this.name, this.options.itemTypeName, this.options.keepMarks)
       },
     }
   },

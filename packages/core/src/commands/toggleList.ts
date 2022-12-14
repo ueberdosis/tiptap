@@ -70,7 +70,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOrName, keepMarks = false) => ({
+export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOrName, keepMarks) => ({
   editor, tr, state, dispatch, chain, commands, can,
 }) => {
   const { extensions, splittableMarks } = editor.extensionManager
@@ -135,12 +135,13 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
     .command(() => {
       const canWrapInList = can().wrapInList(listType)
 
-      if (canWrapInList) {
-        return true
-      }
       const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
 
       tr.ensureMarks(filteredMarks)
+
+      if (canWrapInList) {
+        return true
+      }
 
       return commands.clearNodes()
     })
