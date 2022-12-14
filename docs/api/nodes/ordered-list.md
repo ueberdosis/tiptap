@@ -42,6 +42,17 @@ OrderedList.configure({
 })
 ```
 
+### keepMarks
+Decides whether to keep marks after a line break. Based on the `keepOnSplit` option for marks.
+
+Default: `false`
+
+```js
+BulletList.configure({
+  keepMarks: true,
+})
+```
+
 ## Commands
 
 ### toggleOrderedList()

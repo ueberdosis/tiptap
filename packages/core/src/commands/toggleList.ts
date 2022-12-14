@@ -65,20 +65,22 @@ declare module '@tiptap/core' {
       /**
        * Toggle between different list types.
        */
-      toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType) => ReturnType,
+      toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType, keepMarks?: boolean) => ReturnType;
     }
   }
 }
 
-export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOrName) => ({
+export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOrName, keepMarks = false) => ({
   editor, tr, state, dispatch, chain, commands, can,
 }) => {
-  const { extensions } = editor.extensionManager
+  const { extensions, splittableMarks } = editor.extensionManager
   const listType = getNodeType(listTypeOrName, state.schema)
   const itemType = getNodeType(itemTypeOrName, state.schema)
-  const { selection } = state
+  const { selection, storedMarks } = state
   const { $from, $to } = selection
   const range = $from.blockRange($to)
+
+  const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
 
   if (!range) {
     return false
@@ -109,6 +111,24 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
         .run()
     }
   }
+  if (!keepMarks || !marks || !dispatch) {
+
+    return chain()
+      // try to convert node to default node if needed
+      .command(() => {
+        const canWrapInList = can().wrapInList(listType)
+
+        if (canWrapInList) {
+          return true
+        }
+
+        return commands.clearNodes()
+      })
+      .wrapInList(listType)
+      .command(() => joinListBackwards(tr, listType))
+      .command(() => joinListForwards(tr, listType))
+      .run()
+  }
 
   return chain()
     // try to convert node to default node if needed
@@ -118,6 +138,9 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
       if (canWrapInList) {
         return true
       }
+      const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
+
+      tr.ensureMarks(filteredMarks)
 
       return commands.clearNodes()
     })

@@ -1,6 +1,7 @@
 import { Node as ProseMirrorNode, NodeType } from 'prosemirror-model'
 import { canJoin, findWrapping } from 'prosemirror-transform'
 
+import { Editor } from '../Editor'
 import { InputRule, InputRuleFinder } from '../InputRule'
 import { ExtendedRegExpMatchArray } from '../types'
 import { callOrReturn } from '../utilities/callOrReturn'
@@ -22,11 +23,13 @@ import { callOrReturn } from '../utilities/callOrReturn'
 export function wrappingInputRule(config: {
   find: InputRuleFinder,
   type: NodeType,
+  keepMarks?: boolean,
+  editor?: Editor
   getAttributes?:
-    | Record<string, any>
-    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
-    | false
-    | null
+  | Record<string, any>
+  | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
+  | false
+  | null
   ,
   joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean,
 }) {
@@ -44,6 +47,18 @@ export function wrappingInputRule(config: {
       }
 
       tr.wrap(blockRange, wrapping)
+
+      if (config.keepMarks && config.editor) {
+        const { selection, storedMarks } = state
+        const { splittableMarks } = config.editor.extensionManager
+        const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
+
+        if (marks) {
+          const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
+
+          tr.ensureMarks(filteredMarks)
+        }
+      }
 
       const before = tr.doc.resolve(range.from - 1).nodeBefore
 

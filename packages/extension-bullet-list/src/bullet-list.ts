@@ -3,6 +3,7 @@ import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 export interface BulletListOptions {
   itemTypeName: string,
   HTMLAttributes: Record<string, any>,
+  keepMarks: boolean,
 }
 
 declare module '@tiptap/core' {
@@ -25,6 +26,7 @@ export const BulletList = Node.create<BulletListOptions>({
     return {
       itemTypeName: 'listItem',
       HTMLAttributes: {},
+      keepMarks: false,
     }
   },
 
@@ -59,11 +61,21 @@ export const BulletList = Node.create<BulletListOptions>({
   },
 
   addInputRules() {
-    return [
-      wrappingInputRule({
+    let inputRule = wrappingInputRule({
+      find: inputRegex,
+      type: this.type,
+    })
+
+    if (this.options.keepMarks) {
+      inputRule = wrappingInputRule({
         find: inputRegex,
         type: this.type,
-      }),
+        keepMarks: true,
+        editor: this.editor,
+      })
+    }
+    return [
+      inputRule,
     ]
   },
 })

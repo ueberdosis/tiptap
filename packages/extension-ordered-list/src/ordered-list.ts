@@ -3,6 +3,7 @@ import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 export interface OrderedListOptions {
   itemTypeName: string,
   HTMLAttributes: Record<string, any>,
+  keepMarks: boolean,
 }
 
 declare module '@tiptap/core' {
@@ -25,6 +26,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
     return {
       itemTypeName: 'listItem',
       HTMLAttributes: {},
+      keepMarks: false,
     }
   },
 
@@ -78,13 +80,21 @@ export const OrderedList = Node.create<OrderedListOptions>({
   },
 
   addInputRules() {
-    return [
-      wrappingInputRule({
+    let inputRule = wrappingInputRule({
+      find: inputRegex,
+      type: this.type,
+    })
+
+    if (this.options.keepMarks) {
+      inputRule = wrappingInputRule({
         find: inputRegex,
         type: this.type,
-        getAttributes: match => ({ start: +match[1] }),
-        joinPredicate: (match, node) => node.childCount + node.attrs.start === +match[1],
-      }),
+        keepMarks: true,
+        editor: this.editor,
+      })
+    }
+    return [
+      inputRule,
     ]
   },
 })

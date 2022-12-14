@@ -172,7 +172,14 @@ const MenuBar = ({ editor }) => {
 export default () => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        bulletList: {
+          keepMarks: true,
+        },
+        orderedList: {
+          keepMarks: true,
+        },
+      }),
     ],
     content: `
       <h2>
