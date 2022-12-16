@@ -23,8 +23,8 @@ export function generateText(
   return getText(contentNode, {
     blockSeparator,
     textSerializers: {
-      ...textSerializers,
       ...getTextSerializersFromSchema(schema),
+      ...textSerializers,
     },
   })
 }
