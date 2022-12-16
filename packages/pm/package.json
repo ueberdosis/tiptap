@@ -1,0 +1,171 @@
+{
+  "name": "@tiptap/pm",
+  "description": "prosemirror wrapper package for tiptap",
+  "version": "2.0.0-beta.209",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "prosemirror"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "type": "module",
+  "exports": {
+    "./changeset": {
+      "types": "./dist/changeset/index.d.ts",
+      "import": "./dist/changeset/index.js",
+      "require": "./dist/changeset/index.cjs"
+    },
+    "./collab": {
+      "types": "./dist/collab/index.d.ts",
+      "import": "./dist/collab/index.js",
+      "require": "./dist/collab/index.cjs"
+    },
+    "./commands": {
+      "types": "./dist/commands/index.d.ts",
+      "import": "./dist/commands/index.js",
+      "require": "./dist/commands/index.cjs"
+    },
+    "./dropcursor": {
+      "types": "./dist/dropcursor/index.d.ts",
+      "import": "./dist/dropcursor/index.js",
+      "require": "./dist/dropcursor/index.cjs"
+    },
+    "./gapcursor": {
+      "types": "./dist/gapcursor/index.d.ts",
+      "import": "./dist/gapcursor/index.js",
+      "require": "./dist/gapcursor/index.cjs"
+    },
+    "./history": {
+      "types": "./dist/history/index.d.ts",
+      "import": "./dist/history/index.js",
+      "require": "./dist/history/index.cjs"
+    },
+    "./inputrules": {
+      "types": "./dist/inputrules/index.d.ts",
+      "import": "./dist/inputrules/index.js",
+      "require": "./dist/inputrules/index.cjs"
+    },
+    "./keymap": {
+      "types": "./dist/keymap/index.d.ts",
+      "import": "./dist/keymap/index.js",
+      "require": "./dist/keymap/index.cjs"
+    },
+    "./markdown": {
+      "types": "./dist/markdown/index.d.ts",
+      "import": "./dist/markdown/index.js",
+      "require": "./dist/markdown/index.cjs"
+    },
+    "./menu": {
+      "types": "./dist/menu/index.d.ts",
+      "import": "./dist/menu/index.js",
+      "require": "./dist/menu/index.cjs"
+    },
+    "./model": {
+      "types": "./dist/model/index.d.ts",
+      "import": "./dist/model/index.js",
+      "require": "./dist/model/index.cjs"
+    },
+    "./schema-basic": {
+      "types": "./dist/schema-basic/index.d.ts",
+      "import": "./dist/schema-basic/index.js",
+      "require": "./dist/schema-basic/index.cjs"
+    },
+    "./schema-list": {
+      "types": "./dist/schema-list/index.d.ts",
+      "import": "./dist/schema-list/index.js",
+      "require": "./dist/schema-list/index.cjs"
+    },
+    "./state": {
+      "types": "./dist/state/index.d.ts",
+      "import": "./dist/state/index.js",
+      "require": "./dist/state/index.cjs"
+    },
+    "./tables": {
+      "types": "./dist/tables/index.d.ts",
+      "import": "./dist/tables/index.js",
+      "require": "./dist/tables/index.cjs"
+    },
+    "./trailing-node": {
+      "types": "./dist/trailing-node/index.d.ts",
+      "import": "./dist/trailing-node/index.js",
+      "require": "./dist/trailing-node/index.cjs"
+    },
+    "./transform": {
+      "types": "./dist/transform/index.d.ts",
+      "import": "./dist/transform/index.js",
+      "require": "./dist/transform/index.cjs"
+    },
+    "./view": {
+      "types": "./dist/view/index.d.ts",
+      "import": "./dist/view/index.js",
+      "require": "./dist/view/index.cjs"
+    }
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.193"
+  },
+  "dependencies": {
+    "prosemirror-changeset": "^2.2.0",
+    "prosemirror-collab": "^1.3.0",
+    "prosemirror-commands": "^1.3.1",
+    "prosemirror-dropcursor": "^1.5.0",
+    "prosemirror-gapcursor": "^1.3.1",
+    "prosemirror-history": "^1.3.0",
+    "prosemirror-inputrules": "^1.2.0",
+    "prosemirror-keymap": "^1.2.0",
+    "prosemirror-markdown": "^1.10.1",
+    "prosemirror-menu": "^1.2.1",
+    "prosemirror-model": "^1.18.1",
+    "prosemirror-schema-basic": "^1.2.0",
+    "prosemirror-schema-list": "^1.2.2",
+    "prosemirror-state": "^1.4.1",
+    "prosemirror-tables": "^1.3.0",
+    "prosemirror-trailing-node": "^2.0.2",
+    "prosemirror-transform": "^1.7.0",
+    "prosemirror-view": "^1.28.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/pm"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "src/changeset/index.ts",
+      "src/collab/index.ts",
+      "src/commands/index.ts",
+      "src/dropcursor/index.ts",
+      "src/gapcursor/index.ts",
+      "src/history/index.ts",
+      "src/inputrules/index.ts",
+      "src/keymap/index.ts",
+      "src/markdown/index.ts",
+      "src/menu/index.ts",
+      "src/model/index.ts",
+      "src/schema-basic/index.ts",
+      "src/schema-list/index.ts",
+      "src/state/index.ts",
+      "src/tables/index.ts",
+      "src/trailing-node/index.ts",
+      "src/transform/index.ts",
+      "src/view/index.ts"
+    ],
+    "dts": true,
+    "splitting": true,
+    "format": [
+      "esm",
+      "cjs"
+    ]
+  }
+}
