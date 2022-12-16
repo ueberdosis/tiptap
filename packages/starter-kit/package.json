@@ -12,10 +12,17 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-starter-kit.cjs",
-  "umd": "dist/tiptap-starter-kit.umd.js",
-  "module": "dist/tiptap-starter-kit.esm.js",
-  "types": "dist/packages/starter-kit/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "files": [
     "src",
     "dist"
@@ -45,5 +52,19 @@
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/starter-kit"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "dts": true,
+    "splitting": true,
+    "format": [
+      "esm",
+      "cjs"
+    ]
   }
 }

@@ -12,10 +12,17 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-vue-2.cjs",
-  "umd": "dist/tiptap-vue-2.umd.js",
-  "module": "dist/tiptap-vue-2.esm.js",
-  "types": "dist/packages/vue-2/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "files": [
     "src",
     "dist"
@@ -39,5 +46,19 @@
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/vue-2"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "dts": true,
+    "splitting": true,
+    "format": [
+      "esm",
+      "cjs"
+    ]
+  }
 }

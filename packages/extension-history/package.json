@@ -15,15 +15,14 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/packages/extension-history/src/index.d.ts",
-      "import": "./dist/tiptap-extension-history.esm.js",
-      "require": "./dist/tiptap-extension-history.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/tiptap-extension-history.cjs",
-  "umd": "dist/tiptap-extension-history.umd.js",
-  "module": "dist/tiptap-extension-history.esm.js",
-  "types": "dist/packages/extension-history/src/index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
@@ -40,5 +39,19 @@
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-history"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "dts": true,
+    "splitting": true,
+    "format": [
+      "esm",
+      "cjs"
+    ]
   }
 }

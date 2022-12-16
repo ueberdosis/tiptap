@@ -15,15 +15,14 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/packages/extension-hard-break/src/index.d.ts",
-      "import": "./dist/tiptap-extension-hard-break.esm.js",
-      "require": "./dist/tiptap-extension-hard-break.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/tiptap-extension-hard-break.cjs",
-  "umd": "dist/tiptap-extension-hard-break.umd.js",
-  "module": "dist/tiptap-extension-hard-break.esm.js",
-  "types": "dist/packages/extension-hard-break/src/index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
@@ -38,5 +37,19 @@
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-hard-break"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "dts": true,
+    "splitting": true,
+    "format": [
+      "esm",
+      "cjs"
+    ]
   }
 }
