@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/react",
   "description": "React components for tiptap",
-  "version": "2.0.0-beta.208",
+  "version": "2.0.0-beta.209",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -21,7 +21,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.208",
+    "@tiptap/core": "^2.0.0-beta.209",
     "@types/react": "^18.0.1",
     "@types/react-dom": "^18.0.0",
     "react": "^18.0.0",
@@ -33,8 +33,8 @@
     "react-dom": "^17.0.0 || ^18.0.0"
   },
   "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.0.0-beta.208",
-    "@tiptap/extension-floating-menu": "^2.0.0-beta.208",
+    "@tiptap/extension-bubble-menu": "^2.0.0-beta.209",
+    "@tiptap/extension-floating-menu": "^2.0.0-beta.209",
     "prosemirror-view": "^1.28.2"
   },
   "repository": {

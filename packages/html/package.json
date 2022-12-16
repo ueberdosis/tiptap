@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/html",
   "description": "utility package to render tiptap JSON as HTML",
-  "version": "2.0.0-beta.208",
+  "version": "2.0.0-beta.209",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -25,7 +25,7 @@
     "prosemirror-model": "^1.18.1"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.208",
+    "@tiptap/core": "^2.0.0-beta.209",
     "prosemirror-model": "^1.18.1"
   },
   "dependencies": {

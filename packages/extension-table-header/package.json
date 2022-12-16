@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table-header",
   "description": "table cell extension for tiptap",
-  "version": "2.0.0-beta.208",
+  "version": "2.0.0-beta.209",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -32,7 +32,7 @@
     "@tiptap/core": "^2.0.0-beta.193"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.208"
+    "@tiptap/core": "^2.0.0-beta.209"
   },
   "repository": {
     "type": "git",
