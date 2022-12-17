@@ -100,7 +100,7 @@ Alternatively you can pass a ProseMirror `PluginKey`.
 ```js
 import { Editor } from '@tiptap/core'
 import FloatingMenu from '@tiptap/extension-floating-menu'
-import { PluginKey } from 'prosemirror-state'
+import { PluginKey } from '@tiptap/pm/state'
 
 new Editor({
   extensions: [
