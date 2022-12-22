@@ -22,7 +22,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view`     |
 | pNPM               | `pnpm install prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view` |
-| npm (< 6)          | `npm install prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view`  |
+| npm 6 or less      | `npm install prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view`  |
 
 
 #### @tiptap/starter-kit
@@ -30,7 +30,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-history prosemirror-dropcursor prosemirror-gapcursor`                                |
 | pNPM               | `pnpm install prosemirror-history prosemirror-dropcursor prosemirror-gapcursor`                            |
-| npm (< 6)          | `npm install prosemirror-history prosemirror-dropcursor prosemirror-gapcursor`                             |
+| npm 6 or less      | `npm install prosemirror-history prosemirror-dropcursor prosemirror-gapcursor`                             |
 
 
 #### @tiptap/vue-2 
@@ -39,7 +39,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-view`                                                                                |
 | pNPM               | `pnpm install prosemirror-view`                                                                            |
-| npm (< 6)          | `npm install prosemirror-view`                                                                             |
+| npm 6 or less      | `npm install prosemirror-view`                                                                             |
 
 
 #### @tiptap/vue-3 
@@ -48,7 +48,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state prosemirror-view`                                                              |
 | pNPM               | `pnpm install prosemirror-state prosemirror-view`                                                          |
-| npm (< 6)          | `npm install prosemirror-state prosemirror-view`                                                           |
+| npm 6 or less      | `npm install prosemirror-state prosemirror-view`                                                           |
 
 
 #### @tiptap/extension-bubble-menu 
@@ -57,7 +57,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state prosemirror-view`                                                              |
 | pNPM               | `pnpm install prosemirror-state prosemirror-view`                                                          |
-| npm (< 6)          | `npm install prosemirror-state prosemirror-view`                                                           |
+| npm 6 or less      | `npm install prosemirror-state prosemirror-view`                                                           |
 
 
 #### @tiptap/extension-floating-menu 
@@ -66,7 +66,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state prosemirror-view`                                                              |
 | pNPM               | `pnpm install prosemirror-state prosemirror-view`                                                          |
-| npm (< 6)          | `npm install prosemirror-state prosemirror-view`                                                           |
+| npm 6 or less      | `npm install prosemirror-state prosemirror-view`                                                           |
 
 
 #### @tiptap/extension-character-count 
@@ -75,7 +75,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state`                                                             |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state`                                                         |
-| npm (< 6)          | `npm install prosemirror-model prosemirror-state`                                                          |
+| npm 6 or less      | `npm install prosemirror-model prosemirror-state`                                                          |
 
 
 #### @tiptap/extension-code-block 
@@ -84,7 +84,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state`                                                                               |
 | pNPM               | `pnpm install prosemirror-state`                                                                           |
-| npm (< 6)          | `npm install prosemirror-state`                                                                            |
+| npm 6 or less      | `npm install prosemirror-state`                                                                            |
 
 
 #### @tiptap/extension-code-block-lowlight 
@@ -93,7 +93,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state prosemirror-view`                                            |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state prosemirror-view`                                        |
-| npm (< 6)          | `npm install prosemirror-model prosemirror-state prosemirror-view`                                         |
+| npm 6 or less      | `npm install prosemirror-model prosemirror-state prosemirror-view`                                         |
 
 
 #### @tiptap/extension-horizontal-rule 
@@ -102,7 +102,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state`                                                                               |
 | pNPM               | `pnpm install prosemirror-state`                                                                           |
-| npm (< 6)          | `npm install prosemirror-state`                                                                            |
+| npm 6 or less      | `npm install prosemirror-state`                                                                            |
 
 
 #### @tiptap/extension-link 
@@ -111,7 +111,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state`                                                             |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state`                                                         |
-| npm (< 6)          | `npm install prosemirror-model prosemirror-state`                                                          |
+| npm 6 or less      | `npm install prosemirror-model prosemirror-state`                                                          |
 
 
 #### @tiptap/extension-mention 
@@ -120,7 +120,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state`                                                             |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state`                                                         |
-| npm (< 6)          | `npm install prosemirror-model prosemirror-state`                                                          |
+| npm 6 or less      | `npm install prosemirror-model prosemirror-state`                                                          |
 
 
 #### @tiptap/extension-table 
@@ -129,7 +129,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state prosemirror-view`                                            |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state prosemirror-view`                                        |
-| npm (< 6)          | `npm install prosemirror-model prosemirror-state prosemirror-view`                                         |
+| npm 6 or less      | `npm install prosemirror-model prosemirror-state prosemirror-view`                                         |
 
 
 #### @tiptap/extension-task-item 
@@ -138,7 +138,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model`                                                                               |
 | pNPM               | `pnpm install prosemirror-model`                                                                           |
-| npm (< 6)          | `npm install prosemirror-model`                                                                            |
+| npm 6 or less      | `npm install prosemirror-model`                                                                            |
 
 
 #### @tiptap/extension-collaboration 
@@ -147,7 +147,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state y-prosemirror`                                                                 |
 | pNPM               | `pnpm install prosemirror-state y-prosemirror`                                                             |
-| npm (< 6)          | `npm install prosemirror-state y-prosemirror`                                                              |
+| npm 6 or less      | `npm install prosemirror-state y-prosemirror`                                                              |
 
 
 #### @tiptap/extension-collaboration-cursor 
@@ -156,7 +156,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add y-prosemirror`                                                                                   |
 | pNPM               | `pnpm install y-prosemirror`                                                                               |
-| npm (< 6)          | `npm install y-prosemirror`                                                                                |
+| npm 6 or less      | `npm install y-prosemirror`                                                                                |
 
 
 #### @tiptap/extension-placeholder 
@@ -165,7 +165,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state prosemirror-view`                                            |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state prosemirror-view`                                        |
-| npm (< 6)          | `npm install prosemirror-model prosemirror-state prosemirror-view`                                         |
+| npm 6 or less      | `npm install prosemirror-model prosemirror-state prosemirror-view`                                         |
 
 
 #### @tiptap/extension-dropcursor 
@@ -174,7 +174,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-dropcursor`                                                                          |
 | pNPM               | `pnpm install prosemirror-dropcursor`                                                                      |
-| npm (< 6)          | `npm install prosemirror-dropcursor`                                                                       |
+| npm 6 or less      | `npm install prosemirror-dropcursor`                                                                       |
 
 
 #### @tiptap/extension-focus 
@@ -183,7 +183,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state prosemirror-view`                                                              |
 | pNPM               | `pnpm install prosemirror-state prosemirror-view`                                                          |
-| npm (< 6)          | `npm install prosemirror-state prosemirror-view`                                                           |
+| npm 6 or less      | `npm install prosemirror-state prosemirror-view`                                                           |
 
 
 #### @tiptap/extension-gapcursor 
@@ -192,7 +192,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-gapcursor`                                                                           |
 | pNPM               | `pnpm install prosemirror-gapcursor`                                                                       |
-| npm (< 6)          | `npm install prosemirror-gapcursor`                                                                        |
+| npm 6 or less      | `npm install prosemirror-gapcursor`                                                                        |
 
 
 #### @tiptap/extension-history 
@@ -201,7 +201,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-history`                                                                             |
 | pNPM               | `pnpm install prosemirror-history`                                                                         |
-| npm (< 6)          | `npm install prosemirror-history`                                                                          |
+| npm 6 or less      | `npm install prosemirror-history`                                                                          |
 
 
 #### @tiptap/suggestion 
@@ -210,7 +210,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state prosemirror-view`                                            |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state prosemirror-view`                                        |
-| npm (< 6)          | `npm install prosemirror-model prosemirror-state prosemirror-view`                                         |
+| npm 6 or less      | `npm install prosemirror-model prosemirror-state prosemirror-view`                                         |
 
 
 #### @tiptap/html 
@@ -219,7 +219,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model`                                                                               |
 | pNPM               | `pnpm install prosemirror-model`                                                                           |
-| npm (< 6)          | `npm install prosemirror-model`                                                                            |
+| npm 6 or less      | `npm install prosemirror-model`                                                                            |
 
 
 :::pro Oops, this is work in progress
