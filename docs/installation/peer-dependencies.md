@@ -18,7 +18,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 ### Yarn, pNPM, npm 6 or less
 
 #### @tiptap/core
-| Package manager    | Description                                                                                                                                               |
+| Package manager    | Command                                                                                                                                                   |
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view`     |
 | pNPM               | `pnpm install prosemirror-commands prosemirror-keymap prosemirror-model prosemirror-schema-list prosemirror-state prosemirror-transform prosemirror-view` |
@@ -26,7 +26,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 
 #### @tiptap/starter-kit
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-history prosemirror-dropcursor prosemirror-gapcursor`                                |
 | pNPM               | `pnpm install prosemirror-history prosemirror-dropcursor prosemirror-gapcursor`                            |
@@ -35,7 +35,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/vue-2 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-view`                                                                                |
 | pNPM               | `pnpm install prosemirror-view`                                                                            |
@@ -44,7 +44,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/vue-3 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state prosemirror-view`                                                              |
 | pNPM               | `pnpm install prosemirror-state prosemirror-view`                                                          |
@@ -53,7 +53,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-bubble-menu 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state prosemirror-view`                                                              |
 | pNPM               | `pnpm install prosemirror-state prosemirror-view`                                                          |
@@ -62,7 +62,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-floating-menu 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state prosemirror-view`                                                              |
 | pNPM               | `pnpm install prosemirror-state prosemirror-view`                                                          |
@@ -71,7 +71,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-character-count 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state`                                                             |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state`                                                         |
@@ -80,7 +80,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-code-block 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state`                                                                               |
 | pNPM               | `pnpm install prosemirror-state`                                                                           |
@@ -89,7 +89,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-code-block-lowlight 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state prosemirror-view`                                            |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state prosemirror-view`                                        |
@@ -98,7 +98,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-horizontal-rule 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state`                                                                               |
 | pNPM               | `pnpm install prosemirror-state`                                                                           |
@@ -107,7 +107,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-link 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state`                                                             |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state`                                                         |
@@ -116,7 +116,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-mention 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state`                                                             |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state`                                                         |
@@ -125,7 +125,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-table 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state prosemirror-view`                                            |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state prosemirror-view`                                        |
@@ -134,7 +134,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-task-item 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model`                                                                               |
 | pNPM               | `pnpm install prosemirror-model`                                                                           |
@@ -143,7 +143,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-collaboration 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state y-prosemirror`                                                                 |
 | pNPM               | `pnpm install prosemirror-state y-prosemirror`                                                             |
@@ -152,7 +152,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-collaboration-cursor 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add y-prosemirror`                                                                                   |
 | pNPM               | `pnpm install y-prosemirror`                                                                               |
@@ -161,7 +161,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-placeholder 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state prosemirror-view`                                            |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state prosemirror-view`                                        |
@@ -170,7 +170,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-dropcursor 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-dropcursor`                                                                          |
 | pNPM               | `pnpm install prosemirror-dropcursor`                                                                      |
@@ -179,7 +179,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-focus 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-state prosemirror-view`                                                              |
 | pNPM               | `pnpm install prosemirror-state prosemirror-view`                                                          |
@@ -188,7 +188,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-gapcursor 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-gapcursor`                                                                           |
 | pNPM               | `pnpm install prosemirror-gapcursor`                                                                       |
@@ -197,7 +197,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/extension-history 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-history`                                                                             |
 | pNPM               | `pnpm install prosemirror-history`                                                                         |
@@ -206,7 +206,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/suggestion 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model prosemirror-state prosemirror-view`                                            |
 | pNPM               | `pnpm install prosemirror-model prosemirror-state prosemirror-view`                                        |
@@ -215,7 +215,7 @@ If you are using NPM 7 or higher, you can ignore the following notes. NPM instal
 
 #### @tiptap/html 
 
-| Package manager    | Description                                                                                                |
+| Package manager    | Command                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Yarn               | `yarn add prosemirror-model`                                                                               |
 | pNPM               | `pnpm install prosemirror-model`                                                                           |
