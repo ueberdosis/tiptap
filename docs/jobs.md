@@ -1,6 +1,9 @@
 # Jobs
 You enjoy to work with Tiptap? You are not alone. Some amazing companies are looking for developers with some Tiptap and/or [Hocuspocus](https://hocuspocus.dev) experience.
 
+- **[Sr Frontend Developer](https://docs.google.com/document/d/1yEWbJlkk8sr17FiVOL-V4C4HPYVBHhm2wbPDhgSODxw) @ IllumIDesk**<br>
+React · Tiptap · Hocuspocus · Remote
+
 - **[Founding Engineer](https://saga.so/careers/founding-engineer) @ Saga**<br>
 React · Hocuspocus · Remote
 
