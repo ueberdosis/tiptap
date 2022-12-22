@@ -28,6 +28,10 @@ First, install the dependencies:
 npm install @tiptap/extension-collaboration yjs y-webrtc
 ```
 
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-collaboration) which packages are needed and how to install them.
+:::
+
 Now, create a new Y document, and register it with Tiptap:
 
 ```js
@@ -73,6 +77,10 @@ For the client, the example is nearly the same, only the provider is different. 
 ```bash
 npm install @tiptap/extension-collaboration @hocuspocus/provider
 ```
+
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-collaboration) which packages are needed and how to install them.
+:::
 
 And then register the WebSocket provider with Tiptap:
 

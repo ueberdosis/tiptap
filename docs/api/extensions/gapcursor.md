@@ -16,18 +16,9 @@ Note that Tiptap is headless, but the gapcursor needs CSS for its appearance. Th
 npm install @tiptap/extension-gapcursor
 ```
 
-If you use NPM 6 or lower, yarn or pnpm, you also need to install the Prosemirror dependencies.
-
-```bash
-# NPM 6 and lower
-npm install prosemirror-gapcursor
-
-# yarn
-yarn add prosemirror-gapcursor
-
-# pnpm
-pnpm install prosemirror-gapcursor
-```
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-gapcursor) which packages are needed and how to install them.
+:::
 
 ## Source code
 [packages/extension-gapcursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-gapcursor/)
