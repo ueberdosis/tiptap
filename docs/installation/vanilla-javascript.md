@@ -17,11 +17,8 @@ The StarterKit doesn’t include all, but the most common extensions.
 npm install @tiptap/core @tiptap/starter-kit
 ```
 
-:::warning Using Yarn, pNPM, npm (< Version 6)?
-Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please see links below which packages it needs and how to install them:
-
-- [@tiptap/core](https://tiptap.dev/installation/peer-dependencies#)
-- [@tiptap/starter-kit](https://tiptap.dev/installation/peer-dependencies#)
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please check the following links to find out what dependencies are needed and how to install them: [@tiptap/core](https://tiptap.dev/installation/peer-dependencies#tiptapcore), [@tiptap/starter-kit](https://tiptap.dev/installation/peer-dependencies#tiptapstarter-kit)
 :::
 
 ## 2. Add some markup
