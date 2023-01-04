@@ -1,6 +1,5 @@
 import { Editor } from '@tiptap/core'
 import React from 'react'
-import { flushSync } from 'react-dom'
 
 import { Editor as ExtendedEditor } from './Editor'
 
@@ -78,18 +77,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
 
     this.reactElement = <Component {...props } />
 
-    queueMicrotask(() => {
-      flushSync(() => {
-        if (this.editor?.contentComponent) {
-          this.editor.contentComponent.setState({
-            renderers: this.editor.contentComponent.state.renderers.set(
-              this.id,
-              this,
-            ),
-          })
-        }
-      })
-    })
+    this.editor?.contentComponent?.setRenderer(this.id, this)
   }
 
   updateProps(props: Record<string, any> = {}): void {
@@ -102,18 +90,6 @@ export class ReactRenderer<R = unknown, P = unknown> {
   }
 
   destroy(): void {
-    queueMicrotask(() => {
-      flushSync(() => {
-        if (this.editor?.contentComponent) {
-          const { renderers } = this.editor.contentComponent.state
-
-          renderers.delete(this.id)
-
-          this.editor.contentComponent.setState({
-            renderers,
-          })
-        }
-      })
-    })
+    this.editor?.contentComponent?.removeRenderer(this.id)
   }
 }

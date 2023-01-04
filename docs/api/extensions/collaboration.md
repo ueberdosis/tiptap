@@ -20,6 +20,10 @@ We kindly ask you to [sponsor our work](/sponsor) when using this extension in p
 npm install @tiptap/extension-collaboration yjs y-websocket
 ```
 
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-collaboration) which packages are needed and how to install them.
+:::
+
 ## Settings
 
 ### document

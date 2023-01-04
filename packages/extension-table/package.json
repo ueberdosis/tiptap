@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table",
   "description": "table extension for tiptap",
-  "version": "2.0.0-beta.199",
+  "version": "2.0.0-beta.209",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,7 +12,15 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-table.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-table/src/index.d.ts",
+      "import": "./dist/tiptap-extension-table.esm.js",
+      "require": "./dist/tiptap-extension-table.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-table.cjs",
   "umd": "dist/tiptap-extension-table.umd.js",
   "module": "dist/tiptap-extension-table.esm.js",
   "types": "dist/packages/extension-table/src/index.d.ts",
@@ -21,10 +29,15 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193"
+    "@tiptap/core": "^2.0.0-beta.193",
+    "@tiptap/prosemirror-tables": "^1.1.3",
+    "prosemirror-model": "^1.18.1",
+    "prosemirror-state": "^1.4.1",
+    "prosemirror-view": "^1.28.2"
   },
-  "dependencies": {
-    "@_ueberdosis/prosemirror-tables": "1.1.3",
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0-beta.209",
+    "@tiptap/prosemirror-tables": "^1.1.3",
     "prosemirror-model": "^1.18.1",
     "prosemirror-state": "^1.4.1",
     "prosemirror-view": "^1.28.2"

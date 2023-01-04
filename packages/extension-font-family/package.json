@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-font-family",
   "description": "font family extension for tiptap",
-  "version": "2.0.0-beta.199",
+  "version": "2.0.0-beta.209",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,7 +12,15 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-font-family.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-font-family/src/index.d.ts",
+      "import": "./dist/tiptap-extension-font-family.esm.js",
+      "require": "./dist/tiptap-extension-font-family.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-font-family.cjs",
   "umd": "dist/tiptap-extension-font-family.umd.js",
   "module": "dist/tiptap-extension-font-family.esm.js",
   "types": "dist/packages/extension-font-family/src/index.d.ts",
@@ -23,6 +31,10 @@
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.193",
     "@tiptap/extension-text-style": "^2.0.0-beta.193"
+  },
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0-beta.209",
+    "@tiptap/extension-text-style": "^2.0.0-beta.209"
   },
   "repository": {
     "type": "git",

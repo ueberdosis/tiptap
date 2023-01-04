@@ -28,6 +28,7 @@ npm install @tiptap/extension-typography
 | copyright           | Converts `(c)` to a copyright sign `©`.                                                 |
 | registeredTrademark | Converts `(r)` to registered trademark sign `®`.                                        |
 | trademark           | Converts `(tm)` to registered trademark sign `™`.                                       |
+| servicemark         | Converts `(sm)` to registered trademark sign `℠`.                                       |
 | oneHalf             | Converts `1/2` to one half `½`.                                                         |
 | oneQuarter          | Converts `1/4` to one quarter `¼`.                                                      |
 | threeQuarters       | Converts `3/4` to three quarters `¾`.                                                   |

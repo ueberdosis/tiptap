@@ -30,7 +30,7 @@ export const getYoutubeEmbedUrl = (nocookie?: boolean) => {
   return nocookie ? 'https://www.youtube-nocookie.com/embed/' : 'https://www.youtube.com/embed/'
 }
 
-export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
+export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
   const {
     url,
     allowFullscreen,
@@ -78,7 +78,7 @@ export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
 
   const params = []
 
-  if (!allowFullscreen) {
+  if (allowFullscreen === false) {
     params.push('fs=0')
   }
 

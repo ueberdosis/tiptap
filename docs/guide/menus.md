@@ -5,7 +5,7 @@ tableOfContents: true
 # Create menus
 
 ## Introduction
-tiptap comes very raw, but that’s a good thing. You have full control about the appearance of it.
+Tiptap comes very raw, but that’s a good thing. You have full control about the appearance of it.
 
 When we say full control, we mean it. You can (and have to) build a menu on your own. We help you to wire everything up.
 
@@ -13,7 +13,7 @@ When we say full control, we mean it. You can (and have to) build a menu on your
 The editor provides a fluent API to trigger commands and add active states. You can use any markup you like. To make the positioning of menus easier, we provide a few utilities and components. Let’s go through the most typical use cases one by one.
 
 ### Fixed menu
-A fixed menu, for example on top of the editor, can be anything. We don’t provide such menu. Just add a `<div>` with a few `<button>`s. How those buttons can trigger [commands](/api/commands) is [explained below](#actions).
+A fixed menu, for example on top of the editor, can be anything. We don’t provide such menu. Just add a `<div>` with a few `<button>`s. How those buttons can trigger [commands](/api/commands) is [explained below](#buttons).
 
 ### Bubble menu
 The [bubble menu](/api/extensions/bubble-menu) appears when selecting text. Markup and styling is totally up to you.
@@ -86,7 +86,7 @@ There is even support for regular expressions:
 editor.isActive('textStyle', { color: /.*/ })
 ```
 
-You can even nodes and marks, but check for the attributes only. Here is an example with the [`TextAlign`](/api/extensions/text-align) extension:
+You can even check nodes and marks, but check for the attributes only. Here is an example with the [`TextAlign`](/api/extensions/text-align) extension:
 
 ```js
 editor.isActive({ textAlign: 'right' })

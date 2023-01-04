@@ -4,6 +4,7 @@ import {
   isTextSelection,
   posToDOMRect,
 } from '@tiptap/core'
+import debounce from 'lodash/debounce'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import tippy, { Instance, Props } from 'tippy.js'
@@ -13,6 +14,7 @@ export interface BubbleMenuPluginProps {
   editor: Editor,
   element: HTMLElement,
   tippyOptions?: Partial<Props>,
+  updateDelay?: number,
   shouldShow?: ((props: {
     editor: Editor,
     view: EditorView,
@@ -40,6 +42,8 @@ export class BubbleMenuView {
 
   public tippyOptions?: Partial<Props>
 
+  public updateDelay: number
+
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
     view,
     state,
@@ -57,7 +61,7 @@ export class BubbleMenuView {
 
     // When clicking on a element inside the bubble menu the editor "blur" event
     // is called and the bubble menu item is focussed. In this case we should
-    // consider the menu as part of the ditor and keep showing the menu
+    // consider the menu as part of the editor and keep showing the menu
     const isChildOfMenu = this.element.contains(document.activeElement)
 
     const hasEditorFocus = view.hasFocus() || isChildOfMenu
@@ -79,11 +83,13 @@ export class BubbleMenuView {
     element,
     view,
     tippyOptions = {},
+    updateDelay = 250,
     shouldShow,
   }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
+    this.updateDelay = updateDelay
 
     if (shouldShow) {
       this.shouldShow = shouldShow
@@ -129,6 +135,10 @@ export class BubbleMenuView {
     this.hide()
   }
 
+  tippyBlurHandler = (event : FocusEvent) => {
+    this.blurHandler({ event })
+  }
+
   createTooltip() {
     const { element: editorElement } = this.editor.options
     const editorIsAttached = !!editorElement.parentElement
@@ -150,13 +160,22 @@ export class BubbleMenuView {
 
     // maybe we have to hide tippy on its own blur event as well
     if (this.tippy.popper.firstChild) {
-      (this.tippy.popper.firstChild as HTMLElement).addEventListener('blur', event => {
-        this.blurHandler({ event })
-      })
+      (this.tippy.popper.firstChild as HTMLElement).addEventListener('blur', this.tippyBlurHandler)
     }
   }
 
   update(view: EditorView, oldState?: EditorState) {
+    const { state } = view
+    const hasValidSelection = state.selection.$from.pos !== state.selection.$to.pos
+
+    if (this.updateDelay > 0 && hasValidSelection) {
+      debounce(this.updateHandler, this.updateDelay)(view, oldState)
+    } else {
+      this.updateHandler(view, oldState)
+    }
+  }
+
+  updateHandler = (view: EditorView, oldState?: EditorState) => {
     const { state, composing } = view
     const { doc, selection } = state
     const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
@@ -213,6 +232,9 @@ export class BubbleMenuView {
   }
 
   destroy() {
+    if (this.tippy?.popper.firstChild) {
+      (this.tippy.popper.firstChild as HTMLElement).removeEventListener('blur', this.tippyBlurHandler)
+    }
     this.tippy?.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)

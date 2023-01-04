@@ -9,6 +9,7 @@ Tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s
 
 ## Integration guides
 <!-- * [CDN](/installation/cdn) -->
+* [Vanilla JavaScript](/installation/vanilla-javascript)
 * [React](/installation/react)
 * [Next.js](/installation/nextjs)
 * [Vue 3](/installation/vue3)
@@ -18,43 +19,10 @@ Tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s
 * [Alpine.js](/installation/alpine)
 * [PHP](/installation/php)
 
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [read this](https://tiptap.dev/installation/peer-dependencies) to understand what is needed in that case.
+:::
+
 ### Community efforts
 * [Angular](https://github.com/sibiraj-s/ngx-tiptap)
 * [SolidJS](https://github.com/LXSMNSYC/solid-tiptap)
-
-## Vanilla JavaScript
-You are using plain JavaScript or a framework that is not listed here? No worries, we provide everything you need.
-
-### 1. Install the dependencies
-For the following example you will need `@tiptap/core` (the actual editor) and `@tiptap/starter-kit`.
-
-The StarterKit doesn’t include all, but the most common extensions.
-
-```bash
-npm install @tiptap/core @tiptap/starter-kit
-```
-
-### 2. Add some markup
-Add the following HTML where you want the editor to be mounted:
-
-```html
-<div class="element"></div>
-```
-
-### 3. Initialize the editor
-Everything is in place now, so let’s set up the actual editor now. Add the following code to your JavaScript:
-
-```js
-import { Editor } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
-
-new Editor({
-  element: document.querySelector('.element'),
-  extensions: [
-    StarterKit,
-  ],
-  content: '<p>Hello World!</p>',
-})
-```
-
-Open your project in the browser to see Tiptap in action. Good work!

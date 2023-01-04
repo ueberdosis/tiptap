@@ -1,14 +1,13 @@
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
-import React, {
-  useEffect, useState,
-} from 'react'
+import React, { useEffect, useState } from 'react'
 
-type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
 export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'> & {
-  className?: string,
-  children: React.ReactNode
-}
+  className?: string;
+  children: React.ReactNode;
+  updateDelay?: number;
+};
 
 export const BubbleMenu = (props: BubbleMenuProps) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
@@ -23,26 +22,21 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
     }
 
     const {
-      pluginKey = 'bubbleMenu',
-      editor,
-      tippyOptions = {},
-      shouldShow = null,
+      pluginKey = 'bubbleMenu', editor, tippyOptions = {}, updateDelay, shouldShow = null,
     } = props
 
     const plugin = BubbleMenuPlugin({
-      pluginKey,
+      updateDelay,
       editor,
       element,
-      tippyOptions,
+      pluginKey,
       shouldShow,
+      tippyOptions,
     })
 
     editor.registerPlugin(plugin)
     return () => editor.unregisterPlugin(pluginKey)
-  }, [
-    props.editor,
-    element,
-  ])
+  }, [props.editor, element])
 
   return (
     <div ref={setElement} className={props.className} style={{ visibility: 'hidden' }}>

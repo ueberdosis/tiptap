@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-task-item",
   "description": "task item extension for tiptap",
-  "version": "2.0.0-beta.199",
+  "version": "2.0.0-beta.209",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,7 +12,15 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-task-item.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-task-item/src/index.d.ts",
+      "import": "./dist/tiptap-extension-task-item.esm.js",
+      "require": "./dist/tiptap-extension-task-item.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-task-item.cjs",
   "umd": "dist/tiptap-extension-task-item.umd.js",
   "module": "dist/tiptap-extension-task-item.esm.js",
   "types": "dist/packages/extension-task-item/src/index.d.ts",
@@ -22,6 +30,10 @@
   ],
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.193",
+    "prosemirror-model": "^1.18.1"
+  },
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0-beta.209",
     "prosemirror-model": "^1.18.1"
   },
   "repository": {

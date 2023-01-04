@@ -14,9 +14,9 @@ If you think of the document as a tree, then nodes are just a type of content in
 | [BulletList](/api/nodes/bullet-list)         | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/)     |
 | [CodeBlock](/api/nodes/code-block)           | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block/)      |
 | [Document](/api/nodes/document)              | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-document/)        |
-| [Emoji](/api/nodes/emoji)                    | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-emoji/)           |
+| [Emoji](/api/nodes/emoji)                    | –                                                | Requires a Tiptap Pro subscription                                                           |
 | [HardBreak](/api/nodes/hard-break)           | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-hard-break/)      |
-| [Hashtag](/api/nodes/hashtag)                | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-hashtag/)         |
+| [Hashtag](/api/nodes/hashtag)                | –                                                |                                                                                              |
 | [Heading](/api/nodes/heading)                | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-heading/)         |
 | [HorizontalRule](/api/nodes/horizontal-rule) | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-horizontal-rule/) |
 | [Image](/api/nodes/image)                    | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-image/)           |
@@ -30,7 +30,7 @@ If you think of the document as a tree, then nodes are just a type of content in
 | [TaskList](/api/nodes/task-list)             | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-list/)       |
 | [TaskItem](/api/nodes/task-item)             | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-task-item/)       |
 | [Text](/api/nodes/text)                      | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text/)            |
-| [YouTube](/api/nodes/youtube)                | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-youtube/)            |
+| [YouTube](/api/nodes/youtube)                | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-youtube/)         |
 
 ## Create a new node
 You’re free to create your own nodes for Tiptap. Here is the boilerplate code that’s need to create and register your own node:

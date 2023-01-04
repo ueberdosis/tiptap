@@ -1,10 +1,11 @@
 {
   "name": "tiptap-demos",
-  "version": "2.0.0-beta.199",
+  "version": "2.0.0-beta.209",
   "private": true,
   "scripts": {
     "start": "vite --host",
     "build": "npm run ts && vite build",
+    "preview": "vite preview",
     "ts": "tsc --project tsconfig.base.json --noEmit && tsc --project tsconfig.react.json --noEmit && tsc --project tsconfig.vue-2.json --noEmit && tsc --project tsconfig.vue-3.json --noEmit"
   },
   "dependencies": {

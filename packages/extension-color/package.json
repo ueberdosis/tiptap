@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-color",
   "description": "text color extension for tiptap",
-  "version": "2.0.0-beta.199",
+  "version": "2.0.0-beta.209",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,7 +12,15 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-color.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-color/src/index.d.ts",
+      "import": "./dist/tiptap-extension-color.esm.js",
+      "require": "./dist/tiptap-extension-color.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-color.cjs",
   "umd": "dist/tiptap-extension-color.umd.js",
   "module": "dist/tiptap-extension-color.esm.js",
   "types": "dist/packages/extension-color/src/index.d.ts",
@@ -23,6 +31,10 @@
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.193",
     "@tiptap/extension-text-style": "^2.0.0-beta.193"
+  },
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0-beta.209",
+    "@tiptap/extension-text-style": "^2.0.0-beta.209"
   },
   "repository": {
     "type": "git",

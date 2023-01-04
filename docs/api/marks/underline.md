@@ -9,7 +9,7 @@ icon: underline
 
 Use this extension to render text <u>underlined</u>. If you pass `<u>` tags, or text with inline `style` attributes setting `text-decoration: underline` in the editor’s initial content, they all will be rendered accordingly.
 
-Be aware that underlined text in the Internet usually indicates that it’s a clickable link. Don’t confuse your users with underlined text.
+Be aware that underlined text in the internet usually indicates that it’s a clickable link. Don’t confuse your users with underlined text.
 
 ::: warning Restrictions
 The extension will generate the corresponding `<u>` HTML tags when reading contents of the `Editor` instance. All text marked underlined, regardless of the method will be normalized to `<u>` HTML tags.

@@ -2,7 +2,7 @@
   <div>
     <div v-if="editor">
       <button id="add" @click="addVideo">
-        Add youtube video
+        Add YouTube video
       </button>
       <input
         id="width"
@@ -52,7 +52,7 @@ export default {
         }),
       ],
       content: `
-        <p>Tiptap now supports youtube embeds! Awesome!</p>
+        <p>Tiptap now supports YouTube embeds! Awesome!</p>
         <div data-youtube-video>
           <iframe src="https://www.youtube.com/watch?v=cqHqLQgVCgY"></iframe>
         </div>

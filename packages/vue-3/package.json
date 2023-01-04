@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/vue-3",
   "description": "Vue components for tiptap",
-  "version": "2.0.0-beta.199",
+  "version": "2.0.0-beta.209",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,7 +12,7 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-vue-3.cjs.js",
+  "main": "dist/tiptap-vue-3.cjs",
   "umd": "dist/tiptap-vue-3.umd.js",
   "module": "dist/tiptap-vue-3.esm.js",
   "types": "dist/packages/vue-3/src/index.d.ts",
@@ -21,17 +21,20 @@
     "dist"
   ],
   "devDependencies": {
+    "@tiptap/core": "^2.0.0-beta.209",
+    "prosemirror-state": "^1.4.1",
+    "prosemirror-view": "^1.28.2",
     "vue": "^3.0.0"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.193",
+    "prosemirror-state": "^1.4.1",
+    "prosemirror-view": "^1.28.2",
     "vue": "^3.0.0"
   },
   "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.0.0-beta.199",
-    "@tiptap/extension-floating-menu": "^2.0.0-beta.199",
-    "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2"
+    "@tiptap/extension-bubble-menu": "^2.0.0-beta.209",
+    "@tiptap/extension-floating-menu": "^2.0.0-beta.209"
   },
   "repository": {
     "type": "git",

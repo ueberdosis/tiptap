@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-youtube",
   "description": "a youtube embed extension for tiptap",
-  "version": "2.0.0-beta.199",
+  "version": "2.0.0-beta.209",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,7 +12,15 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-youtube.cjs.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-youtube/src/index.d.ts",
+      "import": "./dist/tiptap-extension-youtube.esm.js",
+      "require": "./dist/tiptap-extension-youtube.cjs"
+    }
+  },
+  "main": "dist/tiptap-extension-youtube.cjs",
   "umd": "dist/tiptap-extension-youtube.umd.js",
   "module": "dist/tiptap-extension-youtube.esm.js",
   "types": "dist/packages/extension-youtube/src/index.d.ts",
@@ -22,6 +30,9 @@
   ],
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.193"
+  },
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0-beta.209"
   },
   "repository": {
     "type": "git",

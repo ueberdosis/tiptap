@@ -1,19 +1,19 @@
 import { mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
 
-import { getEmbedURLFromYoutubeURL, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils'
+import { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils'
 
 export interface YoutubeOptions {
   addPasteHandler: boolean;
   allowFullscreen: boolean;
   autoplay: boolean;
-  ccLanguage: string;
-  ccLoadPolicy: boolean;
+  ccLanguage?: string;
+  ccLoadPolicy?: boolean;
   controls: boolean;
   disableKBcontrols: boolean;
   enableIFrameApi: boolean;
   endTime: number;
   height: number;
-  interfaceLanguage: string;
+  interfaceLanguage?: string;
   ivLoadPolicy: number;
   loop: boolean;
   modestBranding: boolean;
@@ -22,7 +22,7 @@ export interface YoutubeOptions {
   nocookie: boolean;
   origin: string;
   playlist: string;
-  progressBarColor: string;
+  progressBarColor?: string;
   width: number;
 }
 
@@ -43,17 +43,17 @@ export const Youtube = Node.create<YoutubeOptions>({
   addOptions() {
     return {
       addPasteHandler: true,
-      allowFullscreen: false,
+      allowFullscreen: true,
       autoplay: false,
-      ccLanguage: 'en',
-      ccLoadPolicy: false,
+      ccLanguage: undefined,
+      ccLoadPolicy: undefined,
       controls: true,
       disableKBcontrols: false,
       enableIFrameApi: false,
       endTime: 0,
       height: 480,
-      interfaceLanguage: 'en',
-      ivLoadPolicy: 1,
+      interfaceLanguage: undefined,
+      ivLoadPolicy: 0,
       loop: false,
       modestBranding: false,
       HTMLAttributes: {},
@@ -61,7 +61,7 @@ export const Youtube = Node.create<YoutubeOptions>({
       nocookie: false,
       origin: '',
       playlist: '',
-      progressBarColor: 'red',
+      progressBarColor: undefined,
       width: 640,
     }
   },
@@ -133,7 +133,7 @@ export const Youtube = Node.create<YoutubeOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    const embedUrl = getEmbedURLFromYoutubeURL({
+    const embedUrl = getEmbedUrlFromYoutubeUrl({
       url: HTMLAttributes.src,
       allowFullscreen: this.options.allowFullscreen,
       autoplay: this.options.autoplay,
