@@ -258,18 +258,16 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
               return false
             }
 
-            const { tr } = view.state
+            const { tr, schema } = view.state
 
-            // create an empty code block
-            tr.replaceSelectionWith(this.type.create({ language }))
-
-            // put cursor inside the newly created code block
-            tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))))
-
-            // add text to code block
+            // prepare a text node
             // strip carriage return chars from text pasted as code
             // see: https://github.com/ProseMirror/prosemirror-view/commit/a50a6bcceb4ce52ac8fcc6162488d8875613aacd
-            tr.insertText(text.replace(/\r\n?/g, '\n'))
+            const textNode = schema.text(text.replace(/\r\n?/g, '\n'))
+
+            // create a code block with the text node
+            // replace selection with the code block
+            tr.replaceSelectionWith(this.type.create({ language }, textNode))
 
             // store meta information
             // this is useful for other plugins that depends on the paste event
