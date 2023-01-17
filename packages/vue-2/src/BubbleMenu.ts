@@ -7,6 +7,7 @@ export interface BubbleMenuInterface extends Vue {
   tippyOptions: BubbleMenuPluginProps['tippyOptions'],
   updateDelay: BubbleMenuPluginProps['updateDelay'],
   shouldShow: BubbleMenuPluginProps['shouldShow'],
+  allowEmptySelection: BubbleMenuPluginProps['allowEmptySelection']
 }
 
 export const BubbleMenu: Component = {
@@ -36,6 +37,11 @@ export const BubbleMenu: Component = {
       type: Function as PropType<Exclude<BubbleMenuPluginProps['shouldShow'], null>>,
       default: null,
     },
+
+    allowEmptySelection: {
+      type: Boolean as PropType<BubbleMenuPluginProps['allowEmptySelection']>,
+      default: false,
+    },
   },
 
   watch: {
@@ -54,6 +60,7 @@ export const BubbleMenu: Component = {
             pluginKey: this.pluginKey,
             shouldShow: this.shouldShow,
             tippyOptions: this.tippyOptions,
+            allowEmptySelection: this.allowEmptySelection,
           }))
         })
       },

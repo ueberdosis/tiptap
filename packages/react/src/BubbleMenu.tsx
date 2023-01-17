@@ -7,6 +7,7 @@ export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>,
   className?: string;
   children: React.ReactNode;
   updateDelay?: number;
+  allowEmptySelection?: boolean;
 };
 
 export const BubbleMenu = (props: BubbleMenuProps) => {
@@ -22,7 +23,12 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
     }
 
     const {
-      pluginKey = 'bubbleMenu', editor, tippyOptions = {}, updateDelay, shouldShow = null,
+      pluginKey = 'bubbleMenu',
+      editor,
+      tippyOptions = {},
+      updateDelay,
+      shouldShow = null,
+      allowEmptySelection = false,
     } = props
 
     const plugin = BubbleMenuPlugin({
@@ -32,6 +38,7 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
       pluginKey,
       shouldShow,
       tippyOptions,
+      allowEmptySelection,
     })
 
     editor.registerPlugin(plugin)

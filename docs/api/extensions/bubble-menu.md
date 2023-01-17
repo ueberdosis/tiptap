@@ -33,6 +33,15 @@ Type: `Number`
 
 Default: `undefined`
 
+
+### allowEmptySelection
+The `BubbleMenu` is shown even on empty selections (no character is selected and the bubble menu is displayed above the cursor).
+
+Type: `Boolean`
+
+Default: `false`
+
+
 ### tippyOptions
 Under the hood, the `BubbleMenu` uses [tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/). You can directly pass options to it.
 

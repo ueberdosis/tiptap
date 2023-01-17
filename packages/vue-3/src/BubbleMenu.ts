@@ -38,6 +38,11 @@ export const BubbleMenu = defineComponent({
       type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['shouldShow'], null>>,
       default: null,
     },
+
+    allowEmptySelection: {
+      type: Boolean as PropType<BubbleMenuPluginProps['allowEmptySelection']>,
+      default: false,
+    },
   },
 
   setup(props, { slots }) {
@@ -50,6 +55,7 @@ export const BubbleMenu = defineComponent({
         pluginKey,
         shouldShow,
         tippyOptions,
+        allowEmptySelection,
       } = props
 
       editor.registerPlugin(BubbleMenuPlugin({
@@ -59,6 +65,7 @@ export const BubbleMenu = defineComponent({
         pluginKey,
         shouldShow,
         tippyOptions,
+        allowEmptySelection,
       }))
     })
 

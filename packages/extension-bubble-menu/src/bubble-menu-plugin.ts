@@ -23,6 +23,7 @@ export interface BubbleMenuPluginProps {
     from: number,
     to: number,
   }) => boolean) | null,
+  allowEmptySelection: boolean,
 }
 
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
@@ -43,6 +44,8 @@ export class BubbleMenuView {
   public tippyOptions?: Partial<Props>
 
   public updateDelay: number
+
+  public allowEmptySelection: boolean
 
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
     view,
@@ -68,8 +71,7 @@ export class BubbleMenuView {
 
     if (
       !hasEditorFocus
-      || empty
-      || isEmptyTextBlock
+      || (!this.allowEmptySelection && (empty || isEmptyTextBlock))
       || !this.editor.isEditable
     ) {
       return false
@@ -85,11 +87,13 @@ export class BubbleMenuView {
     tippyOptions = {},
     updateDelay = 250,
     shouldShow,
+    allowEmptySelection = false,
   }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
     this.updateDelay = updateDelay
+    this.allowEmptySelection = allowEmptySelection
 
     if (shouldShow) {
       this.shouldShow = shouldShow
@@ -166,7 +170,9 @@ export class BubbleMenuView {
 
   update(view: EditorView, oldState?: EditorState) {
     const { state } = view
-    const hasValidSelection = state.selection.$from.pos !== state.selection.$to.pos
+    const hasValidSelection = this.allowEmptySelection
+      ? true
+      : state.selection.$from.pos !== state.selection.$to.pos
 
     if (this.updateDelay > 0 && hasValidSelection) {
       debounce(this.updateHandler, this.updateDelay)(view, oldState)
