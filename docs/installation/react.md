@@ -40,6 +40,10 @@ Time to install the `@tiptap/react` package and our [`StarterKit`](/api/extensio
 npm install @tiptap/react @tiptap/starter-kit
 ```
 
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please check the following links to find out what dependencies are needed and how to install them: [@tiptap/core](https://tiptap.dev/installation/peer-dependencies#tiptapcore), [@tiptap/starter-kit](https://tiptap.dev/installation/peer-dependencies#tiptapstarter-kit)
+:::
+
 If you followed step 1 and 2, you can now start your project with `npm run start`, and open [http://localhost:3000](http://localhost:3000) in your browser.
 
 #### 3. Create a new component

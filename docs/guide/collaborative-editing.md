@@ -28,6 +28,10 @@ First, install the dependencies:
 npm install @tiptap/extension-collaboration yjs y-webrtc
 ```
 
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-collaboration) which packages are needed and how to install them.
+:::
+
 Now, create a new Y document, and register it with Tiptap:
 
 ```js
@@ -66,13 +70,17 @@ So how does this magic work? All clients need to connect with eachother, that’
 Anyway, if you want to dive deeper, head over to [the Y WebRTC repository](https://github.com/yjs/y-webrtc) on GitHub.
 
 ### WebSocket (Recommended)
-For most uses cases, a WebSocket provider is the recommended choice. It’s very flexible and can scale very well. To make it even easier, we are working on an official backend for Tiptap. The backend is still in early access (sponsors-only), but you can use the provider already.
+For most uses cases, a WebSocket provider is the recommended choice. It’s very flexible and can scale very well. To make it even easier, we  released [Hocuspocus](https://hocuspocus.dev) as an official backend for Tiptap.
 
 For the client, the example is nearly the same, only the provider is different. First, let’s install the dependencies:
 
 ```bash
 npm install @tiptap/extension-collaboration @hocuspocus/provider
 ```
+
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-collaboration) which packages are needed and how to install them.
+:::
 
 And then register the WebSocket provider with Tiptap:
 
@@ -218,11 +226,7 @@ All changes will be stored in the browser then, even if you close the tab, go of
 Yes, it’s magic. As already mentioned, that is all based on the fantastic Y.js framework. And if you’re using it, or our integration, you should definitely [sponsor Kevin Jahns on GitHub](https://github.com/dmonad), he is the brain behind Y.js.
 
 ## Our plug & play collaboration backend
-Our collaborative editing backend handles the syncing, authorization, persistence and scaling. Let’s go through a few common use cases here!
-
-:::warning Request early access
-Our plug & play collaboration backend hocuspocus is still work in progress. If you want to give it a try, [get early access](https://www.hocuspocus.dev).
-:::
+Our collaborative editing backend [Hocuspocus](https://hocuspocus.dev) handles the syncing, authorization, persistence and scaling. Let’s go through a few common use cases here!
 
 ### The document name
 The document name is `'example-document'` in all examples here, but it could be any string. In a real-world app you’d probably add the name of your entity and the ID of the entity. Here is how that could look like:

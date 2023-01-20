@@ -16,19 +16,9 @@ Note that Tiptap is headless, but the dropcursor needs CSS for its appearance. T
 npm install @tiptap/extension-dropcursor
 ```
 
-
-If you use NPM 6 or lower, yarn or pnpm, you also need to install the Prosemirror dependencies.
-
-```bash
-# NPM 6 and lower
-npm install prosemirror-dropcursor
-
-# yarn
-yarn add prosemirror-dropcursor
-
-# pnpm
-pnpm install prosemirror-dropcursor
-```
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-dropcursor) which packages are needed and how to install them.
+:::
 
 ## Settings
 

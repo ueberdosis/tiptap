@@ -124,6 +124,7 @@ Update editable state of the editor.
 | Parameter | Type    | Description                                                   |
 | --------- | ------- | ------------------------------------------------------------- |
 | editable  | boolean | `true` when the user should be able to write into the editor. |
+| emitUpdate | boolean | Defaults to `true`. Determines whether `onUpdate` is triggered. |
 
 ```js
 // Make the editor read-only
