@@ -18,9 +18,9 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.cjs",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
