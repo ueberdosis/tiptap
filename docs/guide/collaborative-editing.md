@@ -113,7 +113,7 @@ const editor = new Editor({
 This example doesn’t work out of the box. As you can see, it’s configured to talk to a WebSocket server which is available under `ws://127.0.0.1:1234` (WebSocket protocol `ws://`, your local IP `127.0.0.1` and the port `1234`). You need to set this up, too.
 
 #### The WebSocket backend
-To make the server part as easy as possible, we provide [an opinionated server package, called Hocuspocus](http://hocuspocus.dev/) (currently available for sponsors and subscribers only). It’s a flexible Node.js package, that you can use to build your custom backend.
+To make the server part as easy as possible, we provide [an opinionated server package, called Hocuspocus](http://hocuspocus.dev/). It’s a flexible Node.js package, that you can use to build your custom backend.
 
 For the purpose of that guide, let’s just use the command-line interface which boots a minimal server literally in seconds:
 
