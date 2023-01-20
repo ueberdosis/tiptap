@@ -16,7 +16,7 @@
     "test:open": "cypress open --project tests",
     "test": "cypress run --project tests",
     "build": "npm run clean:packages && lerna run build",
-    "build:demos": "npm --prefix ./demos run build:demo",
+    "build:demos": "npm --prefix ./demos run build:demos",
     "build:ci": "npm run build",
     "release:major": "lerna version major --force-publish",
     "release:major:pre": "lerna version premajor --force-publish",
