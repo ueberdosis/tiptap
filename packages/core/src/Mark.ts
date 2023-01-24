@@ -443,7 +443,7 @@ export class Mark<Options = any, Storage = any> {
     // with different calls of `configure`
     const extension = this.extend()
 
-    extension.options = mergeDeep(this.options, options) as Options
+    extension.options = mergeDeep(this.options as Record<string, any>, options) as Options
 
     extension.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
       extension,
