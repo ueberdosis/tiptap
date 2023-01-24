@@ -34,6 +34,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
   addProseMirrorPlugins() {
     return [
       new Plugin({
+        key: new PluginKey('placeholder'),
         props: {
           decorations: ({ doc, selection }) => {
             const active = this.editor.isEditable || !this.options.showOnlyWhenEditable
