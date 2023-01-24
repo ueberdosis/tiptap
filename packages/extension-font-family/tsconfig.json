@@ -1,10 +1,3 @@
 {
-  "extends": "../../tsconfig.tiptap.json",
-  "compilerOptions": {
-    "paths": {
-      "@tiptap/*": ["../*/src"]
-    }
-  },
-  "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.vue"],
-  "exclude": ["**/node_modules", "**/dist"]
+  "extends": "../../tsconfig.json"
 }

@@ -58,7 +58,7 @@
     "minimist": "^1.2.5",
     "ts-loader": "^9.2.6",
     "tsup": "^6.5.0",
-    "typescript": "^4.9.4",
+    "typescript": "4.7.4",
     "webpack": "^5.68.0"
   },
   "name": "tiptap"

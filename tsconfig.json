@@ -18,24 +18,9 @@
     "paths": {
       "@tiptap/*": ["packages/*/dist", "packages/*/src"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "files": [
-    "./env.d.ts"
-  ],
-  "include": [
-    "**/*.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.vue"
-  ],
-  "exclude": [
-    "**/node_modules",
-    "**/dist"
-  ]
+  "files": ["./env.d.ts"],
+  "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.vue"],
+  "exclude": ["**/node_modules", "**/dist"]
 }
