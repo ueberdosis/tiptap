@@ -36,13 +36,13 @@
   },
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.193",
+    "prosemirror-view": "^1.28.2",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
   },
   "dependencies": {
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.209",
-    "@tiptap/extension-floating-menu": "^2.0.0-beta.209",
-    "prosemirror-view": "^1.28.2"
+    "@tiptap/extension-floating-menu": "^2.0.0-beta.209"
   },
   "repository": {
     "type": "git",
