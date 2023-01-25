@@ -2,7 +2,6 @@ import {
   callOrReturn, getExtensionField, mergeAttributes, Node, ParentConfig,
 } from '@tiptap/core'
 import { TextSelection } from '@tiptap/pm/state'
-import { NodeView } from '@tiptap/pm/view'
 import {
   addColumnAfter,
   addColumnBefore,
@@ -21,7 +20,8 @@ import {
   tableEditing,
   toggleHeader,
   toggleHeaderCell,
-} from '@tiptap/prosemirror-tables'
+} from '@tiptap/pm/tables'
+import { NodeView } from '@tiptap/pm/view'
 
 import { TableView } from './TableView'
 import { createTable } from './utilities/createTable'
