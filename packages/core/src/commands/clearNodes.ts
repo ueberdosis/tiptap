@@ -1,4 +1,4 @@
-import { liftTarget } from 'prosemirror-transform'
+import { liftTarget } from '@tiptap/pm/transform'
 
 import { RawCommands } from '../types'
 

@@ -1,5 +1,5 @@
+import { canSplit } from '@tiptap/pm/transform'
 import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
-import { canSplit } from 'prosemirror-transform'
 
 import { defaultBlockAt } from '../helpers/defaultBlockAt'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes'

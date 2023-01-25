@@ -1,3 +1,4 @@
+import { canSplit } from '@tiptap/pm/transform'
 import {
   Fragment,
   Node as ProseMirrorNode,
@@ -5,7 +6,6 @@ import {
   Slice,
 } from 'prosemirror-model'
 import { TextSelection } from 'prosemirror-state'
-import { canSplit } from 'prosemirror-transform'
 
 import { getNodeType } from '../helpers/getNodeType'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes'

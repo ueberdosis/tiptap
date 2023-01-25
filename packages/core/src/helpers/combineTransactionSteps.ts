@@ -1,6 +1,6 @@
+import { Transform } from '@tiptap/pm/transform'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Transaction } from 'prosemirror-state'
-import { Transform } from 'prosemirror-transform'
 
 /**
  * Returns a new `Transform` based on all steps of the passed transactions.

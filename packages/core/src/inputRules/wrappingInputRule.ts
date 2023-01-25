@@ -1,5 +1,5 @@
+import { canJoin, findWrapping } from '@tiptap/pm/transform'
 import { Node as ProseMirrorNode, NodeType } from 'prosemirror-model'
-import { canJoin, findWrapping } from 'prosemirror-transform'
 
 import { InputRule, InputRuleFinder } from '../InputRule'
 import { ExtendedRegExpMatchArray } from '../types'

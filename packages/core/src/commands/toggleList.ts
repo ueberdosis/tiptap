@@ -1,6 +1,6 @@
+import { canJoin } from '@tiptap/pm/transform'
 import { NodeType } from 'prosemirror-model'
 import { Transaction } from 'prosemirror-state'
-import { canJoin } from 'prosemirror-transform'
 
 import { findParentNode } from '../helpers/findParentNode'
 import { getNodeType } from '../helpers/getNodeType'
