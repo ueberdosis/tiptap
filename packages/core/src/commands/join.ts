@@ -1,6 +1,9 @@
 import {
-  joinBackward as originalJoinBackward, joinDown as originalJoinDown, joinForward as originalJoinForward, joinUp as originalJoinUp,
-} from 'prosemirror-commands'
+  joinBackward as originalJoinBackward,
+  joinDown as originalJoinDown,
+  joinForward as originalJoinForward,
+  joinUp as originalJoinUp,
+} from '@tiptap/pm/commands'
 
 import { RawCommands } from '../types'
 
@@ -10,25 +13,25 @@ declare module '@tiptap/core' {
       /**
        * Join two nodes Up.
        */
-      joinUp: () => ReturnType,
+      joinUp: () => ReturnType
     }
     joinDown: {
       /**
        * Join two nodes Down.
        */
-      joinDown: () => ReturnType,
+      joinDown: () => ReturnType
     }
     joinBackward: {
       /**
        * Join two nodes Backwards.
        */
-      joinBackward: () => ReturnType,
+      joinBackward: () => ReturnType
     }
     joinForward: {
       /**
        * Join two nodes Forwards.
        */
-      joinForward: () => ReturnType,
+      joinForward: () => ReturnType
     }
   }
 }

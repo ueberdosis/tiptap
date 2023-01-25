@@ -1,4 +1,4 @@
-import { MarkType } from 'prosemirror-model'
+import { MarkType } from '@tiptap/pm/model'
 
 import { getMarksBetween } from '../helpers/getMarksBetween'
 import { InputRule, InputRuleFinder } from '../InputRule'
@@ -10,14 +10,13 @@ import { callOrReturn } from '../utilities/callOrReturn'
  * matched text is typed into it.
  */
 export function markInputRule(config: {
-  find: InputRuleFinder,
-  type: MarkType,
+  find: InputRuleFinder
+  type: MarkType
   getAttributes?:
     | Record<string, any>
     | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
     | null
-  ,
 }) {
   return new InputRule({
     find: config.find,

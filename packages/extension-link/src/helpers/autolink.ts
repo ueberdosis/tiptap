@@ -5,21 +5,20 @@ import {
   getMarksBetween,
   NodeWithPos,
 } from '@tiptap/core'
+import { MarkType } from '@tiptap/pm/model'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { find, test } from 'linkifyjs'
-import { MarkType } from 'prosemirror-model'
-import { Plugin, PluginKey } from 'prosemirror-state'
 
 type AutolinkOptions = {
-  type: MarkType,
-  validate?: (url: string) => boolean,
+  type: MarkType
+  validate?: (url: string) => boolean
 }
 
 export function autolink(options: AutolinkOptions): Plugin {
   return new Plugin({
     key: new PluginKey('autolink'),
     appendTransaction: (transactions, oldState, newState) => {
-      const docChanges = transactions.some(transaction => transaction.docChanged)
-        && !oldState.doc.eq(newState.doc)
+      const docChanges = transactions.some(transaction => transaction.docChanged) && !oldState.doc.eq(newState.doc)
       const preventAutolink = transactions.some(transaction => transaction.getMeta('preventAutolink'))
 
       if (!docChanges || preventAutolink) {
@@ -38,8 +37,9 @@ export function autolink(options: AutolinkOptions): Plugin {
           .forEach(oldMark => {
             const newFrom = mapping.map(oldMark.from)
             const newTo = mapping.map(oldMark.to)
-            const newMarks = getMarksBetween(newFrom, newTo, newState.doc)
-              .filter(item => item.mark.type === options.type)
+            const newMarks = getMarksBetween(newFrom, newTo, newState.doc).filter(
+              item => item.mark.type === options.type,
+            )
 
             if (!newMarks.length) {
               return
@@ -59,7 +59,11 @@ export function autolink(options: AutolinkOptions): Plugin {
           })
 
         // now let’s see if we can add new links
-        const nodesInChangedRanges = findChildrenInRange(newState.doc, newRange, node => node.isTextblock)
+        const nodesInChangedRanges = findChildrenInRange(
+          newState.doc,
+          newRange,
+          node => node.isTextblock,
+        )
 
         let textBlock: NodeWithPos | undefined
         let textBeforeWhitespace: string | undefined
@@ -117,9 +121,13 @@ export function autolink(options: AutolinkOptions): Plugin {
             }))
             // add link mark
             .forEach(link => {
-              tr.addMark(link.from, link.to, options.type.create({
-                href: link.href,
-              }))
+              tr.addMark(
+                link.from,
+                link.to,
+                options.type.create({
+                  href: link.href,
+                }),
+              )
             })
         }
       })

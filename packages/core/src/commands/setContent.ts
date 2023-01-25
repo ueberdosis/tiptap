@@ -1,4 +1,4 @@
-import { ParseOptions } from 'prosemirror-model'
+import { ParseOptions } from '@tiptap/pm/model'
 
 import { createDocument } from '../helpers/createDocument'
 import { Content, RawCommands } from '../types'
@@ -13,7 +13,7 @@ declare module '@tiptap/core' {
         content: Content,
         emitUpdate?: boolean,
         parseOptions?: ParseOptions,
-      ) => ReturnType,
+      ) => ReturnType
     }
   }
 }
@@ -23,8 +23,7 @@ export const setContent: RawCommands['setContent'] = (content, emitUpdate = fals
   const document = createDocument(content, editor.schema, parseOptions)
 
   if (dispatch) {
-    tr.replaceWith(0, doc.content.size, document)
-      .setMeta('preventUpdate', !emitUpdate)
+    tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)
   }
 
   return true

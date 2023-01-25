@@ -1,4 +1,4 @@
-import { EditorView } from 'prosemirror-view'
+import { EditorView } from '@tiptap/pm/view'
 
 import LinterPlugin, { Result as Issue } from '../LinterPlugin'
 
@@ -7,13 +7,7 @@ export class Punctuation extends LinterPlugin {
 
   fix(replacement: any) {
     return function ({ state, dispatch }: EditorView, issue: Issue) {
-      dispatch(
-        state.tr.replaceWith(
-          issue.from,
-          issue.to,
-          state.schema.text(replacement),
-        ),
-      )
+      dispatch(state.tr.replaceWith(issue.from, issue.to, state.schema.text(replacement)))
     }
   }
 

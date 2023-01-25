@@ -1,5 +1,5 @@
-import { NodeType } from 'prosemirror-model'
-import { sinkListItem as originalSinkListItem } from 'prosemirror-schema-list'
+import { NodeType } from '@tiptap/pm/model'
+import { sinkListItem as originalSinkListItem } from '@tiptap/pm/schema-list'
 
 import { getNodeType } from '../helpers/getNodeType'
 import { RawCommands } from '../types'
@@ -10,7 +10,7 @@ declare module '@tiptap/core' {
       /**
        * Sink the list item down into an inner list.
        */
-      sinkListItem: (typeOrName: string | NodeType) => ReturnType,
+      sinkListItem: (typeOrName: string | NodeType) => ReturnType
     }
   }
 }

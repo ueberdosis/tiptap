@@ -1,9 +1,9 @@
 import { getAttributes } from '@tiptap/core'
-import { MarkType } from 'prosemirror-model'
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { MarkType } from '@tiptap/pm/model'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type ClickHandlerOptions = {
-  type: MarkType,
+  type: MarkType
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {

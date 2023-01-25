@@ -1,4 +1,4 @@
-import { NodeType } from 'prosemirror-model'
+import { NodeType } from '@tiptap/pm/model'
 
 import { InputRule, InputRuleFinder } from '../InputRule'
 import { ExtendedRegExpMatchArray } from '../types'
@@ -9,14 +9,13 @@ import { callOrReturn } from '../utilities/callOrReturn'
  * matched text is typed into it.
  */
 export function nodeInputRule(config: {
-  find: InputRuleFinder,
-  type: NodeType,
+  find: InputRuleFinder
+  type: NodeType
   getAttributes?:
     | Record<string, any>
     | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
     | null
-  ,
 }) {
   return new InputRule({
     find: config.find,

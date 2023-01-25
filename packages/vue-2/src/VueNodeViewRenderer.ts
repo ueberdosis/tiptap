@@ -5,8 +5,8 @@ import {
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import Vue from 'vue'
 import { PropType, VueConstructor } from 'vue/types/umd'
 
@@ -49,17 +49,18 @@ export const nodeViewProps = {
 }
 
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
-  update: ((props: {
-    oldNode: ProseMirrorNode,
-    oldDecorations: Decoration[],
-    newNode: ProseMirrorNode,
-    newDecorations: Decoration[],
-    updateProps: () => void,
-  }) => boolean) | null,
+  update:
+    | ((props: {
+        oldNode: ProseMirrorNode
+        oldDecorations: Decoration[]
+        newNode: ProseMirrorNode
+        newDecorations: Decoration[]
+        updateProps: () => void
+      }) => boolean)
+    | null
 }
 
-class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRendererOptions> {
-
+class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRendererOptions> {
   renderer!: VueRenderer
 
   decorationClasses!: {
@@ -87,17 +88,15 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRe
     // @ts-ignore
     const vue = this.editor.contentComponent?.$options._base ?? Vue // eslint-disable-line
 
-    const Component = vue
-      .extend(this.component)
-      .extend({
-        props: Object.keys(props),
-        provide: () => {
-          return {
-            onDragStart,
-            decorationClasses: this.decorationClasses,
-          }
-        },
-      })
+    const Component = vue.extend(this.component).extend({
+      props: Object.keys(props),
+      provide: () => {
+        return {
+          onDragStart,
+          decorationClasses: this.decorationClasses,
+        }
+      },
+    })
 
     this.renderer = new VueRenderer(Component, {
       parent: this.editor.contentComponent,
@@ -174,20 +173,24 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRe
   }
 
   getDecorationClasses() {
-    return this.decorations
-      // @ts-ignore
-      .map(item => item.type.attrs.class)
-      .flat()
-      .join(' ')
+    return (
+      this.decorations
+        // @ts-ignore
+        .map(item => item.type.attrs.class)
+        .flat()
+        .join(' ')
+    )
   }
 
   destroy() {
     this.renderer.destroy()
   }
-
 }
 
-export function VueNodeViewRenderer(component: Vue | VueConstructor, options?: Partial<VueNodeViewRendererOptions>): NodeViewRenderer {
+export function VueNodeViewRenderer(
+  component: Vue | VueConstructor,
+  options?: Partial<VueNodeViewRendererOptions>,
+): NodeViewRenderer {
   return (props: NodeViewRendererProps) => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly

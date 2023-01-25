@@ -1,4 +1,4 @@
-import { Node as ProseMirrorNode, ParseOptions, Schema } from 'prosemirror-model'
+import { Node as ProseMirrorNode, ParseOptions, Schema } from '@tiptap/pm/model'
 
 import { Content } from '../types'
 import { createNodeFromContent } from './createNodeFromContent'

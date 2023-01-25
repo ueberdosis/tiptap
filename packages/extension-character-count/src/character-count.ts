@@ -1,33 +1,28 @@
 import { Extension } from '@tiptap/core'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 export interface CharacterCountOptions {
   /**
    * The maximum number of characters that should be allowed. Defaults to `0`.
    */
-  limit: number | null | undefined,
+  limit: number | null | undefined
   /**
    * The mode by which the size is calculated. Defaults to 'textSize'.
    */
-  mode: 'textSize' | 'nodeSize',
+  mode: 'textSize' | 'nodeSize'
 }
 
 export interface CharacterCountStorage {
   /**
    * Get the number of characters for the current document.
    */
-  characters: (options?: {
-    node?: ProseMirrorNode,
-    mode?: 'textSize' | 'nodeSize',
-  }) => number,
+  characters: (options?: { node?: ProseMirrorNode; mode?: 'textSize' | 'nodeSize' }) => number
 
   /**
    * Get the number of words for the current document.
    */
-  words: (options?: {
-    node?: ProseMirrorNode,
-  }) => number,
+  words: (options?: { node?: ProseMirrorNode }) => number
 }
 
 export const CharacterCount = Extension.create<CharacterCountOptions, CharacterCountStorage>({
@@ -64,9 +59,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
     this.storage.words = options => {
       const node = options?.node || this.editor.state.doc
       const text = node.textBetween(0, node.content.size, ' ', ' ')
-      const words = text
-        .split(' ')
-        .filter(word => word !== '')
+      const words = text.split(' ').filter(word => word !== '')
 
       return words.length
     }

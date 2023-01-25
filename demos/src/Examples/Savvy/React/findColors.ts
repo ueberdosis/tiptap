@@ -1,5 +1,5 @@
-import { Node } from 'prosemirror-model'
-import { Decoration, DecorationSet } from 'prosemirror-view'
+import { Node } from '@tiptap/pm/model'
+import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 export default function (doc: Node): DecorationSet {
   const hexColor = /(#[0-9a-f]{3,6})\b/gi
