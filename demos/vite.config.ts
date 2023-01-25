@@ -275,6 +275,9 @@ export default defineConfig({
       ...fg.sync('../packages/*', { onlyDirectories: true })
         .map(name => name.replace('../packages/', ''))
         .map(name => {
+          if (name === 'pm') {
+            return { find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/`) }
+          }
           return { find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/src/index.ts`) }
         }),
     ],
