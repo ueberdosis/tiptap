@@ -42,7 +42,9 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@types/lodash": "^4.14.187"
+    "@types/lodash": "^4.14.187",
+    "prosemirror-state": "^1.4.1",
+    "prosemirror-view": "^1.28.2"
   },
   "scripts": {
     "build": "tsup"
