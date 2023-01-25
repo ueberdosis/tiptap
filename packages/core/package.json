@@ -18,9 +18,9 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.cjs",
-      "import": "./dist/index.js",
-      "require": "./dist/index.d.ts"
+      "types": "./dist/packages/core/src/index.d.ts",
+      "import": "./dist/tiptap-core.esm.js",
+      "require": "./dist/tiptap-core.cjs"
     }
   },
   "main": "dist/index.cjs",

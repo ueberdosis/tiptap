@@ -18,6 +18,9 @@
         # - title: CDN
         #   link: /installation/cdn
         #   skip: true
+        - title: Vanilla JavaScript
+          link: /installation/vanilla-javascript
+          skip: true
         - title: React
           link: /installation/react
           skip: true
@@ -44,7 +47,9 @@
           skip: true
         - title: PHP
           link: /installation/php
-          type: new
+          skip: true
+        - title: Peer dependencies
+          link: /installation/peer-dependencies
           skip: true
     - title: Upgrade guide
       link: /overview/upgrade-guide

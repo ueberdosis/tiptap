@@ -33,6 +33,10 @@ Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For
 npm install @tiptap/vue-3 @tiptap/starter-kit
 ```
 
+:::warning Are you using Yarn, pNPM, npm 6 or less?
+Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please check the following links to find out what dependencies are needed and how to install them: [@tiptap/core](https://tiptap.dev/installation/peer-dependencies#tiptapcore), [@tiptap/starter-kit](https://tiptap.dev/installation/peer-dependencies#tiptapstarter-kit)
+:::
+
 If you followed step 1 and 2, you can now start your project with `npm run serve`, and open [http://localhost:8080](http://localhost:8080) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Create a new component
