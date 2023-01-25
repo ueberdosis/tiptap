@@ -250,6 +250,7 @@ export const Table = Node.create<TableOptions>({
           columnResizing({
             handleWidth: this.options.handleWidth,
             cellMinWidth: this.options.cellMinWidth,
+            // @ts-ignore (incorrect type)
             View: this.options.View,
             // TODO: PR for @types/prosemirror-tables
             // @ts-ignore (incorrect type)
