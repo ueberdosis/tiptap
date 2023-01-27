@@ -16,7 +16,7 @@
     "test:open": "cypress open --project tests",
     "test": "cypress run --project tests",
     "build": "npm run clean:packages && npm run clean:packs && lerna run build",
-    "build:demos": "npm run build && npm --prefix ./demos run build:demos",
+    "build:demos": "npm --prefix ./demos run build:demos",
     "build:ci": "npm run build",
     "release:major": "lerna version major --force-publish",
     "release:major:pre": "lerna version premajor --force-publish",
@@ -27,7 +27,7 @@
     "release:pre": "lerna version prerelease --force-publish",
     "publish": "npm run build:packages && lerna exec --since --no-private -- npm publish --access public",
     "pack": "npm run clean:packs && lerna exec -- npm pack",
-    "clean:packages": "rm -rf ./packages/*/dist",
+    "clean:packages": "rm -rf ./packages/*/dist && rm -rf ./packages/pm/*/dist",
     "clean:packs": "rm -rf ./packages/*/*.tgz",
     "reset": "npm run clean:packages && npm run clean:packs && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && npm install",
     "prepare": "husky install"
@@ -59,7 +59,7 @@
     "minimist": "^1.2.5",
     "ts-loader": "^9.2.6",
     "tsup": "^6.5.0",
-    "typescript": "^4.5.5",
+    "typescript": "4.7.4",
     "webpack": "^5.68.0"
   },
   "name": "tiptap"
