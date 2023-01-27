@@ -25,7 +25,9 @@ Renders the image node inline, for example in a paragraph tag: `<p><img src="spa
 
 It totally depends on what kind of editing experience you’d like to have, but can be useful if you (for example) migrate from Quill to Tiptap.
 
-Default: `false`
+Default: `true`
+
+If you pasted images and text, and the image is included in the p, image must be inline. p can't contain both block and inline. 
 
 ```js
 Image.configure({
@@ -36,7 +38,9 @@ Image.configure({
 ### allowBase64
 Allow images to be parsed as base64 strings `<img src="data:image/jpg;base64...">`.
 
-Default: `false`
+the placeholdSrc is base64 
+
+Default: `true`
 
 ```js
 Image.configure({
@@ -52,6 +56,60 @@ Image.configure({
   HTMLAttributes: {
     class: 'my-custom-class',
   },
+})
+```
+
+### placeholderSrc
+when the image is uploading, this is value of src.
+
+Default `data:image/svg+xml,${imageSvg}`
+
+```js
+Image.configure({
+  placeholderSrc: 'url'
+})
+```
+
+### types
+What types of images can be inserted into the editor?
+
+Default `['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg']`
+
+```js
+Image.configure({
+  types: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg']
+})
+```
+
+### upload
+customize the images are pasted or dragged into the editor
+
+Default: `undefined`
+
+```js
+Image.configure({
+  upload: async fileOrUrl => {
+    if (typeof fileOrUrl === 'string') {
+      return {
+        src: fileOrUrl,
+      }
+    }
+
+    return {
+      src: URL.createObjectURL(fileOrUrl),
+    }
+  }
+})
+```
+
+### id
+generate the id of the image
+
+Default `() => Math.random().toString(36).substring`
+
+```js
+Image.configure({
+  id: () => Math.random().toString(36).substring(7),
 })
 ```
 

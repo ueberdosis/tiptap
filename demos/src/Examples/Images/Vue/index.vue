@@ -40,11 +40,24 @@ export default {
         Document,
         Paragraph,
         Text,
-        Image,
+        Image.configure({
+          upload: async fileOrUrl => {
+            if (typeof fileOrUrl === 'string') {
+              return {
+                src: fileOrUrl,
+              }
+            }
+
+            return {
+              src: URL.createObjectURL(fileOrUrl),
+            }
+          },
+        }),
         Dropcursor,
       ],
       content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>
+
         <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />
         <img src="https://source.unsplash.com/K9QHL52rE2k/800x400" />
       `,
