@@ -6,8 +6,12 @@
     "types": [
       "cypress",
     ],
+    "paths": {
+      "@tiptap/*": ["../../packages/**/dist", "../../packages/**/src"]
+    }
   },
   "include": [
-    "./*/*.ts"
+    "./*/*.ts",
+    "../../**/*.ts",
   ]
 }
