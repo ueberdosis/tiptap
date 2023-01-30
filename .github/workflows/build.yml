@@ -23,50 +23,49 @@ jobs:
         node-version: [16]
 
     steps:
+      - uses: actions/checkout@v3.0.2
 
-    - uses: actions/checkout@v3.0.2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3.5.1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Load cached dependencies
+        uses: actions/cache@v3.0.11
+        id: cache
+        with:
+          path: |
+            **/node_modules
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
-    - name: Load cached dependencies
-      uses: actions/cache@v3.0.11
-      id: cache
-      with:
-        path: |
-          **/node_modules
-          /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        id: install-dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
 
-    - name: Install dependencies
-      id: install-dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm install
+      #    - name: Fix code style linting errors
+      #      id: lint-fix
+      #      run: npm run lint:fix
+      #      continue-on-error: true
+      #
+      #    - name: Commit fixed linting errors
+      #      id: commit
+      #      uses: stefanzweifel/git-auto-commit-action@v4
+      #      with:
+      #        commit_message: "ci: fix code style linting errors"
 
-#    - name: Fix code style linting errors
-#      id: lint-fix
-#      run: npm run lint:fix
-#      continue-on-error: true
-#
-#    - name: Commit fixed linting errors
-#      id: commit
-#      uses: stefanzweifel/git-auto-commit-action@v4
-#      with:
-#        commit_message: "ci: fix code style linting errors"
+      - name: Lint code
+        id: lint
+        run: npm run lint
 
-    - name: Lint code
-      id: lint
-      run: npm run lint
-
-    - name: Send Slack notifications
-      uses: act10ns/slack@v1
-      if: failure()
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#tiptap-notifications'
+      - name: Send Slack notifications
+        uses: act10ns/slack@v1
+        if: failure()
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#tiptap-notifications'
 
   test:
     runs-on: ubuntu-latest
@@ -79,48 +78,55 @@ jobs:
         node-version: [16]
 
     steps:
+      - uses: actions/checkout@v3.0.2
 
-    - uses: actions/checkout@v3.0.2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3.5.1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        id: install-dependencies
+        run: npm install
 
-    - name: Run tests with Cypress
-      id: cypress
-      uses: cypress-io/github-action@v4.2.0
-      with:
-        cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-        start: npm run start
-        wait-on: 'http://localhost:3000'
-        project: ./tests
-        browser: chrome
-        quiet: true
+      - name: Try to build the packages
+        id: build-packages
+        run: npm run build:pm
 
-    - name: Export screenshots (on failure only)
-      uses: actions/upload-artifact@v3.1.0
-      if: failure()
-      with:
-        name: cypress-screenshots
-        path: tests/cypress/screenshots
-        retention-days: 7
+      - name: Run tests with Cypress
+        id: cypress
+        uses: cypress-io/github-action@v4.2.0
+        with:
+          cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          start: npm run start
+          wait-on: 'http://localhost:3000'
+          project: ./tests
+          browser: chrome
+          quiet: true
 
-    - name: Export screen recordings (on failure only)
-      uses: actions/upload-artifact@v3.1.0
-      if: failure()
-      with:
-        name: cypress-videos
-        path: tests/cypress/videos
-        retention-days: 7
+      - name: Export screenshots (on failure only)
+        uses: actions/upload-artifact@v3.1.0
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: tests/cypress/screenshots
+          retention-days: 7
 
-    - name: Send Slack notifications
-      uses: act10ns/slack@v1
-      if: failure()
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#tiptap-notifications'
+      - name: Export screen recordings (on failure only)
+        uses: actions/upload-artifact@v3.1.0
+        if: failure()
+        with:
+          name: cypress-videos
+          path: tests/cypress/videos
+          retention-days: 7
+
+      - name: Send Slack notifications
+        uses: act10ns/slack@v1
+        if: failure()
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#tiptap-notifications'
 
   build:
     runs-on: ubuntu-latest
@@ -135,36 +141,35 @@ jobs:
         node-version: [16]
 
     steps:
+      - uses: actions/checkout@v3.0.2
 
-    - uses: actions/checkout@v3.0.2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3.5.1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Load cached dependencies
+        uses: actions/cache@v3.0.11
+        id: cache
+        with:
+          path: |
+            **/node_modules
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
-    - name: Load cached dependencies
-      uses: actions/cache@v3.0.11
-      id: cache
-      with:
-        path: |
-          **/node_modules
-          /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        id: install-dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
 
-    - name: Install dependencies
-      id: install-dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm install
+      - name: Try to build the packages
+        id: build-packages
+        run: npm run build:ci
 
-    - name: Try to build the packages
-      id: build-packages
-      run: npm run build:ci
-
-    - name: Send Slack notifications
-      uses: act10ns/slack@v1
-      if: failure()
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#tiptap-notifications'
+      - name: Send Slack notifications
+        uses: act10ns/slack@v1
+        if: failure()
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#tiptap-notifications'
