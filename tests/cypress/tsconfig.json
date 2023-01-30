@@ -4,10 +4,11 @@
     "noEmit": false,
     "sourceMap": false,
     "types": [
-      "cypress",
+      "cypress"
     ],
     "paths": {
-      "@tiptap/*": ["../../packages/**/dist", "../../packages/**/src"]
+      "@tiptap/*": ["../../packages/*/dist", "../../packages/*/src"],
+      "@tiptap/pm/*": ["../../packages/pm/*/", "../../packages/pm/*"],
     }
   },
   "include": [
