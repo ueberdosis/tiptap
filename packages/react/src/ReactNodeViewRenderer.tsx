@@ -66,9 +66,13 @@ class ReactNodeView extends NodeView<
       }
 
       return (
-        <ReactNodeViewContext.Provider value={{ onDragStart, nodeViewContentRef }}>
-          <Component {...componentProps} />
-        </ReactNodeViewContext.Provider>
+        <>
+          {/* @ts-ignore */}
+          <ReactNodeViewContext.Provider value={{ onDragStart, nodeViewContentRef }}>
+            {/* @ts-ignore */}
+            <Component {...componentProps} />
+          </ReactNodeViewContext.Provider>
+        </>
       )
     }
 

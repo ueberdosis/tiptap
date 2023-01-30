@@ -1,18 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "strict": false,
     "noEmit": false,
     "sourceMap": false,
-    "types": [
-      "cypress"
-    ],
+    "types": ["cypress"],
     "paths": {
-      "@tiptap/*": ["../../packages/*/dist", "../../packages/*/src"],
-      "@tiptap/pm/*": ["../../packages/pm/*/", "../../packages/pm/*"],
+      "@tiptap/*": ["packages/*/dist", "packages/*/src"],
+      "@tiptap/pm/*": ["../../pm/*/dist"]
     }
   },
-  "include": [
-    "./*/*.ts",
-    "../../**/*.ts",
-  ]
+  "include": ["./*/*.ts", "../../**/*.ts"]
 }
