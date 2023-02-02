@@ -7,6 +7,12 @@ tableOfContents: true
 ## Introduction
 You can use Tiptap with Laravel, Livewire, Inertia.js, [Alpine.js](/installation/alpine), [Tailwind CSS](/guide/styling#with-tailwind-css), and even - yes you read that right - inside PHP.
 
+To use Tiptap in your PHP application, you need to install the `@tiptap/core`, `@tiptap/pm` and `@tiptap/starter-kit` package like this.
+
+```bash
+npm install @tiptap/core @tiptap/pm @tiptap/starter-kit
+```
+
 ## Tiptap for PHP
 We provide [an official PHP package to work with Tiptap content](/api/utilities/tiptap-php). A PHP package to work with Tiptap content. You can transform Tiptap-compatible JSON to HTML, and the other way around, sanitize your content, or just modify it.
 

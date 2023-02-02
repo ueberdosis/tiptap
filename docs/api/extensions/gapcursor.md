@@ -18,10 +18,6 @@ Note that Tiptap is headless, but the gapcursor needs CSS for its appearance. Th
 npm install @tiptap/extension-gapcursor
 ```
 
-:::warning Are you using Yarn, pNPM, npm 6 or less?
-Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-gapcursor) which packages are needed and how to install them.
-:::
-
 ## Source code
 
 [packages/extension-gapcursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-gapcursor/)

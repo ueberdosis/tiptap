@@ -18,10 +18,6 @@ Note that Tiptap is headless, but the dropcursor needs CSS for its appearance. T
 npm install @tiptap/extension-dropcursor
 ```
 
-:::warning Are you using Yarn, pNPM, npm 6 or less?
-Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-dropcursor) which packages are needed and how to install them.
-:::
-
 ## Settings
 
 ### color
