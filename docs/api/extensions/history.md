@@ -27,7 +27,7 @@ Default: `100`
 ```js
 History.configure({
   depth: 10,
-});
+})
 ```
 
 ### newGroupDelay
@@ -39,7 +39,7 @@ Default: `500`
 ```js
 History.configure({
   newGroupDelay: 1000,
-});
+})
 ```
 
 ## Commands
@@ -49,7 +49,7 @@ History.configure({
 Undo the last change.
 
 ```js
-editor.commands.undo();
+editor.commands.undo()
 ```
 
 ### redo()
@@ -57,7 +57,7 @@ editor.commands.undo();
 Redo the last change.
 
 ```js
-editor.commands.redo();
+editor.commands.redo()
 ```
 
 ## Keyboard shortcuts

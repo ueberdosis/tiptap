@@ -53,7 +53,7 @@ const Tiptap = () => {
   )
 }
 
-export default Tiptap;
+export default Tiptap
 ```
 
 ## 4. Add it to your app

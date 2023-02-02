@@ -70,7 +70,7 @@ document.addEventListener('alpine:init', () => {
           onSelectionUpdate({ editor }) {
             _this.updatedAt = Date.now()
           }
-        });
+        })
       },
       isLoaded() {
         return editor
@@ -87,9 +87,9 @@ document.addEventListener('alpine:init', () => {
       toggleItalic() {
         editor.chain().toggleItalic().focus().run()
       },
-    };
-  });
-});
+    }
+  })
+})
 
 window.Alpine = Alpine
 Alpine.start()

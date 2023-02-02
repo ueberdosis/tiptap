@@ -28,8 +28,8 @@ Default: `'currentColor'`
 
 ```js
 Dropcursor.configure({
-  color: "#ff0000",
-});
+  color: '#ff0000',
+})
 ```
 
 ### width
@@ -41,7 +41,7 @@ Default: `1`
 ```js
 Dropcursor.configure({
   width: 2,
-});
+})
 ```
 
 ### class
@@ -50,8 +50,8 @@ One or multiple CSS classes that should be applied to the dropcursor.
 
 ```js
 Dropcursor.configure({
-  class: "my-custom-class",
-});
+  class: 'my-custom-class',
+})
 ```
 
 ## Source code
