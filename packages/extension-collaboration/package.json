@@ -27,14 +27,16 @@
     "src",
     "dist"
   ],
+  "dependencies": {
+    "y-prosemirror": "1.0.20"
+  },
   "peerDependencies": {
     "@tiptap/core": "^2.0.0-beta.209",
     "@tiptap/pm": "^2.0.0-beta.209"
   },
   "devDependencies": {
     "@tiptap/core": "^2.0.0-beta.211",
-    "@tiptap/pm": "^2.0.0-beta.211",
-    "y-prosemirror": "1.0.20"
+    "@tiptap/pm": "^2.0.0-beta.211"
   },
   "repository": {
     "type": "git",
