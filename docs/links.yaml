@@ -48,9 +48,6 @@
         - title: PHP
           link: /installation/php
           skip: true
-        - title: Peer dependencies
-          link: /installation/peer-dependencies
-          skip: true
     - title: Upgrade guide
       link: /overview/upgrade-guide
     - title: Changelog
