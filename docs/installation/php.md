@@ -7,8 +7,6 @@ tableOfContents: true
 ## Introduction
 You can use Tiptap with Laravel, Livewire, Inertia.js, [Alpine.js](/installation/alpine), [Tailwind CSS](/guide/styling#with-tailwind-css), and even - yes you read that right - inside PHP.
 
-To use Tiptap in your PHP application, you need to install the `@tiptap/core`, `@tiptap/pm` and `@tiptap/starter-kit` package like this.
-
 ```bash
 npm install @tiptap/core @tiptap/pm @tiptap/starter-kit
 ```
