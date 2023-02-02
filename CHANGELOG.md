@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.210](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.209...v2.0.0-beta.210) (2023-02-02)
+
+
+### Bug Fixes
+
+* **typo:** typescript.md ([#3657](https://github.com/ueberdosis/tiptap/issues/3657)) ([3a04d9e](https://github.com/ueberdosis/tiptap/commit/3a04d9e4b5d7f8f3201ec1aae34ed50187739c09))
+
+
+### Features
+
+* **pm:** new prosemirror package for dependency resolving ([f387ad3](https://github.com/ueberdosis/tiptap/commit/f387ad3dd4c2b30eaea33fb0ba0b42e0cd39263b))
+
+
+
+
+
 # [2.0.0-beta.209](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.208...v2.0.0-beta.209) (2022-12-16)
 
 **Note:** Version bump only for package tiptap
