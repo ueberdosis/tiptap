@@ -29,7 +29,7 @@ After that, you can start using Tiptap in your project. To integrate it into you
 - [Svelte](/installation/svelte)
 - [Alpine.js](/installation/alpine)
 - [PHP](/installation/php)
-- [CDN](/installation/cdn)
+<!-- [CDN](/installation/cdn)-->
 
 ### Community efforts
 
