@@ -15,9 +15,9 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/packages/extension-bubble-menu/src/index.d.ts",
-      "import": "./dist/tiptap-extension-bubble-menu.esm.js",
-      "require": "./dist/tiptap-extension-bubble-menu.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
