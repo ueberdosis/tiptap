@@ -60,7 +60,7 @@ jobs:
         run: npm run lint
 
       - name: Send Slack notifications
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         if: failure()
         with:
           status: ${{ job.status }}
@@ -121,7 +121,7 @@ jobs:
           retention-days: 7
 
       - name: Send Slack notifications
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         if: failure()
         with:
           status: ${{ job.status }}
@@ -167,7 +167,7 @@ jobs:
         run: npm run build:ci
 
       - name: Send Slack notifications
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         if: failure()
         with:
           status: ${{ job.status }}
