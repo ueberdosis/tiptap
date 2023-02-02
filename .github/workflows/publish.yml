@@ -3,14 +3,9 @@
 
 name: Publish to NPM
 
-# on github release published
+# on github release published or workflow_dispatch
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version'
-        required: false
-        default: 'patch'
   release:
     types: [published]
 
