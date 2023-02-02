@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import { dropCursor } from 'prosemirror-dropcursor'
+import { dropCursor } from '@tiptap/pm/dropcursor'
 
 export interface DropcursorOptions {
   color: string | undefined,

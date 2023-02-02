@@ -28,15 +28,11 @@ npm run dev
 
 ## 2. Install the dependencies
 
-Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need `alpinejs`, the `@tiptap/core` package and the `@tiptap/starter-kit` which has the most common extensions to get started quickly.
+Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need `alpinejs`, the `@tiptap/core` package, the `@tiptap/pm` package and the `@tiptap/starter-kit` which has the most common extensions to get started quickly.
 
 ```bash
-npm install alpinejs @tiptap/core @tiptap/starter-kit
+npm install alpinejs @tiptap/core @tiptap/pm @tiptap/starter-kit
 ```
-
-:::warning Are you using Yarn, pNPM, npm 6 or less?
-Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please check the following links to find out what dependencies are needed and how to install them: [@tiptap/core](https://tiptap.dev/installation/peer-dependencies#tiptapcore), [@tiptap/starter-kit](https://tiptap.dev/installation/peer-dependencies#tiptapstarter-kit)
-:::
 
 If you followed step 1, you can now start your project with `npm run dev`, and open [http://localhost:5173](http://localhost:5173) in your favorite browser. This might be different, if you’re working with an existing project.
 
@@ -74,7 +70,7 @@ document.addEventListener('alpine:init', () => {
           onSelectionUpdate({ editor }) {
             _this.updatedAt = Date.now()
           }
-        });
+        })
       },
       isLoaded() {
         return editor
@@ -91,9 +87,9 @@ document.addEventListener('alpine:init', () => {
       toggleItalic() {
         editor.chain().toggleItalic().focus().run()
       },
-    };
-  });
-});
+    }
+  })
+})
 
 window.Alpine = Alpine
 Alpine.start()

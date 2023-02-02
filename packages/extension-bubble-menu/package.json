@@ -15,9 +15,9 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./dist/packages/extension-bubble-menu/src/index.d.ts",
+      "import": "./dist/tiptap-extension-bubble-menu.esm.js",
+      "require": "./dist/tiptap-extension-bubble-menu.cjs"
     }
   },
   "main": "dist/index.cjs",
@@ -28,15 +28,11 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193",
-    "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2"
+    "@tiptap/core": "^2.0.0-beta.209",
+    "@tiptap/pm": "^2.0.0-beta.209"
   },
   "dependencies": {
-    "@tiptap/core": "^2.0.0-beta.209",
     "lodash": "^4.17.21",
-    "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2",
     "tippy.js": "^6.3.7"
   },
   "repository": {
@@ -46,7 +42,9 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@types/lodash": "^4.14.187"
+    "@types/lodash": "^4.14.187",
+    "prosemirror-state": "^1.4.1",
+    "prosemirror-view": "^1.28.2"
   },
   "scripts": {
     "build": "tsup"

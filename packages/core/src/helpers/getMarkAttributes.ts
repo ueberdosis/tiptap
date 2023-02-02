@@ -1,9 +1,12 @@
-import { Mark, MarkType } from 'prosemirror-model'
-import { EditorState } from 'prosemirror-state'
+import { Mark, MarkType } from '@tiptap/pm/model'
+import { EditorState } from '@tiptap/pm/state'
 
 import { getMarkType } from './getMarkType'
 
-export function getMarkAttributes(state: EditorState, typeOrName: string | MarkType): Record<string, any> {
+export function getMarkAttributes(
+  state: EditorState,
+  typeOrName: string | MarkType,
+): Record<string, any> {
   const type = getMarkType(typeOrName, state.schema)
   const { from, to, empty } = state.selection
   const marks: Mark[] = []

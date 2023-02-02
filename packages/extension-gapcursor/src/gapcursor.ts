@@ -4,7 +4,7 @@ import {
   getExtensionField,
   ParentConfig,
 } from '@tiptap/core'
-import { gapCursor } from 'prosemirror-gapcursor'
+import { gapCursor } from '@tiptap/pm/gapcursor'
 
 declare module '@tiptap/core' {
   interface NodeConfig<Options, Storage> {

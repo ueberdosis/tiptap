@@ -1,4 +1,4 @@
-import { ParseRule } from 'prosemirror-model'
+import { ParseRule } from '@tiptap/pm/model'
 
 import { ExtensionAttribute } from '../types'
 import { fromString } from '../utilities/fromString'
@@ -9,7 +9,10 @@ import { fromString } from '../utilities/fromString'
  * @param parseRule ProseMirror ParseRule
  * @param extensionAttributes List of attributes to inject
  */
-export function injectExtensionAttributesToParseRule(parseRule: ParseRule, extensionAttributes: ExtensionAttribute[]): ParseRule {
+export function injectExtensionAttributesToParseRule(
+  parseRule: ParseRule,
+  extensionAttributes: ExtensionAttribute[],
+): ParseRule {
   if (parseRule.style) {
     return parseRule
   }
@@ -17,9 +20,7 @@ export function injectExtensionAttributesToParseRule(parseRule: ParseRule, exten
   return {
     ...parseRule,
     getAttrs: node => {
-      const oldAttributes = parseRule.getAttrs
-        ? parseRule.getAttrs(node)
-        : parseRule.attrs
+      const oldAttributes = parseRule.getAttrs ? parseRule.getAttrs(node) : parseRule.attrs
 
       if (oldAttributes === false) {
         return false

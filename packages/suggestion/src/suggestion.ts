@@ -1,57 +1,46 @@
 import { Editor, Range } from '@tiptap/core'
-import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
-import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
+import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
+import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
 
 import { findSuggestionMatch } from './findSuggestionMatch'
 
 export interface SuggestionOptions<I = any> {
-  pluginKey?: PluginKey,
-  editor: Editor,
-  char?: string,
-  allowSpaces?: boolean,
-  allowedPrefixes?: string[] | null,
-  startOfLine?: boolean,
-  decorationTag?: string,
-  decorationClass?: string,
-  command?: (props: {
-    editor: Editor,
-    range: Range,
-    props: I,
-  }) => void,
-  items?: (props: {
-    query: string,
-    editor: Editor,
-  }) => I[] | Promise<I[]>,
+  pluginKey?: PluginKey
+  editor: Editor
+  char?: string
+  allowSpaces?: boolean
+  allowedPrefixes?: string[] | null
+  startOfLine?: boolean
+  decorationTag?: string
+  decorationClass?: string
+  command?: (props: { editor: Editor; range: Range; props: I }) => void
+  items?: (props: { query: string; editor: Editor }) => I[] | Promise<I[]>
   render?: () => {
     onBeforeStart?: (props: SuggestionProps<I>) => void
-    onStart?: (props: SuggestionProps<I>) => void,
+    onStart?: (props: SuggestionProps<I>) => void
     onBeforeUpdate?: (props: SuggestionProps<I>) => void
-    onUpdate?: (props: SuggestionProps<I>) => void,
-    onExit?: (props: SuggestionProps<I>) => void,
-    onKeyDown?: (props: SuggestionKeyDownProps) => boolean,
-  },
-  allow?: (props: {
-    editor: Editor,
-    state: EditorState,
-    range: Range,
-  }) => boolean,
+    onUpdate?: (props: SuggestionProps<I>) => void
+    onExit?: (props: SuggestionProps<I>) => void
+    onKeyDown?: (props: SuggestionKeyDownProps) => boolean
+  }
+  allow?: (props: { editor: Editor; state: EditorState; range: Range }) => boolean
 }
 
 export interface SuggestionProps<I = any> {
-  editor: Editor,
-  range: Range,
-  query: string,
-  text: string,
-  items: I[],
-  command: (props: I) => void,
-  decorationNode: Element | null,
-  clientRect?: (() => DOMRect | null) | null,
+  editor: Editor
+  range: Range
+  query: string
+  text: string
+  items: I[]
+  command: (props: I) => void
+  decorationNode: Element | null
+  clientRect?: (() => DOMRect | null) | null
 }
 
 export interface SuggestionKeyDownProps {
-  view: EditorView,
-  event: KeyboardEvent,
-  range: Range,
+  view: EditorView
+  event: KeyboardEvent
+  range: Range
 }
 
 export const SuggestionPluginKey = new PluginKey('suggestion')
@@ -70,7 +59,6 @@ export function Suggestion<I = any>({
   render = () => ({}),
   allow = () => true,
 }: SuggestionOptions<I>) {
-
   let props: SuggestionProps<I> | undefined
   const renderer = render?.()
 
@@ -97,10 +85,10 @@ export function Suggestion<I = any>({
             return
           }
 
-          const state = handleExit && !handleStart
-            ? prev
-            : next
-          const decorationNode = view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
+          const state = handleExit && !handleStart ? prev : next
+          const decorationNode = view.dom.querySelector(
+            `[data-decoration-id="${state.decorationId}"]`,
+          )
 
           props = {
             editor,
@@ -121,8 +109,10 @@ export function Suggestion<I = any>({
             clientRect: decorationNode
               ? () => {
                 // because of `items` can be asynchrounous we’ll search for the current decoration node
-                const { decorationId } = this.key?.getState(editor.state) // eslint-disable-line
-                const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
+                  const { decorationId } = this.key?.getState(editor.state) // eslint-disable-line
+                const currentDecorationNode = view.dom.querySelector(
+                  `[data-decoration-id="${decorationId}"]`,
+                )
 
                 return currentDecorationNode?.getBoundingClientRect() || null
               }
@@ -171,8 +161,8 @@ export function Suggestion<I = any>({
       // Initialize the plugin's internal state.
       init() {
         const state: {
-          active: boolean,
-          range: Range,
+          active: boolean
+          range: Range
           query: null | string
           text: null | string
           composing: boolean
@@ -206,11 +196,7 @@ export function Suggestion<I = any>({
         //   * a composition is active (see: https://github.com/ueberdosis/tiptap/issues/1449)
         if (isEditable && (empty || editor.view.composing)) {
           // Reset active state if we just left the previous suggestion range
-          if (
-            ((from < prev.range.from) || from > prev.range.to)
-            && !composing
-            && !prev.composing
-          ) {
+          if ((from < prev.range.from || from > prev.range.to) && !composing && !prev.composing) {
             next.active = false
           }
 
@@ -222,7 +208,7 @@ export function Suggestion<I = any>({
             startOfLine,
             $position: selection.$from,
           })
-          const decorationId = `id_${Math.floor(Math.random() * 0xFFFFFFFF)}`
+          const decorationId = `id_${Math.floor(Math.random() * 0xffffffff)}`
 
           // If we found a match, update the current state to show it
           if (match && allow({ editor, state, range: match.range })) {

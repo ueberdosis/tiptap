@@ -5,7 +5,7 @@ import {
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
 import {
   Component,
@@ -55,17 +55,18 @@ export const nodeViewProps = {
 }
 
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
-  update: ((props: {
-    oldNode: ProseMirrorNode,
-    oldDecorations: Decoration[],
-    newNode: ProseMirrorNode,
-    newDecorations: Decoration[],
-    updateProps: () => void,
-  }) => boolean) | null,
+  update:
+    | ((props: {
+        oldNode: ProseMirrorNode
+        oldDecorations: Decoration[]
+        newNode: ProseMirrorNode
+        newDecorations: Decoration[]
+        updateProps: () => void
+      }) => boolean)
+    | null
 }
 
 class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions> {
-
   renderer!: VueRenderer
 
   decorationClasses!: Ref<string>
@@ -183,20 +184,24 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
   }
 
   getDecorationClasses() {
-    return this.decorations
-      // @ts-ignore
-      .map(item => item.type.attrs.class)
-      .flat()
-      .join(' ')
+    return (
+      this.decorations
+        // @ts-ignore
+        .map(item => item.type.attrs.class)
+        .flat()
+        .join(' ')
+    )
   }
 
   destroy() {
     this.renderer.destroy()
   }
-
 }
 
-export function VueNodeViewRenderer(component: Component, options?: Partial<VueNodeViewRendererOptions>): NodeViewRenderer {
+export function VueNodeViewRenderer(
+  component: Component,
+  options?: Partial<VueNodeViewRendererOptions>,
+): NodeViewRenderer {
   return (props: NodeViewRendererProps) => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly

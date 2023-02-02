@@ -1,10 +1,14 @@
-import { EditorState } from 'prosemirror-state'
+import { EditorState } from '@tiptap/pm/state'
 
 import { getSchemaTypeNameByName } from './getSchemaTypeNameByName'
 import { isMarkActive } from './isMarkActive'
 import { isNodeActive } from './isNodeActive'
 
-export function isActive(state: EditorState, name: string | null, attributes: Record<string, any> = {}): boolean {
+export function isActive(
+  state: EditorState,
+  name: string | null,
+  attributes: Record<string, any> = {},
+): boolean {
   if (!name) {
     return isNodeActive(state, null, attributes) || isMarkActive(state, null, attributes)
   }

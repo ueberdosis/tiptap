@@ -1,20 +1,22 @@
 import { Editor, Extension } from '@tiptap/core'
-import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { Plugin } from 'prosemirror-state'
-import { Decoration, DecorationSet } from 'prosemirror-view'
+import { Node as ProsemirrorNode } from '@tiptap/pm/model'
+import { Plugin } from '@tiptap/pm/state'
+import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 export interface PlaceholderOptions {
-  emptyEditorClass: string,
-  emptyNodeClass: string,
-  placeholder: ((PlaceholderProps: {
-    editor: Editor,
-    node: ProsemirrorNode,
-    pos: number,
-    hasAnchor: boolean,
-  }) => string) | string,
-  showOnlyWhenEditable: boolean,
-  showOnlyCurrent: boolean,
-  includeChildren: boolean,
+  emptyEditorClass: string
+  emptyNodeClass: string
+  placeholder:
+    | ((PlaceholderProps: {
+        editor: Editor
+        node: ProsemirrorNode
+        pos: number
+        hasAnchor: boolean
+      }) => string)
+    | string
+  showOnlyWhenEditable: boolean
+  showOnlyCurrent: boolean
+  includeChildren: boolean
 }
 
 export const Placeholder = Extension.create<PlaceholderOptions>({
@@ -46,10 +48,11 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
             // only calculate isEmpty once due to its performance impacts (see issue #3360)
             const emptyDocInstance = doc.type.createAndFill()
-            const isEditorEmpty = emptyDocInstance?.sameMarkup(doc) && emptyDocInstance.content.findDiffStart(doc.content) === null
+            const isEditorEmpty = emptyDocInstance?.sameMarkup(doc)
+              && emptyDocInstance.content.findDiffStart(doc.content) === null
 
             doc.descendants((node, pos) => {
-              const hasAnchor = anchor >= pos && anchor <= (pos + node.nodeSize)
+              const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
               const isEmpty = !node.isLeaf && !node.childCount
 
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
@@ -61,14 +64,15 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
                 const decoration = Decoration.node(pos, pos + node.nodeSize, {
                   class: classes.join(' '),
-                  'data-placeholder': typeof this.options.placeholder === 'function'
-                    ? this.options.placeholder({
-                      editor: this.editor,
-                      node,
-                      pos,
-                      hasAnchor,
-                    })
-                    : this.options.placeholder,
+                  'data-placeholder':
+                    typeof this.options.placeholder === 'function'
+                      ? this.options.placeholder({
+                        editor: this.editor,
+                        node,
+                        pos,
+                        hasAnchor,
+                      })
+                      : this.options.placeholder,
                 })
 
                 decorations.push(decoration)

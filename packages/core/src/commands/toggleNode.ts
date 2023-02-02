@@ -1,4 +1,4 @@
-import { NodeType } from 'prosemirror-model'
+import { NodeType } from '@tiptap/pm/model'
 
 import { getNodeType } from '../helpers/getNodeType'
 import { isNodeActive } from '../helpers/isNodeActive'
@@ -10,7 +10,11 @@ declare module '@tiptap/core' {
       /**
        * Toggle a node with another node.
        */
-      toggleNode: (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType,
+      toggleNode: (
+        typeOrName: string | NodeType,
+        toggleTypeOrName: string | NodeType,
+        attributes?: Record<string, any>,
+      ) => ReturnType
     }
   }
 }

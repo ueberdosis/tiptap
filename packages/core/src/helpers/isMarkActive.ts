@@ -1,5 +1,5 @@
-import { MarkType } from 'prosemirror-model'
-import { EditorState } from 'prosemirror-state'
+import { MarkType } from '@tiptap/pm/model'
+import { EditorState } from '@tiptap/pm/state'
 
 import { MarkRange } from '../types'
 import { objectIncludes } from '../utilities/objectIncludes'
@@ -11,9 +11,7 @@ export function isMarkActive(
   attributes: Record<string, any> = {},
 ): boolean {
   const { empty, ranges } = state.selection
-  const type = typeOrName
-    ? getMarkType(typeOrName, state.schema)
-    : null
+  const type = typeOrName ? getMarkType(typeOrName, state.schema) : null
 
   if (empty) {
     return !!(state.storedMarks || state.selection.$from.marks())
@@ -45,11 +43,13 @@ export function isMarkActive(
 
       selectionRange += range
 
-      markRanges.push(...node.marks.map(mark => ({
-        mark,
-        from: relativeFrom,
-        to: relativeTo,
-      })))
+      markRanges.push(
+        ...node.marks.map(mark => ({
+          mark,
+          from: relativeFrom,
+          to: relativeTo,
+        })),
+      )
     })
   })
 
@@ -77,16 +77,13 @@ export function isMarkActive(
         return true
       }
 
-      return markRange.mark.type !== type
-        && markRange.mark.type.excludes(type)
+      return markRange.mark.type !== type && markRange.mark.type.excludes(type)
     })
     .reduce((sum, markRange) => sum + markRange.to - markRange.from, 0)
 
   // we only include the result of `excludedRange`
   // if there is a match at all
-  const range = matchedRange > 0
-    ? matchedRange + excludedRange
-    : matchedRange
+  const range = matchedRange > 0 ? matchedRange + excludedRange : matchedRange
 
   return range >= selectionRange
 }

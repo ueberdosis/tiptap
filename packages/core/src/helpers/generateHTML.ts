@@ -1,4 +1,4 @@
-import { Node } from 'prosemirror-model'
+import { Node } from '@tiptap/pm/model'
 
 import { Extensions, JSONContent } from '../types'
 import { getHTMLFromFragment } from './getHTMLFromFragment'

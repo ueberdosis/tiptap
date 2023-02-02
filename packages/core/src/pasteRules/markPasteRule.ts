@@ -1,4 +1,4 @@
-import { MarkType } from 'prosemirror-model'
+import { MarkType } from '@tiptap/pm/model'
 
 import { getMarksBetween } from '../helpers/getMarksBetween'
 import { PasteRule, PasteRuleFinder } from '../PasteRule'
@@ -10,14 +10,13 @@ import { callOrReturn } from '../utilities/callOrReturn'
  * matched text is pasted into it.
  */
 export function markPasteRule(config: {
-  find: PasteRuleFinder,
-  type: MarkType,
+  find: PasteRuleFinder
+  type: MarkType
   getAttributes?:
     | Record<string, any>
     | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
     | null
-  ,
 }) {
   return new PasteRule({
     find: config.find,

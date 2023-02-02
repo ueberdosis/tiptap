@@ -1,4 +1,4 @@
-import { Step, Transform } from 'prosemirror-transform'
+import { Step, Transform } from '@tiptap/pm/transform'
 
 import { Range } from '../types'
 import { removeDuplicates } from '../utilities/removeDuplicates'

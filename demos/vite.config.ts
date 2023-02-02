@@ -11,7 +11,29 @@ import {
 } from 'path'
 import { v4 as uuid } from 'uuid'
 import { defineConfig } from 'vite'
+
 // import checker from 'vite-plugin-checker'
+
+const getPackageDependencies = () => {
+  const paths: Array<{ find: string, replacement: any }> = []
+
+  fg.sync('../packages/*', { onlyDirectories: true })
+    .map(name => name.replace('../packages/', ''))
+    .forEach(name => {
+      if (name === 'pm') {
+        fg.sync(`../packages/${name}/*`, { onlyDirectories: true })
+          .forEach(subName => {
+            const subPkgName = subName.replace(`../packages/${name}/`, '')
+
+            paths.push({ find: `@tiptap/${name}/${subPkgName}`, replacement: resolve(`../packages/${name}/${subPkgName}/index.ts`) })
+          })
+      } else {
+        paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/src/index.ts`) })
+      }
+    })
+
+  return paths
+}
 
 const includeDependencies = fs.readFileSync('./includeDependencies.txt')
   .toString()
@@ -271,12 +293,6 @@ export default defineConfig({
   ],
 
   resolve: {
-    alias: [
-      ...fg.sync('../packages/*', { onlyDirectories: true })
-        .map(name => name.replace('../packages/', ''))
-        .map(name => {
-          return { find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/src/index.ts`) }
-        }),
-    ],
+    alias: getPackageDependencies(),
   },
 })

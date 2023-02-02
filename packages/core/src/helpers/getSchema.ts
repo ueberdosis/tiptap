@@ -1,4 +1,4 @@
-import { Schema } from 'prosemirror-model'
+import { Schema } from '@tiptap/pm/model'
 
 import { ExtensionManager } from '../ExtensionManager'
 import { Extensions } from '../types'
