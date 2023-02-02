@@ -120,6 +120,8 @@
   items:
     - title: Configuration
       link: /guide/configuration
+    - title: ProseMirror
+      link: /guide/prosemirror
     - title: Menus
       link: /guide/menus
     - title: Styling
