@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.211](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.210...v2.0.0-beta.211) (2023-02-02)
+
+
+### Bug Fixes
+
+* **bubble-menu:** fix bubble menu imports ([1e6f238](https://github.com/ueberdosis/tiptap/commit/1e6f2382eb6669269eea892c8eed4727102f2653))
+
+
+
+
+
 # [2.0.0-beta.210](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.209...v2.0.0-beta.210) (2023-02-02)
 
 
