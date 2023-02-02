@@ -46,5 +46,19 @@
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/vue-3"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "dts": true,
+    "splitting": true,
+    "format": [
+      "esm",
+      "cjs"
+    ]
+  }
 }
