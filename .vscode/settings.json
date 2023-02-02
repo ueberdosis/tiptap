@@ -56,5 +56,6 @@
     "suggestion",
     "vue-2",
     "vue-3"
-  ]
+  ],
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint"
 }
