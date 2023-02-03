@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.212](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.211...v2.0.0-beta.212) (2023-02-03)
+
+
+### Bug Fixes
+
+* **collaboration:** fix missing y-prosemirror dependency ([ef108df](https://github.com/ueberdosis/tiptap/commit/ef108df92cfdc93bf2ad9c5b413871d40b7c5a44))
+* **core:** fix broken types in definition file ([f659037](https://github.com/ueberdosis/tiptap/commit/f659037d52b91a6534513faaa5046409dc84c808))
+
+
+
+
+
 # [2.0.0-beta.211](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.210...v2.0.0-beta.211) (2023-02-02)
 
 
