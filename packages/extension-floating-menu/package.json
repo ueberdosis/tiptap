@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@tiptap/core": "^2.0.0-beta.212",
-    "@tiptap/pm": "^2.0.0-beta.212",
+    "@tiptap/pm": "^2.0.0-beta.212"
   },
   "dependencies": {
     "tippy.js": "^6.3.7"
