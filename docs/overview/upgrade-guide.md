@@ -28,10 +28,10 @@ npm uninstall tiptap tiptap-commands tiptap-extensions tiptap-utils
 
 ## Install Tiptap v2
 
-Once you have uninstalled the old version of Tiptap, install the new Vue 2 package and the starter kit:
+Once you have uninstalled the old version of Tiptap, install the new Vue 2 package, the ProseMirror library and the starter kit:
 
 ```bash
-npm install @tiptap/vue-2 @tiptap/starter-kit
+npm install @tiptap/vue-2 @tiptap/pm @tiptap/starter-kit
 ```
 
 ## Keep Tiptap v2 up to date

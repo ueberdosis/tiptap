@@ -34,7 +34,7 @@ cd my-tiptap-project
 ```
 
 #### 2. Install the dependencies
-Time to install the `@tiptap/react` package and our [`StarterKit`](/api/extensions/starter-kit), which has the most popular extensions to get started quickly.
+Time to install the `@tiptap/react` package, `@tiptap/pm` (the ProseMirror library) and `@tiptap/starter-kit`, which includes the most popular extensions to get started quickly.
 
 ```bash
 npm install @tiptap/react @tiptap/pm @tiptap/starter-kit
