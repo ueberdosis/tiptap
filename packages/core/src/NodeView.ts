@@ -9,12 +9,12 @@ import { isiOS } from './utilities/isiOS'
 
 export class NodeView<
   Component,
-  Editor extends CoreEditor = CoreEditor,
+  NodeEditor extends CoreEditor = CoreEditor,
   Options extends NodeViewRendererOptions = NodeViewRendererOptions,
 > implements ProseMirrorNodeView {
   component: Component
 
-  editor: Editor
+  editor: NodeEditor
 
   options: Options
 
@@ -30,7 +30,7 @@ export class NodeView<
 
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
     this.component = component
-    this.editor = props.editor as Editor
+    this.editor = props.editor as NodeEditor
     this.options = {
       stopEvent: null,
       ignoreMutation: null,
