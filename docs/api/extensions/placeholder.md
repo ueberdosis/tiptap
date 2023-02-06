@@ -17,7 +17,7 @@ npm install @tiptap/extension-placeholder
 ### Additional Setup
 Placeholders are displayed with the help of CSS.
 
-**Display a Placeholder only for the first element in an empty editor.**
+**Display a Placeholder only for the first line in an empty editor.**
 ```
 .ProseMirror p.is-editor-empty:first-child::before {
   color: #adb5bd;
