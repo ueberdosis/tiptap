@@ -113,11 +113,12 @@ export class NodeView<
       return false
     }
 
+    const isDragEvent = event.type.startsWith('drag')
     const isDropEvent = event.type === 'drop'
     const isInput = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable
 
     // any input event within node views should be ignored by ProseMirror
-    if (isInput && !isDropEvent) {
+    if (isInput && !isDropEvent && !isDragEvent) {
       return true
     }
 
@@ -129,7 +130,6 @@ export class NodeView<
     const isPasteEvent = event.type === 'paste'
     const isCutEvent = event.type === 'cut'
     const isClickEvent = event.type === 'mousedown'
-    const isDragEvent = event.type.startsWith('drag')
 
     // ProseMirror tries to drag selectable nodes
     // even if `draggable` is set to `false`
@@ -153,6 +153,14 @@ export class NodeView<
 
         document.addEventListener(
           'dragend',
+          () => {
+            this.isDragging = false
+          },
+          { once: true },
+        )
+
+        document.addEventListener(
+          'drop',
           () => {
             this.isDragging = false
           },
