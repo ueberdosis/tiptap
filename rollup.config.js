@@ -1,84 +1,48 @@
 import sizes from '@atomico/rollup-plugin-sizes'
+import batchPackages from '@lerna/batch-packages'
+import { filterPackages } from '@lerna/filter-packages'
+import { getPackages } from '@lerna/project'
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import fs from 'fs'
+import minimist from 'minimist'
 import path from 'path'
 import autoExternal from 'rollup-plugin-auto-external'
 import sourcemaps from 'rollup-plugin-sourcemaps'
 import typescript from 'rollup-plugin-typescript2'
 
-const pkgs = [
-  'core',
-  'extension-blockquote',
-  'extension-bold',
-  'extension-bubble-menu',
-  'extension-bullet-list',
-  'extension-code',
-  'extension-code-block',
-  'extension-code-block-lowlight',
-  'extension-collaboration',
-  'extension-collaboration-cursor',
-  'extension-color',
-  'extension-document',
-  'extension-dropcursor',
-  'extension-floating-menu',
-  'extension-focus',
-  'extension-font-family',
-  'extension-gapcursor',
-  'extension-hard-break',
-  'extension-heading',
-  'extension-highlight',
-  'extension-history',
-  'extension-horizontal-rule',
-  'extension-image',
-  'extension-italic',
-  'extension-link',
-  'extension-list-item',
-  'extension-mention',
-  'extension-ordered-list',
-  'extension-paragraph',
-  'extension-placeholder',
-  'extension-strike',
-  'extension-subscript',
-  'extension-table',
-  'extension-table-cell',
-  'extension-table-header',
-  'extension-table-row',
-  'extension-task-item',
-  'extension-task-list',
-  'extension-text',
-  'extension-text-align',
-  'extension-text-style',
-  'extension-typography',
-  'extension-underline',
-  'extension-youtube',
-  'html',
-  'react',
-  'starter-kit',
-  'suggestion',
-  'vue-2',
-  'vue-3',
-]
+async function getSortedPackages(scope, ignore) {
+  const packages = await getPackages(__dirname)
+  const filtered = filterPackages(packages, scope, ignore, false)
 
-async function build() {
+  return batchPackages(filtered)
+    .filter(item => item.name !== '@tiptap/demos')
+    .filter(item => item.name !== '@tiptap/pm')
+    .reduce((arr, batch) => arr.concat(batch), [])
+}
+
+async function build(commandLineArgs) {
   const config = []
 
-  pkgs.forEach(currentPackage => {
-    const pkg = require(`./packages/${currentPackage}/package.json`)
+  // Support --scope and --ignore globs if passed in via commandline
+  const { scope, ignore } = minimist(process.argv.slice(2))
+  const packages = await getSortedPackages(scope, ignore)
 
-    const basePath = path.relative(__dirname, `./packages/${currentPackage}`)
-    const packageJsonPath = path.join(basePath, 'package.json')
+  // prevent rollup warning
+  delete commandLineArgs.ci
+  delete commandLineArgs.scope
+  delete commandLineArgs.ignore
+
+  packages.filter(p => p.name !== '@tiptap/pm').forEach(pkg => {
+    const basePath = path.relative(__dirname, pkg.location)
     const input = path.join(basePath, 'src/index.ts')
-
-    console.log(packageJsonPath)
-
     const {
       name,
       main,
       umd,
       module,
-    } = pkg
+    } = pkg.toJSON()
 
     const basePlugins = [
       sourcemaps(),
@@ -117,7 +81,7 @@ async function build() {
       ],
       plugins: [
         autoExternal({
-          packagePath: path.join(packageJsonPath),
+          packagePath: path.join(basePath, 'package.json'),
         }),
         ...basePlugins,
         typescript({
