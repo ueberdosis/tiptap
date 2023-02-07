@@ -8,7 +8,7 @@ import { pasteHandler } from './helpers/pasteHandler'
 
 export interface LinkProtocolOptions {
   scheme: string;
-  optionalSlashSlash?: boolean;
+  optionalSlashes?: boolean;
 }
 
 export interface LinkOptions {
@@ -72,7 +72,7 @@ export const Link = Mark.create<LinkOptions>({
         registerCustomProtocol(protocol)
         return
       }
-      registerCustomProtocol(protocol.scheme, protocol.optionalSlashSlash)
+      registerCustomProtocol(protocol.scheme, protocol.optionalSlashes)
     })
   },
 
