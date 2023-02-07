@@ -117,7 +117,7 @@
   items:
     - title: Configuration
       link: /guide/configuration
-    - title: ProseMirror
+    - title: ProseMirror API
       link: /guide/prosemirror
     - title: Menus
       link: /guide/menus
