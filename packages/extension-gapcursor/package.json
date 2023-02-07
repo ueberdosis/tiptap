@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-gapcursor",
   "description": "gapcursor extension for tiptap",
-  "version": "2.0.0-beta.212",
+  "version": "2.0.0-beta.213",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -32,8 +32,8 @@
     "@tiptap/pm": "^2.0.0-beta.209"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.212",
-    "@tiptap/pm": "^2.0.0-beta.212"
+    "@tiptap/core": "^2.0.0-beta.213",
+    "@tiptap/pm": "^2.0.0-beta.213"
   },
   "repository": {
     "type": "git",
