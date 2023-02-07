@@ -1,0 +1,57 @@
+{
+  "name": "@tiptap/extension-character-count",
+  "description": "font family extension for tiptap",
+  "version": "2.0.0-beta.212",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.209",
+    "@tiptap/pm": "^2.0.0-beta.209"
+  },
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0-beta.212",
+    "@tiptap/pm": "^2.0.0-beta.212"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-character-count"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "dts": true,
+    "splitting": true,
+    "format": [
+      "esm",
+      "cjs"
+    ]
+  }
+}
