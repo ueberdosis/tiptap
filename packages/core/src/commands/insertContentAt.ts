@@ -1,12 +1,8 @@
-import { Fragment, Node as ProseMirrorNode, ParseOptions } from 'prosemirror-model'
+import { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd'
-import {
-  Content,
-  Range,
-  RawCommands,
-} from '../types'
+import { Content, Range, RawCommands } from '../types'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -18,10 +14,10 @@ declare module '@tiptap/core' {
         position: number | Range,
         value: Content,
         options?: {
-          parseOptions?: ParseOptions,
-          updateSelection?: boolean,
+          parseOptions?: ParseOptions
+          updateSelection?: boolean
         },
-      ) => ReturnType,
+      ) => ReturnType
     }
   }
 }
@@ -50,27 +46,19 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       return true
     }
 
-    let { from, to } = typeof position === 'number'
-      ? { from: position, to: position }
-      : position
+    let { from, to } = typeof position === 'number' ? { from: position, to: position } : position
 
     let isOnlyTextContent = true
     let isOnlyBlockContent = true
-    const nodes = isFragment(content)
-      ? content
-      : [content]
+    const nodes = isFragment(content) ? content : [content]
 
     nodes.forEach(node => {
       // check if added node is valid
       node.check()
 
-      isOnlyTextContent = isOnlyTextContent
-        ? node.isText && node.marks.length === 0
-        : false
+      isOnlyTextContent = isOnlyTextContent ? node.isText && node.marks.length === 0 : false
 
-      isOnlyBlockContent = isOnlyBlockContent
-        ? node.isBlock
-        : false
+      isOnlyBlockContent = isOnlyBlockContent ? node.isBlock : false
     })
 
     // check if we can replace the wrapping node by
@@ -80,9 +68,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
     // instead of inserting the image below the paragraph
     if (from === to && isOnlyBlockContent) {
       const { parent } = tr.doc.resolve(from)
-      const isEmptyTextBlock = parent.isTextblock
-        && !parent.type.spec.code
-        && !parent.childCount
+      const isEmptyTextBlock = parent.isTextblock && !parent.type.spec.code && !parent.childCount
 
       if (isEmptyTextBlock) {
         from -= 1

@@ -1,4 +1,4 @@
-import { EditorView } from 'prosemirror-view'
+import { EditorView } from '@tiptap/pm/view'
 
 import LinterPlugin, { Result as Issue } from '../LinterPlugin'
 

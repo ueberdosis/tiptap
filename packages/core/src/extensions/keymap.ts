@@ -1,4 +1,4 @@
-import { Plugin, PluginKey, Selection } from 'prosemirror-state'
+import { Plugin, PluginKey, Selection } from '@tiptap/pm/state'
 
 import { CommandManager } from '../CommandManager'
 import { Extension } from '../Extension'
@@ -19,12 +19,7 @@ export const Keymap = Extension.create({
         const { pos, parent } = $anchor
         const isAtStart = Selection.atStart(doc).from === pos
 
-        if (
-          !empty
-          || !isAtStart
-          || !parent.type.isTextblock
-          || parent.textContent.length
-        ) {
+        if (!empty || !isAtStart || !parent.type.isTextblock || parent.textContent.length) {
           return false
         }
 

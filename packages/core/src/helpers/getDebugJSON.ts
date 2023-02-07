@@ -1,10 +1,10 @@
-import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 import { JSONContent } from '../types'
 
 interface DebugJSONContent extends JSONContent {
-  from: number,
-  to: number,
+  from: number
+  to: number
 }
 
 export function getDebugJSON(node: ProseMirrorNode, startOffset = 0): DebugJSONContent {
@@ -13,7 +13,7 @@ export function getDebugJSON(node: ProseMirrorNode, startOffset = 0): DebugJSONC
   const from = startOffset
   const to = from + node.nodeSize
   const marks = node.marks.map(mark => {
-    const output: { type: string, attrs?: Record<string, any> } = {
+    const output: { type: string; attrs?: Record<string, any> } = {
       type: mark.type.name,
     }
 

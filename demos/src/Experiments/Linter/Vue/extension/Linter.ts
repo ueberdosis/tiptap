@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
-import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
-import { Decoration, DecorationSet } from 'prosemirror-view'
+import { Node as ProsemirrorNode } from '@tiptap/pm/model'
+import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
+import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import LinterPlugin, { Result as Issue } from './LinterPlugin'
 
@@ -22,9 +22,11 @@ function renderIcon(issue: Issue) {
 function runAllLinterPlugins(doc: ProsemirrorNode, plugins: Array<typeof LinterPlugin>) {
   const decorations: [any?] = []
 
-  const results = plugins.map(RegisteredLinterPlugin => {
-    return new RegisteredLinterPlugin(doc).scan().getResults()
-  }).flat()
+  const results = plugins
+    .map(RegisteredLinterPlugin => {
+      return new RegisteredLinterPlugin(doc).scan().getResults()
+    })
+    .flat()
 
   results.forEach(issue => {
     decorations.push(
@@ -39,7 +41,7 @@ function runAllLinterPlugins(doc: ProsemirrorNode, plugins: Array<typeof LinterP
 }
 
 export interface LinterOptions {
-  plugins: Array<typeof LinterPlugin>,
+  plugins: Array<typeof LinterPlugin>
 }
 
 export const Linter = Extension.create<LinterOptions>({
@@ -62,9 +64,7 @@ export const Linter = Extension.create<LinterOptions>({
             return runAllLinterPlugins(doc, plugins)
           },
           apply(transaction, oldState) {
-            return transaction.docChanged
-              ? runAllLinterPlugins(transaction.doc, plugins)
-              : oldState
+            return transaction.docChanged ? runAllLinterPlugins(transaction.doc, plugins) : oldState
           },
         },
         props: {
@@ -72,7 +72,7 @@ export const Linter = Extension.create<LinterOptions>({
             return this.getState(state)
           },
           handleClick(view, _, event) {
-            const target = (event.target as IconDivElement)
+            const target = event.target as IconDivElement
 
             if (/lint-icon/.test(target.className) && target.issue) {
               const { from, to } = target.issue
@@ -89,7 +89,7 @@ export const Linter = Extension.create<LinterOptions>({
             return false
           },
           handleDoubleClick(view, _, event) {
-            const target = (event.target as IconDivElement)
+            const target = event.target as IconDivElement
 
             if (/lint-icon/.test((event.target as HTMLElement).className) && target.issue) {
               const prob = target.issue

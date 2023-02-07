@@ -1,4 +1,4 @@
-import { EditorState, Plugin } from 'prosemirror-state'
+import { EditorState, Plugin } from '@tiptap/pm/state'
 
 import { CommandManager } from './CommandManager'
 import { Editor } from './Editor'
@@ -14,46 +14,47 @@ import { isNumber } from './utilities/isNumber'
 import { isRegExp } from './utilities/isRegExp'
 
 export type PasteRuleMatch = {
-  index: number,
-  text: string,
-  replaceWith?: string,
-  match?: RegExpMatchArray,
-  data?: Record<string, any>,
+  index: number
+  text: string
+  replaceWith?: string
+  match?: RegExpMatchArray
+  data?: Record<string, any>
 }
 
-export type PasteRuleFinder =
-  | RegExp
-  | ((text: string) => PasteRuleMatch[] | null | undefined)
+export type PasteRuleFinder = RegExp | ((text: string) => PasteRuleMatch[] | null | undefined)
 
 export class PasteRule {
   find: PasteRuleFinder
 
   handler: (props: {
-    state: EditorState,
-    range: Range,
-    match: ExtendedRegExpMatchArray,
-    commands: SingleCommands,
-    chain: () => ChainedCommands,
-    can: () => CanCommands,
+    state: EditorState
+    range: Range
+    match: ExtendedRegExpMatchArray
+    commands: SingleCommands
+    chain: () => ChainedCommands
+    can: () => CanCommands
   }) => void | null
 
   constructor(config: {
-    find: PasteRuleFinder,
+    find: PasteRuleFinder
     handler: (props: {
-      state: EditorState,
-      range: Range,
-      match: ExtendedRegExpMatchArray,
-      commands: SingleCommands,
-      chain: () => ChainedCommands,
-      can: () => CanCommands,
-    }) => void | null,
+      state: EditorState
+      range: Range
+      match: ExtendedRegExpMatchArray
+      commands: SingleCommands
+      chain: () => ChainedCommands
+      can: () => CanCommands
+    }) => void | null
   }) {
     this.find = config.find
     this.handler = config.handler
   }
 }
 
-const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedRegExpMatchArray[] => {
+const pasteRuleMatcherHandler = (
+  text: string,
+  find: PasteRuleFinder,
+): ExtendedRegExpMatchArray[] => {
   if (isRegExp(find)) {
     return [...text.matchAll(find)]
   }
@@ -73,7 +74,9 @@ const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedR
 
     if (pasteRuleMatch.replaceWith) {
       if (!pasteRuleMatch.text.includes(pasteRuleMatch.replaceWith)) {
-        console.warn('[tiptap warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".')
+        console.warn(
+          '[tiptap warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".',
+        )
       }
 
       result.push(pasteRuleMatch.replaceWith)
@@ -84,18 +87,14 @@ const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedR
 }
 
 function run(config: {
-  editor: Editor,
-  state: EditorState,
-  from: number,
-  to: number,
-  rule: PasteRule,
+  editor: Editor
+  state: EditorState
+  from: number
+  to: number
+  rule: PasteRule
 }): boolean {
   const {
-    editor,
-    state,
-    from,
-    to,
-    rule,
+    editor, state, from, to, rule,
   } = config
 
   const { commands, chain, can } = new CommandManager({
@@ -112,12 +111,7 @@ function run(config: {
 
     const resolvedFrom = Math.max(from, pos)
     const resolvedTo = Math.min(to, pos + node.content.size)
-    const textToMatch = node.textBetween(
-      resolvedFrom - pos,
-      resolvedTo - pos,
-      undefined,
-      '\ufffc',
-    )
+    const textToMatch = node.textBetween(resolvedFrom - pos, resolvedTo - pos, undefined, '\ufffc')
 
     const matches = pasteRuleMatcherHandler(textToMatch, rule.find)
 
@@ -156,7 +150,7 @@ function run(config: {
  * text that matches any of the given rules to trigger the rule’s
  * action.
  */
-export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }): Plugin[] {
+export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }): Plugin[] {
   const { editor, rules } = props
   let dragSourceElement: Element | null = null
   let isPastedFromProseMirror = false

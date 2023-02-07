@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-collaboration-cursor",
   "description": "collaboration cursor extension for tiptap",
-  "version": "2.0.0-beta.209",
+  "version": "2.0.0-beta.213",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -27,13 +27,14 @@
     "src",
     "dist"
   ],
-  "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193",
+  "dependencies": {
     "y-prosemirror": "1.0.20"
   },
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.209"
+  },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.209",
-    "y-prosemirror": "1.0.20"
+    "@tiptap/core": "^2.0.0-beta.213"
   },
   "repository": {
     "type": "git",

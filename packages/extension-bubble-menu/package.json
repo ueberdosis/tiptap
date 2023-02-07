@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bubble-menu",
   "description": "bubble-menu extension for tiptap",
-  "version": "2.0.0-beta.209",
+  "version": "2.0.0-beta.213",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -28,15 +28,11 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193",
-    "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2"
+    "@tiptap/core": "^2.0.0-beta.209",
+    "@tiptap/pm": "^2.0.0-beta.209"
   },
   "dependencies": {
-    "@tiptap/core": "^2.0.0-beta.209",
     "lodash": "^4.17.21",
-    "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2",
     "tippy.js": "^6.3.7"
   },
   "repository": {
@@ -46,7 +42,8 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@types/lodash": "^4.14.187"
+    "@tiptap/pm": "^2.0.0-beta.212",
+    "@types/lodash": "^4.14.191"
   },
   "scripts": {
     "build": "tsup"

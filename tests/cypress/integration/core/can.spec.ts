@@ -12,12 +12,7 @@ import Text from '@tiptap/extension-text'
 describe('can', () => {
   it('not undo', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-      ],
+      extensions: [Document, Paragraph, Text, History],
     })
 
     const canUndo = editor.can().undo()
@@ -27,12 +22,7 @@ describe('can', () => {
 
   it('undo', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-      ],
+      extensions: [Document, Paragraph, Text, History],
     })
 
     editor.commands.setContent('foo')
@@ -44,12 +34,7 @@ describe('can', () => {
 
   it('not chain undo', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-      ],
+      extensions: [Document, Paragraph, Text, History],
     })
 
     const canUndo = editor.can().chain().undo().run()
@@ -59,12 +44,7 @@ describe('can', () => {
 
   it('chain undo', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-      ],
+      extensions: [Document, Paragraph, Text, History],
     })
 
     editor.commands.setContent('foo')
@@ -76,17 +56,11 @@ describe('can', () => {
 
   it('returns false for non-applicable marks when selection contains node in conflict', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-        CodeBlock,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, History, CodeBlock, Bold],
     })
 
-    editor.chain()
+    editor
+      .chain()
       .setCodeBlock()
       .insertContent('Test code block')
       .setTextSelection({ from: 2, to: 3 })
@@ -100,20 +74,10 @@ describe('can', () => {
 
   it('returns false for non-applicable marks when selection contains marks in conflict', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-        Code,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, History, Code, Bold],
     })
 
-    editor.chain()
-      .setContent('<code>test</code>')
-      .setTextSelection({ from: 2, to: 3 })
-      .run()
+    editor.chain().setContent('<code>test</code>').setTextSelection({ from: 2, to: 3 }).run()
 
     const canSetMarkToBold = editor.can().setMark('bold')
 
@@ -122,14 +86,7 @@ describe('can', () => {
 
   it('returns false for non-applicable marks when stored marks in conflict', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-        Code,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, History, Code, Bold],
     })
 
     editor.chain().setContent('<code>test</code>').run()
@@ -141,14 +98,7 @@ describe('can', () => {
 
   it('returns false for non-applicable marks when selecting multiple nodes in conflict', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-        Code,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, History, Code, Bold],
     })
 
     editor.chain().setContent('<code>test</code><code>123</code>').selectAll().run()
@@ -160,17 +110,11 @@ describe('can', () => {
 
   it('returns true for applicable marks when selection does not contain nodes in conflict', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-        CodeBlock,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, History, CodeBlock, Bold],
     })
 
-    editor.chain()
+    editor
+      .chain()
       .setCodeBlock()
       .insertContent('Test code block')
       .exitCode()
@@ -185,14 +129,7 @@ describe('can', () => {
 
   it('returns true for applicable marks when stored marks are not in conflict', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-        Code,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, History, Code, Bold],
     })
 
     editor.chain().setContent('<code>test</code>').toggleCode().run()
@@ -204,17 +141,11 @@ describe('can', () => {
 
   it('returns true for applicable marks when selection does not contain marks in conflict', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-        Code,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, History, Code, Bold],
     })
 
-    editor.chain()
+    editor
+      .chain()
       .setContent('<code>test</code>')
       .setTextSelection({ from: 2, to: 3 })
       .toggleCode()
@@ -227,14 +158,7 @@ describe('can', () => {
 
   it('returns true for applicable marks if at least one node in selection has no marks in conflict', () => {
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-        Code,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, History, Code, Bold],
     })
 
     editor.chain().setContent('<code>test</code><i>123</i>').selectAll().run()

@@ -25,15 +25,11 @@ cd my-tiptap-project
 ```
 
 ## 2. Install the dependencies
-Now that we have a standard boilerplate set up we can get started on getting Tiptap up and running! For this we will need to install two packages: `@tiptap/react` and `@tiptap/starter-kit` which includes all the extensions you need to get started quickly.
+Now that we have a standard boilerplate set up we can get started on getting Tiptap up and running! For this we will need to install three packages: `@tiptap/react`, `@tiptap/pm` and `@tiptap/starter-kit` which includes all the extensions you need to get started quickly.
 
 ```bash
-npm install @tiptap/react @tiptap/starter-kit
+npm install @tiptap/react @tiptap/pm @tiptap/starter-kit
 ```
-
-:::warning Are you using Yarn, pNPM, npm 6 or less?
-Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please check the following links to find out what dependencies are needed and how to install them: [@tiptap/core](https://tiptap.dev/installation/peer-dependencies#tiptapcore), [@tiptap/starter-kit](https://tiptap.dev/installation/peer-dependencies#tiptapstarter-kit)
-:::
 
 If you followed step 1 and 2, you can now start your project with `npm run dev`, and open [http://localhost:3000/](http://localhost:3000/) in your favorite browser. This might be different, if you’re working with an existing project.
 
@@ -57,7 +53,7 @@ const Tiptap = () => {
   )
 }
 
-export default Tiptap;
+export default Tiptap
 ```
 
 ## 4. Add it to your app

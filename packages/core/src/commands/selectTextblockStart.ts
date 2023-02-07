@@ -1,6 +1,6 @@
 // @ts-ignore
 // TODO: add types to @types/prosemirror-commands
-import { selectTextblockStart as originalSelectTextblockStart } from 'prosemirror-commands'
+import { selectTextblockStart as originalSelectTextblockStart } from '@tiptap/pm/commands'
 
 import { RawCommands } from '../types'
 
@@ -10,7 +10,7 @@ declare module '@tiptap/core' {
       /**
        * Moves the cursor to the start of current text block.
        */
-      selectTextblockStart: () => ReturnType,
+      selectTextblockStart: () => ReturnType
     }
   }
 }

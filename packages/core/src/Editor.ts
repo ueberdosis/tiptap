@@ -1,11 +1,8 @@
-import { MarkType, NodeType, Schema } from 'prosemirror-model'
+import { MarkType, NodeType, Schema } from '@tiptap/pm/model'
 import {
-  EditorState,
-  Plugin,
-  PluginKey,
-  Transaction,
-} from 'prosemirror-state'
-import { EditorView } from 'prosemirror-view'
+  EditorState, Plugin, PluginKey, Transaction,
+} from '@tiptap/pm/state'
+import { EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager'
 import { EventEmitter } from './EventEmitter'
@@ -39,7 +36,6 @@ export interface HTMLElement {
 }
 
 export class Editor extends EventEmitter<EditorEvents> {
-
   private commandManager!: CommandManager
 
   public extensionManager!: ExtensionManager
@@ -182,9 +178,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     // since plugins are applied after creating the view
     // `editable` is always `true` for one tick.
     // that’s why we also have to check for `options.editable`
-    return this.options.editable
-      && this.view
-      && this.view.editable
+    return this.options.editable && this.view && this.view.editable
   }
 
   /**
@@ -200,7 +194,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * @param plugin A ProseMirror plugin
    * @param handlePlugins Control how to merge the plugin into the existing plugins.
    */
-  public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]): void {
+  public registerPlugin(
+    plugin: Plugin,
+    handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
+  ): void {
     const plugins = isFunction(handlePlugins)
       ? handlePlugins(plugin, [...this.state.plugins])
       : [...this.state.plugins, plugin]
@@ -220,10 +217,8 @@ export class Editor extends EventEmitter<EditorEvents> {
       return
     }
 
-    const name = typeof nameOrPluginKey === 'string'
-      ? `${nameOrPluginKey}$`
-      // @ts-ignore
-      : nameOrPluginKey.key
+    // @ts-ignore
+    const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
 
     const state = this.state.reconfigure({
       // @ts-ignore
@@ -237,9 +232,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates an extension manager.
    */
   private createExtensionManager(): void {
-    const coreExtensions = this.options.enableCoreExtensions
-      ? Object.values(extensions)
-      : []
+    const coreExtensions = this.options.enableCoreExtensions ? Object.values(extensions) : []
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
@@ -397,16 +390,12 @@ export class Editor extends EventEmitter<EditorEvents> {
    * @param name Name of the node or mark
    * @param attributes Attributes of the node or mark
    */
-  public isActive(name: string, attributes?: {}): boolean;
-  public isActive(attributes: {}): boolean;
+  public isActive(name: string, attributes?: {}): boolean
+  public isActive(attributes: {}): boolean
   public isActive(nameOrAttributes: string, attributesOrUndefined?: {}): boolean {
-    const name = typeof nameOrAttributes === 'string'
-      ? nameOrAttributes
-      : null
+    const name = typeof nameOrAttributes === 'string' ? nameOrAttributes : null
 
-    const attributes = typeof nameOrAttributes === 'string'
-      ? attributesOrUndefined
-      : nameOrAttributes
+    const attributes = typeof nameOrAttributes === 'string' ? attributesOrUndefined : nameOrAttributes
 
     return isActive(this.state, name, attributes)
   }
@@ -429,13 +418,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as text.
    */
   public getText(options?: {
-    blockSeparator?: string,
-    textSerializers?: Record<string, TextSerializer>,
+    blockSeparator?: string
+    textSerializers?: Record<string, TextSerializer>
   }): string {
-    const {
-      blockSeparator = '\n\n',
-      textSerializers = {},
-    } = options || {}
+    const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
 
     return getText(this.state.doc, {
       blockSeparator,
@@ -459,7 +445,9 @@ export class Editor extends EventEmitter<EditorEvents> {
    * @deprecated
    */
   public getCharacterCount(): number {
-    console.warn('[tiptap warn]: "editor.getCharacterCount()" is deprecated. Please use "editor.storage.characterCount.characters()" instead.')
+    console.warn(
+      '[tiptap warn]: "editor.getCharacterCount()" is deprecated. Please use "editor.storage.characterCount.characters()" instead.',
+    )
 
     return this.state.doc.content.size - 2
   }
@@ -484,5 +472,4 @@ export class Editor extends EventEmitter<EditorEvents> {
     // @ts-ignore
     return !this.view?.docView
   }
-
 }

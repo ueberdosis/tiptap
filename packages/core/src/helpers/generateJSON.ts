@@ -1,4 +1,4 @@
-import { DOMParser } from 'prosemirror-model'
+import { DOMParser } from '@tiptap/pm/model'
 
 import { Extensions } from '../types'
 import { elementFromString } from '../utilities/elementFromString'
@@ -8,7 +8,5 @@ export function generateJSON(html: string, extensions: Extensions): Record<strin
   const schema = getSchema(extensions)
   const dom = elementFromString(html)
 
-  return DOMParser.fromSchema(schema)
-    .parse(dom)
-    .toJSON()
+  return DOMParser.fromSchema(schema).parse(dom).toJSON()
 }

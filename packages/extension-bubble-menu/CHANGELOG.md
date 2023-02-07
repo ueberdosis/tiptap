@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.213](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.212...v2.0.0-beta.213) (2023-02-07)
+
+
+### Bug Fixes
+
+* **bubble-menu:** change lodash to lodash-es for esbuild ([2d7661c](https://github.com/ueberdosis/tiptap/commit/2d7661c910a76f1d362728a48a3c3a09236a2b00))
+
+
+
+
+
+# [2.0.0-beta.212](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.211...v2.0.0-beta.212) (2023-02-03)
+
+**Note:** Version bump only for package @tiptap/extension-bubble-menu
+
+
+
+
+
+# [2.0.0-beta.211](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.210...v2.0.0-beta.211) (2023-02-02)
+
+
+### Bug Fixes
+
+* **bubble-menu:** fix bubble menu imports ([1e6f238](https://github.com/ueberdosis/tiptap/commit/1e6f2382eb6669269eea892c8eed4727102f2653))
+
+
+
+
+
+# [2.0.0-beta.210](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.209...v2.0.0-beta.210) (2023-02-02)
+
+
+### Features
+
+* **pm:** new prosemirror package for dependency resolving ([f387ad3](https://github.com/ueberdosis/tiptap/commit/f387ad3dd4c2b30eaea33fb0ba0b42e0cd39263b))
+
+
+
+
+
 # [2.0.0-beta.209](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.208...v2.0.0-beta.209) (2022-12-16)
 
 **Note:** Version bump only for package @tiptap/extension-bubble-menu

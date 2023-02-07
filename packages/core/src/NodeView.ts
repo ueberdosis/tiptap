@@ -1,6 +1,6 @@
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { NodeSelection } from 'prosemirror-state'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { NodeSelection } from '@tiptap/pm/state'
+import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 
 import { Editor as CoreEditor } from './Editor'
 import { Node } from './Node'
@@ -9,13 +9,12 @@ import { isiOS } from './utilities/isiOS'
 
 export class NodeView<
   Component,
-  Editor extends CoreEditor = CoreEditor,
+  NodeEditor extends CoreEditor = CoreEditor,
   Options extends NodeViewRendererOptions = NodeViewRendererOptions,
 > implements ProseMirrorNodeView {
-
   component: Component
 
-  editor: Editor
+  editor: NodeEditor
 
   options: Options
 
@@ -31,7 +30,7 @@ export class NodeView<
 
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
     this.component = component
-    this.editor = props.editor as Editor
+    this.editor = props.editor as NodeEditor
     this.options = {
       stopEvent: null,
       ignoreMutation: null,
@@ -59,7 +58,7 @@ export class NodeView<
 
   onDragStart(event: DragEvent) {
     const { view } = this.editor
-    const target = (event.target as HTMLElement)
+    const target = event.target as HTMLElement
 
     // get the drag handle element
     // `closest` is not available for text nodes so we may have to use its parent
@@ -67,11 +66,7 @@ export class NodeView<
       ? target.parentElement?.closest('[data-drag-handle]')
       : target.closest('[data-drag-handle]')
 
-    if (
-      !this.dom
-      || this.contentDOM?.contains(target)
-      || !dragHandle
-    ) {
+    if (!this.dom || this.contentDOM?.contains(target) || !dragHandle) {
       return
     }
 
@@ -110,7 +105,7 @@ export class NodeView<
       return this.options.stopEvent({ event })
     }
 
-    const target = (event.target as HTMLElement)
+    const target = event.target as HTMLElement
     const isInElement = this.dom.contains(target) && !this.contentDOM?.contains(target)
 
     // any event from child nodes should be handled by ProseMirror
@@ -119,8 +114,7 @@ export class NodeView<
     }
 
     const isDropEvent = event.type === 'drop'
-    const isInput = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(target.tagName)
-      || target.isContentEditable
+    const isInput = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable
 
     // any input event within node views should be ignored by ProseMirror
     if (isInput && !isDropEvent) {
@@ -152,19 +146,26 @@ export class NodeView<
     // we have to store that dragging started
     if (isDraggable && isEditable && !isDragging && isClickEvent) {
       const dragHandle = target.closest('[data-drag-handle]')
-      const isValidDragHandle = dragHandle
-        && (this.dom === dragHandle || (this.dom.contains(dragHandle)))
+      const isValidDragHandle = dragHandle && (this.dom === dragHandle || this.dom.contains(dragHandle))
 
       if (isValidDragHandle) {
         this.isDragging = true
 
-        document.addEventListener('dragend', () => {
-          this.isDragging = false
-        }, { once: true })
+        document.addEventListener(
+          'dragend',
+          () => {
+            this.isDragging = false
+          },
+          { once: true },
+        )
 
-        document.addEventListener('mouseup', () => {
-          this.isDragging = false
-        }, { once: true })
+        document.addEventListener(
+          'mouseup',
+          () => {
+            this.isDragging = false
+          },
+          { once: true },
+        )
       }
     }
 
@@ -183,7 +184,7 @@ export class NodeView<
     return true
   }
 
-  ignoreMutation(mutation: MutationRecord | { type: 'selection', target: Element }) {
+  ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
     if (!this.dom || !this.contentDOM) {
       return true
     }

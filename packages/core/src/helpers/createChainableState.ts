@@ -1,8 +1,8 @@
-import { EditorState, Transaction } from 'prosemirror-state'
+import { EditorState, Transaction } from '@tiptap/pm/state'
 
 export function createChainableState(config: {
-  transaction: Transaction,
-  state: EditorState,
+  transaction: Transaction
+  state: EditorState
 }): EditorState {
   const { state, transaction } = config
   let { selection } = transaction

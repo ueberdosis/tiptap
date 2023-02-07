@@ -1,4 +1,4 @@
-import { NodeType } from 'prosemirror-model'
+import { NodeType } from '@tiptap/pm/model'
 
 import { PasteRule } from '../PasteRule'
 import { ExtendedRegExpMatchArray } from '../types'
@@ -9,13 +9,13 @@ import { callOrReturn } from '../utilities'
  * matched text is pasted into it.
  */
 export function nodePasteRule(config: {
-  find: RegExp,
-  type: NodeType,
+  find: RegExp
+  type: NodeType
   getAttributes?:
     | Record<string, any>
     | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
-    | null,
+    | null
 }) {
   return new PasteRule({
     find: config.find,
@@ -27,12 +27,10 @@ export function nodePasteRule(config: {
       }
 
       if (match.input) {
-        chain()
-          .deleteRange(range)
-          .insertContentAt(range.from, {
-            type: config.type.name,
-            attrs: attributes,
-          })
+        chain().deleteRange(range).insertContentAt(range.from, {
+          type: config.type.name,
+          attrs: attributes,
+        })
       }
     },
   })
