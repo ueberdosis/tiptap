@@ -32,7 +32,7 @@
     "@tiptap/pm": "^2.0.0-beta.209"
   },
   "dependencies": {
-    "lodash-es": "^4.17.21",
+    "lodash": "^4.17.21",
     "tippy.js": "^6.3.7"
   },
   "repository": {
@@ -42,8 +42,8 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@types/lodash-es": "^4.17.6",
-    "@tiptap/pm": "^2.0.0-beta.212"
+    "@tiptap/pm": "^2.0.0-beta.212",
+    "@types/lodash": "^4.14.191"
   },
   "scripts": {
     "build": "tsup"
