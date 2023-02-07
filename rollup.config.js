@@ -16,10 +16,12 @@ async function getSortedPackages(scope, ignore) {
   const packages = await getPackages(__dirname)
   const filtered = filterPackages(packages, scope, ignore, false)
 
-  return batchPackages(filtered)
+  const sortedPackages = batchPackages(filtered)
     .filter(item => item.name !== '@tiptap/demos')
     .filter(item => item.name !== '@tiptap/pm')
     .reduce((arr, batch) => arr.concat(batch), [])
+
+  return sortedPackages
 }
 
 async function build(commandLineArgs) {
