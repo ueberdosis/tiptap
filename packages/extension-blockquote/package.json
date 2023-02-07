@@ -22,6 +22,7 @@
   },
   "main": "dist/index.d.cjs",
   "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "files": [
     "src",

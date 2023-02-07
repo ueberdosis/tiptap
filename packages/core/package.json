@@ -25,6 +25,7 @@
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "files": [
     "src",
@@ -41,19 +42,5 @@
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/core"
   },
-  "sideEffects": false,
-  "scripts": {
-    "build": "tsup"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "dts": true,
-    "splitting": true,
-    "format": [
-      "esm",
-      "cjs"
-    ]
-  }
+  "sideEffects": false
 }
