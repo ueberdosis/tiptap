@@ -68,7 +68,10 @@ async function build() {
     const pkg = require(`./packages/${currentPackage}/package.json`)
 
     const basePath = path.relative(__dirname, `./packages/${currentPackage}`)
+    const packageJsonPath = path.join(basePath, 'package.json')
     const input = path.join(basePath, 'src/index.ts')
+
+    console.log(packageJsonPath)
 
     const {
       name,
@@ -114,7 +117,7 @@ async function build() {
       ],
       plugins: [
         autoExternal({
-          packagePath: path.join(basePath, 'package.json'),
+          packagePath: path.join(packageJsonPath),
         }),
         ...basePlugins,
         typescript({
