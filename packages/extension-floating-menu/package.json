@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-floating-menu",
   "description": "floating-menu extension for tiptap",
-  "version": "2.0.0-beta.212",
+  "version": "2.0.0-beta.213",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -32,12 +32,10 @@
     "@tiptap/pm": "^2.0.0-beta.212"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.212",
-    "@tiptap/pm": "^2.0.0-beta.212",
-    "@types/lodash-es": "^4.17.6"
+    "@tiptap/core": "^2.0.0-beta.213",
+    "@tiptap/pm": "^2.0.0-beta.213"
   },
   "dependencies": {
-    "lodash-es": "^4.17.21",
     "tippy.js": "^6.3.7"
   },
   "repository": {

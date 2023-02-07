@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.213](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.212...v2.0.0-beta.213) (2023-02-07)
+
+
+### Bug Fixes
+
+* **bubble-menu:** change lodash to lodash-es for esbuild ([2d7661c](https://github.com/ueberdosis/tiptap/commit/2d7661c910a76f1d362728a48a3c3a09236a2b00))
+
+
+
+
+
 # [2.0.0-beta.212](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.211...v2.0.0-beta.212) (2023-02-03)
 
 
