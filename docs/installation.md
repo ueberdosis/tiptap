@@ -8,16 +8,6 @@ tableOfContents: true
 
 Tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s your thing). The following integration guides help you integrating Tiptap in your JavaScript project.
 
-## Base Setup
-
-To get started you will need to install `@tiptap/core`, `@tiptap/pm` and `@tiptap/starter-kit` in your project like this:
-
-```bash
-npm install @tiptap/core @tiptap/pm @tiptap/starter-kit
-```
-
-After that, you can start using Tiptap in your project. To integrate it into your framework, please follow the guides below.
-
 ## Integration guides
 
 - [Vanilla JavaScript](/installation/vanilla-javascript)

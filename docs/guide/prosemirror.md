@@ -4,7 +4,9 @@ tableOfContents: true
 
 # Accessing ProseMirror internals
 
-The ProseMirror internals are packaged in the `@tiptap/pm` package that you need to install with `npm install @tiptap/pm`. If you already have this done you can skip the following step.
+Tiptap is built on top of ProseMirror, which has a pretty powerful API. To access it, we provide the package `@tiptap/pm`. This package provides all important ProseMirror packages like `prosemirror-state`, `prosemirror-view` or `prosemirror-model`. Using the package for custom development makes sure that you always have the same version of ProseMirror which is used by Tiptap as well. This way, we can make sure that Tiptap and all extensions are compatible with each other and prevent version clashes. Another plus is that you don't need to install all ProseMirror packages manually, especially if you are not using npm or any other package manager that supports automatic peer dependency resolution.
+
+Installation:
 
 ```bash
 npm i @tiptap/pm
@@ -37,3 +39,5 @@ The following packages are available:
 - `@tiptap/pm/trailing-node`
 - `@tiptap/pm/transform`
 - `@tiptap/pm/view`
+
+You can find out more about those libraries in the [ProseMirror documentation](https://prosemirror.net/docs/ref).

@@ -9,9 +9,7 @@ tableOfContents: true
 You are using plain JavaScript or a framework that is not listed here? No worries, we provide everything you need.
 
 ## 1. Install the dependencies
-For the following example you will need `@tiptap/core` (the actual editor), `@tiptap/pm` (the ProseMirror library) and `@tiptap/starter-kit`.
-
-The StarterKit doesn’t include all, but the most common extensions.
+For the following example you will need `@tiptap/core` (the actual editor), `@tiptap/pm` (the ProseMirror library) and `@tiptap/starter-kit`. The StarterKit doesn’t include all, but the most common extensions.
 
 ```bash
 npm install @tiptap/core @tiptap/pm @tiptap/starter-kit

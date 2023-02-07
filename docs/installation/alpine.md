@@ -28,7 +28,7 @@ npm run dev
 
 ## 2. Install the dependencies
 
-Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need `alpinejs`, the `@tiptap/core` package, the `@tiptap/pm` package and the `@tiptap/starter-kit` which has the most common extensions to get started quickly.
+Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need `alpinejs`, the `@tiptap/core` package, the `@tiptap/pm` package and the `@tiptap/starter-kit`, which includes the most common extensions to get started quickly.
 
 ```bash
 npm install alpinejs @tiptap/core @tiptap/pm @tiptap/starter-kit
