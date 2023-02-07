@@ -33,11 +33,9 @@
   },
   "devDependencies": {
     "@tiptap/core": "^2.0.0-beta.213",
-    "@tiptap/pm": "^2.0.0-beta.213",
-    "@types/lodash-es": "^4.17.6"
+    "@tiptap/pm": "^2.0.0-beta.213"
   },
   "dependencies": {
-    "lodash-es": "^4.17.21",
     "tippy.js": "^6.3.7"
   },
   "repository": {
