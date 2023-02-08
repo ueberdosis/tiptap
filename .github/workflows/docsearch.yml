@@ -12,6 +12,7 @@ on:
 jobs:
 
   docsearch:
+    runs-on: ubuntu-latest
     steps:
       - name: Run DocSearch Scraper
         shell: bash
