@@ -34,10 +34,10 @@ cd my-tiptap-project
 ```
 
 #### 2. Install the dependencies
-Time to install the `@tiptap/react` package, `@tiptap/pm` (the ProseMirror library) and `@tiptap/starter-kit`, which includes the most popular extensions to get started quickly.
+Time to install the `@tiptap/react` package, you will need to more install `@tiptap/extension-bubble-menu` and `@tiptap/extension-floating-menu` in your project, `@tiptap/pm` (the ProseMirror library) and `@tiptap/starter-kit`, which includes the most popular extensions to get started quickly.
 
 ```bash
-npm install @tiptap/react @tiptap/pm @tiptap/starter-kit
+npm install @tiptap/react @tiptap/extension-bubble-menu @tiptap/extension-floating-menu @tiptap/pm @tiptap/starter-kit
 ```
 
 If you followed step 1 and 2, you can now start your project with `npm run start`, and open [http://localhost:3000](http://localhost:3000) in your browser.

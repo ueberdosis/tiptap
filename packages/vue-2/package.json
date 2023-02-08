@@ -29,17 +29,17 @@
   ],
   "devDependencies": {
     "@tiptap/core": "^2.0.0-beta.213",
+    "@tiptap/extension-bubble-menu": "^2.0.0-beta.213",
+    "@tiptap/extension-floating-menu": "^2.0.0-beta.213",
     "@tiptap/pm": "^2.0.0-beta.213",
     "vue": "^2.6.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.209",
-    "@tiptap/pm": "^2.0.0-beta.209",
-    "vue": "^2.6.0"
-  },
-  "dependencies": {
+    "@tiptap/core": "^2.0.0-beta.213",
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.213",
-    "@tiptap/extension-floating-menu": "^2.0.0-beta.213"
+    "@tiptap/extension-floating-menu": "^2.0.0-beta.213",
+    "@tiptap/pm": "^2.0.0-beta.213",
+    "vue": "^2.6.0"
   },
   "repository": {
     "type": "git",

@@ -29,6 +29,8 @@
   ],
   "devDependencies": {
     "@tiptap/core": "^2.0.0-beta.213",
+    "@tiptap/extension-bubble-menu": "^2.0.0-beta.213",
+    "@tiptap/extension-floating-menu": "^2.0.0-beta.213",
     "@tiptap/pm": "^2.0.0-beta.213",
     "@types/react": "^18.0.1",
     "@types/react-dom": "^18.0.0",
@@ -36,14 +38,12 @@
     "react-dom": "^18.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.209",
-    "@tiptap/pm": "^2.0.0-beta.209",
+    "@tiptap/core": "^2.0.0-beta.213",
+    "@tiptap/extension-bubble-menu": "^2.0.0-beta.213",
+    "@tiptap/extension-floating-menu": "^2.0.0-beta.213",
+    "@tiptap/pm": "^2.0.0-beta.213",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
-  },
-  "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.0.0-beta.213",
-    "@tiptap/extension-floating-menu": "^2.0.0-beta.213"
   },
   "repository": {
     "type": "git",
