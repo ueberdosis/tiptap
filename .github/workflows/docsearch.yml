@@ -5,9 +5,9 @@ name: docsearch
 
 on:
   workflow_dispatch:
-  repository_dispatch:
-    types:
-      - docsearch
+  schedule:
+    cron:
+      - '5 0 * * *'
 
 jobs:
 
