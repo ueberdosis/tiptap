@@ -1,0 +1,25 @@
+# Automate, customize, and execute your software development workflows right in your repository with GitHub Actions.
+# Documentation: https://docs.github.com/en/actions
+
+name: docsearch
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - docsearch
+
+jobs:
+
+  docsearch:
+    steps:
+      - name: Run DocSearch Scraper
+        shell: bash
+        run: |
+          docker run \
+            -e TYPESENSE_API_KEY=${{ secrets.TYPESENSE_API_KEY }} \
+            -e TYPESENSE_HOST="${{ secrets.TYPESENSE_HOST }}" \
+            -e TYPESENSE_PORT="${{ secrets.TYPESENSE_PORT }}" \
+            -e TYPESENSE_PROTOCOL="${{ secrets.TYPESENSE_PROTOCOL }}" \
+            -e CONFIG="$(cat docsearch.config.json | jq -r tostring)" \
+            typesense/docsearch-scraper
