@@ -20,7 +20,7 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/index.d.cjs",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "umd": "dist/index.umd.js",
   "types": "dist/packages/extension-blockquote/src/index.d.ts",
