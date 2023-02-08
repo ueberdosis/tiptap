@@ -9,6 +9,7 @@ import typescript from 'rollup-plugin-typescript2'
 import pkg from './package.json'
 
 export default {
+  external: [/@tiptap\/pm\/.*/],
   input: 'src/index.ts',
   output: [
     {
