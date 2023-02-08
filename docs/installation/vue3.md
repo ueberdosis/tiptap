@@ -27,7 +27,7 @@ cd my-tiptap-project
 ```
 
 ## 2. Install the dependencies
-Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need the `@tiptap/vue-3` package, makes sure that you always have the same version of `@tiptap/extension-bubble-menu` and `@tiptap/extension-floating-menu` in your project, `@tiptap/pm` (the ProseMirror library) and `@tiptap/starter-kit`, which includes the most common extensions to get started quickly.
+Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need the `@tiptap/vue-3` package, you will need to more install `@tiptap/extension-bubble-menu` and `@tiptap/extension-floating-menu` in your project, `@tiptap/pm` (the ProseMirror library) and `@tiptap/starter-kit`, which includes the most common extensions to get started quickly.
 
 ```bash
 npm install @tiptap/vue-3 @tiptap/extension-bubble-menu @tiptap/extension-floating-menu @tiptap/pm @tiptap/starter-kit
