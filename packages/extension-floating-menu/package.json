@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-floating-menu",
   "description": "floating-menu extension for tiptap",
-  "version": "2.0.0-beta.212",
+  "version": "2.0.0-beta.215",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,14 +15,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/packages/extension-floating-menu/src/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "umd": "dist/index.umd.js",
+  "types": "dist/packages/extension-floating-menu/src/index.d.ts",
   "files": [
     "src",
     "dist"
@@ -32,12 +33,10 @@
     "@tiptap/pm": "^2.0.0-beta.209"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.212",
-    "@tiptap/pm": "^2.0.0-beta.212",
-    "@types/lodash-es": "^4.17.6"
+    "@tiptap/core": "^2.0.0-beta.215",
+    "@tiptap/pm": "^2.0.0-beta.215"
   },
   "dependencies": {
-    "lodash-es": "^4.17.21",
     "tippy.js": "^6.3.7"
   },
   "repository": {
@@ -47,17 +46,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsup"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "dts": true,
-    "splitting": true,
-    "format": [
-      "esm",
-      "cjs"
-    ]
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }

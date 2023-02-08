@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bubble-menu",
   "description": "bubble-menu extension for tiptap",
-  "version": "2.0.0-beta.212",
+  "version": "2.0.0-beta.215",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,14 +15,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/packages/extension-bubble-menu/src/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "umd": "dist/index.umd.js",
+  "types": "dist/packages/extension-bubble-menu/src/index.d.ts",
   "files": [
     "src",
     "dist"
@@ -32,7 +33,7 @@
     "@tiptap/pm": "^2.0.0-beta.209"
   },
   "dependencies": {
-    "lodash-es": "^4.17.21",
+    "lodash": "^4.17.21",
     "tippy.js": "^6.3.7"
   },
   "repository": {
@@ -42,23 +43,11 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@types/lodash": "^4.14.187",
-    "@types/lodash-es": "^4.17.6",
-    "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2"
+    "@tiptap/pm": "^2.0.0-beta.215",
+    "@types/lodash": "^4.14.191"
   },
   "scripts": {
-    "build": "tsup"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "dts": true,
-    "splitting": true,
-    "format": [
-      "esm",
-      "cjs"
-    ]
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }

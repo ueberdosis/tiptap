@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/core",
   "description": "headless rich text editor",
-  "version": "2.0.0-beta.212",
+  "version": "2.0.0-beta.215",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -18,14 +18,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/packages/core/src/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "umd": "dist/index.umd.js",
+  "types": "dist/packages/core/src/index.d.ts",
   "files": [
     "src",
     "dist"
@@ -34,7 +35,7 @@
     "@tiptap/pm": "^2.0.0-beta.209"
   },
   "devDependencies": {
-    "@tiptap/pm": "^2.0.0-beta.212"
+    "@tiptap/pm": "^2.0.0-beta.215"
   },
   "repository": {
     "type": "git",
@@ -43,17 +44,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsup"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "dts": true,
-    "splitting": true,
-    "format": [
-      "esm",
-      "cjs"
-    ]
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }
