@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.216](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.215...v2.0.0-beta.216) (2023-02-08)
+
+
+### Bug Fixes
+
+* **bubble-menu:** fix lodash import ([06a3d63](https://github.com/ueberdosis/tiptap/commit/06a3d6300d9debcd4cfc70f5717cfaf9ae988a3c))
+
+
+
+
+
 # [2.0.0-beta.215](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.214...v2.0.0-beta.215) (2023-02-08)
 
 
