@@ -15,14 +15,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/packages/extension-ordered-list/src/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "umd": "dist/index.umd.js",
+  "types": "dist/packages/extension-ordered-list/src/index.d.ts",
   "files": [
     "src",
     "dist"
@@ -39,17 +40,7 @@
     "directory": "packages/extension-ordered-list"
   },
   "scripts": {
-    "build": "tsup"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "dts": true,
-    "splitting": true,
-    "format": [
-      "esm",
-      "cjs"
-    ]
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }
