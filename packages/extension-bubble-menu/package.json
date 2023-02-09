@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bubble-menu",
   "description": "bubble-menu extension for tiptap",
-  "version": "2.0.0-beta.216",
+  "version": "2.0.0-beta.217",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -43,7 +43,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@tiptap/pm": "^2.0.0-beta.216",
+    "@tiptap/pm": "^2.0.0-beta.217",
     "@types/lodash": "^4.14.191"
   },
   "scripts": {

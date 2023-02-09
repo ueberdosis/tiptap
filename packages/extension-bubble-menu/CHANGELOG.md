@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.217](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.216...v2.0.0-beta.217) (2023-02-09)
+
+
+### Bug Fixes
+
+* **bubble-menu:** exclude lodash/debounce from externals ([516f28f](https://github.com/ueberdosis/tiptap/commit/516f28f788651b88a03136220334b6dd0f8b235f))
+
+
+
+
+
 # [2.0.0-beta.216](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.215...v2.0.0-beta.216) (2023-02-08)
 
 
