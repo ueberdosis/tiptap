@@ -1,5 +1,5 @@
 import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
-import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 export interface CodeBlockOptions {
   /**
