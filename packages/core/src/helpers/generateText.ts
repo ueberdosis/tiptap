@@ -1,4 +1,4 @@
-import { Node } from 'prosemirror-model'
+import { Node } from '@tiptap/pm/model'
 
 import { Extensions, JSONContent, TextSerializer } from '../types'
 import { getSchema } from './getSchema'
@@ -9,22 +9,19 @@ export function generateText(
   doc: JSONContent,
   extensions: Extensions,
   options?: {
-    blockSeparator?: string,
-    textSerializers?: Record<string, TextSerializer>,
+    blockSeparator?: string
+    textSerializers?: Record<string, TextSerializer>
   },
 ): string {
-  const {
-    blockSeparator = '\n\n',
-    textSerializers = {},
-  } = options || {}
+  const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
   const schema = getSchema(extensions)
   const contentNode = Node.fromJSON(schema, doc)
 
   return getText(contentNode, {
     blockSeparator,
     textSerializers: {
-      ...textSerializers,
       ...getTextSerializersFromSchema(schema),
+      ...textSerializers,
     },
   })
 }

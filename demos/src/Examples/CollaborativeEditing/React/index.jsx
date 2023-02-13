@@ -15,10 +15,10 @@ import React, {
 } from 'react'
 import * as Y from 'yjs'
 
+import { variables } from '../../../variables'
 import MenuBar from './MenuBar'
 
 const colors = ['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D']
-const rooms = ['rooms.10', 'rooms.11', 'rooms.12']
 const names = [
   'Lea Thompson',
   'Cyndi Lauper',
@@ -49,7 +49,11 @@ const names = [
 
 const getRandomElement = list => list[Math.floor(Math.random() * list.length)]
 
-const getRandomRoom = () => getRandomElement(rooms)
+const getRandomRoom = () => {
+  const roomNumbers = variables.collabRooms?.trim()?.split(',') ?? [10, 11, 12]
+
+  return getRandomElement(roomNumbers.map(number => `rooms.${number}`))
+}
 const getRandomColor = () => getRandomElement(colors)
 const getRandomName = () => getRandomElement(names)
 

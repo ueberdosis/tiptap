@@ -1,4 +1,4 @@
-import { ResolvedPos } from 'prosemirror-model'
+import { ResolvedPos } from '@tiptap/pm/model'
 
 export const getTextContentFromNodes = ($from: ResolvedPos, maxMatch = 500) => {
   let textBefore = ''
@@ -10,8 +10,13 @@ export const getTextContentFromNodes = ($from: ResolvedPos, maxMatch = 500) => {
     sliceEndPos,
     (node, pos, parent, index) => {
       const chunk = node.type.spec.toText?.({
-        node, pos, parent, index,
-      }) || node.textContent || '%leaf%'
+        node,
+        pos,
+        parent,
+        index,
+      })
+        || node.textContent
+        || '%leaf%'
 
       textBefore += chunk.slice(0, Math.max(0, sliceEndPos - pos))
     },

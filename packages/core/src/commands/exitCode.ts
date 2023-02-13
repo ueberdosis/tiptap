@@ -1,4 +1,4 @@
-import { exitCode as originalExitCode } from 'prosemirror-commands'
+import { exitCode as originalExitCode } from '@tiptap/pm/commands'
 
 import { RawCommands } from '../types'
 
@@ -8,7 +8,7 @@ declare module '@tiptap/core' {
       /**
        * Exit from a code block.
        */
-      exitCode: () => ReturnType,
+      exitCode: () => ReturnType
     }
   }
 }

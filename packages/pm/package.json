@@ -1,0 +1,177 @@
+{
+  "name": "@tiptap/pm",
+  "description": "prosemirror wrapper package for tiptap",
+  "version": "2.0.0-beta.217",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "prosemirror"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "type": "module",
+  "exports": {
+    "./changeset": {
+      "types": "./changeset/dist/index.d.ts",
+      "import": "./changeset/dist/index.js",
+      "require": "./changeset/dist/index.cjs"
+    },
+    "./collab": {
+      "types": "./collab/dist/index.d.ts",
+      "import": "./collab/dist/index.js",
+      "require": "./collab/dist/index.cjs"
+    },
+    "./commands": {
+      "types": "./commands/dist/index.d.ts",
+      "import": "./commands/dist/index.js",
+      "require": "./commands/dist/index.cjs"
+    },
+    "./dropcursor": {
+      "types": "./dropcursor/dist/index.d.ts",
+      "import": "./dropcursor/dist/index.js",
+      "require": "./dropcursor/dist/index.cjs"
+    },
+    "./gapcursor": {
+      "types": "./gapcursor/dist/index.d.ts",
+      "import": "./gapcursor/dist/index.js",
+      "require": "./gapcursor/dist/index.cjs"
+    },
+    "./history": {
+      "types": "./history/dist/index.d.ts",
+      "import": "./history/dist/index.js",
+      "require": "./history/dist/index.cjs"
+    },
+    "./inputrules": {
+      "types": "./inputrules/dist/index.d.ts",
+      "import": "./inputrules/dist/index.js",
+      "require": "./inputrules/dist/index.cjs"
+    },
+    "./keymap": {
+      "types": "./keymap/dist/index.d.ts",
+      "import": "./keymap/dist/index.js",
+      "require": "./keymap/dist/index.cjs"
+    },
+    "./markdown": {
+      "types": "./markdown/dist/index.d.ts",
+      "import": "./markdown/dist/index.js",
+      "require": "./markdown/dist/index.cjs"
+    },
+    "./menu": {
+      "types": "./menu/dist/index.d.ts",
+      "import": "./menu/dist/index.js",
+      "require": "./menu/dist/index.cjs"
+    },
+    "./model": {
+      "types": "./model/dist/index.d.ts",
+      "import": "./model/dist/index.js",
+      "require": "./model/dist/index.cjs"
+    },
+    "./schema-basic": {
+      "types": "./schema-basic/dist/index.d.ts",
+      "import": "./schema-basic/dist/index.js",
+      "require": "./schema-basic/dist/index.cjs"
+    },
+    "./schema-list": {
+      "types": "./schema-list/dist/index.d.ts",
+      "import": "./schema-list/dist/index.js",
+      "require": "./schema-list/dist/index.cjs"
+    },
+    "./state": {
+      "types": "./state/dist/index.d.ts",
+      "import": "./state/dist/index.js",
+      "require": "./state/dist/index.cjs"
+    },
+    "./tables": {
+      "types": "./tables/dist/index.d.ts",
+      "import": "./tables/dist/index.js",
+      "require": "./tables/dist/index.cjs"
+    },
+    "./trailing-node": {
+      "types": "./trailing-node/dist/index.d.ts",
+      "import": "./trailing-node/dist/index.js",
+      "require": "./trailing-node/dist/index.cjs"
+    },
+    "./transform": {
+      "types": "./transform/dist/index.d.ts",
+      "import": "./transform/dist/index.js",
+      "require": "./transform/dist/index.cjs"
+    },
+    "./view": {
+      "types": "./view/dist/index.d.ts",
+      "import": "./view/dist/index.js",
+      "require": "./view/dist/index.cjs"
+    }
+  },
+  "files": [
+    "changeset/**",
+    "collab/**",
+    "commands/**",
+    "dropcursor/**",
+    "gapcursor/**",
+    "history/**",
+    "inputrules/**",
+    "keymap/**",
+    "markdown/**",
+    "menu/**",
+    "model/**",
+    "schema-basic/**",
+    "schema-list/**",
+    "state/**",
+    "tables/**",
+    "trailing-node/**",
+    "transform/**",
+    "view/**"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0-beta.209"
+  },
+  "dependencies": {
+    "prosemirror-changeset": "^2.2.0",
+    "prosemirror-collab": "^1.3.0",
+    "prosemirror-commands": "^1.3.1",
+    "prosemirror-dropcursor": "^1.5.0",
+    "prosemirror-gapcursor": "^1.3.1",
+    "prosemirror-history": "^1.3.0",
+    "prosemirror-inputrules": "^1.2.0",
+    "prosemirror-keymap": "^1.2.0",
+    "prosemirror-markdown": "^1.10.1",
+    "prosemirror-menu": "^1.2.1",
+    "prosemirror-model": "^1.18.1",
+    "prosemirror-schema-basic": "^1.2.0",
+    "prosemirror-schema-list": "^1.2.2",
+    "prosemirror-state": "^1.4.1",
+    "prosemirror-tables": "^1.3.0",
+    "prosemirror-trailing-node": "^2.0.2",
+    "prosemirror-transform": "^1.7.0",
+    "prosemirror-view": "^1.28.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/pm"
+  },
+  "scripts": {
+    "build": "npm run build:changeset && npm run build:collab && npm run build:commands && npm run build:dropcursor && npm run build:gapcursor && npm run build:history && npm run build:inputrules && npm run build:keymap && npm run build:markdown && npm run build:menu && npm run build:model && npm run build:schema-basic && npm run build:schema-list && npm run build:state && npm run build:tables && npm run build:trailing-node && npm run build:transform && npm run build:view",
+    "build:changeset": "tsup \"changeset/index.ts\" --out-dir changeset/dist",
+    "build:collab": "tsup \"collab/index.ts\" --out-dir collab/dist",
+    "build:commands": "tsup \"commands/index.ts\" --out-dir commands/dist",
+    "build:dropcursor": "tsup \"dropcursor/index.ts\" --out-dir dropcursor/dist",
+    "build:gapcursor": "tsup \"gapcursor/index.ts\" --out-dir gapcursor/dist",
+    "build:history": "tsup \"history/index.ts\" --out-dir history/dist",
+    "build:inputrules": "tsup \"inputrules/index.ts\" --out-dir inputrules/dist",
+    "build:keymap": "tsup \"keymap/index.ts\" --out-dir keymap/dist",
+    "build:markdown": "tsup \"markdown/index.ts\" --out-dir markdown/dist",
+    "build:menu": "tsup \"menu/index.ts\" --out-dir menu/dist",
+    "build:model": "tsup \"model/index.ts\" --out-dir model/dist",
+    "build:schema-basic": "tsup \"schema-basic/index.ts\" --out-dir schema-basic/dist",
+    "build:schema-list": "tsup \"schema-list/index.ts\" --out-dir schema-list/dist",
+    "build:state": "tsup \"state/index.ts\" --out-dir state/dist",
+    "build:tables": "tsup \"tables/index.ts\" --out-dir tables/dist",
+    "build:trailing-node": "tsup \"trailing-node/index.ts\" --out-dir trailing-node/dist",
+    "build:transform": "tsup \"transform/index.ts\" --out-dir transform/dist",
+    "build:view": "tsup \"view/index.ts\" --out-dir view/dist"
+  }
+}

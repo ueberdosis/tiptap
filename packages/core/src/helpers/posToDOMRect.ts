@@ -1,4 +1,4 @@
-import { EditorView } from 'prosemirror-view'
+import { EditorView } from '@tiptap/pm/view'
 
 import { minMax } from '../utilities/minMax'
 

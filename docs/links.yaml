@@ -18,6 +18,9 @@
         # - title: CDN
         #   link: /installation/cdn
         #   skip: true
+        - title: Vanilla JavaScript
+          link: /installation/vanilla-javascript
+          skip: true
         - title: React
           link: /installation/react
           skip: true
@@ -44,7 +47,6 @@
           skip: true
         - title: PHP
           link: /installation/php
-          type: new
           skip: true
     - title: Upgrade guide
       link: /overview/upgrade-guide
@@ -115,6 +117,8 @@
   items:
     - title: Configuration
       link: /guide/configuration
+    - title: ProseMirror API
+      link: /guide/prosemirror
     - title: Menus
       link: /guide/menus
     - title: Styling

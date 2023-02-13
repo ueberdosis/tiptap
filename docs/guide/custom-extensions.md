@@ -114,7 +114,7 @@ const awesomeness = editor.storage.customExtension.awesomeness
 ```
 
 ### Schema
-tiptap works with a strict schema, which configures how the content can be structured, nested, how it behaves and many more things. You [can change all aspects of the schema](/api/schema) for existing extensions. Let’s walk through a few common use cases.
+Tiptap works with a strict schema, which configures how the content can be structured, nested, how it behaves and many more things. You [can change all aspects of the schema](/api/schema) for existing extensions. Let’s walk through a few common use cases.
 
 The default `Blockquote` extension can wrap other nodes, like headings. If you want to allow nothing but paragraphs in your blockquotes, set the `content` attribute accordingly:
 
@@ -531,7 +531,7 @@ After all, Tiptap is built on ProseMirror and ProseMirror has a pretty powerful 
 You can wrap existing ProseMirror plugins in Tiptap extensions like shown in the example below.
 
 ```js
-import { history } from 'prosemirror-history'
+import { history } from '@tiptap/pm/history'
 
 const History = Extension.create({
   addProseMirrorPlugins() {
@@ -550,7 +550,7 @@ Or you can add them to a Tiptap extension like shown in the below example.
 
 ```js
 import { Extension } from '@tiptap/core'
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 export const EventHandler = Extension.create({
   name: 'eventHandler',

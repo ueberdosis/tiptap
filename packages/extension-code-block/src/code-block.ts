@@ -1,26 +1,26 @@
 import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
-import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
+import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 
 export interface CodeBlockOptions {
   /**
    * Adds a prefix to language classes that are applied to code tags.
    * Defaults to `'language-'`.
    */
-  languageClassPrefix: string,
+  languageClassPrefix: string
   /**
    * Define whether the node should be exited on triple enter.
    * Defaults to `true`.
    */
-  exitOnTripleEnter: boolean,
+  exitOnTripleEnter: boolean
   /**
    * Define whether the node should be exited on arrow down if there is no node after it.
    * Defaults to `true`.
    */
-  exitOnArrowDown: boolean,
+  exitOnArrowDown: boolean
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -29,11 +29,11 @@ declare module '@tiptap/core' {
       /**
        * Set a code block
        */
-      setCodeBlock: (attributes?: { language: string }) => ReturnType,
+      setCodeBlock: (attributes?: { language: string }) => ReturnType
       /**
        * Toggle a code block
        */
-      toggleCodeBlock: (attributes?: { language: string }) => ReturnType,
+      toggleCodeBlock: (attributes?: { language: string }) => ReturnType
     }
   }
 }
@@ -69,7 +69,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         default: null,
         parseHTML: element => {
           const { languageClassPrefix } = this.options
-          const classNames = [...element.firstElementChild?.classList || []]
+          const classNames = [...(element.firstElementChild?.classList || [])]
           const languages = classNames
             .filter(className => className.startsWith(languageClassPrefix))
             .map(className => className.replace(languageClassPrefix, ''))
@@ -113,12 +113,14 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
   addCommands() {
     return {
-      setCodeBlock: attributes => ({ commands }) => {
-        return commands.setNode(this.name, attributes)
-      },
-      toggleCodeBlock: attributes => ({ commands }) => {
-        return commands.toggleNode(this.name, 'paragraph', attributes)
-      },
+      setCodeBlock:
+        attributes => ({ commands }) => {
+          return commands.setNode(this.name, attributes)
+        },
+      toggleCodeBlock:
+        attributes => ({ commands }) => {
+          return commands.toggleNode(this.name, 'paragraph', attributes)
+        },
     }
   },
 
@@ -249,9 +251,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
             const text = event.clipboardData.getData('text/plain')
             const vscode = event.clipboardData.getData('vscode-editor-data')
-            const vscodeData = vscode
-              ? JSON.parse(vscode)
-              : undefined
+            const vscodeData = vscode ? JSON.parse(vscode) : undefined
             const language = vscodeData?.mode
 
             if (!text || !language) {

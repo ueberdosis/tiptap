@@ -1,10 +1,11 @@
-import { NodeType } from 'prosemirror-model'
-import { Transaction } from 'prosemirror-state'
-import { canJoin } from 'prosemirror-transform'
+import { NodeType } from '@tiptap/pm/model'
+import { Transaction } from '@tiptap/pm/state'
+import { canJoin } from '@tiptap/pm/transform'
 
 import { findParentNode } from '../helpers/findParentNode'
 import { getNodeType } from '../helpers/getNodeType'
 import { isList } from '../helpers/isList'
+import { Mark } from '../Mark'
 import { RawCommands } from '../types'
 
 const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
@@ -21,8 +22,7 @@ const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
   }
 
   const nodeBefore = tr.doc.nodeAt(before)
-  const canJoinBackwards = list.node.type === nodeBefore?.type
-    && canJoin(tr.doc, list.pos)
+  const canJoinBackwards = list.node.type === nodeBefore?.type && canJoin(tr.doc, list.pos)
 
   if (!canJoinBackwards) {
     return true
@@ -47,8 +47,7 @@ const joinListForwards = (tr: Transaction, listType: NodeType): boolean => {
   }
 
   const nodeAfter = tr.doc.nodeAt(after)
-  const canJoinForwards = list.node.type === nodeAfter?.type
-    && canJoin(tr.doc, after)
+  const canJoinForwards = list.node.type === nodeAfter?.type && canJoin(tr.doc, after)
 
   if (!canJoinForwards) {
     return true
@@ -80,7 +79,7 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
   const { $from, $to } = selection
   const range = $from.blockRange($to)
 
-  const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
+  const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks()) as Mark[]
 
   if (!range) {
     return false
@@ -97,8 +96,8 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
     // change list type
     if (
       isList(parentList.node.type.name, extensions)
-      && listType.validContent(parentList.node.content)
-      && dispatch
+        && listType.validContent(parentList.node.content)
+        && dispatch
     ) {
       return chain()
         .command(() => {
@@ -130,7 +129,8 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
       .run()
   }
 
-  return chain()
+  return (
+    chain()
     // try to convert node to default node if needed
     .command(() => {
       const canWrapInList = can().wrapInList(listType)

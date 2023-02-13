@@ -1,4 +1,4 @@
-import { liftEmptyBlock as originalLiftEmptyBlock } from 'prosemirror-commands'
+import { liftEmptyBlock as originalLiftEmptyBlock } from '@tiptap/pm/commands'
 
 import { RawCommands } from '../types'
 

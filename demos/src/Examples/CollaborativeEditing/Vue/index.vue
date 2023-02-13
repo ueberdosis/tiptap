@@ -32,6 +32,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import * as Y from 'yjs'
 
+import { variables } from '../../../variables'
 import MenuBar from './MenuBar.vue'
 
 const getRandomElement = list => {
@@ -39,11 +40,9 @@ const getRandomElement = list => {
 }
 
 const getRandomRoom = () => {
-  return getRandomElement([
-    'rooms.10',
-    'rooms.11',
-    'rooms.12',
-  ])
+  const roomNumbers = variables.collabRooms?.trim()?.split(',') ?? [10, 11, 12]
+
+  return getRandomElement(roomNumbers.map(number => `rooms.${number}`))
 }
 
 export default {

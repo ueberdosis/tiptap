@@ -1,10 +1,11 @@
 {
   "name": "tiptap-demos",
-  "version": "2.0.0-beta.206",
+  "version": "2.0.0-beta.217",
   "private": true,
   "scripts": {
     "start": "vite --host",
-    "build": "npm run ts && vite build",
+    "build:demos": "npm run ts && vite build",
+    "preview": "vite preview",
     "ts": "tsc --project tsconfig.base.json --noEmit && tsc --project tsconfig.react.json --noEmit && tsc --project tsconfig.vue-2.json --noEmit && tsc --project tsconfig.vue-3.json --noEmit"
   },
   "dependencies": {
@@ -33,7 +34,7 @@
     "sass": "^1.49.7",
     "svelte": "^3.49.0",
     "tailwindcss": "^2.2.19",
-    "typescript": "^4.5.5",
+    "typescript": "4.7.4",
     "uuid": "^8.3.2",
     "vite": "^2.9.13",
     "vite-plugin-checker": "^0.3.4",

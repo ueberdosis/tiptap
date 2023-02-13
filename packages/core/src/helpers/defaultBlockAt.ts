@@ -1,4 +1,4 @@
-import { ContentMatch, NodeType } from 'prosemirror-model'
+import { ContentMatch, NodeType } from '@tiptap/pm/model'
 
 export function defaultBlockAt(match: ContentMatch): NodeType | null {
   for (let i = 0; i < match.edgeCount; i += 1) {

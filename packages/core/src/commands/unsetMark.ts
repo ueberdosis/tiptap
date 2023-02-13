@@ -1,4 +1,4 @@
-import { MarkType } from 'prosemirror-model'
+import { MarkType } from '@tiptap/pm/model'
 
 import { getMarkRange } from '../helpers/getMarkRange'
 import { getMarkType } from '../helpers/getMarkType'
@@ -16,9 +16,9 @@ declare module '@tiptap/core' {
           /**
            * Removes the mark even across the current selection. Defaults to `false`.
            */
-          extendEmptyMarkRange?: boolean,
+          extendEmptyMarkRange?: boolean
         },
-      ) => ReturnType,
+      ) => ReturnType
     }
   }
 }

@@ -2,7 +2,7 @@
 CodeSandbox is an online coding environment. It’s great to fiddle around without setting up a local project. You can also use it to share your code and collaborate with others.
 
 <iframe
-  src="https://codesandbox.io/embed/tiptap-issue-template-b83rr?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcomponents%2FTiptap.vue&theme=dark"
+  src="https://codesandbox.io/embed/tiptap-vue-3-issue-template-9bqq0z?fontsize=14&hidenavigation=1&theme=dark"
   style="width:100%; height:400px; border:0; border-radius: 4px; overflow:hidden;"
   title="tiptap-issue-template"
   sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"

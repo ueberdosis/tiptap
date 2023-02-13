@@ -18,7 +18,7 @@ When you’ll work with the provided extensions only, you don’t have to care t
 // the underlying ProseMirror schema
 {
   nodes: {
-    document: {
+    doc: {
       content: 'block+',
     },
     paragraph: {

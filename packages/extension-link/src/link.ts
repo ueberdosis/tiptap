@@ -1,6 +1,6 @@
 import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
-import { Plugin } from 'prosemirror-state'
 
 import { autolink } from './helpers/autolink'
 import { clickHandler } from './helpers/clickHandler'
@@ -10,29 +10,29 @@ export interface LinkOptions {
   /**
    * If enabled, it adds links as you type.
    */
-  autolink: boolean,
+  autolink: boolean
   /**
    * An array of custom protocols to be registered with linkifyjs.
    */
-  protocols: Array<string>,
+  protocols: Array<string>
   /**
    * If enabled, links will be opened on click.
    */
-  openOnClick: boolean,
+  openOnClick: boolean
   /**
    * Adds a link to the current selection if the pasted content only contains an url.
    */
-  linkOnPaste: boolean,
+  linkOnPaste: boolean
   /**
    * A list of HTML attributes to be rendered.
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
   /**
    * A validation function that modifies link verification for the auto linker.
    * @param url - The url to be validated.
    * @returns - True if the url is valid, false otherwise.
    */
-  validate?: (url: string) => boolean,
+  validate?: (url: string) => boolean
 }
 
 declare module '@tiptap/core' {
@@ -41,15 +41,15 @@ declare module '@tiptap/core' {
       /**
        * Set a link mark
        */
-      setLink: (attributes: { href: string, target?: string | null }) => ReturnType,
+      setLink: (attributes: { href: string; target?: string | null }) => ReturnType
       /**
        * Toggle a link mark
        */
-      toggleLink: (attributes: { href: string, target?: string | null }) => ReturnType,
+      toggleLink: (attributes: { href: string; target?: string | null }) => ReturnType
       /**
        * Unset a link mark
        */
-      unsetLink: () => ReturnType,
+      unsetLink: () => ReturnType
     }
   }
 }
@@ -103,41 +103,35 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   parseHTML() {
-    return [
-      { tag: 'a[href]:not([href *= "javascript:" i])' },
-    ]
+    return [{ tag: 'a[href]:not([href *= "javascript:" i])' }]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      'a',
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0,
-    ]
+    return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {
     return {
-      setLink: attributes => ({ chain }) => {
-        return chain()
-          .setMark(this.name, attributes)
-          .setMeta('preventAutolink', true)
-          .run()
-      },
+      setLink:
+        attributes => ({ chain }) => {
+          return chain().setMark(this.name, attributes).setMeta('preventAutolink', true).run()
+        },
 
-      toggleLink: attributes => ({ chain }) => {
-        return chain()
-          .toggleMark(this.name, attributes, { extendEmptyMarkRange: true })
-          .setMeta('preventAutolink', true)
-          .run()
-      },
+      toggleLink:
+        attributes => ({ chain }) => {
+          return chain()
+            .toggleMark(this.name, attributes, { extendEmptyMarkRange: true })
+            .setMeta('preventAutolink', true)
+            .run()
+        },
 
-      unsetLink: () => ({ chain }) => {
-        return chain()
-          .unsetMark(this.name, { extendEmptyMarkRange: true })
-          .setMeta('preventAutolink', true)
-          .run()
-      },
+      unsetLink:
+        () => ({ chain }) => {
+          return chain()
+            .unsetMark(this.name, { extendEmptyMarkRange: true })
+            .setMeta('preventAutolink', true)
+            .run()
+        },
     }
   },
 
@@ -170,23 +164,29 @@ export const Link = Mark.create<LinkOptions>({
     const plugins: Plugin[] = []
 
     if (this.options.autolink) {
-      plugins.push(autolink({
-        type: this.type,
-        validate: this.options.validate,
-      }))
+      plugins.push(
+        autolink({
+          type: this.type,
+          validate: this.options.validate,
+        }),
+      )
     }
 
     if (this.options.openOnClick) {
-      plugins.push(clickHandler({
-        type: this.type,
-      }))
+      plugins.push(
+        clickHandler({
+          type: this.type,
+        }),
+      )
     }
 
     if (this.options.linkOnPaste) {
-      plugins.push(pasteHandler({
-        editor: this.editor,
-        type: this.type,
-      }))
+      plugins.push(
+        pasteHandler({
+          editor: this.editor,
+          type: this.type,
+        }),
+      )
     }
 
     return plugins

@@ -1,6 +1,6 @@
 // @ts-ignore
 // TODO: add types to @types/prosemirror-commands
-import { selectTextblockEnd as originalSelectTextblockEnd } from 'prosemirror-commands'
+import { selectTextblockEnd as originalSelectTextblockEnd } from '@tiptap/pm/commands'
 
 import { RawCommands } from '../types'
 
@@ -10,7 +10,7 @@ declare module '@tiptap/core' {
       /**
        * Moves the cursor to the end of current text block.
        */
-      selectTextblockEnd: () => ReturnType,
+      selectTextblockEnd: () => ReturnType
     }
   }
 }

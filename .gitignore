@@ -26,3 +26,7 @@ tests/cypress/videos
 /tests/cypress/screenshots
 # Ignore intellij project files
 .idea
+
+# packaged files
+packages/**/*.tgz
+demos/*.tgz

@@ -1,5 +1,5 @@
-import { setBlockType } from 'prosemirror-commands'
-import { NodeType } from 'prosemirror-model'
+import { setBlockType } from '@tiptap/pm/commands'
+import { NodeType } from '@tiptap/pm/model'
 
 import { getNodeType } from '../helpers/getNodeType'
 import { RawCommands } from '../types'
@@ -10,7 +10,7 @@ declare module '@tiptap/core' {
       /**
        * Replace a given range with a node.
        */
-      setNode: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType,
+      setNode: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType
     }
   }
 }
@@ -25,19 +25,21 @@ export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => 
     return false
   }
 
-  return chain()
+  return (
+    chain()
     // try to convert node to default node if needed
-    .command(({ commands }) => {
-      const canSetBlock = setBlockType(type, attributes)(state)
+      .command(({ commands }) => {
+        const canSetBlock = setBlockType(type, attributes)(state)
 
-      if (canSetBlock) {
-        return true
-      }
+        if (canSetBlock) {
+          return true
+        }
 
-      return commands.clearNodes()
-    })
-    .command(({ state: updatedState }) => {
-      return setBlockType(type, attributes)(updatedState, dispatch)
-    })
-    .run()
+        return commands.clearNodes()
+      })
+      .command(({ state: updatedState }) => {
+        return setBlockType(type, attributes)(updatedState, dispatch)
+      })
+      .run()
+  )
 }

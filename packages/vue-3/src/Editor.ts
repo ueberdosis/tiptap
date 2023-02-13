@@ -1,5 +1,5 @@
 import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
-import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
+import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import {
   ComponentInternalInstance,
   ComponentPublicInstance,
@@ -34,7 +34,7 @@ function useDebouncedRef<T>(value: T) {
 }
 
 export type ContentComponent = ComponentInternalInstance & {
-  ctx: ComponentPublicInstance,
+  ctx: ComponentPublicInstance
 }
 
 export class Editor extends CoreEditor {
@@ -61,21 +61,20 @@ export class Editor extends CoreEditor {
   }
 
   get state() {
-    return this.reactiveState
-      ? this.reactiveState.value
-      : this.view.state
+    return this.reactiveState ? this.reactiveState.value : this.view.state
   }
 
   get storage() {
-    return this.reactiveExtensionStorage
-      ? this.reactiveExtensionStorage.value
-      : super.storage
+    return this.reactiveExtensionStorage ? this.reactiveExtensionStorage.value : super.storage
   }
 
   /**
    * Register a ProseMirror plugin.
    */
-  public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]): void {
+  public registerPlugin(
+    plugin: Plugin,
+    handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
+  ): void {
     super.registerPlugin(plugin, handlePlugins)
     this.reactiveState.value = this.view.state
   }
