@@ -132,21 +132,22 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
   return (
     chain()
     // try to convert node to default node if needed
-    .command(() => {
-      const canWrapInList = can().wrapInList(listType)
+      .command(() => {
+        const canWrapInList = can().wrapInList(listType)
 
-      const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
+        const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
 
-      tr.ensureMarks(filteredMarks)
+        tr.ensureMarks(filteredMarks)
 
-      if (canWrapInList) {
-        return true
-      }
+        if (canWrapInList) {
+          return true
+        }
 
-      return commands.clearNodes()
-    })
-    .wrapInList(listType)
-    .command(() => joinListBackwards(tr, listType))
-    .command(() => joinListForwards(tr, listType))
-    .run()
+        return commands.clearNodes()
+      })
+      .wrapInList(listType)
+      .command(() => joinListBackwards(tr, listType))
+      .command(() => joinListForwards(tr, listType))
+      .run()
+  )
 }
