@@ -5,7 +5,6 @@ import { canJoin } from '@tiptap/pm/transform'
 import { findParentNode } from '../helpers/findParentNode'
 import { getNodeType } from '../helpers/getNodeType'
 import { isList } from '../helpers/isList'
-import { Mark } from '../Mark'
 import { RawCommands } from '../types'
 
 const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
@@ -79,7 +78,7 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
   const { $from, $to } = selection
   const range = $from.blockRange($to)
 
-  const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks()) as Mark[]
+  const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
 
   if (!range) {
     return false
