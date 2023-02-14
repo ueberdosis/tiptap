@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.217](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.216...v2.0.0-beta.217) (2023-02-09)
+
+
+### Bug Fixes
+
+* **bubble-menu:** exclude lodash/debounce from externals ([516f28f](https://github.com/ueberdosis/tiptap/commit/516f28f788651b88a03136220334b6dd0f8b235f))
+
+
+
+
+
+# [2.0.0-beta.216](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.215...v2.0.0-beta.216) (2023-02-08)
+
+
+### Bug Fixes
+
+* **bubble-menu:** fix lodash import ([06a3d63](https://github.com/ueberdosis/tiptap/commit/06a3d6300d9debcd4cfc70f5717cfaf9ae988a3c))
+
+
+
+
+
+# [2.0.0-beta.215](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.214...v2.0.0-beta.215) (2023-02-08)
+
+
+### Bug Fixes
+
+* fix builds including prosemirror ([a380ec4](https://github.com/ueberdosis/tiptap/commit/a380ec41d198ebacc80cea9e79b0a8aa3092618a))
+
+
+
+
+
+# [2.0.0-beta.214](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.213...v2.0.0-beta.214) (2023-02-08)
+
+
+### Bug Fixes
+
+* **bubble-menu:** move from lodash-es back to lodash, use named import ([e958128](https://github.com/ueberdosis/tiptap/commit/e9581283af8f491926a338fb572c69700861dd84))
+
+
+
+
+
 # [2.0.0-beta.213](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.212...v2.0.0-beta.213) (2023-02-07)
 
 
