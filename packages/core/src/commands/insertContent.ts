@@ -1,4 +1,4 @@
-import { ParseOptions } from 'prosemirror-model'
+import { ParseOptions } from '@tiptap/pm/model'
 
 import { Content, RawCommands } from '../types'
 
@@ -11,14 +11,18 @@ declare module '@tiptap/core' {
       insertContent: (
         value: Content,
         options?: {
-          parseOptions?: ParseOptions,
-          updateSelection?: boolean,
+          parseOptions?: ParseOptions
+          updateSelection?: boolean
         },
-      ) => ReturnType,
+      ) => ReturnType
     }
   }
 }
 
 export const insertContent: RawCommands['insertContent'] = (value, options) => ({ tr, commands }) => {
-  return commands.insertContentAt({ from: tr.selection.from, to: tr.selection.to }, value, options)
+  return commands.insertContentAt(
+    { from: tr.selection.from, to: tr.selection.to },
+    value,
+    options,
+  )
 }

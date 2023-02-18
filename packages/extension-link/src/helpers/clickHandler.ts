@@ -1,9 +1,9 @@
 import { getAttributes } from '@tiptap/core'
-import { MarkType } from 'prosemirror-model'
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { MarkType } from '@tiptap/pm/model'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type ClickHandlerOptions = {
-  type: MarkType,
+  type: MarkType
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {
@@ -14,8 +14,11 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         const attrs = getAttributes(view.state, options.type.name)
         const link = (event.target as HTMLElement)?.closest('a')
 
-        if (link && attrs.href) {
-          window.open(attrs.href, attrs.target)
+        const href = link?.href ?? attrs.href
+        const target = link?.target ?? attrs.target
+
+        if (link && href) {
+          window.open(href, target)
 
           return true
         }

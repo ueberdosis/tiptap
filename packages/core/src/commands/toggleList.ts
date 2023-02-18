@@ -1,6 +1,6 @@
-import { NodeType } from 'prosemirror-model'
-import { Transaction } from 'prosemirror-state'
-import { canJoin } from 'prosemirror-transform'
+import { NodeType } from '@tiptap/pm/model'
+import { Transaction } from '@tiptap/pm/state'
+import { canJoin } from '@tiptap/pm/transform'
 
 import { findParentNode } from '../helpers/findParentNode'
 import { getNodeType } from '../helpers/getNodeType'
@@ -21,8 +21,7 @@ const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
   }
 
   const nodeBefore = tr.doc.nodeAt(before)
-  const canJoinBackwards = list.node.type === nodeBefore?.type
-    && canJoin(tr.doc, list.pos)
+  const canJoinBackwards = list.node.type === nodeBefore?.type && canJoin(tr.doc, list.pos)
 
   if (!canJoinBackwards) {
     return true
@@ -47,8 +46,7 @@ const joinListForwards = (tr: Transaction, listType: NodeType): boolean => {
   }
 
   const nodeAfter = tr.doc.nodeAt(after)
-  const canJoinForwards = list.node.type === nodeAfter?.type
-    && canJoin(tr.doc, after)
+  const canJoinForwards = list.node.type === nodeAfter?.type && canJoin(tr.doc, after)
 
   if (!canJoinForwards) {
     return true
@@ -65,7 +63,10 @@ declare module '@tiptap/core' {
       /**
        * Toggle between different list types.
        */
-      toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType) => ReturnType,
+      toggleList: (
+        listTypeOrName: string | NodeType,
+        itemTypeOrName: string | NodeType,
+      ) => ReturnType
     }
   }
 }
@@ -95,8 +96,8 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
     // change list type
     if (
       isList(parentList.node.type.name, extensions)
-      && listType.validContent(parentList.node.content)
-      && dispatch
+        && listType.validContent(parentList.node.content)
+        && dispatch
     ) {
       return chain()
         .command(() => {
@@ -110,19 +111,21 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
     }
   }
 
-  return chain()
+  return (
+    chain()
     // try to convert node to default node if needed
-    .command(() => {
-      const canWrapInList = can().wrapInList(listType)
+      .command(() => {
+        const canWrapInList = can().wrapInList(listType)
 
-      if (canWrapInList) {
-        return true
-      }
+        if (canWrapInList) {
+          return true
+        }
 
-      return commands.clearNodes()
-    })
-    .wrapInList(listType)
-    .command(() => joinListBackwards(tr, listType))
-    .command(() => joinListForwards(tr, listType))
-    .run()
+        return commands.clearNodes()
+      })
+      .wrapInList(listType)
+      .command(() => joinListBackwards(tr, listType))
+      .command(() => joinListForwards(tr, listType))
+      .run()
+  )
 }

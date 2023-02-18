@@ -1,13 +1,12 @@
-import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
-import { canSplit } from 'prosemirror-transform'
+import { EditorState, NodeSelection, TextSelection } from '@tiptap/pm/state'
+import { canSplit } from '@tiptap/pm/transform'
 
 import { defaultBlockAt } from '../helpers/defaultBlockAt'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes'
 import { RawCommands } from '../types'
 
 function ensureMarks(state: EditorState, splittableMarks?: string[]) {
-  const marks = state.storedMarks
-    || (state.selection.$to.parentOffset && state.selection.$from.marks())
+  const marks = state.storedMarks || (state.selection.$to.parentOffset && state.selection.$from.marks())
 
   if (marks) {
     const filteredMarks = marks.filter(mark => splittableMarks?.includes(mark.type.name))
@@ -22,16 +21,13 @@ declare module '@tiptap/core' {
       /**
        * Forks a new node from an existing node.
        */
-      splitBlock: (options?: { keepMarks?: boolean }) => ReturnType,
+      splitBlock: (options?: { keepMarks?: boolean }) => ReturnType
     }
   }
 }
 
 export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {}) => ({
-  tr,
-  state,
-  dispatch,
-  editor,
+  tr, state, dispatch, editor,
 }) => {
   const { selection, doc } = tr
   const { $from, $to } = selection
@@ -74,37 +70,36 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
       : defaultBlockAt($from.node(-1).contentMatchAt($from.indexAfter(-1)))
 
     let types = atEnd && deflt
-      ? [{
-        type: deflt,
-        attrs: newAttributes,
-      }]
+      ? [
+        {
+          type: deflt,
+          attrs: newAttributes,
+        },
+      ]
       : undefined
 
     let can = canSplit(tr.doc, tr.mapping.map($from.pos), 1, types)
 
     if (
       !types
-      && !can
-      && canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : undefined)
+        && !can
+        && canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : undefined)
     ) {
       can = true
       types = deflt
-        ? [{
-          type: deflt,
-          attrs: newAttributes,
-        }]
+        ? [
+          {
+            type: deflt,
+            attrs: newAttributes,
+          },
+        ]
         : undefined
     }
 
     if (can) {
       tr.split(tr.mapping.map($from.pos), 1, types)
 
-      if (
-        deflt
-        && !atEnd
-        && !$from.parentOffset
-        && $from.parent.type !== deflt
-      ) {
+      if (deflt && !atEnd && !$from.parentOffset && $from.parent.type !== deflt) {
         const first = tr.mapping.map($from.before())
         const $first = tr.doc.resolve(first)
 

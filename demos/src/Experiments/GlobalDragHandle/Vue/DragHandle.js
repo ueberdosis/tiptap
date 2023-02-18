@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
-import { NodeSelection, Plugin } from 'prosemirror-state'
-import { __serializeForClipboard as serializeForClipboard } from 'prosemirror-view'
+import { NodeSelection, Plugin } from '@tiptap/pm/state'
+import { __serializeForClipboard as serializeForClipboard } from '@tiptap/pm/view'
 
 function removeNode(node) {
   node.parentNode.removeChild(node)
@@ -25,7 +25,8 @@ export default Extension.create({
       node = node.node
 
       while (node && node.parentNode) {
-        if (node.parentNode?.classList?.contains('ProseMirror')) { // todo
+        if (node.parentNode?.classList?.contains('ProseMirror')) {
+          // todo
           break
         }
 
@@ -131,7 +132,8 @@ export default Extension.create({
                 if (node) {
                   node = node.node
                   while (node && node.parentNode) {
-                    if (node.parentNode?.classList?.contains('ProseMirror')) { // todo
+                    if (node.parentNode?.classList?.contains('ProseMirror')) {
+                      // todo
                       break
                     }
                     node = node.parentNode
@@ -145,7 +147,7 @@ export default Extension.create({
                     const rect = absoluteRect(node)
                     const win = node.ownerDocument.defaultView
 
-                    rect.top += win.pageYOffset + ((lineHeight - 24) / 2) + top
+                    rect.top += win.pageYOffset + (lineHeight - 24) / 2 + top
                     rect.left += win.pageXOffset
                     rect.width = `${WIDTH}px`
 

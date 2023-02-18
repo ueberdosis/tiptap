@@ -25,12 +25,8 @@ WebRTC uses a server only to connect clients with each other. The actual data is
 First, install the dependencies:
 
 ```bash
-npm install @tiptap/extension-collaboration yjs y-webrtc
+npm install @tiptap/extension-collaboration yjs y-webrtc y-prosemirror
 ```
-
-:::warning Are you using Yarn, pNPM, npm 6 or less?
-Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-collaboration) which packages are needed and how to install them.
-:::
 
 Now, create a new Y document, and register it with Tiptap:
 
@@ -75,12 +71,8 @@ For most uses cases, a WebSocket provider is the recommended choice. It’s very
 For the client, the example is nearly the same, only the provider is different. First, let’s install the dependencies:
 
 ```bash
-npm install @tiptap/extension-collaboration @hocuspocus/provider
+npm install @tiptap/extension-collaboration @hocuspocus/provider y-prosemirror
 ```
-
-:::warning Are you using Yarn, pNPM, npm 6 or less?
-Unfortunately your package manager does not install peer dependencies automatically and you have to install them by your own. Please [see here](https://tiptap.dev/installation/peer-dependencies#tiptapextension-collaboration) which packages are needed and how to install them.
-:::
 
 And then register the WebSocket provider with Tiptap:
 
@@ -293,7 +285,7 @@ server.listen()
 ## Pitfalls
 
 ### Schema updates
-tiptap is very strict with the [schema](/api/schema), that means, if you add something that’s not allowed according to the configured schema it’ll be thrown away. That can lead to a strange behaviour when multiple clients with different schemas share changes to a document.
+Tiptap is very strict with the [schema](/api/schema), that means, if you add something that’s not allowed according to the configured schema it’ll be thrown away. That can lead to a strange behaviour when multiple clients with different schemas share changes to a document.
 
 Let’s say you added an editor to your app and the first people use it already. They have all a loaded instance of Tiptap with all default extensions, and therefor a schema that only allows those. But you want to add task lists in the next update, so you add the extension and deploy again.
 

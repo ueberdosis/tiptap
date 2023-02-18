@@ -5,8 +5,8 @@ import {
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import React from 'react'
 
 import { Editor } from './Editor'
@@ -16,15 +16,15 @@ import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeV
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   update:
     | ((props: {
-        oldNode: ProseMirrorNode;
-        oldDecorations: Decoration[];
-        newNode: ProseMirrorNode;
-        newDecorations: Decoration[];
-        updateProps: () => void;
+        oldNode: ProseMirrorNode
+        oldDecorations: Decoration[]
+        newNode: ProseMirrorNode
+        newDecorations: Decoration[]
+        updateProps: () => void
       }) => boolean)
-    | null;
-  as?: string;
-  className?: string;
+    | null
+  as?: string
+  className?: string
 }
 
 class ReactNodeView extends NodeView<
@@ -66,9 +66,13 @@ class ReactNodeView extends NodeView<
       }
 
       return (
-        <ReactNodeViewContext.Provider value={{ onDragStart, nodeViewContentRef }}>
-          <Component {...componentProps} />
-        </ReactNodeViewContext.Provider>
+        <>
+          {/* @ts-ignore */}
+          <ReactNodeViewContext.Provider value={{ onDragStart, nodeViewContentRef }}>
+            {/* @ts-ignore */}
+            <Component {...componentProps} />
+          </ReactNodeViewContext.Provider>
+        </>
       )
     }
 

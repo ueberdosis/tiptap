@@ -1,5 +1,5 @@
 import { Extensions, getSchema, JSONContent } from '@tiptap/core'
-import { Node } from 'prosemirror-model'
+import { Node } from '@tiptap/pm/model'
 
 import { getHTMLFromFragment } from './getHTMLFromFragment'
 

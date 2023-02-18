@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/suggestion",
   "description": "suggestion plugin for tiptap",
-  "version": "2.0.0-beta.209",
+  "version": "2.0.0-beta.218",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,29 +12,37 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-suggestion.cjs",
-  "umd": "dist/tiptap-suggestion.umd.js",
-  "module": "dist/tiptap-suggestion.esm.js",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/suggestion/src/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
   "types": "dist/packages/suggestion/src/index.d.ts",
+  "type": "module",
   "files": [
     "src",
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193",
-    "prosemirror-model": "^1.18.1",
-    "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2"
+    "@tiptap/core": "^2.0.0-beta.209",
+    "@tiptap/pm": "^2.0.0-beta.209"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.209",
-    "prosemirror-model": "^1.18.1",
-    "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2"
+    "@tiptap/core": "^2.0.0-beta.218",
+    "@tiptap/pm": "^2.0.0-beta.218"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/suggestion"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }

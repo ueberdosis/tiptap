@@ -1,5 +1,5 @@
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 export interface TaskItemOptions {
   onReadOnlyChecked?: (node: ProseMirrorNode, checked: boolean) => boolean

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-document",
   "description": "document extension for tiptap",
-  "version": "2.0.0-beta.209",
+  "version": "2.0.0-beta.218",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -16,27 +16,31 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-document/src/index.d.ts",
-      "import": "./dist/tiptap-extension-document.esm.js",
-      "require": "./dist/tiptap-extension-document.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/tiptap-extension-document.cjs",
-  "umd": "dist/tiptap-extension-document.umd.js",
-  "module": "dist/tiptap-extension-document.esm.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
   "types": "dist/packages/extension-document/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193"
+    "@tiptap/core": "^2.0.0-beta.209"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.209"
+    "@tiptap/core": "^2.0.0-beta.218"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-document"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }

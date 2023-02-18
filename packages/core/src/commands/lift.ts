@@ -1,5 +1,5 @@
-import { lift as originalLift } from 'prosemirror-commands'
-import { NodeType } from 'prosemirror-model'
+import { lift as originalLift } from '@tiptap/pm/commands'
+import { NodeType } from '@tiptap/pm/model'
 
 import { getNodeType } from '../helpers/getNodeType'
 import { isNodeActive } from '../helpers/isNodeActive'
@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
       /**
        * Removes an existing wrap.
        */
-      lift: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType,
+      lift: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType
     }
   }
 }

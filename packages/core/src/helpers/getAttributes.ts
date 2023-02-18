@@ -1,5 +1,5 @@
-import { MarkType, NodeType } from 'prosemirror-model'
-import { EditorState } from 'prosemirror-state'
+import { MarkType, NodeType } from '@tiptap/pm/model'
+import { EditorState } from '@tiptap/pm/state'
 
 import { getMarkAttributes } from './getMarkAttributes'
 import { getNodeAttributes } from './getNodeAttributes'
@@ -10,9 +10,7 @@ export function getAttributes(
   typeOrName: string | NodeType | MarkType,
 ): Record<string, any> {
   const schemaType = getSchemaTypeNameByName(
-    typeof typeOrName === 'string'
-      ? typeOrName
-      : typeOrName.name,
+    typeof typeOrName === 'string' ? typeOrName : typeOrName.name,
     state.schema,
   )
 

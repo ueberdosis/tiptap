@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-link",
   "description": "link extension for tiptap",
-  "version": "2.0.0-beta.209",
+  "version": "2.0.0-beta.218",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -16,27 +16,25 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-link/src/index.d.ts",
-      "import": "./dist/tiptap-extension-link.esm.js",
-      "require": "./dist/tiptap-extension-link.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/tiptap-extension-link.cjs",
-  "umd": "dist/tiptap-extension-link.umd.js",
-  "module": "dist/tiptap-extension-link.esm.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
   "types": "dist/packages/extension-link/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193",
-    "prosemirror-model": "^1.18.1",
-    "prosemirror-state": "^1.4.1"
+    "@tiptap/core": "^2.0.0-beta.209",
+    "@tiptap/pm": "^2.0.0-beta.209"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.209",
-    "prosemirror-model": "^1.18.1",
-    "prosemirror-state": "^1.4.1"
+    "@tiptap/core": "^2.0.0-beta.218",
+    "@tiptap/pm": "^2.0.0-beta.218"
   },
   "dependencies": {
     "linkifyjs": "^3.0.5"
@@ -45,5 +43,9 @@
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-link"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }

@@ -120,7 +120,7 @@ addCommands() {
 If you’re just wrapping a plain ProseMirror command, you’ll need to pass `dispatch` anyway. Then there’s also no need to check it:
 
 ```js
-import { exitCode } from 'prosemirror-commands'
+import { exitCode } from '@tiptap/pm/commands'
 
 export default () => ({ state, dispatch }) => {
   return exitCode(state, dispatch)

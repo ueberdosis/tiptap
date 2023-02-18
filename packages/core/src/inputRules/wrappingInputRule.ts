@@ -1,5 +1,5 @@
-import { Node as ProseMirrorNode, NodeType } from 'prosemirror-model'
-import { canJoin, findWrapping } from 'prosemirror-transform'
+import { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
+import { canJoin, findWrapping } from '@tiptap/pm/transform'
 
 import { InputRule, InputRuleFinder } from '../InputRule'
 import { ExtendedRegExpMatchArray } from '../types'
@@ -20,15 +20,14 @@ import { callOrReturn } from '../utilities/callOrReturn'
  * return a boolean to indicate whether a join should happen.
  */
 export function wrappingInputRule(config: {
-  find: InputRuleFinder,
-  type: NodeType,
+  find: InputRuleFinder
+  type: NodeType
   getAttributes?:
     | Record<string, any>
     | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
     | null
-  ,
-  joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean,
+  joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean
 }) {
   return new InputRule({
     find: config.find,

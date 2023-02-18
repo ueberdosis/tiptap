@@ -57,8 +57,8 @@ const CustomExtension = Extension.create<{}, CustomExtensionStorage>({
 
 When using storage outside of the extension you have to manually set the type.
 
-```
-import { CustomExtensionStorage } from './custom-extension
+```ts
+import { CustomExtensionStorage } from './custom-extension'
 
 const customStorage = editor.storage.customExtension as CustomExtensionStorage
 ```

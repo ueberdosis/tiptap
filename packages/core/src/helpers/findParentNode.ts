@@ -1,4 +1,4 @@
-import { Selection } from 'prosemirror-state'
+import { Selection } from '@tiptap/pm/state'
 
 import { Predicate } from '../types'
 import { findParentNodeClosestToPos } from './findParentNodeClosestToPos'
