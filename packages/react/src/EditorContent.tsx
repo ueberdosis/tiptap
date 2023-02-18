@@ -79,7 +79,9 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
     // lifecycle methods, and React doesn't allow calling flushSync from inside
     // a lifecycle method.
     if (this.initialized) {
-      flushSync(fn)
+      queueMicrotask(() => {
+        flushSync(fn)        
+      })
     } else {
       fn()
     }
