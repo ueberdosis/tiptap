@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.218](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.217...v2.0.0-beta.218) (2023-02-18)
+
+
+### Bug Fixes
+
+* **typography:** dont create fractions in the middle of a string ([#3762](https://github.com/ueberdosis/tiptap/issues/3762)) ([7ad54ea](https://github.com/ueberdosis/tiptap/commit/7ad54ea86a265c07bc94606cfd4724a00befaf3f))
+
+
+
+
+
 # [2.0.0-beta.217](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.216...v2.0.0-beta.217) (2023-02-09)
 
 **Note:** Version bump only for package @tiptap/extension-typography

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.218](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.217...v2.0.0-beta.218) (2023-02-18)
+
+
+### Bug Fixes
+
+* **extension-link:** Click handler opens selected link instead of clicked link ([#3732](https://github.com/ueberdosis/tiptap/issues/3732)) ([6997bca](https://github.com/ueberdosis/tiptap/commit/6997bcad6b60f78122c605656500c63c96ea2faa))
+
+
+
+
+
 # [2.0.0-beta.217](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.216...v2.0.0-beta.217) (2023-02-09)
 
 **Note:** Version bump only for package @tiptap/extension-link

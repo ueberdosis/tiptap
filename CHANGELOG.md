@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.218](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.217...v2.0.0-beta.218) (2023-02-18)
+
+
+### Bug Fixes
+
+* **extension-link:** Click handler opens selected link instead of clicked link ([#3732](https://github.com/ueberdosis/tiptap/issues/3732)) ([6997bca](https://github.com/ueberdosis/tiptap/commit/6997bcad6b60f78122c605656500c63c96ea2faa))
+* Prevent drag event from being ignored ([#3677](https://github.com/ueberdosis/tiptap/issues/3677)) ([2b6e4e3](https://github.com/ueberdosis/tiptap/commit/2b6e4e369130466387ab1136e10ad64f6e37df5b))
+* **typography:** dont create fractions in the middle of a string ([#3762](https://github.com/ueberdosis/tiptap/issues/3762)) ([7ad54ea](https://github.com/ueberdosis/tiptap/commit/7ad54ea86a265c07bc94606cfd4724a00befaf3f))
+
+
+
+
+
 # [2.0.0-beta.217](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.216...v2.0.0-beta.217) (2023-02-09)
 
 
