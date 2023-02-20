@@ -36,6 +36,10 @@ export interface CollaborationOptions {
    * A raw Y.js fragment, can be used instead of `document` and `field`.
    */
   fragment: any,
+  /**
+   * Fired when the content from Yjs is initially rendered to tiptap.
+   */
+  onFirstRender?: () => void,
 }
 
 export const Collaboration = Extension.create<CollaborationOptions>({
@@ -106,7 +110,11 @@ export const Collaboration = Extension.create<CollaborationOptions>({
       : this.options.document.getXmlFragment(this.options.field)
 
     return [
-      ySyncPlugin(fragment),
+      ySyncPlugin(fragment, {
+        onFirstRender: () => {
+          this.options.onFirstRender?.apply(this)
+        },
+      }),
       yUndoPlugin(),
     ]
   },

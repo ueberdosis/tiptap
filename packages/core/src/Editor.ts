@@ -426,8 +426,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     return getText(this.state.doc, {
       blockSeparator,
       textSerializers: {
-        ...textSerializers,
         ...getTextSerializersFromSchema(this.schema),
+        ...textSerializers,
       },
     })
   }

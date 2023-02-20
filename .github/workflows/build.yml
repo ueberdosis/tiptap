@@ -23,15 +23,15 @@ jobs:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.3.0
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.5.1
+        uses: actions/setup-node@v3.6.0
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Load cached dependencies
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v3.2.5
         id: cache
         with:
           path: |
@@ -60,7 +60,7 @@ jobs:
         run: npm run lint
 
       - name: Send Slack notifications
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         if: failure()
         with:
           status: ${{ job.status }}
@@ -78,10 +78,10 @@ jobs:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.3.0
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.5.1
+        uses: actions/setup-node@v3.6.0
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -105,7 +105,7 @@ jobs:
           quiet: true
 
       - name: Export screenshots (on failure only)
-        uses: actions/upload-artifact@v3.1.0
+        uses: actions/upload-artifact@v3.1.2
         if: failure()
         with:
           name: cypress-screenshots
@@ -113,7 +113,7 @@ jobs:
           retention-days: 7
 
       - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v3.1.0
+        uses: actions/upload-artifact@v3.1.2
         if: failure()
         with:
           name: cypress-videos
@@ -121,7 +121,7 @@ jobs:
           retention-days: 7
 
       - name: Send Slack notifications
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         if: failure()
         with:
           status: ${{ job.status }}
@@ -141,15 +141,15 @@ jobs:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.3.0
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.5.1
+        uses: actions/setup-node@v3.6.0
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Load cached dependencies
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v3.2.5
         id: cache
         with:
           path: |
@@ -167,7 +167,7 @@ jobs:
         run: npm run build:ci
 
       - name: Send Slack notifications
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         if: failure()
         with:
           status: ${{ job.status }}
