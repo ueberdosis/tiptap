@@ -1,6 +1,6 @@
 import { NodeType } from '@tiptap/pm/model'
 
-import { PasteRule } from '../PasteRule'
+import { PasteRule, PasteRuleFinder } from '../PasteRule'
 import { ExtendedRegExpMatchArray } from '../types'
 import { callOrReturn } from '../utilities'
 
@@ -9,7 +9,7 @@ import { callOrReturn } from '../utilities'
  * matched text is pasted into it.
  */
 export function nodePasteRule(config: {
-  find: RegExp
+  find: PasteRuleFinder
   type: NodeType
   getAttributes?:
     | Record<string, any>
