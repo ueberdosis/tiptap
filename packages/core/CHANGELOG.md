@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.218](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.217...v2.0.0-beta.218) (2023-02-18)
+
+
+### Bug Fixes
+
+* Prevent drag event from being ignored ([#3677](https://github.com/ueberdosis/tiptap/issues/3677)) ([2b6e4e3](https://github.com/ueberdosis/tiptap/commit/2b6e4e369130466387ab1136e10ad64f6e37df5b))
+
+
+
+
+
 # [2.0.0-beta.217](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.216...v2.0.0-beta.217) (2023-02-09)
 
 **Note:** Version bump only for package @tiptap/core

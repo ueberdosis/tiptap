@@ -1,6 +1,6 @@
 import { Editor, Extension } from '@tiptap/core'
 import { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import { Plugin } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 export interface PlaceholderOptions {
@@ -36,6 +36,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
   addProseMirrorPlugins() {
     return [
       new Plugin({
+        key: new PluginKey('placeholder'),
         props: {
           decorations: ({ doc, selection }) => {
             const active = this.editor.isEditable || !this.options.showOnlyWhenEditable

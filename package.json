@@ -10,8 +10,8 @@
   ],
   "scripts": {
     "start": "npm --prefix ./demos run start",
-    "lint": "eslint --quiet --no-error-on-unmatched-pattern ./",
-    "lint:fix": "eslint --fix --quiet --no-error-on-unmatched-pattern ./",
+    "lint": "eslint --cache --quiet --no-error-on-unmatched-pattern ./",
+    "lint:fix": "eslint --fix --cache --quiet --no-error-on-unmatched-pattern ./",
     "lint:staged": "lint-staged",
     "test:open": "npm run build:pm && cypress open --project tests",
     "test": "npm run build:pm && cypress run --project tests",

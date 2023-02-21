@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code",
   "description": "code extension for tiptap",
-  "version": "2.0.0-beta.217",
+  "version": "2.0.0-beta.218",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -32,7 +32,7 @@
     "@tiptap/core": "^2.0.0-beta.209"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.217"
+    "@tiptap/core": "^2.0.0-beta.218"
   },
   "repository": {
     "type": "git",

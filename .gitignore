@@ -7,6 +7,7 @@ dist
 .env
 .env.*
 .npmrc
+.eslintcache
 
 # Log files
 npm-debug.log*
