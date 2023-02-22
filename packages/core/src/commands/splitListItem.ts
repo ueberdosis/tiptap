@@ -130,7 +130,19 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
   }
 
   if (dispatch) {
+    const { selection, storedMarks } = state
+    const { splittableMarks } = editor.extensionManager
+    const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
+
     tr.split($from.pos, 2, types).scrollIntoView()
+
+    if (!marks || !dispatch) {
+      return true
+    }
+
+    const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
+
+    tr.ensureMarks(filteredMarks)
   }
 
   return true

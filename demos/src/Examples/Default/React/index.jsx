@@ -1,5 +1,8 @@
 import './styles.scss'
 
+import { Color } from '@tiptap/extension-color'
+import ListItem from '@tiptap/extension-list-item'
+import TextStyle from '@tiptap/extension-text-style'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
@@ -165,6 +168,12 @@ const MenuBar = ({ editor }) => {
       >
         redo
       </button>
+      <button
+        onClick={() => editor.chain().focus().setColor('#958DF1').run()}
+        className={editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''}
+      >
+        purple
+      </button>
     </>
   )
 }
@@ -172,7 +181,18 @@ const MenuBar = ({ editor }) => {
 export default () => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      Color.configure({ types: [TextStyle.name, ListItem.name] }),
+      TextStyle.configure({ types: [ListItem.name] }),
+      StarterKit.configure({
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+        },
+      }),
     ],
     content: `
       <h2>

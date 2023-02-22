@@ -1,6 +1,7 @@
 import { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
 import { canJoin, findWrapping } from '@tiptap/pm/transform'
 
+import { Editor } from '../Editor'
 import { InputRule, InputRuleFinder } from '../InputRule'
 import { ExtendedRegExpMatchArray } from '../types'
 import { callOrReturn } from '../utilities/callOrReturn'
@@ -20,18 +21,24 @@ import { callOrReturn } from '../utilities/callOrReturn'
  * return a boolean to indicate whether a join should happen.
  */
 export function wrappingInputRule(config: {
-  find: InputRuleFinder
-  type: NodeType
+  find: InputRuleFinder,
+  type: NodeType,
+  keepMarks?: boolean,
+  keepAttributes?: boolean,
+  editor?: Editor
   getAttributes?:
-    | Record<string, any>
-    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
-    | false
-    | null
-  joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean
+  | Record<string, any>
+  | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
+  | false
+  | null
+  ,
+  joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean,
 }) {
   return new InputRule({
     find: config.find,
-    handler: ({ state, range, match }) => {
+    handler: ({
+      state, range, match, chain,
+    }) => {
       const attributes = callOrReturn(config.getAttributes, undefined, match) || {}
       const tr = state.tr.delete(range.from, range.to)
       const $start = tr.doc.resolve(range.from)
@@ -43,6 +50,24 @@ export function wrappingInputRule(config: {
       }
 
       tr.wrap(blockRange, wrapping)
+
+      if (config.keepMarks && config.editor) {
+        const { selection, storedMarks } = state
+        const { splittableMarks } = config.editor.extensionManager
+        const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
+
+        if (marks) {
+          const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
+
+          tr.ensureMarks(filteredMarks)
+        }
+      }
+      if (config.keepAttributes) {
+        /** If the nodeType is `bulletList` or `orderedList` set the `nodeType` as `listItem` */
+        const nodeType = config.type.name === 'bulletList' || config.type.name === 'orderedList' ? 'listItem' : 'taskList'
+
+        chain().updateAttributes(nodeType, attributes).run()
+      }
 
       const before = tr.doc.resolve(range.from - 1).nodeBefore
 
