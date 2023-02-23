@@ -1,4 +1,5 @@
 import {
+  DecorationWithType,
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
@@ -124,7 +125,7 @@ class ReactNodeView extends NodeView<
     return this.contentDOMElement
   }
 
-  update(node: ProseMirrorNode, decorations: Decoration[]) {
+  update(node: ProseMirrorNode, decorations: DecorationWithType[]) {
     const updateProps = (props?: Record<string, any>) => {
       this.renderer.updateProps(props)
     }

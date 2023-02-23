@@ -1,4 +1,6 @@
-import { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import {
+  Mark as ProseMirrorMark, Node as ProseMirrorNode, NodeType, ParseOptions,
+} from '@tiptap/pm/model'
 import { EditorState, Transaction } from '@tiptap/pm/state'
 import {
   Decoration, EditorProps, EditorView, NodeView,
@@ -148,10 +150,14 @@ export type ValuesOf<T> = T[keyof T]
 
 export type KeysWithTypeOf<T, Type> = { [P in keyof T]: T[P] extends Type ? P : never }[keyof T]
 
+export type DecorationWithType = Decoration & {
+  type: NodeType
+}
+
 export type NodeViewProps = {
   editor: Editor
   node: ProseMirrorNode
-  decorations: Decoration[]
+  decorations: DecorationWithType[]
   selected: boolean
   extension: Node
   getPos: () => number

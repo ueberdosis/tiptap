@@ -1,4 +1,5 @@
 import {
+  DecorationWithType,
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
@@ -133,7 +134,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     return (contentElement || this.dom) as HTMLElement | null
   }
 
-  update(node: ProseMirrorNode, decorations: Decoration[]) {
+  update(node: ProseMirrorNode, decorations: DecorationWithType[]) {
     const updateProps = (props?: Record<string, any>) => {
       this.decorationClasses.value = this.getDecorationClasses()
       this.renderer.updateProps(props)
