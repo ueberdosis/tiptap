@@ -83,6 +83,8 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       // otherwise if it is an array, we have to join it
       if (Array.isArray(value)) {
         tr.insertText(value.map(v => v.text || '').join(''), from, to)
+      } else if (typeof value === 'object' && !!value && !!value.text) {
+        tr.insertText(value.text, from, to)
       } else {
         tr.insertText(value as string, from, to)
       }

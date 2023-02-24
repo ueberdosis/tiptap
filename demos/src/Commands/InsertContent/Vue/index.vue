@@ -3,6 +3,7 @@
     <button @click="insertContentByString">Insert content by string</button>
     <button @click="insertContentByJSON">Insert content by JSON</button>
     <button @click="insertTextByJSON">Insert text by JSON</button>
+    <button @click="insertTextByJSONArray">Insert text by JSON Array</button>
   </div>
   <editor-content :editor="editor" />
 </template>
@@ -70,6 +71,12 @@ export default {
       }).run()
     },
     insertTextByJSON() {
+      this.editor.chain().focus().insertContent({
+        type: 'text',
+        text: 'Hello World',
+      }).run()
+    },
+    insertTextByJSONArray() {
       this.editor.chain().focus().insertContent([{
         type: 'text',
         text: 'Hello',
