@@ -75,7 +75,9 @@ export default {
         currentNode = this.editor.state.doc.nodeAt(this.editor.state.selection.head - 1)
       }
 
-      console.log(getParentNode(currentNode, this.editor))
+      console.log('byNode', getParentNode(currentNode, this.editor))
+      console.log('byNumber', getParentNode(this.editor.state.selection.head, this.editor))
+      console.log('byPos', getParentNode(this.editor.state.selection.$head, this.editor))
     },
   },
 }
