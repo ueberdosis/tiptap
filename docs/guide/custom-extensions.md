@@ -649,5 +649,12 @@ const CustomExtension = Extension.create({
 })
 ```
 
+## Creating and publishing standalone extensions
+
+If you want to create and publish your own extensions for Tiptap, you can use our CLI tool to bootstrap your project.
+Simply run `npm init tiptap-extension` and follow the instructions. The CLI will create a new folder with a pre-configured project for you including a build script running on rollup.
+
+If you want to test your extension locally, you can run `npm link` in the project folder and then `npm link YOUR_EXTENSION` in your project (for example a vite app).
+
 ## Sharing
 When everything is working fine, don’t forget to [share it with the community](https://github.com/ueberdosis/tiptap/issues/819).
