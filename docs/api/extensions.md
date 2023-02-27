@@ -63,4 +63,10 @@ const editor = new Editor({
 })
 ```
 
+You can easily bootstrap a new extension via our CLI.
+
+```bash
+npm init tiptap-extension
+```
+
 Learn [more about custom extensions in our guide](/guide/custom-extensions).
