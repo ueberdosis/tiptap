@@ -177,7 +177,7 @@ export type NodeViewRendererProps = {
   node: ProseMirrorNode
   getPos: (() => number) | boolean
   HTMLAttributes: Record<string, any>
-  decorations: Decoration[]
+  decorations: DecorationWithType[]
   extension: Node
 }
 
