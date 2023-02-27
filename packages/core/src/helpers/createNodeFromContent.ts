@@ -27,7 +27,7 @@ export function createNodeFromContent(
 
   if (typeof content === 'object' && content !== null) {
     try {
-      if (Array.isArray(content)) {
+      if (Array.isArray(content) && content.length > 0) {
         return Fragment.fromArray(content.map(item => schema.nodeFromJSON(item)))
       }
 

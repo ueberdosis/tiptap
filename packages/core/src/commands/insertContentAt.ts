@@ -79,7 +79,15 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
     // if there is only plain text we have to use `insertText`
     // because this will keep the current marks
     if (isOnlyTextContent) {
-      tr.insertText(value as string, from, to)
+      // if value is string, we can use it directly
+      // otherwise if it is an array, we have to join it
+      if (Array.isArray(value)) {
+        tr.insertText(value.map(v => v.text || '').join(''), from, to)
+      } else if (typeof value === 'object' && !!value && !!value.text) {
+        tr.insertText(value.text, from, to)
+      } else {
+        tr.insertText(value as string, from, to)
+      }
     } else {
       tr.replaceWith(from, to, content)
     }

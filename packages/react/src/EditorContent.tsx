@@ -8,22 +8,18 @@ const Portals: React.FC<{ renderers: Record<string, ReactRenderer> }> = ({ rende
   return (
     <>
       {Object.entries(renderers).map(([key, renderer]) => {
-        return ReactDOM.createPortal(
-          renderer.reactElement,
-          renderer.element,
-          key,
-        )
+        return ReactDOM.createPortal(renderer.reactElement, renderer.element, key)
       })}
     </>
   )
 }
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
-  editor: Editor | null,
+  editor: Editor | null;
 }
 
 export interface EditorContentState {
-  renderers: Record<string, ReactRenderer>
+  renderers: Record<string, ReactRenderer>;
 }
 
 export class PureEditorContent extends React.Component<EditorContentProps, EditorContentState> {
@@ -79,7 +75,9 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
     // lifecycle methods, and React doesn't allow calling flushSync from inside
     // a lifecycle method.
     if (this.initialized) {
-      flushSync(fn)
+      queueMicrotask(() => {
+        flushSync(fn)
+      })
     } else {
       fn()
     }
