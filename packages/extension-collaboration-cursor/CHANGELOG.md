@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.219](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.218...v2.0.0-beta.219) (2023-02-27)
+
+
+### Bug Fixes
+
+* move y-prosemirror to peer-deps ([#3763](https://github.com/ueberdosis/tiptap/issues/3763)) ([8bf8fd2](https://github.com/ueberdosis/tiptap/commit/8bf8fd245235e22a904a38b956f3f4902649dd23))
+
+
+
+
+
 # [2.0.0-beta.218](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.217...v2.0.0-beta.218) (2023-02-18)
 
 **Note:** Version bump only for package @tiptap/extension-collaboration-cursor

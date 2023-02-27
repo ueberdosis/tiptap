@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.219](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.218...v2.0.0-beta.219) (2023-02-27)
+
+
+### Bug Fixes
+
+* [#3773](https://github.com/ueberdosis/tiptap/issues/3773) - Array for content breaks editor ([#3786](https://github.com/ueberdosis/tiptap/issues/3786)) ([89cc59a](https://github.com/ueberdosis/tiptap/commit/89cc59a8372467feee7c70948d4395b95b13ed55))
+* **react:** reset initialized when editorcontent is unmounting ([#3781](https://github.com/ueberdosis/tiptap/issues/3781)) ([38b7e41](https://github.com/ueberdosis/tiptap/commit/38b7e412bbcc1e36031bc6ec5b73bc46b1c9edea))
+* update typings for node view decorations ([#3783](https://github.com/ueberdosis/tiptap/issues/3783)) ([f869507](https://github.com/ueberdosis/tiptap/commit/f8695073968c5c6865ad8faf05351020abb2a3cc))
+
+
+
+
+
 # [2.0.0-beta.218](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.217...v2.0.0-beta.218) (2023-02-18)
 
 **Note:** Version bump only for package @tiptap/react

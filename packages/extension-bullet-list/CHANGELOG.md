@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.219](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.218...v2.0.0-beta.219) (2023-02-27)
+
+
+### Features
+
+* [#3540](https://github.com/ueberdosis/tiptap/issues/3540) Ability to preserve marks on lists ([#3541](https://github.com/ueberdosis/tiptap/issues/3541)) ([36bb1e1](https://github.com/ueberdosis/tiptap/commit/36bb1e1041f91da6437272e7196702df868eae0f))
+
+
+
+
+
 # [2.0.0-beta.218](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.217...v2.0.0-beta.218) (2023-02-18)
 
 **Note:** Version bump only for package @tiptap/extension-bullet-list
