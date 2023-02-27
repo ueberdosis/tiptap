@@ -31,6 +31,18 @@ Link.configure({
 })
 ```
 
+By default, [linkify](https://linkify.js.org/docs/) adds `//` to the end of a protocol however this behavior can be changed by passing `optionalSlashes` option
+```js
+Link.configure({
+  protocols: [
+    {
+      scheme: 'tel',
+      optionalSlashes: true
+    }
+  ]
+})
+```
+
 ### autolink
 If enabled, it adds links as you type.
 
