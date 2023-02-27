@@ -38,7 +38,7 @@ export class NodeView<
     } as Options
     this.extension = props.extension
     this.node = props.node
-    this.decorations = props.decorations
+    this.decorations = props.decorations as DecorationWithType[]
     this.getPos = props.getPos
     this.mount()
   }
