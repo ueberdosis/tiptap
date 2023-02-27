@@ -6,6 +6,11 @@ import { autolink } from './helpers/autolink'
 import { clickHandler } from './helpers/clickHandler'
 import { pasteHandler } from './helpers/pasteHandler'
 
+export interface LinkProtocolOptions {
+  scheme: string;
+  optionalSlashes?: boolean;
+}
+
 export interface LinkOptions {
   /**
    * If enabled, it adds links as you type.
@@ -14,7 +19,7 @@ export interface LinkOptions {
   /**
    * An array of custom protocols to be registered with linkifyjs.
    */
-  protocols: Array<string>
+  protocols: Array<LinkProtocolOptions | string>
   /**
    * If enabled, links will be opened on click.
    */
@@ -62,7 +67,13 @@ export const Link = Mark.create<LinkOptions>({
   keepOnSplit: false,
 
   onCreate() {
-    this.options.protocols.forEach(registerCustomProtocol)
+    this.options.protocols.forEach(protocol => {
+      if (typeof protocol === 'string') {
+        registerCustomProtocol(protocol)
+        return
+      }
+      registerCustomProtocol(protocol.scheme, protocol.optionalSlashes)
+    })
   },
 
   onDestroy() {
