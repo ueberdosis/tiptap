@@ -1,10 +1,10 @@
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { NodeSelection } from '@tiptap/pm/state'
-import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import { NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 
 import { Editor as CoreEditor } from './Editor'
 import { Node } from './Node'
-import { NodeViewRendererOptions, NodeViewRendererProps } from './types'
+import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types'
 import { isiOS } from './utilities/isiOS'
 
 export class NodeView<
@@ -22,7 +22,7 @@ export class NodeView<
 
   node: ProseMirrorNode
 
-  decorations: Decoration[]
+  decorations: DecorationWithType[]
 
   getPos: any
 
@@ -38,7 +38,7 @@ export class NodeView<
     } as Options
     this.extension = props.extension
     this.node = props.node
-    this.decorations = props.decorations
+    this.decorations = props.decorations as DecorationWithType[]
     this.getPos = props.getPos
     this.mount()
   }
