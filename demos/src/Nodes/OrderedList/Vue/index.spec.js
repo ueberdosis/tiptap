@@ -111,9 +111,8 @@ context('/src/Nodes/OrderedList/Vue/', () => {
     cy.get('.ProseMirror')
       .type('2. List Item 1{enter}List Item 2')
 
-    cy.get('.ProseMirror')
-      .find('ol')
-      .should('have.attr', 'start', '2')
+    cy.get('.ProseMirror').find('li:nth-child(1)').should('contain', 'List Item 1')
+    cy.get('.ProseMirror').find('li:nth-child(2)').should('contain', 'List Item 2')
   })
 
   it('should remove the ordered list after pressing backspace', () => {
