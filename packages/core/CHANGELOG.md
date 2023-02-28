@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.220](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.219...v2.0.0-beta.220) (2023-02-28)
+
+
+### Bug Fixes
+
+* **core:**  fix destroyed view causing errors on dispatchTransaction ([#3799](https://github.com/ueberdosis/tiptap/issues/3799)) ([3c07ca0](https://github.com/ueberdosis/tiptap/commit/3c07ca0b9c48cef60d56acdd44812e20e05fc928))
+
+
+
+
+
 # [2.0.0-beta.219](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.218...v2.0.0-beta.219) (2023-02-27)
 
 

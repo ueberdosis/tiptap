@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-document",
   "description": "document extension for tiptap",
-  "version": "2.0.0-beta.219",
+  "version": "2.0.0-beta.220",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -32,7 +32,7 @@
     "@tiptap/core": "^2.0.0-beta.209"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0-beta.219"
+    "@tiptap/core": "^2.0.0-beta.220"
   },
   "repository": {
     "type": "git",
