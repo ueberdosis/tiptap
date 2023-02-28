@@ -320,6 +320,12 @@ export class Editor extends EventEmitter<EditorEvents> {
    * @param transaction An editor state transaction
    */
   private dispatchTransaction(transaction: Transaction): void {
+    // if the editor / the view of the editor was destroyed
+    // the transaction should not be dispatched as there is no view anymore.
+    if (this.view.isDestroyed) {
+      return
+    }
+
     if (this.isCapturingTransaction) {
       if (!this.capturedTransaction) {
         this.capturedTransaction = transaction
