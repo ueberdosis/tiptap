@@ -11,6 +11,10 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
     key: new PluginKey('handleClickLink'),
     props: {
       handleClick: (view, pos, event) => {
+        if (event.button !== 1) {
+          return false
+        }
+
         const attrs = getAttributes(view.state, options.type.name)
         const link = (event.target as HTMLElement)?.closest('a')
 
