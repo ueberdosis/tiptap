@@ -99,9 +99,13 @@ export const Keymap = Extension.create({
           const allFrom = Selection.atStart(oldState.doc).from
           const allEnd = Selection.atEnd(oldState.doc).to
           const allWasSelected = from === allFrom && to === allEnd
-          const isEmpty = newState.doc.textBetween(0, newState.doc.content.size, ' ', ' ').length === 0
 
-          if (empty || !allWasSelected || !isEmpty) {
+          if (empty || !allWasSelected) {
+            return
+          }
+
+          const isEmpty = newState.doc.textBetween(0, newState.doc.content.size, ' ', ' ').length === 0
+          if (!isEmpty) {
             return
           }
 
