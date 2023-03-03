@@ -26,6 +26,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
     | null
   as?: string
   className?: string
+  attrs?: Record<string, string>
 }
 
 class ReactNodeView extends NodeView<
@@ -103,6 +104,7 @@ class ReactNodeView extends NodeView<
       props,
       as,
       className: `node-${this.node.type.name} ${className}`.trim(),
+      attrs: this.options.attrs,
     })
   }
 
