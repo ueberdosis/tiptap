@@ -24,15 +24,15 @@ context('/src/Examples/AutolinkValidation/React/', () => {
     'https://tiptap.dev',
   ]
 
-  it('valid links should get autolinked', () => {
-    validLinks.forEach(([rawTextInput, textThatShouldBeLinked]) => {
-      cy.get('.ProseMirror').type(`{selectall}{backspace}${rawTextInput}`)
+  validLinks.forEach(([rawTextInput, textThatShouldBeLinked]) => {
+    it(`should autolink ${rawTextInput}`, () => {
+      cy.get('.ProseMirror').type(rawTextInput)
       cy.get('.ProseMirror a').contains(textThatShouldBeLinked)
     })
   })
 
-  it('invalid links should not get autolinked', () => {
-    invalidLinks.forEach(rawTextInput => {
+  invalidLinks.forEach(rawTextInput => {
+    it(`should not autolink ${rawTextInput}`, () => {
       cy.get('.ProseMirror').type(`{selectall}{backspace}${rawTextInput}`)
       cy.get('.ProseMirror a').should('not.exist')
     })
