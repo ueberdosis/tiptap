@@ -7,9 +7,12 @@ on:
   push:
     branches:
       - main
+      - develop
+      - release/*
   pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   lint:
@@ -76,6 +79,18 @@ jobs:
     strategy:
       matrix:
         node-version: [16]
+        test-spec:
+          - { name: "Integration", spec: "./tests/cypress/integration/**/*.spec.{js,ts}" }
+          #- { name: "Demos/Commands", spec: "./demos/src/Commands/**/*.spec.{js,ts}" }
+          - { name: "Demos/Examples", spec: "./demos/src/Examples/**/*.spec.{js,ts}" }
+          - { name: "Demos/Experiments", spec: "./demos/src/Experiments/**/*.spec.{js,ts}" }
+          - { name: "Demos/Extensions", spec: "./demos/src/Extensions/**/*.spec.{js,ts}" }
+          - { name: "Demos/GuideContent", spec: "./demos/src/GuideContent/**/*.spec.{js,ts}" }
+          - { name: "Demos/GuideGettingStarted", spec: "./demos/src/GuideGettingStarted/**/*.spec.{js,ts}" }
+          #- { name: "Demos/GuideNodeViews", "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" }
+          - { name: "Demos/Marks", spec: "./demos/src/Marks/**/*.spec.{js,ts}" }
+          - { name: "Demos/Nodes", spec: "./demos/src/Nodes/**/*.spec.{js,ts}" }
+          #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
       - uses: actions/checkout@v3.3.0
@@ -93,13 +108,14 @@ jobs:
         id: build-packages
         run: npm run build:pm
 
-      - name: Run tests with Cypress
+      - name: Test ${{ matrix.test-spec.name }}
         id: cypress
         uses: cypress-io/github-action@v5.0.9
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           start: npm run start
           wait-on: 'http://localhost:3000'
+          spec: ${{ matrix.test-spec.spec }}
           project: ./tests
           browser: chrome
           quiet: true
