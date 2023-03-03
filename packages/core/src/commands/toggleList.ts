@@ -63,12 +63,12 @@ declare module '@tiptap/core' {
       /**
        * Toggle between different list types.
        */
-      toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType, keepMarks?: boolean) => ReturnType;
+      toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType, keepMarks?: boolean, attributes?: Record<string, any>) => ReturnType;
     }
   }
 }
 
-export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOrName, keepMarks) => ({
+export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOrName, keepMarks, attributes = {}) => ({
   editor, tr, state, dispatch, chain, commands, can,
 }) => {
   const { extensions, splittableMarks } = editor.extensionManager
@@ -114,7 +114,7 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
     return chain()
       // try to convert node to default node if needed
       .command(() => {
-        const canWrapInList = can().wrapInList(listType)
+        const canWrapInList = can().wrapInList(listType, attributes)
 
         if (canWrapInList) {
           return true
@@ -122,7 +122,7 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
 
         return commands.clearNodes()
       })
-      .wrapInList(listType)
+      .wrapInList(listType, attributes)
       .command(() => joinListBackwards(tr, listType))
       .command(() => joinListForwards(tr, listType))
       .run()
@@ -132,7 +132,7 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
     chain()
     // try to convert node to default node if needed
       .command(() => {
-        const canWrapInList = can().wrapInList(listType)
+        const canWrapInList = can().wrapInList(listType, attributes)
 
         const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
 
@@ -144,7 +144,7 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
 
         return commands.clearNodes()
       })
-      .wrapInList(listType)
+      .wrapInList(listType, attributes)
       .command(() => joinListBackwards(tr, listType))
       .command(() => joinListForwards(tr, listType))
       .run()
