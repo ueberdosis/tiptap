@@ -100,6 +100,7 @@ jobs:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           start: npm run start
           wait-on: 'http://localhost:3000'
+          spec: ./tests/cypress/integration/**/*.spec.js
           project: ./tests
           browser: chrome
           quiet: true
