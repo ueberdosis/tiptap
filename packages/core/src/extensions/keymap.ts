@@ -105,6 +105,7 @@ export const Keymap = Extension.create({
           }
 
           const isEmpty = newState.doc.textBetween(0, newState.doc.content.size, ' ', ' ').length === 0
+
           if (!isEmpty) {
             return
           }
