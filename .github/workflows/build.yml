@@ -76,6 +76,19 @@ jobs:
     strategy:
       matrix:
         node-version: [16]
+        test-spec: [
+          "./tests/cypress/integration/**/*.spec.{js,ts}",
+          "./demos/src/Commands/**/*.spec.{js,ts}",
+          "./demos/src/Examples/**/*.spec.{js,ts}",
+          "./demos/src/Experiments/**/*.spec.{js,ts}",
+          "./demos/src/Extensions/**/*.spec.{js,ts}",
+          "./demos/src/GuideContent/**/*.spec.{js,ts}",
+          "./demos/src/GuideGettingStarted/**/*.spec.{js,ts}",
+          "./demos/src/GuideNodeViews/**/*.spec.{js,ts}",
+          "./demos/src/Marks/**/*.spec.{js,ts}",
+          "./demos/src/Nodes/**/*.spec.{js,ts}",
+          "./demos/src/Overview/**/*.spec.{js,ts}",
+        ]
 
     steps:
       - uses: actions/checkout@v3.3.0
@@ -100,7 +113,7 @@ jobs:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           start: npm run start
           wait-on: 'http://localhost:3000'
-          spec: ./tests/cypress/integration/**/*.spec.{js,ts}
+          spec: ${{ matrix.test-spec }}
           project: ./tests
           browser: chrome
           quiet: true
