@@ -77,17 +77,17 @@ jobs:
       matrix:
         node-version: [16]
         test-spec:
-          - { name: "Integration", spec: "./tests/cypress/integration/**/*.spec.{js,ts}" },
-          - { name: "Demos/Commands", spec: "./demos/src/Commands/**/*.spec.{js,ts}" },
-          - { name: "Demos/Examples", "./demos/src/Examples/**/*.spec.{js,ts}" },
-          - { name: "Demos/Experiments", "./demos/src/Experiments/**/*.spec.{js,ts}" },
-          - { name: "Demos/Extensions", "./demos/src/Extensions/**/*.spec.{js,ts}" },
-          - { name: "Demos/GuideContent", "./demos/src/GuideContent/**/*.spec.{js,ts}" },
-          - { name: "Demos/GuideGettingStarted", "./demos/src/GuideGettingStarted/**/*.spec.{js,ts}" },
-          #- { name: "Demos/GuideNodeViews", "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" },
-          - { name: "Demos/Marks", "./demos/src/Marks/**/*.spec.{js,ts}" },
-          - { name: "Demos/Nodes", "./demos/src/Nodes/**/*.spec.{js,ts}" },
-          - { name: "Demos/Overview", "./demos/src/Overview/**/*.spec.{js,ts}" },
+          - { name: "Integration", spec: "./tests/cypress/integration/**/*.spec.{js,ts}" }
+          - { name: "Demos/Commands", spec: "./demos/src/Commands/**/*.spec.{js,ts}" }
+          - { name: "Demos/Examples", "./demos/src/Examples/**/*.spec.{js,ts}" }
+          - { name: "Demos/Experiments", "./demos/src/Experiments/**/*.spec.{js,ts}" }
+          - { name: "Demos/Extensions", "./demos/src/Extensions/**/*.spec.{js,ts}" }
+          - { name: "Demos/GuideContent", "./demos/src/GuideContent/**/*.spec.{js,ts}" }
+          - { name: "Demos/GuideGettingStarted", "./demos/src/GuideGettingStarted/**/*.spec.{js,ts}" }
+          #- { name: "Demos/GuideNodeViews", "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" }
+          - { name: "Demos/Marks", "./demos/src/Marks/**/*.spec.{js,ts}" }
+          - { name: "Demos/Nodes", "./demos/src/Nodes/**/*.spec.{js,ts}" }
+          - { name: "Demos/Overview", "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
       - uses: actions/checkout@v3.3.0
