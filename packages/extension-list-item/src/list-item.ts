@@ -61,6 +61,10 @@ export const ListItem = Node.create<ListItemOptions>({
       Tab: () => this.editor.commands.sinkListItem(this.name),
       'Shift-Tab': () => this.editor.commands.liftListItem(this.name),
       Backspace: ({ editor }) => {
+        if (this.editor.commands.undoInputRule()) {
+          return true
+        }
+
         if (!isNodeAtCursor(this.name, editor.state)) {
           return false
         }
