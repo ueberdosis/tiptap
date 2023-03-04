@@ -3,7 +3,9 @@ import { NodeType } from '@tiptap/pm/model'
 
 import { joinListItemBackward } from './commands/joinListItemBackward'
 import { joinListItemForward } from './commands/joinListItemForward'
-import { hasPreviousListItem, isAtStartOfNode, isNodeAtCursor } from './helpers'
+import {
+  findListItemPos, hasPreviousListItem, isAtStartOfNode, isNodeAtCursor, listItemHasSubList,
+} from './helpers'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -67,13 +69,25 @@ export const ListItem = Node.create<ListItemOptions>({
           return false
         }
 
-        // check if the current list item has
-        // a previous list item on the same depth
-        console.log(hasPreviousListItem(this.name, editor.state))
-        if (hasPreviousListItem(this.name, editor.state)) {
+        const listItemPos = findListItemPos(this.name, editor.state)
+
+        if (!listItemPos) {
+          return false
+        }
+
+        const $prev = editor.state.doc.resolve(listItemPos.$pos.pos - 2)
+        const prevNode = $prev.node(listItemPos.depth)
+
+        const previousListItemHasSubList = listItemHasSubList(this.name, editor.state, prevNode)
+
+        // if the previous item is a list item and doesn't have a sublist, join the list items
+        if (hasPreviousListItem(this.name, editor.state) && !previousListItemHasSubList) {
           return editor.commands.joinListItemBackward(this.name)
         }
 
+        // otherwise in the end, a backspace should
+        // always just lift the list item if
+        // joining / merging is not possible
         return editor.chain().liftListItem(this.name).run()
       },
     }

@@ -1,5 +1,5 @@
 import { getNodeType } from '@tiptap/core'
-import { NodeType } from '@tiptap/pm/model'
+import { Node, NodeType } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 
 export const findListItemPos = (typeOrName: string | NodeType, state: EditorState) => {
@@ -55,11 +55,32 @@ export const hasPreviousListItem = (typeOrName: string, state: EditorState) => {
     return false
   }
 
+  const $item = state.doc.resolve(listItemPos.$pos.pos)
   const $prev = state.doc.resolve(listItemPos.$pos.pos - 2)
 
-  if (listItemPos.$pos.depth === $prev.depth) {
-    return true
+  const prevNode = $prev.node($item.depth)
+
+  if (!prevNode) {
+    return false
   }
 
-  return false
+  return prevNode.type.name === typeOrName
+}
+
+export const listItemHasSubList = (typeOrName: string, state: EditorState, node?: Node) => {
+  if (!node) {
+    return false
+  }
+
+  const nodeType = getNodeType(typeOrName, state.schema)
+
+  let hasSubList = false
+
+  node.descendants(child => {
+    if (child.type === nodeType) {
+      hasSubList = true
+    }
+  })
+
+  return hasSubList
 }
