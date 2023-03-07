@@ -545,7 +545,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     blockSeparator?: string
     textSerializers?: Record<string, TextSerializer>
   }): string {
-    const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
+    const { blockSeparator = '\n\n', textSerializers = {}, repetitiveSeparator = false } = options || {}
 
     return getText(this.state.doc, {
       blockSeparator,
@@ -553,6 +553,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         ...getTextSerializersFromSchema(this.schema),
         ...textSerializers,
       },
+      repetitiveSeparator,
     })
   }
 
