@@ -1,8 +1,8 @@
 export function createStyleTag(style: string, nonce?: string): HTMLStyleElement {
-  const tipTapStyleTag = (<HTMLStyleElement>document.querySelector('style[data-tiptap-style]'))
+  const tiptapStyleTag = (<HTMLStyleElement>document.querySelector('style[data-tiptap-style]'))
 
-  if (tipTapStyleTag !== null) {
-    return tipTapStyleTag
+  if (tiptapStyleTag !== null) {
+    return tiptapStyleTag
   }
 
   const styleNode = document.createElement('style')
