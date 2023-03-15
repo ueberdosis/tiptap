@@ -360,8 +360,8 @@
         - title: InvisibleCharacters
           link: /api/extensions/invisible-characters
           type: pro
-        - title: Math
-          link: /api/extensions/math
+        - title: Mathematics
+          link: /api/extensions/mathematics
           type: pro
         - title: Placeholder
           link: /api/extensions/placeholder
