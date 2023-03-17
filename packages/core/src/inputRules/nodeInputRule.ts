@@ -43,7 +43,10 @@ export function nodeInputRule(config: {
         // insert node from input rule
         tr.replaceWith(matchStart, end, config.type.create(attributes))
       } else if (match[0]) {
-        tr.replaceWith(start, end, config.type.create(attributes))
+        tr.insert(start - 1, config.type.create(attributes)).delete(
+          tr.mapping.map(start),
+          tr.mapping.map(end),
+        )
       }
     },
   })
