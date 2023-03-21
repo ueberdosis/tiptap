@@ -110,6 +110,8 @@
       type: sponsor
     - title: Contributing
       link: /overview/contributing
+    - title: Support
+      link: /support
     - title: Jobs
       link: /jobs
 
