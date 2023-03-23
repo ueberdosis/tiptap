@@ -4,7 +4,7 @@ import { NodeType } from '@tiptap/pm/model'
 import { joinListItemBackward } from './commands/joinListItemBackward'
 import { joinListItemForward } from './commands/joinListItemForward'
 import {
-  findListItemPos, hasPreviousListItem, isAtStartOfNode, isNodeAtCursor, listItemHasSubList,
+  findListItemPos, hasPreviousListItem, isAtStartOfNode, isNodeAtCursor, istAtEndOfNode, listItemHasSubList,
 } from './helpers'
 
 declare module '@tiptap/core' {
@@ -60,15 +60,36 @@ export const ListItem = Node.create<ListItemOptions>({
       Enter: () => this.editor.commands.splitListItem(this.name),
       Tab: () => this.editor.commands.sinkListItem(this.name),
       'Shift-Tab': () => this.editor.commands.liftListItem(this.name),
-      Backspace: ({ editor }) => {
-        if (this.editor.commands.undoInputRule()) {
-          return true
-        }
-
+      Delete: ({ editor }) => {
+        // if the cursor is not inside the current node type
+        // do nothing and proceed
         if (!isNodeAtCursor(this.name, editor.state)) {
           return false
         }
 
+        // if the cursor is not at the end of a node
+        // do nothing and proceed
+        if (!istAtEndOfNode(editor.state)) {
+          return false
+        }
+
+        // check if the next node is also a listItem
+        return editor.commands.joinListItemForward(this.name)
+      },
+      Backspace: ({ editor }) => {
+        // this is required to still handle the undo handling
+        if (this.editor.commands.undoInputRule()) {
+          return true
+        }
+
+        // if the cursor is not inside the current node type
+        // do nothing and proceed
+        if (!isNodeAtCursor(this.name, editor.state)) {
+          return false
+        }
+
+        // if the cursor is not at the start of a node
+        // do nothing and proceed
         if (!isAtStartOfNode(editor.state)) {
           return false
         }

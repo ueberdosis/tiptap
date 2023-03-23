@@ -48,6 +48,16 @@ export const isAtStartOfNode = (state: EditorState) => {
   return true
 }
 
+export const istAtEndOfNode = (state: EditorState) => {
+  const { $from, $to } = state.selection
+
+  if ($to.parentOffset < $to.parent.nodeSize - 2 || $from.pos !== $to.pos) {
+    return false
+  }
+
+  return true
+}
+
 export const hasPreviousListItem = (typeOrName: string, state: EditorState) => {
   const listItemPos = findListItemPos(typeOrName, state)
 
