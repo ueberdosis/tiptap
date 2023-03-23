@@ -26,13 +26,15 @@ export interface YoutubeOptions {
   width: number;
 }
 
+type SetYoutubeVideoOptions = { src: string, width?: number, height?: number, start?: number }
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     youtube: {
       /**
        * Insert a youtube video
        */
-      setYoutubeVideo: (options: { src: string, width?: number, height?: number, start?: number }) => ReturnType,
+      setYoutubeVideo: (options: SetYoutubeVideoOptions) => ReturnType,
     }
   }
 }
@@ -103,7 +105,7 @@ export const Youtube = Node.create<YoutubeOptions>({
 
   addCommands() {
     return {
-      setYoutubeVideo: options => ({ commands }) => {
+      setYoutubeVideo: (options: SetYoutubeVideoOptions) => ({ commands }) => {
         if (!isValidYoutubeUrl(options.src)) {
           return false
         }
