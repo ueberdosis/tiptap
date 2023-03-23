@@ -110,6 +110,8 @@
       type: sponsor
     - title: Contributing
       link: /overview/contributing
+    - title: Support
+      link: /support
     - title: Jobs
       link: /jobs
 
@@ -357,6 +359,12 @@
           link: /api/extensions/gapcursor
         - title: History
           link: /api/extensions/history
+        - title: InvisibleCharacters
+          link: /api/extensions/invisible-characters
+          type: pro
+        - title: Mathematics
+          link: /api/extensions/mathematics
+          type: pro
         - title: Placeholder
           link: /api/extensions/placeholder
         - title: StarterKit
