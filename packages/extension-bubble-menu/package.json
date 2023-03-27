@@ -29,8 +29,8 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-rc.0",
-    "@tiptap/pm": "^2.0.0-rc.0"
+    "@tiptap/core": "2.0.0-rc.0",
+    "@tiptap/pm": "2.0.0-rc.0"
   },
   "dependencies": {
     "tippy.js": "^6.3.7"
@@ -42,7 +42,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@tiptap/pm": "^2.0.0-rc.0"
+    "@tiptap/pm": "2.0.0-rc.0"
   },
   "scripts": {
     "clean": "rm -rf dist",
