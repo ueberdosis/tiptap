@@ -33,7 +33,6 @@
     "@tiptap/pm": "^2.0.0-beta.209"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
     "tippy.js": "^6.3.7"
   },
   "repository": {
@@ -43,8 +42,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@tiptap/pm": "^2.0.0-beta.220",
-    "@types/lodash": "^4.14.191"
+    "@tiptap/pm": "^2.0.0-beta.220"
   },
   "scripts": {
     "clean": "rm -rf dist",
