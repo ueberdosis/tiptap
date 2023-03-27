@@ -8,58 +8,6 @@
 # - title: Sponsor
 #   link: https://github.com/ueberdosis/sponsor
 
-- title: Overview
-  items:
-    - title: Introduction
-      link: /introduction
-    - title: Installation
-      link: /installation
-      items:
-        # - title: CDN
-        #   link: /installation/cdn
-        #   skip: true
-        - title: Vanilla JavaScript
-          link: /installation/vanilla-javascript
-          skip: true
-        - title: React
-          link: /installation/react
-          skip: true
-        - title: Next.js
-          link: /installation/nextjs
-          skip: true
-        - title: Vue 3
-          link: /installation/vue3
-          skip: true
-        - title: Vue 2
-          link: /installation/vue2
-          skip: true
-        - title: Nuxt.js
-          link: /installation/nuxt
-          skip: true
-        - title: Svelte
-          link: /installation/svelte
-          skip: true
-        # - title: CodeSandbox
-        #   link: /installation/codesandbox
-        #   skip: true
-        - title: Alpine.js
-          link: /installation/alpine
-          skip: true
-        - title: PHP
-          link: /installation/php
-          skip: true
-    - title: Upgrade guide
-      link: /overview/upgrade-guide
-    - title: Changelog
-      link: /changelog
-    - title: About the project
-      link: /about
-      type: sponsor
-    - title: Contributing
-      link: /overview/contributing
-    - title: Jobs
-      link: /jobs
-
 - title: Examples
   link: /examples
   redirect: /examples/default
@@ -112,6 +60,60 @@
     - title: Syntax highlighting
       icon: code-box-fill
       link: /examples/syntax-highlighting
+
+- title: Overview
+  items:
+    - title: Introduction
+      link: /introduction
+    - title: Installation
+      link: /installation
+      items:
+        # - title: CDN
+        #   link: /installation/cdn
+        #   skip: true
+        - title: Vanilla JavaScript
+          link: /installation/vanilla-javascript
+          skip: true
+        - title: React
+          link: /installation/react
+          skip: true
+        - title: Next.js
+          link: /installation/nextjs
+          skip: true
+        - title: Vue 3
+          link: /installation/vue3
+          skip: true
+        - title: Vue 2
+          link: /installation/vue2
+          skip: true
+        - title: Nuxt.js
+          link: /installation/nuxt
+          skip: true
+        - title: Svelte
+          link: /installation/svelte
+          skip: true
+        # - title: CodeSandbox
+        #   link: /installation/codesandbox
+        #   skip: true
+        - title: Alpine.js
+          link: /installation/alpine
+          skip: true
+        - title: PHP
+          link: /installation/php
+          skip: true
+    - title: Upgrade guide
+      link: /overview/upgrade-guide
+    - title: Changelog
+      link: /changelog
+    - title: About the project
+      link: /about
+      type: sponsor
+    - title: Contributing
+      link: /overview/contributing
+    - title: Support
+      link: /support
+    - title: Jobs
+      link: /jobs
 
 - title: Guide
   items:
@@ -263,21 +265,18 @@
           link: /api/nodes/document
         - title: Details
           link: /api/nodes/details
-          type: new
+          type: pro
         - title: DetailsSummary
           link: /api/nodes/details-summary
-          type: new
+          type: pro
         - title: DetailsContent
           link: /api/nodes/details-content
-          type: new
+          type: pro
         - title: Emoji
           link: /api/nodes/emoji
           type: pro
         - title: HardBreak
           link: /api/nodes/hard-break
-        - title: Hashtag
-          link: /api/nodes/hashtag
-          type: draft
         - title: Heading
           link: /api/nodes/heading
         - title: HorizontalRule
@@ -308,7 +307,6 @@
           link: /api/nodes/text
         - title: YouTube
           link: /api/nodes/youtube
-          type: new
     - title: Marks
       link: /api/marks
       items:
@@ -357,6 +355,12 @@
           link: /api/extensions/gapcursor
         - title: History
           link: /api/extensions/history
+        - title: InvisibleCharacters
+          link: /api/extensions/invisible-characters
+          type: new
+        - title: Mathematics
+          link: /api/extensions/mathematics
+          type: new
         - title: Placeholder
           link: /api/extensions/placeholder
         - title: StarterKit
