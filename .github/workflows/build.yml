@@ -62,14 +62,6 @@ jobs:
         id: lint
         run: npm run lint
 
-      - name: Send Slack notifications
-        uses: act10ns/slack@v2
-        if: failure()
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-          channel: '#tiptap-notifications'
-
   test:
     runs-on: ubuntu-latest
 
@@ -136,14 +128,6 @@ jobs:
           path: tests/cypress/videos
           retention-days: 7
 
-      - name: Send Slack notifications
-        uses: act10ns/slack@v2
-        if: failure()
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-          channel: '#tiptap-notifications'
-
   build:
     runs-on: ubuntu-latest
 
@@ -181,11 +165,3 @@ jobs:
       - name: Try to build the packages
         id: build-packages
         run: npm run build:ci
-
-      - name: Send Slack notifications
-        uses: act10ns/slack@v2
-        if: failure()
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-          channel: '#tiptap-notifications'
