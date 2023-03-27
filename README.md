@@ -9,7 +9,7 @@ A headless, framework-agnostic and extendable rich text editor, based on [ProseM
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 ## Examples
-Have a look at the [examples to see tiptap in action](https://tiptap.dev/examples).
+Have a look at the [examples to see Tiptap in action](https://tiptap.dev/examples).
 
 ## Documentation
 The full documentation is available on [www.tiptap.dev](https://tiptap.dev/installation).
@@ -17,7 +17,7 @@ The full documentation is available on [www.tiptap.dev](https://tiptap.dev/insta
 ## Community
 For help, discussion about best practices, or any other conversation that would benefit from being searchable:
 
-[Discuss tiptap on GitHub](https://github.com/ueberdosis/tiptap/discussions)
+[Discuss Tiptap on GitHub](https://github.com/ueberdosis/tiptap/discussions)
 
 ## Sponsors 💖
 <table>
@@ -92,7 +92,7 @@ For help, discussion about best practices, or any other conversation that would 
 
 [iFixit](https://www.ifixit.com/), [@shodgson](https://github.com/shodgson), [Markee Co.](https://markee.io/), [Makelog](https://www.makelog.com/), [Zephir](https://zephir.ch/), [IT Xpert AG](https://itxpert.ch/), [ApostropheCMS](https://apostrophecms.com/), [Novadiscovery](http://www.novadiscovery.com/), [Omics Data Automation](https://www.omicsautomation.com), [Gretel](https://github.com/gretelapp#:~:text=http%3A//www.gretel.co), [Flow Mobile](https://www.flowmobile.app/), [Ycode](https://www.ycode.com/), [DocIQ](https://www.dociq.io/) and [hundreds of awesome inviduals](https://github.com/sponsors/ueberdosis).
 
-Using tiptap in production? Invest in the future of tiptap and [become a sponsor!](https://github.com/sponsors/ueberdosis)
+Using Tiptap in production? Invest in the future of Tiptap and [become a sponsor!](https://github.com/sponsors/ueberdosis)
 
 ## Contributing
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
