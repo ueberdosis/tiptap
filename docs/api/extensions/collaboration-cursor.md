@@ -11,10 +11,6 @@ This extension adds information about all connected users (like their name and a
 
 Open this page in multiple browser windows to test it.
 
-:::pro Pro Extension
-We kindly ask you to [sponsor our work](/sponsor) when using this extension in production.
-:::
-
 ## Installation
 ```bash
 npm install @tiptap/extension-collaboration-cursor
