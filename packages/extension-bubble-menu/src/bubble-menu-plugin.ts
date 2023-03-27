@@ -215,7 +215,7 @@ export class BubbleMenuView {
           if (isNodeSelection(state.selection)) {
             let node = view.nodeDOM(from) as HTMLElement
 
-            const nodeViewWrapper = node.querySelector('[data-node-view-wrapper]')
+            const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
 
             if (nodeViewWrapper) {
               node = nodeViewWrapper.firstChild as HTMLElement
