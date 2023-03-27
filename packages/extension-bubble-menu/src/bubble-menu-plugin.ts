@@ -201,7 +201,13 @@ export class BubbleMenuView {
         this.tippyOptions?.getReferenceClientRect
         || (() => {
           if (isNodeSelection(state.selection)) {
-            const node = view.nodeDOM(from) as HTMLElement
+            let node = view.nodeDOM(from) as HTMLElement
+
+            const nodeViewWrapper = node.querySelector('[data-node-view-wrapper]')
+
+            if (nodeViewWrapper) {
+              node = nodeViewWrapper.firstChild as HTMLElement
+            }
 
             if (node) {
               return node.getBoundingClientRect()
