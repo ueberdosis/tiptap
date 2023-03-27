@@ -93,7 +93,11 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
           ...attribute,
         }
 
-        if (attribute?.isRequired && attribute?.default === undefined) {
+        if (typeof mergedAttr?.default === 'function') {
+          mergedAttr.default = mergedAttr.default()
+        }
+
+        if (mergedAttr?.isRequired && mergedAttr?.default === undefined) {
           delete mergedAttr.default
         }
 
