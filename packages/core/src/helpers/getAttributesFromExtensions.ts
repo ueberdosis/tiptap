@@ -93,7 +93,7 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
           ...attribute,
         }
 
-        if(typeof mergedAttr?.default === 'function') {
+        if (typeof mergedAttr?.default === 'function') {
           mergedAttr.default = mergedAttr.default()
         }
 
