@@ -2,7 +2,7 @@
 [![Version](https://img.shields.io/npm/v/@tiptap/suggestion.svg?label=version)](https://www.npmjs.com/package/@tiptap/suggestion)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/suggestion.svg)](https://npmcharts.com/compare/@tiptap/suggestion?minimal=true)
 
-This utility helps with all kinds of suggestions in the editor. Have a look at the [`Mention`](/api/nodes/mention), [`Hashtag`](/api/nodes/hashtag) or [`Emoji`](/api/nodes/emoji) node to see it in action.
+This utility helps with all kinds of suggestions in the editor. Have a look at the [`Mention`](/api/nodes/mention) or [`Emoji`](/api/nodes/emoji) node to see it in action.
 
 ## Settings
 

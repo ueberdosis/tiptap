@@ -265,21 +265,18 @@
           link: /api/nodes/document
         - title: Details
           link: /api/nodes/details
-          type: new
+          type: pro
         - title: DetailsSummary
           link: /api/nodes/details-summary
-          type: new
+          type: pro
         - title: DetailsContent
           link: /api/nodes/details-content
-          type: new
+          type: pro
         - title: Emoji
           link: /api/nodes/emoji
           type: pro
         - title: HardBreak
           link: /api/nodes/hard-break
-        - title: Hashtag
-          link: /api/nodes/hashtag
-          type: draft
         - title: Heading
           link: /api/nodes/heading
         - title: HorizontalRule
@@ -310,7 +307,6 @@
           link: /api/nodes/text
         - title: YouTube
           link: /api/nodes/youtube
-          type: new
     - title: Marks
       link: /api/marks
       items:
@@ -361,10 +357,10 @@
           link: /api/extensions/history
         - title: InvisibleCharacters
           link: /api/extensions/invisible-characters
-          type: pro
+          type: new
         - title: Mathematics
           link: /api/extensions/mathematics
-          type: pro
+          type: new
         - title: Placeholder
           link: /api/extensions/placeholder
         - title: StarterKit
