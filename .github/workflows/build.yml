@@ -26,7 +26,7 @@ jobs:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3.6.0
@@ -62,14 +62,6 @@ jobs:
         id: lint
         run: npm run lint
 
-      - name: Send Slack notifications
-        uses: act10ns/slack@v2
-        if: failure()
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-          channel: '#tiptap-notifications'
-
   test:
     runs-on: ubuntu-latest
 
@@ -93,7 +85,7 @@ jobs:
           #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3.6.0
@@ -110,7 +102,7 @@ jobs:
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
-        uses: cypress-io/github-action@v5.0.9
+        uses: cypress-io/github-action@v5.5.0
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           start: npm run start
@@ -136,14 +128,6 @@ jobs:
           path: tests/cypress/videos
           retention-days: 7
 
-      - name: Send Slack notifications
-        uses: act10ns/slack@v2
-        if: failure()
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-          channel: '#tiptap-notifications'
-
   build:
     runs-on: ubuntu-latest
 
@@ -157,7 +141,7 @@ jobs:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.4.0
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3.6.0
@@ -181,11 +165,3 @@ jobs:
       - name: Try to build the packages
         id: build-packages
         run: npm run build:ci
-
-      - name: Send Slack notifications
-        uses: act10ns/slack@v2
-        if: failure()
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-          channel: '#tiptap-notifications'

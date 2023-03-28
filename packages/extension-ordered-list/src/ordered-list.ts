@@ -91,6 +91,8 @@ export const OrderedList = Node.create<OrderedListOptions>({
     let inputRule = wrappingInputRule({
       find: inputRegex,
       type: this.type,
+      getAttributes: match => ({ start: +match[1] }),
+      joinPredicate: (match, node) => node.childCount + node.attrs.start === +match[1],
     })
 
     if (this.options.keepMarks || this.options.keepAttributes) {
@@ -99,7 +101,8 @@ export const OrderedList = Node.create<OrderedListOptions>({
         type: this.type,
         keepMarks: this.options.keepMarks,
         keepAttributes: this.options.keepAttributes,
-        getAttributes: () => { return this.editor.getAttributes(TextStyle.name) },
+        getAttributes: match => ({ start: +match[1], ...this.editor.getAttributes(TextStyle.name) }),
+        joinPredicate: (match, node) => node.childCount + node.attrs.start === +match[1],
         editor: this.editor,
       })
     }
