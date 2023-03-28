@@ -110,6 +110,8 @@ export const Collaboration = Extension.create<CollaborationOptions>({
       ? this.options.fragment
       : this.options.document.getXmlFragment(this.options.field)
 
+    // Quick fix until there is an official implementation (thanks to @hamflx).
+    // See https://github.com/yjs/y-prosemirror/issues/114 and https://github.com/yjs/y-prosemirror/issues/102
     const yUndoPluginInstance = yUndoPlugin()
     const originalUndoPluginView = yUndoPluginInstance.spec.view
 
