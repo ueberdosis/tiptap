@@ -4,17 +4,21 @@ import { joinPoint } from '@tiptap/pm/transform'
 export const joinListItemBackward: RawCommands['splitListItem'] = () => ({
   tr, state, dispatch,
 }) => {
-  const point = joinPoint(state.doc, state.selection.$from.pos, -1)
+  try {
+    const point = joinPoint(state.doc, state.selection.$from.pos, -1)
 
-  if (point === null || point === undefined) {
+    if (point === null || point === undefined) {
+      return false
+    }
+
+    tr.join(point, 2)
+
+    if (dispatch) {
+      dispatch(tr)
+    }
+
+    return true
+  } catch {
     return false
   }
-
-  tr.join(point, 2)
-
-  if (dispatch) {
-    dispatch(tr)
-  }
-
-  return true
 }

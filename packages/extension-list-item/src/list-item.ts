@@ -1,10 +1,12 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import {
+  isAtStartOfNode, isNodeActive, istAtEndOfNode, mergeAttributes, Node,
+} from '@tiptap/core'
 import { NodeType } from '@tiptap/pm/model'
 
 import { joinListItemBackward } from './commands/joinListItemBackward'
 import { joinListItemForward } from './commands/joinListItemForward'
 import {
-  findListItemPos, hasPreviousListItem, isAtStartOfNode, isNodeAtCursor, istAtEndOfNode, listItemHasSubList,
+  findListItemPos, hasPreviousListItem, listItemHasSubList, nextListIsDeeper, nextListIsHigher,
 } from './helpers'
 
 declare module '@tiptap/core' {
@@ -63,7 +65,7 @@ export const ListItem = Node.create<ListItemOptions>({
       Delete: ({ editor }) => {
         // if the cursor is not inside the current node type
         // do nothing and proceed
-        if (!isNodeAtCursor(this.name, editor.state)) {
+        if (!isNodeActive(editor.state, this.name)) {
           return false
         }
 
@@ -71,6 +73,18 @@ export const ListItem = Node.create<ListItemOptions>({
         // do nothing and proceed
         if (!istAtEndOfNode(editor.state)) {
           return false
+        }
+
+        // check if the next node is a list with a deeper depth
+        if (nextListIsDeeper(this.name, editor.state)) {
+          return editor.chain().focus(editor.state.selection.from + 4)
+            .lift(this.name)
+            .joinBackward()
+            .run()
+        }
+
+        if (nextListIsHigher(this.name, editor.state)) {
+          return editor.chain().joinForward().joinListItemForward(this.name).run()
         }
 
         // check if the next node is also a listItem
@@ -84,7 +98,7 @@ export const ListItem = Node.create<ListItemOptions>({
 
         // if the cursor is not inside the current node type
         // do nothing and proceed
-        if (!isNodeAtCursor(this.name, editor.state)) {
+        if (!isNodeActive(editor.state, this.name)) {
           return false
         }
 

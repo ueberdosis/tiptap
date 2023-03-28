@@ -1,4 +1,4 @@
-import { getNodeType } from '@tiptap/core'
+import { getNodeAtPosition, getNodeType } from '@tiptap/core'
 import { Node, NodeType } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 
@@ -26,36 +26,6 @@ export const findListItemPos = (typeOrName: string | NodeType, state: EditorStat
   }
 
   return { $pos: state.doc.resolve(currentPos), depth: targetDepth }
-}
-
-export const isNodeAtCursor = (typeOrName: string, state: EditorState) => {
-  const listItemPos = findListItemPos(typeOrName, state)
-
-  if (!listItemPos) {
-    return false
-  }
-
-  return true
-}
-
-export const isAtStartOfNode = (state: EditorState) => {
-  const { $from, $to } = state.selection
-
-  if ($from.parentOffset > 0 || $from.pos !== $to.pos) {
-    return false
-  }
-
-  return true
-}
-
-export const istAtEndOfNode = (state: EditorState) => {
-  const { $from, $to } = state.selection
-
-  if ($to.parentOffset < $to.parent.nodeSize - 2 || $from.pos !== $to.pos) {
-    return false
-  }
-
-  return true
 }
 
 export const hasPreviousListItem = (typeOrName: string, state: EditorState) => {
@@ -93,4 +63,46 @@ export const listItemHasSubList = (typeOrName: string, state: EditorState, node?
   })
 
   return hasSubList
+}
+
+export const getNextListDepth = (typeOrName: string, state: EditorState) => {
+  const listItemPos = findListItemPos(typeOrName, state)
+
+  if (!listItemPos) {
+    return false
+  }
+
+  const [, depth] = getNodeAtPosition(state, typeOrName, listItemPos.$pos.pos + 4)
+
+  return depth
+}
+
+export const nextListIsDeeper = (typeOrName: string, state: EditorState) => {
+  const listDepth = getNextListDepth(typeOrName, state)
+  const listItemPos = findListItemPos(typeOrName, state)
+
+  if (!listItemPos || !listDepth) {
+    return false
+  }
+
+  if (listDepth > listItemPos.depth) {
+    return true
+  }
+
+  return false
+}
+
+export const nextListIsHigher = (typeOrName: string, state: EditorState) => {
+  const listDepth = getNextListDepth(typeOrName, state)
+  const listItemPos = findListItemPos(typeOrName, state)
+
+  if (!listItemPos || !listDepth) {
+    return false
+  }
+
+  if (listDepth < listItemPos.depth) {
+    return true
+  }
+
+  return false
 }
