@@ -1,4 +1,5 @@
 import { Extension } from '@tiptap/core'
+import { EditorView } from '@tiptap/pm/view'
 import {
   redo,
   undo,
@@ -37,7 +38,7 @@ export interface CollaborationOptions {
    */
   fragment: any,
   /**
-   * Fired when the content from Yjs is initially rendered to tiptap.
+   * Fired when the content from Yjs is initially rendered to Tiptap.
    */
   onFirstRender?: () => void,
 }
@@ -109,13 +110,43 @@ export const Collaboration = Extension.create<CollaborationOptions>({
       ? this.options.fragment
       : this.options.document.getXmlFragment(this.options.field)
 
-    return [
-      ySyncPlugin(fragment, {
-        onFirstRender: () => {
-          this.options.onFirstRender?.apply(this)
+    // Quick fix until there is an official implementation (thanks to @hamflx).
+    // See https://github.com/yjs/y-prosemirror/issues/114 and https://github.com/yjs/y-prosemirror/issues/102
+    const yUndoPluginInstance = yUndoPlugin()
+    const originalUndoPluginView = yUndoPluginInstance.spec.view
+
+    yUndoPluginInstance.spec.view = (view: EditorView) => {
+      const { undoManager } = yUndoPluginKey.getState(view.state)
+
+      if (undoManager.restore) {
+        undoManager.restore()
+        // eslint-disable-next-line
+        undoManager.restore = () => {}
+      }
+
+      const viewRet = originalUndoPluginView(view)
+
+      return {
+        destroy: () => {
+          const hasUndoManSelf = undoManager.trackedOrigins.has(undoManager)
+          // eslint-disable-next-line
+          const observers = undoManager._observers
+
+          undoManager.restore = () => {
+            if (hasUndoManSelf) {
+              undoManager.trackedOrigins.add(undoManager)
+            }
+
+            undoManager.doc.on('afterTransaction', undoManager.afterTransactionHandler)
+            // eslint-disable-next-line
+            undoManager._observers = observers
+          }
+
+          viewRet.destroy()
         },
-      }),
-      yUndoPlugin(),
-    ]
+      }
+    }
+
+    return [ySyncPlugin(fragment), yUndoPluginInstance]
   },
 })

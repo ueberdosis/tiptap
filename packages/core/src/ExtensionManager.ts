@@ -207,7 +207,7 @@ export class ExtensionManager {
     const { editor } = this
 
     // With ProseMirror, first plugins within an array are executed first.
-    // In tiptap, we provide the ability to override plugins,
+    // In Tiptap, we provide the ability to override plugins,
     // so it feels more natural to run plugins at the end of an array first.
     // That’s why we have to reverse the `extensions` array and sort again
     // based on the `priority` option.
