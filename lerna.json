@@ -2,7 +2,6 @@
   "packages": [
     "packages/*"
   ],
-  "independent": true,
   "useWorkspaces": true,
   "command": {
     "publish": {
@@ -11,5 +10,5 @@
   },
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
-  "version": "2.0.0-rc.0"
+  "version": "2.0.0-rc.1"
 }
