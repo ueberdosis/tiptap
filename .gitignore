@@ -31,3 +31,7 @@ tests/cypress/videos
 # packaged files
 packages/**/*.tgz
 demos/*.tgz
+
+# demo directories
+demos/src/Dev/**
+!demos/src/Dev/.gitkeep
