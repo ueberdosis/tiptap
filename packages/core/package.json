@@ -32,10 +32,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/pm": "2.0.0-rc.2"
+    "@tiptap/pm": "^2.0.0-rc.1"
   },
   "devDependencies": {
-    "@tiptap/pm": "2.0.0-rc.2"
+    "@tiptap/pm": "^2.0.0-rc.1"
   },
   "repository": {
     "type": "git",

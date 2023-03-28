@@ -29,13 +29,13 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.0.0-rc.2",
-    "@tiptap/pm": "2.0.0-rc.2",
+    "@tiptap/core": "^2.0.0-rc.1",
+    "@tiptap/pm": "^2.0.0-rc.1",
     "y-prosemirror": "1.0.20"
   },
   "devDependencies": {
-    "@tiptap/core": "2.0.0-rc.2",
-    "@tiptap/pm": "2.0.0-rc.2",
+    "@tiptap/core": "^2.0.0-rc.1",
+    "@tiptap/pm": "^2.0.0-rc.1",
     "y-prosemirror": "1.0.20"
   },
   "repository": {

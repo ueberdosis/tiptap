@@ -126,7 +126,7 @@
     "view/**"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.0.0-rc.2"
+    "@tiptap/core": "^2.0.0-rc.1"
   },
   "dependencies": {
     "prosemirror-changeset": "^2.2.0",

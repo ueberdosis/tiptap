@@ -29,14 +29,14 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "2.0.0-rc.2",
-    "@tiptap/extension-code-block": "2.0.0-rc.2",
-    "@tiptap/pm": "2.0.0-rc.2"
+    "@tiptap/core": "^2.0.0-rc.1",
+    "@tiptap/extension-code-block": "^2.0.0-rc.1",
+    "@tiptap/pm": "^2.0.0-rc.1"
   },
   "devDependencies": {
-    "@tiptap/core": "2.0.0-rc.2",
-    "@tiptap/extension-code-block": "2.0.0-rc.2",
-    "@tiptap/pm": "2.0.0-rc.2"
+    "@tiptap/core": "^2.0.0-rc.1",
+    "@tiptap/extension-code-block": "^2.0.0-rc.1",
+    "@tiptap/pm": "^2.0.0-rc.1"
   },
   "repository": {
     "type": "git",
