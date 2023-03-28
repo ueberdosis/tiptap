@@ -2,6 +2,7 @@
   "packages": [
     "packages/*"
   ],
+  "independent": true,
   "useWorkspaces": true,
   "command": {
     "publish": {

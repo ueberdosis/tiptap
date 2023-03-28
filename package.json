@@ -26,7 +26,7 @@
     "release:patch": "lerna version patch --force-publish",
     "release:patch:pre": "lerna version prepatch --force-publish",
     "release:pre": "lerna version prerelease --force-publish",
-    "publish": "npm run build && lerna exec --since --no-private -- npm publish --tag current --access public",
+    "publish": "npm run build && lerna exec --since --no-private -- npm publish --tag latest --access public",
     "publish:pre": "npm run build && lerna exec --since --no-private -- npm publish --tag next --access public",
     "pack": "npm run clean:packs && lerna exec -- npm pack",
     "clean:packages": "rm -rf ./packages/*/dist && rm -rf ./packages/pm/*/dist",
