@@ -31,7 +31,7 @@ export class ExtensionManager {
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
     this.extensions = ExtensionManager.resolve(extensions)
-    this.schema = getSchemaByResolvedExtensions(this.extensions)
+    this.schema = getSchemaByResolvedExtensions(this.extensions, editor)
 
     this.extensions.forEach(extension => {
       // store extension storage in editor
