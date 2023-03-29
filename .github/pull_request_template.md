@@ -20,10 +20,10 @@
 
 ## Checklist
 
-- [] The changes are not breaking the editor
-- [] Added tests where possible
-- [] Followed the guidelines
-- [] Fixed linting issues
+- [ ] The changes are not breaking the editor
+- [ ] Added tests where possible
+- [ ] Followed the guidelines
+- [ ] Fixed linting issues
 
 ## Related issues
 
