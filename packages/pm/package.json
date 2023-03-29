@@ -125,9 +125,6 @@
     "transform/**",
     "view/**"
   ],
-  "peerDependencies": {
-    "@tiptap/core": "^2.0.0"
-  },
   "dependencies": {
     "prosemirror-changeset": "^2.2.0",
     "prosemirror-collab": "^1.3.0",
