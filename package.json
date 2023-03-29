@@ -61,7 +61,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-vue": "^9.1.0",
     "husky": "^8.0.1",
-    "lerna": "^5.5.1",
+    "lerna": "5.5.1",
     "lint-staged": "^13.0.3",
     "minimist": "^1.2.7",
     "rollup": "^2.67.0",
