@@ -1,22 +1,22 @@
 ## Please describe your changes
 
-ADD A DESCRIPTION OF YOUR CHANGES HERE
+[add a description of your changes here]
 
 ## How did you accomplish your changes
 
-ADD A DETAILED DESCRIPTION OF HOW YOU ACCOMPLISHED YOUR CHANGES HERE
+[add a detailed description of how you accomplished your changes here]
 
 ## How have you tested your changes
 
-ADD A DETAILED DESCRIPTION OF HOW YOU TESTED YOUR CHANGES HERE
+[add a detailed description of how you tested your changes here]
 
 ## How can we verify your changes
 
-ADD A DETAILED DESCRIPTION OF HOW WE CAN VERIFY YOUR CHANGES HERE
+[add a detailed description of how we can verify your changes here]
 
 ## Remarks
 
-ADD ANY ADDITIONAL REMARKS HERE
+[add any additional remarks here]
 
 ## Checklist
 
@@ -27,4 +27,4 @@ ADD ANY ADDITIONAL REMARKS HERE
 
 ## Related issues
 
-ADD A LINK TO THE RELATED ISSUES HERE
+[add a link to the related issues here]
