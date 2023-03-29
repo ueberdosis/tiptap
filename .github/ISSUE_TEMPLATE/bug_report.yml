@@ -5,8 +5,9 @@ assignees:
   - bdbch
   - svenadlung
 labels:
-  - bug
-  - new
+  - "Type: Bug"
+  - "Category: Open Source"
+  - "Status: New"
 body:
   - type: input
     id: packages

@@ -5,9 +5,9 @@ assignees:
   - bdbch
   - svenadlung
 labels:
-  - bug
-  - pro
-  - new
+  - "Type: Bug"
+  - "Category: Pro"
+  - "Status: New"
 body:
   - type: input
     id: packages

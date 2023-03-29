@@ -2,8 +2,9 @@ name: Documentation feedback
 description: Share what we need to explain better
 title: "[Documentation]: "
 labels:
-  - documentation
-  - new
+  - "Type: Documentation"
+  - "Category: Open Source"
+  - "Status: New"
 assignees:
   - bdbch
   - svenadlung
