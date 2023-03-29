@@ -1,6 +1,6 @@
 import { MarkSpec, NodeSpec, Schema } from '@tiptap/pm/model'
 
-import { MarkConfig, NodeConfig } from '..'
+import { Editor, MarkConfig, NodeConfig } from '..'
 import { AnyConfig, Extensions } from '../types'
 import { callOrReturn } from '../utilities/callOrReturn'
 import { isEmptyObject } from '../utilities/isEmptyObject'
@@ -12,8 +12,9 @@ import { splitExtensions } from './splitExtensions'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(
+    // @ts-ignore
     Object.entries(data).filter(([key, value]) => {
-      if (key === 'attrs' && isEmptyObject(value)) {
+      if (key === 'attrs' && isEmptyObject(value as {} | undefined)) {
         return false
       }
 
@@ -22,7 +23,7 @@ function cleanUpSchemaItem<T>(data: T) {
   ) as T
 }
 
-export function getSchemaByResolvedExtensions(extensions: Extensions): Schema {
+export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: Editor): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
   const topNode = nodeExtensions.find(extension => getExtensionField(extension, 'topNode'))?.name
@@ -36,6 +37,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions): Schema {
         name: extension.name,
         options: extension.options,
         storage: extension.storage,
+        editor,
       }
 
       const extraNodeFields = extensions.reduce((fields, e) => {
@@ -124,6 +126,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions): Schema {
         name: extension.name,
         options: extension.options,
         storage: extension.storage,
+        editor,
       }
 
       const extraMarkFields = extensions.reduce((fields, e) => {
