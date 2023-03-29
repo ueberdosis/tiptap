@@ -19,6 +19,7 @@
     "build:pm": "npm --prefix ./packages/pm run build",
     "build:demos": "npm --prefix ./demos run build:demos",
     "build:ci": "npm run build",
+    "release": "lerna version",
     "release:major": "lerna version major --force-publish",
     "release:major:pre": "lerna version premajor --force-publish",
     "release:minor": "lerna version minor --force-publish",
