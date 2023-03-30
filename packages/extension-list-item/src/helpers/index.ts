@@ -6,12 +6,13 @@ export const findListItemPos = (typeOrName: string | NodeType, state: EditorStat
   const { $from } = state.selection
   const nodeType = getNodeType(typeOrName, state.schema)
 
+  let currentNode = null
   let currentDepth = $from.depth
   let currentPos = $from.pos
   let targetDepth: number | null = null
 
   while (currentDepth > 0 && targetDepth === null) {
-    const currentNode = $from.node(currentDepth)
+    currentNode = $from.node(currentDepth)
 
     if (currentNode.type === nodeType) {
       targetDepth = currentDepth

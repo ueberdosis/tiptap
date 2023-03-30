@@ -77,14 +77,19 @@ export const ListItem = Node.create<ListItemOptions>({
 
         // check if the next node is a list with a deeper depth
         if (nextListIsDeeper(this.name, editor.state)) {
-          return editor.chain().focus(editor.state.selection.from + 4)
+          return editor
+            .chain()
+            .focus(editor.state.selection.from + 4)
             .lift(this.name)
             .joinBackward()
             .run()
         }
 
         if (nextListIsHigher(this.name, editor.state)) {
-          return editor.chain().joinForward().joinListItemForward(this.name).run()
+          return editor.chain()
+            .joinForward()
+            .joinBackward()
+            .run()
         }
 
         // check if the next node is also a listItem
