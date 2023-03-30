@@ -37,6 +37,8 @@ If you followed step 1 and 2, you can now start your project with `npm run dev`,
 To actually start using Tiptap, you’ll need to add a new component to your app. To do this, first create a directory called `components/`. Now it's time to create our component which we'll call `Tiptap`. To do this put the following example code in `components/Tiptap.js`.
 
 ```jsx
+'use client'
+
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
