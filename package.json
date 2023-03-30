@@ -23,7 +23,7 @@
     "release:major": "lerna version major --no-push --force-publish",
     "release:major:pre": "lerna version premajor --no-push --force-publish --preid rc",
     "release:minor": "lerna version minor --no-push --force-publish",
-    "release:minor:pre": "lerna version preminor --no-push --force-publish --preid rc",
+    "release:minor:pre": "lerna version preminor --no-push --no-git-tag-version --force-publish --preid rc",
     "release:patch": "lerna version patch --no-push --force-publish",
     "release:patch:pre": "lerna version prepatch --no-push --force-publish --preid rc",
     "release:pre": "lerna version prerelease --no-push --force-publish --preid rc",
