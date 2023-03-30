@@ -1,12 +1,12 @@
-name: Bug report
-title: "[Bug]: "
-description: You've found a bug within the editor core or one of the extensions? Feel free to create a bug report to help us fixing it.
+name: Bug report (Tiptap Pro)
+title: "[PRO]: "
+description: You are a Tiptap Pro user and have found a bug with one of the Tiptap Pro functionalities? Feel free to report your issue here
 assignees:
   - bdbch
   - svenadlung
 labels:
   - "Type: Bug"
-  - "Category: Open Source"
+  - "Category: Pro"
   - "Status: New"
 body:
   - type: input

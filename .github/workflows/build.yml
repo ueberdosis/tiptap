@@ -18,15 +18,12 @@ jobs:
   lint:
     runs-on: ubuntu-latest
 
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
     strategy:
       matrix:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.4.0
+      - uses: actions/checkout@v3.5.0
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3.6.0
@@ -34,7 +31,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Load cached dependencies
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.1
         id: cache
         with:
           path: |
@@ -65,9 +62,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
     strategy:
       matrix:
         node-version: [16]
@@ -85,7 +79,7 @@ jobs:
           #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
-      - uses: actions/checkout@v3.4.0
+      - uses: actions/checkout@v3.5.0
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3.6.0
@@ -102,7 +96,7 @@ jobs:
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
-        uses: cypress-io/github-action@v5.5.0
+        uses: cypress-io/github-action@v5.5.1
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           start: npm run start
@@ -133,15 +127,12 @@ jobs:
 
     needs: lint
 
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
     strategy:
       matrix:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.4.0
+      - uses: actions/checkout@v3.5.0
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3.6.0
@@ -149,7 +140,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Load cached dependencies
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.1
         id: cache
         with:
           path: |

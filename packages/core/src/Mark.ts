@@ -311,6 +311,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<MarkConfig<Options, Storage>>['inclusive']
+          editor?: Editor
         }) => MarkSpec['inclusive'])
 
     /**
@@ -323,6 +324,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<MarkConfig<Options, Storage>>['excludes']
+          editor?: Editor
         }) => MarkSpec['excludes'])
 
     /**
@@ -340,6 +342,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<MarkConfig<Options, Storage>>['group']
+          editor?: Editor
         }) => MarkSpec['group'])
 
     /**
@@ -352,6 +355,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<MarkConfig<Options, Storage>>['spanning']
+          editor?: Editor
         }) => MarkSpec['spanning'])
 
     /**
@@ -364,6 +368,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<MarkConfig<Options, Storage>>['code']
+          editor?: Editor
         }) => boolean)
 
     /**
@@ -374,6 +379,7 @@ declare module '@tiptap/core' {
       options: Options
       storage: Storage
       parent: ParentConfig<MarkConfig<Options, Storage>>['parseHTML']
+      editor?: Editor
     }) => MarkSpec['parseDOM']
 
     /**
@@ -386,6 +392,7 @@ declare module '@tiptap/core' {
             options: Options
             storage: Storage
             parent: ParentConfig<MarkConfig<Options, Storage>>['renderHTML']
+            editor?: Editor
           },
           props: {
             mark: ProseMirrorMark
@@ -402,6 +409,7 @@ declare module '@tiptap/core' {
       options: Options
       storage: Storage
       parent: ParentConfig<MarkConfig<Options, Storage>>['addAttributes']
+      editor?: Editor
     }) => Attributes | {}
   }
 }

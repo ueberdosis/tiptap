@@ -1,0 +1,36 @@
+title: "Feature Request: "
+labels:
+  - "Type: Feature Request"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your time to create a new feature request! Please make sure to fill out the form below.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please describe the feature you would like to see in Tiptap.
+      placeholder: "I wish there was an extension for …"
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Please describe the use case for this feature.
+      placeholder: "I want to use this feature for …"
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      description: Please select the type of this feature.
+      options:
+        - "New extension"
+        - "New feature"
+        - "New Tiptap API"
+        - "Other"
+    validations:
+      required: true

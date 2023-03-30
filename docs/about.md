@@ -19,9 +19,6 @@ Give back to the open source community and [sponsor us on GitHub](https://github
 Sounds good? [Sponsor us on GitHub!](https://github.com/sponsors/ueberdosis)
 
 ## The maintainers of Tiptap
-If you are thankful for Tiptap, you should say thank you to the lovely people at [überdosis](https://ueberdosis.io), the company that builds this software.
-
-AND you should definitely hire us if you want us to design und build an amazing digital product for you. Bonus points if it’s somehow text editing related.
 
 !!team-grid
 
