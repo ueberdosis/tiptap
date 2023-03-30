@@ -13,6 +13,9 @@ If you think of the document as a tree, then nodes are just a type of content in
 | [Blockquote](/api/nodes/blockquote)          | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-blockquote/)      |
 | [BulletList](/api/nodes/bullet-list)         | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/)     |
 | [CodeBlock](/api/nodes/code-block)           | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block/)      |
+| [Details](/api/nodes/details)                | –                                                | Requires a Tiptap Pro subscription                                                           |
+| [DetailsSummary](/api/nodes/details-summary) | –                                                | Requires a Tiptap Pro subscription                                                           |
+| [DetailsContent](/api/nodes/details-content) | –                                                | Requires a Tiptap Pro subscription                                                           |
 | [Document](/api/nodes/document)              | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-document/)        |
 | [Emoji](/api/nodes/emoji)                    | –                                                | Requires a Tiptap Pro subscription                                                           |
 | [HardBreak](/api/nodes/hard-break)           | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-hard-break/)      |
