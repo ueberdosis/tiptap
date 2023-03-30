@@ -28,15 +28,15 @@
     "src",
     "dist"
   ],
-  "peerDependencies": {
-    "@tiptap/core": "^2.0.0",
-    "@tiptap/pm": "^2.0.0",
-    "@tiptap/suggestion": "2.0.0"
-  },
   "devDependencies": {
     "@tiptap/core": "^2.0.0",
     "@tiptap/pm": "^2.0.0",
-    "@tiptap/suggestion": "2.0.0"
+    "@tiptap/suggestion": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/pm": "^2.0.0",
+    "@tiptap/suggestion": "^2.0.0"
   },
   "repository": {
     "type": "git",
