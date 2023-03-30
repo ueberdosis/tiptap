@@ -32,6 +32,10 @@
     "@tiptap/core": "^2.0.0",
     "@tiptap/pm": "^2.0.0"
   },
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/pm": "^2.0.0"
+  },
   "dependencies": {
     "tippy.js": "^6.3.7"
   },
