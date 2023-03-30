@@ -34,6 +34,9 @@
   "devDependencies": {
     "@tiptap/pm": "^2.0.0"
   },
+  "peerDependencies": {
+    "@tiptap/pm": "^2.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
