@@ -31,10 +31,10 @@
     "src",
     "dist"
   ],
-  "peerDependencies": {
+  "devDependencies": {
     "@tiptap/pm": "^2.0.0"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "@tiptap/pm": "^2.0.0"
   },
   "repository": {

@@ -28,12 +28,12 @@
     "src",
     "dist"
   ],
-  "peerDependencies": {
+  "devDependencies": {
     "@tiptap/core": "^2.0.0",
     "@tiptap/pm": "^2.0.0",
     "y-prosemirror": "1.0.20"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "@tiptap/core": "^2.0.0",
     "@tiptap/pm": "^2.0.0",
     "y-prosemirror": "1.0.20"
