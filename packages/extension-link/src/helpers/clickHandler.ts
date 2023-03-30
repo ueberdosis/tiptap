@@ -11,7 +11,7 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
     key: new PluginKey('handleClickLink'),
     props: {
       handleClick: (view, pos, event) => {
-        if (event.button !== 1) {
+        if (event.button !== 0) {
           return false
         }
 
