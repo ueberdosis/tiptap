@@ -85,8 +85,9 @@
 
 .editor {
   background-color: #fff;
-  border: 3px solid #0d0d0d;
+  border: 2px solid #0d0d0d;
   border-radius: 0.75rem;
+  box-shadow: 5px 5px #000;
   color: #0d0d0d;
   display: flex;
   flex-direction: column;
@@ -94,14 +95,19 @@
 
   &__header {
     align-items: center;
-    background: #0d0d0d;
-    border-bottom: 3px solid #0d0d0d;
+    border-bottom: 2px solid #0d0d0d;
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
     display: flex;
-    flex: 0 0 auto;
-    flex-wrap: wrap;
-    padding: 0.25rem;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+  }
+
+  &__users {
+    color: rgba(#000, 0.8);
+    display: flex;
+    font-size: 0.85rem;
+    gap: 1rem;
   }
 
   &__content {
@@ -110,20 +116,6 @@
     overflow-y: auto;
     padding: 1.25rem 1rem;
     -webkit-overflow-scrolling: touch;
-  }
-
-  &__footer {
-    align-items: center;
-    border-top: 3px solid #0d0d0d;
-    color: #0d0d0d;
-    display: flex;
-    flex: 0 0 auto;
-    font-size: 12px;
-    flex-wrap: wrap;
-    font-weight: 600;
-    justify-content: space-between;
-    padding: 0.25rem 0.75rem;
-    white-space: nowrap;
   }
 
   /* Some information about the status */
@@ -152,22 +144,18 @@
     }
   }
 
-  &__name {
-    button {
-      background: none;
-      border: none;
-      border-radius: 0.4rem;
-      color: #0d0d0d;
-      font: inherit;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 0.25rem 0.5rem;
-
-      &:hover {
-        background-color: #0d0d0d;
-        color: #fff;
-      }
-    }
+  &__name button {
+    appearance: none;
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    line-height: normal;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    width: auto;
   }
 }
 
@@ -186,7 +174,7 @@
 .collaboration-cursor__label {
   border-radius: 3px 3px 3px 0;
   color: #0d0d0d;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 600;
   left: -1px;
@@ -196,4 +184,16 @@
   top: -1.4em;
   user-select: none;
   white-space: nowrap;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  background: #000;
+  border-radius: 100%;
+  height: 0.625rem;
+  width: 0.625rem;
 }

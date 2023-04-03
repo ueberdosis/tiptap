@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/ueberdosis/tiptap/compare/v2.0.1...v2.0.2) (2023-04-03)
+
+
+### Bug Fixes
+
+* **react:** fix rebinding events not overwriting editor.on ([#3935](https://github.com/ueberdosis/tiptap/issues/3935)) ([64ab357](https://github.com/ueberdosis/tiptap/commit/64ab3570c1e86a65f5022793acb0292d8972dcd7))
+
+
+
+
+
 ## [2.0.1](https://github.com/ueberdosis/tiptap/compare/v2.0.0...v2.0.1) (2023-03-30)
 
 

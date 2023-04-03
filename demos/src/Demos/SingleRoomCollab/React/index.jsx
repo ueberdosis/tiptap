@@ -4,9 +4,6 @@ import { TiptapCollabProvider } from '@hocuspocus/provider'
 import CharacterCount from '@tiptap/extension-character-count'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
-import Highlight from '@tiptap/extension-highlight'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, {
@@ -14,8 +11,6 @@ import React, {
   useState,
 } from 'react'
 import * as Y from 'yjs'
-
-import MenuBar from './MenuBar'
 
 const room = 'room-1'
 const colors = ['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D']
@@ -75,9 +70,6 @@ export default () => {
       StarterKit.configure({
         history: false,
       }),
-      Highlight,
-      TaskList,
-      TaskItem,
       CharacterCount.configure({
         limit: 10000,
       }),
@@ -115,9 +107,13 @@ export default () => {
 
   return (
     <div className="editor">
-      {editor && <MenuBar editor={editor} />}
-      <EditorContent className="editor__content" editor={editor} />
-      <div className="editor__footer">
+      <div className="editor__header">
+        <div className="dots">
+          <span className="dot"></span>
+          <span className="dot"></span>
+          <span className="dot"></span>
+        </div>
+        <div className="editor__users">
           <div className={`editor__status editor__status--${status}`}>
             {status === 'connected'
               ? `${editor.storage.collaborationCursor.users.length} user${editor.storage.collaborationCursor.users.length === 1 ? '' : 's'} online in ${room}`
@@ -127,6 +123,8 @@ export default () => {
             <button onClick={setName}>{currentUser.name}</button>
           </div>
         </div>
+      </div>
+      <EditorContent className="editor__content" editor={editor} />
     </div>
   )
 }
