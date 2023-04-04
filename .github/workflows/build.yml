@@ -96,7 +96,7 @@ jobs:
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
-        uses: cypress-io/github-action@v5.5.1
+        uses: cypress-io/github-action@v5.6.1
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           start: npm run start
