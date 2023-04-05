@@ -17,7 +17,13 @@ export const Keymap = Extension.create({
         const { selection, doc } = tr
         const { empty, $anchor } = selection
         const { pos, parent } = $anchor
-        const isAtStart = Selection.atStart(doc).from === pos
+        const $parentPos = tr.doc.resolve(pos - 1)
+        const parentIsIsolating = $parentPos.parent.type.spec.isolating
+
+        // Since we check the parent node from the $anchor position  -1 (to address for paragraphs)
+        // we dont need to do any other position checking. If an isolating node is found, we are always
+        // at the first position of a paragraph (for example)
+        const isAtStart = parentIsIsolating || Selection.atStart(doc).from === pos
 
         if (!empty || !isAtStart || !parent.type.isTextblock || parent.textContent.length) {
           return false
