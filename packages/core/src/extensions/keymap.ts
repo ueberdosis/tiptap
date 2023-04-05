@@ -23,7 +23,9 @@ export const Keymap = Extension.create({
         // Since we check the parent node from the $anchor position  -1 (to address for paragraphs)
         // we dont need to do any other position checking. If an isolating node is found, we are always
         // at the first position of a paragraph (for example)
-        const isAtStart = parentIsIsolating || Selection.atStart(doc).from === pos
+        // we just need to check, if there is only one child node in the parent node
+        // so we don't break the behavior of the backspace key in other situations
+        const isAtStart = (parentIsIsolating && $parentPos.parent.childCount === 1) || Selection.atStart(doc).from === pos
 
         if (!empty || !isAtStart || !parent.type.isTextblock || parent.textContent.length) {
           return false
