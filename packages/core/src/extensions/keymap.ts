@@ -17,7 +17,14 @@ export const Keymap = Extension.create({
         const { selection, doc } = tr
         const { empty, $anchor } = selection
         const { pos, parent } = $anchor
-        const isAtStart = Selection.atStart(doc).from === pos
+        const $parentPos = $anchor.parent.isTextblock ? tr.doc.resolve(pos - 1) : $anchor
+        const parentIsIsolating = $parentPos.parent.type.spec.isolating
+
+        const parentPos = $anchor.pos - $anchor.parentOffset
+
+        const isAtStart = (parentIsIsolating && $parentPos.parent.childCount === 1)
+          ? parentPos === $anchor.pos
+          : Selection.atStart(doc).from === pos
 
         if (!empty || !isAtStart || !parent.type.isTextblock || parent.textContent.length) {
           return false
