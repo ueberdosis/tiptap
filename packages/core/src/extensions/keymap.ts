@@ -17,7 +17,7 @@ export const Keymap = Extension.create({
         const { selection, doc } = tr
         const { empty, $anchor } = selection
         const { pos, parent } = $anchor
-        const $parentPos = tr.doc.resolve(pos - 1)
+        const $parentPos = $anchor.parent.isTextblock ? tr.doc.resolve(pos - 1) : $anchor
         const parentIsIsolating = $parentPos.parent.type.spec.isolating
 
         // Since we check the parent node from the $anchor position  -1 (to address for paragraphs)
