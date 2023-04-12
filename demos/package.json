@@ -18,7 +18,7 @@
     "shiki": "^0.10.0",
     "simplify-js": "^1.2.4",
     "y-prosemirror": "1.0.20",
-    "y-webrtc": "^10.2.3",
+    "y-webrtc": "^10.2.5",
     "yjs": "^13.5.39"
   },
   "devDependencies": {
