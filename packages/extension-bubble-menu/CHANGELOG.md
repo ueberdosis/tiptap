@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.0...v2.1.0-rc.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* **bubble-menu:** fix debounce not working with collab/collaboration cursor ([#3956](https://github.com/ueberdosis/tiptap/issues/3956)) ([e8cef04](https://github.com/ueberdosis/tiptap/commit/e8cef0404b5039ec2657536976b8b31931afd337))
+
+
+
+
+
 # [2.1.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.1.0-rc.0) (2023-04-05)
 
 **Note:** Version bump only for package @tiptap/extension-bubble-menu
