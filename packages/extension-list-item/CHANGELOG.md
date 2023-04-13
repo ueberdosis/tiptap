@@ -13,6 +13,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.1.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.1.0-rc.0) (2023-04-05)
 
+
+**Note:** Version bump only for package @tiptap/extension-list-item
+
+
+
+
+
+
+## [2.0.3](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.0.3) (2023-04-13)
+
 **Note:** Version bump only for package @tiptap/extension-list-item
 
 
