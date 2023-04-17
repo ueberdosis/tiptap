@@ -136,9 +136,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       return null
     }
 
-    const contentElement = this.dom.querySelector('[data-node-view-content]')
-
-    return (contentElement || this.dom) as HTMLElement | null
+    return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
   }
 
   update(node: ProseMirrorNode, decorations: DecorationWithType[]) {
