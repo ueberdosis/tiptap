@@ -13,34 +13,34 @@ export const LinkifyPastePlugin = ({ editor, type }: LinkifyPastePluginOptions) 
     key: new PluginKey('linkifyPaste'),
 
     props: {
-      handlePaste(view, event, slice) {
-        let linkHref: string | null = null
-        let link = null
+      handlePaste(_view, _event, slice) {
+        const { state } = editor
+        const { tr, selection } = state
+
+        let currentPos = selection.anchor - 1
 
         // this only needs to run the linkify if the slice contains one text node
         // that is not already a link & the text is a valid URL
         slice.content.forEach(node => {
-          link = find(node.textContent).find(item => item.isLink)
+          const links = find(node.textContent)
 
-          if (link && node.marks.some(mark => mark.type === type)) {
-            return
-          }
+          tr.insert(currentPos, node)
 
-          const text = node.textContent
+          links.forEach(link => {
+            const linkStart = currentPos + link.start + 1
+            const linkEnd = currentPos + link.end + 1
 
-          if (!text || !link) {
-            return
-          }
+            const hasMark = tr.doc.rangeHasMark(linkStart, linkEnd, type)
 
-          linkHref = link.href
+            if (!hasMark) {
+              tr.addMark(currentPos + link.start + 1, currentPos + link.end + 1, type.create({ href: link.href }))
+            }
+          })
+
+          currentPos += node.nodeSize
         })
 
-        if (!linkHref || !link) {
-          return false
-        }
-
-        // handle pasting of links
-        editor.chain().insertContent(`<a href="${linkHref}">${slice.content.child(0).textContent}</a>`).focus().run()
+        editor.view.dispatch(tr)
 
         return true
       },
