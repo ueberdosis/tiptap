@@ -1,9 +1,10 @@
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes } from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
-import { find, registerCustomProtocol, reset } from 'linkifyjs'
+import { registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink'
 import { clickHandler } from './helpers/clickHandler'
+import { LinkifyPastePlugin } from './helpers/linkifyPaste'
 import { pasteHandler } from './helpers/pasteHandler'
 
 export interface LinkProtocolOptions {
@@ -146,33 +147,13 @@ export const Link = Mark.create<LinkOptions>({
     }
   },
 
-  addPasteRules() {
-    return [
-      markPasteRule({
-        find: text => find(text)
-          .filter(link => {
-            if (this.options.validate) {
-              return this.options.validate(link.value)
-            }
-
-            return true
-          })
-          .filter(link => link.isLink)
-          .map(link => ({
-            text: link.value,
-            index: link.start,
-            data: link,
-          })),
-        type: this.type,
-        getAttributes: match => ({
-          href: match.data?.href,
-        }),
-      }),
-    ]
-  },
-
   addProseMirrorPlugins() {
     const plugins: Plugin[] = []
+
+    plugins.push(LinkifyPastePlugin({
+      editor: this.editor,
+      type: this.type,
+    }))
 
     if (this.options.autolink) {
       plugins.push(
