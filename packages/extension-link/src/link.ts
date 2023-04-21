@@ -4,7 +4,6 @@ import { registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink'
 import { clickHandler } from './helpers/clickHandler'
-import { LinkifyPastePlugin } from './helpers/linkifyPaste'
 import { pasteHandler } from './helpers/pasteHandler'
 
 export interface LinkProtocolOptions {
@@ -150,11 +149,6 @@ export const Link = Mark.create<LinkOptions>({
   addProseMirrorPlugins() {
     const plugins: Plugin[] = []
 
-    plugins.push(LinkifyPastePlugin({
-      editor: this.editor,
-      type: this.type,
-    }))
-
     if (this.options.autolink) {
       plugins.push(
         autolink({
@@ -172,14 +166,13 @@ export const Link = Mark.create<LinkOptions>({
       )
     }
 
-    if (this.options.linkOnPaste) {
-      plugins.push(
-        pasteHandler({
-          editor: this.editor,
-          type: this.type,
-        }),
-      )
-    }
+    plugins.push(
+      pasteHandler({
+        editor: this.editor,
+        type: this.type,
+        linkOnPaste: this.options.linkOnPaste,
+      }),
+    )
 
     return plugins
   },

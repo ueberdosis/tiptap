@@ -6,6 +6,7 @@ import { find } from 'linkifyjs'
 type PasteHandlerOptions = {
   editor: Editor
   type: MarkType
+  linkOnPaste?: boolean
 }
 
 export function pasteHandler(options: PasteHandlerOptions): Plugin {
@@ -15,11 +16,6 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
       handlePaste: (view, event, slice) => {
         const { state } = view
         const { selection } = state
-        const { empty } = selection
-
-        if (empty) {
-          return false
-        }
 
         let textContent = ''
 
@@ -29,15 +25,54 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
 
         const link = find(textContent).find(item => item.isLink && item.value === textContent)
 
-        if (!textContent || !link) {
-          return false
+        if (link && !selection.empty && options.linkOnPaste) {
+          options.editor.commands.setMark(options.type, {
+            href: link.href,
+          })
+
+          return true
         }
 
-        options.editor.commands.setMark(options.type, {
-          href: link.href,
+        if (link && selection.empty) {
+          options.editor.commands.insertContent(`<a href="${link.href}">${link.href}</a>`)
+          return true
+        }
+
+        const { tr } = state
+
+        if (!selection.empty) {
+          tr.delete(selection.from, selection.to)
+        }
+
+        let currentPos = selection.from
+
+        slice.content.forEach(node => {
+          const fragmentLinks = find(node.textContent)
+
+          if (fragmentLinks.length > 0) {
+            tr.insert(currentPos - 1, node)
+
+            fragmentLinks.forEach(fragmentLink => {
+              const linkStart = currentPos + fragmentLink.start
+              const linkEnd = currentPos + fragmentLink.end
+
+              const hasMark = tr.doc.rangeHasMark(linkStart, linkEnd, options.type)
+
+              if (!hasMark) {
+                tr.addMark(linkStart, linkEnd, options.type.create({ href: fragmentLink.href }))
+              }
+            })
+
+            currentPos += node.nodeSize
+          }
         })
 
-        return true
+        if (tr.docChanged) {
+          options.editor.view.dispatch(tr)
+          return true
+        }
+
+        return false
       },
     },
   })
