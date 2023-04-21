@@ -39,8 +39,10 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         }
 
         const { tr } = state
+        let deleteOnly = false
 
         if (!selection.empty) {
+          deleteOnly = true
           tr.delete(selection.from, selection.to)
         }
 
@@ -51,6 +53,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
 
           if (fragmentLinks.length > 0) {
             tr.insert(currentPos - 1, node)
+            deleteOnly = false
 
             fragmentLinks.forEach(fragmentLink => {
               const linkStart = currentPos + fragmentLink.start
@@ -67,7 +70,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           }
         })
 
-        if (tr.docChanged) {
+        if (tr.docChanged && !deleteOnly) {
           options.editor.view.dispatch(tr)
           return true
         }
