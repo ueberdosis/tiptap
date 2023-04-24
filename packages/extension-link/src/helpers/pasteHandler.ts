@@ -33,6 +33,10 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           return true
         }
 
+        if (slice.content.firstChild?.type.name === 'text' && slice.content.firstChild?.marks.some(mark => mark.type.name === options.type.name)) {
+          return false
+        }
+
         if (link && selection.empty) {
           options.editor.commands.insertContent(`<a href="${link.href}">${link.href}</a>`)
           return true
