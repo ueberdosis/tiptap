@@ -29,6 +29,7 @@ export function autolink(options: AutolinkOptions): Plugin {
       const transform = combineTransactionSteps(oldState.doc, [...transactions])
       const { mapping } = transform
       const changes = getChangedRanges(transform)
+      let needsAutolink = true
 
       changes.forEach(({ oldRange, newRange }) => {
         // at first we check if we have to remove links
@@ -51,12 +52,20 @@ export function autolink(options: AutolinkOptions): Plugin {
             const wasLink = test(oldLinkText)
             const isLink = test(newLinkText)
 
+            if (wasLink) {
+              needsAutolink = false
+            }
+
             // remove only the link, if it was a link before too
             // because we don’t want to remove links that were set manually
             if (wasLink && !isLink) {
-              tr.removeMark(newMark.from, newMark.to, options.type)
+              tr.removeMark(needsAutolink ? newMark.from : newMark.to - 1, newMark.to, options.type)
             }
           })
+
+        if (!needsAutolink) {
+          return
+        }
 
         // now let’s see if we can add new links
         const nodesInChangedRanges = findChildrenInRange(
