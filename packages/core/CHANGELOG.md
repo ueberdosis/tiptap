@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-rc.3](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.2...v2.1.0-rc.3) (2023-04-26)
+
+
+### Bug Fixes
+
+* **core:** remove configure from extend functionality ([4af54da](https://github.com/ueberdosis/tiptap/commit/4af54da3e09c69c0b5326f9952d456436855914d))
+
+
+
+
+
 # [2.1.0-rc.2](https://github.com/ueberdosis/tiptap/compare/v2.0.3...v2.1.0-rc.2) (2023-04-26)
 
 
