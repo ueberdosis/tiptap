@@ -71,6 +71,14 @@ context('/src/Marks/Link/React/', () => {
       .should('have.attr', 'href', 'https://example.com')
   })
 
+  it('detects a pasted URL with query params', () => {
+    cy.get('.ProseMirror')
+      .paste({ pastePayload: 'https://example.com?paramA=nice&paramB=cool', pasteType: 'text/plain' })
+      .find('a')
+      .should('contain', 'Example Text')
+      .should('have.attr', 'href', 'https://example.com?paramA=nice&paramB=cool')
+  })
+
   it('correctly detects multiple pasted URLs', () => {
     cy.get('.ProseMirror').paste({
       pastePayload:
