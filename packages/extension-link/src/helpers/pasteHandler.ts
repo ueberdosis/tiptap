@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core'
-import { MarkType } from '@tiptap/pm/model'
+import { Mark, MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { find } from 'linkifyjs'
 
@@ -17,6 +17,18 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         const { state } = view
         const { selection } = state
 
+        const pastedLinkMarks: Mark[] = []
+
+        slice.content.forEach(node => {
+          node.marks.forEach(mark => {
+            if (mark.type.name === options.type.name) {
+              pastedLinkMarks.push(mark)
+            }
+          })
+        })
+
+        const hasPastedLink = pastedLinkMarks.length > 0
+
         let textContent = ''
 
         slice.content.forEach(node => {
@@ -25,12 +37,15 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
 
         const link = find(textContent).find(item => item.isLink && item.value === textContent)
 
-        if (link && !selection.empty && options.linkOnPaste) {
-          options.editor.commands.setMark(options.type, {
-            href: link.href,
-          })
+        if (!selection.empty && options.linkOnPaste) {
+          const pastedLink = hasPastedLink ? pastedLinkMarks[0].attrs.href : link?.href || null
 
-          return true
+          if (pastedLink) {
+            options.editor.commands.setMark(options.type, {
+              href: pastedLink,
+            })
+            return true
+          }
         }
 
         if (slice.content.firstChild?.type.name === 'text' && slice.content.firstChild?.marks.some(mark => mark.type.name === options.type.name)) {
@@ -55,8 +70,9 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         slice.content.forEach(node => {
           const fragmentLinks = find(node.textContent)
 
+          tr.insert(currentPos - 1, node)
+
           if (fragmentLinks.length > 0) {
-            tr.insert(currentPos - 1, node)
             deleteOnly = false
 
             fragmentLinks.forEach(fragmentLink => {
@@ -70,8 +86,8 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
               }
             })
 
-            currentPos += node.nodeSize
           }
+          currentPos += node.nodeSize
         })
 
         if (tr.docChanged && !deleteOnly) {
