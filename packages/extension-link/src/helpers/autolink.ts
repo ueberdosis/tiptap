@@ -63,10 +63,6 @@ export function autolink(options: AutolinkOptions): Plugin {
             }
           })
 
-        if (!needsAutolink) {
-          return
-        }
-
         // now let’s see if we can add new links
         const nodesInChangedRanges = findChildrenInRange(
           newState.doc,
@@ -130,6 +126,10 @@ export function autolink(options: AutolinkOptions): Plugin {
             }))
             // add link mark
             .forEach(link => {
+              if (getMarksBetween(link.from, link.to, newState.doc).some(item => item.mark.type === options.type)) {
+                return
+              }
+
               tr.addMark(
                 link.from,
                 link.to,
