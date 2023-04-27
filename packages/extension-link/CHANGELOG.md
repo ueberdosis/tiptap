@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-rc.4](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.3...v2.1.0-rc.4) (2023-04-27)
+
+
+### Bug Fixes
+
+* **link:** fix links autolinking when not needed ([#3989](https://github.com/ueberdosis/tiptap/issues/3989)) ([71946c1](https://github.com/ueberdosis/tiptap/commit/71946c18accf8a2e8192951de870f84e25f58ed5))
+
+
+
+
+
 # [2.1.0-rc.3](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.2...v2.1.0-rc.3) (2023-04-26)
 
 **Note:** Version bump only for package @tiptap/extension-link
