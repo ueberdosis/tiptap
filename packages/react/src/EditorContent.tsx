@@ -147,4 +147,13 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   }
 }
 
-export const EditorContent = React.memo(PureEditorContent)
+// EditorContent should be re-created whenever the Editor instance changes
+const EditorContentWithKey = (props: EditorContentProps) => {
+  const key = React.useMemo(() => {
+    return Math.floor(Math.random() * 0xFFFFFFFF).toString()
+  }, [props.editor])
+
+  return <PureEditorContent key={key} {...props as any} />
+}
+
+export const EditorContent = React.memo(EditorContentWithKey)

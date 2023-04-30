@@ -113,10 +113,15 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     })
 
     return () => {
-      instance.destroy()
       isMounted = false
     }
   }, deps)
+
+  useEffect(() => {
+    return () => {
+      editor?.destroy()
+    }
+  }, [editor])
 
   return editor
 }
