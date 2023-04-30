@@ -2,11 +2,11 @@ import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { NodeSelection } from '@tiptap/pm/state'
 import { NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 
-import { Editor as CoreEditor } from './Editor'
-import { Node } from './Node'
-import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types'
-import { isAndroid } from './utilities/isAndroid'
-import { isiOS } from './utilities/isiOS'
+import { Editor as CoreEditor } from './Editor.js'
+import { Node } from './Node.js'
+import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'
+import { isAndroid } from './utilities/isAndroid.js'
+import { isiOS } from './utilities/isiOS.js'
 
 export class NodeView<
   Component,

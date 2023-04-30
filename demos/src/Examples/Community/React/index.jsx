@@ -8,7 +8,7 @@ import Text from '@tiptap/extension-text'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 
-import suggestion from './suggestion'
+import suggestion from './suggestion.js'
 
 export default () => {
   const limit = 280

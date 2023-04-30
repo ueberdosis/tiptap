@@ -1,10 +1,10 @@
 import { MarkType, NodeType } from '@tiptap/pm/model'
 
-import { getMarkType } from '../helpers/getMarkType'
-import { getNodeType } from '../helpers/getNodeType'
-import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName'
-import { RawCommands } from '../types'
-import { deleteProps } from '../utilities/deleteProps'
+import { getMarkType } from '../helpers/getMarkType.js'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName.js'
+import { RawCommands } from '../types.js'
+import { deleteProps } from '../utilities/deleteProps.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

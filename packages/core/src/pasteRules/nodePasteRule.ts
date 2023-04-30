@@ -1,8 +1,8 @@
 import { NodeType } from '@tiptap/pm/model'
 
-import { PasteRule, PasteRuleFinder } from '../PasteRule'
-import { ExtendedRegExpMatchArray } from '../types'
-import { callOrReturn } from '../utilities'
+import { PasteRule, PasteRuleFinder } from '../PasteRule.js'
+import { ExtendedRegExpMatchArray } from '../types.js'
+import { callOrReturn } from '../utilities/index.js'
 
 /**
  * Build an paste rule that adds a node when the

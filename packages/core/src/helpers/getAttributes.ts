@@ -1,9 +1,9 @@
 import { MarkType, NodeType } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 
-import { getMarkAttributes } from './getMarkAttributes'
-import { getNodeAttributes } from './getNodeAttributes'
-import { getSchemaTypeNameByName } from './getSchemaTypeNameByName'
+import { getMarkAttributes } from './getMarkAttributes.js'
+import { getNodeAttributes } from './getNodeAttributes.js'
+import { getSchemaTypeNameByName } from './getSchemaTypeNameByName.js'
 
 export function getAttributes(
   state: EditorState,

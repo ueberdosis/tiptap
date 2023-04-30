@@ -3,12 +3,12 @@ import {
 } from '@tiptap/pm/model'
 import { Plugin, Transaction } from '@tiptap/pm/state'
 
-import { MarkConfig } from '.'
-import { Editor } from './Editor'
-import { getExtensionField } from './helpers/getExtensionField'
-import { InputRule } from './InputRule'
-import { Node } from './Node'
-import { PasteRule } from './PasteRule'
+import { Editor } from './Editor.js'
+import { getExtensionField } from './helpers/getExtensionField.js'
+import { MarkConfig } from './index.js'
+import { InputRule } from './InputRule.js'
+import { Node } from './Node.js'
+import { PasteRule } from './PasteRule.js'
 import {
   AnyConfig,
   Attributes,
@@ -17,9 +17,9 @@ import {
   KeyboardShortcutCommand,
   ParentConfig,
   RawCommands,
-} from './types'
-import { callOrReturn } from './utilities/callOrReturn'
-import { mergeDeep } from './utilities/mergeDeep'
+} from './types.js'
+import { callOrReturn } from './utilities/callOrReturn.js'
+import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   export interface MarkConfig<Options = any, Storage = any> {

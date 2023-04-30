@@ -1,5 +1,5 @@
-import { Bold } from './bold'
+import { Bold } from './bold.js'
 
-export * from './bold'
+export * from './bold.js'
 
 export default Bold

@@ -1,6 +1,6 @@
-import { Suggestion } from './suggestion'
+import { Suggestion } from './suggestion.js'
 
-export * from './findSuggestionMatch'
-export * from './suggestion'
+export * from './findSuggestionMatch.js'
+export * from './suggestion.js'
 
 export default Suggestion

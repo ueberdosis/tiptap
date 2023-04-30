@@ -17,8 +17,8 @@ import {
   ref,
 } from 'vue'
 
-import { Editor } from './Editor'
-import { VueRenderer } from './VueRenderer'
+import { Editor } from './Editor.js'
+import { VueRenderer } from './VueRenderer.js'
 
 export const nodeViewProps = {
   editor: {

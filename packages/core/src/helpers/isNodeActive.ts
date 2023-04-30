@@ -1,9 +1,9 @@
 import { NodeType } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 
-import { NodeRange } from '../types'
-import { objectIncludes } from '../utilities/objectIncludes'
-import { getNodeType } from './getNodeType'
+import { NodeRange } from '../types.js'
+import { objectIncludes } from '../utilities/objectIncludes.js'
+import { getNodeType } from './getNodeType.js'
 
 export function isNodeActive(
   state: EditorState,

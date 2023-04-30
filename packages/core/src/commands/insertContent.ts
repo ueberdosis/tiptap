@@ -1,6 +1,6 @@
 import { ParseOptions } from '@tiptap/pm/model'
 
-import { Content, RawCommands } from '../types'
+import { Content, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

@@ -1,9 +1,9 @@
 import { MarkType } from '@tiptap/pm/model'
 
-import { getMarksBetween } from '../helpers/getMarksBetween'
-import { InputRule, InputRuleFinder } from '../InputRule'
-import { ExtendedRegExpMatchArray } from '../types'
-import { callOrReturn } from '../utilities/callOrReturn'
+import { getMarksBetween } from '../helpers/getMarksBetween.js'
+import { InputRule, InputRuleFinder } from '../InputRule.js'
+import { ExtendedRegExpMatchArray } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
  * Build an input rule that adds a mark when the

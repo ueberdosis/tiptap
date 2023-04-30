@@ -1,9 +1,9 @@
 import { MarkType } from '@tiptap/pm/model'
 
-import { getMarksBetween } from '../helpers/getMarksBetween'
-import { PasteRule, PasteRuleFinder } from '../PasteRule'
-import { ExtendedRegExpMatchArray } from '../types'
-import { callOrReturn } from '../utilities/callOrReturn'
+import { getMarksBetween } from '../helpers/getMarksBetween.js'
+import { PasteRule, PasteRuleFinder } from '../PasteRule.js'
+import { ExtendedRegExpMatchArray } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
  * Build an paste rule that adds a mark when the
