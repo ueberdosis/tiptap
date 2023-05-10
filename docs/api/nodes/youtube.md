@@ -219,8 +219,8 @@ Youtube.configure({
 This parameter specifies the color that will be used in the player's video progress bar.
 
 Possible values are:
-- `red`
-- `white`
+- `'red'`
+- `'white'`
 
 Note that setting the color parameter to `white` will disable the `modestBranding` parameter.
 
