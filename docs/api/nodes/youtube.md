@@ -28,7 +28,7 @@ Youtube.configure({
 ```
 
 ### width
-Controls the default width of added videos
+Controls the default width of added videos.
 
 Default: `640`
 
@@ -39,7 +39,7 @@ Youtube.configure({
 ```
 
 ### height
-Controls the default height of added videos
+Controls the default height of added videos.
 
 Default: `480`
 
@@ -50,7 +50,7 @@ Youtube.configure({
 ```
 
 ### controls
-Enables or disables YouTube video controls
+Enables or disables YouTube video controls.
 
 Default: `true`
 
@@ -61,7 +61,7 @@ Youtube.configure({
 ```
 
 ### nocookie
-Enables the nocookie mode for YouTube embeds
+Enables the nocookie mode for YouTube embeds.
 
 Default: `false`
 
@@ -72,7 +72,7 @@ Youtube.configure({
 ```
 
 ### allowFullscreen
-Allows the iframe to be played in fullscreen
+Allows the iframe to be played in fullscreen.
 
 Default: `true`
 
@@ -83,7 +83,7 @@ Youtube.configure({
 ```
 
 ### autoplay
-Allows the iframe to to start playing after the player is loaded
+Allows the iframe to to start playing after the player is loaded.
 
 Default: `false`
 
@@ -94,7 +94,7 @@ Youtube.configure({
 ```
 
 ### ccLanguage
-Specifies the default language that the player will use to display closed captions. Set the parameter's value to an ISO 639-1 two-letter language code. For example, setting it to `es` will cause the captions to be in spanish
+Specifies the default language that the player will use to display closed captions. Set the parameter's value to an ISO 639-1 two-letter language code. For example, setting it to `es` will cause the captions to be in spanish.
 
 Default: `undefined`
 
@@ -105,7 +105,7 @@ Youtube.configure({
 ```
 
 ### ccLoadPolicy
-Setting this parameter's value to `true` causes closed captions to be shown by default, even if the user has turned captions off
+Setting this parameter's value to `true` causes closed captions to be shown by default, even if the user has turned captions off.
 
 Default: `false`
 
@@ -116,7 +116,7 @@ Youtube.configure({
 ```
 
 ### disableKBcontrols
-Disables the keyboards controls for the iframe player
+Disables the keyboard controls for the iframe player.
 
 Default: `false`
 
@@ -150,7 +150,7 @@ Youtube.configure({
 
 ### endTime
 This parameter specifies the time, measured in seconds from the start of the video, when the player should stop playing the video.
-For example, setting it to `15` will make the video stop at the 15 seconds mark
+For example, setting it to `15` will make the video stop at the 15 seconds mark.
 
 Default: `0`
 
@@ -161,7 +161,7 @@ Youtube.configure({
 ```
 
 ### interfaceLanguage
-Sets the player's interface language. The parameter value is an ISO 639-1 two-letter language code. For example, setting it to `fr` will cause the interface to be in french
+Sets the player's interface language. The parameter value is an ISO 639-1 two-letter language code. For example, setting it to `fr` will cause the interface to be in french.
 
 Default: `undefined`
 
@@ -172,7 +172,7 @@ Youtube.configure({
 ```
 
 ### ivLoadPolicy
-Setting this to 1 causes video annotations to be shown by default, whereas setting to 3 causes video annotations to not be shown by default
+Setting this to `1` causes video annotations to be shown by default, whereas setting to `3` causes video annotations to not be shown by default.
 
 Default: `0`
 
@@ -205,7 +205,7 @@ Youtube.configure({
 ```
 
 ### modestBranding
-Disables the Youtube logo on the control bar of the player. Note that a small YouTube text label will still display in the upper-right corner of a paused video when the user's mouse pointer hovers over the player
+Disables the Youtube logo on the control bar of the player. Note that a small YouTube text label will still display in the upper-right corner of a paused video when the user's mouse pointer hovers over the player.
 
 Default: `false`
 
@@ -216,7 +216,13 @@ Youtube.configure({
 ```
 
 ### progressBarColor
-This parameter specifies the color that will be used in the player's video progress bar. Note that setting the color parameter to `white` will disable the `modestBranding` parameter
+This parameter specifies the color that will be used in the player's video progress bar.
+
+Possible values are:
+- `red`
+- `white`
+
+Note that setting the color parameter to `white` will disable the `modestBranding` parameter.
 
 Default: `undefined`
 
@@ -229,7 +235,7 @@ Youtube.configure({
 ## Commands
 
 ### setYoutubeVideo(options)
-Inserts a YouTube iframe embed at the current position
+Inserts a YouTube iframe embed at the current position.
 
 ```js
 editor.commands.setYoutubeVideo({
