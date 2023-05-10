@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import React, { HTMLProps } from 'react'
 import ReactDOM, { flushSync } from 'react-dom'
 
@@ -124,7 +125,6 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
     if (!editor.options.element.firstChild) {
       return
     }
-
     const newElement = document.createElement('div')
 
     newElement.append(...editor.options.element.childNodes)
@@ -148,12 +148,27 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 }
 
 // EditorContent should be re-created whenever the Editor instance changes
-const EditorContentWithKey = (props: EditorContentProps) => {
-  const key = React.useMemo(() => {
-    return Math.floor(Math.random() * 0xFFFFFFFF).toString()
-  }, [props.editor])
+class EditorContentWithKey extends React.Component<EditorContentProps> {
+  key: string
 
-  return <PureEditorContent key={key} {...props as any} />
+  constructor(props: EditorContentProps) {
+    super(props)
+    this.key = this.generateKey()
+  }
+
+  componentDidUpdate(prevProps: EditorContentProps) {
+    if (this.props.editor !== prevProps.editor) {
+      this.key = this.generateKey()
+    }
+  }
+
+  generateKey() {
+    return Math.floor(Math.random() * 0xFFFFFFFF).toString()
+  }
+
+  render() {
+    return <PureEditorContent key={this.key} {...this.props as any} />
+  }
 }
 
 export const EditorContent = React.memo(EditorContentWithKey)
