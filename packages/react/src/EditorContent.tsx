@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 import React, { HTMLProps } from 'react'
 import ReactDOM, { flushSync } from 'react-dom'
 
@@ -125,6 +124,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
     if (!editor.options.element.firstChild) {
       return
     }
+
     const newElement = document.createElement('div')
 
     newElement.append(...editor.options.element.childNodes)
@@ -148,27 +148,13 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 }
 
 // EditorContent should be re-created whenever the Editor instance changes
-class EditorContentWithKey extends React.Component<EditorContentProps> {
-  key: string
-
-  constructor(props: EditorContentProps) {
-    super(props)
-    this.key = this.generateKey()
-  }
-
-  componentDidUpdate(prevProps: EditorContentProps) {
-    if (this.props.editor !== prevProps.editor) {
-      this.key = this.generateKey()
-    }
-  }
-
-  generateKey() {
+const EditorContentWithKey = (props: EditorContentProps) => {
+  const key = React.useMemo(() => {
     return Math.floor(Math.random() * 0xFFFFFFFF).toString()
-  }
+  }, [props.editor])
 
-  render() {
-    return <PureEditorContent key={this.key} {...this.props as any} />
-  }
+  // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
+  return React.createElement(PureEditorContent, { key, ...props })
 }
 
 export const EditorContent = React.memo(EditorContentWithKey)
