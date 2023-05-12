@@ -83,3 +83,5 @@ The content of this editor is shared with other users.
 :::
 https://embed.tiptap.dev/preview/Extensions/Collaboration?hideSource
 https://embed.tiptap.dev/preview/Extensions/Collaboration
+
+!!tiptap-collab-cta

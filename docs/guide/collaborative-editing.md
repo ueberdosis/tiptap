@@ -128,6 +128,9 @@ Try opening http://127.0.0.1:1234 in your browser. You should see a plain text `
 
 Go back to your Tiptap editor and hit reload, it should now connect to the Hocuspocus WebSocket server and changes should sync with all other clients. Amazing, isn’t it?
 
+
+!!tiptap-collab-cta
+
 ### Multiple network providers
 You can even combine multiple providers. That’s not needed, but could keep clients connected, even if one connection - for example the WebSocket server - goes down for a while. Here is an example:
 
@@ -281,6 +284,14 @@ const server = Server.configure({
 
 server.listen()
 ```
+
+## Tiptap Collab – our hosted solution
+
+If you don’t want the struggle of self-hosting and scaling Hocuspocus, make sure to check out our managed solution Tiptap Collab.
+
+It’s just a few clicks away, really.
+
+!!tiptap-collab-cta
 
 ## Pitfalls
 
