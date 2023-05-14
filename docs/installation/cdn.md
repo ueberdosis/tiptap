@@ -1,4 +1,62 @@
 # CDN
+
+It's also possible to run Tiptap directly on the browser by using CDNs like [esm.sh](https://esm.sh), jsDeliver's [esm.run](https://esm.run), and [Skypack](https://skypack.dev).
+
+## ESM.SH
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <div class="element"></div>
+  <script type="module">
+    import { Editor } from 'https://esm.sh/@tiptap/core'
+    import StarterKit from 'https://esm.sh/@tiptap/starter-kit'
+    const editor = new Editor({
+      element: document.querySelector('.element'),
+      extensions: [
+        StarterKit,
+      ],
+      content: '<p>Hello World!</p>',
+    })
+  </script>
+</body>
+</html>
+```
+
+You should now see Tiptap in your browser. Time to give yourself a pat on the back! :)
+
+## ESM.RUN
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <div class="element"></div>
+  <script type="module">
+    import { Editor } from 'https://cdn.jsdelivr.net/npm/@tiptap/core/+esm'
+    import StarterKit from 'https://cdn.jsdelivr.net/npm/@tiptap/starter-kit/+esm'
+    const editor = new Editor({
+      element: document.querySelector('.element'),
+      extensions: [
+        StarterKit,
+      ],
+      content: '<p>Hello World!</p>',
+    })
+  </script>
+</body>
+</html>
+```
+
+You should now see Tiptap in your browser. Time to give yourself a pat on the back! :)
+
+## Skypack
 :::warning
 There’s [an issue with skypack](https://github.com/skypackjs/skypack-cdn/issues/159), which causes trouble every now and then. We can’t do much about that for now.
 :::
