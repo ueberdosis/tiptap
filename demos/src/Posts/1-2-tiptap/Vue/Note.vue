@@ -14,6 +14,11 @@ watch(props, () => modelValueProxy.value = props.note.content)
 
 const editor = useEditor({
   content: props.note.content,
+  editorProps: {
+    attributes: {
+      class: 'm-2 p-2 border border-black rounded-lg',
+    },
+  },
   extensions: [
     StarterKit,
   ],

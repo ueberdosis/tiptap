@@ -4,7 +4,6 @@ import { TiptapCollabProvider } from '@hocuspocus/provider'
 import { Collaboration } from '@tiptap/extension-collaboration'
 import StarterKit from '@tiptap/starter-kit'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
-import { fromBase64 } from 'lib0/buffer'
 import { onMounted, onUnmounted } from 'vue'
 import * as Y from 'yjs'
 
@@ -14,16 +13,7 @@ const props = defineProps<{ note: TNote }>()
 
 let provider: TiptapCollabProvider | undefined
 
-const createDocFromBase64 = (base64Update: string) => {
-  const doc = new Y.Doc()
-
-  Y.applyUpdate(doc, fromBase64(base64Update))
-
-  return doc
-}
-
-// usually, you'd just do `new Y.Doc()` here. We are doing some magic to make sure you can just switch to your APP and you have the same document
-const doc = createDocFromBase64(props.note.documentBase64)
+const doc = new Y.Doc()
 
 onMounted(() => {
   provider = new TiptapCollabProvider({
@@ -37,6 +27,15 @@ onMounted(() => {
 onUnmounted(() => provider?.destroy())
 
 const editor = useEditor({
+  // make sure that you don't use `content` property anymore!
+  // If you want to add default content, feel free to just write text to the tiptap editor (i.e. editor.setContent (https://tiptap.dev/api/commands/set-content), but make sure that
+  // you do this only once per document, otherwise the content will
+  // be added again, and again, and again ..
+  editorProps: {
+    attributes: {
+      class: 'm-2 p-2 border border-black rounded-lg',
+    },
+  },
   extensions: [
     StarterKit.configure({
       history: false, // important because history will now be handled by Y.js

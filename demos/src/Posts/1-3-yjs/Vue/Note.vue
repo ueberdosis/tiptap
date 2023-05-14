@@ -13,6 +13,11 @@ const doc = new Y.Doc()
 
 const editor = useEditor({
   content: props.note.defaultContent,
+  editorProps: {
+    attributes: {
+      class: 'm-2 p-2 border border-black rounded-lg',
+    },
+  },
   extensions: [
     StarterKit.configure({
       history: false, // important because history will now be handled by Y.js

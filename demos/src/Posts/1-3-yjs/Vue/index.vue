@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import './styles.css'
+
 import Note from './Note.vue'
 import { TNote } from './types'
 
