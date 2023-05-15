@@ -35,9 +35,9 @@ ok, so what have we done?
 
 We just added the collaboration extension as well as the technology behind it, Yjs. Instead of raw text we are passing the Y.Doc which basically takes care of merging changes. But so far, there is no collaboration...
 
-To enable real-time collaboration, we need to connect the Y.Doc with the HocuspocusProvider. The HocuspocusProvider is a package that provides a simple way to synchronize Y.Doc's across different clients.
+To enable real-time collaboration, we need to connect the Y.Doc with the TiptapCollabProvider. The TiptapCollabProvider is a package that provides a simple way to synchronize Y.Doc's across different clients.
 
-To start using HocuspocusProvider, we need to create a new instance of the HocuspocusProvider class and pass our Y.Doc. We also need to provide a document name.
+To start using TiptapCollabProvider, we need to create a new instance of the TiptapCollabProvider class and pass our Y.Doc. We also need to provide a document name.
 
 To get started, let's sign up for a Tiptap Pro account, which comes with a free licence of Tiptap Collab:
 
