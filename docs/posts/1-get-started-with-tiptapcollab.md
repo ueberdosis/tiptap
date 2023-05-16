@@ -1,10 +1,16 @@
-**Welcome** to the first post of a series of blog posts about collaboration in Tiptap using TiptapCollab. This series will start covering the basics, and expand to more specific use cases in the next posts. For today, we’ll start moving from a simple textarea box to a fully collaborative Tiptap editor instance.
+# Getting started with TiptapCollab
 
-Imagine that you are building a simple sticky note app, where a user can create notes. Just like Apple Notes, but with better collaboration.
+## Introduction
+
+**Welcome** to the first of a series of tutorials about collaboration in Tiptap using TiptapCollab. This series will start covering the basics, and expand to more specific use cases in the next posts. For today, we’ll start moving from a simple textarea box to a fully collaborative Tiptap editor instance.
+
+Imagine that you are building a simple sticky note app, where a user can create notes.
 
 So let's say you have a few textareas. Depending on your framework (Vue, React, ..), the code probably looks similar to this:
 
 <tiptap-demo name="Posts/1-1-textarea"></tiptap-demo>
+
+## Setting Up Tiptap
 
 In order to incorporate the Tiptap editor instance for better collaboration and formatting options, you start by modifying your code to include Tiptap in the Note component.
 
@@ -17,6 +23,8 @@ npm install @tiptap/vue-3 @tiptap/pm @tiptap/starter-kit
 <tiptap-demo name="Posts/1-2-tiptap"></tiptap-demo>
 
 Now your Note component has a fully functional Tiptap editor instance! The user can now format their text (see https://tiptap.dev/guide/menus on how to add a menu bar, in our example, you can make text bold using cmd+b). But what about collaboration?
+
+## Adding Yjs
 
 To enable collaboration, you need to add the Collaboration extension to your editor instance. This extension allows multiple users to edit the same document simultaneously, with changes being synced in realtime.
 
@@ -34,6 +42,8 @@ Then, you can import the `Collaboration` extension and add it to your editor ext
 ok, so what have we done?
 
 We just added the collaboration extension as well as the technology behind it, Yjs. Instead of raw text we are passing the Y.Doc which basically takes care of merging changes. But so far, there is no collaboration...
+
+## Real-Time Collaboration with TiptapCollab
 
 To enable real-time collaboration, we need to connect the Y.Doc with the TiptapCollabProvider. The TiptapCollabProvider is a package that provides a simple way to synchronize Y.Doc's across different clients.
 
