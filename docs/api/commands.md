@@ -14,7 +14,7 @@ All available commands are accessible through an editor instance. Let’s say yo
 editor.commands.setBold()
 ```
 
-While that’s perfectly fine and does make the selected bold, you’d likely want to change multiple commands in one run. Let’s have a look at how that works.
+While that’s perfectly fine and does make the selected bold, you’d likely want to chain multiple commands in one run. Let’s have a look at how that works.
 
 ### Chain commands
 Most commands can be combined to one call. That’s shorter than separate function calls in most cases. Here is an example to make the selected text bold:
