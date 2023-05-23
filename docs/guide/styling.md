@@ -8,16 +8,16 @@ tableOfContents: true
 Tiptap is headless, that means there is no styling provided. That also means, you are in full control of how your editor looks. The following methods allow you to apply custom styles to the editor.
 
 ## Option 1: Style the plain HTML
-The whole editor is rendered inside of a container with the class `.ProseMirror`. You can use that to scope your styling to the editor content:
+The whole editor is rendered inside of a container with the class `.tiptap`. You can use that to scope your styling to the editor content:
 
 ```css
 /* Scoped to the editor */
-.ProseMirror p {
+.tiptap p {
   margin: 1em 0;
 }
 ```
 
-If you’re rendering the stored content somewhere, there won’t be a `.ProseMirror` container, so you can just globally add styling to the used HTML tags:
+If you’re rendering the stored content somewhere, there won’t be a `.tiptap` container, so you can just globally add styling to the used HTML tags:
 
 ```css
 /* Global styling */
