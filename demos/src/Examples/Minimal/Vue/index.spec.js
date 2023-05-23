@@ -4,20 +4,20 @@ context('/src/Examples/Minimal/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
     })
   })
 
   it('text should be wrapped in a paragraph by default', () => {
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .type('Example Text')
       .find('p')
       .should('contain', 'Example Text')
   })
 
   it('should parse paragraphs correctly', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
       expect(editor.getHTML()).to.eq('<p>Example Text</p>')
 
@@ -27,19 +27,19 @@ context('/src/Examples/Minimal/Vue/', () => {
   })
 
   it('enter should make a new paragraph', () => {
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .type('First Paragraph{enter}Second Paragraph')
       .find('p')
       .should('have.length', 2)
   })
 
   it('backspace should remove the last paragraph', () => {
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .type('{enter}')
       .find('p')
       .should('have.length', 2)
 
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .type('{backspace}')
       .find('p')
       .should('have.length', 1)

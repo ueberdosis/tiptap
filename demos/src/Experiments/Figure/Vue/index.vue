@@ -85,7 +85,7 @@ export default {
 </script>
 
 <style lang="scss">
-.ProseMirror {
+.tiptap {
   > * + * {
     margin-top: 0.75em;
   }
