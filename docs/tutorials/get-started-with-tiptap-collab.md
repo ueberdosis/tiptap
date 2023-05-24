@@ -55,7 +55,7 @@ To get started, let's sign up for a Tiptap Pro account, which comes with a free 
 
 After you signed up, click on "Join the Beta". Just follow the instructions and you'll be set up within a few minutes.
 
-Your app ID is shown in the collab admin interface: https://collab.tiptap.dev/ - just copy that and also already get the JWT from the settings area. It's valid for two hours, so more than enough for our quick test. We'll cover generating JWTs using your secret later..
+Your app ID is shown in the collab admin interface: https://collab.tiptap.dev/ - just copy that and also already get the JWT from the settings area. It's valid for two hours, so more than enough for our quick test. We'll cover generating JWTs using your secret later.
 
 
 Now, back to our application:
