@@ -1,8 +1,8 @@
-# Getting started with TiptapCollab
+# Getting started with Tiptap Collab
 
 ## Introduction
 
-**Welcome** to the first of a series of tutorials about collaboration in Tiptap using TiptapCollab. This series will start covering the basics, and expand to more specific use cases in the next posts. For today, we’ll start moving from a simple textarea box to a fully collaborative Tiptap editor instance.
+**Welcome** to the first of a series of tutorials about collaboration in Tiptap using Tiptap Collab. This series will start covering the basics, and expand to more specific use cases in the next posts. For today, we’ll start moving from a simple textarea box to a fully collaborative Tiptap editor instance.
 
 Imagine that you are building a simple sticky note app, where a user can create notes.
 
@@ -43,7 +43,7 @@ ok, so what have we done?
 
 We just added the collaboration extension as well as the technology behind it, Yjs. Instead of raw text we are passing the Y.Doc which basically takes care of merging changes. But so far, there is no collaboration...
 
-## Real-Time Collaboration with TiptapCollab
+## Real-Time Collaboration with Tiptap Collab
 
 To enable real-time collaboration, we need to connect the Y.Doc with the TiptapCollabProvider. The TiptapCollabProvider is a package that provides a simple way to synchronize Y.Doc's across different clients.
 
@@ -71,4 +71,4 @@ Let's now create the TiptapCollabProvider to finally get syncing:
 And that's it! With these changes, our Tiptap note-taking application is now fully collaborative. Notes will get synced to other users in realtime.
 
 
-We've only scratched the surface of what TiptapCollab and Hocuspocus can do. Keep an eye out for future articles where we'll delve into more complex scenarios like permissions, presence indicators, and beyond. Don't miss out!
+We've only scratched the surface of what Tiptap Collab and Hocuspocus can do. Keep an eye out for future articles where we'll delve into more complex scenarios like permissions, presence indicators, and beyond. Don't miss out!
