@@ -17,6 +17,11 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         const { state } = view
         const { selection } = state
 
+        // Do not proceed if in code block.
+        if (state.doc.resolve(selection.from).parent.type.spec.code) {
+          return false
+        }
+
         const pastedLinkMarks: Mark[] = []
         let textContent = ''
 
