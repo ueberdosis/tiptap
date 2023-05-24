@@ -1,5 +1,5 @@
 import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 
 export interface CodeBlockOptions {
   /**
@@ -268,6 +268,11 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
             // create a code block with the text node
             // replace selection with the code block
             tr.replaceSelectionWith(this.type.create({ language }, textNode))
+
+            if (tr.selection.$from.parent.type !== this.type) {
+              // put cursor inside the newly created code block
+              tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))))
+            }
 
             // store meta information
             // this is useful for other plugins that depends on the paste event
