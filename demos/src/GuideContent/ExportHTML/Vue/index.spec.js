@@ -4,13 +4,13 @@ context('/src/GuideContent/ExportHTML/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
     })
   })
 
   it('should return html', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       const html = editor.getHTML()
 
       expect(html).to.equal('<p>Example Text</p>')

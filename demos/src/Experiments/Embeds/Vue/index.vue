@@ -56,7 +56,7 @@ export default {
 
 <style lang="scss">
 @use "sass:math";
-.ProseMirror {
+.tiptap {
   > * + * {
     margin-top: 0.75em;
   }
