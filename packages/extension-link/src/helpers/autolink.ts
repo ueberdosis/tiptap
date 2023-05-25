@@ -32,11 +32,6 @@ export function autolink(options: AutolinkOptions): Plugin {
       let needsAutolink = true
 
       changes.forEach(({ oldRange, newRange }) => {
-        // Do not autolink if in code block.
-        if (newState.doc.resolve(newRange.from).parent.type.spec.code) {
-          return
-        }
-
         // At first we check if we have to remove links.
         getMarksBetween(oldRange.from, oldRange.to, oldState.doc)
           .filter(item => item.mark.type === options.type)
