@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style lang="scss">
-.ProseMirror {
+.tiptap {
   table {
     border-collapse: collapse;
     table-layout: fixed;

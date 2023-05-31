@@ -91,7 +91,7 @@ export default {
   content: "!";
 }
 
-.ProseMirror {
+.tiptap {
   padding-right: 20px;
 }
 </style>

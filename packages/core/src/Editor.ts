@@ -281,6 +281,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.view.updateState(newState)
 
     this.createNodeViews()
+    this.prependClass()
 
     // Let’s store the editor instance in the DOM element.
     // So we’ll have access to it for tests.
@@ -296,6 +297,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.view.setProps({
       nodeViews: this.extensionManager.nodeViews,
     })
+  }
+
+  /**
+   * Prepend class name to element.
+   */
+  public prependClass(): void {
+    this.view.dom.className = `tiptap ${this.view.dom.className}`
   }
 
   public isCapturingTransaction = false

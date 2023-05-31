@@ -17,9 +17,17 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         const { state } = view
         const { selection } = state
 
+        // Do not proceed if in code block.
+        if (state.doc.resolve(selection.from).parent.type.spec.code) {
+          return false
+        }
+
         const pastedLinkMarks: Mark[] = []
+        let textContent = ''
 
         slice.content.forEach(node => {
+          textContent += node.textContent
+
           node.marks.forEach(mark => {
             if (mark.type.name === options.type.name) {
               pastedLinkMarks.push(mark)
@@ -28,32 +36,28 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         })
 
         const hasPastedLink = pastedLinkMarks.length > 0
-
-        let textContent = ''
-
-        slice.content.forEach(node => {
-          textContent += node.textContent
-        })
-
         const link = find(textContent).find(item => item.isLink && item.value === textContent)
 
         if (!selection.empty && options.linkOnPaste) {
           const pastedLink = hasPastedLink ? pastedLinkMarks[0].attrs.href : link?.href || null
 
           if (pastedLink) {
-            options.editor.commands.setMark(options.type, {
-              href: pastedLink,
-            })
+            options.editor.commands.setMark(options.type, { href: pastedLink })
+
             return true
           }
         }
 
-        if (slice.content.firstChild?.type.name === 'text' && slice.content.firstChild?.marks.some(mark => mark.type.name === options.type.name)) {
+        const firstChildIsText = slice.content.firstChild?.type.name === 'text'
+        const firstChildContainsLinkMark = slice.content.firstChild?.marks.some(mark => mark.type.name === options.type.name)
+
+        if (firstChildIsText && firstChildContainsLinkMark) {
           return false
         }
 
         if (link && selection.empty) {
           options.editor.commands.insertContent(`<a href="${link.href}">${link.href}</a>`)
+
           return true
         }
 
@@ -62,13 +66,15 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
 
         if (!selection.empty) {
           deleteOnly = true
+
           tr.delete(selection.from, selection.to)
         }
 
         let currentPos = selection.from
+        let fragmentLinks = []
 
         slice.content.forEach(node => {
-          const fragmentLinks = find(node.textContent)
+          fragmentLinks = find(node.textContent)
 
           tr.insert(currentPos - 1, node)
 
@@ -78,7 +84,6 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
             fragmentLinks.forEach(fragmentLink => {
               const linkStart = currentPos + fragmentLink.start
               const linkEnd = currentPos + fragmentLink.end
-
               const hasMark = tr.doc.rangeHasMark(linkStart, linkEnd, options.type)
 
               if (!hasMark) {
@@ -90,8 +95,11 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           currentPos += node.nodeSize
         })
 
-        if (tr.docChanged && !deleteOnly) {
+        const hasFragmentLinks = fragmentLinks.length > 0
+
+        if (tr.docChanged && !deleteOnly && hasFragmentLinks) {
           options.editor.view.dispatch(tr)
+
           return true
         }
 

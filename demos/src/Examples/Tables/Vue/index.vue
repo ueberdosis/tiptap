@@ -161,7 +161,7 @@ export default {
 
 <style lang="scss">
 /* Basic editor styles */
-.ProseMirror {
+.tiptap {
   margin: 1rem 0;
 
   > * + * {
@@ -220,7 +220,7 @@ export default {
 }
 
 /* Table-specific styling */
-.ProseMirror {
+.tiptap {
   table {
     border-collapse: collapse;
     table-layout: fixed;

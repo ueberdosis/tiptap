@@ -19,7 +19,7 @@ Placeholders are displayed with the help of CSS.
 
 **Display a Placeholder only for the first line in an empty editor.**
 ```
-.ProseMirror p.is-editor-empty:first-child::before {
+.tiptap p.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);
   float: left;
@@ -29,7 +29,7 @@ Placeholders are displayed with the help of CSS.
 ```
 **Display Placeholders on every new line.**
 ```
-.ProseMirror p.is-empty::before {
+.tiptap p.is-empty::before {
   color: #adb5bd;
   content: attr(data-placeholder);
   float: left;
