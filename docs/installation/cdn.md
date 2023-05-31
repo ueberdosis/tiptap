@@ -1,6 +1,7 @@
 # CDN
 
-It's also possible to run Tiptap directly on the browser by using CDNs like [esm.sh](https://esm.sh), jsDeliver's [esm.run](https://esm.run). (Unfortunately [Skypack](https://skypack.dev) has not been reliable in our testing).
+It's also possible to run Tiptap directly on the browser by using CDNs like [esm.sh](https://esm.sh). 
+(Unfortunately [Skypack](https://skypack.dev) has not been reliable in our testing).
 
 ## ESM.SH
 
@@ -27,30 +28,6 @@ It's also possible to run Tiptap directly on the browser by using CDNs like [esm
 </html>
 ```
 
-## ESM.RUN
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-</head>
-<body>
-  <div class="element"></div>
-  <script type="module">
-    import { Editor } from 'https://cdn.jsdelivr.net/npm/@tiptap/core/+esm'
-    import StarterKit from 'https://cdn.jsdelivr.net/npm/@tiptap/starter-kit/+esm'
-    const editor = new Editor({
-      element: document.querySelector('.element'),
-      extensions: [
-        StarterKit,
-      ],
-      content: '<p>Hello World!</p>',
-    })
-  </script>
-</body>
-</html>
-```
 
 ---
 
