@@ -71,6 +71,10 @@ export default defineConfig({
           const dir = dirname(context.path)
           const data = dir.split('/')
 
+          const demoCategory = data[2]
+          const demoName = data[3]
+          const frameworkName = data[4]
+
           if (dir.endsWith('/JS') || dir.endsWith('-JS')) {
             return {
               html: `
@@ -85,7 +89,7 @@ export default defineConfig({
                     <script type="module">
                       import setup from '../../../../setup/js.ts'
                       import source from '@source'
-                      setup('${data.slice(2).join('/')}', source)
+                      setup('${demoCategory}/${demoName}/${frameworkName}', source)
                     </script>
                   </body>
                 </html>
@@ -108,7 +112,7 @@ export default defineConfig({
                     <script type="module">
                       import setup from '../../../../setup/vue.ts'
                       import source from '@source'
-                      setup('${data.slice(2).join('/')}', source)
+                      setup('${demoCategory}/${demoName}/${frameworkName}', source)
                     </script>
                   </body>
                 </html>
@@ -131,7 +135,7 @@ export default defineConfig({
                     <script type="module">
                       import setup from '../../../../setup/svelte.ts'
                       import source from '@source'
-                      setup('${data.slice(2).join('/')}', source)
+                      setup('${demoCategory}/${demoName}/${frameworkName}', source)
                     </script>
                   </body>
                 </html>
@@ -154,7 +158,7 @@ export default defineConfig({
                     <script type="module">
                       import setup from '../../../../setup/react.ts'
                       import source from '@source'
-                      setup('${data.slice(2).join('/')}', source)
+                      setup('${demoCategory}/${demoName}/${frameworkName}', source)
                     </script>
                   </body>
                 </html>

@@ -4,16 +4,16 @@ import './style.scss'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { debug } from './helper'
+import { debug, splitName } from './helper'
 
 export default function init(name: string, source: any) {
   // @ts-ignore
   window.source = source
   document.title = name
 
-  const path = `../src/${name}/index`
+  const [demoCategory, demoName, frameworkName] = splitName(name)
 
-  import(`${path}.tsx`)
+  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.tsx`)
     .then(module => {
       const root = document.getElementById('app')
 
@@ -24,7 +24,7 @@ export default function init(name: string, source: any) {
       debug()
     })
     .catch(() => {
-      import(`${path}.jsx`)
+      import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.jsx`)
         .then(module => {
           const root = document.getElementById('app')
 

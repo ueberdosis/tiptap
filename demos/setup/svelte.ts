@@ -1,14 +1,16 @@
 import 'iframe-resizer/js/iframeResizer.contentWindow'
 import './style.scss'
 
-import { debug } from './helper'
+import { debug, splitName } from './helper'
 
 export default function init(name: string, source: any) {
   // @ts-ignore
   window.source = source
   document.title = name
 
-  import(`../src/${name}/index.svelte`)
+  const [demoCategory, demoName, frameworkName] = splitName(name)
+
+  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.svelte`)
     .then(Module => {
       const Component = Module.default
 
