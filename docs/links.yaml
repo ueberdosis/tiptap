@@ -115,6 +115,20 @@
     - title: Jobs
       link: /jobs
 
+- title: Tiptap Collab
+  items:
+    - title: Cloud
+      link: /cloud
+      type: new
+    - title: Tutorials
+      link: /tutorials
+      type: new
+      items:
+        - title: Getting Started
+          link: /tutorials/get-started-with-tiptap-collab
+        - title: JWT Authentication
+          link: /tutorials/jwt-authentication
+
 - title: Guide
   items:
     - title: Configuration

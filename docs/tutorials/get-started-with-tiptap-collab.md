@@ -2,13 +2,13 @@
 
 ## Introduction
 
-**Welcome** to the first of a series of tutorials about collaboration in Tiptap using Tiptap Collab. This series will start covering the basics, and expand to more specific use cases in the next posts. For today, we’ll start moving from a simple textarea box to a fully collaborative Tiptap editor instance.
+**Welcome** to the first of a series of tutorials about collaboration in Tiptap (or Lexical, Quill, Slate, and others that have a [Yjs editor binding](https://docs.yjs.dev/ecosystem/editor-bindings)) using Tiptap Collab. This series will start covering the basics, and expand to more specific use cases in the next posts. For today, we’ll start moving from a simple textarea box to a fully collaborative editor instance.
 
 Imagine that you are building a simple sticky note app, where a user can create notes.
 
 So let's say you have a few textareas. Depending on your framework (Vue, React, ..), the code probably looks similar to this:
 
-<tiptap-demo name="Posts/1-1-textarea"></tiptap-demo>
+<tiptap-demo name="Tutorials/1-1-textarea"></tiptap-demo>
 
 ## Setting Up Tiptap
 
@@ -18,9 +18,10 @@ You begin by importing the necessary Tiptap components and creating a new editor
 
 ```bash
 npm install @tiptap/vue-3 @tiptap/pm @tiptap/starter-kit
+# for React: npm install @tiptap/react @tiptap/pm @tiptap/starter-kit
 ```
 
-<tiptap-demo name="Posts/1-2-tiptap"></tiptap-demo>
+<tiptap-demo name="Tutorials/1-2-tiptap"></tiptap-demo>
 
 Now your Note component has a fully functional Tiptap editor instance! The user can now format their text (see https://tiptap.dev/guide/menus on how to add a menu bar, in our example, you can make text bold using cmd+b). But what about collaboration?
 
@@ -32,12 +33,12 @@ To enable collaboration, you need to add the Collaboration extension to your edi
 To add the Collaboration extension to your editor instance, you first need to install the `@tiptap/extension-collaboration` package:
 
 ```bash
-npm install @tiptap/extension-collaboration @yjs/yjs
+npm install @tiptap/extension-collaboration yjs
 ```
 
 Then, you can import the `Collaboration` extension and add it to your editor extensions:
 
-<tiptap-demo name="Posts/1-3-yjs"></tiptap-demo>
+<tiptap-demo name="Tutorials/1-3-yjs"></tiptap-demo>
 
 ok, so what have we done?
 
@@ -66,7 +67,7 @@ npm install @hocuspocus/provider
 
 Let's now create the TiptapCollabProvider to finally get syncing:
 
-<tiptap-demo name="Posts/1-4-collab"></tiptap-demo>
+<tiptap-demo name="Tutorials/1-4-collab"></tiptap-demo>
 
 And that's it! With these changes, our Tiptap note-taking application is now fully collaborative. Notes will get synced to other users in realtime.
 

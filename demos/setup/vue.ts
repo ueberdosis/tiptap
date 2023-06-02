@@ -10,9 +10,9 @@ export default function init(name: string, source: any) {
   window.source = source
   document.title = name
 
-  const [demoCategory, demoName] = splitName(name)
+  const [demoCategory, demoName, frameworkName] = splitName(name)
 
-  import(`../src/${demoCategory}/${demoName}/Vue/index.vue`)
+  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.vue`)
     .then(module => {
       createApp(module.default).mount('#app')
       debug()

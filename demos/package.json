@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@hocuspocus/provider": "^2.0.1",
+    "@lexical/react": "^0.11.1",
     "d3": "^7.3.0",
     "fast-glob": "^3.2.11",
     "highlight.js": "^11.6.0",
+    "lexical": "^0.11.1",
     "lowlight": "^2.7.0",
     "remixicon": "^2.5.0",
     "shiki": "^0.10.0",
