@@ -17,6 +17,11 @@ import { defineConfig } from 'vite'
 const getPackageDependencies = () => {
   const paths: Array<{ find: string, replacement: any }> = []
 
+  paths.push({
+    find: 'yjs',
+    replacement: resolve('../node_modules/yjs/src/index.js'),
+  })
+
   fg.sync('../packages/*', { onlyDirectories: true })
     .map(name => name.replace('../packages/', ''))
     .forEach(name => {

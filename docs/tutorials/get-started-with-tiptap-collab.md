@@ -4,8 +4,6 @@
 
 **Welcome** to the first of a series of tutorials about collaboration in Tiptap (or Lexical, Quill, Slate, and others that have a [Yjs editor binding](https://docs.yjs.dev/ecosystem/editor-bindings)) using Tiptap Collab. This series will start covering the basics, and expand to more specific use cases in the next posts. For today, we’ll start moving from a simple textarea box to a fully collaborative editor instance.
 
-_For simplicity, I'm always referring to Tiptap from here, but you can switch each code sample to Lexical, Quill or Slate._
-
 Imagine that you are building a simple sticky note app, where a user can create notes.
 
 So let's say you have a few textareas. Depending on your framework (Vue, React, ..), the code probably looks similar to this:
@@ -21,9 +19,6 @@ You begin by importing the necessary Tiptap components and creating a new editor
 ```bash
 npm install @tiptap/vue-3 @tiptap/pm @tiptap/starter-kit
 # for React: npm install @tiptap/react @tiptap/pm @tiptap/starter-kit
-# for Lexical: npm install lexical @lexical/react
-# for Quill: npm install quill
-# for Slate: npm install slate slate-react react react-dom
 ```
 
 <tiptap-demo name="Tutorials/1-2-tiptap"></tiptap-demo>
@@ -39,9 +34,6 @@ To add the Collaboration extension to your editor instance, you first need to in
 
 ```bash
 npm install @tiptap/extension-collaboration yjs
-# for Lexical: npm install yjs
-# for Quill: npm install y-quill yjs
-# for Slate: npm install @slate-yjs/react yjs
 ```
 
 Then, you can import the `Collaboration` extension and add it to your editor extensions:

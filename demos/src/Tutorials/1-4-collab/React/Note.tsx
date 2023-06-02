@@ -23,7 +23,7 @@ export default ({ note }: { note: TNote }) => {
     return () => {
       provider.destroy()
     }
-  }, [])
+  }, [note.id])
 
   const editor = useEditor({
     // make sure that you don't use `content` property anymore!
