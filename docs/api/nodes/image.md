@@ -55,6 +55,45 @@ Image.configure({
 })
 ```
 
+### Custom Attributes
+Custom HTML attributes can be configured to use on img tag.
+
+```js
+Image.configure({
+  addAttributes() {
+      return {
+        src: {
+            default: null
+        },
+        width: {
+          default: null
+        },
+        height: {
+          default: null
+        },
+        alt: {
+            default: null
+        },
+        title: {
+            default: null
+        },
+        class: {
+          default: null
+        },
+        srcset: {
+          default: null
+        },
+        sizes: {
+          default: null
+        },
+        loading: {
+          default: null
+        }
+      };
+    },
+})
+```
+
 ## Commands
 
 ### setImage()
