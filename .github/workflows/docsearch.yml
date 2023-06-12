@@ -13,7 +13,7 @@ jobs:
   docsearch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.0
+      - uses: actions/checkout@v3.5.3
 
       - name: Run DocSearch Scraper
         shell: bash
