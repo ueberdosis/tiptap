@@ -6,7 +6,7 @@ import { NodeType } from '@tiptap/pm/model'
 import { joinListItemBackward } from './commands/joinListItemBackward'
 import { joinListItemForward } from './commands/joinListItemForward'
 import {
-  findListItemPos, hasPreviousListItem, listItemHasSubList, nextListIsDeeper, nextListIsHigher,
+  findListItemPos, hasListItemBefore, listItemHasSubList, nextListIsDeeper, nextListIsHigher,
 } from './helpers'
 
 declare module '@tiptap/core' {
@@ -125,7 +125,7 @@ export const ListItem = Node.create<ListItemOptions>({
         const previousListItemHasSubList = listItemHasSubList(this.name, editor.state, prevNode)
 
         // if the previous item is a list item and doesn't have a sublist, join the list items
-        if (hasPreviousListItem(this.name, editor.state) && !previousListItemHasSubList) {
+        if (hasListItemBefore(this.name, editor.state) && !previousListItemHasSubList) {
           return editor.commands.joinListItemBackward(this.name)
         }
 
