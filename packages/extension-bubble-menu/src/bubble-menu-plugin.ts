@@ -164,23 +164,34 @@ export class BubbleMenuView {
       return
     }
 
-    this.updateHandler(view, oldState)
+    const selectionChanged = !oldState?.selection.eq(view.state.selection)
+    const docChanged = !oldState?.doc.eq(view.state.doc)
+
+    this.updateHandler(view, selectionChanged, docChanged, oldState)
   }
 
   handleDebouncedUpdate = (view: EditorView, oldState?: EditorState) => {
+    const selectionChanged = !oldState?.selection.eq(view.state.selection)
+    const docChanged = !oldState?.doc.eq(view.state.doc)
+
+    if (!selectionChanged && !docChanged) {
+      return
+    }
+
     if (this.updateDebounceTimer) {
       clearTimeout(this.updateDebounceTimer)
     }
 
     this.updateDebounceTimer = window.setTimeout(() => {
-      this.updateHandler(view, oldState)
+      this.updateHandler(view, selectionChanged, docChanged, oldState)
     }, this.updateDelay)
   }
 
-  updateHandler = (view: EditorView, oldState?: EditorState) => {
+  updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
     const { state, composing } = view
-    const { doc, selection } = state
-    const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
+    const { selection } = state
+
+    const isSame = !selectionChanged && !docChanged
 
     if (composing || isSame) {
       return

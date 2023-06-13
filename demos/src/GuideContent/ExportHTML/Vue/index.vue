@@ -114,7 +114,7 @@ export default {
 }
 
 /* Basic editor styles */
-.ProseMirror {
+.tiptap {
   > * + * {
     margin-top: 0.75em;
   }
