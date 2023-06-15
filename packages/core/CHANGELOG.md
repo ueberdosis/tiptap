@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-rc.9](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
+
+
+### Bug Fixes
+
+* **lists:** improve list behaviour ([684e48a](https://github.com/ueberdosis/tiptap/commit/684e48a4a7778a0140c94f0c5345db868174ad81))
+
+
+
+
+
 # [2.1.0-rc.8](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.7...v2.1.0-rc.8) (2023-05-25)
 
 **Note:** Version bump only for package @tiptap/core
