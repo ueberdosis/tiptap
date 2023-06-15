@@ -69,7 +69,7 @@ export interface SuggestionOptions<I = any> {
    * @returns void
    * @example ({ editor, range, props }) => { props.command(props.props) }
    */
-  command?: (props: { editor: Editor; range: Range; props: I }) => void
+  command?: (props: { editor: Editor; range: Range; props: any }) => void
 
   /**
    * A function that returns the suggestion items in form of an array.
@@ -134,7 +134,7 @@ export interface SuggestionProps<I = any> {
    * @param props The props object.
    * @returns void
    */
-  command: (props: I) => void
+  command: (props: any) => void
 
   /**
    * The decoration node HTML element
