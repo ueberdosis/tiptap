@@ -4,7 +4,7 @@ import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
 
 import { findSuggestionMatch } from './findSuggestionMatch'
 
-export interface SuggestionOptions<I = any> {
+export interface SuggestionOptions<I = any, TSelected = any> {
   pluginKey?: PluginKey
   editor: Editor
   char?: string
@@ -13,26 +13,26 @@ export interface SuggestionOptions<I = any> {
   startOfLine?: boolean
   decorationTag?: string
   decorationClass?: string
-  command?: (props: { editor: Editor; range: Range; props: any }) => void
+  command?: (props: { editor: Editor; range: Range; props: TSelected }) => void
   items?: (props: { query: string; editor: Editor }) => I[] | Promise<I[]>
   render?: () => {
-    onBeforeStart?: (props: SuggestionProps<I>) => void
-    onStart?: (props: SuggestionProps<I>) => void
-    onBeforeUpdate?: (props: SuggestionProps<I>) => void
-    onUpdate?: (props: SuggestionProps<I>) => void
-    onExit?: (props: SuggestionProps<I>) => void
-    onKeyDown?: (props: SuggestionKeyDownProps) => boolean
+    onBeforeStart?: (props: SuggestionProps<I, TSelected>) => void;
+    onStart?: (props: SuggestionProps<I, TSelected>) => void;
+    onBeforeUpdate?: (props: SuggestionProps<I, TSelected>) => void;
+    onUpdate?: (props: SuggestionProps<I, TSelected>) => void;
+    onExit?: (props: SuggestionProps<I, TSelected>) => void;
+    onKeyDown?: (props: SuggestionKeyDownProps) => boolean;
   }
   allow?: (props: { editor: Editor; state: EditorState; range: Range }) => boolean
 }
 
-export interface SuggestionProps<I = any> {
+export interface SuggestionProps<I = any, TSelected = any> {
   editor: Editor
   range: Range
   query: string
   text: string
   items: I[]
-  command: (props: any) => void
+  command: (props: TSelected) => void
   decorationNode: Element | null
   clientRect?: (() => DOMRect | null) | null
 }
@@ -45,7 +45,7 @@ export interface SuggestionKeyDownProps {
 
 export const SuggestionPluginKey = new PluginKey('suggestion')
 
-export function Suggestion<I = any>({
+export function Suggestion<I = any, TSelected = any>({
   pluginKey = SuggestionPluginKey,
   editor,
   char = '@',
@@ -58,8 +58,8 @@ export function Suggestion<I = any>({
   items = () => [],
   render = () => ({}),
   allow = () => true,
-}: SuggestionOptions<I>) {
-  let props: SuggestionProps<I> | undefined
+}: SuggestionOptions<I, TSelected>) {
+  let props: SuggestionProps<I, TSelected> | undefined
   const renderer = render?.()
 
   const plugin: Plugin<any> = new Plugin({
