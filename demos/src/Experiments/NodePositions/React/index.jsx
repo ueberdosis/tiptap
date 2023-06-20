@@ -160,11 +160,10 @@ export default () => {
         </pre>
       )}
       {parent && (
-        <>
+        <pre>
           <p>parent:</p>
-          <pre>{JSON.stringify(parent)}</pre>
           <p>{parent.name} ({parent.from}, {parent.to})</p>
-        </>
+        </pre>
       )}
     </div>
   )

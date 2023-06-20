@@ -64,6 +64,7 @@
   --currentColor: 30, 50%, 50%;
   border: 2px solid hsla(var(--currentColor), 100%);
   background-color: hsla(var(--currentColor), 5%);
+  position: relative;
 }
 
 .range-preview__before {
