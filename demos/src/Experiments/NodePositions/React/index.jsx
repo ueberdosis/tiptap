@@ -47,6 +47,8 @@ const RangePreview = Extension.create({
             const startDecoration = Decoration.widget(pos.from + 1, edge(false))
             const endDecoration = Decoration.widget(pos.to - 1, edge(true))
 
+            decorations.push(Decoration.inline(pos.from - 1, pos.to + 1, { class: 'range-preview range-preview__block' }))
+
             if (pos.parent) {
               decorations.push(Decoration.inline(pos.parent.from, pos.parent.to, { class: 'range-parent' }))
             }
@@ -54,11 +56,13 @@ const RangePreview = Extension.create({
             if (pos.before) {
               decorations.push(Decoration.widget(pos.before.from + 1, edge(false, 'range-preview__before')))
               decorations.push(Decoration.widget(pos.before.to - 1, edge(true, 'range-preview__before')))
+              decorations.push(Decoration.inline(pos.before.from - 1, pos.before.to + 1, { class: 'range-preview range-preview__before range-preview__block' }))
             }
 
             if (pos.after) {
               decorations.push(Decoration.widget(pos.after.from + 1, edge(false, 'range-preview__after')))
               decorations.push(Decoration.widget(pos.after.to - 1, edge(true, 'range-preview__after')))
+              decorations.push(Decoration.inline(pos.after.from - 1, pos.after.to + 1, { class: 'range-preview range-preview__after range-preview__block' }))
             }
 
             decorations.push(startDecoration)
@@ -117,6 +121,25 @@ export default () => {
 
   return (
     <div>
+      <div>
+        <div>Legend</div>
+        <div style={{
+          display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '1rem',
+        }}>
+          <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
+            <div style={{ width: 16, height: 16 }} className="range-preview"></div> - Current NodePosition
+          </div>
+          <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
+            <div style={{ width: 16, height: 16 }} className="range-preview range-preview__before"></div> - Previous NodePosition
+          </div>
+          <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
+            <div style={{ width: 16, height: 16 }} className="range-preview range-preview__after"></div> - After NodePosition
+          </div>
+          <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
+            <div style={{ width: 16, height: 16 }} className="range-parent"></div> - Parent NodePosition
+          </div>
+        </div>
+      </div>
       <EditorContent editor={editor} />
       {prev && (
         <pre>

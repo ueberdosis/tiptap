@@ -52,24 +52,31 @@
     border-left: 2px solid rgba(#0D0D0D, 0.1);
   }
 
-  .range-preview {
-    background: #ff000020;
-    height: 1em !important;
-    border: 1px solid hsla(30, 50%, 50%, .2);
-  }
+}
 
-  .range-preview__before {
-    background: #ffff0020;
-  }
+.range-preview {
+  background: hsla(var(--currentColor), 20%);
+  height: 1em !important;
+  border: 1px solid hsla(30, 50%, 50%, .2);
+}
 
-  .range-preview__after {
-    background: #0000ff20;
-  }
+.range-preview__block {
+  --currentColor: 30, 50%, 50%;
+  border: 2px solid hsla(var(--currentColor), 100%);
+  background-color: hsla(var(--currentColor), 5%);
+}
 
-  .range-parent {
-    background: #00ff0005;
-    outline: 2px solid #00ff0020;
-  }
+.range-preview__before {
+  --currentColor: 0, 100%, 50%;
+}
+
+.range-preview__after {
+  --currentColor: 240, 100%, 50%;
+}
+
+.range-parent {
+  background: #00ff0005;
+  outline: 2px solid #00ff0020;
 }
 
 pre {
