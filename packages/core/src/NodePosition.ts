@@ -59,7 +59,7 @@ export class NodePosition {
   get before(): NodePosition | null {
     let nodePos: NodePosition | null | undefined
 
-    for (let i = this.depth; i >= 0 && nodePos === undefined; i -= 1) {
+    for (let i = this.depth; i > 0 && nodePos === undefined; i -= 1) {
       const before = Math.max(this.$pos.before(i) - 2, 0)
       const $beforePos = this.doc.resolve(before)
 
@@ -81,8 +81,8 @@ export class NodePosition {
   get after(): NodePosition | null {
     let nodePos: NodePosition | null | undefined
 
-    for (let i = this.depth; i >= 0 && nodePos === undefined; i -= 1) {
-      const after = Math.min(this.$pos.after(i) + 2, this.doc.nodeSize)
+    for (let i = this.depth; i > 0 && nodePos === undefined; i -= 1) {
+      const after = Math.min(this.$pos.after(i) + 2, this.doc.nodeSize - 2)
       const $afterPos = this.doc.resolve(after)
 
       if ($afterPos.node().type.name !== 'doc') {

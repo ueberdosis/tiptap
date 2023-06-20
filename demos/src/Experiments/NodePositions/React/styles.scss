@@ -1,0 +1,83 @@
+/* Basic editor styles */
+.tiptap {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
+
+  pre {
+    background: #0D0D0D;
+    color: #FFF;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+
+    code {
+      color: inherit;
+      padding: 0;
+      background: none;
+      font-size: 0.8rem;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  hr {
+    margin: 1rem 0;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+
+  .range-preview {
+    background: #ff000020;
+    height: 1em !important;
+    border: 1px solid hsla(30, 50%, 50%, .2);
+  }
+
+  .range-preview__before {
+    background: #ffff0020;
+  }
+
+  .range-preview__after {
+    background: #0000ff20;
+  }
+
+  .range-parent {
+    background: #00ff0005;
+    outline: 2px solid #00ff0020;
+  }
+}
+
+pre {
+  max-width:  700px;
+  width: 100%;
+  overflow: auto;
+  // force wrap
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  max-height: 300px;
+}
