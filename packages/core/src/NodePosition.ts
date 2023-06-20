@@ -1,68 +1,125 @@
-import { Node, ResolvedPos } from 'prosemirror-model'
+import { Node, NodeRange, ResolvedPos } from '@tiptap/pm/model'
 
 export class NodePosition {
+  /**
+   * The node inside this node position
+   */
   node: Node
 
+  /**
+   * The resolved position of this node position
+   */
   $pos: ResolvedPos
 
+  /**
+   * The document node
+   */
   doc: Node
 
+  /**
+   * The depth of this position
+   */
   depth
 
-  constructor($pos: ResolvedPos, depthOffset = 0) {
+  constructor($pos: ResolvedPos) {
     this.$pos = $pos
-    this.depth = Math.max(this.$pos.depth - depthOffset)
+    this.depth = Math.max(this.$pos.depth, 0)
     this.node = $pos.node(this.depth)
     this.doc = $pos.doc
   }
 
+  /**
+   * The node name
+   */
   get name() {
     return this.node?.type.name
   }
 
+  /**
+   * The start position of this node
+   */
   get from() {
     if (this.name === 'doc') { return 0 }
 
     return this.$pos.start() - 1
   }
 
+  /**
+   * The end position of this node
+   */
   get to() {
     if (this.name === 'doc') { return this.$pos.end() + 2 }
 
     return this.$pos.end() + 1
   }
 
+  /**
+   * Retrieves the NodePosition before this NodePosition
+   */
   get before(): NodePosition | null {
-    const $beforePos = this.doc.resolve(Math.max(this.from - 2, 0))
+    let nodePos: NodePosition | null | undefined
 
-    const nodePos = new NodePosition($beforePos)
+    for (let i = this.depth; i >= 0 && nodePos === undefined; i -= 1) {
+      const before = Math.max(this.$pos.before(i) - 2, 0)
+      const $beforePos = this.doc.resolve(before)
 
-    if (nodePos.name === 'doc') {
+      if ($beforePos.node().type.name !== 'doc') {
+        nodePos = new NodePosition($beforePos)
+      }
+    }
+
+    if (!nodePos) {
       return null
     }
 
     return nodePos
   }
 
+  /**
+   * Retrieves the NodePosition after this NodePosition
+   */
   get after(): NodePosition | null {
-    const $afterPos = this.doc.resolve(Math.min(this.to + 2, this.doc.nodeSize - 2))
+    let nodePos: NodePosition | null | undefined
 
-    const nodePos = new NodePosition($afterPos)
+    for (let i = this.depth; i >= 0 && nodePos === undefined; i -= 1) {
+      const after = Math.min(this.$pos.after(i) + 2, this.doc.nodeSize)
+      const $afterPos = this.doc.resolve(after)
 
-    if (nodePos.name === 'doc') {
+      if ($afterPos.node().type.name !== 'doc') {
+        nodePos = new NodePosition($afterPos)
+      }
+    }
+
+    if (!nodePos) {
       return null
     }
 
     return nodePos
   }
 
+  /**
+   * Retrieves the parent NodePosition of this NodePosition
+   */
   get parent(): NodePosition | null {
-    const $parentPos = this.doc.resolve(Math.max(this.from, 0))
+    const parentPos = this.$pos.posAtIndex(0, this.depth - 1)
 
-    return new NodePosition($parentPos, -1)
+    const $parentPos = this.doc.resolve(parentPos)
+
+    return new NodePosition($parentPos)
   }
 
+  /**
+   * Returns the range of this NodePosition
+   */
   get range() {
     return { from: this.from, to: this.to }
+  }
+
+  /**
+   * Create a NodeRange for this NodePosition
+   * @returns NodeRange
+   */
+  createNodeRange() {
+    return new NodeRange(this.doc.resolve(this.from), this.doc.resolve(this.to), this.depth)
   }
 }
