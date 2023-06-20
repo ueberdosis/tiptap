@@ -101,7 +101,7 @@ export class NodePosition {
    * Retrieves the parent NodePosition of this NodePosition
    */
   get parent(): NodePosition | null {
-    const parentPos = this.$pos.posAtIndex(0, this.depth - 1)
+    const parentPos = Math.min(Math.max(this.$pos.posAtIndex(0, this.depth - 1), 0), this.doc.nodeSize - 1)
 
     const $parentPos = this.doc.resolve(parentPos)
 
@@ -121,5 +121,29 @@ export class NodePosition {
    */
   createNodeRange() {
     return new NodeRange(this.doc.resolve(this.from), this.doc.resolve(this.to), this.depth)
+  }
+
+  getParentByType(typeOrName: string) {
+    return NodePosition.getNodePositionParentByType(this, typeOrName)
+  }
+
+  hasParentByType(typeOrName: string) {
+    return NodePosition.hasParentByType(this, typeOrName)
+  }
+
+  static hasParentByType(position: NodePosition, typeOrName: string) {
+    return NodePosition.getNodePositionParentByType(position, typeOrName) !== null
+  }
+
+  static getNodePositionParentByType(position: NodePosition, typeOrName: string): NodePosition | null {
+    if (position.depth <= 1 || !position.parent) {
+      return null
+    }
+
+    if (position.parent.name !== typeOrName && position.depth >= 1) {
+      return NodePosition.getNodePositionParentByType(position.parent, typeOrName)
+    }
+
+    return position.parent
   }
 }
