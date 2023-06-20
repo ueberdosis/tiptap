@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "start": "npm --prefix ./demos run start",
+    "dev": "npm run start",
     "lint": "eslint --cache --quiet --no-error-on-unmatched-pattern ./",
     "lint:fix": "eslint --fix --cache --quiet --no-error-on-unmatched-pattern ./",
     "lint:staged": "lint-staged",
