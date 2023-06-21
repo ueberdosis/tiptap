@@ -162,24 +162,28 @@ export class NodePosition {
     return new NodeRange(this.doc.resolve(this.from), this.doc.resolve(this.to), this.depth)
   }
 
-  getParentByType(typeOrName: string) {
+  getParentByType(typeOrName: string | string[]) {
     return NodePosition.getNodePositionParentByType(this, typeOrName)
   }
 
-  hasParentByType(typeOrName: string) {
+  hasParentByType(typeOrName: string | string[]) {
     return NodePosition.hasParentByType(this, typeOrName)
   }
 
-  static hasParentByType(position: NodePosition, typeOrName: string) {
+  static hasParentByType(position: NodePosition, typeOrName: string | string[]) {
     return NodePosition.getNodePositionParentByType(position, typeOrName) !== null
   }
 
-  static getNodePositionParentByType(position: NodePosition, typeOrName: string): NodePosition | null {
+  static getNodePositionParentByType(position: NodePosition, typeOrName: string | string[]): NodePosition | null {
     if (position.depth <= 1 || !position.parent) {
       return null
     }
 
-    if (position.parent.name !== typeOrName && position.depth >= 1) {
+    const isType = typeof typeOrName === 'string'
+      ? position.parent.name === typeOrName
+      : typeOrName.includes(position.parent.name)
+
+    if (!isType && position.depth >= 1) {
       return NodePosition.getNodePositionParentByType(position.parent, typeOrName)
     }
 
