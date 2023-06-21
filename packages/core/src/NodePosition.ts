@@ -113,6 +113,35 @@ export class NodePosition {
     return new NodePosition($parentPos)
   }
 
+  get text(): string | undefined {
+    return this.node.text
+  }
+
+  get textContent(): string {
+    return this.node.textContent
+  }
+
+  /**
+   * TODO: fix this - not working for now as sometimes depths of children are not this.depth + 1
+   */
+  get children(): NodePosition[] {
+    return this.getChildrenOnDepth(this.depth)
+  }
+
+  getChildrenOnDepth(targetDepth: number): NodePosition[] {
+    return this.getDeepChildren().filter(child => child.depth === targetDepth)
+  }
+
+  getDeepChildren(): NodePosition[] {
+    const children: NodePosition[] = []
+
+    this.node.descendants((_node, pos) => {
+      children.push(new NodePosition(this.doc.resolve(this.from + pos)))
+    })
+
+    return children
+  }
+
   /**
    * Returns the range of this NodePosition
    */

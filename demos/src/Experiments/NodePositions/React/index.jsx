@@ -108,6 +108,12 @@ export default () => {
       setPrev(nodePos.before)
       setNext(nodePos.after)
       setParent(nodePos.parent)
+
+      const parentBulletList = nodePos.getParentByType('bulletList')
+
+      console.log(parentBulletList?.children.map(child => ({
+        name: child.name, from: child.from, to: child.to, text: child.textContent,
+      })))
     },
     onSelectionUpdate: ({ editor: currentEditor }) => {
       const nodePos = new NodePosition(currentEditor.state.selection.$anchor)
@@ -116,6 +122,13 @@ export default () => {
       setPrev(nodePos.before)
       setNext(nodePos.after)
       setParent(nodePos.parent)
+
+      const parentBulletList = nodePos.getParentByType('bulletList')
+
+      console.log(parentBulletList?.textContent, parentBulletList?.name, parentBulletList?.depth)
+      console.log(parentBulletList?.children.map(child => ({
+        name: child.name, from: child.from, to: child.to, text: child.textContent, depth: child.depth,
+      })))
     },
   })
 
