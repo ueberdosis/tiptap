@@ -121,11 +121,16 @@ export class NodePosition {
     return this.node.textContent
   }
 
-  /**
-   * TODO: fix this - not working for now as sometimes depths of children are not this.depth + 1
-   */
   get children(): NodePosition[] {
-    return this.getChildrenOnDepth(this.depth)
+    return this.getChildrenOnDepth(this.depth + 1)
+  }
+
+  get firstChild(): NodePosition | null {
+    return this.children[0] || null
+  }
+
+  get lastChild(): NodePosition | null {
+    return this.children[this.children.length - 1] || null
   }
 
   getChildrenOnDepth(targetDepth: number): NodePosition[] {
@@ -135,11 +140,11 @@ export class NodePosition {
   getDeepChildren(): NodePosition[] {
     const children: NodePosition[] = []
 
-    this.node.descendants((_node, pos) => {
-      children.push(new NodePosition(this.doc.resolve(this.from + pos)))
+    this.doc.nodesBetween(this.from, this.to, (_node, pos) => {
+      children.push(new NodePosition(this.doc.resolve(pos)))
     })
 
-    return children
+    return children.filter(child => child.depth > this.depth)
   }
 
   /**
