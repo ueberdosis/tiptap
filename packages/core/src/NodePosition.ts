@@ -101,7 +101,12 @@ export class NodePosition {
    * Retrieves the parent NodePosition of this NodePosition
    */
   get parent(): NodePosition | null {
-    const parentPos = Math.min(Math.max(this.$pos.posAtIndex(0, this.depth - 1), 0), this.doc.nodeSize - 1)
+    const parentDepth = Math.max(this.depth - 1, 0)
+    const parentPos = Math.min(Math.max(this.$pos.posAtIndex(0, parentDepth), 0), this.doc.nodeSize - 2)
+
+    if (parentPos === 0) {
+      return null
+    }
 
     const $parentPos = this.doc.resolve(parentPos)
 
