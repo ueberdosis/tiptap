@@ -168,7 +168,7 @@ describe('can', () => {
     expect(canSetMarkToBold).to.eq(true)
   })
 
-  it('nested "can" chain has an undefined dispatch', () => {
+  it('builds and passes down an undefined dispatch for nested "can" chain', () => {
     const editor = new Editor({
       extensions: [Document, Paragraph, Text, History],
     })
