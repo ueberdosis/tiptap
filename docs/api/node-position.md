@@ -191,7 +191,7 @@ nodePosition.getParentByType('bulletList')
 nodePosition.getParentByType(['bulletList', 'orderedList'])
 ```
 
-#### `NodePosition.hasParentByType``
+#### `NodePosition.hasParentByType`
 
 This method will return true or false if a parent of a given type exists. The type can be a string or an array of strings.
 
@@ -223,16 +223,16 @@ import { NodePosition } from '@tiptap/core'
 // as a ResolvedPos
 const { $anchor } = editor.state.selection
 
-// Now lets create a NodePosition out of it
+// now lets create a NodePosition out of it
 const nodePosition = new NodePosition(nodePosition)
 
-// Lets find the closest parent list
+// lets find the closest parent list
 const parentList = nodePosition.getParentByType(['bulletList', 'orderedList'])
 
 if (!parentList) {
   return null
 }
 
-// Lets find the next node after the parent list
+// lets find the next node after the parent list
 const nextNode = parentList.after
 ```
