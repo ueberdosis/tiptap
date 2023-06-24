@@ -11,7 +11,7 @@ context('/src/Extensions/Color/React/', () => {
   })
 
   it('should set the color of the selected text', () => {
-    cy.get('button:first')
+    cy.get('[data-testid="setPurple"]')
       .should('not.have.class', 'is-active')
       .click()
       .should('have.class', 'is-active')
@@ -20,11 +20,11 @@ context('/src/Extensions/Color/React/', () => {
   })
 
   it('should remove the color of the selected text', () => {
-    cy.get('button:first').click()
+    cy.get('[data-testid="setPurple"]').click()
 
     cy.get('.tiptap span').should('exist')
 
-    cy.get('button:last').click()
+    cy.get('[data-testid="unsetColor"]').click()
 
     cy.get('.tiptap span').should('not.exist')
   })
@@ -36,8 +36,24 @@ context('/src/Extensions/Color/React/', () => {
   })
 
   it('should match text and color picker color values', () => {
-    cy.get('button:first').click()
+    cy.get('[data-testid="setPurple"]').click()
 
     cy.get('input[type=color]').should('have.value', '#958df1')
+  })
+
+  it('should preserve color on new lines', () => {
+    cy.get('[data-testid="setPurple"]').click()
+    cy.get('.ProseMirror').type('Example Text{enter}')
+
+    cy.get('[data-testid="setPurple"]').should('have.class', 'is-active')
+  })
+
+  it('should unset color on new lines after unset clicked', () => {
+    cy.get('[data-testid="setPurple"]').click()
+    cy.get('.ProseMirror').type('Example Text{enter}')
+    cy.get('[data-testid="unsetColor"]').click()
+    cy.get('.ProseMirror').type('Example Text')
+
+    cy.get('[data-testid="setPurple"]').should('not.have.class', 'is-active')
   })
 })

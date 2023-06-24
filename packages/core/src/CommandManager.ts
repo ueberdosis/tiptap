@@ -120,10 +120,6 @@ export class CommandManager {
     const { rawCommands, editor, state } = this
     const { view } = editor
 
-    if (state.storedMarks) {
-      tr.setStoredMarks(state.storedMarks)
-    }
-
     const props: CommandProps = {
       tr,
       editor,
