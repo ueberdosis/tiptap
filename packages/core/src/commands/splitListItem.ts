@@ -4,7 +4,6 @@ import {
 import { TextSelection } from '@tiptap/pm/state'
 import { canSplit } from '@tiptap/pm/transform'
 
-import { getActiveSplittableMarks } from '../helpers/getActiveSplittableMarks'
 import { getNodeType } from '../helpers/getNodeType'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes'
 import { RawCommands } from '../types'
@@ -131,15 +130,19 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
   }
 
   if (dispatch) {
-    const activeSplittableMarks = getActiveSplittableMarks(state, editor.extensionManager)
+    const { selection, storedMarks } = state
+    const { splittableMarks } = editor.extensionManager
+    const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
 
     tr.split($from.pos, 2, types).scrollIntoView()
 
-    if (!activeSplittableMarks.length || !dispatch) {
+    if (!marks || !dispatch) {
       return true
     }
 
-    tr.ensureMarks(activeSplittableMarks)
+    const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
+
+    tr.ensureMarks(filteredMarks)
   }
 
   return true

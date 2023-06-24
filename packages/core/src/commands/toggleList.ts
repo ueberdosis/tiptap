@@ -3,7 +3,6 @@ import { Transaction } from '@tiptap/pm/state'
 import { canJoin } from '@tiptap/pm/transform'
 
 import { findParentNode } from '../helpers/findParentNode'
-import { getActiveSplittableMarks } from '../helpers/getActiveSplittableMarks'
 import { getNodeType } from '../helpers/getNodeType'
 import { isList } from '../helpers/isList'
 import { RawCommands } from '../types'
@@ -72,13 +71,14 @@ declare module '@tiptap/core' {
 export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOrName, keepMarks, attributes = {}) => ({
   editor, tr, state, dispatch, chain, commands, can,
 }) => {
-  const { extensions } = editor.extensionManager
+  const { extensions, splittableMarks } = editor.extensionManager
   const listType = getNodeType(listTypeOrName, state.schema)
   const itemType = getNodeType(itemTypeOrName, state.schema)
-  const { selection } = state
+  const { selection, storedMarks } = state
   const { $from, $to } = selection
   const range = $from.blockRange($to)
-  const activeSplittableMarks = getActiveSplittableMarks(state, editor.extensionManager)
+
+  const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
 
   if (!range) {
     return false
@@ -109,28 +109,44 @@ export const toggleList: RawCommands['toggleList'] = (listTypeOrName, itemTypeOr
         .run()
     }
   }
+  if (!keepMarks || !marks || !dispatch) {
 
-  let baseCommandChain = chain()
-    // try to convert node to default node if needed
-    .command(() => {
-      const canWrapInList = can().wrapInList(listType, attributes)
+    return chain()
+      // try to convert node to default node if needed
+      .command(() => {
+        const canWrapInList = can().wrapInList(listType, attributes)
 
-      if (canWrapInList) {
-        return true
-      }
+        if (canWrapInList) {
+          return true
+        }
 
-      return commands.clearNodes()
-    })
-    .wrapInList(listType, attributes)
-    .command(() => joinListBackwards(tr, listType))
-    .command(() => joinListForwards(tr, listType))
-
-  if (keepMarks && activeSplittableMarks.length && dispatch) {
-    baseCommandChain = baseCommandChain.command(() => {
-      tr.ensureMarks(activeSplittableMarks)
-      return true
-    })
-
+        return commands.clearNodes()
+      })
+      .wrapInList(listType, attributes)
+      .command(() => joinListBackwards(tr, listType))
+      .command(() => joinListForwards(tr, listType))
+      .run()
   }
-  return baseCommandChain.run()
+
+  return (
+    chain()
+    // try to convert node to default node if needed
+      .command(() => {
+        const canWrapInList = can().wrapInList(listType, attributes)
+
+        const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
+
+        tr.ensureMarks(filteredMarks)
+
+        if (canWrapInList) {
+          return true
+        }
+
+        return commands.clearNodes()
+      })
+      .wrapInList(listType, attributes)
+      .command(() => joinListBackwards(tr, listType))
+      .command(() => joinListForwards(tr, listType))
+      .run()
+  )
 }

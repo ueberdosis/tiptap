@@ -1,7 +1,6 @@
 import { setBlockType } from '@tiptap/pm/commands'
 import { NodeType } from '@tiptap/pm/model'
 
-import { getActiveSplittableMarks } from '../helpers/getActiveSplittableMarks'
 import { getNodeType } from '../helpers/getNodeType'
 import { RawCommands } from '../types'
 
@@ -16,12 +15,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => ({
-  state, dispatch, chain, editor,
-}) => {
-  const { schema } = state
-
-  const type = getNodeType(typeOrName, schema)
+export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => ({ state, dispatch, chain }) => {
+  const type = getNodeType(typeOrName, state.schema)
 
   // TODO: use a fallback like insertContent?
   if (!type.isTextblock) {
@@ -29,8 +24,6 @@ export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => 
 
     return false
   }
-
-  const activeMarks = getActiveSplittableMarks(state, editor.extensionManager)
 
   return (
     chain()
@@ -46,12 +39,6 @@ export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => 
       })
       .command(({ state: updatedState }) => {
         return setBlockType(type, attributes)(updatedState, dispatch)
-      })
-      .command(({ tr }) => {
-        if (dispatch && activeMarks.length) {
-          tr.ensureMarks(activeMarks)
-        }
-        return true
       })
       .run()
   )

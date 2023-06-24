@@ -1,6 +1,5 @@
 import { liftEmptyBlock as originalLiftEmptyBlock } from '@tiptap/pm/commands'
 
-import { getActiveSplittableMarks } from '../helpers/getActiveSplittableMarks'
 import { RawCommands } from '../types'
 
 declare module '@tiptap/core' {
@@ -14,18 +13,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const liftEmptyBlock: RawCommands['liftEmptyBlock'] = () => ({
-  state, dispatch, editor, chain,
-}) => {
-  const activeSplittableMarks = getActiveSplittableMarks(state, editor.extensionManager)
-
-  return chain()
-    .command(() => originalLiftEmptyBlock(state, dispatch))
-    .command(({ tr }) => {
-      if (dispatch && activeSplittableMarks.length) {
-        tr.ensureMarks(activeSplittableMarks)
-      }
-      return true
-    })
-    .run()
+export const liftEmptyBlock: RawCommands['liftEmptyBlock'] = () => ({ state, dispatch }) => {
+  return originalLiftEmptyBlock(state, dispatch)
 }
