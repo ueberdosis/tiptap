@@ -154,6 +154,27 @@ Check if there is content.
 editor.isEmpty
 ```
 
+### isFocused
+Check if the editor is focused.
+
+```js
+editor.isFocused
+```
+
+### isDestroyed
+Check if the editor is destroyed.
+
+```js
+editor.isDestroyed
+```
+
+### isCapturingTransaction
+Check if the editor is capturing a transaction.
+
+```js
+editor.isCapturingTransaction
+```
+
 ## Settings
 
 ### element
