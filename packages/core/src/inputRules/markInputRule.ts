@@ -30,7 +30,6 @@ export function markInputRule(config: {
       const { tr } = state
       const captureGroup = match[match.length - 1]
       const fullMatch = match[0]
-      let markEnd = range.to
 
       if (captureGroup) {
         const startSpaces = fullMatch.search(/\S/)
@@ -58,7 +57,7 @@ export function markInputRule(config: {
           tr.delete(range.from + startSpaces, textStart)
         }
 
-        markEnd = range.from + startSpaces + captureGroup.length
+        const markEnd = range.from + startSpaces + captureGroup.length
 
         tr.addMark(range.from + startSpaces, markEnd, config.type.create(attributes || {}))
 
