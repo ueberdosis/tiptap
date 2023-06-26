@@ -16,7 +16,8 @@ export default {
 
     return {
       onStart: props => {
-         if (!props.clientRect) {
+
+        if (!props.clientRect) {
           return
         }
 
@@ -25,7 +26,6 @@ export default {
           editor: props.editor,
         })
 
-       
         popup = tippy('body', {
           getReferenceClientRect: props.clientRect,
           appendTo: () => document.body,
