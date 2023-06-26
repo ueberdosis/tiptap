@@ -112,18 +112,27 @@ export function autolink(options: AutolinkOptions): Plugin {
 
           find(lastWordBeforeSpace)
             .filter(link => link.isLink)
-            .filter(link => {
-              if (options.validate) {
-                return options.validate(link.value)
-              }
-              return true
-            })
             // Calculate link position.
             .map(link => ({
               ...link,
               from: lastWordAndBlockOffset + link.start + 1,
               to: lastWordAndBlockOffset + link.end + 1,
             }))
+            // ignore link inside code mark
+            .filter(link => {
+              return !newState.doc.rangeHasMark(
+                link.from,
+                link.to,
+                newState.schema.marks.code,
+              )
+            })
+            // validate link
+            .filter(link => {
+              if (options.validate) {
+                return options.validate(link.value)
+              }
+              return true
+            })
             // Add link mark.
             .forEach(link => {
               if (getMarksBetween(link.from, link.to, newState.doc).some(item => item.mark.type === options.type)) {
