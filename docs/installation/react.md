@@ -17,11 +17,6 @@ If you just want to get up and running with Tiptap you can use the [Tiptap Creat
 npx create-react-app my-tiptap-project --template tiptap
 ```
 
-### Step by step
-All steps are listed below, but if you prefer to watch a video we’ve got something for you, too:
-
-https://tiptap.dev/screencasts/installation/install-tiptap-with-create-react-app
-
 #### 1. Create a project (optional)
 Let’s start with a fresh React project called `my-tiptap-project`. [Create React App](https://reactjs.org/docs/getting-started.html) will set up everything we need.
 
