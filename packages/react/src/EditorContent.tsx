@@ -1,8 +1,8 @@
 import React, { HTMLProps } from 'react'
 import ReactDOM, { flushSync } from 'react-dom'
 
-import { Editor } from './Editor'
-import { ReactRenderer } from './ReactRenderer'
+import { Editor } from './Editor.js'
+import { ReactRenderer } from './ReactRenderer.js'
 
 const Portals: React.FC<{ renderers: Record<string, ReactRenderer> }> = ({ renderers }) => {
   return (

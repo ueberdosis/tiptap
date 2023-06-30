@@ -10,9 +10,9 @@ import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import React from 'react'
 
-import { Editor } from './Editor'
-import { ReactRenderer } from './ReactRenderer'
-import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView'
+import { Editor } from './Editor.js'
+import { ReactRenderer } from './ReactRenderer.js'
+import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView.js'
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   update:

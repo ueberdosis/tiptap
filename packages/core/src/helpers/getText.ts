@@ -1,7 +1,7 @@
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { TextSerializer } from '../types'
-import { getTextBetween } from './getTextBetween'
+import { TextSerializer } from '../types.js'
+import { getTextBetween } from './getTextBetween.js'
 
 export function getText(
   node: ProseMirrorNode,

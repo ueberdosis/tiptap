@@ -1,4 +1,4 @@
-import { AnyExtension, MaybeThisParameterType, RemoveThis } from '../types'
+import { AnyExtension, MaybeThisParameterType, RemoveThis } from '../types.js'
 
 export function getExtensionField<T = any>(
   extension: AnyExtension,

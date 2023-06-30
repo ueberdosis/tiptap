@@ -1,8 +1,8 @@
 import { EditorState } from '@tiptap/pm/state'
 
-import { getSchemaTypeNameByName } from './getSchemaTypeNameByName'
-import { isMarkActive } from './isMarkActive'
-import { isNodeActive } from './isNodeActive'
+import { getSchemaTypeNameByName } from './getSchemaTypeNameByName.js'
+import { isMarkActive } from './isMarkActive.js'
+import { isNodeActive } from './isNodeActive.js'
 
 export function isActive(
   state: EditorState,

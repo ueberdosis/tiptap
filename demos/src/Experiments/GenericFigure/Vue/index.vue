@@ -25,8 +25,8 @@ import TableRow from '@tiptap/extension-table-row'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import { Figcaption } from './figcaption'
-import { Figure } from './figure'
+import { Figcaption } from './figcaption.ts'
+import { Figure } from './figure.ts'
 
 const ImageFigure = Figure.extend({
   name: 'capturedImage',

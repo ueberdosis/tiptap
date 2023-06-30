@@ -11,7 +11,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import Linter, { BadWords, HeadingLevel, Punctuation } from './extension'
+import Linter, { BadWords, HeadingLevel, Punctuation } from './extension/index.ts'
 
 export default {
   components: {

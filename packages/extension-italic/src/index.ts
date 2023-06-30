@@ -1,5 +1,5 @@
-import { Italic } from './italic'
+import { Italic } from './italic.js'
 
-export * from './italic'
+export * from './italic.js'
 
 export default Italic

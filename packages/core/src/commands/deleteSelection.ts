@@ -1,6 +1,6 @@
 import { deleteSelection as originalDeleteSelection } from '@tiptap/pm/commands'
 
-import { RawCommands } from '../types'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

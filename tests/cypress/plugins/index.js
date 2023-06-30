@@ -43,6 +43,9 @@ module.exports = on => {
       resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
         alias,
+        extensionAlias: {
+          '.js': ['.js', '.ts'],
+        },
       },
     },
   }

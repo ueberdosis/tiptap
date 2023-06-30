@@ -15,8 +15,8 @@ import React, {
 } from 'react'
 import * as Y from 'yjs'
 
-import { variables } from '../../../variables'
-import MenuBar from './MenuBar'
+import { variables } from '../../../variables.js'
+import MenuBar from './MenuBar.jsx'
 
 const colors = ['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D']
 const names = [

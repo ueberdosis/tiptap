@@ -1,6 +1,6 @@
 import { EditorView } from '@tiptap/pm/view'
 
-import { minMax } from '../utilities/minMax'
+import { minMax } from '../utilities/minMax.js'
 
 export function posToDOMRect(view: EditorView, from: number, to: number): DOMRect {
   const minPos = 0

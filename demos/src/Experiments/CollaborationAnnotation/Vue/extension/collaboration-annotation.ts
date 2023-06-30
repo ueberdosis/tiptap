@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
 import * as Y from 'yjs'
 
-import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin'
+import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin.js'
 
 export interface AddAnnotationAction {
   type: 'addAnnotation',

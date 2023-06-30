@@ -2,9 +2,9 @@ import { getNodeAtPosition, getNodeType } from '@tiptap/core'
 import { NodeType } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 
-export * from './hasListItemAfter'
-export * from './hasListItemBefore'
-export * from './listItemhasSublist'
+export * from './hasListItemAfter.js'
+export * from './hasListItemBefore.js'
+export * from './listItemhasSublist.js'
 
 export const findListItemPos = (typeOrName: string | NodeType, state: EditorState) => {
   const { $from } = state.selection

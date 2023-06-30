@@ -1,8 +1,8 @@
 import { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 
-import { createNodeFromContent } from '../helpers/createNodeFromContent'
-import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd'
-import { Content, Range, RawCommands } from '../types'
+import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
+import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
+import { Content, Range, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

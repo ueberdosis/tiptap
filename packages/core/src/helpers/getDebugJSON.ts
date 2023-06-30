@@ -1,6 +1,6 @@
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { JSONContent } from '../types'
+import { JSONContent } from '../types.js'
 
 interface DebugJSONContent extends JSONContent {
   from: number

@@ -9,7 +9,7 @@ import {
   Ref,
 } from 'vue'
 
-import { VueRenderer } from './VueRenderer'
+import { VueRenderer } from './VueRenderer.js'
 
 function useDebouncedRef<T>(value: T) {
   return customRef<T>((track, trigger) => {

@@ -11,8 +11,8 @@ import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import Vue from 'vue'
 import { PropType, VueConstructor } from 'vue/types/umd'
 
-import { Editor } from './Editor'
-import { VueRenderer } from './VueRenderer'
+import { Editor } from './Editor.js'
+import { VueRenderer } from './VueRenderer.js'
 
 export const nodeViewProps = {
   editor: {

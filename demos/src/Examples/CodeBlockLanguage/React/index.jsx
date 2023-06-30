@@ -17,7 +17,7 @@ import html from 'highlight.js/lib/languages/xml'
 import { lowlight } from 'lowlight'
 import React from 'react'
 
-import CodeBlockComponent from './CodeBlockComponent'
+import CodeBlockComponent from './CodeBlockComponent.jsx'
 
 lowlight.registerLanguage('html', html)
 lowlight.registerLanguage('css', css)

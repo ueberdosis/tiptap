@@ -1,14 +1,14 @@
 import { MarkSpec, NodeSpec, Schema } from '@tiptap/pm/model'
 
-import { Editor, MarkConfig, NodeConfig } from '..'
-import { AnyConfig, Extensions } from '../types'
-import { callOrReturn } from '../utilities/callOrReturn'
-import { isEmptyObject } from '../utilities/isEmptyObject'
-import { getAttributesFromExtensions } from './getAttributesFromExtensions'
-import { getExtensionField } from './getExtensionField'
-import { getRenderedAttributes } from './getRenderedAttributes'
-import { injectExtensionAttributesToParseRule } from './injectExtensionAttributesToParseRule'
-import { splitExtensions } from './splitExtensions'
+import { Editor, MarkConfig, NodeConfig } from '../index.js'
+import { AnyConfig, Extensions } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
+import { isEmptyObject } from '../utilities/isEmptyObject.js'
+import { getAttributesFromExtensions } from './getAttributesFromExtensions.js'
+import { getExtensionField } from './getExtensionField.js'
+import { getRenderedAttributes } from './getRenderedAttributes.js'
+import { injectExtensionAttributesToParseRule } from './injectExtensionAttributesToParseRule.js'
+import { splitExtensions } from './splitExtensions.js'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(
