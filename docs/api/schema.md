@@ -261,7 +261,7 @@ Mark.create({
 ```
 
 #### Excludes
-By default all nodes can be applied at the same time. With the excludes attribute you can define which marks must not coexist with the mark. For example, the inline code mark excludes any other mark (bold, italic, and all others).
+By default all marks can be applied at the same time. With the excludes attribute you can define which marks must not coexist with the mark. For example, the inline code mark excludes any other mark (bold, italic, and all others).
 
 ```js
 Mark.create({
