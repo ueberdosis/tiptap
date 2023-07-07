@@ -22,7 +22,9 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         const target = link?.target ?? attrs.target
 
         if (link && href) {
-          window.open(href, target)
+          if (view.editable) {
+            window.open(href, target)
+          }
 
           return true
         }
