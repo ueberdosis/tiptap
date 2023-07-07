@@ -133,7 +133,7 @@ export class CommandManager {
         transaction: tr,
       }),
       dispatch: shouldDispatch ? () => undefined : undefined,
-      chain: () => this.createChain(tr),
+      chain: () => this.createChain(tr, shouldDispatch),
       can: () => this.createCan(tr),
       get commands() {
         return Object.fromEntries(
