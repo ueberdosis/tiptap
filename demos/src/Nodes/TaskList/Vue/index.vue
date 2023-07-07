@@ -86,11 +86,11 @@ ul[data-type="taskList"] {
 
     ul li,
     ol li {
-    	display: list-item;
+      display: list-item;
     }
-    
+
     ul[data-type="taskList"] > li {
-    	display: flex;
+      display: flex;
     }
   }
 }
