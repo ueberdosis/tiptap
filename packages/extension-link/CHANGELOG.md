@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-rc.10](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.9...v2.1.0-rc.10) (2023-07-07)
+
+
+### Bug Fixes
+
+* do not use window.open for links in readonly mode ([#4073](https://github.com/ueberdosis/tiptap/issues/4073)) ([4bca77e](https://github.com/ueberdosis/tiptap/commit/4bca77e4e9c96596d584cf71b8d831dc2ab0a421))
+* **extension-link:** fixes link going to wrong url ([#4078](https://github.com/ueberdosis/tiptap/issues/4078)) ([3053865](https://github.com/ueberdosis/tiptap/commit/30538654752ab3ded6e56c869745ccacc8cdeabc))
+* **link:** Prevent auto-linking when typing URL inside inline code mark ([#4160](https://github.com/ueberdosis/tiptap/issues/4160)) ([b24df3a](https://github.com/ueberdosis/tiptap/commit/b24df3aa4c2f3fdb2ed6122d2d32fb7c4e07f2af))
+
+
+
+
+
 # [2.1.0-rc.9](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
 
 **Note:** Version bump only for package @tiptap/extension-link

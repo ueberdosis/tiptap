@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-rc.10](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.9...v2.1.0-rc.10) (2023-07-07)
+
+
+### Bug Fixes
+
+* **react:** check props.clientRect before creating ReactRenderer ([#4138](https://github.com/ueberdosis/tiptap/issues/4138)) ([d710846](https://github.com/ueberdosis/tiptap/commit/d710846ecb6a3059dfbc21300b9a4b887a8defa3))
+
+
+
+
+
 # [2.1.0-rc.9](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
 
 **Note:** Version bump only for package tiptap-demos

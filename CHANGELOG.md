@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-rc.10](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.9...v2.1.0-rc.10) (2023-07-07)
+
+
+### Bug Fixes
+
+* do not use window.open for links in readonly mode ([#4073](https://github.com/ueberdosis/tiptap/issues/4073)) ([4bca77e](https://github.com/ueberdosis/tiptap/commit/4bca77e4e9c96596d584cf71b8d831dc2ab0a421))
+* **extension-link:** fixes link going to wrong url ([#4078](https://github.com/ueberdosis/tiptap/issues/4078)) ([3053865](https://github.com/ueberdosis/tiptap/commit/30538654752ab3ded6e56c869745ccacc8cdeabc))
+* **link:** Prevent auto-linking when typing URL inside inline code mark ([#4160](https://github.com/ueberdosis/tiptap/issues/4160)) ([b24df3a](https://github.com/ueberdosis/tiptap/commit/b24df3aa4c2f3fdb2ed6122d2d32fb7c4e07f2af))
+* **react:** check props.clientRect before creating ReactRenderer ([#4138](https://github.com/ueberdosis/tiptap/issues/4138)) ([d710846](https://github.com/ueberdosis/tiptap/commit/d710846ecb6a3059dfbc21300b9a4b887a8defa3))
+* **react:** update select state when text selection is around node ([#4148](https://github.com/ueberdosis/tiptap/issues/4148)) ([5bd5bd4](https://github.com/ueberdosis/tiptap/commit/5bd5bd4ecdbe1f952b23d5f5efad16b6ed5cc44f))
+
+
+### Features
+
+* **docs:** added cdn installation guide ([#4045](https://github.com/ueberdosis/tiptap/issues/4045)) ([8536508](https://github.com/ueberdosis/tiptap/commit/853650885b7c4f2217a4b37bc42ee65b4cd6026a))
+
+
+
+
+
 # [2.1.0-rc.9](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
 
 
