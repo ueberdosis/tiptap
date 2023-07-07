@@ -19,7 +19,9 @@ export const cut: RawCommands['cut'] = (originRange, targetPos) => ({ editor }) 
   return editor
     .chain()
     .deleteRange(originRange)
-    .insertContentAt(targetPos, contentSlice.content.toJSON())
+    .command(({ commands, tr }) => {
+      return commands.insertContentAt(tr.mapping.map(targetPos), contentSlice.content.toJSON())
+    })
     .focus()
     .run()
 }

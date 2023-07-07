@@ -46,7 +46,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       return true
     }
 
-    let { from, to } = typeof position === 'number' ? { from: tr.mapping.map(position), to: tr.mapping.map(position) } : { from: tr.mapping.map(position.from), to: tr.mapping.map(position.to) }
+    let { from, to } = typeof position === 'number' ? { from: position, to: position } : { from: position.from, to: position.to }
 
     let isOnlyTextContent = true
     let isOnlyBlockContent = true
