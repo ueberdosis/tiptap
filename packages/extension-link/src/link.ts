@@ -107,6 +107,9 @@ export const Link = Mark.create<LinkOptions>({
       target: {
         default: this.options.HTMLAttributes.target,
       },
+      rel: {
+        default: this.options.HTMLAttributes.rel,
+      },
       class: {
         default: this.options.HTMLAttributes.class,
       },
