@@ -16,14 +16,15 @@ export default {
 
     return {
       onStart: props => {
-        reactRenderer = new ReactRenderer(MentionList, {
-          props,
-          editor: props.editor,
-        })
 
         if (!props.clientRect) {
           return
         }
+
+        reactRenderer = new ReactRenderer(MentionList, {
+          props,
+          editor: props.editor,
+        })
 
         popup = tippy('body', {
           getReferenceClientRect: props.clientRect,
