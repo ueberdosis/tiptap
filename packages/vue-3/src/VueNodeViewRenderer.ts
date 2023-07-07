@@ -108,6 +108,13 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       // @ts-ignore
       // eslint-disable-next-line
       __cssModules: this.component.__cssModules,
+      // add support for vue devtools
+      // @ts-ignore
+      // eslint-disable-next-line
+      __name: this.component.__name,
+      // @ts-ignore
+      // eslint-disable-next-line
+      __file: this.component.__file,
     })
 
     this.renderer = new VueRenderer(extendedComponent, {
