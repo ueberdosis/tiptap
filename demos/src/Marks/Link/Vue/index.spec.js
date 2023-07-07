@@ -27,7 +27,7 @@ context('/src/Marks/Link/Vue/', () => {
   it('should parse a tags with rel attribute correctly', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p><a href="#" rel="follow">Example Text</a></p>')
-      expect(editor.getHTML()).to.eq('<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text</a></p>')
+      expect(editor.getHTML()).to.eq('<p><a target="_blank" rel="follow" href="#">Example Text</a></p>')
     })
   })
 
