@@ -27,7 +27,7 @@ import Image from '@tiptap/extension-image'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import { Figure } from './figure'
+import { Figure } from './figure.ts'
 
 export default {
   components: {

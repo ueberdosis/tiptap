@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react'
 
-import { Editor } from './Editor'
+import { Editor } from './Editor.js'
 
 function useForceUpdate() {
   const [, setValue] = useState(0)

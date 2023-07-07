@@ -6,13 +6,13 @@ import {
   Decoration, EditorProps, EditorView, NodeView,
 } from '@tiptap/pm/view'
 
+import { Editor } from './Editor.js'
+import { Extension } from './Extension.js'
 import {
   Commands, ExtensionConfig, MarkConfig, NodeConfig,
-} from '.'
-import { Editor } from './Editor'
-import { Extension } from './Extension'
-import { Mark } from './Mark'
-import { Node } from './Node'
+} from './index.js'
+import { Mark } from './Mark.js'
+import { Node } from './Node.js'
 
 export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
 export type AnyExtension = Extension | Node | Mark

@@ -1,6 +1,6 @@
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { NodeWithPos, Predicate, Range } from '../types'
+import { NodeWithPos, Predicate, Range } from '../types.js'
 
 /**
  * Same as `findChildren` but searches only within a `range`.

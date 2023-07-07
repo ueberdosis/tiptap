@@ -1,4 +1,4 @@
-import { isRegExp } from './isRegExp'
+import { isRegExp } from './isRegExp.js'
 
 /**
  * Check if object1 includes object2

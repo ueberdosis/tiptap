@@ -1,17 +1,17 @@
 import { EditorState, Plugin } from '@tiptap/pm/state'
 
-import { CommandManager } from './CommandManager'
-import { Editor } from './Editor'
-import { createChainableState } from './helpers/createChainableState'
+import { CommandManager } from './CommandManager.js'
+import { Editor } from './Editor.js'
+import { createChainableState } from './helpers/createChainableState.js'
 import {
   CanCommands,
   ChainedCommands,
   ExtendedRegExpMatchArray,
   Range,
   SingleCommands,
-} from './types'
-import { isNumber } from './utilities/isNumber'
-import { isRegExp } from './utilities/isRegExp'
+} from './types.js'
+import { isNumber } from './utilities/isNumber.js'
+import { isRegExp } from './utilities/isRegExp.js'
 
 export type PasteRuleMatch = {
   index: number

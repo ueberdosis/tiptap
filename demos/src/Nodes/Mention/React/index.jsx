@@ -5,7 +5,7 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
-import suggestion from './suggestion'
+import suggestion from './suggestion.js'
 
 export default () => {
   const editor = useEditor({

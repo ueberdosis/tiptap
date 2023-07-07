@@ -6,7 +6,7 @@ import TextStyle from '@tiptap/extension-text-style'
 import { EditorContent, Node, useEditor } from '@tiptap/react'
 import React from 'react'
 
-import { content } from '../content'
+import { content } from '../content.ts'
 
 const WrapperBlock = Node.create({
   name: 'wrapperBlock',

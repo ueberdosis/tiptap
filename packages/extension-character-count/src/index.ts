@@ -1,5 +1,5 @@
-import { CharacterCount } from './character-count'
+import { CharacterCount } from './character-count.js'
 
-export * from './character-count'
+export * from './character-count.js'
 
 export default CharacterCount

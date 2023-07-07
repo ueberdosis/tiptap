@@ -6,8 +6,8 @@ import {
   Schema,
 } from '@tiptap/pm/model'
 
-import { Content } from '../types'
-import { elementFromString } from '../utilities/elementFromString'
+import { Content } from '../types.js'
+import { elementFromString } from '../utilities/elementFromString.js'
 
 export type CreateNodeFromContentOptions = {
   slice?: boolean

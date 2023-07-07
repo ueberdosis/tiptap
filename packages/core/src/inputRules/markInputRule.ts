@@ -1,9 +1,9 @@
 import { MarkType } from '@tiptap/pm/model'
 
-import { getMarksBetween } from '../helpers/getMarksBetween'
-import { InputRule, InputRuleFinder } from '../InputRule'
-import { ExtendedRegExpMatchArray } from '../types'
-import { callOrReturn } from '../utilities/callOrReturn'
+import { getMarksBetween } from '../helpers/getMarksBetween.js'
+import { InputRule, InputRuleFinder } from '../InputRule.js'
+import { ExtendedRegExpMatchArray } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
  * Build an input rule that adds a mark when the
@@ -30,7 +30,6 @@ export function markInputRule(config: {
       const { tr } = state
       const captureGroup = match[match.length - 1]
       const fullMatch = match[0]
-      let markEnd = range.to
 
       if (captureGroup) {
         const startSpaces = fullMatch.search(/\S/)
@@ -58,7 +57,7 @@ export function markInputRule(config: {
           tr.delete(range.from + startSpaces, textStart)
         }
 
-        markEnd = range.from + startSpaces + captureGroup.length
+        const markEnd = range.from + startSpaces + captureGroup.length
 
         tr.addMark(range.from + startSpaces, markEnd, config.type.create(attributes || {}))
 

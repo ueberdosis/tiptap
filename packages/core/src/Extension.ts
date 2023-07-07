@@ -1,12 +1,12 @@
 import { Plugin, Transaction } from '@tiptap/pm/state'
 
-import { ExtensionConfig } from '.'
-import { Editor } from './Editor'
-import { getExtensionField } from './helpers/getExtensionField'
-import { InputRule } from './InputRule'
-import { Mark } from './Mark'
-import { Node } from './Node'
-import { PasteRule } from './PasteRule'
+import { Editor } from './Editor.js'
+import { getExtensionField } from './helpers/getExtensionField.js'
+import { ExtensionConfig } from './index.js'
+import { InputRule } from './InputRule.js'
+import { Mark } from './Mark.js'
+import { Node } from './Node.js'
+import { PasteRule } from './PasteRule.js'
 import {
   AnyConfig,
   Extensions,
@@ -14,9 +14,9 @@ import {
   KeyboardShortcutCommand,
   ParentConfig,
   RawCommands,
-} from './types'
-import { callOrReturn } from './utilities/callOrReturn'
-import { mergeDeep } from './utilities/mergeDeep'
+} from './types.js'
+import { callOrReturn } from './utilities/callOrReturn.js'
+import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   interface ExtensionConfig<Options = any, Storage = any> {

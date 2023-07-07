@@ -1,4 +1,4 @@
-import { RawCommands } from '../types'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -14,7 +14,7 @@ declare module '@tiptap/core' {
 export const cut: RawCommands['cut'] = (originRange, targetPos) => ({ editor }) => {
   const { state } = editor
 
-  const contentSlice = state.doc.slice(originRange.from - 1, originRange.to + 1)
+  const contentSlice = state.doc.slice(originRange.from, originRange.to)
 
   return editor
     .chain()

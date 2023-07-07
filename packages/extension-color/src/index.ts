@@ -1,5 +1,5 @@
-import { Color } from './color'
+import { Color } from './color.js'
 
-export * from './color'
+export * from './color.js'
 
 export default Color

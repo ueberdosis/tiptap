@@ -1,6 +1,6 @@
-import { RawCommands } from '../types'
-import { isiOS } from '../utilities/isiOS'
-import { isMacOS } from '../utilities/isMacOS'
+import { RawCommands } from '../types.js'
+import { isiOS } from '../utilities/isiOS.js'
+import { isMacOS } from '../utilities/isMacOS.js'
 
 function normalizeKeyName(name: string) {
   const parts = name.split(/-(?!$)/)

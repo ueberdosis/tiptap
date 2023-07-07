@@ -8,8 +8,8 @@ import Typography from '@tiptap/extension-typography'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 
-import { ColorHighlighter } from './ColorHighlighter'
-import { SmilieReplacer } from './SmilieReplacer'
+import { ColorHighlighter } from './ColorHighlighter.ts'
+import { SmilieReplacer } from './SmilieReplacer.ts'
 
 export default () => {
   const editor = useEditor({

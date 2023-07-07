@@ -1,7 +1,7 @@
 import { Step, Transform } from '@tiptap/pm/transform'
 
-import { Range } from '../types'
-import { removeDuplicates } from '../utilities/removeDuplicates'
+import { Range } from '../types.js'
+import { removeDuplicates } from '../utilities/removeDuplicates.js'
 
 export type ChangedRange = {
   oldRange: Range,

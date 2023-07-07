@@ -2,7 +2,7 @@ import './MenuBar.scss'
 
 import React, { Fragment } from 'react'
 
-import MenuItem from './MenuItem'
+import MenuItem from './MenuItem.jsx'
 
 export default ({ editor }) => {
   const items = [

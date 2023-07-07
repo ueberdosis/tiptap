@@ -3,11 +3,11 @@ import {
 } from '@tiptap/core'
 import { NodeType } from '@tiptap/pm/model'
 
-import { joinListItemBackward } from './commands/joinListItemBackward'
-import { joinListItemForward } from './commands/joinListItemForward'
+import { joinListItemBackward } from './commands/joinListItemBackward.js'
+import { joinListItemForward } from './commands/joinListItemForward.js'
 import {
   findListItemPos, hasListItemBefore, listItemHasSubList, nextListIsDeeper, nextListIsHigher,
-} from './helpers'
+} from './helpers/index.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

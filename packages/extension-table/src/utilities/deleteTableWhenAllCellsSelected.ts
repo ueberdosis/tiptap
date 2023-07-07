@@ -1,6 +1,6 @@
 import { findParentNodeClosestToPos, KeyboardShortcutCommand } from '@tiptap/core'
 
-import { isCellSelection } from './isCellSelection'
+import { isCellSelection } from './isCellSelection.js'
 
 export const deleteTableWhenAllCellsSelected: KeyboardShortcutCommand = ({ editor }) => {
   const { selection } = editor.state

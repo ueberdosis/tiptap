@@ -1,9 +1,9 @@
 import { MarkType } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 
-import { MarkRange } from '../types'
-import { objectIncludes } from '../utilities/objectIncludes'
-import { getMarkType } from './getMarkType'
+import { MarkRange } from '../types.js'
+import { objectIncludes } from '../utilities/objectIncludes.js'
+import { getMarkType } from './getMarkType.js'
 
 export function isMarkActive(
   state: EditorState,

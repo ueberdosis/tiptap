@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 
-import { BubbleMenuPlugin, BubbleMenuPluginProps } from './bubble-menu-plugin'
+import { BubbleMenuPlugin, BubbleMenuPluginProps } from './bubble-menu-plugin.js'
 
 export type BubbleMenuOptions = Omit<BubbleMenuPluginProps, 'editor' | 'element'> & {
   element: HTMLElement | null,

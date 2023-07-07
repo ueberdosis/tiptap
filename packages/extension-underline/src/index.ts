@@ -1,5 +1,5 @@
-import { Underline } from './underline'
+import { Underline } from './underline.js'
 
-export * from './underline'
+export * from './underline.js'
 
 export default Underline
