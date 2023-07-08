@@ -152,7 +152,7 @@ Since the EditorContent component is rendered by the `EditorProvider` component,
 />
 ```
 
-#### 6. The complete setup (optional)
+#### 7. The complete setup (optional)
 Ready to add more? Below is a demo that shows how you could set up a basic toolbar. Feel free to take it and start customizing it to your needs:
 
 https://embed.tiptap.dev/preview/Examples/Default
