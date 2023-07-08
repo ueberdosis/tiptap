@@ -140,7 +140,19 @@ const EditorJSONPreview = () => {
 
 You should now see a pretty barebones example of Tiptap in your browser.
 
-#### 5. The complete setup (optional)
+#### 6. Add before or after slots
+Since the EditorContent component is rendered by the `EditorProvider` component, we now can't directly define where to render before or after content of our editor. For that we can use the `slotBefore` & `slotAfter` props on the `EditorProvider` component.
+
+```jsx
+<EditorPrivider
+  extensions={extensions}
+  content={content}
+  slotBefore={<MyEditorToolbar />}
+  slotAfter={<MyEditorFooter />}
+/>
+```
+
+#### 6. The complete setup (optional)
 Ready to add more? Below is a demo that shows how you could set up a basic toolbar. Feel free to take it and start customizing it to your needs:
 
 https://embed.tiptap.dev/preview/Examples/Default
