@@ -10,9 +10,9 @@ import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import React from 'react'
 
-import { Editor } from './Editor'
-import { ReactRenderer } from './ReactRenderer'
-import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView'
+import { Editor } from './Editor.js'
+import { ReactRenderer } from './ReactRenderer.js'
+import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView.js'
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   update:
@@ -99,6 +99,9 @@ class ReactNodeView extends NodeView<
 
     const { className = '' } = this.options
 
+    this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
+    this.editor.on('selectionUpdate', this.handleSelectionUpdate)
+
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props,
@@ -125,6 +128,16 @@ class ReactNodeView extends NodeView<
     }
 
     return this.contentDOMElement
+  }
+
+  handleSelectionUpdate() {
+    const { from, to } = this.editor.state.selection
+
+    if (from <= this.getPos() && to >= this.getPos() + this.node.nodeSize) {
+      this.selectNode()
+    } else {
+      this.deselectNode()
+    }
   }
 
   update(node: ProseMirrorNode, decorations: DecorationWithType[]) {
@@ -178,6 +191,7 @@ class ReactNodeView extends NodeView<
 
   destroy() {
     this.renderer.destroy()
+    this.editor.off('selectionUpdate', this.handleSelectionUpdate)
     this.contentDOMElement = null
   }
 }

@@ -43,7 +43,21 @@ module.exports = {
         'no-console': ['warn', { allow: ['warn', 'error'] }],
         semi: ['error', 'never'],
         'import/order': 'off',
-        'import/extensions': 'off',
+        'import/extensions': ['error', 'ignorePackages'],
+        'no-restricted-imports': ['error',
+          {
+            paths: [
+              {
+                name: '..',
+                message: 'Import from ../index.js instead.',
+              },
+              {
+                name: '.',
+                message: 'Import from ./index.js instead.',
+              },
+            ],
+          },
+        ],
         'import/no-extraneous-dependencies': 'off',
         'import/no-unresolved': 'off',
         'import/no-dynamic-require': 'off',

@@ -1,5 +1,5 @@
-import { Typography } from './typography'
+import { Typography } from './typography.js'
 
-export * from './typography'
+export * from './typography.js'
 
 export default Typography

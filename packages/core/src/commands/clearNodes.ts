@@ -1,6 +1,6 @@
 import { liftTarget } from '@tiptap/pm/transform'
 
-import { RawCommands } from '../types'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

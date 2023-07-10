@@ -4,19 +4,19 @@ import {
 } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
-import { CommandManager } from './CommandManager'
-import { EventEmitter } from './EventEmitter'
-import { ExtensionManager } from './ExtensionManager'
-import * as extensions from './extensions'
-import { createDocument } from './helpers/createDocument'
-import { getAttributes } from './helpers/getAttributes'
-import { getHTMLFromFragment } from './helpers/getHTMLFromFragment'
-import { getText } from './helpers/getText'
-import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema'
-import { isActive } from './helpers/isActive'
-import { isNodeEmpty } from './helpers/isNodeEmpty'
-import { resolveFocusPosition } from './helpers/resolveFocusPosition'
-import { style } from './style'
+import { CommandManager } from './CommandManager.js'
+import { EventEmitter } from './EventEmitter.js'
+import { ExtensionManager } from './ExtensionManager.js'
+import * as extensions from './extensions/index.js'
+import { createDocument } from './helpers/createDocument.js'
+import { getAttributes } from './helpers/getAttributes.js'
+import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
+import { getText } from './helpers/getText.js'
+import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
+import { isActive } from './helpers/isActive.js'
+import { isNodeEmpty } from './helpers/isNodeEmpty.js'
+import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
+import { style } from './style.js'
 import {
   CanCommands,
   ChainedCommands,
@@ -25,9 +25,9 @@ import {
   JSONContent,
   SingleCommands,
   TextSerializer,
-} from './types'
-import { createStyleTag } from './utilities/createStyleTag'
-import { isFunction } from './utilities/isFunction'
+} from './types.js'
+import { createStyleTag } from './utilities/createStyleTag.js'
+import { isFunction } from './utilities/isFunction.js'
 
 export { extensions }
 

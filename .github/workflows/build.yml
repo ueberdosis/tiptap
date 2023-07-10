@@ -23,10 +23,10 @@ jobs:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.5.0
+      - uses: actions/checkout@v3.5.3
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v3.7.0
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -79,10 +79,10 @@ jobs:
           #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
-      - uses: actions/checkout@v3.5.0
+      - uses: actions/checkout@v3.5.3
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v3.7.0
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -96,7 +96,7 @@ jobs:
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
-        uses: cypress-io/github-action@v5.6.1
+        uses: cypress-io/github-action@v5.8.3
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           start: npm run start
@@ -132,10 +132,10 @@ jobs:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.5.0
+      - uses: actions/checkout@v3.5.3
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v3.7.0
         with:
           node-version: ${{ matrix.node-version }}
 

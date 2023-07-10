@@ -13,7 +13,7 @@ import {
   watchEffect,
 } from 'vue'
 
-import { Editor } from './Editor'
+import { Editor } from './Editor.js'
 
 export const EditorContent = defineComponent({
   name: 'EditorContent',

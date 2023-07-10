@@ -1,5 +1,5 @@
-import { TextStyle } from './text-style'
+import { TextStyle } from './text-style.js'
 
-export * from './text-style'
+export * from './text-style.js'
 
 export default TextStyle

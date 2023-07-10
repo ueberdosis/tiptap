@@ -1,5 +1,5 @@
-import { Document } from './document'
+import { Document } from './document.js'
 
-export * from './document'
+export * from './document.js'
 
 export default Document

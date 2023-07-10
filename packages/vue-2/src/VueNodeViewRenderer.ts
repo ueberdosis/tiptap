@@ -12,8 +12,8 @@ import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
 import { booleanProp, functionProp, objectProp } from 'vue-ts-types'
 
-import { Editor } from './Editor'
-import { VueRenderer } from './VueRenderer'
+import { Editor } from './Editor.js'
+import { VueRenderer } from './VueRenderer.js'
 
 export const nodeViewProps = {
   editor: objectProp<NodeViewProps['editor']>().required,

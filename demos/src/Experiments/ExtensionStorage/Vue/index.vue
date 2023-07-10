@@ -9,7 +9,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import { CustomExtension } from './CustomExtension'
+import { CustomExtension } from './CustomExtension.ts'
 
 export default {
   components: {

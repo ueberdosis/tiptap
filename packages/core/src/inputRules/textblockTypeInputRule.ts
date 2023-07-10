@@ -1,8 +1,8 @@
 import { NodeType } from '@tiptap/pm/model'
 
-import { InputRule, InputRuleFinder } from '../InputRule'
-import { ExtendedRegExpMatchArray } from '../types'
-import { callOrReturn } from '../utilities/callOrReturn'
+import { InputRule, InputRuleFinder } from '../InputRule.js'
+import { ExtendedRegExpMatchArray } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
  * Build an input rule that changes the type of a textblock when the

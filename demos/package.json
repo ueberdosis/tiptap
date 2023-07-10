@@ -1,6 +1,6 @@
 {
   "name": "tiptap-demos",
-  "version": "2.1.0-rc.8",
+  "version": "2.1.0-rc.11",
   "private": true,
   "scripts": {
     "start": "vite --host",
@@ -36,7 +36,7 @@
     "tailwindcss": "^2.2.19",
     "typescript": "4.7.4",
     "uuid": "^8.3.2",
-    "vite": "^2.9.13",
+    "vite": "^2.9.16",
     "vite-plugin-checker": "^0.3.4",
     "vue": "^3.0.5",
     "vue-router": "^4.0.11"

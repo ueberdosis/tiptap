@@ -1,6 +1,6 @@
-import { StarterKit } from './starter-kit'
+import { StarterKit } from './starter-kit.js'
 
-export type { StarterKitOptions } from './starter-kit'
-export * from './starter-kit'
+export type { StarterKitOptions } from './starter-kit.js'
+export * from './starter-kit.js'
 
 export default StarterKit

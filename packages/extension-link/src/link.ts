@@ -2,9 +2,9 @@ import { Mark, mergeAttributes } from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
 import { registerCustomProtocol, reset } from 'linkifyjs'
 
-import { autolink } from './helpers/autolink'
-import { clickHandler } from './helpers/clickHandler'
-import { pasteHandler } from './helpers/pasteHandler'
+import { autolink } from './helpers/autolink.js'
+import { clickHandler } from './helpers/clickHandler.js'
+import { pasteHandler } from './helpers/pasteHandler.js'
 
 export interface LinkProtocolOptions {
   scheme: string;
@@ -106,6 +106,9 @@ export const Link = Mark.create<LinkOptions>({
       },
       target: {
         default: this.options.HTMLAttributes.target,
+      },
+      rel: {
+        default: this.options.HTMLAttributes.rel,
       },
       class: {
         default: this.options.HTMLAttributes.class,

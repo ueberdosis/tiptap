@@ -1,7 +1,7 @@
 import { ParseRule } from '@tiptap/pm/model'
 
-import { ExtensionAttribute } from '../types'
-import { fromString } from '../utilities/fromString'
+import { ExtensionAttribute } from '../types.js'
+import { fromString } from '../utilities/fromString.js'
 
 /**
  * This function merges extension attributes into parserule attributes (`attrs` or `getAttrs`).

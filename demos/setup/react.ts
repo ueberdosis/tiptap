@@ -4,7 +4,7 @@ import './style.scss'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { debug, splitName } from './helper'
+import { debug, splitName } from './helper.js'
 
 export default function init(name: string, source: any) {
   // @ts-ignore

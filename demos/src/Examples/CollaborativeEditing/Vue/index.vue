@@ -32,7 +32,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import * as Y from 'yjs'
 
-import { variables } from '../../../variables'
+import { variables } from '../../../variables.js'
 import MenuBar from './MenuBar.vue'
 
 const getRandomElement = list => {

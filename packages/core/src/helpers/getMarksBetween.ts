@@ -1,7 +1,7 @@
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { MarkRange } from '../types'
-import { getMarkRange } from './getMarkRange'
+import { MarkRange } from '../types.js'
+import { getMarkRange } from './getMarkRange.js'
 
 export function getMarksBetween(from: number, to: number, doc: ProseMirrorNode): MarkRange[] {
   const marks: MarkRange[] = []
