@@ -30,7 +30,8 @@
   ],
   "dependencies": {
     "@tiptap/extension-bubble-menu": "^2.1.0-rc.11",
-    "@tiptap/extension-floating-menu": "^2.1.0-rc.11"
+    "@tiptap/extension-floating-menu": "^2.1.0-rc.11",
+    "vue-ts-types": "^1.6.0"
   },
   "devDependencies": {
     "@tiptap/core": "^2.1.0-rc.11",
