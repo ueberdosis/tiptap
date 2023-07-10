@@ -144,7 +144,7 @@ You should now see a pretty barebones example of Tiptap in your browser.
 Since the EditorContent component is rendered by the `EditorProvider` component, we now can't directly define where to render before or after content of our editor. For that we can use the `slotBefore` & `slotAfter` props on the `EditorProvider` component.
 
 ```jsx
-<EditorPrivider
+<EditorProvider
   extensions={extensions}
   content={content}
   slotBefore={<MyEditorToolbar />}
