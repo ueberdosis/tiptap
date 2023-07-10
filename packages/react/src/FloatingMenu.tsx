@@ -3,7 +3,7 @@ import React, {
   useEffect, useState,
 } from 'react'
 
-import { useCurrentEditor } from './context.js'
+import { useCurrentEditor } from './Context.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
