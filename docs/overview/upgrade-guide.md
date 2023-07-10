@@ -7,6 +7,8 @@ tableOfContents: true
 ## Introduction
 First of all, Tiptap v1 isn’t supported anymore and won’t receive any further updates.
 
+If you’re still using Tiptap v1, you can find the documentation [here](https://v1.tiptap.dev/), but we strongly recommend that you upgrade to version 2.
+
 Yes, it’s tedious work to upgrade your favorite text editor to a new API, but we made sure you’ve got enough reasons to upgrade to the newest version.
 
 * Autocompletion in your IDE (thanks to TypeScript)
