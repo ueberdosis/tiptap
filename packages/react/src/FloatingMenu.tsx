@@ -3,22 +3,25 @@ import React, {
   useEffect, useState,
 } from 'react'
 
+import { useCurrentEditor } from './Context.js'
+
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKey'>, 'element'> & {
+export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKey' | 'editor'>, 'element'> & {
   className?: string,
   children: React.ReactNode
 }
 
 export const FloatingMenu = (props: FloatingMenuProps) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
+  const { editor: currentEditor } = useCurrentEditor()
 
   useEffect(() => {
     if (!element) {
       return
     }
 
-    if (props.editor.isDestroyed) {
+    if (props.editor?.isDestroyed || currentEditor?.isDestroyed) {
       return
     }
 
@@ -29,18 +32,26 @@ export const FloatingMenu = (props: FloatingMenuProps) => {
       shouldShow = null,
     } = props
 
+    const menuEditor = editor || currentEditor
+
+    if (!menuEditor) {
+      console.warn('FloatingMenu component is not rendered inside of an editor component or does not have editor prop.')
+      return
+    }
+
     const plugin = FloatingMenuPlugin({
       pluginKey,
-      editor,
+      editor: menuEditor,
       element,
       tippyOptions,
       shouldShow,
     })
 
-    editor.registerPlugin(plugin)
-    return () => editor.unregisterPlugin(pluginKey)
+    menuEditor.registerPlugin(plugin)
+    return () => menuEditor.unregisterPlugin(pluginKey)
   }, [
     props.editor,
+    currentEditor,
     element,
   ])
 
