@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './styles.scss'
 
 import { TiptapCollabProvider } from '@hocuspocus/provider'
@@ -17,6 +18,10 @@ import * as Y from 'yjs'
 
 import { variables } from '../../../variables'
 import MenuBar from './MenuBar'
+
+const content = `
+  <h1>Hello World!</h1>
+`
 
 const colors = ['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D']
 const names = [
@@ -78,6 +83,7 @@ export default () => {
   const [currentUser, setCurrentUser] = useState(getInitialUser)
 
   const editor = useEditor({
+    content,
     extensions: [
       StarterKit.configure({
         history: false,
@@ -88,12 +94,12 @@ export default () => {
       CharacterCount.configure({
         limit: 10000,
       }),
-      Collaboration.configure({
+      /* Collaboration.configure({
         document: ydoc,
       }),
       CollaborationCursor.configure({
         provider: websocketProvider,
-      }),
+      }), */
     ],
   })
 
@@ -108,7 +114,7 @@ export default () => {
   useEffect(() => {
     if (editor && currentUser) {
       localStorage.setItem('currentUser', JSON.stringify(currentUser))
-      editor.chain().focus().updateUser(currentUser).run()
+      // editor.chain().focus().updateUser(currentUser).run()
     }
   }, [editor, currentUser])
 
@@ -124,16 +130,16 @@ export default () => {
     <div className="editor">
       {editor && <MenuBar editor={editor} />}
       <EditorContent className="editor__content" editor={editor} />
-      <div className="editor__footer">
-          <div className={`editor__status editor__status--${status}`}>
-            {status === 'connected'
-              ? `${editor.storage.collaborationCursor.users.length} user${editor.storage.collaborationCursor.users.length === 1 ? '' : 's'} online in ${room}`
-              : 'offline'}
-          </div>
-          <div className="editor__name">
-            <button onClick={setName}>{currentUser.name}</button>
-          </div>
+      {/* <div className="editor__footer">
+        <div className={`editor__status editor__status--${status}`}>
+          {status === 'connected'
+            ? `${editor.storage.collaborationCursor.users.length} user${editor.storage.collaborationCursor.users.length === 1 ? '' : 's'} online in ${room}`
+            : 'offline'}
         </div>
+        <div className="editor__name">
+          <button onClick={setName}>{currentUser.name}</button>
+        </div>
+      </div> */}
     </div>
   )
 }
