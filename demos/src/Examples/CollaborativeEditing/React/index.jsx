@@ -20,7 +20,8 @@ import { variables } from '../../../variables.js'
 import MenuBar from './MenuBar.jsx'
 
 const content = `
-  <h1>Hello World!</h1>
+  <h1>Hello <s>World</s> Tiptap!</h1>
+  <p>Build the next <mark>gold standard in content editing</mark> experiences that your competitors can´t match.</p>
 `
 
 const colors = ['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D']
@@ -86,7 +87,7 @@ export default () => {
     content,
     extensions: [
       StarterKit.configure({
-        history: false,
+        history: true,
       }),
       Highlight,
       TaskList,
