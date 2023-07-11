@@ -43,7 +43,7 @@ Nope, we are big fans of asynchronous communication. If you really need to reach
 
 ## P.S. Did you know, we’re also into realtime text editing?
 
-With [Tiptap Collab](https://tiptap.dev/collab) we  built a realtime backend for conflict-free text editing. And the best part: Integration into Tiptap is just a few clicks away.
+With [Collaboration](https://tiptap.dev/collab) we  built a realtime backend for conflict-free text editing. And the best part: Integration into Tiptap is just a few clicks away.
 
 Make sure to check it out!
 
