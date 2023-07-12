@@ -55,7 +55,7 @@ new Editor({
 The rendered HTML will look like that:
 
 ```html
-<h1 class="my-custom-heading">Example Text</p>
+<h1 class="my-custom-heading">Example Text</h1>
 <p class="my-custom-paragraph">Wow, that’s really custom.</p>
 ```
 
