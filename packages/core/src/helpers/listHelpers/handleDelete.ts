@@ -13,7 +13,7 @@ export const handleDelete = (editor: Editor, name: string) => {
 
   // if the cursor is not at the end of a node
   // do nothing and proceed
-  if (!isAtEndOfNode(editor.state)) {
+  if (!isAtEndOfNode(editor.state, name)) {
     return false
   }
 
