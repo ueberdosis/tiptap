@@ -1,4 +1,5 @@
 import { EditorState, Plugin } from '@tiptap/pm/state'
+import { closeHistory } from '@tiptap/pm/history'
 
 import { CommandManager } from './CommandManager.js'
 import { Editor } from './Editor.js'
@@ -25,6 +26,7 @@ export type PasteRuleFinder = RegExp | ((text: string) => PasteRuleMatch[] | nul
 
 export class PasteRule {
   find: PasteRuleFinder
+  undoable: boolean
 
   handler: (props: {
     state: EditorState
@@ -37,6 +39,7 @@ export class PasteRule {
 
   constructor(config: {
     find: PasteRuleFinder
+    undoable?: boolean
     handler: (props: {
       state: EditorState
       range: Range
@@ -48,6 +51,7 @@ export class PasteRule {
   }) {
     this.find = config.find
     this.handler = config.handler
+    this.undoable = config.undoable || false
   }
 }
 
@@ -231,6 +235,10 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           return
         }
 
+        if (rule.undoable) {
+          setTimeout(() => { editor.view.dispatch(tr) }, 0);
+          return closeHistory(state.tr)
+        }
         return tr
       },
     })
