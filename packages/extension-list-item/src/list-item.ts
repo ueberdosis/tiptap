@@ -1,24 +1,7 @@
 import {
+  handleBackspace, handleDelete,
   mergeAttributes, Node,
 } from '@tiptap/core'
-import { NodeType } from '@tiptap/pm/model'
-
-import { joinListItemBackward } from './commands/joinListItemBackward.js'
-import { joinListItemForward } from './commands/joinListItemForward.js'
-import { handleBackspace } from './handlers/handleBackspace.js'
-import { handleDelete } from './handlers/handleDelete.js'
-
-declare module '@tiptap/core' {
-  interface Commands<ReturnType> {
-    listItem: {
-      /**
-       * Lift the list item into a wrapping list.
-       */
-      joinListItemForward: (typeOrName: string | NodeType) => ReturnType
-      joinListItemBackward: (typeOrName: string | NodeType) => ReturnType
-    }
-  }
-}
 
 export interface ListItemOptions {
   HTMLAttributes: Record<string, any>,
@@ -51,13 +34,6 @@ export const ListItem = Node.create<ListItemOptions>({
 
   renderHTML({ HTMLAttributes }) {
     return ['li', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
-  },
-
-  addCommands() {
-    return {
-      joinListItemForward,
-      joinListItemBackward,
-    }
   },
 
   addKeyboardShortcuts() {

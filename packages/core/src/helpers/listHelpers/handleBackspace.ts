@@ -1,10 +1,12 @@
-import { Editor, isAtStartOfNode, isNodeActive } from '@tiptap/core'
 import { Node } from '@tiptap/pm/model'
 
-import { hasListBefore } from '../helpers/hasListBefore.js'
-import {
-  findListItemPos, hasListItemBefore, listItemHasSubList,
-} from '../helpers/index.js'
+import { Editor } from '../../Editor.js'
+import { isAtStartOfNode } from '../isAtStartOfNode.js'
+import { isNodeActive } from '../isNodeActive.js'
+import { findListItemPos } from './findListItemPos.js'
+import { hasListBefore } from './hasListBefore.js'
+import { hasListItemBefore } from './hasListItemBefore.js'
+import { listItemHasSubList } from './listItemHasSubList.js'
 
 export const handleBackspace = (editor: Editor, name: string, parentListTypes: string[]) => {
   // this is required to still handle the undo handling
@@ -64,7 +66,7 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
 
   // if the previous item is a list item and doesn't have a sublist, join the list items
   if (hasListItemBefore(name, editor.state) && !previousListItemHasSubList) {
-    return editor.commands.joinListItemBackward(name)
+    return editor.commands.joinItemBackward()
   }
 
   // otherwise in the end, a backspace should

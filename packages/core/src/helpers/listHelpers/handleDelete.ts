@@ -1,6 +1,8 @@
-import { Editor, isAtEndOfNode, isNodeActive } from '@tiptap/core'
-
-import { nextListIsDeeper, nextListIsHigher } from '../helpers/index.js'
+import { Editor } from '../../Editor.js'
+import { isAtEndOfNode } from '../isAtEndOfNode.js'
+import { isNodeActive } from '../isNodeActive.js'
+import { nextListIsDeeper } from './nextListIsDeeper.js'
+import { nextListIsHigher } from './nextListIsHigher.js'
 
 export const handleDelete = (editor: Editor, name: string) => {
   // if the cursor is not inside the current node type
@@ -32,6 +34,5 @@ export const handleDelete = (editor: Editor, name: string) => {
       .run()
   }
 
-  // check if the next node is also a listItem
-  return editor.commands.joinListItemForward(name)
+  return editor.commands.joinItemForward()
 }
