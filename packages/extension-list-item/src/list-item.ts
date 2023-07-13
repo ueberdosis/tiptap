@@ -22,6 +22,8 @@ declare module '@tiptap/core' {
 
 export interface ListItemOptions {
   HTMLAttributes: Record<string, any>,
+  bulletListTypeName: string
+  orderedListTypeName: string
 }
 
 export const ListItem = Node.create<ListItemOptions>({
@@ -30,6 +32,8 @@ export const ListItem = Node.create<ListItemOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      bulletListTypeName: 'bulletList',
+      orderedListTypeName: 'orderedList',
     }
   },
 
@@ -63,8 +67,8 @@ export const ListItem = Node.create<ListItemOptions>({
       'Shift-Tab': () => this.editor.commands.liftListItem(this.name),
       Delete: ({ editor }) => handleDelete(editor, this.name),
       'Mod-Delete': ({ editor }) => handleDelete(editor, this.name),
-      Backspace: ({ editor }) => handleBackspace(editor, this.name),
-      'Mod-Backspace': ({ editor }) => handleBackspace(editor, this.name),
+      Backspace: ({ editor }) => handleBackspace(editor, this.name, [this.options.bulletListTypeName, this.options.orderedListTypeName]),
+      'Mod-Backspace': ({ editor }) => handleBackspace(editor, this.name, [this.options.bulletListTypeName, this.options.orderedListTypeName]),
     }
   },
 })
