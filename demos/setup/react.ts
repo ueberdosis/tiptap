@@ -11,15 +11,28 @@ export default function init(name: string, source: any) {
   window.source = source
   document.title = name
 
-  const [demoCategory, demoName] = splitName(name)
+  const [demoCategory, demoName, frameworkName] = splitName(name)
 
-  import(`../src/${demoCategory}/${demoName}/React/index.jsx`)
+  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.tsx`)
     .then(module => {
       const root = document.getElementById('app')
 
       if (root) {
-        createRoot(root).render(React.createElement(module.default))
+        createRoot(root)
+          .render(React.createElement(module.default))
       }
       debug()
+    })
+    .catch(() => {
+      import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.jsx`)
+        .then(module => {
+          const root = document.getElementById('app')
+
+          if (root) {
+            createRoot(root)
+              .render(React.createElement(module.default))
+          }
+          debug()
+        })
     })
 }

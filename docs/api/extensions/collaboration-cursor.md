@@ -55,3 +55,5 @@ The content of this editor is shared with other users.
 :::
 https://embed.tiptap.dev/preview/Extensions/CollaborationCursor?hideSource
 https://embed.tiptap.dev/preview/Extensions/CollaborationCursor
+
+!!tiptap-collab-cta

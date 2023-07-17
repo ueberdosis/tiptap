@@ -8,9 +8,9 @@ export default function init(name: string, source: any) {
   window.source = source
   document.title = name
 
-  const [demoCategory, demoName] = splitName(name)
+  const [demoCategory, demoName, frameworkName] = splitName(name)
 
-  import(`../src/${demoCategory}/${demoName}/Svelte/index.svelte`)
+  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.svelte`)
     .then(Module => {
       const Component = Module.default
 

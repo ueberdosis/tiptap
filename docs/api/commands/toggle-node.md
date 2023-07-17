@@ -1,5 +1,5 @@
 # toggleNode
-`toggleNode` will a node with another node.
+`toggleNode` will toggle a node with another node.
 
 ## Parameters
 `typeOrName: string | NodeType`
