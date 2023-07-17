@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/ueberdosis/tiptap/compare/v2.0.3...v2.0.4) (2023-07-17)
+
+
+### Bug Fixes
+
+* missing word in toggle-node.md ([1436f3e](https://github.com/ueberdosis/tiptap/commit/1436f3e24ef44a6e26c2e6f53bcace7c58803fdf))
+* typo in focus.md ([64731e1](https://github.com/ueberdosis/tiptap/commit/64731e1a1a3f16ea49a1370b641a28d5738a2940))
+
+
+### Features
+
+* **core:** add the ability to register CSS via extension ([7f2c619](https://github.com/ueberdosis/tiptap/commit/7f2c6194fddc0ebb889cf3622da768f4cba74baf))
+
+
+
+
+
 ## [2.0.3](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.0.3) (2023-04-13)
 
 

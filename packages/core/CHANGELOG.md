@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/ueberdosis/tiptap/compare/v2.0.3...v2.0.4) (2023-07-17)
+
+
+### Features
+
+* **core:** add the ability to register CSS via extension ([7f2c619](https://github.com/ueberdosis/tiptap/commit/7f2c6194fddc0ebb889cf3622da768f4cba74baf))
+
+
+
+
+
 ## [2.0.3](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.0.3) (2023-04-13)
 
 **Note:** Version bump only for package @tiptap/core
