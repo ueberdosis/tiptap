@@ -4,7 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { ref, watch } from 'vue'
 
-import type { TNote } from './types'
+import type { TNote } from './types.js'
 
 const props = defineProps<{note: TNote}>()
 

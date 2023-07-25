@@ -9,7 +9,7 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import React from 'react'
 import * as Y from 'yjs'
 
-import { TNote } from './types'
+import { TNote } from './types.js'
 
 export default ({ note }: { note: TNote }) => {
   const initialConfig: InitialConfigType = {

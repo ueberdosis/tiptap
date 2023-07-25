@@ -4,7 +4,7 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 import React, { useState } from 'react'
 
-import { TNote } from './types'
+import { TNote } from './types.js'
 
 export default ({ note }: { note: TNote }) => {
   const [modelValue, setModelValue] = useState(note.content)

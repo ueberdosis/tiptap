@@ -9,7 +9,7 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { EditorState } from 'lexical/LexicalEditorState'
 import React, { useRef } from 'react'
 
-import { TNote } from './types'
+import { TNote } from './types.js'
 
 export default ({ note }: { note: TNote }) => {
   const editorStateRef = useRef<EditorState>()

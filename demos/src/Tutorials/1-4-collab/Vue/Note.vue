@@ -7,7 +7,7 @@ import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { onMounted, onUnmounted } from 'vue'
 import * as Y from 'yjs'
 
-import type { TNote } from './types'
+import type { TNote } from './types.js'
 
 const props = defineProps<{ note: TNote }>()
 
