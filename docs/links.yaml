@@ -349,7 +349,7 @@
       items:
         - title: AI
           link: /api/extensions/ai
-          type: pro
+          type: new
         - title: BubbleMenu
           link: /api/extensions/bubble-menu
         - title: CharacterCount
