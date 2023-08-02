@@ -22,8 +22,10 @@ import {
   toggleHeaderCell,
 } from '@tiptap/pm/tables'
 import { NodeView } from '@tiptap/pm/view'
+import { DOMOutputSpec } from 'prosemirror-model'
 
 import { TableView } from './TableView.js'
+import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
 
@@ -110,8 +112,24 @@ export const Table = Node.create<TableOptions>({
     return [{ tag: 'table' }]
   },
 
-  renderHTML({ HTMLAttributes }) {
-    return ['table', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), ['tbody', 0]]
+  renderHTML({ node, HTMLAttributes }) {
+    const { colgroup, tableWidth, tableMinWidth } = createColGroup(
+      node,
+      this.options.cellMinWidth,
+    )
+
+    const table: DOMOutputSpec = [
+      'table',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+        style: tableWidth
+          ? `width: ${tableWidth}`
+          : `minWidth: ${tableMinWidth}`,
+      }),
+      colgroup,
+      ['tbody', 0],
+    ]
+
+    return table
   },
 
   addCommands() {
