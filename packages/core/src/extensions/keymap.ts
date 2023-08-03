@@ -12,6 +12,7 @@ export const Keymap = Extension.create({
   addKeyboardShortcuts() {
     const handleBackspace = () => this.editor.commands.first(({ commands }) => [
       () => commands.undoInputRule(),
+
       // maybe convert first text block node to default node
       () => commands.command(({ tr }) => {
         const { selection, doc } = tr
@@ -32,6 +33,7 @@ export const Keymap = Extension.create({
 
         return commands.clearNodes()
       }),
+
       () => commands.deleteSelection(),
       () => commands.joinBackward(),
       () => commands.selectNodeBackward(),

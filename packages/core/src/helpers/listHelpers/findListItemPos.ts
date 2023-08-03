@@ -1,8 +1,9 @@
-import { getNodeType } from '@tiptap/core'
+import { NodeType } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
-import { ResolvedPos } from 'prosemirror-model'
 
-export const getCurrentListItemPos = (typeOrName: string, state: EditorState): ResolvedPos | undefined => {
+import { getNodeType } from '../getNodeType.js'
+
+export const findListItemPos = (typeOrName: string | NodeType, state: EditorState) => {
   const { $from } = state.selection
   const nodeType = getNodeType(typeOrName, state.schema)
 
@@ -23,8 +24,8 @@ export const getCurrentListItemPos = (typeOrName: string, state: EditorState): R
   }
 
   if (targetDepth === null) {
-    return
+    return null
   }
 
-  return state.doc.resolve(currentPos)
+  return { $pos: state.doc.resolve(currentPos), depth: targetDepth }
 }

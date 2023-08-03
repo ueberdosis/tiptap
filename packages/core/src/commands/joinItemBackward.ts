@@ -1,7 +1,19 @@
-import { RawCommands } from '@tiptap/core'
 import { joinPoint } from '@tiptap/pm/transform'
 
-export const joinListItemBackward: RawCommands['splitListItem'] = () => ({
+import { RawCommands } from '../types.js'
+
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    joinItemBackward: {
+      /**
+       * Join two nodes Forwards.
+       */
+      joinItemBackward: () => ReturnType
+    }
+  }
+}
+
+export const joinItemBackward: RawCommands['joinItemBackward'] = () => ({
   tr, state, dispatch,
 }) => {
   try {
