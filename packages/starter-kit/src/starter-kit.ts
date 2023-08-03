@@ -18,7 +18,7 @@ import { Paragraph, ParagraphOptions } from '@tiptap/extension-paragraph'
 import { Strike, StrikeOptions } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 
-export interface StarterKitOptions {
+export type StarterKitOptions = Partial<{
   blockquote: Partial<BlockquoteOptions> | false,
   bold: Partial<BoldOptions> | false,
   bulletList: Partial<BulletListOptions> | false,
@@ -37,7 +37,7 @@ export interface StarterKitOptions {
   paragraph: Partial<ParagraphOptions> | false,
   strike: Partial<StrikeOptions> | false,
   text: false,
-}
+}>
 
 export const StarterKit = Extension.create<StarterKitOptions>({
   name: 'starterKit',
