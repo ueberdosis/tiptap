@@ -11,7 +11,9 @@ export default () => {
       Document,
       Paragraph,
       Text,
-      Typography,
+      Typography.configure({
+        rightArrow: '=====>',
+      }),
     ],
     content: `
         <p>“I have been suffering from Typomania all my life, a sickness that is incurable but not lethal.”</p>
