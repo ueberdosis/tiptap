@@ -2,26 +2,29 @@
 tableOfContents: true
 ---
 
-"Embed real-time collaboration into your app in under one minute, and everything is in sync." ([Live-Demo](/collab))- If that sounds interesting to you, we might have something :)
-
 # Tiptap Collab
 
-Tiptap Collab is our hosted solution of Hocuspocus (The plug’n’play collaborative editing backend) making it a blast to add real-time collaboration to any app.
+Implementing real-time collaboration is quite hard. With Tiptap Collab we build a solution that does it in minutes. To see it in action check out our [live demo](https://tiptap.dev/editor).
+
+Tiptap Collab is our managed cloud solution of [Hocuspocus](https://tiptap.dev/hocuspocus/introduction). It makes it a easy to add real-time collaboration to any application. If you already have an application using Tiptap Editor, it's even easier to add collaboration.
 
 :::warning Pro Feature
-To get started, you need a Tiptap Pro account ([sign up / login here](https://tiptap.dev/pro)).
+To get started, you need a Tiptap Pro account. [Log in](https://tiptap.dev/login) or [sign up](https://tiptap.dev/register) for free.
 :::
 
-[![Cloud Dashboard](https://tiptap.dev/images/docs/server/cloud/dashboard.png)](https://tiptap.dev/images/docs/server/cloud/dashboard.png)
+## Getting Started
 
-Note that you need `@hocuspocus/provider` [~v2.0.0](https://github.com/ueberdosis/hocuspocus/releases/tag/v2.0.0)
+### Installation
 
+First you need to install `@hocuspocus/provider` at least in version `2.0.0`.
 
-## Getting started
+```bash
+npm install @hocuspocus/provider
+```
 
-Tiptap Collab makes your app collaborative by syncing your Y.Doc across users using websockets. If you are already using yjs in your app, getting started is as simple as shown below.
+### Basic Usage
 
-If you are not, you might want to start in our [Tutorials](/tutorials) section.
+Tiptap Collab makes your application collaborative by synchronizing a Yjs document between connected users using websockets. If you're already using Yjs in your application, it's as easy as this:
 
 ```typescript
 import { TiptapCollabProvider } from '@hocuspocus/provider'
@@ -33,29 +36,31 @@ const provider = new TiptapCollabProvider({
   token: 'your_JWT', // see "Authentication" below
   doc: new Y.Doc() // pass your existing doc, or leave this out and use provider.document
 });
-
-// That's it! Your Y.Doc will now be synced to any other user currently connected
 ```
 
-### Upgrade from self-hosted deployments
+### Upgrade From Hocuspocus
 
-If you are upgrading from a self-hosted deployment, on the frontend you just need to replace `HocuspocusProvider` with the new `TiptapCollabProvider`. The API is the same, it's just a wrapper that handles hostnames / auth.
+If you are upgrading from our self-hosted collaboration backend called Hocuspocus, all you need to do is replace `HocuspocusProvider` with the new `TiptapCollabProvider`. The API is the same, it's just a wrapper that handles the hostname to your Tiptap Collab app and authentication.
 
-## Examples
-
-##### replit / Sandbox: Fully functional prototype
+## Example
 
 [![Cloud Documents](https://tiptap.dev/images/docs/server/cloud/tiptapcollab-demo.png)](https://tiptap.dev/images/docs/server/cloud/tiptapcollab-demo.png)
 
-We have created a simple client / server setup using replit, which you can review and fork here:
+We have created a simple client / server setup using replit that you can review and fork here:
 
-[Github](https://github.com/janthurau/TiptapCollab) or [Replit (Live-Demo)](https://replit.com/@ueberdosis/TiptapCollab?v=1)
+[Github](https://github.com/janthurau/TiptapCollab) or [Replit Demo](https://replit.com/@ueberdosis/TiptapCollab?v=1)
 
-The example load multiple documents over the same websocket (multiplexing), and shows how to realize per-document authentication using JWT.
+The example loads multiple documents over the same websocket (multiplexing), and shows how to implement per-document authentication using JWT.
 
-##### Authentication
+More tutorials can be found in our [Tutorials section](/tutorials).
 
-Authentication is done using JWT. You can see your secret in the admin interface and use it to generate tokens for your clients. If you want to generate a JWT and add some attributes for testing, you can use http://jwtbuilder.jamiekurtz.com/ . You can leave all fields default, just replace the "key" with the secret from your settings.
+## Authentication
+
+Authentication is done using [JSON Web Token (JWT)](https://en.wikipedia.org/wiki/JSON_Web_Token). There are many libraries available to generate a valid token.
+
+### JWT Generation
+
+To generate a JWT in the browser, you can use [http://jwtbuilder.jamiekurtz.com/](http://jwtbuilder.jamiekurtz.com/). You can leave all the fields as default, just replace the "Key" at the bottom with the secret from your [settings](https://collab.tiptap.dev/apps/settings).
 
 In Node.js, you can generate a JWT like this:
 
@@ -63,22 +68,25 @@ In Node.js, you can generate a JWT like this:
 import jsonwebtoken from 'jsonwebtoken'
 
 const data = {
-  // use this list to limit the number of documents that can be accessed by this client.
-  // empty array means no access at all
-  // not sending this property means access to all documents
-  // we are supporting a wildcard at the end of the string (only there)
+  // Use this list to limit the number of documents that can be accessed by this client.
+  // An empty array means no access at all.
+  // Not sending this property means access to all documents.
+  // We are supporting a wildcard at the end of the string (only there).
   allowedDocumentNames: ['document-1', 'document-2', 'my-user-uuid/*', 'my-organization-uuid/*']
 }
 
+// This JWT should be sent in the `token` field of the provider. Never expose 'your_secret' to a frontend!
 const jwt = jsonwebtoken.sign(data, 'your_secret')
-// this JWT should be sent in the `token` field of the provider. Never expose 'your_secret' to a frontend!
 ```
 
-#### Getting the JSON document
+## Webhook
 
-If you want to access the JSON representation (we're currently exporting the `default` fragment of the YDoc), you can add a webhook in the admin interface. We are calling it when storing to our database, so it's debounced by 2 seconds (max 10 seconds).
+You can define a URL and we will call it every time a document has changed. This is useful for getting the JSON representation of the Yjs document in your own application. We call your webhook URL when the document is saved to our database. This operation is debounced by 2-10 seconds. So your application won't be flooded by us. Right now we're only exporting the fragment `default` of the Yjs document.
+You can add the webhook URL in the [settings page](https://collab.tiptap.dev/apps/settings) of your Tiptap Collab app.
 
-All requests contain a header `X-Hocuspocus-Signature-256` which signs the entire message using 'your_secret' (find it in the settings). The payload looks like this:
+### Payload
+
+A sample payload of the webhook request looks like this:
 
 ```json
 {
@@ -91,67 +99,95 @@ All requests contain a header `X-Hocuspocus-Signature-256` which signs the entir
 }
 ```
 
+### Signing
 
-## API
+All requests to your webhook URL will contain a header called `X-Hocuspocus-Signature-256` that signs the entire message with your secret. You can find it in the [settings](https://collab.tiptap.dev/apps/settings) of your Tiptap Collab app.
 
-Each Tiptap Collab instance comes with an API for the most common operations. Is is provided directly by your Tiptap Collab instance, so it's available under your custom URL:
+## Management API
+
+In addition to the websocket protocol, each Tiptap Collab app comes with a REST API for managing your documents. It's exposed directly from your Tiptap Collab app, so it's available at your custom URL:
 
 `https://YOUR_APP_ID.collab.tiptap.cloud/`
 
-Authentication is done using an admin secret which you can find in your collab [settings area](https://collab.tiptap.dev/). The secret has to be sent as an `Authorization` header.
-If your document identifier contains a slash (`/`), just make sure that you encode it as `%2F` (e.g. using javascripts `encodeURIComponent`).
+Authentication is done using an API secret which you can find in the [settings](https://collab.tiptap.dev/) of your Tiptap Collab app. The secret must be sent as an `Authorization` header.
 
-### POST /api/documents/:identifier
+If your document identifier contains a slash (`/`), just make sure to encode it as `%2F`, e.g. using `encodeURIComponent` of vanilla JavaScript.
 
-This call takes a binary yjs update message (an existing Ydoc on your side must be encoded using `Y.encodeStateAsUpdate`) and creates a document. This can be used to seed documents before a user connects to the Tiptap Collab server.
+### Create Document
+
+```bash
+POST /api/documents/:identifier
+```
+
+This call takes a binary Yjs update message (an existing Yjs document on your side must be encoded using `Y.encodeStateAsUpdate`) and creates a document. This can be used to seed documents before a user connects to the Tiptap Collab server.
+
+This endpoint will return the HTTP status `204` if the document was created successfully, or `409` if the document already exists. If you want to overwrite it, you must delete it first.
 
 ```bash
 curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_NAME' \
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA' \
 --data '@yjsUpdate.binary.txt'
-
-// returns either http status 204 if the document was created successfully
-// or http status 409 if the document already exists (if you wish to overwrite it, just delete it first)
 ```
 
-### GET /api/documents/:identifier?format=:format&fragment=:fragment
+### Get Document
 
-This call exports the given document (all fragments) in json format. We are exporting either the current in-memory version (in case the document is currently open on your server, or we fetch the most recent version from the database).
+```bash
+GET /api/documents/:identifier?format=:format&fragment=:fragment
+```
 
-`format` supports either `yjs` or `json`, default=`json`
+This call exports the given document with all fragments in JSON format. We export either the current in-memory version or the version read from the database. If the document is currently open on your server, we will return the in-memory version.
 
-If you choose the `yjs` format, you'll get the binary Y.js update message (created using `Y.encodeStateAsUpdate`)
+`format` supports either `yjs` or `json`. Default: `json`
 
-`fragment` can be an array of (`fragment=a&fragment=b`) or a single fragment that you want exported. By default we're exporting all fragments. Note that this is only considered when using `json` format, otherwise you'll always get the entire Y.doc.
+If you choose the `yjs` format, you'll get the binary Yjs update message created with `Y.encodeStateAsUpdate`.
+
+`fragment` can be an array (`fragment=a&fragment=b`) of or a single fragment that you want to export. By default we'll export all fragments. Note that this is only taken into account when using the `json` format, otherwise you'll always get the whole Yjs document.
 
 ```bash
 curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_NAME' \
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
-
-// returns either http status 200 and the requested document
-// or http status 404 if the document was not found
 ```
 
-### DELETE /api/documents/:identifier
+### Delete Document
 
-This simply deletes a document from the server after terminating any open connection to the document.
+```bash
+DELETE /api/documents/:identifier
+```
+
+This endpoint deletes a document from the server after closing any open connection to the document.
+
+It returns either HTTP status `204` if the document was deleted successfully or `404` if the document was not found.
 
 ```bash
 curl --location --request DELETE 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_NAME' \
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
-
-// returns either http status 204 if the document was deleted successfully
-// or http status 404 if the document was not found
 ```
-
-### ANY /api/
-
-Need something else? Hit us up and we'll see what we can do (links below)
-
 
 ## Screenshots
 
+Here are some screenshots of Tiptap Collab to give you an idea what of Tiptap Collab looks like.
+
+### Dashboard
+
+View key metrics such as total or concurrent connections of your Tiptap Collab app.
+
+[![Cloud Dashboard](https://tiptap.dev/images/docs/server/cloud/dashboard.png)](https://tiptap.dev/images/docs/server/cloud/dashboard.png)
+
+### Documents
+
+Get insight into all your documents, such as size or delete them if you want.
+
 [![Cloud Documents](https://tiptap.dev/images/docs/server/cloud/documents.png)](https://tiptap.dev/images/docs/server/cloud/documents.png)
+
+### Logging
+
+View real-time log events for information about currently loaded or modified documents.
+
+[![Cloud Settings](https://tiptap.dev/images/docs/server/cloud/logging.png)](https://tiptap.dev/images/docs/server/cloud/logging.png)
+
+### Settings
+
+Manage the authentication of your application or defined webhooks in the settings.
 
 [![Cloud Settings](https://tiptap.dev/images/docs/server/cloud/settings.png)](https://tiptap.dev/images/docs/server/cloud/settings.png)
 
