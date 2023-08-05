@@ -1,6 +1,6 @@
-import { Editor } from '../../Editor.js'
-import { isAtEndOfNode } from '../isAtEndOfNode.js'
-import { isNodeActive } from '../isNodeActive.js'
+import { Editor } from '../../../core/src/Editor.js'
+import { isAtEndOfNode } from '../../../core/src/helpers/isAtEndOfNode.js'
+import { isNodeActive } from '../../../core/src/helpers/isNodeActive.js'
 import { nextListIsDeeper } from './nextListIsDeeper.js'
 import { nextListIsHigher } from './nextListIsHigher.js'
 

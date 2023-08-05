@@ -1,7 +1,7 @@
 import { NodeType } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 
-import { getNodeType } from '../getNodeType.js'
+import { getNodeType } from '../../../core/src/helpers/getNodeType.js'
 
 export const findListItemPos = (typeOrName: string | NodeType, state: EditorState) => {
   const { $from } = state.selection
