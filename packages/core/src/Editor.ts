@@ -35,21 +35,50 @@ export interface HTMLElement {
   editor?: Editor
 }
 
+/**
+ * The Tiptap editor class.
+ */
 export class Editor extends EventEmitter<EditorEvents> {
+  /**
+   * The editor’s command manager responsible
+   * for managing and handling commands & command chains.
+   */
   private commandManager!: CommandManager
 
+  /**
+   * The editor’s extension manager responsible for managing extensions
+   * handling the editor schema from extensions, etc.
+  */
   public extensionManager!: ExtensionManager
 
+  /**
+   * A HTML Style element to inject CSS into the editor.
+   */
   private css!: HTMLStyleElement
 
+  /**
+   * The ProseMirror schema of the editor.
+   */
   public schema!: Schema
 
+  /**
+   * The ProsedMirror view of the editor.
+   */
   public view!: EditorView
 
+  /**
+   * A boolean determining if the editor is currently focused.
+   */
   public isFocused = false
 
+  /**
+   * A object containing the editor's extension storage.
+   */
   public extensionStorage: Record<string, any> = {}
 
+  /**
+   * The editor options used to create the editor.
+   */
   public options: EditorOptions = {
     element: document.createElement('div'),
     content: '',
@@ -73,6 +102,11 @@ export class Editor extends EventEmitter<EditorEvents> {
     onDestroy: () => null,
   }
 
+  /**
+   * Creates a new Tiptap editor instance.
+   * Make sure to pass through options to correctly setup the editor.
+   * @param options The editor options - including the content, extensions and hooks
+   */
   constructor(options: Partial<EditorOptions> = {}) {
     super()
     this.setOptions(options)
