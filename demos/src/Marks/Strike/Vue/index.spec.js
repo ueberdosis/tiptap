@@ -64,15 +64,15 @@ context('/src/Marks/Strike/Vue/', () => {
 
   it('should strike the selected text when the keyboard shortcut is pressed', () => {
     cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, shiftKey: true, key: 'x' })
+      .trigger('keydown', { ctrlKey: true, shiftKey: true, key: 's' })
       .find('s')
       .should('contain', 'Example Text')
   })
 
   it('should toggle the selected text striked when the keyboard shortcut is pressed', () => {
     cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, shiftKey: true, key: 'x' })
-      .trigger('keydown', { modKey: true, shiftKey: true, key: 'x' })
+      .trigger('keydown', { ctrlKey: true, shiftKey: true, key: 's' })
+      .trigger('keydown', { ctrlKey: true, shiftKey: true, key: 's' })
       .find('s')
       .should('not.exist')
   })
