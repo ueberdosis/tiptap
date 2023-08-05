@@ -51,7 +51,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         const firstChildIsText = slice.content.firstChild?.type.name === 'text'
         const firstChildContainsLinkMark = slice.content.firstChild?.marks.some(mark => mark.type.name === options.type.name)
 
-        if (firstChildIsText && firstChildContainsLinkMark) {
+        if ((firstChildIsText && firstChildContainsLinkMark) || !options.linkOnPaste) {
           return false
         }
 
