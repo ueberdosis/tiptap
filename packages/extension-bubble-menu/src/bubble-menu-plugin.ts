@@ -19,6 +19,7 @@ export interface BubbleMenuPluginProps {
         oldState?: EditorState
         from: number
         to: number
+        element: HTMLElement
       }) => boolean)
     | null
 }
@@ -26,6 +27,37 @@ export interface BubbleMenuPluginProps {
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
   view: EditorView
 }
+
+export const shouldShowDefault: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
+  view,
+  state,
+  from,
+  to,
+  editor,
+  element
+}) => {
+  const { doc, selection } = state
+  const { empty } = selection
+
+  // Sometime check for `empty` is not enough.
+  // Doubleclick an empty paragraph returns a node size of 2.
+  // So we check also for an empty text size.
+  const isEmptyTextBlock = !doc.textBetween(from, to).length && isTextSelection(state.selection)
+
+  // When clicking on a element inside the bubble menu the editor "blur" event
+  // is called and the bubble menu item is focussed. In this case we should
+  // consider the menu as part of the editor and keep showing the menu
+  const isChildOfMenu = element.contains(document.activeElement)
+
+  const hasEditorFocus = view.hasFocus() || isChildOfMenu
+
+  if (!hasEditorFocus || empty || isEmptyTextBlock || !editor.isEditable) {
+    return false
+  }
+
+  return true
+}
+
 
 export class BubbleMenuView {
   public editor: Editor
@@ -44,33 +76,7 @@ export class BubbleMenuView {
 
   private updateDebounceTimer: number | undefined
 
-  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
-    view,
-    state,
-    from,
-    to,
-  }) => {
-    const { doc, selection } = state
-    const { empty } = selection
-
-    // Sometime check for `empty` is not enough.
-    // Doubleclick an empty paragraph returns a node size of 2.
-    // So we check also for an empty text size.
-    const isEmptyTextBlock = !doc.textBetween(from, to).length && isTextSelection(state.selection)
-
-    // When clicking on a element inside the bubble menu the editor "blur" event
-    // is called and the bubble menu item is focussed. In this case we should
-    // consider the menu as part of the editor and keep showing the menu
-    const isChildOfMenu = this.element.contains(document.activeElement)
-
-    const hasEditorFocus = view.hasFocus() || isChildOfMenu
-
-    if (!hasEditorFocus || empty || isEmptyTextBlock || !this.editor.isEditable) {
-      return false
-    }
-
-    return true
-  }
+  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = shouldShowDefault
 
   constructor({
     editor,
@@ -211,6 +217,7 @@ export class BubbleMenuView {
       oldState,
       from,
       to,
+      element: this.element,
     })
 
     if (!shouldShow) {
