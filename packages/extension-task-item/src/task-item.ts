@@ -1,5 +1,5 @@
 import {
-  handleBackspace, handleDelete, KeyboardShortcutCommand, mergeAttributes, Node, wrappingInputRule,
+  KeyboardShortcutCommand, mergeAttributes, Node, wrappingInputRule,
 } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
@@ -78,10 +78,6 @@ export const TaskItem = Node.create<TaskItemOptions>({
     } = {
       Enter: () => this.editor.commands.splitListItem(this.name),
       'Shift-Tab': () => this.editor.commands.liftListItem(this.name),
-      Delete: ({ editor }) => handleDelete(editor, this.name),
-      'Mod-Delete': ({ editor }) => handleDelete(editor, this.name),
-      Backspace: ({ editor }) => handleBackspace(editor, this.name, [this.options.taskListTypeName]),
-      'Mod-Backspace': ({ editor }) => handleBackspace(editor, this.name, [this.options.taskListTypeName]),
     }
 
     if (!this.options.nested) {

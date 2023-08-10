@@ -1,7 +1,4 @@
-import {
-  handleBackspace, handleDelete,
-  mergeAttributes, Node,
-} from '@tiptap/core'
+import { mergeAttributes, Node } from '@tiptap/core'
 
 export interface ListItemOptions {
   HTMLAttributes: Record<string, any>,
@@ -41,10 +38,6 @@ export const ListItem = Node.create<ListItemOptions>({
       Enter: () => this.editor.commands.splitListItem(this.name),
       Tab: () => this.editor.commands.sinkListItem(this.name),
       'Shift-Tab': () => this.editor.commands.liftListItem(this.name),
-      Delete: ({ editor }) => handleDelete(editor, this.name),
-      'Mod-Delete': ({ editor }) => handleDelete(editor, this.name),
-      Backspace: ({ editor }) => handleBackspace(editor, this.name, [this.options.bulletListTypeName, this.options.orderedListTypeName]),
-      'Mod-Backspace': ({ editor }) => handleBackspace(editor, this.name, [this.options.bulletListTypeName, this.options.orderedListTypeName]),
     }
   },
 })
