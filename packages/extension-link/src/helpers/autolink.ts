@@ -7,7 +7,7 @@ import {
 } from '@tiptap/core'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { find, test } from 'linkifyjs'
+import { find } from 'linkifyjs'
 
 type AutolinkOptions = {
   type: MarkType
@@ -27,42 +27,9 @@ export function autolink(options: AutolinkOptions): Plugin {
 
       const { tr } = newState
       const transform = combineTransactionSteps(oldState.doc, [...transactions])
-      const { mapping } = transform
       const changes = getChangedRanges(transform)
-      let needsAutolink = true
 
-      changes.forEach(({ oldRange, newRange }) => {
-        // At first we check if we have to remove links.
-        getMarksBetween(oldRange.from, oldRange.to, oldState.doc)
-          .filter(item => item.mark.type === options.type)
-          .forEach(oldMark => {
-            const newFrom = mapping.map(oldMark.from)
-            const newTo = mapping.map(oldMark.to)
-            const newMarks = getMarksBetween(newFrom, newTo, newState.doc).filter(
-              item => item.mark.type === options.type,
-            )
-
-            if (!newMarks.length) {
-              return
-            }
-
-            const newMark = newMarks[0]
-            const oldLinkText = oldState.doc.textBetween(oldMark.from, oldMark.to, undefined, ' ')
-            const newLinkText = newState.doc.textBetween(newMark.from, newMark.to, undefined, ' ')
-            const wasLink = test(oldLinkText)
-            const isLink = test(newLinkText)
-
-            if (wasLink) {
-              needsAutolink = false
-            }
-
-            // Remove only the link, if it was a link before too.
-            // Because we don’t want to remove links that were set manually.
-            if (wasLink && !isLink) {
-              tr.removeMark(needsAutolink ? newMark.from : newMark.to - 1, newMark.to, options.type)
-            }
-          })
-
+      changes.forEach(({ newRange }) => {
         // Now let’s see if we can add new links.
         const nodesInChangedRanges = findChildrenInRange(
           newState.doc,

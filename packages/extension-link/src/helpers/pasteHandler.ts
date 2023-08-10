@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core'
-import { Mark, MarkType } from '@tiptap/pm/model'
+import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { find } from 'linkifyjs'
 
@@ -22,24 +22,28 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           return false
         }
 
-        const pastedLinkMarks: Mark[] = []
         let textContent = ''
 
         slice.content.forEach(node => {
           textContent += node.textContent
-
-          node.marks.forEach(mark => {
-            if (mark.type.name === options.type.name) {
-              pastedLinkMarks.push(mark)
-            }
-          })
         })
 
-        const hasPastedLink = pastedLinkMarks.length > 0
+        let isAlreadyLink = false
+
+        slice.content.descendants(node => {
+          if (node.marks.some(mark => mark.type.name === options.type.name)) {
+            isAlreadyLink = true
+          }
+        })
+
+        if (isAlreadyLink) {
+          return
+        }
+
         const link = find(textContent).find(item => item.isLink && item.value === textContent)
 
         if (!selection.empty && options.linkOnPaste) {
-          const pastedLink = hasPastedLink ? pastedLinkMarks[0].attrs.href : link?.href || null
+          const pastedLink = link?.href || null
 
           if (pastedLink) {
             options.editor.commands.setMark(options.type, { href: pastedLink })
@@ -51,7 +55,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
         const firstChildIsText = slice.content.firstChild?.type.name === 'text'
         const firstChildContainsLinkMark = slice.content.firstChild?.marks.some(mark => mark.type.name === options.type.name)
 
-        if (firstChildIsText && firstChildContainsLinkMark) {
+        if ((firstChildIsText && firstChildContainsLinkMark) || !options.linkOnPaste) {
           return false
         }
 
