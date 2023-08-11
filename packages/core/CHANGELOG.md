@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-rc.13](https://github.com/ueberdosis/tiptap/compare/v2.0.4...v2.1.0-rc.13) (2023-08-11)
+
+
+
+# [2.1.0-rc.12](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.11...v2.1.0-rc.12) (2023-07-14)
+
+
+
+# [2.1.0-rc.11](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.10...v2.1.0-rc.11) (2023-07-07)
+
+
+### Bug Fixes
+
+* **core:** fix cut and insertContentAt functions ([#4187](https://github.com/ueberdosis/tiptap/issues/4187)) ([6b65af8](https://github.com/ueberdosis/tiptap/commit/6b65af8fc31ffbbcf79b89bfdaceee7aadbf3f27))
+
+
+
+# [2.1.0-rc.10](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.9...v2.1.0-rc.10) (2023-07-07)
+
+
+
+# [2.1.0-rc.9](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
+
+
+
+# [2.1.0-rc.8](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.7...v2.1.0-rc.8) (2023-05-25)
+
+
+
+# [2.1.0-rc.5](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.4...v2.1.0-rc.5) (2023-05-25)
+
+
+### Features
+
+* add tiptap class ([614fc80](https://github.com/ueberdosis/tiptap/commit/614fc8082c376bf3c40a05c23ceda6b4a6fbf8d0))
+
+
+
+# [2.1.0-rc.4](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.3...v2.1.0-rc.4) (2023-04-27)
+
+
+
+# [2.1.0-rc.3](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.2...v2.1.0-rc.3) (2023-04-26)
+
+
+### Bug Fixes
+
+* **core:** remove configure from extend functionality ([4af54da](https://github.com/ueberdosis/tiptap/commit/4af54da3e09c69c0b5326f9952d456436855914d))
+
+
+
+# [2.1.0-rc.2](https://github.com/ueberdosis/tiptap/compare/v2.0.3...v2.1.0-rc.2) (2023-04-26)
+
+
+
+# [2.1.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.0...v2.1.0-rc.1) (2023-04-12)
+
+
+
+# [2.1.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.1.0-rc.0) (2023-04-05)
+
+
+### Bug Fixes
+
+* clear nodes when cursor at start of empty isolating parent ([#3943](https://github.com/ueberdosis/tiptap/issues/3943)) ([7278ee2](https://github.com/ueberdosis/tiptap/commit/7278ee2b05de2f96efddf3b1dc3bfd3d52262cbb))
+* **lists:** improve list behaviour ([684e48a](https://github.com/ueberdosis/tiptap/commit/684e48a4a7778a0140c94f0c5345db868174ad81))
+* Update peerDependencies to fix lerna version tasks ([#3914](https://github.com/ueberdosis/tiptap/issues/3914)) ([0c1bba3](https://github.com/ueberdosis/tiptap/commit/0c1bba3137b535776bcef95ff3c55e13f5a2db46))
+
+
+
+
+
 # [2.1.0-rc.12](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.11...v2.1.0-rc.12) (2023-07-14)
 
 **Note:** Version bump only for package @tiptap/core

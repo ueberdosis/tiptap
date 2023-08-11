@@ -3,6 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-rc.13](https://github.com/ueberdosis/tiptap-workspace/compare/v2.0.4...v2.1.0-rc.13) (2023-08-11)
+
+
+### Bug Fixes
+
+* **demos:** add missing extensions ([6383fd5](https://github.com/ueberdosis/tiptap-workspace/commit/6383fd54080b2ad555286cd0e7c4ad880200200f))
+* **demos:** update deps ([05a2edf](https://github.com/ueberdosis/tiptap-workspace/commit/05a2edfc16e297effa86d1583fb1680be0320f25))
+* **strikethrough:** update strikethrough shortcut ([#4288](https://github.com/ueberdosis/tiptap-workspace/issues/4288)) ([fd35db4](https://github.com/ueberdosis/tiptap-workspace/commit/fd35db4d090d9fdfef1196fb1f6f858f13cf53d1))
+
+
+
+# [2.1.0-rc.12](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.11...v2.1.0-rc.12) (2023-07-14)
+
+
+
+# [2.1.0-rc.11](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.10...v2.1.0-rc.11) (2023-07-07)
+
+
+### Bug Fixes
+
+* **tests:** fix link rel tests ([c1d1854](https://github.com/ueberdosis/tiptap-workspace/commit/c1d18543b03b1fb6b99a2f3546aa5da10c919920))
+
+
+
+# [2.1.0-rc.10](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.9...v2.1.0-rc.10) (2023-07-07)
+
+
+### Bug Fixes
+
+* **react:** check props.clientRect before creating ReactRenderer ([#4138](https://github.com/ueberdosis/tiptap-workspace/issues/4138)) ([d710846](https://github.com/ueberdosis/tiptap-workspace/commit/d710846ecb6a3059dfbc21300b9a4b887a8defa3))
+
+
+
+# [2.1.0-rc.9](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
+
+
+
+# [2.1.0-rc.8](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.7...v2.1.0-rc.8) (2023-05-25)
+
+
+
+# [2.1.0-rc.5](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.4...v2.1.0-rc.5) (2023-05-25)
+
+
+### Features
+
+* add tiptap class ([614fc80](https://github.com/ueberdosis/tiptap-workspace/commit/614fc8082c376bf3c40a05c23ceda6b4a6fbf8d0))
+
+
+
+# [2.1.0-rc.4](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.3...v2.1.0-rc.4) (2023-04-27)
+
+
+
+# [2.1.0-rc.3](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.2...v2.1.0-rc.3) (2023-04-26)
+
+
+
+# [2.1.0-rc.2](https://github.com/ueberdosis/tiptap-workspace/compare/v2.0.3...v2.1.0-rc.2) (2023-04-26)
+
+
+### Bug Fixes
+
+* **extension-link:** fix link not being kept when pasting url with link ([#3975](https://github.com/ueberdosis/tiptap-workspace/issues/3975)) ([e7d7d49](https://github.com/ueberdosis/tiptap-workspace/commit/e7d7d496376c8c11e24c342e20bd179a6ea7dcee))
+
+
+
+# [2.1.0-rc.1](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.0...v2.1.0-rc.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* **bubble-menu:** fix debounce not working with collab/collaboration cursor ([#3956](https://github.com/ueberdosis/tiptap-workspace/issues/3956)) ([e8cef04](https://github.com/ueberdosis/tiptap-workspace/commit/e8cef0404b5039ec2657536976b8b31931afd337))
+
+
+
+# [2.1.0-rc.0](https://github.com/ueberdosis/tiptap-workspace/compare/v2.0.2...v2.1.0-rc.0) (2023-04-05)
+
+
+### Bug Fixes
+
+* clear nodes when cursor at start of empty isolating parent ([#3943](https://github.com/ueberdosis/tiptap-workspace/issues/3943)) ([7278ee2](https://github.com/ueberdosis/tiptap-workspace/commit/7278ee2b05de2f96efddf3b1dc3bfd3d52262cbb))
+* Update peerDependencies to fix lerna version tasks ([#3914](https://github.com/ueberdosis/tiptap-workspace/issues/3914)) ([0c1bba3](https://github.com/ueberdosis/tiptap-workspace/commit/0c1bba3137b535776bcef95ff3c55e13f5a2db46))
+
+
+
+
+
 # [2.1.0-rc.12](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.11...v2.1.0-rc.12) (2023-07-14)
 
 **Note:** Version bump only for package tiptap-demos
