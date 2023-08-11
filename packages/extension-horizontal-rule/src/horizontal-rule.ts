@@ -38,10 +38,10 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   addCommands() {
     return {
       setHorizontalRule:
-        () => ({ chain }) => {
+        options => ({ chain }) => {
           return (
             chain()
-              .insertContent({ type: this.name })
+              .insertContent({ type: this.name, attrs: options })
               // set cursor after horizontal rule
               .command(({ tr, dispatch }) => {
                 if (dispatch) {
