@@ -14,9 +14,14 @@ export function mergeAttributes(...objects: Record<string, any>[]): Record<strin
         }
 
         if (key === 'class') {
-          if (!mergedAttributes[key].includes(value)) {
-            mergedAttributes[key] = [mergedAttributes[key], value].join(' ')
-          }
+          const valueClasses: string[] = value.split(' ')
+          const existingClasses: string[] = mergedAttributes[key].split(' ')
+
+          const insertClasses = valueClasses.filter(
+            valueClass => !existingClasses.includes(valueClass),
+          )
+
+          mergedAttributes[key] = [...existingClasses, ...insertClasses].join(' ')
         } else if (key === 'style') {
           mergedAttributes[key] = [mergedAttributes[key], value].join('; ')
         } else {
