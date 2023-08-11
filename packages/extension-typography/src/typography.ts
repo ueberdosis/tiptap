@@ -1,138 +1,138 @@
 import { Extension, textInputRule } from '@tiptap/core'
 
 export interface TypographyOptions {
-  emDash: false,
-  ellipsis: false,
-  openDoubleQuote: false,
-  closeDoubleQuote: false,
-  openSingleQuote: false,
-  closeSingleQuote: false,
-  leftArrow: false,
-  rightArrow: false,
-  copyright: false,
-  trademark: false,
-  servicemark: false,
-  registeredTrademark: false,
-  oneHalf: false,
-  plusMinus: false,
-  notEqual: false,
-  laquo: false,
-  raquo: false,
-  multiplication: false,
-  superscriptTwo: false,
-  superscriptThree: false,
-  oneQuarter: false,
-  threeQuarters: false,
+  emDash: false | string,
+  ellipsis: false | string,
+  openDoubleQuote: false | string,
+  closeDoubleQuote: false | string,
+  openSingleQuote: false | string,
+  closeSingleQuote: false | string,
+  leftArrow: false | string,
+  rightArrow: false | string,
+  copyright: false | string,
+  trademark: false | string,
+  servicemark: false | string,
+  registeredTrademark: false | string,
+  oneHalf: false | string,
+  plusMinus: false | string,
+  notEqual: false | string,
+  laquo: false | string,
+  raquo: false | string,
+  multiplication: false | string,
+  superscriptTwo: false | string,
+  superscriptThree: false | string,
+  oneQuarter: false | string,
+  threeQuarters: false | string,
 }
 
-export const emDash = textInputRule({
+export const emDash = (override?: string) => textInputRule({
   find: /--$/,
-  replace: '—',
+  replace: override ?? '—',
 })
 
-export const ellipsis = textInputRule({
+export const ellipsis = (override?: string) => textInputRule({
   find: /\.\.\.$/,
-  replace: '…',
+  replace: override ?? '…',
 })
 
-export const openDoubleQuote = textInputRule({
+export const openDoubleQuote = (override?: string) => textInputRule({
   find: /(?:^|[\s{[(<'"\u2018\u201C])(")$/,
-  replace: '“',
+  replace: override ?? '“',
 })
 
-export const closeDoubleQuote = textInputRule({
+export const closeDoubleQuote = (override?: string) => textInputRule({
   find: /"$/,
-  replace: '”',
+  replace: override ?? '”',
 })
 
-export const openSingleQuote = textInputRule({
+export const openSingleQuote = (override?: string) => textInputRule({
   find: /(?:^|[\s{[(<'"\u2018\u201C])(')$/,
-  replace: '‘',
+  replace: override ?? '‘',
 })
 
-export const closeSingleQuote = textInputRule({
+export const closeSingleQuote = (override?: string) => textInputRule({
   find: /'$/,
-  replace: '’',
+  replace: override ?? '’',
 })
 
-export const leftArrow = textInputRule({
+export const leftArrow = (override?: string) => textInputRule({
   find: /<-$/,
-  replace: '←',
+  replace: override ?? '←',
 })
 
-export const rightArrow = textInputRule({
+export const rightArrow = (override?: string) => textInputRule({
   find: /->$/,
-  replace: '→',
+  replace: override ?? '→',
 })
 
-export const copyright = textInputRule({
+export const copyright = (override?: string) => textInputRule({
   find: /\(c\)$/,
-  replace: '©',
+  replace: override ?? '©',
 })
 
-export const trademark = textInputRule({
+export const trademark = (override?: string) => textInputRule({
   find: /\(tm\)$/,
-  replace: '™',
+  replace: override ?? '™',
 })
 
-export const servicemark = textInputRule({
+export const servicemark = (override?: string) => textInputRule({
   find: /\(sm\)$/,
-  replace: '℠',
+  replace: override ?? '℠',
 })
 
-export const registeredTrademark = textInputRule({
+export const registeredTrademark = (override?: string) => textInputRule({
   find: /\(r\)$/,
-  replace: '®',
+  replace: override ?? '®',
 })
 
-export const oneHalf = textInputRule({
+export const oneHalf = (override?: string) => textInputRule({
   find: /(?:^|\s)(1\/2)$/,
-  replace: '½',
+  replace: override ?? '½',
 })
 
-export const plusMinus = textInputRule({
+export const plusMinus = (override?: string) => textInputRule({
   find: /\+\/-$/,
-  replace: '±',
+  replace: override ?? '±',
 })
 
-export const notEqual = textInputRule({
+export const notEqual = (override?: string) => textInputRule({
   find: /!=$/,
-  replace: '≠',
+  replace: override ?? '≠',
 })
 
-export const laquo = textInputRule({
+export const laquo = (override?: string) => textInputRule({
   find: /<<$/,
-  replace: '«',
+  replace: override ?? '«',
 })
 
-export const raquo = textInputRule({
+export const raquo = (override?: string) => textInputRule({
   find: />>$/,
-  replace: '»',
+  replace: override ?? '»',
 })
 
-export const multiplication = textInputRule({
+export const multiplication = (override?: string) => textInputRule({
   find: /\d+\s?([*x])\s?\d+$/,
-  replace: '×',
+  replace: override ?? '×',
 })
 
-export const superscriptTwo = textInputRule({
+export const superscriptTwo = (override?: string) => textInputRule({
   find: /\^2$/,
-  replace: '²',
+  replace: override ?? '²',
 })
 
-export const superscriptThree = textInputRule({
+export const superscriptThree = (override?: string) => textInputRule({
   find: /\^3$/,
-  replace: '³',
+  replace: override ?? '³',
 })
 
-export const oneQuarter = textInputRule({
+export const oneQuarter = (override?: string) => textInputRule({
   find: /(?:^|\s)(1\/4)$/,
-  replace: '¼',
+  replace: override ?? '¼',
 })
 
-export const threeQuarters = textInputRule({
+export const threeQuarters = (override?: string) => textInputRule({
   find: /(?:^|\s)(3\/4)$/,
-  replace: '¾',
+  replace: override ?? '¾',
 })
 
 export const Typography = Extension.create<TypographyOptions>({
@@ -142,91 +142,91 @@ export const Typography = Extension.create<TypographyOptions>({
     const rules = []
 
     if (this.options.emDash !== false) {
-      rules.push(emDash)
+      rules.push(emDash(this.options.emDash))
     }
 
     if (this.options.ellipsis !== false) {
-      rules.push(ellipsis)
+      rules.push(ellipsis(this.options.ellipsis))
     }
 
     if (this.options.openDoubleQuote !== false) {
-      rules.push(openDoubleQuote)
+      rules.push(openDoubleQuote(this.options.openDoubleQuote))
     }
 
     if (this.options.closeDoubleQuote !== false) {
-      rules.push(closeDoubleQuote)
+      rules.push(closeDoubleQuote(this.options.closeDoubleQuote))
     }
 
     if (this.options.openSingleQuote !== false) {
-      rules.push(openSingleQuote)
+      rules.push(openSingleQuote(this.options.openSingleQuote))
     }
 
     if (this.options.closeSingleQuote !== false) {
-      rules.push(closeSingleQuote)
+      rules.push(closeSingleQuote(this.options.closeSingleQuote))
     }
 
     if (this.options.leftArrow !== false) {
-      rules.push(leftArrow)
+      rules.push(leftArrow(this.options.leftArrow))
     }
 
     if (this.options.rightArrow !== false) {
-      rules.push(rightArrow)
+      rules.push(rightArrow(this.options.rightArrow))
     }
 
     if (this.options.copyright !== false) {
-      rules.push(copyright)
+      rules.push(copyright(this.options.copyright))
     }
 
     if (this.options.trademark !== false) {
-      rules.push(trademark)
+      rules.push(trademark(this.options.trademark))
     }
 
     if (this.options.servicemark !== false) {
-      rules.push(servicemark)
+      rules.push(servicemark(this.options.servicemark))
     }
 
     if (this.options.registeredTrademark !== false) {
-      rules.push(registeredTrademark)
+      rules.push(registeredTrademark(this.options.registeredTrademark))
     }
 
     if (this.options.oneHalf !== false) {
-      rules.push(oneHalf)
+      rules.push(oneHalf(this.options.oneHalf))
     }
 
     if (this.options.plusMinus !== false) {
-      rules.push(plusMinus)
+      rules.push(plusMinus(this.options.plusMinus))
     }
 
     if (this.options.notEqual !== false) {
-      rules.push(notEqual)
+      rules.push(notEqual(this.options.notEqual))
     }
 
     if (this.options.laquo !== false) {
-      rules.push(laquo)
+      rules.push(laquo(this.options.laquo))
     }
 
     if (this.options.raquo !== false) {
-      rules.push(raquo)
+      rules.push(raquo(this.options.raquo))
     }
 
     if (this.options.multiplication !== false) {
-      rules.push(multiplication)
+      rules.push(multiplication(this.options.multiplication))
     }
 
     if (this.options.superscriptTwo !== false) {
-      rules.push(superscriptTwo)
+      rules.push(superscriptTwo(this.options.superscriptTwo))
     }
 
     if (this.options.superscriptThree !== false) {
-      rules.push(superscriptThree)
+      rules.push(superscriptThree(this.options.superscriptThree))
     }
 
     if (this.options.oneQuarter !== false) {
-      rules.push(oneQuarter)
+      rules.push(oneQuarter(this.options.oneQuarter))
     }
 
     if (this.options.threeQuarters !== false) {
-      rules.push(threeQuarters)
+      rules.push(threeQuarters(this.options.threeQuarters))
     }
 
     return rules
