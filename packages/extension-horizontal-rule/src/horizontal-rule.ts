@@ -49,14 +49,26 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
                   const posAfter = $to.end()
 
                   if ($to.nodeAfter) {
-                    tr.setSelection(TextSelection.create(tr.doc, $to.pos))
+                    let nextTextPos: number | null = null
+
+                    tr.doc.nodesBetween($to.pos, tr.doc.content.size, (node, pos) => {
+                      if (node.isText && nextTextPos === null) {
+                        nextTextPos = pos
+                      }
+                    })
+
+                    if (!nextTextPos) {
+                      nextTextPos = $to.pos + 1
+                    }
+
+                    tr.setSelection(TextSelection.create(tr.doc, nextTextPos))
                   } else {
                     // add node after horizontal rule if it’s the end of the document
                     const node = $to.parent.type.contentMatch.defaultType?.create()
 
                     if (node) {
                       tr.insert(posAfter, node)
-                      tr.setSelection(TextSelection.create(tr.doc, posAfter))
+                      tr.setSelection(TextSelection.create(tr.doc, posAfter + 1))
                     }
                   }
 
