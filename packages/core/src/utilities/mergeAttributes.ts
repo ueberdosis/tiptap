@@ -14,7 +14,9 @@ export function mergeAttributes(...objects: Record<string, any>[]): Record<strin
         }
 
         if (key === 'class') {
-          mergedAttributes[key] = [mergedAttributes[key], value].join(' ')
+          if (!mergedAttributes[key].includes(value)) {
+            mergedAttributes[key] = [mergedAttributes[key], value].join(' ')
+          }
         } else if (key === 'style') {
           mergedAttributes[key] = [mergedAttributes[key], value].join('; ')
         } else {
