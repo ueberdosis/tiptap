@@ -5,17 +5,25 @@ import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React from 'react'
+import React, { useCallback } from 'react'
 
 const MenuBar = ({ editor }) => {
   if (!editor) {
     return null
   }
 
+  const onCutToStart = useCallback(() => {
+    editor.chain().cut({ from: editor.state.selection.$from.pos, to: editor.state.selection.$to.pos }, 1).run()
+  }, [editor])
+
+  const onCutToEnd = useCallback(() => {
+    editor.chain().cut({ from: editor.state.selection.$from.pos, to: editor.state.selection.$to.pos }, editor.state.doc.nodeSize - 2).run()
+  }, [editor])
+
   return (
     <>
-      <button onClick={() => editor.chain().cut({ from: editor.state.selection.$from.pos, to: editor.state.selection.$to.pos }, 1)}>Cut content to start of document</button>
-      <button onClick={() => editor.chain().cut({ from: editor.state.selection.$from.pos, to: editor.state.selection.$to.pos }, editor.state.doc.nodeSize - 2)}>Cut content to end of document</button>
+      <button onClick={onCutToStart}>Cut content to start of document</button>
+      <button onClick={onCutToEnd}>Cut content to end of document</button>
     </>
   )
 }
