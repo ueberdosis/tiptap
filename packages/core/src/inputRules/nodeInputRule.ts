@@ -1,5 +1,5 @@
 import { NodeType } from '@tiptap/pm/model'
-import { TextSelection } from '@tiptap/pm/state'
+import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 import { InputRule, InputRuleFinder } from '../InputRule.js'
 import { ExtendedRegExpMatchArray } from '../types.js'
@@ -52,6 +52,8 @@ export function nodeInputRule(config: {
 
       const newNode = config.type.create(attributes)
 
+      const { $to } = tr.selection
+
       if (match[1]) {
         const offset = match[0].lastIndexOf(match[1])
         let matchStart = start + offset
@@ -74,23 +76,17 @@ export function nodeInputRule(config: {
       }
 
       if (config.blockReplace && config.addExtraNewline) {
-        const { $to } = tr.selection
         const posAfter = $to.end()
 
         if ($to.nodeAfter) {
-          let nextTextPos: number | null = null
-
-          tr.doc.nodesBetween($to.pos, tr.doc.content.size, (node, pos) => {
-            if (node.isText && nextTextPos === null) {
-              nextTextPos = pos
-            }
-          })
-
-          if (!nextTextPos) {
-            nextTextPos = $to.pos + 1
+          console.log($to.node().type.name)
+          if ($to.nodeAfter.isTextblock) {
+            tr.setSelection(TextSelection.create(tr.doc, $to.pos + 1))
+          } else if ($to.nodeAfter.isBlock) {
+            tr.setSelection(NodeSelection.create(tr.doc, $to.pos))
+          } else {
+            tr.setSelection(TextSelection.create(tr.doc, $to.pos))
           }
-
-          tr.setSelection(TextSelection.create(tr.doc, nextTextPos))
         } else {
           // add node after horizontal rule if it’s the end of the document
           const node = $to.parent.type.contentMatch.defaultType?.create()
