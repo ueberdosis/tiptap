@@ -1,9 +1,6 @@
 # CDN
 
-It's also possible to run Tiptap directly on the browser by using CDNs like [esm.sh](https://esm.sh). 
-(Unfortunately [Skypack](https://skypack.dev) has not been reliable in our testing).
-
-## ESM.SH
+For testing purposes or demos, use our [esm.sh](https://esm.sh.dev/) CDN builds. Here are the few lines of code you need to get started:
 
 ```html
 <!DOCTYPE html>

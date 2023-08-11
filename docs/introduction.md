@@ -22,7 +22,7 @@ There is no provided user interface, you are absolutely free to build whatever i
 
 ## Do you enjoy real-time editing?
 
-Great! We do so, too. [Hocupocus](https://hocuspocus.dev) is our yjs-based real-time solution for conflict-free text editing with Tiptap.
+Great! We do so, too. [Hocuspocus](https://hocuspocus.dev) is our yjs-based real-time solution for conflict-free text editing with Tiptap.
 
 Even better: Our managed solution [Tiptap Collab](https://tiptap.dev/collab) is just a few clicks away.<br />
 – Enhance your Tiptap experience with multiplayer support in minutes instead of hours.

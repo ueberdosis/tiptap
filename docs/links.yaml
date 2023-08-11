@@ -347,6 +347,9 @@
     - title: Extensions
       link: /api/extensions
       items:
+        - title: AI
+          link: /api/extensions/ai
+          type: new
         - title: BubbleMenu
           link: /api/extensions/bubble-menu
         - title: CharacterCount
