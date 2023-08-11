@@ -68,9 +68,9 @@
     - title: Installation
       link: /installation
       items:
-        # - title: CDN
-        #   link: /installation/cdn
-        #   skip: true
+        - title: CDN
+          link: /installation/cdn
+          skip: true
         - title: Vanilla JavaScript
           link: /installation/vanilla-javascript
           skip: true
