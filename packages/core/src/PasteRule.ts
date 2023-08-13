@@ -164,13 +164,25 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
             ? view.dom.parentElement
             : null
+
+          if (dragSourceElement) {
+            (window as any).tiptapDragFromOtherEditor = editor
+          }
+        }
+
+        const handleDragend = () => {
+          if ((window as any).tiptapDragFromOtherEditor) {
+            (window as any).tiptapDragFromOtherEditor = null
+          }
         }
 
         window.addEventListener('dragstart', handleDragstart)
+        window.addEventListener('dragend', handleDragend)
 
         return {
           destroy() {
             window.removeEventListener('dragstart', handleDragstart)
+            window.removeEventListener('dragend', handleDragend)
           },
         }
       },
@@ -180,6 +192,20 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           drop: view => {
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
 
+            if (!isDroppedFromProseMirror) {
+              const dragFromOtherEditor = (window as any).tiptapDragFromOtherEditor
+
+              if (dragFromOtherEditor) {
+                // setTimeout to avoid the wrong content after drop, timeout arg can't be empty or 0
+                setTimeout(() => {
+                  const selection = dragFromOtherEditor.state.selection
+
+                  if (selection) {
+                    dragFromOtherEditor.commands.deleteRange({ from: selection.from, to: selection.to })
+                  }
+                }, 10)
+              }
+            }
             return false
           },
 
