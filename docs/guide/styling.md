@@ -52,7 +52,7 @@ new Editor({
 })
 ```
 
-The rendered HTML will look like that:
+The rendered HTML will look like this:
 
 ```html
 <h1 class="my-custom-heading">Example Text</h1>
