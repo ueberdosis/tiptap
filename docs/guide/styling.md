@@ -62,7 +62,7 @@ The rendered HTML will look like that:
 If there are already classes defined by the extensions, your classes will be added.
 
 ### Editor
-You can even pass classes to the element which contains the editor like that:
+You can even pass classes to the element which contains the editor:
 
 ```js
 new Editor({

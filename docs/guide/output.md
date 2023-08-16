@@ -16,7 +16,7 @@ JSON is probably easier to loop through, for example to look for a mention and i
 const json = editor.getJSON()
 ```
 
-You can store that in your database (or send it to an API) and restore the document initially like that:
+You can store that in your database (or send it to an API) and restore the document initially:
 
 ```js
 new Editor({

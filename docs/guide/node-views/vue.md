@@ -205,7 +205,7 @@ export default {
 </script>
 ```
 
-If you just want to have all (and TypeScript support) you can import all props like that:
+If you just want to have all (and TypeScript support) you can import all props:
 
 ```js
 // Vue 3
