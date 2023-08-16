@@ -1,4 +1,4 @@
-import { AnyExtension, EnableRules } from '../types'
+import { AnyExtension, EnableRules } from '../types.js'
 
 export function isExtensionRulesEnabled(extension: AnyExtension, enabled: EnableRules): boolean {
   if (Array.isArray(enabled)) {

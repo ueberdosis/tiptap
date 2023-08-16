@@ -13,7 +13,6 @@ For testing purposes or demos, use our [esm.sh](https://esm.sh.dev/) CDN builds.
   <script type="module">
     import { Editor } from 'https://esm.sh/@tiptap/core'
     import StarterKit from 'https://esm.sh/@tiptap/starter-kit'
-
     const editor = new Editor({
       element: document.querySelector('.element'),
       extensions: [
@@ -26,4 +25,8 @@ For testing purposes or demos, use our [esm.sh](https://esm.sh.dev/) CDN builds.
 </html>
 ```
 
+
+---
+
 You should now see Tiptap in your browser. Time to give yourself a pat on the back! :)
+

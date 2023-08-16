@@ -10,8 +10,8 @@ import Text from '@tiptap/extension-text'
 import Typography from '@tiptap/extension-typography'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import { ColorHighlighter } from './ColorHighlighter'
-import { SmilieReplacer } from './SmilieReplacer'
+import { ColorHighlighter } from './ColorHighlighter.ts'
+import { SmilieReplacer } from './SmilieReplacer.ts'
 
 export default {
   components: {
@@ -63,7 +63,7 @@ export default {
 
 <style lang="scss">
 /* Basic editor styles */
-.ProseMirror {
+.tiptap {
   > * + * {
     margin-top: 0.75em;
   }

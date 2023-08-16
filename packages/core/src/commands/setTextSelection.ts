@@ -1,7 +1,7 @@
 import { TextSelection } from '@tiptap/pm/state'
 
-import { Range, RawCommands } from '../types'
-import { minMax } from '../utilities/minMax'
+import { Range, RawCommands } from '../types.js'
+import { minMax } from '../utilities/minMax.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

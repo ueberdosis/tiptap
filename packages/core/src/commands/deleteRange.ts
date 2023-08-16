@@ -1,4 +1,4 @@
-import { Range, RawCommands } from '../types'
+import { Range, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

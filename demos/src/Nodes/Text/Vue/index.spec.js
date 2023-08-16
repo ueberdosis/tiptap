@@ -4,13 +4,13 @@ context('/src/Nodes/Text/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
     })
   })
 
   it('text should be wrapped in a paragraph by default', () => {
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .type('Example Text')
       .find('p')
       .should('contain', 'Example Text')

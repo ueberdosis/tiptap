@@ -29,7 +29,7 @@ export function debug() {
   // @ts-ignore
   sendData('source', window.source)
 
-  waitUntilElementExists('.ProseMirror', element => {
+  waitUntilElementExists('.tiptap', element => {
     // @ts-ignore
     const editor = element.editor
 

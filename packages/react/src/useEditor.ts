@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react'
 
-import { Editor } from './Editor'
+import { Editor } from './Editor.js'
 
 function useForceUpdate() {
   const [, setValue] = useState(0)
@@ -113,10 +113,15 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     })
 
     return () => {
-      instance.destroy()
       isMounted = false
     }
   }, deps)
+
+  useEffect(() => {
+    return () => {
+      editor?.destroy()
+    }
+  }, [editor])
 
   return editor
 }

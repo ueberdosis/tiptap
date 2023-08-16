@@ -9,44 +9,21 @@ import {
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import Vue from 'vue'
-import { PropType, VueConstructor } from 'vue/types/umd'
+import { VueConstructor } from 'vue/types/umd'
+import { booleanProp, functionProp, objectProp } from 'vue-ts-types'
 
-import { Editor } from './Editor'
-import { VueRenderer } from './VueRenderer'
+import { Editor } from './Editor.js'
+import { VueRenderer } from './VueRenderer.js'
 
 export const nodeViewProps = {
-  editor: {
-    type: Object as PropType<NodeViewProps['editor']>,
-    required: true as const,
-  },
-  node: {
-    type: Object as PropType<NodeViewProps['node']>,
-    required: true as const,
-  },
-  decorations: {
-    type: Object as PropType<NodeViewProps['decorations']>,
-    required: true as const,
-  },
-  selected: {
-    type: Boolean as PropType<NodeViewProps['selected']>,
-    required: true as const,
-  },
-  extension: {
-    type: Object as PropType<NodeViewProps['extension']>,
-    required: true as const,
-  },
-  getPos: {
-    type: Function as PropType<NodeViewProps['getPos']>,
-    required: true as const,
-  },
-  updateAttributes: {
-    type: Function as PropType<NodeViewProps['updateAttributes']>,
-    required: true as const,
-  },
-  deleteNode: {
-    type: Function as PropType<NodeViewProps['deleteNode']>,
-    required: true as const,
-  },
+  editor: objectProp<NodeViewProps['editor']>().required,
+  node: objectProp<NodeViewProps['node']>().required,
+  decorations: objectProp<NodeViewProps['decorations']>().required,
+  selected: booleanProp().required,
+  extension: objectProp<NodeViewProps['extension']>().required,
+  getPos: functionProp<NodeViewProps['getPos']>().required,
+  updateAttributes: functionProp<NodeViewProps['updateAttributes']>().required,
+  deleteNode: functionProp<NodeViewProps['deleteNode']>().required,
 }
 
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {

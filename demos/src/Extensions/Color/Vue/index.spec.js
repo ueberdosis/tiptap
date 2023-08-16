@@ -4,10 +4,10 @@ context('/src/Extensions/Color/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
     })
-    cy.get('.ProseMirror').type('{selectall}')
+    cy.get('.tiptap').type('{selectall}')
   })
 
   it('should set the color of the selected text', () => {
@@ -16,7 +16,7 @@ context('/src/Extensions/Color/Vue/', () => {
       .click()
       .should('have.class', 'is-active')
 
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .find('span')
       .should('have.attr', 'style', 'color: #958DF1')
   })
@@ -25,12 +25,12 @@ context('/src/Extensions/Color/Vue/', () => {
     cy.get('button:first')
       .click()
 
-    cy.get('.ProseMirror span').should('exist')
+    cy.get('.tiptap span').should('exist')
 
     cy.get('button:last')
       .click()
 
-    cy.get('.ProseMirror span').should('not.exist')
+    cy.get('.tiptap span').should('not.exist')
   })
 
   it('should change text color with color picker', () => {
@@ -38,7 +38,7 @@ context('/src/Extensions/Color/Vue/', () => {
       .invoke('val', '#ff0000')
       .trigger('input')
 
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .find('span')
       .should('have.attr', 'style', 'color: #ff0000')
   })

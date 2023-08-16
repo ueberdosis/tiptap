@@ -53,14 +53,14 @@ export default {
 
 <style lang="scss">
 /* Basic editor styles */
-.ProseMirror {
+tiptap {
   > * + * {
     margin-top: 0.75em;
   }
 }
 
 /* Placeholder (at the top) */
-.ProseMirror p.is-editor-empty:first-child::before {
+tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
   color: #adb5bd;

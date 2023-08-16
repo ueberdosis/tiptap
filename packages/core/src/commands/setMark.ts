@@ -1,10 +1,10 @@
 import { MarkType, ResolvedPos } from '@tiptap/pm/model'
 import { EditorState, Transaction } from '@tiptap/pm/state'
 
-import { isTextSelection } from '../helpers'
-import { getMarkAttributes } from '../helpers/getMarkAttributes'
-import { getMarkType } from '../helpers/getMarkType'
-import { RawCommands } from '../types'
+import { getMarkAttributes } from '../helpers/getMarkAttributes.js'
+import { getMarkType } from '../helpers/getMarkType.js'
+import { isTextSelection } from '../helpers/index.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

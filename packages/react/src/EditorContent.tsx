@@ -1,8 +1,8 @@
 import React, { HTMLProps } from 'react'
 import ReactDOM, { flushSync } from 'react-dom'
 
-import { Editor } from './Editor'
-import { ReactRenderer } from './ReactRenderer'
+import { Editor } from './Editor.js'
+import { ReactRenderer } from './ReactRenderer.js'
 
 const Portals: React.FC<{ renderers: Record<string, ReactRenderer> }> = ({ renderers }) => {
   return (
@@ -147,4 +147,14 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   }
 }
 
-export const EditorContent = React.memo(PureEditorContent)
+// EditorContent should be re-created whenever the Editor instance changes
+const EditorContentWithKey = (props: EditorContentProps) => {
+  const key = React.useMemo(() => {
+    return Math.floor(Math.random() * 0xFFFFFFFF).toString()
+  }, [props.editor])
+
+  // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
+  return React.createElement(PureEditorContent, { key, ...props })
+}
+
+export const EditorContent = React.memo(EditorContentWithKey)

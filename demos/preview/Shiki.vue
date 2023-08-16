@@ -8,7 +8,7 @@
 // otherwise the `onig.wasm` file is missing in the dist folder
 import 'shiki/dist/onig.wasm?url'
 
-import Worker from './shiki.worker?worker'
+import Worker from './shiki.worker.js?worker'
 
 export default {
   props: {

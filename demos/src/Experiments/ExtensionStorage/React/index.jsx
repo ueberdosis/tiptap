@@ -6,7 +6,7 @@ import Text from '@tiptap/extension-text'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 
-import { CustomExtension } from './CustomExtension'
+import { CustomExtension } from './CustomExtension.ts'
 
 export default () => {
   const editor = useEditor({

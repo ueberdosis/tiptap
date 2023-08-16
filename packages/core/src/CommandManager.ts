@@ -1,10 +1,10 @@
 import { EditorState, Transaction } from '@tiptap/pm/state'
 
-import { Editor } from './Editor'
-import { createChainableState } from './helpers/createChainableState'
+import { Editor } from './Editor.js'
+import { createChainableState } from './helpers/createChainableState.js'
 import {
   AnyCommands, CanCommands, ChainedCommands, CommandProps, SingleCommands,
-} from './types'
+} from './types.js'
 
 export class CommandManager {
   editor: Editor
@@ -120,10 +120,6 @@ export class CommandManager {
     const { rawCommands, editor, state } = this
     const { view } = editor
 
-    if (state.storedMarks) {
-      tr.setStoredMarks(state.storedMarks)
-    }
-
     const props: CommandProps = {
       tr,
       editor,
@@ -133,7 +129,7 @@ export class CommandManager {
         transaction: tr,
       }),
       dispatch: shouldDispatch ? () => undefined : undefined,
-      chain: () => this.createChain(tr),
+      chain: () => this.createChain(tr, shouldDispatch),
       can: () => this.createCan(tr),
       get commands() {
         return Object.fromEntries(

@@ -3,7 +3,7 @@ import './style.scss'
 
 import { createApp } from 'vue'
 
-import { debug, splitName } from './helper'
+import { debug, splitName } from './helper.js'
 
 export default function init(name: string, source: any) {
   // @ts-ignore

@@ -3,7 +3,7 @@
 import './styles.css'
 
 import Note from './Note.vue'
-import { TNote } from './types'
+import { TNote } from './types.js'
 
 const notes: TNote[] = [
   { id: 'note-1' },

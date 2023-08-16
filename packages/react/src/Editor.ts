@@ -1,8 +1,8 @@
 import { Editor as CoreEditor } from '@tiptap/core'
 import React from 'react'
 
-import { EditorContentProps, EditorContentState } from './EditorContent'
-import { ReactRenderer } from './ReactRenderer'
+import { EditorContentProps, EditorContentState } from './EditorContent.js'
+import { ReactRenderer } from './ReactRenderer.js'
 
 type ContentComponent = React.Component<EditorContentProps, EditorContentState> & {
   setRenderer(id: string, renderer: ReactRenderer): void;

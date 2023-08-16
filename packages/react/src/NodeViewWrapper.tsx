@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useReactNodeView } from './useReactNodeView'
+import { useReactNodeView } from './useReactNodeView.js'
 
 export interface NodeViewWrapperProps {
   [key: string]: any,

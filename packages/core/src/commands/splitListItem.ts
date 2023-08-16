@@ -4,9 +4,9 @@ import {
 import { TextSelection } from '@tiptap/pm/state'
 import { canSplit } from '@tiptap/pm/transform'
 
-import { getNodeType } from '../helpers/getNodeType'
-import { getSplittedAttributes } from '../helpers/getSplittedAttributes'
-import { RawCommands } from '../types'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

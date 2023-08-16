@@ -23,9 +23,9 @@ import {
 } from '@tiptap/pm/tables'
 import { NodeView } from '@tiptap/pm/view'
 
-import { TableView } from './TableView'
-import { createTable } from './utilities/createTable'
-import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected'
+import { TableView } from './TableView.js'
+import { createTable } from './utilities/createTable.js'
+import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
 
 export interface TableOptions {
   HTMLAttributes: Record<string, any>

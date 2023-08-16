@@ -3,11 +3,11 @@ import {
 } from '@tiptap/pm/model'
 import { Plugin, Transaction } from '@tiptap/pm/state'
 
-import { NodeConfig } from '.'
-import { Editor } from './Editor'
-import { getExtensionField } from './helpers/getExtensionField'
-import { InputRule } from './InputRule'
-import { PasteRule } from './PasteRule'
+import { Editor } from './Editor.js'
+import { getExtensionField } from './helpers/getExtensionField.js'
+import { NodeConfig } from './index.js'
+import { InputRule } from './InputRule.js'
+import { PasteRule } from './PasteRule.js'
 import {
   AnyConfig,
   Attributes,
@@ -17,9 +17,9 @@ import {
   NodeViewRenderer,
   ParentConfig,
   RawCommands,
-} from './types'
-import { callOrReturn } from './utilities/callOrReturn'
-import { mergeDeep } from './utilities/mergeDeep'
+} from './types.js'
+import { callOrReturn } from './utilities/callOrReturn.js'
+import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   interface NodeConfig<Options = any, Storage = any> {

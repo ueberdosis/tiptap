@@ -15,7 +15,7 @@ context('/src/Examples/CodeBlockLanguage/React/', () => {
 
       expect(initialCount).to.be.greaterThan(0)
 
-      cy.get('.ProseMirror select').select('java')
+      cy.get('.tiptap select').select('java')
       cy.wait(500)
 
       cy.get('[class^=hljs]').then(newElements => {

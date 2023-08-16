@@ -82,7 +82,7 @@ export default {
 
 <style lang="scss">
 /* Basic editor styles */
-.ProseMirror {
+.tiptap {
   > * + * {
     margin-top: 0.75em;
   }

@@ -2,6 +2,8 @@ import { mergeAttributes, Node } from '@tiptap/core'
 
 export interface ListItemOptions {
   HTMLAttributes: Record<string, any>,
+  bulletListTypeName: string
+  orderedListTypeName: string
 }
 
 export const ListItem = Node.create<ListItemOptions>({
@@ -10,6 +12,8 @@ export const ListItem = Node.create<ListItemOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      bulletListTypeName: 'bulletList',
+      orderedListTypeName: 'orderedList',
     }
   },
 

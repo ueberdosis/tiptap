@@ -2,8 +2,8 @@ import './styles.css'
 
 import React from 'react'
 
-import Note from './Note'
-import { TNote } from './types'
+import Note from './Note.jsx'
+import { TNote } from './types.js'
 
 const notes: TNote[] = [
   {

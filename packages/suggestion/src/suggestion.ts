@@ -2,7 +2,7 @@ import { Editor, Range } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
 
-import { findSuggestionMatch } from './findSuggestionMatch'
+import { findSuggestionMatch } from './findSuggestionMatch.js'
 
 export interface SuggestionOptions<I = any> {
   pluginKey?: PluginKey

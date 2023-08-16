@@ -138,7 +138,7 @@ Now, let’s replace the content of the `index.html` with the following example 
   <style>
     body { margin: 2rem; font-family: sans-serif; }
     button.is-active { background: black; color: white; }
-    .ProseMirror { padding: 0.5rem 1rem; margin: 1rem 0; border: 1px solid #ccc; }
+    .tiptap { padding: 0.5rem 1rem; margin: 1rem 0; border: 1px solid #ccc; }
   </style>
 </body>
 </html>
