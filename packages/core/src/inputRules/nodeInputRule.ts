@@ -86,7 +86,7 @@ export function nodeInputRule(config: {
           }
         } else {
           // add node after horizontal rule if it’s the end of the document
-          const defaultNode = $to.parent.type.contentMatch.defaultType?.create()
+          const defaultNode = $to.parent.type.contentMatch.defaultType?.create() || state.doc.type.contentMatch.defaultType?.create()
 
           if (defaultNode) {
             const newPos = start + newNode.nodeSize
