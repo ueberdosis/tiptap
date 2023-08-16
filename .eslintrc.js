@@ -40,7 +40,7 @@ module.exports = {
         'newline-after-var': ['error', 'always'],
         'no-continue': 'off',
         'no-alert': 'off',
-        'no-console': ['warn', { allow: ['warn', 'error'] }],
+        'no-console': ['error'],
         semi: ['error', 'never'],
         'import/order': 'off',
         'import/extensions': ['error', 'ignorePackages'],
