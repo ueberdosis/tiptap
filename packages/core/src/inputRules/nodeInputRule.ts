@@ -76,24 +76,23 @@ export function nodeInputRule(config: {
       }
 
       if (config.blockReplace && config.addExtraNewline) {
-        const posAfter = $to.end()
-
         if ($to.nodeAfter) {
-          console.log($to.node().type.name)
           if ($to.nodeAfter.isTextblock) {
             tr.setSelection(TextSelection.create(tr.doc, $to.pos + 1))
           } else if ($to.nodeAfter.isBlock) {
             tr.setSelection(NodeSelection.create(tr.doc, $to.pos))
           } else {
-            tr.setSelection(TextSelection.create(tr.doc, $to.pos))
+            tr.setSelection(TextSelection.create(tr.doc, $to.pos - 1))
           }
         } else {
           // add node after horizontal rule if it’s the end of the document
-          const node = $to.parent.type.contentMatch.defaultType?.create()
+          const defaultNode = $to.parent.type.contentMatch.defaultType?.create() || state.doc.type.contentMatch.defaultType?.create()
 
-          if (node) {
-            tr.insert(posAfter, node)
-            tr.setSelection(TextSelection.create(tr.doc, posAfter + 1))
+          if (defaultNode) {
+            const newPos = start + newNode.nodeSize
+
+            tr.insert(newPos, defaultNode)
+            tr.setSelection(TextSelection.create(tr.doc, newPos))
           }
         }
 
