@@ -79,7 +79,6 @@ export function nodeInputRule(config: {
         const posAfter = $to.end()
 
         if ($to.nodeAfter) {
-          console.log($to.node().type.name)
           if ($to.nodeAfter.isTextblock) {
             tr.setSelection(TextSelection.create(tr.doc, $to.pos + 1))
           } else if ($to.nodeAfter.isBlock) {
