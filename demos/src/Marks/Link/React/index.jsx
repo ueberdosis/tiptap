@@ -17,6 +17,9 @@ export default () => {
       Code,
       Link.configure({
         openOnClick: false,
+        HTMLAttributes: {
+          class: 'my-class',
+        },
       }),
     ],
     content: `
