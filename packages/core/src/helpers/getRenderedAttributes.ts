@@ -1,7 +1,7 @@
 import { Mark, Node } from '@tiptap/pm/model'
 
-import { ExtensionAttribute } from '../types'
-import { mergeAttributes } from '../utilities/mergeAttributes'
+import { ExtensionAttribute } from '../types.js'
+import { mergeAttributes } from '../utilities/mergeAttributes.js'
 
 export function getRenderedAttributes(
   nodeOrMark: Node | Mark,

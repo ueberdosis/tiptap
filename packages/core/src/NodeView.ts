@@ -2,10 +2,11 @@ import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { NodeSelection } from '@tiptap/pm/state'
 import { NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 
-import { Editor as CoreEditor } from './Editor'
-import { Node } from './Node'
-import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types'
-import { isiOS } from './utilities/isiOS'
+import { Editor as CoreEditor } from './Editor.js'
+import { Node } from './Node.js'
+import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'
+import { isAndroid } from './utilities/isAndroid.js'
+import { isiOS } from './utilities/isiOS.js'
 
 export class NodeView<
   Component,
@@ -212,14 +213,15 @@ export class NodeView<
       return false
     }
 
-    // try to prevent a bug on iOS that will break node views on enter
+    // try to prevent a bug on iOS and Android that will break node views on enter
     // this is because ProseMirror can’t preventDispatch on enter
     // this will lead to a re-render of the node view on enter
     // see: https://github.com/ueberdosis/tiptap/issues/1214
+    // see: https://github.com/ueberdosis/tiptap/issues/2534
     if (
       this.dom.contains(mutation.target)
       && mutation.type === 'childList'
-      && isiOS()
+      && (isiOS() || isAndroid())
       && this.editor.isFocused
     ) {
       const changedNodes = [

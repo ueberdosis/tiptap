@@ -7,13 +7,13 @@ import {
 } from 'y-prosemirror'
 import * as Y from 'yjs'
 
-import { AnnotationItem } from './AnnotationItem'
-import { AnnotationPluginKey } from './AnnotationPlugin'
+import { AnnotationItem } from './AnnotationItem.js'
+import { AnnotationPluginKey } from './AnnotationPlugin.js'
 import {
   AddAnnotationAction,
   DeleteAnnotationAction,
   UpdateAnnotationAction,
-} from './collaboration-annotation'
+} from './collaboration-annotation.js'
 
 export interface AnnotationStateOptions {
   HTMLAttributes: {

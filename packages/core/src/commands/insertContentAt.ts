@@ -1,8 +1,8 @@
 import { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 
-import { createNodeFromContent } from '../helpers/createNodeFromContent'
-import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd'
-import { Content, Range, RawCommands } from '../types'
+import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
+import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
+import { Content, Range, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -46,7 +46,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       return true
     }
 
-    let { from, to } = typeof position === 'number' ? { from: position, to: position } : position
+    let { from, to } = typeof position === 'number' ? { from: position, to: position } : { from: position.from, to: position.to }
 
     let isOnlyTextContent = true
     let isOnlyBlockContent = true

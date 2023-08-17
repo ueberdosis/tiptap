@@ -19,3 +19,12 @@ There is no provided user interface, you are absolutely free to build whatever i
 
 ## Why should I use Tiptap?
 [ProseMirror](https://ProseMirror.net) is a well-written, reliable and very powerful editor toolkit. It’s not so much the ready-to-use editor most people look for, but with Tiptap you can start in minutes, choose from tons of amazing extensions and still have that powerful ProseMirror API accessible when you really need it.
+
+## Do you enjoy real-time editing?
+
+Great! We do so, too. [Hocuspocus](https://hocuspocus.dev) is our yjs-based real-time solution for conflict-free text editing with Tiptap.
+
+Even better: Our managed solution [Tiptap Collab](https://tiptap.dev/collab) is just a few clicks away.<br />
+– Enhance your Tiptap experience with multiplayer support in minutes instead of hours.
+
+!!tiptap-collab-cta

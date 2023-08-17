@@ -11,18 +11,20 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
     key: new PluginKey('handleClickLink'),
     props: {
       handleClick: (view, pos, event) => {
-        if (event.button !== 1) {
+        if (event.button !== 0) {
           return false
         }
 
         const attrs = getAttributes(view.state, options.type.name)
-        const link = (event.target as HTMLElement)?.closest('a')
+        const link = (event.target as HTMLLinkElement)
 
         const href = link?.href ?? attrs.href
         const target = link?.target ?? attrs.target
 
         if (link && href) {
-          window.open(href, target)
+          if (view.editable) {
+            window.open(href, target)
+          }
 
           return true
         }

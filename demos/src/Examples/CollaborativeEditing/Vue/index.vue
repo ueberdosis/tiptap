@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { HocuspocusProvider } from '@hocuspocus/provider'
+import { TiptapCollabProvider } from '@hocuspocus/provider'
 import CharacterCount from '@tiptap/extension-character-count'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
@@ -32,7 +32,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import * as Y from 'yjs'
 
-import { variables } from '../../../variables'
+import { variables } from '../../../variables.js'
 import MenuBar from './MenuBar.vue'
 
 const getRandomElement = list => {
@@ -67,11 +67,8 @@ export default {
   mounted() {
     const ydoc = new Y.Doc()
 
-    this.provider = new HocuspocusProvider({
-      url: 'wss://connect.hocuspocus.cloud',
-      parameters: {
-        key: 'write_bqgvQ3Zwl34V4Nxt43zR',
-      },
+    this.provider = new TiptapCollabProvider({
+      appId: '7j9y6m10',
       name: this.room,
       document: ydoc,
     })
@@ -152,61 +149,63 @@ export default {
 
 <style lang="scss">
 .editor {
-  display: flex;
-  flex-direction: column;
-  max-height: 26rem;
-  color: #0D0D0D;
   background-color: #FFF;
   border: 3px solid #0D0D0D;
   border-radius: 0.75rem;
+  color: #0D0D0D;
+  display: flex;
+  flex-direction: column;
+  max-height: 26rem;
 
   &__header {
-    display: flex;
     align-items: center;
+    background: #0d0d0d;
+    border-bottom: 3px solid #0d0d0d;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    display: flex;
     flex: 0 0 auto;
     flex-wrap: wrap;
     padding: 0.25rem;
-    border-bottom: 3px solid #0D0D0D;
   }
 
   &__content {
-    padding: 1.25rem 1rem;
     flex: 1 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
+    padding: 1.25rem 1rem;
     -webkit-overflow-scrolling: touch;
   }
 
   &__footer {
+    align-items: center;
+    border-top: 3px solid #0D0D0D;
+    color: #0D0D0D;
     display: flex;
     flex: 0 0 auto;
-    align-items: center;
-    justify-content: space-between;
     flex-wrap: wrap;
-    white-space: nowrap;
-    border-top: 3px solid #0D0D0D;
     font-size: 12px;
     font-weight: 600;
-    color: #0D0D0D;
-    white-space: nowrap;
+    justify-content: space-between;
     padding: 0.25rem 0.75rem;
+    white-space: nowrap;
   }
 
   /* Some information about the status */
   &__status {
-    display: flex;
     align-items: center;
     border-radius: 5px;
+    display: flex;
 
     &::before {
-      content: ' ';
-      flex: 0 0 auto;
-      display: inline-block;
-      width: 0.5rem;
-      height: 0.5rem;
       background: rgba(#0D0D0D, 0.5);
       border-radius: 50%;
+      content: ' ';
+      display: inline-block;
+      flex: 0 0 auto;
+      height: 0.5rem;
       margin-right: 0.5rem;
+      width: 0.5rem;
     }
 
     &--connecting::before {
@@ -222,52 +221,50 @@ export default {
     button {
       background: none;
       border: none;
+      border-radius: 0.4rem;
+      color: #0D0D0D;
       font: inherit;
       font-size: 12px;
       font-weight: 600;
-      color: #0D0D0D;
-      border-radius: 0.4rem;
       padding: 0.25rem 0.5rem;
 
       &:hover {
-        color: #FFF;
         background-color: #0D0D0D;
+        color: #FFF;
       }
     }
   }
 }
-</style>
 
-<style lang="scss">
 /* Give a remote user a caret */
 .collaboration-cursor__caret {
-  position: relative;
-  margin-left: -1px;
-  margin-right: -1px;
   border-left: 1px solid #0D0D0D;
   border-right: 1px solid #0D0D0D;
-  word-break: normal;
+  margin-left: -1px;
+  margin-right: -1px;
   pointer-events: none;
+  position: relative;
+  word-break: normal;
 }
 
 /* Render the username above the caret */
 .collaboration-cursor__label {
-  position: absolute;
-  top: -1.4em;
-  left: -1px;
+  border-radius: 3px 3px 3px 0;
+  color: #0D0D0D;
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
+  left: -1px;
   line-height: normal;
-  user-select: none;
-  color: #0D0D0D;
   padding: 0.1rem 0.3rem;
-  border-radius: 3px 3px 3px 0;
+  position: absolute;
+  top: -1.4em;
+  user-select: none;
   white-space: nowrap;
 }
 
 /* Basic editor styles */
-.ProseMirror {
+.tiptap {
   > * + * {
     margin-top: 0.75em;
   }
@@ -293,16 +290,16 @@ export default {
 
   pre {
     background: #0D0D0D;
+    border-radius: 0.5rem;
     color: #FFF;
     font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
 
     code {
-      color: inherit;
-      padding: 0;
       background: none;
+      color: inherit;
       font-size: 0.8rem;
+      padding: 0;
     }
   }
 
@@ -311,8 +308,8 @@ export default {
   }
 
   img {
-    max-width: 100%;
     height: auto;
+    max-width: 100%;
   }
 
   hr {
@@ -320,8 +317,8 @@ export default {
   }
 
   blockquote {
-    padding-left: 1rem;
     border-left: 2px solid rgba(#0D0D0D, 0.1);
+    padding-left: 1rem;
   }
 
   hr {
@@ -335,8 +332,8 @@ export default {
     padding: 0;
 
     li {
-      display: flex;
       align-items: center;
+      display: flex;
 
       > label {
         flex: 0 0 auto;

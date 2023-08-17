@@ -1,5 +1,5 @@
-import { Youtube } from './youtube'
+import { Youtube } from './youtube.js'
 
-export * from './youtube'
+export * from './youtube.js'
 
 export default Youtube

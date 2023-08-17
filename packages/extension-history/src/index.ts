@@ -1,5 +1,5 @@
-import { History } from './history'
+import { History } from './history.js'
 
-export * from './history'
+export * from './history.js'
 
 export default History

@@ -11,10 +11,6 @@ This extension adds information about all connected users (like their name and a
 
 Open this page in multiple browser windows to test it.
 
-:::pro Pro Extension
-We kindly ask you to [sponsor our work](/sponsor) when using this extension in production.
-:::
-
 ## Installation
 ```bash
 npm install @tiptap/extension-collaboration-cursor
@@ -36,6 +32,9 @@ Default: `{ user: null, color: null }`
 
 ### render
 A render function for the cursor, look at [the extension source code](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-cursor/) for an example.
+
+### selectionRender
+A render function for the selection, look at [the extension source code](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-cursor/) for an example.
 
 ## Commands
 
@@ -59,3 +58,5 @@ The content of this editor is shared with other users.
 :::
 https://embed.tiptap.dev/preview/Extensions/CollaborationCursor?hideSource
 https://embed.tiptap.dev/preview/Extensions/CollaborationCursor
+
+!!tiptap-collab-cta

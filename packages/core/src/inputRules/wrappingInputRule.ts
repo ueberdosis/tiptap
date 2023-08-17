@@ -1,10 +1,10 @@
 import { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
 import { canJoin, findWrapping } from '@tiptap/pm/transform'
 
-import { Editor } from '../Editor'
-import { InputRule, InputRuleFinder } from '../InputRule'
-import { ExtendedRegExpMatchArray } from '../types'
-import { callOrReturn } from '../utilities/callOrReturn'
+import { Editor } from '../Editor.js'
+import { InputRule, InputRuleFinder } from '../InputRule.js'
+import { ExtendedRegExpMatchArray } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
  * Build an input rule for automatically wrapping a textblock when a

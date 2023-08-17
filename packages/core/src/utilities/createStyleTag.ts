@@ -1,5 +1,5 @@
-export function createStyleTag(style: string, nonce?: string): HTMLStyleElement {
-  const tiptapStyleTag = (<HTMLStyleElement>document.querySelector('style[data-tiptap-style]'))
+export function createStyleTag(style: string, nonce?: string, suffix?: string): HTMLStyleElement {
+  const tiptapStyleTag = (<HTMLStyleElement>document.querySelector(`style[data-tiptap-style${suffix ? `-${suffix}` : ''}]`))
 
   if (tiptapStyleTag !== null) {
     return tiptapStyleTag
@@ -11,7 +11,7 @@ export function createStyleTag(style: string, nonce?: string): HTMLStyleElement 
     styleNode.setAttribute('nonce', nonce)
   }
 
-  styleNode.setAttribute('data-tiptap-style', '')
+  styleNode.setAttribute(`data-tiptap-style${suffix ? `-${suffix}` : ''}`, '')
   styleNode.innerHTML = style
   document.getElementsByTagName('head')[0].appendChild(styleNode)
 

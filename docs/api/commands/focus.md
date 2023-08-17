@@ -8,7 +8,7 @@ See also: [setTextSelection](/api/commands/set-text-selection), [blur](/api/comm
 ## Parameters
 `position: 'start' | 'end' | 'all' | number | boolean | null (false)`
 
-By default, it’s restoring the cursor position (and text selection). Pass a position to move the cursor too.
+By default, it’s restoring the cursor position (and text selection). Pass a position to move the cursor to.
 
 `options: { scrollIntoView: boolean }`
 

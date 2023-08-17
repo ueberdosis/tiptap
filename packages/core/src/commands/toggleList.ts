@@ -2,10 +2,10 @@ import { NodeType } from '@tiptap/pm/model'
 import { Transaction } from '@tiptap/pm/state'
 import { canJoin } from '@tiptap/pm/transform'
 
-import { findParentNode } from '../helpers/findParentNode'
-import { getNodeType } from '../helpers/getNodeType'
-import { isList } from '../helpers/isList'
-import { RawCommands } from '../types'
+import { findParentNode } from '../helpers/findParentNode.js'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { isList } from '../helpers/isList.js'
+import { RawCommands } from '../types.js'
 
 const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
   const list = findParentNode(node => node.type === listType)(tr.selection)

@@ -68,9 +68,9 @@
     - title: Installation
       link: /installation
       items:
-        # - title: CDN
-        #   link: /installation/cdn
-        #   skip: true
+        - title: CDN
+          link: /installation/cdn
+          skip: true
         - title: Vanilla JavaScript
           link: /installation/vanilla-javascript
           skip: true
@@ -110,8 +110,24 @@
       type: sponsor
     - title: Contributing
       link: /overview/contributing
+    # - title: Support
+    #   link: /support
     - title: Jobs
       link: /jobs
+
+- title: Tiptap Collab
+  items:
+    - title: Cloud
+      link: /cloud
+      type: new
+    - title: Tutorials
+      link: /tutorials
+      type: new
+      items:
+        - title: Getting Started
+          link: /tutorials/get-started-with-tiptap-collab
+        - title: JWT Authentication
+          link: /tutorials/jwt-authentication
 
 - title: Guide
   items:
@@ -263,21 +279,18 @@
           link: /api/nodes/document
         - title: Details
           link: /api/nodes/details
-          type: new
+          type: pro
         - title: DetailsSummary
           link: /api/nodes/details-summary
-          type: new
+          type: pro
         - title: DetailsContent
           link: /api/nodes/details-content
-          type: new
+          type: pro
         - title: Emoji
           link: /api/nodes/emoji
           type: pro
         - title: HardBreak
           link: /api/nodes/hard-break
-        - title: Hashtag
-          link: /api/nodes/hashtag
-          type: draft
         - title: Heading
           link: /api/nodes/heading
         - title: HorizontalRule
@@ -308,7 +321,6 @@
           link: /api/nodes/text
         - title: YouTube
           link: /api/nodes/youtube
-          type: new
     - title: Marks
       link: /api/marks
       items:
@@ -335,6 +347,9 @@
     - title: Extensions
       link: /api/extensions
       items:
+        - title: AI
+          link: /api/extensions/ai
+          type: new
         - title: BubbleMenu
           link: /api/extensions/bubble-menu
         - title: CharacterCount
@@ -357,6 +372,12 @@
           link: /api/extensions/gapcursor
         - title: History
           link: /api/extensions/history
+        - title: InvisibleCharacters
+          link: /api/extensions/invisible-characters
+          type: new
+        - title: Mathematics
+          link: /api/extensions/mathematics
+          type: new
         - title: Placeholder
           link: /api/extensions/placeholder
         - title: StarterKit

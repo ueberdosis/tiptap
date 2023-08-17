@@ -1,8 +1,8 @@
 import { MarkType } from '@tiptap/pm/model'
 
-import { getMarkType } from '../helpers/getMarkType'
-import { isMarkActive } from '../helpers/isMarkActive'
-import { RawCommands } from '../types'
+import { getMarkType } from '../helpers/getMarkType.js'
+import { isMarkActive } from '../helpers/isMarkActive.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

@@ -1,10 +1,13 @@
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+import {
+  KeyboardShortcutCommand, mergeAttributes, Node, wrappingInputRule,
+} from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 export interface TaskItemOptions {
   onReadOnlyChecked?: (node: ProseMirrorNode, checked: boolean) => boolean
   nested: boolean
   HTMLAttributes: Record<string, any>
+  taskListTypeName: string
 }
 
 export const inputRegex = /^\s*(\[([( |x])?\])\s$/
@@ -16,6 +19,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
     return {
       nested: false,
       HTMLAttributes: {},
+      taskListTypeName: 'taskList',
     }
   },
 
@@ -69,7 +73,9 @@ export const TaskItem = Node.create<TaskItemOptions>({
   },
 
   addKeyboardShortcuts() {
-    const shortcuts = {
+    const shortcuts: {
+      [key: string]: KeyboardShortcutCommand
+    } = {
       Enter: () => this.editor.commands.splitListItem(this.name),
       'Shift-Tab': () => this.editor.commands.liftListItem(this.name),
     }

@@ -1,7 +1,7 @@
 import { Mark as ProseMirrorMark, MarkType, ResolvedPos } from '@tiptap/pm/model'
 
-import { Range } from '../types'
-import { objectIncludes } from '../utilities/objectIncludes'
+import { Range } from '../types.js'
+import { objectIncludes } from '../utilities/objectIncludes.js'
 
 function findMarkInSet(
   marks: ProseMirrorMark[],

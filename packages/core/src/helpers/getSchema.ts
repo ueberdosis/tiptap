@@ -1,11 +1,12 @@
 import { Schema } from '@tiptap/pm/model'
 
-import { ExtensionManager } from '../ExtensionManager'
-import { Extensions } from '../types'
-import { getSchemaByResolvedExtensions } from './getSchemaByResolvedExtensions'
+import { Editor } from '../Editor.js'
+import { ExtensionManager } from '../ExtensionManager.js'
+import { Extensions } from '../types.js'
+import { getSchemaByResolvedExtensions } from './getSchemaByResolvedExtensions.js'
 
-export function getSchema(extensions: Extensions): Schema {
+export function getSchema(extensions: Extensions, editor?: Editor): Schema {
   const resolvedExtensions = ExtensionManager.resolve(extensions)
 
-  return getSchemaByResolvedExtensions(resolvedExtensions)
+  return getSchemaByResolvedExtensions(resolvedExtensions, editor)
 }

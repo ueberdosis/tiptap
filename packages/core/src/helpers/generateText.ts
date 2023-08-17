@@ -1,9 +1,9 @@
 import { Node } from '@tiptap/pm/model'
 
-import { Extensions, JSONContent, TextSerializer } from '../types'
-import { getSchema } from './getSchema'
-import { getText } from './getText'
-import { getTextSerializersFromSchema } from './getTextSerializersFromSchema'
+import { Extensions, JSONContent, TextSerializer } from '../types.js'
+import { getSchema } from './getSchema.js'
+import { getText } from './getText.js'
+import { getTextSerializersFromSchema } from './getTextSerializersFromSchema.js'
 
 export function generateText(
   doc: JSONContent,

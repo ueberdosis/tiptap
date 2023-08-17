@@ -1,6 +1,6 @@
 import { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
 
-import { Predicate } from '../types'
+import { Predicate } from '../types.js'
 
 export function findParentNodeClosestToPos(
   $pos: ResolvedPos,

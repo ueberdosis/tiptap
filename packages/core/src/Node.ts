@@ -3,11 +3,11 @@ import {
 } from '@tiptap/pm/model'
 import { Plugin, Transaction } from '@tiptap/pm/state'
 
-import { NodeConfig } from '.'
-import { Editor } from './Editor'
-import { getExtensionField } from './helpers/getExtensionField'
-import { InputRule } from './InputRule'
-import { PasteRule } from './PasteRule'
+import { Editor } from './Editor.js'
+import { getExtensionField } from './helpers/getExtensionField.js'
+import { NodeConfig } from './index.js'
+import { InputRule } from './InputRule.js'
+import { PasteRule } from './PasteRule.js'
 import {
   AnyConfig,
   Attributes,
@@ -17,9 +17,9 @@ import {
   NodeViewRenderer,
   ParentConfig,
   RawCommands,
-} from './types'
-import { callOrReturn } from './utilities/callOrReturn'
-import { mergeDeep } from './utilities/mergeDeep'
+} from './types.js'
+import { callOrReturn } from './utilities/callOrReturn.js'
+import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   interface NodeConfig<Options = any, Storage = any> {
@@ -164,6 +164,7 @@ declare module '@tiptap/core' {
             options: Options
             storage: Storage
             parent: ParentConfig<NodeConfig<Options, Storage>>['extendMarkSchema']
+            editor?: Editor
           },
           extension: Node,
         ) => Record<string, any>)
@@ -325,6 +326,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['content']
+          editor?: Editor
         }) => NodeSpec['content'])
 
     /**
@@ -337,6 +339,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['marks']
+          editor?: Editor
         }) => NodeSpec['marks'])
 
     /**
@@ -349,6 +352,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['group']
+          editor?: Editor
         }) => NodeSpec['group'])
 
     /**
@@ -361,6 +365,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['inline']
+          editor?: Editor
         }) => NodeSpec['inline'])
 
     /**
@@ -373,6 +378,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['atom']
+          editor?: Editor
         }) => NodeSpec['atom'])
 
     /**
@@ -385,6 +391,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['selectable']
+          editor?: Editor
         }) => NodeSpec['selectable'])
 
     /**
@@ -397,6 +404,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['draggable']
+          editor?: Editor
         }) => NodeSpec['draggable'])
 
     /**
@@ -409,6 +417,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['code']
+          editor?: Editor
         }) => NodeSpec['code'])
 
     /**
@@ -421,6 +430,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['whitespace']
+          editor?: Editor
         }) => NodeSpec['whitespace'])
 
     /**
@@ -433,6 +443,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['defining']
+          editor?: Editor
         }) => NodeSpec['defining'])
 
     /**
@@ -445,6 +456,7 @@ declare module '@tiptap/core' {
           options: Options
           storage: Storage
           parent: ParentConfig<NodeConfig<Options, Storage>>['isolating']
+          editor?: Editor
         }) => NodeSpec['isolating'])
 
     /**
@@ -455,6 +467,7 @@ declare module '@tiptap/core' {
       options: Options
       storage: Storage
       parent: ParentConfig<NodeConfig<Options, Storage>>['parseHTML']
+      editor?: Editor
     }) => NodeSpec['parseDOM']
 
     /**
@@ -467,6 +480,7 @@ declare module '@tiptap/core' {
             options: Options
             storage: Storage
             parent: ParentConfig<NodeConfig<Options, Storage>>['renderHTML']
+            editor?: Editor
           },
           props: {
             node: ProseMirrorNode
@@ -485,6 +499,7 @@ declare module '@tiptap/core' {
             options: Options
             storage: Storage
             parent: ParentConfig<NodeConfig<Options, Storage>>['renderText']
+            editor?: Editor
           },
           props: {
             node: ProseMirrorNode
@@ -503,6 +518,7 @@ declare module '@tiptap/core' {
       options: Options
       storage: Storage
       parent: ParentConfig<NodeConfig<Options, Storage>>['addAttributes']
+      editor?: Editor
     }) => Attributes | {}
   }
 }
