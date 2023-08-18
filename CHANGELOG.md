@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
+
+
+### Bug Fixes
+
+* **core:** fix broken export ([4227f32](https://github.com/ueberdosis/tiptap/commit/4227f324a5bfd4f0905c70ac8ea68903352f911b))
+
+
+
+
+
 ## [2.1.5](https://github.com/ueberdosis/tiptap/compare/v2.1.4...v2.1.5) (2023-08-18)
 
 
