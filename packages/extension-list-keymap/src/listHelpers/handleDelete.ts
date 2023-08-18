@@ -1,6 +1,5 @@
-import { Editor } from '../../../core/src/Editor.js'
-import { isAtEndOfNode } from '../../../core/src/helpers/isAtEndOfNode.js'
-import { isNodeActive } from '../../../core/src/helpers/isNodeActive.js'
+import { Editor, isAtEndOfNode, isNodeActive } from '@tiptap/core'
+
 import { nextListIsDeeper } from './nextListIsDeeper.js'
 import { nextListIsHigher } from './nextListIsHigher.js'
 

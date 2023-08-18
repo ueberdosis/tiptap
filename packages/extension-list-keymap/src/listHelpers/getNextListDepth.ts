@@ -1,6 +1,6 @@
+import { getNodeAtPosition } from '@tiptap/core'
 import { EditorState } from '@tiptap/pm/state'
 
-import { getNodeAtPosition } from '../../../core/src/helpers/getNodeAtPosition.js'
 import { findListItemPos } from './findListItemPos.js'
 
 export const getNextListDepth = (typeOrName: string, state: EditorState) => {
