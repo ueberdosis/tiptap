@@ -99,7 +99,7 @@ The `NodeViewWrapper` and `NodeViewContent` components render a `<div>` HTML tag
 
 ## Changing the default content tag for a node view
 
-By default a NodeView rendered by `ReactNodeViewRenderer` will always have a wrapping `div` inside. If you want to change the type of this node, you can the `contentDOMElementTag` to the `ReactNodeViewRenderer` options:
+By default a node view rendered by `ReactNodeViewRenderer` will always have a wrapping `div` inside. If you want to change the type of this node, you can the `contentDOMElementTag` to the `ReactNodeViewRenderer` options:
 
 ```js
 // this will turn the div into a header tag
