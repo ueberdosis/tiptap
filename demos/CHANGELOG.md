@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
+
+
+### Features
+
+* **placeholder:** allow editor-is-empty class on any node ([#4335](https://github.com/ueberdosis/tiptap/issues/4335)) ([ff929b1](https://github.com/ueberdosis/tiptap/commit/ff929b179de930619005a773bb4186ae2aa2ec58))
+
+
+
+
+
 ## [2.1.5](https://github.com/ueberdosis/tiptap/compare/v2.1.4...v2.1.5) (2023-08-18)
 
 **Note:** Version bump only for package tiptap-demos
