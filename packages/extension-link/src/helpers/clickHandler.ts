@@ -15,8 +15,11 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
           return false
         }
 
-        const eventTarget = event.target as HTMLElement;
-        if (eventTarget.nodeName !== 'A') return false;
+        const eventTarget = event.target as HTMLElement
+
+        if (eventTarget.nodeName !== 'A') {
+          return false
+        }
 
         const attrs = getAttributes(view.state, options.type.name)
         const link = (event.target as HTMLLinkElement)
