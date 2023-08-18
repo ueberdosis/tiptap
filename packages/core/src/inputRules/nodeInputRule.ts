@@ -1,5 +1,4 @@
 import { NodeType } from '@tiptap/pm/model'
-import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 import { InputRule, InputRuleFinder } from '../InputRule.js'
 import { ExtendedRegExpMatchArray } from '../types.js'
@@ -21,18 +20,6 @@ export function nodeInputRule(config: {
   type: NodeType
 
   /**
-   * Should the input rule replace the node or append to it
-   * If true, the node will be replaced
-   */
-  blockReplace?: boolean
-
-  /**
-   * Insert empty paragraph after inserting the node
-   * Only works if blockReplace is true
-   */
-  addExtraNewline?: boolean
-
-  /**
    * A function that returns the attributes for the node
    * can also be an object of attributes
    */
@@ -47,12 +34,10 @@ export function nodeInputRule(config: {
     handler: ({ state, range, match }) => {
       const attributes = callOrReturn(config.getAttributes, undefined, match) || {}
       const { tr } = state
-      const start = config.blockReplace ? range.from - 1 : range.from
+      const start = range.from
       let end = range.to
 
       const newNode = config.type.create(attributes)
-
-      const { $to } = tr.selection
 
       if (match[1]) {
         const offset = match[0].lastIndexOf(match[1])
@@ -72,32 +57,13 @@ export function nodeInputRule(config: {
         // insert node from input rule
         tr.replaceWith(matchStart, end, newNode)
       } else if (match[0]) {
-        tr.replaceWith(start, end, newNode)
+        tr.insert(start - 1, config.type.create(attributes)).delete(
+          tr.mapping.map(start),
+          tr.mapping.map(end),
+        )
       }
 
-      if (config.blockReplace && config.addExtraNewline) {
-        if ($to.nodeAfter) {
-          if ($to.nodeAfter.isTextblock) {
-            tr.setSelection(TextSelection.create(tr.doc, $to.pos + 1))
-          } else if ($to.nodeAfter.isBlock) {
-            tr.setSelection(NodeSelection.create(tr.doc, $to.pos))
-          } else {
-            tr.setSelection(TextSelection.create(tr.doc, $to.pos - 1))
-          }
-        } else {
-          // add node after horizontal rule if it’s the end of the document
-          const defaultNode = $to.parent.type.contentMatch.defaultType?.create() || state.doc.type.contentMatch.defaultType?.create()
-
-          if (defaultNode) {
-            const newPos = start + newNode.nodeSize
-
-            tr.insert(newPos, defaultNode)
-            tr.setSelection(TextSelection.create(tr.doc, newPos))
-          }
-        }
-
-        tr.scrollIntoView()
-      }
+      tr.scrollIntoView()
     },
   })
 }
