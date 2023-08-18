@@ -16,6 +16,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Note:** Version bump only for package @tiptap/extension-bubble-menu
 
 
+## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
+
+**Note:** Version bump only for package @tiptap/extension-bubble-menu
+
+
 
 
 

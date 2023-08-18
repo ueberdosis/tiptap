@@ -8,15 +8,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Note:** Version bump only for package tiptap
 
 
-
-
-
 # [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
 
 
 ### Features
 
 * **placeholder:** allow editor-is-empty class on any node ([#4335](https://github.com/ueberdosis/tiptap/issues/4335)) ([ff929b1](https://github.com/ueberdosis/tiptap/commit/ff929b179de930619005a773bb4186ae2aa2ec58))
+## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
+
+
+### Bug Fixes
+
+* **core:** fix broken export ([4227f32](https://github.com/ueberdosis/tiptap/commit/4227f324a5bfd4f0905c70ac8ea68903352f911b))
 
 
 

@@ -19,6 +19,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
 ## [2.1.5](https://github.com/ueberdosis/tiptap/compare/v2.1.4...v2.1.5) (2023-08-18)
 
 **Note:** Version bump only for package @tiptap/react
