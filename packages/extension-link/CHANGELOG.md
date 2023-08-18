@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.3](https://github.com/ueberdosis/tiptap/compare/v2.1.2...v2.1.3) (2023-08-18)
+
+
+### Bug Fixes
+
+* fix autolink when code is not enabled for editor ([#4344](https://github.com/ueberdosis/tiptap/issues/4344)) ([f2ac7b9](https://github.com/ueberdosis/tiptap/commit/f2ac7b90912a78b90216a7d7d084c86f0c0eef48))
+
+
+
+
+
 ## [2.1.2](https://github.com/ueberdosis/tiptap/compare/v2.1.1...v2.1.2) (2023-08-17)
 
 **Note:** Version bump only for package @tiptap/extension-link
