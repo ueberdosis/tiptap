@@ -87,6 +87,7 @@ export function autolink(options: AutolinkOptions): Plugin {
             }))
             // ignore link inside code mark
             .filter(link => {
+              if (!newState.schema.marks.code) return true; // maybe code is not enabled for this editor
               return !newState.doc.rangeHasMark(
                 link.from,
                 link.to,
