@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0-rc.2](https://github.com/ueberdosis/tiptap/compare/v2.1.6...v2.2.0-rc.2) (2023-08-18)
+
+
+
+# [2.2.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.0...v2.2.0-rc.1) (2023-08-18)
+
+
+
+# [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
 # [2.2.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.0...v2.2.0-rc.1) (2023-08-18)
 
 **Note:** Version bump only for package @tiptap/react
