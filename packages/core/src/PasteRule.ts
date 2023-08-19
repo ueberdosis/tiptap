@@ -40,13 +40,14 @@ export class PasteRule {
   constructor(config: {
     find: PasteRuleFinder
     handler: (props: {
-      state: EditorState
-      range: Range
-      match: ExtendedRegExpMatchArray
-      commands: SingleCommands
-      chain: () => ChainedCommands
       can: () => CanCommands
+      chain: () => ChainedCommands
+      commands: SingleCommands
+      dropEvent: DragEvent
+      match: ExtendedRegExpMatchArray
       pasteEvent: ClipboardEvent
+      range: Range
+      state: EditorState
     }) => void | null
   }) {
     this.find = config.find
