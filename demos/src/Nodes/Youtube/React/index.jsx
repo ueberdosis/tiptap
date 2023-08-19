@@ -1,6 +1,5 @@
 import './styles.scss'
 
-import Link from '@tiptap/extension-link'
 import Youtube from '@tiptap/extension-youtube'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -46,7 +45,6 @@ export default () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Link,
       Youtube.configure({
         controls: false,
       }),
