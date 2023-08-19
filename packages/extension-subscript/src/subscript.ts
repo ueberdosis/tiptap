@@ -1,6 +1,11 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 
 export interface SubscriptExtensionOptions {
+  /**
+   * HTML attributes to add to the subscript element.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Object,
 }
 
@@ -9,20 +14,27 @@ declare module '@tiptap/core' {
     subscript: {
       /**
        * Set a subscript mark
+       * @example editor.commands.setSubscript()
        */
       setSubscript: () => ReturnType,
       /**
        * Toggle a subscript mark
+       * @example editor.commands.toggleSubscript()
        */
       toggleSubscript: () => ReturnType,
       /**
        * Unset a subscript mark
+       * @example editor.commands.unsetSubscript()
        */
       unsetSubscript: () => ReturnType,
     }
   }
 }
 
+/**
+ * This extension allows you to create subscript text.
+ * @see https://www.tiptap.dev/api/marks/subscript
+ */
 export const Subscript = Mark.create<SubscriptExtensionOptions>({
   name: 'subscript',
 

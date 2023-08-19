@@ -4,21 +4,23 @@ import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 export interface CodeBlockOptions {
   /**
    * Adds a prefix to language classes that are applied to code tags.
-   * Defaults to `'language-'`.
+   * @default 'language-'
    */
   languageClassPrefix: string
   /**
    * Define whether the node should be exited on triple enter.
-   * Defaults to `true`.
+   * @default true
    */
   exitOnTripleEnter: boolean
   /**
    * Define whether the node should be exited on arrow down if there is no node after it.
-   * Defaults to `true`.
+   * @default true
    */
   exitOnArrowDown: boolean
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
+   * @default {}
+   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -28,19 +30,34 @@ declare module '@tiptap/core' {
     codeBlock: {
       /**
        * Set a code block
+       * @param attributes Code block attributes
+       * @example editor.commands.setCodeBlock({ language: 'javascript' })
        */
       setCodeBlock: (attributes?: { language: string }) => ReturnType
       /**
        * Toggle a code block
+       * @param attributes Code block attributes
+       * @example editor.commands.toggleCodeBlock({ language: 'javascript' })
        */
       toggleCodeBlock: (attributes?: { language: string }) => ReturnType
     }
   }
 }
 
+/**
+ * Matches a code block with backticks.
+ */
 export const backtickInputRegex = /^```([a-z]+)?[\s\n]$/
+
+/**
+ * Matches a code block with tildes.
+ */
 export const tildeInputRegex = /^~~~([a-z]+)?[\s\n]$/
 
+/**
+ * This extension allows you to create code blocks.
+ * @see https://tiptap.dev/api/nodes/code-block
+ */
 export const CodeBlock = Node.create<CodeBlockOptions>({
   name: 'codeBlock',
 
