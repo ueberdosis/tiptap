@@ -13,14 +13,16 @@ export function nodePasteRule(config: {
   type: NodeType
   getAttributes?:
     | Record<string, any>
-    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
+    | ((match: ExtendedRegExpMatchArray, event: ClipboardEvent) => Record<string, any>)
     | false
     | null
 }) {
   return new PasteRule({
     find: config.find,
-    handler({ match, chain, range }) {
-      const attributes = callOrReturn(config.getAttributes, undefined, match)
+    handler({
+      match, chain, range, pasteEvent,
+    }) {
+      const attributes = callOrReturn(config.getAttributes, undefined, match, pasteEvent)
 
       if (attributes === false || attributes === null) {
         return null
