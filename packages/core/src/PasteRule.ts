@@ -146,7 +146,7 @@ function run(config: {
 }
 
 // When dragging across editors, must get another editor instance to delete selection content.
-let tiptapDragFromOtherEditor: Editor | null = null;
+let tiptapDragFromOtherEditor: Editor | null = null
 
 /**
  * Create an paste rules plugin. When enabled, it will cause pasted
