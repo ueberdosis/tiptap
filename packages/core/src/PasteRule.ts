@@ -145,6 +145,9 @@ function run(config: {
   return success
 }
 
+// When dragging across editors, must get another editor instance to delete selection content.
+let tiptapDragFromOtherEditor: Editor | null = null;
+
 /**
  * Create an paste rules plugin. When enabled, it will cause pasted
  * text that matches any of the given rules to trigger the rule’s
@@ -166,13 +169,13 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
             : null
 
           if (dragSourceElement) {
-            (window as any).tiptapDragFromOtherEditor = editor
+            tiptapDragFromOtherEditor = editor
           }
         }
 
         const handleDragend = () => {
-          if ((window as any).tiptapDragFromOtherEditor) {
-            (window as any).tiptapDragFromOtherEditor = null
+          if (tiptapDragFromOtherEditor) {
+            tiptapDragFromOtherEditor = null
           }
         }
 
@@ -193,7 +196,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
 
             if (!isDroppedFromProseMirror) {
-              const dragFromOtherEditor = (window as any).tiptapDragFromOtherEditor
+              const dragFromOtherEditor = tiptapDragFromOtherEditor
 
               if (dragFromOtherEditor) {
                 // setTimeout to avoid the wrong content after drop, timeout arg can't be empty or 0
