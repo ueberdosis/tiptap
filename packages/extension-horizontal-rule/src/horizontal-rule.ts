@@ -44,7 +44,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
           const currentChain = chain()
 
           if ($originTo.parentOffset === 0) {
-            currentChain.insertContentAt($originTo.pos - 2, { type: this.name })
+            currentChain.insertContentAt(Math.max($originTo.pos - 2, 0), { type: this.name })
           } else {
             currentChain.insertContent({ type: this.name })
           }
@@ -59,7 +59,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
 
                   if ($to.nodeAfter) {
                     if ($to.nodeAfter.isTextblock) {
-                      tr.setSelection(TextSelection.create(tr.doc, $to.pos + 1))
+                      tr.setSelection(TextSelection.create(tr.doc, $to.pos))
                     } else if ($to.nodeAfter.isBlock) {
                       tr.setSelection(NodeSelection.create(tr.doc, $to.pos))
                     } else {
