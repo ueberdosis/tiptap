@@ -59,7 +59,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
 
                   if ($to.nodeAfter) {
                     if ($to.nodeAfter.isTextblock) {
-                      tr.setSelection(TextSelection.create(tr.doc, $to.pos))
+                      tr.setSelection(TextSelection.create(tr.doc, $to.pos + 1))
                     } else if ($to.nodeAfter.isBlock) {
                       tr.setSelection(NodeSelection.create(tr.doc, $to.pos))
                     } else {
