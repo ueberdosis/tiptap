@@ -525,6 +525,10 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * The Mark class is used to create custom mark extensions.
+ * @see https://tiptap.dev/api/extensions#create-a-new-extension
+ */
 export class Mark<Options = any, Storage = any> {
   type = 'mark'
 

@@ -634,6 +634,10 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * The Node class is used to create custom node extensions.
+ * @see https://tiptap.dev/api/extensions#create-a-new-extension
+ */
 export class Node<Options = any, Storage = any> {
   type = 'node'
 

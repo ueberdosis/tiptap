@@ -8,6 +8,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
 /**
  * Build an paste rule that adds a mark when the
  * matched text is pasted into it.
+ * @see https://tiptap.dev/guide/custom-extensions/#paste-rules
  */
 export function markPasteRule(config: {
   find: PasteRuleFinder
