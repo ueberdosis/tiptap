@@ -23,7 +23,7 @@ export interface SuggestionOptions<I = any> {
     onExit?: (props: SuggestionProps<I>) => void
     onKeyDown?: (props: SuggestionKeyDownProps) => boolean
   }
-  allow?: (props: { editor: Editor; state: EditorState; range: Range }) => boolean
+  allow?: (props: { editor: Editor; state: EditorState; range: Range, isActive?: boolean }) => boolean
 }
 
 export interface SuggestionProps<I = any> {
@@ -76,9 +76,10 @@ export function Suggestion<I = any>({
           const started = !prev.active && next.active
           const stopped = prev.active && !next.active
           const changed = !started && !stopped && prev.query !== next.query
-          const handleStart = started || moved
-          const handleChange = changed && !moved
-          const handleExit = stopped || moved
+
+          const handleStart = started
+          const handleChange = changed || moved
+          const handleExit = stopped
 
           // Cancel when suggestion isn't active
           if (!handleStart && !handleChange && !handleExit) {
@@ -211,7 +212,9 @@ export function Suggestion<I = any>({
           const decorationId = `id_${Math.floor(Math.random() * 0xffffffff)}`
 
           // If we found a match, update the current state to show it
-          if (match && allow({ editor, state, range: match.range })) {
+          if (match && allow({
+            editor, state, range: match.range, isActive: prev.active,
+          })) {
             next.active = true
             next.decorationId = prev.decorationId ? prev.decorationId : decorationId
             next.range = match.range
