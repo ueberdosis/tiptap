@@ -34,7 +34,7 @@ const provider = new TiptapCollabProvider({
   appId: 'your_app_id', // get this at collab.tiptap.dev
   name: 'your_document_name', // e.g. a uuid uuidv4();
   token: 'your_JWT', // see "Authentication" below
-  doc: new Y.Doc() // pass your existing doc, or leave this out and use provider.document
+  document: new Y.Doc() // pass your existing doc, or leave this out and use provider.document
 });
 ```
 
