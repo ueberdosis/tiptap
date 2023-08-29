@@ -7,7 +7,7 @@ import { Editor } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
 
 const mergeRefs = <T extends HTMLDivElement>(
-  ...refs: Array<MutableRefObject<T> | LegacyRef<T>>
+  ...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>
 ) => {
   return (node: T) => {
     refs.forEach(ref => {
@@ -32,7 +32,7 @@ const Portals: React.FC<{ renderers: Record<string, ReactRenderer> }> = ({ rende
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
   editor: Editor | null;
-  innerRef: ForwardedRef<HTMLDivElement | null>;
+  innerRef?: ForwardedRef<HTMLDivElement | null>;
 }
 
 export interface EditorContentState {
