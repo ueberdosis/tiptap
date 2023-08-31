@@ -93,7 +93,7 @@ A sample payload of the webhook request looks like this:
   "appName": '', // name of your app
   "name": '', // name of the document
   "time": // current time as ISOString (new Date()).toISOString())
-  "tiptapData": {}, // JSON output from Tiptap (see https://tiptap.dev/guide/output#option-1-json): TiptapTransformer.fromYdoc()
+  "tiptapJson": {}, // JSON output from Tiptap (see https://tiptap.dev/guide/output#option-1-json): TiptapTransformer.fromYdoc()
   "ydocState"?: {}, // optionally contains the entire yDoc as base64. Contact us to enable this property!
   "clientsCount": 100 // number of currently connected clients
 }
