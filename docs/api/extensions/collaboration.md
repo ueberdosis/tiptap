@@ -53,7 +53,7 @@ Collaboration.configure({
 ```
 
 ## Commands
-The `Collboration` extension comes with its own history extension. Make sure to disable the default extension, if you’re working with the `StarterKit`.
+The `Collaboration` extension comes with its own history extension. Make sure to disable the default extension, if you’re working with the `StarterKit`.
 
 ### undo()
 Undo the last change.
