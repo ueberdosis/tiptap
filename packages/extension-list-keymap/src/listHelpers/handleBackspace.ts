@@ -1,4 +1,9 @@
-import { Editor, isAtStartOfNode, isNodeActive } from '@tiptap/core'
+import {
+  Editor,
+  isAtStartOfNode,
+  isNodeActive,
+  isWholeDocSelected,
+} from '@tiptap/core'
 import { Node } from '@tiptap/pm/model'
 
 import { findListItemPos } from './findListItemPos.js'
@@ -10,6 +15,13 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
   // this is required to still handle the undo handling
   if (editor.commands.undoInputRule()) {
     return true
+  }
+
+  // if selection covers whole document
+  // do nothing and proceed
+  // fix for: https://github.com/ueberdosis/tiptap/issues/4395
+  if (isWholeDocSelected(editor.state)) {
+    return false
   }
 
   // if the current item is NOT inside a list item &

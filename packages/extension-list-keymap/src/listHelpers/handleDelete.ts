@@ -1,12 +1,15 @@
-import {Editor, isAllSelection, isAtEndOfNode, isNodeActive} from '@tiptap/core'
+import {
+  Editor, isAtEndOfNode, isNodeActive, isWholeDocSelected,
+} from '@tiptap/core'
 
 import { nextListIsDeeper } from './nextListIsDeeper.js'
 import { nextListIsHigher } from './nextListIsHigher.js'
 
 export const handleDelete = (editor: Editor, name: string) => {
-  // if selection is an all selection
+  // if selection covers whole document
   // do nothing and proceed
-  if (!isAllSelection(editor.state.selection)) {
+  // fix for: https://github.com/ueberdosis/tiptap/issues/4395
+  if (isWholeDocSelected(editor.state)) {
     return false
   }
 
