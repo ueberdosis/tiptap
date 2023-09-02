@@ -1,9 +1,15 @@
-import { Editor, isAtEndOfNode, isNodeActive } from '@tiptap/core'
+import {Editor, isAllSelection, isAtEndOfNode, isNodeActive} from '@tiptap/core'
 
 import { nextListIsDeeper } from './nextListIsDeeper.js'
 import { nextListIsHigher } from './nextListIsHigher.js'
 
 export const handleDelete = (editor: Editor, name: string) => {
+  // if selection is an all selection
+  // do nothing and proceed
+  if (!isAllSelection(editor.state.selection)) {
+    return false
+  }
+
   // if the cursor is not inside the current node type
   // do nothing and proceed
   if (!isNodeActive(editor.state, name)) {
