@@ -11,7 +11,7 @@ Tiptap comes with sensible keyboard shortcut defaults. Depending on what you wan
 Most of the core extensions register their own keyboard shortcuts. Depending on what set of extension you use, not all of the below listed keyboard shortcuts work for your editor.
 
 ### Essentials
-| Command                   | Windows/Linux                   | macOS                       |
+| Command                  | Windows/Linux                   | macOS                       |
 | ------------------------ | ------------------------------- | --------------------------- |
 | Copy                     | `Control`&nbsp;`C`              | `Cmd`&nbsp;`C`              |
 | Cut                      | `Control`&nbsp;`X`              | `Cmd`&nbsp;`X`              |
@@ -19,10 +19,10 @@ Most of the core extensions register their own keyboard shortcuts. Depending on 
 | Paste without formatting | `Control`&nbsp;`Shift`&nbsp;`V` | `Cmd`&nbsp;`Shift`&nbsp;`V` |
 | Undo                     | `Control`&nbsp;`Z`              | `Cmd`&nbsp;`Z`              |
 | Redo                     | `Control`&nbsp;`Shift`&nbsp;`Z` | `Cmd`&nbsp;`Shift`&nbsp;`Z` |
-| Add a line break         | `Shift`&nbsp;`Enter`            | `Shift`&nbsp;`Enter`        |
+| Add a line break         | `Shift`&nbsp;`Enter`            | `Shift`&nbsp;`Enter`&nbsp;,<br />`Cmd`&nbsp;`Enter` |
 
 ### Text Formatting
-| Command        | Windows/Linux                   | macOS                       |
+| Command       | Windows/Linux                   | macOS                       |
 | ------------- | ------------------------------- | --------------------------- |
 | Bold          | `Control`&nbsp;`B`              | `Cmd`&nbsp;`B`              |
 | Italicize     | `Control`&nbsp;`I`              | `Cmd`&nbsp;`I`              |
@@ -32,7 +32,7 @@ Most of the core extensions register their own keyboard shortcuts. Depending on 
 | Code          | `Control`&nbsp;`E`              | `Cmd`&nbsp;`E`              |
 
 ### Paragraph Formatting
-| Command                  | Windows/Linux                   | macOS                       |
+| Command                 | Windows/Linux                   | macOS                       |
 | ----------------------- | ------------------------------- | --------------------------- |
 | Apply normal text style | `Control`&nbsp;`Alt`&nbsp;`0`   | `Cmd`&nbsp;`Alt`&nbsp;`0`   |
 | Apply heading style 1   | `Control`&nbsp;`Alt`&nbsp;`1`   | `Cmd`&nbsp;`Alt`&nbsp;`1`   |
@@ -56,7 +56,7 @@ Most of the core extensions register their own keyboard shortcuts. Depending on 
 <!--| Toggle task| `Control`&nbsp;`Enter` | `Cmd`&nbsp;`Enter` | -->
 
 ### Text Selection
-| Command                                            | Windows/Linux                   | macOS                       |
+| Command                                           | Windows/Linux                   | macOS                       |
 | ------------------------------------------------- | ------------------------------- | --------------------------- |
 | Select all                                        | `Control`&nbsp;`A`              | `Cmd`&nbsp;`A`              |
 | Extend selection one character to left            | `Shift`&nbsp;`←`                | `Shift`&nbsp;`←`            |
