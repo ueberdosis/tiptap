@@ -19,7 +19,7 @@ Most of the core extensions register their own keyboard shortcuts. Depending on 
 | Paste without formatting | `Control`&nbsp;`Shift`&nbsp;`V` | `Cmd`&nbsp;`Shift`&nbsp;`V` |
 | Undo                     | `Control`&nbsp;`Z`              | `Cmd`&nbsp;`Z`              |
 | Redo                     | `Control`&nbsp;`Shift`&nbsp;`Z` | `Cmd`&nbsp;`Shift`&nbsp;`Z` |
-| Add a line break         | `Shift`&nbsp;`Enter`            | `Shift`&nbsp;`Enter`&nbsp;,<br />`Cmd`&nbsp;`Enter` |
+| Add a line break         | `Shift`&nbsp;`Enter`<br>`Control`&nbsp;`Enter` | `Shift`&nbsp;`Enter`&nbsp;<br>`Cmd`&nbsp;`Enter` |
 
 ### Text Formatting
 | Command       | Windows/Linux                   | macOS                       |
