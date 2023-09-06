@@ -3,15 +3,23 @@ import {
   findChildrenInRange,
   getChangedRanges,
   getMarksBetween,
-  NodeWithPos,
 } from '@tiptap/core'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { find } from 'linkifyjs'
 
 type AutolinkOptions = {
-  type: MarkType
-  validate?: (url: string) => boolean
+  type: MarkType;
+  validate?: (url: string) => boolean;
+}
+
+type LinkType = {
+  type: string;
+  value: string;
+  isLink: boolean;
+  href: string;
+  start: number;
+  end: number;
 }
 
 export function autolink(options: AutolinkOptions): Plugin {
@@ -37,40 +45,34 @@ export function autolink(options: AutolinkOptions): Plugin {
           node => node.isTextblock,
         )
 
-        let textBlock: NodeWithPos | undefined
-        let textBeforeWhitespace: string | undefined
+        // Grab the first node within the changed ranges (ex. the first of two paragraphs when hitting enter).
+        const textBlock = nodesInChangedRanges[0]
 
-        if (nodesInChangedRanges.length > 1) {
-          // Grab the first node within the changed ranges (ex. the first of two paragraphs when hitting enter).
-          textBlock = nodesInChangedRanges[0]
-          textBeforeWhitespace = newState.doc.textBetween(
-            textBlock.pos,
-            textBlock.pos + textBlock.node.nodeSize,
-            undefined,
-            ' ',
-          )
-        } else if (
-          nodesInChangedRanges.length
-          // We want to make sure to include the block seperator argument to treat hard breaks like spaces.
-          && newState.doc.textBetween(newRange.from, newRange.to, ' ', ' ').endsWith(' ')
-        ) {
-          textBlock = nodesInChangedRanges[0]
-          textBeforeWhitespace = newState.doc.textBetween(
-            textBlock.pos,
-            newRange.to,
-            undefined,
-            ' ',
-          )
+        if (!textBlock) {
+          return
         }
 
-        if (textBlock && textBeforeWhitespace) {
-          const wordsBeforeWhitespace = textBeforeWhitespace.split(' ').filter(s => s !== '')
+        const textBeforeWhitespace = newState.doc.textBetween(
+          textBlock.pos,
+          newRange.to,
+          ' ',
+          ' ',
+        )
 
-          if (wordsBeforeWhitespace.length <= 0) {
-            return false
+        if (textBeforeWhitespace) {
+
+          if (!/\s*\S+\s+$/gm.test(textBeforeWhitespace)) {
+            return
           }
 
-          const lastWordBeforeSpace = wordsBeforeWhitespace[wordsBeforeWhitespace.length - 1]
+          const lastWordBeforeSpaceMatch = textBeforeWhitespace.matchAll(/\s*(\S+)\s+$/gm)
+          const lastMatch = Array.from(lastWordBeforeSpaceMatch).at(-1)
+
+          if (lastMatch === undefined || lastMatch.length < 2) {
+            return
+          }
+
+          const lastWordBeforeSpace = lastMatch[1]
           const lastWordAndBlockOffset = textBlock.pos + textBeforeWhitespace.lastIndexOf(lastWordBeforeSpace)
 
           if (!lastWordBeforeSpace) {
@@ -78,22 +80,22 @@ export function autolink(options: AutolinkOptions): Plugin {
           }
 
           find(lastWordBeforeSpace)
-            .filter(link => link.isLink)
+            .filter((link: LinkType) => link.isLink)
             // Calculate link position.
-            .map(link => ({
+            .map((link: LinkType) => ({
               ...link,
-              from: lastWordAndBlockOffset + link.start + 1,
-              to: lastWordAndBlockOffset + link.end + 1,
+              start: lastWordAndBlockOffset + link.start + 1,
+              end: lastWordAndBlockOffset + link.end + 1,
             }))
             // ignore link inside code mark
-            .filter(link => {
+            .filter((link: LinkType) => {
               if (!newState.schema.marks.code) {
                 return true
               }
 
               return !newState.doc.rangeHasMark(
-                link.from,
-                link.to,
+                link.start,
+                link.end,
                 newState.schema.marks.code,
               )
             })
@@ -106,13 +108,13 @@ export function autolink(options: AutolinkOptions): Plugin {
             })
             // Add link mark.
             .forEach(link => {
-              if (getMarksBetween(link.from, link.to, newState.doc).some(item => item.mark.type === options.type)) {
+              if (getMarksBetween(link.start, link.end, newState.doc).some(item => item.mark.type === options.type)) {
                 return
               }
 
               tr.addMark(
-                link.from,
-                link.to,
+                link.start,
+                link.end,
                 options.type.create({
                   href: link.href,
                 }),
