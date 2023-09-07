@@ -1,5 +1,6 @@
 import './styles.scss'
 
+import Bold from '@tiptap/extension-bold'
 import Code from '@tiptap/extension-code'
 import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
@@ -15,13 +16,14 @@ export default () => {
       Paragraph,
       Text,
       Code,
+      Bold,
       Link.configure({
-        openOnClick: false,
+        openOnClick: true,
       }),
     ],
     content: `
         <p>
-          Wow, this editor has support for links to the whole <a href="https://en.wikipedia.org/wiki/World_Wide_Web">world wide web</a>. We tested a lot of URLs and I think you can add *every URL* you want. Isn’t that cool? Let’s try <a href="https://statamic.com/">another one!</a> Yep, seems to work.
+          Wow, this editor has support for links to the whole <a href="https://en.wikipedia.org/wiki/World_Wide_Web"><b>world wide web</b>></a>. We tested a lot of URLs and I think you can add *every URL* you want. Isn’t that cool? Let’s try <a href="https://statamic.com/">another one!</a> Yep, seems to work.
         </p>
         <p>
           By default every link will get a <code>rel="noopener noreferrer nofollow"</code> attribute. It’s configurable though.
