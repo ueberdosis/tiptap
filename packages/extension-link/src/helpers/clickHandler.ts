@@ -17,7 +17,7 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
 
         const eventTarget = event.target as HTMLElement
 
-        if (eventTarget.nodeName !== 'A') {
+        if (eventTarget.nodeName !== 'A' && !eventTarget.closest('a')) {
           return false
         }
 
