@@ -46,11 +46,11 @@ declare module '@tiptap/core' {
       /**
        * Set a link mark
        */
-      setLink: (attributes: { href: string; target?: string | null }) => ReturnType
+      setLink: (attributes: { href: string; target?: string | null; rel?: string | null; class?: string | null }) => ReturnType
       /**
        * Toggle a link mark
        */
-      toggleLink: (attributes: { href: string; target?: string | null }) => ReturnType
+      toggleLink: (attributes: { href: string; target?: string | null; rel?: string | null; class?: string | null }) => ReturnType
       /**
        * Unset a link mark
        */
