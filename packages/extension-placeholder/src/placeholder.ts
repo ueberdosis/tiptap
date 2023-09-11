@@ -4,8 +4,23 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 export interface PlaceholderOptions {
+  /**
+   * The CSS class name for the editor when it’s empty.
+   * @default 'is-editor-empty'
+   */
   emptyEditorClass: string
+
+  /**
+   * The CSS class name for an empty node.
+   * @default 'is-empty'
+   */
   emptyNodeClass: string
+
+  /**
+   * The placeholder text or a function to return the placeholder text.
+   * @default 'Write something …'
+   * @example (pos) => `Write something at ${pos} …`
+   */
   placeholder:
     | ((PlaceholderProps: {
         editor: Editor
@@ -14,11 +29,34 @@ export interface PlaceholderOptions {
         hasAnchor: boolean
       }) => string)
     | string
+
+  /**
+   * Show the placeholder only when the editor is editable.
+   * @default true
+   * @example false
+   */
   showOnlyWhenEditable: boolean
+
+  /**
+   * Show the placeholder only when the current node is empty.
+   * @default true
+   * @example false
+   */
   showOnlyCurrent: boolean
+
+  /**
+   * Include children when checking if a node is empty.
+   * @default false
+   * @example true
+   */
   includeChildren: boolean
 }
 
+/**
+ * This extension allows you to add a placeholder to your editor.
+ * A placeholder is a text that appears when the editor or a node is empty.
+ * @see https://www.tiptap.dev/api/extensions/placeholder
+ */
 export const Placeholder = Extension.create<PlaceholderOptions>({
   name: 'placeholder',
 

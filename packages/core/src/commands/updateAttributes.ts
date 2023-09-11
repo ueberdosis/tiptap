@@ -10,9 +10,19 @@ declare module '@tiptap/core' {
     updateAttributes: {
       /**
        * Update attributes of a node or mark.
+       * @param typeOrName The type or name of the node or mark.
+       * @param attributes The attributes of the node or mark.
+       * @example editor.commands.updateAttributes('mention', { userId: "2" })
        */
       updateAttributes: (
+        /**
+         * The type or name of the node or mark.
+         */
         typeOrName: string | NodeType | MarkType,
+
+        /**
+         * The attributes of the node or mark.
+         */
         attributes: Record<string, any>,
       ) => ReturnType
     }

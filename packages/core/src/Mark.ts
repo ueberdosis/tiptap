@@ -26,22 +26,40 @@ declare module '@tiptap/core' {
     [key: string]: any
 
     /**
-     * Name
+     * The extension name - this must be unique.
+     * It will be used to identify the extension.
+     *
+     * @example 'myExtension'
      */
     name: string
 
     /**
-     * Priority
+     * The priority of your extension. The higher, the later it will be called
+     * and will take precedence over other extensions with a lower priority.
+     * @default 1000
+     * @example 1001
      */
     priority?: number
 
     /**
-     * Default options
+     * The default options for this extension.
+     * @example
+     * defaultOptions: {
+     *   myOption: 'foo',
+     *   myOtherOption: 10,
+     * }
      */
     defaultOptions?: Options
 
     /**
-     * Default Options
+     * This method will add options to this extension
+     * @see https://tiptap.dev/guide/custom-extensions#settings
+     * @example
+     * addOptions() {
+     *  return {
+     *    myOption: 'foo',
+     *    myOtherOption: 10,
+     * }
      */
     addOptions?: (this: {
       name: string
@@ -49,7 +67,13 @@ declare module '@tiptap/core' {
     }) => Options
 
     /**
-     * Default Storage
+     * The default storage this extension can save data to.
+     * @see https://tiptap.dev/guide/custom-extensions#storage
+     * @example
+     * defaultStorage: {
+     *   prefetchedUsers: [],
+     *   loading: false,
+     * }
      */
     addStorage?: (this: {
       name: string
@@ -58,7 +82,30 @@ declare module '@tiptap/core' {
     }) => Storage
 
     /**
-     * Global attributes
+     * This function adds globalAttributes to specific nodes.
+     * @see https://tiptap.dev/guide/custom-extensions#global-attributes
+     * @example
+     * addGlobalAttributes() {
+     *   return [
+     *     {
+             // Extend the following extensions
+     *       types: [
+     *         'heading',
+     *         'paragraph',
+     *       ],
+     *       // … with those attributes
+     *       attributes: {
+     *         textAlign: {
+     *           default: 'left',
+     *           renderHTML: attributes => ({
+     *             style: `text-align: ${attributes.textAlign}`,
+     *           }),
+     *           parseHTML: element => element.style.textAlign || 'left',
+     *         },
+     *       },
+     *     },
+     *   ]
+     * }
      */
     addGlobalAttributes?: (this: {
       name: string
@@ -68,7 +115,14 @@ declare module '@tiptap/core' {
     }) => GlobalAttributes | {}
 
     /**
-     * Raw
+     * This function adds commands to the editor
+     * @see https://tiptap.dev/guide/custom-extensions#keyboard-shortcuts
+     * @example
+     * addCommands() {
+     *   return {
+     *     myCommand: () => ({ chain }) => chain().setMark('type', 'foo').run(),
+     *   }
+     * }
      */
     addCommands?: (this: {
       name: string
@@ -80,7 +134,14 @@ declare module '@tiptap/core' {
     }) => Partial<RawCommands>
 
     /**
-     * Keyboard shortcuts
+     * This function registers keyboard shortcuts.
+     * @see https://tiptap.dev/guide/custom-extensions#keyboard-shortcuts
+     * @example
+     * addKeyboardShortcuts() {
+     *   return {
+     *     'Mod-l': () => this.editor.commands.toggleBulletList(),
+     *   }
+     * },
      */
     addKeyboardShortcuts?: (this: {
       name: string
@@ -94,7 +155,17 @@ declare module '@tiptap/core' {
     }
 
     /**
-     * Input rules
+     * This function adds input rules to the editor.
+     * @see https://tiptap.dev/guide/custom-extensions#input-rules
+     * @example
+     * addInputRules() {
+     *   return [
+     *     markInputRule({
+     *       find: inputRegex,
+     *       type: this.type,
+     *     }),
+     *   ]
+     * },
      */
     addInputRules?: (this: {
       name: string
@@ -106,7 +177,17 @@ declare module '@tiptap/core' {
     }) => InputRule[]
 
     /**
-     * Paste rules
+     * This function adds paste rules to the editor.
+     * @see https://tiptap.dev/guide/custom-extensions#paste-rules
+     * @example
+     * addPasteRules() {
+     *   return [
+     *     markPasteRule({
+     *       find: pasteRegex,
+     *       type: this.type,
+     *     }),
+     *   ]
+     * },
      */
     addPasteRules?: (this: {
       name: string
@@ -118,7 +199,14 @@ declare module '@tiptap/core' {
     }) => PasteRule[]
 
     /**
-     * ProseMirror plugins
+     * This function adds Prosemirror plugins to the editor
+     * @see https://tiptap.dev/guide/custom-extensions#prosemirror-plugins
+     * @example
+     * addProseMirrorPlugins() {
+     *   return [
+     *     customPlugin(),
+     *   ]
+     * }
      */
     addProseMirrorPlugins?: (this: {
       name: string
@@ -130,7 +218,16 @@ declare module '@tiptap/core' {
     }) => Plugin[]
 
     /**
-     * Extensions
+     * This function adds additional extensions to the editor. This is useful for
+     * building extension kits.
+     * @example
+     * addExtensions() {
+     *   return [
+     *     BulletList,
+     *     OrderedList,
+     *     ListItem
+     *   ]
+     * }
      */
     addExtensions?: (this: {
       name: string
@@ -140,7 +237,14 @@ declare module '@tiptap/core' {
     }) => Extensions
 
     /**
-     * Extend Node Schema
+     * This function extends the schema of the node.
+     * @example
+     * extendNodeSchema() {
+     *   return {
+     *     group: 'inline',
+     *     selectable: false,
+     *   }
+     * }
      */
     extendNodeSchema?:
       | ((
@@ -155,7 +259,14 @@ declare module '@tiptap/core' {
       | null
 
     /**
-     * Extend Mark Schema
+     * This function extends the schema of the mark.
+     * @example
+     * extendMarkSchema() {
+     *   return {
+     *     group: 'inline',
+     *     selectable: false,
+     *   }
+     * }
      */
     extendMarkSchema?:
       | ((
@@ -414,6 +525,10 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * The Mark class is used to create custom mark extensions.
+ * @see https://tiptap.dev/api/extensions#create-a-new-extension
+ */
 export class Mark<Options = any, Storage = any> {
   type = 'mark'
 

@@ -7,6 +7,7 @@ declare module '@tiptap/core' {
     createParagraphNear: {
       /**
        * Create a paragraph nearby.
+       * @example editor.commands.createParagraphNear()
        */
       createParagraphNear: () => ReturnType
     }

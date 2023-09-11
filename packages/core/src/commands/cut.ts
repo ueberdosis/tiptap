@@ -7,6 +7,11 @@ declare module '@tiptap/core' {
     cut: {
       /**
        * Cuts content from a range and inserts it at a given position.
+       * @param range The range to cut.
+       * @param range.from The start position of the range.
+       * @param range.to The end position of the range.
+       * @param targetPos The position to insert the content at.
+       * @example editor.commands.cut({ from: 1, to: 3 }, 5)
        */
       cut: ({ from, to }: { from: number, to: number }, targetPos: number) => ReturnType,
     }

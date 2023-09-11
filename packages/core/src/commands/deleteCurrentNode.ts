@@ -5,6 +5,7 @@ declare module '@tiptap/core' {
     deleteCurrentNode: {
       /**
        * Delete the node that currently has the selection anchor.
+       * @example editor.commands.deleteCurrentNode()
        */
       deleteCurrentNode: () => ReturnType,
     }

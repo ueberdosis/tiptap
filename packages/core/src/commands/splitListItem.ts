@@ -13,6 +13,8 @@ declare module '@tiptap/core' {
     splitListItem: {
       /**
        * Splits one list item into two list items.
+       * @param typeOrName The type or name of the node.
+       * @example editor.commands.splitListItem('listItem')
        */
       splitListItem: (typeOrName: string | NodeType) => ReturnType
     }

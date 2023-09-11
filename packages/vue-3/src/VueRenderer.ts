@@ -8,6 +8,9 @@ export interface VueRendererOptions {
   props?: Record<string, any>,
 }
 
+/**
+ * This class is used to render Vue components inside the editor.
+ */
 export class VueRenderer {
   id: string
 

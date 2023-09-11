@@ -7,6 +7,7 @@ declare module '@tiptap/core' {
     selectNodeBackward: {
       /**
        * Select a node backward.
+       * @example editor.commands.selectNodeBackward()
        */
       selectNodeBackward: () => ReturnType
     }

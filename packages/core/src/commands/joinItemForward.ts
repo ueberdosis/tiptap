@@ -6,7 +6,8 @@ declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     joinItemForward: {
       /**
-       * Join two nodes Forwards.
+       * Join two items Forwards.
+       * @example editor.commands.joinItemForward()
        */
       joinItemForward: () => ReturnType
     }

@@ -9,6 +9,7 @@ declare module '@tiptap/core' {
     selectTextblockEnd: {
       /**
        * Moves the cursor to the end of current text block.
+       * @example editor.commands.selectTextblockEnd()
        */
       selectTextblockEnd: () => ReturnType
     }

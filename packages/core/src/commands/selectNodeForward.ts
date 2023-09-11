@@ -7,6 +7,7 @@ declare module '@tiptap/core' {
     selectNodeForward: {
       /**
        * Select a node forward.
+       * @example editor.commands.selectNodeForward()
        */
       selectNodeForward: () => ReturnType
     }

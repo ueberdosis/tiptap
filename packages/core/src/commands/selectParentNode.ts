@@ -7,6 +7,7 @@ declare module '@tiptap/core' {
     selectParentNode: {
       /**
        * Select the parent node.
+       * @example editor.commands.selectParentNode()
        */
       selectParentNode: () => ReturnType
     }

@@ -5,6 +5,7 @@ declare module '@tiptap/core' {
     unsetAllMarks: {
       /**
        * Remove all marks in the current selection.
+       * @example editor.commands.unsetAllMarks()
        */
       unsetAllMarks: () => ReturnType,
     }

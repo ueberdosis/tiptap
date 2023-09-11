@@ -9,6 +9,9 @@ declare module '@tiptap/core' {
     wrapInList: {
       /**
        * Wrap a node in a list.
+       * @param typeOrName The type or name of the node.
+       * @param attributes The attributes of the node.
+       * @example editor.commands.wrapInList('bulletList')
        */
       wrapInList: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType
     }

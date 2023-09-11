@@ -5,6 +5,7 @@ declare module '@tiptap/core' {
     blur: {
       /**
        * Removes focus from the editor.
+       * @example editor.commands.blur()
        */
       blur: () => ReturnType,
     }

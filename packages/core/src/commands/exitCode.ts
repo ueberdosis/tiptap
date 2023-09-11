@@ -7,6 +7,7 @@ declare module '@tiptap/core' {
     exitCode: {
       /**
        * Exit from a code block.
+       * @example editor.commands.exitCode()
        */
       exitCode: () => ReturnType
     }

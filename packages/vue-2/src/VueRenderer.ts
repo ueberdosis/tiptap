@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import { VueConstructor } from 'vue/types/umd'
 
+/**
+ * The VueRenderer class is responsible for rendering a Vue component as a ProseMirror node view.
+ */
 export class VueRenderer {
   ref!: Vue
 

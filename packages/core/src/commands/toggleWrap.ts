@@ -9,6 +9,9 @@ declare module '@tiptap/core' {
     toggleWrap: {
       /**
        * Wraps nodes in another node, or removes an existing wrap.
+       * @param typeOrName The type or name of the node.
+       * @param attributes The attributes of the node.
+       * @example editor.commands.toggleWrap('blockquote')
        */
       toggleWrap: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType
     }

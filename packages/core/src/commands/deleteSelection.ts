@@ -7,6 +7,7 @@ declare module '@tiptap/core' {
     deleteSelection: {
       /**
        * Delete the selection, if there is one.
+       * @example editor.commands.deleteSelection()
        */
       deleteSelection: () => ReturnType
     }

@@ -9,9 +9,16 @@ declare module '@tiptap/core' {
     unsetMark: {
       /**
        * Remove all marks in the current selection.
+       * @param typeOrName The mark type or name.
+       * @param options.extendEmptyMarkRange Removes the mark even across the current selection. Defaults to `false`.
+       * @example editor.commands.unsetMark('bold')
        */
       unsetMark: (
+        /**
+         * The mark type or name.
+         */
         typeOrName: string | MarkType,
+
         options?: {
           /**
            * Removes the mark even across the current selection. Defaults to `false`.

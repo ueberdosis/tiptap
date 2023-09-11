@@ -1,6 +1,11 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 
 export interface SuperscriptExtensionOptions {
+  /**
+   * HTML attributes to add to the superscript element.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Object,
 }
 
@@ -9,20 +14,27 @@ declare module '@tiptap/core' {
     superscript: {
       /**
        * Set a superscript mark
+       * @example editor.commands.setSuperscript()
        */
       setSuperscript: () => ReturnType,
       /**
        * Toggle a superscript mark
+       * @example editor.commands.toggleSuperscript()
        */
       toggleSuperscript: () => ReturnType,
       /**
        * Unset a superscript mark
+       *  @example editor.commands.unsetSuperscript()
        */
       unsetSuperscript: () => ReturnType,
     }
   }
 }
 
+/**
+ * This extension allows you to create superscript text.
+ * @see https://www.tiptap.dev/api/marks/superscript
+ */
 export const Superscript = Mark.create<SuperscriptExtensionOptions>({
   name: 'superscript',
 

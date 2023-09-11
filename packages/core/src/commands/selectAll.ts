@@ -5,6 +5,7 @@ declare module '@tiptap/core' {
     selectAll: {
       /**
        * Select the whole document.
+       * @example editor.commands.selectAll()
        */
       selectAll: () => ReturnType,
     }
