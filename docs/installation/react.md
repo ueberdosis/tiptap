@@ -68,7 +68,7 @@ export default Tiptap
 
 ```jsx
 // src/Tiptap.jsx
-import { useEditor, EditorContent FloatingMenu, BubbleMenu } from '@tiptap/react'
+import { useEditor, EditorContent, FloatingMenu, BubbleMenu } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
 // define your extension array
