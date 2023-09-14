@@ -3,7 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.2.0-rc.3](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.2...v2.2.0-rc.3) (2023-08-18)
+## [2.1.8](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.7...v2.1.8) (2023-09-04)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.7](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.6...v2.1.7) (2023-09-04)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
 
 **Note:** Version bump only for package tiptap-demos
 

@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.2.0-rc.3](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.2...v2.2.0-rc.3) (2023-08-18)
+## [2.1.8](https://github.com/ueberdosis/tiptap/compare/v2.1.7...v2.1.8) (2023-09-04)
 
 **Note:** Version bump only for package @tiptap/extension-horizontal-rule
 
@@ -11,34 +11,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [2.2.0-rc.2](https://github.com/ueberdosis/tiptap/compare/v2.1.6...v2.2.0-rc.2) (2023-08-18)
+## [2.1.7](https://github.com/ueberdosis/tiptap/compare/v2.1.6...v2.1.7) (2023-09-04)
 
 
+### Bug Fixes
 
-# [2.2.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.0...v2.2.0-rc.1) (2023-08-18)
-
-
-
-# [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
-
-**Note:** Version bump only for package @tiptap/extension-horizontal-rule
-
-
-
-
-
-# [2.2.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.0...v2.2.0-rc.1) (2023-08-18)
-
-**Note:** Version bump only for package @tiptap/extension-horizontal-rule
-
-
-
-
-
-# [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
-
-**Note:** Version bump only for package @tiptap/extension-horizontal-rule
-
+* **horizontal-rule:** fix insertion being broken on empty docs ([#4375](https://github.com/ueberdosis/tiptap/issues/4375)) ([2a83166](https://github.com/ueberdosis/tiptap/commit/2a83166a46f97a9fc42ae23ce5367bb58bcdab74))
 
 
 
