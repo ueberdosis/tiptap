@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.9](https://github.com/ueberdosis/tiptap/compare/v2.1.8...v2.1.9) (2023-09-14)
+
+
+### Bug Fixes
+
+* add missing attributes in extension-link ([#4429](https://github.com/ueberdosis/tiptap/issues/4429)) ([74b6444](https://github.com/ueberdosis/tiptap/commit/74b644438829d6ee9b0795bc70c55f2755d7438c))
+
+
+
+
+
 ## [2.1.8](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.7...v2.1.8) (2023-09-04)
 
 **Note:** Version bump only for package tiptap
