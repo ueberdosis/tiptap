@@ -1,6 +1,6 @@
 {
   "name": "tiptap-demos",
-  "version": "2.1.11",
+  "version": "2.1.10",
   "private": true,
   "scripts": {
     "start": "vite --host",
