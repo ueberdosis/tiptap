@@ -33,17 +33,21 @@ export class PasteRule {
     commands: SingleCommands
     chain: () => ChainedCommands
     can: () => CanCommands
+    pasteEvent: ClipboardEvent
+    dropEvent: DragEvent
   }) => void | null
 
   constructor(config: {
     find: PasteRuleFinder
     handler: (props: {
-      state: EditorState
-      range: Range
-      match: ExtendedRegExpMatchArray
-      commands: SingleCommands
-      chain: () => ChainedCommands
       can: () => CanCommands
+      chain: () => ChainedCommands
+      commands: SingleCommands
+      dropEvent: DragEvent
+      match: ExtendedRegExpMatchArray
+      pasteEvent: ClipboardEvent
+      range: Range
+      state: EditorState
     }) => void | null
   }) {
     this.find = config.find
@@ -92,9 +96,11 @@ function run(config: {
   from: number
   to: number
   rule: PasteRule
+  pasteEvent: ClipboardEvent
+  dropEvent: DragEvent
 }): boolean {
   const {
-    editor, state, from, to, rule,
+    editor, state, from, to, rule, pasteEvent, dropEvent,
   } = config
 
   const { commands, chain, can } = new CommandManager({
@@ -134,6 +140,8 @@ function run(config: {
         commands,
         chain,
         can,
+        pasteEvent,
+        dropEvent,
       })
 
       handlers.push(handler)
@@ -155,6 +163,8 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
   let dragSourceElement: Element | null = null
   let isPastedFromProseMirror = false
   let isDroppedFromProseMirror = false
+  let pasteEvent = new ClipboardEvent('paste')
+  let dropEvent = new DragEvent('drop')
 
   const plugins = rules.map(rule => {
     return new Plugin({
@@ -177,14 +187,17 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
 
       props: {
         handleDOMEvents: {
-          drop: view => {
+          drop: (view, event: Event) => {
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
+            dropEvent = event as DragEvent
 
             return false
           },
 
-          paste: (view, event: Event) => {
+          paste: (_view, event: Event) => {
             const html = (event as ClipboardEvent).clipboardData?.getData('text/html')
+
+            pasteEvent = event as ClipboardEvent
 
             isPastedFromProseMirror = !!html?.includes('data-pm-slice')
 
@@ -224,12 +237,17 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           from: Math.max(from - 1, 0),
           to: to.b - 1,
           rule,
+          pasteEvent,
+          dropEvent,
         })
 
         // stop if there are no changes
         if (!handler || !tr.steps.length) {
           return
         }
+
+        dropEvent = new DragEvent('drop')
+        pasteEvent = new ClipboardEvent('paste')
 
         return tr
       },

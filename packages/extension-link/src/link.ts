@@ -1,10 +1,9 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
-import { registerCustomProtocol, reset } from 'linkifyjs'
+import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
-import { pasteHandler } from './helpers/pasteHandler.js'
 
 export interface LinkProtocolOptions {
   scheme: string;
@@ -149,6 +148,44 @@ export const Link = Mark.create<LinkOptions>({
     }
   },
 
+  addPasteRules() {
+    return [
+      markPasteRule({
+        find: text => find(text)
+          .filter(link => {
+            if (this.options.validate) {
+              return this.options.validate(link.value)
+            }
+
+            return true
+          })
+          .filter(link => link.isLink)
+          .map(link => ({
+            text: link.value,
+            index: link.start,
+            data: link,
+          })),
+        type: this.type,
+        getAttributes: (match, pasteEvent) => {
+          const html = pasteEvent.clipboardData?.getData('text/html')
+          const hrefRegex = /href="([^"]*)"/
+
+          const existingLink = html?.match(hrefRegex)
+
+          if (existingLink) {
+            return {
+              href: existingLink[1],
+            }
+          }
+
+          return {
+            href: match.data?.href,
+          }
+        },
+      }),
+    ]
+  },
+
   addProseMirrorPlugins() {
     const plugins: Plugin[] = []
 
@@ -168,14 +205,6 @@ export const Link = Mark.create<LinkOptions>({
         }),
       )
     }
-
-    plugins.push(
-      pasteHandler({
-        editor: this.editor,
-        type: this.type,
-        linkOnPaste: this.options.linkOnPaste,
-      }),
-    )
 
     return plugins
   },
