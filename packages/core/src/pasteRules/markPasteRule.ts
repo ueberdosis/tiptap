@@ -14,14 +14,16 @@ export function markPasteRule(config: {
   type: MarkType
   getAttributes?:
     | Record<string, any>
-    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
+    | ((match: ExtendedRegExpMatchArray, event: ClipboardEvent) => Record<string, any>)
     | false
     | null
 }) {
   return new PasteRule({
     find: config.find,
-    handler: ({ state, range, match }) => {
-      const attributes = callOrReturn(config.getAttributes, undefined, match)
+    handler: ({
+      state, range, match, pasteEvent,
+    }) => {
+      const attributes = callOrReturn(config.getAttributes, undefined, match, pasteEvent)
 
       if (attributes === false || attributes === null) {
         return null
