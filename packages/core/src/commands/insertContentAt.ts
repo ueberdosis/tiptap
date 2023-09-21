@@ -89,6 +89,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
         tr.insertText(value as string, from, to)
       }
     } else {
+      console.log(content)
       tr.replaceWith(from, to, content)
     }
 
