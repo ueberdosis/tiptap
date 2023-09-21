@@ -7,13 +7,19 @@ import { EditorProvider, useCurrentEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
-const htmlContent = `<h1><a href="https://tiptap.dev/">Tiptap</a></h1>
-<p><strong>Hello World</strong></p>`
+const htmlContent = `
+  <h1><a href="https://tiptap.dev/">Tiptap</a></h1>
+  <p><strong>Hello World</strong></p>
+  <p>This is a paragraph<br />with a break.</p>
+  <p>And this is some additional string content.</p>
+`
 
 const textContent = `Hello World
 This is content with a new line. Is this working?
 
-Lets see if multiple new lines are inserted correctly`
+Lets see if multiple new lines are inserted correctly
+
+And more lines`
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor()
@@ -24,10 +30,10 @@ const MenuBar = () => {
 
   return (
     <>
-      <button testId="html-content" onClick={() => editor.chain().insertContent(htmlContent).focus().run()}>
+      <button data-test-id="html-content" onClick={() => editor.chain().insertContent(htmlContent).focus().run()}>
         Insert html content
       </button>
-      <button testId="text-content" onClick={() => editor.chain().insertContent(textContent).focus().run()}>
+      <button data-test-id="text-content" onClick={() => editor.chain().insertContent(textContent).focus().run()}>
         Insert text content
       </button>
     </>
