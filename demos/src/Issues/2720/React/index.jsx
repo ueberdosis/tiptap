@@ -13,9 +13,7 @@ const htmlContent = `<h1><a href="https://tiptap.dev/">Tiptap</a></h1>
 const textContent = `Hello World
 This is content with a new line. Is this working?
 
-Lets see if multiple new lines are inserted correctly
-
-Test`
+Lets see if multiple new lines are inserted correctly`
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor()
@@ -26,10 +24,10 @@ const MenuBar = () => {
 
   return (
     <>
-      <button onClick={() => editor.chain().insertContent(htmlContent).focus().run()}>
+      <button testId="html-content" onClick={() => editor.chain().insertContent(htmlContent).focus().run()}>
         Insert html content
       </button>
-      <button onClick={() => editor.chain().insertContent(textContent).focus().run()}>
+      <button testId="text-content" onClick={() => editor.chain().insertContent(textContent).focus().run()}>
         Insert text content
       </button>
       <button
