@@ -148,7 +148,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 }
 
 // EditorContent should be re-created whenever the Editor instance changes
-const EditorContentWithKey = React.forwardRef((props: EditorContentProps, ref: React.RefObject<any>) => {
+const EditorContentWithKey = React.forwardRef((props: EditorContentProps, ref: React.ForwardedRef<any>) => {
   const key = React.useMemo(() => {
     return Math.floor(Math.random() * 0xFFFFFFFF).toString()
   }, [props.editor])
