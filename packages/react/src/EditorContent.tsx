@@ -155,6 +155,6 @@ const EditorContentWithKey = React.forwardRef((props: EditorContentProps, ref: R
 
   // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
   return React.createElement(PureEditorContent, { key, ref, ...props })
-}
+})
 
 export const EditorContent = React.memo(EditorContentWithKey)
