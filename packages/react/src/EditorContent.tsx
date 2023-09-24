@@ -148,13 +148,13 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 }
 
 // EditorContent should be re-created whenever the Editor instance changes
-const EditorContentWithKey = (props: EditorContentProps) => {
+const EditorContentWithKey = React.forwardRef((props: EditorContentProps, ref: React.RefObject<any>) => {
   const key = React.useMemo(() => {
     return Math.floor(Math.random() * 0xFFFFFFFF).toString()
   }, [props.editor])
 
   // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
-  return React.createElement(PureEditorContent, { key, ...props })
+  return React.createElement(PureEditorContent, { key, ref, ...props })
 }
 
 export const EditorContent = React.memo(EditorContentWithKey)
