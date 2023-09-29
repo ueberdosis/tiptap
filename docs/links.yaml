@@ -358,10 +358,16 @@
           link: /api/extensions/collaboration
         - title: CollaborationCursor
           link: /api/extensions/collaboration-cursor
+        - title: CollaborationHistory
+          link: /api/extensions/collaboration-history
+          type: new
         - title: Color
           link: /api/extensions/color
         - title: Dropcursor
           link: /api/extensions/dropcursor
+        - title: FileHandler
+          link: /api/extensions/file-handler
+          type: new
         - title: FloatingMenu
           link: /api/extensions/floating-menu
         - title: Focus

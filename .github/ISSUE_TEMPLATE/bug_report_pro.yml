@@ -1,6 +1,6 @@
-name: Bug report (Tiptap Pro)
+name: Bug report (Tiptap Pro feature)
 title: "[PRO]: "
-description: You are a Tiptap Pro user and have found a bug with one of the Tiptap Pro functionalities? Feel free to report your issue here
+description: You have found a bug in one of the features of Tiptap Pro? Feel free to report your issue here.
 assignees:
   - bdbch
   - svenadlung
