@@ -67,7 +67,7 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     return `${getYoutubeEmbedUrl(nocookie)}${id}`
   }
 
-  const videoIdRegex = /v=([-\w]+)/gm
+  const videoIdRegex = /(?:v=|shorts\/)([-\w]+)/gm
   const matches = videoIdRegex.exec(url)
 
   if (!matches || !matches[1]) {
