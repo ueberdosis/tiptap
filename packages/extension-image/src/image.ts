@@ -55,6 +55,12 @@ export const Image = Node.create<ImageOptions>({
       title: {
         default: null,
       },
+      style: {
+        default: null,
+      },
+      id: {
+        default: null,
+      },
     }
   },
 
