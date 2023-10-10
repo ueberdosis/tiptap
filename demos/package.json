@@ -30,7 +30,7 @@
     "@vitejs/plugin-vue": "^1.10.2",
     "autoprefixer": "^10.4.2",
     "iframe-resizer": "^4.3.2",
-    "postcss": "^8.4.6",
+    "postcss": "^8.4.31",
     "postcss-import": "^15.1.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
