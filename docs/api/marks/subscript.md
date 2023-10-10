@@ -7,7 +7,11 @@ icon: subscript
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-subscript.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-subscript)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-subscript.svg)](https://npmcharts.com/compare/@tiptap/extension-subscript?minimal=true)
 
-Use this extension to render text in <sub>subscript</sub>. If you pass `<sub>` or text with `vertical-align: sub` as inline style in the editor’s initial content, both will be normalized to a `<sub>` HTML tag.
+Use this extension to render text in <sub>subscript</sub>. If you pass `<sub>` or text with `vertical-align: sub` as inline style in the editor’s initial content, both will be rendered accordingly.
+
+::: warning Restrictions
+The extension will generate the corresponding `<sub>` HTML tags when reading contents of the `Editor` instance. All text in subscript, regardless of the method will be normalized to `<sub>` HTML tags.
+:::
 
 ## Installation
 ```bash

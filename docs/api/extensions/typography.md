@@ -28,6 +28,7 @@ npm install @tiptap/extension-typography
 | copyright           | Converts `(c)` to a copyright sign `©`.                                                 |
 | registeredTrademark | Converts `(r)` to registered trademark sign `®`.                                        |
 | trademark           | Converts `(tm)` to registered trademark sign `™`.                                       |
+| servicemark         | Converts `(sm)` to registered trademark sign `℠`.                                       |
 | oneHalf             | Converts `1/2` to one half `½`.                                                         |
 | oneQuarter          | Converts `1/4` to one quarter `¼`.                                                      |
 | threeQuarters       | Converts `3/4` to three quarters `¾`.                                                   |
@@ -65,6 +66,24 @@ const editor = new Editor({
       oneHalf: false,
       oneQuarter: false,
       threeQuarters: false,
+    }),
+  ],
+})
+```
+
+### Overriding rules
+
+You can override the output of a rule by passing a string to the option you want to override.
+
+```js
+import { Editor } from '@tiptap/core'
+import Typography from '@tiptap/extension-typography'
+
+const editor = new Editor({
+  extensions: [
+    // Disable some included rules
+    Typography.configure({
+      oneHalf: "1 / 2", // this will insert "1 / 2" instead of the default "½"
     }),
   ],
 })

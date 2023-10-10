@@ -10,6 +10,14 @@ The type of node that should be used for the wrapping list
 
 The type of node that should be used for the list items
 
+`keepMarks?: boolean`
+
+If marks should be kept as list items or not
+
+`attributes?: Record<string, any>`
+
+The attributes that should be applied to the list. **This is optional.**
+
 ## Usage
 ```js
 // toggle a bullet list with list items

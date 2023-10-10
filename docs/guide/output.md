@@ -78,7 +78,7 @@ Sure, you can import existing JSON documents to get started and get a JSON out o
 That said, it’s amazing and we’re about to provide an amazing backend, that makes all that a breeze.
 
 ### Not an option: Markdown
-Unfortunately, **tiptap doesn’t support Markdown as an input or output format**. We considered to add support for it, but those are the reasons why we decided to not do it:
+Unfortunately, **Tiptap doesn’t support Markdown as an input or output format**. We considered to add support for it, but those are the reasons why we decided to not do it:
 
 * Both, HTML and JSON, can have deeply nested structures, Markdown is flat.
 * Markdown standards vary.
@@ -115,7 +115,7 @@ To render the saved content, set the editor to read-only. That’s how you can a
 https://embed.tiptap.dev/preview/GuideContent/ReadOnly
 
 ### Option 2: Generate HTML from ProseMirror JSON
-If you need to render the content on the server side, for example to generate the HTML for a blog post which has been written in Tiptap, you’ll probably want to do just that without an actual editor instance.
+If you need to render the content on the server side, for example to generate the HTML for a blog post, which has been written in Tiptap, you’ll probably want to do just that without an actual editor instance.
 
 That’s what the `generateHTML()` is for. It’s a helper function which renders HTML without an actual editor instance.
 

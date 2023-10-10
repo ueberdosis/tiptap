@@ -1,7 +1,7 @@
-import { TextSelection } from 'prosemirror-state'
+import { TextSelection } from '@tiptap/pm/state'
 
-import { Range, RawCommands } from '../types'
-import { minMax } from '../utilities/minMax'
+import { Range, RawCommands } from '../types.js'
+import { minMax } from '../utilities/minMax.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
       /**
        * Creates a TextSelection.
        */
-      setTextSelection: (position: number | Range) => ReturnType,
+      setTextSelection: (position: number | Range) => ReturnType
     }
   }
 }
@@ -17,9 +17,7 @@ declare module '@tiptap/core' {
 export const setTextSelection: RawCommands['setTextSelection'] = position => ({ tr, dispatch }) => {
   if (dispatch) {
     const { doc } = tr
-    const { from, to } = typeof position === 'number'
-      ? { from: position, to: position }
-      : position
+    const { from, to } = typeof position === 'number' ? { from: position, to: position } : position
     const minPos = TextSelection.atStart(doc).from
     const maxPos = TextSelection.atEnd(doc).to
     const resolvedFrom = minMax(from, minPos, maxPos)

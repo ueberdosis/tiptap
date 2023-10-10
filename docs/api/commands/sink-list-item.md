@@ -3,5 +3,5 @@ The `sinkListItem` will try to sink the list item around the current selection d
 
 ## Usage
 ```js
-editor.commands.liftListItem()
+editor.commands.sinkListItem()
 ```

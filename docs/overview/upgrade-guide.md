@@ -7,6 +7,8 @@ tableOfContents: true
 ## Introduction
 First of all, Tiptap v1 isn’t supported anymore and won’t receive any further updates.
 
+If you’re still using Tiptap v1, you can find the documentation [here](https://v1.tiptap.dev/), but we strongly recommend that you upgrade to version 2.
+
 Yes, it’s tedious work to upgrade your favorite text editor to a new API, but we made sure you’ve got enough reasons to upgrade to the newest version.
 
 * Autocompletion in your IDE (thanks to TypeScript)
@@ -28,10 +30,10 @@ npm uninstall tiptap tiptap-commands tiptap-extensions tiptap-utils
 
 ## Install Tiptap v2
 
-Once you have uninstalled the old version of Tiptap, install the new Vue 2 package and the starter kit:
+Once you have uninstalled the old version of Tiptap, install the new Vue 2 package, the ProseMirror library and the starter kit:
 
 ```bash
-npm install @tiptap/vue-2 @tiptap/starter-kit
+npm install @tiptap/vue-2 @tiptap/pm @tiptap/starter-kit
 ```
 
 ## Keep Tiptap v2 up to date
@@ -45,7 +47,7 @@ npm-check -u
 ```
 
 ## Explicitly register the Document, Text and Paragraph extensions
-tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [`Document`](/api/nodes/document), [`Paragraph`](/api/nodes/paragraph) and [`Text`](/api/nodes/text) extensions.
+Tiptap 1 tried to hide a few required extensions from you with the default setting `useBuiltInExtensions: true`. That setting has been removed and you’re required to import all extensions. Be sure to explicitly import at least the [`Document`](/api/nodes/document), [`Paragraph`](/api/nodes/paragraph) and [`Text`](/api/nodes/text) extensions.
 
 ```js
 import Document from '@tiptap/extension-document'
@@ -183,6 +185,6 @@ Read more about [the new collaborative editing experience](/guide/collaborative-
 For marks, node views are [not well supported in ProseMirror](https://discuss.prosemirror.net/t/there-is-a-bug-in-marks-nodeview/2722/2). There is also [a related issue](https://github.com/ueberdosis/tiptap/issues/613) for Tiptap 1. That’s why we removed it in Tiptap 2.
 
 ## Become a sponsor
-tiptap wouldn’t exist without the funding of its community. If you fell in love with Tiptap, don’t forget to [become a sponsor](/sponsor) and make the maintenance, development and support sustainable.
+Tiptap wouldn’t exist without the funding of its community. If you fell in love with Tiptap, don’t forget to [become a sponsor](/sponsor) and make the maintenance, development and support sustainable.
 
 In exchange, we’ll take you into our hearts, invite you to private repositories, add a `sponsor ♥` label to your issues and pull requests and more.

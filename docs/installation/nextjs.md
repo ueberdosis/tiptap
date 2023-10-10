@@ -25,10 +25,10 @@ cd my-tiptap-project
 ```
 
 ## 2. Install the dependencies
-Now that we have a standard boilerplate set up we can get started on getting Tiptap up and running! For this we will need to install two packages: `@tiptap/react` and `@tiptap/starter-kit` which includes all the extensions you need to get started quickly.
+Now that we have a standard boilerplate set up we can get started on getting Tiptap up and running! For this we will need to install three packages: `@tiptap/react`, `@tiptap/pm` and `@tiptap/starter-kit` which includes all the extensions you need to get started quickly.
 
 ```bash
-npm install @tiptap/react @tiptap/starter-kit
+npm install @tiptap/react @tiptap/pm @tiptap/starter-kit
 ```
 
 If you followed step 1 and 2, you can now start your project with `npm run dev`, and open [http://localhost:3000/](http://localhost:3000/) in your favorite browser. This might be different, if you’re working with an existing project.
@@ -37,6 +37,8 @@ If you followed step 1 and 2, you can now start your project with `npm run dev`,
 To actually start using Tiptap, you’ll need to add a new component to your app. To do this, first create a directory called `components/`. Now it's time to create our component which we'll call `Tiptap`. To do this put the following example code in `components/Tiptap.js`.
 
 ```jsx
+'use client'
+
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
@@ -53,7 +55,7 @@ const Tiptap = () => {
   )
 }
 
-export default Tiptap;
+export default Tiptap
 ```
 
 ## 4. Add it to your app

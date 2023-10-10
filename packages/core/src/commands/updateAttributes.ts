@@ -1,9 +1,9 @@
-import { MarkType, NodeType } from 'prosemirror-model'
+import { MarkType, NodeType } from '@tiptap/pm/model'
 
-import { getMarkType } from '../helpers/getMarkType'
-import { getNodeType } from '../helpers/getNodeType'
-import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName'
-import { RawCommands } from '../types'
+import { getMarkType } from '../helpers/getMarkType.js'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -11,7 +11,10 @@ declare module '@tiptap/core' {
       /**
        * Update attributes of a node or mark.
        */
-      updateAttributes: (typeOrName: string | NodeType | MarkType, attributes: Record<string, any>) => ReturnType,
+      updateAttributes: (
+        typeOrName: string | NodeType | MarkType,
+        attributes: Record<string, any>,
+      ) => ReturnType
     }
   }
 }
@@ -21,9 +24,7 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
   let markType: MarkType | null = null
 
   const schemaType = getSchemaTypeNameByName(
-    typeof typeOrName === 'string'
-      ? typeOrName
-      : typeOrName.name,
+    typeof typeOrName === 'string' ? typeOrName : typeOrName.name,
     state.schema,
   )
 
@@ -58,10 +59,14 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
               const trimmedFrom = Math.max(pos, from)
               const trimmedTo = Math.min(pos + node.nodeSize, to)
 
-              tr.addMark(trimmedFrom, trimmedTo, markType.create({
-                ...mark.attrs,
-                ...attributes,
-              }))
+              tr.addMark(
+                trimmedFrom,
+                trimmedTo,
+                markType.create({
+                  ...mark.attrs,
+                  ...attributes,
+                }),
+              )
             }
           })
         }

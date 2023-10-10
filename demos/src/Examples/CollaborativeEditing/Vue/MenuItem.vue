@@ -47,25 +47,25 @@ export default {
 
 <style lang="scss">
 .menu-item {
-  width: 1.75rem;
-  height: 1.75rem;
-  color: #0D0D0D;
+  background: transparent;
   border: none;
-  background-color: transparent;
   border-radius: 0.4rem;
+  color: #fff;
+  cursor: pointer;
+  height: 1.75rem;
   padding: 0.25rem;
   margin-right: 0.25rem;
+  width: 1.75rem;
 
   svg {
-    width: 100%;
-    height: 100%;
     fill: currentColor;
+    height: 100%;
+    width: 100%;
   }
 
   &.is-active,
   &:hover {
-    color: #FFF;
-    background-color: #0D0D0D;
+    background-color: #303030;
   }
 }
 </style>

@@ -1,6 +1,6 @@
-import { createParagraphNear as originalCreateParagraphNear } from 'prosemirror-commands'
+import { createParagraphNear as originalCreateParagraphNear } from '@tiptap/pm/commands'
 
-import { RawCommands } from '../types'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -8,7 +8,7 @@ declare module '@tiptap/core' {
       /**
        * Create a paragraph nearby.
        */
-      createParagraphNear: () => ReturnType,
+      createParagraphNear: () => ReturnType
     }
   }
 }

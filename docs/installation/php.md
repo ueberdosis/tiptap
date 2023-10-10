@@ -8,7 +8,7 @@ tableOfContents: true
 You can use Tiptap with Laravel, Livewire, Inertia.js, [Alpine.js](/installation/alpine), [Tailwind CSS](/guide/styling#with-tailwind-css), and even - yes you read that right - inside PHP.
 
 ## Tiptap for PHP
-We provide [an official PHP package to work with Tiptap content](/api/utilities/tiptap-php). A PHP package to work with Tiptap content. You can transform Tiptap-compatible JSON to HTML, and the other way around, sanitize your content, or just modify it.
+We provide [an official PHP package to work with Tiptap content](/api/utilities/tiptap-php). You can transform Tiptap-compatible JSON to HTML, and the other way around, sanitize your content, or just modify it.
 
 ## Laravel Livewire
 
@@ -45,12 +45,13 @@ import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
 window.setupEditor = function (content) {
+  let editor
+
   return {
-    editor: null,
     content: content,
 
     init(element) {
-      this.editor = new Editor({
+      editor = new Editor({
         element: element,
         extensions: [
           StarterKit,
@@ -63,7 +64,7 @@ window.setupEditor = function (content) {
 
       this.$watch('content', (content) => {
         // If the new content matches TipTap's then we just skip.
-        if (content === this.editor.getHTML()) return
+        if (content === editor.getHTML()) return
 
         /*
           Otherwise, it means that a force external to TipTap
@@ -74,7 +75,7 @@ window.setupEditor = function (content) {
           For more information on the `setContent()` method, see:
             https://www.tiptap.dev/api/commands/set-content
         */
-        this.editor.commands.setContent(content, false)
+        editor.commands.setContent(content, false)
       })
     }
   }

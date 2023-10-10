@@ -25,6 +25,14 @@ Type: `HTMLElement`
 
 Default: `null`
 
+### updateDelay
+The `BubbleMenu` debounces the `update` method to allow the bubble menu to not be updated on every selection update. This can be controlled in milliseconds.
+The BubbleMenuPlugin will come with a default delay of 250ms. This can be deactivated, by setting the delay to `0` which deactivates the debounce.
+
+Type: `Number`
+
+Default: `undefined`
+
 ### tippyOptions
 Under the hood, the `BubbleMenu` uses [tippy.js](https://atomiks.github.io/tippyjs/v6/all-props/). You can directly pass options to it.
 
@@ -104,7 +112,7 @@ Alternatively you can pass a ProseMirror `PluginKey`.
 ```js
 import { Editor } from '@tiptap/core'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
-import { PluginKey } from 'prosemirror-state'
+import { PluginKey } from '@tiptap/pm/state'
 
 new Editor({
   extensions: [

@@ -1,17 +1,17 @@
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import * as Y from 'yjs'
 
-import { AnnotationState } from './AnnotationState'
+import { AnnotationState } from './AnnotationState.js'
 
 export const AnnotationPluginKey = new PluginKey('annotation')
 
 export interface AnnotationPluginOptions {
   HTMLAttributes: {
     [key: string]: any
-  },
-  onUpdate: (items: [any?]) => {},
-  map: Y.Map<any>,
-  instance: string,
+  }
+  onUpdate: (items: [any?]) => {}
+  map: Y.Map<any>
+  instance: string
 }
 
 export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin({
@@ -39,9 +39,7 @@ export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin
         return decorations
       }
 
-      const annotations = this
-        .getState(state)
-        .annotationsAt(selection.from)
+      const annotations = this.getState(state).annotationsAt(selection.from)
 
       options.onUpdate(annotations)
 

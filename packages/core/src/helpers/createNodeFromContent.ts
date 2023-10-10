@@ -4,14 +4,14 @@ import {
   Node as ProseMirrorNode,
   ParseOptions,
   Schema,
-} from 'prosemirror-model'
+} from '@tiptap/pm/model'
 
-import { Content } from '../types'
-import { elementFromString } from '../utilities/elementFromString'
+import { Content } from '../types.js'
+import { elementFromString } from '../utilities/elementFromString.js'
 
 export type CreateNodeFromContentOptions = {
-  slice?: boolean,
-  parseOptions?: ParseOptions,
+  slice?: boolean
+  parseOptions?: ParseOptions
 }
 
 export function createNodeFromContent(
@@ -27,19 +27,13 @@ export function createNodeFromContent(
 
   if (typeof content === 'object' && content !== null) {
     try {
-      if (Array.isArray(content)) {
+      if (Array.isArray(content) && content.length > 0) {
         return Fragment.fromArray(content.map(item => schema.nodeFromJSON(item)))
       }
 
       return schema.nodeFromJSON(content)
     } catch (error) {
-      console.warn(
-        '[tiptap warn]: Invalid content.',
-        'Passed value:',
-        content,
-        'Error:',
-        error,
-      )
+      console.warn('[tiptap warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
 
       return createNodeFromContent('', schema, options)
     }

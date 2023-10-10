@@ -124,6 +124,7 @@ Update editable state of the editor.
 | Parameter | Type    | Description                                                   |
 | --------- | ------- | ------------------------------------------------------------- |
 | editable  | boolean | `true` when the user should be able to write into the editor. |
+| emitUpdate | boolean | Defaults to `true`. Determines whether `onUpdate` is triggered. |
 
 ```js
 // Make the editor read-only
@@ -151,6 +152,27 @@ Check if there is content.
 
 ```js
 editor.isEmpty
+```
+
+### isFocused
+Check if the editor is focused.
+
+```js
+editor.isFocused
+```
+
+### isDestroyed
+Check if the editor is destroyed.
+
+```js
+editor.isDestroyed
+```
+
+### isCapturingTransaction
+Check if the editor is capturing a transaction.
+
+```js
+editor.isCapturingTransaction
 ```
 
 ## Settings

@@ -7,7 +7,7 @@ icon: menu-4-line
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-floating-menu.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-floating-menu)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-floating-menu.svg)](https://npmcharts.com/compare/@tiptap/extension-floating-menu?minimal=true)
 
-This extension will make a contextual menu appear near a selection of text.
+This extension will make a menu appear in an empty line.
 
 ## Installation
 ```bash
@@ -100,7 +100,7 @@ Alternatively you can pass a ProseMirror `PluginKey`.
 ```js
 import { Editor } from '@tiptap/core'
 import FloatingMenu from '@tiptap/extension-floating-menu'
-import { PluginKey } from 'prosemirror-state'
+import { PluginKey } from '@tiptap/pm/state'
 
 new Editor({
   extensions: [

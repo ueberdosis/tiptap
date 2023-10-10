@@ -11,13 +11,9 @@ The Collaboration extension enables you to collaborate with others in a single d
 
 The history works totally different in a collaborative editing setup. If you undo a change, you don’t want to undo changes of other users. To handle that behaviour this extension provides an own `undo` and `redo` command. Don’t load the default [`History`](/api/extensions/history) extension together with the Collaboration extension to avoid conflicts.
 
-:::pro Pro Extension
-We kindly ask you to [sponsor our work](/sponsor) when using this extension in production.
-:::
-
 ## Installation
 ```bash
-npm install @tiptap/extension-collaboration yjs y-websocket
+npm install @tiptap/extension-collaboration yjs y-websocket y-prosemirror
 ```
 
 ## Settings
@@ -57,7 +53,7 @@ Collaboration.configure({
 ```
 
 ## Commands
-The `Collboration` extension comes with its own history extension. Make sure to disable the default extension, if you’re working with the `StarterKit`.
+The `Collaboration` extension comes with its own history extension. Make sure to disable the default extension, if you’re working with the `StarterKit`.
 
 ### undo()
 Undo the last change.
@@ -87,3 +83,5 @@ The content of this editor is shared with other users.
 :::
 https://embed.tiptap.dev/preview/Extensions/Collaboration?hideSource
 https://embed.tiptap.dev/preview/Extensions/Collaboration
+
+!!tiptap-collab-cta

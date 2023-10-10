@@ -1,14 +1,13 @@
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Selection, TextSelection } from 'prosemirror-state'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Selection, TextSelection } from '@tiptap/pm/state'
 
-import { FocusPosition } from '../types'
-import { minMax } from '../utilities/minMax'
+import { FocusPosition } from '../types.js'
+import { minMax } from '../utilities/minMax.js'
 
 export function resolveFocusPosition(
   doc: ProseMirrorNode,
   position: FocusPosition = null,
 ): Selection | null {
-
   if (!position) {
     return null
   }

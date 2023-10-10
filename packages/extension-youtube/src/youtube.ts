@@ -1,17 +1,32 @@
 import { mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
 
-import { getEmbedURLFromYoutubeURL, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils'
+import { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils.js'
 
 export interface YoutubeOptions {
   addPasteHandler: boolean;
   allowFullscreen: boolean;
+  autoplay: boolean;
+  ccLanguage?: string;
+  ccLoadPolicy?: boolean;
   controls: boolean;
+  disableKBcontrols: boolean;
+  enableIFrameApi: boolean;
+  endTime: number;
   height: number;
-  HTMLAttributes: Record<string, any>,
+  interfaceLanguage?: string;
+  ivLoadPolicy: number;
+  loop: boolean;
+  modestBranding: boolean;
+  HTMLAttributes: Record<string, any>;
   inline: boolean;
   nocookie: boolean;
+  origin: string;
+  playlist: string;
+  progressBarColor?: string;
   width: number;
 }
+
+type SetYoutubeVideoOptions = { src: string, width?: number, height?: number, start?: number }
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -19,7 +34,7 @@ declare module '@tiptap/core' {
       /**
        * Insert a youtube video
        */
-      setYoutubeVideo: (options: { src: string, width?: number, height?: number, start?: number }) => ReturnType,
+      setYoutubeVideo: (options: SetYoutubeVideoOptions) => ReturnType,
     }
   }
 }
@@ -30,12 +45,25 @@ export const Youtube = Node.create<YoutubeOptions>({
   addOptions() {
     return {
       addPasteHandler: true,
-      allowFullscreen: false,
+      allowFullscreen: true,
+      autoplay: false,
+      ccLanguage: undefined,
+      ccLoadPolicy: undefined,
       controls: true,
+      disableKBcontrols: false,
+      enableIFrameApi: false,
+      endTime: 0,
       height: 480,
+      interfaceLanguage: undefined,
+      ivLoadPolicy: 0,
+      loop: false,
+      modestBranding: false,
       HTMLAttributes: {},
       inline: false,
       nocookie: false,
+      origin: '',
+      playlist: '',
+      progressBarColor: undefined,
       width: 640,
     }
   },
@@ -77,7 +105,7 @@ export const Youtube = Node.create<YoutubeOptions>({
 
   addCommands() {
     return {
-      setYoutubeVideo: options => ({ commands }) => {
+      setYoutubeVideo: (options: SetYoutubeVideoOptions) => ({ commands }) => {
         if (!isValidYoutubeUrl(options.src)) {
           return false
         }
@@ -107,10 +135,24 @@ export const Youtube = Node.create<YoutubeOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    const embedUrl = getEmbedURLFromYoutubeURL({
+    const embedUrl = getEmbedUrlFromYoutubeUrl({
       url: HTMLAttributes.src,
+      allowFullscreen: this.options.allowFullscreen,
+      autoplay: this.options.autoplay,
+      ccLanguage: this.options.ccLanguage,
+      ccLoadPolicy: this.options.ccLoadPolicy,
       controls: this.options.controls,
+      disableKBcontrols: this.options.disableKBcontrols,
+      enableIFrameApi: this.options.enableIFrameApi,
+      endTime: this.options.endTime,
+      interfaceLanguage: this.options.interfaceLanguage,
+      ivLoadPolicy: this.options.ivLoadPolicy,
+      loop: this.options.loop,
+      modestBranding: this.options.modestBranding,
       nocookie: this.options.nocookie,
+      origin: this.options.origin,
+      playlist: this.options.playlist,
+      progressBarColor: this.options.progressBarColor,
       startAt: HTMLAttributes.start || 0,
     })
 
@@ -127,6 +169,19 @@ export const Youtube = Node.create<YoutubeOptions>({
             width: this.options.width,
             height: this.options.height,
             allowfullscreen: this.options.allowFullscreen,
+            autoplay: this.options.autoplay,
+            ccLanguage: this.options.ccLanguage,
+            ccLoadPolicy: this.options.ccLoadPolicy,
+            disableKBcontrols: this.options.disableKBcontrols,
+            enableIFrameApi: this.options.enableIFrameApi,
+            endTime: this.options.endTime,
+            interfaceLanguage: this.options.interfaceLanguage,
+            ivLoadPolicy: this.options.ivLoadPolicy,
+            loop: this.options.loop,
+            modestBranding: this.options.modestBranding,
+            origin: this.options.origin,
+            playlist: this.options.playlist,
+            progressBarColor: this.options.progressBarColor,
           },
           HTMLAttributes,
         ),

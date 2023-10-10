@@ -1,59 +1,64 @@
-import { EditorState, Plugin } from 'prosemirror-state'
+import { EditorState, Plugin } from '@tiptap/pm/state'
 
-import { CommandManager } from './CommandManager'
-import { Editor } from './Editor'
-import { createChainableState } from './helpers/createChainableState'
+import { CommandManager } from './CommandManager.js'
+import { Editor } from './Editor.js'
+import { createChainableState } from './helpers/createChainableState.js'
 import {
   CanCommands,
   ChainedCommands,
   ExtendedRegExpMatchArray,
   Range,
   SingleCommands,
-} from './types'
-import { isNumber } from './utilities/isNumber'
-import { isRegExp } from './utilities/isRegExp'
+} from './types.js'
+import { isNumber } from './utilities/isNumber.js'
+import { isRegExp } from './utilities/isRegExp.js'
 
 export type PasteRuleMatch = {
-  index: number,
-  text: string,
-  replaceWith?: string,
-  match?: RegExpMatchArray,
-  data?: Record<string, any>,
+  index: number
+  text: string
+  replaceWith?: string
+  match?: RegExpMatchArray
+  data?: Record<string, any>
 }
 
-export type PasteRuleFinder =
-  | RegExp
-  | ((text: string) => PasteRuleMatch[] | null | undefined)
+export type PasteRuleFinder = RegExp | ((text: string) => PasteRuleMatch[] | null | undefined)
 
 export class PasteRule {
   find: PasteRuleFinder
 
   handler: (props: {
-    state: EditorState,
-    range: Range,
-    match: ExtendedRegExpMatchArray,
-    commands: SingleCommands,
-    chain: () => ChainedCommands,
-    can: () => CanCommands,
+    state: EditorState
+    range: Range
+    match: ExtendedRegExpMatchArray
+    commands: SingleCommands
+    chain: () => ChainedCommands
+    can: () => CanCommands
+    pasteEvent: ClipboardEvent
+    dropEvent: DragEvent
   }) => void | null
 
   constructor(config: {
-    find: PasteRuleFinder,
+    find: PasteRuleFinder
     handler: (props: {
-      state: EditorState,
-      range: Range,
-      match: ExtendedRegExpMatchArray,
-      commands: SingleCommands,
-      chain: () => ChainedCommands,
-      can: () => CanCommands,
-    }) => void | null,
+      can: () => CanCommands
+      chain: () => ChainedCommands
+      commands: SingleCommands
+      dropEvent: DragEvent
+      match: ExtendedRegExpMatchArray
+      pasteEvent: ClipboardEvent
+      range: Range
+      state: EditorState
+    }) => void | null
   }) {
     this.find = config.find
     this.handler = config.handler
   }
 }
 
-const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedRegExpMatchArray[] => {
+const pasteRuleMatcherHandler = (
+  text: string,
+  find: PasteRuleFinder,
+): ExtendedRegExpMatchArray[] => {
   if (isRegExp(find)) {
     return [...text.matchAll(find)]
   }
@@ -65,16 +70,17 @@ const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedR
   }
 
   return matches.map(pasteRuleMatch => {
-    const result: ExtendedRegExpMatchArray = []
+    const result: ExtendedRegExpMatchArray = [pasteRuleMatch.text]
 
-    result.push(pasteRuleMatch.text)
     result.index = pasteRuleMatch.index
     result.input = text
     result.data = pasteRuleMatch.data
 
     if (pasteRuleMatch.replaceWith) {
       if (!pasteRuleMatch.text.includes(pasteRuleMatch.replaceWith)) {
-        console.warn('[tiptap warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".')
+        console.warn(
+          '[tiptap warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".',
+        )
       }
 
       result.push(pasteRuleMatch.replaceWith)
@@ -85,18 +91,16 @@ const pasteRuleMatcherHandler = (text: string, find: PasteRuleFinder): ExtendedR
 }
 
 function run(config: {
-  editor: Editor,
-  state: EditorState,
-  from: number,
-  to: number,
-  rule: PasteRule,
+  editor: Editor
+  state: EditorState
+  from: number
+  to: number
+  rule: PasteRule
+  pasteEvent: ClipboardEvent
+  dropEvent: DragEvent
 }): boolean {
   const {
-    editor,
-    state,
-    from,
-    to,
-    rule,
+    editor, state, from, to, rule, pasteEvent, dropEvent,
   } = config
 
   const { commands, chain, can } = new CommandManager({
@@ -113,12 +117,7 @@ function run(config: {
 
     const resolvedFrom = Math.max(from, pos)
     const resolvedTo = Math.min(to, pos + node.content.size)
-    const textToMatch = node.textBetween(
-      resolvedFrom - pos,
-      resolvedTo - pos,
-      undefined,
-      '\ufffc',
-    )
+    const textToMatch = node.textBetween(resolvedFrom - pos, resolvedTo - pos, undefined, '\ufffc')
 
     const matches = pasteRuleMatcherHandler(textToMatch, rule.find)
 
@@ -141,6 +140,8 @@ function run(config: {
         commands,
         chain,
         can,
+        pasteEvent,
+        dropEvent,
       })
 
       handlers.push(handler)
@@ -157,11 +158,13 @@ function run(config: {
  * text that matches any of the given rules to trigger the rule’s
  * action.
  */
-export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }): Plugin[] {
+export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }): Plugin[] {
   const { editor, rules } = props
   let dragSourceElement: Element | null = null
   let isPastedFromProseMirror = false
   let isDroppedFromProseMirror = false
+  let pasteEvent = new ClipboardEvent('paste')
+  let dropEvent = new DragEvent('drop')
 
   const plugins = rules.map(rule => {
     return new Plugin({
@@ -184,14 +187,17 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
 
       props: {
         handleDOMEvents: {
-          drop: view => {
+          drop: (view, event: Event) => {
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
+            dropEvent = event as DragEvent
 
             return false
           },
 
-          paste: (view, event: Event) => {
+          paste: (_view, event: Event) => {
             const html = (event as ClipboardEvent).clipboardData?.getData('text/html')
+
+            pasteEvent = event as ClipboardEvent
 
             isPastedFromProseMirror = !!html?.includes('data-pm-slice')
 
@@ -231,12 +237,17 @@ export function pasteRulesPlugin(props: { editor: Editor, rules: PasteRule[] }):
           from: Math.max(from - 1, 0),
           to: to.b - 1,
           rule,
+          pasteEvent,
+          dropEvent,
         })
 
         // stop if there are no changes
         if (!handler || !tr.steps.length) {
           return
         }
+
+        dropEvent = new DragEvent('drop')
+        pasteEvent = new ClipboardEvent('paste')
 
         return tr
       },

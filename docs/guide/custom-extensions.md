@@ -114,7 +114,7 @@ const awesomeness = editor.storage.customExtension.awesomeness
 ```
 
 ### Schema
-tiptap works with a strict schema, which configures how the content can be structured, nested, how it behaves and many more things. You [can change all aspects of the schema](/api/schema) for existing extensions. Let’s walk through a few common use cases.
+Tiptap works with a strict schema, which configures how the content can be structured, nested, how it behaves and many more things. You [can change all aspects of the schema](/api/schema) for existing extensions. Let’s walk through a few common use cases.
 
 The default `Blockquote` extension can wrap other nodes, like headings. If you want to allow nothing but paragraphs in your blockquotes, set the `content` attribute accordingly:
 
@@ -213,7 +213,7 @@ const CustomParagraph = Paragraph.extend({
 // <p data-color="pink" style="color: pink">Example Text</p>
 ```
 
-You can completly disable the rendering of attributes with `rendered: false`.
+You can completely disable the rendering of attributes with `rendered: false`.
 
 #### Extend existing attributes
 If you want to add an attribute to an extension and keep existing attributes, you can access them through `this.parent()`.
@@ -531,7 +531,7 @@ After all, Tiptap is built on ProseMirror and ProseMirror has a pretty powerful 
 You can wrap existing ProseMirror plugins in Tiptap extensions like shown in the example below.
 
 ```js
-import { history } from 'prosemirror-history'
+import { history } from '@tiptap/pm/history'
 
 const History = Extension.create({
   addProseMirrorPlugins() {
@@ -550,7 +550,7 @@ Or you can add them to a Tiptap extension like shown in the below example.
 
 ```js
 import { Extension } from '@tiptap/core'
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 export const EventHandler = Extension.create({
   name: 'eventHandler',
@@ -649,5 +649,11 @@ const CustomExtension = Extension.create({
 })
 ```
 
+## Creating and publishing standalone extensions
+If you want to create and publish your own extensions for Tiptap, you can use our CLI tool to bootstrap your project.
+Simply run `npm init tiptap-extension` and follow the instructions. The CLI will create a new folder with a pre-configured project for you including a build script running on Rollup.
+
+If you want to test your extension locally, you can run `npm link` in the project folder and then `npm link YOUR_EXTENSION` in your project (for example a Vite app).
+
 ## Sharing
-When everything is working fine, don’t forget to [share it with the community](https://github.com/ueberdosis/tiptap/issues/819).
+When everything is working fine, don’t forget to [share it with the community](https://github.com/ueberdosis/tiptap/issues/819) or in our [awesome-tiptap](https://github.com/ueberdosis/awesome-tiptap) repository.

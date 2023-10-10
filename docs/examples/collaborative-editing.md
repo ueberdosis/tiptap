@@ -19,19 +19,11 @@ https://embed.tiptap.dev/preview/Examples/CollaborativeEditing
 ## Backend
 In case you’re wondering what kind of sorcery you need on the server to achieve this, here is the whole backend code for the demo:
 
-:::warning Request early access
-Our plug & play collaboration backend hocuspocus is still work in progress. If you want to give it a try, [get early access](https://www.hocuspocus.dev).
-:::
-
 ```js
 import { Server } from '@hocuspocus/server'
-import { RocksDB } from '@hocuspocus/extension-rocksdb'
 
 const server = Server.configure({
   port: 80,
-  extensions: [
-    new RocksDB({ path: './database' }),
-  ],
 })
 
 server.listen()

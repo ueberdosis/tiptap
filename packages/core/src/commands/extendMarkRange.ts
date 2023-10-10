@@ -1,9 +1,9 @@
-import { MarkType } from 'prosemirror-model'
-import { TextSelection } from 'prosemirror-state'
+import { MarkType } from '@tiptap/pm/model'
+import { TextSelection } from '@tiptap/pm/state'
 
-import { getMarkRange } from '../helpers/getMarkRange'
-import { getMarkType } from '../helpers/getMarkType'
-import { RawCommands } from '../types'
+import { getMarkRange } from '../helpers/getMarkRange.js'
+import { getMarkType } from '../helpers/getMarkType.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -11,7 +11,10 @@ declare module '@tiptap/core' {
       /**
        * Extends the text selection to the current mark.
        */
-      extendMarkRange: (typeOrName: string | MarkType, attributes?: Record<string, any>) => ReturnType,
+      extendMarkRange: (
+        typeOrName: string | MarkType,
+        attributes?: Record<string, any>,
+      ) => ReturnType
     }
   }
 }

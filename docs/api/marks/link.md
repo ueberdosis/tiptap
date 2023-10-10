@@ -31,6 +31,18 @@ Link.configure({
 })
 ```
 
+By default, [linkify](https://linkify.js.org/docs/) adds `//` to the end of a protocol however this behavior can be changed by passing `optionalSlashes` option
+```js
+Link.configure({
+  protocols: [
+    {
+      scheme: 'tel',
+      optionalSlashes: true
+    }
+  ]
+})
+```
+
 ### autolink
 If enabled, it adds links as you type.
 
@@ -79,6 +91,24 @@ Custom HTML attributes that should be added to the rendered HTML tag.
 Link.configure({
   HTMLAttributes: {
     class: 'my-custom-class',
+  },
+})
+```
+
+#### Removing and overriding existing html attributes
+
+You can add `rel: null` to HTMLAttributes to remove the default `rel="noopener noreferrer nofollow"`. You can also override the default by using `rel: "your-value"`.
+
+This can also be used to change the `target` from the default value of `_blank`.
+
+```js
+Link.configure({
+  HTMLAttributes: {
+    // Change rel to different value
+    // Allow search engines to follow links(remove nofollow)
+    rel: 'noopener noreferrer',
+    // Remove target entirely so links open in current tab
+    target: null,
   },
 })
 ```

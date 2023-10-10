@@ -1,5 +1,5 @@
-import { FontFamily } from './font-family'
+import { FontFamily } from './font-family.js'
 
-export * from './font-family'
+export * from './font-family.js'
 
 export default FontFamily

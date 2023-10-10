@@ -1,7 +1,7 @@
-import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { MarkRange } from '../types'
-import { getMarkRange } from './getMarkRange'
+import { MarkRange } from '../types.js'
+import { getMarkRange } from './getMarkRange.js'
 
 export function getMarksBetween(from: number, to: number, doc: ProseMirrorNode): MarkRange[] {
   const marks: MarkRange[] = []
@@ -26,11 +26,13 @@ export function getMarksBetween(from: number, to: number, doc: ProseMirrorNode):
       })
   } else {
     doc.nodesBetween(from, to, (node, pos) => {
-      marks.push(...node.marks.map(mark => ({
-        from: pos,
-        to: pos + node.nodeSize,
-        mark,
-      })))
+      marks.push(
+        ...node.marks.map(mark => ({
+          from: pos,
+          to: pos + node.nodeSize,
+          mark,
+        })),
+      )
     })
   }
 

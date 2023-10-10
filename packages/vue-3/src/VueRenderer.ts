@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core'
 import { Component, markRaw, reactive } from 'vue'
 
-import { Editor as ExtendedEditor } from './Editor'
+import { Editor as ExtendedEditor } from './Editor.js'
 
 export interface VueRendererOptions {
   editor: Editor,

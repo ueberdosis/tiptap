@@ -71,7 +71,7 @@ export default {
 </style>
 
 <style lang="scss">
-.ProseMirror {
+.tiptap {
   padding: 0 1rem;
 
   > * + * {

@@ -1,0 +1,52 @@
+title: "Community Extension: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hey! Thanks for using Tiptap in your project. We hope you had a great experience. Please take a moment to share your project with us. We would love to see what you built with Tiptap.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please describe what your project is about
+      placeholder: "My project is about …"
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: If possible share the URL of your project.
+      placeholder: "https://example.com"
+    validations:
+      required: false
+  - type: textarea
+    id: about
+    attributes:
+      label: About
+      description: Feel free to talk about how you used Tiptap in your project, what you liked about it, what you didn't like about it, and what you would like to see in the future.
+      placeholder: "If used Tiptap to …"
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      description: Please select the type of your project.
+      options:
+        - "Chat Application"
+        - "Commenting Application"
+        - "Content Management System"
+        - "Document Editor"
+        - "Document Editor with Collaboration"
+        - "Other"
+    validations:
+      required: true
+  - type: textarea
+    id: other
+    attributes:
+      label: Other
+      description: Feel free to add any other information about your project.
+      placeholder: "I hope you like …"
+    validations:
+      required: false

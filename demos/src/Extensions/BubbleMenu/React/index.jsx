@@ -1,6 +1,8 @@
 import './styles.scss'
 
-import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react'
+import {
+  BubbleMenu, EditorContent, useEditor,
+} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
 

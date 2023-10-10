@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-horizontal-rule",
   "description": "horizontal rule extension for tiptap",
-  "version": "2.0.0-beta.199",
+  "version": "2.1.11",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,23 +12,37 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-horizontal-rule.cjs.js",
-  "umd": "dist/tiptap-extension-horizontal-rule.umd.js",
-  "module": "dist/tiptap-extension-horizontal-rule.esm.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-horizontal-rule/src/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
   "types": "dist/packages/extension-horizontal-rule/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
-  "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193"
+  "devDependencies": {
+    "@tiptap/core": "^2.1.11",
+    "@tiptap/pm": "^2.1.11"
   },
-  "dependencies": {
-    "prosemirror-state": "^1.4.1"
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/pm": "^2.0.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-horizontal-rule"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }

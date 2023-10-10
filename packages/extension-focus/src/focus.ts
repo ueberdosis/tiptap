@@ -1,10 +1,10 @@
 import { Extension } from '@tiptap/core'
-import { Plugin, PluginKey } from 'prosemirror-state'
-import { Decoration, DecorationSet } from 'prosemirror-view'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 export interface FocusOptions {
-  className: string,
-  mode: 'all' | 'deepest' | 'shallowest',
+  className: string
+  mode: 'all' | 'deepest' | 'shallowest'
 }
 
 export const FocusClasses = Extension.create<FocusOptions>({
@@ -40,7 +40,7 @@ export const FocusClasses = Extension.create<FocusOptions>({
                   return
                 }
 
-                const isCurrent = anchor >= pos && anchor <= (pos + node.nodeSize - 1)
+                const isCurrent = anchor >= pos && anchor <= pos + node.nodeSize - 1
 
                 if (!isCurrent) {
                   return false
@@ -58,7 +58,7 @@ export const FocusClasses = Extension.create<FocusOptions>({
                 return false
               }
 
-              const isCurrent = anchor >= pos && anchor <= (pos + node.nodeSize - 1)
+              const isCurrent = anchor >= pos && anchor <= pos + node.nodeSize - 1
 
               if (!isCurrent) {
                 return false
@@ -73,9 +73,11 @@ export const FocusClasses = Extension.create<FocusOptions>({
                 return this.options.mode === 'deepest'
               }
 
-              decorations.push(Decoration.node(pos, pos + node.nodeSize, {
-                class: this.options.className,
-              }))
+              decorations.push(
+                Decoration.node(pos, pos + node.nodeSize, {
+                  class: this.options.className,
+                }),
+              )
             })
 
             return DecorationSet.create(doc, decorations)

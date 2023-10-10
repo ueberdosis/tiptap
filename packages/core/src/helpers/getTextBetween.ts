@@ -1,20 +1,17 @@
-import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { Range, TextSerializer } from '../types'
+import { Range, TextSerializer } from '../types.js'
 
 export function getTextBetween(
   startNode: ProseMirrorNode,
   range: Range,
   options?: {
-    blockSeparator?: string,
-    textSerializers?: Record<string, TextSerializer>,
+    blockSeparator?: string
+    textSerializers?: Record<string, TextSerializer>
   },
 ): string {
   const { from, to } = range
-  const {
-    blockSeparator = '\n\n',
-    textSerializers = {},
-  } = options || {}
+  const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
   let text = ''
   let separated = true
 

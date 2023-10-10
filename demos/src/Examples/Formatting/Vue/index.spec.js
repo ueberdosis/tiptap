@@ -4,7 +4,7 @@ context('/src/Examples/Formatting/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').type('{selectall}{backspace}')
+    cy.get('.tiptap').type('{selectall}{backspace}')
   })
 
   const marks = [
@@ -13,9 +13,9 @@ context('/src/Examples/Formatting/Vue/', () => {
 
   marks.forEach(m => {
     it(`sets ${m.label}`, () => {
-      cy.get('.ProseMirror').type('Hello world.{selectall}')
+      cy.get('.tiptap').type('Hello world.{selectall}')
       cy.get('button').contains(m.label).click()
-      cy.get('.ProseMirror mark').should('exist')
+      cy.get('.tiptap mark').should('exist')
     })
   })
 
@@ -28,10 +28,10 @@ context('/src/Examples/Formatting/Vue/', () => {
 
   alignments.forEach(a => {
     it(`sets ${a.label}`, () => {
-      cy.get('.ProseMirror').type('Hello world.{selectall}')
+      cy.get('.tiptap').type('Hello world.{selectall}')
       cy.get('button').contains(a.label).click()
       if (a.alignment !== 'left') {
-        cy.get('.ProseMirror p').should('have.css', 'text-align', a.alignment)
+        cy.get('.tiptap p').should('have.css', 'text-align', a.alignment)
       }
     })
   })

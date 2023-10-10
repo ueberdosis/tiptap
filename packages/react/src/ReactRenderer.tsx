@@ -1,8 +1,7 @@
 import { Editor } from '@tiptap/core'
 import React from 'react'
-import { flushSync } from 'react-dom'
 
-import { Editor as ExtendedEditor } from './Editor'
+import { Editor as ExtendedEditor } from './Editor.js'
 
 function isClassComponent(Component: any) {
   return !!(
@@ -24,6 +23,7 @@ export interface ReactRendererOptions {
   props?: Record<string, any>,
   as?: string,
   className?: string,
+  attrs?: Record<string, string>,
 }
 
 type ComponentType<R, P> =
@@ -51,6 +51,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
     props = {},
     as = 'div',
     className = '',
+    attrs,
   }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
@@ -61,6 +62,12 @@ export class ReactRenderer<R = unknown, P = unknown> {
 
     if (className) {
       this.element.classList.add(...className.split(' '))
+    }
+
+    if (attrs) {
+      Object.keys(attrs).forEach(key => {
+        this.element.setAttribute(key, attrs[key])
+      })
     }
 
     this.render()
@@ -78,18 +85,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
 
     this.reactElement = <Component {...props } />
 
-    queueMicrotask(() => {
-      flushSync(() => {
-        if (this.editor?.contentComponent) {
-          this.editor.contentComponent.setState({
-            renderers: this.editor.contentComponent.state.renderers.set(
-              this.id,
-              this,
-            ),
-          })
-        }
-      })
-    })
+    this.editor?.contentComponent?.setRenderer(this.id, this)
   }
 
   updateProps(props: Record<string, any> = {}): void {
@@ -102,18 +98,6 @@ export class ReactRenderer<R = unknown, P = unknown> {
   }
 
   destroy(): void {
-    queueMicrotask(() => {
-      flushSync(() => {
-        if (this.editor?.contentComponent) {
-          const { renderers } = this.editor.contentComponent.state
-
-          renderers.delete(this.id)
-
-          this.editor.contentComponent.setState({
-            renderers,
-          })
-        }
-      })
-    })
+    this.editor?.contentComponent?.removeRenderer(this.id)
   }
 }

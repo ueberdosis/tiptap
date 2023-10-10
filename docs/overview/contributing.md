@@ -5,7 +5,7 @@ tableOfContents: true
 # Contributing
 
 ## Introduction
-tiptap would be nothing without its lively community. Contributions have always been and will always be welcome. Here is a little bit you should know, before you send your contribution:
+Tiptap would be nothing without its lively community. Contributions have always been and will always be welcome. Here is a little bit you should know, before you send your contribution:
 
 ## Welcome examples
 * Failing regression tests as bug reports
@@ -33,6 +33,15 @@ There is an eslint config that ensures a consistent code style. To check for err
 
 ## Testing for errors
 Your pull request will automatically execute all our existing tests. Make sure that they all pass, before sending a pull request. Run all tests locally with `$ npm run test` or run single tests (e. g. when writing new ones) with `$ npm run test:open`.
+
+## Creating your own extensions
+If you want to create and maintain your own extensions, you can use your `create-tiptap-extension` CLI tool. It will create a new extension boilerplate with all necessary files and the build process. It's as easy as running
+
+```bash
+npm init tiptap-extension
+```
+
+If you want to let us know about your extension you can give us a hint on [Twitter](https://twitter.com/tiptap_editor) or [Discord](https://discord.gg/WtJ49jGshW).
 
 ## Further questions
 Any further questions? Create a new issue or discussion in the repository. We’ll get back to you.

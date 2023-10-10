@@ -18,7 +18,7 @@ When you’ll work with the provided extensions only, you don’t have to care t
 // the underlying ProseMirror schema
 {
   nodes: {
-    document: {
+    doc: {
       content: 'block+',
     },
     paragraph: {
@@ -261,7 +261,7 @@ Mark.create({
 ```
 
 #### Excludes
-By default all nodes can be applied at the same time. With the excludes attribute you can define which marks must not coexist with the mark. For example, the inline code mark excludes any other mark (bold, italic, and all others).
+By default all marks can be applied at the same time. With the excludes attribute you can define which marks must not coexist with the mark. For example, the inline code mark excludes any other mark (bold, italic, and all others).
 
 ```js
 Mark.create({
@@ -273,8 +273,8 @@ Mark.create({
 ```
 
 #### Exitable
-By default a mark will "trap" the cursor meaning the cursor can't get out of the mark except by moving the cursor left to right into text without a mark.
-If this is set to true, the mark will be exitable when the mark is at the end of a node. This is handy for example code marks.
+By default a mark will "trap" the cursor, meaning the cursor can't get out of the mark except by moving the cursor left to right into text without a mark.
+If this is set to true, the mark will be exitable when the mark is at the end of a node. This is handy for example using code marks.
 
 ```js
 Mark.create({

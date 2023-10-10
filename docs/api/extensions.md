@@ -23,11 +23,13 @@ There are also some extensions with more capabilities. We call them [nodes](/api
 | [FontFamily](/api/extensions/font-family)                   | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-font-family/)          |
 | [Gapcursor](/api/extensions/gapcursor)                      | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-gapcursor/)            |
 | [History](/api/extensions/history)                          | Included                                         | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-history/)              |
+| [InvisibleCharacters](/api/extensions/invisible-characters) | –                                                | Requires a Tiptap Pro subscription                                                                |
+| [Mathematics](/api/extensions/mathematics)                  | –                                                | Requires a Tiptap Pro subscription                                                                |
 | [Placeholder](/api/extensions/placeholder)                  | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-placeholder/)          |
 | [StarterKit](/api/extensions/starter-kit)                   | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/starter-kit/)                    |
 | [TextAlign](/api/extensions/text-align)                     | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-align/)           |
-| [UniqueID](/api/extensions/unique-id)                       | –                                                | Requires a Tiptap Pro subscription                                                                |
 | [Typography](/api/extensions/typography)                    | –                                                | [GitHub](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-typography/)           |
+| [UniqueID](/api/extensions/unique-id)                       | –                                                | Requires a Tiptap Pro subscription                                                                |
 
 You don’t have to use it, but we prepared a `@tiptap/starter-kit` which includes the most common extensions. Read more about [`StarterKit`](/guide/configuration#default-extensions).
 
@@ -38,7 +40,7 @@ Although Tiptap tries to hide most of the complexity of ProseMirror, it’s buil
 
 Existing [nodes](/api/nodes), [marks](/api/marks) and [extensions](/api/extensions) can give you a good impression on how to approach your own extensions. To make it easier to switch between the documentation and the source code, we linked to the file on GitHub from every single extension documentation page.
 
-We recommend to start with customizing existing extensions first, and create your own extensions with the gained knowledge later. That’s why all the below examples extend existing extensions, but all examples will work on newly created extensions aswell.
+We recommend to start with customizing existing extensions first, and create your own extensions with the gained knowledge later. That’s why all the examples below extend existing extensions, but all examples will work on newly created extensions aswell.
 
 ## Create a new extension
 You’re free to create your own extensions for Tiptap. Here is the boilerplate code that’s needed to create and register your own extension:
@@ -61,6 +63,12 @@ const editor = new Editor({
     // …
   ],
 })
+```
+
+You can easily bootstrap a new extension via our CLI.
+
+```bash
+npm init tiptap-extension
 ```
 
 Learn [more about custom extensions in our guide](/guide/custom-extensions).

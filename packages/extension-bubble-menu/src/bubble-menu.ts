@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 
-import { BubbleMenuPlugin, BubbleMenuPluginProps } from './bubble-menu-plugin'
+import { BubbleMenuPlugin, BubbleMenuPluginProps } from './bubble-menu-plugin.js'
 
 export type BubbleMenuOptions = Omit<BubbleMenuPluginProps, 'editor' | 'element'> & {
   element: HTMLElement | null,
@@ -14,6 +14,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
       element: null,
       tippyOptions: {},
       pluginKey: 'bubbleMenu',
+      updateDelay: undefined,
       shouldShow: null,
     }
   },
@@ -29,6 +30,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
         editor: this.editor,
         element: this.options.element,
         tippyOptions: this.options.tippyOptions,
+        updateDelay: this.options.updateDelay,
         shouldShow: this.options.shouldShow,
       }),
     ]

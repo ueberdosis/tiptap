@@ -1,5 +1,5 @@
-import { Paragraph } from './paragraph'
+import { Paragraph } from './paragraph.js'
 
-export * from './paragraph'
+export * from './paragraph.js'
 
 export default Paragraph

@@ -4,7 +4,11 @@
       <input type="checkbox" :checked="isEditable" @change="() => isEditable = !isEditable">
       Editable
     </div>
-    <bubble-menu :editor="editor" :tippy-options="{ duration: 100 }" v-if="editor">
+    <bubble-menu
+      :editor="editor"
+      :tippy-options="{ duration: 100 }"
+      v-if="editor"
+    >
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
         bold
       </button>
@@ -63,7 +67,7 @@ export default {
 
 <style lang="scss">
 /* Basic editor styles */
-.ProseMirror {
+.tiptap {
   > * + * {
     margin-top: 0.75em;
   }

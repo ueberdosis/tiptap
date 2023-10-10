@@ -8,8 +8,8 @@
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import Commands from './commands'
-import suggestion from './suggestion'
+import Commands from './commands.js'
+import suggestion from './suggestion.js'
 
 export default {
   components: {
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss">
-.ProseMirror {
+.tiptap {
   > * + * {
     margin-top: 0.75em;
   }
