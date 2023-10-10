@@ -4,6 +4,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type ClickHandlerOptions = {
   type: MarkType,
+  whenNotEditable: boolean,
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {
