@@ -4,6 +4,7 @@ import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
+import { pasteHandler } from './helpers/pasteHandler.js'
 
 export interface LinkProtocolOptions {
   scheme: string;
@@ -201,6 +202,15 @@ export const Link = Mark.create<LinkOptions>({
     if (this.options.openOnClick) {
       plugins.push(
         clickHandler({
+          type: this.type,
+        }),
+      )
+    }
+
+    if (this.options.linkOnPaste) {
+      plugins.push(
+        pasteHandler({
+          editor: this.editor,
           type: this.type,
         }),
       )
