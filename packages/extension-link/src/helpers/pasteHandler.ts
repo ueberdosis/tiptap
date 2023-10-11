@@ -33,7 +33,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           return false
         }
 
-        const html = event.clipboardData.getData('text/html')
+        const html = event.clipboardData?.getData('text/html')
 
         const hrefRegex = /href="([^"]*)"/
 
