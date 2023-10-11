@@ -168,7 +168,7 @@ export const Link = Mark.create<LinkOptions>({
           })),
         type: this.type,
         getAttributes: (match, pasteEvent) => {
-          const html = pasteEvent.clipboardData?.getData('text/html')
+          const html = pasteEvent?.clipboardData?.getData('text/html')
           const hrefRegex = /href="([^"]*)"/
 
           const existingLink = html?.match(hrefRegex)
