@@ -33,6 +33,47 @@ In the example above two different commands are executed at once. When a user cl
 
 All chained commands are kind of queued up. They are combined to one single transaction. That means, the content is only updated once, also the `update` event is only triggered once.
 
+:::warning Important
+By default Prosemirror **does not support chaining** which means that you need to update the positions between chained commands via [**Transaction mapping**](https://prosemirror.net/docs/ref/#transform.Mapping).
+:::
+
+For example you want to chain a **delete** and **insert** command in one chain, you need to keep track of the position inside your chain commands. Here is an example:
+
+```js
+// here we add two custom commands to the editor to demonstrate transaction mapping between two transaction steps
+addCommands() {
+  return {
+    delete: () => ({ tr }) => {
+      const { $from, $to } = tr.selection
+
+      // here we use tr.mapping.map to map the position between transaction steps
+      const from = tr.mapping.map($from.pos)
+      const to = tr.mapping.map($to.pos)
+
+      tr.delete(from, to)
+
+      return true
+    },
+    insert: (content: string) => ({ tr }) => {
+      const { $from } = tr.selection
+
+      // here we use tr.mapping.map to map the position between transaction steps
+      const pos = tr.mapping.map($from.pos)
+
+      tr.insertText(content, pos)
+
+      return true
+    },
+  }
+}
+```
+
+Now you can do the following without `insert` inserting the content into the wrong position:
+
+```js
+editor.chain().delete().insert('foo').run()
+```
+
 #### Chaining inside custom commands
 When chaining a command, the transaction is held back. If you want to chain commands inside your custom commands, you’ll need to use said transaction and add to it. Here is how you would do that:
 
