@@ -44,7 +44,7 @@ export const FontFamily = Extension.create<FontFamilyOptions>({
               }
 
               return {
-                style: `font-family: ${attributes.fontFamily}`,
+                style: `font-family: ${CSS.escape(attributes.fontFamily)}`,
               }
             },
           },
