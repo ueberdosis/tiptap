@@ -148,6 +148,22 @@ curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
 ```
 
+### Update Document
+
+```bash
+PATCH /api/documents/:identifier
+```
+
+This call accepts a Yjs update message and will apply it on the existing document on the server.
+This endpoint will return the HTTP status `204` if the document was updated successfully, 404 is the document does not exist, or `422` if the payload is invalid or the update cannot be applied.
+
+```bash
+curl --location --request PATCH 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_NAME' \
+--header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA' \
+--data '@yjsUpdate.binary.txt'
+```
+
+
 ### Delete Document
 
 ```bash
