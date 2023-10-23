@@ -129,6 +129,19 @@ curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_
 --data '@yjsUpdate.binary.txt'
 ```
 
+### List Documents
+
+```bash
+GET /api/documents
+```
+
+This call returns a list of all documents present on the servers storage.
+
+```bash
+curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents' \
+--header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
+```
+
 ### Get Document
 
 ```bash
