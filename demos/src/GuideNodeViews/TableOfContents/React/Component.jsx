@@ -40,10 +40,6 @@ export default ({ editor }) => {
   useEffect(handleUpdate, [])
 
   useEffect(() => {
-    if (!editor) {
-      return null
-    }
-
     editor.on('update', handleUpdate)
 
     return () => {

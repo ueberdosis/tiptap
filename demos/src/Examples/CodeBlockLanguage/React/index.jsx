@@ -25,10 +25,6 @@ lowlight.registerLanguage('js', js)
 lowlight.registerLanguage('ts', ts)
 
 const MenuBar = ({ editor }) => {
-  if (!editor) {
-    return null
-  }
-
   return (
     <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'is-active' : ''}>
       code block

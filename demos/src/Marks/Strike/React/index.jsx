@@ -17,10 +17,6 @@ export default () => {
         `,
   })
 
-  if (!editor) {
-    return null
-  }
-
   return (
     <>
       <button
