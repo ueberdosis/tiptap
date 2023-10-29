@@ -7,10 +7,6 @@ import React from 'react'
 import { content } from '../content.js'
 
 const MenuBar = ({ editor }) => {
-  if (!editor) {
-    return null
-  }
-
   return (
     <>
       <button

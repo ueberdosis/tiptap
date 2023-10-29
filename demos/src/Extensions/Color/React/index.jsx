@@ -14,10 +14,6 @@ export default () => {
       `,
   })
 
-  if (!editor) {
-    return null
-  }
-
   return (
     <div>
       <input

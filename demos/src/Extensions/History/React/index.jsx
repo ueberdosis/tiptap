@@ -18,10 +18,6 @@ export default () => {
       `,
   })
 
-  if (!editor) {
-    return null
-  }
-
   return (
     <div>
       <button onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>

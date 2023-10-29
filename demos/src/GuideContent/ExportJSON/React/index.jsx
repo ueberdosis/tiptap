@@ -16,10 +16,6 @@ export default () => {
   })
 
   useEffect(() => {
-    if (!editor) {
-      return undefined
-    }
-
     // Get the initial content …
     setJson(editor.getJSON())
 
@@ -56,10 +52,6 @@ export default () => {
   const clearContent = useCallback(() => {
     editor.chain().clearContent(true).focus().run()
   }, [editor])
-
-  if (!editor) {
-    return null
-  }
 
   return (
     <>
