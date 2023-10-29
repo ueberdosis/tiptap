@@ -123,7 +123,7 @@ export const Table = Node.create<TableOptions>({
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
         style: tableWidth
           ? `width: ${tableWidth}`
-          : `minWidth: ${tableMinWidth}`,
+          : `min-width: ${tableMinWidth}`,
       }),
       colgroup,
       ['tbody', 0],
