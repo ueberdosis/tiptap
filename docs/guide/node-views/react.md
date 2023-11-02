@@ -96,6 +96,24 @@ Keep in mind that this content is rendered by Tiptap. That means you need to tel
 
 The `NodeViewWrapper` and `NodeViewContent` components render a `<div>` HTML tag (`<span>` for inline nodes), but you can change that. For example `<NodeViewContent as="p">` should render a paragraph. One limitation though: That tag must not change during runtime.
 
+## Changing the wrapping DOM element
+
+To change the wrapping DOM elements tag, you can use the `contentDOMElementTag` option on the `ReactNodeViewRenderer` function to change the default tag name.
+
+```js
+import { Node } from '@tiptap/core'
+import { ReactNodeViewRenderer } from '@tiptap/react'
+import Component from './Component.jsx'
+
+export default Node.create({
+  // configuration …
+
+  addNodeView() {
+    return ReactNodeViewRenderer(Component, { contentDOMElementTag: 'main' })
+  },
+})
+```
+
 ## All available props
 Here is the full list of what props you can expect:
 
