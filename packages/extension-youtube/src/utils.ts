@@ -52,6 +52,10 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     startAt,
   } = options
 
+  if (!isValidYoutubeUrl(url)) {
+    return null
+  }
+
   // if is already an embed url, return it
   if (url.includes('/embed/')) {
     return url
