@@ -25,6 +25,7 @@ describe('extension-youtube', () => {
     // eslint-disable-next-line no-script-url
     'javascript:alert(window.origin)//embed/',
     'https://youtube.google.com/embed/fdsafsdf',
+    'https://youtube.com.bad/embed'
   ]
 
   invalidUrls.forEach(url => {
