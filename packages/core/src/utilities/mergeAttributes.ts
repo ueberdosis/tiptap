@@ -23,27 +23,29 @@ export function mergeAttributes(...objects: Record<string, any>[]): Record<strin
 
           mergedAttributes[key] = [...existingClasses, ...insertClasses].join(' ')
         } else if (key === 'style') {
-          const valueStyles: string[] = value ? value.split(';') : []
+          const newStyles: string[] = value ? value.split(';') : []
           const existingStyles: string[] = mergedAttributes[key] ? mergedAttributes[key].split(';') : []
 
-          const valueStyleProperties = valueStyles.map(valueStyle => valueStyle.split(':'))
+          const newStyleProperties = newStyles.map(newStyle => newStyle.split(':'))
           const existingStyleProperties = existingStyles.map(existingStyle => existingStyle.split(':'))
 
-          const existingStyleKeys = existingStyleProperties.map(property => property[0])
+          const newStyleKeys = newStyleProperties.map(property => property[0])
 
-          const insertStyleProperties = valueStyleProperties.filter(
-            valueStyleProperty => !existingStyleKeys.includes(valueStyleProperty[0]),
+          const updatedExistingStyleProperties = existingStyleProperties.filter(
+            existingStyleProperty => !newStyleKeys.includes(existingStyleProperty[0]),
           )
 
-          const existingStyleAttributes = existingStyleProperties.map(
-            existingStyleProperty => existingStyleProperty.join(':'),
+          const existingStyleAttributes = updatedExistingStyleProperties.map(
+            updatedExistingStyleProperty => updatedExistingStyleProperty.join(':'),
           ).join('; ')
 
-          const insertStyleAttributes = insertStyleProperties.map(
-            insertStyleProperty => insertStyleProperty.join(':'),
+          const newStyleAttributes = newStyleProperties.map(
+            valueStyleProperty => valueStyleProperty.join(':'),
           ).join('; ')
 
-          mergedAttributes[key] = [existingStyleAttributes, insertStyleAttributes].join('; ')
+          const mergedStyleAttributes = [existingStyleAttributes, newStyleAttributes].filter(attribute => !!attribute)
+
+          mergedAttributes[key] = mergedStyleAttributes.join('; ')
         } else {
           mergedAttributes[key] = value
         }
