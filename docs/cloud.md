@@ -164,7 +164,7 @@ curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_
 **Note:** When using axios, you need to specify `responseType: arraybuffer` in the options of the request.
 
 ```typescript
-const ydocUpdate = await axios.get('https://xxx.collab.tiptap.cloud/api/documents/somedoc?format=yjs', { responseType: 'arraybuffer' })
+const ydocUpdate = await axios.get('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc?format=yjs', { responseType: 'arraybuffer' })
 ```
 
 ### Update Document
@@ -204,14 +204,14 @@ In order to copy a document, you can just use the GET endpoint and then create i
 
 ```typescript
 
-const docUpdateAsBinaryResponse = await axios.get('https://xxx.collab.tiptap.cloud/api/documents/somedoc?format=yjs', {
+const docUpdateAsBinaryResponse = await axios.get('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc?format=yjs', {
   headers: {
     'Authorization': 'your_token',
   },
   responseType: 'arraybuffer',
 })
 
-await axios.post('https://xxx.collab.tiptap.cloud/api/documents/somedoc-duplicated', docUpdateAsBinaryResponse.data, {
+await axios.post('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc-duplicated', docUpdateAsBinaryResponse.data, {
   headers: {
     'Authorization': 'your_token',
   },
