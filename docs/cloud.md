@@ -161,6 +161,12 @@ curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
 ```
 
+**Note:** When using axios, you need to specify `responseType: arraybuffer` in the options of the request.
+
+```typescript
+const ydocUpdate = await axios.get('https://xxx.collab.tiptap.cloud/api/documents/somedoc?format=yjs', { responseType: 'arraybuffer' })
+```
+
 ### Update Document
 
 ```bash
@@ -190,6 +196,27 @@ It returns either HTTP status `204` if the document was deleted successfully or 
 ```bash
 curl --location --request DELETE 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_NAME' \
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
+```
+
+### Duplicate Document
+
+In order to copy a document, you can just use the GET endpoint and then create it again with the POST endpoint, here's an example in typescript:
+
+```typescript
+
+const docUpdateAsBinaryResponse = await axios.get('https://xxx.collab.tiptap.cloud/api/documents/somedoc?format=yjs', {
+  headers: {
+    'Authorization': 'your_token',
+  },
+  responseType: 'arraybuffer',
+})
+
+await axios.post('https://xxx.collab.tiptap.cloud/api/documents/somedoc-duplicated', docUpdateAsBinaryResponse.data, {
+  headers: {
+    'Authorization': 'your_token',
+  },
+})
+
 ```
 
 ## Screenshots
