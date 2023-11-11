@@ -129,6 +129,19 @@ curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_
 --data '@yjsUpdate.binary.txt'
 ```
 
+### List Documents
+
+```bash
+GET /api/documents
+```
+
+This call returns a list of all documents present on the servers storage.
+
+```bash
+curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents' \
+--header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
+```
+
 ### Get Document
 
 ```bash
@@ -148,6 +161,28 @@ curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
 ```
 
+**Note:** When using axios, you need to specify `responseType: arraybuffer` in the options of the request.
+
+```typescript
+const ydocUpdate = await axios.get('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc?format=yjs', { responseType: 'arraybuffer' })
+```
+
+### Update Document
+
+```bash
+PATCH /api/documents/:identifier
+```
+
+This call accepts a Yjs update message and will apply it on the existing document on the server.
+This endpoint will return the HTTP status `204` if the document was updated successfully, `404` is the document does not exist, or `422` if the payload is invalid or the update cannot be applied.
+
+```bash
+curl --location --request PATCH 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_NAME' \
+--header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA' \
+--data '@yjsUpdate.binary.txt'
+```
+
+
 ### Delete Document
 
 ```bash
@@ -161,6 +196,27 @@ It returns either HTTP status `204` if the document was deleted successfully or 
 ```bash
 curl --location --request DELETE 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_NAME' \
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
+```
+
+### Duplicate Document
+
+In order to copy a document, you can just use the GET endpoint and then create it again with the POST endpoint, here's an example in typescript:
+
+```typescript
+
+const docUpdateAsBinaryResponse = await axios.get('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc?format=yjs', {
+  headers: {
+    'Authorization': 'your_token',
+  },
+  responseType: 'arraybuffer',
+})
+
+await axios.post('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc-duplicated', docUpdateAsBinaryResponse.data, {
+  headers: {
+    'Authorization': 'your_token',
+  },
+})
+
 ```
 
 ## Screenshots
