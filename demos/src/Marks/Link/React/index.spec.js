@@ -61,7 +61,7 @@ context('/src/Marks/Link/React/', () => {
 
       cy.get('.tiptap')
         .find('a')
-        .should('contain', 'https://tiptap.dev')
+        .should('contain', 'Example TextDEFAULT')
         .should('have.attr', 'href', 'https://tiptap.dev')
     })
   })
