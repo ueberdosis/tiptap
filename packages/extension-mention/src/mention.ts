@@ -3,10 +3,24 @@ import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { PluginKey } from '@tiptap/pm/state'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
-export type MentionOptions = {
+// See `addAttributes` below
+export interface MentionNodeAttrs {
+  /**
+   * The identifier for the selected item that was mentioned, stored as a `data-id`
+   * attribute.
+   */
+  id: string | null;
+  /**
+   * The label to be rendered by the editor as the displayed text for this mentioned
+   * item, if provided. Stored as a `data-label` attribute. See `renderLabel`.
+   */
+  label?: string | null;
+}
+
+export type MentionOptions<SuggestionItem = any, Attrs extends Record<string, any> = MentionNodeAttrs> = {
   HTMLAttributes: Record<string, any>
-  renderLabel: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
-  suggestion: Omit<SuggestionOptions, 'editor'>
+  renderLabel: (props: { options: MentionOptions<SuggestionItem, Attrs>; node: ProseMirrorNode }) => string
+  suggestion: Omit<SuggestionOptions<SuggestionItem, Attrs>, 'editor'>
 }
 
 export const MentionPluginKey = new PluginKey('mention')
