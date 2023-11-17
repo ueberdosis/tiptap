@@ -34,7 +34,9 @@ export function createNodeFromContent(
       return schema.nodeFromJSON(content)
     } catch (error) {
       console.warn('[tiptap warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
-
+      if (options.parseOptions?.throwErrors) {
+        throw error
+      }
       return createNodeFromContent('', schema, options)
     }
   }

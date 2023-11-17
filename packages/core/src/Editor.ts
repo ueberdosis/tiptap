@@ -71,6 +71,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     onFocus: () => null,
     onBlur: () => null,
     onDestroy: () => null,
+    onError: () => null,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -79,10 +80,17 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
+    this.on('error', this.options.onError)
     this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
     this.createView()
     this.injectCSS()
+    try {
+      this.createView()
+      this.injectCSS()
+    } catch (error) {
+      this.emit('error', { editor: this, error: error as Error })
+    }
     this.on('create', this.options.onCreate)
     this.on('update', this.options.onUpdate)
     this.on('selectionUpdate', this.options.onSelectionUpdate)
