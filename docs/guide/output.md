@@ -45,7 +45,7 @@ Here is an interactive example where you can see that in action:
 https://embed.tiptap.dev/preview/GuideContent/ExportJSON?hideSource
 
 ### Option 2: HTML
-HTML can be easily rendered in other places, for example in emails and it’s wildly used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
+HTML can be easily rendered in other places, for example in emails and it’s widely used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
 
 ```js
 const html = editor.getHTML()
