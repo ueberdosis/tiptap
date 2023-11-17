@@ -12,27 +12,27 @@ context('/src/Marks/Link/React/', () => {
 
   it('should parse a tags correctly', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#">Example Text</a></p>')
+      editor.commands.setContent('<p><a href="#">Example Text1</a></p>')
       expect(editor.getHTML()).to.eq(
-        '<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text</a></p>',
+        '<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text1</a></p>',
       )
     })
   })
 
   it('should parse a tags with target attribute correctly', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#" target="_self">Example Text</a></p>')
+      editor.commands.setContent('<p><a href="#" target="_self">Example Text2</a></p>')
       expect(editor.getHTML()).to.eq(
-        '<p><a target="_self" rel="noopener noreferrer nofollow" href="#">Example Text</a></p>',
+        '<p><a target="_self" rel="noopener noreferrer nofollow" href="#">Example Text2</a></p>',
       )
     })
   })
 
   it('should parse a tags with rel attribute correctly', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#" rel="follow">Example Text</a></p>')
+      editor.commands.setContent('<p><a href="#" rel="follow">Example Text3</a></p>')
       expect(editor.getHTML()).to.eq(
-        '<p><a target="_blank" rel="follow" href="#">Example Text</a></p>',
+        '<p><a target="_blank" rel="follow" href="#">Example Text3</a></p>',
       )
     })
   })
@@ -65,12 +65,12 @@ context('/src/Marks/Link/React/', () => {
   it('detects a pasted URL within a text', () => {
     cy.get('.tiptap')
       .paste({
-        pastePayload: 'some text https://example.com around an url',
+        pastePayload: 'some text https://example1.com around an url',
         pasteType: 'text/plain',
       })
       .find('a')
-      .should('contain', 'https://example.com')
-      .should('have.attr', 'href', 'https://example.com')
+      .should('contain', 'https://example1.com')
+      .should('have.attr', 'href', 'https://example1.com')
   })
 
   it('detects a pasted URL', () => {
@@ -78,8 +78,8 @@ context('/src/Marks/Link/React/', () => {
       .type('{backspace}')
       .paste({ pastePayload: 'https://example2.com', pasteType: 'text/plain' })
       .find('a')
-      .should('contain', 'Example Text')
-      .should('have.attr', 'href', 'https://example.com')
+      .should('contain', 'https://example2.com')
+      .should('have.attr', 'href', 'https://example2.com')
   })
 
   it('detects a pasted URL with query params', () => {
@@ -87,7 +87,7 @@ context('/src/Marks/Link/React/', () => {
       .type('{backspace}')
       .paste({ pastePayload: 'https://example.com?paramA=nice&paramB=cool', pasteType: 'text/plain' })
       .find('a')
-      .should('contain', 'Example Text')
+      .should('contain', 'https://example.com?paramA=nice&paramB=cool')
       .should('have.attr', 'href', 'https://example.com?paramA=nice&paramB=cool')
   })
 
