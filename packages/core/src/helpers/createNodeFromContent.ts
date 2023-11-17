@@ -10,10 +10,10 @@ import { Content } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'
 
 export type CreateNodeFromContentOptions = {
-  slice?: boolean
-  parseOptions?: ParseOptions
-  throwOnError?: boolean
-}
+  slice?: boolean;
+  parseOptions?: ParseOptions;
+  throwOnError?: boolean;
+};
 
 export function createNodeFromContent(
   content: Content,
