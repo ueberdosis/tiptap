@@ -59,7 +59,7 @@
   ],
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "[typescript]": {
-    "editor.defaultFormatter": "dbaeumer.prettier-vscode"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "[javascript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
