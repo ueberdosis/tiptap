@@ -7,6 +7,7 @@ export function createDocument(
   content: Content,
   schema: Schema,
   parseOptions: ParseOptions = {},
+  throwOnError = false,
 ): ProseMirrorNode {
-  return createNodeFromContent(content, schema, { slice: false, parseOptions }) as ProseMirrorNode
+  return createNodeFromContent(content, schema, { slice: false, parseOptions, throwOnError }) as ProseMirrorNode
 }

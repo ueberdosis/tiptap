@@ -18,9 +18,9 @@ declare module '@tiptap/core' {
   }
 }
 
-export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}) => ({ tr, editor, dispatch }) => {
+export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}, throwOnError = false) => ({ tr, editor, dispatch }) => {
   const { doc } = tr
-  const document = createDocument(content, editor.schema, parseOptions)
+  const document = createDocument(content, editor.schema, parseOptions, throwOnError)
 
   if (dispatch) {
     tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)

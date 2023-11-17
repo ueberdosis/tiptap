@@ -32,7 +32,7 @@ import { isFunction } from './utilities/isFunction.js'
 export { extensions }
 
 export interface HTMLElement {
-  editor?: Editor
+  editor?: Editor;
 }
 
 export class Editor extends EventEmitter<EditorEvents> {
@@ -63,6 +63,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     enableInputRules: true,
     enablePasteRules: true,
     enableCoreExtensions: true,
+    throwOnError: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
     onUpdate: () => null,
@@ -83,8 +84,6 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('error', this.options.onError)
     this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
-    this.createView()
-    this.injectCSS()
     try {
       this.createView()
       this.injectCSS()
@@ -268,7 +267,12 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates a ProseMirror view.
    */
   private createView(): void {
-    const doc = createDocument(this.options.content, this.schema, this.options.parseOptions)
+    const doc = createDocument(
+      this.options.content,
+      this.schema,
+      this.options.parseOptions,
+      this.options.throwOnError,
+    )
     const selection = resolveFocusPosition(doc, this.options.autofocus)
 
     this.view = new EditorView(this.options.element, {
@@ -412,8 +416,8 @@ export class Editor extends EventEmitter<EditorEvents> {
    * @param name Name of the node or mark
    * @param attributes Attributes of the node or mark
    */
-  public isActive(name: string, attributes?: {}): boolean
-  public isActive(attributes: {}): boolean
+  public isActive(name: string, attributes?: {}): boolean;
+  public isActive(attributes: {}): boolean;
   public isActive(nameOrAttributes: string, attributesOrUndefined?: {}): boolean {
     const name = typeof nameOrAttributes === 'string' ? nameOrAttributes : null
 
@@ -440,8 +444,8 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as text.
    */
   public getText(options?: {
-    blockSeparator?: string
-    textSerializers?: Record<string, TextSerializer>
+    blockSeparator?: string;
+    textSerializers?: Record<string, TextSerializer>;
   }): string {
     const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
 

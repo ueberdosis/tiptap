@@ -63,6 +63,7 @@ export interface EditorOptions {
   enableInputRules: EnableRules
   enablePasteRules: EnableRules
   enableCoreExtensions: boolean
+  throwOnError?: boolean
   onBeforeCreate: (props: EditorEvents['beforeCreate']) => void
   onCreate: (props: EditorEvents['create']) => void
   onUpdate: (props: EditorEvents['update']) => void
