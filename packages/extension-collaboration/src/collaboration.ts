@@ -124,7 +124,7 @@ export const Collaboration = Extension.create<CollaborationOptions>({
         undoManager.restore = () => {}
       }
 
-      const viewRet = originalUndoPluginView(view)
+      const viewRet = originalUndoPluginView ? originalUndoPluginView(view) : undefined
 
       return {
         destroy: () => {
@@ -142,7 +142,9 @@ export const Collaboration = Extension.create<CollaborationOptions>({
             undoManager._observers = observers
           }
 
-          viewRet.destroy()
+          if (viewRet?.destroy) {
+            viewRet.destroy()
+          }
         },
       }
     }
