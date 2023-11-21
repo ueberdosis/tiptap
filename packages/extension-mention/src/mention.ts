@@ -131,14 +131,19 @@ export const Mention = Node.create<MentionOptions>({
         }),
       ]
     }
-    return [
-      'span',
-      mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
-      this.options.renderHTML({
-        options: this.options,
-        node,
-      }),
-    ]
+    const html = this.options.renderHTML({
+      options: this.options,
+      node,
+    })
+
+    if (typeof html === 'string') {
+      return [
+        'span',
+        mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
+        html,
+      ]
+    }
+    return html
   },
 
   renderText({ node }) {
