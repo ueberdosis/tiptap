@@ -371,6 +371,15 @@ export class Editor extends EventEmitter<EditorEvents> {
         event: focus.event,
         transaction,
       })
+    } else {
+      const contentBeforeUpdate = transaction.before.content
+
+      if (this.options.autofocus
+        && transaction.getMeta('y-sync$')?.isChangeOrigin
+        && contentBeforeUpdate.content.length === 1
+        && contentBeforeUpdate.content[0].content.size === 0) {
+        this.commands.focus(this.options.autofocus)
+      }
     }
 
     if (blur) {
