@@ -53,12 +53,14 @@ export const FocusClasses = Extension.create<FocusOptions>({
             // Loop through current
             let currentLevel = 0
 
-            doc.descendants((node, pos) => {
+            doc.descendants((node, nodeStartPosition) => {
+              const nodeEndPosition = nodeStartPosition + node.nodeSize - 1
+
               if (node.isText) {
                 return false
               }
 
-              const isCurrent = anchor >= pos && anchor <= pos + node.nodeSize - 1
+              const isCurrent = (anchor >= nodeStartPosition && anchor <= nodeEndPosition) || (selection.$from.pos <= nodeStartPosition && selection.$to.pos >= nodeStartPosition + 1)
 
               if (!isCurrent) {
                 return false
@@ -74,7 +76,7 @@ export const FocusClasses = Extension.create<FocusOptions>({
               }
 
               decorations.push(
-                Decoration.node(pos, pos + node.nodeSize, {
+                Decoration.node(nodeStartPosition, nodeStartPosition + node.nodeSize, {
                   class: this.options.className,
                 }),
               )
