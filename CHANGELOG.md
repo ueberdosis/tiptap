@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.12](https://github.com/ueberdosis/tiptap/compare/v2.1.11...v2.1.12) (2023-10-11)
+
+
+### Bug Fixes
+
+* **link:** restore pasteHandler and add existing url check ([#4523](https://github.com/ueberdosis/tiptap/issues/4523)) ([1a7b428](https://github.com/ueberdosis/tiptap/commit/1a7b4280d2f9c334d14b16016c29e9f4862716a0))
+
+
+
+
+
 ## [2.1.11](https://github.com/ueberdosis/tiptap/compare/v2.1.10...v2.1.11) (2023-09-20)
 
 
