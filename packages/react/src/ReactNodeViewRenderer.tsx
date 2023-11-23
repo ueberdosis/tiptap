@@ -157,9 +157,6 @@ class ReactNodeView extends NodeView<
       const oldNode = this.node
       const oldDecorations = this.decorations
 
-      Object.keys(node.attrs).forEach(key => {
-        this.renderer.element.setAttribute(key, node.attrs[key])
-      })
       this.node = node
       this.decorations = decorations
 
@@ -176,9 +173,6 @@ class ReactNodeView extends NodeView<
       return true
     }
 
-    Object.keys(node.attrs).forEach(key => {
-      this.renderer.element.setAttribute(key, node.attrs[key])
-    })
     this.node = node
     this.decorations = decorations
 
