@@ -182,6 +182,9 @@ class ReactNodeView extends NodeView<
   }
 
   selectNode() {
+    if (this.renderer.props.selected) {
+      return
+    }
     this.renderer.updateProps({
       selected: true,
     })
@@ -189,6 +192,9 @@ class ReactNodeView extends NodeView<
   }
 
   deselectNode() {
+    if (!this.renderer.props.selected) {
+      return
+    }
     this.renderer.updateProps({
       selected: false,
     })
