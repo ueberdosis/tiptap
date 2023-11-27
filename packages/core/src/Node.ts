@@ -538,7 +538,7 @@ export class Node<Options = any, Storage = any> {
 
   config: NodeConfig = {
     name: this.name,
-    defaultOptions: {},
+    defaultOptions: undefined,
   }
 
   constructor(config: Partial<NodeConfig<Options, Storage>> = {}) {

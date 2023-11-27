@@ -297,7 +297,7 @@ export class Extension<Options = any, Storage = any> {
 
   config: ExtensionConfig = {
     name: this.name,
-    defaultOptions: {},
+    defaultOptions: undefined,
   }
 
   constructor(config: Partial<ExtensionConfig<Options, Storage>> = {}) {

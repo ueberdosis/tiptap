@@ -429,7 +429,7 @@ export class Mark<Options = any, Storage = any> {
 
   config: MarkConfig = {
     name: this.name,
-    defaultOptions: {},
+    defaultOptions: undefined,
   }
 
   constructor(config: Partial<MarkConfig<Options, Storage>> = {}) {
