@@ -66,5 +66,6 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  }
+  },
+  "editor.inlineSuggest.showToolbar": "onHover"
 }
