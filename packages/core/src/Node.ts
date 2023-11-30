@@ -538,7 +538,7 @@ export class Node<Options = any, Storage = any> {
 
   config: NodeConfig = {
     name: this.name,
-    defaultOptions: undefined,
+    defaultOptions: {},
   }
 
   constructor(config: Partial<NodeConfig<Options, Storage>> = {}) {
@@ -549,7 +549,7 @@ export class Node<Options = any, Storage = any> {
 
     this.name = this.config.name
 
-    if (config.defaultOptions) {
+    if (config.defaultOptions && Object.keys(config.defaultOptions).length > 0) {
       console.warn(
         `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${this.name}".`,
       )
