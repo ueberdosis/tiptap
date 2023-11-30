@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.13](https://github.com/ueberdosis/tiptap/compare/v2.1.12...v2.1.13) (2023-11-30)
+
+
+### Bug Fixes
+
+* **react:** fix performance regression because of select/deselect ([#4661](https://github.com/ueberdosis/tiptap/issues/4661)) ([ad7f659](https://github.com/ueberdosis/tiptap/commit/ad7f659ed08a6a7c57056b78edbded014549f2dc))
+
+
+
+
+
 ## [2.1.12](https://github.com/ueberdosis/tiptap/compare/v2.1.11...v2.1.12) (2023-10-11)
 
 
