@@ -1,5 +1,5 @@
-export const YOUTUBE_REGEX = /^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)(?!.*\/channel\/)(?!\/@)(.+)?$/
-export const YOUTUBE_REGEX_GLOBAL = /^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)(?!.*\/channel\/)(?!\/@)(.+)?$/g
+export const YOUTUBE_REGEX = /^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)\/(?!channel\/)(?!@)(.+)?$/
+export const YOUTUBE_REGEX_GLOBAL = /^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)\/(?!channel\/)(?!@)(.+)?$/g
 
 export const isValidYoutubeUrl = (url: string) => {
   return url.match(YOUTUBE_REGEX)
@@ -52,6 +52,10 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     startAt,
   } = options
 
+  if (!isValidYoutubeUrl(url)) {
+    return null
+  }
+
   // if is already an embed url, return it
   if (url.includes('/embed/')) {
     return url
@@ -67,7 +71,7 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     return `${getYoutubeEmbedUrl(nocookie)}${id}`
   }
 
-  const videoIdRegex = /v=([-\w]+)/gm
+  const videoIdRegex = /(?:v=|shorts\/)([-\w]+)/gm
   const matches = videoIdRegex.exec(url)
 
   if (!matches || !matches[1]) {
