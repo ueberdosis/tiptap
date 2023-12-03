@@ -57,7 +57,7 @@ context('/src/Marks/Link/Vue/', () => {
   it('detects a pasted URL', () => {
     cy.get('.tiptap').paste({ pastePayload: 'https://example.com', pasteType: 'text/plain' })
       .find('a')
-      .should('contain', 'Example Text')
+      .should('contain', 'https://example.com')
       .should('have.attr', 'href', 'https://example.com')
   })
 
@@ -65,8 +65,17 @@ context('/src/Marks/Link/Vue/', () => {
     cy.get('.tiptap')
       .paste({ pastePayload: 'https://example.com?paramA=nice&paramB=cool', pasteType: 'text/plain' })
       .find('a')
-      .should('contain', 'Example Text')
+      .should('contain', 'https://example.com?paramA=nice&paramB=cool')
       .should('have.attr', 'href', 'https://example.com?paramA=nice&paramB=cool')
+  })
+
+  it('correctly links multiple pasted HTML urls', () => {
+    cy.get('.tiptap')
+      .paste({ pastePayload: '<a href="https://duckduckgo.com/">https://duckduckgo.com/</a><a href="https://www.bing.com/">https://www.bing.com/</a>', pasteType: 'text/html' })
+      .find('a[href="https://duckduckgo.com/"]')
+      .should('contain', 'https://duckduckgo.com/')
+      .find('a[href="https://www.bing.com/"]')
+      .should('contain', 'https://www.bing.com/')
   })
 
   it('correctly detects multiple pasted URLs', () => {
