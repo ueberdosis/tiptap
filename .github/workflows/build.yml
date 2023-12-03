@@ -23,10 +23,10 @@ jobs:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.1
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.7.0
+        uses: actions/setup-node@v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -79,10 +79,10 @@ jobs:
           #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.1
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.7.0
+        uses: actions/setup-node@v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -132,10 +132,10 @@ jobs:
         node-version: [16]
 
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.1.1
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.7.0
+        uses: actions/setup-node@v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
 
