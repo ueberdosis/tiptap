@@ -31,7 +31,7 @@ import { TiptapCollabProvider } from '@hocuspocus/provider'
 import * as Y from 'yjs'
 
 const provider = new TiptapCollabProvider({
-  appId: 'your_app_id', // get this at collab.tiptap.dev
+  appId: 'your_app_id', // get this at cloud.tiptap.dev
   name: 'your_document_name', // e.g. a uuid uuidv4();
   token: 'your_JWT', // see "Authentication" below
   document: new Y.Doc() // pass your existing doc, or leave this out and use provider.document
@@ -60,7 +60,7 @@ Authentication is done using [JSON Web Token (JWT)](https://en.wikipedia.org/wik
 
 ### JWT Generation
 
-To generate a JWT in the browser, you can use [http://jwtbuilder.jamiekurtz.com/](http://jwtbuilder.jamiekurtz.com/). You can leave all the fields as default, just replace the "Key" at the bottom with the secret from your [settings](https://collab.tiptap.dev/apps/settings).
+To generate a JWT in the browser, you can use [http://jwtbuilder.jamiekurtz.com/](http://jwtbuilder.jamiekurtz.com/). You can leave all the fields as default, just replace the "Key" at the bottom with the secret from your [settings](https://cloud.tiptap.dev/apps/settings).
 
 In Node.js, you can generate a JWT like this:
 
@@ -82,7 +82,7 @@ const jwt = jsonwebtoken.sign(data, 'your_secret')
 ## Webhook
 
 You can define a URL and we will call it every time a document has changed. This is useful for getting the JSON representation of the Yjs document in your own application. We call your webhook URL when the document is saved to our database. This operation is debounced by 2-10 seconds. So your application won't be flooded by us. Right now we're only exporting the fragment `default` of the Yjs document.
-You can add the webhook URL in the [settings page](https://collab.tiptap.dev/apps/settings) of your Tiptap Collab app.
+You can add the webhook URL in the [settings page](https://cloud.tiptap.dev/apps/settings) of your Tiptap Collab app.
 
 ### Payload
 
@@ -101,7 +101,7 @@ A sample payload of the webhook request looks like this:
 
 ### Signing
 
-All requests to your webhook URL will contain a header called `X-Hocuspocus-Signature-256` that signs the entire message with your secret. You can find it in the [settings](https://collab.tiptap.dev/apps/settings) of your Tiptap Collab app.
+All requests to your webhook URL will contain a header called `X-Hocuspocus-Signature-256` that signs the entire message with your secret. You can find it in the [settings](https://cloud.tiptap.dev/apps/settings) of your Tiptap Collab app.
 
 ## Management API
 
@@ -109,7 +109,7 @@ In addition to the websocket protocol, each Tiptap Collab app comes with a REST 
 
 `https://YOUR_APP_ID.collab.tiptap.cloud/`
 
-Authentication is done using an API secret which you can find in the [settings](https://collab.tiptap.dev/) of your Tiptap Collab app. The secret must be sent as an `Authorization` header.
+Authentication is done using an API secret which you can find in the [settings](https://cloud.tiptap.dev/) of your Tiptap Collab app. The secret must be sent as an `Authorization` header.
 
 If your document identifier contains a slash (`/`), just make sure to encode it as `%2F`, e.g. using `encodeURIComponent` of vanilla JavaScript.
 
