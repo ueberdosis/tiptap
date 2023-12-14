@@ -7,7 +7,7 @@ import {
 } from '@tiptap/core'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { find } from 'linkifyjs'
+import { find, test } from 'linkifyjs'
 
 type AutolinkOptions = {
   type: MarkType
@@ -29,8 +29,35 @@ export function autolink(options: AutolinkOptions): Plugin {
       const transform = combineTransactionSteps(oldState.doc, [...transactions])
       const changes = getChangedRanges(transform)
 
-      changes.forEach(({ newRange }) => {
-        // Now let’s see if we can add new links.
+      changes.forEach(({ oldRange, newRange }) => {
+        // at first we check if we have to remove links
+        getMarksBetween(oldRange.from, oldRange.to, oldState.doc)
+          .filter(item => item.mark.type === options.type)
+          .forEach(oldMark => {
+            const newFrom = transform.mapping.map(oldMark.from)
+            const newTo = transform.mapping.map(oldMark.to)
+            const newMarks = getMarksBetween(newFrom, newTo, newState.doc).filter(
+              item => item.mark.type === options.type,
+            )
+
+            if (!newMarks.length) {
+              return
+            }
+
+            const newMark = newMarks[0]
+            const oldLinkText = oldState.doc.textBetween(oldMark.from, oldMark.to, undefined, ' ')
+            const newLinkText = newState.doc.textBetween(newMark.from, newMark.to, undefined, ' ')
+            const wasLink = test(oldLinkText)
+            const isLink = test(newLinkText)
+
+            // remove only the link, if it was a link before too
+            // because we don’t want to remove links that were set manually
+            if (wasLink && !isLink) {
+              tr.removeMark(newMark.from, newMark.to, options.type)
+            }
+          })
+
+        // now let’s see if we can add new links
         const nodesInChangedRanges = findChildrenInRange(
           newState.doc,
           newRange,

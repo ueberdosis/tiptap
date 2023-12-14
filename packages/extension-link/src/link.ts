@@ -173,22 +173,9 @@ export const Link = Mark.create<LinkOptions>({
             data: link,
           })),
         type: this.type,
-        getAttributes: (match, pasteEvent) => {
-          const html = pasteEvent?.clipboardData?.getData('text/html')
-          const hrefRegex = /href="([^"]*)"/
-
-          const existingLink = html?.match(hrefRegex)
-
-          if (existingLink) {
-            return {
-              href: existingLink[1],
-            }
-          }
-
-          return {
-            href: match.data?.href,
-          }
-        },
+        getAttributes: match => ({
+          href: match.data?.href,
+        }),
       }),
     ]
   },
