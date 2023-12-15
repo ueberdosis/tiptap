@@ -1,6 +1,6 @@
 import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
-import { find, registerCustomProtocol, reset } from 'linkifyjs'
+import { registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
@@ -158,20 +158,28 @@ export const Link = Mark.create<LinkOptions>({
   addPasteRules() {
     return [
       markPasteRule({
-        find: text => find(text)
-          .filter(link => {
-            if (this.options.validate) {
-              return this.options.validate(link.value)
-            }
+        find: (text, event) => {
+          const html = event?.clipboardData?.getData('text/html')
 
-            return true
-          })
-          .filter(link => link.isLink)
-          .map(link => ({
-            text: link.value,
-            index: link.start,
-            data: link,
-          })),
+          if (!html) {
+            return []
+          }
+
+          const dom = new DOMParser().parseFromString(html, 'text/html')
+          const anchors = dom.querySelectorAll('a')
+
+          if (anchors.length) {
+            return anchors.length ? [...anchors].map(anchor => ({
+              text: anchor.innerText,
+              href: anchor.getAttribute('href'),
+              // get the index of the anchor inside the text
+              // and add the length of the anchor text
+              index: dom.body.innerText.indexOf(anchor.innerText) + anchor.innerText.length,
+            })) : []
+          }
+
+          return []
+        },
         type: this.type,
         getAttributes: match => ({
           href: match.data?.href,
