@@ -24,14 +24,15 @@ context('/src/Marks/Link/React/', () => {
     })
   })
 
-  it('should parse a tags correctly', () => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#">Example Text1</a></p>')
-      expect(editor.getHTML()).to.eq(
-        '<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text1</a></p>',
-      )
-    })
+it('should parse a tags correctly', () => {
+  cy.get('.tiptap').then(([{ editor }]) => {
+    editor.commands.setContent('<p><a href="#">Example Text1</a></p>')
+    expect(editor.getHTML()).to.eq(
+      '<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text1</a></p>',
+    )
   })
+})
+
 
   it('should parse a tags with target attribute correctly', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
