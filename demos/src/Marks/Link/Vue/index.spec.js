@@ -24,12 +24,13 @@ context('/src/Marks/Link/Vue/', () => {
     })
   })
 
-  it('should parse a tags with rel attribute correctly', () => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#" rel="follow">Example Text3</a></p>')
-      expect(editor.getHTML()).to.eq('<p><a target="_blank" rel="follow" href="#">Example Text3</a></p>')
-    })
+ it('should parse a tags correctly', () => {
+  cy.get('.tiptap').then(([{ editor }]) => {
+    editor.commands.setContent('<p><a href="#">Example Text1</a></p>')
+    expect(editor.getHTML()).to.eq('<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text1</a></p>')
   })
+})
+
 
   it('the button should add a link to the selected text', () => {
     cy.window().then(win => {
