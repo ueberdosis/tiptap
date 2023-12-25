@@ -48,8 +48,11 @@ context('/src/Marks/Link/React/', () => {
   it('the button should add a link to the selected text', () => {
     cy.window().then(win => {
       cy.stub(win, 'prompt').returns('https://tiptap.dev');
+
       cy.get('button:first').click();
+
       cy.window().its('prompt').should('be.called');
+
       cy.get('.tiptap')
         .find('a')
         .should('contain', 'Example TextDEFAULT')
