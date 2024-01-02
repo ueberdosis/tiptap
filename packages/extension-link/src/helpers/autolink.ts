@@ -125,6 +125,10 @@ export function autolink(options: AutolinkOptions): Plugin {
               return
             }
 
+            if (options.validate && !options.validate(word.word)) {
+              return
+            }
+
             // check if word is already a link mark
             const isLinkMark = getMarksBetween(word.from, word.to, newState.doc).some(mark => mark.mark.type === options.type)
 
