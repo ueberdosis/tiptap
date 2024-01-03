@@ -23,12 +23,6 @@ For help, discussion about best practices, or any other conversation that would 
 <table>
   <tr>
     <td align="center">
-      <a href="https://ueberdosis.io/">
-        <img src="https://unavatar.io/github/ueberdosis" width="100"><br>
-        <strong>überdosis</strong>
-      </a>
-    </td>
-    <td align="center">
       <a href="https://rimsys.io/">
         <img src="https://unavatar.io/github/rimsys" width="100"><br>
         <strong>Rimsys</strong>
@@ -51,7 +45,13 @@ For help, discussion about best practices, or any other conversation that would 
         <img src="https://unavatar.io/github/storyblok" width="100"><br>
         <strong>Storyblok</strong>
       </a>
-    </td>    
+    </td>
+    <td align="center">
+      <a href="https://posthog.com/">
+        <img src="https://unavatar.io/github/posthog" width="100"><br>
+        <strong>PostHog</strong>
+      </a>
+    </td>
   </tr>
 </table>
 
