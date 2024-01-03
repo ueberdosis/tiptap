@@ -7,7 +7,7 @@ import {
 } from '@tiptap/core'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { find, test } from 'linkifyjs'
+import { find } from 'linkifyjs'
 
 type AutolinkOptions = {
   type: MarkType
@@ -29,35 +29,8 @@ export function autolink(options: AutolinkOptions): Plugin {
       const transform = combineTransactionSteps(oldState.doc, [...transactions])
       const changes = getChangedRanges(transform)
 
-      changes.forEach(({ oldRange, newRange }) => {
-        // at first we check if we have to remove links
-        getMarksBetween(oldRange.from, oldRange.to, oldState.doc)
-          .filter(item => item.mark.type === options.type)
-          .forEach(oldMark => {
-            const newFrom = transform.mapping.map(oldMark.from)
-            const newTo = transform.mapping.map(oldMark.to)
-            const newMarks = getMarksBetween(newFrom, newTo, newState.doc).filter(
-              item => item.mark.type === options.type,
-            )
-
-            if (!newMarks.length) {
-              return
-            }
-
-            const newMark = newMarks[0]
-            const oldLinkText = oldState.doc.textBetween(oldMark.from, oldMark.to, undefined, ' ')
-            const newLinkText = newState.doc.textBetween(newMark.from, newMark.to, undefined, ' ')
-            const wasLink = test(oldLinkText)
-            const isLink = test(newLinkText)
-
-            // remove only the link, if it was a link before too
-            // because we don’t want to remove links that were set manually
-            if (wasLink && !isLink) {
-              tr.removeMark(newMark.from, newMark.to, options.type)
-            }
-          })
-
-        // now let’s see if we can add new links
+      changes.forEach(({ newRange }) => {
+        // Now let’s see if we can add new links.
         const nodesInChangedRanges = findChildrenInRange(
           newState.doc,
           newRange,
@@ -67,7 +40,7 @@ export function autolink(options: AutolinkOptions): Plugin {
         let textBlock: NodeWithPos | undefined
         let textBeforeWhitespace: string | undefined
 
-        if (nodesInChangedRanges.length > 0) {
+        if (nodesInChangedRanges.length > 1) {
           // Grab the first node within the changed ranges (ex. the first of two paragraphs when hitting enter).
           textBlock = nodesInChangedRanges[0]
           textBeforeWhitespace = newState.doc.textBetween(
@@ -91,60 +64,60 @@ export function autolink(options: AutolinkOptions): Plugin {
         }
 
         if (textBlock && textBeforeWhitespace) {
-          const words = textBeforeWhitespace.split(' ')
+          const wordsBeforeWhitespace = textBeforeWhitespace.split(' ').filter(s => s !== '')
 
-          const wordsMap: Array<{
-            word: string
-            from: number
-            to: number
-            link?: ReturnType<typeof find>[0]
-          }> = []
+          if (wordsBeforeWhitespace.length <= 0) {
+            return false
+          }
 
-          words.forEach((word, index) => {
-            if (!textBlock) {
-              return
-            }
+          const lastWordBeforeSpace = wordsBeforeWhitespace[wordsBeforeWhitespace.length - 1]
+          const lastWordAndBlockOffset = textBlock.pos + textBeforeWhitespace.lastIndexOf(lastWordBeforeSpace)
 
-            const prevWord = wordsMap[index - 1]
+          if (!lastWordBeforeSpace) {
+            return false
+          }
 
-            const from = prevWord ? prevWord.to + 1 : textBlock.pos + 1
-            const to = from + word.length
+          find(lastWordBeforeSpace)
+            .filter(link => link.isLink)
+            // Calculate link position.
+            .map(link => ({
+              ...link,
+              from: lastWordAndBlockOffset + link.start + 1,
+              to: lastWordAndBlockOffset + link.end + 1,
+            }))
+            // ignore link inside code mark
+            .filter(link => {
+              if (!newState.schema.marks.code) {
+                return true
+              }
 
-            const link = find(word)[0]
-
-            wordsMap.push({
-              word,
-              from,
-              to,
-              link,
+              return !newState.doc.rangeHasMark(
+                link.from,
+                link.to,
+                newState.schema.marks.code,
+              )
             })
-          })
+            // validate link
+            .filter(link => {
+              if (options.validate) {
+                return options.validate(link.value)
+              }
+              return true
+            })
+            // Add link mark.
+            .forEach(link => {
+              if (getMarksBetween(link.from, link.to, newState.doc).some(item => item.mark.type === options.type)) {
+                return
+              }
 
-          wordsMap.forEach(word => {
-            if (!word.link || !word.link.isLink) {
-              return
-            }
-
-            if (options.validate && !options.validate(word.word)) {
-              return
-            }
-
-            // check if word is already a link mark
-            const isLinkMark = getMarksBetween(word.from, word.to, newState.doc).some(mark => mark.mark.type === options.type)
-
-            // remove mark if it is already a link
-            if (isLinkMark) {
-              tr.removeMark(word.from, word.to, options.type)
-            }
-
-            tr.addMark(
-              word.from,
-              word.to,
-              options.type.create({
-                href: word.link.href,
-              }),
-            )
-          })
+              tr.addMark(
+                link.from,
+                link.to,
+                options.type.create({
+                  href: link.href,
+                }),
+              )
+            })
         }
       })
 
