@@ -1,6 +1,8 @@
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import {
+  Mark, markPasteRule, mergeAttributes, PasteRuleMatch,
+} from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
-import { registerCustomProtocol, reset } from 'linkifyjs'
+import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
@@ -10,6 +12,8 @@ export interface LinkProtocolOptions {
   scheme: string;
   optionalSlashes?: boolean;
 }
+
+export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
 
 export interface LinkOptions {
   /**
@@ -161,29 +165,47 @@ export const Link = Mark.create<LinkOptions>({
         find: (text, event) => {
           const html = event?.clipboardData?.getData('text/html')
 
-          if (!html) {
-            return []
+          const foundLinks: PasteRuleMatch[] = []
+
+          if (html) {
+            const dom = new DOMParser().parseFromString(html, 'text/html')
+            const anchors = dom.querySelectorAll('a')
+
+            if (anchors.length) {
+              [...anchors].forEach(anchor => (foundLinks.push({
+                text: anchor.innerText,
+                data: {
+                  href: anchor.getAttribute('href'),
+                },
+                // get the index of the anchor inside the text
+                // and add the length of the anchor text
+                index: dom.body.innerText.indexOf(anchor.innerText) + anchor.innerText.length,
+              })))
+            }
           }
 
-          const dom = new DOMParser().parseFromString(html, 'text/html')
-          const anchors = dom.querySelectorAll('a')
+          if (text) {
+            const links = find(text).filter(item => item.isLink)
 
-          if (anchors.length) {
-            return anchors.length ? [...anchors].map(anchor => ({
-              text: anchor.innerText,
-              href: anchor.getAttribute('href'),
-              // get the index of the anchor inside the text
-              // and add the length of the anchor text
-              index: dom.body.innerText.indexOf(anchor.innerText) + anchor.innerText.length,
-            })) : []
+            if (links.length) {
+              links.forEach(link => (foundLinks.push({
+                text: link.value,
+                data: {
+                  href: link.href,
+                },
+                index: link.start,
+              })))
+            }
           }
 
-          return []
+          return foundLinks
         },
         type: this.type,
-        getAttributes: match => ({
-          href: match.data?.href,
-        }),
+        getAttributes: match => {
+          return {
+            href: match.data?.href,
+          }
+        },
       }),
     ]
   },
