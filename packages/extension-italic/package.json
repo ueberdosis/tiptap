@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-italic",
   "description": "italic extension for tiptap",
-  "version": "2.1.14",
+  "version": "2.1.15",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,7 +29,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.1.14"
+    "@tiptap/core": "^2.1.15"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.0.0"
