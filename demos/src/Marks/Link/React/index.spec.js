@@ -75,6 +75,7 @@ context('/src/Marks/Link/React/', () => {
 
   it('detects a pasted URL', () => {
     cy.get('.tiptap')
+      .type('{backspace}')
       .paste({ pastePayload: 'https://example2.com', pasteType: 'text/plain' })
       .find('a')
       .should('contain', 'https://example2.com')
@@ -83,6 +84,7 @@ context('/src/Marks/Link/React/', () => {
 
   it('detects a pasted URL with query params', () => {
     cy.get('.tiptap')
+      .type('{backspace}')
       .paste({ pastePayload: 'https://example.com?paramA=nice&paramB=cool', pasteType: 'text/plain' })
       .find('a')
       .should('contain', 'https://example.com?paramA=nice&paramB=cool')
