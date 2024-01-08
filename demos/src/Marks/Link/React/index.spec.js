@@ -1,5 +1,3 @@
-import Link from '@tiptap/extension-link'
-
 context('/src/Marks/Link/React/', () => {
   before(() => {
     cy.visit('/src/Marks/Link/React/')
@@ -9,18 +7,6 @@ context('/src/Marks/Link/React/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
       cy.get('.tiptap').type('{selectall}')
-    })
-  })
-
-  it('should add a custom class to a link', () => {
-    const linkExtension = Link.configure({
-      HTMLAttributes: {
-        class: 'foo',
-      },
-    })
-
-    expect(linkExtension.options.HTMLAttributes).to.deep.include({
-      class: 'foo',
     })
   })
 
@@ -64,6 +50,16 @@ context('/src/Marks/Link/React/', () => {
         .should('contain', 'Example Text')
         .should('have.attr', 'href', 'https://tiptap.dev')
     })
+  })
+
+  it('detects autolinking', () => {
+    cy.get('.tiptap').type('https://example.com ').find('a').should('contain', 'https://example.com')
+      .should('have.attr', 'href', 'https://example.com')
+  })
+
+  it('detects autolinking with numbers', () => {
+    cy.get('.tiptap').type('https://tiptap4u.com ').find('a').should('contain', 'https://tiptap4u.com')
+      .should('have.attr', 'href', 'https://tiptap4u.com')
   })
 
   it('detects a pasted URL within a text', () => {

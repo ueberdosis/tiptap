@@ -17,6 +17,7 @@ export default () => {
       Code,
       Link.configure({
         openOnClick: false,
+        autolink: true,
       }),
     ],
     content: `
