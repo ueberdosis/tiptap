@@ -1,4 +1,6 @@
-import { MarkType, NodeType, Schema } from '@tiptap/pm/model'
+import {
+  MarkType, NodeType, Schema,
+} from '@tiptap/pm/model'
 import {
   EditorState, Plugin, PluginKey, Transaction,
 } from '@tiptap/pm/state'
@@ -16,6 +18,7 @@ import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSc
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
+import { NodePos } from './NodePos.js'
 import { style } from './style.js'
 import {
   CanCommands,
@@ -485,5 +488,23 @@ export class Editor extends EventEmitter<EditorEvents> {
   public get isDestroyed(): boolean {
     // @ts-ignore
     return !this.view?.docView
+  }
+
+  public $node(selector: string, attributes?: { [key: string]: any }): NodePos | null {
+    return this.$doc?.querySelector(selector, attributes) || null
+  }
+
+  public $nodes(selector: string, attributes?: { [key: string]: any }): NodePos[] | null {
+    return this.$doc?.querySelectorAll(selector, attributes) || null
+  }
+
+  public $pos(pos: number) {
+    const $pos = this.state.doc.resolve(pos)
+
+    return new NodePos($pos, this)
+  }
+
+  get $doc() {
+    return this.$pos(0)
   }
 }

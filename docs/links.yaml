@@ -167,6 +167,8 @@
       link: /api/introduction
     - title: Editor
       link: /api/editor
+    - title: Node Positions
+      link: /api/nodepos
     - title: Commands
       link: /api/commands
       items:
