@@ -18,7 +18,8 @@ export default () => {
       Code,
       Bold,
       Link.configure({
-        openOnClick: true,
+        openOnClick: false,
+        autolink: true,
       }),
     ],
     content: `

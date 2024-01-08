@@ -21,7 +21,7 @@ export type PasteRuleMatch = {
   data?: Record<string, any>
 }
 
-export type PasteRuleFinder = RegExp | ((text: string) => PasteRuleMatch[] | null | undefined)
+export type PasteRuleFinder = RegExp | ((text: string, event?: ClipboardEvent) => PasteRuleMatch[] | null | undefined)
 
 export class PasteRule {
   find: PasteRuleFinder
@@ -58,12 +58,13 @@ export class PasteRule {
 const pasteRuleMatcherHandler = (
   text: string,
   find: PasteRuleFinder,
+  event?: ClipboardEvent,
 ): ExtendedRegExpMatchArray[] => {
   if (isRegExp(find)) {
     return [...text.matchAll(find)]
   }
 
-  const matches = find(text)
+  const matches = find(text, event)
 
   if (!matches) {
     return []
@@ -119,7 +120,7 @@ function run(config: {
     const resolvedTo = Math.min(to, pos + node.content.size)
     const textToMatch = node.textBetween(resolvedFrom - pos, resolvedTo - pos, undefined, '\ufffc')
 
-    const matches = pasteRuleMatcherHandler(textToMatch, rule.find)
+    const matches = pasteRuleMatcherHandler(textToMatch, rule.find, pasteEvent)
 
     matches.forEach(match => {
       if (match.index === undefined) {
