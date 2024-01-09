@@ -370,7 +370,7 @@
       link: /api/extensions
       items:
         - title: AI
-          link: /api/extensions/ai
+          link: /ai/introduction
           type: new
         - title: BubbleMenu
           link: /api/extensions/bubble-menu
