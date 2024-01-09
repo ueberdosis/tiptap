@@ -164,10 +164,32 @@ curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_
 **Note:** When using axios, you need to specify `responseType: arraybuffer` in the options of the request.
 
 ```typescript
-const ydocUpdate = await axios.get('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc?format=yjs', {  headers: {
+import * as Y from 'yjs'
+
+const ydoc = new Y.Doc()
+
+const axiosResult = await axios.get('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc?format=yjs', {  headers: {
     'Authorization': 'YOUR_SECRET_FROM_SETTINGS_AREA',
   },
-  responseType: 'arraybuffer',  })
+  responseType: 'arraybuffer'  })
+
+Y.applyUpdate(ydoc, axiosResult.data)
+```
+
+When using `node-fetch`, you need to use .arrayBuffer() and create a Buffer from it:
+
+```typescript
+import * as Y from 'yjs'
+
+const ydoc = new Y.Doc()
+
+const fetchResult = await fetch('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc?format=yjs', {
+  headers: {
+    'Authorization': 'YOUR_SECRET_FROM_SETTINGS_AREA',
+  },
+})
+
+Y.applyUpdate(ydoc, Buffer.from(await docUpdateAsBinaryResponse.arrayBuffer()))
 ```
 
 ### Update Document
@@ -195,6 +217,9 @@ DELETE /api/documents/:identifier
 This endpoint deletes a document from the server after closing any open connection to the document.
 
 It returns either HTTP status `204` if the document was deleted successfully or `404` if the document was not found.
+
+If the endpoint returned `204`, but the document still exists, make sure that there is no user re-creating the document from the provider.
+We are closing all connections before deleting a document, but your error handling might re-create the provider, and thus create the document again.
 
 ```bash
 curl --location --request DELETE 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_NAME' \
