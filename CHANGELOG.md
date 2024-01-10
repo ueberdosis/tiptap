@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
+
+
+### Bug Fixes
+
+* **core:** fix new lines being added via elementFromString ([#4767](https://github.com/ueberdosis/tiptap/issues/4767)) ([2235908](https://github.com/ueberdosis/tiptap/commit/2235908c28f388eda041d1d5d017554d513fe909))
+
+
+### Reverts
+
+* Revert "fix(extension-link): fix link not being kept when pasting url with link (#3975)" ([1b34271](https://github.com/ueberdosis/tiptap/commit/1b34271edfdd6e81f670f9ddb15cd6838d986e9f)), closes [#3975](https://github.com/ueberdosis/tiptap/issues/3975)
+
+
+
+
+
 ## [2.1.15](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.1.15) (2024-01-08)
 
 
