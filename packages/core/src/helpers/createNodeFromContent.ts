@@ -40,7 +40,6 @@ export function createNodeFromContent(
   }
 
   if (typeof content === 'string') {
-    content = content.split('\n').map(part => part.trim()).join('') // we need to remove new lines since the parser will add breaks
     const parser = DOMParser.fromSchema(schema)
 
     return options.slice

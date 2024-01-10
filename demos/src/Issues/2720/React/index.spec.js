@@ -20,4 +20,11 @@ context('/src/Issues/2720/React/', () => {
     // check if the content html is correct
     cy.get('.tiptap').should('contain.html', 'Hello World\nThis is content with a new line. Is this working?\n\nLets see if multiple new lines are inserted correctly')
   })
+
+  it('should keep newlines in pre tag', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<pre><code>foo\nbar</code></pre>')
+      cy.get('.tiptap').should('contain.html', '<pre><code>foo\nbar</code></pre>')
+    })
+  })
 })
