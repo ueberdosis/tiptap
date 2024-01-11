@@ -1,14 +1,19 @@
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import {
+  Mark, markPasteRule, mergeAttributes, PasteRuleMatch,
+} from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
+import { pasteHandler } from './helpers/pasteHandler.js'
 
 export interface LinkProtocolOptions {
   scheme: string;
   optionalSlashes?: boolean;
 }
+
+export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
 
 export interface LinkOptions {
   /**
@@ -120,6 +125,12 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
+    // False positive; we're explicitly checking for javascript: links to ignore them
+    // eslint-disable-next-line no-script-url
+    if (HTMLAttributes.href?.startsWith('javascript:')) {
+      // strip out the href
+      return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
+    }
     return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
@@ -151,33 +162,46 @@ export const Link = Mark.create<LinkOptions>({
   addPasteRules() {
     return [
       markPasteRule({
-        find: text => find(text)
-          .filter(link => {
-            if (this.options.validate) {
-              return this.options.validate(link.value)
-            }
+        find: (text, event) => {
+          const html = event?.clipboardData?.getData('text/html')
 
-            return true
-          })
-          .filter(link => link.isLink)
-          .map(link => ({
-            text: link.value,
-            index: link.start,
-            data: link,
-          })),
-        type: this.type,
-        getAttributes: (match, pasteEvent) => {
-          const html = pasteEvent.clipboardData?.getData('text/html')
-          const hrefRegex = /href="([^"]*)"/
+          const foundLinks: PasteRuleMatch[] = []
 
-          const existingLink = html?.match(hrefRegex)
+          if (html) {
+            const dom = new DOMParser().parseFromString(html, 'text/html')
+            const anchors = dom.querySelectorAll('a')
 
-          if (existingLink) {
-            return {
-              href: existingLink[1],
+            if (anchors.length) {
+              [...anchors].forEach(anchor => (foundLinks.push({
+                text: anchor.innerText,
+                data: {
+                  href: anchor.getAttribute('href'),
+                },
+                // get the index of the anchor inside the text
+                // and add the length of the anchor text
+                index: dom.body.innerText.indexOf(anchor.innerText) + anchor.innerText.length,
+              })))
             }
           }
 
+          if (text) {
+            const links = find(text).filter(item => item.isLink)
+
+            if (links.length) {
+              links.forEach(link => (foundLinks.push({
+                text: link.value,
+                data: {
+                  href: link.href,
+                },
+                index: link.start,
+              })))
+            }
+          }
+
+          return foundLinks
+        },
+        type: this.type,
+        getAttributes: match => {
           return {
             href: match.data?.href,
           }
@@ -203,6 +227,15 @@ export const Link = Mark.create<LinkOptions>({
         clickHandler({
           type: this.type,
           whenNotEditable: this.options.openOnClick === 'whenNotEditable',
+        }),
+      )
+    }
+
+    if (this.options.linkOnPaste) {
+      plugins.push(
+        pasteHandler({
+          editor: this.editor,
+          type: this.type,
         }),
       )
     }
