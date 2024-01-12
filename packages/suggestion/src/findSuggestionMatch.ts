@@ -27,7 +27,7 @@ export function findSuggestionMatch(config: Trigger): SuggestionMatch {
     ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
     : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
 
-  const text = $position.nodeBefore?.isText && $position.nodeBefore.text
+  const text = $position.nodeBefore?.text ?? $position.nodeBefore?.textContent
 
   if (!text) {
     return null
