@@ -132,10 +132,10 @@ curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_
 ### List Documents
 
 ```bash
-GET /api/documents
+GET /api/documents?take=100&skip=0
 ```
 
-This call returns a list of all documents present on the servers storage.
+This call returns a list of all documents present on the servers storage. We're returning the first 100 by default, pass `take` or `skip` parameters to adjust this.
 
 ```bash
 curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents' \
