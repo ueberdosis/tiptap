@@ -150,7 +150,7 @@ export default {
       tabOrder: ['React', 'Vue', 'Svelte', 'JS'],
       debugJSON: null,
       showDebug: false,
-      teamId: 'Tiptap',
+      teamId: 'cafabf2d-0171-4701-b874-0a4e74c07e9d',
     }
   },
 
