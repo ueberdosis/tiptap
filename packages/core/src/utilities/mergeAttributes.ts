@@ -14,8 +14,8 @@ export function mergeAttributes(...objects: Record<string, any>[]): Record<strin
         }
 
         if (key === 'class') {
-          const valueClasses: string[] = value.split(' ')
-          const existingClasses: string[] = mergedAttributes[key].split(' ')
+          const valueClasses: string[] = value ? value.split(' ') : []
+          const existingClasses: string[] = mergedAttributes[key] ? mergedAttributes[key].split(' ') : []
 
           const insertClasses = valueClasses.filter(
             valueClass => !existingClasses.includes(valueClass),

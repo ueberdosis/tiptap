@@ -3,6 +3,146 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.15](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.1.15) (2024-01-08)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.14](https://github.com/ueberdosis/tiptap/compare/v2.1.13...v2.1.14) (2024-01-08)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.13](https://github.com/ueberdosis/tiptap/compare/v2.1.12...v2.1.13) (2023-11-30)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.12](https://github.com/ueberdosis/tiptap/compare/v2.1.11...v2.1.12) (2023-10-11)
+
+
+### Bug Fixes
+
+* **link:** restore pasteHandler and add existing url check ([#4523](https://github.com/ueberdosis/tiptap/issues/4523)) ([1a7b428](https://github.com/ueberdosis/tiptap/commit/1a7b4280d2f9c334d14b16016c29e9f4862716a0))
+
+
+
+
+
+## [2.1.11](https://github.com/ueberdosis/tiptap/compare/v2.1.10...v2.1.11) (2023-09-20)
+
+
+### Reverts
+
+* Revert "v2.2.11" ([6aa755a](https://github.com/ueberdosis/tiptap/commit/6aa755a04b9955fc175c7ab33dee527d0d5deef0))
+
+
+
+
+
+## [2.1.10](https://github.com/ueberdosis/tiptap/compare/v2.1.9...v2.1.10) (2023-09-15)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.9](https://github.com/ueberdosis/tiptap/compare/v2.1.8...v2.1.9) (2023-09-14)
+
+
+### Bug Fixes
+
+* add missing attributes in extension-link ([#4429](https://github.com/ueberdosis/tiptap/issues/4429)) ([74b6444](https://github.com/ueberdosis/tiptap/commit/74b644438829d6ee9b0795bc70c55f2755d7438c))
+
+
+
+
+
+## [2.1.8](https://github.com/ueberdosis/tiptap/compare/v2.1.7...v2.1.8) (2023-09-04)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.7](https://github.com/ueberdosis/tiptap/compare/v2.1.6...v2.1.7) (2023-09-04)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.5](https://github.com/ueberdosis/tiptap/compare/v2.1.4...v2.1.5) (2023-08-18)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.4](https://github.com/ueberdosis/tiptap/compare/v2.1.3...v2.1.4) (2023-08-18)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.3](https://github.com/ueberdosis/tiptap/compare/v2.1.2...v2.1.3) (2023-08-18)
+
+
+### Bug Fixes
+
+* fix autolink when code is not enabled for editor ([#4344](https://github.com/ueberdosis/tiptap/issues/4344)) ([f2ac7b9](https://github.com/ueberdosis/tiptap/commit/f2ac7b90912a78b90216a7d7d084c86f0c0eef48))
+
+
+
+
+
+## [2.1.2](https://github.com/ueberdosis/tiptap/compare/v2.1.1...v2.1.2) (2023-08-17)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
+## [2.1.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0...v2.1.1) (2023-08-16)
+
+**Note:** Version bump only for package @tiptap/extension-link
+
+
+
+
+
 # [2.1.0](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.14...v2.1.0) (2023-08-16)
 
 **Note:** Version bump only for package @tiptap/extension-link

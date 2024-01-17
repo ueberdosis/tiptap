@@ -52,7 +52,7 @@ new Editor({
 })
 ```
 
-The rendered HTML will look like that:
+The rendered HTML will look like this:
 
 ```html
 <h1 class="my-custom-heading">Example Text</h1>
@@ -62,7 +62,7 @@ The rendered HTML will look like that:
 If there are already classes defined by the extensions, your classes will be added.
 
 ### Editor
-You can even pass classes to the element which contains the editor like that:
+You can even pass classes to the element which contains the editor:
 
 ```js
 new Editor({
@@ -78,6 +78,14 @@ new Editor({
 The editor works fine with Tailwind CSS, too. Find an example that’s styled with the `@tailwindcss/typography` plugin below.
 
 https://embed.tiptap.dev/preview/Experiments/Tailwind
+
+#### Intellisense
+If you're using [TailwindCSS Intellisense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) add the following snippet to your `.vscode/setting.json` to add intellisense support inside TipTap objects:
+```json
+"tailwindCSS.experimental.classRegex": [
+  "class:\\s*?[\"'`]([^\"'`]*).*?,"
+]
+```
 
 ## Option 3: Customize the HTML
 Or you can customize the markup for extensions. The following example will make a custom bold extension that doesn’t render a `<strong>` tag, but a `<b>` tag:

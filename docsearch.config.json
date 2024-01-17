@@ -1,11 +1,11 @@
 {
   "index_name": "tiptap",
   "start_urls": [
-    "https://tiptap.dev"
+    "https://tiptap.dev/docs/editor"
   ],
   "sitemap_alternate_links": true,
   "stop_urls": [
-      "https://tiptap.dev/hocuspocus"
+      "https://tiptap.dev/docs/hocuspocus"
   ],
   "selectors": {
     "default": {

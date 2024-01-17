@@ -88,6 +88,17 @@ Placeholder.configure({
 })
 ```
 
+### considerAnyAsEmpty
+Consider any node that is not a leaf or atom as empty for the editor empty check.
+
+Default: `false`
+
+```js
+Placeholder.configure({
+  considerAnyAsEmpty: true,
+})
+```
+
 ### showOnlyWhenEditable
 Show decorations only when editor is editable.
 

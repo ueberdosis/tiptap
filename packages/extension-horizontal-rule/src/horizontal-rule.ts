@@ -44,7 +44,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
           const currentChain = chain()
 
           if ($originTo.parentOffset === 0) {
-            currentChain.insertContentAt($originTo.pos - 2, { type: this.name })
+            currentChain.insertContentAt(Math.max($originTo.pos - 2, 0), { type: this.name })
           } else {
             currentChain.insertContent({ type: this.name })
           }
@@ -91,8 +91,6 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
       nodeInputRule({
         find: /^(?:---|—-|___\s|\*\*\*\s)$/,
         type: this.type,
-        blockReplace: true,
-        addExtraNewline: true,
       }),
     ]
   },

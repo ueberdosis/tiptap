@@ -42,17 +42,31 @@ Mention.configure({
 })
 ```
 
-### renderLabel
-Define how a mention label should be rendered.
+### renderText
+Define how a mention text should be rendered.
 
 ```js
 Mention.configure({
-  renderLabel({ options, node }) {
+  renderText({ options, node }) {
     return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
   }
 })
 ```
 
+### renderHTML
+Define how a mention html element should be rendered, this is useful if you want to render an element other than `span` (e.g `a`)
+
+```js
+Mention.configure({
+  renderHTML({ options, node }) {
+    return [
+      "a",
+      { href: '/profile/1' },
+      `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
+      ];
+  }
+})
+```
 ### suggestion
 [Read more](/api/utilities/suggestion)
 

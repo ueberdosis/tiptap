@@ -68,9 +68,9 @@
     - title: Installation
       link: /installation
       items:
-        # - title: CDN
-        #   link: /installation/cdn
-        #   skip: true
+        - title: CDN
+          link: /installation/cdn
+          skip: true
         - title: Vanilla JavaScript
           link: /installation/vanilla-javascript
           skip: true
@@ -129,6 +129,28 @@
         - title: JWT Authentication
           link: /tutorials/jwt-authentication
 
+- title: Tiptap AI
+  items:
+    - title: Introduction
+      link: /ai/introduction
+    - title: Setup
+      link: /ai/setup
+    - title: Extension
+      link: /ai/extension
+      items:
+        - title: Commands
+          link: /ai/extension/commands
+    - title: Advanced usage
+      link: /ai/advanced-usage
+      type: new
+      items:
+        - title: Setup
+          link: /ai/advanced-usage/setup
+          type: new
+        - title: Custom LLM
+          link: /ai/advanced-usage/custom-llm
+          type: new
+
 - title: Guide
   items:
     - title: Configuration
@@ -167,6 +189,8 @@
       link: /api/introduction
     - title: Editor
       link: /api/editor
+    - title: Node Positions
+      link: /api/nodepos
     - title: Commands
       link: /api/commands
       items:
@@ -348,7 +372,7 @@
       link: /api/extensions
       items:
         - title: AI
-          link: /api/extensions/ai
+          link: /ai/introduction
           type: new
         - title: BubbleMenu
           link: /api/extensions/bubble-menu
@@ -358,10 +382,16 @@
           link: /api/extensions/collaboration
         - title: CollaborationCursor
           link: /api/extensions/collaboration-cursor
+        - title: CollaborationHistory
+          link: /api/extensions/collaboration-history
+          type: new
         - title: Color
           link: /api/extensions/color
         - title: Dropcursor
           link: /api/extensions/dropcursor
+        - title: FileHandler
+          link: /api/extensions/file-handler
+          type: new
         - title: FloatingMenu
           link: /api/extensions/floating-menu
         - title: Focus

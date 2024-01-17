@@ -3,6 +3,193 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
+
+
+### Bug Fixes
+
+* **core:** fix new lines being added via elementFromString ([#4767](https://github.com/ueberdosis/tiptap/issues/4767)) ([2235908](https://github.com/ueberdosis/tiptap/commit/2235908c28f388eda041d1d5d017554d513fe909))
+
+
+
+
+
+## [2.1.15](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.1.15) (2024-01-08)
+
+
+### Bug Fixes
+
+* **core:** fix insertContentAt keeping new lines in html content ([#4465](https://github.com/ueberdosis/tiptap/issues/4465)) ([135a12f](https://github.com/ueberdosis/tiptap/commit/135a12f7aa2df839a0b619704110a360b980c738))
+* **link:** fix tests ([d495d92](https://github.com/ueberdosis/tiptap/commit/d495d92a1f7b1c51e09ac8f4934e15a2d1cf070d))
+
+
+
+
+
+## [2.1.14](https://github.com/ueberdosis/tiptap/compare/v2.1.13...v2.1.14) (2024-01-08)
+
+
+### Bug Fixes
+
+* **typography:** require spaces after divisions to not break date formats ([#4696](https://github.com/ueberdosis/tiptap/issues/4696)) ([f6d7e00](https://github.com/ueberdosis/tiptap/commit/f6d7e00a746a67fa440a3fa0f5362295959873d2))
+
+
+
+
+
+## [2.1.13](https://github.com/ueberdosis/tiptap/compare/v2.1.12...v2.1.13) (2023-11-30)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.12](https://github.com/ueberdosis/tiptap/compare/v2.1.11...v2.1.12) (2023-10-11)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.11](https://github.com/ueberdosis/tiptap/compare/v2.1.10...v2.1.11) (2023-09-20)
+
+
+### Reverts
+
+* Revert "v2.2.11" ([6aa755a](https://github.com/ueberdosis/tiptap/commit/6aa755a04b9955fc175c7ab33dee527d0d5deef0))
+
+
+
+
+
+## [2.1.10](https://github.com/ueberdosis/tiptap/compare/v2.1.9...v2.1.10) (2023-09-15)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.9](https://github.com/ueberdosis/tiptap/compare/v2.1.8...v2.1.9) (2023-09-14)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.8](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.7...v2.1.8) (2023-09-04)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.7](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.6...v2.1.7) (2023-09-04)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+# [2.2.0-rc.2](https://github.com/ueberdosis/tiptap/compare/v2.1.6...v2.2.0-rc.2) (2023-08-18)
+
+
+
+# [2.2.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.0...v2.2.0-rc.1) (2023-08-18)
+
+
+
+# [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
+
+
+### Features
+
+* **placeholder:** allow editor-is-empty class on any node ([#4335](https://github.com/ueberdosis/tiptap/issues/4335)) ([ff929b1](https://github.com/ueberdosis/tiptap/commit/ff929b179de930619005a773bb4186ae2aa2ec58))
+
+
+
+
+
+# [2.2.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.0...v2.2.0-rc.1) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+# [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
+
+
+### Features
+
+* **placeholder:** allow editor-is-empty class on any node ([#4335](https://github.com/ueberdosis/tiptap/issues/4335)) ([ff929b1](https://github.com/ueberdosis/tiptap/commit/ff929b179de930619005a773bb4186ae2aa2ec58))
+
+
+
+
+
+
+## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+## [2.1.5](https://github.com/ueberdosis/tiptap/compare/v2.1.4...v2.1.5) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.4](https://github.com/ueberdosis/tiptap/compare/v2.1.3...v2.1.4) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.3](https://github.com/ueberdosis/tiptap/compare/v2.1.2...v2.1.3) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.2](https://github.com/ueberdosis/tiptap/compare/v2.1.1...v2.1.2) (2023-08-17)
+
+
+### Bug Fixes
+
+* **core:** fix error when merging class attributes ([#4340](https://github.com/ueberdosis/tiptap/issues/4340)) ([a251946](https://github.com/ueberdosis/tiptap/commit/a2519468589e2baa44901a66a3a06b24dc8626d6))
+
+
+
+
+
+## [2.1.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0...v2.1.1) (2023-08-16)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
 # [2.1.0](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.14...v2.1.0) (2023-08-16)
 
 **Note:** Version bump only for package tiptap-demos

@@ -1,6 +1,8 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
+import {
+  Mark, markPasteRule, mergeAttributes, PasteRuleMatch,
+} from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
-import { registerCustomProtocol, reset } from 'linkifyjs'
+import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
@@ -10,6 +12,8 @@ export interface LinkProtocolOptions {
   scheme: string;
   optionalSlashes?: boolean;
 }
+
+export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
 
 export interface LinkOptions {
   /**
@@ -46,11 +50,11 @@ declare module '@tiptap/core' {
       /**
        * Set a link mark
        */
-      setLink: (attributes: { href: string; target?: string | null }) => ReturnType
+      setLink: (attributes: { href: string; target?: string | null; rel?: string | null; class?: string | null }) => ReturnType
       /**
        * Toggle a link mark
        */
-      toggleLink: (attributes: { href: string; target?: string | null }) => ReturnType
+      toggleLink: (attributes: { href: string; target?: string | null; rel?: string | null; class?: string | null }) => ReturnType
       /**
        * Unset a link mark
        */
@@ -121,6 +125,12 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
+    // False positive; we're explicitly checking for javascript: links to ignore them
+    // eslint-disable-next-line no-script-url
+    if (HTMLAttributes.href?.startsWith('javascript:')) {
+      // strip out the href
+      return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
+    }
     return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
@@ -149,6 +159,57 @@ export const Link = Mark.create<LinkOptions>({
     }
   },
 
+  addPasteRules() {
+    return [
+      markPasteRule({
+        find: (text, event) => {
+          const html = event?.clipboardData?.getData('text/html')
+
+          const foundLinks: PasteRuleMatch[] = []
+
+          if (html) {
+            const dom = new DOMParser().parseFromString(html, 'text/html')
+            const anchors = dom.querySelectorAll('a')
+
+            if (anchors.length) {
+              [...anchors].forEach(anchor => (foundLinks.push({
+                text: anchor.innerText,
+                data: {
+                  href: anchor.getAttribute('href'),
+                },
+                // get the index of the anchor inside the text
+                // and add the length of the anchor text
+                index: dom.body.innerText.indexOf(anchor.innerText) + anchor.innerText.length,
+              })))
+            }
+          }
+
+          if (text) {
+            const links = find(text).filter(item => item.isLink)
+
+            if (links.length) {
+              links.forEach(link => (foundLinks.push({
+                text: link.value,
+                data: {
+                  href: link.href,
+                },
+                index: link.start,
+              })))
+            }
+          }
+
+          return foundLinks
+        },
+        type: this.type,
+        getAttributes: match => {
+          return {
+            href: match.data?.href,
+          }
+        },
+      }),
+    ]
+  },
+
   addProseMirrorPlugins() {
     const plugins: Plugin[] = []
 
@@ -169,13 +230,14 @@ export const Link = Mark.create<LinkOptions>({
       )
     }
 
-    plugins.push(
-      pasteHandler({
-        editor: this.editor,
-        type: this.type,
-        linkOnPaste: this.options.linkOnPaste,
-      }),
-    )
+    if (this.options.linkOnPaste) {
+      plugins.push(
+        pasteHandler({
+          editor: this.editor,
+          type: this.type,
+        }),
+      )
+    }
 
     return plugins
   },

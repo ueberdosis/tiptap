@@ -34,7 +34,7 @@ const provider = new TiptapCollabProvider({
   appId: 'your_app_id', // get this at collab.tiptap.dev
   name: 'your_document_name', // e.g. a uuid uuidv4();
   token: 'your_JWT', // see "Authentication" below
-  doc: new Y.Doc() // pass your existing doc, or leave this out and use provider.document
+  document: new Y.Doc() // pass your existing doc, or leave this out and use provider.document
 });
 ```
 
@@ -93,7 +93,7 @@ A sample payload of the webhook request looks like this:
   "appName": '', // name of your app
   "name": '', // name of the document
   "time": // current time as ISOString (new Date()).toISOString())
-  "tiptapData": {}, // JSON output from Tiptap (see https://tiptap.dev/guide/output#option-1-json): TiptapTransformer.fromYdoc()
+  "tiptapJson": {}, // JSON output from Tiptap (see https://tiptap.dev/guide/output#option-1-json): TiptapTransformer.fromYdoc()
   "ydocState"?: {}, // optionally contains the entire yDoc as base64. Contact us to enable this property!
   "clientsCount": 100 // number of currently connected clients
 }
@@ -129,6 +129,19 @@ curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_
 --data '@yjsUpdate.binary.txt'
 ```
 
+### List Documents
+
+```bash
+GET /api/documents?take=100&skip=0
+```
+
+This call returns a list of all documents present on the servers storage. We're returning the first 100 by default, pass `take` or `skip` parameters to adjust this.
+
+```bash
+curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents' \
+--header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
+```
+
 ### Get Document
 
 ```bash
@@ -148,6 +161,53 @@ curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
 ```
 
+**Note:** When using axios, you need to specify `responseType: arraybuffer` in the options of the request.
+
+```typescript
+import * as Y from 'yjs'
+
+const ydoc = new Y.Doc()
+
+const axiosResult = await axios.get('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc?format=yjs', {  headers: {
+    'Authorization': 'YOUR_SECRET_FROM_SETTINGS_AREA',
+  },
+  responseType: 'arraybuffer'  })
+
+Y.applyUpdate(ydoc, axiosResult.data)
+```
+
+When using `node-fetch`, you need to use .arrayBuffer() and create a Buffer from it:
+
+```typescript
+import * as Y from 'yjs'
+
+const ydoc = new Y.Doc()
+
+const fetchResult = await fetch('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc?format=yjs', {
+  headers: {
+    'Authorization': 'YOUR_SECRET_FROM_SETTINGS_AREA',
+  },
+})
+
+Y.applyUpdate(ydoc, Buffer.from(await docUpdateAsBinaryResponse.arrayBuffer()))
+```
+
+### Update Document
+
+```bash
+PATCH /api/documents/:identifier
+```
+
+This call accepts a Yjs update message and will apply it on the existing document on the server.
+This endpoint will return the HTTP status `204` if the document was updated successfully, `404` is the document does not exist, or `422` if the payload is invalid or the update cannot be applied.
+
+```bash
+curl --location --request PATCH 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_NAME' \
+--header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA' \
+--data '@yjsUpdate.binary.txt'
+```
+
+
 ### Delete Document
 
 ```bash
@@ -158,9 +218,33 @@ This endpoint deletes a document from the server after closing any open connecti
 
 It returns either HTTP status `204` if the document was deleted successfully or `404` if the document was not found.
 
+If the endpoint returned `204`, but the document still exists, make sure that there is no user re-creating the document from the provider.
+We are closing all connections before deleting a document, but your error handling might re-create the provider, and thus create the document again.
+
 ```bash
 curl --location --request DELETE 'https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/DOCUMENT_NAME' \
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
+```
+
+### Duplicate Document
+
+In order to copy a document, you can just use the GET endpoint and then create it again with the POST endpoint, here's an example in typescript:
+
+```typescript
+
+const docUpdateAsBinaryResponse = await axios.get('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc?format=yjs', {
+  headers: {
+    'Authorization': 'YOUR_SECRET_FROM_SETTINGS_AREA',
+  },
+  responseType: 'arraybuffer',
+})
+
+await axios.post('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc-duplicated', docUpdateAsBinaryResponse.data, {
+  headers: {
+    'Authorization': 'YOUR_SECRET_FROM_SETTINGS_AREA',
+  },
+})
+
 ```
 
 ## Screenshots

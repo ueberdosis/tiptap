@@ -40,7 +40,7 @@ export default {
         </p>
       `,
       onUpdate: ({ editor: currentEditor }) => {
-        console.log(this.count, 'onUpdate', currentEditor.getHTML())
+        console.log(this.count, 'onUpdate', currentEditor.getHTML()) // eslint-disable-line no-console
       },
     })
   },
