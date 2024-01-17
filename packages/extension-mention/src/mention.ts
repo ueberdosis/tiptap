@@ -1,16 +1,13 @@
 import { mergeAttributes, Node } from '@tiptap/core'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { PluginKey } from '@tiptap/pm/state'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { PluginKey } from 'prosemirror-state'
 
 export type MentionOptions = {
-  HTMLAttributes: Record<string, any>,
-  renderLabel: (props: {
-    options: MentionOptions,
-    node: ProseMirrorNode,
-  }) => string,
+  HTMLAttributes: Record<string, any>
+  renderLabel: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
   deleteOnBackspace: boolean,
-  suggestion: Omit<SuggestionOptions, 'editor'>,
+  suggestion: Omit<SuggestionOptions, 'editor'>
 }
 
 export const MentionPluginKey = new PluginKey('mention')

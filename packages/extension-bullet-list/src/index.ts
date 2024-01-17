@@ -1,5 +1,5 @@
-import { BulletList } from './bullet-list'
+import { BulletList } from './bullet-list.js'
 
-export * from './bullet-list'
+export * from './bullet-list.js'
 
 export default BulletList

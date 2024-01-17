@@ -1,10 +1,10 @@
-import { Plugin, PluginKey, Selection } from 'prosemirror-state'
+import { Plugin, PluginKey, Selection } from '@tiptap/pm/state'
 
-import { CommandManager } from '../CommandManager'
-import { Extension } from '../Extension'
-import { createChainableState } from '../helpers/createChainableState'
-import { isiOS } from '../utilities/isiOS'
-import { isMacOS } from '../utilities/isMacOS'
+import { CommandManager } from '../CommandManager.js'
+import { Extension } from '../Extension.js'
+import { createChainableState } from '../helpers/createChainableState.js'
+import { isiOS } from '../utilities/isiOS.js'
+import { isMacOS } from '../utilities/isMacOS.js'
 
 export const Keymap = Extension.create({
   name: 'keymap',
@@ -12,24 +12,28 @@ export const Keymap = Extension.create({
   addKeyboardShortcuts() {
     const handleBackspace = () => this.editor.commands.first(({ commands }) => [
       () => commands.undoInputRule(),
+
       // maybe convert first text block node to default node
       () => commands.command(({ tr }) => {
         const { selection, doc } = tr
         const { empty, $anchor } = selection
         const { pos, parent } = $anchor
-        const isAtStart = Selection.atStart(doc).from === pos
+        const $parentPos = $anchor.parent.isTextblock ? tr.doc.resolve(pos - 1) : $anchor
+        const parentIsIsolating = $parentPos.parent.type.spec.isolating
 
-        if (
-          !empty
-          || !isAtStart
-          || !parent.type.isTextblock
-          || parent.textContent.length
-        ) {
+        const parentPos = $anchor.pos - $anchor.parentOffset
+
+        const isAtStart = (parentIsIsolating && $parentPos.parent.childCount === 1)
+          ? parentPos === $anchor.pos
+          : Selection.atStart(doc).from === pos
+
+        if (!empty || !isAtStart || !parent.type.isTextblock || parent.textContent.length) {
           return false
         }
 
         return commands.clearNodes()
       }),
+
       () => commands.deleteSelection(),
       () => commands.joinBackward(),
       () => commands.selectNodeBackward(),
@@ -104,9 +108,14 @@ export const Keymap = Extension.create({
           const allFrom = Selection.atStart(oldState.doc).from
           const allEnd = Selection.atEnd(oldState.doc).to
           const allWasSelected = from === allFrom && to === allEnd
+
+          if (empty || !allWasSelected) {
+            return
+          }
+
           const isEmpty = newState.doc.textBetween(0, newState.doc.content.size, ' ', ' ').length === 0
 
-          if (empty || !allWasSelected || !isEmpty) {
+          if (!isEmpty) {
             return
           }
 

@@ -4,9 +4,9 @@ context('/src/Nodes/Image/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
-      cy.get('.ProseMirror').type('{selectall}')
+      cy.get('.tiptap').type('{selectall}')
     })
   })
 
@@ -19,7 +19,7 @@ context('/src/Nodes/Image/Vue/', () => {
 
       cy.window().its('prompt').should('be.called')
 
-      cy.get('.ProseMirror')
+      cy.get('.tiptap')
         .find('img')
         .should('have.attr', 'src', 'foobar.png')
     })

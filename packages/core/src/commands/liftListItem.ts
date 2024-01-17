@@ -1,8 +1,8 @@
-import { NodeType } from 'prosemirror-model'
-import { liftListItem as originalLiftListItem } from 'prosemirror-schema-list'
+import { NodeType } from '@tiptap/pm/model'
+import { liftListItem as originalLiftListItem } from '@tiptap/pm/schema-list'
 
-import { getNodeType } from '../helpers/getNodeType'
-import { RawCommands } from '../types'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -10,7 +10,7 @@ declare module '@tiptap/core' {
       /**
        * Lift the list item into a wrapping list.
        */
-      liftListItem: (typeOrName: string | NodeType) => ReturnType,
+      liftListItem: (typeOrName: string | NodeType) => ReturnType
     }
   }
 }

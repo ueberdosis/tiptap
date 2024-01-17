@@ -30,8 +30,12 @@ module.exports = on => {
         rules: [
           {
             test: /\.tsx?$/,
-            use: 'ts-loader',
+            loader: 'ts-loader',
             exclude: /node_modules/,
+            options: {
+              // tsconfig:
+              configFile: path.resolve(__dirname, '..', 'tsconfig.json'),
+            },
           },
           {
             test: /\.jsx?$/,
@@ -43,6 +47,9 @@ module.exports = on => {
       resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
         alias,
+        extensionAlias: {
+          '.js': ['.js', '.ts'],
+        },
       },
     },
   }

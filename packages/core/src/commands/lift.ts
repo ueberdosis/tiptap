@@ -1,9 +1,9 @@
-import { lift as originalLift } from 'prosemirror-commands'
-import { NodeType } from 'prosemirror-model'
+import { lift as originalLift } from '@tiptap/pm/commands'
+import { NodeType } from '@tiptap/pm/model'
 
-import { getNodeType } from '../helpers/getNodeType'
-import { isNodeActive } from '../helpers/isNodeActive'
-import { RawCommands } from '../types'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { isNodeActive } from '../helpers/isNodeActive.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
       /**
        * Removes an existing wrap.
        */
-      lift: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType,
+      lift: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType
     }
   }
 }

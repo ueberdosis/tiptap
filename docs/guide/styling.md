@@ -8,16 +8,16 @@ tableOfContents: true
 Tiptap is headless, that means there is no styling provided. That also means, you are in full control of how your editor looks. The following methods allow you to apply custom styles to the editor.
 
 ## Option 1: Style the plain HTML
-The whole editor is rendered inside of a container with the class `.ProseMirror`. You can use that to scope your styling to the editor content:
+The whole editor is rendered inside of a container with the class `.tiptap`. You can use that to scope your styling to the editor content:
 
 ```css
 /* Scoped to the editor */
-.ProseMirror p {
+.tiptap p {
   margin: 1em 0;
 }
 ```
 
-If you’re rendering the stored content somewhere, there won’t be a `.ProseMirror` container, so you can just globally add styling to the used HTML tags:
+If you’re rendering the stored content somewhere, there won’t be a `.tiptap` container, so you can just globally add styling to the used HTML tags:
 
 ```css
 /* Global styling */
@@ -55,7 +55,7 @@ new Editor({
 The rendered HTML will look like that:
 
 ```html
-<h1 class="my-custom-heading">Example Text</p>
+<h1 class="my-custom-heading">Example Text</h1>
 <p class="my-custom-paragraph">Wow, that’s really custom.</p>
 ```
 
@@ -78,6 +78,14 @@ new Editor({
 The editor works fine with Tailwind CSS, too. Find an example that’s styled with the `@tailwindcss/typography` plugin below.
 
 https://embed.tiptap.dev/preview/Experiments/Tailwind
+
+#### Intellisense
+If you're using [TailwindCSS Intellisense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) add the following snippet to your `.vscode/setting.json` to add intellisense support inside TipTap objects:
+```json
+"tailwindCSS.experimental.classRegex": [
+  "class:\\s*?[\"'`]([^\"'`]*).*?,"
+]
+```
 
 ## Option 3: Customize the HTML
 Or you can customize the markup for extensions. The following example will make a custom bold extension that doesn’t render a `<strong>` tag, but a `<b>` tag:

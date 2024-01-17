@@ -28,10 +28,10 @@ npm run dev
 
 ## 2. Install the dependencies
 
-Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need `alpinejs`, the `@tiptap/core` package and the `@tiptap/starter-kit` which has the most common extensions to get started quickly.
+Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need `alpinejs`, the `@tiptap/core` package, the `@tiptap/pm` package and the `@tiptap/starter-kit`, which includes the most common extensions to get started quickly.
 
 ```bash
-npm install alpinejs @tiptap/core @tiptap/starter-kit
+npm install alpinejs @tiptap/core @tiptap/pm @tiptap/starter-kit
 ```
 
 If you followed step 1, you can now start your project with `npm run dev`, and open [http://localhost:5173](http://localhost:5173) in your favorite browser. This might be different, if you’re working with an existing project.
@@ -48,7 +48,7 @@ import StarterKit from '@tiptap/starter-kit'
 
 document.addEventListener('alpine:init', () => {
   Alpine.data('editor', (content) => {
-    let editor
+    let editor // Alpine's reactive engine automatically wraps component properties in proxy objects. Attempting to use a proxied editor instance to apply a transaction will cause a "Range Error: Applying a mismatched transaction", so be sure to unwrap it using Alpine.raw(), or simply avoid storing your editor as a component property, as shown in this example.
 
     return {
       updatedAt: Date.now(), // force Alpine to rerender on selection change
@@ -70,7 +70,7 @@ document.addEventListener('alpine:init', () => {
           onSelectionUpdate({ editor }) {
             _this.updatedAt = Date.now()
           }
-        });
+        })
       },
       isLoaded() {
         return editor
@@ -87,9 +87,9 @@ document.addEventListener('alpine:init', () => {
       toggleItalic() {
         editor.chain().toggleItalic().focus().run()
       },
-    };
-  });
-});
+    }
+  })
+})
 
 window.Alpine = Alpine
 Alpine.start()
@@ -138,7 +138,7 @@ Now, let’s replace the content of the `index.html` with the following example 
   <style>
     body { margin: 2rem; font-family: sans-serif; }
     button.is-active { background: black; color: white; }
-    .ProseMirror { padding: 0.5rem 1rem; margin: 1rem 0; border: 1px solid #ccc; }
+    .tiptap { padding: 0.5rem 1rem; margin: 1rem 0; border: 1px solid #ccc; }
   </style>
 </body>
 </html>

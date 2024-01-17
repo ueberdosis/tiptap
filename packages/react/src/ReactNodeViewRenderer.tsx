@@ -1,30 +1,32 @@
 import {
+  DecorationWithType,
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import React from 'react'
 
-import { Editor } from './Editor'
-import { ReactRenderer } from './ReactRenderer'
-import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView'
+import { Editor } from './Editor.js'
+import { ReactRenderer } from './ReactRenderer.js'
+import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView.js'
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   update:
     | ((props: {
-        oldNode: ProseMirrorNode;
-        oldDecorations: Decoration[];
-        newNode: ProseMirrorNode;
-        newDecorations: Decoration[];
-        updateProps: () => void;
+        oldNode: ProseMirrorNode
+        oldDecorations: Decoration[]
+        newNode: ProseMirrorNode
+        newDecorations: Decoration[]
+        updateProps: () => void
       }) => boolean)
-    | null;
-  as?: string;
-  className?: string;
+    | null
+  as?: string
+  className?: string
+  attrs?: Record<string, string>
 }
 
 class ReactNodeView extends NodeView<
@@ -66,9 +68,13 @@ class ReactNodeView extends NodeView<
       }
 
       return (
-        <ReactNodeViewContext.Provider value={{ onDragStart, nodeViewContentRef }}>
-          <Component {...componentProps} />
-        </ReactNodeViewContext.Provider>
+        <>
+          {/* @ts-ignore */}
+          <ReactNodeViewContext.Provider value={{ onDragStart, nodeViewContentRef }}>
+            {/* @ts-ignore */}
+            <Component {...componentProps} />
+          </ReactNodeViewContext.Provider>
+        </>
       )
     }
 
@@ -93,11 +99,15 @@ class ReactNodeView extends NodeView<
 
     const { className = '' } = this.options
 
+    this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
+    this.editor.on('selectionUpdate', this.handleSelectionUpdate)
+
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props,
       as,
       className: `node-${this.node.type.name} ${className}`.trim(),
+      attrs: this.options.attrs,
     })
   }
 
@@ -120,7 +130,25 @@ class ReactNodeView extends NodeView<
     return this.contentDOMElement
   }
 
-  update(node: ProseMirrorNode, decorations: Decoration[]) {
+  handleSelectionUpdate() {
+    const { from, to } = this.editor.state.selection
+
+    if (from <= this.getPos() && to >= this.getPos() + this.node.nodeSize) {
+      if (this.renderer.props.selected) {
+        return
+      }
+
+      this.selectNode()
+    } else {
+      if (!this.renderer.props.selected) {
+        return
+      }
+
+      this.deselectNode()
+    }
+  }
+
+  update(node: ProseMirrorNode, decorations: DecorationWithType[]) {
     const updateProps = (props?: Record<string, any>) => {
       this.renderer.updateProps(props)
     }
@@ -161,16 +189,19 @@ class ReactNodeView extends NodeView<
     this.renderer.updateProps({
       selected: true,
     })
+    this.renderer.element.classList.add('ProseMirror-selectednode')
   }
 
   deselectNode() {
     this.renderer.updateProps({
       selected: false,
     })
+    this.renderer.element.classList.remove('ProseMirror-selectednode')
   }
 
   destroy() {
     this.renderer.destroy()
+    this.editor.off('selectionUpdate', this.handleSelectionUpdate)
     this.contentDOMElement = null
   }
 }

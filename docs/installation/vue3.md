@@ -27,13 +27,13 @@ cd my-tiptap-project
 ```
 
 ## 2. Install the dependencies
-Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need the `@tiptap/vue-3` package, with a few components, and `@tiptap/starter-kit` which has the most common extensions to get started quickly.
+Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For the following example you’ll need the `@tiptap/vue-3` package, `@tiptap/pm` (the ProseMirror library) and `@tiptap/starter-kit`, which includes the most common extensions to get started quickly.
 
 ```bash
-npm install @tiptap/vue-3 @tiptap/starter-kit
+npm install @tiptap/vue-3 @tiptap/pm @tiptap/starter-kit
 ```
 
-If you followed step 1 and 2, you can now start your project with `npm run serve`, and open [http://localhost:8080](http://localhost:8080) in your favorite browser. This might be different, if you’re working with an existing project.
+If you followed step 1 and 2, you can now start your project with `npm run dev`, and open [http://localhost:8080](http://localhost:8080) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Create a new component
 To actually start using Tiptap, you’ll need to add a new component to your app. Let’s call it `Tiptap` and put the following example code in `components/Tiptap.vue`.

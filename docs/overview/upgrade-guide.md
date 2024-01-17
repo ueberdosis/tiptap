@@ -7,6 +7,8 @@ tableOfContents: true
 ## Introduction
 First of all, Tiptap v1 isn’t supported anymore and won’t receive any further updates.
 
+If you’re still using Tiptap v1, you can find the documentation [here](https://v1.tiptap.dev/), but we strongly recommend that you upgrade to version 2.
+
 Yes, it’s tedious work to upgrade your favorite text editor to a new API, but we made sure you’ve got enough reasons to upgrade to the newest version.
 
 * Autocompletion in your IDE (thanks to TypeScript)
@@ -28,10 +30,10 @@ npm uninstall tiptap tiptap-commands tiptap-extensions tiptap-utils
 
 ## Install Tiptap v2
 
-Once you have uninstalled the old version of Tiptap, install the new Vue 2 package and the starter kit:
+Once you have uninstalled the old version of Tiptap, install the new Vue 2 package, the ProseMirror library and the starter kit:
 
 ```bash
-npm install @tiptap/vue-2 @tiptap/starter-kit
+npm install @tiptap/vue-2 @tiptap/pm @tiptap/starter-kit
 ```
 
 ## Keep Tiptap v2 up to date

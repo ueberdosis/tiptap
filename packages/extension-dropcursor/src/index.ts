@@ -1,5 +1,5 @@
-import { Dropcursor } from './dropcursor'
+import { Dropcursor } from './dropcursor.js'
 
-export * from './dropcursor'
+export * from './dropcursor.js'
 
 export default Dropcursor

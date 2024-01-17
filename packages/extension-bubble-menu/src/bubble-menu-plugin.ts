@@ -1,32 +1,30 @@
 import {
-  Editor,
-  isNodeSelection,
-  isTextSelection,
-  posToDOMRect,
+  Editor, isNodeSelection, isTextSelection, posToDOMRect,
 } from '@tiptap/core'
-import debounce from 'lodash/debounce'
-import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
-import { EditorView } from 'prosemirror-view'
+import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
+import { EditorView } from '@tiptap/pm/view'
 import tippy, { Instance, Props } from 'tippy.js'
 
 export interface BubbleMenuPluginProps {
-  pluginKey: PluginKey | string,
-  editor: Editor,
-  element: HTMLElement,
-  tippyOptions?: Partial<Props>,
-  updateDelay?: number,
-  shouldShow?: ((props: {
-    editor: Editor,
-    view: EditorView,
-    state: EditorState,
-    oldState?: EditorState,
-    from: number,
-    to: number,
-  }) => boolean) | null,
+  pluginKey: PluginKey | string
+  editor: Editor
+  element: HTMLElement
+  tippyOptions?: Partial<Props>
+  updateDelay?: number
+  shouldShow?:
+    | ((props: {
+        editor: Editor
+        view: EditorView
+        state: EditorState
+        oldState?: EditorState
+        from: number
+        to: number
+      }) => boolean)
+    | null
 }
 
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
-  view: EditorView,
+  view: EditorView
 }
 
 export class BubbleMenuView {
@@ -44,6 +42,8 @@ export class BubbleMenuView {
 
   public updateDelay: number
 
+  private updateDebounceTimer: number | undefined
+
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
     view,
     state,
@@ -56,8 +56,7 @@ export class BubbleMenuView {
     // Sometime check for `empty` is not enough.
     // Doubleclick an empty paragraph returns a node size of 2.
     // So we check also for an empty text size.
-    const isEmptyTextBlock = !doc.textBetween(from, to).length
-      && isTextSelection(state.selection)
+    const isEmptyTextBlock = !doc.textBetween(from, to).length && isTextSelection(state.selection)
 
     // When clicking on a element inside the bubble menu the editor "blur" event
     // is called and the bubble menu item is focussed. In this case we should
@@ -66,12 +65,7 @@ export class BubbleMenuView {
 
     const hasEditorFocus = view.hasFocus() || isChildOfMenu
 
-    if (
-      !hasEditorFocus
-      || empty
-      || isEmptyTextBlock
-      || !this.editor.isEditable
-    ) {
+    if (!hasEditorFocus || empty || isEmptyTextBlock || !this.editor.isEditable) {
       return false
     }
 
@@ -125,17 +119,14 @@ export class BubbleMenuView {
       return
     }
 
-    if (
-      event?.relatedTarget
-      && this.element.parentNode?.contains(event.relatedTarget as Node)
-    ) {
+    if (event?.relatedTarget && this.element.parentNode?.contains(event.relatedTarget as Node)) {
       return
     }
 
     this.hide()
   }
 
-  tippyBlurHandler = (event : FocusEvent) => {
+  tippyBlurHandler = (event: FocusEvent) => {
     this.blurHandler({ event })
   }
 
@@ -168,21 +159,39 @@ export class BubbleMenuView {
     const { state } = view
     const hasValidSelection = state.selection.$from.pos !== state.selection.$to.pos
 
-    if (hasValidSelection) {
-      if (this.updateDelay > 0) {
-        debounce(this.updateHandler, this.updateDelay)(view, oldState)
-      } else {
-        this.updateHandler(view, oldState)
-      }
-    } else {
-      this.hide()
+    if (this.updateDelay > 0 && hasValidSelection) {
+      this.handleDebouncedUpdate(view, oldState)
+      return
     }
+
+    const selectionChanged = !oldState?.selection.eq(view.state.selection)
+    const docChanged = !oldState?.doc.eq(view.state.doc)
+
+    this.updateHandler(view, selectionChanged, docChanged, oldState)
   }
 
-  updateHandler = (view: EditorView, oldState?: EditorState) => {
+  handleDebouncedUpdate = (view: EditorView, oldState?: EditorState) => {
+    const selectionChanged = !oldState?.selection.eq(view.state.selection)
+    const docChanged = !oldState?.doc.eq(view.state.doc)
+
+    if (!selectionChanged && !docChanged) {
+      return
+    }
+
+    if (this.updateDebounceTimer) {
+      clearTimeout(this.updateDebounceTimer)
+    }
+
+    this.updateDebounceTimer = window.setTimeout(() => {
+      this.updateHandler(view, selectionChanged, docChanged, oldState)
+    }, this.updateDelay)
+  }
+
+  updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
     const { state, composing } = view
-    const { doc, selection } = state
-    const isSame = oldState && oldState.doc.eq(doc) && oldState.selection.eq(selection)
+    const { selection } = state
+
+    const isSame = !selectionChanged && !docChanged
 
     if (composing || isSame) {
       return
@@ -211,17 +220,25 @@ export class BubbleMenuView {
     }
 
     this.tippy?.setProps({
-      getReferenceClientRect: this.tippyOptions?.getReferenceClientRect || (() => {
-        if (isNodeSelection(state.selection)) {
-          const node = view.nodeDOM(from) as HTMLElement
+      getReferenceClientRect:
+        this.tippyOptions?.getReferenceClientRect
+        || (() => {
+          if (isNodeSelection(state.selection)) {
+            let node = view.nodeDOM(from) as HTMLElement
 
-          if (node) {
-            return node.getBoundingClientRect()
+            const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
+
+            if (nodeViewWrapper) {
+              node = nodeViewWrapper.firstChild as HTMLElement
+            }
+
+            if (node) {
+              return node.getBoundingClientRect()
+            }
           }
-        }
 
-        return posToDOMRect(view, from, to)
-      }),
+          return posToDOMRect(view, from, to)
+        }),
     })
 
     this.show()
@@ -237,7 +254,10 @@ export class BubbleMenuView {
 
   destroy() {
     if (this.tippy?.popper.firstChild) {
-      (this.tippy.popper.firstChild as HTMLElement).removeEventListener('blur', this.tippyBlurHandler)
+      (this.tippy.popper.firstChild as HTMLElement).removeEventListener(
+        'blur',
+        this.tippyBlurHandler,
+      )
     }
     this.tippy?.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
@@ -249,9 +269,8 @@ export class BubbleMenuView {
 
 export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
-    key: typeof options.pluginKey === 'string'
-      ? new PluginKey(options.pluginKey)
-      : options.pluginKey,
+    key:
+      typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
     view: view => new BubbleMenuView({ view, ...options }),
   })
 }

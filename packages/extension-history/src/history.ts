@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import { history, redo, undo } from 'prosemirror-history'
+import { history, redo, undo } from '@tiptap/pm/history'
 
 export interface HistoryOptions {
   depth: number,
@@ -51,8 +51,11 @@ export const History = Extension.create<HistoryOptions>({
   addKeyboardShortcuts() {
     return {
       'Mod-z': () => this.editor.commands.undo(),
+      'Mod-Z': () => this.editor.commands.undo(),
       'Mod-y': () => this.editor.commands.redo(),
+      'Mod-Y': () => this.editor.commands.redo(),
       'Shift-Mod-z': () => this.editor.commands.redo(),
+      'Shift-Mod-Z': () => this.editor.commands.redo(),
 
       // Russian keyboard layouts
       'Mod-я': () => this.editor.commands.undo(),

@@ -1,27 +1,19 @@
-import { EditorState, Transaction } from 'prosemirror-state'
+import { EditorState, Transaction } from '@tiptap/pm/state'
 
-import { Editor } from './Editor'
-import { createChainableState } from './helpers/createChainableState'
+import { Editor } from './Editor.js'
+import { createChainableState } from './helpers/createChainableState.js'
 import {
-  AnyCommands,
-  CanCommands,
-  ChainedCommands,
-  CommandProps,
-  SingleCommands,
-} from './types'
+  AnyCommands, CanCommands, ChainedCommands, CommandProps, SingleCommands,
+} from './types.js'
 
 export class CommandManager {
-
   editor: Editor
 
   rawCommands: AnyCommands
 
   customState?: EditorState
 
-  constructor(props: {
-    editor: Editor,
-    state?: EditorState,
-  }) {
+  constructor(props: { editor: Editor; state?: EditorState }) {
     this.editor = props.editor
     this.rawCommands = this.editor.extensionManager.commands
     this.customState = props.state
@@ -41,9 +33,8 @@ export class CommandManager {
     const { tr } = state
     const props = this.buildProps(tr)
 
-    return Object.fromEntries(Object
-      .entries(rawCommands)
-      .map(([name, command]) => {
+    return Object.fromEntries(
+      Object.entries(rawCommands).map(([name, command]) => {
         const method = (...args: any[]) => {
           const callback = command(...args)(props)
 
@@ -55,7 +46,8 @@ export class CommandManager {
         }
 
         return [name, method]
-      })) as unknown as SingleCommands
+      }),
+    ) as unknown as SingleCommands
   }
 
   get chain(): () => ChainedCommands {
@@ -87,18 +79,20 @@ export class CommandManager {
     }
 
     const chain = {
-      ...Object.fromEntries(Object.entries(rawCommands).map(([name, command]) => {
-        const chainedCommand = (...args: never[]) => {
-          const props = this.buildProps(tr, shouldDispatch)
-          const callback = command(...args)(props)
+      ...Object.fromEntries(
+        Object.entries(rawCommands).map(([name, command]) => {
+          const chainedCommand = (...args: never[]) => {
+            const props = this.buildProps(tr, shouldDispatch)
+            const callback = command(...args)(props)
 
-          callbacks.push(callback)
+            callbacks.push(callback)
 
-          return chain
-        }
+            return chain
+          }
 
-        return [name, chainedCommand]
-      })),
+          return [name, chainedCommand]
+        }),
+      ),
       run,
     } as unknown as ChainedCommands
 
@@ -110,11 +104,11 @@ export class CommandManager {
     const dispatch = false
     const tr = startTr || state.tr
     const props = this.buildProps(tr, dispatch)
-    const formattedCommands = Object.fromEntries(Object
-      .entries(rawCommands)
-      .map(([name, command]) => {
+    const formattedCommands = Object.fromEntries(
+      Object.entries(rawCommands).map(([name, command]) => {
         return [name, (...args: never[]) => command(...args)({ ...props, dispatch: undefined })]
-      })) as unknown as SingleCommands
+      }),
+    ) as unknown as SingleCommands
 
     return {
       ...formattedCommands,
@@ -126,10 +120,6 @@ export class CommandManager {
     const { rawCommands, editor, state } = this
     const { view } = editor
 
-    if (state.storedMarks) {
-      tr.setStoredMarks(state.storedMarks)
-    }
-
     const props: CommandProps = {
       tr,
       editor,
@@ -138,21 +128,18 @@ export class CommandManager {
         state,
         transaction: tr,
       }),
-      dispatch: shouldDispatch
-        ? () => undefined
-        : undefined,
-      chain: () => this.createChain(tr),
+      dispatch: shouldDispatch ? () => undefined : undefined,
+      chain: () => this.createChain(tr, shouldDispatch),
       can: () => this.createCan(tr),
       get commands() {
-        return Object.fromEntries(Object
-          .entries(rawCommands)
-          .map(([name, command]) => {
+        return Object.fromEntries(
+          Object.entries(rawCommands).map(([name, command]) => {
             return [name, (...args: never[]) => command(...args)(props)]
-          })) as unknown as SingleCommands
+          }),
+        ) as unknown as SingleCommands
       },
     }
 
     return props
   }
-
 }

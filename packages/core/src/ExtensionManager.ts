@@ -1,26 +1,25 @@
-import { keymap } from 'prosemirror-keymap'
-import { Node as ProsemirrorNode, Schema } from 'prosemirror-model'
-import { Plugin } from 'prosemirror-state'
-import { Decoration, EditorView } from 'prosemirror-view'
+import { keymap } from '@tiptap/pm/keymap'
+import { Node as ProsemirrorNode, Schema } from '@tiptap/pm/model'
+import { Plugin } from '@tiptap/pm/state'
+import { Decoration, EditorView } from '@tiptap/pm/view'
 
-import { Mark, NodeConfig } from '.'
-import { Editor } from './Editor'
-import { getAttributesFromExtensions } from './helpers/getAttributesFromExtensions'
-import { getExtensionField } from './helpers/getExtensionField'
-import { getNodeType } from './helpers/getNodeType'
-import { getRenderedAttributes } from './helpers/getRenderedAttributes'
-import { getSchemaByResolvedExtensions } from './helpers/getSchemaByResolvedExtensions'
-import { getSchemaTypeByName } from './helpers/getSchemaTypeByName'
-import { isExtensionRulesEnabled } from './helpers/isExtensionRulesEnabled'
-import { splitExtensions } from './helpers/splitExtensions'
-import { inputRulesPlugin } from './InputRule'
-import { pasteRulesPlugin } from './PasteRule'
-import { AnyConfig, Extensions, RawCommands } from './types'
-import { callOrReturn } from './utilities/callOrReturn'
-import { findDuplicates } from './utilities/findDuplicates'
+import { Editor } from './Editor.js'
+import { getAttributesFromExtensions } from './helpers/getAttributesFromExtensions.js'
+import { getExtensionField } from './helpers/getExtensionField.js'
+import { getNodeType } from './helpers/getNodeType.js'
+import { getRenderedAttributes } from './helpers/getRenderedAttributes.js'
+import { getSchemaByResolvedExtensions } from './helpers/getSchemaByResolvedExtensions.js'
+import { getSchemaTypeByName } from './helpers/getSchemaTypeByName.js'
+import { isExtensionRulesEnabled } from './helpers/isExtensionRulesEnabled.js'
+import { splitExtensions } from './helpers/splitExtensions.js'
+import { Mark, NodeConfig } from './index.js'
+import { inputRulesPlugin } from './InputRule.js'
+import { pasteRulesPlugin } from './PasteRule.js'
+import { AnyConfig, Extensions, RawCommands } from './types.js'
+import { callOrReturn } from './utilities/callOrReturn.js'
+import { findDuplicates } from './utilities/findDuplicates.js'
 
 export class ExtensionManager {
-
   editor: Editor
 
   schema: Schema
@@ -32,7 +31,7 @@ export class ExtensionManager {
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
     this.extensions = ExtensionManager.resolve(extensions)
-    this.schema = getSchemaByResolvedExtensions(this.extensions)
+    this.schema = getSchemaByResolvedExtensions(this.extensions, editor)
 
     this.extensions.forEach(extension => {
       // store extension storage in editor
@@ -64,21 +63,13 @@ export class ExtensionManager {
         this.editor.on('beforeCreate', onBeforeCreate)
       }
 
-      const onCreate = getExtensionField<AnyConfig['onCreate']>(
-        extension,
-        'onCreate',
-        context,
-      )
+      const onCreate = getExtensionField<AnyConfig['onCreate']>(extension, 'onCreate', context)
 
       if (onCreate) {
         this.editor.on('create', onCreate)
       }
 
-      const onUpdate = getExtensionField<AnyConfig['onUpdate']>(
-        extension,
-        'onUpdate',
-        context,
-      )
+      const onUpdate = getExtensionField<AnyConfig['onUpdate']>(extension, 'onUpdate', context)
 
       if (onUpdate) {
         this.editor.on('update', onUpdate)
@@ -104,31 +95,19 @@ export class ExtensionManager {
         this.editor.on('transaction', onTransaction)
       }
 
-      const onFocus = getExtensionField<AnyConfig['onFocus']>(
-        extension,
-        'onFocus',
-        context,
-      )
+      const onFocus = getExtensionField<AnyConfig['onFocus']>(extension, 'onFocus', context)
 
       if (onFocus) {
         this.editor.on('focus', onFocus)
       }
 
-      const onBlur = getExtensionField<AnyConfig['onBlur']>(
-        extension,
-        'onBlur',
-        context,
-      )
+      const onBlur = getExtensionField<AnyConfig['onBlur']>(extension, 'onBlur', context)
 
       if (onBlur) {
         this.editor.on('blur', onBlur)
       }
 
-      const onDestroy = getExtensionField<AnyConfig['onDestroy']>(
-        extension,
-        'onDestroy',
-        context,
-      )
+      const onDestroy = getExtensionField<AnyConfig['onDestroy']>(extension, 'onDestroy', context)
 
       if (onDestroy) {
         this.editor.on('destroy', onDestroy)
@@ -141,38 +120,41 @@ export class ExtensionManager {
     const duplicatedNames = findDuplicates(resolvedExtensions.map(extension => extension.name))
 
     if (duplicatedNames.length) {
-      console.warn(`[tiptap warn]: Duplicate extension names found: [${duplicatedNames.map(item => `'${item}'`).join(', ')}]. This can lead to issues.`)
+      console.warn(
+        `[tiptap warn]: Duplicate extension names found: [${duplicatedNames
+          .map(item => `'${item}'`)
+          .join(', ')}]. This can lead to issues.`,
+      )
     }
 
     return resolvedExtensions
   }
 
   static flatten(extensions: Extensions): Extensions {
-    return extensions
-      .map(extension => {
-        const context = {
-          name: extension.name,
-          options: extension.options,
-          storage: extension.storage,
-        }
+    return (
+      extensions
+        .map(extension => {
+          const context = {
+            name: extension.name,
+            options: extension.options,
+            storage: extension.storage,
+          }
 
-        const addExtensions = getExtensionField<AnyConfig['addExtensions']>(
-          extension,
-          'addExtensions',
-          context,
-        )
-
-        if (addExtensions) {
-          return [
+          const addExtensions = getExtensionField<AnyConfig['addExtensions']>(
             extension,
-            ...this.flatten(addExtensions()),
-          ]
-        }
+            'addExtensions',
+            context,
+          )
 
-        return extension
-      })
-      // `Infinity` will break TypeScript so we set a number that is probably high enough
-      .flat(10)
+          if (addExtensions) {
+            return [extension, ...this.flatten(addExtensions())]
+          }
+
+          return extension
+        })
+        // `Infinity` will break TypeScript so we set a number that is probably high enough
+        .flat(10)
+    )
   }
 
   static sort(extensions: Extensions): Extensions {
@@ -225,7 +207,7 @@ export class ExtensionManager {
     const { editor } = this
 
     // With ProseMirror, first plugins within an array are executed first.
-    // In tiptap, we provide the ability to override plugins,
+    // In Tiptap, we provide the ability to override plugins,
     // so it feels more natural to run plugins at the end of an array first.
     // That’s why we have to reverse the `extensions` array and sort again
     // based on the `priority` option.
@@ -256,16 +238,14 @@ export class ExtensionManager {
 
         // bind exit handling
         if (extension.type === 'mark' && extension.config.exitable) {
-          defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: (extension as Mark) })
+          defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: extension as Mark })
         }
 
         if (addKeyboardShortcuts) {
           const bindings = Object.fromEntries(
-            Object
-              .entries(addKeyboardShortcuts())
-              .map(([shortcut, method]) => {
-                return [shortcut, () => method({ editor })]
-              }),
+            Object.entries(addKeyboardShortcuts()).map(([shortcut, method]) => {
+              return [shortcut, () => method({ editor })]
+            }),
           )
 
           defaultBindings = { ...defaultBindings, ...bindings }
@@ -332,46 +312,50 @@ export class ExtensionManager {
     const { editor } = this
     const { nodeExtensions } = splitExtensions(this.extensions)
 
-    return Object.fromEntries(nodeExtensions
-      .filter(extension => !!getExtensionField(extension, 'addNodeView'))
-      .map(extension => {
-        const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.name)
-        const context = {
-          name: extension.name,
-          options: extension.options,
-          storage: extension.storage,
-          editor,
-          type: getNodeType(extension.name, this.schema),
-        }
-        const addNodeView = getExtensionField<NodeConfig['addNodeView']>(
-          extension,
-          'addNodeView',
-          context,
-        )
-
-        if (!addNodeView) {
-          return []
-        }
-
-        const nodeview = (
-          node: ProsemirrorNode,
-          view: EditorView,
-          getPos: (() => number) | boolean,
-          decorations: Decoration[],
-        ) => {
-          const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
-
-          return addNodeView()({
+    return Object.fromEntries(
+      nodeExtensions
+        .filter(extension => !!getExtensionField(extension, 'addNodeView'))
+        .map(extension => {
+          const extensionAttributes = this.attributes.filter(
+            attribute => attribute.type === extension.name,
+          )
+          const context = {
+            name: extension.name,
+            options: extension.options,
+            storage: extension.storage,
             editor,
-            node,
-            getPos,
-            decorations,
-            HTMLAttributes,
+            type: getNodeType(extension.name, this.schema),
+          }
+          const addNodeView = getExtensionField<NodeConfig['addNodeView']>(
             extension,
-          })
-        }
+            'addNodeView',
+            context,
+          )
 
-        return [extension.name, nodeview]
-      }))
+          if (!addNodeView) {
+            return []
+          }
+
+          const nodeview = (
+            node: ProsemirrorNode,
+            view: EditorView,
+            getPos: (() => number) | boolean,
+            decorations: Decoration[],
+          ) => {
+            const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
+
+            return addNodeView()({
+              editor,
+              node,
+              getPos,
+              decorations,
+              HTMLAttributes,
+              extension,
+            })
+          }
+
+          return [extension.name, nodeview]
+        }),
+    )
   }
 }

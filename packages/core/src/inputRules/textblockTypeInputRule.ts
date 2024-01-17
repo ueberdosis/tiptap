@@ -1,8 +1,8 @@
-import { NodeType } from 'prosemirror-model'
+import { NodeType } from '@tiptap/pm/model'
 
-import { InputRule, InputRuleFinder } from '../InputRule'
-import { ExtendedRegExpMatchArray } from '../types'
-import { callOrReturn } from '../utilities/callOrReturn'
+import { InputRule, InputRuleFinder } from '../InputRule.js'
+import { ExtendedRegExpMatchArray } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
  * Build an input rule that changes the type of a textblock when the
@@ -11,14 +11,13 @@ import { callOrReturn } from '../utilities/callOrReturn'
  * only occur at the start of a textblock.
  */
 export function textblockTypeInputRule(config: {
-  find: InputRuleFinder,
-  type: NodeType,
+  find: InputRuleFinder
+  type: NodeType
   getAttributes?:
     | Record<string, any>
     | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
     | null
-  ,
 }) {
   return new InputRule({
     find: config.find,

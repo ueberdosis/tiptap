@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core'
 import React from 'react'
 
-import { Editor as ExtendedEditor } from './Editor'
+import { Editor as ExtendedEditor } from './Editor.js'
 
 function isClassComponent(Component: any) {
   return !!(
@@ -23,6 +23,7 @@ export interface ReactRendererOptions {
   props?: Record<string, any>,
   as?: string,
   className?: string,
+  attrs?: Record<string, string>,
 }
 
 type ComponentType<R, P> =
@@ -50,6 +51,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
     props = {},
     as = 'div',
     className = '',
+    attrs,
   }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
@@ -60,6 +62,12 @@ export class ReactRenderer<R = unknown, P = unknown> {
 
     if (className) {
       this.element.classList.add(...className.split(' '))
+    }
+
+    if (attrs) {
+      Object.keys(attrs).forEach(key => {
+        this.element.setAttribute(key, attrs[key])
+      })
     }
 
     this.render()

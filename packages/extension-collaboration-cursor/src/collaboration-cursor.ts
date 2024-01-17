@@ -1,5 +1,6 @@
 import { Extension } from '@tiptap/core'
-import { yCursorPlugin } from 'y-prosemirror'
+import { DecorationAttrs } from 'prosemirror-view'
+import { defaultSelectionBuilder, yCursorPlugin } from 'y-prosemirror'
 
 type CollaborationCursorStorage = {
   users: { clientId: number, [key: string]: any }[],
@@ -9,6 +10,7 @@ export interface CollaborationCursorOptions {
   provider: any,
   user: Record<string, any>,
   render (user: Record<string, any>): HTMLElement,
+  selectionRender (user: Record<string, any>): DecorationAttrs
   /**
    * @deprecated The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCursor.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor
    */
@@ -68,6 +70,7 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
 
         return cursor
       },
+      selectionRender: defaultSelectionBuilder,
       onUpdate: defaultOnUpdate,
     }
   },
@@ -118,6 +121,7 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
         // @ts-ignore
         {
           cursorBuilder: this.options.render,
+          selectionBuilder: this.options.selectionRender,
         },
       ),
     ]

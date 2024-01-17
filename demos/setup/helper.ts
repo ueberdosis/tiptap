@@ -17,7 +17,7 @@ const sendData = (eventName: string, data: any) => {
 export function splitName(name: string) {
   const parts = name.split('/')
 
-  if (parts.length !== 2) {
+  if (parts.length !== 3) {
     throw Error('Demos must always be within exactly one category. Nested categories are not supported.')
   }
 
@@ -29,7 +29,7 @@ export function debug() {
   // @ts-ignore
   sendData('source', window.source)
 
-  waitUntilElementExists('.ProseMirror', element => {
+  waitUntilElementExists('.tiptap', element => {
     // @ts-ignore
     const editor = element.editor
 

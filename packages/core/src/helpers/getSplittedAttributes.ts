@@ -1,4 +1,4 @@
-import { ExtensionAttribute } from '../types'
+import { ExtensionAttribute } from '../types.js'
 
 export function getSplittedAttributes(
   extensionAttributes: ExtensionAttribute[],

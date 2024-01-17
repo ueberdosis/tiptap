@@ -1,4 +1,4 @@
-import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 export function isNodeEmpty(node: ProseMirrorNode): boolean {
   const defaultContent = node.type.createAndFill()?.toJSON()

@@ -152,10 +152,10 @@ export default {
 
 <style lang="scss">
 .divider {
-  width: 2px;
+  background-color: rgba(#fff, 0.25);
   height: 1.25rem;
-  background-color: rgba(#000, 0.1);
   margin-left: 0.5rem;
   margin-right: 0.75rem;
+  width: 1px;
 }
 </style>

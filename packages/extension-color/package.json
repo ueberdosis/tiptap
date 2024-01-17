@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-color",
   "description": "text color extension for tiptap",
-  "version": "2.0.0-beta.204",
+  "version": "2.1.16",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -16,25 +16,33 @@
   "exports": {
     ".": {
       "types": "./dist/packages/extension-color/src/index.d.ts",
-      "import": "./dist/tiptap-extension-color.esm.js",
-      "require": "./dist/tiptap-extension-color.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/tiptap-extension-color.cjs",
-  "umd": "dist/tiptap-extension-color.umd.js",
-  "module": "dist/tiptap-extension-color.esm.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
   "types": "dist/packages/extension-color/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
+  "devDependencies": {
+    "@tiptap/core": "^2.1.16",
+    "@tiptap/extension-text-style": "^2.1.16"
+  },
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193",
-    "@tiptap/extension-text-style": "^2.0.0-beta.193"
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/extension-text-style": "^2.0.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-color"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }

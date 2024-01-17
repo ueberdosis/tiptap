@@ -1,29 +1,25 @@
 import React, { HTMLProps } from 'react'
 import ReactDOM, { flushSync } from 'react-dom'
 
-import { Editor } from './Editor'
-import { ReactRenderer } from './ReactRenderer'
+import { Editor } from './Editor.js'
+import { ReactRenderer } from './ReactRenderer.js'
 
 const Portals: React.FC<{ renderers: Record<string, ReactRenderer> }> = ({ renderers }) => {
   return (
     <>
       {Object.entries(renderers).map(([key, renderer]) => {
-        return ReactDOM.createPortal(
-          renderer.reactElement,
-          renderer.element,
-          key,
-        )
+        return ReactDOM.createPortal(renderer.reactElement, renderer.element, key)
       })}
     </>
   )
 }
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
-  editor: Editor | null,
+  editor: Editor | null;
 }
 
 export interface EditorContentState {
-  renderers: Record<string, ReactRenderer>
+  renderers: Record<string, ReactRenderer>;
 }
 
 export class PureEditorContent extends React.Component<EditorContentProps, EditorContentState> {
@@ -115,6 +111,8 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
       return
     }
 
+    this.initialized = false
+
     if (!editor.isDestroyed) {
       editor.view.setProps({
         nodeViews: {},
@@ -142,10 +140,21 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
     return (
       <>
         <div ref={this.editorContentRef} {...rest} />
+        {/* @ts-ignore */}
         <Portals renderers={this.state.renderers} />
       </>
     )
   }
 }
 
-export const EditorContent = React.memo(PureEditorContent)
+// EditorContent should be re-created whenever the Editor instance changes
+const EditorContentWithKey = (props: EditorContentProps) => {
+  const key = React.useMemo(() => {
+    return Math.floor(Math.random() * 0xFFFFFFFF).toString()
+  }, [props.editor])
+
+  // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
+  return React.createElement(PureEditorContent, { key, ...props })
+}
+
+export const EditorContent = React.memo(EditorContentWithKey)

@@ -1,6 +1,6 @@
-import { FloatingMenu } from './floating-menu'
+import { FloatingMenu } from './floating-menu.js'
 
-export * from './floating-menu'
-export * from './floating-menu-plugin'
+export * from './floating-menu.js'
+export * from './floating-menu-plugin.js'
 
 export default FloatingMenu

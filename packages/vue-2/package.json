@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/vue-2",
   "description": "Vue components for tiptap",
-  "version": "2.0.0-beta.204",
+  "version": "2.1.16",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,30 +12,45 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-vue-2.cjs",
-  "umd": "dist/tiptap-vue-2.umd.js",
-  "module": "dist/tiptap-vue-2.esm.js",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/vue-2/src/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
   "types": "dist/packages/vue-2/src/index.d.ts",
+  "type": "module",
   "files": [
     "src",
     "dist"
   ],
+  "dependencies": {
+    "@tiptap/extension-bubble-menu": "^2.1.16",
+    "@tiptap/extension-floating-menu": "^2.1.16",
+    "vue-ts-types": "^1.6.0"
+  },
   "devDependencies": {
+    "@tiptap/core": "^2.1.16",
+    "@tiptap/pm": "^2.1.16",
     "vue": "^2.6.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193",
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/pm": "^2.0.0",
     "vue": "^2.6.0"
-  },
-  "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.0.0-beta.204",
-    "@tiptap/extension-floating-menu": "^2.0.0-beta.204",
-    "prosemirror-view": "^1.28.2"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/vue-2"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
+  }
 }

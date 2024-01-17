@@ -1,4 +1,4 @@
-import { InputRule, InputRuleFinder } from '../InputRule'
+import { InputRule, InputRuleFinder } from '../InputRule.js'
 
 /**
  * Build an input rule that replaces text when the

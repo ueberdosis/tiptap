@@ -83,6 +83,15 @@ ul[data-type="taskList"] {
     > div {
       flex: 1 1 auto;
     }
+
+    ul li,
+    ol li {
+      display: list-item;
+    }
+
+    ul[data-type="taskList"] > li {
+      display: flex;
+    }
   }
 }
 </style>

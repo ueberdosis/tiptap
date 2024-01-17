@@ -1,0 +1,91 @@
+name: Bug report (Tiptap Pro feature)
+title: "[PRO]: "
+description: You have found a bug in one of the features of Tiptap Pro? Feel free to report your issue here.
+labels:
+  - "Type: Bug"
+  - "Category: Pro"
+  - "Status: New"
+body:
+  - type: input
+    id: packages
+    attributes:
+      label: Which packages did you experience the bug in?
+      description: Please list all packages that you are using.
+      placeholder: core, extension-mention, react
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: What Tiptap version are you using?
+      description: Please list the version of all packages that you are using.
+      placeholder: 2.0.0
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What’s the bug you are facing?
+      description: A clear and concise description of what the bug is.
+      placeholder: "I’m always frustrated when …"
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: What browser are you using?
+      description: Please list the browser that you are using.
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ### CodeSandbox templates
+
+        * Javascript: https://codesandbox.io/s/tiptap-js-fv1lyo
+        * React: https://codesandbox.io/s/tiptap-react-qidlsv
+        * Vue 2: https://codesandbox.io/s/tiptap-vue-2-25nq3g
+        * Vue 3: https://codesandbox.io/p/sandbox/tiptap-vue-3-ci7q9h
+  - type: input
+    id: sandbox
+    attributes:
+      label: Code example
+      description: "Can you provide a CodeSandbox, Stackblitz, GitHub repository or any other kind of code example? This way, we can reproduce your issue faster."
+      placeholder: https://codesandbox.io/s/tiptap-react-issue-template-nwvwck?file=/src/App.js
+    validations:
+      required: false
+  - type: textarea
+    id: expectation
+    attributes:
+      label: What did you expect to happen?
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything to add? (optional)
+      description: "Add any other context, screenshots, videos or GIFs here."
+  - type: checkboxes
+    attributes:
+      label: Did you update your dependencies?
+      description: "Use `npm update` to update your dependencies."
+      options:
+        - label: Yes, I’ve updated my dependencies to use the latest version of all packages.
+          required: true
+  - type: checkboxes
+    attributes:
+      label: Are you sponsoring us?
+      options:
+        - label: Yes, I’m a sponsor. 💖
+          required: false
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to send us feedback!

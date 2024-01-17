@@ -4,7 +4,7 @@ context('/src/Examples/Menus/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       editor.chain().focus().clearContent().run()
     })
   })
@@ -15,7 +15,7 @@ context('/src/Examples/Menus/Vue/', () => {
   })
 
   it('should show menu when text is selected', () => {
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .type('Test')
       .type('{selectall}')
 
@@ -40,7 +40,7 @@ context('/src/Examples/Menus/Vue/', () => {
 
   marks.forEach(mark => {
     it(`should apply ${mark.button} correctly`, () => {
-      cy.get('.ProseMirror')
+      cy.get('.tiptap')
         .type('Test')
         .type('{selectall}')
 
@@ -49,7 +49,7 @@ context('/src/Examples/Menus/Vue/', () => {
         .contains(mark.button)
         .click()
 
-      cy.get('.ProseMirror')
+      cy.get('.tiptap')
         .find(`p ${mark.tag}`)
     })
   })

@@ -4,35 +4,35 @@ context('/src/Marks/Link/React/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
-      cy.get('.ProseMirror').type('{selectall}')
+      cy.get('.tiptap').type('{selectall}')
     })
   })
 
   it('should parse a tags correctly', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#">Example Text</a></p>')
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p><a href="#">Example Text1</a></p>')
       expect(editor.getHTML()).to.eq(
-        '<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text</a></p>',
+        '<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text1</a></p>',
       )
     })
   })
 
   it('should parse a tags with target attribute correctly', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#" target="_self">Example Text</a></p>')
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p><a href="#" target="_self">Example Text2</a></p>')
       expect(editor.getHTML()).to.eq(
-        '<p><a target="_self" rel="noopener noreferrer nofollow" href="#">Example Text</a></p>',
+        '<p><a target="_self" rel="noopener noreferrer nofollow" href="#">Example Text2</a></p>',
       )
     })
   })
 
   it('should parse a tags with rel attribute correctly', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#" rel="follow">Example Text</a></p>')
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p><a href="#" rel="follow">Example Text3</a></p>')
       expect(editor.getHTML()).to.eq(
-        '<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text</a></p>',
+        '<p><a target="_blank" rel="follow" href="#">Example Text3</a></p>',
       )
     })
   })
@@ -45,48 +45,68 @@ context('/src/Marks/Link/React/', () => {
 
       cy.window().its('prompt').should('be.called')
 
-      cy.get('.ProseMirror')
+      cy.get('.tiptap')
         .find('a')
         .should('contain', 'Example Text')
         .should('have.attr', 'href', 'https://tiptap.dev')
     })
   })
 
+  it('detects autolinking', () => {
+    cy.get('.tiptap').type('https://example.com ').find('a').should('contain', 'https://example.com')
+      .should('have.attr', 'href', 'https://example.com')
+  })
+
+  it('detects autolinking with numbers', () => {
+    cy.get('.tiptap').type('https://tiptap4u.com ').find('a').should('contain', 'https://tiptap4u.com')
+      .should('have.attr', 'href', 'https://tiptap4u.com')
+  })
+
   it('detects a pasted URL within a text', () => {
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .paste({
-        pastePayload: 'some text https://example.com around an url',
+        pastePayload: 'some text https://example1.com around an url',
         pasteType: 'text/plain',
       })
       .find('a')
-      .should('contain', 'https://example.com')
-      .should('have.attr', 'href', 'https://example.com')
+      .should('contain', 'https://example1.com')
+      .should('have.attr', 'href', 'https://example1.com')
   })
 
   it('detects a pasted URL', () => {
-    cy.get('.ProseMirror')
-      .paste({ pastePayload: 'https://example.com', pasteType: 'text/plain' })
+    cy.get('.tiptap')
+      .type('{backspace}')
+      .paste({ pastePayload: 'https://example2.com', pasteType: 'text/plain' })
       .find('a')
-      .should('contain', 'Example Text')
-      .should('have.attr', 'href', 'https://example.com')
+      .should('contain', 'https://example2.com')
+      .should('have.attr', 'href', 'https://example2.com')
+  })
+
+  it('detects a pasted URL with query params', () => {
+    cy.get('.tiptap')
+      .type('{backspace}')
+      .paste({ pastePayload: 'https://example.com?paramA=nice&paramB=cool', pasteType: 'text/plain' })
+      .find('a')
+      .should('contain', 'https://example.com?paramA=nice&paramB=cool')
+      .should('have.attr', 'href', 'https://example.com?paramA=nice&paramB=cool')
   })
 
   it('correctly detects multiple pasted URLs', () => {
-    cy.get('.ProseMirror').paste({
+    cy.get('.tiptap').paste({
       pastePayload:
         'https://example1.com, https://example2.com/foobar, (http://example3.com/foobar)',
       pasteType: 'text/plain',
     })
 
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .find('a[href="https://example1.com"]')
       .should('contain', 'https://example1.com')
 
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .find('a[href="https://example2.com/foobar"]')
       .should('contain', 'https://example2.com/foobar')
 
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .find('a[href="http://example3.com/foobar"]')
       .should('contain', 'http://example3.com/foobar')
   })

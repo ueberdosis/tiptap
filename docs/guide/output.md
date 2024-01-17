@@ -45,7 +45,7 @@ Here is an interactive example where you can see that in action:
 https://embed.tiptap.dev/preview/GuideContent/ExportJSON?hideSource
 
 ### Option 2: HTML
-HTML can be easily rendered in other places, for example in emails and it’s wildly used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
+HTML can be easily rendered in other places, for example in emails and it’s widely used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
 
 ```js
 const html = editor.getHTML()
@@ -115,7 +115,7 @@ To render the saved content, set the editor to read-only. That’s how you can a
 https://embed.tiptap.dev/preview/GuideContent/ReadOnly
 
 ### Option 2: Generate HTML from ProseMirror JSON
-If you need to render the content on the server side, for example to generate the HTML for a blog post which has been written in Tiptap, you’ll probably want to do just that without an actual editor instance.
+If you need to render the content on the server side, for example to generate the HTML for a blog post, which has been written in Tiptap, you’ll probably want to do just that without an actual editor instance.
 
 That’s what the `generateHTML()` is for. It’s a helper function which renders HTML without an actual editor instance.
 

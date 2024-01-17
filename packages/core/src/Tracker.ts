@@ -1,12 +1,11 @@
-import { Transaction } from 'prosemirror-state'
+import { Transaction } from '@tiptap/pm/state'
 
 export interface TrackerResult {
-  position: number,
-  deleted: boolean,
+  position: number
+  deleted: boolean
 }
 
 export class Tracker {
-
   transaction: Transaction
 
   currentStep: number
@@ -22,9 +21,7 @@ export class Tracker {
     const mappedPosition = this.transaction.steps
       .slice(this.currentStep)
       .reduce((newPosition, step) => {
-        const mapResult = step
-          .getMap()
-          .mapResult(newPosition)
+        const mapResult = step.getMap().mapResult(newPosition)
 
         if (mapResult.deleted) {
           deleted = true
@@ -38,5 +35,4 @@ export class Tracker {
       deleted,
     }
   }
-
 }

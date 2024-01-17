@@ -1,7 +1,7 @@
 import { ReactRenderer } from '@tiptap/react'
 import tippy from 'tippy.js'
 
-import { MentionList } from './MentionList'
+import { MentionList } from './MentionList.jsx'
 
 export default {
   items: ({ query }) => {
@@ -16,14 +16,15 @@ export default {
 
     return {
       onStart: props => {
-        reactRenderer = new ReactRenderer(MentionList, {
-          props,
-          editor: props.editor,
-        })
 
         if (!props.clientRect) {
           return
         }
+
+        reactRenderer = new ReactRenderer(MentionList, {
+          props,
+          editor: props.editor,
+        })
 
         popup = tippy('body', {
           getReferenceClientRect: props.clientRect,

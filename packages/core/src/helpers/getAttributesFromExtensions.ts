@@ -1,4 +1,4 @@
-import { MarkConfig, NodeConfig } from '..'
+import { MarkConfig, NodeConfig } from '../index.js'
 import {
   AnyConfig,
   Attribute,
@@ -6,9 +6,9 @@ import {
   ExtensionAttribute,
   Extensions,
   GlobalAttributes,
-} from '../types'
-import { getExtensionField } from './getExtensionField'
-import { splitExtensions } from './splitExtensions'
+} from '../types.js'
+import { getExtensionField } from './getExtensionField.js'
+import { splitExtensions } from './splitExtensions.js'
 
 /**
  * Get a list of all extension attributes defined in `addAttribute` and `addGlobalAttribute`.
@@ -93,7 +93,11 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
           ...attribute,
         }
 
-        if (attribute?.isRequired && attribute?.default === undefined) {
+        if (typeof mergedAttr?.default === 'function') {
+          mergedAttr.default = mergedAttr.default()
+        }
+
+        if (mergedAttr?.isRequired && mergedAttr?.default === undefined) {
           delete mergedAttr.default
         }
 

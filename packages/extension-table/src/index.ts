@@ -1,6 +1,6 @@
-import { Table } from './table'
+import { Table } from './table.js'
 
-export * from './table'
-export * from './utilities/createTable'
+export * from './table.js'
+export * from './utilities/createTable.js'
 
 export default Table
