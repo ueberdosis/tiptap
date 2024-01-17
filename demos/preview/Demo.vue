@@ -1,6 +1,4 @@
-<!-- TODO: Add dependencies -->
-<!-- TODO: Add options based on configuration -->
-<!-- template="react" -->
+<!-- TODO: Add options, dependencies based on configuration -->
 <!--
   :options="{
     visibleFiles: [
@@ -14,10 +12,17 @@
 <template>
   <sandpack
     template="react"
-    :options="{
-      activeFile: 'index.jsx',
-    }"
     :files="files"
+    :custom-setup="{
+      dependencies: {
+        '@tiptap/extension-color': 'latest',
+        '@tiptap/extension-list-item': 'latest',
+        '@tiptap/extension-text-style': 'latest',
+        '@tiptap/react': 'latest',
+        '@tiptap/starter-kit': 'latest',
+        '@tiptap/pm': 'latest',
+      },
+    }"
   />
 
   <!-- Below: old implementation -->
@@ -191,11 +196,12 @@ export default {
         return null
       }
 
+      // TODO: This needs some refactoring to make it work with other frameworks
       return Object.fromEntries(this.source.map(item => [
-        item.name,
+        (item.name === 'index.jsx' ? 'App.js' : item.name),
         {
           code: item.content,
-          // active: !!(item.name === 'index.jsx' || item.name === 'index.vue'),
+          readOnly: true,
         },
       ]))
     },
