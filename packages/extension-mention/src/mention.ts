@@ -6,7 +6,7 @@ import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 export type MentionOptions = {
   HTMLAttributes: Record<string, any>
   renderLabel: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
-  deleteOnBackspace: boolean,
+  deleteTriggerWithBackspace: boolean,
   suggestion: Omit<SuggestionOptions, 'editor'>
 }
 
@@ -21,7 +21,7 @@ export const Mention = Node.create<MentionOptions>({
       renderLabel({ options, node }) {
         return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
       },
-      deleteOnBackspace: false,
+      deleteTriggerWithBackspace: false,
       suggestion: {
         char: '@',
         pluginKey: MentionPluginKey,
@@ -144,7 +144,7 @@ export const Mention = Node.create<MentionOptions>({
           if (node.type.name === this.name) {
             isMention = true
             tr.insertText(
-              this.options.deleteOnBackspace ? '' : this.options.suggestion.char || '',
+              this.options.deleteTriggerWithBackspace ? '' : this.options.suggestion.char || '',
               pos,
               pos + node.nodeSize,
             )
