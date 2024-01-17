@@ -17,6 +17,7 @@
     "lexical": "^0.11.1",
     "lowlight": "^2.7.0",
     "remixicon": "^2.5.0",
+    "sandpack-vue3": "^3.1.9",
     "shiki": "^0.10.0",
     "simplify-js": "^1.2.4",
     "y-prosemirror": "1.0.20",

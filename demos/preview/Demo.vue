@@ -1,4 +1,26 @@
+<!-- TODO: Add dependencies -->
+<!-- TODO: Add options based on configuration -->
+<!-- template="react" -->
+<!--
+  :options="{
+    visibleFiles: [
+      'index.jsx',
+      'styles.scss',
+    ],
+    activeFile: 'index.jsx',
+  }"
+-->
+
 <template>
+  <sandpack
+    template="react"
+    :options="{
+      activeFile: 'index.jsx',
+    }"
+    :files="files"
+  />
+
+  <!-- Below: old implementation -->
   <demo-frame
     v-if="inline"
     :src="currentIframeUrl"
@@ -87,6 +109,7 @@
 
 <script>
 import { getDebugJSON } from '@tiptap/core'
+import { Sandpack } from 'sandpack-vue3'
 
 import DemoFrame from './DemoFrame.vue'
 import Shiki from './Shiki.vue'
@@ -94,6 +117,7 @@ import Shiki from './Shiki.vue'
 export default {
   components: {
     DemoFrame,
+    Sandpack,
     Shiki,
   },
 
@@ -160,6 +184,20 @@ export default {
 
     source() {
       return this.sources[this.currentTab]
+    },
+
+    files() {
+      if (!this.source) {
+        return null
+      }
+
+      return Object.fromEntries(this.source.map(item => [
+        item.name,
+        {
+          code: item.content,
+          // active: !!(item.name === 'index.jsx' || item.name === 'index.vue'),
+        },
+      ]))
     },
   },
 
