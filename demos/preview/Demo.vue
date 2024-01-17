@@ -12,6 +12,7 @@
 <template>
   <sandpack
     template="react"
+    :team-id="teamId"
     :files="files"
     :custom-setup="{
       dependencies: {
@@ -21,6 +22,8 @@
         '@tiptap/react': 'latest',
         '@tiptap/starter-kit': 'latest',
         '@tiptap/pm': 'latest',
+        '@tiptap-pro/extension-emoji': '2.6.1',
+        'tippy': 'latest',
       },
     }"
   />
@@ -147,6 +150,7 @@ export default {
       tabOrder: ['React', 'Vue', 'Svelte', 'JS'],
       debugJSON: null,
       showDebug: false,
+      teamId: 'Tiptap',
     }
   },
 
