@@ -120,6 +120,9 @@
     - title: Cloud
       link: /cloud
       type: new
+      items:
+        - title: Management API
+          link: /cloud/management-api
     - title: Tutorials
       link: /tutorials
       type: new
