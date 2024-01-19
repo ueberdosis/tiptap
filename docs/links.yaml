@@ -65,7 +65,7 @@
   items:
     - title: Introduction
       link: /introduction
-    - title: Installation
+    - title: Getting started
       link: /installation
       items:
         - title: Alpine.js
@@ -98,92 +98,8 @@
         - title: Vue 2
           link: /installation/vue2
           skip: true
-    - title: Upgrade guide
-      link: /overview/upgrade-guide
-    - title: Changelog
-      link: /changelog
-    - title: About the project
-      link: /about
-      type: sponsor
-    - title: Contributing
-      link: /overview/contributing
-    # - title: Support
-    #   link: /support
-    - title: Jobs
-      link: /jobs
 
-- title: Tiptap Collab
-  items:
-    - title: Cloud
-      link: /cloud
-      type: new
-      items:
-        - title: Management API
-          link: /cloud/management-api
-    - title: Tutorials
-      link: /tutorials
-      type: new
-      items:
-        - title: Getting Started
-          link: /tutorials/get-started-with-tiptap-collab
-        - title: JWT Authentication
-          link: /tutorials/jwt-authentication
-
-- title: Tiptap AI
-  items:
-    - title: Introduction
-      link: /ai/introduction
-    - title: Setup
-      link: /ai/setup
-    - title: Extension
-      link: /ai/extension
-      items:
-        - title: Commands
-          link: /ai/extension/commands
-    - title: Advanced usage
-      link: /ai/advanced-usage
-      type: new
-      items:
-        - title: Setup
-          link: /ai/advanced-usage/setup
-          type: new
-        - title: Custom LLM
-          link: /ai/advanced-usage/custom-llm
-          type: new
-
-- title: Guide
-  items:
-    - title: Configuration
-      link: /guide/configuration
-    - title: ProseMirror API
-      link: /guide/prosemirror
-    - title: Menus
-      link: /guide/menus
-    - title: Styling
-      link: /guide/styling
-    - title: Output
-      link: /guide/output
-    - title: Accessibility
-      link: /guide/accessibility
-    - title: Collaborative editing
-      link: /guide/collaborative-editing
-    - title: Custom extensions
-      link: /guide/custom-extensions
-    - title: Interactive node views
-      link: /guide/node-views
-      items:
-        - title: With JavaScript
-          link: /guide/node-views/js
-        - title: With React
-          link: /guide/node-views/react
-        - title: With Vue
-          link: /guide/node-views/vue
-        - title: A few examples
-          link: /guide/node-views/examples
-    - title: Working with TypeScript
-      link: /guide/typescript
-
-- title: API
+- title: Editor API
   items:
     - title: Introduction
       link: /api/introduction
@@ -436,3 +352,87 @@
       link: /api/schema
     - title: Events
       link: /api/events
+
+- title: Editor Guides
+  items:
+    - title: Configuration
+      link: /guide/configuration
+    - title: ProseMirror API
+      link: /guide/prosemirror
+    - title: Menus
+      link: /guide/menus
+    - title: Styling
+      link: /guide/styling
+    - title: Output
+      link: /guide/output
+    - title: Accessibility
+      link: /guide/accessibility
+    - title: Collaborative editing
+      link: /guide/collaborative-editing
+    - title: Custom extensions
+      link: /guide/custom-extensions
+    - title: Interactive node views
+      link: /guide/node-views
+      items:
+        - title: With JavaScript
+          link: /guide/node-views/js
+        - title: With React
+          link: /guide/node-views/react
+        - title: With Vue
+          link: /guide/node-views/vue
+        - title: A few examples
+          link: /guide/node-views/examples
+    - title: Working with TypeScript
+      link: /guide/typescript
+    - title: Upgrade Editor to v2
+      link: /overview/upgrade-guide
+
+- title: Collaboration
+  items:
+    - title: Cloud
+      link: /cloud
+      type: new
+      items:
+        - title: Management API
+          link: /cloud/management-api
+    - title: Tutorials
+      link: /tutorials
+      type: new
+      items:
+        - title: Getting Started
+          link: /tutorials/get-started-with-tiptap-collab
+        - title: JWT Authentication
+          link: /tutorials/jwt-authentication
+
+- title: Content AI
+  items:
+    - title: Introduction
+      link: /ai/introduction
+    - title: Setup
+      link: /ai/setup
+    - title: Extension
+      link: /ai/extension
+      items:
+        - title: Commands
+          link: /ai/extension/commands
+    - title: Advanced usage
+      link: /ai/advanced-usage
+      type: new
+      items:
+        - title: Setup
+          link: /ai/advanced-usage/setup
+          type: new
+        - title: Custom LLM
+          link: /ai/advanced-usage/custom-llm
+          type: new
+
+
+- title: Other Resources
+  items:
+    - title: About the project
+      link: /about
+      type: sponsor
+    - title: Editor changelog
+      link: /changelog
+    - title: Contributing
+      link: /overview/contributing
