@@ -419,16 +419,9 @@
     - title: Commands
       link: /ai/extension/commands
       type: new
-    - title: Advanced usage
-      link: /ai/advanced-usage
+    - title: Custom LLM
+      link: /ai/advanced-usage/custom-llm
       type: new
-      items:
-        - title: Setup
-          link: /ai/advanced-usage/setup
-          type: new
-        - title: Custom LLM
-          link: /ai/advanced-usage/custom-llm
-          type: new
 
 
 - title: Other Resources
