@@ -389,32 +389,36 @@
 
 - title: Collaboration
   items:
-    - title: Cloud
-      link: /cloud
-      type: new
+    - title: Collaboration
+      link: /collaboration
       items:
+        - title: Introduction
+          link: /collaboration/introduction
+        - title: Getting started
+          link: /collaboration/getting-started
         - title: Management API
-          link: /cloud/management-api
-    - title: Tutorials
-      link: /tutorials
-      type: new
+          link: /collaboration/management-api
+        - title: Webhook
+          link: /collaboration/webhook
+    - title: Guides
+      link: /guides
       items:
-        - title: Getting Started
-          link: /tutorials/get-started-with-tiptap-collab
+        - title: Simple collaboration app
+          link: /collaboration/guides/simple-collaboration-aoo
         - title: JWT Authentication
-          link: /tutorials/jwt-authentication
+          link: /collaboration/guides/jwt-authentication
 
 - title: Content AI
   items:
     - title: Introduction
       link: /ai/introduction
-    - title: Setup
+    - title: Getting started
       link: /ai/setup
     - title: Extension
       link: /ai/extension
-      items:
-        - title: Commands
-          link: /ai/extension/commands
+    - title: Commands
+      link: /ai/extension/commands
+      type: new
     - title: Advanced usage
       link: /ai/advanced-usage
       type: new
