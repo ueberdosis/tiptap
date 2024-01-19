@@ -54,31 +54,43 @@
     - title: A clever editor
       icon: mental-health-line
       link: /examples/savvy
-    - title: Interactivity
+    - title: React components in node views
       icon: cursor-fill
       link: /examples/interactivity
     - title: Syntax highlighting
       icon: code-box-fill
       link: /examples/syntax-highlighting
 
-- title: Overview
+- title: Editor
   items:
     - title: Introduction
       link: /introduction
-    - title: Installation
+    - title: Getting started
       link: /installation
       items:
+        - title: Alpine.js
+          link: /installation/alpine
+          skip: true
         - title: CDN
           link: /installation/cdn
           skip: true
-        - title: Vanilla JavaScript
-          link: /installation/vanilla-javascript
-          skip: true
-        - title: React
-          link: /installation/react
-          skip: true
         - title: Next.js
           link: /installation/nextjs
+          skip: true
+        - title: Nuxt.js
+          link: /installation/nuxt
+          skip: true
+        - title: PHP
+          link: /installation/php
+          skip: true
+         - title: React
+          link: /installation/react
+          skip: true
+        - title: Svelte
+          link: /installation/svelte
+          skip: true
+        - title: Vanilla JavaScript
+          link: /installation/vanilla-javascript
           skip: true
         - title: Vue 3
           link: /installation/vue3
@@ -86,107 +98,8 @@
         - title: Vue 2
           link: /installation/vue2
           skip: true
-        - title: Nuxt.js
-          link: /installation/nuxt
-          skip: true
-        - title: Svelte
-          link: /installation/svelte
-          skip: true
-        # - title: CodeSandbox
-        #   link: /installation/codesandbox
-        #   skip: true
-        - title: Alpine.js
-          link: /installation/alpine
-          skip: true
-        - title: PHP
-          link: /installation/php
-          skip: true
-    - title: Upgrade guide
-      link: /overview/upgrade-guide
-    - title: Changelog
-      link: /changelog
-    - title: About the project
-      link: /about
-      type: sponsor
-    - title: Contributing
-      link: /overview/contributing
-    # - title: Support
-    #   link: /support
-    - title: Jobs
-      link: /jobs
 
-- title: Tiptap Collab
-  items:
-    - title: Cloud
-      link: /cloud
-      type: new
-      items:
-        - title: Management API
-          link: /cloud/management-api
-    - title: Tutorials
-      link: /tutorials
-      type: new
-      items:
-        - title: Getting Started
-          link: /tutorials/get-started-with-tiptap-collab
-        - title: JWT Authentication
-          link: /tutorials/jwt-authentication
-
-- title: Tiptap AI
-  items:
-    - title: Introduction
-      link: /ai/introduction
-    - title: Setup
-      link: /ai/setup
-    - title: Extension
-      link: /ai/extension
-      items:
-        - title: Commands
-          link: /ai/extension/commands
-    - title: Advanced usage
-      link: /ai/advanced-usage
-      type: new
-      items:
-        - title: Setup
-          link: /ai/advanced-usage/setup
-          type: new
-        - title: Custom LLM
-          link: /ai/advanced-usage/custom-llm
-          type: new
-
-- title: Guide
-  items:
-    - title: Configuration
-      link: /guide/configuration
-    - title: ProseMirror API
-      link: /guide/prosemirror
-    - title: Menus
-      link: /guide/menus
-    - title: Styling
-      link: /guide/styling
-    - title: Output
-      link: /guide/output
-    - title: Accessibility
-      link: /guide/accessibility
-    - title: Collaborative editing
-      link: /guide/collaborative-editing
-    - title: Custom extensions
-      link: /guide/custom-extensions
-    - title: Interactive node views
-      link: /guide/node-views
-      items:
-        - title: With JavaScript
-          link: /guide/node-views/js
-        - title: With React
-          link: /guide/node-views/react
-        - title: With Vue
-          link: /guide/node-views/vue
-        - title: A few examples
-          link: /guide/node-views/examples
-    - title: Working with TypeScript
-      link: /guide/typescript
-
-- title: API
+- title: Editor API
   items:
     - title: Introduction
       link: /api/introduction
@@ -439,3 +352,84 @@
       link: /api/schema
     - title: Events
       link: /api/events
+
+- title: Editor Guides
+  items:
+    - title: Configuration
+      link: /guide/configuration
+    - title: ProseMirror API
+      link: /guide/prosemirror
+    - title: Menus
+      link: /guide/menus
+    - title: Styling
+      link: /guide/styling
+    - title: Output
+      link: /guide/output
+    - title: Accessibility
+      link: /guide/accessibility
+    - title: Collaborative editing
+      link: /guide/collaborative-editing
+    - title: Custom extensions
+      link: /guide/custom-extensions
+    - title: Interactive node views
+      link: /guide/node-views
+      items:
+        - title: With JavaScript
+          link: /guide/node-views/js
+        - title: With React
+          link: /guide/node-views/react
+        - title: With Vue
+          link: /guide/node-views/vue
+        - title: A few examples
+          link: /guide/node-views/examples
+    - title: Working with TypeScript
+      link: /guide/typescript
+    - title: Upgrade Editor to v2
+      link: /overview/upgrade-guide
+
+- title: Collaboration
+  items:
+    - title: Collaboration
+      link: /collaboration
+      items:
+        - title: Introduction
+          link: /collaboration/introduction
+        - title: Getting started
+          link: /collaboration/getting-started
+        - title: Management API
+          link: /collaboration/management-api
+        - title: Webhook
+          link: /collaboration/webhook
+    - title: Guides
+      link: /guides
+      items:
+        - title: Simple collaboration app
+          link: /collaboration/guides/simple-collaboration-aoo
+        - title: JWT Authentication
+          link: /collaboration/guides/jwt-authentication
+
+- title: Content AI
+  items:
+    - title: Introduction
+      link: /ai/introduction
+    - title: Getting started
+      link: /ai/setup
+    - title: Extension
+      link: /ai/extension
+    - title: Commands
+      link: /ai/extension/commands
+      type: new
+    - title: Custom LLM
+      link: /ai/advanced-usage/custom-llm
+      type: new
+
+
+- title: Other Resources
+  items:
+    - title: About the project
+      link: /about
+      type: sponsor
+    - title: Editor changelog
+      link: /changelog
+    - title: Contributing
+      link: /overview/contributing

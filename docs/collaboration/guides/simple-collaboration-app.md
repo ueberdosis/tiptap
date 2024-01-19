@@ -1,10 +1,8 @@
-# Getting started with Tiptap Collab
+# Integrating Collaboration with the Editor
 
 ## Introduction
 
-**Welcome** to the first of a series of tutorials about collaboration in Tiptap (or Lexical, Quill, Slate, and others that have a [Yjs editor binding](https://docs.yjs.dev/ecosystem/editor-bindings)) using Tiptap Collab. This series will start covering the basics, and expand to more specific use cases in the next posts. For today, we’ll start moving from a simple textarea box to a fully collaborative editor instance.
-
-Imagine that you are building a simple sticky note app, where a user can create notes.
+Welcome! In this guide, we'll explore how to elevate simple text areas into collaborative Tiptap editor instances. We begin by transforming basic textarea boxes into a fully functional, collaborative editor setup, ideal for applications like sticky note apps. This tutorial is your starting point for integrating real-time collaboration into your projects using Collaboration, with step-by-step instructions for seamless integration and customization.
 
 So let's say you have a few textareas. Depending on your framework (Vue, React, ..), the code probably looks similar to this:
 
@@ -12,7 +10,7 @@ So let's say you have a few textareas. Depending on your framework (Vue, React, 
 
 ## Setting Up Tiptap
 
-In order to incorporate the Tiptap editor instance for better collaboration and formatting options, you start by modifying your code to include Tiptap in the Note component.
+In order to incorporate the editor instance for better collaboration and formatting options, you start by modifying your code to include Tiptap in the Note component.
 
 You begin by importing the necessary Tiptap components and creating a new editor instance within the Note component.
 
@@ -23,7 +21,7 @@ npm install @tiptap/vue-3 @tiptap/pm @tiptap/starter-kit
 
 <tiptap-demo name="Tutorials/1-2-tiptap"></tiptap-demo>
 
-Now your Note component has a fully functional Tiptap editor instance! The user can now format their text (see https://tiptap.dev/guide/menus on how to add a menu bar, in our example, you can make text bold using cmd+b). But what about collaboration?
+Now your Note component has a fully functional editor instance! The user can now format their text (see https://tiptap.dev/guide/menus on how to add a menu bar, in our example, you can make text bold using cmd+b). But what about collaboration?
 
 ## Adding Yjs
 
@@ -56,7 +54,7 @@ To get started, let's sign up for a Tiptap Pro account, which comes with a free 
 
 After you signed up, click on "Join the Beta". Just follow the instructions and you'll be set up within a few minutes.
 
-Your app ID is shown in the collab admin interface: https://collab.tiptap.dev/ - just copy that and also already get the JWT from the settings area. It's valid for two hours, so more than enough for our quick test. We'll cover generating JWTs using your secret later.
+Your app ID is shown in the cloud admin interface: https://cloud.tiptap.dev/ - just copy that and also already get the JWT from the settings area. It's valid for two hours, so more than enough for our quick test. We'll cover generating JWTs using your secret later.
 
 
 Now, back to our application:
@@ -72,4 +70,4 @@ Let's now create the TiptapCollabProvider to finally get syncing:
 And that's it! With these changes, our Tiptap note-taking application is now fully collaborative. Notes will get synced to other users in realtime.
 
 
-We've only scratched the surface of what Tiptap Collab and Hocuspocus can do. Keep an eye out for future articles where we'll delve into more complex scenarios like permissions, presence indicators, and beyond. Don't miss out!
+We've only scratched the surface of what Collaboration and Hocuspocus can do. Keep an eye out for future articles where we'll delve into more complex scenarios like permissions, presence indicators, and beyond. Don't miss out!
