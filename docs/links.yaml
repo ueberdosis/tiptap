@@ -83,7 +83,7 @@
         - title: PHP
           link: /installation/php
           skip: true
-         - title: React
+        - title: React
           link: /installation/react
           skip: true
         - title: Svelte
@@ -98,313 +98,308 @@
         - title: Vue 2
           link: /installation/vue2
           skip: true
-
-- title: Editor API
-  items:
-    - title: Introduction
-      link: /api/introduction
-    - title: Editor
-      link: /api/editor
-    - title: Node Positions
-      link: /api/nodepos
-    - title: Commands
-      link: /api/commands
+    - title: API
+      link: /api
       items:
-        - title: blur
-          link: /api/commands/blur
-        - title: clearContent
-          link: /api/commands/clear-content
-        - title: clearNodes
-          link: /api/commands/clear-nodes
-        - title: createParagraphNear
-          link: /api/commands/create-paragraph-near
-        - title: deleteNode
-          link: /api/commands/delete-node
-        - title: deleteRange
-          link: /api/commands/delete-range
-        - title: deleteSelection
-          link: /api/commands/delete-selection
-        - title: enter
-          link: /api/commands/enter
-        - title: exitCode
-          link: /api/commands/exit-code
-        - title: extendMarkRange
-          link: /api/commands/extend-mark-range
-        - title: focus
-          link: /api/commands/focus
-        - title: forEach
-          link: /api/commands/for-each
-        - title: insertContent
-          link: /api/commands/insert-content
-        - title: insertContentAt
-          link: /api/commands/insert-content-at
-        - title: joinBackward
-          link: /api/commands/join-backward
-        - title: joinForward
-          link: /api/commands/join-forward
-        - title: keyboardShortcut
-          link: /api/commands/keyboard-shortcut
-        - title: liftEmptyBlock
-          link: /api/commands/lift-empty-block
-        - title: liftListItem
-          link: /api/commands/lift-list-item
-        - title: lift
-          link: /api/commands/lift
-        - title: newlineInCode
-          link: /api/commands/newline-in-code
-        - title: resetAttributes
-          link: /api/commands/reset-attributes
-        - title: scrollIntoView
-          link: /api/commands/scroll-into-view
-        - title: selectAll
-          link: /api/commands/select-all
-        - title: selectNodeBackward
-          link: /api/commands/select-node-backward
-        - title: selectNodeForward
-          link: /api/commands/select-node-forward
-        - title: selectParentNode
-          link: /api/commands/select-parent-node
-        - title: selectTextblockEnd
-          link: /api/commands/select-textblock-end
-        - title: selectTextblockStart
-          link: /api/commands/select-textblock-start
-        - title: setContent
-          link: /api/commands/set-content
-        - title: setMark
-          link: /api/commands/set-mark
-        - title: setMeta
-          link: /api/commands/set-meta
-        - title: setNode
-          link: /api/commands/set-node
-        - title: setNodeSelection
-          link: /api/commands/set-node-selection
-        - title: setTextSelection
-          link: /api/commands/set-text-selection
-        - title: sinkListItem
-          link: /api/commands/sink-list-item
-        - title: splitBlock
-          link: /api/commands/split-block
-        - title: splitListItem
-          link: /api/commands/split-list-item
-        - title: toggleList
-          link: /api/commands/toggle-list
-        - title: toggleMark
-          link: /api/commands/toggle-mark
-        - title: toggleNode
-          link: /api/commands/toggle-node
-        - title: toggleWrap
-          link: /api/commands/toggle-wrap
-        - title: undoInputRule
-          link: /api/commands/undo-input-rule
-        - title: unsetAllMarks
-          link: /api/commands/unset-all-marks
-        - title: unsetMark
-          link: /api/commands/unset-mark
-        - title: updateAttributes
-          link: /api/commands/update-attributes
-        - title: wrapInList
-          link: /api/commands/wrap-in-list
-    - title: Nodes
-      link: /api/nodes
+        - title: Editor
+          link: /api/editor
+        - title: Node Positions
+          link: /api/nodepos
+        - title: Commands
+          link: /api/commands
+          items:
+            - title: blur
+              link: /api/commands/blur
+            - title: clearContent
+              link: /api/commands/clear-content
+            - title: clearNodes
+              link: /api/commands/clear-nodes
+            - title: createParagraphNear
+              link: /api/commands/create-paragraph-near
+            - title: deleteNode
+              link: /api/commands/delete-node
+            - title: deleteRange
+              link: /api/commands/delete-range
+            - title: deleteSelection
+              link: /api/commands/delete-selection
+            - title: enter
+              link: /api/commands/enter
+            - title: exitCode
+              link: /api/commands/exit-code
+            - title: extendMarkRange
+              link: /api/commands/extend-mark-range
+            - title: focus
+              link: /api/commands/focus
+            - title: forEach
+              link: /api/commands/for-each
+            - title: insertContent
+              link: /api/commands/insert-content
+            - title: insertContentAt
+              link: /api/commands/insert-content-at
+            - title: joinBackward
+              link: /api/commands/join-backward
+            - title: joinForward
+              link: /api/commands/join-forward
+            - title: keyboardShortcut
+              link: /api/commands/keyboard-shortcut
+            - title: liftEmptyBlock
+              link: /api/commands/lift-empty-block
+            - title: liftListItem
+              link: /api/commands/lift-list-item
+            - title: lift
+              link: /api/commands/lift
+            - title: newlineInCode
+              link: /api/commands/newline-in-code
+            - title: resetAttributes
+              link: /api/commands/reset-attributes
+            - title: scrollIntoView
+              link: /api/commands/scroll-into-view
+            - title: selectAll
+              link: /api/commands/select-all
+            - title: selectNodeBackward
+              link: /api/commands/select-node-backward
+            - title: selectNodeForward
+              link: /api/commands/select-node-forward
+            - title: selectParentNode
+              link: /api/commands/select-parent-node
+            - title: selectTextblockEnd
+              link: /api/commands/select-textblock-end
+            - title: selectTextblockStart
+              link: /api/commands/select-textblock-start
+            - title: setContent
+              link: /api/commands/set-content
+            - title: setMark
+              link: /api/commands/set-mark
+            - title: setMeta
+              link: /api/commands/set-meta
+            - title: setNode
+              link: /api/commands/set-node
+            - title: setNodeSelection
+              link: /api/commands/set-node-selection
+            - title: setTextSelection
+              link: /api/commands/set-text-selection
+            - title: sinkListItem
+              link: /api/commands/sink-list-item
+            - title: splitBlock
+              link: /api/commands/split-block
+            - title: splitListItem
+              link: /api/commands/split-list-item
+            - title: toggleList
+              link: /api/commands/toggle-list
+            - title: toggleMark
+              link: /api/commands/toggle-mark
+            - title: toggleNode
+              link: /api/commands/toggle-node
+            - title: toggleWrap
+              link: /api/commands/toggle-wrap
+            - title: undoInputRule
+              link: /api/commands/undo-input-rule
+            - title: unsetAllMarks
+              link: /api/commands/unset-all-marks
+            - title: unsetMark
+              link: /api/commands/unset-mark
+            - title: updateAttributes
+              link: /api/commands/update-attributes
+            - title: wrapInList
+              link: /api/commands/wrap-in-list
+        - title: Nodes
+          link: /api/nodes
+          items:
+            - title: Blockquote
+              link: /api/nodes/blockquote
+            - title: BulletList
+              link: /api/nodes/bullet-list
+            - title: CodeBlock
+              link: /api/nodes/code-block
+            - title: CodeBlockLowlight
+              link: /api/nodes/code-block-lowlight
+            - title: Document
+              link: /api/nodes/document
+            - title: Details
+              link: /api/nodes/details
+              type: pro
+            - title: DetailsSummary
+              link: /api/nodes/details-summary
+              type: pro
+            - title: DetailsContent
+              link: /api/nodes/details-content
+              type: pro
+            - title: Emoji
+              link: /api/nodes/emoji
+              type: pro
+            - title: HardBreak
+              link: /api/nodes/hard-break
+            - title: Heading
+              link: /api/nodes/heading
+            - title: HorizontalRule
+              link: /api/nodes/horizontal-rule
+            - title: Image
+              link: /api/nodes/image
+            - title: ListItem
+              link: /api/nodes/list-item
+            - title: Mention
+              link: /api/nodes/mention
+            - title: OrderedList
+              link: /api/nodes/ordered-list
+            - title: Paragraph
+              link: /api/nodes/paragraph
+            - title: Table
+              link: /api/nodes/table
+            - title: TableRow
+              link: /api/nodes/table-row
+            - title: TableCell
+              link: /api/nodes/table-cell
+            - title: TableHeader
+              link: /api/nodes/table-header
+            - title: TaskList
+              link: /api/nodes/task-list
+            - title: TaskItem
+              link: /api/nodes/task-item
+            - title: Text
+              link: /api/nodes/text
+            - title: YouTube
+              link: /api/nodes/youtube
+        - title: Marks
+          link: /api/marks
+          items:
+            - title: Bold
+              link: /api/marks/bold
+            - title: Code
+              link: /api/marks/code
+            - title: Highlight
+              link: /api/marks/highlight
+            - title: Italic
+              link: /api/marks/italic
+            - title: Link
+              link: /api/marks/link
+            - title: Strike
+              link: /api/marks/strike
+            - title: Subscript
+              link: /api/marks/subscript
+            - title: Superscript
+              link: /api/marks/superscript
+            - title: TextStyle
+              link: /api/marks/text-style
+            - title: Underline
+              link: /api/marks/underline
+        - title: Extensions
+          link: /api/extensions
+          items:
+            - title: AI
+              link: /ai/introduction
+              type: new
+            - title: BubbleMenu
+              link: /api/extensions/bubble-menu
+            - title: CharacterCount
+              link: /api/extensions/character-count
+            - title: Collaboration
+              link: /api/extensions/collaboration
+            - title: CollaborationCursor
+              link: /api/extensions/collaboration-cursor
+            - title: CollaborationHistory
+              link: /api/extensions/collaboration-history
+              type: new
+            - title: Color
+              link: /api/extensions/color
+            - title: Dropcursor
+              link: /api/extensions/dropcursor
+            - title: FileHandler
+              link: /api/extensions/file-handler
+              type: new
+            - title: FloatingMenu
+              link: /api/extensions/floating-menu
+            - title: Focus
+              link: /api/extensions/focus
+            - title: FontFamily
+              link: /api/extensions/font-family
+            - title: Gapcursor
+              link: /api/extensions/gapcursor
+            - title: History
+              link: /api/extensions/history
+            - title: InvisibleCharacters
+              link: /api/extensions/invisible-characters
+              type: new
+            - title: Mathematics
+              link: /api/extensions/mathematics
+              type: new
+            - title: Placeholder
+              link: /api/extensions/placeholder
+            - title: StarterKit
+              link: /api/extensions/starter-kit
+            - title: TextAlign
+              link: /api/extensions/text-align
+            - title: Typography
+              link: /api/extensions/typography
+            - title: UniqueID
+              link: /api/extensions/unique-id
+              type: pro
+        - title: Utilities
+          link: /utilities
+          redirect: /api/utilities/html
+          items:
+            - title: HTML
+              link: /api/utilities/html
+            - title: Suggestion
+              link: /api/utilities/suggestion
+            - title: Tiptap for PHP
+              link: /api/utilities/tiptap-php
+              type: new
+        - title: Keyboard shortcuts
+          link: /api/keyboard-shortcuts
+        - title: Schema
+          link: /api/schema
+        - title: Events
+          link: /api/events
+    - title: Guides
+      link: /guide
       items:
-        - title: Blockquote
-          link: /api/nodes/blockquote
-        - title: BulletList
-          link: /api/nodes/bullet-list
-        - title: CodeBlock
-          link: /api/nodes/code-block
-        - title: CodeBlockLowlight
-          link: /api/nodes/code-block-lowlight
-        - title: Document
-          link: /api/nodes/document
-        - title: Details
-          link: /api/nodes/details
-          type: pro
-        - title: DetailsSummary
-          link: /api/nodes/details-summary
-          type: pro
-        - title: DetailsContent
-          link: /api/nodes/details-content
-          type: pro
-        - title: Emoji
-          link: /api/nodes/emoji
-          type: pro
-        - title: HardBreak
-          link: /api/nodes/hard-break
-        - title: Heading
-          link: /api/nodes/heading
-        - title: HorizontalRule
-          link: /api/nodes/horizontal-rule
-        - title: Image
-          link: /api/nodes/image
-        - title: ListItem
-          link: /api/nodes/list-item
-        - title: Mention
-          link: /api/nodes/mention
-        - title: OrderedList
-          link: /api/nodes/ordered-list
-        - title: Paragraph
-          link: /api/nodes/paragraph
-        - title: Table
-          link: /api/nodes/table
-        - title: TableRow
-          link: /api/nodes/table-row
-        - title: TableCell
-          link: /api/nodes/table-cell
-        - title: TableHeader
-          link: /api/nodes/table-header
-        - title: TaskList
-          link: /api/nodes/task-list
-        - title: TaskItem
-          link: /api/nodes/task-item
-        - title: Text
-          link: /api/nodes/text
-        - title: YouTube
-          link: /api/nodes/youtube
-    - title: Marks
-      link: /api/marks
-      items:
-        - title: Bold
-          link: /api/marks/bold
-        - title: Code
-          link: /api/marks/code
-        - title: Highlight
-          link: /api/marks/highlight
-        - title: Italic
-          link: /api/marks/italic
-        - title: Link
-          link: /api/marks/link
-        - title: Strike
-          link: /api/marks/strike
-        - title: Subscript
-          link: /api/marks/subscript
-        - title: Superscript
-          link: /api/marks/superscript
-        - title: TextStyle
-          link: /api/marks/text-style
-        - title: Underline
-          link: /api/marks/underline
-    - title: Extensions
-      link: /api/extensions
-      items:
-        - title: AI
-          link: /ai/introduction
-          type: new
-        - title: BubbleMenu
-          link: /api/extensions/bubble-menu
-        - title: CharacterCount
-          link: /api/extensions/character-count
-        - title: Collaboration
-          link: /api/extensions/collaboration
-        - title: CollaborationCursor
-          link: /api/extensions/collaboration-cursor
-        - title: CollaborationHistory
-          link: /api/extensions/collaboration-history
-          type: new
-        - title: Color
-          link: /api/extensions/color
-        - title: Dropcursor
-          link: /api/extensions/dropcursor
-        - title: FileHandler
-          link: /api/extensions/file-handler
-          type: new
-        - title: FloatingMenu
-          link: /api/extensions/floating-menu
-        - title: Focus
-          link: /api/extensions/focus
-        - title: FontFamily
-          link: /api/extensions/font-family
-        - title: Gapcursor
-          link: /api/extensions/gapcursor
-        - title: History
-          link: /api/extensions/history
-        - title: InvisibleCharacters
-          link: /api/extensions/invisible-characters
-          type: new
-        - title: Mathematics
-          link: /api/extensions/mathematics
-          type: new
-        - title: Placeholder
-          link: /api/extensions/placeholder
-        - title: StarterKit
-          link: /api/extensions/starter-kit
-        - title: TextAlign
-          link: /api/extensions/text-align
-        - title: Typography
-          link: /api/extensions/typography
-        - title: UniqueID
-          link: /api/extensions/unique-id
-          type: pro
-    - title: Utilities
-      link: /utilities
-      redirect: /api/utilities/html
-      items:
-        - title: HTML
-          link: /api/utilities/html
-        - title: Suggestion
-          link: /api/utilities/suggestion
-        - title: Tiptap for PHP
-          link: /api/utilities/tiptap-php
-          type: new
-    - title: Keyboard shortcuts
-      link: /api/keyboard-shortcuts
-    - title: Schema
-      link: /api/schema
-    - title: Events
-      link: /api/events
-
-- title: Editor Guides
-  items:
-    - title: Configuration
-      link: /guide/configuration
-    - title: ProseMirror API
-      link: /guide/prosemirror
-    - title: Menus
-      link: /guide/menus
-    - title: Styling
-      link: /guide/styling
-    - title: Output
-      link: /guide/output
-    - title: Accessibility
-      link: /guide/accessibility
-    - title: Collaborative editing
-      link: /guide/collaborative-editing
-    - title: Custom extensions
-      link: /guide/custom-extensions
-    - title: Interactive node views
-      link: /guide/node-views
-      items:
-        - title: With JavaScript
-          link: /guide/node-views/js
-        - title: With React
-          link: /guide/node-views/react
-        - title: With Vue
-          link: /guide/node-views/vue
-        - title: A few examples
-          link: /guide/node-views/examples
-    - title: Working with TypeScript
-      link: /guide/typescript
-    - title: Upgrade Editor to v2
-      link: /overview/upgrade-guide
+        - title: Configuration
+          link: /guide/configuration
+        - title: ProseMirror API
+          link: /guide/prosemirror
+        - title: Menus
+          link: /guide/menus
+        - title: Styling
+          link: /guide/styling
+        - title: Output
+          link: /guide/output
+        - title: Accessibility
+          link: /guide/accessibility
+        - title: Collaborative editing
+          link: /guide/collaborative-editing
+        - title: Custom extensions
+          link: /guide/custom-extensions
+        - title: Interactive node views
+          link: /guide/node-views
+          items:
+            - title: With JavaScript
+              link: /guide/node-views/js
+            - title: With React
+              link: /guide/node-views/react
+            - title: With Vue
+              link: /guide/node-views/vue
+            - title: A few examples
+              link: /guide/node-views/examples
+        - title: Working with TypeScript
+          link: /guide/typescript
+        - title: Upgrade Editor to v2
+          link: /overview/upgrade-guide
 
 - title: Collaboration
   items:
-    - title: Collaboration
-      link: /collaboration
-      items:
-        - title: Introduction
-          link: /collaboration/introduction
-        - title: Getting started
-          link: /collaboration/getting-started
-        - title: Management API
-          link: /collaboration/management-api
-        - title: Webhook
-          link: /collaboration/webhook
+    - title: Introduction
+      link: /collaboration/introduction
+    - title: Getting started
+      link: /collaboration/getting-started
+    - title: Management API
+      link: /collaboration/management-api
+    - title: Webhook
+      link: /collaboration/webhook
     - title: Guides
-      link: /guides
+      link: /collaboration/guides
       items:
         - title: Simple collaboration app
-          link: /collaboration/guides/simple-collaboration-aoo
+          link: /collaboration/guides/simple-collaboration-app
         - title: JWT Authentication
           link: /collaboration/guides/jwt-authentication
 
