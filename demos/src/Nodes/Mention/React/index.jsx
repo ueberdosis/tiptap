@@ -27,9 +27,5 @@ export default () => {
       `,
   })
 
-  if (!editor) {
-    return null
-  }
-
   return <EditorContent editor={editor} />
 }

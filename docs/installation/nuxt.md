@@ -32,7 +32,7 @@ Okay, enough of the boring boilerplate work. Let’s finally install Tiptap! For
 npm install @tiptap/vue-2 @tiptap/pm @tiptap/starter-kit
 ```
 
-If you followed step 1 and 2, you can now start your project with `npm run serve`, and open [http://localhost:8080/](http://localhost:8080/) in your favorite browser. This might be different, if you’re working with an existing project.
+If you followed step 1 and 2, you can now start your project with `npm run dev`, and open [http://localhost:8080/](http://localhost:8080/) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Create a new component
 To actually start using Tiptap, you’ll need to add a new component to your app. Let’s call it `TiptapEditor` and put the following example code in `components/TiptapEditor.vue`.

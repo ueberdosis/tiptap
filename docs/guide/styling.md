@@ -79,6 +79,14 @@ The editor works fine with Tailwind CSS, too. Find an example that’s styled wi
 
 https://embed.tiptap.dev/preview/Experiments/Tailwind
 
+#### Intellisense
+If you're using [TailwindCSS Intellisense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) add the following snippet to your `.vscode/setting.json` to add intellisense support inside TipTap objects:
+```json
+"tailwindCSS.experimental.classRegex": [
+  "class:\\s*?[\"'`]([^\"'`]*).*?,"
+]
+```
+
 ## Option 3: Customize the HTML
 Or you can customize the markup for extensions. The following example will make a custom bold extension that doesn’t render a `<strong>` tag, but a `<b>` tag:
 

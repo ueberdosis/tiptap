@@ -7,10 +7,6 @@ import React from 'react'
 import styles from './index.module.css'
 
 const MenuBar = ({ editor }) => {
-  if (!editor) {
-    return null
-  }
-
   return (
     <div className={`toolbar ${styles.toolbar}`}>
       <button

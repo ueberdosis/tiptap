@@ -15,7 +15,7 @@ function useForceUpdate() {
 }
 
 export const useEditor = (options: Partial<EditorOptions> = {}, deps: DependencyList = []) => {
-  const [editor, setEditor] = useState<Editor | null>(null)
+  const [editor, setEditor] = useState<Editor>(new Editor(options))
 
   const forceUpdate = useForceUpdate()
 
@@ -42,10 +42,6 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   // This effect will handle updating the editor instance
   // when the event handlers change.
   useEffect(() => {
-    if (!editor) {
-      return
-    }
-
     if (onBeforeCreate) {
       editor.off('beforeCreate', onBeforeCreateRef.current)
       editor.on('beforeCreate', onBeforeCreate)
@@ -119,7 +115,7 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
 
   useEffect(() => {
     return () => {
-      editor?.destroy()
+      editor.destroy()
     }
   }, [editor])
 

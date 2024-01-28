@@ -17,7 +17,7 @@ export default ({ note }: { note: TNote }) => {
       },
     },
     onUpdate() {
-      setModelValue(editor?.getText() ?? '')
+      setModelValue(editor.getText() ?? '')
     },
     extensions: [
       StarterKit,
