@@ -3,7 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.2.0-rc.7](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.6...v2.2.0-rc.7) (2023-11-27)
+## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
+
+
+### Bug Fixes
+
+* **core:** fix new lines being added via elementFromString ([#4767](https://github.com/ueberdosis/tiptap/issues/4767)) ([2235908](https://github.com/ueberdosis/tiptap/commit/2235908c28f388eda041d1d5d017554d513fe909))
+
+
+
+
+
+## [2.1.15](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.1.15) (2024-01-08)
+
+
+### Bug Fixes
+
+* **core:** fix insertContentAt keeping new lines in html content ([#4465](https://github.com/ueberdosis/tiptap/issues/4465)) ([135a12f](https://github.com/ueberdosis/tiptap/commit/135a12f7aa2df839a0b619704110a360b980c738))
+* **link:** fix tests ([d495d92](https://github.com/ueberdosis/tiptap/commit/d495d92a1f7b1c51e09ac8f4934e15a2d1cf070d))
+
+
+
+
+
+## [2.1.14](https://github.com/ueberdosis/tiptap/compare/v2.1.13...v2.1.14) (2024-01-08)
+
+
+### Bug Fixes
+
+* **typography:** require spaces after divisions to not break date formats ([#4696](https://github.com/ueberdosis/tiptap/issues/4696)) ([f6d7e00](https://github.com/ueberdosis/tiptap/commit/f6d7e00a746a67fa440a3fa0f5362295959873d2))
+
+
+
+
+
+## [2.1.13](https://github.com/ueberdosis/tiptap/compare/v2.1.12...v2.1.13) (2023-11-30)
 
 **Note:** Version bump only for package tiptap-demos
 

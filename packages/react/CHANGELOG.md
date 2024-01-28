@@ -3,9 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.2.0-rc.7](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.6...v2.2.0-rc.7) (2023-11-27)
+## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
 
 **Note:** Version bump only for package @tiptap/react
+
+
+
+
+
+## [2.1.15](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.1.15) (2024-01-08)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
+## [2.1.14](https://github.com/ueberdosis/tiptap/compare/v2.1.13...v2.1.14) (2024-01-08)
+
+**Note:** Version bump only for package @tiptap/react
+
+
+
+
+
+## [2.1.13](https://github.com/ueberdosis/tiptap/compare/v2.1.12...v2.1.13) (2023-11-30)
+
+
+### Bug Fixes
+
+* **react:** fix performance regression because of select/deselect ([#4661](https://github.com/ueberdosis/tiptap/issues/4661)) ([ad7f659](https://github.com/ueberdosis/tiptap/commit/ad7f659ed08a6a7c57056b78edbded014549f2dc))
 
 
 

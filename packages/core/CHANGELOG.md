@@ -3,12 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.2.0-rc.7](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.6...v2.2.0-rc.7) (2023-11-27)
+## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
 
 
 ### Bug Fixes
 
-* **core:** set defaultOptions to undefined by default ([448b433](https://github.com/ueberdosis/tiptap/commit/448b433ee7847bfba4cd803d8c8820763ceedafc))
+* **core:** fix new lines being added via elementFromString ([#4767](https://github.com/ueberdosis/tiptap/issues/4767)) ([2235908](https://github.com/ueberdosis/tiptap/commit/2235908c28f388eda041d1d5d017554d513fe909))
+
+
+
+
+
+## [2.1.15](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.1.15) (2024-01-08)
+
+
+### Bug Fixes
+
+* **core:** fix insertContentAt keeping new lines in html content ([#4465](https://github.com/ueberdosis/tiptap/issues/4465)) ([135a12f](https://github.com/ueberdosis/tiptap/commit/135a12f7aa2df839a0b619704110a360b980c738))
+
+
+
+
+
+## [2.1.14](https://github.com/ueberdosis/tiptap/compare/v2.1.13...v2.1.14) (2024-01-08)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+## [2.1.13](https://github.com/ueberdosis/tiptap/compare/v2.1.12...v2.1.13) (2023-11-30)
+
+**Note:** Version bump only for package @tiptap/core
 
 
 

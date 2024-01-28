@@ -1,6 +1,8 @@
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { DecorationSet } from 'prosemirror-view'
 import * as Y from 'yjs'
 
+import { AnnotationItem } from './AnnotationItem.js'
 import { AnnotationState } from './AnnotationState.js'
 
 export const AnnotationPluginKey = new PluginKey('annotation')
@@ -9,7 +11,7 @@ export interface AnnotationPluginOptions {
   HTMLAttributes: {
     [key: string]: any
   }
-  onUpdate: (items: [any?]) => {}
+  onUpdate: (items: AnnotationItem[]) => {}
   map: Y.Map<any>
   instance: string
 }
@@ -32,16 +34,18 @@ export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin
 
   props: {
     decorations(state) {
-      const { decorations } = this.getState(state)
+      const decorations = this.getState(state)?.decorations || new DecorationSet()
       const { selection } = state
 
       if (!selection.empty) {
         return decorations
       }
 
-      const annotations = this.getState(state).annotationsAt(selection.from)
+      const annotations = this.getState(state)?.annotationsAt(selection.from)
 
-      options.onUpdate(annotations)
+      if (annotations) {
+        options.onUpdate(annotations)
+      }
 
       return decorations
     },
