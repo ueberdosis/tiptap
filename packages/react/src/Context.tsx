@@ -28,6 +28,10 @@ export const EditorProvider = ({
 }: EditorProviderProps) => {
   const editor = useEditor(editorOptions)
 
+  if (!editor) {
+    return null
+  }
+
   return (
     <EditorContext.Provider value={{ editor }}>
       {slotBefore}

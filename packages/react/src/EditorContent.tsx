@@ -15,7 +15,7 @@ const Portals: React.FC<{ renderers: Record<string, ReactRenderer> }> = ({ rende
 }
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
-  editor: Editor;
+  editor: Editor | null;
 }
 
 export interface EditorContentState {
@@ -106,6 +106,10 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 
   componentWillUnmount() {
     const { editor } = this.props
+
+    if (!editor) {
+      return
+    }
 
     this.initialized = false
 

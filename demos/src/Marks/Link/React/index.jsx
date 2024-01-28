@@ -51,6 +51,10 @@ export default () => {
       .run()
   }, [editor])
 
+  if (!editor) {
+    return null
+  }
+
   return (
     <>
       <button onClick={setLink} className={editor.isActive('link') ? 'is-active' : ''}>
