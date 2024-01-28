@@ -26,6 +26,10 @@ export default () => {
     }
   }, [editor])
 
+  if (!editor) {
+    return null
+  }
+
   return (
     <div>
       <button onClick={addImage}>setImage</button>

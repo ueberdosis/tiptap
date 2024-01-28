@@ -19,6 +19,10 @@ export default () => {
       `,
   })
 
+  if (!editor) {
+    return null
+  }
+
   return (
     <>
       <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
