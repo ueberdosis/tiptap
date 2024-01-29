@@ -1,34 +1,8 @@
+---
+tableOfContents: true
+---
+
 # Node Positions
-
-- [Introduction](#introduction)
-- [Usage](#usage)
-- [API](#api)
-  - [NodePos](#nodepos)
-    - [Methods](#methods)
-      - [constructor](#constructor)
-      - [closest](#closest)
-      - [querySelector](#queryselector)
-      - [querySelectorAll](#queryselectorall)
-      - [setAttributes](#setattributes)
-    - [Properties](#properties)
-      - [node](#node)
-      - [element](#element)
-      - [content](#content)
-      - [attributes](#attributes)
-      - [textContent](#textcontent)
-      - [depth](#depth)
-      - [pos](#pos)
-      - [size](#size)
-      - [from](#from)
-      - [to](#to)
-      - [range](#range)
-      - [parent](#parent)
-      - [before](#before)
-      - [after](#after)
-      - [children](#children)
-      - [firstChild](#firstchild)
-      - [lastChild](#lastchild)
-
 
 ## Introduction
 
