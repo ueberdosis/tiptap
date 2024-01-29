@@ -20,7 +20,5 @@ export function elementFromString(value: string): HTMLElement {
 
   const html = new window.DOMParser().parseFromString(wrappedValue, 'text/html').body
 
-  removeWhitespaces(html)
-
   return removeWhitespaces(html)
 }
