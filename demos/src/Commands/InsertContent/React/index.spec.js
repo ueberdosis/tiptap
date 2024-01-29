@@ -1,4 +1,4 @@
-context('/src/Issues/2720/React/', () => {
+context('/src/Commands/InsertContent/React/', () => {
   before(() => {
     cy.visit('/src/Issues/2720/React/')
   })
