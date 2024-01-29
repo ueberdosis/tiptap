@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/ueberdosis/tiptap/compare/v2.1.16...v2.2.0) (2024-01-29)
+
+
+### Bug Fixes
+
+* **core:** fix new lines being added via elementFromString ([#4767](https://github.com/ueberdosis/tiptap/issues/4767)) ([b7a2504](https://github.com/ueberdosis/tiptap/commit/b7a2504f16f46563537c890930cb2c332c256175))
+* fix bug [#4785](https://github.com/ueberdosis/tiptap/issues/4785) ([#4836](https://github.com/ueberdosis/tiptap/issues/4836)) ([f3cba1e](https://github.com/ueberdosis/tiptap/commit/f3cba1e0b0288156c1427437e5a0b9e03cd67e63))
+* fix imports, fix demos, unpin y-prosemirror ([681aa57](https://github.com/ueberdosis/tiptap/commit/681aa577bff500015c3f925e300c55a71c73efaf))
+* fix newline stripping via insertContent ([8954007](https://github.com/ueberdosis/tiptap/commit/8954007b2b92b040d69b26a0866ae58fabf5e512))
+
+
+
+# [2.2.0-rc.8](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.2.0-rc.8) (2024-01-08)
+
+
+### Bug Fixes
+
+* **core:** fix options now being empty ([fc67cb1](https://github.com/ueberdosis/tiptap/commit/fc67cb1b7166c1ab6b6e0174539c9e29c364eace))
+
+
+
+# [2.2.0-rc.7](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.6...v2.2.0-rc.7) (2023-11-27)
+
+
+### Bug Fixes
+
+* **core:** set defaultOptions to undefined by default ([448b433](https://github.com/ueberdosis/tiptap/commit/448b433ee7847bfba4cd803d8c8820763ceedafc))
+
+
+
+# [2.2.0-rc.6](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.5...v2.2.0-rc.6) (2023-11-23)
+
+
+### Reverts
+
+* Revert "fix/react-renderer-node-attrs (#4321)" ([a4af83c](https://github.com/ueberdosis/tiptap/commit/a4af83ca52c8e020f88990af53981591559205a9)), closes [#4321](https://github.com/ueberdosis/tiptap/issues/4321)
+* Revert "autolink improvement" ([ef10ae5](https://github.com/ueberdosis/tiptap/commit/ef10ae53b2a3854fceefc2999e166ed1fe4e9b32))
+
+
+
+# [2.2.0-rc.4](https://github.com/ueberdosis/tiptap/compare/v2.1.11...v2.2.0-rc.4) (2023-10-10)
+
+
+### Bug Fixes
+
+* add missing attributes in extension-link ([#4429](https://github.com/ueberdosis/tiptap/issues/4429)) ([0578265](https://github.com/ueberdosis/tiptap/commit/0578265bfe548a7f574cdbe055ef07b9029d8797))
+* **history:** use correct shortcuts for undo/redo ([520ce79](https://github.com/ueberdosis/tiptap/commit/520ce790c3dff2d0774211fe30fdce1905655b09))
+
+
+### Features
+
+* **extension/youtube:** Allow youtube shorts urls to be embedded ([4d79cb8](https://github.com/ueberdosis/tiptap/commit/4d79cb85c93353cdb5ead518da63cf8f9fa71497))
+
+
+
+# [2.2.0-rc.3](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.2...v2.2.0-rc.3) (2023-08-18)
+
+
+
+# [2.2.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.0...v2.2.0-rc.1) (2023-08-18)
+
+
+
+# [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
+
+
+### Features
+
+* **placeholder:** allow editor-is-empty class on any node ([#4335](https://github.com/ueberdosis/tiptap/issues/4335)) ([ff929b1](https://github.com/ueberdosis/tiptap/commit/ff929b179de930619005a773bb4186ae2aa2ec58))
+
+
+
+
+
 ## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
 
 
