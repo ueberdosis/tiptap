@@ -5,7 +5,7 @@ context('/src/Marks/Link/Vue/', () => {
 
   beforeEach(() => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p>Example Text</p>')
+      editor.commands.setContent('<p>Example TextDEFAULT</p>')
       cy.get('.tiptap').type('{selectall}')
     })
   })
@@ -42,7 +42,7 @@ context('/src/Marks/Link/Vue/', () => {
 
       cy.get('.tiptap')
         .find('a')
-        .should('contain', 'Example Text')
+        .should('contain', 'Example TextDEFAULT')
         .should('have.attr', 'href', 'https://tiptap.dev')
     })
   })
