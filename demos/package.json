@@ -19,9 +19,9 @@
     "remixicon": "^2.5.0",
     "shiki": "^0.10.0",
     "simplify-js": "^1.2.4",
-    "y-prosemirror": "1.0.20",
-    "y-webrtc": "^10.2.5",
-    "yjs": "^13.5.39"
+    "y-prosemirror": "^1.2.2",
+    "y-webrtc": "^10.3.0",
+    "yjs": "^13.6.11"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.49",

@@ -1,6 +1,7 @@
 import {
   callOrReturn, getExtensionField, mergeAttributes, Node, ParentConfig,
 } from '@tiptap/core'
+import { DOMOutputSpec } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 import {
   addColumnAfter,
@@ -22,7 +23,6 @@ import {
   toggleHeaderCell,
 } from '@tiptap/pm/tables'
 import { NodeView } from '@tiptap/pm/view'
-import { DOMOutputSpec } from 'prosemirror-model'
 
 import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'

@@ -1,5 +1,5 @@
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { DecorationSet } from 'prosemirror-view'
+import { DecorationSet } from '@tiptap/pm/view'
 import * as Y from 'yjs'
 
 import { AnnotationItem } from './AnnotationItem.js'
