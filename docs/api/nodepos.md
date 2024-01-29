@@ -6,7 +6,7 @@ tableOfContents: true
 
 ## Introduction
 
-Node Positions (short `NodePos`) are a new concept introduced with Tiptap 3.0.0. They are used to describe a specific position of a node, it's children, it's parent and easy ways to navigate between them. They are heavily inspired by the DOM and are based on Prosemirror's [ResolvedPos](https://prosemirror.net/docs/ref/#model.ResolvedPos) implementation.
+Node Positions (short `NodePos`) are a new concept introduced with Tiptap 2.2.0. They are used to describe a specific position of a node, it's children, it's parent and easy ways to navigate between them. They are heavily inspired by the DOM and are based on Prosemirror's [ResolvedPos](https://prosemirror.net/docs/ref/#model.ResolvedPos) implementation.
 
 ## Usage
 
