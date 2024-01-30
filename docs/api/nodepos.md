@@ -1,38 +1,12 @@
+---
+tableOfContents: true
+---
+
 # Node Positions
-
-- [Introduction](#introduction)
-- [Usage](#usage)
-- [API](#api)
-  - [NodePos](#nodepos)
-    - [Methods](#methods)
-      - [constructor](#constructor)
-      - [closest](#closest)
-      - [querySelector](#queryselector)
-      - [querySelectorAll](#queryselectorall)
-      - [setAttributes](#setattributes)
-    - [Properties](#properties)
-      - [node](#node)
-      - [element](#element)
-      - [content](#content)
-      - [attributes](#attributes)
-      - [textContent](#textcontent)
-      - [depth](#depth)
-      - [pos](#pos)
-      - [size](#size)
-      - [from](#from)
-      - [to](#to)
-      - [range](#range)
-      - [parent](#parent)
-      - [before](#before)
-      - [after](#after)
-      - [children](#children)
-      - [firstChild](#firstchild)
-      - [lastChild](#lastchild)
-
 
 ## Introduction
 
-Node Positions (short `NodePos`) are a new concept introduced with Tiptap 3.0.0. They are used to describe a specific position of a node, it's children, it's parent and easy ways to navigate between them. They are heavily inspired by the DOM and are based on Prosemirror's [ResolvedPos](https://prosemirror.net/docs/ref/#model.ResolvedPos) implementation.
+Node Positions (short `NodePos`) are a new concept introduced with Tiptap 2.2.0. They are used to describe a specific position of a node, it's children, it's parent and easy ways to navigate between them. They are heavily inspired by the DOM and are based on Prosemirror's [ResolvedPos](https://prosemirror.net/docs/ref/#model.ResolvedPos) implementation.
 
 ## Usage
 
