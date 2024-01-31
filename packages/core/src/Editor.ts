@@ -19,6 +19,8 @@ import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import { NodePos } from './NodePos.js'
+import { DropPlugin } from './plugins/DropPlugin.js'
+import { PastePlugin } from './plugins/PastePlugin.js'
 import { style } from './style.js'
 import {
   CanCommands,
@@ -74,6 +76,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     onFocus: () => null,
     onBlur: () => null,
     onDestroy: () => null,
+    onPaste: undefined,
+    onDrop: undefined,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -93,6 +97,14 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
     this.on('destroy', this.options.onDestroy)
+
+    if (this.options.onPaste) {
+      this.registerPlugin(PastePlugin(this.options.onPaste))
+    }
+
+    if (this.options.onDrop) {
+      this.registerPlugin(DropPlugin(this.options.onDrop))
+    }
 
     window.setTimeout(() => {
       if (this.isDestroyed) {

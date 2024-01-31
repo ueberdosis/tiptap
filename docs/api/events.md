@@ -66,6 +66,12 @@ const editor = new Editor({
   onDestroy() {
     // The editor is being destroyed.
   },
+  onPaste(event) {
+    // Content is pasted into the editor
+  },
+  onDrop(event) {
+    // Content is dropped into the editor
+  },
 })
 ```
 
