@@ -98,24 +98,31 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   useEffect(() => {
     let isMounted = true
 
-    const instance = new Editor(options)
+    // if the editor does not exist yet, create a new
+    // editor instance
+    // if the editor does exist, update the editor options accordingly
+    if (!editor) {
+      const instance = new Editor(options)
 
-    setEditor(instance)
+      setEditor(instance)
 
-    instance.on('transaction', () => {
-      requestAnimationFrame(() => {
+      instance.on('transaction', () => {
         requestAnimationFrame(() => {
-          if (isMounted) {
-            forceUpdate()
-          }
+          requestAnimationFrame(() => {
+            if (isMounted) {
+              forceUpdate()
+            }
+          })
         })
       })
-    })
+    } else {
+      editor.setOptions(options)
+    }
 
     return () => {
       isMounted = false
     }
-  }, deps)
+  }, [deps])
 
   useEffect(() => {
     return () => {
