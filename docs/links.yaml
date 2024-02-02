@@ -334,8 +334,7 @@
               link: /api/extensions/unique-id
               type: pro
         - title: Utilities
-          link: /utilities
-          redirect: /api/utilities/html
+          link: /api/utilities
           items:
             - title: HTML
               link: /api/utilities/html
