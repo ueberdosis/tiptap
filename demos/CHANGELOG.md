@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
+
+
+### Bug Fixes
+
+* fix test path ([21aa96d](https://github.com/ueberdosis/tiptap/commit/21aa96dee8deab1f439b7f655b8ed266a516a4cd))
+
+
+
+
+
 ## [2.2.2](https://github.com/ueberdosis/tiptap/compare/v2.2.1...v2.2.2) (2024-02-07)
 
 **Note:** Version bump only for package tiptap-demos
