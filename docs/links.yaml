@@ -292,7 +292,7 @@
             - title: CharacterCount
               link: /api/extensions/character-count
             - title: Comments
-              link: /comments/introduction
+              link: /api/extensions/comments
               type: beta
             - title: Collaboration
               link: /api/extensions/collaboration
