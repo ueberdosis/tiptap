@@ -291,6 +291,9 @@
               link: /api/extensions/bubble-menu
             - title: CharacterCount
               link: /api/extensions/character-count
+            - title: Comments
+              link: /comments/introduction
+              type: beta
             - title: Collaboration
               link: /api/extensions/collaboration
             - title: CollaborationCursor
