@@ -384,6 +384,9 @@
           link: /guide/typescript
         - title: Upgrade Editor to v2
           link: /overview/upgrade-guide
+    - title: Comments
+      link: /api/extensions/comments
+      type: beta
 
 - title: Collaboration
   items:
