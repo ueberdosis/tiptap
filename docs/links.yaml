@@ -384,8 +384,24 @@
         - title: Upgrade Editor to v2
           link: /overview/upgrade-guide
     - title: Comments
-      link: /api/extensions/comments
+      link: /comments/introduction
       type: beta
+
+- title: Comments
+  items:
+    - title: Introduction
+      link: /comments/introduction
+      type: beta
+    - title: Getting started
+      link: /comments/getting-started
+    - title: Managing threads
+      link: /comments/managing-threads
+    - title: Styling threads
+      link: /comments/styling-threads
+    - title: API
+      link: /comments/api
+    - title: Configuration
+      link: /comments/configuration
 
 - title: Collaboration
   items:
