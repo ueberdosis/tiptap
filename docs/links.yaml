@@ -287,7 +287,6 @@
           items:
             - title: AI
               link: /ai/introduction
-              type: new
             - title: BubbleMenu
               link: /api/extensions/bubble-menu
             - title: CharacterCount
