@@ -1,6 +1,5 @@
 import { ParseOptions } from '@tiptap/pm/model'
 
-import { createDocument } from '../helpers/createDocument.js'
 import { Content, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
@@ -18,13 +17,16 @@ declare module '@tiptap/core' {
   }
 }
 
-export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}) => ({ tr, editor, dispatch }) => {
+export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}) => ({
+  tr, commands,
+}) => {
   const { doc } = tr
-  const document = createDocument(content, editor.schema, parseOptions)
 
-  if (dispatch) {
-    tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)
-  }
+  tr.setMeta('preventUpdate', !emitUpdate)
 
-  return true
+  return commands.insertContentAt(
+    { from: 0, to: doc.content.size },
+    content,
+    { parseOptions },
+  )
 }
