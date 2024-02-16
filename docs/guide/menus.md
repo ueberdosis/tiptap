@@ -5,28 +5,28 @@ tableOfContents: true
 # Create menus
 
 ## Introduction
-Tiptap comes very raw, but that’s a good thing. You have full control about the appearance of it.
+Tiptap comes very raw, but that’s a good thing. You have full control over the appearance of things.
 
-When we say full control, we mean it. You can (and have to) build a menu on your own. We help you to wire everything up.
+When we say full control, we mean it. You can (and have to) build a menu on your own, but Tiptap will help you wire everything up.
 
 ## Menus
-The editor provides a fluent API to trigger commands and add active states. You can use any markup you like. To make the positioning of menus easier, we provide a few utilities and components. Let’s go through the most typical use cases one by one.
+The editor provides a fluent API to trigger commands and add active states. You can use any markup you like. To make the positioning of menus easier, Tiptap provides a few utilities and components. Let’s go through the most typical use cases one by one.
 
 ### Fixed menu
-A fixed menu, for example on top of the editor, can be anything. We don’t provide such menu. Just add a `<div>` with a few `<button>`s. How those buttons can trigger [commands](/api/commands) is [explained below](#buttons).
+A fixed menu is one that permanently sits in one location. For example, it's popular to place a fixed menu above the editor. Tiptap doesn't come prepackaged with a fixed menu, but you can build one by simply creating a `<div>` element and filling it with a few `<button>` elements. [See below](#buttons) to learn how those buttons can trigger [commands](/api/commands) in the editor, for example bolding or italicizing text.
 
 ### Bubble menu
-The [bubble menu](/api/extensions/bubble-menu) appears when selecting text. Markup and styling is totally up to you.
+A [bubble menu](/api/extensions/bubble-menu) is one that appears when selecting text. The markup and styling here is totally up to you.
 
 https://embed.tiptap.dev/preview/Extensions/BubbleMenu?hideSource
 
 ### Floating menu
-The [floating menu](/api/extensions/floating-menu) appears in empty lines. Markup and styling is totally up to you.
+A [floating menu](/api/extensions/floating-menu) appears in the editor when you place your cursor on an empty line. Again, the markup and styling here is totally up to you.
 
 https://embed.tiptap.dev/preview/Extensions/FloatingMenu?hideSource
 
 ### Slash commands (work in progress)
-It’s not an official extension yet, but [there’s an experiment you can use to add what we call slash commands](/experiments/commands). It allows you to start a new line with `/` and will bring up a popup to select which node should be added.
+Although there isn't an official extension yet, there is [an experiment](/experiments/commands) that allows you to use "slash commands." With slash commands, typing `/` at the beginning of a new line will reveal a popup menu.
 
 ## Buttons
 Okay, you’ve got your menu. But how do you wire things up?
