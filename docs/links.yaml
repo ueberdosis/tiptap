@@ -388,10 +388,10 @@
           link: /overview/upgrade-guide
 
 - title: Comments
+  type: beta
   items:
     - title: Introduction
       link: /comments/introduction
-      type: beta
     - title: Getting started
       link: /comments/getting-started
     - title: Managing threads
