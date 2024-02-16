@@ -4,6 +4,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type ClickHandlerOptions = {
   type: MarkType
+  withCMD: boolean
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {
@@ -12,6 +13,10 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
     props: {
       handleClick: (view, pos, event) => {
         if (event.button !== 0) {
+          return false
+        }
+
+        if (options.withCMD && !(event.metaKey || event.ctrlKey)) {
           return false
         }
 

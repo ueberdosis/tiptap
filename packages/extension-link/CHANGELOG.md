@@ -5,6 +5,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
 
+Add openOnMetaClick option to link extension
+**Note:** Version bump only for package @tiptap/extension-link
+
+## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
+
 **Note:** Version bump only for package @tiptap/extension-link
 
 
