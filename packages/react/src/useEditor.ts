@@ -2,6 +2,7 @@ import { EditorOptions } from '@tiptap/core'
 import {
   DependencyList,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -125,9 +126,6 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
  * hook will be removed and useEditor will be changed to behave like this hook.
  */
 export const useEditorForImmediateRender = (options: Partial<EditorOptions> = {}, deps: DependencyList = []) => {
-  const editorRef = useRef<Editor>(new Editor(options))
-  const [, forceUpdate] = useState({})
-
   const {
     onBeforeCreate,
     onBlur,
@@ -148,86 +146,98 @@ export const useEditorForImmediateRender = (options: Partial<EditorOptions> = {}
   const onTransactionRef = useRef(onTransaction)
   const onUpdateRef = useRef(onUpdate)
 
-  // This effect will handle updating the editor instance
-  // when the event handlers change.
-  useEffect(() => {
-    if (onBeforeCreate) {
-      editorRef.current.off('beforeCreate', onBeforeCreateRef.current)
-      editorRef.current.on('beforeCreate', onBeforeCreate)
-
-      onBeforeCreateRef.current = onBeforeCreate
-    }
-
-    if (onBlur) {
-      editorRef.current.off('blur', onBlurRef.current)
-      editorRef.current.on('blur', onBlur)
-
-      onBlurRef.current = onBlur
-    }
-
-    if (onCreate) {
-      editorRef.current.off('create', onCreateRef.current)
-      editorRef.current.on('create', onCreate)
-
-      onCreateRef.current = onCreate
-    }
-
-    if (onDestroy) {
-      editorRef.current.off('destroy', onDestroyRef.current)
-      editorRef.current.on('destroy', onDestroy)
-
-      onDestroyRef.current = onDestroy
-    }
-
-    if (onFocus) {
-      editorRef.current.off('focus', onFocusRef.current)
-      editorRef.current.on('focus', onFocus)
-
-      onFocusRef.current = onFocus
-    }
-
-    if (onSelectionUpdate) {
-      editorRef.current.off('selectionUpdate', onSelectionUpdateRef.current)
-      editorRef.current.on('selectionUpdate', onSelectionUpdate)
-
-      onSelectionUpdateRef.current = onSelectionUpdate
-    }
-
-    if (onTransaction) {
-      editorRef.current.off('transaction', onTransactionRef.current)
-      editorRef.current.on('transaction', onTransaction)
-
-      onTransactionRef.current = onTransaction
-    }
-
-    if (onUpdate) {
-      editorRef.current.off('update', onUpdateRef.current)
-      editorRef.current.on('update', onUpdate)
-
-      onUpdateRef.current = onUpdate
-    }
-  }, [onBeforeCreate, onBlur, onCreate, onDestroy, onFocus, onSelectionUpdate, onTransaction, onUpdate, editorRef.current])
+  const isMounted = useRef(false)
 
   useEffect(() => {
-    let isMounted = true
+    isMounted.current = true
 
-    editorRef.current = new Editor(options)
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
 
-    editorRef.current.on('transaction', () => {
+  const [, forceUpdate] = useState({})
+  const editor = useMemo(() => {
+    const instance = new Editor(options)
+
+    instance.on('transaction', () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          if (isMounted) {
+          if (isMounted.current) {
             forceUpdate({})
           }
         })
       })
     })
 
-    return () => {
-      isMounted = false
-      editorRef.current.destroy()
-    }
+    return instance
   }, deps)
 
-  return editorRef.current
+  useEffect(() => {
+    return () => {
+      editor.destroy()
+    }
+  }, [editor])
+
+  // This effect will handle updating the editor instance
+  // when the event handlers change.
+  useEffect(() => {
+    if (onBeforeCreate) {
+      editor.off('beforeCreate', onBeforeCreateRef.current)
+      editor.on('beforeCreate', onBeforeCreate)
+
+      onBeforeCreateRef.current = onBeforeCreate
+    }
+
+    if (onBlur) {
+      editor.off('blur', onBlurRef.current)
+      editor.on('blur', onBlur)
+
+      onBlurRef.current = onBlur
+    }
+
+    if (onCreate) {
+      editor.off('create', onCreateRef.current)
+      editor.on('create', onCreate)
+
+      onCreateRef.current = onCreate
+    }
+
+    if (onDestroy) {
+      editor.off('destroy', onDestroyRef.current)
+      editor.on('destroy', onDestroy)
+
+      onDestroyRef.current = onDestroy
+    }
+
+    if (onFocus) {
+      editor.off('focus', onFocusRef.current)
+      editor.on('focus', onFocus)
+
+      onFocusRef.current = onFocus
+    }
+
+    if (onSelectionUpdate) {
+      editor.off('selectionUpdate', onSelectionUpdateRef.current)
+      editor.on('selectionUpdate', onSelectionUpdate)
+
+      onSelectionUpdateRef.current = onSelectionUpdate
+    }
+
+    if (onTransaction) {
+      editor.off('transaction', onTransactionRef.current)
+      editor.on('transaction', onTransaction)
+
+      onTransactionRef.current = onTransaction
+    }
+
+    if (onUpdate) {
+      editor.off('update', onUpdateRef.current)
+      editor.on('update', onUpdate)
+
+      onUpdateRef.current = onUpdate
+    }
+  }, [onBeforeCreate, onBlur, onCreate, onDestroy, onFocus, onSelectionUpdate, onTransaction, onUpdate, editor])
+
+  return editor
 }
