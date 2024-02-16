@@ -39,14 +39,27 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
     return {
       setHorizontalRule:
         () => ({ chain, state }) => {
-          const { $to: $originTo } = state.selection
+          const { $from: $originFrom, $to: $originTo } = state.selection
 
           const currentChain = chain()
+          
+          const isCursor = $originFrom.pos === $originTo.pos
+          const singleNodeSelected =
+            $originTo.nodeBefore &&
+            $originFrom.nodeAfter?.eq($originTo.nodeBefore)
 
-          if ($originTo.parentOffset === 0) {
-            currentChain.insertContentAt(Math.max($originTo.pos - 2, 0), { type: this.name })
+          if (isCursor && $originTo.parentOffset === 0) {
+            currentChain.insertContentAt(Math.max($originTo.pos - 1, 0), {
+              type: this.name,
+            })
           } else {
-            currentChain.insertContent({ type: this.name })
+            if (singleNodeSelected) {
+              currentChain.insertContentAt($originTo.pos, {
+                type: this.name,
+              })
+            } else {
+              currentChain.insertContent({ type: this.name })
+            }
           }
 
           return (
