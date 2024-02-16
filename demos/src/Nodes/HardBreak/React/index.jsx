@@ -22,6 +22,10 @@ export default () => {
       `,
   })
 
+  if (!editor) {
+    return null
+  }
+
   return (
     <>
       <button onClick={() => editor.chain().focus().setHardBreak().run()}>setHardBreak</button>

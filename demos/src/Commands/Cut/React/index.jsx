@@ -8,6 +8,10 @@ import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback } from 'react'
 
 const MenuBar = ({ editor }) => {
+  if (!editor) {
+    return null
+  }
+
   const onCutToStart = useCallback(() => {
     editor.chain().cut({ from: editor.state.selection.$from.pos, to: editor.state.selection.$to.pos }, 1).run()
   }, [editor])

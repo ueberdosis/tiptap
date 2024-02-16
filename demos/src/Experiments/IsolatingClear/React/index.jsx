@@ -28,6 +28,10 @@ const WrapperBlock = Node.create({
 })
 
 const MenuBar = ({ editor }) => {
+  if (!editor) {
+    return null
+  }
+
   return (
     <>
       <button

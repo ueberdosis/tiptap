@@ -124,6 +124,10 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   componentWillUnmount() {
     const { editor } = this.props
 
+    if (!editor) {
+      return
+    }
+
     this.initialized = false
 
     if (!editor.isDestroyed) {

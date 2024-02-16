@@ -16,6 +16,10 @@ const MenuBar = ({ editor }) => {
     }
   }, [widthRef.current, heightRef.current])
 
+  if (!editor) {
+    return null
+  }
+
   const addYoutubeVideo = () => {
     const url = prompt('Enter YouTube URL')
 

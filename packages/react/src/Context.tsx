@@ -29,6 +29,10 @@ const EditorProviderNoImmediateRender = ({
 }: Omit<EditorProviderProps, "useImmediateRender">) => {
   const editor = useEditor(editorOptions)
 
+  if (!editor) {
+    return null
+  }
+
   return (
     <EditorContext.Provider value={{ editor }}>
       {slotBefore}

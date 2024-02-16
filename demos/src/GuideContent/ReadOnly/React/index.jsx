@@ -20,8 +20,16 @@ export default () => {
   })
 
   useEffect(() => {
+    if (!editor) {
+      return undefined
+    }
+
     editor.setEditable(editable)
   }, [editor, editable])
+
+  if (!editor) {
+    return null
+  }
 
   return (
     <>
