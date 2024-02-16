@@ -19,6 +19,10 @@ export const useCurrentEditor = () => useContext(EditorContext)
 
 export type EditorProviderProps = {
   children: ReactNode;
+  /**
+   * This option will create and immediately return a defined editor instance. The editor returned in the context consumer will never be null if
+   * this is enabled. In future major versions, this property will be removed and this behavior will be the defualt.
+   */
   useImmediateRender?: boolean;
   slotBefore?: ReactNode;
   slotAfter?: ReactNode;
@@ -26,12 +30,8 @@ export type EditorProviderProps = {
 
 const EditorProviderNoImmediateRender = ({
   children, slotAfter, slotBefore, ...editorOptions
-}: Omit<EditorProviderProps, "useImmediateRender">) => {
+}: Omit<EditorProviderProps, 'useImmediateRender'>) => {
   const editor = useEditor(editorOptions)
-
-  if (!editor) {
-    return null
-  }
 
   return (
     <EditorContext.Provider value={{ editor }}>
@@ -49,7 +49,7 @@ const EditorProviderNoImmediateRender = ({
 
 const EditorProviderImmediateRender = ({
   children, slotAfter, slotBefore, ...editorOptions
-}: Omit<EditorProviderProps, "useImmediateRender">) => {
+}: Omit<EditorProviderProps, 'useImmediateRender'>) => {
   const editor = useEditorForImmediateRender(editorOptions)
 
   return (
@@ -75,5 +75,5 @@ export const EditorProvider = ({ useImmediateRender, ...providerOptions }: Edito
 
   return (
     <EditorProviderNoImmediateRender {...providerOptions} />
-  );
-};
+  )
+}
