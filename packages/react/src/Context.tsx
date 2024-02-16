@@ -62,8 +62,14 @@ const EditorProviderImmediateRender = ({
   )
 }
 
-const EditorProvider = ({
-  children, slotAfter, slotBefore, ...editorOptions
-}: EditorProviderProps) => {
+export const EditorProvider = ({ useImmediateRender, ...providerOptions }: EditorProviderProps) => {
+  if (useImmediateRender) {
+    return (
+      <EditorProviderImmediateRender {...providerOptions} />
+    )
+  }
 
+  return (
+    <EditorProviderNoImmediateRender {...providerOptions} />
+  );
 };
