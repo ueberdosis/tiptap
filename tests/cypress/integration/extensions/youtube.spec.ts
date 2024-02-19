@@ -57,4 +57,32 @@ describe('extension-youtube', () => {
       getEditorEl()?.remove()
     })
   })
+
+  it('when nocookie youtube url is passed, still outputs html with iframe with the url', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        Youtube,
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'youtube',
+            attrs: {
+              src: 'https://www.youtube-nocookie.com/embed/testvideoid',
+            },
+          },
+        ],
+      },
+    })
+
+    expect(editor.getHTML()).to.include('https://www.youtube-nocookie.com/embed/testvideoid')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 })
