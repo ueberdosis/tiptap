@@ -4,11 +4,13 @@ Backend Document Manipulation allows developers to programmatically modify docum
 
 This feature provides flexibility in document management, enabling updates through JSON, which is a simpler alternative to using Yjs methods directly. 
 
-This functionality is available via API calls and is included from the start for users with a Business or Enterprise plan.
-
 The feature is fully compliant with Version history, and allows to track changes from users, as well as the Backend Document Manipulation feature.
 
-###To update an existing document on the Tiptap Collab server, you can use the PATCH method with the following API endpoint: Use Cases
+:::warning Pro Extension
+This feature requires a valid Business or Enterprise subscription and a running [Tiptap Cloud instance](https://collab.tiptap.dev/).
+:::
+
+### Use Cases
 
 Backend Document Manipulation enables a variety of use cases, such as:
 
