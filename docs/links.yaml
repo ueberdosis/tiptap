@@ -411,6 +411,9 @@
       link: /collaboration/getting-started
     - title: Management API
       link: /collaboration/management-api
+    - title: Backend Document Manipulation
+      link: /collaboration/backend-document-manipulation
+      type: beta
     - title: Webhook
       link: /collaboration/webhook
     - title: Guides
