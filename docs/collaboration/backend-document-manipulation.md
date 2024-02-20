@@ -6,7 +6,7 @@ This feature provides flexibility in document management, enabling updates throu
 
 The feature is fully compliant with Version history, and allows to track changes from users, as well as the Backend Document Manipulation feature.
 
-:::warning Pro Extension
+:::warning Subscription required
 This feature requires a valid Business or Enterprise subscription and a running [Tiptap Cloud instance](https://collab.tiptap.dev/).
 :::
 
