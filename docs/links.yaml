@@ -287,11 +287,13 @@
           items:
             - title: AI
               link: /ai/introduction
-              type: new
             - title: BubbleMenu
               link: /api/extensions/bubble-menu
             - title: CharacterCount
               link: /api/extensions/character-count
+            - title: Comments
+              link: /api/extensions/comments
+              type: beta
             - title: Collaboration
               link: /api/extensions/collaboration
             - title: CollaborationCursor
@@ -385,6 +387,22 @@
         - title: Upgrade Editor to v2
           link: /overview/upgrade-guide
 
+- title: Comments
+  type: beta
+  items:
+    - title: Introduction
+      link: /comments/introduction
+    - title: Getting started
+      link: /comments/getting-started
+    - title: Managing threads
+      link: /comments/managing-threads
+    - title: Styling threads
+      link: /comments/styling-threads
+    - title: API
+      link: /comments/api
+    - title: Configuration
+      link: /comments/configuration
+
 - title: Collaboration
   items:
     - title: Introduction
@@ -393,6 +411,9 @@
       link: /collaboration/getting-started
     - title: Management API
       link: /collaboration/management-api
+    - title: Document Manipulation
+      link: /collaboration/backend-document-manipulation
+      type: beta
     - title: Webhook
       link: /collaboration/webhook
     - title: Guides

@@ -1,6 +1,6 @@
 context('/src/Commands/InsertContent/React/', () => {
   before(() => {
-    cy.visit('/src/Issues/2720/React/')
+    cy.visit('/src/Commands/InsertContent/React/')
   })
 
   beforeEach(() => {

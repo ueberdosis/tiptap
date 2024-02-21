@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
+
+
+### Bug Fixes
+
+* fix test path ([21aa96d](https://github.com/ueberdosis/tiptap/commit/21aa96dee8deab1f439b7f655b8ed266a516a4cd))
+
+
+
+
+
+## [2.2.2](https://github.com/ueberdosis/tiptap/compare/v2.2.1...v2.2.2) (2024-02-07)
+
+
+### Bug Fixes
+
+* **react:** use ref instead of state in useEditor to prevent rerenders ([#4856](https://github.com/ueberdosis/tiptap/issues/4856)) ([56a5737](https://github.com/ueberdosis/tiptap/commit/56a5737ed102ee75ec72f9cc2847e3c977f431bd))
+
+
+
+
+
+## [2.2.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0...v2.2.1) (2024-01-31)
+
+**Note:** Version bump only for package tiptap
+
+
+
+
+
 # [2.2.0](https://github.com/ueberdosis/tiptap/compare/v2.1.16...v2.2.0) (2024-01-29)
 
 
