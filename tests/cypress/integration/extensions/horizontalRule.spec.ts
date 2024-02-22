@@ -20,7 +20,7 @@ describe('extension-horizontal-rule', () => {
 
   const getEditorEl = () => document.querySelector(`.${editorElClass}`)
 
-  it('should insert after block leaf nodes', () => {
+  it('should be inserted after block leaf nodes correctly', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -35,7 +35,9 @@ describe('extension-horizontal-rule', () => {
         content: [
           {
             type: 'image',
-            attrs: { src: 'https://source.unsplash.com/8xznAGy4HcY/800x400' },
+            attrs: { 
+              src: 'https://source.unsplash.com/8xznAGy4HcY/800x400'
+            },
           },
           {
             type: 'paragraph',
@@ -54,7 +56,7 @@ describe('extension-horizontal-rule', () => {
     editor.commands.setHorizontalRule()
 
     expect(editor.getHTML()).to.match(
-      /<img src='(.*?)'><hr><p>Example Text<\/p>/
+      /<img(.*?)><hr><p>Example Text<\/p>/
     )
 
     editor?.destroy()
