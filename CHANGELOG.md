@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.4](https://github.com/ueberdosis/tiptap/compare/v2.2.3...v2.2.4) (2024-02-23)
+
+
+### Bug Fixes
+
+* mark nocookie youtube url as valid when parsing html ([#4883](https://github.com/ueberdosis/tiptap/issues/4883)) ([099e10d](https://github.com/ueberdosis/tiptap/commit/099e10df923d851dd866354e9abca331d995b65c))
+* typecheck drag and clipboard events for testing environments ([bbee9a3](https://github.com/ueberdosis/tiptap/commit/bbee9a3c3090fa40bf366591682b42a3f6ec5f91))
+
+
+
+
+
 ## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
 
 
