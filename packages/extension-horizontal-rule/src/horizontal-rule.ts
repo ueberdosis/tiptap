@@ -1,4 +1,6 @@
-import { mergeAttributes, Node, nodeInputRule, isNodeSelection } from '@tiptap/core'
+import {
+  isNodeSelection, mergeAttributes, Node, nodeInputRule,
+} from '@tiptap/core'
 import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 export interface HorizontalRuleOptions {
@@ -43,7 +45,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
           const { $from: $originFrom, $to: $originTo } = selection
 
           const currentChain = chain()
-          
+
           if ($originFrom.parentOffset === 0) {
             currentChain.insertContentAt(
               {
@@ -52,7 +54,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
               },
               {
                 type: this.name,
-              }
+              },
             )
           } else if (isNodeSelection(selection)) {
             currentChain.insertContentAt($originTo.pos, {

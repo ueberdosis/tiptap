@@ -63,7 +63,7 @@ context('/src/Nodes/HorizontalRule/Vue/', () => {
         .should('exist')
     })
   })
-  
+
   it('should replace selection correctly', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p><p>Example Text</p>')
@@ -81,7 +81,7 @@ context('/src/Nodes/HorizontalRule/Vue/', () => {
       editor.commands.setHorizontalRule()
 
       expect(editor.getHTML()).to.eq(
-        '<p>Example Text</p><hr><p>Example Text</p>'
+        '<p>Example Text</p><hr><p>Example Text</p>',
       )
     })
   })

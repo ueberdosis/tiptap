@@ -1,9 +1,9 @@
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
-import Text from '@tiptap/extension-text'
-import Paragraph from '@tiptap/extension-paragraph'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Image from '@tiptap/extension-image'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 
 describe('extension-horizontal-rule', () => {
   const editorElClass = 'tiptap'
@@ -24,19 +24,19 @@ describe('extension-horizontal-rule', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
-        Document, 
-        Text, 
-        Paragraph, 
-        HorizontalRule, 
-        Image
+        Document,
+        Text,
+        Paragraph,
+        HorizontalRule,
+        Image,
       ],
       content: {
         type: 'doc',
         content: [
           {
             type: 'image',
-            attrs: { 
-              src: 'https://source.unsplash.com/8xznAGy4HcY/800x400'
+            attrs: {
+              src: 'https://source.unsplash.com/8xznAGy4HcY/800x400',
             },
           },
           {
@@ -56,7 +56,7 @@ describe('extension-horizontal-rule', () => {
     editor.commands.setHorizontalRule()
 
     expect(editor.getHTML()).to.match(
-      /<img(.*?)><hr><p>Example Text<\/p>/
+      /<img(.*?)><hr><p>Example Text<\/p>/,
     )
 
     editor?.destroy()

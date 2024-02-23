@@ -72,7 +72,7 @@ context('/src/Nodes/HorizontalRule/React/', () => {
       editor.commands.setHorizontalRule()
 
       expect(editor.getHTML()).to.eq(
-        '<p>Example Text</p><hr><p>Example Text</p>'
+        '<p>Example Text</p><hr><p>Example Text</p>',
       )
     })
   })
