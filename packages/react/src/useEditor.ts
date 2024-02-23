@@ -32,6 +32,26 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   const onTransactionRef = useRef(onTransaction)
   const onUpdateRef = useRef(onUpdate)
 
+  useEffect(() => {
+    let isMounted = true
+
+    editorRef.current = new Editor(options)
+
+    editorRef.current.on('transaction', () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (isMounted) {
+            forceUpdate({})
+          }
+        })
+      })
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, deps)
+
   // This effect will handle updating the editor instance
   // when the event handlers change.
   useEffect(() => {
@@ -95,26 +115,6 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
       onUpdateRef.current = onUpdate
     }
   }, [onBeforeCreate, onBlur, onCreate, onDestroy, onFocus, onSelectionUpdate, onTransaction, onUpdate, editorRef.current])
-
-  useEffect(() => {
-    let isMounted = true
-
-    editorRef.current = new Editor(options)
-
-    editorRef.current.on('transaction', () => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          if (isMounted) {
-            forceUpdate({})
-          }
-        })
-      })
-    })
-
-    return () => {
-      isMounted = false
-    }
-  }, deps)
 
   useEffect(() => {
     return () => {
