@@ -21,7 +21,7 @@ export type PasteRuleMatch = {
   data?: Record<string, any>
 }
 
-export type PasteRuleFinder = RegExp | ((text: string, event?: ClipboardEvent) => PasteRuleMatch[] | null | undefined)
+export type PasteRuleFinder = RegExp | ((text: string, event?: ClipboardEvent | null) => PasteRuleMatch[] | null | undefined)
 
 export class PasteRule {
   find: PasteRuleFinder
@@ -33,8 +33,8 @@ export class PasteRule {
     commands: SingleCommands
     chain: () => ChainedCommands
     can: () => CanCommands
-    pasteEvent: ClipboardEvent
-    dropEvent: DragEvent
+    pasteEvent: ClipboardEvent | null
+    dropEvent: DragEvent | null
   }) => void | null
 
   constructor(config: {
@@ -43,9 +43,9 @@ export class PasteRule {
       can: () => CanCommands
       chain: () => ChainedCommands
       commands: SingleCommands
-      dropEvent: DragEvent
+      dropEvent: DragEvent | null
       match: ExtendedRegExpMatchArray
-      pasteEvent: ClipboardEvent
+      pasteEvent: ClipboardEvent | null
       range: Range
       state: EditorState
     }) => void | null
@@ -58,7 +58,7 @@ export class PasteRule {
 const pasteRuleMatcherHandler = (
   text: string,
   find: PasteRuleFinder,
-  event?: ClipboardEvent,
+  event?: ClipboardEvent | null,
 ): ExtendedRegExpMatchArray[] => {
   if (isRegExp(find)) {
     return [...text.matchAll(find)]
@@ -97,8 +97,8 @@ function run(config: {
   from: number
   to: number
   rule: PasteRule
-  pasteEvent: ClipboardEvent
-  dropEvent: DragEvent
+  pasteEvent: ClipboardEvent | null
+  dropEvent: DragEvent | null
 }): boolean {
   const {
     editor, state, from, to, rule, pasteEvent, dropEvent,
@@ -164,8 +164,8 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
   let dragSourceElement: Element | null = null
   let isPastedFromProseMirror = false
   let isDroppedFromProseMirror = false
-  let pasteEvent = new ClipboardEvent('paste')
-  let dropEvent = new DragEvent('drop')
+  let pasteEvent = typeof ClipboardEvent !== 'undefined' ? new ClipboardEvent('paste') : null
+  let dropEvent = typeof DragEvent !== 'undefined' ? new DragEvent('drop') : null
 
   const plugins = rules.map(rule => {
     return new Plugin({
@@ -247,8 +247,8 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           return
         }
 
-        dropEvent = new DragEvent('drop')
-        pasteEvent = new ClipboardEvent('paste')
+        dropEvent = typeof DragEvent !== 'undefined' ? new DragEvent('drop') : null
+        pasteEvent = typeof ClipboardEvent !== 'undefined' ? new ClipboardEvent('paste') : null
 
         return tr
       },
