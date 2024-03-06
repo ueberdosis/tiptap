@@ -1,21 +1,23 @@
----
-tableOfContents: true
----
-
 # Management API
 
-In addition to the websocket protocol, each Tiptap Collab app comes with a REST API for managing
-your documents. It's exposed directly from your Tiptap Collab app, so it's available at your custom
-URL:
+The Collaboration Management API provides a comprehensive suite of RESTful endpoints for managing documents and their collaborative aspects. This API facilitates document creation, listing, retrieval, updates, and deletion, along with the ability to duplicate documents for efficient content management. Additionally, it includes settings management for runtime configuration without the need for restarts, and server statistics to monitor performance metrics like document counts and connection statistics
+
+Explore the [Postman Collection](https://www.postman.com/docking-module-explorer-14290287/workspace/tiptap-collaboration-public/collection/33042171-cc186a66-df41-4df8-9c6e-e91b20deffe5?action=share&creator=32651125) for a hands-on experience, allowing you to experiment with the REST API's capabilities.
+
+The REST API is exposed directly from your Collaboration app, available at your custom URL:
 
 `https://YOUR_APP_ID.collab.tiptap.cloud/`
 
 Authentication is done using an API secret which you can find in
-the [settings](https://collab.tiptap.dev/) of your Tiptap Collab app. The secret must be sent as
+the [settings](https://collab.tiptap.dev/) of your Collaboration app. The secret must be sent as
 an `Authorization` header.
 
 If your document identifier contains a slash (`/`), just make sure to encode it as `%2F`, e.g.
 using `encodeURIComponent`.
+
+---
+tableOfContents: true
+---
 
 ## Documents
 
