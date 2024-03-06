@@ -398,8 +398,12 @@
       link: /comments/managing-threads
     - title: Styling threads
       link: /comments/styling-threads
-    - title: API
+    - title: Editor API
       link: /comments/api
+    - title: REST API
+      link: /comments/rest-api
+    - title: Webhook
+      link: /comments/webhook
     - title: Configuration
       link: /comments/configuration
 
