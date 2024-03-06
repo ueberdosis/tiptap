@@ -8,7 +8,7 @@ The Collaboration Management API provides a suite of RESTful endpoints for manag
 
 Explore the [Postman Collection](https://www.postman.com/docking-module-explorer-14290287/workspace/tiptap-collaboration-public/collection/33042171-cc186a66-df41-4df8-9c6e-e91b20deffe5?action=share&creator=32651125) for a hands-on experience, allowing you to experiment with the REST API's capabilities.
 
-## Accessing Your Collaboration API
+## Accessing the Management API
 The REST API is exposed directly from your Collaboration app, available at your custom URL:
 
 `https://YOUR_APP_ID.collab.tiptap.cloud/`
