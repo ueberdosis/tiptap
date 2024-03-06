@@ -8,6 +8,7 @@ The Collaboration Management API provides a suite of RESTful endpoints for manag
 
 Explore the [Postman Collection](https://www.postman.com/docking-module-explorer-14290287/workspace/tiptap-collaboration-public/collection/33042171-cc186a66-df41-4df8-9c6e-e91b20deffe5?action=share&creator=32651125) for a hands-on experience, allowing you to experiment with the REST API's capabilities.
 
+## Accessing Your Collaboration API
 The REST API is exposed directly from your Collaboration app, available at your custom URL:
 
 `https://YOUR_APP_ID.collab.tiptap.cloud/`
@@ -19,7 +20,7 @@ an `Authorization` header.
 If your document identifier contains a slash (`/`), just make sure to encode it as `%2F`, e.g.
 using `encodeURIComponent`.
 
-## Documents
+## Document Operations
 
 ### Create Document
 
@@ -170,7 +171,7 @@ await axios.post('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc-
 })
 ```
 
-## Settings
+## Configuration Settings
 
 TiptapCollab has a few settings that can be configured at runtime (no restart needed):
 
@@ -228,7 +229,7 @@ curl --location --request DELETE 'https://YOUR_APP_ID.collab.tiptap.cloud/api/ad
 ```
 
 
-## Get server statistics
+## Server Performance
 
 You can get a few server statistics using the /api/statistics endpoint. We currently export the
 total number of documents, the maximum concurrent connections (last 30 days), the total number of
