@@ -83,3 +83,7 @@ Mention.configure({
 
 ## Usage
 https://embed.tiptap.dev/preview/Nodes/Mention
+
+### Notes
+
+The mention node has higher priority ( 101 instead of the default 100 ) so it can get priority over heading markdown command when used with `#`.
