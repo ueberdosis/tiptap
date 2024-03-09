@@ -1,44 +1,31 @@
 # Install Collaboration
-This guide will help you begin with collaborative editing using the Tiptap Editor. If Tiptap Editor is already in use, proceed to the "Adding Collaboration" section.
+This guide will get you started with collaborative editing in the Tiptap Editor. If you're already using Tiptap Editor, feel free to skip ahead to the "Adding Collaboration" section.
 
-### **Installing Tiptap Editor**
+### Installing Tiptap Editor
 
-If Tiptap Editor isn't installed yet, run the following command in your CLI for either React or Vue to install the basic editor and necessary extensions:
+If Tiptap Editor isn't installed yet, run the following command in your CLI for either React or Vue to install the basic editor and necessary extensions for this example:
 
 ```bash
 npm install @tiptap/extension-document @tiptap/extension-paragraph @tiptap/extension-text @tiptap/react
 ```
 
-After installation, use this minimal setup code for Tiptap Editor by incorporating the provided code snippets into your project:
+Once installed, you can get your Tiptap Editor up and running with this basic setup. Just add the following code snippets to your project:
 https://embed.tiptap.dev/preview/Examples/Minimal
 
-## **Adding Collaboration**
+## Adding Collaboration
 
-To transform your Tiptap Editor into a collaborative platform, integrate the Yjs library and the Collaboration extension into your frontend editor.
+To introduce team collaboration features into your Tiptap Editor, integrate the Yjs library and Editor Collaboration extension into your frontend. This setup uses Y.Doc, a shared document model, rather than just handling plain text.
+Afterwards we will connect Y.Doc to the TiptapCollabProvider to synchronize user interactions.
 
-This setup allows using the Y.Doc for collaboration instead of raw text. Then, connect the Y.Doc to the TiptapCollabProvider for synchronization across clients.
+### Integrating Yjs and the Collaboration Extension
 
-:::warning Disable default history function
-If using Tiptap Editor's StarterKit, disable the history function to prevent undo/redo conflicts with the collaborative history management provided by the Collaboration extension.
-:::
-
-```typescript
-const editor = useEditor({
-  extensions: [
-    StarterKit.configure({
-      history: false, // Disables default history to use Collaboration's history management
-    }),
-…
-```
-
-### **Integrating Yjs and the Collaboration Extension**
-
-To enable real-time collaborative editing in your frontend, add the Collaboration extension and Yjs library to your editor setup:
+Add the Editor Collaboration extension and Yjs library to your frontend:
 
 ```bash
 npm install @tiptap/extension-collaboration yjs
 ```
-Update your index.jsx by importing the new dependencies:
+
+Then, update your index.jsx to include these new imports:
 
 ```typescript
 import './styles.scss'
@@ -52,9 +39,8 @@ import React from 'react'
 import Collaboration from '@tiptap/extension-collaboration'
 import * as Y from 'yjs'
 
-// Import new packages
 export default () => {
-  const doc = new Y.Doc()
+  const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 
   const editor = useEditor({
     extensions: [
@@ -62,7 +48,7 @@ export default () => {
       Paragraph,
       Text,
       Collaboration.configure({
-        document: doc
+        document: doc // Configure Y.Doc for collaboration
       })
     ],
     content: `
@@ -83,9 +69,9 @@ export default () => {
 
 Your editor is now prepared for collaborative editing!
 
-### **Connecting to the Collaboration Server**
+### Connecting to the Collaboration Server
 
-For collaborative functionality, install the **`@hocuspocus/provider`** package:
+For collaborative functionality, install the `@hocuspocus/provider` package:
 
 ```bash
 npm install @hocuspocus/provider
@@ -94,8 +80,8 @@ npm install @hocuspocus/provider
 Next, configure the Hocuspocus provider in your index.jsx file with your server details:
 
 - **name**: Serves as the document identifier for synchronization.
-- **appID**: Found in your Cloud account or replace `**appID`** with **`baseUrl`** for on-premises setups.
-- **token**: Use the JWT from your Cloud interface for testing, but generate your own JWT for production.
+- **appID**: Found in your [Cloud account](https://cloud.tiptap.dev/apps) after you started your app. For on-premises setups replace `appID` with `baseUrl`.
+- **token**: Use the JWT from your [Cloud interface](https://cloud.tiptap.dev/apps/settings) for testing, but generate your own JWT for production.
 
 Incorporate the following code to complete the setup:
 
@@ -140,7 +126,7 @@ export default () => {
 // Connect to your Collaboration server  
 useEffect(() => {
     const provider = new TiptapCollabProvider({
-      name: "document.name", // Unique document identifier for syncing
+      name: "document.name", // Unique document identifier for syncing. This is your document name.
       appId: '7j9y6m10', // Your Cloud Dashboard AppID or `baseURL` for on-premises
       token: 'notoken', // Your JWT token
       document: doc,
@@ -153,11 +139,13 @@ useEffect(() => {
 }
 ```
 
-After following these steps, you should be able to open two different browsers and connect to the same document simultaneously through separate WebSocket connections. To ensure distinct connections, especially for testing the collaborative features, it's recommended to use two different browsers.
+After following these steps, you should be able to open two different browsers and connect to the same document simultaneously through separate WebSocket connections.
 
-### **Initializing Content Properly**
+For a clear test of the collaboration features, using two different browsers is recommended to guarantee unique websocket connections.
 
-Upon implementing collaboration in your Tiptap Editor, you might notice that the initial content is repeatedly added each time the editor loads. To prevent this, use the **`.setContent()`** method to set the initial content only once.
+### Initializing Content Properly
+
+Upon implementing collaboration in your Tiptap Editor, you might notice that the initial content is repeatedly added each time the editor loads. To prevent this, use the `.setContent()` method to set the initial content only once.
 
 ```typescript
 import './styles.scss'
@@ -191,9 +179,9 @@ export default () => {
   
   useEffect(() => {
     const provider = new TiptapCollabProvider({
-      name: "document.name", // document identifier - all connections sharing the same identifier will be synced
-      appId: '7j9y6m10', // Replace this with your AppID from your Cloud Dashboard. In case you're developing on premises replace "appID" with "baseURL"
-      token: 'notoken', // replace with your JWT
+      name: "document.name", // Unique document identifier for syncing. This is your document name.
+      appId: '7j9y6m10', // Your Cloud Dashboard AppID or `baseURL` for on-premises
+      token: 'notoken', // Your JWT token
       document: doc,
       
 // The onSynced callback ensures initial content is set only once using editor.setContent(), preventing repetitive content loading on editor syncs.
@@ -222,6 +210,18 @@ export default () => {
 }
 ```
 
-This ensures the initial content is set only once. To test with new initial content, create a new document by changing the **`name`** parameter (e.g., from **`document.name`** to **`document.name2`**).
+This ensures the initial content is set only once. To test with new initial content, create a new document by changing the `name` parameter (e.g., from `document.name` to `document.name2`).
+
+## Disabling Default Undo/Redo
+If you're integrating collaboration into an editor **other than the one provided in this demo**, you may need to disable the default history function of the Tiptap StarterKit. This is necessary to avoid conflicts with the collaborative history management.
+
+```typescript
+const editor = useEditor({
+  extensions: [
+    StarterKit.configure({
+      history: false, // Disables default history to use Collaboration's history management
+    }),
+…
+```
 
 Following this guide will set up a basic, yet functional collaborative Tiptap Editor, synchronized through either the Collaboration Cloud or an on-premises backend.
