@@ -409,8 +409,8 @@
 
 - title: Collaboration
   items:
-    - title: Introduction
-      link: /collaboration/introduction
+    - title: Overview
+      link: /collaboration/overview
     - title: Getting started
       link: /collaboration/getting-started
     - title: Management API
