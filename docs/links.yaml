@@ -411,8 +411,8 @@
   items:
     - title: Overview
       link: /collaboration/overview
-    - title: Getting started
-      link: /collaboration/getting-started
+    - title: Install
+      link: /collaboration/install
     - title: Management API
       link: /collaboration/management-api
     - title: Document Manipulation
