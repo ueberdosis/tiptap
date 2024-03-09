@@ -1,3 +1,8 @@
+---
+tableOfContents: true
+---
+
+
 # Install Collaboration
 This guide will get you started with collaborative editing in the Tiptap Editor. If you're already using Tiptap Editor, feel free to skip ahead to the "Adding Collaboration" section.
 
