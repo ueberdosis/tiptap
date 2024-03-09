@@ -9,7 +9,7 @@ If Tiptap Editor isn't installed yet, run the following command in your CLI for 
 npm install @tiptap/extension-document @tiptap/extension-paragraph @tiptap/extension-text @tiptap/react
 ```
 
-After installation, use this minimal setup code for Tiptap Editor by incorporating the provided index.jsx and styles.scss into your project:
+After installation, use this minimal setup code for Tiptap Editor by incorporating the provided code snippets into your project:
 https://embed.tiptap.dev/preview/Examples/Minimal
 
 ## **Adding Collaboration**
