@@ -413,6 +413,8 @@
       link: /collaboration/overview
     - title: Install
       link: /collaboration/install
+    - title: Authenticate
+      link: /collaboration/authenticate
     - title: Management API
       link: /collaboration/management-api
     - title: Document Manipulation
