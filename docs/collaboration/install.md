@@ -18,8 +18,9 @@ To transform your Tiptap Editor into a collaborative platform, integrate the Yjs
 
 This setup allows using the Y.Doc for collaboration instead of raw text. Then, connect the Y.Doc to the TiptapCollabProvider for synchronization across clients.
 
-> [!Important]
-> If using Tiptap Editor's StarterKit, disable the history function to prevent undo/redo conflicts with the collaborative history management provided by the Collaboration extension.
+:::warning Disable default history function
+If using Tiptap Editor's StarterKit, disable the history function to prevent undo/redo conflicts with the collaborative history management provided by the Collaboration extension.
+:::
 
 ```typescript
 const editor = useEditor({
