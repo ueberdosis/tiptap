@@ -1,49 +1,52 @@
 # What is Tiptap Collaboration?
 
-Tiptap Collaboration, built on our open-source Hocuspocus WebSocket backend, enhances rich text editors by enabling collaborative functionalities. It uses WebSocket technology to merge content in both real-time and offline modes, with Y.js handling conflict resolution to maintain synchronized changes.
+Tiptap Collaboration turns standard text editors into collaborative platforms, enabling simultaneous editing similar to Google Docs or Notion. Built on our open source Hocuspocus WebSocket backend, it facilitates real-time and asynchronous updates through WebSocket technology, with Y.js ensuring consistent synchronization of changes.
 
-Optimized for performance and scalability, Tiptap Collaboration, tested by hundreds of thousands of users daily, enriches the secure and accessible Hocuspocus base with advanced features such as comments, version history, and authentication. These capabilities are offered for both cloud and on-premises setups.
+Built for performance and scalability, Tiptap Collaboration is tested by hundreds of thousands of users every day. Enhancing the robust Hocuspocus foundation, Tiptap Collaboration introduces more performance, scalability, and security.
 
-### **Core features**
+It integrates functionalities such as commenting, document version history, and secure authentication, suitable for both cloud services and personal servers.
 
-- Real-time and asynchronous change merging without conflicts.
+### Core features
+
+- Real-time and offline change merging without conflicts.
 - Compatible with various editors: Tiptap, Slate, Quill, Monaco, ProseMirror.
 - Supports multiplexing for handling multiple documents over one WebSocket connection.
 - Integrates with webhooks for change notifications.
 - Scales efficiently with Redis for high user volumes.
 - Built with TypeScript for type safety and scalability.
 
-Tiptap Collaboration serves as a foundational technology, enabling a suite of advanced features including webhook events, document version control, backend document manipulation, and comments. These capabilities are built upon the collaboration infrastructure and require it as a prerequisite.
+Tiptap Collaboration serves as a foundational technology, enabling a suite of advanced features including webhook events, document version control, backend document manipulation, comments and more.
 
-## **Document storage solutions**
+## Where your documents are stored
 
-We partner with Hetzner, a provider known since 1997 for robust cloud infrastructure, to support our cloud solutions. These can handle extensive daily connections and simultaneous edits across documents.
+For our collaboration cloud users, we partner with Hetzner, a trusted name in cloud infrastructure, ensuring reliable performance for high traffic and collaborative editing.
 
-Storage varies by plan:
+Your document storage location depends on your subscription plan:
+- Entry Plan: Your documents are stored in GDPR-compliant data centers in Europe, ensuring your data's privacy and security.
+- Business Plan: You have the option to store your documents in data centers on the US East or West Coast, or in Europe, according to your preference.
+- Enterprise Plan: Choose dedicated cloud storage in your preferred location, or opt for on-premises storage to manage your documents yourself.
 
-- **Entry Plan**: Documents are stored in Hetzner's GDPR-compliant EU data centers.
-- **Business Plan**: Choose between Hetzner's US East or West Coast, or European data centers.
-- **Enterprise Plan**: Opt for dedicated cloud storage in your chosen location or deploy on-premises for full document control.
+Additionally, regardless of your plan, you have the flexibility to create your own backups of all documents and associated information using our document management API, ensuring you always have access to your data when needed.
 
-## **About Y.js**
+## About Y.js
 
 Y.js is a library that enables real-time, conflict-free merging of changes made by multiple users. It stands out for its high performance among Conflict-Free Replicated Data Types (CRDTs), offering significant efficiency advantages over similar technologies.
 
-As a CRDT, Y.js ensures that the sequence of changes does not impact the final state of the document, similar to how Git operates with commits. This characteristic guarantees that all copies of the data remain consistent across different environments.
+As a CRDT, Y.js ensures that the sequence of changes does not impact the final state of the document, similar to how Git operates with commits. This guarantees that all copies of the data remain consistent across different environments.
 
 The technology supports the development of highly responsive real-time applications, enabling collaborative features in existing software, managing synchronization states, and catering to offline-first scenarios with easy data integration upon reconnection.
 
 ### Y.js Document Compatibility
 
-Y.js operates with a specialized Y.doc binary format for its internal CRDT mechanisms, optimizing performance. However, this does not necessitate any changes to the document formats used within the Tiptap Editor. Users can continue working with familiar formats such as JSON or HTML, which are seamlessly converted by the Collaboration server for CRDT processing.
+Y.js uses a special Y.doc binary format to work efficiently, but you don't need to worry about changing how you create documents in Tiptap Editor. You can keep using common formats like JSON or HTML, and the Collaboration server will take care of converting them for use with Y.js.
 
-The binary nature of Y.js's operations allows for efficient data handling and synchronization. While the Y.doc format is accessible through the document management API for specific use cases, the standard retrieval format for documents remains JSON or HTML. Although direct markup output is not natively supported, it can be indirectly produced through HTML conversion, offering flexibility in handling document formats.
+Thanks to Y.js's binary format, it handles data quickly and keeps everything in sync. If you need the binary format, you can get the Y.doc through the document management API. However, you have the option to retrieve your documents in the more familiar JSON or HTML formats. While direct markup output isn't provided, you can achieve it by converting from HTML, offering versatility in how you handle document formats.
 
 ## Migrate from Hocuspocus or Collaboration Cloud
 
-Migrating your application from Hocuspocus to either an on-premises solution or the Tiptap Collaboration Cloud involves a simple switch from the **`HocuspocusProvider`** to the **`TiptapCollabProvider`**, or the other way around.
+Migrating your application from Hocuspocus to either an on-premises solution or the Tiptap Collaboration Cloud involves a simple switch from the `HocuspocusProvider` to the `TiptapCollabProvider`, or the other way around.
 
-This adjustment does not necessitate any changes to your infrastructure, and the API interface will remain unchanged. The **`TiptapCollabProvider`** serves as an intermediary, handling the server connection and authentication for your Collaboration application.
+This doesn't require any other updates to your setup, and the way you interact with the API won't change as well. The `TiptapCollabProvider` acts as a go-between, managing how your application connects to the server and handles login details.
 
 This migration approach is also applicable when migrating from the Tiptap Collaboration Cloud to an on-premises configuration.
 
