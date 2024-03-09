@@ -22,15 +22,14 @@ It integrates functionalities such as commenting, document version history, and 
 Tiptap Collaboration serves as a foundational technology, enabling a suite of advanced features including webhook events, document version control, backend document manipulation, comments and more.
 
 ## Where your documents are stored
-
-For our collaboration cloud users, we partner with Hetzner, a trusted name in cloud infrastructure, ensuring reliable performance for high traffic and collaborative editing.
+If you're using our on-premises solutions, you can choose where to store your documents in your own infrastructure. However, for users of our Collaboration Cloud service, we've partnered with Hetzner, renowned for their dependable cloud infrastructure, to guarantee stable and efficient performance, especially during periods of heavy traffic and collaborative activities.
 
 Your document storage location depends on your subscription plan:
 - Entry Plan: Your documents are stored in GDPR-compliant data centers in Europe, ensuring your data's privacy and security.
 - Business Plan: You have the option to store your documents in data centers on the US East or West Coast, or in Europe, according to your preference.
 - Enterprise Plan: Choose dedicated cloud storage in your preferred location, or opt for on-premises storage to manage your documents yourself.
 
-Additionally, regardless of your plan, you have the flexibility to create your own backups of all documents and associated information using our document management API, ensuring you always have access to your data when needed.
+Regardless of your plan, you have the flexibility to create your own backups of all documents and associated information using our document management API.
 
 ## About Y.js
 
