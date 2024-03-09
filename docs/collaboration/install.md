@@ -218,7 +218,9 @@ export default () => {
 This ensures the initial content is set only once. To test with new initial content, create a new document by changing the `name` parameter (e.g., from `document.name` to `document.name2`).
 
 ## Disabling Default Undo/Redo
-If you're integrating collaboration into an editor **other than the one provided in this demo**, you may need to disable the default history function of the Tiptap StarterKit. This is necessary to avoid conflicts with the collaborative history management.
+If you're integrating collaboration into an editor **other than the one provided in this demo**, you may need to disable the default history function of your Editor. This is necessary to avoid conflicts with the collaborative history management: You wouldn't want to revert someone else's changes.
+
+This action is only required if your project includes the Tiptap [StarterKit](https://tiptap.dev/docs/editor/api/extensions/starter-kit) or [History](https://tiptap.dev/docs/editor/api/extensions/history) extension.
 
 ```typescript
 const editor = useEditor({
