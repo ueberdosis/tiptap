@@ -1,3 +1,7 @@
+---
+tableOfContents: true
+---
+
 # What is Tiptap Collaboration?
 
 Tiptap Collaboration turns standard text editors into collaborative platforms, enabling simultaneous editing similar to Google Docs or Notion. Built on our open source Hocuspocus WebSocket backend, it facilitates real-time and asynchronous updates through WebSocket technology, with Y.js ensuring consistent synchronization of changes.
