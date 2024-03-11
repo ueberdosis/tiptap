@@ -417,6 +417,8 @@
       link: /collaboration/authenticate
     - title: Provider
       link: /collaboration/provider
+    - title: Events
+      link: /collaboration/events
     - title: Management API
       link: /collaboration/management-api
     - title: Document Manipulation
