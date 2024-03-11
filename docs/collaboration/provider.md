@@ -50,8 +50,9 @@ The provider’s reconnection settings are preset for optimal performance in pro
 
 Adjust initial delays, apply exponential backoff, or set maximum wait times to fine-tune your application's reconnection behavior, balancing responsiveness with server efficiency.
 
-| delay | Base delay between reconnection attempts, in milliseconds. | 1000 |
+| Setting | Description | Default Value |
 | --- | --- | --- |
+| delay | Base delay between reconnection attempts, in milliseconds. | 1000 |
 | factor | Multiplier for delay, increasing it exponentially after each attempt. | 2 |
 | initialDelay | Time before the first reconnection attempt, in milliseconds. Ideally immediate. | 0 |
 | maxAttempts | Maximum number of reconnection attempts. 0 means unlimited. | 0 |
