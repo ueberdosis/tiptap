@@ -4,9 +4,7 @@ Together with the Collaboration backend, Providers act as the backbone for real-
 
 Providers help handle the complexities of real-time data exchange, including conflict resolution, network reliability, and user presence awareness. The Hocuspocus provider, specifically designed for Tiptap Collaboration, brings advanced features tailored for collaborative environments, including WebSocket message authentication, debug modes, and flexible connection strategies.
 
-## Configuring your provider
-
-### Setting up a basic configuration
+## Setting up a basic configuration
 
 First you need to install the provider package in your project with
 
@@ -27,7 +25,7 @@ For a basic setup, you need to connect to the Collaboration backend. This involv
     })
 ```
 
-### Configuring an advanced provider
+## Configuring an advanced provider
 
 Tiptap Collaboration's advanced provider settings offer deep customization for enhanced collaboration. Below, explore a comprehensive list of parameters, practical use cases, and key concepts like "awareness" explained in detail.
 
