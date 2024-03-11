@@ -410,6 +410,7 @@
 - title: Collaboration
   items:
     - title: Getting started
+      link: /collaboration/getting-started/overview
       items:
         - title: Overview
           link: /collaboration/getting-started/overview
