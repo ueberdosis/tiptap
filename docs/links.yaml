@@ -415,6 +415,8 @@
       link: /collaboration/install
     - title: Authenticate
       link: /collaboration/authenticate
+    - title: Provider
+      link: /collaboration/provider
     - title: Management API
       link: /collaboration/management-api
     - title: Document Manipulation
