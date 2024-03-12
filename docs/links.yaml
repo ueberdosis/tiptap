@@ -417,6 +417,8 @@
       link: /collaboration/provider
     - title: Events
       link: /collaboration/events
+    - title: Awareness
+      link: /collaboration/awareness
     - title: Management API
       link: /collaboration/management-api
     - title: Document Manipulation
