@@ -67,4 +67,4 @@ Check your browser's console to see the stream of events as users move their mic
 
 ### Next Steps
 
-With basic Awareness in place, consider enhancing your setup with the [Collaborative Cursor](https://tiptap.dev/docs/editor/api/extensions/collaboration-cursor) extension. This extension adds cursor positions, text selections, and personalized details (such as names and colors) of all participating users to your editor.
+With basic Awareness in place, consider enhancing your setup with the [Collaboration Cursor](https://tiptap.dev/docs/editor/api/extensions/collaboration-cursor) extension. This extension adds cursor positions, text selections, and personalized details (such as names and colors) of all participating users to your editor.
