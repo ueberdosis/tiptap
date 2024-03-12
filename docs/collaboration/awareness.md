@@ -30,8 +30,6 @@ provider.setAwarenessField("user", {
   // Share any information you like
   name: "Kevin James",
   color: "#ffcc00",
-  mouseX: event.clientX,
-  mouseY: event.clientY,
 });
 ```
 
