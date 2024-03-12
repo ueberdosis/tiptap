@@ -1,4 +1,8 @@
-# Tiptap Pro Extensions
+---
+tableOfContents: true
+---
+
+# Tiptap Pro extensions
 
 Tiptap Pro extensions add advanced capabilities to the Tiptap Editor such as versioning and AI-assisted content generation. To use Pro Extensions, you must have an active Tiptap subscription. Some Pro Extensions also require a Tiptap Cloud instance. You access Pro Extensions through the Tiptap private registry.
 

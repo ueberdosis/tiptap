@@ -367,6 +367,8 @@
           link: /guide/accessibility
         - title: Collaborative editing
           link: /guide/collaborative-editing
+        - title: Pro extensions
+          link: /guide/pro-extensions
         - title: Custom extensions
           link: /guide/custom-extensions
         - title: Interactive node views
