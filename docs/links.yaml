@@ -388,8 +388,8 @@
 - title: Comments
   type: beta
   items:
-    - title: Introduction
-      link: /comments/introduction
+    - title: Overview
+      link: /comments/overview
     - title: Getting started
       link: /comments/getting-started
     - title: Managing threads
