@@ -336,8 +336,6 @@
               link: /api/extensions/unique-id
               type: pro
         - title: Utilities
-          link: /utilities
-          redirect: /api/utilities/html
           items:
             - title: HTML
               link: /api/utilities/html
@@ -345,7 +343,6 @@
               link: /api/utilities/suggestion
             - title: Tiptap for PHP
               link: /api/utilities/tiptap-php
-              type: new
         - title: Keyboard shortcuts
           link: /api/keyboard-shortcuts
         - title: Schema
