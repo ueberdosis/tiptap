@@ -407,10 +407,12 @@
 
 - title: Collaboration
   items:
-    - title: Overview
-      link: /collaboration/overview
-    - title: Install
-      link: /collaboration/install
+    - title: Getting started
+      link: /collaboration/getting-started/getting-started
+        - title: Overview
+          link: /collaboration/getting-started/overview
+        - title: Install
+          link: /collaboration/getting-started/install
     - title: Authenticate
       link: /collaboration/authenticate
     - title: Provider
