@@ -429,13 +429,14 @@
     - title: Guides
       link: /collaboration/guides
       items:
-        - title: Naming documents
-          link: /collaboration/guides/naming-documents
-        - title: Simple collaboration app
-          link: /collaboration/guides/simple-collaboration-app
         - title: JWT Authentication
           link: /collaboration/guides/jwt-authentication
-          
+        - title: Naming documents
+          link: /collaboration/guides/naming-documents
+        - title: Offline support
+          link: /collaboration/guides/offline-support
+        - title: Simple collaboration app
+          link: /collaboration/guides/simple-collaboration-app
 
 - title: Content AI
   items:
