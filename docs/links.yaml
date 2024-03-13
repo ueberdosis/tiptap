@@ -385,10 +385,13 @@
 
 - title: Collaboration
   items:
-    - title: Introduction
-      link: /collaboration/introduction
     - title: Getting started
-      link: /collaboration/getting-started
+      link: /collaboration/introduction
+      items:
+        - title: Introduction
+          link: /collaboration/introduction
+        - title: Getting started
+          link: /collaboration/getting-started
     - title: Management API
       link: /collaboration/management-api
     - title: Webhook
