@@ -409,6 +409,7 @@
   items:
     - title: Getting started
       link: /collaboration/getting-started/getting-started
+      items:
         - title: Overview
           link: /collaboration/getting-started/overview
         - title: Install
