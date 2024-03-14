@@ -73,7 +73,6 @@ Gain insights into server performance and document statistics through the `/api/
 ```bash
 curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/statistics' \
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
-
 ```
 
 *Note: The total number of connections of the last 30 days and the lifetime connection count are presented as strings due to their representation as BIGINT internally.*
