@@ -71,7 +71,6 @@ curl --location --request DELETE 'https://YOUR_APP_ID.collab.tiptap.cloud/api/ad
 Gain insights into server performance and document statistics through the `/api/statistics` endpoint, providing data on total documents, peak concurrent connections, total connections over the last 30 days, and lifetime connection counts.
 
 ```bash
-bashCopy code
 curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/statistics' \
 --header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
 
