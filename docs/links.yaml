@@ -421,8 +421,8 @@
       link: /collaboration/awareness
     - title: Configure
       link: /collaboration/configure
-    - title: Management API
-      link: /collaboration/management-api      
+    - title: Document API
+      link: /collaboration/document-api      
     - title: Document Manipulation
       link: /collaboration/backend-document-manipulation
       type: beta
