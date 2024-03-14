@@ -28,8 +28,24 @@ declare module '@tiptap/core' {
   }
 }
 
-export const inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/
-export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/g
+/**
+ * Regular expressions to match inline code blocks enclosed in backticks.
+ * Original one from @tiptap/extension-code was:
+ *
+ *  inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/
+ *  pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/g
+ *
+ *  The edited regex below fixes this issue: https://github.com/ueberdosis/tiptap/issues/4467
+ *  It matches:
+ *     - An opening backtick, followed by
+ *     - Any text that doesn't include a backtick (captured for marking), followed by
+ *     - A closing backtick.
+ *  This ensures that any text between backticks is formatted as code,
+ *  regardless of the surrounding characters (exception being another backtick).
+ */
+
+export const inputRegex = /(?<!`)`([^`]+)`(?!`)/;
+export const pasteRegex = /(?<!`)`([^`]+)`(?!`)/g;
 
 export const Code = Mark.create<CodeOptions>({
   name: 'code',
