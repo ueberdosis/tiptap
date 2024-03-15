@@ -2,9 +2,9 @@
 tableOfContents: true
 ---
 
-# Management API
+# Document Management API
 
-The Collaboration Management API provides a suite of RESTful endpoints for managing documents and their collaborative aspects. This API facilitates document creation, listing, retrieval, updates, and deletion, along with the ability to duplicate documents for efficient content management. Additionally, it includes settings management for runtime configuration without the need for restarts, and server statistics to monitor performance metrics like document counts and connection statistics
+The Collaboration Management API provides a suite of RESTful endpoints for managing documents. This API facilitates document creation, listing, retrieval, updates, and deletion, along with the ability to duplicate documents for efficient content management.
 
 Explore the [Postman Collection](https://www.postman.com/docking-module-explorer-14290287/workspace/tiptap-collaboration-public/collection/33042171-cc186a66-df41-4df8-9c6e-e91b20deffe5?action=share&creator=32651125) for a hands-on experience, allowing you to experiment with the REST API's capabilities.
 
@@ -169,74 +169,4 @@ await axios.post('https://YOUR_APP_ID.collab.tiptap.cloud/api/documents/somedoc-
     'Authorization': 'YOUR_SECRET_FROM_SETTINGS_AREA',
   },
 })
-```
-
-## Configuration Settings
-
-TiptapCollab has a few settings that can be configured at runtime (no restart needed):
-
-| Key                     | Type   | Editable | Description                                                                                          |
-|-------------------------|--------|----------|------------------------------------------------------------------------------------------------------|
-| secret                  | string | Yes      | The secret used to sign JWT tokens ; auto-generated on first boot.                                   |
-| api_secret              | string | Yes      | The secret that is sent in API calls (as the `Authorization` header) ; auto-generated on first boot. |
-| webhook_url             | string | Yes      | The webhook URL ; optional                                                                           |
-| authentication_disabled | string | Yes      | Whether authentication is disabled. Must be 1 or 0 ; optional (default = 0)                          |
-| name                    | string | Yes      | The name of the instance ; optional                                                                  |
-
-### Create setting
-
-If you want to create or overwrite settings, this is the API for it.
-
-```bash
-curl --location --request PUT 'https://YOUR_APP_ID.collab.tiptap.cloud/api/admin/settings/:key' \
---header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
-```
-
-### List settings
-
-All current settings can be retrieved with the GET /api/admin/settings call.
-
-```bash
-curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/admin/settings' \
---header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
-```
-
-### Get setting
-
-If you want to get a setting value, this is the API for it.
-
-```bash
-curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/admin/settings/:key' \
---header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
-```
-
-### Update setting
-
-If you want to create or overwrite settings, this is the API for it.
-
-```bash
-curl --location --request PUT 'https://YOUR_APP_ID.collab.tiptap.cloud/api/admin/settings/:key' \
---header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
-```
-
-### Delete setting
-
-If you want to delete settings, this is the API for it.
-
-```bash
-curl --location --request DELETE 'https://YOUR_APP_ID.collab.tiptap.cloud/api/admin/settings/:key' \
---header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
-```
-
-
-## Server Performance
-
-You can get a few server statistics using the /api/statistics endpoint. We currently export the
-total number of documents, the maximum concurrent connections (last 30 days), the total number of
-connections (last 30 days) and the lifetime connection count.
-Not that the last two values are exported as string, as they are internally a BIGINT.
-
-```bash
-curl --location 'https://YOUR_APP_ID.collab.tiptap.cloud/api/statistics' \
---header 'Authorization: YOUR_SECRET_FROM_SETTINGS_AREA'
 ```
