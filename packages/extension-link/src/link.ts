@@ -29,6 +29,10 @@ export interface LinkOptions {
    */
   openOnClick: boolean
   /**
+   * If enabled, links will be opened on click+META or click+CTRL.
+   */
+  openOnMetaClick: boolean
+  /**
    * Adds a link to the current selection if the pasted content only contains an url.
    */
   linkOnPaste: boolean
@@ -207,6 +211,14 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
+          'withCMD': false
+        }),
+      )
+    } else if (this.options.openOnMetaClick) {
+      plugins.push(
+        clickHandler({
+          type: this.type,
+          'withCMD': true
         }),
       )
     }
