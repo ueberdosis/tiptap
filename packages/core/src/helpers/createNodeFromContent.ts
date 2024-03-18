@@ -10,9 +10,10 @@ import { Content } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'
 
 export type CreateNodeFromContentOptions = {
-  slice?: boolean
-  parseOptions?: ParseOptions
-}
+  slice?: boolean;
+  parseOptions?: ParseOptions;
+  throwOnError?: boolean;
+};
 
 export function createNodeFromContent(
   content: Content,
@@ -34,7 +35,9 @@ export function createNodeFromContent(
       return schema.nodeFromJSON(content)
     } catch (error) {
       console.warn('[tiptap warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
-
+      if (options.throwOnError) {
+        throw error
+      }
       return createNodeFromContent('', schema, options)
     }
   }

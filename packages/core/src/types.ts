@@ -45,6 +45,7 @@ export interface EditorEvents {
   focus: { editor: Editor; event: FocusEvent; transaction: Transaction }
   blur: { editor: Editor; event: FocusEvent; transaction: Transaction }
   destroy: void
+  error: {editor: Editor; error: Error}
 }
 
 export type EnableRules = (AnyExtension | string)[] | boolean
@@ -62,6 +63,7 @@ export interface EditorOptions {
   enableInputRules: EnableRules
   enablePasteRules: EnableRules
   enableCoreExtensions: boolean
+  throwOnError?: boolean
   onBeforeCreate: (props: EditorEvents['beforeCreate']) => void
   onCreate: (props: EditorEvents['create']) => void
   onUpdate: (props: EditorEvents['update']) => void
@@ -69,7 +71,8 @@ export interface EditorOptions {
   onTransaction: (props: EditorEvents['transaction']) => void
   onFocus: (props: EditorEvents['focus']) => void
   onBlur: (props: EditorEvents['blur']) => void
-  onDestroy: (props: EditorEvents['destroy']) => void
+  onDestroy: (props: EditorEvents['destroy']) => void,
+  onError: (props: EditorEvents['error']) => void
 }
 
 export type HTMLContent = string
