@@ -139,12 +139,12 @@ export const StarterKit = Extension.create<StarterKitOptions>({
   addExtensions() {
     const extensions = []
 
-    if (this.options.blockquote !== false) {
-      extensions.push(Blockquote.configure(this.options?.blockquote))
-    }
-
     if (this.options.bold !== false) {
       extensions.push(Bold.configure(this.options?.bold))
+    }
+
+    if (this.options.blockquote !== false) {
+      extensions.push(Blockquote.configure(this.options?.blockquote))
     }
 
     if (this.options.bulletList !== false) {
