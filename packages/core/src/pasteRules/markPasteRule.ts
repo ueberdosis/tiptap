@@ -38,8 +38,13 @@ export function markPasteRule(config: {
         const startSpaces = fullMatch.search(/\S/)
         const textStart = range.from + fullMatch.indexOf(captureGroup)
         const textEnd = textStart + captureGroup.length
+        const marksBetweenMatch = getMarksBetween(range.from, range.to, state.doc)
 
-        const excludedMarks = getMarksBetween(range.from, range.to, state.doc)
+        if (marksBetweenMatch.some(item => item.mark.type === config.type)) {
+          return null
+        }
+
+        const excludedMarks = marksBetweenMatch
           .filter(item => {
             // @ts-ignore
             const excluded = item.mark.type.excluded as MarkType[]
