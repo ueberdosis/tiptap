@@ -8,10 +8,11 @@ export function getTextBetween(
   options?: {
     blockSeparator?: string
     textSerializers?: Record<string, TextSerializer>
+    repetitiveSeparator?: boolean
   },
 ): string {
   const { from, to } = range
-  const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
+  const { blockSeparator = '\n\n', textSerializers = {}, repetitiveSeparator = false } = options || {}
   let text = ''
   let separated = true
 
@@ -36,7 +37,7 @@ export function getTextBetween(
     } else if (node.isText) {
       text += node?.text?.slice(Math.max(from, pos) - pos, to - pos) // eslint-disable-line
       separated = false
-    } else if (node.isBlock && !separated) {
+    } else if (node.isBlock && (repetitiveSeparator || (!repetitiveSeparator && !separated))) {
       text += blockSeparator
       separated = true
     }
