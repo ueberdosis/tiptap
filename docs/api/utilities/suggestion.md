@@ -21,6 +21,11 @@ Allows or disallows spaces in suggested items.
 
 Default: `false`
 
+### allowCharInSuggestedItem
+Allows or disallows the triggering char in suggested items. This option is incompatible with the `allowSpaces` option.
+
+Default: `false`
+
 ### allowedPrefixes
 The prefix characters that are allowed to trigger a suggestion. Set to `null` to allow any prefix character.
 

@@ -4,6 +4,7 @@ import { ResolvedPos } from '@tiptap/pm/model'
 export interface Trigger {
   char: string
   allowSpaces: boolean
+  allowToIncludeChar: boolean
   allowedPrefixes: string[] | null
   startOfLine: boolean
   $position: ResolvedPos
@@ -17,15 +18,22 @@ export type SuggestionMatch = {
 
 export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   const {
-    char, allowSpaces, allowedPrefixes, startOfLine, $position,
+    char, allowSpaces, allowToIncludeChar, allowedPrefixes, startOfLine, $position,
   } = config
+
+  if (allowSpaces && allowToIncludeChar) {
+    throw Error(
+      'You cannot use both `allowSpaces` and `allowToIncludeChar` options at the same time for suggestions',
+    )
+  }
 
   const escapedChar = escapeForRegEx(char)
   const suffix = new RegExp(`\\s${escapedChar}$`)
   const prefix = startOfLine ? '^' : ''
+  const finalEscapedChar = allowToIncludeChar ? '' : escapedChar
   const regexp = allowSpaces
-    ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
-    : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm')
+    ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${finalEscapedChar}|$)`, 'gm')
+    : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${finalEscapedChar}]*`, 'gm')
 
   const text = $position.nodeBefore?.isText && $position.nodeBefore.text
 
