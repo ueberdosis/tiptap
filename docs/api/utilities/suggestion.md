@@ -16,6 +16,11 @@ A ProseMirror PluginKey.
 
 Default: `SuggestionPluginKey`
 
+### allow
+This option could be used to conditionally disable suggestion
+
+Default: `({ editor, state, range }) => true`
+
 ### allowSpaces
 Allows or disallows spaces in suggested items.
 
