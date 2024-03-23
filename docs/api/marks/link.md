@@ -65,6 +65,14 @@ Link.configure({
 })
 ```
 
+If set to `'whenNotEditable'`, links will be opened on click only when editor is not editable.
+
+```js
+Link.configure({
+  openOnClick: 'whenNotEditable',
+})
+```
+
 ### linkOnPaste
 Adds a link to the current selection if the pasted content only contains an url.
 
