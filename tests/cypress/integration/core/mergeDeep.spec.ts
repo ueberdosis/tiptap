@@ -19,6 +19,21 @@ describe('mergeDeep', () => {
     expect(merged).to.deep.eq(result)
   })
 
+  it('should merge when source has null value', () => {
+    const one = {
+      a: null,
+    }
+    const two = {
+      a: { c: 3 },
+    }
+    const result = {
+      a: { c: 3 },
+    }
+    const merged = mergeDeep(one, two)
+
+    expect(merged).to.deep.eq(result)
+  })
+
   it('should not merge array', () => {
     const one = {
       a: [1],
