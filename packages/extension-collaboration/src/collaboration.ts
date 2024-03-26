@@ -7,8 +7,9 @@ import {
   yUndoPlugin,
   yUndoPluginKey,
 } from 'y-prosemirror'
-import type { YSyncOpts } from 'y-prosemirror/dist/src/plugins/sync-plugin'
 import { UndoManager } from 'yjs'
+
+type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
