@@ -41,4 +41,11 @@ context('/src/Commands/InsertContent/React/', () => {
       cy.get('.tiptap').should('contain.html', '<pre><code>foo\nbar</code></pre>')
     })
   })
+
+  it('should keep newlines and tabulators', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>')
+      cy.get('.tiptap').should('contain.html', '<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>')
+    })
+  })
 })
