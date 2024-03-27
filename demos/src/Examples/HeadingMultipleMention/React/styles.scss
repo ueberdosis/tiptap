@@ -1,0 +1,12 @@
+.tiptap {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+
+.mention,.page-link{
+  border: 1px solid #000;
+  border-radius: 0.4rem;
+  box-decoration-break: clone;
+  padding: 0.1rem 0.3rem;
+}
