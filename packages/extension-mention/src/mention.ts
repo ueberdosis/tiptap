@@ -26,7 +26,7 @@ export const Mention = Node.create<MentionOptions>({
       renderHTML({ options, node }) {
         return [
           'span',
-          this.HTMLAttributes,
+          mergeAttributes(this.HTMLAttributes, options.HTMLAttributes),
           `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
         ]
       },
@@ -131,8 +131,11 @@ export const Mention = Node.create<MentionOptions>({
         }),
       ]
     }
+    const mergedOptions = { ...this.options }
+
+    mergedOptions.HTMLAttributes = mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes)
     const html = this.options.renderHTML({
-      options: this.options,
+      options: mergedOptions,
       node,
     })
 
