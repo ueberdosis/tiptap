@@ -33,7 +33,11 @@ export function getTextBetween(
           range,
         })
       }
-    } else if (node.isText) {
+      // do not descend into child nodes when there exists a serializer
+      return false
+    }
+
+    if (node.isText) {
       text += node?.text?.slice(Math.max(from, pos) - pos, to - pos) // eslint-disable-line
       separated = false
     } else if (node.isBlock && !separated) {
