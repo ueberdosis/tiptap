@@ -7,7 +7,29 @@ import {
 } from '@tiptap/core'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { find } from 'linkifyjs'
+import { MultiToken, tokenize } from 'linkifyjs'
+
+/**
+ * Check if the provided tokens form a valid link structure, which can either be a single link token
+ * or a link token surrounded by parentheses or square brackets.
+ *
+ * This ensures that only complete and valid text is hyperlinked, preventing cases where a valid
+ * top-level domain (TLD) is immediately followed by an invalid character, like a number. For
+ * example, with the `find` method from Linkify, entering `example.com1` would result in
+ * `example.com` being linked and the trailing `1` left as plain text. By using the `tokenize`
+ * method, we can perform more comprehensive validation on the input text.
+ */
+function isValidLinkStructure(tokens: Array<ReturnType<MultiToken['toObject']>>) {
+  if (tokens.length === 1) {
+    return tokens[0].isLink
+  }
+
+  if (tokens.length === 3 && tokens[1].isLink) {
+    return ['()', '[]'].includes(tokens[0].value + tokens[2].value)
+  }
+
+  return false
+}
 
 type AutolinkOptions = {
   type: MarkType
@@ -77,7 +99,13 @@ export function autolink(options: AutolinkOptions): Plugin {
             return false
           }
 
-          find(lastWordBeforeSpace)
+          const linksBeforeSpace = tokenize(lastWordBeforeSpace).map(t => t.toObject())
+
+          if (!isValidLinkStructure(linksBeforeSpace)) {
+            return false
+          }
+
+          linksBeforeSpace
             .filter(link => link.isLink)
             // Calculate link position.
             .map(link => ({
