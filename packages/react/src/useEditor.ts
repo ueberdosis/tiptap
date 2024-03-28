@@ -8,8 +8,8 @@ import {
 
 import { Editor } from './Editor.js'
 
-export const useEditor = (options: Partial<EditorOptions> = {}, deps: DependencyList = []) => {
-  const editorRef = useRef<Editor | null>(null)
+const useEditorBase = (options: Partial<EditorOptions> = {}, deps: DependencyList = [], availableOnFirstRender = false) => {
+  const editorRef = useRef<Editor | null>(availableOnFirstRender ? new Editor(options) : null)
   const [, forceUpdate] = useState({})
 
   const {
@@ -123,4 +123,18 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   }, [])
 
   return editorRef.current
+}
+
+export const useEditor = (options: Partial<EditorOptions> = {}, deps: DependencyList = []): Editor | null => {
+  const editor = useEditorBase(options, deps)
+
+  return editor
+}
+
+// In case you want to render the editor immediately, you can use this hook.
+// Caution: Does not work with SSR.
+export const useEditorForImmediateRender = (options: Partial<EditorOptions> = {}, deps: DependencyList = []): Editor => {
+  const editor = useEditorBase(options, deps, true) as Editor
+
+  return editor
 }
