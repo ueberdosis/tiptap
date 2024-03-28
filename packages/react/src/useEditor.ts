@@ -9,7 +9,9 @@ import {
 import { Editor } from './Editor.js'
 
 export const useEditor = (options: Partial<EditorOptions> = {}, deps: DependencyList = []) => {
-  const editorRef = useRef<Editor | null>(null)
+  // if window is undefined (SSR), return the editor instance
+  // otherwise we can start with a null value
+  const editorRef = useRef<Editor | null>(typeof window === 'undefined' ? null : new Editor(options))
   const [, forceUpdate] = useState({})
 
   const {
@@ -99,7 +101,9 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   useEffect(() => {
     let isMounted = true
 
-    editorRef.current = new Editor(options)
+    if (!editorRef.current) {
+      editorRef.current = new Editor(options)
+    }
 
     editorRef.current.on('transaction', () => {
       requestAnimationFrame(() => {
