@@ -44,7 +44,8 @@ export default Extension.create({
     }
 
     function dragStart(e, view) {
-      view.composing = true
+      // Must delete this line, Otherwise: Uncaught TypeError: Cannot set property composing of #<EditorView> which has only a getter
+      // view.composing = true
 
       if (!e.dataTransfer) {
         return
@@ -75,6 +76,11 @@ export default Extension.create({
       }
     }
 
+    function dragEnd(e, view) {
+      // reset the dragging, otherwise wrong content after dragging across multi editors repeatedly
+      view.dragging = null
+    }
+
     let dropElement
     const WIDTH = 28
 
@@ -86,8 +92,10 @@ export default Extension.create({
           element.draggable = 'true'
           element.classList.add('global-drag-handle')
           element.addEventListener('dragstart', e => dragStart(e, editorView))
+          element.addEventListener('dragend', e => dragEnd(e, editorView))
           dropElement = element
-          document.body.appendChild(dropElement)
+          // append to editor's parentNode (not document.body), to match the logic of dragging across multi editors in pasteRule.ts
+          editorView.dom.parentNode.appendChild(dropElement)
 
           return {
             // update(view, prevState) {

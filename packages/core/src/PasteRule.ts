@@ -154,6 +154,9 @@ function run(config: {
   return success
 }
 
+// When dragging across editors, must get another editor instance to delete selection content.
+let tiptapDragFromOtherEditor: Editor | null = null
+
 /**
  * Create an paste rules plugin. When enabled, it will cause pasted
  * text that matches any of the given rules to trigger the rule’s
@@ -175,13 +178,25 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
           dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
             ? view.dom.parentElement
             : null
+
+          if (dragSourceElement) {
+            tiptapDragFromOtherEditor = editor
+          }
+        }
+
+        const handleDragend = () => {
+          if (tiptapDragFromOtherEditor) {
+            tiptapDragFromOtherEditor = null
+          }
         }
 
         window.addEventListener('dragstart', handleDragstart)
+        window.addEventListener('dragend', handleDragend)
 
         return {
           destroy() {
             window.removeEventListener('dragstart', handleDragstart)
+            window.removeEventListener('dragend', handleDragend)
           },
         }
       },
@@ -192,6 +207,20 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
             dropEvent = event as DragEvent
 
+            if (!isDroppedFromProseMirror) {
+              const dragFromOtherEditor = tiptapDragFromOtherEditor
+
+              if (dragFromOtherEditor) {
+                // setTimeout to avoid the wrong content after drop, timeout arg can't be empty or 0
+                setTimeout(() => {
+                  const selection = dragFromOtherEditor.state.selection
+
+                  if (selection) {
+                    dragFromOtherEditor.commands.deleteRange({ from: selection.from, to: selection.to })
+                  }
+                }, 10)
+              }
+            }
             return false
           },
 

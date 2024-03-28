@@ -31,6 +31,7 @@
 import Bold from '@tiptap/extension-bold'
 import Collaboration from '@tiptap/extension-collaboration'
 import Document from '@tiptap/extension-document'
+import DropCursor from '@tiptap/extension-dropcursor'
 import Paragraph from '@tiptap/extension-paragraph'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
@@ -71,6 +72,8 @@ export default {
         ParagraphDocument,
         Paragraph,
         Text,
+        Bold,
+        DropCursor,
         Collaboration.configure({
           document: this.ydoc,
           field: 'title',
@@ -84,6 +87,8 @@ export default {
         TaskListDocument,
         Paragraph,
         Text,
+        Bold,
+        DropCursor,
         TaskList,
         CustomTaskItem,
         Collaboration.configure({
@@ -106,6 +111,7 @@ export default {
         Paragraph,
         Text,
         Bold,
+        DropCursor,
         Collaboration.configure({
           document: this.ydoc,
           field: 'description',
