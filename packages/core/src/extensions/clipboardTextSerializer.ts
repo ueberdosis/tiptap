@@ -7,6 +7,12 @@ import { getTextSerializersFromSchema } from '../helpers/getTextSerializersFromS
 export const ClipboardTextSerializer = Extension.create({
   name: 'clipboardTextSerializer',
 
+  addOptions() {
+    return {
+      blockSeparator: undefined,
+    }
+  },
+
   addProseMirrorPlugins() {
     return [
       new Plugin({
@@ -23,6 +29,7 @@ export const ClipboardTextSerializer = Extension.create({
             const range = { from, to }
 
             return getTextBetween(doc, range, {
+              ...(this.options.blockSeparator !== undefined ? { blockSeparator: this.options.blockSeparator } : {}),
               textSerializers,
             })
           },
