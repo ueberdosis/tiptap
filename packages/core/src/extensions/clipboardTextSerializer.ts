@@ -29,7 +29,9 @@ export const ClipboardTextSerializer = Extension.create({
             const range = { from, to }
 
             return getTextBetween(doc, range, {
-              ...(this.options.blockSeparator !== undefined ? { blockSeparator: this.options.blockSeparator } : {}),
+              ...(this.options.blockSeparator !== undefined
+                ? { blockSeparator: this.options.blockSeparator }
+                : {}),
               textSerializers,
             })
           },
