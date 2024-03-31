@@ -73,6 +73,16 @@ context('/src/Marks/Link/Vue/', () => {
       .should('have.attr', 'href', 'https://tiptap4u.com')
   })
 
+  it('uses the default protocol', () => {
+    cy.get('.tiptap').type('example.com ').find('a').should('contain', 'example.com')
+      .should('have.attr', 'href', 'https://example.com')
+  })
+
+  it('uses a non-default protocol if present', () => {
+    cy.get('.tiptap').type('http://example.com ').find('a').should('contain', 'http://example.com')
+      .should('have.attr', 'href', 'http://example.com')
+  })
+
   it('detects a pasted URL with query params', () => {
     cy.get('.tiptap')
       .type('{backspace}')

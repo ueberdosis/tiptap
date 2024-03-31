@@ -25,6 +25,11 @@ export interface LinkOptions {
    */
   protocols: Array<LinkProtocolOptions | string>
   /**
+   * Default protocol to use when no protocol is specified.
+   * @default 'http'
+   */
+  defaultProtocol: string
+  /**
    * If enabled, links will be opened on click.
    */
   openOnClick: boolean | 'whenNotEditable'
@@ -94,6 +99,7 @@ export const Link = Mark.create<LinkOptions>({
       linkOnPaste: true,
       autolink: true,
       protocols: [],
+      defaultProtocol: 'http',
       HTMLAttributes: {
         target: '_blank',
         rel: 'noopener noreferrer nofollow',
@@ -198,6 +204,7 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         autolink({
           type: this.type,
+          defaultProtocol: this.options.defaultProtocol,
           validate: this.options.validate,
         }),
       )
@@ -216,6 +223,7 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         pasteHandler({
           editor: this.editor,
+          defaultProtocol: this.options.defaultProtocol,
           type: this.type,
         }),
       )
