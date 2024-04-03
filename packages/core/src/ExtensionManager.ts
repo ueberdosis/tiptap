@@ -213,9 +213,6 @@ export class ExtensionManager {
     // based on the `priority` option.
     const extensions = ExtensionManager.sort([...this.extensions].reverse())
 
-    const inputRules: any[] = []
-    const pasteRules: any[] = []
-
     const allPlugins = extensions
       .map(extension => {
         const context = {
@@ -262,7 +259,12 @@ export class ExtensionManager {
         )
 
         if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
-          inputRules.push(...addInputRules())
+          plugins.push(
+            inputRulesPlugin({
+              editor,
+              rules: addInputRules(),
+            }),
+          )
         }
 
         const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(
@@ -272,7 +274,12 @@ export class ExtensionManager {
         )
 
         if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
-          pasteRules.push(...addPasteRules())
+          plugins.push(
+            ...pasteRulesPlugin({
+              editor,
+              rules: addPasteRules(),
+            }),
+          )
         }
 
         const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
@@ -291,17 +298,7 @@ export class ExtensionManager {
       })
       .flat()
 
-    return [
-      inputRulesPlugin({
-        editor,
-        rules: inputRules,
-      }),
-      ...pasteRulesPlugin({
-        editor,
-        rules: pasteRules,
-      }),
-      ...allPlugins,
-    ]
+    return allPlugins
   }
 
   get attributes() {
