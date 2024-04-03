@@ -213,6 +213,10 @@ export class ExtensionManager {
     // based on the `priority` option.
     const extensions = ExtensionManager.sort([...this.extensions].reverse())
 
+    const defaultPriorityInputRules: any[] = []
+
+    const highPriorityPlugins: Plugin[] = []
+
     const allPlugins = extensions
       .map(extension => {
         const context = {
@@ -224,6 +228,8 @@ export class ExtensionManager {
         }
 
         const plugins: Plugin[] = []
+
+        const priority = getExtensionField<AnyConfig['priority']>(extension, 'priority')
 
         const addKeyboardShortcuts = getExtensionField<AnyConfig['addKeyboardShortcuts']>(
           extension,
@@ -259,12 +265,18 @@ export class ExtensionManager {
         )
 
         if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
-          plugins.push(
-            inputRulesPlugin({
-              editor,
-              rules: addInputRules(),
-            }),
-          )
+          if (priority && priority > 100) {
+            // Create an own plugin for input rules with a higher priority
+            highPriorityPlugins.push(
+              inputRulesPlugin({
+                editor,
+                rules: addInputRules(),
+              }),
+            )
+          } else {
+            // … otherwise add them to the default priority input rules array and create a plugin for them later
+            defaultPriorityInputRules.push(...addInputRules())
+          }
         }
 
         const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(
@@ -274,12 +286,16 @@ export class ExtensionManager {
         )
 
         if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
-          plugins.push(
-            ...pasteRulesPlugin({
-              editor,
-              rules: addPasteRules(),
-            }),
-          )
+          const plugin = pasteRulesPlugin({
+            editor,
+            rules: addPasteRules(),
+          })
+
+          if (priority && priority > 100) {
+            highPriorityPlugins.push(...plugin)
+          } else {
+            plugins.push(...plugin)
+          }
         }
 
         const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
@@ -291,14 +307,28 @@ export class ExtensionManager {
         if (addProseMirrorPlugins) {
           const proseMirrorPlugins = addProseMirrorPlugins()
 
-          plugins.push(...proseMirrorPlugins)
+          if (priority && priority > 100) {
+            highPriorityPlugins.push(...proseMirrorPlugins)
+          } else {
+            plugins.push(...proseMirrorPlugins)
+          }
         }
 
         return plugins
       })
       .flat()
 
-    return allPlugins
+    return [
+      // "Priority > 100" plugins
+      ...highPriorityPlugins,
+      // inputRulePlugin for extensions with default priority
+      inputRulesPlugin({
+        editor,
+        rules: defaultPriorityInputRules,
+      }),
+      // Other plugins with default priority
+      ...allPlugins,
+    ]
   }
 
   get attributes() {
