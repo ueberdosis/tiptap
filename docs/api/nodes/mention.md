@@ -61,7 +61,7 @@ Mention.configure({
   renderHTML({ options, node }) {
     return [
       "a",
-      { href: '/profile/1' },
+      mergeAttributes({ href: '/profile/1' }, options.HTMLAttributes),
       `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
       ];
   }
