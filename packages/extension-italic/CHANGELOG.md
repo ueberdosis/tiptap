@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
+
+
+### Bug Fixes
+
+* Disallow only whitespace between markdown shortcuts delimiters ([#4866](https://github.com/ueberdosis/tiptap/issues/4866)) ([aa029fe](https://github.com/ueberdosis/tiptap/commit/aa029fe2242aeadc38555b2832df6ae1614c7d1d))
+
+
+
+
+
+## [2.2.4](https://github.com/ueberdosis/tiptap/compare/v2.2.3...v2.2.4) (2024-02-23)
+
+**Note:** Version bump only for package @tiptap/extension-italic
+
+
+
+
+
+## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
+
+**Note:** Version bump only for package @tiptap/extension-italic
+
+
+
+
+
 ## [2.2.2](https://github.com/ueberdosis/tiptap/compare/v2.2.1...v2.2.2) (2024-02-07)
 
 **Note:** Version bump only for package @tiptap/extension-italic

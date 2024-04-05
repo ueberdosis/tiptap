@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
+## [2.2.4](https://github.com/ueberdosis/tiptap/compare/v2.2.3...v2.2.4) (2024-02-23)
+
+
+### Bug Fixes
+
+* typecheck drag and clipboard events for testing environments ([bbee9a3](https://github.com/ueberdosis/tiptap/commit/bbee9a3c3090fa40bf366591682b42a3f6ec5f91))
+
+
+
+
+
+## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
+
+**Note:** Version bump only for package @tiptap/core
+
+
+
+
+
 ## [2.2.2](https://github.com/ueberdosis/tiptap/compare/v2.2.1...v2.2.2) (2024-02-07)
 
 **Note:** Version bump only for package @tiptap/core

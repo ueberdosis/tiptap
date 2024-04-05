@@ -291,6 +291,9 @@
               link: /api/extensions/bubble-menu
             - title: CharacterCount
               link: /api/extensions/character-count
+            - title: Comments
+              link: /api/extensions/comments
+              type: beta
             - title: Collaboration
               link: /api/extensions/collaboration
             - title: CollaborationCursor
@@ -333,7 +336,8 @@
               link: /api/extensions/unique-id
               type: pro
         - title: Utilities
-          link: /api/utilities
+          link: /api/utilities/
+          redirect: /api/utilities/html
           items:
             - title: HTML
               link: /api/utilities/html
@@ -341,7 +345,6 @@
               link: /api/utilities/suggestion
             - title: Tiptap for PHP
               link: /api/utilities/tiptap-php
-              type: new
         - title: Keyboard shortcuts
           link: /api/keyboard-shortcuts
         - title: Schema
@@ -383,26 +386,60 @@
         - title: Upgrade Editor to v2
           link: /overview/upgrade-guide
 
+- title: Comments
+  type: beta
+  items:
+    - title: Overview
+      link: /comments/overview
+    - title: Getting started
+      link: /comments/getting-started
+    - title: Managing threads
+      link: /comments/managing-threads
+    - title: Styling threads
+      link: /comments/styling-threads
+    - title: Editor API
+      link: /comments/api
+    - title: REST API
+      link: /comments/rest-api
+    - title: Webhook
+      link: /comments/webhook
+    - title: Configuration
+      link: /comments/configuration
+
 - title: Collaboration
   items:
-    - title: Getting started
-      link: /collaboration/introduction
-      items:
-        - title: Introduction
-          link: /collaboration/introduction
-        - title: Getting started
-          link: /collaboration/getting-started
-    - title: Management API
-      link: /collaboration/management-api
+    - title: Overview
+      link: /collaboration/overview
+    - title: Install
+      link: /collaboration/install
+    - title: Authenticate
+      link: /collaboration/authenticate
+    - title: Provider
+      link: /collaboration/provider
+    - title: Events
+      link: /collaboration/events
+    - title: Awareness
+      link: /collaboration/awareness
+    - title: Configure
+      link: /collaboration/configure
+    - title: Document API
+      link: /collaboration/document-api
+    - title: Document Manipulation
+      link: /collaboration/backend-document-manipulation
+      type: beta
     - title: Webhook
       link: /collaboration/webhook
     - title: Guides
       link: /collaboration/guides
       items:
-        - title: Simple collaboration app
-          link: /collaboration/guides/simple-collaboration-app
         - title: JWT Authentication
           link: /collaboration/guides/jwt-authentication
+        - title: Naming documents
+          link: /collaboration/guides/naming-documents
+        - title: Offline support
+          link: /collaboration/guides/offline-support
+        - title: Simple collaboration app
+          link: /collaboration/guides/simple-collaboration-app
 
 - title: Content AI
   items:
