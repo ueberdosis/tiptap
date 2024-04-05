@@ -86,7 +86,7 @@ export const registeredTrademark = (override?: string) => textInputRule({
 })
 
 export const oneHalf = (override?: string) => textInputRule({
-  find: /(?:^|\s)(1\/2)$/,
+  find: /(?:^|\s)(1\/2)\s$/,
   replace: override ?? '½',
 })
 
@@ -126,12 +126,12 @@ export const superscriptThree = (override?: string) => textInputRule({
 })
 
 export const oneQuarter = (override?: string) => textInputRule({
-  find: /(?:^|\s)(1\/4)$/,
+  find: /(?:^|\s)(1\/4)\s$/,
   replace: override ?? '¼',
 })
 
 export const threeQuarters = (override?: string) => textInputRule({
-  find: /(?:^|\s)(3\/4)$/,
+  find: /(?:^|\s)(3\/4)\s$/,
   replace: override ?? '¾',
 })
 

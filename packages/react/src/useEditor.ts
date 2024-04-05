@@ -8,16 +8,9 @@ import {
 
 import { Editor } from './Editor.js'
 
-function useForceUpdate() {
-  const [, setValue] = useState(0)
-
-  return () => setValue(value => value + 1)
-}
-
 export const useEditor = (options: Partial<EditorOptions> = {}, deps: DependencyList = []) => {
-  const [editor, setEditor] = useState<Editor | null>(null)
-
-  const forceUpdate = useForceUpdate()
+  const editorRef = useRef<Editor | null>(null)
+  const [, forceUpdate] = useState({})
 
   const {
     onBeforeCreate,
@@ -42,58 +35,66 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   // This effect will handle updating the editor instance
   // when the event handlers change.
   useEffect(() => {
-    if (!editor) {
+    if (!editorRef.current) {
       return
     }
 
     if (onBeforeCreate) {
-      editor.off('beforeCreate', onBeforeCreateRef.current)
-      editor.on('beforeCreate', onBeforeCreate)
+      editorRef.current.off('beforeCreate', onBeforeCreateRef.current)
+      editorRef.current.on('beforeCreate', onBeforeCreate)
+
       onBeforeCreateRef.current = onBeforeCreate
     }
 
     if (onBlur) {
-      editor.off('blur', onBlurRef.current)
-      editor.on('blur', onBlur)
+      editorRef.current.off('blur', onBlurRef.current)
+      editorRef.current.on('blur', onBlur)
+
       onBlurRef.current = onBlur
     }
 
     if (onCreate) {
-      editor.off('create', onCreateRef.current)
-      editor.on('create', onCreate)
+      editorRef.current.off('create', onCreateRef.current)
+      editorRef.current.on('create', onCreate)
+
       onCreateRef.current = onCreate
     }
 
     if (onDestroy) {
-      editor.off('destroy', onDestroyRef.current)
-      editor.on('destroy', onDestroy)
+      editorRef.current.off('destroy', onDestroyRef.current)
+      editorRef.current.on('destroy', onDestroy)
+
       onDestroyRef.current = onDestroy
     }
 
     if (onFocus) {
-      editor.off('focus', onFocusRef.current)
-      editor.on('focus', onFocus)
+      editorRef.current.off('focus', onFocusRef.current)
+      editorRef.current.on('focus', onFocus)
+
       onFocusRef.current = onFocus
     }
 
     if (onSelectionUpdate) {
-      editor.off('selectionUpdate', onSelectionUpdateRef.current)
-      editor.on('selectionUpdate', onSelectionUpdate)
+      editorRef.current.off('selectionUpdate', onSelectionUpdateRef.current)
+      editorRef.current.on('selectionUpdate', onSelectionUpdate)
+
       onSelectionUpdateRef.current = onSelectionUpdate
     }
 
     if (onTransaction) {
-      editor.off('transaction', onTransactionRef.current)
-      editor.on('transaction', onTransaction)
+      editorRef.current.off('transaction', onTransactionRef.current)
+      editorRef.current.on('transaction', onTransaction)
+
       onTransactionRef.current = onTransaction
     }
 
     if (onUpdate) {
-      editor.off('update', onUpdateRef.current)
-      editor.on('update', onUpdate)
+      editorRef.current.off('update', onUpdateRef.current)
+      editorRef.current.on('update', onUpdate)
+
       onUpdateRef.current = onUpdate
     }
-  }, [onBeforeCreate, onBlur, onCreate, onDestroy, onFocus, onSelectionUpdate, onTransaction, onUpdate, editor])
+  }, [onBeforeCreate, onBlur, onCreate, onDestroy, onFocus, onSelectionUpdate, onTransaction, onUpdate, editorRef.current])
 
   useEffect(() => {
     let isMounted = true
@@ -101,22 +102,20 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     // if the editor does not exist yet, create a new
     // editor instance
     // if the editor does exist, update the editor options accordingly
-    if (!editor) {
-      const instance = new Editor(options)
+    if (!editorRef.current) {
+      editorRef.current = new Editor(options)
 
-      setEditor(instance)
-
-      instance.on('transaction', () => {
+      editorRef.current.on('transaction', () => {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             if (isMounted) {
-              forceUpdate()
+              forceUpdate({})
             }
           })
         })
       })
     } else {
-      editor.setOptions(options)
+      editorRef.current.setOptions(options)
     }
 
     return () => {
@@ -126,9 +125,9 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
 
   useEffect(() => {
     return () => {
-      editor?.destroy()
+      return editorRef.current?.destroy()
     }
-  }, [editor])
+  }, [])
 
-  return editor
+  return editorRef.current
 }

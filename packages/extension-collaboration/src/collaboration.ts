@@ -9,6 +9,8 @@ import {
 } from 'y-prosemirror'
 import { UndoManager } from 'yjs'
 
+type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     collaboration: {
@@ -41,6 +43,8 @@ export interface CollaborationOptions {
    * Fired when the content from Yjs is initially rendered to Tiptap.
    */
   onFirstRender?: () => void,
+
+  ySyncOptions?: YSyncOpts
 }
 
 export const Collaboration = Extension.create<CollaborationOptions>({
@@ -124,7 +128,7 @@ export const Collaboration = Extension.create<CollaborationOptions>({
         undoManager.restore = () => {}
       }
 
-      const viewRet = originalUndoPluginView(view)
+      const viewRet = originalUndoPluginView ? originalUndoPluginView(view) : undefined
 
       return {
         destroy: () => {
@@ -142,11 +146,20 @@ export const Collaboration = Extension.create<CollaborationOptions>({
             undoManager._observers = observers
           }
 
-          viewRet.destroy()
+          if (viewRet?.destroy) {
+            viewRet.destroy()
+          }
         },
       }
     }
 
-    return [ySyncPlugin(fragment), yUndoPluginInstance]
+    const ySyncPluginOptions: YSyncOpts = {
+      ...(this.options.ySyncOptions ? { ...this.options.ySyncOptions } : {}),
+      ...(this.options.onFirstRender ? { ...this.options.onFirstRender } : {}),
+    }
+
+    const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
+
+    return [ySyncPluginInstance, yUndoPluginInstance]
   },
 })

@@ -26,6 +26,10 @@ export function getMarksBetween(from: number, to: number, doc: ProseMirrorNode):
       })
   } else {
     doc.nodesBetween(from, to, (node, pos) => {
+      if (!node || node?.nodeSize === undefined) {
+        return
+      }
+
       marks.push(
         ...node.marks.map(mark => ({
           from: pos,
