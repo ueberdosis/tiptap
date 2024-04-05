@@ -122,7 +122,7 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     return () => {
       isMounted = false
     }
-  }, [deps])
+  }, deps)
 
   useEffect(() => {
     return () => {
