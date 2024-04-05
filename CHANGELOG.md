@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
+
+
+### Bug Fixes
+
+* Disallow only whitespace between markdown shortcuts delimiters ([#4866](https://github.com/ueberdosis/tiptap/issues/4866)) ([aa029fe](https://github.com/ueberdosis/tiptap/commit/aa029fe2242aeadc38555b2832df6ae1614c7d1d))
+* **extension-link:** Avoid auto-linking partial text for invalid TLDs ([#4865](https://github.com/ueberdosis/tiptap/issues/4865)) ([4474d05](https://github.com/ueberdosis/tiptap/commit/4474d056daf9280ebb10b31f98bb000e953132e5))
+
+
+
+
+
 ## [2.2.4](https://github.com/ueberdosis/tiptap/compare/v2.2.3...v2.2.4) (2024-02-23)
 
 
