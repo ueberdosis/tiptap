@@ -280,7 +280,7 @@ export class ExtensionManager {
   }
 
   /**
-   * Map through all extensions, create extension storages & setup marks
+   * Go through all extensions, create extension storages & setup marks
    * & bind editor event listener.
    */
   private setupExtensions() {
