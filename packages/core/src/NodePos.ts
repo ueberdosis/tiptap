@@ -136,7 +136,7 @@ export class NodePos {
     this.node.content.forEach((node, offset) => {
       const isBlock = node.isBlock && !node.isTextblock
 
-      const targetPos = this.pos + offset + (isBlock ? 0 : 1)
+      const targetPos = this.pos + offset + 1
       const $pos = this.resolvedPos.doc.resolve(targetPos)
 
       if (!isBlock && $pos.depth <= this.depth) {
@@ -201,7 +201,7 @@ export class NodePos {
     let nodes: NodePos[] = []
 
     // iterate through children recursively finding all nodes which match the selector with the node name
-    if (this.isBlock || !this.children || this.children.length === 0) {
+    if (!this.children || this.children.length === 0) {
       return nodes
     }
 
