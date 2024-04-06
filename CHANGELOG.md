@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.6](https://github.com/ueberdosis/tiptap/compare/v2.2.5...v2.2.6) (2024-04-06)
+
+
+### Bug Fixes
+
+* unexpected renderText() for contentful nodes ([#3410](https://github.com/ueberdosis/tiptap/issues/3410)) ([d6c71a8](https://github.com/ueberdosis/tiptap/commit/d6c71a838d590f78fdff15c805d93f43c8a5a1a5))
+
+
+
+
+
 ## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
 
 
