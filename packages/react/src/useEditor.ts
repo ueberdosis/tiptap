@@ -100,6 +100,7 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     let isMounted = true
 
     const editor = new Editor(options)
+
     editorRef.current = editor
 
     editorRef.current.on('transaction', () => {
