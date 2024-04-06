@@ -99,7 +99,7 @@ export function Suggestion<I = any>({
             text: state.text,
             items: [],
             command: commandProps => {
-              command({
+              return command({
                 editor,
                 range: state.range,
                 props: commandProps,
