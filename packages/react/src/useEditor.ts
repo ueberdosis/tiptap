@@ -99,7 +99,8 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   useEffect(() => {
     let isMounted = true
 
-    editorRef.current = new Editor(options)
+    const editor = new Editor(options)
+    editorRef.current = editor
 
     editorRef.current.on('transaction', () => {
       requestAnimationFrame(() => {
@@ -113,14 +114,9 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
 
     return () => {
       isMounted = false
+      editor.destroy()
     }
   }, deps)
-
-  useEffect(() => {
-    return () => {
-      return editorRef.current?.destroy()
-    }
-  }, [])
 
   return editorRef.current
 }
