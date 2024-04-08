@@ -1,6 +1,6 @@
 {
   "name": "tiptap-demos",
-  "version": "2.1.16",
+  "version": "2.2.6",
   "private": true,
   "scripts": {
     "start": "vite --host",
@@ -9,7 +9,7 @@
     "ts": "tsc --project tsconfig.base.json --noEmit && tsc --project tsconfig.react.json --noEmit && tsc --project tsconfig.vue-2.json --noEmit && tsc --project tsconfig.vue-3.json --noEmit"
   },
   "dependencies": {
-    "@hocuspocus/provider": "^2.0.1",
+    "@hocuspocus/provider": "^2.9.0",
     "@lexical/react": "^0.11.1",
     "d3": "^7.3.0",
     "fast-glob": "^3.2.11",
@@ -19,9 +19,9 @@
     "remixicon": "^2.5.0",
     "shiki": "^0.10.0",
     "simplify-js": "^1.2.4",
-    "y-prosemirror": "1.0.20",
-    "y-webrtc": "^10.2.5",
-    "yjs": "^13.5.39"
+    "y-prosemirror": "^1.2.2",
+    "y-webrtc": "^10.3.0",
+    "yjs": "^13.6.11"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.49",
@@ -30,8 +30,9 @@
     "@vitejs/plugin-vue": "^1.10.2",
     "autoprefixer": "^10.4.2",
     "iframe-resizer": "^4.3.2",
-    "postcss": "^8.4.6",
+    "postcss": "^8.4.31",
     "postcss-import": "^15.1.0",
+    "prosemirror-dev-tools": "^4.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "sass": "^1.49.7",
@@ -39,7 +40,7 @@
     "tailwindcss": "^3.3.2",
     "typescript": "4.7.4",
     "uuid": "^8.3.2",
-    "vite": "^2.9.16",
+    "vite": "^2.9.18",
     "vite-plugin-checker": "^0.3.4",
     "vue": "^3.0.5",
     "vue-router": "^4.0.11"

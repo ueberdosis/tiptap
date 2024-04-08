@@ -83,7 +83,7 @@ Youtube.configure({
 ```
 
 ### autoplay
-Allows the iframe to to start playing after the player is loaded
+Allows the iframe to start playing after the player is loaded
 
 Default: `false`
 

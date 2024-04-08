@@ -124,7 +124,7 @@ export const Collaboration = Extension.create<CollaborationOptions>({
         undoManager.restore = () => {}
       }
 
-      const viewRet = originalUndoPluginView ? originalUndoPluginView(view) : null
+      const viewRet = originalUndoPluginView ? originalUndoPluginView(view) : undefined
 
       return {
         destroy: () => {
@@ -142,13 +142,17 @@ export const Collaboration = Extension.create<CollaborationOptions>({
             undoManager._observers = observers
           }
 
-          if (viewRet && viewRet.destroy) {
+          if (viewRet?.destroy) {
             viewRet.destroy()
           }
         },
       }
     }
 
-    return [ySyncPlugin(fragment), yUndoPluginInstance]
+    const onFirstRender = this.options.onFirstRender
+    const ySyncPluginOptions = onFirstRender ? { onFirstRender } : {}
+    const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
+
+    return [ySyncPluginInstance, yUndoPluginInstance]
   },
 })

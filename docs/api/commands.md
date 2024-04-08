@@ -181,7 +181,7 @@ editor.first(({ commands }) => [
 ])
 ```
 
-Inside of commands you can do the same thing like that:
+Inside of commands you can do the same thing:
 
 ```js
 export default () => ({ commands }) => {

@@ -162,27 +162,8 @@ export const Link = Mark.create<LinkOptions>({
   addPasteRules() {
     return [
       markPasteRule({
-        find: (text, event) => {
-          const html = event?.clipboardData?.getData('text/html')
-
+        find: text => {
           const foundLinks: PasteRuleMatch[] = []
-
-          if (html) {
-            const dom = new DOMParser().parseFromString(html, 'text/html')
-            const anchors = dom.querySelectorAll('a')
-
-            if (anchors.length) {
-              [...anchors].forEach(anchor => (foundLinks.push({
-                text: anchor.innerText,
-                data: {
-                  href: anchor.getAttribute('href'),
-                },
-                // get the index of the anchor inside the text
-                // and add the length of the anchor text
-                index: dom.body.innerText.indexOf(anchor.innerText) + anchor.innerText.length,
-              })))
-            }
-          }
 
           if (text) {
             const links = find(text).filter(item => item.isLink)

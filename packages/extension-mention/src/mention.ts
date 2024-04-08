@@ -1,11 +1,15 @@
 import { mergeAttributes, Node } from '@tiptap/core'
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { PluginKey } from '@tiptap/pm/state'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
 export type MentionOptions = {
   HTMLAttributes: Record<string, any>
-  renderLabel: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
+  /** @deprecated use renderText and renderHTML instead  */
+  renderLabel?: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
+  renderText: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
+  renderHTML: (props: { options: MentionOptions; node: ProseMirrorNode }) => DOMOutputSpec
+  deleteTriggerWithBackspace: boolean
   suggestion: Omit<SuggestionOptions, 'editor'>
 }
 
@@ -17,8 +21,16 @@ export const Mention = Node.create<MentionOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
-      renderLabel({ options, node }) {
+      renderText({ options, node }) {
         return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
+      },
+      deleteTriggerWithBackspace: false,
+      renderHTML({ options, node }) {
+        return [
+          'span',
+          mergeAttributes(this.HTMLAttributes, options.HTMLAttributes),
+          `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
+        ]
       },
       suggestion: {
         char: '@',
@@ -110,18 +122,44 @@ export const Mention = Node.create<MentionOptions>({
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    return [
-      'span',
-      mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
-      this.options.renderLabel({
-        options: this.options,
-        node,
-      }),
-    ]
+    if (this.options.renderLabel !== undefined) {
+      console.warn('renderLabel is deprecated use renderText and renderHTML instead')
+      return [
+        'span',
+        mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
+        this.options.renderLabel({
+          options: this.options,
+          node,
+        }),
+      ]
+    }
+    const mergedOptions = { ...this.options }
+
+    mergedOptions.HTMLAttributes = mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes)
+    const html = this.options.renderHTML({
+      options: mergedOptions,
+      node,
+    })
+
+    if (typeof html === 'string') {
+      return [
+        'span',
+        mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
+        html,
+      ]
+    }
+    return html
   },
 
   renderText({ node }) {
-    return this.options.renderLabel({
+    if (this.options.renderLabel !== undefined) {
+      console.warn('renderLabel is deprecated use renderText and renderHTML instead')
+      return this.options.renderLabel({
+        options: this.options,
+        node,
+      })
+    }
+    return this.options.renderText({
       options: this.options,
       node,
     })
@@ -141,7 +179,11 @@ export const Mention = Node.create<MentionOptions>({
         state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
           if (node.type.name === this.name) {
             isMention = true
-            tr.insertText(this.options.suggestion.char || '', pos, pos + node.nodeSize)
+            tr.insertText(
+              this.options.deleteTriggerWithBackspace ? '' : this.options.suggestion.char || '',
+              pos,
+              pos + node.nodeSize,
+            )
 
             return false
           }
