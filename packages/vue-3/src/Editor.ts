@@ -7,9 +7,10 @@ import {
   markRaw,
   reactive,
   Ref,
+  RendererElement,
+  RendererNode,
+  VNode,
 } from 'vue'
-
-import { VueRenderer } from './VueRenderer.js'
 
 function useDebouncedRef<T>(value: T) {
   return customRef<T>((track, trigger) => {
@@ -42,7 +43,9 @@ export class Editor extends CoreEditor {
 
   private reactiveExtensionStorage: Ref<Record<string, any>>
 
-  public vueRenderers = reactive<Map<string, VueRenderer>>(new Map())
+  public vueRenderers = reactive<Map<string, VNode<RendererNode, RendererElement, {
+    [key: string]: any;
+}>>>(new Map())
 
   public contentComponent: ContentComponent | null = null
 

@@ -1,11 +1,27 @@
 import { Editor } from '@tiptap/core'
-import { Component, markRaw, reactive } from 'vue'
+import {
+  Component, DefineComponent, h, markRaw, reactive, Teleport,
+} from 'vue'
 
 import { Editor as ExtendedEditor } from './Editor.js'
 
 export interface VueRendererOptions {
   editor: Editor,
   props?: Record<string, any>,
+}
+
+const nodeRenderer = (node: VueRenderer) => {
+  return h(
+    Teleport,
+    {
+      to: node.teleportElement,
+      key: node.id,
+    },
+    h(node.component as DefineComponent, {
+      ref: node.id,
+      ...node.props,
+    }),
+  )
 }
 
 export class VueRenderer {
@@ -28,7 +44,10 @@ export class VueRenderer {
     this.teleportElement = document.createElement('div')
     this.element = this.teleportElement
     this.props = reactive(props)
-    this.editor.vueRenderers.set(this.id, this)
+
+    const nodeRendered = nodeRenderer(this)
+
+    this.editor.vueRenderers.set(this.id, nodeRendered)
 
     if (this.editor.contentComponent) {
       this.editor.contentComponent.update()

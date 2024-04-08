@@ -1,5 +1,4 @@
 import {
-  DefineComponent,
   defineComponent,
   getCurrentInstance,
   h,
@@ -8,7 +7,6 @@ import {
   PropType,
   Ref,
   ref,
-  Teleport,
   unref,
   watchEffect,
 } from 'vue'
@@ -91,22 +89,7 @@ export const EditorContent = defineComponent({
 
     if (this.editor) {
       this.editor.vueRenderers.forEach(vueRenderer => {
-        const node = h(
-          Teleport,
-          {
-            to: vueRenderer.teleportElement,
-            key: vueRenderer.id,
-          },
-          h(
-            vueRenderer.component as DefineComponent,
-            {
-              ref: vueRenderer.id,
-              ...vueRenderer.props,
-            },
-          ),
-        )
-
-        vueRenderers.push(node)
+        vueRenderers.push(vueRenderer)
       })
     }
 
