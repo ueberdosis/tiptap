@@ -9,7 +9,9 @@ import { EditorView } from '@tiptap/pm/view'
 import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
-import * as extensions from './extensions/index.js'
+import {
+  ClipboardTextSerializer, Commands, Editable, FocusEvents, Keymap, Tabindex,
+} from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
@@ -32,7 +34,7 @@ import {
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
 
-export { extensions }
+export * as extensions from './extensions/index.js'
 
 export interface HTMLElement {
   editor?: Editor
@@ -63,6 +65,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     editable: true,
     editorProps: {},
     parseOptions: {},
+    coreExtensionOptions: {},
     enableInputRules: true,
     enablePasteRules: true,
     enableCoreExtensions: true,
@@ -235,7 +238,17 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates an extension manager.
    */
   private createExtensionManager(): void {
-    const coreExtensions = this.options.enableCoreExtensions ? Object.values(extensions) : []
+
+    const coreExtensions = this.options.enableCoreExtensions ? [
+      Editable,
+      ClipboardTextSerializer.configure({
+        blockSeparator: this.options.coreExtensionOptions?.clipboardTextSerializer?.blockSeparator,
+      }),
+      Commands,
+      FocusEvents,
+      Keymap,
+      Tabindex,
+    ] : []
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
