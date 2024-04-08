@@ -27,7 +27,7 @@ export interface LinkOptions {
   /**
    * If enabled, links will be opened on click.
    */
-  openOnClick: boolean
+  openOnClick: boolean | 'whenNotEditable'
   /**
    * Adds a link to the current selection if the pasted content only contains an url.
    */
@@ -207,6 +207,7 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
+          whenNotEditable: this.options.openOnClick === 'whenNotEditable',
         }),
       )
     }
