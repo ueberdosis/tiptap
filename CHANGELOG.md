@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/ueberdosis/tiptap/compare/v2.2.6...v2.3.0) (2024-04-09)
+
+
+### Bug Fixes
+
+* **core:** fix nodepos child lookup ([#5038](https://github.com/ueberdosis/tiptap/issues/5038)) ([22ced31](https://github.com/ueberdosis/tiptap/commit/22ced318723003365fbfd8f59b8dac79c7563017))
+
+
+### Features
+
+* **core:** apply input and paste rules when using insertContent methods ([#5046](https://github.com/ueberdosis/tiptap/issues/5046)) ([96b6abc](https://github.com/ueberdosis/tiptap/commit/96b6abcf6edbc6cac03a391130d9feebb6de3a04))
+
+
+
+
+
 ## [2.2.6](https://github.com/ueberdosis/tiptap/compare/v2.2.5...v2.2.6) (2024-04-06)
 
 
