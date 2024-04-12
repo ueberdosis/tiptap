@@ -27,7 +27,6 @@ export const Keymap = Extension.create({
           ? parentPos === $anchor.pos
           : Selection.atStart(doc).from === pos
 
-        // 
         if (
           !empty
           || !parent.type.isTextblock
