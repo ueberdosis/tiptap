@@ -22,7 +22,7 @@ A sample payload of the webhook request looks like this:
 
 ### Signing
 
-All requests to your webhook URL will contain a header called `X-Hocuspocus-Signature-256` that signs the entire message with your secret. You can find it in the [settings](https://collab.tiptap.dev/apps/settings) of your Tiptap Collab app.
+All requests to your webhook URL will contain a header called `x-hocuspocus-signature-256` that signs the entire message with your secret. You can find it in the [settings](https://collab.tiptap.dev/apps/settings) of your Tiptap Collab app.
 
 ### Changelog
 
