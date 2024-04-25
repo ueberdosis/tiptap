@@ -238,3 +238,6 @@ export class NodePos {
       .run()
   }
 }
+
+const test = [
+  {type: 'COLLAPSIBLE_LIST', children: [{type: 'COLLAPSIBLE_LIST_ITEM', attrs: { id: '1234' }}]}] 
