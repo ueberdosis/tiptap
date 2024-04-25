@@ -60,17 +60,51 @@ context('/src/Examples/NodePos/React/', () => {
     })
   })
 
-  it('should get images by attributes', () => {
-    cy.get('.tiptap').then(() => {
-      cy.get('button[data-testid="find-squared-image"]').click()
-      cy.get('div[data-testid="found-nodes"]').should('exist')
-      cy.get('div[data-testid="found-node"]').should('have.length', 1)
-      cy.get('div[data-testid="found-node"]').should('contain', 'https://unsplash.it/200/200')
+  describe('when querying by attribute', () => {
+    it('should get square image', () => {
+      cy.get('.tiptap').then(() => {
+        cy.get('button[data-testid="find-squared-image"]').click()
+        cy.get('div[data-testid="found-nodes"]').should('exist')
+        cy.get('div[data-testid="found-node"]').should('have.length', 1)
+        cy.get('div[data-testid="found-node"]').should('contain', 'https://unsplash.it/200/200')
+      })
+    })
 
-      cy.get('button[data-testid="find-landscape-image"]').click()
-      cy.get('div[data-testid="found-nodes"]').should('exist')
-      cy.get('div[data-testid="found-node"]').should('have.length', 1)
-      cy.get('div[data-testid="found-node"]').should('contain', 'https://unsplash.it/260/200')
+    it('should get landsape image', () => {
+      cy.get('.tiptap').then(() => {
+        cy.get('button[data-testid="find-landscape-image"]').click()
+        cy.get('div[data-testid="found-nodes"]').should('exist')
+        cy.get('div[data-testid="found-node"]').should('have.length', 1)
+        cy.get('div[data-testid="found-node"]').should('contain', 'https://unsplash.it/260/200')
+      })
+    })
+
+    it('should get all landscape images', () => {
+      cy.get('.tiptap').then(() => {
+        cy.get('button[data-testid="find-all-landscape-images"]').click()
+        cy.get('div[data-testid="found-nodes"]').should('exist')
+        cy.get('div[data-testid="found-node"]').should('have.length', 2)
+        cy.get('div[data-testid="found-node"]').eq(0).should('contain', 'https://unsplash.it/260/200')
+        cy.get('div[data-testid="found-node"]').eq(1).should('contain', 'https://unsplash.it/260/200')
+      })
+    })
+
+    it('should get first landscape image with querySelectorAll', () => {
+      cy.get('.tiptap').then(() => {
+        cy.get('button[data-testid="find-first-landscape-image-with-all-query"]').click()
+        cy.get('div[data-testid="found-nodes"]').should('exist')
+        cy.get('div[data-testid="found-node"]').should('have.length', 1)
+        cy.get('div[data-testid="found-node"]').should('contain', 'https://unsplash.it/260/200')
+      })
+    })
+
+    it('should get portrait image inside blockquote', () => {
+      cy.get('.tiptap').then(() => {
+        cy.get('button[data-testid="find-portrait-image-inside-blockquote"]').click()
+        cy.get('div[data-testid="found-nodes"]').should('exist')
+        cy.get('div[data-testid="found-node"]').should('have.length', 1)
+        cy.get('div[data-testid="found-node"]').should('contain', 'https://unsplash.it/200/260')
+      })
     })
   })
 

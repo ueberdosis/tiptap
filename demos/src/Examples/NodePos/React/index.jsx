@@ -18,7 +18,7 @@ export default () => {
       <p>
         This is a <strong>simple</strong> paragraph.
       </p>
-      <img src="https://unsplash.it/200/200" alt="A 200x200 thumbnail from unsplash." />
+      <img src="https://unsplash.it/200/200" alt="A 200x200 square thumbnail from unsplash." />
       <p>
         Here is another paragraph inside this document.
       </p>
@@ -69,10 +69,14 @@ export default () => {
           <p>Sorted 3</p>
         </li>
       </ol>
-      <img src="https://unsplash.it/260/200" alt="A 260x200 thumbnail from unsplash." />
       <blockquote>
         <p>Here we have another paragraph inside a blockquote.</p>
+        <blockquote>
+          <img src="https://unsplash.it/260/200" alt="A 260x200 landscape thumbnail from unsplash." />
+          <img src="https://unsplash.it/100/200" alt="A 100x200 portrait thumbnail from unsplash." />
+        </blockquote>
       </blockquote>
+      <img src="https://unsplash.it/260/200" alt="A 260x200 landscape thumbnail from unsplash." />
     `,
   })
 
@@ -177,6 +181,39 @@ export default () => {
     setFoundNodes([nodePosition])
   }, [editor])
 
+  const findAllLandscapeImages = useCallback(() => {
+    const nodePosition = editor.$doc.querySelectorAll('image', { src: 'https://unsplash.it/260/200' })
+
+    if (!nodePosition) {
+      setFoundNodes(null)
+      return
+    }
+
+    setFoundNodes(nodePosition)
+  }, [editor])
+
+  const findFirstLandscapeImageWithAllQuery = useCallback(() => {
+    const nodePosition = editor.$doc.querySelectorAll('image', { src: 'https://unsplash.it/260/200' }, true)
+
+    if (!nodePosition) {
+      setFoundNodes(null)
+      return
+    }
+
+    setFoundNodes(nodePosition)
+  }, [editor])
+
+  const findPortraitImageInBlockquote = useCallback(() => {
+    const nodePosition = editor.$doc.querySelector('image', { src: 'https://unsplash.it/100/200' })
+
+    if (!nodePosition) {
+      setFoundNodes(null)
+      return
+    }
+
+    setFoundNodes([nodePosition])
+  }, [editor])
+
   const findFirstNode = useCallback(() => {
     const nodePosition = editor.$doc.firstChild
 
@@ -235,6 +272,9 @@ export default () => {
         <button data-testid="find-first-blockquote" onClick={findFirstBlockquote}>Find first blockquote</button>
         <button data-testid="find-squared-image" onClick={findSquaredImage}>Find squared image</button>
         <button data-testid="find-landscape-image" onClick={findLandscapeImage}>Find landscape image</button>
+        <button data-testid="find-all-landscape-images" onClick={findAllLandscapeImages}>Find all landscape images</button>
+        <button data-testid="find-first-landscape-image-with-all-query" onClick={findFirstLandscapeImageWithAllQuery}>Find first landscape image with all query</button>
+        <button data-testid="find-portrait-image-inside-blockquote" onClick={findPortraitImageInBlockquote}>Find portrait image in blockquote</button>
       </div>
       <div>
         <button data-testid="find-first-node" onClick={findFirstNode}>Find first node</button>
