@@ -9,6 +9,7 @@ export type MentionOptions = {
   renderLabel?: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
   renderText: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
   renderHTML: (props: { options: MentionOptions; node: ProseMirrorNode }) => DOMOutputSpec
+  deleteTriggerWithBackspace: boolean
   suggestion: Omit<SuggestionOptions, 'editor'>
 }
 
@@ -23,10 +24,11 @@ export const Mention = Node.create<MentionOptions>({
       renderText({ options, node }) {
         return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
       },
+      deleteTriggerWithBackspace: false,
       renderHTML({ options, node }) {
         return [
           'span',
-          this.HTMLAttributes,
+          mergeAttributes(this.HTMLAttributes, options.HTMLAttributes),
           `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
         ]
       },
@@ -131,8 +133,11 @@ export const Mention = Node.create<MentionOptions>({
         }),
       ]
     }
+    const mergedOptions = { ...this.options }
+
+    mergedOptions.HTMLAttributes = mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes)
     const html = this.options.renderHTML({
-      options: this.options,
+      options: mergedOptions,
       node,
     })
 
@@ -174,7 +179,11 @@ export const Mention = Node.create<MentionOptions>({
         state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
           if (node.type.name === this.name) {
             isMention = true
-            tr.insertText(this.options.suggestion.char || '', pos, pos + node.nodeSize)
+            tr.insertText(
+              this.options.deleteTriggerWithBackspace ? '' : this.options.suggestion.char || '',
+              pos,
+              pos + node.nodeSize,
+            )
 
             return false
           }
