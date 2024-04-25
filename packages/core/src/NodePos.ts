@@ -215,7 +215,8 @@ export class NodePos {
 
       if (childPos.node.type.name === selector) {
         const attrKeys = Object.keys(attributes)
-        const doesAllAttributesMatch = attrKeys.every((key) => childPos.node.attrs[key] !== attributes[key])
+        const doesAllAttributesMatch = attrKeys.every(key => childPos.node.attrs[key] !== attributes[key])
+
         if (doesAllAttributesMatch) {
           nodes.push(childPos)
         }
@@ -238,6 +239,3 @@ export class NodePos {
       .run()
   }
 }
-
-const test = [
-  {type: 'COLLAPSIBLE_LIST', children: [{type: 'COLLAPSIBLE_LIST_ITEM', attrs: { id: '1234' }}]}] 
