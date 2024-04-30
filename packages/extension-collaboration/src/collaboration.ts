@@ -153,7 +153,7 @@ export const Collaboration = Extension.create<CollaborationOptions>({
       }
     }
 
-    const options = this.options.ySyncOptions;
+    const options = this.options.ySyncOptions
     const onFirstRender = this.options.onFirstRender
     const ySyncPluginOptions: YSyncOpts = {
       ...(options ? { ...options } : {}),
