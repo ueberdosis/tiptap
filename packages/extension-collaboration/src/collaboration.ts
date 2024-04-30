@@ -153,9 +153,11 @@ export const Collaboration = Extension.create<CollaborationOptions>({
       }
     }
 
+    const options = this.options.ySyncOptions
+    const onFirstRender = this.options.onFirstRender
     const ySyncPluginOptions: YSyncOpts = {
-      ...(this.options.ySyncOptions ? { ...this.options.ySyncOptions } : {}),
-      ...(this.options.onFirstRender ? { ...this.options.onFirstRender } : {}),
+      ...(options ? { ...options } : {}),
+      ...(onFirstRender ? { onFirstRender } : {}),
     }
 
     const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
