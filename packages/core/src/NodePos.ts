@@ -203,25 +203,27 @@ export class NodePos {
     if (!this.children || this.children.length === 0) {
       return nodes
     }
+    const attrKeys = Object.keys(attributes)
 
     /**
      * Finds all children recursively that match the selector and attributes
      * If firstItemOnly is true, it will return the first item found
      */
     this.children.forEach(childPos => {
+      // If we already found a node and we only want the first item, we dont need to keep going
       if (firstItemOnly && nodes.length > 0) {
         return
       }
 
       if (childPos.node.type.name === selector) {
-        const attrKeys = Object.keys(attributes)
-        const doesAllAttributesMatch = attrKeys.every(key => childPos.node.attrs[key] !== attributes[key])
+        const doesAllAttributesMatch = attrKeys.every(key => attributes[key] === childPos.node.attrs[key])
 
         if (doesAllAttributesMatch) {
           nodes.push(childPos)
         }
       }
 
+      // If we already found a node and we only want the first item, we can stop here and skip the recursion
       if (firstItemOnly && nodes.length > 0) {
         return
       }

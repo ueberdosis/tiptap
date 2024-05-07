@@ -39,7 +39,7 @@ context('/src/Examples/NodePos/React/', () => {
     cy.get('.tiptap').then(() => {
       cy.get('button[data-testid="find-blockquotes"]').click()
       cy.get('div[data-testid="found-nodes"]').should('exist')
-      cy.get('div[data-testid="found-node"]').should('have.length', 2)
+      cy.get('div[data-testid="found-node"]').should('have.length', 3)
     })
   })
 
@@ -47,7 +47,7 @@ context('/src/Examples/NodePos/React/', () => {
     cy.get('.tiptap').then(() => {
       cy.get('button[data-testid="find-images"]').click()
       cy.get('div[data-testid="found-nodes"]').should('exist')
-      cy.get('div[data-testid="found-node"]').should('have.length', 2)
+      cy.get('div[data-testid="found-node"]').should('have.length', 4)
     })
   })
 
@@ -103,7 +103,7 @@ context('/src/Examples/NodePos/React/', () => {
         cy.get('button[data-testid="find-portrait-image-inside-blockquote"]').click()
         cy.get('div[data-testid="found-nodes"]').should('exist')
         cy.get('div[data-testid="found-node"]').should('have.length', 1)
-        cy.get('div[data-testid="found-node"]').should('contain', 'https://unsplash.it/200/260')
+        cy.get('div[data-testid="found-node"]').should('contain', 'https://unsplash.it/100/200')
       })
     })
   })
@@ -118,7 +118,7 @@ context('/src/Examples/NodePos/React/', () => {
       cy.get('button[data-testid="find-last-node"]').click()
       cy.get('div[data-testid="found-nodes"]').should('exist')
       cy.get('div[data-testid="found-node"]').should('have.length', 1)
-      cy.get('div[data-testid="found-node"]').should('contain', 'blockquote')
+      cy.get('div[data-testid="found-node"]').should('contain', 'image')
 
       cy.get('button[data-testid="find-last-node-of-first-bullet-list"]').click()
       cy.get('div[data-testid="found-nodes"]').should('exist')
