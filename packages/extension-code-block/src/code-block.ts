@@ -260,8 +260,15 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
             const { tr } = view.state
 
-            // create an empty code block
-            tr.replaceSelectionWith(this.type.create({ language }))
+            // create an empty code block´
+            // if the cursor is at the absolute end of the document, insert the code block before the cursor instead
+            // of replacing the selection as the replaceSelectionWith function will cause the insertion to
+            // happen at the previous node
+            if (view.state.selection.from === view.state.doc.nodeSize - (1 + (view.state.selection.$to.depth * 2))) {
+              tr.insert(view.state.selection.from - 1, this.type.create({ language }))
+            } else {
+              tr.replaceSelectionWith(this.type.create({ language }))
+            }
 
             // put cursor inside the newly created code block
             tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))))

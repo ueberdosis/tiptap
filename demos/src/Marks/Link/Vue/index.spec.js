@@ -55,14 +55,27 @@ context('/src/Marks/Link/Vue/', () => {
   })
 
   it('detects a pasted URL', () => {
-    cy.get('.tiptap').paste({ pastePayload: 'https://example2.com', pasteType: 'text/plain' })
+    cy.get('.tiptap')
+      .type('{backspace}')
+      .paste({ pastePayload: 'https://example2.com', pasteType: 'text/plain' })
       .find('a')
       .should('contain', 'https://example2.com')
       .should('have.attr', 'href', 'https://example2.com')
   })
 
+  it('detects autolinking', () => {
+    cy.get('.tiptap').type('https://example.com ').find('a').should('contain', 'https://example.com')
+      .should('have.attr', 'href', 'https://example.com')
+  })
+
+  it('detects autolinking with numbers', () => {
+    cy.get('.tiptap').type('https://tiptap4u.com ').find('a').should('contain', 'https://tiptap4u.com')
+      .should('have.attr', 'href', 'https://tiptap4u.com')
+  })
+
   it('detects a pasted URL with query params', () => {
     cy.get('.tiptap')
+      .type('{backspace}')
       .paste({ pastePayload: 'https://example.com?paramA=nice&paramB=cool', pasteType: 'text/plain' })
       .find('a')
       .should('contain', 'https://example.com?paramA=nice&paramB=cool')

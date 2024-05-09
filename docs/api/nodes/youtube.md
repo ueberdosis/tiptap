@@ -83,7 +83,7 @@ Youtube.configure({
 ```
 
 ### autoplay
-Allows the iframe to to start playing after the player is loaded
+Allows the iframe to start playing after the player is loaded
 
 Default: `false`
 
@@ -111,7 +111,7 @@ Default: `false`
 
 ```js
 Youtube.configure({
-  ccLoadPolicy: 'true',
+  ccLoadPolicy: true,
 })
 ```
 
@@ -122,7 +122,7 @@ Default: `false`
 
 ```js
 Youtube.configure({
-  disableKBcontrols: 'true',
+  disableKBcontrols: true,
 })
 ```
 
@@ -133,7 +133,7 @@ Default: `false`
 
 ```js
 Youtube.configure({
-  enableIFrameApi: 'true',
+  enableIFrameApi: true,
 })
 ```
 
@@ -189,7 +189,7 @@ Default: `false`
 
 ```js
 Youtube.configure({
-  loop: 'true',
+  loop: true,
 })
 ```
 
@@ -211,7 +211,7 @@ Default: `false`
 
 ```js
 Youtube.configure({
-  modestBranding: 'true',
+  modestBranding: true,
 })
 ```
 

@@ -1,8 +1,24 @@
-import React, { HTMLProps } from 'react'
+import React, {
+  ForwardedRef, forwardRef, HTMLProps, LegacyRef, MutableRefObject,
+} from 'react'
 import ReactDOM, { flushSync } from 'react-dom'
 
 import { Editor } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
+
+const mergeRefs = <T extends HTMLDivElement>(
+  ...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>
+) => {
+  return (node: T) => {
+    refs.forEach(ref => {
+      if (typeof ref === 'function') {
+        ref(node)
+      } else if (ref) {
+        (ref as MutableRefObject<T | null>).current = node
+      }
+    })
+  }
+}
 
 const Portals: React.FC<{ renderers: Record<string, ReactRenderer> }> = ({ renderers }) => {
   return (
@@ -16,6 +32,7 @@ const Portals: React.FC<{ renderers: Record<string, ReactRenderer> }> = ({ rende
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
   editor: Editor | null;
+  innerRef?: ForwardedRef<HTMLDivElement | null>;
 }
 
 export interface EditorContentState {
@@ -135,11 +152,11 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   }
 
   render() {
-    const { editor, ...rest } = this.props
+    const { editor, innerRef, ...rest } = this.props
 
     return (
       <>
-        <div ref={this.editorContentRef} {...rest} />
+        <div ref={mergeRefs(innerRef, this.editorContentRef)} {...rest} />
         {/* @ts-ignore */}
         <Portals renderers={this.state.renderers} />
       </>
@@ -148,13 +165,19 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
 }
 
 // EditorContent should be re-created whenever the Editor instance changes
-const EditorContentWithKey = (props: EditorContentProps) => {
-  const key = React.useMemo(() => {
-    return Math.floor(Math.random() * 0xFFFFFFFF).toString()
-  }, [props.editor])
+const EditorContentWithKey = forwardRef<HTMLDivElement, EditorContentProps>(
+  (props: Omit<EditorContentProps, 'innerRef'>, ref) => {
+    const key = React.useMemo(() => {
+      return Math.floor(Math.random() * 0xFFFFFFFF).toString()
+    }, [props.editor])
 
-  // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
-  return React.createElement(PureEditorContent, { key, ...props })
-}
+    // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
+    return React.createElement(PureEditorContent, {
+      key,
+      innerRef: ref,
+      ...props,
+    })
+  },
+)
 
 export const EditorContent = React.memo(EditorContentWithKey)

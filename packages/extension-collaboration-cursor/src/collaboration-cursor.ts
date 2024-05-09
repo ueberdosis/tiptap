@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import { DecorationAttrs } from 'prosemirror-view'
+import { DecorationAttrs } from '@tiptap/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from 'y-prosemirror'
 
 type CollaborationCursorStorage = {

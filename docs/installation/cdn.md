@@ -1,6 +1,6 @@
 # CDN
 
-For testing purposes or demos, use our [esm.sh](https://esm.sh.dev/) CDN builds. Here are the few lines of code you need to get started:
+For testing purposes or demos, use our [esm.sh](https://esm.sh/) CDN builds. Here are the few lines of code you need to get started:
 
 ```html
 <!DOCTYPE html>

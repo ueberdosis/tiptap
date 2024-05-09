@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
           parseOptions?: ParseOptions
           updateSelection?: boolean
           throwOnError?: boolean
+          applyInputRules?: boolean
+          applyPasteRules?: boolean
         },
       ) => ReturnType
     }

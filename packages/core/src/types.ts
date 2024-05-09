@@ -60,6 +60,11 @@ export interface EditorOptions {
   editable: boolean
   editorProps: EditorProps
   parseOptions: ParseOptions
+  coreExtensionOptions?: {
+    clipboardTextSerializer?: {
+      blockSeparator?: string
+    }
+  }
   enableInputRules: EnableRules
   enablePasteRules: EnableRules
   enableCoreExtensions: boolean
