@@ -13,6 +13,7 @@ declare module '@tiptap/core' {
         options?: {
           parseOptions?: ParseOptions
           updateSelection?: boolean
+          throwOnError?: boolean
         },
       ) => ReturnType
     }

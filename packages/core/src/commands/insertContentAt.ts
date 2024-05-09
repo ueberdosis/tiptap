@@ -16,6 +16,7 @@ declare module '@tiptap/core' {
         options?: {
           parseOptions?: ParseOptions
           updateSelection?: boolean
+          throwOnError?: boolean
         },
       ) => ReturnType
     }
@@ -35,6 +36,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
     }
 
     const content = createNodeFromContent(value, editor.schema, {
+      throwOnError: options?.throwOnError,
       parseOptions: {
         preserveWhitespace: 'full',
         ...options.parseOptions,
