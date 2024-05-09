@@ -14,13 +14,14 @@ import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
 // load all highlight.js languages
-import { lowlight } from 'lowlight'
+import { createLowlight } from 'lowlight';
 import React from 'react'
 
-lowlight.registerLanguage('html', html)
-lowlight.registerLanguage('css', css)
-lowlight.registerLanguage('js', js)
-lowlight.registerLanguage('ts', ts)
+const lowlight = createLowlight();
+lowlight.register('html', html);
+lowlight.register('css', css);
+lowlight.register('js', js);
+lowlight.register('ts', ts);
 
 export default () => {
   const editor = useEditor({
