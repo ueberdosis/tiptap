@@ -80,9 +80,13 @@ class ReactNodeView extends NodeView<
 
     ReactNodeViewProvider.displayName = 'ReactNodeView'
 
-    this.contentDOMElement = this.node.isLeaf
-      ? null
-      : document.createElement(this.node.isInline ? 'span' : 'div')
+    if (this.node.isLeaf) {
+      this.contentDOMElement = null
+    } else if (this.options.contentDOMElementTag) {
+      this.contentDOMElement = document.createElement(this.options.contentDOMElementTag)
+    } else {
+      this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+    }
 
     if (this.contentDOMElement) {
       // For some reason the whiteSpace prop is not inherited properly in Chrome and Safari
@@ -134,8 +138,16 @@ class ReactNodeView extends NodeView<
     const { from, to } = this.editor.state.selection
 
     if (from <= this.getPos() && to >= this.getPos() + this.node.nodeSize) {
+      if (this.renderer.props.selected) {
+        return
+      }
+
       this.selectNode()
     } else {
+      if (!this.renderer.props.selected) {
+        return
+      }
+
       this.deselectNode()
     }
   }
@@ -181,12 +193,14 @@ class ReactNodeView extends NodeView<
     this.renderer.updateProps({
       selected: true,
     })
+    this.renderer.element.classList.add('ProseMirror-selectednode')
   }
 
   deselectNode() {
     this.renderer.updateProps({
       selected: false,
     })
+    this.renderer.element.classList.remove('ProseMirror-selectednode')
   }
 
   destroy() {

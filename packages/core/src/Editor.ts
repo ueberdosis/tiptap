@@ -1,4 +1,6 @@
-import { MarkType, NodeType, Schema } from '@tiptap/pm/model'
+import {
+  MarkType, NodeType, Schema,
+} from '@tiptap/pm/model'
 import {
   EditorState, Plugin, PluginKey, Transaction,
 } from '@tiptap/pm/state'
@@ -7,7 +9,9 @@ import { EditorView } from '@tiptap/pm/view'
 import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
-import * as extensions from './extensions/index.js'
+import {
+  ClipboardTextSerializer, Commands, Editable, FocusEvents, Keymap, Tabindex,
+} from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
@@ -16,6 +20,7 @@ import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSc
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
+import { NodePos } from './NodePos.js'
 import { style } from './style.js'
 import {
   CanCommands,
@@ -29,7 +34,7 @@ import {
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
 
-export { extensions }
+export * as extensions from './extensions/index.js'
 
 export interface HTMLElement {
   editor?: Editor
@@ -60,6 +65,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     editable: true,
     editorProps: {},
     parseOptions: {},
+    coreExtensionOptions: {},
     enableInputRules: true,
     enablePasteRules: true,
     enableCoreExtensions: true,
@@ -232,7 +238,17 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates an extension manager.
    */
   private createExtensionManager(): void {
-    const coreExtensions = this.options.enableCoreExtensions ? Object.values(extensions) : []
+
+    const coreExtensions = this.options.enableCoreExtensions ? [
+      Editable,
+      ClipboardTextSerializer.configure({
+        blockSeparator: this.options.coreExtensionOptions?.clipboardTextSerializer?.blockSeparator,
+      }),
+      Commands,
+      FocusEvents,
+      Keymap,
+      Tabindex,
+    ] : []
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
@@ -485,5 +501,23 @@ export class Editor extends EventEmitter<EditorEvents> {
   public get isDestroyed(): boolean {
     // @ts-ignore
     return !this.view?.docView
+  }
+
+  public $node(selector: string, attributes?: { [key: string]: any }): NodePos | null {
+    return this.$doc?.querySelector(selector, attributes) || null
+  }
+
+  public $nodes(selector: string, attributes?: { [key: string]: any }): NodePos[] | null {
+    return this.$doc?.querySelectorAll(selector, attributes) || null
+  }
+
+  public $pos(pos: number) {
+    const $pos = this.state.doc.resolve(pos)
+
+    return new NodePos($pos, this)
+  }
+
+  get $doc() {
+    return this.$pos(0)
   }
 }

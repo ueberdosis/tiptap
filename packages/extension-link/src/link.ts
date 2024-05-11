@@ -1,6 +1,8 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
+import {
+  Mark, markPasteRule, mergeAttributes, PasteRuleMatch,
+} from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
-import { registerCustomProtocol, reset } from 'linkifyjs'
+import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
@@ -23,6 +25,8 @@ export interface LinkProtocolOptions {
   optionalSlashes?: boolean;
 }
 
+export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
+
 export interface LinkOptions {
   /**
    * If enabled, the extension will automatically add links as you type.
@@ -42,9 +46,9 @@ export interface LinkOptions {
    * If enabled, links will be opened on click.
    * @default true
    * @example false
+   * @example 'whenNotEditable'
    */
-  openOnClick: boolean
-
+  openOnClick: boolean | 'whenNotEditable'
   /**
    * Adds a link to the current selection if the pasted content only contains an url.
    * @default true
@@ -75,15 +79,13 @@ declare module '@tiptap/core' {
        * @param attributes The link attributes
        * @example editor.commands.setLink({ href: 'https://tiptap.dev' })
        */
-      setLink: (attributes: { href: string; target?: string | null }) => ReturnType
-
+      setLink: (attributes: { href: string; target?: string | null; rel?: string | null; class?: string | null }) => ReturnType
       /**
        * Toggle a link mark
        * @param attributes The link attributes
        * @example editor.commands.toggleLink({ href: 'https://tiptap.dev' })
        */
-      toggleLink: (attributes: { href: string; target?: string | null }) => ReturnType
-
+      toggleLink: (attributes: { href: string; target?: string | null; rel?: string | null; class?: string | null }) => ReturnType
       /**
        * Unset a link mark
        * @example editor.commands.unsetLink()
@@ -159,6 +161,12 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
+    // False positive; we're explicitly checking for javascript: links to ignore them
+    // eslint-disable-next-line no-script-url
+    if (HTMLAttributes.href?.startsWith('javascript:')) {
+      // strip out the href
+      return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
+    }
     return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
@@ -187,6 +195,38 @@ export const Link = Mark.create<LinkOptions>({
     }
   },
 
+  addPasteRules() {
+    return [
+      markPasteRule({
+        find: text => {
+          const foundLinks: PasteRuleMatch[] = []
+
+          if (text) {
+            const links = find(text).filter(item => item.isLink)
+
+            if (links.length) {
+              links.forEach(link => (foundLinks.push({
+                text: link.value,
+                data: {
+                  href: link.href,
+                },
+                index: link.start,
+              })))
+            }
+          }
+
+          return foundLinks
+        },
+        type: this.type,
+        getAttributes: match => {
+          return {
+            href: match.data?.href,
+          }
+        },
+      }),
+    ]
+  },
+
   addProseMirrorPlugins() {
     const plugins: Plugin[] = []
 
@@ -203,17 +243,19 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
+          whenNotEditable: this.options.openOnClick === 'whenNotEditable',
         }),
       )
     }
 
-    plugins.push(
-      pasteHandler({
-        editor: this.editor,
-        type: this.type,
-        linkOnPaste: this.options.linkOnPaste,
-      }),
-    )
+    if (this.options.linkOnPaste) {
+      plugins.push(
+        pasteHandler({
+          editor: this.editor,
+          type: this.type,
+        }),
+      )
+    }
 
     return plugins
   },

@@ -5,21 +5,22 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 export interface PlaceholderOptions {
   /**
-   * The CSS class name for the editor when it’s empty.
+   * **The class name for the empty editor**
    * @default 'is-editor-empty'
    */
   emptyEditorClass: string
 
   /**
-   * The CSS class name for an empty node.
+   * **The class name for empty nodes**
    * @default 'is-empty'
    */
   emptyNodeClass: string
 
   /**
-   * The placeholder text or a function to return the placeholder text.
+   * **The placeholder content**
+   *
+   * You can use a function to return a dynamic placeholder or a string.
    * @default 'Write something …'
-   * @example (pos) => `Write something at ${pos} …`
    */
   placeholder:
     | ((PlaceholderProps: {
@@ -31,23 +32,38 @@ export interface PlaceholderOptions {
     | string
 
   /**
-   * Show the placeholder only when the editor is editable.
+   * **Used for empty check on the document.**
+   *
+   * If true, any node that is not a leaf or atom will be considered for empty check.
+   * If false, only default nodes (paragraphs) will be considered for empty check.
+   * @default false
+   */
+  considerAnyAsEmpty: boolean
+
+  /**
+   * **Checks if the placeholder should be only shown when the editor is editable.**
+   *
+   * If true, the placeholder will only be shown when the editor is editable.
+   * If false, the placeholder will always be shown.
    * @default true
-   * @example false
    */
   showOnlyWhenEditable: boolean
 
   /**
-   * Show the placeholder only when the current node is empty.
+   * **Checks if the placeholder should be only shown when the current node is empty.**
+   *
+   * If true, the placeholder will only be shown when the current node is empty.
+   * If false, the placeholder will be shown when any node is empty.
    * @default true
-   * @example false
    */
   showOnlyCurrent: boolean
 
   /**
-   * Include children when checking if a node is empty.
+   * **Controls if the placeholder should be shown for all descendents.**
+   *
+   * If true, the placeholder will be shown for all descendents.
+   * If false, the placeholder will only be shown for the current node.
    * @default false
-   * @example true
    */
   includeChildren: boolean
 }
@@ -66,6 +82,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
       emptyNodeClass: 'is-empty',
       placeholder: 'Write something …',
       showOnlyWhenEditable: true,
+      considerAnyAsEmpty: false,
       showOnlyCurrent: true,
       includeChildren: false,
     }
@@ -86,9 +103,16 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             }
 
             // only calculate isEmpty once due to its performance impacts (see issue #3360)
-            const emptyDocInstance = doc.type.createAndFill()
-            const isEditorEmpty = emptyDocInstance?.sameMarkup(doc)
-              && emptyDocInstance.content.findDiffStart(doc.content) === null
+            const { firstChild } = doc.content
+            const isLeaf = firstChild && firstChild.type.isLeaf
+            const isAtom = firstChild && firstChild.isAtom
+            const isValidNode = this.options.considerAnyAsEmpty
+              ? true
+              : firstChild && firstChild.type.name === doc.type.contentMatch.defaultType?.name
+            const isEmptyDoc = doc.content.childCount <= 1
+              && firstChild
+              && isValidNode
+              && (firstChild.nodeSize <= 2 && (!isLeaf || !isAtom))
 
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
@@ -97,7 +121,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const classes = [this.options.emptyNodeClass]
 
-                if (isEditorEmpty) {
+                if (isEmptyDoc) {
                   classes.push(this.options.emptyEditorClass)
                 }
 

@@ -40,12 +40,12 @@ declare module '@tiptap/core' {
 /**
  * Matches a strike to a ~~strike~~ on input.
  */
-export const inputRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))$/
+export const inputRegex = /(?:^|\s)(~~(?!\s+~~)((?:[^~]+))~~(?!\s+~~))$/
 
 /**
  * Matches a strike to a ~~strike~~ on paste.
  */
-export const pasteRegex = /(?:^|\s)((?:~~)((?:[^~]+))(?:~~))/g
+export const pasteRegex = /(?:^|\s)(~~(?!\s+~~)((?:[^~]+))~~(?!\s+~~))/g
 
 /**
  * This extension allows you to create strike text.

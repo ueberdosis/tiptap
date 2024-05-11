@@ -29,6 +29,8 @@ declare module '@tiptap/core' {
            * Whether to update the selection after inserting the content.
            */
           updateSelection?: boolean
+          applyInputRules?: boolean
+          applyPasteRules?: boolean
         },
       ) => ReturnType
     }

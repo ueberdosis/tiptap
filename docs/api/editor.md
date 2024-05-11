@@ -192,7 +192,7 @@ new Editor({
 })
 ```
 
-You can even initiate your editor before mounting it to an element. This is useful when your DOM is not yet available. Just leave out the `element`, we’ll create one for you. Append it to your container at a later date like that:
+You can even initiate your editor before mounting it to an element. This is useful when your DOM is not yet available. Just leave out the `element`, we’ll create one for you. Append it to your container at a later date:
 
 ```js
 yourContainerElement.append(editor.options.element)

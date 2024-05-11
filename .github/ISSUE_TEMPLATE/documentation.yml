@@ -1,13 +1,10 @@
 name: Documentation feedback
-description: Share what we need to explain better
+description: Share what we need to explain better.
 title: "[Documentation]: "
 labels:
   - "Type: Documentation"
   - "Category: Open Source"
   - "Status: New"
-assignees:
-  - bdbch
-  - svenadlung
 body:
   - type: input
     id: url

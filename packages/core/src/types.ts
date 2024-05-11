@@ -59,6 +59,11 @@ export interface EditorOptions {
   editable: boolean
   editorProps: EditorProps
   parseOptions: ParseOptions
+  coreExtensionOptions?: {
+    clipboardTextSerializer?: {
+      blockSeparator?: string
+    }
+  }
   enableInputRules: EnableRules
   enablePasteRules: EnableRules
   enableCoreExtensions: boolean
@@ -170,6 +175,7 @@ export interface NodeViewRendererOptions {
   ignoreMutation:
     | ((props: { mutation: MutationRecord | { type: 'selection'; target: Element } }) => boolean)
     | null
+  contentDOMElementTag: string
 }
 
 export type NodeViewRendererProps = {

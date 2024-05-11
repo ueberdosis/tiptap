@@ -2,7 +2,7 @@ import { Editor, Range } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
 
-import { findSuggestionMatch } from './findSuggestionMatch.js'
+import { findSuggestionMatch as defaultFindSuggestionMatch } from './findSuggestionMatch.js'
 
 export interface SuggestionOptions<I = any> {
   /**
@@ -100,6 +100,7 @@ export interface SuggestionOptions<I = any> {
    * @returns {boolean}
    */
   allow?: (props: { editor: Editor; state: EditorState; range: Range }) => boolean
+  findSuggestionMatch?: typeof defaultFindSuggestionMatch
 }
 
 export interface SuggestionProps<I = any> {
@@ -174,6 +175,7 @@ export function Suggestion<I = any>({
   items = () => [],
   render = () => ({}),
   allow = () => true,
+  findSuggestionMatch = defaultFindSuggestionMatch,
 }: SuggestionOptions<I>) {
   let props: SuggestionProps<I> | undefined
   const renderer = render?.()
@@ -213,7 +215,7 @@ export function Suggestion<I = any>({
             text: state.text,
             items: [],
             command: commandProps => {
-              command({
+              return command({
                 editor,
                 range: state.range,
                 props: commandProps,

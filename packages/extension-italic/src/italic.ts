@@ -39,22 +39,22 @@ declare module '@tiptap/core' {
 /**
  * Matches an italic to a *italic* on input.
  */
-export const starInputRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))$/
+export const starInputRegex = /(?:^|\s)(\*(?!\s+\*)((?:[^*]+))\*(?!\s+\*))$/
 
 /**
  * Matches an italic to a *italic* on paste.
  */
-export const starPasteRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))/g
+export const starPasteRegex = /(?:^|\s)(\*(?!\s+\*)((?:[^*]+))\*(?!\s+\*))/g
 
 /**
  * Matches an italic to a _italic_ on input.
  */
-export const underscoreInputRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))$/
+export const underscoreInputRegex = /(?:^|\s)(_(?!\s+_)((?:[^_]+))_(?!\s+_))$/
 
 /**
  * Matches an italic to a _italic_ on paste.
  */
-export const underscorePasteRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))/g
+export const underscorePasteRegex = /(?:^|\s)(_(?!\s+_)((?:[^_]+))_(?!\s+_))/g
 
 /**
  * This extension allows you to create italic text.

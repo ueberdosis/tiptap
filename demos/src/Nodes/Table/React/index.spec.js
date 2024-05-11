@@ -63,7 +63,7 @@ context('/src/Nodes/Table/React/', () => {
       const html = editor.getHTML()
 
       expect(html).to.equal(
-        '<table><tbody><tr><td colspan="1" rowspan="1"><p></p></td></tr></tbody></table>',
+        '<table style="minWidth: 25px"><colgroup><col></colgroup><tbody><tr><td colspan="1" rowspan="1"><p></p></td></tr></tbody></table>',
       )
     })
   })
@@ -75,7 +75,7 @@ context('/src/Nodes/Table/React/', () => {
       const html = editor.getHTML()
 
       expect(html).to.equal(
-        '<table><tbody><tr><th colspan="1" rowspan="1"><p></p></th></tr></tbody></table>',
+        '<table style="minWidth: 25px"><colgroup><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p></p></th></tr></tbody></table>',
       )
     })
   })
