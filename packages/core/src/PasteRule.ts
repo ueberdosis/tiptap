@@ -23,6 +23,10 @@ export type PasteRuleMatch = {
 
 export type PasteRuleFinder = RegExp | ((text: string, event?: ClipboardEvent | null) => PasteRuleMatch[] | null | undefined)
 
+/**
+ * Paste rules are used to react to pasted content.
+ * @see https://tiptap.dev/guide/custom-extensions/#paste-rules
+ */
 export class PasteRule {
   find: PasteRuleFinder
 

@@ -8,6 +8,13 @@ import {
 
 import { Editor } from './Editor.js'
 
+/**
+ * This hook allows you to create an editor instance.
+ * @param options The editor options
+ * @param deps The dependencies to watch for changes
+ * @returns The editor instance
+ * @example const editor = useEditor({ extensions: [...] })
+ */
 export const useEditor = (options: Partial<EditorOptions> = {}, deps: DependencyList = []) => {
   const editorRef = useRef<Editor | null>(null)
   const [, forceUpdate] = useState({})
