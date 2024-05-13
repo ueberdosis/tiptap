@@ -3,7 +3,8 @@ import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type ClickHandlerOptions = {
-  type: MarkType
+  type: MarkType,
+  whenNotEditable: boolean,
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {
@@ -11,6 +12,9 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
     key: new PluginKey('handleClickLink'),
     props: {
       handleClick: (view, pos, event) => {
+        if (options.whenNotEditable && view.editable) {
+          return false
+        }
         if (event.button !== 0) {
           return false
         }

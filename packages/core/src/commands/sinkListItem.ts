@@ -9,6 +9,8 @@ declare module '@tiptap/core' {
     sinkListItem: {
       /**
        * Sink the list item down into an inner list.
+       * @param typeOrName The type or name of the node.
+       * @example editor.commands.sinkListItem('listItem')
        */
       sinkListItem: (typeOrName: string | NodeType) => ReturnType
     }

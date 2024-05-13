@@ -7,6 +7,11 @@ import {
 } from '@tiptap/core'
 
 export interface StrikeOptions {
+  /**
+   * HTML attributes to add to the strike element.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>,
 }
 
@@ -15,23 +20,37 @@ declare module '@tiptap/core' {
     strike: {
       /**
        * Set a strike mark
+       * @example editor.commands.setStrike()
        */
       setStrike: () => ReturnType,
       /**
        * Toggle a strike mark
+       * @example editor.commands.toggleStrike()
        */
       toggleStrike: () => ReturnType,
       /**
        * Unset a strike mark
+       * @example editor.commands.unsetStrike()
        */
       unsetStrike: () => ReturnType,
     }
   }
 }
 
+/**
+ * Matches a strike to a ~~strike~~ on input.
+ */
 export const inputRegex = /(?:^|\s)(~~(?!\s+~~)((?:[^~]+))~~(?!\s+~~))$/
+
+/**
+ * Matches a strike to a ~~strike~~ on paste.
+ */
 export const pasteRegex = /(?:^|\s)(~~(?!\s+~~)((?:[^~]+))~~(?!\s+~~))/g
 
+/**
+ * This extension allows you to create strike text.
+ * @see https://www.tiptap.dev/api/marks/strike
+ */
 export const Strike = Mark.create<StrikeOptions>({
   name: 'strike',
 
