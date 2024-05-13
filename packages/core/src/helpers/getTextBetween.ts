@@ -13,17 +13,15 @@ export function getTextBetween(
   const { from, to } = range
   const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
   let text = ''
-  let separated = true
 
   startNode.nodesBetween(from, to, (node, pos, parent, index) => {
+    if (node.isBlock && pos > from) {
+      text += blockSeparator
+    }
+
     const textSerializer = textSerializers?.[node.type.name]
 
     if (textSerializer) {
-      if (node.isBlock && !separated) {
-        text += blockSeparator
-        separated = true
-      }
-
       if (parent) {
         text += textSerializer({
           node,
@@ -39,10 +37,6 @@ export function getTextBetween(
 
     if (node.isText) {
       text += node?.text?.slice(Math.max(from, pos) - pos, to - pos) // eslint-disable-line
-      separated = false
-    } else if (node.isBlock && !separated) {
-      text += blockSeparator
-      separated = true
     }
   })
 

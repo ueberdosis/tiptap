@@ -64,7 +64,7 @@ export class NodePos {
     this.editor.commands.insertContentAt({ from, to }, content)
   }
 
-  get attributes() : { [key: string]: any } {
+  get attributes(): { [key: string]: any } {
     return this.node.attrs
   }
 
@@ -200,34 +200,35 @@ export class NodePos {
   querySelectorAll(selector: string, attributes: { [key: string]: any } = {}, firstItemOnly = false): NodePos[] {
     let nodes: NodePos[] = []
 
-    // iterate through children recursively finding all nodes which match the selector with the node name
     if (!this.children || this.children.length === 0) {
       return nodes
     }
+    const attrKeys = Object.keys(attributes)
 
+    /**
+     * Finds all children recursively that match the selector and attributes
+     * If firstItemOnly is true, it will return the first item found
+     */
     this.children.forEach(childPos => {
+      // If we already found a node and we only want the first item, we dont need to keep going
+      if (firstItemOnly && nodes.length > 0) {
+        return
+      }
+
       if (childPos.node.type.name === selector) {
-        if (Object.keys(attributes).length > 0) {
-          const nodeAttributes = childPos.node.attrs
-          const attrKeys = Object.keys(attributes)
+        const doesAllAttributesMatch = attrKeys.every(key => attributes[key] === childPos.node.attrs[key])
 
-          for (let index = 0; index < attrKeys.length; index += 1) {
-            const key = attrKeys[index]
-
-            if (nodeAttributes[key] !== attributes[key]) {
-              return
-            }
-          }
-        }
-
-        nodes.push(childPos)
-
-        if (firstItemOnly) {
-          return
+        if (doesAllAttributesMatch) {
+          nodes.push(childPos)
         }
       }
 
-      nodes = nodes.concat(childPos.querySelectorAll(selector))
+      // If we already found a node and we only want the first item, we can stop here and skip the recursion
+      if (firstItemOnly && nodes.length > 0) {
+        return
+      }
+
+      nodes = nodes.concat(childPos.querySelectorAll(selector, attributes, firstItemOnly))
     })
 
     return nodes
