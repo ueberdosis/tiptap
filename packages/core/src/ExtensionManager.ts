@@ -115,6 +115,12 @@ export class ExtensionManager {
     })
   }
 
+  /**
+   * Returns a flattened and sorted extension list while
+   * also checking for duplicated extensions and warns the user.
+   * @param extensions An array of Tiptap extensions
+   * @returns An flattened and sorted array of Tiptap extensions
+   */
   static resolve(extensions: Extensions): Extensions {
     const resolvedExtensions = ExtensionManager.sort(ExtensionManager.flatten(extensions))
     const duplicatedNames = findDuplicates(resolvedExtensions.map(extension => extension.name))
@@ -130,6 +136,11 @@ export class ExtensionManager {
     return resolvedExtensions
   }
 
+  /**
+   * Create a flattened array of extensions by traversing the `addExtensions` field.
+   * @param extensions An array of Tiptap extensions
+   * @returns A flattened array of Tiptap extensions
+   */
   static flatten(extensions: Extensions): Extensions {
     return (
       extensions
@@ -157,6 +168,11 @@ export class ExtensionManager {
     )
   }
 
+  /**
+   * Sort extensions by priority.
+   * @param extensions An array of Tiptap extensions
+   * @returns A sorted array of Tiptap extensions by priority
+   */
   static sort(extensions: Extensions): Extensions {
     const defaultPriority = 100
 
@@ -176,6 +192,10 @@ export class ExtensionManager {
     })
   }
 
+  /**
+   * Get all commands from the extensions.
+   * @returns An object with all commands where the key is the command name and the value is the command function
+   */
   get commands(): RawCommands {
     return this.extensions.reduce((commands, extension) => {
       const context = {
@@ -203,6 +223,10 @@ export class ExtensionManager {
     }, {} as RawCommands)
   }
 
+  /**
+   * Get all registered Prosemirror plugins from the extensions.
+   * @returns An array of Prosemirror plugins
+   */
   get plugins(): Plugin[] {
     const { editor } = this
 
@@ -304,10 +328,18 @@ export class ExtensionManager {
     ]
   }
 
+  /**
+   * Get all attributes from the extensions.
+   * @returns An array of attributes
+   */
   get attributes() {
     return getAttributesFromExtensions(this.extensions)
   }
 
+  /**
+   * Get all node views from the extensions.
+   * @returns An object with all node views where the key is the node name and the value is the node view function
+   */
   get nodeViews() {
     const { editor } = this
     const { nodeExtensions } = splitExtensions(this.extensions)
