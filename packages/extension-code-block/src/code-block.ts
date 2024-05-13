@@ -4,21 +4,23 @@ import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 export interface CodeBlockOptions {
   /**
    * Adds a prefix to language classes that are applied to code tags.
-   * Defaults to `'language-'`.
+   * @default 'language-'
    */
   languageClassPrefix: string
   /**
    * Define whether the node should be exited on triple enter.
-   * Defaults to `true`.
+   * @default true
    */
   exitOnTripleEnter: boolean
   /**
    * Define whether the node should be exited on arrow down if there is no node after it.
-   * Defaults to `true`.
+   * @default true
    */
   exitOnArrowDown: boolean
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
+   * @default {}
+   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
 }
@@ -28,19 +30,34 @@ declare module '@tiptap/core' {
     codeBlock: {
       /**
        * Set a code block
+       * @param attributes Code block attributes
+       * @example editor.commands.setCodeBlock({ language: 'javascript' })
        */
       setCodeBlock: (attributes?: { language: string }) => ReturnType
       /**
        * Toggle a code block
+       * @param attributes Code block attributes
+       * @example editor.commands.toggleCodeBlock({ language: 'javascript' })
        */
       toggleCodeBlock: (attributes?: { language: string }) => ReturnType
     }
   }
 }
 
+/**
+ * Matches a code block with backticks.
+ */
 export const backtickInputRegex = /^```([a-z]+)?[\s\n]$/
+
+/**
+ * Matches a code block with tildes.
+ */
 export const tildeInputRegex = /^~~~([a-z]+)?[\s\n]$/
 
+/**
+ * This extension allows you to create code blocks.
+ * @see https://tiptap.dev/api/nodes/code-block
+ */
 export const CodeBlock = Node.create<CodeBlockOptions>({
   name: 'codeBlock',
 
@@ -260,8 +277,15 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
             const { tr } = view.state
 
-            // create an empty code block
-            tr.replaceSelectionWith(this.type.create({ language }))
+            // create an empty code block´
+            // if the cursor is at the absolute end of the document, insert the code block before the cursor instead
+            // of replacing the selection as the replaceSelectionWith function will cause the insertion to
+            // happen at the previous node
+            if (view.state.selection.from === view.state.doc.nodeSize - (1 + (view.state.selection.$to.depth * 2))) {
+              tr.insert(view.state.selection.from - 1, this.type.create({ language }))
+            } else {
+              tr.replaceSelectionWith(this.type.create({ language }))
+            }
 
             // put cursor inside the newly created code block
             tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))))
