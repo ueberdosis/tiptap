@@ -9,6 +9,7 @@
     "not IE 11"
   ],
   "scripts": {
+    "cz": "cz",
     "start": "npm --prefix ./demos run start",
     "dev": "npm run start",
     "lint": "eslint --cache --quiet --no-error-on-unmatched-pattern ./",
@@ -59,6 +60,7 @@
     "@typescript-eslint/parser": "^5.10.2",
     "babel-loader": "^8.2.3",
     "cypress": "^10.8.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.17.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-cypress": "^2.12.1",
@@ -79,5 +81,10 @@
     "typescript": "^4.5.5",
     "webpack": "^5.68.0"
   },
-  "name": "tiptap"
+  "name": "tiptap",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
