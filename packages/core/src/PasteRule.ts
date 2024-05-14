@@ -277,6 +277,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
         if (isSimulatedPaste) {
           const { from, text } = simulatedPasteMeta
           const to = from + text.length
+          // const to = from + (typeof text === 'string' ? text.length : text.size)
           const pasteEvt = createClipboardPasteEvent(text)
 
           return processEvent({
