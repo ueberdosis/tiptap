@@ -14,6 +14,26 @@ context('/src/Commands/SetContent/React/', () => {
     })
   })
 
+  it('should emit updates', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      let updateCount = 0
+      const callback = () => {
+        updateCount += 1
+      }
+
+      editor.on('update', callback)
+      // emit an update
+      editor.commands.setContent('Hello World.', true)
+      expect(updateCount).to.equal(1)
+
+      updateCount = 0
+      // do not emit an update
+      editor.commands.setContent('Hello World again.', false)
+      expect(updateCount).to.equal(0)
+      editor.off('update', callback)
+    })
+  })
+
   it('should insert more complex html content', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<h1>Welcome to Tiptap</h1><p>This is a paragraph.</p><ul><li><p>List Item A</p></li><li><p>List Item B</p><ul><li><p>Subchild</p></li></ul></li></ul>')
@@ -46,7 +66,7 @@ context('/src/Commands/SetContent/React/', () => {
   it('should insert mentions', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p><span data-type="mention" data-id="1" data-label="John Doe">@John Doe</span></p>')
-      cy.get('.tiptap').should('contain.html', '<span contenteditable="false">@John Doe</span>')
+      cy.get('.tiptap').should('contain.html', '<span data-type="mention" data-id="1" data-label="John Doe" contenteditable="false">@John Doe</span>')
     })
   })
 })
