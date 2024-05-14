@@ -19,6 +19,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
  * two nodes. You can pass a join predicate, which takes a regular
  * expression match and the node before the wrapped node, and can
  * return a boolean to indicate whether a join should happen.
+ * @see https://tiptap.dev/guide/custom-extensions/#input-rules
  */
 export function wrappingInputRule(config: {
   find: InputRuleFinder,

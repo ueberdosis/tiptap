@@ -8,6 +8,10 @@ import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } fr
 import { isAndroid } from './utilities/isAndroid.js'
 import { isiOS } from './utilities/isiOS.js'
 
+/**
+ * Node views are used to customize the rendered DOM structure of a node.
+ * @see https://tiptap.dev/guide/node-views
+ */
 export class NodeView<
   Component,
   NodeEditor extends CoreEditor = CoreEditor,

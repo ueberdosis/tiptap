@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.2](https://github.com/ueberdosis/tiptap/compare/v2.3.1...v2.3.2) (2024-05-08)
+
+**Note:** Version bump only for package @tiptap/extension-bullet-list
+
+
+
+
+
+## [2.3.1](https://github.com/ueberdosis/tiptap/compare/v2.3.0...v2.3.1) (2024-04-30)
+
+**Note:** Version bump only for package @tiptap/extension-bullet-list
+
+
+
+
+
+# [2.3.0](https://github.com/ueberdosis/tiptap/compare/v2.2.6...v2.3.0) (2024-04-09)
+
+**Note:** Version bump only for package @tiptap/extension-bullet-list
+
+
+
+
+
+## [2.2.6](https://github.com/ueberdosis/tiptap/compare/v2.2.5...v2.2.6) (2024-04-06)
+
+**Note:** Version bump only for package @tiptap/extension-bullet-list
+
+
+
+
+
 ## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
 
 **Note:** Version bump only for package @tiptap/extension-bullet-list

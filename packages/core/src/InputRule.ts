@@ -191,6 +191,26 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
           return stored
         }
 
+        // if InputRule is triggered by insertContent()
+        const simulatedInputMeta = tr.getMeta('applyInputRules')
+        const isSimulatedInput = !!simulatedInputMeta
+
+        if (isSimulatedInput) {
+          setTimeout(() => {
+            const { from, text } = simulatedInputMeta
+            const to = from + text.length
+
+            run({
+              editor,
+              from,
+              to,
+              text,
+              rules,
+              plugin,
+            })
+          })
+        }
+
         return tr.selectionSet || tr.docChanged ? null : prev
       },
     },
