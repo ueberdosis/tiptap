@@ -59,7 +59,7 @@ Default: `() => ({})`
 ### findSuggestionMatch
 Optional param to replace the built-in regex matching of editor content that triggers a suggestion.
 See [the
-source](https://github.com/estrattonbailey/tiptap/blob/develop/packages/suggestion/src/findSuggestionMatch.ts#L18)
+source](https://github.com/ueberdosis/tiptap/blob/main/packages/suggestion/src/findSuggestionMatch.ts#L18)
 for more detail.
 
 Default: `findSuggestionMatch(config: Trigger): SuggestionMatch`

@@ -61,12 +61,22 @@ Mention.configure({
   renderHTML({ options, node }) {
     return [
       "a",
-      { href: '/profile/1' },
+      mergeAttributes({ href: '/profile/1' }, options.HTMLAttributes),
       `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
       ];
   }
 })
 ```
+
+### deleteTriggerWithBackspace
+Toggle whether the suggestion character(s) should also be deleted on deletion of a mention node. Default is `false`.
+
+```js
+Mention.configure({
+  deleteTriggerWithBackspace: true
+})
+```
+
 ### suggestion
 [Read more](/api/utilities/suggestion)
 

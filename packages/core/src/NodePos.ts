@@ -8,23 +8,35 @@ import { Content, Range } from './types.js'
 export class NodePos {
   private resolvedPos: ResolvedPos
 
+  private isBlock: boolean
+
   private editor: Editor
 
-  constructor(pos: ResolvedPos, editor: Editor) {
-    this.resolvedPos = pos
-    this.editor = editor
+  private get name(): string {
+    return this.node.type.name
   }
 
+  constructor(pos: ResolvedPos, editor: Editor, isBlock = false, node: Node | null = null) {
+    this.isBlock = isBlock
+    this.resolvedPos = pos
+    this.editor = editor
+    this.currentNode = node
+  }
+
+  private currentNode: Node | null = null
+
   get node(): Node {
-    return this.resolvedPos.node()
+    return this.currentNode || this.resolvedPos.node()
   }
 
   get element(): HTMLElement {
     return this.editor.view.domAtPos(this.pos).node as HTMLElement
   }
 
+  public actualDepth: number | null = null
+
   get depth(): number {
-    return this.resolvedPos.depth
+    return this.actualDepth ?? this.resolvedPos.depth
   }
 
   get pos(): number {
@@ -36,10 +48,23 @@ export class NodePos {
   }
 
   set content(content: Content) {
-    this.editor.commands.insertContentAt({ from: this.from, to: this.to }, content)
+    let from = this.from
+    let to = this.to
+
+    if (this.isBlock) {
+      if (this.content.size === 0) {
+        console.error(`You can’t set content on a block node. Tried to set content on ${this.name} at ${this.pos}`)
+        return
+      }
+
+      from = this.from + 1
+      to = this.to - 1
+    }
+
+    this.editor.commands.insertContentAt({ from, to }, content)
   }
 
-  get attributes() : { [key: string]: any } {
+  get attributes(): { [key: string]: any } {
     return this.node.attrs
   }
 
@@ -52,6 +77,10 @@ export class NodePos {
   }
 
   get from(): number {
+    if (this.isBlock) {
+      return this.pos
+    }
+
     return this.resolvedPos.start(this.resolvedPos.depth)
   }
 
@@ -63,6 +92,10 @@ export class NodePos {
   }
 
   get to(): number {
+    if (this.isBlock) {
+      return this.pos + this.size
+    }
+
     return this.resolvedPos.end(this.resolvedPos.depth) + (this.node.isText ? 0 : 1)
   }
 
@@ -78,7 +111,7 @@ export class NodePos {
   }
 
   get before(): NodePos | null {
-    let $pos = this.resolvedPos.doc.resolve(this.from - 2)
+    let $pos = this.resolvedPos.doc.resolve(this.from - (this.isBlock ? 1 : 2))
 
     if ($pos.depth !== this.depth) {
       $pos = this.resolvedPos.doc.resolve(this.from - 3)
@@ -88,7 +121,7 @@ export class NodePos {
   }
 
   get after(): NodePos | null {
-    let $pos = this.resolvedPos.doc.resolve(this.to + 2)
+    let $pos = this.resolvedPos.doc.resolve(this.to + (this.isBlock ? 2 : 1))
 
     if ($pos.depth !== this.depth) {
       $pos = this.resolvedPos.doc.resolve(this.to + 3)
@@ -101,14 +134,22 @@ export class NodePos {
     const children: NodePos[] = []
 
     this.node.content.forEach((node, offset) => {
+      const isBlock = node.isBlock && !node.isTextblock
+
       const targetPos = this.pos + offset + 1
       const $pos = this.resolvedPos.doc.resolve(targetPos)
 
-      if ($pos.depth === this.depth) {
+      if (!isBlock && $pos.depth <= this.depth) {
         return
       }
 
-      children.push(new NodePos($pos, this.editor))
+      const childNodePos = new NodePos($pos, this.editor, isBlock, isBlock ? node : null)
+
+      if (isBlock) {
+        childNodePos.actualDepth = this.depth + 1
+      }
+
+      children.push(new NodePos($pos, this.editor, isBlock, isBlock ? node : null))
     })
 
     return children
@@ -159,34 +200,35 @@ export class NodePos {
   querySelectorAll(selector: string, attributes: { [key: string]: any } = {}, firstItemOnly = false): NodePos[] {
     let nodes: NodePos[] = []
 
-    // iterate through children recursively finding all nodes which match the selector with the node name
     if (!this.children || this.children.length === 0) {
       return nodes
     }
+    const attrKeys = Object.keys(attributes)
 
-    this.children.forEach(node => {
-      if (node.node.type.name === selector) {
-        if (Object.keys(attributes).length > 0) {
-          const nodeAttributes = node.node.attrs
-          const attrKeys = Object.keys(attributes)
+    /**
+     * Finds all children recursively that match the selector and attributes
+     * If firstItemOnly is true, it will return the first item found
+     */
+    this.children.forEach(childPos => {
+      // If we already found a node and we only want the first item, we dont need to keep going
+      if (firstItemOnly && nodes.length > 0) {
+        return
+      }
 
-          for (let index = 0; index < attrKeys.length; index += 1) {
-            const key = attrKeys[index]
+      if (childPos.node.type.name === selector) {
+        const doesAllAttributesMatch = attrKeys.every(key => attributes[key] === childPos.node.attrs[key])
 
-            if (nodeAttributes[key] !== attributes[key]) {
-              return
-            }
-          }
-        }
-
-        nodes.push(node)
-
-        if (firstItemOnly) {
-          return
+        if (doesAllAttributesMatch) {
+          nodes.push(childPos)
         }
       }
 
-      nodes = nodes.concat(node.querySelectorAll(selector))
+      // If we already found a node and we only want the first item, we can stop here and skip the recursion
+      if (firstItemOnly && nodes.length > 0) {
+        return
+      }
+
+      nodes = nodes.concat(childPos.querySelectorAll(selector, attributes, firstItemOnly))
     })
 
     return nodes

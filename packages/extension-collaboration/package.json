@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-collaboration",
   "description": "collaboration extension for tiptap",
-  "version": "2.2.0-rc.8",
+  "version": "2.3.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,14 +29,14 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.2.0-rc.8",
-    "@tiptap/pm": "^2.2.0-rc.8",
-    "y-prosemirror": "^1.2.1"
+    "@tiptap/core": "^2.3.2",
+    "@tiptap/pm": "^2.3.2",
+    "y-prosemirror": "^1.2.5"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.0.0",
     "@tiptap/pm": "^2.0.0",
-    "y-prosemirror": "^1.2.1"
+    "y-prosemirror": "^1.2.5"
   },
   "repository": {
     "type": "git",

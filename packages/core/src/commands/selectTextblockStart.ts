@@ -9,6 +9,7 @@ declare module '@tiptap/core' {
     selectTextblockStart: {
       /**
        * Moves the cursor to the start of current text block.
+       * @example editor.commands.selectTextblockStart()
        */
       selectTextblockStart: () => ReturnType
     }

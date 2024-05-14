@@ -9,15 +9,19 @@ import {
 } from 'y-prosemirror'
 import { UndoManager } from 'yjs'
 
+type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     collaboration: {
       /**
        * Undo recent changes
+       * @example editor.commands.undo()
        */
       undo: () => ReturnType,
       /**
        * Reapply reverted changes
+       * @example editor.commands.redo()
        */
       redo: () => ReturnType,
     }
@@ -27,22 +31,35 @@ declare module '@tiptap/core' {
 export interface CollaborationOptions {
   /**
    * An initialized Y.js document.
+   * @example new Y.Doc()
    */
   document: any,
+
   /**
    * Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document.
+   * @default 'default'
+   * @example 'my-custom-field'
    */
   field: string,
+
   /**
    * A raw Y.js fragment, can be used instead of `document` and `field`.
+   * @example new Y.Doc().getXmlFragment('body')
    */
   fragment: any,
+
   /**
    * Fired when the content from Yjs is initially rendered to Tiptap.
    */
   onFirstRender?: () => void,
+
+  ySyncOptions?: YSyncOpts
 }
 
+/**
+ * This extension allows you to collaborate with others in real-time.
+ * @see https://tiptap.dev/api/extensions/collaboration
+ */
 export const Collaboration = Extension.create<CollaborationOptions>({
   name: 'collaboration',
 
@@ -124,7 +141,7 @@ export const Collaboration = Extension.create<CollaborationOptions>({
         undoManager.restore = () => {}
       }
 
-      const viewRet = originalUndoPluginView ? originalUndoPluginView(view) : null
+      const viewRet = originalUndoPluginView ? originalUndoPluginView(view) : undefined
 
       return {
         destroy: () => {
@@ -142,15 +159,18 @@ export const Collaboration = Extension.create<CollaborationOptions>({
             undoManager._observers = observers
           }
 
-          if (viewRet && viewRet.destroy) {
+          if (viewRet?.destroy) {
             viewRet.destroy()
           }
         },
       }
     }
 
-    const onFirstRender = this.options.onFirstRender
-    const ySyncPluginOptions = onFirstRender ? { onFirstRender } : {}
+    const ySyncPluginOptions: YSyncOpts = {
+      ...(this.options.ySyncOptions ? { ...this.options.ySyncOptions } : {}),
+      ...(this.options.onFirstRender ? { ...this.options.onFirstRender } : {}),
+    }
+
     const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
 
     return [ySyncPluginInstance, yUndoPluginInstance]

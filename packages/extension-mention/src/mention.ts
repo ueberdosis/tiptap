@@ -4,16 +4,62 @@ import { PluginKey } from '@tiptap/pm/state'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
 export type MentionOptions = {
+  /**
+   * The HTML attributes for a mention node.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>
-  /** @deprecated use renderText and renderHTML instead  */
+
+  /**
+   * A function to render the label of a mention.
+   * @deprecated use renderText and renderHTML instead
+   * @param props The render props
+   * @returns The label
+   * @example ({ options, node }) => `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
+   */
   renderLabel?: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
+
+  /**
+   * A function to render the text of a mention.
+   * @param props The render props
+   * @returns The text
+   * @example ({ options, node }) => `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
+   */
   renderText: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
+
+  /**
+   * A function to render the HTML of a mention.
+   * @param props The render props
+   * @returns The HTML as a ProseMirror DOM Output Spec
+   * @example ({ options, node }) => ['span', { 'data-type': 'mention' }, `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`]
+   */
   renderHTML: (props: { options: MentionOptions; node: ProseMirrorNode }) => DOMOutputSpec
+
+  /**
+   * Whether to delete the trigger character with backspace.
+   * @default false
+   */
+  deleteTriggerWithBackspace: boolean
+
+  /**
+   * The suggestion options.
+   * @default {}
+   * @example { char: '@', pluginKey: MentionPluginKey, command: ({ editor, range, props }) => { ... } }
+   */
   suggestion: Omit<SuggestionOptions, 'editor'>
 }
 
+/**
+ * The plugin key for the mention plugin.
+ * @default 'mention'
+ */
 export const MentionPluginKey = new PluginKey('mention')
 
+/**
+ * This extension allows you to insert mentions into the editor.
+ * @see https://www.tiptap.dev/api/extensions/mention
+ */
 export const Mention = Node.create<MentionOptions>({
   name: 'mention',
 
@@ -23,10 +69,11 @@ export const Mention = Node.create<MentionOptions>({
       renderText({ options, node }) {
         return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
       },
+      deleteTriggerWithBackspace: false,
       renderHTML({ options, node }) {
         return [
           'span',
-          this.HTMLAttributes,
+          mergeAttributes(this.HTMLAttributes, options.HTMLAttributes),
           `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
         ]
       },
@@ -131,8 +178,11 @@ export const Mention = Node.create<MentionOptions>({
         }),
       ]
     }
+    const mergedOptions = { ...this.options }
+
+    mergedOptions.HTMLAttributes = mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes)
     const html = this.options.renderHTML({
-      options: this.options,
+      options: mergedOptions,
       node,
     })
 
@@ -174,7 +224,11 @@ export const Mention = Node.create<MentionOptions>({
         state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
           if (node.type.name === this.name) {
             isMention = true
-            tr.insertText(this.options.suggestion.char || '', pos, pos + node.nodeSize)
+            tr.insertText(
+              this.options.deleteTriggerWithBackspace ? '' : this.options.suggestion.char || '',
+              pos,
+              pos + node.nodeSize,
+            )
 
             return false
           }

@@ -1,5 +1,4 @@
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { DOMOutputSpec } from 'prosemirror-model'
+import { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 /**
  * Creates a colgroup element for a table node in ProseMirror.
