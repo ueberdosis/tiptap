@@ -24,6 +24,8 @@ describe('extension-youtube', () => {
     // We have to disable the eslint rule here because we're trying to purposely test eval urls
     // eslint-disable-next-line no-script-url
     'javascript:alert(window.origin)//embed/',
+    // eslint-disable-next-line no-script-url
+    'jAvAsCrIpT:alert(window.origin)//embed/',
     'https://youtube.google.com/embed/fdsafsdf',
     'https://youtube.com.bad/embed',
   ]

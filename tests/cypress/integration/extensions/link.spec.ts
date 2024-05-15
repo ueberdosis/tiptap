@@ -20,45 +20,53 @@ describe('extension-link', () => {
   }
   const getEditorEl = () => document.querySelector(`.${editorElClass}`)
 
-  it('does not output src tag for javascript schema', () => {
-    editor = new Editor({
-      element: createEditorEl(),
-      extensions: [
-        Document,
-        Text,
-        Paragraph,
-        Link,
-      ],
-      content: {
-        type: 'doc',
-        content: [
-          {
-            type: 'paragraph',
-            content: [
-              {
-                type: 'text',
-                text: 'hello world!',
-                marks: [
-                  {
-                    type: 'link',
-                    attrs: {
-                      // We have to disable the eslint rule here because we're trying to purposely test eval urls
-                      // eslint-disable-next-line no-script-url
-                      href: 'javascript:alert(window.origin)',
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    })
-
+  const invalidUrls = [
+    // We have to disable the eslint rule here because we're trying to purposely test eval urls
     // eslint-disable-next-line no-script-url
-    expect(editor.getHTML()).to.not.include('javascript:alert(window.origin)')
+    'javascript:alert(window.origin)',
+    // eslint-disable-next-line no-script-url
+    'jAvAsCrIpT:alert(window.origin)',
+  ]
 
-    editor?.destroy()
-    getEditorEl()?.remove()
+  invalidUrls.forEach(url => {
+    it('does not output src tag for javascript schema', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [
+          Document,
+          Text,
+          Paragraph,
+          Link,
+        ],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: 'hello world!',
+                  marks: [
+                    {
+                      type: 'link',
+                      attrs: {
+                        href: url,
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      })
+
+      // eslint-disable-next-line no-script-url
+      expect(editor.getHTML()).to.not.include('javascript:alert(window.origin)')
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
   })
 })
