@@ -1,4 +1,5 @@
-import { MarkType, NodeType, Node } from '@tiptap/pm/model'
+import { MarkType, NodeType, Node, Mark } from '@tiptap/pm/model'
+import { SelectionRange } from '@tiptap/pm/state'
 
 import { getMarkType } from '../helpers/getMarkType.js'
 import { getNodeType } from '../helpers/getNodeType.js'
@@ -56,7 +57,7 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
     let trimmedFrom: number | null = null
     let trimmedTo: number | null = null
 
-    tr.selection.ranges.forEach(range => {
+    tr.selection.ranges.forEach((range: SelectionRange) => {
       const from = range.$from.pos
       const to = range.$to.pos
 
@@ -78,7 +79,7 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
     }
 
     if (markType && lastNode?.marks.length) {
-      lastNode.marks.forEach(mark => {
+      lastNode.marks.forEach((mark: Mark) => {
         if (markType === mark.type) {
           tr.addMark(
             trimmedFrom,
