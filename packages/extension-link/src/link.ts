@@ -161,14 +161,14 @@ export const Link = Mark.create<LinkOptions>({
       tag: 'a[href]',
       getAttrs: dom => {
         const href = dom.getAttribute('href')
-        
+
         // Check for any occurrence of 'javascript:'. Trim and lowercase both necessary
         if (href && href.trim().toLowerCase().startsWith('javascript:')) {
           return false
         }
         return { href }
       },
-    }];
+    }]
   },
 
   renderHTML({ HTMLAttributes }) {
