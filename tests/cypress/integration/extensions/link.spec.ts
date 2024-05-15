@@ -25,6 +25,8 @@ describe('extension-link', () => {
     // eslint-disable-next-line no-script-url
     'javascript:alert(window.origin)',
     // eslint-disable-next-line no-script-url
+    '    javascript:alert(window.origin)',
+    // eslint-disable-next-line no-script-url
     'jAvAsCrIpT:alert(window.origin)',
   ]
 
