@@ -51,16 +51,16 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
   }
 
   if (dispatch) {
-    let lastPos = null
-    let lastNode = null
-    let trimmedFrom = null
-    let trimmedTo = null
+    let lastPos: number | null = null
+    let lastNode: NodeType | null = null
+    let trimmedFrom: number | null = null
+    let trimmedTo: number | null = null
 
     tr.selection.ranges.forEach(range => {
       const from = range.$from.pos
       const to = range.$to.pos
 
-      state.doc.nodesBetween(from, to, (node, pos) => {
+      state.doc.nodesBetween(from, to, (node: NodeType, pos: number) => {
         if (nodeType && nodeType === node.type) {
           trimmedFrom = Math.max(pos, from)
           trimmedTo = Math.min(pos + node.nodeSize, to)
