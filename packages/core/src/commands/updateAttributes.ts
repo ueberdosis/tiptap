@@ -1,4 +1,4 @@
-import { MarkType, NodeType } from '@tiptap/pm/model'
+import { MarkType, NodeType, Node } from '@tiptap/pm/model'
 
 import { getMarkType } from '../helpers/getMarkType.js'
 import { getNodeType } from '../helpers/getNodeType.js'
@@ -52,7 +52,7 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
 
   if (dispatch) {
     let lastPos: number | null = null
-    let lastNode: NodeType | null = null
+    let lastNode: Node | null = null
     let trimmedFrom: number | null = null
     let trimmedTo: number | null = null
 
@@ -60,7 +60,7 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
       const from = range.$from.pos
       const to = range.$to.pos
 
-      state.doc.nodesBetween(from, to, (node: NodeType, pos: number) => {
+      state.doc.nodesBetween(from, to, (node: Node, pos: number) => {
         if (nodeType && nodeType === node.type) {
           trimmedFrom = Math.max(pos, from)
           trimmedTo = Math.min(pos + node.nodeSize, to)
