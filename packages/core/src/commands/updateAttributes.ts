@@ -51,37 +51,46 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
   }
 
   if (dispatch) {
+    let lastPos = null
+    let lastNode = null
+    let trimmedFrom = null
+    let trimmedTo = null
+
     tr.selection.ranges.forEach(range => {
       const from = range.$from.pos
       const to = range.$to.pos
 
       state.doc.nodesBetween(from, to, (node, pos) => {
         if (nodeType && nodeType === node.type) {
-          tr.setNodeMarkup(pos, undefined, {
-            ...node.attrs,
-            ...attributes,
-          })
-        }
-
-        if (markType && node.marks.length) {
-          node.marks.forEach(mark => {
-            if (markType === mark.type) {
-              const trimmedFrom = Math.max(pos, from)
-              const trimmedTo = Math.min(pos + node.nodeSize, to)
-
-              tr.addMark(
-                trimmedFrom,
-                trimmedTo,
-                markType.create({
-                  ...mark.attrs,
-                  ...attributes,
-                }),
-              )
-            }
-          })
+          trimmedFrom = Math.max(pos, from)
+          trimmedTo = Math.min(pos + node.nodeSize, to)
+          lastPos = pos
+          lastNode = node
         }
       })
     })
+
+    if (lastPos !== null && lastNode !== null) {
+      tr.setNodeMarkup(lastPos, undefined, {
+        ...lastNode.attrs,
+        ...attributes,
+      })
+    }
+
+    if (markType && lastNode?.marks.length) {
+      lastNode.marks.forEach(mark => {
+        if (markType === mark.type) {
+          tr.addMark(
+            trimmedFrom,
+            trimmedTo,
+            markType.create({
+              ...mark.attrs,
+              ...attributes,
+            }),
+          )
+        }
+      })
+    }
   }
 
   return true
