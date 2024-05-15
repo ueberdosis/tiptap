@@ -168,7 +168,7 @@ export const Link = Mark.create<LinkOptions>({
         return { href };
       }
     }];
-  }
+  },
 
   renderHTML({ HTMLAttributes }) {
     // eslint-disable-next-line no-script-url -- False positive; we're explicitly checking for javascript: links to ignore them. Trim and lowercase both necessary
