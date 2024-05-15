@@ -157,13 +157,22 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   parseHTML() {
-    return [{ tag: 'a[href]:not([href *= "javascript:" i])' }]
-  },
+    return [{
+      tag: 'a[href]',
+      getAttrs: dom => {
+        const href = dom.getAttribute('href');
+        // Check for any occurrence of 'javascript:'. Trim and lowercase both necessary
+        if (href && href.trim().toLowerCase().startsWith('javascript:')) {
+          return false;
+        }
+        return { href };
+      }
+    }];
+  }
 
   renderHTML({ HTMLAttributes }) {
-    // False positive; we're explicitly checking for javascript: links to ignore them
-    // eslint-disable-next-line no-script-url
-    if (HTMLAttributes.href?.startsWith('javascript:')) {
+    // eslint-disable-next-line no-script-url -- False positive; we're explicitly checking for javascript: links to ignore them. Trim and lowercase both necessary
+    if (HTMLAttributes.href?.trim().toLowerCase().startsWith('javascript:')) {
       // strip out the href
       return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
     }
