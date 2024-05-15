@@ -162,7 +162,7 @@ export const Link = Mark.create<LinkOptions>({
       getAttrs: dom => {
         const href = dom.getAttribute('href')
 
-        // Check for any occurrence of 'javascript:'. Trim and lowercase both necessary
+        // eslint-disable-next-line no-script-url -- Check for any occurrence of 'javascript:'. Trim and lowercase both necessary
         if (href && href.trim().toLowerCase().startsWith('javascript:')) {
           return false
         }
