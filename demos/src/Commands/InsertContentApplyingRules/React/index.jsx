@@ -161,6 +161,21 @@ const MenuBar = () => {
       >
         Insert "*this is a test*"
       </button>
+      <button
+        onClick={() => {
+          editor
+            .chain()
+            .insertContent('<p>*This is an italic text*</p>', {
+              applyInputRules: useInputRules,
+              applyPasteRules: usePasteRules,
+            })
+            .focus()
+            .run()
+        }}
+        data-test-8
+      >
+        Insert <p>*This is an italic text*</p>
+      </button>
     </>
   )
 }

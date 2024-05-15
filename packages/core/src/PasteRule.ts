@@ -125,6 +125,11 @@ function run(config: {
     const textToMatch = node.textBetween(resolvedFrom - pos, resolvedTo - pos, undefined, '\ufffc')
 
     const matches = pasteRuleMatcherHandler(textToMatch, rule.find, pasteEvent)
+    const toCompare = /(?:^|\s)(\*(?!\s+\*)((?:[^*]+))\*(?!\s+\*))/g
+
+    if (rule.find.toString() === toCompare.toString()) {
+      console.log(resolvedFrom, resolvedTo, pos, node.content.size)
+    }
 
     matches.forEach(match => {
       if (match.index === undefined) {
@@ -220,6 +225,45 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
     return tr
   }
 
+  const processEventv2 = ({
+    state,
+    from,
+    to,
+    rule,
+    pasteEvt,
+  }: {
+    state: EditorState
+    from: number
+    to: { b: number }
+    rule: PasteRule
+    pasteEvt: ClipboardEvent | null
+  }) => {
+    const tr = state.tr
+    const chainableState = createChainableState({
+      state,
+      transaction: tr,
+    })
+
+    const handler = run({
+      editor,
+      state: chainableState,
+      from: Math.max(from - 1, 0),
+      to: to.b - 1,
+      rule,
+      pasteEvent: pasteEvt,
+      dropEvent,
+    })
+
+    if (!handler || !tr.steps.length) {
+      return tr
+    }
+
+    dropEvent = typeof DragEvent !== 'undefined' ? new DragEvent('drop') : null
+    pasteEvent = typeof ClipboardEvent !== 'undefined' ? new ClipboardEvent('paste') : null
+
+    return tr
+  }
+
   const plugins = rules.map(rule => {
     return new Plugin({
       // we register a global drag handler to track the current drag source element
@@ -275,18 +319,35 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
 
         // Handle simulated paste
         if (isSimulatedPaste) {
-          const { from, text } = simulatedPasteMeta
-          const to = from + text.length
-          // const to = from + (typeof text === 'string' ? text.length : text.size)
+          const text = simulatedPasteMeta.text
+          let from = simulatedPasteMeta.from
           const pasteEvt = createClipboardPasteEvent(text)
 
-          return processEvent({
-            rule,
-            state,
-            from,
-            to: { b: to },
-            pasteEvt,
-          })
+          if (typeof text === 'string') {
+            const to = from + text.length
+
+            return processEvent({
+              rule,
+              state,
+              from,
+              to: { b: to },
+              pasteEvt,
+            })
+          }
+          let tr = state.tr
+
+          for (let i = 0; i < text.content.length; i += 1) {
+            console.log(from, from + text.content[i].content.size)
+            tr = processEventv2({
+              rule,
+              state,
+              from,
+              to: { b: text.content[i].content.size + 1 },
+              pasteEvt,
+            })
+            from += text.content[i].content.size
+          }
+          return tr
         }
 
         // handle actual paste/drop
