@@ -29,8 +29,8 @@ describe('extension-link', () => {
     'ftp://info@example.com',
   ]
 
-  validUrls.forEach(url => {
-    it('does output href tag for valid schemas', () => {
+  it('does output href tag for valid JSON schemas', () => {
+    validUrls.forEach(url => {
       editor = new Editor({
         element: createEditorEl(),
         extensions: [
@@ -64,6 +64,28 @@ describe('extension-link', () => {
       })
 
       expect(editor.getHTML()).to.include(url)
+      expect(JSON.stringify(editor.getJSON())).to.include(url)
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
+
+  it('does output href tag for valid HTML schemas', () => {
+    validUrls.forEach(url => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [
+          Document,
+          Text,
+          Paragraph,
+          Link,
+        ],
+        content: `<p><a href="${url}">hello world!</a></p>`,
+      })
+
+      expect(editor.getHTML()).to.include(url)
+      expect(JSON.stringify(editor.getJSON())).to.include(url)
 
       editor?.destroy()
       getEditorEl()?.remove()
@@ -164,8 +186,8 @@ describe('extension-link', () => {
     'javascript\x0d:alert(window.origin)',
   ]
 
-  invalidUrls.forEach(url => {
-    it('does not output src tag for javascript schema', () => {
+  it('does not output href for :javascript links in JSON schema', () => {
+    invalidUrls.forEach(url => {
       editor = new Editor({
         element: createEditorEl(),
         extensions: [
@@ -199,6 +221,30 @@ describe('extension-link', () => {
       })
 
       expect(editor.getHTML()).to.not.include(url)
+      // Unfortunately, if the content is provided as JSON, it stays in the editor instance until it's destroyed
+      // At least, it cannot be outputted as HTML into a page
+      // expect(JSON.stringify(editor.getJSON())).to.not.include(url)
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
+
+  it('does not output href for :javascript links in HTML schema', () => {
+    invalidUrls.forEach(url => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [
+          Document,
+          Text,
+          Paragraph,
+          Link,
+        ],
+        content: `<p><a href="${url}">hello world!</a></p>`,
+      })
+
+      expect(editor.getHTML()).to.not.include(url)
+      expect(JSON.stringify(editor.getJSON())).to.not.include(url)
 
       editor?.destroy()
       getEditorEl()?.remove()

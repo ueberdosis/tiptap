@@ -166,10 +166,22 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   parseHTML() {
-    return [{ tag: 'a[href]:not([href *= "javascript:" i])' }]
+    return [{
+      tag: 'a[href]',
+      getAttrs: dom => {
+        const href = (dom as HTMLElement).getAttribute('href')
+
+        // prevent XSS attacks
+        if (!href || !isAllowedUri(href)) {
+          return false
+        }
+        return { href }
+      },
+    }]
   },
 
   renderHTML({ HTMLAttributes }) {
+    // prevent XSS attacks
     if (!isAllowedUri(HTMLAttributes.href)) {
       // strip out the href
       return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
