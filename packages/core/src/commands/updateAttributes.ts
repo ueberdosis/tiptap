@@ -52,10 +52,10 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
   }
 
   if (dispatch) {
-    let lastPos: number | null = null
-    let lastNode: Node | null = null
-    let trimmedFrom: number | null = null
-    let trimmedTo: number | null = null
+    let lastPos: number | undefined
+    let lastNode: Node | undefined
+    let trimmedFrom: number
+    let trimmedTo: number
 
     tr.selection.ranges.forEach((range: SelectionRange) => {
       const from = range.$from.pos
@@ -71,26 +71,29 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
       })
     })
 
-    if (lastPos !== null && lastNode !== null) {
-      tr.setNodeMarkup(lastPos, undefined, {
-        ...lastNode.attrs,
-        ...attributes,
-      })
-    }
+    if (lastNode) {
 
-    if (markType && lastNode?.marks.length) {
-      lastNode.marks.forEach((mark: Mark) => {
-        if (markType === mark.type) {
-          tr.addMark(
-            trimmedFrom,
-            trimmedTo,
-            markType.create({
-              ...mark.attrs,
-              ...attributes,
-            }),
-          )
-        }
-      })
+      if (lastPos) {
+        tr.setNodeMarkup(lastPos, undefined, {
+          ...lastNode.attrs,
+          ...attributes,
+        })
+      }
+
+      if (markType && lastNode.marks.length) {
+        lastNode.marks.forEach((mark: Mark) => {
+          if (markType === mark.type) {
+            tr.addMark(
+              trimmedFrom,
+              trimmedTo,
+              markType.create({
+                ...mark.attrs,
+                ...attributes,
+              }),
+            )
+          }
+        })
+      }
     }
   }
 
