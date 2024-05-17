@@ -73,6 +73,13 @@ export default () => {
       >
         CSS variable
       </button>
+      <button
+        onClick={() => editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run()}
+        className={editor.isActive('textStyle', { fontFamily: '"Comic Sans"' }) ? 'is-active' : ''}
+        data-test-id="comic-sans-quoted"
+      >
+        Comic Sans quoted
+      </button>
       <button onClick={() => editor.chain().focus().unsetFontFamily().run()} data-test-id="unsetFontFamily">
         unsetFontFamily
       </button>
