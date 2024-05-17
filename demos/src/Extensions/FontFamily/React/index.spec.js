@@ -29,13 +29,13 @@ context('/src/Extensions/FontFamily/React/', () => {
     cy.get('.tiptap span').should('not.exist')
   })
 
-  it('should quote font-family that have spaces in them', () => {
+  it('should work with font-family that have spaces in them', () => {
     cy.get('[data-test-id="comic-sans"]')
       .should('not.have.class', 'is-active')
       .click()
       .should('have.class', 'is-active')
 
-    cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-family: "Comic Sans MS", "Comic Sans"')
+    cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-family: Comic Sans MS, Comic Sans')
   })
 
   it('should allow CSS variables as a font-family', () => {

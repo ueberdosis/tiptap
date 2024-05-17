@@ -56,14 +56,7 @@ export const FontFamily = Extension.create<FontFamilyOptions>({
               }
 
               return {
-                style: `font-family: ${attributes.fontFamily.split(',').map((str: string) => {
-                  // TODO this is subpar, we should just use the fontFamily verbatim and make the user escape it
-                  const fontFamily = str.trim()
-                  const hasNumbersOrWhitespace = fontFamily.match(/(\d|\s)+/)
-                  const isAlreadyQuoted = fontFamily.match(/^".*"$/)
-
-                  return hasNumbersOrWhitespace && !isAlreadyQuoted ? `"${fontFamily}"` : fontFamily
-                }).join(', ')}`,
+                style: `font-family: ${attributes.fontFamily}`,
               }
             },
           },
