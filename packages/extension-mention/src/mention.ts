@@ -3,7 +3,21 @@ import { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { PluginKey } from '@tiptap/pm/state'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
-export type MentionOptions = {
+// See `addAttributes` below
+export interface MentionNodeAttrs {
+  /**
+   * The identifier for the selected item that was mentioned, stored as a `data-id`
+   * attribute.
+   */
+  id: string | null;
+  /**
+   * The label to be rendered by the editor as the displayed text for this mentioned
+   * item, if provided. Stored as a `data-label` attribute. See `renderLabel`.
+   */
+  label?: string | null;
+}
+
+export type MentionOptions<SuggestionItem = any, Attrs extends Record<string, any> = MentionNodeAttrs> = {
   /**
    * The HTML attributes for a mention node.
    * @default {}
@@ -18,7 +32,7 @@ export type MentionOptions = {
    * @returns The label
    * @example ({ options, node }) => `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
    */
-  renderLabel?: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
+  renderLabel?: (props: { options: MentionOptions<SuggestionItem, Attrs>; node: ProseMirrorNode }) => string
 
   /**
    * A function to render the text of a mention.
@@ -26,7 +40,7 @@ export type MentionOptions = {
    * @returns The text
    * @example ({ options, node }) => `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
    */
-  renderText: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
+  renderText: (props: { options: MentionOptions<SuggestionItem, Attrs>; node: ProseMirrorNode }) => string
 
   /**
    * A function to render the HTML of a mention.
@@ -34,7 +48,7 @@ export type MentionOptions = {
    * @returns The HTML as a ProseMirror DOM Output Spec
    * @example ({ options, node }) => ['span', { 'data-type': 'mention' }, `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`]
    */
-  renderHTML: (props: { options: MentionOptions; node: ProseMirrorNode }) => DOMOutputSpec
+  renderHTML: (props: { options: MentionOptions<SuggestionItem, Attrs>; node: ProseMirrorNode }) => DOMOutputSpec
 
   /**
    * Whether to delete the trigger character with backspace.
@@ -47,7 +61,7 @@ export type MentionOptions = {
    * @default {}
    * @example { char: '@', pluginKey: MentionPluginKey, command: ({ editor, range, props }) => { ... } }
    */
-  suggestion: Omit<SuggestionOptions, 'editor'>
+  suggestion: Omit<SuggestionOptions<SuggestionItem, Attrs>, 'editor'>
 }
 
 /**
