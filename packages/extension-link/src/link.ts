@@ -95,15 +95,6 @@ declare module '@tiptap/core' {
   }
 }
 
-// From DOMPurify
-// https://github.com/cure53/DOMPurify/blob/main/src/regexp.js
-const ATTR_WHITESPACE = /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g // eslint-disable-line no-control-regex
-const IS_ALLOWED_URI = /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
-
-function isAllowedUri(uri: string | undefined) {
-  return !uri || uri.replace(ATTR_WHITESPACE, '').match(IS_ALLOWED_URI)
-}
-
 /**
  * This extension allows you to create links.
  * @see https://www.tiptap.dev/api/marks/link
@@ -166,27 +157,16 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   parseHTML() {
-    return [{
-      tag: 'a[href]',
-      getAttrs: dom => {
-        const href = (dom as HTMLElement).getAttribute('href')
-
-        // prevent XSS attacks
-        if (!href || !isAllowedUri(href)) {
-          return false
-        }
-        return { href }
-      },
-    }]
+    return [{ tag: 'a[href]:not([href *= "javascript:" i])' }]
   },
 
   renderHTML({ HTMLAttributes }) {
-    // prevent XSS attacks
-    if (!isAllowedUri(HTMLAttributes.href)) {
+    // False positive; we're explicitly checking for javascript: links to ignore them
+    // eslint-disable-next-line no-script-url
+    if (HTMLAttributes.href?.startsWith('javascript:')) {
       // strip out the href
       return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
     }
-
     return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
