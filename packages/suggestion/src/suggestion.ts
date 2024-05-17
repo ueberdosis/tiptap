@@ -4,7 +4,7 @@ import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
 
 import { findSuggestionMatch as defaultFindSuggestionMatch } from './findSuggestionMatch.js'
 
-export interface SuggestionOptions<I = any> {
+export interface SuggestionOptions<I = any, TSelected = any> {
   /**
    * The plugin key for the suggestion plugin.
    * @default 'suggestion'
@@ -69,7 +69,7 @@ export interface SuggestionOptions<I = any> {
    * @returns void
    * @example ({ editor, range, props }) => { props.command(props.props) }
    */
-  command?: (props: { editor: Editor; range: Range; props: I }) => void
+  command?: (props: { editor: Editor; range: Range; props: TSelected }) => void
 
   /**
    * A function that returns the suggestion items in form of an array.
@@ -86,12 +86,12 @@ export interface SuggestionOptions<I = any> {
    * @returns An object with render functions.
    */
   render?: () => {
-    onBeforeStart?: (props: SuggestionProps<I>) => void
-    onStart?: (props: SuggestionProps<I>) => void
-    onBeforeUpdate?: (props: SuggestionProps<I>) => void
-    onUpdate?: (props: SuggestionProps<I>) => void
-    onExit?: (props: SuggestionProps<I>) => void
-    onKeyDown?: (props: SuggestionKeyDownProps) => boolean
+    onBeforeStart?: (props: SuggestionProps<I, TSelected>) => void;
+    onStart?: (props: SuggestionProps<I, TSelected>) => void;
+    onBeforeUpdate?: (props: SuggestionProps<I, TSelected>) => void;
+    onUpdate?: (props: SuggestionProps<I, TSelected>) => void;
+    onExit?: (props: SuggestionProps<I, TSelected>) => void;
+    onKeyDown?: (props: SuggestionKeyDownProps) => boolean;
   }
 
   /**
@@ -103,7 +103,7 @@ export interface SuggestionOptions<I = any> {
   findSuggestionMatch?: typeof defaultFindSuggestionMatch
 }
 
-export interface SuggestionProps<I = any> {
+export interface SuggestionProps<I = any, TSelected = any> {
   /**
    * The editor instance.
    */
@@ -134,7 +134,7 @@ export interface SuggestionProps<I = any> {
    * @param props The props object.
    * @returns void
    */
-  command: (props: I) => void
+  command: (props: TSelected) => void
 
   /**
    * The decoration node HTML element
@@ -162,7 +162,7 @@ export const SuggestionPluginKey = new PluginKey('suggestion')
  * This utility allows you to create suggestions.
  * @see https://tiptap.dev/api/utilities/suggestion
  */
-export function Suggestion<I = any>({
+export function Suggestion<I = any, TSelected = any>({
   pluginKey = SuggestionPluginKey,
   editor,
   char = '@',
@@ -176,8 +176,8 @@ export function Suggestion<I = any>({
   render = () => ({}),
   allow = () => true,
   findSuggestionMatch = defaultFindSuggestionMatch,
-}: SuggestionOptions<I>) {
-  let props: SuggestionProps<I> | undefined
+}: SuggestionOptions<I, TSelected>) {
+  let props: SuggestionProps<I, TSelected> | undefined
   const renderer = render?.()
 
   const plugin: Plugin<any> = new Plugin({
