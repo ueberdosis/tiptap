@@ -1,5 +1,5 @@
-import { Highlight } from './highlight'
+import { Highlight } from './highlight.js'
 
-export * from './highlight'
+export * from './highlight.js'
 
 export default Highlight

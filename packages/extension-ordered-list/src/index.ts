@@ -1,5 +1,5 @@
-import { OrderedList } from './ordered-list'
+import { OrderedList } from './ordered-list.js'
 
-export * from './ordered-list'
+export * from './ordered-list.js'
 
 export default OrderedList

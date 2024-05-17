@@ -35,7 +35,7 @@ export default () => {
   const [index, setIndex] = React.useState(0)
 
   const handleUpdate = ({ editor: currentEditor }) => {
-    console.log(index, 'onUpdate', currentEditor.getHTML())
+    console.log(index, 'onUpdate', currentEditor.getHTML()) // eslint-disable-line no-console
   }
 
   return (

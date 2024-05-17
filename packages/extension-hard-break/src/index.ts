@@ -1,5 +1,5 @@
-import { HardBreak } from './hard-break'
+import { HardBreak } from './hard-break.js'
 
-export * from './hard-break'
+export * from './hard-break.js'
 
 export default HardBreak

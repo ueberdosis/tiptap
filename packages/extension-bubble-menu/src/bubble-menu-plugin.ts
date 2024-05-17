@@ -6,11 +6,43 @@ import { EditorView } from '@tiptap/pm/view'
 import tippy, { Instance, Props } from 'tippy.js'
 
 export interface BubbleMenuPluginProps {
+  /**
+   * The plugin key.
+   * @type {PluginKey | string}
+   * @default 'bubbleMenu'
+   */
   pluginKey: PluginKey | string
+
+  /**
+   * The editor instance.
+   */
   editor: Editor
+
+  /**
+   * The DOM element that contains your menu.
+   * @type {HTMLElement}
+   * @default null
+   */
   element: HTMLElement
+
+  /**
+   * The options for the tippy.js instance.
+   * @see https://atomiks.github.io/tippyjs/v6/all-props/
+   */
   tippyOptions?: Partial<Props>
+
+  /**
+   * The delay in milliseconds before the menu should be updated.
+   * This can be useful to prevent performance issues.
+   * @type {number}
+   * @default 250
+   */
   updateDelay?: number
+
+  /**
+   * A function that determines whether the menu should be shown or not.
+   * If this function returns `false`, the menu will be hidden, otherwise it will be shown.
+   */
   shouldShow?:
     | ((props: {
         editor: Editor

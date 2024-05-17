@@ -1,4 +1,4 @@
-import { MarkConfig, NodeConfig } from '..'
+import { MarkConfig, NodeConfig } from '../index.js'
 import {
   AnyConfig,
   Attribute,
@@ -6,9 +6,9 @@ import {
   ExtensionAttribute,
   Extensions,
   GlobalAttributes,
-} from '../types'
-import { getExtensionField } from './getExtensionField'
-import { splitExtensions } from './splitExtensions'
+} from '../types.js'
+import { getExtensionField } from './getExtensionField.js'
+import { splitExtensions } from './splitExtensions.js'
 
 /**
  * Get a list of all extension attributes defined in `addAttribute` and `addGlobalAttribute`.

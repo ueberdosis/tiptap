@@ -16,7 +16,7 @@ JSON is probably easier to loop through, for example to look for a mention and i
 const json = editor.getJSON()
 ```
 
-You can store that in your database (or send it to an API) and restore the document initially like that:
+You can store that in your database (or send it to an API) and restore the document initially:
 
 ```js
 new Editor({
@@ -45,7 +45,7 @@ Here is an interactive example where you can see that in action:
 https://embed.tiptap.dev/preview/GuideContent/ExportJSON?hideSource
 
 ### Option 2: HTML
-HTML can be easily rendered in other places, for example in emails and it’s wildly used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
+HTML can be easily rendered in other places, for example in emails and it’s widely used, so it’s probably easier to switch the editor at some point. Anyway, every editor instance provides a method to get HTML from the current document:
 
 ```js
 const html = editor.getHTML()

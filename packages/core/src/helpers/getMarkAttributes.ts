@@ -1,7 +1,7 @@
 import { Mark, MarkType } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
 
-import { getMarkType } from './getMarkType'
+import { getMarkType } from './getMarkType.js'
 
 export function getMarkAttributes(
   state: EditorState,

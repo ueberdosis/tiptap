@@ -1,5 +1,5 @@
-import { Code } from './code'
+import { Code } from './code.js'
 
-export * from './code'
+export * from './code.js'
 
 export default Code

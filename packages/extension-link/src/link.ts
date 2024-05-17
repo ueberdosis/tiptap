@@ -1,37 +1,68 @@
-import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
+import {
+  Mark, markPasteRule, mergeAttributes, PasteRuleMatch,
+} from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
-import { autolink } from './helpers/autolink'
-import { clickHandler } from './helpers/clickHandler'
-import { pasteHandler } from './helpers/pasteHandler'
+import { autolink } from './helpers/autolink.js'
+import { clickHandler } from './helpers/clickHandler.js'
+import { pasteHandler } from './helpers/pasteHandler.js'
 
 export interface LinkProtocolOptions {
+  /**
+   * The protocol scheme to be registered.
+   * @default '''
+   * @example 'ftp'
+   * @example 'git'
+   */
   scheme: string;
+
+  /**
+   * If enabled, it allows optional slashes after the protocol.
+   * @default false
+   * @example true
+   */
   optionalSlashes?: boolean;
 }
 
+export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
+
 export interface LinkOptions {
   /**
-   * If enabled, it adds links as you type.
+   * If enabled, the extension will automatically add links as you type.
+   * @default true
+   * @example false
    */
   autolink: boolean
+
   /**
    * An array of custom protocols to be registered with linkifyjs.
+   * @default []
+   * @example ['ftp', 'git']
    */
   protocols: Array<LinkProtocolOptions | string>
+
   /**
    * If enabled, links will be opened on click.
+   * @default true
+   * @example false
+   * @example 'whenNotEditable'
    */
-  openOnClick: boolean
+  openOnClick: boolean | 'whenNotEditable'
   /**
    * Adds a link to the current selection if the pasted content only contains an url.
+   * @default true
+   * @example false
    */
   linkOnPaste: boolean
+
   /**
-   * A list of HTML attributes to be rendered.
+   * HTML attributes to add to the link element.
+   * @default {}
+   * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
+
   /**
    * A validation function that modifies link verification for the auto linker.
    * @param url - The url to be validated.
@@ -45,20 +76,38 @@ declare module '@tiptap/core' {
     link: {
       /**
        * Set a link mark
+       * @param attributes The link attributes
+       * @example editor.commands.setLink({ href: 'https://tiptap.dev' })
        */
-      setLink: (attributes: { href: string; target?: string | null }) => ReturnType
+      setLink: (attributes: { href: string; target?: string | null; rel?: string | null; class?: string | null }) => ReturnType
       /**
        * Toggle a link mark
+       * @param attributes The link attributes
+       * @example editor.commands.toggleLink({ href: 'https://tiptap.dev' })
        */
-      toggleLink: (attributes: { href: string; target?: string | null }) => ReturnType
+      toggleLink: (attributes: { href: string; target?: string | null; rel?: string | null; class?: string | null }) => ReturnType
       /**
        * Unset a link mark
+       * @example editor.commands.unsetLink()
        */
       unsetLink: () => ReturnType
     }
   }
 }
 
+// From DOMPurify
+// https://github.com/cure53/DOMPurify/blob/main/src/regexp.js
+const ATTR_WHITESPACE = /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g // eslint-disable-line no-control-regex
+const IS_ALLOWED_URI = /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
+
+function isAllowedUri(uri: string | undefined) {
+  return !uri || uri.replace(ATTR_WHITESPACE, '').match(IS_ALLOWED_URI)
+}
+
+/**
+ * This extension allows you to create links.
+ * @see https://www.tiptap.dev/api/marks/link
+ */
 export const Link = Mark.create<LinkOptions>({
   name: 'link',
 
@@ -107,6 +156,9 @@ export const Link = Mark.create<LinkOptions>({
       target: {
         default: this.options.HTMLAttributes.target,
       },
+      rel: {
+        default: this.options.HTMLAttributes.rel,
+      },
       class: {
         default: this.options.HTMLAttributes.class,
       },
@@ -114,10 +166,27 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   parseHTML() {
-    return [{ tag: 'a[href]:not([href *= "javascript:" i])' }]
+    return [{
+      tag: 'a[href]',
+      getAttrs: dom => {
+        const href = (dom as HTMLElement).getAttribute('href')
+
+        // prevent XSS attacks
+        if (!href || !isAllowedUri(href)) {
+          return false
+        }
+        return { href }
+      },
+    }]
   },
 
   renderHTML({ HTMLAttributes }) {
+    // prevent XSS attacks
+    if (!isAllowedUri(HTMLAttributes.href)) {
+      // strip out the href
+      return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
+    }
+
     return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
@@ -149,24 +218,31 @@ export const Link = Mark.create<LinkOptions>({
   addPasteRules() {
     return [
       markPasteRule({
-        find: text => find(text)
-          .filter(link => {
-            if (this.options.validate) {
-              return this.options.validate(link.value)
-            }
+        find: text => {
+          const foundLinks: PasteRuleMatch[] = []
 
-            return true
-          })
-          .filter(link => link.isLink)
-          .map(link => ({
-            text: link.value,
-            index: link.start,
-            data: link,
-          })),
+          if (text) {
+            const links = find(text).filter(item => item.isLink)
+
+            if (links.length) {
+              links.forEach(link => (foundLinks.push({
+                text: link.value,
+                data: {
+                  href: link.href,
+                },
+                index: link.start,
+              })))
+            }
+          }
+
+          return foundLinks
+        },
         type: this.type,
-        getAttributes: match => ({
-          href: match.data?.href,
-        }),
+        getAttributes: match => {
+          return {
+            href: match.data?.href,
+          }
+        },
       }),
     ]
   },
@@ -187,6 +263,7 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
+          whenNotEditable: this.options.openOnClick === 'whenNotEditable',
         }),
       )
     }

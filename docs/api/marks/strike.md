@@ -59,7 +59,7 @@ editor.commands.unsetStrike()
 ## Keyboard shortcuts
 | Command        | Windows/Linux                   | macOS                       |
 | -------------- | ------------------------------- | --------------------------- |
-| toggleStrike() | `Control`&nbsp;`Shift`&nbsp;`X` | `Cmd`&nbsp;`Shift`&nbsp;`X` |
+| toggleStrike() | `Control`&nbsp;`Shift`&nbsp;`S` | `Cmd`&nbsp;`Shift`&nbsp;`S` |
 
 ## Source code
 [packages/extension-strike/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-strike/)

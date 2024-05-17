@@ -1,9 +1,9 @@
 import { EditorState, NodeSelection, TextSelection } from '@tiptap/pm/state'
 import { canSplit } from '@tiptap/pm/transform'
 
-import { defaultBlockAt } from '../helpers/defaultBlockAt'
-import { getSplittedAttributes } from '../helpers/getSplittedAttributes'
-import { RawCommands } from '../types'
+import { defaultBlockAt } from '../helpers/defaultBlockAt.js'
+import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
+import { RawCommands } from '../types.js'
 
 function ensureMarks(state: EditorState, splittableMarks?: string[]) {
   const marks = state.storedMarks || (state.selection.$to.parentOffset && state.selection.$from.marks())
@@ -20,6 +20,9 @@ declare module '@tiptap/core' {
     splitBlock: {
       /**
        * Forks a new node from an existing node.
+       * @param options.keepMarks Keep marks from the previous node.
+       * @example editor.commands.splitBlock()
+       * @example editor.commands.splitBlock({ keepMarks: true })
        */
       splitBlock: (options?: { keepMarks?: boolean }) => ReturnType
     }

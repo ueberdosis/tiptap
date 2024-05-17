@@ -1,10 +1,10 @@
 import { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
 import { canJoin, findWrapping } from '@tiptap/pm/transform'
 
-import { Editor } from '../Editor'
-import { InputRule, InputRuleFinder } from '../InputRule'
-import { ExtendedRegExpMatchArray } from '../types'
-import { callOrReturn } from '../utilities/callOrReturn'
+import { Editor } from '../Editor.js'
+import { InputRule, InputRuleFinder } from '../InputRule.js'
+import { ExtendedRegExpMatchArray } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
  * Build an input rule for automatically wrapping a textblock when a
@@ -19,6 +19,7 @@ import { callOrReturn } from '../utilities/callOrReturn'
  * two nodes. You can pass a join predicate, which takes a regular
  * expression match and the node before the wrapped node, and can
  * return a boolean to indicate whether a join should happen.
+ * @see https://tiptap.dev/guide/custom-extensions/#input-rules
  */
 export function wrappingInputRule(config: {
   find: InputRuleFinder,

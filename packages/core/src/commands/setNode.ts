@@ -1,14 +1,17 @@
 import { setBlockType } from '@tiptap/pm/commands'
 import { NodeType } from '@tiptap/pm/model'
 
-import { getNodeType } from '../helpers/getNodeType'
-import { RawCommands } from '../types'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     setNode: {
       /**
        * Replace a given range with a node.
+       * @param typeOrName The type or name of the node
+       * @param attributes The attributes of the node
+       * @example editor.commands.setNode('paragraph')
        */
       setNode: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType
     }

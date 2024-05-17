@@ -1,8 +1,8 @@
-import { Linter } from './Linter'
+import { Linter } from './Linter.js'
 
-export * from './Linter'
+export * from './Linter.js'
 export default Linter
 
-export { BadWords } from './plugins/BadWords'
-export { HeadingLevel } from './plugins/HeadingLevel'
-export { Punctuation } from './plugins/Punctuation'
+export { BadWords } from './plugins/BadWords.js'
+export { HeadingLevel } from './plugins/HeadingLevel.js'
+export { Punctuation } from './plugins/Punctuation.js'

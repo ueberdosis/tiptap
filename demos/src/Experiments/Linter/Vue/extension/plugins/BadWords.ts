@@ -1,4 +1,4 @@
-import LinterPlugin from '../LinterPlugin'
+import LinterPlugin from '../LinterPlugin.js'
 
 export class BadWords extends LinterPlugin {
 
