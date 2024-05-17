@@ -1,4 +1,6 @@
-import { MarkType, NodeType, Node, Mark } from '@tiptap/pm/model'
+import {
+  Mark, MarkType, Node, NodeType,
+} from '@tiptap/pm/model'
 import { SelectionRange } from '@tiptap/pm/state'
 
 import { getMarkType } from '../helpers/getMarkType.js'
