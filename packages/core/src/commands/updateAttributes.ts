@@ -54,8 +54,8 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
   }
 
   if (dispatch) {
-    let lastPos: number
-    let lastNode: Node
+    let lastPos: number | undefined
+    let lastNode: Node | undefined
     let trimmedFrom: number
     let trimmedTo: number
 
@@ -75,7 +75,7 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
 
     if (lastNode) {
 
-      if (lastPos >= 0) {
+      if (lastPos !== undefined) {
         tr.setNodeMarkup(lastPos, undefined, {
           ...lastNode.attrs,
           ...attributes,
