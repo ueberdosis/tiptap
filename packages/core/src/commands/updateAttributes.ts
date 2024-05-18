@@ -73,7 +73,7 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
 
     if (lastNode) {
 
-      if (lastPos) {
+      if (lastPos >= 0) {
         tr.setNodeMarkup(lastPos, undefined, {
           ...lastNode.attrs,
           ...attributes,
