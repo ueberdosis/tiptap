@@ -216,6 +216,8 @@ function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> =
     }
   }, deps)
 
+  useDebugValue(editor)
+
   const {
     onBeforeCreate,
     onBlur,
