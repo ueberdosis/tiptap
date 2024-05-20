@@ -1,11 +1,12 @@
 import { EditorOptions } from '@tiptap/core'
 import {
   DependencyList,
+  useDebugValue,
   useEffect,
   useRef,
   useState,
-  useSyncExternalStore,
 } from 'react'
+import { useSyncExternalStore } from 'use-sync-external-store'
 
 import { Editor } from './Editor.js'
 
@@ -200,6 +201,8 @@ function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> =
 
   // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
   const editor = useSyncExternalStore(editorInstance.subscribe, editorInstance.getSnapshot, editorInstance.getServerSnapshot)?.[0] || null
+
+  useDebugValue(editor)
 
   const {
     onBeforeCreate,
