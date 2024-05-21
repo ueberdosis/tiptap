@@ -10,7 +10,7 @@ import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
-  ClipboardTextSerializer, Commands, Editable, FocusEvents, Keymap, Tabindex,
+  ClipboardTextSerializer, Commands, Editable, FocusEvents, Keymap, Tabindex, UnknownNode,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
@@ -244,6 +244,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       ClipboardTextSerializer.configure({
         blockSeparator: this.options.coreExtensionOptions?.clipboardTextSerializer?.blockSeparator,
       }),
+      UnknownNode,
       Commands,
       FocusEvents,
       Keymap,
