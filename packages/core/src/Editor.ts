@@ -1,5 +1,8 @@
 import {
-  MarkType, NodeType, Schema,
+  MarkType,
+  Node as ProseMirrorNode,
+  NodeType,
+  Schema,
 } from '@tiptap/pm/model'
 import {
   EditorState, Plugin, PluginKey, Transaction,
@@ -36,8 +39,10 @@ import { isFunction } from './utilities/isFunction.js'
 
 export * as extensions from './extensions/index.js'
 
-export interface HTMLElement {
-  editor?: Editor
+declare global {
+  interface HTMLElement {
+    editor?: Editor;
+  }
 }
 
 export class Editor extends EventEmitter<EditorEvents> {
@@ -69,6 +74,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     enableInputRules: true,
     enablePasteRules: true,
     enableCoreExtensions: true,
+    enableContentCheck: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
     onUpdate: () => null,
@@ -77,6 +83,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     onFocus: () => null,
     onBlur: () => null,
     onDestroy: () => null,
+    onContentError: ({ error }) => { throw error },
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -87,6 +94,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.createSchema()
     this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
+    this.on('contentError', this.options.onContentError)
     this.createView()
     this.injectCSS()
     this.on('create', this.options.onCreate)
@@ -276,7 +284,19 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates a ProseMirror view.
    */
   private createView(): void {
-    const doc = createDocument(this.options.content, this.schema, this.options.parseOptions)
+    let doc: ProseMirrorNode
+
+    try {
+      doc = createDocument(
+        this.options.content,
+        this.schema,
+        this.options.parseOptions,
+        { errorOnInvalidContent: this.options.enableContentCheck },
+      )
+    } catch (e) {
+      this.emit('contentError', { editor: this, error: e as Error })
+      return
+    }
     const selection = resolveFocusPosition(doc, this.options.autofocus)
 
     this.view = new EditorView(this.options.element, {

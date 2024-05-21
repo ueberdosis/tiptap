@@ -14,6 +14,11 @@ export function createDocument(
   content: Content,
   schema: Schema,
   parseOptions: ParseOptions = {},
+  options: { errorOnInvalidContent?: boolean } = {},
 ): ProseMirrorNode {
-  return createNodeFromContent(content, schema, { slice: false, parseOptions }) as ProseMirrorNode
+  return createNodeFromContent(content, schema, {
+    slice: false,
+    parseOptions,
+    errorOnInvalidContent: options.errorOnInvalidContent,
+  }) as ProseMirrorNode
 }
