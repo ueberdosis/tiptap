@@ -99,7 +99,7 @@ There is another component called `NodeViewContent` which helps you adding edita
 </template>
 
 <script>
-import { NodeViewWrapper, NodeViewContent } from '@tiptap/vue-2'
+import { NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 
 export default {
   components: {
@@ -153,7 +153,7 @@ Here is the full list of what props you can expect:
 </template>
 
 <script>
-import { NodeViewWrapper } from '@tiptap/vue-2'
+import { NodeViewWrapper } from '@tiptap/vue-3'
 
 export default {
   components: {
