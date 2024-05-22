@@ -24,6 +24,8 @@ We provide [an official PHP package to work with Tiptap content](/api/utilities/
   wire:poll.10000ms="autosave"
 ></x-editor>
 ```
+**Note**<br />
+The `.defer` modifier is no longer available in Livewire v3 as updating the state is deferred by default. Use the `.live` modifier if you need to update the state server-side as it changes.
 
 ### editor.blade.php
 ```html
