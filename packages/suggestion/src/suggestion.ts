@@ -300,7 +300,7 @@ export function Suggestion<I = any>({
       },
 
       // Apply changes to the plugin state from a view transaction.
-      apply(transaction, prev, oldState, state) {
+      apply(transaction, prev, _oldState, state) {
         const { isEditable } = editor
         const { composing } = editor.view
         const { selection } = transaction
