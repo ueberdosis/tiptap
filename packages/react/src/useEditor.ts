@@ -204,6 +204,18 @@ function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> =
 
   useDebugValue(editor)
 
+  // This effect will handle creating/updating the editor instance
+  useEffect(() => {
+    if (!editor) {
+      // instantiate the editor if it doesn't exist
+      // for ssr, this is the first time the editor is created
+      editorInstance.create(options)
+    } else {
+      // if the editor does exist, update the editor options accordingly
+      editor.setOptions(options)
+    }
+  }, deps)
+
   const {
     onBeforeCreate,
     onBlur,
@@ -296,18 +308,6 @@ function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> =
       onContentErrorRef.current = onContentError
     }
   }, [onBeforeCreate, onBlur, onCreate, onDestroy, onFocus, onSelectionUpdate, onTransaction, onUpdate, onContentError, editor])
-
-  // This effect will handle creating/updating the editor instance
-  useEffect(() => {
-    if (!editor) {
-      // instantiate the editor if it doesn't exist
-      // for ssr, this is the first time the editor is created
-      editorInstance.create(options)
-    } else {
-      // if the editor does exist, update the editor options accordingly
-      editor.setOptions(options)
-    }
-  }, deps)
 
   /**
    * Destroy the editor instance when the component completely unmounts
