@@ -68,7 +68,7 @@ export interface LinkOptions {
    * @param url - The url to be validated.
    * @returns - True if the url is valid, false otherwise.
    */
-  validate?: (url: string) => boolean
+  validate: (url: string) => boolean
 }
 
 declare module '@tiptap/core' {
@@ -144,7 +144,7 @@ export const Link = Mark.create<LinkOptions>({
         rel: 'noopener noreferrer nofollow',
         class: null,
       },
-      validate: undefined,
+      validate: url => !!url,
     }
   },
 
@@ -222,7 +222,8 @@ export const Link = Mark.create<LinkOptions>({
           const foundLinks: PasteRuleMatch[] = []
 
           if (text) {
-            const links = find(text).filter(item => item.isLink)
+            const { validate } = this.options
+            const links = find(text).filter(item => item.isLink && validate(item.value))
 
             if (links.length) {
               links.forEach(link => (foundLinks.push({
