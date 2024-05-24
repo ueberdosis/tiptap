@@ -48,7 +48,7 @@ export interface LinkOptions {
    * @example false
    * @example 'whenNotEditable'
    */
-  openOnClick: boolean | 'whenNotEditable'
+  openOnClick: boolean
   /**
    * Adds a link to the current selection if the pasted content only contains an url.
    * @default true
@@ -264,7 +264,6 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
-          whenNotEditable: this.options.openOnClick === 'whenNotEditable',
         }),
       )
     }
