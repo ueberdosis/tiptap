@@ -6,6 +6,11 @@ import {
 } from '@tiptap/core'
 
 export interface CodeOptions {
+  /**
+   * The HTML attributes applied to the code element.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>,
 }
 
@@ -28,9 +33,20 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * Matches inline code.
+ */
 export const inputRegex = /(?:^|\s)(`(?!\s+`)((?:[^`]+))`(?!\s+`))$/
+
+/**
+ * Matches inline code while pasting.
+ */
 export const pasteRegex = /(?:^|\s)(`(?!\s+`)((?:[^`]+))`(?!\s+`))/g
 
+/**
+ * This extension allows you to mark text as inline code.
+ * @see https://tiptap.dev/api/marks/code
+ */
 export const Code = Mark.create<CodeOptions>({
   name: 'code',
 

@@ -5,6 +5,7 @@ declare module '@tiptap/core' {
     undoInputRule: {
       /**
        * Undo an input rule.
+       * @example editor.commands.undoInputRule()
        */
       undoInputRule: () => ReturnType,
     }
