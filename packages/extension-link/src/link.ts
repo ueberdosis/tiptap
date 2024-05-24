@@ -115,6 +115,8 @@ export const Link = Mark.create<LinkOptions>({
 
   keepOnSplit: false,
 
+  exitable: true,
+
   onCreate() {
     this.options.protocols.forEach(protocol => {
       if (typeof protocol === 'string') {
