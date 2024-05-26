@@ -33,7 +33,7 @@ function isValidLinkStructure(tokens: Array<ReturnType<MultiToken['toObject']>>)
 
 type AutolinkOptions = {
   type: MarkType
-  validate?: (url: string) => boolean
+  validate: (url: string) => boolean
 }
 
 /**
@@ -142,12 +142,7 @@ export function autolink(options: AutolinkOptions): Plugin {
               )
             })
             // validate link
-            .filter(link => {
-              if (options.validate) {
-                return options.validate(link.value)
-              }
-              return true
-            })
+            .filter(link => options.validate(link.value))
             // Add link mark.
             .forEach(link => {
               if (getMarksBetween(link.from, link.to, newState.doc).some(item => item.mark.type === options.type)) {
