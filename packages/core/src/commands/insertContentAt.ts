@@ -70,13 +70,21 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       ...options,
     }
 
-    const content = createNodeFromContent(value, editor.schema, {
-      parseOptions: {
-        preserveWhitespace: 'full',
-        ...options.parseOptions,
-      },
-      errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
-    })
+    let content: Fragment | ProseMirrorNode
+
+    try {
+      content = createNodeFromContent(value, editor.schema, {
+        parseOptions: {
+          preserveWhitespace: 'full',
+          ...options.parseOptions,
+        },
+        errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+      })
+    } catch (e) {
+      // Only ever throws if enableContentCheck or errorOnInvalidContent is true
+      editor.emit('contentError', { editor, error: e as Error })
+      return false
+    }
 
     // don’t dispatch an empty fragment because this can lead to strange errors
     if (content.toString() === '<>') {
