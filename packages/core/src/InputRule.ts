@@ -1,8 +1,10 @@
+import { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { EditorState, Plugin, TextSelection } from '@tiptap/pm/state'
 
 import { CommandManager } from './CommandManager.js'
 import { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
+import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
 import { getTextContentFromNodes } from './helpers/getTextContentFromNodes.js'
 import {
   CanCommands,
@@ -14,37 +16,37 @@ import {
 import { isRegExp } from './utilities/isRegExp.js'
 
 export type InputRuleMatch = {
-  index: number
-  text: string
-  replaceWith?: string
-  match?: RegExpMatchArray
-  data?: Record<string, any>
-}
+  index: number;
+  text: string;
+  replaceWith?: string;
+  match?: RegExpMatchArray;
+  data?: Record<string, any>;
+};
 
-export type InputRuleFinder = RegExp | ((text: string) => InputRuleMatch | null)
+export type InputRuleFinder = RegExp | ((text: string) => InputRuleMatch | null);
 
 export class InputRule {
   find: InputRuleFinder
 
   handler: (props: {
-    state: EditorState
-    range: Range
-    match: ExtendedRegExpMatchArray
-    commands: SingleCommands
-    chain: () => ChainedCommands
-    can: () => CanCommands
+    state: EditorState;
+    range: Range;
+    match: ExtendedRegExpMatchArray;
+    commands: SingleCommands;
+    chain: () => ChainedCommands;
+    can: () => CanCommands;
   }) => void | null
 
   constructor(config: {
-    find: InputRuleFinder
+    find: InputRuleFinder;
     handler: (props: {
-      state: EditorState
-      range: Range
-      match: ExtendedRegExpMatchArray
-      commands: SingleCommands
-      chain: () => ChainedCommands
-      can: () => CanCommands
-    }) => void | null
+      state: EditorState;
+      range: Range;
+      match: ExtendedRegExpMatchArray;
+      commands: SingleCommands;
+      chain: () => ChainedCommands;
+      can: () => CanCommands;
+    }) => void | null;
   }) {
     this.find = config.find
     this.handler = config.handler
@@ -85,12 +87,12 @@ const inputRuleMatcherHandler = (
 }
 
 function run(config: {
-  editor: Editor
-  from: number
-  to: number
-  text: string
-  rules: InputRule[]
-  plugin: Plugin
+  editor: Editor;
+  from: number;
+  to: number;
+  text: string;
+  rules: InputRule[];
+  plugin: Plugin;
 }): boolean {
   const {
     editor, from, to, text, rules, plugin,
@@ -184,7 +186,7 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
       init() {
         return null
       },
-      apply(tr, prev) {
+      apply(tr, prev, state) {
         const stored = tr.getMeta(plugin)
 
         if (stored) {
@@ -192,12 +194,25 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
         }
 
         // if InputRule is triggered by insertContent()
-        const simulatedInputMeta = tr.getMeta('applyInputRules')
+        const simulatedInputMeta = tr.getMeta('applyInputRules') as
+          | undefined
+          | {
+              from: number;
+              text: string | ProseMirrorNode | Fragment;
+            }
         const isSimulatedInput = !!simulatedInputMeta
 
         if (isSimulatedInput) {
           setTimeout(() => {
-            const { from, text } = simulatedInputMeta
+            let { text } = simulatedInputMeta
+
+            if (typeof text === 'string') {
+              text = text as string
+            } else {
+              text = getHTMLFromFragment(Fragment.from(text), state.schema)
+            }
+
+            const { from } = simulatedInputMeta
             const to = from + text.length
 
             run({
