@@ -67,6 +67,8 @@ export function createNodeFromContent(
       schemaToUse = new Schema({
         topNode: schema.spec.topNode,
         marks: schema.spec.marks,
+        // Prosemirror's schemas are executed such that: the last to execute, matches last
+        // This means that we can add a catch-all node at the end of the schema to catch any content that we don't know how to handle
         nodes: schema.spec.nodes.append({
           __tiptap__private__unknown__catch__all__node: {
             content: 'inline*',
@@ -75,6 +77,7 @@ export function createNodeFromContent(
               {
                 tag: '*',
                 getAttrs: () => {
+                  // If this is ever called, we know that the content has something that we don't know how to handle in the schema
                   hasInvalidContent = true
                   return null
                 },
