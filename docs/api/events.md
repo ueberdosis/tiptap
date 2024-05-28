@@ -36,7 +36,6 @@ The editor is being destroyed.
 ### contentError
 The content does not match the schema.
 
-
 ## Register event listeners
 There are three ways to register event listeners.
 
