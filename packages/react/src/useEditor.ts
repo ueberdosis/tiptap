@@ -28,6 +28,7 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
     onSelectionUpdate,
     onTransaction,
     onUpdate,
+    onContentError,
   } = options
 
   const onBeforeCreateRef = useRef(onBeforeCreate)
@@ -38,6 +39,7 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
   const onSelectionUpdateRef = useRef(onSelectionUpdate)
   const onTransactionRef = useRef(onTransaction)
   const onUpdateRef = useRef(onUpdate)
+  const onContentErrorRef = useRef(onContentError)
 
   // This effect will handle updating the editor instance
   // when the event handlers change.
@@ -100,6 +102,13 @@ export const useEditor = (options: Partial<EditorOptions> = {}, deps: Dependency
       editorRef.current.on('update', onUpdate)
 
       onUpdateRef.current = onUpdate
+    }
+
+    if (onContentError) {
+      editorRef.current.off('contentError', onContentErrorRef.current)
+      editorRef.current.on('contentError', onContentError)
+
+      onContentErrorRef.current = onContentError
     }
   }, [onBeforeCreate, onBlur, onCreate, onDestroy, onFocus, onSelectionUpdate, onTransaction, onUpdate, editorRef.current])
 
