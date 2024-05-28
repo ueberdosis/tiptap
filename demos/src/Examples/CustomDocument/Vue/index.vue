@@ -150,7 +150,7 @@ export default {
   }
 
   /* Placeholder (at the top) */
-  /*.tiptap p.is-editor-empty:first-child::before {
+  /* p.is-editor-empty:first-child::before {
     color: var(--gray-4);
     content: attr(data-placeholder);
     float: left;

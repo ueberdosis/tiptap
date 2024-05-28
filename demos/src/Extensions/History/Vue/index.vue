@@ -1,20 +1,22 @@
 <template>
-  <div v-if="editor">
-    <button
-      @click="editor.chain().focus().undo().run()"
-      :disabled="!editor.can().undo()"
-    >
-      undo
-    </button>
-    <button
-      @click="editor.chain().focus().redo().run()"
-      :disabled="!editor.can().redo()"
-    >
-      redo
-    </button>
-
-    <editor-content :editor="editor" />
+  <div v-if="editor" class="control-group">
+    <div class="button-group">
+      <button
+        @click="editor.chain().focus().undo().run()"
+        :disabled="!editor.can().undo()"
+      >
+        undo
+      </button>
+      <button
+        @click="editor.chain().focus().redo().run()"
+        :disabled="!editor.can().redo()"
+      >
+        redo
+      </button>
+    </div>
   </div>
+
+  <editor-content :editor="editor" />
 </template>
 
 <script>
@@ -59,3 +61,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+</style>
