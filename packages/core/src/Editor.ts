@@ -294,13 +294,14 @@ export class Editor extends EventEmitter<EditorEvents> {
         { errorOnInvalidContent: this.options.enableContentCheck },
       )
     } catch (e) {
-      this.emit('contentError', { editor: this, error: e as Error })
 
       // Remove the collaboration extension if the content is invalid, to not sync invalid content
       this.options.extensions = this.options.extensions.filter(extension => extension.name !== 'collaboration')
 
       // Recreate the extension manager without the invalid extensions
       this.createExtensionManager()
+
+      this.emit('contentError', { editor: this, error: e as Error })
 
       // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
       doc = createDocument(
