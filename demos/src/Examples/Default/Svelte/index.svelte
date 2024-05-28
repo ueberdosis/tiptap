@@ -31,8 +31,8 @@
               Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
             </p>
             <pre><code class="language-css">body {
-        display: none;
-      }</code></pre>
+  display: none;
+}</code></pre>
             <p>
               I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
             </p>
@@ -51,8 +51,8 @@
 </script>
 
 {#if editor}
-  <div>
-    <div>
+  <div class="control-group">
+    <div class="button-group">
       <button
         on:click={() => console.log && editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
