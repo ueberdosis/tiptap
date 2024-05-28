@@ -1,17 +1,18 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().toggleSubscript().run()" :class="{ 'is-active': editor.isActive('subscript') }">
-      toggleSubscript
-    </button>
-    <button @click="editor.chain().focus().setSubscript().run()" :disabled="editor.isActive('subscript')">
-      setSubscript
-    </button>
-    <button @click="editor.chain().focus().unsetSubscript().run()" :disabled="!editor.isActive('subscript')">
-      unsetSubscript
-    </button>
-
-    <editor-content :editor="editor" />
+  <div v-if="editor" class="control-group">
+    <div class="button-group">
+      <button @click="editor.chain().focus().toggleSubscript().run()" :class="{ 'is-active': editor.isActive('subscript') }">
+        toggleSubscript
+      </button>
+      <button @click="editor.chain().focus().setSubscript().run()" :disabled="editor.isActive('subscript')">
+        setSubscript
+      </button>
+      <button @click="editor.chain().focus().unsetSubscript().run()" :disabled="!editor.isActive('subscript')">
+        unsetSubscript
+      </button>
+    </div>
   </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
@@ -53,3 +54,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+</style>

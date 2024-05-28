@@ -65,14 +65,14 @@ export default {
       content: `
         <p>Figure + Figcaption</p>
         <figure>
-          <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" alt="Random photo of something" title="Who’s dat?">
+          <img src="https://placehold.co/800x400/orange/white" alt="Random photo of something" title="Who’s dat?">
           <figcaption>
             <p>Amazing caption</p>
           </figcaption>
         </figure>
-        <img src="https://source.unsplash.com/K9QHL52rE2k/800x400">
-        <img src="https://source.unsplash.com/8xznAGy4HcY/800x400">
-        <img src="https://source.unsplash.com/K9QHL52rE2k/800x400">
+        <img src="https://placehold.co/800x400/green/white">
+        <img src="https://placehold.co/800x400/blue/white">
+        <img src="https://placehold.co/800x400/black/white">
         <p>That’s it.</p>
       `,
     })

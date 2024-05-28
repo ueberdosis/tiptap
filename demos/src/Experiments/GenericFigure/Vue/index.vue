@@ -69,7 +69,7 @@ export default {
             {
               type: 'image',
               attrs: {
-                src: 'https://source.unsplash.com/K9QHL52rE2k/800x400',
+                src: 'https://placehold.co/800x400/orange/white',
               },
             },
           ],
@@ -172,10 +172,10 @@ export default {
           <figcaption>
             Image caption
           </figcaption>
-          <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" alt="Random photo of something" title="Who’s dat?">
+          <img src="https://placehold.co/800x400/black/white" alt="Random photo of something" title="Who’s dat?">
         </figure>
         <p>Some text</p>
-        <img src="https://source.unsplash.com/K9QHL52rE2k/800x400">
+        <img src="https://placehold.co/800x400">
         <p>Some text</p>
         <figure data-type="capturedTable">
           <figcaption>

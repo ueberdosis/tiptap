@@ -141,9 +141,9 @@ export default () => {
   })
 
   return (
-    <div>
+    <>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

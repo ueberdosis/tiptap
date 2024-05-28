@@ -50,7 +50,7 @@ export default () => {
   }
 
   return (
-    <div>
+    <>
       <button
         onClick={setLink}
         className={editor.isActive('link') ? 'is-active' : ''}
@@ -66,6 +66,6 @@ export default () => {
         unsetLink
       </button>
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

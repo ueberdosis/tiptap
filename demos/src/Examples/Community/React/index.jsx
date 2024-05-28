@@ -40,7 +40,7 @@ export default () => {
     : 0
 
   return (
-    <div>
+    <>
       <EditorContent editor={editor} />
       {editor
         && <div className={`character-count ${editor.storage.characterCount.characters() === limit ? 'character-count--warning' : ''}`}>
@@ -79,6 +79,6 @@ export default () => {
           </div>
         </div>
       }
-    </div>
+    </>
   )
 }

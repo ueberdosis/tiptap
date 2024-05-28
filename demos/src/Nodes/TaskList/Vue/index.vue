@@ -1,20 +1,21 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().toggleTaskList().run()" :class="{ 'is-active': editor.isActive('taskList') }">
-      toggleTaskList
-    </button>
-    <button @click="editor.chain().focus().splitListItem('taskItem').run()" :disabled="!editor.can().splitListItem('taskItem')">
-      splitListItem
-    </button>
-    <button @click="editor.chain().focus().sinkListItem('taskItem').run()" :disabled="!editor.can().sinkListItem('taskItem')">
-      sinkListItem
-    </button>
-    <button @click="editor.chain().focus().liftListItem('taskItem').run()" :disabled="!editor.can().liftListItem('taskItem')">
-      liftListItem
-    </button>
-
-    <editor-content :editor="editor" />
+  <div v-if="editor" class="control-group">
+    <div class="button-group">
+      <button @click="editor.chain().focus().toggleTaskList().run()" :class="{ 'is-active': editor.isActive('taskList') }">
+        toggleTaskList
+      </button>
+      <button @click="editor.chain().focus().splitListItem('taskItem').run()" :disabled="!editor.can().splitListItem('taskItem')">
+        splitListItem
+      </button>
+      <button @click="editor.chain().focus().sinkListItem('taskItem').run()" :disabled="!editor.can().sinkListItem('taskItem')">
+        sinkListItem
+      </button>
+      <button @click="editor.chain().focus().liftListItem('taskItem').run()" :disabled="!editor.can().liftListItem('taskItem')">
+        liftListItem
+      </button>
+    </div>
   </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
@@ -63,34 +64,47 @@ export default {
 </script>
 
 <style lang="scss">
-ul[data-type="taskList"] {
-  list-style: none;
-  padding: 0;
-
-  p {
-    margin: 0;
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
   }
 
-  li {
-    display: flex;
+  /* List styles */
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
 
-    > label {
-      flex: 0 0 auto;
-      margin-right: 0.5rem;
-      user-select: none;
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
     }
+  }
 
-    > div {
-      flex: 1 1 auto;
-    }
+  /* Task list specific styles */
+  ul[data-type="taskList"] {
+    list-style: none;
+    margin-left: 0;
+    padding: 0;
 
-    ul li,
-    ol li {
-      display: list-item;
-    }
-
-    ul[data-type="taskList"] > li {
+    li {
+      align-items: center;
       display: flex;
+
+      > label {
+        flex: 0 0 auto;
+        margin-right: 0.5rem;
+        user-select: none;
+      }
+
+      > div {
+        flex: 1 1 auto;
+      }
+    }
+
+    input[type="checkbox"] {
+      cursor: pointer;
     }
   }
 }

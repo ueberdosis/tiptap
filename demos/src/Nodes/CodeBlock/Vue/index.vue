@@ -1,14 +1,15 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-      toggleCodeBlock
-    </button>
-    <button @click="editor.chain().focus().setCodeBlock().run()" :disabled="editor.isActive('codeBlock')">
-      setCodeBlock
-    </button>
-
-    <editor-content :editor="editor" />
+  <div v-if="editor" class="control-group">
+    <div class="button-group">
+      <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+        toggleCodeBlock
+      </button>
+      <button @click="editor.chain().focus().setCodeBlock().run()" :disabled="editor.isActive('codeBlock')">
+        setCodeBlock
+      </button>
+    </div>
   </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
@@ -68,22 +69,23 @@ export default {
 <style lang="scss">
 /* Basic editor styles */
 .tiptap {
-  > * + * {
-    margin-top: 0.75em;
+  :first-child {
+    margin-top: 0;
   }
 
   pre {
-    background: #0D0D0D;
-    color: #FFF;
-    font-family: 'JetBrainsMono', monospace;
-    padding: 0.75rem 1rem;
+    background: var(--black);
     border-radius: 0.5rem;
+    color: var(--white);
+    font-family: 'JetBrainsMono', monospace;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
 
     code {
-      color: inherit;
-      padding: 0;
       background: none;
+      color: inherit;
       font-size: 0.8rem;
+      padding: 0;
     }
   }
 }

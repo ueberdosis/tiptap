@@ -31,7 +31,7 @@ export default () => {
   }
 
   return (
-    <div>
+    <>
       <EditorContent editor={editor} />
 
       <div className="character-count">
@@ -39,6 +39,6 @@ export default () => {
         <br />
         {editor.storage.characterCount.words()} words
       </div>
-    </div>
+    </>
   )
 }

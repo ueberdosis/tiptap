@@ -1,8 +1,10 @@
 import './styles.scss'
 
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 import Youtube from '@tiptap/extension-youtube'
 import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
 const MenuBar = ({ editor }) => {
@@ -33,18 +35,22 @@ const MenuBar = ({ editor }) => {
   }
 
   return (
-    <>
-      <button id="add" onClick={addYoutubeVideo}>Add YouTube video</button>
-      <input id="width" type="number" min="320" max="1024" ref={widthRef} placeholder="width" />
-      <input id="height" type="number" min="180" max="720" ref={heightRef} placeholder="height" />
-    </>
+    <div className="control-group">
+      <div className="button-group">
+        <button id="add" onClick={addYoutubeVideo}>Add YouTube video</button>
+        <input id="width" type="number" min="320" max="1024" ref={widthRef} placeholder="width" />
+        <input id="height" type="number" min="180" max="720" ref={heightRef} placeholder="height" />
+      </div>
+    </div>
   )
 }
 
 export default () => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      Document,
+      Paragraph,
+      Text,
       Youtube.configure({
         controls: false,
         nocookie: true,
@@ -65,9 +71,9 @@ export default () => {
   })
 
   return (
-    <div>
+    <>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

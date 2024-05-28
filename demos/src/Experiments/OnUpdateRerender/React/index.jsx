@@ -39,9 +39,9 @@ export default () => {
   }
 
   return (
-    <div>
+    <>
       <button onClick={() => setIndex(index + 1)}>INC</button> = {index}
       <TiptapComponent onUpdate={handleUpdate} />
-    </div>
+    </>
   )
 }

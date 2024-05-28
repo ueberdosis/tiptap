@@ -1,17 +1,18 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
-      toggleUnderline
-    </button>
-    <button @click="editor.chain().focus().setUnderline().run()" :disabled="editor.isActive('underline')">
-      setUnderline
-    </button>
-    <button @click="editor.chain().focus().unsetUnderline().run()" :disabled="!editor.isActive('underline')">
-      unsetUnderline
-    </button>
-
-    <editor-content :editor="editor" />
+  <div v-if="editor" class="control-group">
+    <div class="button-group">
+      <button @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
+        toggleUnderline
+      </button>
+      <button @click="editor.chain().focus().setUnderline().run()" :disabled="editor.isActive('underline')">
+        setUnderline
+      </button>
+      <button @click="editor.chain().focus().unsetUnderline().run()" :disabled="!editor.isActive('underline')">
+        unsetUnderline
+      </button>
+    </div>
   </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
@@ -53,3 +54,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+</style>
