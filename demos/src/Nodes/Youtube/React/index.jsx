@@ -47,6 +47,7 @@ export default () => {
       StarterKit,
       Youtube.configure({
         controls: false,
+        nocookie: true,
       }),
     ],
     content: `
