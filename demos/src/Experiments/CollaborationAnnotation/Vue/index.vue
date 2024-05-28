@@ -80,7 +80,7 @@ export default {
           Annotations can be used to add additional information to the content, for example comments. They live on a different level than the actual editor content.
         </p>
         <p>
-          This example allows you to add plain text, but you’re free to add more complex data, for example JSON from another tiptap instance. :-)
+          This example allows you to add plain text, but you’re free to add more complex data, for example JSON from another Tiptap instance. :-)
         </p>
       `,
     })
