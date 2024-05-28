@@ -1,59 +1,61 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
-      insertTable
-    </button>
-    <button @click="editor.chain().focus().addColumnBefore().run()" :disabled="!editor.can().addColumnBefore()">
-      addColumnBefore
-    </button>
-    <button @click="editor.chain().focus().addColumnAfter().run()" :disabled="!editor.can().addColumnAfter()">
-      addColumnAfter
-    </button>
-    <button @click="editor.chain().focus().deleteColumn().run()" :disabled="!editor.can().deleteColumn()">
-      deleteColumn
-    </button>
-    <button @click="editor.chain().focus().addRowBefore().run()" :disabled="!editor.can().addRowBefore()">
-      addRowBefore
-    </button>
-    <button @click="editor.chain().focus().addRowAfter().run()" :disabled="!editor.can().addRowAfter()">
-      addRowAfter
-    </button>
-    <button @click="editor.chain().focus().deleteRow().run()" :disabled="!editor.can().deleteRow()">
-      deleteRow
-    </button>
-    <button @click="editor.chain().focus().deleteTable().run()" :disabled="!editor.can().deleteTable()">
-      deleteTable
-    </button>
-    <button @click="editor.chain().focus().mergeCells().run()" :disabled="!editor.can().mergeCells()">
-      mergeCells
-    </button>
-    <button @click="editor.chain().focus().splitCell().run()" :disabled="!editor.can().splitCell()">
-      splitCell
-    </button>
-    <button @click="editor.chain().focus().toggleHeaderColumn().run()" :disabled="!editor.can().toggleHeaderColumn()">
-      toggleHeaderColumn
-    </button>
-    <button @click="editor.chain().focus().toggleHeaderRow().run()" :disabled="!editor.can().toggleHeaderRow()">
-      toggleHeaderRow
-    </button>
-    <button @click="editor.chain().focus().toggleHeaderCell().run()" :disabled="!editor.can().toggleHeaderCell()">
-      toggleHeaderCell
-    </button>
-    <button @click="editor.chain().focus().mergeOrSplit().run()" :disabled="!editor.can().mergeOrSplit()">
-      mergeOrSplit
-    </button>
-    <button @click="editor.chain().focus().setCellAttribute('backgroundColor', '#FAF594').run()" :disabled="!editor.can().setCellAttribute('backgroundColor', '#FAF594')">
-      setCellAttribute
-    </button>
-    <button @click="editor.chain().focus().fixTables().run()" :disabled="!editor.can().fixTables()">
-      fixTables
-    </button>
-    <button @click="editor.chain().focus().goToNextCell().run()" :disabled="!editor.can().goToNextCell()">
-      goToNextCell
-    </button>
-    <button @click="editor.chain().focus().goToPreviousCell().run()" :disabled="!editor.can().goToPreviousCell()">
-      goToPreviousCell
-    </button>
+  <div v-if="editor" class="control-group">
+    <div class="button-group">
+      <button @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
+        insertTable
+      </button>
+      <button @click="editor.chain().focus().addColumnBefore().run()" :disabled="!editor.can().addColumnBefore()">
+        addColumnBefore
+      </button>
+      <button @click="editor.chain().focus().addColumnAfter().run()" :disabled="!editor.can().addColumnAfter()">
+        addColumnAfter
+      </button>
+      <button @click="editor.chain().focus().deleteColumn().run()" :disabled="!editor.can().deleteColumn()">
+        deleteColumn
+      </button>
+      <button @click="editor.chain().focus().addRowBefore().run()" :disabled="!editor.can().addRowBefore()">
+        addRowBefore
+      </button>
+      <button @click="editor.chain().focus().addRowAfter().run()" :disabled="!editor.can().addRowAfter()">
+        addRowAfter
+      </button>
+      <button @click="editor.chain().focus().deleteRow().run()" :disabled="!editor.can().deleteRow()">
+        deleteRow
+      </button>
+      <button @click="editor.chain().focus().deleteTable().run()" :disabled="!editor.can().deleteTable()">
+        deleteTable
+      </button>
+      <button @click="editor.chain().focus().mergeCells().run()" :disabled="!editor.can().mergeCells()">
+        mergeCells
+      </button>
+      <button @click="editor.chain().focus().splitCell().run()" :disabled="!editor.can().splitCell()">
+        splitCell
+      </button>
+      <button @click="editor.chain().focus().toggleHeaderColumn().run()" :disabled="!editor.can().toggleHeaderColumn()">
+        toggleHeaderColumn
+      </button>
+      <button @click="editor.chain().focus().toggleHeaderRow().run()" :disabled="!editor.can().toggleHeaderRow()">
+        toggleHeaderRow
+      </button>
+      <button @click="editor.chain().focus().toggleHeaderCell().run()" :disabled="!editor.can().toggleHeaderCell()">
+        toggleHeaderCell
+      </button>
+      <button @click="editor.chain().focus().mergeOrSplit().run()" :disabled="!editor.can().mergeOrSplit()">
+        mergeOrSplit
+      </button>
+      <button @click="editor.chain().focus().setCellAttribute('backgroundColor', '#FAF594').run()" :disabled="!editor.can().setCellAttribute('backgroundColor', '#FAF594')">
+        setCellAttribute
+      </button>
+      <button @click="editor.chain().focus().fixTables().run()" :disabled="!editor.can().fixTables()">
+        fixTables
+      </button>
+      <button @click="editor.chain().focus().goToNextCell().run()" :disabled="!editor.can().goToNextCell()">
+        goToNextCell
+      </button>
+      <button @click="editor.chain().focus().goToPreviousCell().run()" :disabled="!editor.can().goToPreviousCell()">
+        goToPreviousCell
+      </button>
+    </div>
   </div>
   <editor-content :editor="editor" />
 </template>
@@ -162,17 +164,23 @@ export default {
 <style lang="scss">
 /* Basic editor styles */
 .tiptap {
-  margin: 1rem 0;
-
-  > * + * {
-    margin-top: 0.75em;
+  :first-child {
+    margin-top: 0;
   }
 
+  /* List styles */
   ul,
   ol {
     padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
   }
 
+  /* Heading styles */
   h1,
   h2,
   h3,
@@ -180,62 +188,87 @@ export default {
   h5,
   h6 {
     line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
   }
 
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  /* Code and preformatted text styles */
   code {
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
   }
 
   pre {
-    background: #0D0D0D;
-    color: #FFF;
-    font-family: 'JetBrainsMono', monospace;
-    padding: 0.75rem 1rem;
+    background: var(--black);
     border-radius: 0.5rem;
+    color: var(--white);
+    font-family: 'JetBrainsMono', monospace;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
 
     code {
-      color: inherit;
-      padding: 0;
       background: none;
+      color: inherit;
       font-size: 0.8rem;
+      padding: 0;
     }
   }
 
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
   blockquote {
+    border-left: 3px solid var(--gray-3);
+    margin: 1.5rem 0;
     padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
   }
 
   hr {
     border: none;
-    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    border-top: 1px solid var(--gray-2);
     margin: 2rem 0;
   }
-}
 
-/* Table-specific styling */
-.tiptap {
+  /* Table-specific styling */
   table {
     border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
     margin: 0;
     overflow: hidden;
+    table-layout: fixed;
+    width: 100%;
 
     td,
     th {
-      min-width: 1em;
-      border: 2px solid #ced4da;
-      padding: 3px 5px;
-      vertical-align: top;
+      border: 1px solid var(--gray-3);
       box-sizing: border-box;
+      min-width: 1em;
+      padding: 6px 8px;
       position: relative;
+      vertical-align: top;
 
       > * {
         margin-bottom: 0;
@@ -243,42 +276,39 @@ export default {
     }
 
     th {
+      background-color: var(--gray-1);
       font-weight: bold;
       text-align: left;
-      background-color: #f1f3f5;
     }
 
     .selectedCell:after {
-      z-index: 2;
-      position: absolute;
+      background: var(--gray-2);
       content: "";
       left: 0; right: 0; top: 0; bottom: 0;
-      background: rgba(200, 200, 255, 0.4);
       pointer-events: none;
+      position: absolute;
+      z-index: 2;
     }
 
     .column-resize-handle {
+      background-color: var(--purple);
+      bottom: -2px;
+      pointer-events: none;
       position: absolute;
       right: -2px;
       top: 0;
-      bottom: -2px;
       width: 4px;
-      background-color: #adf;
-      pointer-events: none;
-    }
-
-    p {
-      margin: 0;
     }
   }
-}
 
-.tableWrapper {
-  overflow-x: auto;
-}
+  .tableWrapper {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
 
-.resize-cursor {
-  cursor: ew-resize;
-  cursor: col-resize;
+  .resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize;
+  }
 }
 </style>
