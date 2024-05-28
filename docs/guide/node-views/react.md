@@ -32,7 +32,19 @@ export default Node.create({
 })
 ```
 
-There is a little bit of magic required to make this work. But don’t worry, we provide a wrapper component you can use to get started easily. Don’t forget to add it to your custom React component, like shown below:
+If you need a bit more flexibility, you can re-use our already created `ReactNodeView` and change what you need. For example:
+
+```js
+import { ReactNodeView } from '@tiptap/react';
+
+export class ReactNodeViewEdited extends ReactNodeView {
+  onDragStart(event) {
+    // new onDragStart implementation ...
+  }
+}
+```
+
+There is a little bit of magic required to make your React component to work. But don’t worry, we provide a wrapper component you can use to get started easily. Don’t forget to add it to your custom React component, like shown below:
 
 ```html
 <NodeViewWrapper className="react-component">

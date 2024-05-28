@@ -29,10 +29,14 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   attrs?: Record<string, string>
 }
 
-export class ReactNodeView extends NodeView<
-  React.FunctionComponent,
-  Editor,
-  ReactNodeViewRendererOptions
+export class ReactNodeView<
+  Component extends React.FunctionComponent = React.FunctionComponent,
+  NodeEditor extends Editor = Editor,
+  Options extends ReactNodeViewRendererOptions = ReactNodeViewRendererOptions,
+> extends NodeView<
+  Component,
+  NodeEditor,
+  Options
 > {
   renderer!: ReactRenderer
 
