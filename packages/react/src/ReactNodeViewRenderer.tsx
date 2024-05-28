@@ -29,7 +29,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   attrs?: Record<string, string>
 }
 
-class ReactNodeView extends NodeView<
+export class ReactNodeView extends NodeView<
   React.FunctionComponent,
   Editor,
   ReactNodeViewRendererOptions
