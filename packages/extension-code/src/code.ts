@@ -95,8 +95,7 @@ export const Code = Mark.create<CodeOptions>({
         // At the end of the paragraph, press the right key and jump out of the inlineCode wrapper
         const isInlineCode = $cursor?.nodeBefore?.marks?.some((mark: Mark) => mark.type?.name === 'code');
         if ($cursor && isInlineCode && !$cursor.nodeAfter) {
-          this.editor.commands.unsetCode();
-          this.editor.commands.insertContent(' ');
+          this.editor.chain().unsetCode().insertContent(' ').run();
           return false;
         }
         return false;
