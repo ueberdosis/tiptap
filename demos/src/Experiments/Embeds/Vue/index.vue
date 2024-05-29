@@ -1,13 +1,14 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button @click="addIframe">
-        add iframe
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="addIframe">
+          add iframe
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-
-  <editor-content :editor="editor" />
 </template>
 
 <script>

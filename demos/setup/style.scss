@@ -205,7 +205,8 @@ hr {
 }
 
 /* Layout and structure */
-#app {
+#app,
+.container {
   display: flex;
   flex-direction: column;
 }

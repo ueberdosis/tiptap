@@ -1,28 +1,30 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button id="add" @click="addVideo">
-        Add YouTube video
-      </button>
-      <input
-        id="width"
-        type="number"
-        v-model="width"
-        placeholder="width"
-        min="320"
-        max="1024"
-      >
-      <input
-        id="height"
-        type="number"
-        v-model="height"
-        placeholder="height"
-        min="180"
-        max="720"
-      >
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button id="add" @click="addVideo">
+          Add YouTube video
+        </button>
+        <input
+          id="width"
+          type="number"
+          v-model="width"
+          placeholder="width"
+          min="320"
+          max="1024"
+        >
+        <input
+          id="height"
+          type="number"
+          v-model="height"
+          placeholder="height"
+          min="180"
+          max="720"
+        >
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-  <editor-content :editor="editor" />
 </template>
 
 <script>

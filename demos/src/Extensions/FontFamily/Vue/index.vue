@@ -1,28 +1,29 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button @click="editor.chain().focus().setFontFamily('Inter').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Inter' }) }">
-        Inter
-      </button>
-      <button @click="editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) }">
-        Comic Sans
-      </button>
-      <button @click="editor.chain().focus().setFontFamily('serif').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'serif' }) }">
-        serif
-      </button>
-      <button @click="editor.chain().focus().setFontFamily('monospace').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'monospace' }) }">
-        monospace
-      </button>
-      <button @click="editor.chain().focus().setFontFamily('cursive').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'cursive' }) }">
-        cursive
-      </button>
-      <button @click="editor.chain().focus().unsetFontFamily().run()">
-        unsetFontFamily
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().setFontFamily('Inter').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Inter' }) }">
+          Inter
+        </button>
+        <button @click="editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) }">
+          Comic Sans
+        </button>
+        <button @click="editor.chain().focus().setFontFamily('serif').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'serif' }) }">
+          serif
+        </button>
+        <button @click="editor.chain().focus().setFontFamily('monospace').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'monospace' }) }">
+          monospace
+        </button>
+        <button @click="editor.chain().focus().setFontFamily('cursive').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'cursive' }) }">
+          cursive
+        </button>
+        <button @click="editor.chain().focus().unsetFontFamily().run()">
+          unsetFontFamily
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-
-  <editor-content :editor="editor" />
 </template>
 
 <script>

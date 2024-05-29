@@ -1,21 +1,23 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
-        toggleOrderedList
-      </button>
-      <button @click="editor.chain().focus().splitListItem('listItem').run()" :disabled="!editor.can().splitListItem('listItem')">
-        splitListItem
-      </button>
-      <button @click="editor.chain().focus().sinkListItem('listItem').run()" :disabled="!editor.can().sinkListItem('listItem')">
-        sinkListItem
-      </button>
-      <button @click="editor.chain().focus().liftListItem('listItem').run()" :disabled="!editor.can().liftListItem('listItem')">
-        liftListItem
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
+          toggleOrderedList
+        </button>
+        <button @click="editor.chain().focus().splitListItem('listItem').run()" :disabled="!editor.can().splitListItem('listItem')">
+          splitListItem
+        </button>
+        <button @click="editor.chain().focus().sinkListItem('listItem').run()" :disabled="!editor.can().sinkListItem('listItem')">
+          sinkListItem
+        </button>
+        <button @click="editor.chain().focus().liftListItem('listItem').run()" :disabled="!editor.can().liftListItem('listItem')">
+          liftListItem
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-  <editor-content :editor="editor" />
 </template>
 
 <script>

@@ -1,22 +1,23 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button
-        @click="editor.chain().focus().undo().run()"
-        :disabled="!editor.can().undo()"
-      >
-        undo
-      </button>
-      <button
-        @click="editor.chain().focus().redo().run()"
-        :disabled="!editor.can().redo()"
-      >
-        redo
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button
+          @click="editor.chain().focus().undo().run()"
+          :disabled="!editor.can().undo()"
+        >
+          undo
+        </button>
+        <button
+          @click="editor.chain().focus().redo().run()"
+          :disabled="!editor.can().redo()"
+        >
+          redo
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-
-  <editor-content :editor="editor" />
 </template>
 
 <script>

@@ -1,15 +1,17 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-        toggleCodeBlock
-      </button>
-      <button @click="editor.chain().focus().setCodeBlock().run()" :disabled="editor.isActive('codeBlock')">
-        setCodeBlock
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+          toggleCodeBlock
+        </button>
+        <button @click="editor.chain().focus().setCodeBlock().run()" :disabled="editor.isActive('codeBlock')">
+          setCodeBlock
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-  <editor-content :editor="editor" />
 </template>
 
 <script>

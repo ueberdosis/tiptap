@@ -1,18 +1,20 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
-        toggleBlockquote
-      </button>
-      <button @click="editor.chain().focus().setBlockquote().run()" :disabled="!editor.can().setBlockquote()">
-        setBlockquote
-      </button>
-      <button @click="editor.chain().focus().unsetBlockquote().run()" :disabled="!editor.can().unsetBlockquote()">
-        unsetBlockquote
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
+          toggleBlockquote
+        </button>
+        <button @click="editor.chain().focus().setBlockquote().run()" :disabled="!editor.can().setBlockquote()">
+          setBlockquote
+        </button>
+        <button @click="editor.chain().focus().unsetBlockquote().run()" :disabled="!editor.can().unsetBlockquote()">
+          unsetBlockquote
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-  <editor-content :editor="editor" />
 </template>
 
 <script>

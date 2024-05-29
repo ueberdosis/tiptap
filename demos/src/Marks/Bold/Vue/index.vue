@@ -1,18 +1,20 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-        toggleBold
-      </button>
-      <button @click="editor.chain().focus().setBold().run()" :disabled="editor.isActive('bold')">
-        setBold
-      </button>
-      <button @click="editor.chain().focus().unsetBold().run()" :disabled="!editor.isActive('bold')">
-        unsetBold
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+          toggleBold
+        </button>
+        <button @click="editor.chain().focus().setBold().run()" :disabled="editor.isActive('bold')">
+          setBold
+        </button>
+        <button @click="editor.chain().focus().unsetBold().run()" :disabled="!editor.isActive('bold')">
+          unsetBold
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-  <editor-content :editor="editor" />
 </template>
 
 <script>

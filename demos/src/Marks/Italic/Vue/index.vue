@@ -1,19 +1,20 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-        toggleItalic
-      </button>
-      <button @click="editor.chain().focus().setItalic().run()" :disabled="editor.isActive('italic')">
-        setItalic
-      </button>
-      <button @click="editor.chain().focus().unsetItalic().run()" :disabled="!editor.isActive('italic')">
-        unsetItalic
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+          toggleItalic
+        </button>
+        <button @click="editor.chain().focus().setItalic().run()" :disabled="editor.isActive('italic')">
+          setItalic
+        </button>
+        <button @click="editor.chain().focus().unsetItalic().run()" :disabled="!editor.isActive('italic')">
+          unsetItalic
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-
-  <editor-content :editor="editor" />
 </template>
 
 <script>

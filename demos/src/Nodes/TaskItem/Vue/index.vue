@@ -1,21 +1,23 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button @click="editor.chain().focus().toggleTaskList().run()" :class="{ 'is-active': editor.isActive('taskList') }">
-        toggleTaskList
-      </button>
-      <button @click="editor.chain().focus().splitListItem('taskItem').run()" :disabled="!editor.can().splitListItem('taskItem')">
-        splitListItem
-      </button>
-      <button @click="editor.chain().focus().sinkListItem('taskItem').run()" :disabled="!editor.can().sinkListItem('taskItem')">
-        sinkListItem
-      </button>
-      <button @click="editor.chain().focus().liftListItem('taskItem').run()" :disabled="!editor.can().liftListItem('taskItem')">
-        liftListItem
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleTaskList().run()" :class="{ 'is-active': editor.isActive('taskList') }">
+          toggleTaskList
+        </button>
+        <button @click="editor.chain().focus().splitListItem('taskItem').run()" :disabled="!editor.can().splitListItem('taskItem')">
+          splitListItem
+        </button>
+        <button @click="editor.chain().focus().sinkListItem('taskItem').run()" :disabled="!editor.can().sinkListItem('taskItem')">
+          sinkListItem
+        </button>
+        <button @click="editor.chain().focus().liftListItem('taskItem').run()" :disabled="!editor.can().liftListItem('taskItem')">
+          liftListItem
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-  <editor-content :editor="editor" />
 </template>
 
 <script>

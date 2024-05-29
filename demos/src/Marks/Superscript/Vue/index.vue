@@ -1,18 +1,20 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <button @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
-        toggleSuperscript
-      </button>
-      <button @click="editor.chain().focus().setSuperscript().run()" :disabled="editor.isActive('superscript')">
-        setSuperscript
-      </button>
-      <button @click="editor.chain().focus().unsetSuperscript().run()" :disabled="!editor.isActive('superscript')">
-        unsetSuperscript
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
+          toggleSuperscript
+        </button>
+        <button @click="editor.chain().focus().setSuperscript().run()" :disabled="editor.isActive('superscript')">
+          setSuperscript
+        </button>
+        <button @click="editor.chain().focus().unsetSuperscript().run()" :disabled="!editor.isActive('superscript')">
+          unsetSuperscript
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-  <editor-content :editor="editor" />
 </template>
 
 <script>

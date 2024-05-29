@@ -1,11 +1,13 @@
 <template>
-  <div v-if="editor" class="control-group">
-    <div class="button-group">
-      <input type="checkbox" id="editable" v-model="editable">
-      <label for="editable">editable</label>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <input type="checkbox" id="editable" v-model="editable">
+        <label for="editable">editable</label>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
-  <editor-content :editor="editor" />
 </template>
 
 <script>
