@@ -89,6 +89,18 @@ export const Code = Mark.create<CodeOptions>({
   addKeyboardShortcuts() {
     return {
       'Mod-e': () => this.editor.commands.toggleCode(),
+      ArrowRight: event => {
+        const state: EditorState = event?.editor?.state;
+        const { $cursor }: any = state.selection || {};
+        // At the end of the paragraph, press the right key and jump out of the inlineCode wrapper
+        const isInlineCode = $cursor?.nodeBefore?.marks?.some((mark: Mark) => mark.type?.name === 'code');
+        if ($cursor && isInlineCode && !$cursor.nodeAfter) {
+          this.editor.commands.unsetCode();
+          this.editor.commands.insertContent(' ');
+          return false;
+        }
+        return false;
+      },
     }
   },
 
