@@ -48,7 +48,7 @@ export interface LinkOptions {
    * @example false
    * @example 'whenNotEditable'
    */
-  openOnClick: boolean | 'whenNotEditable'
+  openOnClick: boolean
   /**
    * Adds a link to the current selection if the pasted content only contains an url.
    * @default true
@@ -68,7 +68,7 @@ export interface LinkOptions {
    * @param url - The url to be validated.
    * @returns - True if the url is valid, false otherwise.
    */
-  validate?: (url: string) => boolean
+  validate: (url: string) => boolean
 }
 
 declare module '@tiptap/core' {
@@ -93,6 +93,15 @@ declare module '@tiptap/core' {
       unsetLink: () => ReturnType
     }
   }
+}
+
+// From DOMPurify
+// https://github.com/cure53/DOMPurify/blob/main/src/regexp.js
+const ATTR_WHITESPACE = /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g // eslint-disable-line no-control-regex
+const IS_ALLOWED_URI = /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
+
+function isAllowedUri(uri: string | undefined) {
+  return !uri || uri.replace(ATTR_WHITESPACE, '').match(IS_ALLOWED_URI)
 }
 
 /**
@@ -135,7 +144,7 @@ export const Link = Mark.create<LinkOptions>({
         rel: 'noopener noreferrer nofollow',
         class: null,
       },
-      validate: undefined,
+      validate: url => !!url,
     }
   },
 
@@ -157,16 +166,27 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   parseHTML() {
-    return [{ tag: 'a[href]:not([href *= "javascript:" i])' }]
+    return [{
+      tag: 'a[href]',
+      getAttrs: dom => {
+        const href = (dom as HTMLElement).getAttribute('href')
+
+        // prevent XSS attacks
+        if (!href || !isAllowedUri(href)) {
+          return false
+        }
+        return { href }
+      },
+    }]
   },
 
   renderHTML({ HTMLAttributes }) {
-    // False positive; we're explicitly checking for javascript: links to ignore them
-    // eslint-disable-next-line no-script-url
-    if (HTMLAttributes.href?.startsWith('javascript:')) {
+    // prevent XSS attacks
+    if (!isAllowedUri(HTMLAttributes.href)) {
       // strip out the href
       return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
     }
+
     return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
@@ -202,7 +222,8 @@ export const Link = Mark.create<LinkOptions>({
           const foundLinks: PasteRuleMatch[] = []
 
           if (text) {
-            const links = find(text).filter(item => item.isLink)
+            const { validate } = this.options
+            const links = find(text).filter(item => item.isLink && validate(item.value))
 
             if (links.length) {
               links.forEach(link => (foundLinks.push({
@@ -243,7 +264,6 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
-          whenNotEditable: this.options.openOnClick === 'whenNotEditable',
         }),
       )
     }
