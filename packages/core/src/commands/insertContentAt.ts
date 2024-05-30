@@ -81,7 +81,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
         errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
       })
     } catch (e) {
-      if (!(e instanceof Error) || ['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(e.message)) {
+      if (!(e instanceof Error) || !['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(e.message)) {
         // Not the content error we were expecting
         throw e
       }

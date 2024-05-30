@@ -169,6 +169,7 @@ describe('onContentError', () => {
 
     expect(editor.getText()).to.eq('Example Text')
   })
+
   it('removes the collaboration extension when has invalid content (when enableContentCheck = true)', () => {
     const json = {
       invalid: 'doc',
@@ -190,6 +191,7 @@ describe('onContentError', () => {
       extensions: [Document, Paragraph, Text, Extension.create({ name: 'collaboration' })],
       enableContentCheck: true,
       onContentError: args => {
+        args.disableCollaboration()
         expect(args.editor.extensionManager.extensions.find(extension => extension.name === 'collaboration')).to.eq(undefined)
       },
     })
