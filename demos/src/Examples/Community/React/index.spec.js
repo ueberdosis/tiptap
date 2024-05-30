@@ -9,7 +9,7 @@ context('/src/Examples/Community/React/', () => {
 
     // type in .tiptap
     cy.get('.tiptap').type(' Hello World')
-    cy.get('.character-count').should('contain', '5 / 280 characters')
+    cy.get('.character-count').should('contain', '56 / 280 characters')
 
     // remove content from .tiptap and enter text
     cy.get('.tiptap').type('{selectall}{backspace}Hello World')
