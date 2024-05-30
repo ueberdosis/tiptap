@@ -294,6 +294,10 @@ export class Editor extends EventEmitter<EditorEvents> {
         { errorOnInvalidContent: this.options.enableContentCheck },
       )
     } catch (e) {
+      if (!(e instanceof Error) || ['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(e.message)) {
+        // Not the content error we were expecting
+        throw e
+      }
       this.emit('contentError', {
         editor: this,
         error: e as Error,
