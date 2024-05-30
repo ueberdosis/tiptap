@@ -35,11 +35,13 @@ declare module '@tiptap/core' {
 }
 
 export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}) => ({
-  tr, commands,
+  tr, dispatch, commands,
 }) => {
   const { doc } = tr
 
-  tr.setMeta('preventUpdate', !emitUpdate)
+  if (dispatch) {
+    tr.setMeta('preventUpdate', !emitUpdate)
+  }
 
   return commands.insertContentAt(
     { from: 0, to: doc.content.size },

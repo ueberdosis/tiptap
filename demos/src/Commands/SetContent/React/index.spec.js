@@ -69,4 +69,46 @@ context('/src/Commands/SetContent/React/', () => {
       cy.get('.tiptap').should('contain.html', '<span data-type="mention" data-id="1" data-label="John Doe" contenteditable="false">@John Doe</span>')
     })
   })
+
+  it('should keep newlines and tabs', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.\ntest\tOK</p>')
+      cy.get('.tiptap').should('contain.html', '<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.\ntest\tOK</p>')
+    })
+  })
+
+  it('should keep newlines and tabs', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<h1>Tiptap</h1>\n<p><strong>Hello World</strong></p>')
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
+    })
+  })
+
+  it('should allow inserting nothing', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('')
+      cy.get('.tiptap').should('contain.html', '')
+    })
+  })
+
+  it('should allow inserting a partial HTML tag', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p>foo')
+      cy.get('.tiptap').should('contain.html', '<p>foo</p>')
+    })
+  })
+
+  it('should allow inserting a list', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<ul><li>ABC</li><li>123</li></ul>')
+      cy.get('.tiptap').should('contain.html', '<ul><li><p>ABC</p></li><li><p>123</p></li></ul>')
+    })
+  })
+
+  it('should remove newlines and tabs when parseOptions.preserveWhitespace=false', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n', false, { preserveWhitespace: false })
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
+    })
+  })
 })
