@@ -1,5 +1,6 @@
 import { ParseOptions } from '@tiptap/pm/model'
 
+import { createDocument } from '../helpers/createDocument.js'
 import { Content, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
@@ -35,9 +36,20 @@ declare module '@tiptap/core' {
 }
 
 export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}) => ({
-  tr, dispatch, commands,
+  editor, tr, dispatch, commands,
 }) => {
   const { doc } = tr
+
+  // This is to keep backward compatibility with the previous behavior
+  // TODO remove this in the next major version
+  if (parseOptions.preserveWhitespace !== 'full') {
+    const document = createDocument(content, editor.schema, parseOptions)
+
+    if (dispatch) {
+      tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)
+    }
+    return true
+  }
 
   if (dispatch) {
     tr.setMeta('preventUpdate', !emitUpdate)

@@ -41,9 +41,16 @@ context('/src/Commands/SetContent/React/', () => {
     })
   })
 
-  it('should keep newlines and tabs', () => {
+  it('should remove newlines and tabs', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>')
+      cy.get('.tiptap').should('contain.html', '<p>Hello world how nice.</p>')
+    })
+  })
+
+  it('should keep newlines and tabs when preserveWhitespace = full', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>', false, { preserveWhitespace: 'full' })
       cy.get('.tiptap').should('contain.html', '<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>')
     })
   })
@@ -70,23 +77,32 @@ context('/src/Commands/SetContent/React/', () => {
     })
   })
 
-  it('should keep newlines and tabs', () => {
+  it('should remove newlines and tabs between html fragments', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.\ntest\tOK</p>')
-      cy.get('.tiptap').should('contain.html', '<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.\ntest\tOK</p>')
+      editor.commands.setContent('<h1>Tiptap</h1>\n\t<p><strong>Hello World</strong></p>')
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
     })
   })
 
-  it('should keep newlines and tabs', () => {
+  // TODO I'm not certain about this behavior and what it should do...
+  // This exists in insertContentAt as well
+  it('should keep newlines and tabs between html fragments when preserveWhitespace = full', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<h1>Tiptap</h1>\n<p><strong>Hello World</strong></p>')
-      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
+      editor.commands.setContent('<h1>Tiptap</h1>\n\t<p><strong>Hello World</strong></p>', false, { preserveWhitespace: 'full' })
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p>\n\t</p><p><strong>Hello World</strong></p>')
     })
   })
 
   it('should allow inserting nothing', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('')
+      cy.get('.tiptap').should('contain.html', '')
+    })
+  })
+
+  it('should allow inserting nothing when preserveWhitespace = full', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('', false, { preserveWhitespace: 'full' })
       cy.get('.tiptap').should('contain.html', '')
     })
   })
@@ -98,9 +114,25 @@ context('/src/Commands/SetContent/React/', () => {
     })
   })
 
-  it('should allow inserting an incomplete HTML tag', () => {
+  it('should allow inserting a partial HTML tag when preserveWhitespace = full', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p>foo', false, { preserveWhitespace: 'full' })
+      cy.get('.tiptap').should('contain.html', '<p>foo</p>')
+    })
+  })
+
+  it('will remove an incomplete HTML tag', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('foo<p')
+      cy.get('.tiptap').should('contain.html', '<p>foo</p>')
+    })
+  })
+
+  // TODO I'm not certain about this behavior and what it should do...
+  // This exists in insertContentAt as well
+  it('should allow inserting an incomplete HTML tag when preserveWhitespace = full', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('foo<p', false, { preserveWhitespace: 'full' })
       cy.get('.tiptap').should('contain.html', '<p>foo&lt;p</p>')
     })
   })
@@ -108,6 +140,13 @@ context('/src/Commands/SetContent/React/', () => {
   it('should allow inserting a list', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<ul><li>ABC</li><li>123</li></ul>')
+      cy.get('.tiptap').should('contain.html', '<ul><li><p>ABC</p></li><li><p>123</p></li></ul>')
+    })
+  })
+
+  it('should allow inserting a list when preserveWhitespace = full', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<ul><li>ABC</li><li>123</li></ul>', false, { preserveWhitespace: 'full' })
       cy.get('.tiptap').should('contain.html', '<ul><li><p>ABC</p></li><li><p>123</p></li></ul>')
     })
   })
