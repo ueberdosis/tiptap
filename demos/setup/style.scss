@@ -35,6 +35,10 @@ body {
   margin: 0;
 }
 
+:first-child {
+	margin-top: 0;
+}
+
 /* Basic editor styles */
 .tiptap {
   margin: 1.5rem;
@@ -137,7 +141,8 @@ select {
   }
 }
 
-button:not([disabled]) {
+button:not([disabled]),
+select:not([disabled]) {
   cursor: pointer;
 }
 
@@ -156,8 +161,24 @@ input[type="text"] {
   }
 
   &:focus-visible, &:focus {
-    outline: none;
     border-color: var(--purple);
+    outline: none;
+  }
+}
+
+select {
+  /* reset */    
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="Gray" d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.1rem center;
+  background-size: 1.25rem 1.25rem;
+  padding-right: 1.25rem;
+
+  &:focus {
+    outline: 0;
   }
 }
 
@@ -204,6 +225,28 @@ form {
 
   &.error {
     background-color: var(--red-light);
+  }
+}
+
+.output-group {
+	background-color: var(--gray-1);
+	display: flex;
+	flex-direction: column;
+	font-family: 'JetBrainsMono', monospace;
+	font-size: 0.75rem;
+	gap: 1rem;
+	margin-top: 2.5rem;
+	padding: 1.5rem;
+
+	label {
+		color: var(--black);
+		font-size: 0.875rem;
+		font-weight: 700;
+		line-height: 1.15;
+	}
+
+  code {
+    font-size: 0.75rem;
   }
 }
 
