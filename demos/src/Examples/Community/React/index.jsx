@@ -48,7 +48,6 @@ export default () => {
             height="20"
             width="20"
             viewBox="0 0 20 20"
-            className="character-count__graph"
           >
             <circle
               r="10"
@@ -74,9 +73,7 @@ export default () => {
             />
           </svg>
 
-          <div className="character-count__text">
-            {editor.storage.characterCount.characters()}/{limit} characters
-          </div>
+          {editor.storage.characterCount.characters()} / {limit} characters
         </div>
       }
     </>

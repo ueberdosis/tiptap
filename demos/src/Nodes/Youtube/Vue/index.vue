@@ -2,9 +2,6 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button id="add" @click="addVideo">
-          Add YouTube video
-        </button>
         <input
           id="width"
           type="number"
@@ -21,6 +18,9 @@
           min="180"
           max="720"
         >
+        <button id="add" @click="addVideo">
+          Add YouTube video
+        </button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -98,23 +98,23 @@ export default {
     margin-top: 0;
   }
 
-  iframe {
-    border: 8px solid #000;
-    border-radius: 4px;
-    display: block;
-    min-width: 200px;
-    min-height: 200px;
-    outline: 0px solid transparent;
-  }
-
+  /* Youtube embed */
   div[data-youtube-video] {
     cursor: move;
-    padding-right: 24px;
-  }
+    padding-right: 1.5rem;
 
-  .ProseMirror-selectednode iframe {
-    outline: 6px solid #ece111;
-    transition: outline 0.15s;
+    iframe {
+      border: 0.5rem solid var(--black-contrast);
+      display: block;
+      min-height: 200px;
+      min-width: 200px;
+      outline: 0px solid transparent;
+    }
+
+    &.ProseMirror-selectednode iframe {
+      outline: 3px solid var(--purple);
+      transition: outline 0.15s;
+    }
   }
 }
 </style>

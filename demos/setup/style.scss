@@ -1,7 +1,7 @@
 /* Base HTML and global element styles*/
 :root {
   --white: #FFF;
-  --black: rgba(28, 25, 23, 0.92);
+  --black: #2E2B29;
   --black-contrast: #110F0E;
   --gray-1: rgba(61, 37, 20, 0.05);
   --gray-2: rgba(61, 37, 20, 0.08);
@@ -11,6 +11,10 @@
   --purple: #6A00F5;
   --purple-contrast: #5800CC;
   --purple-light: rgba(88, 5, 255, 0.05);
+  --yellow-light: #FFFAE5;
+  --red: #FF5C33;
+  --red-light: #FFEBE5;
+  --shadow: 0px 12px 33px 0px rgba(0, 0, 0, 0.06), 0px 3.618px 9.949px 0px rgba(0, 0, 0, 0.04);
 }
 
 *,
@@ -166,15 +170,41 @@ form {
 
 .hint {
   align-items: center;
-  background-color: var(--purple-light);
+  background-color: var(--yellow-light);
   border-radius: 0.5rem;
   border: 1px solid var(--gray-2);
   display: flex;
   flex-direction: row;
   font-size: 0.75rem;
+  gap: 0.5rem;
   line-height: 1.15;
   min-height: 1.75rem;
   padding: 0.25rem 0.5rem;
+
+  &.purple-spinner,
+  &.error {
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  &.purple-spinner {
+    background-color: var(--purple-light);
+
+    &::after {
+      content: "";
+      background-image: url("data:image/svg+xml;utf8,<svg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='28px' height='30px' viewBox='0 0 24 30' style='enable-background:new 0 0 50 50;' xml:space='preserve'><rect x='0' y='10' width='6' height='10' fill='%236A00F5' rx='3' ry='3'><animateTransform attributeType='xml' attributeName='transform' type='translate' values='0 0; 0 5; 0 -5; 0 0' begin='0' dur='0.6s' repeatCount='indefinite'/></rect><rect x='10' y='10' width='6' height='10' fill='%236A00F5' rx='3' ry='3'><animateTransform attributeType='xml' attributeName='transform' type='translate' values='0 0; 0 5; 0 -5; 0 0' begin='0.2s' dur='0.6s' repeatCount='indefinite'/></rect><rect x='20' y='10' width='6' height='10' fill='%236A00F5' rx='3' ry='3'><animateTransform attributeType='xml' attributeName='transform' type='translate' values='0 0; 0 5; 0 -5; 0 0' begin='0.4s' dur='0.6s' repeatCount='indefinite'/></rect></svg>");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 1rem;
+      width: 1rem;
+    }
+  }
+
+  &.error {
+    background-color: var(--red-light);
+  }
 }
 
 .label, 

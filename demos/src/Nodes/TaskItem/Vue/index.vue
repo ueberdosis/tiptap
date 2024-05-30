@@ -91,7 +91,7 @@ export default {
     padding: 0;
 
     li {
-      align-items: center;
+      align-items: flex-start;
       display: flex;
 
       > label {
@@ -107,6 +107,10 @@ export default {
 
     input[type="checkbox"] {
       cursor: pointer;
+    }
+
+    ul[data-type="taskList"] {
+      margin: 0;
     }
   }
 }

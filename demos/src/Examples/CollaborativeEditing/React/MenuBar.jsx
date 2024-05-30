@@ -59,7 +59,7 @@ export default ({ editor }) => {
     },
     {
       icon: 'list-unordered',
-      title: 'Bullet List',
+      title: 'Bullet list',
       action: () => editor.chain().focus().toggleBulletList().run(),
       isActive: () => editor.isActive('bulletList'),
     },

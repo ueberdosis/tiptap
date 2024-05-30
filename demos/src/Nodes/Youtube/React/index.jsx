@@ -8,15 +8,8 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 
 const MenuBar = ({ editor }) => {
-  const widthRef = React.useRef(null)
-  const heightRef = React.useRef(null)
-
-  React.useEffect(() => {
-    if (widthRef.current && heightRef.current) {
-      widthRef.current.value = 640
-      heightRef.current.value = 480
-    }
-  }, [widthRef.current, heightRef.current])
+  const [height, setHeight] = React.useState(480)
+  const [width, setWidth] = React.useState(640)
 
   if (!editor) {
     return null
@@ -28,8 +21,8 @@ const MenuBar = ({ editor }) => {
     if (url) {
       editor.commands.setYoutubeVideo({
         src: url,
-        width: Math.max(320, parseInt(widthRef.current.value, 10)) || 640,
-        height: Math.max(180, parseInt(heightRef.current.value, 10)) || 480,
+        width: Math.max(320, parseInt(width, 10)) || 640,
+        height: Math.max(180, parseInt(height, 10)) || 480,
       })
     }
   }
@@ -37,9 +30,25 @@ const MenuBar = ({ editor }) => {
   return (
     <div className="control-group">
       <div className="button-group">
+        <input
+          id="width"
+          type="number"
+          min="320"
+          max="1024"
+          placeholder="width"
+          value={width}
+          onChange={event => setWidth(event.target.value)}
+        />
+        <input
+          id="height"
+          type="number"
+          min="180"
+          max="720"
+          placeholder="height"
+          value={height}
+          onChange={event => setHeight(event.target.value)}
+        />
         <button id="add" onClick={addYoutubeVideo}>Add YouTube video</button>
-        <input id="width" type="number" min="320" max="1024" ref={widthRef} placeholder="width" />
-        <input id="height" type="number" min="180" max="720" ref={heightRef} placeholder="height" />
       </div>
     </div>
   )
