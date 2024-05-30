@@ -47,7 +47,6 @@ export function createNodeFromContent(
 
       return schema.nodeFromJSON(content)
     } catch (error) {
-
       if (options.errorOnInvalidContent) {
         throw new Error('[tiptap error]: Invalid JSON content', { cause: error as Error })
       }
