@@ -24,6 +24,24 @@ describe('createNodeFromContent', () => {
     }])
   })
 
+  it('if `errorOnInvalidContent` is true, creates a fragment from a schema and HTML content', () => {
+    const content = '<p>Example Text</p>'
+
+    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([
+      Document,
+      Paragraph,
+      Text,
+    ]), { errorOnInvalidContent: true })
+
+    expect(fragment.toJSON()).to.deep.eq([{
+      type: 'paragraph',
+      content: [{
+        type: 'text',
+        text: 'Example Text',
+      }],
+    }])
+  })
+
   it('creates a fragment from a schema and JSON content', () => {
     const content = {
       type: 'paragraph',
@@ -38,6 +56,30 @@ describe('createNodeFromContent', () => {
       Paragraph,
       Text,
     ]))
+
+    expect(fragment.toJSON()).to.deep.eq({
+      type: 'paragraph',
+      content: [{
+        type: 'text',
+        text: 'Example Text',
+      }],
+    })
+  })
+
+  it('if `errorOnInvalidContent` is true, creates a fragment from a schema and JSON content', () => {
+    const content = {
+      type: 'paragraph',
+      content: [{
+        type: 'text',
+        text: 'Example Text',
+      }],
+    }
+
+    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([
+      Document,
+      Paragraph,
+      Text,
+    ]), { errorOnInvalidContent: true })
 
     expect(fragment.toJSON()).to.deep.eq({
       type: 'paragraph',
@@ -68,6 +110,42 @@ describe('createNodeFromContent', () => {
       Paragraph,
       Text,
     ]))
+
+    expect(fragment.toJSON()).to.deep.eq([{
+      type: 'paragraph',
+      content: [{
+        type: 'text',
+        text: 'Example Text',
+      }],
+    }, {
+      type: 'paragraph',
+      content: [{
+        type: 'text',
+        text: 'More Text',
+      }],
+    }])
+  })
+
+  it('if `errorOnInvalidContent` is true, creates a fragment from a schema and JSON array of content', () => {
+    const content = [{
+      type: 'paragraph',
+      content: [{
+        type: 'text',
+        text: 'Example Text',
+      }],
+    }, {
+      type: 'paragraph',
+      content: [{
+        type: 'text',
+        text: 'More Text',
+      }],
+    }]
+
+    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([
+      Document,
+      Paragraph,
+      Text,
+    ]), { errorOnInvalidContent: true })
 
     expect(fragment.toJSON()).to.deep.eq([{
       type: 'paragraph',
