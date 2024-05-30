@@ -98,6 +98,13 @@ context('/src/Commands/SetContent/React/', () => {
     })
   })
 
+  it('should allow inserting an incomplete HTML tag', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('foo<p')
+      cy.get('.tiptap').should('contain.html', '<p>foo&lt;p</p>')
+    })
+  })
+
   it('should allow inserting a list', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<ul><li>ABC</li><li>123</li></ul>')
