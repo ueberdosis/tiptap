@@ -1,10 +1,5 @@
 <template>
-  <demo-frame
-    v-if="inline"
-    :src="currentIframeUrl"
-    :key="currentIframeUrl"
-  />
-  <div class="overflow-hidden antialiased rounded-lg" v-else>
+  <div class="overflow-hidden antialiased rounded-lg">
     <div class="px-3 py-1 bg-black flex items-center gap-0.5">
       <button
         v-for="(language, index) in sortedTabs"
@@ -161,8 +156,6 @@ export default {
 
     setTab(name, persist = true) {
       this.currentTab = name
-      this.sources = {}
-      this.currentFile = null
 
       if (persist) {
         localStorage.tab = name
