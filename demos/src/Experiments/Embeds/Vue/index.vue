@@ -3,7 +3,7 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="addIframe">
-          add iframe
+          Add iFrame
         </button>
       </div>
     </div>

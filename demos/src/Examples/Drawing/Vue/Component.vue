@@ -10,7 +10,7 @@
           v-model="size"
         >
         <button @click="clear">
-          clear
+          Clear
         </button>
       </div>
       <svg viewBox="0 0 500 250" ref="canvas">

@@ -5,18 +5,18 @@
         Original Editor
       </h2>
       <button @click="addComment" :disabled="!editor.can().addAnnotation()">
-        comment
+        Comment
       </button>
       <editor-content class="editor-1" :editor="editor" />
       <div class="comment" v-for="comment in comments" :key="comment.id">
         {{ comment }}
 
         <button @click="updateComment(comment.id)">
-          update
+          Update
         </button>
 
         <button @click="deleteComment(comment.id)">
-          remove
+          Remove
         </button>
       </div>
 
@@ -24,7 +24,7 @@
         Another Editor
       </h2>
       <button @click="addAnotherComment" :disabled="!anotherEditor.can().addAnnotation()">
-        comment
+        Comment
       </button>
       <editor-content class="editor-2" :editor="anotherEditor" />
     </div>

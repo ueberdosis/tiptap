@@ -29,19 +29,19 @@ export default () => {
             onClick={() => editor.chain().focus().toggleUnderline().run()}
             className={editor.isActive('underline') ? 'is-active' : ''}
           >
-            toggleUnderline
+            Toggle underline
           </button>
           <button
             onClick={() => editor.chain().focus().setUnderline().run()}
             disabled={editor.isActive('underline')}
           >
-            setUnderline
+            Set underline
           </button>
           <button
             onClick={() => editor.chain().focus().unsetUnderline().run()}
             disabled={!editor.isActive('underline')}
           >
-            unsetUnderline
+            Unset underline
           </button>
         </div>
       </div>

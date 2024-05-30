@@ -35,19 +35,19 @@ export default () => {
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             className={editor.isActive('blockquote') ? 'is-active' : ''}
           >
-            toggleBlockquote
+            Toggle blockquote
           </button>
           <button
             onClick={() => editor.chain().focus().setBlockquote().run()}
             disabled={!editor.can().setBlockquote()}
           >
-            setBlockquote
+            Set blockquote
           </button>
           <button
             onClick={() => editor.chain().focus().unsetBlockquote().run()}
             disabled={!editor.can().unsetBlockquote()}
           >
-            unsetBlockquote
+            Unset blockquote
           </button>
         </div>
       </div>

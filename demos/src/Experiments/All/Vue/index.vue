@@ -2,67 +2,67 @@
   <div>
     <div v-if="editor" class="menu">
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-        bold
+        Bold
       </button>
       <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-        italic
+        Italic
       </button>
       <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-        strike
+        Strike
       </button>
       <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
-        code
+        Code
       </button>
       <button @click="editor.chain().focus().unsetAllMarks().run()">
-        clear marks
+        Clear marks
       </button>
       <button @click="editor.chain().focus().clearNodes().run()">
-        clear nodes
+        Clear nodes
       </button>
       <button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
-        paragraph
+        Paragraph
       </button>
       <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-        h1
+        H1
       </button>
       <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-        h2
+        H2
       </button>
       <button @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
-        h3
+        H3
       </button>
       <button @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
-        h4
+        H4
       </button>
       <button @click="editor.chain().focus().toggleHeading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
-        h5
+        H5
       </button>
       <button @click="editor.chain().focus().toggleHeading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
         h6
       </button>
       <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
-        bullet list
+        Bullet list
       </button>
       <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
-        ordered list
+        Ordered list
       </button>
       <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-        code block
+        Code block
       </button>
       <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
-        blockquote
+        Blockquote
       </button>
       <button @click="editor.chain().focus().setHorizontalRule().run()">
-        horizontal rule
+        Horizontal rule
       </button>
       <button @click="editor.chain().focus().setHardBreak().run()">
-        hard break
+        Hard break
       </button>
       <button @click="editor.chain().focus().undo().run()">
-        undo
+        Undo
       </button>
       <button @click="editor.chain().focus().redo().run()">
-        redo
+        Redo
       </button>
     </div>
     <editor-content :editor="editor" />
@@ -232,20 +232,20 @@ export default {
             </tr>
             <tr>
               <td>Cyndi Lauper</td>
-              <td>singer</td>
-              <td>songwriter</td>
-              <td>actress</td>
+              <td>Singer</td>
+              <td>Songwriter</td>
+              <td>Actress</td>
             </tr>
             <tr>
               <td>Marie Curie</td>
-              <td>scientist</td>
-              <td>chemist</td>
-              <td>physicist</td>
+              <td>Scientist</td>
+              <td>Chemist</td>
+              <td>Physicist</td>
             </tr>
             <tr>
               <td>Indira Gandhi</td>
-              <td>prime minister</td>
-              <td colspan="2">politician</td>
+              <td>Prime minister</td>
+              <td colspan="2">Politician</td>
             </tr>
           </tbody>
         </table>

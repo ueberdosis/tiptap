@@ -34,7 +34,7 @@ export default () => {
     <>
       <div className="control-group">
         <div className="button-group">
-          <button onClick={addImage}>setImage</button>
+          <button onClick={addImage}>Set image</button>
         </div>
       </div>
       <EditorContent editor={editor} />

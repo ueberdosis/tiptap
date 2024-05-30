@@ -31,13 +31,13 @@ const MenuBar = () => {
   return (
     <>
       <button data-test-id="html-content" onClick={() => editor.chain().insertContent(htmlContent).focus().run()}>
-        Insert html content
+        Insert HTML content
       </button>
       <button data-test-id="html-content-spans" onClick={() => editor.chain().insertContent('<p><b>Hello</b> <i>World</i></p>').focus().run()}>
-        Insert html with span tags content
+        Insert HTML with span tags content
       </button>
       <button data-test-id="text-content" onClick={() => editor.chain().insertContent(textContent).focus().run()}>
-        Insert text content
+        Insert HTML content
       </button>
     </>
   )

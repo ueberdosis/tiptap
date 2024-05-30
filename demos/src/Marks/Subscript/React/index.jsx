@@ -29,19 +29,19 @@ export default () => {
             onClick={() => editor.chain().focus().toggleSubscript().run()}
             className={editor.isActive('subscript') ? 'is-active' : ''}
           >
-            toggleSubscript
+            Toggle subscript
           </button>
           <button
             onClick={() => editor.chain().focus().setSubscript().run()}
             disabled={editor.isActive('subscript')}
           >
-            setSubscript
+            Set subscript
           </button>
           <button
             onClick={() => editor.chain().focus().unsetSubscript().run()}
             disabled={!editor.isActive('subscript')}
           >
-            unsetSubscript
+            Unset subscript
           </button>
         </div>
       </div>

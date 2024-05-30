@@ -3,13 +3,13 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-          toggleItalic
+          Toggle italic
         </button>
         <button @click="editor.chain().focus().setItalic().run()" :disabled="editor.isActive('italic')">
-          setItalic
+          Set italic
         </button>
         <button @click="editor.chain().focus().unsetItalic().run()" :disabled="!editor.isActive('italic')">
-          unsetItalic
+          Unset italic
         </button>
       </div>
     </div>

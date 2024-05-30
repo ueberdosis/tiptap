@@ -35,55 +35,55 @@ export default () => {
             className={editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''}
             data-testid="setPurple"
           >
-            purple
+            Purple
           </button>
           <button
             onClick={() => editor.chain().focus().setColor('#F98181').run()}
             className={editor.isActive('textStyle', { color: '#F98181' }) ? 'is-active' : ''}
             data-testid="setRed"
           >
-            red
+            Red
           </button>
           <button
             onClick={() => editor.chain().focus().setColor('#FBBC88').run()}
             className={editor.isActive('textStyle', { color: '#FBBC88' }) ? 'is-active' : ''}
             data-testid="setOrange"
           >
-            orange
+            Orange
           </button>
           <button
             onClick={() => editor.chain().focus().setColor('#FAF594').run()}
             className={editor.isActive('textStyle', { color: '#FAF594' }) ? 'is-active' : ''}
             data-testid="setYellow"
           >
-            yellow
+            Yellow
           </button>
           <button
             onClick={() => editor.chain().focus().setColor('#70CFF8').run()}
             className={editor.isActive('textStyle', { color: '#70CFF8' }) ? 'is-active' : ''}
             data-testid="setBlue"
           >
-            blue
+            Blue
           </button>
           <button
             onClick={() => editor.chain().focus().setColor('#94FADB').run()}
             className={editor.isActive('textStyle', { color: '#94FADB' }) ? 'is-active' : ''}
             data-testid="setTeal"
           >
-            teal
+            Teal
           </button>
           <button
             onClick={() => editor.chain().focus().setColor('#B9F18D').run()}
             className={editor.isActive('textStyle', { color: '#B9F18D' }) ? 'is-active' : ''}
             data-testid="setGreen"
           >
-            green
+            Green
           </button>
           <button
             onClick={() => editor.chain().focus().unsetColor().run()}
             data-testid="unsetColor"
           >
-            unsetColor
+            Unset color
           </button>
         </div>
       </div>

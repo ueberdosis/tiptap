@@ -2,7 +2,7 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="addImage">add image from URL</button>
+        <button @click="addImage">Add image from URL</button>
       </div>
     </div>
     <editor-content :editor="editor" />

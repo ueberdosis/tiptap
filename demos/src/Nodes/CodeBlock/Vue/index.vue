@@ -3,10 +3,10 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-          toggleCodeBlock
+          Toggle code block
         </button>
         <button @click="editor.chain().focus().setCodeBlock().run()" :disabled="editor.isActive('codeBlock')">
-          setCodeBlock
+          Set code block
         </button>
       </div>
     </div>

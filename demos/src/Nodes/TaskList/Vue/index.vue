@@ -3,16 +3,16 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().toggleTaskList().run()" :class="{ 'is-active': editor.isActive('taskList') }">
-          toggleTaskList
+          Toggle task list
         </button>
         <button @click="editor.chain().focus().splitListItem('taskItem').run()" :disabled="!editor.can().splitListItem('taskItem')">
-          splitListItem
+          Split list item
         </button>
         <button @click="editor.chain().focus().sinkListItem('taskItem').run()" :disabled="!editor.can().sinkListItem('taskItem')">
-          sinkListItem
+          Sink list item
         </button>
         <button @click="editor.chain().focus().liftListItem('taskItem').run()" :disabled="!editor.can().liftListItem('taskItem')">
-          liftListItem
+          Lift list item
         </button>
       </div>
     </div>

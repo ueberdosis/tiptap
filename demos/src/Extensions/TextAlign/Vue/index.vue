@@ -3,19 +3,19 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
-          left
+          Left
         </button>
         <button @click="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }">
-          center
+          Center
         </button>
         <button @click="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }">
-          right
+          Right
         </button>
         <button @click="editor.chain().focus().setTextAlign('justify').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }">
-          justify
+          Justify
         </button>
         <button @click="editor.chain().focus().unsetTextAlign().run()">
-          unsetTextAlign
+          Unset text align
         </button>
       </div>
     </div>

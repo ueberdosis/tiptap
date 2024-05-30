@@ -9,16 +9,16 @@
           Comic Sans
         </button>
         <button @click="editor.chain().focus().setFontFamily('serif').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'serif' }) }">
-          serif
+          Serif
         </button>
         <button @click="editor.chain().focus().setFontFamily('monospace').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'monospace' }) }">
-          monospace
+          Monospace
         </button>
         <button @click="editor.chain().focus().setFontFamily('cursive').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'cursive' }) }">
-          cursive
+          Cursive
         </button>
         <button @click="editor.chain().focus().unsetFontFamily().run()">
-          unsetFontFamily
+          Unset font family
         </button>
       </div>
     </div>

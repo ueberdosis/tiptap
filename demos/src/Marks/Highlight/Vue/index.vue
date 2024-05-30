@@ -3,31 +3,31 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().toggleHighlight().run()" :class="{ 'is-active': editor.isActive('highlight') }">
-          toggleHighlight
+          Toggle highlight
         </button>
         <button @click="editor.chain().focus().toggleHighlight({ color: '#ffc078' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffc078' }) }">
-          orange
+          Orange
         </button>
         <button @click="editor.chain().focus().toggleHighlight({ color: '#8ce99a' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#8ce99a' }) }">
-          green
+          Green
         </button>
         <button @click="editor.chain().focus().toggleHighlight({ color: '#74c0fc' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#74c0fc' }) }">
-          blue
+          Blue
         </button>
         <button @click="editor.chain().focus().toggleHighlight({ color: '#b197fc' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#b197fc' }) }">
-          purple
+          Purple
         </button>
         <button @click="editor.chain().focus().toggleHighlight({ color: 'red' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: 'red' }) }">
-          red ('red')
+          Red ('red')
         </button>
         <button @click="editor.chain().focus().toggleHighlight({ color: '#ffa8a8' }).run()" :class="{ 'is-active': editor.isActive('highlight', { color: '#ffa8a8' }) }">
-          red (#ffa8a8)
+          Red (#ffa8a8)
         </button>
         <button
           @click="editor.chain().focus().unsetHighlight().run()"
           :disabled="!editor.isActive('highlight')"
         >
-          unsetHighlight
+          Unset highlight
         </button>
       </div>
     </div>

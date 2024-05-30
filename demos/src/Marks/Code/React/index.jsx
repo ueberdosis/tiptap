@@ -28,19 +28,19 @@ export default () => {
             onClick={() => editor.chain().focus().toggleCode().run()}
             className={editor.isActive('code') ? 'is-active' : ''}
           >
-            toggleCode
+            Toggle code
           </button>
           <button
             onClick={() => editor.chain().focus().setCode().run()}
             disabled={editor.isActive('code')}
           >
-            setCode
+            Set code
           </button>
           <button
             onClick={() => editor.chain().focus().unsetCode().run()}
             disabled={!editor.isActive('code')}
           >
-            unsetCode
+            Unset code
           </button>
         </div>
       </div>

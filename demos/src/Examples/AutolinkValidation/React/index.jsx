@@ -56,14 +56,14 @@ export default () => {
         className={editor.isActive('link') ? 'is-active' : ''}
         data-testid="setLink"
       >
-        setLink
+        Set link
       </button>
       <button
         onClick={() => editor.chain().focus().unsetLink().run()}
         disabled={!editor.isActive('link')}
         data-testid="unsetLink"
       >
-        unsetLink
+        Unset link
       </button>
       <EditorContent editor={editor} />
     </>

@@ -3,13 +3,13 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
-          toggleUnderline
+          Toggle underline
         </button>
         <button @click="editor.chain().focus().setUnderline().run()" :disabled="editor.isActive('underline')">
-          setUnderline
+          Set underline
         </button>
         <button @click="editor.chain().focus().unsetUnderline().run()" :disabled="!editor.isActive('underline')">
-          unsetUnderline
+          Unset underline
         </button>
       </div>
     </div>

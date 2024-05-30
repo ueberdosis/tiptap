@@ -30,19 +30,19 @@ export default () => {
             onClick={() => editor.chain().focus().toggleItalic().run()}
             className={editor.isActive('italic') ? 'is-active' : ''}
           >
-            toggleItalic
+            Toggle italic
           </button>
           <button
             onClick={() => editor.chain().focus().setItalic().run()}
             disabled={editor.isActive('italic')}
           >
-            setItalic
+            Set italic
           </button>
           <button
             onClick={() => editor.chain().focus().unsetItalic().run()}
             disabled={!editor.isActive('italic')}
           >
-            unsetItalic
+            Unset italic
           </button>
         </div>
       </div>

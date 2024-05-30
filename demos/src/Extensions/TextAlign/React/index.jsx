@@ -38,27 +38,27 @@ export default () => {
             onClick={() => editor.chain().focus().setTextAlign('left').run()}
             className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
           >
-            left
+            Left
           </button>
           <button
             onClick={() => editor.chain().focus().setTextAlign('center').run()}
             className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
           >
-            center
+            Center
           </button>
           <button
             onClick={() => editor.chain().focus().setTextAlign('right').run()}
             className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
           >
-            right
+            Right
           </button>
           <button
             onClick={() => editor.chain().focus().setTextAlign('justify').run()}
             className={editor.isActive({ textAlign: 'justify' }) ? 'is-active' : ''}
           >
-            justify
+            Justify
           </button>
-          <button onClick={() => editor.chain().focus().unsetTextAlign().run()}>unsetTextAlign</button>
+          <button onClick={() => editor.chain().focus().unsetTextAlign().run()}>Unset text align</button>
         </div>
       </div>
       <EditorContent editor={editor} />

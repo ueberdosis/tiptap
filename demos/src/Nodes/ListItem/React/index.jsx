@@ -47,31 +47,31 @@ export default () => {
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={editor.isActive('bulletList') ? 'is-active' : ''}
           >
-            toggleBulletList
+            Toggle bullet list
           </button>
           <button
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
             className={editor.isActive('orderedList') ? 'is-active' : ''}
           >
-            toggleOrderedList
+            Toggle ordered list
           </button>
           <button
             onClick={() => editor.chain().focus().splitListItem('listItem').run()}
             disabled={!editor.can().splitListItem('listItem')}
           >
-            splitListItem
+            Split list item
           </button>
           <button
             onClick={() => editor.chain().focus().sinkListItem('listItem').run()}
             disabled={!editor.can().sinkListItem('listItem')}
           >
-            sinkListItem
+            Sink list item
           </button>
           <button
             onClick={() => editor.chain().focus().liftListItem('listItem').run()}
             disabled={!editor.can().liftListItem('listItem')}
           >
-            liftListItem
+            Lift list item
           </button>
         </div>
       </div>

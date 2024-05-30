@@ -33,19 +33,19 @@ export default () => {
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={editor.isActive('bold') ? 'is-active' : ''}
           >
-            toggleBold
+            Toggle bold
           </button>
           <button
             onClick={() => editor.chain().focus().setBold().run()}
             disabled={editor.isActive('bold')}
           >
-            setBold
+            Set bold
           </button>
           <button
             onClick={() => editor.chain().focus().unsetBold().run()}
             disabled={!editor.isActive('bold')}
           >
-            unsetBold
+            Unset bold
           </button>
         </div>
       </div>

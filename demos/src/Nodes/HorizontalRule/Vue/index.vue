@@ -3,7 +3,7 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().setHorizontalRule().run()">
-          setHorizontalRule
+          Set horizontal rule
         </button>
       </div>
     </div>

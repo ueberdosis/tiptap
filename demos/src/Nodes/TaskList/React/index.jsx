@@ -39,25 +39,25 @@ export default () => {
             onClick={() => editor.chain().focus().toggleTaskList().run()}
             className={editor.isActive('taskList') ? 'is-active' : ''}
           >
-            toggleTaskList
+            Toggle task list
           </button>
           <button
             onClick={() => editor.chain().focus().splitListItem('taskItem').run()}
             disabled={!editor.can().splitListItem('taskItem')}
           >
-            splitListItem
+            Split list item
           </button>
           <button
             onClick={() => editor.chain().focus().sinkListItem('taskItem').run()}
             disabled={!editor.can().sinkListItem('taskItem')}
           >
-            sinkListItem
+            Sink list item
           </button>
           <button
             onClick={() => editor.chain().focus().liftListItem('taskItem').run()}
             disabled={!editor.can().liftListItem('taskItem')}
           >
-            liftListItem
+            Lift list item
           </button>
         </div>
       </div>

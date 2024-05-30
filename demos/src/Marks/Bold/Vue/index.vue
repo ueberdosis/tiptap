@@ -3,13 +3,13 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-          toggleBold
+          Toggle bold
         </button>
         <button @click="editor.chain().focus().setBold().run()" :disabled="editor.isActive('bold')">
-          setBold
+          Set bold
         </button>
         <button @click="editor.chain().focus().unsetBold().run()" :disabled="!editor.isActive('bold')">
-          unsetBold
+          Unset bold
         </button>
       </div>
     </div>

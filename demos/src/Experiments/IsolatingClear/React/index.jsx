@@ -45,7 +45,7 @@ const MenuBar = ({ editor }) => {
         }
         className={editor.isActive('bold') ? 'is-active' : ''}
       >
-        bold
+        Bold
       </button>
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -58,7 +58,7 @@ const MenuBar = ({ editor }) => {
         }
         className={editor.isActive('italic') ? 'is-active' : ''}
       >
-        italic
+        Italic
       </button>
       <button
         onClick={() => editor.chain().focus().toggleStrike().run()}
@@ -71,7 +71,7 @@ const MenuBar = ({ editor }) => {
         }
         className={editor.isActive('strike') ? 'is-active' : ''}
       >
-        strike
+        Strike
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCode().run()}
@@ -84,85 +84,85 @@ const MenuBar = ({ editor }) => {
         }
         className={editor.isActive('code') ? 'is-active' : ''}
       >
-        code
+        Code
       </button>
       <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-        clear marks
+        Clear marks
       </button>
       <button onClick={() => editor.chain().focus().clearNodes().run()}>
-        clear nodes
+        Clear nodes
       </button>
       <button
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={editor.isActive('paragraph') ? 'is-active' : ''}
       >
-        paragraph
+        Paragraph
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
       >
-        h1
+        H1
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
       >
-        h2
+        H2
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         className={editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}
       >
-        h3
+        H3
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
         className={editor.isActive('heading', { level: 4 }) ? 'is-active' : ''}
       >
-        h4
+        H4
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
         className={editor.isActive('heading', { level: 5 }) ? 'is-active' : ''}
       >
-        h5
+        H5
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
         className={editor.isActive('heading', { level: 6 }) ? 'is-active' : ''}
       >
-        h6
+        H6
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive('bulletList') ? 'is-active' : ''}
       >
-        bullet list
+        Bullet list
       </button>
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={editor.isActive('orderedList') ? 'is-active' : ''}
       >
-        ordered list
+        Ordered list
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={editor.isActive('codeBlock') ? 'is-active' : ''}
       >
-        code block
+        Code block
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={editor.isActive('blockquote') ? 'is-active' : ''}
       >
-        blockquote
+        Blockquote
       </button>
       <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-        horizontal rule
+        Horizontal rule
       </button>
       <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-        hard break
+        Hard break
       </button>
       <button
         onClick={() => editor.chain().focus().undo().run()}
@@ -174,7 +174,7 @@ const MenuBar = ({ editor }) => {
             .run()
         }
       >
-        undo
+        Undo
       </button>
       <button
         onClick={() => editor.chain().focus().redo().run()}
@@ -186,13 +186,13 @@ const MenuBar = ({ editor }) => {
             .run()
         }
       >
-        redo
+        Redo
       </button>
       <button
         onClick={() => editor.chain().focus().setColor('#958DF1').run()}
         className={editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''}
       >
-        purple
+        Purple
       </button>
     </>
   )

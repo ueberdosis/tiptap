@@ -84,19 +84,19 @@ export default {
         },
         {
           icon: 'list-ordered',
-          title: 'Ordered List',
+          title: 'Ordered list',
           action: () => this.editor.chain().focus().toggleOrderedList().run(),
           isActive: () => this.editor.isActive('orderedList'),
         },
         {
           icon: 'list-check-2',
-          title: 'Task List',
+          title: 'Task list',
           action: () => this.editor.chain().focus().toggleTaskList().run(),
           isActive: () => this.editor.isActive('taskList'),
         },
         {
           icon: 'code-box-line',
-          title: 'Code Block',
+          title: 'Code block',
           action: () => this.editor.chain().focus().toggleCodeBlock().run(),
           isActive: () => this.editor.isActive('codeBlock'),
         },
@@ -111,7 +111,7 @@ export default {
         },
         {
           icon: 'separator',
-          title: 'Horizontal Rule',
+          title: 'Horizontal rule',
           action: () => this.editor.chain().focus().setHorizontalRule().run(),
         },
         {
@@ -119,12 +119,12 @@ export default {
         },
         {
           icon: 'text-wrap',
-          title: 'Hard Break',
+          title: 'Hard break',
           action: () => this.editor.chain().focus().setHardBreak().run(),
         },
         {
           icon: 'format-clear',
-          title: 'Clear Format',
+          title: 'Clear format',
           action: () => this.editor.chain()
             .focus()
             .clearNodes()

@@ -3,13 +3,13 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().toggleSubscript().run()" :class="{ 'is-active': editor.isActive('subscript') }">
-          toggleSubscript
+          Toggle subscript
         </button>
         <button @click="editor.chain().focus().setSubscript().run()" :disabled="editor.isActive('subscript')">
-          setSubscript
+          Set subscript
         </button>
         <button @click="editor.chain().focus().unsetSubscript().run()" :disabled="!editor.isActive('subscript')">
-          unsetSubscript
+          Unset subscript
         </button>
       </div>
     </div>

@@ -29,19 +29,19 @@ export default () => {
             onClick={() => editor.chain().focus().toggleSuperscript().run()}
             className={editor.isActive('superscript') ? 'is-active' : ''}
           >
-            toggleSuperscript
+            Toggle superscript
           </button>
           <button
             onClick={() => editor.chain().focus().setSuperscript().run()}
             disabled={editor.isActive('superscript')}
           >
-            setSuperscript
+            Set superscript
           </button>
           <button
             onClick={() => editor.chain().focus().unsetSuperscript().run()}
             disabled={!editor.isActive('superscript')}
           >
-            unsetSuperscript
+            Unset superscript
           </button>
         </div>
       </div>

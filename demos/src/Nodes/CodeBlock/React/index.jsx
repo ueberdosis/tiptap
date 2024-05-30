@@ -43,13 +43,13 @@ export default () => {
             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
             className={editor.isActive('codeBlock') ? 'is-active' : ''}
           >
-            toggleCodeBlock
+            Toggle code block
           </button>
           <button
             onClick={() => editor.chain().focus().setCodeBlock().run()}
             disabled={editor.isActive('codeBlock')}
           >
-            setCodeBlock
+            Set code block
           </button>
         </div>
       </div>

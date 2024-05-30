@@ -48,22 +48,22 @@ export default () => {
             onClick={() => editor.chain().focus().setFontFamily('serif').run()}
             className={editor.isActive('textStyle', { fontFamily: 'serif' }) ? 'is-active' : ''}
           >
-            serif
+            Serif
           </button>
           <button
             onClick={() => editor.chain().focus().setFontFamily('monospace').run()}
             className={editor.isActive('textStyle', { fontFamily: 'monospace' }) ? 'is-active' : ''}
           >
-            monospace
+            Monospace
           </button>
           <button
             onClick={() => editor.chain().focus().setFontFamily('cursive').run()}
             className={editor.isActive('textStyle', { fontFamily: 'cursive' }) ? 'is-active' : ''}
           >
-            cursive
+            Cursive
           </button>
           <button onClick={() => editor.chain().focus().unsetFontFamily().run()}>
-            unsetFontFamily
+            Unset font family
           </button>
         </div>
       </div>

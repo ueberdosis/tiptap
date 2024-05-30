@@ -3,58 +3,58 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
-          insertTable
+          Insert table
         </button>
         <button @click="editor.chain().focus().addColumnBefore().run()">
-          addColumnBefore
+          Add column before
         </button>
         <button @click="editor.chain().focus().addColumnAfter().run()">
-          addColumnAfter
+          Add column after
         </button>
         <button @click="editor.chain().focus().deleteColumn().run()">
-          deleteColumn
+          Delete column
         </button>
         <button @click="editor.chain().focus().addRowBefore().run()">
-          addRowBefore
+          Add row before
         </button>
         <button @click="editor.chain().focus().addRowAfter().run()">
-          addRowAfter
+          Add row after
         </button>
         <button @click="editor.chain().focus().deleteRow().run()">
-          deleteRow
+          Delete row
         </button>
         <button @click="editor.chain().focus().deleteTable().run()">
-          deleteTable
+          Delete table
         </button>
         <button @click="editor.chain().focus().mergeCells().run()">
-          mergeCells
+          Merge cells
         </button>
         <button @click="editor.chain().focus().splitCell().run()">
-          splitCell
+          Split cell
         </button>
         <button @click="editor.chain().focus().toggleHeaderColumn().run()">
-          toggleHeaderColumn
+          Toggle header column
         </button>
         <button @click="editor.chain().focus().toggleHeaderRow().run()">
-          toggleHeaderRow
+          Toggle header row
         </button>
         <button @click="editor.chain().focus().toggleHeaderCell().run()">
-          toggleHeaderCell
+          Toggle header cell
         </button>
         <button @click="editor.chain().focus().mergeOrSplit().run()">
-          mergeOrSplit
+          Merge or split
         </button>
         <button @click="editor.chain().focus().setCellAttribute('colspan', 2).run()">
-          setCellAttribute
+          Set cell attribute
         </button>
         <button @click="editor.chain().focus().fixTables().run()">
-          fixTables
+          Fix tables
         </button>
         <button @click="editor.chain().focus().goToNextCell().run()">
-          goToNextCell
+          Go to next cell
         </button>
         <button @click="editor.chain().focus().goToPreviousCell().run()">
-          goToPreviousCell
+          Go to previous cell
         </button>
       </div>
     </div>
@@ -107,9 +107,9 @@ export default {
             </tr>
             <tr>
               <td>Cyndi Lauper</td>
-              <td>singer</td>
-              <td>songwriter</td>
-              <td>actress</td>
+              <td>Singer</td>
+              <td>Songwriter</td>
+              <td>Actress</td>
             </tr>
           </tbody>
         </table>

@@ -3,13 +3,13 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-          toggleStrike
+          Toggle strike
         </button>
         <button @click="editor.chain().focus().setStrike().run()" :disabled="editor.isActive('strike')">
-          setStrike
+          Set strike
         </button>
         <button @click="editor.chain().focus().unsetStrike().run()" :disabled="!editor.isActive('strike')">
-          unsetStrike
+          Unset strike
         </button>
       </div>
     </div>

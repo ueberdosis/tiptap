@@ -6,13 +6,13 @@
           @click="editor.chain().focus().undo().run()"
           :disabled="!editor.can().undo()"
         >
-          undo
+          Undo
         </button>
         <button
           @click="editor.chain().focus().redo().run()"
           :disabled="!editor.can().redo()"
         >
-          redo
+          Redo
         </button>
       </div>
     </div>

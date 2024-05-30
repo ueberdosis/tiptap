@@ -29,10 +29,10 @@ export default () => {
       <div className="control-group">
         <div className="button-group">
           <button onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
-            undo
+            Undo
           </button>
           <button onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}>
-            redo
+            Redo
           </button>
         </div>
       </div>

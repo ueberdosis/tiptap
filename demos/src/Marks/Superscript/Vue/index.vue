@@ -3,13 +3,13 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
-          toggleSuperscript
+          Toggle superscript
         </button>
         <button @click="editor.chain().focus().setSuperscript().run()" :disabled="editor.isActive('superscript')">
-          setSuperscript
+          Set superscript
         </button>
         <button @click="editor.chain().focus().unsetSuperscript().run()" :disabled="!editor.isActive('superscript')">
-          unsetSuperscript
+          Unset superscript
         </button>
       </div>
     </div>

@@ -63,65 +63,65 @@ const MenuBar = ({ editor }) => {
     <div className="control-group">
         <div className="button-group">
         <button onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}>
-          insertTable
+          Insert table
         </button>
         <button onClick={() => editor.chain().focus().insertContent(tableHTML, {
           parseOptions: {
             preserveWhitespace: false,
           },
         }).run()}>
-          insertHTMLTable
+          Insert HTML table
         </button>
         <button onClick={() => editor.chain().focus().addColumnBefore().run()} disabled={!editor.can().addColumnBefore()}>
-          addColumnBefore
+          Add column before
         </button>
         <button onClick={() => editor.chain().focus().addColumnAfter().run()} disabled={!editor.can().addColumnAfter()}>
-          addColumnAfter
+          Add column after
         </button>
         <button onClick={() => editor.chain().focus().deleteColumn().run()} disabled={!editor.can().deleteColumn()}>
-          deleteColumn
+          Delete column
         </button>
         <button onClick={() => editor.chain().focus().addRowBefore().run()} disabled={!editor.can().addRowBefore()}>
-          addRowBefore
+          Add row before
         </button>
         <button onClick={() => editor.chain().focus().addRowAfter().run()} disabled={!editor.can().addRowAfter()}>
-          addRowAfter
+          Add row after
         </button>
         <button onClick={() => editor.chain().focus().deleteRow().run()} disabled={!editor.can().deleteRow()}>
-          deleteRow
+          Delete row
         </button>
         <button onClick={() => editor.chain().focus().deleteTable().run()} disabled={!editor.can().deleteTable()}>
-          deleteTable
+          Delete table
         </button>
         <button onClick={() => editor.chain().focus().mergeCells().run()} disabled={!editor.can().mergeCells()}>
-          mergeCells
+          Merge cells
         </button>
         <button onClick={() => editor.chain().focus().splitCell().run()} disabled={!editor.can().splitCell()}>
-          splitCell
+          Split cell
         </button>
         <button onClick={() => editor.chain().focus().toggleHeaderColumn().run()} disabled={!editor.can().toggleHeaderColumn()}>
-          toggleHeaderColumn
+          ToggleHeaderColumn
         </button>
         <button onClick={() => editor.chain().focus().toggleHeaderRow().run()} disabled={!editor.can().toggleHeaderRow()}>
-          toggleHeaderRow
+          Toggle header row
         </button>
         <button onClick={() => editor.chain().focus().toggleHeaderCell().run()} disabled={!editor.can().toggleHeaderCell()}>
-          toggleHeaderCell
+          Toggle header cell
         </button>
         <button onClick={() => editor.chain().focus().mergeOrSplit().run()} disabled={!editor.can().mergeOrSplit()}>
-          mergeOrSplit
+          Merge or split
         </button>
         <button onClick={() => editor.chain().focus().setCellAttribute('backgroundColor', '#FAF594').run()} disabled={!editor.can().setCellAttribute('backgroundColor', '#FAF594')}>
-          setCellAttribute
+          Set cell attribute
         </button>
         <button onClick={() => editor.chain().focus().fixTables().run()} disabled={!editor.can().fixTables()}>
-          fixTables
+          Fix tables
         </button>
         <button onClick={() => editor.chain().focus().goToNextCell().run()} disabled={!editor.can().goToNextCell()}>
-          goToNextCell
+          Go to next cell
         </button>
         <button onClick={() => editor.chain().focus().goToPreviousCell().run()} disabled={!editor.can().goToPreviousCell()}>
-          goToPreviousCell
+          Go to previous cell
         </button>
       </div>
     </div>
@@ -147,9 +147,9 @@ export default () => {
         Have you seen our tables? They are amazing!
       </h3>
       <ul>
-        <li>tables with rows, cells and headers (optional)</li>
-        <li>support for <code>colgroup</code> and <code>rowspan</code></li>
-        <li>and even resizable columns (optional)</li>
+        <li>Tables with rows, cells and headers (optional)</li>
+        <li>Support for <code>colgroup</code> and <code>rowspan</code></li>
+        <li>And even resizable columns (optional)</li>
       </ul>
       <p>
         Here is an example:
@@ -162,20 +162,20 @@ export default () => {
           </tr>
           <tr>
             <td>Cyndi Lauper</td>
-            <td>singer</td>
-            <td>songwriter</td>
-            <td>actress</td>
+            <td>Singer</td>
+            <td>Songwriter</td>
+            <td>Actress</td>
           </tr>
           <tr>
             <td>Marie Curie</td>
-            <td>scientist</td>
-            <td>chemist</td>
-            <td>physicist</td>
+            <td>Scientist</td>
+            <td>Chemist</td>
+            <td>Physicist</td>
           </tr>
           <tr>
             <td>Indira Gandhi</td>
-            <td>prime minister</td>
-            <td colspan="2">politician</td>
+            <td>Prime minister</td>
+            <td colspan="2">Politician</td>
           </tr>
         </tbody>
       </table>

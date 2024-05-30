@@ -30,7 +30,7 @@ export default () => {
 
   return (
     <>
-      <button onClick={() => editor.chain().focus().setHardBreak().run()}>setHardBreak</button>
+      <button onClick={() => editor.chain().focus().setHardBreak().run()}>Set hard break</button>
       <EditorContent editor={editor} />
     </>
   )

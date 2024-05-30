@@ -8,28 +8,28 @@
           :value="editor.getAttributes('textStyle').color"
         >
         <button @click="editor.chain().focus().setColor('#958DF1').run()" :class="{ 'is-active': editor.isActive('textStyle', { color: '#958DF1' })}">
-          purple
+          Purple
         </button>
         <button @click="editor.chain().focus().setColor('#F98181').run()" :class="{ 'is-active': editor.isActive('textStyle', { color: '#F98181' })}">
-          red
+          Red
         </button>
         <button @click="editor.chain().focus().setColor('#FBBC88').run()" :class="{ 'is-active': editor.isActive('textStyle', { color: '#FBBC88' })}">
-          orange
+          Orange
         </button>
         <button @click="editor.chain().focus().setColor('#FAF594').run()" :class="{ 'is-active': editor.isActive('textStyle', { color: '#FAF594' })}">
-          yellow
+          Yellow
         </button>
         <button @click="editor.chain().focus().setColor('#70CFF8').run()" :class="{ 'is-active': editor.isActive('textStyle', { color: '#70CFF8' })}">
-          blue
+          Blue
         </button>
         <button @click="editor.chain().focus().setColor('#94FADB').run()" :class="{ 'is-active': editor.isActive('textStyle', { color: '#94FADB' })}">
-          teal
+          Teal
         </button>
         <button @click="editor.chain().focus().setColor('#B9F18D').run()" :class="{ 'is-active': editor.isActive('textStyle', { color: '#B9F18D' })}">
-          green
+          Green
         </button>
         <button @click="editor.chain().focus().unsetColor().run()">
-          unsetColor
+          Unset color
         </button>
       </div>
     </div>

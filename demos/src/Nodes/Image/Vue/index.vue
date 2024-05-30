@@ -3,7 +3,7 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="addImage">
-          setImage
+          Set image
         </button>
       </div>
     </div>

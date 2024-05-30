@@ -3,13 +3,13 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
-          toggleBlockquote
+          Toggle blockquote
         </button>
         <button @click="editor.chain().focus().setBlockquote().run()" :disabled="!editor.can().setBlockquote()">
-          setBlockquote
+          Set blockquote
         </button>
         <button @click="editor.chain().focus().unsetBlockquote().run()" :disabled="!editor.can().unsetBlockquote()">
-          unsetBlockquote
+          Unset blockquote
         </button>
       </div>
     </div>
