@@ -5,7 +5,7 @@
     :key="currentIframeUrl"
   />
   <div class="overflow-hidden antialiased rounded-lg" v-else>
-    <div class="px-3 py-1 bg-black flex items-center gap-0.5" v-if="showTabs">
+    <div class="px-3 py-1 bg-black flex items-center gap-0.5">
       <button
         v-for="(language, index) in sortedTabs"
         :key="index"
@@ -117,10 +117,6 @@ export default {
   },
 
   computed: {
-    showTabs() {
-      return this.sortedTabs.length > 1
-    },
-
     currentIframeUrl() {
       return `/src/${this.name}/${this.currentTab}/`
     },
