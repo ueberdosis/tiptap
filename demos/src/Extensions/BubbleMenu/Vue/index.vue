@@ -164,24 +164,26 @@ export default {
 
 /* Bubble menu */
 .bubble-menu {
-  background-color: var(--black);
-  border-radius: 0.5rem;
+  background-color: var(--white);
+  border: 1px solid var(--gray-1);
+  border-radius: 0.7rem;
   box-shadow: var(--shadow);
   display: flex;
-  padding: 0.1rem;
+  padding: 0.2rem;
 
   button {
     background-color: unset;
-    border-radius: 0.3rem;
-    color: var(--white);
-    padding: 0.275rem 0.425rem;
 
     &:hover {
-      background-color: var(--black-contrast);
+      background-color: var(--gray-3);
     }
 
     &.is-active {
       background-color: var(--purple);
+
+      &:hover {
+        background-color: var(--purple-contrast);
+      }
     }
   }
 }

@@ -161,22 +161,27 @@ export default {
 
 /* Floating menu */
 .floating-menu {
-  background-color: var(--gray-3);
-  border-radius: 0.5rem;
   display: flex;
+  background-color: var(--gray-3);
   padding: 0.1rem;
+  border-radius: 0.5rem;
 
   button {
     background-color: unset;
-    border-radius: 0.3rem;
     padding: 0.275rem 0.425rem;
+    border-radius: 0.3rem;
 
     &:hover {
       background-color: var(--gray-3);
     }
 
     &.is-active {
-      background-color: var(--purple);
+      background-color: var(--white);
+      color: var(--purple);
+
+      &:hover {
+        color: var(--purple-contrast);
+      }
     }
   }
 }
