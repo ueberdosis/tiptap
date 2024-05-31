@@ -68,7 +68,7 @@ const editor = new Editor({
   onDestroy() {
     // The editor is being destroyed.
   },
-  onContentError({ editor, error }) {
+  onContentError({ editor, error, disableCollaboration }) {
     // The editor content does not match the schema.
   },
 })
@@ -111,7 +111,7 @@ editor.on('destroy', () => {
   // The editor is being destroyed.
 })
 
-editor.on('contentError', ({ editor, error }) => {
+editor.on('contentError', ({ editor, error, disableCollaboration }) => {
   // The editor content does not match the schema.
 })
 ```
@@ -162,7 +162,7 @@ const CustomExtension = Extension.create({
   onDestroy() {
     // The editor is being destroyed.
   },
-  onContentError({ editor, error }) {
+  onContentError({ editor, error, disableCollaboration }) {
    // The editor content does not match the schema.
   },
 })
