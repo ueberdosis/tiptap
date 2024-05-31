@@ -98,7 +98,7 @@ context('/src/Examples/Tables/React/', () => {
     cy.get('.tiptap th[colspan="2"]')
       .should('exist')
     cy.get('button')
-      .contains('mergeOrSplit')
+      .contains('Merge or split')
       .click()
     cy.get('.tiptap th[colspan="2"]')
       .should('not.exist')
