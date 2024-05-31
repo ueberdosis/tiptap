@@ -21,9 +21,9 @@ context('/src/Examples/Default/React/', () => {
   })
 
   const buttonMarks = [
-    { label: 'bold', tag: 'strong' },
-    { label: 'italic', tag: 'em' },
-    { label: 'strike', tag: 's' },
+    { label: 'Bold', tag: 'strong' },
+    { label: 'Italic', tag: 'em' },
+    { label: 'Strike', tag: 's' },
   ]
 
   buttonMarks.forEach(m => {
