@@ -30,7 +30,11 @@ export default () => {
 
   return (
     <>
-      <button onClick={() => editor.chain().focus().setHardBreak().run()}>Set hard break</button>
+      <div className="control-group">
+        <div className="button-group">
+          <button onClick={() => editor.chain().focus().setHardBreak().run()}>Set hard break</button>
+        </div>
+      </div>
       <EditorContent editor={editor} />
     </>
   )

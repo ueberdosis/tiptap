@@ -14,154 +14,152 @@ const MenuBar = () => {
   }
 
   return (
-    <>
+    <div className="control-group">
       <div>
-        <button
-          onClick={() => setUseInputRules(prev => !prev)}
-          style={{
-            color: useInputRules ? 'white' : 'inherit',
-            backgroundColor: useInputRules ? 'black' : 'transparent',
-          }}
-        >
-          Apply Input Rules
-        </button>
-        <button
-          onClick={() => setUsePasteRules(prev => !prev)}
-          style={{
-            color: usePasteRules ? 'white' : 'inherit',
-            backgroundColor: usePasteRules ? 'black' : 'transparent',
-          }}
-        >
-          Apply Paste Rules
-        </button>
+        <label>
+          <input
+            type="checkbox"
+            checked={useInputRules}
+            onChange={() => setUseInputRules(prev => !prev)}
+          />
+          Apply input rules
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={usePasteRules}
+            onChange={() => setUsePasteRules(prev => !prev)}
+          />
+          Apply paste rules
+        </label>
       </div>
 
-      <br />
+      <div className="button-group">
+        <button
+          onClick={() => {
+            editor
+              .chain()
+              .insertContent('-', {
+                applyInputRules: useInputRules,
+                applyPasteRules: usePasteRules,
+              })
+              .focus()
+              .run()
+          }}
+          data-test-1
+        >
+          Insert "-"
+        </button>
+        <button
+          onClick={() => {
+            editor
+              .chain()
+              .insertContent(' ', {
+                applyInputRules: useInputRules,
+                applyPasteRules: usePasteRules,
+              })
+              .focus()
+              .run()
+          }}
+          data-test-2
+        >
+          Insert " "
+        </button>
+        <button
+          onClick={() => {
+            editor
+              .chain()
+              .insertContent('A', {
+                applyInputRules: useInputRules,
+                applyPasteRules: usePasteRules,
+              })
+              .focus()
+              .run()
+          }}
+          data-test-3
+        >
+          Insert "A"
+        </button>
 
-      <button
-        onClick={() => {
-          editor
-            .chain()
-            .insertContent('-', {
-              applyInputRules: useInputRules,
-              applyPasteRules: usePasteRules,
-            })
-            .focus()
-            .run()
-        }}
-        data-test-1
-      >
-        Insert "-"
-      </button>
-      <button
-        onClick={() => {
-          editor
-            .chain()
-            .insertContent(' ', {
-              applyInputRules: useInputRules,
-              applyPasteRules: usePasteRules,
-            })
-            .focus()
-            .run()
-        }}
-        data-test-2
-      >
-        Insert " "
-      </button>
-      <button
-        onClick={() => {
-          editor
-            .chain()
-            .insertContent('A', {
-              applyInputRules: useInputRules,
-              applyPasteRules: usePasteRules,
-            })
-            .focus()
-            .run()
-        }}
-        data-test-3
-      >
-        Insert "A"
-      </button>
+        <br />
 
-      <br />
-
-      <button
-        onClick={() => {
-          editor
-            .chain()
-            .insertContent('*this is', {
-              applyInputRules: useInputRules,
-              applyPasteRules: usePasteRules,
-            })
-            .focus()
-            .run()
-        }}
-        data-test-4
-      >
-        Insert "*this is"
-      </button>
-      <button
-        onClick={() => {
-          editor
-            .chain()
-            .insertContent(' a test*', {
-              applyInputRules: useInputRules,
-              applyPasteRules: usePasteRules,
-            })
-            .focus()
-            .run()
-        }}
-        data-test-5
-      >
-        Insert " a test*"
-      </button>
-      <button
-        onClick={() => {
-          editor
-            .chain()
-            .insertContent(' a test*, whooho', {
-              applyInputRules: useInputRules,
-              applyPasteRules: usePasteRules,
-            })
-            .focus()
-            .run()
-        }}
-        data-test-6
-      >
-        Insert " a test*, whooho."
-      </button>
-      <button
-        onClick={() => {
-          editor
-            .chain()
-            .insertContent('*this is a test*, whooho.', {
-              applyInputRules: useInputRules,
-              applyPasteRules: usePasteRules,
-            })
-            .focus()
-            .run()
-        }}
-        data-test-7
-      >
-        Insert "*this is a test*, whooho."
-      </button>
-      <button
-        onClick={() => {
-          editor
-            .chain()
-            .insertContent('*this is a test*', {
-              applyInputRules: useInputRules,
-              applyPasteRules: usePasteRules,
-            })
-            .focus()
-            .run()
-        }}
-        data-test-8
-      >
-        Insert "*this is a test*"
-      </button>
-    </>
+        <button
+          onClick={() => {
+            editor
+              .chain()
+              .insertContent('*this is', {
+                applyInputRules: useInputRules,
+                applyPasteRules: usePasteRules,
+              })
+              .focus()
+              .run()
+          }}
+          data-test-4
+        >
+          Insert "*this is"
+        </button>
+        <button
+          onClick={() => {
+            editor
+              .chain()
+              .insertContent(' a test*', {
+                applyInputRules: useInputRules,
+                applyPasteRules: usePasteRules,
+              })
+              .focus()
+              .run()
+          }}
+          data-test-5
+        >
+          Insert " a test*"
+        </button>
+        <button
+          onClick={() => {
+            editor
+              .chain()
+              .insertContent(' a test*, whooho', {
+                applyInputRules: useInputRules,
+                applyPasteRules: usePasteRules,
+              })
+              .focus()
+              .run()
+          }}
+          data-test-6
+        >
+          Insert " a test*, whooho."
+        </button>
+        <button
+          onClick={() => {
+            editor
+              .chain()
+              .insertContent('*this is a test*, whooho.', {
+                applyInputRules: useInputRules,
+                applyPasteRules: usePasteRules,
+              })
+              .focus()
+              .run()
+          }}
+          data-test-7
+        >
+          Insert "*this is a test*, whooho."
+        </button>
+        <button
+          onClick={() => {
+            editor
+              .chain()
+              .insertContent('*this is a test*', {
+                applyInputRules: useInputRules,
+                applyPasteRules: usePasteRules,
+              })
+              .focus()
+              .run()
+          }}
+          data-test-8
+        >
+          Insert "*this is a test*"
+        </button>
+      </div>
+    </div>
   )
 }
 

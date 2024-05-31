@@ -41,7 +41,7 @@ export default () => {
             value={editable}
             onChange={event => setEditable(event.target.checked)}
           />
-          <label htmlFor="editable">editable</label>
+          <label htmlFor="editable">Editable</label>
         </div>
       </div>
       <EditorContent editor={editor} />

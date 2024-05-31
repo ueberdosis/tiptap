@@ -1,6 +1,10 @@
 <template>
-  reactive storage: {{ editor?.storage.custom.foo }}
-  <editor-content :editor="editor" />
+  <div class="container">
+    <editor-content :editor="editor" />
+    <div class="output-group">
+      Reactive storage: {{ editor?.storage.custom.foo }}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -50,8 +54,8 @@ export default {
 <style lang="scss">
 /* Basic editor styles */
 .tiptap {
-  > * + * {
-    margin-top: 0.75em;
+  :first-child {
+    margin-top: 0;
   }
 }
 </style>

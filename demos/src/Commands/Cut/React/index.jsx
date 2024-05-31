@@ -21,10 +21,12 @@ const MenuBar = ({ editor }) => {
   }, [editor])
 
   return (
-    <>
-      <button onClick={onCutToStart}>Cut content to start of document</button>
-      <button onClick={onCutToEnd}>Cut content to end of document</button>
-    </>
+    <div class="control-group">
+      <div className="button-group">
+        <button onClick={onCutToStart}>Cut content to start of document</button>
+        <button onClick={onCutToEnd}>Cut content to end of document</button>
+      </div>
+    </div>
   )
 }
 

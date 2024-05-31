@@ -51,20 +51,24 @@ export default () => {
 
   return (
     <>
-      <button
-        onClick={setLink}
-        className={editor.isActive('link') ? 'is-active' : ''}
-        data-testid="setLink"
-      >
-        Set link
-      </button>
-      <button
-        onClick={() => editor.chain().focus().unsetLink().run()}
-        disabled={!editor.isActive('link')}
-        data-testid="unsetLink"
-      >
-        Unset link
-      </button>
+      <div className="control-group">
+        <div className="button-group">
+          <button
+            onClick={setLink}
+            className={editor.isActive('link') ? 'is-active' : ''}
+            data-testid="setLink"
+          >
+            Set link
+          </button>
+          <button
+            onClick={() => editor.chain().focus().unsetLink().run()}
+            disabled={!editor.isActive('link')}
+            data-testid="unsetLink"
+          >
+            Unset link
+          </button>
+        </div>
+      </div>
       <EditorContent editor={editor} />
     </>
   )

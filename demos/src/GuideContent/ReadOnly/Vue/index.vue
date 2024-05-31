@@ -3,7 +3,7 @@
     <div class="control-group">
       <div class="button-group">
         <input type="checkbox" id="editable" v-model="editable">
-        <label for="editable">editable</label>
+        <label for="editable">Editable</label>
       </div>
     </div>
     <editor-content :editor="editor" />

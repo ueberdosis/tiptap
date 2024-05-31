@@ -1,9 +1,12 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().setHardBreak().run()">
-      Set hard break
-    </button>
-
+  <div v-if="editor" class="container">
+    <div className="control-group">
+      <div className="button-group">
+        <button @click="editor.chain().focus().setHardBreak().run()">
+          Set hard break
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>

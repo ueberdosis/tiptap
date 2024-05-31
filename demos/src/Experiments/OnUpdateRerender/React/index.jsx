@@ -40,7 +40,11 @@ export default () => {
 
   return (
     <>
-      <button onClick={() => setIndex(index + 1)}>INC</button> = {index}
+      <div className="control-group">
+        <div className="button-group">
+          <button onClick={() => setIndex(index + 1)}>INC</button> = {index}
+        </div>
+      </div>
       <TiptapComponent onUpdate={handleUpdate} />
     </>
   )

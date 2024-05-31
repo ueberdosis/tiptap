@@ -28,8 +28,10 @@ export default () => {
 
   return (
     <>
-      reactive storage: {editor?.storage.custom.foo}
       <EditorContent editor={editor} />
+      <div className="output-group">
+        Reactive storage: {editor?.storage.custom.foo}
+      </div>
     </>
   )
 }
