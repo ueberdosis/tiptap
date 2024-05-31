@@ -65,6 +65,9 @@
         <button @click="editor.chain().focus().redo().run()" :disabled="!editor.can().chain().focus().redo().run()">
           Redo
         </button>
+        <button @click="editor.chain().focus().setColor('#958DF1').run()" :class="{ 'is-active': editor.isActive('textStyle', { color: '#958DF1' }) }">
+          Purple
+        </button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -72,6 +75,9 @@
 </template>
 
 <script>
+import { Color } from '@tiptap/extension-color'
+import ListItem from '@tiptap/extension-list-item'
+import TextStyle from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
@@ -89,6 +95,8 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
+        Color.configure({ types: [TextStyle.name, ListItem.name] }),
+        TextStyle.configure({ types: [ListItem.name] }),
         StarterKit,
       ],
       content: `

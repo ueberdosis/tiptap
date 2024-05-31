@@ -1,6 +1,9 @@
 <script>
   import "./styles.scss";
 
+  import { Color } from '@tiptap/extension-color'
+  import ListItem from '@tiptap/extension-list-item'
+  import TextStyle from '@tiptap/extension-text-style'
   import StarterKit from "@tiptap/starter-kit";
   import { Editor } from "@tiptap/core";
   import { onMount } from "svelte";
@@ -11,7 +14,11 @@
   onMount(() => {
     editor = new Editor({
       element: element,
-      extensions: [StarterKit],
+      extensions: [
+        Color.configure({ types: [TextStyle.name, ListItem.name] }),
+        TextStyle.configure({ types: [ListItem.name] }),
+        StarterKit,
+      ],
       content: `
             <h2>
               Hi there,
@@ -164,6 +171,12 @@
         disabled={!editor.can().chain().focus().redo().run()}
       >
         Redo
+      </button>
+      <button
+        on:click={() => editor.chain().focus().setColor('#958DF1').run()}
+        class={editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''}
+      >
+        Purple
       </button>
     </div>
   </div>

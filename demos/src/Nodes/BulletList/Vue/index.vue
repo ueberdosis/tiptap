@@ -6,7 +6,7 @@
           Toggle bullet list
         </button>
         <button @click="editor.chain().focus().splitListItem('listItem').run()" :disabled="!editor.can().splitListItem('listItem')">
-          Split list
+          Split list item
         </button>
         <button @click="editor.chain().focus().sinkListItem('listItem').run()" :disabled="!editor.can().sinkListItem('listItem')">
           Sink list item
