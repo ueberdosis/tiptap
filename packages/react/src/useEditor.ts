@@ -87,8 +87,8 @@ function makeEditorInstance<TSelectorResult>({
     /**
      * Always disable the editor on the server-side.
      */
-    getServerSnapshot() {
-      return null
+    getServerSnapshot(): [null, null] {
+      return [null, null]
     },
     /**
      * Subscribe to the editor instance's changes.
@@ -200,7 +200,7 @@ function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> =
   })
 
   // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
-  const editor = useSyncExternalStore(editorInstance.subscribe, editorInstance.getSnapshot, editorInstance.getServerSnapshot)?.[0] || null
+  const [editor] = useSyncExternalStore(editorInstance.subscribe, editorInstance.getSnapshot, editorInstance.getServerSnapshot)
 
   useDebugValue(editor)
 
