@@ -7,6 +7,7 @@ export interface NodeViewWrapperProps {
   as?: React.ElementType,
 }
 
+// TODO not sure that we need all of this, I feel like it could just be a hook that spreads props onto a user's top-level component
 export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = React.forwardRef((props, ref) => {
   const { onDragStart } = useReactNodeView()
   const Tag = props.as || 'div'
