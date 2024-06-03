@@ -21,7 +21,7 @@ const MenuBar = ({ editor }) => {
   }, [editor])
 
   return (
-    <div class="control-group">
+    <div className="control-group">
       <div className="button-group">
         <button onClick={onCutToStart}>Cut content to start of document</button>
         <button onClick={onCutToEnd}>Cut content to end of document</button>
