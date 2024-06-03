@@ -42,15 +42,16 @@ export const EditorContent = defineComponent({
 
           // @ts-ignore
           editor.contentComponent = instance.ctx._
-          editor.appContext = {
-            // @ts-ignore
-            ...instance.appContext,
-            provides: {
-              // @ts-ignore
-              ...instance.provides,
-              // @ts-ignore
-              ...instance.appContext.provides,
-            },
+
+          if (instance) {
+            editor.appContext = {
+              ...instance.appContext,
+              provides: {
+                // @ts-ignore
+                ...instance.provides,
+                ...instance.appContext.provides,
+              },
+            }
           }
 
           editor.setOptions({
