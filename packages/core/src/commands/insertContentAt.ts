@@ -57,7 +57,7 @@ declare module '@tiptap/core' {
 }
 
 const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment is Fragment => {
-  return nodeOrFragment.toString().startsWith('<')
+  return !('type' in nodeOrFragment)
 }
 
 export const insertContentAt: RawCommands['insertContentAt'] = (position, value, options) => ({ tr, dispatch, editor }) => {
