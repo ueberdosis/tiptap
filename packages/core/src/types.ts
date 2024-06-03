@@ -152,7 +152,13 @@ export type ExtensionAttribute = {
 }
 
 export type GlobalAttributes = {
+  /**
+   * The node & mark types this attribute should be applied to.
+   */
   types: string[]
+  /**
+   * The attributes to add to the node or mark types.
+   */
   attributes: {
     [key: string]: Attribute
   }
