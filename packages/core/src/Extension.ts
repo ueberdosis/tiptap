@@ -108,8 +108,9 @@ declare module '@tiptap/core' {
       name: string
       options: Options
       storage: Storage
+      extensions: (Node | Mark)[]
       parent: ParentConfig<ExtensionConfig<Options, Storage>>['addGlobalAttributes']
-    }) => GlobalAttributes | {}
+    }) => GlobalAttributes
 
     /**
      * This function adds commands to the editor
