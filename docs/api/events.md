@@ -33,6 +33,8 @@ The editor isn’t focused anymore.
 ### destroy
 The editor is being destroyed.
 
+### contentError
+The content does not match the schema.
 
 ## Register event listeners
 There are three ways to register event listeners.
@@ -65,6 +67,9 @@ const editor = new Editor({
   },
   onDestroy() {
     // The editor is being destroyed.
+  },
+  onContentError({ editor, error, disableCollaboration }) {
+    // The editor content does not match the schema.
   },
 })
 ```
@@ -104,6 +109,10 @@ editor.on('blur', ({ editor, event }) => {
 
 editor.on('destroy', () => {
   // The editor is being destroyed.
+})
+
+editor.on('contentError', ({ editor, error, disableCollaboration }) => {
+  // The editor content does not match the schema.
 })
 ```
 
@@ -152,6 +161,9 @@ const CustomExtension = Extension.create({
   },
   onDestroy() {
     // The editor is being destroyed.
+  },
+  onContentError({ editor, error, disableCollaboration }) {
+   // The editor content does not match the schema.
   },
 })
 ```
