@@ -52,6 +52,15 @@ context('/src/Marks/Link/React/', () => {
     })
   })
 
+  it('should allow exiting the link once set', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p><a href="#" target="_self">Example Text2</a></p>')
+      cy.get('.tiptap').type('{rightArrow}')
+
+      cy.get('button:first').should('not.have.class', 'is-active')
+    })
+  })
+
   it('detects autolinking', () => {
     cy.get('.tiptap').type('https://example.com ').find('a').should('contain', 'https://example.com')
       .should('have.attr', 'href', 'https://example.com')
