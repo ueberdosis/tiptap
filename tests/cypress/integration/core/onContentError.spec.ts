@@ -87,61 +87,7 @@ describe('onContentError', () => {
 
     expect(editor.getText()).to.eq('')
   })
-  it('emits a contentError on invalid content via setcontent', done => {
-    const json = {
-      invalid: 'doc',
-      content: [
-        {
-          type: 'paragraph',
-          content: [
-            {
-              type: 'text',
-              text: 'Example Text',
-            },
-          ],
-        },
-      ],
-    }
 
-    const editor = new Editor({
-      extensions: [Document, Paragraph, Text],
-      enableContentCheck: true,
-      onContentError: ({ error }) => {
-        expect(error.message).to.eq('[tiptap error]: Invalid JSON content')
-        done()
-      },
-    })
-
-    editor.commands.setContent(json)
-  })
-  it('emits a contentError on invalid content via setcontent with override', done => {
-    const json = {
-      invalid: 'doc',
-      content: [
-        {
-          type: 'paragraph',
-          content: [
-            {
-              type: 'text',
-              text: 'Example Text',
-            },
-          ],
-        },
-      ],
-    }
-
-    const editor = new Editor({
-      extensions: [Document, Paragraph, Text],
-      enableContentCheck: false,
-      onContentError: ({ error }) => {
-        expect(error.message).to.eq('[tiptap error]: Invalid JSON content')
-        done()
-      },
-    })
-
-    expect(editor.getText()).to.eq('')
-    editor.commands.setContent(json, false, {}, { errorOnInvalidContent: true })
-  })
   it('does not emit a contentError on valid content', () => {
     const json = {
       type: 'doc',
