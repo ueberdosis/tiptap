@@ -1,9 +1,12 @@
 import { Extension } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { ReplaceStep } from '@tiptap/pm/transform'
 import { EditorView } from '@tiptap/pm/view'
 import {
   redo,
   undo,
   ySyncPlugin,
+  ySyncPluginKey,
   yUndoPlugin,
   yUndoPluginKey,
 } from 'y-prosemirror'
@@ -173,6 +176,54 @@ export const Collaboration = Extension.create<CollaborationOptions>({
 
     const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
 
-    return [ySyncPluginInstance, yUndoPluginInstance]
+    let isCollaborationDisabled = false
+
+    return [
+      ySyncPluginInstance,
+      yUndoPluginInstance,
+      // Only add the filterInvalidContent plugin if content checking is enabled
+      this.editor.options.enableContentCheck
+      && new Plugin({
+        key: new PluginKey('filterInvalidContent'),
+        filterTransaction: transaction => {
+          // Is this transaction from Yjs Sync Plugin?
+          if (transaction.getMeta(ySyncPluginKey)) {
+
+            // When collaboration is disabled, prevent any sync transactions from being applied
+            if (isCollaborationDisabled) {
+              return true
+            }
+            // Is this the expected, single replace step?
+            if (transaction.steps.length === 1 && (transaction.steps[0] as any).jsonID === 'replace') {
+              const step = transaction.steps[0] as ReplaceStep
+
+              // Attempt to parse the content of the step
+              try {
+                const content = step.slice.content.toJSON()
+
+                if (Array.isArray(content)) {
+                  content.forEach(node => this.editor.schema.nodeFromJSON(node))
+                  return true
+                }
+                this.editor.schema.nodeFromJSON(content)
+              } catch (error) {
+                this.editor.emit('contentError', {
+                  error: error as Error,
+                  editor: this.editor,
+                  disableCollaboration: () => {
+                    isCollaborationDisabled = true
+                    // TODO there is probably a better way to disable the collaboration
+                    // Should it also remove the collaboration extension?
+                  },
+                })
+                // If the content is invalid, return false to prevent the transaction from being applied
+                return false
+              }
+            }
+          }
+          return true
+        },
+      }),
+    ].filter(Boolean)
   },
 })
