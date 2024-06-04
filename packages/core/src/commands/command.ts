@@ -5,6 +5,12 @@ declare module '@tiptap/core' {
     command: {
       /**
        * Define a command inline.
+       * @param fn The command function.
+       * @example
+       * editor.commands.command(({ tr, state }) => {
+       *   ...
+       *   return true
+       * })
        */
       command: (fn: (props: Parameters<Command>[0]) => boolean) => ReturnType,
     }

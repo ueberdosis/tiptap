@@ -5,6 +5,12 @@ import { getMarkAttributes } from './getMarkAttributes.js'
 import { getNodeAttributes } from './getNodeAttributes.js'
 import { getSchemaTypeNameByName } from './getSchemaTypeNameByName.js'
 
+/**
+ * Get node or mark attributes by type or name on the current editor state
+ * @param state The current editor state
+ * @param typeOrName The node or mark type or name
+ * @returns The attributes of the node or mark or an empty object
+ */
 export function getAttributes(
   state: EditorState,
   typeOrName: string | NodeType | MarkType,

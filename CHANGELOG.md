@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/ueberdosis/tiptap/compare/v2.3.2...v2.4.0) (2024-05-14)
+
+
+### Bug Fixes
+
+* **core:** configure should use the parent of the current instance, to avoid duplication ([#5147](https://github.com/ueberdosis/tiptap/issues/5147)) ([4db463c](https://github.com/ueberdosis/tiptap/commit/4db463c6bbcc3a17ee8eb591bea8e357120ecb35))
+* fix ts error for BubbleMenu and FloatingMenu in @tiptap/react ([#5126](https://github.com/ueberdosis/tiptap/issues/5126)) ([baff4af](https://github.com/ueberdosis/tiptap/commit/baff4af39e2b8970d7cab99859ece41228643f9d))
+
+
+### Features
+
+* added jsdocs ([#4356](https://github.com/ueberdosis/tiptap/issues/4356)) ([b941eea](https://github.com/ueberdosis/tiptap/commit/b941eea6daba09d48a5d18ccc1b9a1d84b2249dd))
+
+
+
+
+
+## [2.3.2](https://github.com/ueberdosis/tiptap/compare/v2.3.1...v2.3.2) (2024-05-08)
+
+
+### Bug Fixes
+
+* NodePos querySelectorAll function ([#5094](https://github.com/ueberdosis/tiptap/issues/5094)) ([4900a27](https://github.com/ueberdosis/tiptap/commit/4900a27c5389d9a2d0d69f407ca3db0155304315))
+
+
+
+
+
+## [2.3.1](https://github.com/ueberdosis/tiptap/compare/v2.3.0...v2.3.1) (2024-04-30)
+
+**Note:** Version bump only for package tiptap
+
+
+
+
+
+# [2.3.0](https://github.com/ueberdosis/tiptap/compare/v2.2.6...v2.3.0) (2024-04-09)
+
+
+### Bug Fixes
+
+* **core:** fix nodepos child lookup ([#5038](https://github.com/ueberdosis/tiptap/issues/5038)) ([22ced31](https://github.com/ueberdosis/tiptap/commit/22ced318723003365fbfd8f59b8dac79c7563017))
+
+
+### Features
+
+* **core:** apply input and paste rules when using insertContent methods ([#5046](https://github.com/ueberdosis/tiptap/issues/5046)) ([96b6abc](https://github.com/ueberdosis/tiptap/commit/96b6abcf6edbc6cac03a391130d9feebb6de3a04))
+
+
+
+
+
 ## [2.2.6](https://github.com/ueberdosis/tiptap/compare/v2.2.5...v2.2.6) (2024-04-06)
 
 

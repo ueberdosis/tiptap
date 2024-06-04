@@ -33,16 +33,32 @@ function isValidLinkStructure(tokens: Array<ReturnType<MultiToken['toObject']>>)
 
 type AutolinkOptions = {
   type: MarkType
-  validate?: (url: string) => boolean
+  validate: (url: string) => boolean
 }
 
+/**
+ * This plugin allows you to automatically add links to your editor.
+ * @param options The plugin options
+ * @returns The plugin instance
+ */
 export function autolink(options: AutolinkOptions): Plugin {
   return new Plugin({
     key: new PluginKey('autolink'),
     appendTransaction: (transactions, oldState, newState) => {
+      /**
+       * Does the transaction change the document?
+       */
       const docChanges = transactions.some(transaction => transaction.docChanged) && !oldState.doc.eq(newState.doc)
+
+      /**
+       * Prevent autolink if the transaction is not a document change or if the transaction has the meta `preventAutolink`.
+       */
       const preventAutolink = transactions.some(transaction => transaction.getMeta('preventAutolink'))
 
+      /**
+       * Prevent autolink if the transaction is not a document change
+       * or if the transaction has the meta `preventAutolink`.
+       */
       if (!docChanges || preventAutolink) {
         return
       }
@@ -126,12 +142,7 @@ export function autolink(options: AutolinkOptions): Plugin {
               )
             })
             // validate link
-            .filter(link => {
-              if (options.validate) {
-                return options.validate(link.value)
-              }
-              return true
-            })
+            .filter(link => options.validate(link.value))
             // Add link mark.
             .forEach(link => {
               if (getMarksBetween(link.from, link.to, newState.doc).some(item => item.mark.type === options.type)) {
