@@ -11,12 +11,16 @@ export interface VueRendererOptions {
 }
 
 type ExtendedVNode = ReturnType<typeof h> | null
+
 interface RenderedComponent {
   vNode: ExtendedVNode
   destroy: () => void
   el: Element | null
 }
 
+/**
+ * This class is used to render Vue components inside the editor.
+ */
 export class VueRenderer {
   id: string
 
