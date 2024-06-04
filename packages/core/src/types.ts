@@ -45,9 +45,8 @@ export interface EditorEvents {
     /**
      * If called, will re-initialize the editor with the collaboration extension removed.
      * This will prevent syncing back deletions of content not present in the current schema.
-     * It may not exist if the editor already is constructed (like on `setContent`)
      */
-    disableCollaboration?: () => void
+    disableCollaboration: () => void
   }
   update: { editor: Editor; transaction: Transaction }
   selectionUpdate: { editor: Editor; transaction: Transaction }
