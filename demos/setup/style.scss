@@ -267,11 +267,6 @@ hr {
   flex-direction: column;
 }
 
-#app:has(:not(.tiptap)) {
-  gap: 1rem;
-  margin: 1.5rem;
-}
-
 .button-group {
   display: flex;
   flex-wrap: wrap;
