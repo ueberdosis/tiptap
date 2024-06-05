@@ -33,7 +33,7 @@ const editor = useEditor({
   // be added again, and again, and again ..
   editorProps: {
     attributes: {
-      class: 'm-2 p-2 border border-black rounded-lg',
+      class: 'textarea',
     },
   },
   extensions: [

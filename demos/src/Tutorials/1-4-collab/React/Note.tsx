@@ -1,5 +1,3 @@
-import './styles.css'
-
 import { TiptapCollabProvider } from '@hocuspocus/provider'
 import { Collaboration } from '@tiptap/extension-collaboration'
 import { EditorContent, useEditor } from '@tiptap/react'
@@ -32,7 +30,7 @@ export default ({ note }: { note: TNote }) => {
     // be added again, and again, and again ..
     editorProps: {
       attributes: {
-        class: 'm-2 p-2 border border-black rounded-lg',
+        class: 'textarea',
       },
     },
     extensions: [
