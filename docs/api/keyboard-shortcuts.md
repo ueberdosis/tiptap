@@ -27,7 +27,7 @@ Most of the core extensions register their own keyboard shortcuts. Depending on 
 | Bold          | `Control`&nbsp;`B`              | `Cmd`&nbsp;`B`              |
 | Italicize     | `Control`&nbsp;`I`              | `Cmd`&nbsp;`I`              |
 | Underline     | `Control`&nbsp;`U`              | `Cmd`&nbsp;`U`              |
-| Strikethrough | `Control`&nbsp;`Shift`&nbsp;`X` | `Cmd`&nbsp;`Shift`&nbsp;`X` |
+| Strikethrough | `Control`&nbsp;`Shift`&nbsp;`S` | `Cmd`&nbsp;`Shift`&nbsp;`S` |
 | Highlight     | `Control`&nbsp;`Shift`&nbsp;`H` | `Cmd`&nbsp;`Shift`&nbsp;`H` |
 | Code          | `Control`&nbsp;`E`              | `Cmd`&nbsp;`E`              |
 
