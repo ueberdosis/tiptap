@@ -38,6 +38,7 @@ export default {
         Code,
         Link.configure({
           openOnClick: false,
+          defaultProtocol: 'https',
         }),
       ],
       content: `

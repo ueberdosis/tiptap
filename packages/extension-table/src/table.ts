@@ -302,7 +302,7 @@ export const Table = Node.create<TableOptions>({
           const node = createTable(editor.schema, rows, cols, withHeaderRow)
 
           if (dispatch) {
-            const offset = tr.selection.anchor + 1
+            const offset = tr.selection.from + 1
 
             tr.replaceSelectionWith(node)
               .scrollIntoView()
