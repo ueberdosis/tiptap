@@ -34,7 +34,7 @@ npm install @tiptap/react @tiptap/pm @tiptap/starter-kit
 If you followed step 1 and 2, you can now start your project with `npm run dev`, and open [http://localhost:3000/](http://localhost:3000/) in your favorite browser. This might be different, if you’re working with an existing project.
 
 ## 3. Create a new component
-To actually start using Tiptap, you’ll need to add a new component to your app. To do this, first create a directory called `components/`. Now it's time to create our component which we'll call `Tiptap`. To do this put the following example code in `components/Tiptap.js`.
+To actually start using Tiptap, you’ll need to add a new component to your app. To do this, first create a directory called `components/`. Now it's time to create our component which we'll call `Tiptap`. To do this put the following example code in `components/Tiptap.jsx`.
 
 ```jsx
 'use client'

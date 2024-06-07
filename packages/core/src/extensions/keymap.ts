@@ -27,7 +27,13 @@ export const Keymap = Extension.create({
           ? parentPos === $anchor.pos
           : Selection.atStart(doc).from === pos
 
-        if (!empty || !isAtStart || !parent.type.isTextblock || parent.textContent.length) {
+        if (
+          !empty
+          || !parent.type.isTextblock
+          || parent.textContent.length
+          || !isAtStart
+          || (isAtStart && $anchor.parent.type.name === 'paragraph') // prevent clearNodes when no nodes to clear, otherwise history stack is appended
+        ) {
           return false
         }
 

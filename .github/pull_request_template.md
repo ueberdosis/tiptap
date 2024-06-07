@@ -1,30 +1,24 @@
-## Please describe your changes
+## Changes Overview
+<!-- Briefly describe your changes. -->
 
-[add a description of your changes here]
+## Implementation Approach
+<!-- Describe your approach to implementing these changes. Keep it concise. -->
 
-## How did you accomplish your changes
+## Testing Done
+<!-- Explain how you tested these changes. Link to test scenarios or specs if relevant. -->
 
-[add a detailed description of how you accomplished your changes here]
+## Verification Steps
+<!-- Describe steps reviewers can take to verify the functionality of your changes. -->
 
-## How have you tested your changes
-
-[add a detailed description of how you tested your changes here]
-
-## How can we verify your changes
-
-[add a detailed description of how we can verify your changes here]
-
-## Remarks
-
-[add any additional remarks here]
+## Additional Notes
+<!-- Add any other notes or screenshots about the PR here. -->
 
 ## Checklist
+- [ ] I have renamed my PR according to the naming conventions. (e.g. `feat: Implement new feature` or `chore(deps): Update dependencies`)
+- [ ] My changes do not break the library.
+- [ ] I have added tests where applicable.
+- [ ] I have followed the project guidelines.
+- [ ] I have fixed any lint issues.
 
-- [ ] The changes are not breaking the editor
-- [ ] Added tests where possible
-- [ ] Followed the guidelines
-- [ ] Fixed linting issues
-
-## Related issues
-
-[add a link to the related issues here]
+## Related Issues
+<!-- Link any related issues here -->
