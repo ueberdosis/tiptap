@@ -24,7 +24,6 @@ const mergeRefs = <T extends HTMLDivElement>(
 const Portals: React.FC<{ contentComponent: Exclude<Editor['contentComponent'], null> }> = ({ contentComponent }) => {
   const renderers = useSyncExternalStore(contentComponent.subscribe, contentComponent.getSnapshot, contentComponent.getServerSnapshot)
 
-  console.log(renderers)
   return (
     <>
       {Object.entries(renderers).map(([key, renderer]) => {
@@ -50,14 +49,11 @@ function getInstance(): Exclude<Editor['contentComponent'], null> {
      */
     subscribe(callback: () => void) {
       subscribers.add(callback)
-      console.log('subscribers', subscribers.size)
       return () => {
-        console.log('unsubscribing')
         subscribers.delete(callback)
       }
     },
     getSnapshot() {
-      console.log('getSnapshot', renderers)
       return renderers
     },
     getServerSnapshot() {
@@ -65,12 +61,10 @@ function getInstance(): Exclude<Editor['contentComponent'], null> {
       return renderers
     },
     setRenderer(id: string, renderer: ReactRenderer) {
-      console.log('setRenderer', id, renderer)
       renderers = {
         ...renderers,
         [id]: renderer,
       }
-      console.log('renderers', renderers)
 
       subscribers.forEach(subscriber => subscriber())
     },
@@ -187,7 +181,6 @@ export class PureEditorContent extends React.Component<EditorContentProps, {hasC
   render() {
     const { editor, innerRef, ...rest } = this.props
 
-    console.log('contentComponent', editor?.contentComponent)
     return (
       <>
         <div ref={mergeRefs(innerRef, this.editorContentRef)} {...rest} />
