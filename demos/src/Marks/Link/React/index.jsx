@@ -18,6 +18,7 @@ export default () => {
       Link.configure({
         openOnClick: false,
         autolink: true,
+        defaultProtocol: 'https',
       }),
     ],
     content: `

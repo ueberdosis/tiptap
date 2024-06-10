@@ -189,7 +189,7 @@ export class BubbleMenuView {
 
   update(view: EditorView, oldState?: EditorState) {
     const { state } = view
-    const hasValidSelection = state.selection.$from.pos !== state.selection.$to.pos
+    const hasValidSelection = state.selection.from !== state.selection.to
 
     if (this.updateDelay > 0 && hasValidSelection) {
       this.handleDebouncedUpdate(view, oldState)
