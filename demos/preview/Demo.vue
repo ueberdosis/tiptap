@@ -17,6 +17,7 @@
     <div class="overflow-hidden">
       <div
         class="bg-white"
+        :class="[hidePreview ? 'hidden' : '']"
       >
         <demo-frame
           :src="currentIframeUrl"
@@ -138,6 +139,10 @@ export default {
 
     hideSource() {
       return this.query.hideSource || false
+    },
+
+    hidePreview() {
+      return this.query.hidePreview || false
     },
 
     githubUrl() {
