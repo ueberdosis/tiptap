@@ -20,6 +20,7 @@ import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   interface ExtensionConfig<Options = any, Storage = any> {
+    // @ts-ignore - this is a dynamic key
     [key: string]: any
 
     /**

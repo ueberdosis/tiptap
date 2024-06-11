@@ -2,7 +2,6 @@
   "packages": [
     "packages/*"
   ],
-  "useWorkspaces": true,
   "command": {
     "publish": {
       "conventionalCommits": true
