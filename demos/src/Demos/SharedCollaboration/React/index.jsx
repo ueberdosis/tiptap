@@ -3,7 +3,7 @@ import './styles.scss'
 import { TiptapCollabProvider } from '@hocuspocus/provider'
 import * as Y from 'yjs'
 
-import Editor from './Editor'
+import Editor from './Editor.jsx'
 
 const appId = '7j9y6m10'
 const room = `room.${new Date()
