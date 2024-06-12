@@ -41,7 +41,7 @@ import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import * as Y from 'yjs'
 
-import CollaborationAnnotation from './extension'
+import CollaborationAnnotation from './extension/index.ts'
 
 export default {
   components: {

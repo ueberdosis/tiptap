@@ -1,6 +1,6 @@
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
-import { Extension } from '../Extension'
+import { Extension } from '../Extension.js'
 
 export const Editable = Extension.create({
   name: 'editable',

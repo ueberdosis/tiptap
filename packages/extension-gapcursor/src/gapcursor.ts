@@ -9,7 +9,8 @@ import { gapCursor } from '@tiptap/pm/gapcursor'
 declare module '@tiptap/core' {
   interface NodeConfig<Options, Storage> {
     /**
-     * Allow gap cursor
+     * A function to determine whether the gap cursor is allowed at the current position. Must return `true` or `false`.
+     * @default null
      */
     allowGapCursor?:
       | boolean
@@ -23,6 +24,12 @@ declare module '@tiptap/core' {
   }
 }
 
+/**
+ * This extension allows you to add a gap cursor to your editor.
+ * A gap cursor is a cursor that appears when you click on a place
+ * where no content is present, for example inbetween nodes.
+ * @see https://tiptap.dev/api/extensions/gapcursor
+ */
 export const Gapcursor = Extension.create({
   name: 'gapCursor',
 

@@ -1,32 +1,22 @@
 <template>
-  <demo-frame
-    v-if="inline"
-    :src="currentIframeUrl"
-    :key="currentIframeUrl"
-  />
-  <div class="antialiased" v-else>
-    <div v-if="showTabs">
+  <div class="overflow-hidden antialiased rounded-lg">
+    <div class="px-3 py-1 bg-black flex items-center gap-0.5">
       <button
         v-for="(language, index) in sortedTabs"
         :key="index"
         @click="setTab(language.name)"
-        class="px-4 py-2 text-xs font-bold tracking-wide uppercase rounded-t-lg"
+        class="px-3 py-2 text-sm text-white leading-[125%] font-semibold rounded-[0.625rem] transition-all"
         :class="[currentTab === language.name
-          ? 'bg-black text-white'
-          : 'text-black'
+          ? 'opacity-100 bg-[#1C1917]'
+          : 'opacity-50 bg-transparent hover:opacity-100 hover:bg-[#1C1917]'
         ]"
       >
         {{ language.name }}
       </button>
     </div>
-    <div class="overflow-hidden rounded-b-xl">
+    <div class="overflow-hidden">
       <div
-        class="bg-white border-black border-3 last:rounded-b-xl"
-        :class="[
-          showTabs && firstTabSelected
-            ? 'rounded-tr-xl'
-            : 'rounded-t-xl',
-        ]"
+        class="bg-white"
       >
         <demo-frame
           :src="currentIframeUrl"
@@ -122,10 +112,6 @@ export default {
   },
 
   computed: {
-    showTabs() {
-      return this.sortedTabs.length > 1
-    },
-
     currentIframeUrl() {
       return `/src/${this.name}/${this.currentTab}/`
     },
@@ -170,8 +156,6 @@ export default {
 
     setTab(name, persist = true) {
       this.currentTab = name
-      this.sources = {}
-      this.currentFile = null
 
       if (persist) {
         localStorage.tab = name

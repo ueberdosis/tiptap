@@ -5,6 +5,9 @@ tableOfContents: true
 
 # Vanilla JavaScript
 
+**Note**<br />
+If you don't use a bundler like Webpack or Rollup, please read the [CDN](/installation/cdn) guide instead. Since Tiptap is built in a modular way you will be required to use `<script type="module">` in your HTML to get our CDN imports working.
+
 ## Introduction
 You are using plain JavaScript or a framework that is not listed here? No worries, we provide everything you need.
 

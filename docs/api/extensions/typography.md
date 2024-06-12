@@ -70,3 +70,21 @@ const editor = new Editor({
   ],
 })
 ```
+
+### Overriding rules
+
+You can override the output of a rule by passing a string to the option you want to override.
+
+```js
+import { Editor } from '@tiptap/core'
+import Typography from '@tiptap/extension-typography'
+
+const editor = new Editor({
+  extensions: [
+    // Disable some included rules
+    Typography.configure({
+      oneHalf: "1 / 2", // this will insert "1 / 2" instead of the default "½"
+    }),
+  ],
+})
+```

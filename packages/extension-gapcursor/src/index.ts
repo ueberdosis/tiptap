@@ -1,5 +1,5 @@
-import { Gapcursor } from './gapcursor'
+import { Gapcursor } from './gapcursor.js'
 
-export * from './gapcursor'
+export * from './gapcursor.js'
 
 export default Gapcursor

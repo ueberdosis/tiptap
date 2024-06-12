@@ -12,7 +12,7 @@
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import Iframe from './iframe'
+import Iframe from './iframe.ts'
 
 export default {
   components: {

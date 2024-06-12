@@ -1,5 +1,5 @@
-import { Mention } from './mention'
+import { Mention } from './mention.js'
 
-export * from './mention'
+export * from './mention.js'
 
 export default Mention

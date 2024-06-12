@@ -15,8 +15,20 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
           return false
         }
 
+        let a = event.target as HTMLElement
+        const els = []
+
+        while (a.nodeName !== 'DIV') {
+          els.push(a)
+          a = a.parentNode as HTMLElement
+        }
+
+        if (!els.find(value => value.nodeName === 'A')) {
+          return false
+        }
+
         const attrs = getAttributes(view.state, options.type.name)
-        const link = (event.target as HTMLElement)?.closest('a')
+        const link = (event.target as HTMLLinkElement)
 
         const href = link?.href ?? attrs.href
         const target = link?.target ?? attrs.target

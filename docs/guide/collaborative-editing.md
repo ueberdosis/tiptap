@@ -7,11 +7,6 @@ tableOfContents: true
 ## Introduction
 Real-time collaboration, syncing between different devices and working offline used to be hard. We provide everything you need to keep everything in sync with the power of [Y.js](https://github.com/yjs/yjs). The following guide helps you get started with collaborative editing in Tiptap. Don’t worry, a production-grade setup doesn’t require much code.
 
-## The video course
-We are working on a video course which teaches everything you need to know about collaborative text editing with Tiptap. The first video is available for sponsors here:
-
-https://tiptap.dev/screencasts/collaborative-editing/make-tiptap-collaborative
-
 ## Configure the editor
 The underyling schema Tiptap uses is an excellent foundation to sync documents. With the [`Collaboration`](/api/extensions/collaboration) extension you can tell Tiptap to track changes to the document with [Y.js](https://github.com/yjs/yjs).
 
@@ -127,6 +122,9 @@ Ready.
 Try opening http://127.0.0.1:1234 in your browser. You should see a plain text `OK` if everything works fine.
 
 Go back to your Tiptap editor and hit reload, it should now connect to the Hocuspocus WebSocket server and changes should sync with all other clients. Amazing, isn’t it?
+
+
+!!tiptap-collab-cta
 
 ### Multiple network providers
 You can even combine multiple providers. That’s not needed, but could keep clients connected, even if one connection - for example the WebSocket server - goes down for a while. Here is an example:
@@ -281,6 +279,14 @@ const server = Server.configure({
 
 server.listen()
 ```
+
+## Tiptap Collab – our hosted solution
+
+If you don’t want the struggle of self-hosting and scaling Hocuspocus, make sure to check out our managed solution Tiptap Collab.
+
+It’s just a few clicks away, really.
+
+!!tiptap-collab-cta
 
 ## Pitfalls
 

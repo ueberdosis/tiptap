@@ -7,62 +7,68 @@ import {
 } from '@tiptap/core'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { find, test } from 'linkifyjs'
+import { MultiToken, tokenize } from 'linkifyjs'
+
+/**
+ * Check if the provided tokens form a valid link structure, which can either be a single link token
+ * or a link token surrounded by parentheses or square brackets.
+ *
+ * This ensures that only complete and valid text is hyperlinked, preventing cases where a valid
+ * top-level domain (TLD) is immediately followed by an invalid character, like a number. For
+ * example, with the `find` method from Linkify, entering `example.com1` would result in
+ * `example.com` being linked and the trailing `1` left as plain text. By using the `tokenize`
+ * method, we can perform more comprehensive validation on the input text.
+ */
+function isValidLinkStructure(tokens: Array<ReturnType<MultiToken['toObject']>>) {
+  if (tokens.length === 1) {
+    return tokens[0].isLink
+  }
+
+  if (tokens.length === 3 && tokens[1].isLink) {
+    return ['()', '[]'].includes(tokens[0].value + tokens[2].value)
+  }
+
+  return false
+}
 
 type AutolinkOptions = {
   type: MarkType
-  validate?: (url: string) => boolean
+  defaultProtocol: string
+  validate: (url: string) => boolean
 }
 
+/**
+ * This plugin allows you to automatically add links to your editor.
+ * @param options The plugin options
+ * @returns The plugin instance
+ */
 export function autolink(options: AutolinkOptions): Plugin {
   return new Plugin({
     key: new PluginKey('autolink'),
     appendTransaction: (transactions, oldState, newState) => {
+      /**
+       * Does the transaction change the document?
+       */
       const docChanges = transactions.some(transaction => transaction.docChanged) && !oldState.doc.eq(newState.doc)
+
+      /**
+       * Prevent autolink if the transaction is not a document change or if the transaction has the meta `preventAutolink`.
+       */
       const preventAutolink = transactions.some(transaction => transaction.getMeta('preventAutolink'))
 
+      /**
+       * Prevent autolink if the transaction is not a document change
+       * or if the transaction has the meta `preventAutolink`.
+       */
       if (!docChanges || preventAutolink) {
         return
       }
 
       const { tr } = newState
       const transform = combineTransactionSteps(oldState.doc, [...transactions])
-      const { mapping } = transform
       const changes = getChangedRanges(transform)
-      let needsAutolink = true
 
-      changes.forEach(({ oldRange, newRange }) => {
-        // At first we check if we have to remove links.
-        getMarksBetween(oldRange.from, oldRange.to, oldState.doc)
-          .filter(item => item.mark.type === options.type)
-          .forEach(oldMark => {
-            const newFrom = mapping.map(oldMark.from)
-            const newTo = mapping.map(oldMark.to)
-            const newMarks = getMarksBetween(newFrom, newTo, newState.doc).filter(
-              item => item.mark.type === options.type,
-            )
-
-            if (!newMarks.length) {
-              return
-            }
-
-            const newMark = newMarks[0]
-            const oldLinkText = oldState.doc.textBetween(oldMark.from, oldMark.to, undefined, ' ')
-            const newLinkText = newState.doc.textBetween(newMark.from, newMark.to, undefined, ' ')
-            const wasLink = test(oldLinkText)
-            const isLink = test(newLinkText)
-
-            if (wasLink) {
-              needsAutolink = false
-            }
-
-            // Remove only the link, if it was a link before too.
-            // Because we don’t want to remove links that were set manually.
-            if (wasLink && !isLink) {
-              tr.removeMark(needsAutolink ? newMark.from : newMark.to - 1, newMark.to, options.type)
-            }
-          })
-
+      changes.forEach(({ newRange }) => {
         // Now let’s see if we can add new links.
         const nodesInChangedRanges = findChildrenInRange(
           newState.doc,
@@ -110,20 +116,34 @@ export function autolink(options: AutolinkOptions): Plugin {
             return false
           }
 
-          find(lastWordBeforeSpace)
+          const linksBeforeSpace = tokenize(lastWordBeforeSpace).map(t => t.toObject(options.defaultProtocol))
+
+          if (!isValidLinkStructure(linksBeforeSpace)) {
+            return false
+          }
+
+          linksBeforeSpace
             .filter(link => link.isLink)
-            .filter(link => {
-              if (options.validate) {
-                return options.validate(link.value)
-              }
-              return true
-            })
             // Calculate link position.
             .map(link => ({
               ...link,
               from: lastWordAndBlockOffset + link.start + 1,
               to: lastWordAndBlockOffset + link.end + 1,
             }))
+            // ignore link inside code mark
+            .filter(link => {
+              if (!newState.schema.marks.code) {
+                return true
+              }
+
+              return !newState.doc.rangeHasMark(
+                link.from,
+                link.to,
+                newState.schema.marks.code,
+              )
+            })
+            // validate link
+            .filter(link => options.validate(link.value))
             // Add link mark.
             .forEach(link => {
               if (getMarksBetween(link.from, link.to, newState.doc).some(item => item.mark.type === options.type)) {

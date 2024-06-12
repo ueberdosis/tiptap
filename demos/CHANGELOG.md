@@ -3,6 +3,475 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/ueberdosis/tiptap/compare/v2.3.2...v2.4.0) (2024-05-14)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.3.2](https://github.com/ueberdosis/tiptap/compare/v2.3.1...v2.3.2) (2024-05-08)
+
+
+### Bug Fixes
+
+* NodePos querySelectorAll function ([#5094](https://github.com/ueberdosis/tiptap/issues/5094)) ([4900a27](https://github.com/ueberdosis/tiptap/commit/4900a27c5389d9a2d0d69f407ca3db0155304315))
+
+
+
+
+
+## [2.3.1](https://github.com/ueberdosis/tiptap/compare/v2.3.0...v2.3.1) (2024-04-30)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+# [2.3.0](https://github.com/ueberdosis/tiptap/compare/v2.2.6...v2.3.0) (2024-04-09)
+
+
+### Bug Fixes
+
+* **core:** fix nodepos child lookup ([#5038](https://github.com/ueberdosis/tiptap/issues/5038)) ([22ced31](https://github.com/ueberdosis/tiptap/commit/22ced318723003365fbfd8f59b8dac79c7563017))
+
+
+### Features
+
+* **core:** apply input and paste rules when using insertContent methods ([#5046](https://github.com/ueberdosis/tiptap/issues/5046)) ([96b6abc](https://github.com/ueberdosis/tiptap/commit/96b6abcf6edbc6cac03a391130d9feebb6de3a04))
+
+
+
+
+
+## [2.2.6](https://github.com/ueberdosis/tiptap/compare/v2.2.5...v2.2.6) (2024-04-06)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.2.4](https://github.com/ueberdosis/tiptap/compare/v2.2.3...v2.2.4) (2024-02-23)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
+
+
+### Bug Fixes
+
+* fix test path ([21aa96d](https://github.com/ueberdosis/tiptap/commit/21aa96dee8deab1f439b7f655b8ed266a516a4cd))
+
+
+
+
+
+## [2.2.2](https://github.com/ueberdosis/tiptap/compare/v2.2.1...v2.2.2) (2024-02-07)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.2.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0...v2.2.1) (2024-01-31)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+# [2.2.0](https://github.com/ueberdosis/tiptap/compare/v2.1.16...v2.2.0) (2024-01-29)
+
+
+### Bug Fixes
+
+* **core:** fix new lines being added via elementFromString ([#4767](https://github.com/ueberdosis/tiptap/issues/4767)) ([b7a2504](https://github.com/ueberdosis/tiptap/commit/b7a2504f16f46563537c890930cb2c332c256175))
+* fix imports, fix demos, unpin y-prosemirror ([681aa57](https://github.com/ueberdosis/tiptap/commit/681aa577bff500015c3f925e300c55a71c73efaf))
+* fix newline stripping via insertContent ([8954007](https://github.com/ueberdosis/tiptap/commit/8954007b2b92b040d69b26a0866ae58fabf5e512))
+
+
+
+# [2.2.0-rc.8](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.2.0-rc.8) (2024-01-08)
+
+
+
+# [2.2.0-rc.7](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.6...v2.2.0-rc.7) (2023-11-27)
+
+
+
+# [2.2.0-rc.6](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.5...v2.2.0-rc.6) (2023-11-23)
+
+
+
+# [2.2.0-rc.4](https://github.com/ueberdosis/tiptap/compare/v2.1.11...v2.2.0-rc.4) (2023-10-10)
+
+
+
+# [2.2.0-rc.3](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.2...v2.2.0-rc.3) (2023-08-18)
+
+
+
+# [2.2.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.0...v2.2.0-rc.1) (2023-08-18)
+
+
+
+# [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
+
+
+### Features
+
+* **placeholder:** allow editor-is-empty class on any node ([#4335](https://github.com/ueberdosis/tiptap/issues/4335)) ([ff929b1](https://github.com/ueberdosis/tiptap/commit/ff929b179de930619005a773bb4186ae2aa2ec58))
+
+
+
+
+
+## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
+
+
+### Bug Fixes
+
+* **core:** fix new lines being added via elementFromString ([#4767](https://github.com/ueberdosis/tiptap/issues/4767)) ([2235908](https://github.com/ueberdosis/tiptap/commit/2235908c28f388eda041d1d5d017554d513fe909))
+
+
+
+
+
+## [2.1.15](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.1.15) (2024-01-08)
+
+
+### Bug Fixes
+
+* **core:** fix insertContentAt keeping new lines in html content ([#4465](https://github.com/ueberdosis/tiptap/issues/4465)) ([135a12f](https://github.com/ueberdosis/tiptap/commit/135a12f7aa2df839a0b619704110a360b980c738))
+* **link:** fix tests ([d495d92](https://github.com/ueberdosis/tiptap/commit/d495d92a1f7b1c51e09ac8f4934e15a2d1cf070d))
+
+
+
+
+
+## [2.1.14](https://github.com/ueberdosis/tiptap/compare/v2.1.13...v2.1.14) (2024-01-08)
+
+
+### Bug Fixes
+
+* **typography:** require spaces after divisions to not break date formats ([#4696](https://github.com/ueberdosis/tiptap/issues/4696)) ([f6d7e00](https://github.com/ueberdosis/tiptap/commit/f6d7e00a746a67fa440a3fa0f5362295959873d2))
+
+
+
+
+
+## [2.1.13](https://github.com/ueberdosis/tiptap/compare/v2.1.12...v2.1.13) (2023-11-30)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.12](https://github.com/ueberdosis/tiptap/compare/v2.1.11...v2.1.12) (2023-10-11)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.11](https://github.com/ueberdosis/tiptap/compare/v2.1.10...v2.1.11) (2023-09-20)
+
+
+### Reverts
+
+* Revert "v2.2.11" ([6aa755a](https://github.com/ueberdosis/tiptap/commit/6aa755a04b9955fc175c7ab33dee527d0d5deef0))
+
+
+
+
+
+## [2.1.10](https://github.com/ueberdosis/tiptap/compare/v2.1.9...v2.1.10) (2023-09-15)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.9](https://github.com/ueberdosis/tiptap/compare/v2.1.8...v2.1.9) (2023-09-14)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.8](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.7...v2.1.8) (2023-09-04)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.7](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.6...v2.1.7) (2023-09-04)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+# [2.2.0-rc.2](https://github.com/ueberdosis/tiptap/compare/v2.1.6...v2.2.0-rc.2) (2023-08-18)
+
+
+
+# [2.2.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.0...v2.2.0-rc.1) (2023-08-18)
+
+
+
+# [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
+
+
+### Features
+
+* **placeholder:** allow editor-is-empty class on any node ([#4335](https://github.com/ueberdosis/tiptap/issues/4335)) ([ff929b1](https://github.com/ueberdosis/tiptap/commit/ff929b179de930619005a773bb4186ae2aa2ec58))
+
+
+
+
+
+# [2.2.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0-rc.0...v2.2.0-rc.1) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+# [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
+
+
+### Features
+
+* **placeholder:** allow editor-is-empty class on any node ([#4335](https://github.com/ueberdosis/tiptap/issues/4335)) ([ff929b1](https://github.com/ueberdosis/tiptap/commit/ff929b179de930619005a773bb4186ae2aa2ec58))
+
+
+
+
+
+
+## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+## [2.1.5](https://github.com/ueberdosis/tiptap/compare/v2.1.4...v2.1.5) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.4](https://github.com/ueberdosis/tiptap/compare/v2.1.3...v2.1.4) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.3](https://github.com/ueberdosis/tiptap/compare/v2.1.2...v2.1.3) (2023-08-18)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+## [2.1.2](https://github.com/ueberdosis/tiptap/compare/v2.1.1...v2.1.2) (2023-08-17)
+
+
+### Bug Fixes
+
+* **core:** fix error when merging class attributes ([#4340](https://github.com/ueberdosis/tiptap/issues/4340)) ([a251946](https://github.com/ueberdosis/tiptap/commit/a2519468589e2baa44901a66a3a06b24dc8626d6))
+
+
+
+
+
+## [2.1.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0...v2.1.1) (2023-08-16)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+# [2.1.0](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.14...v2.1.0) (2023-08-16)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+# [2.1.0-rc.14](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.13...v2.1.0-rc.14) (2023-08-11)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+# [2.1.0-rc.13](https://github.com/ueberdosis/tiptap-workspace/compare/v2.0.4...v2.1.0-rc.13) (2023-08-11)
+
+
+### Bug Fixes
+
+* **demos:** add missing extensions ([6383fd5](https://github.com/ueberdosis/tiptap-workspace/commit/6383fd54080b2ad555286cd0e7c4ad880200200f))
+* **demos:** update deps ([05a2edf](https://github.com/ueberdosis/tiptap-workspace/commit/05a2edfc16e297effa86d1583fb1680be0320f25))
+* **strikethrough:** update strikethrough shortcut ([#4288](https://github.com/ueberdosis/tiptap-workspace/issues/4288)) ([fd35db4](https://github.com/ueberdosis/tiptap-workspace/commit/fd35db4d090d9fdfef1196fb1f6f858f13cf53d1))
+
+
+
+# [2.1.0-rc.12](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.11...v2.1.0-rc.12) (2023-07-14)
+
+
+
+# [2.1.0-rc.11](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.10...v2.1.0-rc.11) (2023-07-07)
+
+
+### Bug Fixes
+
+* **tests:** fix link rel tests ([c1d1854](https://github.com/ueberdosis/tiptap-workspace/commit/c1d18543b03b1fb6b99a2f3546aa5da10c919920))
+
+
+
+# [2.1.0-rc.10](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.9...v2.1.0-rc.10) (2023-07-07)
+
+
+### Bug Fixes
+
+* **react:** check props.clientRect before creating ReactRenderer ([#4138](https://github.com/ueberdosis/tiptap-workspace/issues/4138)) ([d710846](https://github.com/ueberdosis/tiptap-workspace/commit/d710846ecb6a3059dfbc21300b9a4b887a8defa3))
+
+
+
+# [2.1.0-rc.9](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
+
+
+
+# [2.1.0-rc.8](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.7...v2.1.0-rc.8) (2023-05-25)
+
+
+
+# [2.1.0-rc.5](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.4...v2.1.0-rc.5) (2023-05-25)
+
+
+### Features
+
+* add tiptap class ([614fc80](https://github.com/ueberdosis/tiptap-workspace/commit/614fc8082c376bf3c40a05c23ceda6b4a6fbf8d0))
+
+
+
+# [2.1.0-rc.4](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.3...v2.1.0-rc.4) (2023-04-27)
+
+
+
+# [2.1.0-rc.3](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.2...v2.1.0-rc.3) (2023-04-26)
+
+
+
+# [2.1.0-rc.2](https://github.com/ueberdosis/tiptap-workspace/compare/v2.0.3...v2.1.0-rc.2) (2023-04-26)
+
+
+### Bug Fixes
+
+* **extension-link:** fix link not being kept when pasting url with link ([#3975](https://github.com/ueberdosis/tiptap-workspace/issues/3975)) ([e7d7d49](https://github.com/ueberdosis/tiptap-workspace/commit/e7d7d496376c8c11e24c342e20bd179a6ea7dcee))
+
+
+
+# [2.1.0-rc.1](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.0...v2.1.0-rc.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* **bubble-menu:** fix debounce not working with collab/collaboration cursor ([#3956](https://github.com/ueberdosis/tiptap-workspace/issues/3956)) ([e8cef04](https://github.com/ueberdosis/tiptap-workspace/commit/e8cef0404b5039ec2657536976b8b31931afd337))
+
+
+
+# [2.1.0-rc.0](https://github.com/ueberdosis/tiptap-workspace/compare/v2.0.2...v2.1.0-rc.0) (2023-04-05)
+
+
+### Bug Fixes
+
+* clear nodes when cursor at start of empty isolating parent ([#3943](https://github.com/ueberdosis/tiptap-workspace/issues/3943)) ([7278ee2](https://github.com/ueberdosis/tiptap-workspace/commit/7278ee2b05de2f96efddf3b1dc3bfd3d52262cbb))
+* Update peerDependencies to fix lerna version tasks ([#3914](https://github.com/ueberdosis/tiptap-workspace/issues/3914)) ([0c1bba3](https://github.com/ueberdosis/tiptap-workspace/commit/0c1bba3137b535776bcef95ff3c55e13f5a2db46))
+
+
+
+
+
+# [2.1.0-rc.12](https://github.com/ueberdosis/tiptap-workspace/compare/v2.1.0-rc.11...v2.1.0-rc.12) (2023-07-14)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
+# [2.1.0-rc.11](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.10...v2.1.0-rc.11) (2023-07-07)
+
+
+### Bug Fixes
+
+* **tests:** fix link rel tests ([c1d1854](https://github.com/ueberdosis/tiptap/commit/c1d18543b03b1fb6b99a2f3546aa5da10c919920))
+
+
+
+
+
+# [2.1.0-rc.10](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.9...v2.1.0-rc.10) (2023-07-07)
+
+
+### Bug Fixes
+
+* **react:** check props.clientRect before creating ReactRenderer ([#4138](https://github.com/ueberdosis/tiptap/issues/4138)) ([d710846](https://github.com/ueberdosis/tiptap/commit/d710846ecb6a3059dfbc21300b9a4b887a8defa3))
+
+
+
+
+
+# [2.1.0-rc.9](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
+
+**Note:** Version bump only for package tiptap-demos
+
+
+
+
+
 # [2.1.0-rc.8](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.7...v2.1.0-rc.8) (2023-05-25)
 
 **Note:** Version bump only for package tiptap-demos

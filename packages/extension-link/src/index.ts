@@ -1,5 +1,5 @@
-import { Link } from './link'
+import { Link } from './link.js'
 
-export * from './link'
+export * from './link.js'
 
 export default Link

@@ -1,5 +1,5 @@
-import { Subscript } from './subscript'
+import { Subscript } from './subscript.js'
 
-export * from './subscript'
+export * from './subscript.js'
 
 export default Subscript

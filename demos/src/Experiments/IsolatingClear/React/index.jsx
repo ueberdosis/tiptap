@@ -4,9 +4,10 @@ import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
 import { EditorContent, Node, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
-import { content } from '../content'
+import { content } from '../content.ts'
 
 const WrapperBlock = Node.create({
   name: 'wrapperBlock',
@@ -200,6 +201,7 @@ const MenuBar = ({ editor }) => {
 export default () => {
   const editor = useEditor({
     extensions: [
+      StarterKit,
       WrapperBlock,
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       TextStyle.configure({ types: [ListItem.name] }),

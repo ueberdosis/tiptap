@@ -19,7 +19,7 @@ Tiptap is framework-agnostic and even works with Vanilla JavaScript (if that’s
 - [Svelte](/installation/svelte)
 - [Alpine.js](/installation/alpine)
 - [PHP](/installation/php)
-<!-- [CDN](/installation/cdn)-->
+- [CDN](/installation/cdn)
 
 ### Community efforts
 

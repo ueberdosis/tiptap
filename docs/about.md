@@ -39,3 +39,12 @@ If you have an issue, a question, want to talk something through or anything els
 
 ### Can we have a call?
 Nope, we are big fans of asynchronous communication. If you really need to reach out in private, send us an email to [humans@tiptap.dev](mailto:humans@tiptap.dev), but don’t expect technical email support. That all happens on [GitHub](https://github.com/ueberdosis/tiptap/issues)
+
+
+## P.S. Did you know, we’re also into realtime text editing?
+
+With [Collaboration](https://tiptap.dev/collab) we  built a realtime backend for conflict-free text editing. And the best part: Integration into Tiptap is just a few clicks away.
+
+Make sure to check it out!
+
+!!tiptap-collab-cta

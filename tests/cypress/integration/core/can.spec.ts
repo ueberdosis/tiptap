@@ -167,4 +167,32 @@ describe('can', () => {
 
     expect(canSetMarkToBold).to.eq(true)
   })
+
+  it('builds and passes down an undefined dispatch for nested "can" chain', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, History],
+    })
+
+    let capturedOuterDispatch: ((args?: any) => any) | undefined
+    let capturedInnerDispatch: ((args?: any) => any) | undefined
+
+    editor
+      .can()
+      .chain()
+      .command(({ chain, dispatch: outterDispatch }) => {
+        capturedOuterDispatch = outterDispatch
+        return chain()
+          .command(({ dispatch: innerDispatch }) => {
+            capturedInnerDispatch = innerDispatch
+            return true
+          })
+          .run()
+      })
+      .run()
+
+    // eslint-disable-next-line no-unused-expressions
+    expect(capturedOuterDispatch).to.be.undefined
+    // eslint-disable-next-line no-unused-expressions
+    expect(capturedInnerDispatch).to.be.undefined
+  })
 })

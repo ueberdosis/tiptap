@@ -1,5 +1,5 @@
-import { CollaborationCursor } from './collaboration-cursor'
+import { CollaborationCursor } from './collaboration-cursor.js'
 
-export * from './collaboration-cursor'
+export * from './collaboration-cursor.js'
 
 export default CollaborationCursor

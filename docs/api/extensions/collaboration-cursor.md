@@ -33,6 +33,9 @@ Default: `{ user: null, color: null }`
 ### render
 A render function for the cursor, look at [the extension source code](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-cursor/) for an example.
 
+### selectionRender
+A render function for the selection, look at [the extension source code](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration-cursor/) for an example.
+
 ## Commands
 
 ### updateUser()
@@ -55,3 +58,5 @@ The content of this editor is shared with other users.
 :::
 https://embed.tiptap.dev/preview/Extensions/CollaborationCursor?hideSource
 https://embed.tiptap.dev/preview/Extensions/CollaborationCursor
+
+!!tiptap-collab-cta

@@ -1,13 +1,15 @@
 import { NodeSelection } from '@tiptap/pm/state'
 
-import { RawCommands } from '../types'
-import { minMax } from '../utilities/minMax'
+import { RawCommands } from '../types.js'
+import { minMax } from '../utilities/minMax.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     setNodeSelection: {
       /**
        * Creates a NodeSelection.
+       * @param position - Position of the node.
+       * @example editor.commands.setNodeSelection(10)
        */
       setNodeSelection: (position: number) => ReturnType
     }

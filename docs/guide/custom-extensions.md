@@ -14,7 +14,7 @@ You’ll learn how you start from scratch at the end, but you’ll need the same
 ## Extend existing extensions
 Every extension has an `extend()` method, which takes an object with everything you want to change or add to it.
 
-Let’s say, you’d like to change the keyboard shortcut for the bullet list. You should start with looking at the source code of the extension, in that case [the `BulletList` node](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/src/bullet-list.ts). For the bespoken example to overwrite the keyboard shortcut, your code could look like that:
+Let’s say, you’d like to change the keyboard shortcut for the bullet list. You should start with looking at the source code of the extension, in that case [the `BulletList` node](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bullet-list/src/bullet-list.ts). For the bespoken example to overwrite the keyboard shortcut, your code could look like this:
 
 ```js
 // 1. Import the extension
@@ -65,7 +65,7 @@ The order in which extensions are loaded influences two things:
    The [`Link`](/api/marks/link) mark for example has a higher priority, which means it will be rendered as `<a href="…"><strong>Example</strong></a>` instead of `<strong><a href="…">Example</a></strong>`.
 
 ### Settings
-All settings can be configured through the extension anyway, but if you want to change the default settings, for example to provide a library on top of Tiptap for other developers, you can do it like that:
+All settings can be configured through the extension anyway, but if you want to change the default settings, for example to provide a library on top of Tiptap for other developers, you can do it like this:
 
 ```js
 import Heading from '@tiptap/extension-heading'

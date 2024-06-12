@@ -2,10 +2,10 @@ import { NodeType } from '@tiptap/pm/model'
 import { Transaction } from '@tiptap/pm/state'
 import { canJoin } from '@tiptap/pm/transform'
 
-import { findParentNode } from '../helpers/findParentNode'
-import { getNodeType } from '../helpers/getNodeType'
-import { isList } from '../helpers/isList'
-import { RawCommands } from '../types'
+import { findParentNode } from '../helpers/findParentNode.js'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { isList } from '../helpers/isList.js'
+import { RawCommands } from '../types.js'
 
 const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
   const list = findParentNode(node => node.type === listType)(tr.selection)
@@ -62,6 +62,11 @@ declare module '@tiptap/core' {
     toggleList: {
       /**
        * Toggle between different list types.
+       * @param listTypeOrName The type or name of the list.
+       * @param itemTypeOrName The type or name of the list item.
+       * @param keepMarks Keep marks when toggling.
+       * @param attributes Attributes for the new list.
+       * @example editor.commands.toggleList('bulletList', 'listItem')
        */
       toggleList: (listTypeOrName: string | NodeType, itemTypeOrName: string | NodeType, keepMarks?: boolean, attributes?: Record<string, any>) => ReturnType;
     }
