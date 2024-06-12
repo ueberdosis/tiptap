@@ -32,4 +32,14 @@ context('/src/Commands/InsertContentApplyingRules/React/', () => {
       cy.get('.tiptap').should('contain.html', '<p><em>This is an italic text</em></p>')
     })
   })
+
+  it('should apply paste rules to html', () => { // todo: naming
+    cy.get('.tiptap').then(([{ editor }]) => {
+      const content = '<p>*This is an italic text*</p>' // TODO: create special case here
+
+      editor.commands.insertContent(content, { applyPasteRules: true })
+      cy.get('.tiptap').should('contain.html', '<p><em>This is an italic text</em></p>') // TODO: check if paste rules applied.
+    })
+  })
+
 })
