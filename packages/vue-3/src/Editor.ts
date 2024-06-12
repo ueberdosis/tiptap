@@ -1,13 +1,15 @@
 import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import {
-  AppContext,
   ComponentInternalInstance,
   ComponentPublicInstance,
   customRef,
   markRaw,
+  reactive,
   Ref,
 } from 'vue'
+
+import { VueRenderer } from './VueRenderer.js'
 
 function useDebouncedRef<T>(value: T) {
   return customRef<T>((track, trigger) => {
@@ -40,9 +42,9 @@ export class Editor extends CoreEditor {
 
   private reactiveExtensionStorage: Ref<Record<string, any>>
 
-  public contentComponent: ContentComponent | null = null
+  public vueRenderers = reactive<Map<string, VueRenderer>>(new Map())
 
-  public appContext: AppContext | null = null
+  public contentComponent: ContentComponent | null = null
 
   constructor(options: Partial<EditorOptions> = {}) {
     super(options)
