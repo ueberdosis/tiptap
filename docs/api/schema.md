@@ -9,7 +9,7 @@ Unlike many other editors, Tiptap is based on a [schema](https://prosemirror.net
 
 This schema is *very* strict. You can’t use any HTML element or attribute that is not defined in your schema.
 
-Let me give you one example: If you paste something like `This is <strong>important</strong>` into Tiptap, but don’t have any extension that handles `strong` tags, you’ll only see `This is important` – without the strong tags.
+Let me give you one example: If you paste something like `This is <strong>important</strong>` into Tiptap, but don’t have any extension that handles `strong` tags, you’ll only see `This is important` – without the strong tags. If you want to know when this happens, you can listen to the [`contentError`](/api/events#contenterror) event after enabling the `enableContentCheck` option.
 
 ## How a schema looks like
 When you’ll work with the provided extensions only, you don’t have to care that much about the schema. If you’re building your own extensions, it’s probably helpful to understand how the schema works. Let’s look at the most simple schema for a typical ProseMirror editor:
@@ -261,7 +261,7 @@ Mark.create({
 ```
 
 #### Excludes
-By default all nodes can be applied at the same time. With the excludes attribute you can define which marks must not coexist with the mark. For example, the inline code mark excludes any other mark (bold, italic, and all others).
+By default all marks can be applied at the same time. With the excludes attribute you can define which marks must not coexist with the mark. For example, the inline code mark excludes any other mark (bold, italic, and all others).
 
 ```js
 Mark.create({

@@ -19,7 +19,6 @@ This is how your node extension could look like:
 
 ```js
 import { Node } from '@tiptap/core'
-import Component from './Component.vue'
 
 export default Node.create({
   // configuration …

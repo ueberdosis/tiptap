@@ -8,7 +8,7 @@ tableOfContents: true
 You can use Tiptap with Laravel, Livewire, Inertia.js, [Alpine.js](/installation/alpine), [Tailwind CSS](/guide/styling#with-tailwind-css), and even - yes you read that right - inside PHP.
 
 ## Tiptap for PHP
-We provide [an official PHP package to work with Tiptap content](/api/utilities/tiptap-php). A PHP package to work with Tiptap content. You can transform Tiptap-compatible JSON to HTML, and the other way around, sanitize your content, or just modify it.
+We provide [an official PHP package to work with Tiptap content](/api/utilities/tiptap-php). You can transform Tiptap-compatible JSON to HTML, and the other way around, sanitize your content, or just modify it.
 
 ## Laravel Livewire
 
@@ -24,6 +24,8 @@ We provide [an official PHP package to work with Tiptap content](/api/utilities/
   wire:poll.10000ms="autosave"
 ></x-editor>
 ```
+**Note**<br />
+The `.defer` modifier is no longer available in Livewire v3 as updating the state is deferred by default. Use the `.live` modifier if you need to update the state server-side as it changes.
 
 ### editor.blade.php
 ```html

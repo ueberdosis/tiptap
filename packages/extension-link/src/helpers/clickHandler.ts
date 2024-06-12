@@ -15,6 +15,18 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
           return false
         }
 
+        let a = event.target as HTMLElement
+        const els = []
+
+        while (a.nodeName !== 'DIV') {
+          els.push(a)
+          a = a.parentNode as HTMLElement
+        }
+
+        if (!els.find(value => value.nodeName === 'A')) {
+          return false
+        }
+
         const attrs = getAttributes(view.state, options.type.name)
         const link = (event.target as HTMLLinkElement)
 
@@ -22,9 +34,7 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         const target = link?.target ?? attrs.target
 
         if (link && href) {
-          if (view.editable) {
-            window.open(href, target)
-          }
+          window.open(href, target)
 
           return true
         }

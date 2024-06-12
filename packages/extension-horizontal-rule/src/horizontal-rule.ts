@@ -1,7 +1,12 @@
 import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
-import { TextSelection } from '@tiptap/pm/state'
+import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 export interface HorizontalRuleOptions {
+  /**
+   * The HTML attributes for a horizontal rule node.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>
 }
 
@@ -10,12 +15,17 @@ declare module '@tiptap/core' {
     horizontalRule: {
       /**
        * Add a horizontal rule
+       * @example editor.commands.setHorizontalRule()
        */
       setHorizontalRule: () => ReturnType
     }
   }
 }
 
+/**
+ * This extension allows you to insert horizontal rules.
+ * @see https://www.tiptap.dev/api/nodes/horizontal-rule
+ */
 export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   name: 'horizontalRule',
 
@@ -38,10 +48,19 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   addCommands() {
     return {
       setHorizontalRule:
-        () => ({ chain }) => {
+        () => ({ chain, state }) => {
+          const { $to: $originTo } = state.selection
+
+          const currentChain = chain()
+
+          if ($originTo.parentOffset === 0) {
+            currentChain.insertContentAt(Math.max($originTo.pos - 2, 0), { type: this.name })
+          } else {
+            currentChain.insertContent({ type: this.name })
+          }
+
           return (
-            chain()
-              .insertContent({ type: this.name })
+            currentChain
               // set cursor after horizontal rule
               .command(({ tr, dispatch }) => {
                 if (dispatch) {
@@ -49,14 +68,20 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
                   const posAfter = $to.end()
 
                   if ($to.nodeAfter) {
-                    tr.setSelection(TextSelection.create(tr.doc, $to.pos))
+                    if ($to.nodeAfter.isTextblock) {
+                      tr.setSelection(TextSelection.create(tr.doc, $to.pos + 1))
+                    } else if ($to.nodeAfter.isBlock) {
+                      tr.setSelection(NodeSelection.create(tr.doc, $to.pos))
+                    } else {
+                      tr.setSelection(TextSelection.create(tr.doc, $to.pos))
+                    }
                   } else {
                     // add node after horizontal rule if it’s the end of the document
                     const node = $to.parent.type.contentMatch.defaultType?.create()
 
                     if (node) {
                       tr.insert(posAfter, node)
-                      tr.setSelection(TextSelection.create(tr.doc, posAfter))
+                      tr.setSelection(TextSelection.create(tr.doc, posAfter + 1))
                     }
                   }
 

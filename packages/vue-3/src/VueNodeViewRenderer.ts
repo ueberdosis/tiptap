@@ -7,7 +7,7 @@ import {
   NodeViewRendererProps,
 } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import {
   Component,
   defineComponent,
@@ -183,12 +183,14 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     this.renderer.updateProps({
       selected: true,
     })
+    this.renderer.element.classList.add('ProseMirror-selectednode')
   }
 
   deselectNode() {
     this.renderer.updateProps({
       selected: false,
     })
+    this.renderer.element.classList.remove('ProseMirror-selectednode')
   }
 
   getDecorationClasses() {

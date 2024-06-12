@@ -86,7 +86,7 @@ this.updateAttributes({
 })
 ```
 
-And yes, all of that is reactive, too. A pretty seemless communication, isn’t it?
+And yes, all of that is reactive, too. A pretty seamless communication, isn’t it?
 
 ## Adding a content editable
 There is another component called `NodeViewContent` which helps you adding editable content to your node view. Here is an example:
@@ -205,7 +205,7 @@ export default {
 </script>
 ```
 
-If you just want to have all (and TypeScript support) you can import all props like that:
+If you just want to have all (and TypeScript support) you can import all props:
 
 ```js
 // Vue 3

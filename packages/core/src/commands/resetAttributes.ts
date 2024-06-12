@@ -11,6 +11,9 @@ declare module '@tiptap/core' {
     resetAttributes: {
       /**
        * Resets some node attributes to the default value.
+       * @param typeOrName The type or name of the node.
+       * @param attributes The attributes of the node to reset.
+       * @example editor.commands.resetAttributes('heading', 'level')
        */
       resetAttributes: (
         typeOrName: string | NodeType | MarkType,

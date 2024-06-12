@@ -18,7 +18,7 @@ export const EditorConsumer = EditorContext.Consumer
 export const useCurrentEditor = () => useContext(EditorContext)
 
 export type EditorProviderProps = {
-  children: ReactNode;
+  children?: ReactNode;
   slotBefore?: ReactNode;
   slotAfter?: ReactNode;
 } & Partial<EditorOptions>

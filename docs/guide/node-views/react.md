@@ -47,6 +47,7 @@ https://embed.tiptap.dev/preview/GuideNodeViews/ReactComponent
 That component doesn’t interact with the editor, though. Time to wire it up.
 
 ## Access node attributes
+
 The `ReactNodeViewRenderer` which you use in your node extension, passes a few very helpful props to your custom React component. One of them is the `node` prop. Let’s say you have [added an attribute](/guide/custom-extensions#attributes) named `count` to your node extension (like we did in the above example) you could access it like this:
 
 ```js
@@ -68,7 +69,7 @@ export default props => {
 }
 ```
 
-And yes, all of that is reactive, too. A pretty seemless communication, isn’t it?
+And yes, all of that is reactive, too. A pretty seamless communication, isn’t it?
 
 ## Adding a content editable
 There is another component called `NodeViewContent` which helps you adding editable content to your node view. Here is an example:
@@ -95,6 +96,33 @@ https://embed.tiptap.dev/preview/GuideNodeViews/ReactComponentContent
 Keep in mind that this content is rendered by Tiptap. That means you need to tell what kind of content is allowed, for example with `content: 'inline*'` in your node extension (that’s what we use in the above example).
 
 The `NodeViewWrapper` and `NodeViewContent` components render a `<div>` HTML tag (`<span>` for inline nodes), but you can change that. For example `<NodeViewContent as="p">` should render a paragraph. One limitation though: That tag must not change during runtime.
+
+## Changing the default content tag for a node view
+
+By default a node view rendered by `ReactNodeViewRenderer` will always have a wrapping `div` inside. If you want to change the type of this node, you can the `contentDOMElementTag` to the `ReactNodeViewRenderer` options:
+
+```js
+// this will turn the div into a header tag
+return ReactNodeViewRenderer(Component, { contentDOMElementTag: 'header' })
+```
+
+## Changing the wrapping DOM element
+
+To change the wrapping DOM elements tag, you can use the `contentDOMElementTag` option on the `ReactNodeViewRenderer` function to change the default tag name.
+
+```js
+import { Node } from '@tiptap/core'
+import { ReactNodeViewRenderer } from '@tiptap/react'
+import Component from './Component.jsx'
+
+export default Node.create({
+  // configuration …
+
+  addNodeView() {
+    return ReactNodeViewRenderer(Component, { contentDOMElementTag: 'main' })
+  },
+})
+```
 
 ## All available props
 Here is the full list of what props you can expect:

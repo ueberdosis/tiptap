@@ -6,7 +6,7 @@
 
 <script>
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-2'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {
   components: {
@@ -40,7 +40,7 @@ export default {
         </p>
       `,
       onUpdate: ({ editor: currentEditor }) => {
-        console.log(this.count, 'onUpdate', currentEditor.getHTML())
+        console.log(this.count, 'onUpdate', currentEditor.getHTML()) // eslint-disable-line no-console
       },
     })
   },
