@@ -8,6 +8,8 @@ declare module '@tiptap/core' {
     setNodeSelection: {
       /**
        * Creates a NodeSelection.
+       * @param position - Position of the node.
+       * @example editor.commands.setNodeSelection(10)
        */
       setNodeSelection: (position: number) => ReturnType
     }

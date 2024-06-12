@@ -1,7 +1,7 @@
-# JWT authentication with Tiptap Collab
+# JWT authentication with Collaboration
 
-In our first tutorial, we've gone from a simple textarea to a fully collaborative Tiptap editor instance.
-However, the JWT that is given by Tiptap Collab is valid for just a few hours, which is enough for testing,
+In our first tutorial, we've gone from a simple textarea to a fully collaborative editor instance.
+However, the JWT that is given by Collaboration is valid for just a few hours, which is enough for testing,
 but certainly not enough for a real live application.
 
 ## What is a JWT
@@ -20,13 +20,13 @@ const jwt = jsonwebtoken.sign({ /* object to be encoded in the JWT */ }, 'your_s
 // this JWT should be sent in the `token` field of the provider. Never expose 'your_secret' to a frontend!
 ```
 
-A full server / API example is available [here](https://github.com/ueberdosis/tiptap-collab-replit/blob/main/src/server-collab.ts).
+A full server / API example is available [here](https://github.com/ueberdosis/tiptap-collab-replit/tree/main/src).
 Make sure to put the `secret` inside the server environment variable (or just make it a constant in the server file, don't transfer it from the client).
 You probably want to create an API call like `GET /getCollabToken` which will generate the JWT based on the server secret and the list of documents that the user is allowed to access.
 
 ## How to limit access to specific documents
 
-Documents can only be accessed by knowing the exact document name, as there is no way to get a list of documents from TiptapCollab.
+Documents can only be accessed by knowing the exact document name, as there is no way to get a list of documents from Collaboration.
 Thus, it's a good practice to name them like `userUuid/documentUuid` (i.e. `1500c624-8f9f-496a-b196-5e5dd8ec3c25/7865975c-38d0-4bb5-846b-df909cdc66d3`), which
 already makes it impossible to open random documents by guessing the name.
 

@@ -9,6 +9,10 @@ declare module '@tiptap/core' {
     toggleNode: {
       /**
        * Toggle a node with another node.
+       * @param typeOrName The type or name of the node.
+       * @param toggleTypeOrName The type or name of the node to toggle.
+       * @param attributes The attributes of the node.
+       * @example editor.commands.toggleNode('heading', 'paragraph')
        */
       toggleNode: (
         typeOrName: string | NodeType,

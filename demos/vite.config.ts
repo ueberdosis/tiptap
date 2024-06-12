@@ -47,6 +47,9 @@ const includeDependencies = fs.readFileSync('./includeDependencies.txt')
   .filter(value => value)
 
 export default defineConfig({
+  server: {
+    port: 3000,
+  },
   optimizeDeps: {
     include: includeDependencies,
   },
@@ -65,7 +68,9 @@ export default defineConfig({
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-2.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
     vue(),
+    // @ts-ignore
     react(),
+    // @ts-ignore
     svelte(),
 
     {

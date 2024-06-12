@@ -5,7 +5,8 @@ import { useCurrentEditor } from './Context.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
-export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey' | 'editor'>, 'element'> & {
+export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element' | 'editor'> & {
+  editor: BubbleMenuPluginProps['editor'] | null;
   className?: string;
   children: React.ReactNode;
   updateDelay?: number;

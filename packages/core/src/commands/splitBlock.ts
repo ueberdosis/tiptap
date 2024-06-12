@@ -20,6 +20,9 @@ declare module '@tiptap/core' {
     splitBlock: {
       /**
        * Forks a new node from an existing node.
+       * @param options.keepMarks Keep marks from the previous node.
+       * @example editor.commands.splitBlock()
+       * @example editor.commands.splitBlock({ keepMarks: true })
        */
       splitBlock: (options?: { keepMarks?: boolean }) => ReturnType
     }

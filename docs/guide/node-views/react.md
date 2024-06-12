@@ -69,7 +69,7 @@ export default props => {
 }
 ```
 
-And yes, all of that is reactive, too. A pretty seemless communication, isn’t it?
+And yes, all of that is reactive, too. A pretty seamless communication, isn’t it?
 
 ## Adding a content editable
 There is another component called `NodeViewContent` which helps you adding editable content to your node view. Here is an example:
@@ -104,6 +104,24 @@ By default a node view rendered by `ReactNodeViewRenderer` will always have a wr
 ```js
 // this will turn the div into a header tag
 return ReactNodeViewRenderer(Component, { contentDOMElementTag: 'header' })
+```
+
+## Changing the wrapping DOM element
+
+To change the wrapping DOM elements tag, you can use the `contentDOMElementTag` option on the `ReactNodeViewRenderer` function to change the default tag name.
+
+```js
+import { Node } from '@tiptap/core'
+import { ReactNodeViewRenderer } from '@tiptap/react'
+import Component from './Component.jsx'
+
+export default Node.create({
+  // configuration …
+
+  addNodeView() {
+    return ReactNodeViewRenderer(Component, { contentDOMElementTag: 'main' })
+  },
+})
 ```
 
 ## All available props
