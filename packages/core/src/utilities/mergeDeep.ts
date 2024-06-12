@@ -5,14 +5,10 @@ export function mergeDeep(target: Record<string, any>, source: Record<string, an
 
   if (isPlainObject(target) && isPlainObject(source)) {
     Object.keys(source).forEach(key => {
-      if (isPlainObject(source[key])) {
-        if (!(key in target)) {
-          Object.assign(output, { [key]: source[key] })
-        } else {
-          output[key] = mergeDeep(target[key], source[key])
-        }
+      if (isPlainObject(source[key]) && isPlainObject(target[key])) {
+        output[key] = mergeDeep(target[key], source[key])
       } else {
-        Object.assign(output, { [key]: source[key] })
+        output[key] = source[key]
       }
     })
   }
