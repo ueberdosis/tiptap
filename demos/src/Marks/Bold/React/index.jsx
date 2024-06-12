@@ -1,3 +1,5 @@
+import './styles.scss'
+
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -25,25 +27,28 @@ export default () => {
 
   return (
     <>
-      <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        className={editor.isActive('bold') ? 'is-active' : ''}
-      >
-        toggleBold
-      </button>
-      <button
-        onClick={() => editor.chain().focus().setBold().run()}
-        disabled={editor.isActive('bold')}
-      >
-        setBold
-      </button>
-      <button
-        onClick={() => editor.chain().focus().unsetBold().run()}
-        disabled={!editor.isActive('bold')}
-      >
-        unsetBold
-      </button>
-
+      <div className="control-group">
+        <div className="button-group">
+          <button
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={editor.isActive('bold') ? 'is-active' : ''}
+          >
+            Toggle bold
+          </button>
+          <button
+            onClick={() => editor.chain().focus().setBold().run()}
+            disabled={editor.isActive('bold')}
+          >
+            Set bold
+          </button>
+          <button
+            onClick={() => editor.chain().focus().unsetBold().run()}
+            disabled={!editor.isActive('bold')}
+          >
+            Unset bold
+          </button>
+        </div>
+      </div>
       <EditorContent editor={editor} />
     </>
   )

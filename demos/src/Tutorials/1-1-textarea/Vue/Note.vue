@@ -15,5 +15,5 @@ watch(props, () => modelValueProxy.value = props.note?.content, {
 </script>
 
 <template>
-  <textarea v-model="modelValueProxy" class="p-2 border border-black rounded-lg"></textarea>
+  <textarea v-model="modelValueProxy" />
 </template>

@@ -28,27 +28,31 @@ export default () => {
   }
 
   return (
-    <div>
-      <button
-        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={editor.isActive('blockquote') ? 'is-active' : ''}
-      >
-        toggleBlockquote
-      </button>
-      <button
-        onClick={() => editor.chain().focus().setBlockquote().run()}
-        disabled={!editor.can().setBlockquote()}
-      >
-        setBlockquote
-      </button>
-      <button
-        onClick={() => editor.chain().focus().unsetBlockquote().run()}
-        disabled={!editor.can().unsetBlockquote()}
-      >
-        unsetBlockquote
-      </button>
+    <>
+      <div className="control-group">
+        <div className="button-group">
+          <button
+            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            className={editor.isActive('blockquote') ? 'is-active' : ''}
+          >
+            Toggle blockquote
+          </button>
+          <button
+            onClick={() => editor.chain().focus().setBlockquote().run()}
+            disabled={!editor.can().setBlockquote()}
+          >
+            Set blockquote
+          </button>
+          <button
+            onClick={() => editor.chain().focus().unsetBlockquote().run()}
+            disabled={!editor.can().unsetBlockquote()}
+          >
+            Unset blockquote
+          </button>
+        </div>
+      </div>
 
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

@@ -1,29 +1,30 @@
 <template>
-  <div class="form">
-    <div class="form__label">
-      Title
+  <div class="container">
+    <div class="multi-editor-group">
+      <div class="form">
+        <label class="label-large">Title</label>
+        <div v-if="title" class="form__item">
+          <editor-content :editor="title" />
+        </div>
+      </div>
+      <div class="form">
+        <label class="label-large">Tasks</label>
+        <div v-if="tasks" class="form__item">
+          <editor-content :editor="tasks" />
+        </div>
+      </div>
+      <div class="form">
+        <label class="label-large">Description</label>
+        <div v-if="description" class="form__item">
+          <editor-content :editor="description" />
+        </div>
+      </div>
     </div>
-    <div v-if="title" class="form__item form__item--title">
-      <editor-content :editor="title" />
-    </div>
-    <div class="form__label">
-      Tasks
-    </div>
-    <div v-if="tasks" class="form__item form__item--tasks">
-      <editor-content :editor="tasks" />
-    </div>
-    <div class="form__label">
-      Description
-    </div>
-    <div v-if="description" class="form__item form__item--description">
-      <editor-content :editor="description" />
-    </div>
-    <div class="form__label">
-      JSON
-    </div>
-    <div class="form__item form__item--json">
-      <code>{{ json }}</code>
-    </div>
+  </div>
+
+  <div class="output-group">
+    <label>JSON</label>
+    <code>{{ json }}</code>
   </div>
 </template>
 
@@ -31,6 +32,7 @@
 import Bold from '@tiptap/extension-bold'
 import Collaboration from '@tiptap/extension-collaboration'
 import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
@@ -39,8 +41,8 @@ import { Editor, EditorContent } from '@tiptap/vue-3'
 import { yDocToProsemirrorJSON } from 'y-prosemirror'
 import * as Y from 'yjs'
 
-const ParagraphDocument = Document.extend({
-  content: 'paragraph',
+const HeadingDocument = Document.extend({
+  content: 'heading',
 })
 
 const TaskListDocument = Document.extend({
@@ -68,15 +70,17 @@ export default {
   mounted() {
     this.title = new Editor({
       extensions: [
-        ParagraphDocument,
-        Paragraph,
+        HeadingDocument,
+        Heading.configure({
+          levels: [2],
+        }),
         Text,
         Collaboration.configure({
           document: this.ydoc,
           field: 'title',
         }),
       ],
-      content: '<p>No matter what you do, this will be a single paragraph.',
+      content: '<h2>No matter what you do, this will be a single heading.</h2>',
     })
 
     this.tasks = new Editor({
@@ -142,18 +146,41 @@ export default {
 </script>
 
 <style lang="scss">
+
+/* Basic editor styles */
 .tiptap {
-  > * + * {
-    margin-top: 0.75em;
+  :first-child {
+    margin-top: 0;
   }
 
+  /* Heading style */
+  h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    margin-top: 3.5rem;
+  }
+
+  /* List styles */
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  /* Task list specific styles */
   ul[data-type="taskList"] {
     list-style: none;
+    margin-left: 0;
     padding: 0;
 
     li {
+      align-items: flex-start;
       display: flex;
-      align-items: center;
 
       > label {
         flex: 0 0 auto;
@@ -165,49 +192,38 @@ export default {
         flex: 1 1 auto;
       }
     }
+
+    input[type="checkbox"] {
+      cursor: pointer;
+    }
+
+    ul[data-type="taskList"] {
+      margin: 0;
+    }
   }
 }
 
-.form__label {
-  color: #868e96;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 0.7rem;
-  letter-spacing: 1px;
-}
+/* Multi editor form group */
+.multi-editor-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 1.5rem;
 
-.form__item {
-  margin: 0 0 1rem;
-  padding: 0.75rem 1rem;
-  border-radius: 5px;
-  border: 1px solid #e9ecef;
-  transition: .1s all ease-in-out;
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 
-  &:hover {
-    border-color: #68CEF8;
-  }
+    .form__item {
+      border-radius: 5px;
+      border: 1px solid var(--gray-3);
+      transition: .1s all ease-in-out;
 
-  &--title {
-    font-size: 1.5rem;
-  }
-
-  &--json {
-    background: #0D0D0D;
-    color: #FFF;
-    font-size: 0.8rem;
-  }
-}
-
-pre {
-  font-family: 'JetBrainsMono', monospace;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-
-  code {
-    color: inherit;
-    padding: 0;
-    background: none;
-    font-size: 0.8rem;
+      &:hover {
+        border-color: var(--purple);
+      }
+    }
   }
 }
 </style>
