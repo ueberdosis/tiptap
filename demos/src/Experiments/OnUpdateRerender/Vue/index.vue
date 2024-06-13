@@ -1,6 +1,12 @@
 <template>
-  <div><button @click="countUp">INC</button> = {{ count }}</div>
-  <TiptapComponent :count="count" />
+  <div class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="countUp">INC</button> = {{ count }}
+      </div>
+    </div>
+    <TiptapComponent :count="count" />
+  </div>
 </template>
 
 <script>
@@ -24,3 +30,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+</style>

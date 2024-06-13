@@ -62,36 +62,76 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.problem {
-  background: #fdd;
-  border-bottom: 1px solid #f22;
-  margin-bottom: -1px;
-}
-
-.lint-icon {
-  display: inline-block;
-  position: absolute;
-  right: 2px;
-  cursor: pointer;
-  border-radius: 100px;
-  background: #f22;
-  color: white;
-  font-family: times, georgia, serif;
-  font-size: 15px;
-  font-weight: bold;
-  width: 1.1em;
-  height: 1.1em;
-  text-align: center;
-  padding-left: .5px;
-  line-height: 1.1em
-}
-
-.lint-icon:before {
-  content: "!";
-}
-
+<style lang="scss">/* Basic editor styles */
 .tiptap {
-  padding-right: 20px;
+  padding-right: 1.25rem;
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* Heading styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  .problem {
+    background: #fdd;
+    border-bottom: 1px solid #f22;
+    margin-bottom: -1px;
+  }
+
+  .lint-icon {
+    background: #f22;
+    border-radius: 100%;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-family: times, georgia, serif;
+    font-size: 15px;
+    font-weight: bold;
+    height: 1.1em;
+    line-height: 1.1em;
+    padding-left: 0.5px;
+    position: absolute;
+    right: 2px;
+    text-align: center;
+    width: 1.1em;
+  }
+
+  .lint-icon:before {
+    content: "!";
+  }
 }
 </style>

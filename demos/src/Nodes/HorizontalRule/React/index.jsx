@@ -25,9 +25,13 @@ export default () => {
 
   return (
     <>
-      <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-        setHorizontalRule
-      </button>
+      <div className="control-group">
+        <div className="button-group">
+          <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+            Set horizontal rule
+          </button>
+        </div>
+      </div>
 
       <EditorContent editor={editor} />
     </>

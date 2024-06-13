@@ -1,15 +1,18 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-      toggleItalic
-    </button>
-    <button @click="editor.chain().focus().setItalic().run()" :disabled="editor.isActive('italic')">
-      setItalic
-    </button>
-    <button @click="editor.chain().focus().unsetItalic().run()" :disabled="!editor.isActive('italic')">
-      unsetItalic
-    </button>
-
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+          Toggle italic
+        </button>
+        <button @click="editor.chain().focus().setItalic().run()" :disabled="editor.isActive('italic')">
+          Set italic
+        </button>
+        <button @click="editor.chain().focus().unsetItalic().run()" :disabled="!editor.isActive('italic')">
+          Unset italic
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -54,3 +57,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+</style>
