@@ -6,11 +6,12 @@ import {
   redo,
   undo,
   ySyncPlugin,
-  ySyncPluginKey,
   yUndoPlugin,
   yUndoPluginKey,
 } from 'y-prosemirror'
 import { UndoManager } from 'yjs'
+
+import { isChangeOrigin } from './helpers/isChangeOrigin.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 
@@ -187,12 +188,13 @@ export const Collaboration = Extension.create<CollaborationOptions>({
         key: new PluginKey('filterInvalidContent'),
         filterTransaction: transaction => {
           // Is this transaction from Yjs Sync Plugin?
-          if (transaction.getMeta(ySyncPluginKey)) {
+          if (isChangeOrigin(transaction)) {
 
             // When collaboration is disabled, prevent any sync transactions from being applied
             if (isCollaborationDisabled) {
               return true
             }
+
             // Is this the expected, single replace step?
             if (transaction.steps.length === 1 && (transaction.steps[0] as any).jsonID === 'replace') {
               const step = transaction.steps[0] as ReplaceStep
