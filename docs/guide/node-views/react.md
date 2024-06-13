@@ -80,7 +80,7 @@ import { NodeViewWrapper, NodeViewContent } from '@tiptap/react'
 
 export default () => {
   return (
-    <NodeViewWrapper className="react-component-with-content">
+    <NodeViewWrapper className="react-component">
       <span className="label" contentEditable={false}>React Component</span>
 
       <NodeViewContent className="content" />

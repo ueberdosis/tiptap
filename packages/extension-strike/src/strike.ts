@@ -1,5 +1,4 @@
 import {
-  isMacOS,
   Mark,
   markInputRule,
   markPasteRule,
@@ -98,15 +97,9 @@ export const Strike = Mark.create<StrikeOptions>({
   },
 
   addKeyboardShortcuts() {
-    const shortcuts: Record<string, () => boolean> = {}
-
-    if (isMacOS()) {
-      shortcuts['Mod-Shift-s'] = () => this.editor.commands.toggleStrike()
-    } else {
-      shortcuts['Ctrl-Shift-s'] = () => this.editor.commands.toggleStrike()
+    return {
+      'Mod-Shift-s': () => this.editor.commands.toggleStrike(),
     }
-
-    return shortcuts
   },
 
   addInputRules() {

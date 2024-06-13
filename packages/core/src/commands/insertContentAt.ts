@@ -35,8 +35,21 @@ declare module '@tiptap/core' {
            * Whether to update the selection after inserting the content.
            */
           updateSelection?: boolean
+
+          /**
+           * Whether to apply input rules after inserting the content.
+           */
           applyInputRules?: boolean
+
+          /**
+           * Whether to apply paste rules after inserting the content.
+           */
           applyPasteRules?: boolean
+
+          /**
+           * Whether to throw an error if the content is invalid.
+           */
+          errorOnInvalidContent?: boolean
         },
       ) => ReturnType
     }
@@ -57,12 +70,19 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       ...options,
     }
 
-    const content = createNodeFromContent(value, editor.schema, {
-      parseOptions: {
-        preserveWhitespace: 'full',
-        ...options.parseOptions,
-      },
-    })
+    let content: Fragment | ProseMirrorNode
+
+    try {
+      content = createNodeFromContent(value, editor.schema, {
+        parseOptions: {
+          preserveWhitespace: 'full',
+          ...options.parseOptions,
+        },
+        errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+      })
+    } catch (e) {
+      return false
+    }
 
     // don’t dispatch an empty fragment because this can lead to strange errors
     if (content.toString() === '<>') {

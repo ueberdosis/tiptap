@@ -23,6 +23,12 @@ function cleanUpSchemaItem<T>(data: T) {
   ) as T
 }
 
+/**
+ * Creates a new Prosemirror schema based on the given extensions.
+ * @param extensions An array of Tiptap extensions
+ * @param editor The editor instance
+ * @returns A Prosemirror schema
+ */
 export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: Editor): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)

@@ -36,6 +36,11 @@ Before submitting a pull request:
 - Check the codebase to ensure that your feature doesn't already exist.
 - Check the pull requests to ensure that another person hasn't already submitted the feature or fix.
 
+Before commiting:
+
+- Make sure to run the tests and linter before committing your changes.
+- Write [conventional commit messages](https://www.conventionalcommits.org/en). You can use `npm run cz` for that.
+
 ## Requirements
 
 If the project maintainer has any additional requirements, you will find them listed here.

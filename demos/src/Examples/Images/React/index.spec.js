@@ -16,10 +16,10 @@ context('/src/Examples/Images/React/', () => {
 
   it('allows images to be added via URL', () => {
     cy.window().then(win => {
-      cy.stub(win, 'prompt').returns('https://unsplash.it/250/250')
+      cy.stub(win, 'prompt').returns('https://placehold.co/400x400')
 
       cy.wait(1000)
-      cy.get('button').contains('add image from URL').click({ force: false })
+      cy.get('button').contains('Add image from URL').click({ force: false })
       cy.wait(1000)
       cy.get('.tiptap img').should('have.length', 3)
     })

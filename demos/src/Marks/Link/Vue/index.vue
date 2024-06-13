@@ -1,11 +1,15 @@
 <template>
-  <div v-if="editor">
-    <button @click="setLink" :class="{ 'is-active': editor.isActive('link') }">
-      setLink
-    </button>
-    <button @click="editor.chain().focus().unsetLink().run()" :disabled="!editor.isActive('link')">
-      unsetLink
-    </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="setLink" :class="{ 'is-active': editor.isActive('link') }">
+          Set link
+        </button>
+        <button @click="editor.chain().focus().unsetLink().run()" :disabled="!editor.isActive('link')">
+          Unset link
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -38,6 +42,7 @@ export default {
         Code,
         Link.configure({
           openOnClick: false,
+          defaultProtocol: 'https',
         }),
       ],
       content: `
@@ -92,21 +97,27 @@ export default {
 <style lang="scss">
 /* Basic editor styles */
 .tiptap {
-  > * + * {
-    margin-top: 0.75em;
+  :first-child {
+    margin-top: 0;
   }
 
-  a {
-    color: #68CEF8;
-  }
-
+  /* Code and preformatted text styles */
   code {
-    font-size: 0.9rem;
-    padding: 0.25em;
-    border-radius: 0.25em;
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
-    box-decoration-break: clone;
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
+  }
+
+  /* Link styles */
+  a {
+    color: var(--purple);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--purple-contrast);
+    }
   }
 }
 </style>

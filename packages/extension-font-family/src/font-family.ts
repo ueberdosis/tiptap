@@ -56,7 +56,7 @@ export const FontFamily = Extension.create<FontFamilyOptions>({
               }
 
               return {
-                style: `font-family: ${attributes.fontFamily.split(',').map((fontFamily: string) => CSS.escape(fontFamily.trim())).join(', ')}`,
+                style: `font-family: ${attributes.fontFamily}`,
               }
             },
           },

@@ -457,6 +457,7 @@ export class Extension<Options = any, Storage = any> {
     // with different calls of `configure`
     const extension = this.extend()
 
+    extension.parent = this.parent
     extension.options = mergeDeep(this.options as Record<string, any>, options) as Options
 
     extension.storage = callOrReturn(

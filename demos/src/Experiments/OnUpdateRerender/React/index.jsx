@@ -17,7 +17,7 @@ const TiptapComponent = ({
     ],
     content: `
       <p>
-        This is a radically reduced version of tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.
+        This is a radically reduced version of Tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.
       </p>
       <p>
         The paragraph extension is not really required, but you need at least one node. Sure, that node can be something different.
@@ -39,9 +39,13 @@ export default () => {
   }
 
   return (
-    <div>
-      <button onClick={() => setIndex(index + 1)}>INC</button> = {index}
+    <>
+      <div className="control-group">
+        <div className="button-group">
+          <button onClick={() => setIndex(index + 1)}>INC</button> = {index}
+        </div>
+      </div>
       <TiptapComponent onUpdate={handleUpdate} />
-    </div>
+    </>
   )
 }

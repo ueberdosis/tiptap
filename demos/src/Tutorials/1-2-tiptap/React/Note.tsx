@@ -1,5 +1,3 @@
-import './styles.css'
-
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 import React, { useState } from 'react'
@@ -13,7 +11,7 @@ export default ({ note }: { note: TNote }) => {
     content: modelValue,
     editorProps: {
       attributes: {
-        class: 'm-2 p-2 border border-black rounded-lg',
+        class: 'textarea',
       },
     },
     onUpdate() {

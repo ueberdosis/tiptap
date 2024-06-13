@@ -6,7 +6,7 @@ context('/src/Examples/Tables/Vue/', () => {
   beforeEach(() => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
-      cy.get('button').contains('insertTable').click()
+      cy.get('button').contains('Insert table').click()
     })
   })
 
@@ -28,15 +28,15 @@ context('/src/Examples/Tables/Vue/', () => {
   })
 
   it('adds & delete columns', () => {
-    cy.get('button').contains('addColumnBefore').click()
+    cy.get('button').contains('Add column before').click()
     cy.get('.tiptap table th')
       .should('have.length', 4)
 
-    cy.get('button').contains('addColumnAfter').click()
+    cy.get('button').contains('Add column after').click()
     cy.get('.tiptap table th')
       .should('have.length', 5)
 
-    cy.get('button').contains('deleteColumn')
+    cy.get('button').contains('Delete column')
       .click()
       .click()
     cy.get('.tiptap table th')
@@ -44,15 +44,15 @@ context('/src/Examples/Tables/Vue/', () => {
   })
 
   it('adds & delete rows', () => {
-    cy.get('button').contains('addRowBefore').click()
+    cy.get('button').contains('Add row before').click()
     cy.get('.tiptap table tr')
       .should('have.length', 4)
 
-    cy.get('button').contains('addRowAfter').click()
+    cy.get('button').contains('Add row after').click()
     cy.get('.tiptap table tr')
       .should('have.length', 5)
 
-    cy.get('button').contains('deleteRow')
+    cy.get('button').contains('Delete row')
       .click()
       .click()
     cy.get('.tiptap table tr')
@@ -60,21 +60,21 @@ context('/src/Examples/Tables/Vue/', () => {
   })
 
   it('should delete table', () => {
-    cy.get('button').contains('deleteTable').click()
+    cy.get('button').contains('Delete table').click()
     cy.get('.tiptap table').should('not.exist')
   })
 
   it('should merge cells', () => {
     cy.get('.tiptap').type('{shift}{rightArrow}')
-    cy.get('button').contains('mergeCells').click()
+    cy.get('button').contains('Merge cells').click()
     cy.get('.tiptap table th').should('have.length', 2)
   })
 
   it('should split cells', () => {
     cy.get('.tiptap').type('{shift}{rightArrow}')
-    cy.get('button').contains('mergeCells').click()
+    cy.get('button').contains('Merge cells').click()
     cy.get('.tiptap table th').should('have.length', 2)
-    cy.get('button').contains('splitCell').click()
+    cy.get('button').contains('Split cell').click()
     cy.get('.tiptap table th').should('have.length', 3)
   })
 
@@ -94,11 +94,11 @@ context('/src/Examples/Tables/Vue/', () => {
 
   it('should merge split', () => {
     cy.get('.tiptap').type('{shift}{rightArrow}')
-    cy.get('button').contains('mergeCells').click()
+    cy.get('button').contains('Merge cells').click()
     cy.get('.tiptap th[colspan="2"]')
       .should('exist')
     cy.get('button')
-      .contains('mergeOrSplit')
+      .contains('Merge or split')
       .click()
     cy.get('.tiptap th[colspan="2"]')
       .should('not.exist')
@@ -106,15 +106,15 @@ context('/src/Examples/Tables/Vue/', () => {
 
   it('should set cell attribute', () => {
     cy.get('.tiptap').type('{downArrow}')
-    cy.get('button').contains('setCellAttribute').click()
+    cy.get('button').contains('Set cell attribute').click()
     cy.get('.tiptap table td[style]').should('have.attr', 'style', 'background-color: #FAF594')
   })
 
   it('should move focus to next or prev cell', () => {
     cy.get('.tiptap').type('Column 1')
-    cy.get('button').contains('goToNextCell').click()
+    cy.get('button').contains('Go to next cell').click()
     cy.get('.tiptap').type('Column 2')
-    cy.get('button').contains('goToPreviousCell').click()
+    cy.get('button').contains('Go to previous cell').click()
 
     cy.get('.tiptap th').then(elements => {
       expect(elements[0].innerText).to.equal('Column 1')

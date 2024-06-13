@@ -18,7 +18,7 @@ export default () => {
       <p>
         This is a <strong>simple</strong> paragraph.
       </p>
-      <img src="https://unsplash.it/200/200" alt="A 200x200 square thumbnail from unsplash." />
+      <img src="https://placehold.co/200x200" alt="A 200x200 square thumbnail from placehold.co." />
       <p>
         Here is another paragraph inside this document.
       </p>
@@ -72,11 +72,11 @@ export default () => {
       <blockquote>
         <p>Here we have another paragraph inside a blockquote.</p>
         <blockquote>
-          <img src="https://unsplash.it/260/200" alt="A 260x200 landscape thumbnail from unsplash." />
-          <img src="https://unsplash.it/100/200" alt="A 100x200 portrait thumbnail from unsplash." />
+          <img src="https://placehold.co/260x200" alt="A 260x200 landscape thumbnail from placehold.co." />
+          <img src="https://placehold.co/100x200" alt="A 100x200 portrait thumbnail from placehold.co." />
         </blockquote>
       </blockquote>
-      <img src="https://unsplash.it/260/200" alt="A 260x200 landscape thumbnail from unsplash." />
+      <img src="https://placehold.co/260x200" alt="A 260x200 landscape thumbnail from placehold.co." />
     `,
   })
 
@@ -160,7 +160,7 @@ export default () => {
   }, [editor])
 
   const findSquaredImage = useCallback(() => {
-    const nodePosition = editor.$doc.querySelector('image', { src: 'https://unsplash.it/200/200' })
+    const nodePosition = editor.$doc.querySelector('image', { src: 'https://placehold.co/200x200' })
 
     if (!nodePosition) {
       setFoundNodes(null)
@@ -171,7 +171,7 @@ export default () => {
   }, [editor])
 
   const findLandscapeImage = useCallback(() => {
-    const nodePosition = editor.$doc.querySelector('image', { src: 'https://unsplash.it/260/200' })
+    const nodePosition = editor.$doc.querySelector('image', { src: 'https://placehold.co/260x200' })
 
     if (!nodePosition) {
       setFoundNodes(null)
@@ -182,7 +182,7 @@ export default () => {
   }, [editor])
 
   const findAllLandscapeImages = useCallback(() => {
-    const nodePosition = editor.$doc.querySelectorAll('image', { src: 'https://unsplash.it/260/200' })
+    const nodePosition = editor.$doc.querySelectorAll('image', { src: 'https://placehold.co/260x200' })
 
     if (!nodePosition) {
       setFoundNodes(null)
@@ -193,7 +193,7 @@ export default () => {
   }, [editor])
 
   const findFirstLandscapeImageWithAllQuery = useCallback(() => {
-    const nodePosition = editor.$doc.querySelectorAll('image', { src: 'https://unsplash.it/260/200' }, true)
+    const nodePosition = editor.$doc.querySelectorAll('image', { src: 'https://placehold.co/260x200' }, true)
 
     if (!nodePosition) {
       setFoundNodes(null)
@@ -204,7 +204,7 @@ export default () => {
   }, [editor])
 
   const findPortraitImageInBlockquote = useCallback(() => {
-    const nodePosition = editor.$doc.querySelector('image', { src: 'https://unsplash.it/100/200' })
+    const nodePosition = editor.$doc.querySelector('image', { src: 'https://placehold.co/100x200' })
 
     if (!nodePosition) {
       setFoundNodes(null)
@@ -259,33 +259,35 @@ export default () => {
   }, [editor])
 
   return (
-    <div>
-      <div>
-        <button data-testid="find-paragraphs" onClick={findParagraphs}>Find paragraphs</button>
-        <button data-testid="find-listitems" onClick={findListItems}>Find list items</button>
-        <button data-testid="find-bulletlists" onClick={findBulletList}>Find bullet lists</button>
-        <button data-testid="find-orderedlists" onClick={findOrderedList}>Find ordered lists</button>
-        <button data-testid="find-blockquotes" onClick={findBlockquote}>Find blockquotes</button>
-        <button data-testid="find-images" onClick={findImages}>Find images</button>
-      </div>
-      <div>
-        <button data-testid="find-first-blockquote" onClick={findFirstBlockquote}>Find first blockquote</button>
-        <button data-testid="find-squared-image" onClick={findSquaredImage}>Find squared image</button>
-        <button data-testid="find-landscape-image" onClick={findLandscapeImage}>Find landscape image</button>
-        <button data-testid="find-all-landscape-images" onClick={findAllLandscapeImages}>Find all landscape images</button>
-        <button data-testid="find-first-landscape-image-with-all-query" onClick={findFirstLandscapeImageWithAllQuery}>Find first landscape image with all query</button>
-        <button data-testid="find-portrait-image-inside-blockquote" onClick={findPortraitImageInBlockquote}>Find portrait image in blockquote</button>
-      </div>
-      <div>
-        <button data-testid="find-first-node" onClick={findFirstNode}>Find first node</button>
-        <button data-testid="find-last-node" onClick={findLastNode}>Find last node</button>
-        <button data-testid="find-last-node-of-first-bullet-list" onClick={findLastNodeOfFirstBulletList}>Find last node of first bullet list</button>
-        <button data-testid="find-nonexistent-node" onClick={findNonexistentNode}>Find nonexistent node</button>
+    <>
+      <div className="control-group">
+        <div className="button-group">
+          <button data-testid="find-paragraphs" onClick={findParagraphs}>Find paragraphs</button>
+          <button data-testid="find-listitems" onClick={findListItems}>Find list items</button>
+          <button data-testid="find-bulletlists" onClick={findBulletList}>Find bullet lists</button>
+          <button data-testid="find-orderedlists" onClick={findOrderedList}>Find ordered lists</button>
+          <button data-testid="find-blockquotes" onClick={findBlockquote}>Find blockquotes</button>
+          <button data-testid="find-images" onClick={findImages}>Find images</button>
+        </div>
+        <div className="button-group">
+          <button data-testid="find-first-blockquote" onClick={findFirstBlockquote}>Find first blockquote</button>
+          <button data-testid="find-squared-image" onClick={findSquaredImage}>Find squared image</button>
+          <button data-testid="find-landscape-image" onClick={findLandscapeImage}>Find landscape image</button>
+          <button data-testid="find-all-landscape-images" onClick={findAllLandscapeImages}>Find all landscape images</button>
+          <button data-testid="find-first-landscape-image-with-all-query" onClick={findFirstLandscapeImageWithAllQuery}>Find first landscape image with all query</button>
+          <button data-testid="find-portrait-image-inside-blockquote" onClick={findPortraitImageInBlockquote}>Find portrait image in blockquote</button>
+        </div>
+        <div className="button-group">
+          <button data-testid="find-first-node" onClick={findFirstNode}>Find first node</button>
+          <button data-testid="find-last-node" onClick={findLastNode}>Find last node</button>
+          <button data-testid="find-last-node-of-first-bullet-list" onClick={findLastNodeOfFirstBulletList}>Find last node of first bullet list</button>
+          <button data-testid="find-nonexistent-node" onClick={findNonexistentNode}>Find nonexistent node</button>
+        </div>
       </div>
       <EditorContent editor={editor} />
-      {foundNodes ? <div data-testid="found-nodes">{foundNodes.map(n => (
+      {foundNodes ? <div className="output-group" data-testid="found-nodes">{foundNodes.map(n => (
         <div data-testid="found-node" key={n.pos}>{mapNodePosToString(n)}</div>
       ))}</div> : ''}
-    </div>
+    </>
   )
 }

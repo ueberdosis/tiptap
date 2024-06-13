@@ -11,6 +11,9 @@ Several `key` settings can be adjusted dynamically:
 - **webhook_url**: Optional webhook URL for receiving callbacks.
 - **authentication_disabled**: Toggle for enabling/disabling authentication (1 for disabled, 0 for enabled, with the default being 0).
 - **name**: Optional instance name.
+- **webhook_version**: The webhook version
+- **default_auto_versioning**: Turn auto versioning on or off by default (1 for enabled, 0 for off).
+- **default_auto_versioning_interval**: Default versioning interval (default is 30 seconds)
 
 ## Managing Settings via API
 
