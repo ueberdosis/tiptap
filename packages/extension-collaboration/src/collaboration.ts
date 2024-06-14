@@ -1,6 +1,5 @@
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { ReplaceStep } from '@tiptap/pm/transform'
 import { EditorView } from '@tiptap/pm/view'
 import {
   redo,
@@ -186,27 +185,22 @@ export const Collaboration = Extension.create<CollaborationOptions>({
       this.editor.options.enableContentCheck
       && new Plugin({
         key: new PluginKey('filterInvalidContent'),
-        filterTransaction: transaction => {
+        filterTransaction: tr => {
           // Is this transaction from Yjs Sync Plugin?
-          if (isChangeOrigin(transaction)) {
+          if (isChangeOrigin(tr)) {
 
             // When collaboration is disabled, prevent any sync transactions from being applied
             if (isCollaborationDisabled) {
               return true
             }
 
-            // Is this the expected, single replace step?
-            if (transaction.steps.length === 1 && (transaction.steps[0] as any).jsonID === 'replace') {
-              const step = transaction.steps[0] as ReplaceStep
+            // Did the doc actually change as a result of this transaction?
+            if (tr.docChanged) {
 
               // Attempt to parse the content of the step
               try {
-                const content = step.slice.content.toJSON()
+                const content = tr.doc.toJSON()
 
-                if (Array.isArray(content)) {
-                  content.forEach(node => this.editor.schema.nodeFromJSON(node))
-                  return true
-                }
                 this.editor.schema.nodeFromJSON(content)
               } catch (error) {
                 this.editor.emit('contentError', {
