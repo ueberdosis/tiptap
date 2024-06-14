@@ -30,9 +30,13 @@ const MenuBar = ({ editor }) => {
   }
 
   return (
-    <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'is-active' : ''}>
-      code block
-    </button>
+    <div className="control-group">
+      <div className="button-group">
+        <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'is-active' : ''}>
+          Toggle code block
+        </button>
+      </div>
+    </div>
   )
 }
 
@@ -72,9 +76,9 @@ export default () => {
   })
 
   return (
-    <div>
+    <>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

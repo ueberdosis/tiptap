@@ -10,7 +10,7 @@ export default props => {
 
   return (
     <NodeViewWrapper className="react-component">
-      <span className="label">React Component</span>
+      <label>React Component</label>
 
       <div className="content">
         <button onClick={increase}>

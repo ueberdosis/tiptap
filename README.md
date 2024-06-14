@@ -3,7 +3,7 @@ The Tiptap Editor is a headless, framework-agnostic rich text editor that's cust
 
 Tiptap Editor is complemented by the collaboration open-source backend [Hocuspocus](https://github.com/ueberdosis/hocuspocus). Both the Editor and Hocuspocus form the foundation of the [Tiptap Suite](https://tiptap.dev/).
 
-[![Build Status](https://github.com/ueberdosis/tiptap/workflows/build/badge.svg)](https://github.com/ueberdosis/tiptap/actions)
+[![Build Status](https://github.com/ueberdosis/tiptap/actions/workflows/build.yml/badge.svg)](https://github.com/ueberdosis/tiptap/actions/workflows/build.yml)
 [![Version](https://img.shields.io/npm/v/@tiptap/core.svg?label=version)](https://www.npmjs.com/package/@tiptap/core)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/core.svg)](https://npmcharts.com/compare/@tiptap/core?minimal=true)
 [![License](https://img.shields.io/npm/l/@tiptap/core.svg)](https://www.npmjs.com/package/@tiptap/core)
@@ -90,7 +90,7 @@ For help, discussion about best practices, or any other conversation that would 
 </table>
 
 <table>
-  
+
 </table>
 
 [iFixit](https://www.ifixit.com/), [ApostropheCMS](https://apostrophecms.com/), [Novadiscovery](http://www.novadiscovery.com/), [Omics Data Automation](https://www.omicsautomation.com), [Flow Mobile](https://www.flowmobile.app/), [DocIQ](https://www.dociq.io/) and [hundreds of awesome inviduals](https://github.com/sponsors/ueberdosis).

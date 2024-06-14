@@ -4,6 +4,11 @@ import {
 import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 export interface HorizontalRuleOptions {
+  /**
+   * The HTML attributes for a horizontal rule node.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>
 }
 
@@ -12,12 +17,17 @@ declare module '@tiptap/core' {
     horizontalRule: {
       /**
        * Add a horizontal rule
+       * @example editor.commands.setHorizontalRule()
        */
       setHorizontalRule: () => ReturnType
     }
   }
 }
 
+/**
+ * This extension allows you to insert horizontal rules.
+ * @see https://www.tiptap.dev/api/nodes/horizontal-rule
+ */
 export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   name: 'horizontalRule',
 

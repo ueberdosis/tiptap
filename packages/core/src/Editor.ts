@@ -1,5 +1,8 @@
 import {
-  MarkType, NodeType, Schema,
+  MarkType,
+  Node as ProseMirrorNode,
+  NodeType,
+  Schema,
 } from '@tiptap/pm/model'
 import {
   EditorState, Plugin, PluginKey, Transaction,
@@ -9,7 +12,9 @@ import { EditorView } from '@tiptap/pm/view'
 import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
-import * as extensions from './extensions/index.js'
+import {
+  ClipboardTextSerializer, Commands, Editable, FocusEvents, Keymap, Tabindex,
+} from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
@@ -32,10 +37,12 @@ import {
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
 
-export { extensions }
+export * as extensions from './extensions/index.js'
 
-export interface HTMLElement {
-  editor?: Editor
+declare global {
+  interface HTMLElement {
+    editor?: Editor;
+  }
 }
 
 export class Editor extends EventEmitter<EditorEvents> {
@@ -63,9 +70,11 @@ export class Editor extends EventEmitter<EditorEvents> {
     editable: true,
     editorProps: {},
     parseOptions: {},
+    coreExtensionOptions: {},
     enableInputRules: true,
     enablePasteRules: true,
     enableCoreExtensions: true,
+    enableContentCheck: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
     onUpdate: () => null,
@@ -74,6 +83,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     onFocus: () => null,
     onBlur: () => null,
     onDestroy: () => null,
+    onContentError: ({ error }) => { throw error },
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -84,6 +94,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.createSchema()
     this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
+    this.on('contentError', this.options.onContentError)
     this.createView()
     this.injectCSS()
     this.on('create', this.options.onCreate)
@@ -235,7 +246,17 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates an extension manager.
    */
   private createExtensionManager(): void {
-    const coreExtensions = this.options.enableCoreExtensions ? Object.values(extensions) : []
+
+    const coreExtensions = this.options.enableCoreExtensions ? [
+      Editable,
+      ClipboardTextSerializer.configure({
+        blockSeparator: this.options.coreExtensionOptions?.clipboardTextSerializer?.blockSeparator,
+      }),
+      Commands,
+      FocusEvents,
+      Keymap,
+      Tabindex,
+    ] : []
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
@@ -263,7 +284,40 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates a ProseMirror view.
    */
   private createView(): void {
-    const doc = createDocument(this.options.content, this.schema, this.options.parseOptions)
+    let doc: ProseMirrorNode
+
+    try {
+      doc = createDocument(
+        this.options.content,
+        this.schema,
+        this.options.parseOptions,
+        { errorOnInvalidContent: this.options.enableContentCheck },
+      )
+    } catch (e) {
+      if (!(e instanceof Error) || !['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(e.message)) {
+        // Not the content error we were expecting
+        throw e
+      }
+      this.emit('contentError', {
+        editor: this,
+        error: e as Error,
+        disableCollaboration: () => {
+          // To avoid syncing back invalid content, reinitialize the extensions without the collaboration extension
+          this.options.extensions = this.options.extensions.filter(extension => extension.name !== 'collaboration')
+
+          // Restart the initialization process by recreating the extension manager with the new set of extensions
+          this.createExtensionManager()
+        },
+      })
+
+      // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
+      doc = createDocument(
+        this.options.content,
+        this.schema,
+        this.options.parseOptions,
+        { errorOnInvalidContent: false },
+      )
+    }
     const selection = resolveFocusPosition(doc, this.options.autofocus)
 
     this.view = new EditorView(this.options.element, {

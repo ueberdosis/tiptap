@@ -1,25 +1,31 @@
-.items {
-  background: #fff;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0px 10px 20px rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.8);
-  font-size: 0.9rem;
-  overflow: hidden;
-  padding: 0.2rem;
+/* Dropdown menu */
+.dropdown-menu {
+  background: var(--white);
+  border: 1px solid var(--gray-1);
+  border-radius: 0.7rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  overflow: auto;
+  padding: 0.4rem;
   position: relative;
-}
 
-.item {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 0.4rem;
-  display: block;
-  margin: 0;
-  padding: 0.2rem 0.4rem;
-  text-align: left;
-  width: 100%;
+  button {
+    align-items: center;
+    background-color: transparent;
+    display: flex;
+    gap: 0.25rem;
+    text-align: left;
+    width: 100%;
 
-  &.is-selected {
-    border-color: #000;
+    &:hover,
+    &:hover.is-selected {
+      background-color: var(--gray-3);
+    }
+
+    &.is-selected {
+      background-color: var(--gray-2);
+    }
   }
 }

@@ -2,16 +2,16 @@ blank_issues_enabled: false
 contact_links:
   - name: New Feature Request
     url: https://github.com/ueberdosis/tiptap/discussions/new?category=feature-requests
-    about: You want to create a new feature request for Tiptap? Feel free to do so here.
+    about: Interested in proposing a new feature for Tiptap? Submit your feature request here.
   - name: Help & Support
     url: https://github.com/ueberdosis/tiptap/discussions/new?category=questions-help
-    about: You need help with Tiptap or have a question? Feel free to ask here.
+    about: Require assistance or have inquiries about using Tiptap? Ask your questions here.
   - name: Join our Discord
     url: https://discord.gg/WtJ49jGshW
-    about: You want to chat with other Tiptap users? Feel free to join our Discord server.
+    about: Interested in engaging with the Tiptap community? Join our Discord server.
   - name: Present your project
     url: https://github.com/ueberdosis/tiptap/discussions/new?category=showcase
-    about: You built something awesome with Tiptap? Feel free to show it off here.
+    about: Developed something impressive using Tiptap? Share your project with the community here.
   - name: Present your Tiptap extensions
     url: https://github.com/ueberdosis/tiptap/discussions/new?category=community-extensions
-    about: You built a Tiptap extension? Feel free to show it off here.
+    about: Created a Tiptap extension? Showcase your work to the community here.

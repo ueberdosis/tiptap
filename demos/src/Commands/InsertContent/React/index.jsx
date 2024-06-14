@@ -29,17 +29,19 @@ const MenuBar = () => {
   }
 
   return (
-    <>
-      <button data-test-id="html-content" onClick={() => editor.chain().insertContent(htmlContent).focus().run()}>
-        Insert html content
-      </button>
-      <button data-test-id="html-content-spans" onClick={() => editor.chain().insertContent('<p><b>Hello</b> <i>World</i></p>').focus().run()}>
-        Insert html with span tags content
-      </button>
-      <button data-test-id="text-content" onClick={() => editor.chain().insertContent(textContent).focus().run()}>
-        Insert text content
-      </button>
-    </>
+    <div className="control-group">
+      <div className="button-group">
+        <button data-test-id="html-content" onClick={() => editor.chain().insertContent(htmlContent).focus().run()}>
+          Insert HTML content
+        </button>
+        <button data-test-id="html-content-spans" onClick={() => editor.chain().insertContent('<p><b>Hello</b> <i>World</i></p>').focus().run()}>
+          Insert HTML with span tags content
+        </button>
+        <button data-test-id="text-content" onClick={() => editor.chain().insertContent(textContent).focus().run()}>
+          Insert text content
+        </button>
+      </div>
+    </div>
   )
 }
 

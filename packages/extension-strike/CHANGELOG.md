@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/ueberdosis/tiptap/compare/v2.3.2...v2.4.0) (2024-05-14)
+
+
+### Features
+
+* added jsdocs ([#4356](https://github.com/ueberdosis/tiptap/issues/4356)) ([b941eea](https://github.com/ueberdosis/tiptap/commit/b941eea6daba09d48a5d18ccc1b9a1d84b2249dd))
+
+
+
+
+
+## [2.3.2](https://github.com/ueberdosis/tiptap/compare/v2.3.1...v2.3.2) (2024-05-08)
+
+**Note:** Version bump only for package @tiptap/extension-strike
+
+
+
+
+
+## [2.3.1](https://github.com/ueberdosis/tiptap/compare/v2.3.0...v2.3.1) (2024-04-30)
+
+**Note:** Version bump only for package @tiptap/extension-strike
+
+
+
+
+
+# [2.3.0](https://github.com/ueberdosis/tiptap/compare/v2.2.6...v2.3.0) (2024-04-09)
+
+**Note:** Version bump only for package @tiptap/extension-strike
+
+
+
+
+
+## [2.2.6](https://github.com/ueberdosis/tiptap/compare/v2.2.5...v2.2.6) (2024-04-06)
+
+**Note:** Version bump only for package @tiptap/extension-strike
+
+
+
+
+
+## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
+
+
+### Bug Fixes
+
+* Disallow only whitespace between markdown shortcuts delimiters ([#4866](https://github.com/ueberdosis/tiptap/issues/4866)) ([aa029fe](https://github.com/ueberdosis/tiptap/commit/aa029fe2242aeadc38555b2832df6ae1614c7d1d))
+
+
+
+
+
+## [2.2.4](https://github.com/ueberdosis/tiptap/compare/v2.2.3...v2.2.4) (2024-02-23)
+
+**Note:** Version bump only for package @tiptap/extension-strike
+
+
+
+
+
 ## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
 
 **Note:** Version bump only for package @tiptap/extension-strike

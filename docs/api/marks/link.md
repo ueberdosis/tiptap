@@ -76,6 +76,20 @@ Link.configure({
 })
 ```
 
+
+### default protocol
+The default protocol used by `linkOnPaste` and `autolink` when no protocol is defined.
+
+By default, the href generated for example.com is http://example.com and this option allows that protocol to be customized.
+
+Default: `http`
+
+```js
+Link.configure({
+  defaultProtocol: 'https',
+})
+```
+
 ### HTMLAttributes
 Custom HTML attributes that should be added to the rendered HTML tag.
 
