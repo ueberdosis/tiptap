@@ -65,7 +65,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, Edito
   init() {
     const { editor } = this.props
 
-    if (editor && editor.options.element) {
+    if (editor && !editor.isDestroyed && editor.options.element) {
       if (editor.contentComponent) {
         return
       }

@@ -3,7 +3,7 @@ import { Node as ProsemirrorNode, Schema } from '@tiptap/pm/model'
 import { Plugin } from '@tiptap/pm/state'
 import { Decoration, EditorView } from '@tiptap/pm/view'
 
-import { Editor } from './Editor.js'
+import type { Editor } from './Editor.js'
 import { getAttributesFromExtensions } from './helpers/getAttributesFromExtensions.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
 import { getNodeType } from './helpers/getNodeType.js'

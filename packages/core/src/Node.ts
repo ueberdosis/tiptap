@@ -7,6 +7,7 @@ import { Editor } from './Editor.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
 import { NodeConfig } from './index.js'
 import { InputRule } from './InputRule.js'
+import { Mark } from './Mark.js'
 import { PasteRule } from './PasteRule.js'
 import {
   AnyConfig,
@@ -23,6 +24,7 @@ import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   interface NodeConfig<Options = any, Storage = any> {
+    // @ts-ignore - this is a dynamic key
     [key: string]: any
 
     /**
@@ -111,8 +113,9 @@ declare module '@tiptap/core' {
       name: string
       options: Options
       storage: Storage
+      extensions: (Node | Mark)[]
       parent: ParentConfig<NodeConfig<Options, Storage>>['addGlobalAttributes']
-    }) => GlobalAttributes | {}
+    }) => GlobalAttributes
 
     /**
      * This function adds commands to the editor

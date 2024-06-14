@@ -133,11 +133,11 @@ export type CommandSpec = (...args: any[]) => Command
 export type KeyboardShortcutCommand = (props: { editor: Editor }) => boolean
 
 export type Attribute = {
-  default: any
+  default?: any
   rendered?: boolean
   renderHTML?: ((attributes: Record<string, any>) => Record<string, any> | null) | null
   parseHTML?: ((element: HTMLElement) => any | null) | null
-  keepOnSplit: boolean
+  keepOnSplit?: boolean
   isRequired?: boolean
 }
 
@@ -152,7 +152,13 @@ export type ExtensionAttribute = {
 }
 
 export type GlobalAttributes = {
+  /**
+   * The node & mark types this attribute should be applied to.
+   */
   types: string[]
+  /**
+   * The attributes to add to the node or mark types.
+   */
   attributes: {
     [key: string]: Attribute
   }

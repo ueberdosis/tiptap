@@ -23,6 +23,7 @@ import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   export interface MarkConfig<Options = any, Storage = any> {
+    // @ts-ignore - this is a dynamic key
     [key: string]: any
 
     /**
@@ -111,8 +112,9 @@ declare module '@tiptap/core' {
       name: string
       options: Options
       storage: Storage
+      extensions: (Node | Mark)[]
       parent: ParentConfig<MarkConfig<Options, Storage>>['addGlobalAttributes']
-    }) => GlobalAttributes | {}
+    }) => GlobalAttributes
 
     /**
      * This function adds commands to the editor
