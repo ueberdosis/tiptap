@@ -589,16 +589,17 @@ export class Mark<Options = any, Storage = any> {
   configure(options: Partial<Options> = {}) {
     // return a new instance so we can use the same extension
     // with different calls of `configure`
-    const extension = this.extend()
+    const extension = this.extend({
+      ...this.config,
+      addOptions() {
+        return mergeDeep(this.parent?.() || {}, options) as Options
+      },
+    })
 
-    extension.options = mergeDeep(this.options as Record<string, any>, options) as Options
-
-    extension.storage = callOrReturn(
-      getExtensionField<AnyConfig['addStorage']>(extension, 'addStorage', {
-        name: extension.name,
-        options: extension.options,
-      }),
-    )
+    // Always preserve the current name
+    extension.name = this.name
+    // Set the parent to be our parent
+    extension.parent = this.parent
 
     return extension
   }
@@ -606,7 +607,7 @@ export class Mark<Options = any, Storage = any> {
   extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
     extendedConfig: Partial<MarkConfig<ExtendedOptions, ExtendedStorage>> = {},
   ) {
-    const extension = new Mark<ExtendedOptions, ExtendedStorage>({ ...this.config, ...extendedConfig })
+    const extension = new Mark<ExtendedOptions, ExtendedStorage>(extendedConfig)
 
     extension.parent = this
 
@@ -614,7 +615,7 @@ export class Mark<Options = any, Storage = any> {
 
     extension.name = extendedConfig.name ? extendedConfig.name : extension.parent.name
 
-    if (extendedConfig.defaultOptions) {
+    if (extendedConfig.defaultOptions && Object.keys(extendedConfig.defaultOptions).length > 0) {
       console.warn(
         `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${extension.name}".`,
       )
