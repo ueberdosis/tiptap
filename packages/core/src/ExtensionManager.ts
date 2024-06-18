@@ -181,7 +181,7 @@ export class ExtensionManager {
         let defaultBindings: Record<string, () => boolean> = {}
 
         // bind exit handling
-        if (extension.type === 'mark' && extension.config.exitable) {
+        if (extension.type === 'mark' && getExtensionField<AnyConfig['exitable']>(extension, 'exitable', context)) {
           defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: extension as Mark })
         }
 
