@@ -77,6 +77,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
           getExtensionField<NodeConfig['draggable']>(extension, 'draggable', context),
         ),
         code: callOrReturn(getExtensionField<NodeConfig['code']>(extension, 'code', context)),
+        whitespace: callOrReturn(getExtensionField<NodeConfig['whitespace']>(extension, 'whitespace', context)),
         defining: callOrReturn(
           getExtensionField<NodeConfig['defining']>(extension, 'defining', context),
         ),
