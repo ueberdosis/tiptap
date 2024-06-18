@@ -351,4 +351,69 @@ describe('extend extensions', () => {
 
     expect(childExtension.config.name).to.eq('did-inherit')
   })
+
+  it('should allow extending a configure', () => {
+
+    const parentExtension = Extension
+      .create({
+        name: 'did-inherit',
+      })
+
+    const childExtension = parentExtension
+      .configure().extend()
+
+    expect(childExtension.config.name).to.eq('did-inherit')
+  })
+
+  it('should allow calling this.parent when extending a configure', () => {
+
+    const parentExtension = Extension
+      .create({
+        name: 'parentExtension',
+        addAttributes() {
+          return {
+            foo: {},
+          }
+        },
+      })
+
+    const childExtension = parentExtension
+      .configure({}).extend({
+        addAttributes() {
+          return {
+            ...this.parent?.(),
+            bar: {},
+          }
+        },
+      })
+
+    const attributes = getExtensionField(childExtension, 'addAttributes')()
+
+    expect(attributes).to.deep.eq({
+      foo: {},
+      bar: {},
+    })
+  })
+
+  it('should allow extending options when extending a configure', () => {
+    const parentExtension = Extension
+      .create({
+        name: 'parentExtension',
+        addOptions() {
+          return { defaultOptions: 'ignored' }
+        },
+      })
+
+    const childExtension = parentExtension
+      .configure({ configuredOptions: 'replace-default-options' }).extend({
+        addOptions() {
+          return { ...this.parent?.(), additionalOptions: 'exist-too' }
+        },
+      })
+
+    expect(childExtension.options).to.deep.eq({
+      configuredOptions: 'replace-default-options',
+      additionalOptions: 'exist-too',
+    })
+  })
 })
