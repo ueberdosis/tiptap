@@ -63,7 +63,7 @@ const names = [
 
 const defaultContent = `
   <p>Hi 👋, this is a collaborative document.</p>
-  <p>Feel free to edit, comment, and collaborate in real-time!</p>
+  <p>Feel free to edit and collaborate in real-time!</p>
 `
 
 const getRandomElement = list => list[Math.floor(Math.random() * list.length)]
