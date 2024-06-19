@@ -133,28 +133,66 @@ const Editor = ({ ydoc, provider, room }) => {
   }, [editor, currentUser])
 
   const setName = useCallback(() => {
-    const name = (window.prompt('Name') || '').trim().substring(0, 32)
+    const name = (window.prompt('Name', currentUser.name) || '').trim().substring(0, 32)
 
     if (name) {
       return setCurrentUser({ ...currentUser, name })
     }
   }, [currentUser])
 
+  if (!editor) {
+    return null
+  }
+
   return (
-    <div className="editor">
-        <EditorContent className="editor__content" editor={editor} />
-        <div className="editor__footer">
-            <div className={`editor__status editor__status--${status}`}>
-            {status === 'connected'
-              ? `${editor.storage.collaborationCursor.users.length} user${
-                editor.storage.collaborationCursor.users.length === 1 ? '' : 's'
-              } online in ${room}`
-              : 'offline'}
-            </div>
-            <div className="editor__name">
-            <button onClick={setName}>{currentUser.name}</button>
-            </div>
+    <div className="column-half">
+      <div className="control-group">
+        <div className="button-group">
+          <button
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={editor.isActive('bold') ? 'is-active' : ''}
+          >
+            Bold
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={editor.isActive('italic') ? 'is-active' : ''}
+          >
+            Italic
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={editor.isActive('strike') ? 'is-active' : ''}
+          >
+            Strike
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            className={editor.isActive('bulletList') ? 'is-active' : ''}
+          >
+            Bullet list
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            className={editor.isActive('code') ? 'is-active' : ''}
+          >
+            Code
+          </button>
         </div>
+      </div>
+
+      <EditorContent editor={editor} className="main-group" />
+
+      <div className="collab-status-group" data-state={status === 'connected' ? 'online' : 'offline'}>
+        <label>
+          {status === 'connected'
+            ? `${editor.storage.collaborationCursor.users.length} user${
+              editor.storage.collaborationCursor.users.length === 1 ? '' : 's'
+            } online in ${room}`
+            : 'offline'}
+        </label>
+        <button style={{ '--color': currentUser.color }} onClick={setName}>{currentUser.name}</button>
+      </div>
     </div>
   )
 }
