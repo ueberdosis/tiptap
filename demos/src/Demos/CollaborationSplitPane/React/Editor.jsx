@@ -191,7 +191,7 @@ const Editor = ({ ydoc, provider, room }) => {
             } online in ${room}`
             : 'offline'}
         </label>
-        <button style={{ '--color': currentUser.color }} onClick={setName}>{currentUser.name}</button>
+        <button style={{ '--color': currentUser.color }} onClick={setName}>✎ {currentUser.name}</button>
       </div>
     </div>
   )
