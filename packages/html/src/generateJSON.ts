@@ -1,6 +1,5 @@
-import { Extensions, getSchema } from '@tiptap/core'
-import { DOMParser, ParseOptions } from '@tiptap/pm/model'
-import { parseHTML } from 'zeed-dom'
+import { Extensions, generateJSON as CoreGenerateJSON } from '@tiptap/core'
+import { ParseOptions } from '@tiptap/pm/model'
 
 /**
  * Generates a JSON object from the given HTML string and converts it into a Prosemirror node with content.
@@ -15,8 +14,5 @@ import { parseHTML } from 'zeed-dom'
  * console.log(json) // { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, world!' }] }] }
  */
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
-  const schema = getSchema(extensions)
-  const dom = parseHTML(html) as unknown as Node
-
-  return DOMParser.fromSchema(schema).parse(dom, options).toJSON()
+  return CoreGenerateJSON(html, extensions, options)
 }
