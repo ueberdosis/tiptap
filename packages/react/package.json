@@ -29,8 +29,10 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.4.0",
-    "@tiptap/extension-floating-menu": "^2.4.0"
+    "@tiptap/extension-bubble-menu": "^2.5.0-beta.2",
+    "@tiptap/extension-floating-menu": "^2.5.0-beta.2",
+    "use-sync-external-store": "^1.2.2",
+    "@types/use-sync-external-store": "^0.0.6"
   },
   "devDependencies": {
     "@tiptap/core": "^2.4.0",

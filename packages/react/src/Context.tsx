@@ -1,9 +1,8 @@
-import { EditorOptions } from '@tiptap/core'
 import React, { createContext, ReactNode, useContext } from 'react'
 
 import { Editor } from './Editor.js'
 import { EditorContent } from './EditorContent.js'
-import { useEditor } from './useEditor.js'
+import { useEditor, UseEditorOptions } from './useEditor.js'
 
 export type EditorContextValue = {
   editor: Editor | null;
@@ -15,17 +14,25 @@ export const EditorContext = createContext<EditorContextValue>({
 
 export const EditorConsumer = EditorContext.Consumer
 
+/**
+ * A hook to get the current editor instance.
+ */
 export const useCurrentEditor = () => useContext(EditorContext)
 
-export type EditorProviderProps = {
+export type EditorProviderProps<TSelectorResult> = {
   children?: ReactNode;
   slotBefore?: ReactNode;
   slotAfter?: ReactNode;
-} & Partial<EditorOptions>
+} & UseEditorOptions<TSelectorResult>
 
-export const EditorProvider = ({
+/**
+ * This is the provider component for the editor.
+ * It allows the editor to be accessible across the entire component tree
+ * with `useCurrentEditor`.
+ */
+export function EditorProvider<TSelectorResult>({
   children, slotAfter, slotBefore, ...editorOptions
-}: EditorProviderProps) => {
+}: EditorProviderProps<TSelectorResult>) {
   const editor = useEditor(editorOptions)
 
   if (!editor) {
