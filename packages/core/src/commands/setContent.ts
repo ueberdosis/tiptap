@@ -1,4 +1,4 @@
-import { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import { ParseOptions } from '@tiptap/pm/model'
 
 import { createDocument } from '../helpers/createDocument.js'
 import { Content, RawCommands } from '../types.js'
@@ -69,6 +69,9 @@ export const setContent: RawCommands['setContent'] = (content, emitUpdate = fals
   return commands.insertContentAt(
     { from: 0, to: doc.content.size },
     content,
-    { parseOptions },
+    {
+      parseOptions,
+      errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+    },
   )
 }
