@@ -14,11 +14,6 @@ Drag handles aren’t that easy to add. We are still on the lookout what’s the
 
 https://embed.tiptap.dev/preview/GuideNodeViews/DragHandle
 
-## Table of contents
-This one loops through the editor content, gives all headings an ID and renders a Table of Contents with Vue.
-
-https://embed.tiptap.dev/preview/GuideNodeViews/TableOfContents
-
 ## Drawing in the editor
 The drawing example shows a SVG that enables you to draw inside the editor.
 

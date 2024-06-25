@@ -65,14 +65,6 @@ Link.configure({
 })
 ```
 
-If set to `'whenNotEditable'`, links will be opened on click only when editor is not editable.
-
-```js
-Link.configure({
-  openOnClick: 'whenNotEditable',
-})
-```
-
 ### linkOnPaste
 Adds a link to the current selection if the pasted content only contains an url.
 
@@ -81,6 +73,20 @@ Default: `true`
 ```js
 Link.configure({
   linkOnPaste: false,
+})
+```
+
+
+### default protocol
+The default protocol used by `linkOnPaste` and `autolink` when no protocol is defined.
+
+By default, the href generated for example.com is http://example.com and this option allows that protocol to be customized.
+
+Default: `http`
+
+```js
+Link.configure({
+  defaultProtocol: 'https',
 })
 ```
 

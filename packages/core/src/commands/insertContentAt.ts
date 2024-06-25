@@ -35,8 +35,21 @@ declare module '@tiptap/core' {
            * Whether to update the selection after inserting the content.
            */
           updateSelection?: boolean
+
+          /**
+           * Whether to apply input rules after inserting the content.
+           */
           applyInputRules?: boolean
+
+          /**
+           * Whether to apply paste rules after inserting the content.
+           */
           applyPasteRules?: boolean
+
+          /**
+           * Whether to throw an error if the content is invalid.
+           */
+          errorOnInvalidContent?: boolean
         },
       ) => ReturnType
     }
@@ -44,7 +57,7 @@ declare module '@tiptap/core' {
 }
 
 const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment is Fragment => {
-  return nodeOrFragment.toString().startsWith('<')
+  return !('type' in nodeOrFragment)
 }
 
 export const insertContentAt: RawCommands['insertContentAt'] = (position, value, options) => ({ tr, dispatch, editor }) => {
@@ -57,12 +70,19 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       ...options,
     }
 
-    const content = createNodeFromContent(value, editor.schema, {
-      parseOptions: {
-        preserveWhitespace: 'full',
-        ...options.parseOptions,
-      },
-    })
+    let content: Fragment | ProseMirrorNode
+
+    try {
+      content = createNodeFromContent(value, editor.schema, {
+        parseOptions: {
+          preserveWhitespace: 'full',
+          ...options.parseOptions,
+        },
+        errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+      })
+    } catch (e) {
+      return false
+    }
 
     let { from, to } = typeof position === 'number' ? { from: position, to: position } : { from: position.from, to: position.to }
 

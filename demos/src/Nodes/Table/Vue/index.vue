@@ -1,59 +1,63 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
-      insertTable
-    </button>
-    <button @click="editor.chain().focus().addColumnBefore().run()">
-      addColumnBefore
-    </button>
-    <button @click="editor.chain().focus().addColumnAfter().run()">
-      addColumnAfter
-    </button>
-    <button @click="editor.chain().focus().deleteColumn().run()">
-      deleteColumn
-    </button>
-    <button @click="editor.chain().focus().addRowBefore().run()">
-      addRowBefore
-    </button>
-    <button @click="editor.chain().focus().addRowAfter().run()">
-      addRowAfter
-    </button>
-    <button @click="editor.chain().focus().deleteRow().run()">
-      deleteRow
-    </button>
-    <button @click="editor.chain().focus().deleteTable().run()">
-      deleteTable
-    </button>
-    <button @click="editor.chain().focus().mergeCells().run()">
-      mergeCells
-    </button>
-    <button @click="editor.chain().focus().splitCell().run()">
-      splitCell
-    </button>
-    <button @click="editor.chain().focus().toggleHeaderColumn().run()">
-      toggleHeaderColumn
-    </button>
-    <button @click="editor.chain().focus().toggleHeaderRow().run()">
-      toggleHeaderRow
-    </button>
-    <button @click="editor.chain().focus().toggleHeaderCell().run()">
-      toggleHeaderCell
-    </button>
-    <button @click="editor.chain().focus().mergeOrSplit().run()">
-      mergeOrSplit
-    </button>
-    <button @click="editor.chain().focus().setCellAttribute('colspan', 2).run()">
-      setCellAttribute
-    </button>
-    <button @click="editor.chain().focus().fixTables().run()">
-      fixTables
-    </button>
-    <button @click="editor.chain().focus().goToNextCell().run()">
-      goToNextCell
-    </button>
-    <button @click="editor.chain().focus().goToPreviousCell().run()">
-      goToPreviousCell
-    </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
+          Insert table
+        </button>
+        <button @click="editor.chain().focus().addColumnBefore().run()">
+          Add column before
+        </button>
+        <button @click="editor.chain().focus().addColumnAfter().run()">
+          Add column after
+        </button>
+        <button @click="editor.chain().focus().deleteColumn().run()">
+          Delete column
+        </button>
+        <button @click="editor.chain().focus().addRowBefore().run()">
+          Add row before
+        </button>
+        <button @click="editor.chain().focus().addRowAfter().run()">
+          Add row after
+        </button>
+        <button @click="editor.chain().focus().deleteRow().run()">
+          Delete row
+        </button>
+        <button @click="editor.chain().focus().deleteTable().run()">
+          Delete table
+        </button>
+        <button @click="editor.chain().focus().mergeCells().run()">
+          Merge cells
+        </button>
+        <button @click="editor.chain().focus().splitCell().run()">
+          Split cell
+        </button>
+        <button @click="editor.chain().focus().toggleHeaderColumn().run()">
+          Toggle header column
+        </button>
+        <button @click="editor.chain().focus().toggleHeaderRow().run()">
+          Toggle header row
+        </button>
+        <button @click="editor.chain().focus().toggleHeaderCell().run()">
+          Toggle header cell
+        </button>
+        <button @click="editor.chain().focus().mergeOrSplit().run()">
+          Merge or split
+        </button>
+        <button @click="editor.chain().focus().setCellAttribute('colspan', 2).run()">
+          Set cell attribute
+        </button>
+        <button @click="editor.chain().focus().fixTables().run()">
+          Fix tables
+        </button>
+        <button @click="editor.chain().focus().goToNextCell().run()">
+          Go to next cell
+        </button>
+        <button @click="editor.chain().focus().goToPreviousCell().run()">
+          Go to previous cell
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -103,9 +107,9 @@ export default {
             </tr>
             <tr>
               <td>Cyndi Lauper</td>
-              <td>singer</td>
-              <td>songwriter</td>
-              <td>actress</td>
+              <td>Singer</td>
+              <td>Songwriter</td>
+              <td>Actress</td>
             </tr>
           </tbody>
         </table>
@@ -120,22 +124,28 @@ export default {
 </script>
 
 <style lang="scss">
+/* Basic editor styles */
 .tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* Table-specific styling */
   table {
     border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
     margin: 0;
     overflow: hidden;
+    table-layout: fixed;
+    width: 100%;
 
     td,
     th {
-      min-width: 1em;
-      border: 2px solid #ced4da;
-      padding: 3px 5px;
-      vertical-align: top;
+      border: 1px solid var(--gray-3);
       box-sizing: border-box;
+      min-width: 1em;
+      padding: 6px 8px;
       position: relative;
+      vertical-align: top;
 
       > * {
         margin-bottom: 0;
@@ -143,43 +153,39 @@ export default {
     }
 
     th {
+      background-color: var(--gray-1);
       font-weight: bold;
       text-align: left;
-      background-color: #f1f3f5;
     }
 
     .selectedCell:after {
-      z-index: 2;
-      position: absolute;
+      background: var(--gray-2);
       content: "";
       left: 0; right: 0; top: 0; bottom: 0;
-      background: rgba(200, 200, 255, 0.4);
       pointer-events: none;
+      position: absolute;
+      z-index: 2;
     }
 
     .column-resize-handle {
+      background-color: var(--purple);
+      bottom: -2px;
+      pointer-events: none;
       position: absolute;
       right: -2px;
       top: 0;
-      bottom: -2px;
       width: 4px;
-      background-color: #adf;
-      pointer-events: none;
-    }
-
-    p {
-      margin: 0;
     }
   }
-}
 
-.tableWrapper {
-  padding: 1rem 0;
-  overflow-x: auto;
-}
+  .tableWrapper {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
 
-.resize-cursor {
-  cursor: ew-resize;
-  cursor: col-resize;
+  .resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize;
+  }
 }
 </style>

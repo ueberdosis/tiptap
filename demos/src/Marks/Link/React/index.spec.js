@@ -52,6 +52,15 @@ context('/src/Marks/Link/React/', () => {
     })
   })
 
+  it('should allow exiting the link once set', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p><a href="#" target="_self">Example Text2</a></p>')
+      cy.get('.tiptap').type('{rightArrow}')
+
+      cy.get('button:first').should('not.have.class', 'is-active')
+    })
+  })
+
   it('detects autolinking', () => {
     cy.get('.tiptap').type('https://example.com ').find('a').should('contain', 'https://example.com')
       .should('have.attr', 'href', 'https://example.com')
@@ -60,6 +69,16 @@ context('/src/Marks/Link/React/', () => {
   it('detects autolinking with numbers', () => {
     cy.get('.tiptap').type('https://tiptap4u.com ').find('a').should('contain', 'https://tiptap4u.com')
       .should('have.attr', 'href', 'https://tiptap4u.com')
+  })
+
+  it('uses the default protocol', () => {
+    cy.get('.tiptap').type('example.com ').find('a').should('contain', 'example.com')
+      .should('have.attr', 'href', 'https://example.com')
+  })
+
+  it('uses a non-default protocol if present', () => {
+    cy.get('.tiptap').type('http://example.com ').find('a').should('contain', 'http://example.com')
+      .should('have.attr', 'href', 'http://example.com')
   })
 
   it('detects a pasted URL within a text', () => {

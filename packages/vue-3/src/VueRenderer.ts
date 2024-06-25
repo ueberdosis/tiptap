@@ -1,5 +1,7 @@
 import { Editor } from '@tiptap/core'
-import { Component, markRaw, reactive } from 'vue'
+import {
+  Component, DefineComponent, h, markRaw, reactive, render,
+} from 'vue'
 
 import { Editor as ExtendedEditor } from './Editor.js'
 
@@ -8,19 +10,27 @@ export interface VueRendererOptions {
   props?: Record<string, any>,
 }
 
+type ExtendedVNode = ReturnType<typeof h> | null
+
+interface RenderedComponent {
+  vNode: ExtendedVNode
+  destroy: () => void
+  el: Element | null
+}
+
 /**
  * This class is used to render Vue components inside the editor.
  */
 export class VueRenderer {
   id: string
 
+  renderedComponent!: RenderedComponent
+
   editor: ExtendedEditor
 
   component: Component
 
-  teleportElement: Element
-
-  element: Element
+  el: Element | null
 
   props: Record<string, any>
 
@@ -28,35 +38,40 @@ export class VueRenderer {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.editor = editor as ExtendedEditor
     this.component = markRaw(component)
-    this.teleportElement = document.createElement('div')
-    this.element = this.teleportElement
+    this.el = document.createElement('div')
     this.props = reactive(props)
-    this.editor.vueRenderers.set(this.id, this)
-
-    if (this.editor.contentComponent) {
-      this.editor.contentComponent.update()
-
-      if (this.teleportElement.children.length !== 1) {
-        throw Error('VueRenderer doesn’t support multiple child elements.')
-      }
-
-      this.element = this.teleportElement.firstElementChild as Element
-    }
+    this.renderedComponent = this.renderComponent()
   }
 
-  get ref(): any {
-    return this.editor.contentComponent?.refs[this.id]
+  get element(): Element | null {
+    return this.renderedComponent.el
+  }
+
+  renderComponent() {
+    let vNode: ExtendedVNode = h(this.component as DefineComponent, this.props)
+
+    if (typeof document !== 'undefined' && this.el) { render(vNode, this.el) }
+
+    const destroy = () => {
+      if (this.el) { render(null, this.el) }
+      this.el = null
+      vNode = null
+    }
+
+    return { vNode, destroy, el: this.el ? this.el.firstElementChild : null }
   }
 
   updateProps(props: Record<string, any> = {}): void {
+
     Object
       .entries(props)
       .forEach(([key, value]) => {
         this.props[key] = value
       })
+    this.renderComponent()
   }
 
   destroy(): void {
-    this.editor.vueRenderers.delete(this.id)
+    this.renderedComponent.destroy()
   }
 }

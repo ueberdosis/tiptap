@@ -1,4 +1,6 @@
-import { MarkSpec, NodeSpec, Schema } from '@tiptap/pm/model'
+import {
+  MarkSpec, NodeSpec, Schema, TagParseRule,
+} from '@tiptap/pm/model'
 
 import { Editor, MarkConfig, NodeConfig } from '../index.js'
 import { AnyConfig, Extensions } from '../types.js'
@@ -75,6 +77,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
           getExtensionField<NodeConfig['draggable']>(extension, 'draggable', context),
         ),
         code: callOrReturn(getExtensionField<NodeConfig['code']>(extension, 'code', context)),
+        whitespace: callOrReturn(getExtensionField<NodeConfig['whitespace']>(extension, 'whitespace', context)),
         defining: callOrReturn(
           getExtensionField<NodeConfig['defining']>(extension, 'defining', context),
         ),
@@ -93,7 +96,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
       )
 
       if (parseHTML) {
-        schema.parseDOM = parseHTML.map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes))
+        schema.parseDOM = parseHTML.map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes)) as TagParseRule[]
       }
 
       const renderHTML = getExtensionField<NodeConfig['renderHTML']>(

@@ -19,8 +19,8 @@ export default () => {
     ],
     content: `
       <p>This is a basic example of implementing images. Drag to re-order.</p>
-      <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />
-      <img src="https://source.unsplash.com/K9QHL52rE2k/800x400" />
+      <img src="https://placehold.co/600x400" />
+      <img src="https://placehold.co/800x400" />
     `,
   })
 
@@ -37,9 +37,13 @@ export default () => {
   }
 
   return (
-    <div>
-      <button onClick={addImage}>add image from URL</button>
+    <>
+      <div className="control-group">
+        <div className="button-group">
+          <button onClick={addImage}>Add image from URL</button>
+        </div>
+      </div>
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

@@ -15,6 +15,7 @@ context('/src/Examples/CodeBlockLanguage/React/', () => {
 
       expect(initialCount).to.be.greaterThan(0)
 
+      cy.wait(100)
       cy.get('.tiptap select').select('java')
       cy.wait(500)
 

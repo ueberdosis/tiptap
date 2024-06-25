@@ -4,7 +4,7 @@ import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
 
 import { findSuggestionMatch as defaultFindSuggestionMatch } from './findSuggestionMatch.js'
 
-export interface SuggestionOptions<I = any> {
+export interface SuggestionOptions<I = any, TSelected = any> {
   /**
    * The plugin key for the suggestion plugin.
    * @default 'suggestion'
@@ -69,7 +69,7 @@ export interface SuggestionOptions<I = any> {
    * @returns void
    * @example ({ editor, range, props }) => { props.command(props.props) }
    */
-  command?: (props: { editor: Editor; range: Range; props: I }) => void
+  command?: (props: { editor: Editor; range: Range; props: TSelected }) => void
 
   /**
    * A function that returns the suggestion items in form of an array.
@@ -86,12 +86,12 @@ export interface SuggestionOptions<I = any> {
    * @returns An object with render functions.
    */
   render?: () => {
-    onBeforeStart?: (props: SuggestionProps<I>) => void
-    onStart?: (props: SuggestionProps<I>) => void
-    onBeforeUpdate?: (props: SuggestionProps<I>) => void
-    onUpdate?: (props: SuggestionProps<I>) => void
-    onExit?: (props: SuggestionProps<I>) => void
-    onKeyDown?: (props: SuggestionKeyDownProps) => boolean
+    onBeforeStart?: (props: SuggestionProps<I, TSelected>) => void;
+    onStart?: (props: SuggestionProps<I, TSelected>) => void;
+    onBeforeUpdate?: (props: SuggestionProps<I, TSelected>) => void;
+    onUpdate?: (props: SuggestionProps<I, TSelected>) => void;
+    onExit?: (props: SuggestionProps<I, TSelected>) => void;
+    onKeyDown?: (props: SuggestionKeyDownProps) => boolean;
   }
 
   /**
@@ -99,11 +99,11 @@ export interface SuggestionOptions<I = any> {
    * @param props The props object.
    * @returns {boolean}
    */
-  allow?: (props: { editor: Editor; state: EditorState; range: Range }) => boolean
+  allow?: (props: { editor: Editor; state: EditorState; range: Range, isActive?: boolean }) => boolean
   findSuggestionMatch?: typeof defaultFindSuggestionMatch
 }
 
-export interface SuggestionProps<I = any> {
+export interface SuggestionProps<I = any, TSelected = any> {
   /**
    * The editor instance.
    */
@@ -134,7 +134,7 @@ export interface SuggestionProps<I = any> {
    * @param props The props object.
    * @returns void
    */
-  command: (props: I) => void
+  command: (props: TSelected) => void
 
   /**
    * The decoration node HTML element
@@ -162,7 +162,7 @@ export const SuggestionPluginKey = new PluginKey('suggestion')
  * This utility allows you to create suggestions.
  * @see https://tiptap.dev/api/utilities/suggestion
  */
-export function Suggestion<I = any>({
+export function Suggestion<I = any, TSelected = any>({
   pluginKey = SuggestionPluginKey,
   editor,
   char = '@',
@@ -176,8 +176,8 @@ export function Suggestion<I = any>({
   render = () => ({}),
   allow = () => true,
   findSuggestionMatch = defaultFindSuggestionMatch,
-}: SuggestionOptions<I>) {
-  let props: SuggestionProps<I> | undefined
+}: SuggestionOptions<I, TSelected>) {
+  let props: SuggestionProps<I, TSelected> | undefined
   const renderer = render?.()
 
   const plugin: Plugin<any> = new Plugin({
@@ -194,9 +194,10 @@ export function Suggestion<I = any>({
           const started = !prev.active && next.active
           const stopped = prev.active && !next.active
           const changed = !started && !stopped && prev.query !== next.query
-          const handleStart = started || moved
-          const handleChange = changed && !moved
-          const handleExit = stopped || moved
+
+          const handleStart = started
+          const handleChange = changed || moved
+          const handleExit = stopped
 
           // Cancel when suggestion isn't active
           if (!handleStart && !handleChange && !handleExit) {
@@ -300,7 +301,7 @@ export function Suggestion<I = any>({
       },
 
       // Apply changes to the plugin state from a view transaction.
-      apply(transaction, prev, oldState, state) {
+      apply(transaction, prev, _oldState, state) {
         const { isEditable } = editor
         const { composing } = editor.view
         const { selection } = transaction
@@ -329,7 +330,9 @@ export function Suggestion<I = any>({
           const decorationId = `id_${Math.floor(Math.random() * 0xffffffff)}`
 
           // If we found a match, update the current state to show it
-          if (match && allow({ editor, state, range: match.range })) {
+          if (match && allow({
+            editor, state, range: match.range, isActive: prev.active,
+          })) {
             next.active = true
             next.decorationId = prev.decorationId ? prev.decorationId : decorationId
             next.range = match.range
