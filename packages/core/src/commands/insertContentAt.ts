@@ -84,11 +84,6 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       return false
     }
 
-    // don’t dispatch an empty fragment because this can lead to strange errors
-    if (content.toString() === '<>') {
-      return true
-    }
-
     let { from, to } = typeof position === 'number' ? { from: position, to: position } : { from: position.from, to: position.to }
 
     let isOnlyTextContent = true
