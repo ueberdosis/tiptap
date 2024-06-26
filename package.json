@@ -35,8 +35,6 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@changesets/cli": "^2.27.6",
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
     "@cypress/webpack-preprocessor": "^5.11.0",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^21.0.1",
@@ -67,10 +65,5 @@
     "typescript": "^4.5.5",
     "webpack": "^5.68.0"
   },
-  "name": "tiptap",
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  }
+  "name": "tiptap"
 }
