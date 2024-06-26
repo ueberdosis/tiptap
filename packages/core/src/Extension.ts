@@ -51,7 +51,7 @@ declare module '@tiptap/core' {
 
     /**
      * This method will add options to this extension
-     * @see https://tiptap.dev/guide/custom-extensions#settings
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#settings
      * @example
      * addOptions() {
      *  return {
@@ -66,7 +66,7 @@ declare module '@tiptap/core' {
 
     /**
      * The default storage this extension can save data to.
-     * @see https://tiptap.dev/guide/custom-extensions#storage
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#storage
      * @example
      * defaultStorage: {
      *   prefetchedUsers: [],
@@ -81,7 +81,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function adds globalAttributes to specific nodes.
-     * @see https://tiptap.dev/guide/custom-extensions#global-attributes
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#global-attributes
      * @example
      * addGlobalAttributes() {
      *   return [
@@ -115,7 +115,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function adds commands to the editor
-     * @see https://tiptap.dev/guide/custom-extensions#keyboard-shortcuts
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#commands
      * @example
      * addCommands() {
      *   return {
@@ -133,7 +133,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function registers keyboard shortcuts.
-     * @see https://tiptap.dev/guide/custom-extensions#keyboard-shortcuts
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#keyboard-shortcuts
      * @example
      * addKeyboardShortcuts() {
      *   return {
@@ -153,7 +153,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function adds input rules to the editor.
-     * @see https://tiptap.dev/guide/custom-extensions#input-rules
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#input-rules
      * @example
      * addInputRules() {
      *   return [
@@ -174,7 +174,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function adds paste rules to the editor.
-     * @see https://tiptap.dev/guide/custom-extensions#paste-rules
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#paste-rules
      * @example
      * addPasteRules() {
      *   return [
@@ -195,7 +195,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function adds Prosemirror plugins to the editor
-     * @see https://tiptap.dev/guide/custom-extensions#prosemirror-plugins
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#prosemirror-plugins
      * @example
      * addProseMirrorPlugins() {
      *   return [

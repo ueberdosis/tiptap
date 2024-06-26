@@ -336,7 +336,7 @@ export default {
     overflow-x: auto;
   }
 
-  .resize-cursor {
+  &.resize-cursor {
     cursor: ew-resize;
     cursor: col-resize;
   }
