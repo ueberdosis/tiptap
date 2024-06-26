@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import React from 'react'
+import { flushSync } from 'react-dom'
 
 import { Editor as ExtendedEditor } from './Editor.js'
 
@@ -71,6 +72,8 @@ type ComponentType<R, P> =
   React.FunctionComponent<P> |
   React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<R>>;
 
+let first = true
+
 /**
  * The ReactRenderer class. It's responsible for rendering React components inside the editor.
  * @example
@@ -121,7 +124,20 @@ export class ReactRenderer<R = unknown, P = unknown> {
       })
     }
 
-    this.render()
+    if (first) {
+      // TODO this is totally a hack, on the first render of the editor (parent editor)
+      // We need to delay the rendering of the ReactRenderer components (because it would render before the editor is ready)
+      // setTimeout(() => {
+      this.render()
+      first = false
+      // }, 100)
+    } else {
+      // On first render, we need to flush the render synchronously
+      // Renders afterwards can be async, but this fixes a cursor positioning issue
+      flushSync(() => {
+        this.render()
+      })
+    }
   }
 
   render(): void {
