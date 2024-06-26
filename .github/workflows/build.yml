@@ -8,11 +8,13 @@ on:
     branches:
       - main
       - develop
+      - next
       - release/*
   pull_request:
     branches:
       - main
       - develop
+      - next
 
 jobs:
   lint:
