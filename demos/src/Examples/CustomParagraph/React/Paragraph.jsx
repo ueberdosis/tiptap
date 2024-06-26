@@ -6,6 +6,7 @@ import {
 } from '@tiptap/react'
 
 const ParagraphComponent = ({ node }) => {
+  console.count('render')
   return (
     <NodeViewWrapper style={{ position: 'relative' }}>
       <span contentEditable={false} className="label" style={{
