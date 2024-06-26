@@ -136,7 +136,7 @@
     "prosemirror-keymap": "^1.2.2",
     "prosemirror-markdown": "^1.13.0",
     "prosemirror-menu": "^1.2.4",
-    "prosemirror-model": "1.21.3",
+    "prosemirror-model": "^1.21.3",
     "prosemirror-schema-basic": "^1.2.2",
     "prosemirror-schema-list": "^1.4.0",
     "prosemirror-state": "^1.4.3",
