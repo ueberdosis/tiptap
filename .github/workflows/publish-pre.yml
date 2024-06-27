@@ -1,9 +1,9 @@
-name: Publish
+name: Publish (Pre)
 
 on:
   push:
     branches:
-      - main
+      - develop
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -25,7 +25,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: npm run publish
+          publish: npm run publish:pre
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
@@ -36,7 +36,7 @@ jobs:
         with:
           payload: |
             {
-              "message": "[Tiptap Editor Release]: New Tiptap Editor stable version has been released to NPM."
+              "message": "[Tiptap Editor Prerelease]: New Tiptap Editor pre version has been released to NPM."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
