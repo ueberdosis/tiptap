@@ -64,7 +64,7 @@ jobs:
         with:
           payload: |
             {
-              "message": "[Tiptap Editor Release]: There was an issue publishing a new version."
+              "message": "[Tiptap Editor Release]: There was an issue publishing a new version. You can find the logs here: https://github.com/ueberdosis/tiptap/actions/runs/${{ github.run_id }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
