@@ -25,7 +25,7 @@ jobs:
         node-version: [20]
 
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4.1.7
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4.0.0
@@ -81,7 +81,7 @@ jobs:
           #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4.1.7
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4.0.0
@@ -134,7 +134,7 @@ jobs:
         node-version: [20]
 
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4.1.7
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4.0.0
