@@ -1,0 +1,70 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Create Release PR or publish stable version to npm
+        if: github.ref_name == 'main'
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: npm run publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Create Release PR or publish pre version to npm
+        if: github.ref_name != 'main'
+        id: changesets_pre
+        uses: changesets/action@v1
+        with:
+          publish: npm run publish:pre
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Send release notification
+        if: steps.changesets.outputs.published == 'true' || steps.changesets_pre.outputs.published == 'true'
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "message": "[Tiptap Editor Release]: New Tiptap Editor version has been released to NPM."
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Send failure notification
+        if: failure()
+        id: slack_failure
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "message": "[Tiptap Editor Release]: There was an issue publishing a new version."
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
