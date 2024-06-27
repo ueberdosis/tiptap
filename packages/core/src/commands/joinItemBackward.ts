@@ -15,7 +15,9 @@ declare module '@tiptap/core' {
 }
 
 export const joinItemBackward: RawCommands['joinItemBackward'] = () => ({
-  tr, state, dispatch,
+  state,
+  dispatch,
+  tr,
 }) => {
   try {
     const point = joinPoint(state.doc, state.selection.$from.pos, -1)
@@ -31,7 +33,7 @@ export const joinItemBackward: RawCommands['joinItemBackward'] = () => ({
     }
 
     return true
-  } catch {
+  } catch (e) {
     return false
   }
 }

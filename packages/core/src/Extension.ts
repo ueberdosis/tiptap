@@ -20,6 +20,7 @@ import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   interface ExtensionConfig<Options = any, Storage = any> {
+    // @ts-ignore - this is a dynamic key
     [key: string]: any
 
     /**
@@ -108,8 +109,9 @@ declare module '@tiptap/core' {
       name: string
       options: Options
       storage: Storage
+      extensions: (Node | Mark)[]
       parent: ParentConfig<ExtensionConfig<Options, Storage>>['addGlobalAttributes']
-    }) => GlobalAttributes | {}
+    }) => GlobalAttributes
 
     /**
      * This function adds commands to the editor
@@ -455,17 +457,17 @@ export class Extension<Options = any, Storage = any> {
   configure(options: Partial<Options> = {}) {
     // return a new instance so we can use the same extension
     // with different calls of `configure`
-    const extension = this.extend()
+    const extension = this.extend({
+      ...this.config,
+      addOptions() {
+        return mergeDeep(this.parent?.() || {}, options) as Options
+      },
+    })
 
+    // Always preserve the current name
+    extension.name = this.name
+    // Set the parent to be our parent
     extension.parent = this.parent
-    extension.options = mergeDeep(this.options as Record<string, any>, options) as Options
-
-    extension.storage = callOrReturn(
-      getExtensionField<AnyConfig['addStorage']>(extension, 'addStorage', {
-        name: extension.name,
-        options: extension.options,
-      }),
-    )
 
     return extension
   }
@@ -481,7 +483,7 @@ export class Extension<Options = any, Storage = any> {
 
     extension.name = extendedConfig.name ? extendedConfig.name : extension.parent.name
 
-    if (extendedConfig.defaultOptions) {
+    if (extendedConfig.defaultOptions && Object.keys(extendedConfig.defaultOptions).length > 0) {
       console.warn(
         `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${extension.name}".`,
       )

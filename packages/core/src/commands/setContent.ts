@@ -1,4 +1,4 @@
-import { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
+import { ParseOptions } from '@tiptap/pm/model'
 
 import { createDocument } from '../helpers/createDocument.js'
 import { Content, RawCommands } from '../types.js'
@@ -44,22 +44,34 @@ declare module '@tiptap/core' {
   }
 }
 
-export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}, options = {}) => ({ tr, editor, dispatch }) => {
+export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}, options = {}) => ({
+  editor, tr, dispatch, commands,
+}) => {
   const { doc } = tr
 
-  let document: Fragment | ProseMirrorNode
-
-  try {
-    document = createDocument(content, editor.schema, parseOptions, {
+  // This is to keep backward compatibility with the previous behavior
+  // TODO remove this in the next major version
+  if (parseOptions.preserveWhitespace !== 'full') {
+    const document = createDocument(content, editor.schema, parseOptions, {
       errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
     })
-  } catch (e) {
-    return false
+
+    if (dispatch) {
+      tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)
+    }
+    return true
   }
 
   if (dispatch) {
-    tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)
+    tr.setMeta('preventUpdate', !emitUpdate)
   }
 
-  return true
+  return commands.insertContentAt(
+    { from: 0, to: doc.content.size },
+    content,
+    {
+      parseOptions,
+      errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+    },
+  )
 }

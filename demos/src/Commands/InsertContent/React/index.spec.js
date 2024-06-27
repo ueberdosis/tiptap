@@ -41,4 +41,54 @@ context('/src/Commands/InsertContent/React/', () => {
       cy.get('.tiptap').should('contain.html', '<pre><code>foo\nbar</code></pre>')
     })
   })
+
+  it('should keep newlines and tabs', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.\ntest\tOK</p>')
+      cy.get('.tiptap').should('contain.html', '<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.\ntest\tOK</p>')
+    })
+  })
+
+  it('should keep newlines and tabs', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('<h1>Tiptap</h1>\n<p><strong>Hello World</strong></p>')
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
+    })
+  })
+
+  it('should allow inserting nothing', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('')
+      cy.get('.tiptap').should('contain.html', '')
+    })
+  })
+
+  it('should allow inserting a partial HTML tag', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('<p>foo')
+      cy.get('.tiptap').should('contain.html', '<p>foo</p>')
+    })
+  })
+
+  it('should allow inserting an incomplete HTML tag', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('foo<p')
+      cy.get('.tiptap').should('contain.html', '<p>foo&lt;p</p>')
+    })
+  })
+
+  it('should allow inserting a list', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('<ul><li>ABC</li><li>123</li></ul>')
+      cy.get('.tiptap').should('contain.html', '<ul><li><p>ABC</p></li><li><p>123</p></li></ul>')
+    })
+  })
+
+  it('should remove newlines and tabs when parseOptions.preserveWhitespace=false', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n', { parseOptions: { preserveWhitespace: false } })
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
+    })
+  })
+
 })

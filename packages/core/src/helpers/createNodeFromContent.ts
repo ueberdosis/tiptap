@@ -60,6 +60,7 @@ export function createNodeFromContent(
   if (isTextContent) {
     let schemaToUse = schema
     let hasInvalidContent = false
+    let invalidContent = ''
 
     // Only ever check for invalid content if we're supposed to throw an error
     if (options.errorOnInvalidContent) {
@@ -75,9 +76,11 @@ export function createNodeFromContent(
             parseDOM: [
               {
                 tag: '*',
-                getAttrs: () => {
+                getAttrs: e => {
                   // If this is ever called, we know that the content has something that we don't know how to handle in the schema
                   hasInvalidContent = true
+                  // Try to stringify the element for a more helpful error message
+                  invalidContent = typeof e === 'string' ? e : e.outerHTML
                   return null
                 },
               },
@@ -94,7 +97,7 @@ export function createNodeFromContent(
       : parser.parse(elementFromString(content), options.parseOptions)
 
     if (options.errorOnInvalidContent && hasInvalidContent) {
-      throw new Error('[tiptap error]: Invalid HTML content')
+      throw new Error('[tiptap error]: Invalid HTML content', { cause: new Error(`Invalid element found: ${invalidContent}`) })
     }
 
     return response
