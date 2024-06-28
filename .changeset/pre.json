@@ -58,5 +58,7 @@
     "@tiptap/vue-2": "2.4.0",
     "@tiptap/vue-3": "2.4.0"
   },
-  "changesets": []
+  "changesets": [
+    "mean-cooks-cheer"
+  ]
 }
