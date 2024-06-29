@@ -1,4 +1,6 @@
-import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
+import {
+  inputRulesPlugin, mergeAttributes, Node, textblockTypeInputRule,
+} from '@tiptap/core'
 
 /**
  * The heading level options.
@@ -114,8 +116,10 @@ export const Heading = Node.create<HeadingOptions>({
     }), {})
   },
 
-  addInputRules() {
-    return this.options.levels.map(level => {
+  // This is added as a PM plugin instead of an input rule so it can be pre-empted by other plugins with higher priority
+  // Fixes the bug where the '#' char couldn't get to the Suggestion plugin
+  addProseMirrorPlugins() {
+    const rules = this.options.levels.map(level => {
       return textblockTypeInputRule({
         find: new RegExp(`^(#{1,${level}})\\s$`),
         type: this.type,
@@ -124,5 +128,7 @@ export const Heading = Node.create<HeadingOptions>({
         },
       })
     })
+
+    return [inputRulesPlugin({ editor: this.editor, rules })]
   },
 })
