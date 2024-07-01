@@ -105,6 +105,33 @@ You’re probably used to bind your data with `v-model` in forms, that’s also 
 
 https://embed.tiptap.dev/preview/GuideGettingStarted/VModel
 
+Using the composition API with Vue 3.4+
+
+```html
+<template>
+  <ClientOnly>
+    <editor-content :editor="editor" />
+  </ClientOnly>
+</template>
+
+<script lang="ts" setup>
+import { useEditor, EditorContent } from "@tiptap/vue-3";
+import StarterKit from "@tiptap/starter-kit";
+
+const modelValue = defineModel();
+
+const editor = useEditor({
+  content: modelValue.value,
+  extensions: [StarterKit],
+  onUpdate: ({ editor }) => {
+    modelValue.value = editor.getHTML();
+  },
+});
+</script>
+```
+
+Or the Options API 
+
 ```html
 <template>
   <editor-content :editor="editor" />
