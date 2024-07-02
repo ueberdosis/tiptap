@@ -50,7 +50,7 @@ export interface EditorEvents {
   }
   update: { editor: Editor; transaction: Transaction }
   selectionUpdate: { editor: Editor; transaction: Transaction }
-  beforeTransaction: { editor: Editor; transaction: Transaction, newState: EditorState }
+  beforeTransaction: { editor: Editor; transaction: Transaction, nextState: EditorState }
   transaction: { editor: Editor; transaction: Transaction }
   focus: { editor: Editor; event: FocusEvent; transaction: Transaction }
   blur: { editor: Editor; event: FocusEvent; transaction: Transaction }

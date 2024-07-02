@@ -409,7 +409,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.emit('beforeTransaction', {
       editor: this,
       transaction,
-      newState: state,
+      nextState: state,
     })
     this.view.updateState(state)
     this.emit('transaction', {
