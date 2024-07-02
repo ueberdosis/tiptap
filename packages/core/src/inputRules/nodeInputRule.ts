@@ -58,7 +58,9 @@ export function nodeInputRule(config: {
         // insert node from input rule
         tr.replaceWith(matchStart, end, newNode)
       } else if (match[0]) {
-        tr.insert(start - 1, config.type.create(attributes)).delete(
+        const insertionStart = config.type.isInline ? start : start - 1
+
+        tr.insert(insertionStart, config.type.create(attributes)).delete(
           tr.mapping.map(start),
           tr.mapping.map(end),
         )

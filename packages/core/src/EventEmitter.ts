@@ -46,7 +46,7 @@ export class EventEmitter<T extends Record<string, any>> {
     return this
   }
 
-  protected removeAllListeners(): void {
+  public removeAllListeners(): void {
     this.callbacks = {}
   }
 }

@@ -57,7 +57,7 @@ declare module '@tiptap/core' {
 }
 
 const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment is Fragment => {
-  return nodeOrFragment.toString().startsWith('<')
+  return !('type' in nodeOrFragment)
 }
 
 export const insertContentAt: RawCommands['insertContentAt'] = (position, value, options) => ({ tr, dispatch, editor }) => {
@@ -82,11 +82,6 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       })
     } catch (e) {
       return false
-    }
-
-    // don’t dispatch an empty fragment because this can lead to strange errors
-    if (content.toString() === '<>') {
-      return true
     }
 
     let { from, to } = typeof position === 'number' ? { from: position, to: position } : { from: position.from, to: position.to }
