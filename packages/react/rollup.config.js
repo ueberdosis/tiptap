@@ -42,7 +42,6 @@ export default {
       babelHelpers: 'bundled',
       exclude: '../../node_modules/**',
     }),
-
     typescript({
       tsconfig: '../../tsconfig.json',
       tsconfigOverride: {
