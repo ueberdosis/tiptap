@@ -1,4 +1,5 @@
 import { Extension } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import {
   redo,
@@ -8,6 +9,8 @@ import {
   yUndoPluginKey,
 } from 'y-prosemirror'
 import { UndoManager } from 'yjs'
+
+import { isChangeOrigin } from './helpers/isChangeOrigin.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 
@@ -173,6 +176,50 @@ export const Collaboration = Extension.create<CollaborationOptions>({
 
     const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
 
-    return [ySyncPluginInstance, yUndoPluginInstance]
+    let isCollaborationDisabled = false
+
+    return [
+      ySyncPluginInstance,
+      yUndoPluginInstance,
+      // Only add the filterInvalidContent plugin if content checking is enabled
+      this.editor.options.enableContentCheck
+      && new Plugin({
+        key: new PluginKey('filterInvalidContent'),
+        filterTransaction: tr => {
+          // Is this transaction from Yjs Sync Plugin?
+          if (isChangeOrigin(tr)) {
+
+            // When collaboration is disabled, prevent any sync transactions from being applied
+            if (isCollaborationDisabled) {
+              return true
+            }
+
+            // Did the doc actually change as a result of this transaction?
+            if (tr.docChanged) {
+
+              // Attempt to parse the content of the step
+              try {
+                const content = tr.doc.toJSON()
+
+                this.editor.schema.nodeFromJSON(content)
+              } catch (error) {
+                this.editor.emit('contentError', {
+                  error: error as Error,
+                  editor: this.editor,
+                  disableCollaboration: () => {
+                    isCollaborationDisabled = true
+                    // TODO there is probably a better way to disable the collaboration
+                    // Should it also remove the collaboration extension?
+                  },
+                })
+                // If the content is invalid, return false to prevent the transaction from being applied
+                return false
+              }
+            }
+          }
+          return true
+        },
+      }),
+    ].filter(Boolean)
   },
 })
