@@ -59,6 +59,7 @@
     "@tiptap/vue-3": "2.4.0"
   },
   "changesets": [
-    "mean-cooks-cheer"
+    "mean-cooks-cheer",
+    "tasty-moons-move"
   ]
 }
