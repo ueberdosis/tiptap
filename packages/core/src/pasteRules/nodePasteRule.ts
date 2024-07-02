@@ -1,7 +1,7 @@
 import { NodeType } from '@tiptap/pm/model'
 
 import { PasteRule, PasteRuleFinder } from '../PasteRule.js'
-import { ExtendedRegExpMatchArray } from '../types.js'
+import { ExtendedRegExpMatchArray, JSONContent } from '../types.js'
 import { callOrReturn } from '../utilities/index.js'
 
 /**
@@ -17,6 +17,11 @@ export function nodePasteRule(config: {
     | ((match: ExtendedRegExpMatchArray, event: ClipboardEvent) => Record<string, any>)
     | false
     | null
+  getContent?:
+    | JSONContent[]
+    | ((attrs: Record<string, any>) => JSONContent[])
+    | false
+    | null
 }) {
   return new PasteRule({
     find: config.find,
@@ -24,16 +29,20 @@ export function nodePasteRule(config: {
       match, chain, range, pasteEvent,
     }) {
       const attributes = callOrReturn(config.getAttributes, undefined, match, pasteEvent)
+      const content = callOrReturn(config.getContent, undefined, attributes)
 
       if (attributes === false || attributes === null) {
         return null
       }
 
+      const node = { type: config.type.name, attrs: attributes } as JSONContent
+
+      if (content) {
+        node.content = content
+      }
+
       if (match.input) {
-        chain().deleteRange(range).insertContentAt(range.from, {
-          type: config.type.name,
-          attrs: attributes,
-        })
+        chain().deleteRange(range).insertContentAt(range.from, node)
       }
     },
   })
