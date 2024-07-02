@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.5.0-pre.8
+
+### Patch Changes
+
+- Updated dependencies [509676e]
+  - @tiptap/core@2.5.0-pre.8
+  - @tiptap/extension-bubble-menu@2.5.0-pre.8
+  - @tiptap/extension-floating-menu@2.5.0-pre.8
+  - @tiptap/pm@2.5.0-pre.8
+
 ## 2.5.0-pre.7
 
 ### Patch Changes

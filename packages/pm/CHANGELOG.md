@@ -1,5 +1,7 @@
 # Change Log
 
+## 2.5.0-pre.8
+
 ## 2.5.0-pre.7
 
 All notable changes to this project will be documented in this file.
