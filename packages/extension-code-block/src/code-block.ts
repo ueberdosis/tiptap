@@ -1,5 +1,10 @@
 import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
-import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
+import {
+  Plugin,
+  PluginKey,
+  Selection,
+  TextSelection,
+} from '@tiptap/pm/state'
 
 export interface CodeBlockOptions {
   /**
@@ -222,7 +227,10 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         const nodeAfter = doc.nodeAt(after)
 
         if (nodeAfter) {
-          return false
+          return editor.commands.command(({ tr }) => {
+            tr.setSelection(Selection.near(doc.resolve(after)))
+            return true
+          })
         }
 
         return editor.commands.exitCode()
