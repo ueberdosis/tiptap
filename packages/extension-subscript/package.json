@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-subscript",
   "description": "subscript extension for tiptap",
-  "version": "2.5.0-pre.12",
+  "version": "2.5.0-pre.13",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,10 +29,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.5.0-pre.12"
+    "@tiptap/core": "^2.5.0-pre.13"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.5.0-pre.12"
+    "@tiptap/core": "^2.5.0-pre.13"
   },
   "repository": {
     "type": "git",
