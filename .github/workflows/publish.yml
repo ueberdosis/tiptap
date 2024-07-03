@@ -7,6 +7,8 @@ on:
   # manual trigger for other branches
   workflow_dispatch:
 
+permissions:
+  id-token: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
