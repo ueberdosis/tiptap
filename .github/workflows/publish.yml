@@ -21,15 +21,30 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20]
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Setup Node 20
+      - name: Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version:  ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org/'
+
+      - name: Load cached dependencies
+        uses: actions/cache@v4.0.2
+        id: cache
+        with:
+          path: |
+            **/node_modules
+            **/.turbo
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install Dependencies
         run: npm ci
