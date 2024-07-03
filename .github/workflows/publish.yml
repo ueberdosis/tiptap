@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
   # manual trigger for other branches
   workflow_dispatch:
 
