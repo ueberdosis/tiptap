@@ -105,7 +105,7 @@ jobs:
         uses: cypress-io/github-action@v6.6.0
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-          start: npm run start
+          start: npm run serve
           wait-on: 'http://localhost:3000'
           spec: ${{ matrix.test-spec.spec }}
           project: ./tests
