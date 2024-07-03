@@ -9,6 +9,7 @@ on:
 
 permissions:
   id-token: write
+  contents: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
