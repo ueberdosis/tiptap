@@ -49,11 +49,13 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Build
+        run: npm run build
+
       - name: Create Release PR or publish stable version to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: ${{ github.ref_name == 'main' && 'npm run publish'  || 'npm run publish:pre' }}
           title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
           commit: >-
             ${{ github.ref_name == 'main' && 'chore(release): publish a new release version'  || 'chore(release): publish a new pre-release version' }}
