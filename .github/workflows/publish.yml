@@ -40,6 +40,8 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: npm run publish
+          title: "Publish a new stable version"
+          commit: "chore(release): publish a new release version"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
@@ -50,12 +52,14 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: npm run publish:pre
+          title: "Publish a new pre-release version"
+          commit: "chore(release): publish a new pre-release version"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Send release notification
-        if: steps.changesets.outputs.published == 'true' || steps.changesets_pre.outputs.published == 'true'
+        if: ${{ steps.changesets.outputs.published == 'true' || steps.changesets_pre.outputs.published == 'true' }}
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
