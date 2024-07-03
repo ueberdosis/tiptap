@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.5.0-pre.11
+
+### Patch Changes
+
+- Updated dependencies [74a37ff]
+  - @tiptap/core@2.5.0-pre.11
+  - @tiptap/pm@2.5.0-pre.11
+  - @tiptap/suggestion@2.5.0-pre.11
+
 ## 2.5.0-pre.10
 
 ### Patch Changes
