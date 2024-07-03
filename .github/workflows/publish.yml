@@ -50,31 +50,18 @@ jobs:
         run: npm ci
 
       - name: Create Release PR or publish stable version to npm
-        if: github.ref_name == 'main'
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: npm run publish
-          title: "Publish a new stable version"
-          commit: "chore(release): publish a new release version"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
-      - name: Create Release PR or publish pre version to npm
-        if: github.ref_name != 'main'
-        id: changesets_pre
-        uses: changesets/action@v1
-        with:
-          publish: npm run publish:pre
-          title: "Publish a new pre-release version"
-          commit: "chore(release): publish a new pre-release version"
+          publish: ${{ github.ref_name == 'main' && 'npm run publish'  || 'npm run publish:pre' }}
+          title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
+          commit: ${{ github.ref_name == 'main' && 'chore(release): publish a new release version'  || 'chore(release): publish a new pre-release version' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Send release notification
-        if: ${{ steps.changesets.outputs.published == 'true' || steps.changesets_pre.outputs.published == 'true' }}
+        if: steps.changesets.outputs.published == 'true'
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
