@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.5.0-pre.9
+
+### Patch Changes
+
+- 14a00f4: Made some minor changes to how packages are built
+  - @tiptap/pm@2.5.0-pre.9
+
 ## 2.5.0-pre.8
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/pm",
   "description": "prosemirror wrapper package for tiptap",
-  "version": "2.5.0-pre.8",
+  "version": "2.5.0-pre.9",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
