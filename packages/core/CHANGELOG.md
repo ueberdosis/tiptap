@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.5.0-pre.13
+
+### Patch Changes
+
+- 74a37ff: CI build testing
+  - @tiptap/pm@2.5.0-pre.13
+
 ## 2.5.0-pre.12
 
 ### Patch Changes
