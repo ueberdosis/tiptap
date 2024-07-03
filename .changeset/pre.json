@@ -59,6 +59,7 @@
     "@tiptap/vue-3": "2.4.0"
   },
   "changesets": [
+    "brown-gorillas-draw",
     "cuddly-socks-beg",
     "five-tigers-kick",
     "mean-cooks-cheer",
