@@ -1,5 +1,6 @@
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 import { useCurrentEditor } from './Context.js'
 
@@ -13,20 +14,19 @@ export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>,
 };
 
 export const BubbleMenu = (props: BubbleMenuProps) => {
-  const [element, setElement] = useState<HTMLDivElement | null>(null)
+  const menuEl = useRef(document.createElement('div'))
   const { editor: currentEditor } = useCurrentEditor()
 
   useEffect(() => {
-    if (!element) {
-      return
-    }
+    menuEl.current.style.visibility = 'hidden'
+    menuEl.current.style.position = 'absolute'
 
     if (props.editor?.isDestroyed || currentEditor?.isDestroyed) {
       return
     }
 
     const {
-      pluginKey = 'bubbleMenu', editor, tippyOptions = {}, updateDelay, shouldShow = null,
+      pluginKey = 'bubbleMenu', editor, updateDelay, shouldShow = null,
     } = props
 
     const menuEditor = editor || currentEditor
@@ -39,19 +39,28 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
     const plugin = BubbleMenuPlugin({
       updateDelay,
       editor: menuEditor,
-      element,
+      element: menuEl.current,
       pluginKey,
       shouldShow,
-      tippyOptions,
     })
 
     menuEditor.registerPlugin(plugin)
-    return () => menuEditor.unregisterPlugin(pluginKey)
-  }, [props.editor, currentEditor, element])
+    document.body.appendChild(menuEl.current)
+    return () => {
+      menuEditor.unregisterPlugin(pluginKey)
+      document.body.removeChild(menuEl.current)
+    }
+  }, [props.editor, currentEditor])
 
-  return (
-    <div ref={setElement} className={props.className} style={{ visibility: 'hidden' }}>
+  const portal = createPortal(
+    (
+    <div className={props.className}>
       {props.children}
     </div>
+    ), menuEl.current,
+  )
+
+  return (
+    <>{portal}</>
   )
 }

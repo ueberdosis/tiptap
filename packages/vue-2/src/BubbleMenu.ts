@@ -4,7 +4,6 @@ import Vue, { Component, CreateElement, PropType } from 'vue'
 export interface BubbleMenuInterface extends Vue {
   pluginKey: BubbleMenuPluginProps['pluginKey'],
   editor: BubbleMenuPluginProps['editor'],
-  tippyOptions: BubbleMenuPluginProps['tippyOptions'],
   updateDelay: BubbleMenuPluginProps['updateDelay'],
   shouldShow: BubbleMenuPluginProps['shouldShow'],
 }
@@ -25,11 +24,6 @@ export const BubbleMenu: Component = {
 
     updateDelay: {
       type: Number as PropType<BubbleMenuPluginProps['updateDelay']>,
-    },
-
-    tippyOptions: {
-      type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
-      default: () => ({}),
     },
 
     shouldShow: {
@@ -53,7 +47,6 @@ export const BubbleMenu: Component = {
             element: this.$el as HTMLElement,
             pluginKey: this.pluginKey,
             shouldShow: this.shouldShow,
-            tippyOptions: this.tippyOptions,
           }))
         })
       },

@@ -1,9 +1,9 @@
+import { computePosition, flip, shift } from '@floating-ui/dom'
 import {
-  Editor, isNodeSelection, isTextSelection, posToDOMRect,
+  Editor, isTextSelection, posToDOMRect,
 } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
-import tippy, { Instance, Props } from 'tippy.js'
 
 export interface BubbleMenuPluginProps {
   /**
@@ -24,12 +24,6 @@ export interface BubbleMenuPluginProps {
    * @default null
    */
   element: HTMLElement
-
-  /**
-   * The options for the tippy.js instance.
-   * @see https://atomiks.github.io/tippyjs/v6/all-props/
-   */
-  tippyOptions?: Partial<Props>
 
   /**
    * The delay in milliseconds before the menu should be updated.
@@ -68,10 +62,6 @@ export class BubbleMenuView {
 
   public preventHide = false
 
-  public tippy: Instance | undefined
-
-  public tippyOptions?: Partial<Props>
-
   public updateDelay: number
 
   private updateDebounceTimer: number | undefined
@@ -108,7 +98,6 @@ export class BubbleMenuView {
     editor,
     element,
     view,
-    tippyOptions = {},
     updateDelay = 250,
     shouldShow,
   }: BubbleMenuViewProps) {
@@ -125,10 +114,14 @@ export class BubbleMenuView {
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
-    this.tippyOptions = tippyOptions
-    // Detaches menu content from its current parent
-    this.element.remove()
-    this.element.style.visibility = 'visible'
+
+    this.update(view, view.state)
+
+    console.log(this.getShouldShow())
+
+    if (this.getShouldShow()) {
+      this.show()
+    }
   }
 
   mousedownHandler = () => {
@@ -158,33 +151,19 @@ export class BubbleMenuView {
     this.hide()
   }
 
-  tippyBlurHandler = (event: FocusEvent) => {
-    this.blurHandler({ event })
-  }
+  updatePosition() {
+    const { selection } = this.editor.state
 
-  createTooltip() {
-    const { element: editorElement } = this.editor.options
-    const editorIsAttached = !!editorElement.parentElement
-
-    if (this.tippy || !editorIsAttached) {
-      return
+    const virtualElement = {
+      getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
     }
 
-    this.tippy = tippy(editorElement, {
-      duration: 0,
-      getReferenceClientRect: null,
-      content: this.element,
-      interactive: true,
-      trigger: 'manual',
-      placement: 'top',
-      hideOnClick: 'toggle',
-      ...this.tippyOptions,
+    computePosition(virtualElement, this.element, { placement: 'top', strategy: 'absolute', middleware: [flip(), shift()] }).then(({ x, y, strategy }) => {
+      this.element.style.width = 'max-content'
+      this.element.style.position = strategy
+      this.element.style.left = `${x}px`
+      this.element.style.top = `${y}px`
     })
-
-    // maybe we have to hide tippy on its own blur event as well
-    if (this.tippy.popper.firstChild) {
-      (this.tippy.popper.firstChild as HTMLElement).addEventListener('blur', this.tippyBlurHandler)
-    }
   }
 
   update(view: EditorView, oldState?: EditorState) {
@@ -219,9 +198,28 @@ export class BubbleMenuView {
     }, this.updateDelay)
   }
 
-  updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
-    const { state, composing } = view
+  getShouldShow(oldState?: EditorState) {
+    const { state } = this.view
     const { selection } = state
+
+    const { ranges } = selection
+    const from = Math.min(...ranges.map(range => range.$from.pos))
+    const to = Math.max(...ranges.map(range => range.$to.pos))
+
+    const shouldShow = this.shouldShow?.({
+      editor: this.editor,
+      view: this.view,
+      state,
+      oldState,
+      from,
+      to,
+    })
+
+    return shouldShow
+  }
+
+  updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
+    const { composing } = view
 
     const isSame = !selectionChanged && !docChanged
 
@@ -229,21 +227,7 @@ export class BubbleMenuView {
       return
     }
 
-    this.createTooltip()
-
-    // support for CellSelections
-    const { ranges } = selection
-    const from = Math.min(...ranges.map(range => range.$from.pos))
-    const to = Math.max(...ranges.map(range => range.$to.pos))
-
-    const shouldShow = this.shouldShow?.({
-      editor: this.editor,
-      view,
-      state,
-      oldState,
-      from,
-      to,
-    })
+    const shouldShow = this.getShouldShow(oldState)
 
     if (!shouldShow) {
       this.hide()
@@ -251,47 +235,26 @@ export class BubbleMenuView {
       return
     }
 
-    this.tippy?.setProps({
-      getReferenceClientRect:
-        this.tippyOptions?.getReferenceClientRect
-        || (() => {
-          if (isNodeSelection(state.selection)) {
-            let node = view.nodeDOM(from) as HTMLElement
-
-            const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
-
-            if (nodeViewWrapper) {
-              node = nodeViewWrapper.firstChild as HTMLElement
-            }
-
-            if (node) {
-              return node.getBoundingClientRect()
-            }
-          }
-
-          return posToDOMRect(view, from, to)
-        }),
-    })
-
+    this.updatePosition()
     this.show()
   }
 
   show() {
-    this.tippy?.show()
+    this.element.style.visibility = 'visible'
+    this.element.style.opacity = '1'
+    // attach from body
+    document.body.appendChild(this.element)
   }
 
   hide() {
-    this.tippy?.hide()
+    this.element.style.visibility = 'hidden'
+    this.element.style.opacity = '0'
+    // remove from body
+    this.element.remove()
   }
 
   destroy() {
-    if (this.tippy?.popper.firstChild) {
-      (this.tippy.popper.firstChild as HTMLElement).removeEventListener(
-        'blur',
-        this.tippyBlurHandler,
-      )
-    }
-    this.tippy?.destroy()
+    this.hide()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     this.editor.off('focus', this.focusHandler)

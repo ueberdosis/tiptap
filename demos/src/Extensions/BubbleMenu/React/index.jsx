@@ -18,6 +18,7 @@ export default () => {
     `,
   })
 
+  const [showMenu, setShowMenu] = React.useState(true)
   const [isEditable, setIsEditable] = React.useState(true)
 
   useEffect(() => {
@@ -28,7 +29,10 @@ export default () => {
 
   return (
     <>
-
+      <button onClick={() => {
+        setShowMenu(old => !old)
+        editor.commands.focus()
+      } }>Toggle menu</button>
       <div className="control-group">
         <label>
           <input type="checkbox" checked={isEditable} onChange={() => setIsEditable(!isEditable)} />
@@ -36,7 +40,7 @@ export default () => {
         </label>
       </div>
 
-      {editor && <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+      {(editor && showMenu) && <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
         <div className="bubble-menu">
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}

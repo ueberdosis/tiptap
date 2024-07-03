@@ -6,6 +6,7 @@ import {
   onMounted,
   PropType,
   ref,
+  Teleport,
 } from 'vue'
 
 export const BubbleMenu = defineComponent({
@@ -27,11 +28,6 @@ export const BubbleMenu = defineComponent({
       default: undefined,
     },
 
-    tippyOptions: {
-      type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
-      default: () => ({}),
-    },
-
     shouldShow: {
       type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['shouldShow'], null>>,
       default: null,
@@ -47,7 +43,6 @@ export const BubbleMenu = defineComponent({
         editor,
         pluginKey,
         shouldShow,
-        tippyOptions,
       } = props
 
       editor.registerPlugin(BubbleMenuPlugin({
@@ -56,7 +51,6 @@ export const BubbleMenu = defineComponent({
         element: root.value as HTMLElement,
         pluginKey,
         shouldShow,
-        tippyOptions,
       }))
     })
 
@@ -66,6 +60,6 @@ export const BubbleMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
-    return () => h('div', { ref: root }, slots.default?.())
+    return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
   },
 })
