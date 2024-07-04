@@ -39,7 +39,7 @@ Before submitting a pull request:
 Before commiting:
 
 - Make sure to run the tests and linter before committing your changes.
-- Write [conventional commit messages](https://www.conventionalcommits.org/en). You can use `npm run cz` for that.
+- If you are making changes to one of the packages, make sure to **always** include a [changeset](https://github.com/changesets/changesets) in your PR describing **what changed** with a **description** of the change. Those are responsible for changelog creation
 
 ## Requirements
 

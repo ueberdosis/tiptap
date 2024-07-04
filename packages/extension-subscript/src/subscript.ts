@@ -1,4 +1,5 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
+import type { StyleParseRule } from '@tiptap/pm/model'
 
 export interface SubscriptExtensionOptions {
   /**
@@ -60,7 +61,7 @@ export const Subscript = Mark.create<SubscriptExtensionOptions>({
           // If it falls through we’ll match, and this mark will be applied.
           return null
         },
-      },
+      } satisfies StyleParseRule,
     ]
   },
 

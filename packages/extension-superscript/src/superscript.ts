@@ -1,4 +1,5 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
+import type { StyleParseRule } from '@tiptap/pm/model'
 
 export interface SuperscriptExtensionOptions {
   /**
@@ -60,7 +61,7 @@ export const Superscript = Mark.create<SuperscriptExtensionOptions>({
           // If it falls through we’ll match, and this mark will be applied.
           return null
         },
-      },
+      } satisfies StyleParseRule,
     ]
   },
 

@@ -3,16 +3,22 @@
 
 name: build
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
       - main
       - develop
+      - next
       - release/*
   pull_request:
     branches:
       - main
       - develop
+      - next
 
 jobs:
   lint:
@@ -20,7 +26,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [20]
 
     steps:
       - uses: actions/checkout@v4.1.4
@@ -64,7 +70,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [20]
         test-spec:
           - { name: "Integration", spec: "./tests/cypress/integration/**/*.spec.{js,ts}" }
           #- { name: "Demos/Commands", spec: "./demos/src/Commands/**/*.spec.{js,ts}" }
@@ -129,7 +135,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [20]
 
     steps:
       - uses: actions/checkout@v4.1.4
