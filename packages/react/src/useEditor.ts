@@ -1,10 +1,6 @@
 import { EditorOptions } from '@tiptap/core'
 import {
-  DependencyList,
-  useDebugValue,
-  useEffect,
-  useRef,
-  useState,
+  DependencyList, useDebugValue, useEffect, useRef, useState,
 } from 'react'
 import { useSyncExternalStore } from 'use-sync-external-store/shim'
 
@@ -29,22 +25,25 @@ export type UseEditorOptions<TSelectorResult> = Partial<EditorOptions> & {
    * A selector function to determine the value to compare for re-rendering.
    * @default `({ transactionNumber }) => transactionNumber + 1`
    */
-  selector?: (editor:Editor, options: {
-    /**
-     * The previous value returned by the selector.
-     */
-    previousValue: TSelectorResult | null;
-    /**
-     * The current transaction number. Incremented on every transaction.
-     */
-    transactionNumber: number
-  }) => TSelectorResult;
+  selector?: (
+    editor: Editor,
+    options: {
+      /**
+       * The previous value returned by the selector.
+       */
+      previousValue: TSelectorResult | null;
+      /**
+       * The current transaction number. Incremented on every transaction.
+       */
+      transactionNumber: number;
+    }
+  ) => TSelectorResult;
   /**
    * A custom equality function to determine if the editor should re-render.
    * @default `(a, b) => a === b`
    */
   equalityFn?: (a: TSelectorResult, b: TSelectorResult | null) => boolean;
-}
+};
 
 /**
  * To synchronize the editor instance with the component state,
@@ -58,7 +57,6 @@ function makeEditorInstance<TSelectorResult>({
 }: Pick<UseEditorOptions<TSelectorResult>, 'selector' | 'equalityFn' | 'immediatelyRender'> & {
   options: Partial<EditorOptions>;
 }) {
-
   let editor: Editor | null = null
   let transactionNumber = 0
   let prevSnapshot: [Editor | null, TSelectorResult | null] = [editor, null]
@@ -73,7 +71,10 @@ function makeEditorInstance<TSelectorResult>({
         return prevSnapshot
       }
 
-      const nextSnapshotResult = selector(editor, { previousValue: prevSnapshot[1], transactionNumber })
+      const nextSnapshotResult = selector(editor, {
+        previousValue: prevSnapshot[1],
+        transactionNumber,
+      })
 
       if (equalityFn(nextSnapshotResult, prevSnapshot[1])) {
         return prevSnapshot
@@ -110,11 +111,11 @@ function makeEditorInstance<TSelectorResult>({
       subscribers.forEach(callback => callback())
 
       if (editor) {
-      /**
-       * This will force a re-render when the editor state changes.
-       * This is to support things like `editor.can().toggleBold()` in components that `useEditor`.
-       * This could be more efficient, but it's a good trade-off for now.
-       */
+        /**
+         * This will force a re-render when the editor state changes.
+         * This is to support things like `editor.can().toggleBold()` in components that `useEditor`.
+         * This could be more efficient, but it's a good trade-off for now.
+         */
         editor.on('transaction', () => {
           transactionNumber += 1
           subscribers.forEach(callback => callback())
@@ -150,7 +151,10 @@ function makeEditorInstance<TSelectorResult>({
  * @returns The editor instance
  * @example const editor = useEditor({ extensions: [...] })
  */
-function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> & { immediatelyRender: true }, deps?: DependencyList): Editor;
+function useEditorWithState<TSelectorResult>(
+  options: UseEditorOptions<TSelectorResult> & { immediatelyRender: true },
+  deps?: DependencyList
+): { editor: Editor; state: TSelectorResult | null };
 
 /**
  * This hook allows you to create an editor instance.
@@ -159,11 +163,17 @@ function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> &
  * @returns The editor instance
  * @example const editor = useEditor({ extensions: [...] })
  */
-function useEditor<TSelectorResult>(options?: UseEditorOptions<TSelectorResult>, deps?: DependencyList): Editor | null;
+function useEditorWithState<TSelectorResult>(
+  options?: UseEditorOptions<TSelectorResult>,
+  deps?: DependencyList
+): { editor: Editor | null; state: TSelectorResult | null };
 
-function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> = {}, deps: DependencyList = []): Editor | null {
+function useEditorWithState<TSelectorResult>(
+  options: UseEditorOptions<TSelectorResult> = {},
+  deps: DependencyList = [],
+): { editor: Editor | null; state: TSelectorResult | null } {
   const [editorInstance] = useState(() => {
-    const instanceCreateOptions: Parameters<(typeof makeEditorInstance<TSelectorResult>)>[0] = {
+    const instanceCreateOptions: Parameters<typeof makeEditorInstance<TSelectorResult>>[0] = {
       immediatelyRender: Boolean(options.immediatelyRender),
       equalityFn: options.equalityFn,
       selector: options.selector,
@@ -178,7 +188,9 @@ function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> =
            * Throw an error in development, to make sure the developer is aware that tiptap cannot be SSR'd
            * and that they need to set `immediatelyRender` to `false` to avoid hydration mismatches.
            */
-          console.warn('Tiptap Error: SSR has been detected, please set `immediatelyRender` explicitly to `false` to avoid hydration mismatches.')
+          console.warn(
+            'Tiptap Error: SSR has been detected, please set `immediatelyRender` explicitly to `false` to avoid hydration mismatches.',
+          )
         }
 
         // Best faith effort in production, run the code in the legacy mode to avoid hydration mismatches and errors in production
@@ -193,14 +205,20 @@ function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> =
 
     if (options.immediatelyRender && isSSR && isDev) {
       // Warn in development, to make sure the developer is aware that tiptap cannot be SSR'd, set `immediatelyRender` to `false` to avoid hydration mismatches.
-      throw new Error('Tiptap Error: SSR has been detected, and `immediatelyRender` has been set to `true` this is an unsupported configuration that may result in errors, explicitly set `immediatelyRender` to `false` to avoid hydration mismatches.')
+      throw new Error(
+        'Tiptap Error: SSR has been detected, and `immediatelyRender` has been set to `true` this is an unsupported configuration that may result in errors, explicitly set `immediatelyRender` to `false` to avoid hydration mismatches.',
+      )
     }
 
     return makeEditorInstance(instanceCreateOptions)
   })
 
   // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
-  const [editor] = useSyncExternalStore(editorInstance.subscribe, editorInstance.getSnapshot, editorInstance.getServerSnapshot)
+  const [editor, selectedState] = useSyncExternalStore(
+    editorInstance.subscribe,
+    editorInstance.getSnapshot,
+    editorInstance.getServerSnapshot,
+  )
 
   useDebugValue(editor)
 
@@ -307,7 +325,18 @@ function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> =
 
       onContentErrorRef.current = onContentError
     }
-  }, [onBeforeCreate, onBlur, onCreate, onDestroy, onFocus, onSelectionUpdate, onTransaction, onUpdate, onContentError, editor])
+  }, [
+    onBeforeCreate,
+    onBlur,
+    onCreate,
+    onDestroy,
+    onFocus,
+    onSelectionUpdate,
+    onTransaction,
+    onUpdate,
+    onContentError,
+    editor,
+  ])
 
   /**
    * Destroy the editor instance when the component completely unmounts
@@ -320,7 +349,38 @@ function useEditor<TSelectorResult>(options: UseEditorOptions<TSelectorResult> =
     }
   }, [])
 
-  return editor
+  return { editor, state: selectedState }
 }
 
-export { useEditor }
+/**
+ * This hook allows you to create an editor instance.
+ * @param options The editor options
+ * @param deps The dependencies to watch for changes
+ * @returns The editor instance
+ * @example const editor = useEditor({ extensions: [...] })
+ */
+function useEditor<TSelectorResult>(
+  options: UseEditorOptions<TSelectorResult> & { immediatelyRender: true },
+  deps?: DependencyList
+): Editor;
+
+/**
+ * This hook allows you to create an editor instance.
+ * @param options The editor options
+ * @param deps The dependencies to watch for changes
+ * @returns The editor instance
+ * @example const editor = useEditor({ extensions: [...] })
+ */
+function useEditor<TSelectorResult>(
+  options?: UseEditorOptions<TSelectorResult>,
+  deps?: DependencyList
+): Editor | null;
+
+function useEditor<TSelectorResult>(
+  options: UseEditorOptions<TSelectorResult> = {},
+  deps: DependencyList = [],
+): Editor | null {
+  return useEditorWithState(options, deps).editor
+}
+
+export { useEditor, useEditorWithState }
