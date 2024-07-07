@@ -2,9 +2,9 @@ import { EditorOptions } from '@tiptap/core'
 import {
   DependencyList, useDebugValue, useEffect, useRef, useState,
 } from 'react'
-import { useSyncExternalStore } from 'use-sync-external-store/shim'
 
 import { Editor } from './Editor.js'
+import { useEditorState } from './useEditorState.js'
 
 const isDev = process.env.NODE_ENV !== 'production'
 const isSSR = typeof window === 'undefined'
@@ -13,7 +13,7 @@ const isNext = isSSR || Boolean(typeof window !== 'undefined' && (window as any)
 /**
  * The options for the `useEditor` hook.
  */
-export type UseEditorOptions<TSelectorResult> = Partial<EditorOptions> & {
+export type UseEditorOptions = Partial<EditorOptions> & {
   /**
    * Whether to render the editor on the first render.
    * If client-side rendering, set this to `true`.
@@ -22,127 +22,24 @@ export type UseEditorOptions<TSelectorResult> = Partial<EditorOptions> & {
    */
   immediatelyRender?: boolean;
   /**
-   * A selector function to determine the value to compare for re-rendering.
-   * @default `({ transactionNumber }) => transactionNumber + 1`
+   * Whether to re-render the editor on each transaction.
+   * This is legacy behavior that will be removed in future versions.
+   * @default true
    */
-  selector?: (
-    editor: Editor,
-    options: {
-      /**
-       * The previous value returned by the selector.
-       */
-      previousValue: TSelectorResult | null;
-      /**
-       * The current transaction number. Incremented on every transaction.
-       */
-      transactionNumber: number;
-    }
-  ) => TSelectorResult;
-  /**
-   * A custom equality function to determine if the editor should re-render.
-   * @default `(a, b) => a === b`
-   */
-  equalityFn?: (a: TSelectorResult, b: TSelectorResult | null) => boolean;
+  shouldRerenderOnTransaction?: boolean;
 };
 
 /**
- * To synchronize the editor instance with the component state,
- * we need to create a separate instance that is not affected by the component re-renders.
+ * This hook allows you to create an editor instance.
+ * @param options The editor options
+ * @param deps The dependencies to watch for changes
+ * @returns The editor instance
+ * @example const editor = useEditor({ extensions: [...] })
  */
-function makeEditorInstance<TSelectorResult>({
-  immediatelyRender,
-  options: initialOptions,
-  selector = (_e, { transactionNumber }) => (transactionNumber + 1) as unknown as TSelectorResult,
-  equalityFn = (a: TSelectorResult, b: TSelectorResult | null) => a === b,
-}: Pick<UseEditorOptions<TSelectorResult>, 'selector' | 'equalityFn' | 'immediatelyRender'> & {
-  options: Partial<EditorOptions>;
-}) {
-  let editor: Editor | null = null
-  let transactionNumber = 0
-  let prevSnapshot: [Editor | null, TSelectorResult | null] = [editor, null]
-  const subscribers = new Set<() => void>()
-
-  const editorInstance = {
-    /**
-     * Get the current editor instance.
-     */
-    getSnapshot() {
-      if (!editor) {
-        return prevSnapshot
-      }
-
-      const nextSnapshotResult = selector(editor, {
-        previousValue: prevSnapshot[1],
-        transactionNumber,
-      })
-
-      if (equalityFn(nextSnapshotResult, prevSnapshot[1])) {
-        return prevSnapshot
-      }
-
-      const nextSnapshot: [Editor, TSelectorResult | null] = [editor, nextSnapshotResult]
-
-      prevSnapshot = nextSnapshot
-      return nextSnapshot
-    },
-    /**
-     * Always disable the editor on the server-side.
-     */
-    getServerSnapshot(): [null, null] {
-      return [null, null]
-    },
-    /**
-     * Subscribe to the editor instance's changes.
-     */
-    subscribe(callback: () => void) {
-      subscribers.add(callback)
-      return () => {
-        subscribers.delete(callback)
-      }
-    },
-    /**
-     * Create the editor instance.
-     */
-    create(options: Partial<EditorOptions>) {
-      if (editor) {
-        editor.destroy()
-      }
-      editor = new Editor(options)
-      subscribers.forEach(callback => callback())
-
-      if (editor) {
-        /**
-         * This will force a re-render when the editor state changes.
-         * This is to support things like `editor.can().toggleBold()` in components that `useEditor`.
-         * This could be more efficient, but it's a good trade-off for now.
-         */
-        editor.on('transaction', () => {
-          transactionNumber += 1
-          subscribers.forEach(callback => callback())
-        })
-      }
-    },
-    /**
-     * Destroy the editor instance.
-     */
-    destroy(): void {
-      if (editor) {
-        // We need to destroy the editor asynchronously to avoid memory leaks
-        // because the editor instance is still being used in the component.
-        const editorToDestroy = editor
-
-        setTimeout(() => editorToDestroy.destroy())
-      }
-      editor = null
-    },
-  }
-
-  if (immediatelyRender) {
-    editorInstance.create(initialOptions)
-  }
-
-  return editorInstance
-}
+export function useEditor(
+  options: UseEditorOptions & { immediatelyRender: true },
+  deps?: DependencyList
+): Editor;
 
 /**
  * This hook allows you to create an editor instance.
@@ -151,35 +48,16 @@ function makeEditorInstance<TSelectorResult>({
  * @returns The editor instance
  * @example const editor = useEditor({ extensions: [...] })
  */
-function useEditorWithState<TSelectorResult>(
-  options: UseEditorOptions<TSelectorResult> & { immediatelyRender: true },
+export function useEditor(
+  options?: UseEditorOptions,
   deps?: DependencyList
-): { editor: Editor; state: TSelectorResult | null };
+): Editor | null;
 
-/**
- * This hook allows you to create an editor instance.
- * @param options The editor options
- * @param deps The dependencies to watch for changes
- * @returns The editor instance
- * @example const editor = useEditor({ extensions: [...] })
- */
-function useEditorWithState<TSelectorResult>(
-  options?: UseEditorOptions<TSelectorResult>,
-  deps?: DependencyList
-): { editor: Editor | null; state: TSelectorResult | null };
-
-function useEditorWithState<TSelectorResult>(
-  options: UseEditorOptions<TSelectorResult> = {},
+export function useEditor(
+  options: UseEditorOptions = {},
   deps: DependencyList = [],
-): { editor: Editor | null; state: TSelectorResult | null } {
-  const [editorInstance] = useState(() => {
-    const instanceCreateOptions: Parameters<typeof makeEditorInstance<TSelectorResult>>[0] = {
-      immediatelyRender: Boolean(options.immediatelyRender),
-      equalityFn: options.equalityFn,
-      selector: options.selector,
-      options,
-    }
-
+): Editor | null {
+  const [editor, setEditor] = useState(() => {
     if (options.immediatelyRender === undefined) {
       if (isSSR || isNext) {
         // TODO in the next major release, we should throw an error here
@@ -194,13 +72,11 @@ function useEditorWithState<TSelectorResult>(
         }
 
         // Best faith effort in production, run the code in the legacy mode to avoid hydration mismatches and errors in production
-        instanceCreateOptions.immediatelyRender = false
-        return makeEditorInstance(instanceCreateOptions)
+        return null
       }
 
-      // Default to `true` in client-side rendering
-      instanceCreateOptions.immediatelyRender = true
-      return makeEditorInstance(instanceCreateOptions)
+      // Default to immediately rendering when client-side rendering
+      return new Editor(options)
     }
 
     if (options.immediatelyRender && isSSR && isDev) {
@@ -210,27 +86,27 @@ function useEditorWithState<TSelectorResult>(
       )
     }
 
-    return makeEditorInstance(instanceCreateOptions)
-  })
+    if (options.immediatelyRender) {
+      return new Editor(options)
+    }
 
-  // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
-  const [editor, selectedState] = useSyncExternalStore(
-    editorInstance.subscribe,
-    editorInstance.getSnapshot,
-    editorInstance.getServerSnapshot,
-  )
+    return null
+  })
 
   useDebugValue(editor)
 
   // This effect will handle creating/updating the editor instance
   useEffect(() => {
-    if (!editor) {
+    let editorInstance: Editor | null = editor
+
+    if (!editorInstance) {
+      editorInstance = new Editor(options)
       // instantiate the editor if it doesn't exist
       // for ssr, this is the first time the editor is created
-      editorInstance.create(options)
+      setEditor(editorInstance)
     } else {
       // if the editor does exist, update the editor options accordingly
-      editor.setOptions(options)
+      editorInstance.setOptions(options)
     }
   }, deps)
 
@@ -345,42 +221,27 @@ function useEditorWithState<TSelectorResult>(
    * */
   useEffect(() => {
     return () => {
-      editorInstance.destroy()
+      if (editor) {
+        // We need to destroy the editor asynchronously to avoid memory leaks
+        // because the editor instance is still being used in the component.
+
+        setTimeout(() => (editor.isDestroyed ? null : editor.destroy()))
+      }
     }
   }, [])
 
-  return { editor, state: selectedState }
+  // The default behavior is to re-render on each transaction
+  // This is legacy behavior that will be removed in future versions
+  useEditorState({
+    editor,
+    selector: ({ transactionNumber }) => {
+      if (options.shouldRerenderOnTransaction === false) {
+        // This will prevent the editor from re-rendering on each transaction
+        return null
+      }
+      return transactionNumber + 1
+    },
+  })
+
+  return editor
 }
-
-/**
- * This hook allows you to create an editor instance.
- * @param options The editor options
- * @param deps The dependencies to watch for changes
- * @returns The editor instance
- * @example const editor = useEditor({ extensions: [...] })
- */
-function useEditor<TSelectorResult>(
-  options: UseEditorOptions<TSelectorResult> & { immediatelyRender: true },
-  deps?: DependencyList
-): Editor;
-
-/**
- * This hook allows you to create an editor instance.
- * @param options The editor options
- * @param deps The dependencies to watch for changes
- * @returns The editor instance
- * @example const editor = useEditor({ extensions: [...] })
- */
-function useEditor<TSelectorResult>(
-  options?: UseEditorOptions<TSelectorResult>,
-  deps?: DependencyList
-): Editor | null;
-
-function useEditor<TSelectorResult>(
-  options: UseEditorOptions<TSelectorResult> = {},
-  deps: DependencyList = [],
-): Editor | null {
-  return useEditorWithState(options, deps).editor
-}
-
-export { useEditor, useEditorWithState }

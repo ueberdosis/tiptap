@@ -19,20 +19,20 @@ export const EditorConsumer = EditorContext.Consumer
  */
 export const useCurrentEditor = () => useContext(EditorContext)
 
-export type EditorProviderProps<TSelectorResult> = {
+export type EditorProviderProps = {
   children?: ReactNode;
   slotBefore?: ReactNode;
   slotAfter?: ReactNode;
-} & UseEditorOptions<TSelectorResult>
+} & UseEditorOptions
 
 /**
  * This is the provider component for the editor.
  * It allows the editor to be accessible across the entire component tree
  * with `useCurrentEditor`.
  */
-export function EditorProvider<TSelectorResult>({
+export function EditorProvider({
   children, slotAfter, slotBefore, ...editorOptions
-}: EditorProviderProps<TSelectorResult>) {
+}: EditorProviderProps) {
   const editor = useEditor(editorOptions)
 
   if (!editor) {

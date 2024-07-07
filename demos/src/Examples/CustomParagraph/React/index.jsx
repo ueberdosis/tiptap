@@ -8,6 +8,8 @@ import { Paragraph } from './Paragraph.jsx'
 
 export default () => {
   const editor = useEditor({
+    immediatelyRender: true,
+    shouldRerenderOnTransaction: false,
     extensions: [
       StarterKit.configure({
         paragraph: false,
@@ -20,6 +22,8 @@ export default () => {
     </p>
     `,
   })
+
+  console.count('render')
 
   return (
     <EditorContent editor={editor} />
