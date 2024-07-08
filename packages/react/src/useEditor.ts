@@ -239,6 +239,11 @@ export function useEditor(
         // This will prevent the editor from re-rendering on each transaction
         return null
       }
+
+      // This will avoid re-rendering on the first transaction when `immediatelyRender` is set to `true`
+      if (options.immediatelyRender && transactionNumber === 0) {
+        return 0
+      }
       return transactionNumber + 1
     },
   })
