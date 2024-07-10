@@ -95,11 +95,11 @@ function makeEditorStateInstance<TEditor extends Editor | null = Editor | null>(
 }
 
 export function useEditorState<TSelectorResult>(
-  options: UseEditorStateOptions<TSelectorResult, Editor | null>
-): TSelectorResult | null;
-export function useEditorState<TSelectorResult>(
   options: UseEditorStateOptions<TSelectorResult, Editor>
 ): TSelectorResult;
+export function useEditorState<TSelectorResult>(
+  options: UseEditorStateOptions<TSelectorResult, Editor | null>
+): TSelectorResult | null;
 
 export function useEditorState<TSelectorResult>(
   options: UseEditorStateOptions<TSelectorResult, Editor> | UseEditorStateOptions<TSelectorResult, Editor | null>,
