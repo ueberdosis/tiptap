@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.5.0-pre.14
+
+### Patch Changes
+
+- @tiptap/core@2.5.0-pre.14
+- @tiptap/extension-bubble-menu@2.5.0-pre.14
+- @tiptap/extension-floating-menu@2.5.0-pre.14
+- @tiptap/pm@2.5.0-pre.14
+
 ## 2.5.0-pre.13
 
 ### Patch Changes
