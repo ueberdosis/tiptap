@@ -1,5 +1,29 @@
 # Change Log
 
+## 2.5.0-pre.14
+
+### Patch Changes
+
+- @tiptap/core@2.5.0-pre.14
+- @tiptap/extension-blockquote@2.5.0-pre.14
+- @tiptap/extension-bold@2.5.0-pre.14
+- @tiptap/extension-bullet-list@2.5.0-pre.14
+- @tiptap/extension-code@2.5.0-pre.14
+- @tiptap/extension-code-block@2.5.0-pre.14
+- @tiptap/extension-document@2.5.0-pre.14
+- @tiptap/extension-dropcursor@2.5.0-pre.14
+- @tiptap/extension-gapcursor@2.5.0-pre.14
+- @tiptap/extension-hard-break@2.5.0-pre.14
+- @tiptap/extension-heading@2.5.0-pre.14
+- @tiptap/extension-history@2.5.0-pre.14
+- @tiptap/extension-horizontal-rule@2.5.0-pre.14
+- @tiptap/extension-italic@2.5.0-pre.14
+- @tiptap/extension-list-item@2.5.0-pre.14
+- @tiptap/extension-ordered-list@2.5.0-pre.14
+- @tiptap/extension-paragraph@2.5.0-pre.14
+- @tiptap/extension-strike@2.5.0-pre.14
+- @tiptap/extension-text@2.5.0-pre.14
+
 ## 2.5.0-pre.13
 
 ### Patch Changes
