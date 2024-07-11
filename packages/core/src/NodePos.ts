@@ -136,7 +136,7 @@ export class NodePos {
     this.node.content.forEach((node, offset) => {
       const isBlock = node.isBlock && !node.isTextblock
 
-      const targetPos = this.pos + offset + 1
+      const targetPos = this.pos + offset + (node.isAtom ? 0 : 1)
       const $pos = this.resolvedPos.doc.resolve(targetPos)
 
       if (!isBlock && $pos.depth <= this.depth) {
