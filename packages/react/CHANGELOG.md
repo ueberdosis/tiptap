@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.5.0-pre.15
+
+### Patch Changes
+
+- 3a67a5b: Fix the typings
+  - @tiptap/core@2.5.0-pre.15
+  - @tiptap/extension-bubble-menu@2.5.0-pre.15
+  - @tiptap/extension-floating-menu@2.5.0-pre.15
+  - @tiptap/pm@2.5.0-pre.15
+
 ## 2.5.0-pre.14
 
 ### Patch Changes

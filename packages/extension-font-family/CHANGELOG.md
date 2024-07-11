@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.5.0-pre.15
+
+### Patch Changes
+
+- @tiptap/core@2.5.0-pre.15
+- @tiptap/extension-text-style@2.5.0-pre.15
+
 ## 2.5.0-pre.14
 
 ### Patch Changes
