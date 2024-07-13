@@ -93,7 +93,7 @@ function EditorInstance({ shouldOptimizeRendering }) {
   )
 }
 
-export default () => {
+const EditorControls = () => {
   const [shouldOptimizeRendering, setShouldOptimizeRendering] = React.useState(true)
 
   return (
@@ -126,5 +126,13 @@ export default () => {
       </div>
       <EditorInstance shouldOptimizeRendering={shouldOptimizeRendering} />
     </>
+  )
+}
+
+export default () => {
+  return (
+    <React.StrictMode>
+      <EditorControls />
+    </React.StrictMode>
   )
 }

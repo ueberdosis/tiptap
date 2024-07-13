@@ -57,6 +57,7 @@ export function useEditor(
   options: UseEditorOptions = {},
   deps: DependencyList = [],
 ): Editor | null {
+  const isMounted = useRef(false)
   const [editor, setEditor] = useState(() => {
     if (options.immediatelyRender === undefined) {
       if (isSSR || isNext) {
@@ -220,12 +221,21 @@ export function useEditor(
    * only be called when the component is removed from the DOM, since it has no deps.
    * */
   useEffect(() => {
+    isMounted.current = true
     return () => {
+      isMounted.current = false
       if (editor) {
         // We need to destroy the editor asynchronously to avoid memory leaks
         // because the editor instance is still being used in the component.
 
-        setTimeout(() => (editor.isDestroyed ? null : editor.destroy()))
+        setTimeout(() => {
+          // re-use the editor instance if it hasn't been destroyed yet
+          // and the component is still mounted
+          // otherwise, asynchronously destroy the editor instance
+          if (!isMounted.current && !editor.isDestroyed) {
+            editor.destroy()
+          }
+        })
       }
     }
   }, [])
