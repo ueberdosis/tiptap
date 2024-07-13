@@ -59,7 +59,6 @@
     "@tiptap/vue-3": "2.4.0"
   },
   "changesets": [
-    "brown-gorillas-draw",
     "clever-mice-search",
     "cuddly-socks-beg",
     "curvy-windows-know",
