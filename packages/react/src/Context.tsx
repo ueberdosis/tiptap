@@ -1,4 +1,6 @@
-import React, { createContext, ReactNode, useContext } from 'react'
+import React, {
+  createContext, ReactNode, useContext, useMemo,
+} from 'react'
 
 import { Editor } from './Editor.js'
 import { EditorContent } from './EditorContent.js'
@@ -34,19 +36,16 @@ export function EditorProvider({
   children, slotAfter, slotBefore, ...editorOptions
 }: EditorProviderProps) {
   const editor = useEditor(editorOptions)
+  const editorContext = useMemo(() => ({ editor }), [editor])
 
   if (!editor) {
     return null
   }
 
   return (
-    <EditorContext.Provider value={{ editor }}>
+    <EditorContext.Provider value={editorContext}>
       {slotBefore}
-      <EditorConsumer>
-        {({ editor: currentEditor }) => (
-          <EditorContent editor={currentEditor} />
-        )}
-      </EditorConsumer>
+      <EditorContent editor={editor} />
       {children}
       {slotAfter}
     </EditorContext.Provider>
