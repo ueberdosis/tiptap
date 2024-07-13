@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-task-item",
   "description": "task item extension for tiptap",
-  "version": "2.5.0-pre.15",
+  "version": "2.5.0-pre.16",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,12 +29,12 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.5.0-pre.15",
-    "@tiptap/pm": "^2.5.0-pre.15"
+    "@tiptap/core": "^2.5.0-pre.16",
+    "@tiptap/pm": "^2.5.0-pre.16"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.5.0-pre.15",
-    "@tiptap/pm": "^2.5.0-pre.15"
+    "@tiptap/core": "^2.5.0-pre.16",
+    "@tiptap/pm": "^2.5.0-pre.16"
   },
   "repository": {
     "type": "git",
