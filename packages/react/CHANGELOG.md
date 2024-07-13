@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.5.0-pre.16
+
+### Patch Changes
+
+- 1110280: Fixes strict mode accidentally destroying the editor instance
+  - @tiptap/core@2.5.0-pre.16
+  - @tiptap/extension-bubble-menu@2.5.0-pre.16
+  - @tiptap/extension-floating-menu@2.5.0-pre.16
+  - @tiptap/pm@2.5.0-pre.16
+
 ## 2.5.0-pre.15
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.5.0-pre.16
+
+### Patch Changes
+
+- @tiptap/pm@2.5.0-pre.16
+
 ## 2.5.0-pre.15
 
 ### Patch Changes
