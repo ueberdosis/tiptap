@@ -1,5 +1,5 @@
 {
-  "mode": "pre",
+  "mode": "exit",
   "tag": "pre",
   "initialVersions": {
     "tiptap-demos": "2.4.0",
