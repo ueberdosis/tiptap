@@ -35,7 +35,7 @@
   "devDependencies": {
     "@tiptap/core": "^2.5.0",
     "@tiptap/pm": "^2.5.0",
-    "vue": "^2.5.0"
+    "vue": "^3.0.0"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.5.0",
