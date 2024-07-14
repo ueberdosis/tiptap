@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.5.0
+
+### Patch Changes
+
+- fb45149: Made some minor changes to how packages are built
+- fb45149: When `parseOptions.whitespace === 'full' or parseOptions.whitespace === true` setting content will no longer strip whitespaces on setContent
+- fb45149: Faster performance for checking if a node is empty and if something is a fragment
+- fb45149: Vue 3 bubble menus are properly synchronized with state transitions with the new beforeTransaction hook which is fired before the transaction is applied to the view
+  - @tiptap/pm@2.5.0
+
 ## 2.5.0-pre.16
 
 ### Patch Changes

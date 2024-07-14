@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.5.0
+
+### Patch Changes
+
+- fb45149: Vue 3 bubble menus are properly synchronized with state transitions with the new beforeTransaction hook which is fired before the transaction is applied to the view
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+  - @tiptap/core@2.5.0
+  - @tiptap/extension-bubble-menu@2.5.0
+  - @tiptap/extension-floating-menu@2.5.0
+  - @tiptap/pm@2.5.0
+
 ## 2.5.0-pre.16
 
 ### Patch Changes

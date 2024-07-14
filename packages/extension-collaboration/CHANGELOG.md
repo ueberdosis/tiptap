@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.5.0
+
+### Minor Changes
+
+- fb45149: Add `ySyncOptions` property to `@tiptap/extension-collaboration` to allow passing options directly to y-prosemirror's plugin
+
+### Patch Changes
+
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+  - @tiptap/core@2.5.0
+  - @tiptap/pm@2.5.0
+
 ## 2.5.0-pre.16
 
 ### Patch Changes

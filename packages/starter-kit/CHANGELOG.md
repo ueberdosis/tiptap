@@ -1,5 +1,34 @@
 # Change Log
 
+## 2.5.0
+
+### Patch Changes
+
+- fb45149: fix(starter-kit): make blockquote shortcut work in starter-kit
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+  - @tiptap/core@2.5.0
+  - @tiptap/extension-blockquote@2.5.0
+  - @tiptap/extension-bold@2.5.0
+  - @tiptap/extension-bullet-list@2.5.0
+  - @tiptap/extension-code@2.5.0
+  - @tiptap/extension-code-block@2.5.0
+  - @tiptap/extension-document@2.5.0
+  - @tiptap/extension-dropcursor@2.5.0
+  - @tiptap/extension-gapcursor@2.5.0
+  - @tiptap/extension-hard-break@2.5.0
+  - @tiptap/extension-heading@2.5.0
+  - @tiptap/extension-history@2.5.0
+  - @tiptap/extension-horizontal-rule@2.5.0
+  - @tiptap/extension-italic@2.5.0
+  - @tiptap/extension-list-item@2.5.0
+  - @tiptap/extension-ordered-list@2.5.0
+  - @tiptap/extension-paragraph@2.5.0
+  - @tiptap/extension-strike@2.5.0
+  - @tiptap/extension-text@2.5.0
+
 ## 2.5.0-pre.16
 
 ### Patch Changes

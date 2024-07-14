@@ -1,5 +1,16 @@
 # Change Log
 
+## 2.5.0
+
+### Patch Changes
+
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+- Updated dependencies [fb45149]
+  - @tiptap/core@2.5.0
+  - @tiptap/extension-text-style@2.5.0
+
 ## 2.5.0-pre.16
 
 ### Patch Changes
