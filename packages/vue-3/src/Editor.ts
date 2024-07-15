@@ -50,8 +50,8 @@ export class Editor extends CoreEditor {
     this.reactiveState = useDebouncedRef(this.view.state)
     this.reactiveExtensionStorage = useDebouncedRef(this.extensionStorage)
 
-    this.on('beforeTransaction', ({ nextState }) => {
-      this.reactiveState.value = nextState
+    this.on('transaction', () => {
+      this.reactiveState.value = this.view.state
       this.reactiveExtensionStorage.value = this.extensionStorage
     })
 
