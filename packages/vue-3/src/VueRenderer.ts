@@ -22,8 +22,6 @@ interface RenderedComponent {
  * This class is used to render Vue components inside the editor.
  */
 export class VueRenderer {
-  id: string
-
   renderedComponent!: RenderedComponent
 
   editor: ExtendedEditor
@@ -35,7 +33,6 @@ export class VueRenderer {
   props: Record<string, any>
 
   constructor(component: Component, { props = {}, editor }: VueRendererOptions) {
-    this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.editor = editor as ExtendedEditor
     this.component = markRaw(component)
     this.el = document.createElement('div')
@@ -45,6 +42,10 @@ export class VueRenderer {
 
   get element(): Element | null {
     return this.renderedComponent.el
+  }
+
+  get ref(): any {
+    return this.renderedComponent.vNode?.component?.exposed
   }
 
   renderComponent() {
