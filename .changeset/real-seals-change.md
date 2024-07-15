@@ -1,5 +1,6 @@
 ---
 "tiptap-demos": patch
+"@tiptap/vue-3": patch
 ---
 
 Updated demos and reverted vue specific performance enhancements until we know they work
