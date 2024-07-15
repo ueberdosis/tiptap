@@ -22,7 +22,7 @@
     "build": "turbo run build",
     "build:pm": "turbo run build --filter=@tiptap/pm",
     "build:demos": "npm run build:demos --workspace demos",
-    "serve": "npm run build:demos && npm --prefix ./demos run preview",
+    "serve": "npm run build:demos && npx http-server ./demos/dist -p 3000",
     "build:ci": "turbo run build",
     "publish": "npm run build && npm run changeset publish",
     "clean:packages": "rm -rf ./packages/*/dist && rm -rf ./packages/pm/*/dist",

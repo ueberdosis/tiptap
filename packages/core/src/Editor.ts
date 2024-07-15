@@ -406,11 +406,6 @@ export class Editor extends EventEmitter<EditorEvents> {
     const state = this.state.apply(transaction)
     const selectionHasChanged = !this.state.selection.eq(state.selection)
 
-    this.emit('beforeTransaction', {
-      editor: this,
-      transaction,
-      nextState: state,
-    })
     this.view.updateState(state)
     this.emit('transaction', {
       editor: this,
