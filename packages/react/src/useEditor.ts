@@ -98,17 +98,9 @@ export function useEditor(
 
   // This effect will handle creating/updating the editor instance
   useEffect(() => {
-    let editorInstance: Editor | null = editor
+    const newEditorInstance = new Editor(options)
 
-    if (!editorInstance) {
-      editorInstance = new Editor(options)
-      // instantiate the editor if it doesn't exist
-      // for ssr, this is the first time the editor is created
-      setEditor(editorInstance)
-    } else {
-      // if the editor does exist, update the editor options accordingly
-      editorInstance.setOptions(options)
-    }
+    setEditor(newEditorInstance)
   }, deps)
 
   const {
