@@ -18,7 +18,7 @@
     "lexical": "^0.11.1",
     "lowlight": "^2.7.0",
     "remixicon": "^2.5.0",
-    "shiki": "^0.10.0",
+    "shiki": "^1.10.3",
     "simplify-js": "^1.2.4",
     "y-prosemirror": "^1.2.9",
     "y-webrtc": "^10.3.0",

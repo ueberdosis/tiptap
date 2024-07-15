@@ -65,6 +65,10 @@ export default defineConfig({
     },
   },
 
+  worker: {
+    format: 'es',
+  },
+
   plugins: [
     // checker({ typescript: { tsconfigPath: './tsconfig.base.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.react.json' } }),
