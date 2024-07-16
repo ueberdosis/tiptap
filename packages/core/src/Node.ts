@@ -782,8 +782,8 @@ export class Node<Options = any, Storage = any> {
     // with different calls of `configure`
     const extension = this.extend({
       ...this.config,
-      addOptions() {
-        return mergeDeep(this.parent?.() || {}, options) as Options
+      addOptions: () => {
+        return mergeDeep(options, this.options as Record<string, any>) as Options
       },
     })
 

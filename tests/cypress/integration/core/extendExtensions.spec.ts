@@ -393,12 +393,30 @@ describe('extend extensions', () => {
         })
       })
 
+      it('should configure to be in addition to the parent options', () => {
+        const parentExtension = Extendable
+          .create({
+            name: 'parentExtension',
+            addOptions() {
+              return { parent: 'exists' }
+            },
+          })
+
+        const childExtension = parentExtension
+          .configure({ child: 'exists-too' })
+
+        expect(childExtension.options).to.deep.eq({
+          parent: 'exists',
+          child: 'exists-too',
+        })
+      })
+
       it('should deeply merge options when extending a configured extension', () => {
         const parentExtension = Extendable
           .create({
             name: 'parentExtension',
             addOptions() {
-              return { defaultOptions: 'is-overwritten' }
+              return { defaultOptions: 'exists' }
             },
           })
 
@@ -411,6 +429,7 @@ describe('extend extensions', () => {
           })
 
         expect(childExtension.options).to.deep.eq({
+          defaultOptions: 'exists',
           configuredOptions: 'exists-too',
           additionalOptions: 'exist-too',
         })
