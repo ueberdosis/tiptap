@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.5.2
+
+### Patch Changes
+
+- 07f4c03: There was a bug where doing a `.configure` on an extension, node or mark would overwrite the extensions options instead of being merged with the default options.
+  - @tiptap/pm@2.5.2
+
 ## 2.5.1
 
 ### Patch Changes

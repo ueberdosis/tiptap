@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.5.2
+
+### Patch Changes
+
+- Updated dependencies [07f4c03]
+  - @tiptap/core@2.5.2
+  - @tiptap/extension-text-style@2.5.2
+
 ## 2.5.1
 
 ### Patch Changes
