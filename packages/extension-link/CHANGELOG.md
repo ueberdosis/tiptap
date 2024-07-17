@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.5.3
+
+### Patch Changes
+
+- a473826: Make openOnClick backwards compatible with previous `whenNotEditable` value, this is now the default and is deprecated
+  - @tiptap/core@2.5.3
+  - @tiptap/pm@2.5.3
+
 ## 2.5.2
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.5.3
+
+### Patch Changes
+
+- 70eebfd: The optional deps argument to useEditor was not being respected for performance optimizations, now if deps are declared a new editor instance is created
+  - @tiptap/core@2.5.3
+  - @tiptap/extension-bubble-menu@2.5.3
+  - @tiptap/extension-floating-menu@2.5.3
+  - @tiptap/pm@2.5.3
+
 ## 2.5.2
 
 ### Patch Changes
