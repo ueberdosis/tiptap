@@ -398,16 +398,17 @@ describe('extend extensions', () => {
           .create({
             name: 'parentExtension',
             addOptions() {
-              return { parent: 'exists' }
+              return { parent: 'exists', overwrite: 'parent' }
             },
           })
 
         const childExtension = parentExtension
-          .configure({ child: 'exists-too' })
+          .configure({ child: 'exists-too', overwrite: 'child' })
 
         expect(childExtension.options).to.deep.eq({
           parent: 'exists',
           child: 'exists-too',
+          overwrite: 'child',
         })
       })
 
@@ -416,15 +417,15 @@ describe('extend extensions', () => {
           .create({
             name: 'parentExtension',
             addOptions() {
-              return { defaultOptions: 'exists' }
+              return { defaultOptions: 'exists', overwrite: 'parent' }
             },
           })
 
         const childExtension = parentExtension
-          .configure({ configuredOptions: 'exists-too' }).extend({
+          .configure({ configuredOptions: 'exists-too', overwrite: 'configure' }).extend({
             name: 'childExtension',
             addOptions() {
-              return { ...this.parent?.(), additionalOptions: 'exist-too' }
+              return { ...this.parent?.(), additionalOptions: 'exist-too', overwrite: 'child' }
             },
           })
 
@@ -432,6 +433,7 @@ describe('extend extensions', () => {
           defaultOptions: 'exists',
           configuredOptions: 'exists-too',
           additionalOptions: 'exist-too',
+          overwrite: 'child',
         })
       })
     })

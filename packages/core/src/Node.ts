@@ -783,7 +783,7 @@ export class Node<Options = any, Storage = any> {
     const extension = this.extend({
       ...this.config,
       addOptions: () => {
-        return mergeDeep(options, this.options as Record<string, any>) as Options
+        return mergeDeep(this.options as Record<string, any>, options) as Options
       },
     })
 
