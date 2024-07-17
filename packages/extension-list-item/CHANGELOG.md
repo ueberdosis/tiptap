@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.5.4
+
+### Patch Changes
+
+- dd7f9ac: There was an issue with the cjs bundling of packages and default exports, now we resolve default exports in legacy compatible way
+- Updated dependencies [dd7f9ac]
+  - @tiptap/core@2.5.4
+
 ## 2.5.3
 
 ### Patch Changes

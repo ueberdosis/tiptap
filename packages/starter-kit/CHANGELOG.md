@@ -1,5 +1,31 @@
 # Change Log
 
+## 2.5.4
+
+### Patch Changes
+
+- dd7f9ac: There was an issue with the cjs bundling of packages and default exports, now we resolve default exports in legacy compatible way
+- Updated dependencies [dd7f9ac]
+  - @tiptap/extension-horizontal-rule@2.5.4
+  - @tiptap/extension-ordered-list@2.5.4
+  - @tiptap/extension-bullet-list@2.5.4
+  - @tiptap/extension-blockquote@2.5.4
+  - @tiptap/extension-code-block@2.5.4
+  - @tiptap/extension-dropcursor@2.5.4
+  - @tiptap/extension-hard-break@2.5.4
+  - @tiptap/extension-gapcursor@2.5.4
+  - @tiptap/extension-list-item@2.5.4
+  - @tiptap/extension-paragraph@2.5.4
+  - @tiptap/extension-document@2.5.4
+  - @tiptap/extension-heading@2.5.4
+  - @tiptap/extension-history@2.5.4
+  - @tiptap/extension-italic@2.5.4
+  - @tiptap/extension-strike@2.5.4
+  - @tiptap/extension-bold@2.5.4
+  - @tiptap/extension-code@2.5.4
+  - @tiptap/extension-text@2.5.4
+  - @tiptap/core@2.5.4
+
 ## 2.5.3
 
 ### Patch Changes
