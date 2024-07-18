@@ -2,4 +2,4 @@
 "@tiptap/extension-task-item": patch
 ---
 
-fix: Address different behavior between `getHTML` and `generateHTML`
+allow task items to be parsed when only having `<li data-checked` instead of only when `<li data-checked="true"`
