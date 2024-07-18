@@ -65,9 +65,9 @@ export const TaskItem = Node.create<TaskItemOptions>({
       checked: {
         default: false,
         keepOnSplit: false,
-        parseHTML: element => element.getAttribute('data-checked') === 'true',
+        parseHTML: element => element.hasAttribute('data-checked') && element.getAttribute('data-checked') !== 'false',
         renderHTML: attributes => ({
-          'data-checked': attributes.checked ? 'true' : undefined,
+          'data-checked': attributes.checked,
         }),
       },
     }
