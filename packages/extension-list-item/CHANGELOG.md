@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.5.2
+
+### Patch Changes
+
+- @tiptap/core@2.5.2
+
 ## 2.5.1
 
 ### Patch Changes

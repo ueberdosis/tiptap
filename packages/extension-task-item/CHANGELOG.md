@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.5.2
+
+### Patch Changes
+
+- e6c759b: allow task items to be parsed when only having `<li data-checked` instead of only when `<li data-checked="true"`
+  - @tiptap/core@2.5.2
+  - @tiptap/pm@2.5.2
+
 ## 2.5.1
 
 ### Patch Changes
