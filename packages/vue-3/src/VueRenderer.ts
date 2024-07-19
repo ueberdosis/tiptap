@@ -51,6 +51,9 @@ export class VueRenderer {
   renderComponent() {
     let vNode: ExtendedVNode = h(this.component as DefineComponent, this.props)
 
+    if (this.editor.appContext) {
+      vNode.appContext = this.editor.appContext
+    }
     if (typeof document !== 'undefined' && this.el) { render(vNode, this.el) }
 
     const destroy = () => {
