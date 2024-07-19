@@ -95,11 +95,11 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
   }
 
   if (dispatch) {
-    if (selection instanceof TextSelection) {
-      tr.deleteSelection()
-    }
-
     if (can) {
+      if (selection instanceof TextSelection) {
+        tr.deleteSelection()
+      }
+
       tr.split(tr.mapping.map($from.pos), 1, types)
 
       if (deflt && !atEnd && !$from.parentOffset && $from.parent.type !== deflt) {
