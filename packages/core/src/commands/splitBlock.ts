@@ -61,18 +61,34 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
     return false
   }
 
-  if (dispatch) {
-    const atEnd = $to.parentOffset === $to.parent.content.size
+  const atEnd = $to.parentOffset === $to.parent.content.size
 
-    if (selection instanceof TextSelection) {
-      tr.deleteSelection()
-    }
+  if (selection instanceof TextSelection) {
+    tr.deleteSelection()
+  }
 
-    const deflt = $from.depth === 0
-      ? undefined
-      : defaultBlockAt($from.node(-1).contentMatchAt($from.indexAfter(-1)))
+  const deflt = $from.depth === 0
+    ? undefined
+    : defaultBlockAt($from.node(-1).contentMatchAt($from.indexAfter(-1)))
 
-    let types = atEnd && deflt
+  let types = atEnd && deflt
+    ? [
+      {
+        type: deflt,
+        attrs: newAttributes,
+      },
+    ]
+    : undefined
+
+  let can = canSplit(tr.doc, tr.mapping.map($from.pos), 1, types)
+
+  if (
+    !types
+        && !can
+        && canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : undefined)
+  ) {
+    can = true
+    types = deflt
       ? [
         {
           type: deflt,
@@ -80,25 +96,9 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
         },
       ]
       : undefined
+  }
 
-    let can = canSplit(tr.doc, tr.mapping.map($from.pos), 1, types)
-
-    if (
-      !types
-        && !can
-        && canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : undefined)
-    ) {
-      can = true
-      types = deflt
-        ? [
-          {
-            type: deflt,
-            attrs: newAttributes,
-          },
-        ]
-        : undefined
-    }
-
+  if (dispatch) {
     if (can) {
       tr.split(tr.mapping.map($from.pos), 1, types)
 
@@ -119,5 +119,5 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
     tr.scrollIntoView()
   }
 
-  return true
+  return can
 }
