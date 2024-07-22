@@ -14,7 +14,7 @@
     "@lexical/react": "^0.11.1",
     "d3": "^7.3.0",
     "fast-glob": "^3.2.11",
-    "highlight.js": "^11.6.0",
+    "highlight.js": "^11.10.0",
     "lexical": "^0.11.1",
     "lowlight": "^3.1.0",
     "remixicon": "^2.5.0",
