@@ -349,6 +349,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates all node views.
    */
   public createNodeViews(): void {
+    if (this.view.isDestroyed) {
+      return
+    }
+
     this.view.setProps({
       nodeViews: this.extensionManager.nodeViews,
     })
