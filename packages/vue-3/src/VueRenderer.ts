@@ -45,7 +45,7 @@ export class VueRenderer {
   }
 
   get ref(): any {
-    return this.renderedComponent.vNode?.component?.exposed
+    return this.renderedComponent.vNode?.component?.proxy
   }
 
   renderComponent() {
