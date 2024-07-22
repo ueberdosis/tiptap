@@ -1,6 +1,0 @@
----
-tableOfContents: true
----
-
-# Overwrite & extend
-

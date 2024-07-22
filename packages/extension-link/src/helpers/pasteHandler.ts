@@ -5,6 +5,7 @@ import { find } from 'linkifyjs'
 
 type PasteHandlerOptions = {
   editor: Editor
+  defaultProtocol: string
   type: MarkType
 }
 
@@ -27,22 +28,14 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           textContent += node.textContent
         })
 
-        const link = find(textContent).find(item => item.isLink && item.value === textContent)
+        const link = find(textContent, { defaultProtocol: options.defaultProtocol }).find(item => item.isLink && item.value === textContent)
 
         if (!textContent || !link) {
           return false
         }
 
-        const html = event.clipboardData?.getData('text/html')
-
-        const hrefRegex = /href="([^"]*)"/
-
-        const existingLink = html?.match(hrefRegex)
-
-        const url = existingLink ? existingLink[1] : link.href
-
         options.editor.commands.setMark(options.type, {
-          href: url,
+          href: link.href,
         })
 
         return true

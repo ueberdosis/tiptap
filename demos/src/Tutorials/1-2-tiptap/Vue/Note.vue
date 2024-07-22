@@ -16,7 +16,7 @@ const editor = useEditor({
   content: props.note.content,
   editorProps: {
     attributes: {
-      class: 'm-2 p-2 border border-black rounded-lg',
+      class: 'textarea',
     },
   },
   extensions: [
@@ -27,5 +27,5 @@ const editor = useEditor({
 </script>
 
 <template>
-  <editor-content :editor="editor"></editor-content>
+  <editor-content :editor="editor" />
 </template>

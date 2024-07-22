@@ -59,18 +59,22 @@ export default () => {
 
   return (
     <>
-      <button
-        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={editor.isActive('codeBlock') ? 'is-active' : ''}
-      >
-        toggleCodeBlock
-      </button>
-      <button
-        onClick={() => editor.chain().focus().setCodeBlock().run()}
-        disabled={editor.isActive('codeBlock')}
-      >
-        setCodeBlock
-      </button>
+      <div className="control-group">
+        <div className="button-group">
+          <button
+            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+            className={editor.isActive('codeBlock') ? 'is-active' : ''}
+          >
+            Toggle code block
+          </button>
+          <button
+            onClick={() => editor.chain().focus().setCodeBlock().run()}
+            disabled={editor.isActive('codeBlock')}
+          >
+            Set code block
+          </button>
+        </div>
+      </div>
 
       <EditorContent editor={editor} />
     </>

@@ -1,5 +1,5 @@
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
-import Vue, { Component, PropType } from 'vue'
+import Vue, { Component, CreateElement, PropType } from 'vue'
 
 export interface FloatingMenuInterface extends Vue {
   pluginKey: FloatingMenuPluginProps['pluginKey'],
@@ -54,7 +54,7 @@ export const FloatingMenu: Component = {
     },
   },
 
-  render(this: FloatingMenuInterface, createElement) {
+  render(this: FloatingMenuInterface, createElement: CreateElement) {
     return createElement('div', { style: { visibility: 'hidden' } }, this.$slots.default)
   },
 

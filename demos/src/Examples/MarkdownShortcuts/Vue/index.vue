@@ -34,7 +34,7 @@ export default {
           To test that, start a new line and type <code>#</code> followed by a space to get a heading. Try <code>#</code>, <code>##</code>, <code>###</code>, <code>####</code>, <code>#####</code>, <code>######</code> for different levels.
         </p>
         <p>
-          Those conventions are called input rules in tiptap. Some of them are enabled by default. Try <code>></code> for blockquotes, <code>*</code>, <code>-</code> or <code>+</code> for bullet lists, or <code>\`foobar\`</code> to highlight code, <code>~~tildes~~</code> to strike text, or <code>==equal signs==</code> to highlight text.
+          Those conventions are called input rules in Tiptap. Some of them are enabled by default. Try <code>></code> for blockquotes, <code>*</code>, <code>-</code> or <code>+</code> for bullet lists, or <code>\`foobar\`</code> to highlight code, <code>~~tildes~~</code> to strike text, or <code>==equal signs==</code> to highlight text.
         </p>
         <p>
           You can overwrite existing input rules or add your own to nodes, marks and extensions.
@@ -55,15 +55,23 @@ export default {
 <style lang="scss">
 /* Basic editor styles */
 .tiptap {
-  > * + * {
-    margin-top: 0.75em;
+  :first-child {
+    margin-top: 0;
   }
 
+  /* List styles */
   ul,
   ol {
     padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
   }
 
+  /* Heading styles */
   h1,
   h2,
   h3,
@@ -71,40 +79,76 @@ export default {
   h5,
   h6 {
     line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
   }
 
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  /* Code and preformatted text styles */
   code {
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
   }
 
   pre {
-    background: #0D0D0D;
-    color: #FFF;
-    font-family: 'JetBrainsMono', monospace;
-    padding: 0.75rem 1rem;
+    background: var(--black);
     border-radius: 0.5rem;
+    color: var(--white);
+    font-family: 'JetBrainsMono', monospace;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
 
     code {
-      color: inherit;
-      padding: 0;
       background: none;
+      color: inherit;
       font-size: 0.8rem;
+      padding: 0;
     }
   }
 
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  hr {
-    margin: 1rem 0;
+  mark {
+    background-color: #FAF594;
+    border-radius: 0.4rem;
+    box-decoration-break: clone;
+    padding: 0.1rem 0.3rem;
   }
 
   blockquote {
+    border-left: 3px solid var(--gray-3);
+    margin: 1.5rem 0;
     padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    margin: 2rem 0;
   }
 }
 </style>

@@ -1,3 +1,5 @@
+import './styles.scss'
+
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -21,24 +23,28 @@ export default () => {
 
   return (
     <>
-      <button
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={editor.isActive('underline') ? 'is-active' : ''}
-      >
-        toggleUnderline
-      </button>
-      <button
-        onClick={() => editor.chain().focus().setUnderline().run()}
-        disabled={editor.isActive('underline')}
-      >
-        setUnderline
-      </button>
-      <button
-        onClick={() => editor.chain().focus().unsetUnderline().run()}
-        disabled={!editor.isActive('underline')}
-      >
-        unsetUnderline
-      </button>
+      <div className="control-group">
+        <div className="button-group">
+          <button
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
+            className={editor.isActive('underline') ? 'is-active' : ''}
+          >
+            Toggle underline
+          </button>
+          <button
+            onClick={() => editor.chain().focus().setUnderline().run()}
+            disabled={editor.isActive('underline')}
+          >
+            Set underline
+          </button>
+          <button
+            onClick={() => editor.chain().focus().unsetUnderline().run()}
+            disabled={!editor.isActive('underline')}
+          >
+            Unset underline
+          </button>
+        </div>
+      </div>
 
       <EditorContent editor={editor} />
     </>

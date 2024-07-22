@@ -17,6 +17,9 @@ yarn-error.log*
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
+# Turbo cache
+.turbo
+
 .rpt2_cache
 .rts2_cache
 .rts2_cache_cjs

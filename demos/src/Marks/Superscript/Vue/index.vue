@@ -1,15 +1,18 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
-      toggleSuperscript
-    </button>
-    <button @click="editor.chain().focus().setSuperscript().run()" :disabled="editor.isActive('superscript')">
-      setSuperscript
-    </button>
-    <button @click="editor.chain().focus().unsetSuperscript().run()" :disabled="!editor.isActive('superscript')">
-      unsetSuperscript
-    </button>
-
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
+          Toggle superscript
+        </button>
+        <button @click="editor.chain().focus().setSuperscript().run()" :disabled="editor.isActive('superscript')">
+          Set superscript
+        </button>
+        <button @click="editor.chain().focus().unsetSuperscript().run()" :disabled="!editor.isActive('superscript')">
+          Unset superscript
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -53,3 +56,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+</style>

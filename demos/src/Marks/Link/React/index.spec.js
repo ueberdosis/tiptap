@@ -1,5 +1,3 @@
-import Link from '@tiptap/extension-link'
-
 context('/src/Marks/Link/React/', () => {
   before(() => {
     cy.visit('/src/Marks/Link/React/')
@@ -9,18 +7,6 @@ context('/src/Marks/Link/React/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example TextDEFAULT</p>')
       cy.get('.tiptap').type('{selectall}')
-    })
-  })
-
-  it('should add a custom class to a link', () => {
-    const linkExtension = Link.configure({
-      HTMLAttributes: {
-        class: 'foo',
-      },
-    })
-
-    expect(linkExtension.options.HTMLAttributes).to.deep.include({
-      class: 'foo',
     })
   })
 
@@ -66,6 +52,35 @@ context('/src/Marks/Link/React/', () => {
     })
   })
 
+  it('should allow exiting the link once set', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p><a href="#" target="_self">Example Text2</a></p>')
+      cy.get('.tiptap').type('{rightArrow}')
+
+      cy.get('button:first').should('not.have.class', 'is-active')
+    })
+  })
+
+  it('detects autolinking', () => {
+    cy.get('.tiptap').type('https://example.com ').find('a').should('contain', 'https://example.com')
+      .should('have.attr', 'href', 'https://example.com')
+  })
+
+  it('detects autolinking with numbers', () => {
+    cy.get('.tiptap').type('https://tiptap4u.com ').find('a').should('contain', 'https://tiptap4u.com')
+      .should('have.attr', 'href', 'https://tiptap4u.com')
+  })
+
+  it('uses the default protocol', () => {
+    cy.get('.tiptap').type('example.com ').find('a').should('contain', 'example.com')
+      .should('have.attr', 'href', 'https://example.com')
+  })
+
+  it('uses a non-default protocol if present', () => {
+    cy.get('.tiptap').type('http://example.com ').find('a').should('contain', 'http://example.com')
+      .should('have.attr', 'href', 'http://example.com')
+  })
+
   it('detects a pasted URL within a text', () => {
     cy.get('.tiptap')
       .paste({
@@ -79,6 +94,7 @@ context('/src/Marks/Link/React/', () => {
 
   it('detects a pasted URL', () => {
     cy.get('.tiptap')
+      .type('{backspace}')
       .paste({ pastePayload: 'https://example2.com', pasteType: 'text/plain' })
       .find('a')
       .should('contain', 'https://example2.com')
@@ -87,6 +103,7 @@ context('/src/Marks/Link/React/', () => {
 
   it('detects a pasted URL with query params', () => {
     cy.get('.tiptap')
+      .type('{backspace}')
       .paste({ pastePayload: 'https://example.com?paramA=nice&paramB=cool', pasteType: 'text/plain' })
       .find('a')
       .should('contain', 'https://example.com?paramA=nice&paramB=cool')
