@@ -25,13 +25,17 @@ import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
-// load all highlight.js languages
-import { lowlight } from 'lowlight'
+// load all languages with "all" or common languages with "common"
+import { all, createLowlight } from 'lowlight'
 
-lowlight.registerLanguage('html', html)
-lowlight.registerLanguage('css', css)
-lowlight.registerLanguage('js', js)
-lowlight.registerLanguage('ts', ts)
+// create a lowlight instance
+const lowlight = createLowlight(all)
+
+// you can also register languages
+lowlight.register('html', html)
+lowlight.register('css', css)
+lowlight.register('js', js)
+lowlight.register('ts', ts)
 
 export default {
   components: {
@@ -56,7 +60,7 @@ export default {
       ],
       content: `
         <p>
-          That’s a boring paragraph followed by a fenced code block:
+          That's a boring paragraph followed by a fenced code block:
         </p>
         <pre><code class="language-javascript">for (var i=1; i <= 20; i++)
 {
