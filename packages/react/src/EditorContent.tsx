@@ -1,8 +1,8 @@
 import React, {
   ForwardedRef, forwardRef, HTMLProps, LegacyRef, MutableRefObject,
-  useSyncExternalStore,
 } from 'react'
 import ReactDOM from 'react-dom'
+import { useSyncExternalStore } from 'use-sync-external-store/shim'
 
 import { Editor } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
@@ -21,14 +21,18 @@ const mergeRefs = <T extends HTMLDivElement>(
   }
 }
 
-const Portals: React.FC<{ contentComponent: Exclude<Editor['contentComponent'], null> }> = ({ contentComponent }) => {
-  const renderers = useSyncExternalStore(contentComponent.subscribe, contentComponent.getSnapshot, contentComponent.getServerSnapshot)
+const Portals: React.FC<{ contentComponent: Exclude<Editor['contentComponent'], null> }> = ({
+  contentComponent,
+}) => {
+  const renderers = useSyncExternalStore(
+    contentComponent.subscribe,
+    contentComponent.getSnapshot,
+    contentComponent.getServerSnapshot,
+  )
 
   return (
     <>
-      {Object.entries(renderers).map(([key, renderer]) => {
-        return ReactDOM.createPortal(renderer.reactElement, renderer.element, key)
-      })}
+      {Object.values(renderers)}
     </>
   )
 }
@@ -39,9 +43,8 @@ export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
 }
 
 function getInstance(): Exclude<Editor['contentComponent'], null> {
-
   const subscribers = new Set<() => void>()
-  let renderers: Record<string, ReactRenderer<unknown, unknown>> = {}
+  let renderers: Record<string, React.ReactPortal> = {}
 
   return {
     /**
@@ -57,13 +60,12 @@ function getInstance(): Exclude<Editor['contentComponent'], null> {
       return renderers
     },
     getServerSnapshot() {
-      // TODO figure out if this is valid
       return renderers
     },
     setRenderer(id: string, renderer: ReactRenderer) {
       renderers = {
         ...renderers,
-        [id]: renderer,
+        [id]: ReactDOM.createPortal(renderer.reactElement, renderer.element, id),
       }
 
       subscribers.forEach(subscriber => subscriber())
@@ -78,7 +80,10 @@ function getInstance(): Exclude<Editor['contentComponent'], null> {
   }
 }
 
-export class PureEditorContent extends React.Component<EditorContentProps, {hasContentComponentInitialized: boolean}> {
+export class PureEditorContent extends React.Component<
+  EditorContentProps,
+  { hasContentComponentInitialized: boolean }
+> {
   editorContentRef: React.RefObject<any>
 
   initialized: boolean
@@ -195,7 +200,7 @@ export class PureEditorContent extends React.Component<EditorContentProps, {hasC
 const EditorContentWithKey = forwardRef<HTMLDivElement, EditorContentProps>(
   (props: Omit<EditorContentProps, 'innerRef'>, ref) => {
     const key = React.useMemo(() => {
-      return Math.floor(Math.random() * 0xFFFFFFFF).toString()
+      return Math.floor(Math.random() * 0xffffffff).toString()
     }, [props.editor])
 
     // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
