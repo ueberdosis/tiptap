@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.5.5
+
+### Patch Changes
+
+- 4cca382: Make sure that atoms are used in-full without cutting the content. Node size for atoms is 1 which causes text to be cut unexpectedly.
+- 3b67e8a: This changes the typing to not declare types on all HTMLElements, just a local one with the editor instance attached
+  - @tiptap/pm@2.5.5
+
 ## 2.5.4
 
 ### Patch Changes

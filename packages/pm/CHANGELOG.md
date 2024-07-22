@@ -1,5 +1,7 @@
 # Change Log
 
+## 2.5.5
+
 ## 2.5.4
 
 ### Patch Changes

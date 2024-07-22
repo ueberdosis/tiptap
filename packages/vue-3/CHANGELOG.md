@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.5.5
+
+### Patch Changes
+
+- ab8389a: VueNodeViewRenderer should return `null` for `contentDOM` for a non-leaf node with no `NodeViewContent`
+- Updated dependencies [4cca382]
+- Updated dependencies [3b67e8a]
+  - @tiptap/core@2.5.5
+  - @tiptap/extension-bubble-menu@2.5.5
+  - @tiptap/extension-floating-menu@2.5.5
+  - @tiptap/pm@2.5.5
+
 ## 2.5.4
 
 ### Patch Changes

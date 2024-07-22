@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.5.5
+
+### Patch Changes
+
+- Updated dependencies [4cca382]
+- Updated dependencies [3b67e8a]
+  - @tiptap/core@2.5.5
+  - @tiptap/extension-code-block@2.5.5
+  - @tiptap/pm@2.5.5
+
 ## 2.5.4
 
 ### Patch Changes
