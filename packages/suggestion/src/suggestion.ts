@@ -209,6 +209,49 @@ export function Suggestion<I = any, TSelected = any>({
             `[data-decoration-id="${state.decorationId}"]`,
           )
 
+          const getClientRectByDecorationNode = () => {
+            if (!this.key) {
+              return null
+            }
+
+            // because of `items` can be asynchrounous we’ll search for the current decoration node
+            const { decorationId } = this.key.getState(editor.state) // eslint-disable-line
+            const currentDecorationNode = view.dom.querySelector(
+              `[data-decoration-id="${decorationId}"]`,
+            )
+
+            if (!currentDecorationNode) {
+              return null
+            }
+
+            return currentDecorationNode.getBoundingClientRect()
+          }
+
+          const getClientRectByAnchor = () => {
+            const pos = editor.state.selection.$anchor.pos
+            const coords = editor.view.coordsAtPos(pos)
+            const {
+              top, right, bottom, left,
+            } = coords
+
+            try {
+              const rect = new DOMRect(left, top, right - left, bottom - top)
+
+              return rect
+            } catch (e) {
+              return null
+            }
+          }
+
+          const getClientRect = () => {
+            const rect = getClientRectByDecorationNode()
+              || getClientRectByAnchor()
+
+            return rect
+              ? () => rect
+              : null
+          }
+
           props = {
             editor,
             range: state.range,
@@ -225,17 +268,7 @@ export function Suggestion<I = any, TSelected = any>({
             decorationNode,
             // virtual node for popper.js or tippy.js
             // this can be used for building popups without a DOM node
-            clientRect: decorationNode
-              ? () => {
-                // because of `items` can be asynchrounous we’ll search for the current decoration node
-                  const { decorationId } = this.key?.getState(editor.state) // eslint-disable-line
-                const currentDecorationNode = view.dom.querySelector(
-                  `[data-decoration-id="${decorationId}"]`,
-                )
-
-                return currentDecorationNode?.getBoundingClientRect() || null
-              }
-              : null,
+            clientRect: getClientRect(),
           }
 
           if (handleStart) {
