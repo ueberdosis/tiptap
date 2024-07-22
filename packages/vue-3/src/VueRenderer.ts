@@ -45,6 +45,11 @@ export class VueRenderer {
   }
 
   get ref(): any {
+    // Composition API
+    if (this.renderedComponent.vNode?.component?.exposed) {
+      return this.renderedComponent.vNode.component.exposed
+    }
+    // Option API
     return this.renderedComponent.vNode?.component?.proxy
   }
 
