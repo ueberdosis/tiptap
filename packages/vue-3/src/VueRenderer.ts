@@ -6,16 +6,16 @@ import {
 import { Editor as ExtendedEditor } from './Editor.js'
 
 export interface VueRendererOptions {
-  editor: Editor,
-  props?: Record<string, any>,
+  editor: Editor;
+  props?: Record<string, any>;
 }
 
-type ExtendedVNode = ReturnType<typeof h> | null
+type ExtendedVNode = ReturnType<typeof h> | null;
 
 interface RenderedComponent {
-  vNode: ExtendedVNode
-  destroy: () => void
-  el: Element | null
+  vNode: ExtendedVNode;
+  destroy: () => void;
+  el: Element | null;
 }
 
 /**
@@ -54,10 +54,14 @@ export class VueRenderer {
     if (this.editor.appContext) {
       vNode.appContext = this.editor.appContext
     }
-    if (typeof document !== 'undefined' && this.el) { render(vNode, this.el) }
+    if (typeof document !== 'undefined' && this.el) {
+      render(vNode, this.el)
+    }
 
     const destroy = () => {
-      if (this.el) { render(null, this.el) }
+      if (this.el) {
+        render(null, this.el)
+      }
       this.el = null
       vNode = null
     }
@@ -66,12 +70,9 @@ export class VueRenderer {
   }
 
   updateProps(props: Record<string, any> = {}): void {
-
-    Object
-      .entries(props)
-      .forEach(([key, value]) => {
-        this.props[key] = value
-      })
+    Object.entries(props).forEach(([key, value]) => {
+      this.props[key] = value
+    })
     this.renderComponent()
   }
 
