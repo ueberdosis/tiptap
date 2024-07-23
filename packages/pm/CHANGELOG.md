@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.5.5
+
+## 2.5.4
+
+### Patch Changes
+
+- dd7f9ac: There was an issue with the cjs bundling of packages and default exports, now we resolve default exports in legacy compatible way
+
+## 2.5.3
+
+## 2.5.2
+
+## 2.5.1
+
 ## 2.5.0
 
 ## 2.5.0-pre.16

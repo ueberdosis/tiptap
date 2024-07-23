@@ -16,19 +16,22 @@ export default {
       file: pkg.umd,
       format: 'umd',
       sourcemap: true,
+      exports: 'named',
     },
     {
       name: pkg.name,
       file: pkg.main,
       format: 'cjs',
+      interop: 'compat',
       sourcemap: true,
-      exports: 'auto',
+      exports: 'named',
     },
     {
       name: pkg.name,
       file: pkg.module,
       format: 'es',
       sourcemap: true,
+      exports: 'named',
     },
   ],
   plugins: [

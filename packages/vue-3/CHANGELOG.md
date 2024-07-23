@@ -1,5 +1,66 @@
 # Change Log
 
+## 2.5.5
+
+### Patch Changes
+
+- ab8389a: VueNodeViewRenderer should return `null` for `contentDOM` for a non-leaf node with no `NodeViewContent`
+- Updated dependencies [4cca382]
+- Updated dependencies [3b67e8a]
+  - @tiptap/core@2.5.5
+  - @tiptap/extension-bubble-menu@2.5.5
+  - @tiptap/extension-floating-menu@2.5.5
+  - @tiptap/pm@2.5.5
+
+## 2.5.4
+
+### Patch Changes
+
+- dd7f9ac: There was an issue with the cjs bundling of packages and default exports, now we resolve default exports in legacy compatible way
+- Updated dependencies [dd7f9ac]
+  - @tiptap/extension-floating-menu@2.5.4
+  - @tiptap/extension-bubble-menu@2.5.4
+  - @tiptap/core@2.5.4
+  - @tiptap/pm@2.5.4
+
+## 2.5.3
+
+### Patch Changes
+
+- @tiptap/core@2.5.3
+- @tiptap/extension-bubble-menu@2.5.3
+- @tiptap/extension-floating-menu@2.5.3
+- @tiptap/pm@2.5.3
+
+## 2.5.2
+
+### Patch Changes
+
+- Updated dependencies [07f4c03]
+  - @tiptap/core@2.5.2
+  - @tiptap/extension-bubble-menu@2.5.2
+  - @tiptap/extension-floating-menu@2.5.2
+  - @tiptap/pm@2.5.2
+
+## 2.5.1
+
+### Patch Changes
+
+- 85d21ca: Updated demos and reverted vue specific performance enhancements until we know they work
+
+  > in commit ff04353b3ee0e6fc63733a673e2b27d2272a3355 revert: "fix(vue-3): faster component rendering (#5206)"
+  > This reverts commit 31f37464912b7b21f3a565ca63222b9f5b6cce00.
+
+  and
+
+  > in commit dbab8e42eac893a0237566fb30c14b4ed0f3674a revert: "fix(vue-3): fix editor.state updating too late during a transaction due to reactiveState fixes #4870 (#5252)"
+  > This reverts commit 509676ed4a63b84b904a98c1e34d18449d25c2a7.
+
+  - @tiptap/core@2.5.1
+  - @tiptap/extension-bubble-menu@2.5.1
+  - @tiptap/extension-floating-menu@2.5.1
+  - @tiptap/pm@2.5.1
+
 ## 2.5.0
 
 ### Patch Changes
