@@ -277,6 +277,7 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
+          editor: this.editor,
         }),
       )
     }
