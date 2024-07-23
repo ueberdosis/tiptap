@@ -37,7 +37,7 @@ export default {
       ],
       content: `
         <p>
-          → With the Typography extension, tiptap understands »what you mean« and adds correct characters to your text — it’s like a “typography nerd” on your side.
+          → With the Typography extension, Tiptap understands »what you mean« and adds correct characters to your text — it’s like a “typography nerd” on your side.
         </p>
         <p>
           Try it out and type <code>(c)</code>, <code>-></code>, <code>>></code>, <code>1/2</code>, <code>!=</code>, <code>--</code> or <code>1x1</code> here:
@@ -64,40 +64,35 @@ export default {
 <style lang="scss">
 /* Basic editor styles */
 .tiptap {
-  > * + * {
-    margin-top: 0.75em;
+  :first-child {
+    margin-top: 0;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
-  }
-
+  /* Code and preformatted text styles */
   code {
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
   }
-}
 
-/* Color swatches */
-.color {
-  white-space: nowrap;
+  /* Color swatches */
+  .color {
+    white-space: nowrap;
 
-  &::before {
-    content: ' ';
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    border: 1px solid rgba(128, 128, 128, 0.3);
-    vertical-align: middle;
-    margin-right: 0.1em;
-    margin-bottom: 0.15em;
-    border-radius: 2px;
-    background-color: var(--color);
+    &::before {
+      background-color: var(--color);
+      border: 1px solid rgba(128, 128, 128, 0.3);
+      border-radius: 2px;
+      content: " ";
+      display: inline-block;
+      height: 1em;
+      margin-bottom: 0.15em;
+      margin-right: 0.1em;
+      vertical-align: middle;
+      width: 1em;
+    }
   }
 }
 </style>

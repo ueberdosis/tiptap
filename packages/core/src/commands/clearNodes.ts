@@ -7,6 +7,7 @@ declare module '@tiptap/core' {
     clearNodes: {
       /**
        * Normalize nodes to a simple paragraph.
+       * @example editor.commands.clearNodes()
        */
       clearNodes: () => ReturnType,
     }

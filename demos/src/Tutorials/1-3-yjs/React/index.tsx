@@ -1,4 +1,4 @@
-import './styles.css'
+import './styles.scss'
 
 import React from 'react'
 
@@ -8,19 +8,18 @@ import { TNote } from './types.js'
 const notes: TNote[] = [
   {
     id: 'note-1',
-    defaultContent: 'some random note text',
+    defaultContent: 'Some random note text',
   },
   {
     id: 'note-2',
-    defaultContent: 'some really random note text',
+    defaultContent: 'Some really random note text',
   },
 ]
 
 export default () => {
-
   return (
-    <div>
+    <>
       {notes.map(note => <Note note={note} key={note.id}/>)}
-    </div>
+    </>
   )
 }

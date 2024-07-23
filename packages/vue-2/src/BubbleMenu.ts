@@ -1,5 +1,5 @@
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
-import Vue, { Component, PropType } from 'vue'
+import Vue, { Component, CreateElement, PropType } from 'vue'
 
 export interface BubbleMenuInterface extends Vue {
   pluginKey: BubbleMenuPluginProps['pluginKey'],
@@ -60,7 +60,7 @@ export const BubbleMenu: Component = {
     },
   },
 
-  render(this: BubbleMenuInterface, createElement) {
+  render(this: BubbleMenuInterface, createElement: CreateElement) {
     return createElement('div', { style: { visibility: 'hidden' } }, this.$slots.default)
   },
 

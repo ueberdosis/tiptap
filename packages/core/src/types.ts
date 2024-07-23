@@ -39,8 +39,18 @@ export type MaybeThisParameterType<T> = Exclude<T, Primitive> extends (...args: 
 export interface EditorEvents {
   beforeCreate: { editor: Editor }
   create: { editor: Editor }
+  contentError: {
+    editor: Editor,
+    error: Error,
+    /**
+     * If called, will re-initialize the editor with the collaboration extension removed.
+     * This will prevent syncing back deletions of content not present in the current schema.
+     */
+    disableCollaboration: () => void
+  }
   update: { editor: Editor; transaction: Transaction }
   selectionUpdate: { editor: Editor; transaction: Transaction }
+  beforeTransaction: { editor: Editor; transaction: Transaction, nextState: EditorState }
   transaction: { editor: Editor; transaction: Transaction }
   focus: { editor: Editor; event: FocusEvent; transaction: Transaction }
   blur: { editor: Editor; event: FocusEvent; transaction: Transaction }
@@ -59,11 +69,28 @@ export interface EditorOptions {
   editable: boolean
   editorProps: EditorProps
   parseOptions: ParseOptions
+  coreExtensionOptions?: {
+    clipboardTextSerializer?: {
+      blockSeparator?: string
+    }
+  }
   enableInputRules: EnableRules
   enablePasteRules: EnableRules
   enableCoreExtensions: boolean
+  /**
+   * If `true`, the editor will check the content for errors on initialization.
+   * Emitting the `contentError` event if the content is invalid.
+   * Which can be used to show a warning or error message to the user.
+   * @default false
+   */
+  enableContentCheck: boolean
   onBeforeCreate: (props: EditorEvents['beforeCreate']) => void
   onCreate: (props: EditorEvents['create']) => void
+  /**
+   * Called when the editor encounters an error while parsing the content.
+   * Only enabled if `enableContentCheck` is `true`.
+   */
+  onContentError: (props: EditorEvents['contentError']) => void
   onUpdate: (props: EditorEvents['update']) => void
   onSelectionUpdate: (props: EditorEvents['selectionUpdate']) => void
   onTransaction: (props: EditorEvents['transaction']) => void
@@ -107,11 +134,11 @@ export type CommandSpec = (...args: any[]) => Command
 export type KeyboardShortcutCommand = (props: { editor: Editor }) => boolean
 
 export type Attribute = {
-  default: any
+  default?: any
   rendered?: boolean
   renderHTML?: ((attributes: Record<string, any>) => Record<string, any> | null) | null
   parseHTML?: ((element: HTMLElement) => any | null) | null
-  keepOnSplit: boolean
+  keepOnSplit?: boolean
   isRequired?: boolean
 }
 
@@ -126,7 +153,13 @@ export type ExtensionAttribute = {
 }
 
 export type GlobalAttributes = {
+  /**
+   * The node & mark types this attribute should be applied to.
+   */
   types: string[]
+  /**
+   * The attributes to add to the node or mark types.
+   */
   attributes: {
     [key: string]: Attribute
   }

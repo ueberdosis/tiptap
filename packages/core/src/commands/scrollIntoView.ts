@@ -5,6 +5,7 @@ declare module '@tiptap/core' {
     scrollIntoView: {
       /**
        * Scroll the selection into view.
+       * @example editor.commands.scrollIntoView()
        */
       scrollIntoView: () => ReturnType,
     }

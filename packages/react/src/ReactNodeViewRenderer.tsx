@@ -138,8 +138,16 @@ class ReactNodeView extends NodeView<
     const { from, to } = this.editor.state.selection
 
     if (from <= this.getPos() && to >= this.getPos() + this.node.nodeSize) {
+      if (this.renderer.props.selected) {
+        return
+      }
+
       this.selectNode()
     } else {
+      if (!this.renderer.props.selected) {
+        return
+      }
+
       this.deselectNode()
     }
   }

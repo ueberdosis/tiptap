@@ -21,10 +21,12 @@ const MenuBar = ({ editor }) => {
   }, [editor])
 
   return (
-    <>
-      <button onClick={onCutToStart}>Cut content to start of document</button>
-      <button onClick={onCutToEnd}>Cut content to end of document</button>
-    </>
+    <div className="control-group">
+      <div className="button-group">
+        <button onClick={onCutToStart}>Cut content to start of document</button>
+        <button onClick={onCutToEnd}>Cut content to end of document</button>
+      </div>
+    </div>
   )
 }
 
@@ -49,7 +51,7 @@ export default () => {
         Hi there,
       </h2>
       <p>
-        this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
+        this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
       </p>
       <ul>
         <li>
@@ -77,9 +79,9 @@ export default () => {
   })
 
   return (
-    <div>
+    <>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

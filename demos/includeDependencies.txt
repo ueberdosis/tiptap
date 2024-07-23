@@ -1,4 +1,9 @@
 d3
+highlight.js/lib/languages/css
+highlight.js/lib/languages/javascript
+highlight.js/lib/languages/typescript
+highlight.js/lib/languages/xml
+highlight.js/lib/core
 linkifyjs
 lowlight
 lowlight/lib/core
