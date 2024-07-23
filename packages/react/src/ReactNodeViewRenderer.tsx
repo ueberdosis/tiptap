@@ -66,6 +66,8 @@ class ReactNodeView extends NodeView<
     }
     const context = { onDragStart, nodeViewContentRef }
     const Component = this.component
+    // For performance reasons, we memoize the provider component
+    // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
     const ReactNodeViewProvider: React.FunctionComponent = React.memo(componentProps => {
       return (
         <ReactNodeViewContext.Provider value={context}>

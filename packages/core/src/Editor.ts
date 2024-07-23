@@ -57,6 +57,9 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public isFocused = false
 
+  /**
+   * The editor is considered initialized after the `create` event has been emitted.
+   */
   public isInitialized = false
 
   public extensionStorage: Record<string, any> = {}

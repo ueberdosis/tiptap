@@ -21,15 +21,20 @@ const mergeRefs = <T extends HTMLDivElement>(
   }
 }
 
+/**
+ * This component renders all of the editor's node views.
+ */
 const Portals: React.FC<{ contentComponent: Exclude<Editor['contentComponent'], null> }> = ({
   contentComponent,
 }) => {
+  // For performance reasons, we render the node view portals on state changes only
   const renderers = useSyncExternalStore(
     contentComponent.subscribe,
     contentComponent.getSnapshot,
     contentComponent.getServerSnapshot,
   )
 
+  // This allows us to directly render the portals without any additional wrapper
   return (
     <>
       {Object.values(renderers)}
@@ -62,6 +67,9 @@ function getInstance(): Exclude<Editor['contentComponent'], null> {
     getServerSnapshot() {
       return renderers
     },
+    /**
+     * Adds a new NodeView Renderer to the editor.
+     */
     setRenderer(id: string, renderer: ReactRenderer) {
       renderers = {
         ...renderers,
@@ -70,6 +78,9 @@ function getInstance(): Exclude<Editor['contentComponent'], null> {
 
       subscribers.forEach(subscriber => subscriber())
     },
+    /**
+     * Removes a NodeView Renderer from the editor.
+     */
     removeRenderer(id: string) {
       const nextRenderers = { ...renderers }
 
@@ -126,7 +137,9 @@ export class PureEditorContent extends React.Component<
 
       editor.contentComponent = getInstance()
 
+      // Has the content component been initialized?
       if (!this.state.hasContentComponentInitialized) {
+        // Subscribe to the content component
         this.unsubscribeToContentComponent = editor.contentComponent.subscribe(() => {
           this.setState(prevState => {
             if (!prevState.hasContentComponentInitialized) {
@@ -137,6 +150,7 @@ export class PureEditorContent extends React.Component<
             return prevState
           })
 
+          // Unsubscribe to previous content component
           if (this.unsubscribeToContentComponent) {
             this.unsubscribeToContentComponent()
           }
