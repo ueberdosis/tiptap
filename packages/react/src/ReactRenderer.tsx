@@ -143,7 +143,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
       }
     }
 
-    this.reactElement = <Component {...props } />
+    this.reactElement = React.createElement(Component, props)
 
     this.editor?.contentComponent?.setRenderer(this.id, this)
   }
