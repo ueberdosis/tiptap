@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.5.6
+
+### Patch Changes
+
+- Updated dependencies [b5c1b32]
+- Updated dependencies [618bca9]
+- Updated dependencies [35682d1]
+- Updated dependencies [4e5b2d8]
+- Updated dependencies [2104f0f]
+  - @tiptap/pm@2.5.6
+  - @tiptap/core@2.5.6
+  - @tiptap/extension-code-block@2.5.6
+
 ## 2.5.5
 
 ### Patch Changes

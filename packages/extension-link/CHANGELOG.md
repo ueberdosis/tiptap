@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.5.6
+
+### Patch Changes
+
+- c0e5398: Links were opening twive when the editor was not editable and openOnclick was true, now openOnClick setting will check if it is editable before trying to open programmatically resolves #4877
+- Updated dependencies [b5c1b32]
+- Updated dependencies [618bca9]
+- Updated dependencies [35682d1]
+- Updated dependencies [2104f0f]
+  - @tiptap/pm@2.5.6
+  - @tiptap/core@2.5.6
+
 ## 2.5.5
 
 ### Patch Changes
