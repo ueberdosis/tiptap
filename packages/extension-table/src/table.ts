@@ -22,8 +22,7 @@ import {
   toggleHeader,
   toggleHeaderCell,
 } from '@tiptap/pm/tables'
-import { NodeView } from '@tiptap/pm/view'
-import { EditorView } from 'prosemirror-view'
+import { EditorView, NodeView } from '@tiptap/pm/view'
 
 import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'
