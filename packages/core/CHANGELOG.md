@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.5.6
+
+### Patch Changes
+
+- 618bca9: Adjust the `splitBlock` command to return `false` when it was unsuccessful.
+- 35682d1: This fixes a bug with the placeholder extension where a heading level other than the default was not considered empty, when comparing node contents, we need to consider that the node attributes are carried over for a fair comparison of content instead of attribute values
+- 2104f0f: Add a check beforecreateNodeViews so that view.setProps is not called when the view has already been destroyed
+- Updated dependencies [b5c1b32]
+  - @tiptap/pm@2.5.6
+
 ## 2.5.5
 
 ### Patch Changes
