@@ -1,7 +1,7 @@
 import {
   callOrReturn, getExtensionField, mergeAttributes, Node, ParentConfig,
 } from '@tiptap/core'
-import { DOMOutputSpec } from '@tiptap/pm/model'
+import { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 import {
   addColumnAfter,
@@ -23,6 +23,7 @@ import {
   toggleHeaderCell,
 } from '@tiptap/pm/tables'
 import { NodeView } from '@tiptap/pm/view'
+import { EditorView } from 'prosemirror-view'
 
 import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'
@@ -62,7 +63,7 @@ export interface TableOptions {
    * The node view to render the table.
    * @default TableView
    */
-  View: NodeView
+  View: (new (node: ProseMirrorNode, cellMinWidth: number, view: EditorView) => NodeView) | null
 
   /**
    * Enables the resizing of the last column.
@@ -98,7 +99,7 @@ declare module '@tiptap/core' {
        * Add a column before the current column
        * @returns True if the command was successful, otherwise false
        * @example editor.commands.addColumnBefore()
-      */
+       */
       addColumnBefore: () => ReturnType
 
       /**
@@ -234,11 +235,11 @@ declare module '@tiptap/core' {
     tableRole?:
       | string
       | ((this: {
-          name: string
-          options: Options
-          storage: Storage
-          parent: ParentConfig<NodeConfig<Options>>['tableRole']
-        }) => string)
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<NodeConfig<Options>>['tableRole']
+    }) => string)
   }
 }
 
@@ -431,10 +432,7 @@ export const Table = Node.create<TableOptions>({
           columnResizing({
             handleWidth: this.options.handleWidth,
             cellMinWidth: this.options.cellMinWidth,
-            // @ts-ignore (incorrect type)
             View: this.options.View,
-            // TODO: PR for @types/prosemirror-tables
-            // @ts-ignore (incorrect type)
             lastColumnResizable: this.options.lastColumnResizable,
           }),
         ]
