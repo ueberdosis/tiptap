@@ -27,6 +27,11 @@ export interface LinkProtocolOptions {
 
 export const pasteRegex = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
 
+/**
+ * @deprecated The default behavior is now to open links when the editor is not editable.
+ */
+type DeprecatedOpenWhenNotEditable = 'whenNotEditable';
+
 export interface LinkOptions {
   /**
    * If enabled, the extension will automatically add links as you type.
@@ -51,9 +56,8 @@ export interface LinkOptions {
    * If enabled, links will be opened on click.
    * @default true
    * @example false
-   * @example 'whenNotEditable'
    */
-  openOnClick: boolean
+  openOnClick: boolean | DeprecatedOpenWhenNotEditable
   /**
    * Adds a link to the current selection if the pasted content only contains an url.
    * @default true
@@ -269,7 +273,7 @@ export const Link = Mark.create<LinkOptions>({
       )
     }
 
-    if (this.options.openOnClick) {
+    if (this.options.openOnClick === true) {
       plugins.push(
         clickHandler({
           type: this.type,

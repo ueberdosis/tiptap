@@ -1,5 +1,46 @@
 # Change Log
 
+## 2.5.5
+
+### Patch Changes
+
+- Updated dependencies [4cca382]
+- Updated dependencies [3b67e8a]
+  - @tiptap/core@2.5.5
+  - @tiptap/extension-bubble-menu@2.5.5
+  - @tiptap/extension-floating-menu@2.5.5
+  - @tiptap/pm@2.5.5
+
+## 2.5.4
+
+### Patch Changes
+
+- dd7f9ac: There was an issue with the cjs bundling of packages and default exports, now we resolve default exports in legacy compatible way
+- Updated dependencies [dd7f9ac]
+  - @tiptap/extension-floating-menu@2.5.4
+  - @tiptap/extension-bubble-menu@2.5.4
+  - @tiptap/core@2.5.4
+  - @tiptap/pm@2.5.4
+
+## 2.5.3
+
+### Patch Changes
+
+- @tiptap/core@2.5.3
+- @tiptap/extension-bubble-menu@2.5.3
+- @tiptap/extension-floating-menu@2.5.3
+- @tiptap/pm@2.5.3
+
+## 2.5.2
+
+### Patch Changes
+
+- Updated dependencies [07f4c03]
+  - @tiptap/core@2.5.2
+  - @tiptap/extension-bubble-menu@2.5.2
+  - @tiptap/extension-floating-menu@2.5.2
+  - @tiptap/pm@2.5.2
+
 ## 2.5.1
 
 ### Patch Changes

@@ -1,5 +1,39 @@
 # Change Log
 
+## 2.5.5
+
+### Patch Changes
+
+- b47df57: allow task items to be parsed when only having `<li data-checked` instead of only when `<li data-checked="true"`
+- Updated dependencies [4cca382]
+- Updated dependencies [3b67e8a]
+  - @tiptap/core@2.5.5
+  - @tiptap/pm@2.5.5
+
+## 2.5.4
+
+### Patch Changes
+
+- dd7f9ac: There was an issue with the cjs bundling of packages and default exports, now we resolve default exports in legacy compatible way
+- Updated dependencies [dd7f9ac]
+  - @tiptap/core@2.5.4
+  - @tiptap/pm@2.5.4
+
+## 2.5.3
+
+### Patch Changes
+
+- @tiptap/core@2.5.3
+- @tiptap/pm@2.5.3
+
+## 2.5.2
+
+### Patch Changes
+
+- Updated dependencies [07f4c03]
+  - @tiptap/core@2.5.2
+  - @tiptap/pm@2.5.2
+
 ## 2.5.1
 
 ### Patch Changes

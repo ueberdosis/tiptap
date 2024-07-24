@@ -1,5 +1,106 @@
 # Change Log
 
+## 2.5.5
+
+### Patch Changes
+
+- Updated dependencies [4cca382]
+- Updated dependencies [3b67e8a]
+  - @tiptap/core@2.5.5
+  - @tiptap/extension-blockquote@2.5.5
+  - @tiptap/extension-bold@2.5.5
+  - @tiptap/extension-bullet-list@2.5.5
+  - @tiptap/extension-code@2.5.5
+  - @tiptap/extension-code-block@2.5.5
+  - @tiptap/extension-document@2.5.5
+  - @tiptap/extension-dropcursor@2.5.5
+  - @tiptap/extension-gapcursor@2.5.5
+  - @tiptap/extension-hard-break@2.5.5
+  - @tiptap/extension-heading@2.5.5
+  - @tiptap/extension-history@2.5.5
+  - @tiptap/extension-horizontal-rule@2.5.5
+  - @tiptap/extension-italic@2.5.5
+  - @tiptap/extension-list-item@2.5.5
+  - @tiptap/extension-ordered-list@2.5.5
+  - @tiptap/extension-paragraph@2.5.5
+  - @tiptap/extension-strike@2.5.5
+  - @tiptap/extension-text@2.5.5
+
+## 2.5.4
+
+### Patch Changes
+
+- dd7f9ac: There was an issue with the cjs bundling of packages and default exports, now we resolve default exports in legacy compatible way
+- Updated dependencies [dd7f9ac]
+  - @tiptap/extension-horizontal-rule@2.5.4
+  - @tiptap/extension-ordered-list@2.5.4
+  - @tiptap/extension-bullet-list@2.5.4
+  - @tiptap/extension-blockquote@2.5.4
+  - @tiptap/extension-code-block@2.5.4
+  - @tiptap/extension-dropcursor@2.5.4
+  - @tiptap/extension-hard-break@2.5.4
+  - @tiptap/extension-gapcursor@2.5.4
+  - @tiptap/extension-list-item@2.5.4
+  - @tiptap/extension-paragraph@2.5.4
+  - @tiptap/extension-document@2.5.4
+  - @tiptap/extension-heading@2.5.4
+  - @tiptap/extension-history@2.5.4
+  - @tiptap/extension-italic@2.5.4
+  - @tiptap/extension-strike@2.5.4
+  - @tiptap/extension-bold@2.5.4
+  - @tiptap/extension-code@2.5.4
+  - @tiptap/extension-text@2.5.4
+  - @tiptap/core@2.5.4
+
+## 2.5.3
+
+### Patch Changes
+
+- @tiptap/core@2.5.3
+- @tiptap/extension-blockquote@2.5.3
+- @tiptap/extension-bold@2.5.3
+- @tiptap/extension-bullet-list@2.5.3
+- @tiptap/extension-code@2.5.3
+- @tiptap/extension-code-block@2.5.3
+- @tiptap/extension-document@2.5.3
+- @tiptap/extension-dropcursor@2.5.3
+- @tiptap/extension-gapcursor@2.5.3
+- @tiptap/extension-hard-break@2.5.3
+- @tiptap/extension-heading@2.5.3
+- @tiptap/extension-history@2.5.3
+- @tiptap/extension-horizontal-rule@2.5.3
+- @tiptap/extension-italic@2.5.3
+- @tiptap/extension-list-item@2.5.3
+- @tiptap/extension-ordered-list@2.5.3
+- @tiptap/extension-paragraph@2.5.3
+- @tiptap/extension-strike@2.5.3
+- @tiptap/extension-text@2.5.3
+
+## 2.5.2
+
+### Patch Changes
+
+- Updated dependencies [07f4c03]
+  - @tiptap/core@2.5.2
+  - @tiptap/extension-blockquote@2.5.2
+  - @tiptap/extension-bold@2.5.2
+  - @tiptap/extension-bullet-list@2.5.2
+  - @tiptap/extension-code@2.5.2
+  - @tiptap/extension-code-block@2.5.2
+  - @tiptap/extension-document@2.5.2
+  - @tiptap/extension-dropcursor@2.5.2
+  - @tiptap/extension-gapcursor@2.5.2
+  - @tiptap/extension-hard-break@2.5.2
+  - @tiptap/extension-heading@2.5.2
+  - @tiptap/extension-history@2.5.2
+  - @tiptap/extension-horizontal-rule@2.5.2
+  - @tiptap/extension-italic@2.5.2
+  - @tiptap/extension-list-item@2.5.2
+  - @tiptap/extension-ordered-list@2.5.2
+  - @tiptap/extension-paragraph@2.5.2
+  - @tiptap/extension-strike@2.5.2
+  - @tiptap/extension-text@2.5.2
+
 ## 2.5.1
 
 ### Patch Changes

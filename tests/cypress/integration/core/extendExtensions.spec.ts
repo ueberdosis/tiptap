@@ -393,26 +393,47 @@ describe('extend extensions', () => {
         })
       })
 
+      it('should configure to be in addition to the parent options', () => {
+        const parentExtension = Extendable
+          .create({
+            name: 'parentExtension',
+            addOptions() {
+              return { parent: 'exists', overwrite: 'parent' }
+            },
+          })
+
+        const childExtension = parentExtension
+          .configure({ child: 'exists-too', overwrite: 'child' })
+
+        expect(childExtension.options).to.deep.eq({
+          parent: 'exists',
+          child: 'exists-too',
+          overwrite: 'child',
+        })
+      })
+
       it('should deeply merge options when extending a configured extension', () => {
         const parentExtension = Extendable
           .create({
             name: 'parentExtension',
             addOptions() {
-              return { defaultOptions: 'is-overwritten' }
+              return { defaultOptions: 'exists', overwrite: 'parent' }
             },
           })
 
         const childExtension = parentExtension
-          .configure({ configuredOptions: 'exists-too' }).extend({
+          .configure({ configuredOptions: 'exists-too', overwrite: 'configure' }).extend({
             name: 'childExtension',
             addOptions() {
-              return { ...this.parent?.(), additionalOptions: 'exist-too' }
+              return { ...this.parent?.(), additionalOptions: 'exist-too', overwrite: 'child' }
             },
           })
 
         expect(childExtension.options).to.deep.eq({
+          defaultOptions: 'exists',
           configuredOptions: 'exists-too',
           additionalOptions: 'exist-too',
+          overwrite: 'child',
         })
       })
     })

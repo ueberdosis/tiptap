@@ -2,7 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
-      "inputs": ["src/**"],
+      "inputs": ["src/**", "rollup.config.js"],
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },

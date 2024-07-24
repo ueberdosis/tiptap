@@ -105,8 +105,14 @@ export function useEditor(
       // instantiate the editor if it doesn't exist
       // for ssr, this is the first time the editor is created
       setEditor(editorInstance)
+    } else if (Array.isArray(deps) && deps.length) {
+      // the deps array is used to re-initialize the editor instance
+      editorInstance = new Editor(options)
+
+      setEditor(editorInstance)
     } else {
-      // if the editor does exist, update the editor options accordingly
+      // if the editor does exist & deps are empty, we don't need to re-initialize the editor
+      // we can fast-path to update the editor options on the existing instance
       editorInstance.setOptions(options)
     }
   }, deps)
