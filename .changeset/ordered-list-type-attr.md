@@ -1,5 +1,5 @@
 ---
-"@tiptap/extension-ordered-list": patch
+"@tiptap/extension-ordered-list": feat
 ---
 
-feat: Support type attribute for ordered lists
+Support the `type` attribute for ordered lists
