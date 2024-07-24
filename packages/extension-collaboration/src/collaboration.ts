@@ -5,6 +5,7 @@ import {
   redo,
   undo,
   ySyncPlugin,
+  ySyncPluginKey,
   yUndoPlugin,
   yUndoPluginKey,
 } from 'y-prosemirror'
@@ -29,6 +30,14 @@ declare module '@tiptap/core' {
       redo: () => ReturnType,
     }
   }
+}
+
+export interface CollaborationStorage {
+  /**
+   * Whether collaboration is currently disabled.
+   * Disabling collaboration will prevent any changes from being synced with other users.
+   */
+  isCollaborationDisabled: boolean,
 }
 
 export interface CollaborationOptions {
@@ -63,7 +72,7 @@ export interface CollaborationOptions {
  * This extension allows you to collaborate with others in real-time.
  * @see https://tiptap.dev/api/extensions/collaboration
  */
-export const Collaboration = Extension.create<CollaborationOptions>({
+export const Collaboration = Extension.create<CollaborationOptions, CollaborationStorage>({
   name: 'collaboration',
 
   priority: 1000,
@@ -73,6 +82,12 @@ export const Collaboration = Extension.create<CollaborationOptions>({
       document: null,
       field: 'default',
       fragment: null,
+    }
+  },
+
+  addStorage() {
+    return {
+      isCollaborationDisabled: false,
     }
   },
 
@@ -176,8 +191,6 @@ export const Collaboration = Extension.create<CollaborationOptions>({
 
     const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
 
-    let isCollaborationDisabled = false
-
     return [
       ySyncPluginInstance,
       yUndoPluginInstance,
@@ -190,7 +203,10 @@ export const Collaboration = Extension.create<CollaborationOptions>({
           if (isChangeOrigin(tr)) {
 
             // When collaboration is disabled, prevent any sync transactions from being applied
-            if (isCollaborationDisabled) {
+            if (this.storage.isCollaborationDisabled) {
+              // If collaboration is disabled, unregister the Yjs plugins to prevent further sync transactions
+              this.editor.unregisterPlugin(ySyncPluginKey)
+              this.editor.unregisterPlugin(yUndoPluginKey)
               return true
             }
 
@@ -207,9 +223,9 @@ export const Collaboration = Extension.create<CollaborationOptions>({
                   error: error as Error,
                   editor: this.editor,
                   disableCollaboration: () => {
-                    isCollaborationDisabled = true
-                    // TODO there is probably a better way to disable the collaboration
-                    // Should it also remove the collaboration extension?
+                    this.storage.isCollaborationDisabled = true
+                    this.editor.unregisterPlugin(ySyncPluginKey)
+                    this.editor.unregisterPlugin(yUndoPluginKey)
                   },
                 })
                 // If the content is invalid, return false to prevent the transaction from being applied

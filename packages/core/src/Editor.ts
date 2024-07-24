@@ -248,9 +248,17 @@ export class Editor extends EventEmitter<EditorEvents> {
     // @ts-ignore
     const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
 
+    const prevPlugins = this.state.plugins
+    // @ts-ignore
+    const plugins = prevPlugins.filter(plugin => !plugin.key.startsWith(name))
+
+    if (prevPlugins.length === plugins.length) {
+      // No plugin was removed, so we don’t need to update the state
+      return
+    }
+
     const state = this.state.reconfigure({
-      // @ts-ignore
-      plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(name)),
+      plugins,
     })
 
     this.view.updateState(state)
