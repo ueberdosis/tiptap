@@ -46,11 +46,11 @@ export const EditorContent = defineComponent({
           if (instance) {
             editor.appContext = {
               ...instance.appContext,
-              provides: {
+              provides: Object.assign(
+                instance.appContext.provides,
                 // @ts-ignore
-                ...instance.provides,
-                ...instance.appContext.provides,
-              },
+                instance.provides,
+              ),
             }
           }
 
