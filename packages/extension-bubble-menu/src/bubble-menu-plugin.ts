@@ -1,4 +1,12 @@
-import { computePosition, flip, shift } from '@floating-ui/dom'
+import {
+  type ArrowOptions,
+  type AutoPlacementOptions,
+  type FlipOptions,
+  type HideOptions,
+  type InlineOptions,
+  type Middleware, type OffsetOptions, type Placement, type ShiftOptions, type SizeOptions, type Strategy, arrow, autoPlacement, computePosition, flip, hide, inline, offset, shift,
+  size,
+} from '@floating-ui/dom'
 import {
   Editor, isTextSelection, posToDOMRect,
 } from '@tiptap/core'
@@ -34,10 +42,18 @@ export interface BubbleMenuPluginProps {
   updateDelay?: number
 
   /**
+   * The delay in milliseconds before the menu position should be updated on window resize.
+   * This can be useful to prevent performance issues.
+   * @type {number}
+   * @default 60
+   */
+  resizeDelay?: number
+
+  /**
    * A function that determines whether the menu should be shown or not.
    * If this function returns `false`, the menu will be hidden, otherwise it will be shown.
    */
-  shouldShow?:
+  shouldShow:
     | ((props: {
         editor: Editor
         view: EditorView
@@ -47,6 +63,22 @@ export interface BubbleMenuPluginProps {
         to: number
       }) => boolean)
     | null
+
+  /**
+   * FloatingUI options.
+   */
+  options?: {
+    strategy?: Strategy
+    placement?: Placement
+    offset?: OffsetOptions | boolean
+    flip?: FlipOptions | boolean
+    shift?: ShiftOptions | boolean
+    arrow?: ArrowOptions | false
+    size?: SizeOptions | boolean
+    autoPlacement?: AutoPlacementOptions | boolean
+    hide?: HideOptions | boolean
+    inline?: InlineOptions | boolean
+  }
 }
 
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
@@ -64,7 +96,35 @@ export class BubbleMenuView {
 
   public updateDelay: number
 
+  public resizeDelay: number
+
   private updateDebounceTimer: number | undefined
+
+  private resizeDebounceTimer: number | undefined
+
+  private floatingUIOptions: {
+    strategy: Strategy
+    placement: Placement
+    offset: OffsetOptions | boolean
+    flip: FlipOptions | boolean
+    shift: ShiftOptions | boolean
+    arrow: ArrowOptions | false
+    size: SizeOptions | boolean
+    autoPlacement: AutoPlacementOptions | boolean
+    hide: HideOptions | boolean
+    inline: InlineOptions | boolean
+  } = {
+      strategy: 'absolute',
+      placement: 'top',
+      offset: 8,
+      flip: {},
+      shift: {},
+      arrow: false,
+      size: false,
+      autoPlacement: false,
+      hide: false,
+      inline: false,
+    }
 
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
     view,
@@ -94,17 +154,63 @@ export class BubbleMenuView {
     return true
   }
 
+  get middlewares() {
+    const middlewares: Middleware[] = []
+
+    if (this.floatingUIOptions.flip) {
+      middlewares.push(flip(typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined))
+    }
+
+    if (this.floatingUIOptions.shift) {
+      middlewares.push(shift(typeof this.floatingUIOptions.shift !== 'boolean' ? this.floatingUIOptions.shift : undefined))
+    }
+
+    if (this.floatingUIOptions.offset) {
+      middlewares.push(offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined))
+    }
+
+    if (this.floatingUIOptions.arrow) {
+      middlewares.push(arrow(this.floatingUIOptions.arrow))
+    }
+
+    if (this.floatingUIOptions.size) {
+      middlewares.push(size(typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined))
+    }
+
+    if (this.floatingUIOptions.autoPlacement) {
+      middlewares.push(autoPlacement(typeof this.floatingUIOptions.autoPlacement !== 'boolean' ? this.floatingUIOptions.autoPlacement : undefined))
+    }
+
+    if (this.floatingUIOptions.hide) {
+      middlewares.push(hide(typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined))
+    }
+
+    if (this.floatingUIOptions.inline) {
+      middlewares.push(inline(typeof this.floatingUIOptions.inline !== 'boolean' ? this.floatingUIOptions.inline : undefined))
+    }
+
+    return middlewares
+  }
+
   constructor({
     editor,
     element,
     view,
     updateDelay = 250,
+    resizeDelay = 60,
     shouldShow,
+    options,
   }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
     this.updateDelay = updateDelay
+    this.resizeDelay = resizeDelay
+
+    this.floatingUIOptions = {
+      ...this.floatingUIOptions,
+      ...options,
+    }
 
     if (shouldShow) {
       this.shouldShow = shouldShow
@@ -114,10 +220,17 @@ export class BubbleMenuView {
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
+    window.addEventListener('resize', () => {
+      if (this.resizeDebounceTimer) {
+        clearTimeout(this.resizeDebounceTimer)
+      }
+
+      this.resizeDebounceTimer = window.setTimeout(() => {
+        this.updatePosition()
+      }, this.resizeDelay)
+    })
 
     this.update(view, view.state)
-
-    console.log(this.getShouldShow())
 
     if (this.getShouldShow()) {
       this.show()
@@ -158,7 +271,7 @@ export class BubbleMenuView {
       getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
     }
 
-    computePosition(virtualElement, this.element, { placement: 'top', strategy: 'absolute', middleware: [flip(), shift()] }).then(({ x, y, strategy }) => {
+    computePosition(virtualElement, this.element, { placement: this.floatingUIOptions.placement, strategy: this.floatingUIOptions.strategy, middleware: this.middlewares }).then(({ x, y, strategy }) => {
       this.element.style.width = 'max-content'
       this.element.style.position = strategy
       this.element.style.left = `${x}px`

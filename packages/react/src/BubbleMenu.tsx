@@ -11,6 +11,8 @@ export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>,
   className?: string;
   children: React.ReactNode;
   updateDelay?: number;
+  resizeDelay?: number;
+  options?: BubbleMenuPluginProps['options'];
 };
 
 export const BubbleMenu = (props: BubbleMenuProps) => {
@@ -26,7 +28,7 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
     }
 
     const {
-      pluginKey = 'bubbleMenu', editor, updateDelay, shouldShow = null,
+      pluginKey = 'bubbleMenu', editor, updateDelay, resizeDelay, shouldShow = null,
     } = props
 
     const menuEditor = editor || currentEditor
@@ -38,17 +40,24 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
 
     const plugin = BubbleMenuPlugin({
       updateDelay,
+      resizeDelay,
       editor: menuEditor,
       element: menuEl.current,
       pluginKey,
       shouldShow,
+      options: props.options,
     })
 
     menuEditor.registerPlugin(plugin)
     document.body.appendChild(menuEl.current)
+
     return () => {
       menuEditor.unregisterPlugin(pluginKey)
-      document.body.removeChild(menuEl.current)
+      window.requestAnimationFrame(() => {
+        if (menuEl.current.parentNode) {
+          menuEl.current.parentNode.removeChild(menuEl.current)
+        }
+      })
     }
   }, [props.editor, currentEditor])
 
