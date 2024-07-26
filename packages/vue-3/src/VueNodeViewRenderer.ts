@@ -124,7 +124,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
   }
 
   get dom() {
-    if (!this.renderer.element.hasAttribute('data-node-view-wrapper')) {
+    if (!this.renderer.element || !this.renderer.element.hasAttribute('data-node-view-wrapper')) {
       throw Error('Please use the NodeViewWrapper component for your node view.')
     }
 
@@ -136,9 +136,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       return null
     }
 
-    const contentElement = this.dom.querySelector('[data-node-view-content]')
-
-    return (contentElement || this.dom) as HTMLElement | null
+    return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
   }
 
   update(node: ProseMirrorNode, decorations: DecorationWithType[]) {
@@ -183,14 +181,18 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     this.renderer.updateProps({
       selected: true,
     })
-    this.renderer.element.classList.add('ProseMirror-selectednode')
+    if (this.renderer.element) {
+      this.renderer.element.classList.add('ProseMirror-selectednode')
+    }
   }
 
   deselectNode() {
     this.renderer.updateProps({
       selected: false,
     })
-    this.renderer.element.classList.remove('ProseMirror-selectednode')
+    if (this.renderer.element) {
+      this.renderer.element.classList.remove('ProseMirror-selectednode')
+    }
   }
 
   getDecorationClasses() {

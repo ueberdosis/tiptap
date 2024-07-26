@@ -58,13 +58,14 @@ export function createNodeFromContent(
   }
 
   if (isTextContent) {
-    let schemaToUse = schema
-    let hasInvalidContent = false
-    let invalidContent = ''
 
-    // Only ever check for invalid content if we're supposed to throw an error
+    // Check for invalid content
     if (options.errorOnInvalidContent) {
-      schemaToUse = new Schema({
+      let hasInvalidContent = false
+      let invalidContent = ''
+
+      // A copy of the current schema with a catch-all node at the end
+      const contentCheckSchema = new Schema({
         topNode: schema.spec.topNode,
         marks: schema.spec.marks,
         // Prosemirror's schemas are executed such that: the last to execute, matches last
@@ -88,19 +89,26 @@ export function createNodeFromContent(
           },
         }),
       })
+
+      if (options.slice) {
+        DOMParser.fromSchema(contentCheckSchema).parseSlice(elementFromString(content), options.parseOptions)
+      } else {
+        DOMParser.fromSchema(contentCheckSchema).parse(elementFromString(content), options.parseOptions)
+      }
+
+      if (options.errorOnInvalidContent && hasInvalidContent) {
+        throw new Error('[tiptap error]: Invalid HTML content', { cause: new Error(`Invalid element found: ${invalidContent}`) })
+      }
     }
 
-    const parser = DOMParser.fromSchema(schemaToUse)
+    const parser = DOMParser.fromSchema(schema)
 
-    const response = options.slice
-      ? parser.parseSlice(elementFromString(content), options.parseOptions).content
-      : parser.parse(elementFromString(content), options.parseOptions)
-
-    if (options.errorOnInvalidContent && hasInvalidContent) {
-      throw new Error('[tiptap error]: Invalid HTML content', { cause: new Error(`Invalid element found: ${invalidContent}`) })
+    if (options.slice) {
+      return parser.parseSlice(elementFromString(content), options.parseOptions).content
     }
 
-    return response
+    return parser.parse(elementFromString(content), options.parseOptions)
+
   }
 
   return createNodeFromContent('', schema, options)

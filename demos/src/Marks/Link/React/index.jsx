@@ -10,6 +10,7 @@ import React, { useCallback } from 'react'
 
 export default () => {
   const editor = useEditor({
+    editable: true,
     extensions: [
       Document,
       Paragraph,
