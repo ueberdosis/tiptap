@@ -207,7 +207,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
               // If collaboration is disabled, unregister the Yjs plugins to prevent further sync transactions
               this.editor.unregisterPlugin(ySyncPluginKey)
               this.editor.unregisterPlugin(yUndoPluginKey)
-              return true
+              return false
             }
 
             // Did the doc actually change as a result of this transaction?
