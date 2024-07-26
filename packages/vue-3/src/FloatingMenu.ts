@@ -7,6 +7,7 @@ import {
   onMounted,
   PropType,
   ref,
+  Teleport,
 } from 'vue'
 
 export const FloatingMenu = defineComponent({
@@ -72,6 +73,6 @@ export const FloatingMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
-    return () => h('div', { ref: root }, slots.default?.())
+    return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
   },
 })

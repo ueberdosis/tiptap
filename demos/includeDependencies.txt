@@ -23,7 +23,7 @@ react-dom
 react-dom/client
 shiki
 simplify-js
-tippy.js
+@floating-ui/dom
 uuid
 y-webrtc
 yjs

@@ -223,7 +223,7 @@ export function Suggestion<I = any, TSelected = any>({
               })
             },
             decorationNode,
-            // virtual node for popper.js or tippy.js
+            // virtual node for positioning
             // this can be used for building popups without a DOM node
             clientRect: decorationNode
               ? () => {
