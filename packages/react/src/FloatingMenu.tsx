@@ -1,7 +1,8 @@
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 import React, {
-  useEffect, useState,
+  useEffect, useRef,
 } from 'react'
+import { createPortal } from 'react-dom'
 
 import { useCurrentEditor } from './Context.js'
 
@@ -11,16 +12,16 @@ export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKe
   editor: FloatingMenuPluginProps['editor'] | null;
   className?: string,
   children: React.ReactNode
+  options?: FloatingMenuPluginProps['options']
 }
 
 export const FloatingMenu = (props: FloatingMenuProps) => {
-  const [element, setElement] = useState<HTMLDivElement | null>(null)
+  const menuEl = useRef(document.createElement('div'))
   const { editor: currentEditor } = useCurrentEditor()
 
   useEffect(() => {
-    if (!element) {
-      return
-    }
+    menuEl.current.style.visibility = 'hidden'
+    menuEl.current.style.position = 'absolute'
 
     if (props.editor?.isDestroyed || currentEditor?.isDestroyed) {
       return
@@ -29,7 +30,7 @@ export const FloatingMenu = (props: FloatingMenuProps) => {
     const {
       pluginKey = 'floatingMenu',
       editor,
-      tippyOptions = {},
+      options,
       shouldShow = null,
     } = props
 
@@ -43,22 +44,34 @@ export const FloatingMenu = (props: FloatingMenuProps) => {
     const plugin = FloatingMenuPlugin({
       pluginKey,
       editor: menuEditor,
-      element,
-      tippyOptions,
+      element: menuEl.current,
+      options,
       shouldShow,
     })
 
     menuEditor.registerPlugin(plugin)
-    return () => menuEditor.unregisterPlugin(pluginKey)
+    return () => {
+      menuEditor.unregisterPlugin(pluginKey)
+      window.requestAnimationFrame(() => {
+        if (menuEl.current.parentNode) {
+          menuEl.current.parentNode.removeChild(menuEl.current)
+        }
+      })
+    }
   }, [
     props.editor,
     currentEditor,
-    element,
   ])
 
-  return (
-    <div ref={setElement} className={props.className} style={{ visibility: 'hidden' }}>
+  const portal = createPortal(
+    (
+    <div className={props.className}>
       {props.children}
     </div>
+    ), menuEl.current,
+  )
+
+  return (
+    <>{portal}</>
   )
 }

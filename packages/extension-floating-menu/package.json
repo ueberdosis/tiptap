@@ -37,7 +37,7 @@
     "@tiptap/pm": "^2.5.8"
   },
   "dependencies": {
-    "tippy.js": "^6.3.7"
+    "@floating-ui/dom": "^1.6.8"
   },
   "repository": {
     "type": "git",
