@@ -7,6 +7,7 @@ export interface BubbleMenuInterface extends Vue {
   updateDelay: BubbleMenuPluginProps['updateDelay'],
   resizeDelay: BubbleMenuPluginProps['resizeDelay'],
   shouldShow: BubbleMenuPluginProps['shouldShow'],
+  options: BubbleMenuPluginProps['options'],
 }
 
 export const BubbleMenu: Component = {
@@ -25,6 +26,11 @@ export const BubbleMenu: Component = {
 
     updateDelay: {
       type: Number as PropType<BubbleMenuPluginProps['updateDelay']>,
+    },
+
+    options: {
+      type: Object as PropType<BubbleMenuPluginProps['options']>,
+      default: {},
     },
 
     resizeDelay: {
@@ -54,6 +60,7 @@ export const BubbleMenu: Component = {
           editor.registerPlugin(BubbleMenuPlugin({
             updateDelay: this.updateDelay,
             resizeDelay: this.resizeDelay,
+            options: this.options,
             editor,
             element: this.$el as HTMLElement,
             pluginKey: this.pluginKey,
