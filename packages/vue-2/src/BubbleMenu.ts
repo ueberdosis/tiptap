@@ -5,6 +5,7 @@ export interface BubbleMenuInterface extends Vue {
   pluginKey: BubbleMenuPluginProps['pluginKey'],
   editor: BubbleMenuPluginProps['editor'],
   updateDelay: BubbleMenuPluginProps['updateDelay'],
+  resizeDelay: BubbleMenuPluginProps['resizeDelay'],
   shouldShow: BubbleMenuPluginProps['shouldShow'],
 }
 
@@ -26,6 +27,10 @@ export const BubbleMenu: Component = {
       type: Number as PropType<BubbleMenuPluginProps['updateDelay']>,
     },
 
+    resizeDelay: {
+      type: Number as PropType<BubbleMenuPluginProps['resizeDelay']>,
+    },
+
     shouldShow: {
       type: Function as PropType<Exclude<BubbleMenuPluginProps['shouldShow'], null>>,
       default: null,
@@ -40,9 +45,15 @@ export const BubbleMenu: Component = {
           return
         }
 
+        (this.$el as HTMLElement).style.visibility = 'hidden';
+        (this.$el as HTMLElement).style.position = 'absolute'
+
+        this.$el.remove()
+
         this.$nextTick(() => {
           editor.registerPlugin(BubbleMenuPlugin({
             updateDelay: this.updateDelay,
+            resizeDelay: this.resizeDelay,
             editor,
             element: this.$el as HTMLElement,
             pluginKey: this.pluginKey,

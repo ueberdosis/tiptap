@@ -49,7 +49,6 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
     })
 
     menuEditor.registerPlugin(plugin)
-    document.body.appendChild(menuEl.current)
 
     return () => {
       menuEditor.unregisterPlugin(pluginKey)

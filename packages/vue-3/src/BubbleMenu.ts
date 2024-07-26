@@ -28,6 +28,16 @@ export const BubbleMenu = defineComponent({
       default: undefined,
     },
 
+    resizeDelay: {
+      type: Number as PropType<BubbleMenuPluginProps['resizeDelay']>,
+      default: undefined,
+    },
+
+    options: {
+      type: Object as PropType<BubbleMenuPluginProps['options']>,
+      default: () => ({}),
+    },
+
     shouldShow: {
       type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['shouldShow'], null>>,
       default: null,
@@ -39,18 +49,32 @@ export const BubbleMenu = defineComponent({
 
     onMounted(() => {
       const {
-        updateDelay,
         editor,
+        options,
         pluginKey,
+        resizeDelay,
         shouldShow,
+        updateDelay,
       } = props
 
+      if (!root.value) {
+        return
+      }
+
+      root.value.style.visibility = 'hidden'
+      root.value.style.position = 'absolute'
+
+      // remove the element from the DOM
+      root.value.remove()
+
       editor.registerPlugin(BubbleMenuPlugin({
-        updateDelay,
         editor,
         element: root.value as HTMLElement,
+        options,
         pluginKey,
+        resizeDelay,
         shouldShow,
+        updateDelay,
       }))
     })
 
