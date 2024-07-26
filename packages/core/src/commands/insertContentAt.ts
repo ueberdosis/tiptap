@@ -81,6 +81,15 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
         errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
       })
     } catch (e) {
+      editor.emit('contentError', {
+        editor,
+        error: e as Error,
+        disableCollaboration: () => {
+          if (editor.storage.collaboration) {
+            editor.storage.collaboration.isCollaborationDisabled = true
+          }
+        },
+      })
       return false
     }
 

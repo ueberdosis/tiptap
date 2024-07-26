@@ -85,6 +85,11 @@ const Editor = ({ ydoc, provider, room }) => {
   const [currentUser, setCurrentUser] = useState(getInitialUser)
 
   const editor = useEditor({
+    enableContentCheck: true,
+    onContentError: ({ disableCollaboration, error }) => {
+      console.log(error)
+      disableCollaboration()
+    },
     onCreate: ({ editor: currentEditor }) => {
       provider.on('synced', () => {
         if (currentEditor.isEmpty) {
@@ -149,7 +154,7 @@ const Editor = ({ ydoc, provider, room }) => {
       <div className="control-group">
         <div className="button-group">
           <button
-            onClick={() => editor.chain().focus().toggleBold().run()}
+            onClick={() => editor.chain().focus().insertContentAt(0, '<bad-html>test</bad-html>', { errorOnInvalidContent: true }).run()}
             className={editor.isActive('bold') ? 'is-active' : ''}
           >
             Bold

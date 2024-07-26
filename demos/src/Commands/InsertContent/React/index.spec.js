@@ -11,7 +11,7 @@ context('/src/Commands/InsertContent/React/', () => {
     cy.get('button[data-test-id="html-content"]').click()
 
     // check if the content html is correct
-    cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p><p>This is a paragraph<br>with a break.</p><p>And this is some additional string content.</p>')
+    cy.get('.tiptap').should('contain.html', '<h1><a target="_blank" rel="noopener noreferrer nofollow" href="https://tiptap.dev/">Tiptap</a></h1><p><strong>Hello World</strong></p><p>This is a paragraph<br>with a break.</p><p>And this is some additional string content.</p>')
   })
 
   it('should keep spaces inbetween tags in html content', () => {

@@ -1,13 +1,17 @@
 import { Extension } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import {
   redo,
   undo,
   ySyncPlugin,
+  ySyncPluginKey,
   yUndoPlugin,
   yUndoPluginKey,
 } from 'y-prosemirror'
 import { UndoManager } from 'yjs'
+
+import { isChangeOrigin } from './helpers/isChangeOrigin.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 
@@ -26,6 +30,14 @@ declare module '@tiptap/core' {
       redo: () => ReturnType,
     }
   }
+}
+
+export interface CollaborationStorage {
+  /**
+   * Whether collaboration is currently disabled.
+   * Disabling collaboration will prevent any changes from being synced with other users.
+   */
+  isCollaborationDisabled: boolean,
 }
 
 export interface CollaborationOptions {
@@ -60,7 +72,7 @@ export interface CollaborationOptions {
  * This extension allows you to collaborate with others in real-time.
  * @see https://tiptap.dev/api/extensions/collaboration
  */
-export const Collaboration = Extension.create<CollaborationOptions>({
+export const Collaboration = Extension.create<CollaborationOptions, CollaborationStorage>({
   name: 'collaboration',
 
   priority: 1000,
@@ -70,6 +82,12 @@ export const Collaboration = Extension.create<CollaborationOptions>({
       document: null,
       field: 'default',
       fragment: null,
+    }
+  },
+
+  addStorage() {
+    return {
+      isCollaborationDisabled: false,
     }
   },
 
@@ -173,6 +191,51 @@ export const Collaboration = Extension.create<CollaborationOptions>({
 
     const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
 
-    return [ySyncPluginInstance, yUndoPluginInstance]
+    return [
+      ySyncPluginInstance,
+      yUndoPluginInstance,
+      // Only add the filterInvalidContent plugin if content checking is enabled
+      this.editor.options.enableContentCheck
+      && new Plugin({
+        key: new PluginKey('filterInvalidContent'),
+        filterTransaction: tr => {
+          // Is this transaction from Yjs Sync Plugin?
+          if (isChangeOrigin(tr)) {
+
+            // When collaboration is disabled, prevent any sync transactions from being applied
+            if (this.storage.isCollaborationDisabled) {
+              // If collaboration is disabled, unregister the Yjs plugins to prevent further sync transactions
+              this.editor.unregisterPlugin(ySyncPluginKey)
+              this.editor.unregisterPlugin(yUndoPluginKey)
+              return false
+            }
+
+            // Did the doc actually change as a result of this transaction?
+            if (tr.docChanged) {
+
+              // Attempt to parse the content of the step
+              try {
+                const content = tr.doc.toJSON()
+
+                this.editor.schema.nodeFromJSON(content)
+              } catch (error) {
+                this.editor.emit('contentError', {
+                  error: error as Error,
+                  editor: this.editor,
+                  disableCollaboration: () => {
+                    this.storage.isCollaborationDisabled = true
+                    this.editor.unregisterPlugin(ySyncPluginKey)
+                    this.editor.unregisterPlugin(yUndoPluginKey)
+                  },
+                })
+                // If the content is invalid, return false to prevent the transaction from being applied
+                return false
+              }
+            }
+          }
+          return true
+        },
+      }),
+    ].filter(Boolean)
   },
 })
