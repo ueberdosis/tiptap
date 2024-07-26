@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bubble-menu",
   "description": "bubble-menu extension for tiptap",
-  "version": "2.5.6",
+  "version": "2.5.7",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -38,12 +38,12 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@tiptap/core": "^2.5.6",
-    "@tiptap/pm": "^2.5.6"
+    "@tiptap/core": "^2.5.7",
+    "@tiptap/pm": "^2.5.7"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.5.6",
-    "@tiptap/pm": "^2.5.6"
+    "@tiptap/core": "^2.5.7",
+    "@tiptap/pm": "^2.5.7"
   },
   "scripts": {
     "clean": "rm -rf dist",
