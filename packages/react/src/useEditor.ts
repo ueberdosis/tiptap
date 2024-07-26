@@ -106,6 +106,10 @@ export function useEditor(
       // for ssr, this is the first time the editor is created
       setEditor(editorInstance)
     } else if (Array.isArray(deps) && deps.length) {
+      // We need to destroy the editor instance and re-initialize it
+      // when the deps array changes
+      editorInstance.destroy()
+
       // the deps array is used to re-initialize the editor instance
       editorInstance = new Editor(options)
 
