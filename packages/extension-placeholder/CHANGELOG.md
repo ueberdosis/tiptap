@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.5.7
+
+### Patch Changes
+
+- b012471: This addresses an issue with `isNodeEmpty` function where it was also comparing node attributes and finding mismatches on actually empty nodes. This helps placeholders find empty content correctly
+- Updated dependencies [b012471]
+- Updated dependencies [cc3497e]
+  - @tiptap/core@2.5.7
+  - @tiptap/pm@2.5.7
+
 ## 2.5.6
 
 ### Patch Changes
