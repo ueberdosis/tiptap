@@ -5,7 +5,7 @@ import autoExternal from 'rollup-plugin-auto-external'
 import sourcemaps from 'rollup-plugin-sourcemaps'
 import typescript from 'rollup-plugin-typescript2'
 
-export const createRollupConfig = ({
+export const baseConfig = ({
   input = 'src/index.ts',
   pkg,
 }) => ({

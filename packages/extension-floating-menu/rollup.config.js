@@ -1,5 +1,5 @@
-import { createRollupConfig } from '@tiptap-shared/rollup-config'
+import { baseConfig } from '@tiptap-shared/rollup-config'
 
 import pkg from './package.json' assert { type: 'json' }
 
-export default createRollupConfig({ input: 'src/index.ts', pkg })
+export default baseConfig({ input: 'src/index.ts', pkg })
