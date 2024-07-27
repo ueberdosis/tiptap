@@ -3,6 +3,7 @@
   "packageManager": "npm@10.8.1",
   "workspaces": [
     "demos",
+    "shared/*",
     "packages/*"
   ],
   "browserslist": [
