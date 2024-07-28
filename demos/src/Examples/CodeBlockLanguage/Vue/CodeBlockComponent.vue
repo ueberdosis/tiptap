@@ -2,7 +2,7 @@
   <node-view-wrapper class="code-block">
     <select contenteditable="false" v-model="selectedLanguage">
       <option :value="null">
-        auto
+        javascript
       </option>
       <option disabled>
         —

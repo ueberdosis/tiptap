@@ -7,7 +7,7 @@ export default ({ node: { attrs: { language: defaultLanguage } }, updateAttribut
   <NodeViewWrapper className="code-block">
     <select contentEditable={false} defaultValue={defaultLanguage} onChange={event => updateAttributes({ language: event.target.value })}>
       <option value="null">
-        auto
+        javascript
       </option>
       <option disabled>
         —
