@@ -57,7 +57,6 @@ export function useEditor(
   options: UseEditorOptions = {},
   deps: DependencyList = [],
 ): Editor | null {
-  const isMounted = useRef(false)
   const [editor, setEditor] = useState(() => {
     if (options.immediatelyRender === undefined) {
       if (isSSR || isNext) {
@@ -93,32 +92,53 @@ export function useEditor(
 
     return null
   })
+  const mostRecentEditor = useRef<Editor | null>(editor)
+
+  mostRecentEditor.current = editor
 
   useDebugValue(editor)
 
   // This effect will handle creating/updating the editor instance
   useEffect(() => {
-    let editorInstance: Editor | null = editor
+    const cleanup = (editorInstance: Editor | null) => {
+      if (editorInstance) {
+        // We need to destroy the editor asynchronously to avoid memory leaks
+        // because the editor instance is still being used in the component.
+
+        setTimeout(() => {
+          // re-use the editor instance if it hasn't been replaced yet
+          // otherwise, asynchronously destroy the old editor instance
+          if (editorInstance !== mostRecentEditor.current && !editorInstance.isDestroyed) {
+            editorInstance.destroy()
+          }
+        })
+      }
+    }
+
+    let editorInstance = editor
 
     if (!editorInstance) {
       editorInstance = new Editor(options)
-      // instantiate the editor if it doesn't exist
-      // for ssr, this is the first time the editor is created
       setEditor(editorInstance)
-    } else if (Array.isArray(deps) && deps.length) {
+      return () => cleanup(editorInstance)
+    }
+
+    if (Array.isArray(deps) && deps.length) {
       // We need to destroy the editor instance and re-initialize it
       // when the deps array changes
       editorInstance.destroy()
 
       // the deps array is used to re-initialize the editor instance
       editorInstance = new Editor(options)
-
       setEditor(editorInstance)
-    } else {
-      // if the editor does exist & deps are empty, we don't need to re-initialize the editor
-      // we can fast-path to update the editor options on the existing instance
-      editorInstance.setOptions(options)
+      return () => cleanup(editorInstance)
     }
+
+    // if the editor does exist & deps are empty, we don't need to re-initialize the editor
+    // we can fast-path to update the editor options on the existing instance
+    editorInstance.setOptions(options)
+
+    return () => cleanup(editorInstance)
   }, deps)
 
   const {
@@ -224,31 +244,6 @@ export function useEditor(
     onContentError,
     editor,
   ])
-
-  /**
-   * Destroy the editor instance when the component completely unmounts
-   * As opposed to the cleanup function in the effect above, this will
-   * only be called when the component is removed from the DOM, since it has no deps.
-   * */
-  useEffect(() => {
-    isMounted.current = true
-    return () => {
-      isMounted.current = false
-      if (editor) {
-        // We need to destroy the editor asynchronously to avoid memory leaks
-        // because the editor instance is still being used in the component.
-
-        setTimeout(() => {
-          // re-use the editor instance if it hasn't been destroyed yet
-          // and the component is still mounted
-          // otherwise, asynchronously destroy the editor instance
-          if (!isMounted.current && !editor.isDestroyed) {
-            editor.destroy()
-          }
-        })
-      }
-    }
-  }, [])
 
   // The default behavior is to re-render on each transaction
   // This is legacy behavior that will be removed in future versions
