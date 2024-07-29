@@ -1,5 +1,23 @@
 # Change Log
 
+## 2.5.7
+
+### Patch Changes
+
+- b012471: This addresses an issue with `isNodeEmpty` function where it was also comparing node attributes and finding mismatches on actually empty nodes. This helps placeholders find empty content correctly
+- cc3497e: Fixes a bug where if `enableContentCheck` was true, inserting content as JSON nodes would fail. This was because the node that was being created technically had a different schema than the content being inserted, so it would fail to generate the correct content value
+  - @tiptap/pm@2.5.7
+
+## 2.5.6
+
+### Patch Changes
+
+- 618bca9: Adjust the `splitBlock` command to return `false` when it was unsuccessful.
+- 35682d1: This fixes a bug with the placeholder extension where a heading level other than the default was not considered empty, when comparing node contents, we need to consider that the node attributes are carried over for a fair comparison of content instead of attribute values
+- 2104f0f: Add a check beforecreateNodeViews so that view.setProps is not called when the view has already been destroyed
+- Updated dependencies [b5c1b32]
+  - @tiptap/pm@2.5.6
+
 ## 2.5.5
 
 ### Patch Changes
