@@ -31,12 +31,12 @@
   "devDependencies": {
     "@tiptap/core": "^2.5.8",
     "@tiptap/pm": "^2.5.8",
-    "y-prosemirror": "^1.2.9"
+    "y-prosemirror": "^1.2.11"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.5.8",
     "@tiptap/pm": "^2.5.8",
-    "y-prosemirror": "^1.2.6"
+    "y-prosemirror": "^1.2.11"
   },
   "repository": {
     "type": "git",
