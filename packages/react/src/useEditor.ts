@@ -1,6 +1,7 @@
 import { EditorOptions } from '@tiptap/core'
 import {
-  DependencyList, useDebugValue, useEffect, useRef, useState,
+  DependencyList, MutableRefObject,
+  useDebugValue, useEffect, useRef, useState,
 } from 'react'
 
 import { Editor } from './Editor.js'
@@ -30,6 +31,25 @@ export type UseEditorOptions = Partial<EditorOptions> & {
 };
 
 /**
+ * Create a new editor instance. And attach event listeners.
+ */
+function createEditor(options: MutableRefObject<UseEditorOptions>): Editor {
+  const editor = new Editor(options.current)
+
+  editor.on('beforeCreate', (...args) => options.current.onBeforeCreate?.(...args))
+  editor.on('blur', (...args) => options.current.onBlur?.(...args))
+  editor.on('create', (...args) => options.current.onCreate?.(...args))
+  editor.on('destroy', (...args) => options.current.onDestroy?.(...args))
+  editor.on('focus', (...args) => options.current.onFocus?.(...args))
+  editor.on('selectionUpdate', (...args) => options.current.onSelectionUpdate?.(...args))
+  editor.on('transaction', (...args) => options.current.onTransaction?.(...args))
+  editor.on('update', (...args) => options.current.onUpdate?.(...args))
+  editor.on('contentError', (...args) => options.current.onContentError?.(...args))
+
+  return editor
+}
+
+/**
  * This hook allows you to create an editor instance.
  * @param options The editor options
  * @param deps The dependencies to watch for changes
@@ -57,7 +77,7 @@ export function useEditor(
   options: UseEditorOptions = {},
   deps: DependencyList = [],
 ): Editor | null {
-  const isMounted = useRef(false)
+  const mostRecentOptions = useRef(options)
   const [editor, setEditor] = useState(() => {
     if (options.immediatelyRender === undefined) {
       if (isSSR || isNext) {
@@ -77,7 +97,7 @@ export function useEditor(
       }
 
       // Default to immediately rendering when client-side rendering
-      return new Editor(options)
+      return createEditor(mostRecentOptions)
     }
 
     if (options.immediatelyRender && isSSR && isDev) {
@@ -88,167 +108,59 @@ export function useEditor(
     }
 
     if (options.immediatelyRender) {
-      return new Editor(options)
+      return createEditor(mostRecentOptions)
     }
 
     return null
   })
+  const mostRecentEditor = useRef<Editor | null>(editor)
+
+  mostRecentEditor.current = editor
 
   useDebugValue(editor)
 
   // This effect will handle creating/updating the editor instance
   useEffect(() => {
-    let editorInstance: Editor | null = editor
-
-    if (!editorInstance) {
-      editorInstance = new Editor(options)
-      // instantiate the editor if it doesn't exist
-      // for ssr, this is the first time the editor is created
-      setEditor(editorInstance)
-    } else if (Array.isArray(deps) && deps.length) {
-      // We need to destroy the editor instance and re-initialize it
-      // when the deps array changes
-      editorInstance.destroy()
-
-      // the deps array is used to re-initialize the editor instance
-      editorInstance = new Editor(options)
-
-      setEditor(editorInstance)
-    } else {
-      // if the editor does exist & deps are empty, we don't need to re-initialize the editor
-      // we can fast-path to update the editor options on the existing instance
-      editorInstance.setOptions(options)
-    }
-  }, deps)
-
-  const {
-    onBeforeCreate,
-    onBlur,
-    onCreate,
-    onDestroy,
-    onFocus,
-    onSelectionUpdate,
-    onTransaction,
-    onUpdate,
-    onContentError,
-  } = options
-
-  const onBeforeCreateRef = useRef(onBeforeCreate)
-  const onBlurRef = useRef(onBlur)
-  const onCreateRef = useRef(onCreate)
-  const onDestroyRef = useRef(onDestroy)
-  const onFocusRef = useRef(onFocus)
-  const onSelectionUpdateRef = useRef(onSelectionUpdate)
-  const onTransactionRef = useRef(onTransaction)
-  const onUpdateRef = useRef(onUpdate)
-  const onContentErrorRef = useRef(onContentError)
-
-  // This effect will handle updating the editor instance
-  // when the event handlers change.
-  useEffect(() => {
-    if (!editor) {
-      return
-    }
-
-    if (onBeforeCreate) {
-      editor.off('beforeCreate', onBeforeCreateRef.current)
-      editor.on('beforeCreate', onBeforeCreate)
-
-      onBeforeCreateRef.current = onBeforeCreate
-    }
-
-    if (onBlur) {
-      editor.off('blur', onBlurRef.current)
-      editor.on('blur', onBlur)
-
-      onBlurRef.current = onBlur
-    }
-
-    if (onCreate) {
-      editor.off('create', onCreateRef.current)
-      editor.on('create', onCreate)
-
-      onCreateRef.current = onCreate
-    }
-
-    if (onDestroy) {
-      editor.off('destroy', onDestroyRef.current)
-      editor.on('destroy', onDestroy)
-
-      onDestroyRef.current = onDestroy
-    }
-
-    if (onFocus) {
-      editor.off('focus', onFocusRef.current)
-      editor.on('focus', onFocus)
-
-      onFocusRef.current = onFocus
-    }
-
-    if (onSelectionUpdate) {
-      editor.off('selectionUpdate', onSelectionUpdateRef.current)
-      editor.on('selectionUpdate', onSelectionUpdate)
-
-      onSelectionUpdateRef.current = onSelectionUpdate
-    }
-
-    if (onTransaction) {
-      editor.off('transaction', onTransactionRef.current)
-      editor.on('transaction', onTransaction)
-
-      onTransactionRef.current = onTransaction
-    }
-
-    if (onUpdate) {
-      editor.off('update', onUpdateRef.current)
-      editor.on('update', onUpdate)
-
-      onUpdateRef.current = onUpdate
-    }
-
-    if (onContentError) {
-      editor.off('contentError', onContentErrorRef.current)
-      editor.on('contentError', onContentError)
-
-      onContentErrorRef.current = onContentError
-    }
-  }, [
-    onBeforeCreate,
-    onBlur,
-    onCreate,
-    onDestroy,
-    onFocus,
-    onSelectionUpdate,
-    onTransaction,
-    onUpdate,
-    onContentError,
-    editor,
-  ])
-
-  /**
-   * Destroy the editor instance when the component completely unmounts
-   * As opposed to the cleanup function in the effect above, this will
-   * only be called when the component is removed from the DOM, since it has no deps.
-   * */
-  useEffect(() => {
-    isMounted.current = true
-    return () => {
-      isMounted.current = false
-      if (editor) {
+    const destroyUnusedEditor = (editorInstance: Editor | null) => {
+      if (editorInstance) {
         // We need to destroy the editor asynchronously to avoid memory leaks
         // because the editor instance is still being used in the component.
 
         setTimeout(() => {
-          // re-use the editor instance if it hasn't been destroyed yet
-          // and the component is still mounted
-          // otherwise, asynchronously destroy the editor instance
-          if (!isMounted.current && !editor.isDestroyed) {
-            editor.destroy()
+          // re-use the editor instance if it hasn't been replaced yet
+          // otherwise, asynchronously destroy the old editor instance
+          if (editorInstance !== mostRecentEditor.current && !editorInstance.isDestroyed) {
+            editorInstance.destroy()
           }
         })
       }
     }
-  }, [])
+
+    let editorInstance = mostRecentEditor.current
+
+    if (!editorInstance) {
+      editorInstance = createEditor(mostRecentOptions)
+      setEditor(editorInstance)
+      return () => destroyUnusedEditor(editorInstance)
+    }
+
+    if (!Array.isArray(deps) || deps.length === 0) {
+      // if the editor does exist & deps are empty, we don't need to re-initialize the editor
+      // we can fast-path to update the editor options on the existing instance
+      editorInstance.setOptions(options)
+
+      return () => destroyUnusedEditor(editorInstance)
+    }
+
+    // We need to destroy the editor instance and re-initialize it
+    // when the deps array changes
+    editorInstance.destroy()
+
+    // the deps array is used to re-initialize the editor instance
+    editorInstance = createEditor(mostRecentOptions)
+    setEditor(editorInstance)
+    return () => destroyUnusedEditor(editorInstance)
+  }, deps)
 
   // The default behavior is to re-render on each transaction
   // This is legacy behavior that will be removed in future versions
