@@ -12,12 +12,12 @@ export function isNodeEmpty(
     return !node.text
   }
 
-  if (node.content.childCount === 0) {
-    return true
+  if (node.isAtom || node.isLeaf) {
+    return false
   }
 
-  if (node.isLeaf) {
-    return false
+  if (node.content.childCount === 0) {
+    return true
   }
 
   if (checkChildren) {
