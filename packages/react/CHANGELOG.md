@@ -1,5 +1,16 @@
 # Change Log
 
+## 2.5.8
+
+### Patch Changes
+
+- 99d7820: Resolve a bug an editor could be instantiated but not destroyed. This was causing issues with multiple instances of plugins still being active and interfering with each other
+- Updated dependencies [a08bf85]
+  - @tiptap/core@2.5.8
+  - @tiptap/extension-bubble-menu@2.5.8
+  - @tiptap/extension-floating-menu@2.5.8
+  - @tiptap/pm@2.5.8
+
 ## 2.5.7
 
 ### Patch Changes
