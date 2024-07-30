@@ -26,9 +26,6 @@ function EditorInstance({ shouldOptimizeRendering }) {
       A highly optimized editor that only re-renders when it’s necessary.
     </p>
     `,
-    onBeforeCreate: () => {
-      console.log('onBeforeCreate')
-    },
   })
   /**
    * This hook allows us to select the editor state we want to use in our component.
