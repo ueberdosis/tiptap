@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- 0ec0af6: fix(core): findDuplicates - use Array.from when converting Set
+  - @tiptap/pm@3.0.0-next.0
+
 ## 2.5.8
 
 ### Patch Changes

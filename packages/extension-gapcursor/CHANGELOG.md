@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-next.0
+
+### Patch Changes
+
+- Updated dependencies [0ec0af6]
+  - @tiptap/core@3.0.0-next.0
+  - @tiptap/pm@3.0.0-next.0
+
 ## 2.5.8
 
 ### Patch Changes
