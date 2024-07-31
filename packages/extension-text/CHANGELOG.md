@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.5.8
+
+### Patch Changes
+
+- Updated dependencies [a08bf85]
+  - @tiptap/core@2.5.8
+
+## 2.5.7
+
+### Patch Changes
+
+- Updated dependencies [b012471]
+- Updated dependencies [cc3497e]
+  - @tiptap/core@2.5.7
+
 ## 2.5.6
 
 ### Patch Changes

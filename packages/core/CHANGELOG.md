@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.5.8
+
+### Patch Changes
+
+- a08bf85: This fixes a bug with inputrules not being able to resolve positions properly
+  - @tiptap/pm@2.5.8
+
+## 2.5.7
+
+### Patch Changes
+
+- b012471: This addresses an issue with `isNodeEmpty` function where it was also comparing node attributes and finding mismatches on actually empty nodes. This helps placeholders find empty content correctly
+- cc3497e: Fixes a bug where if `enableContentCheck` was true, inserting content as JSON nodes would fail. This was because the node that was being created technically had a different schema than the content being inserted, so it would fail to generate the correct content value
+  - @tiptap/pm@2.5.7
+
 ## 2.5.6
 
 ### Patch Changes
