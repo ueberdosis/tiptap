@@ -29,15 +29,14 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.5.6",
-    "@tiptap/pm": "^2.5.6"
+    "@floating-ui/dom": "^1.0.0",
+    "@tiptap/core": "^2.5.7",
+    "@tiptap/pm": "^2.5.7"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.5.6",
-    "@tiptap/pm": "^2.5.6"
-  },
-  "dependencies": {
-    "tippy.js": "^6.3.7"
+    "@floating-ui/dom": "^1.0.0",
+    "@tiptap/core": "^2.5.7",
+    "@tiptap/pm": "^2.5.7"
   },
   "repository": {
     "type": "git",

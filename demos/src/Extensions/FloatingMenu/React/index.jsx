@@ -33,7 +33,7 @@ export default () => {
           Editable
         </label>
       </div>
-      {editor && <FloatingMenu editor={editor} tippyOptions={{ duration: 100 }}>
+      {editor && <FloatingMenu editor={editor}>
         <div className="floating-menu">
           <button
             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}

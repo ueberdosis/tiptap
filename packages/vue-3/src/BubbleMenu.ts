@@ -6,6 +6,7 @@ import {
   onMounted,
   PropType,
   ref,
+  Teleport,
 } from 'vue'
 
 export const BubbleMenu = defineComponent({
@@ -27,8 +28,13 @@ export const BubbleMenu = defineComponent({
       default: undefined,
     },
 
-    tippyOptions: {
-      type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
+    resizeDelay: {
+      type: Number as PropType<BubbleMenuPluginProps['resizeDelay']>,
+      default: undefined,
+    },
+
+    options: {
+      type: Object as PropType<BubbleMenuPluginProps['options']>,
       default: () => ({}),
     },
 
@@ -43,20 +49,32 @@ export const BubbleMenu = defineComponent({
 
     onMounted(() => {
       const {
-        updateDelay,
         editor,
+        options,
         pluginKey,
+        resizeDelay,
         shouldShow,
-        tippyOptions,
+        updateDelay,
       } = props
 
+      if (!root.value) {
+        return
+      }
+
+      root.value.style.visibility = 'hidden'
+      root.value.style.position = 'absolute'
+
+      // remove the element from the DOM
+      root.value.remove()
+
       editor.registerPlugin(BubbleMenuPlugin({
-        updateDelay,
         editor,
         element: root.value as HTMLElement,
+        options,
         pluginKey,
+        resizeDelay,
         shouldShow,
-        tippyOptions,
+        updateDelay,
       }))
     })
 
@@ -66,6 +84,6 @@ export const BubbleMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
-    return () => h('div', { ref: root }, slots.default?.())
+    return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
   },
 })
