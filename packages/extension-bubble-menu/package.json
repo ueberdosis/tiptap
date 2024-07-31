@@ -35,12 +35,12 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@floating-ui/dom": "^1.6.0",
+    "@floating-ui/dom": "^1.0.0",
     "@tiptap/core": "^2.5.7",
     "@tiptap/pm": "^2.5.7"
   },
   "peerDependencies": {
-    "@floating-ui/dom": "^1.6.0",
+    "@floating-ui/dom": "^1.0.0",
     "@tiptap/core": "^2.5.7",
     "@tiptap/pm": "^2.5.7"
   },
