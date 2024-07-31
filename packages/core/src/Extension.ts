@@ -457,7 +457,7 @@ export class Extension<Options = any, Storage = any> {
   configure(options: Partial<Options> = {}) {
     // return a new instance so we can use the same extension
     // with different calls of `configure`
-    const extension = this.extend({
+    const extension = this.extend<Options, Storage>({
       ...this.config,
       addOptions: () => {
         return mergeDeep(this.options as Record<string, any>, options) as Options
