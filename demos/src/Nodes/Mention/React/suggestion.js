@@ -91,7 +91,6 @@ export default {
       onKeyDown(props) {
         if (props.event.key === 'Escape') {
           component.destroy()
-          component.element.remove()
 
           return true
         }
@@ -101,7 +100,6 @@ export default {
 
       onExit() {
         component.destroy()
-        component.element.remove()
       },
     }
   },
