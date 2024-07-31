@@ -30,13 +30,13 @@
   ],
   "devDependencies": {
     "@floating-ui/dom": "^1.0.0",
-    "@tiptap/core": "^2.5.7",
-    "@tiptap/pm": "^2.5.7"
+    "@tiptap/core": "^2.5.6",
+    "@tiptap/pm": "^2.5.6"
   },
   "peerDependencies": {
     "@floating-ui/dom": "^1.0.0",
-    "@tiptap/core": "^2.5.7",
-    "@tiptap/pm": "^2.5.7"
+    "@tiptap/core": "^2.5.6",
+    "@tiptap/pm": "^2.5.6"
   },
   "repository": {
     "type": "git",
