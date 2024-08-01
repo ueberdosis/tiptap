@@ -205,14 +205,24 @@ form {
   font-size: 0.75rem;
   gap: 0.25rem;
   line-height: 1.15;
-  min-height: 1.75rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.5rem;
 
   &.purple-spinner,
   &.error {
     justify-content: center;
     text-align: center;
     width: 100%;
+  }
+
+  .badge {
+    background-color: var(--gray-1);
+    border: 1px solid var(--gray-3);
+    border-radius: 2rem;
+    color: var(--gray-5);
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
   }
 
   &.purple-spinner {
