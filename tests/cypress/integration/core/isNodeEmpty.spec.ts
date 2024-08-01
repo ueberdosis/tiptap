@@ -3,9 +3,10 @@
 import { getSchema, isNodeEmpty } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
+import Mention from '@tiptap/extension-mention'
 import StarterKit from '@tiptap/starter-kit'
 
-const schema = getSchema([StarterKit])
+const schema = getSchema([StarterKit, Mention])
 const modifiedSchema = getSchema([StarterKit.configure({ document: false }), Document.extend({ content: 'heading block*' })])
 const imageSchema = getSchema([StarterKit.configure({ document: false }), Document.extend({ content: 'image block*' }), Image])
 
@@ -21,6 +22,30 @@ describe('isNodeEmpty', () => {
       const node = schema.nodeFromJSON({
         type: 'paragraph',
         content: [{ type: 'text', text: 'Hello world!' }],
+      })
+
+      expect(isNodeEmpty(node)).to.eq(false)
+    })
+
+    it('should return false when a paragraph has hardbreaks', () => {
+      const node = schema.nodeFromJSON({
+        type: 'paragraph',
+        content: [{ type: 'hardBreak' }],
+      })
+
+      expect(isNodeEmpty(node)).to.eq(false)
+    })
+
+    it('should return false when a paragraph has a mention', () => {
+      const node = schema.nodeFromJSON({
+        type: 'paragraph',
+        content: [{
+          type: 'mention',
+          attrs: {
+            id: 'Winona Ryder',
+            label: null,
+          },
+        }],
       })
 
       expect(isNodeEmpty(node)).to.eq(false)
@@ -177,7 +202,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(true)
+      expect(isNodeEmpty(node)).to.eq(false)
     })
   })
 })
