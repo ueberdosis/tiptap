@@ -14,6 +14,15 @@ module.exports = {
         './**/*.tsx',
         './**/*.js',
         './**/*.jsx',
+      ],
+      extends: ['plugin:react-hooks/recommended'],
+    },
+    {
+      files: [
+        './**/*.ts',
+        './**/*.tsx',
+        './**/*.js',
+        './**/*.jsx',
         './**/*.vue',
       ],
       plugins: [
@@ -33,7 +42,6 @@ module.exports = {
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:vue/vue3-strongly-recommended',
-        'plugin:react-hooks/recommended',
         'airbnb-base',
       ],
       rules: {
