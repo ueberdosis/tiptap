@@ -300,6 +300,8 @@ export function useEditor(
 ): Editor | null {
   const mostRecentOptions = useRef(options)
 
+  mostRecentOptions.current = options
+
   const [instanceManager] = useState(() => new EditorInstanceManager(mostRecentOptions))
 
   const editor = useSyncExternalStore(
