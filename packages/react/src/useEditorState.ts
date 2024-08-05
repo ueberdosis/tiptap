@@ -30,68 +30,83 @@ export type UseEditorStateOptions<
  * To synchronize the editor instance with the component state,
  * we need to create a separate instance that is not affected by the component re-renders.
  */
-function makeEditorStateInstance<TEditor extends Editor | null = Editor | null>(initialEditor: TEditor) {
-  let transactionNumber = 0
-  let lastTransactionNumber = 0
-  let lastSnapshot: EditorStateSnapshot<TEditor> = { editor: initialEditor, transactionNumber: 0 }
-  let editor = initialEditor
-  const subscribers = new Set<() => void>()
+class EditorStateManager<TEditor extends Editor | null = Editor | null> {
+  private transactionNumber = 0
 
-  const editorInstance = {
-    /**
-     * Get the current editor instance.
-     */
-    getSnapshot(): EditorStateSnapshot<TEditor> {
-      if (transactionNumber === lastTransactionNumber) {
-        return lastSnapshot
-      }
-      lastTransactionNumber = transactionNumber
-      lastSnapshot = { editor, transactionNumber }
-      return lastSnapshot
-    },
-    /**
-     * Always disable the editor on the server-side.
-     */
-    getServerSnapshot(): EditorStateSnapshot<null> {
-      return { editor: null, transactionNumber: 0 }
-    },
-    /**
-     * Subscribe to the editor instance's changes.
-     */
-    subscribe(callback: () => void) {
-      subscribers.add(callback)
-      return () => {
-        subscribers.delete(callback)
-      }
-    },
-    /**
-     * Watch the editor instance for changes.
-     */
-    watch(nextEditor: Editor | null) {
-      editor = nextEditor as TEditor
+  private lastTransactionNumber = 0
 
-      if (editor) {
-        /**
-         * This will force a re-render when the editor state changes.
-         * This is to support things like `editor.can().toggleBold()` in components that `useEditor`.
-         * This could be more efficient, but it's a good trade-off for now.
-         */
-        const fn = () => {
-          transactionNumber += 1
-          subscribers.forEach(callback => callback())
-        }
+  private lastSnapshot: EditorStateSnapshot<TEditor>
 
-        const currentEditor = editor
+  private editor: TEditor
 
-        currentEditor.on('transaction', fn)
-        return () => {
-          currentEditor.off('transaction', fn)
-        }
-      }
-    },
+  private subscribers = new Set<() => void>()
+
+  constructor(initialEditor: TEditor) {
+    this.editor = initialEditor
+    this.lastSnapshot = { editor: initialEditor, transactionNumber: 0 }
+
+    this.getSnapshot = this.getSnapshot.bind(this)
+    this.getServerSnapshot = this.getServerSnapshot.bind(this)
+    this.watch = this.watch.bind(this)
+    this.subscribe = this.subscribe.bind(this)
   }
 
-  return editorInstance
+  /**
+   * Get the current editor instance.
+   */
+  getSnapshot(): EditorStateSnapshot<TEditor> {
+    if (this.transactionNumber === this.lastTransactionNumber) {
+      return this.lastSnapshot
+    }
+    this.lastTransactionNumber = this.transactionNumber
+    this.lastSnapshot = { editor: this.editor, transactionNumber: this.transactionNumber }
+    return this.lastSnapshot
+  }
+
+  /**
+   * Always disable the editor on the server-side.
+   */
+  getServerSnapshot(): EditorStateSnapshot<null> {
+    return { editor: null, transactionNumber: 0 }
+  }
+
+  /**
+   * Subscribe to the editor instance's changes.
+   */
+  subscribe(callback: () => void): () => void {
+    this.subscribers.add(callback)
+    return () => {
+      this.subscribers.delete(callback)
+    }
+  }
+
+  /**
+   * Watch the editor instance for changes.
+   */
+  watch(nextEditor: Editor | null): undefined | (() => void) {
+    this.editor = nextEditor as TEditor
+
+    if (this.editor) {
+      /**
+       * This will force a re-render when the editor state changes.
+       * This is to support things like `editor.can().toggleBold()` in components that `useEditor`.
+       * This could be more efficient, but it's a good trade-off for now.
+       */
+      const fn = () => {
+        this.transactionNumber += 1
+        this.subscribers.forEach(callback => callback())
+      }
+
+      const currentEditor = this.editor
+
+      currentEditor.on('transaction', fn)
+      return () => {
+        currentEditor.off('transaction', fn)
+      }
+    }
+
+    return undefined
+  }
 }
 
 export function useEditorState<TSelectorResult>(
@@ -104,7 +119,7 @@ export function useEditorState<TSelectorResult>(
 export function useEditorState<TSelectorResult>(
   options: UseEditorStateOptions<TSelectorResult, Editor> | UseEditorStateOptions<TSelectorResult, Editor | null>,
 ): TSelectorResult | null {
-  const [editorInstance] = useState(() => makeEditorStateInstance(options.editor))
+  const [editorInstance] = useState(() => new EditorStateManager(options.editor))
 
   // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
   const selectedState = useSyncExternalStoreWithSelector(
@@ -117,7 +132,7 @@ export function useEditorState<TSelectorResult>(
 
   useEffect(() => {
     return editorInstance.watch(options.editor)
-  }, [options.editor])
+  }, [options.editor, editorInstance])
 
   useDebugValue(selectedState)
 

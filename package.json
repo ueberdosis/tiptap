@@ -58,6 +58,7 @@
     "eslint-plugin-cypress": "^2.15.2",
     "eslint-plugin-html": "^6.2.0",
     "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-vue": "^9.27.0",
     "husky": "^8.0.3",
