@@ -24,7 +24,7 @@ export const getTextContentFromNodes = ($from: ResolvedPos, maxMatch = 500) => {
         || node.textContent
         || '%leaf%'
 
-      textBefore += chunk.slice(0, Math.max(0, sliceEndPos - pos))
+      textBefore += node.isAtom && !node.isText ? chunk : chunk.slice(0, Math.max(0, sliceEndPos - pos))
     },
   )
 

@@ -1,7 +1,4 @@
-import {
-  Mark, MarkType, Node, NodeType,
-} from '@tiptap/pm/model'
-import { SelectionRange } from '@tiptap/pm/state'
+import { MarkType, NodeType } from '@tiptap/pm/model'
 
 import { getMarkType } from '../helpers/getMarkType.js'
 import { getNodeType } from '../helpers/getNodeType.js'
@@ -54,49 +51,37 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
   }
 
   if (dispatch) {
-    let lastPos: number | undefined
-    let lastNode: Node | undefined
-    let trimmedFrom: number
-    let trimmedTo: number
-
-    tr.selection.ranges.forEach((range: SelectionRange) => {
+    tr.selection.ranges.forEach(range => {
       const from = range.$from.pos
       const to = range.$to.pos
 
-      state.doc.nodesBetween(from, to, (node: Node, pos: number) => {
+      state.doc.nodesBetween(from, to, (node, pos) => {
         if (nodeType && nodeType === node.type) {
-          trimmedFrom = Math.max(pos, from)
-          trimmedTo = Math.min(pos + node.nodeSize, to)
-          lastPos = pos
-          lastNode = node
+          tr.setNodeMarkup(pos, undefined, {
+            ...node.attrs,
+            ...attributes,
+          })
+        }
+
+        if (markType && node.marks.length) {
+          node.marks.forEach(mark => {
+            if (markType === mark.type) {
+              const trimmedFrom = Math.max(pos, from)
+              const trimmedTo = Math.min(pos + node.nodeSize, to)
+
+              tr.addMark(
+                trimmedFrom,
+                trimmedTo,
+                markType.create({
+                  ...mark.attrs,
+                  ...attributes,
+                }),
+              )
+            }
+          })
         }
       })
     })
-
-    if (lastNode) {
-
-      if (lastPos !== undefined) {
-        tr.setNodeMarkup(lastPos, undefined, {
-          ...lastNode.attrs,
-          ...attributes,
-        })
-      }
-
-      if (markType && lastNode.marks.length) {
-        lastNode.marks.forEach((mark: Mark) => {
-          if (markType === mark.type) {
-            tr.addMark(
-              trimmedFrom,
-              trimmedTo,
-              markType.create({
-                ...mark.attrs,
-                ...attributes,
-              }),
-            )
-          }
-        })
-      }
-    }
   }
 
   return true
