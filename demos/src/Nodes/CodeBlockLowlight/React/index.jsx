@@ -13,14 +13,25 @@ import html from 'highlight.js/lib/languages/xml'
 import { all, createLowlight } from 'lowlight'
 import React from 'react'
 
-// create a lowlight instance
+// create a lowlight instance with all languages loaded
 const lowlight = createLowlight(all)
 
-// you can also register languages
+// This is only an example, all supported languages are already loaded above
+// but you can also register only specific languages to reduce bundle-size
 lowlight.register('html', html)
 lowlight.register('css', css)
 lowlight.register('js', js)
 lowlight.register('ts', ts)
+
+/**
+ * Lowlight version 2.x had a different API
+ * import { lowlight } from 'lowlight'
+ *
+ * lowlight.registerLanguage('html', html)
+ * lowlight.registerLanguage('css', css)
+ * lowlight.registerLanguage('js', js)
+ * lowlight.registerLanguage('ts', ts)
+ */
 
 export default () => {
   const editor = useEditor({
