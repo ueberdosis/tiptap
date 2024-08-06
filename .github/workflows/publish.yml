@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - next
   # manual trigger for other branches
   workflow_dispatch:
 
