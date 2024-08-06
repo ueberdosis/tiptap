@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0
+
+### Patch Changes
+
+- 174aefe: This updates y-prosemirror to a version that no longer has syncing problems and extension collaboration now respects the onFirstRender option
+- Updated dependencies [84ebd51]
+- Updated dependencies [0ec0af6]
+- Updated dependencies [ae0254d]
+- Updated dependencies [efb27fa]
+  - @tiptap/core@3.0.0
+
 ## 2.5.8
 
 ### Patch Changes

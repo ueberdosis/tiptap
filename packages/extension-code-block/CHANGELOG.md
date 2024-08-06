@@ -1,5 +1,20 @@
 # Change Log
 
+## 3.0.0
+
+### Minor Changes
+
+- 4b215f7: `defaultLanguage` on Code Block Lowlight was not being respected properly, to address this we added `defaultLanguage` as an option to the code-block extension.
+
+### Patch Changes
+
+- Updated dependencies [84ebd51]
+- Updated dependencies [0ec0af6]
+- Updated dependencies [ae0254d]
+- Updated dependencies [efb27fa]
+  - @tiptap/core@3.0.0
+  - @tiptap/pm@3.0.0
+
 ## 2.5.8
 
 ### Patch Changes
