@@ -6,7 +6,6 @@ highlight.js/lib/languages/xml
 highlight.js/lib/core
 linkifyjs
 lowlight
-lowlight/lib/core
 prosemirror-commands
 prosemirror-dropcursor
 prosemirror-gapcursor
@@ -21,6 +20,7 @@ prosemirror-view
 react
 react-dom
 react-dom/client
+use-sync-external-store/shim/with-selector
 shiki
 simplify-js
 tippy.js

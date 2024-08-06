@@ -31,12 +31,15 @@
   "devDependencies": {
     "@tiptap/core": "^2.5.8",
     "@tiptap/extension-code-block": "^2.5.8",
-    "@tiptap/pm": "^2.5.8"
+    "@tiptap/pm": "^2.5.8",
+    "lowlight": "^2 || ^3"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.5.8",
     "@tiptap/extension-code-block": "^2.5.8",
-    "@tiptap/pm": "^2.5.8"
+    "@tiptap/pm": "^2.5.8",
+    "lowlight": "^2 || ^3",
+    "highlight.js": "^11"
   },
   "repository": {
     "type": "git",
