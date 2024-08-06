@@ -20,7 +20,7 @@
     "remixicon": "^2.5.0",
     "shiki": "^1.10.3",
     "simplify-js": "^1.2.4",
-    "y-prosemirror": "^1.2.9",
+    "y-prosemirror": "^1.2.11",
     "y-webrtc": "^10.3.0",
     "yjs": "^13.6.18"
   },

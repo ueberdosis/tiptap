@@ -46,11 +46,10 @@ export const EditorContent = defineComponent({
           if (instance) {
             editor.appContext = {
               ...instance.appContext,
-              provides: Object.assign(
-                instance.appContext.provides,
-                // @ts-ignore
-                instance.provides,
-              ),
+              // Vue internally uses prototype chain to forward/shadow injects across the entire component chain
+              // so don't use object spread operator or 'Object.assign' and just set `provides` as is on editor's appContext
+              // @ts-expect-error forward instance's 'provides' into appContext
+              provides: instance.provides,
             }
           }
 

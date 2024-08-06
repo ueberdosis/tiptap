@@ -1,7 +1,13 @@
 import { EditorOptions } from '@tiptap/core'
 import {
-  DependencyList, useDebugValue, useEffect, useRef, useState,
+  DependencyList,
+  MutableRefObject,
+  useDebugValue,
+  useEffect,
+  useRef,
+  useState,
 } from 'react'
+import { useSyncExternalStore } from 'use-sync-external-store/shim'
 
 import { Editor } from './Editor.js'
 import { useEditorState } from './useEditorState.js'
@@ -30,6 +36,244 @@ export type UseEditorOptions = Partial<EditorOptions> & {
 };
 
 /**
+ * This class handles the creation, destruction, and re-creation of the editor instance.
+ */
+class EditorInstanceManager {
+  /**
+   * The current editor instance.
+   */
+  private editor: Editor | null = null
+
+  /**
+   * The most recent options to apply to the editor.
+   */
+  private options: MutableRefObject<UseEditorOptions>
+
+  /**
+   * The subscriptions to notify when the editor instance
+   * has been created or destroyed.
+   */
+  private subscriptions = new Set<() => void>()
+
+  /**
+   * A timeout to destroy the editor if it was not mounted within a time frame.
+   */
+  private scheduledDestructionTimeout: ReturnType<typeof setTimeout> | undefined
+
+  /**
+   * Whether the editor has been mounted.
+   */
+  private isComponentMounted = false
+
+  /**
+   * The most recent dependencies array.
+   */
+  private previousDeps: DependencyList | null = null
+
+  /**
+   * The unique instance ID. This is used to identify the editor instance. And will be re-generated for each new instance.
+   */
+  public instanceId = ''
+
+  constructor(options: MutableRefObject<UseEditorOptions>) {
+    this.options = options
+    this.subscriptions = new Set<() => void>()
+    this.setEditor(this.getInitialEditor())
+
+    this.getEditor = this.getEditor.bind(this)
+    this.getServerSnapshot = this.getServerSnapshot.bind(this)
+    this.subscribe = this.subscribe.bind(this)
+    this.refreshEditorInstance = this.refreshEditorInstance.bind(this)
+    this.scheduleDestroy = this.scheduleDestroy.bind(this)
+    this.onRender = this.onRender.bind(this)
+    this.createEditor = this.createEditor.bind(this)
+  }
+
+  private setEditor(editor: Editor | null) {
+    this.editor = editor
+    this.instanceId = Math.random().toString(36).slice(2, 9)
+
+    // Notify all subscribers that the editor instance has been created
+    this.subscriptions.forEach(cb => cb())
+  }
+
+  private getInitialEditor() {
+    if (this.options.current.immediatelyRender === undefined) {
+      if (isSSR || isNext) {
+        // TODO in the next major release, we should throw an error here
+        if (isDev) {
+          /**
+           * Throw an error in development, to make sure the developer is aware that tiptap cannot be SSR'd
+           * and that they need to set `immediatelyRender` to `false` to avoid hydration mismatches.
+           */
+          console.warn(
+            'Tiptap Error: SSR has been detected, please set `immediatelyRender` explicitly to `false` to avoid hydration mismatches.',
+          )
+        }
+
+        // Best faith effort in production, run the code in the legacy mode to avoid hydration mismatches and errors in production
+        return null
+      }
+
+      // Default to immediately rendering when client-side rendering
+      return this.createEditor()
+    }
+
+    if (this.options.current.immediatelyRender && isSSR && isDev) {
+      // Warn in development, to make sure the developer is aware that tiptap cannot be SSR'd, set `immediatelyRender` to `false` to avoid hydration mismatches.
+      throw new Error(
+        'Tiptap Error: SSR has been detected, and `immediatelyRender` has been set to `true` this is an unsupported configuration that may result in errors, explicitly set `immediatelyRender` to `false` to avoid hydration mismatches.',
+      )
+    }
+
+    if (this.options.current.immediatelyRender) {
+      return this.createEditor()
+    }
+
+    return null
+  }
+
+  /**
+   * Create a new editor instance. And attach event listeners.
+   */
+  private createEditor(): Editor {
+    const editor = new Editor(this.options.current)
+
+    // Always call the most recent version of the callback function by default
+    editor.on('beforeCreate', (...args) => this.options.current.onBeforeCreate?.(...args))
+    editor.on('blur', (...args) => this.options.current.onBlur?.(...args))
+    editor.on('create', (...args) => this.options.current.onCreate?.(...args))
+    editor.on('destroy', (...args) => this.options.current.onDestroy?.(...args))
+    editor.on('focus', (...args) => this.options.current.onFocus?.(...args))
+    editor.on('selectionUpdate', (...args) => this.options.current.onSelectionUpdate?.(...args))
+    editor.on('transaction', (...args) => this.options.current.onTransaction?.(...args))
+    editor.on('update', (...args) => this.options.current.onUpdate?.(...args))
+    editor.on('contentError', (...args) => this.options.current.onContentError?.(...args))
+
+    // no need to keep track of the event listeners, they will be removed when the editor is destroyed
+
+    return editor
+  }
+
+  /**
+   * Get the current editor instance.
+   */
+  getEditor(): Editor | null {
+    return this.editor
+  }
+
+  /**
+   * Always disable the editor on the server-side.
+   */
+  getServerSnapshot(): null {
+    return null
+  }
+
+  /**
+   * Subscribe to the editor instance's changes.
+   */
+  subscribe(onStoreChange: () => void) {
+    this.subscriptions.add(onStoreChange)
+
+    return () => {
+      this.subscriptions.delete(onStoreChange)
+    }
+  }
+
+  /**
+   * On each render, we will create, update, or destroy the editor instance.
+   * @param deps The dependencies to watch for changes
+   * @returns A cleanup function
+   */
+  onRender(deps: DependencyList) {
+    // The returned callback will run on each render
+    return () => {
+      this.isComponentMounted = true
+      // Cleanup any scheduled destructions, since we are currently rendering
+      clearTimeout(this.scheduledDestructionTimeout)
+
+      if (this.editor && !this.editor.isDestroyed && deps.length === 0) {
+        // if the editor does exist & deps are empty, we don't need to re-initialize the editor
+        // we can fast-path to update the editor options on the existing instance
+        this.editor.setOptions(this.options.current)
+      } else {
+        // When the editor:
+        // - does not yet exist
+        // - is destroyed
+        // - the deps array changes
+        // We need to destroy the editor instance and re-initialize it
+        this.refreshEditorInstance(deps)
+      }
+
+      return () => {
+        this.isComponentMounted = false
+        this.scheduleDestroy()
+      }
+    }
+  }
+
+  /**
+   * Recreate the editor instance if the dependencies have changed.
+   */
+  private refreshEditorInstance(deps: DependencyList) {
+
+    if (this.editor && !this.editor.isDestroyed) {
+      // Editor instance already exists
+      if (this.previousDeps === null) {
+        // If lastDeps has not yet been initialized, reuse the current editor instance
+        this.previousDeps = deps
+        return
+      }
+      const depsAreEqual = this.previousDeps.length === deps.length
+        && this.previousDeps.every((dep, index) => dep === deps[index])
+
+      if (depsAreEqual) {
+        // deps exist and are equal, no need to recreate
+        return
+      }
+    }
+
+    if (this.editor && !this.editor.isDestroyed) {
+      // Destroy the editor instance if it exists
+      this.editor.destroy()
+    }
+
+    this.setEditor(this.createEditor())
+
+    // Update the lastDeps to the current deps
+    this.previousDeps = deps
+  }
+
+  /**
+   * Schedule the destruction of the editor instance.
+   * This will only destroy the editor if it was not mounted on the next tick.
+   * This is to avoid destroying the editor instance when it's actually still mounted.
+   */
+  private scheduleDestroy() {
+    const currentInstanceId = this.instanceId
+    const currentEditor = this.editor
+
+    // Wait a tick to see if the component is still mounted
+    this.scheduledDestructionTimeout = setTimeout(() => {
+      if (this.isComponentMounted && this.instanceId === currentInstanceId) {
+        // If still mounted on the next tick, with the same instanceId, do not destroy the editor
+        if (currentEditor) {
+          // just re-apply options as they might have changed
+          currentEditor.setOptions(this.options.current)
+        }
+        return
+      }
+      if (currentEditor && !currentEditor.isDestroyed) {
+        currentEditor.destroy()
+        if (this.instanceId === currentInstanceId) {
+          this.setEditor(null)
+        }
+      }
+    }, 0)
+  }
+}
+
+/**
  * This hook allows you to create an editor instance.
  * @param options The editor options
  * @param deps The dependencies to watch for changes
@@ -48,207 +292,29 @@ export function useEditor(
  * @returns The editor instance
  * @example const editor = useEditor({ extensions: [...] })
  */
-export function useEditor(
-  options?: UseEditorOptions,
-  deps?: DependencyList
-): Editor | null;
+export function useEditor(options?: UseEditorOptions, deps?: DependencyList): Editor | null;
 
 export function useEditor(
   options: UseEditorOptions = {},
   deps: DependencyList = [],
 ): Editor | null {
-  const isMounted = useRef(false)
-  const [editor, setEditor] = useState(() => {
-    if (options.immediatelyRender === undefined) {
-      if (isSSR || isNext) {
-        // TODO in the next major release, we should throw an error here
-        if (isDev) {
-          /**
-           * Throw an error in development, to make sure the developer is aware that tiptap cannot be SSR'd
-           * and that they need to set `immediatelyRender` to `false` to avoid hydration mismatches.
-           */
-          console.warn(
-            'Tiptap Error: SSR has been detected, please set `immediatelyRender` explicitly to `false` to avoid hydration mismatches.',
-          )
-        }
+  const mostRecentOptions = useRef(options)
 
-        // Best faith effort in production, run the code in the legacy mode to avoid hydration mismatches and errors in production
-        return null
-      }
+  mostRecentOptions.current = options
 
-      // Default to immediately rendering when client-side rendering
-      return new Editor(options)
-    }
+  const [instanceManager] = useState(() => new EditorInstanceManager(mostRecentOptions))
 
-    if (options.immediatelyRender && isSSR && isDev) {
-      // Warn in development, to make sure the developer is aware that tiptap cannot be SSR'd, set `immediatelyRender` to `false` to avoid hydration mismatches.
-      throw new Error(
-        'Tiptap Error: SSR has been detected, and `immediatelyRender` has been set to `true` this is an unsupported configuration that may result in errors, explicitly set `immediatelyRender` to `false` to avoid hydration mismatches.',
-      )
-    }
-
-    if (options.immediatelyRender) {
-      return new Editor(options)
-    }
-
-    return null
-  })
+  const editor = useSyncExternalStore(
+    instanceManager.subscribe,
+    instanceManager.getEditor,
+    instanceManager.getServerSnapshot,
+  )
 
   useDebugValue(editor)
 
   // This effect will handle creating/updating the editor instance
-  useEffect(() => {
-    let editorInstance: Editor | null = editor
-
-    if (!editorInstance) {
-      editorInstance = new Editor(options)
-      // instantiate the editor if it doesn't exist
-      // for ssr, this is the first time the editor is created
-      setEditor(editorInstance)
-    } else if (Array.isArray(deps) && deps.length) {
-      // We need to destroy the editor instance and re-initialize it
-      // when the deps array changes
-      editorInstance.destroy()
-
-      // the deps array is used to re-initialize the editor instance
-      editorInstance = new Editor(options)
-
-      setEditor(editorInstance)
-    } else {
-      // if the editor does exist & deps are empty, we don't need to re-initialize the editor
-      // we can fast-path to update the editor options on the existing instance
-      editorInstance.setOptions(options)
-    }
-  }, deps)
-
-  const {
-    onBeforeCreate,
-    onBlur,
-    onCreate,
-    onDestroy,
-    onFocus,
-    onSelectionUpdate,
-    onTransaction,
-    onUpdate,
-    onContentError,
-  } = options
-
-  const onBeforeCreateRef = useRef(onBeforeCreate)
-  const onBlurRef = useRef(onBlur)
-  const onCreateRef = useRef(onCreate)
-  const onDestroyRef = useRef(onDestroy)
-  const onFocusRef = useRef(onFocus)
-  const onSelectionUpdateRef = useRef(onSelectionUpdate)
-  const onTransactionRef = useRef(onTransaction)
-  const onUpdateRef = useRef(onUpdate)
-  const onContentErrorRef = useRef(onContentError)
-
-  // This effect will handle updating the editor instance
-  // when the event handlers change.
-  useEffect(() => {
-    if (!editor) {
-      return
-    }
-
-    if (onBeforeCreate) {
-      editor.off('beforeCreate', onBeforeCreateRef.current)
-      editor.on('beforeCreate', onBeforeCreate)
-
-      onBeforeCreateRef.current = onBeforeCreate
-    }
-
-    if (onBlur) {
-      editor.off('blur', onBlurRef.current)
-      editor.on('blur', onBlur)
-
-      onBlurRef.current = onBlur
-    }
-
-    if (onCreate) {
-      editor.off('create', onCreateRef.current)
-      editor.on('create', onCreate)
-
-      onCreateRef.current = onCreate
-    }
-
-    if (onDestroy) {
-      editor.off('destroy', onDestroyRef.current)
-      editor.on('destroy', onDestroy)
-
-      onDestroyRef.current = onDestroy
-    }
-
-    if (onFocus) {
-      editor.off('focus', onFocusRef.current)
-      editor.on('focus', onFocus)
-
-      onFocusRef.current = onFocus
-    }
-
-    if (onSelectionUpdate) {
-      editor.off('selectionUpdate', onSelectionUpdateRef.current)
-      editor.on('selectionUpdate', onSelectionUpdate)
-
-      onSelectionUpdateRef.current = onSelectionUpdate
-    }
-
-    if (onTransaction) {
-      editor.off('transaction', onTransactionRef.current)
-      editor.on('transaction', onTransaction)
-
-      onTransactionRef.current = onTransaction
-    }
-
-    if (onUpdate) {
-      editor.off('update', onUpdateRef.current)
-      editor.on('update', onUpdate)
-
-      onUpdateRef.current = onUpdate
-    }
-
-    if (onContentError) {
-      editor.off('contentError', onContentErrorRef.current)
-      editor.on('contentError', onContentError)
-
-      onContentErrorRef.current = onContentError
-    }
-  }, [
-    onBeforeCreate,
-    onBlur,
-    onCreate,
-    onDestroy,
-    onFocus,
-    onSelectionUpdate,
-    onTransaction,
-    onUpdate,
-    onContentError,
-    editor,
-  ])
-
-  /**
-   * Destroy the editor instance when the component completely unmounts
-   * As opposed to the cleanup function in the effect above, this will
-   * only be called when the component is removed from the DOM, since it has no deps.
-   * */
-  useEffect(() => {
-    isMounted.current = true
-    return () => {
-      isMounted.current = false
-      if (editor) {
-        // We need to destroy the editor asynchronously to avoid memory leaks
-        // because the editor instance is still being used in the component.
-
-        setTimeout(() => {
-          // re-use the editor instance if it hasn't been destroyed yet
-          // and the component is still mounted
-          // otherwise, asynchronously destroy the editor instance
-          if (!isMounted.current && !editor.isDestroyed) {
-            editor.destroy()
-          }
-        })
-      }
-    }
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(instanceManager.onRender(deps))
 
   // The default behavior is to re-render on each transaction
   // This is legacy behavior that will be removed in future versions

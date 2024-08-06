@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.5.8
+
+### Patch Changes
+
+- a08bf85: This fixes a bug with inputrules not being able to resolve positions properly
+  - @tiptap/pm@2.5.8
+
 ## 2.5.7
 
 ### Patch Changes
