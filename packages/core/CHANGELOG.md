@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.5.9
+
+### Patch Changes
+
+- 84ebd51: Fix change criteria for isNodeEmpty to resolve #5415
+- 0ec0af6: fix(core): findDuplicates - use Array.from when converting Set
+- ae0254d: Add `ignoreWhitespace` option to `isNodeEmpty` to ignore any whitespace and hardbreaks in a node to check for emptiness
+- efb27fa: This fixes a discrepency between `getMarksBetween` and `isActive(markName)` where the position used for getMarksBetween was off by one
+  - @tiptap/pm@2.5.9
+
 ## 2.5.8
 
 ### Patch Changes

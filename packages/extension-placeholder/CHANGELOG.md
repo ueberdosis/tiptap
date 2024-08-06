@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.5.9
+
+### Patch Changes
+
+- c1ff1b0: add back `considerAsAny` type but mark it deprecated
+- Updated dependencies [84ebd51]
+- Updated dependencies [0ec0af6]
+- Updated dependencies [ae0254d]
+- Updated dependencies [efb27fa]
+  - @tiptap/core@2.5.9
+  - @tiptap/pm@2.5.9
+
 ## 2.5.8
 
 ### Patch Changes
