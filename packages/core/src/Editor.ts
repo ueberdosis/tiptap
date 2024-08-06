@@ -457,8 +457,16 @@ export class Editor extends EventEmitter<EditorEvents> {
       return
     }
 
+    const prevState = this.state
     const state = this.state.apply(transaction)
     const selectionHasChanged = !this.state.selection.eq(state.selection)
+
+    // The transaction did not change the editor’s state.
+    // It may have been filtered
+    if (prevState === state) {
+      // Skip the update
+      return
+    }
 
     this.emit('beforeTransaction', {
       editor: this,
