@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.4.2
+
+### Patch Changes
+
+- d6e56c4: declare lowlight to be a peer dep of extension-code-block-lowlight, update usage to v3
+
 ## 2.4.1
 
 ### Patch Changes

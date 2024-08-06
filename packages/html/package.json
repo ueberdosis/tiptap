@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/html",
   "description": "utility package to render tiptap JSON as HTML",
-  "version": "2.5.8",
+  "version": "2.5.9",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,12 +29,12 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.5.8",
-    "@tiptap/pm": "^2.5.8"
+    "@tiptap/core": "^2.5.9",
+    "@tiptap/pm": "^2.5.9"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.5.8",
-    "@tiptap/pm": "^2.5.8"
+    "@tiptap/core": "^2.5.9",
+    "@tiptap/pm": "^2.5.9"
   },
   "dependencies": {
     "zeed-dom": "^0.10.9"
